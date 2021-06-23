@@ -80,16 +80,21 @@
     </div>
 
     <div id="flightControl">
-        <div id="engineControl"
-            style="text-align: center; position: absolute; bottom: 10px; left: 10px; display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;">
-            <input type="range" class="slider" id="throttleControl"
-                style="grid-column-start: 1;grid-column-end: 4;"><br>
-            <button id="raptor1toggle" class="engineControlBtn" onclick="toggleRaptor1()">R1</button>
-            <button id="raptor2toggle" class="engineControlBtn" onclick="toggleRaptor2()">R2</button>
-            <button id="raptor3toggle" class="engineControlBtn" onclick="toggleRaptor3()">R3</button>
-            <button id="allraptorstoggle" class="engineControlBtn" onclick="toggleAllRaptors()"
-                style="grid-column-start: 1;grid-column-end: 4; color: rgb(51, 51, 51); border-color: rgb(156, 156, 156);">Toggle-All</button>
+        <div id="engineControl" style="display: flex;align-items: center;
+        justify-content: center;text-align: center; position: absolute; bottom: 10px; left: 10px;transition-duration: 0.5s;">
+            <div
+                style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;">
+                <input type="range" class="slider" id="throttleControl"
+                    style="grid-column-start: 1;grid-column-end: 4;"><br>
+                <button id="raptor1toggle" class="engineControlBtn" onclick="toggleRaptor1()">R1</button>
+                <button id="raptor2toggle" class="engineControlBtn" onclick="toggleRaptor2()">R2</button>
+                <button id="raptor3toggle" class="engineControlBtn" onclick="toggleRaptor3()">R3</button>
+                <button id="allraptorstoggle" class="engineControlBtn" onclick="toggleAllRaptors()"
+                    style="grid-column-start: 1;grid-column-end: 4; color: rgb(51, 51, 51); border-color: rgb(156, 156, 156);">Toggle-All</button>
+            </div>
+            <img class="show_hideToggle" src="displayComponents/straightButton.webp" alt="hide/show" onclick="show_hideEngineControl()" style="height: 70px; transform: translate(3px,3px);">
         </div>
+
 
 
         <div id="attitudeControl" style="text-align: center; position: absolute; bottom: 10px; right: 10px;">

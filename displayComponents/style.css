@@ -164,3 +164,8 @@ button:hover {
     border-radius: 3px;
     padding: 8px;
 }
+
+.show_hideToggle{
+    cursor: pointer;
+}
+

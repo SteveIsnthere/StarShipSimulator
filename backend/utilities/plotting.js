@@ -113,7 +113,7 @@ function plot() {
         let listOfDownRangeDistanceCopy = listOfDownRangeDistance
 
         var flyPath = {
-            x: listOfDownRangeDistanceCopy,
+            x: listOfDownRangeDistanceCopy.map(x => getDownRangeDistance(x)),
             y: listOfAltitude,
             type: 'scatter',
             name: 'FlyPath'
@@ -134,6 +134,10 @@ function plot() {
         }
 
         Plotly.newPlot('flyPathPlot', data, layout, plotStyle);
+
+        function getDownRangeDistance(downRangeDistance){
+            return downRangeDistance - starBaseXpos
+        }
     }
 
     function accelerationPlot() {

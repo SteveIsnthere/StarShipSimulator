@@ -24,7 +24,7 @@ function updateFlightParamDisp() {
         document.getElementById("gforece").textContent = (totalAcceleration / gravity).toFixed(1);
         //ToSite
         let disToSite = Math.ceil(downRangeDistance - starBaseXpos)
-        if (disToSite < 1000&&disToSite > -1000) {
+        if (disToSite < 1000 && disToSite > -1000) {
             document.getElementById("distanceToLandingSite").textContent = disToSite + " m";
         } else {
             document.getElementById("distanceToLandingSite").textContent = (disToSite * 0.001).toFixed(1) + " km";
@@ -125,4 +125,19 @@ if (typeof window.orientation == 'undefined') {
     }
 }
 
+
+
+function show_hideEngineControl() {
+    if (showedEngineControl) {
+        document.getElementById("engineControl").style.transform = "translate(-95%, 0)"
+        
+    } else {
+        document.getElementById("engineControl").style.transform = "translate(0, 0)"
+    }
+
+    showedEngineControl = toggle(showedEngineControl)
+}
+
+
+let showedEngineControl = true
 updateButtons()

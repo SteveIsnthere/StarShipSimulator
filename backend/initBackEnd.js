@@ -32,7 +32,7 @@ function initWorld() {
     globalThis.wind = 0
     globalThis.gust = 0
 
-    globalThis.starBaseXpos = 10000
+    globalThis.starBaseXpos = planetCirconference/2
 }
 
 function initFlightParams() {
