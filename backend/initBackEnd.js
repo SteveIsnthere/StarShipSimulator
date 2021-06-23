@@ -108,7 +108,7 @@ function initVehicleParams() {
         globalThis.vehicleInFlightMaxArea = vehicleMaxArea
 
         globalThis.vehicleDryMass = 120000 //kg
-        globalThis.propellantMass = 300000
+        globalThis.propellantMass = 100000
         globalThis.vehicleMass = vehicleDryMass + propellantMass
 
         globalThis.dumpRate = 3500
@@ -268,7 +268,7 @@ function initVehicleStatus() {
 }
 
 function initDataRecorder() {
-    globalThis.recordTimeInterval = 1
+    globalThis.recordTimeInterval = 5
 
     //timeNodes
     globalThis.timeNodes = []

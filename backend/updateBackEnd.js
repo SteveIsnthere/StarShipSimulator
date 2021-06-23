@@ -194,7 +194,7 @@ function environmentUpDate() {
 
 function saveDataPoint() {
 
-    if (usedTime % recordTimeInterval == 0 && !crashed && !inFightBreakUp) {
+    if (usedTime % recordTimeInterval == 0 && !crashed && !inFightBreakUp && !onTheGround) {
         //timeNodes
         timeNodes.push(usedTime)
 

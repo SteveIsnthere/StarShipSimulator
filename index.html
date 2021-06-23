@@ -66,7 +66,9 @@
             <p>SpeedY: <span id="speedY"></span></p>
             <p>G: <span id="gforece"></span></p>
             <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
-            <a id="showPlotPopUpPage" href="#plotPopUpPage" style="text-decoration: none;"><button id="dataRecorderButton" class="mainPageBtn" style="display: none; background-color: transparent;">FDR</button></a>
+            <a id="showPlotPopUpPage" href="#plotPopUpPage" style="text-decoration: none;"><button
+                    id="dataRecorderButton" class="mainPageBtn"
+                    style="display: none; background-color: transparent;">FDR</button></a>
             <button id="requestTiltPermission" class="mainPageBtn">Tap me!</button>
         </div>
 
@@ -85,7 +87,8 @@
             <button id="raptor1toggle" class="engineControlBtn" onclick="toggleRaptor1()">R1</button>
             <button id="raptor2toggle" class="engineControlBtn" onclick="toggleRaptor2()">R2</button>
             <button id="raptor3toggle" class="engineControlBtn" onclick="toggleRaptor3()">R3</button>
-            <button id="allraptorstoggle" class="engineControlBtn" onclick="toggleAllRaptors()" style="grid-column-start: 1;grid-column-end: 4; color: rgb(51, 51, 51); border-color: rgb(156, 156, 156);">Toggle-All</button>
+            <button id="allraptorstoggle" class="engineControlBtn" onclick="toggleAllRaptors()"
+                style="grid-column-start: 1;grid-column-end: 4; color: rgb(51, 51, 51); border-color: rgb(156, 156, 156);">Toggle-All</button>
         </div>
 
 
@@ -145,14 +148,12 @@
             <div id="plots">
                 <div id="flyPathPlot"></div>
                 <div id="motionSpeedPlot"></div>
+                <div id="motionAnglePlot"></div>
                 <div id="accelerationPlot"></div>
                 <div id="controlInPutPlot"></div>
-
-                <div id="altitudePlot"></div>
-                <div id="aerodynamicForcePlot"></div>
                 <div id="thermalPower_dynamicPressurePlot"></div>
-                <div id="motionAnglePlot"></div>
-
+                <div id="aerodynamicForcePlot"></div>
+                <div id="altitudePlot"></div>
             </div>
         </div>
     </div>

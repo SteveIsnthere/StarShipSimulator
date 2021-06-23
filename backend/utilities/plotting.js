@@ -21,73 +21,40 @@ function plot() {
             x: timeNodesCopy,
             y: listOfPitchAngle,
             type: 'scatter',
-            name: 'pitch'
+            name: 'Pitch'
         };
 
         var angleOfMotion = {
             x: timeNodesCopy,
             y: listOfAngleOfMotion,
             type: 'scatter',
-            name: 'angleOfMotion'
+            name: 'AngleOfMotion'
         };
 
         var angleOfAttack = {
             x: timeNodesCopy,
             y: listOfAngleOfAttack,
             type: 'scatter',
-            name: 'angleOfAttack'
+            name: 'AngleOfAttack'
         };
 
         var angleInToTheWind = {
             x: timeNodesCopy,
             y: listOfAngleInToTheWind,
             type: 'scatter',
-            name: 'angleInToTheWind'
+            name: 'AngleInToTheWind'
         };
 
         var data = [pitch, angleOfMotion, angleOfAttack, angleInToTheWind];
 
         var layout = {
-            title: 'motionAnglePlot'
+            title: 'Angle in Radian'
         }
 
         Plotly.newPlot('motionAnglePlot', data, layout, plotStyle);
     }
 
-    function motionSpeedPlot() {
-
-        let listOfSpeedYCopy = listOfSpeedY
-
-        var speedx = {
-            x: timeNodesCopy,
-            y: listOfSpeedX,
-            type: 'scatter',
-            name: 'speedX'
-        };
-
-        var speedy = {
-            x: timeNodesCopy,
-            y: listOfSpeedYCopy.map(x => Math.abs(x)),
-            type: 'scatter',
-            name: 'speedY'
-        };
-
-        var speed = {
-            x: timeNodesCopy,
-            y: listOfSpeed,
-            type: 'scatter',
-            name: 'speed'
-        };
-
-
-        var data = [speedx, speedy, speed];
-
-        var layout = {
-            title: 'motionSpeedPlot'
-        }
-
-        Plotly.newPlot('motionSpeedPlot', data, layout, plotStyle);
-    }
+   
 
 
     function aerodynamicForcePlot() {
@@ -96,14 +63,14 @@ function plot() {
             x: timeNodesCopy,
             y: listOfaerodynamicDrag,
             type: 'scatter',
-            name: 'aerodynamicDrag'
+            name: 'Drag(N)'
         };
 
         var aerodynamicLift = {
             x: timeNodesCopy,
             y: listOfaerodynamicLift,
             type: 'scatter',
-            name: 'aerodynamicLift'
+            name: 'Lift(N)'
         };
 
 
@@ -111,7 +78,7 @@ function plot() {
         var data = [aerodynamicDrag, aerodynamicLift];
 
         var layout = {
-            title: 'aerodynamicForcePlot'
+            title: 'AerodynamicForce'
         }
 
         Plotly.newPlot('aerodynamicForcePlot', data, layout, plotStyle);
@@ -128,7 +95,7 @@ function plot() {
                 width: 2
             },
             type: 'scatter',
-            name: 'altitude'
+            name: 'Altitude(M)'
         };
 
 
@@ -136,7 +103,7 @@ function plot() {
         var data = [altitude];
 
         var layout = {
-            title: 'altitudePlot'
+            title: 'Altitude'
         }
 
         Plotly.newPlot('altitudePlot', data, layout, plotStyle);
@@ -149,15 +116,20 @@ function plot() {
             x: listOfDownRangeDistanceCopy,
             y: listOfAltitude,
             type: 'scatter',
-            name: 'flyPath'
+            name: 'FlyPath'
         };
 
         var data = [flyPath];
 
         var layout = {
-            title: 'flyPath',
-            y: {
-                scaleratio: 1,
+            title: 'FlyPath',
+            xaxis: {
+                nticks: 10,
+                title: "Downrange Distance(M)"
+            },
+            yaxis: {
+                scaleanchor: "x",
+                title: "Altitude(M)"
             },
         }
 
@@ -174,19 +146,19 @@ function plot() {
             x: timeNodesCopy,
             y: listOfAccelerationCopy.map(x => x / gravity),
             type: 'scatter',
-            name: 'acceleration'
+            name: 'Acc(G)'
         };
         var accelerationX = {
             x: timeNodesCopy,
             y: listOfAccelerationXCopy.map(x => x / gravity),
             type: 'scatter',
-            name: 'accelerationX'
+            name: 'AccX(G)'
         };
         var accelerationY = {
             x: timeNodesCopy,
             y: listOfAccelerationYCopy.map(x => x / gravity),
             type: 'scatter',
-            name: 'accelerationY'
+            name: 'AccY(G)'
         };
 
 
@@ -194,7 +166,7 @@ function plot() {
         var data = [acceleration, accelerationX, accelerationY];
 
         var layout = {
-            title: 'accelerationPlot'
+            title: 'Acceleration'
         }
 
         Plotly.newPlot('accelerationPlot', data, layout, plotStyle);
@@ -206,28 +178,28 @@ function plot() {
             x: timeNodesCopy,
             y: listOfSpeedX,
             type: 'scatter',
-            name: 'speedX'
+            name: 'SpeedX'
         };
 
         var speedy = {
             x: timeNodesCopy,
             y: listOfSpeedY,
             type: 'scatter',
-            name: 'speedY'
+            name: 'SpeedY'
         };
 
         var speed = {
             x: timeNodesCopy,
             y: listOfSpeed,
             type: 'scatter',
-            name: 'speed'
+            name: 'Speed'
         };
 
 
         var data = [speedx, speedy, speed];
 
         var layout = {
-            title: 'motionSpeedPlot'
+            title: 'Speed in M/S'
         }
 
         Plotly.newPlot('motionSpeedPlot', data, layout, plotStyle);
@@ -240,22 +212,20 @@ function plot() {
             x: timeNodesCopy,
             y: listOfThermalPower,
             type: 'scatter',
-            name: 'thermalPower'
+            name: 'Heating(KW)'
         };
 
         var dynamicPressure = {
             x: timeNodesCopy,
             y: listOfDynamicPressure,
             type: 'scatter',
-            name: 'dynamicPressure'
+            name: 'DynamicPressure(PSI)'
         };
-
-
 
         var data = [thermalPower, dynamicPressure];
 
         var layout = {
-            title: 'thermalPower&dynamicPressurePlot'
+            title: 'Heating&DynamicPressure'
         }
 
         Plotly.newPlot('thermalPower_dynamicPressurePlot', data, layout, plotStyle);
@@ -267,19 +237,19 @@ function plot() {
             x: timeNodesCopy,
             y: listOfPitchControl,
             type: 'scatter',
-            name: 'pitchOutPut'
+            name: 'PitchInPut(%)'
         };
         var throttleOutPut = {
             x: timeNodesCopy,
             y: listOfThrottle,
             type: 'scatter',
-            name: 'throttleOutPut'
+            name: 'ThrottleInPut(%)'
         };
 
         var data = [pitchOutPut, throttleOutPut];
 
         var layout = {
-            title: 'controlInPutPlot'
+            title: 'ControlInPut'
         }
 
         Plotly.newPlot('controlInPutPlot', data, layout, plotStyle);
