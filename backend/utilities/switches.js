@@ -124,6 +124,18 @@ function toggleRcs() {
 
 }
 
+function toggleDumpFuel() {
+
+    dumpingFuel = toggle(dumpingFuel)
+
+    if (dumpingFuel) {
+        buttonSwitchOn("toggledumpFuel")
+    } else {
+        buttonSwitchOff("toggledumpFuel")
+    }
+
+}
+
 function togglePitchHold() {
 
     setGoalasCurrentAttitude()

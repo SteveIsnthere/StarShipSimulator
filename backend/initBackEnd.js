@@ -120,10 +120,6 @@ function initVehicleParams() {
     }
 
     function initEngine() {
-        globalThis.teaTebCount = 3 // relight times
-        globalThis.raptorN1teaTeb = teaTebCount
-        globalThis.raptorN2teaTeb = teaTebCount
-        globalThis.raptorN3teaTeb = teaTebCount
 
         globalThis.raptorIgnitionTimeMean = 600
         globalThis.raptorIgnitionFaliureRate = 0.05
