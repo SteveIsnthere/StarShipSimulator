@@ -129,7 +129,7 @@ if (typeof window.orientation == 'undefined') {
 
 function show_hideEngineControl() {
     if (showedEngineControl) {
-        document.getElementById("engineControl").style.transform = "translate(-92%, 0)"
+        document.getElementById("engineControl").style.transform = "translate(-94%, 0)"
         document.getElementById("engineControl").style.flexDirection = "row";
     } else {
         document.getElementById("engineControl").style.transform = "translate(-10%, 0)"

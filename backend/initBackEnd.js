@@ -332,7 +332,7 @@ function initAutoPilotParams() {
     function initAutoLand() {
         globalThis.autoLandOn = false
         globalThis.initVehicleConfigCompleted = false
-        globalThis.landingSiteXpos = 10000
+        globalThis.landingSiteXpos = starBaseXpos
 
         globalThis.autoLandFinalStageEngineCount = 1
         globalThis.finalStagePessimisticAvailableThrust = autoLandFinalStageEngineCount * maxThrustPerRaptor
