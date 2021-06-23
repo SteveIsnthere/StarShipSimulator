@@ -75,6 +75,8 @@ function restart() {
 
     initBackEnd()
 
+    updateButtons()
+    
     resetRenderer()
 
     initDrawMethods()
