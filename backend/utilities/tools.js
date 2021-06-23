@@ -107,7 +107,7 @@ function controlByTilt(event) {
         tiltAngle = -event.gamma
     }
 
-    let inputAngle = tiltAngle * 3
+    let inputAngle = tiltAngle * 1.5
 
     if (inputAngle >= 100) {
         pitchControl = 100
