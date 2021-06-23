@@ -27,7 +27,7 @@ function updateFlightParamDisp() {
         if (disToSite < 1000) {
             document.getElementById("distanceToLandingSite").textContent = disToSite + " m";
         } else {
-            document.getElementById("distanceToLandingSite").textContent = (disToSite*0.001).toFixed(1) + " km";
+            document.getElementById("distanceToLandingSite").textContent = (disToSite * 0.001).toFixed(1) + " km";
         }
 
         //restartButton
@@ -38,25 +38,88 @@ function updateFlightParamDisp() {
     }
 }
 
+function updateButtons() {
+    updateRaptorControls()
+    updateAutoPilot()
+    updateFlightControlsBtn()
+
+    function updateFlightControlsBtn() {
+        if (rcsActive) {
+            buttonSwitchOn("toggleRcs")
+        } else {
+            buttonSwitchOff("toggleRcs")
+        }
+        if (finActive) {
+            buttonSwitchOn("toggleFin")
+        } else {
+            buttonSwitchOff("toggleFin")
+        }
+        if (dumpingFuel) {
+            buttonSwitchOn("toggledumpFuel")
+        } else {
+            buttonSwitchOff("toggledumpFuel")
+        }
+    }
+    function updateAutoPilot() {
+        if (pitchHoldOn) {
+            buttonSwitchOn("togglePitchHold")
+        } else {
+            buttonSwitchOff("togglePitchHold")
+        }
+        if (progradeOn) {
+            buttonSwitchOn("togglePrograde")
+        } else {
+            buttonSwitchOff("togglePrograde")
+        }
+        if (autoLandOn) {
+            buttonSwitchOn("toggleAutoLand")
+        } else {
+            buttonSwitchOff("toggleAutoLand")
+        }
+    }
+
+
+    function updateRaptorControls() {
+        if (raptorN1Running) {
+            buttonSwitchOn("raptor1toggle")
+        } else {
+            buttonSwitchOff("raptor1toggle")
+        }
+
+        if (raptorN2Running) {
+            buttonSwitchOn("raptor2toggle")
+        } else {
+            buttonSwitchOff("raptor2toggle")
+        }
+
+        if (raptorN3Running) {
+            buttonSwitchOn("raptor3toggle")
+        } else {
+            buttonSwitchOff("raptor3toggle")
+        }
+    }
+
+}
+
 //check platform
 if (typeof window.orientation == 'undefined') {
     //desktop
 } else {
     //mobile
-    if(checkIsiOS()){
+    if (checkIsiOS()) {
         document.getElementById("requestTiltPermission").style.display = "initial"
     }
 
     layoutChangeForMobile()
 
-    function layoutChangeForMobile(){
+    function layoutChangeForMobile() {
         document.getElementById("attitudeControl").style.display = "none"
 
         document.getElementById("engineControl").style.setProperty('bottom', 'calc(45% - 50px)');
-        
+
         let allBtn = document.getElementsByClassName("engineControlBtn")
 
-        for(n = 0;n<allBtn.length;n++){
+        for (n = 0; n < allBtn.length; n++) {
             allBtn[n].style.padding = "5px"
         }
     }
