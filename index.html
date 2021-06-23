@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="theme-color" content="#317EFB">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="icons/icon.webp" />
+    <link rel="apple-touch-icon" href="icons/icon.webp">
+
+
+    <title>StarShip</title>
+
+    <link rel="stylesheet" href="displayComponents/style.css">
+    <link rel="stylesheet" href="displayComponents/popUpWindow/animate.min.css">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker
+                    .register('serviceworker.js')
+                    .then(reg => console.log('Service Worker: Registered (Pages)'))
+                    .catch(err => console.log(`Service Worker: Error: ${err}`));
+            });
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
+    <script src="render/particleEffect/revoltfx.min.js"></script>
+    <script src="displayComponents/popUpWindow/jquery.min.js"></script>
+    <script src="displayComponents/popUpWindow/animatedModal.min.js"></script>
+
+    <script type="text/javascript" src="utilities/tools.js"></script>
+
+    <script type="text/javascript" src="backend/utilities/tools.js"></script>
+    <script type="text/javascript" src="backend/utilities/plotting.js"></script>
+    <script type="text/javascript" src="backend/utilities/switches.js"></script>
+
+    <script type="text/javascript" src="backend/physics.js"></script>
+    <script type="text/javascript" src="backend/initBackEnd.js"></script>
+    <script type="text/javascript" src="backend/updateBackEnd.js"></script>
+
+    <script type="text/javascript" src="backend/flightcontrol/flightControl.js"></script>
+    <script type="text/javascript" src="backend/flightcontrol/autoPilotLowLevelFunctions.js"></script>
+    <script type="text/javascript" src="backend/flightcontrol/autoPilotModes.js"></script>
+</head>
+
+<body>
+    <canvas id="mainView" ontouchmove="windowResize()"></canvas>
+
+    <div id="FlightParamDisp">
+        <div id="FlightParamDispL">
+            <p id="altitudeDisp" style="font-size: 20px;"></p>
+            <p>Fuel: <span id="propellantMassDisp"></span>t</p>
+            <p class="dispSizeAdjustment" onclick="zoomOut()">-</p>
+        </div>
+
+        <div id="FlightParamDispMid" style="font-size: smaller;">
+            <a id="showFlightControlPage" href="#flightControlPage"><img class="MainPageArrow"
+                    src="displayComponents/arrow.png" alt="a" style="transform: rotate(90deg);margin-top: 10px;"></a>
+            <p>Base: <span id="distanceToLandingSite"></span></p>
+            <p>SpeedX: <span id="speedX"></span></p>
+            <p>SpeedY: <span id="speedY"></span></p>
+            <p>G: <span id="gforece"></span></p>
+            <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
+            <a id="showPlotPopUpPage" href="#plotPopUpPage" style="text-decoration: none;"><button id="dataRecorderButton" class="mainPageBtn" style="display: none; background-color: transparent;">FDR</button></a>
+            <button id="requestTiltPermission" class="mainPageBtn">Tap me!</button>
+        </div>
+
+        <div id="FlightParamDispR">
+            <p id="speedDisp" style="font-size: 20px;"><span></span></p>
+            <p>TWR: <span id="twrDisp"></span></p>
+            <p class="dispSizeAdjustment" onclick="zoomIn()">+</p>
+        </div>
+    </div>
+
+    <div id="flightControl">
+        <div id="engineControl"
+            style="text-align: center; position: absolute; bottom: 10px; left: 10px; display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;">
+            <input type="range" class="slider" id="throttleControl"
+                style="grid-column-start: 1;grid-column-end: 4;"><br>
+            <button id="raptor1toggle" class="engineControlBtn" onclick="toggleRaptor1()">R1</button>
+            <button id="raptor2toggle" class="engineControlBtn" onclick="toggleRaptor2()">R2</button>
+            <button id="raptor3toggle" class="engineControlBtn" onclick="toggleRaptor3()">R3</button>
+            <button id="allraptorstoggle" class="engineControlBtn" onclick="toggleAllRaptors()" style="grid-column-start: 1;grid-column-end: 4; color: rgb(51, 51, 51); border-color: rgb(156, 156, 156);">Toggle-All</button>
+        </div>
+
+
+        <div id="attitudeControl" style="text-align: center; position: absolute; bottom: 10px; right: 10px;">
+            <input type="range" class="slider" id="pitchControl" onmouseover="manualPitchControlOn()"
+                onmouseout="recordHoldingPitch_resumeAuto()" ontouchstart="manualPitchControlOn()"
+                ontouchend="recordHoldingPitch_resumeAuto()">
+        </div>
+    </div>
+
+
+
+    <div id="flightControlPage" class="popupWindow">
+        <div id="btn-close-modal" class="close-flightControlPage">
+            <img src="displayComponents/arrow.png" class="MainPageArrow" alt="Close" style="transform: rotate(270deg)">
+        </div>
+
+        <div class="modal-content">
+
+            <p class="popUpWindowText" style="text-align: center;">AutoPilot Modes</p>
+            <div id="autoPilot" style="display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+            grid-gap: 10px;
+            grid-auto-flow: dense;
+            text-align: center;
+            justify-content: center;
+            padding: 10px;
+            margin: 30px;">
+                <button class="popUpWindowButton" id="togglePitchHold" onclick="togglePitchHold()">AttitHold</button>
+                <button class="popUpWindowButton" id="togglePrograde" onclick="togglePrograde()">Prograde</button>
+                <button class="popUpWindowButton" id="toggleAutoLand" onclick="toggleAutoLand()">AutoLand</button>
+            </div>
+
+            <p class="popUpWindowText" style="text-align: center;">Flight Controls</p>
+            <div style="display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+            grid-gap: 10px;
+            grid-auto-flow: dense;
+            text-align: center;
+            justify-content: center;
+            padding: 10px;
+            margin: 30px;">
+                <button class="popUpWindowButton" id="toggleFin" onclick="toggleFin()">Fins</button>
+                <button class="popUpWindowButton" id="toggleRcs" onclick="toggleRcs()">RCS</button>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="plotPopUpPage" class="popupWindow">
+        <div id="btn-close-modal" class="close-plotPopUpPage">
+            <img class="roundResizeableBtn" src="displayComponents/popUpWindow/closebt_noir.svg" alt="Close">
+        </div>
+
+        <div class="modal-content">
+            <div id="plots">
+                <div id="flyPathPlot"></div>
+                <div id="motionSpeedPlot"></div>
+                <div id="accelerationPlot"></div>
+                <div id="controlInPutPlot"></div>
+
+                <div id="altitudePlot"></div>
+                <div id="aerodynamicForcePlot"></div>
+                <div id="thermalPower_dynamicPressurePlot"></div>
+                <div id="motionAnglePlot"></div>
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+<script type="text/javascript" src="displayComponents/popUpWindow/initPopupWindow.js"></script>
+
+<script>
+    initBackEnd()
+</script>
+
+<script type="text/javascript" src="render/initGroundObjects.js"></script>
+<script type="text/javascript" src="displayComponents/dispUpdate.js"></script>
+<script type="text/javascript" src="render/drawMethods/drawMethods.js"></script>
+<script type="text/javascript" src="render/drawMethods/initDrawMethods.js"></script>
+<script type="text/javascript" src="render/pixi_setup.js"></script>
+
+<script type="text/javascript" src="render/pixi_init.js"></script>
+
+
+<script type="text/javascript" src="utilities/eventListener.js"></script>
+
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+</html>
