@@ -130,9 +130,10 @@ if (typeof window.orientation == 'undefined') {
 function show_hideEngineControl() {
     if (showedEngineControl) {
         document.getElementById("engineControl").style.transform = "translate(-95%, 0)"
-        
+        document.getElementById("engineControl").style.flexDirection = "row";
     } else {
         document.getElementById("engineControl").style.transform = "translate(0, 0)"
+        document.getElementById("engineControl").style.flexDirection = "row-reverse";
     }
 
     showedEngineControl = toggle(showedEngineControl)
