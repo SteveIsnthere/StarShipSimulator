@@ -1,5 +1,5 @@
 # StarShipSimulator
 
-# Still in early beta, sucks very badly
+# Still in early beta
 
-# Contact Creator: yuyustevejobs@icloud.com
+# Contact author: yuyustevejobs@icloud.com
