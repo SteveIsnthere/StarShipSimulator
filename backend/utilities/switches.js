@@ -14,7 +14,7 @@ function recordHoldingPitch_resumeAuto() {
 
 //switches
 function toggleRaptor1() {
-    if (!raptorN1Running && raptorN1Fail == false && !fuelRunOut && raptorN1teaTeb > 0) {
+    if (!raptorN1Running && raptorN1Fail == false && !fuelRunOut) {
         raptorIgnitionPossibleFaliure(1)
         if(raptorN1Fail == false){
             setTimeout(toggle_On, getRaptorIgnitionTime())
@@ -25,7 +25,6 @@ function toggleRaptor1() {
 
     function toggle_On() {
         raptorN1Running = true
-        raptorN1teaTeb -= 1
         buttonSwitchOn("raptor1toggle")
     }
 
@@ -38,7 +37,7 @@ function toggleRaptor1() {
 
 
 function toggleRaptor2() {
-    if (!raptorN2Running && raptorN2Fail == false && !fuelRunOut && raptorN2teaTeb > 0) {
+    if (!raptorN2Running && raptorN2Fail == false && !fuelRunOut) {
         raptorIgnitionPossibleFaliure(2)
         if(raptorN2Fail == false){
             setTimeout(toggle_On, getRaptorIgnitionTime())
@@ -49,7 +48,6 @@ function toggleRaptor2() {
 
     function toggle_On() {
         raptorN2Running = true
-        raptorN2teaTeb -= 1
         buttonSwitchOn("raptor2toggle")
     }
 
@@ -60,7 +58,7 @@ function toggleRaptor2() {
 }
 
 function toggleRaptor3() {
-    if (!raptorN3Running && raptorN3Fail == false && !fuelRunOut && raptorN3teaTeb > 0) {
+    if (!raptorN3Running && raptorN3Fail == false && !fuelRunOut) {
         raptorIgnitionPossibleFaliure(3)
         if(raptorN3Fail == false){
             setTimeout(toggle_On, getRaptorIgnitionTime())
@@ -71,7 +69,6 @@ function toggleRaptor3() {
 
     function toggle_On() {
         raptorN3Running = true
-        raptorN3teaTeb -= 1
         buttonSwitchOn("raptor3toggle")
     }
 
