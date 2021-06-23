@@ -20,13 +20,13 @@ function manualControl_off() {
 }
 
 function buttonSwitchOn(id) {
-    document.getElementById(id).style.color = '#4169E1'
+    document.getElementById(id).style.color = '#006600'
     document.getElementById(id).style.borderColor = '#6495ED'
 }
 
 function buttonSwitchOff(id) {
-    document.getElementById(id).style.color = 'red'
-    document.getElementById(id).style.borderColor = 'red'
+    document.getElementById(id).style.color = 'black'
+    document.getElementById(id).style.borderColor = 'grey'
 }
 
 function updateScreenSize() {
@@ -76,7 +76,7 @@ function restart() {
     initBackEnd()
 
     updateButtons()
-    
+
     resetRenderer()
 
     initDrawMethods()
