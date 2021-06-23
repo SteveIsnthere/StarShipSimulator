@@ -11,11 +11,7 @@
     <link rel="icon" type="image/png" href="icons/icon.webp" />
     <link rel="apple-touch-icon" href="icons/icon.webp">
 
-
     <title>StarShip</title>
-
-    <link rel="stylesheet" href="displayComponents/style.css">
-    <link rel="stylesheet" href="displayComponents/popUpWindow/animate.min.css">
 
     <script>
         if ('serviceWorker' in navigator) {
@@ -28,24 +24,6 @@
         }
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
-    <script src="render/particleEffect/revoltfx.min.js"></script>
-    <script src="displayComponents/popUpWindow/jquery.min.js"></script>
-    <script src="displayComponents/popUpWindow/animatedModal.min.js"></script>
-
-    <script type="text/javascript" src="utilities/tools.js"></script>
-
-    <script type="text/javascript" src="backend/utilities/tools.js"></script>
-    <script type="text/javascript" src="backend/utilities/plotting.js"></script>
-    <script type="text/javascript" src="backend/utilities/switches.js"></script>
-
-    <script type="text/javascript" src="backend/physics.js"></script>
-    <script type="text/javascript" src="backend/initBackEnd.js"></script>
-    <script type="text/javascript" src="backend/updateBackEnd.js"></script>
-
-    <script type="text/javascript" src="backend/flightcontrol/flightControl.js"></script>
-    <script type="text/javascript" src="backend/flightcontrol/autoPilotLowLevelFunctions.js"></script>
-    <script type="text/javascript" src="backend/flightcontrol/autoPilotModes.js"></script>
 </head>
 
 <body>
@@ -166,11 +144,23 @@
 
 </body>
 
-<script type="text/javascript" src="displayComponents/popUpWindow/initPopupWindow.js"></script>
 
-<script>
-    initBackEnd()
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
+<script src="render/particleEffect/revoltfx.min.js"></script>
+
+<script type="text/javascript" src="utilities/tools.js"></script>
+
+<script type="text/javascript" src="backend/utilities/tools.js"></script>
+<script type="text/javascript" src="backend/utilities/plotting.js"></script>
+<script type="text/javascript" src="backend/utilities/switches.js"></script>
+
+<script type="text/javascript" src="backend/physics.js"></script>
+<script type="text/javascript" src="backend/updateBackEnd.js"></script>
+
+<script type="text/javascript" src="backend/flightcontrol/flightControl.js"></script>
+<script type="text/javascript" src="backend/flightcontrol/autoPilotLowLevelFunctions.js"></script>
+<script type="text/javascript" src="backend/flightcontrol/autoPilotModes.js"></script>
+<script type="text/javascript" src="backend/initBackEnd.js"></script>
 
 <script type="text/javascript" src="render/initGroundObjects.js"></script>
 <script type="text/javascript" src="displayComponents/dispUpdate.js"></script>
@@ -180,12 +170,15 @@
 
 <script type="text/javascript" src="render/pixi_init.js"></script>
 
-
-
 <script type="text/javascript" src="utilities/eventListener.js"></script>
 
+<link rel="stylesheet" href="displayComponents/style.css">
+<link rel="stylesheet" href="displayComponents/popUpWindow/animate.min.css">
+
+<script src="displayComponents/popUpWindow/jquery.min.js"></script>
+<script src="displayComponents/popUpWindow/animatedModal.min.js"></script>
+<script type="text/javascript" src="displayComponents/popUpWindow/initPopupWindow.js"></script>
+
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-
-
 
 </html>

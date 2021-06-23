@@ -402,3 +402,4 @@ function initAutoPilotParams() {
         globalThis.noSteeringHeight = 5
     }
 }
+initBackEnd()
