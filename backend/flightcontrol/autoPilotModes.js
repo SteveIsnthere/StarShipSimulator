@@ -12,7 +12,7 @@ function pitchHold() {
 }
 
 function prograde() {
-    if (progradeOn && !manualControlOn && !pitchHoldOn) {
+    if (progradeOn && !manualControlOn) {
         controller()
     }
 
@@ -22,7 +22,7 @@ function prograde() {
 }
 
 function autoLand() {
-    if (autoLandOn && !manualControlOn && !pitchHoldOn) {
+    if (autoLandOn && !manualControlOn) {
         if (!initVehicleConfigCompleted) {
             initVehicleConfig()
         }
@@ -45,12 +45,20 @@ function autoLand() {
     }
 
     function initVehicleConfig() {
-        finActive = true
-        rcsActive = true
+        if(!finActive){
+            toggleFin()
+        }
+
+        if (!rcsActive) {
+            toggleRcs()
+        }
+
         throttleControl(throttleLowwerLimmit)
 
         if (propellantMass > dumpLimit) {
-            dumpingFuel = true
+            if (!dumpingFuel) {
+                toggleDumpFuel()
+            }
         }
 
         if (getWorkingEngineCount() > 0) {
@@ -141,8 +149,12 @@ function autoLand() {
         }
 
         function initFlipStage() {
-            dumpingFuel = false
-            rcsActive = false
+            if(dumpingFuel){
+                toggleDumpFuel()
+            }
+            if(rcsActive){
+                toggleRcs()
+            }
             toggleAllRaptors()
             flipStageInitted = true
         }
@@ -164,7 +176,9 @@ function autoLand() {
         }
 
         function initHorizontalAdjustmentStage() {
-            finActive = false
+            if(finActive){
+                toggleFin()
+            }
             finLocked = true
 
             if (getWorkingEngineCount() < 3) {
@@ -264,9 +278,12 @@ function autoLand() {
             if (altitude <= vehicleHeight * 0.5 + 0.05) {
                 throttleControl(throttleLowwerLimmit)
                 toggleAllRaptors()
-                dumpingFuel = true
                 forceDump = true
-                autoLandOn = false
+                if (!dumpingFuel) {
+                    toggleDumpFuel()
+                }
+                
+                toggleAutoLand()
             }
         }
     }

@@ -24,7 +24,7 @@ function updateFlightParamDisp() {
         document.getElementById("gforece").textContent = (totalAcceleration / gravity).toFixed(1);
         //ToSite
         let disToSite = Math.ceil(downRangeDistance - starBaseXpos)
-        if (disToSite < 1000) {
+        if (disToSite < 1000&&disToSite > -1000) {
             document.getElementById("distanceToLandingSite").textContent = disToSite + " m";
         } else {
             document.getElementById("distanceToLandingSite").textContent = (disToSite * 0.001).toFixed(1) + " km";

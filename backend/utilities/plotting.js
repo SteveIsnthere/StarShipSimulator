@@ -155,7 +155,10 @@ function plot() {
         var data = [flyPath];
 
         var layout = {
-            title: 'flyPath'
+            title: 'flyPath',
+            y: {
+                scaleratio: 1,
+            },
         }
 
         Plotly.newPlot('flyPathPlot', data, layout, plotStyle);
