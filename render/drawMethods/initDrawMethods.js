@@ -25,9 +25,9 @@ function initDrawMethods() {
 
   initDrawingParams(drawingSizeCurrent)
 
-  globalThis.semi_StickyCam_AlignTime_Centerize = 1.5
+  globalThis.semi_StickyCam_AlignTime_Centerize = 1
 
-  globalThis.semi_StickyCam_AlignTime_MatchSpeed = 1.5
+  globalThis.semi_StickyCam_AlignTime_MatchSpeed = 1
 
   globalThis.semi_StickyCam_AccX = 0
   globalThis.semi_StickyCam_AccY = 0
