@@ -140,7 +140,7 @@ function dynamicLayoutUpdate() {
     } else if (window.innerWidth < 790) {
         show_hidecontrolsR()
     }
-    if (window.innerHeight < 550) {
+    if (window.innerHeight < 650) {
         show_hideFlightParamDispMid()
     }
 }
@@ -161,7 +161,7 @@ if (typeof window.orientation == 'undefined') {
     layoutChangeForMobile()
 
     function layoutChangeForMobile() {
-        
+
     }
 }
 dynamicLayoutUpdate()

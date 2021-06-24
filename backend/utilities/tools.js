@@ -108,7 +108,7 @@ function controlByTilt(event) {
             tiltAngle = -event.gamma
         }
 
-        let inputAngle = tiltAngle * 2.2
+        let inputAngle = tiltAngle * 2.4
 
         if (inputAngle >= 100) {
             pitchControl = 100
@@ -137,12 +137,12 @@ function checkIsiOS() {
 
 function zoomIn() {
     if (drawingSize * 0.85 < drawingSizeUpperLimit) {
-        drawingSize *= 1.15
+        drawingSize *= 1.5
     }
 }
 
 function zoomOut() {
     if (drawingSize * 0.85 > drawingSizeLowwerLimit) {
-        drawingSize *= 0.85
+        drawingSize *= 0.75
     }
 }
