@@ -146,3 +146,9 @@ function zoomOut() {
         drawingSize *= 0.75
     }
 }
+
+function isIOSPWA(){
+    if(window.navigator.standalone){
+        return true
+    } 
+}
