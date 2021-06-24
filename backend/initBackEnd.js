@@ -313,7 +313,6 @@ function initAutoPilotParams() {
     globalThis.controlInPutTimeConstant = 1 / frameRate * renderTimeInterval
     initPresisionAlignment()
     initPitchHold()
-    initPrograde()
     initAutoLand()
 
     function initPresisionAlignment() {
@@ -325,9 +324,6 @@ function initAutoPilotParams() {
 
     }
 
-    function initPrograde() {
-        globalThis.progradeOn = false
-    }
 
     function initAutoLand() {
         globalThis.autoLandOn = false

@@ -11,16 +11,6 @@ function pitchHold() {
     }
 }
 
-function prograde() {
-    if (progradeOn && !manualControlOn) {
-        controller()
-    }
-
-    function controller() {
-        presisionAlignment(angleOfMotion, 0.5)
-    }
-}
-
 function autoLand() {
     if (autoLandOn && !manualControlOn) {
         if (!initVehicleConfigCompleted) {

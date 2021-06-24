@@ -162,14 +162,3 @@ function toggleAutoLand() {
 
 }
 
-function togglePrograde() {
-
-    progradeOn = toggle(progradeOn)
-
-    if (progradeOn) {
-        buttonSwitchOn("togglePrograde")
-    } else {
-        buttonSwitchOff("togglePrograde")
-    }
-
-}

@@ -170,7 +170,6 @@ function controlsUpdate() {
 
     function autoPilotControlInput() {
         pitchHold()
-        prograde()
         autoLand()
     }
 

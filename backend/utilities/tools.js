@@ -95,29 +95,30 @@ function restart() {
 }
 
 function controlByTilt(event) {
-    let tiltAngle
+    if (manualControlOn) {
+        let tiltAngle
 
-    if (window.orientation === 90) {
-        tiltAngle = event.beta
-    } else if (window.orientation === -90) {
-        tiltAngle = -event.beta
-    } else if (window.orientation === 0) {
-        tiltAngle = event.gamma
-    } else {
-        tiltAngle = -event.gamma
+        if (window.orientation === 90) {
+            tiltAngle = event.beta
+        } else if (window.orientation === -90) {
+            tiltAngle = -event.beta
+        } else if (window.orientation === 0) {
+            tiltAngle = event.gamma
+        } else {
+            tiltAngle = -event.gamma
+        }
+
+        let inputAngle = tiltAngle * 2.2
+
+        if (inputAngle >= 100) {
+            pitchControl = 100
+        } else if (inputAngle <= -100) {
+            pitchControl = -100
+        } else {
+            pitchControl = inputAngle
+        }
+        updateYokePosition()
     }
-
-    let inputAngle = tiltAngle * 1.5
-
-    if (inputAngle >= 100) {
-        pitchControl = 100
-    } else if (inputAngle <= -100) {
-        pitchControl = -100
-    } else {
-        pitchControl = inputAngle
-    }
-    updateYokePosition()
-
 }
 
 function checkIsiOS() {

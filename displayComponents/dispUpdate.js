@@ -66,11 +66,6 @@ function updateButtons() {
         } else {
             buttonSwitchOff("togglePitchHold")
         }
-        if (progradeOn) {
-            buttonSwitchOn("togglePrograde")
-        } else {
-            buttonSwitchOff("togglePrograde")
-        }
         if (autoLandOn) {
             buttonSwitchOn("toggleAutoLand")
         } else {
@@ -126,15 +121,23 @@ function show_hidecontrolsR() {
     showedcontrolsR = toggle(showedcontrolsR)
 }
 
+function dynamicLayoutUpdate() {
+    if (window.innerWidth < 450) {
+        show_hidecontrolsL()
+        show_hidecontrolsR()
+    } else if (window.innerWidth < 790) {
+        show_hidecontrolsR()
+    }
+}
 
-let showedcontrolsL = false
-let showedcontrolsR = false
-
-updateButtons()
+let showedcontrolsL = true
+let showedcontrolsR = true
 
 //check platform
 if (typeof window.orientation == 'undefined') {
     //desktop
+    console.log(window.innerWidth)
+
 } else {
     //mobile
     if (checkIsiOS()) {
@@ -144,15 +147,8 @@ if (typeof window.orientation == 'undefined') {
     layoutChangeForMobile()
 
     function layoutChangeForMobile() {
-        show_hidecontrolsR()
-        show_hidecontrolsL()
-
-        document.getElementById("controlsL").style.setProperty('bottom', 'calc(45% - 50px)');
-
-        let allBtn = document.getElementsByClassName("controlsLBtn")
-
-        for (n = 0; n < allBtn.length; n++) {
-            allBtn[n].style.padding = "5px"
-        }
+        
     }
 }
+dynamicLayoutUpdate()
+updateButtons()
