@@ -95,7 +95,7 @@ function restart() {
 }
 
 function controlByTilt(event) {
-    if (manualControlOn) {
+    if (!manualControlOn) {
         let tiltAngle
 
         if (window.orientation === 90) {
