@@ -59,7 +59,7 @@
     </div>
 
     <div id="flightControl">
-        <div id="engineControl"
+        <div id="controlsL"
             style="display: flex;flex-direction: row-reverse;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: 10px; left: 10px;transition-duration: 0.5s;transform: translate(-15px, 0);">
             <div style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;padding: 2px;">
                 <input type="range" class="slider" id="throttleControl"
@@ -71,11 +71,11 @@
                     style="grid-column-start: 1;grid-column-end: 4; color: rgb(51, 51, 51); border-color: rgb(156, 156, 156);">Toggle-All</button>
             </div>
             <img class="show_hideToggle" src="displayComponents/straightButton.webp" alt="hide/show" height="70"
-                onclick="show_hideEngineControl()" style="height: 70px; transform: translate(0,3px);">
+                onclick="show_hidecontrolsL()" style="height: 70px; transform: translate(0,3px);">
         </div>
 
-        <div id="controlsStuff"
-            style="display: flex;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(50% - 30px); right: 10px;transition-duration: 0.5s;transform: translate(15px, 0);">
+        <div id="controlsR"
+            style="display: flex;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); right: 10px;transition-duration: 0.5s;transform: translate(15px, 0);">
             <div
                 style="display: flex;flex-direction: column;align-items: flex-end;justify-content: center;text-align: center;">
                 <div style="display: flex;flex-wrap: wrap;">
@@ -97,7 +97,7 @@
             </div>
 
             <img class="show_hideToggle" src="displayComponents/straightButton.webp" alt="hide/show" height="70"
-                onclick="show_hideControlsStuff()" style="height: 70px; transform: translate(0,0);">
+                onclick="show_hidecontrolsR()" style="height: 70px; transform: translate(0,0);">
         </div>
 
 

@@ -175,10 +175,10 @@ function controlsUpdate() {
     }
 
     function readInputFromManualFlightControl() {
-        manualEngineControlUpdate()
+        manualcontrolsLUpdate()
         manualAttitudeControlUpdate()
 
-        function manualEngineControlUpdate() {
+        function manualcontrolsLUpdate() {
             throttle = +document.getElementById("throttleControl").value;
         }
 

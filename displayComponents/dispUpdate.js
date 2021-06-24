@@ -113,11 +113,12 @@ if (typeof window.orientation == 'undefined') {
     layoutChangeForMobile()
 
     function layoutChangeForMobile() {
-        document.getElementById("attitudeControl").style.display = "none"
+        show_hidecontrolsR()
+        show_hidecontrolsL()
 
-        document.getElementById("engineControl").style.setProperty('bottom', 'calc(45% - 50px)');
+        document.getElementById("controlsL").style.setProperty('bottom', 'calc(45% - 50px)');
 
-        let allBtn = document.getElementsByClassName("engineControlBtn")
+        let allBtn = document.getElementsByClassName("controlsLBtn")
 
         for (n = 0; n < allBtn.length; n++) {
             allBtn[n].style.padding = "5px"
@@ -127,32 +128,32 @@ if (typeof window.orientation == 'undefined') {
 
 
 
-function show_hideEngineControl() {
-    if (showedEngineControl) {
-        document.getElementById("engineControl").style.transform = "translate(-100%, 0)"
-        document.getElementById("engineControl").style.flexDirection = "row";
+function show_hidecontrolsL() {
+    if (showedcontrolsL) {
+        document.getElementById("controlsL").style.transform = "translate(-100%, 0)"
+        document.getElementById("controlsL").style.flexDirection = "row";
     } else {
-        document.getElementById("engineControl").style.transform = "translate(-15px, 0)"
-        document.getElementById("engineControl").style.flexDirection = "row-reverse";
+        document.getElementById("controlsL").style.transform = "translate(-15px, 0)"
+        document.getElementById("controlsL").style.flexDirection = "row-reverse";
     }
 
-    showedEngineControl = toggle(showedEngineControl)
+    showedcontrolsL = toggle(showedcontrolsL)
 }
 
-function show_hideControlsStuff() {
-    if (showedControlsStuff) {
-        document.getElementById("controlsStuff").style.transform = "translate(100%, 0)"
-        document.getElementById("controlsStuff").style.flexDirection = "row-reverse";
+function show_hidecontrolsR() {
+    if (showedcontrolsR) {
+        document.getElementById("controlsR").style.transform = "translate(100%, 0)"
+        document.getElementById("controlsR").style.flexDirection = "row-reverse";
     } else {
-        document.getElementById("controlsStuff").style.transform = "translate(15px, 0)"
-        document.getElementById("controlsStuff").style.flexDirection = "row";
+        document.getElementById("controlsR").style.transform = "translate(15px, 0)"
+        document.getElementById("controlsR").style.flexDirection = "row";
     }
 
-    showedControlsStuff = toggle(showedControlsStuff)
+    showedcontrolsR = toggle(showedcontrolsR)
 }
 
 
-let showedEngineControl = true
-let showedControlsStuff = true
-show_hideControlsStuff()
+let showedcontrolsL = false
+let showedcontrolsR = false
+
 updateButtons()
