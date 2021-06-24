@@ -169,3 +169,16 @@ button:hover {
     cursor: pointer;
 }
 
+
+
+.hiddenFullScreenView{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    transition-duration: 0.5s;
+}
+
+#plotView{
+    transform: translate(0,100%);
+}
