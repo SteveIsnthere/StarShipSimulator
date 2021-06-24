@@ -146,7 +146,3 @@ function zoomOut() {
         drawingSize *= 0.85
     }
 }
-
-function isLandscape() {
-    return (window.orientation === 90 || window.orientation === -90);
-}

@@ -54,7 +54,7 @@ function presisionAlignment(goal, timeNeededToAlign) {
         }
 
         pitchControl = yokePosition
-        updateYokePosition()
+        document.getElementById("pitchControl").value = pitchControl
     }
 
     function controlByThrustVectorAndFins() {
@@ -78,7 +78,7 @@ function presisionAlignment(goal, timeNeededToAlign) {
         }
 
         pitchControl = yokePosition
-        updateYokePosition()
+        document.getElementById("pitchControl").value = pitchControl
     }
 
     function controlByFins() {
@@ -106,7 +106,7 @@ function presisionAlignment(goal, timeNeededToAlign) {
         }
 
         pitchControl = yokePosition
-        updateYokePosition()
+        document.getElementById("pitchControl").value = pitchControl
     }
 
     function controlByRcs() {
@@ -128,7 +128,7 @@ function presisionAlignment(goal, timeNeededToAlign) {
             }
 
             pitchControl = yokePosition
-            updateYokePosition()
+            document.getElementById("pitchControl").value = pitchControl
         }
 
     }
@@ -147,7 +147,7 @@ function controlEnginebyTWR(goalTWR) {
     }
 
     throttle = throttleGoalPercentage
-    updateYokePosition()
+    document.getElementById("throttleControl").value = throttle
 }
 
 function controlEnginebyEffectiveVerticalTWR(goalTWR) {
@@ -160,7 +160,7 @@ function controlEnginebyEffectiveVerticalTWR(goalTWR) {
     }
 
     throttle = throttleGoalPercentage
-    updateYokePosition()
+    document.getElementById("throttleControl").value = throttle
 }
 
 function horizontalSteering(targetSpeed, maxAngle, speedDifferenceThreshold, timeNeededToAlign) {

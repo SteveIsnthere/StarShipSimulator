@@ -36,20 +36,28 @@
             <p class="dispSizeAdjustment" onclick="zoomOut()">-</p>
         </div>
 
-        <div id="FlightParamDispMid" style="font-size: smaller;">
-            <a id="showFlightControlPage" href="#flightControlPage"><img class="MainPageArrow"
-                    src="displayComponents/arrow.png" alt="a" width="15"
-                    style="transform: rotate(90deg);margin-top: 10px;"></a>
-            <p>Base: <span id="distanceToLandingSite"></span></p>
-            <p>SpeedX: <span id="speedX"></span></p>
-            <p>SpeedY: <span id="speedY"></span></p>
-            <p>G: <span id="gforece"></span></p>
-            <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
-            <a id="showPlotPopUpPage" href="#plotPopUpPage" style="text-decoration: none;"><button
-                    id="dataRecorderButton" class="mainPageBtn"
-                    style="display: none; background-color: transparent;">FDR</button></a>
-            <button id="requestTiltPermission" class="mainPageBtn">Tap me!</button>
+        <div>
+            <div id="FlightParamDispMid"
+                style="font-size: smaller; display: flex; flex-direction:column;align-items: center;justify-content: center;white-space: nowrap;text-align: center;transition-duration: 0.5s;transform: translate(0,-4px);">
+                <img class="show_hideToggle" src="displayComponents/straightButton_horizontal.webp" alt="hide/show"
+                    width="70" onclick="show_hideFlightParamDispMid()" style="width: 70px;">
+                <div>
+                    <p>Base: <span id="distanceToLandingSite"></span></p>
+                    <p>SpeedX: <span id="speedX"></span></p>
+                    <p>SpeedY: <span id="speedY"></span></p>
+                    <p>G: <span id="gforece"></span></p>
+
+                </div>
+            </div>
+            <div style="display: flex;align-items: center;justify-content: center;">
+                <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
+                <a id="showPlotPopUpPage" href="#plotPopUpPage" style="text-decoration: none;"><button
+                        id="dataRecorderButton" class="mainPageBtn"
+                        style="display: none; background-color: transparent;">FDR</button></a>
+                <button id="requestTiltPermission" class="mainPageBtn">Tap me!</button>
+            </div>
         </div>
+
 
         <div id="FlightParamDispR">
             <p id="speedDisp" style="font-size: 20px;"><span></span></p>
@@ -79,8 +87,7 @@
             <div
                 style="display: flex;flex-direction: column;align-items: flex-end;justify-content: center;text-align: center;">
                 <div style="display: flex;flex-wrap: wrap;">
-                    <button class="controlBtn" id="togglePitchHold"
-                        onclick="togglePitchHold()">AttitHold</button>
+                    <button class="controlBtn" id="togglePitchHold" onclick="togglePitchHold()">AttitHold</button>
                     <button class="controlBtn" id="toggleAutoLand" onclick="toggleAutoLand()">AutoLand</button>
                 </div>
                 <div id="controlToggles" style="display: flex;flex-wrap: wrap;">
@@ -99,25 +106,6 @@
                 onclick="show_hidecontrolsR()" style="height: 70px; transform: translate(0,0);">
         </div>
 
-
-
-
-
-
-    </div>
-
-
-
-    <div id="flightControlPage" class="popupWindow">
-        <div id="btn-close-modal" class="close-flightControlPage">
-            <img src="displayComponents/arrow.png" class="MainPageArrow" alt="Close" width="15"
-                style="transform: rotate(270deg)">
-        </div>
-
-        <div class="modal-content">
-
-           
-        </div>
     </div>
 
     <div id="plotPopUpPage" class="popupWindow">
