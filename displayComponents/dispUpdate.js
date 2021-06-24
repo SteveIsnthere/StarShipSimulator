@@ -154,5 +154,5 @@ function show_hideControlsStuff() {
 
 let showedEngineControl = true
 let showedControlsStuff = true
-
+show_hideControlsStuff()
 updateButtons()
