@@ -141,6 +141,8 @@ function dynamicLayoutUpdate() {
     }
 }
 
+let onIosPwa = false
+
 let showedcontrolsL = true
 let showedcontrolsR = true
 let showedPlotView = false
@@ -152,6 +154,10 @@ if (typeof window.orientation == 'undefined') {
     //mobile
     if (checkIsiOS()) {
         document.getElementById("requestTiltPermissionBtn").style.display = "initial"
+        
+        if (isIOSPWA()) {
+            onIosPwa = true
+        }
     }
 
     layoutChangeForMobile()

@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="displayComponents/style.css">
 </head>
 
-<body>
+<body onresize="windowResize()">
     <canvas id="mainView" ontouchmove="windowResize()"></canvas>
 
     <div id="FlightParamDisp">
@@ -157,9 +157,5 @@
 <script type="text/javascript" src="utilities/eventListener.js"></script>
 
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-<script>
-    if (isIOSPWA()) {
-            alert("aaaaaa")
-        }
-</script>
+
 </html>

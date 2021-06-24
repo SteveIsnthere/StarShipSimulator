@@ -41,7 +41,7 @@ function finalSetupAndRun() {
                 pig.height = pigDrawingHeight;
             }
 
-            function drawTree1(){
+            function drawTree1() {
                 tree1.x = getObjectDrawingPosX(tree1Xpos)
                 tree1.y = getObjectDrawingPosY(0)
 
@@ -49,7 +49,7 @@ function finalSetupAndRun() {
                 tree1.height = tree1DrawingHeight;
             }
 
-            function drawTree2(){
+            function drawTree2() {
                 tree2.x = getObjectDrawingPosX(tree2Xpos)
                 tree2.y = getObjectDrawingPosY(0)
 
@@ -103,11 +103,14 @@ function finalSetupAndRun() {
         }
 
         function updateSize() {
-            if (usedTime % 5 == 0) {
-                if (renderBoxWidth != window.innerWidth || renderBoxHeight != window.innerHeight) {
-                    windowResize()
+            if (onIosPwa) {
+                if (usedTime % 5 == 0) {
+                    if (renderBoxWidth != window.innerWidth || renderBoxHeight != window.innerHeight) {
+                        windowResize()
+                    }
                 }
             }
+
         }
 
         function drawStarShipEffects() {
