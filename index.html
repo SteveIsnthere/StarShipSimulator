@@ -34,12 +34,12 @@
         <div id="FlightParamDispL" style="transform: translate(0,-15px);">
             <p id="altitudeDisp" style="font-size: 20px;"></p>
             <p>Fuel: <span id="propellantMassDisp"></span>t</p>
-            <p class="dispSizeAdjustment" onclick="zoomOut()" style="padding-left: 15px;">-</p>
+            <p class="dispSizeAdjustmentBtn" onclick="zoomOut()" style="padding-left: 15px;">-</p>
         </div>
 
 
         <div id="FlightParamDispMid"
-            style="font-size: smaller; display: flex; flex-direction:column;align-items: center;justify-content: center;white-space: nowrap;text-align: center;transform: translate(0,-26px);transition-duration: 0.5s;">
+            style="font-size: smaller; display: flex; flex-direction:column;align-items: center;justify-content: center;text-align: center;transform: translate(0,-16px);transition-duration: 0.1s;">
             <img class="show_hideToggle" src="displayComponents/straightButton_horizontal.webp" alt="hide/show"
                 width="70" onclick="" style="width: 70px;">
             <div>
@@ -48,26 +48,28 @@
                 <p>SpeedY: <span id="speedY"></span></p>
                 <p>G: <span id="gforece"></span></p>
 
-                <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
-                <a id="showPlotPopUpPage" href="#plotPopUpPage" style="text-decoration: none;"><button
-                        id="dataRecorderButton" class="mainPageBtn"
-                        style="display: none; background-color: transparent;">FDR</button></a>
-                <button id="requestTiltPermission" class="mainPageBtn">Tap me!</button>
+            </div><div id="mainViewButtonsArea" >
 
-            </div>
+            <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
+        <button id="showPlotViewButton" class="mainPageBtn" style="display: none; background-color: transparent;"
+            onclick="show_hidePlotView()">FDR</button>
+        <button id="requestTiltPermissionBtn" class="mainPageBtn">Tap me!</button>
+
+        
+    </div>
         </div>
 
 
         <div id="FlightParamDispR" style="transform: translate(0,-15px);">
             <p id="speedDisp" style="font-size: 20px;"><span></span></p>
             <p>TWR: <span id="twrDisp"></span></p>
-            <p class="dispSizeAdjustment" onclick="zoomIn()" style="padding-right: 15px;">+</p>
+            <p class="dispSizeAdjustmentBtn" onclick="zoomIn()" style="padding-right: 15px;">+</p>
         </div>
     </div>
 
     <div id="flightControl">
-        <div id="controlsL"
-            style="display: flex;flex-direction: row-reverse;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); left: 10px;transition-duration: 0.5s;transform: translate(-15px, 0);">
+        <div id="controlsL" class="hideableControls"
+            style="display: flex;flex-direction: row-reverse;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); left: 10px;;transform: translate(-15px, 0);">
             <div style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;padding: 2px;">
                 <input type="range" class="slider" id="throttleControl"
                     style="grid-column-start: 1;grid-column-end: 4;"><br>
@@ -81,8 +83,8 @@
                 onclick="show_hidecontrolsL()" style="height: 70px; transform: translate(0,3px);">
         </div>
 
-        <div id="controlsR"
-            style="display: flex;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); right: 10px;transition-duration: 0.5s;transform: translate(15px, 0);">
+        <div id="controlsR" class="hideableControls"
+            style="display: flex;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); right: 10px;transform: translate(15px, 0);">
             <div
                 style="display: flex;flex-direction: column;align-items: flex-end;justify-content: center;text-align: center;">
                 <div style="display: flex;flex-wrap: wrap;">
@@ -107,22 +109,19 @@
 
     </div>
 
-    <div id="plotPopUpPage" class="popupWindow">
-        <div id="btn-close-modal" class="close-plotPopUpPage">
-            <img class="roundResizeableBtn" src="displayComponents/popUpWindow/closebt_noir.svg" alt="Close">
-        </div>
+    
 
-        <div class="modal-content">
-            <div id="plots">
-                <div id="flyPathPlot"></div>
-                <div id="motionSpeedPlot"></div>
-                <div id="motionAnglePlot"></div>
-                <div id="accelerationPlot"></div>
-                <div id="controlInPutPlot"></div>
-                <div id="thermalPower_dynamicPressurePlot"></div>
-                <div id="aerodynamicForcePlot"></div>
-                <div id="altitudePlot"></div>
-            </div>
+    <div id="plotView" class="hiddenFullScreenView">
+        <div id="close_PlotView" style="height: 10%;" onclick="show_hidePlotView()"></div>
+        <div id="plots">
+            <div id="flyPathPlot"></div>
+            <div id="motionSpeedPlot"></div>
+            <div id="motionAnglePlot"></div>
+            <div id="accelerationPlot"></div>
+            <div id="controlInPutPlot"></div>
+            <div id="thermalPower_dynamicPressurePlot"></div>
+            <div id="aerodynamicForcePlot"></div>
+            <div id="altitudePlot"></div>
         </div>
     </div>
 
@@ -156,13 +155,6 @@
 <script type="text/javascript" src="render/pixi_init.js"></script>
 
 <script type="text/javascript" src="utilities/eventListener.js"></script>
-
-
-<link rel="stylesheet" href="displayComponents/popUpWindow/animate.min.css">
-
-<script src="displayComponents/popUpWindow/jquery.min.js"></script>
-<script src="displayComponents/popUpWindow/animatedModal.min.js"></script>
-<script type="text/javascript" src="displayComponents/popUpWindow/initPopupWindow.js"></script>
 
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 
