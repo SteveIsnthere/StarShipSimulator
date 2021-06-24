@@ -151,7 +151,7 @@ if (typeof window.orientation == 'undefined') {
 } else {
     //mobile
     if (checkIsiOS()) {
-        document.getElementById("requestTiltPermission").style.display = "initial"
+        document.getElementById("requestTiltPermissionBtn").style.display = "initial"
     }
 
     layoutChangeForMobile()
