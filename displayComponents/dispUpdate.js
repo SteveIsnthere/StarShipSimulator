@@ -101,32 +101,6 @@ function updateButtons() {
 
 }
 
-//check platform
-if (typeof window.orientation == 'undefined') {
-    //desktop
-} else {
-    //mobile
-    if (checkIsiOS()) {
-        document.getElementById("requestTiltPermission").style.display = "initial"
-    }
-
-    layoutChangeForMobile()
-
-    function layoutChangeForMobile() {
-        show_hidecontrolsR()
-        show_hidecontrolsL()
-
-        document.getElementById("controlsL").style.setProperty('bottom', 'calc(45% - 50px)');
-
-        let allBtn = document.getElementsByClassName("controlsLBtn")
-
-        for (n = 0; n < allBtn.length; n++) {
-            allBtn[n].style.padding = "5px"
-        }
-    }
-}
-
-
 
 function show_hidecontrolsL() {
     if (showedcontrolsL) {
@@ -157,3 +131,28 @@ let showedcontrolsL = false
 let showedcontrolsR = false
 
 updateButtons()
+
+//check platform
+if (typeof window.orientation == 'undefined') {
+    //desktop
+} else {
+    //mobile
+    if (checkIsiOS()) {
+        document.getElementById("requestTiltPermission").style.display = "initial"
+    }
+
+    layoutChangeForMobile()
+
+    function layoutChangeForMobile() {
+        show_hidecontrolsR()
+        show_hidecontrolsL()
+
+        document.getElementById("controlsL").style.setProperty('bottom', 'calc(45% - 50px)');
+
+        let allBtn = document.getElementsByClassName("controlsLBtn")
+
+        for (n = 0; n < allBtn.length; n++) {
+            allBtn[n].style.padding = "5px"
+        }
+    }
+}
