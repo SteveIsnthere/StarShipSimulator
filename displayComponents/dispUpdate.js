@@ -129,16 +129,30 @@ if (typeof window.orientation == 'undefined') {
 
 function show_hideEngineControl() {
     if (showedEngineControl) {
-        document.getElementById("engineControl").style.transform = "translate(-94%, 0)"
+        document.getElementById("engineControl").style.transform = "translate(-100%, 0)"
         document.getElementById("engineControl").style.flexDirection = "row";
     } else {
-        document.getElementById("engineControl").style.transform = "translate(-10%, 0)"
+        document.getElementById("engineControl").style.transform = "translate(-15px, 0)"
         document.getElementById("engineControl").style.flexDirection = "row-reverse";
     }
 
     showedEngineControl = toggle(showedEngineControl)
 }
 
+function show_hideControlsStuff() {
+    if (showedControlsStuff) {
+        document.getElementById("controlsStuff").style.transform = "translate(100%, 0)"
+        document.getElementById("controlsStuff").style.flexDirection = "row-reverse";
+    } else {
+        document.getElementById("controlsStuff").style.transform = "translate(15px, 0)"
+        document.getElementById("controlsStuff").style.flexDirection = "row";
+    }
+
+    showedControlsStuff = toggle(showedControlsStuff)
+}
+
 
 let showedEngineControl = true
+let showedControlsStuff = true
+
 updateButtons()
