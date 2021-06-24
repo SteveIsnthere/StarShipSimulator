@@ -33,7 +33,7 @@ function updateFlightParamDisp() {
         //restartButton
         if (landed || crashed || inFightBreakUp || fuelRunOut) {
             document.getElementById("RestartBtn").style.display = "initial"
-            document.getElementById("dataRecorderButton").style.display = "initial"
+            document.getElementById("showPlotViewButton").style.display = "initial"
         }
     }
 }
@@ -121,6 +121,16 @@ function show_hidecontrolsR() {
     showedcontrolsR = toggle(showedcontrolsR)
 }
 
+function show_hidePlotView() {
+    if (showedPlotView) {
+        document.getElementById("plotView").style.transform = "translate(0, 100%)"
+    } else {
+        document.getElementById("plotView").style.transform = "translate(0, 0)"
+        plot()
+    }
+
+    showedPlotView = toggle(showedPlotView)
+}
 
 function dynamicLayoutUpdate() {
     if (window.innerWidth < 450) {
@@ -133,7 +143,7 @@ function dynamicLayoutUpdate() {
 
 let showedcontrolsL = true
 let showedcontrolsR = true
-
+let showedPlotView = false
 
 //check platform
 if (typeof window.orientation == 'undefined') {
@@ -141,7 +151,7 @@ if (typeof window.orientation == 'undefined') {
 } else {
     //mobile
     if (checkIsiOS()) {
-        document.getElementById("requestTiltPermission").style.display = "initial"
+        document.getElementById("requestTiltPermissionBtn").style.display = "initial"
     }
 
     layoutChangeForMobile()

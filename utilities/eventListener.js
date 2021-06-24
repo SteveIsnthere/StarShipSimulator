@@ -114,7 +114,7 @@ document.addEventListener('keyup', function (event) {
     }
 });
 
-document.getElementById("requestTiltPermission").onclick = function (e) {
+document.getElementById("requestTiltPermissionBtn").onclick = function (e) {
     e.preventDefault();
     // Request permission for iOS 13+ devices//
     if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === "function") {
@@ -122,7 +122,7 @@ document.getElementById("requestTiltPermission").onclick = function (e) {
     }
     window.addEventListener("deviceorientation", controlByTilt);
 
-    document.getElementById("requestTiltPermission").style.display = "none"
+    document.getElementById("requestTiltPermissionBtn").style.display = "none"
 };
 
 

@@ -71,7 +71,7 @@ function updateSwitches() {
 
 function restart() {
     document.getElementById("RestartBtn").style.display = "none"
-    document.getElementById("dataRecorderButton").style.display = "none"
+    document.getElementById("showPlotViewButton").style.display = "none"
 
     initBackEnd()
 
