@@ -121,17 +121,6 @@ function show_hidecontrolsR() {
     showedcontrolsR = toggle(showedcontrolsR)
 }
 
-function show_hideFlightParamDispMid() {
-    if (showedFlightParamDispMid) {
-        document.getElementById("FlightParamDispMid").style.transform = "translate(0, calc(-100% + 10px))"
-        document.getElementById("FlightParamDispMid").style.flexDirection = "column-reverse";
-    } else {
-        document.getElementById("FlightParamDispMid").style.transform = "translate(0, -4px)"
-        document.getElementById("FlightParamDispMid").style.flexDirection = "column";
-    }
-
-    showedFlightParamDispMid = toggle(showedFlightParamDispMid)
-}
 
 function dynamicLayoutUpdate() {
     if (window.innerWidth < 450) {
@@ -140,14 +129,11 @@ function dynamicLayoutUpdate() {
     } else if (window.innerWidth < 790) {
         show_hidecontrolsR()
     }
-    if (window.innerHeight < 650) {
-        show_hideFlightParamDispMid()
-    }
 }
 
 let showedcontrolsL = true
 let showedcontrolsR = true
-let showedFlightParamDispMid = true
+
 
 //check platform
 if (typeof window.orientation == 'undefined') {
