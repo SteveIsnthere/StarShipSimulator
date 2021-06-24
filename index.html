@@ -64,10 +64,10 @@
             <div style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;padding: 2px;">
                 <input type="range" class="slider" id="throttleControl"
                     style="grid-column-start: 1;grid-column-end: 4;"><br>
-                <button id="raptor1toggle" class="engineControlBtn" onclick="toggleRaptor1()">R1</button>
-                <button id="raptor2toggle" class="engineControlBtn" onclick="toggleRaptor2()">R2</button>
-                <button id="raptor3toggle" class="engineControlBtn" onclick="toggleRaptor3()">R3</button>
-                <button id="allraptorstoggle" class="engineControlBtn" onclick="toggleAllRaptors()"
+                <button id="raptor1toggle" class="controlBtn" onclick="toggleRaptor1()">R1</button>
+                <button id="raptor2toggle" class="controlBtn" onclick="toggleRaptor2()">R2</button>
+                <button id="raptor3toggle" class="controlBtn" onclick="toggleRaptor3()">R3</button>
+                <button id="allraptorstoggle" class="controlBtn" onclick="toggleAllRaptors()"
                     style="grid-column-start: 1;grid-column-end: 4; color: rgb(51, 51, 51); border-color: rgb(156, 156, 156);">Toggle-All</button>
             </div>
             <img class="show_hideToggle" src="displayComponents/straightButton.webp" alt="hide/show" height="70"
@@ -76,17 +76,23 @@
 
         <div id="controlsStuff"
             style="display: flex;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(50% - 30px); right: 10px;transition-duration: 0.5s;transform: translate(15px, 0);">
-            <div style="display: flex;flex-direction: column;align-items: flex-end;justify-content: center;text-align: center;">
+            <div
+                style="display: flex;flex-direction: column;align-items: flex-end;justify-content: center;text-align: center;">
                 <div style="display: flex;flex-wrap: wrap;">
-                    <button class="popUpWindowButton" id="togglePitchHold"
+                    <button class="controlBtn" id="togglePitchHold"
                         onclick="togglePitchHold()">AttitHold</button>
-                    <button class="popUpWindowButton" id="togglePrograde" onclick="togglePrograde()">Prograde</button>
-                    <button class="popUpWindowButton" id="toggleAutoLand" onclick="toggleAutoLand()">AutoLand</button>
+                    <button class="controlBtn" id="togglePrograde" onclick="togglePrograde()">Prograde</button>
+                    <button class="controlBtn" id="toggleAutoLand" onclick="toggleAutoLand()">AutoLand</button>
                 </div>
                 <div id="controlToggles" style="display: flex;flex-wrap: wrap;">
-                    <button class="popUpWindowButton" id="toggleFin" onclick="toggleFin()">Fins</button>
-                    <button class="popUpWindowButton" id="toggleRcs" onclick="toggleRcs()">RCS</button>
-                    <button class="popUpWindowButton" id="toggledumpFuel" onclick="toggleDumpFuel()">DumpFuel</button>
+                    <button class="controlBtn" id="toggleFin" onclick="toggleFin()">Fins</button>
+                    <button class="controlBtn" id="toggleRcs" onclick="toggleRcs()">RCS</button>
+                    <button class="controlBtn" id="toggledumpFuel" onclick="toggleDumpFuel()">DumpFuel</button>
+                </div>
+                <div id="attitudeControl" style="text-align: center;">
+                    <input type="range" class="slider" id="pitchControl" onmouseover="manualPitchControlOn()"
+                        onmouseout="recordHoldingPitch_resumeAuto()" ontouchstart="manualPitchControlOn()"
+                        ontouchend="recordHoldingPitch_resumeAuto()">
                 </div>
             </div>
 
@@ -98,11 +104,7 @@
 
 
 
-        <div id="attitudeControl" style="text-align: center; position: absolute; bottom: 10px; right: 10px;">
-            <input type="range" class="slider" id="pitchControl" onmouseover="manualPitchControlOn()"
-                onmouseout="recordHoldingPitch_resumeAuto()" ontouchstart="manualPitchControlOn()"
-                ontouchend="recordHoldingPitch_resumeAuto()">
-        </div>
+
     </div>
 
 
@@ -115,34 +117,7 @@
 
         <div class="modal-content">
 
-            <p class="popUpWindowText" style="text-align: center;">AutoPilot Modes</p>
-            <div id="autoPilot" style="display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
-            grid-gap: 10px;
-            grid-auto-flow: dense;
-            text-align: center;
-            justify-content: center;
-            padding: 10px;
-            margin: 30px;">
-                <button class="popUpWindowButton" id="togglePitchHold" onclick="togglePitchHold()">AttitHold</button>
-                <button class="popUpWindowButton" id="togglePrograde" onclick="togglePrograde()">Prograde</button>
-                <button class="popUpWindowButton" id="toggleAutoLand" onclick="toggleAutoLand()">AutoLand</button>
-            </div>
-
-            <p class="popUpWindowText" style="text-align: center;">Flight Controls</p>
-            <div style="display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
-            grid-gap: 10px;
-            grid-auto-flow: dense;
-            text-align: center;
-            justify-content: center;
-            padding: 10px;
-            margin: 30px;">
-                <button class="popUpWindowButton" id="toggleFin" onclick="toggleFin()">Fins</button>
-                <button class="popUpWindowButton" id="toggleRcs" onclick="toggleRcs()">RCS</button>
-                <button class="popUpWindowButton" id="toggledumpFuel" onclick="toggleDumpFuel()">DumpFuel</button>
-            </div>
-
+           
         </div>
     </div>
 
