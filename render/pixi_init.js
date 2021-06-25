@@ -61,10 +61,6 @@ function setupStarShip() {
     globalThis.raptor1Plume = new PIXI.Container();
     raptor1Plume.alpha = 0.9;
 
-    var logo = PIXI.Sprite.from('logo');
-
-    raptor1Plume.addChild(logo);
-
     globalThis.raptor1PlumeEmitter = fx.getParticleEmitter('raptortrail');
 
     starShip.addChild(raptor1Plume)
@@ -73,10 +69,6 @@ function setupStarShip() {
     globalThis.raptor2Plume = new PIXI.Container();
     raptor2Plume.alpha = 0.9;
 
-    var logo = PIXI.Sprite.from('logo');
-
-    raptor2Plume.addChild(logo);
-
     globalThis.raptor2PlumeEmitter = fx.getParticleEmitter('raptortrail');
 
     starShip.addChild(raptor2Plume)
@@ -84,10 +76,6 @@ function setupStarShip() {
     //3
     globalThis.raptor3Plume = new PIXI.Container();
     raptor3Plume.alpha = 0.9;
-
-    var logo = PIXI.Sprite.from('logo');
-
-    raptor3Plume.addChild(logo);
 
     globalThis.raptor3PlumeEmitter = fx.getParticleEmitter('raptortrail');
 
@@ -109,10 +97,6 @@ function setupStarShip() {
     //coldGasPlume
     globalThis.coldGasPlume = new PIXI.Container();
 
-    var logo = PIXI.Sprite.from('logo');
-
-    coldGasPlume.addChild(logo);
-
     globalThis.coldGasPlumeEmitter = fx.getParticleEmitter('coldgas');
 
     starShip.addChild(coldGasPlume)
@@ -120,10 +104,6 @@ function setupStarShip() {
     //fueldump
     globalThis.fueldump = new PIXI.Container();
     fueldump.rotation = Math.PI / 2;
-
-    var logo = PIXI.Sprite.from('logo');
-
-    fueldump.addChild(logo);
 
     globalThis.fueldumpEmitter = fx.getParticleEmitter('fueldump');
 
@@ -171,10 +151,6 @@ function setupStarBase() {
     //spaceEffect
     globalThis.spaceEffect = new PIXI.Container();
 
-    var logo = PIXI.Sprite.from('logo');
-
-    spaceEffect.addChild(logo);
-
     globalThis.spaceEffectEmitter = fx.getParticleEmitter('fairy-dust');
     
 
@@ -188,20 +164,12 @@ function setupStarShipEffects() {
     //0
     globalThis.aeroheat0 = new PIXI.Container();
 
-    var logo = PIXI.Sprite.from('logo');
-
-    aeroheat0.addChild(logo);
-
     globalThis.aeroheat0Emitter = fx.getParticleEmitter('aeroheat');
 
     starShipAndEffects.addChild(aeroheat0)
 
     //1
     globalThis.aeroheat1 = new PIXI.Container();
-
-    var logo = PIXI.Sprite.from('logo');
-
-    aeroheat1.addChild(logo);
 
     globalThis.aeroheat1Emitter = fx.getParticleEmitter('aeroheat');
 
@@ -211,21 +179,12 @@ function setupStarShipEffects() {
     //2
     globalThis.aeroheat2 = new PIXI.Container();
 
-
-    var logo = PIXI.Sprite.from('logo');
-
-    aeroheat2.addChild(logo);
-
     globalThis.aeroheat2Emitter = fx.getParticleEmitter('aeroheat');
 
     starShipAndEffects.addChild(aeroheat2)
 
     //3
     globalThis.aeroheat3 = new PIXI.Container();
-
-    var logo = PIXI.Sprite.from('logo');
-
-    aeroheat3.addChild(logo);
 
     globalThis.aeroheat3Emitter = fx.getParticleEmitter('aeroheat');
 
@@ -235,10 +194,6 @@ function setupStarShipEffects() {
     //4
     globalThis.aeroheat4 = new PIXI.Container();
 
-    var logo = PIXI.Sprite.from('logo');
-
-    aeroheat4.addChild(logo);
-
     globalThis.aeroheat4Emitter = fx.getParticleEmitter('aeroheat');
 
     starShipAndEffects.addChild(aeroheat4)
@@ -247,10 +202,6 @@ function setupStarShipEffects() {
     globalThis.heatboom = new PIXI.Container();
     heatboom.x = 0;
     heatboom.y = 0;
-
-    var logo = PIXI.Sprite.from('logo');
-
-    heatboom.addChild(logo);
 
     globalThis.heatboomEmitter = fx.getParticleEmitter('heatboom');
 
@@ -265,10 +216,6 @@ function setupStarShipEffects() {
     sonicboom.x = 0;
     sonicboom.y = 0;
 
-    var logo = PIXI.Sprite.from('logo');
-
-    sonicboom.addChild(logo);
-
     globalThis.sonicboomEmitter = fx.getParticleEmitter('sonicboom');
 
     starShipAndEffects.addChild(sonicboom)
@@ -277,10 +224,6 @@ function setupStarShipEffects() {
 
     //aeroTrail
     globalThis.aeroTrail = new PIXI.Container();
-
-    var logo = PIXI.Sprite.from('logo');
-
-    aeroTrail.addChild(logo);
 
     globalThis.aeroTrailEmitter = fx.getParticleEmitter('aerotrail');
 
@@ -296,19 +239,11 @@ function setupStarShipEffects() {
     crash.x = 0;
     crash.y = 0;
 
-    var logo = PIXI.Sprite.from('logo');
-
-    crash.addChild(logo);
-
     globalThis.crashEmitter = fx.getParticleEmitter('top-big-explosion');
 
     starShipAndEffects.addChild(crash)
 
     globalThis.crashsmoke = new PIXI.Container();
-
-    var logo = PIXI.Sprite.from('logo');
-
-    crashsmoke.addChild(logo);
 
     globalThis.crashsmokeEmitter = fx.getParticleEmitter('crashsmoke');
 
@@ -321,19 +256,11 @@ function setupStarShipEffects() {
     breakup.x = 0;
     breakup.y = 0;
 
-    var logo = PIXI.Sprite.from('logo');
-
-    breakup.addChild(logo);
-
     globalThis.breakupEmitter = fx.getParticleEmitter('top-big-explosion');
 
     starShipAndEffects.addChild(breakup)
 
     globalThis.breakupsmoke = new PIXI.Container();
-
-    var logo = PIXI.Sprite.from('logo');
-
-    breakupsmoke.addChild(logo);
 
     globalThis.breakupsmokeEmitter = fx.getParticleEmitter('breakupsmoke');
 
@@ -347,10 +274,6 @@ function setupEffects() {
     //fireExtinguisher
     globalThis.fireExtinguisher = new PIXI.Container();
 
-    var logo = PIXI.Sprite.from('logo');
-
-    fireExtinguisher.addChild(logo);
-
     globalThis.fireExtinguisherEmitter = fx.getParticleEmitter('fireExtinguisher');
 
 
@@ -358,10 +281,6 @@ function setupEffects() {
 
     //clouds
     globalThis.clouds = new PIXI.Container();
-
-    var logo = PIXI.Sprite.from('logo');
-
-    clouds.addChild(logo);
 
     globalThis.cloudsEmitter = fx.getParticleEmitter('single-cloud');
     clouds.x = getObjectDrawingPosX(starBaseBackGround2Xpos)

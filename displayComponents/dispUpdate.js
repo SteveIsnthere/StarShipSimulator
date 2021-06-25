@@ -134,17 +134,19 @@ function show_hidePlotView() {
 
 function dynamicLayoutUpdate() {
     if (window.innerWidth < 450) {
-        show_hidecontrolsL()
-        show_hidecontrolsR()
+
     } else if (window.innerWidth < 790) {
+        show_hidecontrolsL()
+    }else{
         show_hidecontrolsR()
+        show_hidecontrolsL()
     }
 }
 
 let onIosPwa = false
 
-let showedcontrolsL = true
-let showedcontrolsR = true
+let showedcontrolsL = false
+let showedcontrolsR = false
 let showedPlotView = false
 
 //check platform

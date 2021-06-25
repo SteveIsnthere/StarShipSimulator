@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="displayComponents/style.css">
 </head>
 
-<body onresize="windowResize()">
+<body>
     <canvas id="mainView" ontouchmove="windowResize()"></canvas>
 
     <div id="FlightParamDisp">
@@ -69,7 +69,7 @@
 
     <div id="flightControl">
         <div id="controlsL" class="hideableControls"
-            style="display: flex;flex-direction: row-reverse;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); left: 10px;;transform: translate(-15px, 0);">
+            style="display: flex;flex-direction: row;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); left: 10px;;transform: translate(-100%, 0);">
             <div style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;padding: 2px;">
                 <input type="range" class="slider" id="throttleControl"
                     style="grid-column-start: 1;grid-column-end: 4;"><br>
@@ -84,7 +84,7 @@
         </div>
 
         <div id="controlsR" class="hideableControls"
-            style="display: flex;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); right: 10px;transform: translate(15px, 0);">
+            style="display: flex;flex-direction: row-reverse;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); right: 10px;transform: translate(100%, 0);">
             <div
                 style="display: flex;flex-direction: column;align-items: flex-end;justify-content: center;text-align: center;">
                 <div style="display: flex;flex-wrap: wrap;">

@@ -1,4 +1,4 @@
-
+document.body.onresize = windowResize
 document.addEventListener('keydown', function (event) {
     attitudeCommand(event)
     throttleCommand(event)
