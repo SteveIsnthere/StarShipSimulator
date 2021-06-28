@@ -118,6 +118,10 @@ button:hover {
     transform: translate(0, 100%);
 }
 
+.singlePlotCell{
+margin-bottom: 10px;
+}
+
 #menuView {
     transform: translate(0, 100%);
 }
