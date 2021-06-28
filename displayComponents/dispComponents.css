@@ -14,6 +14,7 @@ input[type="range"] {
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
+  outline: none;
   width: 30px;
   height: 30px;
   background: #ececec56;
