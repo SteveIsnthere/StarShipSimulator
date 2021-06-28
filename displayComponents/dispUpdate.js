@@ -94,6 +94,7 @@ function updateButtons() {
         }
     }
 
+
 }
 
 
@@ -132,6 +133,16 @@ function show_hidePlotView() {
     showedPlotView = toggle(showedPlotView)
 }
 
+function show_hideMenuView() {
+    if (showedMenuView) {
+        document.getElementById("menuView").style.transform = "translate(0, 100%)"
+    } else {
+        document.getElementById("menuView").style.transform = "translate(0, 0)"
+    }
+
+    showedMenuView = toggle(showedMenuView)
+}
+
 function dynamicLayoutUpdate() {
     if (window.innerWidth < 450) {
 
@@ -148,12 +159,15 @@ let onIosPwa = false
 let showedcontrolsL = false
 let showedcontrolsR = false
 let showedPlotView = false
+let showedMenuView = false
 
 //check platform
 if (typeof window.orientation == 'undefined') {
+    document.getElementById("toggleTiltControl").style.display = "none"
     //desktop
 } else {
     //mobile
+    buttonSwitchOn("toggleTiltControl")
     if (checkIsiOS()) {
         document.getElementById("requestTiltPermissionBtn").style.display = "initial"
         

@@ -1,0 +1,22 @@
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 140px;
+  height: 20px;
+  background: linear-gradient(to right, #ffffff 0%, #ffffff 100%);
+  background-size: 150px 1px;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  outline: none;
+}
+
+
+input[type="range"]::-webkit-slider-thumb {
+
+  width: 20px;
+  height: 20px;
+  background: #ffffff6e;
+  border-radius: 3px;
+  position: relative;
+}
+

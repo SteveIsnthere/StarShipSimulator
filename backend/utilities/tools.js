@@ -21,12 +21,12 @@ function manualControl_off() {
 
 function buttonSwitchOn(id) {
     document.getElementById(id).style.color = '#006600'
-    document.getElementById(id).style.borderColor = '#6495ED'
+    document.getElementById(id).style.boxShadow = "inset 1.5px 1.5px 3.5px 0 rgba(0, 0, 0, 0.2),inset -2px -2px 4.5px 0 rgba(255, 255, 255, 0.55)";
 }
 
 function buttonSwitchOff(id) {
     document.getElementById(id).style.color = 'black'
-    document.getElementById(id).style.borderColor = 'grey'
+    document.getElementById(id).style.boxShadow = "3px 3px 7px 0 rgba(0, 0, 0, 0.2),-4px -4px 9px 0 rgba(255, 255, 255, 0.55)";
 }
 
 function updateScreenSize() {
@@ -95,7 +95,7 @@ function restart() {
 }
 
 function controlByTilt(event) {
-    if (!manualControlOn) {
+    if (!manualControlOn && tiltControlOn) {
         let tiltAngle
 
         if (window.orientation === 90) {
@@ -119,6 +119,15 @@ function controlByTilt(event) {
         }
         updateYokePosition()
     }
+}
+
+function toggleTiltControl(){
+    if (tiltControlOn) {
+        buttonSwitchOff("toggleTiltControl")
+    } else {
+        buttonSwitchOn("toggleTiltControl")
+    }
+    tiltControlOn = toggle(tiltControlOn)
 }
 
 function checkIsiOS() {

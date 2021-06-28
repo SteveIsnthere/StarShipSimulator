@@ -230,7 +230,12 @@ function setupStarShipEffects() {
 
     starShipAndEffects.addChild(aeroTrail)
 
+    //groundSmoke
+    globalThis.groundSmoke = new PIXI.Container();
 
+    globalThis.groundSmokeEmitter = fx.getParticleEmitter('GroundSmoke');
+
+    app.stage.addChild(groundSmoke)
 
     //crash
     globalThis.showedCrashEffect = false

@@ -114,6 +114,8 @@ document.addEventListener('keyup', function (event) {
     }
 });
 
+
+let tiltControlOn = true
 document.getElementById("requestTiltPermissionBtn").onclick = function (e) {
     e.preventDefault();
     // Request permission for iOS 13+ devices//

@@ -25,6 +25,7 @@
     </script>
 
     <link rel="stylesheet" href="displayComponents/style.css">
+    <link rel="stylesheet" href="displayComponents/dispComponents.css">
 </head>
 
 <body>
@@ -40,23 +41,22 @@
 
         <div id="FlightParamDispMid"
             style="font-size: smaller; display: flex; flex-direction:column;align-items: center;justify-content: center;text-align: center;transform: translate(0,-16px);transition-duration: 0.1s;">
-            <img class="show_hideToggle" src="displayComponents/straightButton_horizontal.webp" alt="hide/show"
-                width="70" onclick="" style="width: 70px;">
-            <div>
+
+            <div onclick="show_hideMenuView()">
                 <p>Base: <span id="distanceToLandingSite"></span></p>
                 <p>SpeedX: <span id="speedX"></span></p>
                 <p>SpeedY: <span id="speedY"></span></p>
                 <p>G: <span id="gforece"></span></p>
 
-            </div><div id="mainViewButtonsArea" >
+            </div>
+            <div id="mainViewButtonsArea">
 
-            <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
-        <button id="showPlotViewButton" class="mainPageBtn" style="display: none; background-color: transparent;"
-            onclick="show_hidePlotView()">FDR</button>
-        <button id="requestTiltPermissionBtn" class="mainPageBtn">Tap me!</button>
+                <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
+                <button id="showPlotViewButton" class="mainPageBtn"
+                    style="display: none; background-color: transparent;" onclick="show_hidePlotView()">FDR</button>
+                <button id="requestTiltPermissionBtn" class="mainPageBtn">Tap me!</button>
 
-        
-    </div>
+            </div>
         </div>
 
 
@@ -69,7 +69,7 @@
 
     <div id="flightControl">
         <div id="controlsL" class="hideableControls"
-            style="display: flex;flex-direction: row;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); left: 10px;;transform: translate(-100%, 0);">
+            style="display: flex;flex-direction: row;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 70px); left: 10px;;transform: translate(-100%, 0);">
             <div style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;padding: 2px;">
                 <input type="range" class="slider" id="throttleControl"
                     style="grid-column-start: 1;grid-column-end: 4;"><br>
@@ -84,7 +84,7 @@
         </div>
 
         <div id="controlsR" class="hideableControls"
-            style="display: flex;flex-direction: row-reverse;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 50px); right: 10px;transform: translate(100%, 0);">
+            style="display: flex;flex-direction: row-reverse;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 70px); right: 10px;transform: translate(100%, 0);">
             <div
                 style="display: flex;flex-direction: column;align-items: flex-end;justify-content: center;text-align: center;">
                 <div style="display: flex;flex-wrap: wrap;">
@@ -109,7 +109,7 @@
 
     </div>
 
-    
+
 
     <div id="plotView" class="hiddenFullScreenView">
         <div id="close_PlotView" style="height: 10%;" onclick="show_hidePlotView()"></div>
@@ -125,7 +125,13 @@
         </div>
     </div>
 
-
+    <div id="menuView" class="hiddenFullScreenView">
+        <div id="close_MenuView" style="height: 10%;" onclick="show_hideMenuView()"></div>
+        <div id="menuContent">
+            <button id="toggleTiltControl" onclick="toggleTiltControl()">TiltControl</button>
+        </div>
+        
+    </div>
 </body>
 
 
