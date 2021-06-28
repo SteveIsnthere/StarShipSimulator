@@ -50,8 +50,9 @@ button:hover {
 .mainPageBtn {
     display: none;
     background-color: transparent;
-    border-radius: 3px;
+    border-radius: 10px;
     padding: 8px;
+    margin: 10px;
 }
 
 .show_hideToggle {
