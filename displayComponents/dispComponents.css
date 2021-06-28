@@ -1,22 +1,24 @@
 input[type="range"] {
   -webkit-appearance: none;
   width: 140px;
-  height: 20px;
-  background: linear-gradient(to right, #ffffff 0%, #ffffff 100%);
+  height: 35px;
+  background: linear-gradient(to right, #ffffff3f 0%, #ffffff3f 100%);
   background-size: 150px 1px;
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;
   outline: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 
 input[type="range"]::-webkit-slider-thumb {
-
-  width: 20px;
-  height: 20px;
-  background: #ffffff6e;
-  border-radius: 3px;
+  -webkit-appearance: none;
+  width: 30px;
+  height: 30px;
+  background: #ffffff3f;
+  border-radius: 10px;
   position: relative;
 }
 
