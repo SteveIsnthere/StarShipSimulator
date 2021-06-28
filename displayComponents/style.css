@@ -80,9 +80,9 @@ button:hover {
     background-color: transparent;
     font-weight: 100;
     font-family: monospace;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px;
-    margin: 7px;
+    margin: 5.5px;
 }
 
 #FlightParamDisp {

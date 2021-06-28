@@ -140,7 +140,7 @@ function finalSetupAndRun() {
 
             function drawGroundSmoke() {
                 let scale
-                scale = (1 - altitude / 200)
+                scale = (1 - altitude / 200) * drawingProportion/4.2
                 if (scale < 0.1 || thrust <= 0 || pitch < -Math.PI * 0.15 || pitch > Math.PI * 0.15) {
                     groundSmokeEmitter.paused = true;
                 } else {
