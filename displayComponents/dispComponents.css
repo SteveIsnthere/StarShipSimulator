@@ -1,15 +1,14 @@
 input[type="range"] {
   -webkit-appearance: none;
   width: 140px;
-  height: 35px;
+  height: 45px;
   background: linear-gradient(to right, #ffffff3f 0%, #ffffff3f 100%);
   background-size: 150px 1px;
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;
   outline: none;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding: 10px;
 }
 
 
@@ -17,8 +16,10 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 30px;
   height: 30px;
-  background: #ffffff3f;
-  border-radius: 10px;
+  background: #ececec56;
+  border-radius: 30px;
   position: relative;
+  box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2),
+    -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
