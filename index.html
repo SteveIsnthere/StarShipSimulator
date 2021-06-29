@@ -35,7 +35,7 @@
         <div id="FlightParamDispL" style="transform: translate(0,-15px);">
             <p id="altitudeDisp" style="font-size: 20px;"></p>
             <p>Fuel: <span id="propellantMassDisp"></span>t</p>
-            <p class="dispSizeAdjustmentBtn" onclick="zoomOut()" style="padding-left: 15px;">-</p>
+            <button class="dispSizeAdjustmentBtn" onclick="zoomOut()">-</button>
         </div>
 
 
@@ -63,14 +63,15 @@
         <div id="FlightParamDispR" style="transform: translate(0,-15px);">
             <p id="speedDisp" style="font-size: 20px;"><span></span></p>
             <p>TWR: <span id="twrDisp"></span></p>
-            <p class="dispSizeAdjustmentBtn" onclick="zoomIn()" style="padding-right: 15px;">+</p>
+            <button class="dispSizeAdjustmentBtn" onclick="zoomIn()">+</button>
         </div>
     </div>
 
     <div id="flightControl">
         <div id="controlsL" class="hideableControls"
-            style="display: flex;flex-direction: row;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 110px); left: 10px;;transform: translate(-100%, 0);">
-            <div style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;padding: 2px;">
+            style="display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 110px); left: 10px;">
+            <div id="controlsLContent">
+                <div style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;padding: 2px;">
                 <input type="range" class="slider" id="throttleControl"
                     style="grid-column-start: 1;grid-column-end: 4;"><br>
                 <button id="raptor1toggle" class="controlBtn" onclick="toggleRaptor1()">R1</button>
@@ -79,13 +80,13 @@
                 <button id="allraptorstoggle" class="controlBtn" onclick="toggleAllRaptors()"
                     style="grid-column-start: 1;grid-column-end: 4;">Toggle-All</button>
             </div>
-            <img class="show_hideToggle" src="displayComponents/straightButton.webp" alt="hide/show" height="70"
-                onclick="show_hidecontrolsL()" style="height: 70px; transform: translate(0,3px);">
+            </div>
+            <button class="show_hideToggle" onclick="show_hidecontrolsL()"></button>
         </div>
 
         <div id="controlsR" class="hideableControls"
-            style="display: flex;flex-direction: row-reverse;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 110px); right: 10px;transform: translate(100%, 0);">
-            <div
+            style="display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(45% - 110px); right: 10px;">
+            <div id="controlsRContent"
                 style="display: flex;flex-direction: column;align-items: flex-end;justify-content: center;text-align: center;">
                 <div id="attitudeControl" style="text-align: center;">
                     <input type="range" class="slider" id="pitchControl" onmouseover="manualPitchControlOn()"
@@ -102,9 +103,7 @@
                     <button class="controlBtn" id="toggledumpFuel" onclick="toggleDumpFuel()">DumpFuel</button>
                 </div>
             </div>
-
-            <img class="show_hideToggle" src="displayComponents/straightButton.webp" alt="hide/show" height="70"
-                onclick="show_hidecontrolsR()" style="height: 70px; transform: translate(0,0);">
+            <button class="show_hideToggle" onclick="show_hidecontrolsR()"></button>
         </div>
 
     </div>

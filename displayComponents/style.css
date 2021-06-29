@@ -57,6 +57,10 @@ button:hover {
 
 .show_hideToggle {
     cursor: pointer;
+    padding: 20px;
+    border-radius: 20px;
+    background: transparent;
+    margin: 20px;
 }
 
 .hideableControls {
@@ -66,7 +70,9 @@ button:hover {
 .dispSizeAdjustmentBtn {
     font-size: x-large;
     cursor: pointer;
-    transition: transform .2s ease-in-out;
+padding: 10px;
+    background: transparent;
+    border-radius: 20px;
 }
 
 .hiddenFullScreenView {
@@ -119,7 +125,7 @@ button:hover {
 }
 
 .singlePlotCell{
-margin-bottom: 10px;
+
 }
 
 #menuView {

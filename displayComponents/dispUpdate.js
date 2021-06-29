@@ -100,11 +100,9 @@ function updateButtons() {
 
 function show_hidecontrolsL() {
     if (showedcontrolsL) {
-        document.getElementById("controlsL").style.transform = "translate(-100%, 0)"
-        document.getElementById("controlsL").style.flexDirection = "row";
+        document.getElementById("controlsLContent").style.display = "none"
     } else {
-        document.getElementById("controlsL").style.transform = "translate(-15px, 0)"
-        document.getElementById("controlsL").style.flexDirection = "row-reverse";
+        document.getElementById("controlsLContent").style.display = "initial"
     }
 
     showedcontrolsL = toggle(showedcontrolsL)
@@ -112,11 +110,11 @@ function show_hidecontrolsL() {
 
 function show_hidecontrolsR() {
     if (showedcontrolsR) {
-        document.getElementById("controlsR").style.transform = "translate(100%, 0)"
-        document.getElementById("controlsR").style.flexDirection = "row-reverse";
+        document.getElementById("controlsRContent").style.display = "none"
+
     } else {
-        document.getElementById("controlsR").style.transform = "translate(15px, 0)"
-        document.getElementById("controlsR").style.flexDirection = "row";
+        document.getElementById("controlsRContent").style.display = "initial"
+
     }
 
     showedcontrolsR = toggle(showedcontrolsR)

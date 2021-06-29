@@ -1,7 +1,11 @@
 const plotStyle = {
     responsive: true,
     displayModeBar: false
-}
+} 
+
+let plotBGcolor = "white"
+let paperBGcolor = "whitesmoke"
+
 function plot() {
     let timeNodesCopy = timeNodes
     timeNodesCopy = timeNodesCopy.map(x => x / renderTimeInterval)
@@ -48,13 +52,15 @@ function plot() {
         var data = [pitch, angleOfMotion, angleOfAttack, angleInToTheWind];
 
         var layout = {
-            title: 'Angle in Radian'
+            title: 'Angle in Radian',
+            plot_bgcolor: plotBGcolor,
+            paper_bgcolor: paperBGcolor
         }
 
         Plotly.newPlot('motionAnglePlot', data, layout, plotStyle);
     }
 
-   
+
 
 
     function aerodynamicForcePlot() {
@@ -78,7 +84,9 @@ function plot() {
         var data = [aerodynamicDrag, aerodynamicLift];
 
         var layout = {
-            title: 'AerodynamicForce'
+            title: 'AerodynamicForce',
+            plot_bgcolor: plotBGcolor,
+            paper_bgcolor: paperBGcolor
         }
 
         Plotly.newPlot('aerodynamicForcePlot', data, layout, plotStyle);
@@ -103,7 +111,9 @@ function plot() {
         var data = [altitude];
 
         var layout = {
-            title: 'Altitude'
+            title: 'Altitude',
+            plot_bgcolor: plotBGcolor,
+            paper_bgcolor: paperBGcolor
         }
 
         Plotly.newPlot('altitudePlot', data, layout, plotStyle);
@@ -123,6 +133,9 @@ function plot() {
 
         var layout = {
             title: 'FlyPath',
+            plot_bgcolor: plotBGcolor,
+            paper_bgcolor: paperBGcolor,
+
             xaxis: {
                 nticks: 10,
                 title: "Downrange Distance(M)"
@@ -135,7 +148,7 @@ function plot() {
 
         Plotly.newPlot('flyPathPlot', data, layout, plotStyle);
 
-        function getDownRangeDistance(downRangeDistance){
+        function getDownRangeDistance(downRangeDistance) {
             return downRangeDistance - starBaseXpos
         }
     }
@@ -170,7 +183,9 @@ function plot() {
         var data = [acceleration, accelerationX, accelerationY];
 
         var layout = {
-            title: 'Acceleration'
+            title: 'Acceleration',
+            plot_bgcolor: plotBGcolor,
+            paper_bgcolor: paperBGcolor
         }
 
         Plotly.newPlot('accelerationPlot', data, layout, plotStyle);
@@ -203,7 +218,9 @@ function plot() {
         var data = [speedx, speedy, speed];
 
         var layout = {
-            title: 'Speed in M/S'
+            title: 'Speed in M/S',
+            plot_bgcolor: plotBGcolor,
+            paper_bgcolor: paperBGcolor
         }
 
         Plotly.newPlot('motionSpeedPlot', data, layout, plotStyle);
@@ -229,7 +246,9 @@ function plot() {
         var data = [thermalPower, dynamicPressure];
 
         var layout = {
-            title: 'Heating&DynamicPressure'
+            title: 'Heating&DynamicPressure',
+            plot_bgcolor: plotBGcolor,
+            paper_bgcolor: paperBGcolor
         }
 
         Plotly.newPlot('thermalPower_dynamicPressurePlot', data, layout, plotStyle);
@@ -253,7 +272,9 @@ function plot() {
         var data = [pitchOutPut, throttleOutPut];
 
         var layout = {
-            title: 'ControlInPut'
+            title: 'ControlInPut',
+            plot_bgcolor: plotBGcolor,
+            paper_bgcolor: paperBGcolor
         }
 
         Plotly.newPlot('controlInPutPlot', data, layout, plotStyle);
