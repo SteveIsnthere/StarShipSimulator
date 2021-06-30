@@ -143,7 +143,8 @@ function show_hideMenuView() {
 
 function dynamicLayoutUpdate() {
     if (window.innerWidth < 450) {
-
+document.getElementById("controlsL").style.transform = "translate(0, -115px)"
+document.getElementById("controlsR").style.transform = "translate(0, 82px)"
     } else if (window.innerWidth < 790) {
         show_hidecontrolsL()
     }else{

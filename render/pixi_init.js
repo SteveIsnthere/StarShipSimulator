@@ -5,6 +5,8 @@ const app = new PIXI.Application({
     view: mainView,
     width: renderBoxWidth,
     height: renderBoxHeight,
+    resolution: window.devicePixelRatio,
+    autoResize: true,
     antialias: true,
     transparent: false,
 });
