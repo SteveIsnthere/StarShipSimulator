@@ -149,10 +149,10 @@ button {
 }
 
 #controlsL {
-    bottom: calc(40% - 160px);
+    bottom: calc(40% - 150px);
 }
 #controlsR {
-    bottom: calc(40% + 7px);
+    bottom: calc(40% + 47px);
 }
 
 @media only screen and (min-width: 500px) {
