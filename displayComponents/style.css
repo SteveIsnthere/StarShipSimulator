@@ -118,12 +118,25 @@ button {
     box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
-#FlightParamDispMid {
+#MidUpperMenu {
     position: absolute;
-    top: 0;
+    top: 10px;
     left: 50%;
     transform: translate(-50%, 0);
     text-align: center;
+}
+
+#FlightParamDispMid{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
+}
+
+.FlightParamDispMidCell{
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #FlightParamDispR {
