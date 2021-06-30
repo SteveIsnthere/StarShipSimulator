@@ -120,8 +120,9 @@ button {
 
 #MidUpperMenu {
     position: absolute;
-    top: 10px;
+    top: 0;
     left: 50%;
+    margin: 15px;
     transform: translate(-50%, 0);
     text-align: center;
 }
