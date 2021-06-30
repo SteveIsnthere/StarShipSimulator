@@ -100,9 +100,9 @@ function updateButtons() {
 
 function show_hidecontrolsL() {
     if (showedcontrolsL) {
-        document.getElementById("controlsLContent").style.display = "none"
+        document.getElementById("controlsLContent").style.transform = "translateX(-100%)"
     } else {
-        document.getElementById("controlsLContent").style.display = "initial"
+        document.getElementById("controlsLContent").style.transform = "translateX(0%)"
     }
 
     showedcontrolsL = toggle(showedcontrolsL)
@@ -110,10 +110,10 @@ function show_hidecontrolsL() {
 
 function show_hidecontrolsR() {
     if (showedcontrolsR) {
-        document.getElementById("controlsRContent").style.display = "none"
+        document.getElementById("controlsRContent").style.transform = "translateX(100%)"
 
     } else {
-        document.getElementById("controlsRContent").style.display = "initial"
+        document.getElementById("controlsRContent").style.transform = "translateX(0%)"
 
     }
 

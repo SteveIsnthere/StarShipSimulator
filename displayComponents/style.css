@@ -66,6 +66,13 @@ button {
     transition: transform .2s ease-in-out;
 }
 
+.hideableControlsContent{
+    padding: 10px;
+    border-radius: 30px;
+    transition: transform .2s ease-in-out; 
+    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
+}
+
 .dispSizeAdjustmentBtn {
     font-size: x-large;
     cursor: pointer;
