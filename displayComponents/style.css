@@ -122,7 +122,8 @@ button {
     position: absolute;
     top: 0;
     left: 50%;
-    margin: 15px;
+    margin-top: 15px;
+    max-width: calc(100% - 290px);
     transform: translate(-50%, 0);
     text-align: center;
 }
