@@ -67,8 +67,8 @@
     </div>
 
     <div id="flightControl">
-        <div id="controlsL" class="hideableControls"
-            style="display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(40% - 80px); left: 10px;">
+        <div id="controlsL" class="hideableControls" onclick="show_controlsL()"
+            style="display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center; position: absolute; left: 10px;">
             <div id="controlsLContent" class="hideableControlsContent" style="transform: translateX(-100%);">
                 <div style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;padding: 2px;">
                     <input type="range" class="slider" id="throttleControl"
@@ -84,8 +84,8 @@
         <button class="show_hideToggle" onclick="show_hidecontrolsL()"
             style="position: absolute; bottom: 0px; left: 0px;"></button>
 
-        <div id="controlsR" class="hideableControls"
-            style="display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(40% - 80px); right: 10px;">
+        <div id="controlsR" class="hideableControls" onclick="show_controlsR()"
+            style="display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center; position: absolute; right: 10px;">
             <div id="controlsRContent" class="hideableControlsContent"
                 style="display: flex;flex-direction: column;align-items: flex-end;justify-content: center;text-align: center; transform: translateX(100%);">
                 <div id="attitudeControl" style="text-align: center;">

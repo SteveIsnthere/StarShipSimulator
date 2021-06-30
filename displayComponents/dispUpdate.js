@@ -108,6 +108,11 @@ function show_hidecontrolsL() {
     showedcontrolsL = toggle(showedcontrolsL)
 }
 
+function show_controlsL(){
+    document.getElementById("controlsLContent").style.transform = "translateX(0%)"
+    showedcontrolsL = toggle(showedcontrolsL)
+}
+
 function show_hidecontrolsR() {
     if (showedcontrolsR) {
         document.getElementById("controlsRContent").style.transform = "translateX(100%)"
@@ -117,6 +122,11 @@ function show_hidecontrolsR() {
 
     }
 
+    showedcontrolsR = toggle(showedcontrolsR)
+}
+
+function show_controlsR(){
+    document.getElementById("controlsRContent").style.transform = "translateX(0%)"
     showedcontrolsR = toggle(showedcontrolsR)
 }
 
@@ -143,8 +153,7 @@ function show_hideMenuView() {
 
 function dynamicLayoutUpdate() {
     if (window.innerWidth < 450) {
-document.getElementById("controlsL").style.transform = "translate(0, -115px)"
-document.getElementById("controlsR").style.transform = "translate(0, 82px)"
+
     } else if (window.innerWidth < 790) {
         show_hidecontrolsL()
     }else{
