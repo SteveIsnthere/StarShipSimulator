@@ -32,22 +32,22 @@
     <canvas id="mainView" ontouchmove="windowResize()"></canvas>
 
     <div id="FlightParamDisp">
-        <div id="FlightParamDispL" style="transform: translate(0,-15px);">
-            <p id="altitudeDisp" style="font-size: 20px;"></p>
-            <p>Fuel: <span id="propellantMassDisp"></span>t</p>
-            <button class="dispSizeAdjustmentBtn" onclick="zoomOut()">-</button>
+        <div id="FlightParamDispL" onclick="zoomOut()">
+            <p id="altitudeDisp" style="font-size: 20px; text-align: center;"></p>
+            <p class="dispSizeAdjustmentBtn">-</p>
         </div>
 
 
         <div id="FlightParamDispMid"
-            style="font-size: smaller; display: flex; flex-direction:column;align-items: center;justify-content: center;text-align: center;transition-duration: 0.1s;">
+            style="font-size: smaller; display: none; flex-direction:column;align-items: center;justify-content: center;text-align: center;transition-duration: 0.1s;">
 
             <div onclick="show_hideMenuView()">
                 <p>Base: <span id="distanceToLandingSite"></span></p>
                 <p>SpeedX: <span id="speedX"></span></p>
                 <p>SpeedY: <span id="speedY"></span></p>
                 <p>G: <span id="gforece"></span></p>
-
+                <p>Fuel: <span id="propellantMassDisp"></span>t</p>
+                <p>TWR: <span id="twrDisp"></span></p>
             </div>
             <div id="mainViewButtonsArea">
 
@@ -60,17 +60,16 @@
         </div>
 
 
-        <div id="FlightParamDispR" style="transform: translate(0,-15px);">
-            <p id="speedDisp" style="font-size: 20px;"><span></span></p>
-            <p>TWR: <span id="twrDisp"></span></p>
-            <button class="dispSizeAdjustmentBtn" onclick="zoomIn()">+</button>
+        <div id="FlightParamDispR" onclick="zoomIn()">
+            <p id="speedDisp" style="font-size: 20px; text-align: center;"><span></span></p>
+            <p class="dispSizeAdjustmentBtn">+</p>
         </div>
     </div>
 
     <div id="flightControl">
         <div id="controlsL" class="hideableControls"
             style="display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(40% - 80px); left: 10px;">
-            <div id="controlsLContent" class="hideableControlsContent" style="transform: translateX(-100%);" onclick="show_hidecontrolsL()">
+            <div id="controlsLContent" class="hideableControlsContent" style="transform: translateX(-100%);">
                 <div style="display: grid; grid-template-columns: auto auto auto auto;grid-gap: 1px;padding: 2px;">
                     <input type="range" class="slider" id="throttleControl"
                         style="grid-column-start: 1;grid-column-end: 4;"><br>
@@ -82,7 +81,8 @@
                 </div>
             </div>
         </div>
-        <button class="show_hideToggle" onclick="show_hidecontrolsL()" style="position: absolute; bottom: 0px; left: 0px;"></button>
+        <button class="show_hideToggle" onclick="show_hidecontrolsL()"
+            style="position: absolute; bottom: 0px; left: 0px;"></button>
 
         <div id="controlsR" class="hideableControls"
             style="display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center; position: absolute; bottom: calc(40% - 80px); right: 10px;">
@@ -104,7 +104,8 @@
                 </div>
             </div>
         </div>
-        <button class="show_hideToggle" onclick="show_hidecontrolsR()" style="position: absolute; bottom: 0px; right: 0px;"></button>
+        <button class="show_hideToggle" onclick="show_hidecontrolsR()"
+            style="position: absolute; bottom: 0px; right: 0px;"></button>
     </div>
 
 

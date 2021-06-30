@@ -66,19 +66,16 @@ button {
     transition: transform .2s ease-in-out;
 }
 
-.hideableControlsContent{
+.hideableControlsContent {
     padding: 10px;
     border-radius: 30px;
-    transition: transform .2s ease-in-out; 
+    transition: transform .2s ease-in-out;
     box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
 .dispSizeAdjustmentBtn {
     font-size: x-large;
-    cursor: pointer;
-    padding: 10px;
-    background: transparent;
-    border-radius: 20px;
+    text-align: center;
 }
 
 .hiddenFullScreenView {
@@ -103,37 +100,49 @@ button {
 }
 
 #FlightParamDisp {
-    position: absolute;
-    width: 100%;
-    display: flex;
     font-family: monospace;
     color: rgba(59, 59, 59, 0.767);
 }
 
 #FlightParamDispL {
-    justify-content: flex-start;
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
     text-align: left;
+    width: 70px;
     margin: 10px;
+    padding: 5px;
+    border-radius: 20px;
+    transition: transform .2s ease-in-out;
+    cursor: pointer;
+    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
 #FlightParamDispMid {
-    justify-content: center;
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
     text-align: center;
 }
 
 #FlightParamDispR {
-    justify-content: flex-end;
-    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
     text-align: right;
+    width: 70px;
     margin: 10px;
+    padding: 5px;
+    border-radius: 20px;
+    transition: transform .2s ease-in-out;
+    cursor: pointer;
+    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
 #plotView {
     transform: translate(0, 100%);
 }
-
 
 #menuView {
     transform: translate(0, 100%);
