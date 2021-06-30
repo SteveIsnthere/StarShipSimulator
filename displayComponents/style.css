@@ -149,7 +149,7 @@ button {
 }
 
 #controlsL {
-    bottom: calc(40% - 190px);
+    bottom: calc(40% - 160px);
 }
 #controlsR {
     bottom: calc(40% + 7px);
