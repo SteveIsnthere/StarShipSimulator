@@ -100,25 +100,25 @@ function updateButtons() {
 
 function show_hidecontrolsL() {
     if (showedcontrolsL) {
-        document.getElementById("controlsLContent").style.transform = "translateX(-100%)"
+        document.getElementById("controlsL").style.transform = "translateX(-100%)"
     } else {
-        document.getElementById("controlsLContent").style.transform = "translateX(0%)"
+        document.getElementById("controlsL").style.transform = "translateX(0%)"
     }
 
     showedcontrolsL = toggle(showedcontrolsL)
 }
 
 function show_controlsL(){
-    document.getElementById("controlsLContent").style.transform = "translateX(0%)"
+    document.getElementById("controlsL").style.transform = "translateX(0%)"
     showedcontrolsL = toggle(showedcontrolsL)
 }
 
 function show_hidecontrolsR() {
     if (showedcontrolsR) {
-        document.getElementById("controlsRContent").style.transform = "translateX(100%)"
+        document.getElementById("controlsR").style.transform = "translateX(100%)"
 
     } else {
-        document.getElementById("controlsRContent").style.transform = "translateX(0%)"
+        document.getElementById("controlsR").style.transform = "translateX(0%)"
 
     }
 
@@ -126,7 +126,7 @@ function show_hidecontrolsR() {
 }
 
 function show_controlsR(){
-    document.getElementById("controlsRContent").style.transform = "translateX(0%)"
+    document.getElementById("controlsR").style.transform = "translateX(0%)"
     showedcontrolsR = toggle(showedcontrolsR)
 }
 
