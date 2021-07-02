@@ -34,9 +34,9 @@ PIXI.loader
     .add("tree2", "render/assets/images/tree2.webp")
     .load(setupSprites)
     .load(setupStarBase)
+    .load(setupGroundObjects)
     .load(setupStarShip)
     .load(setupStarShipEffects)
-    .load(setupGroundObjects)
     .load(setupEffects)
     .load(finalSetupAndRun);
 

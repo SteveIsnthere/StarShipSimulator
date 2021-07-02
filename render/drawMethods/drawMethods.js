@@ -185,24 +185,28 @@ function updateRenderBoxPosition() {
     }
 
     function updateGroundObjectXPos() {
-        let noGobjectDis = 100
+        /*let noGobjectDis = 100
 
         if (cam_PosX > (starBaseXpos - noGobjectDis) && cam_PosX < (starBaseXpos + noGobjectDis)) {
-            hideGroundObjectXPos()
+            notDrawGroundObjectOnPad()
         } else {
             pigXpos = generateXposInsideRenderBox()
             tree1Xpos = generateXposInsideRenderBox()
             tree2Xpos = generateXposInsideRenderBox()
-        }
+        }*/
+
+        pigXpos = generateXposInsideRenderBox()
+        tree1Xpos = generateXposInsideRenderBox()
+        tree2Xpos = generateXposInsideRenderBox()
 
         function generateXposInsideRenderBox() {
             return cam_PosX + (Math.random() - 0.5) * renderBoxPhysicalWidth
         }
-        function hideGroundObjectXPos() {
-            pigXpos = 0
-            tree1Xpos = 0
-            tree2Xpos = 0
-        }
+        /*function notDrawGroundObjectOnPad() {
+            pigXpos = starBaseXpos
+            tree1Xpos = starBaseXpos
+            tree2Xpos = starBaseXpos
+        }*/
     }
 
 }

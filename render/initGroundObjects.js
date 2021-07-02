@@ -30,8 +30,8 @@ let pigXpos = 0
 
 let tree1Height = 10
 let tree1Width = tree1Height / 197 * 150
-let tree1Xpos = 0
+let tree1Xpos = starBaseXpos + 90
 
 let tree2Height = 7
 let tree2Width = tree2Height / 14 * 15
-let tree2Xpos = 0
+let tree2Xpos = starBaseXpos - 40
