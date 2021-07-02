@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <canvas id="mainView" ontouchmove="windowResize()"></canvas>
+    <canvas id="mainView"></canvas>
 
     <div id="FlightParamDisp">
         <div id="FlightParamDispL" onclick="zoomOut()">
@@ -43,16 +43,19 @@
 
             <div id="FlightParamDispMid" onclick="show_hideFlightParamDispMid()">
 
-                    <p class="FlightParamDispMidCell">Base: <span id="distanceToLandingSite"></span></p>
-                    <p class="FlightParamDispMidCell">SpeedX: <span id="speedX"></span></p>
-                    <p class="FlightParamDispMidCell">SpeedY: <span id="speedY"></span></p>
+                <p class="FlightParamDispMidCell">Base: <span id="distanceToLandingSite"></span></p>
+                <p class="FlightParamDispMidCell">SpeedX: <span id="speedX"></span></p>
+                <p class="FlightParamDispMidCell">SpeedY: <span id="speedY"></span></p>
 
-                    <p class="FlightParamDispMidCell">G: <span id="gforece"></span></p>
-                    <p class="FlightParamDispMidCell">Fuel: <span id="propellantMassDisp"></span>t</p>
-                    <p class="FlightParamDispMidCell">TWR: <span id="twrDisp"></span></p>
+                <p class="FlightParamDispMidCell">G: <span id="gforece"></span></p>
+                <p class="FlightParamDispMidCell">Fuel: <span id="propellantMassDisp"></span>t</p>
+                <p class="FlightParamDispMidCell">TWR: <span id="twrDisp"></span></p>
 
 
             </div>
+
+            <button id="menuToggle" onclick="show_hideMenuView()"></button>
+
             <div id="mainViewButtonsArea" style="margin: 10px;">
 
                 <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
@@ -134,8 +137,20 @@
     <div id="menuView" class="hiddenFullScreenView">
         <div id="close_MenuView" style="height: 20%;" onclick="show_hideMenuView()"></div>
         <div id="menuContent">
-            <button id="toggleTiltControl" onclick="toggleTiltControl()"
-                style="width: 100%;height: 100%;">TiltControl</button>
+            <button id="toggleTiltControl" onclick="toggleTiltControl()" class="controlBtn">TiltControl</button>
+
+            <div>
+                <button id="timeAccState" class="controlBtn" onclick="toggleTimeAccState()"></button>
+                <p id="timeAccRateDisp">1</p>
+                <input type="range" class="slider" id="timeAccControl" min="1" max="10" value="1" step="1"
+                    onchange="changeTimeAccRate()">
+            </div>
+
+            <div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui temporibus omnis eaque praesentium ex
+                    accusantium explicabo quibusdam veritatis cupiditate amet! Voluptatem, voluptatibus magnam.
+                    Cupiditate, aperiam unde. Ullam vitae veritatis ab.</p>
+            </div>
         </div>
 
     </div>

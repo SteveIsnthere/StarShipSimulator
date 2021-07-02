@@ -173,3 +173,14 @@ function toggleBoostBack() {
     }
 
 }
+
+function toggleTimeAccState(){
+    
+    timeAccState = toggle(timeAccState)
+
+    if (timeAccState) {
+        buttonSwitchOn("timeAccState")
+    } else {
+        buttonSwitchOff("timeAccState")
+    }
+}

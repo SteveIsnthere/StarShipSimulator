@@ -26,7 +26,7 @@ function autoBoostBack() {
         boostBackController()
 
 
-        if (propellantMass<dumpLimit || altitude<1500) {
+        if (propellantMass<dumpLimit || altitude<700) {
             finishBoostBack()
         }
 
@@ -79,14 +79,14 @@ function autoBoostBack() {
             }
 
             function coastStage() {
-                if ((starBaseXpos - downRangeDistance) / speedX < 8 && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                if ((starBaseXpos - downRangeDistance) / speedX < 5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     presisionAlignment(-boostbackDirection, 2)
                 }else{
                     presisionAlignment(boostbackDirection, 2)
                 }
                 
 
-                if ((starBaseXpos - downRangeDistance) / speedX < 5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                if ((starBaseXpos - downRangeDistance) / speedX < 3.5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     toggleAllRaptors()
                     coastStageCompleted = true
                 }
@@ -120,7 +120,7 @@ function autoLand() {
             initVehicleConfig()
         }
 
-        if (!(altitude <= bellyFlopTriggerAltitude)) {
+        if (!aeroDesentCompleted) {
             //aeroDesent
             updateBellyFlopTriggerAltitude()
             aeroDescentController()
@@ -195,6 +195,10 @@ function autoLand() {
         let timeToSite = -distanceToSite / speedX
 
         steerTowardsSite()
+
+        if (altitude < bellyFlopTriggerAltitude && speedY<5 || altitude < 300) {
+            aeroDesentCompleted = true
+        }
 
         function steerTowardsSite() {
             let correctionAngle

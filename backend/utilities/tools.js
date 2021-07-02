@@ -121,7 +121,7 @@ function controlByTilt(event) {
     }
 }
 
-function toggleTiltControl(){
+function toggleTiltControl() {
     if (tiltControlOn) {
         buttonSwitchOff("toggleTiltControl")
     } else {
@@ -156,8 +156,23 @@ function zoomOut() {
     }
 }
 
-function isIOSPWA(){
-    if(window.navigator.standalone){
+function isIOSPWA() {
+    if (window.navigator.standalone) {
         return true
-    } 
+    }
+}
+
+function changeTimeAccRate() {
+    let newTimeAccRate = +document.getElementById("timeAccControl").value
+
+    if (!timeAccState) {
+        newTimeAccRate = 1/newTimeAccRate
+    }
+    document.getElementById("timeAccRateDisp").textContent = newTimeAccRate
+
+    renderTimeInterval = frameRate / newTimeAccRate
+    throttleSpeedPerFrame = throttleSpeed / renderTimeInterval 
+    gimbolSpeedPerFrame = gimbolSpeed / renderTimeInterval
+    gimbolSpeedPerFrame = gimbolSpeed / renderTimeInterval
+    controlInPutTimeConstant = 1 / frameRate * renderTimeInterval
 }

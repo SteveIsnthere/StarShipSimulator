@@ -364,6 +364,8 @@ function initAutoPilotParams() {
         globalThis.flipStagePessimisticAvailableThrust = flipStageEngineCount * maxThrustPerRaptor * throttleLowwerLimmit * 0.01
 
         //aeroDesent
+        globalThis.aeroDesentCompleted = false
+
         globalThis.aeroDesentMaxCorrectionAngle = getRad(3)
 
         globalThis.fineTunePercentage //max 1

@@ -103,6 +103,11 @@ function updateButtons() {
         }
     }
 
+    if (timeAccState) {
+        buttonSwitchOn("timeAccState")
+    } else {
+        buttonSwitchOff("timeAccState")
+    }
 
 }
 
@@ -157,8 +162,10 @@ function show_hidePlotView() {
 function show_hideFlightParamDispMid() {
     if (showedFlightParamDispMid) {
         document.getElementById("FlightParamDispMid").style.transform = "translate(0, -100%)"
+        document.getElementById("menuToggle").style.boxShadow = "3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55)"
     } else {
         document.getElementById("FlightParamDispMid").style.transform = "translate(0, 0)"
+        document.getElementById("menuToggle").style.boxShadow = "none"
     }
 
     showedFlightParamDispMid = toggle(showedFlightParamDispMid)
@@ -192,6 +199,8 @@ let showedcontrolsR = false
 let showedPlotView = false
 let showedMenuView = false
 let showedFlightParamDispMid = false
+
+let timeAccState = true //positive
 
 //check platform
 if (typeof window.orientation == 'undefined') {
