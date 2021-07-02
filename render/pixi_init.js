@@ -149,6 +149,13 @@ function setupStarBase() {
     starhopper.anchor.set(0.5, 1);
     app.stage.addChild(starhopper);
 
+    //fireExtinguisher
+    globalThis.fireExtinguisher = new PIXI.Container();
+
+    globalThis.fireExtinguisherEmitter = fx.getParticleEmitter('fireExtinguisher');
+
+
+    app.stage.addChild(fireExtinguisher)
 
     //spaceEffect
     globalThis.spaceEffect = new PIXI.Container();
@@ -277,15 +284,6 @@ function setupStarShipEffects() {
 
 function setupEffects() {
     
-
-    //fireExtinguisher
-    globalThis.fireExtinguisher = new PIXI.Container();
-
-    globalThis.fireExtinguisherEmitter = fx.getParticleEmitter('fireExtinguisher');
-
-
-    app.stage.addChild(fireExtinguisher)
-
     //clouds
     globalThis.clouds = new PIXI.Container();
 
