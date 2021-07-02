@@ -38,7 +38,7 @@ function autoRTLS() {
                 toggleRcs()
             }
 
-            if (getWorkingEngineCount() = 0) {
+            if (getWorkingEngineCount() == 0) {
                 toggleAllRaptors()
             }
 
@@ -91,7 +91,7 @@ function autoRTLS() {
 
             function decelerationStage() {
                 presisionAlignment(-boostbackDirection, 3)
-                
+
                 horizontalSpeedAdjustment(0, 10, 2.5)
 
                 if (Math.abs(speedX)<5) {
