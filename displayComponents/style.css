@@ -121,7 +121,7 @@ button {
     top: 0;
     left: 50%;
     margin-top: 15px;
-    max-width: calc(100% - 290px);
+    max-width: calc(100% - 100px);
     transform: translate(-50%, 0);
     text-align: center;
 }
@@ -130,6 +130,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     transform: translateY(-100%);
+    justify-content: space-around;
     padding: 5px;
     border-radius: 10px;
     transition: transform .2s ease-in-out;
@@ -137,8 +138,8 @@ button {
 }
 
 .FlightParamDispMidCell{
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 #FlightParamDispR {
