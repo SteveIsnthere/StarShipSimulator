@@ -70,6 +70,7 @@ button {
     padding: 10px;
     border-radius: 30px;
     transition: transform .2s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out;
     box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
@@ -110,12 +111,9 @@ button {
     left: 0;
     text-align: left;
     width: 70px;
-    margin: 10px;
     padding: 5px;
-    border-radius: 20px;
     transition: transform .2s ease-in-out;
     cursor: pointer;
-    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
 #MidUpperMenu {
@@ -131,8 +129,10 @@ button {
 #FlightParamDispMid{
     display: flex;
     flex-wrap: wrap;
+    transform: translateY(-100%);
     padding: 5px;
     border-radius: 10px;
+    transition: transform .2s ease-in-out;
     box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
@@ -147,12 +147,9 @@ button {
     right: 0;
     text-align: right;
     width: 70px;
-    margin: 10px;
     padding: 5px;
-    border-radius: 20px;
     transition: transform .2s ease-in-out;
     cursor: pointer;
-    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
 #plotView {

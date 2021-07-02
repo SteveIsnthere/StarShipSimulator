@@ -13,8 +13,8 @@ function pitchHold() {
 
 
 
-function autoRTLS() {
-    if (autoRTLSOn && !manualControlOn) {
+function autoBoostBack() {
+    if (autoBoostBackOn && !manualControlOn) {
 
 
         if (!boostBackinitCompleted) {
@@ -24,6 +24,11 @@ function autoRTLS() {
         //boostBackParamUpdate()
 
         boostBackController()
+
+
+        if (propellantMass<dumpLimit || altitude<1500) {
+            finishBoostBack()
+        }
 
 
         function boostBackinit() {
@@ -61,36 +66,34 @@ function autoRTLS() {
                 decelerationStage()
             }
 
-            if ((starBaseXpos - downRangeDistance) / speedX < 20 && (starBaseXpos - downRangeDistance) / speedX > 0) {
-                coastStage()
-            } else {
-                accelerationStage()
-
-            }
-
             function accelerationStage() {
 
-                presisionAlignment(boostbackDirection, 2)
+                presisionAlignment(boostbackDirection, 0.5)
 
                 horizontalSpeedAdjustment(getMaxHSpeedWithSafeDynamicPressure(), 10, 2.5)
 
-                if ((starBaseXpos - downRangeDistance) / speedX < 20 && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                if ((starBaseXpos - downRangeDistance) / speedX < 15 && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     toggleAllRaptors()
-                    accelerationStageCompleted = ture
+                    accelerationStageCompleted = true
                 }
             }
 
             function coastStage() {
-                presisionAlignment(-boostbackDirection, 3)
+                if ((starBaseXpos - downRangeDistance) / speedX < 8 && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                    presisionAlignment(-boostbackDirection, 2)
+                }else{
+                    presisionAlignment(boostbackDirection, 2)
+                }
+                
 
                 if ((starBaseXpos - downRangeDistance) / speedX < 5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     toggleAllRaptors()
-                    coastStageCompleted = ture
+                    coastStageCompleted = true
                 }
             }
 
             function decelerationStage() {
-                presisionAlignment(-boostbackDirection, 3)
+                presisionAlignment(-boostbackDirection, 1)
 
                 horizontalSpeedAdjustment(0, 10, 2.5)
 
@@ -101,7 +104,7 @@ function autoRTLS() {
         }
 
         function finishBoostBack() {
-            toggleRTLS()
+            toggleBoostBack()
             if (!autoLandOn) {
                 toggleAutoLand()
             }
@@ -196,7 +199,7 @@ function autoLand() {
         function steerTowardsSite() {
             let correctionAngle
 
-            if (Math.abs(speedX) > 7) {
+            if (Math.abs(speedX) > 20) {
                 correctionAngle = angleOfMotion - Math.PI
             } else {
                 if (distanceToSite > 0) {

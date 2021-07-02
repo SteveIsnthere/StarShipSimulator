@@ -9,7 +9,7 @@ function initBackEnd() {
 
 function initWorld() {
     globalThis.frameRate = 60
-    globalThis.timeAccel = 2
+    globalThis.timeAccel = 1
     globalThis.renderTimeInterval = frameRate / timeAccel //usually equals to how many frames' been rendered per min
 
 
@@ -39,8 +39,8 @@ function initWorld() {
 function initFlightParams() {
     globalThis.usedTime = 0 // 1/60s
 
-    globalThis.altitude = 20000 + vehicleHeight / 2 //m
-    globalThis.downRangeDistance = starBaseXpos - 10000
+    globalThis.altitude = 000 + vehicleHeight / 2 //m
+    globalThis.downRangeDistance = starBaseXpos
     globalThis.downRangeDistanceNextFrame = downRangeDistance
 
     globalThis.distanceToPlanetCenter = planetRadius + altitude
@@ -71,7 +71,7 @@ function initFlightParams() {
 
     globalThis.angularDragAcceleration = 0
 
-    globalThis.pitch = getRad(90) //rad
+    globalThis.pitch = getRad(0) //rad
     globalThis.pitchRateOfChange = 0
     globalThis.pitchRecord = [Infinity, Infinity]
 
@@ -314,7 +314,7 @@ function initAutoPilotParams() {
     globalThis.controlInPutTimeConstant = 1 / frameRate * renderTimeInterval
     initPresisionAlignment()
     initPitchHold()
-    initRTLS()
+    initAutoBoostBack()
     initAutoLand()
 
     function initPresisionAlignment() {
@@ -326,8 +326,8 @@ function initAutoPilotParams() {
 
     }
 
-    function initRTLS() {
-        globalThis.autoRTLSOn = false
+    function initAutoBoostBack() {
+        globalThis.autoBoostBackOn = false
         globalThis.initAutoLandXposDiffThreshold = 500
         globalThis.propulsiveCorrectionMinHeight = 5000
         globalThis.propulsiveCorrectionAccuracyRequired = propulsiveCorrectionMinHeight * 0.05

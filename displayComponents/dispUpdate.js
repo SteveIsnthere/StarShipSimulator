@@ -61,6 +61,11 @@ function updateButtons() {
         }
     }
     function updateAutoPilot() {
+        if (autoBoostBackOn) {
+            buttonSwitchOn("toggleBoostBack")
+        } else {
+            buttonSwitchOff("toggleBoostBack")
+        }
         if (pitchHoldOn) {
             buttonSwitchOn("togglePitchHold")
         } else {
@@ -101,32 +106,36 @@ function updateButtons() {
 function show_hidecontrolsL() {
     if (showedcontrolsL) {
         document.getElementById("controlsL").style.transform = "translateX(-100%)"
+        document.getElementById("controlsLContent").style.boxShadow = "3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55)"
     } else {
         document.getElementById("controlsL").style.transform = "translateX(0%)"
+        document.getElementById("controlsLContent").style.boxShadow = "none"
     }
 
     showedcontrolsL = toggle(showedcontrolsL)
 }
 
-function show_controlsL(){
+function show_controlsL() {
     document.getElementById("controlsL").style.transform = "translateX(0%)"
+    document.getElementById("controlsLContent").style.boxShadow = "none"
     showedcontrolsL = toggle(showedcontrolsL)
 }
 
 function show_hidecontrolsR() {
     if (showedcontrolsR) {
         document.getElementById("controlsR").style.transform = "translateX(100%)"
-
+        document.getElementById("controlsRContent").style.boxShadow = "3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55)"
     } else {
         document.getElementById("controlsR").style.transform = "translateX(0%)"
-
+        document.getElementById("controlsRContent").style.boxShadow = "none"
     }
 
     showedcontrolsR = toggle(showedcontrolsR)
 }
 
-function show_controlsR(){
+function show_controlsR() {
     document.getElementById("controlsR").style.transform = "translateX(0%)"
+    document.getElementById("controlsRContent").style.boxShadow = "none"
     showedcontrolsR = toggle(showedcontrolsR)
 }
 
@@ -139,6 +148,16 @@ function show_hidePlotView() {
     }
 
     showedPlotView = toggle(showedPlotView)
+}
+
+function show_hideFlightParamDispMid() {
+    if (showedFlightParamDispMid) {
+        document.getElementById("FlightParamDispMid").style.transform = "translate(0, -100%)"
+    } else {
+        document.getElementById("FlightParamDispMid").style.transform = "translate(0, 0)"
+    }
+
+    showedFlightParamDispMid = toggle(showedFlightParamDispMid)
 }
 
 function show_hideMenuView() {
@@ -156,7 +175,7 @@ function dynamicLayoutUpdate() {
 
     } else if (window.innerWidth < 790) {
         show_hidecontrolsL()
-    }else{
+    } else {
         show_hidecontrolsR()
         show_hidecontrolsL()
     }
@@ -168,6 +187,7 @@ let showedcontrolsL = false
 let showedcontrolsR = false
 let showedPlotView = false
 let showedMenuView = false
+let showedFlightParamDispMid = false
 
 //check platform
 if (typeof window.orientation == 'undefined') {
@@ -178,7 +198,7 @@ if (typeof window.orientation == 'undefined') {
     buttonSwitchOn("toggleTiltControl")
     if (checkIsiOS()) {
         document.getElementById("requestTiltPermissionBtn").style.display = "initial"
-        
+
         if (isIOSPWA()) {
             onIosPwa = true
         }

@@ -41,7 +41,7 @@
         <div id="MidUpperMenu"
             style="font-size: smaller; display: flex; flex-direction:column;align-items: center;justify-content: center;text-align: center;transition-duration: 0.1s;">
 
-            <div id="FlightParamDispMid" onclick="show_hideMenuView()">
+            <div id="FlightParamDispMid" onclick="show_hideFlightParamDispMid()">
 
                     <p class="FlightParamDispMidCell">Base: <span id="distanceToLandingSite"></span></p>
                     <p class="FlightParamDispMidCell">SpeedX: <span id="speedX"></span></p>
@@ -98,7 +98,9 @@
                         ontouchend="recordHoldingPitch_resumeAuto()">
                 </div>
                 <div style="display: flex;flex-wrap: wrap;">
-                    <button class="controlBtn" id="toggleRTLS" onclick="toggleRTLS()">RTLS</button>
+                    <button class="controlBtn" id="toggleBoostBack" onclick="toggleBoostBack()">BoostBack</button>
+                </div>
+                <div style="display: flex;flex-wrap: wrap;">
                     <button class="controlBtn" id="togglePitchHold" onclick="togglePitchHold()">AttitHold</button>
                     <button class="controlBtn" id="toggleAutoLand" onclick="toggleAutoLand()">AutoLand</button>
                 </div>

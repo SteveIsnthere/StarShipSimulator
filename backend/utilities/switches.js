@@ -162,14 +162,14 @@ function toggleAutoLand() {
 
 }
 
-function toggleRTLS() {
+function toggleBoostBack() {
 
-    autoRTLSOn = toggle(autoRTLSOn)
+    autoBoostBackOn = toggle(autoBoostBackOn)
 
-    if (autoRTLSOn) {
-        buttonSwitchOn("toggleRTLS")
+    if (autoBoostBackOn) {
+        buttonSwitchOn("toggleBoostBack")
     } else {
-        buttonSwitchOff("toggleRTLS")
+        buttonSwitchOff("toggleBoostBack")
     }
 
 }

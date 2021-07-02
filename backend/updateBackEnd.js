@@ -168,7 +168,7 @@ function controlsUpdate() {
     function autoPilotControlInput() {
         pitchHold()
         autoLand()
-        autoRTLS()
+        autoBoostBack()
     }
 
     function readInputFromManualFlightControl() {
