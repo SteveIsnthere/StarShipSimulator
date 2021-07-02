@@ -9,7 +9,7 @@ function initBackEnd() {
 
 function initWorld() {
     globalThis.frameRate = 60
-    globalThis.timeAccel = 1
+    globalThis.timeAccel = 2
     globalThis.renderTimeInterval = frameRate / timeAccel //usually equals to how many frames' been rendered per min
 
 
@@ -24,6 +24,7 @@ function initWorld() {
     globalThis.airDensity //kg/m^3
     globalThis.airPressure //k-pa
     globalThis.gravity = 9.807
+    globalThis.airResistance_k = 250
 
     globalThis.speedOfSound = 343 //m/s
 
@@ -32,14 +33,14 @@ function initWorld() {
     globalThis.wind = 0
     globalThis.gust = 0
 
-    globalThis.starBaseXpos = planetCirconference/2
+    globalThis.starBaseXpos = planetCirconference / 2
 }
 
 function initFlightParams() {
     globalThis.usedTime = 0 // 1/60s
 
-    globalThis.altitude = 000 + vehicleHeight / 2 //m
-    globalThis.downRangeDistance = starBaseXpos
+    globalThis.altitude = 20000 + vehicleHeight / 2 //m
+    globalThis.downRangeDistance = starBaseXpos - 10000
     globalThis.downRangeDistanceNextFrame = downRangeDistance
 
     globalThis.distanceToPlanetCenter = planetRadius + altitude
@@ -70,7 +71,7 @@ function initFlightParams() {
 
     globalThis.angularDragAcceleration = 0
 
-    globalThis.pitch = getRad(0) //rad
+    globalThis.pitch = getRad(90) //rad
     globalThis.pitchRateOfChange = 0
     globalThis.pitchRecord = [Infinity, Infinity]
 
@@ -108,7 +109,7 @@ function initVehicleParams() {
         globalThis.vehicleInFlightMaxArea = vehicleMaxArea
 
         globalThis.vehicleDryMass = 120000 //kg
-        globalThis.propellantMass = 100000
+        globalThis.propellantMass = 200000
         globalThis.vehicleMass = vehicleDryMass + propellantMass
 
         globalThis.dumpRate = 3500
@@ -313,6 +314,7 @@ function initAutoPilotParams() {
     globalThis.controlInPutTimeConstant = 1 / frameRate * renderTimeInterval
     initPresisionAlignment()
     initPitchHold()
+    initRTLS()
     initAutoLand()
 
     function initPresisionAlignment() {
@@ -321,6 +323,25 @@ function initAutoPilotParams() {
 
     function initPitchHold() {
         globalThis.pitchHoldOn = false
+
+    }
+
+    function initRTLS() {
+        globalThis.autoRTLSOn = false
+        globalThis.initAutoLandXposDiffThreshold = 500
+        globalThis.propulsiveCorrectionMinHeight = 5000
+        globalThis.propulsiveCorrectionAccuracyRequired = propulsiveCorrectionMinHeight * 0.05
+        globalThis.finalXposPrediction = Infinity
+        globalThis.freeFallTimeRemainingPrediction = Infinity
+
+        globalThis.boostbackDirection = 0
+
+        globalThis.boostBackinitCompleted = false
+
+        globalThis.accelerationStageCompleted = false
+
+        globalThis.coastStageCompleted = false
+
 
     }
 

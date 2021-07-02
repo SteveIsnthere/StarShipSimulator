@@ -57,9 +57,6 @@ function vehicleStatusUpDate() {
 
 function FlightParamsUpDate() {
     updateBasicParams()
-
-
-
     updateSpactialMotion()
     updateRotationalMotion()
 
@@ -171,6 +168,7 @@ function controlsUpdate() {
     function autoPilotControlInput() {
         pitchHold()
         autoLand()
+        autoRTLS()
     }
 
     function readInputFromManualFlightControl() {

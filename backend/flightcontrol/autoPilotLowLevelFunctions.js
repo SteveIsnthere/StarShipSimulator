@@ -199,6 +199,24 @@ function verticalSpeedAdjustment(targetSpeed, speedDifferenceThreshold, twrLimit
 
 }
 
+function horizontalSpeedAdjustment(targetSpeed, speedDifferenceThreshold, twrLimit) {
+    let speedDifference = targetSpeed - Math.abs(speedX)
+
+
+    if (speedDifference < 0) {
+        controlEnginebyTWR(0)
+        if (speedDifference < speedDifferenceThreshold) {
+            controlEnginebyTWR(1 - speedDifference / speedDifferenceThreshold)
+        }
+    } else {
+        controlEnginebyTWR(twrLimit)
+        if (speedDifference < speedDifferenceThreshold) {
+            controlEnginebyTWR(1 + speedDifference / speedDifferenceThreshold)
+        }
+    }
+
+}
+
 
 
 function raptorAutoShutDown_KeepMinTWRBelow1() {

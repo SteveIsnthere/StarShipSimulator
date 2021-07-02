@@ -11,6 +11,106 @@ function pitchHold() {
     }
 }
 
+
+
+function autoRTLS() {
+    if (autoRTLSOn && !manualControlOn) {
+
+
+        if (!boostBackinitCompleted) {
+            boostBackinit()
+        }
+
+        //boostBackParamUpdate()
+
+        boostBackController()
+
+
+        function boostBackinit() {
+            //set boostbackDirection
+            if (downRangeDistance > starBaseXpos) {
+                boostbackDirection = -Math.PI * 0.5
+            } else {
+                boostbackDirection = Math.PI * 0.5
+            }
+
+            if (!rcsActive) {
+                toggleRcs()
+            }
+
+            if (getWorkingEngineCount() = 0) {
+                toggleAllRaptors()
+            }
+
+            boostBackinitCompleted = true
+        }
+
+        function boostBackParamUpdate() {
+            freeFallTimeRemainingPrediction = getFreeFallTimeRemainingPrediction(propulsiveCorrectionMinHeight)
+
+            finalXposPrediction = downRangeDistance + freeFallTimeRemainingPrediction * speedX * 0.3
+        }
+
+        function boostBackController() {
+
+            if (!accelerationStageCompleted) {
+                accelerationStage()
+            } else if (!coastStageCompleted) {
+                coastStage()
+            } else {
+                decelerationStage()
+            }
+
+            if ((starBaseXpos - downRangeDistance) / speedX < 20 && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                coastStage()
+            } else {
+                accelerationStage()
+
+            }
+
+            function accelerationStage() {
+
+                presisionAlignment(boostbackDirection, 2)
+
+                horizontalSpeedAdjustment(getMaxHSpeedWithSafeDynamicPressure(), 10, 2.5)
+
+                if ((starBaseXpos - downRangeDistance) / speedX < 20 && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                    toggleAllRaptors()
+                    accelerationStageCompleted = ture
+                }
+            }
+
+            function coastStage() {
+                presisionAlignment(-boostbackDirection, 3)
+
+                if ((starBaseXpos - downRangeDistance) / speedX < 5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                    toggleAllRaptors()
+                    coastStageCompleted = ture
+                }
+            }
+
+            function decelerationStage() {
+                presisionAlignment(-boostbackDirection, 3)
+                
+                horizontalSpeedAdjustment(0, 10, 2.5)
+
+                if (Math.abs(speedX)<5) {
+                    finishBoostBack()
+                }
+            }
+        }
+
+        function finishBoostBack() {
+            toggleRTLS()
+            if (!autoLandOn) {
+                toggleAutoLand()
+            }
+        }
+    }
+}
+
+
+
 function autoLand() {
     if (autoLandOn && !manualControlOn) {
         if (!initVehicleConfigCompleted) {
@@ -35,7 +135,7 @@ function autoLand() {
     }
 
     function initVehicleConfig() {
-        if(!finActive){
+        if (!finActive) {
             toggleFin()
         }
 
@@ -96,32 +196,35 @@ function autoLand() {
         function steerTowardsSite() {
             let correctionAngle
 
-
-            if (distanceToSite > 0) {
-                correctionAngle = -aeroDesentMaxCorrectionAngle
-                
-                if (timeToSite < 5 && timeToSite > 0) {
-                    if (Math.abs(speedX) > fineTuneMaxSpeed) {
-                        fineTunePercentage = 1
-                    } else {
-                        fineTunePercentage = Math.abs(speedX) / fineTuneMaxSpeed
-                    }
-                    correctionAngle = aeroDesentMaxCorrectionAngle * fineTuneMultiplier * fineTunePercentage
-                }
+            if (Math.abs(speedX) > 7) {
+                correctionAngle = angleOfMotion - Math.PI
             } else {
-                correctionAngle = aeroDesentMaxCorrectionAngle
-                if (timeToSite < 5 && timeToSite > 0) {
-                    if (Math.abs(speedX) > fineTuneMaxSpeed) {
-                        fineTunePercentage = 1
-                    } else {
-                        fineTunePercentage = Math.abs(speedX) / fineTuneMaxSpeed
+                if (distanceToSite > 0) {
+                    correctionAngle = -aeroDesentMaxCorrectionAngle
+
+                    if (timeToSite < 5 && timeToSite > 0) {
+                        if (Math.abs(speedX) > fineTuneMaxSpeed) {
+                            fineTunePercentage = 1
+                        } else {
+                            fineTunePercentage = Math.abs(speedX) / fineTuneMaxSpeed
+                        }
+                        correctionAngle = aeroDesentMaxCorrectionAngle * fineTuneMultiplier * fineTunePercentage
                     }
-                    correctionAngle = -aeroDesentMaxCorrectionAngle * fineTuneMultiplier * fineTunePercentage
+                } else {
+                    correctionAngle = aeroDesentMaxCorrectionAngle
+                    if (timeToSite < 5 && timeToSite > 0) {
+                        if (Math.abs(speedX) > fineTuneMaxSpeed) {
+                            fineTunePercentage = 1
+                        } else {
+                            fineTunePercentage = Math.abs(speedX) / fineTuneMaxSpeed
+                        }
+                        correctionAngle = -aeroDesentMaxCorrectionAngle * fineTuneMultiplier * fineTunePercentage
+                    }
                 }
             }
-
-            presisionAlignment(Math.PI / 2 + correctionAngle, 0.7)
+            presisionAlignment(correctionAngle + Math.PI / 2, 0.7)
         }
+
     }
 
     function flipStageController() {
@@ -139,10 +242,10 @@ function autoLand() {
         }
 
         function initFlipStage() {
-            if(dumpingFuel){
+            if (dumpingFuel) {
                 toggleDumpFuel()
             }
-            if(rcsActive){
+            if (rcsActive) {
                 toggleRcs()
             }
             toggleAllRaptors()
@@ -166,7 +269,7 @@ function autoLand() {
         }
 
         function initHorizontalAdjustmentStage() {
-            if(finActive){
+            if (finActive) {
                 toggleFin()
             }
             finLocked = true
@@ -272,7 +375,7 @@ function autoLand() {
                 if (!dumpingFuel) {
                     toggleDumpFuel()
                 }
-                
+
                 toggleAutoLand()
             }
         }

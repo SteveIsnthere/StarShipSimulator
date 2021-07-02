@@ -361,10 +361,10 @@ function checkIfCrash() {
             } else {
                 configCrashed()
             }
-        } else if (thrustAcceleration <= gravity){
+        } else if (thrustAcceleration <= gravity) {
             configOnTheGround()
         }
-    }else{
+    } else {
         landed = false
         onTheGround = false
     }
@@ -499,4 +499,18 @@ function updateGimbolPointingDirection() {
     } else if (gimbolPointingDirection < -Math.PI) {
         gimbolPointingDirection = gimbolPointingDirection + 2 * Math.PI
     }
+}
+
+
+function getFreeFallTimeRemainingPrediction(goalHeight) {
+    return Math.sqrt(vehicleMass / (gravity * airResistance_k)) * Math.asinh(Math.E ** ((altitude-goalHeight) * airResistance_k / vehicleMass)) + speedY / gravity
+}
+
+function getMaxSpeedWithSafeDynamicPressure(){
+    let maxDynamicPressure = 35
+    return Math.sqrt(maxDynamicPressure/airDensity * 2000) 
+}
+
+function getMaxHSpeedWithSafeDynamicPressure(){
+    return Math.sqrt(getMaxSpeedWithSafeDynamicPressure()**2 - speedY**2) 
 }

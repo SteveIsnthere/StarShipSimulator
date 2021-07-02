@@ -162,3 +162,14 @@ function toggleAutoLand() {
 
 }
 
+function toggleRTLS() {
+
+    autoRTLSOn = toggle(autoRTLSOn)
+
+    if (autoRTLSOn) {
+        buttonSwitchOn("toggleRTLS")
+    } else {
+        buttonSwitchOff("toggleRTLS")
+    }
+
+}
