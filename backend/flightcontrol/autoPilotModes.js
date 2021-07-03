@@ -47,6 +47,10 @@ function autoBoostBack() {
                 toggleAllRaptors()
             }
 
+            if (!autoMaxThrustOn) {
+                toggleautoMaxThrust()
+            }
+
             boostBackinitCompleted = true
         }
 
@@ -70,10 +74,13 @@ function autoBoostBack() {
 
                 presisionAlignment(boostbackDirection, 0.5)
 
-                horizontalSpeedAdjustment(getMaxHSpeedWithSafeDynamicPressure(), 10, 2.5)
-
                 if ((starBaseXpos - downRangeDistance) / speedX < 15 && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     toggleAllRaptors()
+
+                    if (autoMaxThrustOn) {
+                        toggleautoMaxThrust()
+                    }
+                    
                     accelerationStageCompleted = true
                 }
             }
@@ -345,8 +352,6 @@ function autoLand() {
 
 
         verticalSpeedAdjustment(-distanceToGround / 3 - 0.1, 10, 3)
-
-
 
         checkIfTD()
 

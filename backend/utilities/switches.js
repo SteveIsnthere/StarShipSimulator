@@ -176,6 +176,18 @@ function toggleBoostBack() {
 
 }
 
+function toggleautoMaxThrust() {
+
+    autoMaxThrustOn = toggle(autoMaxThrustOn)
+
+    if (autoMaxThrustOn) {
+        buttonSwitchOn("toggleautoMaxThrust")
+    } else {
+        buttonSwitchOff("toggleautoMaxThrust")
+    }
+
+}
+
 function toggleTimeAccState(){
 
     timeAccState = toggle(timeAccState)

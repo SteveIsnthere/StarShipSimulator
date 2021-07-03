@@ -151,9 +151,11 @@ function show_controlsR() {
 function show_hidePlotView() {
     if (showedPlotView) {
         document.getElementById("plotView").style.transform = "translate(0, 100%)"
+        app.start()
     } else {
         document.getElementById("plotView").style.transform = "translate(0, 0)"
         plot()
+        setTimeout(function(){app.stop()}, 200);
     }
 
     showedPlotView = toggle(showedPlotView)
@@ -174,8 +176,10 @@ function show_hideFlightParamDispMid() {
 function show_hideMenuView() {
     if (showedMenuView) {
         document.getElementById("menuView").style.transform = "translate(0, 100%)"
+        app.start()
     } else {
         document.getElementById("menuView").style.transform = "translate(0, 0)"
+        setTimeout(function(){app.stop()}, 200);
     }
 
     showedMenuView = toggle(showedMenuView)
