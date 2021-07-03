@@ -205,9 +205,20 @@ function horizontalSpeedAdjustment(targetSpeed, speedDifferenceThreshold, twrLim
 
     if (speedDifference < 0) {
         controlEnginebyTWR(0)
+    } else {
+        controlEnginebyTWR(twrLimit)
         if (speedDifference < speedDifferenceThreshold) {
-            controlEnginebyTWR(1 - speedDifference / speedDifferenceThreshold)
+            controlEnginebyTWR(1 + speedDifference / speedDifferenceThreshold)
         }
+    }
+
+}
+
+function speedAdjustment(targetSpeed, speedDifferenceThreshold, twrLimit) {
+    let speedDifference = targetSpeed - trueSpeed
+
+    if (speedDifference < 0) {
+        controlEnginebyTWR(0)
     } else {
         controlEnginebyTWR(twrLimit)
         if (speedDifference < speedDifferenceThreshold) {

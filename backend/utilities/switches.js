@@ -158,6 +158,7 @@ function toggleAutoLand() {
         buttonSwitchOn("toggleAutoLand")
     } else {
         buttonSwitchOff("toggleAutoLand")
+        initAutoLand()
     }
 
 }
@@ -170,17 +171,20 @@ function toggleBoostBack() {
         buttonSwitchOn("toggleBoostBack")
     } else {
         buttonSwitchOff("toggleBoostBack")
+        initAutoBoostBack()
     }
 
 }
 
 function toggleTimeAccState(){
-    
+
     timeAccState = toggle(timeAccState)
 
     if (timeAccState) {
         buttonSwitchOn("timeAccState")
+        document.getElementById("timeAccState").innerHTML = "Speed Things Up"
     } else {
         buttonSwitchOff("timeAccState")
+        document.getElementById("timeAccState").innerHTML = "Slow Thing Down"
     }
 }

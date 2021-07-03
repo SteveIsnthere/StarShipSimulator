@@ -312,113 +312,113 @@ function initAutoPilotParams() {
     globalThis.holdingPitch = pitch
 
     globalThis.controlInPutTimeConstant = 1 / frameRate * renderTimeInterval
-    initPresisionAlignment()
     initPitchHold()
     initAutoBoostBack()
     initAutoLand()
+    initAutoMaxThrust()
 
-    function initPresisionAlignment() {
-
-    }
-
-    function initPitchHold() {
-        globalThis.pitchHoldOn = false
-
-    }
-
-    function initAutoBoostBack() {
-        globalThis.autoBoostBackOn = false
-        globalThis.initAutoLandXposDiffThreshold = 500
-        globalThis.propulsiveCorrectionMinHeight = 5000
-        globalThis.propulsiveCorrectionAccuracyRequired = propulsiveCorrectionMinHeight * 0.05
-        globalThis.finalXposPrediction = Infinity
-        globalThis.freeFallTimeRemainingPrediction = Infinity
-
-        globalThis.boostbackDirection = 0
-
-        globalThis.boostBackinitCompleted = false
-
-        globalThis.accelerationStageCompleted = false
-
-        globalThis.coastStageCompleted = false
-
-
-    }
-
-
-    function initAutoLand() {
-        globalThis.autoLandOn = false
-        globalThis.initVehicleConfigCompleted = false
-        globalThis.landingSiteXpos = starBaseXpos
-
-        globalThis.autoLandFinalStageEngineCount = 1
-        globalThis.finalStagePessimisticAvailableThrust = autoLandFinalStageEngineCount * maxThrustPerRaptor
-
-        globalThis.dualRaptorMode = false
-        globalThis.trialRaptorMode = false
-
-        globalThis.finalStagePessimisticAvailableThrustDualRaptorMode = finalStagePessimisticAvailableThrust * 2
-        globalThis.finalStagePessimisticAvailableThrustTrialRaptorMode = finalStagePessimisticAvailableThrust * 3
-
-        globalThis.flipStageEngineCount = 1
-        globalThis.flipStagePessimisticAvailableThrust = flipStageEngineCount * maxThrustPerRaptor * throttleLowwerLimmit * 0.01
-
-        //aeroDesent
-        globalThis.aeroDesentCompleted = false
-
-        globalThis.aeroDesentMaxCorrectionAngle = getRad(3)
-
-        globalThis.fineTunePercentage //max 1
-
-        globalThis.fineTuneMultiplier = 2
-
-        globalThis.fineTuneMaxSpeed = 5
-
-        //bellyFlop
-        globalThis.bellyFlopTriggerAltitude = 0
-
-        globalThis.flipStageInitted = false
-
-        globalThis.flipCompleted = false
-
-        globalThis.flipGoalAngle = getRad(10)
-
-        globalThis.flipEnducedXposChange = 100
-
-        //horizontalAdjustment
-        globalThis.horizontalAdjustmentStageCompleted = false
-
-        globalThis.horizontalAdjustmentStageInitted = false
-
-        globalThis.adjustmentMaxAngle = getRad(20)
-
-        globalThis.horizontalAdjustmentDurationEstimateSingleEngine = 5.5
-
-        globalThis.horizontalAdjustmentDurationEstimate = horizontalAdjustmentDurationEstimateSingleEngine
-
-        globalThis.horizontalAdjustmentDurationEstimateDualRaptorMode = horizontalAdjustmentDurationEstimate * 1.5
-        globalThis.horizontalAdjustmentDurationEstimateTrialRaptorMode = horizontalAdjustmentDurationEstimate * 2
-
-        globalThis.horizontalAdjustmentTimeLeft
-
-        globalThis.horizontalAdjustmentHorizontalSpeedLimit = 5
-
-        globalThis.horizontalAdjustmentVerticalSpeedLimit = -30
-
-        globalThis.horizontalAdjustmentDesiredSpeed
-
-        globalThis.effectiveVerticalMaxThrust
-
-        //finalDesent
-        globalThis.finalStagePessimisticAltitude
-
-        globalThis.finalDesentStageInitted = false
-
-        globalThis.distanceToGround
-
-        globalThis.finalDesentStageCompleted = false
-
-        globalThis.noSteeringHeight = 5
-    }
 }
+function initPitchHold() {
+    globalThis.pitchHoldOn = false
+
+}
+
+function initAutoBoostBack() {
+    globalThis.autoBoostBackOn = false
+    globalThis.initAutoLandXposDiffThreshold = 500
+    globalThis.propulsiveCorrectionMinHeight = 5000
+    globalThis.propulsiveCorrectionAccuracyRequired = propulsiveCorrectionMinHeight * 0.05
+    globalThis.finalXposPrediction = Infinity
+    globalThis.freeFallTimeRemainingPrediction = Infinity
+
+    globalThis.boostbackDirection = 0
+
+    globalThis.boostBackinitCompleted = false
+
+    globalThis.accelerationStageCompleted = false
+
+    globalThis.coastStageCompleted = false
+}
+
+
+function initAutoLand() {
+    globalThis.autoLandOn = false
+    globalThis.initVehicleConfigCompleted = false
+    globalThis.landingSiteXpos = starBaseXpos
+
+    globalThis.autoLandFinalStageEngineCount = 1
+    globalThis.finalStagePessimisticAvailableThrust = autoLandFinalStageEngineCount * maxThrustPerRaptor
+
+    globalThis.dualRaptorMode = false
+    globalThis.trialRaptorMode = false
+
+    globalThis.finalStagePessimisticAvailableThrustDualRaptorMode = finalStagePessimisticAvailableThrust * 2
+    globalThis.finalStagePessimisticAvailableThrustTrialRaptorMode = finalStagePessimisticAvailableThrust * 3
+
+    globalThis.flipStageEngineCount = 1
+    globalThis.flipStagePessimisticAvailableThrust = flipStageEngineCount * maxThrustPerRaptor * throttleLowwerLimmit * 0.01
+
+    //aeroDesent
+    globalThis.aeroDesentCompleted = false
+
+    globalThis.aeroDesentMaxCorrectionAngle = getRad(3)
+
+    globalThis.fineTunePercentage //max 1
+
+    globalThis.fineTuneMultiplier = 2
+
+    globalThis.fineTuneMaxSpeed = 5
+
+    //bellyFlop
+    globalThis.bellyFlopTriggerAltitude = 0
+
+    globalThis.flipStageInitted = false
+
+    globalThis.flipCompleted = false
+
+    globalThis.flipGoalAngle = getRad(10)
+
+    globalThis.flipEnducedXposChange = 100
+
+    //horizontalAdjustment
+    globalThis.horizontalAdjustmentStageCompleted = false
+
+    globalThis.horizontalAdjustmentStageInitted = false
+
+    globalThis.adjustmentMaxAngle = getRad(20)
+
+    globalThis.horizontalAdjustmentDurationEstimateSingleEngine = 5.5
+
+    globalThis.horizontalAdjustmentDurationEstimate = horizontalAdjustmentDurationEstimateSingleEngine
+
+    globalThis.horizontalAdjustmentDurationEstimateDualRaptorMode = horizontalAdjustmentDurationEstimate * 1.5
+    globalThis.horizontalAdjustmentDurationEstimateTrialRaptorMode = horizontalAdjustmentDurationEstimate * 2
+
+    globalThis.horizontalAdjustmentTimeLeft
+
+    globalThis.horizontalAdjustmentHorizontalSpeedLimit = 5
+
+    globalThis.horizontalAdjustmentVerticalSpeedLimit = -30
+
+    globalThis.horizontalAdjustmentDesiredSpeed
+
+    globalThis.effectiveVerticalMaxThrust
+
+    //finalDesent
+    globalThis.finalStagePessimisticAltitude
+
+    globalThis.finalDesentStageInitted = false
+
+    globalThis.distanceToGround
+
+    globalThis.finalDesentStageCompleted = false
+
+    globalThis.noSteeringHeight = 5
+}
+
+function initAutoMaxThrust(){
+    globalThis.autoMaxThrustOn = false
+}
+
+
 initBackEnd()

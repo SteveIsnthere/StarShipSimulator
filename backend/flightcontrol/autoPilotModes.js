@@ -26,7 +26,7 @@ function autoBoostBack() {
         boostBackController()
 
 
-        if (propellantMass<dumpLimit || altitude<700) {
+        if (propellantMass < dumpLimit || (altitude < 700 && speedY < 0)) {
             finishBoostBack()
         }
 
@@ -81,10 +81,10 @@ function autoBoostBack() {
             function coastStage() {
                 if ((starBaseXpos - downRangeDistance) / speedX < 5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     presisionAlignment(-boostbackDirection, 2)
-                }else{
+                } else {
                     presisionAlignment(boostbackDirection, 2)
                 }
-                
+
 
                 if ((starBaseXpos - downRangeDistance) / speedX < 3.5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     toggleAllRaptors()
@@ -97,7 +97,7 @@ function autoBoostBack() {
 
                 horizontalSpeedAdjustment(0, 10, 2.5)
 
-                if (Math.abs(speedX)<5) {
+                if (Math.abs(speedX) < 5) {
                     finishBoostBack()
                 }
             }
@@ -105,6 +105,7 @@ function autoBoostBack() {
 
         function finishBoostBack() {
             toggleBoostBack()
+            initAutoBoostBack()
             if (!autoLandOn) {
                 toggleAutoLand()
             }
@@ -196,7 +197,7 @@ function autoLand() {
 
         steerTowardsSite()
 
-        if (altitude < bellyFlopTriggerAltitude && speedY<5 || altitude < 300) {
+        if (altitude < bellyFlopTriggerAltitude && speedY < 5 || altitude < 300 && altitude < 2000) {
             aeroDesentCompleted = true
         }
 
@@ -384,7 +385,14 @@ function autoLand() {
                 }
 
                 toggleAutoLand()
+                initAutoLand()
             }
         }
+    }
+}
+
+function autoMaxThrust() {
+    if (autoMaxThrustOn) {
+        speedAdjustment(getMaxSpeedWithSafeDynamicPressure(), 10, 4)
     }
 }

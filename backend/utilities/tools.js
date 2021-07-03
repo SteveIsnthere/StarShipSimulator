@@ -165,13 +165,14 @@ function isIOSPWA() {
 function changeTimeAccRate() {
     let newTimeAccRate = +document.getElementById("timeAccControl").value
 
-    if (!timeAccState) {
-        newTimeAccRate = 1/newTimeAccRate
-    }
     document.getElementById("timeAccRateDisp").textContent = newTimeAccRate
 
+    if (!timeAccState) {
+        newTimeAccRate = 1 / newTimeAccRate
+    }
+
     renderTimeInterval = frameRate / newTimeAccRate
-    throttleSpeedPerFrame = throttleSpeed / renderTimeInterval 
+    throttleSpeedPerFrame = throttleSpeed / renderTimeInterval
     gimbolSpeedPerFrame = gimbolSpeed / renderTimeInterval
     gimbolSpeedPerFrame = gimbolSpeed / renderTimeInterval
     controlInPutTimeConstant = 1 / frameRate * renderTimeInterval
