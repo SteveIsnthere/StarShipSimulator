@@ -221,3 +221,21 @@ function configureNewFlight(){
         show_hideMenuView()
     }
 }
+
+function configScenarioPreset(alt, xpos, vx, vy, pit, porp){
+    document.getElementById("Altitude").value = alt
+    document.getElementById("X-Position").value = xpos
+    document.getElementById("Speed-X").value = vx
+    document.getElementById("Speed-Y").value = vy
+    document.getElementById("Pitch").value = pit
+    document.getElementById("Propellent").value = porp
+}
+
+function clearScenarioPreset(){
+    document.getElementById("Altitude").value = ""
+    document.getElementById("X-Position").value = ""
+    document.getElementById("Speed-X").value = ""
+    document.getElementById("Speed-Y").value = ""
+    document.getElementById("Pitch").value = ""
+    document.getElementById("Propellent").value = ""
+}

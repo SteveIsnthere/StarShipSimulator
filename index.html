@@ -125,7 +125,7 @@
 
     <div id="plotView" class="hiddenFullScreenView" style="display: flex; flex-direction: column;height: 100%;">
         <div id="close_PlotView" style="min-height: 20%;flex: 1;" onclick="show_hidePlotView()"></div>
-        <div id="plots">
+        <div id="plots" style="backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);">
             <div id="flyPathPlot" class="singlePlotCell"></div>
             <div id="motionSpeedPlot" class="singlePlotCell"></div>
             <div id="propellentRemainingPlot" class="singlePlotCell"></div>
@@ -146,9 +146,10 @@
 
             <div id="toggleTiltControlDiv" class="singleFunctionCell">
                 <button id="toggleTiltControl" onclick="toggleTiltControl()" class="controlBtn">TiltControl</button>
-                <button id="toggleRandomFaliure" onclick="toggleRandomFaliure()" class="controlBtn">RandomFaliure</button>
+                <button id="toggleRandomFaliure" onclick="toggleRandomFaliure()"
+                    class="controlBtn">RandomFaliure</button>
             </div>
-                
+
             <p class="functionTitle">TimeWarp</p>
 
             <div id="timeAcc" class="singleFunctionCell"
@@ -159,7 +160,8 @@
                     <input type="range" class="slider" id="timeAccControl" min="1" max="9" value="1" step="1"
                         style="margin-left: 20px; margin-right: 20px;" onchange="changeTimeAccRate()">
 
-                    <p style="box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);padding: 5px;border-radius: 5px; color: rgba(59, 59, 59, 0.767);font-size: smaller;">
+                    <p
+                        style="box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);padding: 7px;border-radius: 10px; color: rgba(59, 59, 59, 0.767);font-size: smaller;">
                         <span id="timeAccRateDisp">1</span> ×
                     </p>
                 </div>
@@ -169,17 +171,44 @@
             <div class="singleFunctionCell"
                 style="display: flex; align-items: center; flex-wrap: wrap;justify-content: space-around;">
 
+                <div
+                    style="flex-basis: 100%;display: flex; align-items: center; justify-content: center; margin: 10px;">
+                    <div
+                        style="display: flex; align-items: center;flex-wrap: wrap; justify-content: center;box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);border-radius: 20px;margin: 5px;padding: 5px;">
+                        <p style="flex-basis: 100%;text-align: center;">Scenario Presets</p>
+                        <button class="scenarioPreset"
+                            onclick="configScenarioPreset(70000, 45000, 1130, 1130, 45, 500)">Booster Sep</button>
+                        <button class="scenarioPreset"
+                            onclick="configScenarioPreset(15000, 5000, 330, 430, 30, 200)">RTLS</button>
+                        <button class="scenarioPreset"
+                            onclick="configScenarioPreset(80000, -1980000, 7300, -30, 30, 50)">Re-entry</button>
+                        <button class="scenarioPreset" onclick="configScenarioPreset(1000, -100, 0, -70, 90, 30)">Before
+                            Flip</button>
+                        <button class="scenarioPreset" onclick="configScenarioPreset(200, 0, 0, -35, 0, 20)">Landing
+                            Burn</button>
+                    </div>
+                </div>
 
-                <input type="number" id="Altitude" placeholder="Altitude(M)">
-                <input type="number" id="X-Position" placeholder="X-Position(M)">
-                <input type="number" id="Speed-X" placeholder="Speed-X(M/S)">
-                <input type="number" id="Speed-Y" placeholder="Speed-Y(M/S)">
-                <input type="number" id="Pitch" placeholder="Pitch(°)">
-                <input type="number" id="Propellent" placeholder="Propellent(T)">
+                <input type="number" id="Altitude" placeholder="Altitude (M)">
+                <input type="number" id="X-Position" placeholder="X-Position (M)">
+                <input type="number" id="Speed-X" placeholder="Speed-X (M/S)">
+                <input type="number" id="Speed-Y" placeholder="Speed-Y (M/S)">
+                <input type="number" id="Pitch" placeholder="Pitch (°)">
+                <input type="number" id="Propellent" placeholder="Propellent (T)">
 
-                <button id="setUpNewFlight"
-                    style="width: 80%; background-color: transparent; padding: 10px;border-radius: 20px; margin: 20px;"
-                    onclick="configureNewFlight()">Configure</button>
+
+                <div
+                    style="flex-basis: 100%;display: flex; align-items: center; justify-content: center; margin: 10px;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: center;box-shadow: inset 1.5px 1.5px 3.5px 0 rgba(0, 0, 0, 0.2), inset -2px -2px 4.5px 0 rgba(255, 255, 255, 0.55);border-radius: 20px;margin: 5px;padding: 5px;">
+                        <button
+                            style="background-color: transparent; padding: 10px;border-radius: 20px; margin: 15px;" onclick="clearScenarioPreset()">Clear</button>
+                        <button id="setUpNewFlight"
+                            style="background-color: transparent; padding: 10px;border-radius: 20px; margin: 15px;"
+                            onclick="configureNewFlight()">Configure</button>
+                    </div>
+                </div>
+
             </div>
         </div>
 

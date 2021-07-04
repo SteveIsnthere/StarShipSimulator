@@ -91,7 +91,7 @@ function autoBoostBack() {
             }
 
             function coastStage() {
-                decelerationStageEstDuration = Math.abs(speedX) / (decelerationStageMaxTwr * gravity) * 0.85
+                decelerationStageEstDuration = Math.abs(speedX) / (decelerationStageMaxTwr * gravity) * 0.75
 
                 if ((starBaseXpos - downRangeDistance - flipEnducedXposChange) / speedX < (decelerationStageEstDuration + 2) && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     presisionAlignment(-boostbackDirection, 2)

@@ -3,8 +3,8 @@ const plotStyle = {
     displayModeBar: false
 }
 
-let plotBGcolor = "white"
-let paperBGcolor = "whitesmoke"
+let plotBGcolor = "rgba(255, 255, 255, 0.485)"
+let paperBGcolor = "rgba(216, 216, 216, 0.74)"
 
 function plot() {
     let timeNodesCopy = timeNodes
