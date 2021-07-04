@@ -80,20 +80,20 @@ function autoBoostBack() {
                     if (autoMaxThrustOn) {
                         toggleautoMaxThrust()
                     }
-                    
+
                     accelerationStageCompleted = true
                 }
             }
 
             function coastStage() {
-                if ((starBaseXpos - downRangeDistance) / speedX < 5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                if ((starBaseXpos - downRangeDistance) / speedX < 6 && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     presisionAlignment(-boostbackDirection, 2)
                 } else {
                     presisionAlignment(boostbackDirection, 2)
                 }
 
 
-                if ((starBaseXpos - downRangeDistance) / speedX < 3.5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                if ((starBaseXpos - downRangeDistance) / speedX < 4.5 && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     toggleAllRaptors()
                     coastStageCompleted = true
                 }
@@ -104,7 +104,7 @@ function autoBoostBack() {
 
                 horizontalSpeedAdjustment(0, 10, 2.5)
 
-                if (Math.abs(speedX) < 5) {
+                if (Math.abs(speedX) < 2) {
                     finishBoostBack()
                 }
             }

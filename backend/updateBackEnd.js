@@ -227,6 +227,9 @@ function saveDataPoint() {
         //controlOutPutPlot
         listOfPitchControl.push(pitchControl)
         listOfThrottle.push(throttle)
+
+        //propellentPlot
+        listOfpropellentRemaining.push(propellantMass)
     }
 
 }

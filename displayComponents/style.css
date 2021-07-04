@@ -6,7 +6,7 @@ html {
     -webkit-overflow-scrolling: touch;
 }
 
-* {
+.noSelect {
     user-select: none;
     /* supported by Chrome and Opera */
     -webkit-user-select: none;
@@ -36,7 +36,7 @@ button {
     font-weight: normal;
     display: inline-block;
     transition: box-shadow 0.3s ease-in-out;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.068);
     color: rgba(59, 59, 59, 0.767);
     cursor: pointer;
     box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
@@ -184,6 +184,14 @@ button {
 
 #controlsR {
     bottom: calc(40% - 150px);
+}
+
+.singleFunctionCell {
+    border-radius: 30px;
+    box-shadow: inset 1.5px 1.5px 3.5px 0 rgba(0, 0, 0, 0.2), inset -2px -2px 4.5px 0 rgba(255, 255, 255, 0.55);
+    padding: 10px;
+    background-color: rgba(216, 216, 216);
+    margin: 10px;
 }
 
 @media only screen and (min-width: 500px) {

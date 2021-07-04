@@ -109,7 +109,7 @@ function initVehicleParams() {
         globalThis.vehicleInFlightMaxArea = vehicleMaxArea
 
         globalThis.vehicleDryMass = 120000 //kg
-        globalThis.propellantMass = 200000
+        globalThis.propellantMass = 350000
         globalThis.vehicleMass = vehicleDryMass + propellantMass
 
         globalThis.dumpRate = 3500
@@ -305,6 +305,9 @@ function initDataRecorder() {
     //controlOutPutPlot
     globalThis.listOfPitchControl = []
     globalThis.listOfThrottle = []
+
+    //propellentPlot
+    globalThis.listOfpropellentRemaining = []
 }
 
 function initAutoPilotParams() {

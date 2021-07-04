@@ -175,5 +175,46 @@ function changeTimeAccRate() {
     throttleSpeedPerFrame = throttleSpeed / renderTimeInterval
     gimbolSpeedPerFrame = gimbolSpeed / renderTimeInterval
     gimbolSpeedPerFrame = gimbolSpeed / renderTimeInterval
+    finAcuationSpeedPerFrame = finAcuationSpeed / renderTimeInterval 
     controlInPutTimeConstant = 1 / frameRate * renderTimeInterval
+}
+
+function configureNewFlight(){
+    let newAltitude = document.getElementById("Altitude").value
+    let newX_Position = document.getElementById("X-Position").value
+    let newSpeed_X = document.getElementById("Speed-X").value
+    let newSpeed_Y = document.getElementById("Speed-Y").value
+    let newPitch = document.getElementById("Pitch").value
+    let newPropellent = document.getElementById("Propellent").value
+
+    if (newAltitude != "") {
+        altitude = +newAltitude
+
+        if (altitude<vehicleHeight/2) {
+            altitude = vehicleHeight/2
+        }
+    }
+    if (newX_Position != "") {
+        downRangeDistance = +newX_Position + starBaseXpos
+    }
+    if (newSpeed_X != "") {
+        speedX = +newSpeed_X
+    }
+    if (newSpeed_Y != "") {
+        speedY = +newSpeed_Y
+    }
+    if (newPitch != "") {
+        pitch = getRad(+newPitch)
+    }
+    if (newPropellent != "") {
+        propellantMass = +newPropellent*1000
+
+        if (propellantMass>1200000) {
+            propellantMass = 1200000
+        }
+    }
+
+    if (showedMenuView) {
+        show_hideMenuView()
+    }
 }

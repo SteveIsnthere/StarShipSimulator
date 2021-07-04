@@ -46,6 +46,7 @@ function updateButtons() {
     updateRaptorControls()
     updateAutoPilot()
     updateFlightControlsBtn()
+    updateTimeAccControl()
 
     function updateFlightControlsBtn() {
         if (rcsActive) {
@@ -64,7 +65,13 @@ function updateButtons() {
             buttonSwitchOff("toggledumpFuel")
         }
     }
+
     function updateAutoPilot() {
+        if (autoMaxThrustOn) {
+            buttonSwitchOn("toggleautoMaxThrust")
+        } else {
+            buttonSwitchOff("toggleautoMaxThrust")
+        }
         if (autoBoostBackOn) {
             buttonSwitchOn("toggleBoostBack")
         } else {
@@ -103,11 +110,16 @@ function updateButtons() {
         }
     }
 
-    if (timeAccState) {
-        buttonSwitchOn("timeAccState")
-    } else {
-        buttonSwitchOff("timeAccState")
+    function updateTimeAccControl() {
+        if (timeAccState) {
+            buttonSwitchOn("timeAccState")
+        } else {
+            buttonSwitchOff("timeAccState")
+        }
+        document.getElementById("timeAccControl").value = timeAccel
+        document.getElementById("timeAccRateDisp").textContent = timeAccel
     }
+
 
 }
 
@@ -155,7 +167,7 @@ function show_hidePlotView() {
     } else {
         document.getElementById("plotView").style.transform = "translate(0, 0)"
         plot()
-        setTimeout(function(){app.stop()}, 200);
+        setTimeout(function () { app.stop() }, 200);
     }
 
     showedPlotView = toggle(showedPlotView)
@@ -179,7 +191,7 @@ function show_hideMenuView() {
         app.start()
     } else {
         document.getElementById("menuView").style.transform = "translate(0, 0)"
-        setTimeout(function(){app.stop()}, 200);
+        setTimeout(function () { app.stop() }, 200);
     }
 
     showedMenuView = toggle(showedMenuView)
@@ -208,7 +220,7 @@ let timeAccState = true //positive
 
 //check platform
 if (typeof window.orientation == 'undefined') {
-    document.getElementById("toggleTiltControl").style.display = "none"
+    document.getElementById("toggleTiltControlDiv").style.display = "none"
     //desktop
 } else {
     //mobile

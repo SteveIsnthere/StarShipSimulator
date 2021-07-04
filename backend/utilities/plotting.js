@@ -1,7 +1,7 @@
 const plotStyle = {
     responsive: true,
     displayModeBar: false
-} 
+}
 
 let plotBGcolor = "white"
 let paperBGcolor = "whitesmoke"
@@ -17,6 +17,7 @@ function plot() {
     aerodynamicForcePlot()
     accelerationPlot()
     thermalPower_dynamicPressurePlot()
+    propellentPlot()
     controlInPutPlot()
 
     function motionAnglePlot() {
@@ -90,6 +91,30 @@ function plot() {
         }
 
         Plotly.newPlot('aerodynamicForcePlot', data, layout, plotStyle);
+    }
+
+    function propellentPlot() {
+        let listOfpropellentRemainingCopy = listOfpropellentRemaining
+        listOfpropellentRemainingCopy = listOfpropellentRemainingCopy.map(x => x / 1000)
+
+        var propellentRemaining = {
+            x: timeNodesCopy,
+            y: listOfpropellentRemainingCopy,
+            fill: 'tonexty',
+            type: 'scatter',
+            mode: 'none'
+        };
+
+
+        var data = [propellentRemaining];
+
+        var layout = {
+            title: 'Propellent in tons',
+            plot_bgcolor: plotBGcolor,
+            paper_bgcolor: paperBGcolor
+        }
+
+        Plotly.newPlot('propellentRemainingPlot', data, layout, plotStyle);
     }
 
     function altitudePlot() {
