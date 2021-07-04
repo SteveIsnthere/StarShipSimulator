@@ -188,6 +188,18 @@ function toggleautoMaxThrust() {
 
 }
 
+function toggleautoTakeOff() {
+
+    autoTakeOffOn = toggle(autoTakeOffOn)
+
+    if (autoTakeOffOn) {
+        buttonSwitchOn("toggleautoTakeOff")
+    } else {
+        buttonSwitchOff("toggleautoTakeOff")
+    }
+
+}
+
 function toggleTimeAccState(){
 
     timeAccState = toggle(timeAccState)

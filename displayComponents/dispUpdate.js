@@ -67,6 +67,11 @@ function updateButtons() {
     }
 
     function updateAutoPilot() {
+        if (autoTakeOffOn) {
+            buttonSwitchOn("toggleautoTakeOff")
+        } else {
+            buttonSwitchOff("toggleautoTakeOff")
+        }
         if (autoMaxThrustOn) {
             buttonSwitchOn("toggleautoMaxThrust")
         } else {
@@ -196,6 +201,7 @@ function show_hideMenuView() {
 
     showedMenuView = toggle(showedMenuView)
 }
+
 
 function dynamicLayoutUpdate() {
     if (window.innerWidth < 450) {

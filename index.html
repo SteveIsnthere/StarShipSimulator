@@ -83,6 +83,8 @@
                     <button id="raptor1toggle" class="controlBtn" onclick="toggleRaptor1()">R1</button>
                     <button id="raptor2toggle" class="controlBtn" onclick="toggleRaptor2()">R2</button>
                     <button id="raptor3toggle" class="controlBtn" onclick="toggleRaptor3()">R3</button>
+                    <button class="controlBtn" id="toggleautoMaxThrust" style="grid-column-start: 1;grid-column-end: 4;"
+                        onclick="toggleautoMaxThrust()">MaxSafeThrust</button>
                     <button id="allraptorstoggle" class="controlBtn" onclick="toggleAllRaptors()"
                         style="grid-column-start: 1;grid-column-end: 4;">Toggle-All</button>
                 </div>
@@ -101,8 +103,7 @@
                         ontouchend="recordHoldingPitch_resumeAuto()">
                 </div>
                 <div style="display: flex;flex-wrap: wrap;">
-                    <button class="controlBtn" id="toggleautoMaxThrust"
-                        onclick="toggleautoMaxThrust()">autoMaxThrust</button>
+                    <button class="controlBtn" id="toggleautoTakeOff" onclick="toggleautoTakeOff()">LiftOff</button>
                     <button class="controlBtn" id="toggleBoostBack" onclick="toggleBoostBack()">BoostBack</button>
                 </div>
                 <div style="display: flex;flex-wrap: wrap;">
@@ -156,8 +157,7 @@
                     <input type="range" class="slider" id="timeAccControl" min="1" max="9" value="1" step="1"
                         style="margin-left: 20px; margin-right: 20px;" onchange="changeTimeAccRate()">
 
-                    <p
-                        style="box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);padding: 5px;border-radius: 5px; color: rgba(59, 59, 59, 0.767);font-size: smaller;">
+                    <p style="box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);padding: 5px;border-radius: 5px; color: rgba(59, 59, 59, 0.767);font-size: smaller;">
                         <span id="timeAccRateDisp">1</span> ×
                     </p>
                 </div>
@@ -177,8 +177,7 @@
 
                 <button id="setUpNewFlight"
                     style="width: 80%; background-color: transparent; padding: 10px;border-radius: 20px; margin: 20px;"
-                    onclick="configureNewFlight()">Set
-                    Up</button>
+                    onclick="configureNewFlight()">Configure</button>
             </div>
         </div>
 

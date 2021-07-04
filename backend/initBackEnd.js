@@ -318,6 +318,7 @@ function initAutoPilotParams() {
     initPitchHold()
     initAutoBoostBack()
     initAutoLand()
+    initAutoTakeOff()
     initAutoMaxThrust()
 
 }
@@ -331,6 +332,8 @@ function initAutoBoostBack() {
     globalThis.initAutoLandXposDiffThreshold = 500
     globalThis.propulsiveCorrectionMinHeight = 5000
     globalThis.propulsiveCorrectionAccuracyRequired = propulsiveCorrectionMinHeight * 0.05
+    globalThis.decelerationStageMaxTwr = 2
+    globalThis.decelerationStageEstDuration = 0
     globalThis.finalXposPrediction = Infinity
     globalThis.freeFallTimeRemainingPrediction = Infinity
 
@@ -423,5 +426,14 @@ function initAutoMaxThrust(){
     globalThis.autoMaxThrustOn = false
 }
 
+function initAutoTakeOff(){
+    globalThis.autoTakeOffOn = false
+
+    globalThis.autoTakeOffInited = false
+
+    globalThis.aomAt_25km = getRad(60)
+
+    globalThis.aomAt_80km = getRad(90)
+}
 
 initBackEnd()
