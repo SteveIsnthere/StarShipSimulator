@@ -50,10 +50,6 @@ button {
     margin: 10px;
 }
 
-.mainPageBtn:hover {
-    box-shadow: none
-}
-
 .show_hideToggle {
     cursor: pointer;
     padding: 20px;

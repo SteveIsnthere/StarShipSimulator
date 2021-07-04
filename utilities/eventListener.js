@@ -8,7 +8,7 @@ document.addEventListener('keydown', function (event) {
     toggleSingleRaptorByKey(event)
     toggleFinByKey(event)
     toggleRcsByKey(event)
-    toggleDumpFuelByKey(event)
+    toggleBoostBackbyKey(event) 
 
     drawingSizeAdjustment(event)
 
@@ -55,7 +55,7 @@ document.addEventListener('keydown', function (event) {
     }
 
     function togglePitchHoldByKey(event) {
-        if (event.key === 'Enter') {
+        if (event.key === 't' || event.key === 'T') {
             togglePitchHold()
         }
     }
@@ -88,9 +88,9 @@ document.addEventListener('keydown', function (event) {
         }
     }
 
-    function toggleDumpFuelByKey(event) {
+    function toggleBoostBackbyKey(event) {
         if (event.key === 'Backspace') {
-            dumpingFuel = toggle(dumpingFuel)
+            toggleBoostBack()
         }
     }
 

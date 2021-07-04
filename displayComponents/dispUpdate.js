@@ -125,7 +125,11 @@ function updateButtons() {
         document.getElementById("timeAccRateDisp").textContent = timeAccel
     }
 
-
+    if (randomFaliure) {
+        buttonSwitchOn("toggleRandomFaliure")
+    } else {
+        buttonSwitchOff("toggleRandomFaliure")
+    }
 }
 
 
