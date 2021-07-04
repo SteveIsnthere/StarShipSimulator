@@ -140,7 +140,7 @@ function finalSetupAndRun() {
 
             function drawGroundSmoke() {
                 let scale
-                scale = (1 - altitude / 200) * drawingProportion/4.2
+                scale = (1 - altitude / 200) * drawingProportion / 4.2
                 if (scale < 0.1 || thrust <= 0 || pitch < -Math.PI * 0.15 || pitch > Math.PI * 0.15) {
                     groundSmokeEmitter.paused = true;
                 } else {
@@ -226,6 +226,12 @@ function finalSetupAndRun() {
             function drawCrash() {
                 if (crashed) {
                     if (!showedCrashEffect) {
+                        globalThis.crash = new PIXI.Container();
+
+                        globalThis.crashEmitter = fx.getParticleEmitter('top-big-explosion');
+
+                        starShipAndEffects.addChild(crash)
+
                         crashEmitter.paused = false;
                         crash.x = 0;
                         crash.y = 0
@@ -251,6 +257,12 @@ function finalSetupAndRun() {
             function drawBreakUp() {
                 if (inFightBreakUp) {
                     if (!showedinFightBreakUpEffect) {
+                        globalThis.breakup = new PIXI.Container();
+
+                        globalThis.breakupEmitter = fx.getParticleEmitter('top-big-explosion');
+
+                        starShipAndEffects.addChild(breakup)
+
                         breakupEmitter.paused = false;
                         breakup.x = 0;
                         breakup.y = 0

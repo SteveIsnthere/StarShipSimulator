@@ -226,7 +226,7 @@ let timeAccState = true //positive
 
 //check platform
 if (typeof window.orientation == 'undefined') {
-    document.getElementById("toggleTiltControlDiv").style.display = "none"
+    document.getElementById("toggleTiltControl").style.display = "none"
     //desktop
 } else {
     //mobile

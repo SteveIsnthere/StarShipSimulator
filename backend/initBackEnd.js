@@ -123,7 +123,7 @@ function initVehicleParams() {
     function initEngine() {
 
         globalThis.raptorIgnitionTimeMean = 600
-        globalThis.raptorIgnitionFaliureRate = 0.05
+        globalThis.raptorIgnitionFaliureRate = 0
 
         globalThis.throttle = 100 //100%
         globalThis.throttleCurrent = 100 //100%
@@ -265,6 +265,8 @@ function initVehicleStatus() {
 
         globalThis.flippedOver = false
         globalThis.crashed = false
+
+        globalThis.randomFaliure = false
     }
 }
 

@@ -16,7 +16,7 @@ function recordHoldingPitch_resumeAuto() {
 function toggleRaptor1() {
     if (!raptorN1Running && raptorN1Fail == false && !fuelRunOut) {
         raptorIgnitionPossibleFaliure(1)
-        if(raptorN1Fail == false){
+        if (raptorN1Fail == false) {
             setTimeout(toggle_On, getRaptorIgnitionTime())
         }
     } else {
@@ -39,7 +39,7 @@ function toggleRaptor1() {
 function toggleRaptor2() {
     if (!raptorN2Running && raptorN2Fail == false && !fuelRunOut) {
         raptorIgnitionPossibleFaliure(2)
-        if(raptorN2Fail == false){
+        if (raptorN2Fail == false) {
             setTimeout(toggle_On, getRaptorIgnitionTime())
         }
     } else {
@@ -60,7 +60,7 @@ function toggleRaptor2() {
 function toggleRaptor3() {
     if (!raptorN3Running && raptorN3Fail == false && !fuelRunOut) {
         raptorIgnitionPossibleFaliure(3)
-        if(raptorN3Fail == false){
+        if (raptorN3Fail == false) {
             setTimeout(toggle_On, getRaptorIgnitionTime())
         }
     } else {
@@ -87,14 +87,14 @@ function toggleAllRaptors() {
         buttonSwitchOff("raptor1toggle")
         buttonSwitchOff("raptor2toggle")
         buttonSwitchOff("raptor3toggle")
-    }else{
-        if(raptorN1Running == false){
+    } else {
+        if (raptorN1Running == false) {
             toggleRaptor1()
         }
-        if(raptorN2Running == false){
+        if (raptorN2Running == false) {
             toggleRaptor2()
         }
-        if(raptorN3Running == false){
+        if (raptorN3Running == false) {
             toggleRaptor3()
         }
     }
@@ -200,7 +200,7 @@ function toggleautoTakeOff() {
 
 }
 
-function toggleTimeAccState(){
+function toggleTimeAccState() {
 
     timeAccState = toggle(timeAccState)
 
@@ -211,4 +211,17 @@ function toggleTimeAccState(){
         buttonSwitchOff("timeAccState")
         document.getElementById("timeAccState").innerHTML = "Slow Thing Down"
     }
+}
+
+function toggleRandomFaliure() {
+
+    if (randomFaliure) {
+        buttonSwitchOff("toggleRandomFaliure")
+        raptorIgnitionFaliureRate = 0
+    } else {
+        buttonSwitchOn("toggleRandomFaliure")
+        raptorIgnitionFaliureRate = 0.1
+    }
+
+    randomFaliure = toggle(randomFaliure)
 }

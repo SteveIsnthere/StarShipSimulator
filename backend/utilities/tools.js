@@ -73,6 +73,9 @@ function restart() {
     document.getElementById("RestartBtn").style.display = "none"
     document.getElementById("showPlotViewButton").style.display = "none"
 
+    showedCrashEffect = false
+    showedinFightBreakUpEffect = false
+
     initBackEnd()
 
     updateButtons()
