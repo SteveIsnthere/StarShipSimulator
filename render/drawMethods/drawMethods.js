@@ -234,3 +234,7 @@ function getObjectDrawingPosX(posX) {
 function getObjectDrawingPosY(posY) {
     return (cam_PosY - posY) * drawingSizeCurrent + renderBoxHeight * 0.5
 }
+
+function inDrawingBox(x,y,width,height){
+    return (cam_PosX+renderBoxPhysicalWidth*0.5+width*0.5>x)&&(cam_PosX-renderBoxPhysicalWidth*0.5+width*0.5<x)&&(cam_PosY-renderBoxPhysicalHeight*0.5-height*0.5<y)&&(cam_PosY+renderBoxPhysicalHeight*0.5+height*0.5>y)
+}

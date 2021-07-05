@@ -17,7 +17,7 @@ function toggleRaptor1() {
     if (!raptorN1Running && raptorN1Fail == false && !fuelRunOut) {
         raptorIgnitionPossibleFaliure(1)
         if (raptorN1Fail == false) {
-            setTimeout(toggle_On, getRaptorIgnitionTime())
+            setTimeout(toggle_On, getRaptorIgnitionTime()/timeAccel)
         }
     } else {
         toggle_Off()
@@ -31,6 +31,15 @@ function toggleRaptor1() {
     function toggle_Off() {
         raptorN1Running = false
         buttonSwitchOff("raptor1toggle")
+
+        globalThis.raptorShutDownEffect1 = new PIXI.Container();
+
+        globalThis.raptorShutDownEffectEmitter1 = fx.getParticleEmitter('RaptorShutDown');
+    
+        starShipAndEffects.addChild(raptorShutDownEffect1)
+
+        raptorShutDownEffectEmitter1.init(raptorShutDownEffect1, true, (0.14 + (throttleCurrent * 0.00055)) * drawingProportion);
+
     }
 
 }
@@ -40,7 +49,7 @@ function toggleRaptor2() {
     if (!raptorN2Running && raptorN2Fail == false && !fuelRunOut) {
         raptorIgnitionPossibleFaliure(2)
         if (raptorN2Fail == false) {
-            setTimeout(toggle_On, getRaptorIgnitionTime())
+            setTimeout(toggle_On, getRaptorIgnitionTime()/timeAccel)
         }
     } else {
         toggle_Off()
@@ -54,6 +63,15 @@ function toggleRaptor2() {
     function toggle_Off() {
         raptorN2Running = false
         buttonSwitchOff("raptor2toggle")
+
+        globalThis.raptorShutDownEffect2 = new PIXI.Container();
+
+        globalThis.raptorShutDownEffectEmitter2 = fx.getParticleEmitter('RaptorShutDown');
+    
+        starShipAndEffects.addChild(raptorShutDownEffect2)
+
+        raptorShutDownEffectEmitter2.init(raptorShutDownEffect2, true, (0.14 + (throttleCurrent * 0.00055)) * drawingProportion);
+
     }
 }
 
@@ -61,7 +79,7 @@ function toggleRaptor3() {
     if (!raptorN3Running && raptorN3Fail == false && !fuelRunOut) {
         raptorIgnitionPossibleFaliure(3)
         if (raptorN3Fail == false) {
-            setTimeout(toggle_On, getRaptorIgnitionTime())
+            setTimeout(toggle_On, getRaptorIgnitionTime()/timeAccel)
         }
     } else {
         toggle_Off()
@@ -75,18 +93,29 @@ function toggleRaptor3() {
     function toggle_Off() {
         raptorN3Running = false
         buttonSwitchOff("raptor3toggle")
+
+        globalThis.raptorShutDownEffect3 = new PIXI.Container();
+
+        globalThis.raptorShutDownEffectEmitter3 = fx.getParticleEmitter('RaptorShutDown');
+    
+        starShipAndEffects.addChild(raptorShutDownEffect3)
+
+        raptorShutDownEffectEmitter3.init(raptorShutDownEffect3, true, (0.14 + (throttleCurrent * 0.00055)) * drawingProportion);
+
     }
 }
 
 function toggleAllRaptors() {
     if (raptorN1Running || raptorN2Running || raptorN3Running) {
-        raptorN1Running = false
-        raptorN2Running = false
-        raptorN3Running = false
-
-        buttonSwitchOff("raptor1toggle")
-        buttonSwitchOff("raptor2toggle")
-        buttonSwitchOff("raptor3toggle")
+        if (raptorN1Running == true) {
+            toggleRaptor1()
+        }
+        if (raptorN2Running == true) {
+            toggleRaptor2()
+        }
+        if (raptorN3Running == true) {
+            toggleRaptor3()
+        }
     } else {
         if (raptorN1Running == false) {
             toggleRaptor1()

@@ -304,8 +304,24 @@ function finalSetupAndRun() {
             }
 
             //cloud
-            clouds.x = getObjectDrawingPosX(starBaseBackGround2Xpos)
-            clouds.y = getObjectDrawingPosY(25)
+            if (downRangeDistance > cloudXpos + 500 || downRangeDistance < cloudXpos + 100) {
+                cloudXpos = downRangeDistance - 300
+            }
+
+            clouds.x = getObjectDrawingPosX(cloudXpos)
+
+            if (altitude > 7000) {
+                clouds.y = getObjectDrawingPosY(7500)
+            }else if (altitude > 5000) {
+                clouds.y = getObjectDrawingPosY(6000)
+            }else if (altitude > 3000) {
+                clouds.y = getObjectDrawingPosY(4000)
+            }else if (altitude > 1000) {
+                clouds.y = getObjectDrawingPosY(2000)
+            }else{
+                clouds.y = getObjectDrawingPosY(300)
+            }
+            cloudsEmitter.init(clouds, true, drawingProportion * 0.1 * 1);
 
             //fireExtinguisher
             if (landed) {
@@ -372,11 +388,11 @@ function finalSetupAndRun() {
             function drawPluming() {
 
                 let drawingSize = (0.14 + (throttleCurrent * 0.00055)) * drawingProportion
-
+                let gimbolAngle = -gimbolPosition * gimbolAngleLimit * 0.01
 
                 if (raptorN1Running) {
                     raptor1PlumeEmitter.paused = false;
-                    raptor1Plume.rotation = -gimbolPosition * gimbolAngleLimit * 0.01
+                    raptor1Plume.rotation = gimbolAngle
                     raptor1Plume.x = starShipRaptor1XPos;
                     raptor1Plume.y = starShipRaptorsYPos;
                     raptor1PlumeEmitter.init(raptor1Plume, true, drawingSize);
@@ -386,7 +402,7 @@ function finalSetupAndRun() {
 
                 if (raptorN2Running) {
                     raptor2PlumeEmitter.paused = false;
-                    raptor2Plume.rotation = -gimbolPosition * gimbolAngleLimit * 0.01
+                    raptor2Plume.rotation = gimbolAngle
                     raptor2Plume.x = starShipRaptor2XPos;
                     raptor2Plume.y = starShipRaptorsYPos;
                     raptor2PlumeEmitter.init(raptor2Plume, true, drawingSize);
@@ -396,7 +412,7 @@ function finalSetupAndRun() {
 
                 if (raptorN3Running) {
                     raptor3PlumeEmitter.paused = false;
-                    raptor3Plume.rotation = -gimbolPosition * gimbolAngleLimit * 0.01
+                    raptor3Plume.rotation = gimbolAngle
                     raptor3Plume.x = starShipRaptor3XPos;
                     raptor3Plume.y = starShipRaptorsYPos;
                     raptor3PlumeEmitter.init(raptor3Plume, true, drawingSize);
@@ -404,6 +420,18 @@ function finalSetupAndRun() {
                     raptor3PlumeEmitter.paused = true;
                 }
 
+
+                raptorShutDownEffect1.rotation = gimbolAngle
+                raptorShutDownEffect1.x = starShipRaptor1XPos;
+                raptorShutDownEffect1.y = starShipRaptorsYPos;
+
+                raptorShutDownEffect2.rotation = gimbolAngle
+                raptorShutDownEffect2.x = starShipRaptor2XPos;
+                raptorShutDownEffect2.y = starShipRaptorsYPos;
+
+                raptorShutDownEffect3.rotation = gimbolAngle
+                raptorShutDownEffect3.x = starShipRaptor3XPos;
+                raptorShutDownEffect3.y = starShipRaptorsYPos;
             }
 
 

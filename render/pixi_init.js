@@ -83,6 +83,30 @@ function setupStarShip() {
 
     starShip.addChild(raptor3Plume)
 
+    //raptorShutDownEffect
+    //1
+    globalThis.raptorShutDownEffect1 = new PIXI.Container();
+
+    globalThis.raptorShutDownEffectEmitter1 = fx.getParticleEmitter('RaptorShutDown');
+
+    starShipAndEffects.addChild(raptorShutDownEffect1)
+
+    //2
+    globalThis.raptorShutDownEffect2 = new PIXI.Container();
+
+    globalThis.raptorShutDownEffectEmitter2 = fx.getParticleEmitter('RaptorShutDown');
+
+    starShipAndEffects.addChild(raptorShutDownEffect2)
+
+    //3
+    globalThis.raptorShutDownEffect3 = new PIXI.Container();
+
+    globalThis.raptorShutDownEffectEmitter3 = fx.getParticleEmitter('RaptorShutDown');
+
+    starShipAndEffects.addChild(raptorShutDownEffect3)
+
+
+
     //starShipBody
     starShipBody.anchor.set(0.5);
     starShipBody.x = 0;
@@ -287,10 +311,9 @@ function setupEffects() {
     //clouds
     globalThis.clouds = new PIXI.Container();
 
-    globalThis.cloudsEmitter = fx.getParticleEmitter('single-cloud');
-    clouds.x = getObjectDrawingPosX(starBaseBackGround2Xpos)
-    clouds.y = getObjectDrawingPosY(25)
-    cloudsEmitter.init(clouds, true, 1);
+    globalThis.cloudsEmitter = fx.getParticleEmitter('side-clouds');
+
+    globalThis.cloudXpos = starBaseXpos - 300
 
     app.stage.addChild(clouds)
 }
