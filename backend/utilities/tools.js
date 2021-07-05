@@ -229,6 +229,9 @@ function configScenarioPreset(alt, xpos, vx, vy, pit, porp){
     document.getElementById("Speed-Y").value = vy
     document.getElementById("Pitch").value = pit
     document.getElementById("Propellent").value = porp
+
+    semi_StickyCam_SpeedX = vx
+    semi_StickyCam_SpeedY = vy
 }
 
 function clearScenarioPreset(){

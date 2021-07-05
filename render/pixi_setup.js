@@ -298,7 +298,7 @@ function finalSetupAndRun() {
                 spaceEffectEmitter.paused = false;
                 spaceEffect.x = renderBoxWidth * 0.5
                 spaceEffect.y = renderBoxHeight * 0.5
-                spaceEffectEmitter.init(spaceEffect, true, 1);
+                spaceEffectEmitter.init(spaceEffect, true, drawingProportion*0.3);
             } else {
                 spaceEffectEmitter.paused = true;
             }
