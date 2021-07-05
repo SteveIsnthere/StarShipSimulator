@@ -298,19 +298,21 @@ function finalSetupAndRun() {
                 spaceEffectEmitter.paused = false;
                 spaceEffect.x = renderBoxWidth * 0.5
                 spaceEffect.y = renderBoxHeight * 0.5
-                spaceEffectEmitter.init(spaceEffect, true, drawingProportion*0.3);
+                spaceEffectEmitter.init(spaceEffect, true, drawingProportion*0.9);
             } else {
                 spaceEffectEmitter.paused = true;
             }
 
             //cloud
-            if (downRangeDistance > cloudXpos + 500 || downRangeDistance < cloudXpos + 100) {
-                cloudXpos = downRangeDistance - 300
+            if (cam_PosX > cloudXpos + 500 || cam_PosX < cloudXpos + 100) {
+                cloudXpos = cam_PosX - renderBoxPhysicalWidth*0.5
             }
 
             clouds.x = getObjectDrawingPosX(cloudXpos)
 
-            if (altitude > 7000) {
+            if (altitude > 8000) {
+                clouds.y = getObjectDrawingPosY(10000)
+            }else if (altitude > 7000) {
                 clouds.y = getObjectDrawingPosY(7500)
             }else if (altitude > 5000) {
                 clouds.y = getObjectDrawingPosY(6000)
@@ -319,9 +321,9 @@ function finalSetupAndRun() {
             }else if (altitude > 1000) {
                 clouds.y = getObjectDrawingPosY(2000)
             }else{
-                clouds.y = getObjectDrawingPosY(300)
+                clouds.y = getObjectDrawingPosY(250)
             }
-            cloudsEmitter.init(clouds, true, drawingProportion * 0.1 * 1);
+            cloudsEmitter.init(clouds, true, drawingProportion * 0.1 * 0.5);
 
             //fireExtinguisher
             if (landed) {

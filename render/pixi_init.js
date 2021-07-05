@@ -313,7 +313,7 @@ function setupEffects() {
 
     globalThis.cloudsEmitter = fx.getParticleEmitter('side-clouds');
 
-    globalThis.cloudXpos = starBaseXpos - 300
+    globalThis.cloudXpos = starBaseXpos - renderBoxPhysicalWidth/2
 
     app.stage.addChild(clouds)
 }
