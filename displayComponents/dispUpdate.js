@@ -2,16 +2,20 @@ function updateFlightParamDisp() {
     if (usedTime % 5 == 0) {
         //alttitude
         if (altitude < 1000) {
-            document.getElementById("altitudeDisp").textContent = altitude.toFixed(0) + "M";
+            document.getElementById("altitudeDisp").textContent = altitude.toFixed(0);
+            document.getElementById("altitudeDisp2").textContent = "M";
         } else {
-            document.getElementById("altitudeDisp").textContent = (altitude * 0.001).toFixed(1) + "KM";
+            document.getElementById("altitudeDisp").textContent = (altitude * 0.001).toFixed(1);
+            document.getElementById("altitudeDisp2").textContent = "KM";
         }
 
         //speed
         if (trueSpeed < 1000) {
-            document.getElementById("speedDisp").textContent = trueSpeed.toFixed(0) + "M/S";
+            document.getElementById("speedDisp").textContent = trueSpeed.toFixed(0);
+            document.getElementById("speedDisp2").textContent = "M/S";
         } else {
-            document.getElementById("speedDisp").textContent = (trueSpeed * 0.001).toFixed(1) + "KM/S";
+            document.getElementById("speedDisp").textContent = (trueSpeed * 0.001).toFixed(1);
+            document.getElementById("speedDisp2").textContent = "KM/S";
         }
 
         if (showedFlightParamDispMid) {

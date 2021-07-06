@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" href="icons/icon.webp" />
     <link rel="apple-touch-icon" href="icons/icon.webp">
 
-    <title>StarShip</title>
+    <title>StarShip Sim</title>
 
     <script>
         if ('serviceWorker' in navigator) {
@@ -32,9 +32,10 @@
     <canvas id="mainView"></canvas>
 
     <div id="FlightParamDisp" class="noSelect">
-        <div id="FlightParamDispL" onclick="zoomOut()">
-            <p id="altitudeDisp" style="font-size: 20px; text-align: center;"></p>
-            <p class="dispSizeAdjustmentBtn">-</p>
+        <div id="FlightParamDispL">
+            <p id="altitudeDisp" style="font-size: 15px;"></p>
+            <p id="altitudeDisp2" style="font-size: 10px;transform: translateY(-10px);"></p>
+            <p class="dispSizeAdjustmentBtn" onclick="zoomOut()">-</p>
         </div>
 
 
@@ -61,15 +62,16 @@
                 <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
                 <button id="showPlotViewButton" class="mainPageBtn"
                     style="display: none; background-color: transparent;" onclick="show_hidePlotView()">FDR</button>
-                <button id="requestTiltPermissionBtn" class="mainPageBtn">Tap me!</button>
+                <button id="requestTiltPermissionBtn" class="mainPageBtn">Enable Tilt Control</button>
 
             </div>
         </div>
 
 
-        <div id="FlightParamDispR" onclick="zoomIn()">
-            <p id="speedDisp" style="font-size: 20px; text-align: center;"><span></span></p>
-            <p class="dispSizeAdjustmentBtn">+</p>
+        <div id="FlightParamDispR">
+            <p id="speedDisp" style="font-size: 15px;"></p>
+            <p id="speedDisp2" style="font-size: 10px;transform: translateY(-10px);"></p>
+            <p class="dispSizeAdjustmentBtn" onclick="zoomIn()">+</p>
         </div>
     </div>
 

@@ -145,7 +145,7 @@ function finalSetupAndRun() {
                     groundSmokeEmitter.paused = true;
                 } else {
                     groundSmokeEmitter.paused = false;
-                    groundSmoke.x = getObjectDrawingPosX(downRangeDistance)
+                    groundSmoke.x = getObjectDrawingPosX(downRangeDistance-altitude*pitch)
                     groundSmoke.y = getObjectDrawingPosY(0)
                     groundSmokeEmitter.init(groundSmoke, true, scale);
 
