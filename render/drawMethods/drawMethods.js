@@ -95,10 +95,11 @@ function updateDrawingSize() {
 
 
 function updateRenderBoxPosition() {
+    updateGroundObjectXPos()
     if (stickyCam) {
         updateSemi_StickyCam_Pos()
     } else {
-        update_StaticCam_Pos()
+        update_GroundCam_Pos()
     }
 
     if (altitude <= renderBoxPhysicalHeight * 0.5) {
@@ -113,17 +114,17 @@ function updateRenderBoxPosition() {
 
     function updateSemi_StickyCam_Pos() {
 
-        semi_StickyCam_AccX = camCenterizeAcc(cam_PosX, downRangeDistance, renderBoxPhysicalWidth * 0.25, renderBoxPhysicalWidth / 2, semi_StickyCam_AlignTime_Centerize) + camMatchSpeedAcc(semi_StickyCam_SpeedX, speedX, semi_StickyCam_AlignTime_MatchSpeed)
-        semi_StickyCam_AccY = camCenterizeAcc(cam_PosY, altitude, renderBoxPhysicalHeight * 0.25, renderBoxPhysicalHeight / 2, semi_StickyCam_AlignTime_Centerize) + camMatchSpeedAcc(semi_StickyCam_SpeedY, speedY, semi_StickyCam_AlignTime_MatchSpeed)
+        cam_AccX = camCenterizeAcc(cam_PosX, downRangeDistance, renderBoxPhysicalWidth * 0.25, renderBoxPhysicalWidth / 2, semi_StickyCam_AlignTime_Centerize) + camMatchSpeedAcc(cam_SpeedX, speedX, semi_StickyCam_AlignTime_MatchSpeed)
+        cam_AccY = camCenterizeAcc(cam_PosY, altitude, renderBoxPhysicalHeight * 0.25, renderBoxPhysicalHeight / 2, semi_StickyCam_AlignTime_Centerize) + camMatchSpeedAcc(cam_SpeedY, speedY, semi_StickyCam_AlignTime_MatchSpeed)
 
         update_Pos()
 
         function update_Pos() {
-            semi_StickyCam_SpeedX += semi_StickyCam_AccX / renderTimeInterval
-            semi_StickyCam_SpeedY += semi_StickyCam_AccY / renderTimeInterval
+            cam_SpeedX += cam_AccX / renderTimeInterval
+            cam_SpeedY += cam_AccY / renderTimeInterval
 
-            cam_PosX += semi_StickyCam_SpeedX / renderTimeInterval
-            cam_PosY += semi_StickyCam_SpeedY / renderTimeInterval
+            cam_PosX += cam_SpeedX / renderTimeInterval
+            cam_PosY += cam_SpeedY / renderTimeInterval
 
             if (cam_PosY < renderBoxPhysicalHeight * 0.5) {
                 cam_PosY = renderBoxPhysicalHeight * 0.5
@@ -131,88 +132,83 @@ function updateRenderBoxPosition() {
 
         }
 
-        function camCenterizeAcc(currentPos, targetPos, posDifferenceThreshold, posDifferenceMax, timeNeededToAlign) {
-
-            let posDifference = targetPos - currentPos
-
-            let goalAcc
-
-            if (Math.abs(posDifference) < posDifferenceThreshold) {
-
-                goalAcc = posDifference / timeNeededToAlign
-            } else if (Math.abs(posDifference) < posDifferenceMax) {
-                goalAcc = posDifference / timeNeededToAlign * ((posDifferenceMax - posDifferenceThreshold) / (posDifferenceMax - Math.abs(posDifference)))
-            } else {
-                goalAcc = 0
-                fixedMode()
-            }
-            return goalAcc
-        }
-
-        function camMatchSpeedAcc(currentSpeed, targetSpeed, timeNeededToAlign) {
-            let speedDifference = targetSpeed - currentSpeed
-
-            let goalAcc = speedDifference / timeNeededToAlign
-
-            return goalAcc
-        }
-
-        function fixedMode() {
-            cam_PosX = downRangeDistance
-            cam_PosY = altitude
-        }
     }
 
-    function update_StaticCam_Pos() {
+    function update_GroundCam_Pos() {
+        
+        cam_AccX = camCenterizeAcc(cam_PosX, downRangeDistance, renderBoxPhysicalWidth * 0.25, renderBoxPhysicalWidth / 2, semi_StickyCam_AlignTime_Centerize) + camMatchSpeedAcc(cam_SpeedX, speedX, semi_StickyCam_AlignTime_MatchSpeed*2)
+        
+        cam_SpeedX += cam_AccX / renderTimeInterval
 
-        let offsetX = (downRangeDistance - cam_PosX)
-
-        if (offsetX > renderBoxPhysicalWidth / 2) {
-            cam_PosX += renderBoxPhysicalWidth
-            updateGroundObjectXPos()
-
-        } else if (offsetX < -renderBoxPhysicalWidth / 2) {
-            cam_PosX -= renderBoxPhysicalWidth
-            updateGroundObjectXPos()
-        }
-
+        cam_PosX += cam_SpeedX / renderTimeInterval
 
         if (cam_PosY != renderBoxPhysicalHeight * 0.5) {
-            updateGroundObjectXPos()
+            
             cam_PosY = renderBoxPhysicalHeight * 0.5
         }
 
     }
 
     function updateGroundObjectXPos() {
-        let noGobjectDis = 100
 
-        if (cam_PosX > (starBaseXpos - noGobjectDis) && cam_PosX < (starBaseXpos + noGobjectDis)) {
-            notDrawGroundObjectOnPad()
-        } else {
-            pigXpos = generateXposInsideRenderBox()
-            tree1Xpos = generateXposInsideRenderBox()
-            tree2Xpos = generateXposInsideRenderBox()
+        if (!inDrawingBox(pigXpos,pigWidth)) {
+            if (speedX>0) {
+                pigXpos = cam_PosX + renderBoxPhysicalWidth*0.5 + pigWidth*0.5
+            }else{
+                pigXpos = cam_PosX - renderBoxPhysicalWidth*0.5 - pigWidth*0.5
+            }
         }
 
-        pigXpos = generateXposInsideRenderBox()
-        tree1Xpos = generateXposInsideRenderBox()
-        tree2Xpos = generateXposInsideRenderBox()
-
-        function generateXposInsideRenderBox() {
-            return cam_PosX + (Math.random() - 0.5) * renderBoxPhysicalWidth
+        if (!inDrawingBox(tree1Xpos,tree1Width)) {
+            if (speedX>0) {
+                tree1Xpos = cam_PosX + renderBoxPhysicalWidth*0.5 + tree1Width*0.5
+            }else{
+                tree1Xpos = cam_PosX - renderBoxPhysicalWidth*0.5 - tree1Width*0.5
+            }
         }
 
-        function notDrawGroundObjectOnPad() {
-            pigXpos = 0
-            tree1Xpos = 0
-            tree2Xpos = 0
+        if (!inDrawingBox(tree2Xpos,tree2Width)) {
+            if (speedX>0) {
+                tree2Xpos = cam_PosX + renderBoxPhysicalWidth*0.5 + tree2Width*0.5
+            }else{
+                tree2Xpos = cam_PosX - renderBoxPhysicalWidth*0.5 - tree2Width*0.5
+            }
         }
     }
 
 }
 
+function camCenterizeAcc(currentPos, targetPos, posDifferenceThreshold, posDifferenceMax, timeNeededToAlign) {
 
+    let posDifference = targetPos - currentPos
+
+    let goalAcc
+
+    if (Math.abs(posDifference) < posDifferenceThreshold) {
+
+        goalAcc = posDifference / timeNeededToAlign
+    } else if (Math.abs(posDifference) < posDifferenceMax) {
+        goalAcc = posDifference / timeNeededToAlign * ((posDifferenceMax - posDifferenceThreshold) / (posDifferenceMax - Math.abs(posDifference)))
+    } else {
+        goalAcc = 0
+        fixedMode()
+    }
+    return goalAcc
+
+
+    function fixedMode() {
+        cam_PosX = downRangeDistance
+        cam_PosY = altitude
+    }
+}
+
+function camMatchSpeedAcc(currentSpeed, targetSpeed, timeNeededToAlign) {
+    let speedDifference = targetSpeed - currentSpeed
+
+    let goalAcc = speedDifference / timeNeededToAlign
+
+    return goalAcc
+}
 
 function windowResize() {
     renderBoxWidth = window.innerWidth
@@ -235,6 +231,6 @@ function getObjectDrawingPosY(posY) {
     return (cam_PosY - posY) * drawingSizeCurrent + renderBoxHeight * 0.5
 }
 
-function inDrawingBox(x,y,width,height){
-    return (cam_PosX+renderBoxPhysicalWidth*0.5+width*0.5>x)&&(cam_PosX-renderBoxPhysicalWidth*0.5+width*0.5<x)&&(cam_PosY-renderBoxPhysicalHeight*0.5-height*0.5<y)&&(cam_PosY+renderBoxPhysicalHeight*0.5+height*0.5>y)
+function inDrawingBox(x,width){
+    return (cam_PosX+renderBoxPhysicalWidth*0.5+width*0.5>x)&&(cam_PosX-renderBoxPhysicalWidth*0.5-width*0.5<x)
 }

@@ -304,10 +304,12 @@ function finalSetupAndRun() {
             }
 
             //cloud
-            if (cam_PosX > cloudXpos + 500 || cam_PosX < cloudXpos + 100) {
-                cloudXpos = cam_PosX - renderBoxPhysicalWidth*0.5
+            if (cam_PosX > cloudXpos + 600) {
+                cloudXpos = cam_PosX + renderBoxPhysicalWidth*0.5
+            }else if (cam_PosX < cloudXpos - 200) {
+                cloudXpos = cam_PosX - renderBoxPhysicalWidth*0.5 - 400
             }
-
+            
             clouds.x = getObjectDrawingPosX(cloudXpos)
 
             if (altitude > 8000) {

@@ -76,6 +76,9 @@ function restart() {
     showedCrashEffect = false
     showedinFightBreakUpEffect = false
 
+    tree1Xpos = starBaseXpos + 90
+    tree2Xpos = starBaseXpos - 40
+
     initBackEnd()
 
     updateButtons()
@@ -230,8 +233,8 @@ function configScenarioPreset(alt, xpos, vx, vy, pit, porp){
     document.getElementById("Pitch").value = pit
     document.getElementById("Propellent").value = porp
 
-    semi_StickyCam_SpeedX = vx
-    semi_StickyCam_SpeedY = vy
+    cam_SpeedX = vx
+    cam_SpeedY = vy
 }
 
 function clearScenarioPreset(){
