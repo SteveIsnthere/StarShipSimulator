@@ -1,16 +1,19 @@
 document.body.onresize = windowResize
 
 document.addEventListener('keydown', function (event) {
-    attitudeCommand(event)
-    throttleCommand(event)
-    togglePitchHoldByKey(event)
-    toggleAllRaptorsByKey(event)
-    toggleSingleRaptorByKey(event)
-    toggleFinByKey(event)
-    toggleRcsByKey(event)
-    toggleBoostBackbyKey(event) 
+    if (!showedMenuView) {
+        attitudeCommand(event)
+        throttleCommand(event)
+        togglePitchHoldByKey(event)
+        toggleAllRaptorsByKey(event)
+        toggleSingleRaptorByKey(event)
+        toggleFinByKey(event)
+        toggleRcsByKey(event)
+        toggleBoostBackbyKey(event)
 
-    drawingSizeAdjustment(event)
+        drawingSizeAdjustment(event)
+    }
+
 
     function attitudeCommand(event) {
         if (event.key === 'a' || event.key === 'A' || event.key === 'ArrowLeft') {
@@ -104,7 +107,9 @@ document.addEventListener('keydown', function (event) {
 });
 
 document.addEventListener('keyup', function (event) {
-    attitudeCommandRelease(event)
+    if (!showedMenuView) {
+        attitudeCommandRelease(event)
+    }
     function attitudeCommandRelease(event) {
         if (event.key === 'a' || event.key === 'A' || event.key === 'ArrowLeft' || event.key === 'd' || event.key === 'D' || event.key === 'ArrowRight') {
             pitchControl = 0

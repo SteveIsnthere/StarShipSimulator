@@ -60,7 +60,7 @@ function FlightParamsUpDate() {
     updateSpactialMotion()
     updateRotationalMotion()
 
-    usedTime++
+    usedTime ++
 
     function updateBasicParams() {
         upDateVehicleInFlightMaxArea()

@@ -29,11 +29,11 @@ function initDrawMethods() {
 
   globalThis.semi_StickyCam_AlignTime_MatchSpeed = 1
 
-  globalThis.semi_StickyCam_AccX = 0
-  globalThis.semi_StickyCam_AccY = 0
+  globalThis.cam_AccX = 0
+  globalThis.cam_AccY = 0
 
-  globalThis.semi_StickyCam_SpeedX = speedX
-  globalThis.semi_StickyCam_SpeedY = speedY
+  globalThis.cam_SpeedX = speedX
+  globalThis.cam_SpeedY = speedY
 
   globalThis.cam_PosX = downRangeDistance
   globalThis.cam_PosY = renderBoxPhysicalHeight / 2
