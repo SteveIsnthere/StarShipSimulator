@@ -240,6 +240,8 @@ function toggleTimeAccState() {
         buttonSwitchOff("timeAccState")
         document.getElementById("timeAccState").innerHTML = "Slow Thing Down"
     }
+
+    changeTimeAccRate()
 }
 
 function toggleRandomFaliure() {
