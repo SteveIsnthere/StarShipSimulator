@@ -245,6 +245,12 @@ function getVerticalAcceleration() {
     }
 }
 
+function updatePerceivedG(){
+    perceivedG_Y = (accelerationY + orbitGravityAccCompensation + gravity)/gravity
+    perceivedG_X = accelerationX/gravity
+    perceivedG = Math.sqrt(perceivedG_Y**2 + perceivedG_X**2)
+}
+
 function getAngle(rad) {
     return rad / Math.PI * 180
 }
@@ -351,6 +357,10 @@ function getAftFinDrag() {
 function updateOrbitGravityAccCompensation() {
     distanceToPlanetCenter = planetRadius + altitude
     orbitGravityAccCompensation = gravity * Math.abs(speedX) / orbitalVelocityAtCurrentAltitude
+
+    if (orbitGravityAccCompensation >= gravity) {
+        orbitGravityAccCompensation = gravity
+    }
 }
 
 function checkIfCrash() {

@@ -37,7 +37,9 @@ function initWorld() {
 }
 
 function initFlightParams() {
-    globalThis.usedTime = 0 // 1/60s
+    globalThis.updatedFrameCount = 0 // 1/60s
+
+    globalThis.timeSpent = 0
 
     globalThis.altitude = 000 + vehicleHeight / 2 //m
     globalThis.downRangeDistance = starBaseXpos
@@ -89,6 +91,10 @@ function initFlightParams() {
 
     globalThis.thermalPower = 0 //KW
     globalThis.dynamicPressure = 0 //psi
+
+    globalThis.perceivedG = 0
+    globalThis.perceivedG_X = 0
+    globalThis.perceivedG_Y = 0
 }
 
 function initVehicleParams() {

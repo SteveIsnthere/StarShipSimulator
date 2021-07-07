@@ -104,7 +104,7 @@ function finalSetupAndRun() {
 
         function updateSize() {
             if (onIosPwa) {
-                if (usedTime % 5 == 0) {
+                if (updatedFrameCount % 5 == 0) {
                     if (renderBoxWidth != window.innerWidth || renderBoxHeight != window.innerHeight) {
                         windowResize()
                     }
@@ -304,7 +304,7 @@ function finalSetupAndRun() {
             }
 
             //cloud
-            if (cam_PosX > cloudXpos + 600) {
+            if (cam_PosX > cloudXpos + 400 + renderBoxPhysicalWidth*0.5) {
                 cloudXpos = cam_PosX + renderBoxPhysicalWidth*0.5
             }else if (cam_PosX < cloudXpos - 200) {
                 cloudXpos = cam_PosX - renderBoxPhysicalWidth*0.5 - 400

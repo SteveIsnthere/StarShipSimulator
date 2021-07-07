@@ -177,6 +177,7 @@ function changeTimeAccRate() {
         newTimeAccRate = 1 / newTimeAccRate
     }
 
+    timeAccel = newTimeAccRate
     renderTimeInterval = frameRate / newTimeAccRate
     throttleSpeedPerFrame = throttleSpeed / renderTimeInterval
     gimbolSpeedPerFrame = gimbolSpeed / renderTimeInterval

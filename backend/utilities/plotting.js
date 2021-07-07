@@ -3,12 +3,12 @@ const plotStyle = {
     displayModeBar: false
 }
 
-let plotBGcolor = "rgba(255, 255, 255, 0.485)"
+let plotBGcolor = "rgba(255, 255, 255, 0.785)"
 let paperBGcolor = "rgba(236, 236, 236, 0.74)"
 
 function plot() {
     let timeNodesCopy = timeNodes
-    timeNodesCopy = timeNodesCopy.map(x => x / renderTimeInterval)
+    timeNodesCopy = timeNodesCopy.map(x => x / frameRate)
 
     altitudePlot()
     flyPathPlot()
@@ -180,25 +180,21 @@ function plot() {
 
     function accelerationPlot() {
 
-        let listOfAccelerationCopy = listOfAcceleration
-        let listOfAccelerationXCopy = listOfAccelerationX
-        let listOfAccelerationYCopy = listOfAccelerationY
-
         var acceleration = {
             x: timeNodesCopy,
-            y: listOfAccelerationCopy.map(x => x / gravity),
+            y: listOfAcceleration,
             type: 'scatter',
             name: 'Acc(G)'
         };
         var accelerationX = {
             x: timeNodesCopy,
-            y: listOfAccelerationXCopy.map(x => x / gravity),
+            y: listOfAccelerationX,
             type: 'scatter',
             name: 'AccX(G)'
         };
         var accelerationY = {
             x: timeNodesCopy,
-            y: listOfAccelerationYCopy.map(x => x / gravity),
+            y: listOfAccelerationY,
             type: 'scatter',
             name: 'AccY(G)'
         };

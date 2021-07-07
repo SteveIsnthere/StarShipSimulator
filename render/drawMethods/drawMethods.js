@@ -101,7 +101,7 @@ function updateRenderBoxPosition() {
     } else {
         update_GroundCam_Pos()
     }
-
+    
     if (altitude <= renderBoxPhysicalHeight * 0.5) {
         stickyCam = false
     } else {
@@ -116,7 +116,7 @@ function updateRenderBoxPosition() {
 
         cam_AccX = camCenterizeAcc(cam_PosX, downRangeDistance, renderBoxPhysicalWidth * 0.25, renderBoxPhysicalWidth / 2, semi_StickyCam_AlignTime_Centerize) + camMatchSpeedAcc(cam_SpeedX, speedX, semi_StickyCam_AlignTime_MatchSpeed)
         cam_AccY = camCenterizeAcc(cam_PosY, altitude, renderBoxPhysicalHeight * 0.25, renderBoxPhysicalHeight / 2, semi_StickyCam_AlignTime_Centerize) + camMatchSpeedAcc(cam_SpeedY, speedY, semi_StickyCam_AlignTime_MatchSpeed)
-
+        
         update_Pos()
 
         function update_Pos() {

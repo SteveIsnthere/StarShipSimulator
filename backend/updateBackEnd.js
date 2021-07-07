@@ -1,4 +1,7 @@
 function updateBackEnd() {
+
+    updatedFrameCount ++
+
     environmentUpDate()
 
     vehicleStatusUpDate()
@@ -60,8 +63,6 @@ function FlightParamsUpDate() {
     updateSpactialMotion()
     updateRotationalMotion()
 
-    usedTime ++
-
     function updateBasicParams() {
         upDateVehicleInFlightMaxArea()
         updateCrossSectionalArea()
@@ -71,6 +72,7 @@ function FlightParamsUpDate() {
         updateThermal_DynamicPressure()
         updatePitchRateOfChange()
         updateCurrentTWR()
+        updatePerceivedG()
 
         aerodynamicDrag = getDrag(crossSectionalArea, getBodyDragCoefficient())
         aerodynamicLift = getLift(vehicleInFlightMaxArea)
@@ -193,9 +195,11 @@ function environmentUpDate() {
 
 function saveDataPoint() {
 
-    if (usedTime % recordTimeInterval == 0 && !crashed && !inFightBreakUp && !onTheGround) {
+    if (updatedFrameCount % recordTimeInterval == 0 && !crashed && !inFightBreakUp && !onTheGround) {
+        timeSpent += timeAccel*recordTimeInterval
+
         //timeNodes
-        timeNodes.push(usedTime)
+        timeNodes.push(timeSpent)
 
         //motionAnglePlot
         listOfPitchAngle.push(pitch)
@@ -221,9 +225,9 @@ function saveDataPoint() {
         listOfDynamicPressure.push(dynamicPressure)
 
         //accelerationPlot
-        listOfAcceleration.push(totalAcceleration)
-        listOfAccelerationX.push(accelerationX)
-        listOfAccelerationY.push(accelerationY)
+        listOfAcceleration.push(perceivedG)
+        listOfAccelerationX.push(perceivedG_X)
+        listOfAccelerationY.push(perceivedG_Y)
 
         //controlOutPutPlot
         listOfPitchControl.push(pitchControl)

@@ -1,5 +1,5 @@
 function updateFlightParamDisp() {
-    if (usedTime % 5 == 0) {
+    if (updatedFrameCount % 5 == 0) {
         //alttitude
         if (altitude < 1000) {
             document.getElementById("altitudeDisp").textContent = altitude.toFixed(0);
@@ -28,13 +28,17 @@ function updateFlightParamDisp() {
             //speedY
             document.getElementById("speedY").textContent = Math.ceil(speedY);
             //g
-            document.getElementById("gforece").textContent = (totalAcceleration / gravity).toFixed(1);
+            if (onTheGround) {
+                document.getElementById("gforece").textContent = 1;
+            }else{
+                document.getElementById("gforece").textContent = perceivedG.toFixed(1);
+            }
             //ToSite
             let disToSite = Math.ceil(downRangeDistance - starBaseXpos)
             if (disToSite < 1000 && disToSite > -1000) {
-                document.getElementById("distanceToLandingSite").textContent = disToSite + " m";
+                document.getElementById("distanceToLandingSite").textContent = disToSite + "m";
             } else {
-                document.getElementById("distanceToLandingSite").textContent = (disToSite * 0.001).toFixed(1) + " km";
+                document.getElementById("distanceToLandingSite").textContent = (disToSite * 0.001).toFixed(1) + "km";
             }
         }
 
