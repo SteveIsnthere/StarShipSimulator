@@ -199,7 +199,7 @@ function initVehicleParams() {
     }
 
     function initVehicleLimit() {
-        globalThis.gLimit = 35
+        globalThis.gLimit = 13
         globalThis.heatLimit = 55
         globalThis.dynamicPressureLimit = 50
         globalThis.touchDownPitchLimit = 0.09
@@ -328,7 +328,7 @@ function initAutoPilotParams() {
     initAutoLand()
     initAutoTakeOff()
     initAutoMaxThrust()
-
+    initControlHorizontalAccelerationByAeroBreaking()
 }
 function initPitchHold() {
     globalThis.pitchHoldOn = false
@@ -340,7 +340,7 @@ function initAutoBoostBack() {
     globalThis.initAutoLandXposDiffThreshold = 500
     globalThis.propulsiveCorrectionMinHeight = 5000
     globalThis.propulsiveCorrectionAccuracyRequired = propulsiveCorrectionMinHeight * 0.05
-    globalThis.decelerationStageMaxTwr = 2
+    globalThis.decelerationStageHorizontalAcc = gravity*1.6
     globalThis.decelerationStageEstDuration = 0
     globalThis.finalXposPrediction = Infinity
     globalThis.freeFallTimeRemainingPrediction = Infinity
@@ -349,9 +349,12 @@ function initAutoBoostBack() {
 
     globalThis.boostBackinitCompleted = false
 
+    globalThis.boostBackAeroDeceleration = true
+
+    globalThis.boostBackDecelerationStageinitCompleted = false
+
     globalThis.accelerationStageCompleted = false
 
-    globalThis.coastStageCompleted = false
 }
 
 
@@ -430,18 +433,27 @@ function initAutoLand() {
     globalThis.noSteeringHeight = 5
 }
 
-function initAutoMaxThrust(){
+function initAutoMaxThrust() {
     globalThis.autoMaxThrustOn = false
 }
 
-function initAutoTakeOff(){
+function initAutoTakeOff() {
     globalThis.autoTakeOffOn = false
 
     globalThis.autoTakeOffInited = false
 
-    globalThis.aomAt_25km = getRad(60)
+    globalThis.aomAt_25km = getRad(55)
 
     globalThis.aomAt_80km = getRad(90)
 }
+
+
+function initControlHorizontalAccelerationByAeroBreaking() {
+    globalThis.horizontalAccelerationByAeroBreakingCorrectionAngle = 0
+    globalThis.aeroBreakingMaxCorrectionAngle = Math.PI * 0.5
+    globalThis.aeroBreakingFineTuneThreshold = 0.5
+    globalThis.aeroBreakingAdjDegreePerSec = getRad(30)
+}
+
 
 initBackEnd()

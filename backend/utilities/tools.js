@@ -182,11 +182,11 @@ function changeTimeAccRate() {
     throttleSpeedPerFrame = throttleSpeed / renderTimeInterval
     gimbolSpeedPerFrame = gimbolSpeed / renderTimeInterval
     gimbolSpeedPerFrame = gimbolSpeed / renderTimeInterval
-    finAcuationSpeedPerFrame = finAcuationSpeed / renderTimeInterval 
+    finAcuationSpeedPerFrame = finAcuationSpeed / renderTimeInterval
     controlInPutTimeConstant = 1 / frameRate * renderTimeInterval
 }
 
-function configureNewFlight(){
+function configureNewFlight() {
     let newAltitude = document.getElementById("Altitude").value
     let newX_Position = document.getElementById("X-Position").value
     let newSpeed_X = document.getElementById("Speed-X").value
@@ -197,8 +197,8 @@ function configureNewFlight(){
     if (newAltitude != "") {
         altitude = +newAltitude
 
-        if (altitude<vehicleHeight/2) {
-            altitude = vehicleHeight/2
+        if (altitude < vehicleHeight / 2) {
+            altitude = vehicleHeight / 2
         }
     }
     if (newX_Position != "") {
@@ -214,9 +214,9 @@ function configureNewFlight(){
         pitch = getRad(+newPitch)
     }
     if (newPropellent != "") {
-        propellantMass = +newPropellent*1000
+        propellantMass = +newPropellent * 1000
 
-        if (propellantMass>1200000) {
+        if (propellantMass > 1200000) {
             propellantMass = 1200000
         }
     }
@@ -226,7 +226,11 @@ function configureNewFlight(){
     }
 }
 
-function configScenarioPreset(alt, xpos, vx, vy, pit, porp){
+function configScenarioPreset(alt, xpos, vx, vy, pit, porp) {
+    if (crashed) {
+        restart()
+    }
+
     document.getElementById("Altitude").value = alt
     document.getElementById("X-Position").value = xpos
     document.getElementById("Speed-X").value = vx
@@ -238,7 +242,7 @@ function configScenarioPreset(alt, xpos, vx, vy, pit, porp){
     cam_SpeedY = vy
 }
 
-function clearScenarioPreset(){
+function clearScenarioPreset() {
     document.getElementById("Altitude").value = ""
     document.getElementById("X-Position").value = ""
     document.getElementById("Speed-X").value = ""

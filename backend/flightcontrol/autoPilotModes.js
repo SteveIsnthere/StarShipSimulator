@@ -68,18 +68,16 @@ function autoBoostBack() {
 
             if (!accelerationStageCompleted) {
                 accelerationStage()
-            } else if (!coastStageCompleted) {
-                coastStage()
             } else {
                 decelerationStage()
             }
 
             function accelerationStage() {
-                decelerationStageEstDuration = Math.abs(speedX) / (decelerationStageMaxTwr * gravity)
+                decelerationStageEstDuration = Math.abs(speedX) / decelerationStageHorizontalAcc+4
 
-                presisionAlignment(boostbackDirection, 0.5)
+                presisionAlignment(boostbackDirection, 1.5)
 
-                if ((starBaseXpos - downRangeDistance - flipEnducedXposChange) / speedX < (decelerationStageEstDuration + 5) && (starBaseXpos - downRangeDistance) / speedX > 0) {
+                if ((starBaseXpos - downRangeDistance - flipEnducedXposChange) / (speedX * 0.5) < (decelerationStageEstDuration + 2) && (starBaseXpos - downRangeDistance) / speedX > 0) {
                     toggleAllRaptors()
 
                     if (autoMaxThrustOn) {
@@ -90,32 +88,48 @@ function autoBoostBack() {
                 }
             }
 
-            function coastStage() {
-                decelerationStageEstDuration = Math.abs(speedX) / (decelerationStageMaxTwr * gravity) * 0.75
-
-                if ((starBaseXpos - downRangeDistance - flipEnducedXposChange) / speedX < (decelerationStageEstDuration + 2) && (starBaseXpos - downRangeDistance) / speedX > 0) {
-                    presisionAlignment(-boostbackDirection, 2)
-                } else {
-                    presisionAlignment(boostbackDirection, 2)
-                }
-
-
-                if ((starBaseXpos - downRangeDistance - flipEnducedXposChange) / speedX < decelerationStageEstDuration && (starBaseXpos - downRangeDistance) / speedX > 0) {
-                    toggleAllRaptors()
-                    coastStageCompleted = true
-                }
-
-            }
-
             function decelerationStage() {
-                presisionAlignment(-boostbackDirection, 1)
+                if (!boostBackDecelerationStageinitCompleted) {
+                    initboostBackDecelerationStage()
+                }
 
-                raptorAutoShutDown_KeepMinTWRBelow1()
-                controlEnginebyTWR(decelerationStageMaxTwr)
+                if (boostBackAeroDeceleration) {
+                    boostBackAeroDecelerationController()
+                }else{
+                    propulsiveDecelerationController()
+                }
 
                 if (Math.abs(speedX) < 3) {
                     finishBoostBack()
                 }
+
+                function boostBackAeroDecelerationController(){
+                    if (boostbackDirection < 0) {
+                        controlHorizontalAccelerationByAeroBreaking(decelerationStageHorizontalAcc)
+                    }else{
+                        controlHorizontalAccelerationByAeroBreaking(-decelerationStageHorizontalAcc)
+                    }
+                    
+                }
+
+                function propulsiveDecelerationController(){
+                    presisionAlignment(-boostbackDirection, 1)
+
+                    raptorAutoShutDown_KeepMinTWRBelow1()
+                    controlEnginebyTWR(decelerationStageHorizontalAcc / gravity)
+                }
+
+
+                function initboostBackDecelerationStage() {
+                    setTimeout(function(){
+                        if(accelerationX<decelerationStageHorizontalAcc*0.95){
+                            boostBackAeroDeceleration = false
+                            toggleAllRaptors()
+                        }
+                    }, 5000/timeAccel);
+                    boostBackDecelerationStageinitCompleted = true
+                }
+
             }
         }
 
@@ -213,7 +227,7 @@ function autoLand() {
 
         steerTowardsSite()
 
-        if (altitude < bellyFlopTriggerAltitude && speedY < 5 || altitude < 300 && altitude < 2000) {
+        if ((altitude < bellyFlopTriggerAltitude && speedY < 5 && altitude < 2500) || altitude < 300) {
             aeroDesentCompleted = true
         }
 
@@ -412,7 +426,7 @@ function autoMaxThrust() {
 }
 
 function autoTakeOff() {
-    if (autoTakeOffOn) {
+    if (autoTakeOffOn && !manualControlOn) {
 
         if (!autoTakeOffInited) {
             initAutoTakeOff()
@@ -426,7 +440,7 @@ function autoTakeOff() {
             presisionAlignment(aomAt_80km, 3)
         }
 
-        if (propellantMass < 30000 && getWorkingEngineCount() > 0) {
+        if (propellantMass < dumpLimit && getWorkingEngineCount() > 0) {
             toggleAllRaptors()
             toggleautoTakeOff()
         }
@@ -444,3 +458,4 @@ function autoTakeOff() {
         autoTakeOffInited = true
     }
 }
+

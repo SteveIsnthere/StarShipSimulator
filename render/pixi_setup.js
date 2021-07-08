@@ -304,12 +304,12 @@ function finalSetupAndRun() {
             }
 
             //cloud
-            if (cam_PosX > cloudXpos + 400 + renderBoxPhysicalWidth*0.5) {
-                cloudXpos = cam_PosX + renderBoxPhysicalWidth*0.5
+            if (cam_PosX > cloudXpos + 600) {
+                cloudXpos = cam_PosX + 200
             }else if (cam_PosX < cloudXpos - 200) {
-                cloudXpos = cam_PosX - renderBoxPhysicalWidth*0.5 - 400
+                cloudXpos = cam_PosX - 500
             }
-            
+
             clouds.x = getObjectDrawingPosX(cloudXpos)
 
             if (altitude > 8000) {
@@ -320,8 +320,10 @@ function finalSetupAndRun() {
                 clouds.y = getObjectDrawingPosY(6000)
             }else if (altitude > 3000) {
                 clouds.y = getObjectDrawingPosY(4000)
-            }else if (altitude > 1000) {
+            }else if (altitude > 1500) {
                 clouds.y = getObjectDrawingPosY(2000)
+            }else if (altitude > 800) {
+                clouds.y = getObjectDrawingPosY(1200)
             }else{
                 clouds.y = getObjectDrawingPosY(250)
             }

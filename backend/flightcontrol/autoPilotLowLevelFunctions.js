@@ -115,13 +115,21 @@ function presisionAlignment(goal, timeNeededToAlign) {
         }
 
         function controller() {
-            if (torqueRequired > 0) {
+            let rcsForceRequired = torqueRequired / rcsThrustDistanceFromCenterOfMass
 
-                yokePosition = 100
+            if (rcsForceRequired > 0) {
+                if (rcsForceRequired > rcsMaxThrust) {
+                    yokePosition = 100
+                } else {
+                    rcsThrust = rcsForceRequired
+                }
 
-            } else if (torqueRequired < 0) {
-
-                yokePosition = -100
+            } else if (rcsForceRequired < 0) {
+                if (rcsForceRequired < -rcsMaxThrust) {
+                    yokePosition = -100
+                } else {
+                    rcsThrust = rcsForceRequired
+                }
 
             } else {
                 yokePosition = 0
@@ -224,6 +232,33 @@ function speedAdjustment(targetSpeed, speedDifferenceThreshold, twrLimit) {
         if (speedDifference < speedDifferenceThreshold) {
             controlEnginebyTWR(1 + speedDifference / speedDifferenceThreshold)
         }
+    }
+}
+
+
+function controlHorizontalAccelerationByAeroBreaking(goalHorizontalAcc) {
+    if (!finActive) {
+        toggleFin()
+    }
+
+    if (Math.abs(accelerationX) > Math.abs(goalHorizontalAcc)) {
+        horizontalAccelerationByAeroBreakingCorrectionAngle -= aeroBreakingAdjDegreePerSec / renderTimeInterval
+    } else {
+        horizontalAccelerationByAeroBreakingCorrectionAngle += aeroBreakingAdjDegreePerSec / renderTimeInterval
+    }
+
+    if (horizontalAccelerationByAeroBreakingCorrectionAngle > aeroBreakingMaxCorrectionAngle) {
+        horizontalAccelerationByAeroBreakingCorrectionAngle = aeroBreakingMaxCorrectionAngle
+    }else if (horizontalAccelerationByAeroBreakingCorrectionAngle < 0) {
+        horizontalAccelerationByAeroBreakingCorrectionAngle = 0
+    }
+
+    if (goalHorizontalAcc < 0) {
+
+        presisionAlignment(horizontalAccelerationByAeroBreakingCorrectionAngle - Math.PI/2, 1.5)
+
+    } else {
+        presisionAlignment(-horizontalAccelerationByAeroBreakingCorrectionAngle+Math.PI/2, 1.5)
     }
 
 }

@@ -49,6 +49,7 @@ button {
     border-radius: 15px;
     padding: 12px;
     margin: 10px;
+    transition: transform .2s ease-in-out;
     box-shadow: 1.5px 1.5px 3.5px 0 rgba(0, 0, 0, 0.2), -2px -2px 4.5px 0 rgba(255, 255, 255, 0.55);
 }
 
@@ -71,8 +72,6 @@ button {
     transition: box-shadow 0.3s ease-in-out;
     box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
-
-
 
 .hiddenFullScreenView {
     position: absolute;
@@ -189,11 +188,12 @@ button {
     margin: 10px;
 }
 
-.scenarioPreset{
+.scenarioPreset {
     padding: 10px;
     margin: 15px;
     border-radius: 20px;
 }
+
 
 @media only screen and (min-width: 500px) {
     #controlsL {
