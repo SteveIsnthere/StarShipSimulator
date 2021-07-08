@@ -168,6 +168,7 @@ function controlsUpdate() {
     }
 
     function autoPilotControlInput() {
+        demoAutoLand()
         autoMaxThrust()
         pitchHold()
         autoTakeOff()

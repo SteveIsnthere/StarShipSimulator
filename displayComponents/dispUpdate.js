@@ -217,10 +217,8 @@ function show_hideMenuView() {
 function show_hideGuideView() {
     if (showedGuideView) {
         document.getElementById("guideView").style.transform = "translate(0, 100%)"
-        app.start()
     } else {
         document.getElementById("guideView").style.transform = "translate(0, 0)"
-        setTimeout(function () { app.stop() }, 200);
     }
 
     showedGuideView = toggle(showedGuideView)
@@ -229,10 +227,8 @@ function show_hideGuideView() {
 function show_hideAboutView() {
     if (showedAboutView) {
         document.getElementById("aboutView").style.transform = "translate(0, 100%)"
-        app.start()
     } else {
         document.getElementById("aboutView").style.transform = "translate(0, 0)"
-        setTimeout(function () { app.stop() }, 200);
     }
 
     showedAboutView = toggle(showedAboutView)
