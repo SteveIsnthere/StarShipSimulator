@@ -84,6 +84,7 @@ button {
 .controlBtn {
     background-color: transparent;
     font-weight: 100;
+    color: rgba(109, 109, 109, 0.767);
     font-family: monospace;
     font-size: small;
     border-radius: 10px;
@@ -97,7 +98,7 @@ button {
 
 #FlightParamDisp {
     font-family: monospace;
-    color: rgba(59, 59, 59, 0.767);
+    color: rgba(109, 109, 109, 0.767);
 }
 
 #FlightParamDispL {

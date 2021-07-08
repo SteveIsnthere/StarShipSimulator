@@ -1,6 +1,17 @@
 
 const rendererBackgroundColor = "0xa7bdd9"
 
+let skyColorR = parseInt(rendererBackgroundColor.substring(2,4), 16);
+let skyColorG = parseInt(rendererBackgroundColor.substring(4,6), 16);
+let skyColorB = parseInt(rendererBackgroundColor.substring(6,8), 16);
+
+let skyColor
+
+let skyDarkenFraction = 0.6
+
+let skyStartDarkenHeight = 0000
+let skyCompletelyDarkenHeight = 80000
+
 const app = new PIXI.Application({
     view: mainView,
     width: renderBoxWidth,

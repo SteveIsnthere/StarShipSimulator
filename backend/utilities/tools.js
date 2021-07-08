@@ -25,7 +25,7 @@ function buttonSwitchOn(id) {
 }
 
 function buttonSwitchOff(id) {
-    document.getElementById(id).style.color = 'rgba(59, 59, 59, 0.767)'
+    document.getElementById(id).style.color = 'rgba(109, 109, 109, 0.767);'
     document.getElementById(id).style.boxShadow = "3px 3px 7px 0 rgba(0, 0, 0, 0.2),-4px -4px 9px 0 rgba(255, 255, 255, 0.55)";
 }
 

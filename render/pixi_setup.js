@@ -10,6 +10,8 @@ function finalSetupAndRun() {
 
         updateFlightParamDisp()
 
+        updateSkyColor()
+
         updateSize()
 
         updateDrawingSize()
@@ -145,7 +147,7 @@ function finalSetupAndRun() {
                     groundSmokeEmitter.paused = true;
                 } else {
                     groundSmokeEmitter.paused = false;
-                    groundSmoke.x = getObjectDrawingPosX(downRangeDistance-altitude*pitch)
+                    groundSmoke.x = getObjectDrawingPosX(downRangeDistance - altitude * pitch)
                     groundSmoke.y = getObjectDrawingPosY(0)
                     groundSmokeEmitter.init(groundSmoke, true, scale);
 
@@ -294,11 +296,11 @@ function finalSetupAndRun() {
 
         function drawWorldEffects() {
             //space
-            if (altitude > 100000) {
+            if (altitude > 20000) {
                 spaceEffectEmitter.paused = false;
                 spaceEffect.x = renderBoxWidth * 0.5
                 spaceEffect.y = renderBoxHeight * 0.5
-                spaceEffectEmitter.init(spaceEffect, true, drawingProportion*0.9);
+                spaceEffectEmitter.init(spaceEffect, true, drawingProportion * 0.9);
             } else {
                 spaceEffectEmitter.paused = true;
             }
@@ -306,7 +308,7 @@ function finalSetupAndRun() {
             //cloud
             if (cam_PosX > cloudXpos + 600) {
                 cloudXpos = cam_PosX + 200
-            }else if (cam_PosX < cloudXpos - 200) {
+            } else if (cam_PosX < cloudXpos - 200) {
                 cloudXpos = cam_PosX - 500
             }
 
@@ -314,17 +316,17 @@ function finalSetupAndRun() {
 
             if (altitude > 8000) {
                 clouds.y = getObjectDrawingPosY(10000)
-            }else if (altitude > 7000) {
+            } else if (altitude > 7000) {
                 clouds.y = getObjectDrawingPosY(7500)
-            }else if (altitude > 5000) {
+            } else if (altitude > 5000) {
                 clouds.y = getObjectDrawingPosY(6000)
-            }else if (altitude > 3000) {
+            } else if (altitude > 3000) {
                 clouds.y = getObjectDrawingPosY(4000)
-            }else if (altitude > 1500) {
+            } else if (altitude > 1500) {
                 clouds.y = getObjectDrawingPosY(2000)
-            }else if (altitude > 800) {
+            } else if (altitude > 800) {
                 clouds.y = getObjectDrawingPosY(1200)
-            }else{
+            } else {
                 clouds.y = getObjectDrawingPosY(250)
             }
             cloudsEmitter.init(clouds, true, drawingProportion * 0.1 * 0.5);
@@ -470,6 +472,28 @@ function finalSetupAndRun() {
                 } else {
                     fueldumpEmitter.paused = true;
                 }
+            }
+        }
+
+        function updateSkyColor() {
+            if (updatedFrameCount % 6 == 0) {
+                let skyLighteness
+
+                if (altitude < skyStartDarkenHeight) {
+                    skyLighteness = 1
+                } else if (altitude < skyCompletelyDarkenHeight) {
+                    skyLighteness = 1 - (altitude - skyStartDarkenHeight) / (skyCompletelyDarkenHeight - skyStartDarkenHeight) * skyDarkenFraction
+                } else {
+                    skyLighteness = 1 - skyDarkenFraction
+                }
+
+                let skyColorRCurrent = (Math.round(skyColorR * skyLighteness ** 2).toString(16));
+                let skyColorGCurrent = (Math.round(skyColorG * skyLighteness ** 2).toString(16));
+                let skyColorBCurrent = (Math.round(skyColorB * skyLighteness).toString(16));
+
+                skyColor = "0x" + skyColorRCurrent + skyColorGCurrent + skyColorBCurrent
+
+                app.renderer.backgroundColor = skyColor;
             }
         }
 

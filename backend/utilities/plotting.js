@@ -4,7 +4,7 @@ const plotStyle = {
 }
 
 let plotBGcolor = "rgba(255, 255, 255, 0.785)"
-let paperBGcolor = "rgba(246, 246, 246, 0.74)"
+let paperBGcolor = "rgba(246, 246, 246, 0.84)"
 
 function plot() {
     let timeNodesCopy = timeNodes

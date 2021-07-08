@@ -226,6 +226,17 @@ function show_hideGuideView() {
     showedGuideView = toggle(showedGuideView)
 }
 
+function show_hideAboutView() {
+    if (showedAboutView) {
+        document.getElementById("aboutView").style.transform = "translate(0, 100%)"
+        app.start()
+    } else {
+        document.getElementById("aboutView").style.transform = "translate(0, 0)"
+        setTimeout(function () { app.stop() }, 200);
+    }
+
+    showedAboutView = toggle(showedAboutView)
+}
 
 function dynamicLayoutUpdate() {
     if (window.innerWidth < 450) {
@@ -245,6 +256,7 @@ let showedcontrolsR = false
 let showedPlotView = false
 let showedMenuView = false
 let showedGuideView = false
+let showedAboutView = false
 let showedFlightParamDispMid = false
 
 let timeAccState = true //positive
@@ -275,4 +287,4 @@ updateButtons()
 
 setTimeout(function(){
     document.getElementById("helpBtn").style.display = "none"
-}, 10000);
+}, 15000);

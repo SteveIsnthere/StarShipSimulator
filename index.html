@@ -58,7 +58,8 @@
 
             <div id="mainViewButtonsArea" style="margin: 10px;">
 
-                <button id="helpBtn" class="mainPageBtn" style="display: initial;" onclick="show_hideGuideView()">Beginner's Guide</button>
+                <button id="helpBtn" class="mainPageBtn" style="display: initial;"
+                    onclick="show_hideGuideView()">Beginner's Guide</button>
                 <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
                 <button id="showPlotViewButton" class="mainPageBtn"
                     style="display: none; background-color: transparent;" onclick="show_hidePlotView()">FDR</button>
@@ -143,7 +144,7 @@
     <div id="menuView" class="hiddenFullScreenView" style="display: flex; flex-direction: column;height: 100%;">
         <div id="close_MenuView" style="min-height: 20%;flex: 1;" onclick="show_hideMenuView()"></div>
         <div id="menuContent"
-            style="background-color: rgba(216, 216, 216, 0.548);display: flex; flex-direction: column; padding: 10px; align-items: center;backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);">
+            style="background-color: rgba(196, 196, 196, 0.733);display: flex; flex-direction: column; padding: 10px; align-items: center;backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);">
 
             <div id="toggleTiltControlDiv" class="singleFunctionCell">
                 <button id="toggleTiltControl" onclick="toggleTiltControl()" class="controlBtn">TiltControl</button>
@@ -214,7 +215,7 @@
 
             <div class="functionTitle"
                 style="flex-basis: 100%;display: flex; align-items: center; justify-content: center; margin: 10px;">
-                <button class="mainPageBtn" style="display: initial;">About</button>
+                <button class="mainPageBtn" style="display: initial;" onclick="show_hideAboutView()">About</button>
                 <button class="mainPageBtn" style="display: initial;" onclick="show_hideGuideView()">Help</button>
             </div>
         </div>
@@ -225,83 +226,179 @@
         style="display: flex; flex-direction: column;height: 100%;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;transform: translateY(100%);">
         <div id="close_GuideView" style="min-height: 20%;flex: 1;" onclick="show_hideGuideView()"></div>
         <div
-            style="background-color: rgba(46, 46, 46, 0);display: flex; flex-direction: column; padding: 10px; align-items: center;color: whitesmoke;">
+            style="background-color: rgb(46, 46, 46);display: flex; flex-direction: column; padding: 10px; align-items: center;color: whitesmoke;">
 
-                <ul>
-                    <details>
-                        <summary>Basics</summary>
-                        <ul>
-                            <p style="font-size: x-small; padding: 0em 1em 1em;">In this section I'll go though some
-                                basic ways to control via touch/mouse; For Keyboard Short Cuts, See Keybinds Section</p>
-                            <details>
-                                <summary>Attitude Control</summary>
-                                <ul>
-                                    <p style="font-size: x-small; padding: 0em 1em 1em;">The Attitude Control Panel is on the right side of the screen, and is hidable</p>
-                                    <li>The Slider: Slide left to pitch upwards, vice versa</li>
-                                    <li>Second & Third Rows: AutoPilotModes</li>
-                                    <li>Forth Row: Fin, RCS, FuelDump switches</li>
-                                </ul>
-                            </details>
+            <ul>
+                <details>
+                    <summary>Basics</summary>
+                    <ul>
+                        <p style="font-size: x-small; padding: 0em 1em 1em;">In this section I'll go though some
+                            basic ways to control via touch/mouse; For Keyboard Short Cuts, See Keybinds Section</p>
+                        <details>
+                            <summary>Attitude Control</summary>
+                            <ul>
+                                <p style="font-size: x-small; padding: 0em 1em 1em;">The Attitude Control Panel is on
+                                    the right side of the screen, and is hidable</p>
+                                <li>The Slider: Slide left to pitch upwards, vice versa</li>
+                                <li>Second & Third Rows: AutoPilotModes</li>
+                                <li>Forth Row: Fin, RCS, FuelDump switches</li>
+                            </ul>
+                        </details>
 
-                            <details>
-                                <summary>Engine Control</summary>
-                                <ul>
-                                    <p style="font-size: x-small; padding: 0em 1em 1em;">The Engine Control Panel is on the left side of the screen, and is hidable</p>
-                                    <li>The Slider: Slide left to decrease thrust, vice versa</li>
-                                    <li>Second Row: Individual Engine switches</li>
-                                </ul>
-                            </details>
-                        </ul>
-                    </details>
+                        <details>
+                            <summary>Engine Control</summary>
+                            <ul>
+                                <p style="font-size: x-small; padding: 0em 1em 1em;">The Engine Control Panel is on the
+                                    left side of the screen, and is hidable</p>
+                                <li>The Slider: Slide left to decrease thrust, vice versa</li>
+                                <li>Second Row: Individual Engine switches</li>
+                            </ul>
+                        </details>
+                    </ul>
+                </details>
 
-                    <details>
-                        <summary>Keybinds</summary>
-                        <ul>
-                            <p style="font-size: x-small; padding: 0em 1em 1em;">Noted that keyboard is not a necessity for this game, just to make things easier</p>
-                            <details>
-                                <summary>Basic Control</summary>
-                                <ul>
-                                    <li>Control Attitude: Press A or Left-Arrow to pitch down; D or Right-Arrow to pitch
-                                        up</li>
-                                    <li>Toggle Fins: Press F</li>
-                                    <li>Toggle RCS (Cold Gas Thruster): Press R</li>
-                                </ul>
-                            </details>
+                <details>
+                    <summary>Keybinds</summary>
+                    <ul>
+                        <p style="font-size: x-small; padding: 0em 1em 1em;">Noted that keyboard is not a necessity for
+                            this game, just to make things easier</p>
+                        <details>
+                            <summary>Basic Control</summary>
+                            <ul>
+                                <li>Control Attitude: Press A or Left-Arrow to pitch down; D or Right-Arrow to pitch
+                                    up</li>
+                                <li>Toggle Fins: Press F</li>
+                                <li>Toggle RCS (Cold Gas Thruster): Press R</li>
+                            </ul>
+                        </details>
 
-                            <details>
-                                <summary>Thrust Control</summary>
-                                <ul>
-                                    <li>Toggle All Raptors: Press Space</li>
-                                    <li>Toggle Individual Raptor: Press Num Key 1 or 2 or 3</li>
-                                    <li>Control Thrust: Press W or Up-Arrow to increase thrust, S or Down-Arrow to
-                                        decrease. Z for max thrust, X cut thrust</li>
-                                </ul>
-                            </details>
+                        <details>
+                            <summary>Thrust Control</summary>
+                            <ul>
+                                <li>Toggle All Raptors: Press Space</li>
+                                <li>Toggle Individual Raptor: Press Num Key 1 or 2 or 3</li>
+                                <li>Control Thrust: Press W or Up-Arrow to increase thrust, S or Down-Arrow to
+                                    decrease. Z for max thrust, X cut thrust</li>
+                            </ul>
+                        </details>
 
-                            <details>
-                                <summary>AutoPilot</summary>
-                                <ul>
-                                    <li>Toggle Assisted Control Mode (Attihold): Press T</li>
-                                    <li>Toggle BoostBack Mode (RTLS): Press BackSpace</li>
-                                </ul>
-                            </details>
+                        <details>
+                            <summary>AutoPilot</summary>
+                            <ul>
+                                <li>Toggle Assisted Control Mode (Attihold): Press T</li>
+                                <li>Toggle BoostBack Mode (RTLS): Press BackSpace</li>
+                            </ul>
+                        </details>
 
-                            <details>
-                                <summary>Others</summary>
-                                <ul>
-                                    <li>Zoom In or Out: Press + or -</li>
-                                </ul>
-                            </details>
-                        </ul>
-                    </details>
+                        <details>
+                            <summary>Others</summary>
+                            <ul>
+                                <li>Zoom In or Out: Press + or -</li>
+                            </ul>
+                        </details>
+                    </ul>
+                </details>
 
-                    <details>
-                        <summary>If you have played Kerbal Space Program before...</summary>
-                        <ul>
-                            <p>Then basically you are good to play, the keybinds are the same, have fun! :)</p>
-                        </ul>
-                    </details>
-                </ul>
+                <details>
+                    <summary>If you have played Kerbal Space Program before...</summary>
+                    <ul>
+                        <p>Then basically you are good to play, the keybinds are the same, have fun! :)</p>
+                    </ul>
+                </details>
+            </ul>
+        </div>
+    </div>
+
+    <div id="aboutView" class="hiddenFullScreenView"
+        style="display: flex; flex-direction: column;height: 100%;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;transform: translateY(100%);">
+        <div id="close_AboutView" style="min-height: 20%;flex: 1;" onclick="show_hideAboutView()"></div>
+        <div
+            style="background-color: rgb(46, 46, 46);display: flex; flex-direction: column; padding: 10px; align-items: center;color: whitesmoke;">
+
+            <ul>
+                <details>
+                    <summary>Version</summary>
+                    <ul>
+                        <details>
+                            <summary>v0.1-alpha</summary>
+                            <ul>
+                                <details>
+                                    <summary>New Features</summary>
+                                    <ul>
+                                        <li>First lunch, cheers!</li>
+                                    </ul>
+                                </details>
+                            </ul>
+                        </details>
+                        <p style="padding: 0em 1em;">Currently v0.2-alpha</p>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>What's New?</summary>
+                    <ul>
+                        <details>
+                            <summary>New Features</summary>
+                            <ul>
+                                <li>Flight Configuration Mode: Set up your own flight scenario, with 6 presets that can be applied immediately!</li>
+                                <li>Time Warp: Crash more, wait less!</li>
+                                <li>New AutoPilot Modes: BoostBack(RTLS) & AutoLiftOff</li>
+                                <li>UI overhaul: Morphism</li>
+                                <li>4× Pixels: Now rendering at native resolution on all devices</li>
+                                <li>Added realistic clouds</li>
+                                <li>New Effects: Dust on the Ground; Star Effect at high alttitude; Raptor Shut Down effect</li>
+                                <li>Hideable Controls Panels: Less clutering</li>
+                                <li>Added Beginner's Guide</li>
+                                <li>Added Main Menu</li>
+                            </ul>
+                        </details>
+
+                        <details>
+                            <summary>Major Improvements</summary>
+                            <ul>
+                                <li></li>
+                            </ul>
+                        </details>
+
+                        <details>
+                            <summary>Known Issues</summary>
+                            <ul>
+                                <li></li>
+                            </ul>
+                        </details>
+
+                        <details>
+                            <summary>Others</summary>
+                            <ul>
+                                <li></li>
+                            </ul>
+                        </details>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>GitHub</summary>
+                    <ul>
+                        <a href="https://github.com/SteveTheSpaceFan/StarShipSimulator">Click Me!</a>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>Suggestions</summary>
+                    <ul>
+                        <p style="padding: 0em 1em;">Any Suggestion is welcome!</p>
+                        <a href="mailto:yuyustevejobs@icloud.com">Tap me!</a>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>About Me</summary>
+                    <ul>
+                        <li>Hello, My name's Steve</li>
+                    </ul>
+                </details>
+
+            </ul>
         </div>
     </div>
 </body>
