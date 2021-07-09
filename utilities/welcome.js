@@ -68,7 +68,7 @@ app.stop()
 
 
 function startRunningGame() {
-  altitude = renderBoxPhysicalHeight
+  altitude = renderBoxPhysicalHeight-1
   speedY = -renderBoxPhysicalHeight / 4
 
   propellantMass = 12000
