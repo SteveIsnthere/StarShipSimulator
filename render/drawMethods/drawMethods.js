@@ -142,7 +142,7 @@ function updateRenderBoxPosition() {
 
         cam_PosX += cam_SpeedX / renderTimeInterval
 
-        cam_SpeedY = 0 
+        cam_SpeedY = speedY 
 
         if (cam_PosY != renderBoxPhysicalHeight * 0.5) {
             
