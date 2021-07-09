@@ -122,7 +122,7 @@ document.addEventListener('keyup', function (event) {
 
 
 let tiltControlOn = true
-document.getElementById("requestTiltPermissionBtn").onclick = function (e) {
+document.getElementById("startGame").onclick = function (e) {
     e.preventDefault();
     // Request permission for iOS 13+ devices//
     if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === "function") {
