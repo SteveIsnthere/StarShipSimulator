@@ -16,9 +16,9 @@
     }
   ],
   "start_url": "index.html",
-  "background_color": "#a7bdd9",
+  "background_color": "#000000",
   "display": "fullscreen",
   "scope": "/",
-  "theme_color": "#a7bdd9",
+  "theme_color": "#000000",
   "description": "StarShip-by Steve"
 }
