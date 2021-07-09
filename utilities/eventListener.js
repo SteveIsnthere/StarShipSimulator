@@ -122,21 +122,15 @@ document.addEventListener('keyup', function (event) {
 
 
 let tiltControlOn = true
-let tiltControlInited = false
 document.getElementById("startGame").onclick = function (e) {
-    if (!tiltControlInited) {
-        e.preventDefault();
-        // Request permission for iOS 13+ devices//
-        if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === "function") {
-            DeviceMotionEvent.requestPermission();
-        }
-        window.addEventListener("deviceorientation", controlByTilt);
-
-        document.getElementById("requestTiltPermissionBtn").style.display = "none"
-
-        tiltControlInited = true
+    e.preventDefault();
+    // Request permission for iOS 13+ devices//
+    if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === "function") {
+        DeviceMotionEvent.requestPermission();
     }
+    window.addEventListener("deviceorientation", controlByTilt);
 
+    document.getElementById("requestTiltPermissionBtn").style.display = "none"
 };
 
 
