@@ -257,6 +257,8 @@ let showedFlightParamDispMid = false
 
 let timeAccState = true //positive
 
+let showRequestTiltControlBtn = false
+
 //check platform
 if (typeof window.orientation == 'undefined') {
     document.getElementById("toggleTiltControl").style.display = "none"
@@ -265,7 +267,7 @@ if (typeof window.orientation == 'undefined') {
     //mobile
     buttonSwitchOn("toggleTiltControl")
     if (checkIsiOS()) {
-        document.getElementById("requestTiltPermissionBtn").style.display = "initial"
+        showRequestTiltControlBtn = true
 
         if (isIOSPWA()) {
             onIosPwa = true

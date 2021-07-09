@@ -385,6 +385,11 @@ function checkIfCrash() {
             speedY = 0
             angularVelocity = 0
             firstTimeLanded = false
+
+            if (showRequestTiltControlBtn) {
+                document.getElementById("requestTiltPermissionBtn").style.display = "initial"
+            }
+            
         } else {
             landed = true
             speedX = 0
