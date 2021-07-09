@@ -245,10 +245,10 @@ function getVerticalAcceleration() {
     }
 }
 
-function updatePerceivedG(){
-    perceivedG_Y = (accelerationY + orbitGravityAccCompensation + gravity)/gravity
-    perceivedG_X = accelerationX/gravity
-    perceivedG = Math.sqrt(perceivedG_Y**2 + perceivedG_X**2)
+function updatePerceivedG() {
+    perceivedG_Y = (accelerationY + orbitGravityAccCompensation + gravity) / gravity
+    perceivedG_X = accelerationX / gravity
+    perceivedG = Math.sqrt(perceivedG_Y ** 2 + perceivedG_X ** 2)
 }
 
 function getAngle(rad) {
@@ -380,10 +380,19 @@ function checkIfCrash() {
     }
 
     function configLanded() {
-        landed = true
-        speedX = 0
-        speedY = 0
-        angularVelocity = 0
+        if (firstTimeLanded) {
+            speedX = 0
+            speedY = 0
+            angularVelocity = 0
+            firstTimeLanded = false
+        } else {
+            landed = true
+            speedX = 0
+            speedY = 0
+            angularVelocity = 0
+        }
+
+
     }
     function configCrashed() {
         crashed = true
@@ -513,14 +522,14 @@ function updateGimbolPointingDirection() {
 
 
 function getFreeFallTimeRemainingPrediction(goalHeight) {
-    return Math.sqrt(vehicleMass / (gravity * airResistance_k)) * Math.asinh(Math.E ** ((altitude-goalHeight) * airResistance_k / vehicleMass)) + speedY / gravity
+    return Math.sqrt(vehicleMass / (gravity * airResistance_k)) * Math.asinh(Math.E ** ((altitude - goalHeight) * airResistance_k / vehicleMass)) + speedY / gravity
 }
 
-function getMaxSpeedWithSafeDynamicPressure(){
+function getMaxSpeedWithSafeDynamicPressure() {
     let maxDynamicPressure = 35
-    return Math.sqrt(maxDynamicPressure/airDensity * 2000) 
+    return Math.sqrt(maxDynamicPressure / airDensity * 2000)
 }
 
-function getMaxHSpeedWithSafeDynamicPressure(){
-    return Math.sqrt(getMaxSpeedWithSafeDynamicPressure()**2 - speedY**2) 
+function getMaxHSpeedWithSafeDynamicPressure() {
+    return Math.sqrt(getMaxSpeedWithSafeDynamicPressure() ** 2 - speedY ** 2)
 }

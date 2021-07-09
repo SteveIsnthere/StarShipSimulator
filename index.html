@@ -57,9 +57,6 @@
             <button id="menuToggle" onclick="show_hideMenuView()"></button>
 
             <div id="mainViewButtonsArea" style="margin: 10px;">
-
-                <button id="helpBtn" class="mainPageBtn" style="display: initial;"
-                    onclick="show_hideGuideView()">Beginner's Guide</button>
                 <button id="RestartBtn" class="mainPageBtn" onclick="restart()">Restart</button>
                 <button id="showPlotViewButton" class="mainPageBtn"
                     style="display: none; background-color: transparent;" onclick="show_hidePlotView()">FDR</button>
@@ -213,13 +210,28 @@
 
             </div>
 
-            <div class="functionTitle"
+            <div class="singleFunctionCell"
                 style="flex-basis: 100%;display: flex; align-items: center; justify-content: center; margin: 10px;">
                 <button class="mainPageBtn" style="display: initial;" onclick="show_hideAboutView()">About</button>
                 <button class="mainPageBtn" style="display: initial;" onclick="show_hideGuideView()">Help</button>
             </div>
         </div>
 
+    </div>
+
+    <div id="welcomeView" style="position: absolute;">
+        <div style="background-color: blanchedalmond;" class="welcomeViewBlock" onclick="show_hideGuideView()">
+            <div class="welcomeViewBlockDiv">
+                <p class="welcomeViewText" style="color: rgb(53, 53, 53);">Proceed to read the instructions</p>
+            </div>
+
+        </div>
+        <div style="background-color: rgb(53, 53, 53);" class="welcomeViewBlock" onclick="startRunningGame()">
+            <div class="welcomeViewBlockDiv" style="color: blanchedalmond;">
+                <p class="welcomeViewText">Just hand me that StarShip</p>
+            </div>
+
+        </div>
     </div>
 
     <div id="guideView" class="hiddenFullScreenView"
@@ -382,6 +394,8 @@
             </ul>
         </div>
     </div>
+
+
 </body>
 
 

@@ -44,8 +44,13 @@ function demoAutoLand() {
         toggleAllRaptors()
         demoAutoLandOn = false
         finLocked = false
-        landed = false
         propellantMass = 350000
+
+        pitchControl = 0
+        document.getElementById("pitchControl").value = pitchControl
+
+        throttle = 100
+        document.getElementById("throttleControl").value = throttle
       }
     }
   }
@@ -58,11 +63,20 @@ function initDemoAutoLand() {
 
 initDemoAutoLand()
 
+app.stop()
 
-altitude = renderBoxPhysicalHeight
-speedY = -renderBoxPhysicalHeight/4
 
-propellantMass = 12000
-finLocked = true
 
-toggleAllRaptors()
+function startRunningGame() {
+  altitude = renderBoxPhysicalHeight
+  speedY = -renderBoxPhysicalHeight / 4
+
+  propellantMass = 12000
+  finLocked = true
+
+  document.getElementById("welcomeView").style.transform = "translate(0, -100%)"
+
+  app.start()
+
+  toggleAllRaptors()
+}

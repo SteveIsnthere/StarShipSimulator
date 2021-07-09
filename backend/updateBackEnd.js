@@ -196,7 +196,7 @@ function environmentUpDate() {
 
 function saveDataPoint() {
 
-    if (updatedFrameCount % recordTimeInterval == 0 && !crashed && !inFightBreakUp && !onTheGround) {
+    if (updatedFrameCount % recordTimeInterval == 0 && !crashed && !inFightBreakUp && !onTheGround && !firstTimeLanded) {
         timeSpent += timeAccel*recordTimeInterval
 
         //timeNodes

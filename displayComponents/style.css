@@ -195,6 +195,35 @@ button {
     border-radius: 20px;
 }
 
+#welcomeView {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    transition: transform .3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.welcomeViewBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+}
+
+.welcomeViewBlockDiv {
+    width: 70%;
+    max-width: 479px;
+}
+
+.welcomeViewText {
+    font-family: monospace;
+    font-size: xx-large;
+    text-align: center;
+}
 
 @media only screen and (min-width: 500px) {
     #controlsL {

@@ -281,6 +281,3 @@ if (typeof window.orientation == 'undefined') {
 dynamicLayoutUpdate()
 updateButtons()
 
-setTimeout(function(){
-    document.getElementById("helpBtn").style.display = "none"
-}, 15000);

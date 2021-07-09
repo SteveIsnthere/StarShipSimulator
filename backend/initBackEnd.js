@@ -225,6 +225,7 @@ function initVehicleStatus() {
 
     globalThis.onTheGround = false
     globalThis.landed = false
+    globalThis.firstTimeLanded = true
 
     globalThis.raptorN1Running = false
     globalThis.raptorN2Running = false
