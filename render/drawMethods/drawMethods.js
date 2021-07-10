@@ -95,13 +95,7 @@ function updateDrawingSize() {
 
 
 function updateRenderBoxPosition() {
-    updateGroundObjectXPos()
-    if (stickyCam) {
-        updateSemi_StickyCam_Pos()
-    } else {
-        update_GroundCam_Pos()
-    }
-    
+
     if (altitude <= renderBoxPhysicalHeight * 0.5) {
         stickyCam = false
     } else {
@@ -110,6 +104,13 @@ function updateRenderBoxPosition() {
         } else {
             stickyCam = true
         }
+    }
+
+    updateGroundObjectXPos()
+    if (stickyCam) {
+        updateSemi_StickyCam_Pos()
+    } else {
+        update_GroundCam_Pos()
     }
 
     function updateSemi_StickyCam_Pos() {
@@ -142,6 +143,7 @@ function updateRenderBoxPosition() {
 
         cam_PosX += cam_SpeedX / renderTimeInterval
 
+        cam_SpeedY = 0
 
         if (cam_PosY != renderBoxPhysicalHeight * 0.5) {
             
