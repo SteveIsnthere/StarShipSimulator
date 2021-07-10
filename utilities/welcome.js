@@ -60,7 +60,7 @@ function initDemoAutoLand() {
   globalThis.demoAutoLandOn = true
   globalThis.demoAutoLanddistanceToGround
 }
-
+globalThis.firstTimeLanded = true
 initDemoAutoLand()
 
 app.stop()

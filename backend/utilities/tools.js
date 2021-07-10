@@ -221,6 +221,8 @@ function configureNewFlight() {
         }
     }
 
+    firstTimeLanded = false
+
     if (showedMenuView) {
         show_hideMenuView()
     }
