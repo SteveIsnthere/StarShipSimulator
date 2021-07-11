@@ -3,13 +3,13 @@
   "name": "StarShip-by Steve",
   "icons": [
     {
-      "src": "icons/icon.webp",
+      "src": "icons/icon.jpg",
       "type": "image/webp",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-big.webp",
+      "src": "icons/icon-big.jpg",
       "type": "image/webp",
       "sizes": "512x512",
       "purpose": "any maskable"
