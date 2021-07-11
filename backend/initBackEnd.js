@@ -159,7 +159,7 @@ function initVehicleParams() {
         globalThis.gimbolPointingDirection = 0
 
         globalThis.maxThrustPerRaptor = 2200 * 1000 //kN
-        globalThis.maxFuelFlowPerRaptor = 650 // kg/s
+        globalThis.maxFuelFlowPerRaptor = 650 * (maxThrustPerRaptor/2200000)// kg/s
 
         function configThrottleControl() {
             var throttleControl = document.getElementById("throttleControl");
@@ -444,7 +444,7 @@ function initAutoTakeOff() {
 
     globalThis.aomAt_25km = getRad(55)
 
-    globalThis.aomAt_80km = getRad(90)
+    globalThis.aomAt_80km = getRad(85)
 }
 
 
