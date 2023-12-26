@@ -41,6 +41,9 @@ function demoAutoLand() {
 
     function checkIfTD() {
       if (altitude <= vehicleHeight * 0.5 + 0.05) {
+        document.getElementById("controlsL").style.display = "flex"
+        document.getElementById("controlsR").style.display = "flex"
+        document.getElementById("menuToggle").style.display = "block"
         toggleAllRaptors()
         demoAutoLandOn = false
         finLocked = false
@@ -64,7 +67,7 @@ globalThis.firstTimeLanded = true
 initDemoAutoLand()
 
 app.stop()
-
+startRunningGame()
 
 
 function startRunningGame() {
@@ -74,7 +77,7 @@ function startRunningGame() {
   propellantMass = 12000
   finLocked = true
 
-  document.getElementById("welcomeView").style.transform = "translate(0, -100%)"
+  // document.getElementById("welcomeView").style.transform = "translate(0, -100%)"
 
   app.start()
 

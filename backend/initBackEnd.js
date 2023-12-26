@@ -8,6 +8,7 @@ function initBackEnd() {
 }
 
 function initWorld() {
+    globalThis.lastFrameRenderedTime = Date.now()
     globalThis.frameRate = 60
     globalThis.timeAccel = 1
     globalThis.renderTimeInterval = frameRate / timeAccel //usually equals to how many frames' been rendered per min
@@ -41,7 +42,7 @@ function initFlightParams() {
 
     globalThis.timeSpent = 0
 
-    globalThis.altitude = 000 + vehicleHeight / 2 //m
+    globalThis.altitude = vehicleHeight / 2 //m
     globalThis.downRangeDistance = starBaseXpos
     globalThis.downRangeDistanceNextFrame = downRangeDistance
 

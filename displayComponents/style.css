@@ -11,8 +11,6 @@ html {
     /* supported by Chrome and Opera */
     -webkit-user-select: none;
     /* Safari */
-    -khtml-user-select: none;
-    /* Konqueror HTML */
     -moz-user-select: none;
     /* Firefox */
     -ms-user-select: none;
@@ -32,25 +30,28 @@ body {
 button {
     border: none;
     text-align: center;
-    text-decoration: none;
-    font-weight: normal;
-    display: inline-block;
-    transition: box-shadow 0.3s ease-in-out;
-    background-color: rgba(255, 255, 255, 0.068);
-    color: rgba(59, 59, 59, 0.767);
     cursor: pointer;
-    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
+    color: black;
+    background-color: rgba(255, 255, 255, 0.43);
+}
+
+.label {
+    padding: 3px;
+    font-family: monospaced, Arial, Helvetica, sans-serif;
+    color: white;
+    border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.43);
+    font-size: smaller;
+    font-weight: lighter;
+    margin: 5px;
 }
 
 .mainPageBtn {
     display: none;
-    font-size: x-small;
-    background-color: transparent;
-    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.61);
+    color: white;
+    border-radius: 10px;
     padding: 12px;
-    margin: 10px;
-    transition: transform .2s ease-in-out;
-    box-shadow: 1.5px 1.5px 3.5px 0 rgba(0, 0, 0, 0.2), -2px -2px 4.5px 0 rgba(255, 255, 255, 0.55);
 }
 
 .show_hideToggle {
@@ -58,7 +59,7 @@ button {
     padding: 20px;
     border-radius: 20px;
     background: transparent;
-    margin: 20px;
+    color: white;
 }
 
 .hideableControls {
@@ -67,26 +68,22 @@ button {
 
 .hideableControlsContent {
     padding: 5px;
-    border-radius: 30px;
-    transition: transform .2s ease-in-out;
-    transition: box-shadow 0.3s ease-in-out;
-    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
 }
 
 .hiddenFullScreenView {
     position: absolute;
     width: 100%;
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
     transition: transform .3s ease-in-out;
 }
 
 .controlBtn {
-    background-color: transparent;
-    font-weight: 100;
-    color: rgba(109, 109, 109, 0.767);
+    background-color: rgba(255, 255, 255, 0.43);
+    font-weight: bold;
+    /*color: rgba(109, 109, 109, 0.767);*/
     font-family: monospace;
-    font-size:medium;
+    font-size: medium;
     border-radius: 10px;
     padding: 9px;
     margin: 6.5px;
@@ -98,15 +95,18 @@ button {
 
 #FlightParamDisp {
     font-family: monospace;
-    color: rgba(109, 109, 109, 0.945);
+    color: rgba(0, 0, 0, 1);
+    font-size: medium;
 }
 
-#FlightParamDispL {
+#FlightParamDispLR {
     position: absolute;
     top: 0;
     left: 0;
     text-align: left;
-    padding: 5px;
+    border-bottom-right-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.43);
+    padding: 8px;
     transition: transform .2s ease-in-out;
     transform: translateY(-10px);
 }
@@ -115,7 +115,6 @@ button {
     position: absolute;
     top: 0;
     left: 50%;
-    margin-top: 15px;
     max-width: calc(100% - 10px);
     transform: translate(-50%, 0);
     text-align: center;
@@ -124,29 +123,34 @@ button {
 #FlightParamDispMid {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 5px;
     transform: translateY(-100%);
-    justify-content: space-around;
-    padding: 5px;
-    border-radius: 10px;
+    padding: 0;
     transition: transform .2s ease-in-out;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     cursor: pointer;
-    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
+    /*box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);*/
+}
+
+#mainViewButtonsArea {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
 }
 
 .FlightParamDispMidCell {
-    padding-left: 8px;
-    padding-right: 8px;
+    background-color: rgba(255, 255, 255, 0.43);
+    padding: 5px;
+    border-radius: 5px;
 }
 
-#FlightParamDispR {
-    position: absolute;
-    top: 0;
-    right: 0;
-    text-align: right;
-    padding: 5px;
-    transition: transform .2s ease-in-out;
-    transform: translateY(-10px);
-}
 
 #plotView {
     transform: translate(0, 100%);
@@ -155,16 +159,8 @@ button {
 #menuToggle {
     position: absolute;
     top: 0;
-    left: 50%;
-    margin-top: 15px;
-    background: transparent;
-    max-width: calc(100% - 100px);
-    transform: translate(-50%, 0);
-    padding: 15px;
-    border-radius: 15px;
-    transition: box-shadow 0.3s ease-in-out;
-    cursor: pointer;
-    box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
+    right: 0;
+    border-bottom-left-radius: 5px;
 }
 
 #menuView {
@@ -191,7 +187,7 @@ button {
 
 .scenarioPreset {
     padding: 10px;
-    margin: 15px;
+    margin: 10px;
     border-radius: 20px;
 }
 
@@ -231,7 +227,15 @@ button {
     #controlsL {
         bottom: calc(40% - 80px)
     }
+
     #controlsR {
         bottom: calc(40% - 80px)
     }
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
 }

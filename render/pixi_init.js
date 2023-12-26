@@ -9,7 +9,7 @@ let skyColor
 
 let skyDarkenFraction = 0.6
 
-let skyStartDarkenHeight = 0000
+let skyStartDarkenHeight = 20000
 let skyCompletelyDarkenHeight = 80000
 
 const app = new PIXI.Application({

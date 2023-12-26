@@ -1,6 +1,18 @@
 function updateBackEnd() {
 
-    updatedFrameCount ++
+    updatedFrameCount++
+    const currentTime = Date.now()
+    let frameTime = currentTime - lastFrameRenderedTime
+    if (frameTime > 30) {
+        frameTime = 30
+    }
+    if (frameTime < 1) {
+        frameTime = 1
+    }
+    frameRate = 1000 / frameTime
+    renderTimeInterval = frameRate / timeAccel
+    lastFrameRenderedTime = currentTime
+
 
     environmentUpDate()
 
@@ -37,7 +49,7 @@ function vehicleStatusUpDate() {
 
         function dumpFuel() {
             if (dumpingFuel) {
-                if ((propellantMass > dumpLimit || forceDump)&&propellantMass>0) {
+                if ((propellantMass > dumpLimit || forceDump) && propellantMass > 0) {
                     propellantMass -= dumpRate / renderTimeInterval
                 } else {
                     dumpingFuel = toggle(dumpingFuel)
@@ -80,7 +92,6 @@ function FlightParamsUpDate() {
     }
 
 
-
     function updateSpactialMotion() {
         altitude += speedY / renderTimeInterval
 
@@ -115,6 +126,7 @@ function FlightParamsUpDate() {
         }
 
     }
+
     function updateRotationalMotion() {
         vehicleMomentOfInertiaUpdate()
 
@@ -144,6 +156,7 @@ function FlightParamsUpDate() {
 
             angularAcceleration = thrustVectorAcceleration + angularDragAcceleration + frontFinDragAngularAcceleration + aftFinDragAngularAcceleration + rcsThrustAngularAcceleration + offAxisThrustDifferenceAcceleration
         }
+
         function vehicleMomentOfInertiaUpdate() {
             vehicleMomentOfInertia = vehicleMass * (vehicleDiameter / 2) ** 2 * 0.25 + vehicleMass * vehicleHeight ** 2 / 12
         }
@@ -197,7 +210,7 @@ function environmentUpDate() {
 function saveDataPoint() {
 
     if (updatedFrameCount % recordTimeInterval == 0 && !crashed && !inFightBreakUp && !onTheGround && !firstTimeLanded) {
-        timeSpent += timeAccel*recordTimeInterval
+        timeSpent += timeAccel * recordTimeInterval
 
         //timeNodes
         timeNodes.push(timeSpent)
