@@ -1,0 +1,340 @@
+html {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    -webkit-overflow-scrolling: touch;
+}
+
+.noSelect {
+    user-select: none;
+    /* supported by Chrome and Opera */
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+}
+
+*::-webkit-scrollbar {
+    display: none;
+    /* for Chrome, Safari, and Opera */
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.43);
+}
+
+.label {
+    padding: 3px;
+    font-family: monospaced, Arial, Helvetica, sans-serif;
+    color: white;
+    border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.43);
+    font-size: smaller;
+    font-weight: lighter;
+    margin: 5px;
+}
+
+.mainPageBtn {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.61);
+    color: white;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.show_hideToggle {
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 20px;
+    background: transparent;
+    color: white;
+}
+
+.hideableControls {
+    transition: transform .2s ease-in-out;
+}
+
+.hideableControlsContent {
+    padding: 5px;
+}
+
+.hiddenFullScreenView {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    transition: transform .3s ease-in-out;
+}
+
+.controlBtn {
+    background-color: rgba(255, 255, 255, 0.43);
+    font-weight: bold;
+    /*color: rgba(109, 109, 109, 0.767);*/
+    font-family: monospace;
+    font-size: medium;
+    border-radius: 10px;
+    padding: 9px;
+    margin: 6.5px;
+}
+
+.controlBtn:hover {
+    box-shadow: none
+}
+
+#FlightParamDisp {
+    font-family: monospace;
+    color: rgba(0, 0, 0, 1);
+    font-size: medium;
+}
+
+#FlightParamDispLR {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: left;
+    border-bottom-right-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.43);
+    padding: 8px;
+    transition: transform .2s ease-in-out;
+    transform: translateY(-10px);
+}
+
+#MidUpperMenu {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    max-width: calc(100% - 10px);
+    transform: translate(-50%, 0);
+    text-align: center;
+}
+
+#FlightParamDispMid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 5px;
+    transform: translateY(-100%);
+    padding: 0;
+    transition: transform .2s ease-in-out;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    /*box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2), -4px -4px 9px 0 rgba(255, 255, 255, 0.55);*/
+}
+
+#mainViewButtonsArea {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+
+.FlightParamDispMidCell {
+    background-color: rgba(255, 255, 255, 0.43);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+#plotView {
+    transform: translate(0, 100%);
+}
+
+#menuToggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 5px;
+}
+
+#menuView {
+    transform: translate(0, 100%);
+    color: rgba(59, 59, 59, 0.767);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#controlsL {
+    bottom: calc(40% + 47px);
+}
+
+#controlsR {
+    bottom: calc(40% - 150px);
+}
+
+.singleFunctionCell {
+    border-radius: 30px;
+    box-shadow: inset 1.5px 1.5px 3.5px 0 rgba(0, 0, 0, 0.2), inset -2px -2px 4.5px 0 rgba(255, 255, 255, 0.55);
+    padding: 10px;
+    background-color: rgba(216, 216, 216, 0.541);
+    margin: 10px;
+}
+
+.scenarioPreset {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 20px;
+}
+
+#welcomeView {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    transition: transform .3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.welcomeViewBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+}
+
+.welcomeViewBlockDiv {
+    width: 70%;
+    max-width: 479px;
+    border-style: solid;
+}
+
+.welcomeViewText {
+    font-family: monospace;
+    font-size: xx-large;
+    text-align: center;
+}
+
+@media only screen and (min-width: 500px) {
+    #controlsL {
+        bottom: calc(40% - 80px)
+    }
+
+    #controlsR {
+        bottom: calc(40% - 80px)
+    }
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 140px;
+  height: 45px;
+  background: linear-gradient(to right, #ffffff3f 0%, #ffffff3f 100%);
+  background-size: 150px 1px;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  outline: none;
+  padding: 10px;
+}
+
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  outline: none;
+  width: 30px;
+  height: 30px;
+  background: #ececec56;
+  border: none;
+  border-radius: 30px;
+  position: relative;
+  box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.2),
+    -4px -4px 9px 0 rgba(255, 255, 255, 0.55);
+}
+
+input[type="number"] {
+  -webkit-appearance: none;
+  background: linear-gradient(to right, #ffffff3f 0%, #ffffff3f 100%);
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  outline: none;
+  margin: 10px;
+  padding: 7px;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 1.5px 1.5px 3.5px 0 rgba(0, 0, 0, 0.2),inset -2px -2px 4.5px 0 rgba(255, 255, 255, 0.55)
+}
+
+details[open] summary ~ * {
+  animation: sweep .5s ease-in-out;
+}
+
+@keyframes sweep {
+  0%    {opacity: 0; transform: translateX(-10px)}
+  100%  {opacity: 1; transform: translateX(0)}
+}
+
+details {
+  margin: 0 auto;
+  background: #282828;
+  margin: .5rem;
+  box-shadow: 0 .1rem 1rem -.5rem rgba(0, 0, 0, .4);
+  border-radius: 5px;
+  outline: none;
+}
+
+summary {
+  padding: 1rem;
+  display: block;
+  background: #333;
+  padding-left: 2.2rem;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+summary:before {
+  content: '';
+  border-width: .4rem;
+  border-style: solid;
+  border-color: transparent transparent transparent #fff;
+  position: absolute;
+  top: 1.3rem;
+  left: 1rem;
+  transform: rotate(0);
+  transform-origin: .2rem 50%;
+  transition: .25s transform ease;
+}
+
+details[open]>summary:before {
+  transform: rotate(90deg);
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details>ul{
+  padding: 1rem;
+}
+
+li{
+  padding: 0.5rem;
+}
