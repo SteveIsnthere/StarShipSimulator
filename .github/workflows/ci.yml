@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+# Cancel superseded runs on the same ref; a stale red run is noise.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: v2
+
+jobs:
+  verify:
+    name: lint · test · build · budget
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: v2/package-lock.json
+
+      # `npm ci`, not `npm install` — the lockfile is the pinned-version contract
+      # from M0.1 and CI must fail if it drifts, not silently resolve around it.
+      - name: Install
+        run: npm ci
+
+      # The six walls. A core/ violation fails here, not in review.
+      - name: Lint (the six walls)
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      # svelte-check -> vite build -> bundle budget gate (250 kB gzip first-load).
+      - name: Build and budget
+        run: npm run build
+
+      - name: Upload dist
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: v2/dist
+          retention-days: 7
+          if-no-files-found: ignore

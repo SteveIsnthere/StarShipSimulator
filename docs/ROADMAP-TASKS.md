@@ -13,7 +13,7 @@ acceptance line.
   plus `tests/lint-walls.test.ts` feeding violation fixtures to ESLint programmatically.
   Accept: each of the six violations fails lint; the fixtures test passes; clean code passes.
 - [x] **M0.3 Vitest wired** — `npm run test` runs; one real test present. Accept: green locally.
-- [ ] **M0.4 CI** — `.github/workflows/ci.yml`: install, lint, test, build, bundle budget
+- [x] **M0.4 CI** — `.github/workflows/ci.yml`: install, lint, test, build, bundle budget
   (fail if gzipped first-load JS > 250 kB). Accept: workflow green on push.
 - [ ] **M0.5 Repo hygiene** — Root `.gitignore` (.DS_Store, node_modules, dist);
   `git rm --cached` the 13 committed .DS_Store files. Accept: `git ls-files | grep DS_Store` empty.
@@ -122,3 +122,9 @@ acceptance line.
   testable, and it now takes a dist dir argument. Caught a real bug while writing it: the first
   synthetic fixture used a modular stride that cycles every 94 bytes, so a 300 kB "over budget"
   file gzipped to 562 B and the over-budget tests passed vacuously. Replaced with an LCG.
+- 2026-08-24 · M0.4 · `.github/workflows/ci.yml`: checkout → setup-node 22 (npm cache keyed on
+  `v2/package-lock.json`) → `npm ci` → lint → test → build+budget, all with `working-directory: v2`.
+  `npm ci` rather than `npm install` so the exact pins from M0.1 are a contract CI enforces instead
+  of resolving around. Concurrency group cancels superseded runs. Rehearsed locally from a wiped
+  `node_modules`, all four steps green. The `.DS_Store` guard belongs to M0.5 and is deliberately
+  not here — adding it now would push CI red before the files are removed.
