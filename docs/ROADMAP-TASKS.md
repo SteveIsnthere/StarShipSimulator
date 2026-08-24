@@ -38,7 +38,7 @@ acceptance line.
   `step(state, dt, input)`. Accept: runs headless in Node.
 - [x] **M1.6 Port control + autopilot** — flightControl, low-level primitives, all modes,
   verbatim. Accept: parity spot-checks; no DOM reads (inputs come via the input arg).
-- [ ] **M1.7 Scenarios** — the six presets + intro demo as data in `core/scenarios.ts`.
+- [x] **M1.7 Scenarios** — the six presets + intro demo as data in `core/scenarios.ts`.
   Accept: each initialises a valid SimState.
 - [ ] **M1.8 Golden trajectories** — headless runner records full state history per scenario
   (autopilot flying); fixtures committed; determinism test replays with 30/60/144 fps
@@ -226,3 +226,13 @@ acceptance line.
   `5000/timeAccel` ms of real time at `timeAccel` speed-up is exactly 5 s of simulated time).
   25 parity assertions over 400 sampled states plus 13 closed-loop tests; **the intro auto-landing
   sequence lands and hands the vehicle back**, deterministically. 469 tests green.
+- 2026-08-24 · M1.7 · `core/scenarios.ts` — presets as data, with `configureNewFlight()`'s
+  conversions and clamps ported verbatim (X relative to StarBase, pitch in degrees, propellant in
+  tonnes capped at 1200 t, altitude floored at `vehicleHeight/2`). **Discrepancy reported, not
+  papered over: `index.html` ships FIVE `configScenarioPreset` buttons, but CLAUDE.md, the plan and
+  the game's own "What's New?" panel all say six.** There is no sixth anywhere in the 2021 tree. I
+  did not invent one. Shipped the five that exist plus the launch pad and the intro demo (a scenario
+  in every respect except having a button — most likely the "sixth"). If the owner remembers a
+  preset that was cut, it belongs in this file. 38 tests: exact preset values, the conversion rules,
+  both clamps, and every scenario proved finite over 30 s powered and unpowered plus deterministic
+  over 600 steps. 507 green.
