@@ -1,0 +1,236 @@
+/**
+ * Aerodynamics, ported verbatim from backend/physics.js.
+ *
+ * Every function here took its inputs from globals in 2021 and takes them as
+ * arguments now. That is the whole substance of the port: same arithmetic, same
+ * order of operations, no ambient state.
+ */
+import * as C from '../constants';
+import { rad, type Rad } from '../units';
+
+/**
+ * physics.js:34 — `airDensity * trueSpeed^2 * 0.0005`.
+ * The 0.0005 is 1/2 with a Pa->kPa conversion folded in; the result is labelled
+ * psi throughout the 2021 HUD, which is a third unit again. Ported as found.
+ * @returns psi, per the 2021 labelling
+ */
+export function getDynamicPressure(airDensity: number, trueSpeed: number): number {
+  return airDensity * trueSpeed ** 2 * 0.0005;
+}
+
+/**
+ * physics.js:39 — area presented to the airflow.
+ *
+ * Blends broadside and nose-on area by attitude. The `/ 2.1` on the nose-on term
+ * is an unexplained tuning constant; it is part of the feel and stays.
+ * @returns m^2
+ */
+export function getCrossSectionalArea(angleInToTheWind: Rad, vehicleInFlightMaxArea: number): number {
+  return (
+    Math.abs(Math.sin(angleInToTheWind) * vehicleInFlightMaxArea) +
+    Math.abs(Math.cos(angleInToTheWind) * C.vehicleMinArea) / 2.1
+  );
+}
+
+/**
+ * physics.js:46 — `1/2 * rho * v^2 * Cd * A`.
+ * @returns N
+ */
+export function getDrag(
+  airDensity: number,
+  trueSpeed: number,
+  crossSectionArea: number,
+  dragCoefficient: number,
+): number {
+  return (1 / 2) * airDensity * trueSpeed ** 2 * dragCoefficient * crossSectionArea;
+}
+
+/**
+ * physics.js:58 — a five-segment piecewise lift curve in |angleInToTheWind|.
+ *
+ * The segments are hand-tuned, not derived: a linear rise to 0.35 rad, a steep
+ * spike between 0.47 and 0.52, then decay. This shape is the belly-flop's feel
+ * and must not be smoothed.
+ * @returns dimensionless
+ */
+export function getLiftCoefficient(angleInToTheWind: Rad): number {
+  const angleITW = Math.abs(angleInToTheWind);
+
+  if (angleITW >= 1.48) return -1.1 * angleITW + 1.728;
+  if (angleITW >= 0.52) return (-1 / 9.6) * angleITW + 0.254;
+  if (angleITW >= 0.47) return -8 * angleITW + 4.36;
+  if (angleITW >= 0.35) return (5 / 6) * angleITW + 0.2083;
+  return (5 / 3.5) * angleITW;
+}
+
+/**
+ * physics.js:52 — `Cl * rho * v^2 * A * 0.5`.
+ * @returns N
+ */
+export function getLift(
+  airDensity: number,
+  trueSpeed: number,
+  angleInToTheWind: Rad,
+  wingArea: number,
+): number {
+  const liftCoefficient = getLiftCoefficient(angleInToTheWind);
+  return liftCoefficient * airDensity * trueSpeed ** 2 * wingArea * 0.5;
+}
+
+/**
+ * physics.js:79 — body drag coefficient, linear in Mach then capped.
+ * @returns dimensionless
+ */
+export function getBodyDragCoefficient(machSpeed: number): number {
+  if (machSpeed >= 10) return 2.5;
+  return machSpeed * 0.1347 + 1.153;
+}
+
+/** physics.js:89 — `force / mass`. @returns m/s^2 */
+export function getAcceleration(force: number, mass: number): number {
+  return force / mass;
+}
+
+/** physics.js:94 — `force * r / I`. @returns rad/s^2 */
+export function getAngularAcceleration(
+  force: number,
+  distanceToCenterOfMass: number,
+  momentOfInertia: number,
+): number {
+  const torque = force * distanceToCenterOfMass;
+  return torque / momentOfInertia;
+}
+
+/** physics.js:301 — `atan2(speedX, speedY)`. Note the argument order: this is
+ * measured from vertical, not from the horizon. @returns rad */
+export function getAngleOfMotion(speedX: number, speedY: number): Rad {
+  return rad(Math.atan2(speedX, speedY));
+}
+
+/**
+ * physics.js:305 — angle of attack, wrapped to (-pi, pi], plus the derived
+ * angle into the wind, which folds the rear half onto the front.
+ */
+export function getAttackAngles(
+  pitch: Rad,
+  angleOfMotion: Rad,
+): { angleOfAttack: Rad; angleInToTheWind: Rad } {
+  let angleOfAttack: number = pitch - angleOfMotion;
+
+  if (angleOfAttack < -Math.PI) {
+    angleOfAttack = Math.PI * 2 + angleOfAttack;
+  } else if (angleOfAttack > Math.PI) {
+    angleOfAttack = -(Math.PI * 2 - angleOfAttack);
+  }
+
+  let angleInToTheWind: number;
+  if (angleOfAttack > Math.PI / 2) {
+    angleInToTheWind = Math.PI - angleOfAttack;
+  } else if (angleOfAttack < -Math.PI / 2) {
+    angleInToTheWind = -Math.PI - angleOfAttack;
+  } else {
+    angleInToTheWind = angleOfAttack;
+  }
+
+  return { angleOfAttack: rad(angleOfAttack), angleInToTheWind: rad(angleInToTheWind) };
+}
+
+/**
+ * physics.js:329 — aerodynamic damping of rotation, always opposing spin.
+ * @returns rad/s^2
+ */
+export function getAngularDragAcceleration(
+  airDensity: number,
+  angularVelocity: number,
+  vehicleMomentOfInertia: number,
+): number {
+  const angularDragAcc =
+    (airDensity * C.vehicleDiameter * angularVelocity ** 2 * C.intergalOfRCubedTimesDx) /
+    vehicleMomentOfInertia;
+
+  if (angularVelocity > 0) return -angularDragAcc;
+  return angularDragAcc;
+}
+
+/**
+ * physics.js:341 — front fin drag. Sign flips with angle of attack so the fin
+ * always pitches the vehicle the right way.
+ * @returns N
+ */
+export function getFrontFinDrag(
+  airDensity: number,
+  trueSpeed: number,
+  angleOfAttack: Rad,
+  angleInToTheWind: Rad,
+  frontFinEffectiveAreaFraction: number,
+): number {
+  const drag =
+    getDrag(
+      airDensity,
+      trueSpeed,
+      Math.abs(Math.sin(angleInToTheWind)) * C.frontFinSurfaceAera,
+      C.finDragCoefficient,
+    ) * frontFinEffectiveAreaFraction;
+
+  return angleOfAttack < 0 ? -drag : drag;
+}
+
+/**
+ * physics.js:349 — aft fin drag. Opposite sign convention to the front fin,
+ * which is what makes the pair a couple rather than a net force.
+ * @returns N
+ */
+export function getAftFinDrag(
+  airDensity: number,
+  trueSpeed: number,
+  angleOfAttack: Rad,
+  angleInToTheWind: Rad,
+  aftFinEffectiveAreaFraction: number,
+): number {
+  const drag =
+    getDrag(
+      airDensity,
+      trueSpeed,
+      Math.abs(Math.sin(angleInToTheWind)) * C.aftFinSurfaceAera,
+      C.finDragCoefficient,
+    ) * aftFinEffectiveAreaFraction;
+
+  return angleOfAttack < 0 ? drag : -drag;
+}
+
+/**
+ * physics.js:437 — fin extension changes the area the body presents.
+ *
+ * Note the name/meaning mismatch, ported as found: these two fields hold a bare
+ * `sin(...)` here — a fraction — while `initControlSurface()` initialises the
+ * same fields to `area * sin(...)`, an area in m^2. The two disagree by roughly
+ * 24x on frame one until this function overwrites them. M2.3 is that bug fix.
+ */
+export function updateVehicleInFlightMaxArea(
+  frontFinExtention: number,
+  aftFinExtention: number,
+): {
+  frontFinEffectiveAreaFraction: number;
+  aftFinEffectiveAreaFraction: number;
+  totalFinSurfaceAera: number;
+  vehicleInFlightMaxArea: number;
+} {
+  const frontFinEffectiveAreaFraction = Math.sin(
+    C.finAcuationMaxAngle * frontFinExtention * 0.01,
+  );
+  const aftFinEffectiveAreaFraction = Math.sin(C.finAcuationMaxAngle * aftFinExtention * 0.01);
+
+  const totalFinSurfaceAera =
+    frontFinEffectiveAreaFraction * C.frontFinSurfaceAera +
+    aftFinEffectiveAreaFraction * C.aftFinSurfaceAera;
+
+  // 1.8: fins have a higher drag coefficient than the body. Comment is 2021's.
+  const vehicleInFlightMaxArea = C.vehicleMaxArea + totalFinSurfaceAera * 1.8;
+
+  return {
+    frontFinEffectiveAreaFraction,
+    aftFinEffectiveAreaFraction,
+    totalFinSurfaceAera,
+    vehicleInFlightMaxArea,
+  };
+}

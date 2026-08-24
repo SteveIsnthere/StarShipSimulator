@@ -41,6 +41,12 @@ export interface AtmosphereState {
   airDensity: number;
   /** kPa. */
   airPressure: number;
+  /**
+   * deg C. An implicit global in 2021 — physics.js assigned it inside
+   * updateAtmosphere() and initBackEnd() never declared it, so it was undefined
+   * until the first step.
+   */
+  airTemperature: number;
 }
 
 export interface KinematicsState {
@@ -132,6 +138,12 @@ export interface ForcesState {
   aerodynamicLift: number;
   /** m/s^2. */
   aerodynamicDragAcceleration: number;
+  /**
+   * m/s^2. Also an implicit global in 2021: first assigned at
+   * updateBackEnd.js:119, never initialised. The lift ladders read it, so on
+   * frame one they multiplied by undefined and produced NaN.
+   */
+  aerodynamicLiftAcceleration: number;
 
   /** N — front fin. */
   frontFinDrag: number;
@@ -357,6 +369,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
     atmosphere: {
       airDensity: 0,
       airPressure: 0,
+      airTemperature: 0,
     },
 
     kinematics: {
@@ -407,6 +420,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       aerodynamicDrag: 0,
       aerodynamicLift: 0,
       aerodynamicDragAcceleration: 0,
+      aerodynamicLiftAcceleration: 0,
 
       frontFinDrag: 0,
       aftFinDrag: 0,

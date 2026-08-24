@@ -28,7 +28,7 @@ acceptance line.
 - [x] **M1.2 Seeded RNG** — `core/rng.ts`: counter-based streams (`ignitionDelay`,
   `ignitionFailure`), counters in SimState. Tests: reproducibility, stream independence.
   Accept: 10k-draw sequence stable; drawing from one stream leaves the other untouched.
-- [ ] **M1.3 Port atmosphere + aero + thermal** — `physics.js` verbatim (quadrant ladders
+- [x] **M1.3 Port atmosphere + aero + thermal** — `physics.js` verbatim (quadrant ladders
   included, dead `upperStrato` included) into `core/physics/`. Tier: none (port). Accept:
   spot-check parity vs legacy at sampled states.
 - [ ] **M1.4 Port engines + actuation** — throttle, gimbal, RCS, fins, fuel; ignition delay
@@ -167,3 +167,16 @@ acceptance line.
   second mutation exposed a real flaw in my own test: it scaled covariance by an *assumed* variance
   of 1/12, so a degenerate counter-ramp hash passed it vacuously. Rewritten to compute true Pearson
   correlation and to assert variance ≈ 1/12; the same mutation now fails 4 tests instead of 2.
+- 2026-08-24 · M1.3 · Ported `physics.js` into `core/physics/{atmosphere,aero,thermal,components}.ts`.
+  Tier: none (port) — arithmetic and operation order unchanged, globals become arguments. Dead
+  `upperStrato` ported dead; the six quadrant ladders ported branch-for-branch so M1.9's 1-ULP proof
+  has something real to prove against. Found two implicit globals the 2021 tree never declared —
+  `airTemperature` and `aerodynamicLiftAcceleration` (first assigned at updateBackEnd.js:119, so the
+  lift ladders multiplied by `undefined` on frame one) — both now typed fields in SimState.
+  98 parity assertions call both implementations with identical inputs and compare with `Object.is`.
+  Signed zero surfaced honestly: the ladders are nested closures reachable only through a summing
+  parent, and `0 + (-0)` is `+0`, so ladder isolation uses a documented ±0-tolerant helper while the
+  composed path keeps full `Object.is`; a dedicated test asserts the `-0` is really there.
+  Mutation-checked 3x, and the first mutation ("optimise" `1/2*rho*v**2*Cd*A` into a reordered
+  chain) went **undetected** — `getDrag` was only covered indirectly through the fins. Added direct
+  2000-sample deterministic tests for `getDrag` and `getLift`; the mutation now fails. 344 green.
