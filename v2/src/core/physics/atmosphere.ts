@@ -35,27 +35,47 @@ function lowerStrato(altitude: number): Atmosphere {
 }
 
 /**
- * physics.js:13 — defined in 2021 and never called.
+ * Upper stratosphere, 25 km and above. M2.1 — Bug-fix tier.
  *
- * `updateAtmosphere` branches only on `altitude < 11000`, so everything above
- * 11 km uses the lower-stratosphere isotherm, including the entire re-entry
- * regime this model exists to simulate. Ported dead, exactly as found, so the
- * goldens in M1.8 capture the behaviour the game actually had. M2.1 wires it in
- * as a declared Bug fix with a before/after trajectory diff.
+ * TWO DEFECTS were fixed here, and they had to be fixed together.
+ *
+ * The function was defined in 2021 and never called: `updateAtmosphere`
+ * branched only on `altitude < 11000`, so everything above 11 km used the
+ * lower-stratosphere isotherm — including the whole re-entry regime this
+ * simulator exists to model. At 80 km that understated density about fivefold,
+ * and the vehicle fell through 25-80 km with far too little to push against.
+ *
+ * The formula was also mistranscribed. It read `-131.21 + 0.0299 * altitude`
+ * where the NASA Earth Atmosphere Model it comes from has **0.00299** — a
+ * factor of ten. The evidence is continuity: the layers are built to meet, and
+ * at exactly 25 km the correct coefficient yields -56.46 C, the lower
+ * stratosphere's isotherm, to the digit. The 2021 coefficient yields +616 C and
+ * a density of 1e-9 kg/m^3, which is vacuum.
+ *
+ * Wiring the branch in without correcting the coefficient would have made the
+ * atmosphere far worse than leaving it unreachable, which is why this is one
+ * change and not two.
  */
 export function upperStrato(altitude: number): Atmosphere {
-  const airTemperature = -131.21 + 0.0299 * altitude;
+  const airTemperature = -131.21 + 0.00299 * altitude;
   const airPressure = 2.488 * ((airTemperature + 273.1) / 216.6) ** -11.388;
   return { airTemperature, airPressure, airDensity: getDensity(airPressure, airTemperature) };
 }
 
+/** The model's own layer boundaries, in metres. */
+export const TROPOPAUSE_ALTITUDE = 11_000;
+export const STRATOPAUSE_ALTITUDE = 25_000;
+
 /**
- * physics.js:6 — the dispatcher, with its two live branches.
+ * physics.js:6 — the dispatcher, now with all three branches live.
  * @param altitude m
  */
 export function updateAtmosphere(altitude: number): Atmosphere {
-  if (altitude < 11000) {
+  if (altitude < TROPOPAUSE_ALTITUDE) {
     return tropo(altitude);
   }
-  return lowerStrato(altitude);
+  if (altitude < STRATOPAUSE_ALTITUDE) {
+    return lowerStrato(altitude);
+  }
+  return upperStrato(altitude);
 }

@@ -375,11 +375,16 @@ describe('full-loop parity with updateBackEnd()', () => {
     );
   });
 
-  it.each(DTS)('ballistic fall from 80 km, 2000 steps at dt=%f', (dt) => {
+  it.each(DTS)('ballistic fall from 20 km, 2000 steps at dt=%f', (dt) => {
     // Crosses the 11 km atmosphere branch and builds real Mach number.
+    //
+    // Starts at 20 km rather than 80 km since M2.1: above 25 km the port
+    // deliberately no longer matches 2021, so a parity run through that region
+    // would be asserting the absence of a bug fix. The divergence itself is
+    // covered in tests/parity/physics.test.ts.
     lockstep(
       (s) => {
-        s.kinematics.altitude = 80_000;
+        s.kinematics.altitude = 20_000;
         s.kinematics.speedY = -500;
         s.kinematics.speedX = 300;
         s.kinematics.pitch = 1.2 as never;
@@ -423,9 +428,10 @@ describe('full-loop parity with updateBackEnd()', () => {
   });
 
   it('fuel exhaustion, so the out-of-fuel branch is exercised', () => {
+    // Below the stratopause, for the same reason as the ballistic-fall case.
     const { state: s } = lockstep(
       (st) => {
-        st.kinematics.altitude = 50_000;
+        st.kinematics.altitude = 20_000;
         st.engines.running = [true, true, true];
         st.vehicle.propellantMass = 2_000;
         st.vehicle.vehicleMass = 122_000;
@@ -457,7 +463,7 @@ describe('how far the two implementations actually drift', () => {
       [
         'reentry',
         (s) => {
-          s.kinematics.altitude = 80_000;
+          s.kinematics.altitude = 20_000;
           s.kinematics.speedY = -500;
           s.kinematics.speedX = 300;
           s.kinematics.pitch = 1.2 as never;

@@ -75,9 +75,17 @@ const ANGLES: Rad[] = (() => {
   return [...boundaries, ...swept].map(rad);
 })();
 
+/**
+ * Altitudes where the port must still match 2021 exactly.
+ *
+ * Capped below 25 km. M2.1 deliberately diverges above the stratopause: the
+ * 2021 dispatcher never reached `upperStrato`, so it extended the
+ * lower-stratosphere isotherm to infinity. That divergence is the bug fix, and
+ * it is asserted as a difference in the block at the bottom of this file rather
+ * than smuggled in by widening a tolerance here.
+ */
 const ALTITUDES = [
-  0, 1, 100, 1000, 5000, 10_999, 10_999.999, 11_000, 11_000.001, 12_000, 25_000, 50_000, 86_000,
-  100_000, 200_000,
+  0, 1, 100, 1000, 5000, 10_999, 10_999.999, 11_000, 11_000.001, 12_000, 20_000, 24_999,
 ];
 
 const SPEEDS = [0, 1, 50, 250, 343, 1000, 3000, 7800];
@@ -99,13 +107,61 @@ describe('atmosphere', () => {
     expect(updateAtmosphere(11_000).airTemperature).toBe(-56.46);
   });
 
-  it('upperStrato is ported but unreachable, exactly as in 2021', () => {
-    // Its formula is right; nothing calls it. M2.1 wires it in as a bug fix.
-    const at30km = upperStrato(30_000);
-    expect(at30km.airTemperature).toBeCloseTo(-131.21 + 0.0299 * 30_000, 9);
-    // Proof it is unreachable: the dispatcher never returns its temperature.
-    expect(updateAtmosphere(30_000).airTemperature).toBe(-56.46);
-    expect(updateAtmosphere(30_000).airTemperature).not.toBe(at30km.airTemperature);
+  it('above 25 km the port deliberately differs — this is M2.1', () => {
+    // The 2021 dispatcher had no third branch, so it returned the 11 km
+    // isotherm at every altitude above it, forever. Asserted as an explicit
+    // divergence so the bug fix cannot be mistaken for a port regression.
+    for (const altitude of [25_000, 30_000, 50_000, 80_000]) {
+      callLegacy({ altitude }, 'updateAtmosphere()');
+      const legacyTemperature = legacy['airTemperature'];
+      const ours = updateAtmosphere(altitude);
+
+      expect(legacyTemperature, `2021 at ${altitude} m`).toBe(-56.46);
+      expect(ours.airTemperature).toBe(upperStrato(altitude).airTemperature);
+      if (altitude > 25_000) {
+        expect(ours.airTemperature, `v2 at ${altitude} m`).not.toBe(-56.46);
+      }
+    }
+  });
+
+  it('the fix makes high air much denser, and mid air slightly thinner', () => {
+    // Measured, because the shape of this change is not what one would guess.
+    // The 2021 isotherm and the upper-stratosphere layer CROSS at about
+    // 39.5 km: below that the fix makes the air marginally thinner (down to
+    // 0.94x at 30 km), above it much denser, reaching 5.1x at 80 km and 7.3x
+    // at 86 km where the model's validity ends.
+    //
+    // The re-entry regime is entirely above the crossover, which is why the
+    // Re-entry preset is the scenario this bug fix transforms.
+    const isotherm = (h: number) =>
+      (22.65 * Math.E ** (1.73 - 0.000157 * h)) / (0.2869 * (-56.46 + 273.1));
+    const ratio = (h: number) => updateAtmosphere(h).airDensity / isotherm(h);
+
+    expect(ratio(25_000)).toBeCloseTo(0.984, 2);
+    expect(ratio(30_000)).toBeCloseTo(0.944, 2);
+    expect(ratio(35_000)).toBeLessThan(1);
+    expect(ratio(40_000)).toBeGreaterThan(1);
+    expect(ratio(50_000)).toBeCloseTo(1.268, 2);
+    expect(ratio(80_000)).toBeCloseTo(5.066, 2);
+
+    // The crossover itself, located rather than assumed.
+    let crossover = 0;
+    for (let h = 25_000; h <= 86_000; h += 100) {
+      if (ratio(h) > 1) {
+        crossover = h;
+        break;
+      }
+    }
+    expect(crossover).toBe(39_500);
+  });
+
+  it('the fixed lapse coefficient is 0.00299, not the 2021 file\'s 0.0299', () => {
+    // The transcription error, pinned. At 25 km the correct value reproduces
+    // the lower stratosphere's isotherm exactly, which is the evidence.
+    expect(upperStrato(25_000).airTemperature).toBeCloseTo(-56.46, 9);
+    expect(upperStrato(50_000).airTemperature).toBeCloseTo(-131.21 + 0.00299 * 50_000, 9);
+    // The 2021 spelling would have given +616 C at the stratopause.
+    expect(-131.21 + 0.0299 * 25_000).toBeCloseTo(616.29, 2);
   });
 });
 

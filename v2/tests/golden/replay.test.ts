@@ -185,8 +185,37 @@ describe('the fixtures themselves', () => {
       const samples = loadSamples(id);
       const last = samples[samples.length - 1]!;
       expect(check(last), `${id} did not reach its expected outcome`).toBe(true);
-      expect(last['failures.inFlightBreakUp'], `${id} broke up`).toBe(false);
+      if (id !== 'reentry-autoland') {
+        expect(last['failures.inFlightBreakUp'], `${id} broke up`).toBe(false);
+      }
     }
+  });
+
+  it('reentry-autoland breaks up — a consequence of M2.1, pinned deliberately', () => {
+    // Not a relaxed assertion: an asserted fact, so it cannot drift unnoticed.
+    //
+    // M2.1 wired in the upper stratosphere, which makes the air above 40 km up
+    // to 5x denser than the 2021 isotherm claimed. The Re-entry preset enters
+    // at 7300 m/s at 80 km, and now meets that air: thermal power reaches ~79
+    // against a heatLimit of 55 and the vehicle breaks up on the first step.
+    //
+    // The old behaviour was not survival through skill - it was the model
+    // believing there was almost no atmosphere there. But heatLimit = 55 was
+    // tuned against that same wrong model, and M2.2 (the heat argument) makes
+    // heating larger again, so the limit needs recalibrating once the M2 bug
+    // fixes are in. That is a feel decision and CLAUDE.md reserves those for
+    // the owner. Recorded in docs/ROADMAP-TASKS.md.
+    const samples = loadSamples('reentry-autoland');
+    const last = samples[samples.length - 1]!;
+    expect(last['failures.inFlightBreakUp']).toBe(true);
+
+    // It happens immediately, which is the part that makes the preset
+    // unplayable: already broken up by the first sample, half a second in.
+    // (The thermal peak above 55 falls between samples - fixtures are 2 Hz -
+    // so the peak itself is asserted in tests/core/atmosphere-strato.test.ts
+    // rather than read out of a fixture.)
+    expect(samples[0]!['failures.inFlightBreakUp']).toBe(false);
+    expect(samples[1]!['failures.inFlightBreakUp']).toBe(true);
   });
 
   it('the three landing scenarios land without crashing', () => {
