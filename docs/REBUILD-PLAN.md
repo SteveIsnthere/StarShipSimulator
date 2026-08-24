@@ -1,226 +1,215 @@
 # Starship Rebuild Plan
 
-Status: **proposal, awaiting approval.** No application code has been written and
-nothing in the existing tree has been modified.
+**Roadmap v2.** Fidelity approach approved; conventions and physics policy folded in;
+orbital mechanics promoted to a core-architecture item. No application code written yet.
 
 Branch: `claude/first-project-rebuild-bjniik`
-Baseline: 52 commits, 4,663 lines of JavaScript, summer 2021.
+Baseline: 52 commits, 4,663 lines, summer 2021.
+Decided: **Svelte 5 + TypeScript + Vite · PixiJS v8 · fidelity behind flags.**
 
 ---
 
 ## The read
 
-The simulator works. Served locally with the dead CDN links patched, it boots, the
-intro autopilot lands the vehicle, the panels slide in, and manual control behaves.
+The simulator works, and the physics and guidance logic are genuinely good. The
+scaffolding around them (355 globals, no build, no tests, sim loop welded to frame rate)
+is what a first project outgrows. So: not a rewrite, an **extraction**. The 2021
+equations and tuning port verbatim, get locked by tests, and only then evolve —
+deliberately, behind flags, judged by feel.
 
-What is good is the physics and the guidance logic. What holds it back is everything
-around them: no build step, no modules, no types, no tests, 355 globals, and a
-simulation loop welded to the renderer's frame rate.
+---
 
-This is not a rewrite. It is an extraction.
+## Goals
+
+| # | Goal | Measured by |
+|---|---|---|
+| G1 | **Deterministic flight** — same scenario, seed, inputs → same flight everywhere | Bit-identical trajectories at 30/60/144 fps in CI |
+| G2 | **Honest physics, orbit included** — every term faithful-to-2021 or provably better, by flag; fly fast enough sideways and you genuinely stop falling | Orbit demo passes headless; every flag ships with a before/after trajectory diff |
+| G3 | **Next-level feel** — modern renderer, real effects, locked frame rate | 60 fps mid-range phone; zero per-frame allocations |
+| G4 | **Maintainable by construction** — conventions are lint/CI failures, not prose | Boundary lints active; CLAUDE.md in repo; CI required |
+| G5 | **Small and offline** — quarter of today's payload; PWA promise kept | First-load ≤ 250 kB gzip (today ~1,143 kB); airplane-mode playthrough |
 
 ---
 
 ## Keep — the soul
 
-Ported to TypeScript modules with the same equations, constants, tuning and behaviour.
-
-- **The flight model.** Layered ISA atmosphere, Mach-dependent body drag, the piecewise
-  lift-coefficient curve keyed to angle-into-the-wind, dynamic pressure, reentry heating,
-  angular drag through the `∫r³dx` term, moment of inertia recomputed as propellant
-  drains, per-engine off-axis thrust torque.
-- **The autopilot library.** `presisionAlignment`, `controlEnginebyTWR`,
-  `verticalSpeedAdjustment`, `horizontalSteering`,
-  `controlHorizontalAccelerationByAeroBreaking`, `raptorAutoShutDown_KeepMinTWRBelow1`.
-- **The staged landing program.** Aero descent → belly-flop trigger altitude computed
-  from pessimistic available thrust → flip → horizontal adjustment → final descent, with
-  distinct branches for one-, two- and three-engine landings. Boost-back attempts
-  aerodynamic deceleration, gives it five seconds, falls back to propulsive.
-- **The intro.** The ship falls into frame already belly-flopping, the autopilot lands it,
-  and the instant the legs touch the panels slide in and the tanks refill. Non-negotiable.
-- **Scenarios, black box, keybinds, tilt control, the starhopper, and the pig at x = 0.**
+Ported verbatim, then locked by tests: the flight model and its tuned constants; the
+autopilot library and staged landing program (aero descent → computed belly-flop trigger
+→ flip → horizontal adjustment → final descent, with 1/2/3-engine branches; boost-back's
+aero-then-propulsive fallback); **the intro landing** (non-negotiable); all six scenario
+presets, the nine black-box plots, keybinds, tilt control, the starhopper, and the pig
+at x = 0.
 
 ---
 
-## Fix — what is actually wrong
+## The physics ledger
 
-### The simulation is tied to the frame rate
+### Orbital mechanics — the big one
 
-`updateBackEnd()` runs inside PixiJS's ticker and takes its timestep from measured frame
-time, clamped to a 30 ms ceiling. Any frame slower than 33 fps under-integrates.
+The 2021 code *tries* to model orbit: `orbitGravityAccCompensation` is exactly the
+"fly fast enough sideways and you stop falling" term. It fails three ways:
 
-Measured in a throttled browser: **8.01 s wall clock produced 6.47 s of simulated time —
-19% slow**, and it degrades further as the browser stutters. A landing burn that works on
-a laptop does not work on a phone, and no two runs of a scenario are the same run.
+1. **Linear where physics is quadratic.** Game: `g·|vx|/v_orb`. Reality: `vx²/r`.
+   They agree only at exactly orbital velocity; at half orbital velocity the game grants
+   2× the correct relief.
+2. **Frozen denominator.** `orbitalVelocityAtCurrentAltitude` is computed once at spawn
+   (initBackEnd.js:50) and never updated, while the radius is faithfully recomputed
+   every frame.
+3. **Clamped at g** (physics.js `updateOrbitGravityAccCompensation`). Net upward
+   acceleration from speed is impossible — elliptical arcs, lofting, and escape are
+   structurally unreachable.
 
-### Confirmed bugs
+Verified numbers (closed-form):
 
-| Bug | Effect |
-|---|---|
-| `upperStrato()` is never called — `updateAtmosphere()` only branches between `tropo()` and `lowerStrato()` | Above 11 km the atmosphere model is wrong for the entire reentry regime |
-| `getReentryHeatPower(vehicleNoseRadius)` is called with `crossSectionalArea` | Heating scales by `√(ρ/area)` instead of `√(ρ/noseRadius)`; heat limit triggers at the wrong speeds |
-| `frontFinEffectiveAreaFraction` initialised as an area, updated as a fraction | ~24× discrepancy on frame one |
-| Every engine cutoff allocates a new `PIXI.Container` + emitter into `starShipAndEffects`, never removed | Unbounded growth across a long flight |
-
-### Structure
-
-- 355 globals on `globalThis`; the `<script>` order in `index.html` *is* the dependency graph.
-- The physics loop reads the DOM (`getElementById("throttleControl").value`) every frame,
-  so simulation and interface cannot be separated, tested, or run headless.
-- Three CDN dependencies with no local fallback — blocked the network and the app is a
-  white screen, despite a manifest advertising offline play. PixiJS is pinned to 5.1.3
-  because the code uses `PIXI.loader`, removed in v6.
-- No tests, no types, a two-line README, 13 committed `.DS_Store` files.
-
----
-
-## Measured: the stack question
-
-Same HUD built five times, production builds, real compression.
-
-| Runtime | Minified | Gzip | Brotli |
-|---|---|---|---|
-| Vanilla TS | 1.4 kB | 0.7 kB | 0.6 kB |
-| Preact + hooks | 14 kB | 5.8 kB | 5.3 kB |
-| Solid | 17 kB | 6.3 kB | 5.7 kB |
-| **Svelte 5** | 42 kB | **15.9 kB** | 14.5 kB |
-| React 19 + react-dom | 192 kB | 58.7 kB | 50.8 kB |
-| *PixiJS v8 (tree-shaken)* | *563 kB* | *161 kB* | *133 kB* |
-
-16 numeric HUD fields, 2,000 updates, forced synchronous layout flush each time:
-
-| Runtime | Per update | Share of a 60 fps frame |
+| Quantity | True | Game |
 |---|---|---|
-| Direct DOM writes | 0.184 ms | 1.10% |
-| **Svelte 5** | 0.198 ms | 1.19% |
-| Preact | 0.218 ms | 1.31% |
-| Solid | 0.232 ms | 1.39% |
-| React 19 | 0.245 ms | 1.47% |
+| Net fall rate, Re-entry preset (80 km, 7,300 m/s) | 1.58 m/s² | 0.68 m/s² — falls at 43% of correct rate |
+| Centrifugal relief at ½ orbital velocity | 2.37 m/s² | 4.90 m/s² |
+| Net accel at 1.2× orbital velocity | +3.86 m/s² upward | 0 (clamped) |
 
-Fastest to slowest is 0.06 ms — about a third of one percent of a frame. Framework
-reactivity cannot be the bottleneck; the cost is dominated by the browser's layout flush,
-which every option pays equally.
+**The fix is architectural, not a patch.** The core simulates in planet-centered
+coordinates: state is position/velocity in a 2D frame at the planet's center, gravity is
+`−GM·r̂/|r|²`, altitude is `|r| − R`, downrange is the arc angle. Orbits, ellipses, and
+escape then *emerge from gravity itself*; the compensation hack and constant-g are
+deleted rather than repaired. The world already wraps at the planet's circumference, so
+the geometry is native, and the autopilot keeps seeing local vertical/horizontal
+components so guidance ports unchanged. Ships as the flagged **planet-centered gravity**
+fidelity switch, with the faithful 2021 flat model kept as reference.
 
-**The bundle problem that already exists:** every visit downloads Plotly at **1,008 kB
-gzipped** for nine charts hidden behind a button — six times the entire modern Pixi
-renderer, thirty-five times the project's own code. Lazy-loading it, or swapping it for
-uPlot (~40 kB), is worth more than every framework decision combined.
+### Everything else found
 
-### Recommendation
+| Finding | Tier | Effect today |
+|---|---|---|
+| Six quadrant ladders in the acceleration components are identities | Refactor | 143 lines → ~12; proven ≤ 1 ULP over 4M sampled angles; proof committed as a test |
+| `upperStrato()` never called | Bug | Atmosphere wrong above 11 km — the whole reentry regime |
+| `getReentryHeatPower(noseRadius)` called with cross-sectional area | Bug | Heating scales by √(ρ/area); heat limit triggers at wrong speeds |
+| Fin effective-area fraction initialised as an area, updated as a fraction | Bug | ~24× unit discrepancy on frame one |
+| `pitchRateOfChange` divides by `renderTimeInterval`, ×3600 papers over it | Bug | Correct only at 60 fps; gates `pitchHold`, so attitude-hold varies per device |
+| Ignition delay double-divides by `timeAccel` and runs on wall-clock `setTimeout` | Bug | Engines light 16× faster at 4× warp; breaks pause and determinism → becomes dt-ticked timer in SimState |
+| Stale/linear/clamped orbit relief | Fidelity | Subsumed by planet-centered gravity |
+| Gravity constant 9.807 at all altitudes | Fidelity | 4% high at 100 km, 7% at 200 km — deleted automatically under planet-centered gravity |
+| Speed of sound constant 343 m/s | Fidelity | Real value at 11 km is 295 m/s → Mach understated ~14%, skewing the Mach-keyed drag coefficient |
+| Full ISA atmosphere to 86 km | Fidelity | Replaces the three-layer model and its dead branch |
+| Engine-shutdown effect allocates container+emitter per cutoff, never freed | Bug | Unbounded growth; fixed by pooling in the render layer |
+| `dynamicPressure` commented `//psi`, computed in kPa | Refactor | Units/comment cleanup |
 
-**Svelte 5 + TypeScript + Vite.** Compiles to near-direct DOM updates; 16 kB against a
-renderer already costing 161 kB; single-file components suit a control panel; TypeScript
-would have caught the fin-area unit bug at compile time. Solid or Preact are equally
-defensible if the last 10 kB matters. React costs four times the bytes for measurably
-identical performance.
+---
 
-Renderer: **PixiJS v8**, 2D, WebGPU where available. Existing sprites reused.
+## The physics change policy
+
+**Nothing changes physics silently.** Every core change declares a tier:
+
+| Tier | Meaning | Must ship with |
+|---|---|---|
+| **Refactor** | Behaviour must not change | Numerical proof over the input domain, max \|Δ\| ≤ 1 ULP, committed as a test |
+| **Bug fix** | Provably wrong today | Failing test first; before/after trajectories on all six scenarios; note on feel |
+| **Fidelity** | More accurate, deliberately changes feel | Behind a flag, both versions golden-tested; becomes default only after being flown and approved |
+
+Approved fidelity flags: **planet-centered gravity**, **temperature-true speed of
+sound**, **full ISA atmosphere**.
+
+---
+
+## Conventions, enforced by machines
+
+The rules that actually broke v1 become build failures:
+
+```
+core/ may not import from render/, ui/, or app/    ← the architectural boundary
+core/ may not reference document, window, or PIXI  ← getElementById was in the physics loop
+core/ may not call Math.random                     ← unseeded randomness blocks golden tests
+core/ may not call Date.now or performance.now     ← time enters the sim only as dt
+core/ may not call setTimeout or setInterval       ← ignition ran on wall-clock timers
+no assignment to globalThis, anywhere              ← the 355
+```
+
+Plus:
+
+- **Branded angle types.** `Rad`/`Deg` as branded numbers — degrees into a radians
+  parameter is a compile error. Angles only; branding everything is ceremony.
+- **Port verbatim, rename later.** Functions port name-intact so the port is a
+  line-by-line diff. After goldens lock behaviour, one mechanical rename pass
+  (gimbol→gimbal, lowwer→lower, aera→area, faliure→failure, lunchpad→launchpad, …)
+  lands with its mapping table committed — goldens prove it changed nothing.
+- **CLAUDE.md at the repo root** — architecture, change policy, lint rules and their
+  reasons. Read automatically by every future AI session. Highest-leverage file here.
+
+### Performance rules
+
+- The framework never runs inside a frame (measured framework spread: 0.06 ms —
+  architecture protects the budget, not framework choice).
+- Zero allocation in the per-frame path; particles pooled.
+- DOM references cached at startup (old HUD: 45 `getElementById` per frame).
+- Budgets in CI: sim step < 1 ms @ 240 Hz · HUD update < 2 ms · first-load ≤ 250 kB gz.
+  Plotly (1,008 kB gz) leaves the critical path and cannot return.
+- Don't optimise the physics maths — any "optimisation" that changes results is a
+  Refactor owing a 1-ULP proof.
 
 ---
 
 ## Target architecture
 
-One rule drives the design: **the framework never runs inside a frame.**
-
 ```
-Layer 4  Shell        Svelte components — menus, scenario editor, black box.
-                      Renders on interaction only.
-              ↑ state read · commands ↓
-Layer 3  Instruments  HUD binder. One rAF subscriber, diffs sim state against
-                      last frame, writes changed values to text nodes.
-              ↑ reads state
-Layer 2  View         Pixi renderer. Sprites, particles, camera, sky.
-                      Owns no game logic and mutates nothing.
-              ↑ reads state · inputs ↓
-Layer 1  Core         Simulation — pure TypeScript. Physics, flight control,
-                      autopilot, failure detection. Pure functions over a typed
-                      state object. Zero DOM, zero Pixi, zero globals.
+Layer 4  Shell        Svelte — menus, editor, black box. Interaction-driven only.
+Layer 3  Instruments  HUD binder — one rAF subscriber, diffs state, writes text nodes.
+Layer 2  View         Pixi v8 — sprites, pooled particles, camera, sky. Converts
+                      planet-centered state to the local frame. No game logic.
+Layer 1  Core         Pure TypeScript — physics (planet-centered under flag), flight
+                      control, autopilot, failures, seeded RNG streams. Zero DOM,
+                      zero Pixi, zero globals, zero wall-clock. Runs in Node.
 ```
 
-Dependencies point one way only: down. The core does not know a renderer exists.
-
-### Fixed timestep, interpolated rendering
-
-```ts
-const DT = 1 / 120;              // seconds, fixed
-let accumulator = 0;
-
-function frame(now: number) {
-  accumulator += Math.min((now - last) / 1000, 0.25);   // cap the spiral of death
-  last = now;
-
-  while (accumulator >= DT) {
-    previous = current;
-    current  = step(current, DT, input);   // pure: state → state
-    accumulator -= DT;
-  }
-
-  render(previous, current, accumulator / DT);   // interpolate the remainder
-  requestAnimationFrame(frame);
-}
-```
-
-Time warp becomes running the `while` loop N times per frame rather than scaling `dt`, so
-warped flight obeys exactly the same physics as unwarped flight. The current
-implementation scales the timestep, which changes the results.
+Fixed timestep with interpolation; time warp = run the step loop N× per frame, never
+scale dt (2021 scales dt and was measured 19% slow at 33 fps). Orbit makes warp
+essential: a full lap at 1× is ~87 minutes.
 
 ---
 
-## Migration, in order
+## Milestones
 
-Each phase leaves the project in a working state. Nothing is deleted until its
-replacement flies.
+**M0 — Foundations locked.** Scaffold beside the untouched 2021 tree; six boundary
+lints active day one; CLAUDE.md; CI with budgets.
+*Accept: CI green and required · a deliberate DOM import in core/ fails the build.*
 
-1. **Scaffold** — Vite, TypeScript, Svelte, ESLint, Vitest, Playwright, a `.gitignore`
-   that excludes `.DS_Store`. The 2021 code stays untouched and still runs.
-   *Done when: `npm run dev` serves a blank typed app.*
-2. **Extract the core** — physics, flight control and autopilot into pure TypeScript over
-   a typed `SimState`. Equations and constants copied verbatim; the four confirmed bugs
-   fixed behind flags so the change can be measured.
-   *Done when: the sim runs headless in Node.*
-3. **Lock the behaviour** — golden-trajectory tests. Run each of the six scenarios
-   headless, record the full state history, commit it. Every later refactor asserts
-   against these.
-   *Done when: all six scenarios land, reproducibly.*
-4. **Fixed-timestep loop** — accumulator, interpolation, honest time warp.
-   *Done when: identical results at 30, 60 and 144 fps.*
-5. **Renderer on Pixi v8** — port the sprite scene, camera and particles, then bloom on
-   the plumes, heat shimmer and shock on reentry, parallax StarBase, altitude-graded sky.
-   Effects pooled, not reallocated.
-   *Done when: the intro landing plays, and looks better.*
-6. **HUD and controls** — Svelte panels, per-frame binder for readouts, keybinds, tilt and
-   touch restored. The 40 inline `onclick` attributes become typed component events.
-   *Done when: the game is fully playable.*
-7. **Black box and shell** — telemetry plots on a lazy-loaded charting library, scenario
-   editor, guide, about. Plotly leaves the critical path.
-   *Done when: first-load JS is under 250 kB gzip.*
-8. **Ship it** — service worker that genuinely caches everything, no CDNs. Real README,
-   real deploy. Old tree removed once the new one has flown every scenario.
-   *Done when: it works with the network off.*
+**M1 — Faithful core, behaviour locked.** Verbatim port over typed `SimState` (incl.
+trig collapse + committed proof); ignition on the sim clock; seeded per-stream RNG;
+fixed-timestep loop; golden trajectories for all six scenarios; then the rename pass,
+proven safe by goldens.
+*Accept: six scenarios bit-identical at 30/60/144 fps · sim runs in Node · rename lands green.*
+
+**M2 — Honest physics.** Bug-tier fixes on by default (failing-test-first, six-scenario
+diffs). Fidelity flags off by default: planet-centered gravity, true speed of sound,
+full ISA. New presets: Circularize, Deorbit Burn.
+*Accept: orbit demo passes headless — circularize at 100 km, coast one full lap, deorbit,
+land at StarBase · every flag has a trajectory-diff report · defaults chosen by feel.*
+
+**M3 — The glow-up.** Pixi v8 renderer with existing art; pooled effects (shutdown leak
+dies here); bloom, heat shimmer/shock, parallax StarBase, altitude-graded sky.
+*Accept: intro landing plays and looks better · zero per-frame allocations · 60 fps mid phone.*
+
+**M4 — Full game.** Svelte panels + HUD binder; keybinds/tilt/touch; 40 inline onclicks
+become typed events; scenario editor incl. orbital presets; black box lazy-loaded.
+*Accept: feature parity vs 2021 checklist complete · first-load ≤ 250 kB gzip.*
+
+**M5 — Shipped.** Service worker caches everything, no CDNs; real README; deploy; 2021
+tree retires after the new build has flown every scenario.
+*Accept: full playthrough in airplane mode · old tree removed · v1.0 tagged.*
 
 ---
 
-## How we will know nothing broke
+## How we'll know nothing broke
 
-- **Golden trajectories.** Each scenario run headless, full state history committed. A
-  refactor that changes the flight beyond tolerance fails the build. Only possible because
-  the core has no DOM in it.
-- **Autopilot outcome tests.** Auto-land, boost-back and auto-liftoff must succeed from
-  every preset. Assert results, not intermediate numbers, so genuine improvements pass.
-- **Determinism test.** Same seed and inputs produce identical output at 30, 60 and
-  144 fps. Impossible today; guaranteed after phase 4.
-- **Bundle budget in CI.** First-load JS capped so Plotly cannot quietly return.
+Golden trajectories (drift fails CI) · autopilot outcome tests (results, not
+intermediates) · determinism test across frame rates · proof-of-equivalence tests for
+every Refactor · bundle and frame budgets in CI.
 
 ---
 
-## Open questions
+## Open questions & backlog
 
-1. **Fix the physics bugs, or preserve them?** Correcting the atmosphere and heat models
-   will change how reentry feels, quite possibly making it harder. Proposal: fix behind
-   flags, compare, fly both. Some hand-tuning may have been compensating for them.
-2. **Rename as we port, or stay verbatim?** `presisionAlignment`, `gimbolPosition`,
-   `throttleLowwerLimmit`, `lunchpad`. Leaning toward porting verbatim first and renaming
-   in a separate pass, so every port stays a line-by-line comparison.
-3. **Sound?** None today, and the largest available upgrade to "feel" per unit of effort.
-   Not in this plan; say the word and it becomes a phase.
-4. **Does the pig stay?** The pig stays.
+- **Sound** — biggest feel-per-effort upgrade available; one word and it becomes M4.5.
+- **Shareable flights** (backlog) — determinism makes a flight = seed + scenario +
+  input log; a URL replays it anywhere. Cheap after M2.
+- **Fidelity defaults** — chosen in M2, stick in hand. The 2021 model stays selectable
+  as reference forever.
+- **The pig** — resolved. The pig stays.
