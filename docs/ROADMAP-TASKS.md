@@ -9,7 +9,7 @@ acceptance line.
 
 - [x] **M0.1 Scaffold** — Create `v2/` Vite + Svelte 5 + TypeScript project (self-contained
   `package.json`). Placeholder page renders. Accept: `cd v2 && npm run dev` serves; `npm run build` succeeds.
-- [ ] **M0.2 The six walls** — ESLint flat config with the six core/ rules from CLAUDE.md,
+- [x] **M0.2 The six walls** — ESLint flat config with the six core/ rules from CLAUDE.md,
   plus `tests/lint-walls.test.ts` feeding violation fixtures to ESLint programmatically.
   Accept: each of the six violations fails lint; the fixtures test passes; clean code passes.
 - [ ] **M0.3 Vitest wired** — `npm run test` runs; one real test present. Accept: green locally.
@@ -108,3 +108,10 @@ acceptance line.
   typescript-eslint 8.68 declares `typescript: >=4.8.4 <6.1.0`, so TS 7 would break the walls in M0.2.
   Exact-pinned every dev dependency per the plan. `npm run build` runs svelte-check → vite build →
   bundle budget gate (`scripts/check-budget.mjs`, 250 kB gzip first-load). Baseline: 9.8 kB.
+- 2026-08-24 · M0.2 · Six walls live in `v2/eslint.config.js`; walls 1-5 scoped to `src/core/**`,
+  wall 6 (globalThis) repo-wide. `tests/lint-walls/walls.test.ts` lints one violating fixture per
+  wall via ESLint's Node API with a synthetic `src/core/...` filePath, so rule *scoping* is tested
+  as well as the rules. 12 tests: 6 rejections, 2 wall-6-is-repo-wide, 3 walls-1-5-are-core-only
+  (view/ may import PIXI), 1 clean control. Mutation-checked — deleting the Math.random rule fails
+  wall 3; unscoping the config fails all three scoping tests. Vitest config landed here because
+  M0.2's acceptance line needs a runner; M0.3 adds the first core test on top of it.
