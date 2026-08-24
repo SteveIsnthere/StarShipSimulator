@@ -69,7 +69,7 @@ acceptance line.
   layers). Failing test first; six-scenario before/after diff in commit.
 - [x] **M2.2 Bug: heat argument** — pass nose radius (4.5 m), not cross-sectional area.
   Same obligations.
-- [ ] **M2.3 Bug: fin fraction init** — initialise as fraction. Same obligations.
+- [x] **M2.3 Bug: fin fraction init** — initialise as fraction. Same obligations.
 - [ ] **M2.4 Bug: pitch rate** — compute as Δpitch/dt, frame-rate independent; retune
   the pitchHold gate against goldens. Same obligations.
 - [ ] **M2.5 Flags infra** — `core/flags.ts`; golden fixtures per flag combination that ships.
@@ -312,3 +312,17 @@ acceptance line.
   `thermalPower` removed from full-loop parity with an explicit divergence test in its place, and
   `NOSE_RADIUS` declared in a new `INTRODUCED_BY_V2` list so a v2-only constant can never slip in
   unremarked. 620 tests green.
+- 2026-08-24 · M2.3 · **Correction to my own earlier analysis, and a Refactor rather than a Bug fix.**
+  The inconsistency is real: `initControlSurface()` wrote `area × sin(...)` into
+  `frontFinEffectiveAreaFraction` while `physics.js` writes a bare `sin(...)` every step, and
+  `getFrontFinDrag` multiplies by the fin area separately — so the two forms disagree by 24.2×
+  (front) / 45.8× (aft). But my pre-implementation claim of a **"~24× discrepancy on frame one" was
+  wrong**: `step()` recomputes both fields in phase 3a and only reads them in phase 3c, so the
+  constructed value is overwritten before anything can observe it — on the first step, in every
+  scenario. `updateBackEnd()` had the same ordering, so this was true in 2021 too. Proved by
+  feeding `step()` the correct fraction, the 2021 area form, and `1e9`: all three produce
+  **identical** fin drag, angular acceleration, and 600-step trajectories. So this lands as a
+  Refactor with a **zero** diff — all seven golden fixtures byte-identical, stronger than the 1-ULP
+  bound a Refactor owes. Still worth doing: an initialiser computing something other than what its
+  field means is a trap, and `syncDerivedFields()` is added for the case that *does* read a state
+  without stepping it — M4.4's flight editor, save/restore, HUD readouts. 631 tests green.

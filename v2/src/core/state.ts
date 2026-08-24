@@ -15,6 +15,7 @@
  *   - No methods. State is data; behaviour lives in step.ts and physics/.
  */
 import * as C from './constants';
+import { updateVehicleInFlightMaxArea } from './physics/aero';
 import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
 
@@ -475,10 +476,19 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       frontFinDragAngularAcceleration: 0,
       aftFinDragAngularAcceleration: 0,
 
-      // Verbatim from initControlSurface(): area * sin(maxAngle * extension * 0.01)
-      // with extension 0, so both are 0 at spawn. See M2.3.
-      frontFinEffectiveAreaFraction: C.frontFinSurfaceArea * Math.sin(C.finActuationMaxAngle * 0 * 0.01),
-      aftFinEffectiveAreaFraction: C.aftFinSurfaceArea * Math.sin(C.finActuationMaxAngle * 0 * 0.01),
+      // M2.3, Bug fix. initControlSurface() wrote `area * sin(...)` here - an
+      // area - while physics.js writes a bare `sin(...)` every step, and
+      // getFrontFinDrag multiplies by the fin's area separately. The two forms
+      // disagree by the fin area itself: 24.2x front, 45.8x aft.
+      //
+      // Derived through the same function step() uses, so construction and
+      // simulation cannot drift apart again. At spawn the fins are retracted
+      // and sin(0) = 0, so both forms agreed and the defect was latent - it
+      // only bites a state that starts with fins deployed, which is exactly
+      // what the flight editor (M4.4) and any save/restore produce.
+      frontFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0)
+        .frontFinEffectiveAreaFraction,
+      aftFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0).aftFinEffectiveAreaFraction,
 
       thermalPower: 0,
       dynamicPressure: 0,
@@ -635,4 +645,25 @@ export function cloneState(s: SimState): SimState {
     failures: { ...s.failures },
     autopilot: { ...s.autopilot },
   };
+}
+
+/**
+ * Recompute the fields derived from fin extension.
+ *
+ * Anything that sets `frontFinExtension` or `aftFinExtension` on a state it did
+ * not step - the flight editor, a save/restore, a test fixture - must call this,
+ * or the fin areas describe the previous configuration. `step()` does it every
+ * frame; this is the same computation for callers who build a state by hand.
+ *
+ * Exists because M2.3 was precisely the failure of construction and simulation
+ * to agree on what these fields mean.
+ */
+export function syncDerivedFields(s: SimState): void {
+  const fins = updateVehicleInFlightMaxArea(
+    s.vehicle.frontFinExtension,
+    s.vehicle.aftFinExtension,
+  );
+  s.forces.frontFinEffectiveAreaFraction = fins.frontFinEffectiveAreaFraction;
+  s.forces.aftFinEffectiveAreaFraction = fins.aftFinEffectiveAreaFraction;
+  s.vehicle.vehicleInFlightMaxArea = fins.vehicleInFlightMaxArea;
 }
