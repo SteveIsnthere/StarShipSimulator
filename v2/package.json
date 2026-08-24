@@ -1,0 +1,32 @@
+{
+  "name": "starship-simulator-v2",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "svelte-check --tsconfig ./tsconfig.json && vite build && node scripts/check-budget.mjs",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@sveltejs/vite-plugin-svelte": "7.3.0",
+    "@types/node": "26.3.0",
+    "esbuild": "0.28.2",
+    "eslint": "10.9.1",
+    "eslint-plugin-svelte": "3.23.0",
+    "globals": "17.11.0",
+    "svelte": "5.56.10",
+    "svelte-check": "4.7.6",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.68.0",
+    "vite": "8.2.2",
+    "vitest": "4.1.11"
+  },
+  "dependencies": {
+    "pixi.js": "8.20.0"
+  }
+}

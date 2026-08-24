@@ -7,7 +7,7 @@ acceptance line.
 
 ## M0 — Foundations locked
 
-- [ ] **M0.1 Scaffold** — Create `v2/` Vite + Svelte 5 + TypeScript project (self-contained
+- [x] **M0.1 Scaffold** — Create `v2/` Vite + Svelte 5 + TypeScript project (self-contained
   `package.json`). Placeholder page renders. Accept: `cd v2 && npm run dev` serves; `npm run build` succeeds.
 - [ ] **M0.2 The six walls** — ESLint flat config with the six core/ rules from CLAUDE.md,
   plus `tests/lint-walls.test.ts` feeding violation fixtures to ESLint programmatically.
@@ -103,3 +103,8 @@ acceptance line.
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->
+
+- 2026-08-24 · M0.1 · Scaffolded `v2/` (Vite 8 + Svelte 5 + TS 5.9). TypeScript pinned to 5.9.3, not 7.x:
+  typescript-eslint 8.68 declares `typescript: >=4.8.4 <6.1.0`, so TS 7 would break the walls in M0.2.
+  Exact-pinned every dev dependency per the plan. `npm run build` runs svelte-check → vite build →
+  bundle budget gate (`scripts/check-budget.mjs`, 250 kB gzip first-load). Baseline: 9.8 kB.
