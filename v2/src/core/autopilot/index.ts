@@ -38,10 +38,11 @@ export function pitchHold(state: SimState): void {
   const { autopilot, kinematics } = state;
   if (!autopilot.pitchHoldOn || autopilot.manualControlOn) return;
 
-  // The gate reads pitchRateOfChange, which is frame-rate dependent in the
-  // 2021 formula — this is exactly why pitchHold behaved differently on
-  // different devices. M2.4 fixes the rate; this line is unchanged.
-  if (Math.abs(kinematics.pitchRateOfChange) < 0.4) {
+  // The gate reads pitchRateOfChange, which M2.4 made a genuine rad/s rate.
+  // The threshold value is unchanged at 0.4 — at the 60 fps reference, where
+  // the old expression happened to be correct, 0.4 in the old units WAS
+  // 0.4 rad/s. What changed is that it now means that at every frame rate.
+  if (Math.abs(kinematics.pitchRateOfChange) < C.PITCH_HOLD_RATE_THRESHOLD) {
     autopilot.holdingPitch = kinematics.pitch;
   }
   prim.precisionAlignment(state, autopilot.holdingPitch, 0.5);

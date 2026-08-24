@@ -144,6 +144,10 @@ const INTRODUCED_BY_V2: Readonly<Record<string, string>> = {
   // site passed crossSectionalArea, an area. 2021 had no such constant because
   // it never needed one.
   NOSE_RADIUS: 'M2.2 — the nose radius the heat correlation always wanted',
+  // M2.4, Bug fix. autoPilotModes.js:8 had 0.4 inline, against a quantity that
+  // was not a rate. The number is unchanged; naming it records that it now
+  // means 0.4 rad/s at every frame rate rather than only at 60 fps.
+  PITCH_HOLD_RATE_THRESHOLD: 'M2.4 — the pitchHold gate, now in real rad/s',
 };
 
 describe('coverage of the mapping itself', () => {

@@ -57,11 +57,16 @@ function updatePitchRateOfChange(s: SimState, dt: number): void {
   kinematics.pitchRecord.shift();
   const lastPitch = kinematics.pitchRecord[0]!;
 
-  // Ported verbatim, and wrong: this is `dPitch * dt * 3600`, where a rate of
-  // change is `dPitch / dt`. It is correct only at exactly 60 fps with
-  // timeAccel 1, and 4x high at 30 fps — which is why the pitchHold gate that
-  // reads it behaved differently on different devices. M2.4 is the bug fix.
-  kinematics.pitchRateOfChange = ((kinematics.pitch - lastPitch) / (1 / dt)) * 3600;
+  // M2.4, Bug fix. 2021 wrote `(pitch - lastPitch) / renderTimeInterval * 3600`,
+  // and since 1/renderTimeInterval IS dt, dividing by it MULTIPLIES by dt. The
+  // expression computed `dPitch * dt * 3600` — units of rad*s, not rad/s, wrong
+  // by dt^2 * 3600. At exactly 60 fps that factor is 1, so it was accidentally
+  // correct at one frame rate and nowhere else: 4x high at 30 fps, 5.76x low at
+  // 144 fps. pitchHold gates on this value, so the autopilot behaved differently
+  // depending on the player's display.
+  //
+  // A rate of change is dPitch / dt.
+  kinematics.pitchRateOfChange = (kinematics.pitch - lastPitch) / dt;
 }
 
 /**

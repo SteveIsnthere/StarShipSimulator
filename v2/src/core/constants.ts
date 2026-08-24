@@ -272,6 +272,18 @@ export const aeroBreakingAdjDegreePerSec: Rad = toRad(deg(30));
 /** Frames between black-box samples. */
 export const recordTimeInterval = 5;
 
+/**
+ * rad/s — the angular rate below which pitchHold re-latches its target attitude.
+ *
+ * Added in M2.4. autoPilotModes.js:8 gates on
+ * `Math.abs(pitchRateOfChange) < 0.4`, but that quantity was
+ * `dPitch * dt * 3600` — correct only at exactly 60 fps. At the 60 fps
+ * reference the gate fired at 0.4 rad/s, so the NUMBER is unchanged; what
+ * changed is that it now means 0.4 rad/s at every frame rate, rather than
+ * 0.1 rad/s at 30 fps and 1.6 rad/s at 120 fps.
+ */
+export const PITCH_HOLD_RATE_THRESHOLD = 0.4;
+
 // ---------------------------------------------------------------------------
 // Reference frame rate
 // ---------------------------------------------------------------------------

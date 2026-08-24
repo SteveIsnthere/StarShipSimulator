@@ -132,6 +132,10 @@ const LEGACY_STEP = `
 /**
  * Fields compared every step. SimState path -> legacy global.
  *
+ * `pitchRateOfChange` is deliberately absent since M2.4: 2021 computed
+ * `dPitch * dt * 3600`, which is not a rate of change and is correct only at
+ * exactly 60 fps. The divergence is asserted on its own terms below.
+ *
  * `thermalPower` is deliberately absent since M2.2: the 2021 code passes
  * `crossSectionalArea` to getReentryHeatPower where a nose radius belongs, so
  * the two implementations are SUPPOSED to differ there now. The divergence is
@@ -152,7 +156,6 @@ const COMPARED: ReadonlyArray<readonly [(s: SimState) => unknown, string]> = [
   [(s) => s.kinematics.accelerationY, toLegacyName('accelerationY')],
   [(s) => s.kinematics.totalAcceleration, toLegacyName('totalAcceleration')],
   [(s) => s.kinematics.pitch, toLegacyName('pitch')],
-  [(s) => s.kinematics.pitchRateOfChange, toLegacyName('pitchRateOfChange')],
   [(s) => s.kinematics.angularVelocity, toLegacyName('angularVelocity')],
   [(s) => s.kinematics.angularAcceleration, toLegacyName('angularAcceleration')],
   [(s) => s.kinematics.angleOfMotion, toLegacyName('angleOfMotion')],
@@ -555,6 +558,62 @@ describe('thermalPower deliberately no longer matches 2021 — this is M2.2', ()
       1000,
       1 / 120,
       'heat-isolation',
+    );
+    expect(worst).toBeLessThan(DRIFT_LIMIT);
+  });
+});
+
+describe('pitchRateOfChange deliberately no longer matches 2021 — this is M2.4', () => {
+  it('v2 reports a genuine rad/s rate; 2021 reported it scaled by dt^2 * 3600', () => {
+    const dt = 1 / 120;
+    const state = createInitialState();
+    state.kinematics.altitude = 20_000;
+    state.kinematics.angularVelocity = 0.25;
+    seedLegacy(state, dt);
+
+    let s = state;
+    for (let i = 0; i < 20; i++) {
+      s = step(s, dt);
+      evalLegacy(LEGACY_STEP);
+    }
+
+    const theirs = readLegacy('pitchRateOfChange') as number;
+    const ours = s.kinematics.pitchRateOfChange;
+
+    // v2 reports the actual angular velocity.
+    expect(ours).toBeCloseTo(0.25, 2);
+    // 2021's value is ours scaled by dt^2 * 3600 = 0.25 at 120 Hz.
+    expect(theirs / ours).toBeCloseTo(dt * dt * 3600, 6);
+    expect(theirs / ours).toBeCloseTo(0.25, 6);
+  });
+
+  it('and at 60 fps the two agree, which is why the defect shipped', () => {
+    const dt = 1 / 60;
+    const state = createInitialState();
+    state.kinematics.altitude = 20_000;
+    state.kinematics.angularVelocity = 0.25;
+    seedLegacy(state, dt);
+
+    let s = state;
+    for (let i = 0; i < 20; i++) {
+      s = step(s, dt);
+      evalLegacy(LEGACY_STEP);
+    }
+    expect(readLegacy('pitchRateOfChange') as number).toBeCloseTo(
+      s.kinematics.pitchRateOfChange,
+      9,
+    );
+  });
+
+  it('every other compared field still matches, so this is the only divergence', () => {
+    const { worst } = lockstep(
+      (s) => {
+        s.kinematics.altitude = 20_000;
+        s.kinematics.angularVelocity = 0.25;
+      },
+      1000,
+      1 / 120,
+      'pitch-rate-isolation',
     );
     expect(worst).toBeLessThan(DRIFT_LIMIT);
   });

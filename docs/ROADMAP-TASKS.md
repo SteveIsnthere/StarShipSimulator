@@ -70,7 +70,7 @@ acceptance line.
 - [x] **M2.2 Bug: heat argument** — pass nose radius (4.5 m), not cross-sectional area.
   Same obligations.
 - [x] **M2.3 Bug: fin fraction init** — initialise as fraction. Same obligations.
-- [ ] **M2.4 Bug: pitch rate** — compute as Δpitch/dt, frame-rate independent; retune
+- [x] **M2.4 Bug: pitch rate** — compute as Δpitch/dt, frame-rate independent; retune
   the pitchHold gate against goldens. Same obligations.
 - [ ] **M2.5 Flags infra** — `core/flags.ts`; golden fixtures per flag combination that ships.
 - [ ] **M2.6 Fidelity: planet-centered gravity** — core state in planet-centered frame;
@@ -326,3 +326,16 @@ acceptance line.
   bound a Refactor owes. Still worth doing: an initialiser computing something other than what its
   field means is a trap, and `syncDerivedFields()` is added for the case that *does* read a state
   without stepping it — M4.4's flight editor, save/restore, HUD readouts. 631 tests green.
+- 2026-08-24 · M2.4 · **Bug fix.** `pitchRateOfChange = (pitch − lastPitch) / renderTimeInterval
+  * 3600` — but `1/renderTimeInterval` **is** dt, so dividing by it *multiplies* by dt. The
+  expression computed `dPitch · dt · 3600`: units of rad·s, wrong by `dt²·3600`. That factor is
+  exactly **1 at 60 fps** and nowhere else — 4× high at 30 fps, 5.76× low at 144 fps. `pitchHold`
+  gates on it, so **the autopilot behaved differently depending on the player's monitor**: a
+  0.25 rad/s rotation read as 1.0 at 30 fps (gate shut) and 0.0625 at 120 fps (gate open) — same
+  vehicle, same motion, opposite behaviour. Fixed to `dPitch / dt`; threshold extracted as
+  `PITCH_HOLD_RATE_THRESHOLD = 0.4`, **numerically unchanged** because at the 60 fps reference where
+  the old expression was correct, 0.4 in the old units *was* 0.4 rad/s. Diff: **no outcome changed
+  in any scenario**, and across all seven goldens **exactly one field moved —
+  `kinematics.pitchRateOfChange` itself**; no trajectory shifted, since nothing but the pitchHold
+  gate consumes it. Verified pitchHold now converges to within 0.012 rad across 30/60/120/144 fps.
+  645 tests green. **M2's four bug fixes are complete.**
