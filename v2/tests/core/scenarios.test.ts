@@ -176,8 +176,8 @@ describe('every scenario actually flies', () => {
 describe('the intro demo scenario', () => {
   it('matches welcome.js startRunningGame()', () => {
     const s = createIntroState();
-    expect(s.kinematics.altitude).toBe(999);
-    expect(s.kinematics.speedY).toBe(-250);
+    expect(s.kinematics.altitude).toBe(199);
+    expect(s.kinematics.speedY).toBe(-50);
     expect(s.vehicle.propellantMass).toBe(12_000);
     expect(s.status.finLocked).toBe(true);
     expect(s.autopilot.demoAutoLandOn).toBe(true);

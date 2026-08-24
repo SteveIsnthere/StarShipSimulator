@@ -40,7 +40,7 @@ acceptance line.
   verbatim. Accept: parity spot-checks; no DOM reads (inputs come via the input arg).
 - [x] **M1.7 Scenarios** — the six presets + intro demo as data in `core/scenarios.ts`.
   Accept: each initialises a valid SimState.
-- [ ] **M1.8 Golden trajectories** — headless runner records full state history per scenario
+- [x] **M1.8 Golden trajectories** — headless runner records full state history per scenario
   (autopilot flying); fixtures committed; determinism test replays with 30/60/144 fps
   frame batching. Accept: bit-identical across batchings; fixtures in CI.
 - [ ] **M1.9 Trig collapse** — the six quadrant ladders → single expressions. Tier: Refactor.
@@ -236,3 +236,20 @@ acceptance line.
   preset that was cut, it belongs in this file. 38 tests: exact preset values, the conversion rules,
   both clamps, and every scenario proved finite over 30 s powered and unpowered plus deterministic
   over 600 steps. 507 green.
+- 2026-08-24 · M1.8 · Seven golden fixtures in `v2/tests/golden/fixtures/`, all recorded with the
+  **autopilot flying** (a ballistic drop exercises almost none of the game). Replay is bit-identical
+  under 1/2/4/8-step batching and a ragged 144 Hz-style pattern — `Object.is`, every field, every
+  sample. **Three real bugs found by recording**: (1) `createIntroState` never commanded the
+  engines, so the intro just fell and crashed — `startRunningGame()` ends with `toggleAllRaptors()`;
+  (2) I had guessed `renderBoxPhysicalHeight` at 1000 m — it is `vehicleHeight × vehicleVerticalPropotion`
+  ≈ **200 m**, and `vehicleVerticalPropotion` is adjusted by *window height*, so **the 2021 intro
+  started at a different altitude and speed on different screens**. v2 pins the canonical 4× value;
+  a sequence CLAUDE.md calls unchangeable cannot depend on the viewport. (3) JSON silently loses
+  `undefined` (drops the key), `Infinity`, `NaN` and `-0` — all four occur in SimState, all now
+  encoded as sentinels; also `JSON.parse`'s reviver *deletes* a key when it returns `undefined`, so
+  restoration happens in a second pass. Fixtures were **21 MB** as one object per sample; restructured
+  to columnar with constant-folding → **1.6 MB**, one diffable line per instant. Mutation-verified:
+  a 1-ULP change to `gravity` fails at sample 0; the M1.5 ordering bug fails at sample 2; a
+  lift-curve boundary shift fails at step 312. Two of my first mutations were **no-ops** —
+  `9.807000000000001` parses to the same double as `9.807`, and reordering two independent
+  assignments changes nothing — caught and redone. 554 tests green.

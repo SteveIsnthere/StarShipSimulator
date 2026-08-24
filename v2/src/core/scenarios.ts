@@ -19,6 +19,7 @@
  * pitch in DEGREES, and propellant in TONNES.
  */
 import * as C from './constants';
+import { toggleAllRaptors } from './control/commands';
 import { createInitialState, type SimState } from './state';
 import { deg, toRad, type Deg } from './units';
 
@@ -118,13 +119,27 @@ export const LAUNCH_PAD: ScenarioPreset = {
 };
 
 /**
- * utilities/welcome.js:66 — the intro auto-landing demo's initial conditions.
+ * m — the world height the camera box covers, which sets where the intro starts.
  *
- * `renderBoxPhysicalHeight` is a view constant in 2021 (the world height the
- * camera box covers). The sim only needs the numbers it produced, so it is a
- * parameter here rather than a dependency on view/ — which wall 1 forbids.
+ * In 2021 this was `renderBoxPhysicalHeight = vehicleHeight * vehicleVerticalPropotion`
+ * (drawMethods.js:30), and `vehicleVerticalPropotion` starts at 4 but is then
+ * adjusted by `getInitSize()` against the browser window height, clamping the
+ * ship's drawn height to 100..220 px. So 50 * 4 = 200 m on most displays, but
+ * more on a very tall window: a 2000 px viewport gives ~455 m.
+ *
+ * THAT MEANS THE INTRO DEMO STARTED AT A DIFFERENT ALTITUDE AND SPEED ON
+ * DIFFERENT SCREENS — it opened at `height - 1` metres falling at `height / 4`
+ * m/s, both scaled by the viewport. On a tall enough window the demo began too
+ * high and too fast for its own `-distanceToGround / 3` descent profile and
+ * would arrive hot.
+ *
+ * v2 pins the canonical 4x value. The intro is in CLAUDE.md's "what must never
+ * change" list, and a sequence that plays differently depending on the window
+ * cannot be held to a golden fixture. This is also a dependency the sim should
+ * never have had: wall 1 forbids core/ importing from view/, and this is
+ * exactly the coupling that rule exists to prevent.
  */
-export const INTRO_RENDER_BOX_HEIGHT = 1000;
+export const INTRO_RENDER_BOX_HEIGHT = C.vehicleHeight * 4;
 
 export const INTRO: ScenarioPreset = {
   id: 'intro',
@@ -187,8 +202,9 @@ export function createIntroState(seed?: number): SimState {
   const s = createScenarioState(INTRO, seed);
   s.status.finLocked = true;
   s.autopilot.demoAutoLandOn = true;
-  // startRunningGame() calls toggleAllRaptors(). Ignition is a dt countdown now,
-  // so they light shortly after the demo begins, exactly as they did in 2021.
-  s.engines.ignitionCountdown = [null, null, null];
+  // welcome.js:84 — startRunningGame() ends with toggleAllRaptors(). Without
+  // this the demo has no engines and simply falls; the first golden recording
+  // caught exactly that.
+  toggleAllRaptors(s);
   return s;
 }
