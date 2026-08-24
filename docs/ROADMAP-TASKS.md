@@ -17,7 +17,7 @@ acceptance line.
   (fail if gzipped first-load JS > 250 kB). Accept: workflow green on push.
 - [x] **M0.5 Repo hygiene** — Root `.gitignore` (.DS_Store, node_modules, dist);
   `git rm --cached` the 13 committed .DS_Store files. Accept: `git ls-files | grep DS_Store` empty.
-- [ ] **M0.6 Playwright smoke** — Headless: page loads, canvas mounts, no console errors.
+- [x] **M0.6 Playwright smoke** — Headless: page loads, canvas mounts, no console errors.
   Accept: runs in CI. (Chromium is pre-installed in the remote env; do not `playwright install`.)
 
 ## M1 — Faithful core, behaviour locked
@@ -136,3 +136,14 @@ acceptance line.
   held back from M0.4: it fails the build if a `.DS_Store`, `node_modules/` or `dist/` is ever
   tracked again, so the cleanup cannot silently regress. This is one of the two commits CLAUDE.md
   permits to touch the 2021 tree.
+- 2026-08-24 · M0.6 · Playwright smoke against the **production build** (config runs build+preview),
+  wired into CI. Two live assertions: page loads with zero console errors / page errors / failed
+  requests, and zero third-party origins — the latter guards M5.1's offline goal against a CDN
+  creeping back in. The canvas assertion is present but `test.skip` with reason "canvas arrives with
+  the PixiJS shell in M3.1", so it shows as skipped every run instead of being quietly missing;
+  M3.1 deletes the skip. The pre-installed Chromium is revision 1194 but Playwright 1.62 wants 1234,
+  so the config resolves `PLAYWRIGHT_BROWSERS_PATH/chromium-*/chrome-linux/chrome` when present and
+  CI installs its own — no `playwright install` in the sandbox. SwiftShader flags set now so PixiJS
+  has a WebGL context from M3.1. Two real defects caught: `exactOptionalPropertyTypes` rejected
+  `workers: undefined`, and the smoke test found a favicon 404 on every load — fixed with an inline
+  SVG data-URI icon (zero requests) rather than by adding an ignore rule.

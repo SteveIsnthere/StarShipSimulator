@@ -16,7 +16,7 @@ defaults:
 
 jobs:
   verify:
-    name: lint · test · build · budget
+    name: lint · test · build · budget · e2e
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -44,6 +44,24 @@ jobs:
       # svelte-check -> vite build -> bundle budget gate (250 kB gzip first-load).
       - name: Build and budget
         run: npm run build
+
+      # CI has no pre-installed browser; the remote dev environment does, and the
+      # config prefers that one via PLAYWRIGHT_BROWSERS_PATH when present.
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      # Smoke test against the production build (the config builds and previews).
+      - name: E2E smoke
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: v2/playwright-report
+          retention-days: 7
+          if-no-files-found: ignore
 
       - name: Upload dist
         if: always()
