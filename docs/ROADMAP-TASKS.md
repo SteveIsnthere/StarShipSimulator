@@ -34,7 +34,7 @@ acceptance line.
 - [x] **M1.4 Port engines + actuation** — throttle, gimbal, RCS, fins, fuel; ignition delay
   becomes a dt-ticked SimState timer using rng streams (declared Bug fix: wall-clock
   setTimeout + double timeAccel division). Accept: failing-test-first for the timer; parity elsewhere.
-- [ ] **M1.5 Port integrator** — `updateBackEnd.js` → `core/step.ts`: pure
+- [x] **M1.5 Port integrator** — `updateBackEnd.js` → `core/step.ts`: pure
   `step(state, dt, input)`. Accept: runs headless in Node.
 - [ ] **M1.6 Port control + autopilot** — flightControl, low-level primitives, all modes,
   verbatim. Accept: parity spot-checks; no DOM reads (inputs come via the input arg).
@@ -194,3 +194,18 @@ acceptance line.
   makes the *wall-clock* wait shrink as timeAccel² but engines light `timeAccel`× early in
   *simulated* terms (0.75 s → 0.1875 s at 4× warp), not 16×. Fixed in constants.ts, state.ts and
   REBUILD-PLAN.md. 393 tests green.
+- 2026-08-24 · M1.5 · `core/step.ts` — pure `step(state, dt, input)` returning a new SimState;
+  `cloneState` makes purity possible without rewriting ported physics in immutable style.
+  Runs headless in Node with no DOM (asserted). **Two real bugs found by the new full-loop parity
+  test, neither visible at unit level.** (1) Ordering: `orbitGravityAccCompensation` is written at
+  the *end* of `updateSpactialMotion` in 2021, so the velocity integration and `updatePerceivedG`
+  both read the *previous* step's value — I computed it early. It is now a carried SimState field
+  and the test catches the mistake by step 1. (2) My M1.4 claim that `X / renderTimeInterval` and
+  `X * dt` are bit-identical was **wrong** — dividing by the reciprocal rounds twice. Measured at
+  ≤ 1 ULP over 800k samples across ten decades, so it clears CLAUDE.md's Refactor bar; declared as
+  such with the proof at `tests/proofs/dt-substitution.test.ts`. Consequently the full-loop test
+  measures accumulated drift instead of claiming bit-equality: pad is bit-identical (0), worst
+  anywhere is 1.2e-13 relative, bound set at 1e-11 from measurement, with an absolute floor of
+  1e-12 so cancellation near zero is not mistaken for divergence. Also switched the ignition
+  sentinel from `NaN` to `null` — JSON turns NaN into null, so it would not survive a golden
+  round-trip. 431 tests green.

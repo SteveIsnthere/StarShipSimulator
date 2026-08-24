@@ -22,6 +22,7 @@ const FIELDS: ReadonlyArray<readonly [unknown, string]> = [
   [s.kinematics.downRangeDistanceNextFrame, 'downRangeDistanceNextFrame'],
   [s.kinematics.distanceToPlanetCenter, 'distanceToPlanetCenter'],
   [s.kinematics.orbitalVelocityAtCurrentAltitude, 'orbitalVelocityAtCurrentAltitude'],
+  [s.kinematics.orbitGravityAccCompensation, 'orbitGravityAccCompensation'],
   [s.kinematics.trueSpeed, 'trueSpeed'],
   [s.kinematics.speedX, 'speedX'],
   [s.kinematics.speedY, 'speedY'],
@@ -151,7 +152,7 @@ describe('createInitialState matches initBackEnd() exactly', () => {
   }
 
   it('covers a meaningful share of the legacy state', () => {
-    expect(FIELDS.length).toBeGreaterThanOrEqual(118);
+    expect(FIELDS.length).toBeGreaterThanOrEqual(119);
   });
 });
 
@@ -170,7 +171,7 @@ describe('fields the port deliberately reshapes', () => {
   it('ignitionCountdown has no legacy counterpart — it replaces setTimeout', () => {
     // switches.js ran ignition on a wall-clock timer. There is nothing in the
     // legacy state to compare against; the field exists so M1.4 can tick it by dt.
-    expect(s.engines.ignitionCountdown.every(Number.isNaN)).toBe(true);
+    expect(s.engines.ignitionCountdown.every((c) => c === null)).toBe(true);
     expect(legacy['ignitionCountdown']).toBeUndefined();
   });
 

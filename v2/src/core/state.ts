@@ -65,6 +65,16 @@ export interface KinematicsState {
    * M2.6 removes the term entirely in favour of real planet-centered gravity.
    */
   orbitalVelocityAtCurrentAltitude: number;
+  /**
+   * m/s^2 — the 2021 "orbital relief" term, subtracted from felt gravity.
+   *
+   * CARRIED ACROSS STEPS BY DESIGN. updateBackEnd() writes this at the *end* of
+   * updateSpactialMotion, after the velocity integration and after the new
+   * accelerations, so both the integration and updatePerceivedG read the value
+   * computed on the PREVIOUS step. Computing it early changes the trajectory —
+   * the full-loop parity test in tests/parity/step.test.ts catches it by step 1.
+   */
+  orbitGravityAccCompensation: number;
 
   /** m/s — magnitude of the velocity vector. */
   trueSpeed: number;
@@ -212,13 +222,19 @@ export interface EngineState {
   /** Whether each Raptor has failed. */
   failed: [boolean, boolean, boolean];
   /**
-   * s — time remaining before each commanded engine actually lights.
-   * NaN means "not igniting". This replaces the 2021 wall-clock setTimeout in
-   * switches.js, which divided by timeAccel twice and so lit engines timeAccel
-   * times early in simulated terms. Ticked by dt in step(), so warp is exact by
-   * construction.
+   * s — time remaining before each commanded engine actually lights, or null
+   * when that engine is not igniting.
+   *
+   * `null` rather than NaN as the sentinel: golden fixtures are JSON, and
+   * JSON.stringify turns NaN into null anyway, so a NaN sentinel would not
+   * survive a round trip through a fixture. Chosen here rather than discovered
+   * in M1.8.
+   *
+   * This replaces the 2021 wall-clock setTimeout in switches.js, which divided
+   * by timeAccel twice and so lit engines timeAccel times early in simulated
+   * terms. Ticked by dt in step(), so warp is exact by construction.
    */
-  ignitionCountdown: [number, number, number];
+  ignitionCountdown: [number | null, number | null, number | null];
 }
 
 export interface StatusState {
@@ -381,6 +397,10 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       orbitalVelocityAtCurrentAltitude: Math.sqrt(
         (C.gravitationalConstant * C.planetMass) / distanceToPlanetCenter,
       ),
+      // initFlightParams: gravity * |speedX| / orbitalVelocity, with speedX 0.
+      orbitGravityAccCompensation:
+        (C.gravity * Math.abs(0)) /
+        Math.sqrt((C.gravitationalConstant * C.planetMass) / distanceToPlanetCenter),
 
       trueSpeed: 0,
       speedX: 0,
@@ -462,7 +482,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
     engines: {
       running: [false, false, false],
       failed: [false, false, false],
-      ignitionCountdown: [NaN, NaN, NaN],
+      ignitionCountdown: [null, null, null],
     },
 
     status: {
@@ -544,5 +564,42 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
 
       horizontalAccelerationByAeroBreakingCorrectionAngle: rad(0),
     },
+  };
+}
+
+/**
+ * Deep copy of a SimState.
+ *
+ * `step()` clones its input and mutates the copy. That is what makes the
+ * function pure without forcing every line of ported physics to be rewritten in
+ * an immutable style — the 2021 code assigns to fields, and keeping that shape
+ * is what makes the port reviewable line by line against the original.
+ *
+ * Written out by hand rather than via structuredClone or a spread walk: this
+ * runs once per step at up to 240 Hz, it is on the zero-allocation-sensitive
+ * path, and an explicit copy is the only version a reader can verify covers
+ * every field. A missed field would silently alias between states and corrupt
+ * replay; tests/core/step.test.ts checks the copy is total.
+ */
+export function cloneState(s: SimState): SimState {
+  return {
+    rng: { seed: s.rng.seed, counters: { ...s.rng.counters } },
+    world: { ...s.world },
+    atmosphere: { ...s.atmosphere },
+    kinematics: {
+      ...s.kinematics,
+      pitchRecord: [s.kinematics.pitchRecord[0], s.kinematics.pitchRecord[1]],
+    },
+    forces: { ...s.forces },
+    vehicle: { ...s.vehicle },
+    engines: {
+      running: [...s.engines.running],
+      failed: [...s.engines.failed],
+      ignitionCountdown: [...s.engines.ignitionCountdown],
+    },
+    status: { ...s.status },
+    warnings: { ...s.warnings },
+    failures: { ...s.failures },
+    autopilot: { ...s.autopilot },
   };
 }

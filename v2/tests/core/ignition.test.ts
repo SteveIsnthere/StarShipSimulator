@@ -194,7 +194,7 @@ describe('ignition bookkeeping', () => {
     const s = createInitialState(99);
     commandIgnition(s, 0);
     commandIgnition(s, 2);
-    expect(Number.isNaN(s.engines.ignitionCountdown[1])).toBe(true);
+    expect(s.engines.ignitionCountdown[1]).toBeNull();
     expect(s.rng.counters.ignitionDelay).toBe(2);
     // Engine 1 never lights, however long we run.
     tickIgnition(s, 10);

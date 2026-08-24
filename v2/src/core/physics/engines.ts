@@ -159,7 +159,7 @@ export const IGNITION_DELAY_MAX_S = 2.0 * (C.raptorIgnitionTimeMean / 1000);
 export function commandIgnition(state: SimState, engine: RaptorIndex): void {
   const { engines } = state;
   if (engines.running[engine] || engines.failed[engine]) return;
-  if (!Number.isNaN(engines.ignitionCountdown[engine])) return;
+  if (engines.ignitionCountdown[engine] !== null) return;
 
   const roll = draw(state.rng, 'ignitionDelay');
   engines.ignitionCountdown[engine] = (roll * 1.5 + 0.5) * (C.raptorIgnitionTimeMean / 1000);
@@ -183,10 +183,10 @@ export function tickIgnition(state: SimState, dt: number): void {
   const { engines } = state;
   for (let i = 0; i < 3; i++) {
     const remaining = engines.ignitionCountdown[i];
-    if (remaining === undefined || Number.isNaN(remaining)) continue;
+    if (remaining === null || remaining === undefined) continue;
     const next = remaining - dt;
     if (next <= 0) {
-      engines.ignitionCountdown[i] = NaN;
+      engines.ignitionCountdown[i] = null;
       engines.running[i] = true;
     } else {
       engines.ignitionCountdown[i] = next;
@@ -197,7 +197,7 @@ export function tickIgnition(state: SimState, dt: number): void {
 /** Shut an engine down immediately. Shutdown has never had a delay. */
 export function shutdownEngine(state: SimState, engine: RaptorIndex): void {
   state.engines.running[engine] = false;
-  state.engines.ignitionCountdown[engine] = NaN;
+  state.engines.ignitionCountdown[engine] = null;
 }
 
 /** updateBackEnd.js:64 — out of fuel stops every engine. */
