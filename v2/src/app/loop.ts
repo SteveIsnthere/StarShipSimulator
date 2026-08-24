@@ -1,0 +1,157 @@
+/**
+ * The fixed-timestep loop.
+ *
+ * This is the piece the 2021 build did not have, and its absence is why that
+ * simulation ran roughly 19% slow under load and behaved differently on
+ * different devices. updateBackEnd() measured the real time since the last
+ * frame, clamped it to [1, 30] ms, and integrated by whatever that was — so a
+ * frame that took 45 ms advanced the world by 30, and the physics silently ran
+ * in slow motion whenever the renderer struggled.
+ *
+ * Here the simulation advances only in fixed DT increments. Frame time feeds an
+ * accumulator, whole steps are drained from it, and the remainder is handed to
+ * the renderer as an interpolation factor. The number of steps per frame varies;
+ * what a step means never does.
+ *
+ * Three consequences, all of them things CLAUDE.md asks for:
+ *   - determinism: the same inputs produce the same trajectory at any frame rate
+ *     (tests/golden proves this bit-for-bit across batchings);
+ *   - honest time warp: warp N runs N steps per frame. dt is never scaled,
+ *     because scaling dt would change what the physics means;
+ *   - no spiral of death: a frame time longer than MAX_FRAME_TIME is clamped, so
+ *     a slow frame cannot demand more steps than the next frame can afford.
+ */
+import { step, type StepInput, NO_INPUT } from '$core/step';
+import type { SimState } from '$core/state';
+
+/** Seconds per simulation step. 120 Hz. */
+export const DT = 1 / 120;
+
+/**
+ * Seconds. Frame times longer than this are clamped.
+ *
+ * Without a clamp, a 2-second stall (a tab backgrounded, a GC pause) would
+ * demand 240 steps on the next frame, which takes longer than a frame, which
+ * demands more steps still — the spiral of death. Clamping drops simulated time
+ * on the floor instead, which is the right trade: the world runs slow for one
+ * frame rather than locking up.
+ *
+ * 0.25 s is the value CLAUDE.md specifies.
+ */
+export const MAX_FRAME_TIME = 0.25;
+
+/** Guard against a pathological warp factor demanding unbounded work. */
+export const MAX_STEPS_PER_FRAME = 2000;
+
+export interface LoopState {
+  /** The simulation as of the last completed step. */
+  state: SimState;
+  /** The state before that step, for interpolation. */
+  previous: SimState;
+  /** Unconsumed simulated time, in seconds. Always < DT. */
+  accumulator: number;
+  /** Steps taken since the loop started. */
+  totalSteps: number;
+  /** Simulated seconds elapsed. */
+  simulatedTime: number;
+}
+
+export function createLoopState(initial: SimState): LoopState {
+  return {
+    state: initial,
+    previous: initial,
+    accumulator: 0,
+    totalSteps: 0,
+    simulatedTime: 0,
+  };
+}
+
+export interface AdvanceOptions {
+  /** Steps to run per drained increment. 1 is real time, 4 is 4x warp. */
+  readonly timeWarp?: number;
+  /** Commands for this frame. Applied to every step within it. */
+  readonly input?: StepInput;
+  /** When true, time still passes for the renderer but the sim does not step. */
+  readonly paused?: boolean;
+}
+
+export interface AdvanceResult {
+  /** Steps actually run this frame. */
+  readonly steps: number;
+  /**
+   * 0..1 — how far between `previous` and `state` the renderer should draw.
+   *
+   * Without this the picture stutters whenever the frame rate is not an exact
+   * multiple of the step rate: a 144 Hz display running a 120 Hz sim shows the
+   * same state twice every fifth frame. Interpolating removes that.
+   */
+  readonly alpha: number;
+  /** True if frame time was clamped, i.e. simulated time was dropped. */
+  readonly clamped: boolean;
+}
+
+/**
+ * Advance the loop by one frame.
+ *
+ * @param loop mutated in place — this is the per-frame hot path and CLAUDE.md
+ *   requires zero allocation here. `step()` itself remains pure.
+ * @param frameTime real seconds since the previous frame
+ */
+export function advance(
+  loop: LoopState,
+  frameTime: number,
+  options: AdvanceOptions = {},
+): AdvanceResult {
+  const warp = options.timeWarp ?? 1;
+  const input = options.input ?? NO_INPUT;
+
+  let clamped = false;
+  let dtFrame = frameTime;
+  if (!(dtFrame > 0)) {
+    // Negative or NaN frame time: a clock that went backwards, or a first frame
+    // with no previous timestamp. Treat as no elapsed time rather than as chaos.
+    dtFrame = 0;
+  }
+  if (dtFrame > MAX_FRAME_TIME) {
+    dtFrame = MAX_FRAME_TIME;
+    clamped = true;
+  }
+
+  if (options.paused === true) {
+    return { steps: 0, alpha: loop.accumulator / DT, clamped };
+  }
+
+  loop.accumulator += dtFrame;
+
+  let steps = 0;
+  while (loop.accumulator >= DT) {
+    loop.accumulator -= DT;
+
+    // Time warp runs the step loop N times. It never scales dt: a step must
+    // always mean the same thing, or goldens and warp cannot coexist.
+    for (let i = 0; i < warp; i++) {
+      loop.previous = loop.state;
+      loop.state = step(loop.state, DT, input);
+      steps += 1;
+      loop.totalSteps += 1;
+      loop.simulatedTime += DT;
+      if (steps >= MAX_STEPS_PER_FRAME) {
+        loop.accumulator = 0;
+        return { steps, alpha: 0, clamped: true };
+      }
+    }
+  }
+
+  return { steps, alpha: loop.accumulator / DT, clamped };
+}
+
+/**
+ * Linear interpolation factor for the renderer, as a convenience.
+ *
+ * Deliberately not an interpolated SimState: building one per frame would
+ * allocate a whole state on the hot path. The view layer interpolates only the
+ * handful of quantities it draws, from `previous` and `state` directly.
+ */
+export function interpolate(a: number, b: number, alpha: number): number {
+  return a + (b - a) * alpha;
+}

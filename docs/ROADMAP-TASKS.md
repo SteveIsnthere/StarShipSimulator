@@ -60,7 +60,7 @@ acceptance line.
 - [x] **M1.10 Rename pass** — mechanical rename (gimbol→gimbal, presision→precision,
   lowwer→lower, aera→area, faliure→failure, lunchpad→launchpad, …), map committed at
   `docs/RENAME-MAP.md`. Accept: goldens unchanged.
-- [ ] **M1.11 The loop** — `app/loop.ts`: fixed dt = 1/120, accumulator (capped 0.25 s),
+- [x] **M1.11 The loop** — `app/loop.ts`: fixed dt = 1/120, accumulator (capped 0.25 s),
   interpolated render hook, warp = N steps/frame. Accept: loop test with fake frame times.
 
 ## M2 — Honest physics
@@ -286,3 +286,14 @@ acceptance line.
   `toLegacyName` / `toLegacyKeys` / `toLegacySource`, so parity tests are written entirely in v2
   names and translate at the boundary — one source of truth, and a future rename cannot silently
   break the correspondence. 571 tests green.
+- 2026-08-24 · M1.11 · `app/loop.ts` — fixed dt = 1/120, accumulator capped at 0.25 s, interpolation
+  alpha for the renderer, warp = N steps per frame (dt never scaled). 24 tests, all driven by **fake
+  frame times**, which is the point: the 2021 loop read `Date.now()` so its behaviour under load
+  could only be seen by inducing load. Covered: 30/60/120/144 fps step counts, a ragged stuttering
+  budget, warp 1..16 producing bit-identical flights to real time, pause/resume landing on the same
+  state, and the pathological inputs — a 2 s stall (clamped, simulated time deliberately dropped
+  rather than spiralling), zero, negative (backwards clock), NaN, and warp 100 000 (bounded).
+  Two direct regression tests for the defect this replaces: a 45 ms frame now runs the steps 45 ms
+  deserves with the remainder carried, and sustained 33 fps tracks real time to within one
+  unconsumed step — where the 2021 loop clamped `frameTime` to 30 ms and lost ~19%.
+  **M1 complete except M1.9, which is blocked on an owner decision.** 595 tests green.
