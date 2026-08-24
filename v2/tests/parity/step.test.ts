@@ -129,7 +129,15 @@ const LEGACY_STEP = `
   throttleUpdate()
 `;
 
-/** Fields compared every step. SimState path -> legacy global. */
+/**
+ * Fields compared every step. SimState path -> legacy global.
+ *
+ * `thermalPower` is deliberately absent since M2.2: the 2021 code passes
+ * `crossSectionalArea` to getReentryHeatPower where a nose radius belongs, so
+ * the two implementations are SUPPOSED to differ there now. The divergence is
+ * asserted on its own terms in the block at the end of this file rather than
+ * hidden by dropping it silently.
+ */
 const COMPARED: ReadonlyArray<readonly [(s: SimState) => unknown, string]> = [
   [(s) => s.kinematics.altitude, toLegacyName('altitude')],
   [(s) => s.kinematics.downRangeDistance, toLegacyName('downRangeDistance')],
@@ -160,7 +168,6 @@ const COMPARED: ReadonlyArray<readonly [(s: SimState) => unknown, string]> = [
   [(s) => s.forces.aerodynamicDragAcceleration, toLegacyName('aerodynamicDragAcceleration')],
   [(s) => s.forces.aerodynamicLiftAcceleration, toLegacyName('aerodynamicLiftAcceleration')],
   [(s) => s.forces.crossSectionalArea, toLegacyName('crossSectionalArea')],
-  [(s) => s.forces.thermalPower, toLegacyName('thermalPower')],
   [(s) => s.forces.dynamicPressure, toLegacyName('dynamicPressure')],
   [(s) => s.forces.thrustVectorForce, toLegacyName('thrustVectorForce')],
   [(s) => s.forces.thrustVectorAcceleration, toLegacyName('thrustVectorAcceleration')],
@@ -506,5 +513,49 @@ describe('how far the two implementations actually drift', () => {
     expect(long).toBeLessThan(DRIFT_LIMIT);
     // Ten times the steps does not mean ten orders of magnitude more error.
     expect(long).toBeLessThan(Math.max(short, 1e-15) * 1000);
+  });
+});
+
+describe('thermalPower deliberately no longer matches 2021 — this is M2.2', () => {
+  it('v2 heat is larger by sqrt(crossSectionalArea / noseRadius)', () => {
+    // 2021: getReentryHeatPower(crossSectionalArea). v2: (NOSE_RADIUS).
+    // The correlation's denominator is a radius in metres; the area is
+    // 63-500 m^2. So the old model understated heating by sqrt(area/radius),
+    // by a factor that changed with attitude and in the wrong direction.
+    const dt = 1 / 120;
+    const state = createInitialState();
+    state.kinematics.altitude = 20_000;
+    state.kinematics.speedX = 2000;
+    state.kinematics.trueSpeed = 2000;
+    seedLegacy(state, dt);
+
+    let s = state;
+    for (let i = 0; i < 50; i++) {
+      s = step(s, dt);
+      evalLegacy(LEGACY_STEP);
+    }
+
+    const theirs = readLegacy('thermalPower') as number;
+    const ours = s.forces.thermalPower;
+    expect(ours).toBeGreaterThan(theirs);
+
+    const area = readLegacy('crossSectionalArea') as number;
+    expect(ours / theirs).toBeCloseTo(Math.sqrt(area / 4.5), 6);
+  });
+
+  it('every other compared field still matches, so this is the only divergence', () => {
+    // Guards against the heat change quietly perturbing something else: heat
+    // feeds checkIfBreakUp, and if it crossed the limit the whole trajectory
+    // would part. At these altitudes it does not, and the run stays in lockstep.
+    const { worst } = lockstep(
+      (s) => {
+        s.kinematics.altitude = 20_000;
+        s.kinematics.speedX = 2000;
+      },
+      1000,
+      1 / 120,
+      'heat-isolation',
+    );
+    expect(worst).toBeLessThan(DRIFT_LIMIT);
   });
 });

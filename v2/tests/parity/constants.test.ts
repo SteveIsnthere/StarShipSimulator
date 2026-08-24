@@ -19,7 +19,11 @@ const legacy = loadLegacy();
  * here, so the rename table in legacy.ts is the single source of truth and a
  * future rename cannot silently break the correspondence.
  */
-const MAPPING: Record<keyof typeof C & string, string> = {
+// Partial by type, complete by test: NOSE_RADIUS is declared in
+// INTRODUCED_BY_V2 below, and the coverage test enforces that every export is
+// in exactly one of the two lists. Keeping completeness a runtime assertion
+// rather than a type lets the exemption carry its reason with it.
+const MAPPING: Partial<Record<keyof typeof C & string, string>> = {
   planetRadius: toLegacyName('planetRadius'),
   planetCircumference: toLegacyName('planetCircumference'),
   planetMass: toLegacyName('planetMass'),
@@ -128,10 +132,38 @@ describe('every constant matches the 2021 value exactly', () => {
   }
 });
 
+/**
+ * Constants v2 introduced that have no 2021 counterpart.
+ *
+ * Every entry needs a reason. The default is that a constant in this file came
+ * from initBackEnd.js and must match it exactly; anything else is a deliberate
+ * addition and is listed here so it cannot slip in unremarked.
+ */
+const INTRODUCED_BY_V2: Readonly<Record<string, string>> = {
+  // M2.2, Bug fix. getReentryHeatPower takes a nose radius; every 2021 call
+  // site passed crossSectionalArea, an area. 2021 had no such constant because
+  // it never needed one.
+  NOSE_RADIUS: 'M2.2 — the nose radius the heat correlation always wanted',
+};
+
 describe('coverage of the mapping itself', () => {
-  it('every export of core/constants.ts is mapped', () => {
-    const unmapped = Object.keys(C).filter((k) => !(k in MAPPING));
-    expect(unmapped, 'exports with no legacy counterpart asserted').toEqual([]);
+  it('every export of core/constants.ts is mapped or declared new', () => {
+    const unmapped = Object.keys(C).filter(
+      (k) => !(k in MAPPING) && !(k in INTRODUCED_BY_V2),
+    );
+    expect(unmapped, 'exports with no legacy counterpart and no declaration').toEqual([]);
+  });
+
+  it('the constants v2 introduced really are absent from 2021', () => {
+    for (const name of Object.keys(INTRODUCED_BY_V2)) {
+      expect(legacy[name], `${name} exists in the 2021 tree after all`).toBeUndefined();
+    }
+  });
+
+  it('NOSE_RADIUS is the radius, and 2021 passed an area in its place', () => {
+    expect(C.NOSE_RADIUS).toBe(4.5);
+    // What the 2021 call site actually supplied, for contrast.
+    expect(legacy['vehicleMinArea']).toBeGreaterThan(60);
   });
 
   it('maps a meaningful number of constants', () => {

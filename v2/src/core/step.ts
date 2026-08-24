@@ -216,12 +216,18 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.vehicle.gimbalPosition,
   );
 
-  // updateThermal_DynamicPressure. Note the argument: `crossSectionalArea` is
-  // passed where a nose RADIUS is expected. Ported as found; M2.2 fixes it.
+  // updateThermal_DynamicPressure.
+  //
+  // M2.2, Bug fix: this passed `crossSectionalArea` where getReentryHeatPower
+  // expects a nose RADIUS. The Sutton-Graves correlation takes a radius in
+  // metres; the area is 63-500 m^2 and varies eightfold with attitude, so the
+  // 2021 model understated heating by sqrt(area / radius) - a factor that
+  // CHANGED as the vehicle rotated, and in the wrong direction. Turning
+  // broadside raised the area, which lowered the computed heat.
   s.forces.thermalPower = getReentryHeatPower(
     s.kinematics.trueSpeed,
     s.atmosphere.airDensity,
-    s.forces.crossSectionalArea,
+    C.NOSE_RADIUS,
   );
   s.forces.dynamicPressure = aero.getDynamicPressure(
     s.atmosphere.airDensity,

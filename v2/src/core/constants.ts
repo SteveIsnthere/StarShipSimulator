@@ -64,6 +64,15 @@ export const vehicleDiameter = 9;
 export const vehicleMaxArea = vehicleDiameter * vehicleHeight;
 /** m^2 — nose-on. */
 export const vehicleMinArea = Math.PI * (vehicleDiameter / 2) ** 2;
+
+/**
+ * m — the nose radius used by the Sutton-Graves heating correlation.
+ *
+ * Added in M2.2. `getReentryHeatPower(vehicleNoseRadius)` has always wanted a
+ * radius; every 2021 call site passed `crossSectionalArea` instead, an area in
+ * m^2. Starship is 9 m across, so the radius is 4.5 m.
+ */
+export const NOSE_RADIUS = vehicleDiameter / 2;
 /** m^2 */
 export const vehicleInFlightMaxArea = vehicleMaxArea;
 

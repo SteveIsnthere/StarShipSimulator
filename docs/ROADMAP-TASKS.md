@@ -67,7 +67,7 @@ acceptance line.
 
 - [ ] **M2.1 Bug: stratosphere** — wire `upperStrato` branch (>25 km per the model's own
   layers). Failing test first; six-scenario before/after diff in commit.
-- [ ] **M2.2 Bug: heat argument** — pass nose radius (4.5 m), not cross-sectional area.
+- [x] **M2.2 Bug: heat argument** — pass nose radius (4.5 m), not cross-sectional area.
   Same obligations.
 - [ ] **M2.3 Bug: fin fraction init** — initialise as fraction. Same obligations.
 - [ ] **M2.4 Bug: pitch rate** — compute as Δpitch/dt, frame-rate independent; retune
@@ -297,3 +297,18 @@ acceptance line.
   deserves with the remainder carried, and sustained 33 fps tracks real time to within one
   unconsumed step — where the 2021 loop clamped `frameTime` to 30 ms and lost ~19%.
   **M1 complete except M1.9, which is blocked on an owner decision.** 595 tests green.
+- 2026-08-24 · M2.2 · **Bug fix.** `getReentryHeatPower(vehicleNoseRadius)` is Sutton–Graves; its
+  denominator is a nose *radius* in metres. Every 2021 call site passed `crossSectionalArea` — an
+  area, 63–500 m². The error was not constant: it scales as √(area/radius) **and the area varies
+  ~8× with attitude**, so turning broadside *lowered* the computed heat when presenting more of
+  yourself to hypersonic flow should raise it. Fixed at the call site (`NOSE_RADIUS = 4.5 m`), not
+  in the function — the function was always right. Failing tests first (4 failed). Diff: **no
+  outcome changed anywhere**; heating rises ~2.6× across the board (+61% to +90% relative), and only
+  Re-entry was ever near the limit — it now peaks at ~165 against `heatLimit` 55, up from 57.
+  Three of my own tests were flawed and repaired rather than tuned: one injected
+  `crossSectionalArea` directly (step() recomputes it, so the test was vacuous — now driven by
+  attitude over 3 steps); one used post-step `trueSpeed` where `step()` uses the pre-integration
+  value; one demanded bit-equality between two attitudes that drift micrometres apart in altitude.
+  `thermalPower` removed from full-loop parity with an explicit divergence test in its place, and
+  `NOSE_RADIUS` declared in a new `INTRODUCED_BY_V2` list so a v2-only constant can never slip in
+  unremarked. 620 tests green.
