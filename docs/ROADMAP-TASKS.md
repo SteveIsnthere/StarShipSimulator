@@ -43,8 +43,20 @@ acceptance line.
 - [x] **M1.8 Golden trajectories** — headless runner records full state history per scenario
   (autopilot flying); fixtures committed; determinism test replays with 30/60/144 fps
   frame batching. Accept: bit-identical across batchings; fixtures in CI.
-- [ ] **M1.9 Trig collapse** — the six quadrant ladders → single expressions. Tier: Refactor.
-  Accept: committed proof ≤ 1 ULP over ≥ 4M sampled angles; goldens unchanged.
+- [ ] **M1.9 Trig collapse** — ⚠️ **BLOCKED — OWNER DECISION NEEDED.** The proof is done and
+  committed (`v2/tests/proofs/trig-collapse.test.ts`): all six ladders ARE single expressions, max
+  abs difference 1.0 unit-ULP (four) / 0.5 (two) over 4,000,001 angles across [−π, π] plus every
+  branch boundary. But the second half of the acceptance line cannot hold: ~34% of angles differ in
+  the last bit, and applying the collapse **moves the goldens** (measured — `perceivedG_Y` shifts in
+  its 16th significant figure at step 4260 of `launch-pad-takeoff`). CLAUDE.md says a Refactor that
+  moves a fixture fails CI, and regenerating fixtures needs a Bug-fix or Fidelity justification,
+  which a mathematically-identical rewrite does not have. Both clauses cannot be satisfied at once,
+  so the task is left unchecked rather than reinterpreted. **Options for the owner: (A)** treat it
+  as Fidelity — the collapsed form is arguably *more* accurate, since the ladder's `sin(π − a)`
+  loses precision in the subtraction — behind a flag, which needs M2.5 first; **(B)** authorise a
+  golden regeneration in M1.9 with an explicit justification; **(C)** drop the collapse and keep the
+  ladders, with the proof standing as documentation that 143 of physics.js's 539 lines are
+  one-line identities.
 - [ ] **M1.10 Rename pass** — mechanical rename (gimbol→gimbal, presision→precision,
   lowwer→lower, aera→area, faliure→failure, lunchpad→launchpad, …), map committed at
   `docs/RENAME-MAP.md`. Accept: goldens unchanged.
@@ -253,3 +265,11 @@ acceptance line.
   lift-curve boundary shift fails at step 312. Two of my first mutations were **no-ops** —
   `9.807000000000001` parses to the same double as `9.807`, and reordering two independent
   assignments changes nothing — caught and redone. 554 tests green.
+- 2026-08-24 · M1.9 · **NOT COMPLETED — blocked on an owner decision.** Proof written, measured and
+  committed; the refactor itself is deliberately not applied and `src/core/physics/components.ts`
+  still contains the ladders. `tests/proofs/trig-collapse.test.ts` asserts the shipped code still
+  matches the *ladder* bit-for-bit, so applying the collapse without resolving this trips two
+  independent alarms (that test and the goldens). Also established: the proof's domain is exactly
+  [−π, π] — `angleOfMotion` is `atan2` output and `gimbolPointingDirection` is explicitly wrapped —
+  and just outside it the two forms diverge to 2.55 unit-ULP, which is what makes that wrap
+  load-bearing rather than cosmetic. Continuing to M1.10, which does not depend on this.
