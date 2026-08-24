@@ -1,7 +1,9 @@
 # Starship Rebuild Plan
 
-**Roadmap v2.** Fidelity approach approved; conventions and physics policy folded in;
-orbital mechanics promoted to a core-architecture item. No application code written yet.
+**Roadmap v3 — implementation-ready.** Conventions now live as the enforced constitution
+in root `CLAUDE.md`; the live task checklist is `docs/ROADMAP-TASKS.md`; implementation
+is driven by the `/goal` command (`.claude/commands/goal.md`). No application code yet —
+M0.1 is the first code commit.
 
 Branch: `claude/first-project-rebuild-bjniik`
 Baseline: 52 commits, 4,663 lines, summer 2021.
@@ -145,6 +147,109 @@ Plus:
 - Don't optimise the physics maths — any "optimisation" that changes results is a
   Refactor owing a 1-ULP proof.
 
+
+---
+
+## Implementation kit
+
+Everything a session needs to start M0 without re-deciding anything.
+
+### Repo layout
+
+The 2021 tree stays untouched at the repo root until M5 retires it. All new code is a
+self-contained project under `v2/`:
+
+```
+v2/
+  package.json  vite.config.ts  tsconfig.json  eslint.config.js
+  src/
+    core/          # PURE sim — the protected zone (see CLAUDE.md walls)
+      state.ts       constants.ts   units.ts    rng.ts    flags.ts
+      step.ts        scenarios.ts
+      physics/       # atmosphere, aero, thermal, engines, gravity/orbit
+      control/       # actuation + low-level autopilot primitives
+      autopilot/     # pitchHold, boostBack, autoLand, takeOff
+    app/           # loop.ts (fixed dt + accumulator + interpolation), input.ts, wiring
+    view/          # PixiJS v8: scene, camera, pooled particles, sky
+    hud/           # binder.ts — the single-rAF readout writer
+    ui/            # Svelte 5 components: panels, menu, editor, black box (lazy)
+  tests/
+    golden/        # trajectory fixtures + runner
+    proofs/        # 1-ULP equivalence proofs (trig collapse lives here)
+    lint-walls/    # violation fixtures proving the walls reject them
+.github/workflows/ci.yml
+CLAUDE.md          docs/ROADMAP-TASKS.md          .claude/commands/goal.md
+```
+
+### Legacy → new map
+
+| 2021 file | Destination |
+|---|---|
+| `backend/physics.js` | `core/physics/{atmosphere,aero,thermal,engines,gravity}.ts` |
+| `backend/initBackEnd.js` | `core/state.ts` + `core/constants.ts` |
+| `backend/updateBackEnd.js` | `core/step.ts` |
+| `backend/flightcontrol/flightControl.js` | `core/control/actuation.ts` |
+| `backend/flightcontrol/autoPilotLowLevelFunctions.js` | `core/control/primitives.ts` |
+| `backend/flightcontrol/autoPilotModes.js` | `core/autopilot/*.ts` |
+| `backend/utilities/switches.js` | commands into `core/`, button state into `ui/` |
+| `utilities/eventListener.js` | `app/input.ts` |
+| `render/pixi_init.js`, `pixi_setup.js`, `drawMethods/` | `view/` |
+| `displayComponents/dispUpdate.js` | `hud/binder.ts` + `ui/` |
+| `backend/utilities/plotting.js` | `ui/blackbox/` (lazy-loaded, uPlot) |
+
+### The six walls as ESLint (flat config, scoped to `src/core`)
+
+```js
+{
+  files: ['src/core/**/*.ts'],
+  rules: {
+    'no-restricted-imports': ['error', { patterns: [{
+      group: ['**/view/**', '**/ui/**', '**/hud/**', '**/app/**', 'pixi.js', 'svelte', 'svelte/*'],
+      message: 'core/ is pure: no renderer, UI, or app imports.' }] }],
+    'no-restricted-globals': ['error',
+      { name: 'document', message: 'No DOM in core/.' },
+      { name: 'window',   message: 'No DOM in core/.' }],
+    'no-restricted-properties': ['error',
+      { object: 'Math', property: 'random', message: 'Use core/rng streams.' },
+      { object: 'Date', property: 'now',    message: 'Time enters core/ only as dt.' },
+      { object: 'performance', property: 'now', message: 'Time enters core/ only as dt.' }],
+    'no-restricted-syntax': ['error',
+      { selector: "CallExpression[callee.name=/^(setTimeout|setInterval)$/]",
+        message: 'No wall-clock timers in core/.' },
+      { selector: "AssignmentExpression[left.object.name='globalThis']",
+        message: 'No globals. The 2021 tree had 355.' }]
+  }
+}
+```
+
+The `globalThis` rule applies to all of `v2/`, not just core. `tests/lint-walls/` feeds
+one violating fixture per rule to ESLint programmatically and asserts each fails — the
+walls themselves are under test.
+
+### Tooling
+
+Svelte ^5 · TypeScript ^5 · Vite (current stable) · Vitest · Playwright (Chromium is
+pre-installed in the remote env — never run `playwright install`) · PixiJS ^8 ·
+uPlot (lazy, M4.5). Pin exact versions in `v2/package.json` at M0.1 and let CI be the
+arbiter thereafter.
+
+---
+
+## Driving implementation: `/goal`
+
+`.claude/commands/goal.md` is a project slash command — available to any Claude Code
+session on this repo. The loop:
+
+1. `/goal` (no args) reads `CLAUDE.md` + this plan + `docs/ROADMAP-TASKS.md`, takes the
+   first unchecked task, implements it under the constitution, verifies
+   (lint · test · build · the task's own acceptance line), checks the box, appends to
+   the task log, commits as `Mx.y: ...`, pushes, and reports.
+2. `/goal M2.6` targets a specific task (refuses to silently skip unfinished predecessors).
+3. `/goal status` reports progress and the next task without changing anything.
+
+One task per invocation, one commit per task. The checklist file is the single source of
+truth for progress; the constitution is the single source of truth for how.
+
 ---
 
 ## Target architecture
@@ -166,6 +271,8 @@ essential: a full lap at 1× is ~87 minutes.
 ---
 
 ## Milestones
+
+Task-level breakdown with acceptance lines lives in `docs/ROADMAP-TASKS.md` (44 tasks).
 
 **M0 — Foundations locked.** Scaffold beside the untouched 2021 tree; six boundary
 lints active day one; CLAUDE.md; CI with budgets.
