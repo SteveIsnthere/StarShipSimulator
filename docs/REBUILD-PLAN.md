@@ -258,6 +258,13 @@ conditions stay short and measurable. Drive the roadmap one milestone at a time.
 /goal Milestone <Mx> in docs/ROADMAP-TASKS.md is complete: every task in its section is checked off, each implemented to its acceptance line under CLAUDE.md, one id-prefixed commit per task, pushed to origin claude/first-project-rebuild-bjniik. Proof shown in command output: cd v2 && npm run lint && npm run test && npm run build all exit 0, plus each task's own acceptance check demonstrated. Constraints: the 2021 tree is untouched unless a task says otherwise; golden fixtures change only under a declared Bug-fix or Fidelity tier; no box is checked whose acceptance line was not met. Stop if blocked on an owner decision (M2.10 is one).
 ```
 
+**Full-drive prompt — the whole roadmap in one goal** (use in auto mode; owner-decision
+tasks are excluded and reported instead of guessed):
+
+```
+/goal The Starship rebuild roadmap is complete: every task in docs/ROADMAP-TASKS.md from M0.1 through M5.4 is checked off — except tasks marked "Owner task" (M2.10), which are instead listed as pending owner decisions in the final report — each implemented to its acceptance line under the rules in CLAUDE.md, one commit per task prefixed with its task id, all pushed to origin claude/first-project-rebuild-bjniik. Proof shown in command output at the end: (1) cd v2 && npm run lint && npm run test && npm run build all exit 0, bundle budget included; (2) the golden-trajectory and determinism tests pass, including the M2.9 orbit demo under fidelity flags; (3) git status is clean, git log --oneline shows the id-prefixed task commits, and git ls-files | grep DS_Store prints nothing; (4) the M5.1 offline test demonstrates a full playthrough with the network off. Constraints that must hold throughout: the 2021 tree (backend/, render/, utilities/, displayComponents/, index.html) is modified only where tasks M0.5 and M5.4 say so; golden fixtures change only under a declared Bug-fix or Fidelity tier justified in the same commit; fidelity flags stay off by default until the owner chooses in M2.10; no box is ever checked whose acceptance line was not met; work proceeds strictly in task order. This goal is also met if progress becomes impossible without an owner decision — in that case the final message states exactly which task is blocked, why, and what decision is needed.
+```
+
 Why per-milestone rather than one mega-goal for M0–M5: each milestone ends at a state
 you should look at (M2.10 is explicitly your flying-and-choosing task), and the
 evaluator judges better against one concrete proof bundle than against 44 tasks at once.
