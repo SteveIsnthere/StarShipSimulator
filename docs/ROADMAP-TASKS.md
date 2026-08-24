@@ -12,7 +12,7 @@ acceptance line.
 - [x] **M0.2 The six walls** — ESLint flat config with the six core/ rules from CLAUDE.md,
   plus `tests/lint-walls.test.ts` feeding violation fixtures to ESLint programmatically.
   Accept: each of the six violations fails lint; the fixtures test passes; clean code passes.
-- [ ] **M0.3 Vitest wired** — `npm run test` runs; one real test present. Accept: green locally.
+- [x] **M0.3 Vitest wired** — `npm run test` runs; one real test present. Accept: green locally.
 - [ ] **M0.4 CI** — `.github/workflows/ci.yml`: install, lint, test, build, bundle budget
   (fail if gzipped first-load JS > 250 kB). Accept: workflow green on push.
 - [ ] **M0.5 Repo hygiene** — Root `.gitignore` (.DS_Store, node_modules, dist);
@@ -115,3 +115,10 @@ acceptance line.
   (view/ may import PIXI), 1 clean control. Mutation-checked — deleting the Math.random rule fails
   wall 3; unscoping the config fails all three scoping tests. Vitest config landed here because
   M0.2's acceptance line needs a runner; M0.3 adds the first core test on top of it.
+- 2026-08-24 · M0.3 · `npm run test` green, 21 tests over 2 files. The first real test is
+  `tests/budget.test.ts`: the budget script is a CI gate, and a gate that cannot fail is not a
+  gate, so it asserts the failing path and the CLI exit code CI actually reads. Refactored
+  `check-budget.mjs` into importable `checkBudget`/`parseFirstLoad` plus a CLI entry to make that
+  testable, and it now takes a dist dir argument. Caught a real bug while writing it: the first
+  synthetic fixture used a modular stride that cycles every 94 bytes, so a 300 kB "over budget"
+  file gzipped to 562 B and the over-budget tests passed vacuously. Replaced with an LCG.
