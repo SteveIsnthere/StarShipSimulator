@@ -28,6 +28,7 @@ import * as aero from './physics/aero';
 import * as comp from './physics/components';
 import * as eng from './physics/engines';
 import * as act from './control/actuation';
+import { runAutopilot } from './autopilot';
 import { cloneState, type SimState } from './state';
 import { rad } from './units';
 
@@ -368,7 +369,12 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.forces.offAxisThrustDifferenceAcceleration;
 
   // --- 4. controlsUpdate ---------------------------------------------------
-  // The autopilot modes hook in here (M1.6). Until then, only manual input.
+  // highLevelInput(): autopilot first, then manual input, which overrides it.
+  // That is 2021's order — readInputFromManualFlightControl() ran after
+  // autoPilotControlInput() and simply clobbered whatever the autopilot wrote,
+  // which is why any manual touch instantly takes over.
+  runAutopilot(s, dt);
+
   if (input.throttle !== undefined) s.vehicle.throttle = input.throttle;
   if (input.pitchControl !== undefined) s.autopilot.pitchControl = input.pitchControl;
 

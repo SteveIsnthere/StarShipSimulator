@@ -36,7 +36,7 @@ acceptance line.
   setTimeout + double timeAccel division). Accept: failing-test-first for the timer; parity elsewhere.
 - [x] **M1.5 Port integrator** — `updateBackEnd.js` → `core/step.ts`: pure
   `step(state, dt, input)`. Accept: runs headless in Node.
-- [ ] **M1.6 Port control + autopilot** — flightControl, low-level primitives, all modes,
+- [x] **M1.6 Port control + autopilot** — flightControl, low-level primitives, all modes,
   verbatim. Accept: parity spot-checks; no DOM reads (inputs come via the input arg).
 - [ ] **M1.7 Scenarios** — the six presets + intro demo as data in `core/scenarios.ts`.
   Accept: each initialises a valid SimState.
@@ -209,3 +209,20 @@ acceptance line.
   1e-12 so cancellation near zero is not mistaken for divergence. Also switched the ignition
   sentinel from `NaN` to `null` — JSON turns NaN into null, so it would not survive a golden
   round-trip. 431 tests green.
+- 2026-08-24 · M1.6 · Ported `flightControl` primitives, all six autopilot modes and the intro demo
+  into `core/control/{primitives,commands}.ts` and `core/autopilot/`. Wired into `step()` in 2021's
+  order (autopilot first, manual input overwrites it). **No DOM reads** — every primitive that ended
+  in a `getElementById` write now writes SimState; asserted with `document` undefined.
+  **Found a real 2021 bug masked by the browser**: in `presisionAlignment`'s RCS branch, when the
+  required force is within `rcsMaxThrust`, `yokePosition` is never assigned, so the code runs
+  `pitchControl = undefined` and writes that to the slider. It never showed because `pitchControl`
+  is `<input type=range min=-100 max=100>` and HTML value sanitisation replaces a non-numeric value
+  with the midpoint — exactly 0 — which `updateBackEnd.js:201` reads back. The port initialises to
+  0 to produce the shipped behaviour directly; both halves are asserted, and `rcsThrust` on that
+  path matches exactly. **Pinned a second live oddity**: `controlTranslation` runs after the
+  autopilot and recomputes `rcsThrust` from `pitchControl`, so proportional RCS steering never
+  reaches the physics — RCS only ever fires at full authority. Not fixed; that belongs in M2 with a
+  tier. The 5 s `setTimeout` in boostback becomes a dt-ticked countdown (behaviour-preserving:
+  `5000/timeAccel` ms of real time at `timeAccel` speed-up is exactly 5 s of simulated time).
+  25 parity assertions over 400 sampled states plus 13 closed-loop tests; **the intro auto-landing
+  sequence lands and hands the vehicle back**, deterministically. 469 tests green.

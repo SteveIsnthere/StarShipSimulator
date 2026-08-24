@@ -34,6 +34,13 @@ function stubDocument() {
         get value() {
           return el!.value;
         },
+        // The autopilot writes its command back to the slider
+        // (`document.getElementById("pitchControl").value = pitchControl`).
+        // A setter is needed or that assignment throws under strict mode.
+        set value(v: unknown) {
+          el!.value = String(v);
+        },
+        style: {} as Record<string, unknown>,
       };
     },
     _elements: elements,

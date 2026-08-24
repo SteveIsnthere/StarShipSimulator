@@ -1,0 +1,445 @@
+/**
+ * Autopilot control primitives, ported from
+ * backend/flightcontrol/autoPilotLowLevelFunctions.js.
+ *
+ * These are what every autopilot mode steers with. `presisionAlignment` is the
+ * heart of it: a second-order attitude controller that picks its actuator by
+ * what is currently available — gimbal, fins, or RCS.
+ *
+ * The 2021 spelling is kept (`presisionAlignment`, `aera`, `Lowwer`) so the
+ * port diffs line by line against the original. M1.10 renames mechanically.
+ *
+ * Every one of these wrote `pitchControl` or `throttle` to a DOM input as its
+ * last act. Here they write SimState instead — the value is identical, the
+ * getElementById is gone.
+ */
+import * as C from '../constants';
+import { getDrag } from '../physics/aero';
+import { getThrust, getTotalMaxThrust, getWorkingEngineCount } from '../physics/engines';
+import type { SimState } from '../state';
+import { rad, type Rad } from '../units';
+
+/** autoPilotLowLevelFunctions.js:23 — signed error, wrapped to (-pi, pi]. */
+export function getPitchDifference(pitch: Rad, goal: Rad): number {
+  let pitchDifference: number = pitch - goal;
+  if (pitchDifference < -Math.PI) {
+    pitchDifference = Math.PI * 2 + pitchDifference;
+  } else if (pitchDifference > Math.PI) {
+    pitchDifference = -(Math.PI * 2 - pitchDifference);
+  }
+  return pitchDifference;
+}
+
+/**
+ * physics.js:477 — max thrust projected onto the vertical.
+ *
+ * The quadrant ladder here is a fourth copy of `verticalThrustCoefficient` from
+ * physics/components.ts, inlined in 2021. Left as its own copy for now so the
+ * port stays literal; M1.9 collapses all of them together.
+ */
+export function getEffectiveVerticalMaxThrust(
+  running: readonly boolean[],
+  gimbolPointingDirection: Rad,
+): number {
+  const maxThrust = getWorkingEngineCount(running) * C.maxThrustPerRaptor;
+
+  let coefficient: number;
+  if (0 <= gimbolPointingDirection && gimbolPointingDirection <= Math.PI / 2) {
+    coefficient = Math.cos(gimbolPointingDirection);
+  } else if (Math.PI / 2 < gimbolPointingDirection && gimbolPointingDirection <= Math.PI) {
+    coefficient = -Math.sin(gimbolPointingDirection - Math.PI / 2);
+  } else if (-Math.PI / 2 <= gimbolPointingDirection && gimbolPointingDirection < 0) {
+    coefficient = Math.cos(gimbolPointingDirection);
+  } else {
+    coefficient = Math.sin(gimbolPointingDirection + Math.PI / 2);
+  }
+
+  return maxThrust * coefficient;
+}
+
+/** physics.js:533 — the dynamic-pressure speed ceiling autoMaxThrust flies to. */
+export function getMaxSpeedWithSafeDynamicPressure(airDensity: number): number {
+  const maxDynamicPressure = 35;
+  return Math.sqrt((maxDynamicPressure / airDensity) * 2000);
+}
+
+/**
+ * autoPilotLowLevelFunctions.js:1 — point the vehicle at `goal`.
+ *
+ * The commanded angular acceleration is
+ *
+ *     a = -dPitch / T^2  -  2*w / T  -  offAxisThrustDifferenceAcceleration
+ *
+ * a critically-damped second-order law with time constant T, minus a
+ * feed-forward term cancelling the torque from asymmetric engine thrust.
+ *
+ * Actuator selection is by availability, and the two thrust-vector branches are
+ * byte-identical in 2021 — `controlByThrustVector` and
+ * `controlByThrustVectorAndFins` have the same body. Merged here; the
+ * duplication is noted rather than reproduced because it cannot change
+ * behaviour. Everything else is verbatim, including `* 0.98` when RCS is live
+ * and the `controlByFins` path falling through into RCS as well.
+ *
+ * @param timeNeededToAlign seconds; smaller is more aggressive
+ */
+export function presisionAlignment(state: SimState, goal: Rad, timeNeededToAlign: number): void {
+  const { kinematics, forces, status, vehicle, autopilot } = state;
+
+  const pitchDifference = getPitchDifference(kinematics.pitch, goal);
+
+  const accelerationNeeded =
+    -pitchDifference / timeNeededToAlign ** 2 -
+    (2 * kinematics.angularVelocity) / timeNeededToAlign -
+    forces.offAxisThrustDifferenceAcceleration;
+
+  const torqueRequired = accelerationNeeded * vehicle.vehicleMomentOfInertia;
+
+  /**
+   * Initialised to 0, where 2021 declared it with no initialiser.
+   *
+   * That is a deliberate, documented deviation and the only one in this file.
+   * The RCS branch assigns yokePosition only when the required force exceeds
+   * rcsMaxThrust; inside the limits it sets rcsThrust and leaves yokePosition
+   * undefined, then runs `pitchControl = yokePosition` and writes that to the
+   * slider. In a browser the assignment never produced undefined: pitchControl
+   * is an `<input type="range" min="-100" max="100">`, and HTML value
+   * sanitisation replaces a non-numeric value with `min + (max-min)/2` = 0,
+   * which updateBackEnd.js:201 then read straight back.
+   *
+   * So 0 IS the shipped behaviour. Reproducing `undefined` faithfully would
+   * reproduce a value the DOM never allowed to escape, and would poison the
+   * control chain with NaN the moment the slider stopped covering for it.
+   * tests/parity/autopilot.test.ts asserts both halves of this.
+   */
+  let yokePosition = 0;
+
+  const controlByRcs = (): void => {
+    if (Math.abs(pitchDifference) > 0.1) {
+      const rcsForceRequired = torqueRequired / C.rcsThrustDistanceFromCenterOfMass;
+      if (rcsForceRequired > 0) {
+        if (rcsForceRequired > C.rcsMaxThrust) {
+          yokePosition = 100;
+        } else {
+          forces.rcsThrust = rcsForceRequired;
+        }
+      } else if (rcsForceRequired < 0) {
+        if (rcsForceRequired < -C.rcsMaxThrust) {
+          yokePosition = -100;
+        } else {
+          forces.rcsThrust = rcsForceRequired;
+        }
+      } else {
+        yokePosition = 0;
+      }
+      autopilot.pitchControl = yokePosition;
+    }
+  };
+
+  const controlByThrustVector = (): void => {
+    const vectorForceRequired = torqueRequired / C.engineDistanceFromCenterOfMass;
+    const ratio = vectorForceRequired / forces.thrust;
+
+    if (ratio >= 1) {
+      yokePosition = 100;
+    } else if (ratio <= -1) {
+      yokePosition = -100;
+    } else {
+      yokePosition = (Math.asin(ratio) * 100) / C.gimbolAngleLimit;
+      if (yokePosition >= 100) {
+        yokePosition = 100;
+      } else if (yokePosition <= -100) {
+        yokePosition = -100;
+      }
+    }
+    if (status.rcsActive) yokePosition = yokePosition * 0.98;
+    autopilot.pitchControl = yokePosition;
+  };
+
+  const controlByFins = (): void => {
+    if (torqueRequired > 0) {
+      const maxFinNoseDownTorque =
+        getDrag(
+          state.atmosphere.airDensity,
+          kinematics.trueSpeed,
+          C.frontFinSurfaceAera,
+          C.finDragCoefficient,
+        ) *
+          Math.sin(C.finAcuationMaxAngle) *
+          C.frontFinDistanceFromCenterOfMass +
+        getDrag(
+          state.atmosphere.airDensity,
+          kinematics.trueSpeed,
+          C.aftFinSurfaceAera,
+          C.finDragCoefficient,
+        ) *
+          C.aftFinDistanceFromCenterOfMass;
+      yokePosition = (torqueRequired / maxFinNoseDownTorque) * 100;
+      if (yokePosition >= 100) yokePosition = 100;
+    } else if (torqueRequired < 0) {
+      const maxFinNoseUpTorque =
+        getDrag(
+          state.atmosphere.airDensity,
+          kinematics.trueSpeed,
+          C.aftFinSurfaceAera,
+          C.finDragCoefficient,
+        ) *
+          Math.sin(C.finAcuationMaxAngle) *
+          C.aftFinDistanceFromCenterOfMass +
+        getDrag(
+          state.atmosphere.airDensity,
+          kinematics.trueSpeed,
+          C.frontFinSurfaceAera,
+          C.finDragCoefficient,
+        ) *
+          C.frontFinDistanceFromCenterOfMass;
+      yokePosition = (torqueRequired / maxFinNoseUpTorque) * 100;
+      if (yokePosition <= -100) yokePosition = -100;
+    } else {
+      yokePosition = 0;
+    }
+
+    if (status.rcsActive) {
+      yokePosition *= 0.99;
+      controlByRcs();
+    }
+    autopilot.pitchControl = yokePosition;
+  };
+
+  if (forces.thrust > 0) {
+    // Both 2021 branches (with and without fins) have identical bodies.
+    controlByThrustVector();
+  } else if (status.finActive) {
+    controlByFins();
+  } else {
+    controlByRcs();
+  }
+}
+
+/** autoPilotLowLevelFunctions.js:147 — throttle to hit a target TWR. */
+export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
+  const { vehicle, engines } = state;
+  let throttleGoalPercentage =
+    ((goalTWR * vehicle.vehicleMass * C.gravity) /
+      getThrust(engines.running, vehicle.throttleCurrent)) *
+    100;
+
+  if (throttleGoalPercentage > C.throttleUpperLimmit) {
+    throttleGoalPercentage = C.throttleUpperLimmit;
+  } else if (throttleGoalPercentage < C.throttleLowwerLimmit) {
+    throttleGoalPercentage = C.throttleLowwerLimmit;
+  }
+  vehicle.throttle = throttleGoalPercentage;
+}
+
+/** autoPilotLowLevelFunctions.js:160 — same, against vertical thrust only. */
+export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: number): void {
+  const { vehicle, engines } = state;
+  let throttleGoalPercentage =
+    ((goalTWR * vehicle.vehicleMass * C.gravity) /
+      getEffectiveVerticalMaxThrust(engines.running, vehicle.gimbolPointingDirection)) *
+    100;
+
+  if (throttleGoalPercentage > C.throttleUpperLimmit) {
+    throttleGoalPercentage = C.throttleUpperLimmit;
+  } else if (throttleGoalPercentage < C.throttleLowwerLimmit) {
+    throttleGoalPercentage = C.throttleLowwerLimmit;
+  }
+  vehicle.throttle = throttleGoalPercentage;
+}
+
+/**
+ * autoPilotLowLevelFunctions.js:173 — steer toward a horizontal speed.
+ *
+ * Note that it calls presisionAlignment TWICE in the near-target case, the
+ * second call overriding the first with a scaled-down angle. Wasteful, and
+ * ported as found: the first call has side effects (it can write rcsThrust),
+ * so collapsing it would change behaviour.
+ */
+export function horizontalSteering(
+  state: SimState,
+  targetSpeed: number,
+  maxAngle: Rad,
+  speedDifferenceThreshold: number,
+  timeNeededToAlign: number,
+): void {
+  const speedDifference = state.kinematics.speedX - targetSpeed;
+
+  if (speedDifference < 0) {
+    presisionAlignment(state, maxAngle, timeNeededToAlign);
+    if (-speedDifference < speedDifferenceThreshold) {
+      presisionAlignment(
+        state,
+        rad((maxAngle * -speedDifference) / speedDifferenceThreshold),
+        timeNeededToAlign,
+      );
+    }
+  } else {
+    presisionAlignment(state, rad(-maxAngle), timeNeededToAlign);
+    if (speedDifference < speedDifferenceThreshold) {
+      presisionAlignment(
+        state,
+        rad((-maxAngle * speedDifference) / speedDifferenceThreshold),
+        timeNeededToAlign,
+      );
+    }
+  }
+}
+
+/** autoPilotLowLevelFunctions.js:190 */
+export function verticalSpeedAdjustment(
+  state: SimState,
+  targetSpeed: number,
+  speedDifferenceThreshold: number,
+  twrLimit: number,
+): void {
+  const speedDifference = state.kinematics.speedY - targetSpeed;
+
+  if (speedDifference < 0) {
+    controlEnginebyEffectiveVerticalTWR(state, twrLimit);
+    if (-speedDifference < speedDifferenceThreshold) {
+      controlEnginebyEffectiveVerticalTWR(state, 1 - speedDifference / speedDifferenceThreshold);
+    }
+  } else {
+    controlEnginebyEffectiveVerticalTWR(state, 0);
+    if (speedDifference < speedDifferenceThreshold) {
+      controlEnginebyEffectiveVerticalTWR(state, 1 - speedDifference / speedDifferenceThreshold);
+    }
+  }
+}
+
+/** autoPilotLowLevelFunctions.js:207 */
+export function horizontalSpeedAdjustment(
+  state: SimState,
+  targetSpeed: number,
+  speedDifferenceThreshold: number,
+  twrLimit: number,
+): void {
+  const speedDifference = targetSpeed - Math.abs(state.kinematics.speedX);
+
+  if (speedDifference < 0) {
+    controlEnginebyTWR(state, 0);
+  } else {
+    controlEnginebyTWR(state, twrLimit);
+    if (speedDifference < speedDifferenceThreshold) {
+      controlEnginebyTWR(state, 1 + speedDifference / speedDifferenceThreshold);
+    }
+  }
+}
+
+/** autoPilotLowLevelFunctions.js:220 */
+export function speedAdjustment(
+  state: SimState,
+  targetSpeed: number,
+  speedDifferenceThreshold: number,
+  twrLimit: number,
+): void {
+  const speedDifference = targetSpeed - state.kinematics.trueSpeed;
+
+  if (speedDifference < 0) {
+    controlEnginebyTWR(state, 0);
+  } else {
+    controlEnginebyTWR(state, twrLimit);
+    if (speedDifference < speedDifferenceThreshold) {
+      controlEnginebyTWR(state, 1 + speedDifference / speedDifferenceThreshold);
+    }
+  }
+}
+
+/** physics.js:510 — TWR of an arbitrary force. */
+export function getTWR(force: number, vehicleMass: number): number {
+  return force / (vehicleMass * C.gravity);
+}
+
+export { getTotalMaxThrust };
+
+/**
+ * autoPilotLowLevelFunctions.js:235 — hold a target horizontal deceleration by
+ * varying how broadside the vehicle flies.
+ *
+ * Ramps a correction angle up or down at `aeroBreakingAdjDegreePerSec`, clamps
+ * it to [0, pi/2], and points the vehicle that far off horizontal. The 2021
+ * version also toggles the fins on if they are off; that side effect is kept.
+ */
+export function controlHorizontalAccelerationByAeroBreaking(
+  state: SimState,
+  goalHorizontalAcc: number,
+  dt: number,
+  toggleFin: (s: SimState) => void,
+): void {
+  const { status, kinematics, autopilot } = state;
+
+  if (!status.finActive) toggleFin(state);
+
+  if (Math.abs(kinematics.accelerationX) > Math.abs(goalHorizontalAcc)) {
+    autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle = rad(
+      autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle - C.aeroBreakingAdjDegreePerSec * dt,
+    );
+  } else {
+    autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle = rad(
+      autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle + C.aeroBreakingAdjDegreePerSec * dt,
+    );
+  }
+
+  if (
+    autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle > C.aeroBreakingMaxCorrectionAngle
+  ) {
+    autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle = C.aeroBreakingMaxCorrectionAngle;
+  } else if (autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle < 0) {
+    autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle = rad(0);
+  }
+
+  if (goalHorizontalAcc < 0) {
+    presisionAlignment(
+      state,
+      rad(autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle - Math.PI / 2),
+      1.5,
+    );
+  } else {
+    presisionAlignment(
+      state,
+      rad(-autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle + Math.PI / 2),
+      1.5,
+    );
+  }
+}
+
+/**
+ * autoPilotLowLevelFunctions.js:265 — shut engines down until minimum thrust
+ * can no longer hold the vehicle up.
+ *
+ * Needed because Raptors cannot throttle below 40%: with three lit, minimum
+ * thrust exceeds weight near touchdown and the vehicle would accelerate upward.
+ * The shutdown order is 2021's, and it is not simply "highest index first".
+ */
+export function raptorAutoShutDown_KeepMinTWRBelow1(
+  state: SimState,
+  toggleRaptor: (s: SimState, i: 0 | 1 | 2) => void,
+): void {
+  const { engines, vehicle } = state;
+  const running = engines.running;
+  const minThrust =
+    getWorkingEngineCount(running) * C.maxThrustPerRaptor * C.throttleLowwerLimmit * 0.01;
+
+  if (getTWR(minThrust, vehicle.vehicleMass) > 1) {
+    const count = getWorkingEngineCount(running);
+    if (count === 3) {
+      toggleRaptor(state, 0);
+    } else if (count === 2) {
+      if (running[0] && running[1]) {
+        toggleRaptor(state, 0);
+      } else if (running[1] && running[2]) {
+        toggleRaptor(state, 1);
+      } else {
+        toggleRaptor(state, 2);
+      }
+    } else {
+      if (running[0]) {
+        toggleRaptor(state, 0);
+      } else if (running[1]) {
+        toggleRaptor(state, 1);
+      } else {
+        toggleRaptor(state, 2);
+      }
+    }
+  }
+}

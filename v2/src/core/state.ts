@@ -283,6 +283,16 @@ export interface AutopilotState {
   boostBackinitCompleted: boolean;
   boostBackAeroDeceleration: boolean;
   boostBackDecelerationStageinitCompleted: boolean;
+  /**
+   * s — countdown replacing autoPilotModes.js:118's
+   * `setTimeout(..., 5000 / timeAccel)`, which checked whether aerodynamic
+   * deceleration was actually working. null when not armed.
+   *
+   * Not a bug fix: 5000/timeAccel ms of real time at timeAccel speed-up is
+   * exactly 5 s of simulated time, so this fires at the same simulated instant.
+   * What changes is that it survives pause, is exact under warp, and replays.
+   */
+  boostBackDecelerationCheckCountdown: number | null;
   accelerationStageCompleted: boolean;
   /** -1, 0 or 1. */
   boostbackDirection: number;
@@ -328,6 +338,23 @@ export interface AutopilotState {
   autoMaxThrustOn: boolean;
   autoTakeOffOn: boolean;
   autoTakeOffInited: boolean;
+
+  /**
+   * m/s — vertical speed target during the horizontal-adjustment stage.
+   *
+   * A *mutable* copy of the constant. autoPilotModes.js:317 divides it by 1.5
+   * (and doubles the horizontal limit) when fewer than three engines are lit.
+   * In 2021 these were globals, so the adjustment persisted across flights
+   * until the page was reloaded; here they live in SimState and reset with the
+   * scenario. That is a behaviour difference, and a deliberate one — the old
+   * behaviour was a leak between runs, not a design.
+   */
+  horizontalAdjustmentVerticalSpeedLimit: number;
+  /** m/s — the horizontal counterpart, same story. */
+  horizontalAdjustmentHorizontalSpeedLimit: number;
+
+  /** utilities/welcome.js — the intro auto-landing demo is running. */
+  demoAutoLandOn: boolean;
 
   /** rad — running aero-braking steering correction. */
   horizontalAccelerationByAeroBreakingCorrectionAngle: Rad;
@@ -528,6 +555,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       boostBackinitCompleted: false,
       boostBackAeroDeceleration: true,
       boostBackDecelerationStageinitCompleted: false,
+      boostBackDecelerationCheckCountdown: null,
       accelerationStageCompleted: false,
       boostbackDirection: 0,
       decelerationStageEstDuration: 0,
@@ -561,6 +589,11 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       autoMaxThrustOn: false,
       autoTakeOffOn: false,
       autoTakeOffInited: false,
+
+      horizontalAdjustmentVerticalSpeedLimit: C.horizontalAdjustmentVerticalSpeedLimit,
+      horizontalAdjustmentHorizontalSpeedLimit: C.horizontalAdjustmentHorizontalSpeedLimit,
+
+      demoAutoLandOn: false,
 
       horizontalAccelerationByAeroBreakingCorrectionAngle: rad(0),
     },
