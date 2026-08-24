@@ -22,7 +22,7 @@ acceptance line.
 
 ## M1 — Faithful core, behaviour locked
 
-- [ ] **M1.1 SimState + constants** — `core/state.ts`, `core/constants.ts`: typed state and
+- [x] **M1.1 SimState + constants** — `core/state.ts`, `core/constants.ts`: typed state and
   every constant from `initBackEnd.js`, values verbatim, units in JSDoc. `core/units.ts`
   with branded `Rad`/`Deg`. Accept: typechecks; constants diff clean against legacy values.
 - [ ] **M1.2 Seeded RNG** — `core/rng.ts`: counter-based streams (`ignitionDelay`,
@@ -147,3 +147,13 @@ acceptance line.
   has a WebGL context from M3.1. Two real defects caught: `exactOptionalPropertyTypes` rejected
   `workers: undefined`, and the smoke test found a favicon 404 on every load — fixed with an inline
   SVG data-URI icon (zero requests) rather than by adding an ignore rule.
+- 2026-08-24 · M1.1 · `core/units.ts` (branded `Rad`/`Deg`), `core/constants.ts` (87 constants),
+  `core/state.ts` (`SimState` in 10 groups, `createInitialState()`, every field with units in JSDoc).
+  Acceptance proved by execution, not transcription: `tests/parity/legacy.ts` runs the real
+  `backend/{physics,initBackEnd}.js` in a Node VM with a stubbed `document`, and 87 constants + 118
+  state fields are compared with `Object.is` — so 0 vs -0 and any last-bit drift from a reordered
+  expression fail. Derived constants are written as the legacy *expressions*, not precomputed
+  literals; mutating `gravity` correctly breaks `decelerationStageHorizontalAcc`, proving they are
+  live. `tests/types/units.test-d.ts` asserts at compile time that degrees cannot be passed where
+  radians are expected: 7 `@ts-expect-error` directives, load-bearing because an unused one is
+  itself an error (verified by mutation). 231 tests green.
