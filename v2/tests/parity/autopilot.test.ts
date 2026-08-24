@@ -8,7 +8,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { runInContext } from 'node:vm';
-import { loadLegacy } from './legacy';
+import { loadLegacy, toLegacyKeys, toLegacyName, toLegacySource } from './legacy';
 import { createInitialState, type SimState } from '$core/state';
 import * as prim from '$core/control/primitives';
 import { rad, type Rad } from '$core/units';
@@ -21,7 +21,7 @@ const legacy = loadLegacy([
 ]);
 const ctx = legacy as unknown as Record<string, unknown>;
 const evalLegacy = (src: string): unknown =>
-  runInContext(src, legacy as never, { filename: '<autopilot>' });
+  runInContext(toLegacySource(src), legacy as never, { filename: '<autopilot>' });
 
 // The low-level file calls these; they belong to switches.js, which is all DOM
 // and PIXI. Stubbed as no-ops so the arithmetic under test can be reached.
@@ -33,6 +33,11 @@ evalLegacy(`
   function toggleRaptor3() { raptorN3Running = !raptorN3Running; _toggledRaptors.push(3) }
   function updateYokePosition() {}
 `);
+
+/** Read a legacy global by its v2 name, translating through the rename table. */
+function readLegacy(name: string): unknown {
+  return (legacy as unknown as Record<string, unknown>)[toLegacyName(name)];
+}
 
 const exact = (mine: unknown, theirs: unknown, label: string) =>
   expect(Object.is(mine, theirs), `${label}: ours=${String(mine)} legacy=${String(theirs)}`).toBe(
@@ -73,7 +78,7 @@ interface Sample {
   vehicleMass: number;
   vehicleMomentOfInertia: number;
   offAxisThrustDifferenceAcceleration: number;
-  gimbolPointingDirection: Rad;
+  gimbalPointingDirection: Rad;
   throttleCurrent: number;
   running: readonly [boolean, boolean, boolean];
 }
@@ -93,11 +98,11 @@ function apply(sample: Sample): SimState {
   s.status.rcsActive = sample.rcsActive;
   s.vehicle.vehicleMass = sample.vehicleMass;
   s.vehicle.vehicleMomentOfInertia = sample.vehicleMomentOfInertia;
-  s.vehicle.gimbolPointingDirection = sample.gimbolPointingDirection;
+  s.vehicle.gimbalPointingDirection = sample.gimbalPointingDirection;
   s.vehicle.throttleCurrent = sample.throttleCurrent;
   s.engines.running = [...sample.running];
 
-  Object.assign(ctx, {
+  Object.assign(ctx, toLegacyKeys({
     pitch: sample.pitch,
     angularVelocity: sample.angularVelocity,
     trueSpeed: sample.trueSpeed,
@@ -111,14 +116,14 @@ function apply(sample: Sample): SimState {
     rcsActive: sample.rcsActive,
     vehicleMass: sample.vehicleMass,
     vehicleMomentOfInertia: sample.vehicleMomentOfInertia,
-    gimbolPointingDirection: sample.gimbolPointingDirection,
+    gimbalPointingDirection: sample.gimbalPointingDirection,
     throttleCurrent: sample.throttleCurrent,
     raptorN1Running: sample.running[0],
     raptorN2Running: sample.running[1],
     raptorN3Running: sample.running[2],
     pitchControl: 0,
     throttle: 100,
-  });
+  }));
   return s;
 }
 
@@ -150,7 +155,7 @@ function* samples(): Generator<Sample> {
       vehicleMass: 120_000 + next() * 350_000,
       vehicleMomentOfInertia: 1e8 + next() * 4e7,
       offAxisThrustDifferenceAcceleration: (next() * 2 - 1) * 0.02,
-      gimbolPointingDirection: rad((next() * 2 - 1) * Math.PI),
+      gimbalPointingDirection: rad((next() * 2 - 1) * Math.PI),
       throttleCurrent: 40 + next() * 60,
       running: RUNNING[i % RUNNING.length]!,
     };
@@ -159,14 +164,14 @@ function* samples(): Generator<Sample> {
 
 const ALL = [...samples()];
 
-describe('presisionAlignment', () => {
+describe('precisionAlignment', () => {
   it.each([0.4, 0.5, 0.7, 1, 1.5, 3])('matches at T=%f across 400 states', (T) => {
     for (const sample of ALL) {
       const s = apply(sample);
-      prim.presisionAlignment(s, rad(0.3), T);
-      evalLegacy(`presisionAlignment(0.3, ${T})`);
-      exact(s.autopilot.pitchControl, asBrowserSaw(ctx['pitchControl']), `pitchControl T=${T}`);
-      exact(s.forces.rcsThrust, ctx['rcsThrust'], `rcsThrust T=${T}`);
+      prim.precisionAlignment(s, rad(0.3), T);
+      evalLegacy(`precisionAlignment(0.3, ${T})`);
+      exact(s.autopilot.pitchControl, asBrowserSaw(readLegacy('pitchControl')), `pitchControl T=${T}`);
+      exact(s.forces.rcsThrust, readLegacy('rcsThrust'), `rcsThrust T=${T}`);
     }
   });
 
@@ -174,10 +179,10 @@ describe('presisionAlignment', () => {
     for (const goal of [-3, -1.57, -0.5, 0, 0.5, 1.57, 3, Math.PI, -Math.PI]) {
       for (const sample of ALL.slice(0, 80)) {
         const s = apply(sample);
-        prim.presisionAlignment(s, rad(goal), 0.7);
-        evalLegacy(`presisionAlignment(${goal}, 0.7)`);
-        exact(s.autopilot.pitchControl, asBrowserSaw(ctx['pitchControl']), `goal=${goal}`);
-        exact(s.forces.rcsThrust, ctx['rcsThrust'], `rcsThrust goal=${goal}`);
+        prim.precisionAlignment(s, rad(goal), 0.7);
+        evalLegacy(`precisionAlignment(${goal}, 0.7)`);
+        exact(s.autopilot.pitchControl, asBrowserSaw(readLegacy('pitchControl')), `goal=${goal}`);
+        exact(s.forces.rcsThrust, readLegacy('rcsThrust'), `rcsThrust goal=${goal}`);
       }
     }
   });
@@ -185,7 +190,7 @@ describe('presisionAlignment', () => {
   it('getPitchDifference matches, including both wrap branches', () => {
     for (const pitch of [-3.1, -1, 0, 1, 3.1, Math.PI, -Math.PI]) {
       for (const goal of [-3, -1, 0, 1, 3]) {
-        Object.assign(ctx, { pitch });
+        Object.assign(ctx, toLegacyKeys({ pitch }));
         const theirs = evalLegacy(`
           (function(){ let d = pitch - ${goal}
             if (d < -Math.PI) { d = Math.PI * 2 + d } else if (d > Math.PI) { d = -(Math.PI * 2 - d) }
@@ -203,7 +208,7 @@ describe('engine control primitives', () => {
         const s = apply(sample);
         prim.controlEnginebyTWR(s, goalTWR);
         evalLegacy(`controlEnginebyTWR(${goalTWR})`);
-        exact(s.vehicle.throttle, ctx['throttle'], `twr=${goalTWR}`);
+        exact(s.vehicle.throttle, readLegacy('throttle'), `twr=${goalTWR}`);
       }
     }
   });
@@ -214,7 +219,7 @@ describe('engine control primitives', () => {
         const s = apply(sample);
         prim.controlEnginebyEffectiveVerticalTWR(s, goalTWR);
         evalLegacy(`controlEnginebyEffectiveVerticalTWR(${goalTWR})`);
-        exact(s.vehicle.throttle, ctx['throttle'], `vtwr=${goalTWR}`);
+        exact(s.vehicle.throttle, readLegacy('throttle'), `vtwr=${goalTWR}`);
       }
     }
   });
@@ -225,17 +230,17 @@ describe('engine control primitives', () => {
       exact(
         prim.getEffectiveVerticalMaxThrust(
           s.engines.running,
-          s.vehicle.gimbolPointingDirection,
+          s.vehicle.gimbalPointingDirection,
         ),
         evalLegacy('getEffectiveVerticalMaxThrust()'),
-        `evmt(${sample.gimbolPointingDirection})`,
+        `evmt(${sample.gimbalPointingDirection})`,
       );
     }
   });
 
   it('getMaxSpeedWithSafeDynamicPressure matches', () => {
     for (const airDensity of [1.225, 0.5, 0.01, 1e-5]) {
-      Object.assign(ctx, { airDensity });
+      Object.assign(ctx, toLegacyKeys({ airDensity }));
       exact(
         prim.getMaxSpeedWithSafeDynamicPressure(airDensity),
         evalLegacy('getMaxSpeedWithSafeDynamicPressure()'),
@@ -252,8 +257,8 @@ describe('speed-holding primitives', () => {
         const s = apply(sample);
         prim.horizontalSteering(s, target, rad(0.34), 5, 0.7);
         evalLegacy(`horizontalSteering(${target}, 0.34, 5, 0.7)`);
-        exact(s.autopilot.pitchControl, asBrowserSaw(ctx['pitchControl']), `hSteer target=${target}`);
-        exact(s.forces.rcsThrust, ctx['rcsThrust'], `hSteer rcs target=${target}`);
+        exact(s.autopilot.pitchControl, asBrowserSaw(readLegacy('pitchControl')), `hSteer target=${target}`);
+        exact(s.forces.rcsThrust, readLegacy('rcsThrust'), `hSteer rcs target=${target}`);
       }
     }
   });
@@ -264,7 +269,7 @@ describe('speed-holding primitives', () => {
         const s = apply(sample);
         prim.verticalSpeedAdjustment(s, target, 10, 3);
         evalLegacy(`verticalSpeedAdjustment(${target}, 10, 3)`);
-        exact(s.vehicle.throttle, ctx['throttle'], `vsa target=${target}`);
+        exact(s.vehicle.throttle, readLegacy('throttle'), `vsa target=${target}`);
       }
     }
   });
@@ -275,7 +280,7 @@ describe('speed-holding primitives', () => {
         const s = apply(sample);
         prim.horizontalSpeedAdjustment(s, target, 10, 4);
         evalLegacy(`horizontalSpeedAdjustment(${target}, 10, 4)`);
-        exact(s.vehicle.throttle, ctx['throttle'], `hsa target=${target}`);
+        exact(s.vehicle.throttle, readLegacy('throttle'), `hsa target=${target}`);
       }
     }
   });
@@ -286,7 +291,7 @@ describe('speed-holding primitives', () => {
         const s = apply(sample);
         prim.speedAdjustment(s, target, 10, 4);
         evalLegacy(`speedAdjustment(${target}, 10, 4)`);
-        exact(s.vehicle.throttle, ctx['throttle'], `sa target=${target}`);
+        exact(s.vehicle.throttle, readLegacy('throttle'), `sa target=${target}`);
       }
     }
   });
@@ -295,11 +300,11 @@ describe('speed-holding primitives', () => {
 describe('aero braking and engine shutdown', () => {
   it.each([1 / 30, 1 / 60, 1 / 120])('aero-braking correction angle matches at dt=%f', (dt) => {
     const s = apply(ALL[7]!);
-    Object.assign(ctx, {
+    Object.assign(ctx, toLegacyKeys({
       renderTimeInterval: 1 / dt,
       horizontalAccelerationByAeroBreakingCorrectionAngle: 0,
       accelerationX: 2.5,
-    });
+    }));
     s.kinematics.accelerationX = 2.5;
 
     for (let i = 0; i < 300; i++) {
@@ -311,10 +316,10 @@ describe('aero braking and engine shutdown', () => {
       evalLegacy(`controlHorizontalAccelerationByAeroBreaking(${goal})`);
       exact(
         s.autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle,
-        ctx['horizontalAccelerationByAeroBreakingCorrectionAngle'],
+        readLegacy('horizontalAccelerationByAeroBreakingCorrectionAngle'),
         `correction angle step ${i} dt=${dt}`,
       );
-      exact(s.autopilot.pitchControl, asBrowserSaw(ctx['pitchControl']), `aero pitchControl step ${i}`);
+      exact(s.autopilot.pitchControl, asBrowserSaw(readLegacy('pitchControl')), `aero pitchControl step ${i}`);
     }
   });
 
@@ -333,12 +338,12 @@ describe('aero braking and engine shutdown', () => {
         const s = createInitialState();
         s.engines.running = [...running];
         s.vehicle.vehicleMass = vehicleMass;
-        Object.assign(ctx, {
+        Object.assign(ctx, toLegacyKeys({
           raptorN1Running: running[0],
           raptorN2Running: running[1],
           raptorN3Running: running[2],
           vehicleMass,
-        });
+        }));
         evalLegacy('_toggledRaptors = []');
 
         prim.raptorAutoShutDown_KeepMinTWRBelow1(s, (st, i) => {
@@ -347,9 +352,9 @@ describe('aero braking and engine shutdown', () => {
         evalLegacy('raptorAutoShutDown_KeepMinTWRBelow1()');
 
         expect(s.engines.running, `${running} at ${vehicleMass} kg`).toEqual([
-          ctx['raptorN1Running'],
-          ctx['raptorN2Running'],
-          ctx['raptorN3Running'],
+          readLegacy('raptorN1Running'),
+          readLegacy('raptorN2Running'),
+          readLegacy('raptorN3Running'),
         ]);
       }
     }
@@ -361,7 +366,7 @@ describe('no DOM reads', () => {
     expect(typeof globalThis.document).toBe('undefined');
     const s = apply(ALL[0]!);
     expect(() => {
-      prim.presisionAlignment(s, rad(0.2), 0.5);
+      prim.precisionAlignment(s, rad(0.2), 0.5);
       prim.controlEnginebyTWR(s, 1);
       prim.horizontalSteering(s, 0, rad(0.3), 5, 0.7);
       prim.verticalSpeedAdjustment(s, -10, 10, 2);
@@ -372,7 +377,7 @@ describe('no DOM reads', () => {
   it('commands arrive through SimState, not a slider', () => {
     const s = apply(ALL[1]!);
     s.autopilot.pitchControl = 0;
-    prim.presisionAlignment(s, rad(1.4), 0.5);
+    prim.precisionAlignment(s, rad(1.4), 0.5);
     // The 2021 version's last act was writing this number to an <input>.
     expect(typeof s.autopilot.pitchControl).toBe('number');
   });
@@ -384,7 +389,7 @@ describe('the undefined-yokePosition bug, made explicit', () => {
    * and proving the deviation is what the game actually did.
    */
   it('legacy really does leave pitchControl undefined on the in-limits RCS path', () => {
-    Object.assign(ctx, {
+    Object.assign(ctx, toLegacyKeys({
       pitch: 0.684316824908255,
       angularVelocity: -0.41094991844147444,
       thrust: 0,
@@ -394,14 +399,14 @@ describe('the undefined-yokePosition bug, made explicit', () => {
       offAxisThrustDifferenceAcceleration: -0.000939986752346158,
       pitchControl: 12345,
       rcsThrust: 0,
-    });
-    evalLegacy('presisionAlignment(0.3, 0.5)');
+    }));
+    evalLegacy('precisionAlignment(0.3, 0.5)');
 
     // Not 12345, and not a number: the script wrote undefined.
-    expect(ctx['pitchControl']).toBeUndefined();
+    expect(readLegacy('pitchControl')).toBeUndefined();
     // And it did set rcsThrust, which is the branch that skips yokePosition.
-    expect(ctx['rcsThrust']).not.toBe(0);
-    expect(Math.abs(ctx['rcsThrust'] as number)).toBeLessThan(800000);
+    expect(readLegacy('rcsThrust')).not.toBe(0);
+    expect(Math.abs(readLegacy('rcsThrust') as number)).toBeLessThan(800000);
   });
 
   it('the port writes 0 there, which is what the range input produced', () => {
@@ -416,9 +421,9 @@ describe('the undefined-yokePosition bug, made explicit', () => {
     s.forces.offAxisThrustDifferenceAcceleration = -0.000939986752346158;
     s.autopilot.pitchControl = 12345;
 
-    prim.presisionAlignment(s, rad(0.3), 0.5);
+    prim.precisionAlignment(s, rad(0.3), 0.5);
     expect(s.autopilot.pitchControl).toBe(0);
-    expect(s.forces.rcsThrust).toBe(ctx['rcsThrust']);
+    expect(s.forces.rcsThrust).toBe(readLegacy('rcsThrust'));
   });
 
   it('rcsThrust matches exactly on that path, which is what actually steers', () => {
@@ -426,9 +431,9 @@ describe('the undefined-yokePosition bug, made explicit', () => {
     // undefined was inert; this number was not.
     for (const sample of ALL.filter((x) => x.thrust === 0 && !x.finActive && x.rcsActive)) {
       const s = apply(sample);
-      prim.presisionAlignment(s, rad(0.3), 0.5);
-      evalLegacy('presisionAlignment(0.3, 0.5)');
-      exact(s.forces.rcsThrust, ctx['rcsThrust'], 'rcsThrust on the undefined path');
+      prim.precisionAlignment(s, rad(0.3), 0.5);
+      evalLegacy('precisionAlignment(0.3, 0.5)');
+      exact(s.forces.rcsThrust, readLegacy('rcsThrust'), 'rcsThrust on the undefined path');
     }
   });
 });

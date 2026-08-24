@@ -87,28 +87,28 @@ export function liftSignIsInverted(angleOfAttack: Rad): boolean {
 // --- thrust ----------------------------------------------------------------
 
 /** physics.js:159 */
-export function horizontalThrustCoefficient(gimbolPointingDirection: Rad): number {
-  if (0 <= gimbolPointingDirection && gimbolPointingDirection <= HALF_PI) {
-    return Math.sin(gimbolPointingDirection);
-  } else if (HALF_PI < gimbolPointingDirection && gimbolPointingDirection <= Math.PI) {
-    return Math.cos(gimbolPointingDirection - HALF_PI);
-  } else if (-HALF_PI <= gimbolPointingDirection && gimbolPointingDirection < 0) {
-    return Math.sin(gimbolPointingDirection);
+export function horizontalThrustCoefficient(gimbalPointingDirection: Rad): number {
+  if (0 <= gimbalPointingDirection && gimbalPointingDirection <= HALF_PI) {
+    return Math.sin(gimbalPointingDirection);
+  } else if (HALF_PI < gimbalPointingDirection && gimbalPointingDirection <= Math.PI) {
+    return Math.cos(gimbalPointingDirection - HALF_PI);
+  } else if (-HALF_PI <= gimbalPointingDirection && gimbalPointingDirection < 0) {
+    return Math.sin(gimbalPointingDirection);
   } else {
-    return -Math.cos(gimbolPointingDirection + HALF_PI);
+    return -Math.cos(gimbalPointingDirection + HALF_PI);
   }
 }
 
 /** physics.js:230 */
-export function verticalThrustCoefficient(gimbolPointingDirection: Rad): number {
-  if (0 <= gimbolPointingDirection && gimbolPointingDirection <= HALF_PI) {
-    return Math.cos(gimbolPointingDirection);
-  } else if (HALF_PI < gimbolPointingDirection && gimbolPointingDirection <= Math.PI) {
-    return -Math.sin(gimbolPointingDirection - HALF_PI);
-  } else if (-HALF_PI <= gimbolPointingDirection && gimbolPointingDirection < 0) {
-    return Math.cos(gimbolPointingDirection);
+export function verticalThrustCoefficient(gimbalPointingDirection: Rad): number {
+  if (0 <= gimbalPointingDirection && gimbalPointingDirection <= HALF_PI) {
+    return Math.cos(gimbalPointingDirection);
+  } else if (HALF_PI < gimbalPointingDirection && gimbalPointingDirection <= Math.PI) {
+    return -Math.sin(gimbalPointingDirection - HALF_PI);
+  } else if (-HALF_PI <= gimbalPointingDirection && gimbalPointingDirection < 0) {
+    return Math.cos(gimbalPointingDirection);
   } else {
-    return Math.sin(gimbolPointingDirection + HALF_PI);
+    return Math.sin(gimbalPointingDirection + HALF_PI);
   }
 }
 
@@ -117,7 +117,7 @@ export function verticalThrustCoefficient(gimbolPointingDirection: Rad): number 
 export interface AccelerationInputs {
   angleOfMotion: Rad;
   angleOfAttack: Rad;
-  gimbolPointingDirection: Rad;
+  gimbalPointingDirection: Rad;
   /** m/s^2 */
   aerodynamicDragAcceleration: number;
   /** m/s^2 */
@@ -136,7 +136,7 @@ export function getHorizontalAcceleration(i: AccelerationInputs): number {
     : liftCoefficient * i.aerodynamicLiftAcceleration;
 
   const thrustComponent =
-    horizontalThrustCoefficient(i.gimbolPointingDirection) * i.thrustAcceleration;
+    horizontalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
 
   // 2021 sums drag + thrust + lift, in that order. Kept: float addition is not
   // associative and the goldens see the difference.
@@ -160,7 +160,7 @@ export function getVerticalAcceleration(i: AccelerationInputs, gravity: number):
     : liftCoefficient * i.aerodynamicLiftAcceleration;
 
   const thrustComponent =
-    verticalThrustCoefficient(i.gimbolPointingDirection) * i.thrustAcceleration;
+    verticalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
 
   return -gravity + dragComponent + thrustComponent + liftComponent;
 }

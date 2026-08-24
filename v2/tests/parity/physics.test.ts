@@ -11,7 +11,7 @@
  * the Mach 10 drag cap.
  */
 import { describe, expect, it } from 'vitest';
-import { loadLegacy } from './legacy';
+import { loadLegacy, toLegacyKeys, toLegacyName, toLegacySource } from './legacy';
 import { runInContext } from 'node:vm';
 import * as aero from '$core/physics/aero';
 import * as components from '$core/physics/components';
@@ -23,10 +23,15 @@ const legacy = loadLegacy();
 
 /** Set legacy globals, evaluate an expression in that context, return it. */
 function callLegacy(globals: Record<string, unknown>, expression: string): unknown {
-  for (const [k, v] of Object.entries(globals)) {
+  for (const [k, v] of Object.entries(toLegacyKeys(globals))) {
     (legacy as Record<string, unknown>)[k] = v;
   }
-  return runInContext(expression, legacy as never, { filename: '<parity>' });
+  return runInContext(toLegacySource(expression), legacy as never, { filename: '<parity>' });
+}
+
+/** Read a legacy global by its v2 name, translating through the rename table. */
+function readLegacy(name: string): unknown {
+  return (legacy as unknown as Record<string, unknown>)[toLegacyName(name)];
 }
 
 const exact = (mine: unknown, theirs: unknown, label: string) =>
@@ -83,9 +88,9 @@ describe('atmosphere', () => {
   it.each(ALTITUDES)('updateAtmosphere at %d m', (altitude) => {
     const mine = updateAtmosphere(altitude);
     callLegacy({ altitude }, 'updateAtmosphere()');
-    exact(mine.airTemperature, legacy['airTemperature'], 'airTemperature');
-    exact(mine.airPressure, legacy['airPressure'], 'airPressure');
-    exact(mine.airDensity, legacy['airDensity'], 'airDensity');
+    exact(mine.airTemperature, readLegacy('airTemperature'), 'airTemperature');
+    exact(mine.airPressure, readLegacy('airPressure'), 'airPressure');
+    exact(mine.airDensity, readLegacy('airDensity'), 'airDensity');
   });
 
   it('branches at exactly 11 km, as the legacy `< 11000` does', () => {
@@ -215,7 +220,7 @@ describe('aero geometry', () => {
       for (const speedY of [-100, -1, 0, 1, 100]) {
         const mine = aero.getAngleOfMotion(speedX, speedY);
         callLegacy({ speedX, speedY }, 'updateAngleOfMotion()');
-        exact(mine, legacy['angleOfMotion'], `aom(${speedX},${speedY})`);
+        exact(mine, readLegacy('angleOfMotion'), `aom(${speedX},${speedY})`);
       }
     }
   });
@@ -225,8 +230,8 @@ describe('aero geometry', () => {
       for (const angleOfMotion of [rad(0), rad(1), rad(-1), rad(3), rad(-3)]) {
         const mine = aero.getAttackAngles(pitch, angleOfMotion);
         callLegacy({ pitch, angleOfMotion }, 'updateAngleOfAttack()');
-        exact(mine.angleOfAttack, legacy['angleOfAttack'], `aoa(${pitch},${angleOfMotion})`);
-        exact(mine.angleInToTheWind, legacy['angleInToTheWind'], `aitw(${pitch},${angleOfMotion})`);
+        exact(mine.angleOfAttack, readLegacy('angleOfAttack'), `aoa(${pitch},${angleOfMotion})`);
+        exact(mine.angleInToTheWind, readLegacy('angleInToTheWind'), `aitw(${pitch},${angleOfMotion})`);
       }
     }
   });
@@ -274,14 +279,14 @@ describe('fins and angular drag', () => {
   });
 
   it('updateVehicleInFlightMaxArea matches', () => {
-    for (const frontFinExtention of [0, 25, 50, 100]) {
-      for (const aftFinExtention of [0, 25, 50, 100]) {
-        const mine = aero.updateVehicleInFlightMaxArea(frontFinExtention, aftFinExtention);
-        callLegacy({ frontFinExtention, aftFinExtention }, 'upDateVehicleInFlightMaxArea()');
-        exact(mine.frontFinEffectiveAreaFraction, legacy['frontFinEffectiveAreaFraction'], 'front');
-        exact(mine.aftFinEffectiveAreaFraction, legacy['aftFinEffectiveAreaFraction'], 'aft');
-        exact(mine.totalFinSurfaceAera, legacy['totalFinSurfaceAera'], 'totalFin');
-        exact(mine.vehicleInFlightMaxArea, legacy['vehicleInFlightMaxArea'], 'inFlightMaxArea');
+    for (const frontFinExtension of [0, 25, 50, 100]) {
+      for (const aftFinExtension of [0, 25, 50, 100]) {
+        const mine = aero.updateVehicleInFlightMaxArea(frontFinExtension, aftFinExtension);
+        callLegacy({ frontFinExtension, aftFinExtension }, 'upDateVehicleInFlightMaxArea()');
+        exact(mine.frontFinEffectiveAreaFraction, readLegacy('frontFinEffectiveAreaFraction'), 'front');
+        exact(mine.aftFinEffectiveAreaFraction, readLegacy('aftFinEffectiveAreaFraction'), 'aft');
+        exact(mine.totalFinSurfaceArea, readLegacy('totalFinSurfaceArea'), 'totalFin');
+        exact(mine.vehicleInFlightMaxArea, readLegacy('vehicleInFlightMaxArea'), 'inFlightMaxArea');
       }
     }
   });
@@ -313,7 +318,7 @@ describe('the six quadrant ladders', () => {
       const theirs = callLegacy(
         {
           angleOfMotion: isThrust ? rad(0) : angle,
-          gimbolPointingDirection: isThrust ? angle : rad(0),
+          gimbalPointingDirection: isThrust ? angle : rad(0),
           // aoa 0 keeps liftSignIsInverted false, so the coefficient passes through.
           angleOfAttack: rad(0),
           aerodynamicDragAcceleration: name.endsWith('Drag') ? 1 : 0,
@@ -339,7 +344,7 @@ describe('signed zero, made visible rather than swept away', () => {
     const inputs = {
       angleOfMotion: rad(Math.PI / 2),
       angleOfAttack: rad(0),
-      gimbolPointingDirection: rad(0),
+      gimbalPointingDirection: rad(0),
       aerodynamicDragAcceleration: 0,
       aerodynamicLiftAcceleration: 1,
       thrustAcceleration: 0,
@@ -356,11 +361,11 @@ describe('composed accelerations', () => {
     let checked = 0;
     for (const angleOfMotion of ANGLES.slice(0, 30)) {
       for (const angleOfAttack of [rad(-2), rad(-1), rad(0.3), rad(1), rad(2.5)]) {
-        for (const gimbolPointingDirection of [rad(-0.2), rad(0), rad(0.2)]) {
+        for (const gimbalPointingDirection of [rad(-0.2), rad(0), rad(0.2)]) {
           const inputs = {
             angleOfMotion,
             angleOfAttack,
-            gimbolPointingDirection,
+            gimbalPointingDirection,
             aerodynamicDragAcceleration: 3.7,
             aerodynamicLiftAcceleration: 1.9,
             thrustAcceleration: 14.2,
@@ -370,12 +375,12 @@ describe('composed accelerations', () => {
           exact(
             components.getHorizontalAcceleration(inputs),
             callLegacy(globals, 'getHorizontalAcceleration()'),
-            `hAcc(${angleOfMotion},${angleOfAttack},${gimbolPointingDirection})`,
+            `hAcc(${angleOfMotion},${angleOfAttack},${gimbalPointingDirection})`,
           );
           exact(
             components.getVerticalAcceleration(inputs, 9.807),
             callLegacy(globals, 'getVerticalAcceleration()'),
-            `vAcc(${angleOfMotion},${angleOfAttack},${gimbolPointingDirection})`,
+            `vAcc(${angleOfMotion},${angleOfAttack},${gimbalPointingDirection})`,
           );
           checked += 2;
         }

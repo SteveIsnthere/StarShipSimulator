@@ -145,7 +145,7 @@ export function getAngularDragAcceleration(
   vehicleMomentOfInertia: number,
 ): number {
   const angularDragAcc =
-    (airDensity * C.vehicleDiameter * angularVelocity ** 2 * C.intergalOfRCubedTimesDx) /
+    (airDensity * C.vehicleDiameter * angularVelocity ** 2 * C.integralOfRCubedTimesDx) /
     vehicleMomentOfInertia;
 
   if (angularVelocity > 0) return -angularDragAcc;
@@ -168,7 +168,7 @@ export function getFrontFinDrag(
     getDrag(
       airDensity,
       trueSpeed,
-      Math.abs(Math.sin(angleInToTheWind)) * C.frontFinSurfaceAera,
+      Math.abs(Math.sin(angleInToTheWind)) * C.frontFinSurfaceArea,
       C.finDragCoefficient,
     ) * frontFinEffectiveAreaFraction;
 
@@ -191,7 +191,7 @@ export function getAftFinDrag(
     getDrag(
       airDensity,
       trueSpeed,
-      Math.abs(Math.sin(angleInToTheWind)) * C.aftFinSurfaceAera,
+      Math.abs(Math.sin(angleInToTheWind)) * C.aftFinSurfaceArea,
       C.finDragCoefficient,
     ) * aftFinEffectiveAreaFraction;
 
@@ -207,30 +207,30 @@ export function getAftFinDrag(
  * 24x on frame one until this function overwrites them. M2.3 is that bug fix.
  */
 export function updateVehicleInFlightMaxArea(
-  frontFinExtention: number,
-  aftFinExtention: number,
+  frontFinExtension: number,
+  aftFinExtension: number,
 ): {
   frontFinEffectiveAreaFraction: number;
   aftFinEffectiveAreaFraction: number;
-  totalFinSurfaceAera: number;
+  totalFinSurfaceArea: number;
   vehicleInFlightMaxArea: number;
 } {
   const frontFinEffectiveAreaFraction = Math.sin(
-    C.finAcuationMaxAngle * frontFinExtention * 0.01,
+    C.finActuationMaxAngle * frontFinExtension * 0.01,
   );
-  const aftFinEffectiveAreaFraction = Math.sin(C.finAcuationMaxAngle * aftFinExtention * 0.01);
+  const aftFinEffectiveAreaFraction = Math.sin(C.finActuationMaxAngle * aftFinExtension * 0.01);
 
-  const totalFinSurfaceAera =
-    frontFinEffectiveAreaFraction * C.frontFinSurfaceAera +
-    aftFinEffectiveAreaFraction * C.aftFinSurfaceAera;
+  const totalFinSurfaceArea =
+    frontFinEffectiveAreaFraction * C.frontFinSurfaceArea +
+    aftFinEffectiveAreaFraction * C.aftFinSurfaceArea;
 
   // 1.8: fins have a higher drag coefficient than the body. Comment is 2021's.
-  const vehicleInFlightMaxArea = C.vehicleMaxArea + totalFinSurfaceAera * 1.8;
+  const vehicleInFlightMaxArea = C.vehicleMaxArea + totalFinSurfaceArea * 1.8;
 
   return {
     frontFinEffectiveAreaFraction,
     aftFinEffectiveAreaFraction,
-    totalFinSurfaceAera,
+    totalFinSurfaceArea,
     vehicleInFlightMaxArea,
   };
 }

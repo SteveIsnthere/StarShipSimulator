@@ -116,8 +116,8 @@ function ulp(x: number): number {
 
 /**
  * THE DOMAIN. Both inputs to these ladders are angles in [-pi, pi]:
- * `angleOfMotion` is the output of `Math.atan2`, and `gimbolPointingDirection`
- * is explicitly wrapped into that range by `getGimbolPointingDirection`
+ * `angleOfMotion` is the output of `Math.atan2`, and `gimbalPointingDirection`
+ * is explicitly wrapped into that range by `getGimbalPointingDirection`
  * (physics.js:518). Anything outside it cannot reach these functions.
  *
  * The distinction matters. Just past pi the ladder falls to its `else` branch
@@ -126,7 +126,7 @@ function ulp(x: number): number {
  * Proving over a domain the code cannot reach would be proving the wrong thing;
  * proving over [-pi, pi] and saying so is the honest claim. The out-of-domain
  * behaviour is measured separately below, because it is the reason that wrap
- * in getGimbolPointingDirection is load-bearing rather than cosmetic.
+ * in getGimbalPointingDirection is load-bearing rather than cosmetic.
  */
 const DOMAIN_MIN = -Math.PI;
 const DOMAIN_MAX = Math.PI;
@@ -291,7 +291,7 @@ describe('the proof is not vacuous', () => {
 
   it('outside [-pi, pi] the two forms diverge further, which is why the wrap matters', () => {
     // Just past pi the ladder computes sin(a + pi) and loses precision in the
-    // addition. getGimbolPointingDirection wraps into range for exactly this
+    // addition. getGimbalPointingDirection wraps into range for exactly this
     // kind of reason; without it, the ladders would be doing something else.
     // Measured across the first 2000 representable doubles past pi: the
     // divergence cycles through 0.55, 1.45 and 2.55 unit-ULP depending on how

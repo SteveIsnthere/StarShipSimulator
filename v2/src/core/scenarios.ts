@@ -121,8 +121,8 @@ export const LAUNCH_PAD: ScenarioPreset = {
 /**
  * m — the world height the camera box covers, which sets where the intro starts.
  *
- * In 2021 this was `renderBoxPhysicalHeight = vehicleHeight * vehicleVerticalPropotion`
- * (drawMethods.js:30), and `vehicleVerticalPropotion` starts at 4 but is then
+ * In 2021 this was `renderBoxPhysicalHeight = vehicleHeight * vehicleVerticalProportion`
+ * (drawMethods.js:30), and `vehicleVerticalProportion` starts at 4 but is then
  * adjusted by `getInitSize()` against the browser window height, clamping the
  * ship's drawn height to 100..220 px. So 50 * 4 = 200 m on most displays, but
  * more on a very tall window: a 2000 px viewport gives ~455 m.
@@ -176,7 +176,7 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
   s.kinematics.altitude = altitude;
   s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
 
-  s.kinematics.downRangeDistance = preset.xPosition + C.starBaseXpos;
+  s.kinematics.downRangeDistance = preset.xPosition + C.starBaseXPos;
   s.kinematics.downRangeDistanceNextFrame = s.kinematics.downRangeDistance;
 
   s.kinematics.speedX = preset.speedX;

@@ -83,7 +83,7 @@ describe('createScenarioState applies configureNewFlight verbatim', () => {
     const s = createScenarioState(preset);
 
     // X-position is relative to StarBase (tools.js:204).
-    expect(s.kinematics.downRangeDistance).toBe(preset.xPosition + C.starBaseXpos);
+    expect(s.kinematics.downRangeDistance).toBe(preset.xPosition + C.starBaseXPos);
     // Pitch is degrees in, radians out (tools.js:213).
     expect(s.kinematics.pitch).toBe(toRad(preset.pitch));
     // Propellant is tonnes (tools.js:216).
@@ -121,7 +121,7 @@ describe('createScenarioState applies configureNewFlight verbatim', () => {
   it('the launch pad preset reproduces the default spawn', () => {
     const s = createScenarioState(LAUNCH_PAD);
     expect(s.kinematics.altitude).toBe(C.vehicleHeight / 2);
-    expect(s.kinematics.downRangeDistance).toBe(C.starBaseXpos);
+    expect(s.kinematics.downRangeDistance).toBe(C.starBaseXPos);
     expect(s.vehicle.propellantMass).toBe(C.propellantMass);
   });
 });

@@ -1,9 +1,9 @@
 /**
  * Every constant from backend/initBackEnd.js, values verbatim.
  *
- * Verbatim includes the misspellings — `raptorIgnitionFaliureRate`,
- * `throttleLowwerLimmit`, `frontFinSurfaceAera`, `gimbolAngleLimit`,
- * `intergalOfRCubedTimesDx`. Porting diffs stay line-by-line comparable against
+ * Verbatim includes the misspellings — `raptorIgnitionFailureRate`,
+ * `throttleLowerLimit`, `frontFinSurfaceArea`, `gimbalAngleLimit`,
+ * `integralOfRCubedTimesDx`. Porting diffs stay line-by-line comparable against
  * the 2021 tree until goldens lock behaviour; the mechanical rename is M1.10,
  * with its mapping table at docs/RENAME-MAP.md.
  *
@@ -23,13 +23,13 @@ import { deg, rad, toRad, type Rad } from './units';
 /** m */
 export const planetRadius = 6400000;
 /** m */
-export const planetCirconference = 2 * planetRadius * Math.PI;
+export const planetCircumference = 2 * planetRadius * Math.PI;
 /** kg */
 export const planetMass = 5.972e24;
 /** s */
 export const planetTimeToRotate = 24 * (60 * 60);
 /** m/s */
-export const planetLineaVelocity = planetCirconference / planetTimeToRotate;
+export const planetLinearVelocity = planetCircumference / planetTimeToRotate;
 
 /** m^3 kg^-1 s^-2 */
 export const gravitationalConstant = 6.674e-11;
@@ -49,7 +49,7 @@ export const airResistance_k = 250;
 export const speedOfSound = 343;
 
 /** m — the launch and landing site, at half a circumference. */
-export const starBaseXpos = planetCirconference / 2;
+export const starBaseXPos = planetCircumference / 2;
 
 // ---------------------------------------------------------------------------
 // Vehicle size and mass — initSize_Weight()
@@ -84,7 +84,7 @@ export const vehicleMomentOfInertia =
   (vehicleMass * (vehicleDiameter / 2) ** 2 * 0.25 + (vehicleMass * vehicleHeight ** 2) / 12);
 
 /** m^4 — precomputed integral used by the angular drag term. */
-export const intergalOfRCubedTimesDx = 97656;
+export const integralOfRCubedTimesDx = 97656;
 
 // ---------------------------------------------------------------------------
 // Engines — initEngine()
@@ -99,12 +99,12 @@ export const intergalOfRCubedTimesDx = 97656;
  */
 export const raptorIgnitionTimeMean = 600;
 /** Fraction, 0..1. */
-export const raptorIgnitionFaliureRate = 0;
+export const raptorIgnitionFailureRate = 0;
 
 /** % */
-export const throttleUpperLimmit = 100;
+export const throttleUpperLimit = 100;
 /** % */
-export const throttleLowwerLimmit = 40;
+export const throttleLowerLimit = 40;
 /** %/s */
 export const throttleSpeed = 60;
 
@@ -126,9 +126,9 @@ export const raptorN3offAxisForceFraction =
 export const engineDistanceFromCenterOfMass = 21.8;
 
 /** %/s */
-export const gimbolSpeed = 600;
+export const gimbalSpeed = 600;
 /** rad */
-export const gimbolAngleLimit: Rad = toRad(deg(15));
+export const gimbalAngleLimit: Rad = toRad(deg(15));
 
 /** N per engine. */
 export const maxThrustPerRaptor = 2200 * 1000;
@@ -147,21 +147,21 @@ export const rcsThrustDistanceFromCenterOfMass = 20;
 export const rcsRunTimeRemaining = 25;
 
 /** rad — full fin deflection. Stored as a bare number in 2021, not via getRad. */
-export const finAcuationMaxAngle: Rad = rad(1.03);
+export const finActuationMaxAngle: Rad = rad(1.03);
 
 /** %/s */
-export const finAcuationSpeed = 120;
+export const finActuationSpeed = 120;
 
 /** m^2 */
-export const frontFinSurfaceAera = 24.2;
+export const frontFinSurfaceArea = 24.2;
 /** m */
 export const frontFinDistanceFromCenterOfMass = 23.3;
 /** m^2 */
-export const aftFinSurfaceAera = 45.8;
+export const aftFinSurfaceArea = 45.8;
 /** m */
 export const aftFinDistanceFromCenterOfMass = 12.6;
 /** m^2 */
-export const totalFinSurfaceAera = frontFinSurfaceAera + aftFinSurfaceAera;
+export const totalFinSurfaceArea = frontFinSurfaceArea + aftFinSurfaceArea;
 
 /** Dimensionless. */
 export const finDragCoefficient = 2;
@@ -186,7 +186,7 @@ export const touchDownSpeedLimit = 10;
 // ---------------------------------------------------------------------------
 
 /** m */
-export const initAutoLandXposDiffThreshold = 500;
+export const initAutoLandXPosDiffThreshold = 500;
 /** m */
 export const propulsiveCorrectionMinHeight = 5000;
 /** m */
@@ -209,10 +209,10 @@ export const finalStagePessimisticAvailableThrustTrialRaptorMode =
 export const flipStageEngineCount = 1;
 /** N — at the lower throttle limit. */
 export const flipStagePessimisticAvailableThrust =
-  flipStageEngineCount * maxThrustPerRaptor * throttleLowwerLimmit * 0.01;
+  flipStageEngineCount * maxThrustPerRaptor * throttleLowerLimit * 0.01;
 
 /** rad */
-export const aeroDesentMaxCorrectionAngle: Rad = toRad(deg(3));
+export const aeroDescentMaxCorrectionAngle: Rad = toRad(deg(3));
 /** Dimensionless. */
 export const fineTuneMultiplier = 2;
 /** m/s */
@@ -221,7 +221,7 @@ export const fineTuneMaxSpeed = 5;
 /** rad */
 export const flipGoalAngle: Rad = toRad(deg(10));
 /** m */
-export const flipEnducedXposChange = 100;
+export const flipInducedXPosChange = 100;
 
 /** rad */
 export const adjustmentMaxAngle: Rad = toRad(deg(20));

@@ -8,8 +8,10 @@
  * Order matters. Several modes write `pitchControl` or `throttle`, and a later
  * mode simply overwrites an earlier one's command. Reordering changes flight.
  *
- * All six are ported verbatim, misspellings included (`aeroDesent`,
- * `presisionAlignment`, `finalDesentStage`). M1.10 renames.
+ * All six were ported verbatim first, misspellings included, and renamed in
+ * M1.10 once the goldens had locked behaviour. docs/RENAME-MAP.md maps these
+ * back to their 2021 names (`aeroDesent…`, `presisionAlignment`,
+ * `finalDesentStage…`).
  *
  * ONE MECHANISM CHANGE, behaviour-preserving. autoPilotModes.js:118 arms a
  * `setTimeout(..., 5000 / timeAccel)` to decide whether aerodynamic deceleration
@@ -42,7 +44,7 @@ export function pitchHold(state: SimState): void {
   if (Math.abs(kinematics.pitchRateOfChange) < 0.4) {
     autopilot.holdingPitch = kinematics.pitch;
   }
-  prim.presisionAlignment(state, autopilot.holdingPitch, 0.5);
+  prim.precisionAlignment(state, autopilot.holdingPitch, 0.5);
 }
 
 /** autoPilotModes.js:420 — fly at the dynamic-pressure speed ceiling. */
@@ -61,22 +63,22 @@ export function autoTakeOff(state: SimState): void {
   const { autopilot, kinematics, vehicle, engines } = state;
   if (!autopilot.autoTakeOffOn || autopilot.manualControlOn) return;
 
-  if (!autopilot.autoTakeOffInited) {
+  if (!autopilot.autoTakeOffInitialised) {
     if (!autopilot.autoMaxThrustOn) cmd.toggleAutoMaxThrust(state);
     if (getWorkingEngineCount(engines.running) === 0) cmd.toggleAllRaptors(state);
-    autopilot.autoTakeOffInited = true;
+    autopilot.autoTakeOffInitialised = true;
   }
 
   if (kinematics.altitude < 25000) {
-    prim.presisionAlignment(state, rad((C.aomAt_25km * kinematics.altitude) / 25000), 3);
+    prim.precisionAlignment(state, rad((C.aomAt_25km * kinematics.altitude) / 25000), 3);
   } else if (kinematics.altitude < 80000) {
-    prim.presisionAlignment(
+    prim.precisionAlignment(
       state,
       rad(C.aomAt_25km + ((C.aomAt_80km - C.aomAt_25km) * (kinematics.altitude - 25000)) / 55000),
       3,
     );
   } else {
-    prim.presisionAlignment(state, C.aomAt_80km, 3);
+    prim.precisionAlignment(state, C.aomAt_80km, 3);
   }
 
   if (vehicle.propellantMass < C.dumpLimit && getWorkingEngineCount(engines.running) > 0) {
@@ -96,16 +98,16 @@ export function autoBoostBack(state: SimState, dt: number): void {
     if (!autopilot.autoLandOn) cmd.toggleAutoLand(state);
   };
 
-  if (!autopilot.boostBackinitCompleted) {
-    autopilot.boostbackDirection =
-      kinematics.downRangeDistance > C.starBaseXpos - C.flipEnducedXposChange
+  if (!autopilot.boostBackInitCompleted) {
+    autopilot.boostBackDirection =
+      kinematics.downRangeDistance > C.starBaseXPos - C.flipInducedXPosChange
         ? -Math.PI * 0.5
         : Math.PI * 0.5;
     if (!state.status.rcsActive) cmd.toggleRcs(state);
     if (getWorkingEngineCount(engines.running) === 0) cmd.toggleAllRaptors(state);
     if (!autopilot.autoMaxThrustOn) cmd.toggleAutoMaxThrust(state);
     if (autopilot.autoTakeOffOn) cmd.toggleAutoTakeOff(state);
-    autopilot.boostBackinitCompleted = true;
+    autopilot.boostBackInitCompleted = true;
   }
 
   // boostBackController
@@ -113,23 +115,23 @@ export function autoBoostBack(state: SimState, dt: number): void {
     autopilot.decelerationStageEstDuration =
       Math.abs(kinematics.speedX) / C.decelerationStageHorizontalAcc + 4;
 
-    prim.presisionAlignment(state, rad(autopilot.boostbackDirection), 1.5);
+    prim.precisionAlignment(state, rad(autopilot.boostBackDirection), 1.5);
 
     if (
-      (C.starBaseXpos - kinematics.downRangeDistance - C.flipEnducedXposChange) /
+      (C.starBaseXPos - kinematics.downRangeDistance - C.flipInducedXPosChange) /
         (kinematics.speedX * 0.5) <
         autopilot.decelerationStageEstDuration + 2 &&
-      (C.starBaseXpos - kinematics.downRangeDistance) / kinematics.speedX > 0
+      (C.starBaseXPos - kinematics.downRangeDistance) / kinematics.speedX > 0
     ) {
       cmd.toggleAllRaptors(state);
       if (autopilot.autoMaxThrustOn) cmd.toggleAutoMaxThrust(state);
       autopilot.accelerationStageCompleted = true;
     }
   } else {
-    if (!autopilot.boostBackDecelerationStageinitCompleted) {
+    if (!autopilot.boostBackDecelerationStageInitCompleted) {
       // The 5 s setTimeout, as a dt-ticked countdown. See the file header.
       autopilot.boostBackDecelerationCheckCountdown = 5;
-      autopilot.boostBackDecelerationStageinitCompleted = true;
+      autopilot.boostBackDecelerationStageInitCompleted = true;
     }
 
     if (autopilot.boostBackDecelerationCheckCountdown !== null) {
@@ -146,14 +148,14 @@ export function autoBoostBack(state: SimState, dt: number): void {
     if (autopilot.boostBackAeroDeceleration) {
       prim.controlHorizontalAccelerationByAeroBreaking(
         state,
-        autopilot.boostbackDirection < 0
+        autopilot.boostBackDirection < 0
           ? C.decelerationStageHorizontalAcc
           : -C.decelerationStageHorizontalAcc,
         dt,
         toggleFin,
       );
     } else {
-      prim.presisionAlignment(state, rad(-autopilot.boostbackDirection), 1);
+      prim.precisionAlignment(state, rad(-autopilot.boostBackDirection), 1);
       prim.raptorAutoShutDown_KeepMinTWRBelow1(state, toggleRaptor);
       prim.controlEnginebyTWR(state, C.decelerationStageHorizontalAcc / C.gravity);
     }
@@ -177,12 +179,12 @@ function resetBoostBackState(state: SimState): void {
   const { autopilot } = state;
   autopilot.autoBoostBackOn = false;
   autopilot.decelerationStageEstDuration = 0;
-  autopilot.finalXposPrediction = Infinity;
+  autopilot.finalXPosPrediction = Infinity;
   autopilot.freeFallTimeRemainingPrediction = Infinity;
-  autopilot.boostbackDirection = 0;
-  autopilot.boostBackinitCompleted = false;
+  autopilot.boostBackDirection = 0;
+  autopilot.boostBackInitCompleted = false;
   autopilot.boostBackAeroDeceleration = true;
-  autopilot.boostBackDecelerationStageinitCompleted = false;
+  autopilot.boostBackDecelerationStageInitCompleted = false;
   autopilot.boostBackDecelerationCheckCountdown = null;
   autopilot.accelerationStageCompleted = false;
 }
@@ -192,23 +194,23 @@ function resetAutoLandState(state: SimState): void {
   const { autopilot } = state;
   autopilot.autoLandOn = false;
   autopilot.initVehicleConfigCompleted = false;
-  autopilot.landingSiteXpos = C.starBaseXpos;
+  autopilot.landingSiteXPos = C.starBaseXPos;
   autopilot.dualRaptorMode = false;
   autopilot.trialRaptorMode = false;
-  autopilot.aeroDesentCompleted = false;
+  autopilot.aeroDescentCompleted = false;
   autopilot.fineTunePercentage = undefined;
   autopilot.bellyFlopTriggerAltitude = 0;
-  autopilot.flipStageInitted = false;
+  autopilot.flipStageInitialised = false;
   autopilot.flipCompleted = false;
   autopilot.horizontalAdjustmentStageCompleted = false;
-  autopilot.horizontalAdjustmentStageInitted = false;
+  autopilot.horizontalAdjustmentStageInitialised = false;
   autopilot.horizontalAdjustmentTimeLeft = undefined;
   autopilot.horizontalAdjustmentDesiredSpeed = undefined;
   autopilot.effectiveVerticalMaxThrust = undefined;
   autopilot.finalStagePessimisticAltitude = undefined;
-  autopilot.finalDesentStageInitted = false;
+  autopilot.finalDescentStageInitialised = false;
   autopilot.distanceToGround = undefined;
-  autopilot.finalDesentStageCompleted = false;
+  autopilot.finalDescentStageCompleted = false;
 }
 
 export { getFreeFallTimeRemainingPrediction, getAngularAcceleration, getTotalMaxThrust };
@@ -221,21 +223,21 @@ export function autoLand(state: SimState, dt: number): void {
   if (!autopilot.initVehicleConfigCompleted) {
     if (!status.finActive) cmd.toggleFin(state);
     if (!status.rcsActive) cmd.toggleRcs(state);
-    vehicle.throttle = C.throttleLowwerLimmit;
+    vehicle.throttle = C.throttleLowerLimit;
     if (vehicle.propellantMass > C.dumpLimit && !status.dumpingFuel) cmd.toggleDumpFuel(state);
     if (getWorkingEngineCount(engines.running) > 0) cmd.toggleAllRaptors(state);
     autopilot.initVehicleConfigCompleted = true;
   }
 
-  if (!autopilot.aeroDesentCompleted) {
+  if (!autopilot.aeroDescentCompleted) {
     updateBellyFlopTriggerAltitude(state);
     aeroDescentController(state);
   } else if (!autopilot.flipCompleted) {
     flipStageController(state);
   } else if (!autopilot.horizontalAdjustmentStageCompleted) {
     horizontalAdjustmentStageController(state);
-  } else if (!autopilot.finalDesentStageCompleted) {
-    finalDesentStageController(state, dt);
+  } else if (!autopilot.finalDescentStageCompleted) {
+    finalDescentStageController(state, dt);
   }
 }
 
@@ -285,34 +287,34 @@ function aeroDescentController(state: SimState): void {
   const { autopilot, kinematics } = state;
 
   const distanceToSite =
-    kinematics.downRangeDistance - autopilot.landingSiteXpos + C.flipEnducedXposChange;
+    kinematics.downRangeDistance - autopilot.landingSiteXPos + C.flipInducedXPosChange;
   const timeToSite = -distanceToSite / kinematics.speedX;
 
   let correctionAngle: number;
   if (Math.abs(kinematics.speedX) > 20) {
     correctionAngle = kinematics.angleOfMotion - Math.PI;
   } else if (distanceToSite > 0) {
-    correctionAngle = -C.aeroDesentMaxCorrectionAngle;
+    correctionAngle = -C.aeroDescentMaxCorrectionAngle;
     if (timeToSite < 5 && timeToSite > 0) {
       autopilot.fineTunePercentage =
         Math.abs(kinematics.speedX) > C.fineTuneMaxSpeed
           ? 1
           : Math.abs(kinematics.speedX) / C.fineTuneMaxSpeed;
       correctionAngle =
-        C.aeroDesentMaxCorrectionAngle * C.fineTuneMultiplier * autopilot.fineTunePercentage;
+        C.aeroDescentMaxCorrectionAngle * C.fineTuneMultiplier * autopilot.fineTunePercentage;
     }
   } else {
-    correctionAngle = C.aeroDesentMaxCorrectionAngle;
+    correctionAngle = C.aeroDescentMaxCorrectionAngle;
     if (timeToSite < 5 && timeToSite > 0) {
       autopilot.fineTunePercentage =
         Math.abs(kinematics.speedX) > C.fineTuneMaxSpeed
           ? 1
           : Math.abs(kinematics.speedX) / C.fineTuneMaxSpeed;
       correctionAngle =
-        -C.aeroDesentMaxCorrectionAngle * C.fineTuneMultiplier * autopilot.fineTunePercentage;
+        -C.aeroDescentMaxCorrectionAngle * C.fineTuneMultiplier * autopilot.fineTunePercentage;
     }
   }
-  prim.presisionAlignment(state, rad(correctionAngle + Math.PI / 2), 0.7);
+  prim.precisionAlignment(state, rad(correctionAngle + Math.PI / 2), 0.7);
 
   if (
     (kinematics.altitude < autopilot.bellyFlopTriggerAltitude &&
@@ -320,7 +322,7 @@ function aeroDescentController(state: SimState): void {
       kinematics.altitude < 2500) ||
     kinematics.altitude < 300
   ) {
-    autopilot.aeroDesentCompleted = true;
+    autopilot.aeroDescentCompleted = true;
   }
 }
 
@@ -328,16 +330,16 @@ function aeroDescentController(state: SimState): void {
 function flipStageController(state: SimState): void {
   const { autopilot, kinematics, vehicle, status } = state;
 
-  if (!autopilot.flipStageInitted) {
+  if (!autopilot.flipStageInitialised) {
     if (status.dumpingFuel) cmd.toggleDumpFuel(state);
     if (status.rcsActive) cmd.toggleRcs(state);
     cmd.toggleAllRaptors(state);
-    autopilot.flipStageInitted = true;
+    autopilot.flipStageInitialised = true;
   }
 
-  prim.presisionAlignment(state, C.flipGoalAngle, 0.4);
+  prim.precisionAlignment(state, C.flipGoalAngle, 0.4);
 
-  if (kinematics.pitch < 0) vehicle.throttle = C.throttleUpperLimmit;
+  if (kinematics.pitch < 0) vehicle.throttle = C.throttleUpperLimit;
   if (kinematics.pitch < C.flipGoalAngle) autopilot.flipCompleted = true;
 }
 
@@ -345,7 +347,7 @@ function flipStageController(state: SimState): void {
 function horizontalAdjustmentStageController(state: SimState): void {
   const { autopilot, kinematics, vehicle, engines, status } = state;
 
-  if (!autopilot.horizontalAdjustmentStageInitted) {
+  if (!autopilot.horizontalAdjustmentStageInitialised) {
     if (status.finActive) cmd.toggleFin(state);
     status.finLocked = true;
     if (getWorkingEngineCount(engines.running) < 3) {
@@ -356,11 +358,11 @@ function horizontalAdjustmentStageController(state: SimState): void {
         autopilot.horizontalAdjustmentVerticalSpeedLimit / 1.5;
       autopilot.horizontalAdjustmentHorizontalSpeedLimit *= 2;
     }
-    autopilot.horizontalAdjustmentStageInitted = true;
+    autopilot.horizontalAdjustmentStageInitialised = true;
   }
 
   // updateParams
-  let targetDifference = autopilot.landingSiteXpos - kinematics.downRangeDistance;
+  let targetDifference = autopilot.landingSiteXPos - kinematics.downRangeDistance;
   const [n1, n2, n3] = engines.running;
   if (n1 && !n2 && !n3) {
     targetDifference -= 12;
@@ -427,7 +429,7 @@ function horizontalAdjustmentStageController(state: SimState): void {
  * start. `speedYShutdownThreshold` is the only difference between them: -5 for
  * a real landing, -20 for the demo (welcome.js:11).
  */
-export function finalDesentStageController(
+export function finalDescentStageController(
   state: SimState,
   dt: number,
   speedYShutdownThreshold = -5,
@@ -435,7 +437,7 @@ export function finalDesentStageController(
 ): void {
   const { autopilot, kinematics, vehicle, engines, status } = state;
 
-  if (!autopilot.finalDesentStageInitted) autopilot.finalDesentStageInitted = true;
+  if (!autopilot.finalDescentStageInitialised) autopilot.finalDescentStageInitialised = true;
 
   autopilot.distanceToGround = kinematics.altitude - C.vehicleHeight * 0.5;
 
@@ -452,7 +454,7 @@ export function finalDesentStageController(
       prim.horizontalSteering(state, 0, rad(C.adjustmentMaxAngle / 2), 5, 0.7);
     }
   } else {
-    prim.presisionAlignment(state, rad(0), 0.4);
+    prim.precisionAlignment(state, rad(0), 0.4);
   }
 
   if (kinematics.speedY > speedYShutdownThreshold) {
@@ -467,7 +469,7 @@ export function finalDesentStageController(
       onTouchdown(state);
       return;
     }
-    vehicle.throttle = C.throttleLowwerLimmit;
+    vehicle.throttle = C.throttleLowerLimit;
     cmd.toggleAllRaptors(state);
     status.forceDump = true;
     if (!status.dumpingFuel) cmd.toggleDumpFuel(state);
@@ -488,7 +490,7 @@ export function finalDesentStageController(
 export function demoAutoLand(state: SimState, dt: number): void {
   if (!state.autopilot.demoAutoLandOn) return;
 
-  finalDesentStageController(state, dt, -20, (s) => {
+  finalDescentStageController(state, dt, -20, (s) => {
     cmd.toggleAllRaptors(s);
     s.autopilot.demoAutoLandOn = false;
     s.status.finLocked = false;

@@ -7,7 +7,7 @@
  * expected must not compile" a checked claim rather than a comment.
  */
 import { deg, rad, toDeg, toRad, type Deg, type Rad } from '$core/units';
-import { gimbolAngleLimit, flipGoalAngle } from '$core/constants';
+import { gimbalAngleLimit, flipGoalAngle } from '$core/constants';
 
 declare function needsRad(a: Rad): void;
 declare function needsDeg(a: Deg): void;
@@ -18,7 +18,7 @@ needsRad(rad(0.5));
 needsDeg(deg(30));
 needsRad(toRad(deg(15)));
 needsDeg(toDeg(rad(Math.PI)));
-needsRad(gimbolAngleLimit);
+needsRad(gimbalAngleLimit);
 needsRad(flipGoalAngle);
 
 // A Rad is still a number, so arithmetic and Math calls work unchanged.
@@ -44,8 +44,8 @@ toRad(rad(0.5));
 // @ts-expect-error toDeg takes radians, not degrees
 toDeg(deg(30));
 
-// @ts-expect-error gimbolAngleLimit is radians, not degrees
-needsDeg(gimbolAngleLimit);
+// @ts-expect-error gimbalAngleLimit is radians, not degrees
+needsDeg(gimbalAngleLimit);
 
 // @ts-expect-error arithmetic on a Rad yields a plain number, which is no longer a Rad
 needsRad(rad(0.5) + 1);

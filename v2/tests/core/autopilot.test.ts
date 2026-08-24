@@ -65,7 +65,7 @@ describe('pitchHold', () => {
   });
 
   it('cannot steer on RCS alone, because controlTranslation overwrites rcsThrust', () => {
-    // A real 2021 behaviour, pinned rather than fixed. In presisionAlignment's
+    // A real 2021 behaviour, pinned rather than fixed. In precisionAlignment's
     // RCS branch, a force within rcsMaxThrust is written straight to rcsThrust
     // and yokePosition is left alone. But controlsUpdate() runs
     // autoPilotControlInput() and THEN controlTranslation(), and rcsControl()
@@ -106,7 +106,7 @@ describe('autoTakeOff', () => {
     const start = createInitialState();
     cmd.toggleAutoTakeOff(start);
     const end = fly(start, 30);
-    expect(end.autopilot.autoTakeOffInited).toBe(true);
+    expect(end.autopilot.autoTakeOffInitialised).toBe(true);
     expect(end.kinematics.altitude).toBeGreaterThan(1000);
     expect(end.kinematics.speedY).toBeGreaterThan(0);
   });
@@ -144,7 +144,7 @@ describe('the intro demo — CLAUDE.md lists this under "what must never change"
 
     expect(end.autopilot.demoAutoLandOn, 'demo should have completed').toBe(false);
     expect(end.failures.crashed, 'the intro must not crash').toBe(false);
-    expect(end.failures.inFightBreakUp).toBe(false);
+    expect(end.failures.inFlightBreakUp).toBe(false);
     expect(end.kinematics.altitude).toBeLessThan(26);
 
     // welcome.js's checkIfTD hands control back to the player.
@@ -195,9 +195,9 @@ describe('autoLand', () => {
     start.vehicle.vehicleMass = 150_000;
     cmd.toggleAutoLand(start);
 
-    const end = fly(start, 120, (s) => s.autopilot.aeroDesentCompleted);
+    const end = fly(start, 120, (s) => s.autopilot.aeroDescentCompleted);
     expect(end.autopilot.bellyFlopTriggerAltitude).toBeGreaterThan(0);
-    expect(end.autopilot.aeroDesentCompleted).toBe(true);
+    expect(end.autopilot.aeroDescentCompleted).toBe(true);
     // The exit condition is altitude below the trigger, or below 300 m outright.
     expect(
       end.kinematics.altitude < end.autopilot.bellyFlopTriggerAltitude ||

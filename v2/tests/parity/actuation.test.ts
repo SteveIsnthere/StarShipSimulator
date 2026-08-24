@@ -9,7 +9,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { runInContext } from 'node:vm';
-import { loadLegacy } from './legacy';
+import { loadLegacy, toLegacyKeys, toLegacyName, toLegacySource } from './legacy';
 import { createInitialState } from '$core/state';
 import * as act from '$core/control/actuation';
 import * as eng from '$core/physics/engines';
@@ -20,10 +20,17 @@ const legacy = loadLegacy(
 );
 
 function setLegacy(globals: Record<string, unknown>): void {
-  for (const [k, v] of Object.entries(globals)) (legacy as Record<string, unknown>)[k] = v;
+  for (const [k, v] of Object.entries(toLegacyKeys(globals))) {
+    (legacy as Record<string, unknown>)[k] = v;
+  }
 }
 const evalLegacy = (src: string): unknown =>
-  runInContext(src, legacy as never, { filename: '<parity>' });
+  runInContext(toLegacySource(src), legacy as never, { filename: '<parity>' });
+
+/** Read a legacy global by its v2 name, translating through the rename table. */
+function readLegacy(name: string): unknown {
+  return (legacy as unknown as Record<string, unknown>)[toLegacyName(name)];
+}
 
 const exact = (mine: unknown, theirs: unknown, label: string) =>
   expect(Object.is(mine, theirs), `${label}: ours=${String(mine)} legacy=${String(theirs)}`).toBe(
@@ -74,12 +81,12 @@ describe('engine thrust formulas', () => {
 
   it('getThrustVectorForce matches', () => {
     for (const thrust of [0, 1e6, 6.6e6]) {
-      for (const gimbolPosition of [-100, -33.3, 0, 33.3, 100]) {
-        setLegacy({ thrust, gimbolPosition });
+      for (const gimbalPosition of [-100, -33.3, 0, 33.3, 100]) {
+        setLegacy({ thrust, gimbalPosition });
         exact(
-          eng.getThrustVectorForce(thrust, gimbolPosition),
+          eng.getThrustVectorForce(thrust, gimbalPosition),
           evalLegacy('getThrustVectorForce()'),
-          `tvf(${thrust},${gimbolPosition})`,
+          `tvf(${thrust},${gimbalPosition})`,
         );
       }
     }
@@ -103,15 +110,15 @@ describe('engine thrust formulas', () => {
     }
   });
 
-  it('getGimbolPointingDirection matches, including both wrap branches', () => {
+  it('getGimbalPointingDirection matches, including both wrap branches', () => {
     for (const pitch of [-3.1, -1.5, 0, 1.5, 3.1, Math.PI, -Math.PI]) {
-      for (const gimbolPosition of [-100, 0, 100]) {
-        setLegacy({ pitch, gimbolPosition });
+      for (const gimbalPosition of [-100, 0, 100]) {
+        setLegacy({ pitch, gimbalPosition });
         evalLegacy('updateGimbolPointingDirection()');
         exact(
-          eng.getGimbolPointingDirection(rad(pitch), gimbolPosition),
-          legacy['gimbolPointingDirection'],
-          `gpd(${pitch},${gimbolPosition})`,
+          eng.getGimbalPointingDirection(rad(pitch), gimbalPosition),
+          readLegacy('gimbalPointingDirection'),
+          `gpd(${pitch},${gimbalPosition})`,
         );
       }
     }
@@ -174,8 +181,8 @@ describe('fuel', () => {
         vehicleMass = vehicleDryMass + propellantMass
       `);
     }
-    exact(state.vehicle.propellantMass, legacy['propellantMass'], `propellant after 600 @ ${dt}`);
-    exact(state.vehicle.vehicleMass, legacy['vehicleMass'], `mass after 600 @ ${dt}`);
+    exact(state.vehicle.propellantMass, readLegacy('propellantMass'), `propellant after 600 @ ${dt}`);
+    exact(state.vehicle.vehicleMass, readLegacy('vehicleMass'), `mass after 600 @ ${dt}`);
   });
 
   it('fuel dumping matches, including the self-disabling branch', () => {
@@ -209,9 +216,9 @@ describe('fuel', () => {
         }
         vehicleMass = vehicleDryMass + propellantMass
       `);
-      exact(state.status.dumpingFuel, legacy['dumpingFuel'], `dumping flag step ${i}`);
+      exact(state.status.dumpingFuel, readLegacy('dumpingFuel'), `dumping flag step ${i}`);
     }
-    exact(state.vehicle.propellantMass, legacy['propellantMass'], 'propellant after dump');
+    exact(state.vehicle.propellantMass, readLegacy('propellantMass'), 'propellant after dump');
     // It really did stop itself at the dump limit rather than running dry.
     expect(state.status.dumpingFuel).toBe(false);
     expect(state.vehicle.propellantMass).toBeLessThanOrEqual(12_000);
@@ -228,20 +235,20 @@ describe('actuators', () => {
     for (let i = 0; i < 300; i++) {
       act.throttleUpdate(state, dt);
       evalLegacy('throttleUpdate()');
-      exact(state.vehicle.throttleCurrent, legacy['throttleCurrent'], `throttle step ${i}`);
+      exact(state.vehicle.throttleCurrent, readLegacy('throttleCurrent'), `throttle step ${i}`);
     }
   });
 
   it.each(DTS)('gimbal slew over 300 steps at dt=%f matches', (dt) => {
     const state = createInitialState();
-    setLegacy({ gimbolPosition: 0, gimbolSpeedPerFrame: 600 * dt });
+    setLegacy({ gimbalPosition: 0, gimbalSpeedPerFrame: 600 * dt });
 
     for (let i = 0; i < 300; i++) {
       const goal = Math.sin(i / 17) * 100;
       act.thrustVectorControl(state, goal, dt);
       setLegacy({ __goal: goal });
       evalLegacy('thrustVectorControl(__goal)');
-      exact(state.vehicle.gimbolPosition, legacy['gimbolPosition'], `gimbal step ${i}`);
+      exact(state.vehicle.gimbalPosition, readLegacy('gimbalPosition'), `gimbal step ${i}`);
     }
   });
 
@@ -257,9 +264,9 @@ describe('actuators', () => {
       setLegacy({
         finActive,
         finLocked,
-        frontFinExtention: 0,
-        aftFinExtention: 0,
-        finAcuationSpeedPerFrame: 120 * dt,
+        frontFinExtension: 0,
+        aftFinExtension: 0,
+        finActuationSpeedPerFrame: 120 * dt,
       });
 
       for (let i = 0; i < 400; i++) {
@@ -271,13 +278,13 @@ describe('actuators', () => {
         setLegacy({ angleOfAttack: aoa, __goal: goal });
         evalLegacy('finsActuation(__goal)');
         exact(
-          state.vehicle.frontFinExtention,
-          legacy['frontFinExtention'],
+          state.vehicle.frontFinExtension,
+          readLegacy('frontFinExtension'),
           `front fin step ${i} (${finActive},${finLocked})`,
         );
         exact(
-          state.vehicle.aftFinExtention,
-          legacy['aftFinExtention'],
+          state.vehicle.aftFinExtension,
+          readLegacy('aftFinExtension'),
           `aft fin step ${i} (${finActive},${finLocked})`,
         );
       }
@@ -310,12 +317,12 @@ describe('actuators', () => {
       act.rcsControl(state, goal, dt);
       setLegacy({ __goal: goal });
       evalLegacy('rcsControl(__goal)');
-      exact(state.forces.rcsThrust, legacy['rcsThrust'], `rcs thrust step ${i} @ ${dt}`);
+      exact(state.forces.rcsThrust, readLegacy('rcsThrust'), `rcs thrust step ${i} @ ${dt}`);
       // Bit-exact, not approximate: the drain expression is ported verbatim
       // precisely so this comparison can be Object.is. See tests/proofs/.
       exact(
         state.vehicle.rcsRunTimeRemaining,
-        legacy['rcsRunTimeRemaining'],
+        readLegacy('rcsRunTimeRemaining'),
         `rcs reserve step ${i} @ ${dt}`,
       );
     }

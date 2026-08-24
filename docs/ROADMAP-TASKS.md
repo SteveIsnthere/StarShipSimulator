@@ -57,7 +57,7 @@ acceptance line.
   golden regeneration in M1.9 with an explicit justification; **(C)** drop the collapse and keep the
   ladders, with the proof standing as documentation that 143 of physics.js's 539 lines are
   one-line identities.
-- [ ] **M1.10 Rename pass** — mechanical rename (gimbol→gimbal, presision→precision,
+- [x] **M1.10 Rename pass** — mechanical rename (gimbol→gimbal, presision→precision,
   lowwer→lower, aera→area, faliure→failure, lunchpad→launchpad, …), map committed at
   `docs/RENAME-MAP.md`. Accept: goldens unchanged.
 - [ ] **M1.11 The loop** — `app/loop.ts`: fixed dt = 1/120, accumulator (capped 0.25 s),
@@ -273,3 +273,16 @@ acceptance line.
   [−π, π] — `angleOfMotion` is `atan2` output and `gimbolPointingDirection` is explicitly wrapped —
   and just outside it the two forms diverge to 2.55 unit-ULP, which is what makes that wrap
   load-bearing rather than cosmetic. Continuing to M1.10, which does not depend on this.
+- 2026-08-24 · M1.10 · Mechanical rename across `v2/` only; 42 renames, map at `docs/RENAME-MAP.md`.
+  The 2021 tree keeps its spellings until M5.4, so that map doubles as the dictionary for reading
+  old against new. **Acceptance proved by value comparison, not by "the tests still pass"**: the
+  fixtures' *keys* necessarily change (they are SimState field paths), so I snapshotted them first
+  and diffed old against new with keys mapped through the rename table — **all seven identical in
+  value, every number, every sample**. Two hazards handled: the first script's collision guard
+  checked the wrong invariant (`\b` anchors already handle prefixes; the real risk is a rename's
+  *output* being re-matched, now asserted, plus an idempotence check per file); and the rename
+  initially corrupted legacy-facing strings in the parity tests, since those name 2021 globals.
+  Rather than patch them back, `tests/parity/legacy.ts` now owns a `LEGACY_NAME` table with
+  `toLegacyName` / `toLegacyKeys` / `toLegacySource`, so parity tests are written entirely in v2
+  names and translate at the boundary — one source of truth, and a future rename cannot silently
+  break the correspondence. 571 tests green.

@@ -82,3 +82,89 @@ export function loadLegacy(
 
   return context as LegacyContext;
 }
+
+/**
+ * v2 name -> 2021 name.
+ *
+ * M1.10 renamed identifiers in v2/ only; the 2021 tree keeps its spellings
+ * until M5.4 retires it. Parity tests therefore have to speak both languages.
+ *
+ * Rather than sprinkle 2021 spellings through the tests as bare strings - where
+ * a later rename would silently break the correspondence, and where a reader
+ * cannot tell a typo from a deliberate misspelling - the translation lives here
+ * once. Tests are written entirely in v2 names and the helpers below convert.
+ *
+ * The full table with rationale is docs/RENAME-MAP.md.
+ */
+export const LEGACY_NAME: Readonly<Record<string, string>> = {
+  gimbalPosition: 'gimbolPosition',
+  gimbalPointingDirection: 'gimbolPointingDirection',
+  gimbalAngleLimit: 'gimbolAngleLimit',
+  gimbalSpeed: 'gimbolSpeed',
+  gimbalSpeedPerFrame: 'gimbolSpeedPerFrame',
+  getGimbalPointingDirection: 'getGimbolPointingDirection',
+  precisionAlignment: 'presisionAlignment',
+  throttleLowerLimit: 'throttleLowwerLimmit',
+  throttleUpperLimit: 'throttleUpperLimmit',
+  frontFinSurfaceArea: 'frontFinSurfaceAera',
+  aftFinSurfaceArea: 'aftFinSurfaceAera',
+  totalFinSurfaceArea: 'totalFinSurfaceAera',
+  finActuationMaxAngle: 'finAcuationMaxAngle',
+  finActuationSpeed: 'finAcuationSpeed',
+  finActuationSpeedPerFrame: 'finAcuationSpeedPerFrame',
+  frontFinExtension: 'frontFinExtention',
+  aftFinExtension: 'aftFinExtention',
+  raptorIgnitionFailureRate: 'raptorIgnitionFaliureRate',
+  randomFailure: 'randomFaliure',
+  aeroDescentCompleted: 'aeroDesentCompleted',
+  aeroDescentMaxCorrectionAngle: 'aeroDesentMaxCorrectionAngle',
+  finalDescentStageCompleted: 'finalDesentStageCompleted',
+  finalDescentStageInitialised: 'finalDesentStageInitted',
+  horizontalAdjustmentStageInitialised: 'horizontalAdjustmentStageInitted',
+  flipStageInitialised: 'flipStageInitted',
+  autoTakeOffInitialised: 'autoTakeOffInited',
+  planetCircumference: 'planetCirconference',
+  planetLinearVelocity: 'planetLineaVelocity',
+  integralOfRCubedTimesDx: 'intergalOfRCubedTimesDx',
+  inFlightBreakUp: 'inFightBreakUp',
+  overGLoad: 'overGload',
+  overGLoadWarning: 'overGloadWarning',
+  flipInducedXPosChange: 'flipEnducedXposChange',
+  boostBackInitCompleted: 'boostBackinitCompleted',
+  boostBackDecelerationStageInitCompleted: 'boostBackDecelerationStageinitCompleted',
+  boostBackDirection: 'boostbackDirection',
+  starBaseXPos: 'starBaseXpos',
+  landingSiteXPos: 'landingSiteXpos',
+  finalXPosPrediction: 'finalXposPrediction',
+  initAutoLandXPosDiffThreshold: 'initAutoLandXposDiffThreshold',
+  vehicleVerticalProportion: 'vehicleVerticalPropotion',
+};
+
+/** The 2021 spelling of a v2 name, or the name itself if it did not change. */
+export function toLegacyName(name: string): string {
+  return LEGACY_NAME[name] ?? name;
+}
+
+/** Rewrite an object's keys from v2 names to 2021 names. */
+export function toLegacyKeys(globals: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(globals)) out[toLegacyName(k)] = v;
+  return out;
+}
+
+/**
+ * Rewrite a snippet of code to run against the 2021 globals.
+ *
+ * Lets a parity test write `precisionAlignment(0.3, 0.5)` and have the VM see
+ * `presisionAlignment(0.3, 0.5)`. Word-boundary matched, longest name first so
+ * no rename is applied inside another.
+ */
+const SORTED_NAMES = Object.keys(LEGACY_NAME).sort((a, b) => b.length - a.length);
+
+export function toLegacySource(source: string): string {
+  let out = source;
+  for (const name of SORTED_NAMES) {
+    out = out.replace(new RegExp(`\\b${name}\\b`, 'g'), LEGACY_NAME[name]!);
+  }
+  return out;
+}

@@ -166,7 +166,7 @@ describe('the fixtures themselves', () => {
   it('records Infinity rather than losing it to JSON', () => {
     const first = loadSamples('landing-burn-autoland')[0]!;
     expect(first['kinematics.pitchRecord[0]']).toBe(Infinity);
-    expect(first['autopilot.finalXposPrediction']).toBe(Infinity);
+    expect(first['autopilot.finalXPosPrediction']).toBe(Infinity);
   });
 
   it('every scenario reaches a definite outcome, so the fixtures mean something', () => {
@@ -185,7 +185,7 @@ describe('the fixtures themselves', () => {
       const samples = loadSamples(id);
       const last = samples[samples.length - 1]!;
       expect(check(last), `${id} did not reach its expected outcome`).toBe(true);
-      expect(last['failures.inFightBreakUp'], `${id} broke up`).toBe(false);
+      expect(last['failures.inFlightBreakUp'], `${id} broke up`).toBe(false);
     }
   });
 

@@ -36,19 +36,19 @@ export function slewToward(
 
 /** flightControl.js:29 */
 export function frontFinActuation(state: SimState, goalPercentage: number, dt: number): void {
-  state.vehicle.frontFinExtention = slewToward(
-    state.vehicle.frontFinExtention,
+  state.vehicle.frontFinExtension = slewToward(
+    state.vehicle.frontFinExtension,
     goalPercentage,
-    C.finAcuationSpeed * dt,
+    C.finActuationSpeed * dt,
   );
 }
 
 /** flightControl.js:38 — note the `<=`, unlike the front fin. */
 export function aftFinActuation(state: SimState, goalPercentage: number, dt: number): void {
-  state.vehicle.aftFinExtention = slewToward(
-    state.vehicle.aftFinExtention,
+  state.vehicle.aftFinExtension = slewToward(
+    state.vehicle.aftFinExtension,
     goalPercentage,
-    C.finAcuationSpeed * dt,
+    C.finActuationSpeed * dt,
     true,
   );
 }
@@ -117,10 +117,10 @@ export function rcsControl(state: SimState, goalPercentage: number, dt: number):
 
 /** flightControl.js:70 — gimbal slews toward the commanded percentage. */
 export function thrustVectorControl(state: SimState, goalPercentage: number, dt: number): void {
-  state.vehicle.gimbolPosition = slewToward(
-    state.vehicle.gimbolPosition,
+  state.vehicle.gimbalPosition = slewToward(
+    state.vehicle.gimbalPosition,
     goalPercentage,
-    C.gimbolSpeed * dt,
+    C.gimbalSpeed * dt,
   );
 }
 

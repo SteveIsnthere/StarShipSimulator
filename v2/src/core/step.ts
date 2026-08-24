@@ -138,7 +138,7 @@ function checkIfBreakUp(s: SimState): void {
     forces.thermalPower > C.heatLimit ||
     forces.dynamicPressure > C.dynamicPressureLimit
   ) {
-    failures.inFightBreakUp = true;
+    failures.inFlightBreakUp = true;
     kinematics.angularVelocity = 0;
     vehicle.propellantMass = 0;
     engines.running = [false, false, false];
@@ -196,8 +196,8 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
 
   // 3a. updateBasicParams
   const finAreas = aero.updateVehicleInFlightMaxArea(
-    s.vehicle.frontFinExtention,
-    s.vehicle.aftFinExtention,
+    s.vehicle.frontFinExtension,
+    s.vehicle.aftFinExtension,
   );
   s.forces.frontFinEffectiveAreaFraction = finAreas.frontFinEffectiveAreaFraction;
   s.forces.aftFinEffectiveAreaFraction = finAreas.aftFinEffectiveAreaFraction;
@@ -211,9 +211,9 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const angles = aero.getAttackAngles(s.kinematics.pitch, s.kinematics.angleOfMotion);
   s.kinematics.angleOfAttack = angles.angleOfAttack;
   s.kinematics.angleInToTheWind = angles.angleInToTheWind;
-  s.vehicle.gimbolPointingDirection = eng.getGimbolPointingDirection(
+  s.vehicle.gimbalPointingDirection = eng.getGimbalPointingDirection(
     s.kinematics.pitch,
-    s.vehicle.gimbolPosition,
+    s.vehicle.gimbalPosition,
   );
 
   // updateThermal_DynamicPressure. Note the argument: `crossSectionalArea` is
@@ -254,12 +254,12 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.kinematics.altitude += s.kinematics.speedY * dt;
 
   s.kinematics.downRangeDistanceNextFrame = s.kinematics.downRangeDistance + s.kinematics.speedX * dt;
-  if (s.kinematics.downRangeDistanceNextFrame > C.planetCirconference) {
+  if (s.kinematics.downRangeDistanceNextFrame > C.planetCircumference) {
     s.kinematics.downRangeDistance =
-      s.kinematics.downRangeDistanceNextFrame - C.planetCirconference;
+      s.kinematics.downRangeDistanceNextFrame - C.planetCircumference;
   } else if (s.kinematics.downRangeDistanceNextFrame < 0) {
     s.kinematics.downRangeDistance =
-      s.kinematics.downRangeDistanceNextFrame + C.planetCirconference;
+      s.kinematics.downRangeDistanceNextFrame + C.planetCircumference;
   } else {
     s.kinematics.downRangeDistance = s.kinematics.downRangeDistanceNextFrame;
   }
@@ -284,7 +284,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const accelInputs: comp.AccelerationInputs = {
     angleOfMotion: s.kinematics.angleOfMotion,
     angleOfAttack: s.kinematics.angleOfAttack,
-    gimbolPointingDirection: s.vehicle.gimbolPointingDirection,
+    gimbalPointingDirection: s.vehicle.gimbalPointingDirection,
     aerodynamicDragAcceleration: s.forces.aerodynamicDragAcceleration,
     aerodynamicLiftAcceleration: s.forces.aerodynamicLiftAcceleration,
     thrustAcceleration: s.forces.thrustAcceleration,
@@ -312,7 +312,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.kinematics.pitch = rad(s.kinematics.pitch + s.kinematics.angularVelocity * dt);
   s.kinematics.angularVelocity += s.kinematics.angularAcceleration * dt;
 
-  s.forces.thrustVectorForce = eng.getThrustVectorForce(s.forces.thrust, s.vehicle.gimbolPosition);
+  s.forces.thrustVectorForce = eng.getThrustVectorForce(s.forces.thrust, s.vehicle.gimbalPosition);
   s.forces.frontFinDrag = aero.getFrontFinDrag(
     s.atmosphere.airDensity,
     s.kinematics.trueSpeed,
@@ -385,7 +385,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.world.environmentTime += dt;
   if (
     !s.failures.crashed &&
-    !s.failures.inFightBreakUp &&
+    !s.failures.inFlightBreakUp &&
     !s.status.onTheGround &&
     !s.status.landed
   ) {

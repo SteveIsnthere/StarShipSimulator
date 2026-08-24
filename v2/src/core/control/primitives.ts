@@ -2,12 +2,13 @@
  * Autopilot control primitives, ported from
  * backend/flightcontrol/autoPilotLowLevelFunctions.js.
  *
- * These are what every autopilot mode steers with. `presisionAlignment` is the
+ * These are what every autopilot mode steers with. `precisionAlignment` is the
  * heart of it: a second-order attitude controller that picks its actuator by
  * what is currently available — gimbal, fins, or RCS.
  *
- * The 2021 spelling is kept (`presisionAlignment`, `aera`, `Lowwer`) so the
- * port diffs line by line against the original. M1.10 renames mechanically.
+ * Names were corrected in M1.10; docs/RENAME-MAP.md is the dictionary for
+ * reading these against the 2021 originals (`presisionAlignment`, `…Aera`,
+ * `throttleLowwerLimmit`, `gimbol…`).
  *
  * Every one of these wrote `pitchControl` or `throttle` to a DOM input as its
  * last act. Here they write SimState instead — the value is identical, the
@@ -39,19 +40,19 @@ export function getPitchDifference(pitch: Rad, goal: Rad): number {
  */
 export function getEffectiveVerticalMaxThrust(
   running: readonly boolean[],
-  gimbolPointingDirection: Rad,
+  gimbalPointingDirection: Rad,
 ): number {
   const maxThrust = getWorkingEngineCount(running) * C.maxThrustPerRaptor;
 
   let coefficient: number;
-  if (0 <= gimbolPointingDirection && gimbolPointingDirection <= Math.PI / 2) {
-    coefficient = Math.cos(gimbolPointingDirection);
-  } else if (Math.PI / 2 < gimbolPointingDirection && gimbolPointingDirection <= Math.PI) {
-    coefficient = -Math.sin(gimbolPointingDirection - Math.PI / 2);
-  } else if (-Math.PI / 2 <= gimbolPointingDirection && gimbolPointingDirection < 0) {
-    coefficient = Math.cos(gimbolPointingDirection);
+  if (0 <= gimbalPointingDirection && gimbalPointingDirection <= Math.PI / 2) {
+    coefficient = Math.cos(gimbalPointingDirection);
+  } else if (Math.PI / 2 < gimbalPointingDirection && gimbalPointingDirection <= Math.PI) {
+    coefficient = -Math.sin(gimbalPointingDirection - Math.PI / 2);
+  } else if (-Math.PI / 2 <= gimbalPointingDirection && gimbalPointingDirection < 0) {
+    coefficient = Math.cos(gimbalPointingDirection);
   } else {
-    coefficient = Math.sin(gimbolPointingDirection + Math.PI / 2);
+    coefficient = Math.sin(gimbalPointingDirection + Math.PI / 2);
   }
 
   return maxThrust * coefficient;
@@ -82,7 +83,7 @@ export function getMaxSpeedWithSafeDynamicPressure(airDensity: number): number {
  *
  * @param timeNeededToAlign seconds; smaller is more aggressive
  */
-export function presisionAlignment(state: SimState, goal: Rad, timeNeededToAlign: number): void {
+export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign: number): void {
   const { kinematics, forces, status, vehicle, autopilot } = state;
 
   const pitchDifference = getPitchDifference(kinematics.pitch, goal);
@@ -144,7 +145,7 @@ export function presisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
     } else if (ratio <= -1) {
       yokePosition = -100;
     } else {
-      yokePosition = (Math.asin(ratio) * 100) / C.gimbolAngleLimit;
+      yokePosition = (Math.asin(ratio) * 100) / C.gimbalAngleLimit;
       if (yokePosition >= 100) {
         yokePosition = 100;
       } else if (yokePosition <= -100) {
@@ -161,15 +162,15 @@ export function presisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           kinematics.trueSpeed,
-          C.frontFinSurfaceAera,
+          C.frontFinSurfaceArea,
           C.finDragCoefficient,
         ) *
-          Math.sin(C.finAcuationMaxAngle) *
+          Math.sin(C.finActuationMaxAngle) *
           C.frontFinDistanceFromCenterOfMass +
         getDrag(
           state.atmosphere.airDensity,
           kinematics.trueSpeed,
-          C.aftFinSurfaceAera,
+          C.aftFinSurfaceArea,
           C.finDragCoefficient,
         ) *
           C.aftFinDistanceFromCenterOfMass;
@@ -180,15 +181,15 @@ export function presisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           kinematics.trueSpeed,
-          C.aftFinSurfaceAera,
+          C.aftFinSurfaceArea,
           C.finDragCoefficient,
         ) *
-          Math.sin(C.finAcuationMaxAngle) *
+          Math.sin(C.finActuationMaxAngle) *
           C.aftFinDistanceFromCenterOfMass +
         getDrag(
           state.atmosphere.airDensity,
           kinematics.trueSpeed,
-          C.frontFinSurfaceAera,
+          C.frontFinSurfaceArea,
           C.finDragCoefficient,
         ) *
           C.frontFinDistanceFromCenterOfMass;
@@ -223,10 +224,10 @@ export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
       getThrust(engines.running, vehicle.throttleCurrent)) *
     100;
 
-  if (throttleGoalPercentage > C.throttleUpperLimmit) {
-    throttleGoalPercentage = C.throttleUpperLimmit;
-  } else if (throttleGoalPercentage < C.throttleLowwerLimmit) {
-    throttleGoalPercentage = C.throttleLowwerLimmit;
+  if (throttleGoalPercentage > C.throttleUpperLimit) {
+    throttleGoalPercentage = C.throttleUpperLimit;
+  } else if (throttleGoalPercentage < C.throttleLowerLimit) {
+    throttleGoalPercentage = C.throttleLowerLimit;
   }
   vehicle.throttle = throttleGoalPercentage;
 }
@@ -236,13 +237,13 @@ export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: nu
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
     ((goalTWR * vehicle.vehicleMass * C.gravity) /
-      getEffectiveVerticalMaxThrust(engines.running, vehicle.gimbolPointingDirection)) *
+      getEffectiveVerticalMaxThrust(engines.running, vehicle.gimbalPointingDirection)) *
     100;
 
-  if (throttleGoalPercentage > C.throttleUpperLimmit) {
-    throttleGoalPercentage = C.throttleUpperLimmit;
-  } else if (throttleGoalPercentage < C.throttleLowwerLimmit) {
-    throttleGoalPercentage = C.throttleLowwerLimmit;
+  if (throttleGoalPercentage > C.throttleUpperLimit) {
+    throttleGoalPercentage = C.throttleUpperLimit;
+  } else if (throttleGoalPercentage < C.throttleLowerLimit) {
+    throttleGoalPercentage = C.throttleLowerLimit;
   }
   vehicle.throttle = throttleGoalPercentage;
 }
@@ -250,7 +251,7 @@ export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: nu
 /**
  * autoPilotLowLevelFunctions.js:173 — steer toward a horizontal speed.
  *
- * Note that it calls presisionAlignment TWICE in the near-target case, the
+ * Note that it calls precisionAlignment TWICE in the near-target case, the
  * second call overriding the first with a scaled-down angle. Wasteful, and
  * ported as found: the first call has side effects (it can write rcsThrust),
  * so collapsing it would change behaviour.
@@ -265,18 +266,18 @@ export function horizontalSteering(
   const speedDifference = state.kinematics.speedX - targetSpeed;
 
   if (speedDifference < 0) {
-    presisionAlignment(state, maxAngle, timeNeededToAlign);
+    precisionAlignment(state, maxAngle, timeNeededToAlign);
     if (-speedDifference < speedDifferenceThreshold) {
-      presisionAlignment(
+      precisionAlignment(
         state,
         rad((maxAngle * -speedDifference) / speedDifferenceThreshold),
         timeNeededToAlign,
       );
     }
   } else {
-    presisionAlignment(state, rad(-maxAngle), timeNeededToAlign);
+    precisionAlignment(state, rad(-maxAngle), timeNeededToAlign);
     if (speedDifference < speedDifferenceThreshold) {
-      presisionAlignment(
+      precisionAlignment(
         state,
         rad((-maxAngle * speedDifference) / speedDifferenceThreshold),
         timeNeededToAlign,
@@ -389,13 +390,13 @@ export function controlHorizontalAccelerationByAeroBreaking(
   }
 
   if (goalHorizontalAcc < 0) {
-    presisionAlignment(
+    precisionAlignment(
       state,
       rad(autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle - Math.PI / 2),
       1.5,
     );
   } else {
-    presisionAlignment(
+    precisionAlignment(
       state,
       rad(-autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle + Math.PI / 2),
       1.5,
@@ -418,7 +419,7 @@ export function raptorAutoShutDown_KeepMinTWRBelow1(
   const { engines, vehicle } = state;
   const running = engines.running;
   const minThrust =
-    getWorkingEngineCount(running) * C.maxThrustPerRaptor * C.throttleLowwerLimmit * 0.01;
+    getWorkingEngineCount(running) * C.maxThrustPerRaptor * C.throttleLowerLimit * 0.01;
 
   if (getTWR(minThrust, vehicle.vehicleMass) > 1) {
     const count = getWorkingEngineCount(running);

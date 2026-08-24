@@ -35,7 +35,7 @@ export function getTotalMaxThrust(running: readonly boolean[]): number {
 /** physics.js:275 — at the lower throttle limit. @returns N */
 export function getTotalMinThrust(running: readonly boolean[]): number {
   return (
-    getWorkingEngineCount(running) * C.maxThrustPerRaptor * C.throttleLowwerLimmit * 0.01
+    getWorkingEngineCount(running) * C.maxThrustPerRaptor * C.throttleLowerLimit * 0.01
   );
 }
 
@@ -45,8 +45,8 @@ export function getThrust(running: readonly boolean[], throttleCurrent: number):
 }
 
 /** physics.js:283 — the lateral component produced by gimbal deflection. @returns N */
-export function getThrustVectorForce(thrust: number, gimbolPosition: number): number {
-  return thrust * Math.sin(0.01 * gimbolPosition * C.gimbolAngleLimit);
+export function getThrustVectorForce(thrust: number, gimbalPosition: number): number {
+  return thrust * Math.sin(0.01 * gimbalPosition * C.gimbalAngleLimit);
 }
 
 /**
@@ -73,8 +73,8 @@ export function getOffAxisThrustDifference(
 }
 
 /** physics.js:518 — nozzle direction in world space, wrapped to (-pi, pi]. */
-export function getGimbolPointingDirection(pitch: Rad, gimbolPosition: number): Rad {
-  let d: number = pitch - 0.01 * gimbolPosition * C.gimbolAngleLimit;
+export function getGimbalPointingDirection(pitch: Rad, gimbalPosition: number): Rad {
+  let d: number = pitch - 0.01 * gimbalPosition * C.gimbalAngleLimit;
   if (d > Math.PI) {
     d = d - 2 * Math.PI;
   } else if (d < -Math.PI) {
@@ -168,12 +168,12 @@ export function commandIgnition(state: SimState, engine: RaptorIndex): void {
 /**
  * physics.js:456 — an engine may fail to light at all.
  *
- * `raptorIgnitionFaliureRate` is 0 in the shipped configuration, so this never
+ * `raptorIgnitionFailureRate` is 0 in the shipped configuration, so this never
  * fires today; it draws anyway, exactly as the 2021 code did, so that turning
  * the rate up does not shift the delay stream.
  */
 export function rollIgnitionFailure(state: SimState, engine: RaptorIndex): boolean {
-  const failed = draw(state.rng, 'ignitionFailure') < C.raptorIgnitionFaliureRate;
+  const failed = draw(state.rng, 'ignitionFailure') < C.raptorIgnitionFailureRate;
   if (failed) state.engines.failed[engine] = true;
   return failed;
 }

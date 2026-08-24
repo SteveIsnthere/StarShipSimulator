@@ -28,7 +28,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { runInContext } from 'node:vm';
-import { loadLegacy } from './legacy';
+import { loadLegacy, toLegacyKeys, toLegacyName, toLegacySource } from './legacy';
 import { createInitialState, type SimState } from '$core/state';
 import { step } from '$core/step';
 
@@ -38,7 +38,15 @@ const legacy = loadLegacy([
   'backend/flightcontrol/flightControl.js',
 ]);
 const ctx = legacy as unknown as Record<string, unknown>;
-const evalLegacy = (src: string): unknown => runInContext(src, legacy as never, { filename: '<step>' });
+
+/** Read a legacy global by its v2 name, translating through the rename table. */
+function readLegacy(name: string): unknown {
+  return (legacy as unknown as Record<string, unknown>)[toLegacyName(name)];
+}
+// Snippets are written in v2 names and translated to 2021 spellings on the way
+// in, so this file never has to carry a misspelling as a bare string.
+const evalLegacy = (src: string): unknown =>
+  runInContext(toLegacySource(src), legacy as never, { filename: '<step>' });
 
 /**
  * updateBackEnd() minus its two impurities: the Date.now() frame timing at the
@@ -83,10 +91,10 @@ const LEGACY_STEP = `
   // updateSpactialMotion
   altitude += speedY / renderTimeInterval
   downRangeDistanceNextFrame = downRangeDistance + speedX / renderTimeInterval
-  if (downRangeDistanceNextFrame > planetCirconference) {
-    downRangeDistance = downRangeDistanceNextFrame - planetCirconference
+  if (downRangeDistanceNextFrame > planetCircumference) {
+    downRangeDistance = downRangeDistanceNextFrame - planetCircumference
   } else if (downRangeDistanceNextFrame < 0) {
-    downRangeDistance = downRangeDistanceNextFrame + planetCirconference
+    downRangeDistance = downRangeDistanceNextFrame + planetCircumference
   } else { downRangeDistance = downRangeDistanceNextFrame }
   speedX += accelerationX / renderTimeInterval
   speedY += (accelerationY + orbitGravityAccCompensation) / renderTimeInterval
@@ -123,73 +131,73 @@ const LEGACY_STEP = `
 
 /** Fields compared every step. SimState path -> legacy global. */
 const COMPARED: ReadonlyArray<readonly [(s: SimState) => unknown, string]> = [
-  [(s) => s.kinematics.altitude, 'altitude'],
-  [(s) => s.kinematics.downRangeDistance, 'downRangeDistance'],
-  [(s) => s.kinematics.downRangeDistanceNextFrame, 'downRangeDistanceNextFrame'],
-  [(s) => s.kinematics.distanceToPlanetCenter, 'distanceToPlanetCenter'],
-  [(s) => s.kinematics.orbitGravityAccCompensation, 'orbitGravityAccCompensation'],
-  [(s) => s.kinematics.speedX, 'speedX'],
-  [(s) => s.kinematics.speedY, 'speedY'],
-  [(s) => s.kinematics.trueSpeed, 'trueSpeed'],
-  [(s) => s.kinematics.machSpeed, 'machSpeed'],
-  [(s) => s.kinematics.accelerationX, 'accelerationX'],
-  [(s) => s.kinematics.accelerationY, 'accelerationY'],
-  [(s) => s.kinematics.totalAcceleration, 'totalAcceleration'],
-  [(s) => s.kinematics.pitch, 'pitch'],
-  [(s) => s.kinematics.pitchRateOfChange, 'pitchRateOfChange'],
-  [(s) => s.kinematics.angularVelocity, 'angularVelocity'],
-  [(s) => s.kinematics.angularAcceleration, 'angularAcceleration'],
-  [(s) => s.kinematics.angleOfMotion, 'angleOfMotion'],
-  [(s) => s.kinematics.angleOfAttack, 'angleOfAttack'],
-  [(s) => s.kinematics.angleInToTheWind, 'angleInToTheWind'],
-  [(s) => s.atmosphere.airTemperature, 'airTemperature'],
-  [(s) => s.atmosphere.airPressure, 'airPressure'],
-  [(s) => s.atmosphere.airDensity, 'airDensity'],
-  [(s) => s.forces.thrust, 'thrust'],
-  [(s) => s.forces.thrustAcceleration, 'thrustAcceleration'],
-  [(s) => s.forces.aerodynamicDrag, 'aerodynamicDrag'],
-  [(s) => s.forces.aerodynamicLift, 'aerodynamicLift'],
-  [(s) => s.forces.aerodynamicDragAcceleration, 'aerodynamicDragAcceleration'],
-  [(s) => s.forces.aerodynamicLiftAcceleration, 'aerodynamicLiftAcceleration'],
-  [(s) => s.forces.crossSectionalArea, 'crossSectionalArea'],
-  [(s) => s.forces.thermalPower, 'thermalPower'],
-  [(s) => s.forces.dynamicPressure, 'dynamicPressure'],
-  [(s) => s.forces.thrustVectorForce, 'thrustVectorForce'],
-  [(s) => s.forces.thrustVectorAcceleration, 'thrustVectorAcceleration'],
-  [(s) => s.forces.frontFinDrag, 'frontFinDrag'],
-  [(s) => s.forces.aftFinDrag, 'aftFinDrag'],
-  [(s) => s.forces.angularDragAcceleration, 'angularDragAcceleration'],
-  [(s) => s.forces.frontFinDragAngularAcceleration, 'frontFinDragAngularAcceleration'],
-  [(s) => s.forces.aftFinDragAngularAcceleration, 'aftFinDragAngularAcceleration'],
-  [(s) => s.forces.rcsThrustAngularAcceleration, 'rcsThrustAngularAcceleration'],
-  [(s) => s.forces.offAxisThrustDifferenceAcceleration, 'offAxisThrustDifferenceAcceleration'],
-  [(s) => s.forces.rcsThrust, 'rcsThrust'],
-  [(s) => s.forces.twr, 'twr'],
-  [(s) => s.forces.perceivedG, 'perceivedG'],
-  [(s) => s.forces.perceivedG_X, 'perceivedG_X'],
-  [(s) => s.forces.perceivedG_Y, 'perceivedG_Y'],
-  [(s) => s.forces.frontFinEffectiveAreaFraction, 'frontFinEffectiveAreaFraction'],
-  [(s) => s.forces.aftFinEffectiveAreaFraction, 'aftFinEffectiveAreaFraction'],
-  [(s) => s.vehicle.vehicleMass, 'vehicleMass'],
-  [(s) => s.vehicle.propellantMass, 'propellantMass'],
-  [(s) => s.vehicle.vehicleMomentOfInertia, 'vehicleMomentOfInertia'],
-  [(s) => s.vehicle.vehicleInFlightMaxArea, 'vehicleInFlightMaxArea'],
-  [(s) => s.vehicle.throttleCurrent, 'throttleCurrent'],
-  [(s) => s.vehicle.gimbolPosition, 'gimbolPosition'],
-  [(s) => s.vehicle.gimbolPointingDirection, 'gimbolPointingDirection'],
-  [(s) => s.vehicle.frontFinExtention, 'frontFinExtention'],
-  [(s) => s.vehicle.aftFinExtention, 'aftFinExtention'],
-  [(s) => s.vehicle.rcsRunTimeRemaining, 'rcsRunTimeRemaining'],
-  [(s) => s.status.onTheGround, 'onTheGround'],
-  [(s) => s.status.landed, 'landed'],
-  [(s) => s.failures.crashed, 'crashed'],
-  [(s) => s.failures.inFightBreakUp, 'inFightBreakUp'],
-  [(s) => s.failures.fuelRunOut, 'fuelRunOut'],
+  [(s) => s.kinematics.altitude, toLegacyName('altitude')],
+  [(s) => s.kinematics.downRangeDistance, toLegacyName('downRangeDistance')],
+  [(s) => s.kinematics.downRangeDistanceNextFrame, toLegacyName('downRangeDistanceNextFrame')],
+  [(s) => s.kinematics.distanceToPlanetCenter, toLegacyName('distanceToPlanetCenter')],
+  [(s) => s.kinematics.orbitGravityAccCompensation, toLegacyName('orbitGravityAccCompensation')],
+  [(s) => s.kinematics.speedX, toLegacyName('speedX')],
+  [(s) => s.kinematics.speedY, toLegacyName('speedY')],
+  [(s) => s.kinematics.trueSpeed, toLegacyName('trueSpeed')],
+  [(s) => s.kinematics.machSpeed, toLegacyName('machSpeed')],
+  [(s) => s.kinematics.accelerationX, toLegacyName('accelerationX')],
+  [(s) => s.kinematics.accelerationY, toLegacyName('accelerationY')],
+  [(s) => s.kinematics.totalAcceleration, toLegacyName('totalAcceleration')],
+  [(s) => s.kinematics.pitch, toLegacyName('pitch')],
+  [(s) => s.kinematics.pitchRateOfChange, toLegacyName('pitchRateOfChange')],
+  [(s) => s.kinematics.angularVelocity, toLegacyName('angularVelocity')],
+  [(s) => s.kinematics.angularAcceleration, toLegacyName('angularAcceleration')],
+  [(s) => s.kinematics.angleOfMotion, toLegacyName('angleOfMotion')],
+  [(s) => s.kinematics.angleOfAttack, toLegacyName('angleOfAttack')],
+  [(s) => s.kinematics.angleInToTheWind, toLegacyName('angleInToTheWind')],
+  [(s) => s.atmosphere.airTemperature, toLegacyName('airTemperature')],
+  [(s) => s.atmosphere.airPressure, toLegacyName('airPressure')],
+  [(s) => s.atmosphere.airDensity, toLegacyName('airDensity')],
+  [(s) => s.forces.thrust, toLegacyName('thrust')],
+  [(s) => s.forces.thrustAcceleration, toLegacyName('thrustAcceleration')],
+  [(s) => s.forces.aerodynamicDrag, toLegacyName('aerodynamicDrag')],
+  [(s) => s.forces.aerodynamicLift, toLegacyName('aerodynamicLift')],
+  [(s) => s.forces.aerodynamicDragAcceleration, toLegacyName('aerodynamicDragAcceleration')],
+  [(s) => s.forces.aerodynamicLiftAcceleration, toLegacyName('aerodynamicLiftAcceleration')],
+  [(s) => s.forces.crossSectionalArea, toLegacyName('crossSectionalArea')],
+  [(s) => s.forces.thermalPower, toLegacyName('thermalPower')],
+  [(s) => s.forces.dynamicPressure, toLegacyName('dynamicPressure')],
+  [(s) => s.forces.thrustVectorForce, toLegacyName('thrustVectorForce')],
+  [(s) => s.forces.thrustVectorAcceleration, toLegacyName('thrustVectorAcceleration')],
+  [(s) => s.forces.frontFinDrag, toLegacyName('frontFinDrag')],
+  [(s) => s.forces.aftFinDrag, toLegacyName('aftFinDrag')],
+  [(s) => s.forces.angularDragAcceleration, toLegacyName('angularDragAcceleration')],
+  [(s) => s.forces.frontFinDragAngularAcceleration, toLegacyName('frontFinDragAngularAcceleration')],
+  [(s) => s.forces.aftFinDragAngularAcceleration, toLegacyName('aftFinDragAngularAcceleration')],
+  [(s) => s.forces.rcsThrustAngularAcceleration, toLegacyName('rcsThrustAngularAcceleration')],
+  [(s) => s.forces.offAxisThrustDifferenceAcceleration, toLegacyName('offAxisThrustDifferenceAcceleration')],
+  [(s) => s.forces.rcsThrust, toLegacyName('rcsThrust')],
+  [(s) => s.forces.twr, toLegacyName('twr')],
+  [(s) => s.forces.perceivedG, toLegacyName('perceivedG')],
+  [(s) => s.forces.perceivedG_X, toLegacyName('perceivedG_X')],
+  [(s) => s.forces.perceivedG_Y, toLegacyName('perceivedG_Y')],
+  [(s) => s.forces.frontFinEffectiveAreaFraction, toLegacyName('frontFinEffectiveAreaFraction')],
+  [(s) => s.forces.aftFinEffectiveAreaFraction, toLegacyName('aftFinEffectiveAreaFraction')],
+  [(s) => s.vehicle.vehicleMass, toLegacyName('vehicleMass')],
+  [(s) => s.vehicle.propellantMass, toLegacyName('propellantMass')],
+  [(s) => s.vehicle.vehicleMomentOfInertia, toLegacyName('vehicleMomentOfInertia')],
+  [(s) => s.vehicle.vehicleInFlightMaxArea, toLegacyName('vehicleInFlightMaxArea')],
+  [(s) => s.vehicle.throttleCurrent, toLegacyName('throttleCurrent')],
+  [(s) => s.vehicle.gimbalPosition, toLegacyName('gimbalPosition')],
+  [(s) => s.vehicle.gimbalPointingDirection, toLegacyName('gimbalPointingDirection')],
+  [(s) => s.vehicle.frontFinExtension, toLegacyName('frontFinExtension')],
+  [(s) => s.vehicle.aftFinExtension, toLegacyName('aftFinExtension')],
+  [(s) => s.vehicle.rcsRunTimeRemaining, toLegacyName('rcsRunTimeRemaining')],
+  [(s) => s.status.onTheGround, toLegacyName('onTheGround')],
+  [(s) => s.status.landed, toLegacyName('landed')],
+  [(s) => s.failures.crashed, toLegacyName('crashed')],
+  [(s) => s.failures.inFlightBreakUp, toLegacyName('inFlightBreakUp')],
+  [(s) => s.failures.fuelRunOut, toLegacyName('fuelRunOut')],
 ];
 
 /** Push a SimState into the legacy context so both start identical. */
 function seedLegacy(s: SimState, dt: number): void {
-  Object.assign(ctx, {
+  Object.assign(ctx, toLegacyKeys({
     renderTimeInterval: 1 / dt,
     frameRate: 60,
     timeAccel: 1,
@@ -238,10 +246,10 @@ function seedLegacy(s: SimState, dt: number): void {
     vehicleInFlightMaxArea: s.vehicle.vehicleInFlightMaxArea,
     throttle: s.vehicle.throttle,
     throttleCurrent: s.vehicle.throttleCurrent,
-    gimbolPosition: s.vehicle.gimbolPosition,
-    gimbolPointingDirection: s.vehicle.gimbolPointingDirection,
-    frontFinExtention: s.vehicle.frontFinExtention,
-    aftFinExtention: s.vehicle.aftFinExtention,
+    gimbalPosition: s.vehicle.gimbalPosition,
+    gimbalPointingDirection: s.vehicle.gimbalPointingDirection,
+    frontFinExtension: s.vehicle.frontFinExtension,
+    aftFinExtension: s.vehicle.aftFinExtension,
     rcsRunTimeRemaining: s.vehicle.rcsRunTimeRemaining,
     raptorN1Running: s.engines.running[0],
     raptorN2Running: s.engines.running[1],
@@ -258,15 +266,15 @@ function seedLegacy(s: SimState, dt: number): void {
     forceDump: s.status.forceDump,
     translationModeOn: s.status.translationModeOn,
     crashed: s.failures.crashed,
-    inFightBreakUp: s.failures.inFightBreakUp,
+    inFlightBreakUp: s.failures.inFlightBreakUp,
     fuelRunOut: s.failures.fuelRunOut,
     pitchControl: s.autopilot.pitchControl,
     firstTimeLanded: false,
     // Per-frame rates: exactly ratePerSecond * dt.
     throttleSpeedPerFrame: 60 * dt,
-    gimbolSpeedPerFrame: 600 * dt,
-    finAcuationSpeedPerFrame: 120 * dt,
-  });
+    gimbalSpeedPerFrame: 600 * dt,
+    finActuationSpeedPerFrame: 120 * dt,
+  }));
 }
 
 /**
@@ -411,7 +419,7 @@ describe('full-loop parity with updateBackEnd()', () => {
       'crash',
     );
     expect(s.failures.crashed).toBe(true);
-    expect(ctx['crashed']).toBe(true);
+    expect(readLegacy('crashed')).toBe(true);
   });
 
   it('fuel exhaustion, so the out-of-fuel branch is exercised', () => {

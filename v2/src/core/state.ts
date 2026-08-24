@@ -8,8 +8,8 @@
  * Rules for this file:
  *   - Every field carries its unit in JSDoc. SI throughout; angles use the
  *     branded Rad type from ./units so degrees cannot be passed by mistake.
- *   - Names are the 2021 names, misspellings included (`gimbolPosition`,
- *     `presisionAlignment`, `raptorN1Fail`). Porting diffs stay line-by-line
+ *   - Names are the 2021 names, misspellings included (`gimbalPosition`,
+ *     `precisionAlignment`, `raptorN1Fail`). Porting diffs stay line-by-line
  *     comparable until goldens lock behaviour; M1.10 renames mechanically with
  *     a mapping table at docs/RENAME-MAP.md.
  *   - No methods. State is data; behaviour lives in step.ts and physics/.
@@ -202,15 +202,15 @@ export interface VehicleState {
   /** % — actual throttle, slews toward `throttle` at `throttleSpeed`. */
   throttleCurrent: number;
 
-  /** % of `gimbolAngleLimit`, -100..100. Misspelled in 2021; renamed at M1.10. */
-  gimbolPosition: number;
+  /** % of `gimbalAngleLimit`, -100..100. Misspelled in 2021; renamed at M1.10. */
+  gimbalPosition: number;
   /** rad — resulting deflection. */
-  gimbolPointingDirection: Rad;
+  gimbalPointingDirection: Rad;
 
   /** % — 0..100. */
-  frontFinExtention: number;
+  frontFinExtension: number;
   /** % — 0..100. */
-  aftFinExtention: number;
+  aftFinExtension: number;
 
   /** s — cold gas remaining for RCS. */
   rcsRunTimeRemaining: number;
@@ -254,19 +254,19 @@ export interface WarningState {
   fuelLow: boolean;
   heatDamagedWarning: boolean;
   overPressureWarning: boolean;
-  overGloadWarning: boolean;
+  overGLoadWarning: boolean;
 }
 
 export interface FailureState {
   crashed: boolean;
-  inFightBreakUp: boolean;
+  inFlightBreakUp: boolean;
   coldGasRunOut: boolean;
   fuelRunOut: boolean;
   heatDamaged: boolean;
   overPressure: boolean;
-  overGload: boolean;
+  overGLoad: boolean;
   flippedOver: boolean;
-  randomFaliure: boolean;
+  randomFailure: boolean;
 }
 
 export interface AutopilotState {
@@ -280,9 +280,9 @@ export interface AutopilotState {
   pitchHoldOn: boolean;
 
   autoBoostBackOn: boolean;
-  boostBackinitCompleted: boolean;
+  boostBackInitCompleted: boolean;
   boostBackAeroDeceleration: boolean;
-  boostBackDecelerationStageinitCompleted: boolean;
+  boostBackDecelerationStageInitCompleted: boolean;
   /**
    * s — countdown replacing autoPilotModes.js:118's
    * `setTimeout(..., 5000 / timeAccel)`, which checked whether aerodynamic
@@ -295,32 +295,32 @@ export interface AutopilotState {
   boostBackDecelerationCheckCountdown: number | null;
   accelerationStageCompleted: boolean;
   /** -1, 0 or 1. */
-  boostbackDirection: number;
+  boostBackDirection: number;
   /** s. */
   decelerationStageEstDuration: number;
   /** m — predicted touchdown position; Infinity until predicted. */
-  finalXposPrediction: number;
+  finalXPosPrediction: number;
   /** s — Infinity until predicted. */
   freeFallTimeRemainingPrediction: number;
 
   autoLandOn: boolean;
   initVehicleConfigCompleted: boolean;
   /** m. */
-  landingSiteXpos: number;
+  landingSiteXPos: number;
   dualRaptorMode: boolean;
   trialRaptorMode: boolean;
 
-  aeroDesentCompleted: boolean;
+  aeroDescentCompleted: boolean;
   /** Fraction, max 1. Undefined until the aero-descent stage runs. */
   fineTunePercentage: number | undefined;
 
   /** m. */
   bellyFlopTriggerAltitude: number;
-  flipStageInitted: boolean;
+  flipStageInitialised: boolean;
   flipCompleted: boolean;
 
   horizontalAdjustmentStageCompleted: boolean;
-  horizontalAdjustmentStageInitted: boolean;
+  horizontalAdjustmentStageInitialised: boolean;
   /** s — undefined until the stage is initialised. */
   horizontalAdjustmentTimeLeft: number | undefined;
   /** m/s — undefined until computed. */
@@ -330,14 +330,14 @@ export interface AutopilotState {
 
   /** m — undefined until computed. */
   finalStagePessimisticAltitude: number | undefined;
-  finalDesentStageInitted: boolean;
+  finalDescentStageInitialised: boolean;
   /** m — undefined until computed. */
   distanceToGround: number | undefined;
-  finalDesentStageCompleted: boolean;
+  finalDescentStageCompleted: boolean;
 
   autoMaxThrustOn: boolean;
   autoTakeOffOn: boolean;
-  autoTakeOffInited: boolean;
+  autoTakeOffInitialised: boolean;
 
   /**
    * m/s — vertical speed target during the horizontal-adjustment stage.
@@ -418,8 +418,8 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
 
     kinematics: {
       altitude,
-      downRangeDistance: C.starBaseXpos,
-      downRangeDistanceNextFrame: C.starBaseXpos,
+      downRangeDistance: C.starBaseXPos,
+      downRangeDistanceNextFrame: C.starBaseXPos,
       distanceToPlanetCenter,
       orbitalVelocityAtCurrentAltitude: Math.sqrt(
         (C.gravitationalConstant * C.planetMass) / distanceToPlanetCenter,
@@ -477,8 +477,8 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
 
       // Verbatim from initControlSurface(): area * sin(maxAngle * extension * 0.01)
       // with extension 0, so both are 0 at spawn. See M2.3.
-      frontFinEffectiveAreaFraction: C.frontFinSurfaceAera * Math.sin(C.finAcuationMaxAngle * 0 * 0.01),
-      aftFinEffectiveAreaFraction: C.aftFinSurfaceAera * Math.sin(C.finAcuationMaxAngle * 0 * 0.01),
+      frontFinEffectiveAreaFraction: C.frontFinSurfaceArea * Math.sin(C.finActuationMaxAngle * 0 * 0.01),
+      aftFinEffectiveAreaFraction: C.aftFinSurfaceArea * Math.sin(C.finActuationMaxAngle * 0 * 0.01),
 
       thermalPower: 0,
       dynamicPressure: 0,
@@ -497,11 +497,11 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       throttle: 100,
       throttleCurrent: 100,
 
-      gimbolPosition: 0,
-      gimbolPointingDirection: rad(0),
+      gimbalPosition: 0,
+      gimbalPointingDirection: rad(0),
 
-      frontFinExtention: 0,
-      aftFinExtention: 0,
+      frontFinExtension: 0,
+      aftFinExtension: 0,
 
       rcsRunTimeRemaining: C.rcsRunTimeRemaining,
     },
@@ -529,19 +529,19 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       fuelLow: false,
       heatDamagedWarning: false,
       overPressureWarning: false,
-      overGloadWarning: false,
+      overGLoadWarning: false,
     },
 
     failures: {
       crashed: false,
-      inFightBreakUp: false,
+      inFlightBreakUp: false,
       coldGasRunOut: false,
       fuelRunOut: false,
       heatDamaged: false,
       overPressure: false,
-      overGload: false,
+      overGLoad: false,
       flippedOver: false,
-      randomFaliure: false,
+      randomFailure: false,
     },
 
     autopilot: {
@@ -552,43 +552,43 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       pitchHoldOn: false,
 
       autoBoostBackOn: false,
-      boostBackinitCompleted: false,
+      boostBackInitCompleted: false,
       boostBackAeroDeceleration: true,
-      boostBackDecelerationStageinitCompleted: false,
+      boostBackDecelerationStageInitCompleted: false,
       boostBackDecelerationCheckCountdown: null,
       accelerationStageCompleted: false,
-      boostbackDirection: 0,
+      boostBackDirection: 0,
       decelerationStageEstDuration: 0,
-      finalXposPrediction: Infinity,
+      finalXPosPrediction: Infinity,
       freeFallTimeRemainingPrediction: Infinity,
 
       autoLandOn: false,
       initVehicleConfigCompleted: false,
-      landingSiteXpos: C.starBaseXpos,
+      landingSiteXPos: C.starBaseXPos,
       dualRaptorMode: false,
       trialRaptorMode: false,
 
-      aeroDesentCompleted: false,
+      aeroDescentCompleted: false,
       fineTunePercentage: undefined,
 
       bellyFlopTriggerAltitude: 0,
-      flipStageInitted: false,
+      flipStageInitialised: false,
       flipCompleted: false,
 
       horizontalAdjustmentStageCompleted: false,
-      horizontalAdjustmentStageInitted: false,
+      horizontalAdjustmentStageInitialised: false,
       horizontalAdjustmentTimeLeft: undefined,
       horizontalAdjustmentDesiredSpeed: undefined,
       effectiveVerticalMaxThrust: undefined,
 
       finalStagePessimisticAltitude: undefined,
-      finalDesentStageInitted: false,
+      finalDescentStageInitialised: false,
       distanceToGround: undefined,
-      finalDesentStageCompleted: false,
+      finalDescentStageCompleted: false,
 
       autoMaxThrustOn: false,
       autoTakeOffOn: false,
-      autoTakeOffInited: false,
+      autoTakeOffInitialised: false,
 
       horizontalAdjustmentVerticalSpeedLimit: C.horizontalAdjustmentVerticalSpeedLimit,
       horizontalAdjustmentHorizontalSpeedLimit: C.horizontalAdjustmentHorizontalSpeedLimit,
