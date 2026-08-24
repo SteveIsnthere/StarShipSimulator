@@ -25,7 +25,7 @@ acceptance line.
 - [x] **M1.1 SimState + constants** — `core/state.ts`, `core/constants.ts`: typed state and
   every constant from `initBackEnd.js`, values verbatim, units in JSDoc. `core/units.ts`
   with branded `Rad`/`Deg`. Accept: typechecks; constants diff clean against legacy values.
-- [ ] **M1.2 Seeded RNG** — `core/rng.ts`: counter-based streams (`ignitionDelay`,
+- [x] **M1.2 Seeded RNG** — `core/rng.ts`: counter-based streams (`ignitionDelay`,
   `ignitionFailure`), counters in SimState. Tests: reproducibility, stream independence.
   Accept: 10k-draw sequence stable; drawing from one stream leaves the other untouched.
 - [ ] **M1.3 Port atmosphere + aero + thermal** — `physics.js` verbatim (quadrant ladders
@@ -157,3 +157,13 @@ acceptance line.
   live. `tests/types/units.test-d.ts` asserts at compile time that degrees cannot be passed where
   radians are expected: 7 `@ts-expect-error` directives, load-bearing because an unused one is
   itself an error (verified by mutation). 231 tests green.
+- 2026-08-24 · M1.2 · `core/rng.ts`: counter-based, value = pure hash of (seed, stream, counter);
+  counters live in `SimState.rng`, seed defaults to `DEFAULT_SEED`. Streams keyed by FNV-1a of their
+  name, values by a murmur3 finaliser. Confirmed the legacy tree has exactly two draw sites —
+  physics.js:452 (`ignitionDelay`) and :457 (`ignitionFailure`). 15 tests: 10k-draw stability,
+  seed sensitivity (0/1000 elements shared), a committed 5-value sequence, seek (`peek(n)` == nth
+  sequential draw, and does not advance), independence (1000 draws on one stream leave the other
+  bit-identical), chi-square uniformity, and replay-from-snapshot. Mutation-checked twice, and the
+  second mutation exposed a real flaw in my own test: it scaled covariance by an *assumed* variance
+  of 1/12, so a degenerate counter-ramp hash passed it vacuously. Rewritten to compute true Pearson
+  correlation and to assert variance ≈ 1/12; the same mutation now fails 4 tests instead of 2.

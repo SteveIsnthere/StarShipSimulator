@@ -15,6 +15,7 @@
  *   - No methods. State is data; behaviour lives in step.ts and physics/.
  */
 import * as C from './constants';
+import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
 
 /** Which of the three Raptors a field refers to. Indices 0..2 are N1..N3. */
@@ -305,6 +306,12 @@ export interface AutopilotState {
 
 /** The whole simulation, as one value. */
 export interface SimState {
+  /**
+   * Seeded randomness. Counters live here rather than inside the generator so
+   * that a SimState determines every future draw — that is what makes step()
+   * pure and golden fixtures possible. See core/rng.ts.
+   */
+  rng: RngState;
   world: WorldState;
   atmosphere: AtmosphereState;
   kinematics: KinematicsState;
@@ -320,17 +327,25 @@ export interface SimState {
 // ---------------------------------------------------------------------------
 
 /**
+ * Default RNG seed. Scenarios override it; goldens pin it. Arbitrary but fixed —
+ * changing it changes every fixture, so it is a Bug-fix/Fidelity-tier decision.
+ */
+export const DEFAULT_SEED = 0x5741_4c4b;
+
+/**
  * The spawn state, mirroring initBackEnd() field for field and in its order.
  *
  * The 2021 init order matters and is preserved: `altitude` is `vehicleHeight / 2`,
  * `distanceToPlanetCenter` derives from it, `orbitalVelocityAtCurrentAltitude`
  * from that, and `accelerationY` starts at -gravity rather than 0.
  */
-export function createInitialState(): SimState {
+export function createInitialState(seed = DEFAULT_SEED): SimState {
   const altitude = C.vehicleHeight / 2;
   const distanceToPlanetCenter = C.planetRadius + altitude;
 
   return {
+    rng: createRng(seed),
+
     world: {
       environmentTime: 0,
       timeSpent: 0,
