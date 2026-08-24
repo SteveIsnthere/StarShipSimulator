@@ -2,8 +2,8 @@
 
 **Roadmap v3 — implementation-ready.** Conventions now live as the enforced constitution
 in root `CLAUDE.md`; the live task checklist is `docs/ROADMAP-TASKS.md`; implementation
-is driven by the `/goal` command (`.claude/commands/goal.md`). No application code yet —
-M0.1 is the first code commit.
+is driven with Claude Code's built-in `/goal` command (goal prompts below). No
+application code yet — M0.1 is the first code commit.
 
 Branch: `claude/first-project-rebuild-bjniik`
 Baseline: 52 commits, 4,663 lines, summer 2021.
@@ -178,7 +178,7 @@ v2/
     proofs/        # 1-ULP equivalence proofs (trig collapse lives here)
     lint-walls/    # violation fixtures proving the walls reject them
 .github/workflows/ci.yml
-CLAUDE.md          docs/ROADMAP-TASKS.md          .claude/commands/goal.md
+CLAUDE.md          docs/ROADMAP-TASKS.md
 ```
 
 ### Legacy → new map
@@ -237,18 +237,30 @@ arbiter thereafter.
 
 ## Driving implementation: `/goal`
 
-`.claude/commands/goal.md` is a project slash command — available to any Claude Code
-session on this repo. The loop:
+Claude Code ships a built-in `/goal` command: it sets a **completion condition**, and
+after every turn a fast evaluator model reads the transcript and judges whether the
+condition is met — if not, Claude keeps working, autonomously, turn after turn.
+`/goal` alone shows status; `/goal clear` cancels. An active goal even survives session
+resume. Docs: https://code.claude.com/docs/en/goal
 
-1. `/goal` (no args) reads `CLAUDE.md` + this plan + `docs/ROADMAP-TASKS.md`, takes the
-   first unchecked task, implements it under the constitution, verifies
-   (lint · test · build · the task's own acceptance line), checks the box, appends to
-   the task log, commits as `Mx.y: ...`, pushes, and reports.
-2. `/goal M2.6` targets a specific task (refuses to silently skip unfinished predecessors).
-3. `/goal status` reports progress and the next task without changing anything.
+The *how* lives in `CLAUDE.md` (which every session reads automatically), so goal
+conditions stay short and measurable. Drive the roadmap one milestone at a time.
 
-One task per invocation, one commit per task. The checklist file is the single source of
-truth for progress; the constitution is the single source of truth for how.
+**M0, ready to paste:**
+
+```
+/goal Milestone M0 in docs/ROADMAP-TASKS.md is complete: tasks M0.1 through M0.6 are all checked off, each implemented to its acceptance line under the rules in CLAUDE.md, one commit per task prefixed with its id, pushed to origin claude/first-project-rebuild-bjniik. Proof shown in command output: (1) cd v2 && npm run lint && npm run test && npm run build all exit 0; (2) the lint-walls test shows each of the six forbidden patterns failing ESLint; (3) git ls-files | grep DS_Store prints nothing; (4) git status is clean and git log --oneline shows the M0.x commits. Constraints: the 2021 tree (backend/, render/, utilities/, displayComponents/, index.html) is not modified except as task M0.5 specifies; no box is checked whose acceptance line was not met. Stop if blocked on a decision only the owner can make.
+```
+
+**Template for later milestones** (swap the milestone id and its proof line):
+
+```
+/goal Milestone <Mx> in docs/ROADMAP-TASKS.md is complete: every task in its section is checked off, each implemented to its acceptance line under CLAUDE.md, one id-prefixed commit per task, pushed to origin claude/first-project-rebuild-bjniik. Proof shown in command output: cd v2 && npm run lint && npm run test && npm run build all exit 0, plus each task's own acceptance check demonstrated. Constraints: the 2021 tree is untouched unless a task says otherwise; golden fixtures change only under a declared Bug-fix or Fidelity tier; no box is checked whose acceptance line was not met. Stop if blocked on an owner decision (M2.10 is one).
+```
+
+Why per-milestone rather than one mega-goal for M0–M5: each milestone ends at a state
+you should look at (M2.10 is explicitly your flying-and-choosing task), and the
+evaluator judges better against one concrete proof bundle than against 44 tasks at once.
 
 ---
 

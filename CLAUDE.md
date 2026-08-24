@@ -2,7 +2,8 @@
 
 Read this before touching anything. It is the contract every session — human or AI —
 works under. The roadmap is `docs/REBUILD-PLAN.md`; the live task state is
-`docs/ROADMAP-TASKS.md`; the `/goal` command drives implementation.
+`docs/ROADMAP-TASKS.md`; implementation is driven with Claude Code's built-in `/goal`
+command — the goal prompts live in `docs/REBUILD-PLAN.md` § Driving implementation.
 
 ## Ground rules
 
@@ -13,6 +14,20 @@ works under. The roadmap is `docs/REBUILD-PLAN.md`; the live task state is
 - One task per commit. Commit messages start with the task id (e.g. `M1.3: ...`).
 - If a task's acceptance criteria can't be met as specified, stop and say so — do not
   reinterpret the task.
+
+## Working loop (how a goal-driven session proceeds)
+
+1. Take the first unchecked task in `docs/ROADMAP-TASKS.md`, in document order — or the
+   task the goal names. Never skip unfinished predecessors silently.
+2. The task's acceptance line is the definition of done. Not a suggestion.
+3. Verify before committing: `cd v2 && npm run lint && npm run test && npm run build`
+   all green (once v2 exists), plus whatever the task's own acceptance line demands
+   (golden diffs, proofs, parity spot-checks).
+4. Check the task's box, append to the Log section (date · task id · note), commit
+   everything as ONE commit prefixed with the task id, push with retry/backoff.
+5. Golden fixtures never change except under a declared Bug-fix or Fidelity tier
+   justified in the same commit.
+6. Then take the next task. Report anything surprising rather than working around it.
 
 ## Architecture (dependencies point down, only down)
 
