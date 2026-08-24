@@ -15,7 +15,7 @@ acceptance line.
 - [x] **M0.3 Vitest wired** — `npm run test` runs; one real test present. Accept: green locally.
 - [x] **M0.4 CI** — `.github/workflows/ci.yml`: install, lint, test, build, bundle budget
   (fail if gzipped first-load JS > 250 kB). Accept: workflow green on push.
-- [ ] **M0.5 Repo hygiene** — Root `.gitignore` (.DS_Store, node_modules, dist);
+- [x] **M0.5 Repo hygiene** — Root `.gitignore` (.DS_Store, node_modules, dist);
   `git rm --cached` the 13 committed .DS_Store files. Accept: `git ls-files | grep DS_Store` empty.
 - [ ] **M0.6 Playwright smoke** — Headless: page loads, canvas mounts, no console errors.
   Accept: runs in CI. (Chromium is pre-installed in the remote env; do not `playwright install`.)
@@ -128,3 +128,11 @@ acceptance line.
   of resolving around. Concurrency group cancels superseded runs. Rehearsed locally from a wiped
   `node_modules`, all four steps green. The `.DS_Store` guard belongs to M0.5 and is deliberately
   not here — adding it now would push CI red before the files are removed.
+- 2026-08-24 · M0.4 · CI run 32782856625 green on push — all 8 steps success (install, lint, test,
+  build+budget). Verified, not assumed.
+- 2026-08-24 · M0.5 · Root `.gitignore` added (macOS/Windows cruft, `node_modules/`, `dist/`, editor,
+  coverage, logs, env). `git rm --cached` on exactly the 13 tracked `.DS_Store` files — untracked,
+  left on disk, now ignored. `git ls-files | grep DS_Store` is empty. Added the `hygiene` CI job
+  held back from M0.4: it fails the build if a `.DS_Store`, `node_modules/` or `dist/` is ever
+  tracked again, so the cleanup cannot silently regress. This is one of the two commits CLAUDE.md
+  permits to touch the 2021 tree.

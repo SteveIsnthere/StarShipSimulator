@@ -53,3 +53,31 @@ jobs:
           path: v2/dist
           retention-days: 7
           if-no-files-found: ignore
+
+  hygiene:
+    name: repo hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # Runs at the repo root, not in v2/ — this guards the whole tree.
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      # M0.5 untracked 13 committed .DS_Store files. This is what keeps them gone.
+      - name: No .DS_Store tracked
+        run: |
+          if git ls-files | grep -F '.DS_Store'; then
+            echo "::error::.DS_Store files are tracked. Add to .gitignore and git rm --cached them."
+            exit 1
+          fi
+          echo "OK: no .DS_Store tracked"
+
+      - name: No dependencies or build output tracked
+        run: |
+          if git ls-files | grep -E '(^|/)(node_modules|dist)/'; then
+            echo "::error::node_modules or dist is tracked."
+            exit 1
+          fi
+          echo "OK: no dependencies or build output tracked"
