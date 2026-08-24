@@ -87,7 +87,7 @@ fidelity switch, with the faithful 2021 flat model kept as reference.
 | `getReentryHeatPower(noseRadius)` called with cross-sectional area | Bug | Heating scales by √(ρ/area); heat limit triggers at wrong speeds |
 | Fin effective-area fraction initialised as an area, updated as a fraction | Bug | ~24× unit discrepancy on frame one |
 | `pitchRateOfChange` divides by `renderTimeInterval`, ×3600 papers over it | Bug | Correct only at 60 fps; gates `pitchHold`, so attitude-hold varies per device |
-| Ignition delay double-divides by `timeAccel` and runs on wall-clock `setTimeout` | Bug | Engines light 16× faster at 4× warp; breaks pause and determinism → becomes dt-ticked timer in SimState |
+| Ignition delay double-divides by `timeAccel` and runs on wall-clock `setTimeout` | Bug | Real wait shrinks as timeAccel²; engines light timeAccel× early in *simulated* terms (0.75 s → 0.1875 s at 4× warp). Breaks pause and determinism → becomes dt-ticked timer in SimState |
 | Stale/linear/clamped orbit relief | Fidelity | Subsumed by planet-centered gravity |
 | Gravity constant 9.807 at all altitudes | Fidelity | 4% high at 100 km, 7% at 200 km — deleted automatically under planet-centered gravity |
 | Speed of sound constant 343 m/s | Fidelity | Real value at 11 km is 295 m/s → Mach understated ~14%, skewing the Mach-keyed drag coefficient |

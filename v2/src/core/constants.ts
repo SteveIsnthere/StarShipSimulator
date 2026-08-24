@@ -92,7 +92,9 @@ export const intergalOfRCubedTimesDx = 97656;
 
 /**
  * ms. Mean Raptor ignition delay. In 2021 this drove a wall-clock setTimeout in
- * switches.js and was divided by timeAccel twice, so engines lit 16x early at 4x
+ * switches.js and was divided by timeAccel twice: the real wait shrank with
+ * timeAccel^2, and since the sim ran timeAccel times faster, engines lit
+ * timeAccel times early in simulated terms — 0.75 s becoming 0.1875 s at 4x
  * warp. M1.4 makes it a dt-ticked field in SimState.
  */
 export const raptorIgnitionTimeMean = 600;

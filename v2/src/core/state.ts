@@ -214,8 +214,9 @@ export interface EngineState {
   /**
    * s — time remaining before each commanded engine actually lights.
    * NaN means "not igniting". This replaces the 2021 wall-clock setTimeout in
-   * switches.js, which was divided by timeAccel twice and so lit engines 16x
-   * early at 4x warp. Ticked by dt in step(), so warp is exact by construction.
+   * switches.js, which divided by timeAccel twice and so lit engines timeAccel
+   * times early in simulated terms. Ticked by dt in step(), so warp is exact by
+   * construction.
    */
   ignitionCountdown: [number, number, number];
 }

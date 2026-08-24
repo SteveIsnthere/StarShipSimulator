@@ -31,7 +31,7 @@ acceptance line.
 - [x] **M1.3 Port atmosphere + aero + thermal** — `physics.js` verbatim (quadrant ladders
   included, dead `upperStrato` included) into `core/physics/`. Tier: none (port). Accept:
   spot-check parity vs legacy at sampled states.
-- [ ] **M1.4 Port engines + actuation** — throttle, gimbal, RCS, fins, fuel; ignition delay
+- [x] **M1.4 Port engines + actuation** — throttle, gimbal, RCS, fins, fuel; ignition delay
   becomes a dt-ticked SimState timer using rng streams (declared Bug fix: wall-clock
   setTimeout + double timeAccel division). Accept: failing-test-first for the timer; parity elsewhere.
 - [ ] **M1.5 Port integrator** — `updateBackEnd.js` → `core/step.ts`: pure
@@ -180,3 +180,17 @@ acceptance line.
   Mutation-checked 3x, and the first mutation ("optimise" `1/2*rho*v**2*Cd*A` into a reordered
   chain) went **undetected** — `getDrag` was only covered indirectly through the fins. Added direct
   2000-sample deterministic tests for `getDrag` and `getLift`; the mutation now fails. 344 green.
+- 2026-08-24 · M1.4 · `core/physics/engines.ts` + `core/control/actuation.ts`. Key discovery that
+  made the whole port clean: `renderTimeInterval = frameRate / timeAccel`, so `1/renderTimeInterval`
+  **is** simulated dt — `X / renderTimeInterval → X * dt` is an exact substitution, not a
+  reinterpretation. Tier: Bug fix, for ignition only; port elsewhere. Ignition test written first
+  and observed failing (no module), then implemented. 30 parity assertions compare thrust, off-axis
+  torque, gimbal wrap, fuel burn/dump and all four actuators bit-for-bit against the executed 2021
+  code across four frame rates. Preserved the real `<` vs `<=` asymmetry between front and aft fin
+  actuation. **Rejected a refactor**: simplifying the RCS drain `(r·rti−1)/rti` to `r−dt` measures up
+  to 154 ULP near an empty tank (abs 3.6e-15 s) — over CLAUDE.md's 1-ULP bar — so the awkward 2021
+  form is kept verbatim and `tests/proofs/rcs-reserve.test.ts` records the measurement so nobody
+  redoes it. **Corrected an overstatement I had carried since the analysis phase**: the ignition bug
+  makes the *wall-clock* wait shrink as timeAccel² but engines light `timeAccel`× early in
+  *simulated* terms (0.75 s → 0.1875 s at 4× warp), not 16×. Fixed in constants.ts, state.ts and
+  REBUILD-PLAN.md. 393 tests green.
