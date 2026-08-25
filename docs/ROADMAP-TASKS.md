@@ -218,6 +218,15 @@ acceptance line.
   condition instead of on a fixed ΔV. Accept: lands within 10 km from starts it was not fitted
   to, with the envelope measured and asserted.
 
+- [x] **M2.14 Fidelity: a real thermosphere** — found by the realism audit, 2026-08-25. Above
+  86 km the model held the mesopause's ~5.6 km scale height forever, while the real thermosphere
+  warms toward ~1000 K and its scale height grows past 50 km. Measured against the standard
+  atmosphere: 0.76× at 120 km, **0.042× at 150 km**, 6e-5 at 200 km, 3.6e-11 at 300 km — above
+  ~130 km it was not thin air, it was vacuum, and an orbit in a vacuum never decays. Replaced by
+  the standard piecewise-exponential model, base densities chained from the ISA's own value at
+  the seam so the halves join without a step. Accept: within 5% at 100 km, 0.2% at 150 km and a
+  factor of 1.3 to 300 km; one golden moves (booster-sep, the only flight above 86 km).
+
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->
@@ -963,4 +972,26 @@ acceptance line.
   → coast 73 min → autopilot-timed deorbit → survive entry → touchdown — lands **4.81 km** from
   StarBase after 91 simulated minutes, and it is a flight the constant was not fitted to alone.
   No goldens moved: the mode is inert unless armed. Gate: lint, 1055 tests, build, e2e green.
+
+- 2026-08-25 · M2.14 · **The atmosphere above 130 km was a vacuum.** The audit's last finding,
+  and the one with the least drama and the clearest arithmetic. M2.8's isothermal continuation
+  fixed 100 km (5.8e-7 against a published 5.6e-7) and then failed upward, because it held the
+  mesopause's 5.6 km scale height forever. The real thermosphere warms toward ~1000 K and its
+  scale height grows past 50 km, so the error compounds exponentially: **0.042× the standard
+  density at 150 km — where the orbital presets fly — 6e-5 at 200 km, 3.6e-11 at 300 km.**
+  Replaced with the standard piecewise-exponential atmosphere: scale heights transcribed from
+  the published table, base densities **chained upward from whatever the ISA itself gives at
+  86 km** rather than transcribed — the same trick `buildLayers` already used for pressure, so
+  the two halves join to six significant figures instead of by luck. The first band's 5.44 km is
+  derived, not transcribed: it is what carries the ISA's own 86 km density to the table's 100 km
+  value, and it is the stitch. Measured against the standard: 5% at 100 km, 0.3% at 110, 10% at
+  120, **0.1% at 150**, 10% at 200, 26% at 300, 0.2% at 400 and 500. Temperature warms
+  asymptotically toward an exospheric 1000 K because the Mach number reads it; pressure comes
+  back from the gas law so all three stay consistent.
+  Consequence: a 150 km circular orbit now decays **101 m per lap** instead of 38 m — small,
+  because a 420 t vehicle nose-on is very dense, but real. Exactly one golden moved
+  (`booster-sep-boostback`, the only scenario that goes above 86 km), `heatLimit` needed no
+  re-derivation (the Re-entry preset starts at 80 km), and the deorbit demo needed no
+  recalibration: −4.89 km from the Deorbit preset, +4.03 km end-to-end from Circularize.
+  Fidelity tier, on the owner's standing instruction. Gate: lint, 1060 tests, build, e2e green.
 

@@ -172,9 +172,11 @@ export const INTRO: ScenarioPreset = {
  * line is the boundary of space, not a place to park; real objects there
  * deorbit within an orbit or two, and real low orbit starts around 200 km.
  *
- * At 150 km the same orbit holds to within 200 m over a full 88-minute lap, and
- * the air is a thousand times thinner. It is the lowest round number that makes
- * "coast a lap and then deorbit" a thing the player can actually do.
+ * At 150 km the same orbit loses about 100 m over a full 88-minute lap — real
+ * decay, in air 256 times thinner than at 100 km. It is the lowest round number
+ * that makes "coast a lap and then deorbit" a thing the player can actually do.
+ * (Both figures are M2.14's: before it, the model held the mesopause's scale
+ * height forever and 150 km was a vacuum, so nothing decayed at all.)
  */
 export const ORBIT_ALTITUDE = 150_000;
 

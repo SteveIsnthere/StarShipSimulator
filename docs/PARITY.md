@@ -132,13 +132,17 @@ Every one is a declared tier with its evidence in the commit that made it.
 error in the heating correlation (M2.2), the un-called upper stratosphere and
 its mistranscribed lapse rate (M2.1), the fin-fraction initialisation (M2.3),
 the wall-clock ignition timer (M1.4), the unclamped keyboard throttle (M4.3),
-and the inert random-failure toggle (M4.4).
+the inert random-failure toggle (M4.4), the autopilot's proportional RCS command
+being overwritten before it could take effect (M2.11), and the doubled
+tangential acceleration term that destroyed angular momentum whenever the
+vehicle climbed or fell (M2.12).
 
 **Fidelity, and shipped unconditionally since M2.10** — the owner's decision,
 recorded in CLAUDE.md: planet-centered gravity (M2.6), the local speed of sound
-(M2.7), the full ISA (M2.8) and the collapsed trig ladders (M1.9). There is no
-flag machinery: the fidelity physics is the only physics, and the 2021 model
-survives only as the frozen parity reference the tests execute.
+(M2.7), the full ISA (M2.8), a real thermosphere above it (M2.14) and the
+collapsed trig ladders (M1.9). There is no flag machinery: the fidelity physics
+is the only physics, and the 2021 model survives only as the frozen parity
+reference the tests execute.
 
 So the parity claim is precise rather than absolute:
 

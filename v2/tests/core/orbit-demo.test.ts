@@ -195,9 +195,14 @@ describe('step 2 — coast a full lap', () => {
     expect(s.kinematics.altitude, 'should have decayed').toBeLessThan(1_000);
   });
 
-  it('the atmosphere is a thousand times thinner at 150 km than at 100 km', () => {
+  it('the atmosphere is 256 times thinner at 150 km than at 100 km', () => {
+    // Why one altitude works and the other does not. 256x and not the 13 000x
+    // the model used to claim: M2.14 gave the thermosphere the scale height it
+    // actually has, which grows past 50 km as the air warms toward 1000 K,
+    // rather than holding the mesopause's 5.6 km forever.
     const ratio = isaAtmosphere(100_000).airDensity / isaAtmosphere(150_000).airDensity;
-    expect(ratio).toBeGreaterThan(1_000);
+    expect(ratio).toBeGreaterThan(200);
+    expect(ratio).toBeLessThan(400);
   });
 });
 
@@ -497,17 +502,25 @@ describe('the deorbit mode itself', () => {
   });
 });
 
-describe('the isothermal continuation above the ISA table', () => {
-  it('matches the published standard at 100 km within 4%', () => {
+describe('the thermosphere the presets sit in', () => {
+  it('matches the published standard at 100 km within 6%', () => {
     // Landed here because the previous hard clamp made orbital flight
     // impossible: it held the 86 km density everywhere above, which is twelve
     // times too dense at 100 km and turns a 31-unit thermal load into 109.
-    expect(isaAtmosphere(100_000).airDensity / 5.604e-7).toBeCloseTo(1, 1);
+    // The isothermal continuation that replaced it fixed 100 km and failed
+    // upward; M2.14's bands fix both ends.
+    expect(Math.abs(isaAtmosphere(100_000).airDensity / 5.604e-7 - 1)).toBeLessThan(0.06);
+  });
+
+  it('and at 150 km, where the orbital presets fly, within 1%', () => {
+    // The altitude that matters most here: it is what makes a 150 km orbit
+    // decay at a believable rate instead of not at all.
+    expect(Math.abs(isaAtmosphere(150_000).airDensity / 2.076e-9 - 1)).toBeLessThan(0.01);
   });
 
   it('decays smoothly and stays positive to any altitude', () => {
     let previous = Infinity;
-    for (const h of [86_000, 90_000, 100_000, 120_000, 150_000, 200_000, 400_000]) {
+    for (const h of [86_000, 90_000, 100_000, 120_000, 150_000, 200_000, 400_000, 1_000_000]) {
       const rho = isaAtmosphere(h).airDensity;
       expect(rho, `${h} m`).toBeLessThan(previous);
       expect(rho).toBeGreaterThan(0);

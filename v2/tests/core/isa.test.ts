@@ -14,6 +14,7 @@ import {
   P0_PASCAL,
   R,
   T0_KELVIN,
+  THERMOSPHERE_BASE,
 } from '$core/physics/isa';
 import { legacyAtmosphere, updateAtmosphere } from '$core/physics/atmosphere';
 import * as C from '$core/constants';
@@ -135,22 +136,82 @@ describe('geopotential altitude', () => {
   });
 });
 
-describe('the top of the table', () => {
-  it('holds rather than extrapolating past 84.852 km geopotential', () => {
-    // The mesopause layer would keep cooling toward absolute zero, which is
-    // worse than holding.
-    const top = isaAtmosphere(90_000);
-    const atTop = isaAtmosphere(86_000);
-    expect(top.airTemperature).toBeCloseTo(atTop.airTemperature, 1);
-    expect(top.airTemperature).toBeGreaterThan(-100);
+describe('the top of the table, and the thermosphere above it', () => {
+  it('the lapse-rate table stops where the standard stops', () => {
     expect(ISA_TOP_GEOPOTENTIAL).toBe(84_852);
+    expect(THERMOSPHERE_BASE).toBe(86_000);
   });
 
-  it('stays positive and finite well above the model', () => {
-    for (const h of [100_000, 200_000, 400_000]) {
+  it('joins the thermosphere without a step in density', () => {
+    // The bands' base densities are chained from whatever the table gives at
+    // the seam rather than transcribed, precisely so this holds. A jolt here
+    // would be a jolt the vehicle feels.
+    const below = isaAtmosphere(THERMOSPHERE_BASE - 1).airDensity;
+    const at = isaAtmosphere(THERMOSPHERE_BASE).airDensity;
+    const above = isaAtmosphere(THERMOSPHERE_BASE + 1).airDensity;
+    expect(at).toBe(below);
+    expect(Math.abs(above / at - 1), 'density step at the seam').toBeLessThan(2e-4);
+  });
+
+  it('reproduces the standard atmosphere from 86 km to 500 km', () => {
+    // The point of M2.14. Published densities against the model; the residual
+    // above 200 km is the coarseness of the band structure, and it is a
+    // fraction rather than the five to ten orders of magnitude the isothermal
+    // continuation was out by.
+    const PUBLISHED: ReadonlyArray<readonly [number, number, number]> = [
+      // altitude m, published kg/m^3, tolerance as a ratio
+      [86_000, 6.958e-6, 0.01],
+      [100_000, 5.604e-7, 0.06],
+      [110_000, 9.708e-8, 0.02],
+      [120_000, 2.222e-8, 0.11],
+      [150_000, 2.076e-9, 0.02],
+      [200_000, 2.541e-10, 0.11],
+      [300_000, 1.916e-11, 0.27],
+      [400_000, 3.725e-12, 0.02],
+      [500_000, 6.967e-13, 0.02],
+    ];
+    for (const [altitude, published, tolerance] of PUBLISHED) {
+      const ratio = isaAtmosphere(altitude).airDensity / published;
+      expect(Math.abs(ratio - 1), `${altitude / 1000} km: ratio ${ratio.toFixed(3)}`).toBeLessThan(
+        tolerance,
+      );
+    }
+  });
+
+  it('and the isothermal continuation it replaced was a vacuum up there', () => {
+    // What M2.14 fixed, stated as the arithmetic rather than as a claim. The
+    // old model held the mesopause's ~5.6 km scale height forever; the real
+    // thermosphere's grows past 50 km as the air warms toward 1000 K.
+    const mesopauseScaleHeight = (R * (isaAtmosphere(86_000).airTemperature + 273.15)) / G0;
+    const isothermalAt = (h: number) =>
+      isaAtmosphere(86_000).airDensity * Math.exp(-(h - 86_000) / mesopauseScaleHeight);
+
+    expect(isothermalAt(150_000) / 2.076e-9, 'old model at 150 km').toBeLessThan(0.1);
+    expect(isothermalAt(300_000) / 1.916e-11, 'old model at 300 km').toBeLessThan(1e-6);
+  });
+
+  it('warms toward the exosphere rather than staying at the mesopause', () => {
+    // Carried because the Mach number reads it. Monotone, and bounded.
+    expect(isaAtmosphere(86_000).airTemperature).toBeCloseTo(-86.2, 0);
+    expect(isaAtmosphere(150_000).airTemperature).toBeGreaterThan(200);
+    expect(isaAtmosphere(500_000).airTemperature).toBeGreaterThan(650);
+    expect(isaAtmosphere(1_000_000).airTemperature).toBeLessThan(727);
+    let previous = -Infinity;
+    for (let h = 86_000; h <= 1_000_000; h += 5_000) {
+      const t = isaAtmosphere(h).airTemperature;
+      expect(t, `cooled at ${h} m`).toBeGreaterThan(previous);
+      previous = t;
+    }
+  });
+
+  it('stays positive, finite and monotone well above the model', () => {
+    let previous = Infinity;
+    for (let h = 86_000; h <= 2_000_000; h += 10_000) {
       const a = isaAtmosphere(h);
       expect(Number.isFinite(a.airDensity), `${h} m`).toBe(true);
-      expect(a.airDensity).toBeGreaterThan(0);
+      expect(a.airDensity, `${h} m`).toBeGreaterThan(0);
+      expect(a.airDensity, `rose at ${h} m`).toBeLessThan(previous);
+      previous = a.airDensity;
     }
   });
 

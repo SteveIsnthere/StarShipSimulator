@@ -19,11 +19,15 @@
  *     M2.9(a) heatLimit 55 -> 390                re-entry only
  *     M2.11   the dead RCS command               re-entry and RTLS only
  *     M2.12   the doubled tangential term        ALL SEVEN
+ *     M2.14   the thermosphere                   booster-sep only
  *
- * M2.12 moving all seven is not a surprise to be explained away: the term it
- * corrects acts on any vehicle that is both climbing or falling and moving
- * downrange, which is every scenario except sitting on the pad. A change that
- * moved fewer would have been the suspicious one.
+ * Each row is a shape, and the shape is the check. M2.12 moving all seven is
+ * not a surprise to be explained away: the term it corrects acts on any vehicle
+ * both climbing or falling and moving downrange, which is every scenario except
+ * sitting on the pad, and a change that moved fewer would have been the
+ * suspicious one. M2.14 moving only booster-sep is the same argument in
+ * reverse: it changes the air above 86 km, and booster-sep is the one flight
+ * that goes there.
  *
  * REPRODUCING A DIGEST. The rows block is everything from the `"rows": [` line
  * to the end of the file, hashed as written:
@@ -49,10 +53,11 @@ function rowsDigest(id: string): string {
   return createHash('sha256').update(text.slice(start)).digest('hex');
 }
 
-/** Current digests. Last moved by M2.12 — see the table above. */
+/** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
   'launch-pad-takeoff': 'ea64873aca00a0244403bd2e3e74c117211bf8e2a6c10e3d9e27a6491d3c339c',
-  'booster-sep-boostback': '8f62770a9365c2c4e2663d497d4b3042b6eda633d59ab2e520fb7b22b318ae21',
+  // M2.14, Fidelity: the thermosphere. The only scenario that goes above 86 km.
+  'booster-sep-boostback': '3d2af493a69792788e081a8b194e98c6c787bd9a7fc5efe8c0111691086d5298',
   'rtls-boostback': '5bf461e5445341d167dc62bfcc10106e6464be249616a4182475e82c9897b7c3',
   'reentry-autoland': '7c2b8b7f23476a7e3e92e100726876262958db8ddc60558a8027751a3602925d',
   'before-flip-autoland': 'f2c4cc3df2fd7b66523b1312334ce3e568bdc2f758ef413ab24b1d6a5cd787da',
