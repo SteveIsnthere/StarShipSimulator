@@ -1,11 +1,24 @@
 <!--
-  The menu: time warp, the flight editor, and the two switches that are settings
-  rather than flight controls.
+  The menu: scenario select, time warp, the flight editor, and the two switches
+  that are settings rather than flight controls.
 
   This is the one place in v2 where Svelte does the job it is actually for. The
   menu is interaction-driven — it renders when something is typed or clicked and
   never during flight — so reactive state here costs nothing on the frame path.
   index.html:145.
+
+  M6.5 — A FULL-SCREEN CARD, NOT A SHEET FROM THE BOTTOM. The old menu was a
+  light grey panel that slid up over the lower third and left the flight
+  half-visible behind it, which is a shape that suits neither: too big to be an
+  overlay, too small to be a screen. Choosing a scenario is the one moment in
+  this game that is not about the flight, so it takes the whole frame.
+
+  AND THE PRESETS SAY WHAT THEY ARE. `ScenarioPreset` has carried a `description`
+  and a full set of initial conditions since M1.1, and the menu showed neither —
+  the description was a `title` attribute, invisible on a touchscreen and a
+  second's hover away everywhere else. A pilot choosing between "Booster Sep"
+  and "RTLS" was choosing between two words. Each button now shows its altitude,
+  velocity and propellant, which is what the choice actually is.
 -->
 <script lang="ts">
   import { PRESETS, ORBITAL_PRESETS, type ScenarioPreset } from '$core/scenarios';
@@ -63,6 +76,23 @@
   const setRate = (event: Event & { currentTarget: HTMLInputElement }) => {
     onTimeChange({ rate: event.currentTarget.valueAsNumber, speedingUp: time.speedingUp });
   };
+
+  /**
+   * The stat line under a preset's name.
+   *
+   * Read off the preset rather than written out again, so it cannot drift from
+   * what Configure will actually load. Altitude switches unit at a kilometre for
+   * the same reason the HUD does: 200 and 80000 side by side are hard to
+   * compare, 200 M and 80 KM are not.
+   */
+  function statsOf(preset: ScenarioPreset): string {
+    const altitude =
+      preset.altitude < 1000
+        ? `${preset.altitude.toFixed(0)} M`
+        : `${(preset.altitude / 1000).toFixed(0)} KM`;
+    const speed = Math.round(Math.hypot(preset.speedX, preset.speedY));
+    return `${altitude} · ${speed} M/S · ${preset.propellant} T`;
+  }
 </script>
 
 {#if open}
@@ -70,129 +100,233 @@
   <div class="scrim" onclick={onClose}></div>
 
   <div class="menu" role="dialog" aria-label="Menu" data-menu data-testid="menu">
-    <div class="row">
+    <header class="bar">
+      <span class="wordmark">Starship Simulator</span>
       <button
         class="control"
-        class:is-on={randomFailure}
         type="button"
-        data-menu-control="randomFailure"
-        data-testid="menu-random-failure"
-        onclick={onToggleRandomFailure}
+        data-menu-control="close"
+        data-testid="menu-close"
+        onclick={onClose}
       >
-        Random Failure
-      </button>
-      <button
-        class="control"
-        class:is-on={tiltControl}
-        type="button"
-        data-menu-control="tiltControl"
-        data-testid="menu-tilt-control"
-        onclick={onToggleTiltControl}
-      >
-        Tilt Control
-      </button>
-      <button class="control" type="button" data-menu-control="close" data-testid="menu-close" onclick={onClose}>
         Close
       </button>
-    </div>
+    </header>
 
-    <p class="title">Time Warp</p>
-    <div class="row">
-      <button
-        class="control"
-        type="button"
-        data-menu-control="timeDirection"
-        data-testid="menu-time-direction"
-        onclick={() => onTimeChange({ rate: time.rate, speedingUp: !time.speedingUp })}
-      >
-        {time.speedingUp ? 'Speed Things Up' : 'Slow Things Down'}
-      </button>
-      <input
-        class="slider"
-        type="range"
-        aria-label="Time warp rate"
-        data-menu-control="timeRate"
-        data-testid="menu-time-rate"
-        min={MIN_TIME_RATE}
-        max={MAX_TIME_RATE}
-        step="1"
-        value={time.rate}
-        oninput={setRate}
-      />
-      <span class="rate" data-menu-readout="timeRate" data-testid="menu-time-readout">{describeTimeSetting(time)}</span>
-    </div>
+    <div class="body">
+      <section class="block">
+        <h2 class="title">Scenario</h2>
+        <div class="presets">
+          {#each PRESETS as preset (preset.id)}
+            <button
+              class="preset"
+              type="button"
+              data-preset={preset.id}
+              data-testid={presetTestId(preset.id)}
+              title={preset.description}
+              onclick={() => usePreset(preset)}
+            >
+              <span class="preset-name">{preset.name}</span>
+              <span class="preset-stats">{statsOf(preset)}</span>
+              <span class="preset-note">{preset.description}</span>
+            </button>
+          {/each}
+        </div>
 
-    <p class="title">Configure New Flight</p>
+        <!--
+          The orbital presets are new in v2 (M2.9). They are listed separately
+          because they are not among the five the 2021 game shipped — orbit was
+          structurally impossible under its flat-earth gravity, so these had
+          nothing to mean there.
+        -->
+        <h3 class="subtitle">Orbital · new in v2</h3>
+        <div class="presets">
+          {#each ORBITAL_PRESETS as preset (preset.id)}
+            <button
+              class="preset"
+              type="button"
+              data-preset={preset.id}
+              data-testid={presetTestId(preset.id)}
+              title={preset.description}
+              onclick={() => usePreset(preset)}
+            >
+              <span class="preset-name">{preset.name}</span>
+              <span class="preset-stats">{statsOf(preset)}</span>
+              <span class="preset-note">{preset.description}</span>
+            </button>
+          {/each}
+        </div>
+      </section>
 
-    <div class="presets">
-      <span class="subtitle">Scenario Presets</span>
-      <div class="row">
-        {#each PRESETS as preset (preset.id)}
+      <section class="block">
+        <h2 class="title">Initial conditions</h2>
+        <p class="hint">
+          A preset fills these in; Configure flies whatever is here. A blank field keeps the
+          current flight's value.
+        </p>
+        <div class="fields">
+          <label class="field">
+            <span class="field-label">Altitude</span>
+            <input
+              type="number"
+              data-field="altitude"
+              data-testid="field-altitude"
+              placeholder="M"
+              bind:value={fields.altitude}
+            />
+          </label>
+          <label class="field">
+            <span class="field-label">X-Position</span>
+            <input
+              type="number"
+              data-field="xPosition"
+              data-testid="field-xPosition"
+              placeholder="M"
+              bind:value={fields.xPosition}
+            />
+          </label>
+          <label class="field">
+            <span class="field-label">Speed-X</span>
+            <input
+              type="number"
+              data-field="speedX"
+              data-testid="field-speedX"
+              placeholder="M/S"
+              bind:value={fields.speedX}
+            />
+          </label>
+          <label class="field">
+            <span class="field-label">Speed-Y</span>
+            <input
+              type="number"
+              data-field="speedY"
+              data-testid="field-speedY"
+              placeholder="M/S"
+              bind:value={fields.speedY}
+            />
+          </label>
+          <label class="field">
+            <span class="field-label">Pitch</span>
+            <input
+              type="number"
+              data-field="pitch"
+              data-testid="field-pitch"
+              placeholder="DEG"
+              bind:value={fields.pitch}
+            />
+          </label>
+          <label class="field">
+            <span class="field-label">Propellant</span>
+            <input
+              type="number"
+              data-field="propellant"
+              data-testid="field-propellant"
+              placeholder="T"
+              bind:value={fields.propellant}
+            />
+          </label>
+        </div>
+        <div class="row">
           <button
             class="control"
             type="button"
-            data-preset={preset.id}
-            data-testid={presetTestId(preset.id)}
-            title={preset.description}
-            onclick={() => usePreset(preset)}
+            data-menu-control="clear"
+            data-testid="menu-clear"
+            onclick={clear}
           >
-            {preset.name}
+            Clear
           </button>
-        {/each}
-      </div>
+          <button
+            class="control primary"
+            type="button"
+            data-menu-control="configure"
+            data-testid="menu-configure"
+            onclick={() => onConfigure(fields)}
+          >
+            Configure &amp; fly
+          </button>
+        </div>
+      </section>
 
-      <!--
-        The orbital presets are new in v2 (M2.9). They are listed separately
-        because they are not among the five the 2021 game shipped — orbit was
-        structurally impossible under its flat-earth gravity, so these had
-        nothing to mean there.
-      -->
-      <span class="subtitle">Orbital</span>
-      <div class="row">
-        {#each ORBITAL_PRESETS as preset (preset.id)}
+      <section class="block">
+        <h2 class="title">Time warp</h2>
+        <div class="row">
           <button
             class="control"
             type="button"
-            data-preset={preset.id}
-            data-testid={presetTestId(preset.id)}
-            title={preset.description}
-            onclick={() => usePreset(preset)}
+            data-menu-control="timeDirection"
+            data-testid="menu-time-direction"
+            onclick={() => onTimeChange({ rate: time.rate, speedingUp: !time.speedingUp })}
           >
-            {preset.name}
+            {time.speedingUp ? 'Speed Things Up' : 'Slow Things Down'}
           </button>
-        {/each}
-      </div>
-    </div>
+          <input
+            class="slider"
+            type="range"
+            aria-label="Time warp rate"
+            data-menu-control="timeRate"
+            data-testid="menu-time-rate"
+            min={MIN_TIME_RATE}
+            max={MAX_TIME_RATE}
+            step="1"
+            value={time.rate}
+            oninput={setRate}
+          />
+          <span class="rate" data-menu-readout="timeRate" data-testid="menu-time-readout"
+            >{describeTimeSetting(time)}</span
+          >
+        </div>
+      </section>
 
-    <div class="fields">
-      <input type="number" data-field="altitude" data-testid="field-altitude" placeholder="Altitude (M)" bind:value={fields.altitude} />
-      <input type="number" data-field="xPosition" data-testid="field-xPosition" placeholder="X-Position (M)" bind:value={fields.xPosition} />
-      <input type="number" data-field="speedX" data-testid="field-speedX" placeholder="Speed-X (M/S)" bind:value={fields.speedX} />
-      <input type="number" data-field="speedY" data-testid="field-speedY" placeholder="Speed-Y (M/S)" bind:value={fields.speedY} />
-      <input type="number" data-field="pitch" data-testid="field-pitch" placeholder="Pitch (deg)" bind:value={fields.pitch} />
-      <input type="number" data-field="propellant" data-testid="field-propellant" placeholder="Propellant (T)" bind:value={fields.propellant} />
-    </div>
-
-    <div class="row">
-      <button class="control" type="button" data-menu-control="clear" data-testid="menu-clear" onclick={clear}>Clear</button>
-      <button
-        class="control"
-        type="button"
-        data-menu-control="configure"
-        data-testid="menu-configure"
-        onclick={() => onConfigure(fields)}
-      >
-        Configure
-      </button>
-    </div>
-
-    <div class="row">
-      <button class="control" type="button" data-menu-control="about" data-testid="menu-about" onclick={() => onShowInfo('about')}>
-        About
-      </button>
-      <button class="control" type="button" data-menu-control="guide" data-testid="menu-guide" onclick={() => onShowInfo('guide')}>
-        Help
-      </button>
+      <section class="block">
+        <h2 class="title">Settings</h2>
+        <div class="row">
+          <button
+            class="control"
+            class:is-on={randomFailure}
+            type="button"
+            data-menu-control="randomFailure"
+            data-testid="menu-random-failure"
+            aria-pressed={randomFailure}
+            onclick={onToggleRandomFailure}
+          >
+            <span class="pip" aria-hidden="true"></span>
+            Random Failure
+          </button>
+          <button
+            class="control"
+            class:is-on={tiltControl}
+            type="button"
+            data-menu-control="tiltControl"
+            data-testid="menu-tilt-control"
+            aria-pressed={tiltControl}
+            onclick={onToggleTiltControl}
+          >
+            <span class="pip" aria-hidden="true"></span>
+            Tilt Control
+          </button>
+        </div>
+        <div class="row">
+          <button
+            class="control"
+            type="button"
+            data-menu-control="guide"
+            data-testid="menu-guide"
+            onclick={() => onShowInfo('guide')}
+          >
+            Guide
+          </button>
+          <button
+            class="control"
+            type="button"
+            data-menu-control="about"
+            data-testid="menu-about"
+            onclick={() => onShowInfo('about')}
+          >
+            About
+          </button>
+        </div>
+      </section>
     </div>
   </div>
 {/if}
@@ -201,83 +335,228 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgb(0 0 0 / 25%);
+    background: rgb(6 8 12 / 55%);
   }
   .menu {
     position: fixed;
-    inset: auto 0 0 0;
-    max-height: 80vh;
-    overflow-y: auto;
+    inset: 0;
     display: flex;
     flex-direction: column;
+    background: rgb(6 8 12 / 94%);
+    backdrop-filter: blur(14px);
+    color: var(--ink-100);
+    font-family: var(--font);
+    font-size: var(--size-body);
+  }
+
+  .bar {
+    display: flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 1rem;
-    background: rgb(196 196 196 / 92%);
-    backdrop-filter: blur(10px);
-    font: 500 0.8rem/1.4 var(--font);
-    color: #0b1017;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: calc(var(--safe-top) + 0.9rem) calc(var(--safe-right) + var(--gutter)) 0.9rem
+      calc(var(--safe-left) + var(--gutter));
+    border-bottom: var(--hairline);
+  }
+  .wordmark {
+    font-family: var(--font-condensed);
+    font-size: 1rem;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-100);
+  }
+
+  .body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    display: grid;
+    gap: 1.6rem;
+    padding: 1.2rem calc(var(--safe-right) + var(--gutter)) calc(var(--safe-bottom) + 2rem)
+      calc(var(--safe-left) + var(--gutter));
+    /* Wide screens get columns rather than one very long ribbon of content. */
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    align-content: start;
+  }
+  .block {
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
   }
   .title {
-    margin: 0.6rem 0 0;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    margin: 0;
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    font-weight: 400;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-45);
   }
   .subtitle {
-    font-size: 0.7rem;
-    opacity: 0.7;
+    margin: 0.5rem 0 0;
+    font-family: var(--font-condensed);
+    font-size: var(--size-label-sm);
+    font-weight: 400;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-45);
   }
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    align-items: center;
-    justify-content: center;
+  .hint {
+    margin: 0;
+    color: var(--ink-45);
+    font-size: var(--size-label);
   }
+
+  /* --- scenario cards ---------------------------------------------------- */
+
   .presets {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.3rem;
+    display: grid;
+    gap: 0.35rem;
   }
+  .preset {
+    display: grid;
+    gap: 0.2rem;
+    text-align: left;
+    appearance: none;
+    border: var(--hairline);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.75rem;
+    background: rgb(255 255 255 / 4%);
+    cursor: pointer;
+    touch-action: manipulation;
+    min-height: var(--touch);
+    transition:
+      background-color 0.12s ease,
+      border-color 0.12s ease;
+  }
+  .preset:hover {
+    border-color: var(--ink-45);
+    background: rgb(255 255 255 / 9%);
+  }
+  .preset-name {
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1;
+    color: var(--ink-100);
+  }
+  .preset-stats {
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    letter-spacing: var(--track-label-tight);
+    text-transform: uppercase;
+    color: var(--ink-70);
+    font-variant-numeric: tabular-nums;
+  }
+  .preset-note {
+    font-size: var(--size-label);
+    color: var(--ink-45);
+  }
+
+  /* --- editor ------------------------------------------------------------ */
+
   .fields {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
-    gap: 0.3rem;
-    width: min(34rem, 100%);
+    gap: 0.4rem;
+  }
+  .field {
+    display: grid;
+    gap: 0.2rem;
+  }
+  .field-label {
+    font-family: var(--font-condensed);
+    font-size: var(--size-label-sm);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-45);
   }
   .fields input {
+    min-height: var(--touch);
     padding: 0.4rem 0.5rem;
-    border: 0;
-    border-radius: 0.5rem;
-    font: inherit;
-    background: rgb(255 255 255 / 60%);
+    border: var(--hairline);
+    border-radius: var(--radius);
+    font-family: var(--font);
+    font-size: var(--size-body);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-100);
+    background: rgb(255 255 255 / 6%);
+  }
+  .fields input::placeholder {
+    color: var(--ink-25);
+  }
+
+  /* --- controls ---------------------------------------------------------- */
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
   }
   .control {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: var(--touch);
     appearance: none;
-    border: 0;
-    border-radius: 0.55rem;
-    padding: 0.4rem 0.6rem;
-    font: 600 0.72rem/1 var(--font);
-    color: #000;
-    background: rgb(255 255 255 / 43%);
+    border: var(--hairline);
+    border-radius: var(--radius);
+    padding: 0.4rem 0.7rem;
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    line-height: 1;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-70);
+    background: rgb(255 255 255 / 4%);
     cursor: pointer;
+    touch-action: manipulation;
+    transition:
+      background-color 0.12s ease,
+      border-color 0.12s ease;
+  }
+  .control:hover {
+    border-color: var(--ink-45);
+    color: var(--ink-100);
+  }
+  .control.primary {
+    border-color: var(--ink-70);
+    color: var(--ink-100);
+    background: rgb(255 255 255 / 12%);
+  }
+  .pip {
+    flex: none;
+    width: 0.4rem;
+    height: 0.4rem;
+    border: 1px solid var(--ink-45);
+    background: transparent;
   }
   /*
-    M6.4: the lit state is a fill, not a green word. The menu's full restyle is
-    M6.5; this is the colour rule landing repo-wide with the pillow shadow.
+    M6.4: the lit state is a fill, not a green word. Same rule as the flight
+    controls — nothing in this interface says "on" by recolouring text.
   */
   .control.is-on {
+    border-color: var(--ink-70);
     color: var(--ink-100);
-    background: rgb(255 255 255 / 24%);
+    background: rgb(255 255 255 / 14%);
   }
+  .control.is-on .pip {
+    background: var(--ink-100);
+    border-color: var(--ink-100);
+  }
+
   .slider {
-    width: 9rem;
+    flex: 1 1 9rem;
+    min-width: 8rem;
     accent-color: var(--ink-100);
   }
   .rate {
-    min-width: 3rem;
-    text-align: center;
+    min-width: 4rem;
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-70);
     font-variant-numeric: tabular-nums;
   }
 </style>

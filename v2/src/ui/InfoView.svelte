@@ -113,78 +113,127 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgb(0 0 0 / 45%);
+    background: rgb(6 8 12 / 55%);
   }
+  /*
+    M6.5: the guide is a document, and the typography pass treats it as one.
+    It was 0.85rem system-UI on a mid-grey sheet with 1.5 line height and no
+    measure limit, so on a wide screen a paragraph ran the full width of the
+    display. Prose wants a column.
+  */
   .sheet {
     position: fixed;
-    inset: 8% 5% 8% 5%;
+    inset: 0;
     overflow-y: auto;
-    padding: 1rem;
-    border-radius: 0.75rem;
-    background: rgb(46 46 46 / 97%);
-    color: whitesmoke;
-    font:
-      400 0.85rem/1.5 -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      sans-serif;
+    padding: calc(var(--safe-top) + 0.9rem) calc(var(--safe-right) + var(--gutter))
+      calc(var(--safe-bottom) + 2rem) calc(var(--safe-left) + var(--gutter));
+    background: rgb(6 8 12 / 96%);
+    backdrop-filter: blur(14px);
+    color: var(--ink-70);
+    font-family: var(--font);
+    font-size: 0.9rem;
+    line-height: 1.6;
   }
   .bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    margin-bottom: 0.75rem;
+    gap: 1rem;
+    max-width: 44rem;
+    margin: 0 auto 1.2rem;
+    padding-bottom: 0.9rem;
+    border-bottom: var(--hairline);
+  }
+  .bar span {
+    font-family: var(--font-condensed);
+    font-size: 1rem;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-100);
   }
   .bar button {
+    min-height: var(--touch);
     appearance: none;
-    border: 0;
-    border-radius: 0.55rem;
-    padding: 0.4rem 0.6rem;
-    font: inherit;
+    border: var(--hairline);
+    border-radius: var(--radius);
+    padding: 0.4rem 0.7rem;
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    line-height: 1;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-70);
+    background: rgb(255 255 255 / 4%);
     cursor: pointer;
+    touch-action: manipulation;
+  }
+  .bar button:hover {
+    border-color: var(--ink-45);
+    color: var(--ink-100);
+  }
+
+  /* Prose gets a measure. Everything below the bar sits in one column. */
+  .sheet :global(details) {
+    max-width: 44rem;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--ink-12);
   }
   summary {
     cursor: pointer;
-    padding: 0.4rem 0;
-    font-weight: 600;
+    padding: 0.7rem 0;
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-100);
+    min-height: var(--touch);
+    display: flex;
+    align-items: center;
   }
   ul {
-    margin: 0.25rem 0 0.75rem;
-    padding-left: 1.2rem;
+    margin: 0.25rem 0 1rem;
+    padding-left: 1.1rem;
   }
   li {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.4rem;
   }
   p {
-    margin: 0.25rem 0 0.75rem;
-    opacity: 0.9;
+    margin: 0.25rem 0 1rem;
   }
   table {
     border-collapse: collapse;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    width: 100%;
   }
   td {
-    padding: 0.2rem 0.6rem 0.2rem 0;
+    padding: 0.3rem 0.6rem 0.3rem 0;
     vertical-align: top;
+    border-bottom: 1px solid var(--ink-12);
   }
   .keys {
     white-space: nowrap;
+    width: 1%;
   }
   kbd {
     display: inline-block;
-    padding: 0.1rem 0.35rem;
-    border-radius: 0.3rem;
-    background: rgb(255 255 255 / 15%);
-    font: 600 0.75rem/1.4 var(--font);
+    min-width: 1.5rem;
+    padding: 0.15rem 0.4rem;
+    border: var(--hairline);
+    border-radius: var(--radius);
+    background: rgb(255 255 255 / 6%);
+    font-family: var(--font-condensed);
+    font-size: 0.75rem;
+    letter-spacing: var(--track-label-tight);
+    text-align: center;
+    color: var(--ink-100);
   }
   .or {
-    padding: 0 0.2rem;
-    opacity: 0.5;
+    padding: 0 0.25rem;
+    color: var(--ink-25);
   }
   a {
-    color: #8ec7ff;
+    color: var(--ink-100);
+    text-decoration-color: var(--ink-45);
+    text-underline-offset: 0.15em;
   }
 </style>

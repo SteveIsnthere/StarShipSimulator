@@ -4,14 +4,15 @@
  * its process exit code -- CI reads the exit code, so that is what must be right.
  */
 import { describe, expect, it, beforeAll, afterAll } from 'vitest';
-import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+// prettier-ignore
 // @ts-expect-error -- plain-JS build script, intentionally untyped
-import { checkBudget, parseFirstLoad, DEFAULT_BUDGET_BYTES } from '../scripts/check-budget.mjs';
+import { checkBudget, parseFirstLoad, parseFirstLoadStyles, DEFAULT_BUDGET_BYTES } from '../scripts/check-budget.mjs';
 
 const run = promisify(execFile);
 const SCRIPT = fileURLToPath(new URL('../scripts/check-budget.mjs', import.meta.url));
@@ -120,5 +121,45 @@ describe('CLI exit codes -- what CI actually reads', () => {
 
   it('exits 1 when dist/ is missing rather than passing silently', async () => {
     await expect(run('node', [SCRIPT, join(root, 'nope')])).rejects.toMatchObject({ code: 1 });
+  });
+});
+
+describe('the chart theme rides the lazy chunk, not the first load', () => {
+  /*
+    M6.5 themed uPlot. The library has been behind a dynamic import since M4.5
+    so it does not count against the 250 kB budget — but a stylesheet is not
+    JavaScript, and CSS pulled into the entry sheet ships on every page load
+    whether or not anything on screen uses it. That is the same wound, reopened
+    one stylesheet at a time, and the JS budget alone cannot see it.
+
+    So: `charts.css` is imported from `loadCharts()` rather than from theme.css,
+    and this asserts the consequence — that dist/index.html links exactly one
+    stylesheet, and that it is not the chart theme.
+  */
+  const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
+
+  it('index.html links only the entry stylesheet', async () => {
+    const html = await readFile(join(DIST, 'index.html'), 'utf8').catch(() => null);
+    if (html === null) {
+      // `npm run test` may run before `npm run build` on a clean checkout. The
+      // gate that matters runs in the build itself; skipping is honest here,
+      // and failing would only ever be a false alarm about ordering.
+      return;
+    }
+    const styles: string[] = parseFirstLoadStyles(html);
+    expect(styles).toHaveLength(1);
+    expect(styles[0]).toMatch(/^assets\/index-[A-Za-z0-9_-]+\.css$/);
+  });
+
+  it('neither uPlot nor our theme for it is in the first-load stylesheet', async () => {
+    const html = await readFile(join(DIST, 'index.html'), 'utf8').catch(() => null);
+    if (html === null) return;
+    const styles: string[] = parseFirstLoadStyles(html);
+    const entry = await readFile(join(DIST, styles[0]!), 'utf8');
+
+    // `.u-legend` is uPlot's; `.u-title` styling is ours. Either appearing here
+    // means a chart stylesheet has been hoisted into the first load.
+    expect(entry).not.toContain('u-legend');
+    expect(entry).not.toContain('.u-title');
   });
 });

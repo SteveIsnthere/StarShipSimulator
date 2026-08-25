@@ -26,6 +26,23 @@ export const DEFAULT_BUDGET_BYTES = 250 * 1024;
  */
 export const DEFAULT_FONT_BUDGET_BYTES = 80 * 1024;
 
+/**
+ * Stylesheets `dist/index.html` links directly.
+ *
+ * The JS budget alone stopped being sufficient at M6.5, which themed uPlot.
+ * That theme belongs to a view most players never open, and CSS in the entry
+ * stylesheet ships on every page load whether or not anything uses it — the
+ * same wound M4.5 closed for the library itself, reopened one stylesheet at a
+ * time. So the build now also reports which stylesheets are first-load, and
+ * `tests/budget.test.ts` asserts the chart theme is not among them.
+ */
+export function parseFirstLoadStyles(html) {
+  return [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)]
+    .map((m) => m[1])
+    .filter((p) => !/^(https?:)?\/\//.test(p))
+    .map((p) => p.replace(/^\.?\//, ''));
+}
+
 /** Paths, relative to dist/, that the browser fetches before first paint. */
 export function parseFirstLoad(html) {
   const srcs = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map((m) => m[1]);
@@ -45,8 +62,15 @@ export async function checkBudget(
   fontBudgetBytes = DEFAULT_FONT_BUDGET_BYTES,
 ) {
   const dist = resolve(distDir);
-  const files = parseFirstLoad(await readFile(join(dist, 'index.html'), 'utf8'));
+  const html = await readFile(join(dist, 'index.html'), 'utf8');
+  const files = parseFirstLoad(html);
   if (files.length === 0) throw new Error('no first-load scripts found in dist/index.html');
+
+  const styles = [];
+  for (const file of parseFirstLoadStyles(html)) {
+    const bytes = await readFile(join(dist, file)).catch(() => null);
+    if (bytes) styles.push([file, gzipSync(bytes).length]);
+  }
 
   const rows = [];
   let total = 0;
@@ -74,6 +98,7 @@ export async function checkBudget(
     total,
     budgetBytes,
     lazy,
+    styles,
     fonts,
     fontTotal,
     fontBudgetBytes,
@@ -89,6 +114,9 @@ export function report(result) {
   console.log(`  ${'BUDGET'.padEnd(48)} ${kb(result.budgetBytes).padStart(10)} gzip`);
   if (result.lazy.length) {
     console.log(`  (lazy chunks, not counted: ${result.lazy.join(', ')})`);
+  }
+  for (const [file, gz] of result.styles ?? []) {
+    console.log(`  ${file.padEnd(48)} ${kb(gz).padStart(10)} gzip (css)`);
   }
   for (const [file, bytes] of result.fonts ?? []) {
     console.log(`  ${file.padEnd(48)} ${kb(bytes).padStart(10)} raw`);

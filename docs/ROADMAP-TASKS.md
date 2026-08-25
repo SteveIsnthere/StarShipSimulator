@@ -268,7 +268,7 @@ build + playwright green per task; one task per commit, id-prefixed.*
   the controls layer (persisted per-device). Accept: full e2e control checklist passes
   unchanged via testids; cinematic screenshot shows broadcast layer only; zero behavioral diff
   (same typed events, same commands).
-- [ ] **M6.5 Menu, black box, guide restyle** — menu as full-screen broadcast card (scenario
+- [x] **M6.5 Menu, black box, guide restyle** — menu as full-screen broadcast card (scenario
   select with per-scenario stat lines); uPlot themed to tokens (hairline axes, D-DIN, dark);
   guide/about typography pass. Accept: menu/guide/black-box e2e green; uPlot still lazy (budget
   report proves first-load unchanged).
@@ -1219,3 +1219,31 @@ build + playwright green per task; one task per commit, id-prefixed.*
   window, or one set to block site data — still starts and still toggles.
   The corner buttons grew from 32px to the 44px touch floor while they were being restyled.
   Gate green (1166 unit, 70 e2e); `git diff v2/src/core` empty; the seven digests unmoved.
+- 2026-08-25 · M6.5 · **The three full-screen views.** Menu, black box and guide were all sheets
+  that covered part of the frame and left the flight showing round the edges — too big to be
+  overlays, too small to be screens. Each is now a full-frame card in the same dark language.
+  **The menu finally shows what a scenario IS.** `ScenarioPreset` has carried a `description` and a
+  complete set of initial conditions since M1.1 and the menu displayed neither: the description was
+  a `title` attribute — invisible on a touchscreen, a second's hover away everywhere else — so a
+  pilot choosing between "Booster Sep" and "RTLS" was choosing between two words. Every preset now
+  shows altitude, velocity and propellant, computed off the preset so the line cannot drift from
+  what Configure will load.
+  uPlot is themed to the tokens in `src/ui/charts.css`, imported from `loadCharts()` beside the
+  library's own stylesheet — **not** from theme.css. That is the whole point: uPlot has been behind
+  a dynamic import since M4.5, and hoisting its theme into the entry stylesheet would ship CSS for
+  a view most players never open on every page load — the same wound, reopened one stylesheet at a
+  time, and invisible to a JS-only budget. The budget report now lists first-load stylesheets and
+  `tests/budget.test.ts` asserts neither uPlot's CSS nor ours is among them. First-load JS 188.1 kB.
+  **Three real defects, all surfaced by making the charts legible.** (1) Every plot was labelling
+  its x axis `1/1/70 12:00am` — uPlot treats the x scale as UNIX time by default and the recorder's
+  time channel starts at zero. Wrong since M4.5; nobody saw it while the charts were nine small
+  dark rectangles on a white sheet. (2) Charts were built 640 px wide and dropped into ~410 px grid
+  columns, running off the right edge — the width came from the container, which used to be a
+  narrow sheet and is now the whole window. (3) Measuring each cell as it was appended gave the
+  first three the width of an almost-empty grid (1250, then 620, then 410), which is exactly what
+  the top row looked like: three oversized charts overlapping. Cells are created in one pass and
+  measured in a second.
+  The chart series palette was repicked for the dark card — the old five were chosen against near
+  white and the darkest of them was barely a line. Colour stays load-bearing here and only here:
+  telling five lines apart on one axis is what colour is for.
+  Gate green (1168 unit, 70 e2e); `git diff v2/src/core` empty; the seven digests unmoved.

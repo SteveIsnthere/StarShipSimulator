@@ -62,16 +62,43 @@
         element.replaceChildren();
         status = '';
 
-        const width = Math.min(element.clientWidth || 640, 640);
-        for (const spec of PLOTS) {
+        /*
+          Sized to the CELL, not to the container.
+
+          This measured `element.clientWidth` and capped it at 640, which was
+          right while the black box was one narrow sheet and wrong the moment
+          M6.5 made it full-screen: the host is now the whole window, so every
+          chart was built 640px wide and dropped into a ~410px grid column,
+          where it ran off the right-hand edge. The cell has to exist before it
+          can be measured, so it is appended first and read second.
+        */
+        // Every cell first, THEN measure. Appending and measuring in one pass
+        // gave the first three charts the width of an almost-empty grid: with
+        // one child, `auto-fit` collapses to a single full-width column, so
+        // cell 1 measured 1250px, cell 2 measured 620, and only from cell 3 on
+        // did it settle at the real 410 — which is exactly what the top row
+        // looked like, three oversized charts overlapping each other.
+        const cells = PLOTS.map((spec) => {
           const cell = document.createElement('div');
           cell.className = 'cell';
           cell.dataset['plot'] = spec.id;
           element.appendChild(cell);
+          return cell;
+        });
+
+        PLOTS.forEach((spec, index) => {
+          const cell = cells[index]!;
+          // clientWidth excludes the border but includes the padding the theme
+          // puts on `.cell`, so take that back off. The fallback covers a cell
+          // that has not been laid out at all — a detached container, in
+          // practice only reachable from a test.
+          const style = getComputedStyle(cell);
+          const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+          const width = Math.max(240, (cell.clientWidth || 480) - padding);
 
           const { data, options } = buildPlot(spec, recorder, width, 220);
           charts.push(new UPlot(options, data as never, cell));
-        }
+        });
       })
       .catch((error: unknown) => {
         if (!cancelled) status = `Charts unavailable: ${String(error)}`;
@@ -105,46 +132,75 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgb(0 0 0 / 35%);
+    background: rgb(6 8 12 / 55%);
   }
+  /*
+    M6.5: the same full-frame card as the menu. It was a near-white sheet inset
+    5% on every side, which meant the flight showed round the edges of nine dark
+    charts — a window onto a document, floating over a game. Reading a flight
+    back is its own activity and gets its own screen.
+  */
   .blackbox {
     position: fixed;
-    inset: 5% 5% 5% 5%;
+    inset: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.75rem;
-    overflow-y: auto;
-    background: rgb(240 240 240 / 96%);
-    backdrop-filter: blur(10px);
-    border-radius: 0.75rem;
-    font: 500 0.8rem/1.4 var(--font);
-    color: #0b1017;
+    background: rgb(6 8 12 / 94%);
+    backdrop-filter: blur(14px);
+    color: var(--ink-100);
+    font-family: var(--font);
+    font-size: var(--size-body);
   }
   .bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    gap: 1rem;
+    padding: calc(var(--safe-top) + 0.9rem) calc(var(--safe-right) + var(--gutter)) 0.9rem
+      calc(var(--safe-left) + var(--gutter));
+    border-bottom: var(--hairline);
+  }
+  .bar span {
+    font-family: var(--font-condensed);
+    font-size: 1rem;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
   }
   .bar button {
+    min-height: var(--touch);
     appearance: none;
-    border: 0;
-    border-radius: 0.55rem;
-    padding: 0.4rem 0.6rem;
-    font: inherit;
-    background: rgb(255 255 255 / 70%);
+    border: var(--hairline);
+    border-radius: var(--radius);
+    padding: 0.4rem 0.7rem;
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    line-height: 1;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-70);
+    background: rgb(255 255 255 / 4%);
     cursor: pointer;
+    touch-action: manipulation;
+  }
+  .bar button:hover {
+    border-color: var(--ink-45);
+    color: var(--ink-100);
   }
   .status {
     margin: 0;
-    opacity: 0.7;
+    padding: 1rem var(--gutter);
+    color: var(--ink-45);
+    font-size: var(--size-label);
+    letter-spacing: var(--track-label-tight);
   }
   .plots {
+    flex: 1 1 auto;
+    overflow-y: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: 0.5rem;
+    gap: 0.75rem;
     justify-items: center;
+    padding: 1rem calc(var(--safe-right) + var(--gutter)) calc(var(--safe-bottom) + 1.5rem)
+      calc(var(--safe-left) + var(--gutter));
   }
 </style>
