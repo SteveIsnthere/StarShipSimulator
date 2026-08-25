@@ -137,26 +137,44 @@ function layerFor(geopotential: number): Layer {
  * Returns the same shape as the three-layer model, in the same units — degrees
  * Celsius and kPa — so it is a drop-in alternative behind the flag.
  *
+ * ABOVE THE TABLE (84.852 km geopotential) the model continues isothermally at
+ * the mesopause temperature, with pressure decaying exponentially over the local
+ * scale height H = R*T/g.
+ *
+ * This replaced a hard clamp, and the reason is worth recording. Holding the
+ * top-of-table density for everything above it leaves 6.96e-6 kg/m^3 at 100 km,
+ * where the real value is about 5.6e-7 — twelve times too dense. At orbital
+ * speed that is the difference between a thermal load of 109 units and one of
+ * 31, against a limit of 55: with the clamp, a 100 km orbit destroys the vehicle
+ * on the first step, which is not a property of orbits but of the clamp. The
+ * isothermal continuation gives 5.8e-7 at 100 km, within 4% of the standard.
+ *
+ * Continuing the mesopause LAPSE instead would cool the air toward absolute
+ * zero, which is why the clamp existed; continuing isothermally is the standard
+ * treatment and is well behaved to any altitude.
+ *
  * @param altitude m, geometric
  */
 export function isaAtmosphere(altitude: number): Atmosphere {
-  // Clamped at both ends. Below sea level the standard is not defined; above
-  // 84.852 km geopotential the mesopause layer would keep cooling toward
-  // absolute zero, which is worse than holding the top of the table.
-  const geopotential = Math.min(
-    Math.max(geopotentialAltitude(altitude), 0),
-    ISA_TOP_GEOPOTENTIAL,
-  );
+  // Below sea level the standard is not defined.
+  const geopotential = Math.max(geopotentialAltitude(altitude), 0);
+  const withinTable = Math.min(geopotential, ISA_TOP_GEOPOTENTIAL);
 
-  const layer = layerFor(geopotential);
-  const dh = geopotential - layer.baseAltitude;
+  const layer = layerFor(withinTable);
+  const dh = withinTable - layer.baseAltitude;
   const temperatureKelvin = layer.baseTemperature + layer.lapseRate * dh;
-  const pressurePascal = pressureInLayer(
+  let pressurePascal = pressureInLayer(
     layer.basePressure,
     layer.baseTemperature,
     layer.lapseRate,
     dh,
   );
+
+  if (geopotential > ISA_TOP_GEOPOTENTIAL) {
+    // Isothermal continuation: p = p_top * exp(-dh / H), H = R*T/g.
+    const scaleHeight = (R * temperatureKelvin) / G0;
+    pressurePascal *= Math.exp(-(geopotential - ISA_TOP_GEOPOTENTIAL) / scaleHeight);
+  }
 
   return {
     airTemperature: temperatureKelvin - 273.15,

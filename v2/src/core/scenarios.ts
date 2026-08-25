@@ -153,7 +153,50 @@ export const INTRO: ScenarioPreset = {
   propellant: 12,
 };
 
-export const ALL_SCENARIOS: readonly ScenarioPreset[] = [LAUNCH_PAD, ...PRESETS, INTRO];
+/**
+ * Orbital presets. M2.9.
+ *
+ * These only make sense with the `planetCenteredGravity` flag on: under the
+ * 2021 model the relief term is clamped at g, so a vehicle at orbital speed
+ * still falls and "circularize" has nothing to mean. They are listed separately
+ * from PRESETS for that reason — they are not among the five the 2021 game
+ * shipped, and they are not playable in the default configuration.
+ */
+export const ORBITAL_PRESETS: readonly ScenarioPreset[] = [
+  {
+    id: 'circularize',
+    name: 'Circularize',
+    description:
+      'Just short of orbital speed at 100 km — a short prograde burn closes the orbit.',
+    altitude: 100_000,
+    xPosition: 0,
+    // About 96% of circular speed at this altitude: enough to be nearly there,
+    // short enough that doing nothing decays back into the atmosphere.
+    speedX: 7810,
+    speedY: 0,
+    // Nose prograde, so the first thing a burn does is add horizontal speed.
+    pitch: deg(90),
+    propellant: 200,
+  },
+  {
+    id: 'deorbit',
+    name: 'Deorbit Burn',
+    description: 'Circular at 100 km, half a lap short of StarBase. Burn retrograde and come home.',
+    altitude: 100_000,
+    xPosition: -Math.PI * C.planetRadius,
+    speedX: 7830.6,
+    speedY: 0,
+    pitch: deg(90),
+    propellant: 300,
+  },
+];
+
+export const ALL_SCENARIOS: readonly ScenarioPreset[] = [
+  LAUNCH_PAD,
+  ...PRESETS,
+  ...ORBITAL_PRESETS,
+  INTRO,
+];
 
 /** Look one up by id. */
 export function getScenario(id: string): ScenarioPreset | undefined {

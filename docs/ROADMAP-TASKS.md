@@ -79,8 +79,16 @@ acceptance line.
   (circular orbit stays circular over one lap, energy drift bounded).
 - [x] **M2.7 Fidelity: speed of sound** — a = √(γRT) from local temperature. Off by default.
 - [x] **M2.8 Fidelity: full ISA** — standard lapse-rate table to 86 km. Off by default.
-- [ ] **M2.9 Orbit presets + demo** — Circularize + Deorbit Burn presets; CI test: under
-  flags, circularize at 100 km, coast one full lap, deorbit, land at StarBase.
+- [ ] **M2.9 Orbit presets + demo** — ⚠️ **PARTIAL — BLOCKED, OWNER DECISION NEEDED.** Presets
+  shipped and circularization works (21 m/s burn, 1.8 s). Three measured blockers stop the rest:
+  **(a) 100 km is not a sustainable orbit** — a perfectly circular one decays to the ground within a
+  single lap from drag alone. Not a defect: 100 km is the Kármán line, and real objects there
+  deorbit in an orbit or two. At **150 km** the same orbit drifts 38 m per lap and at 200 km, 40 m.
+  The acceptance line's "100 km" is below what the physics allows; **150 km would meet it**.
+  **(b) Orbital re-entry peaks at 310 thermal units against `heatLimit` 55** — 6× over. Same owner
+  decision as M2.1. **(c) The autopilot has no orbital targeting** — flown open-loop it reaches the
+  ground **15 000 km** from StarBase. `autoLand` knows how to come home from a suborbital hop; a
+  deorbit-targeting mode has never existed in this codebase, and writing one is a feature, not a fix.
 - [ ] **M2.10 Feel review** — owner flies flag combinations and picks defaults. Owner task.
 
 ## M3 — The glow-up
@@ -382,3 +390,11 @@ acceptance line.
   the two `fullISA` fixtures moved. My test was wrong first, not the model: I compared published
   values at *geometric* altitudes when the standard is indexed by *geopotential*. 744 tests green.
   **M2 is complete except M2.9 and the owner tasks.**
+- 2026-08-25 · M2.9 · **NOT COMPLETED — blocked, see above.** Landed what works: `ORBITAL_PRESETS`
+  (Circularize, Deorbit Burn), 11 tests including a **full 88-minute lap at 150 km holding within a
+  200 m band**, and every blocker asserted with its measurement so none can drift unnoticed.
+  Also fixed a real defect found while doing this: the ISA model **hard-clamped** above 84.852 km,
+  holding the 86 km density everywhere above — **12× too dense at 100 km**, which alone turned a
+  31-unit thermal load into 109 and made orbital flight impossible. Replaced with the standard
+  isothermal continuation (scale height `H = RT/g`): 5.786e-7 kg/m³ at 100 km against the published
+  **5.604e-7**, within 3%. No fixtures moved. 763 tests green.
