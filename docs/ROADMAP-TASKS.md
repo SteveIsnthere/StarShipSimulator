@@ -65,7 +65,7 @@ acceptance line.
 
 ## M2 — Honest physics
 
-- [ ] **M2.1 Bug: stratosphere** — wire `upperStrato` branch (>25 km per the model's own
+- [x] **M2.1 Bug: stratosphere** — wire `upperStrato` branch (>25 km per the model's own
   layers). Failing test first; six-scenario before/after diff in commit.
 - [x] **M2.2 Bug: heat argument** — pass nose radius (4.5 m), not cross-sectional area.
   Same obligations.
@@ -93,7 +93,7 @@ acceptance line.
 
 ## M3 — The glow-up
 
-- [ ] **M3.1 Pixi v8 shell** — app, canvas, resize, camera port.
+- [x] **M3.1 Pixi v8 shell** — app, canvas, resize, camera port.
 - [x] **M3.2 World sprites** — StarBase, ground objects, ship, fins; existing art.
 - [x] **M3.3 Particle pooling** — pooled emitter framework; port all 2021 effects; the
   shutdown leak dies here.
