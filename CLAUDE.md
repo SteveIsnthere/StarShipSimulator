@@ -108,6 +108,14 @@ speculative ones.
 
 The intro auto-landing sequence. The scenario presets. The pig at x = 0.
 
+Amended by owner decision (2026-08-25, second amendment): **visual parity with 2021
+is retired.** M6 redesigns the UI and graphics around the SpaceX broadcast-overlay
+design language (`docs/BROADCAST-UI-PLAN.md`), responsive to phones. What remains
+binding is *capability* parity — every 2021 control exists and works — plus the
+soul above. During M6, `v2/src/core` is frozen and the seven golden digests in
+`tests/golden/unification.test.ts` may not move: the overhaul is pixels, never
+physics.
+
 Amended by owner decision (2026-08-25): the soul's original "tuned feel of the 2021
 flight model as the reference configuration" is retired. **The shipped physics is full
 fidelity, with no flag machinery** — real gravity, local speed of sound, the full ISA,

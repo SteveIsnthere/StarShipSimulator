@@ -227,6 +227,69 @@ acceptance line.
   the seam so the halves join without a step. Accept: within 5% at 100 km, 0.2% at 150 km and a
   factor of 1.3 to 300 km; one golden moves (booster-sep, the only flight above 86 km).
 
+## M6 — Broadcast (the UI/graphics overhaul; plan: `docs/BROADCAST-UI-PLAN.md`)
+
+*Owner decision 2026-08-25: adopt the SpaceX webcast overlay's design language;
+responsive to phones. Milestone-wide rules, checked at EVERY M6 commit:
+`git diff v2/src/core` is empty; the seven golden digests in
+`tests/golden/unification.test.ts` are unchanged; every 2021 control still
+exists and works (capability parity — visual parity is retired); lint + test +
+build + playwright green per task; one task per commit, id-prefixed.*
+
+- [ ] **M6.1 Tokens, type, and the testid contract** — `src/ui/theme.css` design tokens
+  (ink-100/70/45/25 opacity ramp, scrims, caution/alarm/good, hairline, 2px radius); D-DIN
+  (OFL 1.1) subset to woff2 ≤ 80 kB total, self-hosted, license committed, SW-precached; a
+  canvas-measure unit test asserts tabular digits (`1111` vs `0000` within 1px) and DECIDES the
+  font — fallback Saira/Barlow if D-DIN fails it; every interactive control and readout gains a
+  stable `data-testid`, and the e2e control-presence specs re-point to them. Accept: font loads
+  in the offline e2e; digit test green; no-CDN e2e green; e2e specs pass via testids; goldens
+  and core untouched.
+- [ ] **M6.2 The lower-third telemetry bar** — bottom scrim; left: SPEED + ALTITUDE dial gauges
+  (SVG arc, 270°, auto-ranged per scenario; big tabular numeral + unit); right: engine dot
+  cluster (3 Raptors — lit/blink-on-ignition/dim/`--alarm` on failure, reusing indicator
+  semantics) + propellant bar (CH4/LOX visual style, one tank honestly noted) + pitch chevron;
+  center: T+ clock from `world.timeSpent` + scenario name; long-tail readouts (V/S, H/S, TWR, G,
+  MACH, Q, HEAT, RANGE) move to a collapsible engineering strip; **Q relabeled kPa** (declared
+  display fix of the 2021 mislabel, noted in PARITY.md). All per-frame writes via the single-rAF
+  binder, extended with attribute-diff (dashoffset/transform) writes. Accept: binder benchmark
+  < 2 ms on the new DOM; zero per-frame allocation test covers the arcs; old top-left HUD gone;
+  e2e reads the new readouts by testid.
+- [ ] **M6.3 Mission event timeline** — `src/hud/timeline.ts`: pure SimState→events derivation
+  (LIFTOFF, MAX-Q by confirmed peak, MECO, APOGEE, DEORBIT BURN, ENTRY at 80 km, FLIP, LANDING
+  BURN, TOUCHDOWN/LOSS — observed, never scripted); per-scenario expected tracks as data; track
+  UI with dots, labels, progress fill, current-event highlight. Accept: the derivation replayed
+  over ALL SEVEN golden fixtures asserts each scenario's event order headlessly; live e2e sees
+  the intro reach TOUCHDOWN; freestyling lights nothing falsely (unit test with a hand-flown
+  divergent state).
+- [ ] **M6.4 Controls in the broadcast language** — restyle Engine/Yoke/Autopilot/utility
+  panels: flat `--panel` surfaces, hairlines, uppercase micro-labels, state as lit dot + fill
+  (never green text); sliders as thin tracks with tabular values; **the neumorphic shadow string
+  is deleted repo-wide and its absence grep-asserted in a test**; cinematic-mode toggle hides
+  the controls layer (persisted per-device). Accept: full e2e control checklist passes
+  unchanged via testids; cinematic screenshot shows broadcast layer only; zero behavioral diff
+  (same typed events, same commands).
+- [ ] **M6.5 Menu, black box, guide restyle** — menu as full-screen broadcast card (scenario
+  select with per-scenario stat lines); uPlot themed to tokens (hairline axes, D-DIN, dark);
+  guide/about typography pass. Accept: menu/guide/black-box e2e green; uPlot still lazy (budget
+  report proves first-load unchanged).
+- [ ] **M6.6 Responsive + mobile** — breakpoints ≥1024 / 600–1024 / <600; phone portrait:
+  gauges collapse to digit+tick, timeline to current→next, panels become bottom sheets (≥44 px
+  targets, drag handle, one open); `viewport-fit=cover`, safe-area insets, `dvh`; landscape =
+  compressed desktop. Playwright gains phone-viewport projects (Pixel-7- and iPhone-14-class,
+  portrait + landscape) running smoke + controls + offline. Accept: all mobile projects green;
+  no horizontal scroll at any breakpoint; canvas resize correct in both orientations.
+- [ ] **M6.7 Graphics: the world earns the overlay** — view-only: horizon curvature + altitude
+  haze; vacuum plume expansion driven by ambient pressure (tight/diamond at sea level, wide
+  bell in vacuum); re-entry plasma trail scaled by thermalPower via the pooled particles; pad
+  lighting tied to sky darkness. Accept: heap-sampling test extended, still zero per-frame
+  allocations; 60 fps profile; goldens and core untouched (render reads state, never writes).
+- [ ] **M6.8 Perf, a11y, budget, ship** — binder re-benchmark < 2 ms; bundle report in the
+  commit (JS ≤ 250 kB gzip, fonts ≤ 80 kB); WCAG AA contrast asserted for ink-70 over the
+  brightest fixture frame; `prefers-reduced-motion` disables blink/shimmer; focus-visible
+  states; screenshot spec captures desktop + phone portrait, README carries both. Accept: full
+  gate + all e2e including mobile; `git diff v2/src/core` empty over the whole milestone; the
+  seven unification digests byte-identical to their M2.14 values.
+
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->
@@ -1012,4 +1075,17 @@ acceptance line.
   The method worth keeping: **a wrong equation does not converge.** The doubled term was found by
   refining dt and watching the error stay put, which is what separated it from the integration
   error it had been mistaken for since M2.6.
+
+- 2026-08-25 · plan · **M6 Broadcast planned** (owner: adopt the SpaceX webcast overlay's soul;
+  must work on mobile). Research done with sources: overlay anatomy across the Falcon and
+  Starship broadcast generations (scrim-not-cards, dial+digit gauges, event timeline, engine
+  dot clusters, LOX/CH4 bars, white+opacity as the whole palette), and the typeface question
+  settled — D-DIN is the open member of the DIN family the reference uses, SIL OFL 1.1 via
+  Datto, so it can be self-hosted within the no-CDN/offline rules; a tabular-digits measurement
+  test decides between it and Saira/Barlow rather than taste. Full plan with layouts (desktop +
+  phone portrait), the two-layer broadcast/controls split, cinematic mode, the observed-not-
+  scripted mission event timeline (tested by replaying the seven golden fixtures through it),
+  and four view-only graphics upgrades: `docs/BROADCAST-UI-PLAN.md`. Eight tasks M6.1–M6.8.
+  The milestone-wide invariant is structural: core frozen, the seven golden digests unchanged
+  at every commit — the overhaul is pixels, provably not physics.
 
