@@ -47,6 +47,17 @@ export interface EmitterConfig {
   readonly endAlpha: number;
   /** Whether the particle brightens what is behind it. */
   readonly additive: boolean;
+  /**
+   * How many times longer than wide the particle is drawn, along its own
+   * velocity. 1, the default, is the round blob everything before M7.5 used.
+   *
+   * Added for the velocity streaks, which are the one effect whose SHAPE is the
+   * cue: a dot moving at 3 km/s and a dot moving at 30 look identical on a
+   * screen with no motion blur, and a streak does not. Optional so the eight
+   * effects that predate it are byte-identical — a stretch of 1 skips the
+   * rotation and the anisotropic scale entirely.
+   */
+  readonly stretch?: number;
 }
 
 /**
@@ -121,6 +132,36 @@ export const EFFECTS = {
     startAlpha: 0.55,
     endAlpha: 0,
     additive: true,
+  },
+  /**
+   * M7.5 — velocity streaks: the world blowing past, in screen space.
+   *
+   * The one effect that is not a thing in the world. It is emitted AHEAD of the
+   * vehicle and swept backwards along the velocity vector, so it reads as the
+   * frame moving rather than as the ship shedding something. Long life and no
+   * drag, because a streak that decelerated would be a streak of something the
+   * air was catching — and there is nothing there.
+   *
+   * `stretch` is what makes it a streak rather than a dot: a dot at 3 km/s and
+   * a dot at 30 look identical on a screen with no motion blur.
+   */
+  velocityStreak: {
+    rate: 150,
+    life: 0.5,
+    lifeJitter: 0.35,
+    speed: 900,
+    speedJitter: 0.3,
+    spread: 0.05,
+    gravityY: 0,
+    drag: 0,
+    startSize: 3,
+    endSize: 2,
+    startColor: 0xffffff,
+    endColor: 0xdce8f5,
+    startAlpha: 0.30,
+    endAlpha: 0,
+    additive: true,
+    stretch: 9,
   },
   /** Shed vorticity off the fins under dynamic pressure. */
   aeroTrail: {
@@ -317,6 +358,8 @@ export function createParticleSystem(
   const gravityOf = new Float32Array(capacity);
   const colorStart = new Uint32Array(capacity);
   const colorEnd = new Uint32Array(capacity);
+  /** 1 for everything that is not a streak. See EmitterConfig.stretch. */
+  const stretchOf = new Float32Array(capacity);
 
   /** Indices of dead particles, used as a stack. */
   const free = new Int32Array(capacity);
@@ -366,10 +409,14 @@ export function createParticleSystem(
     gravityOf[i] = config.gravityY * scale;
     colorStart[i] = config.startColor;
     colorEnd[i] = config.endColor;
+    stretchOf[i] = config.stretch ?? 1;
 
     const sprite = sprites[i]!;
     sprite.visible = true;
     sprite.blendMode = config.additive ? 'add' : 'normal';
+    // Reset, because sprites are recycled: a streak that died rotated would
+    // hand its angle to whatever plume particle claimed the slot next.
+    if (stretchOf[i] === 1) sprite.rotation = 0;
 
     live[liveCount++] = i;
   };
@@ -432,8 +479,18 @@ export function createParticleSystem(
         const size = size0[i]! + (size1[i]! - size0[i]!) * t;
         sprite.x = x[i]!;
         sprite.y = y[i]!;
-        sprite.width = size;
-        sprite.height = size;
+        const stretch = stretchOf[i]!;
+        if (stretch === 1) {
+          sprite.width = size;
+          sprite.height = size;
+        } else {
+          // Long along its own velocity, thin across it. The rotation is the
+          // particle's direction of travel, so a streak always points where it
+          // is going rather than where it was emitted.
+          sprite.width = size * stretch;
+          sprite.height = size;
+          sprite.rotation = Math.atan2(vy[i]!, vx[i]!);
+        }
         sprite.alpha = alpha0[i]! + (alpha1[i]! - alpha0[i]!) * t;
         sprite.tint = lerpColor(colorStart[i]!, colorEnd[i]!, t);
 

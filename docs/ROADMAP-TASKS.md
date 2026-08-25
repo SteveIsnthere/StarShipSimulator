@@ -351,7 +351,7 @@ numbers — plan § 5.*
   unit-tested at the altitudes and speeds the seven scenarios visit, monotonic and continuous with
   no discontinuity where it takes over from the true-scale ground; screenshots at 1 km, 20 km and
   100 km committed; zero per-frame allocation.
-- [ ] **M7.5 Velocity streaks and the flight-path marker** — a pooled screen-space streak layer
+- [x] **M7.5 Velocity streaks and the flight-path marker** — a pooled screen-space streak layer
   swept along the velocity vector, density and length from one calibrated curve, silent below a
   threshold so a landing hop is not snowing; plus the flight-path marker showing where the vehicle
   is going as against where its nose points, which at high angle of attack differ enormously and
@@ -1636,3 +1636,31 @@ out is the point of the whole milestone.*
   opening underneath the ratio cannot combine with it into a step (worst 0.005 per metre of climb,
   which is exactly the true-projection rate). Screenshots at 1 km, 20 km and 100 km committed and in
   the README. Pooled marks, nothing allocated per frame.
+- 2026-08-25 · M7.5 · **Velocity streaks and the flight-path marker.** Two screen-space cues in
+  `view/motion-cues.ts`, and the file exists partly to hold the honesty rule's sharpest edge: the
+  streak curve is SCENERY and is a compression, the marker is an INSTRUMENT and is `angleOfMotion`
+  verbatim. Same file, opposite obligations, both asserted.
+  The streaks reuse the existing particle pool rather than adding a second one — `EmitterConfig`
+  gained an optional `stretch`, which is what makes a streak a streak rather than a dot (a dot at
+  3 km/s and a dot at 30 look identical on a screen with no motion blur). Emitted from a point
+  ahead of the vehicle and swept backwards, so it reads as the frame moving rather than as the ship
+  shedding something. Density saturates at 2 km/s: there is no visual difference a viewer can
+  extract between "very fast" and "twice as fast".
+  **A measurement killed a feature.** The first version multiplied the density by an ambient-pressure
+  term — reasonable-sounding, since a vacuum has nothing to streak past. Over the goldens it did
+  this: `reentry-autoland: peak 7300 m/s → streak 0.19`. That is the milestone defeating itself.
+  Re-entry has no world visible, no scenery to move and the highest speed in the game — the single
+  case these cues exist for — and pressure-thinning switched them off there and nowhere else. Plan
+  § 3.3 is explicit that screen-space cues earn their place because "none of which depend on there
+  being anything in the world to look at". Removed; re-entry is 1.00 now. They are speed lines, not
+  dust.
+  Measured across the seven: re-entry 1.00, booster-sep 0.88, launch and RTLS 0.12, and the three
+  landing scenarios **100% silent for the whole flight** — which is the threshold doing exactly its
+  job, since a gentle touchdown must not happen in a snowstorm.
+  The marker is the standard HUD velocity vector: a ring and three stubs, drawn in `effectsFront`
+  so the plume cannot cover it, fixed in screen size so the M7.3 field of view cannot shrink it away.
+  Its angle is asserted against `angleOfMotion` sample by sample at exact equality over all seven
+  goldens. The gap between it and the nose IS the angle of attack, drawn for the first time: up to
+  96° on a re-entry, 135° on a boostback.
+  Pool headroom re-measured through the real effect driver over all seven flights: **peak 653 of
+  4000, 84% free**, worst at re-entry, against the 576 baseline — the streaks cost 77 particles.

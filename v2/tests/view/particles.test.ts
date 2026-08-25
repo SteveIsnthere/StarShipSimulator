@@ -162,6 +162,9 @@ describe('emission', () => {
 
 describe('every 2021 effect is present', () => {
   it('covers plume, shutdown, aero trail, ground smoke, sonic boom, heat and explosion', () => {
+    // Plus the two this rebuild added: `plasmaTrail` in M6.7 and
+    // `velocityStreak` in M7.5. Listed rather than counted, so an effect that
+    // arrives without anyone deciding it should shows up here.
     expect(EFFECT_NAMES.sort()).toEqual(
       [
         'aeroHeat',
@@ -172,6 +175,7 @@ describe('every 2021 effect is present', () => {
         'raptorPlume',
         'raptorShutdown',
         'sonicBoom',
+        'velocityStreak',
       ].sort(),
     );
   });

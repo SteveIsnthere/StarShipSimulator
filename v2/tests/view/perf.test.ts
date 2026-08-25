@@ -18,6 +18,14 @@ import { step } from '$core/step';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import { advance, createLoopState, DT } from '$app/loop';
 import { createParticleSystem } from '$view/particles';
+import { createEffectDriver } from '$view/effects';
+import {
+  createCamera,
+  writeViewport,
+  type MutableViewport,
+} from '$view/camera';
+import { vehicleHeight } from '$core/constants';
+import { GOLDEN_SPECS } from '../golden/scenarios';
 import {
   horizonSagittaFraction,
   plumeScaleFactor,
@@ -235,5 +243,81 @@ describe('time warp stays affordable', () => {
     // Allow generous headroom for measurement noise; the point is that it is
     // not quadratic.
     expect(sixteenCost / oneCost).toBeLessThan(32);
+  });
+});
+
+/* ── M7.5: what the streaks cost the pool ─────────────────────────────── */
+
+describe('particle pool headroom, with the velocity streaks added', () => {
+  it('reports peak usage across all seven scenarios against the 576 baseline', () => {
+    /*
+      DEPTH-AND-SPEED-PLAN § 3.3 measured the headroom before any of this
+      existed: peak 576 of 4000 across the seven scenarios, 86% free. M7.5 spends
+      some of it, and this is the number.
+
+      Run through the real effect driver rather than by calling `emit` directly,
+      because the thing that could go wrong is a CALLER — the 2021 leak was a
+      renderer effect fired from a new call site, and the streaks are exactly
+      that: a new call site, emitting every frame, at a rate driven by a curve.
+    */
+    const particles = createParticleSystem(Texture.EMPTY, 4000, 20_250_825);
+    const effects = createEffectDriver();
+    const live: MutableViewport = {
+      width: 0,
+      height: 0,
+      physicalHeight: 0,
+      physicalWidth: 0,
+      scale: 0,
+    };
+    const FRAME = 1 / 60;
+
+    let peak = 0;
+    let peakAt = '';
+    const report: string[] = [];
+
+    for (const spec of GOLDEN_SPECS) {
+      let s = spec.build();
+      writeViewport(live, 1280, 800, vehicleHeight, 1, s.kinematics.altitude);
+      const camera = createCamera(
+        live,
+        s.kinematics.downRangeDistance,
+        s.kinematics.speedX,
+        s.kinematics.speedY,
+      );
+      let scenarioPeak = 0;
+
+      // Two 120 Hz steps per 60 fps frame, as the loop drains them.
+      for (let i = 0; i < spec.steps; i += 2) {
+        // The driver diffs against the previous state for its edge detection —
+        // engine ignitions, shutdowns — so it has to be the state from before
+        // this frame's steps rather than from before the last one.
+        const previous = s;
+        s = step(s, DT);
+        s = step(s, DT);
+        writeViewport(live, 1280, 800, vehicleHeight, 1, s.kinematics.altitude);
+        effects.update(particles, camera, live, s, previous, FRAME);
+        scenarioPeak = Math.max(scenarioPeak, particles.alive);
+      }
+
+      report.push(`${spec.id}: peak ${scenarioPeak}`);
+      if (scenarioPeak > peak) {
+        peak = scenarioPeak;
+        peakAt = spec.id;
+      }
+      particles.clear();
+    }
+
+    const headroom = ((1 - peak / particles.capacity) * 100).toFixed(0);
+    console.log(
+      `${report.join(' · ')}\n   worst ${peak} of ${particles.capacity} (${headroom}% free), ` +
+        `at ${peakAt}; baseline before M7.5 was 576`,
+    );
+
+    // The pool is fixed and must never be the thing that fails: the emitter
+    // starves rather than overflowing, but a peak near capacity would mean
+    // effects silently dropping frames' worth of particles.
+    expect(peak, `peak ${peak} of ${particles.capacity}`).toBeLessThan(particles.capacity * 0.75);
+    // And it is genuinely emitting, or this measures nothing.
+    expect(peak).toBeGreaterThan(100);
   });
 });

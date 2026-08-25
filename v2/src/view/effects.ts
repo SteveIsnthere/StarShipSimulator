@@ -12,7 +12,8 @@
  */
 import type { SimState } from '$core/state';
 import { worldToScreen, type CameraState, type Viewport } from './camera';
-import type { ParticleSystem } from './particles';
+import { streakIntensity, streakLength } from './motion-cues';
+import { EFFECTS, type ParticleSystem } from './particles';
 import { engineDistanceFromCenterOfMass, heatLimit, vehicleHeight } from '$core/constants';
 import { plasmaIntensity, plumeScaleFactor, plumeSpreadFactor } from './atmosphere-look';
 
@@ -164,6 +165,42 @@ export function createEffectDriver(): EffectDriver {
         const noseX = shipScreen.x - Math.cos(downAxis) * vehicleHeight * 0.5 * scale;
         const noseY = shipScreen.y - Math.sin(downAxis) * vehicleHeight * 0.5 * scale;
         particles.emit('plasmaTrail', noseX, noseY, downAxis, plasma, dt, scale * 0.9);
+      }
+
+      /* --- velocity streaks (M7.5) -----------------------------------------
+
+        The world blowing past, in screen space, so it works identically at
+        100 m and at 100 km — which the two world layers cannot, because above
+        the atmosphere there is nothing out there to look at.
+
+        Emitted from a point AHEAD of the vehicle along its velocity and swept
+        backwards, which is what makes it read as the frame moving rather than
+        as the ship shedding something. The emission point is off the edge of
+        the frame at full intensity, so streaks enter from outside rather than
+        appearing in mid-air.
+      */
+      const streak = streakIntensity(kinematics.trueSpeed);
+      if (streak > 0.01) {
+        // Screen-space direction of travel. World y is up and screen y is down.
+        const motionX = kinematics.speedX;
+        const motionY = -kinematics.speedY;
+        const motion = Math.hypot(motionX, motionY);
+        if (motion > 1e-6) {
+          const ahead = viewport.height * 0.75;
+          const back = Math.atan2(-motionY, -motionX);
+          particles.emit(
+            'velocityStreak',
+            shipScreen.x + (motionX / motion) * ahead,
+            shipScreen.y + (motionY / motion) * ahead,
+            back,
+            streak,
+            dt,
+            // The streak's own length curve, expressed as the emitter's scale.
+            // Divided by the config's start size so the curve owns the number
+            // rather than sharing it with a constant in EFFECTS.
+            streakLength(streak, viewport.height) / (EFFECTS.velocityStreak.startSize * 9),
+          );
+        }
       }
 
       // --- catastrophe ------------------------------------------------------

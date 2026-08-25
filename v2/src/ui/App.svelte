@@ -5,6 +5,7 @@
   import { loadTextures } from '$view/assets';
   import { createWorld } from '$view/world';
   import { createDistantEarth } from '$view/distant-earth';
+  import { createFlightPathMarker } from '$view/motion-cues';
   import { createVehicle } from '$view/vehicle';
   import { createParticleSystem, createParticleTexture } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
@@ -397,6 +398,13 @@
       const effects = createEffectDriver();
       view.layers.effectsBehind.addChild(particles.container);
 
+      /*
+        The flight-path marker (M7.5), in front of everything: it is an
+        instrument, and an instrument the plume can draw over is not one.
+      */
+      const flightPath = createFlightPathMarker();
+      view.layers.effectsFront.addChild(flightPath.container);
+
       const post = createPostPass(
         view.layers.effectsBehind,
         view.layers.vehicle,
@@ -479,6 +487,25 @@
         });
 
         effects.update(particles, view!.camera, view!.viewport, s, loop.previous, frameTime);
+
+        {
+          // Where the vehicle is going, as against where its nose points. The
+          // ship is drawn at its PITCH; at high angle of attack those differ
+          // enormously and nothing on screen has ever said so.
+          const at = worldToScreen(
+            view!.camera,
+            view!.viewport,
+            s.kinematics.downRangeDistance,
+            s.kinematics.altitude,
+          );
+          flightPath.update(
+            at.x,
+            at.y,
+            s.kinematics.angleOfMotion,
+            s.kinematics.trueSpeed,
+            view!.viewport.height,
+          );
+        }
 
         elapsed += frameTime;
         const nose = worldToScreen(
