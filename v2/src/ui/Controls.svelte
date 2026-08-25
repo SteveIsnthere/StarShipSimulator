@@ -18,9 +18,13 @@
     onready: (resolve: (id: string) => ClassTarget | null) => void;
     /** index.html:120 — the on-screen zoom buttons. */
     zoom: (direction: 1 | -1) => void;
+    /**
+     * Cinematic mode. Hidden, never unmounted — see below.
+     */
+    hidden?: boolean;
   }
 
-  const { emit, onready, zoom }: Props = $props();
+  const { emit, onready, zoom, hidden = false }: Props = $props();
 
   let root: HTMLElement;
 
@@ -48,7 +52,15 @@
   });
 </script>
 
-<div class="controls" bind:this={root}>
+<!--
+  `class:hidden` rather than an {#if}: the indicator binder resolved every
+  control in here exactly once and holds the references (M4.2). Unmounting them
+  for cinematic mode would leave it writing into orphans, and switching back
+  would show a panel frozen at whatever state it had when it left. `visibility`
+  also removes them from hit-testing and from the accessibility tree, so a
+  hidden panel cannot swallow a click on the world behind it.
+-->
+<div class="controls" class:hidden bind:this={root} inert={hidden}>
   <div class="left">
     <div class="panel-wrap" class:collapsed={!leftOpen}><EnginePanel {emit} /></div>
     <div class="corner">
@@ -91,9 +103,14 @@
     left and a right rail down the sides, and the bottom band belongs to the
     telemetry. M6.4 restyles their surfaces; this is the position.
   */
+  .controls.hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
   .controls {
     position: absolute;
     inset: 0;
+    transition: opacity 0.18s ease;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -129,20 +146,31 @@
     display: flex;
     gap: 0.3rem;
   }
+  /*
+    The small square controls: zoom, and the two panel collapses. Same surface
+    as a ControlButton, sized to the minimum touch target rather than to the
+    glyph — 2rem was 32px, which is under the 44px floor and was genuinely
+    awkward on a phone.
+  */
   .zoom {
     appearance: none;
-    border: 0;
-    border-radius: 0.55rem;
-    width: 2rem;
-    height: 2rem;
-    font: 600 1rem/1 var(--font);
-    color: #000;
-    background: rgb(255 255 255 / 43%);
-    box-shadow:
-      3px 3px 7px 0 rgb(0 0 0 / 20%),
-      -4px -4px 9px 0 rgb(255 255 255 / 55%);
+    border: var(--hairline);
+    border-radius: var(--radius);
+    width: var(--touch);
+    height: var(--touch);
+    font-family: var(--font-condensed);
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--ink-70);
+    background: var(--panel);
+    backdrop-filter: blur(6px);
     cursor: pointer;
     touch-action: manipulation;
+    transition: border-color 0.12s ease;
+  }
+  .zoom:hover {
+    border-color: var(--ink-45);
+    color: var(--ink-100);
   }
 
   @media (width < 32rem) {

@@ -8,6 +8,15 @@
   lie the first time the simulation disagreed with it.
 
   So: `data-indicator` is the binder's hook, and the button is a dumb emitter.
+
+  M6.4 — STATE IS PHYSICAL, NOT A COLOUR OF TEXT. The 2021 build wrote
+  `style.color = '#00ff00'` on every repaint and v2 kept the idea as a green
+  `.is-on` rule. Both say "on" by recolouring a word, which is the one thing
+  BROADCAST-UI-PLAN § 1 principle 6 rules out: engines are dots that light,
+  propellant is a bar that drains, nothing is a green word saying ON. So every
+  control with a state carries a pip — a small square that fills — and the
+  surface lifts behind it. The label itself never changes colour, which also
+  happens to be why the contrast holds in both states.
 -->
 <script lang="ts">
   import type { ControlEvent, Emit } from './controls';
@@ -30,44 +39,79 @@
 <button
   class="control"
   class:wide
+  class:stateful={indicator !== undefined}
   type="button"
   data-indicator={indicator}
   data-testid={testid}
   onclick={() => emit(event)}
 >
-  {label}
+  {#if indicator !== undefined}
+    <span class="pip" aria-hidden="true"></span>
+  {/if}
+  <span class="label">{label}</span>
 </button>
 
 <style>
   .control {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
     appearance: none;
-    border: 0;
-    border-radius: 0.55rem;
+    border: var(--hairline);
+    border-radius: var(--radius);
     padding: 0.4rem 0.55rem;
-    font: 600 0.72rem/1 var(--font);
-    letter-spacing: 0.03em;
-    color: #000;
-    background: rgb(255 255 255 / 43%);
-    box-shadow:
-      3px 3px 7px 0 rgb(0 0 0 / 20%),
-      -4px -4px 9px 0 rgb(255 255 255 / 55%);
+    background: var(--panel);
+    backdrop-filter: blur(6px);
     cursor: pointer;
     touch-action: manipulation;
+    /* Colour changes are state; a transition on them reads as the state
+       arriving rather than the page redrawing. */
+    transition:
+      background-color 0.12s ease,
+      border-color 0.12s ease;
+  }
+  .label {
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    line-height: 1;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-70);
+    white-space: nowrap;
+  }
+  .pip {
+    flex: none;
+    width: 0.4rem;
+    height: 0.4rem;
+    border: 1px solid var(--ink-45);
+    background: transparent;
+  }
+
+  .control:hover {
+    border-color: var(--ink-45);
   }
   .control:active {
-    box-shadow: inset 2px 2px 5px 0 rgb(0 0 0 / 25%);
+    background: rgb(255 255 255 / 10%);
   }
   .wide {
     grid-column: 1 / -1;
+    justify-content: center;
   }
 
   /*
-    The lit state. 2021 wrote `style.color = '#00ff00'` and a background on every
-    button on every repaint; here the binder toggles this one class, and only
-    when the boolean actually flipped.
+    The lit state. 2021 wrote `style.color = '#00ff00'` and a background on
+    every button on every repaint; here the binder toggles this one class, and
+    only when the boolean actually flipped.
   */
   .control:global(.is-on) {
-    color: #0d0;
-    background: rgb(255 255 255 / 24%);
+    border-color: var(--ink-70);
+    background: rgb(255 255 255 / 14%);
+  }
+  .control:global(.is-on) .pip {
+    background: var(--ink-100);
+    border-color: var(--ink-100);
+  }
+  .control:global(.is-on) .label {
+    color: var(--ink-100);
   }
 </style>

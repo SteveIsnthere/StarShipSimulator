@@ -123,6 +123,42 @@
   let infoView = $state<'guide' | 'about' | null>(null);
 
   /**
+   * Cinematic mode: hide the flight-controls layer.
+   *
+   * The one deliberate departure from the reference, made reversible.
+   * BROADCAST-UI-PLAN § 1 is blunt about it — SpaceX never shows a button
+   * because a broadcast viewer cannot press anything, and this is a cockpit. So
+   * the controls exist, in the same visual language, as a second layer; turning
+   * that layer off leaves exactly the broadcast.
+   *
+   * Defaults OFF (it is a cockpit first) and is remembered per device. Reading
+   * localStorage is wrapped because a browser with site data blocked THROWS on
+   * access rather than returning null, and a simulator that will not start
+   * because it could not remember a preference would be a poor trade.
+   */
+  const CINEMATIC_KEY = 'starship:cinematic';
+
+  const readCinematic = (): boolean => {
+    try {
+      return localStorage.getItem(CINEMATIC_KEY) === '1';
+    } catch {
+      return false;
+    }
+  };
+
+  let cinematic = $state(readCinematic());
+
+  const toggleCinematic = () => {
+    cinematic = !cinematic;
+    try {
+      localStorage.setItem(CINEMATIC_KEY, cinematic ? '1' : '0');
+    } catch {
+      // Nothing to do and nothing worth saying: the mode still works for this
+      // session, it just will not be remembered.
+    }
+  };
+
+  /**
    * The flight recorder.
    *
    * Held outside SimState on purpose: the history is unbounded and SimState is
@@ -398,7 +434,7 @@
   {scenarioId}
   ontimeline={onTimelineReady}
 />
-<Controls {emit} {zoom} onready={onControlsReady} />
+<Controls {emit} {zoom} onready={onControlsReady} hidden={cinematic} />
 <!--
   Both top-right buttons live in one flex row rather than being positioned
   individually. They were absolutely positioned with hand-picked offsets at
@@ -407,6 +443,18 @@
   label changes.
 -->
 <div class="top-right">
+  <button
+    class="top-button"
+    class:is-on={cinematic}
+    type="button"
+    data-testid="cinematic-toggle"
+    aria-pressed={cinematic}
+    aria-label={cinematic ? 'Show flight controls' : 'Hide flight controls'}
+    onclick={toggleCinematic}
+  >
+    <span class="pip" aria-hidden="true"></span>
+    Cinematic
+  </button>
   <button class="top-button" type="button" data-blackbox-control="open" data-testid="open-black-box" onclick={() => (blackBoxOpen = true)}>
     Black Box
   </button>
@@ -440,9 +488,8 @@
     background: #a7bdd9;
     /*
       The type, set once at the root so nothing inherits the platform default.
-      The `font:` shorthands in the components below and in the other panels
-      each reset the family, so this is the floor rather than the whole story —
-      M6.2 and M6.4 replace those shorthands with the token scale outright.
+      The components each declare their own size and weight from the token
+      scale; this is what everything falls back to.
     */
     font-family: var(--font);
     font-variant-numeric: tabular-nums;
@@ -452,42 +499,83 @@
     position: absolute;
     inset: 0;
   }
+  /*
+    The end-of-flight restart. It is the one element in the interface allowed to
+    sit in the middle of the screen, because at that moment there is nothing
+    behind it worth looking at — the flight is over.
+  */
   .restart {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     appearance: none;
-    border: 0;
-    border-radius: 0.6rem;
-    padding: 0.7rem 1.4rem;
-    font: 700 0.9rem/1 var(--font);
-    letter-spacing: 0.06em;
-    color: #000;
-    background: rgb(255 255 255 / 75%);
-    box-shadow:
-      3px 3px 7px 0 rgb(0 0 0 / 25%),
-      -4px -4px 9px 0 rgb(255 255 255 / 55%);
+    border: 1px solid var(--ink-70);
+    border-radius: var(--radius);
+    padding: 0.7rem 1.6rem;
+    font-family: var(--font-condensed);
+    font-size: 0.9rem;
+    line-height: 1;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-100);
+    background: rgb(6 8 12 / 80%);
+    backdrop-filter: blur(6px);
     cursor: pointer;
+    touch-action: manipulation;
   }
+  .restart:hover {
+    background: rgb(255 255 255 / 14%);
+  }
+
   .top-right {
     position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
+    top: calc(var(--safe-top) + 0.75rem);
+    right: calc(var(--safe-right) + 0.75rem);
     display: flex;
     gap: 0.4rem;
   }
   .top-button {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
     appearance: none;
-    border: 0;
-    border-radius: 0.55rem;
+    border: var(--hairline);
+    border-radius: var(--radius);
     padding: 0.45rem 0.7rem;
-    font: 600 0.72rem/1 var(--font);
-    color: #000;
-    background: rgb(255 255 255 / 43%);
-    box-shadow:
-      3px 3px 7px 0 rgb(0 0 0 / 20%),
-      -4px -4px 9px 0 rgb(255 255 255 / 55%);
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    line-height: 1;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-70);
+    background: var(--panel);
+    backdrop-filter: blur(6px);
     cursor: pointer;
+    touch-action: manipulation;
+    transition:
+      background-color 0.12s ease,
+      border-color 0.12s ease;
+  }
+  .top-button:hover {
+    border-color: var(--ink-45);
+    color: var(--ink-100);
+  }
+  /* Same pip as a ControlButton: state is a thing that fills, not a colour. */
+  .pip {
+    flex: none;
+    width: 0.4rem;
+    height: 0.4rem;
+    border: 1px solid var(--ink-45);
+    background: transparent;
+  }
+  .top-button.is-on {
+    border-color: var(--ink-70);
+    background: rgb(255 255 255 / 14%);
+    color: var(--ink-100);
+  }
+  .top-button.is-on .pip {
+    background: var(--ink-100);
+    border-color: var(--ink-100);
   }
 </style>

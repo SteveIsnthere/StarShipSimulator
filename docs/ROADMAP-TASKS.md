@@ -261,7 +261,7 @@ build + playwright green per task; one task per commit, id-prefixed.*
   over ALL SEVEN golden fixtures asserts each scenario's event order headlessly; live e2e sees
   the intro reach TOUCHDOWN; freestyling lights nothing falsely (unit test with a hand-flown
   divergent state).
-- [ ] **M6.4 Controls in the broadcast language** — restyle Engine/Yoke/Autopilot/utility
+- [x] **M6.4 Controls in the broadcast language** — restyle Engine/Yoke/Autopilot/utility
   panels: flat `--panel` surfaces, hairlines, uppercase micro-labels, state as lit dot + fill
   (never green text); sliders as thin tracks with tabular values; **the neumorphic shadow string
   is deleted repo-wide and its absence grep-asserted in a test**; cinematic-mode toggle hides
@@ -1195,3 +1195,27 @@ build + playwright green per task; one task per commit, id-prefixed.*
   switching the autopilot on (so it crashed and fired LOSS, correctly), and the e2e reached for a
   `launch-pad` preset the menu does not offer.
   Gate green (1161 unit, 64 e2e); `git diff v2/src/core` empty; the seven digests unmoved.
+- 2026-08-25 · M6.4 · **The controls join the design, and the pillow dies.** Every panel, button,
+  slider and corner control is now a flat `--panel` surface with a hairline, a 2px radius and an
+  uppercase condensed label. **State is a thing that fills, not a colour of text**: each stateful
+  control carries a pip that lights, because the 2021 `style.color = '#00ff00'` and the `.is-on`
+  green v2 ported from it are the one thing BROADCAST-UI-PLAN principle 6 rules out by name. The
+  sliders' `accent-color: #0d0` went the same way — colour in this interface means caution or alarm
+  and nothing else, and `--caution`/`--alarm`/`--good` are asserted still declared so the rule reads
+  as a rule rather than a ban on colour.
+  `tests/ui/no-neumorphism.test.ts` grep-asserts the shadow's absence repo-wide, and it is a
+  *shape* test rather than a `box-shadow` ban: the timeline's current-event dot legitimately wears
+  a `0 0 0 3px` halo, so what is forbidden is the SIGNATURE — a white shadow at a non-zero offset,
+  which is what fakes a light source — plus the exact literals that were in the tree. Two bugs in
+  my own matcher, both caught by running it: unitless zero offsets (`0 0 0 3px`) skip a `\d+px`
+  regex, so the halo was flagged as a bevel; and the greens grep hit three files for *explaining*
+  in a comment why they no longer use `#0d0`, so both checks now read comment-stripped source.
+  **Cinematic mode** (`cinematic-toggle`, top right, persisted per device, defaults OFF): hides the
+  flight-controls layer, leaving exactly the broadcast. Hidden and `inert`, never unmounted — the
+  indicator binder holds those nodes and would otherwise write into orphans, and the panel would
+  come back frozen at whatever state it left in. The e2e proves the hidden controls keep tracking
+  the simulation, that they cannot be focused into (an invisible but tabbable layer is a trap), that
+  the choice survives a reload, and that a browser which THROWS on `localStorage` — a private
+  window, or one set to block site data — still starts and still toggles.
+  The corner buttons grew from 32px to the 44px touch floor while they were being restyled.
+  Gate green (1166 unit, 70 e2e); `git diff v2/src/core` empty; the seven digests unmoved.

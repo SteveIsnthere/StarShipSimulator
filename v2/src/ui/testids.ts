@@ -52,6 +52,7 @@ export const CONTROL_TESTIDS = [
   'zoom-in',
   'zoom-out',
   'hud-toggle',
+  'cinematic-toggle',
   'open-black-box',
   'open-menu',
 ] as const;

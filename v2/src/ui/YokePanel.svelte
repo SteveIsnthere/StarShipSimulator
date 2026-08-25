@@ -80,13 +80,15 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.3rem;
+    gap: 0.4rem;
   }
   .title {
-    font: 500 0.68rem/1 var(--font-condensed);
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    line-height: 1;
     letter-spacing: var(--track-label);
     text-transform: uppercase;
-    opacity: 0.7;
+    color: var(--ink-45);
   }
   .row {
     display: flex;
@@ -94,9 +96,11 @@
     gap: 0.25rem;
     justify-content: flex-end;
   }
+  /* See EnginePanel for why this is white rather than green. */
   .slider {
     width: 100%;
     min-width: 9rem;
-    accent-color: #0d0;
+    accent-color: var(--ink-100);
+    height: var(--touch);
   }
 </style>

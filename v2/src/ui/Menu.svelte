@@ -261,18 +261,19 @@
     font: 600 0.72rem/1 var(--font);
     color: #000;
     background: rgb(255 255 255 / 43%);
-    box-shadow:
-      3px 3px 7px 0 rgb(0 0 0 / 20%),
-      -4px -4px 9px 0 rgb(255 255 255 / 55%);
     cursor: pointer;
   }
+  /*
+    M6.4: the lit state is a fill, not a green word. The menu's full restyle is
+    M6.5; this is the colour rule landing repo-wide with the pillow shadow.
+  */
   .control.is-on {
-    color: #0a0;
+    color: var(--ink-100);
     background: rgb(255 255 255 / 24%);
   }
   .slider {
     width: 9rem;
-    accent-color: #0d0;
+    accent-color: var(--ink-100);
   }
   .rate {
     min-width: 3rem;

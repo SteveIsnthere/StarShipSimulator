@@ -82,22 +82,30 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.3rem;
+    gap: 0.4rem;
   }
   .title {
-    font: 500 0.68rem/1 var(--font-condensed);
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    line-height: 1;
     letter-spacing: var(--track-label);
     text-transform: uppercase;
-    opacity: 0.7;
+    color: var(--ink-45);
   }
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(2.6rem, 1fr));
+    grid-template-columns: repeat(3, minmax(2.9rem, 1fr));
     gap: 0.25rem;
   }
+  /*
+    A thin track, white, with no hue of its own. `accent-color` was `#0d0` —
+    a green that belonged to the same family as the green ON text M6.4 removes.
+    In this design colour means caution or alarm and nothing else.
+  */
   .slider {
     grid-column: 1 / -1;
     width: 100%;
-    accent-color: #0d0;
+    accent-color: var(--ink-100);
+    height: var(--touch);
   }
 </style>
