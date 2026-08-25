@@ -132,6 +132,12 @@ the predicted touchdown slide toward the pad.
 At 7 km/s over a 2000 km map the marker crawls visibly. **Motion at a readable
 rate is exactly what the main view cannot provide and this can.**
 
+**Placement (owner decision, 2026-08-25): always-on and collapsible.** A panel in
+the lower third, readable at a glance with no interaction — because the moment it
+matters most is the moment you are least able to go and open something. It
+collapses like the engineering strip and is remembered per device, and on a phone
+it starts collapsed, since the phone lower third has no spare room.
+
 ### 3.2 Compressed-perspective depth — the world below
 
 The main view can show the ground at altitude if it stops insisting the ground
@@ -180,11 +186,18 @@ The task list is `docs/ROADMAP-TASKS.md` § M7. In dependency order:
 |---|---|
 | M7.1 | The trajectory map: projection, auto-range, canvas, flown path |
 | M7.2 | The predicted path on it, from the existing conic predictor |
-| M7.3 | The distant earth: compressed perspective, visible 200 m to 200 km |
-| M7.4 | Velocity streaks and the flight-path marker |
-| M7.5 | Camera: retune the follow law, altitude FOV, lead and shake (§ 6.1) |
+| M7.3 | Camera: retune the follow law, altitude FOV, lead and shake (§ 6.1) |
+| M7.4 | The distant earth: compressed perspective, visible 200 m to 200 km |
+| M7.5 | Velocity streaks and the flight-path marker |
 | M7.6 | Cloud deck: the missing middle distance |
 | M7.7 | Perf, budget, mobile, ship |
+
+**The camera is third, and that is a dependency rather than a preference.** M7.4
+and M7.6 are drawn *into* the frame the camera defines, so building them against
+today's 356 m viewport and re-tuning them after the FOV moves would be paying
+for the same work twice. The map comes first because it is independent of the
+camera entirely — and because it is the answer to the question that started
+this.
 
 ---
 
@@ -239,6 +252,14 @@ properties are now M7.5's acceptance line: the vehicle stays framed across all
 seven goldens, the response stays damped rather than springy, frame-rate
 independence holds, the result is deterministic, and the camera never looks
 below the ground.
+
+**How far it opens (owner decision, 2026-08-25): the moderate range, ~5×.** That
+takes the drawn vehicle from 180 px to about 36 px and the viewport from 200 m to
+about 1 km at high altitude — the world gets room to breathe while the ship stays
+clearly the subject rather than becoming a marker. Worth being plain that even
+the aggressive end of the range would not have reached the ground from 75 km; §
+2 is not a tuning problem. What ~5× genuinely buys is the 500 m to 20 km band,
+which is most of an ascent.
 
 **The one hard constraint.** The FOV curve is **flat at 1× below 500 m**. The
 intro auto-landing sequence is named in CLAUDE.md's soul and every landing

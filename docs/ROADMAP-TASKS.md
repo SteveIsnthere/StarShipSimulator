@@ -296,20 +296,26 @@ build + playwright green per task; one task per commit, id-prefixed.*
 leaves the screen above ~100 m and every scenario but the final landing is flown
 against a blank sky; and at 7300 m/s a ground object crosses the screen in 49 ms,
 under three frames. Owner decisions 2026-08-25: the camera control law may be retuned
-(M7.5, plan § 6.1), and sound is planned as M8 rather than folded in here. Milestone-wide rules, checked at EVERY M7 commit: `git diff
-v2/src/core` is empty; the seven golden digests are unchanged; lint + test + build +
-playwright (all five projects) green; one task per commit, id-prefixed. Compression is
-allowed in the depiction and never in the numbers — see the plan's § 5.*
+(plan § 6.1) with a **moderate** FOV range; the trajectory map is **always-on and
+collapsible**; and the camera is sequenced **third**, before the world layers that are
+drawn inside the frame it defines. Sound is M8, not folded in here. Milestone-wide
+rules, checked at EVERY M7 commit: `git diff v2/src/core` is empty; the seven golden
+digests are unchanged; lint + test + build + playwright (all five projects) green; one
+task per commit, id-prefixed. Compression is allowed in the depiction and never in the
+numbers — plan § 5.*
 
 - [ ] **M7.1 The trajectory map** — `src/hud/trajectory.ts`: pure world→map projection with
   auto-ranging over both axes (a 200 m hop and a 2000 km re-entry on the same instrument), the
   ground line, the landing site at x = 0, the 80 km entry interface, the vehicle marker and its
   velocity vector, and the flown path decimated from `app/recorder.ts`. `src/ui/TrajectoryMap.svelte`
   owns a dedicated `<canvas>`; the existing rAF binder drives it, throttled (a map does not need
-  120 Hz) with pre-allocated point arrays. Accept: projection unit-tested including both extreme
-  ranges and the degenerate zero-extent case; replayed over all seven goldens without producing a
-  NaN or an off-canvas coordinate; e2e sees the marker move and the trail grow; zero per-frame
-  allocation test extended; goldens and core untouched.
+  120 Hz) with pre-allocated point arrays. **Always-on and collapsible** (owner decision): a panel
+  in the lower third, glanceable with no interaction, collapsing like the engineering strip and
+  remembered per device with the same guarded `localStorage` read M6.4 uses. Accept: projection
+  unit-tested including both extreme ranges and the degenerate zero-extent case; replayed over all
+  seven goldens without producing a NaN or an off-canvas coordinate; e2e sees the marker move and
+  the trail grow, and sees the collapse persist across a reload; zero per-frame allocation test
+  extended; goldens and core untouched.
 - [ ] **M7.2 The predicted path** — draw where the vehicle is actually going, from
   `coastDownrangeDistance()` and `getFreeFallTimeRemainingPrediction()` — M2.9 built the conic
   predictor for the deorbit autopilot and the player has never been able to see it. Predicted
@@ -318,46 +324,51 @@ allowed in the depiction and never in the numbers — see the plan's § 5.*
   is compared against the actual touchdown over the goldens that land, and the error is reported
   in the commit; the orbital presets show no-solution rather than a wrong number; no new physics —
   `git diff v2/src/core` still empty.
-- [ ] **M7.3 The distant earth** — a compressed-perspective ground layer, visible continuously from
+- [ ] **M7.3 Camera: retune the follow law** — **UNBLOCKED by owner decision, 2026-08-25** (plan
+  § 6.1), and **sequenced third on purpose**: M7.4 and M7.6 are drawn into the frame this defines,
+  so building them first would mean re-tuning them afterwards. The "ported verbatim, worth
+  preserving exactly" constraint on `view/camera.ts` is lifted; the follow dynamics, the framing and
+  the field of view are all open. The prize is **altitude-linked FOV** at the owner's **moderate**
+  setting: up to ~5x by high altitude, taking the drawn vehicle from 180 px to about 36 px and the
+  viewport from 200 m to about 1 km, so the ship stays clearly the subject while the world gets room
+  to breathe. Plus a framing lead against the direction of travel, and shake from dynamic pressure
+  and thrust.
+  **The bit-identical guarantee is gone and must be replaced, not dropped.** Accept, all five:
+  (a) the vehicle stays inside the viewport with margin at every sampled frame across all seven
+  goldens; (b) the response is damped, not springy — overshoot bounded and settling within a stated
+  time after a step change; (c) frame-rate independence holds at 30/60/120/144 fps; (d) the camera
+  path is deterministic for a given state sequence; (e) it never looks below the ground. Plus: the
+  **FOV curve is flat at 1x below 500 m**, so the intro and every landing are untouched by
+  construction rather than by tuning — the intro is named in CLAUDE.md's soul; the curve is
+  monotonic and bounded; manual +/- zoom multiplies the altitude FOV rather than fighting it; shake
+  respects `prefers-reduced-motion`; zero per-frame allocation; and the two viewport dimension tests
+  in `tests/core/camera.test.ts` become altitude-aware rather than being deleted.
+- [ ] **M7.4 The distant earth** — a compressed-perspective ground layer, visible continuously from
   200 m to 200 km instead of vanishing at 100 m, scrolling at a rate inside the readable band
-  rather than at `speed x scale`. Both curves live in `view/` as named pure functions that say in
-  their own comments that they are compressions and why (M6.7's `atmosphere-look.ts` is the
-  pattern). Accept: curves unit-tested at the altitudes and speeds the seven scenarios visit,
-  monotonic and continuous with no discontinuity where it takes over from the true-scale ground;
-  screenshots at 1 km, 20 km and 100 km committed; zero per-frame allocation.
-- [ ] **M7.4 Velocity streaks and the flight-path marker** — a pooled screen-space streak layer
+  rather than at `speed x scale`. Built against the FOV M7.3 settles, not against today's 356 m
+  viewport. Both curves live in `view/` as named pure functions that say in their own comments that
+  they are compressions and why (M6.7's `atmosphere-look.ts` is the pattern). Accept: curves
+  unit-tested at the altitudes and speeds the seven scenarios visit, monotonic and continuous with
+  no discontinuity where it takes over from the true-scale ground; screenshots at 1 km, 20 km and
+  100 km committed; zero per-frame allocation.
+- [ ] **M7.5 Velocity streaks and the flight-path marker** — a pooled screen-space streak layer
   swept along the velocity vector, density and length from one calibrated curve, silent below a
   threshold so a landing hop is not snowing; plus the flight-path marker showing where the vehicle
   is going as against where its nose points, which at high angle of attack differ enormously and
   nothing on screen currently says so. Accept: the curve is unit-tested at the speeds the scenarios
   reach and reports zero below the threshold; pool headroom measured and reported (baseline: peak
   576 of 4000); the marker's angle is asserted against `angleOfMotion` over the goldens.
-- [ ] **M7.5 Camera: retune the follow law** — **UNBLOCKED by owner decision, 2026-08-25** (plan
-  § 6.1): the "ported verbatim, worth preserving exactly" constraint on `view/camera.ts` is lifted.
-  The follow dynamics, the framing and the field of view are all open. The prize is
-  **altitude-linked FOV** — not enough to see the ground from 75 km (impossible, plan § 2) but
-  enough that the 356 m viewport stops being a constant, which is what makes M7.3's distant earth
-  worth drawing. Plus a framing lead against the direction of travel, and shake from dynamic
-  pressure and thrust.
-  **The bit-identical guarantee is gone and must be replaced, not dropped.** Accept, all five:
-  (a) the vehicle stays inside the viewport with margin at every sampled frame across all seven
-  goldens; (b) the response is damped, not springy — overshoot bounded and settling within a stated
-  time after a step change; (c) frame-rate independence holds at 30/60/120/144 fps; (d) the camera
-  path is deterministic for a given state sequence; (e) it never looks below the ground. Plus: the
-  **FOV curve is flat at 1× below 500 m**, so the intro and every landing are untouched by
-  construction rather than by tuning — the intro is named in CLAUDE.md's soul; the vehicle never
-  shrinks below a floor that keeps it identifiable; shake respects `prefers-reduced-motion`; zero
-  per-frame allocation; and the two viewport dimension tests in `tests/core/camera.test.ts` become
-  altitude-aware rather than being deleted.
 - [ ] **M7.6 The cloud deck** — the missing middle distance: parallax currently jumps from 1x
   (ground) to 0.001x (stars) with nothing between, which is why even a good ascent reads as flat.
-  A deck at a few kilometres, seeded so it returns identically every run, thinning above it.
-  Accept: deterministic across runs; per-frame allocation unchanged; correct above and below.
+  A deck at a few kilometres, seeded so it returns identically every run, thinning above it. Like
+  M7.4, built against the settled FOV. Accept: deterministic across runs; per-frame allocation
+  unchanged; correct above and below.
 - [ ] **M7.7 Perf, budget, mobile, ship** — binder re-benchmark under 2 ms with the map redraw
-  included; bundle report in the commit (JS <= 250 kB gzip, fonts <= 80 kB); the map has a phone
-  story and the mobile projects prove it; offline precache still complete; screenshots refreshed
-  and the README updated. Accept: full gate on all five projects; `git diff v2/src/core` empty over
-  the whole milestone; the seven digests byte-identical to their M2.14 values.
+  included; bundle report in the commit (JS <= 250 kB gzip, fonts <= 80 kB); the map's phone story
+  proved by the mobile projects (it starts collapsed there — the lower third has no spare room);
+  offline precache still complete; screenshots refreshed and the README updated. Accept: full gate
+  on all five projects; `git diff v2/src/core` empty over the whole milestone; the seven digests
+  byte-identical to their M2.14 values.
 
 ## M8 — Sound (plan: `docs/SOUND-PLAN.md`)
 
@@ -1495,3 +1506,15 @@ out is the point of the whole milestone.*
   `audio/`) and a new budget line. The payoff named in the plan is not the noise but the contrast:
   the fade to near-silence as the air runs out, which is impossible to convey to someone who has
   had silence the whole time.
+- 2026-08-25 · decisions · **Three more on M7, before it starts.** (1) **Altitude FOV: the moderate
+  range, ~5x** — the drawn vehicle goes 180 px to about 36, the viewport 200 m to about 1 km, so
+  the world gets room while the ship stays the subject. Worth recording that even the aggressive
+  option would not have reached the ground from 75 km; that is geometry, not tuning, and it is why
+  the map exists. What ~5x buys is the 500 m to 20 km band, which is most of an ascent.
+  (2) **The trajectory map is always-on and collapsible**, remembered per device, starting collapsed
+  on a phone — because the moment it matters most is the moment you are least able to go and open
+  something. (3) **The camera moves to M7.3**, ahead of the distant earth and the cloud deck. That
+  came out of writing the plan rather than out of the plan: those two layers are drawn INTO the
+  frame the camera defines, so the original ordering would have built them against today's 356 m
+  viewport and then re-tuned them after the FOV moved. The map stays first — it is independent of
+  the camera, and it is the answer to the question that started this.
