@@ -9,6 +9,11 @@ and every plot in `backend/utilities/plotting.js`. Where v2 differs, the
 difference is stated and justified — "not ported" without a reason is not an
 entry in this table.
 
+Since M5.4 those paths are relative to `v2/tests/fixtures/legacy/`, where the
+2021 tree is kept frozen. The line citations throughout this document only mean
+something while those lines exist, which is one of the reasons the whole tree was
+kept rather than only the four files the parity tests execute.
+
 `tests/e2e/parity.spec.ts` is the machine-checkable half: it asserts every
 control below is present and behaves.
 

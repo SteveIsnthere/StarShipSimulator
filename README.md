@@ -76,6 +76,11 @@ v2/src/app/    The loop, input, the flight recorder, offline support.
 v2/src/core/   Pure TypeScript simulation. The protected zone.
 ```
 
+The 2021 build is still in the repository, at `v2/tests/fixtures/legacy/`. It is retired
+— not built, not served — but the parity tests **execute** it in a Node VM and compare
+v2's simulation against it value for value. It is the evidence the port is faithful, and
+the only thing that records what the original actually did.
+
 `core/` is pure: state in, state out. It runs in Node with no browser, which is what
 makes any of this testable.
 

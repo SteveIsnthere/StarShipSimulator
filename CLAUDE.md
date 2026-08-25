@@ -8,9 +8,10 @@ command — the goal prompts live in `docs/REBUILD-PLAN.md` § Driving implement
 ## Ground rules
 
 - All work happens on branch `claude/first-project-rebuild-bjniik`. Never push elsewhere.
-- The 2021 tree (`backend/`, `render/`, `utilities/`, `displayComponents/`, `index.html`)
-  is the reference implementation. **Do not modify it** until milestone M5 retires it.
-  All new code lives under `v2/`.
+- The 2021 tree is retired (M5.4) and now lives at `v2/tests/fixtures/legacy/`. It is no
+  longer the application — `v2/` is — but it is still the reference implementation, and
+  the parity tests **execute** it. **Do not modify it, ever.** Not to fix a lint error,
+  not to modernise a `var`. See `v2/tests/fixtures/legacy/README.md`.
 - One task per commit. Commit messages start with the task id (e.g. `M1.3: ...`).
 - If a task's acceptance criteria can't be met as specified, stop and say so — do not
   reinterpret the task.

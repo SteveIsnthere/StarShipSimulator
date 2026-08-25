@@ -2,9 +2,15 @@
  * Loads the 2021 backend into a sandboxed VM context so tests can compare the
  * port against the real thing rather than against a transcription of it.
  *
- * The legacy files are read-only reference (CLAUDE.md); nothing here writes to
- * them. They are plain scripts that assign to globalThis, so a VM context is
- * exactly the right shape: run them, then read the context's globals.
+ * Since M5.4 the 2021 tree lives at `v2/tests/fixtures/legacy/` rather than at
+ * the repository root. It is retired as an application — v2 is the product —
+ * but retained here, frozen, because this file executes it: without it there is
+ * no evidence the port is faithful and no way to re-derive any. See
+ * `tests/fixtures/legacy/README.md`.
+ *
+ * The legacy files are read-only reference; nothing here writes to them. They
+ * are plain scripts that assign to globalThis, so a VM context is exactly the
+ * right shape: run them, then read the context's globals.
  *
  * Two things must be stubbed for initBackEnd() to complete:
  *   - `document`, because initEngine/initControlInput reach into the DOM to
@@ -15,7 +21,8 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createContext, runInContext } from 'node:vm';
 
-const REPO = fileURLToPath(new URL('../../../', import.meta.url));
+/** The frozen 2021 tree. Paths below are relative to this. */
+const LEGACY_ROOT = fileURLToPath(new URL('../fixtures/legacy/', import.meta.url));
 
 /** A DOM stub recording attribute writes, so we can assert on them if needed. */
 function stubDocument() {
@@ -76,7 +83,7 @@ export function loadLegacy(
   const context = createContext(sandbox);
 
   for (const script of scripts) {
-    runInContext(readFileSync(REPO + script, 'utf8'), context, { filename: script });
+    runInContext(readFileSync(LEGACY_ROOT + script, 'utf8'), context, { filename: script });
   }
   if (init) runInContext('initBackEnd()', context, { filename: '<init>' });
 

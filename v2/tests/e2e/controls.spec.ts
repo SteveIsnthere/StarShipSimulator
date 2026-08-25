@@ -47,23 +47,37 @@ test('a toggle lights its button and unlights it again', async ({ page }) => {
   await expect(rcs).not.toHaveClass(/is-on/);
 });
 
-test('lighting a Raptor changes the flight', async ({ page }) => {
+test('lighting the Raptors changes the flight', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
-  const speedY = page.locator('[data-readout="speedY"] .value');
-  await expect.poll(async () => (await speedY.textContent()) !== '', { timeout: 5_000 }).toBe(true);
-
-  // The intro is a descent, so vertical speed is negative. Firing all three
-  // Raptors at full throttle must arrest it — that is the whole game.
-  const before = Number(await speedY.textContent());
-  expect(before).toBeLessThan(0);
-
-  await light(page, 'allRaptors').click();
-  await expect(light(page, 'allRaptors')).toHaveClass(/is-on/, { timeout: 3_000 });
-
+  // This has to start from a known engine state, and mid-intro is not one: the
+  // descent controller shuts engines off and on all the way down, so a click
+  // there is a shutdown as often as an ignition — and 2021's toggle-all
+  // asymmetry means a shutdown makes the vehicle fall FASTER, which is the
+  // opposite of what this test asserts. It passed for a long time on luck.
+  //
+  // The handover is the known state: engines off, tanks full. Fuel returning to
+  // 350 t is the signal (see the throttle test below for why not the others).
+  const fuel = page.locator('[data-readout="propellant"] .value');
   await expect
-    .poll(async () => Number(await speedY.textContent()), { timeout: 8_000 })
-    .toBeGreaterThan(before);
+    .poll(async () => Number(await fuel.textContent()), { timeout: 40_000, intervals: [250] })
+    .toBe(350);
+
+  const allRaptors = light(page, 'allRaptors');
+  await expect(allRaptors).not.toHaveClass(/is-on/);
+
+  // Resting on the pad after the demo landed it. Give it a push and it climbs.
+  const altitude = page.locator('[data-readout="altitude"] .value');
+  const before = Number(await altitude.textContent());
+
+  await allRaptors.click();
+  await expect(allRaptors).toHaveClass(/is-on/, { timeout: 5_000 });
+
+  // Three Raptors at full throttle on a full-but-mostly-empty vehicle: it goes
+  // up. That is the whole game.
+  await expect
+    .poll(async () => Number(await altitude.textContent()), { timeout: 15_000 })
+    .toBeGreaterThan(before + 5);
 });
 
 test('the throttle slider is bounded by the engine limits', async ({ page }) => {

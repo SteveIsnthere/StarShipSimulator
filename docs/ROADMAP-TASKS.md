@@ -119,14 +119,10 @@ acceptance line.
 - [x] **M5.2 README** — real one: screenshot, feature list, architecture story, dev setup.
 - [x] **M5.3 Deploy** — pipeline to static hosting.
 - [ ] **M5.4 Retire legacy** — 2021 tree removed after v2 flies every scenario; v1.0 tag.
-  **BLOCKED — owner decision.** The precondition is met and committed (v2 flies every scenario,
-  `v2/tests/flies-every-scenario.test.ts`). The removal is not, because it conflicts with an
-  earlier acceptance line: **twelve test files execute the 2021 tree** as the parity reference
-  via `tests/parity/legacy.ts`, which runs four of its files in a Node VM
-  (`backend/physics.js`, `backend/initBackEnd.js`, `backend/flightcontrol/flightControl.js`,
-  `backend/flightcontrol/autoPilotLowLevelFunctions.js`). Deleting the tree deletes the evidence
-  that the port is faithful, and the ability to ever re-derive it. Options in the final report.
-  The `v1.0` tag is also unpushed: tagging is outward-facing and wants an explicit go-ahead.
+  Tree retired: owner chose option **A**, so it moved to `v2/tests/fixtures/legacy/` — gone as an
+  application, kept frozen as the parity reference the tests execute. Repository root is now
+  `v2/`, `docs/` and two markdown files. **Remaining: the `v1.0` tag**, which is outward-facing
+  and still wants an explicit go-ahead.
 
 ## Log
 
@@ -648,3 +644,22 @@ acceptance line.
   weakened until it catches nothing. **What is blocked**: removing the 2021 tree contradicts the
   parity-by-execution acceptance line that twelve test files still depend on. Not reinterpreted,
   not quietly worked around — reported. 1007 tests, 43 e2e, 4 deploy-shape e2e, 182.7 kB of 250.
+- 2026-08-25 · M5.4 · **Owner chose A: the 2021 tree is retired as an application and kept as a
+  frozen reference.** It moved wholesale — `backend/`, `render/`, `utilities/`,
+  `displayComponents/`, `index.html`, and the PWA leftovers `icons/`, `manifest.json`,
+  `serviceworker.js` — to `v2/tests/fixtures/legacy/`. The repository root is now `v2/`, `docs/`,
+  `CLAUDE.md` and `README.md`; nothing 2021 is built, served or reachable. **388 parity tests still
+  execute it** from the new location, which was the whole point of the decision: the goldens record
+  what v2 does, but only this records what the original did. The *whole* tree moved rather than
+  only the four executed files, because `docs/PARITY.md` cites line numbers throughout it, and
+  deleting the parts nobody currently reads would decide on a future reader's behalf which questions
+  they may ask. Its README states the rule plainly — **do not modify anything in here, ever**, not
+  even to satisfy a linter — and ESLint is told to skip it, since it predates all six walls and
+  breaks most of them, including the 355 `globalThis` assignments that are the reason wall 6 exists.
+  CLAUDE.md's ground rule was rewritten to match. The move also flushed out a **flaky test of my
+  own**: `lighting a Raptor changes the flight` clicked Toggle-All mid-intro, where the descent
+  controller has engines off and on continuously — so the click was a shutdown as often as an
+  ignition, and 2021's toggle-all asymmetry means a shutdown makes the vehicle fall *faster*, the
+  opposite of what the test asserted. It had been passing on luck. It now starts from the handover,
+  a known state, and asserts the vehicle climbs. 1007 tests, 43 e2e, 4 deploy-shape e2e,
+  182.7 kB of 250.
