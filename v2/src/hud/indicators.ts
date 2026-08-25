@@ -47,6 +47,9 @@ export const INDICATORS: readonly Indicator[] = [
   { id: 'boostBack', on: (s) => s.autopilot.autoBoostBackOn },
   { id: 'pitchHold', on: (s) => s.autopilot.pitchHoldOn },
   { id: 'autoLand', on: (s) => s.autopilot.autoLandOn },
+  // Clears itself at handover, when autoLand takes the vehicle — same reason
+  // the autoLand light clears when the vehicle is down.
+  { id: 'autoDeorbit', on: (s) => s.autopilot.autoDeorbitOn },
 
   { id: 'fins', on: (s) => s.status.finActive },
   { id: 'rcs', on: (s) => s.status.rcsActive },

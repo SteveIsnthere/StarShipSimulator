@@ -64,6 +64,10 @@
           <li><b>Boost-Back</b> — kills downrange velocity and points the vehicle home.</li>
           <li><b>Att-Hold</b> — holds the attitude you let go of the yoke at.</li>
           <li><b>Auto-Land</b> — the full sequence: aero descent, flip, horizontal null, final burn.</li>
+          <li>
+            <b>Deorbit</b> — new in v2. Holds retrograde, times a burn so the descent ends at
+            StarBase, and hands over to Auto-Land. Try it from the Deorbit or Circularize preset.
+          </li>
         </ul>
       </details>
 

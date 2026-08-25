@@ -224,6 +224,59 @@ export const gLimit = 13;
  * 0.6317 of its own. The preset is as survivable as it was, and no more.
  */
 export const heatLimit = 390;
+
+// ---------------------------------------------------------------------------
+// Deorbit targeting — M2.9(c). New in v2; 2021 had no orbital autopilot.
+// ---------------------------------------------------------------------------
+
+/**
+ * m/s — how much downrange speed the deorbit burn removes.
+ *
+ * The single knob that sets how steep the entry is, and therefore how hot.
+ * Sutton-Graves heating goes as sqrt(density) * v^3, so a bigger burn does not
+ * simply trade fuel for accuracy: it drops the perigee further, the vehicle
+ * meets thick air while still fast, and the peak climbs. Measured from 150 km
+ * circular, flown open-loop to touchdown:
+ *
+ *      dV     peak heat    range from burn to touchdown
+ *      50        271           13 220 km
+ *     100        287            7 807 km
+ *     150        308            6 195 km
+ *     200        324            5 314 km
+ *     300        346            4 319 km
+ *
+ * 150 m/s is the compromise: 308 units is 79% of `heatLimit`, leaving real
+ * margin for a hotter-than-nominal entry, and 6195 km of lead is short enough
+ * that a coasting orbit reaches the firing point without a long wait.
+ */
+export const DEORBIT_DELTA_V = 150;
+
+/**
+ * m — ground-track distance to the landing site at which the burn starts.
+ *
+ * CALIBRATED, not derived. Predicting this analytically would mean solving the
+ * transfer ellipse and then the entire atmospheric descent, including whatever
+ * autoLand's aero-descent steering decides to do on the way down. The
+ * simulation is deterministic, so it is cheaper and far more honest to fly it
+ * and measure — which is what `tests/core/orbit-demo.test.ts` does on every
+ * run, flying the closed loop from the Deorbit preset and asserting where it
+ * touches down.
+ *
+ * THE CALIBRATION. The response is not slope-1: measured dMiss/dLead is about
+ * -1.36, because autoLand amplifies whatever offset it is handed. A secant
+ * search over the closed loop converged in three flights:
+ *
+ *     lead 6 836 485 m   ->  1 818 km short
+ *     lead 6 000 000 m   ->    682 km short
+ *     lead 5 498 288 m   ->      2.6 km long
+ *     lead 5 500 000 m   ->      312 m long
+ *
+ * 5500 km it is — round, and 312 m from the pad after leaving a 150 km orbit.
+ * The last few hundred metres are autoLand's, which steers toward
+ * `landingSiteXPos` through the aero descent and the horizontal-adjustment
+ * stage.
+ */
+export const DEORBIT_LEAD_DISTANCE = 5_500_000;
 /** psi */
 export const dynamicPressureLimit = 50;
 /** rad */

@@ -35,6 +35,7 @@ control below is present and behaves.
 | `toggleBoostBack` | ✅ Boost-Back | |
 | `togglePitchHold` | ✅ Att-Hold | |
 | `toggleAutoLand` | ✅ Auto-Land | |
+| — | ➕ **Deorbit** | New in v2 (M2.9(c)). No 2021 counterpart: the relief term was clamped at g, so orbit was structurally impossible and there was nothing to come home from. Holds retrograde, times a 150 m/s burn so the descent ends at StarBase, hands over to Auto-Land. |
 | `zoomIn` / `zoomOut` | ✅ | Asymmetric 1.5/0.75 steps and the `* 0.85` limit guard kept, so the feel is unchanged. |
 | `show_controlsL` / `show_controlsR` | ✅ | Panels collapse. Hidden, not unmounted — the indicator binder holds their nodes. |
 

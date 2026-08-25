@@ -152,6 +152,13 @@ const INTRODUCED_BY_V2: Readonly<Record<string, string>> = {
   // was not a rate. The number is unchanged; naming it records that it now
   // means 0.4 rad/s at every frame rate rather than only at 60 fps.
   PITCH_HOLD_RATE_THRESHOLD: 'M2.4 — the pitchHold gate, now in real rad/s',
+  // M2.9(c). Deorbit targeting is the one autopilot mode with no 2021
+  // counterpart: the 2021 relief term was clamped at g, so orbit was
+  // structurally impossible and there was nothing to come home from. Both
+  // numbers are calibrated by flying the closed loop — see their definitions
+  // and tests/core/orbit-demo.test.ts.
+  DEORBIT_DELTA_V: 'M2.9(c) — the retrograde burn, sized for a survivable entry',
+  DEORBIT_LEAD_DISTANCE: 'M2.9(c) — where to fire so the descent ends at StarBase',
 };
 
 /**

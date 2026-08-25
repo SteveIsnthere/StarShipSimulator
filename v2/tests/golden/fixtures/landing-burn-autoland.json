@@ -9,6 +9,7 @@
  "constant": {
   "autopilot.accelerationStageCompleted": false,
   "autopilot.autoBoostBackOn": false,
+  "autopilot.autoDeorbitOn": false,
   "autopilot.autoMaxThrustOn": false,
   "autopilot.autoTakeOffInitialised": false,
   "autopilot.autoTakeOffOn": false,
@@ -19,6 +20,10 @@
   "autopilot.boostBackInitCompleted": false,
   "autopilot.decelerationStageEstDuration": 0,
   "autopilot.demoAutoLandOn": false,
+  "autopilot.deorbitBurnCompleted": false,
+  "autopilot.deorbitBurnStarted": false,
+  "autopilot.deorbitInitCompleted": false,
+  "autopilot.deorbitTargetSpeed": "@undefined",
   "autopilot.dualRaptorMode": false,
   "autopilot.effectiveVerticalMaxThrust": "@undefined",
   "autopilot.finalDescentStageCompleted": false,

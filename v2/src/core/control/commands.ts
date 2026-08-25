@@ -153,5 +153,24 @@ export function toggleAutoLand(state: SimState): void {
   state.autopilot.autoLandOn = !state.autopilot.autoLandOn;
 }
 
+/**
+ * M2.9(c) — arm or disarm deorbit targeting. New in v2; there is no 2021
+ * counterpart because there were no orbits.
+ *
+ * Turning it off mid-sequence resets its phase flags, so re-arming starts from
+ * the coast rather than resuming a burn that is no longer pointing anywhere
+ * sensible.
+ */
+export function toggleAutoDeorbit(state: SimState): void {
+  const { autopilot } = state;
+  autopilot.autoDeorbitOn = !autopilot.autoDeorbitOn;
+  if (!autopilot.autoDeorbitOn) {
+    autopilot.deorbitInitCompleted = false;
+    autopilot.deorbitBurnStarted = false;
+    autopilot.deorbitBurnCompleted = false;
+    autopilot.deorbitTargetSpeed = undefined;
+  }
+}
+
 /** Convenience for the autopilot's own use. */
 export { getWorkingEngineCount };

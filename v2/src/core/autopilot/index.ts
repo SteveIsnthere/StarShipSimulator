@@ -501,10 +501,114 @@ export function demoAutoLand(state: SimState, dt: number): void {
   });
 }
 
+/** Retrograde, for a vehicle moving downrange. Prograde is +pi/2. */
+const RETROGRADE = rad(-Math.PI / 2);
+
+/**
+ * Ground-track distance still to cover before reaching the landing site, in the
+ * direction of travel. Always positive: going the long way round is still
+ * going, and a target 100 m behind is a lap ahead.
+ */
+function distanceToLandingSite(state: SimState): number {
+  const gap = state.autopilot.landingSiteXPos - state.kinematics.downRangeDistance;
+  return gap < 0 ? gap + C.planetCircumference : gap;
+}
+
+/**
+ * M2.9(c) — deorbit targeting. THE ONE MODE 2021 DID NOT HAVE.
+ *
+ * autoLand knows how to come home from a suborbital hop: it is handed a vehicle
+ * already falling toward the landing site and trims the rest. It has no idea
+ * how to leave an orbit, because in the 2021 flight model there were no orbits
+ * to leave — the relief term was clamped at g, so a vehicle at orbital speed
+ * still fell. Planet-centered gravity made orbit real, which made "come home
+ * from one" a question the autopilot suddenly had to be able to answer.
+ *
+ * Four phases, and the mode itself is the first three:
+ *
+ *   1. CONFIGURE. Engines off, RCS on, throttle staged at the upper limit so
+ *      the burn does not have to slew up from idle. Fins are left alone: they
+ *      do nothing in vacuum, and autoLand configures them at handover anyway.
+ *   2. COAST, turning to retrograde on RCS. Commanded from the first step of
+ *      the coast, not at the firing point, because RCS is slow: measured at
+ *      about 0.0015 rad/s, half a turn takes roughly 35 minutes and the vehicle
+ *      is still 19.5 degrees short of retrograde when the burn starts. Waiting
+ *      would mean burning sideways.
+ *   3. BURN when the ground track left to the landing site reaches
+ *      `DEORBIT_LEAD_DISTANCE`, until downrange speed has fallen by
+ *      `DEORBIT_DELTA_V`. Both are calibrated by measurement; see their
+ *      definitions in core/constants.ts.
+ *   4. HAND OVER the moment the burn is done and the vehicle is falling.
+ *
+ * WHY HAND OVER IMMEDIATELY rather than at some entry interface. The first
+ * version waited until 80 km — the altitude the Re-entry preset starts at,
+ * which seemed like the natural boundary — and held retrograde all the way
+ * down to it. That kills the vehicle: nose-into-the-airflow is the MINIMUM
+ * cross-section, so it barely decelerates in the thin upper air, arrives low
+ * and still fast, and the peak reaches the heat limit exactly. Measured:
+ * breakup at 1194 s, peak 390.0 against a limit of 390. Handing over as soon
+ * as it is falling lets autoLand put the vehicle broadside for the whole
+ * descent, and the peak drops to 309 — 79% of the limit. Attitude, not the
+ * burn, is what makes an entry survivable.
+ *
+ * WHY A FIXED dV AND A CALIBRATED LEAD, rather than a guidance loop solving for
+ * the target. Because the entry is heat-limited, and the burn size is what sets
+ * how hot it is: Sutton-Graves peaks scale with sqrt(density) * v^3, so a
+ * bigger burn drops the perigee, meets thick air sooner and faster, and pushes
+ * the peak up. A closed loop free to choose the burn could choose an entry that
+ * destroys the vehicle. Fixing the burn fixes the heating; the timing does the
+ * aiming.
+ */
+export function autoDeorbit(state: SimState): void {
+  const { autopilot, kinematics, vehicle, engines, status } = state;
+  if (!autopilot.autoDeorbitOn || autopilot.manualControlOn) return;
+
+  if (!autopilot.deorbitInitCompleted) {
+    autopilot.landingSiteXPos = C.starBaseXPos;
+    if (!status.rcsActive) cmd.toggleRcs(state);
+    if (getWorkingEngineCount(engines.running) > 0) cmd.toggleAllRaptors(state);
+    vehicle.throttle = C.throttleUpperLimit;
+    autopilot.deorbitInitCompleted = true;
+  }
+
+  // Held through every phase: during the coast so the burn can start the
+  // instant the geometry is right, and during the burn because retrograde is
+  // where the thrust has to point.
+  prim.precisionAlignment(state, RETROGRADE, 4);
+
+  if (!autopilot.deorbitBurnStarted) {
+    if (distanceToLandingSite(state) <= C.DEORBIT_LEAD_DISTANCE) {
+      autopilot.deorbitTargetSpeed = kinematics.speedX - C.DEORBIT_DELTA_V;
+      cmd.toggleAllRaptors(state);
+      vehicle.throttle = C.throttleUpperLimit;
+      autopilot.deorbitBurnStarted = true;
+    }
+    return;
+  }
+
+  if (!autopilot.deorbitBurnCompleted) {
+    if (kinematics.speedX <= (autopilot.deorbitTargetSpeed as number)) {
+      if (getWorkingEngineCount(engines.running) > 0) cmd.toggleAllRaptors(state);
+      vehicle.throttle = C.throttleLowerLimit;
+      autopilot.deorbitBurnCompleted = true;
+    }
+    return;
+  }
+
+  if (kinematics.speedY < 0) {
+    autopilot.autoDeorbitOn = false;
+    if (!autopilot.autoLandOn) cmd.toggleAutoLand(state);
+  }
+}
+
 /**
  * updateBackEnd.js:184 — every mode, in the 2021 order.
  *
  * The order is load-bearing: later modes overwrite earlier ones' commands.
+ * `autoDeorbit` is APPENDED rather than inserted for exactly that reason: it is
+ * the one mode 2021 did not have, and running it last means it cannot change
+ * what any of the six do. It hands over by switching itself off and autoLand
+ * on, so the two are never both steering.
  */
 export function runAutopilot(state: SimState, dt: number): void {
   demoAutoLand(state, dt);
@@ -513,4 +617,5 @@ export function runAutopilot(state: SimState, dt: number): void {
   autoTakeOff(state);
   autoLand(state, dt);
   autoBoostBack(state, dt);
+  autoDeorbit(state);
 }

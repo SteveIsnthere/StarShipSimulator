@@ -296,6 +296,17 @@ export interface AutopilotState {
   /** s — Infinity until predicted. */
   freeFallTimeRemainingPrediction: number;
 
+  /**
+   * M2.9(c) — the deorbit-targeting mode. New in v2; 2021 had nothing like it,
+   * because orbit was structurally impossible under its gravity model.
+   */
+  autoDeorbitOn: boolean;
+  deorbitInitCompleted: boolean;
+  deorbitBurnStarted: boolean;
+  deorbitBurnCompleted: boolean;
+  /** m/s — downrange speed the retrograde burn is aiming for; undefined until it starts. */
+  deorbitTargetSpeed: number | undefined;
+
   autoLandOn: boolean;
   initVehicleConfigCompleted: boolean;
   /** m. */
@@ -559,6 +570,12 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       decelerationStageEstDuration: 0,
       finalXPosPrediction: Infinity,
       freeFallTimeRemainingPrediction: Infinity,
+
+      autoDeorbitOn: false,
+      deorbitInitCompleted: false,
+      deorbitBurnStarted: false,
+      deorbitBurnCompleted: false,
+      deorbitTargetSpeed: undefined,
 
       autoLandOn: false,
       initVehicleConfigCompleted: false,

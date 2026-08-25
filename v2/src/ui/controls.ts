@@ -42,6 +42,8 @@ export type ControlEvent =
   | { readonly type: 'boostBack' }
   | { readonly type: 'pitchHold' }
   | { readonly type: 'autoLand' }
+  /** M2.9(c) — deorbit targeting. The one mode with no 2021 counterpart. */
+  | { readonly type: 'autoDeorbit' }
   | { readonly type: 'fins' }
   | { readonly type: 'rcs' }
   | { readonly type: 'dumpFuel' };
@@ -89,6 +91,9 @@ export function applyControl(state: SimState, event: ControlEvent): void {
       return;
     case 'autoLand':
       cmd.toggleAutoLand(state);
+      return;
+    case 'autoDeorbit':
+      cmd.toggleAutoDeorbit(state);
       return;
     case 'fins':
       cmd.toggleFin(state);

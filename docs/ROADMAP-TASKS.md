@@ -71,7 +71,7 @@ acceptance line.
   (circular orbit stays circular over one lap, energy drift bounded).
 - [x] **M2.7 Fidelity: speed of sound** — a = √(γRT) from local temperature. Off by default.
 - [x] **M2.8 Fidelity: full ISA** — standard lapse-rate table to 86 km. Off by default.
-- [ ] **M2.9 Orbit, for real** — *unblocked 2026-08-25; all three owner decisions taken. Ordered
+- [x] **M2.9 Orbit, for real** — *unblocked 2026-08-25; all three owner decisions taken. Ordered
   AFTER M2.10 by owner decision: the orbit work must land on the final unified physics, not on a
   configuration that is about to be replaced.* Three parts, in order:
   **(a) heatLimit recalibration — Bug-fix tier.** The 2021 limit (55) was tuned against a model
@@ -820,4 +820,28 @@ acceptance line.
   wrong about its own preset — 7810 m/s at 100 km is 99.74% of circular, a 20 m/s shortfall, which
   is what the scenario is actually built around and what the new derivation makes explicit. No
   golden fixture covers these presets, so nothing regenerated.
+
+- 2026-08-25 · M2.9(c) · **Deorbit targeting — the one autopilot mode 2021 never had.**
+  `autoDeorbit`: configure (RCS on, engines off, throttle staged), coast turning to retrograde,
+  fire when the ground track left to StarBase reaches a calibrated lead, burn a fixed ΔV, hand
+  over to `autoLand`. Appended last in `runAutopilot` so it cannot perturb the 2021 six, and a
+  `Deorbit` button + indicator wired through the typed event union (M4.2 pattern).
+  **The acceptance flight lands 312 m from the pad** after a full lap from 150 km — 48 simulated
+  minutes, peak heating 309 units, 79% of the recalibrated limit.
+  Two findings that shaped the design, both now in the code's own comments:
+  · **Attitude, not the burn, decides whether an entry is survivable.** The first version held
+    retrograde down to an 80 km "entry interface" — nose into the airflow is the *minimum*
+    cross-section, so it barely decelerated up high, arrived low and fast, and hit the heat limit
+    exactly: breakup at 1194 s, peak 390.0 against a limit of 390. Handing over the moment the
+    burn ends lets `autoLand` fly it broadside for the whole descent, and the peak falls to 309.
+  · **The lead distance had to be calibrated on the closed loop, not the open one.** dMiss/dLead
+    is about −1.36, not −1, because `autoLand` amplifies the offset it is handed; a fixed-point
+    iteration oscillates and a secant search converges. Open-loop pre-positioning gave 6 836 km;
+    the real preset (which coasts a lap first, and is still 19.5° short of retrograde at ignition
+    because RCS turns at ~0.0015 rad/s) needed 5 500 km. ΔV chosen from a sweep — 50/100/150/200/300
+    m/s peak at 271/287/308/324/346 units with 13 220/7 807/6 195/5 314/4 319 km of range — 150 m/s
+    being the compromise between heat margin and how long the player waits.
+  Five SimState fields added, all constant in every existing scenario, so regenerating the goldens
+  added exactly five lines per fixture and **moved no rows at all** — the M2.10 digests still hold,
+  which is the proof this feature changed no physics. Gate: lint, 1028 tests, build, e2e green.
 

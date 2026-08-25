@@ -57,6 +57,14 @@
     <ControlButton label="Att-Hold" event={{ type: 'pitchHold' }} indicator="pitchHold" {emit} />
     <ControlButton label="Auto-Land" event={{ type: 'autoLand' }} indicator="autoLand" {emit} />
   </div>
+  <div class="row">
+    <!--
+      M2.9(c). The only button here without a 2021 counterpart: there were no
+      orbits to come home from. It hands the vehicle to Auto-Land once the
+      retrograde burn is done, so the two lights are never on together.
+    -->
+    <ControlButton label="Deorbit" event={{ type: 'autoDeorbit' }} indicator="autoDeorbit" {emit} />
+  </div>
 
   <span class="title">Utilities</span>
   <div class="row">
