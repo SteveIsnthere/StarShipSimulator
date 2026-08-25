@@ -10,8 +10,8 @@
   import { createSky } from '$view/sky';
   import { bloomIntensity, createPostPass, heatIntensity } from '$view/post';
   import { heatLimit } from '$core/constants';
-  import { createIntroState } from '$core/scenarios';
-  import { advance, createLoopState } from '$app/loop';
+  import { createIntroState, createScenarioState, INTRO, type ScenarioPreset } from '$core/scenarios';
+  import { advance, createLoopState, type LoopState } from '$app/loop';
   import { vehicleHeight } from '$core/constants';
   import {
     createHudBinder,
@@ -25,6 +25,15 @@
   import Controls from './Controls.svelte';
   import { applyControl, type ControlEvent } from './controls';
   import { bindInput, bindTilt, type InputBinding, type ViewAction } from '$app/input';
+  import Menu from './Menu.svelte';
+  import {
+    fieldsToPreset,
+    REAL_TIME,
+    toLoopOptions,
+    type EditorFields,
+    type TimeSetting,
+  } from './menu';
+  import { toggleRandomFailure } from '$core/control/commands';
 
   let canvas: HTMLCanvasElement;
 
@@ -56,10 +65,51 @@
    * wait for a tick boundary, and `step()` reads SimState rather than any input
    * buffer, so applying between steps is exactly as deterministic.
    */
-  let loopState: { state: import('$core/state').SimState } | undefined;
+  let loopState: LoopState | undefined;
 
   const emit = (event: ControlEvent) => {
     if (loopState) applyControl(loopState.state, event);
+  };
+
+  /**
+   * Menu state.
+   *
+   * All three are reactive because the menu is interaction-driven: it renders
+   * when one of them changes, which is never during flight. `menuOpen` also
+   * gates the keyboard, as eventListener.js:3 did — typing an altitude into the
+   * editor must not fire the engines.
+   */
+  let menuOpen = $state(false);
+  let time = $state<TimeSetting>(REAL_TIME);
+  let randomFailure = $state(false);
+
+  /** What the current flight was configured from, so a partial edit has a base. */
+  let currentPreset: ScenarioPreset = INTRO;
+
+  const onToggleRandomFailure = () => {
+    if (!loopState) return;
+    toggleRandomFailure(loopState.state);
+    randomFailure = loopState.state.failures.randomFailure;
+  };
+
+  /**
+   * tools.js:188 — configure and fly a new flight.
+   *
+   * A restart replaces the state rather than editing the live one: the 2021
+   * version assigned to a dozen globals and left everything else — engine
+   * states, autopilot latches, RNG counters — exactly as the previous flight
+   * had left it, which is why a configured flight sometimes started with an
+   * autopilot stage half-completed.
+   */
+  const onConfigure = (fields: EditorFields) => {
+    if (!loopState) return;
+    currentPreset = fieldsToPreset(fields, currentPreset);
+    const fresh = createScenarioState(currentPreset);
+    fresh.failures.randomFailure = randomFailure;
+    loopState.state = fresh;
+    loopState.previous = fresh;
+    loopState.accumulator = 0;
+    menuOpen = false;
   };
 
   /** Zoom is a view action, not a simulation command — it changes nothing. */
@@ -129,6 +179,7 @@
         control: emit,
         view: applyViewAction,
         readThrottle: () => loop.state.vehicle.throttle,
+        isBlocked: () => menuOpen,
       });
 
       // Tilt yields to a hand on the yoke, and is only meaningful on a device
@@ -145,7 +196,7 @@
         const frameTime = (now - last) / 1000;
         last = now;
 
-        advance(loop, frameTime);
+        advance(loop, frameTime, toLoopOptions(time));
 
         const s = loop.state;
         updateCamera(
@@ -218,6 +269,18 @@
 <canvas bind:this={canvas} aria-label="Starship Simulator"></canvas>
 <Hud onready={onHudReady} />
 <Controls {emit} {zoom} onready={onControlsReady} />
+<button class="menu-button" type="button" data-menu-control="open" onclick={() => (menuOpen = true)}>
+  Menu
+</button>
+<Menu
+  open={menuOpen}
+  {time}
+  {randomFailure}
+  onClose={() => (menuOpen = false)}
+  onTimeChange={(next) => (time = next)}
+  {onConfigure}
+  {onToggleRandomFailure}
+/>
 
 <style>
   :global(body) {
@@ -229,5 +292,21 @@
     display: block;
     position: absolute;
     inset: 0;
+  }
+  .menu-button {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    appearance: none;
+    border: 0;
+    border-radius: 0.55rem;
+    padding: 0.45rem 0.7rem;
+    font: 600 0.72rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: #000;
+    background: rgb(255 255 255 / 43%);
+    box-shadow:
+      3px 3px 7px 0 rgb(0 0 0 / 20%),
+      -4px -4px 9px 0 rgb(255 255 255 / 55%);
+    cursor: pointer;
   }
 </style>

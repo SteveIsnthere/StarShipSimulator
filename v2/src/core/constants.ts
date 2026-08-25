@@ -107,8 +107,18 @@ export const integralOfRCubedTimesDx = 97656;
  * warp. M1.4 makes it a dt-ticked field in SimState.
  */
 export const raptorIgnitionTimeMean = 600;
-/** Fraction, 0..1. */
+/** Fraction, 0..1. The rate with random failures off. */
 export const raptorIgnitionFailureRate = 0;
+
+/**
+ * Fraction, 0..1 — the rate the menu's RandomFailure toggle selects.
+ *
+ * switches.js:254 assigned `raptorIgnitionFaliureRate = 0.1` when the toggle
+ * went on and 0 when it went off. In v2 the rate is not reassignable — it is
+ * chosen per draw from `status.randomFailure`, so `step()` stays pure and a
+ * fixture cannot be ambiguous about which rate produced it.
+ */
+export const RANDOM_IGNITION_FAILURE_RATE = 0.1;
 
 /** % */
 export const throttleUpperLimit = 100;

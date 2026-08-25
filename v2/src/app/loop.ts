@@ -69,6 +69,24 @@ export function createLoopState(initial: SimState): LoopState {
 export interface AdvanceOptions {
   /** Steps to run per drained increment. 1 is real time, 4 is 4x warp. */
   readonly timeWarp?: number;
+  /**
+   * Divisor for slow motion. 1 is real time, 4 is quarter speed.
+   *
+   * Speeding up and slowing down are not symmetric operations here, and it is
+   * worth being explicit about why rather than papering over it with one signed
+   * number. Speeding up means running MORE steps per frame — that is `timeWarp`
+   * above, and it is the only honest way to do it, because a step must always
+   * mean DT seconds (CLAUDE.md).
+   *
+   * Slowing down cannot be "fewer steps per frame": below one step per frame
+   * there is no such thing. What it is instead is less REAL time entering the
+   * accumulator, so whole DT steps come out more rarely. dt is still never
+   * scaled; the simulation is untouched, it simply advances less per second of
+   * wall clock. 2021 did this by dividing `renderTimeInterval`, which scaled
+   * every per-frame rate constant in the physics and so changed what the model
+   * meant at each setting.
+   */
+  readonly slowMotion?: number;
   /** Commands for this frame. Applied to every step within it. */
   readonly input?: StepInput;
   /** When true, time still passes for the renderer but the sim does not step. */
@@ -103,6 +121,7 @@ export function advance(
   options: AdvanceOptions = {},
 ): AdvanceResult {
   const warp = options.timeWarp ?? 1;
+  const slow = options.slowMotion ?? 1;
   const input = options.input ?? NO_INPUT;
 
   let clamped = false;
@@ -121,7 +140,8 @@ export function advance(
     return { steps: 0, alpha: loop.accumulator / DT, clamped };
   }
 
-  loop.accumulator += dtFrame;
+  // Slow motion scales the real time entering the accumulator, never dt.
+  loop.accumulator += slow === 1 ? dtFrame : dtFrame / slow;
 
   let steps = 0;
   while (loop.accumulator >= DT) {

@@ -144,6 +144,11 @@ const INTRODUCED_BY_V2: Readonly<Record<string, string>> = {
   // site passed crossSectionalArea, an area. 2021 had no such constant because
   // it never needed one.
   NOSE_RADIUS: 'M2.2 — the nose radius the heat correlation always wanted',
+  // M4.4, Bug fix. switches.js:247 reassigned raptorIgnitionFaliureRate between
+  // 0 and 0.1. In v2 the rate is not reassignable — step() must stay pure and a
+  // fixture must not be ambiguous about which rate produced it — so the second
+  // value is its own constant, chosen per draw from failures.randomFailure.
+  RANDOM_IGNITION_FAILURE_RATE: 'M4.4 — the rate the RandomFailure toggle selects',
   // M2.4, Bug fix. autoPilotModes.js:8 had 0.4 inline, against a quantity that
   // was not a rate. The number is unchanged; naming it records that it now
   // means 0.4 rad/s at every frame rate rather than only at 60 fps.

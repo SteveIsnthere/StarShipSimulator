@@ -64,6 +64,11 @@ export function toggleDumpFuel(state: SimState): void {
   state.status.dumpingFuel = !state.status.dumpingFuel;
 }
 
+/** switches.js:247 — the menu's RandomFailure toggle. */
+export function toggleRandomFailure(state: SimState): void {
+  state.failures.randomFailure = !state.failures.randomFailure;
+}
+
 /** tools.js:10 */
 export function setGoalAsCurrentAttitude(state: SimState): void {
   state.autopilot.holdingPitch = state.kinematics.pitch;

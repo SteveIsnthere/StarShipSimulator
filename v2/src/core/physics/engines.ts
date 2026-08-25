@@ -173,7 +173,17 @@ export function commandIgnition(state: SimState, engine: RaptorIndex): void {
  * the rate up does not shift the delay stream.
  */
 export function rollIgnitionFailure(state: SimState, engine: RaptorIndex): boolean {
-  const failed = draw(state.rng, 'ignitionFailure') < C.raptorIgnitionFailureRate;
+  // M4.4, Bug fix. The rate comes from the menu toggle, which is what
+  // switches.js:247 changed. Before this the constant was read directly, so the
+  // toggle in SimState was inert and no engine ever failed to light.
+  //
+  // The draw happens either way — physics.js:456 did the same — so turning the
+  // toggle on cannot shift the ignitionFailure stream and change a flight's
+  // ignition delays. It only changes whether an engine catches.
+  const rate = state.failures.randomFailure
+    ? C.RANDOM_IGNITION_FAILURE_RATE
+    : C.raptorIgnitionFailureRate;
+  const failed = draw(state.rng, 'ignitionFailure') < rate;
   if (failed) state.engines.failed[engine] = true;
   return failed;
 }

@@ -108,7 +108,7 @@ acceptance line.
 - [x] **M4.1 HUD binder** — readouts via the single-rAF diff binder.
 - [x] **M4.2 Panels** — engine/yoke/autopilot/utility panels in Svelte, typed events.
 - [x] **M4.3 Inputs** — keybinds, tilt, touch parity with 2021.
-- [ ] **M4.4 Menu + editor** — time warp, scenario editor incl. orbital presets.
+- [x] **M4.4 Menu + editor** — time warp, scenario editor incl. orbital presets.
 - [ ] **M4.5 Black box** — lazy-loaded uPlot; Plotly gone from first load.
 - [ ] **M4.6 Parity sweep** — checklist vs 2021 feature list; guide/about ported.
 
@@ -513,3 +513,24 @@ acceptance line.
   moved. One e2e caught a real race worth recording: the canvas is in the markup from the first
   paint, so waiting on it presses keys before `bindInput` has attached; the HUD showing a value is
   the honest ready signal, because the first tick writes it. 932 tests, 23 e2e, 176.6 kB of 250.
+- 2026-08-25 · M4.4 · **Menu, flight editor, time warp — and a toggle that did nothing.** Building
+  the menu surfaced a real Bug fix: the RandomFailure switch was ported as a SimState field but
+  `rollIgnitionFailure` compared the draw against the module constant (0), so the toggle was
+  **inert and no engine ever failed to light**. Failing test first, then the fix; the rate is now
+  chosen per draw from `failures.randomFailure` rather than being reassignable, so `step()` stays
+  pure and no fixture is ambiguous about which rate produced it. Measured at 0.1 over 5000 seeds,
+  and the draw still happens either way — so turning it on **cannot shift the ignitionFailure
+  stream**, only whether an engine catches. Tier obligation discharged: all 75 golden tests byte-
+  identical, plus an explicit bit-for-bit trace across every scenario. Time warp is honest in both
+  directions and the asymmetry is the interesting part: **speeding up runs more steps; slowing down
+  cannot run fewer than one per frame**, so it feeds the accumulator less real time instead. dt is
+  never scaled either way — 2021 divided `renderTimeInterval`, which rescaled every per-frame rate
+  constant in the physics and so changed what the model *meant* at each setting. Proved: warp N runs
+  exactly N× the steps, `simulatedTime === totalSteps * DT` at every setting, and a warp-4 flight
+  matches an unwarped one step for step. The editor keeps 2021's per-field semantics — an empty
+  field means "leave this alone", which is why the fields are strings; a number would make 0 and
+  untouched the same value — and a preset button **fills the form rather than flying it**, so a
+  preset is a starting point you can edit. Both orbital presets are offered. Configure builds a
+  fresh state rather than assigning over the live one, which is how 2021 could start a configured
+  flight with an autopilot stage half-completed. The menu blocks the keyboard, so typing an altitude
+  no longer fires the engines. 965 tests, 29 e2e, 178.8 kB of 250.
