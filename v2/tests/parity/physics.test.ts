@@ -15,7 +15,8 @@ import { loadLegacy, toLegacyKeys, toLegacyName, toLegacySource } from './legacy
 import { runInContext } from 'node:vm';
 import * as aero from '$core/physics/aero';
 import * as components from '$core/physics/components';
-import { updateAtmosphere, upperStrato } from '$core/physics/atmosphere';
+import { isaAtmosphere } from '$core/physics/isa';
+import { legacyAtmosphere, updateAtmosphere, upperStrato } from '$core/physics/atmosphere';
 import { getReentryHeatPower } from '$core/physics/thermal';
 import { rad, type Rad } from '$core/units';
 
@@ -92,9 +93,13 @@ const SPEEDS = [0, 1, 50, 250, 343, 1000, 3000, 7800];
 
 // ---------------------------------------------------------------------------
 
-describe('atmosphere', () => {
-  it.each(ALTITUDES)('updateAtmosphere at %d m', (altitude) => {
-    const mine = updateAtmosphere(altitude);
+describe('atmosphere — the ported 2021 model', () => {
+  // `legacyAtmosphere` is that model: 2021's dispatcher with M2.1's third
+  // branch wired in and its lapse coefficient corrected. Since M2.10 it is not
+  // what the vehicle flies through — see the departure block below — but it is
+  // still the thing 2021 parity is a claim about.
+  it.each(ALTITUDES)('legacyAtmosphere at %d m', (altitude) => {
+    const mine = legacyAtmosphere(altitude);
     callLegacy({ altitude }, 'updateAtmosphere()');
     exact(mine.airTemperature, readLegacy('airTemperature'), 'airTemperature');
     exact(mine.airPressure, readLegacy('airPressure'), 'airPressure');
@@ -103,8 +108,8 @@ describe('atmosphere', () => {
 
   it('branches at exactly 11 km, as the legacy `< 11000` does', () => {
     // The boundary itself takes the stratosphere branch.
-    expect(updateAtmosphere(10_999.999).airTemperature).toBeCloseTo(15.04 - 0.00649 * 10_999.999, 9);
-    expect(updateAtmosphere(11_000).airTemperature).toBe(-56.46);
+    expect(legacyAtmosphere(10_999.999).airTemperature).toBeCloseTo(15.04 - 0.00649 * 10_999.999, 9);
+    expect(legacyAtmosphere(11_000).airTemperature).toBe(-56.46);
   });
 
   it('above 25 km the port deliberately differs — this is M2.1', () => {
@@ -114,7 +119,7 @@ describe('atmosphere', () => {
     for (const altitude of [25_000, 30_000, 50_000, 80_000]) {
       callLegacy({ altitude }, 'updateAtmosphere()');
       const legacyTemperature = legacy['airTemperature'];
-      const ours = updateAtmosphere(altitude);
+      const ours = legacyAtmosphere(altitude);
 
       expect(legacyTemperature, `2021 at ${altitude} m`).toBe(-56.46);
       expect(ours.airTemperature).toBe(upperStrato(altitude).airTemperature);
@@ -135,7 +140,7 @@ describe('atmosphere', () => {
     // Re-entry preset is the scenario this bug fix transforms.
     const isotherm = (h: number) =>
       (22.65 * Math.E ** (1.73 - 0.000157 * h)) / (0.2869 * (-56.46 + 273.1));
-    const ratio = (h: number) => updateAtmosphere(h).airDensity / isotherm(h);
+    const ratio = (h: number) => legacyAtmosphere(h).airDensity / isotherm(h);
 
     expect(ratio(25_000)).toBeCloseTo(0.984, 2);
     expect(ratio(30_000)).toBeCloseTo(0.944, 2);
@@ -162,6 +167,28 @@ describe('atmosphere', () => {
     expect(upperStrato(50_000).airTemperature).toBeCloseTo(-131.21 + 0.00299 * 50_000, 9);
     // The 2021 spelling would have given +616 C at the stratopause.
     expect(-131.21 + 0.0299 * 25_000).toBeCloseTo(616.29, 2);
+  });
+});
+
+describe('DECLARED DEPARTURE: the atmosphere the vehicle flies through', () => {
+  // M2.10, Fidelity. `updateAtmosphere` — the function step() calls — is the
+  // ISA now. The three-layer model above is kept under `legacyAtmosphere` and
+  // is what the parity assertions compare against; nothing in the flight path
+  // calls it. Pinned to the exact replacement rather than described.
+  it('updateAtmosphere IS isaAtmosphere, at every altitude sampled', () => {
+    for (const altitude of [...ALTITUDES, 30_000, 47_000, 70_000, 86_000, 120_000]) {
+      expect(updateAtmosphere(altitude), `${altitude} m`).toEqual(isaAtmosphere(altitude));
+    }
+  });
+
+  it('and differs from the 2021 model by a factor that grows with altitude', () => {
+    // Measured. Below the tropopause the two agree to a few percent; the
+    // mesosphere is where the three-layer model stops meaning anything.
+    const ratio = (h: number) => isaAtmosphere(h).airDensity / legacyAtmosphere(h).airDensity;
+    expect(Math.abs(ratio(0) - 1)).toBeLessThan(0.05);
+    expect(Math.abs(ratio(10_000) - 1)).toBeLessThan(0.05);
+    expect(Math.abs(ratio(70_000) - 1)).toBeGreaterThan(0.15);
+    expect(Math.abs(ratio(84_000) - 1)).toBeGreaterThan(0.4);
   });
 });
 
@@ -349,15 +376,18 @@ describe('fins and angular drag', () => {
 });
 
 describe('the six quadrant ladders', () => {
-  // These are M1.9's target. Locking them exactly now is what makes the
-  // 1-ULP proof there meaningful.
+  // These were M1.9's target. Since M2.10 the shipped coefficients are the
+  // collapsed single expressions and these are the preserved 2021 copies —
+  // `legacy*Coefficient` — so this block still asserts what it always did:
+  // that the transcription of 2021's arithmetic is exact. The DEPARTURE block
+  // below pins what the simulation uses instead.
   const LADDERS = [
-    ['horizontalDrag', components.horizontalDragCoefficient],
-    ['verticalDrag', components.verticalDragCoefficient],
-    ['horizontalLift', components.horizontalLiftCoefficient],
-    ['verticalLift', components.verticalLiftCoefficient],
-    ['horizontalThrust', components.horizontalThrustCoefficient],
-    ['verticalThrust', components.verticalThrustCoefficient],
+    ['horizontalDrag', components.legacyHorizontalDragCoefficient],
+    ['verticalDrag', components.legacyVerticalDragCoefficient],
+    ['horizontalLift', components.legacyHorizontalLiftCoefficient],
+    ['verticalLift', components.legacyVerticalLiftCoefficient],
+    ['horizontalThrust', components.legacyHorizontalThrustCoefficient],
+    ['verticalThrust', components.legacyVerticalThrustCoefficient],
   ] as const;
 
   it.each(LADDERS)('%s ladder matches at every sampled angle', (name, fn) => {
@@ -393,7 +423,7 @@ describe('signed zero, made visible rather than swept away', () => {
   it('the horizontal lift ladder really does return -0 at pi/2', () => {
     // Documenting the exact case the helper above tolerates, so it is a known
     // property rather than a silently-passed comparison.
-    expect(Object.is(components.horizontalLiftCoefficient(rad(Math.PI / 2)), -0)).toBe(true);
+    expect(Object.is(components.legacyHorizontalLiftCoefficient(rad(Math.PI / 2)), -0)).toBe(true);
   });
 
   it('and the composition erases it, on both sides identically', () => {
@@ -405,43 +435,109 @@ describe('signed zero, made visible rather than swept away', () => {
       aerodynamicLiftAcceleration: 1,
       thrustAcceleration: 0,
     };
-    const mine = components.getHorizontalAcceleration(inputs);
+    const mine = legacyCompose(inputs).horizontal;
     const theirs = callLegacy({ ...inputs, gravity: 0 }, 'getHorizontalAcceleration()');
     expect(Object.is(mine, 0)).toBe(true);
     exact(mine, theirs, 'composed at pi/2');
+    // The shipped composition lands on the same zero here: cos(pi/2) is not
+    // exactly zero in doubles, but it is multiplied by an acceleration of 1 and
+    // then added to two exact zeros, and the sign is what this test is about.
+    expect(Object.is(components.getHorizontalAcceleration(inputs), -0)).toBe(false);
   });
 });
 
+/**
+ * The 2021 composition, assembled from the preserved ladders.
+ *
+ * physics.js:99 and :175, with the summation order 2021 used (drag + thrust +
+ * lift), so that comparing it against the VM is a comparison of arithmetic and
+ * not of associativity.
+ */
+function legacyCompose(i: {
+  angleOfMotion: Rad;
+  angleOfAttack: Rad;
+  gimbalPointingDirection: Rad;
+  aerodynamicDragAcceleration: number;
+  aerodynamicLiftAcceleration: number;
+  thrustAcceleration: number;
+}, gravity = 0): { horizontal: number; vertical: number } {
+  const inverted = components.liftSignIsInverted(i.angleOfAttack);
+
+  const hDrag = components.legacyHorizontalDragCoefficient(i.angleOfMotion) * i.aerodynamicDragAcceleration;
+  const hLiftCoefficient = components.legacyHorizontalLiftCoefficient(i.angleOfMotion);
+  const hLift = inverted
+    ? -hLiftCoefficient * i.aerodynamicLiftAcceleration
+    : hLiftCoefficient * i.aerodynamicLiftAcceleration;
+  const hThrust =
+    components.legacyHorizontalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+
+  const vDrag = components.legacyVerticalDragCoefficient(i.angleOfMotion) * i.aerodynamicDragAcceleration;
+  const vLiftCoefficient = components.legacyVerticalLiftCoefficient(i.angleOfMotion);
+  const vLift = inverted
+    ? -vLiftCoefficient * i.aerodynamicLiftAcceleration
+    : vLiftCoefficient * i.aerodynamicLiftAcceleration;
+  const vThrust =
+    components.legacyVerticalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+
+  return { horizontal: hDrag + hThrust + hLift, vertical: -gravity + vDrag + vThrust + vLift };
+}
+
 describe('composed accelerations', () => {
-  it('matches across a grid of realistic states', () => {
-    let checked = 0;
+  /** The grid both blocks below walk. */
+  const GRID = (() => {
+    const out = [];
     for (const angleOfMotion of ANGLES.slice(0, 30)) {
       for (const angleOfAttack of [rad(-2), rad(-1), rad(0.3), rad(1), rad(2.5)]) {
         for (const gimbalPointingDirection of [rad(-0.2), rad(0), rad(0.2)]) {
-          const inputs = {
+          out.push({
             angleOfMotion,
             angleOfAttack,
             gimbalPointingDirection,
             aerodynamicDragAcceleration: 3.7,
             aerodynamicLiftAcceleration: 1.9,
             thrustAcceleration: 14.2,
-          };
-          const globals = { ...inputs, gravity: 9.807 };
-
-          exact(
-            components.getHorizontalAcceleration(inputs),
-            callLegacy(globals, 'getHorizontalAcceleration()'),
-            `hAcc(${angleOfMotion},${angleOfAttack},${gimbalPointingDirection})`,
-          );
-          exact(
-            components.getVerticalAcceleration(inputs, 9.807),
-            callLegacy(globals, 'getVerticalAcceleration()'),
-            `vAcc(${angleOfMotion},${angleOfAttack},${gimbalPointingDirection})`,
-          );
-          checked += 2;
+          });
         }
       }
     }
+    return out;
+  })();
+
+  it('the 2021 composition matches exactly, across a grid of realistic states', () => {
+    let checked = 0;
+    for (const inputs of GRID) {
+      const globals = { ...inputs, gravity: 9.807 };
+      const ours = legacyCompose(inputs, 9.807);
+      exact(ours.horizontal, callLegacy(globals, 'getHorizontalAcceleration()'), 'hAcc');
+      exact(ours.vertical, callLegacy(globals, 'getVerticalAcceleration()'), 'vAcc');
+      checked += 2;
+    }
     expect(checked).toBeGreaterThanOrEqual(900);
+  });
+
+  it('DECLARED DEPARTURE: the shipped composition is the collapsed one — M1.9/M2.10', () => {
+    // It differs from 2021 in the last bit and nowhere else. Bound stated per
+    // ULP of the value's own magnitude, which is what a 1-ULP claim means for a
+    // sum of six terms: three coefficients, each within 1 ULP of the ladder's,
+    // scaled by accelerations of order 10.
+    let worstUlps = 0;
+    let differing = 0;
+    for (const inputs of GRID) {
+      const ladder = legacyCompose(inputs, 9.807);
+      const shipped = {
+        horizontal: components.getHorizontalAcceleration(inputs),
+        vertical: components.getVerticalAcceleration(inputs, 9.807),
+      };
+      for (const axis of ['horizontal', 'vertical'] as const) {
+        const a = shipped[axis];
+        const b = ladder[axis];
+        if (!Object.is(a, b)) differing += 1;
+        const ulp = Math.max(Math.abs(b), 1) * Number.EPSILON;
+        worstUlps = Math.max(worstUlps, Math.abs(a - b) / ulp);
+      }
+    }
+    // Real: some of the grid genuinely differs, so this is not vacuous.
+    expect(differing, 'nothing differed — is the collapse actually shipped?').toBeGreaterThan(0);
+    expect(worstUlps, `worst ${worstUlps.toFixed(2)} ULP`).toBeLessThanOrEqual(8);
   });
 });

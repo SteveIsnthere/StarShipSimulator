@@ -1,23 +1,33 @@
 /**
- * M1.9, Fidelity: the `collapsedTrig` flag as shipped.
+ * M1.9 → M2.10: the collapsed trig as SHIPPED.
  *
  * tests/proofs/trig-collapse.test.ts proves the two forms agree to within a
- * ULP. This is a different question: is the flag actually WIRED — does turning
- * it on reach every one of the seven ladders, and does leaving it off change
- * nothing at all? A flag that is proved correct and not plumbed in is worse
- * than no flag, because the fixture recording its "on" path would be recording
- * the off path under a different name.
+ * ULP over four million angles per ladder. This is a different question, and
+ * the one that actually protects the build: is the collapsed form what the
+ * simulation runs, in every one of the seven places 2021 wrote a ladder?
+ *
+ * Seven, not six. Six are in physics/components.ts; the seventh is inlined in
+ * `getEffectiveVerticalMaxThrust` (physics.js:477). Collapsing six of seven
+ * would be the worst of both worlds — the shipped physics would then be neither
+ * the 2021 arithmetic nor the collapsed arithmetic, and no proof would cover
+ * it.
+ *
+ * Until M2.10 this was a fidelity flag and this file asked whether the flag was
+ * wired. The flag is gone; the question becomes whether the ladders are gone
+ * from the flight path, and whether the copies kept for the parity suite are
+ * still the 2021 ones.
  */
 import { describe, expect, it } from 'vitest';
 import * as comp from '$core/physics/components';
-import { getEffectiveVerticalMaxThrust } from '$core/control/primitives';
-import { createFlags, DEFAULT_FLAGS, FLAG_COMBINATIONS, flagsId } from '$core/flags';
-import { createInitialState, type SimState } from '$core/state';
+import {
+  getEffectiveVerticalMaxThrust,
+  legacyEffectiveVerticalMaxThrust,
+} from '$core/control/primitives';
 import { createScenarioState, getScenario } from '$core/scenarios';
+import type { SimState } from '$core/state';
 import { step } from '$core/step';
 import { DT } from '$app/loop';
 import { rad, type Rad } from '$core/units';
-import { toggleAutoLand } from '$core/control/commands';
 import { maxThrustPerRaptor } from '$core/constants';
 
 /** Angles across all four quadrants, including every branch boundary. */
@@ -31,69 +41,103 @@ const ANGLES: Rad[] = [];
 }
 
 const LADDERS = [
-  { name: 'horizontalDrag', fn: comp.horizontalDragCoefficient, collapsed: (x: number) => -Math.sin(x) },
-  { name: 'verticalDrag', fn: comp.verticalDragCoefficient, collapsed: (x: number) => -Math.cos(x) },
-  { name: 'horizontalLift', fn: comp.horizontalLiftCoefficient, collapsed: (x: number) => -Math.cos(x) },
-  { name: 'verticalLift', fn: comp.verticalLiftCoefficient, collapsed: (x: number) => Math.sin(x) },
-  { name: 'horizontalThrust', fn: comp.horizontalThrustCoefficient, collapsed: (x: number) => Math.sin(x) },
-  { name: 'verticalThrust', fn: comp.verticalThrustCoefficient, collapsed: (x: number) => Math.cos(x) },
+  {
+    name: 'horizontalDrag',
+    shipped: comp.horizontalDragCoefficient,
+    ladder: comp.legacyHorizontalDragCoefficient,
+    collapsed: (x: number) => -Math.sin(x),
+  },
+  {
+    name: 'verticalDrag',
+    shipped: comp.verticalDragCoefficient,
+    ladder: comp.legacyVerticalDragCoefficient,
+    collapsed: (x: number) => -Math.cos(x),
+  },
+  {
+    name: 'horizontalLift',
+    shipped: comp.horizontalLiftCoefficient,
+    ladder: comp.legacyHorizontalLiftCoefficient,
+    collapsed: (x: number) => -Math.cos(x),
+  },
+  {
+    name: 'verticalLift',
+    shipped: comp.verticalLiftCoefficient,
+    ladder: comp.legacyVerticalLiftCoefficient,
+    collapsed: (x: number) => Math.sin(x),
+  },
+  {
+    name: 'horizontalThrust',
+    shipped: comp.horizontalThrustCoefficient,
+    ladder: comp.legacyHorizontalThrustCoefficient,
+    collapsed: (x: number) => Math.sin(x),
+  },
+  {
+    name: 'verticalThrust',
+    shipped: comp.verticalThrustCoefficient,
+    ladder: comp.legacyVerticalThrustCoefficient,
+    collapsed: (x: number) => Math.cos(x),
+  },
 ] as const;
 
-describe('the flag is off by default', () => {
-  it('is declared false in DEFAULT_FLAGS', () => {
-    expect(DEFAULT_FLAGS.collapsedTrig).toBe(false);
-    expect(createInitialState().flags.collapsedTrig).toBe(false);
-  });
-
-  it('every coefficient defaults to the ladder when the argument is omitted', () => {
-    // The default parameter matters: a call site that has not been taught about
-    // the flag must get 2021's behaviour, not a silent change.
-    for (const { name, fn } of LADDERS) {
+describe('the shipped coefficient is the single expression', () => {
+  for (const { name, shipped, collapsed } of LADDERS) {
+    it(`${name} is exactly its collapsed form, at every angle`, () => {
       for (const angle of ANGLES) {
-        expect(fn(angle), `${name}(${angle})`).toBe(fn(angle, false));
-      }
-    }
-  });
-});
-
-describe('turning it on selects the collapsed form', () => {
-  for (const { name, fn, collapsed } of LADDERS) {
-    it(`${name} returns the single expression`, () => {
-      for (const angle of ANGLES) {
-        expect(fn(angle, true), `${name}(${angle})`).toBe(collapsed(angle));
+        expect(shipped(angle), `${name}(${angle})`).toBe(collapsed(angle));
       }
     });
   }
 
-  it('the seventh ladder in primitives collapses too', () => {
-    // getEffectiveVerticalMaxThrust inlines a copy of verticalThrustCoefficient.
-    // Collapsing six of seven would be the worst of both worlds.
+  it('the seventh ladder, inlined in primitives, is collapsed too', () => {
     const running = [true, true, true];
     for (const angle of ANGLES) {
-      expect(getEffectiveVerticalMaxThrust(running, angle, true)).toBe(
+      expect(getEffectiveVerticalMaxThrust(running, angle)).toBe(
         3 * maxThrustPerRaptor * Math.cos(angle),
-      );
-      expect(getEffectiveVerticalMaxThrust(running, angle, false)).toBe(
-        getEffectiveVerticalMaxThrust(running, angle),
       );
     }
   });
+});
 
-  it('the two forms never differ by more than one unit-ULP', () => {
+describe('the 2021 ladders are still here, and still 2021', () => {
+  it('every ladder keeps its branch structure — they are not aliases', () => {
+    // If a future edit "simplified" the legacy copies into the collapsed form,
+    // the parity suite would start comparing v2 against v2 and pass forever.
+    // The two forms differ on about a third of angles in the last bit, so
+    // finding at least one disagreement proves the copies are distinct code.
+    for (const { name, shipped, ladder } of LADDERS) {
+      const differs = ANGLES.some((a) => !Object.is(shipped(a), ladder(a)));
+      expect(differs, `${name}: legacy copy is identical to the collapsed form`).toBe(true);
+    }
+    const running = [true, true, true];
+    expect(
+      ANGLES.some(
+        (a) =>
+          !Object.is(
+            getEffectiveVerticalMaxThrust(running, a),
+            legacyEffectiveVerticalMaxThrust(running, a),
+          ),
+      ),
+    ).toBe(true);
+  });
+
+  it('and the disagreement is never more than one unit-ULP', () => {
     // The headline number from the proof, restated against the shipped code
-    // rather than against a transcription of the ladders.
+    // rather than a transcription of it.
     const ULP = Number.EPSILON; // 2.220446049250313e-16
-    for (const { name, fn } of LADDERS) {
+    for (const { name, shipped, ladder } of LADDERS) {
       let worst = 0;
-      for (const angle of ANGLES) worst = Math.max(worst, Math.abs(fn(angle, true) - fn(angle, false)));
+      for (const angle of ANGLES) worst = Math.max(worst, Math.abs(shipped(angle) - ladder(angle)));
       expect(worst, `${name} max diff ${worst}`).toBeLessThanOrEqual(ULP);
     }
   });
 });
 
-describe('the flag reaches the simulation', () => {
-  it('is threaded into the acceleration inputs', () => {
-    const base = {
+describe('the collapsed form is what reaches the simulation', () => {
+  it('the composed accelerations use it, not the ladders', () => {
+    // An angle in the second quadrant, where the ladder takes its `PI - a`
+    // branch and the collapsed form does not — so composing by hand from the
+    // legacy copies gives a different last bit from what step() computes.
+    const i = {
       angleOfMotion: rad(2.5),
       angleOfAttack: rad(0.3),
       gimbalPointingDirection: rad(2.0),
@@ -101,89 +145,31 @@ describe('the flag reaches the simulation', () => {
       aerodynamicLiftAcceleration: 4,
       thrustAcceleration: 20,
     };
-    // An angle in the second quadrant, where the ladder takes its `PI - a`
-    // branch and the collapsed form does not.
-    expect(comp.getHorizontalAcceleration({ ...base, collapsedTrig: true })).not.toBe(
-      comp.getHorizontalAcceleration({ ...base, collapsedTrig: false }),
-    );
+
+    const viaLadders = (() => {
+      const dragComponent =
+        comp.legacyHorizontalDragCoefficient(i.angleOfMotion) * i.aerodynamicDragAcceleration;
+      const lift = comp.legacyHorizontalLiftCoefficient(i.angleOfMotion);
+      const liftComponent = comp.liftSignIsInverted(i.angleOfAttack)
+        ? -lift * i.aerodynamicLiftAcceleration
+        : lift * i.aerodynamicLiftAcceleration;
+      const thrustComponent =
+        comp.legacyHorizontalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+      return dragComponent + thrustComponent + liftComponent;
+    })();
+
+    expect(comp.getHorizontalAcceleration(i)).not.toBe(viaLadders);
+    // Same value to well within anything physical — it is one bit, not a
+    // different formula.
+    expect(comp.getHorizontalAcceleration(i)).toBeCloseTo(viaLadders, 12);
   });
 
-  it('changes a real flight, which is why it is Fidelity and not Refactor', () => {
-    // If this produced identical trajectories the flag would be pointless and
-    // its golden fixture would be a duplicate of the default one.
-    //
-    // Sampled MID-FLIGHT, at 25 s of a 60 s descent. Comparing the final state
-    // proves nothing here: both paths land, and a landed vehicle is pinned to
-    // exactly half its height with its velocities zeroed, so the endpoints
-    // agree to the bit however different the flights were. That is the sort of
-    // assertion that passes for the wrong reason.
-    const flyTo = (collapsedTrig: boolean, steps: number) => {
-      let s: SimState = createScenarioState(getScenario('before-flip')!);
-      s.flags = createFlags({ collapsedTrig });
-      toggleAutoLand(s);
-      for (let i = 0; i < steps; i++) s = step(s, DT);
-      return s;
-    };
-
-    const off = flyTo(false, 3_000);
-    const on = flyTo(true, 3_000);
-
-    expect(off.status.landed, 'still flying at the sample point').toBe(false);
-
-    // Which fields moved is not obvious in advance, and picking one by hand
-    // gets it wrong: altitude happens to agree here, because it is an integral
-    // of an integral and the perturbation has not reached its last bit yet.
-    // So the assertion is over the whole state.
-    const moved: string[] = [];
-    const walk = (x: unknown, y: unknown, path: string) => {
-      if (typeof x === 'number' && typeof y === 'number') {
-        if (!Object.is(x, y)) moved.push(`${path}: ${x} vs ${y}`);
-        return;
-      }
-      if (Array.isArray(x) && Array.isArray(y)) {
-        x.forEach((v, i) => walk(v, y[i], `${path}[${i}]`));
-        return;
-      }
-      if (x && y && typeof x === 'object' && typeof y === 'object') {
-        for (const k of Object.keys(x)) {
-          walk((x as Record<string, unknown>)[k], (y as Record<string, unknown>)[k], `${path}.${k}`);
-        }
-      }
-    };
-    walk(on.kinematics, off.kinematics, 'kinematics');
-    walk(on.forces, off.forces, 'forces');
-    walk(on.vehicle, off.vehicle, 'vehicle');
-
-    expect(moved.length, 'the flag must change something').toBeGreaterThan(0);
-
-    // But it is a last-bit difference compounded, not a different flight. Every
-    // moved field agrees to at least ten significant figures.
-    for (const entry of moved) {
-      const [lhs, rhs] = entry.slice(entry.indexOf(': ') + 2).split(' vs ').map(Number);
-      const scale = Math.max(Math.abs(lhs!), Math.abs(rhs!), 1e-12);
-      expect(Math.abs(lhs! - rhs!) / scale, entry).toBeLessThan(1e-10);
-    }
-
-    // And both still land.
-    expect(flyTo(true, 7_200).status.landed).toBe(flyTo(false, 7_200).status.landed);
-  });
-
-  it('is deterministic on both paths', () => {
-    const fly = (collapsedTrig: boolean) => {
+  it('and a real flight is deterministic under it', () => {
+    const fly = () => {
       let s: SimState = createScenarioState(getScenario('landing-burn')!);
-      s.flags = createFlags({ collapsedTrig });
       for (let i = 0; i < 1_200; i++) s = step(s, DT);
       return [s.kinematics.altitude, s.kinematics.speedY, s.kinematics.pitch as number];
     };
-    expect(fly(true)).toEqual(fly(true));
-    expect(fly(false)).toEqual(fly(false));
-  });
-});
-
-describe('golden coverage', () => {
-  it('ships a combination with the flag on, and one with everything on', () => {
-    const ids = FLAG_COMBINATIONS.map((c) => flagsId(createFlags(c)));
-    expect(ids).toContain('collapsedTrig');
-    expect(ids).toContain('planetCenteredGravity+realSpeedOfSound+fullISA+collapsedTrig');
+    expect(fly()).toEqual(fly());
   });
 });

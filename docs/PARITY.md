@@ -125,14 +125,35 @@ All nine plots, all 19 channels, same titles and groupings.
 
 ## Physics differences
 
-Every one is a declared tier with its evidence in the commit that made it. The
-short list: the pitch-rate frame-rate dependency (M2.4), the nose-radius unit
-error in the heating correlation (M2.2), the unclamped keyboard throttle
-(M4.3), and the inert random-failure toggle (M4.4) — all Bug fix. Planet-centered
-gravity, real speed of sound, full ISA and the collapsed trig ladders are Fidelity,
-**all off by default**
-pending the owner's decision in M2.10.
+Every one is a declared tier with its evidence in the commit that made it.
+
+**Bug fix:** the pitch-rate frame-rate dependency (M2.4), the nose-radius unit
+error in the heating correlation (M2.2), the un-called upper stratosphere and
+its mistranscribed lapse rate (M2.1), the fin-fraction initialisation (M2.3),
+the wall-clock ignition timer (M1.4), the unclamped keyboard throttle (M4.3),
+and the inert random-failure toggle (M4.4).
+
+**Fidelity, and shipped unconditionally since M2.10** — the owner's decision,
+recorded in CLAUDE.md: planet-centered gravity (M2.6), the local speed of sound
+(M2.7), the full ISA (M2.8) and the collapsed trig ladders (M1.9). There is no
+flag machinery: the fidelity physics is the only physics, and the 2021 model
+survives only as the frozen parity reference the tests execute.
+
+So the parity claim is precise rather than absolute:
+
+> v2 is 2021, except for exactly five declared departures — gravity, speed of
+> sound, atmosphere, trig, and the heating correlation's argument.
+
+`tests/parity/step.test.ts` is where that claim is enforced. It steps both loops
+from a common state and compares every field 2021 had: the ~35 retained fields
+must match (three of them differ at the last bit, from the `X * dt` vs
+`X / renderTimeInterval` substitution, and only those three), and every departed
+field is pinned to the exact expression that replaced it rather than merely
+excused. A separate free-running run over thousands of steps checks the control
+chain — fuel, mass, throttle and gimbal slew, the RCS budget, the fuel-out
+branch — still tracks 2021 exactly.
 
 `heatLimit` is the open one: it was tuned against a model that understated both
 density and heating, and with those fixed the Re-entry preset breaks up. Flagged
-at M2.1 and M2.2, still awaiting a decision.
+at M2.1 and M2.2; the owner's decision is taken (recalibrate, preserving the
+2021 margin) and M2.9 is where it lands.

@@ -88,7 +88,7 @@
           <li>Fixed-timestep simulation, so the flight is the same on every device and at every frame rate.</li>
           <li>Pure simulation core with no DOM, no globals and no wall-clock — testable in Node.</li>
           <li>Charts load on demand instead of 3.5&nbsp;MB of Plotly on every page load.</li>
-          <li>Orbital scenarios, and planet-centered gravity behind a flag.</li>
+          <li>Orbital scenarios, on real planet-centered gravity.</li>
           <li>Runs offline, from your own machine, with nothing fetched from anyone else's server.</li>
         </ul>
       </details>

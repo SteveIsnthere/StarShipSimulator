@@ -135,7 +135,8 @@ function layerFor(geopotential: number): Layer {
  * The ISA at a geometric altitude.
  *
  * Returns the same shape as the three-layer model, in the same units — degrees
- * Celsius and kPa — so it is a drop-in alternative behind the flag.
+ * Celsius and kPa — so it was a drop-in replacement for the model it took
+ * over from at M2.10.
  *
  * ABOVE THE TABLE (84.852 km geopotential) the model continues isothermally at
  * the mesopause temperature, with pressure decaying exponentially over the local

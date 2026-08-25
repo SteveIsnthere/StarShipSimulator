@@ -34,19 +34,26 @@ export function getPitchDifference(pitch: Rad, goal: Rad): number {
 /**
  * physics.js:477 — max thrust projected onto the vertical.
  *
- * The quadrant ladder here is a seventh copy of `verticalThrustCoefficient`
- * from physics/components.ts, inlined in 2021. Kept as its own copy so the port
- * stays literal, and collapsed under the same M1.9 flag as the other six —
- * collapsing some but not all of them would be the worst of both.
+ * The quadrant ladder here was a seventh copy of `verticalThrustCoefficient`
+ * from physics/components.ts, inlined in 2021. It collapses to `cos` like the
+ * other six and, since M2.10, ships collapsed like the other six — collapsing
+ * some but not all of them would be the worst of both. The ladder is preserved
+ * below as `legacyEffectiveVerticalMaxThrust` for the parity suite.
  */
 export function getEffectiveVerticalMaxThrust(
   running: readonly boolean[],
   gimbalPointingDirection: Rad,
-  collapsedTrig = false,
 ): number {
   const maxThrust = getWorkingEngineCount(running) * C.maxThrustPerRaptor;
+  return maxThrust * Math.cos(gimbalPointingDirection);
+}
 
-  if (collapsedTrig) return maxThrust * Math.cos(gimbalPointingDirection);
+/** physics.js:477 verbatim — the 2021 ladder, kept for parity comparison. */
+export function legacyEffectiveVerticalMaxThrust(
+  running: readonly boolean[],
+  gimbalPointingDirection: Rad,
+): number {
+  const maxThrust = getWorkingEngineCount(running) * C.maxThrustPerRaptor;
 
   let coefficient: number;
   if (0 <= gimbalPointingDirection && gimbalPointingDirection <= Math.PI / 2) {
@@ -241,11 +248,7 @@ export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: nu
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
     ((goalTWR * vehicle.vehicleMass * C.gravity) /
-      getEffectiveVerticalMaxThrust(
-        engines.running,
-        vehicle.gimbalPointingDirection,
-        state.flags.collapsedTrig,
-      )) *
+      getEffectiveVerticalMaxThrust(engines.running, vehicle.gimbalPointingDirection)) *
     100;
 
   if (throttleGoalPercentage > C.throttleUpperLimit) {

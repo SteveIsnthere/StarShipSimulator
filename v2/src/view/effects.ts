@@ -143,7 +143,7 @@ export function createEffectDriver(): EffectDriver {
         showedBreakUp = true;
       }
       if (!failures.crashed && !failures.inFlightBreakUp && (showedCrash || showedBreakUp)) {
-        // A restart clears the flags; allow the effect to fire again.
+        // A restart clears the fired markers; allow the effect to fire again.
         showedCrash = false;
         showedBreakUp = false;
       }

@@ -36,7 +36,9 @@ export const gravitationalConstant = 6.674e-11;
 
 /**
  * m/s^2. Constant everywhere in the 2021 model — 4.0% high at 100 km, 7.2% at
- * 200 km. M2.6 replaces this with -GM*r_hat/r^2 behind a fidelity flag.
+ * 200 km. M2.6 replaced it with -GM*r_hat/r^2, shipped unconditionally at
+ * M2.10; the constant survives only where 2021 used it as a unit — TWR, felt
+ * g, and the add-back in getVerticalAcceleration.
  */
 export const gravity = 9.807;
 /** Lumped drag coefficient, dimensionless. */

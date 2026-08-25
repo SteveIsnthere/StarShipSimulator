@@ -106,7 +106,7 @@ acceptance line.
   (assert the measured landing error and pin it; report the achieved figure honestly rather
   than promising a number in advance) — deterministic, and a golden fixture if the sampled size
   stays reviewable (raise `SAMPLE_EVERY` for this one spec if needed).
-- [ ] **M2.10 Feel review → FULL FIDELITY, NO FLAGS** — *the owner's verdict, 2026-08-25:
+- [x] **M2.10 Feel review → FULL FIDELITY, NO FLAGS** — *the owner's verdict, 2026-08-25:
   "the point is full fidelity and realism, don't hold back and no flag." This supersedes both
   the original "pick defaults" framing and the interim "all flags on by default" answer.* The
   four fidelity paths — planet-centered gravity (M2.6), local speed of sound (M2.7), full ISA
@@ -758,3 +758,34 @@ acceptance line.
   bit-identity of the unified path with the M1.9 all-flags fixture, the four-of-five scenarios
   landing, the parity re-scope shape and its two traps — is folded into the M2.10 and M2.9 task
   specs above so the implementing session inherits the measurements without rediscovering them.
+
+- 2026-08-25 · M2.10 · **Full fidelity, no flags.** `core/flags.ts` deleted, `SimState.flags`
+  gone, `orbitGravityAccCompensation` removed from the state, every fidelity branch
+  unconditional. The seven quadrant ladders ship collapsed; the 2021 copies moved to
+  `legacy*Coefficient` / `legacyEffectiveVerticalMaxThrust` so the parity suite and the 1-ULP
+  proof still have the real thing to compare against. `updateAtmosphere` is the ISA;
+  the repaired three-layer model is exported as `legacyAtmosphere`.
+  **The restructure is provably numerically inert**: all seven regenerated fixtures' row
+  blocks hash identically to the all-flags recordings made at 115879c — the reentry digest
+  `ef4c014f…` is reproducible straight from that commit's committed fixture. Asserted
+  permanently in `tests/golden/unification.test.ts` (a digest rather than a second fixture
+  set, since "one physics, one fixture set" is the other half of this task), and checked
+  before the flagged fixtures were deleted. Keeping the `-g … + g + real` add-back in
+  `getVerticalAcceleration` untouched is what bought that: float addition is not associative
+  and tidying it would have moved the last bits.
+  **Parity re-scoped** from "v2 ≡ 2021" to "v2 ≡ 2021 except exactly five declared
+  departures", and made *stronger* rather than weaker in the process. The lockstep harness
+  now re-seeds the legacy VM from v2's state before every step, so it measures per-step
+  agreement instead of accumulated drift: 35 retained fields, and exactly three of them
+  (`pitch`, `angularVelocity`, `speedX` — precisely the `X * dt` integrations) ever differ,
+  at 1 ULP. Every departed field is pinned to its replacement expression, not excused; a
+  completeness test proves retained ∪ departed covers every field the old comparison had, with
+  no overlap. The long-run claim is made separately over the trajectory-decoupled chain
+  (fuel, mass, throttle/gimbal slew, RCS budget, fuel-out) for 3000 free-running steps.
+  Two traps confirmed in passing: the frozen tree carries the **un-repaired** M2.1
+  stratosphere (it reads −56.46 °C at 80 km, where v2's `legacyAtmosphere` does not), and
+  re-seeding dissolves the fin-extension coupling that would otherwise have forced fins out
+  of the comparison. Measured: the ISA at 80 km is 1.8e-5 kg/m³ — half the repaired
+  three-layer model, still 2.5× the 2021 isotherm, so the Re-entry preset still breaks up
+  and M2.9(a) still has work to do. Gate: lint, 1008 tests, build (182.1 kB of 250), and
+  43 e2e all green.

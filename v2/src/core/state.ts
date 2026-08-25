@@ -15,7 +15,6 @@
  *   - No methods. State is data; behaviour lives in step.ts and physics/.
  */
 import * as C from './constants';
-import { cloneFlags, createFlags, type Flags } from './flags';
 import { updateVehicleInFlightMaxArea } from './physics/aero';
 import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
@@ -61,22 +60,14 @@ export interface KinematicsState {
   /** m — from the planet's centre. */
   distanceToPlanetCenter: number;
   /**
-   * m/s — circular orbital velocity at the current altitude.
-   * In 2021 this was assigned once at init (initBackEnd.js:50) and never updated,
-   * so the orbital relief term used a stale denominator for the whole flight.
-   * M2.6 removes the term entirely in favour of real planet-centered gravity.
+   * m/s — circular orbital velocity at the current altitude, sqrt(GM/r).
+   *
+   * In 2021 this was assigned once at init (initBackEnd.js:50) and never
+   * updated, because the only thing that read it was the orbital relief term's
+   * denominator. That term is gone (M2.6, M2.10) and this is now recomputed
+   * every step, so the HUD reads a number that means what it says.
    */
   orbitalVelocityAtCurrentAltitude: number;
-  /**
-   * m/s^2 — the 2021 "orbital relief" term, subtracted from felt gravity.
-   *
-   * CARRIED ACROSS STEPS BY DESIGN. updateBackEnd() writes this at the *end* of
-   * updateSpactialMotion, after the velocity integration and after the new
-   * accelerations, so both the integration and updatePerceivedG read the value
-   * computed on the PREVIOUS step. Computing it early changes the trajectory —
-   * the full-loop parity test in tests/parity/step.test.ts catches it by step 1.
-   */
-  orbitGravityAccCompensation: number;
 
   /** m/s — magnitude of the velocity vector. */
   trueSpeed: number;
@@ -370,12 +361,6 @@ export interface SimState {
    * pure and golden fixtures possible. See core/rng.ts.
    */
   rng: RngState;
-  /**
-   * Fidelity flags. Carried in the state rather than read from module scope so
-   * that `step()` stays pure and a golden fixture records the physics that
-   * produced it. See core/flags.ts.
-   */
-  flags: Flags;
   world: WorldState;
   atmosphere: AtmosphereState;
   kinematics: KinematicsState;
@@ -403,13 +388,12 @@ export const DEFAULT_SEED = 0x5741_4c4b;
  * `distanceToPlanetCenter` derives from it, `orbitalVelocityAtCurrentAltitude`
  * from that, and `accelerationY` starts at -gravity rather than 0.
  */
-export function createInitialState(seed = DEFAULT_SEED, flags: Partial<Flags> = {}): SimState {
+export function createInitialState(seed = DEFAULT_SEED): SimState {
   const altitude = C.vehicleHeight / 2;
   const distanceToPlanetCenter = C.planetRadius + altitude;
 
   return {
     rng: createRng(seed),
-    flags: createFlags(flags),
 
     world: {
       environmentTime: 0,
@@ -433,10 +417,6 @@ export function createInitialState(seed = DEFAULT_SEED, flags: Partial<Flags> = 
       orbitalVelocityAtCurrentAltitude: Math.sqrt(
         (C.gravitationalConstant * C.planetMass) / distanceToPlanetCenter,
       ),
-      // initFlightParams: gravity * |speedX| / orbitalVelocity, with speedX 0.
-      orbitGravityAccCompensation:
-        (C.gravity * Math.abs(0)) /
-        Math.sqrt((C.gravitationalConstant * C.planetMass) / distanceToPlanetCenter),
 
       trueSpeed: 0,
       speedX: 0,
@@ -635,7 +615,6 @@ export function createInitialState(seed = DEFAULT_SEED, flags: Partial<Flags> = 
 export function cloneState(s: SimState): SimState {
   return {
     rng: { seed: s.rng.seed, counters: { ...s.rng.counters } },
-    flags: cloneFlags(s.flags),
     world: { ...s.world },
     atmosphere: { ...s.atmosphere },
     kinematics: {

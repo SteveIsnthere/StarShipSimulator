@@ -1,9 +1,18 @@
 /**
- * Atmosphere model, ported verbatim from backend/physics.js:6-31.
+ * Atmosphere model.
  *
- * A two-branch barometric model: troposphere below 11 km, lower stratosphere
- * above. Pressure in kPa, temperature in Celsius, density from the ideal gas
- * law with R_specific folded into 0.2869.
+ * TWO MODELS LIVE HERE, and which one is the atmosphere changed at M2.10.
+ *
+ * `updateAtmosphere` — what the simulation flies through — is now the full ISA
+ * (core/physics/isa.ts): seven lapse-rate layers to 86 km with an isothermal
+ * continuation above. `legacyAtmosphere` is the 2021 three-branch barometric
+ * model, ported verbatim from backend/physics.js:6-31 and repaired at M2.1,
+ * kept because the parity suite compares against it and because the size of
+ * the departure is worth being able to measure rather than assert.
+ *
+ * Pressure in kPa, temperature in Celsius, density from the ideal gas law with
+ * R_specific folded into 0.2869 — the 2021 units, which the ISA module also
+ * returns, so the two are directly comparable.
  */
 
 import { isaAtmosphere } from './isa';
@@ -69,11 +78,16 @@ export const TROPOPAUSE_ALTITUDE = 11_000;
 export const STRATOPAUSE_ALTITUDE = 25_000;
 
 /**
- * physics.js:6 — the dispatcher, now with all three branches live.
+ * physics.js:6 — the 2021 dispatcher, with all three branches live (M2.1).
+ *
+ * No longer what the simulation flies through: M2.10 made the ISA the only
+ * atmosphere. Retained under its own name because the parity tests compare the
+ * two, and because "the shipped model departs from 2021 here" is a claim worth
+ * being able to evaluate numerically.
+ *
  * @param altitude m
  */
-export function updateAtmosphere(altitude: number, fullISA = false): Atmosphere {
-  if (fullISA) return isaAtmosphere(altitude);
+export function legacyAtmosphere(altitude: number): Atmosphere {
   if (altitude < TROPOPAUSE_ALTITUDE) {
     return tropo(altitude);
   }
@@ -81,6 +95,19 @@ export function updateAtmosphere(altitude: number, fullISA = false): Atmosphere 
     return lowerStrato(altitude);
   }
   return upperStrato(altitude);
+}
+
+/**
+ * The atmosphere the vehicle flies through. M2.10, Fidelity tier.
+ *
+ * The US Standard Atmosphere 1976, in full. The three-layer model above stops
+ * being meaningful at the stratopause and had to be extrapolated past 86 km;
+ * this one has a mesosphere, which is most of what a re-entry passes through.
+ *
+ * @param altitude m
+ */
+export function updateAtmosphere(altitude: number): Atmosphere {
+  return isaAtmosphere(altitude);
 }
 
 // ---------------------------------------------------------------------------

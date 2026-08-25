@@ -136,9 +136,10 @@
       </div>
 
       <!--
-        The orbital presets are new in v2 (M2.9). They are separated because
-        they need the planet-centered gravity flag to behave as their names
-        suggest — with it off they are simply very fast suborbital arcs.
+        The orbital presets are new in v2 (M2.9). They are listed separately
+        because they are not among the five the 2021 game shipped — orbit was
+        structurally impossible under its flat-earth gravity, so these had
+        nothing to mean there.
       -->
       <span class="subtitle">Orbital</span>
       <div class="row">

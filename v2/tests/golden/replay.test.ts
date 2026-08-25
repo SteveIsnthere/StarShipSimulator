@@ -18,7 +18,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { step } from '$core/step';
-import { createFlags, FLAG_COMBINATIONS, flagsId } from '$core/flags';
+import { readdirSync } from 'node:fs';
 import {
   deserialise,
   flattenState,
@@ -205,7 +205,7 @@ describe('the fixtures themselves', () => {
     // tuned against that same wrong model, and M2.2 (the heat argument) makes
     // heating larger again, so the limit needs recalibrating once the M2 bug
     // fixes are in. That is a feel decision and CLAUDE.md reserves those for
-    // the owner. Recorded in docs/ROADMAP-TASKS.md.
+    // the owner; it is taken, and M2.9(a) is where it lands.
     const samples = loadSamples('reentry-autoland');
     const last = samples[samples.length - 1]!;
     expect(last['failures.inFlightBreakUp']).toBe(true);
@@ -238,38 +238,29 @@ function replacer(_key: string, value: unknown): unknown {
   return value;
 }
 
-describe('fidelity-flag fixtures', () => {
-  const flagged = GOLDEN_SPECS.filter((spec) => spec.id.includes('--'));
+describe('one physics, one fixture set — M2.10', () => {
+  // From M2.5 to M1.9 this directory also held a fixture per shipped fidelity
+  // flag combination, suffixed `--planetCenteredGravity` and so on, because
+  // "off by default" is worth nothing if the on path is untested. The flags are
+  // gone: the fidelity physics is the only physics. These two assertions are
+  // what stop the removal from half-happening — a leftover suffixed fixture, or
+  // a spec that quietly reintroduces one.
 
-  it('there is one per shipped flag combination', () => {
-    // M2.5's acceptance: "golden fixtures per flag combination that ships".
-    const ids = FLAG_COMBINATIONS.map((c) => flagsId(createFlags(c))).filter(
-      (id) => id !== 'default',
-    );
-    expect(flagged).toHaveLength(ids.length);
-    for (const id of ids) {
-      expect(flagged.some((spec) => spec.id.endsWith(`--${id}`)), `no fixture for ${id}`).toBe(true);
-    }
+  it('no flag-suffixed fixture survives on disk', () => {
+    const orphans = readdirSync(DIR).filter((name) => name.includes('--'));
+    expect(orphans, `flag-suffixed fixtures left behind: ${orphans.join(', ')}`).toEqual([]);
   });
 
-  it('each records the flags it was flown under', () => {
-    for (const spec of flagged) {
-      const state = spec.build();
-      const id = spec.id.split('--')[1]!;
-      expect(flagsId(state.flags), spec.id).toBe(id);
-    }
+  it('and no spec declares one', () => {
+    expect(GOLDEN_SPECS.filter((spec) => spec.id.includes('--'))).toEqual([]);
+    expect(GOLDEN_SPECS).toHaveLength(7);
   });
 
-  it('currently coincide with the default path, because no flag is wired yet', () => {
-    // M2.5 lands the mechanism; M2.6-M2.8 land the physics behind each flag.
-    // Until then a flagged fixture is byte-identical to its base scenario, and
-    // asserting that here means each of those tasks produces a VISIBLE fixture
-    // diff when it lands - which is the whole point of the flag discipline.
-    for (const spec of flagged) {
-      const base = spec.id.split('--')[0]!;
-      const flaggedRows = load(spec.id).rows;
-      const baseRows = load(base).rows;
-      expect(flaggedRows.length, spec.id).toBe(baseRows.length);
-    }
+  it('every file in the directory belongs to a spec', () => {
+    const onDisk = readdirSync(DIR)
+      .filter((n) => n.endsWith('.json'))
+      .map((n) => n.slice(0, -5))
+      .sort();
+    expect(onDisk).toEqual(GOLDEN_SPECS.map((s) => s.id).sort());
   });
 });

@@ -156,11 +156,11 @@ export const INTRO: ScenarioPreset = {
 /**
  * Orbital presets. M2.9.
  *
- * These only make sense with the `planetCenteredGravity` flag on: under the
- * 2021 model the relief term is clamped at g, so a vehicle at orbital speed
- * still falls and "circularize" has nothing to mean. They are listed separately
- * from PRESETS for that reason — they are not among the five the 2021 game
- * shipped, and they are not playable in the default configuration.
+ * Listed separately from PRESETS because they are not among the five the 2021
+ * game shipped, and could not have been: under the 2021 model the orbital
+ * relief term is clamped at g, so a vehicle at orbital speed still falls and
+ * "circularize" has nothing to mean. Planet-centered gravity (M2.6, shipped
+ * unconditionally at M2.10) is what makes them playable.
  */
 export const ORBITAL_PRESETS: readonly ScenarioPreset[] = [
   {

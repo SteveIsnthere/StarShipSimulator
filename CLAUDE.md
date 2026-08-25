@@ -113,5 +113,5 @@ flight model as the reference configuration" is retired. **The shipped physics i
 fidelity, with no flag machinery** — real gravity, local speed of sound, the full ISA,
 the collapsed trig identities, and a heatLimit recalibrated to the fidelity model. The
 2021 flight model remains the frozen parity reference at `v2/tests/fixtures/legacy/`,
-never the shipped feel. (Effective as of task M2.10; until that task lands, the flags
-are still in the tree.)
+never the shipped feel. (Effective as of task M2.10, which landed 2026-08-25: there is no
+flag machinery anywhere in `v2/src`.)

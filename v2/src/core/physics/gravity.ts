@@ -45,7 +45,8 @@ export function circularOrbitalSpeed(distanceToPlanetCenter: number): number {
 }
 
 /**
- * The 2021 relief term, kept for the flag-off path and for comparison.
+ * The 2021 relief term. Nothing calls it since M2.10; it is kept so the
+ * parity tests can show what v2 departs from.
  *
  * @param speedX m/s downrange
  * @param orbitalVelocityAtCurrentAltitude m/s — in 2021, the value fixed at spawn
@@ -63,7 +64,7 @@ export function legacyOrbitRelief(
  * Vertical acceleration from gravity plus the centrifugal effect of moving
  * tangentially, in the local frame the rest of the simulation uses.
  *
- * This is the flag-on replacement for `-gravity + orbitGravityAccCompensation`.
+ * This is the replacement for 2021's `-gravity + orbitGravityAccCompensation`.
  * Working in the local frame rather than rewriting every consumer keeps the
  * change contained: the autopilot, the aerodynamics and the HUD are all written
  * in altitude-and-downrange and do not need to know.

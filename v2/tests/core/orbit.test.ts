@@ -32,8 +32,8 @@ import { step } from '$core/step';
 const DT = 1 / 120;
 
 /** A vehicle in vacuum at `altitude`, moving downrange at `speed`. */
-function inOrbit(altitude: number, speed: number, flags = { planetCenteredGravity: true }) {
-  const s = createInitialState(undefined, flags);
+function inOrbit(altitude: number, speed: number) {
+  const s = createInitialState();
   s.kinematics.altitude = altitude;
   s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
   s.kinematics.speedX = speed;
@@ -216,27 +216,39 @@ describe('the 2021 model could not do this, and here is why', () => {
     expect(legacy).toBeLessThan(-0.1);
   });
 
-  it('a vehicle at orbital speed falls under the flag off and does not under it on', () => {
+  it('a vehicle at orbital speed holds altitude now, and could not have then', () => {
     const altitude = 200_000;
     const v = circularOrbitalSpeed(C.planetRadius + altitude);
 
-    const flat = run(inOrbit(altitude, v, { planetCenteredGravity: false }), 120 * 120);
-    const round = run(inOrbit(altitude, v, { planetCenteredGravity: true }), 120 * 120);
-
-    expect(flat.kinematics.altitude, 'flat model: falls').toBeLessThan(altitude - 1_000);
+    // What ships: two simulated minutes at circular speed, altitude unmoved.
+    const round = run(inOrbit(altitude, v), 120 * 120);
     expect(Math.abs(round.kinematics.altitude - altitude), 'round model: holds').toBeLessThan(100);
+
+    // What 2021 would have done with the same state, integrated by hand from
+    // its own two terms. There is no flag to flip any more, so the comparison
+    // is arithmetic rather than a second simulation: constant -g relieved by a
+    // term clamped at g, over the same 120 s.
+    let flatAltitude = altitude;
+    let flatSpeedY = 0;
+    const spawnOrbital = circularOrbitalSpeed(C.planetRadius + 25);
+    for (let i = 0; i < 120 * 120; i++) {
+      flatAltitude += flatSpeedY * DT;
+      flatSpeedY += (-C.gravity + legacyOrbitRelief(v, spawnOrbital)) * DT;
+    }
+    expect(flatAltitude, 'flat model: falls').toBeLessThan(altitude - 1_000);
   });
 });
 
-describe('the relief hack is gone when the flag is on', () => {
-  it('orbitGravityAccCompensation is zero', () => {
+describe('the relief hack is gone from the state, not merely bypassed — M2.10', () => {
+  it('SimState has no orbitGravityAccCompensation field at all', () => {
     const end = run(inOrbit(200_000, 7_000), 10);
-    expect(end.kinematics.orbitGravityAccCompensation).toBe(0);
+    expect('orbitGravityAccCompensation' in end.kinematics).toBe(false);
   });
 
   it('and the stale orbital-velocity field is kept honest', () => {
-    // 2021 wrote it once at spawn. With the flag on it tracks altitude, because
-    // the HUD reads it and there is no reason to leave it lying.
+    // 2021 wrote it once at spawn, because the only thing reading it was the
+    // relief term's denominator. It tracks altitude now: the HUD reads it, and
+    // there is no reason to leave a stale number lying there.
     const end = run(inOrbit(200_000, 7_000), 10);
     expect(end.kinematics.orbitalVelocityAtCurrentAltitude).toBeCloseTo(
       circularOrbitalSpeed(end.kinematics.distanceToPlanetCenter),
@@ -244,10 +256,10 @@ describe('the relief hack is gone when the flag is on', () => {
     );
   });
 
-  it('with the flag off, the 2021 stale value is preserved exactly', () => {
-    const s = createInitialState();
-    const spawn = s.kinematics.orbitalVelocityAtCurrentAltitude;
-    const end = run(s, 600);
-    expect(end.kinematics.orbitalVelocityAtCurrentAltitude).toBe(spawn);
+  it('the 2021 expression survives only as documentation', () => {
+    // legacyOrbitRelief is still exported and still exactly what 2021 computed
+    // — nothing calls it but the tests that describe the departure.
+    expect(legacyOrbitRelief(1_000, 7_900)).toBeCloseTo((C.gravity * 1_000) / 7_900, 12);
+    expect(legacyOrbitRelief(20_000, 7_900), 'clamped at g').toBe(C.gravity);
   });
 });

@@ -27,7 +27,6 @@ const FIELDS: ReadonlyArray<readonly [unknown, string]> = [
   [s.kinematics.downRangeDistanceNextFrame, toLegacyName('downRangeDistanceNextFrame')],
   [s.kinematics.distanceToPlanetCenter, toLegacyName('distanceToPlanetCenter')],
   [s.kinematics.orbitalVelocityAtCurrentAltitude, toLegacyName('orbitalVelocityAtCurrentAltitude')],
-  [s.kinematics.orbitGravityAccCompensation, toLegacyName('orbitGravityAccCompensation')],
   [s.kinematics.trueSpeed, toLegacyName('trueSpeed')],
   [s.kinematics.speedX, toLegacyName('speedX')],
   [s.kinematics.speedY, toLegacyName('speedY')],
@@ -157,7 +156,19 @@ describe('createInitialState matches initBackEnd() exactly', () => {
   }
 
   it('covers a meaningful share of the legacy state', () => {
-    expect(FIELDS.length).toBeGreaterThanOrEqual(119);
+    // 119 until M2.10, which deleted `orbitGravityAccCompensation` from
+    // SimState along with the rest of the relief hack. One field fewer to
+    // compare because there is one field fewer, not because one was dropped
+    // from the comparison — the departure is asserted just below.
+    expect(FIELDS.length).toBeGreaterThanOrEqual(118);
+  });
+
+  it('DECLARED DEPARTURE: orbitGravityAccCompensation is gone — M2.6/M2.10', () => {
+    // 2021 initialised it to gravity * |speedX| / orbitalVelocity, which is
+    // zero at spawn since speedX is. v2 has no such field: gravity is
+    // -GM/r^2 and orbital motion needs no relief term.
+    expect(readLegacy('orbitGravityAccCompensation')).toBe(0);
+    expect('orbitGravityAccCompensation' in s.kinematics).toBe(false);
   });
 });
 

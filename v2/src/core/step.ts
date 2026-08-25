@@ -71,41 +71,26 @@ function updatePitchRateOfChange(s: SimState, dt: number): void {
 }
 
 /**
- * physics.js:394 — the orbital "relief" hack, and its replacement.
+ * physics.js:394 — where the orbital "relief" hack used to be.
  *
- * Mutates `distanceToPlanetCenter` and `orbitGravityAccCompensation`. Called at
- * the END of spatial motion, exactly where 2021 calls it, so the value used by
- * this step's integration is the one computed last step.
+ * 2021 computed `orbitGravityAccCompensation` here: a term subtracted from felt
+ * gravity that was linear in speedX where the truth is quadratic, divided by an
+ * orbital velocity fixed at spawn, and clamped at exactly g — which made a
+ * stable orbit structurally impossible. M2.6 replaced it with real -GM/r^2
+ * gravity plus a centrifugal contribution; M2.10 deleted the field. The
+ * expression survives as `gravity.legacyOrbitRelief` for the parity record.
  *
- * With `planetCenteredGravity` off this is the 2021 term verbatim, including
- * its stale denominator and its clamp at g. With the flag on, the relief term
- * is not corrected but deleted: gravity itself becomes -GM/r^2 with a
- * centrifugal contribution, and orbital motion needs no special case. The field
- * is then zero and kept only so the HUD and fixtures have a stable shape.
+ * What remains is the orbital geometry: the radius, and the circular speed at
+ * it. Called at the END of spatial motion, exactly where 2021 calls it.
+ * `orbitalVelocityAtCurrentAltitude` is now kept honest step by step — 2021
+ * wrote it once at spawn (initBackEnd.js:50) and never again — because the HUD
+ * reads it and there is no reason to leave a stale number lying there.
  */
-function updateOrbitGravityAccCompensation(s: SimState): void {
+function updateOrbitalGeometry(s: SimState): void {
   const { kinematics } = s;
   kinematics.distanceToPlanetCenter = C.planetRadius + kinematics.altitude;
-
-  if (s.flags.planetCenteredGravity) {
-    // M2.6: orbital motion is in the gravity term now. Keeping the stale
-    // orbitalVelocity field updated as well, since the HUD reads it and it
-    // costs nothing to make it honest.
-    kinematics.orbitalVelocityAtCurrentAltitude = gravity.circularOrbitalSpeed(
-      kinematics.distanceToPlanetCenter,
-    );
-    kinematics.orbitGravityAccCompensation = 0;
-    return;
-  }
-
-  // The 2021 term. Note the stale denominator: orbitalVelocityAtCurrentAltitude
-  // is written once at spawn (initBackEnd.js:50) and never updated, so this
-  // uses the sea-level orbital velocity for the whole flight. It is also linear
-  // in speedX where the true relief is quadratic, and clamped at exactly g,
-  // which makes a stable orbit structurally impossible.
-  kinematics.orbitGravityAccCompensation = gravity.legacyOrbitRelief(
-    kinematics.speedX,
-    kinematics.orbitalVelocityAtCurrentAltitude,
+  kinematics.orbitalVelocityAtCurrentAltitude = gravity.circularOrbitalSpeed(
+    kinematics.distanceToPlanetCenter,
   );
 }
 
@@ -174,11 +159,16 @@ function checkIfOutOfFuel(s: SimState): void {
   if (s.vehicle.propellantMass <= 0) s.failures.fuelRunOut = true;
 }
 
-/** physics.js:246 — felt acceleration, including the orbital relief term. */
+/**
+ * physics.js:246 — felt acceleration.
+ *
+ * 2021 added `orbitGravityAccCompensation` here; that term is gone (M2.10) and
+ * was identically zero in the fidelity path before it went, so this expression
+ * is unchanged numerically.
+ */
 function updatePerceivedG(s: SimState): void {
   const { kinematics, forces } = s;
-  forces.perceivedG_Y =
-    (kinematics.accelerationY + kinematics.orbitGravityAccCompensation + C.gravity) / C.gravity;
+  forces.perceivedG_Y = (kinematics.accelerationY + C.gravity) / C.gravity;
   forces.perceivedG_X = kinematics.accelerationX / C.gravity;
   forces.perceivedG = Math.sqrt(forces.perceivedG_Y ** 2 + forces.perceivedG_X ** 2);
 }
@@ -199,7 +189,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.world.updatedFrameCount += 1;
 
   // --- 1. environmentUpDate ------------------------------------------------
-  const atmosphere = updateAtmosphere(s.kinematics.altitude, s.flags.fullISA);
+  const atmosphere = updateAtmosphere(s.kinematics.altitude);
   s.atmosphere.airTemperature = atmosphere.airTemperature;
   s.atmosphere.airPressure = atmosphere.airPressure;
   s.atmosphere.airDensity = atmosphere.airDensity;
@@ -260,8 +250,6 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   updatePitchRateOfChange(s, dt);
   s.forces.twr = s.forces.thrustAcceleration / C.gravity;
 
-  // Reads last step's orbitGravityAccCompensation; this step's is written at
-  // the end of spatial motion below, matching updateBackEnd()'s order exactly.
   updatePerceivedG(s);
 
   s.forces.aerodynamicDrag = aero.getDrag(
@@ -294,15 +282,14 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   }
 
   s.kinematics.speedX += s.kinematics.accelerationX * dt;
-  s.kinematics.speedY += (s.kinematics.accelerationY + s.kinematics.orbitGravityAccCompensation) * dt;
+  s.kinematics.speedY += s.kinematics.accelerationY * dt;
 
   s.kinematics.trueSpeed = Math.sqrt(s.kinematics.speedX ** 2 + s.kinematics.speedY ** 2);
   // M2.7, Fidelity. 2021 used a constant 343 m/s everywhere — the sea-level
   // value — so Mach ran ~16% low through the upper atmosphere. That understated
   // the body drag coefficient too, since it is a function of Mach.
   s.kinematics.machSpeed =
-    s.kinematics.trueSpeed /
-    (s.flags.realSpeedOfSound ? speedOfSoundAt(s.atmosphere.airTemperature) : C.speedOfSound);
+    s.kinematics.trueSpeed / speedOfSoundAt(s.atmosphere.airTemperature);
 
   // updateSpactialAccelerations
   s.forces.aerodynamicDragAcceleration = aero.getAcceleration(
@@ -322,39 +309,33 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     aerodynamicDragAcceleration: s.forces.aerodynamicDragAcceleration,
     aerodynamicLiftAcceleration: s.forces.aerodynamicLiftAcceleration,
     thrustAcceleration: s.forces.thrustAcceleration,
-    // M1.9, Fidelity. Off by default: the ladders are what the goldens record.
-    collapsedTrig: s.flags.collapsedTrig,
   };
   s.kinematics.accelerationX = comp.getHorizontalAcceleration(accelInputs);
   s.kinematics.accelerationY = comp.getVerticalAcceleration(accelInputs, C.gravity);
 
-  if (s.flags.planetCenteredGravity) {
-    // M2.6, Fidelity. getVerticalAcceleration applied a constant -9.807; undo
-    // that and apply real gravity plus the centrifugal term instead. Adding the
-    // difference rather than restructuring the ladder keeps the flag-off path
-    // bit-identical, which is what lets the default fixtures stay untouched.
-    s.kinematics.accelerationY +=
-      C.gravity +
-      gravity.verticalGravityAcceleration(
-        s.kinematics.distanceToPlanetCenter,
-        s.kinematics.speedX,
-      );
+  // M2.6, Fidelity. getVerticalAcceleration applied a constant -9.807; undo
+  // that and apply real gravity plus the centrifugal term instead. Adding the
+  // difference back rather than restructuring the composition is deliberate:
+  // it is what made M2.10's unification provably bit-identical to the flag-on
+  // path it replaced, and float addition is not associative.
+  s.kinematics.accelerationY +=
+    C.gravity +
+    gravity.verticalGravityAcceleration(s.kinematics.distanceToPlanetCenter, s.kinematics.speedX);
 
-    // Angular momentum r*v_t is conserved under a central force: climbing while
-    // moving tangentially must cost tangential speed. Without this a vehicle
-    // could climb without slowing and gain orbital energy from nothing.
-    s.kinematics.accelerationX += gravity.tangentialAcceleration(
-      s.kinematics.distanceToPlanetCenter,
-      s.kinematics.speedX,
-      s.kinematics.speedY,
-    );
-  }
+  // Angular momentum r*v_t is conserved under a central force: climbing while
+  // moving tangentially must cost tangential speed. Without this a vehicle
+  // could climb without slowing and gain orbital energy from nothing.
+  s.kinematics.accelerationX += gravity.tangentialAcceleration(
+    s.kinematics.distanceToPlanetCenter,
+    s.kinematics.speedX,
+    s.kinematics.speedY,
+  );
 
   s.kinematics.totalAcceleration = Math.sqrt(
     s.kinematics.accelerationX ** 2 + s.kinematics.accelerationY ** 2,
   );
   // Last line of updateSpactialMotion, and it must stay last.
-  updateOrbitGravityAccCompensation(s);
+  updateOrbitalGeometry(s);
 
   // 3c. updateRotationalMotion
   s.vehicle.vehicleMomentOfInertia = eng.getMomentOfInertia(s.vehicle.vehicleMass);

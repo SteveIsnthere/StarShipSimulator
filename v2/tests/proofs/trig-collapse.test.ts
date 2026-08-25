@@ -262,22 +262,52 @@ describe('each ladder collapses to one expression within 1 ULP', () => {
   });
 });
 
-describe('the shipped implementation is still the ladder, not the collapse', () => {
-  it.each(CASES)('$name still branches, as M1.9 being blocked requires', ({ ladder, shipped }) => {
-    // src/ must match the LADDER bit for bit while M1.9 is blocked. If someone
-    // applies the collapse without resolving the goldens question, this fails
-    // here as well as in tests/golden — two independent alarms, deliberately.
+describe('the shipped implementation is the collapse — M2.10', () => {
+  // Until M2.10 this block asserted the opposite: src/ had to match the LADDER
+  // bit for bit, because the collapse was behind a flag that was off. The flags
+  // are gone and the collapsed form is the physics, so the assertion inverts.
+  // It is still two independent alarms with tests/golden — one on the
+  // arithmetic, one on the trajectories it produces.
+  it.each(CASES)('$name is the single expression, bit for bit', ({ collapsed, shipped }) => {
     for (const a of boundaries()) {
-      expect(Object.is(shipped(rad(a)), ladder(a)), `boundary ${a}`).toBe(true);
+      expect(Object.is(shipped(rad(a)), collapsed(a)), `boundary ${a}`).toBe(true);
     }
     for (let i = 0; i <= 200_000; i++) {
       const a = -Math.PI + (i * 2 * Math.PI) / 200_000;
-      if (!Object.is(shipped(rad(a)), ladder(a))) {
-        expect.fail(`diverged at ${a}: shipped=${shipped(rad(a))} ladder=${ladder(a)}`);
+      if (!Object.is(shipped(rad(a)), collapsed(a))) {
+        expect.fail(`diverged at ${a}: shipped=${shipped(rad(a))} collapsed=${collapsed(a)}`);
+      }
+    }
+  });
+
+  it.each(CASES)('$name — and the preserved 2021 copy still IS the ladder', ({ name, ladder }) => {
+    // The ladders did not leave the tree; they moved to `legacy*Coefficient` so
+    // the parity suite has something to compare 2021 against. This checks the
+    // copy in src/ against the transcription in this file, which is what makes
+    // "the parity suite compares against the real 2021 arithmetic" true rather
+    // than assumed.
+    const preserved = PRESERVED[name]!;
+    for (const a of boundaries()) {
+      expect(Object.is(preserved(rad(a)), ladder(a)), `boundary ${a}`).toBe(true);
+    }
+    for (let i = 0; i <= 200_000; i++) {
+      const a = -Math.PI + (i * 2 * Math.PI) / 200_000;
+      if (!Object.is(preserved(rad(a)), ladder(a))) {
+        expect.fail(`diverged at ${a}: src=${preserved(rad(a))} transcription=${ladder(a)}`);
       }
     }
   });
 });
+
+/** The ladder copies kept in src/, by case name. */
+const PRESERVED: Readonly<Record<string, (a: Rad) => number>> = {
+  'horizontalDrag = -sin(x)': comp.legacyHorizontalDragCoefficient,
+  'verticalDrag = -cos(x)': comp.legacyVerticalDragCoefficient,
+  'horizontalLift = -cos(x)': comp.legacyHorizontalLiftCoefficient,
+  'verticalLift = sin(x)': comp.legacyVerticalLiftCoefficient,
+  'horizontalThrust = sin(x)': comp.legacyHorizontalThrustCoefficient,
+  'verticalThrust = cos(x)': comp.legacyVerticalThrustCoefficient,
+};
 
 describe('the proof is not vacuous', () => {
   it('a wrong collapse is rejected', () => {

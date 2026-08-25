@@ -1,8 +1,9 @@
 /**
  * M2.9: the orbital demonstration — PARTIAL. See docs/ROADMAP-TASKS.md.
  *
- * Acceptance asked for: under the fidelity flags, circularize at 100 km, coast
- * one full lap, deorbit, land at StarBase.
+ * Acceptance asked for: circularize at 100 km, coast one full lap, deorbit,
+ * land at StarBase. (Written when the fidelity physics was still behind flags;
+ * since M2.10 it is simply the physics.)
  *
  * WHAT WORKS, and is asserted below: the orbital presets exist, a 21 m/s
  * prograde burn circularizes, and a circular orbit at 150 km holds for a full
@@ -30,6 +31,7 @@
  *   existed. That is a feature, not a fix.
  *
  * These are asserted, not merely described, so they cannot drift unnoticed.
+ * M2.9 is the task that resolves all three.
  */
 import { describe, expect, it } from 'vitest';
 import { circularOrbitalSpeed } from '$core/physics/gravity';
@@ -41,15 +43,12 @@ import * as cmd from '$core/control/commands';
 import * as C from '$core/constants';
 
 const DT = 1 / 120;
-/** The configuration the demo is specified to run under. */
-const ORBIT_FLAGS = { planetCenteredGravity: true, fullISA: true } as const;
 
 const circularHere = (s: SimState) => circularOrbitalSpeed(s.kinematics.distanceToPlanetCenter);
 
 /** Put a state in a circular orbit at `altitude`. */
 function circularAt(altitude: number): SimState {
   const s = createScenarioState(getScenario('deorbit')!);
-  Object.assign(s.flags, ORBIT_FLAGS);
   s.kinematics.altitude = altitude;
   s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
   s.kinematics.speedX = circularOrbitalSpeed(C.planetRadius + altitude);
@@ -91,7 +90,6 @@ describe('the orbital presets', () => {
 describe('circularize — works', () => {
   it('a short prograde burn closes the orbit', () => {
     let s = createScenarioState(getScenario('circularize')!);
-    Object.assign(s.flags, ORBIT_FLAGS);
     const needed = circularHere(s) - s.kinematics.speedX;
 
     cmd.toggleAllRaptors(s);

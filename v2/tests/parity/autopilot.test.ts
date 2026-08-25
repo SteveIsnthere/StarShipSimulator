@@ -12,6 +12,8 @@ import { loadLegacy, toLegacyKeys, toLegacyName, toLegacySource } from './legacy
 import { createInitialState, type SimState } from '$core/state';
 import * as prim from '$core/control/primitives';
 import { rad, type Rad } from '$core/units';
+import { maxThrustPerRaptor } from '$core/constants';
+import { getWorkingEngineCount } from '$core/physics/engines';
 
 const legacy = loadLegacy([
   'backend/physics.js',
@@ -225,17 +227,51 @@ describe('engine control primitives', () => {
   });
 
   it('getEffectiveVerticalMaxThrust matches across all four quadrants', () => {
+    // The preserved 2021 ladder, which is what the parity claim is about. The
+    // shipped function collapsed to `cos` at M2.10; the departure is asserted
+    // immediately below rather than left implicit.
     for (const sample of ALL) {
       const s = apply(sample);
       exact(
-        prim.getEffectiveVerticalMaxThrust(
-          s.engines.running,
-          s.vehicle.gimbalPointingDirection,
-        ),
+        prim.legacyEffectiveVerticalMaxThrust(s.engines.running, s.vehicle.gimbalPointingDirection),
         evalLegacy('getEffectiveVerticalMaxThrust()'),
         `evmt(${sample.gimbalPointingDirection})`,
       );
     }
+  });
+
+  it('DECLARED DEPARTURE: the shipped one is the collapsed form — M1.9/M2.10', () => {
+    let differing = 0;
+    let worstUlps = 0;
+    for (const sample of ALL) {
+      const s = apply(sample);
+      const shipped = prim.getEffectiveVerticalMaxThrust(
+        s.engines.running,
+        s.vehicle.gimbalPointingDirection,
+      );
+      const ladder = prim.legacyEffectiveVerticalMaxThrust(
+        s.engines.running,
+        s.vehicle.gimbalPointingDirection,
+      );
+      // Pinned to the exact replacement expression, not merely to "close".
+      expect(shipped).toBe(
+        getWorkingEngineCount(s.engines.running) *
+          maxThrustPerRaptor *
+          Math.cos(s.vehicle.gimbalPointingDirection),
+      );
+      if (!Object.is(shipped, ladder)) differing += 1;
+      // Measured at COEFFICIENT scale, by dividing the force difference back
+      // out by the max thrust. Measuring it relative to the force itself would
+      // be meaningless near the quadrant boundaries, where cos is ~1e-17 and
+      // any last-bit difference is enormous relative to it while being
+      // sub-newton in absolute terms.
+      const maxThrust = getWorkingEngineCount(s.engines.running) * maxThrustPerRaptor;
+      if (maxThrust > 0) {
+        worstUlps = Math.max(worstUlps, Math.abs(shipped - ladder) / maxThrust / Number.EPSILON);
+      }
+    }
+    expect(differing, 'nothing differed — is the collapse actually shipped?').toBeGreaterThan(0);
+    expect(worstUlps, `worst ${worstUlps.toFixed(2)} ULP`).toBeLessThanOrEqual(2);
   });
 
   it('getMaxSpeedWithSafeDynamicPressure matches', () => {

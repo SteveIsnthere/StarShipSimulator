@@ -9,16 +9,16 @@
 import { describe, expect, it } from 'vitest';
 import {
   GAMMA_AIR,
+  legacyAtmosphere,
   R_SPECIFIC_AIR,
   speedOfSoundAt,
-  updateAtmosphere,
 } from '$core/physics/atmosphere';
 import { getBodyDragCoefficient } from '$core/physics/aero';
 import * as C from '$core/constants';
 import { createInitialState } from '$core/state';
 import { step } from '$core/step';
 
-const soundAtAltitude = (h: number) => speedOfSoundAt(updateAtmosphere(h).airTemperature);
+const soundAtAltitude = (h: number) => speedOfSoundAt(legacyAtmosphere(h).airTemperature);
 
 describe('the formula', () => {
   it('is sqrt(gamma * R * T)', () => {
@@ -83,34 +83,47 @@ describe('the size of the 2021 error', () => {
   });
 });
 
-describe('behind the flag', () => {
-  function machAfterOneStep(altitude: number, speed: number, realSpeedOfSound: boolean) {
-    const s = createInitialState(undefined, { realSpeedOfSound });
+describe('what the simulation actually uses — M2.10', () => {
+  function machAfterOneStep(altitude: number, speed: number) {
+    const s = createInitialState();
     s.kinematics.altitude = altitude;
     s.kinematics.speedX = speed;
     s.kinematics.trueSpeed = speed;
     return step(s, 1 / 120).kinematics.machSpeed;
   }
 
-  it('off: Mach uses the constant 343, exactly as 2021 did', () => {
-    const mach = machAfterOneStep(11_000, 1000, false);
-    expect(mach).toBeCloseTo(1000 / C.speedOfSound, 6);
+  it('Mach is trueSpeed over the LOCAL speed of sound', () => {
+    // Exactly, not approximately: step() divides by speedOfSoundAt(T) where T
+    // is the air temperature it just computed — which is now the ISA's, not the
+    // three-layer model's, so it is the ISA temperature this must match.
+    const s = createInitialState();
+    s.kinematics.altitude = 11_000;
+    s.kinematics.speedX = 1000;
+    s.kinematics.trueSpeed = 1000;
+    const after = step(s, 1 / 120);
+    expect(after.kinematics.machSpeed).toBe(
+      after.kinematics.trueSpeed / speedOfSoundAt(after.atmosphere.airTemperature),
+    );
   });
 
-  it('on: Mach uses the local speed of sound', () => {
-    const mach = machAfterOneStep(11_000, 1000, true);
-    expect(mach).toBeCloseTo(1000 / soundAtAltitude(11_000), 6);
-    expect(mach).toBeGreaterThan(machAfterOneStep(11_000, 1000, false));
+  it('which is higher than the 2021 constant gave, up high', () => {
+    expect(machAfterOneStep(11_000, 1000)).toBeGreaterThan(1000 / C.speedOfSound);
   });
 
-  it('the two agree at sea level, within 1%', () => {
-    const off = machAfterOneStep(0, 300, false);
-    const on = machAfterOneStep(0, 300, true);
-    expect(Math.abs(on / off - 1)).toBeLessThan(0.01);
+  it('and within 1% of it near the ground, which is why a constant looked fine', () => {
+    // 100 m rather than 0: at zero altitude the vehicle is standing on the pad,
+    // checkIfCrash zeroes its velocities, and the Mach number this is about
+    // would be measured on a stationary rocket.
+    const s = createInitialState();
+    s.kinematics.altitude = 100;
+    s.kinematics.speedX = 300;
+    s.kinematics.trueSpeed = 300;
+    const mach = step(s, 1 / 120).kinematics.machSpeed;
+    expect(Math.abs(mach / (300 / C.speedOfSound) - 1)).toBeLessThan(0.01);
   });
 
-  it('a flight with the flag on stays finite and sane', () => {
-    let s = createInitialState(undefined, { realSpeedOfSound: true });
+  it('a flight through the upper atmosphere stays finite and sane', () => {
+    let s = createInitialState();
     s.kinematics.altitude = 40_000;
     s.kinematics.speedX = 2000;
     s.kinematics.speedY = -200;

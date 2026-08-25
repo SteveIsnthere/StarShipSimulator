@@ -15,7 +15,7 @@ import {
   R,
   T0_KELVIN,
 } from '$core/physics/isa';
-import { updateAtmosphere } from '$core/physics/atmosphere';
+import { legacyAtmosphere, updateAtmosphere } from '$core/physics/atmosphere';
 import * as C from '$core/constants';
 import { createInitialState } from '$core/state';
 import { step } from '$core/step';
@@ -107,7 +107,7 @@ describe('it has a mesosphere, which the three-layer model does not', () => {
   });
 
   it('and the three-layer model gets that badly wrong up there', () => {
-    const simple = updateAtmosphere(80_000).airTemperature;
+    const simple = legacyAtmosphere(80_000).airTemperature;
     const isa = isaAtmosphere(80_000).airTemperature;
     expect(simple).toBeGreaterThan(50);
     expect(isa).toBeLessThan(-70);
@@ -159,39 +159,40 @@ describe('the top of the table', () => {
   });
 });
 
-describe('behind the flag', () => {
-  it('off: the three-layer model, unchanged', () => {
-    const s = createInitialState(undefined, { fullISA: false });
-    s.kinematics.altitude = 40_000;
-    const after = step(s, 1 / 120);
-    expect(after.atmosphere.airDensity).toBe(updateAtmosphere(40_000).airDensity);
-  });
-
-  it('on: the ISA', () => {
-    const s = createInitialState(undefined, { fullISA: true });
+describe('it is the atmosphere the vehicle flies through — M2.10', () => {
+  it('step() reads the ISA, not the three-layer model', () => {
+    const s = createInitialState();
     s.kinematics.altitude = 40_000;
     const after = step(s, 1 / 120);
     expect(after.atmosphere.airDensity).toBe(isaAtmosphere(40_000).airDensity);
+    expect(after.atmosphere.airDensity).not.toBe(legacyAtmosphere(40_000).airDensity);
   });
 
-  it('the two agree closely below 25 km, where the simple model is good', () => {
+  it('and `updateAtmosphere` — the name step() calls — IS the ISA', () => {
+    // Not merely equal at one altitude: the same function, everywhere.
+    for (const h of [0, 5_000, 11_000, 25_000, 47_000, 70_000, 86_000, 150_000]) {
+      expect(updateAtmosphere(h), `${h} m`).toEqual(isaAtmosphere(h));
+    }
+  });
+
+  it('the two models agree closely below 25 km, where the simple one is good', () => {
     for (const h of [0, 5_000, 11_000, 20_000]) {
-      const simple = updateAtmosphere(h).airDensity;
+      const simple = legacyAtmosphere(h).airDensity;
       const isa = isaAtmosphere(h).airDensity;
       expect(Math.abs(isa / simple - 1), `${h} m`).toBeLessThan(0.05);
     }
   });
 
-  it('and diverge above it, which is the point of the flag', () => {
+  it('and diverge above it, which is why the swap is a Fidelity change', () => {
     // 18% at 70 km, and it grows fast above that.
-    expect(Math.abs(isaAtmosphere(70_000).airDensity / updateAtmosphere(70_000).airDensity - 1))
+    expect(Math.abs(isaAtmosphere(70_000).airDensity / legacyAtmosphere(70_000).airDensity - 1))
       .toBeGreaterThan(0.15);
-    expect(Math.abs(isaAtmosphere(84_000).airDensity / updateAtmosphere(84_000).airDensity - 1))
+    expect(Math.abs(isaAtmosphere(84_000).airDensity / legacyAtmosphere(84_000).airDensity - 1))
       .toBeGreaterThan(0.4);
   });
 
-  it('a flight with the flag on stays finite', () => {
-    let s = createInitialState(undefined, { fullISA: true });
+  it('a flight through the upper atmosphere stays finite', () => {
+    let s = createInitialState();
     s.kinematics.altitude = 70_000;
     s.kinematics.speedX = 3000;
     s.kinematics.speedY = -300;
