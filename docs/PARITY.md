@@ -137,6 +137,16 @@ them against the physical world. The short answer, all of it measured:
 | 2021's `heatLimit` = 55 | 5 W/cm² | nothing is built that fragile — the recalibration was derived from 2021's own margin and landed here independently |
 | re-entry peak, 246 units | 23 W/cm² | a low-orbit entry |
 | `dynamicPressureLimit` = 50 | 50 kPa | launch vehicles fly max-q at 30-35 kPa (2021's JSDoc says psi; it is not) |
+
+**Declared display fix, M6.2: the Q readout is labelled kPa.** 2021 printed
+`PSI` beside this number on screen (dispUpdate.js) and it was never psi — the
+two independent arguments are in the row above and in `$hud/readouts`: the limit
+is 50 and vehicles fly max-q at 30–35, which is kPa (50 psi is 345 kPa, five
+times anything a vehicle sees), and the value is `0.5·rho·v²` in SI over a
+millesimal, which lands in kPa. Keeping the old label would have meant printing
+a unit we had already proved wrong. **Nothing in `core` changed**: same number,
+same physics, and the seven golden digests do not move. Only the three letters
+under it do.
 | GM | 3.986e14 | Earth's |
 | escape velocity | 11.16 km/s | Earth 11.19 |
 | 150 km orbit | 7800 m/s, 88 min | Earth 7814 m/s, 87.5 min |

@@ -16,12 +16,15 @@
   import {
     createHudBinder,
     createIndicatorBinder,
+    createMetricBinder,
+    type AttributeTarget,
     type ClassTarget,
     type HudBinder,
     type IndicatorBinder,
+    type MetricBinder,
     type TextTarget,
   } from '$hud/binder';
-  import Hud from './Hud.svelte';
+  import Broadcast from './Broadcast.svelte';
   import Controls from './Controls.svelte';
   import { applyControl, type ControlEvent } from './controls';
   import { bindInput, bindTilt, type InputBinding, type ViewAction } from '$app/input';
@@ -47,10 +50,20 @@
    */
   let hud: HudBinder | undefined;
 
-  const onHudReady = (
+  /**
+   * The third binder, added in M6.2: the parts of the overlay that are drawn
+   * rather than spelled — gauge arcs, propellant bars, engine dots, the
+   * attitude chevron. Same law as the other two: resolved once, diffed before
+   * writing, driven from the one rAF subscriber below.
+   */
+  let metrics: MetricBinder | undefined;
+
+  const onBroadcastReady = (
     resolve: (id: string) => { value: TextTarget | null; unit: TextTarget | null },
+    resolveMetric: (id: string) => AttributeTarget | null,
   ) => {
     hud = createHudBinder({ resolve });
+    metrics = createMetricBinder({ resolve: resolveMetric });
   };
 
   /** The same discipline for the controls: diffed booleans, one class toggle. */
@@ -124,6 +137,16 @@
   /** What the current flight was configured from, so a partial edit has a base. */
   let currentPreset: ScenarioPreset = INTRO;
 
+  /**
+   * The scenario name, shown beside the clock on the upper scrim.
+   *
+   * Reactive, and safe to be: it changes when a flight is configured and at no
+   * other time, so it renders on interaction like everything else Svelte owns
+   * here. The name itself is the preset's — `Configure` on a hand-edited flight
+   * keeps the base preset's name, which is what the editor means by editing it.
+   */
+  let scenarioName = $state(INTRO.name);
+
   const onToggleRandomFailure = () => {
     if (!loopState) return;
     toggleRandomFailure(loopState.state);
@@ -156,6 +179,7 @@
   const startFlight = (preset: ScenarioPreset) => {
     if (!loopState) return;
     currentPreset = preset;
+    scenarioName = preset.name;
     const fresh = createScenarioState(preset);
     fresh.failures.randomFailure = randomFailure;
     loopState.state = fresh;
@@ -300,6 +324,7 @@
 
         // The single per-frame DOM subscriber. It diffs; most frames write nothing.
         hud?.update(s);
+        metrics?.update(s);
         indicators?.update(s);
 
         // dispUpdate.js:47 — the same four conditions that revealed the restart
@@ -325,6 +350,7 @@
       cancelAnimationFrame(frame);
       void cleanup.then((fn) => fn?.());
       hud?.destroy();
+      metrics?.destroy();
       indicators?.destroy();
       view?.destroy();
     };
@@ -332,7 +358,7 @@
 </script>
 
 <canvas bind:this={canvas} aria-label="Starship Simulator"></canvas>
-<Hud onready={onHudReady} />
+<Broadcast onready={onBroadcastReady} scenario={scenarioName} />
 <Controls {emit} {zoom} onready={onControlsReady} />
 <!--
   Both top-right buttons live in one flex row rather than being positioned

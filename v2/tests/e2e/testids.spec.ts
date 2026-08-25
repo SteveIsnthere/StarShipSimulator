@@ -21,6 +21,8 @@ import {
   CONTROL_TESTIDS,
   DIALOG_TESTIDS,
   MENU_TESTIDS,
+  METRIC_IDS,
+  metricSelector,
   READOUT_IDS,
   readoutTestId,
   readoutUnitTestId,
@@ -62,6 +64,18 @@ test('every readout renders its row, value and unit', async ({ page }) => {
     READOUT_IDS.map((id) => byTestId(readoutValueTestId(id))),
   );
   expect(filled).toBe(true);
+});
+
+test('every drawn readout has an element to be drawn into', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+
+  // M6.2's gauges, bars, dots and chevron. They carry no text, so a missing one
+  // fails nothing the readout checks above would notice — the page would simply
+  // show an arc that never moves.
+  for (const id of METRIC_IDS) {
+    await expect(page.locator(metricSelector(id)), id).toHaveCount(1);
+  }
 });
 
 test('every menu control is present once the menu is open', async ({ page }) => {

@@ -79,8 +79,14 @@
     panel, not a border. This is the single most characteristic thing about the
     reference and the easiest to get wrong by reaching for a box.
   */
-  --scrim: linear-gradient(to top, rgb(6 8 12 / 88%) 0%, rgb(6 8 12 / 62%) 55%, transparent 100%);
-  --scrim-top: linear-gradient(to bottom, rgb(6 8 12 / 66%) 0%, transparent 100%);
+  --scrim: linear-gradient(
+    to top,
+    rgb(6 8 12 / 92%) 0%,
+    rgb(6 8 12 / 80%) 40%,
+    rgb(6 8 12 / 45%) 75%,
+    transparent 100%
+  );
+  --scrim-top: linear-gradient(to bottom, rgb(6 8 12 / 72%) 0%, rgb(6 8 12 / 30%) 60%, transparent 100%);
 
   /* Control surfaces. Flat, dark, hairlined — the second layer. */
   --panel: rgb(8 10 14 / 62%);
@@ -179,15 +185,21 @@
   The engine dots blink during ignition and the current timeline event pulses.
   Both are genuine signals rather than decoration, so they degrade to a static
   lit state rather than disappearing.
+
+  ORDER MATTERS AND IS EASY TO GET BACKWARDS. These two rules have identical
+  specificity, so the later one wins — the first draft put the media query
+  first and the default after it, which meant `prefers-reduced-motion` was
+  overridden on every machine and the whole block did nothing. The default goes
+  first; the override goes last.
 */
+:root {
+  --blink-duration: 0.9s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   :root {
     --blink-duration: 0s;
   }
-}
-
-:root {
-  --blink-duration: 0.9s;
 }
 
 /*

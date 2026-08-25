@@ -244,7 +244,7 @@ build + playwright green per task; one task per commit, id-prefixed.*
   stable `data-testid`, and the e2e control-presence specs re-point to them. Accept: font loads
   in the offline e2e; digit test green; no-CDN e2e green; e2e specs pass via testids; goldens
   and core untouched.
-- [ ] **M6.2 The lower-third telemetry bar** — bottom scrim; left: SPEED + ALTITUDE dial gauges
+- [x] **M6.2 The lower-third telemetry bar** — bottom scrim; left: SPEED + ALTITUDE dial gauges
   (SVG arc, 270°, auto-ranged per scenario; big tabular numeral + unit); right: engine dot
   cluster (3 Raptors — lit/blink-on-ignition/dim/`--alarm` on failure, reusing indicator
   semantics) + propellant bar (CH4/LOX visual style, one tank honestly noted) + pitch chevron;
@@ -1126,3 +1126,37 @@ build + playwright green per task; one task per commit, id-prefixed.*
   Budget gained a second gate — fonts ≤ 80 kB, measured raw because woff2 is already brotli and
   gzipping it again measures nothing. Report: 183.8 kB JS of 250, 32.7 kB fonts of 80.
   Gate green; `git diff v2/src/core` empty; the seven unification digests unmoved.
+- 2026-08-25 · M6.2 · **The top-left readout block is gone; the lower third is the HUD.** Two
+  dial-and-digit gauges (SVG, 270° sweep, auto-ranged), an engine dot cluster, CH4/LOX propellant
+  bars, an attitude chevron, a T+ mission clock over the upper scrim, and the long-tail numbers
+  demoted to a collapsible engineering strip. `src/ui/Broadcast.svelte` + `Gauge.svelte` replace
+  `Hud.svelte`, which is deleted.
+  **A third binder, and it could not reuse the second.** The arcs, bars, dots and chevron are
+  attributes, not text, and a gauge fraction moves every single frame — diffing a formatted string
+  would have meant building a string per metric per frame purely to discover it was not needed,
+  which is the per-frame allocation the budget forbids. So `$hud/metrics` reports an INTEGER
+  quantum at display precision, `createMetricBinder` compares integers, and `format` runs only when
+  the quantum actually moved. Counted, not assumed: a vehicle on the pad produces **0 writes over
+  300 frames**, and `format` is asserted never to be called on a still frame. Still one rAF
+  subscriber, still resolve-once.
+  **The budget test was measuring the wrong thing.** It timed the readout binder alone, so a third
+  binder on the frame path could have grown the real cost while the gate stayed green. It now times
+  what `App.svelte` actually calls — all three, on a re-entry — and that is the number under 2 ms.
+  Auto-ranging is a pure ladder rather than a running maximum: remembered per-frame state outside
+  SimState is the shape of every 2021 bug, and a function is the only version that can be tested.
+  **Three real defects, two of them found by the machine.** (1) The control panels sat in the band
+  the lower third now owns; Playwright reported it exactly as a player would have hit it — "R1
+  intercepts pointer events" on a click 200 px away — so the panels moved to the left/right rails
+  the plan had drawn all along. (2) The first attempt minted a `metric-*` test id alongside the
+  `data-metric` hook the binder already resolves on; the duplication failed immediately, because
+  one limit-state metric shares its element with a readout that already had a test id, and the
+  second one silently went missing. `data-metric` IS the selector now. (3) The screenshot caught
+  `FS 0 KM/S` under a dial reading 21 M/S — the full-scale label rounded 200 m/s to zero kilometres,
+  on the one label whose whole job is to say what the arc is a fraction of.
+  Also fixed while reading the stylesheet: `prefers-reduced-motion` was declared BEFORE the default
+  it overrides, identical specificity, so it was defeated on every machine and the block did
+  nothing.
+  **Q is relabelled kPa** — declared display fix, recorded in `docs/PARITY.md`. 2021 printed PSI and
+  it was never psi; the limit is 50 and vehicles fly max-q at 30–35, and 50 psi would be 345 kPa.
+  Nothing in core changed and the digests do not move; three letters did.
+  Gate green (1126 unit, 60 e2e); `git diff v2/src/core` empty; the seven digests unmoved.

@@ -57,6 +57,40 @@ export const CONTROL_TESTIDS = [
 ] as const;
 
 /**
+ * The drawn readouts — gauge arcs, propellant bars, engine dots, the attitude
+ * chevron — by the id `$hud/metrics` gives them.
+ *
+ * Listed separately from the controls because they are not interactive and
+ * separately from the readouts because they carry no text: an e2e that wants to
+ * know whether the speed dial is moving has to read an attribute, not a string.
+ */
+export const METRIC_IDS = [
+  'gauge-speed',
+  'gauge-altitude',
+  'propellant-ch4',
+  'propellant-lox',
+  'engine-0',
+  'engine-1',
+  'engine-2',
+  'attitude',
+  'heat-state',
+  'q-state',
+] as const;
+
+/**
+ * The element the metric binder writes into.
+ *
+ * Addressed by `data-metric` rather than by a parallel `data-testid`, unlike
+ * everything else here. That is deliberate: `data-metric` is already the hook
+ * the binder resolves on, so it is stable by construction and cannot drift from
+ * the thing it names. Minting a second identifier for the same element was the
+ * first attempt, and it immediately produced the failure it deserved — one of
+ * the two limit-state metrics shares its element with a readout, which already
+ * had a test id, so the second one silently went missing.
+ */
+export const metricSelector = (id: string): string => `[data-metric="${id}"]`;
+
+/**
  * Readouts, by the id `$hud/readouts` gives them.
  *
  * Each renders three nodes: the row itself carries `readout-<id>`, and the two
@@ -65,6 +99,7 @@ export const CONTROL_TESTIDS = [
  * to know what the screen actually says.
  */
 export const READOUT_IDS = [
+  'clock',
   'altitude',
   'speed',
   'speedY',
@@ -78,6 +113,8 @@ export const READOUT_IDS = [
   'dynamicPressure',
   'heat',
   'range',
+  'speedScale',
+  'altitudeScale',
 ] as const;
 
 export type ReadoutId = (typeof READOUT_IDS)[number];

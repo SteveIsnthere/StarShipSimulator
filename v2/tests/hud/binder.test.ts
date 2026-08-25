@@ -22,8 +22,16 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it, vi } from 'vitest';
-import { createHudBinder, type TextTarget } from '$hud/binder';
+import {
+  createHudBinder,
+  createIndicatorBinder,
+  createMetricBinder,
+  type ClassTarget,
+  type TextTarget,
+} from '$hud/binder';
 import { READOUTS } from '$hud/readouts';
+import { METRICS } from '$hud/metrics';
+import { INDICATORS } from '$hud/indicators';
 import { createInitialState, type SimState } from '$core/state';
 import { createScenarioState, getScenario, PRESETS } from '$core/scenarios';
 import { step } from '$core/step';
@@ -231,6 +239,59 @@ describe('the 2 ms budget', () => {
     const perUpdate = samples[Math.floor(samples.length / 2)]!;
 
     expect(perUpdate, `HUD update cost ${perUpdate.toFixed(4)} ms`).toBeLessThan(2);
+  });
+
+  it('all THREE binders together still fit it, on the M6.2 overlay', () => {
+    /*
+      The budget is per frame, not per binder, and M6.2 put a third binder on
+      the frame path — the gauges, bars, dots and chevron. Measuring the readout
+      binder alone would have kept saying 'green' while the actual per-frame
+      cost grew, which is exactly the shape of regression a budget exists to
+      catch. So this measures what App.svelte's tick really calls.
+    */
+    const text = harness();
+
+    const metricEls = new Map<string, { setAttribute(name: string, value: string): void }>();
+    for (const metric of METRICS) {
+      metricEls.set(metric.id, { setAttribute: () => {} });
+    }
+    const metrics = createMetricBinder({ resolve: (id) => metricEls.get(id) ?? null });
+
+    const indicatorEls = new Map<string, ClassTarget>();
+    for (const indicator of INDICATORS) {
+      indicatorEls.set(indicator.id, { classList: { toggle: () => {} } });
+    }
+    const indicators = createIndicatorBinder({ resolve: (id) => indicatorEls.get(id) ?? null });
+
+    let state: SimState = createScenarioState(getScenario('reentry')!);
+    cmd.toggleAutoLand(state);
+
+    const tick = (s: SimState) => {
+      text.binder.update(s);
+      metrics.update(s);
+      indicators.update(s);
+    };
+
+    for (let i = 0; i < 500; i++) {
+      state = step(state, DT);
+      tick(state);
+    }
+
+    const samples: number[] = [];
+    for (let run = 0; run < 7; run++) {
+      const states: SimState[] = [];
+      for (let i = 0; i < 1_000; i++) {
+        state = step(state, DT);
+        states.push(state);
+      }
+      const t0 = performance.now();
+      for (const s of states) tick(s);
+      samples.push((performance.now() - t0) / 1_000);
+    }
+    samples.sort((a, b) => a - b);
+    const perFrame = samples[Math.floor(samples.length / 2)]!;
+
+    expect(perFrame, `whole-HUD frame cost ${perFrame.toFixed(4)} ms`).toBeLessThan(2);
   });
 });
 

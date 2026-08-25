@@ -34,6 +34,7 @@
 import type { SimState } from '$core/state';
 import { READOUTS, type Readout } from './readouts';
 import { INDICATORS, type Indicator } from './indicators';
+import { METRICS, type Metric } from './metrics';
 
 export interface HudBinder {
   /** Write any readouts whose value changed. */
@@ -193,6 +194,93 @@ export function createIndicatorBinder(options: IndicatorBindOptions): IndicatorB
           entry.last = on;
           if (entry.el) {
             entry.el.classList.toggle(activeClass, on);
+            writes += 1;
+          }
+        }
+      }
+
+      lastWriteCount = writes;
+      totalWrites += writes;
+    },
+
+    destroy(): void {
+      bound.length = 0;
+    },
+  };
+}
+
+/** The minimum a metric target must look like. */
+export interface AttributeTarget {
+  setAttribute(name: string, value: string): void;
+}
+
+export interface MetricBinder {
+  update(state: SimState): void;
+  /** Attribute writes performed by the last update. */
+  readonly lastWriteCount: number;
+  readonly totalWrites: number;
+  destroy(): void;
+}
+
+export interface MetricBindOptions {
+  resolve(id: string): AttributeTarget | null;
+}
+
+/**
+ * The third binder: the parts of the HUD that are drawn rather than spelled.
+ *
+ * M6.2 added gauge arcs, propellant bars, engine dots and an attitude chevron —
+ * none of which is text, all of which must update per frame. The obvious move
+ * was to let the components animate themselves, which would have put reactive
+ * framework code back on the frame path and undone M4.1. This keeps the law:
+ * still ONE rAF subscriber, still resolve-once, still diff-before-write.
+ *
+ * What is different from the readout binder, and why it had to be:
+ *
+ *   THE DIFF IS ON INTEGERS, NOT STRINGS. A gauge fraction is a float that
+ *   moves every frame. Diffing formatted strings would mean building a string
+ *   every frame to discover it was not needed — an allocation per metric per
+ *   frame, which the budget forbids. Each metric reports an integer quantum at
+ *   display precision instead; `format` runs only when that integer moved.
+ *
+ *   THE WRITE IS setAttribute, NOT textContent. `stroke-dashoffset` and
+ *   `transform` are attributes; so is the `data-state` an engine dot is styled
+ *   from. Writing them through the same code path as text would have needed a
+ *   union that helped nobody.
+ */
+export function createMetricBinder(options: MetricBindOptions): MetricBinder {
+  const bound: Array<{
+    metric: Metric;
+    el: AttributeTarget | null;
+    /** Not a number, so the first update always writes. */
+    last: number | null;
+  }> = METRICS.map((metric) => ({
+    metric,
+    el: options.resolve(metric.id),
+    last: null,
+  }));
+
+  let lastWriteCount = 0;
+  let totalWrites = 0;
+
+  return {
+    get lastWriteCount() {
+      return lastWriteCount;
+    },
+    get totalWrites() {
+      return totalWrites;
+    },
+
+    update(state: SimState): void {
+      let writes = 0;
+
+      for (let i = 0; i < bound.length; i++) {
+        const entry = bound[i]!;
+        const quantum = entry.metric.quantum(state);
+        if (quantum !== entry.last) {
+          entry.last = quantum;
+          if (entry.el) {
+            entry.el.setAttribute(entry.metric.attribute, entry.metric.format(quantum));
             writes += 1;
           }
         }

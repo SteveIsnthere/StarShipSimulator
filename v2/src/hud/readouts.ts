@@ -16,6 +16,7 @@
  */
 import type { SimState } from '$core/state';
 import { toDeg } from '$core/units';
+import { ALTITUDE_SCALES, scaleFor, SPEED_SCALES } from './metrics';
 
 export interface Readout {
   /** Stable id, used as the element key. */
@@ -76,7 +77,43 @@ export function formatRange(distance: number): Formatted {
  * write. In 2021 each was an unconditional assignment behind its own
  * getElementById.
  */
+/**
+ * dispUpdate.js had no clock; the reference overlay is built around one.
+ *
+ * `world.timeSpent` rather than wall-clock time, so it counts simulated seconds
+ * — which is the only thing that means anything under time warp, and the whole
+ * reason wall-clock reads were walled out of core in the first place.
+ */
+export function formatClock(seconds: number): string {
+  const whole = Math.max(0, Math.floor(seconds));
+  const hh = Math.floor(whole / 3600);
+  const mm = Math.floor((whole % 3600) / 60);
+  const ss = whole % 60;
+  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+  return `${pad(hh)}:${pad(mm)}:${pad(ss)}`;
+}
+
+/**
+ * A gauge's full-scale value, formatted the way the numeral inside it is.
+ *
+ * The unit has to switch at 1000 for the same reason the readouts do — and the
+ * first version of this did not, which put "FS 0 KM/S" under a dial reading
+ * 21 M/S. Rounding 200 m/s to zero kilometres is not a small error on a label
+ * whose entire job is to say what the arc is a fraction OF.
+ */
+function formatScale(value: number): Formatted {
+  if (value < 1000) return { value: value.toFixed(0), unit: 'M/S' };
+  return { value: (value * 0.001).toFixed(0), unit: 'KM/S' };
+}
+
 export const READOUTS: readonly Readout[] = [
+  {
+    /** The mission clock, shown top-left over the upper scrim. */
+    id: 'clock',
+    label: 'T+',
+    value: (s) => formatClock(s.world.timeSpent),
+    unit: () => '',
+  },
   {
     id: 'altitude',
     label: 'ALT',
@@ -132,10 +169,24 @@ export const READOUTS: readonly Readout[] = [
   },
   { id: 'mach', label: 'MACH', value: (s) => s.kinematics.machSpeed.toFixed(2), unit: () => '' },
   {
+    /**
+     * M6.2: the unit label is corrected to kPa.
+     *
+     * 2021 printed "PSI" beside this number and it was never psi. The realism
+     * audit settled it from two directions: `dynamicPressureLimit` is 50, and
+     * launch vehicles fly max-q at 30-35 — which is kPa (50 psi would be
+     * 345 kPa, five times what any vehicle sees), and the value is computed as
+     * 0.5*rho*v^2 in SI over a millesimal, which lands in kPa. See
+     * docs/PARITY.md.
+     *
+     * This is a DISPLAY fix, declared as such: nothing in core changed, the
+     * number is the same number, and the seven golden digests do not move. What
+     * changed is that the screen stopped printing a unit we know to be wrong.
+     */
     id: 'dynamicPressure',
     label: 'Q',
     value: (s) => s.forces.dynamicPressure.toFixed(1),
-    unit: () => 'PSI',
+    unit: () => 'KPA',
   },
   { id: 'heat', label: 'HEAT', value: (s) => s.forces.thermalPower.toFixed(0), unit: () => '' },
   {
@@ -144,5 +195,29 @@ export const READOUTS: readonly Readout[] = [
     value: (s) =>
       formatRange(s.kinematics.downRangeDistance - s.autopilot.landingSiteXPos).value,
     unit: (s) => formatRange(s.kinematics.downRangeDistance - s.autopilot.landingSiteXPos).unit,
+  },
+
+  /*
+    The two gauge full-scale labels.
+
+    They are readouts rather than component state because they change — the
+    dials auto-range (hud/metrics.ts) — and anything that changes during flight
+    belongs to the binder. Rendering them from Svelte would mean a reactive
+    value updating mid-flight, which is the one thing the frame path forbids.
+  */
+  {
+    id: 'speedScale',
+    label: 'FS',
+    value: (s) => formatScale(scaleFor(Math.abs(s.kinematics.trueSpeed), SPEED_SCALES)).value,
+    unit: (s) => formatScale(scaleFor(Math.abs(s.kinematics.trueSpeed), SPEED_SCALES)).unit,
+  },
+  {
+    id: 'altitudeScale',
+    label: 'FS',
+    // Every altitude rung is a whole number of kilometres, so this one needs no
+    // switch — the smallest is 1000 m.
+    value: (s) =>
+      (scaleFor(Math.max(0, s.kinematics.altitude), ALTITUDE_SCALES) * 0.001).toFixed(0),
+    unit: () => 'KM',
   },
 ];

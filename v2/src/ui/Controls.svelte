@@ -78,13 +78,26 @@
 </div>
 
 <style>
+  /*
+    RAILS, NOT A BOTTOM BAR — moved here in M6.2.
+
+    These panels used to sit along the bottom edge, which is where the lower
+    third now lives. The collision was not cosmetic: the engine panel physically
+    covered the engineering-strip toggle, and Playwright reported it exactly as
+    it would have happened to a player — "R1 intercepts pointer events" on every
+    attempt to click a control 200px away.
+
+    docs/BROADCAST-UI-PLAN.md § 3 already had the answer: the controls are a
+    left and a right rail down the sides, and the bottom band belongs to the
+    telemetry. M6.4 restyles their surfaces; this is the position.
+  */
   .controls {
     position: absolute;
-    inset: auto 0 0 0;
+    inset: 0;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
-    padding: 0.75rem;
+    padding: 0 0.75rem;
     gap: 0.75rem;
     pointer-events: none;
   }
