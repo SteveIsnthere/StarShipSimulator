@@ -117,7 +117,7 @@ acceptance line.
 - [x] **M5.1 Offline** — service worker precaches everything; no CDN references anywhere.
   Accept: full playthrough in airplane mode.
 - [x] **M5.2 README** — real one: screenshot, feature list, architecture story, dev setup.
-- [ ] **M5.3 Deploy** — pipeline to static hosting.
+- [x] **M5.3 Deploy** — pipeline to static hosting.
 - [ ] **M5.4 Retire legacy** — 2021 tree removed after v2 flies every scenario; v1.0 tag.
 
 ## Log
@@ -608,3 +608,21 @@ acceptance line.
   central bet — **extraction, not rewrite** — is stated with its reason: a rewrite would have
   produced a cleaner codebase flying a subtly different vehicle, and nobody could have said which
   parts changed. 991 tests, 43 e2e, 182.7 kB of 250.
+- 2026-08-25 · M5.3 · Deploy to GitHub Pages on push to main, with **every gate the CI job runs** —
+  a build that would fail review must not reach users because it was pushed to main. The interesting
+  half is not the workflow, it is that Pages serves a project site **from a subdirectory**, and a
+  single absolute path anywhere — a `<script src="/assets/...">`, a service worker precaching
+  `/index.html` — works perfectly on localhost and 404s in production. That is a bug found by users
+  or not at all, so `npm run test:deploy` stages the real build under `/StarShipSimulator/`, serves
+  it with a **plain static server** (`vite preview` rewrites paths and would hide exactly what this
+  is looking for), and asserts four things: the app loads and flies, every request the app makes is
+  under the subpath, the service worker registers at the subpath scope with every cache entry under
+  it, and it still works **offline from a subdirectory**. It passed first try — the relative `base`
+  and the scope-relative precache from M5.1 were already right — which is the outcome you want from
+  a test like this and not a reason to skip writing it. One diagnosis I got wrong along the way:
+  I saw root-level UUID requests, assumed Chromium captive-portal probes, and wrote that into a
+  comment; they are **`blob:` URLs**, PixiJS building its worker from a blob — which is incidentally
+  why that worker survives being offline. Also added Jekyll opt-out and a 404 fallback that serves
+  the shell, so a deep link lands in the simulator rather than on GitHub's error page — the same
+  thing the service worker does for unmatched navigations, so online and offline behave alike.
+  991 tests, 43 e2e, 4 deploy-shape e2e, 182.7 kB of 250.

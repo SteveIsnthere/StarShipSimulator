@@ -1,0 +1,104 @@
+name: Deploy
+
+# Static hosting on GitHub Pages. The build is `base: './'`, so the same output
+# works at a domain root and under a repository subpath — which is what Pages
+# serves — with no build-time configuration difference between the two.
+
+on:
+  push:
+    branches: [main]
+  # Deployable on demand, so a broken deploy can be re-run without an empty
+  # commit to trigger it.
+  workflow_dispatch:
+
+# One deploy at a time, and never cancel one midway: a half-finished deploy of a
+# static site is a site serving a mix of two builds. Queue instead.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+defaults:
+  run:
+    working-directory: v2
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: v2/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      # The same gates CI runs. Deploy does not get a shortcut: a build that
+      # would fail review must not reach users because it was pushed to main.
+      - name: Lint (the six walls)
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      # svelte-check -> vite build -> service worker -> bundle budget gate.
+      - name: Build
+        run: npm run build
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      # Includes the offline suite, which is the one that would catch a service
+      # worker that precaches the wrong paths — a failure invisible until
+      # someone loses signal.
+      - name: E2E
+        run: npm run test:e2e
+
+      # Pages serves from a subdirectory. This is the check that the build
+      # actually survives that, run before anything is published rather than
+      # discovered afterwards.
+      - name: E2E deploy shape (subpath)
+        run: npm run test:deploy
+
+      # Pages serves 404.html for unknown paths. There is one page, so the shell
+      # IS the 404: a deep link lands in the simulator rather than on GitHub's
+      # error page. The service worker does the same thing for navigations it
+      # cannot match, so online and offline behave alike.
+      - name: Single-page fallback
+        run: cp dist/index.html dist/404.html
+
+      # Pages would otherwise run the output through Jekyll, which drops files
+      # and directories beginning with an underscore.
+      - name: Disable Jekyll
+        run: touch dist/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: v2/dist
+
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

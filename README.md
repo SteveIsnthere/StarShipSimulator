@@ -125,10 +125,20 @@ npm run lint       # eslint, including the six walls
 npm run test       # vitest — 991 tests
 npm run build      # svelte-check, vite build, service worker, bundle budget
 npm run test:e2e   # playwright — 43 tests, needs a build
+npm run test:deploy  # the same build served from a subdirectory, as Pages does
 ```
 
 The build fails if first-load JS exceeds 250 kB gzip. That is deliberate: the budget is
 a test, not a guideline.
+
+### Deploying
+
+Pushing to `main` builds, runs every gate, and publishes to GitHub Pages. Pages serves a
+project site from a subdirectory rather than a domain root, which is why the build uses
+vite's `base: './'` and the service worker precaches scope-relative paths — and why
+`npm run test:deploy` exists to serve the real build from a subdirectory and prove it.
+An absolute path anywhere in the build works perfectly on localhost and 404s in
+production; that is not a bug worth finding from a user's bug report.
 
 ### Documents
 

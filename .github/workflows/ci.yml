@@ -57,6 +57,14 @@ jobs:
       - name: E2E smoke
         run: npm run test:e2e
 
+      # The deploy shape: the same build served from a subdirectory, which is how
+      # GitHub Pages serves a project site. A single absolute path in the build
+      # or in the service worker's precache list works perfectly at a domain root
+      # and 404s in production, so it has to be checked somewhere that is not
+      # production.
+      - name: E2E deploy shape (subpath)
+        run: npm run test:deploy
+
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v4

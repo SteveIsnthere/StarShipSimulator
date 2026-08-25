@@ -98,6 +98,8 @@ export default ts.config(
   {
     ignores: [
       'dist/**',
+      // The staged copy of dist/ that the subpath deploy test serves (M5.3).
+      '.subpath/**',
       'node_modules/**',
       'tests/lint-walls/fixtures/**',
       'playwright-report/**',

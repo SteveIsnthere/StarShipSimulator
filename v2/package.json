@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:deploy": "playwright test --config playwright.subpath.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
