@@ -2,6 +2,9 @@
   import { onMount } from 'svelte';
   import { createView, type ViewApp } from '$view/app';
   import { updateCamera } from '$view/camera';
+  import { loadTextures } from '$view/assets';
+  import { createWorld } from '$view/world';
+  import { createVehicle } from '$view/vehicle';
   import { createIntroState } from '$core/scenarios';
   import { advance, createLoopState } from '$app/loop';
   import { vehicleHeight } from '$core/constants';
@@ -28,6 +31,16 @@
         view.destroy();
         return;
       }
+
+      const textures = await loadTextures();
+      if (disposed) {
+        view.destroy();
+        return;
+      }
+      const world = createWorld(textures);
+      const vehicle = createVehicle(textures);
+      view.layers.world.addChild(world.container);
+      view.layers.vehicle.addChild(vehicle.container);
 
       const onResize = () => view?.resize(window.innerWidth, window.innerHeight);
       window.addEventListener('resize', onResize);
@@ -56,6 +69,15 @@
           view!.viewport,
           frameTime,
         );
+
+        world.update(view!.camera, view!.viewport, s.kinematics.speedX);
+        vehicle.update(view!.camera, view!.viewport, {
+          altitude: s.kinematics.altitude,
+          downRangeDistance: s.kinematics.downRangeDistance,
+          pitch: s.kinematics.pitch,
+          frontFinExtension: s.vehicle.frontFinExtension,
+          aftFinExtension: s.vehicle.aftFinExtension,
+        });
 
         status = `${s.kinematics.altitude.toFixed(0)} m · ${s.kinematics.speedY.toFixed(1)} m/s`;
       };

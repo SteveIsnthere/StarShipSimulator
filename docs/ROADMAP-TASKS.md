@@ -94,7 +94,7 @@ acceptance line.
 ## M3 — The glow-up
 
 - [ ] **M3.1 Pixi v8 shell** — app, canvas, resize, camera port.
-- [ ] **M3.2 World sprites** — StarBase, ground objects, ship, fins; existing art.
+- [x] **M3.2 World sprites** — StarBase, ground objects, ship, fins; existing art.
 - [ ] **M3.3 Particle pooling** — pooled emitter framework; port all 2021 effects; the
   shutdown leak dies here.
 - [ ] **M3.4 Sky** — altitude-graded gradient into starfield; parallax layers.
@@ -398,3 +398,12 @@ acceptance line.
   31-unit thermal load into 109 and made orbital flight impossible. Replaced with the standard
   isothermal continuation (scale height `H = RT/g`): 5.786e-7 kg/m³ at 100 km against the published
   **5.604e-7**, within 3%. No fixtures moved. 763 tests green.
+- 2026-08-25 · M3.2 · `view/assets.ts`, `view/world.ts`, `view/vehicle.ts`. The 2021 art copied into
+  `v2/public/assets` (892 kB) with `initGroundObjects.js`'s world dimensions ported verbatim —
+  sizes in **metres**, each width derived from its height and the source image's aspect, which is
+  what keeps the scenery proportionate at any zoom. **The pig is at x = 0** and roams, per
+  CLAUDE.md. Sprites are created once and repositioned per frame; scenery culls off-screen and the
+  ground band only redraws on resize. Fins are drawn rather than sprited because they articulate,
+  and are re-tessellated only when zoom or extension actually changes. **It renders** — screenshots
+  captured of the intro auto-landing sequence over StarBase. 7 e2e green including asset-load
+  coverage. First-load **165.8 kB gzip of 250**. 784 tests green.
