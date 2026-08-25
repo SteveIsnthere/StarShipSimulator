@@ -118,6 +118,15 @@ The bug fixes so far: a pitch-rate term that was only correct at exactly 60 fps,
 heating correlation given an area where it wanted a radius, an unclamped keyboard
 throttle that could command 210%, and a random-failure toggle that did nothing.
 
+The fidelity flags — planet-centered gravity, speed of sound from local temperature,
+the full ISA table, and the collapsed trig ladders — are all off by default, because
+CLAUDE.md lists the tuned feel of the 2021 model under what must never change. The last
+of those is a good illustration of why the tiers are worth having: collapsing seven
+quadrant ladders to seven one-line identities is provably the same mathematics, to within
+one ULP over four million sampled angles, and it *still* moves a golden fixture, because
+a third of those angles differ in the final bit and the simulation is a feedback loop. A
+proof of mathematical identity is not a proof of bit-identity.
+
 ---
 
 ## Development

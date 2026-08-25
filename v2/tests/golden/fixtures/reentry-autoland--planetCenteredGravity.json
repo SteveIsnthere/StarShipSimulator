@@ -59,6 +59,7 @@
   "failures.overGLoad": false,
   "failures.overPressure": false,
   "failures.randomFailure": false,
+  "flags.collapsedTrig": false,
   "flags.fullISA": false,
   "flags.planetCenteredGravity": true,
   "flags.realSpeedOfSound": false,

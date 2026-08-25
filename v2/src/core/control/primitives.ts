@@ -34,15 +34,19 @@ export function getPitchDifference(pitch: Rad, goal: Rad): number {
 /**
  * physics.js:477 — max thrust projected onto the vertical.
  *
- * The quadrant ladder here is a fourth copy of `verticalThrustCoefficient` from
- * physics/components.ts, inlined in 2021. Left as its own copy for now so the
- * port stays literal; M1.9 collapses all of them together.
+ * The quadrant ladder here is a seventh copy of `verticalThrustCoefficient`
+ * from physics/components.ts, inlined in 2021. Kept as its own copy so the port
+ * stays literal, and collapsed under the same M1.9 flag as the other six —
+ * collapsing some but not all of them would be the worst of both.
  */
 export function getEffectiveVerticalMaxThrust(
   running: readonly boolean[],
   gimbalPointingDirection: Rad,
+  collapsedTrig = false,
 ): number {
   const maxThrust = getWorkingEngineCount(running) * C.maxThrustPerRaptor;
+
+  if (collapsedTrig) return maxThrust * Math.cos(gimbalPointingDirection);
 
   let coefficient: number;
   if (0 <= gimbalPointingDirection && gimbalPointingDirection <= Math.PI / 2) {
@@ -237,7 +241,11 @@ export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: nu
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
     ((goalTWR * vehicle.vehicleMass * C.gravity) /
-      getEffectiveVerticalMaxThrust(engines.running, vehicle.gimbalPointingDirection)) *
+      getEffectiveVerticalMaxThrust(
+        engines.running,
+        vehicle.gimbalPointingDirection,
+        state.flags.collapsedTrig,
+      )) *
     100;
 
   if (throttleGoalPercentage > C.throttleUpperLimit) {

@@ -57,6 +57,33 @@ export interface Flags {
   realSpeedOfSound: boolean;
 
   /**
+   * M1.9 — the seven quadrant ladders collapsed to single expressions.
+   *
+   * OFF: physics.js's ladders, verbatim. Each picks a trig expression by which
+   * quadrant its angle falls in — 143 of that file's 539 lines.
+   *
+   * ON: the single expression each ladder reduces to (`-sin(x)`, `-cos(x)`,
+   * and so on). Every branch is a trigonometric identity of the others, so this
+   * is mathematically the same function.
+   *
+   * WHY THIS IS A FLAG AND NOT A REFACTOR, which is the interesting part. The
+   * Refactor tier allows a rewrite proving a max difference of <= 1 ULP, and
+   * tests/proofs/trig-collapse.test.ts does prove exactly that over 4,000,001
+   * angles per ladder. But about a third of angles differ in the LAST BIT, and
+   * a last-bit difference compounded through a feedback loop moves the golden
+   * fixtures — measured, `perceivedG_Y` at step 4260 of `launch-pad-takeoff`.
+   * CLAUDE.md is explicit that a refactor moving a fixture fails CI.
+   *
+   * So it is Fidelity, and the "more accurate" claim the tier requires is real
+   * rather than a formality: the ladder computes `sin(PI - a)` where the
+   * collapsed form computes `sin(a)`, and for `a` near PI that subtraction
+   * cancels leading digits before the sine is taken. The collapsed form does
+   * not have that step, so where the two differ, it is the ladder that is
+   * carrying the error.
+   */
+  collapsedTrig: boolean;
+
+  /**
    * M2.8 — the full ISA lapse-rate table to 86 km.
    *
    * OFF: the three-layer NASA model (as repaired in M2.1), which stops being
@@ -78,6 +105,7 @@ export const DEFAULT_FLAGS: Readonly<Flags> = {
   planetCenteredGravity: false,
   realSpeedOfSound: false,
   fullISA: false,
+  collapsedTrig: false,
 };
 
 /** All flag names, for tests that must cover every one. */
@@ -122,5 +150,11 @@ export const FLAG_COMBINATIONS: ReadonlyArray<Partial<Flags>> = [
   { planetCenteredGravity: true },
   { realSpeedOfSound: true },
   { fullISA: true },
-  { planetCenteredGravity: true, realSpeedOfSound: true, fullISA: true },
+  { collapsedTrig: true },
+  {
+    planetCenteredGravity: true,
+    realSpeedOfSound: true,
+    fullISA: true,
+    collapsedTrig: true,
+  },
 ];

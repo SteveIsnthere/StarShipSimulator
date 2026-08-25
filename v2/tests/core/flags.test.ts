@@ -94,7 +94,12 @@ describe('flagsId', () => {
 
   it('is stable regardless of key insertion order', () => {
     const a = createFlags({ planetCenteredGravity: true, fullISA: true });
-    const b = { fullISA: true, planetCenteredGravity: true, realSpeedOfSound: false };
+    const b = {
+      fullISA: true,
+      planetCenteredGravity: true,
+      realSpeedOfSound: false,
+      collapsedTrig: false,
+    };
     expect(flagsId(a)).toBe(flagsId(b));
   });
 

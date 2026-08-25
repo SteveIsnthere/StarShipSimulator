@@ -1,5 +1,5 @@
 /**
- * Refactor-tier proof for the six quadrant ladders.
+ * The proof behind the `collapsedTrig` fidelity flag (M1.9).
  *
  * physics.js picks a trig expression by which quadrant its angle falls in — six
  * times, 143 of the file's 539 lines. Every branch is a trigonometric identity
@@ -12,30 +12,32 @@
  *     horizontalThrust(x)  =  sin(x)
  *     verticalThrust(x)    =  cos(x)
  *
- * CLAUDE.md's Refactor tier allows the change only with a numerical proof of
- * max abs difference <= 1 ULP over the input domain, committed as a test. This
- * is that proof: 4,000,001 sampled angles per ladder across [-pi, pi], plus
- * every branch boundary and its immediate float neighbours.
+ * This started as a Refactor-tier proof: max abs difference <= 1 ULP over the
+ * input domain, committed as a test. 4,000,001 sampled angles per ladder across
+ * [-pi, pi], plus every branch boundary and its immediate float neighbours.
  *
  * THE PROOF HOLDS. Maximum absolute difference is 2.2204e-16 for four ladders
  * and 1.1102e-16 for the other two — exactly one and one-half ULP at unit
  * magnitude, which is the right scale for coefficients that live in [-1, 1].
  *
- * THE REFACTOR IS NEVERTHELESS NOT APPLIED. M1.9's acceptance line has a second
- * clause: "goldens unchanged". About a third of sampled angles produce a
- * different last bit, and compounded through a feedback loop that moves the
- * fixtures — measured, at step 4260 of launch-pad-takeoff, perceivedG_Y shifts
- * in its sixteenth significant figure. CLAUDE.md is explicit that a refactor
- * moving a golden fails CI, and that regenerating fixtures needs a Bug-fix or
- * Fidelity justification, which a mathematically-identical rewrite does not
- * have. The two halves of the acceptance line cannot both be satisfied, so the
- * task is left unchecked and blocked on an owner decision rather than
- * reinterpreted. See docs/ROADMAP-TASKS.md.
+ * IT STILL COULD NOT SHIP AS A REFACTOR, and that is the interesting part.
+ * M1.9's acceptance line has a second clause: "goldens unchanged". About a
+ * third of sampled angles produce a different last bit, and compounded through
+ * a feedback loop that moves the fixtures — measured, at step 4260 of
+ * launch-pad-takeoff, perceivedG_Y shifts in its sixteenth significant figure.
+ * CLAUDE.md is explicit that a refactor moving a golden fails CI. A proof of
+ * mathematical identity is not a proof of bit-identity, and the tier asks for
+ * the second.
  *
- * This file therefore stands as the completed measurement, not as the
- * justification for a change that shipped. It is worth keeping either way: it
- * documents that 143 of physics.js's 539 lines are one-line identities, and
- * whoever unblocks M1.9 needs exactly these numbers.
+ * SO IT SHIPPED AS FIDELITY, on the owner's decision: the `collapsedTrig` flag,
+ * off by default, with a golden fixture for the on path. The accuracy claim the
+ * Fidelity tier demands is real rather than a formality — the ladder computes
+ * `sin(PI - a)` where the collapsed form computes `sin(a)`, and near a = PI that
+ * subtraction cancels leading digits before the sine is taken. Where the two
+ * disagree it is the ladder carrying the error.
+ *
+ * This file is the measurement that justifies the flag, and it also documents
+ * that 143 of physics.js's 539 lines are one-line identities.
  *
  * Note on relative vs absolute. Measuring in ULP *of the local value* explodes
  * near the zeros of sin and cos, where the spacing of doubles collapses: at

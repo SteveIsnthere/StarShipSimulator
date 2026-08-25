@@ -96,14 +96,21 @@ const BASE_SPECS: readonly GoldenSpec[] = [
  *
  * M2.5 requires a golden fixture for every combination that ships — "off by
  * default" means nothing if the on path is untested. Recording all seven
- * scenarios against all five combinations would be 35 fixtures of mostly
+ * scenarios against all six combinations would be 42 fixtures of mostly
  * duplicated information, so each non-default combination gets the scenario
  * that actually exercises it:
  *
  *   planetCenteredGravity  reentry, the only preset at orbital speed
  *   realSpeedOfSound       booster-sep, which spans Mach 1 to Mach 4 in air
  *   fullISA                reentry, which crosses every atmospheric layer
- *   all three              reentry, which is what M2.10's feel review flies
+ *   collapsedTrig          before-flip, which sweeps the quadrant boundaries
+ *   all four               reentry, which is what M2.10's feel review flies
+ *
+ * before-flip is the right one for collapsedTrig specifically because that flag
+ * only does anything where the ladders' branches meet. The flip swings pitch,
+ * angle of motion and the gimbal through every quadrant in sixty seconds; a
+ * scenario that stayed in one quadrant would record a fixture that could not
+ * tell the two forms apart and would pass whatever the flag did.
  *
  * The default combination keeps all seven scenarios: that is the contract on
  * the shipped configuration, and it is the one that must never drift.
@@ -126,7 +133,8 @@ const REPRESENTATIVE: Record<string, string> = {
   planetCenteredGravity: 'reentry-autoland',
   realSpeedOfSound: 'booster-sep-boostback',
   fullISA: 'reentry-autoland',
-  'planetCenteredGravity+realSpeedOfSound+fullISA': 'reentry-autoland',
+  collapsedTrig: 'before-flip-autoland',
+  'planetCenteredGravity+realSpeedOfSound+fullISA+collapsedTrig': 'reentry-autoland',
 };
 
 const FLAGGED_SPECS: readonly GoldenSpec[] = FLAG_COMBINATIONS.flatMap((combination) => {

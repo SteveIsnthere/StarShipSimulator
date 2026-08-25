@@ -322,6 +322,8 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     aerodynamicDragAcceleration: s.forces.aerodynamicDragAcceleration,
     aerodynamicLiftAcceleration: s.forces.aerodynamicLiftAcceleration,
     thrustAcceleration: s.forces.thrustAcceleration,
+    // M1.9, Fidelity. Off by default: the ladders are what the goldens record.
+    collapsedTrig: s.flags.collapsedTrig,
   };
   s.kinematics.accelerationX = comp.getHorizontalAcceleration(accelInputs);
   s.kinematics.accelerationY = comp.getVerticalAcceleration(accelInputs, C.gravity);

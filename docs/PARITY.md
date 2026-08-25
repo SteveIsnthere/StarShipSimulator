@@ -129,7 +129,8 @@ Every one is a declared tier with its evidence in the commit that made it. The
 short list: the pitch-rate frame-rate dependency (M2.4), the nose-radius unit
 error in the heating correlation (M2.2), the unclamped keyboard throttle
 (M4.3), and the inert random-failure toggle (M4.4) — all Bug fix. Planet-centered
-gravity, real speed of sound and full ISA are Fidelity, **all off by default**
+gravity, real speed of sound, full ISA and the collapsed trig ladders are Fidelity,
+**all off by default**
 pending the owner's decision in M2.10.
 
 `heatLimit` is the open one: it was tuned against a model that understated both

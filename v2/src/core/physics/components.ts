@@ -4,23 +4,42 @@
  * Ported verbatim from backend/physics.js:99-249, quadrant ladders intact.
  *
  * Each of the six functions below picks a trig expression by which quadrant its
- * angle falls in. All six ladders reduce to a single expression: the branches
- * are trigonometric identities of one another, so `-sin(PI - x)` and `-sin(x)`
- * agree to the last bit over the whole domain. Collapsing them is M1.9, a
- * Refactor-tier change owing a <= 1 ULP proof over >= 4M sampled angles.
+ * angle falls in — 143 of physics.js's 539 lines. Every ladder reduces to a
+ * single expression, because the branches are trigonometric identities of one
+ * another:
  *
- * They are ported unchanged first, so the goldens in M1.8 lock the current
- * behaviour before anything is simplified. That ordering is the point: a
- * refactor is only provable against a fixture that predates it.
+ *     horizontalDrag(x)    = -sin(x)      verticalDrag(x)    = -cos(x)
+ *     horizontalLift(x)    = -cos(x)      verticalLift(x)    =  sin(x)
+ *     horizontalThrust(x)  =  sin(x)      verticalThrust(x)  =  cos(x)
+ *
+ * M1.9 proved that (tests/proofs/trig-collapse.test.ts: max absolute difference
+ * 1 unit-ULP over 4,000,001 angles per ladder) and then could not apply it as a
+ * Refactor, because a third of angles differ in the last bit and that moves the
+ * goldens. It ships as the `collapsedTrig` fidelity flag instead — off by
+ * default, both paths golden-tested. See core/flags.ts for why the accuracy
+ * claim the Fidelity tier demands is real here and not a formality.
+ *
+ * Both forms live side by side on purpose. The ladders are what the 2021 build
+ * does and what the default fixtures record; deleting them would make the
+ * flag-off path a reconstruction rather than the original.
  */
 import type { Rad } from '../units';
 
 const HALF_PI = Math.PI / 2;
 
+/**
+ * Whether to use the collapsed single expression.
+ *
+ * Defaults to false everywhere, so a caller that has not been taught about the
+ * flag gets 2021's behaviour rather than a silent change.
+ */
+type Collapsed = boolean;
+
 // --- drag ------------------------------------------------------------------
 
 /** physics.js:110 */
-export function horizontalDragCoefficient(angleOfMotion: Rad): number {
+export function horizontalDragCoefficient(angleOfMotion: Rad, collapsed: Collapsed = false): number {
+  if (collapsed) return -Math.sin(angleOfMotion);
   if (0 <= angleOfMotion && angleOfMotion <= HALF_PI) {
     return -Math.sin(angleOfMotion);
   } else if (HALF_PI < angleOfMotion && angleOfMotion <= Math.PI) {
@@ -33,7 +52,8 @@ export function horizontalDragCoefficient(angleOfMotion: Rad): number {
 }
 
 /** physics.js:186 */
-export function verticalDragCoefficient(angleOfMotion: Rad): number {
+export function verticalDragCoefficient(angleOfMotion: Rad, collapsed: Collapsed = false): number {
+  if (collapsed) return -Math.cos(angleOfMotion);
   if (0 <= angleOfMotion && angleOfMotion <= HALF_PI) {
     return -Math.cos(angleOfMotion);
   } else if (HALF_PI < angleOfMotion && angleOfMotion <= Math.PI) {
@@ -48,7 +68,8 @@ export function verticalDragCoefficient(angleOfMotion: Rad): number {
 // --- lift ------------------------------------------------------------------
 
 /** physics.js:128 */
-export function horizontalLiftCoefficient(angleOfMotion: Rad): number {
+export function horizontalLiftCoefficient(angleOfMotion: Rad, collapsed: Collapsed = false): number {
+  if (collapsed) return -Math.cos(angleOfMotion);
   if (0 <= angleOfMotion && angleOfMotion <= HALF_PI) {
     return -Math.sin(HALF_PI - angleOfMotion);
   } else if (HALF_PI < angleOfMotion && angleOfMotion < Math.PI) {
@@ -61,7 +82,8 @@ export function horizontalLiftCoefficient(angleOfMotion: Rad): number {
 }
 
 /** physics.js:203 */
-export function verticalLiftCoefficient(angleOfMotion: Rad): number {
+export function verticalLiftCoefficient(angleOfMotion: Rad, collapsed: Collapsed = false): number {
+  if (collapsed) return Math.sin(angleOfMotion);
   if (0 <= angleOfMotion && angleOfMotion <= HALF_PI) {
     return Math.cos(HALF_PI - angleOfMotion);
   } else if (HALF_PI < angleOfMotion && angleOfMotion <= Math.PI) {
@@ -87,7 +109,11 @@ export function liftSignIsInverted(angleOfAttack: Rad): boolean {
 // --- thrust ----------------------------------------------------------------
 
 /** physics.js:159 */
-export function horizontalThrustCoefficient(gimbalPointingDirection: Rad): number {
+export function horizontalThrustCoefficient(
+  gimbalPointingDirection: Rad,
+  collapsed: Collapsed = false,
+): number {
+  if (collapsed) return Math.sin(gimbalPointingDirection);
   if (0 <= gimbalPointingDirection && gimbalPointingDirection <= HALF_PI) {
     return Math.sin(gimbalPointingDirection);
   } else if (HALF_PI < gimbalPointingDirection && gimbalPointingDirection <= Math.PI) {
@@ -100,7 +126,11 @@ export function horizontalThrustCoefficient(gimbalPointingDirection: Rad): numbe
 }
 
 /** physics.js:230 */
-export function verticalThrustCoefficient(gimbalPointingDirection: Rad): number {
+export function verticalThrustCoefficient(
+  gimbalPointingDirection: Rad,
+  collapsed: Collapsed = false,
+): number {
+  if (collapsed) return Math.cos(gimbalPointingDirection);
   if (0 <= gimbalPointingDirection && gimbalPointingDirection <= HALF_PI) {
     return Math.cos(gimbalPointingDirection);
   } else if (HALF_PI < gimbalPointingDirection && gimbalPointingDirection <= Math.PI) {
@@ -124,19 +154,24 @@ export interface AccelerationInputs {
   aerodynamicLiftAcceleration: number;
   /** m/s^2 */
   thrustAcceleration: number;
+  /** M1.9 fidelity flag. Absent means 2021's ladders. */
+  collapsedTrig?: boolean;
 }
 
 /** physics.js:99 — sum of drag, lift and thrust components. @returns m/s^2 */
 export function getHorizontalAcceleration(i: AccelerationInputs): number {
-  const dragComponent = horizontalDragCoefficient(i.angleOfMotion) * i.aerodynamicDragAcceleration;
+  const collapsed = i.collapsedTrig === true;
 
-  const liftCoefficient = horizontalLiftCoefficient(i.angleOfMotion);
+  const dragComponent =
+    horizontalDragCoefficient(i.angleOfMotion, collapsed) * i.aerodynamicDragAcceleration;
+
+  const liftCoefficient = horizontalLiftCoefficient(i.angleOfMotion, collapsed);
   const liftComponent = liftSignIsInverted(i.angleOfAttack)
     ? -liftCoefficient * i.aerodynamicLiftAcceleration
     : liftCoefficient * i.aerodynamicLiftAcceleration;
 
   const thrustComponent =
-    horizontalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+    horizontalThrustCoefficient(i.gimbalPointingDirection, collapsed) * i.thrustAcceleration;
 
   // 2021 sums drag + thrust + lift, in that order. Kept: float addition is not
   // associative and the goldens see the difference.
@@ -152,15 +187,18 @@ export function getHorizontalAcceleration(i: AccelerationInputs): number {
  * @returns m/s^2
  */
 export function getVerticalAcceleration(i: AccelerationInputs, gravity: number): number {
-  const dragComponent = verticalDragCoefficient(i.angleOfMotion) * i.aerodynamicDragAcceleration;
+  const collapsed = i.collapsedTrig === true;
 
-  const liftCoefficient = verticalLiftCoefficient(i.angleOfMotion);
+  const dragComponent =
+    verticalDragCoefficient(i.angleOfMotion, collapsed) * i.aerodynamicDragAcceleration;
+
+  const liftCoefficient = verticalLiftCoefficient(i.angleOfMotion, collapsed);
   const liftComponent = liftSignIsInverted(i.angleOfAttack)
     ? -liftCoefficient * i.aerodynamicLiftAcceleration
     : liftCoefficient * i.aerodynamicLiftAcceleration;
 
   const thrustComponent =
-    verticalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+    verticalThrustCoefficient(i.gimbalPointingDirection, collapsed) * i.thrustAcceleration;
 
   return -gravity + dragComponent + thrustComponent + liftComponent;
 }

@@ -43,20 +43,12 @@ acceptance line.
 - [x] **M1.8 Golden trajectories** — headless runner records full state history per scenario
   (autopilot flying); fixtures committed; determinism test replays with 30/60/144 fps
   frame batching. Accept: bit-identical across batchings; fixtures in CI.
-- [ ] **M1.9 Trig collapse** — ⚠️ **BLOCKED — OWNER DECISION NEEDED.** The proof is done and
-  committed (`v2/tests/proofs/trig-collapse.test.ts`): all six ladders ARE single expressions, max
-  abs difference 1.0 unit-ULP (four) / 0.5 (two) over 4,000,001 angles across [−π, π] plus every
-  branch boundary. But the second half of the acceptance line cannot hold: ~34% of angles differ in
-  the last bit, and applying the collapse **moves the goldens** (measured — `perceivedG_Y` shifts in
-  its 16th significant figure at step 4260 of `launch-pad-takeoff`). CLAUDE.md says a Refactor that
-  moves a fixture fails CI, and regenerating fixtures needs a Bug-fix or Fidelity justification,
-  which a mathematically-identical rewrite does not have. Both clauses cannot be satisfied at once,
-  so the task is left unchecked rather than reinterpreted. **Options for the owner: (A)** treat it
-  as Fidelity — the collapsed form is arguably *more* accurate, since the ladder's `sin(π − a)`
-  loses precision in the subtraction — behind a flag, which needs M2.5 first; **(B)** authorise a
-  golden regeneration in M1.9 with an explicit justification; **(C)** drop the collapse and keep the
-  ladders, with the proof standing as documentation that 143 of physics.js's 539 lines are
-  one-line identities.
+- [x] **M1.9 Trig collapse** — shipped as the `collapsedTrig` **Fidelity** flag (owner's choice),
+  off by default, both paths golden-tested. The proof stands at
+  `v2/tests/proofs/trig-collapse.test.ts`: max abs difference 1.0 unit-ULP over 4,000,001 angles
+  per ladder. It could not ship as a Refactor because ~34% of angles differ in the last bit and
+  that moves the goldens — a proof of mathematical identity is not a proof of bit-identity, and
+  the Refactor tier asks for the second.
 - [x] **M1.10 Rename pass** — mechanical rename (gimbol→gimbal, presision→precision,
   lowwer→lower, aera→area, faliure→failure, lunchpad→launchpad, …), map committed at
   `docs/RENAME-MAP.md`. Accept: goldens unchanged.
@@ -663,3 +655,25 @@ acceptance line.
   opposite of what the test asserted. It had been passing on luck. It now starts from the handover,
   a known state, and asserts the vehicle climbs. 1007 tests, 43 e2e, 4 deploy-shape e2e,
   182.7 kB of 250.
+- 2026-08-25 · M1.9 · **Owner chose the Fidelity flag.** All seven quadrant ladders — the six in
+  `physics/components.ts` plus the seventh inlined in `getEffectiveVerticalMaxThrust` — now have a
+  collapsed single-expression path behind `flags.collapsedTrig`, off by default. Both forms live
+  side by side deliberately: the ladders are what the 2021 build does and what the default fixtures
+  record, so deleting them would make the flag-off path a reconstruction rather than the original.
+  **The key verification is a negative one.** Regenerating every fixture produced exactly **one
+  added line per file** — `"flags.collapsedTrig": false` — with **zero deletions and zero modified
+  values** across all ten. Not one trajectory number moved, which is the evidence that the default
+  path is untouched; a diff summary of "1 insertion, 0 deletions" ten times over is worth more than
+  any amount of reasoning about it. The on path is real, not a duplicate: the two `before-flip`
+  fixtures differ in **761 cells across 121 rows**, starting at row 1. `before-flip` is the
+  representative because the flag only does anything where the branches meet, and the flip sweeps
+  every quadrant in sixty seconds; a scenario that stayed in one quadrant would record a fixture
+  that passed whatever the flag did. The old three-flag "everything on" combination is superseded by
+  the four-flag one and its fixture deleted. **Two of my own test assertions were wrong and had to
+  be fixed rather than weakened**: comparing final states proved nothing, because both paths land
+  and a landed vehicle is pinned to exactly half its height with velocities zeroed, so the endpoints
+  agree to the bit however different the flights were; and sampling `altitude` mid-flight also
+  showed no difference, because altitude is an integral of an integral and the perturbation has not
+  reached its last bit yet. The assertion now walks the whole state, requires something to have
+  moved, and requires everything that moved to agree to ten significant figures. 1027 tests,
+  43 e2e, 4 deploy-shape e2e, 182.8 kB of 250.
