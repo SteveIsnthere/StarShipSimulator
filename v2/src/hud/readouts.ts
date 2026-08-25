@@ -22,6 +22,14 @@ export interface Readout {
   readonly id: string;
   /** Label shown beside the value. */
   readonly label: string;
+  /**
+   * True for the two 2021 always showed. index.html:46.
+   *
+   * `show_hideFlightParamDispMid` (dispUpdate.js:193) collapsed everything
+   * else, leaving altitude and speed. Worth keeping: on a phone the full block
+   * covers a quarter of the screen, and those two are the ones you fly on.
+   */
+  readonly primary?: boolean;
   /** The formatted value. */
   value(state: SimState): string;
   /** The unit, which for some readouts changes with magnitude. */
@@ -72,12 +80,14 @@ export const READOUTS: readonly Readout[] = [
   {
     id: 'altitude',
     label: 'ALT',
+    primary: true,
     value: (s) => formatAltitude(s.kinematics.altitude).value,
     unit: (s) => formatAltitude(s.kinematics.altitude).unit,
   },
   {
     id: 'speed',
     label: 'SPD',
+    primary: true,
     value: (s) => formatSpeed(s.kinematics.trueSpeed).value,
     unit: (s) => formatSpeed(s.kinematics.trueSpeed).unit,
   },

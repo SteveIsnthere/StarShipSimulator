@@ -24,6 +24,17 @@
 
   let root: HTMLElement;
 
+  /**
+   * dispUpdate.js:156 — the panels collapse.
+   *
+   * On a phone in landscape the two panels take most of the screen, which is
+   * why 2021 had this. Collapsed is a class change, not an unmount: the
+   * indicator binder holds references to these nodes and resolves them once
+   * (M4.2), so removing them from the DOM would leave it writing to orphans.
+   */
+  let leftOpen = $state(true);
+  let rightOpen = $state(true);
+
   onMount(() => {
     // Resolved once, here, and never again — the binder holds the references.
     // A plain record rather than a Map: nothing about this lookup is reactive,
@@ -39,12 +50,28 @@
 
 <div class="controls" bind:this={root}>
   <div class="left">
-    <EnginePanel {emit} />
-    <button class="zoom" type="button" aria-label="Zoom out" onclick={() => zoom(-1)}>&minus;</button>
+    <div class="panel-wrap" class:collapsed={!leftOpen}><EnginePanel {emit} /></div>
+    <div class="corner">
+      <button
+        class="zoom"
+        type="button"
+        aria-label={leftOpen ? 'Hide engine controls' : 'Show engine controls'}
+        data-control="toggleLeft"
+        onclick={() => (leftOpen = !leftOpen)}>{leftOpen ? '\u2039' : '\u203a'}</button>
+      <button class="zoom" type="button" aria-label="Zoom out" onclick={() => zoom(-1)}>&minus;</button>
+    </div>
   </div>
   <div class="right">
-    <YokePanel {emit} />
-    <button class="zoom" type="button" aria-label="Zoom in" onclick={() => zoom(1)}>+</button>
+    <div class="panel-wrap" class:collapsed={!rightOpen}><YokePanel {emit} /></div>
+    <div class="corner">
+      <button class="zoom" type="button" aria-label="Zoom in" onclick={() => zoom(1)}>+</button>
+      <button
+        class="zoom"
+        type="button"
+        aria-label={rightOpen ? 'Hide flight yoke' : 'Show flight yoke'}
+        data-control="toggleRight"
+        onclick={() => (rightOpen = !rightOpen)}>{rightOpen ? '\u203a' : '\u2039'}</button>
+    </div>
   </div>
 </div>
 
@@ -68,6 +95,24 @@
   }
   .right {
     align-items: flex-end;
+  }
+  .panel-wrap {
+    transition: opacity 0.15s ease;
+  }
+  /*
+    Hidden, not unmounted: the indicator binder resolved these nodes once and
+    holds the references. `visibility` also takes them out of the hit-testing
+    and the accessibility tree, so a collapsed panel cannot swallow a click.
+  */
+  .panel-wrap.collapsed {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
+  .corner {
+    display: flex;
+    gap: 0.3rem;
   }
   .zoom {
     appearance: none;

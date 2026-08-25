@@ -24,6 +24,13 @@
   const valueEls: Record<string, HTMLElement> = {};
   const unitEls: Record<string, HTMLElement> = {};
 
+  /**
+   * dispUpdate.js:193 — the secondary readouts collapse, leaving altitude and
+   * speed. Hidden rather than unmounted, for the same reason as the control
+   * panels: the binder resolved these text nodes once and holds them.
+   */
+  let expanded = $state(true);
+
   onMount(() => {
     onready((id) => ({ value: valueEls[id] ?? null, unit: unitEls[id] ?? null }));
   });
@@ -31,12 +38,25 @@
 
 <div class="hud" role="status" aria-live="off">
   {#each READOUTS as readout (readout.id)}
-    <div class="row" data-readout={readout.id}>
+    <div
+      class="row"
+      class:collapsed={!expanded && !readout.primary}
+      data-readout={readout.id}
+    >
       <span class="label">{readout.label}</span>
       <span class="value" bind:this={valueEls[readout.id]}></span>
       <span class="unit" bind:this={unitEls[readout.id]}></span>
     </div>
   {/each}
+  <button
+    class="toggle"
+    type="button"
+    data-hud-control="expand"
+    aria-label={expanded ? 'Hide detailed readouts' : 'Show detailed readouts'}
+    onclick={() => (expanded = !expanded)}
+  >
+    {expanded ? '\u2039' : '\u203a'}
+  </button>
 </div>
 
 <style>
@@ -57,8 +77,26 @@
     grid-template-columns: 3.2rem 4.2rem auto;
     align-items: baseline;
   }
+  .row.collapsed {
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+  }
   .label {
     opacity: 0.65;
+  }
+  .toggle {
+    justify-self: start;
+    margin-top: 0.15rem;
+    appearance: none;
+    border: 0;
+    border-radius: 0.4rem;
+    padding: 0.05rem 0.35rem;
+    font: inherit;
+    color: inherit;
+    background: rgb(255 255 255 / 35%);
+    pointer-events: auto;
+    cursor: pointer;
   }
   .value {
     text-align: right;

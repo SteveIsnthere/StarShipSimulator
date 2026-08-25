@@ -36,6 +36,7 @@
   import { toggleRandomFailure } from '$core/control/commands';
   import BlackBox from './BlackBox.svelte';
   import { createRecorder } from '$app/recorder';
+  import InfoView from './InfoView.svelte';
 
   let canvas: HTMLCanvasElement;
 
@@ -83,6 +84,7 @@
    */
   let menuOpen = $state(false);
   let blackBoxOpen = $state(false);
+  let infoView = $state<'guide' | 'about' | null>(null);
 
   /**
    * The flight recorder.
@@ -108,6 +110,13 @@
 
   let time = $state<TimeSetting>(REAL_TIME);
   let randomFailure = $state(false);
+  /** eventListener.js:117 — on by default, as 2021 had it. */
+  let tiltControl = $state(true);
+  /**
+   * The end-of-flight restart. dispUpdate.js:47 revealed a button when the
+   * flight ended; here the same condition drives it.
+   */
+  let flightOver = $state(false);
 
   /** Recomputed only when the time setting changes, never per frame. */
   const loopOptions = $derived({ ...toLoopOptions(time), onStep });
@@ -132,17 +141,31 @@
    */
   const onConfigure = (fields: EditorFields) => {
     if (!loopState) return;
-    currentPreset = fieldsToPreset(fields, currentPreset);
-    const fresh = createScenarioState(currentPreset);
+    startFlight(fieldsToPreset(fields, currentPreset));
+    menuOpen = false;
+  };
+
+  /**
+   * tools.js:70 — restart the flight that is loaded.
+   *
+   * Shares its implementation with Configure, because they are the same
+   * operation: build a fresh state from the current preset. 2021 had two
+   * separate paths and they disagreed — `restart()` re-ran initBackEnd() while
+   * `configureNewFlight()` assigned over the live globals.
+   */
+  const startFlight = (preset: ScenarioPreset) => {
+    if (!loopState) return;
+    currentPreset = preset;
+    const fresh = createScenarioState(preset);
     fresh.failures.randomFailure = randomFailure;
     loopState.state = fresh;
     loopState.previous = fresh;
     loopState.accumulator = 0;
-    // A new flight is a new recording; keeping the old one would splice two
-    // trajectories into one plot.
     recorder.clear();
-    menuOpen = false;
+    flightOver = false;
   };
+
+  const onRestart = () => startFlight(currentPreset);
 
   /** Zoom is a view action, not a simulation command — it changes nothing. */
   let viewApp: ViewApp | undefined;
@@ -211,14 +234,15 @@
         control: emit,
         view: applyViewAction,
         readThrottle: () => loop.state.vehicle.throttle,
-        isBlocked: () => menuOpen || blackBoxOpen,
+        isBlocked: () => menuOpen || blackBoxOpen || infoView !== null,
       });
 
       // Tilt yields to a hand on the yoke, and is only meaningful on a device
       // that reports orientation at all.
       const tilt: InputBinding = bindTilt(window, {
         control: emit,
-        isManual: () => loop.state.autopilot.manualControlOn,
+        // Off means off: the menu switch and a hand on the yoke both suppress it.
+        isManual: () => !tiltControl || loop.state.autopilot.manualControlOn,
         orientationAngle: () => screen.orientation?.angle ?? 0,
       });
 
@@ -277,6 +301,13 @@
         // The single per-frame DOM subscriber. It diffs; most frames write nothing.
         hud?.update(s);
         indicators?.update(s);
+
+        // dispUpdate.js:47 — the same four conditions that revealed the restart
+        // button. Assigning an unchanged boolean does not schedule a Svelte
+        // update, so this costs nothing on the frames where it has not changed.
+        const over =
+          s.status.landed || s.failures.crashed || s.failures.inFlightBreakUp || s.failures.fuelRunOut;
+        if (over !== flightOver) flightOver = over;
       };
       frame = requestAnimationFrame(tick);
 
@@ -318,16 +349,24 @@
     Menu
   </button>
 </div>
+
+{#if flightOver}
+  <button class="restart" type="button" data-control="restart" onclick={onRestart}>Restart</button>
+{/if}
 <BlackBox open={blackBoxOpen} {recorder} onClose={() => (blackBoxOpen = false)} />
 <Menu
   open={menuOpen}
   {time}
   {randomFailure}
+  {tiltControl}
   onClose={() => (menuOpen = false)}
   onTimeChange={(next) => (time = next)}
   {onConfigure}
   {onToggleRandomFailure}
+  onToggleTiltControl={() => (tiltControl = !tiltControl)}
+  onShowInfo={(view) => (infoView = view)}
 />
+<InfoView view={infoView} onClose={() => (infoView = null)} />
 
 <style>
   :global(body) {
@@ -339,6 +378,24 @@
     display: block;
     position: absolute;
     inset: 0;
+  }
+  .restart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    appearance: none;
+    border: 0;
+    border-radius: 0.6rem;
+    padding: 0.7rem 1.4rem;
+    font: 700 0.9rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: 0.06em;
+    color: #000;
+    background: rgb(255 255 255 / 75%);
+    box-shadow:
+      3px 3px 7px 0 rgb(0 0 0 / 25%),
+      -4px -4px 9px 0 rgb(255 255 255 / 55%);
+    cursor: pointer;
   }
   .top-right {
     position: absolute;

@@ -23,20 +23,27 @@
     open: boolean;
     time: TimeSetting;
     randomFailure: boolean;
+    tiltControl: boolean;
     onClose: () => void;
     onTimeChange: (setting: TimeSetting) => void;
     onConfigure: (fields: EditorFields) => void;
     onToggleRandomFailure: () => void;
+    onToggleTiltControl: () => void;
+    /** index.html:224 — the About and Help buttons at the foot of the menu. */
+    onShowInfo: (view: 'guide' | 'about') => void;
   }
 
   const {
     open,
     time,
     randomFailure,
+    tiltControl,
     onClose,
     onTimeChange,
     onConfigure,
     onToggleRandomFailure,
+    onToggleTiltControl,
+    onShowInfo,
   }: Props = $props();
 
   let fields = $state<EditorFields>({ ...EMPTY_FIELDS });
@@ -71,6 +78,15 @@
         onclick={onToggleRandomFailure}
       >
         Random Failure
+      </button>
+      <button
+        class="control"
+        class:is-on={tiltControl}
+        type="button"
+        data-menu-control="tiltControl"
+        onclick={onToggleTiltControl}
+      >
+        Tilt Control
       </button>
       <button class="control" type="button" data-menu-control="close" onclick={onClose}>
         Close
@@ -158,6 +174,15 @@
         onclick={() => onConfigure(fields)}
       >
         Configure
+      </button>
+    </div>
+
+    <div class="row">
+      <button class="control" type="button" data-menu-control="about" onclick={() => onShowInfo('about')}>
+        About
+      </button>
+      <button class="control" type="button" data-menu-control="guide" onclick={() => onShowInfo('guide')}>
+        Help
       </button>
     </div>
   </div>

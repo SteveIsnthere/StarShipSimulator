@@ -110,7 +110,7 @@ acceptance line.
 - [x] **M4.3 Inputs** — keybinds, tilt, touch parity with 2021.
 - [x] **M4.4 Menu + editor** — time warp, scenario editor incl. orbital presets.
 - [x] **M4.5 Black box** — lazy-loaded uPlot; Plotly gone from first load.
-- [ ] **M4.6 Parity sweep** — checklist vs 2021 feature list; guide/about ported.
+- [x] **M4.6 Parity sweep** — checklist vs 2021 feature list; guide/about ported.
 
 ## M5 — Shipped
 
@@ -555,3 +555,22 @@ acceptance line.
   one flex row, so the layout does the arithmetic); and a test that waited on the dialog rather than
   on a drawn plot read the request list before the dynamic import had started. 978 tests, 32 e2e,
   180.3 kB of 250 — uPlot not counted, which is the point.
+- 2026-08-25 · M4.6 · **The sweep found four features I had quietly dropped, so the checklist earned
+  its keep before it was even finished.** It was built from the source, not from memory: every
+  `onclick` in index.html, every function in switches.js and tools.js, every readout in
+  dispUpdate.js, every plot in plotting.js. Missing and now ported: **hideable control panels**,
+  the **collapsible secondary HUD block**, the **tilt-control switch**, and the **restart button**.
+  All four are in `docs/PARITY.md` with the rest, and `tests/e2e/parity.spec.ts` is the
+  machine-checkable half. Two implementation points worth keeping: the panels and HUD rows are
+  **hidden, not unmounted**, because the binders resolved those nodes once and hold the references —
+  there is a test that collapses a panel, presses a key, and reopens it to prove the hidden node
+  tracked the change. And restart shares its implementation with Configure, because they are the
+  same operation; 2021 had two paths that disagreed (`restart()` re-ran initBackEnd while
+  `configureNewFlight()` assigned over live globals). The guide's keybind list is **generated from
+  the binding table** rather than written out: 2021's prose had already drifted from
+  eventListener.js — it says "+ or -" where the code binds "=" and "-", and says A pitches *down*
+  where the code sends -100. A help screen that can lie is worse than none. Deliberate
+  non-ports are listed with reasons; the iOS tilt-permission prompt is the one real gap. The
+  five-versus-six preset discrepancy is recorded rather than resolved: the About text and in-game
+  copy say six, index.html ships **five**, and v2 ports the five that exist. 978 tests, 38 e2e,
+  182.6 kB of 250.
