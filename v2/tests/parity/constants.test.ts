@@ -158,7 +158,10 @@ const INTRODUCED_BY_V2: Readonly<Record<string, string>> = {
   // numbers are calibrated by flying the closed loop — see their definitions
   // and tests/core/orbit-demo.test.ts.
   DEORBIT_DELTA_V: 'M2.9(c) — the retrograde burn, sized for a survivable entry',
-  DEORBIT_LEAD_DISTANCE: 'M2.9(c) — where to fire so the descent ends at StarBase',
+  DEORBIT_DELTA_V_MIN: 'M2.13 — the floor the closed-loop cutoff works between',
+  DEORBIT_DELTA_V_MAX: 'M2.13 — and its ceiling, which is the heat guard',
+  DEORBIT_ENTRY_RANGE: 'M2.13 — the atmospheric half of the range, measured',
+  ENTRY_INTERFACE_ALTITUDE: 'M2.13 — the seam between the computed and measured halves',
 };
 
 /**

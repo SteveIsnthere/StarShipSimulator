@@ -258,29 +258,71 @@ export const heatLimit = 389;
 export const DEORBIT_DELTA_V = 150;
 
 /**
- * m — ground-track distance to the landing site at which the burn starts.
+ * m/s — the floor and ceiling the closed-loop cutoff works between.
  *
- * CALIBRATED, not derived. Predicting this analytically would mean solving the
- * transfer ellipse and then the entire atmospheric descent, including whatever
- * autoLand's aero-descent steering decides to do on the way down. The
- * simulation is deterministic, so it is cheaper and far more honest to fly it
- * and measure — which is what `tests/core/orbit-demo.test.ts` does on every
- * run, flying the closed loop from the Deorbit preset and asserting where it
- * touches down.
- *
- * THE CALIBRATION. The response is not slope-1: measured dMiss/dLead is about
- * -1.53, because autoLand amplifies whatever offset it is handed. A secant
- * search over the closed loop converges in a handful of flights.
- *
- * AND IT IS A FITTED CONSTANT, which is a real limitation worth stating rather
- * than burying. It is right for the flight it was fitted to. Measured: flown
- * from the Deorbit preset it lands within metres; flown from a hand-circularised
- * Circularize preset — same orbit, but 318 t at ignition instead of 420 t — the
- * vacuum arc is ~200 km longer, because a lighter vehicle finishes its burn
- * sooner and starts its fall from a different point on a slightly different
- * ellipse. A constant cannot know that.
+ * The burn ends when the predicted range has come down to the distance still to
+ * fly, which is what absorbs the pointing error an open-loop dV cannot know
+ * about. Bounds exist so that condition can never be satisfied by a burn small
+ * enough to leave the vehicle in orbit, or large enough to make the entry
+ * unsurvivable — 1.6x nominal is still comfortably inside `heatLimit`, and the
+ * floor is half nominal.
  */
-export const DEORBIT_LEAD_DISTANCE = 5_891_000;
+export const DEORBIT_DELTA_V_MIN = DEORBIT_DELTA_V * 0.5;
+export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
+
+/**
+ * m — how far the vehicle still travels downrange below the entry interface.
+ *
+ * The ONE calibrated number in the deorbit guidance, and the only part that no
+ * formula predicts: what `autoLand` does with the vehicle between 80 km and the
+ * pad. The vacuum arc above it is solved rather than measured — see
+ * `gravity.coastDownrangeDistance`.
+ *
+ * WHY THE SPLIT IS THE WHOLE DESIGN. An earlier version used a single fitted
+ * constant for the entire distance from ignition to touchdown, and it was right
+ * only for the flight it was fitted to. Measured across two very different
+ * flights — the Deorbit preset at 420 t and a hand-circularised Circularize
+ * preset at 318 t — the two halves behave completely differently:
+ *
+ *     vacuum arc, ignition -> 80 km      ~200 km apart between the two
+ *     atmospheric, 80 km -> touchdown     929 km vs 927 km — 2.4 km apart
+ *
+ * The part that varies is the part orbital mechanics can compute; the part that
+ * must be fitted barely varies at all. So the guidance computes the first and
+ * carries the second as a constant, and works from orbits it was never tuned on.
+ *
+ * MEASURED at 838 km, and it is 838 km rather than the ~854 km the descent
+ * actually covers because it also absorbs the small biases in the two computed
+ * halves. That is what a fitted constant is for; what matters is that it is
+ * fitted to something that barely moves.
+ *
+ * THE ENVELOPE, measured, because a number like this should come with one. From
+ * a 150 km orbit and its neighbourhood the vehicle lands within a few kilometres
+ * of the pad — including from a different starting longitude, from a
+ * hand-circularised orbit, 100 t lighter, and with an engine out. Higher up it
+ * degrades, because a faster, steeper entry does not cover 838 km of ground:
+ *
+ *     150 km (the presets)     within  7 km    entry peaks at 82% of heatLimit
+ *     120 km                          18 km                    76%
+ *     200 km                          50 km                    88%
+ *     300 km                          90 km                    95%
+ *
+ * The 300 km row is the one to watch: the miss is tolerable, the heating is not
+ * far from the structural limit. The orbital presets sit at 150 km deliberately.
+ */
+export const DEORBIT_ENTRY_RANGE = 838_000;
+
+/**
+ * m — the entry interface: where the vacuum prediction stops and the
+ * atmosphere's own range takes over.
+ *
+ * 80 km, deliberately the altitude the 2021 Re-entry preset starts at. Above it
+ * the trajectory is a conic to six figures; below it, it is whatever `autoLand`
+ * decides, which is what `DEORBIT_ENTRY_RANGE` measures. It is the seam between
+ * the two halves of the guidance, not a handover point — the autopilot hands
+ * over as soon as the burn is finished.
+ */
+export const ENTRY_INTERFACE_ALTITUDE = 80_000;
 /** psi */
 export const dynamicPressureLimit = 50;
 /** rad */

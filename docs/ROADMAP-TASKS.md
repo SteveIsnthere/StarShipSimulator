@@ -209,6 +209,15 @@ acceptance line.
   orbit, a ballistic coast matching an independent two-body integration and CONVERGING with dt,
   goldens regenerated with the before/after in the commit.
 
+- [x] **M2.13 Deorbit guidance instead of a fitted lead** — the fixed
+  `DEORBIT_LEAD_DISTANCE` was right only for the flight it was fitted to (metres from the
+  Deorbit preset, 192 km from a hand-circularised one), because the vacuum arc depends on the
+  mass at ignition and the pointing error during the burn. Replaced by: a conic prediction of
+  the coast (`gravity.coastDownrangeDistance`), a burn-arc term from the vehicle's own mass, one
+  measured constant for the atmospheric descent, and a burn that CUTS OFF on the guidance
+  condition instead of on a fixed ΔV. Accept: lands within 10 km from starts it was not fitted
+  to, with the envelope measured and asserted.
+
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->
@@ -930,4 +939,28 @@ acceptance line.
   units, 82% of the limit. `unification.test.ts` rewritten as what it has actually become: the
   audit trail of every fixture movement and the tier that caused it. Gate: lint, 1045 tests,
   build green.
+
+- 2026-08-25 · M2.13 · **Deorbit targeting became guidance instead of a fitted number.** The
+  audit's third finding. `DEORBIT_LEAD_DISTANCE` hit the pad to the metre — from the one flight
+  it was calibrated on. Flown from a hand-circularised Circularize preset (318 t at ignition
+  rather than 420 t) it missed by **192 km**, because a lighter vehicle finishes its burn sooner
+  and starts its fall from a different point on a different ellipse. Splitting the range showed
+  where to attack it: across those two flights the vacuum arc differed by ~200 km and the
+  atmospheric descent by **2.4 km**. So the varying half is the half orbital mechanics can
+  compute, and the fitted half barely varies.
+  Three pieces now: a burn-arc term from `dV * m / F`; `gravity.coastDownrangeDistance`, a conic
+  solved by Simpson over true anomaly (validated against an independent two-body integration to
+  0.0 km over 4939 km); and `DEORBIT_ENTRY_RANGE`, measured. That got the spread from 194 km to
+  90 km — the rest being the few degrees the vehicle is off retrograde at ignition, which no
+  open-loop predictor can know. So the burn now **cuts off on the guidance condition** rather
+  than on a fixed ΔV, bounded between 0.5× and 1.6× nominal so it can never trade the vehicle
+  for accuracy. That collapsed the spread to **3.8 km**.
+  Measured envelope, all landing: 150 km preset −2.95 km · from the pad's own longitude
+  +6.09 km · 100 t lighter −7.33 km · one engine failed +3.63 km · 120 km +17.96 km ·
+  200 km −50.41 km · 300 km −90.43 km. The 300 km row is the one to watch — the miss is
+  tolerable, the entry peaks at 95% of `heatLimit`. The presets sit at 150 km (82%) for a reason,
+  and it is now a measured reason. **The full end-to-end demo** — Circularize → burn to circular
+  → coast 73 min → autopilot-timed deorbit → survive entry → touchdown — lands **4.81 km** from
+  StarBase after 91 simulated minutes, and it is a flight the constant was not fitted to alone.
+  No goldens moved: the mode is inert unless armed. Gate: lint, 1055 tests, build, e2e green.
 

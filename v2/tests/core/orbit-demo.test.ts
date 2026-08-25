@@ -26,7 +26,7 @@
  *   It now lands within a few hundred metres of it.
  */
 import { describe, expect, it } from 'vitest';
-import { circularOrbitalSpeed } from '$core/physics/gravity';
+import { circularOrbitalSpeed, coastDownrangeDistance } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
 import {
   createScenarioState,
@@ -218,16 +218,17 @@ describe('step 3 — deorbit and land at StarBase', () => {
     expect(flight.state.failures.crashed).toBe(false);
   });
 
-  it('and touches down within a kilometre of the pad', () => {
-    // THE MEASURED FIGURE, not a promise made in advance. `DEORBIT_LEAD_DISTANCE`
-    // was calibrated by a secant search over this very flight, so this assertion
-    // is what pins the calibration: change the burn, the atmosphere, the
-    // autopilot or the presets and this moves.
+  it('and touches down within 10 km of the pad', () => {
+    // THE MEASURED FIGURE, reported rather than promised: -2.95 km.
     //
-    // Asserted as a band rather than a number because the point is the accuracy,
-    // not the digits: within a kilometre of a pad after leaving a 150 km orbit.
-    expect(Math.abs(flight.miss), `missed by ${(flight.miss / 1000).toFixed(3)} km`).toBeLessThan(
-      1_000,
+    // Asserted as a band, because the digits are not the claim — the claim is
+    // that a vehicle which left a 150 km orbit three quarters of an hour and
+    // 30 000 km ago arrives at a named pad. An earlier version of this mode hit
+    // it to the metre and was worse: it did that by fitting a constant to this
+    // exact flight, and missed by 192 km when flown from anywhere else. See
+    // the envelope block below for what the guidance actually does.
+    expect(Math.abs(flight.miss), `missed by ${(flight.miss / 1000).toFixed(2)} km`).toBeLessThan(
+      10_000,
     );
   });
 
@@ -257,9 +258,9 @@ describe('step 3 — deorbit and land at StarBase', () => {
   });
 
   it('and the entry is managed, not merely survived', () => {
-    // 317 units against a limit of 389 — 82% of it. The margin is the whole
-    // reason the burn is a fixed 150 m/s: a bigger one drops perigee further,
-    // meets thick air faster, and pushes the peak up. Tighter than the Re-entry
+    // 318 units against a limit of 389 — 82% of it. The margin is why the burn
+    // is bounded rather than free: a bigger one drops perigee further, meets
+    // thick air faster, and pushes the peak up. Tighter than the Re-entry
     // preset's 63%, which is right — coming home from orbit should be the
     // hardest thing the vehicle does.
     expect(flight.peakHeat).toBeGreaterThan(250);
@@ -279,6 +280,138 @@ describe('step 3 — deorbit and land at StarBase', () => {
     expect(again.miss).toBe(flight.miss);
     expect(again.seconds).toBe(flight.seconds);
     expect(again.peakHeat).toBe(flight.peakHeat);
+  });
+});
+
+describe('THE WHOLE DEMO, end to end — the M2.9 acceptance line', () => {
+  // Circularize preset -> burn to circular -> coast a full lap -> deorbit ->
+  // survive entry -> touch down at StarBase. One flight, ninety simulated
+  // minutes, no hand-placed states in the middle.
+  //
+  // This is the flight the guidance was NOT calibrated on, which is the point
+  // of running it: the constant in DEORBIT_ENTRY_RANGE was fitted with both
+  // this and the Deorbit preset in view precisely so neither could be the one
+  // it works for.
+  const demo = (() => {
+    let s = createScenarioState(getScenario('circularize')!);
+    const circularSpeed = () => circularOrbitalSpeed(s.kinematics.distanceToPlanetCenter);
+
+    // 1. Close the orbit: full throttle prograde until at circular speed.
+    cmd.toggleAllRaptors(s);
+    s.vehicle.throttle = 100;
+    s.vehicle.throttleCurrent = 100;
+    let burnSteps = 0;
+    for (let i = 0; i < 120 * 300; i++) {
+      if (s.kinematics.speedX >= circularSpeed()) break;
+      s = step(s, DT);
+      burnSteps += 1;
+    }
+    cmd.toggleAllRaptors(s);
+    const afterCircularise = {
+      altitude: s.kinematics.altitude,
+      ratio: s.kinematics.speedX / circularSpeed(),
+      seconds: burnSteps * DT,
+    };
+
+    // 2. Hand the rest to the autopilot.
+    cmd.toggleAutoDeorbit(s);
+    return { afterCircularise, flight: fly(s, 12_000) };
+  })();
+
+  it('the circularisation burn takes seconds and closes the orbit', () => {
+    expect(demo.afterCircularise.seconds).toBeLessThan(10);
+    expect(demo.afterCircularise.ratio).toBeCloseTo(1, 4);
+    expect(demo.afterCircularise.altitude).toBeGreaterThan(149_000);
+  });
+
+  it('it coasts most of a lap before the autopilot fires', () => {
+    // ~73 minutes of coasting from a standing start at the pad's longitude.
+    expect(demo.flight.burnStartedAt / 60, 'minutes of coast').toBeGreaterThan(60);
+  });
+
+  it('survives the entry and lands at StarBase', () => {
+    expect(demo.flight.outcome, `after ${(demo.flight.seconds / 60).toFixed(1)} min`).toBe('landed');
+    expect(demo.flight.peakHeat).toBeLessThan(C.heatLimit);
+  });
+
+  it('THE NUMBER: within 10 km of the pad, from a flight it was not fitted to', () => {
+    // Measured: 4.81 km. Reported honestly rather than promised in advance —
+    // an open-loop deorbit with no entry guidance is a few-kilometre business,
+    // and this is one.
+    expect(
+      Math.abs(demo.flight.miss),
+      `missed by ${(demo.flight.miss / 1000).toFixed(2)} km`,
+    ).toBeLessThan(10_000);
+  });
+
+  it('and it is ninety minutes of flight, not a shortcut', () => {
+    expect(demo.flight.seconds / 60).toBeGreaterThan(85);
+    expect(demo.flight.state.status.landed).toBe(true);
+  });
+});
+
+describe('the guidance works from orbits it was never calibrated on', () => {
+  // The claim a fitted constant could not make. Each of these changes something
+  // the old fixed-lead version depended on — the altitude, the longitude, the
+  // mass at ignition, the number of engines — and the vehicle still arrives.
+  //
+  // Measured misses are in the table in DEORBIT_ENTRY_RANGE's own docs. The
+  // bounds here are deliberately loose: they exist to catch a regression that
+  // breaks the guidance, not to freeze four significant figures.
+  const from = (mutate: (s: SimState) => void) => {
+    const s = createScenarioState(getScenario('deorbit')!);
+    mutate(s);
+    cmd.toggleAutoDeorbit(s);
+    return fly(s, 20_000);
+  };
+  const circularAtAltitude = (altitude: number) => (s: SimState) => {
+    s.kinematics.altitude = altitude;
+    s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
+    s.kinematics.speedX = circularOrbitalSpeed(C.planetRadius + altitude);
+    s.kinematics.trueSpeed = s.kinematics.speedX;
+  };
+
+  it('from a different starting longitude — half a lap further round', () => {
+    const f = from((s) => {
+      s.kinematics.downRangeDistance = C.starBaseXPos;
+      s.kinematics.downRangeDistanceNextFrame = C.starBaseXPos;
+    });
+    expect(f.outcome).toBe('landed');
+    expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} km`).toBeLessThan(20_000);
+  });
+
+  it('100 tonnes lighter at ignition', () => {
+    const f = from((s) => {
+      s.vehicle.propellantMass = 100_000;
+      s.vehicle.vehicleMass = C.vehicleDryMass + 100_000;
+    });
+    expect(f.outcome).toBe('landed');
+    expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} km`).toBeLessThan(20_000);
+  });
+
+  it('with an engine already failed, so the burn is a third longer', () => {
+    const f = from((s) => {
+      s.engines.failed = [true, false, false];
+    });
+    expect(f.outcome).toBe('landed');
+    expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} km`).toBeLessThan(20_000);
+  });
+
+  it('from 120 km, below the presets', () => {
+    const f = from(circularAtAltitude(120_000));
+    expect(f.outcome).toBe('landed');
+    expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} km`).toBeLessThan(40_000);
+  });
+
+  it('from 300 km it still lands, but the envelope is showing', () => {
+    // 90 km out, and — the part that matters — the entry peaks at 95% of the
+    // structural limit. The presets sit at 150 km for a reason, and this test
+    // is here so that reason stays measured rather than remembered.
+    const f = from(circularAtAltitude(300_000));
+    expect(f.outcome).toBe('landed');
+    expect(Math.abs(f.miss)).toBeLessThan(150_000);
+    expect(f.peakHeat / C.heatLimit, 'entry heating from 300 km').toBeGreaterThan(0.9);
+    expect(f.peakHeat).toBeLessThan(C.heatLimit);
   });
 });
 
@@ -312,15 +445,29 @@ describe('the deorbit mode itself', () => {
   });
 
   it('does not fire until the ground track is right', () => {
+    // The firing point is computed, not remembered, so the assertion is against
+    // the prediction rather than a constant: while it is still coasting, the
+    // distance left must exceed what a burn started now would cover.
     let s = createScenarioState(getScenario('deorbit')!);
     cmd.toggleAutoDeorbit(s);
+    let checked = 0;
     for (let i = 0; i < 120 * 2_000; i++) {
       s = step(s, DT);
       if (s.autopilot.deorbitBurnStarted) break;
+      if (i % 1_200 !== 0) continue; // every 10 s is plenty
       const gap = C.starBaseXPos - s.kinematics.downRangeDistance;
       const toGo = gap < 0 ? gap + C.planetCircumference : gap;
-      expect(toGo, 'fired early').toBeGreaterThan(C.DEORBIT_LEAD_DISTANCE);
+      const wouldCover =
+        coastDownrangeDistance(
+          s.kinematics.distanceToPlanetCenter,
+          s.kinematics.speedX - C.DEORBIT_DELTA_V,
+          s.kinematics.speedY,
+          C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE,
+        ) + C.DEORBIT_ENTRY_RANGE;
+      expect(toGo, 'fired early').toBeGreaterThan(wouldCover);
+      checked += 1;
     }
+    expect(checked, 'never actually coasted').toBeGreaterThan(30);
     expect(s.autopilot.deorbitBurnStarted).toBe(true);
   });
 

@@ -144,3 +144,87 @@ export function specificAngularMomentum(
   return distanceToPlanetCenter * tangentialSpeed;
 }
 
+
+// ---------------------------------------------------------------------------
+// Coast prediction — M2.13, for the deorbit autopilot
+// ---------------------------------------------------------------------------
+
+/**
+ * m — how far downrange a ballistic coast travels before falling to `rTarget`.
+ *
+ * Two-body, no drag, which is exactly right for the regime it is used in: from
+ * a deorbit burn at 150 km down to the entry interface at 80 km, drag is six
+ * orders of magnitude below gravity and the trajectory is a conic. Checked
+ * against the simulation itself in tests/core/angular-momentum.test.ts, which
+ * agrees to a kilometre in five thousand and converges with dt.
+ *
+ * WHY THIS EXISTS. The deorbit autopilot must decide WHEN to fire, and that
+ * means knowing how far the vehicle will travel afterwards. Answering it with a
+ * fitted constant works only for the flight it was fitted to: measured, the
+ * same mode flown from the Deorbit preset (420 t at ignition) and from a
+ * hand-circularised Circularize preset (318 t) put the vacuum arc ~200 km
+ * apart, because a lighter vehicle finishes its burn sooner and starts its fall
+ * from a different point on a different ellipse. A constant cannot know that.
+ * The conic can.
+ *
+ * WHAT IT RETURNS, and in whose units. `downRangeDistance` in this simulation
+ * is the integral of tangential speed, and tangential speed is `r * dtheta/dt`,
+ * so downrange distance is the integral of `r` over swept angle — arc length at
+ * ORBITAL radius, not ground track at the surface. This returns the same
+ * quantity, so the two are directly comparable. (2021 then wraps that against
+ * the surface circumference, an approximation this inherits rather than
+ * introduces.)
+ *
+ * The integral has no elementary closed form on an ellipse, so it is evaluated
+ * by Simpson's rule over true anomaly. 64 intervals puts the error below a
+ * metre over a 5000 km arc.
+ *
+ * @param r m — current distance from the planet's centre
+ * @param tangentialSpeed m/s — the component along the track
+ * @param radialSpeed m/s — the component along r, positive outward
+ * @param rTarget m — the radius the coast is being predicted down to
+ * @returns m, or Infinity when the orbit never reaches rTarget
+ */
+export function coastDownrangeDistance(
+  r: number,
+  tangentialSpeed: number,
+  radialSpeed: number,
+  rTarget: number,
+): number {
+  const speedSquared = tangentialSpeed ** 2 + radialSpeed ** 2;
+  const energy = speedSquared / 2 - MU / r;
+  const h = r * tangentialSpeed;
+
+  // Eccentricity from energy and angular momentum. Clamped at zero because a
+  // perfectly circular orbit can land a hair below it in floating point.
+  const eSquared = 1 + (2 * energy * h ** 2) / MU ** 2;
+  const e = Math.sqrt(Math.max(eSquared, 0));
+  const semiLatusRectum = h ** 2 / MU;
+
+  // A circle never descends, and neither does an orbit whose perigee is above
+  // the target.
+  if (e < 1e-9) return Infinity;
+  if (semiLatusRectum / (1 + e) > rTarget) return Infinity;
+
+  /** True anomaly at `radius`, on the climbing or the falling branch. */
+  const anomalyAt = (radius: number, climbing: boolean): number => {
+    const cosNu = (semiLatusRectum / radius - 1) / e;
+    const nu = Math.acos(Math.min(1, Math.max(-1, cosNu)));
+    return climbing ? nu : 2 * Math.PI - nu;
+  };
+
+  const start = anomalyAt(r, radialSpeed >= 0);
+  let end = anomalyAt(rTarget, false);
+  // Going forward along the track: a target "behind" is a lap ahead.
+  if (end < start) end += 2 * Math.PI;
+
+  // Simpson over the integral of r dnu, with r(nu) = p / (1 + e cos nu).
+  const INTERVALS = 64;
+  const stepSize = (end - start) / INTERVALS;
+  const radiusAt = (nu: number) => semiLatusRectum / (1 + e * Math.cos(nu));
+  let sum = radiusAt(start) + radiusAt(end);
+  for (let i = 1; i < INTERVALS; i++) {
+    sum += radiusAt(start + i * stepSize) * (i % 2 === 0 ? 2 : 4);
+  }
+  return (sum * stepSize) / 3;
+}

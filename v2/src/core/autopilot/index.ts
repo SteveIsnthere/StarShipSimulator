@@ -25,6 +25,7 @@ import * as C from '../constants';
 import * as cmd from '../control/commands';
 import * as prim from '../control/primitives';
 import { getFreeFallTimeRemainingPrediction } from '../physics/prediction';
+import * as gravity from '../physics/gravity';
 import { getAngularAcceleration } from '../physics/aero';
 import { getWorkingEngineCount, getTotalMaxThrust } from '../physics/engines';
 import type { SimState } from '../state';
@@ -514,6 +515,67 @@ function distanceToLandingSite(state: SimState): number {
   return gap < 0 ? gap + C.planetCircumference : gap;
 }
 
+/**
+ * m — the range still to run from the CURRENT state: the conic coast down to
+ * the entry interface, plus the atmosphere's own measured contribution.
+ *
+ * This is the guidance's error signal. During the burn it falls as speed comes
+ * off, and the engines cut when it has fallen to the distance still to go.
+ */
+function rangeToGoFromHere(state: SimState): number {
+  const { kinematics } = state;
+  return (
+    gravity.coastDownrangeDistance(
+      kinematics.distanceToPlanetCenter,
+      kinematics.speedX,
+      kinematics.speedY,
+      C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE,
+    ) + C.DEORBIT_ENTRY_RANGE
+  );
+}
+
+/**
+ * How far the vehicle will travel if the deorbit burn starts NOW.
+ *
+ * Three pieces, and only the last is fitted:
+ *
+ *   THE BURN. The vehicle keeps moving while the engines are lit, and how long
+ *   they are lit depends on its mass — which is why a fixed lead distance could
+ *   not work. `dV * m / F` is the impulse time; the distance covered is the
+ *   average speed over it, so the mean of the speed before and after.
+ *
+ *   THE COAST, from cutoff down to the entry interface: a conic, solved in
+ *   `gravity.coastDownrangeDistance` from the post-burn state.
+ *
+ *   THE DESCENT, below the interface: `DEORBIT_ENTRY_RANGE`, measured, because
+ *   it is whatever autoLand does and no formula predicts that.
+ *
+ * Returns Infinity when the burn would not bring the vehicle down at all — a
+ * dV too small to reach the interface — which keeps the mode from firing into
+ * an orbit it cannot leave.
+ */
+function predictedDeorbitRange(state: SimState): number {
+  const { kinematics, vehicle, engines } = state;
+
+  // The engines are OFF while this decision is being made — the mode shut them
+  // down at configure — so what matters is the thrust that will light, not the
+  // thrust that is lit. An engine that has failed will not.
+  const willLight = engines.failed.reduce((n, failed) => (failed ? n : n + 1), 0);
+  if (willLight <= 0) return Infinity;
+
+  const burnSeconds = (C.DEORBIT_DELTA_V * vehicle.vehicleMass) / (willLight * C.maxThrustPerRaptor);
+  const burnRange = (kinematics.speedX - C.DEORBIT_DELTA_V / 2) * burnSeconds;
+
+  const coastRange = gravity.coastDownrangeDistance(
+    kinematics.distanceToPlanetCenter,
+    kinematics.speedX - C.DEORBIT_DELTA_V,
+    kinematics.speedY,
+    C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE,
+  );
+
+  return burnRange + coastRange + C.DEORBIT_ENTRY_RANGE;
+}
+
 
 
 /**
@@ -536,10 +598,13 @@ function distanceToLandingSite(state: SimState): number {
  *      about 0.0015 rad/s, half a turn takes roughly 35 minutes and the vehicle
  *      is still 19.5 degrees short of retrograde when the burn starts. Waiting
  *      would mean burning sideways.
- *   3. BURN when the ground track left to the landing site reaches
- *      `DEORBIT_LEAD_DISTANCE`, until downrange speed has fallen by
- *      `DEORBIT_DELTA_V`. Both are calibrated by measurement; see their
- *      definitions in core/constants.ts.
+ *   3. BURN when the ground track left to the landing site has closed to what
+ *      the vehicle would cover if it fired now — its burn arc, the conic coast
+ *      to the entry interface, and the measured atmospheric descent — and CUT
+ *      OFF when the range still to run has come down to the distance still to
+ *      fly. Terminating on the guidance condition rather than on a fixed dV is
+ *      what absorbs the pointing error: the vehicle is a few degrees off
+ *      retrograde at ignition, and open-loop that is worth ~90 km of range.
  *   4. HAND OVER the moment the burn is done and the vehicle is falling.
  *
  * WHY HAND OVER IMMEDIATELY rather than at some entry interface. The first
@@ -553,13 +618,13 @@ function distanceToLandingSite(state: SimState): number {
  * descent, and the peak drops to 309 — 79% of the limit. Attitude, not the
  * burn, is what makes an entry survivable.
  *
- * WHY A FIXED dV AND A CALIBRATED LEAD, rather than a guidance loop solving for
- * the target. Because the entry is heat-limited, and the burn size is what sets
- * how hot it is: Sutton-Graves peaks scale with sqrt(density) * v^3, so a
- * bigger burn drops the perigee, meets thick air sooner and faster, and pushes
- * the peak up. A closed loop free to choose the burn could choose an entry that
- * destroys the vehicle. Fixing the burn fixes the heating; the timing does the
- * aiming.
+ * WHY THE dV IS BOUNDED rather than free. The entry is heat-limited, and the
+ * burn size is what sets how hot it is: Sutton-Graves peaks scale with
+ * sqrt(density) * v^3, so a bigger burn drops the perigee, meets thick air
+ * sooner and faster, and pushes the peak up. A guidance loop free to spend any
+ * dV to hit a point could choose an entry that destroys the vehicle. So the
+ * loop chooses cutoff inside a floor and a ceiling: it aims with the timing,
+ * trims with the cutoff, and cannot trade the vehicle for accuracy.
  */
 export function autoDeorbit(state: SimState): void {
   const { autopilot, kinematics, vehicle, engines, status } = state;
@@ -579,8 +644,10 @@ export function autoDeorbit(state: SimState): void {
   prim.precisionAlignment(state, RETROGRADE, 4);
 
   if (!autopilot.deorbitBurnStarted) {
-    if (distanceToLandingSite(state) <= C.DEORBIT_LEAD_DISTANCE) {
-      autopilot.deorbitTargetSpeed = kinematics.speedX - C.DEORBIT_DELTA_V;
+    if (distanceToLandingSite(state) <= predictedDeorbitRange(state)) {
+      // Remembered so the burn can measure how much dV it has spent, and stop
+      // itself if the guidance condition never arrives.
+      autopilot.deorbitTargetSpeed = kinematics.speedX;
       cmd.toggleAllRaptors(state);
       vehicle.throttle = C.throttleUpperLimit;
       autopilot.deorbitBurnStarted = true;
@@ -589,7 +656,21 @@ export function autoDeorbit(state: SimState): void {
   }
 
   if (!autopilot.deorbitBurnCompleted) {
-    if (kinematics.speedX <= (autopilot.deorbitTargetSpeed as number)) {
+    const spent = (autopilot.deorbitTargetSpeed as number) - kinematics.speedX;
+    // CUT OFF ON THE GUIDANCE CONDITION, not on a fixed dV — which is how a
+    // deorbit burn is actually targeted. Before the engines light, the orbit is
+    // closed and the range to go is infinite; every metre per second taken off
+    // brings it down, and the burn ends the moment it has come down to the
+    // distance still to fly. What that corrects for is everything an open-loop
+    // dV cannot know: the few degrees the vehicle is off retrograde at
+    // ignition, how that error moves during the burn, and the radial speed it
+    // leaves behind. Measured, those are worth ~90 km of range.
+    const onTarget = spent >= C.DEORBIT_DELTA_V_MIN && rangeToGoFromHere(state) <= distanceToLandingSite(state);
+    // And a ceiling, because the entry is heat-limited: a burn that never
+    // satisfies the condition must still stop somewhere survivable.
+    const spentEnough = spent >= C.DEORBIT_DELTA_V_MAX;
+
+    if (onTarget || spentEnough) {
       if (getWorkingEngineCount(engines.running) > 0) cmd.toggleAllRaptors(state);
       vehicle.throttle = C.throttleLowerLimit;
       autopilot.deorbitBurnCompleted = true;
