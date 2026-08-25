@@ -26,6 +26,7 @@ import { updateAtmosphere } from './physics/atmosphere';
 import { getReentryHeatPower } from './physics/thermal';
 import * as aero from './physics/aero';
 import * as comp from './physics/components';
+import * as gravity from './physics/gravity';
 import * as eng from './physics/engines';
 import * as act from './control/actuation';
 import { runAutopilot } from './autopilot';
@@ -70,25 +71,42 @@ function updatePitchRateOfChange(s: SimState, dt: number): void {
 }
 
 /**
- * physics.js:394 — the orbital "relief" hack. Replaced wholesale in M2.6.
+ * physics.js:394 — the orbital "relief" hack, and its replacement.
  *
  * Mutates `distanceToPlanetCenter` and `orbitGravityAccCompensation`. Called at
  * the END of spatial motion, exactly where 2021 calls it, so the value used by
  * this step's integration is the one computed last step.
+ *
+ * With `planetCenteredGravity` off this is the 2021 term verbatim, including
+ * its stale denominator and its clamp at g. With the flag on, the relief term
+ * is not corrected but deleted: gravity itself becomes -GM/r^2 with a
+ * centrifugal contribution, and orbital motion needs no special case. The field
+ * is then zero and kept only so the HUD and fixtures have a stable shape.
  */
 function updateOrbitGravityAccCompensation(s: SimState): void {
   const { kinematics } = s;
   kinematics.distanceToPlanetCenter = C.planetRadius + kinematics.altitude;
 
-  // Note the stale denominator: orbitalVelocityAtCurrentAltitude is written
-  // once at spawn (initBackEnd.js:50) and never updated, so this uses the
-  // sea-level orbital velocity for the whole flight. It is also linear in
-  // speedX where the true relief is quadratic, and clamped at exactly g, which
-  // makes a stable orbit structurally impossible. All three die in M2.6.
-  let compensation =
-    (C.gravity * Math.abs(kinematics.speedX)) / kinematics.orbitalVelocityAtCurrentAltitude;
-  if (compensation >= C.gravity) compensation = C.gravity;
-  kinematics.orbitGravityAccCompensation = compensation;
+  if (s.flags.planetCenteredGravity) {
+    // M2.6: orbital motion is in the gravity term now. Keeping the stale
+    // orbitalVelocity field updated as well, since the HUD reads it and it
+    // costs nothing to make it honest.
+    kinematics.orbitalVelocityAtCurrentAltitude = gravity.circularOrbitalSpeed(
+      kinematics.distanceToPlanetCenter,
+    );
+    kinematics.orbitGravityAccCompensation = 0;
+    return;
+  }
+
+  // The 2021 term. Note the stale denominator: orbitalVelocityAtCurrentAltitude
+  // is written once at spawn (initBackEnd.js:50) and never updated, so this
+  // uses the sea-level orbital velocity for the whole flight. It is also linear
+  // in speedX where the true relief is quadratic, and clamped at exactly g,
+  // which makes a stable orbit structurally impossible.
+  kinematics.orbitGravityAccCompensation = gravity.legacyOrbitRelief(
+    kinematics.speedX,
+    kinematics.orbitalVelocityAtCurrentAltitude,
+  );
 }
 
 /** physics.js:365 — ground contact: land, crash, or rest. */
@@ -302,10 +320,32 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   };
   s.kinematics.accelerationX = comp.getHorizontalAcceleration(accelInputs);
   s.kinematics.accelerationY = comp.getVerticalAcceleration(accelInputs, C.gravity);
+
+  if (s.flags.planetCenteredGravity) {
+    // M2.6, Fidelity. getVerticalAcceleration applied a constant -9.807; undo
+    // that and apply real gravity plus the centrifugal term instead. Adding the
+    // difference rather than restructuring the ladder keeps the flag-off path
+    // bit-identical, which is what lets the default fixtures stay untouched.
+    s.kinematics.accelerationY +=
+      C.gravity +
+      gravity.verticalGravityAcceleration(
+        s.kinematics.distanceToPlanetCenter,
+        s.kinematics.speedX,
+      );
+
+    // Angular momentum r*v_t is conserved under a central force: climbing while
+    // moving tangentially must cost tangential speed. Without this a vehicle
+    // could climb without slowing and gain orbital energy from nothing.
+    s.kinematics.accelerationX += gravity.tangentialAcceleration(
+      s.kinematics.distanceToPlanetCenter,
+      s.kinematics.speedX,
+      s.kinematics.speedY,
+    );
+  }
+
   s.kinematics.totalAcceleration = Math.sqrt(
     s.kinematics.accelerationX ** 2 + s.kinematics.accelerationY ** 2,
   );
-
   // Last line of updateSpactialMotion, and it must stay last.
   updateOrbitGravityAccCompensation(s);
 

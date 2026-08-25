@@ -73,7 +73,7 @@ acceptance line.
 - [x] **M2.4 Bug: pitch rate** — compute as Δpitch/dt, frame-rate independent; retune
   the pitchHold gate against goldens. Same obligations.
 - [x] **M2.5 Flags infra** — `core/flags.ts`; golden fixtures per flag combination that ships.
-- [ ] **M2.6 Fidelity: planet-centered gravity** — core state in planet-centered frame;
+- [x] **M2.6 Fidelity: planet-centered gravity** — core state in planet-centered frame;
   gravity −GM·r̂/r²; local-frame adapter for autopilot + view; deletes relief hack and
   constant g. Off by default. Accept: flat-model goldens untouched; orbit maths unit-tested
   (circular orbit stays circular over one lap, energy drift bounded).
@@ -349,3 +349,18 @@ acceptance line.
   that actually exercises it rather than recording 35 near-duplicates. The flagged fixtures
   currently coincide with their base, because no flag is wired yet — asserted deliberately, so
   M2.6–M2.8 each produce a **visible** fixture diff when they land. 688 tests green.
+- 2026-08-25 · M2.6 · **Fidelity, flag off by default.** `core/physics/gravity.ts`. With the flag on
+  there is no orbital special case at all: gravity is −GM/r², tangential motion contributes v²/r
+  outward, and at v² = GM/r they cancel — an orbit is simply what happens when you go fast enough.
+  The relief hack is not corrected but **deleted**. Also added the tangential term that conserves
+  angular momentum, without which a vehicle could climb without slowing and gain orbital energy from
+  nothing. Acceptance met exactly: **all seven default fixtures byte-identical**, only the two
+  `planetCenteredGravity` fixtures moved. 18 orbit tests — a 200 km circular orbit holds altitude
+  within 1 km and speed within 1 m/s over a **full 88.9-minute lap**; energy drifts <0.1% over ten
+  minutes; an elliptical orbit climbs and **comes back down**, which the 2021 relief term could never
+  produce. Proved the old model's impossibility directly: at 1.2× circular speed true vertical
+  acceleration is positive, while the clamped 2021 term gives **exactly 0**.
+  **Found a 0.78% discrepancy worth knowing**: the game's planet has Earth's mass but a 6400 km
+  radius (Earth's is 6371), so true surface gravity is **9.7307**, not the constant 9.807 — which is
+  Earth's real value. Turning the flag on makes everything slightly lighter at sea level too, not
+  just in orbit. 706 tests green.
