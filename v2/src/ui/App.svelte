@@ -7,6 +7,7 @@
   import { createVehicle } from '$view/vehicle';
   import { createParticleSystem, createParticleTexture } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
+  import { createSky } from '$view/sky';
   import { createIntroState } from '$core/scenarios';
   import { advance, createLoopState } from '$app/loop';
   import { vehicleHeight } from '$core/constants';
@@ -44,11 +45,17 @@
       view.layers.world.addChild(world.container);
       view.layers.vehicle.addChild(vehicle.container);
 
+      const sky = createSky(view.app.renderer);
+      view.layers.sky.addChild(sky.container);
+
       const particles = createParticleSystem(createParticleTexture(view.app.renderer));
       const effects = createEffectDriver();
       view.layers.effectsBehind.addChild(particles.container);
 
-      const onResize = () => view?.resize(window.innerWidth, window.innerHeight);
+      const onResize = () => {
+        view?.resize(window.innerWidth, window.innerHeight);
+        if (view) sky.resize(view.viewport);
+      };
       window.addEventListener('resize', onResize);
       onResize();
 
@@ -76,6 +83,7 @@
           frameTime,
         );
 
+        sky.update(view!.camera, view!.viewport, s.kinematics.altitude);
         world.update(view!.camera, view!.viewport, s.kinematics.speedX);
         vehicle.update(view!.camera, view!.viewport, {
           altitude: s.kinematics.altitude,

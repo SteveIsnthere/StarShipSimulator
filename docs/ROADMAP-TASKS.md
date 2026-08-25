@@ -97,7 +97,7 @@ acceptance line.
 - [x] **M3.2 World sprites** — StarBase, ground objects, ship, fins; existing art.
 - [x] **M3.3 Particle pooling** — pooled emitter framework; port all 2021 effects; the
   shutdown leak dies here.
-- [ ] **M3.4 Sky** — altitude-graded gradient into starfield; parallax layers.
+- [x] **M3.4 Sky** — altitude-graded gradient into starfield; parallax layers.
 - [ ] **M3.5 Post pass** — bloom on plumes, heat shimmer + shock on reentry.
 - [ ] **M3.6 Intro wired** — the auto-landing intro plays end-to-end in v2.
 - [ ] **M3.7 Perf audit** — zero per-frame allocations (heap sampling); 60 fps mid-phone
@@ -418,3 +418,11 @@ acceptance line.
   Effects are **derived from SimState** — in 2021 the shutdown effect fired from inside
   `toggleRaptor1`, so renderer and physics were the same function and neither was testable alone.
   31 tests. 815 green, 7 e2e green, first-load 167.7 kB of 250.
+- 2026-08-25 · M3.4 · `view/sky.ts`. The 2021 darkening curve is **preserved exactly** — linear
+  20→80 km, squared per channel, bottoming at 1−0.6 — because the blue draining out of a hard ascent
+  is one of the best things about the game; 12 tests pin it, including that ground level is bit-exact
+  `#a7bdd9`. Three additions: a **gradient** (a flat fill reads as a wall; grading horizon→zenith
+  gives the sky a direction), **stars** tied to the *same* altitudes as the darkening rather than to
+  a second set of magic numbers, and **parallax** at a thousandth of camera motion — enough to feel
+  like depth, little enough never to visibly slide. The gradient is a texture built once and tinted
+  per frame, not a per-frame full-screen fill. 827 tests, 7 e2e, 168.1 kB of 250.
