@@ -105,7 +105,7 @@ acceptance line.
 
 ## M4 — Full game
 
-- [ ] **M4.1 HUD binder** — readouts via the single-rAF diff binder.
+- [x] **M4.1 HUD binder** — readouts via the single-rAF diff binder.
 - [ ] **M4.2 Panels** — engine/yoke/autopilot/utility panels in Svelte, typed events.
 - [ ] **M4.3 Inputs** — keybinds, tilt, touch parity with 2021.
 - [ ] **M4.4 Menu + editor** — time warp, scenario editor incl. orbital presets.
@@ -449,3 +449,23 @@ acceptance line.
   continuous emission plus periodic bursts and explosions; a 2-minute powered flight leaves SimState's
   field count unchanged; the loop holds exactly two states however long it runs; and warp 16 costs
   ~16 steps, not more. That second check is the one that would actually have caught the 2021 leak.
+- 2026-08-25 · M4.1 · **The HUD now updates 10x more often and does less work doing it.** First, the
+  wound stated correctly, because my first pass overstated it: dispUpdate.js contains 45
+  `getElementById` calls, but only `updateFlightParamDisp()` is on the per-frame path, it holds 18 of
+  them, and about 10 execute per update — and its entire body is gated on `updatedFrameCount % 5`,
+  so the 2021 HUD refreshed at **12 Hz** on a 60 fps machine. The lag was the price of the lookups.
+  The binder inverts that trade: elements resolved to text nodes **once** at bind time, values
+  written only when the formatted string changed, updating **every frame at 120 Hz**. Measured
+  against the same binder with the diff removed — same rate, same 13 readouts, diff off — across all
+  five presets for 30 s each: **0.6–2.8% of the writes**. (The baseline is deliberately not 2021's
+  raw write count, which would flatter the binder by scoring its 10x higher update rate as a win.)
+  The reason the saving is that large is the frame rate itself: at 120 Hz most readouts move less
+  than their displayed precision between frames, so the string is simply the same string again. The
+  faster the loop runs, the more the diff is worth; 2021 got the opposite deal. Update cost
+  **0.0029 ms against a 2 ms budget**. Svelte renders the markup once and owns no readout value —
+  nothing reactive is anywhere near the frame path. Three guards: the resolver is asserted called
+  exactly `READOUTS.length` times and never again over 600 frames; a source scan forbids `document`
+  anywhere under `hud/` (verified to fail when a lookup is reintroduced); and an in-browser test
+  counts `getElementById` calls across a second of animation and asserts **0**. Formatting is 2021's,
+  asymmetries included — altitude and speed test `x < 1000`, range tests `|x| < 1000` after ceiling,
+  and g is pinned to exactly 1 on the ground. 865 tests, 13 e2e, 173.3 kB of 250.

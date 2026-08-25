@@ -8,11 +8,18 @@
  */
 import { expect, test } from '@playwright/test';
 
-/** Read altitude out of the on-screen readout. */
+/**
+ * Read altitude out of the HUD, in metres.
+ *
+ * The readout switches unit at 1 km (M4.1), so the unit node has to be read
+ * too — otherwise a climb past 1000 m looks like a fall to 1.0.
+ */
 async function altitude(page: import('@playwright/test').Page): Promise<number> {
-  const text = (await page.getByRole('status').textContent()) ?? '';
-  const match = /(-?\d+(?:\.\d+)?) m/.exec(text);
-  return match ? Number(match[1]) : NaN;
+  const row = page.locator('[data-readout="altitude"]');
+  const value = Number((await row.locator('.value').textContent()) ?? '');
+  const unit = (await row.locator('.unit').textContent()) ?? '';
+  if (!Number.isFinite(value)) return NaN;
+  return unit === 'KM' ? value * 1000 : value;
 }
 
 test('the intro plays end to end and lands', async ({ page }) => {
@@ -42,10 +49,11 @@ test('the intro plays end to end and lands', async ({ page }) => {
 test('it decelerates rather than arriving fast', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
+  /** Vertical speed magnitude, in m/s, from the HUD. */
   const speed = async () => {
-    const text = (await page.getByRole('status').textContent()) ?? '';
-    const match = /(-?\d+(?:\.\d+)?) m\/s/.exec(text);
-    return match ? Math.abs(Number(match[1])) : NaN;
+    const text = await page.locator('[data-readout="speedY"] .value').textContent();
+    const value = Number(text ?? '');
+    return Number.isFinite(value) ? Math.abs(value) : NaN;
   };
 
   await expect.poll(speed, { timeout: 5_000 }).toBeGreaterThan(20);

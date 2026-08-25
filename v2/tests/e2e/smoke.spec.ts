@@ -83,20 +83,20 @@ test('canvas mounts', async ({ page }) => {
 });
 
 test('the simulation runs behind the canvas', async ({ page }) => {
-  // The readout is driven from the loop, so a changing value proves the whole
-  // chain is live: rAF -> accumulator -> step() -> camera -> DOM.
+  // The HUD is driven from the loop, so a changing value proves the whole
+  // chain is live: rAF -> accumulator -> step() -> binder -> text node.
   await page.goto('/', { waitUntil: 'load' });
 
-  const readout = page.getByRole('status');
-  await expect(readout).toBeVisible();
+  const altitude = page.locator('[data-readout="altitude"] .value');
+  const verticalSpeed = page.locator('[data-readout="speedY"] .value');
+  await expect(altitude).toBeVisible();
 
-  const first = await readout.textContent();
+  const first = await altitude.textContent();
   await expect
-    .poll(async () => readout.textContent(), { timeout: 5_000 })
+    .poll(async () => altitude.textContent(), { timeout: 5_000 })
     .not.toBe(first);
 
-  const text = await readout.textContent();
-  expect(text, 'readout should show altitude and vertical speed').toMatch(
-    /-?\d+ m · -?\d+(\.\d+)? m\/s/,
-  );
+  // Both readouts show a number, not a placeholder or NaN.
+  await expect(altitude).toHaveText(/^-?\d+(\.\d+)?$/);
+  await expect(verticalSpeed).toHaveText(/^-?\d+$/);
 });

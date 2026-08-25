@@ -13,9 +13,23 @@
   import { createIntroState } from '$core/scenarios';
   import { advance, createLoopState } from '$app/loop';
   import { vehicleHeight } from '$core/constants';
+  import { createHudBinder, type HudBinder, type TextTarget } from '$hud/binder';
+  import Hud from './Hud.svelte';
 
   let canvas: HTMLCanvasElement;
-  let status = $state('starting');
+
+  /**
+   * The one HUD binder. Created when Hud.svelte reports its elements, which
+   * may be before or after the async view start finishes — the tick reads it
+   * through this binding rather than closing over it, so neither order breaks.
+   */
+  let hud: HudBinder | undefined;
+
+  const onHudReady = (
+    resolve: (id: string) => { value: TextTarget | null; unit: TextTarget | null },
+  ) => {
+    hud = createHudBinder({ resolve });
+  };
 
   onMount(() => {
     let view: ViewApp | undefined;
@@ -119,7 +133,8 @@
           elapsed,
         );
 
-        status = `${s.kinematics.altitude.toFixed(0)} m · ${s.kinematics.speedY.toFixed(1)} m/s`;
+        // The single per-frame HUD subscriber. It diffs; most frames write nothing.
+        hud?.update(s);
       };
       frame = requestAnimationFrame(tick);
 
@@ -134,13 +149,14 @@
       disposed = true;
       cancelAnimationFrame(frame);
       void cleanup.then((fn) => fn?.());
+      hud?.destroy();
       view?.destroy();
     };
   });
 </script>
 
 <canvas bind:this={canvas} aria-label="Starship Simulator"></canvas>
-<div class="readout" role="status">{status}</div>
+<Hud onready={onHudReady} />
 
 <style>
   :global(body) {
@@ -152,14 +168,5 @@
     display: block;
     position: absolute;
     inset: 0;
-  }
-  .readout {
-    position: absolute;
-    top: 0.75rem;
-    left: 0.75rem;
-    font: 500 0.8rem/1.4 ui-monospace, monospace;
-    color: #0b1017;
-    letter-spacing: 0.04em;
-    pointer-events: none;
   }
 </style>
