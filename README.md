@@ -3,7 +3,7 @@
 A Starship flight simulator that runs in a browser. Land it yourself, or watch the
 autopilot do it.
 
-![Starship on final approach, one Raptor lit, StarBase behind](docs/screenshot.png)
+![Starship on final approach, one Raptor lit, StarBase behind, a cloud deck overhead and the trajectory map showing the descent](docs/screenshot.png)
 
 Originally written in 2021 as a first project. This is v2: the same flight model,
 extracted and rebuilt around it.
@@ -17,9 +17,16 @@ controls become bottom sheets with real touch targets.
 ### It looks like altitude
 
 The camera opens up as you climb — 200 m of world at the pad, a kilometre by
-20 km — and a compressed-perspective ground layer keeps the earth on screen the
-whole way instead of losing it at a hundred metres. A trajectory map in the
-corner draws the profile you have flown and the touchdown you are heading for.
+20 km — and three layers move at three rates beneath it: the ground at true
+scale, a cloud deck at 2.5 km, and a compressed-perspective earth that keeps the
+world on screen the whole way instead of losing it at a hundred metres. Above
+the air, velocity streaks carry the speed the world no longer can.
+
+A trajectory map in the corner draws the profile you have flown and the
+touchdown you are heading for — or says `NO SOLUTION — ORBIT` when there isn't
+one. The ring on the ship is the flight-path marker: where the vehicle is
+actually going, as against where its nose points. On a re-entry those differ by
+ninety degrees.
 
 <p>
 <img src="docs/depth-1km.png" alt="One kilometre up: the ship large in frame, terrain below" width="270">
@@ -107,10 +114,11 @@ different vehicle, and nobody would have been able to say which parts changed.
 | Globals | 355 | 0 (lint-enforced) |
 | Simulation step | frame-rate dependent | fixed 120 Hz, ~4–7 µs |
 | HUD | 12 Hz, 18 `getElementById` per update | 120 Hz, zero lookups, diffed writes |
-| First-load JS | ~3.5 MB, two CDNs | 189 kB gzip, no third-party origins |
+| First-load JS | ~3.5 MB, two CDNs | 194 kB gzip, no third-party origins |
 | Offline | claimed | tested — a full flight with the network off |
 | Interface | one desktop layout | three breakpoints, gated on four phone viewports |
-| Tests | 0 | 1200+ unit, 194 end-to-end across five browser projects |
+| Depth | ground, then nothing above 100 m | three parallax layers, camera FOV 1x–5x with altitude |
+| Tests | 0 | 1347 unit, 266 end-to-end across five browser projects |
 
 ---
 

@@ -363,7 +363,7 @@ numbers — plan § 5.*
   A deck at a few kilometres, seeded so it returns identically every run, thinning above it. Like
   M7.4, built against the settled FOV. Accept: deterministic across runs; per-frame allocation
   unchanged; correct above and below.
-- [ ] **M7.7 Perf, budget, mobile, ship** — binder re-benchmark under 2 ms with the map redraw
+- [x] **M7.7 Perf, budget, mobile, ship** — binder re-benchmark under 2 ms with the map redraw
   included; bundle report in the commit (JS <= 250 kB gzip, fonts <= 80 kB); the map's phone story
   proved by the mobile projects (it starts collapsed there — the lower third has no spare room);
   offline precache still complete; screenshots refreshed and the README updated. Accept: full gate
@@ -1689,3 +1689,25 @@ out is the point of the whole milestone.*
   altitude rather than against a number copied out of it, so moving the horizon later cannot silently
   put the sky underneath it. Thins to nothing by 30 km — above the troposphere there is no weather,
   and by then M7.4 is already drawing the earth.
+- 2026-08-25 · M7.7 · **Depth and Speed ships.** The gate, with the numbers rather than the word
+  "green": lint, 1347 unit tests and build all exit 0; **playwright 266 passed across all five
+  projects** (chromium 94, pixel-portrait 45, pixel-landscape 41, iphone-portrait 45,
+  iphone-landscape 41); first-load JS **193.9 kB of 250**, fonts 32.7 kB of 80, service worker
+  precaching 35 assets; `git diff v2/src/core` against the M7 start commit prints nothing and all
+  seven golden digests are byte-identical to their M2.14 values.
+  **The binder benchmark now includes the map**, which is the point of it: that test measures the
+  whole frame rather than one binder precisely because a per-binder benchmark keeps saying green
+  while the real cost grows, and M7.1 added a canvas repaint to the same tick. Leaving it out would
+  have reintroduced the blind spot one milestone after it was closed. Measured **0.0076 ms of a 2 ms
+  budget**, with the map redrawing 577 times over a 1500-point trail. Zero-allocation coverage
+  extended to both new callers — the map's redraw, and the streaks, which are the first effect to
+  touch `sprite.rotation` and so the first that could hand a stale angle to a recycled particle.
+  Particle pool: **peak 653 of 4000, 84% free**, against the 576 baseline.
+  Screenshots refreshed at 1 km, 20 km and 100 km plus desktop and phone, and the README updated —
+  including its results table, which had been claiming 189 kB and 194 e2e tests.
+  **The milestone in one line:** the viewport was 356 × 200 m at every altitude and is now 200 m to
+  1 km; the parallax was 1× and 0.001× with nothing between and is now three layers; the ground left
+  the screen at 100 m and now never does; and the two predictors core has carried since M2.9 are
+  finally on screen. Compression is allowed in the depiction and never in the numbers — every value
+  on the trajectory map is read from SimState or computed by core at true scale, and `core/` did not
+  change by one byte.

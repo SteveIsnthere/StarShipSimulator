@@ -33,6 +33,7 @@ import { READOUTS } from '$hud/readouts';
 import { METRICS } from '$hud/metrics';
 import { INDICATORS } from '$hud/indicators';
 import { createTimeline, trackFor } from '$hud/timeline';
+import { createMapRenderer, type MapContext } from '$hud/trajectory-draw';
 import { createTimelineBinder } from '$hud/timeline-binder';
 import { createInitialState, type SimState } from '$core/state';
 import { createScenarioState, getScenario, PRESETS } from '$core/scenarios';
@@ -277,12 +278,36 @@ describe('the 2 ms budget', () => {
     let state: SimState = createScenarioState(getScenario('reentry')!);
     cmd.toggleAutoLand(state);
 
+    /*
+      M7.7: the map is IN this benchmark, not beside it.
+
+      The whole reason this test measures the frame rather than one binder is
+      the note above — a per-binder benchmark keeps saying green while the real
+      cost grows. M7.1 added a canvas repaint to the same tick, and leaving it
+      out would have reintroduced exactly that blind spot one milestone after
+      it was closed.
+
+      It is offered at 10 Hz through `update`, which is what App.svelte does, so
+      what is measured is the real amortised cost: nine frames of one throttle
+      check and a tenth that repaints.
+    */
+    const mapContext = recordingMapContext(280, 104);
+    const trail = { downRange: [] as number[], altitude: [] as number[] };
+    const map = createMapRenderer({ context: mapContext, trail });
+
     const tick = (s: SimState) => {
       timeline.observe(s);
       text.binder.update(s);
       metrics.update(s);
       timelineBinder.update();
       indicators.update(s);
+      map.update(s, 1 / 120);
+      // The trail grows as the recorder feeds it, so the decimation is
+      // measured over a real length rather than an empty array.
+      if (trail.downRange.length < 20_000 && s.world.updatedFrameCount % 5 === 0) {
+        trail.downRange.push(s.kinematics.downRangeDistance);
+        trail.altitude.push(s.kinematics.altitude);
+      }
     };
 
     for (let i = 0; i < 500; i++) {
@@ -304,7 +329,13 @@ describe('the 2 ms budget', () => {
     samples.sort((a, b) => a - b);
     const perFrame = samples[Math.floor(samples.length / 2)]!;
 
-    expect(perFrame, `whole-HUD frame cost ${perFrame.toFixed(4)} ms`).toBeLessThan(2);
+    const report =
+      `whole-HUD frame cost ${perFrame.toFixed(4)} ms of a 2 ms budget, ` +
+      `map redrew ${map.drawCount} times over ${trail.downRange.length} trail points`;
+    console.log(report);
+    expect(perFrame, report).toBeLessThan(2);
+    // And the map was genuinely in the loop, or this measured the old frame.
+    expect(map.drawCount).toBeGreaterThan(10);
   });
 });
 
@@ -330,3 +361,31 @@ describe('the source itself', () => {
     expect(offenders).toEqual([]);
   });
 });
+
+/**
+ * A recording 2D context for the benchmark above.
+ *
+ * Deliberately does the cheapest possible thing per call: the point of putting
+ * the map in the frame benchmark is to measure the MAP's arithmetic — the
+ * decimation, the extent, the projection of three hundred points — not
+ * Chromium's rasteriser, which is not running in Node anyway.
+ */
+function recordingMapContext(width: number, height: number): MapContext {
+  return {
+    canvas: { width, height },
+    strokeStyle: '',
+    fillStyle: '',
+    lineWidth: 0,
+    font: '',
+    globalAlpha: 1,
+    clearRect: () => {},
+    beginPath: () => {},
+    moveTo: () => {},
+    lineTo: () => {},
+    arc: () => {},
+    stroke: () => {},
+    fill: () => {},
+    fillText: () => {},
+    setLineDash: () => {},
+  };
+}

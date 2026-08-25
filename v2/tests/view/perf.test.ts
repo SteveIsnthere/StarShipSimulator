@@ -114,7 +114,7 @@ describe('the per-frame path does not grow', () => {
     }
   });
 
-  it('the M6.7 effects do not grow it either', () => {
+  it('the M6.7 and M7.5 effects do not grow it either', () => {
     /*
       The same invariant, run over what M6.7 added: a plume whose spread and
       size vary per frame, and a plasma trail. Both are new CALL SHAPES rather
@@ -143,6 +143,23 @@ describe('the per-frame path does not grow', () => {
         plumeSpreadFactor(pressure),
       );
       particles.emit('plasmaTrail', 0, 0, Math.PI, 0.8, DT, 1);
+      /*
+        M7.5's streaks, in the same loop and for the same reason. They are the
+        first effect with a `stretch`, which means the first that touches
+        `sprite.rotation` — and a recycled sprite that kept a rotation would
+        hand it to whatever plume particle claimed the slot next. Emitted at a
+        varying intensity so the rate-debt path is exercised rather than the
+        steady state.
+      */
+      particles.emit(
+        'velocityStreak',
+        0,
+        0,
+        0,
+        0.5 + 0.5 * Math.sin(frame * 0.013),
+        DT,
+        1,
+      );
       particles.update(DT);
       expect(particles.container.children.length).toBe(children);
     }
