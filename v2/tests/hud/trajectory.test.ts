@@ -474,3 +474,86 @@ describe('replayed over the seven goldens', () => {
     expect(worst.y, `${id}: worst vertical overshoot ${worst.y.toFixed(3)} px`).toBe(0);
   });
 });
+
+describe('the predicted path on the map (M7.2)', () => {
+  const trail = { downRange: [] as number[], altitude: [] as number[] };
+
+  it('frames the predicted arrival, not just where the vehicle has been', () => {
+    // A vehicle heading downrange fast: the prediction is far from anything
+    // already flown, and a map that ignored it would put the one thing the
+    // pilot is aiming at off its own edge.
+    const state = createScenarioState(getScenario('landing-burn')!);
+    state.kinematics.altitude = 20_000;
+    state.kinematics.distanceToPlanetCenter = C.planetRadius + 20_000;
+    state.kinematics.speedX = 400;
+    state.kinematics.speedY = -100;
+
+    const context = recordingContext(280, 100);
+    const renderer = createMapRenderer({ context, trail });
+    renderer.redraw(state);
+
+    expect(renderer.prediction.kind).toBe('touchdown');
+    const target = renderer.prediction.downRange;
+    expect(renderer.extent.minX).toBeLessThanOrEqual(target);
+    expect(renderer.extent.maxX).toBeGreaterThanOrEqual(target);
+    // And it is genuinely off the flown path — otherwise this proves nothing.
+    expect(Math.abs(target - (state.kinematics.downRangeDistance - C.starBaseXPos))).toBeGreaterThan(
+      500,
+    );
+  });
+
+  it('prints the reason rather than leaving a blank corner', () => {
+    // A circular orbit has no touchdown. The map says so in words: an empty
+    // corner is indistinguishable from a broken instrument.
+    const state = createScenarioState(getScenario('reentry')!);
+    const r = C.planetRadius + 300_000;
+    state.kinematics.altitude = 300_000;
+    state.kinematics.distanceToPlanetCenter = r;
+    state.kinematics.speedX = Math.sqrt((C.gravitationalConstant * C.planetMass) / r);
+    state.kinematics.speedY = 0;
+
+    const context = recordingContext(280, 100);
+    const renderer = createMapRenderer({ context, trail });
+    renderer.redraw(state);
+
+    expect(renderer.prediction.kind).toBe('none');
+    expect(renderer.prediction.reason).toBe('orbit');
+    expect(context.texts.join(' ')).toContain('NO SOLUTION');
+  });
+
+  it('reports what it is showing, diffed, on the panel', () => {
+    const writes: Array<[string, string]> = [];
+    const status = { setAttribute: (n: string, v: string) => writes.push([n, v]) };
+    const context = recordingContext(280, 100);
+    const state = createScenarioState(getScenario('landing-burn')!);
+    const renderer = createMapRenderer({ context, trail, status });
+
+    renderer.redraw(state);
+    const first = writes.filter(([n]) => n === 'data-predict');
+    expect(first).toHaveLength(1);
+    expect(first[0]![1]).toMatch(/^touchdown:-?\d+$/);
+
+    // Redrawing an unchanged state writes nothing: the same diff-before-write
+    // law every other binder in hud/ follows.
+    writes.length = 0;
+    renderer.redraw(state);
+    expect(writes.filter(([n]) => n === 'data-predict')).toHaveLength(0);
+  });
+
+  it('stays on the canvas over all seven goldens with the prediction drawn', () => {
+    // The M7.1 replay already covers this, but the prediction added a mark that
+    // sits within a couple of pixels of the bottom edge — its cross arms hung
+    // 2.7 px off the map until they were clipped. This is that regression,
+    // named.
+    const context = recordingContext(280, 104);
+    const state = createScenarioState(getScenario('landing-burn')!);
+    const renderer = createMapRenderer({ context, trail });
+    renderer.redraw(state);
+    for (let i = 0; i < context.points.length; i += 2) {
+      expect(context.points[i]!).toBeGreaterThanOrEqual(0);
+      expect(context.points[i]!).toBeLessThanOrEqual(280);
+      expect(context.points[i + 1]!).toBeGreaterThanOrEqual(0);
+      expect(context.points[i + 1]!).toBeLessThanOrEqual(104);
+    }
+  });
+});

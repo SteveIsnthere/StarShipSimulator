@@ -90,6 +90,16 @@ export function computeExtent(
   trailY: Float32Array,
   trailCount: number,
   out: MapExtent,
+  /**
+   * Where the flight is predicted to arrive (M7.2), when there is a prediction.
+   *
+   * Optional because the extent is meaningful without one, and included because
+   * a map that framed only where the vehicle has BEEN would push the predicted
+   * touchdown off its own edge exactly when it matters — on a long boostback
+   * the answer is a hundred kilometres from anything already drawn.
+   */
+  predictedX?: number,
+  predictedY?: number,
 ): void {
   // The landing site is always on the map: it is the thing you are aiming at.
   let minX = 0;
@@ -101,6 +111,14 @@ export function computeExtent(
     if (vehicleX > maxX) maxX = vehicleX;
   }
   if (Number.isFinite(vehicleY) && vehicleY > maxY) maxY = vehicleY;
+
+  if (predictedX !== undefined && Number.isFinite(predictedX)) {
+    if (predictedX < minX) minX = predictedX;
+    if (predictedX > maxX) maxX = predictedX;
+  }
+  if (predictedY !== undefined && Number.isFinite(predictedY) && predictedY > maxY) {
+    maxY = predictedY;
+  }
 
   for (let i = 0; i < trailCount; i++) {
     const x = trailX[i]!;

@@ -121,29 +121,35 @@ test('the trail grows behind the vehicle @mobile', async ({ page }) => {
   await open(page);
 
   /*
-    The one claim that IS about pixels, because it is the one the attributes
-    cannot carry. Counting lit pixels rather than diffing an image: a trail that
-    is being drawn puts more ink on the canvas than one that is not, and the
-    count is robust to the map re-ranging underneath it in a way a pixel-by-pixel
-    comparison would not be.
-  */
-  const ink = async () =>
-    page.locator(byTestId('map-canvas')).evaluate((el) => {
-      const canvas = el as HTMLCanvasElement;
-      const context = canvas.getContext('2d');
-      if (!context) return -1;
-      const data = context.getImageData(0, 0, canvas.width, canvas.height).data;
-      let lit = 0;
-      for (let i = 3; i < data.length; i += 4) if (data[i]! > 8) lit += 1;
-      return lit;
-    });
+    The trail is measured by the number of points it is STROKED from, which the
+    renderer reports, rather than by counting lit pixels on the canvas.
 
-  await expect.poll(ink, { timeout: 10_000 }).toBeGreaterThan(0);
-  const before = await ink();
+    Counting pixels was the first version and it was wrong in a way worth
+    recording: M7.2's predicted path puts ink on the same canvas, and as the
+    prediction converges the map re-ranges under it — so the lit-pixel total can
+    FALL while the trail is growing. The measure has to be of the thing being
+    claimed.
+  */
+  const points = async () => Number((await page.locator(MAP).getAttribute('data-trail')) ?? -1);
+
+  await expect.poll(points, { timeout: 10_000 }).toBeGreaterThanOrEqual(0);
+  const before = await points();
 
   await expect
-    .poll(ink, { timeout: 20_000, message: `ink started at ${before}` })
+    .poll(points, { timeout: 20_000, message: `trail started at ${before} points` })
     .toBeGreaterThan(before);
+
+  // And it is genuinely being painted, not merely counted.
+  const ink = await page.locator(byTestId('map-canvas')).evaluate((el) => {
+    const canvas = el as HTMLCanvasElement;
+    const context = canvas.getContext('2d');
+    if (!context) return -1;
+    const data = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let lit = 0;
+    for (let i = 3; i < data.length; i += 4) if (data[i]! > 8) lit += 1;
+    return lit;
+  });
+  expect(ink).toBeGreaterThan(0);
 });
 
 test('the collapse is remembered across a reload @mobile', async ({ page }) => {
@@ -196,4 +202,47 @@ test('the map starts open where there is room', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
   await expect(page.locator(TOGGLE)).toHaveAttribute('aria-expanded', 'true');
+});
+
+/* ── M7.2: the predicted path ──────────────────────────────────────────── */
+
+test('the map says where the flight is going, not only where it has been @mobile', async ({
+  page,
+}) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  await open(page);
+
+  // The intro is an auto-landing inside the atmosphere, so there is a real
+  // touchdown to predict and a miss distance to read.
+  await expect(page.locator(MAP)).toHaveAttribute('data-predict', /^touchdown:-?\d+$/);
+});
+
+test('the prediction tracks the flight rather than sitting still @mobile', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  await open(page);
+
+  const predict = async () => page.locator(MAP).getAttribute('data-predict');
+  const first = await predict();
+
+  // A prediction that never moved would be a decoration. It moves because the
+  // vehicle is burning — an unpowered continuation is exactly the thing a
+  // landing burn is changing.
+  await expect.poll(predict, { timeout: 20_000 }).not.toBe(first);
+});
+
+test('an orbit is told it is an orbit @mobile', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  await open(page);
+
+  // The acceptance line's own case: a preset that never comes down must show
+  // no-solution rather than a wrong number.
+  await page.locator(byTestId('open-menu')).click();
+  await page.locator(byTestId('preset-circularize')).click();
+  await page.locator(byTestId('menu-configure')).click();
+  await expect(page.locator(byTestId('menu'))).toBeHidden();
+
+  await expect(page.locator(MAP)).toHaveAttribute('data-predict', /^none:(orbit|out-of-domain)$/);
 });

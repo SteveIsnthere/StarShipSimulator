@@ -316,7 +316,7 @@ numbers — plan § 5.*
   seven goldens without producing a NaN or an off-canvas coordinate; e2e sees the marker move and
   the trail grow, and sees the collapse persist across a reload; zero per-frame allocation test
   extended; goldens and core untouched.
-- [ ] **M7.2 The predicted path** — draw where the vehicle is actually going, from
+- [x] **M7.2 The predicted path** — draw where the vehicle is actually going, from
   `coastDownrangeDistance()` and `getFreeFallTimeRemainingPrediction()` — M2.9 built the conic
   predictor for the deorbit autopilot and the player has never been able to see it. Predicted
   touchdown marker, distance-to-target, and an honest "no solution" state when the trajectory does
@@ -1545,3 +1545,35 @@ out is the point of the whole milestone.*
   every other attribute in `hud/`; that is what lets a spec say "the marker moved" without a
   screenshot comparison that would go red for a colour change. Core untouched, seven digests
   unchanged.
+- 2026-08-25 · M7.2 · **The predicted path.** M2.13 built a real conic predictor so the deorbit
+  autopilot could decide when to fire; M2.9 exported the free-fall one beside it. Between them the
+  simulation has always known where a coast ends, and in five years no player has seen it. Now the
+  map draws it: a dashed run from the vehicle to an open cross, the miss distance in words —
+  `4.2 KM LONG`, because a minus sign on a landing instrument is ambiguous — and a printed reason
+  when there is no answer.
+  **Two regimes, because no single model spans the range.** Above the entry interface the air is six
+  orders below gravity and the conic is exact, so the prediction is made TO the interface — claiming
+  a touchdown through 80 km of atmosphere the model does not contain would be a made-up number
+  wearing a decimal point. Below it, the terminal-velocity fall model answers instead.
+  **The measurement that changed the design.** The obvious reading of the 2021 formula is
+  `downRange + speedX * time`. Dropped unpowered from 40 km at 300 m/s that predicted 157 km of
+  drift where the simulation produced 9.7 km — **147.6 km of error**. Not tuning: quadratic drag has
+  a time constant `mass / (k v)`, four seconds for this vehicle at 200 m/s, and assuming the speed
+  survives a two-hundred-second fall assumes away the atmosphere. Replaced with the exact solution
+  of the same drag law core already integrates — `v0 tau ln(1 + t/tau)`, derived in `hud/`, core
+  untouched — the same drop errs by **6.5 km**. Across unpowered drops from 0.5 to 40 km the worst
+  error went from 105.6 km to 4.1 km. The logarithm is what makes it robust rather than merely
+  better tuned: the fall TIME it is handed is itself several times long from altitude, and a log
+  turns a factor-of-five error in time into under a factor of two in distance.
+  **Over the goldens that land**, predicted against actual touchdown: intro-demo and landing-burn
+  0 m at 26 m up (0.00 km at 200 m up); before-flip 2 m at 28 m up (0.10 km at 1 km up). Powered
+  flights do not go where an unpowered prediction says — that is the instrument working — so what is
+  asserted is the shape: the error shrinks as the ground approaches.
+  **And it says when it cannot answer.** A circular orbit prints `NO SOLUTION — ORBIT` rather than a
+  number; a flight that is over says so; the fall model's overflow above ~280 km is caught rather
+  than printed. Text rather than a blank corner, because a blank corner is indistinguishable from a
+  broken instrument. Three findings on the way: the pad sits at altitude 25 m, not 0 — `altitude` is
+  the centre of mass — so both the ground guard and the fall model's target are `vehicleHeight / 2`;
+  the predicted cross hung 2.7 px off the bottom edge until its arms were clipped; and "the trail
+  grows" stopped being answerable by counting lit pixels once the prediction put ink on the same
+  canvas, so the renderer reports the points it strokes.

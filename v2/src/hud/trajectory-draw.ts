@@ -21,6 +21,13 @@ import type { SimState } from '$core/state';
 import * as C from '$core/constants';
 import type { AttributeTarget } from './binder';
 import {
+  createPrediction,
+  formatMiss,
+  NO_SOLUTION_LABEL,
+  predict,
+  type Prediction,
+} from './prediction';
+import {
   computeExtent,
   createExtent,
   decimateTrail,
@@ -88,6 +95,14 @@ export const MAP_COLOURS = {
   site: 'rgba(255,255,255,0.7)',
   label: 'rgba(255,255,255,0.45)',
   entry: 'rgba(255,176,0,0.35)',
+  /*
+    The predicted path (M7.2). Dimmer than the flown one, deliberately: one of
+    these two lines is a record and the other is a guess, and they must not look
+    equally certain. The map has no other colour to spare — BROADCAST-UI-PLAN
+    § 1 keeps hue for the two limits that can end a flight — so the distinction
+    is carried by weight and by a dashed stroke.
+  */
+  predicted: 'rgba(255,255,255,0.35)',
 } as const;
 
 export interface MapRenderer {
@@ -102,6 +117,8 @@ export interface MapRenderer {
   redraw(state: SimState): void;
   /** The extent last drawn, for tests and for the axis labels. */
   readonly extent: MapExtent;
+  /** The prediction last drawn. */
+  readonly prediction: Prediction;
   /** Redraws performed since creation. */
   readonly drawCount: number;
 }
@@ -184,11 +201,15 @@ export function createMapRenderer(options: MapRendererOptions): MapRenderer {
   const trailY = new Float32Array(TRAIL_MAX_POINTS);
   const dashSolid: number[] = [];
   const dashEntry: number[] = [3, 3];
+  const dashPredicted: number[] = [2, 3];
+  const prediction = createPrediction();
 
   let sinceDraw = Infinity;
   let drawCount = 0;
   let lastMarker = '';
   let lastSpan = '';
+  let lastPredict = '';
+  let lastTrail = '';
 
   const draw = (state: SimState): void => {
     const width = context.canvas.width;
@@ -200,7 +221,25 @@ export function createMapRenderer(options: MapRendererOptions): MapRenderer {
     const vehicleY = state.kinematics.altitude;
 
     const count = decimateTrail(trail.downRange, trail.altitude, trailX, trailY);
-    computeExtent(vehicleX, vehicleY, trailX, trailY, count, extent);
+
+    /*
+      The prediction is computed BEFORE the extent, and the extent is told about
+      it. A map that framed only where the vehicle has been would push the
+      predicted touchdown off its own edge exactly when it matters — on a long
+      boostback the answer is a hundred kilometres from anything already drawn.
+    */
+    predict(state, prediction);
+    const hasPrediction = prediction.kind !== 'none';
+    computeExtent(
+      vehicleX,
+      vehicleY,
+      trailX,
+      trailY,
+      count,
+      extent,
+      hasPrediction ? prediction.downRange : undefined,
+      hasPrediction ? prediction.altitude : undefined,
+    );
 
     context.clearRect(0, 0, width, height);
     context.setLineDash(dashSolid);
@@ -294,6 +333,43 @@ export function createMapRenderer(options: MapRendererOptions): MapRenderer {
     context.arc(px, py, 2.5 * scale, 0, Math.PI * 2);
     context.fill();
 
+    // --- where it is going, as against where it has been -------------------
+    if (hasPrediction) {
+      const tx = projectX(extent, prediction.downRange, width);
+      const ty = projectY(extent, prediction.altitude, height);
+
+      // A dashed run from the vehicle to the predicted arrival. Straight, and
+      // it says so by being dashed: the real path curves, and drawing a
+      // confident curve through a model this rough would be a lie told in ink.
+      context.setLineDash(dashPredicted);
+      context.strokeStyle = MAP_COLOURS.predicted;
+      context.lineWidth = scale;
+      context.beginPath();
+      context.moveTo(px, py);
+      context.lineTo(tx, ty);
+      context.stroke();
+      context.setLineDash(dashSolid);
+
+      /*
+        An open cross rather than a filled dot, so it cannot be mistaken for the
+        vehicle or for the landing site.
+
+        Its arms are clipped to the canvas rather than the whole mark being
+        nudged inside. A touchdown is predicted at GROUND_ALTITUDE, which sits
+        within a couple of pixels of the bottom edge, so an unclipped cross hangs
+        2.7 px off the map — the golden replay caught exactly that. Moving the
+        cross would put it somewhere the vehicle is not going; clipping it draws
+        the half that fits, in the right place.
+      */
+      const arm = 4 * scale;
+      context.beginPath();
+      context.moveTo(Math.max(0, tx - arm), ty);
+      context.lineTo(Math.min(width, tx + arm), ty);
+      context.moveTo(tx, Math.max(0, ty - arm));
+      context.lineTo(tx, Math.min(height, ty + arm));
+      context.stroke();
+    }
+
     // --- the axes, as labels rather than as gridlines ---------------------
     // The extents ARE the axes. Two numbers say what the map covers, and cost
     // none of the space a labelled grid would take out of a 280 px instrument.
@@ -304,6 +380,26 @@ export function createMapRenderer(options: MapRendererOptions): MapRenderer {
       context.font = `${9 * scale}px "Barlow Condensed", sans-serif`;
       context.fillText(formatSpan(extent.maxX - extent.minX), 3 * scale, height - 3 * scale);
       context.fillText(formatSpan(extent.maxY), 3 * scale, 10 * scale);
+
+      /*
+        The miss distance, or the reason there isn't one. Top right, because it
+        is the one number on this instrument a pilot flying a landing is
+        actually reading, and the top left already carries the altitude span.
+
+        The no-solution case prints TEXT rather than printing nothing: a blank
+        corner is indistinguishable from a broken instrument, and "NO SOLUTION —
+        ORBIT" is an answer.
+      */
+      const label = hasPrediction
+        ? formatMiss(prediction.miss)
+        : NO_SOLUTION_LABEL[prediction.reason];
+      if (label) {
+        // Right-aligned by measurement would need measureText on every draw;
+        // the label is short and the map is wide, so an offset from the right
+        // edge scaled by the character count costs nothing and cannot allocate.
+        const approxWidth = label.length * 4.6 * scale;
+        context.fillText(label, Math.max(3 * scale, width - approxWidth - 3 * scale), 10 * scale);
+      }
     }
 
     // --- what the map is showing, for anything outside the canvas ---------
@@ -321,6 +417,29 @@ export function createMapRenderer(options: MapRendererOptions): MapRenderer {
         lastSpan = span;
         status.setAttribute('data-span', span);
       }
+      // The prediction, for the same reason: a canvas cannot be asked whether
+      // it is showing a touchdown or admitting it has no solution.
+      const predicted = hasPrediction
+        ? `${prediction.kind}:${Math.round(prediction.miss)}`
+        : `none:${prediction.reason}`;
+      if (predicted !== lastPredict) {
+        lastPredict = predicted;
+        status.setAttribute('data-predict', predicted);
+      }
+      /*
+        How many points the trail was actually STROKED from.
+
+        Added because "the trail grows" turned out not to be answerable by
+        counting lit pixels: M7.2's prediction line puts ink on the canvas too,
+        and as the prediction converges the map re-ranges under it, so the total
+        can fall while the trail is growing. The number of points drawn cannot
+        be confounded that way.
+      */
+      const drawn = String(count);
+      if (drawn !== lastTrail) {
+        lastTrail = drawn;
+        status.setAttribute('data-trail', drawn);
+      }
     }
 
     drawCount += 1;
@@ -329,6 +448,9 @@ export function createMapRenderer(options: MapRendererOptions): MapRenderer {
   return {
     get extent() {
       return extent;
+    },
+    get prediction() {
+      return prediction;
     },
     get drawCount() {
       return drawCount;
