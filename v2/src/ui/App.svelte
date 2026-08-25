@@ -1,13 +1,15 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { createView, type ViewApp } from '$view/app';
-  import { updateCamera } from '$view/camera';
+  import { updateCamera, worldToScreen } from '$view/camera';
   import { loadTextures } from '$view/assets';
   import { createWorld } from '$view/world';
   import { createVehicle } from '$view/vehicle';
   import { createParticleSystem, createParticleTexture } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
   import { createSky } from '$view/sky';
+  import { bloomIntensity, createPostPass, heatIntensity } from '$view/post';
+  import { heatLimit } from '$core/constants';
   import { createIntroState } from '$core/scenarios';
   import { advance, createLoopState } from '$app/loop';
   import { vehicleHeight } from '$core/constants';
@@ -52,6 +54,14 @@
       const effects = createEffectDriver();
       view.layers.effectsBehind.addChild(particles.container);
 
+      const post = createPostPass(
+        view.layers.effectsBehind,
+        view.layers.vehicle,
+        view.viewport.width,
+        view.viewport.height,
+      );
+      let elapsed = 0;
+
       const onResize = () => {
         view?.resize(window.innerWidth, window.innerHeight);
         if (view) sky.resize(view.viewport);
@@ -94,6 +104,20 @@
         });
 
         effects.update(particles, view!.camera, view!.viewport, s, loop.previous, frameTime);
+
+        elapsed += frameTime;
+        const nose = worldToScreen(
+          view!.camera,
+          view!.viewport,
+          s.kinematics.downRangeDistance,
+          s.kinematics.altitude,
+        );
+        post.update(
+          bloomIntensity(s.engines.running.filter(Boolean).length, s.vehicle.throttleCurrent),
+          heatIntensity(s.forces.thermalPower, heatLimit),
+          { x: nose.x / view!.viewport.width, y: nose.y / view!.viewport.height },
+          elapsed,
+        );
 
         status = `${s.kinematics.altitude.toFixed(0)} m · ${s.kinematics.speedY.toFixed(1)} m/s`;
       };

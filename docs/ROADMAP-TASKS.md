@@ -98,7 +98,7 @@ acceptance line.
 - [x] **M3.3 Particle pooling** — pooled emitter framework; port all 2021 effects; the
   shutdown leak dies here.
 - [x] **M3.4 Sky** — altitude-graded gradient into starfield; parallax layers.
-- [ ] **M3.5 Post pass** — bloom on plumes, heat shimmer + shock on reentry.
+- [x] **M3.5 Post pass** — bloom on plumes, heat shimmer + shock on reentry.
 - [ ] **M3.6 Intro wired** — the auto-landing intro plays end-to-end in v2.
 - [ ] **M3.7 Perf audit** — zero per-frame allocations (heap sampling); 60 fps mid-phone
   profile; budgets green.
@@ -426,3 +426,14 @@ acceptance line.
   a second set of magic numbers, and **parallax** at a thousandth of camera motion — enough to feel
   like depth, little enough never to visibly slide. The gradient is a texture built once and tinted
   per frame, not a per-frame full-screen fill. 827 tests, 7 e2e, 168.1 kB of 250.
+- 2026-08-25 · M3.5 · `view/post.ts` — two hand-written fragment shaders. **Not `pixi-filters`**:
+  that is ~80 kB gzip for two effects against a 250 kB budget already carrying PixiJS, and these are
+  small enough that writing them costs less than importing them. Bloom is a single-pass
+  threshold-and-bleed (nine taps on a widening cross) rather than downsample-blur-upsample — at
+  plume size the difference is invisible and it is a third of the cost. Heat shimmer displaces along
+  a wake gradient so the nose stays sharp, with a shock arc standing off it. **Both detach entirely
+  below a 2% threshold**, because a filter attached to a container costs a full-screen pass whether
+  or not it does anything — on the pad and in cruise this pass is *free*, which the tests assert
+  against real flight values. Heat is measured against `heatLimit`, so the shimmer tells you how
+  close to breaking up you are rather than how fast you are going. Shaders verified compiling and
+  rendering on WebGL. 839 tests, 7 e2e, 169.4 kB of 250.
