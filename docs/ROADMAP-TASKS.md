@@ -187,6 +187,17 @@ acceptance line.
 
       git tag -a v1.0 <final-commit> -m "Starship Simulator v1.0" && git push origin v1.0
 
+- [x] **M2.11 Bug: the autopilot's RCS command was dead code** — found by the realism audit,
+  2026-08-25. `precisionAlignment`'s RCS branch writes a proportional thrust below saturation;
+  `controlTranslation` runs immediately after it, in the same step, and zeroed it before
+  rotational motion — the only consumer — could read it. Measured across all seven goldens:
+  `rcsThrust` was non-zero on exactly the steps where the yoke saturated and no others. The
+  consequence is not cosmetic: the alignment law damps with `-2*omega/T`, so a little rotation
+  drops the demand under the cap and the thrusters cut out entirely, leaving the vehicle
+  spinning. In vacuum, where RCS is the only actuator, that is no attitude control at all.
+  Bug-fix tier. Accept: a 180° flip completes and HOLDS; goldens regenerated with the
+  before/after diff in the commit.
+
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->
@@ -861,4 +872,25 @@ acceptance line.
   executes the frozen 2021 tree to prove the rest is unchanged. It flies every scenario the
   original did, plus one the original could not: leaving a 150 km orbit and landing 312 m from
   the pad.
+
+- 2026-08-25 · M2.11 · **The autopilot's proportional RCS command was dead code.** Found while
+  auditing the deorbit mode for realism: it was documented as "turning to retrograde on RCS at
+  ~0.0015 rad/s", and it was doing nothing of the kind. The thrusters fired for 0.21 s, the
+  vehicle reached −0.0372 rad/s, the demand fell to 787 kN against an 800 kN cap, firing stopped,
+  and it **free-tumbled for the next thirty-five minutes** — arriving near retrograde by
+  coincidence, which the lead-distance calibration had then been fitted to. The hardware was
+  never the limit: 800 kN at 20 m on 8.96e7 kg·m² is 0.16 rad/s², a minimum-time 180° flip in
+  8.9 s. Fixed by routing the command through `autopilot.rcsThrustCommand`, which
+  `controlTranslation` consumes instead of clobbering — keeping `rcsControl` a function of its
+  inputs rather than of who cleared what first. Partial-authority firing now costs reserve in
+  proportion (a full-deflection step still costs bit-for-bit what 2021 charged), because free
+  unlimited attitude control would be a worse model than the bug. Result: the flip takes ~20 s
+  and then **holds retrograde to ±3° for the whole coast**, on 4 s of the 25 s budget.
+  Blast radius, measured: `rtls-boostback` and `reentry-autoland` move; **launch-pad,
+  booster-sep, before-flip, landing-burn and the intro are bit-identical** — the soul untouched,
+  asserted in the new test rather than assumed. Departure declared in `parity/actuation.test.ts`;
+  `parity/autopilot.test.ts` still proves the *value* matches 2021 bit for bit, since only its
+  destination changed. heatLimit re-derived and unchanged at 390 (the margin-preserving figure
+  moved 391.80 → 391.47, absorbed by rounding down — the constant was not on a knife edge).
+  Gate: lint, 1038 tests, build green.
 

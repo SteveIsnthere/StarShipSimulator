@@ -95,6 +95,7 @@ function apply(sample: Sample): SimState {
   s.forces.thrust = sample.thrust;
   s.forces.offAxisThrustDifferenceAcceleration = sample.offAxisThrustDifferenceAcceleration;
   s.forces.rcsThrust = 0;
+  s.autopilot.rcsThrustCommand = 0;
   s.atmosphere.airDensity = sample.airDensity;
   s.status.finActive = sample.finActive;
   s.status.rcsActive = sample.rcsActive;
@@ -166,6 +167,18 @@ function* samples(): Generator<Sample> {
 
 const ALL = [...samples()];
 
+/**
+ * The proportional RCS number `precisionAlignment` produces, wherever it lives.
+ *
+ * 2021 wrote it to `rcsThrust`; M2.11 moved it to `autopilot.rcsThrustCommand`,
+ * because writing it to `rcsThrust` was what let `controlTranslation` destroy it
+ * before anything could read it. The VALUE is unchanged and this comparison
+ * still proves that, bit for bit — the departure is what happens to it
+ * afterwards, and that is asserted in tests/parity/actuation.test.ts.
+ */
+const rcsCommandOf = (s: SimState): number =>
+  s.autopilot.rcsThrustCommand !== 0 ? s.autopilot.rcsThrustCommand : s.forces.rcsThrust;
+
 describe('precisionAlignment', () => {
   it.each([0.4, 0.5, 0.7, 1, 1.5, 3])('matches at T=%f across 400 states', (T) => {
     for (const sample of ALL) {
@@ -173,7 +186,7 @@ describe('precisionAlignment', () => {
       prim.precisionAlignment(s, rad(0.3), T);
       evalLegacy(`precisionAlignment(0.3, ${T})`);
       exact(s.autopilot.pitchControl, asBrowserSaw(readLegacy('pitchControl')), `pitchControl T=${T}`);
-      exact(s.forces.rcsThrust, readLegacy('rcsThrust'), `rcsThrust T=${T}`);
+      exact(rcsCommandOf(s), readLegacy('rcsThrust'), `rcsThrust T=${T}`);
     }
   });
 
@@ -184,7 +197,7 @@ describe('precisionAlignment', () => {
         prim.precisionAlignment(s, rad(goal), 0.7);
         evalLegacy(`precisionAlignment(${goal}, 0.7)`);
         exact(s.autopilot.pitchControl, asBrowserSaw(readLegacy('pitchControl')), `goal=${goal}`);
-        exact(s.forces.rcsThrust, readLegacy('rcsThrust'), `rcsThrust goal=${goal}`);
+        exact(rcsCommandOf(s), readLegacy('rcsThrust'), `rcsThrust goal=${goal}`);
       }
     }
   });
@@ -294,7 +307,7 @@ describe('speed-holding primitives', () => {
         prim.horizontalSteering(s, target, rad(0.34), 5, 0.7);
         evalLegacy(`horizontalSteering(${target}, 0.34, 5, 0.7)`);
         exact(s.autopilot.pitchControl, asBrowserSaw(readLegacy('pitchControl')), `hSteer target=${target}`);
-        exact(s.forces.rcsThrust, readLegacy('rcsThrust'), `hSteer rcs target=${target}`);
+        exact(rcsCommandOf(s), readLegacy('rcsThrust'), `hSteer rcs target=${target}`);
       }
     }
   });
@@ -459,17 +472,19 @@ describe('the undefined-yokePosition bug, made explicit', () => {
 
     prim.precisionAlignment(s, rad(0.3), 0.5);
     expect(s.autopilot.pitchControl).toBe(0);
-    expect(s.forces.rcsThrust).toBe(readLegacy('rcsThrust'));
+    expect(rcsCommandOf(s)).toBe(readLegacy('rcsThrust'));
   });
 
-  it('rcsThrust matches exactly on that path, which is what actually steers', () => {
+  it('rcsThrust matches exactly on that path, which is what SHOULD have steered', () => {
     // The RCS force is the real output of this branch. pitchControl being
-    // undefined was inert; this number was not.
+    // undefined was inert; this number was not — except that in 2021 it was,
+    // because controlTranslation wiped it moments later (M2.11). The value is
+    // still computed identically, which is what this asserts.
     for (const sample of ALL.filter((x) => x.thrust === 0 && !x.finActive && x.rcsActive)) {
       const s = apply(sample);
       prim.precisionAlignment(s, rad(0.3), 0.5);
       evalLegacy('precisionAlignment(0.3, 0.5)');
-      exact(s.forces.rcsThrust, readLegacy('rcsThrust'), 'rcsThrust on the undefined path');
+      exact(rcsCommandOf(s), readLegacy('rcsThrust'), 'rcsThrust on the undefined path');
     }
   });
 });

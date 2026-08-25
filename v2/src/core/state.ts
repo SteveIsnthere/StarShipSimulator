@@ -268,6 +268,18 @@ export interface AutopilotState {
    * every frame (updateBackEnd.js:201); in v2 it arrives through the input arg. */
   pitchControl: number;
 
+  /**
+   * N — the RCS thrust the autopilot is asking for THIS step, signed; 0 when it
+   * is not asking. M2.11.
+   *
+   * `precisionAlignment` writes it, `controlTranslation` consumes and clears it
+   * in the same step. It exists so the proportional command has somewhere to
+   * live that the yoke's bang-bang path cannot silently overwrite — which is
+   * exactly what used to happen, and left the vehicle with no attitude control
+   * below saturation. See tests/core/rcs-dead-zone.test.ts.
+   */
+  rcsThrustCommand: number;
+
   /** rad — attitude pitchHold is holding. */
   holdingPitch: Rad;
   pitchHoldOn: boolean;
@@ -555,6 +567,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
 
     autopilot: {
       manualControlOn: false,
+      rcsThrustCommand: 0,
       pitchControl: 0,
 
       holdingPitch: rad(0),

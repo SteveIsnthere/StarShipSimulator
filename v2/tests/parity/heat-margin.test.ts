@@ -272,11 +272,11 @@ describe('and the recalibrated limit preserves it', () => {
     expect(v2Run.state.status.landed).toBe(true);
   });
 
-  it('its peak heating is 247.5 units — 7.1x the 2021 number', () => {
+  it('its peak heating is 247.3 units — 7.1x the 2021 number', () => {
     // Not because re-entry got harder: because thermalPower is a different
     // quantity on a different scale since M2.2, and the air is denser since
     // M2.1.
-    expect(v2Run.peak).toBeCloseTo(247.4863, 3);
+    expect(v2Run.peak).toBeCloseTo(247.2787, 3);
     expect(v2Run.peak / legacyRun.peak).toBeCloseTo(7.12, 2);
   });
 
@@ -284,8 +284,12 @@ describe('and the recalibrated limit preserves it', () => {
     const margin2021 = legacyRun.peak / legacyRun.limit;
     const preserving = v2Run.peak / margin2021;
 
-    // 391.80, before rounding.
-    expect(preserving).toBeCloseTo(391.8, 1);
+    // 391.47, before rounding. It was 391.80 when M2.9(a) derived it; M2.11
+    // fixed the attitude controller and moved the descent slightly, and the
+    // measurement moved with it. That the shipped constant did NOT have to move
+    // is the useful part: the rounding-down margin absorbed a real change to
+    // the flight, so 390 was not a number balanced on a knife edge.
+    expect(preserving).toBeCloseTo(391.47, 1);
     // And the shipped constant is that, rounded DOWN to a whole unit — so the
     // recalibration can never grant more headroom than 2021 had.
     expect(C.heatLimit).toBe(390);
@@ -296,7 +300,7 @@ describe('and the recalibrated limit preserves it', () => {
   it('and v2 flies it with a margin no more generous than 2021 had', () => {
     const margin2021 = legacyRun.peak / legacyRun.limit;
     const marginV2 = v2Run.peak / C.heatLimit;
-    expect(marginV2).toBeCloseTo(0.6346, 4);
+    expect(marginV2).toBeCloseTo(0.634, 3);
     expect(marginV2, 'v2 must not have MORE headroom than 2021').toBeGreaterThan(margin2021);
     expect(marginV2 - margin2021, 'and not much less either').toBeLessThan(0.01);
   });

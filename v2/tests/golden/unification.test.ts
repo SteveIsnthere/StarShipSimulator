@@ -31,10 +31,8 @@
  *
  * IF ONE OF THESE MOVES, physics changed — exactly as for the fixtures
  * themselves, and under the same rule: only a declared Bug-fix or Fidelity tier
- * justified in the same commit may do it. M2.9(a)'s heatLimit recalibration is
- * the first such change, and it moved `reentry-autoland` and nothing else,
- * which is visible right here: six of the seven digests below are still the
- * ones the flag-on build produced.
+ * justified in the same commit may do it. The table below is the audit trail of
+ * every one that has.
  */
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -67,19 +65,24 @@ function rowsDigest(id: string): string {
  * Recorded at commit 115879c with planetCenteredGravity + realSpeedOfSound +
  * fullISA + collapsedTrig — except `reentry-autoland`, which M2.9(a) moved.
  *
- * That is the whole point of keeping these: the unification did not move a
- * single row, and the very next change — recalibrating `heatLimit` under the
- * Bug-fix tier — moved exactly one scenario and nothing else. The M2.10 digest
- * for re-entry was `ef4c014f94aa4ac71c957312bd3a8378c7777055748439c0c95f94297c0be254`;
- * it changed because the vehicle stopped breaking up on the first step and flew
- * the descent instead, which is what M2.9(a) was for.
+ * That is the whole point of keeping these. The unification did not move a
+ * single row; every move since has been one declared tier moving the scenarios
+ * it said it would and no others:
+ *
+ *   M2.9(a)  heatLimit 55 -> 390        re-entry only
+ *   M2.11    the dead RCS command       re-entry and RTLS only
+ *
+ * Five of the seven digests are still, to the character, what the flag-on build
+ * produced at 115879c — including `intro-demo`, which CLAUDE.md says must never
+ * change and which no tier here has touched.
  */
 const FLAG_ON_DIGESTS: Readonly<Record<string, string>> = {
   'launch-pad-takeoff': 'c591afdceb7bf9007e108ba55cd8a54107a534060f5dba4285b91ed9b27e945b',
   'booster-sep-boostback': '1abb2146fa29e8830e85cc20882a7cddd8278e63dfeb0d8fb173b2546bcc4062',
-  'rtls-boostback': '7b7ba84d82d88c59724e7a54ed10cad389da938bddfcaec5f393f32661e22098',
-  // M2.9(a), Bug fix: heatLimit 55 -> 390. The only scenario it moved.
-  'reentry-autoland': '24588e4ee01258b795aa11180ec54f00ebc113c3e968ae2290374f39f6e9a5e4',
+  // M2.11, Bug fix: the autopilot's RCS command was dead. Moved with re-entry.
+  'rtls-boostback': '474688c0e8aeb55f0b754db9164aec344466b2b5626a6af1630c9f6fdcfc5ca1',
+  // M2.9(a), Bug fix: heatLimit 55 -> 390; then M2.11, Bug fix: the RCS command.
+  'reentry-autoland': 'd278673b0d266f4a552b0ae9f36e03a71134f79fa9bdbf3202b0f44897a6f39e',
   'before-flip-autoland': 'd15154ded70543fd272acfae37f15c52b56594c48f23eef2e129aa01e4cf1a8b',
   'landing-burn-autoland': '778d376b6379bbf7844bd8855884ca697f7e670ccd5917aea2aaef7d85f0a520',
   'intro-demo': 'ec9a453bed2fcbb20bc73612de76358a5461132af33d3ce1730c0835d590ddb5',

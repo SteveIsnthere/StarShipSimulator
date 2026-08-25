@@ -14,6 +14,7 @@ import { createInitialState } from '$core/state';
 import * as act from '$core/control/actuation';
 import * as eng from '$core/physics/engines';
 import { rad } from '$core/units';
+import * as C from '$core/constants';
 
 const legacy = loadLegacy(
   ['backend/physics.js', 'backend/initBackEnd.js', 'backend/flightcontrol/flightControl.js'],
@@ -328,7 +329,10 @@ describe('actuators', () => {
     }
   });
 
-  it('RCS is bang-bang: nothing inside +-99%', () => {
+  it('the YOKE is still bang-bang: nothing inside +-99%', () => {
+    // The player's control, unchanged. The comparison above runs with no
+    // autopilot command standing, which is why it can still be Object.is
+    // against 2021 for 500 steps.
     const state = createInitialState();
     state.status.rcsActive = true;
     for (const goal of [-99, -50, 0, 50, 99]) {
@@ -337,5 +341,63 @@ describe('actuators', () => {
     }
     act.rcsControl(state, 99.001, 1 / 60);
     expect(state.forces.rcsThrust).toBeGreaterThan(0);
+  });
+
+  describe('DECLARED DEPARTURE: the autopilot can fire below saturation — M2.11', () => {
+    // 2021 computed a proportional RCS command in precisionAlignment and then
+    // destroyed it: controlTranslation ran next, in the same step, and zeroed
+    // `rcsThrust` for any yoke inside +-99. Nothing ever read one. v2 routes
+    // the command through `autopilot.rcsThrustCommand`, which this function
+    // consumes — so with a command standing the two implementations differ,
+    // deliberately, and this is where that is written down.
+
+    it('with a command standing, v2 fires where 2021 does not', () => {
+      const dt = 1 / 120;
+      const state = createInitialState();
+      state.status.rcsActive = true;
+      state.autopilot.rcsThrustCommand = -400_000;
+
+      setLegacy({ rcsActive: true, rcsRunTimeRemaining: 25, rcsThrust: 0, renderTimeInterval: 1 / dt });
+      act.rcsControl(state, 0, dt);
+      setLegacy({ __goal: 0 });
+      evalLegacy('rcsControl(__goal)');
+
+      expect(state.forces.rcsThrust, 'v2 applies the command').toBe(-400_000);
+      expect(readLegacy('rcsThrust'), '2021 zeroes it').toBe(0);
+    });
+
+    it('and pays for it in proportion — half thrust, half the reserve', () => {
+      const dt = 1 / 120;
+      const half = createInitialState();
+      half.status.rcsActive = true;
+      half.autopilot.rcsThrustCommand = C.rcsMaxThrust / 2;
+      act.rcsControl(half, 0, dt);
+
+      const full = createInitialState();
+      full.status.rcsActive = true;
+      act.rcsControl(full, 100, dt);
+
+      const halfUsed = C.rcsRunTimeRemaining - half.vehicle.rcsRunTimeRemaining;
+      const fullUsed = C.rcsRunTimeRemaining - full.vehicle.rcsRunTimeRemaining;
+      expect(halfUsed / fullUsed).toBeCloseTo(0.5, 9);
+      // And a full-deflection step costs exactly what 2021 charged, to the bit:
+      // the drain expression is the verbatim one with fraction = 1.
+      setLegacy({ rcsActive: true, rcsRunTimeRemaining: C.rcsRunTimeRemaining, rcsThrust: 0,
+        renderTimeInterval: 1 / dt, __goal: 100 });
+      evalLegacy('rcsControl(__goal)');
+      exact(full.vehicle.rcsRunTimeRemaining, readLegacy('rcsRunTimeRemaining'), 'full-deflection drain');
+    });
+
+    it('the command is consumed, not left standing for the next step', () => {
+      const dt = 1 / 120;
+      const state = createInitialState();
+      state.status.rcsActive = true;
+      state.autopilot.rcsThrustCommand = -400_000;
+
+      act.rcsControl(state, 0, dt);
+      expect(state.autopilot.rcsThrustCommand, 'cleared on consumption').toBe(0);
+      act.rcsControl(state, 0, dt);
+      expect(state.forces.rcsThrust, 'a stale command must not fire again').toBe(0);
+    });
   });
 });

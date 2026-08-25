@@ -514,6 +514,8 @@ function distanceToLandingSite(state: SimState): number {
   return gap < 0 ? gap + C.planetCircumference : gap;
 }
 
+
+
 /**
  * M2.9(c) — deorbit targeting. THE ONE MODE 2021 DID NOT HAVE.
  *

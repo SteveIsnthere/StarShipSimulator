@@ -126,19 +126,25 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   let yokePosition = 0;
 
   const controlByRcs = (): void => {
+    // M2.11, Bug fix. 2021 wrote the sub-saturation command straight to
+    // `forces.rcsThrust`, where `controlTranslation` — running immediately
+    // after the autopilot, in the same step, before rotational motion could
+    // read it — unconditionally zeroed it. The command never once took effect.
+    // It goes to `autopilot.rcsThrustCommand` now, which controlTranslation
+    // consumes rather than clobbers.
     if (Math.abs(pitchDifference) > 0.1) {
       const rcsForceRequired = torqueRequired / C.rcsThrustDistanceFromCenterOfMass;
       if (rcsForceRequired > 0) {
         if (rcsForceRequired > C.rcsMaxThrust) {
           yokePosition = 100;
         } else {
-          forces.rcsThrust = rcsForceRequired;
+          autopilot.rcsThrustCommand = rcsForceRequired;
         }
       } else if (rcsForceRequired < 0) {
         if (rcsForceRequired < -C.rcsMaxThrust) {
           yokePosition = -100;
         } else {
-          forces.rcsThrust = rcsForceRequired;
+          autopilot.rcsThrustCommand = rcsForceRequired;
         }
       } else {
         yokePosition = 0;

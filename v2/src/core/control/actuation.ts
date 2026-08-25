@@ -82,36 +82,73 @@ export function finsActuation(state: SimState, goalPercentage: number, dt: numbe
 }
 
 /**
- * flightControl.js:48 — RCS is bang-bang: full thrust past +-99%, nothing inside.
+ * flightControl.js:48 — the yoke's RCS command, and the reserve it spends.
  *
- * The reserve drains only while firing, and the drain is ported verbatim:
- * `(remaining * rti - 1) / rti` with `rti = 1 / dt`, not the algebraically
- * equivalent `remaining - dt`. The simplification was measured and rejected —
- * it differs by up to 11 ULP near an empty tank, over the 1-ULP bar CLAUDE.md
- * sets for a Refactor. See tests/proofs/rcs-reserve.test.ts. M1.9 may revisit
- * it with a proof that actually clears the bar.
+ * THE YOKE IS BANG-BANG, as in 2021: full thrust past +-99%, nothing inside.
+ * That is the player's control, and it is unchanged.
+ *
+ * WHAT CHANGED AT M2.11, Bug-fix tier. The old middle branch read
+ * `forces.rcsThrust = 0`, and since this function runs immediately after the
+ * autopilot inside controlsUpdate, that zero landed on top of every
+ * proportional command `precisionAlignment` had just written — before
+ * rotational motion, the only consumer, could ever read one. The autopilot's
+ * RCS path was dead code: measured across all seven golden scenarios,
+ * `rcsThrust` was non-zero on exactly the steps where the yoke saturated and on
+ * no others.
+ *
+ * The consequence was not subtle. The alignment law damps with `-2*omega/T`, so
+ * a little rotation drops the demand below rcsMaxThrust — and there the
+ * thrusters cut out completely, leaving the vehicle turning at whatever rate it
+ * had reached with nothing to stop it. In vacuum, where RCS is the only
+ * actuator, that is no attitude control at all.
+ *
+ * So the middle branch no longer clobbers: it applies
+ * `autopilot.rcsThrustCommand`, which `precisionAlignment` writes and this
+ * function consumes and clears inside the same step. Keeping the command in its
+ * own field rather than in `forces.rcsThrust` is what makes this function a
+ * function again — it produces the thrust from the yoke and the command, with
+ * no dependence on someone else having cleared a force first.
+ *
+ * AND IT IS PAID FOR. 2021 charged the reserve only for full-deflection firing,
+ * which is precisely the case that worked; leaving it at that would have made
+ * partial-authority attitude control free and unlimited, which is a worse model
+ * than the bug. The charge is proportional to commanded thrust, so a
+ * full-deflection step costs exactly what it always did — the expression below
+ * is the verbatim one with `fraction = 1`.
+ *
+ * The drain itself stays verbatim: `(remaining * rti - fraction) / rti` with
+ * `rti = 1 / dt`, not the algebraically equivalent `remaining - dt * fraction`.
+ * The simplification was measured and rejected — it differs by up to 11 ULP
+ * near an empty tank, over the 1-ULP bar CLAUDE.md sets for a Refactor. See
+ * tests/proofs/rcs-reserve.test.ts.
+ *
  * @param goalPercentage -100 .. 100
  */
 export function rcsControl(state: SimState, goalPercentage: number, dt: number): void {
-  const { status, vehicle, forces } = state;
+  const { status, vehicle, forces, autopilot } = state;
 
-  if (status.rcsActive && vehicle.rcsRunTimeRemaining > 0) {
-    const rti = 1 / dt;
-    if (goalPercentage > 99) {
-      forces.rcsThrust = C.rcsMaxThrust;
-      if (vehicle.rcsRunTimeRemaining > 0) {
-        vehicle.rcsRunTimeRemaining = (vehicle.rcsRunTimeRemaining * rti - 1) / rti;
-      }
-    } else if (goalPercentage < -99) {
-      forces.rcsThrust = -C.rcsMaxThrust;
-      if (vehicle.rcsRunTimeRemaining > 0) {
-        vehicle.rcsRunTimeRemaining = (vehicle.rcsRunTimeRemaining * rti - 1) / rti;
-      }
-    } else {
-      forces.rcsThrust = 0;
-    }
-  } else {
+  // Consumed and cleared here, so a command cannot survive into a step where
+  // the autopilot has gone quiet.
+  const commanded = autopilot.rcsThrustCommand;
+  autopilot.rcsThrustCommand = 0;
+
+  if (!status.rcsActive || vehicle.rcsRunTimeRemaining <= 0) {
     forces.rcsThrust = 0;
+    return;
+  }
+
+  if (goalPercentage > 99) {
+    forces.rcsThrust = C.rcsMaxThrust;
+  } else if (goalPercentage < -99) {
+    forces.rcsThrust = -C.rcsMaxThrust;
+  } else {
+    forces.rcsThrust = commanded;
+  }
+
+  if (forces.rcsThrust !== 0) {
+    const rti = 1 / dt;
+    const fraction = Math.abs(forces.rcsThrust) / C.rcsMaxThrust;
+    vehicle.rcsRunTimeRemaining = (vehicle.rcsRunTimeRemaining * rti - fraction) / rti;
   }
 }
 

@@ -263,20 +263,10 @@ export const DEORBIT_DELTA_V = 150;
  * touches down.
  *
  * THE CALIBRATION. The response is not slope-1: measured dMiss/dLead is about
- * -1.36, because autoLand amplifies whatever offset it is handed. A secant
- * search over the closed loop converged in three flights:
- *
- *     lead 6 836 485 m   ->  1 818 km short
- *     lead 6 000 000 m   ->    682 km short
- *     lead 5 498 288 m   ->      2.6 km long
- *     lead 5 500 000 m   ->      312 m long
- *
- * 5500 km it is — round, and 312 m from the pad after leaving a 150 km orbit.
- * The last few hundred metres are autoLand's, which steers toward
- * `landingSiteXPos` through the aero descent and the horizontal-adjustment
- * stage.
+ * -1.33, because autoLand amplifies whatever offset it is handed. A secant
+ * search over the closed loop converges in a handful of flights.
  */
-export const DEORBIT_LEAD_DISTANCE = 5_500_000;
+export const DEORBIT_LEAD_DISTANCE = 6_138_000;
 /** psi */
 export const dynamicPressureLimit = 50;
 /** rad */

@@ -35,6 +35,7 @@
   "autopilot.landingSiteXPos": 20106192.982974675,
   "autopilot.manualControlOn": false,
   "autopilot.pitchHoldOn": false,
+  "autopilot.rcsThrustCommand": 0,
   "autopilot.trialRaptorMode": false,
   "engines.failed[0]": false,
   "engines.failed[1]": false,
