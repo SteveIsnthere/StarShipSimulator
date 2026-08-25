@@ -789,3 +789,25 @@ acceptance line.
   three-layer model, still 2.5× the 2021 isotherm, so the Re-entry preset still breaks up
   and M2.9(a) still has work to do. Gate: lint, 1008 tests, build (182.1 kB of 250), and
   43 e2e all green.
+
+- 2026-08-25 · M2.9(a) · **heatLimit 55 → 390, Bug-fix tier, margin-preserving.** Failing test
+  first: flipping `flies-every-scenario`'s reentry expectation from `brokeUp` to `landed` failed
+  at 0.0 s, as it had since M2.1. The rule the owner chose is *preserve the 2021 margin*, and it
+  is re-derived on every test run rather than asserted — `tests/parity/heat-margin.test.ts` flies
+  the Re-entry preset on BOTH implementations: the frozen 2021 tree in a VM with its own
+  autopilot flying (browser stubs for `setTimeout`, PIXI and the DOM live in the VM context; the
+  tree itself is untouched, and `Math.random` is pinned inside the context so ignition is
+  deterministic), and v2. Measured: 2021 peaks at **34.7414** against its limit of 55 = **0.6317
+  of it**; v2 peaks at **247.4863**; the margin-preserving limit is 247.4863 / 0.6317 = **391.80**,
+  rounded DOWN to **390** so the recalibration can never grant more headroom than 2021 had
+  (v2 now flies it at 0.6346 of its limit). The limit still bites: entry at 1.4× the preset speed
+  peaks at 395 and is fatal. Two findings worth keeping: the legacy context is left dirty by a
+  flight, so flying it twice answers 32.5 rather than 34.7 — it is flown once; and suppressing
+  `inFlightBreakUp` does NOT suppress breakup's *effects* (it zeroes propellant and engines), so
+  the first measurement attempt was reading a dead vehicle's tumble at 232.9 rather than a flown
+  descent at 247.5. Divergence declared in `constants.test.ts` under a new `DIVERGES_FROM_2021`
+  list, distinct from `INTRODUCED_BY_V2` and checked to really exist in 2021. Goldens
+  regenerated: **exactly one fixture moved**, `reentry-autoland`, which is the before/after
+  trajectory diff this tier owes — the other six are byte-for-byte the ones M2.10 recorded, and
+  `unification.test.ts` shows that directly. Gate: lint, 1019 tests, build all green.
+

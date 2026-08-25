@@ -192,31 +192,29 @@ describe('the fixtures themselves', () => {
     }
   });
 
-  it('reentry-autoland breaks up — a consequence of M2.1, pinned deliberately', () => {
-    // Not a relaxed assertion: an asserted fact, so it cannot drift unnoticed.
+  it('reentry-autoland now survives — M2.9(a) recalibrated the heat limit', () => {
+    // For most of the rebuild this fixture recorded a vehicle that broke up on
+    // the first step: M2.1 made the air above 40 km several times denser than
+    // the isotherm claimed, M2.2 fixed the units heating was expressed in, and
+    // the 55-unit limit that had been tuned against both of those errors then
+    // killed the preset instantly.
     //
-    // M2.1 wired in the upper stratosphere, which makes the air above 40 km up
-    // to 5x denser than the 2021 isotherm claimed. The Re-entry preset enters
-    // at 7300 m/s at 80 km, and now meets that air: thermal power reaches ~79
-    // against a heatLimit of 55 and the vehicle breaks up on the first step.
-    //
-    // The old behaviour was not survival through skill - it was the model
-    // believing there was almost no atmosphere there. But heatLimit = 55 was
-    // tuned against that same wrong model, and M2.2 (the heat argument) makes
-    // heating larger again, so the limit needs recalibrating once the M2 bug
-    // fixes are in. That is a feel decision and CLAUDE.md reserves those for
-    // the owner; it is taken, and M2.9(a) is where it lands.
+    // M2.9(a) recalibrated the limit to preserve 2021's margin rather than
+    // 2021's number — 390, derived in tests/parity/heat-margin.test.ts by
+    // flying the preset on the frozen 2021 tree and on v2. The preset flies
+    // again, and this fixture is the record of it doing so.
     const samples = loadSamples('reentry-autoland');
-    const last = samples[samples.length - 1]!;
-    expect(last['failures.inFlightBreakUp']).toBe(true);
+    for (const sample of samples) {
+      expect(sample['failures.inFlightBreakUp'], 'broke up somewhere in the descent').toBe(false);
+    }
 
-    // It happens immediately, which is the part that makes the preset
-    // unplayable: already broken up by the first sample, half a second in.
-    // (The thermal peak above 55 falls between samples - fixtures are 2 Hz -
-    // so the peak itself is asserted in tests/core/atmosphere-strato.test.ts
-    // rather than read out of a fixture.)
-    expect(samples[0]!['failures.inFlightBreakUp']).toBe(false);
-    expect(samples[1]!['failures.inFlightBreakUp']).toBe(true);
+    // And it is a real descent, not a vehicle sitting where it spawned: 80 km
+    // down to 45 km, still supersonic, in the 180 s the fixture covers.
+    const first = samples[0]!;
+    const last = samples[samples.length - 1]!;
+    expect(Number(first['kinematics.altitude'])).toBeGreaterThan(79_000);
+    expect(Number(last['kinematics.altitude'])).toBeLessThan(50_000);
+    expect(Number(last['kinematics.speedY'])).toBeLessThan(-100);
   });
 
   it('the three landing scenarios land without crashing', () => {

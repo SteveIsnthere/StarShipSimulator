@@ -150,27 +150,32 @@ describe('the consequence for the Re-entry preset', () => {
    * The old survival was not skill — it was the model believing there was
    * almost no atmosphere. But `heatLimit = 55` was tuned against that same
    * wrong model, and M2.2 (passing a nose radius where an area is passed today)
-   * makes heating larger again. The limit needs recalibrating once the M2 bug
-   * fixes are in, and recalibrating a limit changes feel, which CLAUDE.md
-   * reserves for the owner.
+   * makes heating larger again. Recalibrating a limit changes feel, which
+   * CLAUDE.md reserves for the owner; the owner's rule was "preserve the 2021
+   * margin", and M2.9(a) applied it. The limit is 390.
    */
-  it('exceeds the heat limit within the first second', async () => {
+  it('exceeds the limit the 2021 build shipped, within the first second', async () => {
     const { createScenarioState, getScenario } = await import('$core/scenarios');
     const { step } = await import('$core/step');
     const { heatLimit } = await import('$core/constants');
 
     let s = createScenarioState(getScenario('reentry')!);
     let peak = 0;
-    let brokeAtStep = -1;
     for (let i = 1; i <= 240; i++) {
       s = step(s, 1 / 120);
       peak = Math.max(peak, s.forces.thermalPower);
-      if (s.failures.inFlightBreakUp && brokeAtStep < 0) brokeAtStep = i;
     }
-    expect(peak).toBeGreaterThan(heatLimit);
+    // The number the 2021 build's limit was, which this bug fix blew straight
+    // past. That is the consequence being recorded.
+    expect(peak, 'against the 2021 limit of 55').toBeGreaterThan(55);
     expect(peak).toBeGreaterThan(70);
-    expect(brokeAtStep).toBeGreaterThan(0);
-    expect(brokeAtStep).toBeLessThan(120);
+
+    // And the resolution, since M2.9(a): the limit is 390 now — recalibrated
+    // to preserve the margin 2021 actually flew this preset with, rather than
+    // the number that indexed a quantity M2.2 rescaled. So the vehicle survives
+    // the first second, and the whole descent.
+    expect(heatLimit).toBe(390);
+    expect(s.failures.inFlightBreakUp, 'survives the entry now').toBe(false);
   });
 
   it('and it is the density, not a coding slip, that does it', () => {

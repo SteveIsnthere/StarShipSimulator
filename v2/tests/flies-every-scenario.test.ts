@@ -18,6 +18,7 @@ import { step } from '$core/step';
 import { DT } from '$app/loop';
 import { toggleAutoLand } from '$core/control/commands';
 import type { SimState } from '$core/state';
+import * as C from '$core/constants';
 
 type Outcome = 'landed' | 'crashed' | 'brokeUp' | 'flying';
 
@@ -106,6 +107,10 @@ describe('the autopilot flies the ones it is meant to', () => {
     { id: 'rtls', expected: 'landed' },
     { id: 'before-flip', expected: 'landed' },
     { id: 'landing-burn', expected: 'landed' },
+    // M2.9(a): Re-entry joins the list. It broke up from M2.1 until the
+    // heatLimit was recalibrated, because the limit had been tuned against a
+    // model that understated both density and heating.
+    { id: 'reentry', expected: 'landed' },
   ];
 
   for (const { id, expected } of AUTO_LAND) {
@@ -126,18 +131,32 @@ describe('the autopilot flies the ones it is meant to', () => {
     });
   }
 
-  it('reentry: breaks up on the way down, which is the open heatLimit question', () => {
-    // Recorded, not hidden. The 2021 heatLimit was tuned against a model that
-    // understated both density and heating; with M2.1 and M2.2 fixed, this
-    // preset no longer survives. Flagged in docs/PARITY.md and awaiting a
-    // decision — this test exists so the answer cannot change silently.
+  it('reentry: survives the heat it now actually meets', () => {
+    // The scenario the whole M2 arc was about. It broke up instantly from M2.1
+    // until M2.9(a) recalibrated heatLimit against the model that replaced the
+    // one the old limit was tuned for. Asserted with its numbers so the fix
+    // cannot quietly become a different fix: peak heating is a real fraction of
+    // the limit, not comfortably below it.
     const preset = ALL_SCENARIOS.find((p) => p.id === 'reentry')!;
     const state = createScenarioState(preset);
     toggleAutoLand(state);
 
-    const result = fly(state, 900);
-    assertFinite(result.state, 'reentry');
-    expect(result.outcome).toBe('brokeUp');
+    let s = state;
+    let peak = 0;
+    let outcome: Outcome = 'flying';
+    let seconds = 0;
+    for (let i = 1; i <= 120 * 900; i++) {
+      s = step(s, DT);
+      peak = Math.max(peak, s.forces.thermalPower);
+      if (s.failures.inFlightBreakUp) { outcome = 'brokeUp'; seconds = i / 120; break; }
+      if (s.failures.crashed) { outcome = 'crashed'; seconds = i / 120; break; }
+      if (s.status.landed) { outcome = 'landed'; seconds = i / 120; break; }
+    }
+    assertFinite(s, 'reentry');
+
+    expect(outcome, `after ${seconds.toFixed(1)} s`).toBe('landed');
+    expect(peak, 'peak thermal load').toBeGreaterThan(C.heatLimit * 0.6);
+    expect(peak).toBeLessThan(C.heatLimit);
   });
 });
 

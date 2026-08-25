@@ -79,7 +79,6 @@ const MAPPING: Partial<Record<keyof typeof C & string, string>> = {
   finDragCoefficient: toLegacyName('finDragCoefficient'),
 
   gLimit: toLegacyName('gLimit'),
-  heatLimit: toLegacyName('heatLimit'),
   dynamicPressureLimit: toLegacyName('dynamicPressureLimit'),
   touchDownPitchLimit: toLegacyName('touchDownPitchLimit'),
   touchDownSpeedLimit: toLegacyName('touchDownSpeedLimit'),
@@ -155,12 +154,53 @@ const INTRODUCED_BY_V2: Readonly<Record<string, string>> = {
   PITCH_HOLD_RATE_THRESHOLD: 'M2.4 — the pitchHold gate, now in real rad/s',
 };
 
+/**
+ * Constants that exist in 2021 and DELIBERATELY hold a different value.
+ *
+ * Distinct from INTRODUCED_BY_V2: these have a 2021 counterpart, and the
+ * counterpart is not what v2 uses. Each needs a tier and a measurement, and
+ * each is asserted against the legacy value below so the size of the change
+ * stays visible.
+ */
+const DIVERGES_FROM_2021: Readonly<Record<string, string>> = {
+  // M2.9(a), Bug fix. 55 was tuned against a model that understated density
+  // (M2.1) and expressed heating in units that came from passing an area where
+  // the correlation wanted a radius (M2.2). Recalibrated to preserve the 2021
+  // margin rather than the 2021 number: the frozen tree flies Re-entry at
+  // 0.6317 of its limit, and 390 is what makes v2 fly it at 0.6346 of ours.
+  // Re-derived from both implementations in tests/parity/heat-margin.test.ts.
+  heatLimit: 'M2.9(a) — recalibrated to preserve the 2021 heat margin',
+};
+
+describe('constants that deliberately diverge', () => {
+  it('heatLimit is 390 where 2021 had 55, and the ratio is the measured one', () => {
+    expect(C.heatLimit).toBe(390);
+    expect(legacy[toLegacyName('heatLimit')]).toBe(55);
+    // 7.09x. Not a difficulty adjustment: the quantity being limited changed
+    // scale when M2.2 fixed its argument, and the margin is what was held
+    // fixed. The flight-level proof is tests/parity/heat-margin.test.ts.
+    expect(C.heatLimit / 55).toBeCloseTo(7.09, 2);
+  });
+
+  it('and it is the only one', () => {
+    expect(Object.keys(DIVERGES_FROM_2021)).toEqual(['heatLimit']);
+  });
+});
+
 describe('coverage of the mapping itself', () => {
   it('every export of core/constants.ts is mapped or declared new', () => {
     const unmapped = Object.keys(C).filter(
-      (k) => !(k in MAPPING) && !(k in INTRODUCED_BY_V2),
+      (k) => !(k in MAPPING) && !(k in INTRODUCED_BY_V2) && !(k in DIVERGES_FROM_2021),
     );
     expect(unmapped, 'exports with no legacy counterpart and no declaration').toEqual([]);
+  });
+
+  it('the diverging constants really do exist in 2021', () => {
+    // The distinction from INTRODUCED_BY_V2 has to be real: if a "divergence"
+    // has no 2021 counterpart it is an addition, and belongs in the other list.
+    for (const name of Object.keys(DIVERGES_FROM_2021)) {
+      expect(legacy[toLegacyName(name)], `${name} is absent from 2021`).toBeDefined();
+    }
   });
 
   it('the constants v2 introduced really are absent from 2021', () => {

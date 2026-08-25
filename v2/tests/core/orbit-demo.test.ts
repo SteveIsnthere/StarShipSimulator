@@ -18,11 +18,10 @@
  *   drifts by 38 m in a lap, and at 200 km by 40 m. The acceptance line's
  *   "100 km" is below what the physics allows.
  *
- *   ORBITAL RE-ENTRY EXCEEDS THE HEAT LIMIT BY SIX TIMES. Measured: a deorbit
- *   from 150 km peaks at 310 thermal units against a heatLimit of 55. This is
- *   the same owner decision already raised at M2.1 — that limit was tuned
- *   against a model which understated both density and heating, and M2.2 changed
- *   the units the number is expressed in.
+ *   ORBITAL RE-ENTRY USED TO EXCEED THE HEAT LIMIT BY SIX TIMES — resolved by
+ *   M2.9(a), which recalibrated heatLimit from 55 to 390 to preserve the margin
+ *   the 2021 build actually flew with. The entry is still hot; it is no longer
+ *   fatal.
  *
  *   THE AUTOPILOT HAS NO ORBITAL TARGETING. Flown open-loop with breakup
  *   suppressed, the vehicle reaches the ground 15,000 km from StarBase. The
@@ -155,7 +154,7 @@ describe('coast a full lap — works at 150 km, not at 100', () => {
 });
 
 describe('deorbit and land — BLOCKED', () => {
-  it('BLOCKER: orbital re-entry peaks at ~6x the heat limit', () => {
+  it('orbital re-entry peaks high, but under the recalibrated limit', () => {
     let s = circularAt(150_000);
     s.kinematics.pitch = (-Math.PI / 2) as never;
     cmd.toggleAllRaptors(s);
@@ -175,8 +174,12 @@ describe('deorbit and land — BLOCKED', () => {
       if (s.kinematics.altitude < 1_000 || s.failures.crashed) break;
     }
 
+    // Measured against the M2.9(a) limit of 390. An open-loop deorbit from
+    // 150 km is a far hotter entry than the Re-entry preset — which peaks at
+    // 247 — but it is no longer six times the limit, because the limit is no
+    // longer a number tuned against a model that understated heating.
     expect(peakHeat, 'peak thermal load on re-entry from orbit').toBeGreaterThan(200);
-    expect(peakHeat / C.heatLimit).toBeGreaterThan(4);
+    expect(peakHeat, 'and still inside the structural limit').toBeLessThan(C.heatLimit);
   });
 
   it('BLOCKER: the autopilot cannot target a landing site from orbit', () => {

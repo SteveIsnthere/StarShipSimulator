@@ -193,8 +193,37 @@ export const finDragCoefficient = 2;
 
 /** g */
 export const gLimit = 13;
-/** Arbitrary thermal units, compared against thermalPower. */
-export const heatLimit = 55;
+/**
+ * Arbitrary thermal units, compared against thermalPower. M2.9(a), Bug-fix tier.
+ *
+ * WHY THIS IS NOT 55. The 2021 value was tuned against a model that was wrong
+ * in two ways this rebuild fixed. M2.1 wired in the upper stratosphere, making
+ * the air above 40 km several times denser than the isotherm claimed. M2.2
+ * passed a nose radius to the Sutton-Graves correlation where 2021 passed a
+ * cross-sectional area — the correlation divides by a radius in metres, and an
+ * area of 63-500 m^2 is not one, so the old numbers were smaller by
+ * sqrt(area / radius) and in units that meant nothing. `thermalPower` after
+ * those fixes is a different quantity expressed on a different scale; keeping
+ * the number that indexed the old one would be keeping a coincidence.
+ *
+ * THE RULE, chosen by the owner: preserve the 2021 MARGIN. Not the number, and
+ * not a hand-picked difficulty — the ratio of peak heating to the limit that
+ * the 2021 build actually flew the Re-entry preset with.
+ *
+ * THE MEASUREMENT, re-derived on every test run by
+ * tests/parity/heat-margin.test.ts, which flies the preset on BOTH
+ * implementations — the frozen 2021 tree executing in a VM, and v2:
+ *
+ *     2021 peak on Re-entry     34.7414 units      (against its limit of 55)
+ *     2021 margin               34.7414 / 55  =  0.6317
+ *     v2 peak on Re-entry       247.4863 units
+ *     limit preserving it       247.4863 / 0.6317  =  391.80
+ *
+ * Rounded DOWN to 390, so the recalibration can never grant more headroom than
+ * 2021 had: v2 flies the preset at 0.6346 of its limit where 2021 flew it at
+ * 0.6317 of its own. The preset is as survivable as it was, and no more.
+ */
+export const heatLimit = 390;
 /** psi */
 export const dynamicPressureLimit = 50;
 /** rad */

@@ -153,7 +153,13 @@ excused. A separate free-running run over thousands of steps checks the control
 chain — fuel, mass, throttle and gimbal slew, the RCS budget, the fuel-out
 branch — still tracks 2021 exactly.
 
-`heatLimit` is the open one: it was tuned against a model that understated both
-density and heating, and with those fixed the Re-entry preset breaks up. Flagged
-at M2.1 and M2.2; the owner's decision is taken (recalibrate, preserving the
-2021 margin) and M2.9 is where it lands.
+`heatLimit` is the sixth departure, and the only constant in
+`core/constants.ts` that deliberately holds a value 2021 did not: **390 where
+2021 had 55** (M2.9(a), Bug fix). The old number was tuned against a model that
+understated density (M2.1) and expressed heating in units that came from passing
+an area where the correlation wanted a radius (M2.2) — so it indexed a quantity
+that no longer exists. The owner's rule was to preserve the *margin*, not the
+number, and `tests/parity/heat-margin.test.ts` re-derives it on every run by
+flying the Re-entry preset on both implementations: the frozen 2021 tree peaks
+at 34.74 units against its limit of 55 (0.6317 of it), v2 peaks at 247.49, and
+390 is that ratio rounded down so v2 never gets more headroom than 2021 had.
