@@ -14,6 +14,19 @@ controls become bottom sheets with real touch targets.
 
 <img src="docs/screenshot-phone.png" alt="The same landing on a phone: digits and ticks instead of dials, the timeline as one line of text, the controls as a tab bar" width="300">
 
+### It looks like altitude
+
+The camera opens up as you climb — 200 m of world at the pad, a kilometre by
+20 km — and a compressed-perspective ground layer keeps the earth on screen the
+whole way instead of losing it at a hundred metres. A trajectory map in the
+corner draws the profile you have flown and the touchdown you are heading for.
+
+<p>
+<img src="docs/depth-1km.png" alt="One kilometre up: the ship large in frame, terrain below" width="270">
+<img src="docs/depth-20km.png" alt="Twenty kilometres up: the ship smaller, the earth a band beneath a pale sky" width="270">
+<img src="docs/depth-100km.png" alt="A hundred kilometres up: stars, and the earth below" width="270">
+</p>
+
 ---
 
 ## Playing it

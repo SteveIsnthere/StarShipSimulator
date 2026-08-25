@@ -343,7 +343,7 @@ numbers — plan § 5.*
   monotonic and bounded; manual +/- zoom multiplies the altitude FOV rather than fighting it; shake
   respects `prefers-reduced-motion`; zero per-frame allocation; and the two viewport dimension tests
   in `tests/core/camera.test.ts` become altitude-aware rather than being deleted.
-- [ ] **M7.4 The distant earth** — a compressed-perspective ground layer, visible continuously from
+- [x] **M7.4 The distant earth** — a compressed-perspective ground layer, visible continuously from
   200 m to 200 km instead of vanishing at 100 m, scrolling at a rate inside the readable band
   rather than at `speed x scale`. Built against the FOV M7.3 settles, not against today's 356 m
   viewport. Both curves live in `view/` as named pure functions that say in their own comments that
@@ -1612,3 +1612,27 @@ out is the point of the whole milestone.*
   The per-frame viewport is now written in place (`writeViewport`) rather than allocated, and
   App.svelte's camera target became a single reused object — it had been an object literal inside
   the tick, allocating sixty times a second against a budget that says zero.
+- 2026-08-25 · M7.4 · **The distant earth.** A compressed-perspective ground layer in the `far`
+  container, so the world stops vanishing at a hundred metres. Two curves in `view/distant-earth.ts`,
+  both of which say in their own comments that they are compressions — the plan's honesty rule kept
+  in the code rather than described in a document nobody opens beside it.
+  `groundLineFraction` follows the TRUE projection exactly to 0.55 of the screen and then bends,
+  approaching 0.58 and never reaching it; `compressedScrollSpeed` is the identity below 420 px/s and
+  logarithmic above, taking re-entry's 26,280 px/s down to about 620 — a factor of forty-two, and
+  the largest single cheat in the project. Both joins are C1 **by construction** rather than by
+  tuning: the derivative of `A(1 − e^(−x/A))` and of `K ln(1 + x/K)` is exactly 1 at zero, so
+  neither the position nor the rate has a seam. Slow flight scrolls at exactly true scale, which
+  means a landing is not a cheat at all.
+  **The screenshot found two bugs no unit test would have.** The first version put the horizon at
+  0.88 of the screen — physically defensible and completely useless, because the broadcast scrim
+  owns the bottom third: the layer was drawn, correct, and invisible behind the telemetry. A depth
+  cue nobody can see is not a depth cue, so the number is set by the overlay rather than by the
+  geometry. The second was pre-existing and worse: `Configure` replaced the simulation but left the
+  camera where the last flight ended, and `centerizeAcceleration` gives up beyond half a viewport —
+  so a flight configured at 20 km was permanently off screen with no way to recover. The camera is
+  now seeded on every Configure exactly as `createCamera` seeds it, velocity included.
+  Curves unit-tested at the altitudes and speeds all seven scenarios actually visit — monotonic,
+  continuous, peak scroll under 700 px/s on every flight — plus a test that the M7.3 field of view
+  opening underneath the ratio cannot combine with it into a step (worst 0.005 per metre of climb,
+  which is exactly the true-projection rate). Screenshots at 1 km, 20 km and 100 km committed and in
+  the README. Pooled marks, nothing allocated per frame.

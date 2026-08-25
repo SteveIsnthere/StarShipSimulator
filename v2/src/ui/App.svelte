@@ -4,6 +4,7 @@
   import { updateCamera, worldToScreen } from '$view/camera';
   import { loadTextures } from '$view/assets';
   import { createWorld } from '$view/world';
+  import { createDistantEarth } from '$view/distant-earth';
   import { createVehicle } from '$view/vehicle';
   import { createParticleSystem, createParticleTexture } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
@@ -282,6 +283,28 @@
     loopState.state = fresh;
     loopState.previous = fresh;
     loopState.accumulator = 0;
+    /*
+      Put the camera where the new flight is.
+
+      A pre-existing bug, found by M7.4's 20 km screenshot showing an empty sky:
+      `Configure` replaced the simulation but left the camera wherever the last
+      flight had ended, and `centerizeAcceleration` deliberately gives up beyond
+      half a viewport — so a flight configured at 20 km was permanently off
+      screen with no way to recover. Seeded exactly as `createCamera` seeds it,
+      velocity included, for the reason M7.3's framing test learned the hard
+      way: from rest the camera can never catch a fast vehicle.
+    */
+    if (viewApp) {
+      viewApp.followAltitude(fresh.kinematics.altitude);
+      const cam = viewApp.camera;
+      cam.posX = fresh.kinematics.downRangeDistance;
+      cam.posY = Math.max(viewApp.viewport.physicalHeight * 0.5, fresh.kinematics.altitude);
+      cam.speedX = fresh.kinematics.speedX;
+      cam.speedY = fresh.kinematics.speedY;
+      cam.accX = 0;
+      cam.accY = 0;
+    }
+
     recorder.clear();
     // The map's trail IS the recorder's, so it has just emptied. Redraw now
     // rather than leaving the previous flight's path on screen for the tenth of
@@ -356,6 +379,14 @@
       }
       const world = createWorld(textures);
       const vehicle = createVehicle(textures);
+      /*
+        The distant earth goes in the FAR layer, behind the true ground (M7.4).
+        Order is the whole trick: below the follow ratio the two lines coincide
+        exactly, so this one is completely hidden behind the real one and the
+        handover has nothing to see.
+      */
+      const distantEarth = createDistantEarth();
+      view.layers.far.addChild(distantEarth.container);
       view.layers.world.addChild(world.container);
       view.layers.vehicle.addChild(vehicle.container);
 
@@ -432,6 +463,12 @@
         updateCamera(view!.camera, cameraTarget, view!.viewport, frameTime, cameraOptions);
 
         sky.update(view!.camera, view!.viewport, s.kinematics.altitude);
+        distantEarth.update(
+          view!.viewport,
+          s.kinematics.altitude,
+          s.kinematics.speedX,
+          frameTime,
+        );
         world.update(view!.camera, view!.viewport, s.kinematics.speedX, s.kinematics.altitude);
         vehicle.update(view!.camera, view!.viewport, {
           altitude: s.kinematics.altitude,

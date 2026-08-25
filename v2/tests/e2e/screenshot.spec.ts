@@ -63,3 +63,50 @@ test('capture phone @screenshot @mobile @mobile-only @portrait-only', async ({ p
     path: fileURLToPath(new URL('../../../docs/screenshot-phone.png', import.meta.url)),
   });
 });
+
+/* ── M7.4: the distant earth, at three altitudes ───────────────────────── */
+
+/**
+ * Fly to an altitude and hold still there.
+ *
+ * The point of these three is the DEPTH LAYER, so the shot has to be taken
+ * where that layer is the whole story: above the true-scale ground, which
+ * before M7.4 meant above a blank sky. The vehicle is placed by the editor
+ * rather than flown there, because flying a booster to 100 km takes two minutes
+ * of wall clock per image and lands it somewhere slightly different each run.
+ */
+async function atAltitude(page: import('@playwright/test').Page, metres: number) {
+  const altitude = page.locator(byTestId(readoutValueTestId('altitude')));
+  await expect
+    .poll(async () => (await altitude.textContent()) !== '', { timeout: 20_000 })
+    .toBe(true);
+
+  await page.locator(byTestId('open-menu')).click();
+  await page.locator(byTestId('preset-booster-sep')).click();
+  await page.locator(byTestId('field-altitude')).fill(String(metres));
+  await page.locator(byTestId('field-speedX')).fill('120');
+  await page.locator(byTestId('field-speedY')).fill('0');
+  await page.locator(byTestId('menu-configure')).click();
+  await expect(page.locator(byTestId('menu'))).toBeHidden();
+
+  // Let the camera settle into the new field of view before the shutter.
+  await page.waitForTimeout(2_500);
+}
+
+for (const [label, metres] of [
+  ['1km', 1_000],
+  ['20km', 20_000],
+  ['100km', 100_000],
+] as const) {
+  test(`capture the distant earth at ${label} @screenshot`, async ({ page }) => {
+    test.skip(!process.env['CAPTURE_SCREENSHOT'], 'set CAPTURE_SCREENSHOT=1 to write the image');
+
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.goto('/', { waitUntil: 'load' });
+    await atAltitude(page, metres);
+
+    await page.screenshot({
+      path: fileURLToPath(new URL(`../../../docs/depth-${label}.png`, import.meta.url)),
+    });
+  });
+}
