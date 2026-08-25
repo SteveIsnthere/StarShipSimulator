@@ -995,3 +995,21 @@ acceptance line.
   recalibration: −4.89 km from the Deorbit preset, +4.03 km end-to-end from Circularize.
   Fidelity tier, on the owner's standing instruction. Gate: lint, 1060 tests, build, e2e green.
 
+- 2026-08-25 · audit · **A realism pass over the finished build, at the owner's request.** Four
+  findings, three of them defects that had shipped and one of them a defect in work from the
+  same day. In the order they were found: the autopilot's proportional RCS command was dead code
+  (M2.11); the tangential acceleration term was doubled and destroyed angular momentum whenever
+  the vehicle climbed or fell (M2.12); the deorbit lead was a constant fitted to one flight and
+  missed by 192 km from another (M2.13); the atmosphere above 130 km was a vacuum (M2.14). Each
+  landed as its own commit with its own tier and its own failing test first.
+  The pass also confirmed what was already right, and made it checkable rather than assumed —
+  `tests/core/physical-scale.test.ts` converts the simulation's own units into physical ones:
+  the thermal unit is 951.6 W/m² (Sutton-Graves' SI constant, scaled), so `heatLimit` = 389 is
+  **37 W/cm²**, the band a heat shield is built to, and 2021's 55 was 5 W/cm², which nothing is.
+  M2.9(a) derived 389 from 2021's own margin with no reference to physical units at all and
+  landed there anyway — two independent routes to the same number. GM, escape velocity, orbital
+  period, implied Isp, TWR, ΔV budget and RCS authority all check out against the real thing.
+  The method worth keeping: **a wrong equation does not converge.** The doubled term was found by
+  refining dt and watching the error stay put, which is what separated it from the integration
+  error it had been mistaken for since M2.6.
+
