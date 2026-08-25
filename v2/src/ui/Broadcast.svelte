@@ -30,6 +30,8 @@
   import { READOUTS } from '$hud/readouts';
   import type { AttributeTarget, TextTarget } from '$hud/binder';
   import Gauge from './Gauge.svelte';
+  import Timeline from './Timeline.svelte';
+  import type { EventId } from '$hud/timeline';
   import { readoutTestId, readoutUnitTestId, readoutValueTestId } from './testids';
 
   interface Props {
@@ -40,9 +42,17 @@
     ) => void;
     /** The loaded scenario's name. Changes only when a flight is configured. */
     scenario: string;
+    /** The loaded scenario's id, which selects the expected event track. */
+    scenarioId: string;
+    /** Handed straight to Timeline; see there for why it can rebind. */
+    ontimeline: (
+      track: readonly EventId[],
+      resolve: (id: string) => AttributeTarget | null,
+      text: (id: 'now' | 'next') => TextTarget | null,
+    ) => void;
   }
 
-  const { onready, scenario }: Props = $props();
+  const { onready, scenario, scenarioId, ontimeline }: Props = $props();
 
   /**
    * The long-tail readouts: everything the gauges and the clock do not show.
@@ -182,6 +192,8 @@
         {expanded ? 'HIDE' : 'DATA'}
       </button>
     </div>
+
+    <Timeline scenario={scenarioId} onready={ontimeline} />
 
     <div class="bar">
       <div class="dials">

@@ -25,6 +25,7 @@ import {
   metricSelector,
   READOUT_IDS,
   readoutTestId,
+  TIMELINE_TESTIDS,
   readoutUnitTestId,
   readoutValueTestId,
 } from '../../src/ui/testids';
@@ -42,7 +43,7 @@ test('every flight control is present, exactly once', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
-  for (const id of CONTROL_TESTIDS) {
+  for (const id of [...CONTROL_TESTIDS, ...TIMELINE_TESTIDS]) {
     await expect(page.locator(byTestId(id)), id).toHaveCount(1);
   }
 });

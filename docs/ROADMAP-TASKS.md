@@ -254,7 +254,7 @@ build + playwright green per task; one task per commit, id-prefixed.*
   binder, extended with attribute-diff (dashoffset/transform) writes. Accept: binder benchmark
   < 2 ms on the new DOM; zero per-frame allocation test covers the arcs; old top-left HUD gone;
   e2e reads the new readouts by testid.
-- [ ] **M6.3 Mission event timeline** — `src/hud/timeline.ts`: pure SimState→events derivation
+- [x] **M6.3 Mission event timeline** — `src/hud/timeline.ts`: pure SimState→events derivation
   (LIFTOFF, MAX-Q by confirmed peak, MECO, APOGEE, DEORBIT BURN, ENTRY at 80 km, FLIP, LANDING
   BURN, TOUCHDOWN/LOSS — observed, never scripted); per-scenario expected tracks as data; track
   UI with dots, labels, progress fill, current-event highlight. Accept: the derivation replayed
@@ -1160,3 +1160,38 @@ build + playwright green per task; one task per commit, id-prefixed.*
   it was never psi; the limit is 50 and vehicles fly max-q at 30–35, and 50 psi would be 345 kPa.
   Nothing in core changed and the digests do not move; three letters did.
   Gate green (1126 unit, 60 e2e); `git diff v2/src/core` empty; the seven digests unmoved.
+- 2026-08-25 · M6.3 · **The mission event timeline — the one genuinely new system in M6.**
+  `src/hud/timeline.ts` derives LIFTOFF · MAX-Q · MECO · APOGEE · DEORBIT · ENTRY · FLIP ·
+  LANDING BURN · TOUCHDOWN/LOSS from SimState, **observed and never scripted**: the player can
+  ignore the autopilot entirely and fly into the sea, and an event that does not happen simply
+  never lights.
+  It is the first thing in `hud/` with memory, and the file says why: a peak (MAX-Q) needs the
+  maximum so far, a sign flip (APOGEE) needs the previous sample, a crossing (ENTRY) needs to know
+  which side you were on. The two alternatives are worse — SimState is frozen and would carry HUD
+  bookkeeping into every golden fixture, and a module-level variable would make two flights share
+  one timeline — so it is a tracker created per flight, exactly as `app/recorder.ts` already does.
+  **The golden replay wrote three of the rules.** Run over the seven fixtures, the first draft
+  reported `LIFTOFF@0.0` on the pad launch (a vehicle held down by an igniting autopilot shows a
+  hair of positive vertical speed long before anything leaves anything — fixed by keying on the
+  ground→air TRANSITION, which cannot be faked); reported MAX-Q on every 200 m landing hop (the
+  last second of a freefall does have a peak; the floor moved from 1 kPa to 5, a tenth of the
+  structural limit); and reported no ENTRY for the scenario named Re-entry, because that preset
+  starts at exactly 80 km and the crossing test was strict.
+  **A pleasing thing fell out of chasing the liftoff false positive**: `step.ts:425` only advances
+  `timeSpent` off the ground and alive, so LIFTOFF fires at T+ 00:00:00 and the clock freezes at
+  touchdown. The mission clock added in M6.2 is literally the broadcast T+ convention, and the 2021
+  model already had it right.
+  The replay is done twice, from two sources — the committed fixture bytes (un-flattened back into
+  states) and the same seven flights flown live at 120 Hz — and the two are asserted **equal**, not
+  merely consistent. That is a real robustness result: the fixture reading is fed one state in
+  sixty and still reports the same events in the same order, which is what says no predicate
+  depends on catching one particular step. A subset assertion was written first; equality holds.
+  A fourth binder (`timeline-binder.ts`) draws it, and it is the only one that can REBIND — the set
+  of dots depends on the loaded scenario, so Configure genuinely replaces them, and a binder holding
+  the old elements would write into orphans while the new dots stayed dark forever. Rebinding
+  happens at interaction time; the frame path is untouched. 4000 frames of a landing cost at most
+  nine dot writes.
+  Two test bugs found and fixed rather than worked around: the binder tests built a landing without
+  switching the autopilot on (so it crashed and fired LOSS, correctly), and the e2e reached for a
+  `launch-pad` preset the menu does not offer.
+  Gate green (1161 unit, 64 e2e); `git diff v2/src/core` empty; the seven digests unmoved.

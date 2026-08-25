@@ -147,6 +147,16 @@ export const MENU_TESTIDS = [
   'field-propellant',
 ] as const;
 
+/**
+ * The mission event track (M6.3).
+ *
+ * The dots are addressed by `data-metric`, like every other drawn thing, and
+ * their ids depend on the loaded scenario — so they are not listed here. These
+ * three are the fixed parts: the container, and the two narration nodes that
+ * say where the flight is and what is next.
+ */
+export const TIMELINE_TESTIDS = ['timeline', 'event-now', 'event-next'] as const;
+
 /** A scenario preset button, by the preset's own id. */
 export const presetTestId = (id: string): string => `preset-${id}`;
 
@@ -169,6 +179,7 @@ export const ALL_TESTIDS: readonly string[] = [
   ...READOUT_IDS.map(readoutTestId),
   ...READOUT_IDS.map(readoutValueTestId),
   ...READOUT_IDS.map(readoutUnitTestId),
+  ...TIMELINE_TESTIDS,
   ...MENU_TESTIDS,
   ...DIALOG_TESTIDS,
 ];

@@ -25,6 +25,9 @@
     type TextTarget,
   } from '$hud/binder';
   import Broadcast from './Broadcast.svelte';
+  import { createTimeline } from '$hud/timeline';
+  import { createTimelineBinder, type TimelineBinder } from '$hud/timeline-binder';
+  import type { EventId } from '$hud/timeline';
   import Controls from './Controls.svelte';
   import { applyControl, type ControlEvent } from './controls';
   import { bindInput, bindTilt, type InputBinding, type ViewAction } from '$app/input';
@@ -57,6 +60,26 @@
    * writing, driven from the one rAF subscriber below.
    */
   let metrics: MetricBinder | undefined;
+
+  /**
+   * The mission event tracker, and the binder that draws it.
+   *
+   * The tracker is created once and RESET per flight rather than recreated,
+   * because the binder holds a reference to it — handing the binder a new
+   * object on every Configure would leave it reporting a timeline nobody is
+   * feeding. See hud/timeline.ts for why it has memory at all.
+   */
+  const timeline = createTimeline();
+  let timelineBinder: TimelineBinder | undefined;
+
+  const onTimelineReady = (
+    track: readonly EventId[],
+    resolve: (id: string) => AttributeTarget | null,
+    text: (id: 'now' | 'next') => TextTarget | null,
+  ) => {
+    timelineBinder ??= createTimelineBinder({ timeline, resolveText: text });
+    timelineBinder.rebind(track, resolve);
+  };
 
   const onBroadcastReady = (
     resolve: (id: string) => { value: TextTarget | null; unit: TextTarget | null },
@@ -146,6 +169,8 @@
    * keeps the base preset's name, which is what the editor means by editing it.
    */
   let scenarioName = $state(INTRO.name);
+  /** The preset's id, which selects the expected event track. */
+  let scenarioId = $state(INTRO.id);
 
   const onToggleRandomFailure = () => {
     if (!loopState) return;
@@ -180,6 +205,9 @@
     if (!loopState) return;
     currentPreset = preset;
     scenarioName = preset.name;
+    scenarioId = preset.id;
+    // A new flight is a new story. Reset rather than replace — see above.
+    timeline.reset();
     const fresh = createScenarioState(preset);
     fresh.failures.randomFailure = randomFailure;
     loopState.state = fresh;
@@ -323,8 +351,13 @@
         );
 
         // The single per-frame DOM subscriber. It diffs; most frames write nothing.
+        // The tracker sees the state before the binders report it, so a dot
+        // and the narration beside it can never disagree within a frame.
+        timeline.observe(s);
+
         hud?.update(s);
         metrics?.update(s);
+        timelineBinder?.update();
         indicators?.update(s);
 
         // dispUpdate.js:47 — the same four conditions that revealed the restart
@@ -351,6 +384,7 @@
       void cleanup.then((fn) => fn?.());
       hud?.destroy();
       metrics?.destroy();
+      timelineBinder?.destroy();
       indicators?.destroy();
       view?.destroy();
     };
@@ -358,7 +392,12 @@
 </script>
 
 <canvas bind:this={canvas} aria-label="Starship Simulator"></canvas>
-<Broadcast onready={onBroadcastReady} scenario={scenarioName} />
+<Broadcast
+  onready={onBroadcastReady}
+  scenario={scenarioName}
+  {scenarioId}
+  ontimeline={onTimelineReady}
+/>
 <Controls {emit} {zoom} onready={onControlsReady} />
 <!--
   Both top-right buttons live in one flex row rather than being positioned
