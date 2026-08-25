@@ -119,6 +119,14 @@ acceptance line.
 - [x] **M5.2 README** — real one: screenshot, feature list, architecture story, dev setup.
 - [x] **M5.3 Deploy** — pipeline to static hosting.
 - [ ] **M5.4 Retire legacy** — 2021 tree removed after v2 flies every scenario; v1.0 tag.
+  **BLOCKED — owner decision.** The precondition is met and committed (v2 flies every scenario,
+  `v2/tests/flies-every-scenario.test.ts`). The removal is not, because it conflicts with an
+  earlier acceptance line: **twelve test files execute the 2021 tree** as the parity reference
+  via `tests/parity/legacy.ts`, which runs four of its files in a Node VM
+  (`backend/physics.js`, `backend/initBackEnd.js`, `backend/flightcontrol/flightControl.js`,
+  `backend/flightcontrol/autoPilotLowLevelFunctions.js`). Deleting the tree deletes the evidence
+  that the port is faithful, and the ability to ever re-derive it. Options in the final report.
+  The `v1.0` tag is also unpushed: tagging is outward-facing and wants an explicit go-ahead.
 
 ## Log
 
@@ -626,3 +634,17 @@ acceptance line.
   the shell, so a deep link lands in the simulator rather than on GitHub's error page — the same
   thing the service worker does for unmatched navigations, so online and offline behave alike.
   991 tests, 43 e2e, 4 deploy-shape e2e, 182.7 kB of 250.
+- 2026-08-25 · M5.4 · **Precondition done; removal blocked on an owner decision.** "v2 flies every
+  scenario" is now an assertion rather than a feeling: every scenario runs to a definite outcome
+  with no NaN, the four auto-land scenarios land within the touchdown limits, and the intro hands
+  the vehicle over with full tanks and a reset yoke. The outcomes are **written down as measured,
+  not as hoped** — `reentry` breaks up, and that is asserted rather than hidden, because a test
+  weakened to accommodate it would tell you nothing and the `heatLimit` question would go quiet.
+  One thing the test taught me: a blanket `Number.isFinite` sweep flags
+  `freeFallTimeRemainingPrediction` and `finalXPosPrediction`, which are **legitimately Infinity**
+  when the prediction has no solution — the 2021 model's own answer, ported verbatim, and already
+  encoded in the goldens (which needed an Infinity sentinel for exactly this). The check is now
+  "no NaN anywhere, Infinity only in those two", which catches real breakage instead of being
+  weakened until it catches nothing. **What is blocked**: removing the 2021 tree contradicts the
+  parity-by-execution acceptance line that twelve test files still depend on. Not reinterpreted,
+  not quietly worked around — reported. 1007 tests, 43 e2e, 4 deploy-shape e2e, 182.7 kB of 250.
