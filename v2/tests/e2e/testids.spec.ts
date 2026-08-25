@@ -39,7 +39,7 @@ async function ready(page: import('@playwright/test').Page) {
     .toBe(true);
 }
 
-test('every flight control is present, exactly once', async ({ page }) => {
+test('every flight control is present, exactly once @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
@@ -48,7 +48,7 @@ test('every flight control is present, exactly once', async ({ page }) => {
   }
 });
 
-test('every readout renders its row, value and unit', async ({ page }) => {
+test('every readout renders its row, value and unit @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
@@ -67,7 +67,7 @@ test('every readout renders its row, value and unit', async ({ page }) => {
   expect(filled).toBe(true);
 });
 
-test('every drawn readout has an element to be drawn into', async ({ page }) => {
+test('every drawn readout has an element to be drawn into @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
@@ -79,7 +79,7 @@ test('every drawn readout has an element to be drawn into', async ({ page }) => 
   }
 });
 
-test('every menu control is present once the menu is open', async ({ page }) => {
+test('every menu control is present once the menu is open @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
@@ -90,7 +90,7 @@ test('every menu control is present once the menu is open', async ({ page }) => 
   }
 });
 
-test('the black box and the info views carry their ids', async ({ page }) => {
+test('the black box and the info views carry their ids @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 

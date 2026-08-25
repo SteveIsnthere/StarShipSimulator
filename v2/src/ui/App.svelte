@@ -539,6 +539,7 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    min-height: var(--touch);
     appearance: none;
     border: var(--hairline);
     border-radius: var(--radius);

@@ -173,6 +173,26 @@ const bar = (id: string): Metric => ({
   format: (q) => (q / 10).toFixed(1),
 });
 
+/**
+ * The same fill, as a straight bar.
+ *
+ * The phone layout has no room for a 92px dial, so BROADCAST-UI-PLAN § 3
+ * collapses each gauge to "digit + tick": the numeral stays, the arc becomes a
+ * thin line under it. Both shapes are in the markup and CSS chooses; both need
+ * driving, and an arc and a bar are different attributes on different elements.
+ *
+ * A second metric rather than a cleverer binder. Making one metric write to
+ * several elements would have meant a resolver returning arrays and a loop
+ * inside the per-frame path, to save one integer comparison per frame on two
+ * gauges — the wrong trade in both directions.
+ */
+const linear = (id: string, fraction: (state: SimState) => number): Metric => ({
+  id,
+  attribute: 'width',
+  quantum: (state) => Math.round(fraction(state) * 1000),
+  format: (q) => (q / 10).toFixed(1),
+});
+
 const dot = (engine: 0 | 1 | 2): Metric => ({
   id: `engine-${engine}`,
   attribute: 'data-state',
@@ -190,6 +210,8 @@ const limit = (id: string, read: (state: SimState) => number, ceiling: number): 
 export const METRICS: readonly Metric[] = [
   arc('gauge-speed', speedFraction),
   arc('gauge-altitude', altitudeFraction),
+  linear('gauge-speed-bar', speedFraction),
+  linear('gauge-altitude-bar', altitudeFraction),
 
   bar('propellant-ch4'),
   bar('propellant-lox'),

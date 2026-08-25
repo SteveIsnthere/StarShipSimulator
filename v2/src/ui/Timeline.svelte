@@ -159,10 +159,42 @@
     background: var(--ink-12);
   }
 
+  /*
+    The narration and the rail say the same thing, which is deliberate: they are
+    the same element at two sizes. Above 37.5rem the rail is shown and the
+    narration is available to a screen reader but clipped out of the layout —
+    printing "LANDING BURN → TOUCHDOWN" under a rail already labelled
+    LANDING BURN and TOUCHDOWN would just be saying it twice. Below it the rail
+    goes (seven dots and seven labels do not fit a 390px screen) and the
+    narration becomes the whole timeline, which is what BROADCAST-UI-PLAN § 3
+    means by "timeline collapses to now → next".
+  */
   .narration {
-    display: flex;
-    align-items: baseline;
-    gap: 0.4rem;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (width < 37.5rem) {
+    .track {
+      display: none;
+    }
+    .narration {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip-path: none;
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
   }
   .now {
     font-family: var(--font);

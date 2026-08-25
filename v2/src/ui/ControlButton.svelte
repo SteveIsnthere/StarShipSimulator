@@ -56,6 +56,14 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    /*
+      The 44px floor, which this button was 26px short of until M6.6's touch
+      audit measured it. `--touch` calls itself "the smallest touch target we
+      allow anywhere" and it meant it: this is a game you fly with a finger on
+      any device that has one, and a 26px Auto-Land is a mis-tap waiting to
+      happen on a phone and merely fiddly on a laptop trackpad.
+    */
+    min-height: var(--touch);
     appearance: none;
     border: var(--hairline);
     border-radius: var(--radius);

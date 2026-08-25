@@ -10,7 +10,7 @@ import { expect, test } from '@playwright/test';
 /** Console messages that are environmental, not ours. */
 const IGNORABLE = [/WebGL|WebGPU|SwiftShader|GroupMarkerNotSet|Automatic fallback to software/i];
 
-test('page loads with no console errors and no failed requests', async ({ page }) => {
+test('page loads with no console errors and no failed requests @mobile', async ({ page }) => {
   const consoleErrors: string[] = [];
   const pageErrors: string[] = [];
   const failedRequests: string[] = [];
@@ -42,7 +42,7 @@ test('page loads with no console errors and no failed requests', async ({ page }
   expect(failedRequests, 'failed network requests').toEqual([]);
 });
 
-test('loads no third-party origins', async ({ page }) => {
+test('loads no third-party origins @mobile', async ({ page }) => {
   // The 2021 build pulled PixiJS, Plotly and Google Fonts from CDNs, which is
   // why it could not run offline. M5.1 makes offline an acceptance criterion;
   // this keeps a CDN from creeping back in before then.
@@ -58,7 +58,7 @@ test('loads no third-party origins', async ({ page }) => {
   expect(external, 'third-party requests').toEqual([]);
 });
 
-test('canvas mounts', async ({ page }) => {
+test('canvas mounts @mobile', async ({ page }) => {
   // Staged as a skip in M0.6 and switched on here, in M3.1, now that the
   // PixiJS shell exists.
   await page.goto('/', { waitUntil: 'load' });
@@ -82,7 +82,7 @@ test('canvas mounts', async ({ page }) => {
   expect(context).not.toBe('no-canvas');
 });
 
-test('the simulation runs behind the canvas', async ({ page }) => {
+test('the simulation runs behind the canvas @mobile', async ({ page }) => {
   // The HUD is driven from the loop, so a changing value proves the whole
   // chain is live: rAF -> accumulator -> step() -> binder -> text node.
   await page.goto('/', { waitUntil: 'load' });

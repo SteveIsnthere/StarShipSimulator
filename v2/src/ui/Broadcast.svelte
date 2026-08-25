@@ -197,8 +197,20 @@
 
     <div class="bar">
       <div class="dials">
-        <Gauge readout="speed" metric="gauge-speed" scale="speedScale" label="SPEED" />
-        <Gauge readout="altitude" metric="gauge-altitude" scale="altitudeScale" label="ALTITUDE" />
+        <Gauge
+          readout="speed"
+          metric="gauge-speed"
+          barMetric="gauge-speed-bar"
+          scale="speedScale"
+          label="SPEED"
+        />
+        <Gauge
+          readout="altitude"
+          metric="gauge-altitude"
+          barMetric="gauge-altitude-bar"
+          scale="altitudeScale"
+          label="ALTITUDE"
+        />
       </div>
 
       <div class="vehicle">
@@ -384,6 +396,8 @@
 
   .strip-toggle {
     pointer-events: auto;
+    min-height: var(--touch);
+    padding-inline: 0.6rem;
     appearance: none;
     border: var(--hairline);
     border-radius: var(--radius);
@@ -510,5 +524,111 @@
     align-items: baseline;
     gap: 0.15rem;
     font-size: var(--size-body);
+  }
+
+  /* --- responsive ---------------------------------------------------------
+
+    Three breakpoints (BROADCAST-UI-PLAN § 3): desktop above 64rem, a
+    compressed desktop between, and phone portrait below 37.5rem. Landscape on
+    a phone is the compressed desktop, keyed on height rather than width — a
+    390x664 device turned sideways is 664 wide, which no width query can tell
+    from a small laptop, and the thing that actually differs is that there are
+    only 390px of vertical room for a lower third.
+  */
+
+  @media (width < 64rem) {
+    .dials {
+      gap: 0.8rem;
+    }
+    .vehicle {
+      gap: 1rem;
+    }
+    .lower {
+      padding-top: 3rem;
+    }
+  }
+
+  @media (width < 37.5rem) {
+    .top {
+      padding-top: calc(var(--safe-top) + 0.5rem);
+      padding-bottom: 1.25rem;
+      gap: 0.5rem;
+    }
+    .clock-value {
+      font-size: 1.1rem;
+    }
+    /* The scenario name is the first thing to go; the timeline says where the
+       flight is, and the menu says which one is loaded. */
+    .mission {
+      display: none;
+    }
+
+    /*
+      The bottom padding clears the sheet tab bar.
+
+      On a phone the flight controls collapse to a row of tabs pinned to the
+      bottom edge (Controls.svelte), and the lower third runs to the same edge.
+      Without this the engine dots, the propellant bars and the attitude
+      chevron sit UNDER the ENGINES and YOKE buttons — which the phone
+      screenshot showed immediately and no assertion would have: both are
+      "visible" to a bounding-box check, they are simply on top of each other.
+
+      One touch target plus the gap the tab bar itself uses.
+    */
+    .lower {
+      gap: 0.3rem;
+      padding: 2rem calc(var(--safe-right) + 0.75rem)
+        calc(var(--safe-bottom) + var(--touch) + 0.9rem) calc(var(--safe-left) + 0.75rem);
+    }
+    /*
+      One row of two gauges, side by side and full width — digits and ticks
+      rather than dials, which is what makes them fit at all.
+    */
+    .bar {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      align-items: stretch;
+    }
+    .dials {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .vehicle {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .propellant {
+      min-width: 0;
+    }
+    .attitude svg {
+      width: 1.9rem;
+      height: 1.9rem;
+    }
+    .engineering {
+      gap: 0.05rem 0.8rem;
+      font-size: var(--size-label-sm);
+    }
+    .chip-value {
+      font-size: var(--size-label);
+    }
+  }
+
+  /*
+    Phone landscape. Almost no vertical room, so the lower third gives up its
+    breathing space rather than its content.
+  */
+  @media (height < 31.25rem) and (orientation: landscape) {
+    .lower {
+      padding-top: 1.5rem;
+      padding-bottom: calc(var(--safe-bottom) + 0.4rem);
+      gap: 0.25rem;
+    }
+    .top {
+      padding-bottom: 0.9rem;
+    }
   }
 </style>

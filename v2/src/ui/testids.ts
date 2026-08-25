@@ -68,6 +68,8 @@ export const CONTROL_TESTIDS = [
 export const METRIC_IDS = [
   'gauge-speed',
   'gauge-altitude',
+  'gauge-speed-bar',
+  'gauge-altitude-bar',
   'propellant-ch4',
   'propellant-lox',
   'engine-0',

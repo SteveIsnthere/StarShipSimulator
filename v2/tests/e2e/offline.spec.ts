@@ -42,7 +42,7 @@ async function goOffline(page: import('@playwright/test').Page) {
   await page.context().setOffline(true);
 }
 
-test('the whole app loads with the network off', async ({ page }) => {
+test('the whole app loads with the network off @mobile', async ({ page }) => {
   await goOffline(page);
 
   const failed: string[] = [];
@@ -55,7 +55,7 @@ test('the whole app loads with the network off', async ({ page }) => {
   await expect(page.locator('canvas')).toBeVisible();
 });
 
-test('a full flight can be flown offline', async ({ page }) => {
+test('a full flight can be flown offline @mobile', async ({ page }) => {
   await goOffline(page);
   await page.reload({ waitUntil: 'load' });
   await ready(page);
@@ -94,7 +94,7 @@ test('a full flight can be flown offline', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test('the black box works offline, chunk and all', async ({ page }) => {
+test('the black box works offline, chunk and all @mobile', async ({ page }) => {
   // The chart chunk is lazy on purpose (M4.5), which means without precaching
   // it would be fetched at the exact moment there is no network. It is in the
   // precache list for that reason, and this is the test that would notice.
@@ -108,7 +108,7 @@ test('the black box works offline, chunk and all', async ({ page }) => {
   expect(await page.locator('[data-plot] canvas').count()).toBeGreaterThanOrEqual(9);
 });
 
-test('the guide and menu work offline', async ({ page }) => {
+test('the guide and menu work offline @mobile', async ({ page }) => {
   await goOffline(page);
   await page.reload({ waitUntil: 'load' });
   await ready(page);
@@ -118,7 +118,7 @@ test('the guide and menu work offline', async ({ page }) => {
   await expect(page.locator('[data-testid="info-view"]')).toContainText('Backspace');
 });
 
-test('the app is installable: manifest and icon are served and cached', async ({ page }) => {
+test('the app is installable: manifest and icon are served and cached @mobile', async ({ page }) => {
   await goOffline(page);
   await page.reload({ waitUntil: 'load' });
   await ready(page);

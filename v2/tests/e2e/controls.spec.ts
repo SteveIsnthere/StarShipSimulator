@@ -6,42 +6,58 @@
  * indicator lights up afterwards without anyone repainting it by hand.
  */
 import { expect, test } from '@playwright/test';
+import { reveal, tap } from './helpers';
 
 /** A control, by its test id (src/ui/testids.ts). The `is-on` class is the
     indicator binder's output, so this reads what the simulation believes. */
 const light = (page: import('@playwright/test').Page, id: string) =>
   page.locator(`[data-testid="${id}"]`);
 
-test('the panels render with every control', async ({ page }) => {
+test('the panels render with every control @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
+  /*
+    Reachability, one control at a time — not "all of them at once".
+
+    On a rail layout those are the same question. On a phone (M6.6) the panels
+    are sheets and only one may be open at a time, which is a design rule rather
+    than a limitation: two sheets stacked over a 390px screen would leave none
+    of the flight visible. So asserting simultaneous visibility would be
+    asserting something the design deliberately forbids, and it would fail on a
+    phone while proving nothing about whether the controls work.
+
+    Capability parity asks the right version: every 2021 control exists and is
+    reachable. `reveal` opens whichever sheet holds it, and is a no-op on a rail.
+  */
   for (const id of [
     'raptor-0',
     'raptor-1',
     'raptor-2',
     'all-raptors',
     'auto-max-thrust',
+    'throttle',
     'auto-take-off',
     'boost-back',
     'pitch-hold',
     'auto-land',
+    'auto-deorbit',
     'fins',
     'rcs',
     'dump-fuel',
+    'yoke-pitch',
   ]) {
-    await expect(light(page, id), id).toBeVisible();
+    await reveal(page, id);
+    await expect(page.locator(`[data-testid="${id}"]`), id).toBeVisible();
   }
-
-  await expect(page.locator('[data-testid="throttle"]')).toBeVisible();
-  await expect(page.locator('[data-testid="yoke-pitch"]')).toBeVisible();
 });
 
-test('a toggle lights its button and unlights it again', async ({ page }) => {
+test('a toggle lights its button and unlights it again @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
   const rcs = light(page, 'rcs');
   await expect(rcs).not.toHaveClass(/is-on/);
 
+  await reveal(page, 'rcs');
   await rcs.click();
   await expect(rcs).toHaveClass(/is-on/);
 
@@ -49,7 +65,7 @@ test('a toggle lights its button and unlights it again', async ({ page }) => {
   await expect(rcs).not.toHaveClass(/is-on/);
 });
 
-test('lighting the Raptors changes the flight', async ({ page }) => {
+test('lighting the Raptors changes the flight @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
   // This has to start from a known engine state, and mid-intro is not one: the
@@ -72,7 +88,7 @@ test('lighting the Raptors changes the flight', async ({ page }) => {
   const altitude = page.locator('[data-testid="readout-altitude-value"]');
   const before = Number(await altitude.textContent());
 
-  await allRaptors.click();
+  await tap(page, 'all-raptors');
   await expect(allRaptors).toHaveClass(/is-on/, { timeout: 5_000 });
 
   // Three Raptors at full throttle on a full-but-mostly-empty vehicle: it goes
@@ -82,17 +98,18 @@ test('lighting the Raptors changes the flight', async ({ page }) => {
     .toBeGreaterThan(before + 5);
 });
 
-test('the throttle slider is bounded by the engine limits', async ({ page }) => {
+test('the throttle slider is bounded by the engine limits @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
   // Not 0-100. initBackEnd.js:166 put these on the element from
   // throttleLowerLimit / throttleUpperLimit; core clamps to the same numbers.
+  await reveal(page, 'throttle');
   const throttle = page.locator('[data-testid="throttle"]');
   await expect(throttle).toHaveAttribute('min', '40');
   await expect(throttle).toHaveAttribute('max', '100');
 });
 
-test('the throttle slider commands the engines once the intro hands over', async ({ page }) => {
+test('the throttle slider commands the engines once the intro hands over @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
   // The intro demo owns the throttle while it flies — moving the slider during
@@ -122,8 +139,9 @@ test('the throttle slider commands the engines once the intro hands over', async
 
   const allRaptors = light(page, 'all-raptors');
   await expect(allRaptors).not.toHaveClass(/is-on/);
-  await allRaptors.click();
+  await tap(page, 'all-raptors');
 
+  await reveal(page, 'throttle');
   await page.locator('[data-testid="throttle"]').fill('40');
 
   // The actual throttle slews toward the command at throttleSpeed, so watch the
@@ -131,9 +149,9 @@ test('the throttle slider commands the engines once the intro hands over', async
   await expect.poll(async () => Number(await readout.textContent()), { timeout: 8_000 }).toBe(40);
 });
 
-test('the controls add no per-frame document lookups', async ({ page }) => {
+test('the controls add no per-frame document lookups @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
-  await light(page, 'fins').click();
+  await tap(page, 'fins');
 
   const calls = await page.evaluate(async () => {
     let count = 0;

@@ -20,12 +20,14 @@
     readout: string;
     /** The metric driving the arc. */
     metric: string;
+    /** The metric driving the phone layout's straight tick. */
+    barMetric: string;
     /** The readout holding the auto-ranged full-scale value. */
     scale: string;
     label: string;
   }
 
-  const { readout, metric, scale, label }: Props = $props();
+  const { readout, metric, barMetric, scale, label }: Props = $props();
 
   /*
     The dash pattern that makes a circle into a 270° arc: show three quarters,
@@ -60,6 +62,17 @@
         transform="rotate(135 40 40)"
         data-metric={metric}
       />
+    </svg>
+
+    <!--
+      The phone layout's tick. Hidden above 600px, where the arc says the same
+      thing better; shown below it, where a 92px dial does not fit. See
+      hud/metrics.ts for why this is a second metric rather than a cleverer
+      binder.
+    -->
+    <svg class="tick" viewBox="0 0 100 3" preserveAspectRatio="none" aria-hidden="true">
+      <rect class="tick-track" x="0" y="0" width="100" height="3" />
+      <rect class="tick-fill" x="0" y="0" width="0" height="3" data-metric={barMetric} />
     </svg>
 
     <div class="digits">
@@ -126,6 +139,15 @@
   .value {
     font-size: var(--gauge-numeral, var(--size-numeral));
   }
+  .tick {
+    display: none;
+  }
+  .tick-track {
+    fill: var(--ink-12);
+  }
+  .tick-fill {
+    fill: var(--ink-100);
+  }
   .scale {
     font-family: var(--font-condensed);
     font-size: var(--size-label-sm);
@@ -138,5 +160,40 @@
   }
   .scale-unit {
     padding-left: 0.15rem;
+  }
+
+  /*
+    Phone portrait: digit and tick. The dial goes, the numeral grows to carry
+    the space it leaves, and the arc's job passes to a 3px line underneath.
+    BROADCAST-UI-PLAN § 3.
+  */
+  @media (width < 37.5rem) {
+    .gauge {
+      justify-items: start;
+      gap: 0.1rem;
+    }
+    .dial {
+      width: 100%;
+      height: auto;
+    }
+    .dial svg:not(.tick) {
+      display: none;
+    }
+    .tick {
+      display: block;
+      width: 100%;
+      height: 3px;
+      margin-top: 0.2rem;
+    }
+    .digits {
+      position: static;
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-start;
+      gap: 0.3rem;
+    }
+    .value {
+      font-size: 1.6rem;
+    }
   }
 </style>

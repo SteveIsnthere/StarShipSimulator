@@ -272,7 +272,7 @@ build + playwright green per task; one task per commit, id-prefixed.*
   select with per-scenario stat lines); uPlot themed to tokens (hairline axes, D-DIN, dark);
   guide/about typography pass. Accept: menu/guide/black-box e2e green; uPlot still lazy (budget
   report proves first-load unchanged).
-- [ ] **M6.6 Responsive + mobile** — breakpoints ≥1024 / 600–1024 / <600; phone portrait:
+- [x] **M6.6 Responsive + mobile** — breakpoints ≥1024 / 600–1024 / <600; phone portrait:
   gauges collapse to digit+tick, timeline to current→next, panels become bottom sheets (≥44 px
   targets, drag handle, one open); `viewport-fit=cover`, safe-area insets, `dvh`; landscape =
   compressed desktop. Playwright gains phone-viewport projects (Pixel-7- and iPhone-14-class,
@@ -1247,3 +1247,34 @@ build + playwright green per task; one task per commit, id-prefixed.*
   white and the darkest of them was barely a line. Colour stays load-bearing here and only here:
   telling five lines apart on one axis is what colour is for.
   Gate green (1168 unit, 70 e2e); `git diff v2/src/core` empty; the seven digests unmoved.
+- 2026-08-25 · M6.6 · **The phone layout, and four Playwright projects that hold it.** Three
+  breakpoints: rails above 64rem, a compressed desktop between, sheets below 37.5rem. On a phone
+  the dials become digit-and-tick (a second `width`-driven metric per gauge — a cleverer binder
+  writing one value to two elements would have put a loop in the frame path to save one integer
+  compare), the timeline rail gives way to the narration it already carried for screen readers, and
+  the panels become **bottom sheets, one open at a time**, closed by default. That rule lives in
+  the script, not the stylesheet: a media query cannot hold state, and "only one" is state.
+  Phone LANDSCAPE is keyed on height rather than width, because a 390x664 device turned sideways
+  is 664 wide and no width query can tell it from a small laptop — what actually differs is that
+  there are 390 px of vertical room for a lower third.
+  **The suite had to change shape with the layout.** "Assert every control is visible" stopped
+  being a question the design permits an answer to, since two sheets over a 390 px screen would
+  leave none of the flight. `reveal()` opens whichever sheet holds a control — a no-op on rails —
+  and the spec asks the question capability parity actually asks: is every 2021 control reachable,
+  in at most one tap. Four new projects (Pixel-7 and iPhone-14 class, portrait and landscape) run
+  smoke, controls, testids, responsiveness and the offline playthrough. **189 tests across five
+  projects.**
+  **Four real defects, three of them mine.** (1) The 44 px touch floor was declared as a token
+  saying "anywhere" and applied almost nowhere — every ControlButton measured 25.8 px and the top
+  buttons 27.4. Found by measuring laid-out boxes, which is the only way to find it. (2) The phone
+  screenshot showed the engine dots, propellant bars and attitude chevron sitting UNDER the sheet
+  tab bar; no assertion would have caught it, since both are "visible" to a bounding-box check when
+  they are merely on top of each other. (3) My rotation test asked a landscape Pixel to become
+  portrait — `setViewportSize` does not resize a device context, so it measured the canvas still
+  863 px wide and blamed the renderer. Rotation is covered better by portrait and landscape being
+  separate projects. (4) Both iPhone projects failed every test at launch, and the browser log
+  blamed a missing dbus socket and the root sandbox — as those logs always do. The cause was
+  `defaultBrowserType: 'webkit'`: the iPhone descriptors want WebKit, this environment ships one
+  browser and forbids downloading others. Pinned to chromium, with the limit written down — these
+  projects are evidence about an iPhone-class viewport, not about Safari's engine.
+  Gate green (1168 unit, 189 e2e); `git diff v2/src/core` empty; the seven digests unmoved.

@@ -13,20 +13,13 @@
  */
 import { expect, test } from '@playwright/test';
 import { byTestId, readoutValueTestId } from '../../src/ui/testids';
-
-async function ready(page: import('@playwright/test').Page) {
-  await expect
-    .poll(
-      async () => (await page.locator(byTestId(readoutValueTestId('altitude'))).textContent()) !== '',
-      { timeout: 15_000 },
-    )
-    .toBe(true);
-}
+import { openControls, ready } from './helpers';
 
 test('it defaults off — this is a cockpit first', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
+  await openControls(page);
   await expect(page.locator(byTestId('all-raptors'))).toBeVisible();
   await expect(page.locator(byTestId('cinematic-toggle'))).toHaveAttribute(
     'aria-pressed',
