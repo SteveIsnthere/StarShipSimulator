@@ -34,6 +34,8 @@
     type TimeSetting,
   } from './menu';
   import { toggleRandomFailure } from '$core/control/commands';
+  import BlackBox from './BlackBox.svelte';
+  import { createRecorder } from '$app/recorder';
 
   let canvas: HTMLCanvasElement;
 
@@ -80,8 +82,35 @@
    * editor must not fire the engines.
    */
   let menuOpen = $state(false);
+  let blackBoxOpen = $state(false);
+
+  /**
+   * The flight recorder.
+   *
+   * Held outside SimState on purpose: the history is unbounded and SimState is
+   * cloned every step, so growing arrays inside it would make each step cost
+   * O(flight length) and would put the whole recording into every golden
+   * fixture. See app/recorder.ts.
+   */
+  const recorder = createRecorder();
+
+  /**
+   * Sampled per STEP, not per frame.
+   *
+   * The recorder's rule is "every fifth frame" in 2021's sense, where a frame
+   * was a step. A frame here runs however many steps the accumulator drained,
+   * so sampling once per frame would skip most sampling points and record a
+   * different flight at a different frame rate. See AdvanceOptions.onStep.
+   *
+   * A stable function, so passing it costs no allocation.
+   */
+  const onStep = (state: import('$core/state').SimState) => recorder.sample(state);
+
   let time = $state<TimeSetting>(REAL_TIME);
   let randomFailure = $state(false);
+
+  /** Recomputed only when the time setting changes, never per frame. */
+  const loopOptions = $derived({ ...toLoopOptions(time), onStep });
 
   /** What the current flight was configured from, so a partial edit has a base. */
   let currentPreset: ScenarioPreset = INTRO;
@@ -109,6 +138,9 @@
     loopState.state = fresh;
     loopState.previous = fresh;
     loopState.accumulator = 0;
+    // A new flight is a new recording; keeping the old one would splice two
+    // trajectories into one plot.
+    recorder.clear();
     menuOpen = false;
   };
 
@@ -179,7 +211,7 @@
         control: emit,
         view: applyViewAction,
         readThrottle: () => loop.state.vehicle.throttle,
-        isBlocked: () => menuOpen,
+        isBlocked: () => menuOpen || blackBoxOpen,
       });
 
       // Tilt yields to a hand on the yoke, and is only meaningful on a device
@@ -196,7 +228,9 @@
         const frameTime = (now - last) / 1000;
         last = now;
 
-        advance(loop, frameTime, toLoopOptions(time));
+        // `loopOptions` is derived, so this allocates only when the time-warp
+        // setting changes — not on every frame, which the budget forbids.
+        advance(loop, frameTime, loopOptions);
 
         const s = loop.state;
         updateCamera(
@@ -269,9 +303,22 @@
 <canvas bind:this={canvas} aria-label="Starship Simulator"></canvas>
 <Hud onready={onHudReady} />
 <Controls {emit} {zoom} onready={onControlsReady} />
-<button class="menu-button" type="button" data-menu-control="open" onclick={() => (menuOpen = true)}>
-  Menu
-</button>
+<!--
+  Both top-right buttons live in one flex row rather than being positioned
+  individually. They were absolutely positioned with hand-picked offsets at
+  first, and the wider label overlapped its neighbour and swallowed its clicks —
+  which an e2e caught. Letting the layout do the arithmetic cannot drift when a
+  label changes.
+-->
+<div class="top-right">
+  <button class="top-button" type="button" data-blackbox-control="open" onclick={() => (blackBoxOpen = true)}>
+    Black Box
+  </button>
+  <button class="top-button" type="button" data-menu-control="open" onclick={() => (menuOpen = true)}>
+    Menu
+  </button>
+</div>
+<BlackBox open={blackBoxOpen} {recorder} onClose={() => (blackBoxOpen = false)} />
 <Menu
   open={menuOpen}
   {time}
@@ -293,10 +340,14 @@
     position: absolute;
     inset: 0;
   }
-  .menu-button {
+  .top-right {
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
+    display: flex;
+    gap: 0.4rem;
+  }
+  .top-button {
     appearance: none;
     border: 0;
     border-radius: 0.55rem;

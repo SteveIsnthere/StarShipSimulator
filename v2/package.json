@@ -29,6 +29,7 @@
     "vitest": "4.1.11"
   },
   "dependencies": {
-    "pixi.js": "8.20.0"
+    "pixi.js": "8.20.0",
+    "uplot": "1.6.32"
   }
 }

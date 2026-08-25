@@ -91,6 +91,21 @@ export interface AdvanceOptions {
   readonly input?: StepInput;
   /** When true, time still passes for the renderer but the sim does not step. */
   readonly paused?: boolean;
+  /**
+   * Called after every step, with the new state.
+   *
+   * The flight recorder needs this, and the reason is a difference between v2
+   * and 2021 that is easy to miss: in 2021 a frame WAS a step, so "sample every
+   * fifth frame" and "sample every fifth step" were the same sentence. Here a
+   * frame runs however many steps the accumulator drained — two at 60 fps,
+   * sixteen at warp 8 — so a recorder called once per frame would silently skip
+   * most of the sampling points and record a different flight at a different
+   * frame rate.
+   *
+   * Pass a stable function: this is the per-frame path and CLAUDE.md forbids
+   * allocating in it.
+   */
+  readonly onStep?: (state: SimState) => void;
 }
 
 export interface AdvanceResult {
@@ -122,6 +137,7 @@ export function advance(
 ): AdvanceResult {
   const warp = options.timeWarp ?? 1;
   const slow = options.slowMotion ?? 1;
+  const onStep = options.onStep;
   const input = options.input ?? NO_INPUT;
 
   let clamped = false;
@@ -152,6 +168,7 @@ export function advance(
     for (let i = 0; i < warp; i++) {
       loop.previous = loop.state;
       loop.state = step(loop.state, DT, input);
+      if (onStep) onStep(loop.state);
       steps += 1;
       loop.totalSteps += 1;
       loop.simulatedTime += DT;

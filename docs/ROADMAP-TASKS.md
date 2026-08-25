@@ -109,7 +109,7 @@ acceptance line.
 - [x] **M4.2 Panels** — engine/yoke/autopilot/utility panels in Svelte, typed events.
 - [x] **M4.3 Inputs** — keybinds, tilt, touch parity with 2021.
 - [x] **M4.4 Menu + editor** — time warp, scenario editor incl. orbital presets.
-- [ ] **M4.5 Black box** — lazy-loaded uPlot; Plotly gone from first load.
+- [x] **M4.5 Black box** — lazy-loaded uPlot; Plotly gone from first load.
 - [ ] **M4.6 Parity sweep** — checklist vs 2021 feature list; guide/about ported.
 
 ## M5 — Shipped
@@ -534,3 +534,24 @@ acceptance line.
   fresh state rather than assigning over the live one, which is how 2021 could start a configured
   flight with an autopilot stage half-completed. The menu blocks the keyboard, so typing an altitude
   no longer fires the engines. 965 tests, 29 e2e, 178.8 kB of 250.
+- 2026-08-25 · M4.5 · **3.5 MB of Plotly, loaded from a CDN on every page load, for nine charts
+  almost nobody opened — gone.** uPlot replaces it at ~45 kB, as a dependency rather than a CDN
+  script, behind a dynamic import: the bundler gives it its own chunk, fetched the first time the
+  black box is opened and never before. An e2e records every script and stylesheet request and
+  asserts **zero uPlot and zero third-party origins in the first load**, then that opening the view
+  fetches the chunk from our own origin — the second half matters because M5.1's offline goal cannot
+  survive a CDN. The recorder lives in `app/`, not `core/`, and that boundary is load-bearing: the
+  history is unbounded and SimState is cloned every step, so growing arrays inside it would make
+  each step **O(flight length)** and would write the whole recording into every golden fixture.
+  There is a test that records 26 000 samples and shows the step cost flat. Sampling exposed a
+  difference from 2021 that is easy to miss: **a 2021 frame WAS a step**, so "every fifth frame" and
+  "every fifth step" were the same sentence; here a frame runs however many steps the accumulator
+  drained, so a recorder called per frame would skip most sampling points and record a different
+  flight at a different frame rate. `advance()` gained an `onStep` hook, and the recording is proved
+  identical at 60 fps, at 240 fps under warp 4, and hand-stepped. The x-axis is simulated seconds —
+  2021 added `timeAccel * recordTimeInterval`, so the same flight got a different time axis at a
+  different warp setting. Two bugs the e2e caught, both mine: the Black Box button was absolutely
+  positioned with a hand-picked offset and **swallowed the Menu button's clicks** (both now live in
+  one flex row, so the layout does the arithmetic); and a test that waited on the dialog rather than
+  on a drawn plot read the request list before the dynamic import had started. 978 tests, 32 e2e,
+  180.3 kB of 250 — uPlot not counted, which is the point.
