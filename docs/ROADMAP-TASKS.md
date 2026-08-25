@@ -295,7 +295,8 @@ build + playwright green per task; one task per commit, id-prefixed.*
 *The measured problem: the viewport is 356 x 200 m at every altitude, so the ground
 leaves the screen above ~100 m and every scenario but the final landing is flown
 against a blank sky; and at 7300 m/s a ground object crosses the screen in 49 ms,
-under three frames. Milestone-wide rules, checked at EVERY M7 commit: `git diff
+under three frames. Owner decisions 2026-08-25: the camera control law may be retuned
+(M7.5, plan § 6.1), and sound is planned as M8 rather than folded in here. Milestone-wide rules, checked at EVERY M7 commit: `git diff
 v2/src/core` is empty; the seven golden digests are unchanged; lint + test + build +
 playwright (all five projects) green; one task per commit, id-prefixed. Compression is
 allowed in the depiction and never in the numbers — see the plan's § 5.*
@@ -331,12 +332,23 @@ allowed in the depiction and never in the numbers — see the plan's § 5.*
   nothing on screen currently says so. Accept: the curve is unit-tested at the speeds the scenarios
   reach and reports zero below the threshold; pool headroom measured and reported (baseline: peak
   576 of 4000); the marker's angle is asserted against `angleOfMotion` over the goldens.
-- [ ] **M7.5 Camera lead and shake** — **BLOCKED ON AN OWNER DECISION** (plan § 6): `camera.ts`
-  ports the 2021 second-order follow verbatim and calls that feel worth preserving exactly. The
-  recommendation is an ADDITIVE framing offset that leaves the control law untouched, plus shake
-  driven by dynamic pressure and thrust. Do not start this without the decision recorded in the
-  commit. Accept: with the offset at zero the camera is bit-identical to today's over all seven
-  goldens (a test); shake respects `prefers-reduced-motion`; the intro still reads as the intro.
+- [ ] **M7.5 Camera: retune the follow law** — **UNBLOCKED by owner decision, 2026-08-25** (plan
+  § 6.1): the "ported verbatim, worth preserving exactly" constraint on `view/camera.ts` is lifted.
+  The follow dynamics, the framing and the field of view are all open. The prize is
+  **altitude-linked FOV** — not enough to see the ground from 75 km (impossible, plan § 2) but
+  enough that the 356 m viewport stops being a constant, which is what makes M7.3's distant earth
+  worth drawing. Plus a framing lead against the direction of travel, and shake from dynamic
+  pressure and thrust.
+  **The bit-identical guarantee is gone and must be replaced, not dropped.** Accept, all five:
+  (a) the vehicle stays inside the viewport with margin at every sampled frame across all seven
+  goldens; (b) the response is damped, not springy — overshoot bounded and settling within a stated
+  time after a step change; (c) frame-rate independence holds at 30/60/120/144 fps; (d) the camera
+  path is deterministic for a given state sequence; (e) it never looks below the ground. Plus: the
+  **FOV curve is flat at 1× below 500 m**, so the intro and every landing are untouched by
+  construction rather than by tuning — the intro is named in CLAUDE.md's soul; the vehicle never
+  shrinks below a floor that keeps it identifiable; shake respects `prefers-reduced-motion`; zero
+  per-frame allocation; and the two viewport dimension tests in `tests/core/camera.test.ts` become
+  altitude-aware rather than being deleted.
 - [ ] **M7.6 The cloud deck** — the missing middle distance: parallax currently jumps from 1x
   (ground) to 0.001x (stars) with nothing between, which is why even a good ascent reads as flat.
   A deck at a few kilometres, seeded so it returns identically every run, thinning above it.
@@ -346,6 +358,56 @@ allowed in the depiction and never in the numbers — see the plan's § 5.*
   story and the mobile projects prove it; offline precache still complete; screenshots refreshed
   and the README updated. Accept: full gate on all five projects; `git diff v2/src/core` empty over
   the whole milestone; the seven digests byte-identical to their M2.14 values.
+
+## M8 — Sound (plan: `docs/SOUND-PLAN.md`)
+
+*Owner decision 2026-08-25: planned now, built after M7. The simulator has been silent
+its whole life, 2021 and v2 alike. Milestone-wide rules, checked at EVERY M8 commit:
+`git diff v2/src/core` is empty; the seven golden digests are unchanged; lint + test +
+build + playwright (all five projects) green; one task per commit, id-prefixed. The
+payoff is not the noise, it is the contrast — the fade to near-silence as the air runs
+out is the point of the whole milestone.*
+
+- [ ] **M8.1 The audio layer** — `src/audio/`: the Web Audio graph built ONCE, a mixer, the
+  suspended-until-gesture unlock, and a mute toggle beside the cinematic one, persisted with the
+  same guarded `localStorage` read M6.4 uses (a browser that throws on storage must not break the
+  simulator). Muting SUSPENDS the context rather than zeroing a gain, so a muted simulator does no
+  audio work. **A seventh wall: `core/` may not import from `audio/`**, lint-enforced and tested by
+  the same violation-fixture mechanism as the other six. New budget line in `check-budget.mjs`:
+  audio ≤ 250 kB, decoded lazily so it never blocks the first frame. Accept: wall test green
+  including its scoping; node count asserted constant over a long flight (the audio version of the
+  M3.7 leak test); e2e sees the context reach `running` after a gesture and `suspended` when muted;
+  first-load JS unchanged.
+- [ ] **M8.2 Engine rumble, synthesised** — filtered noise plus low oscillators, not a sample loop:
+  a loop long enough not to sound looped costs hundreds of kB and cannot follow the throttle
+  continuously. `audio/params.ts` holds the curves as pure functions of `engines.running` and
+  `vehicle.throttleCurrent`, given the same treatment as M6.7's look curves. Accept: curves pinned
+  at the throttle settings and engine counts the seven scenarios reach, monotonic and bounded; an
+  `OfflineAudioContext` render asserts the buffer's RMS is genuinely higher at 100% than at 40% and
+  higher with three engines than with one — an assertion, not an opinion; writes diffed and counted
+  against stubs like every other binder.
+- [ ] **M8.3 Aerodynamic noise and the vacuum fade** — band-passed noise driven by
+  `dynamicPressure` and `machSpeed`, and everything attenuated by `atmosphere.airPressure`, which
+  has been in SimState since M1.1 and which M6.7 already draws with. **This is the milestone.** The
+  engine falls to a floor rather than to zero — structural conduction is real, and total silence
+  during a burn reads as a bug rather than as physics. Accept: the fade curve is pinned at the
+  altitudes the scenarios visit and is asserted to reach its floor by 50 km; an OfflineAudioContext
+  render of the re-entry golden shows the level falling as the vehicle climbs out; the floor is
+  non-zero.
+- [ ] **M8.4 Transients** — samples, because these are events rather than states and synthesising a
+  convincing one is a research project: ignition, shutdown, touchdown, crash, breakup. Fired from
+  the edges `view/effects.ts` already detects, so there is one place that knows an engine just
+  stopped. Licence trail committed per file. Accept: every sample precached and the full offline
+  playthrough e2e still green; total audio inside the M8.1 budget with the number reported; each
+  transient fires exactly once per event over the goldens (the `showedCrash` latch pattern), and
+  a restart re-arms it.
+- [ ] **M8.5 Mix, warnings, mobile, ship** — heat and Q warning tones on the same thresholds the
+  HUD turns amber at (`hud/metrics.ts`), so ear and eye agree; a mix pass; the silent switch, tab
+  backgrounding and interruptions on mobile; screenshots and README. Accept: full gate on all five
+  projects; audio budget reported; `git diff v2/src/core` empty over the whole milestone and the
+  seven digests byte-identical to their M2.14 values. **What no test covers is whether it sounds
+  good — that is a listening decision and the acceptance line says so rather than pretending
+  otherwise.**
 
 ## Log
 
@@ -1415,3 +1477,21 @@ allowed in the depiction and never in the numbers — see the plan's § 5.*
   blocked on an owner decision because `camera.ts` calls the ported 2021 control law worth
   preserving exactly. The milestone states one new rule: **compression is allowed in the depiction
   and never in the numbers** — the map is an instrument and an instrument that lies is a bug.
+- 2026-08-25 · decisions · **Two owner decisions on the M7 plan.** (1) **The camera control law may
+  be retuned** — the "ported verbatim, worth preserving exactly" constraint on `view/camera.ts` is
+  lifted and M7.5 is unblocked. The conservative option was on the table (an additive offset leaving
+  the law bit-identical) and the wider one was taken, so the plan records what that costs: the
+  bit-identical guarantee is gone and is replaced by five properties rather than dropped — vehicle
+  stays framed over all seven goldens, damped not springy, frame-rate independent, deterministic,
+  never below the ground. What it buys is altitude-linked FOV, the largest single lever on the
+  356 m viewport, which is what makes M7.3's distant earth worth drawing at all. One hard
+  constraint: **the FOV curve is flat at 1× below 500 m**, so the intro — named in CLAUDE.md's soul
+  — and every landing are untouched by construction rather than by careful tuning.
+  (2) **Sound is planned as M8**, built after M7: `docs/SOUND-PLAN.md`, five tasks. The design
+  decision the milestone turns on is synthesis over samples for everything continuous — engine
+  rumble, aero noise and RCS are all filtered noise with a parameter that moves, which makes them
+  pure functions of SimState like every readout in `hud/`, costs no bytes, and can be pinned by a
+  test. Samples only for transients. It also brings a seventh wall (`core/` may not import
+  `audio/`) and a new budget line. The payoff named in the plan is not the noise but the contrast:
+  the fade to near-silence as the air runs out, which is impossible to convey to someone who has
+  had silence the whole time.

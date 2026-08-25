@@ -182,7 +182,7 @@ The task list is `docs/ROADMAP-TASKS.md` § M7. In dependency order:
 | M7.2 | The predicted path on it, from the existing conic predictor |
 | M7.3 | The distant earth: compressed perspective, visible 200 m to 200 km |
 | M7.4 | Velocity streaks and the flight-path marker |
-| M7.5 | Camera lead and shake — **needs an owner decision, see § 6** |
+| M7.5 | Camera: retune the follow law, altitude FOV, lead and shake (§ 6.1) |
 | M7.6 | Cloud deck: the missing middle distance |
 | M7.7 | Perf, budget, mobile, ship |
 
@@ -214,21 +214,47 @@ is a bug. A view that compresses is a camera lens.
 
 ## 6. Decisions needed
 
-**The camera control law (M7.5).** `view/camera.ts` says the 2021 second-order
-follow is "worth preserving exactly, so the control law is ported verbatim", and
-a lead offset changes it. The floaty, weighty feel is one of the better things
-about the original. Three options:
+### 6.1 The camera control law — DECIDED, 2026-08-25
 
-1. Leave the control law alone; get the sense of motion from § 3.2 and § 3.3
-   only. Safest, and possibly sufficient.
-2. Add lead as an *additive offset* on top of the ported law, so the follow
-   dynamics are untouched and only the framing moves. Recommended.
-3. Retune the law. Not recommended without a specific complaint about it.
+**Owner decision: retune the control law.** `view/camera.ts` had said the 2021
+second-order follow was "worth preserving exactly, so the control law is ported
+verbatim". That constraint is lifted. M7.5 is unblocked and may change the
+follow dynamics, the framing, and the field of view.
 
-**Sound.** Absent entirely, and it is the largest single immersion lever
-available — engine rumble by throttle, aerodynamic noise by dynamic pressure,
-the silence of vacuum. It is also a new asset class, a new budget line, and new
-offline-precache surface. Not in this plan. Worth its own milestone if wanted.
+The recommendation on the table was the conservative one — an additive offset
+leaving the ported law bit-identical. The owner took the wider option, so this
+plan records what that costs and what replaces it.
+
+**What it buys.** The largest single lever on the § 1 problem becomes available:
+**altitude-linked field of view**. Not enough to see the ground from 75 km — § 2
+shows that is impossible — but enough that the 356 m viewport stops being a
+constant. A moderate zoom-out with altitude gives the ship room, keeps
+low-altitude scenery on screen for longer, and makes the distant earth of § 3.2
+far more effective, because there is somewhere for it to be.
+
+**What it costs.** The bit-identical test goes. "The camera is exactly what it
+was" was a cheap and total guarantee, and nothing that permits retuning can keep
+it. It has to be replaced by *properties* rather than a golden, and those
+properties are now M7.5's acceptance line: the vehicle stays framed across all
+seven goldens, the response stays damped rather than springy, frame-rate
+independence holds, the result is deterministic, and the camera never looks
+below the ground.
+
+**The one hard constraint.** The FOV curve is **flat at 1× below 500 m**. The
+intro auto-landing sequence is named in CLAUDE.md's soul and every landing
+happens in that band; leaving the curve flat there means the moments that matter
+most are untouched by construction rather than by careful tuning. Above 500 m it
+may open up, monotonically, to a bounded maximum — the vehicle must never shrink
+below a floor that keeps it identifiable.
+
+### 6.2 Sound — PLANNED AS M8, 2026-08-25
+
+**Owner decision: plan it now, build it after M7.** Absent entirely, and the
+largest single immersion lever available — engine rumble by throttle,
+aerodynamic noise by dynamic pressure, the silence of vacuum. It is also a new
+asset class, a new budget line and new offline-precache surface, which is why it
+stays out of this milestone rather than inflating it. The plan is
+`docs/SOUND-PLAN.md`; the tasks are § M8.
 
 ---
 
@@ -255,5 +281,5 @@ offline-precache surface. Not in this plan. Worth its own milestone if wanted.
 | The map redraw costs more than the budget allows | throttled to ~10 Hz, pre-allocated arrays, benchmarked in the same test as the binders |
 | Compressed perspective looks like a bug rather than a lens | the compression is monotonic and continuous with altitude; a test pins the curve at the altitudes the scenarios visit, as M6.7 did |
 | Streaks read as dirt on the screen | density and length driven by one calibrated curve, tested at the speeds the scenarios reach; off below a threshold |
-| The camera change loses the 2021 feel | § 6 — additive offset only, and it is an owner decision |
+| The camera retune loses the 2021 feel | the owner chose it with the cost stated (§ 6.1); the FOV curve is flat below 500 m so the intro and every landing are untouched by construction, and the bit-identical guarantee is replaced by five property tests rather than dropped |
 | The map becomes a second HUD nobody looks at | it carries the predicted path, which is information available nowhere else |

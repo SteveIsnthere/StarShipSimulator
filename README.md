@@ -200,6 +200,9 @@ production; that is not a bug worth finding from a user's bug report.
 - [`docs/RENAME-MAP.md`](docs/RENAME-MAP.md) — the mechanical rename, old name to new.
 - [`docs/BROADCAST-UI-PLAN.md`](docs/BROADCAST-UI-PLAN.md) — the interface: what was studied,
   what was taken, and the one thing deliberately not copied.
+- [`docs/DEPTH-AND-SPEED-PLAN.md`](docs/DEPTH-AND-SPEED-PLAN.md) — why a 356 m viewport makes
+  orbital speed look like standing still, and the trajectory map that answers it.
+- [`docs/SOUND-PLAN.md`](docs/SOUND-PLAN.md) — the silence, and what it would take to end it.
 
 ---
 
