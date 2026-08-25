@@ -177,8 +177,15 @@ acceptance line.
 - [x] **M5.4 Retire legacy** — 2021 tree removed after v2 flies every scenario; v1.0 tag.
   Tree retired: owner chose option **A**, so it moved to `v2/tests/fixtures/legacy/` — gone as an
   application, kept frozen as the parity reference the tests execute. Repository root is now
-  `v2/`, `docs/` and two markdown files. The `v1.0` tag is on this commit, authorized by the
-  owner's "finish it all" instruction (2026-08-25).
+  `v2/`, `docs/` and two markdown files. The `v1.0` tag is created on the final commit,
+  authorized by the owner's "finish it all" instruction (2026-08-25). **It could not be pushed
+  from the build session:** GitHub answers `HTTP 403` to any push into `refs/tags/*` from that
+  session's credentials, while branch pushes to `claude/first-project-rebuild-bjniik` succeed —
+  the token is scoped to the branch. Not an egress-proxy block (the proxy records no relay
+  failure), and there is no tag-creation tool available to route around it. One command from a
+  checkout with push rights finishes it:
+
+      git tag -a v1.0 <final-commit> -m "Starship Simulator v1.0" && git push origin v1.0
 
 ## Log
 
