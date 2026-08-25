@@ -6,7 +6,6 @@
  * law with R_specific folded into 0.2869.
  */
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { isaAtmosphere } from './isa';
 
 export interface Atmosphere {

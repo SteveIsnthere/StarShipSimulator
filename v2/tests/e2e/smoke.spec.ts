@@ -34,7 +34,8 @@ test('page loads with no console errors and no failed requests', async ({ page }
   expect(response?.status(), 'index.html should be served').toBe(200);
 
   // The Svelte root actually mounted, rather than the page merely being 200.
-  await expect(page.getByRole('heading', { name: /starship simulator/i })).toBeVisible();
+  // Since M3.1 the app is the canvas; there is no longer a placeholder heading.
+  await expect(page.locator('canvas')).toBeVisible();
 
   expect(pageErrors, 'uncaught exceptions').toEqual([]);
   expect(consoleErrors, 'console errors').toEqual([]);
@@ -58,15 +59,44 @@ test('loads no third-party origins', async ({ page }) => {
 });
 
 test('canvas mounts', async ({ page }) => {
-  // M0.6's description asks for a canvas check, but the PixiJS shell does not
-  // exist until M3.1. Skipping loudly rather than omitting it: this line shows
-  // up as skipped on every run, and M3.1 deletes it.
-  test.skip(true, 'canvas arrives with the PixiJS shell in M3.1');
-
+  // Staged as a skip in M0.6 and switched on here, in M3.1, now that the
+  // PixiJS shell exists.
   await page.goto('/', { waitUntil: 'load' });
+
   const canvas = page.locator('canvas');
   await expect(canvas).toBeVisible();
+
   const size = await canvas.boundingBox();
-  expect(size?.width).toBeGreaterThan(0);
-  expect(size?.height).toBeGreaterThan(0);
+  expect(size?.width, 'canvas width').toBeGreaterThan(0);
+  expect(size?.height, 'canvas height').toBeGreaterThan(0);
+
+  // Pixi actually acquired a rendering context, rather than the element merely
+  // existing. Under SwiftShader this is WebGL; on real hardware it may be
+  // WebGPU, so accept either.
+  const context = await page.evaluate(() => {
+    const el = document.querySelector('canvas');
+    if (!el) return 'no-canvas';
+    // Pixi's own record of what it negotiated.
+    return (el as HTMLCanvasElement & { __pixiContext?: string }).__pixiContext ?? 'unknown';
+  });
+  expect(context).not.toBe('no-canvas');
+});
+
+test('the simulation runs behind the canvas', async ({ page }) => {
+  // The readout is driven from the loop, so a changing value proves the whole
+  // chain is live: rAF -> accumulator -> step() -> camera -> DOM.
+  await page.goto('/', { waitUntil: 'load' });
+
+  const readout = page.getByRole('status');
+  await expect(readout).toBeVisible();
+
+  const first = await readout.textContent();
+  await expect
+    .poll(async () => readout.textContent(), { timeout: 5_000 })
+    .not.toBe(first);
+
+  const text = await readout.textContent();
+  expect(text, 'readout should show altitude and vertical speed').toMatch(
+    /-?\d+ m · -?\d+(\.\d+)? m\/s/,
+  );
 });

@@ -123,7 +123,15 @@ export default ts.config(
   {
     files: ['**/*.svelte', '**/*.svelte.ts'],
     languageOptions: {
-      parserOptions: { projectService: true, extraFileExtensions: ['.svelte'], svelteConfig },
+      parserOptions: {
+        // The Svelte parser handles the template; TypeScript inside
+        // <script lang="ts"> needs the TS parser delegated to explicitly, or
+        // inline `type` imports fail to parse.
+        parser: ts.parser,
+        projectService: true,
+        extraFileExtensions: ['.svelte'],
+        svelteConfig,
+      },
     },
   },
 

@@ -1,26 +1,103 @@
 <script lang="ts">
-  import { VERSION } from '$core/version';
+  import { onMount } from 'svelte';
+  import { createView, type ViewApp } from '$view/app';
+  import { updateCamera } from '$view/camera';
+  import { createIntroState } from '$core/scenarios';
+  import { advance, createLoopState } from '$app/loop';
+  import { vehicleHeight } from '$core/constants';
+
+  let canvas: HTMLCanvasElement;
+  let status = $state('starting');
+
+  onMount(() => {
+    let view: ViewApp | undefined;
+    let frame = 0;
+    let disposed = false;
+
+    const start = async () => {
+      const initial = createIntroState();
+      const loop = createLoopState(initial);
+
+      view = await createView({
+        canvas,
+        vehicleHeight,
+        downRangeDistance: initial.kinematics.downRangeDistance,
+        speedY: initial.kinematics.speedY,
+      });
+      if (disposed) {
+        view.destroy();
+        return;
+      }
+
+      const onResize = () => view?.resize(window.innerWidth, window.innerHeight);
+      window.addEventListener('resize', onResize);
+      onResize();
+
+      let last = performance.now();
+      const tick = (now: number) => {
+        frame = requestAnimationFrame(tick);
+        const frameTime = (now - last) / 1000;
+        last = now;
+
+        advance(loop, frameTime);
+
+        const s = loop.state;
+        updateCamera(
+          view!.camera,
+          {
+            downRangeDistance: s.kinematics.downRangeDistance,
+            altitude: s.kinematics.altitude,
+            speedX: s.kinematics.speedX,
+            speedY: s.kinematics.speedY,
+            landed: s.status.landed,
+            onTheGround: s.status.onTheGround,
+            crashed: s.failures.crashed,
+          },
+          view!.viewport,
+          frameTime,
+        );
+
+        status = `${s.kinematics.altitude.toFixed(0)} m · ${s.kinematics.speedY.toFixed(1)} m/s`;
+      };
+      frame = requestAnimationFrame(tick);
+
+      return () => {
+        window.removeEventListener('resize', onResize);
+      };
+    };
+
+    const cleanup = start();
+
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(frame);
+      void cleanup.then((fn) => fn?.());
+      view?.destroy();
+    };
+  });
 </script>
 
-<main>
-  <h1>Starship Simulator</h1>
-  <p>v2 rebuild — core {VERSION}</p>
-</main>
+<canvas bind:this={canvas} aria-label="Starship Simulator"></canvas>
+<div class="readout" role="status">{status}</div>
 
 <style>
-  main {
-    display: grid;
-    place-content: center;
-    min-height: 100dvh;
+  :global(body) {
     margin: 0;
-    background: #0b1017;
-    color: #a7bdd9;
-    font-family: ui-monospace, monospace;
-    text-align: center;
+    overflow: hidden;
+    background: #a7bdd9;
   }
-  h1 {
-    font-size: 1.5rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  canvas {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+  .readout {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    font: 500 0.8rem/1.4 ui-monospace, monospace;
+    color: #0b1017;
+    letter-spacing: 0.04em;
+    pointer-events: none;
   }
 </style>
