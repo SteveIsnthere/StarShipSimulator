@@ -124,6 +124,27 @@ All nine plots, all 19 channels, same titles and groupings.
 | Hideable-panel toggle buttons at the screen corners | The two commented-out `show_hidecontrolsL/R` buttons in `index.html`. The collapse behaviour they would have driven is ported; the duplicate buttons are not. |
 | PWA install manifest | Not dropped — moved to M5.1, which owns offline support. |
 
+## Is any of it realistic?
+
+A separate question from parity, and asked separately: `tests/core/physical-scale.test.ts`
+converts the simulation's own units into ones that mean something and checks
+them against the physical world. The short answer, all of it measured:
+
+| | model | reality |
+|---|---|---|
+| thermal unit | 951.6 W/m² | Sutton-Graves in SI, scaled — so ≈ kW/m² |
+| `heatLimit` = 389 | 37 W/cm² | Shuttle nose peaked ~45-70 W/cm² on entry |
+| 2021's `heatLimit` = 55 | 5 W/cm² | nothing is built that fragile — the recalibration was derived from 2021's own margin and landed here independently |
+| re-entry peak, 246 units | 23 W/cm² | a low-orbit entry |
+| `dynamicPressureLimit` = 50 | 50 kPa | launch vehicles fly max-q at 30-35 kPa (2021's JSDoc says psi; it is not) |
+| GM | 3.986e14 | Earth's |
+| escape velocity | 11.16 km/s | Earth 11.19 |
+| 150 km orbit | 7800 m/s, 88 min | Earth 7814 m/s, 87.5 min |
+| implied Isp | 345 s | Raptor 330 sl / 380 vac |
+| lift-off TWR | 1.43 | |
+| ΔV budget | 4.6 km/s | a landing ship's |
+| RCS authority | 0.16 rad/s², 9 s to flip | 25 s of reserve — two flips, so it is a resource |
+
 ## Physics differences
 
 Every one is a declared tier with its evidence in the commit that made it.
