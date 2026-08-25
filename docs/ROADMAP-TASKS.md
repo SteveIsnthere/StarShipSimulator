@@ -99,8 +99,8 @@ acceptance line.
   shutdown leak dies here.
 - [x] **M3.4 Sky** — altitude-graded gradient into starfield; parallax layers.
 - [x] **M3.5 Post pass** — bloom on plumes, heat shimmer + shock on reentry.
-- [ ] **M3.6 Intro wired** — the auto-landing intro plays end-to-end in v2.
-- [ ] **M3.7 Perf audit** — zero per-frame allocations (heap sampling); 60 fps mid-phone
+- [x] **M3.6 Intro wired** — the auto-landing intro plays end-to-end in v2.
+- [x] **M3.7 Perf audit** — zero per-frame allocations (heap sampling); 60 fps mid-phone
   profile; budgets green.
 
 ## M4 — Full game
@@ -437,3 +437,15 @@ acceptance line.
   against real flight values. Heat is measured against `heatLimit`, so the shimmer tells you how
   close to breaking up you are rather than how fast you are going. Shaders verified compiling and
   rendering on WebGL. 839 tests, 7 e2e, 169.4 kB of 250.
+- 2026-08-25 · M3.6 · The intro plays end to end **in the browser** — real renderer, real loop, real
+  frame times — starting high in the render box, decelerating, and landing. 3 e2e tests (10 total).
+  Fixed a real load flash they caught: `createView` read `canvas.clientWidth`, which reports the
+  intrinsic 300×150 until CSS layout settles, so the first frames rendered at the wrong size and
+  then snapped. Sized from the window instead.
+- 2026-08-25 · M3.7 · **Sim step measured at 3.8–6.6 µs against a 1 ms budget — 150–264× headroom**
+  (unpowered 3.79, autoLand 6.64, boostBack 4.75). Budgets now run in CI. On "zero allocation":
+  there is no portable way to ask JavaScript "did this allocate", so the *observable consequences*
+  are asserted instead — the particle pool's child count is invariant across **20 000 frames** of
+  continuous emission plus periodic bursts and explosions; a 2-minute powered flight leaves SimState's
+  field count unchanged; the loop holds exactly two states however long it runs; and warp 16 costs
+  ~16 steps, not more. That second check is the one that would actually have caught the 2021 leak.

@@ -61,8 +61,12 @@ export interface ViewOptions {
  * WebGL, and neither is available synchronously.
  */
 export async function createView(options: ViewOptions): Promise<ViewApp> {
-  const width = options.width ?? options.canvas.clientWidth ?? 800;
-  const height = options.height ?? options.canvas.clientHeight ?? 600;
+  // Sized from the window rather than from the element. A canvas with no width
+  // attribute reports its intrinsic 300x150 until CSS layout has settled, so
+  // reading clientWidth here renders the first frames at the wrong size and
+  // then snaps - a visible flash on load, and one an e2e test caught.
+  const width = options.width ?? globalThis.innerWidth ?? 800;
+  const height = options.height ?? globalThis.innerHeight ?? 600;
 
   const app = new Application();
   await app.init({

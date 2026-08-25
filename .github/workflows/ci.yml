@@ -38,6 +38,9 @@ jobs:
       - name: Lint (the six walls)
         run: npm run lint
 
+      # Includes the performance budgets from CLAUDE.md: sim step under 1 ms at
+      # 240 Hz, and the pool/state-shape invariants that stand in for
+      # "zero allocation in the per-frame path".
       - name: Test
         run: npm run test
 
