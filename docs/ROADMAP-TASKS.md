@@ -72,7 +72,7 @@ acceptance line.
 - [x] **M2.3 Bug: fin fraction init** — initialise as fraction. Same obligations.
 - [x] **M2.4 Bug: pitch rate** — compute as Δpitch/dt, frame-rate independent; retune
   the pitchHold gate against goldens. Same obligations.
-- [ ] **M2.5 Flags infra** — `core/flags.ts`; golden fixtures per flag combination that ships.
+- [x] **M2.5 Flags infra** — `core/flags.ts`; golden fixtures per flag combination that ships.
 - [ ] **M2.6 Fidelity: planet-centered gravity** — core state in planet-centered frame;
   gravity −GM·r̂/r²; local-frame adapter for autopilot + view; deletes relief hack and
   constant g. Off by default. Accept: flat-model goldens untouched; orbit maths unit-tested
@@ -339,3 +339,13 @@ acceptance line.
   `kinematics.pitchRateOfChange` itself**; no trajectory shifted, since nothing but the pitchHold
   gate consumes it. Verified pitchHold now converges to within 0.012 rad across 30/60/120/144 fps.
   645 tests green. **M2's four bug fixes are complete.**
+- 2026-08-25 · M2.5 · `core/flags.ts` + `SimState.flags`. Three design rules make the mechanism
+  trustworthy rather than decorative: **flags live in the state, not module scope** (a module-level
+  flag would make `step()` impure and every fixture ambiguous — you could not tell from a state
+  which physics produced it); **every shipped combination is golden-tested**, since "off by default"
+  is worthless if the on path is untested; and **defaults are data**, so flipping one moves fixtures
+  visibly. All three flags default **off** — CLAUDE.md puts the 2021 reference feel in the
+  never-change list. 5 shipped combinations → 4 new fixtures (11 total), each assigned the scenario
+  that actually exercises it rather than recording 35 near-duplicates. The flagged fixtures
+  currently coincide with their base, because no flag is wired yet — asserted deliberately, so
+  M2.6–M2.8 each produce a **visible** fixture diff when they land. 688 tests green.

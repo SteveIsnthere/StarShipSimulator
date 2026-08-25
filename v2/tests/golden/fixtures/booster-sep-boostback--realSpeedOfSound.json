@@ -1,11 +1,11 @@
 {
 
- "scenario": "booster-sep-boostback",
+ "scenario": "booster-sep-boostback--realSpeedOfSound",
  "steps": 14400,
  "dt": 0.008333333333333333,
  "sampleEvery": 60,
  "seed": 1463897163,
- "setup": "autoBoostBack from stage separation",
+ "setup": "autoBoostBack from stage separation [flags: realSpeedOfSound]",
  "constant": {
   "autopilot.accelerationStageCompleted": false,
   "autopilot.aeroDescentCompleted": false,
@@ -57,7 +57,7 @@
   "failures.randomFailure": false,
   "flags.fullISA": false,
   "flags.planetCenteredGravity": false,
-  "flags.realSpeedOfSound": false,
+  "flags.realSpeedOfSound": true,
   "forces.rcsThrust": 0,
   "forces.rcsThrustAngularAcceleration": 0,
   "kinematics.orbitalVelocityAtCurrentAltitude": 7891.547328144637,

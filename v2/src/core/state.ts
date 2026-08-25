@@ -15,6 +15,7 @@
  *   - No methods. State is data; behaviour lives in step.ts and physics/.
  */
 import * as C from './constants';
+import { cloneFlags, createFlags, type Flags } from './flags';
 import { updateVehicleInFlightMaxArea } from './physics/aero';
 import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
@@ -369,6 +370,12 @@ export interface SimState {
    * pure and golden fixtures possible. See core/rng.ts.
    */
   rng: RngState;
+  /**
+   * Fidelity flags. Carried in the state rather than read from module scope so
+   * that `step()` stays pure and a golden fixture records the physics that
+   * produced it. See core/flags.ts.
+   */
+  flags: Flags;
   world: WorldState;
   atmosphere: AtmosphereState;
   kinematics: KinematicsState;
@@ -396,12 +403,13 @@ export const DEFAULT_SEED = 0x5741_4c4b;
  * `distanceToPlanetCenter` derives from it, `orbitalVelocityAtCurrentAltitude`
  * from that, and `accelerationY` starts at -gravity rather than 0.
  */
-export function createInitialState(seed = DEFAULT_SEED): SimState {
+export function createInitialState(seed = DEFAULT_SEED, flags: Partial<Flags> = {}): SimState {
   const altitude = C.vehicleHeight / 2;
   const distanceToPlanetCenter = C.planetRadius + altitude;
 
   return {
     rng: createRng(seed),
+    flags: createFlags(flags),
 
     world: {
       environmentTime: 0,
@@ -627,6 +635,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
 export function cloneState(s: SimState): SimState {
   return {
     rng: { seed: s.rng.seed, counters: { ...s.rng.counters } },
+    flags: cloneFlags(s.flags),
     world: { ...s.world },
     atmosphere: { ...s.atmosphere },
     kinematics: {

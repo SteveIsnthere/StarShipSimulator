@@ -7,6 +7,7 @@
  * logic and the RNG, so a golden that flies is a far tighter contract.
  */
 import * as cmd from '$core/control/commands';
+import { createFlags, FLAG_COMBINATIONS, flagsId, type Flags } from '$core/flags';
 import { ALL_SCENARIOS, createIntroState, createScenarioState } from '$core/scenarios';
 import type { SimState } from '$core/state';
 
@@ -20,7 +21,7 @@ export interface GoldenSpec {
 /** 120 Hz, so steps = seconds * 120. */
 const s = (seconds: number) => seconds * 120;
 
-export const GOLDEN_SPECS: readonly GoldenSpec[] = [
+const BASE_SPECS: readonly GoldenSpec[] = [
   {
     id: 'launch-pad-takeoff',
     steps: s(90),
@@ -89,3 +90,52 @@ export const GOLDEN_SPECS: readonly GoldenSpec[] = [
     build: () => createIntroState(),
   },
 ];
+
+/**
+ * One representative scenario per fidelity-flag combination.
+ *
+ * M2.5 requires a golden fixture for every combination that ships — "off by
+ * default" means nothing if the on path is untested. Recording all seven
+ * scenarios against all five combinations would be 35 fixtures of mostly
+ * duplicated information, so each non-default combination gets the scenario
+ * that actually exercises it:
+ *
+ *   planetCenteredGravity  reentry, the only preset at orbital speed
+ *   realSpeedOfSound       booster-sep, which spans Mach 1 to Mach 4 in air
+ *   fullISA                reentry, which crosses every atmospheric layer
+ *   all three              reentry, which is what M2.10's feel review flies
+ *
+ * The default combination keeps all seven scenarios: that is the contract on
+ * the shipped configuration, and it is the one that must never drift.
+ */
+function flaggedSpec(base: GoldenSpec, flags: Flags): GoldenSpec {
+  const id = flagsId(flags);
+  return {
+    id: `${base.id}--${id}`,
+    steps: base.steps,
+    setup: `${base.setup} [flags: ${id}]`,
+    build: () => {
+      const s = base.build();
+      s.flags = flags;
+      return s;
+    },
+  };
+}
+
+const REPRESENTATIVE: Record<string, string> = {
+  planetCenteredGravity: 'reentry-autoland',
+  realSpeedOfSound: 'booster-sep-boostback',
+  fullISA: 'reentry-autoland',
+  'planetCenteredGravity+realSpeedOfSound+fullISA': 'reentry-autoland',
+};
+
+const FLAGGED_SPECS: readonly GoldenSpec[] = FLAG_COMBINATIONS.flatMap((combination) => {
+  const flags = createFlags(combination);
+  const id = flagsId(flags);
+  if (id === 'default') return [];
+  const base = BASE_SPECS.find((spec) => spec.id === REPRESENTATIVE[id]);
+  if (!base) throw new Error(`no representative scenario declared for flag set "${id}"`);
+  return [flaggedSpec(base, flags)];
+});
+
+export const GOLDEN_SPECS: readonly GoldenSpec[] = [...BASE_SPECS, ...FLAGGED_SPECS];
