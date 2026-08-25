@@ -116,7 +116,7 @@ acceptance line.
 
 - [x] **M5.1 Offline** — service worker precaches everything; no CDN references anywhere.
   Accept: full playthrough in airplane mode.
-- [ ] **M5.2 README** — real one: screenshot, feature list, architecture story, dev setup.
+- [x] **M5.2 README** — real one: screenshot, feature list, architecture story, dev setup.
 - [ ] **M5.3 Deploy** — pipeline to static hosting.
 - [ ] **M5.4 Retire legacy** — 2021 tree removed after v2 flies every scenario; v1.0 tag.
 
@@ -594,3 +594,17 @@ acceptance line.
   header, none of them ever fetched. Rewritten to check the hosts that actually serve code, with the
   e2e network log as the real guarantee. Installable too: manifest, icon, standalone display.
   991 tests, 43 e2e, 182.7 kB of 250.
+- 2026-08-25 · M5.2 · README, replacing the two lines that said "Still in early beta". Screenshot,
+  how to play, the architecture story, the six walls, the tier table, dev setup, and a
+  2021-versus-v2 table with real numbers in it. The **screenshot is a Playwright spec**, not a
+  hand-captured file: same scenario, same moment, same viewport, reproducible — and skipped unless
+  `CAPTURE_SCREENSHOT=1`, because a test run should not write into the repository. Getting a good
+  frame took a second attempt and taught me something about my own camera: pointing it at a preset
+  at altitude puts the **vehicle above the frame**, because the camera is semi-sticky and stays with
+  the pad until the vehicle has properly left it. The shot that works is the intro on final
+  approach — 85 m, one Raptor lit, dust plume, StarBase behind. The README does not oversell: the
+  wound list is specific (355 globals, `getElementById` in the physics loop, `setTimeout` ignition,
+  3.5 MB of CDN Plotly, an About screen claiming offline support while loading two CDNs), and the
+  central bet — **extraction, not rewrite** — is stated with its reason: a rewrite would have
+  produced a cleaner codebase flying a subtly different vehicle, and nobody could have said which
+  parts changed. 991 tests, 43 e2e, 182.7 kB of 250.
