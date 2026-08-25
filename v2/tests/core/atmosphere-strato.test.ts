@@ -152,7 +152,8 @@ describe('the consequence for the Re-entry preset', () => {
    * wrong model, and M2.2 (passing a nose radius where an area is passed today)
    * makes heating larger again. Recalibrating a limit changes feel, which
    * CLAUDE.md reserves for the owner; the owner's rule was "preserve the 2021
-   * margin", and M2.9(a) applied it. The limit is 390.
+   * margin", and M2.9(a) applied it. The limit is 389 — re-derived from
+   * that rule on every test run, so it tracks the physics.
    */
   it('exceeds the limit the 2021 build shipped, within the first second', async () => {
     const { createScenarioState, getScenario } = await import('$core/scenarios');
@@ -170,11 +171,11 @@ describe('the consequence for the Re-entry preset', () => {
     expect(peak, 'against the 2021 limit of 55').toBeGreaterThan(55);
     expect(peak).toBeGreaterThan(70);
 
-    // And the resolution, since M2.9(a): the limit is 390 now — recalibrated
+    // And the resolution, since M2.9(a): the limit is 389 now — recalibrated
     // to preserve the margin 2021 actually flew this preset with, rather than
     // the number that indexed a quantity M2.2 rescaled. So the vehicle survives
     // the first second, and the whole descent.
-    expect(heatLimit).toBe(390);
+    expect(heatLimit).toBe(389);
     expect(s.failures.inFlightBreakUp, 'survives the entry now').toBe(false);
   });
 

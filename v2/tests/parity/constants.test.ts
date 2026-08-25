@@ -175,18 +175,19 @@ const DIVERGES_FROM_2021: Readonly<Record<string, string>> = {
   // the correlation wanted a radius (M2.2). Recalibrated to preserve the 2021
   // margin rather than the 2021 number: the frozen tree flies Re-entry at
   // 0.6317 of its limit, and 390 is what makes v2 fly it at 0.6346 of ours.
-  // Re-derived from both implementations in tests/parity/heat-margin.test.ts.
+  // Re-derived from both implementations in tests/parity/heat-margin.test.ts,
+  // so it tracks the physics rather than being pinned to one measurement.
   heatLimit: 'M2.9(a) — recalibrated to preserve the 2021 heat margin',
 };
 
 describe('constants that deliberately diverge', () => {
-  it('heatLimit is 390 where 2021 had 55, and the ratio is the measured one', () => {
-    expect(C.heatLimit).toBe(390);
+  it('heatLimit is 389 where 2021 had 55, and the ratio is the measured one', () => {
+    expect(C.heatLimit).toBe(389);
     expect(legacy[toLegacyName('heatLimit')]).toBe(55);
-    // 7.09x. Not a difficulty adjustment: the quantity being limited changed
+    // 7.07x. Not a difficulty adjustment: the quantity being limited changed
     // scale when M2.2 fixed its argument, and the margin is what was held
     // fixed. The flight-level proof is tests/parity/heat-margin.test.ts.
-    expect(C.heatLimit / 55).toBeCloseTo(7.09, 2);
+    expect(C.heatLimit / 55).toBeCloseTo(7.07, 2);
   });
 
   it('and it is the only one', () => {

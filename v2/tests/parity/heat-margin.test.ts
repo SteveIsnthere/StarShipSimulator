@@ -272,27 +272,27 @@ describe('and the recalibrated limit preserves it', () => {
     expect(v2Run.state.status.landed).toBe(true);
   });
 
-  it('its peak heating is 247.3 units — 7.1x the 2021 number', () => {
+  it('its peak heating is 245.9 units — 7.1x the 2021 number', () => {
     // Not because re-entry got harder: because thermalPower is a different
     // quantity on a different scale since M2.2, and the air is denser since
     // M2.1.
-    expect(v2Run.peak).toBeCloseTo(247.2787, 3);
-    expect(v2Run.peak / legacyRun.peak).toBeCloseTo(7.12, 2);
+    expect(v2Run.peak).toBeCloseTo(245.9079, 3);
+    expect(v2Run.peak / legacyRun.peak).toBeCloseTo(7.08, 2);
   });
 
   it('heatLimit is what holds the margin at the 2021 value', () => {
     const margin2021 = legacyRun.peak / legacyRun.limit;
     const preserving = v2Run.peak / margin2021;
 
-    // 391.47, before rounding. It was 391.80 when M2.9(a) derived it; M2.11
-    // fixed the attitude controller and moved the descent slightly, and the
-    // measurement moved with it. That the shipped constant did NOT have to move
-    // is the useful part: the rounding-down margin absorbed a real change to
-    // the flight, so 390 was not a number balanced on a knife edge.
-    expect(preserving).toBeCloseTo(391.47, 1);
+    // 389.30, before rounding, and it has moved twice since M2.9(a) derived
+    // 391.80: M2.11 (the dead RCS command) took it to 391.47, which rounding
+    // absorbed, and M2.12 (the doubled tangential term) took it to 389.30,
+    // which rounding did not — so the constant moved from 390 to 389. That is
+    // the rule working: nobody chose 389, the measurement did.
+    expect(preserving).toBeCloseTo(389.3, 1);
     // And the shipped constant is that, rounded DOWN to a whole unit — so the
     // recalibration can never grant more headroom than 2021 had.
-    expect(C.heatLimit).toBe(390);
+    expect(C.heatLimit).toBe(389);
     expect(C.heatLimit).toBeLessThan(preserving);
     expect(preserving - C.heatLimit, 'rounding, not a fudge').toBeLessThan(2);
   });
@@ -300,7 +300,7 @@ describe('and the recalibrated limit preserves it', () => {
   it('and v2 flies it with a margin no more generous than 2021 had', () => {
     const margin2021 = legacyRun.peak / legacyRun.limit;
     const marginV2 = v2Run.peak / C.heatLimit;
-    expect(marginV2).toBeCloseTo(0.634, 3);
+    expect(marginV2).toBeCloseTo(0.632, 3);
     expect(marginV2, 'v2 must not have MORE headroom than 2021').toBeGreaterThan(margin2021);
     expect(marginV2 - margin2021, 'and not much less either').toBeLessThan(0.01);
   });

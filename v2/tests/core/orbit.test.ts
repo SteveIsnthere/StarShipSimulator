@@ -165,20 +165,28 @@ describe('conserved quantities stay conserved', () => {
       end.kinematics.speedX,
     );
     expect(end.kinematics.altitude).toBeGreaterThan(210_000);
-    // Within 1% over five simulated minutes on an eccentric orbit. This is an
-    // integration-accuracy bound, not exact conservation: the integrator is
-    // first-order semi-implicit and the tangential term is evaluated once per
-    // step from the previous step's radial speed. Measured drift is ~0.5%.
-    expect(Math.abs((h1 - h0) / h0)).toBeLessThan(1e-2);
+    // Tightened by four orders of magnitude at M2.12. This bound used to be 1%,
+    // with a comment blaming the first-order integrator for a measured ~0.5%
+    // drift. It was not the integrator: `tangentialAcceleration` carried a
+    // factor of two it should not have, and destroyed angular momentum in
+    // proportion to vertical speed. The residual now really is integration
+    // error — measured 2e-7 over these five minutes — and it converges with dt,
+    // which the old one did not. See tests/core/angular-momentum.test.ts.
+    expect(Math.abs((h1 - h0) / h0)).toBeLessThan(1e-5);
   });
 
   it('an elliptical orbit comes back down again', () => {
     // The clearest sign it is real orbital motion and not a fudge: go up, come
     // back. The 2021 relief term could never produce this.
+    //
+    // The window is 9000 s since M2.12. It used to be 3000 s, which was enough
+    // only because the doubled tangential term was eating angular momentum on
+    // the way up and pulling the apogee down to a third of where it belongs.
+    // With the orbit the right size, a lap takes longer.
     let s = inOrbit(200_000, v * 1.1);
     let peak = 0;
     let peakStep = 0;
-    for (let i = 0; i < 120 * 3000; i++) {
+    for (let i = 0; i < 120 * 9000; i++) {
       s = step(s, DT);
       if (s.kinematics.altitude > peak) {
         peak = s.kinematics.altitude;
@@ -187,7 +195,7 @@ describe('conserved quantities stay conserved', () => {
     }
     expect(peak).toBeGreaterThan(250_000);
     expect(peakStep).toBeGreaterThan(0);
-    expect(peakStep).toBeLessThan(120 * 3000 - 1);
+    expect(peakStep).toBeLessThan(120 * 9000 - 1);
     expect(s.kinematics.altitude).toBeLessThan(peak);
   });
 });

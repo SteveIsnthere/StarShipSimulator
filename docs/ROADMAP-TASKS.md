@@ -198,6 +198,17 @@ acceptance line.
   Bug-fix tier. Accept: a 180° flip completes and HOLDS; goldens regenerated with the
   before/after diff in the commit.
 
+- [x] **M2.12 Bug: the tangential term was doubled** — found by the realism audit, 2026-08-25.
+  M2.6 shipped `dv_t/dt = -2*v_r*v_t/r`. The 2 belongs to the ANGULAR equation
+  (`r*theta_dd + 2*r_d*theta_d = 0`); this simulation integrates the tangential SPEED
+  `v_t = r*theta_d`, whose derivative is `-v_r*v_t/r`. With the 2, angular momentum is
+  destroyed at rate `-v_r*v_t` — manufactured on the way down, eaten on the way up. It survived
+  M2.6 because it vanishes identically at `v_r = 0` and a circular orbit has `v_r = 0` forever,
+  so every circular-orbit test passed; the one eccentric test allowed 1% drift and blamed the
+  integrator. Bug-fix tier. Accept: angular momentum conserved to 1e-5 on an eccentric vacuum
+  orbit, a ballistic coast matching an independent two-body integration and CONVERGING with dt,
+  goldens regenerated with the before/after in the commit.
+
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->
@@ -893,4 +904,30 @@ acceptance line.
   destination changed. heatLimit re-derived and unchanged at 390 (the margin-preserving figure
   moved 391.80 → 391.47, absorbed by rounding down — the constant was not on a knife edge).
   Gate: lint, 1038 tests, build green.
+
+- 2026-08-25 · M2.12 · **The tangential term was twice what it should be — since M2.6.** The
+  deepest defect the audit found, and it was hiding behind a passing test. Provable on paper:
+  the polar tangential equation is `r*theta_dd + 2*r_d*theta_d = 0`, and that 2 is the Coriolis
+  term in the ANGULAR acceleration; the simulation integrates the tangential SPEED
+  `v_t = r*theta_d`, and `dv_t/dt = r_d*theta_d + r*theta_dd = -r_d*theta_d = -v_r*v_t/r`.
+  One, not two. The proof is angular momentum: `dh/dt = v_r*v_t + r*(-v_r*v_t/r) = 0` with the
+  correct term, and `-v_r*v_t` with the doubled one.
+  **How it hid:** the term vanishes identically when `v_r = 0`, and a circular orbit has
+  `v_r = 0` forever — so every circular-orbit test in the M2.6 suite passed. The single
+  eccentric test measured ~0.5% drift, allowed 1%, and attributed it to the first-order
+  integrator. The giveaway was that it did not converge: halving dt left the error exactly where
+  it was, which is how a wrong equation tells itself apart from a coarse one.
+  **Measured, before:** 12.6% angular-momentum drift on an ellipse in vacuum, and an orbit whose
+  apogee should be 4015 km reaching **1380 km** — not an imprecise orbit, a different one. A
+  deorbit coast from 150 km came out 313 km (6.35%) long against an independent two-body
+  integration. **After:** drift 1.2e-6, apogee correct, coast within 1.2 km at dt=1/120 and
+  0.0 km at 1/480 — it converges now.
+  All seven goldens moved, which is exactly right: the term acts on anything both climbing or
+  falling and moving downrange, i.e. everything but the pad. Every scenario still lands, the
+  intro included. `heatLimit` re-derived by its own rule and moved 390 → **389** (the
+  margin-preserving figure went 391.47 → 389.30, past what rounding could absorb) — nobody chose
+  389, the measurement did. Deorbit lead recalibrated 6 138 → 5 891 km; entry now peaks at 317
+  units, 82% of the limit. `unification.test.ts` rewritten as what it has actually become: the
+  audit trail of every fixture movement and the tier that caused it. Gate: lint, 1045 tests,
+  build green.
 

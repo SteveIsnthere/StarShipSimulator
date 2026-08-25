@@ -90,12 +90,33 @@ export function verticalGravityAcceleration(
 }
 
 /**
- * The Coriolis-like term that keeps downrange speed honest as altitude changes.
+ * The term that keeps downrange speed honest as altitude changes.
  *
- * In a rotating local frame, climbing while moving tangentially trades
- * tangential speed for altitude: angular momentum r*v_t is conserved under a
- * central force. Without this, a vehicle could climb without slowing down and
- * gain orbital energy from nothing.
+ * Climbing while moving tangentially trades tangential speed for altitude:
+ * angular momentum r*v_t is conserved under a central force. Without this, a
+ * vehicle could climb without slowing down and gain orbital energy from
+ * nothing.
+ *
+ * ONE FACTOR OF v_r*v_t/r, NOT TWO — M2.12, Bug fix. M2.6 shipped a 2 here, and
+ * the 2 belongs to a different equation. The tangential equation of motion
+ * under a central force is `r*theta_dd + 2*r_d*theta_d = 0`, where the 2 is the
+ * Coriolis term in the ANGULAR acceleration. This simulation does not integrate
+ * theta_d; it integrates the tangential SPEED, v_t = r*theta_d, and
+ *
+ *     dv_t/dt = r_d*theta_d + r*theta_dd = r_d*theta_d - 2*r_d*theta_d
+ *             = -r_d*theta_d = -v_r*v_t/r
+ *
+ * The proof is angular momentum. With h = r*v_t,
+ *
+ *     dh/dt = v_r*v_t + r*(-v_r*v_t/r)   = 0             this
+ *     dh/dt = v_r*v_t + r*(-2*v_r*v_t/r) = -v_r*v_t      the 2
+ *
+ * so the doubled form destroys angular momentum in proportion to how fast the
+ * vehicle is climbing or falling — manufacturing it on the way down, eating it
+ * on the way up. It survived M2.6 because it vanishes identically at v_r = 0
+ * and a circular orbit has v_r = 0 forever, so every circular-orbit test passed
+ * regardless. Measured on an ellipse in vacuum: 12.6% drift, and an orbit whose
+ * apogee should be 4015 km reaching 1380 km.
  *
  * @returns m/s^2 applied to the downrange component
  */
@@ -104,7 +125,7 @@ export function tangentialAcceleration(
   tangentialSpeed: number,
   radialSpeed: number,
 ): number {
-  return (-2 * radialSpeed * tangentialSpeed) / distanceToPlanetCenter;
+  return (-radialSpeed * tangentialSpeed) / distanceToPlanetCenter;
 }
 
 /** Specific orbital energy, J/kg. Conserved under gravity alone. */

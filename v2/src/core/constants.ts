@@ -216,14 +216,20 @@ export const gLimit = 13;
  *
  *     2021 peak on Re-entry     34.7414 units      (against its limit of 55)
  *     2021 margin               34.7414 / 55  =  0.6317
- *     v2 peak on Re-entry       247.4863 units
- *     limit preserving it       247.4863 / 0.6317  =  391.80
+ *     v2 peak on Re-entry      245.9079 units
+ *     limit preserving it      245.9079 / 0.6317  =  389.30
  *
- * Rounded DOWN to 390, so the recalibration can never grant more headroom than
- * 2021 had: v2 flies the preset at 0.6346 of its limit where 2021 flew it at
+ * Rounded DOWN to 389, so the recalibration can never grant more headroom than
+ * 2021 had: v2 flies the preset at 0.6321 of its limit where 2021 flew it at
  * 0.6317 of its own. The preset is as survivable as it was, and no more.
+ *
+ * IT HAS MOVED ONCE, and the movement is the point of deriving it rather than
+ * picking it. M2.9(a) measured 391.80 and shipped 390; M2.11 (the dead RCS
+ * command) took the measurement to 391.47, which rounding absorbed; M2.12 (the
+ * doubled tangential term) took it to 389.30, which rounding did not. Each time
+ * the rule — preserve 2021's margin — decided, rather than anyone's taste.
  */
-export const heatLimit = 390;
+export const heatLimit = 389;
 
 // ---------------------------------------------------------------------------
 // Deorbit targeting — M2.9(c). New in v2; 2021 had no orbital autopilot.
@@ -263,10 +269,18 @@ export const DEORBIT_DELTA_V = 150;
  * touches down.
  *
  * THE CALIBRATION. The response is not slope-1: measured dMiss/dLead is about
- * -1.33, because autoLand amplifies whatever offset it is handed. A secant
+ * -1.53, because autoLand amplifies whatever offset it is handed. A secant
  * search over the closed loop converges in a handful of flights.
+ *
+ * AND IT IS A FITTED CONSTANT, which is a real limitation worth stating rather
+ * than burying. It is right for the flight it was fitted to. Measured: flown
+ * from the Deorbit preset it lands within metres; flown from a hand-circularised
+ * Circularize preset — same orbit, but 318 t at ignition instead of 420 t — the
+ * vacuum arc is ~200 km longer, because a lighter vehicle finishes its burn
+ * sooner and starts its fall from a different point on a slightly different
+ * ellipse. A constant cannot know that.
  */
-export const DEORBIT_LEAD_DISTANCE = 6_138_000;
+export const DEORBIT_LEAD_DISTANCE = 5_891_000;
 /** psi */
 export const dynamicPressureLimit = 50;
 /** rad */

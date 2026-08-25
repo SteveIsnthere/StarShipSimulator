@@ -257,12 +257,14 @@ describe('step 3 — deorbit and land at StarBase', () => {
   });
 
   it('and the entry is managed, not merely survived', () => {
-    // 309 units against a limit of 390 — 79% of it. The margin is the whole
+    // 317 units against a limit of 389 — 82% of it. The margin is the whole
     // reason the burn is a fixed 150 m/s: a bigger one drops perigee further,
-    // meets thick air faster, and pushes the peak up.
+    // meets thick air faster, and pushes the peak up. Tighter than the Re-entry
+    // preset's 63%, which is right — coming home from orbit should be the
+    // hardest thing the vehicle does.
     expect(flight.peakHeat).toBeGreaterThan(250);
     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
-    expect(flight.peakHeat / C.heatLimit, 'fraction of the structural limit').toBeCloseTo(0.79, 2);
+    expect(flight.peakHeat / C.heatLimit, 'fraction of the structural limit').toBeCloseTo(0.82, 2);
   });
 
   it('is deterministic — the same flight twice', () => {

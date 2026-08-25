@@ -1,38 +1,37 @@
 /**
- * M2.10: the proof that removing the flag machinery changed nothing numerically.
+ * The fixture audit trail: every time a golden has moved, and what moved it.
  *
- * Unifying the physics meant deleting `core/flags.ts`, taking four conditional
- * branches out of `step()`, dropping a SimState field the integrator read, and
- * making six quadrant ladders plus a seventh inlined copy collapse to single
- * expressions. That is a large restructure of the hot path, and the honest
- * question about it is not "does it still fly" but "is it the SAME simulation
- * the flags-on path was".
+ * WHERE THIS CAME FROM. M2.10 removed the fidelity-flag machinery — deleting
+ * `core/flags.ts`, four conditional branches in `step()`, a SimState field the
+ * integrator read, and seven quadrant ladders — and the honest question about a
+ * restructure that large is not "does it still fly" but "is it the SAME
+ * simulation". It was, bit for bit: all seven fixtures' rows came out identical
+ * to the flag-on recordings from commit 115879c. Rather than keep a second
+ * fixture set around to prove that (which would defeat "one physics, one
+ * fixture set"), the proof was reduced to a hash of each rows block.
  *
- * It is, bit for bit. The unified fixtures' rows are byte-identical to the
- * flag-on recordings made at commit 115879c, for all seven scenarios. The
- * fidelity arithmetic was deliberately left in the exact operation order the
- * flag-on path used — including the `-gravity … + gravity + real` add-back in
- * `getVerticalAcceleration`, which reads as redundant and is not: float
- * addition is not associative, and rewriting it to look tidier would have moved
- * the last bits.
+ * WHAT IT IS NOW. Those hashes turned out to be worth keeping for a second
+ * reason: they make every subsequent movement visible and attributable. A tier
+ * that claims to move one scenario can be checked against the table below, and
+ * a change that moves a fixture nobody expected shows up here first.
  *
- * WHY A DIGEST RATHER THAN A SECOND FIXTURE SET. M2.10's other half is "one
- * physics, one fixture set" — keeping the flag-suffixed recordings around to
- * compare against would defeat the point. A hash of the rows block is the whole
- * claim in 64 characters, and it is reproducible from the git history:
+ *     M2.10   flags removed                      moved NOTHING — the point
+ *     M2.9(a) heatLimit 55 -> 390                re-entry only
+ *     M2.11   the dead RCS command               re-entry and RTLS only
+ *     M2.12   the doubled tangential term        ALL SEVEN
  *
- *     git show 115879c:v2/tests/golden/fixtures/reentry-autoland--planetCenteredGravity+realSpeedOfSound+fullISA+collapsedTrig.json \
- *       | sed -n '/^ "rows": \[$/,$p' | shasum -a 256
+ * M2.12 moving all seven is not a surprise to be explained away: the term it
+ * corrects acts on any vehicle that is both climbing or falling and moving
+ * downrange, which is every scenario except sitting on the pad. A change that
+ * moved fewer would have been the suspicious one.
  *
- * That command printed `ef4c014f…`, which is what the unified re-entry fixture
- * hashed to when M2.10 landed. The other six were recorded the same way at the
- * same commit with all four flags forced on, and are still the digests below.
- * Re-entry's has since moved once, under M2.9(a) — see the table.
+ * REPRODUCING A DIGEST. The rows block is everything from the `"rows": [` line
+ * to the end of the file, hashed as written:
  *
- * IF ONE OF THESE MOVES, physics changed — exactly as for the fixtures
- * themselves, and under the same rule: only a declared Bug-fix or Fidelity tier
- * justified in the same commit may do it. The table below is the audit trail of
- * every one that has.
+ *     sed -n '/^ "rows": \[$/,$p' tests/golden/fixtures/intro-demo.json | shasum -a 256
+ *
+ * IF ONE MOVES WITHOUT A TIER TO NAME, physics changed by accident. That is the
+ * whole job of this file.
  */
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -42,59 +41,32 @@ import { GOLDEN_SPECS } from './scenarios';
 
 const DIR = fileURLToPath(new URL('./fixtures/', import.meta.url));
 
-/**
- * SHA-256 of a fixture's rows block — everything from the `"rows": [` line to
- * the end of the file, as written.
- *
- * The rows block and not the whole file, because the head carries the scenario
- * id and the `constant` block carried the flag fields themselves: with the
- * flags on, all four were constant for a whole flight, so the recorder folded
- * them there along with `orbitGravityAccCompensation` (constant zero once
- * gravity was real). Those five keys are exactly what M2.10 deleted, and
- * nothing else in the two files differs — the key list included.
- */
+/** SHA-256 of a fixture's rows block, as written. */
 function rowsDigest(id: string): string {
   const text = readFileSync(`${DIR}${id}.json`, 'utf8');
-  const marker = '\n "rows": [\n';
-  const start = text.indexOf(marker);
+  const start = text.indexOf('\n "rows": [\n');
   expect(start, `${id}: no rows block`).toBeGreaterThan(0);
   return createHash('sha256').update(text.slice(start)).digest('hex');
 }
 
-/**
- * Recorded at commit 115879c with planetCenteredGravity + realSpeedOfSound +
- * fullISA + collapsedTrig — except `reentry-autoland`, which M2.9(a) moved.
- *
- * That is the whole point of keeping these. The unification did not move a
- * single row; every move since has been one declared tier moving the scenarios
- * it said it would and no others:
- *
- *   M2.9(a)  heatLimit 55 -> 390        re-entry only
- *   M2.11    the dead RCS command       re-entry and RTLS only
- *
- * Five of the seven digests are still, to the character, what the flag-on build
- * produced at 115879c — including `intro-demo`, which CLAUDE.md says must never
- * change and which no tier here has touched.
- */
-const FLAG_ON_DIGESTS: Readonly<Record<string, string>> = {
-  'launch-pad-takeoff': 'c591afdceb7bf9007e108ba55cd8a54107a534060f5dba4285b91ed9b27e945b',
-  'booster-sep-boostback': '1abb2146fa29e8830e85cc20882a7cddd8278e63dfeb0d8fb173b2546bcc4062',
-  // M2.11, Bug fix: the autopilot's RCS command was dead. Moved with re-entry.
-  'rtls-boostback': '474688c0e8aeb55f0b754db9164aec344466b2b5626a6af1630c9f6fdcfc5ca1',
-  // M2.9(a), Bug fix: heatLimit 55 -> 390; then M2.11, Bug fix: the RCS command.
-  'reentry-autoland': 'd278673b0d266f4a552b0ae9f36e03a71134f79fa9bdbf3202b0f44897a6f39e',
-  'before-flip-autoland': 'd15154ded70543fd272acfae37f15c52b56594c48f23eef2e129aa01e4cf1a8b',
-  'landing-burn-autoland': '778d376b6379bbf7844bd8855884ca697f7e670ccd5917aea2aaef7d85f0a520',
-  'intro-demo': 'ec9a453bed2fcbb20bc73612de76358a5461132af33d3ce1730c0835d590ddb5',
+/** Current digests. Last moved by M2.12 — see the table above. */
+const DIGESTS: Readonly<Record<string, string>> = {
+  'launch-pad-takeoff': 'ea64873aca00a0244403bd2e3e74c117211bf8e2a6c10e3d9e27a6491d3c339c',
+  'booster-sep-boostback': '8f62770a9365c2c4e2663d497d4b3042b6eda633d59ab2e520fb7b22b318ae21',
+  'rtls-boostback': '5bf461e5445341d167dc62bfcc10106e6464be249616a4182475e82c9897b7c3',
+  'reentry-autoland': '7c2b8b7f23476a7e3e92e100726876262958db8ddc60558a8027751a3602925d',
+  'before-flip-autoland': 'f2c4cc3df2fd7b66523b1312334ce3e568bdc2f758ef413ab24b1d6a5cd787da',
+  'landing-burn-autoland': '6d987b5a9a405584c023baf6b4d86fad4b3fbb93364eeab99f79f094947fa8ee',
+  'intro-demo': '9ccbc99467ad598df9ed0e9f7e38960c85948dfffd642f25ca0c344dcc463ffd',
 };
 
-describe('the unified physics is the flag-on physics, bit for bit', () => {
-  it.each(Object.keys(FLAG_ON_DIGESTS))('%s rows are as recorded', (id) => {
-    expect(rowsDigest(id)).toBe(FLAG_ON_DIGESTS[id]);
+describe('every fixture is where the declared tiers left it', () => {
+  it.each(Object.keys(DIGESTS))('%s rows are as recorded', (id) => {
+    expect(rowsDigest(id)).toBe(DIGESTS[id]);
   });
 
   it('covers every golden scenario, so none can be quietly exempted', () => {
-    expect(GOLDEN_SPECS.map((s) => s.id).sort()).toEqual(Object.keys(FLAG_ON_DIGESTS).sort());
+    expect(GOLDEN_SPECS.map((s) => s.id).sort()).toEqual(Object.keys(DIGESTS).sort());
   });
 
   it('the digest actually discriminates — a changed row changes the hash', () => {
@@ -104,6 +76,6 @@ describe('the unified physics is the flag-on physics, bit for bit', () => {
     const start = text.indexOf('\n "rows": [\n');
     const mutated = text.slice(start).replace('[', '[1,');
     const digest = createHash('sha256').update(mutated).digest('hex');
-    expect(digest).not.toBe(FLAG_ON_DIGESTS['intro-demo']);
+    expect(digest).not.toBe(DIGESTS['intro-demo']);
   });
 });
