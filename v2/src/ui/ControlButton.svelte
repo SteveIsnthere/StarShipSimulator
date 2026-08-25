@@ -20,9 +20,11 @@
     indicator?: string;
     /** Grid span, for the wide buttons. */
     wide?: boolean;
+    /** Stable identifier for the e2e suite. See ui/testids.ts. */
+    testid: string;
   }
 
-  const { label, event, emit, indicator, wide = false }: Props = $props();
+  const { label, event, emit, indicator, wide = false, testid }: Props = $props();
 </script>
 
 <button
@@ -30,6 +32,7 @@
   class:wide
   type="button"
   data-indicator={indicator}
+  data-testid={testid}
   onclick={() => emit(event)}
 >
   {label}
@@ -41,7 +44,7 @@
     border: 0;
     border-radius: 0.55rem;
     padding: 0.4rem 0.55rem;
-    font: 600 0.72rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font: 600 0.72rem/1 var(--font);
     letter-spacing: 0.03em;
     color: #000;
     background: rgb(255 255 255 / 43%);

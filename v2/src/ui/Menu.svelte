@@ -18,6 +18,7 @@
     type EditorFields,
     type TimeSetting,
   } from './menu';
+  import { presetTestId } from './testids';
 
   interface Props {
     open: boolean;
@@ -68,13 +69,14 @@
   <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
   <div class="scrim" onclick={onClose}></div>
 
-  <div class="menu" role="dialog" aria-label="Menu" data-menu>
+  <div class="menu" role="dialog" aria-label="Menu" data-menu data-testid="menu">
     <div class="row">
       <button
         class="control"
         class:is-on={randomFailure}
         type="button"
         data-menu-control="randomFailure"
+        data-testid="menu-random-failure"
         onclick={onToggleRandomFailure}
       >
         Random Failure
@@ -84,11 +86,12 @@
         class:is-on={tiltControl}
         type="button"
         data-menu-control="tiltControl"
+        data-testid="menu-tilt-control"
         onclick={onToggleTiltControl}
       >
         Tilt Control
       </button>
-      <button class="control" type="button" data-menu-control="close" onclick={onClose}>
+      <button class="control" type="button" data-menu-control="close" data-testid="menu-close" onclick={onClose}>
         Close
       </button>
     </div>
@@ -99,6 +102,7 @@
         class="control"
         type="button"
         data-menu-control="timeDirection"
+        data-testid="menu-time-direction"
         onclick={() => onTimeChange({ rate: time.rate, speedingUp: !time.speedingUp })}
       >
         {time.speedingUp ? 'Speed Things Up' : 'Slow Things Down'}
@@ -108,13 +112,14 @@
         type="range"
         aria-label="Time warp rate"
         data-menu-control="timeRate"
+        data-testid="menu-time-rate"
         min={MIN_TIME_RATE}
         max={MAX_TIME_RATE}
         step="1"
         value={time.rate}
         oninput={setRate}
       />
-      <span class="rate" data-menu-readout="timeRate">{describeTimeSetting(time)}</span>
+      <span class="rate" data-menu-readout="timeRate" data-testid="menu-time-readout">{describeTimeSetting(time)}</span>
     </div>
 
     <p class="title">Configure New Flight</p>
@@ -127,6 +132,7 @@
             class="control"
             type="button"
             data-preset={preset.id}
+            data-testid={presetTestId(preset.id)}
             title={preset.description}
             onclick={() => usePreset(preset)}
           >
@@ -148,6 +154,7 @@
             class="control"
             type="button"
             data-preset={preset.id}
+            data-testid={presetTestId(preset.id)}
             title={preset.description}
             onclick={() => usePreset(preset)}
           >
@@ -158,20 +165,21 @@
     </div>
 
     <div class="fields">
-      <input type="number" data-field="altitude" placeholder="Altitude (M)" bind:value={fields.altitude} />
-      <input type="number" data-field="xPosition" placeholder="X-Position (M)" bind:value={fields.xPosition} />
-      <input type="number" data-field="speedX" placeholder="Speed-X (M/S)" bind:value={fields.speedX} />
-      <input type="number" data-field="speedY" placeholder="Speed-Y (M/S)" bind:value={fields.speedY} />
-      <input type="number" data-field="pitch" placeholder="Pitch (deg)" bind:value={fields.pitch} />
-      <input type="number" data-field="propellant" placeholder="Propellant (T)" bind:value={fields.propellant} />
+      <input type="number" data-field="altitude" data-testid="field-altitude" placeholder="Altitude (M)" bind:value={fields.altitude} />
+      <input type="number" data-field="xPosition" data-testid="field-xPosition" placeholder="X-Position (M)" bind:value={fields.xPosition} />
+      <input type="number" data-field="speedX" data-testid="field-speedX" placeholder="Speed-X (M/S)" bind:value={fields.speedX} />
+      <input type="number" data-field="speedY" data-testid="field-speedY" placeholder="Speed-Y (M/S)" bind:value={fields.speedY} />
+      <input type="number" data-field="pitch" data-testid="field-pitch" placeholder="Pitch (deg)" bind:value={fields.pitch} />
+      <input type="number" data-field="propellant" data-testid="field-propellant" placeholder="Propellant (T)" bind:value={fields.propellant} />
     </div>
 
     <div class="row">
-      <button class="control" type="button" data-menu-control="clear" onclick={clear}>Clear</button>
+      <button class="control" type="button" data-menu-control="clear" data-testid="menu-clear" onclick={clear}>Clear</button>
       <button
         class="control"
         type="button"
         data-menu-control="configure"
+        data-testid="menu-configure"
         onclick={() => onConfigure(fields)}
       >
         Configure
@@ -179,10 +187,10 @@
     </div>
 
     <div class="row">
-      <button class="control" type="button" data-menu-control="about" onclick={() => onShowInfo('about')}>
+      <button class="control" type="button" data-menu-control="about" data-testid="menu-about" onclick={() => onShowInfo('about')}>
         About
       </button>
-      <button class="control" type="button" data-menu-control="guide" onclick={() => onShowInfo('guide')}>
+      <button class="control" type="button" data-menu-control="guide" data-testid="menu-guide" onclick={() => onShowInfo('guide')}>
         Help
       </button>
     </div>
@@ -207,7 +215,7 @@
     padding: 1rem;
     background: rgb(196 196 196 / 92%);
     backdrop-filter: blur(10px);
-    font: 500 0.8rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font: 500 0.8rem/1.4 var(--font);
     color: #0b1017;
   }
   .title {
@@ -250,7 +258,7 @@
     border: 0;
     border-radius: 0.55rem;
     padding: 0.4rem 0.6rem;
-    font: 600 0.72rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font: 600 0.72rem/1 var(--font);
     color: #000;
     background: rgb(255 255 255 / 43%);
     box-shadow:

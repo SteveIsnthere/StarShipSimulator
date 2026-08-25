@@ -7,39 +7,45 @@
  * the page. That is what this checks.
  */
 import { expect, test } from '@playwright/test';
+import { byTestId, READOUT_IDS, readoutValueTestId } from '../../src/ui/testids';
+
+/** Every value node the binder writes into, as one CSS selector. */
+const VALUES = READOUT_IDS.map((id) => byTestId(readoutValueTestId(id))).join(', ');
 
 test('the readouts are rendered and filled in', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
-  const hud = page.locator('.hud');
-  await expect(hud).toBeVisible();
-
-  // Every readout has a label, a value and a unit slot.
-  const rows = hud.locator('.row');
-  await expect(rows).toHaveCount(13);
+  // Every readout has a row, a value node and a unit node — asked for by name
+  // rather than by class, so a restyle cannot make this pass or fail by
+  // accident. tests/e2e/testids.spec.ts holds the full contract.
+  await expect(page.locator(byTestId('readout-altitude'))).toBeVisible();
+  await expect(page.locator(VALUES)).toHaveCount(READOUT_IDS.length);
 
   // The first update fills every value node. Poll rather than wait a fixed
   // time: the view starts asynchronously.
   await expect
     .poll(
       async () =>
-        page.evaluate(() =>
-          [...document.querySelectorAll('.hud .value')].every((el) => el.textContent !== ''),
+        page.evaluate(
+          (selector) =>
+            [...document.querySelectorAll(selector)].every((el) => el.textContent !== ''),
+          VALUES,
         ),
       { timeout: 5_000 },
     )
     .toBe(true);
 
-  await expect(hud).toContainText('ALT');
-  await expect(hud).toContainText('MACH');
+  await expect(page.locator(byTestId('readout-altitude'))).toContainText('ALT');
+  await expect(page.locator(byTestId('readout-mach'))).toContainText('MACH');
 });
 
 test('the readouts change as the intro flight runs', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
   const read = () =>
-    page.evaluate(() =>
-      [...document.querySelectorAll('.hud .value')].map((el) => el.textContent ?? ''),
+    page.evaluate(
+      (selector) => [...document.querySelectorAll(selector)].map((el) => el.textContent ?? ''),
+      VALUES,
     );
 
   await expect.poll(async () => (await read())[0] !== '', { timeout: 5_000 }).toBe(true);

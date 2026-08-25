@@ -7,31 +7,33 @@
  */
 import { expect, test } from '@playwright/test';
 
+/** A control, by its test id (src/ui/testids.ts). The `is-on` class is the
+    indicator binder's output, so this reads what the simulation believes. */
 const light = (page: import('@playwright/test').Page, id: string) =>
-  page.locator(`[data-indicator="${id}"]`);
+  page.locator(`[data-testid="${id}"]`);
 
 test('the panels render with every control', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
   for (const id of [
-    'raptor0',
-    'raptor1',
-    'raptor2',
-    'allRaptors',
-    'autoMaxThrust',
-    'autoTakeOff',
-    'boostBack',
-    'pitchHold',
-    'autoLand',
+    'raptor-0',
+    'raptor-1',
+    'raptor-2',
+    'all-raptors',
+    'auto-max-thrust',
+    'auto-take-off',
+    'boost-back',
+    'pitch-hold',
+    'auto-land',
     'fins',
     'rcs',
-    'dumpFuel',
+    'dump-fuel',
   ]) {
     await expect(light(page, id), id).toBeVisible();
   }
 
-  await expect(page.locator('[data-control="throttle"]')).toBeVisible();
-  await expect(page.locator('[data-control="pitch"]')).toBeVisible();
+  await expect(page.locator('[data-testid="throttle"]')).toBeVisible();
+  await expect(page.locator('[data-testid="yoke-pitch"]')).toBeVisible();
 });
 
 test('a toggle lights its button and unlights it again', async ({ page }) => {
@@ -58,16 +60,16 @@ test('lighting the Raptors changes the flight', async ({ page }) => {
   //
   // The handover is the known state: engines off, tanks full. Fuel returning to
   // 350 t is the signal (see the throttle test below for why not the others).
-  const fuel = page.locator('[data-readout="propellant"] .value');
+  const fuel = page.locator('[data-testid="readout-propellant-value"]');
   await expect
     .poll(async () => Number(await fuel.textContent()), { timeout: 40_000, intervals: [250] })
     .toBe(350);
 
-  const allRaptors = light(page, 'allRaptors');
+  const allRaptors = light(page, 'all-raptors');
   await expect(allRaptors).not.toHaveClass(/is-on/);
 
   // Resting on the pad after the demo landed it. Give it a push and it climbs.
-  const altitude = page.locator('[data-readout="altitude"] .value');
+  const altitude = page.locator('[data-testid="readout-altitude-value"]');
   const before = Number(await altitude.textContent());
 
   await allRaptors.click();
@@ -85,7 +87,7 @@ test('the throttle slider is bounded by the engine limits', async ({ page }) => 
 
   // Not 0-100. initBackEnd.js:166 put these on the element from
   // throttleLowerLimit / throttleUpperLimit; core clamps to the same numbers.
-  const throttle = page.locator('[data-control="throttle"]');
+  const throttle = page.locator('[data-testid="throttle"]');
   await expect(throttle).toHaveAttribute('min', '40');
   await expect(throttle).toHaveAttribute('max', '100');
 });
@@ -109,20 +111,20 @@ test('the throttle slider commands the engines once the intro hands over', async
   // The unambiguous one is fuel. On handover demoAutoLand refills the tanks so
   // the player gets a full vehicle (autopilot/index.ts:499). Nothing else in the
   // simulation puts propellant back.
-  const fuel = page.locator('[data-readout="propellant"] .value');
+  const fuel = page.locator('[data-testid="readout-propellant-value"]');
   await expect
     .poll(async () => Number(await fuel.textContent()), { timeout: 40_000, intervals: [250] })
     .toBe(350);
 
   // Handover also restores the throttle to 100 and shuts the engines down.
-  const readout = page.locator('[data-readout="throttle"] .value');
+  const readout = page.locator('[data-testid="readout-throttle-value"]');
   await expect.poll(async () => Number(await readout.textContent()), { timeout: 10_000 }).toBe(100);
 
-  const allRaptors = light(page, 'allRaptors');
+  const allRaptors = light(page, 'all-raptors');
   await expect(allRaptors).not.toHaveClass(/is-on/);
   await allRaptors.click();
 
-  await page.locator('[data-control="throttle"]').fill('40');
+  await page.locator('[data-testid="throttle"]').fill('40');
 
   // The actual throttle slews toward the command at throttleSpeed, so watch the
   // readout settle rather than expecting it to snap.

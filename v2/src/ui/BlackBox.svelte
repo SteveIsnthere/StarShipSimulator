@@ -87,10 +87,10 @@
   <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
   <div class="scrim" onclick={onClose}></div>
 
-  <div class="blackbox" role="dialog" aria-label="Black box" data-blackbox>
+  <div class="blackbox" role="dialog" aria-label="Black box" data-blackbox data-testid="black-box">
     <div class="bar">
       <span>Black Box</span>
-      <button type="button" data-blackbox-control="close" onclick={onClose}>Close</button>
+      <button type="button" data-blackbox-control="close" data-testid="black-box-close" onclick={onClose}>Close</button>
     </div>
 
     {#if status}
@@ -118,7 +118,7 @@
     background: rgb(240 240 240 / 96%);
     backdrop-filter: blur(10px);
     border-radius: 0.75rem;
-    font: 500 0.8rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font: 500 0.8rem/1.4 var(--font);
     color: #0b1017;
   }
   .bar {

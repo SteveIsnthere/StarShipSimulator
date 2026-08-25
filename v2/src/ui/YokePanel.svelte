@@ -34,6 +34,7 @@
     type="range"
     aria-label="Pitch"
     data-control="pitch"
+    data-testid="yoke-pitch"
     min="-100"
     max="100"
     step="1"
@@ -50,12 +51,12 @@
 
   <span class="title">Auto Pilot Modes</span>
   <div class="row">
-    <ControlButton label="Lift-Off" event={{ type: 'autoTakeOff' }} indicator="autoTakeOff" {emit} />
-    <ControlButton label="Boost-Back" event={{ type: 'boostBack' }} indicator="boostBack" {emit} />
+    <ControlButton label="Lift-Off" event={{ type: 'autoTakeOff' }} indicator="autoTakeOff" testid="auto-take-off" {emit} />
+    <ControlButton label="Boost-Back" event={{ type: 'boostBack' }} indicator="boostBack" testid="boost-back" {emit} />
   </div>
   <div class="row">
-    <ControlButton label="Att-Hold" event={{ type: 'pitchHold' }} indicator="pitchHold" {emit} />
-    <ControlButton label="Auto-Land" event={{ type: 'autoLand' }} indicator="autoLand" {emit} />
+    <ControlButton label="Att-Hold" event={{ type: 'pitchHold' }} indicator="pitchHold" testid="pitch-hold" {emit} />
+    <ControlButton label="Auto-Land" event={{ type: 'autoLand' }} indicator="autoLand" testid="auto-land" {emit} />
   </div>
   <div class="row">
     <!--
@@ -63,14 +64,14 @@
       orbits to come home from. It hands the vehicle to Auto-Land once the
       retrograde burn is done, so the two lights are never on together.
     -->
-    <ControlButton label="Deorbit" event={{ type: 'autoDeorbit' }} indicator="autoDeorbit" {emit} />
+    <ControlButton label="Deorbit" event={{ type: 'autoDeorbit' }} indicator="autoDeorbit" testid="auto-deorbit" {emit} />
   </div>
 
   <span class="title">Utilities</span>
   <div class="row">
-    <ControlButton label="Fins" event={{ type: 'fins' }} indicator="fins" {emit} />
-    <ControlButton label="RCS" event={{ type: 'rcs' }} indicator="rcs" {emit} />
-    <ControlButton label="DumpFuel" event={{ type: 'dumpFuel' }} indicator="dumpFuel" {emit} />
+    <ControlButton label="Fins" event={{ type: 'fins' }} indicator="fins" testid="fins" {emit} />
+    <ControlButton label="RCS" event={{ type: 'rcs' }} indicator="rcs" testid="rcs" {emit} />
+    <ControlButton label="DumpFuel" event={{ type: 'dumpFuel' }} indicator="dumpFuel" testid="dump-fuel" {emit} />
   </div>
 </section>
 
@@ -82,8 +83,9 @@
     gap: 0.3rem;
   }
   .title {
-    font: 500 0.68rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-    letter-spacing: 0.06em;
+    font: 500 0.68rem/1 var(--font-condensed);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
     opacity: 0.7;
   }
   .row {

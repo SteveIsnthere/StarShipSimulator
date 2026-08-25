@@ -105,16 +105,28 @@ clearest marker of the old look.
 
 ### Typography
 
-- **D-DIN** (Regular, Bold) + **D-DIN Condensed** for dense labels. Self-hosted
-  woff2, subset to latin + digits + punctuation, ≤ 80 kB total, OFL license
-  file committed alongside. `font-display: swap`; SW-precached (offline gate
+- ~~**D-DIN** (Regular, Bold) + **D-DIN Condensed** for dense labels.~~
+  **REJECTED BY THE TEST, M6.1.** D-DIN's ten digits carry nine distinct advance
+  widths (`1` is 36% narrower than `0`) and it ships no `tnum` feature to reach
+  lining figures with. At the 44px gauge numeral that is 29px of horizontal
+  slide between `1111` and `0000` — a speed readout would visibly shuffle as it
+  counted. The measurements are in `v2/src/ui/fonts.ts`.
+- **SHIPPED: Barlow Semi Condensed** (Regular, Bold) + **Barlow Condensed** for
+  dense labels — the plan's own named fallback below, taken. A DIN-grotesque
+  under OFL 1.1 whose `tnum` figures are exactly uniform. Self-hosted woff2,
+  subset to the UI's charset, **32.7 kB for four faces** against the 80 kB cap,
+  OFL committed alongside. `font-display: swap`; SW-precached (offline gate
   already exists).
 - **Numerals must be tabular** — a ticking readout that wobbles horizontally is
-  disqualifying. D-DIN's figures are effectively monospaced; a unit test
-  measures rendered widths of `1111` vs `0000` via canvas and fails if they
-  differ by > 1px. If D-DIN fails that test, the fallback (decided by the same
-  test, not by taste) is an OFL DIN-grotesque with true `tnum` — Saira or
-  Barlow — same subset pipeline.
+  disqualifying. This was written expecting D-DIN's figures to be effectively
+  monospaced. They are not, and the test caught it, which is the whole reason it
+  was written before the font was chosen. Saira Condensed was checked next and
+  has no `tnum` at all; Barlow has one and is what ships. The measurement now
+  lives in two places: `tests/ui/tabular-digits.test.ts` decides headlessly from
+  advance widths (and asserts D-DIN still fails, so the decision cannot be
+  quietly reversed), and `tests/e2e/typography.spec.ts` measures `1111` against
+  `0000` on a real canvas in a real browser — the shipped bytes, the shipped
+  stylesheet.
 - Scale: values 28/40px (gauge numerals), labels 10–11px uppercase with
   `letter-spacing: 0.14em`, T+ clock 22px. Fallback stack:
   `'D-DIN', 'Helvetica Neue', Arial, sans-serif`.
@@ -283,14 +295,15 @@ zero intensity, heap-sampling perf test extended to cover them.
 - **The light daytime sky stays.** The scrim exists precisely so the overlay
   survives any background; darkening the world to flatter the UI would be
   backwards.
-- **D-DIN unless the tabular-digits test rejects it**; the test decides, not
-  taste.
+- ~~**D-DIN unless the tabular-digits test rejects it**~~ — the test rejected
+  it (M6.1). Barlow ships. The rule held: the decision was made by measurement,
+  and the measurement is committed so it can be re-run rather than re-argued.
 
 ## 8. Risks
 
 | Risk | Mitigation |
 |---|---|
-| D-DIN digits not tabular enough | width test in M6.1 decides font before anything is built on it |
+| ~~D-DIN digits not tabular enough~~ | **This happened.** The width test ran first, D-DIN failed it, Barlow shipped instead — before any layout was built on the wrong metrics |
 | Gauge redraw cost on mobile | dashoffset-only updates; benchmark gate; arcs degrade to digit+tick under 600px anyway |
 | e2e churn from restyling | data-testid contract lands first (M6.1), before any restyle |
 | Scrim over bright sky at noon | scrim opacity tuned against the brightest fixture frame; contrast test asserts AA for ink-70 on the worst case |

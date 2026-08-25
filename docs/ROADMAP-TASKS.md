@@ -236,7 +236,7 @@ responsive to phones. Milestone-wide rules, checked at EVERY M6 commit:
 exists and works (capability parity — visual parity is retired); lint + test +
 build + playwright green per task; one task per commit, id-prefixed.*
 
-- [ ] **M6.1 Tokens, type, and the testid contract** — `src/ui/theme.css` design tokens
+- [x] **M6.1 Tokens, type, and the testid contract** — `src/ui/theme.css` design tokens
   (ink-100/70/45/25 opacity ramp, scrims, caution/alarm/good, hairline, 2px radius); D-DIN
   (OFL 1.1) subset to woff2 ≤ 80 kB total, self-hosted, license committed, SW-precached; a
   canvas-measure unit test asserts tabular digits (`1111` vs `0000` within 1px) and DECIDES the
@@ -1089,3 +1089,40 @@ build + playwright green per task; one task per commit, id-prefixed.*
   The milestone-wide invariant is structural: core frozen, the seven golden digests unchanged
   at every commit — the overhaul is pixels, provably not physics.
 
+- 2026-08-25 · M6.1 · Design tokens, the type, and the test-id contract — the three things every
+  later M6 task builds on. `src/ui/theme.css` holds the whole vocabulary: a four-step white ramp,
+  two scrims, three meaning-colours, one hairline, a 2px radius, the type scale, safe-area and
+  touch tokens. **The typeface decision went against the plan, on the plan's own terms.**
+  BROADCAST-UI-PLAN nominated D-DIN and made a tabular-digits measurement the decider rather than
+  taste; D-DIN failed it decisively — its ten digits carry nine distinct advance widths (`1` is 36%
+  narrower than `0`) and it ships no `tnum` feature, so `1111` and `0000` differ by 29 px at the
+  44 px gauge numeral and a speed readout would visibly shuffle as it counted. Saira Condensed has
+  no `tnum` at all. Barlow — the plan's own named fallback — has one, and its figures are exactly
+  uniform (434/1000 condensed, 481 semi-condensed). Four faces subset to the UI's charset:
+  **32.7 kB against the 80 kB cap**, OFL 1.1 committed beside them, content-hashed through vite so
+  the relative URLs survive a subpath deploy and the service worker precaches them with everything
+  else. `scripts/subset-fonts.mjs` keeps the pipeline reproducible; its `--layout-features=tnum`
+  flag is load-bearing, since dropping it would leave the CSS asking for tabular figures from a
+  font that no longer has them and nothing would fail except the alignment.
+  Two tests, catching two different lies: `tests/ui/tabular-digits.test.ts` decides headlessly from
+  advance widths (and asserts D-DIN still fails, so the decision cannot be quietly reversed), and
+  `tests/e2e/typography.spec.ts` measures the shipped bytes in a real browser.
+  **The plan said to measure `1111` vs `0000` on a canvas; canvas cannot answer that question.**
+  Chromium's Canvas2D has `fontKerning`, `fontStretch`, `fontVariantCaps` and `letterSpacing` — and
+  no `fontVariantNumeric`. Setting one is silently ignored, so the first version of the test
+  measured proportional widths and failed by 33.9 px, which is how the gap was found. The tabular
+  half now measures real DOM spans under the real stylesheet — a better instrument, since it is the
+  text the pilot reads — and canvas stays on as the control, since the only thing it CAN produce is
+  the proportional widths that prove the DOM assertion is not vacuous.
+  The contract: `src/ui/testids.ts` names every control and readout, deliberately import-free so
+  Playwright can read it without vite's aliases; `tests/ui/testids.test.ts` closes the loop that
+  costs (the transcribed readout ids must equal `$hud/readouts`, every indicator must have a test
+  id, no duplicates); `tests/e2e/testids.spec.ts` asserts each id resolves to exactly ONE element —
+  duplicates being the failure that would otherwise turn an unrelated spec red for an unfindable
+  reason. Eleven specs re-pointed off `.hud .value`, `[data-indicator]` and a hard-coded row count
+  of 13. Two real defects surfaced doing it: `input.spec.ts` drove `pitchHold` from a tuple the
+  bulk rewrite did not reach, and nothing on the page used the condensed face, so the browser never
+  fetched it and `document.fonts.check` was right to say so.
+  Budget gained a second gate — fonts ≤ 80 kB, measured raw because woff2 is already brotli and
+  gzipping it again measures nothing. Report: 183.8 kB JS of 250, 32.7 kB fonts of 80.
+  Gate green; `git diff v2/src/core` empty; the seven unification digests unmoved.

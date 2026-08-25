@@ -1,4 +1,9 @@
 import { mount } from 'svelte';
+// The design tokens and the @font-face declarations, before anything renders.
+// Imported here rather than from a component so it is in the entry chunk's CSS
+// and applies to the very first paint — a component-scoped import would arrive
+// with that component and flash the fallback stack on the way in.
+import './ui/theme.css';
 import App from '$ui/App.svelte';
 import { createOfflineSupport } from '$app/offline';
 

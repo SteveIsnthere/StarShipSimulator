@@ -24,10 +24,10 @@
   <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
   <div class="scrim" onclick={onClose}></div>
 
-  <div class="sheet" role="dialog" aria-label={view === 'guide' ? 'Guide' : 'About'} data-info={view}>
+  <div class="sheet" role="dialog" aria-label={view === 'guide' ? 'Guide' : 'About'} data-info={view} data-testid="info-view">
     <div class="bar">
       <span>{view === 'guide' ? 'Guide' : 'About'}</span>
-      <button type="button" data-info-control="close" onclick={onClose}>Close</button>
+      <button type="button" data-info-control="close" data-testid="info-close" onclick={onClose}>Close</button>
     </div>
 
     {#if view === 'guide'}
@@ -178,7 +178,7 @@
     padding: 0.1rem 0.35rem;
     border-radius: 0.3rem;
     background: rgb(255 255 255 / 15%);
-    font: 600 0.75rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font: 600 0.75rem/1.4 var(--font);
   }
   .or {
     padding: 0 0.2rem;

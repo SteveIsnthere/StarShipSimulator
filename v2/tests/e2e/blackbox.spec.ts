@@ -10,7 +10,7 @@ import { expect, test } from '@playwright/test';
 
 async function ready(page: import('@playwright/test').Page) {
   await expect
-    .poll(async () => (await page.locator('[data-readout="altitude"] .value').textContent()) !== '', {
+    .poll(async () => (await page.locator('[data-testid="readout-altitude-value"]').textContent()) !== '', {
       timeout: 10_000,
     })
     .toBe(true);
@@ -39,7 +39,7 @@ test('no chart code is loaded until the black box is opened', async ({ page }) =
   expect(scripts.filter((u) => !u.startsWith('http://127.0.0.1'))).toEqual([]);
 
   const beforeCount = scripts.length;
-  await page.locator('[data-blackbox-control="open"]').click();
+  await page.locator('[data-testid="open-black-box"]').click();
 
   // Wait for a drawn plot, not for the dialog: the dialog renders immediately
   // and the import resolves later, so asserting on visibility alone reads the
@@ -58,7 +58,7 @@ test('it draws the nine plots of the flight', async ({ page }) => {
 
   // Give the intro a moment to record something worth plotting.
   await page.waitForTimeout(2_000);
-  await page.locator('[data-blackbox-control="open"]').click();
+  await page.locator('[data-testid="open-black-box"]').click();
 
   const plots = page.locator('[data-plot]');
   await expect(plots).toHaveCount(9, { timeout: 15_000 });
@@ -87,18 +87,18 @@ test('it closes, and the keyboard is suppressed while it is open', async ({ page
   await ready(page);
   await page.waitForTimeout(1_000);
 
-  const fins = page.locator('[data-indicator="fins"]');
+  const fins = page.locator('[data-testid="fins"]');
   const before = ((await fins.getAttribute('class')) ?? '').includes('is-on');
 
-  await page.locator('[data-blackbox-control="open"]').click();
-  await expect(page.locator('[data-blackbox]')).toBeVisible();
+  await page.locator('[data-testid="open-black-box"]').click();
+  await expect(page.locator('[data-testid="black-box"]')).toBeVisible();
 
   await page.keyboard.press('f');
   await page.waitForTimeout(300);
   expect(((await fins.getAttribute('class')) ?? '').includes('is-on')).toBe(before);
 
-  await page.locator('[data-blackbox-control="close"]').click();
-  await expect(page.locator('[data-blackbox]')).toHaveCount(0);
+  await page.locator('[data-testid="black-box-close"]').click();
+  await expect(page.locator('[data-testid="black-box"]')).toHaveCount(0);
 
   // And it works again once closed.
   await page.keyboard.press('f');

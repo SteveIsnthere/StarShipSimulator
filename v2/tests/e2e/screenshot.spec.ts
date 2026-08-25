@@ -20,7 +20,7 @@ test('capture @screenshot', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
   await expect
-    .poll(async () => (await page.locator('[data-readout="altitude"] .value').textContent()) !== '', {
+    .poll(async () => (await page.locator('[data-testid="readout-altitude-value"]').textContent()) !== '', {
       timeout: 15_000,
     })
     .toBe(true);
@@ -30,7 +30,7 @@ test('capture @screenshot', async ({ page }) => {
   // altitude — puts the ship above the frame, because the camera is
   // semi-sticky and stays with the pad until the vehicle has left it.
   await expect
-    .poll(async () => Number(await page.locator('[data-readout="altitude"] .value').textContent()), {
+    .poll(async () => Number(await page.locator('[data-testid="readout-altitude-value"]').textContent()), {
       timeout: 30_000,
       intervals: [200],
     })

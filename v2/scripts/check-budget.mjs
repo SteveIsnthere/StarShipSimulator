@@ -15,6 +15,17 @@ import { join, resolve } from 'node:path';
 
 export const DEFAULT_BUDGET_BYTES = 250 * 1024;
 
+/**
+ * The font budget, self-imposed by M6 (docs/BROADCAST-UI-PLAN.md § 6).
+ *
+ * Fonts are not JS and never counted against the first-load number, which is
+ * exactly why they need a cap of their own: a webfont family is the easiest
+ * thing in a redesign to let grow without anyone noticing, and the whole
+ * interface is type. Measured RAW rather than gzipped, because woff2 is already
+ * brotli-compressed and gzipping it again measures nothing real.
+ */
+export const DEFAULT_FONT_BUDGET_BYTES = 80 * 1024;
+
 /** Paths, relative to dist/, that the browser fetches before first paint. */
 export function parseFirstLoad(html) {
   const srcs = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map((m) => m[1]);
@@ -28,7 +39,11 @@ export function parseFirstLoad(html) {
 
 const kb = (n) => `${(n / 1024).toFixed(1)} kB`;
 
-export async function checkBudget(distDir, budgetBytes = DEFAULT_BUDGET_BYTES) {
+export async function checkBudget(
+  distDir,
+  budgetBytes = DEFAULT_BUDGET_BYTES,
+  fontBudgetBytes = DEFAULT_FONT_BUDGET_BYTES,
+) {
   const dist = resolve(distDir);
   const files = parseFirstLoad(await readFile(join(dist, 'index.html'), 'utf8'));
   if (files.length === 0) throw new Error('no first-load scripts found in dist/index.html');
@@ -44,7 +59,26 @@ export async function checkBudget(distDir, budgetBytes = DEFAULT_BUDGET_BYTES) {
   const all = await readdir(join(dist, 'assets')).catch(() => []);
   const lazy = all.filter((f) => f.endsWith('.js') && !files.some((p) => p.endsWith(f)));
 
-  return { rows, total, budgetBytes, lazy, ok: total <= budgetBytes };
+  const fontFiles = all.filter((f) => /\.(woff2?|ttf|otf)$/.test(f));
+  const fonts = [];
+  let fontTotal = 0;
+  for (const file of fontFiles) {
+    const bytes = (await readFile(join(dist, 'assets', file))).length;
+    fontTotal += bytes;
+    fonts.push([file, bytes]);
+  }
+  fonts.sort((a, b) => a[0].localeCompare(b[0]));
+
+  return {
+    rows,
+    total,
+    budgetBytes,
+    lazy,
+    fonts,
+    fontTotal,
+    fontBudgetBytes,
+    ok: total <= budgetBytes && fontTotal <= fontBudgetBytes,
+  };
 }
 
 export function report(result) {
@@ -56,8 +90,21 @@ export function report(result) {
   if (result.lazy.length) {
     console.log(`  (lazy chunks, not counted: ${result.lazy.join(', ')})`);
   }
-  if (result.ok) console.log(`\nbudget: OK — ${kb(result.total)} of ${kb(result.budgetBytes)}`);
-  else console.error(`\nbudget: FAIL — ${kb(result.total)} exceeds ${kb(result.budgetBytes)}`);
+  for (const [file, bytes] of result.fonts ?? []) {
+    console.log(`  ${file.padEnd(48)} ${kb(bytes).padStart(10)} raw`);
+  }
+  console.log(`  ${'TOTAL fonts'.padEnd(48)} ${kb(result.fontTotal ?? 0).padStart(10)} raw`);
+  console.log(`  ${'FONT BUDGET'.padEnd(48)} ${kb(result.fontBudgetBytes ?? 0).padStart(10)} raw`);
+
+  const jsOk = result.total <= result.budgetBytes;
+  const fontOk = (result.fontTotal ?? 0) <= (result.fontBudgetBytes ?? Infinity);
+  if (jsOk) console.log(`\nbudget: OK — ${kb(result.total)} of ${kb(result.budgetBytes)} JS`);
+  else console.error(`\nbudget: FAIL — ${kb(result.total)} exceeds ${kb(result.budgetBytes)} JS`);
+  if (fontOk) console.log(`budget: OK — ${kb(result.fontTotal ?? 0)} of ${kb(result.fontBudgetBytes ?? 0)} fonts`);
+  else
+    console.error(
+      `budget: FAIL — ${kb(result.fontTotal ?? 0)} exceeds ${kb(result.fontBudgetBytes ?? 0)} fonts`,
+    );
 }
 
 // CLI entry. Kept separate from the logic above so tests can call checkBudget directly.

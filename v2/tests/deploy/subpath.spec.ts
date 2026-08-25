@@ -20,7 +20,7 @@ test('the app loads and flies from a subdirectory', async ({ page }) => {
 
   await page.goto('./', { waitUntil: 'load' });
 
-  const altitude = page.locator('[data-readout="altitude"] .value');
+  const altitude = page.locator('[data-testid="readout-altitude-value"]');
   await expect.poll(async () => (await altitude.textContent()) !== '', { timeout: 15_000 }).toBe(true);
   await expect(page.locator('canvas')).toBeVisible();
 
@@ -95,7 +95,7 @@ test('it still works offline from a subdirectory', async ({ page }) => {
   await page.reload({ waitUntil: 'load' });
   await expect
     .poll(
-      async () => (await page.locator('[data-readout="altitude"] .value').textContent()) !== '',
+      async () => (await page.locator('[data-testid="readout-altitude-value"]').textContent()) !== '',
       { timeout: 15_000 },
     )
     .toBe(true);

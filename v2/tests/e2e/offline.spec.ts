@@ -11,7 +11,7 @@ import { expect, test } from '@playwright/test';
 
 async function ready(page: import('@playwright/test').Page) {
   await expect
-    .poll(async () => (await page.locator('[data-readout="altitude"] .value').textContent()) !== '', {
+    .poll(async () => (await page.locator('[data-testid="readout-altitude-value"]').textContent()) !== '', {
       timeout: 15_000,
     })
     .toBe(true);
@@ -64,24 +64,24 @@ test('a full flight can be flown offline', async ({ page }) => {
   page.on('pageerror', (e) => errors.push(String(e)));
 
   // Configure a new flight from the menu — presets, editor, the lot.
-  await page.locator('[data-menu-control="open"]').click();
-  await page.locator('[data-preset="landing-burn"]').click();
-  await page.locator('[data-menu-control="configure"]').click();
-  await expect(page.locator('[data-menu]')).toHaveCount(0);
+  await page.locator('[data-testid="open-menu"]').click();
+  await page.locator('[data-testid="preset-landing-burn"]').click();
+  await page.locator('[data-testid="menu-configure"]').click();
+  await expect(page.locator('[data-testid="menu"]')).toHaveCount(0);
 
   await expect
-    .poll(async () => Number(await page.locator('[data-readout="propellant"] .value').textContent()), {
+    .poll(async () => Number(await page.locator('[data-testid="readout-propellant-value"]').textContent()), {
       timeout: 5_000,
     })
     .toBe(20);
 
   // Fly it: light the engines from the keyboard, watch the descent arrest.
-  const speedY = page.locator('[data-readout="speedY"] .value');
+  const speedY = page.locator('[data-testid="readout-speedY-value"]');
   const falling = Number(await speedY.textContent());
   expect(falling).toBeLessThan(0);
 
   await page.keyboard.press('Space');
-  await expect(page.locator('[data-indicator="allRaptors"]')).toHaveClass(/is-on/, {
+  await expect(page.locator('[data-testid="all-raptors"]')).toHaveClass(/is-on/, {
     timeout: 5_000,
   });
   await expect
@@ -89,7 +89,7 @@ test('a full flight can be flown offline', async ({ page }) => {
     .toBeGreaterThan(falling);
 
   // Land or crash — either way the flight ends and the restart offers itself.
-  await expect(page.locator('[data-control="restart"]')).toBeVisible({ timeout: 40_000 });
+  await expect(page.locator('[data-testid="restart"]')).toBeVisible({ timeout: 40_000 });
 
   expect(errors).toEqual([]);
 });
@@ -103,7 +103,7 @@ test('the black box works offline, chunk and all', async ({ page }) => {
   await ready(page);
   await page.waitForTimeout(1_500);
 
-  await page.locator('[data-blackbox-control="open"]').click();
+  await page.locator('[data-testid="open-black-box"]').click();
   await expect(page.locator('[data-plot]')).toHaveCount(9, { timeout: 20_000 });
   expect(await page.locator('[data-plot] canvas').count()).toBeGreaterThanOrEqual(9);
 });
@@ -113,9 +113,9 @@ test('the guide and menu work offline', async ({ page }) => {
   await page.reload({ waitUntil: 'load' });
   await ready(page);
 
-  await page.locator('[data-menu-control="open"]').click();
-  await page.locator('[data-menu-control="guide"]').click();
-  await expect(page.locator('[data-info="guide"]')).toContainText('Backspace');
+  await page.locator('[data-testid="open-menu"]').click();
+  await page.locator('[data-testid="menu-guide"]').click();
+  await expect(page.locator('[data-testid="info-view"]')).toContainText('Backspace');
 });
 
 test('the app is installable: manifest and icon are served and cached', async ({ page }) => {

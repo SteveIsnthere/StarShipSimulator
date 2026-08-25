@@ -1,0 +1,200 @@
+/*
+  The Broadcast design language, as tokens.
+
+  Every colour, every border, every type size in the interface resolves to
+  something declared here. That is not tidiness for its own sake: the whole
+  claim of docs/BROADCAST-UI-PLAN.md § 2 is that the look comes from a very
+  small vocabulary — white at four opacities, one scrim, two warning colours —
+  and a vocabulary that small only stays small if it is written down once.
+
+  Loaded from main.ts, before the app mounts, so the first paint already has the
+  fonts declared and the tokens resolved.
+*/
+
+/* --- typeface -------------------------------------------------------------
+
+  Barlow, subset and self-hosted. See src/ui/fonts.ts for why this is Barlow and
+  not D-DIN — the short version is that D-DIN's digits are proportional and a
+  telemetry readout set in it slides sideways as it counts.
+
+  The URLs are relative on purpose. vite builds with `base: './'` so the app can
+  be served from any path (tests/deploy/subpath.spec.ts holds that line); an
+  absolute `/fonts/...` would 404 on GitHub Pages and nowhere else, which is the
+  worst place for a bug to hide. Going through the bundler also gets the files
+  content-hashed and swept into the service worker precache automatically, so
+  they are available offline without a second list to maintain.
+
+  `font-display: swap` because a flight must not wait on a typeface. The
+  fallback stack is metric-adjacent enough that the swap is not violent.
+*/
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/BarlowSemiCondensed-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/BarlowSemiCondensed-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/BarlowCondensed-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/BarlowCondensed-Bold.woff2') format('woff2');
+}
+
+:root {
+  /* --- the palette ------------------------------------------------------
+
+    Four steps of white and nothing else. The reference overlay has no accent
+    colour: hierarchy is opacity and size, so that the only things on screen
+    with a hue are the things that mean something.
+  */
+  --ink-100: rgb(255 255 255);
+  --ink-70: rgb(255 255 255 / 70%);
+  --ink-45: rgb(255 255 255 / 45%);
+  --ink-25: rgb(255 255 255 / 25%);
+  --ink-12: rgb(255 255 255 / 12%);
+
+  /* Colour as meaning, never as decoration. */
+  --caution: #ffb000;
+  --alarm: #ff453a;
+  --good: #30d158;
+
+  /*
+    The scrim. One gradient rising from the bottom edge — not a card, not a
+    panel, not a border. This is the single most characteristic thing about the
+    reference and the easiest to get wrong by reaching for a box.
+  */
+  --scrim: linear-gradient(to top, rgb(6 8 12 / 88%) 0%, rgb(6 8 12 / 62%) 55%, transparent 100%);
+  --scrim-top: linear-gradient(to bottom, rgb(6 8 12 / 66%) 0%, transparent 100%);
+
+  /* Control surfaces. Flat, dark, hairlined — the second layer. */
+  --panel: rgb(8 10 14 / 62%);
+  --panel-raised: rgb(22 27 34 / 78%);
+  --hairline-color: var(--ink-25);
+  --hairline: 1px solid var(--ink-25);
+  --radius: 2px;
+
+  /* --- type ------------------------------------------------------------- */
+  --font: 'Barlow Semi Condensed', 'Helvetica Neue', Arial, sans-serif;
+  --font-condensed: 'Barlow Condensed', 'Barlow Semi Condensed', 'Helvetica Neue', Arial, sans-serif;
+
+  --size-numeral-lg: 2.75rem; /* 44px — gauge values */
+  --size-numeral: 1.75rem; /* 28px — secondary values */
+  --size-clock: 1.375rem; /* 22px — the T+ clock */
+  --size-body: 0.8125rem;
+  --size-label: 0.6875rem; /* 11px uppercase micro-labels */
+  --size-label-sm: 0.625rem;
+
+  --track-label: 0.14em;
+  --track-label-tight: 0.08em;
+
+  /* --- layout ----------------------------------------------------------- */
+  --gutter: 1rem;
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Smallest touch target we allow anywhere. */
+  --touch: 44px;
+
+  color-scheme: dark;
+}
+
+/*
+  Every numeral in this interface is tabular.
+
+  Declared once, at the root, rather than per-component: a readout that missed
+  it would jitter, and the failure is subtle enough to survive review. Barlow's
+  DEFAULT figures are proportional — this line is what reaches for the `tnum`
+  set that scripts/subset-fonts.mjs keeps in the subset. See src/ui/fonts.ts.
+
+  ONE TRAP WORTH KNOWING. The `font:` shorthand resets `font-variant-numeric`
+  to `normal`, so any component that sets `font: 500 0.8rem/1 var(--font)` has
+  silently opted out of this line and will jitter. That is why `.bc-value`
+  below re-declares it, and why the components that still use the shorthand
+  (M6.2 and M6.4 replace them) each re-declare it on the nodes that show
+  digits. tests/e2e/typography.spec.ts reads the COMPUTED value off a live
+  readout, which is the only check that catches this.
+*/
+:root {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* --- primitives -----------------------------------------------------------
+
+  Three classes carry most of the look, so they live here instead of being
+  retyped in nine components.
+*/
+
+/** An uppercase micro-label. The most repeated element in the whole design. */
+.bc-label {
+  font-family: var(--font-condensed);
+  font-size: var(--size-label);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-70);
+}
+
+/** A value. Tabular, tight, white. */
+.bc-value {
+  font-family: var(--font);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--ink-100);
+  font-variant-numeric: tabular-nums;
+}
+
+/** A unit, riding beside a value. */
+.bc-unit {
+  font-family: var(--font-condensed);
+  font-size: var(--size-label-sm);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+/*
+  Motion is opt-out.
+
+  The engine dots blink during ignition and the current timeline event pulses.
+  Both are genuine signals rather than decoration, so they degrade to a static
+  lit state rather than disappearing.
+*/
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --blink-duration: 0s;
+  }
+}
+
+:root {
+  --blink-duration: 0.9s;
+}
+
+/*
+  Focus. The old build had none at all — every control was mouse-only in
+  practice. `:focus-visible` keeps the ring off pointer clicks.
+*/
+:where(button, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--ink-100);
+  outline-offset: 2px;
+}

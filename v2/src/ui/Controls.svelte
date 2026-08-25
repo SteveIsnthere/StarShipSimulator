@@ -57,19 +57,21 @@
         type="button"
         aria-label={leftOpen ? 'Hide engine controls' : 'Show engine controls'}
         data-control="toggleLeft"
+        data-testid="engine-panel-toggle"
         onclick={() => (leftOpen = !leftOpen)}>{leftOpen ? '\u2039' : '\u203a'}</button>
-      <button class="zoom" type="button" aria-label="Zoom out" onclick={() => zoom(-1)}>&minus;</button>
+      <button class="zoom" type="button" aria-label="Zoom out" data-testid="zoom-out" onclick={() => zoom(-1)}>&minus;</button>
     </div>
   </div>
   <div class="right">
     <div class="panel-wrap" class:collapsed={!rightOpen}><YokePanel {emit} /></div>
     <div class="corner">
-      <button class="zoom" type="button" aria-label="Zoom in" onclick={() => zoom(1)}>+</button>
+      <button class="zoom" type="button" aria-label="Zoom in" data-testid="zoom-in" onclick={() => zoom(1)}>+</button>
       <button
         class="zoom"
         type="button"
         aria-label={rightOpen ? 'Hide flight yoke' : 'Show flight yoke'}
         data-control="toggleRight"
+        data-testid="yoke-panel-toggle"
         onclick={() => (rightOpen = !rightOpen)}>{rightOpen ? '\u203a' : '\u2039'}</button>
     </div>
   </div>
@@ -120,7 +122,7 @@
     border-radius: 0.55rem;
     width: 2rem;
     height: 2rem;
-    font: 600 1rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font: 600 1rem/1 var(--font);
     color: #000;
     background: rgb(255 255 255 / 43%);
     box-shadow:

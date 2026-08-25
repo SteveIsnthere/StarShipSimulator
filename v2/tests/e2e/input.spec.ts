@@ -7,8 +7,10 @@
  */
 import { expect, test } from '@playwright/test';
 
+/** A control, by its test id (src/ui/testids.ts). The `is-on` class is the
+    indicator binder's output, so this reads what the simulation believes. */
 const light = (page: import('@playwright/test').Page, id: string) =>
-  page.locator(`[data-indicator="${id}"]`);
+  page.locator(`[data-testid="${id}"]`);
 
 /**
  * Wait until the input listeners exist.
@@ -20,7 +22,7 @@ const light = (page: import('@playwright/test').Page, id: string) =>
  */
 async function ready(page: import('@playwright/test').Page) {
   await expect
-    .poll(async () => (await page.locator('[data-readout="altitude"] .value').textContent()) !== '', {
+    .poll(async () => (await page.locator('[data-testid="readout-altitude-value"]').textContent()) !== '', {
       timeout: 10_000,
     })
     .toBe(true);
@@ -33,7 +35,7 @@ test('keys toggle the same things the buttons do', async ({ page }) => {
   for (const [key, id] of [
     ['f', 'fins'],
     ['r', 'rcs'],
-    ['t', 'pitchHold'],
+    ['t', 'pitch-hold'],
   ] as const) {
     await expect(light(page, id), id).not.toHaveClass(/is-on/);
     await page.keyboard.press(key);
@@ -59,12 +61,12 @@ test('the throttle keys cannot leave the engine limits', async ({ page }) => {
 
   // Wait for the intro to hand over — the fuel readout returning to 350 t is
   // the only unambiguous signal (see controls.spec.ts).
-  const fuel = page.locator('[data-readout="propellant"] .value');
+  const fuel = page.locator('[data-testid="readout-propellant-value"]');
   await expect
     .poll(async () => Number(await fuel.textContent()), { timeout: 40_000, intervals: [250] })
     .toBe(350);
 
-  const readout = page.locator('[data-readout="throttle"] .value');
+  const readout = page.locator('[data-testid="readout-throttle-value"]');
   await expect.poll(async () => Number(await readout.textContent()), { timeout: 10_000 }).toBe(100);
 
   // Twenty presses of the down key: 2021 would have reached -100.

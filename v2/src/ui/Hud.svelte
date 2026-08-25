@@ -13,6 +13,7 @@
   import { onMount } from 'svelte';
   import { READOUTS } from '$hud/readouts';
   import type { TextTarget } from '$hud/binder';
+  import { readoutTestId, readoutUnitTestId, readoutValueTestId } from './testids';
 
   interface Props {
     /** Called once, after mount, with a resolver over the rendered elements. */
@@ -42,16 +43,18 @@
       class="row"
       class:collapsed={!expanded && !readout.primary}
       data-readout={readout.id}
+      data-testid={readoutTestId(readout.id)}
     >
       <span class="label">{readout.label}</span>
-      <span class="value" bind:this={valueEls[readout.id]}></span>
-      <span class="unit" bind:this={unitEls[readout.id]}></span>
+      <span class="value" data-testid={readoutValueTestId(readout.id)} bind:this={valueEls[readout.id]}></span>
+      <span class="unit" data-testid={readoutUnitTestId(readout.id)} bind:this={unitEls[readout.id]}></span>
     </div>
   {/each}
   <button
     class="toggle"
     type="button"
     data-hud-control="expand"
+    data-testid="hud-toggle"
     aria-label={expanded ? 'Hide detailed readouts' : 'Show detailed readouts'}
     onclick={() => (expanded = !expanded)}
   >
@@ -66,7 +69,7 @@
     left: 0.75rem;
     display: grid;
     gap: 0.1rem;
-    font: 500 0.8rem/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font: 500 0.8rem/1.35 var(--font);
     color: #0b1017;
     letter-spacing: 0.04em;
     pointer-events: none;
@@ -83,6 +86,9 @@
     overflow: hidden;
   }
   .label {
+    font-family: var(--font-condensed);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
     opacity: 0.65;
   }
   .toggle {
@@ -104,6 +110,8 @@
   }
   .unit {
     padding-left: 0.35rem;
+    font-family: var(--font-condensed);
+    letter-spacing: var(--track-label);
     opacity: 0.65;
     font-size: 0.72rem;
   }

@@ -342,16 +342,16 @@
   label changes.
 -->
 <div class="top-right">
-  <button class="top-button" type="button" data-blackbox-control="open" onclick={() => (blackBoxOpen = true)}>
+  <button class="top-button" type="button" data-blackbox-control="open" data-testid="open-black-box" onclick={() => (blackBoxOpen = true)}>
     Black Box
   </button>
-  <button class="top-button" type="button" data-menu-control="open" onclick={() => (menuOpen = true)}>
+  <button class="top-button" type="button" data-menu-control="open" data-testid="open-menu" onclick={() => (menuOpen = true)}>
     Menu
   </button>
 </div>
 
 {#if flightOver}
-  <button class="restart" type="button" data-control="restart" onclick={onRestart}>Restart</button>
+  <button class="restart" type="button" data-control="restart" data-testid="restart" onclick={onRestart}>Restart</button>
 {/if}
 <BlackBox open={blackBoxOpen} {recorder} onClose={() => (blackBoxOpen = false)} />
 <Menu
@@ -373,6 +373,14 @@
     margin: 0;
     overflow: hidden;
     background: #a7bdd9;
+    /*
+      The type, set once at the root so nothing inherits the platform default.
+      The `font:` shorthands in the components below and in the other panels
+      each reset the family, so this is the floor rather than the whole story —
+      M6.2 and M6.4 replace those shorthands with the token scale outright.
+    */
+    font-family: var(--font);
+    font-variant-numeric: tabular-nums;
   }
   canvas {
     display: block;
@@ -388,7 +396,7 @@
     border: 0;
     border-radius: 0.6rem;
     padding: 0.7rem 1.4rem;
-    font: 700 0.9rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font: 700 0.9rem/1 var(--font);
     letter-spacing: 0.06em;
     color: #000;
     background: rgb(255 255 255 / 75%);
@@ -409,7 +417,7 @@
     border: 0;
     border-radius: 0.55rem;
     padding: 0.45rem 0.7rem;
-    font: 600 0.72rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font: 600 0.72rem/1 var(--font);
     color: #000;
     background: rgb(255 255 255 / 43%);
     box-shadow:

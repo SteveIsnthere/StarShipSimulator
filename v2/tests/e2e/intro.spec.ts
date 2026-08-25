@@ -15,7 +15,7 @@ import { expect, test } from '@playwright/test';
  * too — otherwise a climb past 1000 m looks like a fall to 1.0.
  */
 async function altitude(page: import('@playwright/test').Page): Promise<number> {
-  const row = page.locator('[data-readout="altitude"]');
+  const row = page.locator('[data-testid="readout-altitude"]');
   const value = Number((await row.locator('.value').textContent()) ?? '');
   const unit = (await row.locator('.unit').textContent()) ?? '';
   if (!Number.isFinite(value)) return NaN;
@@ -51,7 +51,7 @@ test('it decelerates rather than arriving fast', async ({ page }) => {
 
   /** Vertical speed magnitude, in m/s, from the HUD. */
   const speed = async () => {
-    const text = await page.locator('[data-readout="speedY"] .value').textContent();
+    const text = await page.locator('[data-testid="readout-speedY-value"]').textContent();
     const value = Number(text ?? '');
     return Number.isFinite(value) ? Math.abs(value) : NaN;
   };

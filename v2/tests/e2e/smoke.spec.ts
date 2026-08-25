@@ -87,8 +87,8 @@ test('the simulation runs behind the canvas', async ({ page }) => {
   // chain is live: rAF -> accumulator -> step() -> binder -> text node.
   await page.goto('/', { waitUntil: 'load' });
 
-  const altitude = page.locator('[data-readout="altitude"] .value');
-  const verticalSpeed = page.locator('[data-readout="speedY"] .value');
+  const altitude = page.locator('[data-testid="readout-altitude-value"]');
+  const verticalSpeed = page.locator('[data-testid="readout-speedY-value"]');
   await expect(altitude).toBeVisible();
 
   const first = await altitude.textContent();

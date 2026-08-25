@@ -63,6 +63,6 @@ test('the renderer draws frames without erroring', async ({ page }) => {
   expect(errors).toEqual([]);
 
   // And the simulation moved, so those frames were doing something.
-  const altitude = await page.locator('[data-readout="altitude"] .value').textContent();
+  const altitude = await page.locator('[data-testid="readout-altitude-value"]').textContent();
   expect(altitude).toMatch(/^-?\d+(\.\d+)?$/);
 });

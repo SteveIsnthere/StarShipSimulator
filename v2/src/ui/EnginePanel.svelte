@@ -39,6 +39,7 @@
         label={`R${engine + 1}`}
         event={{ type: 'raptor', engine }}
         indicator={`raptor${engine}`}
+        testid={`raptor-${engine}`}
         {emit}
       />
     {/each}
@@ -47,6 +48,7 @@
       label="Toggle-All"
       event={{ type: 'allRaptors' }}
       indicator="allRaptors"
+      testid="all-raptors"
       wide
       {emit}
     />
@@ -56,6 +58,7 @@
       type="range"
       aria-label="Throttle"
       data-control="throttle"
+      data-testid="throttle"
       min={throttleLowerLimit}
       max={throttleUpperLimit}
       step="1"
@@ -67,6 +70,7 @@
       label="Thrust Safe Guard"
       event={{ type: 'autoMaxThrust' }}
       indicator="autoMaxThrust"
+      testid="auto-max-thrust"
       wide
       {emit}
     />
@@ -81,8 +85,9 @@
     gap: 0.3rem;
   }
   .title {
-    font: 500 0.68rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-    letter-spacing: 0.06em;
+    font: 500 0.68rem/1 var(--font-condensed);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
     opacity: 0.7;
   }
   .grid {
