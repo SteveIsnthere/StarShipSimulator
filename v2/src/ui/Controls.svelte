@@ -16,9 +16,11 @@
     emit: Emit;
     /** Called once, after mount, with a resolver over the rendered controls. */
     onready: (resolve: (id: string) => ClassTarget | null) => void;
+    /** index.html:120 — the on-screen zoom buttons. */
+    zoom: (direction: 1 | -1) => void;
   }
 
-  const { emit, onready }: Props = $props();
+  const { emit, onready, zoom }: Props = $props();
 
   let root: HTMLElement;
 
@@ -36,8 +38,14 @@
 </script>
 
 <div class="controls" bind:this={root}>
-  <div class="left"><EnginePanel {emit} /></div>
-  <div class="right"><YokePanel {emit} /></div>
+  <div class="left">
+    <EnginePanel {emit} />
+    <button class="zoom" type="button" aria-label="Zoom out" onclick={() => zoom(-1)}>&minus;</button>
+  </div>
+  <div class="right">
+    <YokePanel {emit} />
+    <button class="zoom" type="button" aria-label="Zoom in" onclick={() => zoom(1)}>+</button>
+  </div>
 </div>
 
 <style>
@@ -53,7 +61,28 @@
   }
   .left,
   .right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
     pointer-events: auto;
+  }
+  .right {
+    align-items: flex-end;
+  }
+  .zoom {
+    appearance: none;
+    border: 0;
+    border-radius: 0.55rem;
+    width: 2rem;
+    height: 2rem;
+    font: 600 1rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: #000;
+    background: rgb(255 255 255 / 43%);
+    box-shadow:
+      3px 3px 7px 0 rgb(0 0 0 / 20%),
+      -4px -4px 9px 0 rgb(255 255 255 / 55%);
+    cursor: pointer;
+    touch-action: manipulation;
   }
 
   @media (width < 32rem) {

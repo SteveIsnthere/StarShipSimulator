@@ -107,7 +107,7 @@ acceptance line.
 
 - [x] **M4.1 HUD binder** — readouts via the single-rAF diff binder.
 - [x] **M4.2 Panels** — engine/yoke/autopilot/utility panels in Svelte, typed events.
-- [ ] **M4.3 Inputs** — keybinds, tilt, touch parity with 2021.
+- [x] **M4.3 Inputs** — keybinds, tilt, touch parity with 2021.
 - [ ] **M4.4 Menu + editor** — time warp, scenario editor incl. orbital presets.
 - [ ] **M4.5 Black box** — lazy-loaded uPlot; Plotly gone from first load.
 - [ ] **M4.6 Parity sweep** — checklist vs 2021 feature list; guide/about ported.
@@ -494,3 +494,22 @@ acceptance line.
   `Math.ceil(speedY)`, so anything under 1 m/s displays as 0 mid-flight) marks the intro handover.
   The fuel readout returning to 350 t does, because nothing else in the simulation puts propellant
   back. 893 tests, 19 e2e, 175.7 kB of 250.
+- 2026-08-25 · M4.3 · **The keyboard was a second, unguarded way into the simulation. Now it is the
+  same way.** eventListener.js wrote `pitchControl` and `throttle` as globals, bypassing everything
+  the buttons went through — and `throttle += 10` had **no clamp at all**, because the engine limits
+  lived on the slider element's `min`/`max`, so they applied to dragging the slider and to nothing
+  else. Eleven presses of W left the commanded throttle at **210%**, which the thrust model happily
+  multiplied straight through. In v2 every key resolves to the same `ControlEvent` a button emits and
+  inherits the same core clamp; there is a test that presses the key twenty times and asserts 100,
+  and an e2e that does it in a browser. The bindings are 2021's key for key (case folded rather than
+  listing `'a' || 'A'`), plus `Space` and `Backspace` now call `preventDefault` — 2021 got away
+  without it only because its body could not scroll. Tilt is ported with the ×2.4 gain and ±100
+  clamp intact (full deflection at 42°), still yielding to a hand on the yoke, reading
+  `screen.orientation.angle` in place of the deprecated `window.orientation` (same four values).
+  Zoom is a **view** action and never reaches core: `drawingSize` becomes a zoom factor on the
+  viewport, keeping the asymmetric 1.5-in/0.75-out steps and the odd `* 0.85` limit guard — in then
+  out does not return to where it started, which is what the buttons did, and "restore the previous
+  zoom" would be a different feature. Zoom at 1 is proved identity, so nothing before this task
+  moved. One e2e caught a real race worth recording: the canvas is in the markup from the first
+  paint, so waiting on it presses keys before `bindInput` has attached; the HUD showing a value is
+  the honest ready signal, because the first tick writes it. 932 tests, 23 e2e, 176.6 kB of 250.

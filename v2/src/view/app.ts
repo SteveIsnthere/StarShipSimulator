@@ -8,7 +8,15 @@
  * task cannot accidentally draw the ship behind the sky.
  */
 import { Application, Container } from 'pixi.js';
-import { computeViewport, createCamera, type CameraState, type Viewport } from './camera';
+import {
+  computeViewport,
+  createCamera,
+  zoomStep,
+  ZOOM_IN_FACTOR,
+  ZOOM_OUT_FACTOR,
+  type CameraState,
+  type Viewport,
+} from './camera';
 
 /** The 2021 sky colour, and the anchor for the whole palette. */
 export const SKY_COLOR = 0xa7bdd9;
@@ -36,6 +44,8 @@ export interface ViewApp {
   viewport: Viewport;
   /** Recompute the viewport and resize the renderer. */
   resize(width: number, height: number): void;
+  /** Zoom one step in (+1) or out (-1). tools.js:152. */
+  zoom(direction: 1 | -1): void;
   destroy(): void;
 }
 
@@ -101,6 +111,7 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
     layers.effectsFront,
   );
 
+  let zoomFactor = 1;
   let viewport = computeViewport(width, height, options.vehicleHeight);
   const camera = createCamera(
     viewport,
@@ -119,9 +130,18 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
     set viewport(next: Viewport) {
       viewport = next;
     },
+    zoom(direction: 1 | -1) {
+      // The limits are on the resulting scale, not on the factor, so the step is
+      // computed against what the viewport actually shows.
+      const factor = direction > 0 ? ZOOM_IN_FACTOR : ZOOM_OUT_FACTOR;
+      const next = zoomStep(viewport.scale, factor);
+      if (next === viewport.scale) return;
+      zoomFactor *= factor;
+      viewport = computeViewport(viewport.width, viewport.height, options.vehicleHeight, zoomFactor);
+    },
     resize(nextWidth: number, nextHeight: number) {
       app.renderer.resize(nextWidth, nextHeight);
-      viewport = computeViewport(nextWidth, nextHeight, options.vehicleHeight);
+      viewport = computeViewport(nextWidth, nextHeight, options.vehicleHeight, zoomFactor);
     },
     destroy() {
       app.destroy(true, { children: true, texture: true });

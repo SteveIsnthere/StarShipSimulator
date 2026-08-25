@@ -62,6 +62,33 @@ export const MAX_VEHICLE_DRAW_HEIGHT = 220;
 export const BASE_VERTICAL_PROPORTION = 4;
 
 /**
+ * px per metre — the zoom limits, from initDrawMethods.js:21-22.
+ *
+ * 2021 called this `drawingSize` and stored it on globalThis with the
+ * misspelled `drawingSizeLowwerLimit`. The numbers are unchanged: at the 50 m
+ * vehicle height they mean a drawn ship between 97.5 and 375 px tall.
+ */
+export const MIN_ZOOM_SCALE = 1.95;
+export const MAX_ZOOM_SCALE = 7.5;
+
+/** tools.js:152 — the zoom steps. In, then out, does not return to where it was. */
+export const ZOOM_IN_FACTOR = 1.5;
+export const ZOOM_OUT_FACTOR = 0.75;
+
+/**
+ * tools.js:152 — apply one zoom step, refusing the step that would leave range.
+ *
+ * The `* 0.85` in the guard is 2021's and is kept: it tests the value against a
+ * point 15% below where the step would land, so the last step in each direction
+ * is allowed to overshoot the nominal limit slightly. Removing it would change
+ * how far the zoom actually goes, which is feel.
+ */
+export function zoomStep(scale: number, factor: number): number {
+  if (factor > 1) return scale * 0.85 < MAX_ZOOM_SCALE ? scale * factor : scale;
+  return scale * 0.85 > MIN_ZOOM_SCALE ? scale * factor : scale;
+}
+
+/**
  * Work out how much world the viewport covers, from its pixel size.
  * drawMethods.js:62 (getInitSize) and :28-31.
  *
@@ -71,6 +98,7 @@ export function computeViewport(
   widthPx: number,
   heightPx: number,
   vehicleHeight: number,
+  zoom = 1,
 ): Viewport {
   let proportion = BASE_VERTICAL_PROPORTION;
   let drawnVehicleHeight = heightPx / proportion;
@@ -83,6 +111,12 @@ export function computeViewport(
     proportion = (proportion * drawnVehicleHeight) / MAX_VEHICLE_DRAW_HEIGHT;
     drawnVehicleHeight = MAX_VEHICLE_DRAW_HEIGHT;
   }
+
+  // Zooming in shows less world at more pixels per metre, so the proportion
+  // shrinks by the same factor the scale grows by. Applied after the fit-to-
+  // window clamp above, which decides the unzoomed baseline for this window.
+  proportion /= zoom;
+  drawnVehicleHeight *= zoom;
 
   const physicalHeight = vehicleHeight * proportion;
   const aspect = widthPx / heightPx;

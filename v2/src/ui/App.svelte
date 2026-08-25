@@ -24,6 +24,7 @@
   import Hud from './Hud.svelte';
   import Controls from './Controls.svelte';
   import { applyControl, type ControlEvent } from './controls';
+  import { bindInput, bindTilt, type InputBinding, type ViewAction } from '$app/input';
 
   let canvas: HTMLCanvasElement;
 
@@ -61,6 +62,11 @@
     if (loopState) applyControl(loopState.state, event);
   };
 
+  /** Zoom is a view action, not a simulation command — it changes nothing. */
+  let viewApp: ViewApp | undefined;
+  const zoom = (direction: 1 | -1) => viewApp?.zoom(direction);
+  const applyViewAction = (action: ViewAction) => zoom(action.direction);
+
   onMount(() => {
     let view: ViewApp | undefined;
     let frame = 0;
@@ -81,6 +87,8 @@
         view.destroy();
         return;
       }
+
+      viewApp = view;
 
       const textures = await loadTextures();
       if (disposed) {
@@ -113,6 +121,23 @@
       };
       window.addEventListener('resize', onResize);
       onResize();
+
+      // Input is bound once, at startup, to the document. Every key turns into
+      // the same ControlEvent a button would emit — there is no second path into
+      // the simulation, which is what 2021's eventListener.js was.
+      const keyboard: InputBinding = bindInput(document, {
+        control: emit,
+        view: applyViewAction,
+        readThrottle: () => loop.state.vehicle.throttle,
+      });
+
+      // Tilt yields to a hand on the yoke, and is only meaningful on a device
+      // that reports orientation at all.
+      const tilt: InputBinding = bindTilt(window, {
+        control: emit,
+        isManual: () => loop.state.autopilot.manualControlOn,
+        orientationAngle: () => screen.orientation?.angle ?? 0,
+      });
 
       let last = performance.now();
       const tick = (now: number) => {
@@ -172,6 +197,8 @@
 
       return () => {
         window.removeEventListener('resize', onResize);
+        keyboard.destroy();
+        tilt.destroy();
       };
     };
 
@@ -190,7 +217,7 @@
 
 <canvas bind:this={canvas} aria-label="Starship Simulator"></canvas>
 <Hud onready={onHudReady} />
-<Controls {emit} onready={onControlsReady} />
+<Controls {emit} {zoom} onready={onControlsReady} />
 
 <style>
   :global(body) {
