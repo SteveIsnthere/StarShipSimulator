@@ -22,7 +22,7 @@
  * frame. `X / renderTimeInterval` is therefore exactly `X * dt`.
  */
 import * as C from './constants';
-import { updateAtmosphere } from './physics/atmosphere';
+import { speedOfSoundAt, updateAtmosphere } from './physics/atmosphere';
 import { getReentryHeatPower } from './physics/thermal';
 import * as aero from './physics/aero';
 import * as comp from './physics/components';
@@ -297,7 +297,12 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.kinematics.speedY += (s.kinematics.accelerationY + s.kinematics.orbitGravityAccCompensation) * dt;
 
   s.kinematics.trueSpeed = Math.sqrt(s.kinematics.speedX ** 2 + s.kinematics.speedY ** 2);
-  s.kinematics.machSpeed = s.kinematics.trueSpeed / C.speedOfSound;
+  // M2.7, Fidelity. 2021 used a constant 343 m/s everywhere — the sea-level
+  // value — so Mach ran ~16% low through the upper atmosphere. That understated
+  // the body drag coefficient too, since it is a function of Mach.
+  s.kinematics.machSpeed =
+    s.kinematics.trueSpeed /
+    (s.flags.realSpeedOfSound ? speedOfSoundAt(s.atmosphere.airTemperature) : C.speedOfSound);
 
   // updateSpactialAccelerations
   s.forces.aerodynamicDragAcceleration = aero.getAcceleration(

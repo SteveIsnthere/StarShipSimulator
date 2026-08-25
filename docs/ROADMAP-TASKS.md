@@ -77,7 +77,7 @@ acceptance line.
   gravity −GM·r̂/r²; local-frame adapter for autopilot + view; deletes relief hack and
   constant g. Off by default. Accept: flat-model goldens untouched; orbit maths unit-tested
   (circular orbit stays circular over one lap, energy drift bounded).
-- [ ] **M2.7 Fidelity: speed of sound** — a = √(γRT) from local temperature. Off by default.
+- [x] **M2.7 Fidelity: speed of sound** — a = √(γRT) from local temperature. Off by default.
 - [ ] **M2.8 Fidelity: full ISA** — standard lapse-rate table to 86 km. Off by default.
 - [ ] **M2.9 Orbit presets + demo** — Circularize + Deorbit Burn presets; CI test: under
   flags, circularize at 100 km, coast one full lap, deorbit, land at StarBase.
@@ -364,3 +364,10 @@ acceptance line.
   radius (Earth's is 6371), so true surface gravity is **9.7307**, not the constant 9.807 — which is
   Earth's real value. Turning the flag on makes everything slightly lighter at sea level too, not
   just in orbit. 706 tests green.
+- 2026-08-25 · M2.7 · **Fidelity, flag off by default.** `a = √(γRT)` from local temperature.
+  2021 used a constant 343 m/s — the sea-level value — so **Mach ran 14% low** through the
+  stratosphere (real value there ≈ 295 m/s). Not cosmetic: `getBodyDragCoefficient` is a *function
+  of Mach*, so understated Mach understated **drag** through the whole transonic and supersonic
+  regime. Also pinned where the fix stops mattering — above Mach 10 the coefficient is capped at
+  2.5, so hypersonic re-entry is unaffected either way. Only the two `realSpeedOfSound` fixtures
+  moved; the other nine byte-identical. 719 tests green.

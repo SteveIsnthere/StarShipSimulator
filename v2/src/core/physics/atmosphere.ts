@@ -79,3 +79,33 @@ export function updateAtmosphere(altitude: number): Atmosphere {
   }
   return upperStrato(altitude);
 }
+
+// ---------------------------------------------------------------------------
+// Speed of sound — M2.7, Fidelity
+// ---------------------------------------------------------------------------
+
+/** Ratio of specific heats for air, dimensionless. */
+export const GAMMA_AIR = 1.4;
+
+/** Specific gas constant for dry air, J/(kg*K). */
+export const R_SPECIFIC_AIR = 287.053;
+
+/**
+ * Speed of sound from local temperature: a = sqrt(gamma * R * T).
+ *
+ * The 2021 model used a constant 343 m/s at every altitude, which is the sea
+ * level value on a warm day. Sound travels more slowly in colder air, and the
+ * atmosphere gets cold fast: at 11 km it is about 295 m/s, so Mach number ran
+ * roughly 16% low through the whole upper atmosphere.
+ *
+ * That is not a cosmetic readout. `getBodyDragCoefficient` is a function of
+ * Mach — `machSpeed * 0.1347 + 1.153`, capped at 2.5 from Mach 10 — so an
+ * understated Mach understated drag through the entire transonic and
+ * supersonic regime, which is most of a re-entry.
+ *
+ * @param airTemperature deg C, as the rest of the atmosphere model uses
+ * @returns m/s
+ */
+export function speedOfSoundAt(airTemperature: number): number {
+  return Math.sqrt(GAMMA_AIR * R_SPECIFIC_AIR * (airTemperature + 273.15));
+}
