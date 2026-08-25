@@ -358,7 +358,7 @@ numbers — plan § 5.*
   nothing on screen currently says so. Accept: the curve is unit-tested at the speeds the scenarios
   reach and reports zero below the threshold; pool headroom measured and reported (baseline: peak
   576 of 4000); the marker's angle is asserted against `angleOfMotion` over the goldens.
-- [ ] **M7.6 The cloud deck** — the missing middle distance: parallax currently jumps from 1x
+- [x] **M7.6 The cloud deck** — the missing middle distance: parallax currently jumps from 1x
   (ground) to 0.001x (stars) with nothing between, which is why even a good ascent reads as flat.
   A deck at a few kilometres, seeded so it returns identically every run, thinning above it. Like
   M7.4, built against the settled FOV. Accept: deterministic across runs; per-frame allocation
@@ -1664,3 +1664,28 @@ out is the point of the whole milestone.*
   96° on a re-entry, 135° on a boostback.
   Pool headroom re-measured through the real effect driver over all seven flights: **peak 653 of
   4000, 84% free**, worst at re-entry, against the 576 baseline — the streaks cost 77 particles.
+- 2026-08-25 · M7.6 · **The cloud deck.** The missing middle distance. Parallax in this game jumped
+  from 1× (the ground, true scale) straight to 0.001× (the stars) with nothing between, which is
+  § 1.4's explanation for why even a well-flown ascent read as flat. M7.4 put a layer at the far end;
+  this is the near one, and **depth is the relationship between layers rather than any one of them** —
+  two is the minimum number that can have one. The parallax factor (2.5× the distant earth's
+  compressed rate) is doing the work that the fill colour and the puff shapes are not, so it is
+  asserted as a RATIO rather than as two numbers: retuning either compression cannot quietly collapse
+  the two layers onto each other.
+  The position curve is a compression in both directions and by different amounts, and the asymmetry
+  is the honest choice rather than a shortcut. Upward it may travel 0.46 of a frame — the deck is
+  2.5 km up, which on the pad is twelve viewport heights above the camera, and a true projection
+  would put it off the top forever; standing on the ground you DO see cloud near the top of your
+  view, so the compression is arguably closer to the truth than the projection, because this world is
+  flat and the real sky is a dome. Downward only 0.04, because from above a deck belongs ON the
+  horizon. Both bends are C1 by the same construction the rest of M7 uses, so **flying through the
+  deck — the moment the layer exists to sell — happens at exactly true scale with no compression at
+  all**.
+  Deterministic by a local counter-based hash rather than `Math.random`, which `view/` is permitted:
+  a deck that reshuffled every reload would make the committed screenshots irreproducible and would
+  mean two players comparing notes were not looking at the same sky. Two decks built independently
+  are asserted identical.
+  The ordering test is the one worth having: cloud is checked against **M7.4's own curve** at every
+  altitude rather than against a number copied out of it, so moving the horizon later cannot silently
+  put the sky underneath it. Thins to nothing by 30 km — above the troposphere there is no weather,
+  and by then M7.4 is already drawing the earth.

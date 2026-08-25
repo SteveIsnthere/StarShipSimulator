@@ -6,6 +6,7 @@
   import { createWorld } from '$view/world';
   import { createDistantEarth } from '$view/distant-earth';
   import { createFlightPathMarker } from '$view/motion-cues';
+  import { createCloudDeck } from '$view/clouds';
   import { createVehicle } from '$view/vehicle';
   import { createParticleSystem, createParticleTexture } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
@@ -388,6 +389,14 @@
       */
       const distantEarth = createDistantEarth();
       view.layers.far.addChild(distantEarth.container);
+      /*
+        The cloud deck goes in FRONT of the distant earth and behind the true
+        ground (M7.6). That order is the depth: three layers moving at three
+        rates is what the game had none of — the parallax used to jump from 1x
+        straight to the stars.
+      */
+      const clouds = createCloudDeck();
+      view.layers.far.addChild(clouds.container);
       view.layers.world.addChild(world.container);
       view.layers.vehicle.addChild(vehicle.container);
 
@@ -477,6 +486,7 @@
           s.kinematics.speedX,
           frameTime,
         );
+        clouds.update(view!.viewport, s.kinematics.altitude, s.kinematics.speedX, frameTime);
         world.update(view!.camera, view!.viewport, s.kinematics.speedX, s.kinematics.altitude);
         vehicle.update(view!.camera, view!.viewport, {
           altitude: s.kinematics.altitude,
