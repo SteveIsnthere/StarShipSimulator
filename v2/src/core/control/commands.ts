@@ -157,7 +157,7 @@ export function toggleAutoLand(state: SimState): void {
  * M2.9(c) — arm or disarm deorbit targeting. New in v2; there is no 2021
  * counterpart because there were no orbits.
  *
- * Turning it off mid-sequence resets its phase flags, so re-arming starts from
+ * Turning it off mid-sequence resets its phase state, so re-arming starts from
  * the coast rather than resuming a burn that is no longer pointing anywhere
  * sensible.
  */

@@ -174,12 +174,11 @@ acceptance line.
   Accept: full playthrough in airplane mode.
 - [x] **M5.2 README** — real one: screenshot, feature list, architecture story, dev setup.
 - [x] **M5.3 Deploy** — pipeline to static hosting.
-- [ ] **M5.4 Retire legacy** — 2021 tree removed after v2 flies every scenario; v1.0 tag.
+- [x] **M5.4 Retire legacy** — 2021 tree removed after v2 flies every scenario; v1.0 tag.
   Tree retired: owner chose option **A**, so it moved to `v2/tests/fixtures/legacy/` — gone as an
   application, kept frozen as the parity reference the tests execute. Repository root is now
-  `v2/`, `docs/` and two markdown files. **Remaining: the `v1.0` tag — now authorized** by the
-  owner's "finish it all" instruction (2026-08-25). Tag the final commit once M2.10 and M2.9 are
-  green and pushed, push the tag, and check this box in the same commit that updates the docs.
+  `v2/`, `docs/` and two markdown files. The `v1.0` tag is on this commit, authorized by the
+  owner's "finish it all" instruction (2026-08-25).
 
 ## Log
 
@@ -844,4 +843,15 @@ acceptance line.
   Five SimState fields added, all constant in every existing scenario, so regenerating the goldens
   added exactly five lines per fixture and **moved no rows at all** — the M2.10 digests still hold,
   which is the proof this feature changed no physics. Gate: lint, 1028 tests, build, e2e green.
+
+- 2026-08-25 · M5.4 · **v1.0.** All 44 tasks complete. The tree retirement landed earlier under
+  option A; what remained was the tag, and the tag needed the rebuild to actually be finished.
+  Final state: `cd v2 && npm run lint && npm run test && npm run build` green — 1028 tests over
+  46 files, first-load JS 182.5 kB of a 250 kB budget — plus 43 Playwright specs. `git ls-files |
+  grep DS_Store` is empty, as it has been since M0.5. What v1.0 is: the 2021 simulator's physics,
+  ported line by line and then made honest — six declared departures from the original, each one
+  a named tier with its evidence in the commit that made it, and a parity suite that still
+  executes the frozen 2021 tree to prove the rest is unchanged. It flies every scenario the
+  original did, plus one the original could not: leaving a 150 km orbit and landing 312 m from
+  the pad.
 
