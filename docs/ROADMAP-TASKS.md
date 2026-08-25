@@ -95,7 +95,7 @@ acceptance line.
 
 - [ ] **M3.1 Pixi v8 shell** — app, canvas, resize, camera port.
 - [x] **M3.2 World sprites** — StarBase, ground objects, ship, fins; existing art.
-- [ ] **M3.3 Particle pooling** — pooled emitter framework; port all 2021 effects; the
+- [x] **M3.3 Particle pooling** — pooled emitter framework; port all 2021 effects; the
   shutdown leak dies here.
 - [ ] **M3.4 Sky** — altitude-graded gradient into starfield; parallax layers.
 - [ ] **M3.5 Post pass** — bloom on plumes, heat shimmer + shock on reentry.
@@ -407,3 +407,14 @@ acceptance line.
   and are re-tessellated only when zoom or extension actually changes. **It renders** — screenshots
   captured of the intro auto-landing sequence over StarBase. 7 e2e green including asset-load
   coverage. First-load **165.8 kB gzip of 250**. 784 tests green.
+- 2026-08-25 · M3.3 · `view/particles.ts` + `view/effects.ts`. **The shutdown leak dies here.**
+  switches.js:26 built a `new PIXI.Container()` *and* a new emitter on every engine cutoff, added
+  both to the scene, and removed neither — and the landing autopilot cuts engines repeatedly, so the
+  scene graph grew for the whole session. Now every particle is allocated once at construction;
+  emitting pops a free-list slot, dying returns it. Asserted by counting: **10 000 shutdowns add
+  exactly zero children**, and a saturated pool *drops* particles rather than growing. State lives
+  in parallel typed arrays, not objects. RevoltFX is Pixi v5-only so all seven 2021 effects were
+  rebuilt as configurations; the particle texture is generated procedurally rather than shipped.
+  Effects are **derived from SimState** — in 2021 the shutdown effect fired from inside
+  `toggleRaptor1`, so renderer and physics were the same function and neither was testable alone.
+  31 tests. 815 green, 7 e2e green, first-load 167.7 kB of 250.

@@ -5,6 +5,8 @@
   import { loadTextures } from '$view/assets';
   import { createWorld } from '$view/world';
   import { createVehicle } from '$view/vehicle';
+  import { createParticleSystem, createParticleTexture } from '$view/particles';
+  import { createEffectDriver } from '$view/effects';
   import { createIntroState } from '$core/scenarios';
   import { advance, createLoopState } from '$app/loop';
   import { vehicleHeight } from '$core/constants';
@@ -42,6 +44,10 @@
       view.layers.world.addChild(world.container);
       view.layers.vehicle.addChild(vehicle.container);
 
+      const particles = createParticleSystem(createParticleTexture(view.app.renderer));
+      const effects = createEffectDriver();
+      view.layers.effectsBehind.addChild(particles.container);
+
       const onResize = () => view?.resize(window.innerWidth, window.innerHeight);
       window.addEventListener('resize', onResize);
       onResize();
@@ -78,6 +84,8 @@
           frontFinExtension: s.vehicle.frontFinExtension,
           aftFinExtension: s.vehicle.aftFinExtension,
         });
+
+        effects.update(particles, view!.camera, view!.viewport, s, loop.previous, frameTime);
 
         status = `${s.kinematics.altitude.toFixed(0)} m · ${s.kinematics.speedY.toFixed(1)} m/s`;
       };
