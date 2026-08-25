@@ -79,14 +79,56 @@
     panel, not a border. This is the single most characteristic thing about the
     reference and the easiest to get wrong by reaching for a box.
   */
+  /*
+    THE STOPS ARE A CONTRAST BUDGET, NOT A TASTE.
+
+    M6.8 measured them: white at 70% over this gradient over the noon sky
+    (#a7bdd9, the brightest thing that can ever be behind the overlay). The
+    first version faded to 45% alpha at three quarters height, which put ink-70
+    at 3.65:1 and ink-45 at 2.44:1 — both below AA, and precisely the risk
+    BROADCAST-UI-PLAN § 8 wrote down before any of this was built.
+
+    Solving for it: ink-70 needs 0.556 alpha behind it to reach 4.5:1, ink-45
+    needs 0.591 to reach 3:1. Holding 0.66 to the top of the text band clears
+    both with margin (5.7:1 and 3.3:1) and still fades to nothing above it,
+    which is what a scrim is for. tests/ui/contrast.test.ts parses these very
+    stops and re-derives the numbers, so editing them here moves the test.
+  */
   --scrim: linear-gradient(
     to top,
-    rgb(6 8 12 / 92%) 0%,
-    rgb(6 8 12 / 80%) 40%,
-    rgb(6 8 12 / 45%) 75%,
+    rgb(6 8 12 / 94%) 0%,
+    rgb(6 8 12 / 88%) 45%,
+    rgb(6 8 12 / 66%) 75%,
     transparent 100%
   );
-  --scrim-top: linear-gradient(to bottom, rgb(6 8 12 / 72%) 0%, rgb(6 8 12 / 30%) 60%, transparent 100%);
+  --scrim-top: linear-gradient(
+    to bottom,
+    rgb(6 8 12 / 82%) 0%,
+    rgb(6 8 12 / 66%) 55%,
+    transparent 100%
+  );
+
+  /*
+    The phone scrim holds its depth further up.
+
+    Same contrast budget, different geometry. On a phone the lower third is
+    taller relative to its own ramp — the engineering strip wraps to two lines
+    and the whole block is compressed — so text lands at 81-85% of the scrim's
+    height where the desktop layout keeps it under 75%. The four phone projects
+    caught it as four identical failures the desktop project passed, which is
+    exactly what those projects were added for.
+
+    Deepening the gradient rather than pushing the strip down: the strip is
+    already as low as it can go without eating the world, and the scrim exists
+    to be adjusted.
+  */
+  --scrim-phone: linear-gradient(
+    to top,
+    rgb(6 8 12 / 94%) 0%,
+    rgb(6 8 12 / 90%) 55%,
+    rgb(6 8 12 / 66%) 90%,
+    transparent 100%
+  );
 
   /* Control surfaces. Flat, dark, hairlined — the second layer. */
   --panel: rgb(8 10 14 / 62%);
@@ -199,6 +241,26 @@
 @media (prefers-reduced-motion: reduce) {
   :root {
     --blink-duration: 0s;
+  }
+
+  /*
+    And every other moving thing — the panel fades, the control hover
+    transitions, the cinematic-mode dissolve. Each is small; together they are
+    the whole interface shifting under someone who asked it not to.
+
+    `!important` because these are set inline in component styles, which win on
+    specificity otherwise, and because there is no case where a component wants
+    to override a stated accessibility preference. `0.01ms` rather than `0` so
+    `transitionend` still fires — a handler waiting on it would hang on a flat
+    zero, which is the classic way this rule breaks a page.
+  */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

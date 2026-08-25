@@ -94,3 +94,20 @@ export async function tap(page: Page, id: string): Promise<void> {
 export async function isPhoneLayout(page: Page): Promise<boolean> {
   return page.evaluate(() => window.matchMedia('(width < 37.5rem)').matches);
 }
+
+/**
+ * True when the lower third is COMPRESSED — narrow, or short and landscape.
+ *
+ * A different question from `isPhoneLayout`, and the difference is the whole
+ * point. A landscape phone is over 600px wide, so it gets rails and dials like
+ * a desktop; what it does not have is height, so the lower third is squeezed
+ * and its text sits higher up the scrim. Anything reasoning about that band has
+ * to ask THIS, not about width.
+ */
+export async function isCompactLayout(page: Page): Promise<boolean> {
+  return page.evaluate(
+    () =>
+      window.matchMedia('(width < 37.5rem)').matches ||
+      window.matchMedia('(height < 31.25rem) and (orientation: landscape)').matches,
+  );
+}

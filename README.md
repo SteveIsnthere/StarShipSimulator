@@ -8,6 +8,12 @@ autopilot do it.
 Originally written in 2021 as a first project. This is v2: the same flight model,
 extracted and rebuilt around it.
 
+It works on a phone, and not by shrinking: the dials become digits and ticks, the
+event timeline collapses to what just happened and what is next, and the flight
+controls become bottom sheets with real touch targets.
+
+<img src="docs/screenshot-phone.png" alt="The same landing on a phone: digits and ticks instead of dials, the timeline as one line of text, the controls as a tab bar" width="300">
+
 ---
 
 ## Playing it
@@ -28,6 +34,36 @@ yours — full tanks, engines off.
 
 Works offline. Install it and it keeps working with the network off — the whole thing
 is precached, including the chart library.
+
+---
+
+## The interface
+
+It is built on the design language of a SpaceX launch webcast, which is a very
+particular thing: the world fills the frame and the data annotates it from the
+edges, legibility comes from one gradient rising off the bottom rather than from
+boxes drawn around things, and the entire palette is white at four opacities.
+Colour appears only where it means something — amber approaching a limit, red
+past it.
+
+The parts that carry it:
+
+- **Dial-and-digit gauges.** The arc gives rate of change at a glance, the numeral
+  inside gives the value, and the scale auto-ranges so an arc three quarters full
+  means something at 200 m/s and at 8 km/s alike.
+- **State is physical.** Engines are dots that light — and go red individually when
+  one fails. Propellant is a bar that drains. Nothing says "on" by turning a word
+  green.
+- **A mission timeline**, derived from the simulation and never scripted: LIFTOFF,
+  MAX-Q, MECO, ENTRY, FLIP, LANDING BURN, TOUCHDOWN. Fly badly and the events
+  simply do not light, which is the honest thing for a game you can freestyle.
+- **Cinematic mode** hides the flight controls, leaving exactly the broadcast. It is
+  the one deliberate departure: a webcast never shows a button because the viewer
+  cannot press anything, and this is a cockpit.
+
+Every number on screen still goes through a single `requestAnimationFrame`
+subscriber that diffs before it writes. The gauges and the timeline are attributes
+rather than text, so they are diffed as integers — a still gauge costs nothing.
 
 ---
 
@@ -58,9 +94,10 @@ different vehicle, and nobody would have been able to say which parts changed.
 | Globals | 355 | 0 (lint-enforced) |
 | Simulation step | frame-rate dependent | fixed 120 Hz, ~4–7 µs |
 | HUD | 12 Hz, 18 `getElementById` per update | 120 Hz, zero lookups, diffed writes |
-| First-load JS | ~3.5 MB, two CDNs | 183 kB gzip, no third-party origins |
+| First-load JS | ~3.5 MB, two CDNs | 189 kB gzip, no third-party origins |
 | Offline | claimed | tested — a full flight with the network off |
-| Tests | 0 | 991 unit, 43 end-to-end |
+| Interface | one desktop layout | three breakpoints, gated on four phone viewports |
+| Tests | 0 | 1200+ unit, 194 end-to-end across five browser projects |
 
 ---
 
@@ -161,6 +198,8 @@ production; that is not a bug worth finding from a user's bug report.
 - [`docs/ROADMAP-TASKS.md`](docs/ROADMAP-TASKS.md) — every task, and a log of what each one found.
 - [`docs/PARITY.md`](docs/PARITY.md) — v2 against the 2021 feature list, line by line.
 - [`docs/RENAME-MAP.md`](docs/RENAME-MAP.md) — the mechanical rename, old name to new.
+- [`docs/BROADCAST-UI-PLAN.md`](docs/BROADCAST-UI-PLAN.md) — the interface: what was studied,
+  what was taken, and the one thing deliberately not copied.
 
 ---
 

@@ -283,7 +283,7 @@ build + playwright green per task; one task per commit, id-prefixed.*
   bell in vacuum); re-entry plasma trail scaled by thermalPower via the pooled particles; pad
   lighting tied to sky darkness. Accept: heap-sampling test extended, still zero per-frame
   allocations; 60 fps profile; goldens and core untouched (render reads state, never writes).
-- [ ] **M6.8 Perf, a11y, budget, ship** — binder re-benchmark < 2 ms; bundle report in the
+- [x] **M6.8 Perf, a11y, budget, ship** — binder re-benchmark < 2 ms; bundle report in the
   commit (JS ≤ 250 kB gzip, fonts ≤ 80 kB); WCAG AA contrast asserted for ink-70 over the
   brightest fixture frame; `prefers-reduced-motion` disables blink/shimmer; focus-visible
   states; screenshot spec captures desktop + phone portrait, README carries both. Accept: full
@@ -1309,3 +1309,30 @@ build + playwright green per task; one task per commit, id-prefixed.*
   does, and an e2e types a whole flight into an empty form and flies it.
   Gate green (1199 unit, 194 e2e across five projects); `git diff v2/src/core` empty; the seven
   digests unmoved.
+- 2026-08-25 · M6.8 · **The gate, and the thing it caught.** Binder benchmark re-run over all FOUR
+  binders in the order `App.svelte` actually calls them (it had been timing the readout binder
+  alone, which would have kept saying green while the real per-frame cost grew); budget report in
+  the commit — 189.0 kB first-load JS of 250, 32.7 kB fonts of 80, uPlot and its theme still lazy;
+  `prefers-reduced-motion` now stops every animation and transition rather than only the blink,
+  at `0.01ms` so `transitionend` still fires; focus-visible asserted by tabbing and reading the
+  computed outline; two screenshots captured and carried in the README.
+  **The contrast work found real failures, twice, and the second time is the interesting one.**
+  `tests/ui/contrast.test.ts` parses the scrim stops and the ink ramp out of `theme.css`, composites
+  over the noon sky (`#a7bdd9`, the brightest thing that can ever sit behind the overlay) and runs
+  WCAG 2.1. The first scrim faded to 45% alpha at three quarters height, which put **ink-70 at
+  3.65:1 and ink-45 at 2.44:1** — both below AA, and exactly the risk BROADCAST-UI-PLAN § 8 wrote
+  down before any of it was built. Solving for it: ink-70 needs 0.556 alpha behind it, ink-45 needs
+  0.591. The stops now hold 0.66 to the top of the text band.
+  Then the four phone projects failed the same check the desktop passed: a compressed lower third
+  puts text at **81–85%** of the scrim's height where the desktop keeps it under 75%. Fixed with a
+  `--scrim-phone` that holds its depth further up — and then the two LANDSCAPE projects failed
+  again, because a landscape phone is over 600 px wide and had been treated as a desktop. The band
+  is a property of the COMPRESSION, not the width. Both compressed layouts share the token now, and
+  the e2e asks `isCompactLayout` rather than `isPhoneLayout`. Four projects found what one could
+  not, twice over.
+  The two halves are deliberately separate and neither means much alone: the unit test certifies
+  the STYLESHEET up to a band top, the e2e measures where the text actually IS and asserts it stays
+  inside that band. The unit test also asserts it FAILS above the band — a contrast test that passes
+  everywhere is measuring nothing.
+  Gate green (1211 unit, 216 e2e across five projects); **`git diff 33b8a92 -- v2/src/core` empty
+  across the entire milestone** and the seven digests byte-identical to their M2.14 values.

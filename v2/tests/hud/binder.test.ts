@@ -32,6 +32,8 @@ import {
 import { READOUTS } from '$hud/readouts';
 import { METRICS } from '$hud/metrics';
 import { INDICATORS } from '$hud/indicators';
+import { createTimeline, trackFor } from '$hud/timeline';
+import { createTimelineBinder } from '$hud/timeline-binder';
 import { createInitialState, type SimState } from '$core/state';
 import { createScenarioState, getScenario, PRESETS } from '$core/scenarios';
 import { step } from '$core/step';
@@ -241,13 +243,14 @@ describe('the 2 ms budget', () => {
     expect(perUpdate, `HUD update cost ${perUpdate.toFixed(4)} ms`).toBeLessThan(2);
   });
 
-  it('all THREE binders together still fit it, on the M6.2 overlay', () => {
+  it('all FOUR binders together still fit it, on the finished overlay', () => {
     /*
-      The budget is per frame, not per binder, and M6.2 put a third binder on
-      the frame path — the gauges, bars, dots and chevron. Measuring the readout
-      binder alone would have kept saying 'green' while the actual per-frame
-      cost grew, which is exactly the shape of regression a budget exists to
-      catch. So this measures what App.svelte's tick really calls.
+      The budget is per frame, not per binder. M6.2 put a third binder on the
+      frame path (gauges, bars, dots, chevron) and M6.3 a fourth (the event
+      track). Measuring the readout binder alone would have kept saying 'green'
+      while the actual per-frame cost grew — exactly the shape of regression a
+      budget exists to catch. So this measures what App.svelte's tick really
+      calls, in the order it calls it.
     */
     const text = harness();
 
@@ -263,12 +266,22 @@ describe('the 2 ms budget', () => {
     }
     const indicators = createIndicatorBinder({ resolve: (id) => indicatorEls.get(id) ?? null });
 
+    const timeline = createTimeline();
+    const track = trackFor('reentry');
+    const timelineBinder = createTimelineBinder({
+      timeline,
+      resolveText: () => ({ textContent: null }),
+    });
+    timelineBinder.rebind(track, () => ({ setAttribute: () => {} }));
+
     let state: SimState = createScenarioState(getScenario('reentry')!);
     cmd.toggleAutoLand(state);
 
     const tick = (s: SimState) => {
+      timeline.observe(s);
       text.binder.update(s);
       metrics.update(s);
+      timelineBinder.update();
       indicators.update(s);
     };
 

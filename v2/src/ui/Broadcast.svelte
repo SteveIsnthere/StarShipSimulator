@@ -549,6 +549,10 @@
   }
 
   @media (width < 37.5rem) {
+    /* See --scrim-phone in theme.css: same contrast budget, taller block. */
+    .lower {
+      background: var(--scrim-phone);
+    }
     .top {
       padding-top: calc(var(--safe-top) + 0.5rem);
       padding-bottom: 1.25rem;
@@ -622,7 +626,19 @@
     breathing space rather than its content.
   */
   @media (height < 31.25rem) and (orientation: landscape) {
+    /*
+      The deeper scrim again, for the same reason and a different query.
+
+      A landscape phone is over 600px wide, so it uses the desktop layout — but
+      this rule compresses the block to fit 390px of height, which puts text
+      just as high up the scrim as portrait does. The contrast band is a
+      property of the COMPRESSION, not of the width, and both compressed
+      layouts need the depth. The two landscape projects found this after the
+      two portrait ones had already been fixed, which is the argument for
+      running all four.
+    */
     .lower {
+      background: var(--scrim-phone);
       padding-top: 1.5rem;
       padding-bottom: calc(var(--safe-bottom) + 0.4rem);
       gap: 0.25rem;
