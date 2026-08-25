@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "svelte-check --tsconfig ./tsconfig.json && vite build && node scripts/check-budget.mjs",
+    "build": "svelte-check --tsconfig ./tsconfig.json && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest run",

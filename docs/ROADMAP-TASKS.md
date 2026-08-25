@@ -114,7 +114,7 @@ acceptance line.
 
 ## M5 — Shipped
 
-- [ ] **M5.1 Offline** — service worker precaches everything; no CDN references anywhere.
+- [x] **M5.1 Offline** — service worker precaches everything; no CDN references anywhere.
   Accept: full playthrough in airplane mode.
 - [ ] **M5.2 README** — real one: screenshot, feature list, architecture story, dev setup.
 - [ ] **M5.3 Deploy** — pipeline to static hosting.
@@ -574,3 +574,23 @@ acceptance line.
   five-versus-six preset discrepancy is recorded rather than resolved: the About text and in-game
   copy say six, index.html ships **five**, and v2 ports the five that exist. 978 tests, 38 e2e,
   182.6 kB of 250.
+- 2026-08-25 · M5.1 · **The 2021 About screen claimed the game could be played offline. It could
+  not** — index.html pulled PixiJS and Plotly from two CDNs on every load, so with no network there
+  was no renderer at all. Now it is true and checked: five e2e tests cut the browser context's
+  network and **fly a flight end to end**, configure a new one from the menu, open the black box,
+  read the guide, and fetch the manifest — all from cache. The precache list is generated from
+  `dist/` after the build, never hand-maintained: the bundler renames every chunk on content change,
+  so a hand-written list is stale immediately and its failure mode is the worst kind — works online,
+  breaks offline, which is the case nobody tests. The lazy uPlot chunk is precached **because** it is
+  lazy; on-demand means "fetched at the worst possible moment" when there is no network. The cache
+  name is a hash of the list plus contents, so a new build is a new cache and the old one is deleted
+  on activate. **The bug that took the longest was invisible online**: every asset 504'd offline
+  while working perfectly online, because `cache.addAll()` keys responses by requests it builds
+  itself and vite preview sends `Vary: Origin`, so the page's later request failed to match the
+  stored key. `ignoreVary: true` fixes it. Two smaller ones: the service worker was precaching
+  absolute `/...` paths while vite builds with `base: './'`, which would have broken exactly one
+  deployment shape (subdirectory hosting) and nothing else; and my first "no CDN references" test
+  grepped for `https://` and found seventeen — all Svelte error-message links and a PixiJS license
+  header, none of them ever fetched. Rewritten to check the hosts that actually serve code, with the
+  e2e network log as the real guarantee. Installable too: manifest, icon, standalone display.
+  991 tests, 43 e2e, 182.7 kB of 250.

@@ -1,0 +1,14 @@
+{
+  "name": "Starship Simulator",
+  "short_name": "Starship",
+  "description": "A Starship flight simulator. Land it yourself, or watch the autopilot do it.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#a7bdd9",
+  "theme_color": "#0b1017",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
