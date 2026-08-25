@@ -199,7 +199,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.world.updatedFrameCount += 1;
 
   // --- 1. environmentUpDate ------------------------------------------------
-  const atmosphere = updateAtmosphere(s.kinematics.altitude);
+  const atmosphere = updateAtmosphere(s.kinematics.altitude, s.flags.fullISA);
   s.atmosphere.airTemperature = atmosphere.airTemperature;
   s.atmosphere.airPressure = atmosphere.airPressure;
   s.atmosphere.airDensity = atmosphere.airDensity;

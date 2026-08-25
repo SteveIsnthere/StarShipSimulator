@@ -78,7 +78,7 @@ acceptance line.
   constant g. Off by default. Accept: flat-model goldens untouched; orbit maths unit-tested
   (circular orbit stays circular over one lap, energy drift bounded).
 - [x] **M2.7 Fidelity: speed of sound** — a = √(γRT) from local temperature. Off by default.
-- [ ] **M2.8 Fidelity: full ISA** — standard lapse-rate table to 86 km. Off by default.
+- [x] **M2.8 Fidelity: full ISA** — standard lapse-rate table to 86 km. Off by default.
 - [ ] **M2.9 Orbit presets + demo** — Circularize + Deorbit Burn presets; CI test: under
   flags, circularize at 100 km, coast one full lap, deorbit, land at StarBase.
 - [ ] **M2.10 Feel review** — owner flies flag combinations and picks defaults. Owner task.
@@ -371,3 +371,14 @@ acceptance line.
   regime. Also pinned where the fix stops mattering — above Mach 10 the coefficient is capped at
   2.5, so hypersonic re-entry is unaffected either way. Only the two `realSpeedOfSound` fixtures
   moved; the other nine byte-identical. 719 tests green.
+- 2026-08-25 · M2.8 · **Fidelity, flag off by default.** `core/physics/isa.ts` — seven ISA layers to
+  86 km, verified against the published US Standard Atmosphere 1976 at eight altitudes. Base
+  pressures are **integrated upward rather than transcribed**, so layers join to 1e-5 by
+  construction (a transcribed table can disagree with its own formulas, and a density step is a
+  visible jolt). Handles the two conventions explicitly: **geopotential vs geometric altitude**
+  (1.3% apart at 86 km, where density changes by a factor of e every few km) and Kelvin vs Celsius.
+  The big win: the three-layer model **has no mesosphere** and warms monotonically past 47 km
+  forever — at 80 km it says **+50 °C where the real atmosphere is −70 °C**, a 120 °C error. Only
+  the two `fullISA` fixtures moved. My test was wrong first, not the model: I compared published
+  values at *geometric* altitudes when the standard is indexed by *geopotential*. 744 tests green.
+  **M2 is complete except M2.9 and the owner tasks.**

@@ -6,6 +6,9 @@
  * law with R_specific folded into 0.2869.
  */
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { isaAtmosphere } from './isa';
+
 export interface Atmosphere {
   /** deg C */
   airTemperature: number;
@@ -70,7 +73,8 @@ export const STRATOPAUSE_ALTITUDE = 25_000;
  * physics.js:6 — the dispatcher, now with all three branches live.
  * @param altitude m
  */
-export function updateAtmosphere(altitude: number): Atmosphere {
+export function updateAtmosphere(altitude: number, fullISA = false): Atmosphere {
+  if (fullISA) return isaAtmosphere(altitude);
   if (altitude < TROPOPAUSE_ALTITUDE) {
     return tropo(altitude);
   }
