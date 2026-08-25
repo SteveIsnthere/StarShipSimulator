@@ -237,7 +237,13 @@ arbiter thereafter.
 
 ## Driving implementation: `/goal`
 
-### The M6 goal prompt (current — the Broadcast overhaul, planned 2026-08-25)
+### The M7 goal prompt (current — Depth and Speed, planned 2026-08-25)
+
+```
+/goal Depth and Speed is finished: all seven M7 tasks in docs/ROADMAP-TASKS.md are checked off in order, each to its acceptance line, built to the design in docs/DEPTH-AND-SPEED-PLAN.md, one id-prefixed commit per task, all pushed to origin claude/first-project-rebuild-bjniik. Proof shown in command output at the end: (1) cd v2 && npm run lint && npm run test && npm run build all exit 0 and npx playwright test green across ALL FIVE projects, phone viewports included; (2) git diff v2/src/core against the M7 start commit prints nothing and the seven golden digests in tests/golden/unification.test.ts are byte-identical to their M2.14 values — this is a graphics milestone; (3) the trajectory map's projection is replayed over all seven golden fixtures with no NaN and no off-canvas coordinate, and its predicted-touchdown error against the actual touchdown is measured and reported for the goldens that land, with the orbital presets showing no-solution rather than a wrong number; (4) the compression curves — distant earth and velocity streaks — are unit-tested at the altitudes and speeds the seven scenarios actually visit, monotonic and continuous, and each names itself a compression in its own comment per the plan's honesty rule; (5) the frame path is unchanged in kind: one rAF subscriber, binder benchmark under 2 ms WITH the map redraw included, zero-allocation test extended to the map and the streaks, and the particle pool headroom reported against the 576-of-4000 baseline; (6) the budget report shows first-load JS <= 250 kB gzip and fonts <= 80 kB, and fresh screenshots at 1 km, 20 km and 100 km plus desktop and phone are committed with the README updated. Constraints throughout: compression is allowed in the depiction and never in the numbers — every value on the trajectory map is read from SimState or computed by core at true scale; the frozen tree at v2/tests/fixtures/legacy/ is never modified; Svelte renders on interaction only. M7.5 (camera lead and shake) is BLOCKED pending an owner decision recorded in its commit — if that decision has not been given, do every other task and say so rather than guessing. This goal is also met if progress becomes impossible without a new owner decision — in that case the final message states exactly what is blocked, why, and what decision is needed.
+```
+
+### The M6 goal prompt (done — the Broadcast overhaul, landed 2026-08-25)
 
 ```
 /goal The Broadcast overhaul is finished: all eight M6 tasks in docs/ROADMAP-TASKS.md are checked off in order, each to its acceptance line, built to the design in docs/BROADCAST-UI-PLAN.md, one id-prefixed commit per task, all pushed to origin claude/first-project-rebuild-bjniik. Proof shown in command output at the end: (1) cd v2 && npm run lint && npm run test && npm run build all exit 0 and npx playwright test green INCLUDING the phone-viewport projects M6.6 adds; (2) git diff v2/src/core against the M6 start commit prints nothing, and the seven golden digests in tests/golden/unification.test.ts are byte-identical to their M2.14 values — the overhaul changed pixels, provably not physics; (3) the neumorphic shadow string appears nowhere in v2/src (grep shown), D-DIN or its test-chosen fallback loads in the offline e2e with its OFL license committed, and the tabular-digits test is green; (4) the mission-event timeline derivation replayed over all seven golden fixtures asserts each scenario's event order; (5) the budget report shows first-load JS <= 250 kB gzip and fonts <= 80 kB, with uPlot still lazy; (6) fresh screenshots at desktop and phone-portrait are committed and the README carries both. Constraints throughout: every 2021 control still exists and works (capability parity — the e2e checklist passes via the data-testid contract); the frozen tree at v2/tests/fixtures/legacy/ is never modified; Svelte renders on interaction only and every per-frame write goes through the single-rAF binder, re-benchmarked under 2 ms on the new DOM. This goal is also met if progress becomes impossible without a new owner decision — in that case the final message states exactly what is blocked, why, and what decision is needed.
@@ -348,7 +354,9 @@ every Refactor · bundle and frame budgets in CI.
 
 ## Open questions & backlog
 
-- **Sound** — biggest feel-per-effort upgrade available; one word and it becomes M4.5.
+- **Sound** — still the biggest feel-per-effort upgrade available, and still absent.
+  M7 § 6 restates the cost: a new asset class, a new budget line, and new offline
+  precache surface. One word and it becomes a milestone.
 - **Shareable flights** (backlog) — determinism makes a flight = seed + scenario +
   input log; a URL replays it anywhere. Cheap after M2.
 - **Fidelity defaults** — chosen in M2, stick in hand. The 2021 model stays selectable

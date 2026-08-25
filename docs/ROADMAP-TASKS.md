@@ -290,6 +290,63 @@ build + playwright green per task; one task per commit, id-prefixed.*
   gate + all e2e including mobile; `git diff v2/src/core` empty over the whole milestone; the
   seven unification digests byte-identical to their M2.14 values.
 
+## M7 — Depth and Speed (plan: `docs/DEPTH-AND-SPEED-PLAN.md`)
+
+*The measured problem: the viewport is 356 x 200 m at every altitude, so the ground
+leaves the screen above ~100 m and every scenario but the final landing is flown
+against a blank sky; and at 7300 m/s a ground object crosses the screen in 49 ms,
+under three frames. Milestone-wide rules, checked at EVERY M7 commit: `git diff
+v2/src/core` is empty; the seven golden digests are unchanged; lint + test + build +
+playwright (all five projects) green; one task per commit, id-prefixed. Compression is
+allowed in the depiction and never in the numbers — see the plan's § 5.*
+
+- [ ] **M7.1 The trajectory map** — `src/hud/trajectory.ts`: pure world→map projection with
+  auto-ranging over both axes (a 200 m hop and a 2000 km re-entry on the same instrument), the
+  ground line, the landing site at x = 0, the 80 km entry interface, the vehicle marker and its
+  velocity vector, and the flown path decimated from `app/recorder.ts`. `src/ui/TrajectoryMap.svelte`
+  owns a dedicated `<canvas>`; the existing rAF binder drives it, throttled (a map does not need
+  120 Hz) with pre-allocated point arrays. Accept: projection unit-tested including both extreme
+  ranges and the degenerate zero-extent case; replayed over all seven goldens without producing a
+  NaN or an off-canvas coordinate; e2e sees the marker move and the trail grow; zero per-frame
+  allocation test extended; goldens and core untouched.
+- [ ] **M7.2 The predicted path** — draw where the vehicle is actually going, from
+  `coastDownrangeDistance()` and `getFreeFallTimeRemainingPrediction()` — M2.9 built the conic
+  predictor for the deorbit autopilot and the player has never been able to see it. Predicted
+  touchdown marker, distance-to-target, and an honest "no solution" state when the trajectory does
+  not reach the ground (orbit) or the predictor is out of domain. Accept: the predicted touchdown
+  is compared against the actual touchdown over the goldens that land, and the error is reported
+  in the commit; the orbital presets show no-solution rather than a wrong number; no new physics —
+  `git diff v2/src/core` still empty.
+- [ ] **M7.3 The distant earth** — a compressed-perspective ground layer, visible continuously from
+  200 m to 200 km instead of vanishing at 100 m, scrolling at a rate inside the readable band
+  rather than at `speed x scale`. Both curves live in `view/` as named pure functions that say in
+  their own comments that they are compressions and why (M6.7's `atmosphere-look.ts` is the
+  pattern). Accept: curves unit-tested at the altitudes and speeds the seven scenarios visit,
+  monotonic and continuous with no discontinuity where it takes over from the true-scale ground;
+  screenshots at 1 km, 20 km and 100 km committed; zero per-frame allocation.
+- [ ] **M7.4 Velocity streaks and the flight-path marker** — a pooled screen-space streak layer
+  swept along the velocity vector, density and length from one calibrated curve, silent below a
+  threshold so a landing hop is not snowing; plus the flight-path marker showing where the vehicle
+  is going as against where its nose points, which at high angle of attack differ enormously and
+  nothing on screen currently says so. Accept: the curve is unit-tested at the speeds the scenarios
+  reach and reports zero below the threshold; pool headroom measured and reported (baseline: peak
+  576 of 4000); the marker's angle is asserted against `angleOfMotion` over the goldens.
+- [ ] **M7.5 Camera lead and shake** — **BLOCKED ON AN OWNER DECISION** (plan § 6): `camera.ts`
+  ports the 2021 second-order follow verbatim and calls that feel worth preserving exactly. The
+  recommendation is an ADDITIVE framing offset that leaves the control law untouched, plus shake
+  driven by dynamic pressure and thrust. Do not start this without the decision recorded in the
+  commit. Accept: with the offset at zero the camera is bit-identical to today's over all seven
+  goldens (a test); shake respects `prefers-reduced-motion`; the intro still reads as the intro.
+- [ ] **M7.6 The cloud deck** — the missing middle distance: parallax currently jumps from 1x
+  (ground) to 0.001x (stars) with nothing between, which is why even a good ascent reads as flat.
+  A deck at a few kilometres, seeded so it returns identically every run, thinning above it.
+  Accept: deterministic across runs; per-frame allocation unchanged; correct above and below.
+- [ ] **M7.7 Perf, budget, mobile, ship** — binder re-benchmark under 2 ms with the map redraw
+  included; bundle report in the commit (JS <= 250 kB gzip, fonts <= 80 kB); the map has a phone
+  story and the mobile projects prove it; offline precache still complete; screenshots refreshed
+  and the README updated. Accept: full gate on all five projects; `git diff v2/src/core` empty over
+  the whole milestone; the seven digests byte-identical to their M2.14 values.
+
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->
@@ -1336,3 +1393,25 @@ build + playwright green per task; one task per commit, id-prefixed.*
   everywhere is measuring nothing.
   Gate green (1211 unit, 216 e2e across five projects); **`git diff 33b8a92 -- v2/src/core` empty
   across the entire milestone** and the seven digests byte-identical to their M2.14 values.
+- 2026-08-25 · plan · **M7 Depth and Speed planned**, after the owner asked how the graphics could
+  be improved — a minimap, a clearer sense of speed, more immersion. The answer turned out to be
+  measurable rather than a matter of taste, and the measurements are worse than the question
+  implied. `computeViewport()` takes the window size, the vehicle height and the manual zoom and
+  **does not take altitude**: the viewport is 356 x 200 m at every altitude, so the horizon runs off
+  the bottom of a 720 px screen once altitude passes **100 metres**. Every scenario the game ships
+  except the final seconds of a landing is flown against a blank gradient. (The README screenshot is
+  taken at 85 m for exactly that reason.) Where there IS ground, at 7300 m/s it crosses a 1280 px
+  screen in **49 ms** — under three frames at 60 fps — and the camera matches the vehicle's velocity
+  so the ship itself drifts 2–222 px over a whole recorded flight. Two parallax layers exist, 1x and
+  0.001x, and the stars move 25 px/s at re-entry speed. The screen at 7 km/s and 75 km is the same
+  experience as sitting still at 75 km.
+  The obvious fix does not work: seeing the ground from 75 km needs 0.0096 px/m, at which the
+  vehicle is half a pixel tall. One camera cannot show a 50 m vehicle and a 75 km altitude, which is
+  why broadcasts cut to a map and simulators have instruments. So: a **trajectory map** (a profile,
+  not a top-down — this world has no lateral axis), carrying the conic predictor M2.9 built for the
+  deorbit autopilot and never showed anyone; a **compressed-perspective distant earth** visible from
+  200 m to 200 km; **screen-space velocity streaks** and a flight-path marker, with 86% of the
+  particle pool free (peak 576 of 4000). Seven tasks M7.1–M7.7, with M7.5 (camera) explicitly
+  blocked on an owner decision because `camera.ts` calls the ported 2021 control law worth
+  preserving exactly. The milestone states one new rule: **compression is allowed in the depiction
+  and never in the numbers** — the map is an instrument and an instrument that lies is a bug.
