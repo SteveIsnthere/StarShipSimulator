@@ -304,7 +304,7 @@ digests are unchanged; lint + test + build + playwright (all five projects) gree
 task per commit, id-prefixed. Compression is allowed in the depiction and never in the
 numbers — plan § 5.*
 
-- [ ] **M7.1 The trajectory map** — `src/hud/trajectory.ts`: pure world→map projection with
+- [x] **M7.1 The trajectory map** — `src/hud/trajectory.ts`: pure world→map projection with
   auto-ranging over both axes (a 200 m hop and a 2000 km re-entry on the same instrument), the
   ground line, the landing site at x = 0, the 80 km entry interface, the vehicle marker and its
   velocity vector, and the flown path decimated from `app/recorder.ts`. `src/ui/TrajectoryMap.svelte`
@@ -1518,3 +1518,30 @@ out is the point of the whole milestone.*
   frame the camera defines, so the original ordering would have built them against today's 356 m
   viewport and then re-tuned them after the FOV moved. The map stays first — it is independent of
   the camera, and it is the answer to the question that started this.
+- 2026-08-25 · M7.1 · **The trajectory map.** A profile — altitude against downrange, seen from the
+  side — in the lower third, auto-ranging from a 200 m hop to a 2000 km re-entry on the same
+  instrument. `hud/trajectory.ts` is the maths (extent, projection, decimation, unit switch) and
+  `hud/trajectory-draw.ts` the drawing, split so the draw takes a MINIMAL CONTEXT INTERFACE rather
+  than a real `CanvasRenderingContext2D` — which is what makes "replayed over all seven goldens
+  without a NaN or an off-canvas coordinate" an assertion instead of a hope. It is: all seven flown
+  step by step through the real draw against a recording stub, every coordinate finite, worst
+  overshoot **0.000 px** in both axes.
+  Four decisions worth their comments. (1) **The two axes have different scales**, deliberately: a
+  re-entry at true aspect is a 25:1 sliver with nothing readable in it. It stays honest the way
+  every trajectory plot does — the axes carry their real extents as labels, and nothing on the map
+  is compressed, only stretched (plan § 5 is about the depiction of the WORLD; an instrument gets
+  neither). (2) **`niceSpan` snaps every extent to 1, 2 or 5 times a power of ten**, so the map
+  re-ranges a couple of dozen times over a flight rather than ten thousand — a picture that tracked
+  its content continuously would slide on every frame and be unreadable. The e2e asserts the
+  grammar, not just that it moved. (3) **The velocity vector is drawn in MAP space**, because with
+  two axis scales a world-space arrow points somewhere the trail does not go, which is worse than
+  useless on an instrument; and its length is clamped so the tip cannot leave the canvas, which is
+  what makes the bounds claim exact rather than a tolerance. (4) **The trail IS the black box's**:
+  the recorder was already sampling downrange and altitude, its arrays survive `clear()`, so a
+  restart empties the map for free and there is no second history to keep in step.
+  Throttled to 10 Hz from the one rAF tick — a map does not need 120 — and a collapsed map costs a
+  single property read, which the e2e proves by watching its reported position freeze. A canvas is
+  opaque to a test, so the renderer writes `data-marker` and `data-span` onto the panel, diffed like
+  every other attribute in `hud/`; that is what lets a spec say "the marker moved" without a
+  screenshot comparison that would go red for a colour change. Core untouched, seven digests
+  unchanged.

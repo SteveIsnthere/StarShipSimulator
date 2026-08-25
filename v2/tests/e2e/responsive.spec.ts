@@ -73,7 +73,7 @@ test('every control a finger has to hit is big enough @mobile', async ({ page })
 
 const measureCanvas = (page: import('@playwright/test').Page) =>
   page.evaluate(() => {
-    const canvas = document.querySelector('canvas')!;
+    const canvas = document.querySelector('[data-testid="world-canvas"]') as HTMLCanvasElement;
     const rect = canvas.getBoundingClientRect();
     return { w: Math.round(rect.width), h: Math.round(rect.height) };
   });

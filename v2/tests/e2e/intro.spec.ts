@@ -71,9 +71,9 @@ test('the vehicle is drawn throughout, not just at the end', async ({ page }) =>
   // The canvas keeps a stable size while the whole sequence plays, which rules
   // out a renderer that has quietly fallen over mid-flight. It is sized from
   // the window at creation, so there is no resize flash to wait out.
-  const box1 = await page.locator('canvas').boundingBox();
+  const box1 = await page.locator('[data-testid="world-canvas"]').boundingBox();
   await page.waitForTimeout(4_000);
-  const box2 = await page.locator('canvas').boundingBox();
+  const box2 = await page.locator('[data-testid="world-canvas"]').boundingBox();
 
   expect(box1?.width).toBe(box2?.width);
   expect(box1?.height).toBe(box2?.height);

@@ -35,7 +35,7 @@ test('page loads with no console errors and no failed requests @mobile', async (
 
   // The Svelte root actually mounted, rather than the page merely being 200.
   // Since M3.1 the app is the canvas; there is no longer a placeholder heading.
-  await expect(page.locator('canvas')).toBeVisible();
+  await expect(page.locator('[data-testid="world-canvas"]')).toBeVisible();
 
   expect(pageErrors, 'uncaught exceptions').toEqual([]);
   expect(consoleErrors, 'console errors').toEqual([]);
@@ -63,7 +63,7 @@ test('canvas mounts @mobile', async ({ page }) => {
   // PixiJS shell exists.
   await page.goto('/', { waitUntil: 'load' });
 
-  const canvas = page.locator('canvas');
+  const canvas = page.locator('[data-testid="world-canvas"]');
   await expect(canvas).toBeVisible();
 
   const size = await canvas.boundingBox();
@@ -74,7 +74,7 @@ test('canvas mounts @mobile', async ({ page }) => {
   // existing. Under SwiftShader this is WebGL; on real hardware it may be
   // WebGPU, so accept either.
   const context = await page.evaluate(() => {
-    const el = document.querySelector('canvas');
+    const el = document.querySelector('[data-testid="world-canvas"]');
     if (!el) return 'no-canvas';
     // Pixi's own record of what it negotiated.
     return (el as HTMLCanvasElement & { __pixiContext?: string }).__pixiContext ?? 'unknown';

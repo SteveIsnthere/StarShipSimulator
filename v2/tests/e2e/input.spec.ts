@@ -96,5 +96,5 @@ test('the zoom keys and buttons change how much world is drawn', async ({ page }
   await page.waitForTimeout(500);
 
   expect(errors).toEqual([]);
-  await expect(page.locator('canvas')).toBeVisible();
+  await expect(page.locator('[data-testid="world-canvas"]')).toBeVisible();
 });

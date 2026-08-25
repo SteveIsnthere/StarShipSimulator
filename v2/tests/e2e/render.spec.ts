@@ -19,11 +19,16 @@ test('every art asset loads', async ({ page }) => {
   });
 
   await page.goto('/', { waitUntil: 'load' });
-  // Textures load after mount, so give the loader a moment.
+  // Textures load after mount, so give the loader a moment. Counting the WORLD
+  // canvas specifically: M7.1's trajectory map added a second one, and this
+  // was waiting for Pixi to mount rather than counting canvases for their own
+  // sake.
   await expect
-    .poll(async () => page.evaluate(() => document.querySelectorAll('canvas').length), {
-      timeout: 5_000,
-    })
+    .poll(
+      async () =>
+        page.evaluate(() => document.querySelectorAll('[data-testid="world-canvas"]').length),
+      { timeout: 5_000 },
+    )
     .toBe(1);
   await page.waitForLoadState('networkidle');
 

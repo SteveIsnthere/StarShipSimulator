@@ -31,6 +31,8 @@
   import type { AttributeTarget, TextTarget } from '$hud/binder';
   import Gauge from './Gauge.svelte';
   import Timeline from './Timeline.svelte';
+  import TrajectoryMap from './TrajectoryMap.svelte';
+  import type { MapSurface } from '$hud/trajectory-draw';
   import type { EventId } from '$hud/timeline';
   import { readoutTestId, readoutUnitTestId, readoutValueTestId } from './testids';
 
@@ -50,9 +52,11 @@
       resolve: (id: string) => AttributeTarget | null,
       text: (id: 'now' | 'next') => TextTarget | null,
     ) => void;
+    /** Handed straight to TrajectoryMap; the tick drives the surface it yields. */
+    onmap: (surface: MapSurface | null) => void;
   }
 
-  const { onready, scenario, scenarioId, ontimeline }: Props = $props();
+  const { onready, scenario, scenarioId, ontimeline, onmap }: Props = $props();
 
   /**
    * The long-tail readouts: everything the gauges and the clock do not show.
@@ -292,6 +296,16 @@
           <span class="bc-label">Pitch</span>
         </div>
       </div>
+
+      <!--
+        The map sits at the far end of the bar rather than stacked above it: the
+        lower third is already four rows deep on a desktop, and a fifth would be
+        spending the world's screen on furniture. `margin-left: auto` puts it
+        against the right edge, which is where a broadcast puts a plot.
+      -->
+      <div class="map-slot">
+        <TrajectoryMap onready={onmap} />
+      </div>
     </div>
   </div>
 </div>
@@ -423,6 +437,25 @@
     display: flex;
     align-items: flex-end;
     gap: 1.5rem;
+  }
+
+  /*
+    The map is the one thing in the lower third that is not allowed to make it
+    taller.
+
+    M6.8 certified the contrast of white ink over this scrim up to three
+    quarters of its height, and a11y.spec.ts checks no text is above that. The
+    map's first draft added 33 px to the bottom row, which pushed the
+    engineering strip to 75.x% and turned that gate red — a real regression, not
+    a fussy threshold: the readouts at the top of a taller block genuinely sit
+    on a thinner scrim.
+
+    So the map is sized to fit INSIDE the row the dials already set (see the
+    `.frame` note in TrajectoryMap.svelte), which keeps the certified geometry
+    by construction rather than by re-tuning a gradient that was solved for.
+  */
+  .map-slot {
+    margin-left: auto;
   }
 
   /* --- engines ----------------------------------------------------------- */
@@ -608,6 +641,10 @@
     .propellant {
       min-width: 0;
     }
+    /* One column, so the map is a row of its own rather than a right edge. */
+    .map-slot {
+      margin-left: 0;
+    }
     .attitude svg {
       width: 1.9rem;
       height: 1.9rem;
@@ -645,6 +682,38 @@
     }
     .top {
       padding-bottom: 0.9rem;
+    }
+
+    /*
+      The one layout where the map cannot live in the bar.
+
+      Measured on an 823x374 landscape phone: the right control rail owns
+      x537-742 for the full height of the screen, and the vehicle block ends at
+      about x487. There are 47 px between them. Left in the row, the map slid
+      UNDER the rail — Playwright reported the rail intercepting clicks on its
+      toggle, which is exactly the failure M6.2 hit when the panels covered the
+      engineering strip — and it forced the lower third's grid column wider than
+      the viewport, which pushed the timeline off the right edge.
+
+      So here it leaves the flow and sits over the sky, which above 100 m is the
+      emptiest part of the screen and on this layout is the only part with room.
+      It is still always-on, still collapsible, still glanceable — the owner's
+      decision is about the map being there without asking, not about which
+      pixels it occupies on a phone held sideways.
+
+      CENTRED rather than offset from an edge, and that is the second attempt.
+      Anchoring it to the left gutter put it under the OTHER rail's engine
+      buttons — both sides are occupied top to bottom, and the free sky is the
+      band between them. Centring says that in one line and cannot drift when a
+      rail's width changes; a hand-measured offset would have to be re-measured
+      every time Controls.svelte moves.
+    */
+    .map-slot {
+      position: absolute;
+      top: calc(var(--safe-top) + 3rem);
+      left: 50%;
+      transform: translateX(-50%);
+      margin-left: 0;
     }
   }
 </style>

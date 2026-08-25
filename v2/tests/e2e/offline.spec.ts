@@ -52,7 +52,7 @@ test('the whole app loads with the network off @mobile', async ({ page }) => {
   await ready(page);
 
   expect(failed, 'nothing may fail to load offline').toEqual([]);
-  await expect(page.locator('canvas')).toBeVisible();
+  await expect(page.locator('[data-testid="world-canvas"]')).toBeVisible();
 });
 
 test('a full flight can be flown offline @mobile', async ({ page }) => {

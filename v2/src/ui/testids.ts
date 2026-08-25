@@ -160,6 +160,16 @@ export const MENU_TESTIDS = [
  */
 export const TIMELINE_TESTIDS = ['timeline', 'event-now', 'event-next'] as const;
 
+/**
+ * The trajectory map (M7.1).
+ *
+ * All three are present whether or not the panel is expanded — it collapses by
+ * hiding, not by unmounting, because the tick holds the canvas context. So a
+ * presence check means "the instrument exists"; whether it is SHOWING is a
+ * visibility question, which is the one the map's own spec asks.
+ */
+export const MAP_TESTIDS = ['trajectory-map', 'map-toggle', 'map-canvas'] as const;
+
 /** A scenario preset button, by the preset's own id. */
 export const presetTestId = (id: string): string => `preset-${id}`;
 
@@ -183,6 +193,7 @@ export const ALL_TESTIDS: readonly string[] = [
   ...READOUT_IDS.map(readoutValueTestId),
   ...READOUT_IDS.map(readoutUnitTestId),
   ...TIMELINE_TESTIDS,
+  ...MAP_TESTIDS,
   ...MENU_TESTIDS,
   ...DIALOG_TESTIDS,
 ];

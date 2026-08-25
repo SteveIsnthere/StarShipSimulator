@@ -25,6 +25,12 @@
     type TextTarget,
   } from '$hud/binder';
   import Broadcast from './Broadcast.svelte';
+  import {
+    createMapRenderer,
+    type MapRenderer,
+    type MapRendererOptions,
+    type MapSurface,
+  } from '$hud/trajectory-draw';
   import { createTimeline } from '$hud/timeline';
   import { createTimelineBinder, type TimelineBinder } from '$hud/timeline-binder';
   import type { EventId } from '$hud/timeline';
@@ -180,6 +186,33 @@
    */
   const onStep = (state: import('$core/state').SimState) => recorder.sample(state);
 
+  /**
+   * The trajectory map (M7.1).
+   *
+   * Its trail is the flight recorder's, read rather than copied: the recorder
+   * is already sampling downrange and altitude for the black box, and keeping a
+   * second history of the same two numbers would be a second thing to keep in
+   * step. The arrays it hands out are stable across `clear()` — which truncates
+   * rather than replaces — so this reference survives a restart, and a restart
+   * empties the map's trail for free.
+   */
+  let mapRenderer: MapRenderer | undefined;
+  let mapSurface: MapSurface | null = null;
+  let mapOptions: MapRendererOptions | undefined;
+
+  const onMapReady = (surface: MapSurface | null) => {
+    mapSurface = surface;
+    // Null means the browser refused a 2D context. Everything else still flies.
+    if (!surface) return;
+    mapOptions = {
+      context: surface.context,
+      trail: { downRange: recorder.series['downRange']!, altitude: recorder.series['altitude']! },
+      scale: surface.scale,
+      status: surface.status,
+    };
+    mapRenderer = createMapRenderer(mapOptions);
+  };
+
   let time = $state<TimeSetting>(REAL_TIME);
   let randomFailure = $state(false);
   /** eventListener.js:117 — on by default, as 2021 had it. */
@@ -250,6 +283,10 @@
     loopState.previous = fresh;
     loopState.accumulator = 0;
     recorder.clear();
+    // The map's trail IS the recorder's, so it has just emptied. Redraw now
+    // rather than leaving the previous flight's path on screen for the tenth of
+    // a second the throttle would otherwise take.
+    if (mapSurface) mapSurface.dirty = true;
     flightOver = false;
   };
 
@@ -396,6 +433,20 @@
         timelineBinder?.update();
         indicators?.update(s);
 
+        // The map, from the same tick and under the same law — except that it
+        // is THROTTLED rather than diffed, because a canvas has no equivalent
+        // of "this text node already says 42". A collapsed map costs one
+        // property read.
+        if (mapSurface?.visible && mapRenderer && mapOptions) {
+          mapOptions.scale = mapSurface.scale;
+          if (mapSurface.dirty) {
+            mapSurface.dirty = false;
+            mapRenderer.redraw(s);
+          } else {
+            mapRenderer.update(s, frameTime);
+          }
+        }
+
         // dispUpdate.js:47 — the same four conditions that revealed the restart
         // button. Assigning an unchanged boolean does not schedule a Svelte
         // update, so this costs nothing on the frames where it has not changed.
@@ -427,12 +478,20 @@
   });
 </script>
 
-<canvas bind:this={canvas} aria-label="Starship Simulator"></canvas>
+<!--
+  The world. Named, because it is no longer the only canvas in the document:
+  M7.1's trajectory map brought a second one, and every spec that said
+  `locator('canvas')` was silently relying on there being exactly one. Naming it
+  is the M6.1 rule applied a milestone late — address a thing by what it is, not
+  by what tag it happens to be.
+-->
+<canvas bind:this={canvas} data-testid="world-canvas" aria-label="Starship Simulator"></canvas>
 <Broadcast
   onready={onBroadcastReady}
   scenario={scenarioName}
   {scenarioId}
   ontimeline={onTimelineReady}
+  onmap={onMapReady}
 />
 <Controls {emit} {zoom} onready={onControlsReady} hidden={cinematic} />
 <!--
