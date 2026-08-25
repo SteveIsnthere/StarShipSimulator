@@ -13,7 +13,8 @@
 import type { SimState } from '$core/state';
 import { worldToScreen, type CameraState, type Viewport } from './camera';
 import type { ParticleSystem } from './particles';
-import { engineDistanceFromCenterOfMass, vehicleHeight } from '$core/constants';
+import { engineDistanceFromCenterOfMass, heatLimit, vehicleHeight } from '$core/constants';
+import { plasmaIntensity, plumeScaleFactor, plumeSpreadFactor } from './atmosphere-look';
 
 export interface EffectDriver {
   update(
@@ -58,9 +59,23 @@ export function createEffectDriver(): EffectDriver {
       const nozzleY = shipScreen.y + Math.sin(downAxis) * nozzleDistance;
 
       // --- engine plume ----------------------------------------------------
+      /*
+        THE PLUME EXPANDS AS THE AIR THINS (M6.7).
+
+        The same engine draws a tight pencil at sea level and a wide translucent
+        bell in vacuum, because exhaust keeps expanding until its pressure
+        matches what is around it. It is the most recognisable thing about
+        watching an ascent and the reason T+3 minutes looks nothing like
+        T+3 seconds.
+
+        `atmosphere.airPressure` has been in SimState since M1.1 and nothing has
+        ever drawn with it. The curves are in view/atmosphere-look.ts so they
+        can be pinned by a test rather than eyeballed.
+      */
       const running = engines.running.filter(Boolean).length;
       if (running > 0 && forces.thrust > 0) {
         const throttleFraction = vehicle.throttleCurrent / 100;
+        const ambient = state.atmosphere.airPressure;
         particles.emit(
           'raptorPlume',
           nozzleX,
@@ -68,7 +83,8 @@ export function createEffectDriver(): EffectDriver {
           downAxis,
           (running / 3) * throttleFraction,
           dt,
-          scale * 0.9,
+          scale * 0.9 * plumeScaleFactor(ambient),
+          plumeSpreadFactor(ambient),
         );
       }
 
@@ -131,6 +147,23 @@ export function createEffectDriver(): EffectDriver {
           dt,
           scale * 0.8,
         );
+      }
+
+      // --- re-entry plasma trail --------------------------------------------
+      /*
+        The wake, as distinct from the glow at the nose above.
+
+        Emitted from the nose but aimed the other way, down the relative wind,
+        so it streams BEHIND the vehicle. Intensity is scaled against the
+        structural heat limit rather than an arbitrary number, so the trail and
+        the HEAT readout share a scale: full brightness is four fifths of the
+        limit, the same threshold the readout turns amber at.
+      */
+      const plasma = plasmaIntensity(forces.thermalPower, heatLimit);
+      if (plasma > 0) {
+        const noseX = shipScreen.x - Math.cos(downAxis) * vehicleHeight * 0.5 * scale;
+        const noseY = shipScreen.y - Math.sin(downAxis) * vehicleHeight * 0.5 * scale;
+        particles.emit('plasmaTrail', noseX, noseY, downAxis, plasma, dt, scale * 0.9);
       }
 
       // --- catastrophe ------------------------------------------------------

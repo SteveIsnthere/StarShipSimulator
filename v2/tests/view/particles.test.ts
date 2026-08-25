@@ -165,6 +165,7 @@ describe('every 2021 effect is present', () => {
     expect(EFFECT_NAMES.sort()).toEqual(
       [
         'aeroHeat',
+        'plasmaTrail',
         'aeroTrail',
         'explosion',
         'groundSmoke',

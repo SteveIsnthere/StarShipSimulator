@@ -361,7 +361,7 @@
         );
 
         sky.update(view!.camera, view!.viewport, s.kinematics.altitude);
-        world.update(view!.camera, view!.viewport, s.kinematics.speedX);
+        world.update(view!.camera, view!.viewport, s.kinematics.speedX, s.kinematics.altitude);
         vehicle.update(view!.camera, view!.viewport, {
           altitude: s.kinematics.altitude,
           downRangeDistance: s.kinematics.downRangeDistance,

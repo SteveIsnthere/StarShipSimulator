@@ -10,6 +10,7 @@ import {
   MAX_TIME_RATE,
   REAL_TIME,
   toLoopOptions,
+  type EditorFields,
 } from '$ui/menu';
 import { ALL_SCENARIOS, createScenarioState, getScenario, INTRO, PRESETS, ORBITAL_PRESETS } from '$core/scenarios';
 import { advance, createLoopState, DT } from '$app/loop';
@@ -171,5 +172,69 @@ describe('what the editor produces is flyable', () => {
       expect(state.kinematics.altitude, preset.id).toBe(preset.altitude);
       expect(state.kinematics.speedX, preset.id).toBe(preset.speedX);
     }
+  });
+});
+
+describe('the editor reads what the DOM actually hands back', () => {
+  /*
+    M6.7. `EditorFields` says six strings; Svelte's `bind:value` on
+    `<input type="number">` says otherwise — a number once anyone has typed,
+    and `null` when the box is cleared. `fieldsToPreset` trimmed, and threw
+    `e.trim is not a function`, which killed `onConfigure` before it could
+    close the menu. Live since M4.4, and invisible because every e2e that
+    pressed Configure pressed a preset first: `fieldsFromPreset` returns real
+    strings, so the only broken path was the one the editor exists for.
+
+    These pass numbers and nulls in deliberately, as the DOM does.
+  */
+  const base = getScenario('landing-burn')!;
+
+  it('accepts numbers, as a number input gives them', () => {
+    const fields = { ...EMPTY_FIELDS, altitude: 9000, speedY: 300 } as unknown as EditorFields;
+    const preset = fieldsToPreset(fields, base);
+    expect(preset.altitude).toBe(9000);
+    expect(preset.speedY).toBe(300);
+  });
+
+  it('treats a cleared box as absent, not as zero', () => {
+    // `null` is what an emptied number input binds to, and it has to mean
+    // "keep what the flight has" — the same as the empty string a preset-free
+    // form starts with. Reading it as 0 would silently teleport the vehicle to
+    // the ground.
+    const fields = { ...EMPTY_FIELDS, altitude: null } as unknown as EditorFields;
+    expect(fieldsToPreset(fields, base).altitude).toBe(base.altitude);
+  });
+
+  it('falls back rather than producing NaN', () => {
+    const fields = { ...EMPTY_FIELDS, altitude: NaN } as unknown as EditorFields;
+    expect(fieldsToPreset(fields, base).altitude).toBe(base.altitude);
+  });
+
+  it('a whole hand-typed form converts without throwing', () => {
+    // The path that was broken, end to end: every box a number, nothing from a
+    // preset. This is the assertion that would have caught it.
+    const typed = {
+      altitude: 9000,
+      xPosition: -1200,
+      speedX: 40,
+      speedY: 300,
+      pitch: 15,
+      propellant: 120,
+    } as unknown as EditorFields;
+
+    const preset = fieldsToPreset(typed, base);
+    expect(preset.altitude).toBe(9000);
+    expect(preset.xPosition).toBe(-1200);
+    expect(preset.speedX).toBe(40);
+    expect(preset.speedY).toBe(300);
+    expect(preset.propellant).toBe(120);
+    expect(Number.isFinite(preset.pitch as number)).toBe(true);
+  });
+
+  it('still handles the strings a preset puts there', () => {
+    const fromPreset = fieldsFromPreset(base);
+    const preset = fieldsToPreset(fromPreset, base);
+    expect(preset.altitude).toBe(base.altitude);
+    expect(preset.propellant).toBe(base.propellant);
   });
 });

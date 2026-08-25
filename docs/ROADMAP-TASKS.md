@@ -278,7 +278,7 @@ build + playwright green per task; one task per commit, id-prefixed.*
   compressed desktop. Playwright gains phone-viewport projects (Pixel-7- and iPhone-14-class,
   portrait + landscape) running smoke + controls + offline. Accept: all mobile projects green;
   no horizontal scroll at any breakpoint; canvas resize correct in both orientations.
-- [ ] **M6.7 Graphics: the world earns the overlay** — view-only: horizon curvature + altitude
+- [x] **M6.7 Graphics: the world earns the overlay** — view-only: horizon curvature + altitude
   haze; vacuum plume expansion driven by ambient pressure (tight/diamond at sea level, wide
   bell in vacuum); re-entry plasma trail scaled by thermalPower via the pooled particles; pad
   lighting tied to sky darkness. Accept: heap-sampling test extended, still zero per-frame
@@ -1278,3 +1278,34 @@ build + playwright green per task; one task per commit, id-prefixed.*
   browser and forbids downloading others. Pinned to chromium, with the limit written down — these
   projects are evidence about an iPhone-class viewport, not about Safari's engine.
   Gate green (1168 unit, 189 e2e); `git diff v2/src/core` empty; the seven digests unmoved.
+- 2026-08-25 · M6.7 · **The world earns the overlay.** Four view-only additions, every curve in
+  `src/view/atmosphere-look.ts` as a pure function so it can be pinned by a test rather than
+  eyeballed — a judgement call no test can reach is one nobody dares revisit.
+  **Horizon curvature** from real geometry: the tangent-line horizon distance `sqrt(2Rh + h²)`,
+  keeping the h² term because at 150 km it is already 1% of the total. Under 1% of the screen at
+  1 km (correctly invisible), about 9% at 100 km — roughly what an onboard camera shows at stage
+  separation. The sagitta is quantised to whole pixels before the redraw check, which turns a
+  `Graphics` rebuild every frame of a climb into about 2% of frames.
+  **Haze** with an aerosol scale height of 1.2 km rather than the air's 8.5, which is why the
+  visible band is thin. Two effects pulling opposite ways — more air to look through as you climb,
+  less of it left above you — so it peaks a few kilometres up, exactly where a horizon looks
+  haziest from an aeroplane.
+  **Plume expansion** driven by `atmosphere.airPressure`, which has been in SimState since M1.1 and
+  had never been drawn with: a tight pencil at sea level, a wide bell in vacuum. `emit` gained a
+  numeric spread multiplier rather than a second emitter config, so there is one plume to keep in
+  step. **Plasma trail** scaled against `heatLimit`, saturating at the same 0.8 the HEAT readout
+  turns amber at — the picture and the number agree about when the vehicle is in trouble.
+  **Pad lighting** takes the sky's LIGHTNESS rather than an altitude, so the two cannot drift; 2021
+  darkened the sky and left the ground at noon brightness, and the world came apart at the horizon.
+  **And a real bug, found by a screenshot script that would not run.** Configure did nothing, and
+  the menu would not close, whenever the fields were HAND-TYPED: `bind:value` on
+  `<input type="number">` returns a number (and `null` when cleared), `fieldsToPreset` called
+  `.trim()`, and `onConfigure` died on `e.trim is not a function` before it could close the menu.
+  Live since M4.4. It survived a hundred e2e runs because every test that pressed Configure pressed
+  a PRESET first, and `fieldsFromPreset` returns real strings — the suite covered the path that
+  worked and not the one the editor exists for. Fixed in `menu.ts` rather than by changing the
+  input type, because a number field gets a numeric keypad on a phone and after M6.6 that is the
+  point; the lie was the `string` annotation. Five unit tests pass numbers and nulls in as the DOM
+  does, and an e2e types a whole flight into an empty form and flies it.
+  Gate green (1199 unit, 194 e2e across five projects); `git diff v2/src/core` empty; the seven
+  digests unmoved.

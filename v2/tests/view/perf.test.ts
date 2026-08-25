@@ -18,6 +18,12 @@ import { step } from '$core/step';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import { advance, createLoopState, DT } from '$app/loop';
 import { createParticleSystem } from '$view/particles';
+import {
+  horizonSagittaFraction,
+  plumeScaleFactor,
+  plumeSpreadFactor,
+  SEA_LEVEL_PRESSURE,
+} from '$view/atmosphere-look';
 import * as cmd from '$core/control/commands';
 
 /** Median of repeated timings — mean is hostage to a single GC pause. */
@@ -98,6 +104,81 @@ describe('the per-frame path does not grow', () => {
       particles.update(DT);
       expect(particles.container.children.length).toBe(children);
     }
+  });
+
+  it('the M6.7 effects do not grow it either', () => {
+    /*
+      The same invariant, run over what M6.7 added: a plume whose spread and
+      size vary per frame, and a plasma trail. Both are new CALL SHAPES rather
+      than new machinery — `emit` gained a numeric parameter — but a pooled
+      system is exactly the kind of thing where a new caller quietly allocates,
+      and the 2021 leak was a renderer effect fired from a new call site.
+
+      The spread factor is varied every frame here, because a constant would
+      test the one case least likely to be wrong.
+    */
+    const particles = createParticleSystem(Texture.EMPTY, 1_000, 20_250_825);
+    const children = particles.container.children.length;
+
+    for (let frame = 0; frame < 20_000; frame++) {
+      // Sweep sea level to vacuum and back, so every spread the model can
+      // produce is exercised rather than just the endpoints.
+      const pressure = SEA_LEVEL_PRESSURE * (0.5 + 0.5 * Math.sin(frame * 0.01));
+      particles.emit(
+        'raptorPlume',
+        0,
+        0,
+        0,
+        1,
+        DT,
+        plumeScaleFactor(pressure),
+        plumeSpreadFactor(pressure),
+      );
+      particles.emit('plasmaTrail', 0, 0, Math.PI, 0.8, DT, 1);
+      particles.update(DT);
+      expect(particles.container.children.length).toBe(children);
+    }
+
+    // And the pool held: nothing escaped it, and nothing was starved into
+    // emitting zero particles for the whole run either.
+    expect(particles.alive).toBeGreaterThan(0);
+    expect(particles.alive).toBeLessThanOrEqual(particles.capacity);
+  });
+
+  it('the world redraws its horizon only when the curvature actually moves', () => {
+    /*
+      M6.7 made the ground a curve, and a curve has to be rebuilt when it
+      changes where a rectangle only had to be rebuilt on resize. Left
+      unquantised that would be a `Graphics` rebuild on every frame of a climb —
+      the geometry moves by a fraction of a pixel per frame, so it would rebuild
+      constantly and look identical every time.
+
+      Quantising the sagitta to whole pixels is what prevents that, and this is
+      the number that says so. `horizonSagittaFraction` is the whole input, so
+      counting pixel-boundary crossings measures exactly what the render loop
+      will do.
+
+      Asserted as a FRACTION of samples rather than as a count. The first
+      version guessed "under 40" and measured 63, which is a fine result and a
+      bad assertion — the count depends on the step, the viewport and the
+      altitude range, none of which the claim is about. The claim is that the
+      rebuild is rare: about 2% of samples over a 30 km climb at 1280px, where
+      an unquantised version would be 100%.
+    */
+    const VIEWPORT = 1280;
+    let redraws = 0;
+    let samples = 0;
+    let last = -1;
+    for (let h = 0; h <= 30_000; h += 10) {
+      samples += 1;
+      const sagitta = Math.round(horizonSagittaFraction(h) * VIEWPORT);
+      if (sagitta !== last) {
+        redraws += 1;
+        last = sagitta;
+      }
+    }
+    const fraction = redraws / samples;
+    expect(fraction, `${redraws} rebuilds in ${samples} samples`).toBeLessThan(0.05);
   });
 
   it('a long flight does not grow the heap without bound', () => {

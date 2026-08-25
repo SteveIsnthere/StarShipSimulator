@@ -94,6 +94,34 @@ export const EFFECTS = {
     endAlpha: 0,
     additive: false,
   },
+  /**
+   * The plasma trail, M6.7.
+   *
+   * Distinct from `aeroHeat`, which is the glow AT the nose: this is the
+   * ionised wake streaming behind it, and the difference is entirely in the
+   * numbers. Long life and low drag so a particle travels far enough to read as
+   * a streak; a slow start size so the trail is thin where it leaves the
+   * vehicle and blooms behind. The colours run white-hot through orange to a
+   * dull red, which is the sequence a real entry shows and the reason it is
+   * legible as heat rather than as smoke.
+   */
+  plasmaTrail: {
+    rate: 260,
+    life: 1.6,
+    lifeJitter: 0.4,
+    speed: 130,
+    speedJitter: 0.35,
+    spread: 0.22,
+    gravityY: 0,
+    drag: 0.6,
+    startSize: 1.6,
+    endSize: 22,
+    startColor: 0xfff4d6,
+    endColor: 0xb32a08,
+    startAlpha: 0.55,
+    endAlpha: 0,
+    additive: true,
+  },
   /** Shed vorticity off the fins under dynamic pressure. */
   aeroTrail: {
     rate: 90,
@@ -246,6 +274,16 @@ export interface ParticleSystem {
     intensity: number,
     dt: number,
     scale: number,
+    /**
+     * Multiplier on the emitter's cone half-angle. Defaults to 1.
+     *
+     * Added in M6.7 for the plume, which is the one effect whose SHAPE is a
+     * function of the world rather than a constant: exhaust expands until its
+     * pressure matches the air, so the same engine draws a pencil at sea level
+     * and a bell in vacuum. A second emitter config would have meant two
+     * plumes to keep in step; a number is a number.
+     */
+    spreadFactor?: number,
   ): void;
   /** One-shot burst, for shutdowns and explosions. */
   burst(effect: EffectName, x: number, y: number, count: number, scale: number): void;
@@ -306,11 +344,12 @@ export function createParticleSystem(
     py: number,
     angle: number,
     scale: number,
+    spreadFactor = 1,
   ): void => {
     if (freeCount === 0) return;
     const i = free[--freeCount]!;
 
-    const direction = angle + (random() * 2 - 1) * config.spread;
+    const direction = angle + (random() * 2 - 1) * config.spread * spreadFactor;
     const speed = config.speed * scale * (1 + (random() * 2 - 1) * config.speedJitter);
 
     x[i] = px;
@@ -354,13 +393,13 @@ export function createParticleSystem(
       return liveCount;
     },
 
-    emit(effect, px, py, angle, intensity, dt, scale) {
+    emit(effect, px, py, angle, intensity, dt, scale, spreadFactor = 1) {
       if (intensity <= 0 || dt <= 0) return;
       const config = EFFECTS[effect];
       const wanted = config.rate * intensity * dt + (debt.get(effect) ?? 0);
       const whole = Math.floor(wanted);
       debt.set(effect, wanted - whole);
-      for (let n = 0; n < whole; n++) spawn(config, px, py, angle, scale);
+      for (let n = 0; n < whole; n++) spawn(config, px, py, angle, scale, spreadFactor);
     },
 
     burst(effect, px, py, count, scale) {

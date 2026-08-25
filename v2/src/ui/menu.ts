@@ -51,6 +51,15 @@ export function describeTimeSetting(setting: TimeSetting): string {
  * independently, so a partial form edits only what it names. Storing numbers
  * would lose that distinction the moment a field was cleared to 0.
  */
+/**
+ * The six editor boxes.
+ *
+ * Typed as strings because that is what a preset puts in them and what an empty
+ * box is. They are NOT only strings at runtime: `bind:value` on a number input
+ * returns a number once a human has typed, and `null` when the box is cleared.
+ * `fieldsToPreset` handles all three — see the note there for the bug that
+ * taught us, which had been live since M4.4.
+ */
 export interface EditorFields {
   altitude: string;
   xPosition: string;
@@ -90,7 +99,30 @@ export function fieldsFromPreset(preset: ScenarioPreset): EditorFields {
  * what NaN would have silently broken for the other.
  */
 export function fieldsToPreset(fields: EditorFields, current: ScenarioPreset): ScenarioPreset {
-  const num = (value: string, fallback: number): number => {
+  /**
+   * Read one field, whatever the DOM handed back.
+   *
+   * THE BUG THIS FIXES, found in M6.7 and present since M4.4. `EditorFields`
+   * declares six strings, and Svelte's `bind:value` on `<input type="number">`
+   * does NOT give back a string — it gives a number, or `null` for an empty
+   * box. So the first version's `value.trim()` threw `e.trim is not a function`
+   * the moment anyone typed into the editor, and `onConfigure` died before
+   * `menuOpen = false`: the flight did not change, the menu did not close, and
+   * nothing said why.
+   *
+   * It survived a hundred e2e runs because every test that pressed Configure
+   * pressed a PRESET first, and `fieldsFromPreset` returns real strings. The
+   * one path nobody exercised is the one the editor exists for — typing values
+   * into an empty form.
+   *
+   * Fixed here rather than by changing the input's type, because the type is
+   * right: a number field gets a numeric keypad on a phone, which after M6.6 is
+   * the point. The lie was the `string` annotation, and this is where it stops
+   * mattering.
+   */
+  const num = (value: string | number | null | undefined, fallback: number): number => {
+    if (value === null || value === undefined) return fallback;
+    if (typeof value === 'number') return Number.isFinite(value) ? value : fallback;
     if (value.trim() === '') return fallback;
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : fallback;

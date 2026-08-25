@@ -2,6 +2,7 @@
  * M4.4: the menu in a browser.
  */
 import { expect, test } from '@playwright/test';
+import { ready } from './helpers';
 
 async function openMenu(page: import('@playwright/test').Page) {
   await expect
@@ -135,4 +136,50 @@ test('the random-failure toggle lights and persists into a new flight', async ({
 
   // A configured flight is a fresh state; the setting must survive it.
   await expect(page.locator('[data-testid="menu-random-failure"]')).toHaveClass(/is-on/);
+});
+
+test('a hand-typed flight configures and flies @mobile', async ({ page }) => {
+  /*
+    M6.7. The editor's whole purpose is typing values into an empty form, and
+    that path threw `e.trim is not a function` from M4.4 until it was found —
+    `bind:value` on `<input type="number">` returns a NUMBER, and
+    `fieldsToPreset` trimmed it. `onConfigure` died before `menuOpen = false`,
+    so the symptom was a menu that would not close and a flight that did not
+    change, with nothing said about why.
+
+    Every existing configure test pressed a PRESET first, which fills the boxes
+    with real strings — so the suite covered the path that worked and not the
+    one that did not. This is that path, and it asserts the two things the bug
+    took away: the menu closes, and the vehicle is where it was asked to be.
+  */
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(String(e)));
+
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  await page.locator('[data-testid="open-menu"]').click();
+
+  await page.locator('[data-testid="field-altitude"]').fill('9000');
+  await page.locator('[data-testid="field-speedY"]').fill('-40');
+  await page.locator('[data-testid="field-propellant"]').fill('120');
+  await page.locator('[data-testid="menu-configure"]').click();
+
+  // The menu closes, which it could not do while onConfigure was throwing.
+  await expect(page.locator('[data-testid="menu"]')).toHaveCount(0);
+
+  // And the flight is the one that was asked for: 9 km, falling, 120 tonnes.
+  await expect
+    .poll(
+      async () =>
+        Number(await page.locator('[data-testid="readout-altitude-value"]').textContent()),
+      { timeout: 5_000 },
+    )
+    .toBeGreaterThan(8);
+  await expect
+    .poll(async () =>
+      Number(await page.locator('[data-testid="readout-propellant-value"]').textContent()),
+    )
+    .toBe(120);
+
+  expect(errors, 'configuring must not throw').toEqual([]);
 });
