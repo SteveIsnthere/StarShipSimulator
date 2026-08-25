@@ -64,7 +64,7 @@ Every change to `core/` declares exactly one tier, named in the commit message:
 |---|---|---|
 | Refactor | behaviour must not change | numerical proof over the input domain, max abs diff ≤ 1 ULP, committed as a test |
 | Bug fix | provably wrong today | failing test FIRST, then the fix; before/after trajectory diff on all six scenarios in the commit |
-| Fidelity | more accurate, changes feel | behind a flag in `core/flags.ts`, off by default, both paths golden-tested; defaults flip only on the owner's explicit say-so |
+| Fidelity | more accurate, changes feel | owner's explicit say-so, named in the commit; goldens regenerate with the justification. (The flag mechanism served M2.5–M1.9 and is retired at M2.10 by owner decision — fidelity work now lands directly.) |
 
 ## Determinism rules
 
@@ -106,5 +106,12 @@ speculative ones.
 
 ## What must never change (the soul)
 
-The intro auto-landing sequence. The six scenario presets. The tuned feel of the 2021
-flight model as the reference configuration. The pig at x = 0.
+The intro auto-landing sequence. The scenario presets. The pig at x = 0.
+
+Amended by owner decision (2026-08-25): the soul's original "tuned feel of the 2021
+flight model as the reference configuration" is retired. **The shipped physics is full
+fidelity, with no flag machinery** — real gravity, local speed of sound, the full ISA,
+the collapsed trig identities, and a heatLimit recalibrated to the fidelity model. The
+2021 flight model remains the frozen parity reference at `v2/tests/fixtures/legacy/`,
+never the shipped feel. (Effective as of task M2.10; until that task lands, the flags
+are still in the tree.)

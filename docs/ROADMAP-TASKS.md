@@ -71,17 +71,81 @@ acceptance line.
   (circular orbit stays circular over one lap, energy drift bounded).
 - [x] **M2.7 Fidelity: speed of sound** — a = √(γRT) from local temperature. Off by default.
 - [x] **M2.8 Fidelity: full ISA** — standard lapse-rate table to 86 km. Off by default.
-- [ ] **M2.9 Orbit presets + demo** — ⚠️ **PARTIAL — BLOCKED, OWNER DECISION NEEDED.** Presets
-  shipped and circularization works (21 m/s burn, 1.8 s). Three measured blockers stop the rest:
-  **(a) 100 km is not a sustainable orbit** — a perfectly circular one decays to the ground within a
-  single lap from drag alone. Not a defect: 100 km is the Kármán line, and real objects there
-  deorbit in an orbit or two. At **150 km** the same orbit drifts 38 m per lap and at 200 km, 40 m.
-  The acceptance line's "100 km" is below what the physics allows; **150 km would meet it**.
-  **(b) Orbital re-entry peaks at 310 thermal units against `heatLimit` 55** — 6× over. Same owner
-  decision as M2.1. **(c) The autopilot has no orbital targeting** — flown open-loop it reaches the
-  ground **15 000 km** from StarBase. `autoLand` knows how to come home from a suborbital hop; a
-  deorbit-targeting mode has never existed in this codebase, and writing one is a feature, not a fix.
-- [ ] **M2.10 Feel review** — owner flies flag combinations and picks defaults. Owner task.
+- [ ] **M2.9 Orbit, for real** — *unblocked 2026-08-25; all three owner decisions taken. Ordered
+  AFTER M2.10 by owner decision: the orbit work must land on the final unified physics, not on a
+  configuration that is about to be replaced.* Three parts, in order:
+  **(a) heatLimit recalibration — Bug-fix tier.** The 2021 limit (55) was tuned against a model
+  that understated both density (M2.1) and heating (M2.2). Rule chosen by the owner:
+  *margin-preserving* — execute the frozen legacy tree (the `tests/parity/step.test.ts` harness
+  already drives the full 2021 loop in a VM) over the classic Re-entry preset to measure its
+  peak-thermalPower-to-limit ratio, measure the unified model's peak on the same preset, and set
+  the new `heatLimit` to preserve the 2021 margin. Failing test FIRST: flip
+  `tests/flies-every-scenario.test.ts`'s reentry expectation from `brokeUp` to `landed` and watch
+  it fail before the fix. Measured context: under unified physics the preset reads **144 thermal
+  units at spawn** (7300 m/s at 80 km) and peaked ~165 under the old flags-off model; orbital
+  entry from 150 km peaked ~310 open-loop, so a *managed* entry may still be required below the
+  recalibrated limit — that is part (c)'s problem, not a reason to inflate the limit. The
+  constant diverges from the frozen tree: declare it in `constants.test.ts`'s divergence list
+  with the measurement. Accept: reentry preset survives auto-land; before/after trajectory diff
+  on all scenarios in the commit; goldens regenerated under the declared tier.
+  **(b) Orbital presets at 150 km** (owner decision). Measured: 100 km decays to the ground
+  within one lap; 150 km holds with 38 m drift per lap. Recompute Circularize (96% of circular)
+  and Deorbit (circular) speeds from `circularOrbitalSpeed(planetRadius + 150_000)`; Deorbit
+  stays half a lap out (−π·R). Accept: existing orbit tests updated and green at 150 km.
+  **(c) Deorbit targeting — the owner chose to build it.** A new autopilot mode (`autoDeorbit`)
+  that times a retrograde burn so the descent ends at StarBase: coast in orbit holding retrograde
+  attitude via RCS, fire when (downrange to landing site) equals a calibrated entry lead
+  distance, burn a fixed ΔV sized for a *shallow* entry (entry steepness controls peak heating —
+  Sutton-Graves peaks scale with sqrt(ρ)·v³, so decelerating higher is the lever if the
+  recalibrated limit still binds), shut down, hand over to `autoLand` below the entry interface
+  and let its aero-descent steering trim the residual. The lead distance is calibrated by
+  measurement — the sim is deterministic, so fly it, measure the miss, fold it in, and commit
+  the constant with its calibration numbers. Wire a `Deorbit` button into the autopilot panel
+  (event union + indicator, M4.2 pattern). Accept: the orbit demo test — Circularize preset →
+  circular at 150 km → coast a full lap → deorbit → survive entry → touchdown at StarBase
+  (assert the measured landing error and pin it; report the achieved figure honestly rather
+  than promising a number in advance) — deterministic, and a golden fixture if the sampled size
+  stays reviewable (raise `SAMPLE_EVERY` for this one spec if needed).
+- [ ] **M2.10 Feel review → FULL FIDELITY, NO FLAGS** — *the owner's verdict, 2026-08-25:
+  "the point is full fidelity and realism, don't hold back and no flag." This supersedes both
+  the original "pick defaults" framing and the interim "all flags on by default" answer.* The
+  four fidelity paths — planet-centered gravity (M2.6), local speed of sound (M2.7), full ISA
+  (M2.8), collapsed trig (M1.9) — become the ONLY physics; the flag machinery is removed
+  entirely: `core/flags.ts` deleted, `SimState.flags` gone, every branch unconditional, the
+  2021-only relief field `orbitGravityAccCompensation` removed from SimState (its expression
+  survives in `gravity.legacyOrbitRelief` for the parity documentation). Fidelity tier, on the
+  owner's explicit instruction. Implementation notes, all verified in a dry run on 2026-08-25:
+  · **The unification is provable bit-for-bit**: keep the fidelity arithmetic in the exact
+    operation order the flag-on path used (including the `-C.gravity … + C.gravity + real`
+    add-back in the vertical acceleration), regenerate, and the unified `reentry-autoland`
+    fixture's rows come out **byte-identical** to the M1.9 all-flags fixture
+    (`reentry-autoland--planetCenteredGravity+realSpeedOfSound+fullISA+collapsedTrig.json`,
+    commit 115879c). Assert that once during the work; it is the proof the restructure changed
+    nothing numerically.
+  · **Outcomes under unified physics, measured**: booster-sep, rtls, before-flip and
+    landing-burn all still auto-land; the intro hands over at 10.0 s; reentry breaks up
+    instantly on heat (144 units at spawn against 55) — which M2.9(a) then fixes.
+  · **Parity re-scope** — the suite's claim changes from "v2 ≡ 2021" to "v2 ≡ 2021 except
+    exactly five declared departures" (gravity, speed of sound, atmosphere, trig, heat
+    argument). Keep the lockstep harness but compare only the aero/gravity-decoupled chain
+    (throttle slew, gimbal position, RCS run time, fuel, mass, thrust, TWR, fuelRunOut) —
+    note **fin extensions are trajectory-coupled** (their goal split flips on the sign of
+    angleOfAttack, flightControl.js:9) and must not be in the lockstep set; their slew
+    mechanics stay covered by `actuation.test.ts`. Add a declared-departures block pinning
+    each divergence to its exact replacement formula. Two traps found in the dry run: the
+    frozen tree carries the **un-repaired M2.1 stratosphere** (65% off the repaired model at
+    70 km), so legacy-side atmosphere assertions must branch below/above the tropopause; and
+    both loops compute thermalPower/pitchRate a phase before spatial motion, so end-of-step
+    reconstructions need ~2% phase tolerance, not 1e-11.
+  · `updateAtmosphere` becomes the ISA; keep the repaired 2021 model exported as
+    `legacyAtmosphere` for the parity/atmosphere tests, which re-point to it.
+  · Goldens: one physics → one fixture set (the 7 base scenarios); flag-suffixed fixtures and
+    the FLAG_COMBINATIONS machinery go; `replay.test.ts` asserts no flag-suffixed fixture
+    remains. Menu note about orbital presets "needing the flag" is deleted — no fidelity UI
+    section is needed, which also closes that M4.4-era loose end.
+  Accept: no reference to `flags` anywhere in `v2/src`; unified fixture rows byte-identical to
+  the M1.9 all-flags recording (asserted before the old fixtures are deleted); full gate green.
+
 
 ## M3 — The glow-up
 
@@ -113,8 +177,9 @@ acceptance line.
 - [ ] **M5.4 Retire legacy** — 2021 tree removed after v2 flies every scenario; v1.0 tag.
   Tree retired: owner chose option **A**, so it moved to `v2/tests/fixtures/legacy/` — gone as an
   application, kept frozen as the parity reference the tests execute. Repository root is now
-  `v2/`, `docs/` and two markdown files. **Remaining: the `v1.0` tag**, which is outward-facing
-  and still wants an explicit go-ahead.
+  `v2/`, `docs/` and two markdown files. **Remaining: the `v1.0` tag — now authorized** by the
+  owner's "finish it all" instruction (2026-08-25). Tag the final commit once M2.10 and M2.9 are
+  green and pushed, push the tag, and check this box in the same commit that updates the docs.
 
 ## Log
 
@@ -677,3 +742,19 @@ acceptance line.
   reached its last bit yet. The assertion now walks the whole state, requires something to have
   moved, and requires everything that moved to agree to ten significant figures. 1027 tests,
   43 e2e, 4 deploy-shape e2e, 182.8 kB of 250.
+- 2026-08-25 · owner decisions · **The endgame is decided: full fidelity, no flags.** Recorded here
+  because every remaining task now hangs off these five answers. (1) The feel review's verdict
+  (M2.10): the fidelity physics becomes the only physics and the flag machinery is removed — the
+  owner's words: "the point is full fidelity and realism, don't hold back and no flag." This
+  supersedes CLAUDE.md's "tuned 2021 feel as the reference configuration": the 2021 model remains
+  the frozen parity reference at `v2/tests/fixtures/legacy/`, not the shipped feel. (2) Orbital
+  presets move to **150 km**, where the orbit actually closes (38 m drift/lap measured, versus
+  decay-to-ground within one lap at 100 km). (3) `heatLimit` is **recalibrated as a Bug fix** under
+  the margin-preserving rule: same peak-to-limit ratio the 2021 model had on the classic Re-entry
+  preset, measured by executing the frozen tree. (4) **Deorbit targeting gets built** — a real
+  autopilot mode that times the retrograde burn to land at StarBase, calibrated by measurement.
+  (5) The **v1.0 tag is authorized** for the final green commit. A unification dry run was flown
+  and then reverted (the owner asked for plan, not implementation); everything it proved — the
+  bit-identity of the unified path with the M1.9 all-flags fixture, the four-of-five scenarios
+  landing, the parity re-scope shape and its two traps — is folded into the M2.10 and M2.9 task
+  specs above so the implementing session inherits the measurements without rediscovering them.
