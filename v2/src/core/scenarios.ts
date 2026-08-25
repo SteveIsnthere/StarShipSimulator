@@ -21,6 +21,7 @@
 import * as C from './constants';
 import { toggleAllRaptors } from './control/commands';
 import { createInitialState, type SimState } from './state';
+import { circularOrbitalSpeed } from './physics/gravity';
 import { deg, toRad, type Deg } from './units';
 
 /** The six numbers a 2021 preset button carried, in their original units. */
@@ -162,17 +163,44 @@ export const INTRO: ScenarioPreset = {
  * "circularize" has nothing to mean. Planet-centered gravity (M2.6, shipped
  * unconditionally at M2.10) is what makes them playable.
  */
+/**
+ * The altitude the orbital presets fly at. M2.9(b), owner's decision.
+ *
+ * 150 km, not the 100 km these presets shipped with at M2.6. Measured: a
+ * perfectly circular orbit at 100 km decays to the ground within a single lap,
+ * purely from drag — which is not a defect, it is what 100 km is. The Karman
+ * line is the boundary of space, not a place to park; real objects there
+ * deorbit within an orbit or two, and real low orbit starts around 200 km.
+ *
+ * At 150 km the same orbit holds to within 200 m over a full 88-minute lap, and
+ * the air is a thousand times thinner. It is the lowest round number that makes
+ * "coast a lap and then deorbit" a thing the player can actually do.
+ */
+export const ORBIT_ALTITUDE = 150_000;
+
+/** Circular speed at that altitude, sqrt(GM/r) — 7800.7 m/s. */
+const CIRCULAR = circularOrbitalSpeed(C.planetRadius + ORBIT_ALTITUDE);
+
+/**
+ * How far short of circular the Circularize preset spawns, in m/s.
+ *
+ * Small on purpose. The scenario is about closing an orbit that is nearly
+ * closed — one short burn, a few seconds at full throttle — not about reaching
+ * orbit from a suborbital lob. 20 m/s drops the perigee about 34 km, which is
+ * low enough to decay if the player does nothing and high enough to leave time
+ * to notice.
+ */
+const CIRCULARIZE_SHORTFALL = 20;
+
 export const ORBITAL_PRESETS: readonly ScenarioPreset[] = [
   {
     id: 'circularize',
     name: 'Circularize',
     description:
-      'Just short of orbital speed at 100 km — a short prograde burn closes the orbit.',
-    altitude: 100_000,
+      'Just short of orbital speed at 150 km — a short prograde burn closes the orbit.',
+    altitude: ORBIT_ALTITUDE,
     xPosition: 0,
-    // About 96% of circular speed at this altitude: enough to be nearly there,
-    // short enough that doing nothing decays back into the atmosphere.
-    speedX: 7810,
+    speedX: CIRCULAR - CIRCULARIZE_SHORTFALL,
     speedY: 0,
     // Nose prograde, so the first thing a burn does is add horizontal speed.
     pitch: deg(90),
@@ -181,10 +209,11 @@ export const ORBITAL_PRESETS: readonly ScenarioPreset[] = [
   {
     id: 'deorbit',
     name: 'Deorbit Burn',
-    description: 'Circular at 100 km, half a lap short of StarBase. Burn retrograde and come home.',
-    altitude: 100_000,
+    description: 'Circular at 150 km, half a lap short of StarBase. Burn retrograde and come home.',
+    altitude: ORBIT_ALTITUDE,
+    // Half a lap of ground track away, so the deorbit burn has somewhere to aim.
     xPosition: -Math.PI * C.planetRadius,
-    speedX: 7830.6,
+    speedX: CIRCULAR,
     speedY: 0,
     pitch: deg(90),
     propellant: 300,

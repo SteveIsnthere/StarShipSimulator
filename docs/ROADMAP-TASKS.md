@@ -811,3 +811,13 @@ acceptance line.
   trajectory diff this tier owes — the other six are byte-for-byte the ones M2.10 recorded, and
   `unification.test.ts` shows that directly. Gate: lint, 1019 tests, build all green.
 
+- 2026-08-25 · M2.9(b) · **Orbital presets moved to 150 km** (owner's decision). Both speeds are
+  now derived from `circularOrbitalSpeed(planetRadius + ORBIT_ALTITUDE)` at module load rather
+  than transcribed, so the altitude is the single place to change: Circularize spawns exactly
+  20 m/s short of circular (7780.68 m/s, dropping perigee ~34 km — decays if ignored, closes with
+  a few seconds of throttle), Deorbit spawns exactly circular (7800.68 m/s) half a lap of ground
+  track short of StarBase. Worth recording: the old comment claiming "about 96% of circular" was
+  wrong about its own preset — 7810 m/s at 100 km is 99.74% of circular, a 20 m/s shortfall, which
+  is what the scenario is actually built around and what the new derivation makes explicit. No
+  golden fixture covers these presets, so nothing regenerated.
+

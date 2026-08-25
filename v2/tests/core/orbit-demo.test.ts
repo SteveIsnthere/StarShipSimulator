@@ -35,7 +35,12 @@
 import { describe, expect, it } from 'vitest';
 import { circularOrbitalSpeed } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
-import { createScenarioState, getScenario, ORBITAL_PRESETS } from '$core/scenarios';
+import {
+  createScenarioState,
+  getScenario,
+  ORBIT_ALTITUDE,
+  ORBITAL_PRESETS,
+} from '$core/scenarios';
 import type { SimState } from '$core/state';
 import { step } from '$core/step';
 import * as cmd from '$core/control/commands';
@@ -71,16 +76,27 @@ describe('the orbital presets', () => {
     expect(getScenario('deorbit')).toBeDefined();
   });
 
-  it('Circularize starts just short of orbital speed', () => {
-    const s = createScenarioState(getScenario('circularize')!);
-    const shortfall = circularHere(s) - s.kinematics.speedX;
-    expect(shortfall).toBeGreaterThan(5);
-    expect(shortfall).toBeLessThan(60);
+  it('both spawn at 150 km — M2.9(b), the owner\'s decision', () => {
+    for (const id of ['circularize', 'deorbit']) {
+      const s = createScenarioState(getScenario(id)!);
+      expect(s.kinematics.altitude, id).toBe(ORBIT_ALTITUDE);
+      expect(ORBIT_ALTITUDE).toBe(150_000);
+    }
   });
 
-  it('Deorbit starts circular, half a lap from StarBase', () => {
+  it('Circularize starts exactly 20 m/s short of circular speed', () => {
+    const s = createScenarioState(getScenario('circularize')!);
+    const shortfall = circularHere(s) - s.kinematics.speedX;
+    // Derived from circularOrbitalSpeed at spawn rather than transcribed, so
+    // moving the altitude cannot leave a stale speed behind.
+    expect(shortfall).toBeCloseTo(20, 6);
+    expect(s.kinematics.speedX).toBeCloseTo(7780.68, 1);
+  });
+
+  it('Deorbit starts exactly circular, half a lap from StarBase', () => {
     const s = createScenarioState(getScenario('deorbit')!);
-    expect(s.kinematics.speedX / circularHere(s)).toBeCloseTo(1, 3);
+    expect(s.kinematics.speedX).toBe(circularHere(s));
+    expect(s.kinematics.speedX).toBeCloseTo(7800.68, 1);
     const fromBase = Math.abs(s.kinematics.downRangeDistance - C.starBaseXPos);
     expect(fromBase).toBeCloseTo(Math.PI * C.planetRadius, -4);
   });
@@ -110,7 +126,7 @@ describe('circularize — works', () => {
     expect(burnSteps * DT, 'burn duration').toBeLessThan(30);
     expect(s.kinematics.speedX / circularHere(s)).toBeCloseTo(1, 3);
     expect(s.failures.inFlightBreakUp).toBe(false);
-    expect(s.kinematics.altitude).toBeGreaterThan(95_000);
+    expect(s.kinematics.altitude).toBeGreaterThan(145_000);
   });
 });
 
