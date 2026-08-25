@@ -10,6 +10,7 @@
  * simulation. `step()` never reads a button; it reads SimState.
  */
 import { commandIgnition, getWorkingEngineCount, rollIgnitionFailure, shutdownEngine } from '../physics/engines';
+import * as C from '../constants';
 import type { RaptorIndex, SimState } from '../state';
 
 /**
@@ -66,6 +67,60 @@ export function toggleDumpFuel(state: SimState): void {
 /** tools.js:10 */
 export function setGoalAsCurrentAttitude(state: SimState): void {
   state.autopilot.holdingPitch = state.kinematics.pitch;
+}
+
+/**
+ * flightControl.js:91 — the commanded throttle, as a percentage.
+ *
+ * The clamp is 2021's, moved from the markup into core. initBackEnd.js:166 set
+ * the slider's `min`/`max` attributes from `throttleLowerLimit` and
+ * `throttleUpperLimit`, so the limits held for the slider and for nothing else.
+ * Here they hold for every caller — the slider, the keybinds in M4.3, and
+ * anything later.
+ */
+export function setThrottle(state: SimState, percent: number): void {
+  state.vehicle.throttle = Math.min(
+    C.throttleUpperLimit,
+    Math.max(C.throttleLowerLimit, percent),
+  );
+}
+
+/**
+ * The yoke position, -100 (nose down) to 100 (nose up).
+ *
+ * Clamped for the same reason: initBackEnd.js:217 put the range on the slider,
+ * and tools.js:117 clamped again by hand in the tilt handler because the tilt
+ * path did not go through the slider. One clamp, in one place, now.
+ */
+export function setPitchControl(state: SimState, percent: number): void {
+  state.autopilot.pitchControl = Math.min(100, Math.max(-100, percent));
+}
+
+/**
+ * switches.js:2 — the hand goes on the yoke.
+ *
+ * Only meaningful while attitude hold is on: it suspends the hold so the pilot
+ * can fly manually. With the hold off there is nothing to suspend.
+ */
+export function manualPitchControlOn(state: SimState): void {
+  if (state.autopilot.pitchHoldOn) setManualControl(state, true);
+}
+
+/**
+ * switches.js:8 — the hand comes off, and wherever the vehicle is pointing
+ * becomes the new attitude to hold. Releasing the yoke does not snap back.
+ */
+export function recordHoldingPitchResumeAuto(state: SimState): void {
+  if (state.autopilot.pitchHoldOn) {
+    setGoalAsCurrentAttitude(state);
+    setManualControl(state, false);
+  }
+}
+
+/** tools.js:95 — the yoke and throttle return to neutral on restart. */
+export function resetControls(state: SimState): void {
+  state.autopilot.pitchControl = 0;
+  state.vehicle.throttle = 100;
 }
 
 /** tools.js:14 / :18 */

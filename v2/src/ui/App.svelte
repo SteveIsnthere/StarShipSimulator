@@ -13,8 +13,17 @@
   import { createIntroState } from '$core/scenarios';
   import { advance, createLoopState } from '$app/loop';
   import { vehicleHeight } from '$core/constants';
-  import { createHudBinder, type HudBinder, type TextTarget } from '$hud/binder';
+  import {
+    createHudBinder,
+    createIndicatorBinder,
+    type ClassTarget,
+    type HudBinder,
+    type IndicatorBinder,
+    type TextTarget,
+  } from '$hud/binder';
   import Hud from './Hud.svelte';
+  import Controls from './Controls.svelte';
+  import { applyControl, type ControlEvent } from './controls';
 
   let canvas: HTMLCanvasElement;
 
@@ -31,6 +40,27 @@
     hud = createHudBinder({ resolve });
   };
 
+  /** The same discipline for the controls: diffed booleans, one class toggle. */
+  let indicators: IndicatorBinder | undefined;
+
+  const onControlsReady = (resolve: (id: string) => ClassTarget | null) => {
+    indicators = createIndicatorBinder({ resolve });
+  };
+
+  /**
+   * The loop, held so control events can reach it.
+   *
+   * Events are applied to the live state immediately rather than queued for the
+   * next step: a button press is not a physics quantity and does not need to
+   * wait for a tick boundary, and `step()` reads SimState rather than any input
+   * buffer, so applying between steps is exactly as deterministic.
+   */
+  let loopState: { state: import('$core/state').SimState } | undefined;
+
+  const emit = (event: ControlEvent) => {
+    if (loopState) applyControl(loopState.state, event);
+  };
+
   onMount(() => {
     let view: ViewApp | undefined;
     let frame = 0;
@@ -39,6 +69,7 @@
     const start = async () => {
       const initial = createIntroState();
       const loop = createLoopState(initial);
+      loopState = loop;
 
       view = await createView({
         canvas,
@@ -133,8 +164,9 @@
           elapsed,
         );
 
-        // The single per-frame HUD subscriber. It diffs; most frames write nothing.
+        // The single per-frame DOM subscriber. It diffs; most frames write nothing.
         hud?.update(s);
+        indicators?.update(s);
       };
       frame = requestAnimationFrame(tick);
 
@@ -150,6 +182,7 @@
       cancelAnimationFrame(frame);
       void cleanup.then((fn) => fn?.());
       hud?.destroy();
+      indicators?.destroy();
       view?.destroy();
     };
   });
@@ -157,6 +190,7 @@
 
 <canvas bind:this={canvas} aria-label="Starship Simulator"></canvas>
 <Hud onready={onHudReady} />
+<Controls {emit} onready={onControlsReady} />
 
 <style>
   :global(body) {

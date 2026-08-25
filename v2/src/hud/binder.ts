@@ -33,6 +33,7 @@
  */
 import type { SimState } from '$core/state';
 import { READOUTS, type Readout } from './readouts';
+import { INDICATORS, type Indicator } from './indicators';
 
 export interface HudBinder {
   /** Write any readouts whose value changed. */
@@ -111,6 +112,87 @@ export function createHudBinder(options: BindOptions): HudBinder {
           entry.lastUnit = unit;
           if (entry.unitEl) {
             entry.unitEl.textContent = unit;
+            writes += 1;
+          }
+        }
+      }
+
+      lastWriteCount = writes;
+      totalWrites += writes;
+    },
+
+    destroy(): void {
+      bound.length = 0;
+    },
+  };
+}
+
+/** The minimum an indicator target must look like. */
+export interface ClassTarget {
+  classList: { toggle(token: string, force: boolean): void };
+}
+
+export interface IndicatorBinder {
+  update(state: SimState): void;
+  /** Class toggles performed by the last update. */
+  readonly lastWriteCount: number;
+  readonly totalWrites: number;
+  destroy(): void;
+}
+
+export interface IndicatorBindOptions {
+  resolve(id: string): ClassTarget | null;
+  /** Class applied while the control is active. Defaults to `is-on`. */
+  activeClass?: string;
+}
+
+/**
+ * The same binder, for the controls rather than the readouts.
+ *
+ * 2021's `updateButtons()` repainted fourteen buttons unconditionally, at two
+ * `getElementById` calls and two inline style writes each. This resolves once
+ * and toggles one class, only when the boolean actually flipped — which for a
+ * button is almost never.
+ *
+ * It is a separate binder rather than a mode of the readout one because the two
+ * write different things (text nodes versus classes) and a shared abstraction
+ * over "write something to a DOM node" would earn nothing but indirection.
+ */
+export function createIndicatorBinder(options: IndicatorBindOptions): IndicatorBinder {
+  const activeClass = options.activeClass ?? 'is-on';
+
+  const bound: Array<{
+    indicator: Indicator;
+    el: ClassTarget | null;
+    /** Deliberately neither true nor false, so the first update always writes. */
+    last: boolean | null;
+  }> = INDICATORS.map((indicator) => ({
+    indicator,
+    el: options.resolve(indicator.id),
+    last: null,
+  }));
+
+  let lastWriteCount = 0;
+  let totalWrites = 0;
+
+  return {
+    get lastWriteCount() {
+      return lastWriteCount;
+    },
+    get totalWrites() {
+      return totalWrites;
+    },
+
+    update(state: SimState): void {
+      let writes = 0;
+
+      for (let i = 0; i < bound.length; i++) {
+        const entry = bound[i]!;
+        const on = entry.indicator.on(state);
+        if (on !== entry.last) {
+          entry.last = on;
+          if (entry.el) {
+            entry.el.classList.toggle(activeClass, on);
             writes += 1;
           }
         }

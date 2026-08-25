@@ -1,0 +1,135 @@
+/**
+ * M4.2: the panels drive the simulation in a real browser.
+ *
+ * The unit tests prove the event union does the right thing to SimState. What
+ * they cannot prove is that a click on a real button reaches it, and that the
+ * indicator lights up afterwards without anyone repainting it by hand.
+ */
+import { expect, test } from '@playwright/test';
+
+const light = (page: import('@playwright/test').Page, id: string) =>
+  page.locator(`[data-indicator="${id}"]`);
+
+test('the panels render with every control', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+
+  for (const id of [
+    'raptor0',
+    'raptor1',
+    'raptor2',
+    'allRaptors',
+    'autoMaxThrust',
+    'autoTakeOff',
+    'boostBack',
+    'pitchHold',
+    'autoLand',
+    'fins',
+    'rcs',
+    'dumpFuel',
+  ]) {
+    await expect(light(page, id), id).toBeVisible();
+  }
+
+  await expect(page.locator('[data-control="throttle"]')).toBeVisible();
+  await expect(page.locator('[data-control="pitch"]')).toBeVisible();
+});
+
+test('a toggle lights its button and unlights it again', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+
+  const rcs = light(page, 'rcs');
+  await expect(rcs).not.toHaveClass(/is-on/);
+
+  await rcs.click();
+  await expect(rcs).toHaveClass(/is-on/);
+
+  await rcs.click();
+  await expect(rcs).not.toHaveClass(/is-on/);
+});
+
+test('lighting a Raptor changes the flight', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+
+  const speedY = page.locator('[data-readout="speedY"] .value');
+  await expect.poll(async () => (await speedY.textContent()) !== '', { timeout: 5_000 }).toBe(true);
+
+  // The intro is a descent, so vertical speed is negative. Firing all three
+  // Raptors at full throttle must arrest it — that is the whole game.
+  const before = Number(await speedY.textContent());
+  expect(before).toBeLessThan(0);
+
+  await light(page, 'allRaptors').click();
+  await expect(light(page, 'allRaptors')).toHaveClass(/is-on/, { timeout: 3_000 });
+
+  await expect
+    .poll(async () => Number(await speedY.textContent()), { timeout: 8_000 })
+    .toBeGreaterThan(before);
+});
+
+test('the throttle slider is bounded by the engine limits', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+
+  // Not 0-100. initBackEnd.js:166 put these on the element from
+  // throttleLowerLimit / throttleUpperLimit; core clamps to the same numbers.
+  const throttle = page.locator('[data-control="throttle"]');
+  await expect(throttle).toHaveAttribute('min', '40');
+  await expect(throttle).toHaveAttribute('max', '100');
+});
+
+test('the throttle slider commands the engines once the intro hands over', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+
+  // The intro demo owns the throttle while it flies — moving the slider during
+  // the descent does nothing, because demoAutoLand recommands it every step.
+  // That is the autopilot working, not the slider failing. On touchdown the demo
+  // clears itself and hands the vehicle over (autopilot/index.ts:497): engines
+  // shut down and the throttle is restored to 100. Measured at about 9.5 s.
+  //
+  // Detecting the handover takes some care, and two obvious signals are wrong.
+  // The engine indicator going dark is not it: the descent controller shuts
+  // engines off and on all the way down, so it blinks several times first. Nor
+  // is "vertical speed reads 0" — the readout is `Math.ceil(speedY)`, so
+  // anything slower than 1 m/s downward already displays as 0 while the demo is
+  // still flying.
+  //
+  // The unambiguous one is fuel. On handover demoAutoLand refills the tanks so
+  // the player gets a full vehicle (autopilot/index.ts:499). Nothing else in the
+  // simulation puts propellant back.
+  const fuel = page.locator('[data-readout="propellant"] .value');
+  await expect
+    .poll(async () => Number(await fuel.textContent()), { timeout: 40_000, intervals: [250] })
+    .toBe(350);
+
+  // Handover also restores the throttle to 100 and shuts the engines down.
+  const readout = page.locator('[data-readout="throttle"] .value');
+  await expect.poll(async () => Number(await readout.textContent()), { timeout: 10_000 }).toBe(100);
+
+  const allRaptors = light(page, 'allRaptors');
+  await expect(allRaptors).not.toHaveClass(/is-on/);
+  await allRaptors.click();
+
+  await page.locator('[data-control="throttle"]').fill('40');
+
+  // The actual throttle slews toward the command at throttleSpeed, so watch the
+  // readout settle rather than expecting it to snap.
+  await expect.poll(async () => Number(await readout.textContent()), { timeout: 8_000 }).toBe(40);
+});
+
+test('the controls add no per-frame document lookups', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await light(page, 'fins').click();
+
+  const calls = await page.evaluate(async () => {
+    let count = 0;
+    const original = document.getElementById.bind(document);
+    document.getElementById = (id: string) => {
+      count += 1;
+      return original(id);
+    };
+    await new Promise((resolve) => setTimeout(resolve, 1_000));
+    document.getElementById = original;
+    return count;
+  });
+
+  expect(calls).toBe(0);
+});

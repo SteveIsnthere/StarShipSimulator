@@ -106,7 +106,7 @@ acceptance line.
 ## M4 — Full game
 
 - [x] **M4.1 HUD binder** — readouts via the single-rAF diff binder.
-- [ ] **M4.2 Panels** — engine/yoke/autopilot/utility panels in Svelte, typed events.
+- [x] **M4.2 Panels** — engine/yoke/autopilot/utility panels in Svelte, typed events.
 - [ ] **M4.3 Inputs** — keybinds, tilt, touch parity with 2021.
 - [ ] **M4.4 Menu + editor** — time warp, scenario editor incl. orbital presets.
 - [ ] **M4.5 Black box** — lazy-loaded uPlot; Plotly gone from first load.
@@ -469,3 +469,28 @@ acceptance line.
   counts `getElementById` calls across a second of animation and asserts **0**. Formatting is 2021's,
   asymmetries included — altitude and speed test `x < 1000`, range tests `|x| < 1000` after ceiling,
   and g is pinned to exactly 1 on the ground. 865 tests, 13 e2e, 173.3 kB of 250.
+- 2026-08-25 · M4.2 · **Panels, and a typed vocabulary instead of onclick strings.** Engine controls,
+  flight yoke, autopilot modes and utilities are Svelte now; every control emits a `ControlEvent`
+  from a discriminated union and `applyControl` maps it to a core command, exhaustively — the
+  `never` in the default branch means a variant added without a handler fails to compile. In 2021
+  the set of things the UI could do to the sim was "whatever is on globalThis", discoverable only by
+  reading `onclick` attributes, which is why three near-identical `toggleRaptor` copies existed.
+  Two clamps moved from markup into core: initBackEnd.js set the throttle slider's `min`/`max` from
+  the engine limits and the tilt handler re-clamped pitch by hand, so the bounds held for those two
+  paths and nothing else; they now hold for every caller, keybinds in M4.3 included. Button lit
+  state gets the M4.1 treatment — `updateButtons()` repainted fourteen buttons unconditionally at
+  two `getElementById` calls and two inline style writes each, 56 lookups to say nothing; the
+  indicator binder resolves once and toggles one class only when the boolean flips. **That is not
+  cosmetic: an indicator changes with no input at all** — the autopilot shuts engines down, a
+  landing clears autoLand — and a panel that painted on click would show a lie. Tested by letting
+  the demo quench an engine with nobody pressing anything. An engine also reads as lit *during* its
+  ignition countdown, because a dark button through a 0.6 s wait invites the second press that
+  switches.js:16 treats as a cancel. Core additions are additive (Refactor tier, no path changed):
+  the 75 golden tests are untouched. **Two of my own claims were wrong and are corrected here**: the
+  Svelte `bind:value`/`oninput` ordering trap I wrote a comment about does not exist — checked by
+  putting the binding back and watching the test still pass — and the e2e failure I blamed it for
+  was my own handover detection. Neither the engine indicator going dark (the descent controller
+  blinks it several times on the way down) nor "vertical speed reads 0" (the readout is
+  `Math.ceil(speedY)`, so anything under 1 m/s displays as 0 mid-flight) marks the intro handover.
+  The fuel readout returning to 350 t does, because nothing else in the simulation puts propellant
+  back. 893 tests, 19 e2e, 175.7 kB of 250.
