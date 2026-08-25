@@ -324,7 +324,7 @@ numbers — plan § 5.*
   is compared against the actual touchdown over the goldens that land, and the error is reported
   in the commit; the orbital presets show no-solution rather than a wrong number; no new physics —
   `git diff v2/src/core` still empty.
-- [ ] **M7.3 Camera: retune the follow law** — **UNBLOCKED by owner decision, 2026-08-25** (plan
+- [x] **M7.3 Camera: retune the follow law** — **UNBLOCKED by owner decision, 2026-08-25** (plan
   § 6.1), and **sequenced third on purpose**: M7.4 and M7.6 are drawn into the frame this defines,
   so building them first would mean re-tuning them afterwards. The "ported verbatim, worth
   preserving exactly" constraint on `view/camera.ts` is lifted; the follow dynamics, the framing and
@@ -1577,3 +1577,38 @@ out is the point of the whole milestone.*
   the predicted cross hung 2.7 px off the bottom edge until its arms were clipped; and "the trail
   grows" stopped being answerable by counting lit pixels once the prediction put ink on the same
   canvas, so the renderer reports the points it strokes.
+- 2026-08-25 · M7.3 · **Camera: the follow law retuned.** `view/camera.ts` had said the 2021
+  second-order follow was "worth preserving exactly, so the control law is ported verbatim". The
+  owner lifted that on 2026-08-25 and this is what it bought: **altitude-linked field of view**,
+  flat at 1× below 500 m and opening smoothly to the moderate 5× by 20 km — 200 m of viewport
+  becomes 1 km, the drawn ship 180 px becomes ~40. Flat below 500 m is the hard constraint and it is
+  structural, not tuned: the intro auto-landing and every landing happen in that band, so they are
+  untouched **by construction** — there is no tuning to get wrong. Smoothstep over a log
+  interpolation, so neither end has a seam a player would notice without being able to say what
+  happened. Manual zoom multiplies rather than fights it: the zoom limits are measured against what
+  manual zoom alone would show, or the button would quietly stop working at altitude.
+  Plus a framing lead (`speed × 0.6 s`, capped at 18% of the half-span — a distance the vehicle
+  covers, so it means the same at 30 m/s and 3 km/s) fed into the follow TARGET rather than added to
+  the output, so it inherits the damping and the frame-rate proof for free; and shake from dynamic
+  pressure and thrust, applied at the lens in `worldToScreen` rather than to the camera's position,
+  built from sines of an accumulated time so it stays deterministic, and silent under
+  `prefers-reduced-motion`.
+  **The five properties that replaced the bit-identical guarantee**, all measured: (1) framed over
+  all seven goldens — worst horizontal offset 39% of a half-frame at 7.3 km/s re-entry; vertical
+  reaches exactly 1.0 at the ground-mode handoff, which is structural (ground mode engages at
+  `altitude <= physicalHeight`, so the ship enters at the top edge by definition) and is 2021's
+  framing in the band the soul protects. (2) Damped: 9.7 m of overshoot on a 60 m step — 16% — and
+  settled to 1% in 8.7 s. (3) Frame-rate independent: 1.71 m at 30 fps, 0.86 at 120, 1.00 at 144,
+  all against 60 fps over ten seconds and a 320 m viewport — 0.5% of a screen. (4) Deterministic,
+  shake included, asserted at exact equality. (5) Never below the ground, now swept across the whole
+  FOV range rather than at one fixed viewport.
+  Three things learned by measuring. A trapezoidal position step was tried and abandoned — it moved
+  the drift by 0.001 m, because the error that matters is in the velocity integration. The old
+  frame-rate test drove a *stationary* target that claimed 100 m/s, which sat on the capture-radius
+  cliff where the law deliberately gives up; the lead pushed it over and one rate flew away by
+  2.8 km. And the first framing test started the camera at rest, failing re-entry by 879% — from
+  rest it needs a second to reach 7 km/s, by which time it is seven kilometres behind and out where
+  `centerizeAcceleration` has given up. The real camera is handed the vehicle's velocity at birth.
+  The per-frame viewport is now written in place (`writeViewport`) rather than allocated, and
+  App.svelte's camera target became a single reused object — it had been an object literal inside
+  the tick, allocating sixty times a second against a budget that says zero.

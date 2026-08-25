@@ -11,10 +11,12 @@ import { Application, Container } from 'pixi.js';
 import {
   computeViewport,
   createCamera,
+  writeViewport,
   zoomStep,
   ZOOM_IN_FACTOR,
   ZOOM_OUT_FACTOR,
   type CameraState,
+  type MutableViewport,
   type Viewport,
 } from './camera';
 
@@ -42,6 +44,15 @@ export interface ViewApp {
   readonly layers: Layers;
   readonly camera: CameraState;
   viewport: Viewport;
+  /**
+   * Track the altitude field of view (M7.3).
+   *
+   * Called once per frame from the one rAF tick. It MUTATES the live viewport
+   * rather than replacing it — the field of view moves continuously with
+   * altitude now, and a fresh viewport object per frame is exactly what the
+   * zero-allocation budget forbids.
+   */
+  followAltitude(altitude: number): void;
   /** Recompute the viewport and resize the renderer. */
   resize(width: number, height: number): void;
   /** Zoom one step in (+1) or out (-1). tools.js:152. */
@@ -112,7 +123,16 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
   );
 
   let zoomFactor = 1;
-  let viewport = computeViewport(width, height, options.vehicleHeight);
+  /**
+   * The altitude the field of view is currently set for.
+   *
+   * Held because a zoom press and a window resize both have to rebuild the
+   * viewport, and neither of them knows where the vehicle is.
+   */
+  let lastAltitude = 0;
+  // Mutable, and handed out through the readonly `Viewport` view. See
+  // `followAltitude`.
+  const viewport: MutableViewport = computeViewport(width, height, options.vehicleHeight);
   const camera = createCamera(
     viewport,
     options.downRangeDistance,
@@ -128,20 +148,66 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
       return viewport;
     },
     set viewport(next: Viewport) {
-      viewport = next;
+      // Copy in rather than rebind: the camera, the sky and the world all hold
+      // this object.
+      viewport.width = next.width;
+      viewport.height = next.height;
+      viewport.physicalHeight = next.physicalHeight;
+      viewport.physicalWidth = next.physicalWidth;
+      viewport.scale = next.scale;
+    },
+    followAltitude(altitude: number) {
+      lastAltitude = altitude;
+      writeViewport(
+        viewport,
+        viewport.width,
+        viewport.height,
+        options.vehicleHeight,
+        zoomFactor,
+        altitude,
+      );
     },
     zoom(direction: 1 | -1) {
-      // The limits are on the resulting scale, not on the factor, so the step is
-      // computed against what the viewport actually shows.
+      /*
+        The limits are on the resulting scale, not on the factor, so the step is
+        computed against what the viewport actually shows — but against what
+        MANUAL zoom alone would show, not the combined view.
+
+        That distinction is the owner decision's "zoom multiplies the altitude
+        FOV rather than fighting it", made concrete: measured against the
+        combined scale, the zoom range would shrink as the vehicle climbed and a
+        pilot at 20 km would find the button had stopped working, for reasons
+        nothing on screen explains. Allocating a viewport here is free — a zoom
+        press is an interaction, not a frame.
+      */
       const factor = direction > 0 ? ZOOM_IN_FACTOR : ZOOM_OUT_FACTOR;
-      const next = zoomStep(viewport.scale, factor);
-      if (next === viewport.scale) return;
+      const manual = computeViewport(
+        viewport.width,
+        viewport.height,
+        options.vehicleHeight,
+        zoomFactor,
+      );
+      if (zoomStep(manual.scale, factor) === manual.scale) return;
       zoomFactor *= factor;
-      viewport = computeViewport(viewport.width, viewport.height, options.vehicleHeight, zoomFactor);
+      writeViewport(
+        viewport,
+        viewport.width,
+        viewport.height,
+        options.vehicleHeight,
+        zoomFactor,
+        lastAltitude,
+      );
     },
     resize(nextWidth: number, nextHeight: number) {
       app.renderer.resize(nextWidth, nextHeight);
-      viewport = computeViewport(nextWidth, nextHeight, options.vehicleHeight, zoomFactor);
+      writeViewport(
+        viewport,
+        nextWidth,
+        nextHeight,
+        options.vehicleHeight,
+        zoomFactor,
+        lastAltitude,
+      );
     },
     destroy() {
       app.destroy(true, { children: true, texture: true });

@@ -292,6 +292,35 @@
 
   const onRestart = () => startFlight(currentPreset);
 
+  /**
+   * The camera's view of the vehicle, allocated ONCE and refilled per frame.
+   *
+   * It used to be an object literal inside the tick — which allocated a fresh
+   * one sixty times a second for the whole life of the page, against a budget
+   * that says zero. It was two fields then; M7.3 makes it nine, which is what
+   * made the cost worth removing rather than tolerating.
+   */
+  const cameraTarget = {
+    downRangeDistance: 0,
+    altitude: 0,
+    speedX: 0,
+    speedY: 0,
+    landed: false,
+    onTheGround: false,
+    crashed: false,
+    dynamicPressure: 0,
+    thrustAcceleration: 0,
+  };
+
+  /**
+   * Read once, at startup: a player who has asked not to be shaken has asked
+   * once. Held in a stable object so passing it costs no allocation.
+   */
+  const cameraOptions = {
+    reducedMotion:
+      typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches,
+  };
+
   /** Zoom is a view action, not a simulation command — it changes nothing. */
   let viewApp: ViewApp | undefined;
   const zoom = (direction: 1 | -1) => viewApp?.zoom(direction);
@@ -382,20 +411,25 @@
         advance(loop, frameTime, loopOptions);
 
         const s = loop.state;
-        updateCamera(
-          view!.camera,
-          {
-            downRangeDistance: s.kinematics.downRangeDistance,
-            altitude: s.kinematics.altitude,
-            speedX: s.kinematics.speedX,
-            speedY: s.kinematics.speedY,
-            landed: s.status.landed,
-            onTheGround: s.status.onTheGround,
-            crashed: s.failures.crashed,
-          },
-          view!.viewport,
-          frameTime,
-        );
+
+        /*
+          The field of view follows altitude before the camera moves inside it
+          (M7.3). Order matters: the follow law's thresholds are fractions of
+          the viewport, so updating the camera against last frame's viewport
+          would aim it using a frame that no longer exists.
+        */
+        view!.followAltitude(s.kinematics.altitude);
+
+        cameraTarget.downRangeDistance = s.kinematics.downRangeDistance;
+        cameraTarget.altitude = s.kinematics.altitude;
+        cameraTarget.speedX = s.kinematics.speedX;
+        cameraTarget.speedY = s.kinematics.speedY;
+        cameraTarget.landed = s.status.landed;
+        cameraTarget.onTheGround = s.status.onTheGround;
+        cameraTarget.crashed = s.failures.crashed;
+        cameraTarget.dynamicPressure = s.forces.dynamicPressure;
+        cameraTarget.thrustAcceleration = s.forces.thrustAcceleration;
+        updateCamera(view!.camera, cameraTarget, view!.viewport, frameTime, cameraOptions);
 
         sky.update(view!.camera, view!.viewport, s.kinematics.altitude);
         world.update(view!.camera, view!.viewport, s.kinematics.speedX, s.kinematics.altitude);

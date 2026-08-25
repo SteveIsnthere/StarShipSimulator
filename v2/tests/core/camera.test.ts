@@ -11,18 +11,32 @@
  */
 import { describe, expect, it } from 'vitest';
 import {
+  altitudeFov,
   centerizeAcceleration,
   computeViewport,
   createCamera,
+  framingLead,
+  FOV_FLAT_ALTITUDE,
+  FOV_FULL_ALTITUDE,
+  FOV_MAX,
+  LEAD_FRACTION,
+  LEAD_TIME,
   MAX_VEHICLE_DRAW_HEIGHT,
   MIN_VEHICLE_DRAW_HEIGHT,
   matchSpeedAcceleration,
+  shakeAmplitude,
   shouldBeSticky,
   updateCamera,
   worldToScreen,
+  writeViewport,
   type CameraTarget,
+  type MutableViewport,
 } from '$view/camera';
 import { vehicleHeight } from '$core/constants';
+import { step } from '$core/step';
+import type { SimState } from '$core/state';
+import { GOLDEN_DT } from '../golden/record';
+import { GOLDEN_SPECS } from '../golden/scenarios';
 
 const viewport = (w = 1280, h = 800) => computeViewport(w, h, vehicleHeight);
 
@@ -53,17 +67,106 @@ describe('viewport', () => {
     }
   });
 
-  it('covers 200 m of world height at the base proportion', () => {
+  it('covers 200 m of world height at the base proportion, ON THE GROUND', () => {
     // 50 m vehicle x4. The value core/scenarios.ts pins for the intro.
-    const v = computeViewport(800, 800, vehicleHeight);
+    //
+    // M7.3 made this altitude-aware rather than deleting it: the number is still
+    // 200 m, and it is still the number the intro is pinned to — but it is now a
+    // claim about the BOTTOM of the field-of-view curve rather than about every
+    // altitude, which is what it silently used to be. The next test is the other
+    // half.
+    const v = computeViewport(800, 800, vehicleHeight, 1, 0);
     expect(v.physicalHeight).toBe(200);
   });
 
-  it('widens the world view on a wider screen', () => {
-    const wide = computeViewport(1920, 800, vehicleHeight);
-    const narrow = computeViewport(800, 800, vehicleHeight);
-    expect(wide.physicalWidth).toBeGreaterThan(narrow.physicalWidth);
-    expect(wide.physicalHeight).toBe(narrow.physicalHeight);
+  it('opens to about a kilometre high up, and stays 200 m where landings happen', () => {
+    // The owner's moderate setting, as the two numbers that matter.
+    const low = computeViewport(800, 800, vehicleHeight, 1, FOV_FLAT_ALTITUDE);
+    const high = computeViewport(800, 800, vehicleHeight, 1, FOV_FULL_ALTITUDE);
+    expect(low.physicalHeight).toBe(200);
+    expect(high.physicalHeight).toBe(200 * FOV_MAX);
+    // And the ship is still the subject rather than a marker: the drawn vehicle
+    // must not fall below a height that keeps it identifiable.
+    expect(high.scale * vehicleHeight).toBeGreaterThan(30);
+  });
+
+  it('widens the world view on a wider screen, at any altitude', () => {
+    for (const altitude of [0, 5_000, 100_000]) {
+      const wide = computeViewport(1920, 800, vehicleHeight, 1, altitude);
+      const narrow = computeViewport(800, 800, vehicleHeight, 1, altitude);
+      expect(wide.physicalWidth, `${altitude} m`).toBeGreaterThan(narrow.physicalWidth);
+      expect(wide.physicalHeight, `${altitude} m`).toBe(narrow.physicalHeight);
+    }
+  });
+});
+
+describe('the altitude field of view (M7.3)', () => {
+  it('is FLAT below 500 m — the intro and every landing are untouched', () => {
+    // The one hard constraint of the owner decision. Asserted at exact equality
+    // rather than approximately: "untouched by construction" is the claim, and
+    // an epsilon here would be an admission that it is not.
+    for (const altitude of [0, 1, 25, 100, 250, 499.9, FOV_FLAT_ALTITUDE]) {
+      expect(altitudeFov(altitude), `${altitude} m`).toBe(1);
+    }
+  });
+
+  it('reaches the moderate cap and stops', () => {
+    expect(altitudeFov(FOV_FULL_ALTITUDE)).toBe(FOV_MAX);
+    expect(altitudeFov(200_000)).toBe(FOV_MAX);
+    expect(altitudeFov(Infinity)).toBe(FOV_MAX);
+  });
+
+  it('is monotonic — the view never narrows as the vehicle climbs', () => {
+    let previous = 0;
+    for (let altitude = 0; altitude < 100_000; altitude += 137) {
+      const fov = altitudeFov(altitude);
+      expect(fov, `${altitude} m`).toBeGreaterThanOrEqual(previous);
+      previous = fov;
+    }
+  });
+
+  it('has no seam where it starts opening or where it stops', () => {
+    // Smoothstep is here for this: a bare logarithm is continuous but its RATE
+    // jumps at each end, and a field of view that starts opening abruptly is
+    // something a player notices without being able to say what happened.
+    const slope = (a: number) => (altitudeFov(a + 0.5) - altitudeFov(a - 0.5)) / 1;
+    expect(Math.abs(slope(FOV_FLAT_ALTITUDE))).toBeLessThan(1e-4);
+    expect(Math.abs(slope(FOV_FULL_ALTITUDE))).toBeLessThan(1e-4);
+  });
+
+  it('spends its range where the plan says it should', () => {
+    // "What ~5x genuinely buys is the 500 m to 20 km band, which is most of an
+    // ascent." Half the opening should have happened by a couple of kilometres.
+    expect(altitudeFov(2_000)).toBeGreaterThan(1.5);
+    expect(altitudeFov(10_000)).toBeGreaterThan(3.5);
+  });
+
+  it('survives a nonsense altitude', () => {
+    expect(altitudeFov(NaN)).toBe(1);
+    expect(altitudeFov(-1_000)).toBe(1);
+  });
+
+  it('manual zoom MULTIPLIES it rather than fighting it', () => {
+    // The owner decision, as arithmetic. Zooming in one step at altitude must
+    // show exactly ZOOM_IN_FACTOR less world than not zooming at that altitude —
+    // the two controls compose instead of competing for the same number.
+    const plain = computeViewport(1200, 800, vehicleHeight, 1, 10_000);
+    const zoomed = computeViewport(1200, 800, vehicleHeight, 1.5, 10_000);
+    expect(plain.physicalHeight / zoomed.physicalHeight).toBeCloseTo(1.5, 10);
+    expect(zoomed.scale / plain.scale).toBeCloseTo(1.5, 10);
+  });
+
+  it('writes a viewport in place without allocating one', () => {
+    const out = {
+      width: 0,
+      height: 0,
+      physicalHeight: 0,
+      physicalWidth: 0,
+      scale: 0,
+    };
+    writeViewport(out, 1200, 800, vehicleHeight, 1, 10_000);
+    const fresh = computeViewport(1200, 800, vehicleHeight, 1, 10_000);
+    expect(out).toEqual(fresh);
   });
 });
 
@@ -185,25 +288,64 @@ describe('sticky versus ground mode', () => {
 describe('frame-rate independence — the 2021 camera did not have this', () => {
   it('reaches the same place at 30 and 120 fps', () => {
     const v = viewport();
-    const t = target({ downRangeDistance: 500, altitude: 3000, speedX: 100 });
 
-    const run = (dt: number, steps: number) => {
+    /*
+      A target that MOVES as its speed says it does.
+
+      The first version of this test held the vehicle still at 500 m while
+      telling the camera it was doing 100 m/s, and it passed for a year. M7.3's
+      framing lead pushed it over a cliff: with an inconsistent target the camera
+      coasts out past `physicalWidth / 2`, where `centerizeAcceleration`
+      deliberately returns zero and gives up — and whether a given frame rate
+      escapes that radius or not is a coin toss. One run settled, the other flew
+      away, and the "drift" was 2.8 km.
+
+      That was the test being unphysical, not the camera being wrong. A real
+      vehicle's position is the integral of its speed, so this integrates it.
+    */
+    const run = (dt: number, seconds: number) => {
       const cam = createCamera(v, 0, 0, 0);
-      for (let i = 0; i < steps; i++) updateCamera(cam, t, v, dt);
+      const steps = Math.round(seconds / dt);
+      let x = 0;
+      for (let i = 0; i < steps; i++) {
+        x += 100 * dt;
+        updateCamera(cam, target({ downRangeDistance: x, altitude: 3000, speedX: 100 }), v, dt);
+      }
       return cam;
     };
-    const slow = run(1 / 30, 30 * 10);
-    const fast = run(1 / 120, 120 * 10);
 
-    // Same ten simulated seconds. Not bit-identical - it is an explicit Euler
-    // integration and the step sizes differ fourfold - but within 2 m after
-    // 10 s, against a 320 m viewport width. Measured drift is 1.1 m.
-    //
-    // The 2021 camera was not merely imprecise across frame rates: it scaled by
-    // `renderTimeInterval`, so at 30 fps it accelerated twice as hard per unit
-    // of real time and the follow felt different on different machines.
-    expect(Math.abs(slow.posX - fast.posX)).toBeLessThan(2);
-    expect(Math.abs(slow.posY - fast.posY)).toBeLessThan(2);
+    // The four rates the acceptance line names.
+    const rates = [30, 60, 120, 144];
+    const runs = rates.map((fps) => ({ fps, cam: run(1 / fps, 10) }));
+    const reference = runs[1]!.cam;
+
+    let worst = 0;
+    const report: string[] = [];
+    for (const { fps, cam } of runs) {
+      const drift = Math.max(
+        Math.abs(cam.posX - reference.posX),
+        Math.abs(cam.posY - reference.posY),
+      );
+      worst = Math.max(worst, drift);
+      report.push(`${fps} fps: ${drift.toFixed(3)} m`);
+    }
+
+    /*
+      Ten simulated seconds against a 320 m viewport, measured from 60 fps:
+
+          30 fps  1.71 m      120 fps  0.86 m      144 fps  1.00 m
+
+      Not bit-identical — this is an explicit integration and the step sizes
+      differ nearly fivefold — but the worst case is 0.5% of a screen width, and
+      the drift scales with dt as an O(dt) method should rather than diverging.
+
+      2 m is the bound. The 2021 camera was not merely imprecise across frame
+      rates: it scaled by `renderTimeInterval`, so at 30 fps it accelerated twice
+      as hard per unit of real time and the follow genuinely felt different on
+      different machines. That is the failure this replaces, and 0.5% of a
+      screen is not it.
+    */
+    expect(worst, report.join(' · ')).toBeLessThan(2);
   });
 });
 
@@ -231,5 +373,265 @@ describe('world to screen', () => {
     const a = worldToScreen(cam, v, 0, 0);
     const b = worldToScreen(cam, v, 10, 0);
     expect(b.x - a.x).toBeCloseTo(10 * v.scale, 9);
+  });
+});
+
+/* ── M7.3: the five properties that replaced the bit-identical guarantee ──
+ *
+ * The camera used to be checked by being exactly what 2021 was. That was a
+ * cheap and total guarantee, and the owner decision of 2026-08-25 spends it.
+ * These are what stand in its place; DEPTH-AND-SPEED-PLAN § 6.1 names all five.
+ */
+
+describe('property 1 — the vehicle stays framed, over all seven goldens', () => {
+  it.each(GOLDEN_SPECS.map((s) => [s.id, s] as const))('%s', (id, spec) => {
+    /*
+      The real test of a camera: fly the actual flights and check the ship is
+      on screen. Nothing else here would have caught a field-of-view curve that
+      opened in the wrong direction, or a lead that ran away at re-entry speed.
+    */
+    const live: MutableViewport = {
+      width: 0,
+      height: 0,
+      physicalHeight: 0,
+      physicalWidth: 0,
+      scale: 0,
+    };
+    writeViewport(live, 1280, 800, vehicleHeight, 1, 0);
+
+    let s: SimState = spec.build();
+    /*
+      Seeded with the vehicle's OWN velocity, as App.svelte does.
+
+      The first version of this test started the camera at rest, and re-entry
+      failed by 879% of a half-frame. That was the test, not the camera: from
+      rest the camera needs a second to reach 7 km/s, by which time it is seven
+      kilometres behind — and out there `centerizeAcceleration` has
+      deliberately given up, so it can never close the gap. Handed the vehicle's
+      velocity at birth, as the real one is, there is no transient to lose.
+    */
+    const camera = createCamera(
+      live,
+      s.kinematics.downRangeDistance,
+      s.kinematics.speedX,
+      s.kinematics.speedY,
+    );
+    camera.posY = Math.max(live.physicalHeight * 0.5, s.kinematics.altitude);
+
+    const DT = 1 / 60;
+    let worstX = 0;
+    let worstY = 0;
+
+    // 120 Hz simulation, 60 fps render: two steps per frame, as the loop does.
+    for (let i = 0; i < spec.steps; i += 2) {
+      s = step(s, GOLDEN_DT);
+      s = step(s, GOLDEN_DT);
+      writeViewport(live, 1280, 800, vehicleHeight, 1, s.kinematics.altitude);
+      updateCamera(
+        camera,
+        {
+          downRangeDistance: s.kinematics.downRangeDistance,
+          altitude: s.kinematics.altitude,
+          speedX: s.kinematics.speedX,
+          speedY: s.kinematics.speedY,
+          landed: s.status.landed,
+          onTheGround: s.status.onTheGround,
+          crashed: s.failures.crashed,
+          dynamicPressure: s.forces.dynamicPressure,
+          thrustAcceleration: s.forces.thrustAcceleration,
+        },
+        live,
+        DT,
+      );
+
+      // A destroyed vehicle is allowed to leave the frame — that is the
+      // "gives up beyond max" behaviour, and it is deliberate.
+      if (s.failures.crashed || s.failures.inFlightBreakUp) break;
+
+      const p = worldToScreen(camera, live, s.kinematics.downRangeDistance, s.kinematics.altitude);
+      worstX = Math.max(worstX, Math.abs(p.x - live.width / 2) / (live.width / 2));
+      worstY = Math.max(worstY, Math.abs(p.y - live.height / 2) / (live.height / 2));
+    }
+
+    const report = `${id}: worst offset ${(worstX * 100).toFixed(1)}% x, ${(worstY * 100).toFixed(1)}% y of half-frame`;
+
+    /*
+      Measured worst cases across the seven:
+
+          x   39%  (reentry, at 7.3 km/s)      y   100%  (the ground-mode handoff)
+          x   26%  (rtls / booster-sep)        y    75%  (a vehicle standing on the pad)
+
+      HORIZONTALLY there is real margin everywhere, and half a frame is a bound
+      with room in it.
+
+      VERTICALLY the worst case is exactly 1.0, and it is structural rather than
+      sloppy: ground mode engages at `altitude <= physicalHeight` and pins the
+      camera at half that, so at the instant of the handoff the vehicle is at the
+      top edge by definition — then descends through the frame. That is 2021's
+      framing, it is the band every landing and the whole intro happen in, and
+      CLAUDE.md names the intro as part of the soul. Tightening it would mean
+      retuning the one thing M7.3's flat-below-500 m rule exists to leave alone.
+    */
+    expect(worstX, report).toBeLessThan(0.5);
+    expect(worstY, report).toBeLessThanOrEqual(1);
+  });
+});
+
+describe('property 2 — damped, not springy', () => {
+  it('settles a step change without ringing, and says how long it took', () => {
+    const v = viewport();
+    const cam = createCamera(v, 0, 0, 0);
+    // A step inside the capture radius: the regime where the law actually
+    // controls, rather than the one where it deliberately gives up.
+    const t = target({ downRangeDistance: 60, altitude: v.physicalHeight / 2 });
+
+    let overshoot = 0;
+    let settledAt = -1;
+    const DT = 1 / 60;
+    for (let i = 0; i < 60 * 20; i++) {
+      updateCamera(cam, t, v, DT);
+      overshoot = Math.max(overshoot, cam.posX - 60);
+      if (settledAt < 0 && Math.abs(cam.posX - 60) < 0.6) settledAt = i * DT;
+      else if (settledAt >= 0 && Math.abs(cam.posX - 60) >= 0.6) settledAt = -1;
+    }
+
+    const report = `overshoot ${overshoot.toFixed(2)} m of a 60 m step, settled at ${settledAt.toFixed(2)} s`;
+    /*
+      Measured: 9.68 m of overshoot on a 60 m step — 16% — and settled to within
+      1% at 8.7 seconds.
+
+      Damped rather than springy is the claim, and the overshoot is what carries
+      it: one excursion of a sixth of the step and no ringing. The settling time
+      is long because both time constants are a full second by design
+      (ALIGN_TIME_CENTERIZE and ALIGN_TIME_MATCH_SPEED are 2021's, and the
+      floaty weight they give is the feel worth keeping); 1% of a 60 m step is
+      also a demanding criterion — it is inside a single drawn pixel.
+    */
+    expect(overshoot, report).toBeLessThan(12);
+    expect(settledAt, report).toBeGreaterThanOrEqual(0);
+    expect(settledAt, report).toBeLessThan(10);
+  });
+});
+
+describe('property 4 — deterministic for a given state sequence', () => {
+  it('replays identically, shake included', () => {
+    /*
+      The shake is sines of an accumulated time, not noise, precisely so this
+      can be exact rather than approximate. `view/` is allowed to call
+      Math.random; a camera that did would replay differently every time for no
+      gain anyone could hear.
+    */
+    const v = viewport();
+    const run = () => {
+      const cam = createCamera(v, 0, 0, 0);
+      for (let i = 0; i < 600; i++) {
+        updateCamera(
+          cam,
+          target({
+            downRangeDistance: i * 0.5,
+            altitude: 1000 + i,
+            speedX: 30,
+            speedY: 60,
+            dynamicPressure: 12_000,
+            thrustAcceleration: 14,
+          }),
+          v,
+          1 / 60,
+        );
+      }
+      return cam;
+    };
+    const a = run();
+    const b = run();
+    expect(a.posX).toBe(b.posX);
+    expect(a.posY).toBe(b.posY);
+    expect(a.shakeX).toBe(b.shakeX);
+    expect(a.shakeY).toBe(b.shakeY);
+  });
+});
+
+describe('property 5 — it never looks below the ground, at any field of view', () => {
+  it('holds while the view opens and closes around it', () => {
+    // The floor is half a viewport, and the viewport is no longer constant —
+    // so this is a different claim from the M4 version of it.
+    const live: MutableViewport = {
+      width: 0,
+      height: 0,
+      physicalHeight: 0,
+      physicalWidth: 0,
+      scale: 0,
+    };
+    const cam = createCamera(viewport(), 0, 0, 0);
+    for (let i = 0; i < 2_000; i++) {
+      // Sweep the altitude down through the whole FOV range and back up.
+      const altitude = Math.abs(1_000 - (i % 2_000)) * 30;
+      writeViewport(live, 1280, 800, vehicleHeight, 1, altitude);
+      updateCamera(cam, target({ altitude: 0, speedY: -80 }), live, 1 / 60);
+      expect(cam.posY, `${altitude} m`).toBeGreaterThanOrEqual(live.physicalHeight * 0.5 - 1e-9);
+    }
+  });
+});
+
+describe('the framing lead', () => {
+  it('looks ahead by the distance the vehicle covers in LEAD_TIME', () => {
+    // A distance the vehicle covers, not a fixed number of metres: it means the
+    // same thing at 30 m/s and at 3 km/s.
+    expect(framingLead(50, 10_000)).toBeCloseTo(50 * LEAD_TIME, 9);
+  });
+
+  it('caps, so a re-entry cannot throw the ship out of frame', () => {
+    // 7 km/s would ask for four kilometres of lead across a 356 m viewport.
+    const span = 356;
+    expect(framingLead(7_300, span)).toBeCloseTo(span * 0.5 * LEAD_FRACTION, 9);
+    expect(framingLead(-7_300, span)).toBeCloseTo(-span * 0.5 * LEAD_FRACTION, 9);
+  });
+
+  it('is zero for a stationary vehicle, so a landing is centred', () => {
+    expect(framingLead(0, 356)).toBe(0);
+  });
+});
+
+describe('shake', () => {
+  it('is silent in calm air with the engines off', () => {
+    expect(shakeAmplitude(0, 0)).toBe(0);
+  });
+
+  it('rises with dynamic pressure and with thrust, and caps', () => {
+    expect(shakeAmplitude(15_000, 0)).toBeCloseTo(0.5, 9);
+    expect(shakeAmplitude(0, 20)).toBeCloseTo(0.5, 9);
+    expect(shakeAmplitude(1e9, 1e9)).toBe(1);
+  });
+
+  it('is held still by prefers-reduced-motion', () => {
+    // The one part of this file that is decoration rather than information, and
+    // therefore the one part a reduced-motion request may switch off.
+    const v = viewport();
+    const cam = createCamera(v, 0, 0, 0);
+    const t = target({ dynamicPressure: 30_000, thrustAcceleration: 20 });
+    for (let i = 0; i < 60; i++) updateCamera(cam, t, v, 1 / 60, { reducedMotion: true });
+    expect(cam.shakeX).toBe(0);
+    expect(cam.shakeY).toBe(0);
+
+    // And it is genuinely shaking otherwise, or the above proves nothing.
+    const shaken = createCamera(v, 0, 0, 0);
+    let moved = 0;
+    for (let i = 0; i < 60; i++) {
+      updateCamera(shaken, t, v, 1 / 60);
+      moved = Math.max(moved, Math.abs(shaken.shakeX));
+    }
+    expect(moved).toBeGreaterThan(0);
+  });
+
+  it('never moves the lens far enough to unread the instrument', () => {
+    const v = viewport();
+    const cam = createCamera(v, 0, 0, 0);
+    const t = target({ dynamicPressure: 1e9, thrustAcceleration: 1e9 });
+    let worst = 0;
+    for (let i = 0; i < 3_000; i++) {
+      updateCamera(cam, t, v, 1 / 60);
+      worst = Math.max(worst, Math.hypot(cam.shakeX, cam.shakeY));
+    }
+    // A shake is a cue, not an earthquake: under 2% of the frame at its worst.
+    expect(worst / v.physicalHeight).toBeLessThan(0.02);
   });
 });
