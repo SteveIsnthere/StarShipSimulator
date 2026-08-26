@@ -18,7 +18,7 @@
  */
 import { createMixer, createNoiseBuffer, type AudioGraphContext, type Mixer } from './graph';
 import { createAudioParams, readParams, type AudioParams } from './params';
-import { createAeroVoice, createEngineVoice, type Voice } from './voices';
+import { createAeroVoice, createEngineVoice, createWarningVoice, type Voice } from './voices';
 import { createEdgeDetector, type EdgeDetector } from './events';
 import { createTransientBank, type TransientBank, type TransientName } from './transients';
 import type { SimState } from '$core/state';
@@ -70,6 +70,18 @@ export interface AudioEngine {
   resetFlight(): void;
   /** One-shots fired since the last reset, for the tests. */
   readonly transientCount: number;
+  /**
+   * The tab went to the background, or came back (M8.5).
+   *
+   * A phone that navigates away, locks, or takes a call should not keep a
+   * rocket running in someone's pocket — and a browser that suspends the
+   * context itself leaves the engine believing it is running, so the two have
+   * to be kept in step deliberately rather than hoped about.
+   *
+   * Distinct from mute: this does not touch the remembered preference, so a tab
+   * that comes back comes back to whatever the player chose.
+   */
+  setBackgrounded(hidden: boolean): Promise<void>;
   destroy(): Promise<void>;
 }
 
@@ -122,6 +134,8 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
   const params: AudioParams = createAudioParams();
   let lastWriteCount = 0;
 
+  let backgrounded = false;
+
   const edges: EdgeDetector = createEdgeDetector();
   let transients: TransientBank | null = null;
   /** A stable closure, so passing it to `observe` costs no allocation. */
@@ -155,7 +169,7 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
       lastWriteCount = 0;
       // Nothing built yet, or switched off: one comparison and out. The frame
       // path must not pay for a feature that is not running.
-      if (!context || muted || voices.length === 0) return;
+      if (!context || muted || backgrounded || voices.length === 0) return;
       readParams(state, params);
       for (const voice of voices) {
         voice.update(params);
@@ -166,7 +180,7 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
 
     async unlock() {
       // Muted means muted: a gesture must not start audio someone switched off.
-      if (muted) return;
+      if (muted || backgrounded) return;
       if (!context) {
         context = host.create();
         mixer = createMixer(context);
@@ -174,9 +188,18 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
         // Built once, here, and never rebuilt — the claim the leak test makes.
         voices.push(createEngineVoice({ context, mixer, noise }));
         voices.push(createAeroVoice({ context, mixer, noise }));
+        voices.push(createWarningVoice({ context, mixer, noise }));
         transients = createTransientBank({ context, mixer, noise });
       }
       if (context.state !== 'running') await context.resume();
+    },
+
+    async setBackgrounded(hidden) {
+      backgrounded = hidden;
+      if (!context) return;
+      // Suspend either way; only come back if the player still wants sound.
+      if (hidden) await context.suspend();
+      else if (!muted) await context.resume();
     },
 
     async setMuted(next) {
@@ -184,7 +207,9 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
       writeMuted(next, storage);
       if (!context) return;
       if (next) await context.suspend();
-      else await context.resume();
+      // Unmuting into a backgrounded tab would start audio nobody is looking
+      // at — the two switches are independent and both have to agree.
+      else if (!backgrounded) await context.resume();
     },
 
     async destroy() {

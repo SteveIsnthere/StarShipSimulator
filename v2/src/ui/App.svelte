@@ -479,6 +479,15 @@
       document.addEventListener('pointerdown', onGesture, { capture: true });
       document.addEventListener('keydown', onGesture, { capture: true });
 
+      /*
+        The tab going away (M8.5). A phone that locks, navigates away or takes a
+        call must not keep a rocket running in someone's pocket — and this is
+        also what handles the interruption case, because an interrupted context
+        comes back suspended and would otherwise never be resumed.
+      */
+      const onVisibility = () => void audio.setBackgrounded(document.hidden);
+      document.addEventListener('visibilitychange', onVisibility);
+
       const keyboard: InputBinding = bindInput(document, {
         control: emit,
         view: applyViewAction,
@@ -620,6 +629,7 @@
         window.removeEventListener('resize', onResize);
         document.removeEventListener('pointerdown', onGesture, { capture: true });
         document.removeEventListener('keydown', onGesture, { capture: true });
+        document.removeEventListener('visibilitychange', onVisibility);
         keyboard.destroy();
         tilt.destroy();
       };

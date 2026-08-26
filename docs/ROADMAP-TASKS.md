@@ -412,7 +412,7 @@ out is the point of the whole milestone.*
   playthrough e2e still green; total audio inside the M8.1 budget with the number reported; each
   transient fires exactly once per event over the goldens (the `showedCrash` latch pattern), and
   a restart re-arms it.
-- [ ] **M8.5 Mix, warnings, mobile, ship** — heat and Q warning tones on the same thresholds the
+- [x] **M8.5 Mix, warnings, mobile, ship** — heat and Q warning tones on the same thresholds the
   HUD turns amber at (`hud/metrics.ts`), so ear and eye agree; a mix pass; the silent switch, tab
   backgrounding and interruptions on mobile; screenshots and README. Accept: full gate on all five
   projects; audio budget reported; `git diff v2/src/core` empty over the whole milestone and the
@@ -1812,3 +1812,27 @@ out is the point of the whole milestone.*
   STYLESHEET under a loaded machine. An unsized canvas is 300×150 by specification, and that is
   what it caught once in a full five-project run, reading as a renderer falling over when it was
   the test arriving early.
+- 2026-08-26 · M8.5 · **Mix, warnings, mobile — Sound ships.** The warning tone calls
+  `limitState` from `hud/metrics.ts` rather than reimplementing it, which is the whole design:
+  "the same thresholds the HUD turns amber at" is only true FOREVER if it is the same code. Two
+  copies of 0.8 would drift the first time either was tuned, and the failure mode is an ear and an
+  eye disagreeing about whether the vehicle is in trouble — worse than either signal alone. Caution
+  and alarm are different sounds rather than one louder, and the alarm pulses twice as fast, which
+  is the one piece of cockpit convention worth borrowing wholesale.
+  **All seven goldens come out nominal, and the margins are why that is a result rather than a
+  vacuum**: re-entry reaches 0.63 of the heat limit and RTLS 0.57 of the Q limit, so these flights
+  get genuinely warm and genuinely fast and still stay the right side of 0.8. A second test drives a
+  flight past the threshold through the whole pipeline — the M8.3 lesson, again: a signal that is
+  always silent passes "stays quiet" trivially, so something has to prove there is a signal.
+  **Mobile lifecycle**: a backgrounded tab suspends and coming back resumes, but never overrides a
+  mute — the two switches are independent and the remembered preference wins, so returning to a tab
+  cannot undo something the player chose. Unmuting into a hidden tab starts nothing. That also
+  handles interruptions, because an interrupted context comes back suspended and would otherwise
+  never resume.
+  **Final gate:** lint, 1432 unit tests and build all exit 0; **playwright 286 passed across all
+  five projects**; first-load JS **196.3 kB of 250**, fonts 32.7 of 80, **audio 0.0 kB of 250**;
+  35 assets precached; `git diff v2/src/core` against the M7 start commit prints nothing and all
+  seven golden digests are byte-identical to their M2.14 values. Screenshots and README refreshed.
+  **What no test covers is whether it sounds good.** § 6 said so before a line was written and the
+  acceptance line says so now: that is a listening decision, and it is the one thing this milestone
+  hands back rather than settles.

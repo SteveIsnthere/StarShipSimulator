@@ -21,7 +21,13 @@
  * 120 Hz is how a Web Audio graph starts stuttering (§ 6).
  */
 import type { AudioGraphContext, Mixer } from './graph';
-import { ENGINE_SUB_HZ, type AudioParams } from './params';
+import {
+  ENGINE_SUB_HZ,
+  WARNING_HZ,
+  WARNING_LEVEL,
+  WARNING_PULSE_HZ,
+  type AudioParams,
+} from './params';
 
 /**
  * s — the time constant every parameter change is smoothed over.
@@ -226,6 +232,95 @@ export function createAeroVoice(options: EngineVoiceOptions): Voice {
 
     stop() {
       source.stop();
+    },
+  };
+}
+
+/**
+ * The warning tone.
+ *
+ *   oscillator -> pulse gain -> level gain -> warning bus
+ *
+ * PULSED RATHER THAN STEADY, because a steady tone becomes furniture within
+ * about ten seconds and a pulse does not. The pulse is a second oscillator
+ * driving the gain — a low-frequency oscillator in the classic sense — rather
+ * than anything scheduled per frame, so it keeps its rhythm exactly while the
+ * simulation is time-warped, paused or running slowly.
+ *
+ * Its thresholds are the HUD's, imported rather than copied (see
+ * `warningState`). An ear and an eye disagreeing about whether the vehicle is
+ * in trouble would be worse than either alone.
+ */
+export function createWarningVoice(options: EngineVoiceOptions): Voice {
+  const { context, mixer } = options;
+
+  const tone = context.createOscillator();
+  tone.type = 'square';
+  tone.frequency.value = WARNING_HZ[1];
+
+  // The pulse. A sine through a gain gives a smooth throb rather than a click,
+  // which matters because this can run for a minute during a hot re-entry.
+  const lfo = context.createOscillator();
+  lfo.type = 'sine';
+  lfo.frequency.value = WARNING_PULSE_HZ[1];
+
+  const lfoDepth = context.createGain();
+  lfoDepth.gain.value = 0.5;
+
+  const pulse = context.createGain();
+  pulse.gain.value = 0.5;
+
+  const level = context.createGain();
+  level.gain.value = 0;
+
+  tone.connect(pulse);
+  lfo.connect(lfoDepth);
+  // The LFO modulates the pulse gain's own AudioParam: 0.5 +/- 0.5, so the tone
+  // goes fully off between beats rather than merely quieter.
+  lfoDepth.connect(pulse.gain);
+  pulse.connect(level);
+  level.connect(mixer.bus('warning'));
+
+  tone.start();
+  lfo.start();
+
+  let lastState: number | null = null;
+  let lastWriteCount = 0;
+  let totalWrites = 0;
+
+  return {
+    get lastWriteCount() {
+      return lastWriteCount;
+    },
+    get totalWrites() {
+      return totalWrites;
+    },
+    // tone, lfo, lfoDepth, pulse, level.
+    nodeCount: 5,
+
+    update(params) {
+      lastWriteCount = 0;
+      // A three-valued state, so this writes at most a handful of times in a
+      // whole flight — the cheapest diff in the layer.
+      if (params.warning === lastState) return;
+      lastState = params.warning;
+
+      const now = context.currentTime;
+      const index = Math.max(0, Math.min(2, Math.round(params.warning)));
+      level.gain.setTargetAtTime(WARNING_LEVEL[index]!, now, SMOOTH_SECONDS);
+      tone.frequency.setTargetAtTime(WARNING_HZ[index] || WARNING_HZ[1]!, now, SMOOTH_SECONDS);
+      lfo.frequency.setTargetAtTime(
+        WARNING_PULSE_HZ[index] || WARNING_PULSE_HZ[1]!,
+        now,
+        SMOOTH_SECONDS,
+      );
+      lastWriteCount = 3;
+      totalWrites += 3;
+    },
+
+    stop() {
+      tone.stop();
+      lfo.stop();
     },
   };
 }

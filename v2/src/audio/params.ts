@@ -19,6 +19,8 @@
  * information rather than as noise.
  */
 import type { SimState } from '$core/state';
+import * as C from '$core/constants';
+import { limitState } from '$hud/metrics';
 
 /** How many Raptors are actually lit — commanded, not failed, not still igniting. */
 export function litEngines(state: SimState): number {
@@ -218,6 +220,54 @@ export function aeroAirGain(airPressure: number): number {
   return airFraction(airPressure);
 }
 
+/* ------------------------------------------------------------------------ *
+ * Warnings (M8.5)
+ * ------------------------------------------------------------------------ */
+
+/**
+ * How urgent the warning is: 0 nominal, 1 caution, 2 alarm.
+ *
+ * `limitState` FROM `hud/metrics.ts`, imported rather than reimplemented, and
+ * that is the whole design of this function. The acceptance line asks for the
+ * tone to be on "the same thresholds the HUD turns amber at" — and the only way
+ * to make that true forever rather than true today is to use the same code. Two
+ * copies of 0.8 would drift the first time either was tuned, and the failure
+ * would be an ear and an eye disagreeing about whether the vehicle is in
+ * trouble, which is worse than either alone.
+ *
+ * `audio/` importing `hud/` is allowed: the seventh wall runs the other way, and
+ * a limit threshold is exactly the kind of shared judgement neither layer should
+ * own privately.
+ */
+export function warningState(state: SimState): number {
+  return Math.max(
+    limitState(state.forces.thermalPower, C.heatLimit),
+    limitState(state.forces.dynamicPressure, C.dynamicPressureLimit),
+  );
+}
+
+/**
+ * Hz — the two tones.
+ *
+ * A caution and an alarm are different sounds rather than the same sound louder,
+ * because "getting worse" and "out of time" are different messages. The alarm
+ * is higher and it is the one that cuts through a full-throttle ascent: the mix
+ * decision in BUS_GAIN exists for it.
+ */
+export const WARNING_HZ = [0, 620, 950] as const;
+
+/** 0..1 — how loud the warning is. Silent at nominal, by construction. */
+export const WARNING_LEVEL = [0, 0.16, 0.3] as const;
+
+/**
+ * Hz — the pulse rate. A steady tone is furniture; a pulse is a demand.
+ *
+ * The alarm pulses roughly twice as fast as the caution, which is the one piece
+ * of aviation convention worth borrowing wholesale: it is what every cockpit
+ * does and what anyone who has heard one already knows.
+ */
+export const WARNING_PULSE_HZ = [0, 2, 4.5] as const;
+
 /* ------------------------------------------------------------------------ */
 
 /**
@@ -242,6 +292,8 @@ export interface AudioParams {
   aeroHz: number;
   /** 0..1 — the air fade applied to the airflow. Reaches zero. */
   aeroAir: number;
+  /** 0 nominal, 1 caution, 2 alarm — the same states the HUD colours by. */
+  warning: number;
 }
 
 export function createAudioParams(): AudioParams {
@@ -252,6 +304,7 @@ export function createAudioParams(): AudioParams {
     aero: 0,
     aeroHz: aeroFilterHz(0),
     aeroAir: aeroAirGain(SEA_LEVEL_KPA),
+    warning: 0,
   };
 }
 
@@ -264,4 +317,5 @@ export function readParams(state: SimState, out: AudioParams): void {
   out.aero = aeroLevel(state.forces.dynamicPressure);
   out.aeroHz = aeroFilterHz(state.kinematics.machSpeed);
   out.aeroAir = aeroAirGain(state.atmosphere.airPressure);
+  out.warning = warningState(state);
 }

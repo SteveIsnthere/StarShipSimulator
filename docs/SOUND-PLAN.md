@@ -78,6 +78,18 @@ one is a research project. Budget them at a handful of short files.
 
 So the split is:
 
+**Amended in build, 2026-08-26 (M8.4): the transients are synthesised too.** Not
+because the reasoning below is wrong — synthesising a convincing impact really is
+harder than playing one — but because shipping third-party audio into this
+repository is a decision whose licence trail the owner has to be able to audit,
+and choosing those files from a library whose terms could not be verified would
+have satisfied this table in form and not in substance. An unverifiable licence
+trail is worse than no samples. § 7's mitigation applies in reverse: the layer is
+behind one interface, so real recordings can replace the synthesised ones
+per-sound without touching anything else. **This is the one point in M8 where the
+owner may want to substitute samples, and it is a change to
+`v2/src/audio/transients.ts` and nothing else.**
+
 | Sound | How | Driven by |
 |---|---|---|
 | Engine rumble | synthesis — filtered noise + low oscillators | running engines, `throttleCurrent` |

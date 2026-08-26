@@ -55,6 +55,25 @@ yours — full tanks, engines off.
 Works offline. Install it and it keeps working with the network off — the whole thing
 is precached, including the chart library.
 
+### It sounds like altitude too
+
+The simulator was silent for its whole life, 2021 and v2 alike. It is not now,
+and the point is not the noise — it is the contrast. Engine rumble is
+synthesised from the throttle and the number of Raptors actually lit, so three
+engines at 40% and two at 100% sound as different as they are. Airflow noise
+rises with dynamic pressure and brightens with Mach.
+
+Then the air runs out. Above 50 km the airflow is gone — there is no mechanism
+by which a vacuum roars — while the engine falls to a floor rather than to
+silence, because structural conduction is real and you are bolted to the thing.
+A vacuum where everything is quieter sounds like the volume being turned down.
+A vacuum where the air stops and the vehicle does not sounds like space.
+
+Nothing plays before you touch something: browsers require a gesture, and the
+intro is better silent than fighting for it. The `Sound` button remembers what
+you chose, and muting suspends the audio context rather than turning a gain
+down, so a muted simulator does no audio work at all.
+
 ---
 
 ## The interface
@@ -118,7 +137,8 @@ different vehicle, and nobody would have been able to say which parts changed.
 | Offline | claimed | tested — a full flight with the network off |
 | Interface | one desktop layout | three breakpoints, gated on four phone viewports |
 | Depth | ground, then nothing above 100 m | three parallax layers, camera FOV 1x–5x with altitude |
-| Tests | 0 | 1347 unit, 266 end-to-end across five browser projects |
+| Sound | silent | synthesised from SimState; the atmosphere audibly runs out |
+| Tests | 0 | 1432 unit, 286 end-to-end across five browser projects |
 
 ---
 
@@ -131,6 +151,7 @@ v2/src/ui/     Svelte 5 — panels, menu, editor, black box. Interaction-driven 
 v2/src/hud/    The HUD binder. One rAF subscriber, diffs state, writes text nodes.
 v2/src/view/   PixiJS v8 — sprites, pooled particles, camera, sky. No game logic.
 v2/src/app/    The loop, input, the flight recorder, offline support.
+v2/src/audio/  Web Audio graph and the SimState → sound bindings. Never imported by core/.
 v2/src/core/   Pure TypeScript simulation. The protected zone.
 ```
 
@@ -142,8 +163,8 @@ the only thing that records what the original actually did.
 `core/` is pure: state in, state out. It runs in Node with no browser, which is what
 makes any of this testable.
 
-**Six walls**, each an autopsy of a specific 2021 failure, each an ESLint error, each
-with a test that feeds it a violation and asserts it fails:
+**Seven walls** — six of them autopsies of a specific 2021 failure, each an ESLint
+error, each with a test that feeds it a violation and asserts it fails:
 
 1. `core/` may not import from `view/`, `ui/`, `hud/` or `app/`.
 2. `core/` may not touch `document`, `window` or PIXI.
@@ -151,6 +172,8 @@ with a test that feeds it a violation and asserts it fails:
 4. `core/` may not call `Date.now` or `performance.now` — time enters as `dt`.
 5. `core/` may not call `setTimeout` or `setInterval`.
 6. Nothing anywhere in `v2/` may assign to `globalThis`.
+7. `core/` may not import from `audio/` — sound is an output, never an input. The one
+   wall with no 2021 wound behind it, because the 2021 build made no sound at all.
 
 ### Determinism
 
