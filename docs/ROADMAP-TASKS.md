@@ -438,7 +438,7 @@ which is the ONE exception to the frozen-core rule above and is bounded to comme
 `crashed`; (4) airframe shake lands at M7.3's designed amplitude rather than dialled back
 for its first outing.*
 
-- [ ] **M9.1 The pixel harness** — the reason this comes first is that two of the three bugs
+- [x] **M9.1 The pixel harness** — the reason this comes first is that two of the three bugs
   in the plan shipped through three milestones of screenshot review, and the investigation
   itself reached the wrong conclusion twice from looking at a PNG. A helper in `tests/e2e/`
   screenshots the live canvas, decodes it in-page with `createImageBitmap` into an
@@ -1973,3 +1973,34 @@ for its first outing.*
   **What no test covers is whether it sounds good.** § 6 said so before a line was written and the
   acceptance line says so now: that is a listening decision, and it is the one thing this milestone
   hands back rather than settles.
+- 2026-08-26 · M9.1 · The pixel harness, in `v2/tests/e2e/pixels.ts`, and four assertions using it
+  in `pixels.spec.ts` — one per surface M9 will change. **No production code changed**: the harness
+  reconstructs the drawn scale by calling `computeViewport` — the same function the renderer sizes
+  itself with — from the canvas box and the altitude readout, so nothing had to be published from
+  the page and the frame path is untouched. Screenshot → data URL → `createImageBitmap` +
+  `OffscreenCanvas` + `getImageData`, decoded in the page that drew it, because this environment has
+  no PNG decoder and adding one to read four numbers would be a poor trade. Measures region
+  occupancy, luma spread and tone buckets, a warm/grey colour split, and the bounding box of a bright
+  region in ship-lengths. **No golden-image diffing anywhere** — M6 retired visual parity and pixel
+  equality across five projects and two rasterisers would be a tax paid in false failures.
+  **Two findings from building it, both of which are the harness working before a single task has
+  used it.** (a) Playwright's element screenshot crops the composited PAGE, so a shot of the world
+  canvas contains the HUD sitting on top of it: the first run reported the bottom fifth of every
+  frame as near-black at mean luma 23 and it was measuring the broadcast scrim, so `readFrame` now
+  hides every non-ancestor sibling with `visibility:hidden` before the shutter. (b) The altitude
+  readout switches unit at a kilometre, so reading only the value node put the vehicle at 79.9 m
+  during a re-entry from 79.9 km. Both are exactly the class of quiet factor-of-1000 this milestone
+  exists to close. **Baselines recorded, in the units the later tasks will move**: the plume spans
+  **0.26 ship-lengths** at sea-level full throttle on desktop and 0.41 on a Pixel 7 (M9.6 raises
+  this past 1); the ground band at 6 km is **one colour** — luma spread 0.47, a single tone bucket,
+  one 4-bit histogram bin holding 100% of the pixels (M9.8); the cloud deck's spread is 41.8 desktop
+  / 21.9 phone (M9.7). Tolerances are wide on purpose and the file says why: the drawn vehicle is
+  180 px on desktop and 420 on a phone, so a bound tight enough to be interesting on one is a false
+  failure on another — what makes them worth having is that each is a number a task can raise.
+  A `describeFrame` helper prints the region table and a max-pooled ASCII luminance map into every
+  assertion message, because `expected 0.26 to be greater than 1` cannot distinguish "the plume is
+  short" from "the ship is not in the frame". The first arrangement of the plume test WAS a race —
+  the vehicle free-fell to the ground while the taps happened, and only the slowest phone project
+  noticed — so it now waits for the throttle readout rather than for a number of milliseconds.
+  **Gate:** lint, 1432 unit tests, build all exit 0; playwright **20/20 of the new spec green across
+  all five projects**; `git diff v2/src/core` empty; first-load JS unchanged at 196.3 kB.
