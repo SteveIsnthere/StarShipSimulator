@@ -502,7 +502,7 @@ for its first outing.*
   value; where a unit genuinely cannot be pinned down (`thermalPower`), the comment says so
   explicitly rather than guessing.
 
-- [ ] **M9.5 The particle texture set** — `createParticleTexture` builds one 64 px radial
+- [x] **M9.5 The particle texture set** — `createParticleTexture` builds one 64 px radial
   gradient and all nine effects draw with it, so plume, dust, plasma, shock cone and explosion
   are the same dot in different tints. Four generated textures instead — `core` (tight hot
   centre for additive fire), `soft` (today's gradient, so everything tuned against it is
@@ -2142,3 +2142,43 @@ for its first outing.*
   `fineTunePercentage`) re-derived from its own expression.
   **Gate:** lint, 1493 unit tests, build all exit 0; playwright 316 passed, 6 skipped across all five
   projects; **`git diff v2/src/core` contains comment lines and nothing else**; digests unmoved.
+- 2026-08-26 · M9.5 · Four generated textures where there was one. `createParticleTexture` built a
+  single 64 px white radial gradient and all nine effects drew with it, so the plume, the pad dust,
+  the plasma wake, the shock cone and the explosion were the same dot in different tints — and a
+  tint cannot change whether a thing has an edge. Now `core` (tight plateau, cubic falloff, for
+  additive fire), `soft` (the 2021 gradient reproduced ramp for ramp, so anything tuned against it
+  is unchanged), `smoke` (two octaves of value noise over a soft falloff, with a ragged angular rim)
+  and `wisp` (elongated, feathered, faintly grained). Each effect names its own with a one-line
+  reason.
+  **ONE GPU TEXTURE, FOUR FRAMES.** Pixi batches by texture SOURCE, so four separate canvases with
+  particles interleaved in one container would break the batch on nearly every sprite and turn one
+  draw call into hundreds; four frames of a 128×128 atlas batch exactly as the single texture did.
+  Each cell carries a two-pixel transparent margin, asserted, because a bilinear sample at a frame
+  edge reads the neighbour. **Generated from `textureRandom`** — the same counter-based hash
+  `clouds.ts` uses, kept local for the same reason — so two players see the same smoke, a committed
+  screenshot is reproducible, and **the asset budget is byte-identical: 22 `.webp` files at the M9
+  start commit, 22 now.** First-load JS 196.5 → **197.1 kB** of 250, which is the generator's own
+  code and no art.
+  **The pooled contract is untouched, and that is load-bearing:** `createParticleSystem` still
+  accepts a single `Texture`, which is what the headless tests pass, so **every assertion written
+  against the pool before M9.5 passes unmodified** — including the ten-thousand-shutdowns leak test.
+  The texture is set per spawn beside the blend mode; nothing is allocated.
+  **11 new unit tests measure the shapes in Node with no GPU**, `writeParticleTexture` being pure:
+  `core` holds 47% of its alpha inside a third of the radius against `soft`'s 24%; `smoke`'s
+  deviation around a ring is 17.8 against `soft`'s 5.3 (and the 5.3 is the half-pixel sampling
+  wobble, not the texture); its rim varies by more than 3 px around the circle; `wisp`'s aspect is
+  above 1.6 while the round three sit between 0.75 and 1.35; all four are transparent at the frame
+  edge; all four regenerate byte-identically and hold their profile at 32, 64 and 128 px.
+  **In the browser, the additive argument measured.** Additive blending SUMS overlapping particles,
+  so a wide gradient drives a large area to white and the plume becomes a flat blown-out blob. The
+  blown-out share of the lit plume (luma ≥ 240 against ≥ 170) at sea-level full throttle, five
+  samples, median: **0.41 with the single texture, 0.18 with `core`** — red then green, shown. A
+  ratio rather than a count, because the five projects render at 1× and 2.6×.
+  **What this does NOT prove, said plainly.** The acceptance line hoped the harness would show
+  "smoke and fire separating in a colour histogram". It cannot, honestly: the two populations were
+  ALREADY separated in colour before M9.5, by the per-effect tints that have been there since M3.3.
+  Probed both ways on the intro approach and on a pad launch, the histograms are within noise of
+  each other. What M9.5 changes is SHAPE, and shape is what the tests above measure.
+  **Gate:** lint, **1504 unit tests** (11 new), build all exit 0; **playwright 321 passed, 6 skipped
+  across all five projects**; `git diff v2/src/core` since the M9 start commit is still comment lines
+  and nothing else; digests unmoved.

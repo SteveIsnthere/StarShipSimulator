@@ -17,7 +17,7 @@
  * pointer per field per particle per frame, and the difference shows up in the
  * frame budget long before the visuals do.
  */
-import { Container, Sprite, Texture, type Renderer } from 'pixi.js';
+import { Container, Rectangle, Sprite, Texture, type Renderer } from 'pixi.js';
 
 /** How a particle looks and moves over its life. */
 export interface EmitterConfig {
@@ -58,6 +58,195 @@ export interface EmitterConfig {
    * rotation and the anisotropic scale entirely.
    */
   readonly stretch?: number;
+  /**
+   * Which of the four generated textures this effect draws with (M9.5).
+   *
+   * Before M9.5 there was one — a 64 px white radial gradient — and all nine
+   * effects used it, so the plume, the pad dust, the plasma wake, the shock cone
+   * and the explosion were the same dot in different tints. A tint can change
+   * what colour something is; it cannot change whether it has an edge.
+   */
+  readonly texture: ParticleTextureName;
+}
+
+/* ------------------------------------------------------------------------ *
+ * The texture set (M9.5)
+ * ------------------------------------------------------------------------ */
+
+/**
+ * The four shapes every effect in this file is built from.
+ *
+ *   core   a tight hot centre, for additive fire — plume, plasma, entry heat
+ *   soft   the 64 px radial gradient that was the only texture until M9.5,
+ *          reproduced ramp for ramp so anything tuned against it is unchanged
+ *   smoke  low-frequency value noise with a ragged edge — dust, shutdown puffs,
+ *          the explosion
+ *   wisp   feathered and elongated — the fin vortices and the velocity streaks
+ *
+ * Four rather than nine: an effect's identity is mostly its colour ramp, its
+ * life and its drag, and those are already per-effect. What one texture could
+ * not express is the difference between something that GLOWS and something that
+ * BILLOWS, which is a difference of edge and of internal structure.
+ */
+export const PARTICLE_TEXTURES = ['core', 'soft', 'smoke', 'wisp'] as const;
+export type ParticleTextureName = (typeof PARTICLE_TEXTURES)[number];
+
+/** The four, ready to draw with. All four share one GPU texture; see `createParticleTextures`. */
+export type ParticleTextureSet = Readonly<Record<ParticleTextureName, Texture>>;
+
+/**
+ * A counter-based pseudo-random, so the noise is the same noise every run.
+ *
+ * The same construction as `clouds.ts`'s `puffRandom`, and kept local for the
+ * same reason: `view/` reaching into `core/rng` for decoration would blur a
+ * boundary worth keeping sharp. Two players must see the same sky and the same
+ * smoke, and a committed screenshot must be reproducible.
+ */
+export function textureRandom(x: number, y: number, salt: number): number {
+  let h = Math.imul(x + 1, 0x9e3779b9) ^ Math.imul(y + 1, 0x85ebca6b);
+  h = Math.imul(h ^ (h >>> 15), 0xc2b2ae35);
+  h ^= Math.imul(salt + 1, 0x27d4eb2f);
+  h = Math.imul(h ^ (h >>> 13), 0x165667b1);
+  h ^= h >>> 16;
+  return (h >>> 0) / 4294967296;
+}
+
+const smoothstep = (t: number): number => t * t * (3 - 2 * t);
+
+/**
+ * Value noise on a coarse lattice, smoothly interpolated and tileable in angle.
+ *
+ * LOW FREQUENCY on purpose. A particle is between two and thirty metres across
+ * on screen and lives under a second; high-frequency detail in it reads as
+ * dither rather than as structure, and costs the same to generate.
+ */
+function valueNoise(u: number, v: number, lattice: number, salt: number): number {
+  const x = u * lattice;
+  const y = v * lattice;
+  const x0 = Math.floor(x);
+  const y0 = Math.floor(y);
+  const fx = smoothstep(x - x0);
+  const fy = smoothstep(y - y0);
+  const wrap = (n: number) => ((n % lattice) + lattice) % lattice;
+  const c00 = textureRandom(wrap(x0), wrap(y0), salt);
+  const c10 = textureRandom(wrap(x0 + 1), wrap(y0), salt);
+  const c01 = textureRandom(wrap(x0), wrap(y0 + 1), salt);
+  const c11 = textureRandom(wrap(x0 + 1), wrap(y0 + 1), salt);
+  const top = c00 + (c10 - c00) * fx;
+  const bottom = c01 + (c11 - c01) * fx;
+  return top + (bottom - top) * fy;
+}
+
+/**
+ * Write one texture into an RGBA buffer, `cell` by `cell`.
+ *
+ * PURE, and deliberately separate from anything that touches a canvas: the
+ * shapes are the part worth testing, and `tests/view/particle-textures.test.ts`
+ * measures their radial profiles in Node with no GPU and no DOM. Every texture
+ * is white; colour arrives as a per-particle tint, exactly as before.
+ *
+ * The outermost two pixels of every cell are forced transparent. All four live
+ * in one atlas so they batch as a single draw call, and a bilinear sample at a
+ * frame edge would otherwise pick up the neighbour.
+ */
+export function writeParticleTexture(
+  name: ParticleTextureName,
+  cell: number,
+  out: Uint8ClampedArray,
+): void {
+  const half = cell / 2;
+  const border = 2;
+
+  for (let py = 0; py < cell; py++) {
+    for (let px = 0; px < cell; px++) {
+      // Centre of the pixel, in units of the cell radius: 0 at the middle, 1 at
+      // the edge of the inscribed circle.
+      const dx = (px + 0.5 - half) / half;
+      const dy = (py + 0.5 - half) / half;
+      let alpha: number;
+
+      switch (name) {
+        case 'soft': {
+          /*
+            The 2021 gradient, ramp for ramp: alpha 1 at the centre, 0.65 at 40%
+            of the radius, 0 at the rim, linear between. Reproduced rather than
+            redesigned so that everything tuned against it before M9.5 — the
+            shock cone, and every size and alpha number in EFFECTS — still looks
+            like what it was tuned to.
+          */
+          const t = Math.hypot(dx, dy);
+          alpha = t >= 1 ? 0 : t < 0.4 ? 1 - 0.35 * (t / 0.4) : 0.65 * (1 - (t - 0.4) / 0.6);
+          break;
+        }
+        case 'core': {
+          /*
+            Fire, drawn additively. A small saturated plateau and a fast cubic
+            falloff, so overlapping particles build a bright centre and a thin
+            halo rather than a uniform wash — which is what an additive blend
+            does to a wide gradient, and why the plume read as a candle.
+          */
+          const t = Math.hypot(dx, dy);
+          if (t >= 1) alpha = 0;
+          else if (t < 0.14) alpha = 1;
+          else {
+            const f = 1 - (t - 0.14) / 0.86;
+            alpha = f * f * f;
+          }
+          break;
+        }
+        case 'smoke': {
+          /*
+            Something that billows. Two octaves of value noise over a soft
+            radial falloff, plus an angular ragged edge, so the silhouette is not
+            a circle and the interior is not flat. Non-additive effects draw with
+            this, so its structure survives rather than being summed away.
+          */
+          const t = Math.hypot(dx, dy);
+          const angle = Math.atan2(dy, dx);
+          // Ragged rim: the radius at which this direction fades out.
+          const rim =
+            0.82 + 0.18 * valueNoise((angle + Math.PI) / (Math.PI * 2), 0.5, 6, 0x51ed);
+          if (t >= rim) {
+            alpha = 0;
+            break;
+          }
+          const body = 1 - smoothstep(Math.min(1, t / rim));
+          const coarse = valueNoise((dx + 1) / 2, (dy + 1) / 2, 4, 0x5c00);
+          const fine = valueNoise((dx + 1) / 2, (dy + 1) / 2, 9, 0x7a11);
+          alpha = body * (0.42 + 0.44 * coarse + 0.24 * fine);
+          break;
+        }
+        case 'wisp': {
+          /*
+            A torn streak: elongated along x, feathered at both ends, and
+            slightly asymmetric so a field of them does not read as a row of
+            identical lozenges. Drawn along the particle's own velocity by the
+            `stretch` machinery, which multiplies this elongation rather than
+            replacing it.
+          */
+          const ex = dx / 1.0;
+          const ey = dy * 2.4;
+          const t = Math.hypot(ex, ey);
+          if (t >= 1) alpha = 0;
+          else {
+            const feather = (1 - t) * (1 - t);
+            const grain = 0.75 + 0.5 * valueNoise((dx + 1) / 2, (dy + 1) / 2, 5, 0x1b7a);
+            alpha = feather * grain;
+          }
+          break;
+        }
+      }
+
+      // Transparent margin, so an atlas neighbour can never bleed in.
+      if (px < border || py < border || px >= cell - border || py >= cell - border) alpha = 0;
+
+      const i = (py * cell + px) * 4;
+      out[i] = 255;
+      out[i + 1] = 255;
+      out[i + 2] = 255;
+      out[i + 3] = Math.max(0, Math.min(1, alpha)) * 255;
+    }
+  }
 }
 
 /**
@@ -86,6 +275,10 @@ export const EFFECTS = {
     startAlpha: 0.95,
     endAlpha: 0,
     additive: true,
+    // Fire. Additive blending sums a wide gradient into a flat wash, which is
+    // most of why the plume read as a candle; a tight core builds a bright
+    // centre and a thin halo instead.
+    texture: 'core',
   },
   /** The puff when an engine cuts. This is the one that used to leak. */
   raptorShutdown: {
@@ -104,6 +297,9 @@ export const EFFECTS = {
     startAlpha: 0.7,
     endAlpha: 0,
     additive: false,
+    // It starts as flame and ends as soot, and the soot is what you see: a
+    // shutdown puff billows.
+    texture: 'smoke',
   },
   /**
    * The plasma trail, M6.7.
@@ -132,6 +328,8 @@ export const EFFECTS = {
     startAlpha: 0.55,
     endAlpha: 0,
     additive: true,
+    // Ionised gas glowing, not smoke: the same additive argument as the plume.
+    texture: 'core',
   },
   /**
    * M7.5 — velocity streaks: the world blowing past, in screen space.
@@ -162,6 +360,9 @@ export const EFFECTS = {
     endAlpha: 0,
     additive: true,
     stretch: 9,
+    // The one effect whose shape IS the cue. `stretch` elongates the sprite;
+    // the wisp's feathered ends are what stop that reading as a stretched dot.
+    texture: 'wisp',
   },
   /** Shed vorticity off the fins under dynamic pressure. */
   aeroTrail: {
@@ -180,6 +381,8 @@ export const EFFECTS = {
     startAlpha: 0.35,
     endAlpha: 0,
     additive: false,
+    // Shed vorticity is a torn filament, not a ball of anything.
+    texture: 'wisp',
   },
   /** Dust kicked off the pad. */
   groundSmoke: {
@@ -198,6 +401,8 @@ export const EFFECTS = {
     startAlpha: 0.55,
     endAlpha: 0,
     additive: false,
+    // Dust. The effect the ragged edge was designed for.
+    texture: 'smoke',
   },
   /** The transonic cone. */
   sonicBoom: {
@@ -216,6 +421,9 @@ export const EFFECTS = {
     startAlpha: 0.3,
     endAlpha: 0,
     additive: false,
+    // Condensation, which genuinely is a smooth blob. Kept on the 2021 gradient
+    // so the one effect that was right stays exactly as it was.
+    texture: 'soft',
   },
   /** Re-entry plasma. Intensity scales with thermal load. */
   aeroHeat: {
@@ -234,6 +442,8 @@ export const EFFECTS = {
     startAlpha: 0.8,
     endAlpha: 0,
     additive: true,
+    // The glow at the nose. Fire.
+    texture: 'core',
   },
   /** Crash and in-flight breakup. */
   explosion: {
@@ -252,34 +462,67 @@ export const EFFECTS = {
     startAlpha: 1,
     endAlpha: 0,
     additive: false,
+    // Six hundred particles of debris and soot. Anything smooth at that count
+    // reads as a spray of dots.
+    texture: 'smoke',
   },
 } as const satisfies Record<string, EmitterConfig>;
 
 export type EffectName = keyof typeof EFFECTS;
 
-/**
- * A soft radial dot, generated once rather than shipped.
- *
- * Keeps the asset budget where it belongs and stays crisp at any resolution.
- * Sixteen concentric rings is enough that the falloff reads as smooth.
- */
-export function createParticleTexture(renderer: Renderer, size = 64): Texture {
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('2d context unavailable for particle texture');
+/** Where each texture sits in the atlas, as a 2x2 grid of cells. */
+const ATLAS_LAYOUT: Readonly<Record<ParticleTextureName, readonly [number, number]>> = {
+  core: [0, 0],
+  soft: [1, 0],
+  smoke: [0, 1],
+  wisp: [1, 1],
+};
 
-  const half = size / 2;
-  const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
-  gradient.addColorStop(0, 'rgba(255,255,255,1)');
-  gradient.addColorStop(0.4, 'rgba(255,255,255,0.65)');
-  gradient.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, size, size);
+/**
+ * The four particle textures, generated once rather than shipped.
+ *
+ * ONE GPU TEXTURE, FOUR FRAMES, and that is the whole reason this is an atlas
+ * rather than four canvases. Pixi batches sprites by their texture SOURCE; four
+ * separate sources with particles interleaved in one container would break the
+ * batch on nearly every sprite and turn a single draw call into hundreds. Four
+ * frames of one source batch exactly as the single texture did before M9.5.
+ *
+ * Generated, so the asset budget does not move by a byte and nothing new is
+ * fetched. Deterministic, because the noise comes from `textureRandom` — two
+ * players see the same smoke, and a committed screenshot is reproducible.
+ */
+export function createParticleTextures(renderer: Renderer, cell = 64): ParticleTextureSet {
+  const canvas = document.createElement('canvas');
+  canvas.width = cell * 2;
+  canvas.height = cell * 2;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('2d context unavailable for particle textures');
+
+  const buffer = new Uint8ClampedArray(cell * cell * 4);
+  const image = ctx.createImageData(cell, cell);
+  for (const name of PARTICLE_TEXTURES) {
+    writeParticleTexture(name, cell, buffer);
+    image.data.set(buffer);
+    const [col, row] = ATLAS_LAYOUT[name];
+    ctx.putImageData(image, col * cell, row * cell);
+  }
+
+  const atlas = Texture.from(canvas);
+  const source = atlas.source;
+  source.scaleMode = 'linear';
+
+  const built = {} as Record<ParticleTextureName, Texture>;
+  for (const name of PARTICLE_TEXTURES) {
+    const [col, row] = ATLAS_LAYOUT[name];
+    built[name] = new Texture({
+      source,
+      frame: new Rectangle(col * cell, row * cell, cell, cell),
+      label: `particle-${name}`,
+    });
+  }
 
   void renderer;
-  return Texture.from(canvas);
+  return built;
 }
 
 /** Deterministic jitter, so an effect looks the same in a replayed golden. */
@@ -335,12 +578,31 @@ export interface ParticleSystem {
   destroy(): void;
 }
 
+/**
+ * Build the pool.
+ *
+ * @param texture the four-texture set, or a single Texture for every effect.
+ *   The single form is what the headless tests pass (`Texture.EMPTY`, which
+ *   needs no GPU) and what any caller that does not care about shape can pass;
+ *   it keeps every assertion written against the pool before M9.5 valid
+ *   unchanged, which is what the pooled-allocation contract is worth.
+ */
 export function createParticleSystem(
-  texture: Texture,
+  texture: Texture | ParticleTextureSet,
   capacity = 4000,
   seed = 0x9e3779b9,
 ): ParticleSystem {
   const container = new Container({ label: 'particles' });
+
+  /*
+    Resolved once, at construction. A per-spawn branch on which form was passed
+    would be a branch on the hot path for a question that cannot change.
+  */
+  const single = texture instanceof Texture ? texture : undefined;
+  const textures: ParticleTextureSet =
+    single !== undefined
+      ? { core: single, soft: single, smoke: single, wisp: single }
+      : (texture as ParticleTextureSet);
 
   // Every sprite that will ever exist, created now.
   const sprites: Sprite[] = new Array(capacity);
@@ -369,7 +631,7 @@ export function createParticleSystem(
   let liveCount = 0;
 
   for (let i = 0; i < capacity; i++) {
-    const sprite = new Sprite(texture);
+    const sprite = new Sprite(textures.soft);
     sprite.anchor.set(0.5);
     sprite.visible = false;
     container.addChild(sprite);
@@ -414,6 +676,13 @@ export function createParticleSystem(
     const sprite = sprites[i]!;
     sprite.visible = true;
     sprite.blendMode = config.additive ? 'add' : 'normal';
+    /*
+      Sprites are recycled across effects, so the texture is set per spawn like
+      the blend mode. It costs nothing to batch: all four frames share one
+      source (see `createParticleTextures`), so a plume particle and a dust
+      particle still draw in the same batch.
+    */
+    sprite.texture = textures[config.texture];
     // Reset, because sprites are recycled: a streak that died rotated would
     // hand its angle to whatever plume particle claimed the slot next.
     if (stretchOf[i] === 1) sprite.rotation = 0;

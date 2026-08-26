@@ -9,7 +9,7 @@
   import { createCloudDeck } from '$view/clouds';
   import { createAudioEngine, readMuted, type AudioEngine } from '$audio/engine';
   import { createVehicle } from '$view/vehicle';
-  import { createParticleSystem, createParticleTexture } from '$view/particles';
+  import { createParticleSystem, createParticleTextures } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
   import { createSky } from '$view/sky';
   import { bloomIntensity, createPostPass, heatIntensity } from '$view/post';
@@ -479,7 +479,7 @@
       const sky = createSky(view.app.renderer);
       view.layers.sky.addChild(sky.container);
 
-      const particles = createParticleSystem(createParticleTexture(view.app.renderer));
+      const particles = createParticleSystem(createParticleTextures(view.app.renderer));
       const effects = createEffectDriver();
       view.layers.effectsBehind.addChild(particles.container);
 
