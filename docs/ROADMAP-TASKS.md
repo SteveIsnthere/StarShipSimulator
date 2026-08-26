@@ -389,7 +389,7 @@ out is the point of the whole milestone.*
   including its scoping; node count asserted constant over a long flight (the audio version of the
   M3.7 leak test); e2e sees the context reach `running` after a gesture and `suspended` when muted;
   first-load JS unchanged.
-- [ ] **M8.2 Engine rumble, synthesised** — filtered noise plus low oscillators, not a sample loop:
+- [x] **M8.2 Engine rumble, synthesised** — filtered noise plus low oscillators, not a sample loop:
   a loop long enough not to sound looped costs hundreds of kB and cannot follow the throttle
   continuously. `audio/params.ts` holds the curves as pure functions of `engines.running` and
   `vehicle.throttleCurrent`, given the same treatment as M6.7's look curves. Accept: curves pinned
@@ -1735,3 +1735,28 @@ out is the point of the whole milestone.*
   version of the M3.7 leak test. New budget line — audio ≤ 250 kB, currently 0.0 kB, because § 3.1
   chose synthesis over sample loops and only the M8.4 transients will be files. First-load JS
   193.9 → **194.6 kB**: 0.7 kB for the whole layer, no library, no assets.
+- 2026-08-26 · M8.2 · **Engine rumble, synthesised.** Filtered noise plus a sub-oscillator: the
+  noise is the plume, the oscillator is the vehicle it is bolted to, and both are needed — noise
+  alone is a hiss and a tone alone is a hum. Zero bytes on the wire, and the audio budget still
+  reads 0.0 kB.
+  **Engine count and throttle enter separately**, because § 1's whole argument is that three Raptors
+  at 40% and two at 100% produce nearly the same thrust number and sound nothing alike; a single
+  thrust-derived level would collapse exactly the distinction the sound exists to make. Count enters
+  as a square root — three equal sources are 4.8 dB above one, not three times as loud — and
+  throttle with a floor at 0.55, because a Raptor at idle is still an enormous noise and a curve
+  going to zero would make a throttle-down sound like a shutdown.
+  **THE RENDER TEST FOUND A REAL BUG.** `node-web-audio-api` gives Node a genuine
+  `OfflineAudioContext`, so § 6's "an assertion about a buffer's RMS rather than an opinion" is
+  literally that. The vacuum fade measured **0.106** of sea level against a documented floor of
+  0.22 — because the sub-oscillator's gain was set to `level * 0.33` and then fed a gain that
+  applies `level` again, so the sub faded as the SQUARE while the noise faded linearly. Nobody would
+  have heard that as a bug; a throttle-down would simply have lost its bottom end faster than
+  intended, which sounds like a choice. The arithmetic gave it away. Fixed, and the ratio is now
+  0.2200 — asserted to three places, because a loose bound is what let it through the first time.
+  Measured: three engines 40% → 100% RMS 0.091 → 0.131; one → three engines 0.075 → 0.131; three at
+  40% (0.091) distinguishable from two at 100% (0.107).
+  Two test premises were wrong and both were worth recording: every preset starts with all three
+  Raptors **off**, so the autopilot has to fly them alight (landing-burn under autoLand lights the
+  first at step 38); and the fake context's AudioParams had no `setTargetAtTime`, which is a stub
+  gap rather than a product bug — the same code renders correctly under the real context, which is
+  why both kinds of test exist.

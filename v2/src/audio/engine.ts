@@ -17,6 +17,9 @@
  * budget gate asserts first-load JS is unchanged by this milestone.
  */
 import { createMixer, createNoiseBuffer, type AudioGraphContext, type Mixer } from './graph';
+import { createAudioParams, readParams, type AudioParams } from './params';
+import { createEngineVoice, type Voice } from './voices';
+import type { SimState } from '$core/state';
 
 /** What a browser hands us. Narrowed so tests can stand in for it. */
 export interface AudioHost {
@@ -46,6 +49,16 @@ export interface AudioEngine {
   readonly mixer: Mixer | null;
   /** The shared looping noise buffer, built once with the graph. */
   readonly noise: AudioBuffer | null;
+  /**
+   * Push one frame of simulation state.
+   *
+   * Called from App.svelte's single rAF subscriber, like every binder in
+   * `hud/`. Costs one property read while muted or before the first gesture,
+   * and a handful of diffed comparisons after it.
+   */
+  update(state: SimState): void;
+  /** AudioParam writes performed by the last update, for the diff tests. */
+  readonly lastWriteCount: number;
   destroy(): Promise<void>;
 }
 
@@ -94,6 +107,10 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
   let noise: AudioBuffer | null = null;
   let muted = options.muted ?? readMuted(storage);
 
+  const voices: Voice[] = [];
+  const params: AudioParams = createAudioParams();
+  let lastWriteCount = 0;
+
   return {
     get muted() {
       return muted;
@@ -107,6 +124,21 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
     get noise() {
       return noise;
     },
+    get lastWriteCount() {
+      return lastWriteCount;
+    },
+
+    update(state) {
+      lastWriteCount = 0;
+      // Nothing built yet, or switched off: one comparison and out. The frame
+      // path must not pay for a feature that is not running.
+      if (!context || muted || voices.length === 0) return;
+      readParams(state, params);
+      for (const voice of voices) {
+        voice.update(params);
+        lastWriteCount += voice.lastWriteCount;
+      }
+    },
 
     async unlock() {
       // Muted means muted: a gesture must not start audio someone switched off.
@@ -115,6 +147,8 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
         context = host.create();
         mixer = createMixer(context);
         noise = createNoiseBuffer(context);
+        // Built once, here, and never rebuilt — the claim the leak test makes.
+        voices.push(createEngineVoice({ context, mixer, noise }));
       }
       if (context.state !== 'running') await context.resume();
     },
@@ -129,6 +163,8 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
 
     async destroy() {
       if (!context) return;
+      for (const voice of voices) voice.stop();
+      voices.length = 0;
       await context.close();
       context = null;
       mixer = null;

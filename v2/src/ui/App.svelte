@@ -579,6 +579,11 @@
         // and the narration beside it can never disagree within a frame.
         timeline.observe(s);
 
+        // Sound, from the same tick and under the same law: diffed before
+        // writing, and costing one comparison while muted or before the first
+        // gesture (M8.2).
+        audio.update(s);
+
         hud?.update(s);
         metrics?.update(s);
         timelineBinder?.update();

@@ -14,6 +14,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createAudioEngine, MUTE_KEY, readMuted, writeMuted } from '$audio/engine';
 import { BUSES, BUS_GAIN, createMixer, createNoiseBuffer, NOISE_SECONDS } from '$audio/graph';
+import { createScenarioState, getScenario } from '$core/scenarios';
+import { step } from '$core/step';
+import * as cmd from '$core/control/commands';
 
 /**
  * A minimal stand-in for an AudioContext.
@@ -24,13 +27,38 @@ import { BUSES, BUS_GAIN, createMixer, createNoiseBuffer, NOISE_SECONDS } from '
  */
 function fakeContext() {
   let created = 0;
+  /**
+   * One node, with AudioParams that record rather than ramp.
+   *
+   * `setTargetAtTime` is here because the voices use it — a gain that jumps
+   * clicks — and a stub without it fails with a TypeError the moment a real
+   * voice is driven through it. Worth noting that is a STUB gap rather than a
+   * product bug: the same code renders correctly under the real
+   * `OfflineAudioContext` in render.test.ts, which is why both kinds of test
+   * exist.
+   */
+  const param = () => ({
+    value: 0,
+    setTargetAtTime(v: number) {
+      this.value = v;
+    },
+    setValueAtTime(v: number) {
+      this.value = v;
+    },
+    linearRampToValueAtTime(v: number) {
+      this.value = v;
+    },
+  });
   const node = () => {
     created += 1;
     return {
-      gain: { value: 0 },
-      frequency: { value: 0 },
-      Q: { value: 0 },
+      gain: param(),
+      frequency: param(),
+      Q: param(),
+      detune: param(),
       type: '',
+      buffer: null as unknown,
+      loop: false,
       connect: () => {},
       disconnect: () => {},
       start: () => {},
@@ -259,5 +287,69 @@ describe('destroy', () => {
     expect(context.close).toHaveBeenCalled();
     expect(engine.mixer).toBeNull();
     expect(engine.state).toBe('idle');
+  });
+});
+
+describe('the engine drives its voices from the tick (M8.2)', () => {
+  const state = () => {
+    const s = createScenarioState(getScenario('landing-burn')!);
+    return s;
+  };
+
+  it('costs one comparison before the first gesture', () => {
+    // The frame path must not pay for a feature that is not running. This is
+    // called every frame from the moment the page loads, and for the first
+    // twenty seconds of every session there is no context at all.
+    const engine = createAudioEngine({
+      host: { create: () => fakeContext() as never },
+      storage: workingStorage(),
+    });
+    engine.update(state());
+    expect(engine.lastWriteCount).toBe(0);
+  });
+
+  it('costs one comparison while muted', async () => {
+    const engine = createAudioEngine({
+      host: { create: () => fakeContext() as never },
+      storage: workingStorage(),
+    });
+    await engine.unlock();
+    await engine.setMuted(true);
+    engine.update(state());
+    expect(engine.lastWriteCount).toBe(0);
+  });
+
+  it('builds its voices once, however many gestures arrive', async () => {
+    const context = fakeContext();
+    const engine = createAudioEngine({
+      host: { create: () => context as never },
+      storage: workingStorage(),
+    });
+    await engine.unlock();
+    const afterFirst = context.nodesCreated;
+    for (let i = 0; i < 20; i++) await engine.unlock();
+    expect(context.nodesCreated).toBe(afterFirst);
+  });
+
+  it('writes when the flight changes and not when it repeats', async () => {
+    const engine = createAudioEngine({
+      host: { create: () => fakeContext() as never },
+      storage: workingStorage(),
+    });
+    await engine.unlock();
+
+    let s = state();
+    cmd.toggleAutoLand(s);
+    for (let i = 0; i < 600; i++) s = step(s, 1 / 120);
+
+    engine.update(s);
+    const first = engine.lastWriteCount;
+    expect(first).toBeGreaterThan(0);
+
+    // The same state again: nothing moved, so nothing is written. An AudioParam
+    // set to the value it already holds is a wasted call, and one per parameter
+    // per frame at 120 Hz is how a Web Audio graph starts stuttering.
+    engine.update(s);
+    expect(engine.lastWriteCount).toBe(0);
   });
 });
