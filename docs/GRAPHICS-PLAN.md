@@ -146,6 +146,14 @@ removing the latch. § 2.1 re-creates the condition on every dropped frame.
 properties M7.3 established as the camera's acceptance line still hold, with a
 sixth added — *the vehicle returns to frame from any starting error*.
 
+> **Owner decision, 2026-08-26.** Give up only when `crashed`. The two
+> alternatives were offered and declined: fixing the clock alone and leaving the
+> branch verbatim (re-entry would work, but the same branch would still be
+> waiting for the third time it bites), and removing the give-up entirely (the
+> lens would chase debris, which is the behaviour 2021 deliberately wrote out).
+> This is the smallest change that keeps the original intent and makes a flying
+> vehicle always recoverable.
+
 ### 2.3 Dynamic pressure is in kPa and three constants think it is Pa
 
 `getDynamicPressure` is `airDensity * trueSpeed ** 2 * 0.0005` — one half, with a
@@ -166,6 +174,12 @@ Q peaks at 23.6 kPa on a launch and 28.6 kPa on an RTLS, so `q / 30_000` is
 0.00095 and the aerodynamic half of the shake has contributed nothing since M7.3
 shipped. The doc comment beside it says "Max-Q on an ascent is around 30 kPa" —
 the intent was right and the units were not.
+
+> **Owner decision, 2026-08-26.** The shake lands at M7.3's designed amplitude —
+> `SHAKE_FRACTION = 0.006`, 0.6% of viewport height at full — rather than being
+> dialled back for its first outing. It has never once fired, so every ascent
+> will feel different the moment M9.3 lands; whether that amplitude is right is a
+> viewing decision to be made after seeing it, not a number to hedge in advance.
 
 The same class of error is live once more as a *look* defect rather than a dead
 one: `effects.ts` ramps the fin vortex trail to full intensity at
@@ -335,18 +349,32 @@ this plan says so for the same reason the sound plan said it.
 - **Five Playwright projects**, phone viewports included.
 - **The frozen 2021 tree at `v2/tests/fixtures/legacy/` is never modified.**
 
-### The one thing that needs an owner decision
+### Units in `core/`: resolved, and wider than one comment
 
 `SimState.forces.dynamicPressure` is documented `/** psi. */` and it is kPa. That
 comment is the root cause of two shipped bugs — one found at M8.3, one at § 2.3 —
 and it is inside `core/`, where the milestone rule says nothing changes.
 
-A comment cannot move a golden digest. The recommendation is a **narrow,
-comment-only exception**: correct the JSDoc on that one field, in the same commit
-as M9.3, with the seven digests re-verified in that commit as proof. If the owner
-would rather keep the rule absolute, the fallback is to leave the comment wrong
-and rely on M9.3's range test to catch the next occurrence — which works, but
-leaves a landmine labelled as a signpost.
+> **Owner decision, 2026-08-26.** Fix it, **and audit every unit annotation in
+> `core/` against what the code actually produces.** Comment-only, its own commit,
+> with the seven golden digests re-verified in that commit as proof. A comment
+> cannot move a digest.
+
+That widening is the right call and it changes the shape of the milestone. One
+wrong unit comment is a typo; the question of how many others are wrong is a
+different question, and it is worth answering once rather than discovering the
+answer one shipped bug at a time. `dynamicPressure` is already known to be
+mislabelled, `thermalPower` is documented as "arbitrary thermal units" and
+compared against a limit that M2.10 recalibrated, and the 2021 tree mixed psi,
+kPa and Pa freely — this port inherited that and has never checked it.
+
+So it gets **its own task and its own commit** (M9.4), rather than riding along
+inside M9.3. A commit that touches `core/` must be reviewable at a glance as
+touching nothing but comments; mixing it with a behavioural fix in `view/` is
+exactly how a core diff stops being obvious. The seven digests are re-verified in
+that commit, and every correction is justified against the arithmetic that
+produces the value — a unit comment is a claim, and each one gets checked rather
+than assumed.
 
 ---
 
@@ -358,12 +386,18 @@ The task list is `docs/ROADMAP-TASKS.md` § M9.
 |---|---|
 | M9.1 | The pixel harness — structural assertions about what is on screen |
 | M9.2 | One clock for the view, and a camera that always recovers |
-| M9.3 | Q is kPa — the unit audit, and a test that cannot rot |
-| M9.4 | The particle texture set |
-| M9.5 | The Raptor plume: core, bell, diamonds |
-| M9.6 | The cloud deck, softened |
-| M9.7 | The ground and the far earth |
-| M9.8 | Perf, budget, mobile, ship |
+| M9.3 | Q is kPa — the unit audit in `view/`, `audio/` and `hud/` |
+| M9.4 | Units, audited in `core/` — comment-only, digests re-verified |
+| M9.5 | The particle texture set |
+| M9.6 | The Raptor plume: core, bell, diamonds |
+| M9.7 | The cloud deck, softened |
+| M9.8 | The ground and the far earth |
+| M9.9 | Perf, budget, mobile, ship |
+
+> **Owner decision, 2026-08-26.** All nine run straight through in one goal, with
+> the report at the end. The alternative — stopping after the bug fixes to look at
+> a working re-entry before spending effort on the look — was offered and
+> declined.
 
 M9.1 first for the reason § 5 gives — the same reason M6.1 moved the test ids
 before a single pixel changed. M9.2 and M9.3 before any look work, because a

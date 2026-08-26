@@ -431,6 +431,13 @@ is empty; the seven golden digests are unchanged; lint + test + build + playwrig
 five projects) green; one task per commit, id-prefixed. New art assets: none. Every
 texture added here is generated at runtime, so the asset budget does not move.*
 
+*Four owner decisions, 2026-08-26, all recorded in the plan: (1) the unit comments in
+`core/` get fixed AND audited — comment-only, in M9.4's own commit, digests re-verified,
+which is the ONE exception to the frozen-core rule above and is bounded to comments;
+(2) all nine tasks run straight through in one goal; (3) the camera gives up only when
+`crashed`; (4) airframe shake lands at M7.3's designed amplitude rather than dialled back
+for its first outing.*
+
 - [ ] **M9.1 The pixel harness** — the reason this comes first is that two of the three bugs
   in the plan shipped through three milestones of screenshot review, and the investigation
   itself reached the wrong conclusion twice from looking at a PNG. A helper in `tests/e2e/`
@@ -451,7 +458,10 @@ texture added here is generated at runtime, so the asset budget does not move.*
   the caller discards it. The view must be driven by SIMULATED elapsed time. Second half:
   `centerizeAcceleration` returns exactly 0 beyond `viewport.physicalWidth / 2`, so the error
   freezes rather than recovering — a 2021 "do not lurch after an explosion" branch applied to a
-  vehicle that is flying normally. Make the give-up conditional on `crashed`. **Bug-fix tier
+  vehicle that is flying normally. **Owner decision: give up only when `crashed`** — the
+  smallest change that keeps the original intent and makes a flying vehicle always
+  recoverable; fixing the clock alone and leaving the branch verbatim was offered and
+  declined, as was removing the give-up entirely. **Bug-fix tier
   discipline: the failing test lands FIRST, in the same commit as the fix.** Accept: the
   vehicle-in-frame invariant runs over all seven goldens at every sampled second and is red
   before the fix and green after, with both runs shown; M7.3's five camera properties still
@@ -470,11 +480,29 @@ texture added here is generated at runtime, so the asset budget does not move.*
   constant three orders of magnitude outside the observed range is a bug whatever its comment
   says, and this test catches both the fixed one and the next one; shake amplitude pinned at
   max-Q on launch and RTLS and asserted non-zero; the harness shows the frame moving at max-Q
-  and still at rest on the pad. **See the plan § 6: the `/** psi. */` JSDoc on
-  `SimState.forces.dynamicPressure` is the root cause of both bugs and is inside `core/`. A
-  comment-only correction, with the seven digests re-verified in the same commit, needs the
-  owner's yes.**
-- [ ] **M9.4 The particle texture set** — `createParticleTexture` builds one 64 px radial
+  and still at rest on the pad. **Owner decision: the shake lands at
+  `SHAKE_FRACTION = 0.006`, M7.3's designed amplitude**, rather than dialled back for its
+  first outing — it has never once fired, so every ascent will feel different the moment
+  this lands, and whether 0.6% of viewport height is right is a viewing decision to be made
+  after seeing it. The `core/` JSDoc that caused this is M9.4's job, not this one's.
+- [ ] **M9.4 Units, audited in `core/`** — **the one exception to this milestone's frozen-core
+  rule, granted by the owner on 2026-08-26, and bounded to COMMENTS.** `dynamicPressure` is
+  documented `/** psi. */` and is kPa; that one comment is the root cause of two shipped bugs,
+  found a milestone apart. One wrong unit annotation is a typo — how many others are wrong is a
+  different question, and it is worth answering once rather than discovering the answer one
+  shipped bug at a time. `thermalPower` is "arbitrary thermal units" compared against a limit
+  M2.10 recalibrated; the 2021 tree mixed psi, kPa and Pa freely and this port inherited that
+  without ever checking it. Audit EVERY unit annotation in `core/` against the arithmetic that
+  actually produces the value — a unit comment is a claim, and each one gets checked rather than
+  assumed. Its own commit, so a core diff is reviewable at a glance as touching nothing but
+  comments; mixing it into M9.3's behavioural fix is exactly how a core diff stops being obvious.
+  Accept: `git diff v2/src/core` in this commit contains comment lines and nothing else, shown;
+  the seven golden digests re-verified byte-identical against their M2.14 values IN THIS COMMIT;
+  every correction justified in the commit message against the expression that produces the
+  value; where a unit genuinely cannot be pinned down (`thermalPower`), the comment says so
+  explicitly rather than guessing.
+
+- [ ] **M9.5 The particle texture set** — `createParticleTexture` builds one 64 px radial
   gradient and all nine effects draw with it, so plume, dust, plasma, shock cone and explosion
   are the same dot in different tints. Four generated textures instead — `core` (tight hot
   centre for additive fire), `soft` (today's gradient, so everything tuned against it is
@@ -484,7 +512,7 @@ texture added here is generated at runtime, so the asset budget does not move.*
   the textures are deterministic across runs, pinned the way `puffRandom` is; the pooled
   allocation contract is unchanged, proved by the existing count test; the harness shows smoke
   and fire separating in a colour histogram where today they do not.
-- [ ] **M9.5 The Raptor plume** — a plume particle travels `(95/2.2)(1 - e^-0.704) ≈ 21.9 m`
+- [ ] **M9.6 The Raptor plume** — a plume particle travels `(95/2.2)(1 - e^-0.704) ≈ 21.9 m`
   before it dies, on a 50 m vehicle, from a single emitter: it reads as a candle because it is
   one. Three emitters on the same nozzle point — a short near-white high-velocity core at the
   throat, the translucent expanding bell, and shock diamonds as a periodic brightness along the
@@ -497,7 +525,7 @@ texture added here is generated at runtime, so the asset budget does not move.*
   wider and dimmer in vacuum; the spacing curve pinned at the altitudes the seven scenarios
   reach, monotonic and bounded, reaching zero before the diamonds would be physically absent;
   peak live particle count reported against M7's 576-of-4000 baseline.
-- [ ] **M9.6 The cloud deck, softened** — eighteen `Graphics` puffs of three overlapping
+- [ ] **M9.7 The cloud deck, softened** — eighteen `Graphics` puffs of three overlapping
   ellipses each, all at `alpha = opacity * 0.5` and one tint, is a paper cutout and reads as
   one. Sprites on the `wisp` texture with per-puff alpha, scale and aspect jitter from the
   existing `puffRandom` hash, and the deck split into two sub-decks at slightly different
@@ -507,7 +535,7 @@ texture added here is generated at runtime, so the asset budget does not move.*
   the distant earth. Accept: every existing test in `tests/view/clouds.test.ts` green
   unmodified — if one has to change, the change is the finding and it gets said out loud; the
   harness shows a wider tone spread across the deck than the single flat value today.
-- [ ] **M9.7 The ground and the far earth** — `GROUND_COLOR` fills one `Graphics` with a curved
+- [ ] **M9.8 The ground and the far earth** — `GROUND_COLOR` fills one `Graphics` with a curved
   top edge and no texture at all, so at 120 m the bottom third of the frame is a single colour;
   `distant-earth.ts` has the same problem one layer out, a band with a hard top edge and a
   repeating mark pattern that reads as bumps. Both get a generated low-frequency noise fill,
@@ -518,15 +546,15 @@ texture added here is generated at runtime, so the asset budget does not move.*
   files, asset budget byte-identical; the harness shows tone spread across the ground band at
   three altitudes where today it shows one value; the roaming rule and the fixed StarBase
   positions are unchanged. **The pig is at x = 0 and stays there.**
-- [ ] **M9.8 Perf, budget, mobile, ship** — the standard closer. Frame-path cost of the added
+- [ ] **M9.9 Perf, budget, mobile, ship** — the standard closer. Frame-path cost of the added
   emitters and textures measured against the M7 baseline and reported, not assumed; texture
   generation timed at mount and shown to be off the critical path; all five Playwright projects
   including the four phone viewports; fresh screenshots — including, for the first time, a
   re-entry with the vehicle actually in it — and the README updated. Accept: full gate on all
   five projects; first-load JS ≤ 250 kB gzip, fonts ≤ 80 kB, audio ≤ 250 kB, asset budget
-  unmoved; `git diff v2/src/core` empty over the whole milestone (or, if § 6's exception was
-  granted, exactly one comment-only hunk) and the seven digests byte-identical to their M2.14
-  values. **What no test covers is whether it LOOKS good — that is a viewing decision, and this
+  unmoved; `git diff v2/src/core` over the whole milestone contains comment lines and nothing
+  else — M9.4's commit is the only one that touches core at all — and the seven digests
+  byte-identical to their M2.14 values. **What no test covers is whether it LOOKS good — that is a viewing decision, and this
   acceptance line says so rather than pretending otherwise.**
 
 ## Log
