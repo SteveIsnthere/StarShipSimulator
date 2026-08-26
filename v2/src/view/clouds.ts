@@ -107,7 +107,22 @@ export function cloudLineFraction(altitude: number, physicalHeight: number): num
  * world rather than a screen-space cue, so thinning it out IS the honest
  * behaviour rather than a betrayal of the cue.
  */
-export const CLOUD_FADE_ALTITUDE = 30_000;
+export const CLOUD_FADE_ALTITUDE = 45_000;
+
+/**
+ * m — the deck holds full strength up to here, and only then starts to thin.
+ *
+ * Added at the M9 look pass. The fade used to begin the moment the vehicle
+ * cleared the deck, so by twenty kilometres the layer was at 28% and read as a
+ * smear — and twenty kilometres is exactly where a climb has nothing else in
+ * the middle of the frame. From up there a cloud layer is one of the most
+ * PRESENT things in the view, not one of the faintest: it is what the ground
+ * looks like from an aeroplane.
+ *
+ * Nine kilometres is a cruising altitude, which is the point — everything below
+ * it is a view a passenger would recognise.
+ */
+export const CLOUD_HOLD_ALTITUDE = 9_000;
 
 /**
  * How solid the deck is, 0 to 1.
@@ -118,9 +133,9 @@ export const CLOUD_FADE_ALTITUDE = 30_000;
  */
 export function cloudOpacity(altitude: number): number {
   if (!Number.isFinite(altitude)) return 0;
-  if (altitude <= CLOUD_ALTITUDE) return 1;
+  if (altitude <= CLOUD_HOLD_ALTITUDE) return 1;
   if (altitude >= CLOUD_FADE_ALTITUDE) return 0;
-  const t = (altitude - CLOUD_ALTITUDE) / (CLOUD_FADE_ALTITUDE - CLOUD_ALTITUDE);
+  const t = (altitude - CLOUD_HOLD_ALTITUDE) / (CLOUD_FADE_ALTITUDE - CLOUD_HOLD_ALTITUDE);
   // Smoothstep down, so the deck neither vanishes at a threshold nor lingers
   // as a suspicious grey smear at 25 km.
   return 1 - t * t * (3 - 2 * t);
@@ -140,7 +155,7 @@ export function cloudOpacity(altitude: number): number {
  * about the allocation contract rather than about the scene graph's shape. It
  * still holds, unmodified.
  */
-export const CLOUD_PUFFS = 36;
+export const CLOUD_PUFFS = 60;
 
 /**
  * How much slower the far sub-deck scrolls than the near one.
@@ -168,8 +183,22 @@ export const FAR_DECK_ALPHA = 0.62;
  */
 export const FAR_DECK_HORIZON_DROP = 0.016;
 
-/** px — nominal spacing between puffs on screen. */
-export const PUFF_SPACING = 190;
+/**
+ * px — nominal spacing between puffs on screen.
+ *
+ * MUST BE SMALLER THAN A PUFF IS WIDE, and until the M9 look pass it was not.
+ * Eighteen puffs per sub-deck at 190 px covered 3420 px, so about seven of them
+ * were on a 1280 px screen at a time — seven separate blobs with sky between
+ * them, which is not a deck, it is a row of lozenges. It is exactly what the
+ * screenshots showed once the HUD was taken off them.
+ *
+ * A cloud layer is CONTINUOUS with a ragged edge, and the only way to get that
+ * out of sprites is to overlap them enough that the individual sprite stops
+ * being the unit the eye finds. Puffs are 120-420 px across, so 114 px of
+ * spacing puts two to four of them over any given point. The span is unchanged
+ * at 30 x 114 = 3420 px, which is what the scroll wraps against.
+ */
+export const PUFF_SPACING = 114;
 
 /**
  * A counter-based pseudo-random, so the deck is the same deck every run.
@@ -240,8 +269,14 @@ export function createCloudDeck(texture: Texture = Texture.EMPTY): CloudDeck {
     // across the same span rather than the far one being a copy shifted along.
     const withinDeck = i < FAR_COUNT ? i : i - FAR_COUNT;
     jitterX[i] = (puffRandom(i, 1) - 0.5) * PUFF_SPACING * 0.7;
-    jitterY[i] = (puffRandom(i, 2) - 0.5) * 26;
-    width[i] = 150 + puffRandom(i, 3) * 230;
+    /*
+      And they are not all at one HEIGHT either. 26 px of jitter on a deck whose
+      puffs are 190 px wide is no jitter at all — the row read as a ruled line
+      with bumps on it. 96 px is comparable to a puff's own height, which is
+      what makes the edge of the deck ragged rather than combed.
+    */
+    jitterY[i] = (puffRandom(i, 2) - 0.5) * 96;
+    width[i] = 120 + puffRandom(i, 3) * 300;
     /*
       THE FLATNESS THIS TASK EXISTS TO FIX. Every puff used to be drawn at
       `opacity * 0.5` and at exactly 2:1, so the deck had one tone and one shape
@@ -249,8 +284,22 @@ export function createCloudDeck(texture: Texture = Texture.EMPTY): CloudDeck {
       already decides position and size — no new source of randomness, and the
       deck is still the same deck on every reload.
     */
-    aspect[i] = 0.52 + puffRandom(i, 4) * 0.38;
-    opacityOf[i] = 0.5 + puffRandom(i, 5) * 0.5;
+    aspect[i] = 0.46 + puffRandom(i, 4) * 0.5;
+    /*
+      LOWER THAN BEFORE, BECAUSE THERE ARE NOW THREE TIMES AS MANY OVERLAPS.
+      Alpha compounds: three puffs at 0.6 over one another come out at 0.94 and
+      the deck burns to flat white, which is the exact failure M9.7 measured and
+      fixed (`blownShare < 0.02` in tests/e2e/pixels.spec.ts). At 0.18-0.60 the
+      same three land near 0.77 — solid enough to read as cloud, short of the
+      white the assertion watches for.
+
+      The FLOOR is not free to go lower: `tests/view/clouds.test.ts` requires
+      every drawn alpha to clear 0.15, so that the deck stays one deck instead
+      of becoming a scattering of unrelated blobs, and the far sub-deck is drawn
+      at 0.62 of these numbers. 0.25 x 0.62 = 0.155 is the bottom of the range
+      that assertion leaves, and it is where this sits.
+    */
+    opacityOf[i] = 0.25 + puffRandom(i, 5) * 0.35;
 
     const puff = new Sprite(texture);
     puff.anchor.set(0.5);

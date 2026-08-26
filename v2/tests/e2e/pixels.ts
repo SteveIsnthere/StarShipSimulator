@@ -136,6 +136,42 @@ export interface ExtentQuery {
   readonly maxLuma?: number;
   /** When true, only red-dominant saturated pixels count — fire, not cloud. */
   readonly warmOnly?: boolean;
+  /**
+   * How far red must lead blue for `warmOnly` to accept a pixel. Default 40.
+   *
+   * RAISED WHERE FIRE HAS TO BE TOLD FROM GROUND. The default separates a plume
+   * from a blue sky, which is all it ever had to do — until the M9 look pass
+   * warmed `GROUND_COLOR` from a grey-tan to something with chroma in it, at
+   * which point the ground itself passed the test at a margin of 62 and every
+   * plume measurement started reporting the terrain. A margin of 80 keeps the
+   * ground out and lets the plume through, and it is a parameter rather than a
+   * new default because "warm" means something different against a blue sky
+   * than it does against a brown one.
+   */
+  readonly minWarmth?: number;
+  /**
+   * A warmth that admits a pixel EVEN IF it is below `minLuma`. OR, not AND.
+   *
+   * The one place the harness needs a disjunction, and it needs it because fire
+   * is two different things. The throat is nearly white — no chroma at all, and
+   * only its BRIGHTNESS tells it from anything else. The halo around a vacuum
+   * plume is the opposite: spread over 5.3x the area it is dim, and only its
+   * COLOUR tells it from the dark sky it sits on. One threshold cannot hold
+   * both, and the M9 look pass proved it by trying: raising `minLuma` to 150 to
+   * keep the newly-warm ground out of the low-altitude measurement also cut the
+   * vacuum halo down from 0.56 ship-lengths across to something that no longer
+   * beat the low-altitude figure, and the spread assertion — the whole point of
+   * `plumeSpreadFactor` — failed on two projects.
+   *
+   * `minLuma: 150, orWarmth: 100` reads as "bright, or unmistakably on fire".
+   * The ground is neither: its brightest is luma 147 and red leads blue by at
+   * most 62 there, so it fails both clauses. The halo passes the second at an
+   * emitted alpha of about 0.48, which is MORE of the plume than the luma floor
+   * of 90 this replaced ever admitted.
+   */
+  readonly orWarmth?: number;
+  /** When true, red-dominant pixels are EXCLUDED — a neutral vehicle, not terrain. */
+  readonly excludeWarm?: boolean;
 }
 
 /** Where the bright thing is, in IMAGE pixels. */
@@ -249,7 +285,8 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
 
       const luma = (r: number, g: number, b: number) => 0.299 * r + 0.587 * g + 0.114 * b;
       /** Fire: clearly red-dominant and not washed out to white. */
-      const isWarm = (r: number, g: number, b: number) => r > b + 40 && r > g + 20 && r > 90;
+      const isWarm = (r: number, g: number, b: number, margin = 40) =>
+        r > b + margin && r > g + 20 && r > 90;
       /** Smoke: near-neutral and neither black nor blown out. */
       const isGrey = (r: number, g: number, b: number) =>
         Math.max(r, g, b) - Math.min(r, g, b) < 26 && r > 40 && r < 232;
@@ -336,9 +373,13 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
             const g = data[i + 1]!;
             const b = data[i + 2]!;
             const l = luma(r, g, b);
-            if (l < query.minLuma) continue;
+            // See `orWarmth`: bright, OR unmistakably on fire.
+            const blazing = query.orWarmth !== undefined && r - b >= query.orWarmth;
+            if (l < query.minLuma && !blazing) continue;
             if (query.maxLuma !== undefined && l > query.maxLuma) continue;
-            if (query.warmOnly === true && !isWarm(r, g, b)) continue;
+            const warm = isWarm(r, g, b, query.minWarmth ?? 40);
+            if (query.warmOnly === true && !warm) continue;
+            if (query.excludeWarm === true && warm) continue;
             count++;
             if (px < left) left = px;
             if (px > right) right = px;

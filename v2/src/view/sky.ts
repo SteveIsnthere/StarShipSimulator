@@ -26,8 +26,17 @@
 import { Container, Graphics, Sprite, Texture, type Renderer } from 'pixi.js';
 import type { CameraState, Viewport } from './camera';
 
-/** The 2021 sky colour. The anchor for the whole palette. */
-export const SKY_COLOR = { r: 0xa7, g: 0xbd, b: 0xd9 } as const;
+/**
+ * The sky at the HORIZON, at sea level. The anchor for the whole palette.
+ *
+ * WAS 0xa7bdd9, 2021's flat fill, and it was the wrong thing to anchor to — see
+ * `createGradientTexture` for the argument. A tint MULTIPLIES, so the anchor has
+ * to be the brightest colour the sky ever shows and every other part of the
+ * gradient is a fraction of it. Anchoring on a mid-blue meant the zenith could
+ * only ever be a darker, greyer version of the same hue, which is what made
+ * every frame read as fog.
+ */
+export const SKY_COLOR = { r: 0xc3, g: 0xd3, b: 0xe2 } as const;
 
 /** pixi_init.js:10-13 — where the blue starts and finishes draining. */
 export const DARKEN_START_ALTITUDE = 20_000;
@@ -79,10 +88,40 @@ export interface Sky {
 }
 
 /**
+ * The gradient's stops, zenith first, as multipliers on `SKY_COLOR`.
+ *
+ * Exported so `tests/view/sky.test.ts` can assert the thing that matters about
+ * them — that they carry HUE and not only value — without needing a canvas.
+ */
+export const SKY_GRADIENT_STOPS = [
+  { at: 0, r: 103, g: 152, b: 219 },
+  { at: 0.35, r: 150, g: 186, b: 231 },
+  { at: 0.7, r: 210, g: 228, b: 247 },
+  { at: 1, r: 255, g: 255, b: 255 },
+] as const;
+
+/**
  * A vertical gradient texture, one pixel wide and stretched.
  *
- * Built once. The colours are white-to-transparent so the whole thing can be
- * tinted per frame, which costs nothing, rather than rebuilt.
+ * THE STOPS CARRY HUE, NOT JUST VALUE, and that is the whole of this function.
+ *
+ * They were greyscale — 150, 215, 255 — which means the gradient could only ever
+ * make the sky DARKER toward the zenith, never bluer. Multiply one colour by a
+ * scalar and you get the same hue at a different brightness, so the sky ran from
+ * a grey-blue horizon to a greyer, darker grey-blue overhead, and read as fog in
+ * every screenshot this project has ever taken. A real sky changes hue as well:
+ * deep saturated blue overhead, pale and almost white where the air is thickest.
+ *
+ * Per-channel stops make that possible under the same single tint. Against
+ * `SKY_COLOR` at sea level they produce:
+ *
+ *   zenith   #4f7ec2   a blue that is actually blue
+ *   mid      #739acd
+ *   upper    #a1bddb
+ *   horizon  #c3d3e2   pale, where the line of sight is longest
+ *
+ * And the altitude fade still works exactly as it did, because it is still one
+ * multiply: `skyTint` darkens the anchor and every stop follows it down.
  */
 function createGradientTexture(height = 256): Texture {
   const canvas = document.createElement('canvas');
@@ -92,10 +131,10 @@ function createGradientTexture(height = 256): Texture {
   if (!ctx) throw new Error('2d context unavailable for sky gradient');
 
   const gradient = ctx.createLinearGradient(0, 0, 0, height);
-  // Zenith is darker, horizon lighter. Values are multipliers on the tint.
-  gradient.addColorStop(0, 'rgb(150,150,150)');
-  gradient.addColorStop(0.55, 'rgb(215,215,215)');
-  gradient.addColorStop(1, 'rgb(255,255,255)');
+  for (let i = 0; i < SKY_GRADIENT_STOPS.length; i++) {
+    const stop = SKY_GRADIENT_STOPS[i]!;
+    gradient.addColorStop(stop.at, `rgb(${stop.r},${stop.g},${stop.b})`);
+  }
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, 1, height);
 

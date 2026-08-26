@@ -67,6 +67,25 @@ export const SONIC_BOOM_MIN_Q = 1;
  */
 export const SHOCK_BAND_DEPTH = 0.55;
 
+/**
+ * The least dense the plume gets, however far the throttle is back.
+ *
+ * A single Raptor at the lower throttle limit is 13% of full power and would
+ * emit 13% of the particles over the same length — see the note at the emitter.
+ * Just under half is enough that the column stays continuous at every setting
+ * the vehicle can fly at.
+ */
+export const PLUME_DENSITY_FLOOR = 0.45;
+
+/**
+ * And how short it gets, which is where the throttle actually shows.
+ *
+ * A throttled engine is a SMALLER engine, not a fainter one. This scales the
+ * emitter, which scales both the particle speed and its drawn size, so backing
+ * off the throttle pulls the plume in rather than dimming it.
+ */
+export const PLUME_REACH_FLOOR = 0.5;
+
 export interface EffectDriver {
   update(
     particles: ParticleSystem,
@@ -127,9 +146,27 @@ export function createEffectDriver(): EffectDriver {
       if (running > 0 && forces.thrust > 0) {
         const throttleFraction = vehicle.throttleCurrent / 100;
         const ambient = state.atmosphere.airPressure;
-        const intensity = (running / 3) * throttleFraction;
         const spread = plumeSpreadFactor(ambient);
         const size = plumeScaleFactor(ambient);
+
+        /*
+          DENSITY IS NOT POWER, and conflating them is why the intro landing —
+          the sequence CLAUDE.md names as part of the soul — had no visible
+          engine. One Raptor at 70% throttle is `(1/3) * 0.7 = 0.23` of full
+          power, and `intensity` scales the emission RATE, so the plume kept its
+          full length and got a quarter of the particles to fill it with: at the
+          landing burn that was thirty-eight particles strung over four hundred
+          pixels, one every eleven, which is a dotted line rather than an
+          exhaust.
+
+          Power still decides how much plume there is; it decides it through
+          `PLUME_REACH` below, which shortens and narrows the thing. What it may
+          not do is make the plume TRANSPARENT, because a throttled engine is
+          not a faint engine — it is a smaller one.
+        */
+        const power = (running / 3) * throttleFraction;
+        const density = PLUME_DENSITY_FLOOR + (1 - PLUME_DENSITY_FLOOR) * power;
+        const reach = PLUME_REACH_FLOOR + (1 - PLUME_REACH_FLOOR) * power;
 
         /*
           THE PLUME IS THREE THINGS AT ONE POINT (M9.6), and the point is the
@@ -153,9 +190,9 @@ export function createEffectDriver(): EffectDriver {
           nozzleX,
           nozzleY,
           downAxis,
-          intensity,
+          density,
           dt,
-          scale * 0.9 * size,
+          scale * 0.9 * size * reach,
           1 + (spread - 1) * 0.55,
           shockCellLength(ambient) * scale,
           shockDiamondStrength(ambient) * SHOCK_BAND_DEPTH,
@@ -165,9 +202,9 @@ export function createEffectDriver(): EffectDriver {
           nozzleX,
           nozzleY,
           downAxis,
-          intensity,
+          density,
           dt,
-          scale * 0.9 * size,
+          scale * 0.9 * size * reach,
           spread,
         );
       }

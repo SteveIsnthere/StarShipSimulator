@@ -556,6 +556,58 @@ for its first outing.*
   else — M9.4's commit is the only one that touches core at all — and the seven digests
   byte-identical to their M2.14 values. **What no test covers is whether it LOOKS good — that is a viewing decision, and this
   acceptance line says so rather than pretending otherwise.**
+- [x] **M9.10 The look pass** — written after the fact, at the owner's verdict on the finished
+  milestone: *"Doesn't look good enough, iterate."* M9.9's acceptance line had said in as many
+  words that no test covers whether the picture is good and handed that decision back; this is
+  what came back. Every finding below was invisible to the twenty-eight assertions M9 added,
+  which is the point of recording it as a task rather than as a tidy-up.
+  **The instrument that found them: the HUD comes OFF.** `docs/screenshot.png` has the broadcast
+  scrim over its bottom 40% at up to 94% black — the ground, the pad and the entire landing plume
+  live under it. Three milestones of screenshot review had been looking at a picture whose worst
+  half was painted over. Shooting the canvas with every non-ancestor sibling hidden, which is what
+  `tests/e2e/pixels.ts` has done since M9.1 for measurement, is what made the flat ground, the
+  tiling and the pill-shaped clouds obvious in one frame.
+  **The sky was greyscale.** The gradient's stops were `rgb(150,150,150)`, `rgb(215,215,215)`,
+  `rgb(255,255,255)` under a per-frame tint — and a tint MULTIPLIES, so it could only ever make one
+  hue darker. The sky ran grey-blue at the horizon to a darker greyer grey-blue overhead and read
+  as fog in every screenshot this project has taken since M0. Per-channel stops fix it under the
+  same single multiply, so the altitude fade is untouched.
+  **The horizon was a one-pixel step**, on both ground layers. A generated alpha ramp
+  (`writeHazeRamp`) washes the sky's own colour over the top of each, densest where the line of
+  sight is most tangential. Its first version did not work and the frames said so: the ramp reaches
+  alpha 1 at its top but the SPRITE's alpha multiplies it, so at 0.75 a quarter of the ground's
+  colour still showed at the join and the hard line survived the wash built to remove it.
+  **The ground was mud, then a blur, then wallpaper** — three attempts, and the middle one is the
+  instructive failure. `GROUND_COLOR` was sampled from 2021 art that never had a blue sky over it,
+  so it was warmed. The mottle's octaves were then weighted hard toward the coarse one, 0.74/0.18/
+  0.08, because fine detail is invisible from a kilometre — which was half right and made the other
+  half worse: from low down the ground became a smooth beige blur with nothing in it. Both readings
+  are true and no weighting serves both, because the problem was never the weights: a 128 px tile
+  magnified to 300 px on screen has no fine detail LEFT to weight. At 256 px and four octaves it
+  does, and the doubled tile also halves how often the pattern repeats — the 4 km frame had six
+  repeats across it and read as wallpaper.
+  **The cloud deck was a row of lozenges.** Eighteen puffs per sub-deck at 190 px of spacing cover
+  3420 px, so about seven were on a 1280 px screen with sky between them. A deck is CONTINUOUS with
+  a ragged edge; the only way to get that from sprites is to overlap them until the sprite stops
+  being the unit the eye finds. Sixty puffs at 114 px, with vertical scatter raised from 26 px to
+  96 px. Per-puff opacity came DOWN to compensate — three overlapping puffs compound, and
+  `tests/e2e/pixels.spec.ts` fails a deck that burns to white. The floor is not free either:
+  `tests/view/clouds.test.ts` requires every alpha to clear 0.15 so the deck stays one deck, and
+  0.25 x the far sub-deck's 0.62 is exactly that bound. Both test files pass UNMODIFIED.
+  **The far earth was a stamp** — twenty-four identical bumps, evenly spaced, all at alpha 0.55 and
+  all at `lineY + 1`, under a blanket `container.alpha` of 0.73 that turned brown ground grey to say
+  "far away". Each mark now takes width, height, alpha, x-offset and HEIGHT ON THE LINE from the
+  same seeded hash the particle textures use, so the row is a skyline and not a scalloped border.
+  **The landing burn had no plume, and the intro landing is named in the soul.** `intensity` scaled
+  the emission RATE by engine power, so one Raptor at 70% got 23% of the particles spread over the
+  full length: thirty-eight particles across four hundred pixels, one every eleven. Power now
+  shortens and narrows the plume instead of thinning it, because a throttled engine is a smaller
+  engine, not a fainter one.
+  Accept: full gate on all five projects; `git diff v2/src/core` still comment lines and nothing
+  else across the whole milestone; budgets unmoved; screenshots refreshed. **Four things this pass
+  found that are not about pixels are recorded in the Log, because each one is a defect the gate
+  had been passing over: a measurement the browser refuted, a contrast margin that quietly
+  narrowed, six red tests that were nobody's regression, and 262,144 closures per texture.**
 
 ## Log
 
@@ -2335,11 +2387,64 @@ for its first outing.*
   viewing decisions, and this milestone hands them back rather than pretending otherwise.
   **Gate:** lint, **1536 unit tests**, build all exit 0; **playwright 336 passed, 7 skipped across
   all five projects**, phone viewports included.
+- 2026-08-26 · M9.10 · The look pass, opened by the owner's verdict on the finished milestone:
+  "Doesn't look good enough, iterate." Seven visual findings are in the task above. Four findings
+  that are NOT about pixels, each a defect the gate had been passing over:
+  **A measurement the browser refuted.** Warming `GROUND_COLOR` gave the terrain chroma, so it
+  started passing the plume harness's `warmOnly` test and the plume measured nine ship-lengths of
+  hillside. Raising the warmth margin was tried first and is worse — a plume's throat is nearly
+  WHITE, so a margin strict enough to drop the ground drops the core and the figure collapsed to
+  0.72. A luma floor of 150 looked like the answer and passed every local check; the full suite
+  then failed the VACUUM spread assertion on two projects at 0.56 against 0.53, because the halo
+  that assertion exists to measure is dim by construction — the same light over 5.3x the area — and
+  a brightness floor is exactly the wrong instrument for it. Fire is two things at once: a throat
+  only brightness identifies and a halo only colour identifies. `orWarmth` is the disjunction that
+  admits both, and the ground satisfies neither clause at luma 147 and a warmth of 62. The
+  arithmetic could not have found this; only the browser could.
+  **A contrast margin that quietly narrowed.** `--scrim`'s stops were solved in M6.8 against
+  `SKY_COLOR` as the brightest thing that can ever sit behind the overlay. The look pass made
+  `SKY_COLOR` brighter — #a7bdd9 to #c3d3e2 — and a brighter background under white text is the
+  WORSE case: the alpha ink-70 needs rose from 0.556 to 0.604 and ink-45's from 0.591 to 0.635.
+  The same 0.66 still clears both, at 5.2:1 and 3.1:1, so it is still AA and
+  `tests/ui/contrast.test.ts` stayed green — because it imports `SKY_COLOR` rather than hard-coding
+  it, which is why it was written that way. But ink-45's headroom went from 0.070 of alpha to
+  0.025, and theme.css was still quoting the old numbers as if nothing had moved. Comment corrected
+  with the derivation kept beside it.
+  **Six red tests that were nobody's regression.** The first full run came back 8 failed / 328
+  passed. Two were the plume above. The other six — controls x2, input, offline, timeline — are one
+  latent bug in four spec files: a 40 s `expect.poll` inside Playwright's default 30 s test budget,
+  which can never spend its last ten seconds. It had been latent since M6 because those waits are
+  only NEEDED when the machine is slow. Attributing it took a measurement rather than a guess: the
+  look-pass tree renders the landing burn at 2.4 fps and the M9.9 tree at 2.5, the intro hands over
+  in 21.9 s against 21.8, and `timeline.spec.ts:66` runs 24 s, 33 s, 33 s on the same tree — a
+  coin flip either side of 30, on both trees. The config now sets `timeout: 60_000`, which does not
+  make a hung test pass; it makes a slow one report what it found.
+  **262,144 closures per texture.** `tileNoise` built its `wrap` function per call, and it is called
+  once per octave per texel: a 256 px tile at four octaves is a quarter of a million allocations for
+  one image. Hoisted — same arithmetic, same bits, and the tileable and determinism tests prove it —
+  the mottle generates in 33.0 ms against 45.9.
+  **What it cost.** Mount-time texture generation 21.3 ms -> 45 ms, one-off, while the art is being
+  fetched; the tile carries four times the pixels and an extra octave. First-load JS 203.1 kB of
+  250. Fonts 32.7 of 80. Asset budget byte-identical at 22 `.webp` files — every one of these
+  changes is generator code or a constant, and not one is a new image.
+  **And the standing caveat has not moved.** Nothing here is a test that the picture is good. The
+  new assertions still measure extent, spread, blown-out share and wander; the judgement that a
+  deck now reads as cloud, that the ground reads as ground, and that a horizon should dissolve
+  rather than end, is the owner's, and this task exists because that judgement came back negative
+  once already.
 
 ## M9 — done
 
-Nine tasks, nine commits, 2026-08-26. The milestone found three shipped bugs that three milestones
-of screenshot review had missed — a camera that had never framed a re-entry, a shake constant a
+Ten tasks, ten commits, 2026-08-26. The tenth was not planned: nine were built, the owner looked
+at the result and said "doesn't look good enough, iterate", and M9.10 is what came back. That is
+the milestone's own acceptance line working as written — M9.9 said no test covers whether it
+LOOKS good and handed the judgement back rather than pretending otherwise, and the judgement came
+back negative. What the first nine built was the instrument; what the tenth did was use it with
+the HUD taken off, which is when a flat ground, a tiling pattern and a row of lozenges where the
+clouds should be all became obvious in a single frame.
+
+The first nine found three shipped bugs that three milestones of
+screenshot review had missed — a camera that had never framed a re-entry, a shake constant a
 thousand times too large, a fin trail saturated for 85% of a launch — and closed the class by
 building the instrument first. Four wrong unit annotations in `core/` were found by an audit that
 was only granted because one of them had already caused two of those bugs. Three of the plan's own

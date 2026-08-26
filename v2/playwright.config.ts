@@ -39,6 +39,26 @@ const MOBILE_SPECS = /@mobile/;
 
 export default defineConfig({
   testDir: './tests/e2e',
+  /*
+    A TEST BUDGET THAT CAN HOLD THE WAITS THE TESTS THEMSELVES DECLARE.
+
+    Playwright's default is 30 s, and five specs wait 40 s for a flight to reach
+    a moment — the intro to hand over, a scenario to touch down, the offline
+    flight to finish. A 40 s wait inside a 30 s budget can never spend its last
+    ten seconds: the test is killed first, and the failure reads as an assertion
+    about altitude or an event state rather than as what it is. It had been
+    latent since M6 because the waits are only NEEDED when the machine is slow,
+    and it surfaced at the M9 look pass as six failures across four specs — none
+    of which the look pass caused: the same commit measured 2.4 fps against the
+    previous commit's 2.5, and the same tests fail on both trees at the same
+    rate. Under swiftshader, which is what runs here, a 30 s budget is simply
+    less than the flights take.
+
+    Sixty seconds, so the longest declared wait plus its setup fits with room.
+    Raising it does not make a hung test pass — it still fails, twenty seconds
+    later, and the trace still says where.
+  */
+  timeout: 60_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

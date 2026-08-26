@@ -15,11 +15,18 @@ import {
   horizonSagittaFraction,
   padLightIntensity,
 } from './atmosphere-look';
-import { skyLightness } from './sky';
+import { skyLightness, skyTint } from './sky';
 import { MOTTLE_TILE, type TerrainTextures } from './terrain';
 
-/** Ground colour, sampled from the 2021 StarBase art. */
-export const GROUND_COLOR = 0x9a8c78;
+/**
+ * Ground colour.
+ *
+ * Sampled from the 2021 StarBase art as 0x9a8c78 — a grey-tan that was fine as
+ * a flat fill and turned to mud the moment there was a blue sky above it and a
+ * haze wash across it. Warmed and given some chroma at the M9 look pass: the
+ * hue is the same earth, it simply has one now.
+ */
+export const GROUND_COLOR = 0xa48a66;
 
 interface Placed {
   readonly object: GroundObject;
@@ -82,6 +89,15 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
     ramp.blendMode = 'multiply';
     container.addChild(ramp);
   }
+  /*
+    The air between the eye and the ground, in the sky's own colour. Same
+    argument as the far earth's: the ground's top edge met the sky at a
+    one-pixel step and that seam was the most artificial thing left in the
+    frame. Drawn after the ramp and before the scenery, so the hills wash out
+    and the trees standing on them do not.
+  */
+  const horizonHaze = terrain ? new Sprite(terrain.haze) : undefined;
+  if (horizonHaze) container.addChild(horizonHaze);
 
   const placed: Placed[] = GROUND_OBJECTS.map((object) => {
     const texture = textures.get(object.src);
@@ -198,6 +214,28 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           // Over the near half of the visible band, so the change lands where
           // the eye reads distance rather than off the bottom of the screen.
           ramp.height = Math.max(1, (viewport.height - top) * 1.6);
+        }
+      }
+
+      if (horizonHaze) {
+        horizonHaze.visible = ground.visible;
+        if (ground.visible) {
+          const haze = hazeIntensity(altitude);
+          horizonHaze.x = -viewport.width;
+          horizonHaze.y = horizon.y;
+          horizonHaze.width = viewport.width * 3;
+          horizonHaze.height = Math.max(8, viewport.height * (0.05 + 0.14 * haze));
+          horizonHaze.tint = skyTint(altitude);
+          /*
+            OPAQUE AT THE HORIZON, or the seam is still there. The ramp's own
+            alpha reaches 1 at its top, but the sprite's alpha multiplies it, so
+            a sprite alpha of 0.75 left a quarter of the ground's own colour
+            showing at the join and the hard line survived the wash that was
+            built to remove it — visible in every world-only frame. The floor is
+            what matters here, not the range: at 0.55 the join dissolves at any
+            altitude, and thick air still deepens it the rest of the way.
+          */
+          horizonHaze.alpha = Math.min(1, 0.55 + 0.45 * haze);
         }
       }
 

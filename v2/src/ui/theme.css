@@ -82,8 +82,8 @@
   /*
     THE STOPS ARE A CONTRAST BUDGET, NOT A TASTE.
 
-    M6.8 measured them: white at 70% over this gradient over the noon sky
-    (#a7bdd9, the brightest thing that can ever be behind the overlay). The
+    M6.8 measured them: white at 70% over this gradient over the noon sky —
+    `SKY_COLOR`, the brightest thing that can ever be behind the overlay. The
     first version faded to 45% alpha at three quarters height, which put ink-70
     at 3.65:1 and ink-45 at 2.44:1 — both below AA, and precisely the risk
     BROADCAST-UI-PLAN § 8 wrote down before any of this was built.
@@ -93,6 +93,16 @@
     both with margin (5.7:1 and 3.3:1) and still fades to nothing above it,
     which is what a scrim is for. tests/ui/contrast.test.ts parses these very
     stops and re-derives the numbers, so editing them here moves the test.
+
+    THE MARGIN NARROWED AT THE M9 LOOK PASS and the numbers above are the old
+    ones, kept because they are the derivation. `SKY_COLOR` went from #a7bdd9 to
+    #c3d3e2 when the sky stopped being one flat blue, and a brighter sky behind
+    white text is a WORSE case, not a better one: the requirement rose to 0.604
+    and 0.635, and the same 0.66 now clears them at 5.2:1 and 3.1:1. Still AA,
+    with 0.025 of alpha to spare on ink-45 instead of 0.070. The test caught
+    none of this because it imports `SKY_COLOR` rather than hard-coding it,
+    which is the reason it was written that way — but 0.025 is the whole of the
+    remaining headroom, so the next thing to brighten the sky pays for it here.
   */
   --scrim: linear-gradient(
     to top,

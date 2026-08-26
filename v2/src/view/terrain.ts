@@ -33,10 +33,10 @@ import { Texture, TextureSource } from 'pixi.js';
 import { textureRandom } from './particles';
 
 /** px — the mottle tile. Power of two, and big enough that the repeat is not a pattern. */
-export const MOTTLE_TILE = 128;
+export const MOTTLE_TILE = 256;
 
 /** The darkest the mottle goes, as a fraction of the tint colour. */
-export const MOTTLE_FLOOR = 0.58;
+export const MOTTLE_FLOOR = 0.5;
 
 /** How far the summed octaves are pushed away from their mean. See the use. */
 export const MOTTLE_CONTRAST = 2.3;
@@ -50,6 +50,18 @@ const smoothstep = (t: number): number => t * t * (3 - 2 * t);
  * wraps too, but it is private to that module and a shared one would be a
  * dependency between two things that only happen to want the same three lines.
  */
+/**
+ * Lattice wrap, hoisted out of `tileNoise`.
+ *
+ * It was a closure built per call, and `tileNoise` is called once per octave
+ * per texel: at a 256 px tile and four octaves that is 262,144 closures for one
+ * texture. Same arithmetic, same bits out — this is a refactor of where the
+ * function lives, not of what it computes.
+ */
+function wrapLattice(n: number, lattice: number): number {
+  return ((n % lattice) + lattice) % lattice;
+}
+
 function tileNoise(u: number, v: number, lattice: number, salt: number): number {
   const x = u * lattice;
   const y = v * lattice;
@@ -57,11 +69,14 @@ function tileNoise(u: number, v: number, lattice: number, salt: number): number 
   const y0 = Math.floor(y);
   const fx = smoothstep(x - x0);
   const fy = smoothstep(y - y0);
-  const wrap = (n: number) => ((n % lattice) + lattice) % lattice;
-  const c00 = textureRandom(wrap(x0), wrap(y0), salt);
-  const c10 = textureRandom(wrap(x0 + 1), wrap(y0), salt);
-  const c01 = textureRandom(wrap(x0), wrap(y0 + 1), salt);
-  const c11 = textureRandom(wrap(x0 + 1), wrap(y0 + 1), salt);
+  const wx0 = wrapLattice(x0, lattice);
+  const wy0 = wrapLattice(y0, lattice);
+  const wx1 = wrapLattice(x0 + 1, lattice);
+  const wy1 = wrapLattice(y0 + 1, lattice);
+  const c00 = textureRandom(wx0, wy0, salt);
+  const c10 = textureRandom(wx1, wy0, salt);
+  const c01 = textureRandom(wx0, wy1, salt);
+  const c11 = textureRandom(wx1, wy1, salt);
   const top = c00 + (c10 - c00) * fx;
   const bottom = c01 + (c11 - c01) * fx;
   return top + (bottom - top) * fy;
@@ -84,10 +99,31 @@ export function writeMottleTile(size: number, out: Uint8ClampedArray): void {
     for (let x = 0; x < size; x++) {
       const u = x / size;
       const v = y / size;
+      /*
+        FOUR OCTAVES, COARSE-LED, ON A TILE TWICE AS BIG.
+
+        The first half of the look pass weighted three octaves hard toward the
+        coarse one — 0.74/0.18/0.08 — because the fine detail was invisible from
+        a kilometre up and the broad regions were not. That was half right and it
+        made the other half worse: from low down the ground became a smooth
+        beige blur with nothing in it at all, which is what the world-only
+        screenshots showed the moment the HUD came off them.
+        Both readings are true at once and neither weighting can serve both,
+        because the problem was never the weights — it was that a 128 px tile
+        magnified to 300 px on screen has no fine detail LEFT to weight. At 256
+        it does, and a fourth octave at 29 periods gives the foreground
+        something to be made of while the 2-period octave still carries the
+        view from altitude.
+
+        And the doubled tile halves how often the pattern repeats across a
+        screen, which is the other thing the 4 km frame showed: at six repeats
+        the eye finds the grid and the ground reads as wallpaper.
+      */
       const noise =
-        0.62 * tileNoise(u, v, 2, 0x7e44) +
-        0.26 * tileNoise(u, v, 5, 0x1c05) +
-        0.12 * tileNoise(u, v, 13, 0x3b91);
+        0.56 * tileNoise(u, v, 2, 0x7e44) +
+        0.22 * tileNoise(u, v, 5, 0x1c05) +
+        0.14 * tileNoise(u, v, 13, 0x3b91) +
+        0.08 * tileNoise(u, v, 29, 0x6d17);
       /*
         CONTRAST-STRETCHED, because summed octaves are not uniform. Three noises
         added tend to their mean, so the raw sum sat between 0.36 and 0.66 and
@@ -134,12 +170,47 @@ export function writeGroundRamp(height: number, out: Uint8ClampedArray): void {
   }
 }
 
-/** Both generated terrain textures. */
+/** px — the haze ramp's height. Stretched; only its shape matters. */
+export const HAZE_RAMP_HEIGHT = 64;
+
+/**
+ * Write the aerial-perspective ramp: OPAQUE at the horizon, transparent below.
+ *
+ * THE HARD LINE THIS EXISTS TO REMOVE. The ground's top edge met the sky at a
+ * one-pixel step, so every frame with ground in it had a dead-straight seam
+ * across the middle — the single most artificial thing left in the picture, and
+ * the reason a 1 km shot read as a brown rectangle under a grey one rather than
+ * as distance. Real ground does not stop at the horizon, it dissolves into the
+ * air in front of it, and the amount it dissolves by is how far away it is.
+ *
+ * Alpha rather than value, because this is drawn OVER the terrain in the sky's
+ * own colour: it is the air between the eye and the ground, not a change to the
+ * ground. Cubed, so the wash is dense in the first few percent below the horizon
+ * and effectively gone by a third of the way down — which is where the line of
+ * sight stops being nearly tangential.
+ */
+export function writeHazeRamp(height: number, out: Uint8ClampedArray): void {
+  for (let y = 0; y < height; y++) {
+    const t = height <= 1 ? 0 : y / (height - 1);
+    // Squared rather than cubed: the cube was gone within forty pixels and left
+    // a second, softer step where it ended. This carries further down.
+    const fade = (1 - t) ** 2;
+    const i = y * 4;
+    out[i] = 255;
+    out[i + 1] = 255;
+    out[i + 2] = 255;
+    out[i + 3] = Math.round(Math.max(0, Math.min(1, fade)) * 255);
+  }
+}
+
+/** Both generated terrain textures, and the haze wash that joins them to the sky. */
 export interface TerrainTextures {
   /** Tileable mottle, `MOTTLE_TILE` square. */
   readonly mottle: Texture;
   /** A one-pixel-wide vertical ramp, stretched to whatever band needs it. */
   readonly ramp: Texture;
+  /** A one-pixel-wide alpha ramp, opaque at the top. See `writeHazeRamp`. */
+  readonly haze: Texture;
 }
 
 /** Build them. Called once, at mount. */
@@ -170,5 +241,17 @@ export function createTerrainTextures(): TerrainTextures {
   rampCtx.putImageData(rampImage, 0, 0);
   const ramp = Texture.from(rampCanvas);
 
-  return { mottle, ramp };
+  const hazeBuffer = new Uint8ClampedArray(HAZE_RAMP_HEIGHT * 4);
+  writeHazeRamp(HAZE_RAMP_HEIGHT, hazeBuffer);
+  const hazeCanvas = document.createElement('canvas');
+  hazeCanvas.width = 1;
+  hazeCanvas.height = HAZE_RAMP_HEIGHT;
+  const hazeCtx = hazeCanvas.getContext('2d');
+  if (!hazeCtx) throw new Error('2d context unavailable for the horizon haze');
+  const hazeImage = hazeCtx.createImageData(1, HAZE_RAMP_HEIGHT);
+  hazeImage.data.set(hazeBuffer);
+  hazeCtx.putImageData(hazeImage, 0, 0);
+  const haze = Texture.from(hazeCanvas);
+
+  return { mottle, ramp, haze };
 }

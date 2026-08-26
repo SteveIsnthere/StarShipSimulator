@@ -12,6 +12,7 @@ import {
   DARKEN_FRACTION,
   DARKEN_START_ALTITUDE,
   SKY_COLOR,
+  SKY_GRADIENT_STOPS,
   skyLightness,
   skyTint,
   starVisibility,
@@ -110,5 +111,57 @@ describe('stars', () => {
         (h - DARKEN_START_ALTITUDE) / (DARKEN_COMPLETE_ALTITUDE - DARKEN_START_ALTITUDE);
       expect(starVisibility(h), `${h} m`).toBeCloseTo(expected, 9);
     }
+  });
+});
+
+/* ── M9 look pass: the sky has hue, not just value ─────────────────────── */
+
+describe('the sky is a colour, not a brightness', () => {
+  it('is bluer at the zenith than at the horizon', () => {
+    /*
+      THE THING THAT MADE EVERY FRAME READ AS FOG. The gradient's stops were
+      greyscale — 150, 215, 255 — and a tint MULTIPLIES, so the sky could only
+      ever be the same hue at different brightnesses: a grey-blue horizon under
+      a darker, greyer version of itself. A real sky changes hue as well.
+
+      Asserted as a RATIO of blue to red rather than as colours, because the
+      altitude fade scales all three channels together and a test written
+      against absolute values would be a test of `skyLightness` wearing a
+      disguise.
+    */
+    const stops = SKY_GRADIENT_STOPS;
+    const zenith = stops[0]!;
+    const horizon = stops[stops.length - 1]!;
+    const chroma = (c: { r: number; g: number; b: number }) => c.b / c.r;
+
+    expect(chroma(zenith), 'the zenith must be bluer than the horizon').toBeGreaterThan(
+      chroma(horizon) * 1.5,
+    );
+    // And the horizon is the anchor: nothing may be brighter than SKY_COLOR,
+    // because a tint cannot multiply past it.
+    expect(horizon.r).toBe(255);
+    expect(horizon.g).toBe(255);
+    expect(horizon.b).toBe(255);
+  });
+
+  it('gets brighter all the way down, so the gradient has one direction', () => {
+    let previous = -1;
+    for (const stop of SKY_GRADIENT_STOPS) {
+      const luma = 0.299 * stop.r + 0.587 * stop.g + 0.114 * stop.b;
+      expect(luma).toBeGreaterThan(previous);
+      previous = luma;
+    }
+  });
+
+  it('produces a sky that is actually blue at the top, at sea level', () => {
+    // The numbers, so a future edit to either the stops or the anchor has to
+    // face what it does to the picture.
+    const zenith = SKY_GRADIENT_STOPS[0]!;
+    const r = Math.round((zenith.r / 255) * SKY_COLOR.r);
+    const g = Math.round((zenith.g / 255) * SKY_COLOR.g);
+    const b = Math.round((zenith.b / 255) * SKY_COLOR.b);
+    expect(b - r, `zenith is #${r.toString(16)}${g.toString(16)}${b.toString(16)}`).toBeGreaterThan(
+      80,
+    );
   });
 });

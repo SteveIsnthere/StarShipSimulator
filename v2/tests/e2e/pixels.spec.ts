@@ -48,7 +48,15 @@ const GROUND = { x: 0, y: 0.8, width: 1, height: 0.2 };
 const SPEC: FrameSpec = {
   map: { cols: 60, rows: 20 },
   regions: { subject: SUBJECT, sky: SKY, deck: DECK, ground: GROUND },
-  extents: { fire: { minLuma: 100, warmOnly: true, region: SUBJECT } },
+  /*
+    Warm, and either bright or strongly coloured. Since the M9 look pass the
+    ground has chroma of its own and passes `warmOnly` unaided, so brightness
+    has to carry part of the separation — but brightness ALONE cuts the dim
+    halo of a vacuum plume, so it cannot carry all of it. See the notes on
+    `orWarmth` in `pixels.ts` and on `PLUME` in `plume.spec.ts`: the ground
+    fails both clauses, at luma 147 and a warmth of 62.
+  */
+  extents: { fire: { minLuma: 150, orWarmth: 100, warmOnly: true, region: SUBJECT } },
 };
 
 /** Load a scenario preset, optionally editing the flight before it starts. */

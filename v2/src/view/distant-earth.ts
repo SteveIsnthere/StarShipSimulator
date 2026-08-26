@@ -28,11 +28,12 @@
  * place. There is no altitude at which anything jumps — asserted in
  * tests/view/distant-earth.test.ts.
  */
-import { Container, Graphics, TilingSprite, type Texture } from 'pixi.js';
+import { Container, Graphics, Sprite, TilingSprite, type Texture } from 'pixi.js';
 import type { Viewport } from './camera';
 import { groundTint, hazeIntensity } from './atmosphere-look';
 import { GROUND_COLOR } from './world';
-import { skyLightness } from './sky';
+import { skyLightness, skyTint } from './sky';
+import { textureRandom } from './particles';
 
 
 /**
@@ -180,7 +181,10 @@ export interface DistantEarth {
  *   `createWorld`'s is: without it this is the flat band it was before, which is
  *   what the headless tests assert against.
  */
-export function createDistantEarth(terrain?: { readonly mottle: Texture }): DistantEarth {
+export function createDistantEarth(terrain?: {
+  readonly mottle: Texture;
+  readonly haze: Texture;
+}): DistantEarth {
   const container = new Container({ label: 'distantEarth' });
 
   // The band, redrawn only when the viewport changes size.
@@ -198,8 +202,26 @@ export function createDistantEarth(terrain?: { readonly mottle: Texture }): Dist
     : undefined;
   if (mottle) container.addChild(mottle);
 
+  /*
+    THE MARKS WERE A STAMP (M9 look pass). Twenty-four identical bumps at one
+    scale and one alpha, evenly spaced — which is what made the band read as a
+    scalloped border rather than as terrain. Real ground at forty kilometres has
+    ridges at every size, and most of them are almost invisible.
+
+    Each mark now gets its own width, height and opacity from a seeded hash, so
+    the row is a range of hills rather than a repeated motif — and the hash is
+    the same one the particle textures and the cloud deck use, so the horizon is
+    the same horizon on every reload.
+  */
   const marks: Graphics[] = [];
+  const markShape = new Float32Array(TERRAIN_MARKS * 3);
   for (let i = 0; i < TERRAIN_MARKS; i++) {
+    const wide = 0.55 + textureRandom(i, 0, 0x4e11) * 1.15;
+    const tall = 0.35 + textureRandom(i, 1, 0x4e11) * 1.5;
+    markShape[i * 3] = wide;
+    markShape[i * 3 + 1] = tall;
+    markShape[i * 3 + 2] = 0.18 + textureRandom(i, 2, 0x4e11) * 0.42;
+
     const mark = new Graphics();
     // A low, wide bump. Drawn once in local space and only ever transformed.
     mark.moveTo(-34, 0);
@@ -208,6 +230,15 @@ export function createDistantEarth(terrain?: { readonly mottle: Texture }): Dist
     container.addChild(mark);
     marks.push(mark);
   }
+
+  /*
+    The air in front of the ground, drawn last so it lies over everything this
+    layer draws. See `writeHazeRamp`: without it the band's top edge is a
+    one-pixel step against the sky, which is the most artificial thing left in
+    any frame with ground in it.
+  */
+  const horizonHaze = terrain ? new Sprite(terrain.haze) : undefined;
+  if (horizonHaze) container.addChild(horizonHaze);
 
   let bandWidth = 0;
   let bandHeight = 0;
@@ -268,7 +299,15 @@ export function createDistantEarth(terrain?: { readonly mottle: Texture }): Dist
       }
 
       const haze = hazeIntensity(altitude);
-      container.alpha = 0.55 + 0.35 * (1 - haze);
+      /*
+        WAS 0.55 + 0.35 * (1 - haze), which at a kilometre put the whole layer at
+        0.73 over a blue sky and turned a brown band grey. That blanket
+        transparency was M7.4's way of making the layer read as distant; the
+        horizon haze below does that job properly now, in the sky's own colour
+        and only where the air actually is. What is left here is a gentle knock
+        so the far earth never competes with the near ground for attention.
+      */
+      container.alpha = 0.82 + 0.14 * (1 - haze);
 
       // The scroll. Compressed, and see the note on `compressedScrollSpeed` for
       // why it has to be.
@@ -281,11 +320,32 @@ export function createDistantEarth(terrain?: { readonly mottle: Texture }): Dist
       const markScale = Math.max(0.6, viewport.width / 1280);
       for (let i = 0; i < marks.length; i++) {
         const mark = marks[i]!;
-        mark.x = -MARK_SPACING + offset + i * MARK_SPACING;
-        mark.y = lineY + 1;
-        mark.scale.set(markScale, markScale * 0.8);
+        // Its own slot, plus a fraction of the spacing so the row is not a comb.
+        const jitter = (textureRandom(i, 3, 0x4e11) - 0.5) * MARK_SPACING * 0.55;
+        mark.x = -MARK_SPACING + offset + i * MARK_SPACING + jitter;
+        /*
+          AND THEY ARE NOT ALL AT ONE HEIGHT. Sitting every mark on `lineY + 1`
+          made the row a scalloped BORDER — a ruled line with identical bumps
+          along it, which is what a decorative edge looks like and not what a
+          range of hills looks like. A few pixels of vertical scatter, scaled
+          with the marks themselves, turns the row into a skyline.
+        */
+        mark.y = lineY + 1 + (textureRandom(i, 4, 0x4e11) - 0.5) * 14 * markScale;
+        mark.scale.set(markScale * markShape[i * 3]!, markScale * 0.8 * markShape[i * 3 + 1]!);
         mark.tint = tint;
-        mark.alpha = 0.55;
+        mark.alpha = markShape[i * 3 + 2]!;
+      }
+
+      if (horizonHaze) {
+        horizonHaze.x = -viewport.width;
+        horizonHaze.y = lineY;
+        horizonHaze.width = viewport.width * 3;
+        // Deeper when the air is thick, and never taller than a fifth of the
+        // frame — this is the join, not a weather effect.
+        horizonHaze.height = Math.max(8, viewport.height * (0.05 + 0.14 * haze));
+        horizonHaze.tint = skyTint(altitude);
+        // Same floor as the near ground's, and for the same reason — see there.
+        horizonHaze.alpha = Math.min(1, 0.55 + 0.45 * haze);
       }
     },
   };

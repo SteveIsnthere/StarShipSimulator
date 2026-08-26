@@ -20,8 +20,15 @@ import {
   type Viewport,
 } from './camera';
 
-/** The 2021 sky colour, and the anchor for the whole palette. */
-export const SKY_COLOR = 0xa7bdd9;
+/**
+ * The renderer's clear colour: roughly the middle of the sky gradient.
+ *
+ * Only ever visible for the frames between `init` and the sky sprite being
+ * sized, so what matters is that it is not a colour the sky never shows. It was
+ * 2021's flat fill; the sky's own anchor moved at the M9 look pass and this
+ * follows it rather than sitting a shade off.
+ */
+export const SKY_COLOR = 0xa1bddb;
 
 /** Named layers, back to front. */
 export interface Layers {

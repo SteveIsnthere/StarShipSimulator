@@ -44,10 +44,28 @@ const BELOW: Region = { x: 0.36, y: 0.52, width: 0.28, height: 0.47 };
 /**
  * The plume, as pixels: warm and lit.
  *
- * `warmOnly` is what excludes the stars, which are white and are everywhere in
- * the vacuum frame; the luma floor is what excludes the dark sky around them.
+ * `warmOnly` excludes the stars, which are white and are everywhere in the
+ * vacuum frame. The luma floor does two jobs: it excludes the dark sky around
+ * them, and since the M9 look pass it is also what excludes the GROUND.
+ *
+ * THAT SECOND JOB USED TO BELONG TO THE COLOUR TEST, and it stopped working.
+ * Warming `GROUND_COLOR` gave the terrain chroma of its own — red leads blue by
+ * 62 there — so it started passing `warmOnly` and the plume measurement began
+ * reporting nine ship-lengths of hillside. Raising the warmth margin instead
+ * was tried and is worse: the hot part of a plume is nearly WHITE, so a margin
+ * strict enough to drop the ground drops the core as well and the measurement
+ * collapsed to 0.72.
+ *
+ * AND A LUMA FLOOR ALONE WAS WRONG TOO, which the browser said and the
+ * arithmetic had not. `minLuma: 150` does keep the ground out, and it also cuts
+ * the dim halo that is the whole subject of the vacuum measurement — the spread
+ * assertion went from comfortable to 0.56 against 0.53 and failed on two
+ * projects. Fire is two things at once here: a white-hot throat that only
+ * brightness identifies, and a cool wide halo that only colour identifies.
+ * `orWarmth` is the disjunction that admits both, and the ground satisfies
+ * neither clause: luma at most 147, red leading blue by at most 62.
  */
-const PLUME = { region: BELOW, minLuma: 90, warmOnly: true };
+const PLUME = { region: BELOW, minLuma: 150, orWarmth: 100, warmOnly: true };
 
 /** Hold the vehicle at an altitude with all three engines at full thrust. */
 async function underPowerAt(page: Page, altitude: string): Promise<void> {
