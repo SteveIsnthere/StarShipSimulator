@@ -80,8 +80,24 @@ export const ENGINE_SUB_HZ = 42;
 
 /* ------------------------------------------------------------------------ */
 
-/** Pa — sea level, for normalising the atmosphere. */
-export const SEA_LEVEL_PA = 101_325;
+/**
+ * kPa — sea level, for normalising the atmosphere.
+ *
+ * KILOPASCALS, and the unit is the whole point of this comment. This constant
+ * was written as 101_325 first, on the reasonable assumption that a pressure
+ * field is in pascals — and every test passed, because both sides of every
+ * comparison used the same wrong number. What caught it was pinning the curves
+ * against real flights: `atmosphere.airPressure` peaks at 101.0 on the pad and
+ * `forces.dynamicPressure` peaks at 23.6 on a launch, which is a textbook
+ * max-Q in kPa and an absurdity in Pa. The layer had been computing an air
+ * fraction of 0.1 at sea level and calling it full.
+ *
+ * `view/atmosphere-look.ts` has had `SEA_LEVEL_PRESSURE = 101.325` since M6.7
+ * and is right. Duplicated rather than imported: `audio/` reaching sideways
+ * into `view/` for a constant would be a dependency neither layer wants, and
+ * the number is a fact about the atmosphere rather than about either of them.
+ */
+export const SEA_LEVEL_KPA = 101.325;
 
 /**
  * 0..1 — how much of the atmosphere is left to carry sound.
@@ -98,7 +114,7 @@ export const SEA_LEVEL_PA = 101_325;
  */
 export function airFraction(airPressure: number): number {
   if (!Number.isFinite(airPressure) || airPressure <= 0) return 0;
-  return Math.cbrt(Math.min(1, airPressure / SEA_LEVEL_PA));
+  return Math.cbrt(Math.min(1, airPressure / SEA_LEVEL_KPA));
 }
 
 /**
@@ -123,6 +139,85 @@ export function engineAirGain(airPressure: number): number {
   return ENGINE_VACUUM_FLOOR + (1 - ENGINE_VACUUM_FLOOR) * airFraction(airPressure);
 }
 
+/* ------------------------------------------------------------------------ *
+ * Aerodynamic noise (M8.3) — the milestone
+ * ------------------------------------------------------------------------ */
+
+/**
+ * kPa — the dynamic pressure at which airflow noise is at full strength.
+ *
+ * Measured rather than assumed: the launch golden peaks at 23.6 kPa and the
+ * RTLS at 28.6, so 30 puts full strength just past the loudest moment either
+ * flight actually has. Max-Q is both the loudest the airframe
+ * ever is and the moment the sound exists to convey: the most direct feedback
+ * there is that the vehicle is going too fast too low, and Q is a number in a
+ * strip most players never expand (§ 1).
+ */
+export const AERO_FULL_Q = 30;
+
+/**
+ * 0..1 — how hard the air is tearing at the vehicle.
+ *
+ * Q ALONE, without a separate air term. That is not an oversight: dynamic
+ * pressure is one half rho v squared, so the density of the air is already
+ * inside it. Multiplying by `airFraction` as well would apply the atmosphere
+ * twice and silence the one cue that matters at exactly the altitude where Q is
+ * highest.
+ *
+ * The M7.5 lesson in a different key — there, an air term was removed because
+ * it silenced a screen-space cue that had no business depending on air. Here
+ * the dependence is real, and the mistake to avoid is counting it twice.
+ */
+export function aeroLevel(dynamicPressure: number): number {
+  if (!Number.isFinite(dynamicPressure) || dynamicPressure <= 0) return 0;
+  const q = Math.min(1, dynamicPressure / AERO_FULL_Q);
+  // Square root, because the ear reads loudness closer to the square root of
+  // power and a linear map spends almost all of its range in the last few
+  // kilopascals — where the vehicle is usually already in trouble.
+  return Math.sqrt(q);
+}
+
+/**
+ * Hz — the centre of the airflow band, from Mach.
+ *
+ * Airflow noise gets brighter as it gets faster: at low speed it is a rush, and
+ * approaching Mach 1 it is a scream. Bounded well inside what a phone speaker
+ * can produce, because this is the cue a player is most likely to hear on the
+ * worst hardware.
+ */
+export function aeroFilterHz(machSpeed: number): number {
+  const mach = Math.max(0, Math.min(3, Number.isFinite(machSpeed) ? machSpeed : 0));
+  return 420 + 900 * (mach / 3);
+}
+
+/**
+ * m — the altitude by which aerodynamic noise has reached silence.
+ *
+ * ACTUAL zero, unlike the engine's floor. There is nothing out there to make a
+ * noise: no air, no flow, no buffet. § 3.2 gives the engine a floor because
+ * structural conduction is real and you are bolted to the thing — but there is
+ * no mechanism at all by which a vacuum roars, and the CONTRAST between the two
+ * is what makes vacuum sound like vacuum rather than like the volume being
+ * turned down.
+ */
+export const AERO_SILENT_ALTITUDE = 50_000;
+
+/**
+ * 0..1 — the aerodynamic fade.
+ *
+ * Driven by `atmosphere.airPressure`, which has been in SimState since M1.1 and
+ * which M6.7 already draws with — so the ear and the eye are reading the same
+ * number, which is the whole reason it is worth using the one core already
+ * keeps rather than deriving a second.
+ *
+ * THIS IS THE MILESTONE. Not the fade itself but what it leaves behind: the
+ * engine falls to a floor and the air falls to nothing, and the moment those
+ * two separate is the moment the atmosphere audibly runs out.
+ */
+export function aeroAirGain(airPressure: number): number {
+  return airFraction(airPressure);
+}
+
 /* ------------------------------------------------------------------------ */
 
 /**
@@ -139,12 +234,25 @@ export interface AudioParams {
   engine: number;
   /** Hz — engine filter centre. */
   engineHz: number;
-  /** 0..1 — the air fade applied to the engine. */
+  /** 0..1 — the air fade applied to the engine. Floors at ENGINE_VACUUM_FLOOR. */
   engineAir: number;
+  /** 0..1 — airflow voice, before the air fade. */
+  aero: number;
+  /** Hz — airflow band centre. */
+  aeroHz: number;
+  /** 0..1 — the air fade applied to the airflow. Reaches zero. */
+  aeroAir: number;
 }
 
 export function createAudioParams(): AudioParams {
-  return { engine: 0, engineHz: engineFilterHz(0), engineAir: engineAirGain(SEA_LEVEL_PA) };
+  return {
+    engine: 0,
+    engineHz: engineFilterHz(0),
+    engineAir: engineAirGain(SEA_LEVEL_KPA),
+    aero: 0,
+    aeroHz: aeroFilterHz(0),
+    aeroAir: aeroAirGain(SEA_LEVEL_KPA),
+  };
 }
 
 /** Fill `out` from `state`. Pure, allocation-free, and the only reader of SimState. */
@@ -153,4 +261,7 @@ export function readParams(state: SimState, out: AudioParams): void {
   out.engine = engineLevel(lit, state.vehicle.throttleCurrent);
   out.engineHz = engineFilterHz(state.vehicle.throttleCurrent);
   out.engineAir = engineAirGain(state.atmosphere.airPressure);
+  out.aero = aeroLevel(state.forces.dynamicPressure);
+  out.aeroHz = aeroFilterHz(state.kinematics.machSpeed);
+  out.aeroAir = aeroAirGain(state.atmosphere.airPressure);
 }

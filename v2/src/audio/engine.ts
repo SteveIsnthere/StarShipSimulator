@@ -18,7 +18,7 @@
  */
 import { createMixer, createNoiseBuffer, type AudioGraphContext, type Mixer } from './graph';
 import { createAudioParams, readParams, type AudioParams } from './params';
-import { createEngineVoice, type Voice } from './voices';
+import { createAeroVoice, createEngineVoice, type Voice } from './voices';
 import type { SimState } from '$core/state';
 
 /** What a browser hands us. Narrowed so tests can stand in for it. */
@@ -149,6 +149,7 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
         noise = createNoiseBuffer(context);
         // Built once, here, and never rebuilt — the claim the leak test makes.
         voices.push(createEngineVoice({ context, mixer, noise }));
+        voices.push(createAeroVoice({ context, mixer, noise }));
       }
       if (context.state !== 'running') await context.resume();
     },

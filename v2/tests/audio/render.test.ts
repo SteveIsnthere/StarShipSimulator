@@ -26,7 +26,7 @@ import {
   engineFilterHz,
   engineLevel,
   ENGINE_VACUUM_FLOOR,
-  SEA_LEVEL_PA,
+  SEA_LEVEL_KPA,
 } from '$audio/params';
 
 const SAMPLE_RATE = 24_000;
@@ -48,7 +48,7 @@ function rms(buffer: { getChannelData(channel: number): Float32Array }): number 
  * 500, but starting the measurement after the ramp would be measuring a
  * different thing at each level.
  */
-async function renderEngine(lit: number, throttle: number, airPressure = SEA_LEVEL_PA) {
+async function renderEngine(lit: number, throttle: number, airPressure = SEA_LEVEL_KPA) {
   const context = new OfflineAudioContext(1, SAMPLE_RATE * SECONDS, SAMPLE_RATE);
   const graph = context as unknown as AudioGraphContext;
   const mixer = createMixer(graph);
@@ -109,7 +109,7 @@ describe('the air fade, rendered', () => {
   it('falls toward its floor in vacuum without reaching silence', async () => {
     // The milestone's own claim, measured. M8.3 pins the curve across altitude;
     // this checks the graph actually carries it.
-    const sea = await renderEngine(3, 100, SEA_LEVEL_PA);
+    const sea = await renderEngine(3, 100, SEA_LEVEL_KPA);
     const vacuum = await renderEngine(3, 100, 0);
     console.log(
       `sea level RMS ${sea.toFixed(5)} · vacuum RMS ${vacuum.toFixed(5)} · ` +

@@ -397,7 +397,7 @@ out is the point of the whole milestone.*
   `OfflineAudioContext` render asserts the buffer's RMS is genuinely higher at 100% than at 40% and
   higher with three engines than with one — an assertion, not an opinion; writes diffed and counted
   against stubs like every other binder.
-- [ ] **M8.3 Aerodynamic noise and the vacuum fade** — band-passed noise driven by
+- [x] **M8.3 Aerodynamic noise and the vacuum fade** — band-passed noise driven by
   `dynamicPressure` and `machSpeed`, and everything attenuated by `atmosphere.airPressure`, which
   has been in SimState since M1.1 and which M6.7 already draws with. **This is the milestone.** The
   engine falls to a floor rather than to zero — structural conduction is real, and total silence
@@ -1760,3 +1760,26 @@ out is the point of the whole milestone.*
   first at step 38); and the fake context's AudioParams had no `setTargetAtTime`, which is a stub
   gap rather than a product bug — the same code renders correctly under the real context, which is
   why both kinds of test exist.
+- 2026-08-26 · M8.3 · **Aerodynamic noise and the vacuum fade. The milestone.** Band-passed noise
+  from `dynamicPressure`, brightening with `machSpeed`, and both voices attenuated by
+  `atmosphere.airPressure` — the field that has been in SimState since M1.1 and that M6.7 already
+  draws with, so ear and eye read the same number.
+  **What makes it a contrast rather than a fade-out** is that the two voices do different things.
+  The airflow goes to nothing, because there is no mechanism by which a vacuum roars. The engine
+  goes to a FLOOR, because structural conduction is real and you are bolted to the thing, and
+  because total silence during a burn reads as a bug rather than as physics. Measured on the
+  boostback golden above 50 km: **aero 2.21e-3 — about −47 dB, inaudible — while engine air holds
+  at 0.249.** A vacuum where everything is quieter sounds like the volume being turned down; a
+  vacuum where the air stops and the vehicle does not sounds like space.
+  **A unit bug, found by pinning the curves against real flights.** `SEA_LEVEL_PA` was written as
+  101 325 on the reasonable assumption that a pressure field is in pascals, and every test passed
+  because both sides of every comparison used the same wrong number. The tell was a launch that
+  flew through max-Q at an airflow level of **0.002** — silence. `atmosphere.airPressure` peaks at
+  101.0 on the pad and `forces.dynamicPressure` at 23.6 on a launch: kPa, as
+  `view/atmosphere-look.ts` has had right since M6.7. The layer had been computing an air fraction
+  of 0.1 at sea level and calling it full. Fixed; the same launch now peaks at **0.653** at 5.4 km.
+  Two tests were needed and neither is redundant: one says the sound goes away where it should, and
+  a fade that was always zero would have passed it happily; the other says there was a sound to go
+  away. Aero silence is asserted as INAUDIBLE (< 0.01) rather than exactly zero — the cube root
+  exists so the fade does not switch off a few kilometres up, and demanding arrival at zero would
+  mean undoing the thing the curve is shaped for.

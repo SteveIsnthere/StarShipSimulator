@@ -153,3 +153,79 @@ export function createEngineVoice(options: EngineVoiceOptions): Voice {
     },
   };
 }
+
+/**
+ * The airflow: band-passed noise, and the thing that goes to nothing.
+ *
+ *   noise -> bandpass -> gain -> aero bus
+ *
+ * Simpler than the engine, deliberately. The engine is a machine and needs two
+ * voices to sound like one; airflow is one phenomenon and a second layer would
+ * only muddy the band a small speaker has to reproduce.
+ *
+ * ITS FADE REACHES ZERO, and the engine's does not. That difference is the
+ * milestone: a vacuum where everything is quieter sounds like the volume being
+ * turned down, and a vacuum where the air stops but the vehicle you are bolted
+ * to does not sounds like space.
+ */
+export function createAeroVoice(options: EngineVoiceOptions): Voice {
+  const { context, mixer, noise } = options;
+
+  const source = context.createBufferSource();
+  source.buffer = noise;
+  source.loop = true;
+
+  const filter = context.createBiquadFilter();
+  filter.type = 'bandpass';
+  // Broad. A narrow band on noise whistles, and airflow is a rush rather than
+  // a tone — the Q is what separates "wind" from "kettle".
+  filter.Q.value = 0.7;
+
+  const gain = context.createGain();
+  gain.gain.value = 0;
+
+  source.connect(filter);
+  filter.connect(gain);
+  gain.connect(mixer.bus('aero'));
+  source.start();
+
+  let lastLevel: number | null = null;
+  let lastHz: number | null = null;
+  let lastWriteCount = 0;
+  let totalWrites = 0;
+
+  return {
+    get lastWriteCount() {
+      return lastWriteCount;
+    },
+    get totalWrites() {
+      return totalWrites;
+    },
+    // source, filter, gain.
+    nodeCount: 3,
+
+    update(params) {
+      lastWriteCount = 0;
+      const now = context.currentTime;
+
+      const level = params.aero * params.aeroAir;
+      if (level !== lastLevel) {
+        lastLevel = level;
+        gain.gain.setTargetAtTime(level, now, SMOOTH_SECONDS);
+        lastWriteCount += 1;
+      }
+
+      if (params.aeroHz !== lastHz) {
+        lastHz = params.aeroHz;
+        filter.frequency.setTargetAtTime(params.aeroHz, now, SMOOTH_SECONDS);
+        lastWriteCount += 1;
+      }
+
+      totalWrites += lastWriteCount;
+    },
+
+    stop() {
+      source.stop();
+    },
+  };
+}

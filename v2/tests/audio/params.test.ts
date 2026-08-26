@@ -23,7 +23,7 @@ import {
   ENGINE_VACUUM_FLOOR,
   litEngines,
   readParams,
-  SEA_LEVEL_PA,
+  SEA_LEVEL_KPA,
 } from '$audio/params';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import { step } from '$core/step';
@@ -150,7 +150,7 @@ describe('engine timbre', () => {
 
 describe('the air fade — set up here, and the milestone in M8.3', () => {
   it('is full at sea level and gone in vacuum', () => {
-    expect(airFraction(SEA_LEVEL_PA)).toBeCloseTo(1, 9);
+    expect(airFraction(SEA_LEVEL_KPA)).toBeCloseTo(1, 9);
     expect(airFraction(0)).toBe(0);
     expect(airFraction(-1)).toBe(0);
     expect(airFraction(NaN)).toBe(0);
@@ -160,8 +160,8 @@ describe('the air fade — set up here, and the milestone in M8.3', () => {
     // Cube root rather than linear: pressure falls exponentially, and a linear
     // reading would silence everything long before the vehicle is anywhere
     // interesting. This is the same lesson M7.5's rejected air term taught.
-    expect(airFraction(SEA_LEVEL_PA * 0.5)).toBeGreaterThan(0.75);
-    expect(airFraction(SEA_LEVEL_PA * 0.1)).toBeGreaterThan(0.4);
+    expect(airFraction(SEA_LEVEL_KPA * 0.5)).toBeGreaterThan(0.75);
+    expect(airFraction(SEA_LEVEL_KPA * 0.1)).toBeGreaterThan(0.4);
   });
 
   it('leaves the engine a floor rather than silence', () => {
@@ -169,12 +169,12 @@ describe('the air fade — set up here, and the milestone in M8.3', () => {
     // total silence during a burn reads as a bug rather than as physics.
     expect(engineAirGain(0)).toBe(ENGINE_VACUUM_FLOOR);
     expect(ENGINE_VACUUM_FLOOR).toBeGreaterThan(0);
-    expect(engineAirGain(SEA_LEVEL_PA)).toBeCloseTo(1, 9);
+    expect(engineAirGain(SEA_LEVEL_KPA)).toBeCloseTo(1, 9);
   });
 
   it('is monotonic in pressure', () => {
     let previous = -1;
-    for (let pa = 0; pa <= SEA_LEVEL_PA; pa += 500) {
+    for (let pa = 0; pa <= SEA_LEVEL_KPA; pa += 500) {
       const value = engineAirGain(pa);
       expect(value).toBeGreaterThanOrEqual(previous);
       previous = value;
