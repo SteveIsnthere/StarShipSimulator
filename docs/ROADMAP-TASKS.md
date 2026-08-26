@@ -450,7 +450,7 @@ for its first outing.*
   (vehicle framing on `landing-burn`, plume extent, cloud-deck tone spread, ground tone
   spread); tolerances wide enough to pass on all five projects, demonstrated by running them;
   the helper is documented with what it can and cannot prove.
-- [ ] **M9.2 One clock for the view** — `App.svelte` computes one wall `frameTime` and hands it
+- [x] **M9.2 One clock for the view** — `App.svelte` computes one wall `frameTime` and hands it
   both to `advance()` and to `updateCamera` / `clouds` / `distantEarth` / `effects`, but
   `advance` does not simulate `frameTime` seconds: it clamps at `MAX_FRAME_TIME`, drains whole
   `DT` steps, divides by the slow-motion factor, and has a max-steps bailout that zeroes the
@@ -2004,3 +2004,48 @@ for its first outing.*
   noticed — so it now waits for the throttle readout rather than for a number of milliseconds.
   **Gate:** lint, 1432 unit tests, build all exit 0; playwright **20/20 of the new spec green across
   all five projects**; `git diff v2/src/core` empty; first-load JS unchanged at 196.3 kB.
+- 2026-08-26 · M9.2 · **Bug-fix tier. The failing test landed first and both halves are kept.**
+  `App.svelte` measured one wall `frameTime` per rAF and gave the same number to `advance()`, which
+  BUDGETS it, and to the camera, clouds, distant earth, effects and post pass, which treat it as
+  world time that has PASSED. `advance` already returned everything needed to tell them apart and
+  the caller discarded it. `AdvanceResult` now carries `simulatedDt`, and every view consumer is
+  driven by it.
+  **But the clock alone was not the fix, and finding that out is the substance of this task.** The
+  camera is a second-order follow: where it ends up depends on the PATH its target took, not only
+  where the target finished. Advanced once per frame it sees the vehicle teleport — 1.1 km at a time
+  during a 9x re-entry, two thirds of a frame width — so it lags by an amount that still depends on
+  the frame rate. **The camera is now advanced from `AdvanceOptions.onStep`, once per simulation
+  step, always at exactly `DT`**, beside the flight recorder and for the same reason the recorder is
+  there. Worst offset of the vehicle from frame centre, over all seven goldens:
+
+  | | 60 fps | 400 ms stall every 2 s | 9x warp |
+  |---|---|---|---|
+  | wall clock (before) | 35% | **9693% — off screen** | **121126% — off screen**, four of seven lost |
+  | simulated, per frame | 35% | 62% | **485% — off screen** |
+  | simulated, per step (shipped) | 30% | 30% | 30% |
+
+  Identical in every configuration, to the metre — so M7.3's property 3 stops being a 1.71 m
+  tolerance and becomes an **exact equality**, asserted as one over all seven goldens across steady
+  frames, stalls, 9x warp and 1/9 slow motion. **The three broken clocks are kept as tests** that
+  assert they still lose the vehicle: without them the green half could pass because a scenario got
+  easier. **Second half — the give-up latch.** `centerizeAcceleration` returned exactly 0 beyond half
+  a viewport, so an error that got out there could never close. Per the owner's decision it is now
+  the caller's choice and `updateCamera` gives up only when `crashed`. Two things fell out. (a) The
+  existing test "a camera left outside that radius simply stays put" was **vacuously green** — the
+  camera never moved, so it asserted nothing; it now asserts recovery, with the crashed case beside
+  it. So was "does not overshoot wildly": a 300 m step is outside the give-up radius, so
+  `maxOvershoot` was 0 and the bound had never been evaluated against a moving camera. (b) 2021's
+  gain has a **pole at `max`** — unreachable while the branch beyond returned zero, reachable the
+  moment it did not, and it fired: one sub-step at a gain of 400 threw the camera to 10 km/s chasing
+  a vehicle doing 7 and put the ship 2.5 km outside the frame. `MAX_RECOVERY_GAIN = 2` caps it,
+  chosen because outside `threshold` the law is `x'' + x' + Gx = 0` on 2021's one-second constants,
+  so the damping ratio is `1/(2√G)` — 0.35 and ~30% overshoot at G=2. The cap bites only beyond 0.75
+  of the give-up radius, where the old code returned zero or was about to, so every value the old
+  code produced is unchanged to the digit. `updateCamera` also sub-steps at `CAMERA_MAX_DT = 1/120`,
+  with a test asserting that constant equals the loop's `DT`. **Property 6 added** — the vehicle
+  returns to frame from any seeded error, both directions, 1.1 to 2000 half-frames out, vertically
+  too, and wreckage still leaves: **5 red with the latch restored, 6 green without it.** A NaN guard
+  in the new harness earns its place — the first run drove the camera with an undefined dt, every
+  comparison against NaN was false, and four framing tests went green measuring nothing.
+  **Gate:** lint, **1477 unit tests** (45 new), build all exit 0; **playwright 306 passed, 6 skipped
+  across all five projects**; `git diff v2/src/core` empty; first-load JS 196.5 kB of 250.

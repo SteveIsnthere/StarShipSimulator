@@ -121,6 +121,26 @@ export interface AdvanceResult {
   readonly alpha: number;
   /** True if frame time was clamped, i.e. simulated time was dropped. */
   readonly clamped: boolean;
+  /**
+   * Seconds of SIMULATED time this frame advanced the world. `steps * DT`.
+   *
+   * WHAT THE VIEW MUST BE DRIVEN BY (M9.2), and the reason this field exists
+   * rather than the caller multiplying for itself. It is not the frame time,
+   * and the difference is every mechanism in this file: the clamp above drops
+   * simulated time on the floor, the accumulator hands out only whole steps,
+   * slow motion feeds it less real time, warp runs the step loop N times, and
+   * the max-steps bailout abandons the rest. A renderer handed the frame time
+   * integrates a different amount of world than the physics did, and the error
+   * is one-directional and cumulative.
+   *
+   * It cost three milestones to find that out. `advance` already returned
+   * `steps` and `clamped`, which between them say the same thing; App.svelte
+   * discarded the whole result and passed its own `frameTime` to the camera,
+   * the cloud deck, the distant earth and the particle system. On `reentry`
+   * that put the vehicle 1734 px off the left edge of a 1280 px frame, and
+   * `centerizeAcceleration` had given up by then so it never came back.
+   */
+  readonly simulatedDt: number;
 }
 
 /**
@@ -153,7 +173,7 @@ export function advance(
   }
 
   if (options.paused === true) {
-    return { steps: 0, alpha: loop.accumulator / DT, clamped };
+    return { steps: 0, alpha: loop.accumulator / DT, clamped, simulatedDt: 0 };
   }
 
   // Slow motion scales the real time entering the accumulator, never dt.
@@ -174,12 +194,12 @@ export function advance(
       loop.simulatedTime += DT;
       if (steps >= MAX_STEPS_PER_FRAME) {
         loop.accumulator = 0;
-        return { steps, alpha: 0, clamped: true };
+        return { steps, alpha: 0, clamped: true, simulatedDt: steps * DT };
       }
     }
   }
 
-  return { steps, alpha: loop.accumulator / DT, clamped };
+  return { steps, alpha: loop.accumulator / DT, clamped, simulatedDt: steps * DT };
 }
 
 /**

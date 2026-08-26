@@ -24,6 +24,7 @@ import {
   MAX_VEHICLE_DRAW_HEIGHT,
   MIN_VEHICLE_DRAW_HEIGHT,
   matchSpeedAcceleration,
+  MAX_RECOVERY_GAIN,
   shakeAmplitude,
   shouldBeSticky,
   updateCamera,
@@ -182,21 +183,92 @@ describe('the follow law', () => {
     expect(far / 400).toBeGreaterThan(near / 150);
   });
 
-  it('gives up beyond the maximum, so it does not lurch after a crash', () => {
+  it('gives up beyond the maximum when ASKED to, so it does not lurch after a crash', () => {
+    // The default is 2021's, so every caller written before M9.2 means what it
+    // always meant.
     expect(centerizeAcceleration(0, 600, 100, 500, 1)).toBe(0);
     expect(centerizeAcceleration(0, -600, 100, 500, 1)).toBe(0);
   });
 
-  it('and a camera left outside that radius simply stays put', () => {
-    // Worth asserting: it means the camera cannot be "teleported" into
-    // following something far away, which is the behaviour after a breakup.
+  it('and does not give up when asked not to — M9.2', () => {
+    /*
+      The owner's decision of 2026-08-26, as arithmetic. Beyond `max` the pull no
+      longer vanishes: it holds at MAX_RECOVERY_GAIN times the proportional
+      pull, which is finite, damped, and — crucially — non-zero, so the error
+      can close. Signed, because a camera that recovered in only one direction
+      would be worse than one that never recovered.
+    */
+    expect(centerizeAcceleration(0, 600, 100, 500, 1, false)).toBe(600 * MAX_RECOVERY_GAIN);
+    expect(centerizeAcceleration(0, -600, 100, 500, 1, false)).toBe(-600 * MAX_RECOVERY_GAIN);
+  });
+
+  it('caps the gain, so the pole at `max` cannot fling the camera', () => {
+    /*
+      2021's gain is `(max - threshold) / (max - magnitude)`, which goes to
+      infinity as the camera approaches the give-up radius from inside. That was
+      unreachable while the branch beyond `max` returned zero. Making the
+      give-up conditional made it reachable, and it fired: instrumented on
+      `reentry` with frames dropping, one sub-step at a gain of 400 threw the
+      camera to 10 km/s chasing a vehicle doing 7, and put the ship 2.5 km
+      outside the frame. The fix for the latch had reproduced the symptom from
+      the other side.
+    */
+    const atThePole = centerizeAcceleration(0, 499.999, 100, 500, 1, false);
+    expect(Number.isFinite(atThePole)).toBe(true);
+    expect(atThePole).toBe(499.999 * MAX_RECOVERY_GAIN);
+    // And exactly on the radius, where the raw expression divides by zero.
+    expect(centerizeAcceleration(0, 500, 100, 500, 1, false)).toBe(500 * MAX_RECOVERY_GAIN);
+  });
+
+  it('and the cap bites nowhere the old code did anything', () => {
+    /*
+      The raw gain only exceeds the cap beyond 0.75 of the give-up radius — and
+      out there the old code either returned zero (past `max`) or was about to.
+      Below that point every value is 2021's to the digit, which is what makes
+      this a fix rather than a retune.
+    */
+    for (const magnitude of [100, 150, 200, 250, 300, 350, 400, 449]) {
+      const raw = (500 - 100) / (500 - magnitude);
+      if (raw > MAX_RECOVERY_GAIN) continue;
+      expect(centerizeAcceleration(0, magnitude, 100, 500, 1), `${magnitude} m`).toBeCloseTo(
+        magnitude * raw,
+        9,
+      );
+    }
+  });
+
+  it('a camera left outside that radius RECOVERS, unless the vehicle is wreckage', () => {
+    /*
+      This test used to assert the opposite, and it was vacuously green: the
+      camera was 100 km away, `centerizeAcceleration` returned zero, both speeds
+      were zero, and so `cam.posX` did not move. It described the latch that put
+      the re-entry vehicle off the side of the screen for three milestones.
+
+      Since M9.2 it describes the owner's decision instead — a flying vehicle is
+      always worth following — and the crashed case, which keeps 2021's shot of
+      the wreckage leaving the frame, is asserted right beside it so the
+      distinction cannot rot.
+    */
     const v = viewport();
-    const cam = createCamera(v, 0, 0, 0);
-    cam.posX = -100_000;
-    const before = cam.posX;
-    updateCamera(cam, target({ downRangeDistance: 0, altitude: v.physicalHeight / 2 }), v, 1 / 60);
-    // Only the speed-matching term acts, and with both speeds zero it is zero.
-    expect(cam.posX).toBe(before);
+    const flying = createCamera(v, 0, 0, 0);
+    flying.posX = -100_000;
+    for (let i = 0; i < 60 * 60; i++) {
+      updateCamera(flying, target({ downRangeDistance: 0, altitude: v.physicalHeight / 2 }), v, 1 / 60);
+    }
+    expect(Math.abs(flying.posX), `recovered to ${flying.posX.toFixed(1)} m`).toBeLessThan(1);
+
+    const wreckage = createCamera(v, 0, 0, 0);
+    wreckage.posX = -100_000;
+    const before = wreckage.posX;
+    for (let i = 0; i < 60 * 60; i++) {
+      updateCamera(
+        wreckage,
+        target({ downRangeDistance: 0, altitude: v.physicalHeight / 2, crashed: true }),
+        v,
+        1 / 60,
+      );
+    }
+    expect(wreckage.posX).toBe(before);
   });
 
   it('matches speed proportionally to the difference', () => {
@@ -232,6 +304,17 @@ describe('following', () => {
   });
 
   it('does not overshoot wildly — it is damped, not springy', () => {
+    /*
+      READ THE HISTORY BEFORE TIGHTENING THIS. A 300 m step is outside the
+      160 m give-up radius of this viewport, so before M9.2 the camera did not
+      move at all: `maxOvershoot` was zero, the assertion was vacuous, and the
+      bound below was never once evaluated against a moving camera.
+
+      It measures something now. Outside `threshold` the law is
+      `x'' + x' + G*x = 0` on 2021's one-second constants, so the damping ratio
+      is `1 / (2*sqrt(G))`: at MAX_RECOVERY_GAIN = 2 that is 0.35 and the step
+      settles with about 30% of overshoot. Measured: 89 m on a 300 m step.
+    */
     const v = viewport();
     const cam = createCamera(v, 0, 0, 0);
     const t = target({ downRangeDistance: 300, altitude: v.physicalHeight / 2 });
@@ -240,7 +323,9 @@ describe('following', () => {
       updateCamera(cam, t, v, 1 / 60);
       maxOvershoot = Math.max(maxOvershoot, cam.posX - 300);
     }
-    expect(maxOvershoot).toBeLessThan(150);
+    const report = `overshoot ${maxOvershoot.toFixed(1)} m on a 300 m step`;
+    expect(maxOvershoot, report).toBeGreaterThan(0);
+    expect(maxOvershoot, report).toBeLessThan(120);
   });
 
   it('never looks below the ground', () => {
@@ -474,6 +559,55 @@ describe('property 1 — the vehicle stays framed, over all seven goldens', () =
     */
     expect(worstX, report).toBeLessThan(0.5);
     expect(worstY, report).toBeLessThanOrEqual(1);
+  });
+});
+
+describe('property 6 — it always comes back (M9.2)', () => {
+  /*
+    The sixth property, added by the owner's decision of 2026-08-26 alongside
+    M7.3's five. The other five say what the camera does while it is working;
+    this one says it cannot stop working. Seeded past the give-up radius — the
+    exact state the wall-clock bug used to put it in and leave it in — a camera
+    following a flying vehicle must return to frame, from any direction, at any
+    field of view.
+  */
+  it.each([
+    ['just outside the radius', 1.1],
+    ['a whole frame out', 2],
+    ['ten frames out', 20],
+    ['a kilometre of frames out', 2_000],
+  ])('recovers from an error %s', (_label, multiple) => {
+    const v = viewport();
+    for (const sign of [1, -1]) {
+      const cam = createCamera(v, 0, 0, 0);
+      cam.posX = sign * v.physicalWidth * 0.5 * multiple;
+      for (let i = 0; i < 60 * 120; i++) {
+        updateCamera(cam, target({ downRangeDistance: 0, altitude: v.physicalHeight / 2 }), v, 1 / 60);
+      }
+      expect(Math.abs(cam.posX), `from ${(sign * multiple).toFixed(1)} half-frames`).toBeLessThan(1);
+    }
+  });
+
+  it('recovers vertically too, and still never looks below the ground', () => {
+    const v = viewport();
+    const cam = createCamera(v, 0, 0, 0);
+    cam.posY = v.physicalHeight * 10;
+    for (let i = 0; i < 60 * 120; i++) {
+      updateCamera(cam, target({ downRangeDistance: 0, altitude: 3_000, speedY: 0 }), v, 1 / 60);
+      expect(cam.posY).toBeGreaterThanOrEqual(v.physicalHeight * 0.5 - 1e-9);
+    }
+    expect(Math.abs(cam.posY - 3_000)).toBeLessThan(1);
+  });
+
+  it('but wreckage is still allowed to leave, which is the point of keeping the branch', () => {
+    const v = viewport();
+    const cam = createCamera(v, 0, 0, 0);
+    cam.posX = v.physicalWidth * 5;
+    const before = cam.posX;
+    for (let i = 0; i < 600; i++) {
+      updateCamera(cam, target({ downRangeDistance: 0, altitude: 3_000, crashed: true }), v, 1 / 60);
+    }
+    expect(cam.posX).toBe(before);
   });
 });
 

@@ -15,7 +15,7 @@
   import { bloomIntensity, createPostPass, heatIntensity } from '$view/post';
   import { heatLimit } from '$core/constants';
   import { createIntroState, createScenarioState, INTRO, type ScenarioPreset } from '$core/scenarios';
-  import { advance, createLoopState, type LoopState } from '$app/loop';
+  import { advance, createLoopState, DT, type LoopState } from '$app/loop';
   import { vehicleHeight } from '$core/constants';
   import {
     createHudBinder,
@@ -208,16 +208,58 @@
   const recorder = createRecorder();
 
   /**
-   * Sampled per STEP, not per frame.
+   * What happens once per SIMULATION STEP, not once per frame.
    *
-   * The recorder's rule is "every fifth frame" in 2021's sense, where a frame
-   * was a step. A frame here runs however many steps the accumulator drained,
-   * so sampling once per frame would skip most sampling points and record a
-   * different flight at a different frame rate. See AdvanceOptions.onStep.
+   * Two things live here, for the same reason.
+   *
+   * THE RECORDER, since M4.5. Its rule is "every fifth frame" in 2021's sense,
+   * where a frame WAS a step. A frame here runs however many steps the
+   * accumulator drained, so sampling once per frame would skip most sampling
+   * points and record a different flight at a different frame rate.
+   *
+   * THE CAMERA, since M9.2, and it is the same argument one layer out. The
+   * camera is a second-order follow: where it ends up depends on the PATH its
+   * target took, not only on where that target finished. Advanced once per
+   * frame it sees the vehicle teleport — 1.1 km at a time during a 9x re-entry,
+   * two thirds of a frame width — and it can only ever chase an endpoint,
+   * so it lags by an amount that depends on the frame rate and the warp factor.
+   * Advanced once per step it sees every position the vehicle actually occupied,
+   * at a dt that is always exactly DT.
+   *
+   * The difference is not marginal. Measured over all seven goldens, at 60 fps
+   * and at 9x warp, with and without a 400 ms stall every two seconds, the worst
+   * offset of the vehicle from frame centre is now THE SAME NUMBER in all five
+   * configurations — 30% of a half-frame on `reentry`, 26% on `rtls`, 1% on the
+   * intro. Per frame it ranged from 30% to 1218%. Frame-rate independence
+   * (M7.3's property 3) stops being a tolerance and becomes an identity.
    *
    * A stable function, so passing it costs no allocation.
    */
-  const onStep = (state: import('$core/state').SimState) => recorder.sample(state);
+  const onStep = (state: import('$core/state').SimState) => {
+    recorder.sample(state);
+
+    const view = viewApp;
+    if (!view) return;
+
+    /*
+      The field of view follows altitude before the camera moves inside it
+      (M7.3). Order matters: the follow law's thresholds are fractions of the
+      viewport, so updating the camera against last step's viewport would aim it
+      using a frame that no longer exists.
+    */
+    view.followAltitude(state.kinematics.altitude);
+
+    cameraTarget.downRangeDistance = state.kinematics.downRangeDistance;
+    cameraTarget.altitude = state.kinematics.altitude;
+    cameraTarget.speedX = state.kinematics.speedX;
+    cameraTarget.speedY = state.kinematics.speedY;
+    cameraTarget.landed = state.status.landed;
+    cameraTarget.onTheGround = state.status.onTheGround;
+    cameraTarget.crashed = state.failures.crashed;
+    cameraTarget.dynamicPressure = state.forces.dynamicPressure;
+    cameraTarget.thrustAcceleration = state.forces.thrustAcceleration;
+    updateCamera(view.camera, cameraTarget, view.viewport, DT, cameraOptions);
+  };
 
   /**
    * The trajectory map (M7.1).
@@ -510,39 +552,30 @@
         const frameTime = (now - last) / 1000;
         last = now;
 
-        // `loopOptions` is derived, so this allocates only when the time-warp
-        // setting changes — not on every frame, which the budget forbids.
-        advance(loop, frameTime, loopOptions);
+        /*
+          `loopOptions` is derived, so this allocates only when the time-warp
+          setting changes — not on every frame, which the budget forbids.
+
+          THE RETURN VALUE IS THE POINT (M9.2). `advance` does not simulate
+          `frameTime` seconds: it clamps at MAX_FRAME_TIME, hands out only whole
+          DT steps, divides by the slow-motion factor, multiplies by the warp
+          factor and bails out at MAX_STEPS_PER_FRAME. `simulatedDt` is how much
+          world actually went past, and it is what every consumer below is
+          driven by. This line used to discard the result and pass `frameTime`
+          to all of them, which on `reentry` put the vehicle 1734 px off the
+          left edge of a 1280 px frame within four seconds and left it there.
+        */
+        const advanced = advance(loop, frameTime, loopOptions);
+        const worldDt = advanced.simulatedDt;
 
         const s = loop.state;
 
-        /*
-          The field of view follows altitude before the camera moves inside it
-          (M7.3). Order matters: the follow law's thresholds are fractions of
-          the viewport, so updating the camera against last frame's viewport
-          would aim it using a frame that no longer exists.
-        */
-        view!.followAltitude(s.kinematics.altitude);
-
-        cameraTarget.downRangeDistance = s.kinematics.downRangeDistance;
-        cameraTarget.altitude = s.kinematics.altitude;
-        cameraTarget.speedX = s.kinematics.speedX;
-        cameraTarget.speedY = s.kinematics.speedY;
-        cameraTarget.landed = s.status.landed;
-        cameraTarget.onTheGround = s.status.onTheGround;
-        cameraTarget.crashed = s.failures.crashed;
-        cameraTarget.dynamicPressure = s.forces.dynamicPressure;
-        cameraTarget.thrustAcceleration = s.forces.thrustAcceleration;
-        updateCamera(view!.camera, cameraTarget, view!.viewport, frameTime, cameraOptions);
-
+        // The camera has already moved, once per step, inside `onStep`. By here
+        // the viewport is set for `s`'s altitude and the lens is where it
+        // belongs, which is why neither appears in this function any more.
         sky.update(view!.camera, view!.viewport, s.kinematics.altitude);
-        distantEarth.update(
-          view!.viewport,
-          s.kinematics.altitude,
-          s.kinematics.speedX,
-          frameTime,
-        );
-        clouds.update(view!.viewport, s.kinematics.altitude, s.kinematics.speedX, frameTime);
+        distantEarth.update(view!.viewport, s.kinematics.altitude, s.kinematics.speedX, worldDt);
+        clouds.update(view!.viewport, s.kinematics.altitude, s.kinematics.speedX, worldDt);
         world.update(view!.camera, view!.viewport, s.kinematics.speedX, s.kinematics.altitude);
         vehicle.update(view!.camera, view!.viewport, {
           altitude: s.kinematics.altitude,
@@ -552,7 +585,7 @@
           aftFinExtension: s.vehicle.aftFinExtension,
         });
 
-        effects.update(particles, view!.camera, view!.viewport, s, loop.previous, frameTime);
+        effects.update(particles, view!.camera, view!.viewport, s, loop.previous, worldDt);
 
         {
           // Where the vehicle is going, as against where its nose points. The
@@ -573,7 +606,7 @@
           );
         }
 
-        elapsed += frameTime;
+        elapsed += worldDt;
         const nose = worldToScreen(
           view!.camera,
           view!.viewport,
@@ -612,7 +645,7 @@
             mapSurface.dirty = false;
             mapRenderer.redraw(s);
           } else {
-            mapRenderer.update(s, frameTime);
+            mapRenderer.update(s, worldDt);
           }
         }
 

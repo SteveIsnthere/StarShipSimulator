@@ -303,12 +303,49 @@ export function createCamera(
 }
 
 /**
+ * The most this law will ever multiply the proportional pull by.
+ *
+ * 2021's gain is `(max - threshold) / (max - magnitude)`, which has a POLE at
+ * `max`: as the camera approaches the give-up radius from inside, the
+ * acceleration goes to infinity. That was unreachable while the branch beyond
+ * `max` returned zero, and M9.2 makes the give-up conditional, so it stops being
+ * unreachable — and it fires. Instrumented on `reentry` with frames dropping,
+ * one sub-step at a gain of 400 threw the camera to 10 km/s chasing a vehicle
+ * doing 7, and the resulting overshoot put the ship 2.5 km outside the frame:
+ * the fix for the give-up latch had reintroduced the same symptom from the other
+ * side.
+ *
+ * Two is the cap because it is what keeps the response DAMPED. Outside
+ * `threshold` the law is `x'' + x' + G*x = 0` on 2021's one-second constants, so
+ * the damping ratio is `1 / (2*sqrt(G))`: at G = 2 that is 0.35 and a step
+ * settles with about 30% overshoot, at G = 4 it is 0.25 and 44%, and at the
+ * uncapped pole it is zero and the camera rings. It also bites nowhere the old
+ * code did anything: the raw gain only exceeds 2 beyond 0.75 of the give-up
+ * radius, and no golden scenario in steady flight gets past `threshold` at all.
+ */
+export const MAX_RECOVERY_GAIN = 2;
+
+/**
  * drawMethods.js:184 — accelerate toward a target position.
  *
  * Inside `threshold` it is a simple proportional pull. Between `threshold` and
  * `max` the gain rises as the gap widens, so the camera catches up harder the
- * further behind it falls. Beyond `max` it gives up and lets the vehicle leave
- * the frame, which is what keeps it from lurching after a crash.
+ * further behind it falls.
+ *
+ * BEYOND `max`, 2021 returned zero — the camera gave up and let the vehicle
+ * leave the frame. The intent was "do not lurch after an explosion" and it is
+ * worth keeping for exactly that; what it did in practice was apply to a vehicle
+ * flying perfectly normally, and because the pull is zero out there the error
+ * could never close again. A re-entry that fell behind once stayed behind for
+ * the rest of the flight.
+ *
+ * So the give-up is now the CALLER'S choice, and by the owner's decision of
+ * 2026-08-26 `updateCamera` makes it only when the vehicle has crashed. The
+ * default is 2021's, so every existing caller and every existing test means what
+ * it always meant.
+ *
+ * @param giveUpBeyondMax when true, return 0 outside `max` — 2021's behaviour,
+ *   and what a destroyed vehicle still gets.
  */
 export function centerizeAcceleration(
   currentPos: number,
@@ -316,15 +353,23 @@ export function centerizeAcceleration(
   threshold: number,
   max: number,
   timeToAlign: number,
+  giveUpBeyondMax = true,
 ): number {
   const difference = targetPos - currentPos;
   const magnitude = Math.abs(difference);
 
   if (magnitude < threshold) return difference / timeToAlign;
-  if (magnitude < max) {
-    return (difference / timeToAlign) * ((max - threshold) / (max - magnitude));
-  }
-  return 0;
+  if (giveUpBeyondMax && magnitude >= max) return 0;
+
+  /*
+    Inside `max` the gain is 2021's, rising as the gap widens. Outside it — on a
+    vehicle still flying, which since M9.2 is every case but a crash — the gain
+    simply holds at the cap: the pull never stops, so the error always closes,
+    and it never exceeds the bound that keeps the response damped.
+  */
+  const raw = magnitude < max ? (max - threshold) / (max - magnitude) : MAX_RECOVERY_GAIN;
+  const gain = raw > MAX_RECOVERY_GAIN ? MAX_RECOVERY_GAIN : raw;
+  return (difference / timeToAlign) * gain;
 }
 
 /** drawMethods.js:208 — accelerate toward matching a target velocity. */
@@ -455,17 +500,51 @@ export function shouldBeSticky(target: CameraTarget, viewport: Viewport): boolea
 }
 
 /**
- * Advance the camera by `dt` real seconds.
+ * s — the longest step this file will integrate in one go.
  *
- * Mutates in place: this runs once per frame and CLAUDE.md asks for no
- * allocation on that path.
+ * WHY THE CAMERA SUB-STEPS (M9.2). Driving the view on simulated time fixed
+ * WHICH number reaches the camera; it did not fix how big that number can get.
+ * A dropped frame hands over 0.25 s at once, and time warp hands over up to nine
+ * times the frame — at 9x on a 60 Hz display the camera would be integrated at
+ * 6.7 Hz while the physics ran at 1080. One Euler step of 0.15 s moves a
+ * re-entering vehicle 1.1 km, which is most of a frame width, and the camera's
+ * own step cannot express that: it lags, and property 3 — the same camera path
+ * at every frame rate — is violated by construction rather than by tuning.
+ *
+ * So `updateCamera` divides whatever it is given into steps no longer than this
+ * and integrates each. 1/120 is the simulation's own rate, which makes the
+ * choice principled rather than tuned: at the limit the camera advances in
+ * lockstep with the physics it is following. It is written out here rather than
+ * imported from `$app/loop` because dependencies point down and `app/` is above
+ * `view/`; `tests/app/view-clock.test.ts` asserts the two agree.
+ *
+ * At a normal frame rate this changes nothing — 60 fps is 1/60, which is two
+ * steps, and the result differs from one step by less than a hundredth of a
+ * metre.
  */
-export function updateCamera(
+export const CAMERA_MAX_DT = 1 / 120;
+
+/**
+ * The most sub-steps one call will ever take.
+ *
+ * `advance`'s own bailout can hand over sixteen seconds of simulated time in a
+ * single frame, and a loop sized off that would be a stall of its own. Past the
+ * cap the steps simply get longer: the camera is then integrating coarsely, but
+ * a coarse camera is not a hang.
+ */
+export const MAX_CAMERA_SUBSTEPS = 64;
+
+/**
+ * One integration step of the follow law. See `updateCamera`.
+ *
+ * Split out so the sub-stepping loop has something to call, and kept free of
+ * the shake, which is a property of the whole frame rather than of each step.
+ */
+function integrateCamera(
   camera: CameraState,
   target: CameraTarget,
   viewport: Viewport,
   dt: number,
-  options?: CameraOptions,
 ): void {
   camera.sticky = shouldBeSticky(target, viewport);
 
@@ -479,6 +558,17 @@ export function updateCamera(
   */
   const leadX = framingLead(target.speedX, viewport.physicalWidth);
 
+  /*
+    THE GIVE-UP IS FOR WRECKAGE ONLY (M9.2, owner decision 2026-08-26).
+
+    A flying vehicle is always worth following, however far behind the camera
+    has fallen; a destroyed one is not, and letting the lens hold still while
+    the debris leaves the frame is the shot 2021 wanted. Passing `crashed`
+    through is the smallest change that keeps that intent and makes every other
+    case recoverable.
+  */
+  const giveUp = target.crashed;
+
   camera.accX =
     centerizeAcceleration(
       camera.posX,
@@ -486,6 +576,7 @@ export function updateCamera(
       viewport.physicalWidth * 0.25,
       viewport.physicalWidth / 2,
       ALIGN_TIME_CENTERIZE,
+      giveUp,
     ) +
     matchSpeedAcceleration(
       camera.speedX,
@@ -514,6 +605,7 @@ export function updateCamera(
         viewport.physicalHeight * 0.25,
         viewport.physicalHeight / 2,
         ALIGN_TIME_CENTERIZE,
+        giveUp,
       ) + matchSpeedAcceleration(camera.speedY, target.speedY, ALIGN_TIME_MATCH_SPEED);
 
     camera.speedY += camera.accY * dt;
@@ -529,21 +621,50 @@ export function updateCamera(
     camera.speedY = 0;
     camera.posY = viewport.physicalHeight * 0.5;
   }
+}
+
+/**
+ * Advance the camera by `dt` seconds of SIMULATED time.
+ *
+ * NOT REAL SECONDS, since M9.2, and the change of word is the whole of that
+ * task. `App.svelte` used to hand this the wall frame time while `advance()`
+ * simulated something else, and the gap between the two is not noise: it is the
+ * clamp, the accumulator remainder, the slow-motion divisor, the warp
+ * multiplier and the max-steps bailout, all of them one-directional. Pass
+ * `AdvanceResult.simulatedDt`.
+ *
+ * Mutates in place: this runs once per frame and CLAUDE.md asks for no
+ * allocation on that path. The sub-step loop allocates nothing.
+ */
+export function updateCamera(
+  camera: CameraState,
+  target: CameraTarget,
+  viewport: Viewport,
+  dt: number,
+  options?: CameraOptions,
+): void {
+  // A negative or NaN dt is a clock that went backwards. Treat it as no time,
+  // the same way the loop does, rather than as chaos.
+  const span = dt > 0 ? dt : 0;
+  const substeps =
+    span > CAMERA_MAX_DT ? Math.min(MAX_CAMERA_SUBSTEPS, Math.ceil(span / CAMERA_MAX_DT)) : 1;
+  const h = span / substeps;
+  for (let i = 0; i < substeps; i++) integrateCamera(camera, target, viewport, h);
 
   /*
     The lens, last, and separately from everything above.
 
-    `shakeTime` advances by dt so the oscillators run at the same rate whatever
-    the frame rate — a shake driven by a frame counter would be a different
-    shake at 30 fps, which is the 2021 bug this rewrite exists to avoid
-    repeating.
+    `shakeTime` advances by the whole span rather than per sub-step, so the
+    oscillators run at the same rate whatever the frame rate — a shake driven by
+    a frame counter would be a different shake at 30 fps, which is the 2021 bug
+    this rewrite exists to avoid repeating.
   */
   if (options?.reducedMotion) {
     camera.shakeX = 0;
     camera.shakeY = 0;
     return;
   }
-  camera.shakeTime += dt;
+  camera.shakeTime += span;
   const amplitude =
     shakeAmplitude(target.dynamicPressure ?? 0, target.thrustAcceleration ?? 0) *
     viewport.physicalHeight *
