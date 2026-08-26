@@ -110,3 +110,48 @@ for (const [label, metres] of [
     });
   });
 }
+
+/* ── M9.9: the shot this application could not take until M9.2 ─────────── */
+
+/**
+ * A re-entry, WITH THE VEHICLE IN IT.
+ *
+ * Before M9.2 this image was impossible. The `reentry` preset put the ship
+ * 1734 px off the left edge of a 1280 px frame within four seconds of loading
+ * and left it there for the rest of the flight, because the view was driven by
+ * wall time while the simulation was driven by its own — so every screenshot of
+ * a re-entry that anyone could have taken was a screenshot of an empty sky.
+ * That is why it is worth a picture of its own rather than a line in a log.
+ *
+ * Held in slow motion for the shutter, for the same reason the shake spec is:
+ * at 7 km/s the vehicle crosses a frame in a fifth of a second, and a capture
+ * timed by wall clock would land somewhere different every run.
+ */
+test('capture a re-entry @screenshot', async ({ page }) => {
+  test.skip(!process.env['CAPTURE_SCREENSHOT'], 'set CAPTURE_SCREENSHOT=1 to write the image');
+
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto('/', { waitUntil: 'load' });
+  const altitude = page.locator(byTestId(readoutValueTestId('altitude')));
+  await expect
+    .poll(async () => (await altitude.textContent()) !== '', { timeout: 20_000 })
+    .toBe(true);
+
+  await page.locator(byTestId('open-menu')).click();
+  await page.locator(byTestId('preset-reentry')).click();
+  await page.locator(byTestId('menu-configure')).click();
+  await expect(page.locator(byTestId('menu'))).toBeHidden();
+
+  await page.locator(byTestId('open-menu')).click();
+  await page.locator(byTestId('menu-time-direction')).click();
+  await page.locator(byTestId('menu-time-rate')).fill('4');
+  await page.locator(byTestId('menu-close')).click();
+  await expect(page.locator(byTestId('menu'))).toBeHidden();
+
+  // Long enough for the plasma trail to build behind it.
+  await page.waitForTimeout(6_000);
+
+  await page.screenshot({
+    path: fileURLToPath(new URL('../../../docs/reentry.png', import.meta.url)),
+  });
+});

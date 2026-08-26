@@ -31,7 +31,11 @@ import {
   plumeScaleFactor,
   plumeSpreadFactor,
   SEA_LEVEL_PRESSURE,
+  shockCellLength,
+  shockDiamondStrength,
 } from '$view/atmosphere-look';
+import { PARTICLE_TEXTURES, writeParticleTexture } from '$view/particles';
+import { MOTTLE_TILE, RAMP_HEIGHT, writeGroundRamp, writeMottleTile } from '$view/terrain';
 import * as cmd from '$core/control/commands';
 
 /** Median of repeated timings — mean is hostage to a single GC pause. */
@@ -336,5 +340,112 @@ describe('particle pool headroom, with the velocity streaks added', () => {
     expect(peak, `peak ${peak} of ${particles.capacity}`).toBeLessThan(particles.capacity * 0.75);
     // And it is genuinely emitting, or this measures nothing.
     expect(peak).toBeGreaterThan(100);
+  });
+});
+
+/* ── M9.9: what M9 cost the frame path ─────────────────────────────────── */
+
+describe('M9 added emitters and a banding term — measure them, do not assume', () => {
+  it('the shock-banded core does not grow the pool either', () => {
+    /*
+      The same invariant as the two above, run over M9.6's additions: a second
+      plume emitter, and the first effect ever to carry a per-particle BAND —
+      which means the first that reads a stored spawn position every frame. A
+      new call shape into a pooled system is exactly where the 2021 leak came
+      from, and the band arrives through two new optional arguments.
+
+      Spacing and strength are swept rather than held, because a constant would
+      exercise the one case least likely to be wrong: `bandOf` is set to zero
+      when strength is zero, which is the branch that keeps this free for the
+      other eight effects.
+    */
+    const particles = createParticleSystem(Texture.EMPTY, 1_000, 9_090_909);
+    const children = particles.container.children.length;
+
+    for (let frame = 0; frame < 20_000; frame++) {
+      const pressure = SEA_LEVEL_PRESSURE * (0.5 + 0.5 * Math.sin(frame * 0.01));
+      particles.emit(
+        'raptorPlumeCore',
+        0,
+        0,
+        0,
+        1,
+        DT,
+        plumeScaleFactor(pressure),
+        plumeSpreadFactor(pressure),
+        shockCellLength(pressure),
+        shockDiamondStrength(pressure),
+      );
+      particles.emit('raptorPlume', 0, 0, 0, 1, DT, plumeScaleFactor(pressure));
+      particles.update(DT);
+      expect(particles.container.children.length).toBe(children);
+    }
+
+    expect(particles.alive).toBeGreaterThan(0);
+    expect(particles.alive).toBeLessThanOrEqual(particles.capacity);
+  });
+
+  it('costs a measurable and small fraction of the frame, banded or not', () => {
+    /*
+      THE NUMBER M9.9 EXISTS TO REPORT. The banding is a hypot and a cosine per
+      live particle per frame, and the honest way to know what that costs is to
+      run the same pool both ways and subtract — not to reason about it.
+
+      Reported rather than tightly bounded: this runs on whatever CI machine is
+      free, and a per-frame budget asserted to the microsecond on shared hardware
+      is a flake with a plan. The bound is the HUD's 2 ms, which the whole
+      particle system has to fit inside several times over.
+    */
+    const run = (banded: boolean): number => {
+      const particles = createParticleSystem(Texture.EMPTY, 4_000, 1_234_567);
+      // Fill the pool to something like a real peak before timing anything.
+      for (let i = 0; i < 400; i++) {
+        particles.emit('raptorPlumeCore', 0, 0, 0, 1, DT, 1, 1, banded ? 40 : 0, banded ? 0.55 : 0);
+        particles.update(DT);
+      }
+      const started = performance.now();
+      for (let frame = 0; frame < 2_000; frame++) {
+        particles.emit('raptorPlumeCore', 0, 0, 0, 1, DT, 1, 1, banded ? 40 : 0, banded ? 0.55 : 0);
+        particles.update(DT);
+      }
+      return (performance.now() - started) / 2_000;
+    };
+
+    const plain = run(false);
+    const banded = run(true);
+    const report =
+      `particle update: ${(plain * 1000).toFixed(1)} us/frame plain, ` +
+      `${(banded * 1000).toFixed(1)} us banded — the shock train costs ` +
+      `${((banded - plain) * 1000).toFixed(1)} us`;
+    console.log(report);
+
+    expect(banded, report).toBeLessThan(2);
+    expect(plain, report).toBeLessThan(2);
+  });
+
+  it('generating every texture M9 added is a mount cost, not a frame cost', () => {
+    /*
+      Four particle textures and two terrain textures, all generated rather than
+      fetched — which is what keeps the asset budget byte-identical. The trade
+      is CPU at mount, and "off the critical path" is a claim worth measuring
+      rather than asserting: a second of noise generation before the first frame
+      would be a worse bargain than shipping the art.
+
+      Measured through the pure writers, because the canvas half needs a DOM and
+      the arithmetic is all of the cost.
+    */
+    const started = performance.now();
+    const cell = new Uint8ClampedArray(64 * 64 * 4);
+    for (const name of PARTICLE_TEXTURES) writeParticleTexture(name, 64, cell);
+    const tile = new Uint8ClampedArray(MOTTLE_TILE * MOTTLE_TILE * 4);
+    writeMottleTile(MOTTLE_TILE, tile);
+    const ramp = new Uint8ClampedArray(RAMP_HEIGHT * 4);
+    writeGroundRamp(RAMP_HEIGHT, ramp);
+    const elapsed = performance.now() - started;
+
+    console.log(`generating all six M9 textures: ${elapsed.toFixed(1)} ms, once, at mount`);
+    // A frame is 16.7 ms. Generating everything must cost less than a handful of
+    // them, or the page has a visible hitch where it used to have a download.
+    expect(elapsed, `${elapsed.toFixed(1)} ms`).toBeLessThan(120);
   });
 });

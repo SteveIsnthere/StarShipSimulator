@@ -34,6 +34,15 @@ ninety degrees.
 <img src="docs/depth-100km.png" alt="A hundred kilometres up: stars, and the earth below" width="270">
 </p>
 
+![A re-entry at eighty kilometres and seven and a third kilometres a second: the vehicle broadside to the airflow with a plasma trail streaming behind it, velocity streaks tearing past, and the earth a mottled band below](docs/reentry.png)
+
+That picture was impossible until August 2026, and not because nobody took it.
+The view was driven by the wall clock while the simulation was driven by its
+own, so a `Re-entry` put the vehicle 1734 px off the left edge of a 1280 px
+frame within four seconds of loading — and the follow law gave up beyond half a
+viewport, so it never came back. Every screenshot anyone could have taken of a
+re-entry was a screenshot of an empty sky. See `docs/GRAPHICS-PLAN.md`.
+
 ---
 
 ## Playing it

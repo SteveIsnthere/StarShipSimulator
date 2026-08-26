@@ -546,7 +546,7 @@ for its first outing.*
   files, asset budget byte-identical; the harness shows tone spread across the ground band at
   three altitudes where today it shows one value; the roaming rule and the fixed StarBase
   positions are unchanged. **The pig is at x = 0 and stays there.**
-- [ ] **M9.9 Perf, budget, mobile, ship** — the standard closer. Frame-path cost of the added
+- [x] **M9.9 Perf, budget, mobile, ship** — the standard closer. Frame-path cost of the added
   emitters and textures measured against the M7 baseline and reported, not assumed; texture
   generation timed at mount and shown to be off the critical path; all five Playwright projects
   including the four phone viewports; fresh screenshots — including, for the first time, a
@@ -2302,3 +2302,47 @@ for its first outing.*
   **Gate:** lint, **1533 unit tests** (10 new), build all exit 0; **playwright 336 passed, 6 skipped
   across all five projects**; `git diff v2/src/core` still comment lines and nothing else; digests
   unmoved; first-load JS **202.7 kB** of 250 — the generator's code, and no art.
+- 2026-08-26 · M9.9 · **The closer, with the numbers measured rather than assumed.**
+  **Frame path.** The shock banding is a hypot and a cosine per live particle per frame, so the
+  pool was run both ways and subtracted rather than reasoned about: **34.4 µs/frame plain, 44.0 µs
+  banded — the shock train costs 9.5 µs**, which is 0.06% of a 16.7 ms frame and one two-hundredth
+  of the HUD's own 2 ms budget. The banded core is also run through the same
+  pool-never-grows invariant M3.3 and M7.5 use, with spacing and strength SWEPT rather than held,
+  because `bandOf` is set to zero when strength is zero and that is the branch keeping this free for
+  the other eight effects.
+  **Mount cost.** Six textures are now generated instead of fetched — four particle frames, the
+  terrain mottle, the ground ramp — and "off the critical path" is a claim worth measuring:
+  **21.3 ms, once, at mount**, while the art is being fetched anyway. A second of noise generation
+  before the first frame would have been a worse bargain than shipping the art; 21 ms is not.
+  **Pool headroom: 747 of 4000 (81% free)**, at `launch-pad-takeoff`, against M7's 576 baseline.
+  **Budgets.** First-load JS **202.7 kB of 250** — up 6.4 kB across the milestone, every byte of it
+  generator code and none of it art. Fonts 32.7 of 80. Audio 0.0 of 250. **The asset budget is
+  byte-identical: 22 `.webp` files at the M9 start commit and 22 now**, which is what "generated,
+  never shipped" was for.
+  **The milestone-wide claims, verified at this commit.** `git diff v2/src/core` against the M9
+  start commit: **171 changed lines, zero of them non-comment**. `git log a90d97f..HEAD -- src/core`
+  lists exactly one commit, **M9.4**. `tests/golden/unification.test.ts` is untouched since
+  **2fc2d85 (M2.14)**, so the seven digests are byte-identical to their M2.14 values.
+  **Screenshots refreshed, including one that was impossible.** `docs/reentry.png` is a re-entry at
+  80 km and 7.3 km/s with the vehicle IN THE FRAME, plasma trail streaming, velocity streaks tearing
+  past. Before M9.2 that picture could not be taken: the ship was 1734 px off the left edge within
+  four seconds and the follow law had given up. The README carries it, with the reason.
+  **WHAT NO TEST COVERS IS WHETHER IT LOOKS GOOD.** Twenty-eight new assertions across nine tasks
+  measure extent in ship-lengths, tone spread, blown-out share, mid-tone share, cone width,
+  wander in pixels and microseconds per frame. Not one of them is an opinion about the picture, and
+  none of them can be. Whether a plume two and a half ship-lengths long is right, whether 0.6% of
+  viewport height is the correct shake, whether the deck now reads as cloud or as haze — those are
+  viewing decisions, and this milestone hands them back rather than pretending otherwise.
+  **Gate:** lint, **1536 unit tests**, build all exit 0; **playwright 336 passed, 7 skipped across
+  all five projects**, phone viewports included.
+
+## M9 — done
+
+Nine tasks, nine commits, 2026-08-26. The milestone found three shipped bugs that three milestones
+of screenshot review had missed — a camera that had never framed a re-entry, a shake constant a
+thousand times too large, a fin trail saturated for 85% of a launch — and closed the class by
+building the instrument first. Four wrong unit annotations in `core/` were found by an audit that
+was only granted because one of them had already caused two of those bugs. Three of the plan's own
+acceptance metrics turned out to be the wrong statistic and were replaced with ones that
+discriminate, each said out loud rather than quietly loosened; one test was retired for the same
+reason. `core/` is unchanged but for comments; the seven digests have not moved since M2.14.
