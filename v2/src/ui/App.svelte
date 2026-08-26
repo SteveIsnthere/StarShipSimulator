@@ -4,6 +4,7 @@
   import { updateCamera, worldToScreen } from '$view/camera';
   import { loadTextures } from '$view/assets';
   import { createWorld } from '$view/world';
+  import { createTerrainTextures } from '$view/terrain';
   import { createDistantEarth } from '$view/distant-earth';
   import { createFlightPathMarker } from '$view/motion-cues';
   import { createCloudDeck } from '$view/clouds';
@@ -455,7 +456,14 @@
         view.destroy();
         return;
       }
-      const world = createWorld(textures);
+      /*
+        The generated terrain (M9.8): a tileable mottle and a vertical ramp,
+        shared by the near ground and the far earth so the two surfaces cannot
+        become two different materials. Built before either, because both are
+        constructed with it.
+      */
+      const terrain = createTerrainTextures();
+      const world = createWorld(textures, terrain);
       const vehicle = createVehicle(textures);
       /*
         The distant earth goes in the FAR layer, behind the true ground (M7.4).
@@ -473,7 +481,7 @@
       */
       const particleTextures = createParticleTextures(view.app.renderer);
 
-      const distantEarth = createDistantEarth();
+      const distantEarth = createDistantEarth(terrain);
       view.layers.far.addChild(distantEarth.container);
       /*
         The cloud deck goes in FRONT of the distant earth and behind the true

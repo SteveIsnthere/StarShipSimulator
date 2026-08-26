@@ -535,7 +535,7 @@ for its first outing.*
   the distant earth. Accept: every existing test in `tests/view/clouds.test.ts` green
   unmodified — if one has to change, the change is the finding and it gets said out loud; the
   harness shows a wider tone spread across the deck than the single flat value today.
-- [ ] **M9.8 The ground and the far earth** — `GROUND_COLOR` fills one `Graphics` with a curved
+- [x] **M9.8 The ground and the far earth** — `GROUND_COLOR` fills one `Graphics` with a curved
   top edge and no texture at all, so at 120 m the bottom third of the frame is a single colour;
   `distant-earth.ts` has the same problem one layer out, a band with a hard top edge and a
   repeating mark pattern that reads as bumps. Both get a generated low-frequency noise fill,
@@ -2258,3 +2258,47 @@ for its first outing.*
   **Gate:** lint, **1523 unit tests** (4 new), build all exit 0; **playwright 331 passed across all
   five projects**; `git diff v2/src/core` still comment lines and nothing else; digests unmoved;
   first-load JS **197.6 kB** of 250.
+- 2026-08-26 · M9.8 · Two `Graphics` fills — the near ground and the far earth — and nothing else,
+  so at six kilometres the bottom fifth of the frame measured **luma spread 0.47, one tone bucket,
+  and a single 4-bit colour bin holding 100% of the pixels.** A flat brown band at the bottom of a
+  picture reads as ground, which is why three milestones of screenshot review never mentioned it.
+  **Two generated textures in a new `view/terrain.ts`, both greyscale and both TINTED THROUGH THE
+  EXISTING `groundTint` PATH** — the constraint that matters, because M6.7 made the ground dim with
+  the sky after 2021 darkened one and not the other, and a terrain fill picking its own colours
+  would reintroduce that one layer down. `MOTTLE` is a tileable three-octave value noise drawn as a
+  TilingSprite, contrast-stretched (summed octaves tend to their mean: the raw sum sat at 183..231
+  and gave a standard deviation of 9 of 255, visible only to an instrument); `RAMP` is a vertical
+  gradient multiplied over it, squared so most of the change lands in the first third below the
+  horizon where the air actually thins. Both start below the horizon bow's lowest point, because a
+  rectangle drawn from the middle of a curved edge hangs over the sky at the frame's edges. The
+  mottle scrolls with the camera — a stationary texture under a moving vehicle is worse than none,
+  because it says the ground is not moving. The far earth gets the same tile at a coarser scale, so
+  the two read as different distances rather than one surface at two heights.
+  **The number, at the three altitudes the acceptance line names:**
+
+  | altitude | spread | tone buckets | dominant bin |
+  |---|---|---|---|
+  | before, 6 km | **0.47** | 1 | **100%** |
+  | 200 m | 13.67 | 4 | 32% |
+  | 6 000 m | 11.76 | 3 | 31% |
+  | 40 000 m | 10.59 | 3 | 30% |
+
+  **Twelve more scenery objects, no new art.** Eleven objects covered a planet, four of them
+  roaming, so a downrange flight passed the same two trees against empty ground. Every added `src`
+  already appears in the table, so `loadTextures` fetches the same files: **9 distinct sources
+  before and after, 22 `.webp` files in the repo before and after.** The roaming rule is 2021's
+  unaltered, the six fixed StarBase positions are asserted unchanged, and **the pig is at x = 0**,
+  asserted by name.
+  **Two e2e bounds moved and both are findings.** `plume.spec.ts`'s ceiling went 4 → 6 because the
+  portrait phones measure 3–4.2 ship-lengths where the desktop measures 2.5 — their frames are
+  2202 px tall against a 135 px vehicle, so the box catches the faint tail the desktop clips. And
+  the vacuum-bloom claim now measures width in a **NEAR-FIELD strip just below the nozzle**: over
+  the whole plume, the widest part is far from the nozzle and how much of it lands in a fixed box
+  depends on where the climbing vehicle happens to be — that moved the desktop's low-altitude width
+  between 0.72 and 0.84 run to run, which was most of the difference being detected. In the near
+  field the cone is the cone: **0.66–1.10 low → 0.97–1.77 vacuum**, ratios 1.33 to 1.73 against a
+  bound of 1.2. Aspect was tried and is worse — in vacuum the black sky lets the tail register so
+  the length grows too, putting the desktop at exactly 1.25 with nothing to spare.
+  **Gate:** lint, **1533 unit tests** (10 new), build all exit 0; **playwright 336 passed, 6 skipped
+  across all five projects**; `git diff v2/src/core` still comment lines and nothing else; digests
+  unmoved; first-load JS **202.7 kB** of 250 — the generator's code, and no art.

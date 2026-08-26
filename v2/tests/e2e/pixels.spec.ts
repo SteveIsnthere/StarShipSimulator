@@ -254,20 +254,59 @@ test('the ground band is ground @mobile', async ({ page }) => {
   expect(ground.darkFraction, `the ground band is night\n${message}`).toBeLessThan(0.2);
 
   /*
-    AND THE MEASUREMENT M9.8 EXISTS TO MOVE, recorded here rather than asserted.
+    THE MEASUREMENT M9.8 MOVED, now asserted rather than recorded.
 
-    At six kilometres this band is ONE COLOUR: luma spread 0.47 on the desktop
-    project and 1.29 on a Pixel 7, a single tone bucket, and a 4-bit colour
-    histogram in which one bin holds 100% of the pixels. No screenshot ever said
-    that out loud, and it is the whole of M9.8's case.
+    M9.1 found this band to be ONE COLOUR at six kilometres: luma spread 0.47 on
+    the desktop project, a single tone bucket, and a 4-bit colour histogram in
+    which one bin held 100% of the pixels. No screenshot ever said that out loud
+    and it was the whole of M9.8's case. After it:
+
+      altitude    spread   tone buckets   dominant bin
+        200 m       9.82        3             0.42
+       6 000 m      9.63        3             0.41
+      40 000 m      8.69        3             0.40
   */
+  expect(ground.lumaSpread, `the ground band is one flat value again\n${message}`).toBeGreaterThan(
+    3,
+  );
   expect(
     ground.topColours[0]!.fraction,
-    `the ground band has gained structure — M9.8 has landed, so tighten this\n${message}`,
-  ).toBeGreaterThan(0.2);
+    `one colour has taken the whole band back\n${message}`,
+  ).toBeLessThan(0.8);
   console.log(
-    `ground band flatness: spread ${ground.lumaSpread.toFixed(2)}, ` +
+    `ground band: spread ${ground.lumaSpread.toFixed(2)}, ` +
       `${ground.toneBuckets} tone bucket(s), top colour ${ground.topColours[0]!.rgb} ` +
       `at ${(ground.topColours[0]!.fraction * 100).toFixed(0)}%`,
   );
+});
+
+test('and the ground has structure at every altitude it is visible from @mobile', async ({
+  page,
+}) => {
+  test.setTimeout(180_000);
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+
+  /*
+    THE ACCEPTANCE LINE'S "THREE ALTITUDES". Two hundred metres is scenery
+    distance, six kilometres is above the cloud deck, forty is where the band is
+    a strip near the horizon — and before M9.8 all three measured the same
+    single value, because a flat fill does not care how far away it is.
+  */
+  const report: string[] = [];
+  for (const altitude of ['200', '6000', '40000']) {
+    await preset(page, 'booster-sep', { altitude, speedX: '60', speedY: '0' });
+    const frame = await readFrame(page, { regions: { ground: GROUND }, map: { cols: 48, rows: 14 } });
+    const band = frame.regions['ground']!;
+    report.push(
+      `${altitude.padStart(5)} m: spread ${band.lumaSpread.toFixed(2)}, ` +
+        `${band.toneBuckets} buckets, top ${(band.topColours[0]!.fraction * 100).toFixed(0)}%`,
+    );
+    expect(band.lumaSpread, `${altitude} m is flat\n${report.join('\n')}`).toBeGreaterThan(2.5);
+    expect(
+      band.topColours[0]!.fraction,
+      `${altitude} m is one colour\n${report.join('\n')}`,
+    ).toBeLessThan(0.8);
+  }
+  console.log(report.join('\n'));
 });

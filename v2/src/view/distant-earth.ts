@@ -28,7 +28,7 @@
  * place. There is no altitude at which anything jumps — asserted in
  * tests/view/distant-earth.test.ts.
  */
-import { Container, Graphics } from 'pixi.js';
+import { Container, Graphics, TilingSprite, type Texture } from 'pixi.js';
 import type { Viewport } from './camera';
 import { groundTint, hazeIntensity } from './atmosphere-look';
 import { GROUND_COLOR } from './world';
@@ -175,12 +175,28 @@ export interface DistantEarth {
   readonly scrollOffset: number;
 }
 
-export function createDistantEarth(): DistantEarth {
+/**
+ * @param terrain the generated mottle (M9.8). Optional for the same reason
+ *   `createWorld`'s is: without it this is the flat band it was before, which is
+ *   what the headless tests assert against.
+ */
+export function createDistantEarth(terrain?: { readonly mottle: Texture }): DistantEarth {
   const container = new Container({ label: 'distantEarth' });
 
   // The band, redrawn only when the viewport changes size.
   const band = new Graphics();
   container.addChild(band);
+
+  /*
+    The same mottle the near ground uses, one layer out and at a coarser tile
+    scale (M9.8) — because this band had the identical problem: a flat fill with
+    a hard top edge and a repeating mark pattern that reads as bumps. Tinted
+    from the same two curves the band is, so the two layers cannot drift apart.
+  */
+  const mottle = terrain
+    ? new TilingSprite({ texture: terrain.mottle, width: 1, height: 1 })
+    : undefined;
+  if (mottle) container.addChild(mottle);
 
   const marks: Graphics[] = [];
   for (let i = 0; i < TERRAIN_MARKS; i++) {
@@ -236,6 +252,20 @@ export function createDistantEarth(): DistantEarth {
       band.x = 0;
       band.y = lineY;
       band.alpha = 1;
+
+      if (mottle) {
+        mottle.x = -viewport.width;
+        mottle.y = lineY;
+        mottle.width = viewport.width * 3;
+        mottle.height = Math.max(1, viewport.height * 2 - lineY);
+        // Coarser than the near ground's, so the two read as different
+        // distances rather than as the same surface at two heights.
+        mottle.tileScale.set(2.4, 2.4);
+        // Scrolls with the layer's own compressed offset, so the texture is
+        // attached to the same world the marks are.
+        mottle.tilePosition.x = offset * 0.5;
+        mottle.tint = tint;
+      }
 
       const haze = hazeIntensity(altitude);
       container.alpha = 0.55 + 0.35 * (1 - haze);

@@ -6,7 +6,7 @@
  * did not manage — it built a new PIXI.Container per engine shutdown and never
  * removed it.
  */
-import { Container, Graphics, Sprite, type Texture } from 'pixi.js';
+import { Container, Graphics, Sprite, TilingSprite, type Texture } from 'pixi.js';
 import { GROUND_OBJECTS, type GroundObject } from './assets';
 import { worldToScreen, type CameraState, type Viewport } from './camera';
 import {
@@ -16,6 +16,7 @@ import {
   padLightIntensity,
 } from './atmosphere-look';
 import { skyLightness } from './sky';
+import { MOTTLE_TILE, type TerrainTextures } from './terrain';
 
 /** Ground colour, sampled from the 2021 StarBase art. */
 export const GROUND_COLOR = 0x9a8c78;
@@ -43,13 +44,44 @@ export interface World {
  */
 const HORIZON_SEGMENTS = 16;
 
-export function createWorld(textures: Map<string, Texture>): World {
+/**
+ * @param terrain the generated mottle and ramp (M9.8). Optional, because the
+ *   world can be built without a GPU in tests; without it the ground is the flat
+ *   fill it was before, which is exactly what those tests were written against.
+ */
+export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTextures): World {
   const container = new Container({ label: 'worldContents' });
 
   // The ground is a single rectangle redrawn on resize rather than a sprite:
   // it has to cover any viewport at any zoom.
   const ground = new Graphics();
   container.addChild(ground);
+
+  /*
+    THE GROUND STOPS BEING ONE VALUE (M9.8).
+
+    The `Graphics` above still carries the SHAPE — the curved top edge, whose
+    sagitta comes from real geometry — and these two carry the surface. The
+    mottle is a tiled greyscale noise tinted through `groundTint`, so it can
+    never be brighter than the colour the atmosphere says the ground is and can
+    never drift from it; the ramp multiplies a vertical gradient over it,
+    because flatness is as much a lighting problem as a texture one.
+
+    Both start BELOW the horizon's lowest point rather than at it: the top edge
+    is a bow, so a rectangle drawn from the middle of it would hang over the sky
+    at the frame's edges. The sliver between the bow and the rectangle keeps the
+    flat fill, which at every altitude below about 40 km is a handful of pixels.
+  */
+  const mottle = terrain
+    ? new TilingSprite({ texture: terrain.mottle, width: 1, height: 1 })
+    : undefined;
+  const ramp = terrain ? new Sprite(terrain.ramp) : undefined;
+  if (mottle) container.addChild(mottle);
+  if (ramp) {
+    // Multiplied, so it darkens the mottle rather than replacing it.
+    ramp.blendMode = 'multiply';
+    container.addChild(ramp);
+  }
 
   const placed: Placed[] = GROUND_OBJECTS.map((object) => {
     const texture = textures.get(object.src);
@@ -137,6 +169,37 @@ export function createWorld(textures: Map<string, Texture>): World {
       // Hidden when the camera is high enough that the ground is off screen,
       // which saves a full-screen fill on every frame of an ascent.
       ground.visible = horizon.y < viewport.height;
+
+      if (mottle && ramp) {
+        mottle.visible = ground.visible;
+        ramp.visible = ground.visible;
+        if (ground.visible) {
+          // Below the bow's lowest point; see the note where these are built.
+          const top = horizon.y + sagitta * 3;
+          const height = Math.max(1, viewport.height * 2 - top);
+          mottle.x = -viewport.width;
+          mottle.y = top;
+          mottle.width = viewport.width * 3;
+          mottle.height = height;
+          /*
+            The tile scrolls with the camera so the ground is attached to the
+            world rather than to the screen — a stationary texture under a
+            moving vehicle is worse than no texture, because it says the ground
+            is not moving. Wrapped into one tile so the number stays small.
+          */
+          const scale = Math.max(0.5, viewport.scale * 0.35);
+          mottle.tileScale.set(scale, scale);
+          mottle.tilePosition.x = -(camera.posX * viewport.scale) % (MOTTLE_TILE * scale);
+          mottle.tint = ground.tint;
+
+          ramp.x = -viewport.width;
+          ramp.y = top;
+          ramp.width = viewport.width * 3;
+          // Over the near half of the visible band, so the change lands where
+          // the eye reads distance rather than off the bottom of the screen.
+          ramp.height = Math.max(1, (viewport.height - top) * 1.6);
+        }
+      }
 
       /*
         The haze band: the visible atmosphere, sitting on the horizon.
