@@ -29,6 +29,7 @@ import {
   distantEarthVisible,
   FOLLOW_RATIO,
   groundLineFraction,
+  GROUND_FORESHORTENING,
   SCROLL_KNEE,
 } from '$view/distant-earth';
 import { altitudeFov, computeViewport } from '$view/camera';
@@ -229,5 +230,25 @@ describe('the field of view and the ground line agree', () => {
     // And the field of view really was moving underneath it, or this proves
     // nothing at all.
     expect(altitudeFov(60_000)).toBeGreaterThan(altitudeFov(0));
+  });
+});
+
+/**
+ * The band is a PLANE, not a wall.
+ *
+ * The failure this guards is not subtle once seen and was invisible for two
+ * milestones: the ground band was drawn with an ISOTROPIC tile scale, so its
+ * texture was as tall as it was wide on a surface running from the foreground
+ * to a horizon hundreds of kilometres away. A surface with no foreshortening
+ * in it reads as vertical, which is why every low-altitude frame had what looks
+ * like a brown backdrop standing behind the pad.
+ *
+ * This is not a claim that it LOOKS like ground. It is the one property that
+ * cannot be traded away without the band becoming a wall again.
+ */
+describe('the ground band is a plane, not a wall', () => {
+  it('foreshortens', () => {
+    expect(GROUND_FORESHORTENING).toBeLessThan(1);
+    expect(GROUND_FORESHORTENING).toBeGreaterThan(0);
   });
 });

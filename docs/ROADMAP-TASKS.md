@@ -608,6 +608,45 @@ for its first outing.*
   found that are not about pixels are recorded in the Log, because each one is a defect the gate
   had been passing over: a measurement the browser refuted, a contrast margin that quietly
   narrowed, six red tests that were nobody's regression, and 262,144 closures per texture.**
+- [x] **M9.11 The brown backdrop** — the owner, looking at M9.10's frames: *"what's that brown bg near
+  ground?"* It is `distant-earth.ts`, and answering the question took a measurement rather than a
+  reading of the code, because the code says it should not be there at all.
+  **THE HORIZON NEVER MOVES.** Sampling one column of every committed altitude frame for the row
+  where the sky ends: 84 m -> y 418. 1 km -> 421. 20 km -> 418. 100 km -> 418. An 80 km re-entry ->
+  418. Four orders of magnitude of altitude and the horizon does not move one pixel, which no
+  ground plane can do. `groundLineFraction` follows the true ground only while
+  `altitude <= FOLLOW_RATIO * physicalHeight`; at the intro's zoom `physicalHeight` is 200 m, so
+  that is TEN METRES, and past it the curve bends onto an exponential of length scale 0.03 and is
+  at its 0.58 asymptote by about forty. Meanwhile the real ground line at 84 m is at y 868, a
+  hundred and fifty pixels below the frame — so the pad rises from off-screen while the brown
+  starts four hundred and fifty pixels above where it stands. The file's own header says the two
+  "coincide" while the real ground is on screen; that sentence is true below 10 m and nowhere else.
+  **The position is defensible; the SURFACE was not.** For a side-on camera the true horizon really
+  is near eye level, so pinning it there is a fair cheat and M7.4 argued it. What made it read as a
+  backdrop is that the band was drawn at `tileScale (2.4, 2.4)` — isotropic — on a surface running
+  from the foreground to a horizon hundreds of kilometres away. A texture that is as tall as it is
+  wide on a receding plane is the signature of a WALL. And the atmospheric wash over it reached at
+  most 19% of the frame, so a thin strip of haze sat on a slab that never faded.
+  **What was built first and thrown away.** True perspective as five depth strips with tile scale
+  rising linearly in depth, which is the correct law for a plane. It is worse, and the frame said
+  so immediately: adjacent strips do not share a texture phase, so every boundary is a visible seam
+  and the band reads as terracing. More strips does not help — a seam is a discontinuity in the
+  PATTERN, not in the scale. Recorded here rather than quietly dropped, because the next person to
+  look at this band will have the same idea.
+  **What shipped.** One sprite, foreshortened: `GROUND_FORESHORTENING = 0.34`, because a plane seen
+  at a grazing angle compresses along the line of sight and not across it, and this band is only
+  ever seen at a grazing angle. Plus a wash deepened from 19% of the frame to about half of one.
+  Accept: the ground band foreshortens — the one property whose absence makes it a wall, and the
+  only thing asserted, because the rest is a viewing decision and dressing taste up as a test is
+  what this milestone keeps refusing to do.
+  **A fourth thing the pass could not fix, recorded rather than loosened.** The vacuum-spread
+  median in `plume.spec.ts` straddles its bound on one project — 1.05, 1.13 and 1.15 ship-lengths
+  across on three runs and 0.85 on a fourth. The right answer to a stochastic measurement is a
+  better estimator, and it is not available: each sample is a screenshot plus an in-page decode,
+  which under software WebGL costs the better part of a second of FLIGHT, and the subject is under
+  full thrust. Seven samples carried it from 2000 m to 4800 m and out of the box entirely. Tightening
+  the cadence changed nothing, because the wait was never where the time went. The bound is
+  unchanged and the attempt is written down beside it.
 
 ## Log
 
@@ -2432,16 +2471,40 @@ for its first outing.*
   deck now reads as cloud, that the ground reads as ground, and that a horizon should dissolve
   rather than end, is the owner's, and this task exists because that judgement came back negative
   once already.
+- 2026-08-26 · M9.11 · The brown backdrop, from a one-line question about M9.10's frames. Full
+  finding in the task above; three things worth keeping separately.
+  **M9.10 made this visible and that is on the look pass, not on M7.4.** The framing is M7.4's and
+  has been shipped since then, but M9.10 raised the band's `container.alpha` from 0.55-0.90 to
+  0.82-0.96 — removing a blanket transparency that was making brown ground grey — and in doing so
+  turned a washed-out ghost into an opaque slab. Fixing one artefact promoted another that had been
+  hiding behind it. Worth saying plainly: the previous entry claimed the blanket transparency was
+  "M7.4's way of making the layer read as distant" and treated replacing it with real haze as a
+  clean win. It was half a win. The haze was the right mechanism and it was not deep enough to do
+  the job the transparency had been doing badly.
+  **The engine flame was never the problem.** M9.10 spent a finding on the landing burn having no
+  visible plume and fixed the emission law, which was a real bug. But the plume still read faintly,
+  and the reason was not the plume: it was competing with an unfaded slab of the same brightness
+  directly behind it. With the wash deepened the flame reads clearly at 84 m with no change to the
+  emitter at all. A thing can be dim because it is dim or because everything around it is bright,
+  and the first explanation was accepted too readily.
+  **Measurement beat reading the source.** The code path says this layer is "completely hidden
+  behind" the real ground while that ground is on screen, and it is not — the constant that decides
+  is a RATIO against `physicalHeight`, so its threshold in metres moves with the zoom and is ten
+  metres at the intro's. Five committed screenshots sampled for one number apiece settled in a
+  minute what re-reading `groundLineFraction` had not.
 
 ## M9 — done
 
-Ten tasks, ten commits, 2026-08-26. The tenth was not planned: nine were built, the owner looked
-at the result and said "doesn't look good enough, iterate", and M9.10 is what came back. That is
+Eleven tasks, eleven commits, 2026-08-26. The last two were not planned: nine were built, the
+owner looked at the result and said "doesn't look good enough, iterate", and M9.10 is what came back. That is
 the milestone's own acceptance line working as written — M9.9 said no test covers whether it
 LOOKS good and handed the judgement back rather than pretending otherwise, and the judgement came
 back negative. What the first nine built was the instrument; what the tenth did was use it with
 the HUD taken off, which is when a flat ground, a tiling pattern and a row of lozenges where the
-clouds should be all became obvious in a single frame.
+clouds should be all became obvious in a single frame. The eleventh came from a one-line question
+about those frames — "what's that brown bg near ground?" — and found a horizon that had been
+welded to the same pixel at every altitude since M7.4, which nobody had noticed because nobody
+had put two altitudes side by side and measured.
 
 The first nine found three shipped bugs that three milestones of
 screenshot review had missed — a camera that had never framed a re-entry, a shake constant a

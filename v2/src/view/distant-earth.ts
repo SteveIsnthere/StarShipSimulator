@@ -166,6 +166,19 @@ export const TERRAIN_MARKS = 24;
 /** px — spacing between marks on screen, so density does not change with speed. */
 export const MARK_SPACING = 130;
 
+/**
+ * How much the ground band's texture is squashed vertically, as a fraction of
+ * its horizontal scale.
+ *
+ * A plane seen at a grazing angle foreshortens along the line of sight and not
+ * across it. This band is ALWAYS seen at a grazing angle — it runs from the
+ * foreground to a horizon hundreds of kilometres away — so the compression is
+ * effectively constant over it, and one number does what a perspective warp
+ * would do for a fraction of the cost. Asserted below one, which is the only
+ * thing about it that is not a taste: a value at or above one is a wall.
+ */
+export const GROUND_FORESHORTENING = 0.34;
+
 export interface DistantEarth {
   readonly container: Container;
   /**
@@ -284,14 +297,33 @@ export function createDistantEarth(terrain?: {
       band.y = lineY;
       band.alpha = 1;
 
+      /*
+        FORESHORTENED, WHICH IS THE WHOLE OF WHY IT READS AS GROUND.
+
+        The band was drawn at `tileScale (2.4, 2.4)` — isotropic — and an
+        isotropic texture on a surface receding from the eye is the signature of
+        a WALL. That is the "brown backdrop behind the pad": not the colour and
+        not the position, both of which are right, but a surface with no
+        foreshortening in it at all.
+
+        Five strips at increasing tile scale were tried first, as a stepwise
+        approximation to true perspective, and are worse: adjacent strips do not
+        share a texture phase, so each boundary is a visible seam and the band
+        reads as terracing. The number of strips does not help — a seam is a
+        discontinuity in the pattern, not in the scale.
+
+        One sprite, squashed. A grazing view of a plane compresses vertically
+        and not horizontally, and 0.34 of the horizontal scale is that
+        compression at the angles this band is ever seen from. The rest of the
+        depth cue is the haze below, which is what actually distinguishes near
+        ground from far.
+      */
       if (mottle) {
         mottle.x = -viewport.width;
         mottle.y = lineY;
         mottle.width = viewport.width * 3;
         mottle.height = Math.max(1, viewport.height * 2 - lineY);
-        // Coarser than the near ground's, so the two read as different
-        // distances rather than as the same surface at two heights.
-        mottle.tileScale.set(2.4, 2.4);
+        mottle.tileScale.set(2.4, 2.4 * GROUND_FORESHORTENING);
         // Scrolls with the layer's own compressed offset, so the texture is
         // attached to the same world the marks are.
         mottle.tilePosition.x = offset * 0.5;
@@ -342,7 +374,18 @@ export function createDistantEarth(terrain?: {
         horizonHaze.width = viewport.width * 3;
         // Deeper when the air is thick, and never taller than a fifth of the
         // frame — this is the join, not a weather effect.
-        horizonHaze.height = Math.max(8, viewport.height * (0.05 + 0.14 * haze));
+        /*
+          DEEP, because most of this band IS distant. The wash used to be at
+          most 19% of the frame, which made it a thin strip of atmosphere with
+          a slab of foreground-coloured ground under it — and a slab that does
+          not fade is the other half of why the band read as a backdrop. The
+          top of this band is terrain at the limit of sight; the bottom is
+          terrain tens of kilometres off. Nearly half a frame of wash is what
+          that distance looks like, and the ramp's own square keeps it dense at
+          the horizon and thin by the time it reaches ground that is close
+          enough to have a colour.
+        */
+        horizonHaze.height = Math.max(8, viewport.height * (0.30 + 0.22 * haze));
         horizonHaze.tint = skyTint(altitude);
         // Same floor as the near ground's, and for the same reason — see there.
         horizonHaze.alpha = Math.min(1, 0.55 + 0.45 * haze);

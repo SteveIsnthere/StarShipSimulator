@@ -115,6 +115,25 @@ async function plume(page: Page): Promise<{ span: number; width: number; last: s
   const spans: number[] = [];
   const widths: number[] = [];
   let last = '';
+  /*
+    FOUR SAMPLES, AND IT CANNOT BE MORE — which is worth recording because the
+    obvious improvement was tried and does not work.
+
+    The vacuum-spread median straddles its bound on one project: three runs on
+    pixel-landscape measured the cone at 1.05, 1.13 and 1.15 ship-lengths across
+    and one measured 0.85. A plume is stochastic — its width at an instant is
+    where a few hundred pooled particles happen to be — so the right answer
+    looks like a better estimator rather than a looser bound.
+
+    It is not available here. Each sample is a screenshot plus an in-page decode,
+    which under software WebGL costs the better part of a second of FLIGHT, and
+    the subject is a vehicle under full thrust. Seven samples carried it from
+    2000 m to 4800 m and clean out of the measurement box — "no plume at all",
+    which is true and is not the question. Cutting the spacing from 350 ms to
+    120 ms changed nothing, because the wait was never what the time was going
+    on. More evidence costs altitude, and altitude is the thing being measured
+    against.
+  */
   for (let i = 0; i < 4; i++) {
     const report = await readFrame(page, {
       regions: { below: BELOW },
