@@ -53,6 +53,10 @@ export const CONTROL_TESTIDS = [
   'zoom-out',
   'hud-toggle',
   'cinematic-toggle',
+  // M8.1. Beside the cinematic toggle, in the same visual language: the two are
+  // the only controls that change how the simulator PRESENTS itself rather than
+  // how the vehicle flies.
+  'mute-toggle',
   'open-black-box',
   'open-menu',
 ] as const;

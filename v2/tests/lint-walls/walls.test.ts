@@ -1,7 +1,9 @@
 /**
  * The walls themselves are under test.
  *
- * Each fixture in ./fixtures violates exactly one of the six walls in CLAUDE.md.
+ * Each fixture in ./fixtures violates exactly one of the SEVEN walls in
+ * CLAUDE.md — six from the 2021 autopsy, and wall 7 added by M8.1 when sound
+ * arrived.
  * We feed each one to ESLint through the real production config and assert that
  * the matching rule fires. A wall that stops rejecting its fixture fails here.
  *
@@ -28,7 +30,7 @@ async function lintAs(fixture: string, asPath: string) {
 
 const IN_CORE = 'src/core/__wall_fixture__.ts';
 
-describe('the six walls reject their fixtures inside core/', () => {
+describe('the seven walls reject their fixtures inside core/', () => {
   it('wall 1: no view/ ui/ hud/ app/ PIXI or Svelte imports', async () => {
     const messages = await lintAs('wall1-boundary.ts', IN_CORE);
     const hits = messages.filter((m) => m.ruleId === 'no-restricted-imports');
@@ -76,6 +78,19 @@ describe('the six walls reject their fixtures inside core/', () => {
     const hits = messages.filter((m) => /Wall 6/.test(m.message));
     expect(hits.length).toBeGreaterThanOrEqual(2);
   });
+
+  it('wall 7: no audio/ imports', async () => {
+    // M8.1. Sound is an OUTPUT of the simulation, never an input to it — if the
+    // audio layer wants a physical value that is not in SimState, it derives it
+    // in `audio/` rather than adding it to core and moving the goldens.
+    const messages = await lintAs('wall7-audio.ts', IN_CORE);
+    const hits = messages.filter((m) => m.ruleId === 'no-restricted-imports');
+    // The alias form and the relative form — both have to be closed, because
+    // either one would open the boundary.
+    expect(hits).toHaveLength(2);
+    expect(hits.every((m) => /Wall 7/.test(m.message))).toBe(true);
+    expect(hits[0]!.severity).toBe(2);
+  });
 });
 
 describe('wall 6 is repo-wide, not core-only', () => {
@@ -89,7 +104,7 @@ describe('wall 6 is repo-wide, not core-only', () => {
   }
 });
 
-describe('walls 1-5 are scoped to core/', () => {
+describe('walls 1-5 and 7 are scoped to core/', () => {
   // view/ legitimately imports PIXI and touches the DOM. If these fired
   // everywhere the config would be unusable and would get switched off.
   it('allows PIXI imports outside core/', async () => {
@@ -105,6 +120,19 @@ describe('walls 1-5 are scoped to core/', () => {
   it('allows requestAnimationFrame outside core/', async () => {
     const messages = await lintAs('wall5-timers.ts', 'src/app/__wall_fixture__.ts');
     expect(messages.filter((m) => m.ruleId === 'no-restricted-syntax')).toHaveLength(0);
+  });
+
+  it('allows audio/ imports outside core/', async () => {
+    /*
+      The scoping half of wall 7, and the half worth having. `ui/` has to import
+      the audio engine to wire the mute toggle, and `app/` has to drive it from
+      the tick — a wall that fired everywhere would be unusable and would get
+      switched off, which is how walls actually die.
+    */
+    for (const path of ['src/ui/__wall_fixture__.ts', 'src/app/__wall_fixture__.ts']) {
+      const messages = await lintAs('wall7-audio.ts', path);
+      expect(messages.filter((m) => m.ruleId === 'no-restricted-imports'), path).toHaveLength(0);
+    }
   });
 });
 

@@ -27,6 +27,22 @@ export const DEFAULT_BUDGET_BYTES = 250 * 1024;
 export const DEFAULT_FONT_BUDGET_BYTES = 80 * 1024;
 
 /**
+ * The audio budget, self-imposed by M8 (docs/SOUND-PLAN.md § 2).
+ *
+ * A new asset class needs a cap on the day it arrives, not on the day someone
+ * notices — § 7 names "the budget grows one sample at a time" as the risk, and
+ * a stated number checked by the build is the mitigation. Measured RAW, like
+ * the fonts and for the same reason: compressed audio formats are already
+ * compressed, and gzipping them again measures nothing real.
+ *
+ * The continuous sounds cost ZERO against this, because § 3.1 chose synthesis
+ * over sample loops — engine rumble, aerodynamic noise and RCS are all filtered
+ * noise with a parameter that moves, and a rumble loop long enough not to sound
+ * looped would be hundreds of kB by itself. Only the transients are files.
+ */
+export const DEFAULT_AUDIO_BUDGET_BYTES = 250 * 1024;
+
+/**
  * Stylesheets `dist/index.html` links directly.
  *
  * The JS budget alone stopped being sufficient at M6.5, which themed uPlot.
@@ -60,6 +76,7 @@ export async function checkBudget(
   distDir,
   budgetBytes = DEFAULT_BUDGET_BYTES,
   fontBudgetBytes = DEFAULT_FONT_BUDGET_BYTES,
+  audioBudgetBytes = DEFAULT_AUDIO_BUDGET_BYTES,
 ) {
   const dist = resolve(distDir);
   const html = await readFile(join(dist, 'index.html'), 'utf8');
@@ -93,6 +110,16 @@ export async function checkBudget(
   }
   fonts.sort((a, b) => a[0].localeCompare(b[0]));
 
+  const audioFiles = all.filter((f) => /\.(mp3|ogg|opus|m4a|aac|wav|webm)$/.test(f));
+  const audio = [];
+  let audioTotal = 0;
+  for (const file of audioFiles) {
+    const bytes = (await readFile(join(dist, 'assets', file))).length;
+    audioTotal += bytes;
+    audio.push([file, bytes]);
+  }
+  audio.sort((a, b) => a[0].localeCompare(b[0]));
+
   return {
     rows,
     total,
@@ -102,7 +129,10 @@ export async function checkBudget(
     fonts,
     fontTotal,
     fontBudgetBytes,
-    ok: total <= budgetBytes && fontTotal <= fontBudgetBytes,
+    audio,
+    audioTotal,
+    audioBudgetBytes,
+    ok: total <= budgetBytes && fontTotal <= fontBudgetBytes && audioTotal <= audioBudgetBytes,
   };
 }
 
@@ -123,6 +153,11 @@ export function report(result) {
   }
   console.log(`  ${'TOTAL fonts'.padEnd(48)} ${kb(result.fontTotal ?? 0).padStart(10)} raw`);
   console.log(`  ${'FONT BUDGET'.padEnd(48)} ${kb(result.fontBudgetBytes ?? 0).padStart(10)} raw`);
+  for (const [file, bytes] of result.audio ?? []) {
+    console.log(`  ${file.padEnd(48)} ${kb(bytes).padStart(10)} raw`);
+  }
+  console.log(`  ${'TOTAL audio'.padEnd(48)} ${kb(result.audioTotal ?? 0).padStart(10)} raw`);
+  console.log(`  ${'AUDIO BUDGET'.padEnd(48)} ${kb(result.audioBudgetBytes ?? 0).padStart(10)} raw`);
 
   const jsOk = result.total <= result.budgetBytes;
   const fontOk = (result.fontTotal ?? 0) <= (result.fontBudgetBytes ?? Infinity);
@@ -132,6 +167,16 @@ export function report(result) {
   else
     console.error(
       `budget: FAIL — ${kb(result.fontTotal ?? 0)} exceeds ${kb(result.fontBudgetBytes ?? 0)} fonts`,
+    );
+
+  const audioOk = (result.audioTotal ?? 0) <= (result.audioBudgetBytes ?? Infinity);
+  if (audioOk)
+    console.log(
+      `budget: OK — ${kb(result.audioTotal ?? 0)} of ${kb(result.audioBudgetBytes ?? 0)} audio`,
+    );
+  else
+    console.error(
+      `budget: FAIL — ${kb(result.audioTotal ?? 0)} exceeds ${kb(result.audioBudgetBytes ?? 0)} audio`,
     );
 }
 

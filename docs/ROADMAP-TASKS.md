@@ -379,7 +379,7 @@ build + playwright (all five projects) green; one task per commit, id-prefixed. 
 payoff is not the noise, it is the contrast — the fade to near-silence as the air runs
 out is the point of the whole milestone.*
 
-- [ ] **M8.1 The audio layer** — `src/audio/`: the Web Audio graph built ONCE, a mixer, the
+- [x] **M8.1 The audio layer** — `src/audio/`: the Web Audio graph built ONCE, a mixer, the
   suspended-until-gesture unlock, and a mute toggle beside the cinematic one, persisted with the
   same guarded `localStorage` read M6.4 uses (a browser that throws on storage must not break the
   simulator). Muting SUSPENDS the context rather than zeroing a gain, so a muted simulator does no
@@ -1711,3 +1711,27 @@ out is the point of the whole milestone.*
   finally on screen. Compression is allowed in the depiction and never in the numbers — every value
   on the trajectory map is read from SimState or computed by core at true scale, and `core/` did not
   change by one byte.
+- 2026-08-26 · M8.1 · **The audio layer.** `src/audio/` — the graph, the mixer, the unlock, the
+  mute. Plumbing only; nothing makes a sound yet, which is the right shape for the task that has to
+  get the boundaries right.
+  **A seventh wall, and the first with no 2021 wound behind it** — the old build was silent.
+  `core/` may not import from `audio/`, its own rule group rather than four more patterns in wall 1's
+  so a violation says which wall it broke and why. Fixture-tested both ways, like the other six: it
+  fires inside `core/` on both the alias and the relative form, and it stays quiet in `ui/` and
+  `app/`, which legitimately need the engine to wire a toggle and drive a tick. A wall that fired
+  everywhere would be unusable and would get switched off, which is how walls actually die.
+  **The autoplay policy is honoured rather than worked around.** Nothing is constructed until the
+  first gesture — asserted in the browser by patching the constructor before the app loads, because
+  a context that is never built cannot be caught by inspecting one. The intro demo therefore plays
+  silently, and § 3.4 argues that is correct: sound arriving as you take control is a better moment
+  than sound that fights the policy and loses. A gesture while muted starts nothing, because muted
+  means muted.
+  **Muting SUSPENDS the context** rather than zeroing a gain, so a muted simulator does no audio work
+  at all — proven in the browser by reading the context's own `state` through
+  running → suspended → running, and in the unit suite by asserting the master gain is untouched.
+  The remembered choice uses the same guarded `localStorage` read M6.4 uses, tested against a storage
+  that throws on every access.
+  The graph is built ONCE: unlocking fifty times creates no second context, which is the audio
+  version of the M3.7 leak test. New budget line — audio ≤ 250 kB, currently 0.0 kB, because § 3.1
+  chose synthesis over sample loops and only the M8.4 transients will be files. First-load JS
+  193.9 → **194.6 kB**: 0.7 kB for the whole layer, no library, no assets.

@@ -34,6 +34,7 @@ command — the goal prompts live in `docs/REBUILD-PLAN.md` § Driving implement
 
 ```
 v2/src/ui/     Svelte 5 panels — menus, editor, black box. Interaction-driven only.
+v2/src/audio/  Web Audio graph, mixer, the SimState -> sound bindings. Never imported by core/.
 v2/src/hud/    HUD binder — ONE rAF subscriber, diffs sim state, writes text nodes.
 v2/src/view/   PixiJS v8 — sprites, pooled particles, camera, sky. No game logic.
 v2/src/app/    The loop (fixed dt + accumulator + interpolation), input, wiring.
@@ -43,7 +44,7 @@ v2/src/core/   Pure TypeScript simulation. The protected zone.
 `core/` is pure: state in, state out. It runs in Node with no browser. Everything
 that makes this project testable depends on keeping it that way.
 
-## The six walls (lint-enforced; each maps to a 2021 wound)
+## The seven walls (lint-enforced; the first six each map to a 2021 wound)
 
 1. `core/` may not import from `view/`, `ui/`, `hud/`, or `app/` — the boundary.
 2. `core/` may not reference `document`, `window`, or PIXI — getElementById was in the physics loop.
@@ -51,6 +52,10 @@ that makes this project testable depends on keeping it that way.
 4. `core/` may not call `Date.now` / `performance.now` — time enters the sim only as `dt`.
 5. `core/` may not call `setTimeout` / `setInterval` — engine ignition ran on wall-clock timers; it is a dt-ticked field in SimState now.
 6. No assignment to `globalThis`, anywhere in `v2/` — the old tree had 355 globals.
+7. `core/` may not import from `audio/` — sound is an OUTPUT of the simulation, never an
+   input to it. Added at M8.1, the one wall with no 2021 wound behind it, because the 2021
+   build was silent: if the audio layer needs a physical value that is not in SimState, the
+   answer is to derive it in `audio/` rather than add it to core and move the goldens.
 
 These are ESLint errors (see `docs/REBUILD-PLAN.md` § Implementation kit for the
 config). A `tests/lint-walls` test feeds violation fixtures to ESLint and asserts they

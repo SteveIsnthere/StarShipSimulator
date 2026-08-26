@@ -13,8 +13,9 @@ import svelteConfig from './svelte.config.js';
  *   4. no Date.now/performance.now in core/ — time enters the sim only as dt.
  *   5. no setTimeout/setInterval in core/ — engine ignition ran on wall-clock timers.
  *   6. no globalThis assignment anywhere in v2/ — the old tree had 355 globals.
+ *   7. core/ imports nothing from audio/ — sound is an OUTPUT of the simulation.
  *
- * Walls 1-5 are scoped to src/core. Wall 6 is repo-wide.
+ * Walls 1-5 and 7 are scoped to src/core. Wall 6 is repo-wide.
  * tests/lint-walls/ feeds one violating fixture per wall to ESLint and asserts it fails.
  */
 export const CORE_WALL_RULES = {
@@ -39,6 +40,22 @@ export const CORE_WALL_RULES = {
             'svelte/*',
           ],
           message: 'Wall 1: core/ is pure. No renderer, UI, HUD or app imports.',
+        },
+        {
+          /*
+            Wall 7 (M8.1) — sound is an OUTPUT of the simulation, never an input
+            to it.
+
+            Its own group rather than four more entries in Wall 1's, so the
+            message names the wall it is: a violation should say what rule it
+            broke and why, and "no renderer, UI, HUD or app imports" would be the
+            wrong explanation for an audio import. SOUND-PLAN § 5 is the reason
+            it exists — if the audio layer needs a physical value that is not in
+            SimState, the answer is to derive it in `audio/`, not to add it to
+            core and move the goldens.
+          */
+          group: ['**/audio/**', '$audio', '$audio/*'],
+          message: 'Wall 7: core/ may not import audio/. Sound is an output, not an input.',
         },
       ],
     },

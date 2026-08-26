@@ -23,7 +23,8 @@
       "$app/*": ["src/app/*"],
       "$view/*": ["src/view/*"],
       "$hud/*": ["src/hud/*"],
-      "$ui/*": ["src/ui/*"]
+      "$ui/*": ["src/ui/*"],
+      "$audio/*": ["src/audio/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.svelte", "tests/**/*.ts", "scripts/**/*.mjs", "*.ts", "*.config.ts"],

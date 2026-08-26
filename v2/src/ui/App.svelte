@@ -7,6 +7,7 @@
   import { createDistantEarth } from '$view/distant-earth';
   import { createFlightPathMarker } from '$view/motion-cues';
   import { createCloudDeck } from '$view/clouds';
+  import { createAudioEngine, readMuted, type AudioEngine } from '$audio/engine';
   import { createVehicle } from '$view/vehicle';
   import { createParticleSystem, createParticleTexture } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
@@ -165,6 +166,35 @@
       // Nothing to do and nothing worth saying: the mode still works for this
       // session, it just will not be remembered.
     }
+  };
+
+  /**
+   * Sound (M8.1).
+   *
+   * Created eagerly but CONSTRUCTS NOTHING until the first gesture: browsers
+   * refuse audio before one, and the intro demo plays before the player has
+   * touched anything. SOUND-PLAN § 3.4 argues the resulting silence is correct
+   * rather than a compromise — sound arriving as you take control is a better
+   * moment than sound that fights the autoplay policy and loses.
+   */
+  const audio: AudioEngine = createAudioEngine({
+    host: {
+      create: () => {
+        const Ctor =
+          window.AudioContext ??
+          (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        return new Ctor!() as never;
+      },
+    },
+  });
+
+  let muted = $state(readMuted());
+
+  const toggleMuted = () => {
+    muted = !muted;
+    void audio.setMuted(muted);
+    // Unmuting IS a gesture, so it is also the moment audio may start.
+    if (!muted) void audio.unlock();
   };
 
   /**
@@ -432,6 +462,19 @@
       // Input is bound once, at startup, to the document. Every key turns into
       // the same ControlEvent a button would emit — there is no second path into
       // the simulation, which is what 2021's eventListener.js was.
+      /*
+        Every interaction is an unlock attempt. `unlock` is cheap after the
+        first one — it builds the graph once and then only resumes a context
+        that is usually already running — and being told twice is exactly what
+        the autoplay policy expects. Attached in the capture phase so a click on
+        a control counts, not only a click on bare background.
+      */
+      const onGesture = () => {
+        if (!muted) void audio.unlock();
+      };
+      document.addEventListener('pointerdown', onGesture, { capture: true });
+      document.addEventListener('keydown', onGesture, { capture: true });
+
       const keyboard: InputBinding = bindInput(document, {
         control: emit,
         view: applyViewAction,
@@ -566,6 +609,8 @@
 
       return () => {
         window.removeEventListener('resize', onResize);
+        document.removeEventListener('pointerdown', onGesture, { capture: true });
+        document.removeEventListener('keydown', onGesture, { capture: true });
         keyboard.destroy();
         tilt.destroy();
       };
@@ -582,6 +627,7 @@
       timelineBinder?.destroy();
       indicators?.destroy();
       view?.destroy();
+      void audio.destroy();
     };
   });
 </script>
@@ -621,6 +667,18 @@
   >
     <span class="pip" aria-hidden="true"></span>
     Cinematic
+  </button>
+  <button
+    class="top-button"
+    class:is-on={!muted}
+    type="button"
+    data-testid="mute-toggle"
+    aria-pressed={!muted}
+    aria-label={muted ? 'Turn sound on' : 'Turn sound off'}
+    onclick={toggleMuted}
+  >
+    <span class="pip" aria-hidden="true"></span>
+    Sound
   </button>
   <button class="top-button" type="button" data-blackbox-control="open" data-testid="open-black-box" onclick={() => (blackBoxOpen = true)}>
     Black Box
