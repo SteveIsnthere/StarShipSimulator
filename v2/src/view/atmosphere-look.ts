@@ -109,6 +109,104 @@ export function plumeScaleFactor(ambientPressure: number): number {
   return 1 + 1.3 * Math.pow(1 - ratio, 0.55);
 }
 
+/* --- shock diamonds (M9.6) ------------------------------------------------ */
+
+/**
+ * m — the Raptor's nozzle exit diameter.
+ *
+ * The one piece of engine geometry the simulation has never carried: `core/`
+ * knows a thrust and a mass flow and nothing about the bell that produces them.
+ * It lives here rather than in `core/constants.ts` because nothing in the
+ * physics reads it — it exists to set the SCALE of something drawn, and M9's
+ * rule is that core stays frozen.
+ */
+export const NOZZLE_EXIT_DIAMETER = 1.3;
+
+/**
+ * kPa — the pressure the nozzle is matched to.
+ *
+ * Sea level, which makes the jet exactly matched on the pad and increasingly
+ * UNDEREXPANDED all the way up — which is what a sea-level-optimised engine
+ * does, and the regime that produces the visible train of diamonds. Modelling
+ * the overexpanded case as well would mean a curve that dips to zero at the
+ * matched altitude and rises again on both sides, and a non-monotonic spacing is
+ * a worse thing to own than a slightly simplified one.
+ */
+export const NOZZLE_MATCHED_PRESSURE = SEA_LEVEL_PRESSURE;
+
+/**
+ * m — the shortest a shock cell gets, on the pad.
+ *
+ * The formula below goes to zero at the matched pressure, and a spacing of zero
+ * is a division by zero wearing a physical justification. On the pad the cells
+ * are TIGHT rather than absent, so the curve starts here and grows.
+ */
+export const SHOCK_CELL_MIN_LENGTH = 1.5;
+
+/** m — and it stops growing here, well past the length of the drawn plume. */
+export const SHOCK_CELL_MAX_LENGTH = 60;
+
+/**
+ * A look multiplier on the physical cell length.
+ *
+ * THE FORM IS PHYSICAL AND THE SIZE IS A DECISION, which is the same split
+ * `plumeSpreadFactor` makes and for the same reason. Prandtl-Pack gives
+ * `L = 1.306 * D * sqrt(Pe/Pa - 1)` for the first shock cell, which on a 1.3 m
+ * nozzle is under a metre near the pad — physically right, and at the 3.6 px per
+ * metre a 50 m vehicle is drawn at, three pixels. Three-pixel banding is dither.
+ * The multiplier puts the cells where an eye can see them while the CURVE — how
+ * they stretch as the air thins, and how fast — stays the one the physics gives.
+ */
+export const SHOCK_CELL_LOOK_MULTIPLIER = 4;
+
+/**
+ * m — how far apart the shock diamonds are at a given ambient pressure.
+ *
+ * Monotonically non-decreasing with altitude and bounded at both ends, which is
+ * what makes it something a test can pin rather than an eye. The physics is the
+ * shape: a jet that is more underexpanded has a longer first shock cell, so the
+ * diamonds stretch out as the vehicle climbs and stop being a repeating pattern
+ * at all — which is the correct way for them to disappear, and much better than
+ * a fade.
+ */
+export function shockCellLength(
+  ambientPressure: number,
+  nozzleDiameter = NOZZLE_EXIT_DIAMETER,
+): number {
+  if (!Number.isFinite(ambientPressure) || ambientPressure >= NOZZLE_MATCHED_PRESSURE) {
+    return SHOCK_CELL_MIN_LENGTH;
+  }
+  const pressure = Math.max(1e-6, ambientPressure);
+  const underexpansion = NOZZLE_MATCHED_PRESSURE / pressure - 1;
+  const physical =
+    SHOCK_CELL_LOOK_MULTIPLIER * 1.306 * nozzleDiameter * Math.sqrt(Math.max(0, underexpansion));
+  return Math.min(SHOCK_CELL_MAX_LENGTH, Math.max(SHOCK_CELL_MIN_LENGTH, physical));
+}
+
+/** Ambient pressure ratios between which the diamonds fade out. */
+export const SHOCK_VISIBLE_RATIO = 0.25;
+export const SHOCK_GONE_RATIO = 0.02;
+
+/**
+ * 0..1 — how strongly the diamonds read at a given ambient pressure.
+ *
+ * REACHES EXACTLY ZERO, and earlier than physics strictly requires. A shock
+ * train exists wherever there is a pressure to shock against, which is a long
+ * way up; what stops being TRUE well before that is that anyone can see it,
+ * because the whole plume has gone translucent and the cells are tens of metres
+ * apart. Fading to nothing by a quarter of a percent of a bar is the
+ * conservative end of that, and a curve that reaches zero is one that cannot
+ * leave a faint stripe on a vacuum plume where no stripe belongs.
+ */
+export function shockDiamondStrength(ambientPressure: number): number {
+  if (!Number.isFinite(ambientPressure) || ambientPressure <= 0) return 0;
+  const ratio = ambientPressure / NOZZLE_MATCHED_PRESSURE;
+  if (ratio >= SHOCK_VISIBLE_RATIO) return 1;
+  if (ratio <= SHOCK_GONE_RATIO) return 0;
+  const t = (ratio - SHOCK_GONE_RATIO) / (SHOCK_VISIBLE_RATIO - SHOCK_GONE_RATIO);
+  return t * t * (3 - 2 * t);
+}
+
 // --- re-entry plasma -------------------------------------------------------
 
 /**

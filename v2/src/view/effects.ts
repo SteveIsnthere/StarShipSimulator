@@ -15,7 +15,13 @@ import { worldToScreen, type CameraState, type Viewport } from './camera';
 import { streakIntensity, streakLength } from './motion-cues';
 import { EFFECTS, type ParticleSystem } from './particles';
 import { engineDistanceFromCenterOfMass, heatLimit, vehicleHeight } from '$core/constants';
-import { plasmaIntensity, plumeScaleFactor, plumeSpreadFactor } from './atmosphere-look';
+import {
+  plasmaIntensity,
+  plumeScaleFactor,
+  plumeSpreadFactor,
+  shockCellLength,
+  shockDiamondStrength,
+} from './atmosphere-look';
 
 /**
  * kPa — below this there is not enough air for the fins to shed anything.
@@ -50,6 +56,16 @@ export const AERO_TRAIL_FULL_Q = 30;
  * threshold is one the range test cannot check.
  */
 export const SONIC_BOOM_MIN_Q = 1;
+
+/**
+ * How deep the shock banding cuts, as a fraction of a particle's alpha.
+ *
+ * 0.55 means the bright bands are a little over half again as bright as the
+ * troughs rather than a strobe. A shock diamond is a visible brightening of a
+ * continuous column, not a row of separate lights, and anything past about 0.7
+ * starts to read as the second thing.
+ */
+export const SHOCK_BAND_DEPTH = 0.55;
 
 export interface EffectDriver {
   update(
@@ -111,15 +127,48 @@ export function createEffectDriver(): EffectDriver {
       if (running > 0 && forces.thrust > 0) {
         const throttleFraction = vehicle.throttleCurrent / 100;
         const ambient = state.atmosphere.airPressure;
+        const intensity = (running / 3) * throttleFraction;
+        const spread = plumeSpreadFactor(ambient);
+        const size = plumeScaleFactor(ambient);
+
+        /*
+          THE PLUME IS THREE THINGS AT ONE POINT (M9.6), and the point is the
+          same nozzle it always was.
+
+          The CORE is the inner column, still supersonic and still incandescent:
+          fast, near-white, barely spread. The BELL wraps it, translucent and
+          wide, and is 2021's single emitter in its new job. The DIAMONDS are
+          neither — they are a periodic brightness ALONG the core, because a
+          shock train is not made of particles but of the same gas being
+          alternately compressed and expanded as it crosses standing shocks.
+
+          All three read the same two ambient curves M6.7 built, because they are
+          one physical thing: exhaust expands until its pressure matches the air.
+          The core spreads less than the bell does — the `* 0.55` — for the same
+          reason it is the core: it is the part the surrounding flow is still
+          holding together.
+        */
+        particles.emit(
+          'raptorPlumeCore',
+          nozzleX,
+          nozzleY,
+          downAxis,
+          intensity,
+          dt,
+          scale * 0.9 * size,
+          1 + (spread - 1) * 0.55,
+          shockCellLength(ambient) * scale,
+          shockDiamondStrength(ambient) * SHOCK_BAND_DEPTH,
+        );
         particles.emit(
           'raptorPlume',
           nozzleX,
           nozzleY,
           downAxis,
-          (running / 3) * throttleFraction,
+          intensity,
           dt,
-          scale * 0.9 * plumeScaleFactor(ambient),
-          plumeSpreadFactor(ambient),
+          scale * 0.9 * size,
+          spread,
         );
       }
 

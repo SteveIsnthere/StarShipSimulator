@@ -258,27 +258,62 @@ export function writeParticleTexture(
  * them once bloom and shimmer are in.
  */
 export const EFFECTS = {
-  /** The Raptor plume. Fast, hot, tight. */
-  raptorPlume: {
-    rate: 220,
-    life: 0.32,
-    lifeJitter: 0.35,
-    speed: 95,
-    speedJitter: 0.3,
-    spread: 0.13,
+  /**
+   * THE THROAT CORE (M9.6). Near-white, very fast, barely spread.
+   *
+   * The inner column of an exhaust: the part that is still supersonic and still
+   * incandescent, and the part shock diamonds live in. Before M9.6 there was no
+   * such thing — a single emitter at 95 m/s and 2.2/s of drag carried a particle
+   * `(95/2.2)(1 - e^-0.704) = 21.9 m` before it died, on a 50 m vehicle, which
+   * is why § 3.2 of the plan calls the result a candle. This one carries
+   * `(300/0.85)(1 - e^-0.47) = 135 m`, and it is the emitter the `bands`
+   * machinery modulates.
+   */
+  raptorPlumeCore: {
+    rate: 300,
+    life: 0.55,
+    lifeJitter: 0.22,
+    speed: 300,
+    speedJitter: 0.14,
+    spread: 0.035,
     gravityY: 0,
-    drag: 2.2,
-    startSize: 2.6,
-    endSize: 8,
-    startColor: 0xfff0c0,
-    endColor: 0xff5a1e,
-    startAlpha: 0.95,
+    drag: 0.85,
+    startSize: 1.5,
+    endSize: 4.2,
+    startColor: 0xffffff,
+    endColor: 0xffc46a,
+    startAlpha: 0.85,
     endAlpha: 0,
     additive: true,
-    // Fire. Additive blending sums a wide gradient into a flat wash, which is
-    // most of why the plume read as a candle; a tight core builds a bright
-    // centre and a thin halo instead.
     texture: 'core',
+  },
+  /**
+   * THE BELL. Translucent, wide, and short next to the core it wraps.
+   *
+   * This is 2021's `raptorPlume` in its new job. The numbers are retuned rather
+   * than kept — a wider cone, a lower alpha, a bigger end size — because it is
+   * no longer trying to be the whole plume on its own. The name is unchanged so
+   * that every test written against it still means what it meant.
+   */
+  raptorPlume: {
+    rate: 240,
+    life: 0.42,
+    lifeJitter: 0.35,
+    speed: 110,
+    speedJitter: 0.32,
+    spread: 0.2,
+    gravityY: 0,
+    drag: 1.9,
+    startSize: 3.4,
+    endSize: 13,
+    startColor: 0xfff0c0,
+    endColor: 0xff5a1e,
+    startAlpha: 0.5,
+    endAlpha: 0,
+    additive: true,
+    // The bell is the translucent part, so it wants the wide gradient rather
+    // than the tight core: what reads as a bell is the soft edge.
+    texture: 'soft',
   },
   /** The puff when an engine cuts. This is the one that used to leak. */
   raptorShutdown: {
@@ -568,6 +603,24 @@ export interface ParticleSystem {
      * plumes to keep in step; a number is a number.
      */
     spreadFactor?: number,
+    /**
+     * Shock diamonds, as a periodic brightness along the flow (M9.6).
+     *
+     * NOT A FOURTH EFFECT, and that is the design rather than an economy. A
+     * shock train is not made of particles: it is the same gas being alternately
+     * compressed and expanded as it crosses standing shocks, so what an eye sees
+     * is one column of exhaust that is brighter in some places than others. A
+     * separate emitter would draw beads NEXT TO the plume rather than bands
+     * WITHIN it, and would drift out of step with it the moment the two had
+     * different drag.
+     *
+     * `spacing` is in screen pixels — the caller multiplies the metres
+     * `atmosphere-look.ts` returns by the viewport scale. `strength` is 0..1 and
+     * 0 switches the whole thing off, including the per-frame distance
+     * calculation.
+     */
+    bandSpacing?: number,
+    bandStrength?: number,
   ): void;
   /** One-shot burst, for shutdowns and explosions. */
   burst(effect: EffectName, x: number, y: number, count: number, scale: number): void;
@@ -620,6 +673,20 @@ export function createParticleSystem(
   const gravityOf = new Float32Array(capacity);
   const colorStart = new Uint32Array(capacity);
   const colorEnd = new Uint32Array(capacity);
+  /**
+   * Where each particle was born, and how it bands (M9.6).
+   *
+   * Spawn position is stored because the shock diamonds have to be STATIONARY in
+   * the world while the gas moves through them — so the brightness has to be a
+   * function of how far a particle has TRAVELLED, not of how old it is. Four
+   * more Float32Arrays at 4000 capacity is 64 kB, allocated once with everything
+   * else; `bandOf` is 0 for every particle of every other effect, and the update
+   * loop skips the whole calculation on that test.
+   */
+  const spawnX = new Float32Array(capacity);
+  const spawnY = new Float32Array(capacity);
+  const bandOf = new Float32Array(capacity);
+  const bandStrengthOf = new Float32Array(capacity);
   /** 1 for everything that is not a streak. See EmitterConfig.stretch. */
   const stretchOf = new Float32Array(capacity);
 
@@ -650,6 +717,8 @@ export function createParticleSystem(
     angle: number,
     scale: number,
     spreadFactor = 1,
+    bandSpacing = 0,
+    bandStrength = 0,
   ): void => {
     if (freeCount === 0) return;
     const i = free[--freeCount]!;
@@ -672,6 +741,10 @@ export function createParticleSystem(
     colorStart[i] = config.startColor;
     colorEnd[i] = config.endColor;
     stretchOf[i] = config.stretch ?? 1;
+    spawnX[i] = px;
+    spawnY[i] = py;
+    bandOf[i] = bandStrength > 0 ? bandSpacing : 0;
+    bandStrengthOf[i] = bandStrength;
 
     const sprite = sprites[i]!;
     sprite.visible = true;
@@ -709,13 +782,15 @@ export function createParticleSystem(
       return liveCount;
     },
 
-    emit(effect, px, py, angle, intensity, dt, scale, spreadFactor = 1) {
+    emit(effect, px, py, angle, intensity, dt, scale, spreadFactor = 1, bandSpacing = 0, bandStrength = 0) {
       if (intensity <= 0 || dt <= 0) return;
       const config = EFFECTS[effect];
       const wanted = config.rate * intensity * dt + (debt.get(effect) ?? 0);
       const whole = Math.floor(wanted);
       debt.set(effect, wanted - whole);
-      for (let n = 0; n < whole; n++) spawn(config, px, py, angle, scale, spreadFactor);
+      for (let n = 0; n < whole; n++) {
+        spawn(config, px, py, angle, scale, spreadFactor, bandSpacing, bandStrength);
+      }
     },
 
     burst(effect, px, py, count, scale) {
@@ -760,7 +835,21 @@ export function createParticleSystem(
           sprite.height = size;
           sprite.rotation = Math.atan2(vy[i]!, vx[i]!);
         }
-        sprite.alpha = alpha0[i]! + (alpha1[i]! - alpha0[i]!) * t;
+        let alpha = alpha0[i]! + (alpha1[i]! - alpha0[i]!) * t;
+        /*
+          The shock train (M9.6). A cosine of the distance TRAVELLED, so the
+          bright bands stand still in the world while the gas streams through
+          them — which is what a standing shock is. Every particle of every other
+          effect has `bandOf` at 0 and pays one comparison.
+        */
+        const spacing = bandOf[i]!;
+        if (spacing > 0) {
+          const dx = x[i]! - spawnX[i]!;
+          const dy = y[i]! - spawnY[i]!;
+          const travelled = Math.sqrt(dx * dx + dy * dy);
+          alpha *= 1 + bandStrengthOf[i]! * Math.cos((travelled / spacing) * Math.PI * 2);
+        }
+        sprite.alpha = alpha;
         sprite.tint = lerpColor(colorStart[i]!, colorEnd[i]!, t);
 
         live[write++] = i;

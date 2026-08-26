@@ -512,7 +512,7 @@ for its first outing.*
   the textures are deterministic across runs, pinned the way `puffRandom` is; the pooled
   allocation contract is unchanged, proved by the existing count test; the harness shows smoke
   and fire separating in a colour histogram where today they do not.
-- [ ] **M9.6 The Raptor plume** — a plume particle travels `(95/2.2)(1 - e^-0.704) ≈ 21.9 m`
+- [x] **M9.6 The Raptor plume** — a plume particle travels `(95/2.2)(1 - e^-0.704) ≈ 21.9 m`
   before it dies, on a 50 m vehicle, from a single emitter: it reads as a candle because it is
   one. Three emitters on the same nozzle point — a short near-white high-velocity core at the
   throat, the translucent expanding bell, and shock diamonds as a periodic brightness along the
@@ -2182,3 +2182,41 @@ for its first outing.*
   **Gate:** lint, **1504 unit tests** (11 new), build all exit 0; **playwright 321 passed, 6 skipped
   across all five projects**; `git diff v2/src/core` since the M9 start commit is still comment lines
   and nothing else; digests unmoved.
+- 2026-08-26 · M9.6 · One emitter at 95 m/s with 2.2/s of drag and a 0.32 s life carried a particle
+  `(95/2.2)(1 - e^-0.704) = 21.9 m` — **on a fifty-metre vehicle**. It read as a candle because it
+  was one. Now three things at one nozzle: a **CORE** (300 m/s, 0.85 drag, near-white, barely
+  spread — **135 m**, 2.7 ship-lengths), a **BELL** wrapping it (2021's emitter retuned wider,
+  shorter and more translucent, keeping its name so every test written against it still means what
+  it meant), and **DIAMONDS**, which are not an emitter: a shock train is the same gas alternately
+  compressed and expanded across standing shocks, so it is a periodic brightness ALONG the core.
+  Implemented as `cos(2π · distance travelled / spacing)` on the particle's alpha, using its stored
+  SPAWN POSITION — distance travelled, not age, because the bands must stand still in the world
+  while the gas streams through them. Four more Float32Arrays (64 kB, allocated once); every
+  particle of every other effect has `bandOf` at 0 and pays one comparison.
+  **Two new curves in `atmosphere-look.ts`, beside M6.7's two, both pinned rather than eyeballed.**
+  `shockCellLength` is Prandtl-Pack, `L = 1.306·D·√(Pe/Pa − 1)`, with the nozzle taken as matched at
+  sea level so the jet is underexpanded all the way up and the curve is **monotonic** — modelling
+  the overexpanded case too would dip it to zero at the matched altitude and rise on both sides, and
+  a non-monotonic spacing is a worse thing to own. Bounded 1.5 m to 60 m; asserted monotonic and
+  in-range at every 250 m from 0 to 120 km. **The diamonds vanish by stretching out rather than by
+  fading** — by 30 km one cell is longer than the whole drawn plume — which is how they really go.
+  `shockDiamondStrength` reaches **exactly zero** at 2% of the matched pressure (~27 km), with no
+  seam in its rate at either end, held to the same standard as M7.3's field-of-view curve. The
+  physical form is kept and the SIZE is a stated look decision (`SHOCK_CELL_LOOK_MULTIPLIER = 4`):
+  a real 1.3 m nozzle gives sub-metre cells, which at 3.6 px/m is three pixels, and three-pixel
+  banding is dither.
+  **Measured in the browser, in ship-lengths.** Low altitude at full throttle: **2.5 ship-lengths**
+  long — red at **0.86** with the core emitter removed, green after, shown. Vacuum: **1.1
+  ship-lengths across** against 0.55 low down, so the bloom is measured relative to the ship and the
+  opening field of view cannot flatter it. **What is NOT measured there, said plainly:** the
+  acceptance line also asks for "dimmer in vacuum", and the harness cannot honestly compare
+  brightness across a sky at luma 152 and one at 17 — that comparison would be about backgrounds.
+  The dimming is arithmetic — the same light over `plumeScaleFactor²` = **5.3× the area** — and it
+  is proved in the unit test, where it can be.
+  **Peak live particles: 747 of 4000 (81% free)**, at `launch-pad-takeoff`, against M7's 576-of-4000
+  baseline. `tests/view/particles.test.ts`'s effect inventory went red on the new emitter, which is
+  exactly its job — it is listed rather than counted so an effect cannot arrive without anyone
+  deciding it should.
+  **Gate:** lint, **1519 unit tests** (13 new), build all exit 0; **playwright 327 passed across all
+  five projects**; `git diff v2/src/core` still comment lines and nothing else; digests unmoved;
+  first-load JS **197.4 kB** of 250.
