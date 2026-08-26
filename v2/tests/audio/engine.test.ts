@@ -48,6 +48,10 @@ function fakeContext() {
     linearRampToValueAtTime(v: number) {
       this.value = v;
     },
+    exponentialRampToValueAtTime(v: number) {
+      this.value = v;
+    },
+    cancelScheduledValues() {},
   });
   const node = () => {
     created += 1;
@@ -59,6 +63,7 @@ function fakeContext() {
       type: '',
       buffer: null as unknown,
       loop: false,
+      onended: null as (() => void) | null,
       connect: () => {},
       disconnect: () => {},
       start: () => {},
@@ -351,5 +356,52 @@ describe('the engine drives its voices from the tick (M8.2)', () => {
     // per frame at 120 Hz is how a Web Audio graph starts stuttering.
     engine.update(s);
     expect(engine.lastWriteCount).toBe(0);
+  });
+});
+
+describe('transients reach the bank through the engine (M8.4)', () => {
+  it('fires on a real flight, and a reset re-arms it', async () => {
+    const engine = createAudioEngine({
+      host: { create: () => fakeContext() as never },
+      storage: workingStorage(),
+    });
+    await engine.unlock();
+
+    const fly = () => {
+      let s = createScenarioState(getScenario('landing-burn')!);
+      cmd.toggleAutoLand(s);
+      for (let i = 0; i < 120 * 60; i++) {
+        s = step(s, 1 / 120);
+        engine.update(s);
+        if (s.status.landed) break;
+      }
+    };
+
+    fly();
+    const first = engine.transientCount;
+    expect(first).toBeGreaterThan(0);
+
+    // Without a reset the latches are spent: the second flight's touchdown
+    // would be swallowed. `resetFlight` is what App.svelte calls on Configure.
+    engine.resetFlight();
+    fly();
+    expect(engine.transientCount).toBeGreaterThan(first);
+  });
+
+  it('fires nothing while muted', async () => {
+    // Muted means no audio work at all, including one-shots.
+    const engine = createAudioEngine({
+      host: { create: () => fakeContext() as never },
+      storage: workingStorage(),
+      muted: true,
+    });
+    await engine.unlock();
+    let s = createScenarioState(getScenario('landing-burn')!);
+    cmd.toggleAutoLand(s);
+    for (let i = 0; i < 120 * 30; i++) {
+      s = step(s, 1 / 120);
+      engine.update(s);
+    }
+    expect(engine.transientCount).toBe(0);
   });
 });

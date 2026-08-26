@@ -338,6 +338,10 @@
     }
 
     recorder.clear();
+    // A new flight re-arms the transient latches: the same flight flown again
+    // deserves to have its touchdown heard again (M8.4).
+    audio.resetFlight();
+
     // The map's trail IS the recorder's, so it has just emptied. Redraw now
     // rather than leaving the previous flight's path on screen for the tenth of
     // a second the throttle would otherwise take.

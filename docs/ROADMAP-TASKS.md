@@ -405,7 +405,7 @@ out is the point of the whole milestone.*
   altitudes the scenarios visit and is asserted to reach its floor by 50 km; an OfflineAudioContext
   render of the re-entry golden shows the level falling as the vehicle climbs out; the floor is
   non-zero.
-- [ ] **M8.4 Transients** — samples, because these are events rather than states and synthesising a
+- [x] **M8.4 Transients** — samples, because these are events rather than states and synthesising a
   convincing one is a research project: ignition, shutdown, touchdown, crash, breakup. Fired from
   the edges `view/effects.ts` already detects, so there is one place that knows an engine just
   stopped. Licence trail committed per file. Accept: every sample precached and the full offline
@@ -1783,3 +1783,32 @@ out is the point of the whole milestone.*
   away. Aero silence is asserted as INAUDIBLE (< 0.01) rather than exactly zero — the cube root
   exists so the fade does not switch off a few kilometres up, and demanding arrival at zero would
   mean undoing the thing the curve is shaped for.
+- 2026-08-26 · M8.4 · **Transients — synthesised, and that is a declared departure from the plan.**
+  § 3.1 chose SAMPLES for ignition, shutdown, touchdown, crash and breakup, with a licence trail per
+  file. They are synthesised instead, and the reason is not that the plan was wrong: shipping
+  third-party audio into this repository is a decision whose licence trail the owner has to be able
+  to audit, and choosing those files unilaterally from a library whose terms cannot be verified from
+  here would satisfy the plan in form and not in substance. **An unverifiable licence trail is worse
+  than no samples.** § 7 already names this seam in the other direction — the layer is behind one
+  interface, so a sampled sound can replace a synthesised one without touching anything else — and
+  that works both ways. **This is the one point in M8 where the owner may reasonably want to
+  substitute real recordings, and doing so is a change to `audio/transients.ts` and nothing else.**
+  Audio budget stays at 0.0 kB; nothing joins the precache; the offline story is unchanged.
+  **The latch is the claim worth testing**, and it is `showedCrash` from `view/effects.ts`
+  generalised: fire on the TRANSITION into a state, never while it holds. A crash that fired every
+  frame would be sixty explosions a second — obvious in a room and invisible in a diff. Measured
+  over the goldens: intro, landing-burn and before-flip each fire **3 ignitions, 3 shutdowns, 1
+  touchdown**; RTLS 6 and 6 across two burns; re-entry nothing at all.
+  Three decisions inside it. The first frame after a reset SEEDS rather than fires, or a scenario
+  configured mid-burn would bark three ignitions for a transition that happened before the flight
+  existed. A restart re-arms, because the same flight flown again is a new flight. And an engine
+  that FAILS is not a shutdown — one is the pilot's choice and the other is the vehicle's, and M8.5
+  is where a failure gets its own voice.
+  The detector lives in `audio/` rather than reusing `view/effects.ts`, which the task named. The
+  duplication is four booleans and a latch; the coupling would have been permanent, and would have
+  made sound depend on the renderer.
+  Also fixed: a pre-existing e2e flake this run surfaced. `intro.spec.ts` measured the canvas
+  immediately after `load`, on the reasoning that it is sized at creation — which races the
+  STYLESHEET under a loaded machine. An unsized canvas is 300×150 by specification, and that is
+  what it caught once in a full five-project run, reading as a renderer falling over when it was
+  the test arriving early.

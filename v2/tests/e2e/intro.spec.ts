@@ -7,6 +7,7 @@
  * lands.
  */
 import { expect, test } from '@playwright/test';
+import { ready } from './helpers';
 
 /**
  * Read altitude out of the HUD, in metres.
@@ -68,9 +69,19 @@ test('it decelerates rather than arriving fast', async ({ page }) => {
 test('the vehicle is drawn throughout, not just at the end', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
-  // The canvas keeps a stable size while the whole sequence plays, which rules
-  // out a renderer that has quietly fallen over mid-flight. It is sized from
-  // the window at creation, so there is no resize flash to wait out.
+  /*
+    The canvas keeps a stable size while the whole sequence plays, which rules
+    out a renderer that has quietly fallen over mid-flight.
+
+    `ready` first, and that is a fix rather than politeness. This used to
+    measure straight after `load`, on the reasoning that the canvas is sized
+    from the window at creation and there is no resize flash to wait out. Under
+    a loaded machine that races the STYLESHEET: an unsized canvas is 300x150 by
+    the HTML specification, and the first measurement caught exactly that once
+    in a full five-project run — 300 against a later 1280, read as the renderer
+    falling over when it was the test arriving early.
+  */
+  await ready(page);
   const box1 = await page.locator('[data-testid="world-canvas"]').boundingBox();
   await page.waitForTimeout(4_000);
   const box2 = await page.locator('[data-testid="world-canvas"]').boundingBox();

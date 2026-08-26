@@ -19,6 +19,8 @@
 import { createMixer, createNoiseBuffer, type AudioGraphContext, type Mixer } from './graph';
 import { createAudioParams, readParams, type AudioParams } from './params';
 import { createAeroVoice, createEngineVoice, type Voice } from './voices';
+import { createEdgeDetector, type EdgeDetector } from './events';
+import { createTransientBank, type TransientBank, type TransientName } from './transients';
 import type { SimState } from '$core/state';
 
 /** What a browser hands us. Narrowed so tests can stand in for it. */
@@ -59,6 +61,15 @@ export interface AudioEngine {
   update(state: SimState): void;
   /** AudioParam writes performed by the last update, for the diff tests. */
   readonly lastWriteCount: number;
+  /**
+   * Re-arm the transient latches.
+   *
+   * Called when a flight is configured or restarted: the same flight flown
+   * again is a new flight, and its touchdown deserves to be heard again.
+   */
+  resetFlight(): void;
+  /** One-shots fired since the last reset, for the tests. */
+  readonly transientCount: number;
   destroy(): Promise<void>;
 }
 
@@ -111,6 +122,11 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
   const params: AudioParams = createAudioParams();
   let lastWriteCount = 0;
 
+  const edges: EdgeDetector = createEdgeDetector();
+  let transients: TransientBank | null = null;
+  /** A stable closure, so passing it to `observe` costs no allocation. */
+  const fire = (name: TransientName) => transients?.fire(name);
+
   return {
     get muted() {
       return muted;
@@ -127,6 +143,13 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
     get lastWriteCount() {
       return lastWriteCount;
     },
+    get transientCount() {
+      return transients?.firedCount ?? 0;
+    },
+
+    resetFlight() {
+      edges.reset();
+    },
 
     update(state) {
       lastWriteCount = 0;
@@ -138,6 +161,7 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
         voice.update(params);
         lastWriteCount += voice.lastWriteCount;
       }
+      edges.observe(state, fire);
     },
 
     async unlock() {
@@ -150,6 +174,7 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
         // Built once, here, and never rebuilt — the claim the leak test makes.
         voices.push(createEngineVoice({ context, mixer, noise }));
         voices.push(createAeroVoice({ context, mixer, noise }));
+        transients = createTransientBank({ context, mixer, noise });
       }
       if (context.state !== 'running') await context.resume();
     },
