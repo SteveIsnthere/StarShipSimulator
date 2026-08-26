@@ -142,16 +142,24 @@ test('the plume has a measurable extent, in ship-lengths @mobile', async ({ page
   const heights = inVehicleHeights(report.extents['fire']!, scale);
 
   /*
-    Measured today: 0.26 ship-lengths on the desktop project, 0.41 on a Pixel 7.
-    A 50 m vehicle with a plume a fifth of its own length is the "candle" the
-    plan describes, and M9.6 exists to raise this number past 1. The bound here
-    is deliberately not 1: this test states that the plume EXISTS and is
-    measured in the right unit, and M9.6's acceptance line is where the floor
-    gets raised. A test that failed until a later task fixed it would be a
-    broken build, not a measurement.
+    M9.1 measured 0.26 ship-lengths here and wrote a floor of 0.05, with a note
+    saying M9.6's acceptance line was where the floor would be raised. M9.6 has
+    landed and the floor is raised — but not to 1, and the reason is a finding
+    rather than a compromise.
+
+    THE LENGTH CLAIM MOVED. This region is the tall centre column, chosen at M9.1
+    to hold the vehicle, and the plume is now long enough to run out of it: on the
+    landscape phone projects the frame is 945 px tall, the drawn vehicle is 88 px,
+    and what this measures is as much the region's edge as the plume's. Raising
+    the floor to 1 here went red on `pixel-landscape` for exactly that reason.
+    `tests/e2e/plume.spec.ts` measures the length properly, in a box positioned
+    below the nozzle for it, and asserts the 1-ship-length claim there.
+
+    What this assertion is for, and all it was ever for, is that the plume EXISTS
+    and is measured in the right unit.
   */
-  expect(heights, `the plume has no extent at all\n${message}`).toBeGreaterThan(0.05);
-  expect(heights, `the plume fills the frame — check the emitter scale\n${message}`).toBeLessThan(3);
+  expect(heights, `the plume has no extent at all\n${message}`).toBeGreaterThan(0.2);
+  expect(heights, `the plume fills the frame — check the emitter scale\n${message}`).toBeLessThan(6);
 });
 
 test('the cloud deck is there, and is brighter than the sky behind it @mobile', async ({
@@ -175,13 +183,58 @@ test('the cloud deck is there, and is brighter than the sky behind it @mobile', 
   );
   expect(deck.brightFraction, `the deck is not lit\n${message}`).toBeGreaterThan(0.02);
 
-  /*
-    The number M9.7 raises. Today the deck is eighteen `Graphics` puffs of three
-    ellipses each, all at one tint and one alpha, so what spread there is comes
-    from the sky showing between them rather than from the clouds having any
-    structure of their own: 41.8 on the desktop project, 21.9 on a Pixel 7.
-  */
   expect(deck.lumaSpread, `the deck is a single flat value\n${message}`).toBeGreaterThan(5);
+});
+
+test('the cloud deck is soft-edged, not a cutout @mobile', async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  await preset(page, 'booster-sep', { altitude: '6000', speedX: '60', speedY: '0' });
+
+  const report = await readFrame(page, {
+    regions: { deck: DECK },
+    extents: {
+      blown: { region: DECK, minLuma: 235 },
+      cloudy: { region: DECK, minLuma: 165 },
+      mid: { region: DECK, minLuma: 165, maxLuma: 205 },
+    },
+    map: { cols: 60, rows: 20 },
+  });
+  const scale = await metrePixels(page);
+  const message = describeFrame(report, scale);
+  const pixels = report.regions['deck']!.pixels;
+  const cloudy = report.extents['cloudy']!.count;
+  const blownShare = report.extents['blown']!.count / pixels;
+  const midShare = report.extents['mid']!.count / Math.max(1, cloudy);
+
+  /*
+    M9.7, AND THE STATISTIC THAT TURNED OUT TO BE WRONG. The plan expected the
+    softened deck to show a WIDER luma spread than the flat one. It shows a
+    narrower one — 17.9 against 41.4 — and the reason is worth writing down: a
+    cutout has an enormous spread precisely BECAUSE it is flat. Eighteen opaque
+    ellipses at one alpha over a blue sky are two values with a hard edge between
+    them, and two values far apart is what a large standard deviation measures.
+
+    These are the statistics that actually say "not a cutout", measured before
+    and after on the same frame:
+
+                                      before    after
+      pure-white share of the band     0.147    0.0002
+      mid-tone share of cloud pixels   0.261     0.932
+      distinct tone buckets                5         6
+  */
+  expect(blownShare, `the deck still burns out to flat white\n${message}`).toBeLessThan(0.02);
+  expect(midShare, `the deck is two values with an edge between them\n${message}`).toBeGreaterThan(
+    0.7,
+  );
+  /*
+    A floor rather than a target. The band is a fixed fraction of the frame and a
+    portrait phone's frame is very tall, so the same deck fills 29% of it on the
+    desktop project and 7% on a Pixel 7 — the deck has not changed, the frame
+    has. What this guards against is measuring the shares above over nothing.
+  */
+  expect(cloudy / pixels, `there is no deck to measure\n${message}`).toBeGreaterThan(0.04);
 });
 
 test('the ground band is ground @mobile', async ({ page }) => {

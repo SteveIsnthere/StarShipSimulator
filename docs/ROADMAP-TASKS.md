@@ -525,7 +525,7 @@ for its first outing.*
   wider and dimmer in vacuum; the spacing curve pinned at the altitudes the seven scenarios
   reach, monotonic and bounded, reaching zero before the diamonds would be physically absent;
   peak live particle count reported against M7's 576-of-4000 baseline.
-- [ ] **M9.7 The cloud deck, softened** — eighteen `Graphics` puffs of three overlapping
+- [x] **M9.7 The cloud deck, softened** — eighteen `Graphics` puffs of three overlapping
   ellipses each, all at `alpha = opacity * 0.5` and one tint, is a paper cutout and reads as
   one. Sprites on the `wisp` texture with per-puff alpha, scale and aspect jitter from the
   existing `puffRandom` hash, and the deck split into two sub-decks at slightly different
@@ -2220,3 +2220,41 @@ for its first outing.*
   **Gate:** lint, **1519 unit tests** (13 new), build all exit 0; **playwright 327 passed across all
   five projects**; `git diff v2/src/core` still comment lines and nothing else; digests unmoved;
   first-load JS **197.4 kB** of 250.
+- 2026-08-26 · M9.7 · Eighteen `Graphics` puffs of three hard-edged ellipses each, every one at
+  `opacity * 0.5` and 2:1, is a paper cutout. Now **36 sprites on M9.5's `wisp` frame** — feathered
+  and elongated, which is what a cumulus edge is — with per-puff **alpha, aspect and scale from the
+  same `puffRandom` hash** that already decides position and size, so there is no new source of
+  randomness and the deck is still the same deck on every reload. Split into **two sub-decks at
+  0.72× parallax**, the same argument as `CLOUD_PARALLAX` one level down: a deck whose every puff
+  moves at one rate is a cutout however many puffs it has. The far half is smaller, dimmer, drawn
+  behind, and offset TOWARD THE HORIZON with a sign that flips as the vehicle climbs through the
+  deck — from below, more distant cloud is lower; from above, higher.
+  **All fourteen M7.6 tests pass UNMODIFIED**, which is the acceptance line's first clause. Two
+  design choices made that possible and both are recorded in the code: every puff stays a DIRECT
+  child of one container (so `children.length === CLOUD_PUFFS` still holds — that assertion is about
+  the allocation contract, not the graph's shape), and `createCloudDeck(texture = Texture.EMPTY)`
+  keeps its no-argument form for the headless tests, with the sprite scale normalised by the
+  texture's width so `width[i]` still means pixels across.
+  **THE STATISTIC IN THE PLAN WAS THE WRONG ONE, and that is the finding.** The acceptance expected
+  a WIDER luma spread; the softened deck shows a NARROWER one — **17.9 against 41.4** — because a
+  cutout has an enormous spread precisely BECAUSE it is flat: eighteen opaque ellipses over a blue
+  sky are two values with a hard edge, and two values far apart is what a large standard deviation
+  measures. The statistics that actually say "not a cutout", measured on the same frame before and
+  after: **pure-white share of the band 0.147 → 0.0002**; **mid-tone share of the cloud pixels
+  0.261 → 0.932**; tone buckets 5 → 6. Asserted in `pixels.spec.ts`.
+  **A test was retired, loudly.** M9.5's `particle-textures.spec.ts` measured the `core` texture by
+  the blown-out share of the plume and was green with a clear margin — 0.18 against 0.41 — until
+  **M9.6 retuned the very plume it measured**. The new core emitter is four times faster with a
+  third of the drag, so particles spread along a column instead of piling up and the blown share
+  collapsed for BOTH textures: **0.040 against 0.051**, bimodal, with the vehicle climbing out of
+  the box between samples. Two boxes and two sampling schedules were tried before concluding it.
+  A test that cannot fail on the thing it was written for is decoration, so it was removed rather
+  than loosened — and its claim is now carried by the cloud-deck assertion above, which measures the
+  same `wisp` feathering with a **seven-hundred-fold** separation instead of a marginal one. The
+  four textures' shapes remain proved directly in `tests/view/particle-textures.test.ts`.
+  M9.1's plume-extent assertion also moved: its floor went 0.05 → 0.2 rather than to 1, because the
+  M9.6 plume now runs out of M9.1's centre-column region — `plume.spec.ts` makes the 1-ship-length
+  claim in a box positioned for it.
+  **Gate:** lint, **1523 unit tests** (4 new), build all exit 0; **playwright 331 passed across all
+  five projects**; `git diff v2/src/core` still comment lines and nothing else; digests unmoved;
+  first-load JS **197.6 kB** of 250.

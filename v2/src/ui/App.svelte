@@ -463,6 +463,16 @@
         exactly, so this one is completely hidden behind the real one and the
         handover has nothing to see.
       */
+      /*
+        One atlas, two consumers (M9.7). The particle pool draws its four frames
+        from it, and the cloud deck draws its puffs from the `wisp` frame — which
+        is not a shortcut: a cumulus edge and a shed vortex are the same shape
+        problem, feathered and elongated, and generating a second texture for the
+        second one would be two things to keep in step for no gain. Built here,
+        before either consumer, because the deck is constructed with it.
+      */
+      const particleTextures = createParticleTextures(view.app.renderer);
+
       const distantEarth = createDistantEarth();
       view.layers.far.addChild(distantEarth.container);
       /*
@@ -471,7 +481,7 @@
         rates is what the game had none of — the parallax used to jump from 1x
         straight to the stars.
       */
-      const clouds = createCloudDeck();
+      const clouds = createCloudDeck(particleTextures.wisp);
       view.layers.far.addChild(clouds.container);
       view.layers.world.addChild(world.container);
       view.layers.vehicle.addChild(vehicle.container);
@@ -479,7 +489,7 @@
       const sky = createSky(view.app.renderer);
       view.layers.sky.addChild(sky.container);
 
-      const particles = createParticleSystem(createParticleTextures(view.app.renderer));
+      const particles = createParticleSystem(particleTextures);
       const effects = createEffectDriver();
       view.layers.effectsBehind.addChild(particles.container);
 

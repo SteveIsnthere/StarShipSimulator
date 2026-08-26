@@ -28,6 +28,8 @@ import {
   DECK_DOWN_FOLLOW,
   DECK_UP_FOLLOW,
   puffRandom,
+  CLOUD_DECK_DEPTH_RATIO,
+  PUFF_SPACING,
 } from '$view/clouds';
 import { compressedScrollSpeed, groundLineFraction } from '$view/distant-earth';
 import { computeViewport } from '$view/camera';
@@ -233,5 +235,86 @@ describe('allocation', () => {
     for (let i = 0; i < 40_000; i++) deck.update(viewport, 1_000, 3_000, 1 / 60);
     expect(Number.isFinite(deck.scrollOffset)).toBe(true);
     expect(Math.abs(deck.scrollOffset)).toBeLessThan(1_000);
+  });
+});
+
+/* ── M9.7: two sub-decks, and a deck that is not one flat value ─────────── */
+
+describe('the deck has thickness (M9.7)', () => {
+  it('is two sub-decks at different parallax, not one', () => {
+    /*
+      THE SAME ARGUMENT AS `CLOUD_PARALLAX`, one level down. That constant
+      exists because a middle distance moving at the far layer's rate would not
+      be a middle distance; this one exists because a deck whose every puff moves
+      at one rate is a cutout, however many puffs it has.
+    */
+    expect(CLOUD_DECK_DEPTH_RATIO).toBeGreaterThan(0.5);
+    expect(CLOUD_DECK_DEPTH_RATIO).toBeLessThan(1);
+
+    /*
+      ONE step, from a fresh deck, small enough that neither offset has wrapped.
+      Both wrap at PUFF_SPACING, so a test that ran for thirty frames would be
+      measuring the modulo rather than the rate — which is exactly what the first
+      version of this test did, and it reported the two decks as 0.6% apart.
+    */
+    const deck = createCloudDeck();
+    deck.update(viewportAt(1_000), 1_000, 60, 1 / 60);
+    const nearTravel = PUFF_SPACING - deck.scrollOffset;
+    const farTravel = PUFF_SPACING - deck.farScrollOffset;
+    const report = `near travelled ${nearTravel.toFixed(2)} px, far ${farTravel.toFixed(2)}`;
+    expect(nearTravel, report).toBeGreaterThan(0);
+    expect(farTravel, report).toBeLessThan(nearTravel);
+    expect(farTravel / nearTravel, report).toBeCloseTo(CLOUD_DECK_DEPTH_RATIO, 6);
+  });
+
+  it('gives every puff its own opacity and its own shape', () => {
+    /*
+      THE FLATNESS THIS TASK EXISTS TO FIX, as a property of the scene graph.
+      Every puff used to be drawn at `opacity * 0.5` and at exactly 2:1, so the
+      deck had one tone and one silhouette. Both come from `puffRandom` now — the
+      hash that already decides position and size, so there is no new source of
+      randomness and the deck is still the same deck on every reload.
+    */
+    const deck = createCloudDeck();
+    deck.update(viewportAt(1_000), 1_000, 100, 1 / 60);
+    const alphas = deck.container.children.map((c) => c.alpha);
+    const shapes = deck.container.children.map((c) => c.scale.y / c.scale.x);
+
+    expect(new Set(alphas.map((a) => a.toFixed(4))).size).toBeGreaterThan(CLOUD_PUFFS / 2);
+    expect(new Set(shapes.map((a) => a.toFixed(4))).size).toBeGreaterThan(CLOUD_PUFFS / 2);
+    // Varied, and still within a band that reads as one deck rather than as a
+    // scattering of unrelated blobs.
+    expect(Math.min(...alphas)).toBeGreaterThan(0.15);
+    expect(Math.max(...alphas)).toBeLessThanOrEqual(1);
+    expect(Math.min(...shapes)).toBeGreaterThan(0.3);
+    expect(Math.max(...shapes)).toBeLessThan(1);
+  });
+
+  it('and is still the same deck on every reload', () => {
+    // The M7.6 guarantee, re-checked against the two things M9.7 added: the
+    // per-puff alpha and aspect must come from the hash, not from a generator.
+    const a = createCloudDeck();
+    const b = createCloudDeck();
+    const viewport = viewportAt(4_000);
+    a.update(viewport, 4_000, 250, 1 / 60);
+    b.update(viewport, 4_000, 250, 1 / 60);
+    const fingerprint = (deck: ReturnType<typeof createCloudDeck>) =>
+      deck.container.children
+        .map((c) => `${c.x},${c.y},${c.scale.x},${c.scale.y},${c.alpha}`)
+        .join('|');
+    expect(fingerprint(a)).toBe(fingerprint(b));
+  });
+
+  it('keeps the far half behind the near half', () => {
+    // Draw order is child order, and the far sub-deck is the first half for
+    // exactly that reason. Asserted rather than left to the loop's shape.
+    const deck = createCloudDeck();
+    deck.update(viewportAt(1_000), 1_000, 100, 1 / 60);
+    const half = CLOUD_PUFFS / 2;
+    const widths = deck.container.children.map((c) => c.scale.x);
+    const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+    // The far half is drawn smaller, which is the only property visible from
+    // here — and it is enough to say which half is which.
+    expect(mean(widths.slice(0, half))).toBeLessThan(mean(widths.slice(half)));
   });
 });

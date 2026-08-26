@@ -18,7 +18,7 @@
  * would make the screenshots in docs/ irreproducible and would mean two players
  * comparing notes were not looking at the same sky.
  */
-import { Container, Graphics } from 'pixi.js';
+import { Container, Sprite, Texture } from 'pixi.js';
 import type { Viewport } from './camera';
 import { compressedScrollSpeed } from './distant-earth';
 import { skyLightness } from './sky';
@@ -127,13 +127,46 @@ export function cloudOpacity(altitude: number): number {
 }
 
 /**
- * How many puffs the deck carries.
+ * How many puffs the deck carries, across BOTH sub-decks (M9.7).
  *
- * Enough to cover three screen widths at the spacing below, so a pan never runs
- * off the end of the deck, and few enough that the whole layer is one draw call
- * per puff and no allocation at all.
+ * Eighteen before, all at one distance. Thirty-six now, half at each of two
+ * parallax rates — see `CLOUD_DECK_DEPTH_RATIO` — so each sub-deck is as dense
+ * as the whole deck used to be. Still one draw call: every puff is a sprite on
+ * the same `wisp` frame of M9.5's atlas, so the whole layer batches.
+ *
+ * They remain DIRECT children of one container rather than being grouped into
+ * two sub-containers, which is not an accident: `tests/view/clouds.test.ts`
+ * asserts `container.children.length === CLOUD_PUFFS`, and that assertion is
+ * about the allocation contract rather than about the scene graph's shape. It
+ * still holds, unmodified.
  */
-export const CLOUD_PUFFS = 18;
+export const CLOUD_PUFFS = 36;
+
+/**
+ * How much slower the far sub-deck scrolls than the near one.
+ *
+ * THE SAME ARGUMENT AS `CLOUD_PARALLAX`, one level down. That constant exists
+ * because a middle distance moving at the far layer's rate would not be a middle
+ * distance; this one exists because a deck whose every puff moves at exactly one
+ * rate is a cutout, however many puffs it has. Two rates 28% apart is enough for
+ * an eye to read thickness and small enough that the two halves stay one deck
+ * rather than becoming two.
+ */
+export const CLOUD_DECK_DEPTH_RATIO = 0.72;
+
+/** How much smaller and dimmer the far half is drawn. */
+export const FAR_DECK_SCALE = 0.85;
+export const FAR_DECK_ALPHA = 0.62;
+
+/**
+ * How far the far half sits toward the horizon, as a fraction of the viewport.
+ *
+ * Signed by which side of the frame the deck line is on, because "toward the
+ * horizon" changes direction when the vehicle climbs through the deck: from
+ * below, more distant cloud appears LOWER; from above, HIGHER. A fixed offset
+ * would be right on one side of 2.5 km and wrong on the other.
+ */
+export const FAR_DECK_HORIZON_DROP = 0.016;
 
 /** px — nominal spacing between puffs on screen. */
 export const PUFF_SPACING = 190;
@@ -157,41 +190,86 @@ export function puffRandom(index: number, salt: number): number {
 export interface CloudDeck {
   readonly container: Container;
   update(viewport: Viewport, altitude: number, speedX: number, dt: number): void;
-  /** For tests: the scroll offset, in px. */
+  /** For tests: the near sub-deck's scroll offset, in px. */
   readonly scrollOffset: number;
+  /**
+   * For tests: the far sub-deck's, which is the whole of M9.7's depth claim.
+   *
+   * Exposed rather than inferred from the sprites' positions, because both
+   * offsets wrap at `PUFF_SPACING` and a test that measured displacement over
+   * more than one wrap would be measuring the modulo.
+   */
+  readonly farScrollOffset: number;
 }
 
-export function createCloudDeck(): CloudDeck {
+/** How many of the puffs belong to the far sub-deck. The first half, so they draw behind. */
+const FAR_COUNT = CLOUD_PUFFS / 2;
+
+/**
+ * Build the deck.
+ *
+ * @param texture the `wisp` frame of M9.5's particle atlas — feathered and
+ *   elongated, which is what a cumulus edge is and what three hard-edged
+ *   ellipses could never be. Optional, and defaults to `Texture.EMPTY`, so the
+ *   headless tests that call `createCloudDeck()` with no arguments keep working
+ *   exactly as they did: every assertion in `tests/view/clouds.test.ts` is about
+ *   positions, scales and counts, none of which needs a GPU.
+ */
+export function createCloudDeck(texture: Texture = Texture.EMPTY): CloudDeck {
   const container = new Container({ label: 'cloudDeck' });
+
+  /*
+    Normalising the sprite scale by the texture's own width, so `width[i]` keeps
+    meaning PIXELS ACROSS as it did when these were unit-sized `Graphics`. With
+    `Texture.EMPTY` the width is zero, and a divisor of one leaves the numbers
+    at exactly the magnitude the old tests were written against.
+  */
+  const norm = texture.width > 0 ? texture.width : 1;
 
   /** Per-puff shape, decided once from the seed and never again. */
   const jitterX = new Float32Array(CLOUD_PUFFS);
   const jitterY = new Float32Array(CLOUD_PUFFS);
   const width = new Float32Array(CLOUD_PUFFS);
-  const puffs: Graphics[] = [];
+  /** M9.7: per-puff aspect and opacity, so the deck is not one flat value. */
+  const aspect = new Float32Array(CLOUD_PUFFS);
+  const opacityOf = new Float32Array(CLOUD_PUFFS);
+  const puffs: Sprite[] = [];
 
   for (let i = 0; i < CLOUD_PUFFS; i++) {
+    // Indexed by position WITHIN its sub-deck, so the two halves are laid out
+    // across the same span rather than the far one being a copy shifted along.
+    const withinDeck = i < FAR_COUNT ? i : i - FAR_COUNT;
     jitterX[i] = (puffRandom(i, 1) - 0.5) * PUFF_SPACING * 0.7;
     jitterY[i] = (puffRandom(i, 2) - 0.5) * 26;
-    width[i] = 90 + puffRandom(i, 3) * 130;
+    width[i] = 150 + puffRandom(i, 3) * 230;
+    /*
+      THE FLATNESS THIS TASK EXISTS TO FIX. Every puff used to be drawn at
+      `opacity * 0.5` and at exactly 2:1, so the deck had one tone and one shape
+      and read as a paper cutout. Both are now per-puff, from the same hash that
+      already decides position and size — no new source of randomness, and the
+      deck is still the same deck on every reload.
+    */
+    aspect[i] = 0.52 + puffRandom(i, 4) * 0.38;
+    opacityOf[i] = 0.5 + puffRandom(i, 5) * 0.5;
 
-    const puff = new Graphics();
-    // Three overlapping ellipses: a cumulus silhouette without a texture, and
-    // cheap enough that eighteen of them cost nothing.
-    puff.ellipse(0, 0, 1, 0.42);
-    puff.ellipse(-0.45, 0.1, 0.55, 0.3);
-    puff.ellipse(0.42, 0.12, 0.6, 0.32);
-    puff.fill(0xffffff);
+    const puff = new Sprite(texture);
+    puff.anchor.set(0.5);
     container.addChild(puff);
     puffs.push(puff);
+    void withinDeck;
   }
 
   let offset = 0;
+  /** The far sub-deck scrolls at its own rate; that is what makes it far. */
+  let farOffset = 0;
 
   return {
     container,
     get scrollOffset() {
       return offset;
+    },
+    get farScrollOffset() {
+      return farOffset;
     },
 
     update(viewport, altitude, speedX, dt) {
@@ -206,6 +284,8 @@ export function createCloudDeck(): CloudDeck {
       const scroll = compressedScrollSpeed(speedX * viewport.scale) * CLOUD_PARALLAX;
       offset -= scroll * dt;
       offset = ((offset % PUFF_SPACING) + PUFF_SPACING) % PUFF_SPACING;
+      farOffset -= scroll * CLOUD_DECK_DEPTH_RATIO * dt;
+      farOffset = ((farOffset % PUFF_SPACING) + PUFF_SPACING) % PUFF_SPACING;
 
       // Cloud is lit by the sky, so it darkens with it — the M6.7 rule that
       // stopped the ground and the sky coming apart on an ascent.
@@ -214,14 +294,23 @@ export function createCloudDeck(): CloudDeck {
       const tint = (shade << 16) | (shade << 8) | Math.min(255, shade + 6);
 
       const spread = Math.max(0.55, viewport.width / 1280);
+      // Toward the horizon, whichever side of the deck the vehicle is on.
+      const towardHorizon = lineY < viewport.height * 0.5 ? 1 : -1;
+      const farDrop = towardHorizon * FAR_DECK_HORIZON_DROP * viewport.height;
+
       for (let i = 0; i < puffs.length; i++) {
         const puff = puffs[i]!;
-        puff.x = -PUFF_SPACING + offset + i * PUFF_SPACING + jitterX[i]!;
-        puff.y = lineY + jitterY[i]!;
-        const w = width[i]! * spread;
-        puff.scale.set(w, w * 0.5);
+        const far = i < FAR_COUNT;
+        const withinDeck = far ? i : i - FAR_COUNT;
+        const deckOffset = far ? farOffset : offset;
+
+        puff.x = -PUFF_SPACING + deckOffset + withinDeck * PUFF_SPACING + jitterX[i]!;
+        puff.y = lineY + jitterY[i]! + (far ? farDrop : 0);
+
+        const w = width[i]! * spread * (far ? FAR_DECK_SCALE : 1);
+        puff.scale.set(w / norm, (w * aspect[i]!) / norm);
         puff.tint = tint;
-        puff.alpha = opacity * 0.5;
+        puff.alpha = opacity * opacityOf[i]! * (far ? FAR_DECK_ALPHA : 1);
       }
     },
   };
