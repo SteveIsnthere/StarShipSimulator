@@ -17,6 +17,40 @@ import { EFFECTS, type ParticleSystem } from './particles';
 import { engineDistanceFromCenterOfMass, heatLimit, vehicleHeight } from '$core/constants';
 import { plasmaIntensity, plumeScaleFactor, plumeSpreadFactor } from './atmosphere-look';
 
+/**
+ * kPa — below this there is not enough air for the fins to shed anything.
+ *
+ * 2021's number, kept: pixi_setup.js:128 gated at 0.2 and called it psi. The
+ * VALUE is right for a gate — 0.2 kPa is reached on 94% of a launch and 100% of
+ * an RTLS, which is a fair description of "inside the atmosphere" — and only the
+ * unit was wrong. What was not right was the saturation point beside it; see the
+ * ramp itself.
+ */
+export const AERO_TRAIL_MIN_Q = 0.2;
+
+/**
+ * kPa — where the fin vortices reach full intensity.
+ *
+ * Thirty, the same number `view/camera.ts` shakes at full amplitude at and
+ * `audio/params.ts` roars at full strength at, because all three are the same
+ * physical claim: this is as hard as the air ever tears at this vehicle. The
+ * seven goldens peak at 28.6 kPa on the RTLS and 23.6 on the launch.
+ *
+ * It was 2, which is 4% of the structural limit and 7% of this — see the ramp.
+ */
+export const AERO_TRAIL_FULL_Q = 30;
+
+/**
+ * kPa — the air needed for a transonic shock cone to be visible at all.
+ *
+ * A gate rather than a ramp, and low on purpose: a descending vehicle goes
+ * through Mach 1 in thin air, and a threshold set anywhere near max-Q would mean
+ * the effect only ever appeared on the way up. Named here rather than left as a
+ * literal so `tests/view/dynamic-pressure.test.ts` can see it — an unnamed
+ * threshold is one the range test cannot check.
+ */
+export const SONIC_BOOM_MIN_Q = 1;
+
 export interface EffectDriver {
   update(
     particles: ParticleSystem,
@@ -97,9 +131,29 @@ export function createEffectDriver(): EffectDriver {
       }
 
       // --- aerodynamic trail off the fins ----------------------------------
-      // pixi_setup.js:128 — above 0.2 psi, ramping to full by 2 psi.
-      if (forces.dynamicPressure > 0.2) {
-        const intensity = Math.min(forces.dynamicPressure / 2, 1);
+      /*
+        THE RAMP, RETUNED (M9.3). 2021 read "above 0.2 psi, ramping to full by
+        2 psi" and the port kept both numbers. They are not psi — `dynamicPressure`
+        is kPa (see AERO_TRAIL_FULL_Q) — so what shipped was an effect at FULL
+        intensity above two kilopascals, which is 85% of a launch, 76% of an
+        RTLS and 44% of a re-entry. An effect that is saturated for most of every
+        flight it appears in is decoration: it cannot tell a player that the air
+        is tearing harder now than it was a moment ago, because it says the same
+        thing at 2 kPa and at 28.
+
+        Square root over the whole visited range instead, for the reason
+        `audio/params.ts`'s `aeroLevel` gives for the identical quantity: a
+        linear map spends almost all of its range in the last few kilopascals,
+        where the vehicle is usually already in trouble. The gate stays at
+        2021's 0.2, which is simply "there is air out there".
+
+        It costs brightness at low Q and that is the information being restored:
+        the intro's landing peaks at 1.7 kPa and drops from 0.84 to 0.24, the
+        launch peaks at 23.6 and goes from a flat 1.0 to 0.89 arrived at
+        gradually. A landing burn should not shed vortices like a max-Q ascent.
+      */
+      if (forces.dynamicPressure > AERO_TRAIL_MIN_Q) {
+        const intensity = Math.min(Math.sqrt(forces.dynamicPressure / AERO_TRAIL_FULL_Q), 1);
         const finX = shipScreen.x - Math.cos(downAxis) * vehicleHeight * 0.25 * scale;
         const finY = shipScreen.y - Math.sin(downAxis) * vehicleHeight * 0.25 * scale;
         particles.emit('aeroTrail', finX, finY, downAxis, intensity, dt, scale * 0.7);
@@ -119,7 +173,11 @@ export function createEffectDriver(): EffectDriver {
       }
 
       // --- transonic cone ---------------------------------------------------
-      if (kinematics.machSpeed > 0.9 && kinematics.machSpeed < 1.3 && forces.dynamicPressure > 1) {
+      if (
+        kinematics.machSpeed > 0.9 &&
+        kinematics.machSpeed < 1.3 &&
+        forces.dynamicPressure > SONIC_BOOM_MIN_Q
+      ) {
         const intensity = 1 - Math.abs(kinematics.machSpeed - 1.1) / 0.2;
         particles.emit(
           'sonicBoom',

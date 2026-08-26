@@ -412,12 +412,30 @@ export function framingLead(speed: number, physicalSpan: number): number {
 }
 
 /**
- * Pa — dynamic pressure at which airframe shake reaches its full amplitude.
+ * kPa — dynamic pressure at which airframe shake reaches its full amplitude.
  *
- * Max-Q on an ascent is around 30 kPa, which is where the vehicle is being
- * shaken hardest and is the moment the shake exists to convey.
+ * KILOPASCALS, and until M9.3 this constant said pascals and held 30_000. The
+ * comment beside it was right about the physics and wrong about the unit, which
+ * is the worst way to be wrong: max-Q on an ascent IS around 30 kPa, and the
+ * number written down was a thousand times that. `q / SHAKE_FULL_Q` came to
+ * 0.00095 against the 28.6 kPa the RTLS golden actually peaks at, so the
+ * aerodynamic half of the camera shake had never once fired since M7.3 built
+ * it — every ascent this application has ever drawn was steadier than it should
+ * have been, and no screenshot could say so.
+ *
+ * The root cause is one JSDoc line in `core/state.ts` that calls
+ * `forces.dynamicPressure` psi. It is not psi and it is not Pa: `getDynamicPressure`
+ * is `airDensity * trueSpeed**2 * 0.0005`, one half with a Pa-to-kPa conversion
+ * folded into the constant. The same comment produced the same bug in the audio
+ * layer at M8.3 (`AERO_FULL_Q`), a milestone apart, which is why M9.4 audits
+ * every unit annotation in `core/` rather than fixing this one again.
+ *
+ * 30 rather than 28.6 so full amplitude sits just past the loudest moment either
+ * flight has, matching `audio/params.ts`'s AERO_FULL_Q — the same physical claim
+ * about the same peak, made by two layers that do not import from each other.
+ * `tests/view/dynamic-pressure.test.ts` is what keeps them in the same universe.
  */
-export const SHAKE_FULL_Q = 30_000;
+export const SHAKE_FULL_Q = 30;
 
 /** m/s^2 — thrust acceleration at which engine shake reaches full amplitude. */
 export const SHAKE_FULL_THRUST = 20;

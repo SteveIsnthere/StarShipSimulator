@@ -118,12 +118,22 @@ export interface RegionStats {
   readonly topColours: readonly { readonly rgb: string; readonly fraction: number }[];
 }
 
-/** Ask for the bounding box of everything bright in a region. */
+/** Ask for the bounding box of everything bright — or dark — in a region. */
 export interface ExtentQuery {
   /** Where to look. Defaults to the whole frame. */
   readonly region?: Region;
   /** Luma at or above which a pixel counts. */
   readonly minLuma: number;
+  /**
+   * Luma at or below which a pixel counts. Optional.
+   *
+   * With both bounds a query selects a BAND, which is how you find a dark
+   * object against a light sky: the vehicle is the only thing in the middle of
+   * a clear frame that is neither sky nor cloud. Added at M9.3, where the
+   * question was whether the whole picture MOVES, and the only way to answer it
+   * is to watch something identifiable hold still or not.
+   */
+  readonly maxLuma?: number;
   /** When true, only red-dominant saturated pixels count — fire, not cloud. */
   readonly warmOnly?: boolean;
 }
@@ -325,7 +335,9 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
             const r = data[i]!;
             const g = data[i + 1]!;
             const b = data[i + 2]!;
-            if (luma(r, g, b) < query.minLuma) continue;
+            const l = luma(r, g, b);
+            if (l < query.minLuma) continue;
+            if (query.maxLuma !== undefined && l > query.maxLuma) continue;
             if (query.warmOnly === true && !isWarm(r, g, b)) continue;
             count++;
             if (px < left) left = px;

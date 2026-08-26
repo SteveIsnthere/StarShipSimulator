@@ -469,7 +469,7 @@ for its first outing.*
   seeded past the give-up radius; a dropped-frame test (frames longer than `MAX_FRAME_TIME`)
   asserts the camera error stays bounded; the same at time warp, which fails the other
   direction today.
-- [ ] **M9.3 Q is kPa** — `getDynamicPressure` is `airDensity * trueSpeed ** 2 * 0.0005`: one
+- [x] **M9.3 Q is kPa** — `getDynamicPressure` is `airDensity * trueSpeed ** 2 * 0.0005`: one
   half with a Pa→kPa conversion folded in. `SHAKE_FULL_Q = 30_000` in `view/camera.ts` is 1000×
   too large, so `q / SHAKE_FULL_Q` is 0.00095 against a 28.6 kPa RTLS peak and the aerodynamic
   half of the camera shake has never fired — the same bug class as `AERO_FULL_Q`, fixed at
@@ -2048,4 +2048,49 @@ for its first outing.*
   in the new harness earns its place — the first run drove the camera with an undefined dt, every
   comparison against NaN was false, and four framing tests went green measuring nothing.
   **Gate:** lint, **1477 unit tests** (45 new), build all exit 0; **playwright 306 passed, 6 skipped
+  across all five projects**; `git diff v2/src/core` empty; first-load JS 196.5 kB of 250.
+- 2026-08-26 · M9.3 · `SHAKE_FULL_Q` was **30_000 with a comment saying "around 30 kPa" beside it**,
+  which is the worst way to be wrong: the physics in the comment was right and the number under it
+  was a thousand times too big. `q / SHAKE_FULL_Q` came to **0.00095** against the 28.6 kPa the RTLS
+  golden peaks at, so the aerodynamic half of the camera shake had **never once fired since M7.3
+  built it**. Same bug class as `AERO_FULL_Q`, fixed at M8.3, a milestone earlier and in a different
+  file, from the same root cause — one JSDoc line in `core/state.ts` calling `dynamicPressure` psi
+  (M9.4's job). Measured peaks over the seven goldens, which is the evidence for every number here:
+  launch **23.63 kPa**, RTLS **28.61**, reentry 7.55, before-flip 2.89, intro 1.68, landing-burn
+  0.87, booster-sep 0.11. A textbook max-Q in kilopascals and an absurdity in anything else —
+  28.6 psi is 197 kPa, six times what any launch vehicle survives.
+  **The fin-vortex ramp, retuned.** 2021's "above 0.2 psi, ramping to full by 2" shipped verbatim,
+  so the effect sat at FULL intensity for **85% of a launch, 76% of an RTLS and 44% of a re-entry** —
+  an effect saying the same thing at 2 kPa and at 28 tells a player nothing. Now `sqrt(q / 30)`,
+  the identical curve `audio/params.ts` uses for the identical quantity, asserted equal to
+  `aeroLevel` at five pressures because the fins shedding and the airframe roaring are one
+  phenomenon. Saturation goes 85% → 0%; it costs brightness at low Q, and that is the information
+  being restored (the intro's landing drops 0.84 → 0.24; a landing burn should not shed vortices
+  like a max-Q ascent). Two literals in `effects.ts` got names — an unnamed threshold is one the
+  range test cannot see.
+  **`tests/view/dynamic-pressure.test.ts` is the mechanism, not the fix.** It replays all seven
+  goldens, finds the interval Q actually visits, and checks all seven named Q constants across
+  `view/`, `audio/`, `hud/` and `core/` against `[peak/200, peak*2]` — above the ceiling a threshold
+  can never be reached, below the floor it is crossed in the first frame, and either way the comment
+  beside it is irrelevant. Wide on purpose (a factor of 400, spanning gates and full-scale values),
+  and still narrow enough: both shipped bugs were 1000x, a psi/kPa confusion is 6.9x, and the test
+  asserts *in itself* that 30_000 and 30×6.895 both fail it.
+  **Red/green shown for both halves.** SHAKE_FULL_Q back at 30_000 → 2 unit tests red (amplitude
+  0.00079 on the launch); old ramp restored → 2 red (85% saturated). And in the browser,
+  `tests/e2e/shake.spec.ts` tracks the vehicle silhouette across 16 frames: with the bug it reported
+  **"shaking 0.8 px vs reduced motion 0.8 px" — the same measurement twice** — and with the fix
+  4-plus px against 0.8. Three design decisions in that spec, each from a measurement that failed
+  first: the control is the SAME flight under `prefers-reduced-motion` (so the difference is the
+  shake and nothing else, and reduced-motion is proved end to end); it is measured in **1/9 slow
+  motion**, because at real time the vehicle's own drift was 39 px against a 6 px shake and
+  detrending left 3.7 against 3.2 — at 1/9 the drift is a ninth and the shake, a fraction of the
+  VIEWPORT, is unchanged; and it is vertical-only and trimmed, because the horizontal series picks
+  up a cloud edge about once in fourteen samples. `ExtentQuery` gained `maxLuma` so the harness can
+  find a dark object against a light sky. **One M7.3 test had encoded the bug** —
+  `shakeAmplitude(15_000, 0)` passed because the assertion and the constant agreed with each other
+  and neither agreed with the simulation.
+  **Owner decision honoured:** shake lands at `SHAKE_FRACTION = 0.006`, M7.3's designed amplitude,
+  pinned by a test so dialling it back later is a deliberate act. Every ascent will feel different
+  from this commit on, and whether 0.6% of viewport height is right is a viewing decision.
+  **Gate:** lint, **1493 unit tests** (16 new), build all exit 0; **playwright 316 passed, 6 skipped
   across all five projects**; `git diff v2/src/core` empty; first-load JS 196.5 kB of 250.

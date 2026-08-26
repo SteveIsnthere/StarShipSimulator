@@ -731,7 +731,15 @@ describe('shake', () => {
   });
 
   it('rises with dynamic pressure and with thrust, and caps', () => {
-    expect(shakeAmplitude(15_000, 0)).toBeCloseTo(0.5, 9);
+    /*
+      KILOPASCALS (M9.3). This test used to read `shakeAmplitude(15_000, 0)` and
+      pass, which is the whole shape of the bug: the assertion and the constant
+      agreed with each other and neither agreed with the simulation. Half
+      amplitude arrives at half of SHAKE_FULL_Q, and SHAKE_FULL_Q is 30 kPa —
+      a number the RTLS golden actually reaches, rather than one no vehicle
+      could survive.
+    */
+    expect(shakeAmplitude(15, 0)).toBeCloseTo(0.5, 9);
     expect(shakeAmplitude(0, 20)).toBeCloseTo(0.5, 9);
     expect(shakeAmplitude(1e9, 1e9)).toBe(1);
   });
@@ -741,7 +749,7 @@ describe('shake', () => {
     // therefore the one part a reduced-motion request may switch off.
     const v = viewport();
     const cam = createCamera(v, 0, 0, 0);
-    const t = target({ dynamicPressure: 30_000, thrustAcceleration: 20 });
+    const t = target({ dynamicPressure: 30, thrustAcceleration: 20 });
     for (let i = 0; i < 60; i++) updateCamera(cam, t, v, 1 / 60, { reducedMotion: true });
     expect(cam.shakeX).toBe(0);
     expect(cam.shakeY).toBe(0);
