@@ -115,7 +115,21 @@ export interface ForcesState {
   thrust: number;
   /** m/s^2. */
   thrustAcceleration: number;
-  /** m/s^2 — from asymmetric thrust across the three engines. */
+  /**
+   * rad/s^2 — the ROTATION from asymmetric thrust across the three engines.
+   *
+   * Corrected at M9.4; this said `m/s^2`. Two call sites settle it and they
+   * agree: step.ts builds it with `getAngularAcceleration(force, distance,
+   * momentOfInertia)`, which is a torque divided by an inertia, and then sums it
+   * into `kinematics.angularAcceleration` beside five other rad/s^2 terms;
+   * `precisionAlignment` subtracts it from a commanded angular acceleration as a
+   * feed-forward. A linear acceleration in either place would be a units error
+   * in the arithmetic rather than in the comment.
+   *
+   * The name is the source of the confusion and stays, per the naming policy:
+   * the quantity it describes is an off-axis thrust DIFFERENCE, and what that
+   * difference produces is a torque.
+   */
   offAxisThrustDifferenceAcceleration: number;
   /** Dimensionless — thrust-to-weight ratio. */
   twr: number;
@@ -133,7 +147,18 @@ export interface ForcesState {
   /** rad/s^2 — aerodynamic damping of rotation. */
   angularDragAcceleration: number;
 
-  /** m^2 — presented to the airflow, between vehicleMinArea and vehicleMaxArea. */
+  /**
+   * m^2 — presented to the airflow.
+   *
+   * The unit is right; the RANGE this used to claim — "between vehicleMinArea
+   * and vehicleMaxArea" — was not, and M9.4's arithmetic check is what caught
+   * it. `getCrossSectionalArea` is
+   * `|sin(aitw)| * vehicleInFlightMaxArea + |cos(aitw)| * vehicleMinArea / 2.1`,
+   * so nose-on it returns `vehicleMinArea / 2.1` = 30.3 m^2, well BELOW
+   * `vehicleMinArea` at 63.6. The `/ 2.1` is an unexplained 2021 tuning
+   * constant that this port keeps; whatever it is for, it puts the floor a
+   * factor of two under the geometric minimum.
+   */
   crossSectionalArea: number;
   /** N. */
   aerodynamicDrag: number;
@@ -158,25 +183,82 @@ export interface ForcesState {
   aftFinDragAngularAcceleration: number;
 
   /**
-   * m^2 — front fin area actually presented, = area * sin(maxAngle * extension%).
-   * Named "Fraction" but holds an area. In 2021 it was *initialised* as an area
-   * and then recomputed as one, so the name is simply wrong rather than the
-   * value; M2.3 addresses the related init-order defect.
+   * DIMENSIONLESS — `sin(finActuationMaxAngle * extension%)`, in 0..sin(1.03).
+   *
+   * Corrected at M9.4. This said `m^2` and described the field as holding an
+   * area, which was true of the 2021 tree and has been false here since M2.3.
+   * 2021 had two disagreeing definitions: `initControlSurface()` wrote
+   * `area * sin(...)` and physics.js wrote a bare `sin(...)` every step, so the
+   * field was an area for exactly one frame and a fraction thereafter. M2.3
+   * fixed that by deriving BOTH from `updateVehicleInFlightMaxArea`, which
+   * returns the bare sine — so the surviving definition is the fraction, the
+   * name is right, and the unit annotation was the last piece still describing
+   * the version that was removed.
+   *
+   * The arithmetic settles it in one line: `getFrontFinDrag` computes
+   * `getDrag(rho, v, |sin(aitw)| * frontFinSurfaceArea, Cd) * this`. The fin's
+   * area is already inside the drag term. If this were an area too, the result
+   * would be newtons times square metres.
    */
   frontFinEffectiveAreaFraction: number;
-  /** m^2 — aft fin, same story. */
+  /** Dimensionless — aft fin, same expression and the same correction. */
   aftFinEffectiveAreaFraction: number;
 
-  /** Arbitrary thermal units, compared against `heatLimit`. */
+  /**
+   * A STAGNATION-POINT HEAT FLUX ON AN UNRESOLVED SCALE. Compared against
+   * `heatLimit`, which is expressed on the same scale and derived from it.
+   *
+   * M9.4 audited this one and could not name its unit honestly, so it says so
+   * rather than guessing. What IS established: `getReentryHeatPower` is the
+   * Sutton-Graves correlation, `k * v^3 * sqrt(rho / R_nose)`, whose dimensions
+   * are those of a heat flux; the shipped coefficient is 1.83e-7, and the
+   * correlation is commonly published as `1.83e-8 * v^3 * sqrt(rho / R_n)` for
+   * a result in W/cm^2 with v in m/s, rho in kg/m^3 and R_n in m. Same leading
+   * digits, exponent larger by one. On that reading the value here is ten times
+   * a flux in W/cm^2 — the re-entry preset peaks at 245.9 of these units, which
+   * would be 24.6 W/cm^2, a plausible entry heat flux.
+   *
+   * What is NOT established is whether the extra factor of ten is a
+   * transcription slip in the 2021 source or a deliberate scaling. The source
+   * cannot settle it, and settling it would change physics — which this task,
+   * bounded to comments, may not do. So the field is documented as what it
+   * provably is (proportional to a stagnation heat flux) rather than given a
+   * unit it may not have. `heatLimit` was re-derived against THIS scale at
+   * M2.9(a), so the pair is internally consistent whatever the factor is.
+   */
   thermalPower: number;
-  /** psi. */
+  /**
+   * kPa — dynamic pressure.
+   *
+   * NOT PSI, and this line said psi until M9.4. One wrong word here has now
+   * produced two shipped bugs a milestone apart, in two different layers, both
+   * of them a constant written a thousand times too large by someone who read
+   * it: `AERO_FULL_Q` at M8.3, so aerodynamic noise never rose, and
+   * `SHAKE_FULL_Q` at M9.3, so the camera shake never fired in three
+   * milestones of ascents.
+   *
+   * The arithmetic settles it. `getDynamicPressure` is
+   * `airDensity * trueSpeed**2 * 0.0005`, which is one half of rho v^2 — pascals
+   * — with a Pa-to-kPa conversion folded into the constant. It reads 101.3 on
+   * the pad against a sea-level pressure of 101.325 kPa, and it peaks at
+   * 23.6 on the launch golden and 28.6 on the RTLS, which is a textbook max-Q
+   * in kilopascals. In psi those peaks would be 197 kPa, six times what any
+   * launch vehicle survives; in pascals they would not move a leaf.
+   */
   dynamicPressure: number;
 
-  /** g — total felt acceleration. */
+  /**
+   * Multiples of standard gravity, dimensionless — total felt acceleration.
+   *
+   * "g" is right and is kept in the two below; spelled out once here because
+   * this is an acceleration DIVIDED by `gravity` rather than an acceleration
+   * measured in some unit, and the difference matters to anything that scales
+   * it. Compared against `gLimit`, which is on the same scale.
+   */
   perceivedG: number;
-  /** g — downrange component. */
+  /** g — downrange component, `accelerationX / gravity`. */
   perceivedG_X: number;
-  /** g — vertical component. */
+  /** g — vertical component, `(accelerationY + gravity) / gravity`. */
   perceivedG_Y: number;
 }
 

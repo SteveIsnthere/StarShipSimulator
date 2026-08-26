@@ -485,7 +485,7 @@ for its first outing.*
   first outing — it has never once fired, so every ascent will feel different the moment
   this lands, and whether 0.6% of viewport height is right is a viewing decision to be made
   after seeing it. The `core/` JSDoc that caused this is M9.4's job, not this one's.
-- [ ] **M9.4 Units, audited in `core/`** — **the one exception to this milestone's frozen-core
+- [x] **M9.4 Units, audited in `core/`** — **the one exception to this milestone's frozen-core
   rule, granted by the owner on 2026-08-26, and bounded to COMMENTS.** `dynamicPressure` is
   documented `/** psi. */` and is kPa; that one comment is the root cause of two shipped bugs,
   found a milestone apart. One wrong unit annotation is a typo — how many others are wrong is a
@@ -2094,3 +2094,51 @@ for its first outing.*
   from this commit on, and whether 0.6% of viewport height is right is a viewing decision.
   **Gate:** lint, **1493 unit tests** (16 new), build all exit 0; **playwright 316 passed, 6 skipped
   across all five projects**; `git diff v2/src/core` empty; first-load JS 196.5 kB of 250.
+- 2026-08-26 · M9.4 · **The one exception to the frozen-core rule, and it is COMMENT LINES AND
+  NOTHING ELSE**: 171 changed lines in `v2/src/core`, all of them comments, shown in full in the
+  commit; the seven golden digests re-verified byte-identical and `tests/golden/unification.test.ts`
+  untouched since the M9 start commit. Every unit annotation in `core/` — 4925 lines, every field of
+  `SimState`, every exported constant, every `@param`/`@returns` — checked against the expression
+  that produces the value. **Six wrong, and only one of them was the one we knew about.**
+  (1) `forces.dynamicPressure` said **psi**, is **kPa** — `airDensity * trueSpeed**2 * 0.0005` is
+  half rho-v-squared with a Pa→kPa conversion folded in; it reads 101.3 on the pad against a
+  101.325 kPa sea level. That one line produced two shipped bugs (M8.3, M9.3).
+  (2) `forces.frontFin/aftFinEffectiveAreaFraction` said **m²**, are **dimensionless** — they hold a
+  bare `sin(...)`, and `getFrontFinDrag` already multiplies the fin's area inside the drag term, so
+  an area here would give newtons times square metres. True of 2021, false here since M2.3; the
+  annotation was the last thing describing the definition M2.3 removed.
+  (3) `forces.offAxisThrustDifferenceAcceleration` said **m/s²**, is **rad/s²** — built by
+  `getAngularAcceleration(force, distance, momentOfInertia)`, summed into `angularAcceleration`
+  beside five other rad/s² terms, and subtracted from a commanded angular acceleration in
+  `precisionAlignment`. **This one was found by the audit and by nothing else.**
+  (4) `airResistance_k` said **dimensionless**, is **kg/m** — `sqrt(mass / (gravity * k))` is only
+  seconds if `k` is kg/m, and the same function exponentiates `altitude * k / mass`, which is only
+  dimensionless under the same reading. A drag law `F = k v²` has k in kg/m; a drag *coefficient* is
+  the dimensionless thing this is not.
+  (5) `dynamicPressureLimit` said **psi**, is **kPa** — 50 kPa sits above the 28.6 kPa worst golden,
+  which is why none breaks up; 50 psi would be 345 kPa and unreachable.
+  (6) `recordTimeInterval` said **frames**, is **steps** — in 2021 a frame WAS a step; here
+  `advance()` runs two at 60 fps and eighteen at 9x, it counts against `updatedFrameCount` (already
+  documented as steps), and the recorder converts with `recordTimeInterval * DT`.
+  Plus one **range** claim corrected by the same arithmetic: `crossSectionalArea` is not "between
+  vehicleMinArea and vehicleMaxArea" — the `/ 2.1` on the nose-on term puts its floor at 30.3 m²
+  against a 63.6 m² geometric minimum.
+  **`thermalPower` could not be pinned down, and the comment now says exactly that** rather than
+  guessing — which is what the acceptance line asks for. Established: the form is Sutton-Graves,
+  `k·v³·√(ρ/R_n)`, dimensionally a heat flux, and the correlation is commonly published with
+  **1.83e-8** for W/cm² (v in m/s, ρ in kg/m³, R_n in m) where this tree has **1.83e-7** — same
+  leading digits, exponent larger by one, so the value reads as ten times W/cm² and the re-entry
+  peak of 245.9 units would be 24.6 W/cm², a plausible entry heat flux. Not established: whether
+  that factor of ten is a transcription slip — the same shape as the 0.0299-for-0.00299 slip M2.1
+  found — or a deliberate scaling. Nothing in the source decides it and deciding it would change
+  physics, which is Fidelity tier and the owner's call. **Flagged here for that decision.**
+  `heatLimit` was re-derived against the scale actually returned (M2.9(a)), so the pair is
+  self-consistent whatever the factor is.
+  Everything else checked and correct: all of `isa.ts` (Pa/K internally, kPa/°C at the boundary),
+  every `m`, `m/s`, `m/s²`, `rad`, `rad/s`, `rad/s²`, `N`, `kg`, `kg/s`, `%/s`, `kPa`, `kg/m³`, the
+  `ms`→s conversion on `raptorIgnitionTimeMean`, tonnes on the scenario presets, and every autopilot
+  prediction field (`decelerationStageEstDuration`, `bellyFlopTriggerAltitude`,
+  `horizontalAdjustmentTimeLeft`, `finalStagePessimisticAltitude`, `distanceToGround`,
+  `fineTunePercentage`) re-derived from its own expression.
+  **Gate:** lint, 1493 unit tests, build all exit 0; playwright 316 passed, 6 skipped across all five
+  projects; **`git diff v2/src/core` contains comment lines and nothing else**; digests unmoved.

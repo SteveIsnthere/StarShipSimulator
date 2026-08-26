@@ -10,9 +10,16 @@ import { rad, type Rad } from '../units';
 
 /**
  * physics.js:34 — `airDensity * trueSpeed^2 * 0.0005`.
- * The 0.0005 is 1/2 with a Pa->kPa conversion folded in; the result is labelled
- * psi throughout the 2021 HUD, which is a third unit again. Ported as found.
- * @returns psi, per the 2021 labelling
+ *
+ * The 0.0005 is 1/2 with a Pa->kPa conversion folded in, so the result is
+ * KILOPASCALS. The 2021 HUD labelled it psi and this file used to repeat that
+ * label two lines below its own derivation of it — which is how the wrong unit
+ * travelled into two later layers and produced a shipped bug in each. M6.2
+ * corrected the display, M9.3 corrected `view/camera.ts`, and M9.4 corrects the
+ * annotation here and at `SimState.forces.dynamicPressure`, where the whole
+ * argument is set out.
+ *
+ * @returns kPa
  */
 export function getDynamicPressure(airDensity: number, trueSpeed: number): number {
   return airDensity * trueSpeed ** 2 * 0.0005;
@@ -201,10 +208,16 @@ export function getAftFinDrag(
 /**
  * physics.js:437 — fin extension changes the area the body presents.
  *
- * Note the name/meaning mismatch, ported as found: these two fields hold a bare
- * `sin(...)` here — a fraction — while `initControlSurface()` initialises the
- * same fields to `area * sin(...)`, an area in m^2. The two disagree by roughly
- * 24x on frame one until this function overwrites them. M2.3 is that bug fix.
+ * THE NAME IS RIGHT AND THE 2021 INITIALISER WAS WRONG, which is worth stating
+ * in that order. Both `frontFinEffectiveAreaFraction` and its aft counterpart
+ * hold a bare `sin(...)` — a dimensionless fraction — because that is what this
+ * function returns and, since M2.3, the only thing that produces them: the
+ * initial state derives them through this same function. In 2021
+ * `initControlSurface()` wrote `area * sin(...)`, an area in m^2, so the fields
+ * disagreed with themselves by roughly 24x for exactly one frame.
+ *
+ * M9.4 corrected the `m^2` annotation in state.ts, which was the last piece of
+ * the codebase still describing the definition M2.3 removed.
  */
 export function updateVehicleInFlightMaxArea(
   frontFinExtension: number,

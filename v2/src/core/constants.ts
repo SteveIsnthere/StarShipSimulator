@@ -41,7 +41,23 @@ export const gravitationalConstant = 6.674e-11;
  * g, and the add-back in getVerticalAcceleration.
  */
 export const gravity = 9.807;
-/** Lumped drag coefficient, dimensionless. */
+/**
+ * kg/m — the lumped quadratic-drag coefficient in the autopilot's fall
+ * predictions. NOT dimensionless, which is what this said until M9.4.
+ *
+ * Its own use proves it. `getFreeFallTimeRemainingPrediction` computes
+ * `sqrt(vehicleMass / (gravity * airResistance_k))` and calls the result
+ * seconds; for that to be seconds, `kg / ((m/s^2) * k)` must be s^2, so k is
+ * kg/m. The same function then exponentiates
+ * `(altitude - goalHeight) * airResistance_k / vehicleMass`, which is
+ * `m * (kg/m) / kg` — dimensionless, as an exponent has to be. Both readings
+ * agree, and both agree with the physics: a drag law `F = k v^2` has k in kg/m
+ * because newtons are kg m/s^2.
+ *
+ * A drag COEFFICIENT is the dimensionless thing this is not; `hud/prediction.ts`
+ * also divides by it to get a time constant `mass / (k * speed)`, which is
+ * seconds only under the same reading.
+ */
 export const airResistance_k = 250;
 
 /**
@@ -194,7 +210,12 @@ export const finDragCoefficient = 2;
 /** g */
 export const gLimit = 13;
 /**
- * Arbitrary thermal units, compared against thermalPower. M2.9(a), Bug-fix tier.
+ * On `thermalPower`'s own scale, whatever that scale is — see the field's JSDoc
+ * in state.ts, which M9.4 pins down as far as the source allows: proportional to
+ * a Sutton-Graves stagnation heat flux, and ten times W/cm^2 if the correlation's
+ * usual coefficient is the intended one. What matters here is that this number
+ * was DERIVED from that quantity rather than chosen in any unit, so the pair is
+ * consistent however the scale is eventually named. M2.9(a), Bug-fix tier.
  *
  * WHY THIS IS NOT 55. The 2021 value was tuned against a model that was wrong
  * in two ways this rebuild fixed. M2.1 wired in the upper stratosphere, making
@@ -323,7 +344,15 @@ export const DEORBIT_ENTRY_RANGE = 838_000;
  * over as soon as the burn is finished.
  */
 export const ENTRY_INTERFACE_ALTITUDE = 80_000;
-/** psi */
+/**
+ * kPa — the airframe's structural limit in dynamic pressure.
+ *
+ * NOT PSI (M9.4), for the reasons set out at `SimState.forces.dynamicPressure`,
+ * which is the quantity this is compared against in step.ts. 50 kPa sits above
+ * the 28.6 kPa the worst of the seven golden flights reaches, which is why none
+ * of them breaks up; 50 psi would be 345 kPa, twelve times any of them, and the
+ * limit would be unreachable.
+ */
 export const dynamicPressureLimit = 50;
 /** rad */
 export const touchDownPitchLimit = 0.09;
@@ -409,7 +438,17 @@ export const aeroBreakingAdjDegreePerSec: Rad = toRad(deg(30));
 // Data recorder — initDataRecorder()
 // ---------------------------------------------------------------------------
 
-/** Frames between black-box samples. */
+/**
+ * STEPS between black-box samples. Was documented as frames until M9.4.
+ *
+ * In 2021 a frame WAS a step, so the two words meant the same thing. They do
+ * not here: `advance()` runs however many fixed steps the accumulator drained —
+ * two at 60 fps, eighteen at 9x warp — which is the whole reason `app/recorder.ts`
+ * samples from `AdvanceOptions.onStep`. It counts against
+ * `world.updatedFrameCount`, which `state.ts` already documents as steps taken,
+ * and the recorder converts with `recordTimeInterval * DT` to get seconds. Both
+ * of those are only correct on the step reading.
+ */
 export const recordTimeInterval = 5;
 
 /**
