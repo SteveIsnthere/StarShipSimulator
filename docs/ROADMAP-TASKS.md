@@ -647,6 +647,39 @@ for its first outing.*
   full thrust. Seven samples carried it from 2000 m to 4800 m and out of the box entirely. Tightening
   the cadence changed nothing, because the wait was never where the time went. The bound is
   unchanged and the attempt is written down beside it.
+- [x] **M9.12 How much haze** — the owner, on M9.11's frames: *"So we need haze at all?"* The answer
+  is yes and much less of it, and getting there needed three builds photographed rather than an
+  argument.
+  **THE MEASUREMENT.** Same two frames — the intro at 84 m and a 4 km cruise — built three times,
+  and one number read off each: how many rows below the horizon it takes for the sky to reach the
+  ground's own colour, at a column clear of the pad and the vehicle.
+
+  | wash | rows to ground colour | ground colour 120 px down |
+  |---|---|---|
+  | none | 4 | 153,129,95 — its own |
+  | thin (M9.10) | 21 | 153,129,95 — its own |
+  | deep (M9.11) | 60 | 158,139,112 — still not there |
+
+  Both ends are wrong and the table says why. With no wash the sky reaches full ground colour in
+  FOUR rows: that is the dead-straight step across the whole frame, and it is real — the seam M9.10
+  was right to go after. At sixty rows the ground a hundred and twenty pixels down still has not
+  reached its own colour, which is not softening a join but BLEACHING THE TERRAIN, and it made
+  every frame read as a hazy day at every altitude from the pad to vacuum.
+  **THE MISTAKE UNDERNEATH IT, which is the part worth keeping.** M9.11 deepened the wash in the
+  same change that added foreshortening, and both were aimed at the band reading as a slab.
+  Foreshortening is what fixed that. The wash was treating a symptom that had already gone, and the
+  two were never separated to find out — the frames above are the separation, and they show the
+  thin wash and the deep one are equally free of the slab.
+  **The SHAPE was wrong as well as the size.** `0.30 + 0.22 * haze` is a constant floor of 30% of a
+  frame that applies at sea level and in vacuum alike, and `hazeIntensity` is not constant: it
+  peaks a kilometre or two up and is near zero at the pad, which is physically right, because near
+  ground on a clear day has a crisp edge against the sky. The atmosphere decides this now —
+  `0.05 + 0.30 * haze` for the distant band and `0.05 + 0.22 * haze` for the near ground, which
+  measure 25 and 29 rows with the ground at its true colour.
+  Accept: the transition is neither a step nor a bleach, measured rather than judged — the sky
+  reaches the ground's own colour, and it takes more than four rows and fewer than sixty to do it.
+  No new assertion, because the harness that produced the table is the three builds themselves and
+  a test cannot rebuild the app three ways; the table is committed here instead.
 
 ## Log
 
@@ -2492,10 +2525,28 @@ for its first outing.*
   is a RATIO against `physicalHeight`, so its threshold in metres moves with the zoom and is ten
   metres at the intro's. Five committed screenshots sampled for one number apiece settled in a
   minute what re-reading `groundLineFraction` had not.
+- 2026-08-26 · M9.12 · How much haze, from the owner's one-line question about M9.11's frames. The
+  table is in the task above. Two things about the process rather than the picture:
+  **THIS IS THE SECOND TIME IN THREE TASKS THAT A BUNDLED CHANGE GOT THE CREDIT WRONG.** M9.11
+  reported that deepening the wash was what made the landing-burn flame readable. It was not: the
+  frames built for this task show the flame reads as clearly with a thin wash, because what had
+  been drowning it was an unfaded slab and foreshortening is what removed the slab. M9.11 also
+  reported, correctly, that M9.10 had made the same error in the other direction — crediting the
+  emission law for a plume that was actually competing with its background. Three tasks, two
+  bundled changes, two wrong attributions, and in both cases the wrong half was the one that
+  sounded like the interesting finding. The rule that would have caught both is cheap and was
+  available every time: when two changes aim at one symptom, build them separately before writing
+  down which one worked.
+  **A/B/C on a rebuilt app is a legitimate instrument and it is not a test.** Nothing in
+  `tests/` can rebuild the application three ways with a different constant and compare, so the
+  table above cannot become an assertion, and pretending otherwise by inventing a proxy metric
+  would be the same error this milestone keeps refusing. What IS committed is the number the table
+  is made of — rows from the horizon to the ground's own colour, at a named column — so the next
+  person to change these constants can reproduce it in one run per variant.
 
 ## M9 — done
 
-Eleven tasks, eleven commits, 2026-08-26. The last two were not planned: nine were built, the
+Twelve tasks, twelve commits, 2026-08-26. The last three were not planned: nine were built, the
 owner looked at the result and said "doesn't look good enough, iterate", and M9.10 is what came back. That is
 the milestone's own acceptance line working as written — M9.9 said no test covers whether it
 LOOKS good and handed the judgement back rather than pretending otherwise, and the judgement came
@@ -2504,7 +2555,10 @@ the HUD taken off, which is when a flat ground, a tiling pattern and a row of lo
 clouds should be all became obvious in a single frame. The eleventh came from a one-line question
 about those frames — "what's that brown bg near ground?" — and found a horizon that had been
 welded to the same pixel at every altitude since M7.4, which nobody had noticed because nobody
-had put two altitudes side by side and measured.
+had put two altitudes side by side and measured. The twelfth came from the next question — "so we
+need haze at all?" — and is the shortest and most uncomfortable of the three: the answer is yes and
+a fifth as much, and finding that out meant building the app three ways and admitting that the
+eleventh task had credited the wrong half of a bundled change.
 
 The first nine found three shipped bugs that three milestones of
 screenshot review had missed — a camera that had never framed a re-entry, a shake constant a

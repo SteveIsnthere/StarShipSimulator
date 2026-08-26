@@ -375,17 +375,28 @@ export function createDistantEarth(terrain?: {
         // Deeper when the air is thick, and never taller than a fifth of the
         // frame — this is the join, not a weather effect.
         /*
-          DEEP, because most of this band IS distant. The wash used to be at
-          most 19% of the frame, which made it a thin strip of atmosphere with
-          a slab of foreground-coloured ground under it — and a slab that does
-          not fade is the other half of why the band read as a backdrop. The
-          top of this band is terrain at the limit of sight; the bottom is
-          terrain tens of kilometres off. Nearly half a frame of wash is what
-          that distance looks like, and the ramp's own square keeps it dense at
-          the horizon and thin by the time it reaches ground that is close
-          enough to have a colour.
+          A SMALL FLOOR AND THE REST FROM THE ATMOSPHERE — and the floor is
+          small on purpose, because the version before this one had it at 0.30
+          and that was fog.
+
+          Three depths were built and photographed. With no wash at all the sky
+          reaches its full ground colour in FOUR rows, which is the seam: a
+          dead-straight step across the whole frame. At 0.30 + 0.22 x haze it
+          takes sixty rows and the ground a hundred and twenty pixels down is
+          still not its own colour — that is not softening a join, it is
+          bleaching the terrain, and it made every frame look like a hazy day
+          at every altitude. About twenty rows dissolves the join and leaves the
+          ground its colour.
+
+          The mistake underneath it is worth naming: the wash was deepened in
+          the same change that added foreshortening, to stop the band reading as
+          a slab. Foreshortening was what fixed that. The wash was treating a
+          symptom that had already gone, and a constant floor is the wrong shape
+          for it anyway — `hazeIntensity` peaks a kilometre or two up and is
+          near zero at the pad, so the atmosphere should decide this, not a
+          number that applies at sea level and in vacuum alike.
         */
-        horizonHaze.height = Math.max(8, viewport.height * (0.30 + 0.22 * haze));
+        horizonHaze.height = Math.max(8, viewport.height * (0.05 + 0.30 * haze));
         horizonHaze.tint = skyTint(altitude);
         // Same floor as the near ground's, and for the same reason — see there.
         horizonHaze.alpha = Math.min(1, 0.55 + 0.45 * haze);

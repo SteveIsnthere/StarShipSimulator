@@ -224,11 +224,11 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           horizonHaze.x = -viewport.width;
           horizonHaze.y = horizon.y;
           horizonHaze.width = viewport.width * 3;
-          // Deeper than it was, for the reason set out in `distant-earth.ts`:
-          // a thin strip of wash over a slab that never fades reads as a
-          // backdrop. Shallower than that layer's, because this one is the
-          // ground you are ON and its foreground is genuinely close.
-          horizonHaze.height = Math.max(8, viewport.height * (0.18 + 0.18 * haze));
+          // Scaled by the atmosphere rather than floored, for the reason set
+          // out in `distant-earth.ts`. Shallower than that layer's, because
+          // this one is the ground you are ON and its foreground is genuinely
+          // close: near ground on a clear day has a crisp edge against the sky.
+          horizonHaze.height = Math.max(8, viewport.height * (0.05 + 0.22 * haze));
           horizonHaze.tint = skyTint(altitude);
           /*
             OPAQUE AT THE HORIZON, or the seam is still there. The ramp's own
