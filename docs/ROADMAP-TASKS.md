@@ -420,6 +420,115 @@ out is the point of the whole milestone.*
   good — that is a listening decision and the acceptance line says so rather than pretending
   otherwise.**
 
+## M9 — Graphics (plan: `docs/GRAPHICS-PLAN.md`)
+
+*Investigated 2026-08-26 on the owner's question about particles, ground and clouds. The
+investigation found that the `reentry` preset does not draw the vehicle at all — it is
+1734 px off the left edge of a 1280 px frame, permanently, within a quarter second of
+loading — so the milestone fixes what is broken and builds a way to measure before it
+touches a look. Milestone-wide rules, checked at EVERY M9 commit: `git diff v2/src/core`
+is empty; the seven golden digests are unchanged; lint + test + build + playwright (all
+five projects) green; one task per commit, id-prefixed. New art assets: none. Every
+texture added here is generated at runtime, so the asset budget does not move.*
+
+- [ ] **M9.1 The pixel harness** — the reason this comes first is that two of the three bugs
+  in the plan shipped through three milestones of screenshot review, and the investigation
+  itself reached the wrong conclusion twice from looking at a PNG. A helper in `tests/e2e/`
+  screenshots the live canvas, decodes it in-page with `createImageBitmap` into an
+  `OffscreenCanvas`, and exposes three STRUCTURAL measurements — region occupancy, the extent
+  of a bright region in vehicle-heights, and a colour histogram over a crop. **No golden-image
+  diffing**: pixel comparison across five projects and two renderers is a maintenance tax paid
+  in false failures, and the project retired visual parity at M6 for the same reason. Accept:
+  the harness is used by at least one passing assertion per surface it will later police
+  (vehicle framing on `landing-burn`, plume extent, cloud-deck tone spread, ground tone
+  spread); tolerances wide enough to pass on all five projects, demonstrated by running them;
+  the helper is documented with what it can and cannot prove.
+- [ ] **M9.2 One clock for the view** — `App.svelte` computes one wall `frameTime` and hands it
+  both to `advance()` and to `updateCamera` / `clouds` / `distantEarth` / `effects`, but
+  `advance` does not simulate `frameTime` seconds: it clamps at `MAX_FRAME_TIME`, drains whole
+  `DT` steps, divides by the slow-motion factor, and has a max-steps bailout that zeroes the
+  accumulator — and it returns `{steps, alpha, clamped}` precisely so the caller can know, and
+  the caller discards it. The view must be driven by SIMULATED elapsed time. Second half:
+  `centerizeAcceleration` returns exactly 0 beyond `viewport.physicalWidth / 2`, so the error
+  freezes rather than recovering — a 2021 "do not lurch after an explosion" branch applied to a
+  vehicle that is flying normally. Make the give-up conditional on `crashed`. **Bug-fix tier
+  discipline: the failing test lands FIRST, in the same commit as the fix.** Accept: the
+  vehicle-in-frame invariant runs over all seven goldens at every sampled second and is red
+  before the fix and green after, with both runs shown; M7.3's five camera properties still
+  hold, plus a sixth — the vehicle returns to frame from any starting error, including one
+  seeded past the give-up radius; a dropped-frame test (frames longer than `MAX_FRAME_TIME`)
+  asserts the camera error stays bounded; the same at time warp, which fails the other
+  direction today.
+- [ ] **M9.3 Q is kPa** — `getDynamicPressure` is `airDensity * trueSpeed ** 2 * 0.0005`: one
+  half with a Pa→kPa conversion folded in. `SHAKE_FULL_Q = 30_000` in `view/camera.ts` is 1000×
+  too large, so `q / SHAKE_FULL_Q` is 0.00095 against a 28.6 kPa RTLS peak and the aerodynamic
+  half of the camera shake has never fired — the same bug class as `AERO_FULL_Q`, fixed at
+  M8.3. Audit every dynamic-pressure threshold in `view/`, `audio/` and `hud/`. Retune
+  `effects.ts`'s fin-vortex ramp, which reaches full intensity at 2 kPa of a 50 kPa limit and
+  therefore carries no information for 96% of the flight. Accept: a range test asserts every Q
+  threshold constant lies inside the interval the seven golden scenarios actually visit — a
+  constant three orders of magnitude outside the observed range is a bug whatever its comment
+  says, and this test catches both the fixed one and the next one; shake amplitude pinned at
+  max-Q on launch and RTLS and asserted non-zero; the harness shows the frame moving at max-Q
+  and still at rest on the pad. **See the plan § 6: the `/** psi. */` JSDoc on
+  `SimState.forces.dynamicPressure` is the root cause of both bugs and is inside `core/`. A
+  comment-only correction, with the seven digests re-verified in the same commit, needs the
+  owner's yes.**
+- [ ] **M9.4 The particle texture set** — `createParticleTexture` builds one 64 px radial
+  gradient and all nine effects draw with it, so plume, dust, plasma, shock cone and explosion
+  are the same dot in different tints. Four generated textures instead — `core` (tight hot
+  centre for additive fire), `soft` (today's gradient, so everything tuned against it is
+  unchanged), `smoke` (low-frequency value noise, ragged edge), `wisp` (feathered and
+  elongated) — each named by the effects that use it. Accept: generated at runtime from a
+  seeded hash, never shipped, so the asset budget is byte-identical and the report says so;
+  the textures are deterministic across runs, pinned the way `puffRandom` is; the pooled
+  allocation contract is unchanged, proved by the existing count test; the harness shows smoke
+  and fire separating in a colour histogram where today they do not.
+- [ ] **M9.5 The Raptor plume** — a plume particle travels `(95/2.2)(1 - e^-0.704) ≈ 21.9 m`
+  before it dies, on a 50 m vehicle, from a single emitter: it reads as a candle because it is
+  one. Three emitters on the same nozzle point — a short near-white high-velocity core at the
+  throat, the translucent expanding bell, and shock diamonds as a periodic brightness along the
+  core rather than a fourth effect — all sharing M6.7's existing `plumeScaleFactor` /
+  `plumeSpreadFactor` ambient curves, which already model the sea-level-to-vacuum expansion
+  correctly. Diamond spacing is a pure function of ambient pressure and nozzle diameter, faded
+  out as the flow goes underexpanded, and lives in `atmosphere-look.ts` beside the two curves
+  already there so a test can pin it rather than an eye. Accept: plume extent measured by the
+  harness in vehicle-heights, longer than the ship at full throttle at sea level and visibly
+  wider and dimmer in vacuum; the spacing curve pinned at the altitudes the seven scenarios
+  reach, monotonic and bounded, reaching zero before the diamonds would be physically absent;
+  peak live particle count reported against M7's 576-of-4000 baseline.
+- [ ] **M9.6 The cloud deck, softened** — eighteen `Graphics` puffs of three overlapping
+  ellipses each, all at `alpha = opacity * 0.5` and one tint, is a paper cutout and reads as
+  one. Sprites on the `wisp` texture with per-puff alpha, scale and aspect jitter from the
+  existing `puffRandom` hash, and the deck split into two sub-decks at slightly different
+  parallax so it has thickness. **Everything M7.6 proved stays proved**: built once and
+  transformed after, deterministic across runs, never drawn below M7.4's horizon at any
+  altitude, the fade above `CLOUD_FADE_ALTITUDE`, both joins C1, and the parallax ratio against
+  the distant earth. Accept: every existing test in `tests/view/clouds.test.ts` green
+  unmodified — if one has to change, the change is the finding and it gets said out loud; the
+  harness shows a wider tone spread across the deck than the single flat value today.
+- [ ] **M9.7 The ground and the far earth** — `GROUND_COLOR` fills one `Graphics` with a curved
+  top edge and no texture at all, so at 120 m the bottom third of the frame is a single colour;
+  `distant-earth.ts` has the same problem one layer out, a band with a hard top edge and a
+  repeating mark pattern that reads as bumps. Both get a generated low-frequency noise fill,
+  TINTED through the existing `groundTint` / `skyLightness` path rather than coloured
+  independently so the palette cannot drift from the overlay's, plus a horizon-to-foreground
+  value gradient — the flatness is as much a lighting problem as a texture one. More scenery
+  instances at more downrange positions, from the sprites already loaded. Accept: no new art
+  files, asset budget byte-identical; the harness shows tone spread across the ground band at
+  three altitudes where today it shows one value; the roaming rule and the fixed StarBase
+  positions are unchanged. **The pig is at x = 0 and stays there.**
+- [ ] **M9.8 Perf, budget, mobile, ship** — the standard closer. Frame-path cost of the added
+  emitters and textures measured against the M7 baseline and reported, not assumed; texture
+  generation timed at mount and shown to be off the critical path; all five Playwright projects
+  including the four phone viewports; fresh screenshots — including, for the first time, a
+  re-entry with the vehicle actually in it — and the README updated. Accept: full gate on all
+  five projects; first-load JS ≤ 250 kB gzip, fonts ≤ 80 kB, audio ≤ 250 kB, asset budget
+  unmoved; `git diff v2/src/core` empty over the whole milestone (or, if § 6's exception was
+  granted, exactly one comment-only hunk) and the seven digests byte-identical to their M2.14
+  values. **What no test covers is whether it LOOKS good — that is a viewing decision, and this
+  acceptance line says so rather than pretending otherwise.**
+
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->

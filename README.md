@@ -247,6 +247,8 @@ production; that is not a bug worth finding from a user's bug report.
 - [`docs/DEPTH-AND-SPEED-PLAN.md`](docs/DEPTH-AND-SPEED-PLAN.md) — why a 356 m viewport makes
   orbital speed look like standing still, and the trajectory map that answers it.
 - [`docs/SOUND-PLAN.md`](docs/SOUND-PLAN.md) — the silence, and what it would take to end it.
+- [`docs/GRAPHICS-PLAN.md`](docs/GRAPHICS-PLAN.md) — what a re-entry with no vehicle in it
+  turned out to mean, and the plan for particles, clouds and ground that follows from it.
 
 ---
 
