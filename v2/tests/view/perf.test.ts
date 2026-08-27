@@ -35,7 +35,15 @@ import {
   shockDiamondStrength,
 } from '$view/atmosphere-look';
 import { PARTICLE_TEXTURES, writeParticleTexture } from '$view/particles';
-import { MOTTLE_TILE, RAMP_HEIGHT, writeGroundRamp, writeMottleTile } from '$view/terrain';
+import {
+  HAZE_RAMP_HEIGHT,
+  MOTTLE_TILE,
+  RAMP_HEIGHT,
+  writeGroundRamp,
+  writeHazeRamp,
+  writeLimbRamp,
+  writeMottleTile,
+} from '$view/terrain';
 import * as cmd from '$core/control/commands';
 
 /** Median of repeated timings — mean is hostage to a single GC pause. */
@@ -48,6 +56,37 @@ function medianMs(runs: number, body: () => void): number {
   }
   samples.sort((a, b) => a - b);
   return samples[Math.floor(samples.length / 2)]!;
+}
+
+/**
+ * The median RATIO of two bodies, timed in interleaved pairs.
+ *
+ * Not the ratio of two medians, which is what this replaced and which flakes.
+ * `medianMs(5, a)` followed by `medianMs(5, b)` measures the two in separate
+ * blocks of wall time, so a load spike that lands in the second block and not
+ * the first inflates the ratio with no change in either body — on a four-core
+ * container that is about one run in three, and it failed at 39.2 against a cap
+ * of 32 while the same code passes comfortably when the machine is quiet.
+ *
+ * Pairing them puts both bodies inside the same spike, where it divides out.
+ * The median is then taken over the per-pair ratios rather than over the times,
+ * so a single bad pair cannot move the answer at all.
+ */
+function medianRatio(runs: number, numerator: () => void, denominator: () => void): number {
+  const ratios: number[] = [];
+  for (let i = 0; i < runs; i++) {
+    const t0 = performance.now();
+    denominator();
+    const t1 = performance.now();
+    numerator();
+    const t2 = performance.now();
+    const below = t1 - t0;
+    // A zero-length denominator would divide by zero on a coarse clock; the
+    // smallest positive interval the timer can report stands in for it.
+    ratios.push((t2 - t1) / Math.max(below, Number.EPSILON));
+  }
+  ratios.sort((a, b) => a - b);
+  return ratios[Math.floor(ratios.length / 2)]!;
 }
 
 describe('simulation step budget', () => {
@@ -253,17 +292,21 @@ describe('time warp stays affordable', () => {
       advance(sixteen, DT, { timeWarp: 16 });
     }
 
-    const oneCost = medianMs(5, () => {
-      for (let i = 0; i < 200; i++) advance(one, DT);
-    });
-    const sixteenCost = medianMs(5, () => {
-      for (let i = 0; i < 200; i++) advance(sixteen, DT, { timeWarp: 16 });
-    });
+    const ratio = medianRatio(
+      7,
+      () => {
+        for (let i = 0; i < 200; i++) advance(sixteen, DT, { timeWarp: 16 });
+      },
+      () => {
+        for (let i = 0; i < 200; i++) advance(one, DT);
+      },
+    );
 
     expect(sixteen.totalSteps / one.totalSteps).toBeCloseTo(16, 0);
     // Allow generous headroom for measurement noise; the point is that it is
-    // not quadratic.
-    expect(sixteenCost / oneCost).toBeLessThan(32);
+    // not quadratic. The cap has not moved — see `medianRatio` for why the
+    // measurement under it did.
+    expect(ratio, `${ratio.toFixed(1)}x for 16x the steps`).toBeLessThan(32);
   });
 });
 
@@ -425,14 +468,22 @@ describe('M9 added emitters and a banding term — measure them, do not assume',
 
   it('generating every texture M9 added is a mount cost, not a frame cost', () => {
     /*
-      Four particle textures and two terrain textures, all generated rather than
-      fetched — which is what keeps the asset budget byte-identical. The trade
-      is CPU at mount, and "off the critical path" is a claim worth measuring
-      rather than asserting: a second of noise generation before the first frame
-      would be a worse bargain than shipping the art.
+      Every generated texture rather than fetched — which is what keeps the
+      asset budget byte-identical. The trade is CPU at mount, and "off the
+      critical path" is a claim worth measuring rather than asserting: a second
+      of noise generation before the first frame would be a worse bargain than
+      shipping the art.
 
       Measured through the pure writers, because the canvas half needs a DOM and
       the arithmetic is all of the cost.
+
+      THE SET WAS INCOMPLETE UNTIL M9.14. It read "all six M9 textures" and
+      measured four particle frames, the mottle and the ground ramp — the haze
+      wash added at M9.10 and the limb added at M9.13 were generated at mount
+      like the rest and simply not counted. Both are 1x64 ramps and neither
+      changes the total meaningfully, which is exactly why it went unnoticed;
+      the point of listing them is that a budget with an unlisted exception is
+      not a budget.
     */
     const started = performance.now();
     const cell = new Uint8ClampedArray(64 * 64 * 4);
@@ -441,11 +492,27 @@ describe('M9 added emitters and a banding term — measure them, do not assume',
     writeMottleTile(MOTTLE_TILE, tile);
     const ramp = new Uint8ClampedArray(RAMP_HEIGHT * 4);
     writeGroundRamp(RAMP_HEIGHT, ramp);
+    const haze = new Uint8ClampedArray(HAZE_RAMP_HEIGHT * 4);
+    writeHazeRamp(HAZE_RAMP_HEIGHT, haze);
+    const limb = new Uint8ClampedArray(HAZE_RAMP_HEIGHT * 4);
+    writeLimbRamp(HAZE_RAMP_HEIGHT, limb);
     const elapsed = performance.now() - started;
 
-    console.log(`generating all six M9 textures: ${elapsed.toFixed(1)} ms, once, at mount`);
-    // A frame is 16.7 ms. Generating everything must cost less than a handful of
-    // them, or the page has a visible hitch where it used to have a download.
+    console.log(`generating all eight generated textures: ${elapsed.toFixed(1)} ms, once, at mount`);
+    /*
+      A frame is 16.7 ms. Generating everything must cost less than a handful of
+      them, or the page has a visible hitch where it used to have a download.
+
+      THIS CAP HELD AND THEN DID NOT. M9.10 took the mottle from a 128 px tile
+      with three octaves to 256 px with four — sixteen times the sampling — and
+      the measurement here went from a comfortable margin to 268 ms under load
+      on a four-core container, failing about one run in four. The cap did not
+      move. `latticeTable` did: a lattice has at most `lattice ** 2` distinct
+      values and every one of them was being re-hashed hundreds of times, so
+      hashing each once takes the mottle from 33 ms to 18.9 and the whole set
+      well back under. Same bits out, asserted by the tileable and determinism
+      tests either side of this one.
+    */
     expect(elapsed, `${elapsed.toFixed(1)} ms`).toBeLessThan(120);
   });
 });

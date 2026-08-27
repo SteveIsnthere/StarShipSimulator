@@ -681,6 +681,84 @@ for its first outing.*
   No new assertion, because the harness that produced the table is the three builds themselves and
   a test cannot rebuild the app three ways; the table is committed here instead.
 
+- [x] **M9.13 The horizon, for real** — *"I don't think the horizon looks good, look at them
+  virtually and go for realism."* Five altitudes captured with the HUD off — 84 m, 1 km, 4 km,
+  20 km, 100 km — and the horizon band cropped at 2x out of each. Four things were wrong, and
+  every one of them had survived three tasks of looking at the same frames unmagnified.
+  **The hills were twenty-four copies of one bezier.** The same smooth symmetric dome, repeated
+  across the frame with per-copy jitter on scale, alpha and height. M9.10 had already jittered them
+  once and it did not help, because the problem is not the variation: a range of hills is not a row
+  of OBJECTS, it is one continuous profile that happens to have peaks in it. Three layered
+  ridgelines now, each a periodic three-octave value-noise profile built once across three screen
+  widths and scrolled by moving the whole `Graphics`, each at its own parallax rate.
+  **There was no limb.** From 100 km the frame was a hard line between a dark sky and a bright warm
+  desert, with nothing in between — no atmosphere at all, in the one view where the atmosphere is
+  the subject. `hazeIntensity` cannot do this job and was never meant to: it is looking THROUGH the
+  aerosol from inside it, so it peaks a kilometre or two up and is gone by twenty. `limbIntensity`
+  is looking ALONG the whole air column from outside it, a tangent path hundreds of kilometres
+  long, so it starts where haze ends and keeps rising. The same curve now also decides how much of
+  the ground's own colour survives the air between — one curve, so the limb cannot glow while the
+  ground stays crisp.
+  **The horizon was dead straight at every altitude.** `world.ts` has drawn the bow since M6.7, but
+  the near ground leaves the screen by about 500 m, so the only horizon anyone can see above that
+  is this layer's — a ruler-straight rectangle from the pad to vacuum. At 100 km the visible arc is
+  113 px of sagitta on a 1280 px frame. Same `horizonSagittaFraction` and the same exaggeration the
+  near ground uses, so the two layers draw one planet.
+  **And the ground was the brightest thing in the frame at 100 km**, warm and high-contrast under a
+  starfield — the opposite of every photograph taken from that altitude. Mixed toward the sky by
+  the air column between, floored at a quarter because land stays land.
+  **Two mistakes the frames caught and reasoning had not.** The ridges went in FRONT of the band
+  first; a silhouette is filled downward, so they covered the ground they were standing on and the
+  frame came back a flat tan slab with a wiggly top and no texture anywhere. They belong behind it,
+  where only the part above the horizon survives. And the first bow did not appear at all, because
+  the mottle and the wash are rectangles starting at `lineY` and stuck up over the curve at the
+  frame's edges, putting the straight line back — `world.ts` already had that rule and it had not
+  been carried across.
+  Accept: eight assertions on the new curves, each a property whose absence was a defect — the
+  skyline joins itself at the wrap (the cheap scroll depends on it), no layer is flat or a copy of
+  its neighbour, a ridge's ground-share stays inside (0,1], limb and haze move in opposite
+  directions, relief stops before it stops being resolvable, and the bow is symmetric and exactly
+  zero at sea level. **Plus the three-variant rebuild in the Log, which refuted this task's own
+  first explanation of itself.**
+
+- [x] **M9.14 No horizon on the ground** — *"When on the ground do we wanna show horizon at all?
+  It's looking for the side should be parallel to ground and the buildings are all we should see."*
+  The answer is no, and the reason is the projection.
+  **THERE IS NO HORIZON IN AN ORTHOGRAPHIC SIDE VIEW.** The camera looks horizontally, parallel to
+  the ground plane, and every metre in the frame is the same number of pixels wherever it sits —
+  there is no perspective divide anywhere in the renderer. Under that projection a flat ground
+  plane is not a receding surface, it is a LINE: parallel lines do not converge, so there is
+  nothing for them to converge to. A horizon is a perspective phenomenon and this scene has none.
+  So the distant earth is a cheat — a deliberate one, argued for in M7.4 and worth it above the
+  altitude where the alternative is a featureless sky for an entire flight. What it is not worth is
+  being drawn NEXT TO the pad. The scenery beside it is projected orthographically and correctly,
+  and a receding brown plane standing behind buildings drawn with no recession at all is exactly
+  the contradiction that made it read as a painted backdrop. Three tasks were spent making that
+  backdrop better — foreshortening it, hazing it, giving it a skyline and a limb — when at this
+  altitude it should not have been drawn.
+  **It was gated at ten metres.** `distantEarthVisible` returned true above
+  `altitude / physicalHeight > FOLLOW_RATIO`, a ratio of 0.05, which is ten metres at the intro's
+  zoom. The comment on it claimed the layer was "EXACTLY coincident with the true ground and
+  completely hidden behind it" below that, and that much was true; what it missed is that 0.05 is
+  not where the true ground LEAVES, only where this layer's curve starts bending away from it.
+  Between ten metres and a hundred both were on screen at once, one behind the other, disagreeing
+  about where the ground was. The true ground line sits at `0.5 + ratio` down the screen, so it
+  leaves at a ratio of exactly one half — `GROUND_LEAVES_SCREEN`, not a tuned number — and the
+  layer now waits for it, then fades in over the next 0.7 of a frame-height of climb.
+  **What the pad looks like now:** the vehicle, the pad, StarBase, and sky. Which is the answer to
+  the question as asked.
+  **THIS SHARES M9.13'S COMMIT, and the split was attempted first.** One task per commit is the
+  rule, so the two were separated into an M9.13-only tree and gated: it comes back RED. The
+  texture-generation budget measures 130.7 ms against its 120 ms cap and the warp ratio 39.0
+  against 32 — both of them the flakes this task fixes, and both of them pushed over by M9.13's
+  own additions. A commit that does not pass its own gate is worse than a commit that carries two
+  ids, so these land together and the reason is written here rather than left for a bisect to
+  discover. `git show` on that commit contains both entries.
+  Accept: full gate; the layer proved off at every altitude below the threshold and its fade proved
+  monotonic and genuinely partway through in the middle; `tests/view/distant-earth.test.ts`'s
+  `distantEarthVisible(100, 200)` assertion MOVED from true to false, which is the old threshold
+  being wrong rather than a tolerance being loosened, and it is called out in the test.
+
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->
@@ -2543,10 +2621,67 @@ for its first outing.*
   would be the same error this milestone keeps refusing. What IS committed is the number the table
   is made of — rows from the horizon to the ground's own colour, at a named column — so the next
   person to change these constants can reproduce it in one run per variant.
+- 2026-08-26 · M9.13 · The horizon, for real. Findings in the task above; three notes on method,
+  one of which is a correction to this task's own reasoning.
+  **MAGNIFICATION IS AN INSTRUMENT AND IT HAD NOT BEEN USED.** M9.10 built the world-only capture
+  and it found a great deal; M9.11 and M9.12 looked at the same frames again. All three looked at
+  1:1. Cropping the horizon band and doubling it — eleven lines using the PNG reader already in the
+  scratch directory — showed in one image that the hills were one shape repeated, which is not
+  visible at full-frame scale. The lesson is not "look harder": a defect has a SCALE, and an
+  instrument fixed at one scale is blind at the others.
+  **THE ALTITUDE SWEEP FOUND WHAT SINGLE FRAMES COULD NOT.** Every earlier task in this milestone
+  judged the picture at one or two altitudes. Five in a row is what made the straight horizon
+  obvious — a ruler edge at 84 m is a horizon, a ruler edge at 100 km is a mistake, and only the
+  pair says so. A sweep should have been the first thing built in M9.1.
+  **AND THE EXPLANATION THIS TASK STARTED WITH WAS WRONG.** The account given for why the old marks
+  read as fog was that they were translucent, so the sky showed through and they came out paler
+  than their background: a hill occludes sky, nothing on a horizon is brighter than what is behind
+  it. It is a sound principle and it was not what was happening. Three variants were built and
+  photographed with one variable moved each — irregular-and-opaque as shipped, irregular-and-
+  translucent, smooth-and-opaque — and measured at 4 km against the marks they replaced. The OLD
+  marks were brighter than the sky in 64 of 427 sampled columns and darker by 11.1 luma on average;
+  the NEW skyline is brighter in 105 of 427 and darker by only 7.3. The fix made the skyline LESS
+  dark than the sky, not more, and the principle quoted for it had no bearing on the defect. The
+  smooth-and-opaque variant reads as sine-wave dunes at a glance while the translucent one is
+  merely muted, so SHAPE was the whole of it and opacity is a contrast improvement. The measurement
+  was run because the previous entry's rule said to move one variable at a time; without it a
+  wrong causal story would have gone into the file as fact, which is exactly what happened in M9.11
+  and was only caught there by the same means. Two tasks running, the instrument has now corrected
+  the operator twice.
+- 2026-08-26 · M9.14 · No horizon on the ground, plus two flaky budget tests that had to be fixed
+  to get a clean gate — neither of them a graphics regression, both of them real.
+  **THE ONE-QUESTION DIAGNOSIS.** M9.11, M9.12 and M9.13 all improved the distant earth. None of
+  them asked whether it should be drawn at low altitude at all, and the answer falls straight out
+  of the projection: an orthographic side view has no horizon, because a horizon is where parallel
+  lines converge and under this projection they do not. Three tasks of polishing a thing that
+  should have been switched off. The general lesson is the one this milestone keeps relearning from
+  the other end: ask what the layer IS before asking whether it looks good.
+  **A BUDGET WITH AN UNLISTED EXCEPTION IS NOT A BUDGET.** `tests/view/perf.test.ts` capped
+  generation at 120 ms and measured "all six M9 textures" — four particle frames, the mottle and
+  the ground ramp. The haze wash added at M9.10 and the limb added at M9.13 are generated at mount
+  exactly like the rest and were simply not counted. Both are 1x64 ramps and neither moves the
+  total, which is precisely why nobody noticed. Now eight.
+  **AND THE CAP HAD QUIETLY STOPPED HOLDING.** M9.10 took the mottle from a 128 px tile with three
+  octaves to 256 px with four — sixteen times the sampling — and the measurement went from
+  comfortable to 268 ms under load, failing about one run in four. The cap did not move.
+  `latticeTable` did: `tileNoise` needs four corner values per sample and the writer samples four
+  octaves per texel, so a 256 px tile was performing 1,048,576 hash evaluations for one image while
+  the lattices between them hold at most 841 distinct values. Hashing each once takes the mottle
+  from 33.0 ms to 18.9 and the set well back under, with the bits unchanged — asserted directly and
+  by the tileable and determinism tests either side of it.
+  **A RATIO OF TWO TIMINGS IS NOT A TIMING.** The other flake was `warp 16 costs about sixteen
+  steps`, which took `medianMs(5, warp16) / medianMs(5, plain)` — two medians measured in separate
+  blocks of wall time. A load spike landing in the second block and not the first inflates the
+  ratio with no change in either body, and it failed at 39.2 against a cap of 32 while passing
+  comfortably on a quiet machine. `medianRatio` interleaves the pair so both bodies sit inside the
+  same spike, where it divides out, and medians the per-pair ratios rather than the times. The cap
+  did not move here either. Five consecutive runs green, then three consecutive full-suite runs at
+  1550 passed — which is the standard a "flaky" diagnosis has to meet before it is allowed to
+  stand as one.
 
 ## M9 — done
 
-Twelve tasks, twelve commits, 2026-08-26. The last three were not planned: nine were built, the
+Fourteen tasks, fourteen commits, 2026-08-26. The last five were not planned: nine were built, the
 owner looked at the result and said "doesn't look good enough, iterate", and M9.10 is what came back. That is
 the milestone's own acceptance line working as written — M9.9 said no test covers whether it
 LOOKS good and handed the judgement back rather than pretending otherwise, and the judgement came
@@ -2559,6 +2694,19 @@ had put two altitudes side by side and measured. The twelfth came from the next 
 need haze at all?" — and is the shortest and most uncomfortable of the three: the answer is yes and
 a fifth as much, and finding that out meant building the app three ways and admitting that the
 eleventh task had credited the wrong half of a bundled change.
+
+The thirteenth came from the fourth question — "I don't think the horizon looks good, go for
+realism" — and is the one that changes the most pixels: a real skyline instead of one bezier
+repeated, an atmospheric limb where there had been none, and a horizon that finally bends. It also
+refuted its own first explanation of itself, under measurement, which is the second time in three
+tasks that has happened and the reason the rule about moving one variable at a time is now written
+in two places.
+
+The fourteenth is the one that should have come first. It was a question rather than a complaint —
+"when on the ground do we wanna show horizon at all?" — and the answer falls straight out of the
+projection: an orthographic side view has no horizon, because a horizon is where parallel lines
+converge and under this projection they do not. Three tasks had been spent improving a layer that
+at low altitude should not have been drawn.
 
 The first nine found three shipped bugs that three milestones of
 screenshot review had missed — a camera that had never framed a re-entry, a shake constant a

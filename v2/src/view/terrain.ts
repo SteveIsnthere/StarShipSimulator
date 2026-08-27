@@ -62,7 +62,33 @@ function wrapLattice(n: number, lattice: number): number {
   return ((n % lattice) + lattice) % lattice;
 }
 
-function tileNoise(u: number, v: number, lattice: number, salt: number): number {
+/**
+ * One octave's lattice, hashed once instead of sixteen times per texel.
+ *
+ * `tileNoise` needs four corner values per sample and `writeMottleTile` samples
+ * four octaves per texel, so a 256 px tile was doing 1,048,576 hash evaluations
+ * for one image — and a lattice only HAS `lattice * lattice` distinct values,
+ * at most 841 of them for the finest octave here. Every one was being recomputed
+ * hundreds of times.
+ *
+ * This is why it matters: the generation is a one-off at mount, but
+ * `tests/view/perf.test.ts` caps the whole set at 120 ms because a page that
+ * hitches before its first frame is worse than one that fetches an image. The
+ * 256 px four-octave tile landed that at 268 ms under load. Same arithmetic,
+ * same bits out — only the number of times each value is computed changes.
+ */
+function latticeTable(lattice: number, salt: number): Float64Array {
+  const table = new Float64Array(lattice * lattice);
+  for (let y = 0; y < lattice; y++) {
+    for (let x = 0; x < lattice; x++) {
+      table[y * lattice + x] = textureRandom(x, y, salt);
+    }
+  }
+  return table;
+}
+
+/** `tileNoise`, reading a precomputed lattice. Identical arithmetic. */
+function tiledFromTable(u: number, v: number, lattice: number, table: Float64Array): number {
   const x = u * lattice;
   const y = v * lattice;
   const x0 = Math.floor(x);
@@ -73,14 +99,15 @@ function tileNoise(u: number, v: number, lattice: number, salt: number): number 
   const wy0 = wrapLattice(y0, lattice);
   const wx1 = wrapLattice(x0 + 1, lattice);
   const wy1 = wrapLattice(y0 + 1, lattice);
-  const c00 = textureRandom(wx0, wy0, salt);
-  const c10 = textureRandom(wx1, wy0, salt);
-  const c01 = textureRandom(wx0, wy1, salt);
-  const c11 = textureRandom(wx1, wy1, salt);
+  const c00 = table[wy0 * lattice + wx0]!;
+  const c10 = table[wy0 * lattice + wx1]!;
+  const c01 = table[wy1 * lattice + wx0]!;
+  const c11 = table[wy1 * lattice + wx1]!;
   const top = c00 + (c10 - c00) * fx;
   const bottom = c01 + (c11 - c01) * fx;
   return top + (bottom - top) * fy;
 }
+
 
 /**
  * Write the mottle tile into an RGBA buffer.
@@ -95,6 +122,11 @@ function tileNoise(u: number, v: number, lattice: number, salt: number): number 
  * airbrushed at close range.
  */
 export function writeMottleTile(size: number, out: Uint8ClampedArray): void {
+  // Each octave's lattice, hashed once — see `latticeTable`.
+  const coarse = latticeTable(2, 0x7e44);
+  const mid = latticeTable(5, 0x1c05);
+  const fine = latticeTable(13, 0x3b91);
+  const finest = latticeTable(29, 0x6d17);
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
       const u = x / size;
@@ -120,10 +152,10 @@ export function writeMottleTile(size: number, out: Uint8ClampedArray): void {
         the eye finds the grid and the ground reads as wallpaper.
       */
       const noise =
-        0.56 * tileNoise(u, v, 2, 0x7e44) +
-        0.22 * tileNoise(u, v, 5, 0x1c05) +
-        0.14 * tileNoise(u, v, 13, 0x3b91) +
-        0.08 * tileNoise(u, v, 29, 0x6d17);
+        0.56 * tiledFromTable(u, v, 2, coarse) +
+        0.22 * tiledFromTable(u, v, 5, mid) +
+        0.14 * tiledFromTable(u, v, 13, fine) +
+        0.08 * tiledFromTable(u, v, 29, finest);
       /*
         CONTRAST-STRETCHED, because summed octaves are not uniform. Three noises
         added tend to their mean, so the raw sum sat between 0.36 and 0.66 and
@@ -203,6 +235,30 @@ export function writeHazeRamp(height: number, out: Uint8ClampedArray): void {
   }
 }
 
+/**
+ * Write the limb ramp: transparent at the top, OPAQUE at the bottom.
+ *
+ * The horizon haze's mirror, and a separate texture rather than the same one
+ * flipped because the curves are not the same. The haze is a wash laid over
+ * ground and wants to be dense at the join and gone quickly; the limb is a
+ * glow sitting ON the horizon line and seen from outside the air, so it wants
+ * to be brightest in the last few percent above the line and fall away as a
+ * tail. Cubed, which is what makes it a thin bright arc rather than a
+ * gradient — the atmosphere is a hundred kilometres thick against a horizon
+ * eleven hundred kilometres away.
+ */
+export function writeLimbRamp(height: number, out: Uint8ClampedArray): void {
+  for (let y = 0; y < height; y++) {
+    const t = height <= 1 ? 1 : y / (height - 1);
+    const glow = t * t * t;
+    const i = y * 4;
+    out[i] = 255;
+    out[i + 1] = 255;
+    out[i + 2] = 255;
+    out[i + 3] = Math.round(Math.max(0, Math.min(1, glow)) * 255);
+  }
+}
+
 /** Both generated terrain textures, and the haze wash that joins them to the sky. */
 export interface TerrainTextures {
   /** Tileable mottle, `MOTTLE_TILE` square. */
@@ -211,6 +267,8 @@ export interface TerrainTextures {
   readonly ramp: Texture;
   /** A one-pixel-wide alpha ramp, opaque at the top. See `writeHazeRamp`. */
   readonly haze: Texture;
+  /** A one-pixel-wide alpha ramp, opaque at the BOTTOM. See `writeLimbRamp`. */
+  readonly limb: Texture;
 }
 
 /** Build them. Called once, at mount. */
@@ -253,5 +311,17 @@ export function createTerrainTextures(): TerrainTextures {
   hazeCtx.putImageData(hazeImage, 0, 0);
   const haze = Texture.from(hazeCanvas);
 
-  return { mottle, ramp, haze };
+  const limbBuffer = new Uint8ClampedArray(HAZE_RAMP_HEIGHT * 4);
+  writeLimbRamp(HAZE_RAMP_HEIGHT, limbBuffer);
+  const limbCanvas = document.createElement('canvas');
+  limbCanvas.width = 1;
+  limbCanvas.height = HAZE_RAMP_HEIGHT;
+  const limbCtx = limbCanvas.getContext('2d');
+  if (!limbCtx) throw new Error('2d context unavailable for the limb');
+  const limbImage = limbCtx.createImageData(1, HAZE_RAMP_HEIGHT);
+  limbImage.data.set(limbBuffer);
+  limbCtx.putImageData(limbImage, 0, 0);
+  const limb = Texture.from(limbCanvas);
+
+  return { mottle, ramp, haze, limb };
 }
