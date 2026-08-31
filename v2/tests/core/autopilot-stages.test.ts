@@ -448,26 +448,20 @@ describe('autoDeorbit configures, and declines when it cannot burn', () => {
   });
 
   /**
-   * KNOWN DEFECT, recorded here and fixed at M10.7.
+   * M10.7, Bug-fix tier. The inverted Infinity sentinel.
    *
    * `predictedDeorbitRange` returns Infinity to mean "this burn cannot bring
-   * the vehicle down" — with every engine failed, or on an orbit the fixed
-   * delta-v cannot lower. But the firing test is
+   * the vehicle down" — every engine failed, or an orbit the fixed delta-v
+   * cannot lower. But the firing test was
    * `distanceToLandingSite(state) <= predictedDeorbitRange(state)`, and every
-   * finite distance is <= Infinity. The sentinel therefore does the exact
-   * opposite of its intent: instead of never firing, it fires IMMEDIATELY.
+   * finite distance is <= Infinity, so the sentinel did the exact opposite of
+   * its intent: the burn fired IMMEDIATELY rather than never.
    *
-   * The mode then wedges. It has committed to a burn that cannot happen: no
-   * engine lights, no delta-v is spent, the completion condition never arrives,
-   * and it never hands over to autoLand.
-   *
-   * This test asserts the behaviour AS IT IS, so the gate stays honest, and
-   * M10.7 inverts it along with the fix. An earlier version of this test
-   * claimed the mode "never fires" and passed — because it only checked that no
-   * engine was running, which is also true of a burn that fired and lit
-   * nothing.
+   * The consequence was not a crash but a wedge. The mode committed to a burn
+   * that could not happen — nothing lit, no delta-v spent, the completion
+   * condition never arrived — and it never handed over to autoLand.
    */
-  it('DEFECT (fixed at M10.7): fires immediately when it cannot burn at all', () => {
+  it('declines to fire when the burn cannot bring the vehicle down', () => {
     const s = createInitialState();
     cmd.toggleAutoDeorbit(s);
     s.engines.failed = [true, true, true];
@@ -475,18 +469,36 @@ describe('autoDeorbit configures, and declines when it cannot burn', () => {
     s.kinematics.distanceToPlanetCenter = C.planetRadius + 200_000;
     s.kinematics.speedX = 7_800;
 
-    autoDeorbit(s);
-
-    // What it should do is decline. What it does is commit.
-    expect(s.autopilot.deorbitBurnStarted).toBe(true);
-
     for (let i = 0; i < 500; i++) autoDeorbit(s);
 
-    // And then wedge: committed to a burn that can never complete.
-    expect(s.autopilot.deorbitBurnCompleted).toBe(false);
-    expect(s.autopilot.autoDeorbitOn).toBe(true);
-    expect(s.autopilot.autoLandOn).toBe(false);
+    // It must never commit. Asserting `deorbitBurnStarted` directly, because
+    // "no engine is running" is ALSO true of a burn that fired and lit nothing
+    // — an earlier version of this test checked only that and passed against
+    // the defect.
+    expect(s.autopilot.deorbitBurnStarted).toBe(false);
+    expect(s.autopilot.deorbitTargetSpeed).toBeUndefined();
     expect(s.engines.running.some(Boolean)).toBe(false);
+  });
+
+  it('and still fires normally when the burn is achievable', () => {
+    // The other side, so the fix cannot be "never fire". A healthy vehicle in
+    // orbit must still reach its firing point and commit.
+    const s = createInitialState();
+    cmd.toggleAutoDeorbit(s);
+    s.kinematics.altitude = 200_000;
+    s.kinematics.distanceToPlanetCenter = C.planetRadius + 200_000;
+    s.kinematics.speedX = 7_800;
+    s.autopilot.landingSiteXPos = 0;
+
+    let fired = false;
+    for (let i = 0; i < 5_000 && !fired; i++) {
+      autoDeorbit(s);
+      fired = s.autopilot.deorbitBurnStarted;
+      // Walk the vehicle round its orbit so a firing point arrives.
+      s.kinematics.downRangeDistance =
+        (s.kinematics.downRangeDistance + 7_800) % C.planetCircumference;
+    }
+    expect(fired).toBe(true);
   });
 
   it('and does nothing at all under manual control', () => {

@@ -644,7 +644,27 @@ export function autoDeorbit(state: SimState): void {
   prim.precisionAlignment(state, RETROGRADE, 4);
 
   if (!autopilot.deorbitBurnStarted) {
-    if (distanceToLandingSite(state) <= predictedDeorbitRange(state)) {
+    /**
+     * Infinity means "this burn cannot bring the vehicle down". M10.7, Bug fix.
+     *
+     * `predictedDeorbitRange` returns Infinity when no engine will light, and
+     * `coastDownrangeDistance` returns it for an orbit that never descends to
+     * the entry interface — both meaning "there is no firing point, do not
+     * burn". The test used to be a bare `distanceToLandingSite(state) <=
+     * predictedDeorbitRange(state)`, and EVERY finite distance is <= Infinity,
+     * so the sentinel did the exact opposite of its intent: instead of never
+     * firing, the mode fired on the first step it was asked.
+     *
+     * What followed was a wedge rather than a crash, which is why nothing
+     * caught it. The mode committed to a burn that could not happen: no engine
+     * lit, no delta-v was spent, the cut-off condition never arrived, and it
+     * never handed over to autoLand. Measured with all three engines failed —
+     * `deorbitBurnStarted` on call one, and still burning 500 calls later.
+     *
+     * No golden flies the deorbit preset, so this moves no fixture.
+     */
+    const predictedRange = predictedDeorbitRange(state);
+    if (Number.isFinite(predictedRange) && distanceToLandingSite(state) <= predictedRange) {
       // Remembered so the burn can measure how much dV it has spent, and stop
       // itself if the guidance condition never arrives.
       autopilot.deorbitTargetSpeed = kinematics.speedX;

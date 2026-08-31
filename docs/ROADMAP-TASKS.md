@@ -865,7 +865,7 @@ scenarios, goldens regenerated with the justification in the same commit.
   records whatever the machine did and cannot tell a right branch from a plausible wrong one.
   Accept: `autopilot/**` at the M10.1 branch target; every stage transition named in a test; gate
   green.
-- [ ] **M10.7 Findings: fix what is actually wrong** — whatever M10.3–M10.6 surface. Each
+- [x] **M10.7 Findings: fix what is actually wrong** — whatever M10.3–M10.6 surface. Each
   correction: failing test FIRST, exactly one declared tier in the commit message, a before/after
   trajectory diff across all seven scenarios, goldens regenerated in the same commit, and the audit
   table in `tests/golden/unification.test.ts` extended with the reason. A finding that turns out to
@@ -3090,3 +3090,35 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   steering asserted symmetry but not direction — which survives a sign flip, the exact failure
   the file exists to catch. `autoLand` had no manual-control test. All fixed.
   Gate: lint clean, 1250 tests, build 204.0 kB.
+
+- 2026-08-31 · M10.7 · Findings — three defects fixed, eight modelling preferences written up
+  and deliberately left alone. Full account in `docs/VERIFICATION-PLAN.md` § M10.7.
+  **THE FIX THIS PHASE OWED: the deorbit Infinity sentinel, inverted.**
+  `predictedDeorbitRange` returns Infinity for "this burn cannot bring the vehicle down" — no
+  engine will light, or the orbit never descends to the entry interface. The firing test was a
+  bare `distanceToLandingSite(state) <= predictedDeorbitRange(state)`, and every finite
+  distance is ≤ Infinity, so the sentinel did the exact opposite of its intent: the mode fired
+  IMMEDIATELY rather than never. It then wedged — committed to a burn that could not happen,
+  nothing lit, no delta-v spent, the cut-off never reached, autoLand never handed to. Failing
+  test first (verified red), `Number.isFinite` guard, goldens unmoved because no golden flies
+  the deorbit preset. Checked the sibling call site rather than assuming: at `index.ts:688`
+  the comparison runs the other way (`rangeToGoFromHere() <= distanceToLandingSite()`), so
+  `Infinity <= x` is false and the burn correctly continues. Same sentinel, opposite
+  direction, opposite and correct outcome.
+  **All three defects of the milestone moved ZERO golden digests** — the radial-coast NaN
+  (M10.4), the NaN throttle escape (M10.5) and this one. That is the substantive result: every
+  one lived on a branch no nominal flight reaches, which is precisely the region seven golden
+  trajectories cannot police, and the reason this milestone was worth running.
+  Written up and NOT changed, each pinned by a test where it can be so the behaviour is a
+  decision on the record: the vacuum dynamic-pressure ceiling being Infinity (correct — there
+  is no Q limit in vacuum); `getAcceleration` at zero mass (unreachable, and loud is right);
+  speed of sound below absolute zero (unreachable); the lift curve's unbounded top segment
+  (safe only because the angle is wrapped — both halves now asserted together); the
+  unexplained `/ 2.1` in `getCrossSectionalArea` and the `1.83e-7` in `getReentryHeatPower`
+  (both Fidelity-tier decisions for the owner, and `heatLimit` is calibrated against the
+  latter); `horizontalSteering`'s deliberate double call; and the parity-orphaned
+  `legacyAtmosphere`/`legacyOrbitRelief` exports, which are now consumer-less but whose removal
+  is a Refactor-tier change to the protected zone, left as named debt rather than folded in
+  unasked. Note `legacyEffectiveVerticalMaxThrust` is NOT in that category — it is the
+  independent second implementation `collapsed-trig.test.ts` proves the collapsed form against.
+  Gate: lint clean, 1254 tests, build 204.0 kB, coverage 97.45% branch, goldens unmoved.

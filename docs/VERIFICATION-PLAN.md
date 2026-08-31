@@ -232,6 +232,82 @@ for the coverage run alone rather than globally, so the ordinary `npm test` keep
 hang detection. The perf assertions themselves are not trusted under instrumentation — that
 run is for coverage, and timing budgets are enforced by `npm test` and `npm run build`.
 
+## M10.7 — the findings, and what was deliberately left alone
+
+Three defects were found by M10.3–M10.6 and fixed. Each landed with a failing test first, one
+declared tier, and a before/after check across all seven golden scenarios. **None of the three
+moved a single golden digest**, which is itself the useful result: every one lived on a branch
+no nominal flight reaches, which is exactly the region the goldens cannot police and the reason
+this milestone exists.
+
+### Fixed
+
+| # | where | tier | what was wrong |
+|---|---|---|---|
+| 1 | `physics/gravity.ts` `coastDownrangeDistance` | Bug fix (M10.4) | returned **NaN** for a radial trajectory |
+| 2 | `control/primitives.ts` `controlEnginebyTWR` / `…EffectiveVerticalTWR` | Bug fix (M10.5) | **NaN escaped the throttle clamp** |
+| 3 | `autopilot/index.ts` `autoDeorbit` | Bug fix (M10.7) | the **Infinity sentinel was inverted** |
+
+**1. The radial coast.** With negligible tangential speed the conic degenerates to a line
+through the planet's centre, both `anomalyAt` calls return pi, and Simpson's rule multiplies an
+infinite integrand by a zero-width step. Reachable: `predictedDeorbitRange` passes
+`speedX - DEORBIT_DELTA_V`, so any vehicle moving downrange within 4e-5 m/s of the deorbit
+delta-v presents it. The guard tests the zero-width sweep rather than `p === 0`, because an
+exact float comparison repaired one input and left a band of ~3e9 doubles broken.
+
+**2. The NaN throttle.** The clamp is `if (x > upper) else if (x < lower)`, and NaN fails both,
+so it reached `vehicle.throttle` unclamped. `goalTWR` is literally 0 at three call sites and
+the denominator is 0 whenever nothing is lit: 0/0. The consequence was quieter than a NaN in
+the state — `slewToward`'s comparisons against a NaN goal are both false, so it returns
+`current - perStep` and the throttle walks *down* one step per frame into negative thrust,
+inert while unlit and biting on relight. Guards on NaN only; Infinity must still reach the
+clamp, which handles it correctly.
+
+**3. The inverted sentinel.** `predictedDeorbitRange` returns Infinity for "this burn cannot
+bring the vehicle down", but the firing test was `distanceToLandingSite <= predictedDeorbitRange`
+and every finite distance is `<= Infinity`. The mode therefore fired immediately instead of
+never, committed to a burn that could not happen, and wedged: nothing lit, no delta-v spent,
+the cut-off condition never arrived, and it never handed over to autoLand.
+
+The sibling call site was checked rather than assumed: at `index.ts:688` the comparison is
+`rangeToGoFromHere() <= distanceToLandingSite()`, so `Infinity <= x` is false and the burn
+simply continues — correct for an orbit that does not yet reach the entry interface. Same
+sentinel, opposite direction, opposite and correct outcome.
+
+### Found, written up, and NOT changed
+
+These are modelling preferences or documented deviations, not errors. Each is asserted where it
+can be, so the behaviour is a decision on the record rather than an accident waiting to be
+"fixed" by someone who mistakes it for one.
+
+- **`getMaxSpeedWithSafeDynamicPressure(0)` is `Infinity`.** Above ~1000 km the model's density
+  is ~3e-15 and the ceiling is ~4.8e9 m/s — sixteen times the speed of light. This is correct:
+  there is genuinely no dynamic-pressure limit in vacuum. The caller is the right place to care.
+  Pinned by a test.
+- **`getAcceleration(F, 0)` is `Infinity` and `getAcceleration(0, 0)` is `NaN`.** Unreachable —
+  dry mass is a positive constant — and Infinity is the *right* answer anyway: it propagates
+  visibly, where a clamp would invent an acceleration nobody asked for.
+- **`speedOfSoundAt` is NaN below absolute zero.** Unreachable: the coldest the ISA gets is
+  about -90 C. Asserted anyway, because a NaN Mach would quietly stop the vehicle decelerating.
+- **The lift curve's top segment is unbounded below.** `-1.1*|aoa| + 1.728` is safe only because
+  `getAttackAngles` wraps into [-pi, pi], where it reaches -1.7278; at 2pi it would be -5.18.
+  Both halves are now asserted together, so removing the wrap fails loudly.
+- **The `/ 2.1` in `getCrossSectionalArea`** is an unexplained 2021 tuning constant. It is part
+  of the feel; changing it is a Fidelity-tier decision for the owner, not a correctness fix.
+- **`getReentryHeatPower`'s `1.83e-7`** may be a transcription slip or a deliberate scaling —
+  the source does not decide it, and `heatLimit` was calibrated against the scale it actually
+  returns, so the two are consistent as they stand. Changing it would move re-entry and needs
+  the owner.
+- **`horizontalSteering` calls `precisionAlignment` twice** in the near-target case, the second
+  overriding the first. Wasteful, and ported deliberately: the first call has side effects, so
+  collapsing it would change behaviour.
+- **`legacyEffectiveVerticalMaxThrust` and `legacyAtmosphere` remain in `core/`.** They existed
+  for the parity suite, which M10.2 deleted. The first is NOT dead — `collapsed-trig.test.ts`
+  uses it as the independent second implementation the collapsed form is proved against. The
+  atmosphere ones (`legacyAtmosphere`, `tropo`, `lowerStrato`, `upperStrato`) and
+  `legacyOrbitRelief` now have no consumer. Removing them is a Refactor-tier change to the
+  protected zone and is left as named debt rather than folded in here unasked.
+
 ## Risks
 
 - **Deleting 416 tests before the replacements exist.** M10.2 runs second, not last, so the campaign
