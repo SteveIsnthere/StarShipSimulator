@@ -16,7 +16,10 @@ import {
   T0_KELVIN,
   THERMOSPHERE_BASE,
 } from '$core/physics/isa';
-import { legacyAtmosphere, updateAtmosphere } from '$core/physics/atmosphere';
+import { updateAtmosphere } from '$core/physics/atmosphere';
+// The 2021 three-layer model, for the comparisons below. In the test tree since
+// M10.9 — nothing in the simulation calls it.
+import { legacyAtmosphere } from './legacy-models';
 import * as C from '$core/constants';
 import { createInitialState } from '$core/state';
 import { step } from '$core/step';

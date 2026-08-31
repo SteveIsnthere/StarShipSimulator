@@ -30,7 +30,7 @@
  * there than the 2021 isotherm too — measured at the end of the file.
  */
 import { describe, expect, it } from 'vitest';
-import { legacyAtmosphere, upperStrato } from '$core/physics/atmosphere';
+import { legacyAtmosphere, upperStrato } from './legacy-models';
 import { isaAtmosphere } from '$core/physics/isa';
 
 /** The three layers of the model, by its own boundaries. */

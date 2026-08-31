@@ -19,12 +19,15 @@ import { describe, expect, it } from 'vitest';
 import {
   circularOrbitalSpeed,
   gravityAt,
-  legacyOrbitRelief,
   MU,
   specificAngularMomentum,
   specificOrbitalEnergy,
   verticalGravityAcceleration,
 } from '$core/physics/gravity';
+// The 2021 relief term this file measures v2's departure from. It lives in the
+// test tree since M10.9: nothing in the simulation calls it, and leaving dead
+// code in `core/` counted it as covered production code.
+import { legacyOrbitRelief } from './legacy-models';
 import * as C from '$core/constants';
 import { createInitialState, type SimState } from '$core/state';
 import { step } from '$core/step';

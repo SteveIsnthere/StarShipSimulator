@@ -7,12 +7,10 @@
  * `getBodyDragCoefficient` is a function of Mach, so did drag.
  */
 import { describe, expect, it } from 'vitest';
-import {
-  GAMMA_AIR,
-  legacyAtmosphere,
-  R_SPECIFIC_AIR,
-  speedOfSoundAt,
-} from '$core/physics/atmosphere';
+import { GAMMA_AIR, R_SPECIFIC_AIR, speedOfSoundAt } from '$core/physics/atmosphere';
+// The 2021 three-layer model, whose temperatures this file feeds the speed-of-
+// sound formula. In the test tree since M10.9 — the simulation never calls it.
+import { legacyAtmosphere } from './legacy-models';
 import { getBodyDragCoefficient } from '$core/physics/aero';
 import * as C from '$core/constants';
 import { createInitialState } from '$core/state';

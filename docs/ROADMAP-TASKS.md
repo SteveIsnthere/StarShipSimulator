@@ -873,6 +873,22 @@ scenarios, goldens regenerated with the justification in the same commit.
   NOT changed. Accept: no known-wrong physics left unfixed or unrecorded; every digest movement
   accounted for in the audit table.
 - [x] **M10.8 Gate it** — coverage thresholds enforced by the build so the number cannot regress.
+
+### Debt clearance (M10.9–M10.12) — the six named items in `docs/VERIFICATION-PLAN.md`
+
+- [x] **M10.9 Move the dead legacy models out of `core/`** — Refactor tier. Debt item 2 said
+  five parity-orphaned exports had no consumer and should be deleted; that was wrong on the
+  facts. Move them to the test tree instead, preserving every assertion. Accept: nothing in
+  `src/` references them, all four consumer test files pass, golden digests unmoved.
+- [ ] **M10.10 Cover the fourteen named branches** — `autopilot/index.ts` 100, 129, 143, 312,
+  369, 373, 413, 477, 694, 703; `control/commands.ts` 48; `control/primitives.ts` 156, 455,
+  469. Real assertions or a written argument for unreachability. Accept: each branch either
+  covered by a test that would fail if the branch were wrong, or documented with its argument.
+- [ ] **M10.11 Give `version.ts` a real assertion** — 0% line because nothing imports it.
+  Accept: a test that asserts something true about the version, not an import for coverage.
+- [ ] **M10.12 Reduce the max-Q shake test's cost** — 4.4–4.6 min on `pixel-landscape`.
+  Accept: measurably cheaper with the assertion unweakened, or a written finding that it
+  cannot be without weakening it.
   Docs updated; remaining debt named in words rather than left implied. Accept: lowering the
   measured coverage demonstrably fails the gate, and restoring it passes; full gate green on all
   five Playwright projects.
@@ -3157,3 +3173,23 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   numbers and six items of named debt; `CLAUDE.md` gains the gate command and — corrected —
   the fact that there is NO CI in this repository, so every budget and floor previously
   described as "CI-enforced" is enforced by scripts a person has to run.
+
+- 2026-08-31 · M10.9 · The dead legacy models leave `core/` — and debt item 2 was wrong.
+  It claimed `legacyAtmosphere`, `tropo`, `lowerStrato`, `upperStrato` and `legacyOrbitRelief`
+  were parity-orphaned exports with no consumer, to be deleted. Every part of that was wrong:
+  `tropo` and `lowerStrato` were never exported at all (private helpers), and the other three
+  have live consumers in FOUR test files — `atmosphere-strato`, `orbit`, `isa` and
+  `speed-of-sound` — none of which is a parity test, since none executes the 2021 tree. They
+  assert v2's own M2.1 bug fix and measure the departures that justify the M2.10 swap.
+  Deleting them would have silently destroyed those assertions. (I found the third and fourth
+  consumers only by running the tests, having trusted my own note instead of grepping first.)
+  The debt's INTENT was still right: these are dead in production — nothing in the simulation
+  has called them since M2.10 — and dead code in the protected zone is not free. It ships, and
+  it flattered the coverage number, because every line was counted as covered `src/core/**` by
+  tests that exist only to exercise it. So they moved to `tests/core/legacy-models.ts`, ported
+  verbatim including `0.2869` for R and the `273.1` that should be 273.15, because those are
+  the 2021 model's own arithmetic and correcting them would make it a worse record.
+  Refactor tier, and the proof is that nothing the simulator calls changed at all: 87 deletions
+  and zero additions in `src/core`, the seven golden digests unmoved, 1259 tests green.
+  Coverage 97.77% → 97.75% branch — very slightly DOWN, which is the honest direction: removing
+  always-covered dead code from the denominator makes the remaining number more truthful.

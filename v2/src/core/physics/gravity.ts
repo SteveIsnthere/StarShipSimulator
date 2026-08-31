@@ -45,22 +45,6 @@ export function circularOrbitalSpeed(distanceToPlanetCenter: number): number {
 }
 
 /**
- * The 2021 relief term. Nothing calls it since M2.10; it is kept so the
- * parity tests can show what v2 departs from.
- *
- * @param speedX m/s downrange
- * @param orbitalVelocityAtCurrentAltitude m/s — in 2021, the value fixed at spawn
- * @returns m/s^2, clamped to at most `gravity`
- */
-export function legacyOrbitRelief(
-  speedX: number,
-  orbitalVelocityAtCurrentAltitude: number,
-): number {
-  const relief = (C.gravity * Math.abs(speedX)) / orbitalVelocityAtCurrentAltitude;
-  return relief >= C.gravity ? C.gravity : relief;
-}
-
-/**
  * Vertical acceleration from gravity plus the centrifugal effect of moving
  * tangentially, in the local frame the rest of the simulation uses.
  *
