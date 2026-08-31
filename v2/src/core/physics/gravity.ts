@@ -204,6 +204,7 @@ export function coastDownrangeDistance(
   // A circle never descends, and neither does an orbit whose perigee is above
   // the target.
   if (e < 1e-9) return Infinity;
+
   if (semiLatusRectum / (1 + e) > rTarget) return Infinity;
 
   /** True anomaly at `radius`, on the climbing or the falling branch. */
@@ -217,6 +218,38 @@ export function coastDownrangeDistance(
   let end = anomalyAt(rTarget, false);
   // Going forward along the track: a target "behind" is a lap ahead.
   if (end < start) end += 2 * Math.PI;
+
+  /**
+   * A radial fall sweeps no angle, so it covers no downrange distance.
+   * M10.4, Bug-fix tier.
+   *
+   * With negligible tangential speed the angular momentum h is ~0, the
+   * semi-latus rectum p = h^2/MU collapses toward 0 and the eccentricity toward
+   * 1, so the conic degenerates to a straight line through the centre. Then
+   * cos nu = (p/radius - 1)/e is -1 at BOTH radii, both `anomalyAt` calls
+   * return pi, and the sweep has zero width — while the integrand
+   * r(nu) = p/(1 + e cos nu) at nu = pi is a division by ~0. Simpson's rule
+   * then multiplies an infinite sum by a zero step, and Infinity * 0 is NaN.
+   *
+   * Guarding the SWEEP rather than `p === 0` is deliberate. An exact
+   * float comparison on p fixes only the single input where the tangential
+   * speed is precisely zero and leaves the whole neighbourhood broken: the NaN
+   * band measured before this guard ran to |tangentialSpeed| <= 4.09e-5 m/s,
+   * some three billion representable doubles. The zero-width sweep is the
+   * actual degeneracy, so it is what the guard tests.
+   *
+   * Zero is the answer, not a fallback: downrange distance is the integral of
+   * r dnu, and a trajectory with no angular sweep integrates to nothing.
+   *
+   * REACHABLE, which is why this is a fix rather than a note.
+   * `predictedDeorbitRange` passes `speedX - DEORBIT_DELTA_V` as the tangential
+   * speed, so a vehicle moving downrange at anything within 4e-5 m/s of the
+   * deorbit delta-v hits it while the autopilot is choosing its firing point.
+   * The NaN then propagates into `burnRange + coastRange + DEORBIT_ENTRY_RANGE`
+   * and fails every comparison it is put into — so the mode does not decline to
+   * fire, it silently never reaches its trigger.
+   */
+  if (!(end > start)) return 0;
 
   // Simpson over the integral of r dnu, with r(nu) = p / (1 + e cos nu).
   const INTERVALS = 64;

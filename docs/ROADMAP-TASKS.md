@@ -846,7 +846,7 @@ scenarios, goldens regenerated with the justification in the same commit.
   dimensional consistency of every aero term. Every tolerance carries a written derivation of why
   that number and not a tighter one. Accept: each physics module has at least one assertion naming
   its external reference; no tolerance is unexplained; gate green.
-- [ ] **M10.4 The domain edges** — every physics export asserted at the edges of its input domain:
+- [x] **M10.4 The domain edges** — every physics export asserted at the edges of its input domain:
   non-finite inputs, altitude below sea level and above the ISA table's top, zero and negative mass,
   Mach 0 and Mach 30, `dt` of 0 and of 1 second. Property sweeps where the domain is continuous,
   named single points where it is not. Accept: no physics export has undefined or silently-NaN
@@ -2975,3 +2975,39 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   difference pass a `<= 1` bound. It now counts exact IEEE-754 bit distances, and has its own
   test — without one, a helper that always returned 0 would make every identity in the file
   pass. Gate: lint clean, 1154 tests, build 204.0 kB.
+
+- 2026-08-31 · M10.4 · The domain edges — one real Bug-fix, and two tests of mine that
+  asserted nothing. New `tests/core/domain-edges.test.ts` (23 tests) over `physics/**`, each
+  saying whether the input it probes is REACHABLE or not: the ISA clamps below sea level
+  rather than running the lapse rate backwards; density falls monotonically over the whole
+  0–1000 km range (a property sweep, not spot checks — a rise would mean a seam joined wrong);
+  the atmosphere stays finite and positive to 10 000 km; speed of sound is 0 at absolute zero
+  and NaN below, and never NaN for any temperature the model can actually produce; body drag
+  is capped at Mach 10 and monotone below it; cross-sectional area is never zero; `dt` of 0
+  and of a whole second stay finite; mass stays positive across a real flight.
+  **BUG FIX (tier declared): `coastDownrangeDistance` returned NaN for a radial trajectory.**
+  With negligible tangential speed h→0, p→0, e→1, both `anomalyAt` calls return pi, the sweep
+  has zero width, and Simpson's rule multiplies an infinite integrand by a zero step. Reachable:
+  `predictedDeorbitRange` passes `speedX - DEORBIT_DELTA_V`, so any vehicle moving downrange
+  near 150 m/s presents it while the deorbit autopilot picks its firing point — and the NaN
+  fails every comparison it lands in, so the mode does not decline to fire, it silently never
+  triggers. Failing test first (verified: 3 tests fail with the guard removed), fix, and the
+  trajectory diff across all seven scenarios is ZERO — goldens unmoved, since no golden flies
+  that branch.
+  **MY FIRST FIX WAS NEARLY USELESS AND `/code-review high` caught it.** I guarded
+  `semiLatusRectum === 0` — an exact float comparison that repaired precisely one input while
+  the NaN band actually ran to |tangentialSpeed| ≤ 4.09e-5 m/s, roughly three billion doubles.
+  The guard now tests the real degeneracy, the zero-width sweep. A fine scan over 480
+  magnitudes from 1e-20 to 1e4 in both signs, plus zero and denormals, finds no NaN.
+  **AND THE REASON I MISSED IT WAS A TEST THAT ASSERTED NOTHING.** My "reachability proof" was
+  `expect(DEORBIT_DELTA_V - DEORBIT_DELTA_V).toBe(0)` — a tautology calling nothing under
+  test, which passed with the fix reverted. Replaced by a sweep across the band. Two more of
+  the same class, both caught before commit: `createInitialState('launch-pad')` takes an RNG
+  SEED, not a scenario name, so "mass stays positive across a full flight" was flying nothing
+  at all (now uses the golden spec builders and asserts the vehicle actually burned propellant
+  and climbed); and `getAttackAngles(pitch, angleOfMotion)` was called with its arguments
+  swapped, invisible because the sweep was symmetric — the grids are now deliberately
+  different sizes so order matters. Also found and pinned: the lift curve's top segment is
+  unbounded below and is safe ONLY because `getAttackAngles` wraps into [-pi, pi]; at pi it is
+  -1.7278, at 2pi it would be -5.18. Both halves are now asserted together.
+  Gate: lint clean, 1177 tests, build 204.0 kB, branch coverage 89.88%.
