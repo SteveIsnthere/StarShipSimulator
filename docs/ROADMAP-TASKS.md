@@ -872,7 +872,7 @@ scenarios, goldens regenerated with the justification in the same commit.
   be a modelling preference rather than an error is written up in `docs/VERIFICATION-PLAN.md` and
   NOT changed. Accept: no known-wrong physics left unfixed or unrecorded; every digest movement
   accounted for in the audit table.
-- [ ] **M10.8 Gate it** — coverage thresholds enforced by the build so the number cannot regress.
+- [x] **M10.8 Gate it** — coverage thresholds enforced by the build so the number cannot regress.
   Docs updated; remaining debt named in words rather than left implied. Accept: lowering the
   measured coverage demonstrably fails the gate, and restoring it passes; full gate green on all
   five Playwright projects.
@@ -3122,3 +3122,38 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   unasked. Note `legacyEffectiveVerticalMaxThrust` is NOT in that category — it is the
   independent second implementation `collapsed-trig.test.ts` proves the collapsed form against.
   Gate: lint clean, 1254 tests, build 204.0 kB, coverage 97.45% branch, goldens unmoved.
+
+- 2026-08-31 · M10.8 · The gate — and two flaky tests whose first diagnoses were both wrong.
+  Coverage thresholds land in `vitest.config.ts`, scoped to `src/core/**`: aggregate 96%
+  branch / 98% lines, with per-module floors (physics 100%, control 95%, autopilot 95%) that
+  are deliberately tighter than the aggregate, because a headline percentage is the easiest
+  thing to hold up while one module rots underneath it. Enforcement DEMONSTRATED rather than
+  asserted: raising the aggregate branch floor to 99 produces `ERROR: Coverage for branches
+  (97.77%) does not meet global threshold (99%)` and exits non-zero; restoring it passes.
+  Setting the physics floor at 100% immediately failed and exposed my own misreading — I had
+  told the owner physics and `step.ts` were "at 100%" when a grep had filtered the group rows
+  out; physics was 98.9%. Closed the real gap: `getTotalMinThrust` had NO caller in the entire
+  suite though `raptorAutoShutDown` computes the same expression inline, the coast predictor's
+  "target is a lap ahead" branch was unreached, and `commandIgnition`'s three idempotence
+  guards were untested — the last of which matter because a re-command would draw from the
+  seeded RNG again and shift every later random event in the flight.
+  `npm run gate` now runs lint, test, build, coverage and playwright in order.
+  **THE BROWSER GATE IS GREEN: 336 passed, 7 skipped, 0 failed, 50.2 min, all five projects.**
+  Getting there took three full runs and corrected two of my own diagnoses:
+  (a) `shake.spec.ts` at max-Q. At M9.15 I called its timeout CPU contention on the strength
+  of one idle re-run. It failed again on `pixel-landscape` in the M10.8 run, same 4.1 min
+  ceiling, while passing on chromium (3.0) and pixel-portrait (3.5) in that very run — twice on
+  one project is not a flake. Measured properly it costs 4.4–4.6 min there under full-suite
+  load against a 240 s budget. Raised to 420 s with the numbers in the test. The assertion is
+  untouched and still fails if the frame does not shake: what was failing was the clock, not
+  the claim, which is the only thing that distinguishes this from hiding a regression.
+  (b) `render.spec.ts`'s webp check sampled network events once after `networkidle`, which
+  means "no request for 500 ms", not "the textures arrived". It now polls. **My first fix was
+  wrong**: I blamed the service worker and blocked it, whereupon the test failed
+  deterministically with zero webp fetched in 2.5 s — the worker is part of how this app serves
+  its assets. Both wrong diagnoses shared a shape worth naming: a plausible mechanism accepted
+  before it was tested against the alternative.
+  Docs: `docs/VERIFICATION-PLAN.md` gains the gate, the coverage table, the start-to-finish
+  numbers and six items of named debt; `CLAUDE.md` gains the gate command and — corrected —
+  the fact that there is NO CI in this repository, so every budget and floor previously
+  described as "CI-enforced" is enforced by scripts a person has to run.

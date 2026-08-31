@@ -308,6 +308,103 @@ can be, so the behaviour is a decision on the record rather than an accident wai
   `legacyOrbitRelief` now have no consumer. Removing them is a Refactor-tier change to the
   protected zone and is left as named debt rather than folded in here unasked.
 
+## M10.8 — the gate, and the debt that is left
+
+### What is enforced
+
+`npm run gate` is the whole thing, in order:
+
+```
+npm run lint && npm run test && npm run build && npm run coverage && npm run test:e2e
+```
+
+There is **no CI in this repository** — no `.github/workflows`, nothing that runs on a push.
+Every "CI-enforced" budget in `CLAUDE.md` is in fact enforced by `npm run build` calling
+`scripts/check-budget.mjs`, and the coverage floors are enforced the same way, by
+`npm run coverage` failing. That is worth saying plainly rather than leaving the word "CI" to
+imply a pipeline that does not exist: **the gate is a command a person has to run.**
+
+Coverage thresholds live in `vitest.config.ts`, scoped to `src/core/**`, and were measured
+rather than chosen:
+
+| scope | branches | lines | functions | statements | measured at M10.8 |
+|---|---|---|---|---|---|
+| aggregate | 96 | 98 | 98 | 98 | 97.8 / 99.2 / 98.8 / 99.3 |
+| `physics/**` | 100 | 100 | 100 | 98 | 100 / 100 / 100 / 99.7 |
+| `control/**` | 95 | 95 | 95 | 95 | 97.5 / 97.3 / 95.6 / 97.4 |
+| `autopilot/**` | 95 | 99 | 100 | 99 | 95.8 / 99.6 / 100 / 99.7 |
+
+Enforcement was demonstrated, not assumed: raising the aggregate branch floor from 96 to 99
+produces `ERROR: Coverage for branches (97.77%) does not meet global threshold (99%)` and the
+command exits non-zero; restoring it passes. The per-module floors are deliberately tighter
+than the aggregate, because a headline percentage is the easiest thing to hold up while one
+module rots underneath it.
+
+### The number, start to finish
+
+| | M10.1 baseline | after M10.2 (parity gone) | M10.8 |
+|---|---|---|---|
+| branches | 92.9% (577/621) | 89.8% (558/621) | **97.8% (615/629)** |
+| lines | 98.1% | 96.3% | **99.2%** |
+| tests | 1555 (416 of them parity) | 1139 | **1258** |
+
+Fewer tests than the milestone started with, and 37 more covered branches. That is the shape
+the milestone was aiming for: 416 assertions that a 2021 file agreed with itself, replaced by
+119 that say what the physics and the control logic are supposed to do.
+
+### Remaining debt, in words
+
+1. **Fourteen uncovered branches**, all in code whose reachability is not obvious:
+   `autopilot/index.ts` 100, 129, 143, 312, 369, 373, 413, 477, 694, 703 (mostly the
+   already-on guards of `toggleX` calls, and the horizontal-adjustment target offsets);
+   `control/commands.ts` 48; `control/primitives.ts` 156, 455, 469. None is known to be wrong.
+   They are named here rather than papered over with tests that execute without asserting.
+2. **Five parity-orphaned exports in the protected zone.** `legacyAtmosphere`, `tropo`,
+   `lowerStrato`, `upperStrato` (`physics/atmosphere.ts`) and `legacyOrbitRelief`
+   (`physics/gravity.ts`) existed only for the suite M10.2 deleted and now have no consumer.
+   Removing them is a Refactor-tier change to `core/` and was left rather than folded into an
+   unrelated task. **`legacyEffectiveVerticalMaxThrust` is NOT in this list** — it is the
+   independent second implementation `collapsed-trig.test.ts` proves the collapsed form
+   against, and deleting it would silently remove that proof.
+3. **`tests/e2e/shake.spec.ts` at max-Q had a budget below its own cost — FIXED at M10.8,
+   after a first, wrong diagnosis.** At M9.15 it timed out once on `pixel-landscape`, passed
+   alone in 2.7 min, and was recorded as CPU contention. That was incomplete: it failed again
+   on the same project in the M10.8 full run, at the same 4.1 min ceiling, while passing on
+   chromium (3.0 min) and pixel-portrait (3.5 min) in that very run. Twice on one project is
+   not a flake.
+
+   Measured cost: 2.7 min alone, 3.0–3.5 min on other projects under two workers, and over
+   4.0 min on `pixel-landscape` under a full suite. The old 240 s budget left ~15% headroom
+   idle and none under load. Raised to 420 s, with the numbers recorded in the test.
+
+   The distinction is the whole point, because widening a timeout IS normally how a real
+   regression gets hidden: this test does not fail when given time. It passes alone, and on
+   three of four projects under load. The assertion is untouched and still fails if the frame
+   does not shake. What was failing was the clock, not the claim.
+
+   The underlying cost is still real — it flies to max-Q twice and reads a pixel silhouette on
+   every sampled frame — and making it cheaper, or dropping to one worker, remains open.
+4. **`tests/e2e/render.spec.ts`'s webp check was a race — FIXED at M10.8.** It counted network
+   `response` events and sampled them once after `waitForLoadState('networkidle')`. But
+   "networkidle" means no request for 500 ms, which is not the same as "the textures have
+   arrived" — the loader can still be about to ask for one. Measured: it passed one full suite
+   run, failed the next on `pig.webp` alone with no change to any code it touches, and passed
+   in isolation. It now polls until the assets arrive, which asserts the same thing and simply
+   lets a slow load be slow.
+
+   **The first fix was wrong and is worth recording.** The obvious hypothesis was the service
+   worker intercepting requests, so `serviceWorkers: 'block'` was tried — and the test then
+   failed *deterministically*, with the page settling in 2.5 s having fetched no webp at all.
+   The worker is part of how this app serves its assets, so blocking it does not isolate the
+   test, it guts it. Two wrong diagnoses of flakes in this milestone (this and the shake
+   budget at M9.15) shared a shape: a plausible mechanism accepted before it was tested
+   against the alternative.
+
+5. **`version.ts` is permanently 0% line** — a version string no test imports. It stays in
+   scope rather than being excluded, which is why the aggregate line floor is 98 and not 99.
+6. **`docs/PARITY.md` is historical** and marked so. The capability-parity claim it contains is
+   still live and still enforced by `tests/e2e/parity.spec.ts`, which never reads 2021 code.
+
 ## Risks
 
 - **Deleting 416 tests before the replacements exist.** M10.2 runs second, not last, so the campaign
@@ -326,8 +423,14 @@ can be, so the behaviour is a decision on the record rather than an accident wai
 
 ## Success criteria
 
-- `tests/parity/` gone; the legacy tree archived and executed by nothing.
+- `tests/parity/` gone; the legacy tree archived and executed by nothing. **Done, M10.2.**
 - Every `core/` physics module has assertions traceable to an external reference.
+  **Done, M10.3** — and the tightening found a wrong reference value that a 5% tolerance had
+  been hiding.
 - `control/**` and `autopilot/**` at the branch-coverage target set in M10.1.
+  **Done** — control 97.5%, autopilot 95.8%, physics 100%, aggregate 97.8% against a 96%
+  target.
 - Every golden digest movement in the audit table has a tier and a justification.
-- The gate fails on a coverage regression.
+  **Done — and no digest moved at all.** All three defects lived on branches no nominal
+  flight reaches, which is the whole argument for the milestone.
+- The gate fails on a coverage regression. **Done, M10.8, demonstrated rather than asserted.**

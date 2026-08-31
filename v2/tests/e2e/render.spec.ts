@@ -44,12 +44,32 @@ test('the webp images are actually fetched', async ({ page }) => {
   });
 
   await page.goto('/', { waitUntil: 'load' });
-  await page.waitForLoadState('networkidle');
+
+  /**
+   * Polled rather than sampled once after `networkidle`. M10.8.
+   *
+   * `networkidle` means "no request for 500 ms", which is not the same as "the
+   * textures have arrived": the loader can still be about to ask for one. That
+   * made this test a race it lost roughly one run in three — measured, it
+   * passed one full suite, failed the next on `pig.webp` alone with no change
+   * to any code it touches, and passed again in isolation.
+   *
+   * Polling asserts the same thing and simply lets a slow load be slow. The
+   * assertions below are unchanged, and still fail if an asset never arrives.
+   *
+   * Blocking the service worker was tried first and is NOT the answer: with
+   * `serviceWorkers: 'block'` the page settles in 2.5 s having fetched no webp
+   * at all, because the worker is part of how this app serves its assets. Its
+   * own behaviour is covered by tests/e2e/offline.spec.ts.
+   */
+  await expect
+    .poll(() => [...fetched], { timeout: 15_000, intervals: [100] })
+    .toEqual(expect.arrayContaining(['pig.webp', 'Starship.webp']));
 
   // The pig is not optional.
   expect([...fetched]).toContain('pig.webp');
   expect([...fetched]).toContain('Starship.webp');
-  expect(fetched.size).toBeGreaterThanOrEqual(8);
+  await expect.poll(() => fetched.size, { timeout: 15_000 }).toBeGreaterThanOrEqual(8);
 });
 
 test('the renderer draws frames without erroring', async ({ page }) => {

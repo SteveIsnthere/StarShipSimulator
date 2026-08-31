@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "coverage": "vitest run --coverage --testTimeout=120000",
+    "gate": "npm run lint && npm run test && npm run build && npm run coverage && npm run test:e2e",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:deploy": "playwright test --config playwright.subpath.config.ts"

@@ -28,12 +28,18 @@ import {
   getDynamicPressure,
   getLiftCoefficient,
 } from '$core/physics/aero';
-import { getThrust } from '$core/physics/engines';
+import {
+  commandIgnition,
+  getTotalMaxThrust,
+  getTotalMinThrust,
+  getThrust,
+} from '$core/physics/engines';
 import { coastDownrangeDistance } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
 import { speedOfSoundAt, updateAtmosphere } from '$core/physics/atmosphere';
 import { getReentryHeatPower } from '$core/physics/thermal';
 import { step } from '$core/step';
+import { createInitialState } from '$core/state';
 import { GOLDEN_SPECS } from '../golden/scenarios';
 
 /**
@@ -332,9 +338,85 @@ describe('the ballistic coast predictor', () => {
     expect(arc).toBeLessThan(20_000_000);
   });
 
+  it('a target already behind is a lap ahead, not a negative arc', () => {
+    // `if (end < start) end += 2*pi`. A vehicle DESCENDING but below the target
+    // radius has already passed the point where it would cross that radius, so
+    // the crossing it will actually reach is one revolution later. Without the
+    // lap the sweep would be negative and the arc would come out backwards.
+    const r = C.planetRadius + 100_000;
+    const rTarget = C.planetRadius + 200_000;
+    const arc = coastDownrangeDistance(r, 7_600, -50, rTarget);
+
+    expect(Number.isFinite(arc)).toBe(true);
+    expect(arc).toBeGreaterThan(0);
+    // A lap ahead means most of the way round, not a short hop.
+    expect(arc).toBeGreaterThan(Math.PI * r);
+  });
+
   it('a circular orbit never descends, and says so', () => {
     const r = C.planetRadius + 200_000;
     const circular = Math.sqrt((C.gravitationalConstant * C.planetMass) / r);
     expect(coastDownrangeDistance(r, circular, 0, C.planetRadius)).toBe(Infinity);
+  });
+});
+
+describe('minimum thrust is what the shutdown logic reasons about', () => {
+  it('is the lower throttle limit applied to every running engine', () => {
+    // `getTotalMinThrust` had no caller in the test suite at all, though
+    // `raptorAutoShutDown_KeepMinTWRBelow1` computes exactly this expression
+    // inline to decide when a Raptor must go. If the two ever disagreed, the
+    // shutdown would fire at the wrong moment — and nothing would say so.
+    for (const count of [0, 1, 2, 3]) {
+      const running = [false, false, false].map((_, i) => i < count);
+      const expected = count * C.maxThrustPerRaptor * C.throttleLowerLimit * 0.01;
+      expect(getTotalMinThrust(running), `${count} lit`).toBeCloseTo(expected, 6);
+    }
+  });
+
+  it('and is never more than maximum thrust', () => {
+    // The relationship that makes the shutdown logic meaningful: minimum is a
+    // fraction of maximum, set by how far a Raptor can throttle down.
+    for (const count of [1, 2, 3]) {
+      const running = [false, false, false].map((_, i) => i < count);
+      expect(getTotalMinThrust(running)).toBeLessThan(getTotalMaxThrust(running));
+      expect(getTotalMinThrust(running) / getTotalMaxThrust(running)).toBeCloseTo(
+        C.throttleLowerLimit * 0.01,
+        9,
+      );
+    }
+  });
+});
+
+describe('commanding ignition is idempotent, by design', () => {
+  it('declines an engine that is already running or already failed', () => {
+    // Both early-return guards. They matter beyond tidiness: the countdown is
+    // drawn from a seeded RNG stream, so an engine that could be re-commanded
+    // would draw again and SHIFT THE STREAM — every later random event in the
+    // flight would change, and the goldens with them.
+    const running = createInitialState();
+    running.engines.running[0] = true;
+    commandIgnition(running, 0);
+    expect(running.engines.ignitionCountdown[0]).toBeNull();
+
+    const failed = createInitialState();
+    failed.engines.failed[1] = true;
+    commandIgnition(failed, 1);
+    expect(failed.engines.ignitionCountdown[1]).toBeNull();
+  });
+
+  it('and a held button cannot draw from the RNG twice', () => {
+    // The third guard: already igniting. Re-commanding must leave both the
+    // countdown and the RNG counter exactly where they were.
+    const s = createInitialState();
+    commandIgnition(s, 2);
+    const countdown = s.engines.ignitionCountdown[2];
+    expect(countdown).not.toBeNull();
+    const counterAfterFirst = JSON.stringify(s.rng);
+
+    commandIgnition(s, 2);
+    commandIgnition(s, 2);
+
+    expect(s.engines.ignitionCountdown[2]).toBe(countdown);
+    expect(JSON.stringify(s.rng)).toBe(counterAfterFirst);
   });
 });

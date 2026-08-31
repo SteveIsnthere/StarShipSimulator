@@ -80,9 +80,12 @@ Every change to `core/` declares exactly one tier, named in the commit message:
 - Randomness only via `core/rng.ts`: counter-based, seed + named stream + counter, with
   counters stored in SimState. Sim streams and render-effect randomness never mix.
 - Time warp = run the step loop N times per frame. Never scale dt.
-- Golden trajectory fixtures in `v2/tests/golden/` are the behavioural contract.
-  A refactor that moves them fails CI. Regenerating fixtures requires a Bug-fix or
-  Fidelity tier justification in the same commit.
+- Golden trajectory fixtures in `v2/tests/golden/` are the behavioural contract, and since
+  M10.2 retired parity they are the ONLY guard on behaviour — so the tier rules below carry
+  more weight, not less. A refactor that moves them fails `npm run test` (see Verification:
+  there is no CI here). Regenerating fixtures requires a Bug-fix or Fidelity tier
+  justification in the same commit, and the audit table in `tests/golden/unification.test.ts`
+  must gain a row saying which scenarios moved and why.
 
 ## Naming & units
 
@@ -101,7 +104,7 @@ Every change to `core/` declares exactly one tier, named in the commit message:
 - Zero allocation in the per-frame path. Particles are pooled — the 2021
   engine-shutdown effect leaked a container + emitter per cutoff.
 - DOM references cached at startup (the old HUD did 45 getElementById per frame).
-- Budgets (CI-enforced): sim step < 1 ms @ 240 Hz · HUD update < 2 ms ·
+- Budgets (enforced by `npm run build`, not by any CI): sim step < 1 ms @ 240 Hz · HUD update < 2 ms ·
   first-load JS ≤ 250 kB gzip. Charting (black box) is lazy-loaded, never in first load.
 - Do not optimise physics maths for speed. Any "optimisation" that changes results is a
   Refactor owing a 1-ULP proof.
@@ -111,6 +114,20 @@ Every change to `core/` declares exactly one tier, named in the commit message:
 `cd v2 && npm run lint && npm run test && npm run build` — all green, budgets included.
 For physics changes, also the tier obligation above. One validated commit beats three
 speculative ones.
+
+Since M10.8 the FULL gate is one command:
+
+```
+cd v2 && npm run gate     # lint, test, build, coverage, playwright
+```
+
+`npm run coverage` enforces measured branch/line floors on `src/core/**` (aggregate 96%
+branch; physics 100%, control 95%, autopilot 95%) and exits non-zero below them, so the
+number cannot regress. Note there is **no CI in this repository** — no workflow runs on a
+push. Every budget and floor described anywhere as "CI-enforced" is in fact enforced by
+these scripts, which someone has to run. The browser suite takes roughly 50 minutes and
+needs an otherwise idle machine: a timing measurement taken while another suite is running
+is not evidence, and has twice produced failures that were pure CPU contention.
 
 ## What must never change (the soul)
 

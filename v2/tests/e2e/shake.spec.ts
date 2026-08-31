@@ -203,7 +203,30 @@ async function nearMaxQ(page: Page): Promise<void> {
 }
 
 test('the frame shakes near max-Q, and holds still when asked not to @mobile', async ({ page }) => {
-  test.setTimeout(240_000);
+  /**
+   * Seven minutes, and the number is measured rather than picked. M10.8.
+   *
+   * This is the most expensive test in the suite: it flies to max-Q TWICE, once
+   * normally and once under reduced motion, and reads a pixel silhouette on
+   * every sampled frame of both. Measured cost:
+   *
+   *     alone, one worker, idle box        2.7 min
+   *     chromium, under two workers        3.0 min
+   *     pixel-portrait, under two workers  3.5 min
+   *     pixel-landscape, under two workers TIMED OUT at the old 240 s budget,
+   *                                        in two separate full runs
+   *
+   * The old budget was 4.0 min, which left about 15% of headroom over the idle
+   * cost and none at all under parallel load on a four-CPU box. The assertion
+   * below is UNCHANGED and still fails if the frame does not shake — what was
+   * failing was the clock, not the claim: the same test passes on three other
+   * projects in the same run, and alone on this one.
+   *
+   * Widening a budget to get green is normally how a real regression gets
+   * hidden, so the distinction matters: this is not a test that fails when
+   * given time. It is a test that was not given enough.
+   */
+  test.setTimeout(420_000);
 
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
