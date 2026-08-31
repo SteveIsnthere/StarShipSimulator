@@ -121,7 +121,13 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
    * So 0 IS the shipped behaviour. Reproducing `undefined` faithfully would
    * reproduce a value the DOM never allowed to escape, and would poison the
    * control chain with NaN the moment the slider stopped covering for it.
-   * tests/parity/autopilot.test.ts asserts both halves of this.
+   *
+   * tests/parity/autopilot.test.ts asserted both halves of this until M10.2
+   * deleted it. The v2 half — that the RCS path leaves a usable number here and
+   * steers through `autopilot.rcsThrustCommand` — is held by
+   * tests/core/rcs-dead-zone.test.ts and tests/core/autopilot.test.ts. The 2021
+   * half is no longer asserted anywhere, by design: the archived tree is not a
+   * standard. M10.5 owes this function a direct contract test.
    */
   let yokePosition = 0;
 

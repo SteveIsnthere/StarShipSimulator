@@ -1,38 +1,46 @@
-# The 2021 tree — frozen reference, not the application
+# The 2021 tree — archived. Nothing executes this.
 
-This is the original Starship Simulator, as it was in 2021. It is **retired**:
-it is not built, not served, not deployed, and not on any code path a user can
-reach. `v2/` is the application.
+This is the original Starship Simulator, as it was in 2021. It is **archived**:
+not built, not served, not deployed, not imported, not executed, and on no code
+path a user or a test can reach. `v2/` is the application.
 
-It is kept because it is **executed**. `tests/parity/legacy.ts` loads these files
-into a Node VM and the tests compare v2's simulation against the real thing,
-value for value, with `Object.is` rather than tolerances. That is the evidence
-the port is faithful, and it is evidence that cannot be reconstructed from
-anything else: the golden fixtures record *what* v2 does, but only this records
-what the original did.
+## What changed, and when
 
-Four files are executed today:
+Until M10.2 (2026-08-31) this directory was **executed**. `tests/parity/legacy.ts`
+loaded four of these files into a Node VM and 416 tests compared v2's simulation
+against the real thing, value for value, with `Object.is` rather than tolerances.
+That was the evidence the port was faithful.
 
-- `backend/physics.js`
-- `backend/initBackEnd.js`
-- `backend/flightcontrol/flightControl.js`
-- `backend/flightcontrol/autoPilotLowLevelFunctions.js`
+By owner decision, parity is retired:
 
-The rest of the tree is here because deleting the parts nobody currently reads
-would be deciding, on their behalf, which questions future readers are allowed
-to ask. `docs/PARITY.md` cites line numbers throughout this tree; those
-citations only mean something while the lines exist.
+> "no need for parity with old — old one is just a fun project, we have a much
+> higher standard now."
 
-## Rules
+So `tests/parity/` is gone. Correctness is no longer "agrees with
+`backend/physics.js`"; it is agreement with closed-form physics, published
+reference data and stated contracts — things that are true independently of any
+implementation. See `docs/VERIFICATION-PLAN.md`.
 
-**Do not modify anything in this directory.** Not to fix a lint error, not to
-modernise a `var`, not to correct a misspelling. Every edit destroys a little of
-what the parity tests are measuring against, and an edit made to satisfy a
-linter is the worst kind, because it looks harmless.
+## Why the files are still here
 
-It is excluded from ESLint for exactly this reason — it predates all six walls
-and violates most of them, including 355 assignments to `globalThis`, which is
-wall 6, which is why wall 6 exists.
+They are kept as a **historical reference for humans**, not as an authority:
 
-If you need to understand why v2 does something strangely, the answer is
-probably in here, and the strangeness is probably deliberate.
+- The commit history of the rebuild refers to this code constantly. Nine
+  milestones of porting notes cite file and line — `physics.js:283`,
+  `autoPilotLowLevelFunctions.js:147` — and those citations should keep
+  resolving to something.
+- Several deliberate departures are only intelligible against the original: the
+  mistranscribed `0.0299` lapse coefficient, the doubled tangential term, the
+  nose radius passed where an area belonged. The record of what was wrong is
+  worth more than the code.
+
+## The rules
+
+- **Do not modify it.** Not to fix a lint error, not to modernise a `var`. It is
+  a historical artefact; editing it makes it a worse one.
+- **Do not import it.** No test, script, or source file under `v2/` may read or
+  execute anything in this directory. `grep -rl "fixtures/legacy" v2/tests
+  --include='*.test.ts'` must return nothing.
+- **Do not treat it as authority.** If this tree and v2 disagree, that is not by
+  itself a defect in v2. It was a fun project, and its physics has known errors
+  that the rebuild fixed on purpose.

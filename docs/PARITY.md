@@ -1,5 +1,14 @@
 # Parity sweep — v2 against the 2021 build
 
+> **HISTORICAL (as of M10.2, 2026-08-31).** Parity with the 2021 tree is retired as a
+> standard by owner decision, and `v2/tests/parity/` is deleted. This document is kept as
+> the record of the M4.6 sweep — what was ported, what deliberately was not, and why. It is
+> no longer a specification, and a row here does not oblige v2 to do anything.
+>
+> The one part still live is **capability** parity — every 2021 control exists and works —
+> which `tests/e2e/parity.spec.ts` enforces without ever reading the 2021 code.
+> The replacement standard is `docs/VERIFICATION-PLAN.md`.
+
 M4.6. Every user-facing behaviour of the 2021 tree, checked against v2.
 
 The list was not written from memory. It is every `onclick` handler in

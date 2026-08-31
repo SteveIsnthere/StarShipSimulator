@@ -7,8 +7,12 @@
  * the 2021 tree until goldens lock behaviour; the mechanical rename is M1.10,
  * with its mapping table at docs/RENAME-MAP.md.
  *
- * tests/parity/constants.test.ts executes the legacy file in a VM and asserts
- * every value here matches it exactly, so "verbatim" is checked, not claimed.
+ * Until M10.2 this was checked rather than claimed: tests/parity/constants.test.ts
+ * executed the legacy file in a VM and asserted every value here matched it. That
+ * suite is deleted and the 2021 tree is archived, so "verbatim" is now a statement
+ * about this file's history, not an enforced invariant. Changing a value here is a
+ * physics change under the tier rules in CLAUDE.md like any other, and the golden
+ * digests are what will catch it.
  *
  * Derived values are written as the same expressions the legacy file uses, in
  * the same order, rather than as pre-computed literals: floating point is not
@@ -231,9 +235,11 @@ export const gLimit = 13;
  * not a hand-picked difficulty — the ratio of peak heating to the limit that
  * the 2021 build actually flew the Re-entry preset with.
  *
- * THE MEASUREMENT, re-derived on every test run by
- * tests/parity/heat-margin.test.ts, which flies the preset on BOTH
- * implementations — the frozen 2021 tree executing in a VM, and v2:
+ * THE MEASUREMENT, taken when this constant was calibrated (M2.x) by flying the
+ * preset on BOTH implementations — the 2021 tree executing in a VM, and v2. It
+ * was re-derived on every test run by tests/parity/heat-margin.test.ts until
+ * M10.2 deleted that suite; the numbers below are now a record of how the limit
+ * was arrived at, not a live measurement:
  *
  *     2021 peak on Re-entry     34.7414 units      (against its limit of 55)
  *     2021 margin               34.7414 / 55  =  0.6317

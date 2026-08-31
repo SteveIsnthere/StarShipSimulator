@@ -10,7 +10,7 @@ Nine milestones of physics were built by **porting** — the 2021 tree was the r
 owner decision (2026-08-30): *"no need for parity with old — old one is just a fun project, we have
 a much higher standard now."*
 
-Retiring it leaves a hole. `tests/parity/` was 86 of the strongest assertions in the repo, and
+Retiring it leaves a hole. `tests/parity/` was 416 of the strongest assertions in the repo, and
 every one of them tested agreement with a program we no longer consider authoritative. What
 replaces it is not fewer tests. It is tests against **closed-form physics, published reference data
 and stated contracts** — things that are true independently of any implementation.
@@ -44,7 +44,7 @@ is the failure mode a golden cannot catch, because the golden records whatever i
 
 ## Owner decisions binding this milestone
 
-1. **Parity is retired.** `tests/parity/` (7 files, 86 tests, including `legacy.ts`) is DELETED.
+1. **Parity is retired.** `tests/parity/` (7 test files plus `legacy.ts`, 416 tests) is DELETED.
    `v2/tests/fixtures/legacy/` is **kept on disk, archived** — a historical reference that nothing
    executes and no gate consults. `CLAUDE.md` is amended to say so.
 2. **Wrong physics gets fixed.** When a first-principles test shows the model is actually wrong,
@@ -76,7 +76,7 @@ committed into this document. **Verified by:** the table exists and reproduces.
 ### M10.2 — Retire parity
 Delete `tests/parity/`. Archive the legacy tree with a README stating its new status. Amend
 `CLAUDE.md`'s ground rules and the parity clauses. **End state:** nothing under `v2/tests/`
-imports, reads or executes the 2021 tree. **Verified by:** the gate is green with 86 fewer tests,
+imports, reads or executes the 2021 tree. **Verified by:** the gate is green with 416 fewer tests,
 and `grep -rl "fixtures/legacy" v2/tests --include='*.test.ts'` returns nothing.
 
 ### M10.3 — The laws: analytic physics tests
@@ -234,7 +234,7 @@ run is for coverage, and timing budgets are enforced by `npm test` and `npm run 
 
 ## Risks
 
-- **Deleting 86 tests before the replacements exist.** M10.2 runs second, not last, so the campaign
+- **Deleting 416 tests before the replacements exist.** M10.2 runs second, not last, so the campaign
   is not built on top of a standard it is meant to remove — but it does mean M10.3–M10.6 are
   written without that net. Mitigation: the golden fixtures stay throughout and remain the
   regression contract; they are the thing that makes any accidental behaviour change visible.

@@ -8,10 +8,13 @@ command — the goal prompts live in `docs/REBUILD-PLAN.md` § Driving implement
 ## Ground rules
 
 - All work happens on branch `claude/first-project-rebuild-bjniik`. Never push elsewhere.
-- The 2021 tree is retired (M5.4) and now lives at `v2/tests/fixtures/legacy/`. It is no
-  longer the application — `v2/` is — but it is still the reference implementation, and
-  the parity tests **execute** it. **Do not modify it, ever.** Not to fix a lint error,
-  not to modernise a `var`. See `v2/tests/fixtures/legacy/README.md`.
+- The 2021 tree is retired (M5.4) and archived (M10.2) at `v2/tests/fixtures/legacy/`. It
+  is not the application — `v2/` is — and as of M10.2 it is **not the reference
+  implementation either**: `tests/parity/` is deleted and nothing executes, imports or
+  consults that tree. It is a historical reference for humans, kept so nine milestones of
+  porting citations keep resolving. **Do not modify it, ever.** Not to fix a lint error,
+  not to modernise a `var`. Do not import it, and do not treat a disagreement with it as a
+  defect in v2. See `v2/tests/fixtures/legacy/README.md`.
 - One task per commit. Commit messages start with the task id (e.g. `M1.3: ...`).
 - If a task's acceptance criteria can't be met as specified, stop and say so — do not
   reinterpret the task.
@@ -23,7 +26,7 @@ command — the goal prompts live in `docs/REBUILD-PLAN.md` § Driving implement
 2. The task's acceptance line is the definition of done. Not a suggestion.
 3. Verify before committing: `cd v2 && npm run lint && npm run test && npm run build`
    all green (once v2 exists), plus whatever the task's own acceptance line demands
-   (golden diffs, proofs, parity spot-checks).
+   (golden diffs, proofs, coverage thresholds).
 4. Check the task's box, append to the Log section (date · task id · note), commit
    everything as ONE commit prefixed with the task id, push with retry/backoff.
 5. Golden fixtures never change except under a declared Bug-fix or Fidelity tier
@@ -125,6 +128,19 @@ Amended by owner decision (2026-08-25): the soul's original "tuned feel of the 2
 flight model as the reference configuration" is retired. **The shipped physics is full
 fidelity, with no flag machinery** — real gravity, local speed of sound, the full ISA,
 the collapsed trig identities, and a heatLimit recalibrated to the fidelity model. The
-2021 flight model remains the frozen parity reference at `v2/tests/fixtures/legacy/`,
-never the shipped feel. (Effective as of task M2.10, which landed 2026-08-25: there is no
+2021 flight model was the frozen parity reference at `v2/tests/fixtures/legacy/` and was
+never the shipped feel; as of M10.2 it is not a reference at all, merely archived.
+(Effective as of task M2.10, which landed 2026-08-25: there is no
 flag machinery anywhere in `v2/src`.)
+
+Amended by owner decision (2026-08-30, effective M10.2 which landed 2026-08-31):
+**parity with the 2021 tree is retired as a standard.** "Old one is just a fun project,
+we have a much higher standard now." `v2/tests/parity/` — 416 tests across 7 files — is
+deleted, and nothing under `v2/` executes, imports or consults the archived tree.
+Correctness now means agreement with closed-form physics, published reference data and
+stated contracts: things true independently of any implementation. The seven golden
+trajectory digests remain the regression contract and are now the ONLY guard on
+behaviour, so the Bug-fix/Fidelity tier rules below carry more weight, not less.
+Note that *capability* parity (every 2021 control exists and works, `tests/e2e/parity.spec.ts`)
+is a different claim, is still enforced, and is unaffected: it never read the 2021 code.
+The replacement programme is `docs/VERIFICATION-PLAN.md`.

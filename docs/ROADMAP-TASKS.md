@@ -829,13 +829,13 @@ scenarios, goldens regenerated with the justification in the same commit.
   from a round number, and say in the plan why the number chosen is the right one. Accept: `npm run
   coverage` runs clean; the committed table reproduces on a second run; the target is stated with
   its reasoning. **Nothing later in this milestone may be planned against a guessed number.**
-- [ ] **M10.2 Retire parity** — delete `v2/tests/parity/` entirely (7 files: `actuation`,
+- [x] **M10.2 Retire parity** — delete `v2/tests/parity/` entirely (7 files: `actuation`,
   `autopilot`, `constants`, `heat-margin`, `initial-state`, `physics`, `step`, plus `legacy.ts`).
   Add `v2/tests/fixtures/legacy/README.md` stating the tree is an archived historical reference
   that nothing executes and no gate consults — replacing whatever it says now. Amend `CLAUDE.md`:
   the ground rule that calls the 2021 tree "the reference implementation" and says "the parity
   tests **execute** it" is no longer true, and the file is the constitution, so it must say what is
-  actually the case. Accept: gate green with 86 fewer tests;
+  actually the case. Accept: gate green with 416 fewer tests (the plan said 86; measured, it is 416);
   `grep -rl "fixtures/legacy" v2/tests --include='*.test.ts'` returns nothing; `CLAUDE.md` contains
   no claim that parity is enforced. Do not delete the legacy files themselves.
 - [ ] **M10.3 The laws: analytic physics tests** — the replacement for parity, and the point of the
@@ -2898,3 +2898,30 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   five modules are `0/0` branches and report 100% vacuously, and `version.ts` is permanently 0%
   line. Coverage runs at `--testTimeout=120000` because v8 instrumentation pushes
   `perf.test.ts` from under 30s to 33.4s; raised for that script alone, not globally.
+
+- 2026-08-31 · M10.2 · Parity retired — 416 tests, not 86. The plan's count was wrong by
+  nearly 5x: `tests/parity/` declared 93 `it()` blocks but ran **416 tests across 7 files**,
+  confirmed by running the directory directly and by the difference between two measured
+  coverage runs (1555 → 1139). Corrected the figure in the plan, the risk register and this
+  task's own acceptance line rather than quietly meeting a wrong number. Deleted the
+  directory including `legacy.ts`; the 2021 tree itself is untouched on disk, with a rewritten
+  `tests/fixtures/legacy/README.md` stating it is archived, executed by nothing, and not an
+  authority — a disagreement with it is not by itself a defect in v2. `CLAUDE.md` amended in
+  three places: the ground rule no longer calls it "the reference implementation" or says the
+  parity tests execute it, the working loop's "parity spot-checks" became "coverage
+  thresholds", and a third amendment records the owner decision. Kept the *capability* parity
+  claim deliberately — `tests/e2e/parity.spec.ts` asserts every 2021 control exists and works
+  and never read the 2021 code, so it is a different claim and still true. Three source
+  comments named deleted test files (`constants.ts` twice, `primitives.ts` once) and were
+  rewritten to say what is now the case; `docs/PARITY.md` carries a HISTORICAL banner.
+  **The M10.1 forecast held exactly**: post-deletion coverage is 89.85% branch / 558 of 621,
+  the number predicted before the deletion, and the loss is 18 branches in
+  `control/primitives.ts` (93.4% → 76.4%) plus one in `engines.ts`. `autopilot/index.ts` and
+  `step.ts` are unchanged to the digit, confirming parity never covered them.
+  Also checked before deleting whether the suite held contracts nothing else did: it mostly
+  did not. Wall 2 (no `document`/`window` in core) is enforced by `tests/lint-walls`, the
+  bang-bang yoke by `tests/core/rcs-dead-zone.test.ts`, heat margin by
+  `tests/core/heat-argument.test.ts` and `flies-every-scenario`. The measured 19 branches are
+  the real, whole loss. Gate: lint clean, 1139 tests, build 204.0 kB. No browser run — the
+  deleted tests are vitest-only and the two `core/` edits are comment-only, verified
+  mechanically (zero non-comment lines changed).
