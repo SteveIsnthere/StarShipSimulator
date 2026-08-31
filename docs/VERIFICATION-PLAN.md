@@ -133,7 +133,7 @@ directly", and that is true — but it is nonetheless at **87.6% branch** covera
 indirectly through the seven golden flights and the black-box autopilot tests. The milestone
 is not starting from a bare module. It is starting from 92.9%.
 
-Two columns, because M10.2 deletes 86 parity tests and any target set here has to survive that:
+Two columns, because M10.2 deletes 416 parity tests and any target set here has to survive that:
 
 | module | branch (with parity) | branch (parity gone) | lines (parity gone) |
 |---|---|---|---|

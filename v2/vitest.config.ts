@@ -29,7 +29,13 @@ export default defineConfig({
       // no such property). Verified rather than assumed: `version.ts` is
       // imported by no test and reports 0% line, so untested files are counted.
       include: ['src/core/**'],
-      reporter: ['text', 'json-summary'],
+      // `json` as well as the summary: the text table TRUNCATES its uncovered
+      // line column (primitives.ts prints as `...2,416,453,457-465`), and
+      // json-summary carries totals only. M10.5 and M10.6 have to target
+      // specific uncovered branches, and the plan's reproduction check claims
+      // identical uncovered line numbers — neither is possible without the
+      // per-line data in coverage-final.json.
+      reporter: ['text', 'json-summary', 'json'],
       reportsDirectory: './coverage',
       // Thresholds land at M10.8, deliberately not here: M10.1 only measures,
       // and a threshold invented before the baseline is a guess with a number

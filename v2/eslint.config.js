@@ -118,8 +118,9 @@ export default ts.config(
       // The staged copy of dist/ that the subpath deploy test serves (M5.3).
       '.subpath/**',
       /*
-        The frozen 2021 tree (M5.4). It is here to be EXECUTED by the parity
-        tests, not to be edited, and it predates every rule in this file — it
+        The archived 2021 tree (M5.4, archived M10.2). Nothing executes it any
+        more; it is kept as a historical reference and must not be edited. It
+        predates every rule in this file — it
         assigns to globalThis 355 times, which is wall 6, which is the point.
         Linting it would report thousands of errors about code that is
         deliberately unchanged.

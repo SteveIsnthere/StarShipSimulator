@@ -118,8 +118,9 @@ describe('the dt substitution is within 1 ULP', () => {
 
   it('the per-step error is relative, so it does not grow with magnitude', () => {
     // A 1 ULP bound is a relative bound. Stated explicitly because the concern
-    // with accumulating it over thousands of steps is drift, and drift is what
-    // tests/parity/step.test.ts measures directly.
+    // with accumulating it over thousands of steps is drift. Drift used to be
+    // measured directly against the 2021 tree by tests/parity/step.test.ts;
+    // since M10.2 the golden trajectory fixtures are what would catch it.
     for (const dt of [1 / 60, 1 / 120]) {
       const rti = 1 / dt;
       for (const magnitude of [1e-6, 1, 1e6]) {

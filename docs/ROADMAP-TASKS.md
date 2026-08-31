@@ -2925,3 +2925,17 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   the real, whole loss. Gate: lint clean, 1139 tests, build 204.0 kB. No browser run — the
   deleted tests are vitest-only and the two `core/` edits are comment-only, verified
   mechanically (zero non-comment lines changed).
+  · Addendum, same day: `/code-review high` over M10.1+M10.2 found six stale references the
+  deletion pass missed — and they were the SAME class I had carefully fixed in `src/core/`:
+  three test-file citations of deleted parity tests (`proofs/rcs-reserve`, `golden/replay`,
+  `proofs/dt-substitution`), the ESLint ignore rationale still saying the tree "is here to be
+  EXECUTED by the parity tests", a `legacyEffectiveVerticalMaxThrust` comment calling itself
+  parity-only when its real surviving consumer is `tests/core/collapsed-trig.test.ts` (so
+  deleting it as dead code would break that proof), and an `86` I had written into my own
+  M10.1 section four lines above a table encoding 416. All fixed. The review also caught a
+  real instrument gap: the coverage `reporter` list produced no per-line data — the text table
+  truncates its uncovered-line column and json-summary carries only totals — so M10.5/M10.6
+  had nothing to target and the plan's "identical uncovered line numbers" check was
+  unsupportable. Added the `json` reporter; `coverage-final.json` now yields primitives.ts's
+  18 uncovered branch lines exactly (26,28,66,68,156,259,350,354,369,373,404,418,422,458,459,
+  461,467,469).

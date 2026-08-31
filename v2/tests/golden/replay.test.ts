@@ -200,8 +200,10 @@ describe('the fixtures themselves', () => {
     // killed the preset instantly.
     //
     // M2.9(a) recalibrated the limit to preserve 2021's margin rather than
-    // 2021's number — 390, derived in tests/parity/heat-margin.test.ts by
-    // flying the preset on the frozen 2021 tree and on v2. The preset flies
+    // 2021's number — 390, derived when the limit was set by flying the preset
+    // on the frozen 2021 tree and on v2. That derivation lived in
+    // tests/parity/heat-margin.test.ts, deleted at M10.2; the figure is now a
+    // record of how the limit was chosen, not a live check. The preset flies
     // again, and this fixture is the record of it doing so.
     const samples = loadSamples('reentry-autoland');
     for (const sample of samples) {

@@ -99,8 +99,10 @@ describe('the `remaining - dt` simplification does NOT clear the 1 ULP bar', () 
 describe('the shipped form is the 2021 form', () => {
   it('matches the legacy expression bit for bit by construction', () => {
     // Trivially true, and that is the point: rcsControl computes rti = 1/dt and
-    // evaluates the same expression, so tests/parity/actuation.test.ts can and
-    // does compare with Object.is.
+    // evaluates the same expression. Until M10.2 that identity was checked
+    // against the 2021 tree with Object.is by tests/parity/actuation.test.ts;
+    // that suite is gone, so what remains asserted here is the substitution
+    // itself, below, not agreement with the original.
     for (const dt of DTS) {
       const rti = 1 / dt;
       let remaining = 25;

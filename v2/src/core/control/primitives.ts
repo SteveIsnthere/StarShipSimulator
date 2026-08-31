@@ -38,7 +38,10 @@ export function getPitchDifference(pitch: Rad, goal: Rad): number {
  * from physics/components.ts, inlined in 2021. It collapses to `cos` like the
  * other six and, since M2.10, ships collapsed like the other six — collapsing
  * some but not all of them would be the worst of both. The ladder is preserved
- * below as `legacyEffectiveVerticalMaxThrust` for the parity suite.
+ * below as `legacyEffectiveVerticalMaxThrust`, originally for the parity suite;
+ * since M10.2 its one consumer is tests/core/collapsed-trig.test.ts, which uses
+ * it as the independent second implementation the collapse is proved against.
+ * It is not dead code — deleting it would break that proof.
  */
 export function getEffectiveVerticalMaxThrust(
   running: readonly boolean[],
@@ -48,7 +51,11 @@ export function getEffectiveVerticalMaxThrust(
   return maxThrust * Math.cos(gimbalPointingDirection);
 }
 
-/** physics.js:477 verbatim — the 2021 ladder, kept for parity comparison. */
+/**
+ * physics.js:477 verbatim — the 2021 quadrant ladder. Kept not for parity (that
+ * suite is gone) but as the independent second implementation that
+ * tests/core/collapsed-trig.test.ts proves the collapsed `cos` form against.
+ */
 export function legacyEffectiveVerticalMaxThrust(
   running: readonly boolean[],
   gimbalPointingDirection: Rad,
