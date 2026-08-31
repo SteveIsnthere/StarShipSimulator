@@ -858,7 +858,7 @@ scenarios, goldens regenerated with the justification in the same commit.
   saturation hold, sign symmetry holds, and `raptorAutoShutDown_KeepMinTWRBelow1` fires exactly when
   it should and not otherwise. Accept: `control/**` at the M10.1 branch target with every new test
   asserting behaviour rather than merely executing a line; gate green.
-- [ ] **M10.6 The autopilot's state machines** — the 82 branches, worst first: `autoBoostBack` (17),
+- [x] **M10.6 The autopilot's state machines** — the 82 branches, worst first: `autoBoostBack` (17),
   `horizontalAdjustmentStageController` (11), `autoDeorbit` (11), `autoLand` (10),
   `finalDescentStageController` (9). Every stage transition asserted directly, INCLUDING the ones a
   nominal flight never reaches — those are the whole reason this task exists, because a golden
@@ -3048,3 +3048,45 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   Also fixed: `unification.test.ts`'s own documented digest-reproduction command was wrong —
   the `sed` recipe omits the leading newline the code hashes, so it never reproduced the
   recorded values. Gate: lint clean, 1214 tests, build 204.0 kB, goldens unmoved.
+
+- 2026-08-31 · M10.6 · The autopilot's stage machines, driven directly — and a real defect in
+  the deorbit guidance. New `tests/core/autopilot-stages.test.ts` (39 tests). The method is
+  the structural fact recorded at M10.1 prep: stage is not an enum but ~8 independent booleans
+  on `state.autopilot`, so a test can CONSTRUCT any configuration and call a controller
+  against it, reaching transitions no trajectory visits without flying at all. Transitions
+  named: autoTakeOff's three-band pitch programme and its 25 km seam, its ignition/max-thrust
+  init and its dump-limit shutdown; autoBoostBack's turn-direction choice (both signs), its
+  configure, and BOTH finish conditions — altitude-and-descending, and the |speedX| < 3 case
+  that fires first at rest; autoLand's four-way dispatch arm by arm, the flip stage's
+  dumping/RCS/engine reconfiguration, the `pitch < 0` throttle-up, the flip-complete
+  declaration, horizontal adjustment's fin lock and its degraded-engine limit changes; the
+  final descent's four engine-configuration steering biases; the touchdown branch and its
+  hook override; autoDeorbit's configure; the descent shutdown threshold that is the only
+  difference between the demo landing and a real one; and step()'s manual-input path and both
+  planet-wrap branches. Coverage: `autopilot/index.ts` **87.6% → 95.72%**, `step.ts`
+  89.18% → 100%, overall **89.85% → 97.44%** branch. Every M10.1 floor is met (physics 100%,
+  control 97.5%, autopilot 95.72%, step 100%, overall 97.44% against a 96% target).
+  Goldens unmoved.
+  **DEFECT FOUND, fix deferred to M10.7 per the plan: the deorbit Infinity sentinel is
+  inverted.** `predictedDeorbitRange` returns Infinity to mean "this burn cannot bring the
+  vehicle down" — every engine failed, or an orbit the fixed delta-v cannot lower. The firing
+  test is `distanceToLandingSite(state) <= predictedDeorbitRange(state)`, and every finite
+  distance is ≤ Infinity, so the sentinel does the exact opposite of its intent: the burn
+  fires IMMEDIATELY rather than never. Verified by execution — with all three engines failed
+  the mode commits on its first call, lights nothing, spends no delta-v, and then wedges:
+  `deorbitBurnCompleted` never becomes true and it never hands over to autoLand. A test
+  documenting the behaviour as it stands is committed now so the gate stays honest; M10.7
+  inverts it with the fix.
+  **`/code-review high` mutation-tested this file — 55 mutations, 45 caught, 10 survivors, all
+  mine.** The autoTakeOff block read only `rcsThrustCommand`, which `precisionAlignment` does
+  not write below a 0.1 rad error, so a 0.09 rad bias in either band survived; the ramp is now
+  asserted by SYMMETRY — probe equally far each side of the claimed goal and the corrections
+  must mirror — with a companion test proving a 0.05 rad displacement breaks that symmetry.
+  The seam-continuity test compared the test's own formula with itself and would pass through
+  a real discontinuity; it now asserts against the controller. Four more were vacuous on their
+  fixtures: `pitch < 0` throttle-up (already at 100), "stops the fuel dump" (never dumping),
+  "shuts engines down at configure" (satisfied by the burn-start shutdown in the same call),
+  and the degraded-engine test asserting one of the two limits it named. The single-outboard
+  steering asserted symmetry but not direction — which survives a sign flip, the exact failure
+  the file exists to catch. `autoLand` had no manual-control test. All fixed.
+  Gate: lint clean, 1250 tests, build 204.0 kB.
