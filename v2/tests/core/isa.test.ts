@@ -30,28 +30,114 @@ import { step } from '$core/step';
  * geometric the geopotential is 46.66 km, still inside the lapsing layer below
  * the stratopause, so the temperature is -3.46 C rather than the layer-top
  * -2.5 C. The model was right; the test was asking the wrong question.
+ *
+ * Pressure and density are held as STRINGS, and that is load-bearing.
+ *
+ * The tolerance below is derived from how many digits the standard prints, so
+ * trailing zeros carry information: `0.0880` is a four-decimal figure and
+ * `0.088` is a three-decimal one, and they license bounds a factor of ten
+ * apart. A JavaScript number cannot tell them apart — `(0.0880).toExponential()`
+ * is `8.8e-2` — so an earlier draft of this file read the precision off the
+ * parsed value and handed the 20 km and 32 km rows a bound 10x looser than the
+ * derivation claimed. The printed text is the reference; keep it as text.
  */
-const PUBLISHED: ReadonlyArray<readonly [number, number, number, number]> = [
-  [0, 15.0, 101.325, 1.225],
-  [5_000, -17.47, 54.02, 0.7364],
-  [11_000, -56.5, 22.632, 0.3639],
-  [20_000, -56.5, 5.4749, 0.0880],
-  [32_000, -44.5, 0.8680, 0.0132],
-  [47_000, -2.5, 0.1109, 0.00143],
-  [51_000, -2.5, 0.0669, 0.00086],
-  [71_000, -58.5, 0.003956, 0.0000642],
+const PUBLISHED: ReadonlyArray<readonly [number, number, string, string]> = [
+  [0, 15.0, '101.325', '1.225'],
+  // M10.3 corrected this row. It read [-17.47, 54.02, 0.7364], and the density
+  // was wrong: the model disagreed with it by 3.9e-4, which is 5.7x the
+  // quantisation of a 4-significant-figure number, so it was not rounding.
+  //
+  // The lapse rate settles it. T(5 km geopotential) = 288.15 - 0.0065*5000
+  // = 255.650 K = -17.50 C exactly, and the 1976 standard tabulates 255.650 K
+  // with p = 54019.9 Pa, whence rho = p/(R*T) = 0.73612. The model returns
+  // 0.73612. The transcribed 0.7364 was the error — it is the density at 5 km
+  // GEOMETRIC, the same geopotential-versus-geometric confusion this file's
+  // header records getting wrong once before, at 47 km.
+  //
+  // It survived because the tolerance was 5%. A bound 26x looser than the
+  // worst real residual cannot tell a wrong reference from a right one.
+  [5_000, -17.5, '54.0199', '0.73612'],
+  [11_000, -56.5, '22.632', '0.3639'],
+  [20_000, -56.5, '5.4749', '0.0880'],
+  [32_000, -44.5, '0.8680', '0.0132'],
+  [47_000, -2.5, '0.1109', '0.00143'],
+  [51_000, -2.5, '0.0669', '0.00086'],
+  [71_000, -58.5, '0.003956', '0.0000642'],
 ];
 
 /** Geometric altitude that yields a given geopotential altitude. */
 const geometricFor = (geopotential: number) =>
   (C.planetRadius * geopotential) / (C.planetRadius - geopotential);
 
+/**
+ * Half of the last significant digit of a decimal literal, relative to itself.
+ *
+ * M10.3. This is the tolerance, and it is derived rather than chosen. The
+ * PUBLISHED figures above are transcribed from a printed table to four or five
+ * significant figures, so each carries a quantisation of half its last digit —
+ * at 51 km the pressure is given as `0.0669 kPa`, and half its last digit is
+ * 0.00005, which is 7.5e-4 of the value. Any comparison against that number is
+ * blind below 7.5e-4 no matter how exact the model is.
+ *
+ * So the right question is not "does the model agree to 5%" (the tolerance
+ * before M10.3, which is ~26x looser than the worst real residual and would
+ * pass a badly wrong model). It is "does the model agree to the full precision
+ * the table is printed at". It does, at every point: the largest measured
+ * residual is 5.8e-4 on pressure at 51 km against a 7.5e-4 bound, and 1.9e-3 on
+ * density at 32 km against 3.8e-3. Nothing here is slack the model is using.
+ */
+const quantisationOf = (printed: string): number => {
+  const decimals = (printed.split('.')[1] ?? '').length;
+  const halfLastDigit = 0.5 * 10 ** -decimals;
+  return halfLastDigit / Math.abs(Number(printed));
+};
+
 describe('reproduces the published standard atmosphere', () => {
   it.each(PUBLISHED)('at %d m geopotential', (geopotential, temperature, pressure, density) => {
     const a = isaAtmosphere(geometricFor(geopotential));
-    expect(a.airTemperature, 'temperature').toBeCloseTo(temperature, 0);
-    expect(a.airPressure / pressure, 'pressure ratio').toBeCloseTo(1, 1);
-    expect(a.airDensity / density, 'density ratio').toBeCloseTo(1, 1);
+
+    // Temperature is compared absolutely, not as a ratio: it passes through
+    // zero Celsius inside this range, so a relative bound is meaningless there.
+    // 0.05 C is the table's own rounding — every tabulated temperature here is
+    // given to 0.1 C or better, and with the 5 km row corrected the model now
+    // matches every tabulated temperature exactly.
+    expect(a.airTemperature, 'temperature degC').toBeCloseTo(temperature, 1);
+
+    // Bound is TWICE the quantisation, and the factor of two is not slack. The
+    // printed figure is itself a rounding of the true value, so a perfectly
+    // correct model sits anywhere in [0, half-a-last-digit) from it — the 5 km
+    // density lands at 92% of that. Using exactly half a digit as a strict
+    // bound would therefore redden a correct model on a sub-ppm change to R,
+    // G0 or planetRadius. Two is the smallest factor that is not knife-edge,
+    // and the bound is still ~13x tighter than the 5% it replaced.
+    expect(Math.abs(a.airPressure / Number(pressure) - 1), 'pressure, relative').toBeLessThan(
+      2 * quantisationOf(pressure),
+    );
+    expect(Math.abs(a.airDensity / Number(density) - 1), 'density, relative').toBeLessThan(
+      2 * quantisationOf(density),
+    );
+  });
+
+  it('and the tolerance really is the table talking, not the model', () => {
+    // Guards the derivation above. If someone widens quantisationOf to make a
+    // failure go away, this fails too: the bound must stay small enough to
+    // discriminate. The loosest point in the table is the 2-significant-figure
+    // density at 51 km; nothing may exceed 1%.
+    for (const [, , pressure, density] of PUBLISHED) {
+      expect(quantisationOf(pressure)).toBeLessThan(0.01);
+      expect(quantisationOf(density)).toBeLessThan(0.01);
+    }
+    // And it is a real bound, not a vacuous one: 0.0669 kPa -> 7.5e-4.
+    // Written as the arithmetic rather than as decimals, so the expectation is
+    // the derivation: half the last printed digit, over the value.
+    expect(quantisationOf('0.0669')).toBeCloseTo(0.00005 / 0.0669, 12);
+    expect(quantisationOf('1.225')).toBeCloseTo(0.0005 / 1.225, 12);
+    // Trailing zeros must count. This is the bug an earlier draft had: reading
+    // the precision off the PARSED number gave '0.0880' the bound belonging to
+    // '0.088' — ten times too loose, on a row that then proved nothing.
+    expect(quantisationOf('0.0880')).toBeCloseTo(0.00005 / 0.088, 12);
+    expect(quantisationOf('0.088')).toBeCloseTo(0.0005 / 0.088, 12);
+    expect(quantisationOf('0.0880')).toBeCloseTo(quantisationOf('0.088') / 10, 12);
   });
 
   it('sea level is exactly the standard reference', () => {

@@ -838,7 +838,7 @@ scenarios, goldens regenerated with the justification in the same commit.
   actually the case. Accept: gate green with 416 fewer tests (the plan said 86; measured, it is 416);
   `grep -rl "fixtures/legacy" v2/tests --include='*.test.ts'` returns nothing; `CLAUDE.md` contains
   no claim that parity is enforced. Do not delete the legacy files themselves.
-- [ ] **M10.3 The laws: analytic physics tests** — the replacement for parity, and the point of the
+- [x] **M10.3 The laws: analytic physics tests** — the replacement for parity, and the point of the
   milestone. Assertions traceable to something outside this repo: energy and momentum conservation
   over ballistic vacuum flight (drift bounded and stated); Kepler closure and period against the
   vis-viva equation; ISA temperature, pressure and density against the published table at 0, 11,
@@ -2939,3 +2939,39 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   unsupportable. Added the `json` reporter; `coverage-final.json` now yields primitives.ts's
   18 uncovered branch lines exactly (26,28,66,68,156,259,350,354,369,373,404,418,422,458,459,
   461,467,469).
+
+- 2026-08-31 · M10.3 · The laws — and a wrong reference value that a 5% tolerance had been
+  hiding. New `tests/core/analytic-laws.test.ts` (14 tests): gravity inverse-square as
+  `g(r)*r^2 == MU` to 1 ULP across seven radii out to 100 planet-radii (measured 0–0.71);
+  vis-viva `v^2 = MU(2/r - 1/a)`; `E = -MU/2a`; `h = sqrt(MU*r)`; Kepler's third law derived
+  two independent ways (circumference-over-speed vs `2*pi*sqrt(a^3/MU)`) agreeing to 8 ULP;
+  and the aero terms' dimensional structure, including the one real unit trap in that module —
+  `getDynamicPressure` returns kPa (`rho*v^2*0.0005`) while `getDrag` returns newtons, so the
+  test pins `drag == q*1000*Cd*A` and breaks if either constant is "tidied". Deliberately did
+  NOT duplicate what already exists: the ISA table, speed of sound, circular orbits and
+  angular momentum all had homes, and the file says where.
+  **THE FINDING.** Tightening `isa.test.ts` from `toBeCloseTo(1, 1)` — a ±5% band on a
+  pressure ratio — to a bound derived from the published table's own printed precision turned
+  the 5 km row red. The model was right and the reference was wrong: the lapse rate gives
+  T(5 km geopotential) = 255.650 K = -17.50 C exactly, whence rho = 0.73612, and the table
+  read -17.47 / 0.7364 — the 5 km GEOMETRIC density, the same geopotential-versus-geometric
+  confusion this file's header records making once before at 47 km. Corrected.
+  **AND THE TOLERANCE CHANGE IS WORTH IT, MEASURED NOT ARGUED.** Mutating the troposphere
+  lapse rate by 0.15% (-0.0065 → -0.00651), which shifts every temperature, pressure and
+  density through the whole lower atmosphere: the OLD tolerances passed all 29 tests — the
+  error was completely invisible — and the new ones fail 7. Also mutation-checked the new
+  file: a 1e-7 change to the gravity exponent fails 2 tests, a 0.0005 → 0.0006 change to the
+  dynamic-pressure constant fails 1. Every mutation reverted and verified clean.
+  Coverage is unchanged at 89.85% branch, and that is the point: this phase replaced weak
+  assertions over already-executed lines. Coverage was never what was wrong here.
+  `/code-review high` before commit found three real defects in my own work: `quantisationOf`
+  read precision off the PARSED number, and `toExponential()` drops trailing zeros, so
+  '0.0880' and '0.8680' silently got bounds 10x looser than the derivation claimed (published
+  values are now held as STRINGS); the bound was a knife-edge strict `<` at 92% of the 5 km
+  residual, so a sub-ppm change in R or planetRadius would redden a correct model (now 2x,
+  with the factor justified — the printed figure is itself a rounding, so a correct model sits
+  anywhere in [0, half-a-digit)); and `ulpsApart` estimated spacing as `max*EPSILON`, which
+  understates by up to 2x near the top of a binade and would have let a genuine 2-ULP
+  difference pass a `<= 1` bound. It now counts exact IEEE-754 bit distances, and has its own
+  test — without one, a helper that always returned 0 would make every identity in the file
+  pass. Gate: lint clean, 1154 tests, build 204.0 kB.
