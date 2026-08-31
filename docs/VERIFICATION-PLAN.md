@@ -410,25 +410,35 @@ the milestone was aiming for: 416 assertions that a 2021 file agreed with itself
    three of four projects under load. The assertion is untouched and still fails if the frame
    does not shake. What was failing was the clock, not the claim.
 
-   **M10.12 attempted to make it cheaper and mostly could not.** One genuine waste was found
-   and removed: `verticalWander` asked `readFrame` for a 48x16 ASCII luminance map on all
-   sixteen sampled frames, a second full pass over the pixels each time, when only the last
-   frame's map is ever read — it goes into the failure message. Thirty of the thirty-two maps
-   the test computed were discarded. That is now computed once per wander.
+   **M10.12 tried to make it cheaper, made it flaky instead, and reverted.** The attempt looked
+   safe: `verticalWander` asked `readFrame` for a 48x16 ASCII luminance map on all sixteen
+   sampled frames — a second full pass over the pixels each time — when only the last frame's
+   map is ever read, for the failure message. Thirty of the thirty-two per test were computed
+   and discarded. Computing it once per wander removed real work and touched no assertion.
 
-   It did not move the wall clock. Measured on an idle machine before and after: 2.7 min both
-   times. So the map was not the bottleneck, and the honest finding is that the cost is
-   structural. The evidence is the sibling test in the same file: `does not shake a vehicle
-   standing on the ground` does ONE page load, preset and wander and costs 1.6 min; this one
-   does TWO — a normal flight and a reduced-motion flight — and costs 2.7. Cost scales with
-   flight-and-wander pairs, not with pixel post-processing.
+   It did not move the wall clock: 2.7 min idle before and after. And in the next full suite it
+   FAILED on `pixel-landscape`, at 4.5 min against a 7 min budget — an assertion failure, not a
+   timeout, and by exactly zero margin:
 
-   Neither half can go without weakening the claim: the test's whole assertion is that the
-   shaking run moves more than the reduced-motion run, which needs both. Reducing the sixteen
-   samples would weaken the statistic — `detrendedRange` fits a quadratic and trims an extreme
-   from each end, so it needs the samples it has. The remaining lever is the worker count,
-   which trades suite wall-clock for headroom and is a scheduling decision, not a test fix.
-   The map saving is kept because it is real work removed, not because it was the answer.
+       shaking 2.9 px vs reduced motion 1.4 px      (needs shaking > still * 1.5 + 0.8 = 2.9)
+
+   The mechanism is the sampling cadence. The sixteen samples are spaced by `readFrame` time
+   plus 30 ms, so making each frame cheaper SHORTENS the wall-clock window the samples span,
+   and the window is part of the measurement — less of the shake's swing is captured, and the
+   measured wander falls toward the floor. The same test had passed on that project at 4.4 and
+   4.6 min in the two preceding full runs with the map in place.
+
+   So: no measured benefit, a demonstrated cost, and reverted. What remains is the 420 s budget
+   from M10.8, which is the fix that mattered.
+
+   THE FINDING IS THAT THIS TEST'S COST IS STRUCTURAL AND ITS TIMING IS LOAD-BEARING. The
+   sibling test is the evidence for the first: `does not shake a vehicle standing on the
+   ground` does ONE page load, preset and wander and costs 1.6 min; this does TWO — a normal
+   flight and a reduced-motion flight — and costs 2.7. Neither half can go, because the
+   assertion IS the comparison between them. Fewer samples would weaken `detrendedRange`, which
+   fits a quadratic and trims an extreme from each end. And now we know that trimming the
+   per-frame work does not shorten the test either — it just narrows the observation window.
+   The remaining lever is the worker count, a scheduling trade rather than a test fix.
 4. **`tests/e2e/render.spec.ts`'s webp check was a race — FIXED at M10.8.** It counted network
    `response` events and sampled them once after `waitForLoadState('networkidle')`. But
    "networkidle" means no request for 500 ms, which is not the same as "the textures have

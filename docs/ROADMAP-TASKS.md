@@ -3226,15 +3226,18 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   coverage. Its permanent 0% line was the only reason the aggregate line floor was 98; floors
   are now branches/lines/statements 99. Enforcement re-demonstrated: setting branches to 100
   gives `ERROR: Coverage for branches (99.67%) does not meet global threshold (100%)`.
-- 2026-08-31 · M10.12 · The max-Q shake test — one real waste removed, and an honest finding
-  that the rest is structural. `verticalWander` requested a 48×16 ASCII luminance map on all
-  sixteen sampled frames — a second full pass over the pixels each time — when only the last
-  frame's is ever read, for the failure message. Thirty of the thirty-two computed per test
-  were discarded. Now computed once per wander. **It did not move the wall clock**: 2.7 min on
-  an idle machine before and after, so the map was not the bottleneck and I am not claiming a
-  speedup I did not measure. The cost is structural, and the sibling test is the evidence —
-  `does not shake a vehicle standing on the ground` does one load-preset-wander and takes
-  1.6 min; this does two and takes 2.7. Neither half can go: the assertion IS the comparison
-  between the shaking and reduced-motion runs. Fewer samples would weaken `detrendedRange`,
-  which fits a quadratic and trims an extreme from each end. The remaining lever is worker
-  count, a scheduling trade rather than a test fix.
+- 2026-08-31 · M10.12 · The max-Q shake test — the optimisation was reverted, and that IS the
+  finding. `verticalWander` asked `readFrame` for a 48×16 luminance map on all sixteen sampled
+  frames when only the last is ever read; thirty of thirty-two per test were computed and
+  discarded. Removing them touched no assertion and looked free. It was not. It did not move
+  the wall clock (2.7 min idle, before and after), and in the next full suite the test FAILED on
+  `pixel-landscape` at 4.5 min against a 7 min budget — an assertion failure this time, not a
+  timeout, and by exactly zero margin: `shaking 2.9 px vs reduced motion 1.4 px`, where the bar
+  is `still * 1.5 + 0.8` = 2.9. The mechanism is cadence: the sixteen samples are spaced by
+  `readFrame` time plus 30 ms, so cheaper frames SHORTEN the window the samples span, and the
+  window is part of the measurement — less of the shake's swing is caught. The same test passed
+  on that project at 4.4 and 4.6 min in the two preceding runs with the map. Reverted; the 420 s
+  budget from M10.8 stays, which is the fix that actually mattered. Confirmed green on
+  `pixel-landscape` after the revert, 2.7 min. The lesson is the one this milestone keeps
+  relearning: I changed a timing-sensitive measurement for a benefit I had not measured, and
+  called it safe because it "touched no assertion". The sampling window was an assertion.
