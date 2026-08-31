@@ -26,8 +26,10 @@ export default defineConfig({
       // A file with no tests at all still counts against the number: in Vitest 4
       // that is the default for everything matched by `include`, and the old
       // `all: true` flag is gone (svelte-check rejects it — CoverageOptions has
-      // no such property). Verified rather than assumed: `version.ts` is
-      // imported by no test and reports 0% line, so untested files are counted.
+      // no such property). This was verified rather than assumed, against
+      // `version.ts`, which no test imported and which duly reported 0% line.
+      // That file is gone as of M10.11; add an unimported module here and it
+      // will still be counted.
       include: ['src/core/**'],
       // `json` as well as the summary: the text table TRUNCATES its uncovered
       // line column (primitives.ts prints as `...2,416,453,457-465`), and
@@ -57,20 +59,30 @@ export default defineConfig({
        * docs/VERIFICATION-PLAN.md with the argument, not to manufacture a test
        * that executes it.
        *
-       * A note on the two modules reporting 0/0 branches: `thermal.ts`,
+       * A note on the modules reporting 0/0 branches: `thermal.ts`,
        * `prediction.ts`, `rng.ts`, `units.ts` and `constants.ts` have no
        * branches at all, so a branch threshold on them is vacuous. They are
-       * held by line coverage and by their own tests. `version.ts` is
-       * permanently 0% line — a version string no test imports — and stays in
-       * scope rather than being excluded to flatter the aggregate, which is why
-       * the global line floor is 98 and not 99.
+       * held by line coverage and by their own tests.
        */
       thresholds: {
-        // Aggregate over src/core/**. Measured 97.4 branch / 99.1 line.
-        branches: 96,
-        lines: 98,
+        /*
+          Aggregate over src/core/**. Raised at M10.11 from 96/98 after the
+          named-branch debt was cleared and the last of the dead code left the
+          protected zone. Measured after both: 99.5 branch / 99.5 line.
+
+          The line floor could not exceed 98 before, and the reason was
+          `version.ts` — an exported version string that NOTHING imported, not
+          even a test, sitting permanently at 0% line and dragging the
+          achievable aggregate down. It is deleted rather than tested, because
+          the only test one could write for it (`VERSION === '0.1.0'`) is a
+          tautology, and a test that cannot fail is worse than no test: it reads
+          as coverage. If a SimState schema version is ever wanted, it belongs
+          next to whatever persists SimState, at the point that exists.
+        */
+        branches: 99,
+        lines: 99,
         functions: 98,
-        statements: 98,
+        statements: 99,
 
         // Physics is fully covered and must stay that way: it is the layer
         // whose errors are least visible in a trajectory.

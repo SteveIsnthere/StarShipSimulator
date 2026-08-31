@@ -880,13 +880,21 @@ scenarios, goldens regenerated with the justification in the same commit.
   five parity-orphaned exports had no consumer and should be deleted; that was wrong on the
   facts. Move them to the test tree instead, preserving every assertion. Accept: nothing in
   `src/` references them, all four consumer test files pass, golden digests unmoved.
-- [ ] **M10.10 Cover the fourteen named branches** — `autopilot/index.ts` 100, 129, 143, 312,
+- [x] **M10.10 Cover the fourteen named branches** — `autopilot/index.ts` 100, 129, 143, 312,
   369, 373, 413, 477, 694, 703; `control/commands.ts` 48; `control/primitives.ts` 156, 455,
   469. Real assertions or a written argument for unreachability. Accept: each branch either
   covered by a test that would fail if the branch were wrong, or documented with its argument.
-- [ ] **M10.11 Give `version.ts` a real assertion** — 0% line because nothing imports it.
+- [x] **M10.11 Resolve `version.ts`'s permanent 0% line** — nothing imports it.
   Accept: a test that asserts something true about the version, not an import for coverage.
-- [ ] **M10.12 Reduce the max-Q shake test's cost** — 4.4–4.6 min on `pixel-landscape`.
+  **Acceptance amended mid-task, and the amendment is the finding.** As written this task
+  presumed a test was possible. It is not: `VERSION` has no consumer anywhere in `src/`,
+  `tests/` or the build scripts, and nothing in `src/` serialises the SimState whose schema it
+  claims to version — so the only available assertion is `VERSION === '0.1.0'`, a tautology
+  that cannot fail and would read as coverage. Amended to: delete it as dead code, or give it
+  a genuine consumer. Deleted. Recorded here rather than quietly satisfied a different way,
+  because silently meeting a different bar is the reinterpretation `CLAUDE.md` forbids — and
+  authoring the acceptance line myself an hour earlier does not exempt it.
+- [x] **M10.12 Reduce the max-Q shake test's cost** — 4.4–4.6 min on `pixel-landscape`.
   Accept: measurably cheaper with the assertion unweakened, or a written finding that it
   cannot be without weakening it.
   Docs updated; remaining debt named in words rather than left implied. Accept: lowering the
@@ -3193,3 +3201,40 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   and zero additions in `src/core`, the seven golden digests unmoved, 1259 tests green.
   Coverage 97.77% → 97.75% branch — very slightly DOWN, which is the honest direction: removing
   always-covered dead code from the denominator makes the remaining number more truthful.
+
+- 2026-08-31 · M10.10 · The fourteen named branches — twelve tested, two argued, one misread.
+  `tests/core/named-branches.test.ts`, 17 tests. Branch coverage 97.75% → 99.51%, then 99.67%
+  after M10.11. Most of the fourteen were idempotence guards — `if (!autopilot.autoLandOn)
+  cmd.toggleAutoLand(state)` — whose uncovered half is the already-set one. That reads as
+  trivial and is not: without the guard `toggle` turns the mode OFF at the moment the flight is
+  being handed to it. **One was misread when it was named**: `primitives.ts:156` was recorded
+  as the negative-RCS path but is the exactly-zero one, reached when the vehicle already
+  rotates at precisely the rate that nulls its error, so the right command is none. It is
+  constructible to the bit — omega = -pitchDifference/(2T) — and is now tested. Two are
+  genuinely unreachable and are argued rather than tested: `commands.ts:48` (inside the all-off
+  branch nothing is running, so `!running[i]` is always true) and `autopilot:413` (a `?? 0` on
+  a field assigned a number unconditionally twenty lines above). **Mutation-tested every guard,
+  and one of my own new tests did not discriminate**: deleting the deorbit engine guard left it
+  green, because `toggleAllRaptors` on an all-off set commands a dt-ticked ignition rather than
+  setting `running` — the same mechanism that had already broken three of my first drafts. It
+  asserts on `ignitionCountdown` now. Seven mutations, all caught after the fix.
+- 2026-08-31 · M10.11 · `version.ts` deleted, and the line floor rises to 99. It exported a
+  `VERSION` string nothing imported — not the app, not a test, not a build script. It called
+  itself a SimState schema version, but nothing in `src/` serialises SimState, so there was no
+  consumer to have. Deleted rather than tested: the only available test is `VERSION ===
+  '0.1.0'`, a tautology, and a test that cannot fail is worse than none because it reads as
+  coverage. Its permanent 0% line was the only reason the aggregate line floor was 98; floors
+  are now branches/lines/statements 99. Enforcement re-demonstrated: setting branches to 100
+  gives `ERROR: Coverage for branches (99.67%) does not meet global threshold (100%)`.
+- 2026-08-31 · M10.12 · The max-Q shake test — one real waste removed, and an honest finding
+  that the rest is structural. `verticalWander` requested a 48×16 ASCII luminance map on all
+  sixteen sampled frames — a second full pass over the pixels each time — when only the last
+  frame's is ever read, for the failure message. Thirty of the thirty-two computed per test
+  were discarded. Now computed once per wander. **It did not move the wall clock**: 2.7 min on
+  an idle machine before and after, so the map was not the bottleneck and I am not claiming a
+  speedup I did not measure. The cost is structural, and the sibling test is the evidence —
+  `does not shake a vehicle standing on the ground` does one load-preset-wander and takes
+  1.6 min; this does two and takes 2.7. Neither half can go: the assertion IS the comparison
+  between the shaking and reduced-motion runs. Fewer samples would weaken `detrendedRange`,
+  which fits a quadratic and trims an extreme from each end. The remaining lever is worker
+  count, a scheduling trade rather than a test fix.

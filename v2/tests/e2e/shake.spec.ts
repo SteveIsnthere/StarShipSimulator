@@ -169,15 +169,36 @@ async function verticalWander(
 ): Promise<{ px: number; last: string; tops: number[] }> {
   const tops: number[] = [];
   let last = '';
-  for (let i = 0; i < 16; i++) {
+  const SAMPLES = 16;
+  for (let i = 0; i < SAMPLES; i++) {
+    // The ASCII map is a SECOND full pass over the pixels, and only the last
+    // frame's is ever read — `last` is overwritten every iteration and used
+    // solely in the failure message. Asking for it on all sixteen frames cost
+    // fifteen wasted passes per wander, thirty across the test, on what is the
+    // most expensive test in the suite (M10.12). The tracked quantity is
+    // `ship.top`, which comes from the extent query and is unaffected.
+    const isLast = i === SAMPLES - 1;
     const report = await readFrame(page, {
       extents: { ship: query },
-      map: { cols: 48, rows: 16 },
+      ...(isLast ? { map: { cols: 48, rows: 16 } } : {}),
     });
     const ship = report.extents['ship']!;
-    expect(ship.found, `no vehicle silhouette to track\n${describeFrame(report)}`).toBe(true);
+    if (!ship.found) {
+      // The map is skipped on ordinary frames for cost, but THIS is the one
+      // failure it was there to diagnose — "is the vehicle in the frame at
+      // all?" is unanswerable from a bare assertion. Pay for one more frame,
+      // with the map, on the way out.
+      const diagnostic = await readFrame(page, {
+        extents: { ship: query },
+        map: { cols: 48, rows: 16 },
+      });
+      expect(
+        ship.found,
+        `no vehicle silhouette to track on frame ${i}\n${describeFrame(diagnostic)}`,
+      ).toBe(true);
+    }
     tops.push(ship.top);
-    last = describeFrame(report);
+    if (isLast) last = describeFrame(report);
     await page.waitForTimeout(30);
   }
   return { px: detrendedRange(tops), last, tops };

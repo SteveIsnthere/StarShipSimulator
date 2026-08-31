@@ -354,18 +354,46 @@ the milestone was aiming for: 416 assertions that a 2021 file agreed with itself
 
 ### Remaining debt, in words
 
-1. **Fourteen uncovered branches**, all in code whose reachability is not obvious:
-   `autopilot/index.ts` 100, 129, 143, 312, 369, 373, 413, 477, 694, 703 (mostly the
-   already-on guards of `toggleX` calls, and the horizontal-adjustment target offsets);
-   `control/commands.ts` 48; `control/primitives.ts` 156, 455, 469. None is known to be wrong.
-   They are named here rather than papered over with tests that execute without asserting.
-2. **Five parity-orphaned exports in the protected zone.** `legacyAtmosphere`, `tropo`,
-   `lowerStrato`, `upperStrato` (`physics/atmosphere.ts`) and `legacyOrbitRelief`
-   (`physics/gravity.ts`) existed only for the suite M10.2 deleted and now have no consumer.
-   Removing them is a Refactor-tier change to `core/` and was left rather than folded into an
-   unrelated task. **`legacyEffectiveVerticalMaxThrust` is NOT in this list** — it is the
-   independent second implementation `collapsed-trig.test.ts` proves the collapsed form
-   against, and deleting it would silently remove that proof.
+1. **Fourteen uncovered branches — CLEARED at M10.10.** Twelve are now covered by
+   `tests/core/named-branches.test.ts`; two are argued unreachable there rather than tested.
+
+   Most were idempotence guards of the shape `if (!autopilot.autoLandOn) cmd.toggleAutoLand()`,
+   whose uncovered half is the one where the flag is ALREADY set. That looks trivial and is
+   not: without the guard, `toggle` turns the thing OFF at the moment the flight needs it on.
+
+   One of the fourteen was misread when it was named. `control/primitives.ts:156` was recorded
+   as the negative-RCS path; it is in fact the exactly-zero one, reached when the vehicle is
+   already rotating at precisely the rate that nulls its attitude error, so the correct command
+   is no command. It is constructible — omega = -pitchDifference/(2T) makes the two terms
+   cancel to the bit — and is now tested.
+
+   **The two that are unreachable, with the argument.** `control/commands.ts:48`: inside
+   `toggleAllRaptors`'s all-off branch, no engine is running, so `!running[i]` is true for
+   every i and its false half cannot be taken. `autopilot/index.ts:413`: the `?? 0` on
+   `horizontalAdjustmentDesiredSpeed`, which is assigned a number unconditionally twenty lines
+   above in the same function — the fallback guards an `undefined` the TYPE permits and the
+   code path forbids.
+
+   Every guard was mutation-tested, and **one of the new tests did not discriminate**: deleting
+   the deorbit engine guard left it green, because `toggleAllRaptors` on an all-off set commands
+   a dt-ticked ignition rather than setting `running`, so the assertion could not tell the two
+   apart. It now asserts on `ignitionCountdown`. Seven mutations, all caught after that fix.
+2. **Five parity-orphaned exports — CLEARED at M10.9, and this entry was WRONG.** It said
+   they had no consumer and should be deleted. `tropo` and `lowerStrato` were never exported at
+   all, and the other three have live consumers in four test files — `atmosphere-strato`,
+   `orbit`, `isa` and `speed-of-sound` — none of which is a parity test, since none executes the
+   2021 tree. They assert v2's own M2.1 bug fix and measure the departures that justify M2.10.
+   Deleting them would have silently destroyed those assertions.
+
+   The intent was still right: nothing in the simulation has called them since M2.10, and dead
+   code in the protected zone ships AND flatters the coverage number, since every line counted
+   as covered `src/core/**` by tests that exist only to exercise it. They moved to
+   `tests/core/legacy-models.ts`, ported verbatim. Coverage moved 97.77% -> 97.75% branch as a
+   result: very slightly down, which is the honest direction.
+
+   **`legacyEffectiveVerticalMaxThrust` is NOT in this list** — it is the independent second
+   implementation `collapsed-trig.test.ts` proves the collapsed form against, and deleting it
+   would silently remove that proof.
 3. **`tests/e2e/shake.spec.ts` at max-Q had a budget below its own cost — FIXED at M10.8,
    after a first, wrong diagnosis.** At M9.15 it timed out once on `pixel-landscape`, passed
    alone in 2.7 min, and was recorded as CPU contention. That was incomplete: it failed again
@@ -382,8 +410,25 @@ the milestone was aiming for: 416 assertions that a 2021 file agreed with itself
    three of four projects under load. The assertion is untouched and still fails if the frame
    does not shake. What was failing was the clock, not the claim.
 
-   The underlying cost is still real — it flies to max-Q twice and reads a pixel silhouette on
-   every sampled frame — and making it cheaper, or dropping to one worker, remains open.
+   **M10.12 attempted to make it cheaper and mostly could not.** One genuine waste was found
+   and removed: `verticalWander` asked `readFrame` for a 48x16 ASCII luminance map on all
+   sixteen sampled frames, a second full pass over the pixels each time, when only the last
+   frame's map is ever read — it goes into the failure message. Thirty of the thirty-two maps
+   the test computed were discarded. That is now computed once per wander.
+
+   It did not move the wall clock. Measured on an idle machine before and after: 2.7 min both
+   times. So the map was not the bottleneck, and the honest finding is that the cost is
+   structural. The evidence is the sibling test in the same file: `does not shake a vehicle
+   standing on the ground` does ONE page load, preset and wander and costs 1.6 min; this one
+   does TWO — a normal flight and a reduced-motion flight — and costs 2.7. Cost scales with
+   flight-and-wander pairs, not with pixel post-processing.
+
+   Neither half can go without weakening the claim: the test's whole assertion is that the
+   shaking run moves more than the reduced-motion run, which needs both. Reducing the sixteen
+   samples would weaken the statistic — `detrendedRange` fits a quadratic and trims an extreme
+   from each end, so it needs the samples it has. The remaining lever is the worker count,
+   which trades suite wall-clock for headroom and is a scheduling decision, not a test fix.
+   The map saving is kept because it is real work removed, not because it was the answer.
 4. **`tests/e2e/render.spec.ts`'s webp check was a race — FIXED at M10.8.** It counted network
    `response` events and sampled them once after `waitForLoadState('networkidle')`. But
    "networkidle" means no request for 500 ms, which is not the same as "the textures have
@@ -400,8 +445,14 @@ the milestone was aiming for: 416 assertions that a 2021 file agreed with itself
    budget at M9.15) shared a shape: a plausible mechanism accepted before it was tested
    against the alternative.
 
-5. **`version.ts` is permanently 0% line** — a version string no test imports. It stays in
-   scope rather than being excluded, which is why the aggregate line floor is 98 and not 99.
+5. **`version.ts` — CLEARED at M10.11 by deleting it.** It exported a `VERSION` string that
+   NOTHING imported: not the app, not a test, not a build script. It documented itself as a
+   SimState schema version, but nothing in `src/` serialises SimState, so there was no
+   consumer to have. It was deleted rather than given a test, because the only test available
+   (`VERSION === '0.1.0'`) is a tautology, and a test that cannot fail is worse than no test —
+   it reads as coverage. Its permanent 0% line was the sole reason the aggregate line floor
+   could not exceed 98; with it gone the floor is 99. If a schema version is ever wanted it
+   belongs next to whatever persists SimState, at the point that exists.
 6. **`docs/PARITY.md` is historical** and marked so. The capability-parity claim it contains is
    still live and still enforced by `tests/e2e/parity.spec.ts`, which never reads 2021 code.
 
