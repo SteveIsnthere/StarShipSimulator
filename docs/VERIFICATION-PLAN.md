@@ -121,6 +121,117 @@ Coverage thresholds enforced by the build so the number cannot regress. Docs upd
 debt named in words. **End state:** a coverage regression fails the gate. **Verified by:** the
 threshold demonstrably failing when lowered, then passing.
 
+## The measured baseline — M10.1, 2026-08-31
+
+Measured with `@vitest/coverage-v8@4.1.11` (`npm run coverage`), scope `src/core/**`, on an
+idle machine with nothing else running. Reproduced exactly on a second consecutive run:
+identical percentages and identical uncovered line numbers.
+
+**The survey that planned this milestone was wrong about where the gap is, which is why
+M10.1 exists.** `autopilot/index.ts` was described above as having "0 test files importing it
+directly", and that is true — but it is nonetheless at **87.6% branch** coverage, reached
+indirectly through the seven golden flights and the black-box autopilot tests. The milestone
+is not starting from a bare module. It is starting from 92.9%.
+
+Two columns, because M10.2 deletes 86 parity tests and any target set here has to survive that:
+
+| module | branch (with parity) | branch (parity gone) | lines (parity gone) |
+|---|---|---|---|
+| src/core/autopilot/index.ts | 87.6% (205/234) | 87.6% (205/234) | 97.4% |
+| src/core/constants.ts | — (0/0) | — (0/0) | 100.0% |
+| src/core/control/actuation.ts | 96.3% (26/27) | 96.3% (26/27) | 97.4% |
+| src/core/control/commands.ts | 95.7% (22/23) | 95.7% (22/23) | 94.3% |
+| src/core/control/primitives.ts | 93.4% (99/106) | **76.4% (81/106)** | 83.2% |
+| src/core/physics/aero.ts | 100.0% (24/24) | 100.0% (24/24) | 100.0% |
+| src/core/physics/atmosphere.ts | 100.0% (4/4) | 100.0% (4/4) | 100.0% |
+| src/core/physics/components.ts | 100.0% (80/80) | 100.0% (80/80) | 100.0% |
+| src/core/physics/engines.ts | 98.2% (54/55) | 96.4% (53/55) | 96.2% |
+| src/core/physics/gravity.ts | 91.7% (11/12) | 91.7% (11/12) | 100.0% |
+| src/core/physics/isa.ts | 100.0% (12/12) | 100.0% (12/12) | 100.0% |
+| src/core/physics/prediction.ts | — (0/0) | — (0/0) | 100.0% |
+| src/core/physics/thermal.ts | — (0/0) | — (0/0) | 100.0% |
+| src/core/rng.ts | — (0/0) | — (0/0) | 100.0% |
+| src/core/scenarios.ts | 100.0% (6/6) | 100.0% (6/6) | 100.0% |
+| src/core/state.ts | 100.0% (1/1) | 100.0% (1/1) | 100.0% |
+| src/core/step.ts | 89.2% (33/37) | 89.2% (33/37) | 98.4% |
+| src/core/units.ts | — (0/0) | — (0/0) | 100.0% |
+| src/core/version.ts | — (0/0) | — (0/0) | 0.0% |
+| **TOTAL** | **92.9% (577/621)** | **89.8% (558/621)** | 96.3% |
+
+Aggregate: statements 97.5% → 95.8%, branches 92.9% → 89.8%, lines 98.1% → 96.3%.
+Test count 1555 → 1139.
+
+### What parity was actually holding up
+
+Almost exactly one file. Deleting `tests/parity/` costs 19 branches, and **18 of them are in
+`control/primitives.ts`** (93.4% → 76.4%); the nineteenth is in `engines.ts`. It contributes
+**nothing** to `autopilot/index.ts` or `step.ts`, both of which are unchanged to the digit.
+
+That is a useful correction to the plan's own reasoning. `tests/parity/autopilot.test.ts` is
+named for the autopilot but tests the control *primitives* — `getPitchDifference`,
+`controlEnginebyTWR`, `getEffectiveVerticalMaxThrust`. So the cost of M10.2 lands on M10.5,
+not on M10.6.
+
+### Where the remaining work is
+
+63 branches are uncovered once parity is gone, and they are not spread thin:
+
+| file | uncovered branches | share |
+|---|---|---|
+| autopilot/index.ts | 29 | 46% |
+| control/primitives.ts | 25 | 40% |
+| step.ts | 4 | 6% |
+| engines.ts | 2 | 3% |
+| gravity.ts, commands.ts, actuation.ts | 1 each | 5% |
+
+**54 of 63 (86%) are in the two files M10.5 and M10.6 already target.** The phase ordering is
+correct, though for a different reason than the one originally written down.
+
+Sampled uncovered branches to check they are reachable rather than defensive dead code:
+`autopilot:76-83` (the 25–80 km angle-of-motion ramp in `autoTakeOff`, and the >80 km case),
+`autopilot:87-88` (propellant below `dumpLimit` with engines lit — shutdown during ascent),
+`autopilot:175` (boost-back finish at `altitude < 700 && speedY < 0`), and `autopilot:370`
+(`n1 && !n2 && !n3` → `targetDifference -= 12`, the off-axis compensation for a single lit
+engine). All four are reachable, and all four change the flight. The last is the archetype
+this milestone exists for: a wrong branch there yields a plausible wrong trajectory, which a
+golden fixture records rather than rejects.
+
+### The branch target, and why this number
+
+**Target: `src/core/**` branch coverage ≥ 96%, with per-module floors:**
+
+| scope | floor | from | what it demands |
+|---|---|---|---|
+| `physics/**` | 100% | 98.4% | 3 branches (engines:161, gravity:219). All reachable. |
+| `control/**` | 95% | 82.7% | ~20 of primitives' 25 — the M10.2 debt plus the rest |
+| `autopilot/**` | 95% | 87.6% | 17 of 29 |
+| `step.ts` | 95% | 89.2% | 2 of 4 |
+
+96% overall is 596 of 621: it requires covering 38 of the 63, and it sits above the 92.9% the
+suite has *today with parity included*, so the milestone must demonstrably do better than the
+standard it replaces rather than merely restore it.
+
+It is deliberately not 100%. Some branches are defensive — clamps that fire only on inputs no
+caller can produce — and the last few points are exactly where the incentive inverts: a test
+written to reach a line without asserting behaviour scores the same as a real one and is worse
+than leaving the branch uncovered, because it reads as covered. Where a branch turns out to be
+genuinely unreachable, the rule is to document it here with the argument, not to manufacture a
+test that executes it.
+
+Two caveats about the instrument itself, for M10.8:
+
+- **A module with no branches reports as 100%.** `thermal.ts`, `prediction.ts`, `rng.ts`,
+  `units.ts` and `constants.ts` are all `0/0`. A branch threshold on those is vacuous; they
+  are held by line coverage and by their tests, not by this number.
+- **`version.ts` is 0% line** and always will be: it is a version string no test imports.
+  It contributes no branches. Excluding it would flatter the aggregate, so it stays in.
+
+`npm run coverage` runs with `--testTimeout=120000`. v8 instrumentation pushes
+`tests/view/perf.test.ts` past the normal 30s budget (measured 33.4s); the timeout is raised
+for the coverage run alone rather than globally, so the ordinary `npm test` keeps its tighter
+hang detection. The perf assertions themselves are not trusted under instrumentation — that
+run is for coverage, and timing budgets are enforced by `npm test` and `npm run build`.
+
 ## Risks
 
 - **Deleting 86 tests before the replacements exist.** M10.2 runs second, not last, so the campaign

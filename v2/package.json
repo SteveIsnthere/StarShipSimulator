@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest run",
+    "coverage": "vitest run --coverage --testTimeout=120000",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:deploy": "playwright test --config playwright.subpath.config.ts"
@@ -18,6 +19,7 @@
     "@playwright/test": "^1.62.1",
     "@sveltejs/vite-plugin-svelte": "7.3.0",
     "@types/node": "26.3.0",
+    "@vitest/coverage-v8": "4.1.11",
     "esbuild": "0.28.2",
     "eslint": "10.9.1",
     "eslint-plugin-svelte": "3.23.0",

@@ -822,7 +822,7 @@ Second owner decision, same date: **when a first-principles test shows the physi
 it** — Bug-fix or Fidelity tier, failing test first, before/after trajectory diff on all seven
 scenarios, goldens regenerated with the justification in the same commit.
 
-- [ ] **M10.1 The instrument: coverage, measured** — add `@vitest/coverage-v8` pinned to the
+- [x] **M10.1 The instrument: coverage, measured** — add `@vitest/coverage-v8` pinned to the
   installed vitest, an `npm run coverage` script, and a `coverage` block in `vitest.config.ts`
   scoped to `src/core/**`. Then MEASURE, and write the per-module line/branch table into
   `docs/VERIFICATION-PLAN.md`. Set the milestone's branch target from that baseline rather than
@@ -2877,3 +2877,24 @@ was only granted because one of them had already caused two of those bugs. Three
 acceptance metrics turned out to be the wrong statistic and were replaced with ones that
 discriminate, each said out loud rather than quietly loosened; one test was retired for the same
 reason. `core/` is unchanged but for comments; the seven digests have not moved since M2.14.
+
+- 2026-08-31 · M10.1 · Coverage, measured — and the survey that planned M10 was wrong about
+  where the gap is. `@vitest/coverage-v8@4.1.11`, `npm run coverage`, scoped to `src/core/**`,
+  idle machine, reproduced exactly on a second run. The premise that `autopilot/index.ts` is a
+  bare module because "0 test files import it directly" is false: it is at 87.6% branch,
+  reached through the golden flights. Core starts at **92.9% branch / 98.1% line**, not near
+  zero. Measured the post-M10.2 number too, because a target that cannot survive deleting
+  parity is not a target: 89.8% branch. Parity's entire coverage contribution is 19 branches,
+  **18 of them in `control/primitives.ts`** (93.4% → 76.4%) — `tests/parity/autopilot.test.ts`
+  is named for the autopilot but tests the primitives, so M10.2's debt falls on M10.5, not
+  M10.6. Of 63 branches uncovered without parity, 54 (86%) are in the two files M10.5 and M10.6
+  already target; the ordering was right for the wrong reason. Sampled four uncovered autopilot
+  branches to confirm they are reachable rather than defensive — the 25–80 km AoM ramp, the
+  dump-limit shutdown, the boost-back finish, and the single-engine off-axis compensation at
+  `index.ts:370`, which is the archetype the milestone exists for. Target set at **96% branch
+  overall** with per-module floors (physics 100%, control 95%, autopilot 95%, step 95%),
+  deliberately not 100%: the last points are where a test that executes a line without
+  asserting anything scores the same as a real one. Recorded two instrument caveats for M10.8 —
+  five modules are `0/0` branches and report 100% vacuously, and `version.ts` is permanently 0%
+  line. Coverage runs at `--testTimeout=120000` because v8 instrumentation pushes
+  `perf.test.ts` from under 30s to 33.4s; raised for that script alone, not globally.
