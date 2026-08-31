@@ -20,6 +20,7 @@
  *     M2.11   the dead RCS command               re-entry and RTLS only
  *     M2.12   the doubled tangential term        ALL SEVEN
  *     M2.14   the thermosphere                   booster-sep only
+ *     M10.5   the NaN throttle escape            moved NOTHING — see below
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -29,10 +30,29 @@
  * reverse: it changes the air above 86 km, and booster-sep is the one flight
  * that goes there.
  *
- * REPRODUCING A DIGEST. The rows block is everything from the `"rows": [` line
- * to the end of the file, hashed as written:
+ * M10.5 moving nothing is the same test once more, and it caught a mistake.
+ * The fix stops a NaN escaping the throttle clamp (a TWR of zero asked of
+ * engines producing no thrust: 0/0). No golden reaches that pair, so none of
+ * them may move — and none does.
  *
- *     sed -n '/^ "rows": \[$/,$p' tests/golden/fixtures/intro-demo.json | shasum -a 256
+ * The first attempt DID move five, which is how the error was found. That guard
+ * tested `!Number.isFinite` and so swallowed +-Infinity as well as NaN, and
+ * Infinity was already handled correctly by the clamp: a positive TWR with no
+ * thrust yet means "command everything", and the over-broad guard re-commanded
+ * it to the 40% floor, throttling the vehicle down at every engine start. Five
+ * moved fixtures were the symptom of a second, undeclared behaviour change
+ * hiding inside a declared one. This table is what made it visible.
+ *
+ * REPRODUCING A DIGEST. The rows block is everything from the NEWLINE BEFORE the
+ * `"rows": [` line to the end of the file, hashed as written. That leading
+ * newline is part of the hash, and the recipe here used to omit it, so the
+ * documented command did not reproduce the recorded values (found at M10.5).
+ * In node:
+ *
+ *     node -e 'const t=require("fs").readFileSync(FILE,"utf8");
+ *              console.log(require("crypto").createHash("sha256")
+ *                .update(t.slice(t.indexOf("\n \"rows\": [")))
+ *                .digest("hex"))'
  *
  * IF ONE MOVES WITHOUT A TIER TO NAME, physics changed by accident. That is the
  * whole job of this file.

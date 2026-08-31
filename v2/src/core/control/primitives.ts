@@ -254,6 +254,46 @@ export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
       getThrust(engines.running, vehicle.throttleCurrent)) *
     100;
 
+  /**
+   * A NaN command would walk the throttle down forever. M10.5, Bug-fix tier.
+   *
+   * The clamp below is `if (x > upper) ... else if (x < lower) ...`, and NaN
+   * fails BOTH comparisons, so it falls through unclamped and is written to
+   * `vehicle.throttle`. That is reachable: the numerator is
+   * `goalTWR * mass * gravity`, and `goalTWR` is literally 0 at three call
+   * sites in this file (`verticalSpeedAdjustment` and both speed adjustments
+   * command TWR 0 whenever the vehicle is going too fast), while the
+   * denominator is 0 whenever no engine is lit or the throttle is closed. 0/0
+   * is NaN.
+   *
+   * What follows is worse than a NaN in the state, because it does not look
+   * like one. `throttleUpdate` slews the actual throttle toward the command
+   * with `slewToward`, whose two comparisons against a NaN goal are both false,
+   * so it takes the final branch and returns `current - perStep`: the throttle
+   * walks DOWN by one step every frame, with no lower bound in that function,
+   * and goes negative. `getThrust` is linear in it, so thrust goes negative and
+   * the engine pushes backwards. While the engines are unlit the total max
+   * thrust is 0 and the negative value is inert and invisible — it only bites
+   * on relight.
+   *
+   * ONLY NaN. Infinity must fall through to the clamp below, which already
+   * handles it correctly: a positive goalTWR with no thrust divides to
+   * +Infinity, and `Infinity > throttleUpperLimit` commands FULL throttle —
+   * which is right, because the vehicle needs thrust it does not yet have. A
+   * first draft of this guard tested `!Number.isFinite` and so caught Infinity
+   * too, quietly re-commanding those cases from 100% to the 40% floor. That is
+   * a second, undeclared behaviour change: it made the vehicle throttle down at
+   * every engine start, and it — not the NaN — was what moved four of the five
+   * golden fixtures. `Number.isNaN` is the guard this comment describes.
+   *
+   * The lower limit is the right answer, not merely a safe one: a NaN arises
+   * exactly when a TWR of zero is asked of an engine producing no thrust, and
+   * the throttle setting that means "produce no thrust" is the lower limit.
+   */
+  if (Number.isNaN(throttleGoalPercentage)) {
+    throttleGoalPercentage = C.throttleLowerLimit;
+  }
+
   if (throttleGoalPercentage > C.throttleUpperLimit) {
     throttleGoalPercentage = C.throttleUpperLimit;
   } else if (throttleGoalPercentage < C.throttleLowerLimit) {
@@ -269,6 +309,17 @@ export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: nu
     ((goalTWR * vehicle.vehicleMass * C.gravity) /
       getEffectiveVerticalMaxThrust(engines.running, vehicle.gimbalPointingDirection)) *
     100;
+
+  // Same NaN escape as controlEnginebyTWR above, by the same 0/0 route: no
+  // working engine makes the denominator exactly zero. NaN only — Infinity is
+  // the clamp's business, and swallowing it here would silently turn "needs
+  // full thrust" into "idle".
+  //
+  // Note that a gimbal of pi/2 does NOT produce it: Math.cos(Math.PI/2) is
+  // 6.12e-17, not 0, so that divides to a very large finite number and clamps.
+  if (Number.isNaN(throttleGoalPercentage)) {
+    throttleGoalPercentage = C.throttleLowerLimit;
+  }
 
   if (throttleGoalPercentage > C.throttleUpperLimit) {
     throttleGoalPercentage = C.throttleUpperLimit;

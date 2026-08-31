@@ -851,7 +851,7 @@ scenarios, goldens regenerated with the justification in the same commit.
   Mach 0 and Mach 30, `dt` of 0 and of 1 second. Property sweeps where the domain is continuous,
   named single points where it is not. Accept: no physics export has undefined or silently-NaN
   behaviour at a reachable input; `physics/**` at the M10.1 target; gate green.
-- [ ] **M10.5 Control primitives, directly** — 48 branches in `control/primitives.ts` and 10 in
+- [x] **M10.5 Control primitives, directly** — 48 branches in `control/primitives.ts` and 10 in
   `actuation.ts`, tested against their contracts rather than through a flight: `precisionAlignment`
   converges without overshoot, `controlEnginebyTWR` and `controlEnginebyEffectiveVerticalTWR` reach
   their goal TWR, `getMaxSpeedWithSafeDynamicPressure` respects the Q limit, dead zones and
@@ -3011,3 +3011,40 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   unbounded below and is safe ONLY because `getAttackAngles` wraps into [-pi, pi]; at pi it is
   -1.7278, at 2pi it would be -5.18. Both halves are now asserted together.
   Gate: lint clean, 1177 tests, build 204.0 kB, branch coverage 89.88%.
+
+- 2026-08-31 · M10.5 · Control primitives against their contracts — and a near-miss that the
+  audit table caught. New `tests/core/control-contracts.test.ts` (37 tests) stating what these
+  functions PROMISE rather than flying them: `getPitchDifference` never returns an error
+  larger than half a turn (swept, not sampled); the collapsed `cos` and the 2021 quadrant
+  ladder agree everywhere, which is what stops the ladder being deleted as dead code;
+  `controlEnginebyTWR` reaches its goal TWR and saturates at both limits; `precisionAlignment`
+  closes the error, mirrors exactly under a mirrored error, and saturates the yoke rather than
+  exceeding it; `raptorAutoShutDown_KeepMinTWRBelow1` fires exactly when minimum thrust would
+  hold the vehicle up and picks 2021's shutdown order, including the one- and two-engine
+  configurations a nominal landing never reaches; `controlTranslation` really does nothing when
+  translation mode is off; `toggleAllRaptors` is all-on or all-off, never an inversion.
+  Branch coverage `control/**` **82.69% → 96.87%**, past the 95% floor; overall 89.85% → 93.46%.
+  **BUG FIX (tier declared): a NaN escapes the throttle clamp.** The clamp is
+  `if (x > upper) else if (x < lower)`, and NaN fails both, so it reaches `vehicle.throttle`
+  unclamped. Reachable: `goalTWR` is literally 0 at three call sites here, and the denominator
+  is 0 whenever nothing is lit — 0/0. The consequence is quieter than a NaN in the state:
+  `slewToward`'s two comparisons against a NaN goal are both false, so it takes
+  `current - perStep` and the throttle walks DOWN one step per frame, unbounded, into negative
+  thrust that is inert while unlit and bites on relight. Guarded, with a failing test first
+  (5 tests go red with the guard removed). **All seven goldens are bit-identical** — no
+  current flight reaches the degenerate pair.
+  **THE NEAR-MISS.** My first guard tested `!Number.isFinite`, which also swallows ±Infinity —
+  and Infinity was already handled correctly by the clamp, because a positive TWR with no
+  thrust yet means "command everything". The over-broad guard re-commanded that to the 40%
+  floor, throttling the vehicle down at every engine start, and moved FIVE golden fixtures. I
+  had already measured the end states, confirmed all three landings still landed, judged the
+  movement justified, regenerated the fixtures and rewritten the digest table before
+  `/code-review high` found that the declared 0/0 fix was not what moved them. A second,
+  undeclared behaviour change was riding inside a declared one. Narrowed to `Number.isNaN`;
+  the Infinity path is now pinned by its own test so it cannot recur. Two more of my tests
+  asserted nothing and passed against the unguarded source: the gimbal-π/2 case (cos(π/2) is
+  6.12e-17, not 0, so there is no 0/0 — it now uses an unlit vehicle) and the runaway test,
+  which had only an upper bound while the failure walks DOWNWARD.
+  Also fixed: `unification.test.ts`'s own documented digest-reproduction command was wrong —
+  the `sed` recipe omits the leading newline the code hashes, so it never reproduced the
+  recorded values. Gate: lint clean, 1214 tests, build 204.0 kB, goldens unmoved.
