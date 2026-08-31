@@ -35,6 +35,23 @@ import { textureRandom } from './particles';
 /** px — the mottle tile. Power of two, and big enough that the repeat is not a pattern. */
 export const MOTTLE_TILE = 256;
 
+/**
+ * The mottle texture's mean value, as a fraction of full.
+ *
+ * MEASURED, not derived — the tile is contrast-stretched, so the mean is not
+ * `MOTTLE_FLOOR + (1 - MOTTLE_FLOOR) / 2`. It exists so that the flat fill
+ * behind the mottle can be set to the same average brightness: anywhere the
+ * mottle does not reach, the flat colour has to be what the mottle would have
+ * averaged to, or the join between them is a visible band of a different tone.
+ *
+ * That join is not hypothetical. The bowed horizon means the mottle rectangle
+ * has to start below the bow's lowest point, so there is always a sliver of
+ * flat fill above it — a few pixels near the ground and over a hundred from
+ * 100 km — and at full tint it read as a distinctly lighter stripe across the
+ * frame. `tests/view/terrain.test.ts` pins this against the writer.
+ */
+export const MOTTLE_MEAN = 0.798;
+
 /** The darkest the mottle goes, as a fraction of the tint colour. */
 export const MOTTLE_FLOOR = 0.5;
 

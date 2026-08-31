@@ -18,6 +18,7 @@
  * frame budget long before the visuals do.
  */
 import { Container, Rectangle, Sprite, Texture, type Renderer } from 'pixi.js';
+import { lerpColourFast } from './colour';
 
 /** How a particle looks and moves over its life. */
 export interface EmitterConfig {
@@ -763,17 +764,6 @@ export function createParticleSystem(
     live[liveCount++] = i;
   };
 
-  const lerpColor = (a: number, b: number, t: number): number => {
-    const ar = (a >> 16) & 0xff;
-    const ag = (a >> 8) & 0xff;
-    const ab = a & 0xff;
-    const br = (b >> 16) & 0xff;
-    const bg = (b >> 8) & 0xff;
-    const bb = b & 0xff;
-    return (
-      (((ar + (br - ar) * t) | 0) << 16) | (((ag + (bg - ag) * t) | 0) << 8) | ((ab + (bb - ab) * t) | 0)
-    );
-  };
 
   return {
     container,
@@ -850,7 +840,7 @@ export function createParticleSystem(
           alpha *= 1 + bandStrengthOf[i]! * Math.cos((travelled / spacing) * Math.PI * 2);
         }
         sprite.alpha = alpha;
-        sprite.tint = lerpColor(colorStart[i]!, colorEnd[i]!, t);
+        sprite.tint = lerpColourFast(colorStart[i]!, colorEnd[i]!, t);
 
         live[write++] = i;
       }

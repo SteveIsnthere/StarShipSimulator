@@ -759,6 +759,125 @@ for its first outing.*
   `distantEarthVisible(100, 200)` assertion MOVED from true to false, which is the old threshold
   being wrong rather than a tolerance being loosened, and it is called out in the test.
 
+- [x] **M9.15 One planet, one colour space, and the horizon's own file** — the foundation pass,
+  and the eighteen browser failures that came with it.
+  **FOUR DUPLICATIONS, all of them created by five tasks moving fast over the same two files.**
+  The planet's curve `(2u - 1)^2 * sagitta * 3` was written out in both `world.ts` and
+  `distant-earth.ts`, the bare `sagitta * 3` appeared five times across them, and
+  `HORIZON_SEGMENTS` was declared twice with DIFFERENT values — 16 near, 48 far — for the same
+  shape. A comment claimed the two layers "draw one planet rather than two" and nothing enforced
+  it. Colour channel arithmetic had three implementations: `groundTint` scaled, `lerpColor` inside
+  the particle system interpolated, `mixColour` in the far band mixed; two of them rounded and one
+  truncated, so "half way between these colours" had two answers in one renderer. And
+  `distant-earth.ts` had reached 741 lines with the pure look curves tangled into the scene wiring.
+  Now `view/horizon.ts` holds the planet's shape and the skyline's profile, `view/colour.ts` holds
+  one channel implementation, and both are pure — no PixiJS, no viewport — so they test without a
+  renderer, which is the discipline `core/` has had since M0.
+  **ONE DELIBERATE NON-MERGE.** `lerpColourFast` keeps the particle system's truncation while
+  `mixColour` rounds. Unifying them would shift every particle tint by up to one level: invisible,
+  but still a change to what is drawn, and this task is a MOVE. A test pins the difference so that
+  the tidy-up, when someone wants it, has to be a deliberate one.
+  **AND THE MOVE EXPOSED WHAT THE MOVE WAS FOR.** With the exaggeration named and in one place it
+  became obvious what it cost: the sagitta is a fraction of viewport WIDTH applied as a VERTICAL
+  offset, and anything drawn as a rectangle over the bowed band must start below the bow's lowest
+  point. At 40 km on a landscape phone, three times the sagitta is 381 px of a 945 px frame — the
+  mottled ground began below the bottom edge and the band came out one flat colour. Taken to one,
+  which is the geometry as it comes: the drop is 127 px and the texture is back. The near ground
+  has used 3 since M6.7 and is only ever visible below about 500 m, where the change is under
+  sixteen pixels.
+  **The flat sliver is now filled with what the mottle averages to** (`MOTTLE_MEAN`, measured at
+  0.798 against the writer rather than derived from `MOTTLE_FLOOR`, because the tile is
+  contrast-stretched). At the full tint that sliver was brighter than the textured ground below it
+  and read as a stripe across the frame; matched, the step is about six levels out of fifty, which
+  is the mottle's own variation.
+  **AND A REVIEW OF THIS TASK FOUND FIVE THINGS, one of them serious.** Filling the ridge
+  silhouettes to a flat line two pixels below the ground line rested on "the band starts exactly at
+  the ground line" — and the band's top edge is the BOW, which sits at `lineY` only in the middle
+  and drops to `lineY + sagitta` at the ends of its three-screen span. Over the visible middle
+  third that is up to `sagitta / 9` of sky showing between the skyline and the ground, about
+  fourteen pixels at 40 km on a landscape phone, with the ridges left detached at both edges of
+  the frame. Closed along the same curve instead: exact coverage, still only the strip between the
+  profile and the bow. Measured after, not assumed — scanning every other column for sky
+  reappearing below the skyline gives 0 px at 40 km, and the 8 px it reports at 20 km is the limb
+  glow, which is additive blue sitting on the horizon by design.
+  **The tint fix had the same shape of error.** `band.tint` was dropped to `MOTTLE_MEAN` of the
+  tint while the ridges still mixed toward the unscaled one, so above about 15 km — where haze is
+  near zero and the nearest layer keeps all of its ground colour — a ridge drew at exactly `tint`
+  against a band at 0.798 of it: a 25% step along the horizon, introduced by the change meant to
+  remove one. There is now a single `groundShown` that the band and the ridges both read.
+  **And it was applied to one of two layers with identical construction.** `world.ts` builds the
+  same bowed band with the same rectangular mottle over it and kept its sliver at full tint, so the
+  stripe stayed in the near ground and the two layers disagreed where they meet — worse than not
+  having done it. Both corrected, from the same constant.
+  Accept: full gate on all five projects, from a quiet machine and a single suite.
+
+## M10 — Verification: physics and control on their own terms (plan: `docs/VERIFICATION-PLAN.md`)
+
+Owner decision, 2026-08-30: **parity with the 2021 tree is retired.** "Old one is just a fun
+project, we have a much higher standard now." `tests/parity/` is deleted; the legacy tree is kept
+on disk, archived, executed by nothing. Correctness now means agreement with closed-form physics
+and published reference data, not agreement with `backend/physics.js`.
+
+Second owner decision, same date: **when a first-principles test shows the physics is wrong, fix
+it** — Bug-fix or Fidelity tier, failing test first, before/after trajectory diff on all seven
+scenarios, goldens regenerated with the justification in the same commit.
+
+- [ ] **M10.1 The instrument: coverage, measured** — add `@vitest/coverage-v8` pinned to the
+  installed vitest, an `npm run coverage` script, and a `coverage` block in `vitest.config.ts`
+  scoped to `src/core/**`. Then MEASURE, and write the per-module line/branch table into
+  `docs/VERIFICATION-PLAN.md`. Set the milestone's branch target from that baseline rather than
+  from a round number, and say in the plan why the number chosen is the right one. Accept: `npm run
+  coverage` runs clean; the committed table reproduces on a second run; the target is stated with
+  its reasoning. **Nothing later in this milestone may be planned against a guessed number.**
+- [ ] **M10.2 Retire parity** — delete `v2/tests/parity/` entirely (7 files: `actuation`,
+  `autopilot`, `constants`, `heat-margin`, `initial-state`, `physics`, `step`, plus `legacy.ts`).
+  Add `v2/tests/fixtures/legacy/README.md` stating the tree is an archived historical reference
+  that nothing executes and no gate consults — replacing whatever it says now. Amend `CLAUDE.md`:
+  the ground rule that calls the 2021 tree "the reference implementation" and says "the parity
+  tests **execute** it" is no longer true, and the file is the constitution, so it must say what is
+  actually the case. Accept: gate green with 86 fewer tests;
+  `grep -rl "fixtures/legacy" v2/tests --include='*.test.ts'` returns nothing; `CLAUDE.md` contains
+  no claim that parity is enforced. Do not delete the legacy files themselves.
+- [ ] **M10.3 The laws: analytic physics tests** — the replacement for parity, and the point of the
+  milestone. Assertions traceable to something outside this repo: energy and momentum conservation
+  over ballistic vacuum flight (drift bounded and stated); Kepler closure and period against the
+  vis-viva equation; ISA temperature, pressure and density against the published table at 0, 11,
+  20, 32, 47 and 51 km; speed of sound against `sqrt(gamma*R*T)`; gravity inverse-square to 1 ULP;
+  dimensional consistency of every aero term. Every tolerance carries a written derivation of why
+  that number and not a tighter one. Accept: each physics module has at least one assertion naming
+  its external reference; no tolerance is unexplained; gate green.
+- [ ] **M10.4 The domain edges** — every physics export asserted at the edges of its input domain:
+  non-finite inputs, altitude below sea level and above the ISA table's top, zero and negative mass,
+  Mach 0 and Mach 30, `dt` of 0 and of 1 second. Property sweeps where the domain is continuous,
+  named single points where it is not. Accept: no physics export has undefined or silently-NaN
+  behaviour at a reachable input; `physics/**` at the M10.1 target; gate green.
+- [ ] **M10.5 Control primitives, directly** — 48 branches in `control/primitives.ts` and 10 in
+  `actuation.ts`, tested against their contracts rather than through a flight: `precisionAlignment`
+  converges without overshoot, `controlEnginebyTWR` and `controlEnginebyEffectiveVerticalTWR` reach
+  their goal TWR, `getMaxSpeedWithSafeDynamicPressure` respects the Q limit, dead zones and
+  saturation hold, sign symmetry holds, and `raptorAutoShutDown_KeepMinTWRBelow1` fires exactly when
+  it should and not otherwise. Accept: `control/**` at the M10.1 branch target with every new test
+  asserting behaviour rather than merely executing a line; gate green.
+- [ ] **M10.6 The autopilot's state machines** — the 82 branches, worst first: `autoBoostBack` (17),
+  `horizontalAdjustmentStageController` (11), `autoDeorbit` (11), `autoLand` (10),
+  `finalDescentStageController` (9). Every stage transition asserted directly, INCLUDING the ones a
+  nominal flight never reaches — those are the whole reason this task exists, because a golden
+  records whatever the machine did and cannot tell a right branch from a plausible wrong one.
+  Accept: `autopilot/**` at the M10.1 branch target; every stage transition named in a test; gate
+  green.
+- [ ] **M10.7 Findings: fix what is actually wrong** — whatever M10.3–M10.6 surface. Each
+  correction: failing test FIRST, exactly one declared tier in the commit message, a before/after
+  trajectory diff across all seven scenarios, goldens regenerated in the same commit, and the audit
+  table in `tests/golden/unification.test.ts` extended with the reason. A finding that turns out to
+  be a modelling preference rather than an error is written up in `docs/VERIFICATION-PLAN.md` and
+  NOT changed. Accept: no known-wrong physics left unfixed or unrecorded; every digest movement
+  accounted for in the audit table.
+- [ ] **M10.8 Gate it** — coverage thresholds enforced by the build so the number cannot regress.
+  Docs updated; remaining debt named in words rather than left implied. Accept: lowering the
+  measured coverage demonstrably fails the gate, and restoring it passes; full gate green on all
+  five Playwright projects.
+
+
 ## Log
 
 <!-- /goal appends one line per completed task: date · task · commit · notes -->
@@ -2678,10 +2797,52 @@ for its first outing.*
   did not move here either. Five consecutive runs green, then three consecutive full-suite runs at
   1550 passed — which is the standard a "flaky" diagnosis has to meet before it is allowed to
   stand as one.
+- 2026-08-27 · M9.15 · The foundation pass — and the eighteen failures that proved committing on a
+  partial gate was a mistake.
+  **THE COMMIT BEFORE THIS ONE WENT OUT ON A GATE THAT WAS STILL RUNNING.** lint, 1550 unit tests
+  and the build were green; the browser suite was at 27 of 343. It finished at 18 failed, and three
+  of those were real regressions from the change that had just been pushed. The rule in CLAUDE.md
+  names lint, test and build as the commit precondition and that much was honoured, but M9.13's own
+  acceptance line said "full gate on all five projects" and that had not happened. The lesson is
+  not that the rule is wrong; it is that a task's acceptance line is part of the gate for that
+  task, and reading the constitution's minimum as permission to skip it is how a red commit gets
+  pushed.
+  **THE THREE REAL ONES, and what each says.**
+  *The plume measured 12.6 ship-lengths across a landscape phone.* The fire predicate's luma floor
+  of 150 was set against a measurement — "the brightest the ground ever gets is luma 147" — that
+  was true when written and false three tasks later. The horizon wash mixes terrain toward the SKY,
+  and the sky is the brightest thing in the frame, so washed ground reaches luma 168 now. Every
+  constant derived from a measurement of the picture has a shelf life that ends the next time the
+  picture changes, and nothing in the file said which measurement it rested on. Re-measured:
+  terrain tops at 168.0, the plume column at 251.8, floor moved to 200 with the reasoning written
+  beside it this time.
+  *The ground was one flat colour at 40 km.* Not a tuning problem — a geometry one, and only
+  visible on a wide short viewport. See the task above.
+  *And the flat sliver read as a stripe.* Found by looking at the 100 km frame after the bow got
+  small enough to bring the sliver inside the picture, which is the third time this milestone that
+  making one thing better has revealed a second thing that was always wrong and hidden.
+  **THE OTHER FIFTEEN WERE LOAD**, and the load was mine: a full `vitest run` was going in one
+  terminal while the browser suite ran in another, on four cores, and earlier a stale suite from
+  before a container restart had been running for sixty-four minutes alongside a new one. Two of
+  the three "flaky test" diagnoses in the previous entry were made under exactly that contention.
+  The fixes there stand on their own merits — a budget that counted six of eight textures was
+  wrong regardless, and dividing two medians measured in different blocks is the wrong estimator
+  regardless — but the measurements that motivated them were taken in an invalid environment, and
+  that is worth saying plainly rather than leaving the numbers to imply otherwise.
+  **THE SAME MISTAKE, THREE TIMES, IN ONE TASK.** The ridge fill, the ridge tint and the sliver
+  tone were each fixed by reasoning about where one layer sat relative to another — "the band
+  covers everything below the ground line", "the band is the tint", "the far band has the stripe" —
+  and each reasoning step was wrong in the same way: it treated a bowed edge as a straight one, or
+  one of two identical layers as the only one. A code review caught all three; none of them would
+  have been caught by the browser suite, because a wedge of sky at the frame's edge and a 25%
+  tone step along the horizon are both things the assertions do not look at. The instrument that
+  found the flat ground and the missing limb is a camera pointed at the middle of the picture, and
+  it is blind at the edges by construction. That is not an argument for more assertions; it is an
+  argument for reading the diff as carefully as the screenshots.
 
 ## M9 — done
 
-Fourteen tasks, fourteen commits, 2026-08-26. The last five were not planned: nine were built, the
+Fifteen tasks, 2026-08-26 into the 27th. The last six were not planned: nine were built, the
 owner looked at the result and said "doesn't look good enough, iterate", and M9.10 is what came back. That is
 the milestone's own acceptance line working as written — M9.9 said no test covers whether it
 LOOKS good and handed the judgement back rather than pretending otherwise, and the judgement came

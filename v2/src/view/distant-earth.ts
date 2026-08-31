@@ -33,7 +33,22 @@ import type { Viewport } from './camera';
 import { groundTint, hazeIntensity, horizonSagittaFraction } from './atmosphere-look';
 import { GROUND_COLOR } from './world';
 import { skyLightness, skyTint } from './sky';
-import { textureRandom } from './particles';
+import { mixColour, scaleColour } from './colour';
+import { MOTTLE_MEAN } from './terrain';
+import {
+  RIDGE_FILL_DEPTH,
+  groundColourShare,
+  horizonCurve,
+  horizonDrop,
+  HORIZON_SEGMENTS,
+  limbIntensity,
+  LIMB_BANDS,
+  RELIEF_LIMIT_ALTITUDE,
+  ridgeGroundShare,
+  ridgeHeight,
+  RIDGE_LAYERS,
+  RIDGE_SEGMENTS,
+} from './horizon';
 
 
 /**
@@ -219,168 +234,6 @@ export const TERRAIN_MARKS = 24;
 /** px — spacing between marks on screen, so density does not change with speed. */
 export const MARK_SPACING = 130;
 
-/** How many ridgelines are drawn, far to near. */
-export const RIDGE_LAYERS = 3;
-
-/** Points per screen width in a ridgeline's profile. */
-export const RIDGE_SEGMENTS = 128;
-
-/**
- * m — above this, terrain relief stops being resolvable and the horizon is a
- * clean line.
- *
- * Not a fade for tidiness: it is what the geometry says. At 100 km the horizon
- * is 1130 km away, and a three-hundred-metre ridge at that range subtends
- * 0.015 degrees — a fifth of a pixel on any viewport this runs at. Hills drawn
- * up there are not distant hills, they are decoration, and drawing them was
- * most of why the 100 km frame read as a desert wall under a night sky.
- */
-export const RELIEF_LIMIT_ALTITUDE = 45_000;
-
-/**
- * A 1D value noise that is PERIODIC in u with period 1.
- *
- * Periodic because the ridgeline is built once, three screen widths wide, and
- * then scrolled by moving the whole `Graphics` — a profile that did not join
- * itself at the wrap would put a cliff in the skyline once per screen. The same
- * counter-based hash the particle textures and the cloud deck use, so the
- * skyline is the same skyline on every reload.
- */
-export function ridgeNoise(u: number, lattice: number, salt: number): number {
-  const x = u * lattice;
-  const x0 = Math.floor(x);
-  const f = x - x0;
-  const smooth = f * f * (3 - 2 * f);
-  const wrap = (n: number) => ((n % lattice) + lattice) % lattice;
-  const a = textureRandom(wrap(x0), 0, salt);
-  const b = textureRandom(wrap(x0 + 1), 0, salt);
-  return a + (b - a) * smooth;
-}
-
-/**
- * A ridgeline's height at `u` along its period, 0 at the lowest and 1 at the
- * highest.
- *
- * THREE OCTAVES, AND THE POINT IS THAT IT IS NOT A SHAPE. What this replaces
- * was twenty-four copies of one bezier — the same smooth symmetric dome, over
- * and over, at different scales and alphas. No amount of per-copy jitter fixes
- * that, because a range of hills is not a row of objects: it is one continuous
- * profile that happens to have peaks in it. The octaves give it peaks at three
- * sizes, which is what stops the eye finding a repeated motif.
- */
-export function ridgeHeight(u: number, layer: number): number {
-  const salt = 0x9d21 + layer * 0x2f17;
-  const wrapped = u - Math.floor(u);
-  return (
-    0.55 * ridgeNoise(wrapped, 5 + layer, salt) +
-    0.3 * ridgeNoise(wrapped, 11 + layer * 3, salt ^ 0x51a3) +
-    0.15 * ridgeNoise(wrapped, 23 + layer * 5, salt ^ 0xa7c1)
-  );
-}
-
-/**
- * How much of the ground's own colour a ridgeline keeps, 0 (pure sky) to 1.
- *
- * Distance acts on a ridge's COLOUR rather than its opacity, which is what
- * aerial perspective does: the farther layer is mixed further toward the sky
- * and can approach its value without passing it.
- *
- * AND THIS IS THE SMALLER HALF OF THE FIX. Worth writing down, because the
- * first account of it here was wrong and confidently so. The old marks were
- * translucent, and the argument was that the sky showing through made them
- * paler than their own background — a hill occludes sky, so nothing on a
- * horizon is brighter than what is behind it. Sound as a principle. Not what
- * was happening.
- *
- * Measured at 4 km, new against the marks it replaced: the OLD skyline was
- * brighter than the sky in 64 of 427 sampled columns and darker by 11.1 luma on
- * average; this one is brighter in 105 of 427 and darker by only 7.3. The
- * change made the skyline LESS dark than the sky, not more. What the
- * translucency actually cost was contrast and warmth — the marks were tinted
- * toward the sky and sank into the wash, so they read as three haze patches
- * rather than as land.
- *
- * Rebuilt one variable at a time, which is the only reason this is known: an
- * irregular profile that is still translucent is muted but still reads as land;
- * a smooth periodic profile that is opaque and correctly aerial-mixed reads as
- * sine-wave dunes at a glance. `ridgeHeight` is what fixed the horizon. This
- * makes it better.
- */
-export function ridgeGroundShare(layer: number, haze: number): number {
-  const depth = (layer + 1) / RIDGE_LAYERS;
-  return Math.max(0.06, depth * (1 - 0.55 * Math.min(1, Math.max(0, haze))));
-}
-
-/** How many segments the bowed horizon is drawn with. */
-export const HORIZON_SEGMENTS = 48;
-
-/** How many alpha bands the limb's glow is built from. */
-export const LIMB_BANDS = 14;
-
-/**
- * The horizon curve's y at `u` across the span, relative to the ground line.
- *
- * A parabola through (0,0) at the middle and (+/-1, sagitta) at the edges —
- * indistinguishable from the circle at these angles and far cheaper. The same
- * trade `world.ts` makes and the same numbers, so the two layers draw one
- * planet rather than two.
- */
-export function curveAt(u: number, sagitta: number): number {
-  return (2 * u - 1) * (2 * u - 1) * sagitta * 3;
-}
-
-/**
- * How much of the ground's own colour survives the air between, 0..1.
- *
- * Reuses `limbIntensity` deliberately rather than inventing a second curve:
- * they are the same physical fact seen from two sides. The limb is bright
- * exactly when the path through the atmosphere is long, and a long path is
- * exactly what washes the ground out. One curve, so a change to how much
- * atmosphere the view has cannot make the limb glow while the ground stays
- * crisp.
- *
- * Floored at a quarter, because the ground never becomes the sky: from orbit it
- * is still visibly land, only dim and blue.
- */
-export function groundColourShare(altitude: number): number {
-  return Math.max(0.25, 1 - 0.75 * limbIntensity(altitude));
-}
-
-/**
- * Mix two packed 0xRRGGBB colours, `share` of `b` over `a`.
- *
- * Aerial perspective is a mix toward the SKY, not a fade to transparent — see
- * `ridgeGroundShare`. Doing it as a tint rather than an alpha is what keeps a
- * ridge from ever coming out brighter than the sky behind it.
- */
-export function mixColour(a: number, b: number, share: number): number {
-  const t = Math.min(1, Math.max(0, share));
-  const mix = (shift: number) => {
-    const ca = (a >> shift) & 0xff;
-    const cb = (b >> shift) & 0xff;
-    return Math.round(ca + (cb - ca) * t) & 0xff;
-  };
-  return (mix(16) << 16) | (mix(8) << 8) | mix(0);
-}
-
-/**
- * How strongly the atmospheric limb shows, 0..1.
- *
- * THE OPPOSITE CURVE TO `hazeIntensity`, and the reason the 100 km frame had a
- * hard line between a dark sky and a bright desert with nothing in between.
- * Haze is what you see looking THROUGH the aerosol layer from inside it, so it
- * peaks a kilometre or two up and is gone by twenty. The limb is what you see
- * looking ALONG the whole atmosphere from outside it — a tangent path hundreds
- * of kilometres long — so it starts where haze ends and keeps rising.
- *
- * Saturating rather than linear: it is a thin bright arc from 100 km and a
- * thin bright arc from 400 km, because the atmosphere does not get any thicker.
- */
-export function limbIntensity(altitude: number): number {
-  const h = Math.max(0, altitude);
-  return h / (h + 35_000);
-}
-
 /**
  * How much the ground band's texture is squashed vertically, as a fraction of
  * its horizontal scale.
@@ -502,9 +355,10 @@ export function createDistantEarth(terrain?: {
         hundred and thirteen pixels of sagitta on a 1280 px frame. That is not
         a subtlety, it is the single most recognisable thing about the view.
 
-        Same curve and the same three-times exaggeration the near ground uses,
-        from the same `horizonSagittaFraction`, so the two layers cannot
-        disagree about the shape of the planet.
+        Same curve and the same exaggeration the near ground uses, both from
+        `horizon.ts`, so the two layers cannot disagree about the shape of the
+        planet. (That exaggeration is 1 as of M9.15 — the geometry as it comes.
+        See `HORIZON_EXAGGERATION` for what three cost.)
       */
       const sagitta = Math.round(horizonSagittaFraction(altitude) * viewport.width);
       if (bandWidth !== viewport.width || bandHeight !== viewport.height || bandBow !== sagitta) {
@@ -522,7 +376,7 @@ export function createDistantEarth(terrain?: {
           band.moveTo(left, viewport.height * 2);
           for (let k = 0; k <= HORIZON_SEGMENTS; k++) {
             const u = k / HORIZON_SEGMENTS;
-            band.lineTo(left + span * u, curveAt(u, sagitta));
+            band.lineTo(left + span * u, horizonCurve(u, sagitta));
           }
           band.lineTo(left + span, viewport.height * 2);
         }
@@ -555,7 +409,17 @@ export function createDistantEarth(terrain?: {
         groundTint(GROUND_COLOR, lightness),
         groundColourShare(altitude),
       );
-      band.tint = tint;
+      /*
+        THE FLAT FILL IS SET TO WHAT THE MOTTLE AVERAGES TO, not to the tint.
+        The mottle is a rectangle and the band's top edge is a curve, so there
+        is always a sliver of bare band above it — a hundred and thirteen pixels
+        from 100 km. At the full tint that sliver is brighter than the textured
+        ground below it and reads as a stripe across the frame, which is what
+        the 100 km capture showed the moment the bow got small enough for the
+        sliver to sit inside the picture.
+      */
+      const groundShown = scaleColour(tint, MOTTLE_MEAN);
+      band.tint = groundShown;
       band.x = 0;
       band.y = lineY;
       band.alpha = 1;
@@ -591,7 +455,7 @@ export function createDistantEarth(terrain?: {
           what happened when the bow was first drawn — the horizon stayed
           ruler-flat and the curve was hiding behind this sprite.
         */
-        mottle.y = lineY + sagitta * 3;
+        mottle.y = lineY + horizonDrop(sagitta);
         mottle.width = viewport.width * 3;
         mottle.height = Math.max(1, viewport.height * 2 - mottle.y);
         mottle.tileScale.set(2.4, 2.4 * GROUND_FORESHORTENING);
@@ -637,21 +501,52 @@ export function createDistantEarth(terrain?: {
         if (!ridge.visible) continue;
         // Near layers are taller, as nearer hills are.
         const amplitude = (5 + i * 9) * ridgeScale * relief;
-        const key = Math.round(amplitude * 4) * 4096 + Math.round(viewport.width);
+        // The sagitta is in the key because the closing edge follows the bow.
+        const key =
+          Math.round(amplitude * 4) * 4096 + Math.round(viewport.width) + sagitta * 1_048_576;
         if (ridgeKey[i] !== key) {
           ridgeKey[i] = key;
           ridge.clear();
           const left = -viewport.width;
           const span = viewport.width * 3;
           const steps = RIDGE_SEGMENTS * 3;
-          ridge.moveTo(left, viewport.height);
+          /*
+            CLOSED ALONG THE BOW, not at the bottom of the frame and not on a
+            flat line either. Two wrong versions preceded this one and both are
+            worth keeping written down.
+
+            The first closed each polygon at `viewport.height`: on a landscape
+            phone that is 6795 x 945 px of fill, three of them, every frame —
+            nineteen million pixels to draw a skyline, essentially all of it
+            hidden behind the band drawn over it. Under the software rasteriser
+            the browser projects use, that alone slowed the page enough for
+            `shake.spec.ts` to exhaust its four-minute budget on all four phone
+            projects.
+
+            The second closed on a flat line two pixels below the ground line,
+            on the premise that "the band starts at the ground line and covers
+            everything below". It does not: the band's top edge is the BOW, which
+            sits at `lineY` only in the middle and drops to `lineY + sagitta` at
+            the ends of its three-screen span. Over the visible middle third
+            that is up to `sagitta / 9` — about fourteen pixels at 40 km on a
+            landscape phone — of gap between where the ridge stopped and where
+            the band began, showing sky through it and leaving the skyline
+            detached from the ground at both edges of the frame.
+
+            Following the same curve closes it exactly, and costs only the strip
+            between the profile and the bow rather than a screen of fill.
+          */
+          ridge.moveTo(left, horizonCurve(0, sagitta) + RIDGE_FILL_DEPTH);
           for (let k = 0; k <= steps; k++) {
             const u = k / steps;
             // Three periods across the span, so the profile joins itself at the
             // wrap and the whole thing can be scrolled by moving `ridge.x`.
             ridge.lineTo(left + span * u, -amplitude * ridgeHeight(u * 3, i));
           }
-          ridge.lineTo(left + span, viewport.height);
+          for (let k = steps; k >= 0; k--) {
+            const u = k / steps;
+            ridge.lineTo(left + span * u, horizonCurve(u, sagitta) + RIDGE_FILL_DEPTH);
+          }
           ridge.fill(0xffffff);
         }
         // Its own parallax: nearer ridges pass faster, which is the other half
@@ -659,12 +554,22 @@ export function createDistantEarth(terrain?: {
         const rate = 0.35 + 0.3 * i;
         ridge.x = -((offset * rate) % viewport.width);
         ridge.y = lineY + 1;
-        ridge.tint = mixColour(skyColour, tint, ridgeGroundShare(i, haze));
+        /*
+          MIXED TOWARD WHAT THE GROUND ACTUALLY SHOWS, not toward the raw tint.
+          The band is drawn at `MOTTLE_MEAN` of the tint so that its bare sliver
+          matches the mottle beside it; a ridge mixed toward the unscaled tint
+          therefore lands 25% brighter than the ground directly beneath it, and
+          above about 15 km — where haze is near zero and the nearest layer's
+          share is 1 — it sits at exactly `tint` against a band at 0.798 of it.
+          A bright step running along the horizon line, introduced by the change
+          that was supposed to remove one.
+        */
+        ridge.tint = mixColour(skyColour, groundShown, ridgeGroundShare(i, haze));
       }
 
       if (horizonHaze) {
         horizonHaze.x = -viewport.width;
-        horizonHaze.y = lineY + sagitta * 3;
+        horizonHaze.y = lineY + horizonDrop(sagitta);
         horizonHaze.width = viewport.width * 3;
         // Deeper when the air is thick, and never taller than a fifth of the
         // frame — this is the join, not a weather effect.
@@ -720,14 +625,14 @@ export function createDistantEarth(terrain?: {
             const outer = ((b + 1) / LIMB_BANDS) * depth;
             const inner = (b / LIMB_BANDS) * depth;
             const t = 1 - (b + 0.5) / LIMB_BANDS;
-            limb.moveTo(left, curveAt(0, sagitta) - inner);
+            limb.moveTo(left, horizonCurve(0, sagitta) - inner);
             for (let k = 0; k <= HORIZON_SEGMENTS; k++) {
               const u = k / HORIZON_SEGMENTS;
-              limb.lineTo(left + span * u, curveAt(u, sagitta) - inner);
+              limb.lineTo(left + span * u, horizonCurve(u, sagitta) - inner);
             }
             for (let k = HORIZON_SEGMENTS; k >= 0; k--) {
               const u = k / HORIZON_SEGMENTS;
-              limb.lineTo(left + span * u, curveAt(u, sagitta) - outer);
+              limb.lineTo(left + span * u, horizonCurve(u, sagitta) - outer);
             }
             limb.fill({ color: 0x8fb6ff, alpha: t * t * t });
           }

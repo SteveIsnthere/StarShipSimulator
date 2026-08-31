@@ -31,16 +31,8 @@ import {
   distantEarthVisible,
   FOLLOW_RATIO,
   GROUND_LEAVES_SCREEN,
-  curveAt,
-  groundColourShare,
   groundLineFraction,
   GROUND_FORESHORTENING,
-  limbIntensity,
-  mixColour,
-  RELIEF_LIMIT_ALTITUDE,
-  ridgeGroundShare,
-  ridgeHeight,
-  RIDGE_LAYERS,
   SCROLL_KNEE,
 } from '$view/distant-earth';
 import { altitudeFov, computeViewport } from '$view/camera';
@@ -301,129 +293,5 @@ describe('the ground band is a plane, not a wall', () => {
   it('foreshortens', () => {
     expect(GROUND_FORESHORTENING).toBeLessThan(1);
     expect(GROUND_FORESHORTENING).toBeGreaterThan(0);
-  });
-});
-
-/**
- * The horizon (M9.13), as the four properties that make it one.
- *
- * What this replaced: twenty-four copies of a single bezier dome, drawn
- * translucent so the sky showed THROUGH them, on a ruler-straight line, at
- * every altitude from the pad to a hundred kilometres, with no limb at all.
- * Each test below is one of the things that was wrong.
- */
-describe('the horizon is a horizon (M9.13)', () => {
-  it('has a skyline that joins itself at the wrap', () => {
-    /*
-      The profile is built once across three screen widths and then SCROLLED by
-      moving the whole Graphics, so a profile that did not close would put a
-      cliff in the skyline once per screen. Periodicity is not a nicety here,
-      it is what makes the cheap version of scrolling legal.
-    */
-    for (let layer = 0; layer < RIDGE_LAYERS; layer++) {
-      expect(ridgeHeight(0, layer)).toBeCloseTo(ridgeHeight(1, layer), 10);
-      expect(ridgeHeight(0.25, layer)).toBeCloseTo(ridgeHeight(1.25, layer), 10);
-      expect(ridgeHeight(0.5, layer)).toBeCloseTo(ridgeHeight(-0.5, layer), 10);
-    }
-  });
-
-  it('gives every layer a different skyline, in range', () => {
-    const sampled = (layer: number) =>
-      Array.from({ length: 64 }, (_, k) => ridgeHeight(k / 64, layer));
-    for (let layer = 0; layer < RIDGE_LAYERS; layer++) {
-      const xs = sampled(layer);
-      for (const x of xs) {
-        expect(x).toBeGreaterThanOrEqual(0);
-        expect(x).toBeLessThanOrEqual(1);
-      }
-      // Not a flat line, and not the same line as its neighbour.
-      expect(Math.max(...xs) - Math.min(...xs)).toBeGreaterThan(0.15);
-      if (layer > 0) {
-        const prev = sampled(layer - 1);
-        const same = xs.filter((x, i) => Math.abs(x - prev[i]!) < 1e-9).length;
-        expect(same).toBeLessThan(xs.length / 2);
-      }
-    }
-  });
-
-  it('mixes a ridge toward the sky by distance, never past it', () => {
-    /*
-      Aerial perspective as a COLOUR mix rather than an alpha, so a ridge can
-      approach the sky's value without passing it. The share is what is kept of
-      the ground's own colour, so it must stay inside (0, 1] at every layer and
-      every haze — a share above one would over-saturate a ridge past the ground
-      it is made of, and a share of zero would erase it into the sky.
-
-      Not the thing that made the old marks read as fog: see `ridgeGroundShare`
-      for the measurement that refuted that, and `ridgeHeight` for what did.
-    */
-    for (let layer = 0; layer < RIDGE_LAYERS; layer++) {
-      for (const haze of [0, 0.25, 0.5, 0.9, 1]) {
-        const share = ridgeGroundShare(layer, haze);
-        expect(share).toBeGreaterThan(0);
-        expect(share).toBeLessThanOrEqual(1);
-      }
-      // Thicker air mixes a ridge further toward the sky, never less far.
-      expect(ridgeGroundShare(layer, 1)).toBeLessThan(ridgeGroundShare(layer, 0));
-    }
-    // And a farther layer keeps less of its own colour than a nearer one.
-    for (let layer = 1; layer < RIDGE_LAYERS; layer++) {
-      expect(ridgeGroundShare(layer - 1, 0.3)).toBeLessThan(ridgeGroundShare(layer, 0.3));
-    }
-  });
-
-  it('stops drawing relief before it stops being resolvable', () => {
-    // At 100 km the horizon is 1130 km off and a 300 m ridge subtends 0.015
-    // degrees — a fifth of a pixel. Hills up there are decoration.
-    expect(RELIEF_LIMIT_ALTITUDE).toBeLessThan(100_000);
-    expect(RELIEF_LIMIT_ALTITUDE).toBeGreaterThan(10_000);
-  });
-
-  it('lights the limb where haze has given up, and not before', () => {
-    /*
-      The two curves are opposite by construction: haze is looking THROUGH the
-      aerosol from inside it and peaks a kilometre or two up; the limb is
-      looking ALONG the whole atmosphere from outside and only starts there.
-    */
-    expect(limbIntensity(0)).toBe(0);
-    expect(limbIntensity(100)).toBeLessThan(0.01);
-    expect(limbIntensity(100_000)).toBeGreaterThan(0.6);
-    for (const [lo, hi] of [
-      [0, 1_000],
-      [1_000, 20_000],
-      [20_000, 100_000],
-      [100_000, 400_000],
-    ] as const) {
-      expect(limbIntensity(hi)).toBeGreaterThan(limbIntensity(lo));
-    }
-    // Saturating: the atmosphere does not get thicker with more altitude.
-    expect(limbIntensity(400_000)).toBeLessThan(1);
-  });
-
-  it('washes the ground out with the same air that lights the limb', () => {
-    // One curve for both, so a change to how much atmosphere the view has
-    // cannot brighten the limb while leaving the ground crisp.
-    expect(groundColourShare(0)).toBeCloseTo(1, 3);
-    expect(groundColourShare(100_000)).toBeLessThan(groundColourShare(4_000));
-    // But land stays land: from orbit it is dim and blue, not sky.
-    expect(groundColourShare(400_000)).toBeGreaterThanOrEqual(0.25);
-  });
-
-  it('bends the horizon symmetrically, and not at all on the ground', () => {
-    expect(curveAt(0.5, 40)).toBe(0);
-    expect(curveAt(0, 40)).toBeCloseTo(curveAt(1, 40), 10);
-    expect(curveAt(0, 40)).toBeGreaterThan(0);
-    expect(curveAt(0.25, 40)).toBeLessThan(curveAt(0, 40));
-    // Zero sagitta is a straight line, which is what sea level gets.
-    for (const u of [0, 0.3, 0.5, 0.8, 1]) expect(curveAt(u, 0)).toBe(0);
-  });
-
-  it('mixes colours toward the sky without leaving the channel', () => {
-    expect(mixColour(0x000000, 0xffffff, 0)).toBe(0x000000);
-    expect(mixColour(0x000000, 0xffffff, 1)).toBe(0xffffff);
-    expect(mixColour(0x000000, 0xffffff, 0.5)).toBe(0x808080);
-    // Out-of-range shares clamp rather than wrapping a channel.
-    expect(mixColour(0x102030, 0x405060, -5)).toBe(0x102030);
-    expect(mixColour(0x102030, 0x405060, 5)).toBe(0x405060);
   });
 });

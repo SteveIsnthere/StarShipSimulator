@@ -16,7 +16,9 @@ import {
   padLightIntensity,
 } from './atmosphere-look';
 import { skyLightness, skyTint } from './sky';
-import { MOTTLE_TILE, type TerrainTextures } from './terrain';
+import { scaleColour } from './colour';
+import { horizonCurve, horizonDrop, HORIZON_SEGMENTS } from './horizon';
+import { MOTTLE_MEAN, MOTTLE_TILE, type TerrainTextures } from './terrain';
 
 /**
  * Ground colour.
@@ -40,16 +42,6 @@ export interface World {
   /** Reposition everything for this frame. */
   update(camera: CameraState, viewport: Viewport, speedX: number, altitude: number): void;
 }
-
-/**
- * How many segments the curved horizon is drawn with.
- *
- * Sixteen is enough that the bow reads as a curve rather than a fan at every
- * altitude the game reaches, and few enough that redrawing it costs nothing —
- * which matters, because unlike the flat rectangle it replaced this has to be
- * redrawn whenever the curvature changes rather than only on resize.
- */
-const HORIZON_SEGMENTS = 16;
 
 /**
  * @param terrain the generated mottle and ramp (M9.8). Optional, because the
@@ -170,7 +162,7 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
             // A parabola through (0,0) at the middle and (±1, sagitta) at the
             // edges — indistinguishable from the circle at these angles and far
             // cheaper to evaluate.
-            const offset = ((2 * u - 1) * (2 * u - 1)) * sagitta * 3;
+            const offset = horizonCurve(u, sagitta);
             ground.lineTo(px, offset);
           }
           ground.lineTo(left + span, viewport.height * 2);
@@ -181,7 +173,16 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
       ground.y = horizon.y;
       // The ground dims with the sky. 2021 darkened one and not the other, so
       // the world came apart at the horizon on any hard ascent.
-      ground.tint = groundTint(GROUND_COLOR, lightness);
+      /*
+        SCALED TO THE MOTTLE'S MEAN, for the reason set out on `MOTTLE_MEAN` and
+        applied here as well as on the far band — the two layers have the same
+        construction, a bowed `Graphics` with a rectangular mottle over it, so
+        they have the same sliver of bare fill above the mottle and it has to be
+        the same tone in both. Correcting only the far one, as the first version
+        of this did, left the near ground's stripe in place AND made the two
+        layers disagree with each other where they meet.
+      */
+      ground.tint = scaleColour(groundTint(GROUND_COLOR, lightness), MOTTLE_MEAN);
       // Hidden when the camera is high enough that the ground is off screen,
       // which saves a full-screen fill on every frame of an ascent.
       ground.visible = horizon.y < viewport.height;
@@ -191,7 +192,7 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
         ramp.visible = ground.visible;
         if (ground.visible) {
           // Below the bow's lowest point; see the note where these are built.
-          const top = horizon.y + sagitta * 3;
+          const top = horizon.y + horizonDrop(sagitta);
           const height = Math.max(1, viewport.height * 2 - top);
           mottle.x = -viewport.width;
           mottle.y = top;

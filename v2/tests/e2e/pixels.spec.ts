@@ -54,9 +54,12 @@ const SPEC: FrameSpec = {
     has to carry part of the separation — but brightness ALONE cuts the dim
     halo of a vacuum plume, so it cannot carry all of it. See the notes on
     `orWarmth` in `pixels.ts` and on `PLUME` in `plume.spec.ts`: the ground
-    fails both clauses, at luma 147 and a warmth of 62.
+    fails both clauses. The luma floor moved from 150 to 200 at M9.15 — see the
+    note on `PLUME` in `plume.spec.ts`: the horizon wash mixes terrain toward
+    the sky, so washed ground now reaches luma 168 where it used to stop at 147,
+    and at 150 the entire width of the terrain was being measured as plume.
   */
-  extents: { fire: { minLuma: 150, orWarmth: 100, warmOnly: true, region: SUBJECT } },
+  extents: { fire: { minLuma: 200, orWarmth: 100, warmOnly: true, region: SUBJECT } },
 };
 
 /** Load a scenario preset, optionally editing the flight before it starts. */

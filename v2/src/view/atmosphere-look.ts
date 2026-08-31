@@ -14,6 +14,7 @@
  * is that view/ never writes anything back.
  */
 import { planetRadius } from '$core/constants';
+import { scaleColour } from './colour';
 
 // --- horizon curvature -----------------------------------------------------
 
@@ -252,8 +253,5 @@ export function groundTint(baseColor: number, skyLightness: number): number {
   // own value than the sky does — squaring both made the horizon vanish into a
   // single flat tone at 60 km, which is the opposite of the depth this adds.
   const factor = 0.45 + 0.55 * skyLightness;
-  const r = Math.round(((baseColor >> 16) & 0xff) * factor);
-  const g = Math.round(((baseColor >> 8) & 0xff) * factor);
-  const b = Math.round((baseColor & 0xff) * factor);
-  return (r << 16) | (g << 8) | b;
+  return scaleColour(baseColor, factor);
 }

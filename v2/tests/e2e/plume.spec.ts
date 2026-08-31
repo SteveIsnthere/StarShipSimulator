@@ -63,9 +63,22 @@ const BELOW: Region = { x: 0.36, y: 0.52, width: 0.28, height: 0.47 };
  * projects. Fire is two things at once here: a white-hot throat that only
  * brightness identifies, and a cool wide halo that only colour identifies.
  * `orWarmth` is the disjunction that admits both, and the ground satisfies
- * neither clause: luma at most 147, red leading blue by at most 62.
+ * neither clause. *
+ * AND THE LUMA FLOOR MOVED AT M9.15, from 150 to 200, because the number under
+ * it was measured before the horizon was. "The brightest the ground ever gets
+ * is luma 147" was true when it was written and false three tasks later: the
+ * horizon wash mixes terrain toward the SKY, and the sky is the brightest thing
+ * in the frame, so washed ground near the horizon now reaches luma 168. At a
+ * floor of 150 the whole width of the terrain passed as fire and the plume
+ * measured 12.6 ship-lengths across on a landscape phone.
+ *
+ * Re-measured rather than nudged: on that frame the brightest warm terrain
+ * pixel is rgb(183,166,143) at luma 168.0 and the brightest pixel in the plume
+ * column is 251.8. A floor of 200 sits between them with 32 of margin below and
+ * 52 above, and the plume's cooler body is caught by `orWarmth` regardless of
+ * how bright it is.
  */
-const PLUME = { region: BELOW, minLuma: 150, orWarmth: 100, warmOnly: true };
+const PLUME = { region: BELOW, minLuma: 200, orWarmth: 100, warmOnly: true };
 
 /** Hold the vehicle at an altitude with all three engines at full thrust. */
 async function underPowerAt(page: Page, altitude: string): Promise<void> {

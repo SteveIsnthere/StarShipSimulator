@@ -16,6 +16,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   MOTTLE_FLOOR,
+  MOTTLE_MEAN,
   MOTTLE_TILE,
   RAMP_FOREGROUND,
   RAMP_HEIGHT,
@@ -177,5 +178,23 @@ describe('more scenery, and nothing new to fetch', () => {
     expect(fixed['starhopper']).toBe(starBase - 200);
     expect(fixed['lunchpad_Light1']).toBe(starBase - 30);
     expect(fixed['lunchpad_Light2']).toBe(starBase + 30);
+  });
+});
+
+describe('the flat fill can match the texture it sits beside', () => {
+  it('MOTTLE_MEAN is what the writer actually averages to', () => {
+    /*
+      The bowed horizon leaves a sliver of un-mottled band above the mottle
+      rectangle — a hundred and thirteen pixels of it from 100 km — and that
+      sliver is filled with a flat colour. If the constant drifts from the
+      texture, the sliver becomes a visible stripe of a different tone across
+      the whole frame, which is what it was before M9.15.
+    */
+    const tile = new Uint8ClampedArray(MOTTLE_TILE * MOTTLE_TILE * 4);
+    writeMottleTile(MOTTLE_TILE, tile);
+    let sum = 0;
+    for (let i = 0; i < MOTTLE_TILE * MOTTLE_TILE; i++) sum += tile[i * 4]!;
+    const mean = sum / (MOTTLE_TILE * MOTTLE_TILE) / 255;
+    expect(mean).toBeCloseTo(MOTTLE_MEAN, 2);
   });
 });
