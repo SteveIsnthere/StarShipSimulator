@@ -895,6 +895,41 @@ scenarios, goldens regenerated with the justification in the same commit.
   because silently meeting a different bar is the reinterpretation `CLAUDE.md` forbids — and
   authoring the acceptance line myself an hour earlier does not exempt it.
 - [x] **M10.12 Reduce the max-Q shake test's cost** — 4.4–4.6 min on `pixel-landscape`.
+
+## M11 — Next level: physics and graphics pushed on the evidence (plan: `docs/NEXT-LEVEL-PLAN.md`)
+
+Owner approval 2026-08-31 ("Go"). Every physics task is Fidelity tier; that approval is the
+say-so each commit names. Three decisions stay open and are NOT implemented: the Cd shape, the
+thermal coefficient, Earth rotation.
+
+- [ ] **M11.1 Wind, wired** — `WorldState.wind`/`gust` exist and are read by nothing; aero uses
+  groundspeed. Apply `airspeed = groundspeed − wind − gust` wherever aero reads speed. Accept:
+  bit-identical at wind = 0 (all seven goldens unmoved, proven by the gate); a wind scenario
+  added with its golden recorded; gate green.
+- [ ] **M11.2 Thrust and Isp with altitude** — `thrust = T_vac − p_amb·A_exit`, mass flow from
+  vacuum Isp, constants from the public Raptor 2 figures with the source named. Accept: a test
+  shows thrust rising with altitude by the stated ratio; goldens regenerated with the before/after
+  diff; audit row; gate green.
+- [ ] **M11.3 Velocity Verlet** — second-order symplectic. Accept: the M11 coast table repeated
+  shows altitude drift falling as dt² and energy conservation no worse than 1e-10; the step-order
+  contract comment rewritten; goldens regenerated with diff and audit row; gate green.
+- [ ] **M11.4 The sun** — elevation derived in `view/` from scenario and `environmentTime`; sky by
+  elevation; generated normal map lighting the vehicle; ground shadow; far-earth terminator.
+  Accept: pixel harness shows lit/unlit vehicle sides differ in luma by a stated margin and the
+  shadow moves with the sun; the intro's daylight look reproduced at the default elevation; full
+  gate incl. browser suite.
+- [ ] **M11.5 Re-entry: sheath and onboard camera** — a windward plasma sheath shader from
+  `thermalPower` and `angleOfAttack`; an inset onboard view. Accept: pixel harness on the re-entry
+  preset; full gate incl. browser suite.
+- [ ] **M11.6 Camera modes** — ground-tracking, chase, onboard, on the existing follow law;
+  CINEMATIC gains a selector. Accept: the five camera properties hold in every mode; full gate.
+- [ ] **M11.7 Real stars** — ~300 brightest by RA/Dec for the site. Accept: named asterisms are
+  where they should be; full gate.
+- [ ] **M11.8 Centre of mass** — CoM as a function of propellant under a stated tank layout;
+  moment arms derived. Accept: the flip's torque changes as propellant drains; goldens
+  regenerated with diff and audit row; gate green.
+- [ ] **M11.9 Ship** — perf and budget re-measured, screenshots regenerated, docs and audit
+  table current. Accept: full gate green on all five projects.
   Accept: measurably cheaper with the assertion unweakened, or a written finding that it
   cannot be without weakening it.
   Docs updated; remaining debt named in words rather than left implied. Accept: lowering the
