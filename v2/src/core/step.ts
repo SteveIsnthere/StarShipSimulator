@@ -6,16 +6,44 @@
  * given. That is the property golden fixtures are built on, and the reason this
  * file may not read the clock, the DOM, or a global.
  *
- * ORDER IS THE CONTRACT. updateBackEnd() runs its phases in a specific sequence,
- * and several of them read values the previous phase just wrote — spatial motion
- * integrates using accelerations computed at the END of the previous step, not
- * this one. Reordering anything here is a physics change, not a tidy-up.
- *
- * The 2021 order, preserved exactly:
+ * ORDER IS THE CONTRACT. The phases run in a specific sequence and several read
+ * values the previous phase just wrote. Reordering anything here is a physics
+ * change, not a tidy-up. The 2021 phase order is kept:
  *   1. environmentUpDate      atmosphere from altitude
  *   2. vehicleStatusUpDate    failures, propellant, engine status
  *   3. FlightParamsUpDate     basic params, spatial motion, rotational motion
  *   4. controlsUpdate         autopilot, translation, throttle
+ *
+ * THE INTEGRATOR IS VELOCITY VERLET — M11.3, Fidelity. Up to M11.3 phase 3
+ * integrated as 2021 did: position by the incoming velocity, velocity by the
+ * acceleration stored at the end of the PREVIOUS step, then a fresh
+ * acceleration for next time — a first-order scheme. Measured against
+ * Kepler's closed form on an eccentric vacuum orbit (tests/core/verlet.test.ts)
+ * its position error halved with dt and its energy error was 2e-6 at 1/120;
+ * the M11 survey's "part in 10^10" was a circular orbit, which is a fixed
+ * point of this polar scheme and hides the error. Velocity Verlet is second
+ * order in both: the error quarters with dt and energy holds to 7e-13.
+ * Within one step, for the translational motion:
+ *
+ *   forces   drag, lift, thrust from the INCOMING state (3a, as before)
+ *   a_n      those, plus gravity and the polar terms at the incoming r and v
+ *   x_{n+1}  = x_n + v_n dt + a_n dt^2 / 2
+ *   a_{n+1}  the same aero and thrust accelerations, plus gravity at the NEW
+ *            r and the polar terms at the new r with the Euler-predicted
+ *            velocity v_n + a_n dt (a velocity-dependent force needs a
+ *            velocity at the new time, and the predictor is second order)
+ *   v_{n+1}  = v_n + (a_n + a_{n+1}) dt / 2
+ *
+ * The stored `accelerationX/Y` is a_{n+1}: the acceleration at the state the
+ * step returns, which is what the HUD and the autopilot read. The aerodynamic
+ * forces are NOT re-evaluated at the new velocity — they are held at v_n for
+ * the whole step, so the scheme is second order in gravity and first in drag,
+ * which is the order the goldens exercise it in: drag is dissipative and the
+ * conservation argument is about vacuum. Rotational motion takes the same
+ * form with the angular acceleration STORED from the previous step as
+ * alpha_n (the torques are only known after the translational update, since
+ * the fin forces read the new airspeed), the angular drag at the predicted
+ * omega_n + alpha_n dt, and the stored `angularAcceleration` is alpha_{n+1}.
  *
  * On `dt`: 2021 divided per-second rates by `renderTimeInterval`, which equals
  * `frameRate / timeAccel` and so is the reciprocal of simulated seconds per
@@ -81,10 +109,12 @@ function updatePitchRateOfChange(s: SimState, dt: number): void {
  * expression survives as `gravity.legacyOrbitRelief` for the parity record.
  *
  * What remains is the orbital geometry: the radius, and the circular speed at
- * it. Called at the END of spatial motion, exactly where 2021 calls it.
- * `orbitalVelocityAtCurrentAltitude` is now kept honest step by step — 2021
- * wrote it once at spawn (initBackEnd.js:50) and never again — because the HUD
- * reads it and there is no reason to leave a stale number lying there.
+ * it. 2021 called it at the END of spatial motion; since M11.3 it is called as
+ * soon as the position is integrated, because the Verlet velocity update needs
+ * gravity at the NEW radius (see the header). `orbitalVelocityAtCurrentAltitude`
+ * is kept honest step by step — 2021 wrote it once at spawn (initBackEnd.js:50)
+ * and never again — because the HUD reads it and there is no reason to leave a
+ * stale number lying there.
  */
 function updateOrbitalGeometry(s: SimState): void {
   const { kinematics } = s;
@@ -125,8 +155,11 @@ function checkIfCrash(s: SimState): void {
         engines.running = [false, false, false];
         vehicle.rcsRunTimeRemaining = 0;
       }
-    } else if (forces.thrustAcceleration <= C.gravity) {
-      // configOnTheGround()
+    } else if (forces.thrustAcceleration <= gravity.gravityAt(kinematics.distanceToPlanetCenter)) {
+      // configOnTheGround(). M11.3: against the LOCAL gravity, which is what
+      // the integrator applies — 9.731 m/s^2 at the pad, not the 9.807 constant
+      // 2021 compared with. The two disagreed by 0.8%, and in that band phase
+      // 2 zeroed the speeds while 3b's a*dt^2/2 term crept the vehicle upward.
       status.onTheGround = true;
       kinematics.speedX = 0;
       kinematics.speedY = 0;
@@ -296,41 +329,11 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.atmosphere.airPressure,
   );
 
-  // 3b. updateSpactialMotion. Integrates with LAST step's accelerations, then
-  // recomputes them — semi-implicit in an unusual order. Preserved.
-  s.kinematics.altitude += s.kinematics.speedY * dt;
-
-  s.kinematics.downRangeDistanceNextFrame = s.kinematics.downRangeDistance + s.kinematics.speedX * dt;
-  if (s.kinematics.downRangeDistanceNextFrame > C.planetCircumference) {
-    s.kinematics.downRangeDistance =
-      s.kinematics.downRangeDistanceNextFrame - C.planetCircumference;
-  } else if (s.kinematics.downRangeDistanceNextFrame < 0) {
-    s.kinematics.downRangeDistance =
-      s.kinematics.downRangeDistanceNextFrame + C.planetCircumference;
-  } else {
-    s.kinematics.downRangeDistance = s.kinematics.downRangeDistanceNextFrame;
-  }
-
-  s.kinematics.speedX += s.kinematics.accelerationX * dt;
-  s.kinematics.speedY += s.kinematics.accelerationY * dt;
-
-  s.kinematics.trueSpeed = Math.sqrt(s.kinematics.speedX ** 2 + s.kinematics.speedY ** 2);
-  // M11.1: the same magnitude against the relative wind, from the speeds just
-  // integrated. Mach and the fin forces read this; the HUD reads trueSpeed.
-  const airspeed = aero.relativeAirspeed(
-    s.kinematics.speedX,
-    s.kinematics.speedY,
-    s.world.wind,
-    s.world.gust,
-  );
-  // M2.7, Fidelity. 2021 used a constant 343 m/s everywhere — the sea-level
-  // value — so Mach ran ~16% low through the upper atmosphere. That understated
-  // the body drag coefficient too, since it is a function of Mach.
-  // M11.1: Mach is a ratio to the speed of sound in the air the vehicle moves
-  // through, so it is the airspeed over the local speed of sound.
-  s.kinematics.machSpeed = airspeed / speedOfSoundAt(s.atmosphere.airTemperature);
-
-  // updateSpactialAccelerations
+  // 3b. updateSpactialMotion — velocity Verlet since M11.3 (see the header).
+  //
+  // The accelerations that do not change within the step: the aerodynamic
+  // and thrust components, from the forces phase 3a took off the incoming
+  // state. Gravity and the polar terms are added at each end of the step.
   s.forces.aerodynamicDragAcceleration = aero.getAcceleration(
     s.forces.aerodynamicDrag,
     s.vehicle.vehicleMass,
@@ -352,34 +355,89 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     aerodynamicLiftAcceleration: s.forces.aerodynamicLiftAcceleration,
     thrustAcceleration: s.forces.thrustAcceleration,
   };
-  s.kinematics.accelerationX = comp.getHorizontalAcceleration(accelInputs);
-  s.kinematics.accelerationY = comp.getVerticalAcceleration(accelInputs, C.gravity);
+  const bodyAccelerationX = comp.getHorizontalAcceleration(accelInputs);
+  // M2.6, Fidelity. getVerticalAcceleration applies a constant -gravity;
+  // adding C.gravity back and applying real gravity plus the centrifugal term
+  // per end of the step is deliberate: it is what made M2.10's unification
+  // provably bit-identical, and float addition is not associative.
+  const bodyAccelerationY = comp.getVerticalAcceleration(accelInputs, C.gravity) + C.gravity;
 
-  // M2.6, Fidelity. getVerticalAcceleration applied a constant -9.807; undo
-  // that and apply real gravity plus the centrifugal term instead. Adding the
-  // difference back rather than restructuring the composition is deliberate:
-  // it is what made M2.10's unification provably bit-identical to the flag-on
-  // path it replaced, and float addition is not associative.
-  s.kinematics.accelerationY +=
-    C.gravity +
-    gravity.verticalGravityAcceleration(s.kinematics.distanceToPlanetCenter, s.kinematics.speedX);
+  // a_n: at the incoming position and velocity.
+  const r0 = s.kinematics.distanceToPlanetCenter;
+  const vx0 = s.kinematics.speedX;
+  const vy0 = s.kinematics.speedY;
+  let ax0 = bodyAccelerationX + gravity.tangentialAcceleration(r0, vx0, vy0);
+  let ay0 = bodyAccelerationY + gravity.verticalGravityAcceleration(r0, vx0);
 
-  // Angular momentum r*v_t is conserved under a central force: climbing while
-  // moving tangentially must cost tangential speed. Without this a vehicle
-  // could climb without slowing and gain orbital energy from nothing.
-  s.kinematics.accelerationX += gravity.tangentialAcceleration(
-    s.kinematics.distanceToPlanetCenter,
+  // GROUND CONTACT — M11.3. A vehicle resting on the pad (phase 2 has just
+  // zeroed its speeds) with less than a g of thrust is HELD by the ground: the
+  // normal force cancels the net downward acceleration and friction the
+  // sideways one, so it neither sinks nor creeps. The pre-M11.3 order hid
+  // this — position moved by a speed that had just been zeroed — where the
+  // a dt^2 / 2 term would sink it 0.3 mm a step. It also puts the stored
+  // acceleration right: a vehicle on the pad reads 1 g on the HUD, not 0.
+  const held =
+    (s.status.onTheGround || s.status.landed || s.failures.crashed) && ay0 <= 0;
+  if (held) {
+    ax0 = 0;
+    ay0 = 0;
+  }
+
+  // x_{n+1} = x_n + v_n dt + a_n dt^2 / 2.
+  const halfDtSquared = 0.5 * dt * dt;
+  s.kinematics.altitude += vy0 * dt + ay0 * halfDtSquared;
+
+  s.kinematics.downRangeDistanceNextFrame =
+    s.kinematics.downRangeDistance + vx0 * dt + ax0 * halfDtSquared;
+  if (s.kinematics.downRangeDistanceNextFrame > C.planetCircumference) {
+    s.kinematics.downRangeDistance =
+      s.kinematics.downRangeDistanceNextFrame - C.planetCircumference;
+  } else if (s.kinematics.downRangeDistanceNextFrame < 0) {
+    s.kinematics.downRangeDistance =
+      s.kinematics.downRangeDistanceNextFrame + C.planetCircumference;
+  } else {
+    s.kinematics.downRangeDistance = s.kinematics.downRangeDistanceNextFrame;
+  }
+
+  // a_{n+1}: gravity at the new radius, the polar terms at the new radius
+  // with the Euler-predicted velocity — which is exactly the velocity the
+  // pre-M11.3 scheme would have produced, so this evaluation point is the
+  // one the goldens always used; what Verlet changes is the update itself.
+  updateOrbitalGeometry(s);
+  const r1 = s.kinematics.distanceToPlanetCenter;
+  const vx1 = vx0 + ax0 * dt;
+  const vy1 = vy0 + ay0 * dt;
+  const ax1 = held ? 0 : bodyAccelerationX + gravity.tangentialAcceleration(r1, vx1, vy1);
+  const ay1 = held ? 0 : bodyAccelerationY + gravity.verticalGravityAcceleration(r1, vx1);
+
+  // v_{n+1} = v_n + (a_n + a_{n+1}) dt / 2.
+  s.kinematics.speedX = vx0 + 0.5 * (ax0 + ax1) * dt;
+  s.kinematics.speedY = vy0 + 0.5 * (ay0 + ay1) * dt;
+
+  // What the HUD and the autopilot read: the acceleration at the returned state.
+  s.kinematics.accelerationX = ax1;
+  s.kinematics.accelerationY = ay1;
+  s.kinematics.totalAcceleration = Math.sqrt(ax1 ** 2 + ay1 ** 2);
+
+  s.kinematics.trueSpeed = Math.sqrt(s.kinematics.speedX ** 2 + s.kinematics.speedY ** 2);
+  // M11.1: the same magnitude against the relative wind, from the speeds just
+  // integrated. Mach and the fin forces read this; the HUD reads trueSpeed.
+  const airspeed = aero.relativeAirspeed(
     s.kinematics.speedX,
     s.kinematics.speedY,
+    s.world.wind,
+    s.world.gust,
   );
+  // M2.7, Fidelity. 2021 used a constant 343 m/s everywhere — the sea-level
+  // value — so Mach ran ~16% low through the upper atmosphere. That understated
+  // the body drag coefficient too, since it is a function of Mach.
+  // M11.1: Mach is a ratio to the speed of sound in the air the vehicle moves
+  // through, so it is the airspeed over the local speed of sound.
+  s.kinematics.machSpeed = airspeed / speedOfSoundAt(s.atmosphere.airTemperature);
 
-  s.kinematics.totalAcceleration = Math.sqrt(
-    s.kinematics.accelerationX ** 2 + s.kinematics.accelerationY ** 2,
-  );
-  // Last line of updateSpactialMotion, and it must stay last.
-  updateOrbitalGeometry(s);
-
-  // 3c. updateRotationalMotion
+  // 3c. updateRotationalMotion — the same Verlet form, with alpha_n the
+  // angular acceleration STORED by the previous step (the torques below need
+  // the airspeed just integrated, so they cannot be evaluated first).
   s.vehicle.vehicleMomentOfInertia = eng.getMomentOfInertia(s.vehicle.vehicleMass);
 
   // Wrap BEFORE integrating, exactly as 2021 does, so a step can leave pitch
@@ -390,8 +448,14 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.kinematics.pitch = rad(s.kinematics.pitch + 2 * Math.PI);
   }
 
-  s.kinematics.pitch = rad(s.kinematics.pitch + s.kinematics.angularVelocity * dt);
-  s.kinematics.angularVelocity += s.kinematics.angularAcceleration * dt;
+  const omega0 = s.kinematics.angularVelocity;
+  // Held on the ground, the pad takes the torque too: no rotation.
+  const alpha0 = held ? 0 : s.kinematics.angularAcceleration;
+  s.kinematics.pitch = rad(s.kinematics.pitch + omega0 * dt + alpha0 * halfDtSquared);
+  // The angular drag reads the predicted omega_n + alpha_n dt; it is written
+  // back so the drag term below reads it, and replaced by the Verlet update
+  // once alpha_{n+1} is known.
+  s.kinematics.angularVelocity = omega0 + alpha0 * dt;
 
   s.forces.thrustVectorForce = eng.getThrustVectorForce(s.forces.thrust, s.vehicle.gimbalPosition);
   s.forces.frontFinDrag = aero.getFrontFinDrag(
@@ -445,13 +509,18 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     I,
   );
 
-  s.kinematics.angularAcceleration =
+  const alpha1 =
     s.forces.thrustVectorAcceleration +
     s.forces.angularDragAcceleration +
     s.forces.frontFinDragAngularAcceleration +
     s.forces.aftFinDragAngularAcceleration +
     s.forces.rcsThrustAngularAcceleration +
     s.forces.offAxisThrustDifferenceAcceleration;
+  // omega_{n+1} = omega_n + (alpha_n + alpha_{n+1}) dt / 2 — unless held, in
+  // which case the pad takes the torque and the stored acceleration is zero,
+  // as the translational one is.
+  s.kinematics.angularVelocity = held ? 0 : omega0 + 0.5 * (alpha0 + alpha1) * dt;
+  s.kinematics.angularAcceleration = held ? 0 : alpha1;
 
   // --- 4. controlsUpdate ---------------------------------------------------
   // highLevelInput(): autopilot first, then manual input, which overrides it.

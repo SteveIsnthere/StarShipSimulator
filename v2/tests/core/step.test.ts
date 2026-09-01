@@ -143,14 +143,21 @@ describe('it actually simulates something', () => {
     expect(s.status.onTheGround).toBe(true);
     expect(s.kinematics.altitude).toBe(25);
 
-    // speedY is NOT zero at the end of a step, and that is faithful. The 2021
-    // phase order zeroes velocity in checkIfCrash (phase 2) and then
-    // re-accelerates it under gravity in updateSpactialMotion (phase 3b). The
-    // residual is always cleared again before the next altitude integration
-    // uses it, so the vehicle never actually sinks. Altitude staying at exactly
-    // 25 over 240 steps is the invariant that matters.
-    expect(s.kinematics.speedY).toBeLessThan(0);
-    expect(s.kinematics.speedY).toBeGreaterThan(-1);
+    // The pad HOLDS it — M11.3. Up to M11.3 the 2021 phase order zeroed the
+    // velocity in checkIfCrash (phase 2) and then re-accelerated it under
+    // gravity in 3b, leaving speedY at -g*dt at the end of every step; the
+    // residual was cleared before the next altitude integration used it, so
+    // the vehicle never sank, but only by the accident of ordering. Velocity
+    // Verlet moves position by a*dt^2/2 as well, which that accident does not
+    // cover, so ground contact is explicit now: on the pad with under a g of
+    // thrust, the net acceleration is zero and so is the speed. That is also
+    // what the HUD should read on the pad — 1 g felt, which is accelerationY
+    // of 0 in this frame, not the -g of a vehicle in free fall.
+    expect(s.kinematics.speedY).toBe(0);
+    expect(s.kinematics.speedX).toBe(0);
+    expect(s.kinematics.accelerationY).toBe(0);
+    expect(s.kinematics.accelerationX).toBe(0);
+    expect(s.kinematics.angularVelocity).toBe(0);
     expect(run(createInitialState(), 10_000).kinematics.altitude).toBe(25);
   });
 

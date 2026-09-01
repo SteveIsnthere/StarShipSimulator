@@ -23,6 +23,7 @@
  *     M10.5   the NaN throttle escape            moved NOTHING — see below
  *     M11.1   the wind wiring                    moved NOTHING; one fixture ADDED
  *     M11.2   thrust with altitude               ALL EIGHT
+ *     M11.3   velocity Verlet                    ALL EIGHT
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -73,6 +74,28 @@
  * figure) and touches down one sample earlier. The before/after diff is in the
  * commit message.
  *
+ * M11.3 moving all eight is the integrator itself changing: every row after the
+ * first is a different scheme's arithmetic, and a fixture that did NOT move
+ * would mean the new integrator was not running. The shape check is the
+ * OUTCOMES. The four landings all still land at 25.0 m — and at a vertical
+ * speed of exactly 0.00 rather than the -0.08 m/s the old order left behind
+ * (its checkIfCrash zeroed the speed and 3b re-accelerated it under gravity
+ * every step; ground contact is explicit now, and a held vehicle has zero
+ * speed and zero acceleration, which is also the 1 g the HUD should read on
+ * the pad). Every flight ends within metres of where it did: launch-pad 7 m
+ * higher at 90 s, booster-sep 2 m, RTLS 0.4 m, re-entry 0.4 m lower — a
+ * second-order correction to trajectories that are dominated by thrust and
+ * drag, where the first-order error was small to begin with. ONE DISCRETE
+ * DECISION MOVED: in landing-burn-headwind the autopilot lit a second engine
+ * for one sampled instant at 150 m before and does not now — the burn is flown
+ * on one engine throughout, and lands the same. Its still-air twin lights the
+ * same engines at the same samples before and after. Review found it by
+ * decoding the fixtures, which is what the fixtures are for. The proof that
+ * the change is the one claimed is tests/core/verlet.test.ts, against
+ * Kepler's closed form: position error falls as dt^2 (ratio 4.0, where Euler
+ * gave 2.0) and energy on an eccentric vacuum orbit is conserved to 7e-13 at
+ * 1/120 (Euler: 2e-6).
+ *
  * REPRODUCING A DIGEST. The rows block is everything from the NEWLINE BEFORE the
  * `"rows": [` line to the end of the file, hashed as written. That leading
  * newline is part of the hash, and the recipe here used to omit it, so the
@@ -105,15 +128,15 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // All eight last moved at M11.2, Fidelity: thrust with altitude.
-  'launch-pad-takeoff': '2d47399a0c0f64cf6825f242ec8bfbdaaacfb52c1c9f14ff3c27aeb10356bd21',
-  'booster-sep-boostback': '710869ac615dc6422482b20e460f82798d6e77a0ffa2085da8fe34644ee0797c',
-  'rtls-boostback': '91341320c6e57c380744aac341771e4c72ea194c50732cd3f3dcd719c9754467',
-  'reentry-autoland': '29981b99195e404d371681085d27c8a8d72282bc3d1c3d7ee78d86acca08f4b3',
-  'before-flip-autoland': 'dfddebc8a53ed6fc94e25faf99da8ea55c750447babf0d925d6ae8bb887b8a2c',
-  'landing-burn-autoland': 'c5680dde19647753ef1a1ef15da7e58b377550fb695e0b58eebcb2b99fb240b5',
-  'landing-burn-headwind': '3492d09fe9358cd5f81f7cd89d113abb0a960eceecc014c523c618c3765f69c2',
-  'intro-demo': '11fc888396a8f0c68b3d1297e186989c3f4abf82256543ef2ecb615748f88461',
+  // All eight last moved at M11.3, Fidelity: velocity Verlet.
+  'launch-pad-takeoff': '2b1e720e7ebb93bb43045e74dd89f66ffba7792ef4aaa20a172c1b8c4bad561a',
+  'booster-sep-boostback': '33604d880bce7ab6c0cf6f210aafa09200fd141ff560cbf305cbe76740d9bcc5',
+  'rtls-boostback': '88ea14d426433d8b8d967a5432a444015ab06afa2d294beea7fec21d6b710bd6',
+  'reentry-autoland': '037ac42d9acc8ff398610d8eb294c82f487b279dbb7de5c19a48f24edfb230ee',
+  'before-flip-autoland': 'e16c8a9a5496b0de06f2fd8d18d26903540e256a20d760069a19fcce02bcdd39',
+  'landing-burn-autoland': '8e7608fdf52bfce01f89eb4c7cfa088be3c9da852ff068acc9b48a679db6f7d8',
+  'landing-burn-headwind': '6b602590e362fc16eefd53818b6418213fd5e90172abee4993eac6d220830bce',
+  'intro-demo': '8b7b0482acc57c9d8b33aeef6fe9c2b75a161ce9819cb17fd83b122c9cc989b0',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

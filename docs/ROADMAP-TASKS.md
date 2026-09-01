@@ -912,9 +912,13 @@ thermal coefficient, Earth rotation.
   (as written before the M11.2 correction: "`A_exit`, mass flow from vacuum Isp" — see the
   plan's correction and the log). Accept: a test shows thrust rising with altitude by the
   stated ratio; goldens regenerated with the before/after diff; audit row; gate green.
-- [ ] **M11.3 Velocity Verlet** — second-order symplectic. Accept: the M11 coast table repeated
+- [x] **M11.3 Velocity Verlet** — second-order symplectic. Accept: the M11 coast table repeated
   shows altitude drift falling as dt² and energy conservation no worse than 1e-10; the step-order
   contract comment rewritten; goldens regenerated with diff and audit row; gate green.
+  *Amended at M11.3 (owner to confirm — see the log):* the coast table as written cannot show
+  dt² because its drift is drag at 300 km and a circular orbit is a fixed point of the scheme;
+  the table IS repeated (drift a centimetre, dt-independent) and the dt² and 1e-10 claims are
+  proven on a vacuum ellipse against Kepler's closed form instead (`tests/core/verlet.test.ts`).
 - [ ] **M11.4 The sun** — elevation derived in `view/` from scenario and `environmentTime`; sky by
   elevation; generated normal map lighting the vehicle; ground shadow; far-earth terminator.
   Accept: pixel harness shows lit/unlit vehicle sides differ in luma by a stated margin and the
@@ -3317,3 +3321,22 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   same 90 s and arrives 14.3 t lighter, to the tonne of 3 × 53.4 kg/s × 90 s. Fifteen tests in
   `thrust-altitude.test.ts` pin the anchors, the derived quantities, the curve, the ISA gain
   profile (73% of it by 10 km) and a flown ascent making 7% more at 30 km than on the pad.
+- 2026-09-01 · M11.3 · Velocity Verlet, Fidelity, owner-approved via the M11 plan. Phase 3
+  integrates as `x += v·dt + a·dt²/2`, then `a` at the new radius with the Euler-predicted
+  velocity, then `v += (a_n + a_{n+1})·dt/2`; rotation takes the same form with the stored
+  angular acceleration as α_n. The step-order comment is rewritten to state the new contract
+  with the same precision the old one had. The proof obligation is met against Kepler's
+  closed form rather than the plan's circular table, because a circular orbit is a fixed
+  point of the polar scheme and hides the error — on a 1500 km × 1.15 v_c ellipse over
+  2000 s the pre-M11.3 scheme was off by 796 m at 1/15 and 99 m at 1/120, halving with dt
+  (ratio 2.00, first order); Verlet is 3.8 mm and 0.1 mm, quartering (ratio 4.0), and the
+  worst energy error goes from 2e-6 to 7e-13 at 1/120. The survey's 300 km table is repeated
+  too: drift is a centimetre at every rate and dt-independent (what remains is the 1e-11 kg/m³
+  of thermosphere). Found while building it: the `a·dt²/2` term sinks a vehicle resting on the
+  pad 0.3 mm a step, which the old order hid by moving position with a speed it had just
+  zeroed — so ground contact is explicit now (held on the pad with under a g of thrust, the
+  net acceleration and the speeds are zero), and the HUD reads 1 g on the pad instead of 0.
+  All eight goldens moved; the four landings land at 25.0 m and exactly 0.00 m/s; every flight
+  ends within 7 m of where it did. Three tests re-derived for the new order (the pad, the
+  heat-argument probe, the deorbit peak heat 82% → 81%) and one wind assertion corrected: the
+  wind reaches the ground track through drag, which now acts within the step.

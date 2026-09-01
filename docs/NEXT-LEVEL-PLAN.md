@@ -102,6 +102,17 @@ Second-order symplectic. **Proof obligation:** repeat the coast table above — 
 fall as dt², energy conservation must not degrade below today's 1e-10. Goldens move. The step
 order comment in `step.ts` is rewritten to describe the new contract.
 
+**A correction to this plan, found while building it.** The coast table above is a circular
+orbit, and a circular orbit is a fixed point of the polar scheme: with v_r = 0 the radial
+acceleration is exactly zero and nothing moves, so the "part in 10¹⁰" it reported was not the
+integrator's energy behaviour at all, and the altitude drift it showed was the 1e-11 kg/m³
+of thermosphere at 300 km acting through a first-order velocity update. On an eccentric vacuum
+orbit the old scheme was first order in energy too (2e-6 at 1/120). The proof obligation was
+therefore met against Kepler's closed form on a 1500 km ellipse — `tests/core/verlet.test.ts`
+— where the position error ratio between rate halvings is 4.0 (Euler: 2.0) and the energy
+error 7e-13 at 1/120. The circular table is repeated as well, and is a centimetre at every
+rate.
+
 ### M11.4 — The sun
 A sun elevation derived in `view/` from scenario and `environmentTime` — core stays pure. Sky
 gradient keyed on elevation; a generated normal map for the vehicle sprite lit by direction;

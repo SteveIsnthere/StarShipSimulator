@@ -490,8 +490,11 @@ export const DEFAULT_SEED = 0x5741_4c4b;
  * The spawn state, mirroring initBackEnd() field for field and in its order.
  *
  * The 2021 init order matters and is preserved: `altitude` is `vehicleHeight / 2`,
- * `distanceToPlanetCenter` derives from it, `orbitalVelocityAtCurrentAltitude`
- * from that, and `accelerationY` starts at -gravity rather than 0.
+ * `distanceToPlanetCenter` derives from it, and `orbitalVelocityAtCurrentAltitude`
+ * from that. 2021 started `accelerationY` at -gravity; since M11.3 a vehicle held
+ * on the pad stores a net acceleration of zero (the ground cancels gravity, and
+ * the HUD reads 1 g), so the spawn state starts there too rather than logging a
+ * free-fall reading for one row.
  */
 export function createInitialState(seed = DEFAULT_SEED): SimState {
   const altitude = C.vehicleHeight / 2;
@@ -529,7 +532,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       machSpeed: 0,
 
       accelerationX: 0,
-      accelerationY: -C.gravity,
+      accelerationY: 0,
       totalAcceleration: Math.sqrt(0 ** 2 + (-C.gravity) ** 2),
 
       pitch: rad(0),

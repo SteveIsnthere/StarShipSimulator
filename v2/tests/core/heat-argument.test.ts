@@ -60,7 +60,14 @@ describe('step() passes the radius, not the area', () => {
     s.kinematics.speedY = 0;
     s.kinematics.trueSpeed = 3000;
     s.kinematics.pitch = pitch as never;
-    for (let i = 0; i < 3; i++) s = step(s, 1 / 120);
+    // TWO steps, not three. The first step sets the aerodynamic angles from
+    // the pitch (the area read at the top of a step is the previous step's),
+    // so the second is the first whose presented area reflects the attitude —
+    // and its heat is computed from the speed after one step of drag on the
+    // SAME area for both. A third step would let the broadside vehicle's
+    // larger drag slow it more (M11.3: the drag acts within the step now) and
+    // its heat fall for a physical reason unrelated to the argument under test.
+    for (let i = 0; i < 2; i++) s = step(s, 1 / 120);
     return { heat: s.forces.thermalPower, area: s.forces.crossSectionalArea };
   }
 
@@ -78,10 +85,10 @@ describe('step() passes the radius, not the area', () => {
     expect(broadside.area / noseOn.area, 'the areas must actually differ').toBeGreaterThan(3);
 
     // Heating now depends on the nose radius, not on how the vehicle is turned.
-    // Not bit-identical: after three steps the two attitudes have drifted a
-    // few micrometres apart in altitude, so air density differs in the 13th
-    // digit. The claim is that heat no longer TRACKS the area - a 3x area
-    // difference used to move it by sqrt(3), and now moves it by 1e-13.
+    // Not bit-identical: the lift's sign follows the angle of attack, so after
+    // one step the two speeds differ by 3e-11 m/s and the heat in the 13th
+    // digit. The claim is that heat no longer TRACKS the area — a 15x area
+    // difference used to move it by sqrt(15), and now moves it by 1e-13.
     const heatRatio = broadside.heat / noseOn.heat;
     expect(Math.abs(heatRatio - 1)).toBeLessThan(1e-10);
     // For contrast: under the old argument that same pair differed by sqrt(3).

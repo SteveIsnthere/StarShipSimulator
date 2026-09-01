@@ -263,14 +263,16 @@ describe('step 3 — deorbit and land at StarBase', () => {
   });
 
   it('and the entry is managed, not merely survived', () => {
-    // 318 units against a limit of 389 — 82% of it. The margin is why the burn
-    // is bounded rather than free: a bigger one drops perigee further, meets
-    // thick air faster, and pushes the peak up. Tighter than the Re-entry
-    // preset's 63%, which is right — coming home from orbit should be the
-    // hardest thing the vehicle does.
+    // 315 units against a limit of 389 — 81% of it (318 and 82% before M11.3
+    // moved the integrator; the entry is a second-order trajectory now and the
+    // peak moved one percent). The margin is why the burn is bounded rather
+    // than free: a bigger one drops perigee further, meets thick air faster,
+    // and pushes the peak up. Tighter than the Re-entry preset's 63%, which is
+    // right — coming home from orbit should be the hardest thing the vehicle
+    // does.
     expect(flight.peakHeat).toBeGreaterThan(250);
     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
-    expect(flight.peakHeat / C.heatLimit, 'fraction of the structural limit').toBeCloseTo(0.82, 2);
+    expect(flight.peakHeat / C.heatLimit, 'fraction of the structural limit').toBeCloseTo(0.81, 2);
   });
 
   it('is deterministic — the same flight twice', () => {

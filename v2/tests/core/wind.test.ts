@@ -15,10 +15,11 @@
  * moving uprange it is a headwind (more).
  *
  * ON THE STEP ORDER. Forces in a step are computed from the airspeed of the
- * speeds the step RECEIVES, and `machSpeed` from the speeds it produces — the
- * same one-step lag `trueSpeed` has always had. Every comparison below builds
- * two states that differ only in wind, steps each once, and reads the result;
- * one step is enough because the incoming speeds are the ones set by hand.
+ * speeds the step RECEIVES, and `machSpeed` from the speeds it produces (which,
+ * since M11.3, those forces have already acted on). Every comparison below
+ * builds two states that differ only in wind, steps each once, and reads the
+ * result; one step is enough because the incoming speeds are the ones set by
+ * hand.
  */
 import { describe, expect, it } from 'vitest';
 import * as C from '$core/constants';
@@ -74,10 +75,12 @@ describe('airspeed is the speed through the air, not over the ground', () => {
     const head = step(gliding(120, -40, -30), DT);
     expect(tail.forces.dynamicPressure).toBeLessThan(still.forces.dynamicPressure);
     expect(head.forces.dynamicPressure).toBeGreaterThan(still.forces.dynamicPressure);
-    // And the ground figure is untouched by any of it — the wind is not a
-    // force on the ground track, it is what the air does relative to it.
-    expect(tail.kinematics.trueSpeed).toBe(still.kinematics.trueSpeed);
-    expect(head.kinematics.trueSpeed).toBe(still.kinematics.trueSpeed);
+    // And the wind reaches the ground track only through the air: the drag
+    // it changes acts within the step (M11.3), so a tailwind leaves more
+    // groundspeed than still air and a headwind less — by a few thousandths
+    // of a metre per second in one step, in the right direction.
+    expect(tail.kinematics.trueSpeed).toBeGreaterThan(still.kinematics.trueSpeed);
+    expect(head.kinematics.trueSpeed).toBeLessThan(still.kinematics.trueSpeed);
   });
 
   it('a hovering vehicle in a wind still feels air moving past it', () => {
