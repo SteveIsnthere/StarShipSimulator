@@ -253,7 +253,13 @@ describe('one physics, one fixture set — M2.10', () => {
 
   it('and no spec declares one', () => {
     expect(GOLDEN_SPECS.filter((spec) => spec.id.includes('--'))).toEqual([]);
-    expect(GOLDEN_SPECS).toHaveLength(7);
+    // Eight since M11.1: the seven flights plus `landing-burn-headwind`, the
+    // same landing in 10 m/s of wind. That is a new SCENARIO, not a flag
+    // variant of an old one — it has no `--` suffix and exercises a state field
+    // (`world.wind`) every other fixture holds at zero. The count is a tripwire
+    // for a suffixed fixture creeping back under a different name, so it is
+    // raised here deliberately rather than dropped.
+    expect(GOLDEN_SPECS).toHaveLength(8);
   });
 
   it('every file in the directory belongs to a spec', () => {

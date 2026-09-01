@@ -82,6 +82,27 @@ export const GOLDEN_SPECS: readonly GoldenSpec[] = [
     },
   },
   {
+    id: 'landing-burn-headwind',
+    steps: s(45),
+    /*
+      M11.1. The first fixture with non-zero wind, and the only way the wiring
+      is exercised by a golden at all — every other scenario is flown at
+      `world.wind = 0`, where the change is provably a no-op. Ten metres per
+      second of air moving downrange, against a vehicle descending nearly
+      vertically: the relative wind arrives from ahead, the airspeed exceeds the
+      groundspeed, and the aerodynamic angles part company with the ground
+      track. If this fixture ever matches `landing-burn-autoland` the wind is not
+      being read.
+    */
+    setup: 'autoLand, final descent, into a 10 m/s downrange wind',
+    build: () => {
+      const st = createScenarioState(ALL_SCENARIOS.find((x) => x.id === 'landing-burn')!);
+      st.world.wind = 10;
+      cmd.toggleAutoLand(st);
+      return st;
+    },
+  },
+  {
     id: 'intro-demo',
     steps: s(45),
     // CLAUDE.md: "what must never change". This fixture is what enforces that.

@@ -21,6 +21,7 @@
  *     M2.12   the doubled tangential term        ALL SEVEN
  *     M2.14   the thermosphere                   booster-sep only
  *     M10.5   the NaN throttle escape            moved NOTHING — see below
+ *     M11.1   the wind wiring                    moved NOTHING; one fixture ADDED
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -42,6 +43,18 @@
  * it to the 40% floor, throttling the vehicle down at every engine start. Five
  * moved fixtures were the symptom of a second, undeclared behaviour change
  * hiding inside a declared one. This table is what made it visible.
+ *
+ * M11.1 moving nothing is the same test a third time, and it caught a first
+ * attempt. Wiring `world.wind` into the aerodynamics is a genuine physics
+ * change, but every one of the seven fixtures is flown in still air, where
+ * `speedX - 0 - 0` is `speedX` exactly and the relative-wind expressions return
+ * the same bits as the ground ones — so none of the seven may move, and none
+ * does. The first attempt stored the airspeed as two new SimState fields; that
+ * moved all seven digests for their SHAPE with no value changed, and review
+ * showed it was avoidable: the airspeed is a step-local now, and the digests
+ * are exactly where M10.5 left them. The eighth fixture, landing-burn-headwind,
+ * is new rather than moved — the landing burn in 10 m/s of downrange wind — and
+ * is the only golden in which the wiring does anything at all.
  *
  * REPRODUCING A DIGEST. The rows block is everything from the NEWLINE BEFORE the
  * `"rows": [` line to the end of the file, hashed as written. That leading
@@ -82,6 +95,8 @@ const DIGESTS: Readonly<Record<string, string>> = {
   'reentry-autoland': '7c2b8b7f23476a7e3e92e100726876262958db8ddc60558a8027751a3602925d',
   'before-flip-autoland': 'f2c4cc3df2fd7b66523b1312334ce3e568bdc2f758ef413ab24b1d6a5cd787da',
   'landing-burn-autoland': '6d987b5a9a405584c023baf6b4d86fad4b3fbb93364eeab99f79f094947fa8ee',
+  // M11.1: new, not moved. The landing burn flown into 10 m/s of downrange wind.
+  'landing-burn-headwind': '4431da9f83a9d8d1896aff1e1c131d9b9608fd9ebc0afa5696aa0727660c000f',
   'intro-demo': '9ccbc99467ad598df9ed0e9f7e38960c85948dfffd642f25ca0c344dcc463ffd',
 };
 

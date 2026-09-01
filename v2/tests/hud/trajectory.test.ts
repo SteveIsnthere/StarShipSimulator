@@ -9,7 +9,7 @@
  *   zero. `MIN_SPAN_*` is the answer, and this is what checks it is the answer
  *   everywhere rather than only where it was first noticed.
  *
- *   IT SURVIVES EVERY REAL FLIGHT. The seven goldens are replayed through the
+ *   IT SURVIVES EVERY REAL FLIGHT. Every golden is replayed through the
  *   actual draw, against a recording stub, and every coordinate it emits is
  *   asserted finite and on the canvas. That is possible only because
  *   `trajectory-draw.ts` takes a MINIMAL CONTEXT INTERFACE rather than a real
@@ -408,15 +408,15 @@ describe('the renderer', () => {
 /* ------------------------------------------------------------------------ */
 
 /**
- * The seven goldens, flown through the map.
+ * Every golden, flown through the map.
  *
- * The acceptance line asks for exactly this: replayed over all seven without
+ * The acceptance line asks for exactly this: replayed over every golden without
  * producing a NaN or an off-canvas coordinate. It runs the real simulation
  * rather than reading the fixture files, because the map takes a whole SimState
  * — and it feeds the trail the way the application does, from the recorder's
  * sampling rule, so what is drawn here is what is drawn on screen.
  */
-describe('replayed over the seven goldens', () => {
+describe('replayed over every golden', () => {
   const WIDTH = 280;
   const HEIGHT = 104;
 
@@ -462,7 +462,7 @@ describe('replayed over the seven goldens', () => {
         altitude.push(state.kinematics.altitude);
       }
       // Once a second of simulated time, which is far more often than the map
-      // itself redraws and cheap enough to run over all seven flights.
+      // itself redraws and cheap enough to run over every golden flight.
       if (i % 120 === 0) check(state);
     }
 
@@ -540,7 +540,7 @@ describe('the predicted path on the map (M7.2)', () => {
     expect(writes.filter(([n]) => n === 'data-predict')).toHaveLength(0);
   });
 
-  it('stays on the canvas over all seven goldens with the prediction drawn', () => {
+  it('stays on the canvas over every golden with the prediction drawn', () => {
     // The M7.1 replay already covers this, but the prediction added a mark that
     // sits within a couple of pixels of the bottom edge — its cross arms hung
     // 2.7 px off the map until they were clipped. This is that regression,

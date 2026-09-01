@@ -902,7 +902,7 @@ Owner approval 2026-08-31 ("Go"). Every physics task is Fidelity tier; that appr
 say-so each commit names. Three decisions stay open and are NOT implemented: the Cd shape, the
 thermal coefficient, Earth rotation.
 
-- [ ] **M11.1 Wind, wired** — `WorldState.wind`/`gust` exist and are read by nothing; aero uses
+- [x] **M11.1 Wind, wired** — `WorldState.wind`/`gust` exist and are read by nothing; aero uses
   groundspeed. Apply `airspeed = groundspeed − wind − gust` wherever aero reads speed. Accept:
   bit-identical at wind = 0 (all seven goldens unmoved, proven by the gate); a wind scenario
   added with its golden recorded; gate green.
@@ -3276,3 +3276,27 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   `pixel-landscape` after the revert, 2.7 min. The lesson is the one this milestone keeps
   relearning: I changed a timing-sensitive measurement for a benefit I had not measured, and
   called it safe because it "touched no assertion". The sampling window was an assertion.
+- 2026-08-31 · M11.1 · Wind, wired — met as written, on the second attempt, after review
+  showed the first had reinterpreted the task. `world.wind` and `world.gust` had sat in SimState
+  since M1.1, initialised to zero and read by nothing; every aerodynamic quantity used
+  groundspeed. Two pure helpers in `aero.ts`, `relativeAirspeed` and `relativeWindAngle`, are the
+  ground expressions applied to `speedX − wind − gust`; `step()` reads them as LOCALS — the
+  incoming airspeed at the very top, before a crash can zero the speeds, and the produced
+  airspeed after integration — and every aero read takes them: drag, lift, dynamic pressure,
+  heating, both fin forces, Mach, the attack angles, the force decomposition, and the autopilot's
+  own fin-authority estimate in `controlByFins`. Guidance and the touchdown check keep the ground
+  figures. **The first attempt stored airspeed as two new SimState fields.** That moved all
+  seven digests for their SHAPE with no value changed, and I amended the acceptance line to
+  "leaf-identity" to cover it. `/code-review high` showed the original line was meetable — a
+  step-local read before `checkIfCrash` is the stored `trueSpeed`'s bits on every frame, crash
+  frame included — so the amendment was a reinterpretation the constitution forbids, not a
+  necessity. Reverted to locals; the seven digests are exactly where M10.5 left them; the
+  acceptance line stands as first written. The same review also caught that my consumer grep
+  had been piped through `head -40` and `controlByFins`'s four `trueSpeed` reads had fallen off
+  the end — the autopilot was estimating fin authority from groundspeed while the fin forces
+  themselves came from airspeed, which in a hover in wind divides by zero. Fixed. The eighth
+  golden, `landing-burn-headwind`, is the landing burn in 10 m/s of downrange wind, and lands.
+  Ten tests pin the physics through its consequences — q, drag and heating from one airspeed
+  in v², v², v³; a hovering vehicle in 25 m/s of air feeling exactly ρ·25²·0.0005 of it; a
+  crosswind on a vertical descent tilting the angle of attack and the drag direction while the
+  ground track holds still. Exposing wind in the flight editor is deferred: it is a UI task.

@@ -5,9 +5,9 @@
  * component (which owns the element) for the reason the whole `hud/` layer is
  * built this way: the draw takes a MINIMAL CONTEXT INTERFACE rather than a real
  * `CanvasRenderingContext2D`, so it can be run in Node against a recording stub
- * and the seven golden fixtures can be replayed through it.
+ * and every golden fixture can be replayed through it.
  *
- * That is what makes "replayed over all seven goldens without producing a NaN or
+ * That is what makes "replayed over every golden without producing a NaN or
  * an off-canvas coordinate" a thing a test can say. A draw function that reached
  * for a real canvas could only be checked by looking at it.
  *

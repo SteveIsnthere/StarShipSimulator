@@ -1,5 +1,5 @@
 /**
- * M6.3: the mission event timeline, replayed over all seven goldens.
+ * M6.3: the mission event timeline, replayed over all the goldens.
  *
  * The acceptance line asks for the derivation to be run over the golden
  * fixtures and each scenario's event order asserted. That is done twice here,
@@ -16,7 +16,7 @@
  *
  * The two are asserted EQUAL, which is a stronger claim than it looks: the
  * fixture reading is fed one state in sixty and still reports the same events
- * in the same order on all seven flights. That is a robustness property of the
+ * in the same order on every golden flights. That is a robustness property of the
  * predicates rather than a coincidence, and it is worth pinning — the HUD runs
  * at whatever frame rate the machine gives it, so a predicate that depended on
  * catching one particular step would be broken on a slow phone and this is what
@@ -124,10 +124,13 @@ const EXPECTED: Readonly<Record<string, readonly EventId[]>> = {
   'reentry-autoland': ['ENTRY'],
   'before-flip-autoland': ['FLIP', 'LANDING BURN', 'TOUCHDOWN'],
   'landing-burn-autoland': ['FLIP', 'LANDING BURN', 'TOUCHDOWN'],
+  // M11.1: the same landing flown into 10 m/s of wind. Observed to fire the
+  // same three events — the wind changes the aerodynamics, not the staging.
+  'landing-burn-headwind': ['FLIP', 'LANDING BURN', 'TOUCHDOWN'],
   'intro-demo': ['LANDING BURN', 'TOUCHDOWN'],
 };
 
-describe('the derivation, replayed over the seven goldens', () => {
+describe('the derivation, replayed over every golden', () => {
   it('covers every golden scenario, so none can be quietly exempted', () => {
     expect(GOLDEN_SPECS.map((s) => s.id).sort()).toEqual(Object.keys(EXPECTED).sort());
   });
@@ -141,7 +144,7 @@ describe('the derivation, replayed over the seven goldens', () => {
       EQUALITY, not a subset — and that is a real result rather than a
       convenience. Fixtures sample every 60 steps, so the derivation is being
       fed one state in sixty, and it still reports exactly the same events in
-      exactly the same order on all seven flights.
+      exactly the same order on every golden flights.
 
       A subset assertion was written first, on the reasonable theory that a
       brief event could fall between two samples. Nothing does, because every

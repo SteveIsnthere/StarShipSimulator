@@ -15,7 +15,7 @@
  * getElementById is gone.
  */
 import * as C from '../constants';
-import { getDrag } from '../physics/aero';
+import { getDrag, relativeAirspeed } from '../physics/aero';
 import { getThrust, getTotalMaxThrust, getWorkingEngineCount } from '../physics/engines';
 import type { SimState } from '../state';
 import { rad, type Rad } from '../units';
@@ -187,11 +187,26 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   };
 
   const controlByFins = (): void => {
+    /*
+      M11.1: the fins' authority is estimated from the AIR moving past them,
+      because that is what the fin forces in step() are now computed from. With
+      groundspeed here and airspeed there, the autopilot would misjudge its own
+      control power by the square of the ratio — and a hover in wind, ground
+      speed zero, would divide by zero and slam the fins to the stop. At zero
+      wind this is the stored `trueSpeed`'s bits: nothing changes the speeds
+      between where that was computed and here.
+    */
+    const finAirspeed = relativeAirspeed(
+      kinematics.speedX,
+      kinematics.speedY,
+      state.world.wind,
+      state.world.gust,
+    );
     if (torqueRequired > 0) {
       const maxFinNoseDownTorque =
         getDrag(
           state.atmosphere.airDensity,
-          kinematics.trueSpeed,
+          finAirspeed,
           C.frontFinSurfaceArea,
           C.finDragCoefficient,
         ) *
@@ -199,7 +214,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
           C.frontFinDistanceFromCenterOfMass +
         getDrag(
           state.atmosphere.airDensity,
-          kinematics.trueSpeed,
+          finAirspeed,
           C.aftFinSurfaceArea,
           C.finDragCoefficient,
         ) *
@@ -210,7 +225,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
       const maxFinNoseUpTorque =
         getDrag(
           state.atmosphere.airDensity,
-          kinematics.trueSpeed,
+          finAirspeed,
           C.aftFinSurfaceArea,
           C.finDragCoefficient,
         ) *
@@ -218,7 +233,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
           C.aftFinDistanceFromCenterOfMass +
         getDrag(
           state.atmosphere.airDensity,
-          kinematics.trueSpeed,
+          finAirspeed,
           C.frontFinSurfaceArea,
           C.finDragCoefficient,
         ) *

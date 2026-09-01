@@ -16,7 +16,7 @@
  * guarantee was cheap and total, and five properties stand in its place —
  * asserted in tests/core/camera.test.ts, and the acceptance line of M7.3:
  *
- *   1. the vehicle stays inside the frame, with margin, over all seven goldens
+ *   1. the vehicle stays inside the frame, with margin, over every golden
  *   2. the response is damped rather than springy — bounded overshoot, and it
  *      settles within a stated time
  *   3. frame-rate independence holds at 30, 60, 120 and 144 fps

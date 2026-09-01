@@ -29,7 +29,7 @@
  *
  * The tracker is fed states in order and is otherwise deterministic: the same
  * sequence in gives the same events out, which is what lets the test replay all
- * seven golden fixtures through it.
+ * golden fixtures through it — every one, eight since M11.1.
  */
 import type { SimState } from '$core/state';
 import * as C from '$core/constants';

@@ -186,6 +186,22 @@ function updatePerceivedG(s: SimState): void {
 export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT): SimState {
   const s = cloneState(previous);
 
+  /*
+    M11.1, Fidelity: the aerodynamics act through the RELATIVE wind, and this
+    is the airspeed the forces below are computed from. Read from the INCOMING
+    speeds here, before phase 2 can zero them on a crash, so that at zero wind
+    it is bit-for-bit the `trueSpeed` the previous step stored from those same
+    speeds — including the crash frame, where the stored value was already
+    stale in exactly the same way. Local, not stored: nothing outside the
+    physics needs it, and adding a field would move every fixture for its shape.
+  */
+  const incomingAirspeed = aero.relativeAirspeed(
+    s.kinematics.speedX,
+    s.kinematics.speedY,
+    s.world.wind,
+    s.world.gust,
+  );
+
   s.world.updatedFrameCount += 1;
 
   // --- 1. environmentUpDate ------------------------------------------------
@@ -221,7 +237,16 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.vehicle.vehicleInFlightMaxArea,
   );
   s.kinematics.angleOfMotion = aero.getAngleOfMotion(s.kinematics.speedX, s.kinematics.speedY);
-  const angles = aero.getAttackAngles(s.kinematics.pitch, s.kinematics.angleOfMotion);
+  // M11.1: the aerodynamic angles are measured from the relative wind, which is
+  // the ground track only in still air. `angleOfMotion` stays the ground track
+  // for guidance and the HUD. Equal bits at zero wind — see aero.ts.
+  const angleOfRelativeWind = aero.relativeWindAngle(
+    s.kinematics.speedX,
+    s.kinematics.speedY,
+    s.world.wind,
+    s.world.gust,
+  );
+  const angles = aero.getAttackAngles(s.kinematics.pitch, angleOfRelativeWind);
   s.kinematics.angleOfAttack = angles.angleOfAttack;
   s.kinematics.angleInToTheWind = angles.angleInToTheWind;
   s.vehicle.gimbalPointingDirection = eng.getGimbalPointingDirection(
@@ -238,13 +263,13 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // CHANGED as the vehicle rotated, and in the wrong direction. Turning
   // broadside raised the area, which lowered the computed heat.
   s.forces.thermalPower = getReentryHeatPower(
-    s.kinematics.trueSpeed,
+    incomingAirspeed,
     s.atmosphere.airDensity,
     C.NOSE_RADIUS,
   );
   s.forces.dynamicPressure = aero.getDynamicPressure(
     s.atmosphere.airDensity,
-    s.kinematics.trueSpeed,
+    incomingAirspeed,
   );
 
   updatePitchRateOfChange(s, dt);
@@ -254,13 +279,13 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
 
   s.forces.aerodynamicDrag = aero.getDrag(
     s.atmosphere.airDensity,
-    s.kinematics.trueSpeed,
+    incomingAirspeed,
     s.forces.crossSectionalArea,
     aero.getBodyDragCoefficient(s.kinematics.machSpeed),
   );
   s.forces.aerodynamicLift = aero.getLift(
     s.atmosphere.airDensity,
-    s.kinematics.trueSpeed,
+    incomingAirspeed,
     s.kinematics.angleInToTheWind,
     s.vehicle.vehicleInFlightMaxArea,
   );
@@ -285,11 +310,20 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.kinematics.speedY += s.kinematics.accelerationY * dt;
 
   s.kinematics.trueSpeed = Math.sqrt(s.kinematics.speedX ** 2 + s.kinematics.speedY ** 2);
+  // M11.1: the same magnitude against the relative wind, from the speeds just
+  // integrated. Mach and the fin forces read this; the HUD reads trueSpeed.
+  const airspeed = aero.relativeAirspeed(
+    s.kinematics.speedX,
+    s.kinematics.speedY,
+    s.world.wind,
+    s.world.gust,
+  );
   // M2.7, Fidelity. 2021 used a constant 343 m/s everywhere — the sea-level
   // value — so Mach ran ~16% low through the upper atmosphere. That understated
   // the body drag coefficient too, since it is a function of Mach.
-  s.kinematics.machSpeed =
-    s.kinematics.trueSpeed / speedOfSoundAt(s.atmosphere.airTemperature);
+  // M11.1: Mach is a ratio to the speed of sound in the air the vehicle moves
+  // through, so it is the airspeed over the local speed of sound.
+  s.kinematics.machSpeed = airspeed / speedOfSoundAt(s.atmosphere.airTemperature);
 
   // updateSpactialAccelerations
   s.forces.aerodynamicDragAcceleration = aero.getAcceleration(
@@ -303,7 +337,10 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.forces.thrustAcceleration = aero.getAcceleration(s.forces.thrust, s.vehicle.vehicleMass);
 
   const accelInputs: comp.AccelerationInputs = {
-    angleOfMotion: s.kinematics.angleOfMotion,
+    // M11.1: drag opposes the relative wind and lift is normal to it, so the
+    // decomposition takes the relative-wind angle. The field keeps its 2021
+    // name; at zero wind the two angles are the same bits.
+    angleOfMotion: angleOfRelativeWind,
     angleOfAttack: s.kinematics.angleOfAttack,
     gimbalPointingDirection: s.vehicle.gimbalPointingDirection,
     aerodynamicDragAcceleration: s.forces.aerodynamicDragAcceleration,
@@ -354,14 +391,14 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.forces.thrustVectorForce = eng.getThrustVectorForce(s.forces.thrust, s.vehicle.gimbalPosition);
   s.forces.frontFinDrag = aero.getFrontFinDrag(
     s.atmosphere.airDensity,
-    s.kinematics.trueSpeed,
+    airspeed,
     s.kinematics.angleOfAttack,
     s.kinematics.angleInToTheWind,
     s.forces.frontFinEffectiveAreaFraction,
   );
   s.forces.aftFinDrag = aero.getAftFinDrag(
     s.atmosphere.airDensity,
-    s.kinematics.trueSpeed,
+    airspeed,
     s.kinematics.angleOfAttack,
     s.kinematics.angleInToTheWind,
     s.forces.aftFinEffectiveAreaFraction,

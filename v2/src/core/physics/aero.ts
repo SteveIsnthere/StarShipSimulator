@@ -114,6 +114,42 @@ export function getAngleOfMotion(speedX: number, speedY: number): Rad {
   return rad(Math.atan2(speedX, speedY));
 }
 
+/*
+  M11.1, Fidelity — the air acts through the RELATIVE wind.
+
+  `world.wind` and `world.gust` were carried in SimState from the first port and
+  read by nothing; every aerodynamic quantity used groundspeed. These two are the
+  air-relative twins of `trueSpeed` and `angleOfMotion`: the same expressions,
+  applied to the ground velocity minus the air's. They are pure functions of
+  numbers, like everything else in this file, and are computed as step-locals
+  rather than stored — the HUD, the guidance and the touchdown check keep the
+  ground figures, and nothing outside the physics needs the air ones.
+
+  BIT-IDENTICAL AT ZERO WIND, by construction. `speedX - 0 - 0` is `speedX`
+  exactly in IEEE 754 (including -0), so at wind = 0 these return the same bits
+  as `sqrt(speedX^2 + speedY^2)` and `atan2(speedX, speedY)` on the same
+  operands. That is what lets the seven still-air golden digests stay exactly
+  where they were: the wiring is provably a no-op until a scenario carries wind.
+*/
+
+/**
+ * m/s — speed through the air. `wind` and `gust` are the air's downrange
+ * velocity; the relative wind is the ground velocity minus theirs.
+ */
+export function relativeAirspeed(
+  speedX: number,
+  speedY: number,
+  wind: number,
+  gust: number,
+): number {
+  return Math.sqrt((speedX - wind - gust) ** 2 + speedY ** 2);
+}
+
+/** rad — direction of the relative wind, from vertical, as `getAngleOfMotion`. */
+export function relativeWindAngle(speedX: number, speedY: number, wind: number, gust: number): Rad {
+  return getAngleOfMotion(speedX - wind - gust, speedY);
+}
+
 /**
  * physics.js:305 — angle of attack, wrapped to (-pi, pi], plus the derived
  * angle into the wind, which folds the rear half onto the front.
