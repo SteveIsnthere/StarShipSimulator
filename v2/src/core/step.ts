@@ -289,7 +289,12 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.kinematics.angleInToTheWind,
     s.vehicle.vehicleInFlightMaxArea,
   );
-  s.forces.thrust = eng.getThrust(s.engines.running, s.vehicle.throttleCurrent);
+  // M11.2: thrust at the ambient pressure phase 1 just set from the altitude.
+  s.forces.thrust = eng.getThrust(
+    s.engines.running,
+    s.vehicle.throttleCurrent,
+    s.atmosphere.airPressure,
+  );
 
   // 3b. updateSpactialMotion. Integrates with LAST step's accelerations, then
   // recomputes them — semi-implicit in an unusual order. Preserved.
@@ -431,7 +436,11 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     I,
   );
   s.forces.offAxisThrustDifferenceAcceleration = aero.getAngularAcceleration(
-    eng.getOffAxisThrustDifference(s.engines.running, s.vehicle.throttleCurrent),
+    eng.getOffAxisThrustDifference(
+      s.engines.running,
+      s.vehicle.throttleCurrent,
+      s.atmosphere.airPressure,
+    ),
     C.engineDistanceFromCenterOfMass,
     I,
   );

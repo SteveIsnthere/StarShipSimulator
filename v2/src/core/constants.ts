@@ -171,10 +171,89 @@ export const gimbalSpeed = 600;
 /** rad */
 export const gimbalAngleLimit: Rad = toRad(deg(15));
 
-/** N per engine. */
-export const maxThrustPerRaptor = 2200 * 1000;
-/** kg/s per engine, scaled off the reference 2.2 MN Raptor. */
-export const maxFuelFlowPerRaptor = 650 * (maxThrustPerRaptor / 2200000);
+// ---------------------------------------------------------------------------
+// The Raptor — M11.2, Fidelity
+// ---------------------------------------------------------------------------
+
+/*
+  THRUST DEPENDS ON THE AIR AROUND THE NOZZLE. A rocket engine's thrust is the
+  momentum of its exhaust plus (exit pressure - ambient pressure) times the exit
+  area. Up to M11.2 the simulation used one constant, 2.2 MN per engine, at
+  every altitude. The real engine gains thrust as the air thins, and this is
+  the size of it: seven percent between the pad and orbit.
+
+  ANCHORED ON THE PUBLIC ISP PAIR, not on a vacuum thrust figure, and the
+  reason is worth recording because the plan for this milestone got it wrong.
+  SpaceX's public Raptor 2 figures are 230 tf and 327 s at sea level, and
+  350 s in vacuum for the SAME sea-level nozzle. The widely quoted 258 tf and
+  380 s are RVac — a different engine with a much larger bell — and the
+  milestone plan first quoted a +12% gain from that figure. Using it here would
+  have implied an effective exit area of 2.71 m^2 for a nozzle whose geometric
+  exit area is 1.33 m^2, which is not a nozzle. Anchoring on the Isp pair with
+  a constant mass flow gives 1.57 m^2 — within 18% of the geometry, which is
+  what a mildly overexpanded sea-level bell should give. The physics checks
+  itself, and the answer is +7%, not +12%.
+
+  MASS FLOW IS CONSTANT WITH ALTITUDE. It is set by the turbopumps, not by the
+  air outside; what altitude changes is how much thrust each kilogram buys. So
+  Isp is DERIVED here rather than declared: thrust over mass flow over g0, and
+  it comes out at 327 s on the pad and 350 s in vacuum by construction.
+*/
+
+/**
+ * m/s^2 — standard gravity, the g0 that defines specific impulse. The ISA's
+ * `G0` reads this, so there is one definition.
+ */
+export const standardGravity = 9.80665;
+
+/** N per engine at full throttle at sea level. Raptor 2, sea-level nozzle: 230 tf. */
+export const RAPTOR_THRUST_SEA_LEVEL = 230 * 1000 * standardGravity;
+/** s — specific impulse at sea level. Raptor 2, sea-level nozzle: 327 s. */
+export const RAPTOR_ISP_SEA_LEVEL = 327;
+/** s — specific impulse in vacuum, SAME nozzle: 350 s. (RVac's 380 s is a different engine.) */
+export const RAPTOR_ISP_VACUUM = 350;
+/**
+ * Pa — the sea-level pressure the figures above are quoted at, and the ISA's
+ * `P0_PASCAL` (which reads this): the pad thrust reproduces the anchor only
+ * because the atmosphere model and this curve agree on what sea level is.
+ */
+export const SEA_LEVEL_PRESSURE_PA = 101_325;
+
+/** kg/s per engine at full throttle. T / (Isp * g0) at sea level; 703.4. Constant with altitude. */
+export const RAPTOR_MASS_FLOW =
+  RAPTOR_THRUST_SEA_LEVEL / (RAPTOR_ISP_SEA_LEVEL * standardGravity);
+/** N per engine at full throttle in vacuum — the same mass flow at the vacuum Isp. 246 tf. */
+export const RAPTOR_THRUST_VACUUM = RAPTOR_MASS_FLOW * standardGravity * RAPTOR_ISP_VACUUM;
+/**
+ * m^2 — effective exit area: the slope of thrust against ambient pressure,
+ * (T_vac - T_sl) / p_sl. 1.566, against a geometric 1.327 for a 1.3 m bell.
+ */
+export const RAPTOR_EFFECTIVE_EXIT_AREA =
+  (RAPTOR_THRUST_VACUUM - RAPTOR_THRUST_SEA_LEVEL) / SEA_LEVEL_PRESSURE_PA;
+
+/**
+ * N per engine at full throttle, at an ambient pressure in kPa (the unit the
+ * atmosphere model carries). Linear in pressure between the two anchors and
+ * beyond them: below-sea-level pressure is unreachable (altitude is never
+ * negative) but would correctly cost thrust, and a negative pressure is
+ * clamped to vacuum. NaN propagates; the ISA never produces one (M10.4).
+ */
+export function thrustPerRaptorAt(ambientPressureKPa: number): number {
+  const pascals = Math.max(0, ambientPressureKPa) * 1000;
+  return Math.max(0, RAPTOR_THRUST_VACUUM - pascals * RAPTOR_EFFECTIVE_EXIT_AREA);
+}
+
+/**
+ * N per engine — the SEA-LEVEL reference, under its 2021 name.
+ *
+ * Kept because the autopilot's landing-stage sizing (below) and several tests
+ * reason from a fixed worst case, and sea level IS the worst case: thrust is
+ * never lower at any altitude the vehicle can reach. Anything that needs the
+ * thrust the engines actually produce reads `thrustPerRaptorAt(p)`.
+ */
+export const maxThrustPerRaptor = RAPTOR_THRUST_SEA_LEVEL;
+/** kg/s per engine — `RAPTOR_MASS_FLOW` under its 2021 name. Was 650, implying 345 s at 2.2 MN. */
+export const maxFuelFlowPerRaptor = RAPTOR_MASS_FLOW;
 
 // ---------------------------------------------------------------------------
 // Control surfaces — initControlSurface()

@@ -39,7 +39,7 @@ symplectic — velocity Verlet — which keeps the conservation and removes the 
 
 | gap | evidence | tier |
 |---|---|---|
-| Thrust and Isp constant with altitude | `maxThrustPerRaptor` flat at 2.2 MN, fuel flow flat. Public Raptor 2 figures ≈ 2.26 MN SL → 2.53 MN vac (+12%), Isp 327 → 350 s. The nozzle exit diameter the physics needs already exists — in `view/atmosphere-look.ts`, because core never carried it. | Fidelity |
+| Thrust and Isp constant with altitude | `maxThrustPerRaptor` flat at 2.2 MN, fuel flow flat at 650 kg/s (implying 345 s). Public Raptor 2 sea-level-nozzle figures: 230 tf at 327 s on the pad, 350 s in vacuum — so **+7.0%** thrust with constant mass flow, not the +12% first written here (see below). | Fidelity |
 | Wind is dead state | `WorldState.wind` and `.gust` exist, initialise to 0, and are read by **nothing**. Aero uses groundspeed. | Fidelity, but bit-identical at wind = 0 |
 | Centre of mass fixed | 350 t of the 470 t gross is propellant (74%); every `…DistanceFromCenterOfMass` is a constant. | Fidelity, needs stated tank geometry |
 | Cd is one scalar of Mach, attitude-blind | `0.1347·M + 1.153`, capped 2.5 at M ≥ 10. No transonic peak; hypersonic rising where it should plateau. `heatLimit` was calibrated against this Cd. | Fidelity, **decision open** |
@@ -84,9 +84,18 @@ wind = 0 the step is bit-identical to today (all seven goldens unmoved), so the 
 moves nothing; a scenario with wind is added and its golden recorded. Verified by the gate.
 
 ### M11.2 — Thrust and Isp with altitude
-`thrust = T_vac − p_ambient · A_exit`, mass flow from vacuum Isp. Constants named from the public
-figures with the source stated. Goldens move; the before/after diff is in the commit. Verified by
-the gate and by an ascent gaining thrust with altitude in a test.
+`thrust = T_vac − p_ambient · A_eff`, with a constant mass flow, anchored on the public Isp pair.
+Goldens move; the before/after diff is in the commit. Verified by the gate and by an ascent
+gaining thrust with altitude in a test.
+
+**A correction to this plan, found while building it.** The survey above first quoted +12% from
+"2.53 MN vac". That is 258 tf, which is **RVac** — a different engine with a much larger bell.
+A sea-level Raptor 2 in vacuum is ≈246 tf at 350 s. The physics exposed the mistake: anchoring
+on RVac implies an effective exit area of 2.71 m² for a nozzle whose geometric exit area is
+1.33 m², which is not a nozzle; anchoring on the Isp pair (327 → 350 s) with constant mass flow
+gives 1.57 m², within 18% of the geometry, which is what a mildly overexpanded sea-level bell
+should give. The gain is 7.0%. The mass flow moves from 650 to 703 kg/s (the old figure implied
+345 s at 2.2 MN, too high for a sea-level Isp), so burns consume 8% more per second.
 
 ### M11.3 — Velocity Verlet
 Second-order symplectic. **Proof obligation:** repeat the coast table above — altitude drift must

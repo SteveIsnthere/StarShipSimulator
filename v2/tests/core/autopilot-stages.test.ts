@@ -738,7 +738,12 @@ describe('the descent shutdown threshold is what separates demo from real', () =
       s.kinematics.speedY = speedY;
       // Light enough that minimum thrust would hold it up, so the shutdown has
       // something to do when it is consulted.
-      s.vehicle.vehicleMass = (3 * C.maxThrustPerRaptor * C.throttleLowerLimit * 0.01) / C.gravity / 2;
+      // M11.2: the controller reads thrust at the state's ambient pressure,
+      // which a hand-built state carries as 0 (vacuum) until a step sets it.
+      s.vehicle.vehicleMass =
+        (3 * C.thrustPerRaptorAt(s.atmosphere.airPressure) * C.throttleLowerLimit * 0.01) /
+        C.gravity /
+        2;
       finalDescentStageController(s, 1 / 60, threshold);
       return s.engines.running.filter(Boolean).length;
     }

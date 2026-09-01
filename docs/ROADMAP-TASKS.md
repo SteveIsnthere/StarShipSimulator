@@ -906,10 +906,12 @@ thermal coefficient, Earth rotation.
   groundspeed. Apply `airspeed = groundspeed − wind − gust` wherever aero reads speed. Accept:
   bit-identical at wind = 0 (all seven goldens unmoved, proven by the gate); a wind scenario
   added with its golden recorded; gate green.
-- [ ] **M11.2 Thrust and Isp with altitude** — `thrust = T_vac − p_amb·A_exit`, mass flow from
-  vacuum Isp, constants from the public Raptor 2 figures with the source named. Accept: a test
-  shows thrust rising with altitude by the stated ratio; goldens regenerated with the before/after
-  diff; audit row; gate green.
+- [x] **M11.2 Thrust and Isp with altitude** — `thrust = T_vac − p_amb·A_eff` with a constant
+  mass flow, anchored on the public Raptor 2 sea-level pair (230 tf, 327 s) and vacuum Isp
+  (350 s) with the source named; `A_eff` is derived from the pair, not the bell's geometry
+  (as written before the M11.2 correction: "`A_exit`, mass flow from vacuum Isp" — see the
+  plan's correction and the log). Accept: a test shows thrust rising with altitude by the
+  stated ratio; goldens regenerated with the before/after diff; audit row; gate green.
 - [ ] **M11.3 Velocity Verlet** — second-order symplectic. Accept: the M11 coast table repeated
   shows altitude drift falling as dt² and energy conservation no worse than 1e-10; the step-order
   contract comment rewritten; goldens regenerated with diff and audit row; gate green.
@@ -3300,3 +3302,18 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   in v², v², v³; a hovering vehicle in 25 m/s of air feeling exactly ρ·25²·0.0005 of it; a
   crosswind on a vertical descent tilting the angle of attack and the drag direction while the
   ground track holds still. Exposing wind in the flight editor is deferred: it is a UI task.
+- 2026-09-01 · M11.2 · Thrust with altitude, Fidelity, owner-approved via the M11 plan. A Raptor
+  is `T_vac − p_amb·A_eff` with constant mass flow, anchored on the public Raptor 2 sea-level
+  pair (230 tf, 327 s) and the vacuum Isp (350 s): 703 kg/s, 2.414 MN in vacuum, +7.0% from
+  pad to space, A_eff 1.566 m² against a 1.327 m² geometric bell. The plan first said +12%
+  from "2.53 MN vac", which is RVac, a different engine; anchoring on it gives A_eff 2.71 m²,
+  twice the bell, and that inconsistency is what exposed the mistake — corrected in the plan
+  with the derivation. `ambientPressureKPa` is threaded through the engine model, the step,
+  both effective-vertical-thrust projections, the TWR and shutdown primitives and the
+  autopilot's stage estimates; mass flow takes no pressure, by construction, and a test
+  asserts its arity. All eight goldens moved, as they must; the four landings all still land
+  at the same 25.0 m / −0.08 m/s (the intro is unchanged in outcome), re-entry moves only in
+  its two planning estimates (720 leaves, engines off), launch-pad climbs 2.4 km higher in the
+  same 90 s and arrives 14.3 t lighter, to the tonne of 3 × 53.4 kg/s × 90 s. Fifteen tests in
+  `thrust-altitude.test.ts` pin the anchors, the derived quantities, the curve, the ISA gain
+  profile (73% of it by 10 km) and a flown ascent making 7% more at 30 km than on the pad.

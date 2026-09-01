@@ -27,21 +27,31 @@ export function getWorkingEngineCount(running: readonly boolean[]): number {
   return 0;
 }
 
-/** physics.js:267. @returns N */
-export function getTotalMaxThrust(running: readonly boolean[]): number {
-  return getWorkingEngineCount(running) * C.maxThrustPerRaptor;
+/*
+  M11.2, Fidelity: thrust depends on the ambient pressure. Every function here
+  that returns a thrust takes the pressure at the nozzle, in kPa as the
+  atmosphere model carries it, and there is deliberately no overload without
+  it — a caller that forgot would silently get sea-level thrust at 100 km.
+  The model and its anchors are in constants.ts (`thrustPerRaptorAt`).
+*/
+
+/** physics.js:267, at ambient pressure. @returns N */
+export function getTotalMaxThrust(running: readonly boolean[], ambientPressureKPa: number): number {
+  return getWorkingEngineCount(running) * C.thrustPerRaptorAt(ambientPressureKPa);
 }
 
 /** physics.js:275 — at the lower throttle limit. @returns N */
-export function getTotalMinThrust(running: readonly boolean[]): number {
-  return (
-    getWorkingEngineCount(running) * C.maxThrustPerRaptor * C.throttleLowerLimit * 0.01
-  );
+export function getTotalMinThrust(running: readonly boolean[], ambientPressureKPa: number): number {
+  return getTotalMaxThrust(running, ambientPressureKPa) * C.throttleLowerLimit * 0.01;
 }
 
 /** physics.js:261. @returns N */
-export function getThrust(running: readonly boolean[], throttleCurrent: number): number {
-  return getTotalMaxThrust(running) * throttleCurrent * 0.01;
+export function getThrust(
+  running: readonly boolean[],
+  throttleCurrent: number,
+  ambientPressureKPa: number,
+): number {
+  return getTotalMaxThrust(running, ambientPressureKPa) * throttleCurrent * 0.01;
 }
 
 /** physics.js:283 — the lateral component produced by gimbal deflection. @returns N */
@@ -60,6 +70,7 @@ export function getThrustVectorForce(thrust: number, gimbalPosition: number): nu
 export function getOffAxisThrustDifference(
   running: readonly boolean[],
   throttleCurrent: number,
+  ambientPressureKPa: number,
 ): number {
   const [n1, n2, n3] = running;
   return (
@@ -68,7 +79,7 @@ export function getOffAxisThrustDifference(
       (n3 ? 1 : 0) * C.raptorN3offAxisForceFraction) *
     throttleCurrent *
     0.01 *
-    C.maxThrustPerRaptor
+    C.thrustPerRaptorAt(ambientPressureKPa)
   );
 }
 
@@ -85,7 +96,15 @@ export function getGimbalPointingDirection(pitch: Rad, gimbalPosition: number): 
 
 // --- fuel ------------------------------------------------------------------
 
-/** updateBackEnd.js:43 — kg/s at the current throttle and engine count. */
+/**
+ * updateBackEnd.js:43 — kg/s at the current throttle and engine count.
+ *
+ * Takes no pressure, on purpose: mass flow is set by the pumps and does not
+ * change with altitude. What altitude changes is the thrust each kilogram
+ * buys, and that is `getThrust`'s business. M11.2 changed the constant from
+ * 650 to 703 kg/s (327 s on the pad, from the public figure); the shape here
+ * is 2021's.
+ */
 export function getFuelFlowRate(running: readonly boolean[], throttleCurrent: number): number {
   return getWorkingEngineCount(running) * throttleCurrent * 0.01 * C.maxFuelFlowPerRaptor;
 }

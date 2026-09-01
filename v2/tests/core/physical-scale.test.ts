@@ -125,11 +125,15 @@ describe('the vehicle is a Starship, to within what a game needs', () => {
   });
 
   it('its implied specific impulse is a Raptor\'s', () => {
-    // Thrust over mass flow over g0. Raptor is ~330 s at sea level and ~380 in
-    // vacuum; a single figure between them is the right simplification.
+    // Thrust over mass flow over g0. Since M11.2 the sea-level figure is the
+    // published 327 s and the vacuum figure 350 s; `maxThrustPerRaptor` is the
+    // sea-level reference. The bounds are a Raptor's, not a specific model's.
     const isp = C.maxThrustPerRaptor / (C.maxFuelFlowPerRaptor * 9.80665);
     expect(isp).toBeGreaterThan(320);
     expect(isp).toBeLessThan(390);
+    const ispVac = C.RAPTOR_THRUST_VACUUM / (C.maxFuelFlowPerRaptor * 9.80665);
+    expect(ispVac).toBeGreaterThan(isp);
+    expect(ispVac).toBeLessThan(390);
   });
 
   it('lifts off at a thrust-to-weight a little over one', () => {

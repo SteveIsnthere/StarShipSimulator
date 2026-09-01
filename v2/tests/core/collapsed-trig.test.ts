@@ -28,7 +28,7 @@ import type { SimState } from '$core/state';
 import { step } from '$core/step';
 import { DT } from '$app/loop';
 import { rad, type Rad } from '$core/units';
-import { maxThrustPerRaptor } from '$core/constants';
+import { RAPTOR_THRUST_VACUUM } from '$core/constants';
 
 /** Angles across all four quadrants, including every branch boundary. */
 const ANGLES: Rad[] = [];
@@ -91,8 +91,8 @@ describe('the shipped coefficient is the single expression', () => {
   it('the seventh ladder, inlined in primitives, is collapsed too', () => {
     const running = [true, true, true];
     for (const angle of ANGLES) {
-      expect(getEffectiveVerticalMaxThrust(running, angle)).toBe(
-        3 * maxThrustPerRaptor * Math.cos(angle),
+      expect(getEffectiveVerticalMaxThrust(running, angle, 0)).toBe(
+        3 * RAPTOR_THRUST_VACUUM * Math.cos(angle),
       );
     }
   });
@@ -113,8 +113,8 @@ describe('the 2021 ladders are still here, and still 2021', () => {
       ANGLES.some(
         (a) =>
           !Object.is(
-            getEffectiveVerticalMaxThrust(running, a),
-            legacyEffectiveVerticalMaxThrust(running, a),
+            getEffectiveVerticalMaxThrust(running, a, 0),
+            legacyEffectiveVerticalMaxThrust(running, a, 0),
           ),
       ),
     ).toBe(true);

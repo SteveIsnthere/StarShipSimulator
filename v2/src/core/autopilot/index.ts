@@ -374,8 +374,13 @@ function horizontalAdjustmentStageController(state: SimState): void {
     targetDifference += 4;
   }
 
+  // M11.2: PESSIMISTIC means the sea-level thrust, not the thrust at the
+  // current altitude — the burn this sizes ends at the pad, where thrust is
+  // lowest, and `updateBellyFlopTriggerAltitude` reasons from the same fixed
+  // worst case. Reading the thrust here would overstate it by 1.5% at 2 km.
   const finalStagePessimisticAvailableAcc =
-    getTotalMaxThrust(engines.running) / vehicle.vehicleMass - C.gravity;
+    getTotalMaxThrust(engines.running, C.SEA_LEVEL_PRESSURE_PA / 1000) / vehicle.vehicleMass -
+    C.gravity;
   const finalStagePessimisticDuration =
     -kinematics.speedY / finalStagePessimisticAvailableAcc + 1;
   autopilot.finalStagePessimisticAltitude =
@@ -563,7 +568,11 @@ function predictedDeorbitRange(state: SimState): number {
   const willLight = engines.failed.reduce((n, failed) => (failed ? n : n + 1), 0);
   if (willLight <= 0) return Infinity;
 
-  const burnSeconds = (C.DEORBIT_DELTA_V * vehicle.vehicleMass) / (willLight * C.maxThrustPerRaptor);
+  // M11.2: the burn happens where the air is, which at 150 km is nowhere — so
+  // this is the vacuum thrust, not the sea-level constant it used to be.
+  const burnSeconds =
+    (C.DEORBIT_DELTA_V * vehicle.vehicleMass) /
+    (willLight * C.thrustPerRaptorAt(state.atmosphere.airPressure));
   const burnRange = (kinematics.speedX - C.DEORBIT_DELTA_V / 2) * burnSeconds;
 
   const coastRange = gravity.coastDownrangeDistance(

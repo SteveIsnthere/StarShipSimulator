@@ -22,6 +22,7 @@
  *     M2.14   the thermosphere                   booster-sep only
  *     M10.5   the NaN throttle escape            moved NOTHING — see below
  *     M11.1   the wind wiring                    moved NOTHING; one fixture ADDED
+ *     M11.2   thrust with altitude               ALL EIGHT
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -56,6 +57,22 @@
  * is new rather than moved — the landing burn in 10 m/s of downrange wind — and
  * is the only golden in which the wiring does anything at all.
  *
+ * M11.2 moving all eight is the M2.12 argument again: a Raptor now makes
+ * 230 tf at 327 s on the pad and the same 703 kg/s buys 350 s in vacuum, where
+ * before it made a flat 2.2 MN at 650 kg/s everywhere. Every scenario either
+ * burns an engine or plans a burn, so every one moves — and the SHAPE of the
+ * movement is the check. The four landings all still land, at the same 25.0 m
+ * and -0.08 m/s (the soul: the intro auto-landing is unchanged in outcome).
+ * Re-entry has its engines off throughout and moves in exactly two keys, the
+ * autopilot's `bellyFlopTriggerAltitude` and `finalStagePessimisticAltitude`,
+ * 360 rows each, 720 leaves — the planning estimates that read max thrust, and
+ * nothing physical. Launch-pad climbs 2.4 km higher in the same 90 s on 7% more
+ * thrust as the air thins, and arrives 14.3 t lighter: 3 engines x 53.4 kg/s
+ * more flow x 90 s, to the tonne. The headwind landing lights its third engine
+ * for a shorter stretch (2.5% more thrust at sea level than the old flat
+ * figure) and touches down one sample earlier. The before/after diff is in the
+ * commit message.
+ *
  * REPRODUCING A DIGEST. The rows block is everything from the NEWLINE BEFORE the
  * `"rows": [` line to the end of the file, hashed as written. That leading
  * newline is part of the hash, and the recipe here used to omit it, so the
@@ -88,16 +105,15 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  'launch-pad-takeoff': 'ea64873aca00a0244403bd2e3e74c117211bf8e2a6c10e3d9e27a6491d3c339c',
-  // M2.14, Fidelity: the thermosphere. The only scenario that goes above 86 km.
-  'booster-sep-boostback': '3d2af493a69792788e081a8b194e98c6c787bd9a7fc5efe8c0111691086d5298',
-  'rtls-boostback': '5bf461e5445341d167dc62bfcc10106e6464be249616a4182475e82c9897b7c3',
-  'reentry-autoland': '7c2b8b7f23476a7e3e92e100726876262958db8ddc60558a8027751a3602925d',
-  'before-flip-autoland': 'f2c4cc3df2fd7b66523b1312334ce3e568bdc2f758ef413ab24b1d6a5cd787da',
-  'landing-burn-autoland': '6d987b5a9a405584c023baf6b4d86fad4b3fbb93364eeab99f79f094947fa8ee',
-  // M11.1: new, not moved. The landing burn flown into 10 m/s of downrange wind.
-  'landing-burn-headwind': '4431da9f83a9d8d1896aff1e1c131d9b9608fd9ebc0afa5696aa0727660c000f',
-  'intro-demo': '9ccbc99467ad598df9ed0e9f7e38960c85948dfffd642f25ca0c344dcc463ffd',
+  // All eight last moved at M11.2, Fidelity: thrust with altitude.
+  'launch-pad-takeoff': '2d47399a0c0f64cf6825f242ec8bfbdaaacfb52c1c9f14ff3c27aeb10356bd21',
+  'booster-sep-boostback': '710869ac615dc6422482b20e460f82798d6e77a0ffa2085da8fe34644ee0797c',
+  'rtls-boostback': '91341320c6e57c380744aac341771e4c72ea194c50732cd3f3dcd719c9754467',
+  'reentry-autoland': '29981b99195e404d371681085d27c8a8d72282bc3d1c3d7ee78d86acca08f4b3',
+  'before-flip-autoland': 'dfddebc8a53ed6fc94e25faf99da8ea55c750447babf0d925d6ae8bb887b8a2c',
+  'landing-burn-autoland': 'c5680dde19647753ef1a1ef15da7e58b377550fb695e0b58eebcb2b99fb240b5',
+  'landing-burn-headwind': '3492d09fe9358cd5f81f7cd89d113abb0a960eceecc014c523c618c3765f69c2',
+  'intro-demo': '11fc888396a8f0c68b3d1297e186989c3f4abf82256543ef2ecb615748f88461',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

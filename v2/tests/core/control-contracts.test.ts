@@ -58,6 +58,15 @@ function lit(): SimState {
   return litCount(3);
 }
 
+/**
+ * M11.2: thrust depends on the ambient pressure a state carries. A hand-built
+ * state carries 0 kPa until a step sets it from the altitude, so these
+ * primitives see vacuum thrust; expectations read the same pressure back
+ * rather than assuming an altitude.
+ */
+const perRaptor = (s: SimState) => C.thrustPerRaptorAt(s.atmosphere.airPressure);
+const SEA_LEVEL_KPA = C.SEA_LEVEL_PRESSURE_PA / 1000;
+
 describe('getPitchDifference wraps to (-pi, pi]', () => {
   it('takes the short way round in both directions', () => {
     // The two wrap branches. A controller that took the long way round would
@@ -89,18 +98,19 @@ describe('the vertical thrust projection', () => {
     // code: it is the independent second implementation.
     const running = [true, true, true] as const;
     for (let a = -Math.PI; a <= Math.PI; a += Math.PI / 500) {
-      const collapsed = getEffectiveVerticalMaxThrust(running, rad(a));
-      const ladder = legacyEffectiveVerticalMaxThrust(running, rad(a));
+      const collapsed = getEffectiveVerticalMaxThrust(running, rad(a), SEA_LEVEL_KPA);
+      const ladder = legacyEffectiveVerticalMaxThrust(running, rad(a), SEA_LEVEL_KPA);
       expect(Math.abs(collapsed - ladder), `gimbal ${a}`).toBeLessThan(1e-6);
     }
   });
 
   it('is full thrust straight up, zero sideways, and negative upside down', () => {
     const running = [true, true, true] as const;
+    // M11.2: sea-level pressure, so `full` is the sea-level anchor.
     const full = 3 * C.maxThrustPerRaptor;
-    expect(getEffectiveVerticalMaxThrust(running, rad(0))).toBeCloseTo(full, 6);
-    expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI / 2))).toBeCloseTo(0, 6);
-    expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI))).toBeCloseTo(-full, 6);
+    expect(getEffectiveVerticalMaxThrust(running, rad(0), SEA_LEVEL_KPA)).toBeCloseTo(full, 6);
+    expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI / 2), SEA_LEVEL_KPA)).toBeCloseTo(0, 6);
+    expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI), SEA_LEVEL_KPA)).toBeCloseTo(-full, 6);
   });
 });
 
@@ -112,7 +122,7 @@ describe('controlEnginebyTWR keeps the throttle inside the engine limits', () =>
     const goalTWR = 1.2;
     controlEnginebyTWR(s, goalTWR);
     const achieved = getTWR(
-      3 * C.maxThrustPerRaptor * (s.vehicle.throttle / 100),
+      3 * perRaptor(s) * (s.vehicle.throttle / 100),
       s.vehicle.vehicleMass,
     );
     expect(achieved).toBeCloseTo(goalTWR, 6);
@@ -156,7 +166,13 @@ describe('controlEnginebyTWR keeps the throttle inside the engine limits', () =>
     expect(Math.cos(Math.PI / 2)).not.toBe(0);
 
     const s = createInitialState();
-    expect(getEffectiveVerticalMaxThrust(s.engines.running, s.vehicle.gimbalPointingDirection)).toBe(0);
+    expect(
+      getEffectiveVerticalMaxThrust(
+        s.engines.running,
+        s.vehicle.gimbalPointingDirection,
+        s.atmosphere.airPressure,
+      ),
+    ).toBe(0);
     controlEnginebyEffectiveVerticalTWR(s, 0);
     expect(Number.isNaN(s.vehicle.throttle)).toBe(false);
     expect(s.vehicle.throttle).toBeGreaterThanOrEqual(C.throttleLowerLimit);
@@ -266,9 +282,9 @@ describe('the speed adjustments choose a side and commit to it', () => {
     // goal is reachable) and 1.5 >= 0.4*T (the smaller clears the 40% floor),
     // i.e. T in [3, 3.75]. T = 3.5 gives 42.9% and 85.7%.
     const maxAchievableTWR = 3.5;
-    const mass = (3 * C.maxThrustPerRaptor) / (maxAchievableTWR * C.gravity);
-
     const near = lit();
+    const mass = (3 * perRaptor(near)) / (maxAchievableTWR * C.gravity);
+
     near.vehicle.vehicleMass = mass;
     near.kinematics.speedX = 95;
     horizontalSpeedAdjustment(near, 100, 10, 3);
@@ -379,7 +395,8 @@ describe('precisionAlignment steers toward the goal and does not overshoot', () 
 
 describe('raptorAutoShutDown fires exactly when minimum thrust would lift the vehicle', () => {
   /** Minimum thrust for a given number of lit engines. */
-  const minThrust = (count: number) => count * C.maxThrustPerRaptor * C.throttleLowerLimit * 0.01;
+  const minThrust = (count: number) =>
+    count * perRaptor(lit()) * C.throttleLowerLimit * 0.01;
 
   it('does nothing while minimum thrust cannot hold the vehicle up', () => {
     // A heavy vehicle: min TWR below 1, so no shutdown is warranted.

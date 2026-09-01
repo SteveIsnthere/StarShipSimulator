@@ -26,16 +26,20 @@
 import * as C from '../constants';
 import type { Atmosphere } from './atmosphere';
 
-/** m/s^2 — the ISA's defined standard gravity. Part of the standard, not a measurement. */
-export const G0 = 9.80665;
+/**
+ * m/s^2 — the ISA's defined standard gravity. Part of the standard, not a
+ * measurement. Since M11.2 the one definition lives in constants.ts, because
+ * specific impulse is defined against the same g0; this is that value.
+ */
+export const G0 = C.standardGravity;
 
 /** J/(kg*K) — specific gas constant for dry air. */
 export const R = 287.053;
 
 /** Sea-level reference conditions, from the standard. */
 export const T0_KELVIN = 288.15;
-/** Pa. */
-export const P0_PASCAL = 101_325;
+/** Pa — likewise one definition, shared with the Raptor thrust anchors. */
+export const P0_PASCAL = C.SEA_LEVEL_PRESSURE_PA;
 
 interface Layer {
   /** Geopotential altitude of the layer base, m. */

@@ -260,9 +260,9 @@ describe('the step function at the edges of dt', () => {
 
 describe('engines and thrust at the edges', () => {
   it('no engines is zero thrust, not a division or a NaN', () => {
-    expect(getThrust([false, false, false], 100)).toBe(0);
-    expect(getThrust([], 100)).toBe(0);
-    expect(getThrust([true, true, true], 0)).toBe(0);
+    expect(getThrust([false, false, false], 100, 0)).toBe(0);
+    expect(getThrust([], 100, 0)).toBe(0);
+    expect(getThrust([true, true, true], 0, 0)).toBe(0);
   });
 });
 
@@ -368,8 +368,8 @@ describe('minimum thrust is what the shutdown logic reasons about', () => {
     // shutdown would fire at the wrong moment — and nothing would say so.
     for (const count of [0, 1, 2, 3]) {
       const running = [false, false, false].map((_, i) => i < count);
-      const expected = count * C.maxThrustPerRaptor * C.throttleLowerLimit * 0.01;
-      expect(getTotalMinThrust(running), `${count} lit`).toBeCloseTo(expected, 6);
+      const expected = count * C.RAPTOR_THRUST_VACUUM * C.throttleLowerLimit * 0.01;
+      expect(getTotalMinThrust(running, 0), `${count} lit`).toBeCloseTo(expected, 6);
     }
   });
 
@@ -378,8 +378,8 @@ describe('minimum thrust is what the shutdown logic reasons about', () => {
     // fraction of maximum, set by how far a Raptor can throttle down.
     for (const count of [1, 2, 3]) {
       const running = [false, false, false].map((_, i) => i < count);
-      expect(getTotalMinThrust(running)).toBeLessThan(getTotalMaxThrust(running));
-      expect(getTotalMinThrust(running) / getTotalMaxThrust(running)).toBeCloseTo(
+      expect(getTotalMinThrust(running, 0)).toBeLessThan(getTotalMaxThrust(running, 0));
+      expect(getTotalMinThrust(running, 0) / getTotalMaxThrust(running, 0)).toBeCloseTo(
         C.throttleLowerLimit * 0.01,
         9,
       );

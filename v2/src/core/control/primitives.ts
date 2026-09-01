@@ -16,7 +16,7 @@
  */
 import * as C from '../constants';
 import { getDrag, relativeAirspeed } from '../physics/aero';
-import { getThrust, getTotalMaxThrust, getWorkingEngineCount } from '../physics/engines';
+import { getThrust, getTotalMaxThrust, getTotalMinThrust, getWorkingEngineCount } from '../physics/engines';
 import type { SimState } from '../state';
 import { rad, type Rad } from '../units';
 
@@ -46,8 +46,9 @@ export function getPitchDifference(pitch: Rad, goal: Rad): number {
 export function getEffectiveVerticalMaxThrust(
   running: readonly boolean[],
   gimbalPointingDirection: Rad,
+  ambientPressureKPa: number,
 ): number {
-  const maxThrust = getWorkingEngineCount(running) * C.maxThrustPerRaptor;
+  const maxThrust = getTotalMaxThrust(running, ambientPressureKPa);
   return maxThrust * Math.cos(gimbalPointingDirection);
 }
 
@@ -59,8 +60,11 @@ export function getEffectiveVerticalMaxThrust(
 export function legacyEffectiveVerticalMaxThrust(
   running: readonly boolean[],
   gimbalPointingDirection: Rad,
+  ambientPressureKPa: number,
 ): number {
-  const maxThrust = getWorkingEngineCount(running) * C.maxThrustPerRaptor;
+  // M11.2: the same pressure-dependent thrust as the collapsed form, so the
+  // two still differ ONLY in the trig — which is what collapsed-trig proves.
+  const maxThrust = getTotalMaxThrust(running, ambientPressureKPa);
 
   let coefficient: number;
   if (0 <= gimbalPointingDirection && gimbalPointingDirection <= Math.PI / 2) {
@@ -266,7 +270,7 @@ export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
     ((goalTWR * vehicle.vehicleMass * C.gravity) /
-      getThrust(engines.running, vehicle.throttleCurrent)) *
+      getThrust(engines.running, vehicle.throttleCurrent, state.atmosphere.airPressure)) *
     100;
 
   /**
@@ -322,7 +326,11 @@ export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: nu
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
     ((goalTWR * vehicle.vehicleMass * C.gravity) /
-      getEffectiveVerticalMaxThrust(engines.running, vehicle.gimbalPointingDirection)) *
+      getEffectiveVerticalMaxThrust(
+        engines.running,
+        vehicle.gimbalPointingDirection,
+        state.atmosphere.airPressure,
+      )) *
     100;
 
   // Same NaN escape as controlEnginebyTWR above, by the same 0/0 route: no
@@ -514,8 +522,10 @@ export function raptorAutoShutDown_KeepMinTWRBelow1(
 ): void {
   const { engines, vehicle } = state;
   const running = engines.running;
-  const minThrust =
-    getWorkingEngineCount(running) * C.maxThrustPerRaptor * C.throttleLowerLimit * 0.01;
+  // M11.2: the engine model's own minimum, at the ambient pressure. M10.8 had
+  // noted this expression was a second copy of getTotalMinThrust; now it is
+  // the one copy, and it knows about altitude.
+  const minThrust = getTotalMinThrust(running, state.atmosphere.airPressure);
 
   if (getTWR(minThrust, vehicle.vehicleMass) > 1) {
     const count = getWorkingEngineCount(running);
