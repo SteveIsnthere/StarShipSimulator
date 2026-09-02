@@ -171,3 +171,105 @@ commit skips a browser run silently.
   not deleted, and the new order is stated with the same precision the old one was.
 - **The soul.** The intro auto-landing sequence, the presets and the pig are unchanged. The sun
   defaults to the elevation that reproduces today's daylight look on the intro.
+
+---
+
+# M12 — The interface, pushed on the evidence
+
+> **Status:** proposed 2026-09-01 at the owner's ask ("push UI to next level as well"). Runs
+> after M11 in document order; the owner may reorder. Every phase is pixels and DOM, never
+> physics: the golden digests may not move, and the two data fields M12.2 adds under `core/`
+> are Refactor-tier by construction (no preset carries a value that changes a state).
+
+## What was measured first
+
+The UI was surveyed on 2026-09-01: 6 865 lines across `src/ui` and `src/hud`, 24 controls, 12
+drawn metrics, 14 readouts, 10 timeline events, nine black-box plots, a menu with seven presets,
+six editor fields and four settings. What M6 set out to build is built, and the e2e suite pins
+it: keyboard reach, screen-reader labels, reduced motion, touch-target size, no sideways
+overflow, phone sheets, the dials degrading to digits. What follows is what the survey found
+*missing* or *flat*, each with where it was seen.
+
+| gap | evidence |
+|---|---|
+| The flight ends in a button | `App.svelte:801`: `flightOver` renders one `Restart`. The touchdown speed, the peak Q and heat, the g, the propellant left, the miss from the pad, the event times — all in SimState and the recorder — are shown nowhere. A webcast ends with a card. |
+| The pad is not a preset | `Menu.svelte` iterates `PRESETS` and `ORBITAL_PRESETS`; `LAUNCH_PAD` is in `scenarios.ts` and reachable only by typing 25 / 0 / 0 into the editor. |
+| The editor cannot set what M11 added | wind (M11.1: "exposing wind in the flight editor is deferred: it is a UI task") and the hour (M11.4's sun) exist in the model and not in the form. |
+| The black box is nine pictures | `charts.ts`: nine uPlot panes, no shared cursor, no event markers, nothing to compare against, no way out (no export). It is the instrument the whole verification programme leans on, and a player cannot read a number off it. |
+| Sound is a switch | `audio/engine.ts` exports mute only; the mixer has levels and no control reaches them. |
+| The phone's top strip collides | `docs/screenshot-phone.png`: the mission clock's digits sit under the CINEMATIC button. `Broadcast.svelte:589` pads `.top`; `App.svelte:866` positions `.top-right` absolutely over it, and nothing asserts the two do not intersect. |
+| Nothing tells a new player what to press | The intro lands itself, then `Restart`. The guide is a sheet behind Menu → Guide. The first thing a webcast viewer would try — press something — has no answer on screen. |
+| Events happen silently on a phone | The timeline lights a dot. `navigator.vibrate` is free, physical, and unused. |
+
+First-load budget: 208.6 kB of 250 after M11.4. Everything below is DOM, one lazy module (the
+black box, already lazy) and no new assets.
+
+## Owner decisions binding this milestone
+
+1. **The broadcast language stays.** White at four opacities, colour only as meaning. Every new
+   surface is designed inside `BROADCAST-UI-PLAN.md` § 2; nothing here adds a box, a panel
+   chrome or an accent.
+2. **Svelte renders on interaction, the binders own the frame.** A debrief renders once, at the
+   end; a cursor readout on a plot is an interaction. Nothing new runs per frame.
+3. **Every claim is a number a test can produce**, as M9 established for the picture: the
+   debrief's figures are cross-checked against the recorder in node; the phone strip's
+   non-intersection is asserted for every overlay element pair; the export is round-tripped.
+
+## Phases
+
+### M12.1 — The debrief
+At flight end, a card in the lower third's language: outcome (TOUCHDOWN / CRASH / LOSS and why),
+touchdown vertical and horizontal speed against the limits, pitch at contact, miss from the pad,
+elapsed time, peak Q, peak heat as a fraction of the limit, peak g, propellant remaining, and the
+event times from the timeline. `hud/debrief.ts` is pure over SimState, the recorder and the
+timeline, and tested in node against every golden fixture's final state. Restart and Black Box
+live on the card. Verified by the gate and by an e2e that lands the intro and reads the card.
+
+### M12.2 — The flight editor, complete
+A **Launch Pad** preset button; **wind** (m/s, the M11.1 debt) and **local hour** (the M11.4
+sun) as editor fields. `ScenarioPreset` gains `wind?` and `launchHour?` — data only, Refactor
+tier; `createScenarioState` writes `world.wind` from the preset (zero for every existing preset,
+so the goldens do not move, and a test says so) and `view/sun.ts` reads `launchHour` before its
+table. The headwind golden becomes reachable from the menu. Verified by the gate and the menu e2e.
+
+### M12.3 — The black box, an instrument
+Timeline events as vertical markers on every plot; one shared cursor whose readout shows every
+channel's value at that time; the previous flight kept as a ghost trace to fly against; export
+as CSV through a Blob URL (offline, no server). Still one lazy import; the budget does not move.
+Verified by node tests on the CSV round-trip and the marker positions, and the black-box e2e.
+
+### M12.4 — The phone, finished
+The clock and the top-right buttons given one layout rule so they cannot intersect, and an e2e
+that asserts no two overlay elements overlap at any of the five projects; `navigator.vibrate`
+on timeline events and touchdown, behind reduced-motion. Verified by the responsive spec
+extended with the intersection check, on all five projects.
+
+### M12.5 — Settings that reach the mixer
+A volume level (the mixer already has one) beside mute, remembered per device; a "defaults"
+action for the settings block. Verified by the sound e2e reading the gain node.
+
+### M12.6 — The first thing to press
+A one-line hint in the lower third on the pad — the engine key or the button, whichever the
+device has — shown on the first flight only, dismissed by any input, remembered. The guide's
+autopilot and event sections generated from the same tables the code runs (`KEY_BINDINGS`
+already is). Verified by an e2e that a fresh profile sees the hint, presses the key, and never
+sees it again.
+
+### M12.7 — Ship
+Screenshots regenerated (they gain the debrief and the pad button), `docs/` current, budget and
+perf re-measured, the full gate on all five projects.
+
+## The gate for this milestone
+
+Every phase: `npm run lint && npm run test && npm run build && npm run coverage`, plus `npx
+playwright test` on all five projects, because every phase changes what is on screen. M12.2 also
+proves the eight golden digests unmoved.
+
+## Risks
+
+- **Scope.** Seven phases is the full survey; the owner can strike any row and the rest stand.
+- **The debrief is a second source of truth.** Every figure on it is computed from the same
+  recorder channel the black box plots, and the node test cross-checks the two, so they cannot
+  disagree.
+- **The phone strip.** Two absolutely positioned blocks became one collision; the fix is one
+  layout rule, and the intersection assertion is what stops a third block doing it again.

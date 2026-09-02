@@ -942,6 +942,32 @@ thermal coefficient, Earth rotation.
   measured coverage demonstrably fails the gate, and restoring it passes; full gate green on all
   five Playwright projects.
 
+### M12 — The interface, pushed (`docs/NEXT-LEVEL-PLAN.md` § M12; proposed 2026-09-01)
+
+- [ ] **M12.1 The debrief** — a flight-end card: outcome and why, touchdown speeds against the
+  limits, pitch at contact, miss from the pad, time, peak Q, peak heat fraction, peak g,
+  propellant left, event times. `hud/debrief.ts` pure over SimState + recorder + timeline. Accept:
+  node test cross-checks every figure against the recorder on every golden's final state; an e2e
+  lands the intro and reads the card; full gate incl. browser suite.
+- [ ] **M12.2 The flight editor, complete** — Launch Pad preset button; wind and local-hour
+  fields; `ScenarioPreset.wind?`/`launchHour?` (data only, Refactor tier). Accept: the eight
+  golden digests unmoved and a test says every preset's wind is zero; the headwind flight
+  reachable from the menu; menu e2e; full gate.
+- [ ] **M12.3 The black box, an instrument** — event markers on every plot, one shared cursor with
+  a per-channel readout, the previous flight as a ghost, CSV export via a Blob URL. Accept: CSV
+  round-trip and marker positions tested in node; still one lazy import, budget unmoved;
+  black-box e2e; full gate.
+- [ ] **M12.4 The phone, finished** — clock and top-right buttons under one layout rule;
+  `navigator.vibrate` on events and touchdown behind reduced-motion. Accept: responsive spec
+  asserts no two overlay elements intersect on all five projects; full gate.
+- [ ] **M12.5 Settings that reach the mixer** — a volume level beside mute, remembered; a
+  defaults action. Accept: sound e2e reads the gain; full gate.
+- [ ] **M12.6 The first thing to press** — a first-flight hint on the pad, dismissed by input,
+  remembered; guide sections generated from the code's tables. Accept: e2e on a fresh profile sees
+  the hint once; full gate.
+- [ ] **M12.7 Ship** — screenshots regenerated, `docs/` current, budget and perf re-measured, the
+  full gate on all five projects.
+
 
 ## Log
 
