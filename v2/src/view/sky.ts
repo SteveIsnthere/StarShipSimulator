@@ -13,7 +13,10 @@
  *   altitude, so climbing feels like leaving something.
  *
  *   STARS. They appear as the sky darkens, which is the payoff for the climb.
- *   Positions are seeded, so the same sky comes back on every run.
+ *   Since M11.7 they are the 320 brightest stars of the Bright Star
+ *   Catalogue, placed for StarBase by the hour (view/stars.ts), turning a
+ *   degree every four minutes — the same sky comes back on every run because
+ *   it is the sky.
  *
  *   PARALLAX. Stars are effectively at infinity and barely move; the haze band
  *   near the horizon moves a little. Without it the sky slides with the ground
@@ -26,6 +29,7 @@
 import { Container, Graphics, Sprite, Texture, type Renderer } from 'pixi.js';
 import type { CameraState, Viewport } from './camera';
 import type { SunLight } from './sun';
+import { localSiderealTime, placeStars, REDRAW_EVERY_DEG } from './stars';
 
 /**
  * The sky at the HORIZON, at sea level. The anchor for the whole palette.
@@ -162,19 +166,10 @@ function createGradientTexture(height = 256): Texture {
   return Texture.from(canvas);
 }
 
-/** Deterministic star positions, so the same sky returns every run. */
-function makeRandom(seed: number): () => number {
-  let state = seed >>> 0 || 1;
-  return () => {
-    state ^= state << 13;
-    state ^= state >>> 17;
-    state ^= state << 5;
-    state >>>= 0;
-    return state / 4294967296;
-  };
-}
+/** The sky is drawn for the intro's hour until a sun says otherwise. */
+const DEFAULT_HOUR = 9.5;
 
-export function createSky(renderer: Renderer, starCount = 220, seed = 0x5741_4c4b): Sky {
+export function createSky(renderer: Renderer): Sky {
   void renderer;
   const container = new Container({ label: 'skyContents' });
 
@@ -182,31 +177,37 @@ export function createSky(renderer: Renderer, starCount = 220, seed = 0x5741_4c4
   gradient.anchor.set(0, 0);
   container.addChild(gradient);
 
-  // Stars: one Graphics for all of them, since they never move relative to each
-  // other. Parallax is applied to the container, not per star.
+  /*
+    THE STARS ARE THE STARS (M11.7). One Graphics for all of them, redrawn
+    when sidereal time has moved a quarter of a degree — a minute of flight —
+    or the frame has changed size. No parallax: a star is at infinity, and the
+    catalogue turns on its own.
+  */
   const stars = new Graphics();
-  const random = makeRandom(seed);
-  /** Unit-square positions, scaled to the viewport on resize. */
-  const starPositions: Array<{ u: number; v: number; r: number; a: number }> = [];
-  for (let i = 0; i < starCount; i++) {
-    starPositions.push({
-      u: random(),
-      // Biased upward: more stars toward the zenith, which reads as a dome.
-      v: random() * random(),
-      r: 0.6 + random() * 1.4,
-      a: 0.35 + random() * 0.65,
-    });
-  }
   container.addChild(stars);
 
   let drawnFor = -1;
+  let drawnHeight = -1;
+  /** NaN until the first redraw, so `lstMoved` reports a redraw is due. */
+  let drawnLst = Number.NaN;
+  /** The hour the field was last drawn for; a resize redraws for THIS, not a default. */
+  let drawnHour = DEFAULT_HOUR;
 
-  const redrawStars = (viewport: Viewport): void => {
+  const redrawStars = (viewport: Viewport, solarHour: number): void => {
+    drawnHour = solarHour;
+    drawnLst = localSiderealTime(solarHour);
     stars.clear();
-    for (const s of starPositions) {
-      stars.circle(s.u * viewport.width, s.v * viewport.height, s.r);
-      stars.fill({ color: 0xffffff, alpha: s.a });
+    for (const s of placeStars(solarHour, viewport.width, viewport.height)) {
+      stars.circle(s.x, s.y, s.radius);
+      stars.fill({ color: 0xffffff, alpha: s.alpha });
     }
+  };
+  /** Sidereal degrees moved since the last redraw, wrap-safe; Infinity before the first. */
+  const lstMoved = (solarHour: number): number => {
+    if (Number.isNaN(drawnLst)) return Infinity;
+    const now = localSiderealTime(solarHour);
+    const hours = Math.abs(now - drawnLst);
+    return Math.min(hours, 24 - hours) * 15;
   };
 
   return {
@@ -215,16 +216,27 @@ export function createSky(renderer: Renderer, starCount = 220, seed = 0x5741_4c4
     resize(viewport) {
       gradient.width = viewport.width;
       gradient.height = viewport.height;
-      redrawStars(viewport);
+      // The hour it is, not the hour it started at: a resize during a night
+      // flight used to swap the whole sky for a morning one until the next
+      // frame corrected it (review).
+      redrawStars(viewport, drawnHour);
       drawnFor = viewport.width;
+      drawnHeight = viewport.height;
     },
 
     update(camera, viewport, altitude, sun) {
-      if (drawnFor !== viewport.width) {
+      void camera;
+      const hour = sun ? sun.hour : DEFAULT_HOUR;
+      if (
+        drawnFor !== viewport.width ||
+        drawnHeight !== viewport.height ||
+        lstMoved(hour) >= REDRAW_EVERY_DEG
+      ) {
         gradient.width = viewport.width;
         gradient.height = viewport.height;
-        redrawStars(viewport);
+        redrawStars(viewport, hour);
         drawnFor = viewport.width;
+        drawnHeight = viewport.height;
       }
 
       // M11.4: the hour has a say. By day this is `skyTint(altitude)` exactly.
@@ -232,11 +244,6 @@ export function createSky(renderer: Renderer, starCount = 220, seed = 0x5741_4c4
       // Stars by altitude or by night, whichever shows more of them.
       stars.alpha = Math.max(starVisibility(altitude), sun ? sun.stars : 0);
 
-      // Parallax. Stars sit effectively at infinity, so they shift by a
-      // thousandth of the camera's motion - enough to feel like depth, little
-      // enough that they never visibly slide.
-      stars.x = -(camera.posX % (viewport.physicalWidth * 1000)) * viewport.scale * 0.001;
-      stars.y = (camera.posY * viewport.scale) * 0.0006;
     },
 
     destroy() {

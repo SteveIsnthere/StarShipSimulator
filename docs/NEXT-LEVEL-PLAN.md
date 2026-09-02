@@ -154,6 +154,11 @@ The ~300 brightest stars from a catalogue, positioned by right ascension and dec
 launch site, replacing the 220 randoms. Verified by a test that the recognisable asterisms are
 where they should be.
 
+**Found while building it.** The side view faces north (east is to the right, and M11.4 lit
+the hull from a sun in the south behind the camera), so the visible sky is the northern half of
+the dome: Polaris, the Plough, Cassiopeia, Vega and Deneb; Orion and Sirius are behind the
+viewer. The catalogue turns with the same clock the sun uses, so the two cannot disagree.
+
 ### M11.8 — Centre of mass
 CoM as a function of propellant mass under a stated tank layout; moment arms derived from it.
 Goldens move. Verified by the gate and by the flip test's torque changing as propellant drains.
