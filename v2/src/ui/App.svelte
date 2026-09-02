@@ -259,6 +259,20 @@
   const recorder = createRecorder();
 
   /**
+   * The flight before this one, kept for the black box's ghost (M12.3).
+   *
+   * A SECOND RECORDER, filled by copying at restart rather than by sampling
+   * twice. `recorder.clear()` truncates its arrays in place — the trajectory
+   * map holds references to them (M7.1) and a fresh object would strand the
+   * map on the old flight — so "keep the previous one" cannot mean "keep the
+   * previous object". It means copy the numbers out before the truncation.
+   *
+   * One flight back, not a history: two lines on a plot is a comparison and
+   * five is a smear.
+   */
+  const previousRecorder = createRecorder();
+
+  /**
    * What happens once per SIMULATION STEP, not once per frame.
    *
    * Two things live here, for the same reason.
@@ -370,7 +384,10 @@
   const loopOptions = $derived({ ...toLoopOptions(time), onStep });
 
   /** What the current flight was configured from, so a partial edit has a base. */
-  let currentPreset: ScenarioPreset = INTRO;
+  // $state because the black box reads it for the export's file name (M12.3),
+  // and a plain `let` read in the template never updates when a new flight is
+  // configured — svelte-check says so, which is how this was found.
+  let currentPreset = $state<ScenarioPreset>(INTRO);
 
   /**
    * The scenario name, shown beside the clock on the upper scrim.
@@ -446,6 +463,13 @@
       cam.accX = 0;
       cam.accY = 0;
     }
+
+    /*
+      Copy this flight into the ghost, then start the next one. Skipped when
+      there is nothing to copy, so the first flight of a session does not
+      overwrite the ghost with an empty recording and hide the one before it.
+    */
+    if (recorder.length > 0) previousRecorder.copyFrom(recorder);
 
     recorder.clear();
     // A new flight re-arms the transient latches: the same flight flown again
@@ -1012,7 +1036,14 @@
   onBlackBox={() => (blackBoxOpen = true)}
   onClose={() => (debriefCard = null)}
 />
-<BlackBox open={blackBoxOpen} {recorder} onClose={() => (blackBoxOpen = false)} />
+<BlackBox
+  open={blackBoxOpen}
+  {recorder}
+  events={timeline.events}
+  previous={previousRecorder}
+  scenarioId={currentPreset.basedOn ?? currentPreset.id}
+  onClose={() => (blackBoxOpen = false)}
+/>
 <Menu
   open={menuOpen}
   {time}

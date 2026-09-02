@@ -983,7 +983,7 @@ thermal coefficient, Earth rotation.
   fields; `ScenarioPreset.wind?`/`launchHour?` (data only, Refactor tier). Accept: the eight
   golden digests unmoved and a test says every preset's wind is zero; the headwind flight
   reachable from the menu; menu e2e; full gate.
-- [ ] **M12.3 The black box, an instrument** — event markers on every plot, one shared cursor with
+- [x] **M12.3 The black box, an instrument** — event markers on every plot, one shared cursor with
   a per-channel readout, the previous flight as a ghost, CSV export via a Blob URL. Accept: CSV
   round-trip and marker positions tested in node; still one lazy import, budget unmoved;
   black-box e2e; full gate.
@@ -3803,3 +3803,45 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   five projects, because the container had just restarted and was quiet. The same suite, a third
   of the time, and the only failure gone with the load: CLAUDE.md's "a measurement taken while
   another suite is running is not evidence" has a number beside it now.
+- 2026-09-02 · M12.3 · **Nine plots that could not be asked anything.** They were drawn
+  correctly and answered nothing: where is MAX-Q on this curve, what was the angle of attack when
+  the heating peaked, was this landing gentler than the last one. Every one of those is a question
+  about a NUMBER at a MOMENT, and a picture of a line cannot answer it. Four things now do —
+  event markers on every plot, one cursor shared across all nine writing a strip that shows EVERY
+  channel at that instant, the previous flight behind this one, and the whole recording as a CSV.
+  Three of the four are pure functions in `ui/blackbox.ts` and tested in node; uPlot is still one
+  lazy chunk and the budget moved 218.6 to 220.2 kB of 250.
+  **TWO THINGS THAT ARE NOT WHAT THEY LOOK LIKE, and both are about the fly-path plot.** It draws
+  altitude against DOWNRANGE while the other eight are against time, and that one difference is
+  behind three of the five findings review returned. An event at T+52 s belongs there at whatever
+  kilometre the vehicle had reached, not at x = 52 — which on a launch is a line through the first
+  second of a ninety-second flight. A cursor on it must report the TIME under the pointer, not the
+  x value: the first version handed the readout 1565 metres as if it were 1565 seconds, froze
+  every channel on the last sample of a 198-second recording, and printed `T+1565.58` over it —
+  and the new e2e hovered that very plot and passed, because it only counted elements. And it
+  cannot share uPlot's cursor sync with the time plots at all, because uPlot syncs by VALUE: one
+  key across both scales puts a cursor at 1.5 km off the right edge of every time plot. It has no
+  sync key now and still drives the readout, which is the part that carries the meaning.
+  **THE TWO ENDS OF THE RECORDING, wrong in both directions.** The recorder stops at the end of
+  the flight, so TOUCHDOWN and LOSS always fall a moment past the last sample — dropped, not
+  clamped, or they draw on the final point of every curve and read as "this is where it landed".
+  The first version enforced that only on the time plots and let a clamp put LOSS on the last
+  downrange metre of the fly path. At the other end the recorder does not sample a vehicle
+  standing on the pad, so its first sample lands a fraction of a second AFTER the wheels leave and
+  LIFTOFF fires in that gap on every launch there has ever been: the first version dropped the
+  anchor event of the whole timeline from all nine plots. It is snapped to the first sample now,
+  and an event a whole interval earlier is still dropped.
+  **AND TWO BROWSERS THIS SUITE CANNOT RUN.** The CSV export clicked a detached anchor and revoked
+  its blob URL on the next tick. Chromium forgives both; Firefox ignores a click on an anchor that
+  is not in the document, and a revoke racing a multi-megabyte blob cancels the download that was
+  already reading it. Every Playwright project here is Chromium, so neither would ever have failed
+  a test — recorded as much for the class of defect as for the fix.
+  Also: `recorder.copyFrom` exists because `clear()` truncates in place — the trajectory map holds
+  references to those arrays (M7.1) — so "keep the previous flight" cannot mean "keep the previous
+  object", it means copy the numbers before the truncation. And the ghost is refused on the fly
+  path, because downrange is not monotonic: a boostback flies out, turns and comes back over its
+  own track, so "the previous flight's altitude at this downrange" has two answers for half the
+  flight and a line through them would be plausible and invented.
+  Gate: lint, build (220.2 kB of 250, uPlot still its own lazy chunk), test (1548), coverage
+  99.58/99.22/98.78/99.64, and the five-project browser suite — **374 passed, 0 failed, 7
+  skipped**.

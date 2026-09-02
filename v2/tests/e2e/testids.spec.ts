@@ -97,6 +97,9 @@ test('the black box and the info views carry their ids @mobile', async ({ page }
 
   await page.locator(byTestId('open-black-box')).click();
   await expect(page.locator(byTestId('black-box'))).toHaveCount(1);
+  // M12.3 added two: the CSV export and the shared cursor's readout strip.
+  await expect(page.locator(byTestId('black-box-export'))).toHaveCount(1);
+  await expect(page.locator(byTestId('black-box-readout'))).toHaveCount(1);
   await page.locator(byTestId('black-box-close')).click();
 
   await page.locator(byTestId('open-menu')).click();
@@ -108,6 +111,13 @@ test('the black box and the info views carry their ids @mobile', async ({ page }
   for (const id of DIALOG_TESTIDS) {
     // Every dialog id has now been exercised; this asserts the list has no
     // entry nothing above touched.
-    expect(['black-box', 'black-box-close', 'info-view', 'info-close']).toContain(id);
+    expect([
+      'black-box',
+      'black-box-export',
+      'black-box-readout',
+      'black-box-close',
+      'info-view',
+      'info-close',
+    ]).toContain(id);
   }
 });

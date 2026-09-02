@@ -214,6 +214,8 @@ export const presetTestId = (id: string): string => `preset-${id}`;
 /** The black box, and the info views behind About and Help. */
 export const DIALOG_TESTIDS = [
   'black-box',
+  'black-box-export',
+  'black-box-readout',
   'black-box-close',
   'info-view',
   'info-close',

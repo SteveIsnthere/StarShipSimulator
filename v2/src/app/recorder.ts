@@ -90,6 +90,16 @@ export interface Recorder {
   readonly series: Readonly<Record<string, number[]>>;
   readonly length: number;
   clear(): void;
+  /**
+   * Replace these samples with another recorder's (M12.3).
+   *
+   * COPY, NOT SWAP, and the distinction is load-bearing. `clear()` truncates
+   * the arrays in place because the trajectory map holds references to them
+   * (M7.1) and would otherwise be left drawing the previous flight for ever.
+   * Anything that wants to keep a flight has to keep the NUMBERS, and this is
+   * the one place that knows which arrays those are.
+   */
+  copyFrom(other: Recorder): void;
 }
 
 /**
@@ -142,6 +152,18 @@ export function createRecorder(): Recorder {
       time.length = 0;
       for (const channel of CHANNELS) series[channel.id]!.length = 0;
       elapsed = 0;
+    },
+
+    copyFrom(other: Recorder): void {
+      time.length = 0;
+      for (let i = 0; i < other.time.length; i++) time.push(other.time[i]!);
+      for (const channel of CHANNELS) {
+        const into = series[channel.id]!;
+        const from = other.series[channel.id] ?? [];
+        into.length = 0;
+        for (let i = 0; i < from.length; i++) into.push(from[i]!);
+      }
+      elapsed = time[time.length - 1] ?? 0;
     },
   };
 }
