@@ -122,13 +122,20 @@ export function createSunLight(): SunLight {
  * midnight, which is how that was learned.
  *
  * @param downRangeDistance m — the vehicle's absolute world x, as SimState carries it
+ * @param startHour local solar hours — overrides the scenario's default (M12.2).
+ *   `ScenarioPreset.launchHour` arrives here when a player has typed one, and
+ *   the table below is what a scenario means when nobody has.
  */
 export function localSolarHour(
   scenarioId: string,
   environmentTime: number,
   downRangeDistance: number,
+  startHour?: number,
 ): number {
-  const start = LAUNCH_HOURS[scenarioId] ?? DEFAULT_LAUNCH_HOUR;
+  const start =
+    startHour !== undefined && Number.isFinite(startHour)
+      ? startHour
+      : (LAUNCH_HOURS[scenarioId] ?? DEFAULT_LAUNCH_HOUR);
   const hour =
     start +
     environmentTime / 3600 +
@@ -220,8 +227,9 @@ export function writeSun(
   scenarioId: string,
   environmentTime: number,
   downRangeDistance: number,
+  startHour?: number,
 ): void {
-  const hour = localSolarHour(scenarioId, environmentTime, downRangeDistance);
+  const hour = localSolarHour(scenarioId, environmentTime, downRangeDistance, startHour);
   const h = hourAngle(hour);
   const cosH = Math.cos(h);
   out.hour = hour;

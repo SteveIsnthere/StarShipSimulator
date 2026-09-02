@@ -979,7 +979,7 @@ thermal coefficient, Earth rotation.
   keeps them. The recorder became the CROSS-CHECK rather than the source, which is what the
   acceptance line's second sentence asks for anyway and is the stronger arrangement: an
   independent measurement instead of the same one twice.
-- [ ] **M12.2 The flight editor, complete** — Launch Pad preset button; wind and local-hour
+- [x] **M12.2 The flight editor, complete** — Launch Pad preset button; wind and local-hour
   fields; `ScenarioPreset.wind?`/`launchHour?` (data only, Refactor tier). Accept: the eight
   golden digests unmoved and a test says every preset's wind is zero; the headwind flight
   reachable from the menu; menu e2e; full gate.
@@ -3757,3 +3757,49 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   the URL Playwright polls is written `127.0.0.1` literally. `--host 127.0.0.1` names the same
   address on both sides. Worth recording as its own entry because it is the first defect this
   project ever found from CI rather than from someone running the scripts.
+- 2026-09-02 · M12.2 · **The two the simulation had and the form did not.** M11.1 wired the wind
+  through every aerodynamic term — drag, lift, dynamic pressure, the angles — and then left it
+  reachable only from a test: `landing-burn-headwind` is a golden fixture no player could fly.
+  M11.4 gave each scenario an hour and no way to ask for another one. Both are boxes in the editor
+  now, `ScenarioPreset` carries them as optional data, and `LAUNCH_PAD` — the flight the game
+  hands you after the intro lands, previously reachable only by finishing the demo or reloading —
+  is a preset button.
+  **THE REFACTOR PROOF, by construction rather than by reading the diff.** `createScenarioState`
+  now writes `preset.wind ?? 0`, which is a line that touches how every flight starts. The test
+  builds each of the ten scenarios twice — once from the preset, once from the same object with
+  both keys deleted — flattens both states and compares field by field. Identical, so the two new
+  reads cannot have contributed anything, and the eight golden digests are unmoved. A preset that
+  later carries a wind is not forbidden; it is required to fail that test on its way to a tier.
+  **BLANK MEANS INHERIT, and review caught the first version getting that wrong.** The editor's
+  hint has always promised "a blank field keeps the current flight's value", and the first version
+  of these two reset instead — type a wind, fly it, come back to nudge the altitude, and the wind
+  was silently gone. They inherit now, including inheriting ABSENCE: a scenario with no wind is
+  calm, which is the value `num` cannot express and why these two get their own reader. A typed
+  `0` is still a value, because calm air and midnight are things a player may ask for over a
+  scenario that has something else.
+  **AND TWO MEASUREMENTS THAT CORRECTED THE TEST BEFORE THE TEST CORRECTED THE CODE.** The e2e
+  first asserted that a headwind RAISES dynamic pressure, which is the obvious reading and is
+  wrong: the simulation says it falls — 1.75 kPa against 1.69 at two seconds — because the extra
+  drag also slows the descent, and the readout's single decimal swallowed what was left. Horizontal
+  speed is the unambiguous observable: nothing in calm air can give this vehicle any, and moving
+  air gives it 0.68, 1.45, 2.22, 2.96 m/s at each half second. Then the calm run read `1` rather
+  than `0`, which is not drift — `readouts.ts` renders H/S as `Math.ceil(speedX)`, 2021's own
+  rounding ported deliberately, so a residual of 1e-15 displays as 1. The assertion compares the
+  two numbers instead, and the gap (1 against 4) is wider than the rounding can manufacture.
+  Also corrected on the way: `LAUNCH_PAD` carries 350 t, not the 1200 the editor accepts. Both are
+  "full" — 350 t is `constants.propellantMass`, the load the ship spawns with and what the
+  propellant bar draws as a full tank; 1200 t is `PROPELLANT_CAPACITY`, the tanks' geometric volume
+  from M11.8. The description was right and the test was wrong.
+  Gate: lint, build (218.6 kB of 250), test (1526), coverage 99.58/99.22/98.78/99.64, and the
+  five-project browser suite — **372 passed, 0 failed, 7 skipped**. The eight golden digests are
+  unmoved.
+  **One observation about the suite itself, recorded because it is evidence for a rule this file
+  already states.** The first full run of this task failed one test — `sun.spec.ts`, the afternoon
+  flank, on `pixel-portrait` — with a frame that was uniformly dark. It was ruled out as this
+  change three ways: the node test asserts `localSolarHour` returns the table's hour for every
+  scenario both with and without an override, the UI test asserts a blank hour box leaves
+  `launchHour` undefined so the table is what `writeSun` reads, and the spec passes alone on the
+  same project. The re-run was green — and took **37.9 minutes against 1.1 hours**, on the same
+  five projects, because the container had just restarted and was quiet. The same suite, a third
+  of the time, and the only failure gone with the load: CLAUDE.md's "a measurement taken while
+  another suite is running is not evidence" has a number beside it now.

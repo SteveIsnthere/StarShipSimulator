@@ -53,6 +53,29 @@ export interface ScenarioPreset {
    * should not jump from afternoon to morning.
    */
   readonly basedOn?: string;
+  /**
+   * m/s — steady air movement downrange, into `world.wind` (M12.2).
+   *
+   * OPTIONAL, AND EVERY SHIPPED PRESET LEAVES IT OUT, which is what makes
+   * adding it a Refactor rather than a Fidelity change: `createScenarioState`
+   * writes `preset.wind ?? 0` over a field `createInitialState` has already set
+   * to zero, so no scenario the golden fixtures record produces a different
+   * state. `tests/core/scenarios.test.ts` asserts that, so a preset that later
+   * carries a wind cannot arrive quietly.
+   *
+   * It exists because M11.1 wired the wind through every aerodynamic term and
+   * then left it reachable only from a test: `landing-burn-headwind` is a
+   * golden fixture with no way for a player to fly it.
+   */
+  readonly wind?: number;
+  /**
+   * Local solar hours, 0..24 — where the sun starts (M11.4, editable at M12.2).
+   *
+   * Data only in `core/`: nothing here reads it, and it must stay that way, or
+   * the time of day would become an input to the physics. `view/sun.ts` owns
+   * the default per scenario and takes this as an override.
+   */
+  readonly launchHour?: number;
 }
 
 /**
@@ -275,6 +298,15 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
   if (propellantMass > PROPELLANT_CAPACITY) propellantMass = PROPELLANT_CAPACITY;
   s.vehicle.propellantMass = propellantMass;
   s.vehicle.vehicleMass = C.vehicleDryMass + propellantMass;
+
+  /*
+    The wind (M12.2). Absent means calm, which is what `createInitialState`
+    already wrote, so this line changes nothing for any preset in this file —
+    see `ScenarioPreset.wind`. `world.gust` is deliberately not editable: it is
+    the term M11.1 left for a future task about turbulence, and a steady number
+    typed into a form is not a gust.
+  */
+  s.world.wind = preset.wind ?? 0;
 
   return s;
 }

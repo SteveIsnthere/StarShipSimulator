@@ -188,3 +188,77 @@ describe('the intro demo scenario', () => {
     expect(ALL_SCENARIOS).toContain(INTRO);
   });
 });
+
+/**
+ * M12.2 — the two optional fields, and the Refactor proof that they are free.
+ *
+ * `ScenarioPreset` gained `wind?` and `launchHour?` so the flight editor could
+ * offer them. Adding a field to a data type that `createScenarioState` READS is
+ * a change to how every flight starts, and this milestone's rule is that the
+ * eight golden digests do not move — so the claim being tested is precise: no
+ * scenario in the shipped catalogue carries either value, and the line that
+ * reads them therefore writes what was already there.
+ *
+ * A preset added later WITH a wind is not forbidden. It is required to move a
+ * digest, declare a tier, and fail this test on the way.
+ */
+describe('wind and launch hour are editable without changing any shipped flight', () => {
+  it('no shipped scenario carries a wind or an hour', () => {
+    for (const preset of ALL_SCENARIOS) {
+      expect(preset.wind, `${preset.id} carries a wind`).toBeUndefined();
+      expect(preset.launchHour, `${preset.id} carries an hour`).toBeUndefined();
+    }
+  });
+
+  it('so every scenario still starts in calm air', () => {
+    for (const preset of ALL_SCENARIOS) {
+      expect(createScenarioState(preset).world.wind, preset.id).toBe(0);
+      // The gust is not editable at all — see the note in createScenarioState.
+      expect(createScenarioState(preset).world.gust, preset.id).toBe(0);
+    }
+  });
+
+  /*
+    THE PROOF THAT THE LINE IS A NO-OP, done by construction rather than by
+    reading it: build every scenario's state and compare it field by field with
+    the same state built through a preset object that has been stripped of both
+    keys. Identical means the two new reads cannot have contributed anything.
+  */
+  it('and the state is identical to one built with the fields absent', () => {
+    for (const preset of ALL_SCENARIOS) {
+      const without: Record<string, unknown> = { ...preset };
+      delete without['wind'];
+      delete without['launchHour'];
+      const a = flatten(createScenarioState(preset));
+      const b = flatten(createScenarioState(without as unknown as typeof preset));
+      expect([...a.keys()]).toEqual([...b.keys()]);
+      for (const [key, value] of a) expect(b.get(key), `${preset.id}.${key}`).toBe(value);
+    }
+  });
+
+  it('but a preset that does carry a wind gets one', () => {
+    // The headwind flight `landing-burn-headwind` records, now reachable from
+    // the editor rather than only from a fixture.
+    const windy = { ...getScenario('landing-burn')!, wind: 10 };
+    expect(createScenarioState(windy).world.wind).toBe(10);
+  });
+
+  it('and it reaches the aerodynamics, which is the only reason to have it', () => {
+    /*
+      Same flight, same seed, one with air moving downrange at 10 m/s. The
+      vehicle is descending nearly vertically, so the relative wind arrives from
+      ahead: the airspeed exceeds the groundspeed and the aerodynamic angles
+      part company with the ground track. If these two agree, the field is
+      decoration.
+    */
+    const calm = getScenario('landing-burn')!;
+    let a = createScenarioState(calm, 1);
+    let b = createScenarioState({ ...calm, wind: 10 }, 1);
+    for (let i = 0; i < 120; i++) {
+      a = step(a, DT);
+      b = step(b, DT);
+    }
+    expect(b.forces.dynamicPressure).not.toBe(a.forces.dynamicPressure);
+    expect(b.kinematics.angleOfAttack).not.toBe(a.kinematics.angleOfAttack);
+  });
+});

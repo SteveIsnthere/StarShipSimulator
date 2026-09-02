@@ -158,6 +158,8 @@ export const MENU_TESTIDS = [
   'field-speedY',
   'field-pitch',
   'field-propellant',
+  'field-wind',
+  'field-launchHour',
 ] as const;
 
 /**

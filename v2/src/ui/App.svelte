@@ -746,6 +746,9 @@
           currentPreset.basedOn ?? currentPreset.id,
           s.world.environmentTime,
           s.kinematics.downRangeDistance,
+          // A typed hour wins over the scenario's default (M12.2). Undefined
+          // when the box is empty, which is what `LAUNCH_HOURS` is for.
+          currentPreset.launchHour,
         );
         worldLighting.downRangeDistance = s.kinematics.downRangeDistance;
         worldLighting.altitude = s.kinematics.altitude;

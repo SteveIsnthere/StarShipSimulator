@@ -365,3 +365,48 @@ describe('the terminator, as longitude', () => {
     expect(groundDarkness(elevationAtOffset(dusk, -3 * spanRad))).toBe(0);
   });
 });
+
+/**
+ * M12.2 — the hour a player asks for.
+ *
+ * `LAUNCH_HOURS` gives each scenario the hour it is written for, and until now
+ * that was the only hour it could have. The editor can override it, and the
+ * override arrives here as an argument rather than as a mutation of the table:
+ * the table is what a SCENARIO means, and one flight's typed hour must not
+ * change what the next flight inherits.
+ */
+describe('the launch hour can be overridden per flight', () => {
+  it('an override replaces the scenario default, and nothing else', () => {
+    // Same scenario, same clock, same place — only the starting hour differs.
+    const dawn = localSolarHour('landing-burn', 0, starBaseXPos, 6);
+    const dusk = localSolarHour('landing-burn', 0, starBaseXPos, 20);
+    expect(dawn).toBeCloseTo(6, 10);
+    expect(dusk).toBeCloseTo(20, 10);
+
+    // And the sun really is on opposite sides of the sky at those two hours.
+    expect(hourAngle(dawn)).toBeLessThan(0);
+    expect(hourAngle(dusk)).toBeGreaterThan(0);
+  });
+
+  it('the clock and the longitude still apply on top of it', () => {
+    // Ten minutes of flight is a sixth of an hour, wherever the hour started.
+    expect(localSolarHour('landing-burn', 600, starBaseXPos, 6)).toBeCloseTo(6 + 1 / 6, 10);
+  });
+
+  it('and omitting it leaves the table in charge', () => {
+    for (const [id, hour] of Object.entries(LAUNCH_HOURS)) {
+      expect(localSolarHour(id, 0, starBaseXPos), id).toBeCloseTo(hour, 10);
+      expect(localSolarHour(id, 0, starBaseXPos, undefined), id).toBeCloseTo(hour, 10);
+    }
+  });
+
+  it('and a number that is not one is ignored rather than believed', () => {
+    // `Number('')` is 0, which is a legitimate hour — midnight — so the editor
+    // never sends an empty box here at all. NaN is what a half-typed "-" or an
+    // "e" produces, and midnight is not what the player asked for either.
+    expect(localSolarHour('landing-burn', 0, starBaseXPos, Number.NaN)).toBeCloseTo(
+      LAUNCH_HOURS['landing-burn']!,
+      10,
+    );
+  });
+});

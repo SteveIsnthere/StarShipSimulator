@@ -94,11 +94,58 @@ describe('time warp against the loop', () => {
 });
 
 describe('the flight editor', () => {
-  it('a preset fills every field', () => {
+  it('a preset fills every field it carries a number for', () => {
     const fields = fieldsFromPreset(PRESETS[0]!);
     expect(fields.altitude).toBe('70000');
     expect(fields.speedX).toBe('1130');
-    expect(Object.values(fields).every((v) => v !== '')).toBe(true);
+    for (const key of ['altitude', 'xPosition', 'speedX', 'speedY', 'pitch', 'propellant'] as const) {
+      expect(fields[key], key).not.toBe('');
+    }
+  });
+
+  /*
+    AND LEAVES THE TWO OPTIONAL ONES BLANK, which is the convention M12.2 adds
+    rather than an omission. `wind` and `launchHour` are `?` on `ScenarioPreset`
+    and no shipped preset carries either, so a blank box means "as this scenario
+    has it" — calm air, and the hour `view/sun.ts` gives that scenario. Printing
+    `0` and `9.5` into them would turn every preset into an explicit weather
+    report and make clearing a field the only way back to the default.
+  */
+  it('and leaves wind and hour blank, because a preset does not carry them', () => {
+    for (const preset of PRESETS) {
+      const fields = fieldsFromPreset(preset);
+      expect(fields.wind, preset.id).toBe('');
+      expect(fields.launchHour, preset.id).toBe('');
+    }
+  });
+
+  /*
+    AND AN EMPTY WIND BOX LEAVES THE WIND ALONE, like every other field. Review
+    found the first version resetting it instead — which made the editor's own
+    hint ("a blank field keeps the current flight's value") false in exactly the
+    case a player would meet: type a wind, fly it, come back to nudge the
+    altitude, and the wind is silently gone.
+  */
+  it('an empty wind box inherits, and inherits ABSENCE when there is nothing', () => {
+    const windy = { ...INTRO, wind: 12, launchHour: 6 };
+    const kept = fieldsToPreset({ ...EMPTY_FIELDS, altitude: '500' }, windy);
+    expect(kept.wind).toBe(12);
+    expect(kept.launchHour).toBe(6);
+
+    // The shipped presets carry neither, so a blank box over one of those has
+    // nothing to inherit and the key stays off — which is what calm means.
+    const calm = fieldsToPreset({ ...EMPTY_FIELDS, altitude: '500' }, INTRO);
+    expect(calm.wind).toBeUndefined();
+    expect(calm.launchHour).toBeUndefined();
+  });
+
+  it('and a typed zero is a value, not a blank', () => {
+    // Calm air and midnight are both legitimate answers, and `0` is how a
+    // player asks for them over a scenario that has something else.
+    const windy = { ...INTRO, wind: 12, launchHour: 6 };
+    const typed = fieldsToPreset({ ...EMPTY_FIELDS, wind: '0', launchHour: '0' }, windy);
+    expect(typed.wind).toBe(0);
+    expect(typed.launchHour).toBe(0);
   });
 
   it('an empty field leaves that value alone', () => {
@@ -176,6 +223,8 @@ describe('what the editor produces is flyable', () => {
         speedY: '-5',
         pitch: '45',
         propellant: '9999',
+        wind: '',
+        launchHour: '',
         basedOn: '',
       },
       INTRO,

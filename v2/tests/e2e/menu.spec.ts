@@ -19,6 +19,9 @@ test('the menu opens, offers every preset, and closes', async ({ page }) => {
   await openMenu(page);
 
   for (const id of [
+    // M12.2. The pad is what `initBackEnd()` produces with no preset applied,
+    // and until now the only ways to it were finishing the intro or reloading.
+    'launch-pad',
     'booster-sep',
     'rtls',
     'reentry',
@@ -182,4 +185,115 @@ test('a hand-typed flight configures and flies @mobile', async ({ page }) => {
     .toBe(120);
 
   expect(errors, 'configuring must not throw').toEqual([]);
+});
+
+
+/* ── M12.2: the two the simulation had and the form did not ─────────────── */
+
+test('the Launch Pad preset flies the flight the game starts you on', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await openMenu(page);
+
+  await page.locator('[data-testid="preset-launch-pad"]').click();
+  /*
+    350 tonnes and 25 metres. Both numbers are the vehicle rather than anything
+    typed: the altitude is `vehicleHeight / 2`, which is a Starship standing on
+    its own feet, and 350 t is `constants.propellantMass`, the load it spawns
+    with and the one the propellant bar draws as a full tank. (It is not the
+    1200 t the editor will accept — that is `PROPELLANT_CAPACITY`, the tanks'
+    geometric volume from M11.8. Two different fulls, and this is the ship's.)
+  */
+  await expect(page.locator('[data-testid="field-propellant"]')).toHaveValue('350');
+  await expect(page.locator('[data-testid="field-altitude"]')).toHaveValue('25');
+
+  await page.locator('[data-testid="menu-configure"]').click();
+  await expect(page.locator('[data-testid="menu"]')).toHaveCount(0);
+
+  await expect
+    .poll(async () => Number(await page.locator('[data-testid="readout-propellant-value"]').textContent()), {
+      timeout: 10_000,
+    })
+    .toBe(350);
+  // Standing still on the pad, which is the point of the button.
+  expect(Number(await page.locator('[data-testid="readout-altitude-value"]').textContent())).toBeLessThan(30);
+});
+
+test('a preset leaves wind and hour blank, and they survive a Clear', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await openMenu(page);
+
+  await page.locator('[data-testid="preset-landing-burn"]').click();
+  // Blank means "as this scenario has it" — calm air, and the hour the sun
+  // table gives. A preset that printed 0 and 9.5 here would make the default
+  // something the player has to clear.
+  await expect(page.locator('[data-testid="field-wind"]')).toHaveValue('');
+  await expect(page.locator('[data-testid="field-launchHour"]')).toHaveValue('');
+
+  await page.locator('[data-testid="field-wind"]').fill('10');
+  await page.locator('[data-testid="menu-clear"]').click();
+  await expect(page.locator('[data-testid="field-wind"]')).toHaveValue('');
+});
+
+test('the headwind flight is reachable from the menu, and the air knows', async ({ page }) => {
+  /*
+    M11.1 wired the wind through every aerodynamic term and left it reachable
+    only from a test: `landing-burn-headwind` is a golden fixture no player
+    could fly. This is that flight, typed.
+
+    THE OBSERVABLE IS THE HORIZONTAL SPEED, and picking it took a measurement.
+    Dynamic pressure was the obvious choice and is the wrong one: the first
+    version asserted that a headwind raises it, and the simulation says it FALLS
+    — 1.75 kPa against 1.69 at two seconds — because the extra drag also slows
+    the descent, and the readout's one decimal place swallowed what was left.
+
+    H/S is unambiguous. This vehicle starts with no downrange speed and nothing
+    in calm air can give it any; drag from moving air can, and does, monotonically
+    — 0.00 m/s throughout with no wind, against 0.68, 1.45, 2.22, 2.96 at each
+    half second with ten. Read off the HUD at a matched moment of the
+    SIMULATION's clock, because two runs of the same descent are only comparable
+    at the same time of flight.
+
+    THE READOUT CANNOT SHOW A ZERO, which is worth knowing before reading the
+    assertion below. `readouts.ts` renders H/S as `Math.ceil(speedX)` — 2021's
+    own rounding, ported deliberately — so the calm flight's residual of about
+    1e-15 m/s displays as 1, not 0. The comparison is therefore between the two
+    numbers rather than against zero, and the gap is wide enough that the
+    rounding cannot manufacture it: 1 against 4.
+  */
+  const driftAt = async (wind: string): Promise<number> => {
+    await page.goto('/', { waitUntil: 'load' });
+    await ready(page);
+    await openMenu(page);
+    await page.locator('[data-testid="preset-landing-burn"]').click();
+    if (wind !== '') await page.locator('[data-testid="field-wind"]').fill(wind);
+    await page.locator('[data-testid="menu-configure"]').click();
+    await expect(page.locator('[data-testid="menu"]')).toHaveCount(0);
+
+    const clock = page.locator('[data-testid="readout-clock-value"]');
+    const seconds = async () => {
+      const text = (await clock.textContent()) ?? '';
+      return text
+        .trim()
+        .split(':')
+        .map(Number)
+        .reduce((total, part) => total * 60 + (Number.isFinite(part) ? part : 0), 0);
+    };
+    /*
+      WAIT FOR THE NEW FLIGHT'S CLOCK, NOT JUST A BIG ONE. The intro has been
+      running since the page loaded, so by the time Configure is pressed the
+      readout already says eight seconds or more — and a poll for "at least two"
+      is satisfied by that stale value before the restart has even reached the
+      DOM. The first version of this read the INTRO's horizontal speed and
+      reported 1 m/s of drift in air that was not moving.
+    */
+    await expect.poll(seconds, { timeout: 30_000, intervals: [100] }).toBeLessThan(2);
+    await expect.poll(seconds, { timeout: 30_000, intervals: [100] }).toBeGreaterThanOrEqual(2);
+    return Number(await page.locator('[data-testid="readout-speedX-value"]').textContent());
+  };
+
+  const calm = await driftAt('');
+  const headwind = await driftAt('10');
+  const report = `calm ${calm} m/s vs headwind ${headwind} m/s`;
+  expect(calm, report).toBeLessThanOrEqual(1);
+  expect(headwind, report).toBeGreaterThanOrEqual(calm + 2);
 });

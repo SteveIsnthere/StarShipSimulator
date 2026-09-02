@@ -21,7 +21,7 @@
   velocity and propellant, which is what the choice actually is.
 -->
 <script lang="ts">
-  import { PRESETS, ORBITAL_PRESETS, type ScenarioPreset } from '$core/scenarios';
+  import { LAUNCH_PAD, PRESETS, ORBITAL_PRESETS, type ScenarioPreset } from '$core/scenarios';
   import {
     describeTimeSetting,
     EMPTY_FIELDS,
@@ -116,8 +116,17 @@
     <div class="body">
       <section class="block">
         <h2 class="title">Scenario</h2>
+        <!--
+          THE PAD IS A SCENARIO AND HAD NO BUTTON (M12.2).
+
+          `LAUNCH_PAD` is what `initBackEnd()` produces with no preset applied —
+          the flight the game hands you after the intro lands, full tanks,
+          engines off — and it has been reachable only by finishing the demo or
+          reloading the page. Every other scenario is one press. First in the
+          list because it is where a flight starts.
+        -->
         <div class="presets">
-          {#each PRESETS as preset (preset.id)}
+          {#each [LAUNCH_PAD, ...PRESETS] as preset (preset.id)}
             <button
               class="preset"
               type="button"
@@ -223,6 +232,38 @@
               data-testid="field-propellant"
               placeholder="T"
               bind:value={fields.propellant}
+            />
+          </label>
+          <!--
+            THE TWO THE SIMULATION HAD AND THE FORM DID NOT (M12.2).
+
+            Wind was wired through every aerodynamic term at M11.1 and left
+            reachable only from a test: `landing-burn-headwind` is a golden
+            fixture no player could fly. The hour was given a value per scenario
+            at M11.4 and never a way to ask for another one.
+
+            Both are BLANK BY DEFAULT, and that is the whole convention: an
+            empty box is "as this scenario has it" — calm air, and the hour the
+            sun table gives — rather than a zero someone has to know to clear.
+          -->
+          <label class="field">
+            <span class="field-label">Wind</span>
+            <input
+              type="number"
+              data-field="wind"
+              data-testid="field-wind"
+              placeholder="M/S"
+              bind:value={fields.wind}
+            />
+          </label>
+          <label class="field">
+            <span class="field-label">Hour</span>
+            <input
+              type="number"
+              data-field="launchHour"
+              data-testid="field-launchHour"
+              placeholder="LOCAL"
+              bind:value={fields.launchHour}
             />
           </label>
         </div>

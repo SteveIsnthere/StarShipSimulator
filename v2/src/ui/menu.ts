@@ -44,15 +44,8 @@ export function describeTimeSetting(setting: TimeSetting): string {
 }
 
 /**
- * The flight editor's six fields, as typed by the pilot.
- *
- * Strings, not numbers, because empty means "leave this one alone" —
- * configureNewFlight() (tools.js:188) tested `!= ""` on each field
- * independently, so a partial form edits only what it names. Storing numbers
- * would lose that distinction the moment a field was cleared to 0.
- */
-/**
- * The six editor boxes.
+ * The flight editor's boxes, as typed by the pilot — six from 2021, two added
+ * at M12.2.
  *
  * Typed as strings because that is what a preset puts in them and what an empty
  * box is. They are NOT only strings at runtime: `bind:value` on a number input
@@ -67,6 +60,14 @@ export interface EditorFields {
   speedY: string;
   pitch: string;
   propellant: string;
+  /**
+   * m/s of steady downrange air, and the local hour the flight starts at
+   * (M12.2). Empty means "as the scenario has it" for both — calm air, and the
+   * hour `view/sun.ts` gives that scenario — which is why they are `?`
+   * on `ScenarioPreset` rather than defaulted to a number here.
+   */
+  wind: string;
+  launchHour: string;
   /** The preset the form was last filled from; empty after Clear. M11.4. */
   basedOn: string;
 }
@@ -78,6 +79,8 @@ export const EMPTY_FIELDS: EditorFields = {
   speedY: '',
   pitch: '',
   propellant: '',
+  wind: '',
+  launchHour: '',
   basedOn: '',
 };
 
@@ -90,6 +93,11 @@ export function fieldsFromPreset(preset: ScenarioPreset): EditorFields {
     speedY: String(preset.speedY),
     pitch: String(preset.pitch as number),
     propellant: String(preset.propellant),
+    // Blank rather than a number when the preset does not carry one: an empty
+    // box says "whatever this scenario means", and printing `0` and `9.5` into
+    // them would turn every preset into an explicit weather report.
+    wind: preset.wind === undefined ? '' : String(preset.wind),
+    launchHour: preset.launchHour === undefined ? '' : String(preset.launchHour),
     basedOn: preset.basedOn ?? preset.id,
   };
 }
@@ -132,6 +140,25 @@ export function fieldsToPreset(fields: EditorFields, current: ScenarioPreset): S
     return Number.isFinite(parsed) ? parsed : fallback;
   };
 
+  /**
+   * `{ key: value }` when there is a value, `{}` when there is not.
+   *
+   * `fallback` is the current scenario's own value and may itself be undefined,
+   * which is the case `num` cannot represent and this exists for.
+   */
+  const optional = (
+    key: 'wind' | 'launchHour',
+    value: string | number | null | undefined,
+    fallback: number | undefined,
+  ) => {
+    const inherit = () => (fallback === undefined ? {} : { [key]: fallback });
+    if (value === null || value === undefined) return inherit();
+    if (typeof value === 'number') return Number.isFinite(value) ? { [key]: value } : inherit();
+    if (value.trim() === '') return inherit();
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? { [key]: parsed } : inherit();
+  };
+
   return {
     id: 'custom',
     name: 'Custom',
@@ -142,6 +169,22 @@ export function fieldsToPreset(fields: EditorFields, current: ScenarioPreset): S
     speedY: num(fields.speedY, current.speedY),
     pitch: deg(num(fields.pitch, current.pitch as number)) as Deg,
     propellant: num(fields.propellant, current.propellant),
+    /*
+      OPTIONAL STAYS OPTIONAL (M12.2), and blank still means "leave this one
+      alone" — the same rule as every field above, which the editor's own hint
+      promises. `num` cannot express it for these two, because `num` substitutes
+      a NUMBER, and the value to inherit here may be "no value at all": a
+      scenario with no wind is calm, and one with no hour takes the hour
+      `view/sun.ts` gives it. So a blank box copies whatever the current
+      scenario has, absence included, and the key stays off the preset when
+      there is nothing to copy.
+
+      Review caught the first version resetting instead of inheriting, which
+      made the hint a lie in exactly the case a player would meet it: type a
+      wind, fly it, come back to nudge the altitude, and the wind was gone.
+    */
+    ...optional('wind', fields.wind, current.wind),
+    ...optional('launchHour', fields.launchHour, current.launchHour),
     // An emptied form is a flight from nowhere in particular; otherwise the
     // scenario the form came from, so the sun keeps its hour (M11.4).
     ...(fields.basedOn ? { basedOn: fields.basedOn } : {}),
