@@ -966,11 +966,19 @@ thermal coefficient, Earth rotation.
 
 ### M12 — The interface, pushed (`docs/NEXT-LEVEL-PLAN.md` § M12; proposed 2026-09-01)
 
-- [ ] **M12.1 The debrief** — a flight-end card: outcome and why, touchdown speeds against the
+- [x] **M12.1 The debrief** — a flight-end card: outcome and why, touchdown speeds against the
   limits, pitch at contact, miss from the pad, time, peak Q, peak heat fraction, peak g,
   propellant left, event times. `hud/debrief.ts` pure over SimState + recorder + timeline. Accept:
   node test cross-checks every figure against the recorder on every golden's final state; an e2e
   lands the intro and reads the card; full gate incl. browser suite.
+  **Acceptance met with one stated deviation, argued in the log entry below.** "Pure over
+  SimState + recorder + timeline" could not be met as written and the reason is a fact about
+  `core/step.ts`: `checkIfCrash` zeroes the speeds and the pitch it judged, in the step that
+  judges them, so the numbers this card exists to show do not survive into any state a pure
+  function could be handed. A per-step witness — the same shape `hud/timeline.ts` already uses —
+  keeps them. The recorder became the CROSS-CHECK rather than the source, which is what the
+  acceptance line's second sentence asks for anyway and is the stronger arrangement: an
+  independent measurement instead of the same one twice.
 - [ ] **M12.2 The flight editor, complete** — Launch Pad preset button; wind and local-hour
   fields; `ScenarioPreset.wind?`/`launchHour?` (data only, Refactor tier). Accept: the eight
   golden digests unmoved and a test says every preset's wind is zero; the headwind flight
@@ -3665,3 +3673,87 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   ones that fail when the box is busy. Named here rather than fixed: the fix is `Math.exp(-drag *
   dt)` or a substep, both of which change how every plume looks, so it wants its own task with
   before/after images and the pixel-harness numbers, not a line smuggled into a ship commit.
+- 2026-09-02 · M12.1 · **The debrief card, and the thing the plan could not have known.**
+  A flight ended and the only thing that happened was a Restart button appearing. Everything the
+  flight was judged by — descent rate, drift, pitch at contact — was compared with three constants
+  inside `checkIfCrash` and thrown away, along with the peaks the recorder was keeping for plots
+  almost nobody opens. The card is that comparison, shown, in the lower third's language.
+  **WHY IT IS NOT A PURE FUNCTION OF THE FINAL STATE, which is what the plan asked for.**
+  `checkIfCrash` ZEROES what it judged: a crash sets speedX, speedY and angularVelocity to zero,
+  pitch to zero and propellantMass to zero, in the same step it uses them to decide. And
+  `checkIfBreakUp` does not stop the simulation — the wreckage keeps falling and the forces that
+  broke it are recomputed away within a step. So the last airborne instant is WITNESSED per step,
+  exactly as `hud/timeline.ts` witnesses its events, and `debrief()` is pure over the state, the
+  timeline and that witness. The recorder became the cross-check, which is what the acceptance
+  line's own second sentence asks for.
+  **REVIEW FOUND SEVEN, and three of them were the card quietly disagreeing with itself.**
+  (1) `peakG` read the recorder's `perceivedG` — the FELT g, with its one-g offset — and judged it
+  against `gLimit`, which the simulation applies to `totalAcceleration / gravity`; measured across
+  the goldens the two differ by up to a full g in both directions, so a clean touchdown could read
+  "13.5 g of 13" in alarm red. (2) The peak NUMBERS came from the recorder's one-frame-in-five
+  sampling while the red FLAGS came from the step, so four break-ups in five would show a
+  sub-limit figure flagged as the thing that broke the vehicle. Both are now taken from the step,
+  which is also why the recorder is no longer an input. (3) The card rendered descent, drift and
+  pitch against landing limits after a break-up at Mach 20 — three numbers pretending to be a
+  verdict on a landing nobody attempted; a `touchedDown` flag hides them.
+  (4) `z-index: 4`, the only stacking index in the whole application, put the card OVER the
+  full-screen Black Box its own button opens, swallowing the clicks meant for the plots — and the
+  e2e passed anyway, because a covered element is still in the DOM. The test now asks the browser
+  what is actually under the pointer at the card's centre. (5) The e2e's miss assertion stripped
+  the unit before comparing, and the cell switches to kilometres above a thousand metres, so
+  "40 KM" read as 40 and passed a bound meant to mean a hundred metres. (6) `observe()` allocated
+  a ten-field object every step, at 120 Hz times the warp factor, against CLAUDE.md's
+  zero-allocation rule; it is one record mutated in place now, with the consequence for callers
+  stated rather than hidden. (7) `miss` came from the live state rather than the witness, so a
+  break-up reported where the debris got to.
+  **AND ONE FOUND BY LOOKING AT IT ON A PHONE.** The card is a scroll container; on
+  `iphone-landscape`, 390 CSS pixels tall, the eleven figures filled it and both buttons sat below
+  the fold with nothing to say they were there. Nothing failed. The head and the actions are
+  sticky now, opaque rather than translucent (97% still let the event list read as ghost text
+  across "Fly again"), and the e2e asserts `toBeInViewport` on the outcome and all three buttons,
+  on all five projects — which is the assertion that was missing, not a style fix.
+  **AND THE THING ONLY THE FULL SUITE COULD SAY.** The first five-project run failed TEN tests
+  across four specs, every one with the same sentence: `<div data-testid="debrief"> intercepts
+  pointer events`. The card is a large fixed panel with no scrim, and it sat on top of
+  `all-raptors`, `camera-onboard` and — squarely, both centred on the same point — the old
+  `restart` button. Three consequences, and none of them is a style fix:
+  (a) the card is a SUMMARY, not a dialog, so the first touch anywhere else now dismisses it in
+  the capture phase without preventing anything: pressing a Raptor clears the card and lights the
+  engine in one gesture, and the e2e asserts both halves, because dismissing while swallowing the
+  press would be a different bug wearing this one's clothes. That alone was NOT ENOUGH, and the
+  second run said so — Playwright will not dispatch a click into a covered element, so the
+  dismissal never got a chance to fire. On a 390-pixel-tall landscape phone there is no
+  arrangement of a card wide enough to read that clears the top bar, the engine rail and the yoke
+  rail at once, so the card is `pointer-events: none` and only its three buttons are not.
+  Everything above the action row is a readout, and a readout has no business swallowing a tap
+  meant for a rocket. Close moved out of the head and into that row for the same reason: on a
+  landscape phone the head is level with the top bar, and the card's Close was taking
+  `cinematic-toggle`'s taps. The cost is that the card cannot be scrolled — so it has to fit, which
+  is what `overflow: hidden`, the event list dropped on short screens (it is the one block already
+  drawn across the bottom of every frame) and `toBeInViewport` on the outcome, the last grid cell
+  and all three buttons are between them enforcing;
+  (b) not while another panel is open, because the card's own Black Box button opens a full-screen
+  view over it and closing that view is a click outside the card — the first version of the rule
+  lost the summary you went to the plots to compare against;
+  (c) the standalone Restart is HIDDEN while the card is up. Two buttons for one action, centred on
+  the same pixel, one behind the other, is not a layering problem to solve — it is one button too
+  many. It still exists for the case the card does not cover, which is real: `flightOver` includes
+  running out of propellant, which ends a flight in mid-air with no touchdown to debrief.
+  `tests/e2e/parity.spec.ts` exercises both paths now and asserts the same capability it always
+  did.
+  Proof: 51 node tests over the eight goldens plus a synthesised break-up, four e2e. Gate: lint,
+  build (218.2 kB of 250), test (1514), coverage 99.58/99.22/98.78/99.64, and the five-project
+  browser suite — **369 passed, 0 failed, 7 skipped, in 1.0 h**, the first fully green browser run
+  since M11.7. The plume specs passed under two-worker load this time; the explicit-Euler drag
+  mechanism M11.9 recorded is still there and still owed a task. The eight golden digests are
+  untouched: nothing under `src/core` changed.
+- 2026-09-02 · M12.1 · **CI reached a browser for the first time, and immediately said something
+  useful.** With M11.9's ordering fixed, the run got through lint, build, budget, 1463 tests and
+  the coverage floors — every one of them green, and every one of them a step no CI run in this
+  project's history had ever reached — and then died in the Playwright step with `Timed out
+  waiting 180000ms from config.webServer`. Three minutes of nothing. The build inside that command
+  takes nine seconds on the same runner, so the build was not what hung: `vite preview` was told
+  no host, defaults to `localhost`, and on a dual-stack runner that resolves to ::1 first, while
+  the URL Playwright polls is written `127.0.0.1` literally. `--host 127.0.0.1` names the same
+  address on both sides. Worth recording as its own entry because it is the first defect this
+  project ever found from CI rather than from someone running the scripts.

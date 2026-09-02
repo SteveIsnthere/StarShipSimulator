@@ -153,7 +153,23 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,
+    /*
+      `--host 127.0.0.1`, and the reason is the first thing CI ever told us.
+
+      M11.9 fixed the ordering that had been killing every CI run since the
+      project's second commit, and the job got as far as a browser for the first
+      time — where it died with `Timed out waiting 180000ms from
+      config.webServer`, three minutes of nothing. The build inside this command
+      takes nine seconds on the same runner, so the build was not what hung: the
+      server came up and the poll below never reached it. `vite preview` binds
+      the host it is given and defaults to `localhost`, which on a dual-stack
+      runner resolves to ::1 first; the URL Playwright polls is written 127.0.0.1
+      literally. Naming the same address on both sides removes the question.
+
+      The timeout stays at three minutes, which is generous for a nine-second
+      build: it was never the constraint.
+    */
+    command: `npm run build && npm run preview -- --host 127.0.0.1 --port ${PORT} --strictPort`,
     url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

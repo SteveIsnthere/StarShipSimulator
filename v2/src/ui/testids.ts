@@ -171,6 +171,32 @@ export const MENU_TESTIDS = [
 export const TIMELINE_TESTIDS = ['timeline', 'event-now', 'event-next'] as const;
 
 /**
+ * The debrief card (M12.1). Present only after a flight has ended.
+ *
+ * One id per FIGURE rather than one for the card and a row index, because the
+ * figures are the contract: a test that reads "the third row" passes when the
+ * card is reordered and the wrong number is under the wrong label.
+ */
+export const DEBRIEF_TESTIDS = [
+  'debrief',
+  'debrief-outcome',
+  'debrief-reason',
+  'debrief-close',
+  'debrief-vertical',
+  'debrief-horizontal',
+  'debrief-attitude',
+  'debrief-miss',
+  'debrief-elapsed',
+  'debrief-peak-q',
+  'debrief-peak-heat',
+  'debrief-peak-g',
+  'debrief-propellant',
+  'debrief-events',
+  'debrief-restart',
+  'debrief-black-box',
+] as const;
+
+/**
  * The trajectory map (M7.1).
  *
  * All three are present whether or not the panel is expanded — it collapses by
@@ -206,6 +232,7 @@ export const ALL_TESTIDS: readonly string[] = [
   ...MAP_TESTIDS,
   ...MENU_TESTIDS,
   ...DIALOG_TESTIDS,
+  ...DEBRIEF_TESTIDS,
 ];
 
 /** `[data-testid="…"]`, so specs and components never spell it by hand. */

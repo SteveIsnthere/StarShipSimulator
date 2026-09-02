@@ -100,6 +100,20 @@ test('the restart button appears when the flight ends and starts it again', asyn
   await page.locator('[data-testid="preset-landing-burn"]').click();
   await page.locator('[data-testid="menu-configure"]').click();
 
+  /*
+    THE DEBRIEF COMES FIRST NOW (M12.1). A flight that ends on the ground raises
+    the debrief card, which carries "Fly again" and hides this button while it
+    is up — they are the same action, centred on the same point, and stacking
+    them was the bug M12.1's first browser run found. The capability being
+    checked here is unchanged: the flight ends, and there is a way to start it
+    again. Both are exercised — the card's, and this one behind it.
+  */
+  const card = page.locator('[data-testid="debrief"]');
+  await expect(card).toHaveCount(1, { timeout: 30_000 });
+  await expect(page.locator('[data-testid="debrief-restart"]')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(card).toHaveCount(0);
+
   const restart = page.locator('[data-testid="restart"]');
   await expect(restart).toBeVisible({ timeout: 30_000 });
 

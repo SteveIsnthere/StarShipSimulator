@@ -58,6 +58,8 @@
   } from './menu';
   import { toggleRandomFailure } from '$core/control/commands';
   import BlackBox from './BlackBox.svelte';
+  import Debrief from './Debrief.svelte';
+  import { createFlightWatch, debrief, type Debrief as DebriefCard } from '$hud/debrief';
   import { createRecorder } from '$app/recorder';
   import InfoView from './InfoView.svelte';
 
@@ -286,6 +288,7 @@
    */
   const onStep = (state: import('$core/state').SimState) => {
     recorder.sample(state);
+    watch.observe(state);
 
     const view = viewApp;
     if (!view) return;
@@ -346,6 +349,22 @@
    * flight ended; here the same condition drives it.
    */
   let flightOver = $state(false);
+
+  /**
+   * The debrief (M12.1).
+   *
+   * `watch` runs beside the recorder in `onStep`, at STEP rate rather than
+   * frame rate, and that is not a preference. It keeps the last airborne
+   * instant, and `checkIfCrash` erases the speeds and the pitch it judged in
+   * the same step it judges them — so a witness sampled once a frame would be
+   * up to a whole frame stale, which on a loaded machine is a quarter of a
+   * second of free fall and two and a half metres per second of the number the
+   * card exists to show.
+   */
+  const watch = createFlightWatch();
+  let debriefCard = $state<DebriefCard | null>(null);
+  /** Ended, in the sense the CARD means: the vehicle is down or gone. */
+  let flightEnded = false;
 
   /** Recomputed only when the time setting changes, never per frame. */
   const loopOptions = $derived({ ...toLoopOptions(time), onStep });
@@ -438,6 +457,9 @@
     // a second the throttle would otherwise take.
     if (mapSurface) mapSurface.dirty = true;
     flightOver = false;
+    watch.reset();
+    debriefCard = null;
+    flightEnded = false;
   };
 
   const onRestart = () => startFlight(currentPreset);
@@ -624,6 +646,48 @@
       document.addEventListener('keydown', onGesture, { capture: true });
 
       /*
+        THE DEBRIEF GETS OUT OF THE WAY (M12.1).
+
+        The card is a summary, not a dialog: it has no scrim and it does not
+        take the flight away. But it is a large fixed panel over the middle of
+        the screen, and the first full browser run said what that costs —
+        `all-raptors`, `camera-onboard` and the old `restart` button all
+        reported "<div data-testid=\"debrief\"> intercepts pointer events". A
+        player who wants to fly rather than read should not have to find a Close
+        button first.
+
+        So the first touch anywhere else dismisses it, in the CAPTURE phase and
+        without preventing anything: the control underneath receives the same
+        gesture, so pressing a Raptor both clears the card and lights the
+        engine. Escape does it too, which is what a dialog-shaped thing owes the
+        keyboard even when it does not trap focus.
+      */
+      const dismissDebrief = (event: Event) => {
+        if (debriefCard === null) return;
+        /*
+          Not while another panel is open. The card's own Black Box button opens
+          a full-screen view over it, and closing that view is a click outside
+          the card — so without this, going to the plots and coming back lost
+          the summary you went there to compare against. The same three panels
+          that block the flight controls block this: reading is not flying.
+        */
+        if (menuOpen || blackBoxOpen || infoView !== null) return;
+        const target = event.target;
+        if (target instanceof Node && (event.currentTarget as Document).contains(target)) {
+          const card = (target as Element).closest?.('[data-debrief]');
+          if (card) return;
+        }
+        debriefCard = null;
+      };
+      const onDebriefKey = (event: KeyboardEvent) => {
+        if (debriefCard === null) return;
+        if (event.key === 'Escape') debriefCard = null;
+        else dismissDebrief(event);
+      };
+      document.addEventListener('pointerdown', dismissDebrief, { capture: true });
+      document.addEventListener('keydown', onDebriefKey, { capture: true });
+
+      /*
         The tab going away (M8.5). A phone that locks, navigates away or takes a
         call must not keep a rocket running in someone's pocket — and this is
         also what handles the interruption case, because an interrupted context
@@ -796,6 +860,20 @@
         const over =
           s.status.landed || s.failures.crashed || s.failures.inFlightBreakUp || s.failures.fuelRunOut;
         if (over !== flightOver) flightOver = over;
+
+        /*
+          The card, built once on the transition — not per frame.
+
+          A different condition from `over`, deliberately: running out of
+          propellant ends the flight for the Restart button's purposes, but the
+          vehicle is still in the air and has no touchdown to report. The card
+          waits for the ground or the break-up.
+        */
+        const ended = s.status.landed || s.failures.crashed || s.failures.inFlightBreakUp;
+        if (ended !== flightEnded) {
+          flightEnded = ended;
+          debriefCard = ended ? debrief(s, timeline, watch.last) : null;
+        }
       };
       frame = requestAnimationFrame(tick);
 
@@ -803,6 +881,8 @@
         window.removeEventListener('resize', onResize);
         document.removeEventListener('pointerdown', onGesture, { capture: true });
         document.removeEventListener('keydown', onGesture, { capture: true });
+        document.removeEventListener('pointerdown', dismissDebrief, { capture: true });
+        document.removeEventListener('keydown', onDebriefKey, { capture: true });
         document.removeEventListener('visibilitychange', onVisibility);
         keyboard.destroy();
         tilt.destroy();
@@ -908,9 +988,27 @@
   </button>
 </div>
 
-{#if flightOver}
+<!--
+  The standalone Restart, and why it is now conditional on the card being gone.
+
+  Both are centred on the screen and both do exactly `onRestart`, so with the
+  debrief up they are two buttons for one action with one hidden behind the
+  other — which is what the first full browser run reported, as the card
+  intercepting the pointer on `[data-testid="restart"]`. The card carries "Fly
+  again"; this is what is left when there is no card, and that case is real
+  rather than theoretical: `flightOver` includes running out of propellant,
+  which ends the flight while the vehicle is still in the air and has no
+  touchdown to debrief.
+-->
+{#if flightOver && debriefCard === null}
   <button class="restart" type="button" data-control="restart" data-testid="restart" onclick={onRestart}>Restart</button>
 {/if}
+<Debrief
+  card={debriefCard}
+  onRestart={onRestart}
+  onBlackBox={() => (blackBoxOpen = true)}
+  onClose={() => (debriefCard = null)}
+/>
 <BlackBox open={blackBoxOpen} {recorder} onClose={() => (blackBoxOpen = false)} />
 <Menu
   open={menuOpen}
