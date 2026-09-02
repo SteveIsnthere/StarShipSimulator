@@ -163,7 +163,9 @@ viewer. The catalogue turns with the same clock the sun uses, so the two cannot 
 CoM as a function of propellant mass under a stated tank layout; moment arms derived from it.
 Goldens move. Verified by the gate and by the flip test's torque changing as propellant drains.
 
-**BUILT, MEASURED, AND STOPPED — an owner decision is needed (2026-09-02).** The model is
+**BUILT, MEASURED, STOPPED — AND THEN SHIPPED on the owner's decision of 2026-09-02: stow the
+flaps on ascent. The account below is kept as written, because the stopping is the part worth
+remembering.** The model is
 written and tested (16 tests: the two-body centroid, the parallel axis theorem, the tank layout
 inside the hull, the limits). It is physically sound and it reproduces the 2021 geometry exactly
 at dry mass. It cannot be shipped as the task is written, and this is why.
@@ -210,6 +212,12 @@ they fly on nearly empty tanks. It is the full-tank flights that come apart.
 3. **Leave the centre of mass fixed.** The 2021 geometry is internally consistent and the game
    is tuned on it; a moving centre of mass is more accurate in one respect and breaks a designed
    balance in another.
+
+*What the decision bought.* Stowing the flaps for the climb — the same idiom the landing
+autopilot already uses — is the fix a real vehicle uses rather than a retuned number, and the
+ascent came back better than it was: 22 418 m and 513 m/s at 90 s against 22 352 and 509. RTLS
+still swaps APOGEE and MECO and the artificial 40 km drop is still less predictable; both are
+recorded in the roadmap log and in the tests that observe them.
 
 Nothing was reinterpreted to make a gate pass: the tests that fail are the timeline's event
 order and the prediction's accuracy bound, both of which are real claims about how the vehicle

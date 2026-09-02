@@ -56,6 +56,7 @@ import * as aero from './physics/aero';
 import * as comp from './physics/components';
 import * as gravity from './physics/gravity';
 import * as eng from './physics/engines';
+import { createMassProperties, writeMassProperties } from './physics/mass';
 import * as act from './control/actuation';
 import { runAutopilot } from './autopilot';
 import { cloneState, type SimState } from './state';
@@ -76,6 +77,13 @@ export interface StepInput {
 }
 
 export const NO_INPUT: StepInput = {};
+
+/**
+ * The mass properties for the step in hand (M11.8). A module scratch, written
+ * from the state at the top of phase 3c and read only within that step, so
+ * `step` stays pure: nothing survives between calls.
+ */
+const massProperties = createMassProperties();
 
 // ---------------------------------------------------------------------------
 
@@ -438,7 +446,12 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // 3c. updateRotationalMotion — the same Verlet form, with alpha_n the
   // angular acceleration STORED by the previous step (the torques below need
   // the airspeed just integrated, so they cannot be evaluated first).
-  s.vehicle.vehicleMomentOfInertia = eng.getMomentOfInertia(s.vehicle.vehicleMass);
+  //
+  // M11.8: the moment arms and the inertia follow the propellant. The centre
+  // of mass moves as the tanks drain (physics/mass.ts), so the gimbal's arm,
+  // the fins' arms and the RCS arm are all functions of the load this step.
+  writeMassProperties(s.vehicle.propellantMass, massProperties);
+  s.vehicle.vehicleMomentOfInertia = massProperties.momentOfInertia;
 
   // Wrap BEFORE integrating, exactly as 2021 does, so a step can leave pitch
   // slightly outside (-pi, pi] until the next one folds it back.
@@ -476,7 +489,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const I = s.vehicle.vehicleMomentOfInertia;
   s.forces.thrustVectorAcceleration = aero.getAngularAcceleration(
     s.forces.thrustVectorForce,
-    C.engineDistanceFromCenterOfMass,
+    massProperties.engineArm,
     I,
   );
   s.forces.angularDragAcceleration = aero.getAngularDragAcceleration(
@@ -486,17 +499,17 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   );
   s.forces.frontFinDragAngularAcceleration = aero.getAngularAcceleration(
     s.forces.frontFinDrag,
-    C.frontFinDistanceFromCenterOfMass,
+    massProperties.frontFinArm,
     I,
   );
   s.forces.aftFinDragAngularAcceleration = aero.getAngularAcceleration(
     s.forces.aftFinDrag,
-    C.aftFinDistanceFromCenterOfMass,
+    massProperties.aftFinArm,
     I,
   );
   s.forces.rcsThrustAngularAcceleration = aero.getAngularAcceleration(
     s.forces.rcsThrust,
-    C.rcsThrustDistanceFromCenterOfMass,
+    massProperties.rcsArm,
     I,
   );
   s.forces.offAxisThrustDifferenceAcceleration = aero.getAngularAcceleration(
@@ -505,7 +518,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
       s.vehicle.throttleCurrent,
       s.atmosphere.airPressure,
     ),
-    C.engineDistanceFromCenterOfMass,
+    massProperties.engineArm,
     I,
   );
 

@@ -24,6 +24,7 @@
  *     M11.1   the wind wiring                    moved NOTHING; one fixture ADDED
  *     M11.2   thrust with altitude               ALL EIGHT
  *     M11.3   velocity Verlet                    ALL EIGHT
+ *     M11.8   the centre of mass moves           ALL EIGHT
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -96,6 +97,30 @@
  * gave 2.0) and energy on an eccentric vacuum orbit is conserved to 7e-13 at
  * 1/120 (Euler: 2e-6).
  *
+ * M11.8 moving all eight is a geometry change under every flight: the centre
+ * of mass follows the propellant now, so the gimbal's arm, both fin arms and
+ * the RCS arm are functions of the load rather than constants. The shape is
+ * the OUTCOMES, and two of them are the story.
+ *
+ * The four landings still land at 25.0 m and 0.00 m/s. They fly on twenty to
+ * fifty tonnes, where the arms are within a metre or two of the constants they
+ * were tuned on — that is what anchoring the layout on the DRY centre of mass
+ * buys, and it is why the intro is untouched.
+ *
+ * The full-tank flights are where it bites, and the first attempt at this task
+ * was abandoned because of it. The 2021 flaps are balanced almost exactly
+ * about a FIXED centre of mass (front area x arm 564, aft 577), which is what
+ * let the launch scenario climb with both pairs at 100% — something no rocket
+ * does. Move the centre of mass and the forward pair sits far ahead of it and
+ * is strongly destabilising: the ascent pitched to 98 degrees by 90 s and lost
+ * half its climb rate. The fix is the one a real vehicle uses rather than a
+ * retuned number: `autoTakeOff` stows the flaps, and the ascent comes back
+ * BETTER than it was (22 418 m and 513 m/s at 90 s, against 22 352 and 509).
+ *
+ * RTLS keeps its profile but swaps two events: lighter to turn, it flips
+ * sooner and is still burning as it goes over the top, so MECO now follows
+ * APOGEE. Apogee drops 20.8 km to 19.3. See tests/hud/timeline.test.ts.
+ *
  * REPRODUCING A DIGEST. The rows block is everything from the NEWLINE BEFORE the
  * `"rows": [` line to the end of the file, hashed as written. That leading
  * newline is part of the hash, and the recipe here used to omit it, so the
@@ -128,15 +153,15 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // All eight last moved at M11.3, Fidelity: velocity Verlet.
-  'launch-pad-takeoff': '2b1e720e7ebb93bb43045e74dd89f66ffba7792ef4aaa20a172c1b8c4bad561a',
-  'booster-sep-boostback': '33604d880bce7ab6c0cf6f210aafa09200fd141ff560cbf305cbe76740d9bcc5',
-  'rtls-boostback': '88ea14d426433d8b8d967a5432a444015ab06afa2d294beea7fec21d6b710bd6',
-  'reentry-autoland': '037ac42d9acc8ff398610d8eb294c82f487b279dbb7de5c19a48f24edfb230ee',
-  'before-flip-autoland': 'e16c8a9a5496b0de06f2fd8d18d26903540e256a20d760069a19fcce02bcdd39',
-  'landing-burn-autoland': '8e7608fdf52bfce01f89eb4c7cfa088be3c9da852ff068acc9b48a679db6f7d8',
-  'landing-burn-headwind': '6b602590e362fc16eefd53818b6418213fd5e90172abee4993eac6d220830bce',
-  'intro-demo': '8b7b0482acc57c9d8b33aeef6fe9c2b75a161ce9819cb17fd83b122c9cc989b0',
+  // All eight last moved at M11.8, Fidelity: the centre of mass moves.
+  'launch-pad-takeoff': 'c9d39190520b738edbcb31115e4a2f9bcd56deb2af1c046ad2a25e8ada6b0694',
+  'booster-sep-boostback': '97eefaa47db150706db4ee82a9fb414164bff79ad84caccfba556251d6ad77fa',
+  'rtls-boostback': 'eafd2c9ee451d1acfa54332d18d033035f38f17d28b7773a34d90e7ebe5bdbf2',
+  'reentry-autoland': 'edea8efa85a3b12469f62ed0f2d3cb6da0875ad191a6cef7c0dcb2ff131c86c0',
+  'before-flip-autoland': '7c6cdc3f594a27833fe36c3769a6b6a3e40c1fa744320262a47e7627729fc199',
+  'landing-burn-autoland': 'c496e2512d75d8e6403403ed31ebbbf1431509d9e0a75591cb2175b60832f19d',
+  'landing-burn-headwind': '0ae0a9677f2dec60a00c4d78c894955401713b2c19271fac834e1d0762cd6ccc',
+  'intro-demo': 'c1fd4922f3648bd448c11c70da9b55bd98b7511090aa95dcf377250f3244171d',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

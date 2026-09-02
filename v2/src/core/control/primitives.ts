@@ -17,6 +17,10 @@
 import * as C from '../constants';
 import { getDrag, relativeAirspeed } from '../physics/aero';
 import { getThrust, getTotalMaxThrust, getTotalMinThrust, getWorkingEngineCount } from '../physics/engines';
+import { createMassProperties, writeMassProperties } from '../physics/mass';
+
+/** M11.8 — the arms for the step in hand; written before read, every call. */
+const arms = createMassProperties();
 import type { SimState } from '../state';
 import { rad, type Rad } from '../units';
 
@@ -116,6 +120,10 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
     forces.offAxisThrustDifferenceAcceleration;
 
   const torqueRequired = accelerationNeeded * vehicle.vehicleMomentOfInertia;
+  // M11.8: the arms the controllers divide by follow the propellant, as the
+  // step's do — a controller that assumed the empty-tank arms would ask a
+  // full ship for half the deflection it needs.
+  writeMassProperties(vehicle.propellantMass, arms);
 
   /**
    * Initialised to 0, where 2021 declared it with no initialiser.
@@ -150,7 +158,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
     // It goes to `autopilot.rcsThrustCommand` now, which controlTranslation
     // consumes rather than clobbers.
     if (Math.abs(pitchDifference) > 0.1) {
-      const rcsForceRequired = torqueRequired / C.rcsThrustDistanceFromCenterOfMass;
+      const rcsForceRequired = torqueRequired / arms.rcsArm;
       if (rcsForceRequired > 0) {
         if (rcsForceRequired > C.rcsMaxThrust) {
           yokePosition = 100;
@@ -171,7 +179,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   };
 
   const controlByThrustVector = (): void => {
-    const vectorForceRequired = torqueRequired / C.engineDistanceFromCenterOfMass;
+    const vectorForceRequired = torqueRequired / arms.engineArm;
     const ratio = vectorForceRequired / forces.thrust;
 
     if (ratio >= 1) {
@@ -215,14 +223,14 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
           C.finDragCoefficient,
         ) *
           Math.sin(C.finActuationMaxAngle) *
-          C.frontFinDistanceFromCenterOfMass +
+          arms.frontFinArm +
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
           C.aftFinSurfaceArea,
           C.finDragCoefficient,
         ) *
-          C.aftFinDistanceFromCenterOfMass;
+          arms.aftFinArm;
       yokePosition = (torqueRequired / maxFinNoseDownTorque) * 100;
       if (yokePosition >= 100) yokePosition = 100;
     } else if (torqueRequired < 0) {
@@ -234,14 +242,14 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
           C.finDragCoefficient,
         ) *
           Math.sin(C.finActuationMaxAngle) *
-          C.aftFinDistanceFromCenterOfMass +
+          arms.aftFinArm +
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
           C.frontFinSurfaceArea,
           C.finDragCoefficient,
         ) *
-          C.frontFinDistanceFromCenterOfMass;
+          arms.frontFinArm;
       yokePosition = (torqueRequired / maxFinNoseUpTorque) * 100;
       if (yokePosition <= -100) yokePosition = -100;
     } else {

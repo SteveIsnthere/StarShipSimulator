@@ -19,6 +19,7 @@
  * pitch in DEGREES, and propellant in TONNES.
  */
 import * as C from './constants';
+import { PROPELLANT_CAPACITY } from './physics/mass';
 import { toggleAllRaptors } from './control/commands';
 import { createInitialState, type SimState } from './state';
 import { circularOrbitalSpeed } from './physics/gravity';
@@ -271,7 +272,7 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
   s.kinematics.pitch = toRad(preset.pitch);
 
   let propellantMass = preset.propellant * 1000;
-  if (propellantMass > 1_200_000) propellantMass = 1_200_000;
+  if (propellantMass > PROPELLANT_CAPACITY) propellantMass = PROPELLANT_CAPACITY;
   s.vehicle.propellantMass = propellantMass;
   s.vehicle.vehicleMass = C.vehicleDryMass + propellantMass;
 

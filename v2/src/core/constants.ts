@@ -110,7 +110,13 @@ export const dumpRate = 3500;
 /** kg */
 export const dumpLimit = 12000;
 
-/** kg*m^2 — solid cylinder about its centre, computed at wet mass. */
+/**
+ * kg*m^2 — the spawn value, a solid cylinder about its centre at wet mass.
+ *
+ * Since M11.8 the step overwrites this every step from physics/mass.ts, which
+ * carries the centre of mass with the propellant; this is what the state holds
+ * for the one step before the first one runs.
+ */
 export const vehicleMomentOfInertia =
   (vehicleMass * (vehicleDiameter / 2) ** 2 * 0.25 + (vehicleMass * vehicleHeight ** 2) / 12);
 

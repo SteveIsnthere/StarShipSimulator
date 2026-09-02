@@ -28,11 +28,15 @@ import { getFreeFallTimeRemainingPrediction } from '../physics/prediction';
 import * as gravity from '../physics/gravity';
 import { getAngularAcceleration } from '../physics/aero';
 import { getWorkingEngineCount, getTotalMaxThrust } from '../physics/engines';
+import { createMassProperties, writeMassProperties } from '../physics/mass';
 import type { SimState } from '../state';
 import { rad } from '../units';
 
 const toggleRaptor = cmd.toggleRaptor;
 const toggleFin = cmd.toggleFin;
+
+/** M11.8 — the arms for the estimate in hand; written before read. */
+const flipArms = createMassProperties();
 
 /** autoPilotModes.js:1 — hold the current attitude. */
 export function pitchHold(state: SimState): void {
@@ -62,12 +66,32 @@ export function autoMaxThrust(state: SimState): void {
 
 /** autoPilotModes.js:426 — ascent, following a pitch programme by altitude. */
 export function autoTakeOff(state: SimState): void {
-  const { autopilot, kinematics, vehicle, engines } = state;
+  const { autopilot, kinematics, vehicle, engines, status } = state;
   if (!autopilot.autoTakeOffOn || autopilot.manualControlOn) return;
 
   if (!autopilot.autoTakeOffInitialised) {
     if (!autopilot.autoMaxThrustOn) cmd.toggleAutoMaxThrust(state);
     if (getWorkingEngineCount(engines.running) === 0) cmd.toggleAllRaptors(state);
+    /*
+      THE FLAPS ARE STOWED FOR THE CLIMB — M11.8, owner's decision.
+
+      An idle fin goes fully OUT unless it is locked (control/actuation.ts),
+      because 2021 used the pair as an airbrake; so the ascent was flown with
+      both pairs at 100%, which no rocket does. It survived because the 2021
+      fins were balanced almost exactly about a FIXED centre of mass — front
+      area times arm 564, aft 577 — and a balanced pair produces no net
+      torque wherever it is. M11.8 moves the centre of mass with the
+      propellant, which is right, and at full tanks the forward flaps are
+      then far ahead of it and strongly destabilising nose-first: the ascent
+      pitched to 98 degrees by ninety seconds and lost half its climb rate.
+
+      The fix is the one a real vehicle uses rather than a number chosen to
+      make a test pass: fly the climb clean. It is the same idiom the landing
+      already uses at `horizontalAdjustmentStageController` — lock them, and
+      the actuation retracts both to zero.
+    */
+    if (status.finActive) cmd.toggleFin(state);
+    status.finLocked = true;
     autopilot.autoTakeOffInitialised = true;
   }
 
@@ -86,6 +110,10 @@ export function autoTakeOff(state: SimState): void {
   if (vehicle.propellantMass < C.dumpLimit && getWorkingEngineCount(engines.running) > 0) {
     cmd.toggleAllRaptors(state);
     cmd.toggleAutoTakeOff(state);
+    // And give the flaps back. The climb stowed them (see the initialiser);
+    // leaving them locked afterwards would retire the airbrake for the rest
+    // of the flight with no control able to restore it.
+    status.finLocked = false;
   }
 }
 
@@ -269,9 +297,14 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
   autopilot.finalStagePessimisticAltitude =
     -kinematics.speedY * finalStagePessimisticDuration * 0.5;
 
+  // M11.8: the live arm, not the constant. The inertia beside it has followed
+  // the propellant since this milestone, and pairing a variable inertia with a
+  // fixed arm made this estimate 10-13% short — it sets the belly-flop trigger
+  // altitude, so short here means the margin it exists to provide.
+  writeMassProperties(vehicle.propellantMass, flipArms);
   const flipStagePessimisticAcc = getAngularAcceleration(
     C.flipStagePessimisticAvailableThrust,
-    C.engineDistanceFromCenterOfMass,
+    flipArms.engineArm,
     vehicle.vehicleMomentOfInertia,
   );
   const flipStagePessimisticDuration =

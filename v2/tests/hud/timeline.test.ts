@@ -119,7 +119,17 @@ const EXPECTED: Readonly<Record<string, readonly EventId[]>> = {
   // T+ 0 is liftoff, literally: step.ts only advances `timeSpent` off the pad.
   'launch-pad-takeoff': ['LIFTOFF', 'MAX-Q'],
   'booster-sep-boostback': [],
-  'rtls-boostback': ['MAX-Q', 'MECO', 'APOGEE'],
+  /*
+    M11.8, Fidelity: APOGEE and MECO SWAPPED, and the swap is the flight
+    rather than the predicate. The boostback burn used to finish before the
+    top of the arc; with the centre of mass following the propellant the
+    vehicle is lighter to turn (the inertia at 200 t is 4.5e7 against the old
+    6.8e7), it flips sooner, and the burn is still running as it goes over —
+    so the engines cut AFTER apogee. Apogee itself drops from 20.8 km to
+    19.3 km for the same reason. The profile is otherwise the flight it was:
+    climb, flip retrograde, burn, coast over, belly-flop, descend.
+  */
+  'rtls-boostback': ['MAX-Q', 'APOGEE', 'MECO'],
   // Starts at exactly the 80 km interface and descends through it.
   'reentry-autoland': ['ENTRY'],
   'before-flip-autoland': ['FLIP', 'LANDING BURN', 'TOUCHDOWN'],

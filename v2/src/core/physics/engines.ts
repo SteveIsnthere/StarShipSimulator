@@ -135,12 +135,6 @@ export function updatePropellant(state: SimState, dt: number): void {
   vehicle.vehicleMass = C.vehicleDryMass + vehicle.propellantMass;
 }
 
-/** updateBackEnd.js:161 — recomputed as propellant burns off. */
-export function getMomentOfInertia(vehicleMass: number): number {
-  return (
-    vehicleMass * (C.vehicleDiameter / 2) ** 2 * 0.25 + (vehicleMass * C.vehicleHeight ** 2) / 12
-  );
-}
 
 // --- ignition --------------------------------------------------------------
 

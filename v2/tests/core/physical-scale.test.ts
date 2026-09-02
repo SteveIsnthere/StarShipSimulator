@@ -19,6 +19,10 @@ import { getDynamicPressure } from '$core/physics/aero';
 import { circularOrbitalSpeed, gravityAt, MU } from '$core/physics/gravity';
 import { getWorkingEngineCount } from '$core/physics/engines';
 import * as C from '$core/constants';
+import { createMassProperties, writeMassProperties } from '$core/physics/mass';
+
+/** Scratch for the RCS claim below (M11.8). */
+const rcsArms = createMassProperties();
 
 describe('the thermal units are kilowatts per square metre, near enough', () => {
   /**
@@ -152,19 +156,45 @@ describe('the vehicle is a Starship, to within what a game needs', () => {
     expect(deltaV / C.DEORBIT_DELTA_V).toBeGreaterThan(20);
   });
 
-  it('its RCS could flip it end over end in nine seconds', () => {
-    // The number that showed M2.11's dead command was a control defect and not
-    // a hardware limit: bang-bang, a 180-degree rotation takes
-    // 2*sqrt(pi/alpha).
-    const alpha =
-      (C.rcsMaxThrust * C.rcsThrustDistanceFromCenterOfMass) / C.vehicleMomentOfInertia;
+  it('its RCS could flip it end over end in five seconds, and the reserve buys a handful', () => {
+    /*
+      The number that showed M2.11's dead command was a control defect and not
+      a hardware limit: bang-bang, a 180-degree rotation takes 2*sqrt(pi/alpha).
+
+      IT SAID NINE SECONDS UNTIL M11.8, and that was an artefact rather than a
+      measurement: it divided the RCS torque at the empty-tank arm by the
+      moment of inertia of a FULL vehicle (`C.vehicleMomentOfInertia` is the
+      wet-mass cylinder), so it paired a light ship's leverage with a heavy
+      ship's stubbornness and got a number belonging to neither. With the two
+      taken from the same load — which is what the simulation does now — the
+      flip is 4.5 s empty, 4.6 s at the flip's own 30 t, and 6.8 s with full
+      tanks, where the arm has grown but the inertia has grown faster.
+    */
+    // M11.8: against the arm and the inertia the SIMULATION uses, which are
+    // now functions of the propellant — the constants this used to read are
+    // the empty-tank case only, so the claim was true of a vehicle the sim
+    // stopped flying. Checked at the load a flip actually happens at (the
+    // before-flip preset's 30 t) and at the extremes, so it is a claim about
+    // the vehicle rather than about one row of a table.
+    const flipAlpha = (propellant: number) => {
+      writeMassProperties(propellant, rcsArms);
+      return (C.rcsMaxThrust * rcsArms.rcsArm) / rcsArms.momentOfInertia;
+    };
+    const alpha = flipAlpha(30_000);
     expect(alpha).toBeGreaterThan(0.1);
     const minimumTimeFlip = 2 * Math.sqrt(Math.PI / alpha);
     expect(minimumTimeFlip).toBeLessThan(12);
-    // And the reserve is 25 s, so it can afford two of them and no more, which
-    // is what makes RCS a resource rather than a free actuator.
-    expect(C.rcsRunTimeRemaining / minimumTimeFlip).toBeGreaterThan(2);
-    expect(C.rcsRunTimeRemaining / minimumTimeFlip).toBeLessThan(4);
+    // Full tanks are the hard case and it is still inside the reserve: the
+    // arm grows as the centre of mass drops, and the inertia grows faster.
+    const fullTimeFlip = 2 * Math.sqrt(Math.PI / flipAlpha(1_200_000));
+    expect(fullTimeFlip).toBeGreaterThan(minimumTimeFlip);
+    expect(fullTimeFlip).toBeLessThan(C.rcsRunTimeRemaining);
+    // And the reserve is 25 s, so it affords a handful of flips and not an
+    // unlimited number — between 3.7 with full tanks and 5.6 empty — which is
+    // what makes RCS a resource rather than a free actuator.
+    expect(C.rcsRunTimeRemaining / minimumTimeFlip).toBeGreaterThan(3);
+    expect(C.rcsRunTimeRemaining / minimumTimeFlip).toBeLessThan(7);
+    expect(C.rcsRunTimeRemaining / fullTimeFlip).toBeGreaterThan(3);
   });
 
   it('and three engines is what getWorkingEngineCount counts', () => {

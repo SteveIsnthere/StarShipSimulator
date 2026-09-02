@@ -931,11 +931,9 @@ thermal coefficient, Earth rotation.
   CINEMATIC gains a selector. Accept: the five camera properties hold in every mode; full gate.
 - [x] **M11.7 Real stars** — ~300 brightest by RA/Dec for the site. Accept: named asterisms are
   where they should be; full gate.
-- [ ] **M11.8 Centre of mass** — BUILT AND STOPPED pending an owner decision; see
-  `docs/NEXT-LEVEL-PLAN.md` § M11.8 and the log entry of 2026-09-02. The model is written and
-  tested and is physically sound; shipping it makes the full-tank scenarios fly badly, because
-  the 2021 fins are balanced about the FIXED centre of mass and a moving one unbalances them.
-  Original acceptance line: — CoM as a function of propellant under a stated tank layout;
+- [x] **M11.8 Centre of mass** — shipped with the owner's decision of 2026-09-02 (stow the
+  flaps on ascent); see `docs/NEXT-LEVEL-PLAN.md` § M11.8 and the two log entries. Acceptance
+  line: — CoM as a function of propellant under a stated tank layout;
   moment arms derived. Accept: the flip's torque changes as propellant drains; goldens
   regenerated with diff and audit row; gate green.
 - [ ] **M11.9 Ship** — perf and budget re-measured, screenshots regenerated, docs and audit
@@ -3497,3 +3495,36 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   here and the choice (stow the flaps on ascent / ship it and accept the flights / leave the
   centre of mass fixed) goes to the owner. Nothing is committed to `core/`; the tree is where
   M11.7 left it.
+- 2026-09-02 · M11.8 · Centre of mass — SHIPPED, on the owner's decision to stow the flaps on
+  ascent. The model is `core/physics/mass.ts`: the four 2021 constants read as STATIONS on the
+  hull (engines 0, aft fins 9.2 m, the dry centre of mass 21.8 m, RCS 41.8 m, front fins 45.1 m),
+  the tanks stated as a layout (LOX 12.9 m under CH4 9.7 m from 5 m up, sized to the editor's cap
+  at Raptor's mixture ratio), the centre of mass a two-body centroid and the inertia by the
+  parallel axis theorem. Anchoring on the DRY centre makes every arm exactly the old constant
+  with empty tanks, which is why the landings — flown on twenty to fifty tonnes — still land at
+  25.0 m and 0.00 m/s.
+  **The flaps.** An idle fin goes fully OUT unless locked, so the ascent was flown with both
+  pairs at 100%, which no rocket does. It survived because the 2021 flaps are balanced almost
+  exactly about a FIXED centre of mass (front area × arm 564, aft 577) and a balanced pair
+  produces no net torque wherever it sits. With the centre of mass at 12.7 m the forward pair is
+  far ahead of it and strongly destabilising: the first attempt pitched to 98° by 90 s and lost
+  half its climb rate, and the task was stopped and put to the owner rather than tuned around.
+  `autoTakeOff` now stows them and gives them back when the climb ends, and the ascent comes back
+  BETTER than it was: 22 418 m and 513 m/s at 90 s against 22 352 and 509.
+  **What else moved, all recorded rather than absorbed.** RTLS keeps its profile but swaps two
+  events — lighter to turn, it flips sooner and is still burning over the top, so MECO follows
+  APOGEE and apogee drops 20.8 → 19.3 km. The prediction's artificial 40 km unpowered drop goes
+  from 6.5 to 17.1 km of error, because an unbalanced flap pair trims the vehicle tail-first and
+  it falls in 101 s where a drag-terminal model expects 524; the accuracy that matters, the
+  seven-real-flight test, is unchanged. Review also found the belly-flop estimate pairing a fixed
+  arm with the now-variable inertia (10–13% short), the fin lock never cleared after the climb,
+  the tank capacity duplicated as a literal in `scenarios.ts`, and the RCS "flip in nine seconds"
+  claim pairing an empty-tank arm with a WET-mass inertia — an artefact belonging to neither
+  vehicle. With both taken from the same load a flip is 4.5 s empty and 6.8 s full, and the 25 s
+  reserve buys between 3.7 and 5.6 of them.
+  **A gap left open, deliberately.** The angular damping still uses `integralOfRCubedTimesDx`,
+  which is the rod integral about the hull's MIDPOINT (and half of it at that), while the inertia
+  beside it is now about the moving centre of mass. Taken about the real axis the integral is
+  2.5× larger at full tanks and 1.1× at dry, so damping is understated — but correcting it
+  changes the feel of every flight including the landings, which is a Fidelity change of its own
+  and not what was approved here. Recorded for a future task rather than smuggled in.
