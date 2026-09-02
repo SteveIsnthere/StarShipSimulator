@@ -936,7 +936,8 @@ thermal coefficient, Earth rotation.
   line: — CoM as a function of propellant under a stated tank layout;
   moment arms derived. Accept: the flip's torque changes as propellant drains; goldens
   regenerated with diff and audit row; gate green.
-- [ ] **M11.9 Ship** — perf and budget re-measured, screenshots regenerated, docs and audit
+- [ ] **M11.9 Ship** — FIRST ITEM: redesign the max-Q shake e2e, which M11.8 invalidated (see
+  the log entry of 2026-09-02, "the shake test"). Then: — perf and budget re-measured, screenshots regenerated, docs and audit
   table current. Accept: full gate green on all five projects.
   Accept: measurably cheaper with the assertion unweakened, or a written finding that it
   cannot be without weakening it.
@@ -3528,3 +3529,29 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   2.5× larger at full tanks and 1.1× at dry, so damping is understated — but correcting it
   changes the feel of every flight including the landings, which is a Fidelity change of its own
   and not what was approved here. Recorded for a future task rather than smuggled in.
+- 2026-09-02 · M11.8 · The browser suite, reported. The M11 plan does not require it for a physics
+  task and the gate it does require was green, but it was run anyway because stowing the flaps
+  changes what is drawn. Result: 355 passed, one flake, and one real casualty on all five
+  projects — `tests/e2e/shake.spec.ts`, the max-Q shake. (The plume failure was contention: it
+  passes alone.)
+  **The shake test, diagnosed.** It parks a 500-tonne vehicle at ten kilometres and 368 m/s with
+  its flaps idle-deployed and measures how far the ship's silhouette strays with the lens shake
+  on against reduced motion. Since M11.8 that vehicle is aerodynamically unstable nose-first —
+  correctly, the forward pair sits far ahead of the centre of mass — and tumbles through a full
+  turn in about twelve seconds. Its silhouette then strays 10–12 px on its own, against a lens
+  shake of two or three, so the comparison became a measurement of the airframe: 12.3 px shaking
+  against 10.0 reduced, where the assertion wants a clear ratio.
+  **Three subjects were tried and rejected, and the reasons are the useful part.** (1) The
+  horizon: the far earth is drawn from altitude alone and never sees the camera, so it does not
+  shake AT ALL — 0.2 px against 0.0. That is a graphics finding in its own right and the one part
+  of the world the lens does not move. (2) A low, fast state where the true ground is in frame:
+  at 100 m the camera's ground mode puts the ground line at the very bottom edge, and the band
+  found in the lower frame is the far earth again. (3) A rate metric rather than a range one, on
+  the theory that a tumble is slow and a shake is fast: the two came out identical to two
+  decimals (2.27 against 2.27), so the shake is not separable from the tumble on this subject.
+  **Left failing rather than weakened.** The shake code is untouched by M11.8 and its curve, its
+  reduced-motion switch and its deterministic replay are all unit-tested in
+  `tests/core/camera.test.ts`; what is broken is the browser test's choice of reference, not the
+  claim. Loosening the assertion until it passed would have produced a test that proves nothing,
+  which is the failure mode this project exists to avoid, so the redesign is M11.9's first item
+  and the suite stays honest until then.
