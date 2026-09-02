@@ -3432,3 +3432,12 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   a frame width, released past 0.18) so a vehicle on the band's edge cannot flicker it; and that
   the 2× onboard view on top of a full manual zoom drew a hull taller than the window — the
   manual factor gives way so the combined scale stays inside the ceiling. Budget 211.0 kB of 250.
+  **The gate, corrected.** The commit `c716e65` says the browser suite was green; it was not — its
+  tail was misread. Two full runs each failed the plume's vacuum bloom once, on different
+  projects, and each took 58 minutes against the 35 of the runs before: the first was contended
+  by this session's own work, the second by nothing. The plume helper waited 2.5 s of WALL clock
+  for the emitters' steady state, and under load the loop dilates simulated time, so the vacuum
+  emitters — the slow, wide ones — were photographed starved (0.89 long, 0.39 across, against
+  1.78 and 0.78 clean). It now waits three seconds of the simulation's own clock (the T+
+  readout), and the spec passes on all five projects; the full suite is rerun on that fix in the
+  commit that follows.

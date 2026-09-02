@@ -105,9 +105,26 @@ async function underPowerAt(page: Page, altitude: string): Promise<void> {
       { timeout: 30_000, intervals: [200] },
     )
     .toBeGreaterThan(90);
-  // Long enough for the emitters to reach steady state AND for the vehicle to
-  // start climbing, which points the flight-path marker away from the box.
-  await page.waitForTimeout(2_500);
+  /*
+    Long enough for the emitters to reach steady state AND for the vehicle to
+    start climbing, which points the flight-path marker away from the box —
+    measured on the SIMULATION'S clock, not the wall's. This was
+    `waitForTimeout(2_500)`, and it failed the vacuum bloom twice at M11.6, on
+    two different projects, with a plume 0.89 long and 0.39 across against
+    1.78 and 0.78 on a clean run: under a loaded machine the loop dilates
+    simulated time, so two and a half seconds of wall clock were less than a
+    second of flight and the vacuum emitters — the slow, wide ones — were
+    photographed starved. The T+ readout is the simulation's own clock; three
+    seconds of it is three seconds of emission whatever the frame rate.
+  */
+  const clock = page.locator(byTestId(readoutValueTestId('clock')));
+  const seconds = async (): Promise<number> => {
+    const text = (await clock.textContent()) ?? '';
+    const parts = text.trim().split(':').map(Number);
+    return parts.reduce((total, part) => total * 60 + (Number.isFinite(part) ? part : 0), 0);
+  };
+  const start = await seconds();
+  await expect.poll(seconds, { timeout: 60_000, intervals: [200] }).toBeGreaterThanOrEqual(start + 3);
 }
 
 /**
