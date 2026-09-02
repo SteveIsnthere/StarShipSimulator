@@ -134,6 +134,11 @@ A plasma sheath shader wrapping the windward side, driven by `thermalPower` and 
 an inset onboard view so the vehicle is legible at re-entry scale while the main view keeps the
 world. Verified by the pixel harness on the re-entry preset.
 
+**Found while building it.** The inset needs no render texture: the vehicle view already takes
+a camera and a viewport, so a second instance under a camera pinned to the vehicle is the onboard
+view, at the cost of one more mesh. And the pixel harness caught the sheath's first ramp — white
+at the skin, which over a grey hull is grey, not fire.
+
 ### M11.6 — Camera modes
 Ground-tracking (the webcast pad camera: the vehicle rises away, the camera pans up), chase,
 onboard. Built on the existing follow law and its five properties. CINEMATIC gains a mode

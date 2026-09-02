@@ -924,7 +924,7 @@ thermal coefficient, Earth rotation.
   Accept: pixel harness shows lit/unlit vehicle sides differ in luma by a stated margin and the
   shadow moves with the sun; the intro's daylight look reproduced at the default elevation; full
   gate incl. browser suite.
-- [ ] **M11.5 Re-entry: sheath and onboard camera** — a windward plasma sheath shader from
+- [x] **M11.5 Re-entry: sheath and onboard camera** — a windward plasma sheath shader from
   `thermalPower` and `angleOfAttack`; an inset onboard view. Accept: pixel harness on the re-entry
   preset; full gate incl. browser suite.
 - [ ] **M11.6 Camera modes** — ground-tracking, chase, onboard, on the existing follow law;
@@ -3389,3 +3389,25 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   deorbit preset comes home out of the night. A custom flight keeps the hour of the preset it was
   edited from (`basedOn`, data only, nothing in core reads it — the one change under `core/`,
   Refactor tier: the eight golden digests are its proof). Budget 208.4 kB of 250.
+- 2026-09-02 · M11.5 · Re-entry: the sheath and the onboard inset. `view/reentry.ts`. The sheath is
+  a quad around the hull under a shader: the hull is a capsule in its own frame, the glow a
+  function of the distance outside it scaled by `thermalPower` against the limit (the same
+  fraction the trail and the HEAT readout share), gated to the windward side by the angle of
+  attack — the air arrives from `(−sin α, cos α)` in the hull's frame, which puts the belly
+  flop's fire on the belly (a test derives α from `getAttackAngles` so the convention cannot
+  drift). Additive, so it wraps the hull. The onboard inset is a second instance of the same lit
+  vehicle and its own sheath under a camera that never leaves the vehicle, in a framed square
+  under the clock; no render texture, one more mesh. It shows with hysteresis while there is a
+  sheath to show and is sky otherwise. Found while building it: the first colour ramp was
+  near-white at the skin, and additive white over a grey hull is grey — the harness measured a
+  tint where a fire was claimed, so the ramp is orange at the skin and red at the edge.
+  `tests/e2e/reentry.spec.ts` measures the inset (luma spread, tones, warm fraction) hot and
+  cold, and the sheath's warmth on the vehicle in the main view. Budget 210.2 kB of 250.
+  **A ten-milestone defect, found by review of this task:** the hull was drawn at `-pitch`, the
+  plume axis at `-pitch + π/2` and the flight-path marker at `-angleOfMotion`, on the port's
+  reasoning that the sign "flips with the y axis" — it does not, because the world's pitch is
+  already a visually clockwise angle and so is Pixi's rotation. Every hull leaned the wrong way
+  (RTLS: flying right, leaning left) while the HUD's attitude chevron leaned the right way, and
+  nothing measured which, because nothing the hull carried was asymmetric until the sheath. All
+  three are unflipped; the marker tests re-derived. The inset sits at the top centre, not a
+  corner, because the side rails are vertically centred and reach a short window's top.

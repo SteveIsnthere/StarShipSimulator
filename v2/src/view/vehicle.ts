@@ -111,9 +111,18 @@ export function createVehicle(
       );
       container.x = screen.x;
       container.y = screen.y;
-      // World pitch is measured from vertical with positive nose-right; screen
-      // rotation is clockwise from up, so the sign flips with the y axis.
-      container.rotation = -state.pitch;
+      /*
+        World pitch is measured from vertical, positive nose toward +x, which
+        is screen-right — and Pixi's rotation is positive CLOCKWISE on screen,
+        so a positive pitch is a positive rotation, unflipped. The port wrote
+        `-state.pitch`, reasoning that the sign "flips with the y axis"; it
+        does not, because the world's pitch was already defined as a
+        visually clockwise angle. Every hull was drawn leaning the wrong way
+        for ten milestones while the HUD's attitude chevron leaned the right
+        way, and nothing measured which. M11.5 found it, because the plasma
+        sheath is the first asymmetric thing the hull's frame has carried.
+      */
+      container.rotation = state.pitch;
 
       const drawnHeight = vehicleHeight * viewport.scale;
       const drawnWidth = vehicleDiameter * viewport.scale;

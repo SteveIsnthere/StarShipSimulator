@@ -121,9 +121,11 @@ export function createEffectDriver(): EffectDriver {
         kinematics.altitude,
       );
 
-      // Screen-space direction the engines point: opposite the nose.
+      // Screen-space direction the engines point: opposite the nose. Positive
+      // pitch is nose-right and Pixi's angles are clockwise, so the tail axis
+      // is pitch past straight down — unflipped (M11.5; see vehicle.ts).
       const pitch = kinematics.pitch;
-      const downAxis = -pitch + Math.PI / 2;
+      const downAxis = pitch + Math.PI / 2;
       const nozzleDistance = engineDistanceFromCenterOfMass * scale;
       const nozzleX = shipScreen.x + Math.cos(downAxis) * nozzleDistance;
       const nozzleY = shipScreen.y + Math.sin(downAxis) * nozzleDistance;

@@ -144,11 +144,13 @@ describe('at the speeds the seven scenarios actually reach', () => {
 });
 
 describe('the flight-path marker', () => {
-  it('is angleOfMotion exactly, only flipped for the screen axis', () => {
-    // NOT a compression. The negation is the same one vehicle.ts applies to
-    // pitch: screen y grows downward, world y grows up.
+  it('is angleOfMotion exactly, unflipped', () => {
+    // NOT a compression, and NOT negated: `angleOfMotion` is clockwise from
+    // up, as Pixi's rotation is. The port negated it (and the pitch) on the
+    // reasoning that screen y grows down; M11.5 found that wrong — see
+    // vehicle.ts — with the vehicle leaning left while flying right.
     for (const angle of [0, 0.3, -1.2, Math.PI, -Math.PI / 2]) {
-      expect(flightPathRotation(angle)).toBe(-angle);
+      expect(flightPathRotation(angle)).toBe(angle);
     }
     expect(flightPathRotation(NaN)).toBe(0);
   });
@@ -185,11 +187,11 @@ describe('the flight-path marker', () => {
         if (i % 30 !== 0) continue;
 
         const rotation = flightPathRotation(s.kinematics.angleOfMotion);
-        expect(rotation, `${id} at step ${i}`).toBe(-(s.kinematics.angleOfMotion as number));
+        expect(rotation, `${id} at step ${i}`).toBe(s.kinematics.angleOfMotion as number);
 
         if (flightPathVisible(s.kinematics.trueSpeed)) {
-          // Against the drawn vehicle, which is `-pitch` (vehicle.ts:83).
-          const noseRotation = -(s.kinematics.pitch as number);
+          // Against the drawn vehicle, which is `pitch` (vehicle.ts, M11.5).
+          const noseRotation = s.kinematics.pitch as number;
           let gap = Math.abs(rotation - noseRotation);
           if (gap > Math.PI) gap = Math.PI * 2 - gap;
           worstDivergence = Math.max(worstDivergence, gap);

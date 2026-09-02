@@ -109,7 +109,9 @@ export function streakLength(intensity: number, viewportHeight: number): number 
  * @param angleOfMotion rad — from SimState, 0 is straight up
  */
 export function flightPathRotation(angleOfMotion: number): number {
-  return Number.isFinite(angleOfMotion) ? -angleOfMotion : 0;
+  // Unflipped since M11.5: `angleOfMotion` is clockwise-from-up already, as
+  // Pixi's rotation is. See vehicle.ts for the sign the port got wrong.
+  return Number.isFinite(angleOfMotion) ? angleOfMotion : 0;
 }
 
 /**

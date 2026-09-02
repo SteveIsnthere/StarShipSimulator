@@ -15,6 +15,8 @@
   import { createSky } from '$view/sky';
   import { createSunLight, writeSun } from '$view/sun';
   import { createVehicleLighting } from '$view/lighting';
+  import { createOnboardInset, createSheath, windwardInHull } from '$view/reentry';
+  import { plasmaIntensity } from '$view/atmosphere-look';
   import { STARSHIP_TEXTURE } from '$view/assets';
   import { bloomIntensity, createPostPass, heatIntensity } from '$view/post';
   import { heatLimit } from '$core/constants';
@@ -480,6 +482,24 @@
       const lighting = hullTexture ? createVehicleLighting(hullTexture) : undefined;
       const vehicle = createVehicle(textures, lighting);
       /*
+        Re-entry (M11.5): the plasma sheath wraps the hull in the main view,
+        and the onboard inset shows the same vehicle large while it is hot.
+        Both read `thermalPower` against the limit and the angle of attack.
+      */
+      const sheath = createSheath();
+      vehicle.container.addChild(sheath.mesh);
+      const inset = createOnboardInset(textures, lighting);
+      const windward = { x: 0, y: 1 };
+      // Preallocated: the inset reads it every frame.
+      const insetState = {
+        altitude: 0,
+        downRangeDistance: 0,
+        pitch: 0,
+        angleOfAttack: 0,
+        frontFinExtension: 0,
+        aftFinExtension: 0,
+      };
+      /*
         The distant earth goes in the FAR layer, behind the true ground (M7.4).
         Order is the whole trick: below the follow ratio the two lines coincide
         exactly, so this one is completely hidden behind the real one and the
@@ -521,6 +541,8 @@
       */
       const flightPath = createFlightPathMarker();
       view.layers.effectsFront.addChild(flightPath.container);
+      // The inset over everything: it is a window, not a thing in the world.
+      view.layers.effectsFront.addChild(inset.container);
 
       const post = createPostPass(
         view.layers.effectsBehind,
@@ -643,6 +665,22 @@
         effects.update(particles, view!.camera, view!.viewport, s, loop.previous, worldDt);
 
         {
+          // The sheath and the inset (M11.5), from the same strength the
+          // plasma trail and the HEAT readout share.
+          const strength = plasmaIntensity(s.forces.thermalPower, heatLimit);
+          windwardInHull(s.kinematics.angleOfAttack, windward);
+          sheath.place(vehicleHeight * view!.viewport.scale);
+          sheath.set(strength, windward.x, windward.y, elapsed);
+          insetState.altitude = s.kinematics.altitude;
+          insetState.downRangeDistance = s.kinematics.downRangeDistance;
+          insetState.pitch = s.kinematics.pitch;
+          insetState.angleOfAttack = s.kinematics.angleOfAttack;
+          insetState.frontFinExtension = s.vehicle.frontFinExtension;
+          insetState.aftFinExtension = s.vehicle.aftFinExtension;
+          inset.update(view!.viewport, insetState, strength, sun, elapsed);
+        }
+
+        {
           // Where the vehicle is going, as against where its nose points. The
           // ship is drawn at its PITCH; at high angle of attack those differ
           // enormously and nothing on screen has ever said so.
@@ -722,6 +760,8 @@
         tilt.destroy();
         // The hull shader and its generated normal map: Mesh.destroy nulls
         // its shader reference and no more, so these are released here.
+        sheath.destroy();
+        inset.destroy();
         lighting?.destroy();
       };
     };
