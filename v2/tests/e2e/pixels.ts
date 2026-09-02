@@ -72,6 +72,18 @@ export interface Region {
 
 export const FULL: Region = { x: 0, y: 0, width: 1, height: 1 };
 
+/**
+ * The luma window that finds the hull against a sky: darker than any sky and
+ * lighter than the pad's shadow, and never fire. One definition (M11.6), used
+ * by the shake spec and the camera spec, so a look pass that shifts hull luma
+ * is retuned in one place.
+ */
+export const HULL_SILHOUETTE: { minLuma: number; maxLuma: number; excludeWarm: boolean } = {
+  minLuma: 20,
+  maxLuma: 110,
+  excludeWarm: true,
+};
+
 /** The middle of the frame, where the subject is meant to be. */
 export const CENTRE: Region = { x: 0.25, y: 0.25, width: 0.5, height: 0.5 };
 

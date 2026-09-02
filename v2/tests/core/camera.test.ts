@@ -32,8 +32,16 @@ import {
   writeViewport,
   type CameraTarget,
   type MutableViewport,
+  CAMERA_MODES,
+  CHASE_LEAD,
+  PAD_CAPTURE_FRACTION,
+  PAD_HOLD_FRACTION,
+  effectiveTarget,
+  modeZoom,
+  type CameraMode,
+  type ModeTarget,
 } from '$view/camera';
-import { vehicleHeight } from '$core/constants';
+import { starBaseXPos, vehicleHeight } from '$core/constants';
 import { step } from '$core/step';
 import type { SimState } from '$core/state';
 import { GOLDEN_DT } from '../golden/record';
@@ -775,5 +783,219 @@ describe('shake', () => {
     }
     // A shake is a cue, not an earthquake: under 2% of the frame at its worst.
     expect(worst / v.physicalHeight).toBeLessThan(0.02);
+  });
+});
+
+/* ── M11.6: the camera modes ────────────────────────────────────────────────
+ *
+ * Four modes, one law. Each mode is a different target handed to the same
+ * follow, so the five properties are proven per mode by running the same
+ * checks with the mode set, not by four new arguments.
+ */
+describe('the modes are the one law with a different target — M11.6', () => {
+  const v = viewport(1280, 800);
+  const at = (x: number, speedX = 0): CameraTarget => ({
+    downRangeDistance: x,
+    altitude: 5_000,
+    speedX,
+    speedY: 0,
+    landed: false,
+    onTheGround: false,
+    crashed: false,
+  });
+  const out: ModeTarget = { x: 0, speedX: 0, leadScale: 1, pinned: false, held: false };
+
+  it('follow aims at the vehicle with the ordinary lead', () => {
+    effectiveTarget('follow', at(starBaseXPos + 900, 200), v, starBaseXPos, false, out);
+    expect(out).toEqual({ x: starBaseXPos + 900, speedX: 200, leadScale: 1, pinned: false, held: false });
+  });
+
+  it('the pad camera is FIXED while it holds: pad aim, no lead, zero speed', () => {
+    const capture = v.physicalWidth * PAD_CAPTURE_FRACTION;
+    effectiveTarget('pad', at(starBaseXPos + capture * 0.9, 40), v, starBaseXPos, false, out);
+    expect(out.x).toBe(starBaseXPos);
+    expect(out.speedX).toBe(0);
+    expect(out.leadScale).toBe(0);
+    expect(out.held).toBe(true);
+    // And it stands wherever it is told to.
+    effectiveTarget('pad', at(12_000), v, 12_000, false, out);
+    expect(out.x).toBe(12_000);
+  });
+
+  it('the hold is a latch: captured inside the small band, released outside the large one', () => {
+    const capture = v.physicalWidth * PAD_CAPTURE_FRACTION;
+    const hold = v.physicalWidth * PAD_HOLD_FRACTION;
+    expect(capture).toBeLessThan(hold);
+    // Not held, between the bands: stays free.
+    effectiveTarget('pad', at(starBaseXPos + (capture + hold) / 2, 30), v, starBaseXPos, false, out);
+    expect(out.held).toBe(false);
+    expect(out.x).toBe(starBaseXPos + (capture + hold) / 2);
+    // Held, between the bands: stays held.
+    effectiveTarget('pad', at(starBaseXPos + (capture + hold) / 2, 30), v, starBaseXPos, true, out);
+    expect(out.held).toBe(true);
+    expect(out.x).toBe(starBaseXPos);
+    // Held, past the large band: released — the webcast's cut to the chase.
+    effectiveTarget('pad', at(starBaseXPos + hold * 1.1, 300), v, starBaseXPos, true, out);
+    expect(out.held).toBe(false);
+    expect(out.x).toBe(starBaseXPos + hold * 1.1);
+    expect(out.leadScale).toBe(1);
+    expect(out.speedX).toBe(300);
+  });
+
+  it('holding, the camera does not move with a vehicle drifting over the pad', () => {
+    // The finding: aim at the pad but match the vehicle's speed and the lens
+    // is dragged a third of a frame off it under a landing approach.
+    const cam = createCamera(v, starBaseXPos, 0, 0);
+    cam.posY = 5_000;
+    const band = v.physicalWidth * PAD_CAPTURE_FRACTION;
+    for (let i = 0; i < 600; i++) {
+      // Back and forth across the pad at 40 m/s, inside the capture band.
+      const x = starBaseXPos + band * 0.8 * Math.sin(i / 40);
+      updateCamera(cam, at(x, 40 * Math.cos(i / 40)), v, 1 / 60, { mode: 'pad', reducedMotion: true });
+      expect(cam.padHeld).toBe(true);
+      expect(Math.abs(cam.posX - starBaseXPos)).toBeLessThan(1);
+    }
+  });
+
+  it('the chase camera leads further and the onboard camera is pinned', () => {
+    effectiveTarget('chase', at(1_000, 500), v, starBaseXPos, false, out);
+    expect(out.leadScale).toBe(CHASE_LEAD);
+    expect(CHASE_LEAD).toBeGreaterThan(1);
+    effectiveTarget('onboard', at(1_000, 500), v, starBaseXPos, false, out);
+    expect(out.pinned).toBe(true);
+    expect(out.leadScale).toBe(0);
+  });
+
+  it('chase and onboard look closer; follow and pad do not', () => {
+    expect(modeZoom('follow')).toBe(1);
+    expect(modeZoom('pad')).toBe(1);
+    expect(modeZoom('chase')).toBeGreaterThan(1);
+    expect(modeZoom('onboard')).toBeGreaterThan(modeZoom('chase'));
+  });
+
+  it('the onboard camera is exactly on the vehicle, above the floor', () => {
+    const cam = createCamera(v, 0, 0, 0);
+    updateCamera(cam, at(4_321, 700), v, 1 / 60, { mode: 'onboard' });
+    expect(cam.posX).toBe(4_321);
+    expect(cam.posY).toBe(5_000);
+    expect(cam.speedX).toBe(700);
+    // On the pad it sits half a frame up, like every mode: property 5.
+    updateCamera(cam, { ...at(0), altitude: 25 }, v, 1 / 60, { mode: 'onboard' });
+    expect(cam.posY).toBe(v.physicalHeight * 0.5);
+  });
+});
+
+describe('property 1 holds in every mode, over every golden — M11.6', () => {
+  const modes = CAMERA_MODES.filter((m) => m !== 'follow');
+  const cases = GOLDEN_SPECS.flatMap((spec) => modes.map((mode) => [spec.id, mode, spec] as const));
+  it.each(cases)('%s in %s', (id, mode, spec) => {
+    const live: MutableViewport = { width: 0, height: 0, physicalHeight: 0, physicalWidth: 0, scale: 0 };
+    // The mode's field of view, as App applies it through the view shell.
+    writeViewport(live, 1280, 800, vehicleHeight, modeZoom(mode), 0);
+    let s: SimState = spec.build();
+    const camera = createCamera(live, s.kinematics.downRangeDistance, s.kinematics.speedX, s.kinematics.speedY);
+    camera.posY = Math.max(live.physicalHeight * 0.5, s.kinematics.altitude);
+    const options = { mode: mode as CameraMode };
+    let worstX = 0;
+    let worstY = 0;
+    for (let i = 0; i < spec.steps; i += 2) {
+      s = step(s, GOLDEN_DT);
+      s = step(s, GOLDEN_DT);
+      writeViewport(live, 1280, 800, vehicleHeight, modeZoom(mode), s.kinematics.altitude);
+      updateCamera(
+        camera,
+        {
+          downRangeDistance: s.kinematics.downRangeDistance,
+          altitude: s.kinematics.altitude,
+          speedX: s.kinematics.speedX,
+          speedY: s.kinematics.speedY,
+          landed: s.status.landed,
+          onTheGround: s.status.onTheGround,
+          crashed: s.failures.crashed,
+          dynamicPressure: s.forces.dynamicPressure,
+          thrustAcceleration: s.forces.thrustAcceleration,
+        },
+        live,
+        1 / 60,
+        options,
+      );
+      if (s.failures.crashed || s.failures.inFlightBreakUp) break;
+      // Property 5, every step, every mode.
+      expect(camera.posY).toBeGreaterThanOrEqual(live.physicalHeight * 0.5 - 1e-9);
+      const p = worldToScreen(camera, live, s.kinematics.downRangeDistance, s.kinematics.altitude);
+      worstX = Math.max(worstX, Math.abs(p.x - live.width / 2) / (live.width / 2));
+      worstY = Math.max(worstY, Math.abs(p.y - live.height / 2) / (live.height / 2));
+    }
+    const report = `${id} in ${mode}: worst offset ${(worstX * 100).toFixed(1)}% x, ${(worstY * 100).toFixed(1)}% y of half-frame`;
+    // The same bounds the follow camera meets. Vertically 1.0 is the
+    // ground-mode handoff, structural and shared by every mode but onboard.
+    expect(worstX, report).toBeLessThan(0.5);
+    expect(worstY, report).toBeLessThanOrEqual(1);
+  });
+});
+
+describe('properties 2, 3 and 4 hold in every mode — M11.6', () => {
+  const v = viewport(1280, 800);
+  const target = (x: number, speedX: number): CameraTarget => ({
+    downRangeDistance: x,
+    altitude: 3_000,
+    speedX,
+    speedY: 0,
+    landed: false,
+    onTheGround: false,
+    crashed: false,
+  });
+
+  it.each(CAMERA_MODES)('%s: a step change settles without ringing', (mode) => {
+    const cam = createCamera(v, 0, 0, 0);
+    cam.posY = 3_000;
+    // Well inside the pad band would pin the pad camera; step past the band
+    // so every mode has something to follow.
+    const from = starBaseXPos + v.physicalWidth;
+    const to = from + v.physicalWidth * 0.2;
+    cam.posX = from;
+    let overshoot = 0;
+    let settledAt = -1;
+    for (let i = 0; i < 60 * 8; i++) {
+      updateCamera(cam, target(to, 0), v, 1 / 60, { mode });
+      overshoot = Math.max(overshoot, cam.posX - to);
+      if (settledAt < 0 && Math.abs(cam.posX - to) < 1) settledAt = i;
+    }
+    expect(overshoot, `${mode} overshot by ${overshoot.toFixed(1)} m`).toBeLessThan((to - from) * 0.25);
+    expect(settledAt, `${mode} never settled`).toBeGreaterThanOrEqual(0);
+  });
+
+  it.each(CAMERA_MODES)('%s: reaches the same place at 30 and 120 fps', (mode) => {
+    // As the follow camera's own frame-rate test: a target that moves as its
+    // speed says, integrated; the camera seeded with the vehicle's speed.
+    // Starts past the pad band so the pad camera has the same job as the rest.
+    const run = (fps: number) => {
+      const start = starBaseXPos + v.physicalWidth;
+      const cam = createCamera(v, start, 100, 0);
+      cam.posY = 3_000;
+      let x = start;
+      for (let i = 0; i < fps * 10; i++) {
+        x += 100 / fps;
+        updateCamera(cam, target(x, 100), v, 1 / fps, { mode, reducedMotion: true });
+      }
+      return cam.posX;
+    };
+    // The follow camera's measured drift is under 2 m over ten seconds at
+    // 100 m/s; a mode is a target, and the integration is the same.
+    expect(Math.abs(run(30) - run(120))).toBeLessThan(2);
+  });
+
+  it.each(CAMERA_MODES)('%s: the same states give the same path, twice', (mode) => {
+    const run = () => {
+      const cam = createCamera(v, 0, 0, 0);
+      cam.posY = 3_000;
+      const path: number[] = [];
+      for (let i = 0; i < 300; i++) {
+        updateCamera(cam, target(starBaseXPos + i * 3, 180), v, 1 / 60, { mode });
+        path.push(cam.posX, cam.posY, cam.shakeX);
+      }
+      return path;
+    };
+    expect(run()).toEqual(run());
   });
 });

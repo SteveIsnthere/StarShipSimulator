@@ -12,8 +12,9 @@
  * reload.
  */
 import { expect, test } from '@playwright/test';
-import { byTestId, readoutValueTestId } from '../../src/ui/testids';
+import { byTestId, CAMERA_MODE_TESTIDS, readoutValueTestId } from '../../src/ui/testids';
 import { openControls, ready } from './helpers';
+import { HULL_SILHOUETTE, readFrame, type Region } from './pixels';
 
 test('it defaults off — this is a cockpit first', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
@@ -125,4 +126,90 @@ test('it survives a browser that refuses site data', async ({ page, context }) =
   await expect(page.locator(byTestId('all-raptors'))).not.toBeVisible();
 
   expect(errors, 'blocked storage must not throw into the page').toEqual([]);
+});
+
+/* ── M11.6: the camera selector ─────────────────────────────────────────────
+ *
+ * CINEMATIC gains the one thing it adds rather than hides: a choice of camera.
+ * Four modes on the one follow law (view/camera.ts); their five properties are
+ * proven in node over every golden. What only a browser can show is that the
+ * selector exists exactly when the controls do not, that a choice takes hold
+ * on the picture, and that it survives a reload.
+ */
+
+/**
+ * The tall middle column, where the vehicle is framed — to the very bottom,
+ * because a landed hull stands on the frame's bottom edge in every mode and a
+ * region that stopped short would clip it by a different share at each zoom.
+ */
+const COLUMN: Region = { x: 0.4, y: 0, width: 0.2, height: 1 };
+
+/** Height in image pixels of the dark, non-sky thing in the column: the hull. */
+async function hullHeight(page: import('@playwright/test').Page): Promise<number> {
+  const report = await readFrame(page, {
+    extents: { hull: { region: COLUMN, ...HULL_SILHOUETTE } },
+  });
+  const hull = report.extents['hull']!;
+  expect(hull.found, 'no hull in the middle column').toBe(true);
+  return hull.heightPx;
+}
+
+test('the camera selector exists only in cinematic mode, and every mode is a button @mobile', async ({
+  page,
+}) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  await expect(page.locator(byTestId('camera-modes'))).toHaveCount(0);
+
+  await page.locator(byTestId('cinematic-toggle')).click();
+  await expect(page.locator(byTestId('camera-modes'))).toBeVisible();
+  for (const id of CAMERA_MODE_TESTIDS) {
+    await expect(page.locator(byTestId(id))).toBeVisible();
+  }
+  // Follow is the default, and pressing another moves the press.
+  await expect(page.locator(byTestId('camera-follow'))).toHaveAttribute('aria-pressed', 'true');
+  await page.locator(byTestId('camera-chase')).click();
+  await expect(page.locator(byTestId('camera-chase'))).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator(byTestId('camera-follow'))).toHaveAttribute('aria-pressed', 'false');
+
+  // Residue: back to follow and out of cinematic.
+  await page.locator(byTestId('camera-follow')).click();
+  await page.locator(byTestId('cinematic-toggle')).click();
+  await expect(page.locator(byTestId('camera-modes'))).toHaveCount(0);
+});
+
+test('onboard looks twice as close as follow, and the choice survives a reload @mobile', async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  // Let the intro land, so the vehicle stands still for two measurements.
+  await expect
+    .poll(async () => Number(await page.locator(byTestId(readoutValueTestId('altitude'))).textContent()), {
+      timeout: 90_000,
+      intervals: [500],
+    })
+    .toBeLessThan(26);
+  await page.waitForTimeout(1_500);
+
+  await page.locator(byTestId('cinematic-toggle')).click();
+  await expect(page.locator(byTestId('camera-modes'))).toBeVisible();
+  const follow = await hullHeight(page);
+
+  await page.locator(byTestId('camera-onboard')).click();
+  await page.waitForTimeout(500);
+  const onboard = await hullHeight(page);
+  // The onboard camera's field of view is twice as tight (modeZoom), so the
+  // drawn hull is twice as tall. The bound has room for the anti-aliased ends.
+  expect(onboard / follow, `follow ${follow} px, onboard ${onboard} px`).toBeGreaterThan(1.7);
+  expect(onboard / follow).toBeLessThan(2.3);
+
+  await page.reload({ waitUntil: 'load' });
+  await ready(page);
+  await expect(page.locator(byTestId('camera-onboard'))).toHaveAttribute('aria-pressed', 'true');
+
+  // Residue: follow, cinematic off.
+  await page.locator(byTestId('camera-follow')).click();
+  await page.locator(byTestId('cinematic-toggle')).click();
 });

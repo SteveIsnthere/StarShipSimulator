@@ -40,7 +40,7 @@
 import { expect, test } from '@playwright/test';
 import { byTestId, readoutValueTestId } from '../../src/ui/testids';
 import { ready } from './helpers';
-import { describeFrame, readFrame, type Region } from './pixels';
+import { HULL_SILHOUETTE, describeFrame, readFrame, type Region } from './pixels';
 
 type Page = import('@playwright/test').Page;
 
@@ -71,7 +71,7 @@ const WHOLE: Region = { x: 0.1, y: 0.15, width: 0.8, height: 0.8 };
  * keeps the dark half out, because dark ground is not warm and no colour test
  * can separate it from a dark vehicle.
  */
-const SILHOUETTE = { region: SUBJECT, minLuma: 20, maxLuma: 110, excludeWarm: true };
+const SILHOUETTE = { region: SUBJECT, ...HULL_SILHOUETTE };
 
 async function preset(page: Page, id: string, fields: Record<string, string>): Promise<void> {
   await page.locator(byTestId('open-menu')).click();

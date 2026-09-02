@@ -98,6 +98,12 @@ export const METRIC_IDS = [
 export const metricSelector = (id: string): string => `[data-metric="${id}"]`;
 
 /**
+ * The camera selector (M11.6). Not in CONTROL_TESTIDS: those must all be on
+ * screen in the cockpit, and these exist only in cinematic mode.
+ */
+export const CAMERA_MODE_TESTIDS = ['camera-follow', 'camera-pad', 'camera-chase', 'camera-onboard'] as const;
+
+/**
  * Readouts, by the id `$hud/readouts` gives them.
  *
  * Each renders three nodes: the row itself carries `readout-<id>`, and the two

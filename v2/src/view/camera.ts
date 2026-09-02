@@ -39,6 +39,8 @@
  * rate. Here it takes a real dt.
  */
 
+import { starBaseXPos } from '$core/constants';
+
 /** How the drawn world maps to metres. */
 export interface Viewport {
   /** px */
@@ -92,6 +94,13 @@ export interface CameraState {
    */
   shakeX: number;
   shakeY: number;
+  /**
+   * M11.6 — whether the pad camera is holding the pad. A latch, so the hold
+   * has hysteresis: captured inside `PAD_CAPTURE_FRACTION`, released outside
+   * `PAD_HOLD_FRACTION`, and never flickering between the two on a vehicle
+   * drifting along the edge of the band.
+   */
+  padHeld: boolean;
   /**
    * s — accumulated time driving the shake oscillators.
    *
@@ -299,6 +308,7 @@ export function createCamera(
     shakeX: 0,
     shakeY: 0,
     shakeTime: 0,
+    padHeld: false,
   };
 }
 
@@ -493,6 +503,56 @@ export interface CameraTarget {
   readonly thrustAcceleration?: number;
 }
 
+/**
+ * The camera modes — M11.6. All four are the one follow law with a different
+ * TARGET handed to it, which is what keeps the five properties true in every
+ * mode without four proofs: the law is damped, frame-rate independent,
+ * deterministic and floored whatever it is asked to look at.
+ *
+ *   follow   the cockpit camera: semi-sticky, with a lead along the velocity
+ *   pad      the webcast's pad camera: fixed on the pad while the vehicle is
+ *            within a third of a frame of it, panning up as it rises; when
+ *            the vehicle leaves that band the same camera follows it, which
+ *            is the cut the webcast makes to its next camera
+ *   chase    close behind: a longer lead so the frame is ahead of the ship,
+ *            and a tighter field of view
+ *   onboard  on the vehicle: no lead, no lag, the tightest view; the world
+ *            rushes past a fixed hull, as the onboard inset shows it
+ */
+export const CAMERA_MODES = ['follow', 'pad', 'chase', 'onboard'] as const;
+export type CameraMode = (typeof CAMERA_MODES)[number];
+
+/**
+ * How far the pad camera lets the vehicle go before it follows, in frame
+ * widths. Bounded by property 1: the vehicle must stay inside half a
+ * half-frame of the centre, and 0.18 of the width is 0.36 of that with the
+ * follow's lag on release still inside the bound (measured over every golden
+ * in tests/core/camera.test.ts; 0.35 was not).
+ */
+export const PAD_HOLD_FRACTION = 0.18;
+/** And how close it must come back before the pad camera takes hold again. */
+export const PAD_CAPTURE_FRACTION = 0.12;
+/**
+ * The chase camera's lead, as a multiple of the follow camera's. The same
+ * bound: 1.3 puts the vehicle 23% of a half-frame off centre by design and
+ * the lag on top of it stays under 50% over every golden — re-entry, at
+ * 7 km/s under a tighter field of view, is the case that sets it; 2.2 and
+ * 1.5 did not.
+ */
+export const CHASE_LEAD = 1.3;
+
+/** The field of view each mode asks for, as a zoom multiplier on the follow camera's. */
+export function modeZoom(mode: CameraMode): number {
+  switch (mode) {
+    case 'chase':
+      return 1.4;
+    case 'onboard':
+      return 2;
+    default:
+      return 1;
+  }
+}
+
 export interface CameraOptions {
   /**
    * Hold the lens still.
@@ -503,6 +563,72 @@ export interface CameraOptions {
    * only part that is decoration.
    */
   readonly reducedMotion?: boolean;
+  /** M11.6 — which camera. Defaults to `follow`. */
+  readonly mode?: CameraMode;
+  /** m — where the pad camera stands. Defaults to StarBase. */
+  readonly padX?: number;
+}
+
+/** The target after the mode has had its say. Preallocated; see `effectiveTarget`. */
+export interface ModeTarget {
+  /** m — the downrange position to aim at. */
+  x: number;
+  /** m/s — the downrange speed to match. Zero while the pad camera holds. */
+  speedX: number;
+  /** Multiplier on the framing lead; zero pins the aim. */
+  leadScale: number;
+  /** Onboard only: the camera IS the vehicle, no law at all. */
+  pinned: boolean;
+  /** Pad only: whether the pad is held after this frame — the latch's next state. */
+  held: boolean;
+}
+const modeScratch: ModeTarget = { x: 0, speedX: 0, leadScale: 1, pinned: false, held: false };
+
+/**
+ * What the mode does to the target, pure and allocation-free.
+ *
+ * The pad camera is FIXED while it holds: it aims at the pad, leads nothing
+ * and matches a speed of zero — the first version aimed at the pad but still
+ * matched the vehicle's speed, and review measured it dragged a third of a
+ * frame off the pad under a landing approach. The hold is a latch with
+ * hysteresis (`held` in, `out.held` out), so a vehicle drifting along the
+ * band's edge does not snap the aim back and forth.
+ */
+export function effectiveTarget(
+  mode: CameraMode,
+  target: CameraTarget,
+  viewport: Viewport,
+  padX: number,
+  held: boolean,
+  out: ModeTarget,
+): void {
+  out.pinned = false;
+  out.leadScale = 1;
+  out.x = target.downRangeDistance;
+  out.speedX = target.speedX;
+  out.held = false;
+  switch (mode) {
+    case 'pad': {
+      const distance = Math.abs(target.downRangeDistance - padX);
+      const band = viewport.physicalWidth * (held ? PAD_HOLD_FRACTION : PAD_CAPTURE_FRACTION);
+      if (distance <= band) {
+        out.x = padX;
+        out.speedX = 0;
+        out.leadScale = 0;
+        out.held = true;
+      }
+      return;
+    }
+    case 'chase':
+      out.leadScale = CHASE_LEAD;
+      return;
+    case 'onboard':
+      out.pinned = true;
+      out.leadScale = 0;
+      return;
+    default:
+      return;
+  }
 }
 
 /**
@@ -563,8 +689,29 @@ function integrateCamera(
   target: CameraTarget,
   viewport: Viewport,
   dt: number,
+  mode: CameraMode,
+  padX: number,
 ): void {
   camera.sticky = shouldBeSticky(target, viewport);
+  effectiveTarget(mode, target, viewport, padX, camera.padHeld, modeScratch);
+  camera.padHeld = modeScratch.held;
+
+  if (modeScratch.pinned) {
+    /*
+      ONBOARD (M11.6): the camera is the vehicle. No law, so nothing to damp
+      and nothing that depends on dt — properties 2, 3 and 4 hold by having
+      no dynamics — and the floor still applies: on the pad the camera sits
+      half a frame up, as every mode does, which is property 5.
+    */
+    camera.posX = target.downRangeDistance;
+    camera.speedX = target.speedX;
+    camera.accX = 0;
+    const floor = viewport.physicalHeight * 0.5;
+    camera.posY = Math.max(floor, target.altitude);
+    camera.speedY = target.speedY;
+    camera.accY = 0;
+    return;
+  }
 
   /*
     Where the camera looks is the vehicle plus a LEAD along its direction of
@@ -574,7 +721,7 @@ function integrateCamera(
     is what keeps properties 2 and 3 true for free. An offset added to the
     output would have needed its own damping and its own frame-rate proof.
   */
-  const leadX = framingLead(target.speedX, viewport.physicalWidth);
+  const leadX = framingLead(target.speedX, viewport.physicalWidth) * modeScratch.leadScale;
 
   /*
     THE GIVE-UP IS FOR WRECKAGE ONLY (M9.2, owner decision 2026-08-26).
@@ -590,7 +737,7 @@ function integrateCamera(
   camera.accX =
     centerizeAcceleration(
       camera.posX,
-      target.downRangeDistance + leadX,
+      modeScratch.x + leadX,
       viewport.physicalWidth * 0.25,
       viewport.physicalWidth / 2,
       ALIGN_TIME_CENTERIZE,
@@ -598,7 +745,7 @@ function integrateCamera(
     ) +
     matchSpeedAcceleration(
       camera.speedX,
-      target.speedX,
+      modeScratch.speedX,
       // The ground camera matches speed half as eagerly, so a landing settles
       // rather than jittering. drawMethods.js:140.
       camera.sticky ? ALIGN_TIME_MATCH_SPEED : ALIGN_TIME_MATCH_SPEED * 2,
@@ -615,7 +762,7 @@ function integrateCamera(
   camera.posX += camera.speedX * dt;
 
   if (camera.sticky) {
-    const leadY = framingLead(target.speedY, viewport.physicalHeight);
+    const leadY = framingLead(target.speedY, viewport.physicalHeight) * modeScratch.leadScale;
     camera.accY =
       centerizeAcceleration(
         camera.posY,
@@ -667,7 +814,9 @@ export function updateCamera(
   const substeps =
     span > CAMERA_MAX_DT ? Math.min(MAX_CAMERA_SUBSTEPS, Math.ceil(span / CAMERA_MAX_DT)) : 1;
   const h = span / substeps;
-  for (let i = 0; i < substeps; i++) integrateCamera(camera, target, viewport, h);
+  const mode = options?.mode ?? 'follow';
+  const padX = options?.padX ?? starBaseXPos;
+  for (let i = 0; i < substeps; i++) integrateCamera(camera, target, viewport, h, mode, padX);
 
   /*
     The lens, last, and separately from everything above.

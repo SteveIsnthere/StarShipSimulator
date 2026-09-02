@@ -317,6 +317,7 @@ export function createOnboardInset(
     shakeX: 0,
     shakeY: 0,
     shakeTime: 0,
+    padHeld: false,
   };
   const viewport: MutableViewport = { width: 1, height: 1, physicalHeight: 1, physicalWidth: 1, scale: 1 };
 

@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { createView, type ViewApp } from '$view/app';
-  import { updateCamera, worldToScreen } from '$view/camera';
+  import { CAMERA_MODES, modeZoom, updateCamera, worldToScreen, type CameraMode } from '$view/camera';
+  import { starBaseXPos } from '$core/constants';
   import { loadTextures } from '$view/assets';
   import { createWorld } from '$view/world';
   import { createTerrainTextures } from '$view/terrain';
@@ -164,8 +165,50 @@
 
   let cinematic = $state(readCinematic());
 
+  /**
+   * The camera mode (M11.6): the director's choice, and so a CINEMATIC one.
+   * With the controls showing this is a cockpit and the camera is the cockpit's;
+   * with them hidden the selector appears and the chosen mode drives the lens.
+   * Remembered per device through the same guarded read the cinematic flag
+   * uses, for the same reason.
+   */
+  const CAMERA_KEY = 'starship:camera';
+  const isCameraMode = (v: unknown): v is CameraMode =>
+    typeof v === 'string' && (CAMERA_MODES as readonly string[]).includes(v);
+  const readCameraMode = (): CameraMode => {
+    try {
+      const stored = localStorage.getItem(CAMERA_KEY);
+      return isCameraMode(stored) ? stored : 'follow';
+    } catch {
+      return 'follow';
+    }
+  };
+  let cameraMode = $state<CameraMode>(readCameraMode());
+  /** What the lens actually does: the chosen mode in cinematic, the cockpit's otherwise. */
+  const applyCameraMode = () => {
+    const effective: CameraMode = cinematic ? cameraMode : 'follow';
+    cameraOptions.mode = effective;
+    viewApp?.setModeZoom(modeZoom(effective));
+  };
+  const selectCameraMode = (mode: CameraMode) => {
+    cameraMode = mode;
+    try {
+      localStorage.setItem(CAMERA_KEY, mode);
+    } catch {
+      // A browser that refuses site data still gets the mode for this visit.
+    }
+    applyCameraMode();
+  };
+  const CAMERA_LABELS: Record<CameraMode, string> = {
+    follow: 'Follow',
+    pad: 'Pad',
+    chase: 'Chase',
+    onboard: 'Onboard',
+  };
+
   const toggleCinematic = () => {
     cinematic = !cinematic;
+    applyCameraMode();
     try {
       localStorage.setItem(CINEMATIC_KEY, cinematic ? '1' : '0');
     } catch {
@@ -423,9 +466,12 @@
    * Read once, at startup: a player who has asked not to be shaken has asked
    * once. Held in a stable object so passing it costs no allocation.
    */
-  const cameraOptions = {
+  const cameraOptions: { reducedMotion: boolean; mode: CameraMode; padX: number } = {
     reducedMotion:
       typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches,
+    mode: 'follow',
+    // The pad camera stands on the pad.
+    padX: starBaseXPos,
   };
 
   /** Zoom is a view action, not a simulation command — it changes nothing. */
@@ -455,6 +501,8 @@
       }
 
       viewApp = view;
+
+      applyCameraMode();
 
       const textures = await loadTextures();
       if (disposed) {
@@ -818,6 +866,28 @@
     <span class="pip" aria-hidden="true"></span>
     Cinematic
   </button>
+  {#if cinematic}
+    <!--
+      The camera selector (M11.6), the one thing CINEMATIC adds rather than
+      hides. Its own row under the buttons: four more in the same row would
+      not fit a phone.
+    -->
+    <div class="camera-modes" role="group" aria-label="Camera" data-testid="camera-modes">
+      {#each CAMERA_MODES as mode (mode)}
+        <button
+          class="top-button"
+          class:is-on={cameraMode === mode}
+          type="button"
+          data-testid={`camera-${mode}`}
+          aria-pressed={cameraMode === mode}
+          onclick={() => selectCameraMode(mode)}
+        >
+          <span class="pip" aria-hidden="true"></span>
+          {CAMERA_LABELS[mode]}
+        </button>
+      {/each}
+    </div>
+  {/if}
   <button
     class="top-button"
     class:is-on={!muted}
@@ -907,6 +977,14 @@
     position: absolute;
     top: calc(var(--safe-top) + 0.75rem);
     right: calc(var(--safe-right) + 0.75rem);
+    display: flex;
+    gap: 0.4rem;
+  }
+  /* The camera row hangs under the buttons, right-aligned with them. */
+  .camera-modes {
+    position: absolute;
+    top: calc(var(--touch) + 0.4rem);
+    right: 0;
     display: flex;
     gap: 0.4rem;
   }

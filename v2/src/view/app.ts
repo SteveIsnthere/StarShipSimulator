@@ -11,6 +11,7 @@ import { Application, Container } from 'pixi.js';
 import {
   computeViewport,
   createCamera,
+  MAX_ZOOM_SCALE,
   writeViewport,
   zoomStep,
   ZOOM_IN_FACTOR,
@@ -64,6 +65,13 @@ export interface ViewApp {
   resize(width: number, height: number): void;
   /** Zoom one step in (+1) or out (-1). tools.js:152. */
   zoom(direction: 1 | -1): void;
+  /**
+   * M11.6 — the camera mode's field of view, as a multiplier on the manual
+   * zoom. Chase and onboard look closer; the others leave it at one. Applied
+   * where the manual zoom is, so the two multiply and neither fights the
+   * altitude field of view.
+   */
+  setModeZoom(factor: number): void;
   destroy(): void;
 }
 
@@ -130,6 +138,7 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
   );
 
   let zoomFactor = 1;
+  let modeZoomFactor = 1;
   /**
    * The altitude the field of view is currently set for.
    *
@@ -170,8 +179,31 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
         viewport.width,
         viewport.height,
         options.vehicleHeight,
-        zoomFactor,
+        zoomFactor * modeZoomFactor,
         altitude,
+      );
+    },
+    setModeZoom(factor: number) {
+      if (factor === modeZoomFactor) return;
+      modeZoomFactor = factor;
+      /*
+        The mode multiplies the manual zoom, and the manual zoom is clamped on
+        its own — so a 2x mode on top of a full manual zoom would draw a hull
+        taller than the window (review found 900 px in 800). The manual factor
+        gives way: it is pulled down so the COMBINED scale stays inside the
+        ceiling, and it grows back when the mode lets go.
+      */
+      const base = computeViewport(viewport.width, viewport.height, options.vehicleHeight).scale;
+      if (base * zoomFactor * modeZoomFactor > MAX_ZOOM_SCALE) {
+        zoomFactor = MAX_ZOOM_SCALE / (base * modeZoomFactor);
+      }
+      writeViewport(
+        viewport,
+        viewport.width,
+        viewport.height,
+        options.vehicleHeight,
+        zoomFactor * modeZoomFactor,
+        lastAltitude,
       );
     },
     zoom(direction: 1 | -1) {
@@ -194,14 +226,19 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
         options.vehicleHeight,
         zoomFactor,
       );
-      if (zoomStep(manual.scale, factor) === manual.scale) return;
+      // Zooming IN is bounded by what is actually drawn — manual times the
+      // camera mode's multiplier (M11.6) — so a close mode cannot be zoomed
+      // past the ceiling; zooming OUT is bounded by the manual scale alone, so
+      // it always works, whatever the mode.
+      const bound = direction > 0 ? manual.scale * modeZoomFactor : manual.scale;
+      if (zoomStep(bound, factor) === bound) return;
       zoomFactor *= factor;
       writeViewport(
         viewport,
         viewport.width,
         viewport.height,
         options.vehicleHeight,
-        zoomFactor,
+        zoomFactor * modeZoomFactor,
         lastAltitude,
       );
     },
@@ -212,7 +249,7 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
         nextWidth,
         nextHeight,
         options.vehicleHeight,
-        zoomFactor,
+        zoomFactor * modeZoomFactor,
         lastAltitude,
       );
     },

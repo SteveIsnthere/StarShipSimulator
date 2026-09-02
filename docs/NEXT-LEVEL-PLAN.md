@@ -144,6 +144,11 @@ Ground-tracking (the webcast pad camera: the vehicle rises away, the camera pans
 onboard. Built on the existing follow law and its five properties. CINEMATIC gains a mode
 selector. Verified by the camera property tests extended to every mode.
 
+**Found while building it.** A mode is a target, not a camera: handing the one follow law a
+pinned, led or pad-held target keeps the five properties without four proofs, and the
+property-1 sweep over every golden did the tuning — the pad's hold band and the chase's lead
+both came down until re-entry stayed in frame.
+
 ### M11.7 — Real stars
 The ~300 brightest stars from a catalogue, positioned by right ascension and declination for the
 launch site, replacing the 220 randoms. Verified by a test that the recognisable asterisms are

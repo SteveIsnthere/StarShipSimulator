@@ -927,7 +927,7 @@ thermal coefficient, Earth rotation.
 - [x] **M11.5 Re-entry: sheath and onboard camera** — a windward plasma sheath shader from
   `thermalPower` and `angleOfAttack`; an inset onboard view. Accept: pixel harness on the re-entry
   preset; full gate incl. browser suite.
-- [ ] **M11.6 Camera modes** — ground-tracking, chase, onboard, on the existing follow law;
+- [x] **M11.6 Camera modes** — ground-tracking, chase, onboard, on the existing follow law;
   CINEMATIC gains a selector. Accept: the five camera properties hold in every mode; full gate.
 - [ ] **M11.7 Real stars** — ~300 brightest by RA/Dec for the site. Accept: named asterisms are
   where they should be; full gate.
@@ -3411,3 +3411,24 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   nothing measured which, because nothing the hull carried was asymmetric until the sheath. All
   three are unflipped; the marker tests re-derived. The inset sits at the top centre, not a
   corner, because the side rails are vertically centred and reach a short window's top.
+- 2026-09-02 · M11.6 · Camera modes. Four modes, one law: `follow` (the cockpit's semi-sticky
+  follow), `pad` (the webcast's pad camera — fixed on the pad while the vehicle is within 0.18 of
+  a frame width of it, panning up as it rises, and following once it leaves the band, which is
+  the cut the webcast makes), `chase` (a 1.3× lead so the frame is ahead of the ship, at 1.4×
+  the field of view) and `onboard` (the camera IS the vehicle: no law, the tightest view). Each
+  mode is a different target handed to the same follow — `effectiveTarget` in `view/camera.ts`,
+  pure and allocation-free — so the five properties are proven per mode by running the M7.3
+  checks with the mode set: property 1 over every golden in every mode (the pad band and the
+  chase lead were both tuned DOWN by that test, from 0.35 and 2.2, because a re-entry at 7 km/s
+  under a tighter view left the frame), the floor every step, damping, frame-rate independence
+  and determinism per mode. The field of view multiplier lives in the view shell beside the
+  manual zoom, so the two multiply and neither fights the altitude field of view. CINEMATIC
+  gains the selector — the one thing it adds rather than hides; in the cockpit the camera is the
+  cockpit's. Remembered per device. The cinematic e2e proves the selector exists exactly when the
+  controls do not, that onboard draws the hull twice as tall as follow, and that the choice
+  survives a reload. Review found the first pad camera aimed at the pad but still matched the
+  vehicle's speed, and measured it dragged a third of a frame off under a landing approach — the
+  mode now emits the speed to match, zero while holding, behind a latch (captured inside 0.12 of
+  a frame width, released past 0.18) so a vehicle on the band's edge cannot flicker it; and that
+  the 2× onboard view on top of a full manual zoom drew a hull taller than the window — the
+  manual factor gives way so the combined scale stays inside the ceiling. Budget 211.0 kB of 250.
