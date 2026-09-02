@@ -931,7 +931,11 @@ thermal coefficient, Earth rotation.
   CINEMATIC gains a selector. Accept: the five camera properties hold in every mode; full gate.
 - [x] **M11.7 Real stars** — ~300 brightest by RA/Dec for the site. Accept: named asterisms are
   where they should be; full gate.
-- [ ] **M11.8 Centre of mass** — CoM as a function of propellant under a stated tank layout;
+- [ ] **M11.8 Centre of mass** — BUILT AND STOPPED pending an owner decision; see
+  `docs/NEXT-LEVEL-PLAN.md` § M11.8 and the log entry of 2026-09-02. The model is written and
+  tested and is physically sound; shipping it makes the full-tank scenarios fly badly, because
+  the 2021 fins are balanced about the FIXED centre of mass and a moving one unbalances them.
+  Original acceptance line: — CoM as a function of propellant under a stated tank layout;
   moment arms derived. Accept: the flip's torque changes as propellant drains; goldens
   regenerated with diff and audit row; gate green.
 - [ ] **M11.9 Ship** — perf and budget re-measured, screenshots regenerated, docs and audit
@@ -3471,3 +3475,25 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   portrait phone sees a 26-degree slice too narrow to hold the whole Plough — which the tests
   assert rather than hide. Also: a resize mid-flight redrew the field for the intro's hour
   instead of the hour it was tracking. Budget 215.4 kB of 250.
+- 2026-09-02 · M11.8 · Centre of mass — BUILT, MEASURED, STOPPED. The model is done and tested:
+  the tanks stated as a layout (LOX 12.9 m on CH4 9.7 m from 5 m up, sized to the editor's cap at
+  Raptor's mixture ratio), the centre of mass as a two-body centroid, the inertia by the parallel
+  axis theorem, the four 2021 constants read as stations so that every arm is EXACTLY the old
+  constant at dry mass. Sixteen tests. Two results worth keeping whatever is decided: the gimbal
+  does NOT lose authority at full tanks (arm and inertia halve together, and force·arm/inertia
+  comes out 16% higher), and the centre of mass is not monotonic in load — it dips to a minimum
+  near half full and rises again, because filling adds mass low down but also raises the
+  propellant's own centroid.
+  **Why it stopped.** The 2021 fins are balanced about the fixed centre of mass, and almost
+  exactly: front area × arm 564 against aft 577. That is what lets the launch-pad scenario climb
+  with both flap pairs at 100%. With the centre of mass at 12.7 m the balance is 784 against 160,
+  the forward flaps sit far ahead of it and are strongly destabilising nose-first — correct
+  physics, fatal flight. Launch-pad pitches to 98° by 90 s (was 42.6°) and its climb rate more
+  than halves; RTLS reaches APOGEE before MECO instead of after; the high-altitude prediction
+  error goes from under 10 km to 17.1. The landings and the intro are untouched — they fly on
+  nearly empty tanks — so the soul is safe either way. The failing tests are the timeline's event
+  ORDER and the prediction's accuracy bound, both real claims about how the vehicle flies;
+  loosening either to get a green gate is the one move this project forbids, so the task stops
+  here and the choice (stow the flaps on ascent / ship it and accept the flights / leave the
+  centre of mass fixed) goes to the owner. Nothing is committed to `core/`; the tree is where
+  M11.7 left it.

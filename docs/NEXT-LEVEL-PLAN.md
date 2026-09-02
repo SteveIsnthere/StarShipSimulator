@@ -163,6 +163,60 @@ viewer. The catalogue turns with the same clock the sun uses, so the two cannot 
 CoM as a function of propellant mass under a stated tank layout; moment arms derived from it.
 Goldens move. Verified by the gate and by the flip test's torque changing as propellant drains.
 
+**BUILT, MEASURED, AND STOPPED — an owner decision is needed (2026-09-02).** The model is
+written and tested (16 tests: the two-body centroid, the parallel axis theorem, the tank layout
+inside the hull, the limits). It is physically sound and it reproduces the 2021 geometry exactly
+at dry mass. It cannot be shipped as the task is written, and this is why.
+
+*The stated layout.* The four 2021 constants are arms about a centre of mass; read the other way
+they are STATIONS on the hull — engines at 0, aft fins at 9.2 m, the dry centre of mass at
+21.8 m, RCS at 41.8 m, front fins at 45.1 m, nose at 50 m — with the tanks from 5 m up: LOX
+12.9 m tall under CH4 9.7 m, sized to the editor's 1 200 t cap at Raptor's 3.6 mixture ratio.
+Anchoring on the DRY centre of mass is what makes every arm exactly the old constant with empty
+tanks, so the landings, flown on twenty to fifty tonnes, sit within a metre or two of the
+geometry they were tuned on.
+
+*What it does, measured.* At the pad's 350 t the centre of mass is at 12.7 m rather than 21.8,
+and the moment of inertia is 5.0e7 rather than 1.0e8 — the old formula spread the propellant
+over the whole 50 m hull when it sits in 12 m of tank near the bottom. The gimbal does not lose
+authority: arm and inertia fall together, and force·arm/inertia comes out 16% HIGHER at the pad.
+
+*Why it stops.* The 2021 vehicle's fins are BALANCED about the fixed centre of mass, and almost
+exactly: front area × arm is 24.2 × 23.3 = 564, aft is 45.8 × 12.6 = 577. That is a neutrally
+stable vehicle, and it is what lets the launch-pad scenario ascend with both flap pairs at 100%
+— which no real rocket does. Move the centre of mass to 12.7 m and the balance becomes 784
+against 160: the forward flaps are then far ahead of the centre of mass and strongly
+destabilising nose-first, which is correct physics for that configuration and is fatal to the
+flight. Measured on the goldens:
+
+| | before | after |
+|---|---|---|
+| launch-pad pitch at 90 s | 42.6° | 98.5°, still rotating |
+| launch-pad vertical speed at 90 s | 509 m/s | 235 m/s |
+| RTLS event order | MAX-Q, MECO, APOGEE | MAX-Q, APOGEE, MECO |
+| high-altitude prediction error | under 10 km | 17.1 km |
+
+The four landings and the intro are untouched — all still land at 25.0 m and 0.00 m/s — because
+they fly on nearly empty tanks. It is the full-tank flights that come apart.
+
+*The choice, which is the owner's.* Three ways forward, and each is a different milestone:
+
+1. **Stow the flaps on ascent.** `autoTakeOff` deploys them and never retracts them; a real
+   ascent flies clean. This is the physically right answer and it is an AUTOPILOT change, with
+   its own capability and golden implications, not part of "centre of mass".
+2. **Ship it and accept the flights.** The physics is right and the scenarios get worse. That
+   needs saying out loud, because "goldens move" in the task's acceptance line is not the same
+   claim as "the launch ascent tumbles and the RTLS event order changes".
+3. **Leave the centre of mass fixed.** The 2021 geometry is internally consistent and the game
+   is tuned on it; a moving centre of mass is more accurate in one respect and breaks a designed
+   balance in another.
+
+Nothing was reinterpreted to make a gate pass: the tests that fail are the timeline's event
+order and the prediction's accuracy bound, both of which are real claims about how the vehicle
+flies, and loosening either to fit would be exactly the move this project's rules forbid. The
+implementation and its tests are preserved and can be reapplied in minutes once the call is
+made.
+
 ### M11.9 — Ship
 Perf and budget re-measured, screenshots regenerated, `docs/` and the audit table current, the
 full gate green on all five projects.
