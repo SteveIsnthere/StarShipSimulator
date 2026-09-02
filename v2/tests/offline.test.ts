@@ -5,14 +5,41 @@
  * precache list is derived from the build rather than maintained by hand, and
  * that nothing anywhere in the shipped output points at a CDN.
  */
-import { describe, expect, it } from 'vitest';
-import { readdir, readFile } from 'node:fs/promises';
+import { beforeAll, describe, expect, it } from 'vitest';
+import { access, readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildServiceWorker, collectAssets, renderServiceWorker } from '../scripts/build-sw.mjs';
 import { createOfflineSupport } from '$app/offline';
 
 const dist = fileURLToPath(new URL('../dist/', import.meta.url));
+
+/**
+ * The build is this file's fixture, and saying so is worth a hook.
+ *
+ * Nine of the tests below read `v2/dist/`, so without a build they do not fail
+ * on what they assert — they die on ENOENT with a path and no advice. That is
+ * exactly what happened in GitHub Actions, on every push from 2026-08-24 to
+ * M11.9: the workflow ran `npm run test` before `npm run build`, nine tests
+ * threw, and the job stopped there, so the build, the budget and both e2e
+ * suites never ran at all. A hundred and twenty red runs said `ENOENT` and
+ * nobody read one.
+ *
+ * The ordering is fixed in `package.json`'s `gate` and in both workflows. This
+ * says the same thing at the point of failure, for the contributor who runs
+ * `npm run test` on a fresh clone.
+ */
+beforeAll(async () => {
+  try {
+    await access(dist);
+  } catch {
+    throw new Error(
+      `no build to check: ${dist} does not exist.\n` +
+        'This file asserts things about the SHIPPED OUTPUT, so it needs one.\n' +
+        'Run `npm run build` first, or `npm run gate`, which builds before it tests.',
+    );
+  }
+});
 
 async function allFiles(dir: string, base = dir): Promise<string[]> {
   const out: string[] = [];

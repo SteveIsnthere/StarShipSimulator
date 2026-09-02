@@ -5,8 +5,10 @@ autopilot do it.
 
 ![Starship on final approach, one Raptor lit, StarBase behind, a cloud deck overhead and the trajectory map showing the descent](docs/screenshot.png)
 
-Originally written in 2021 as a first project. This is v2: the same flight model,
-extracted and rebuilt around it.
+Originally written in 2021 as a first project. This is v2: that flight model extracted
+line by line, locked behind golden trajectory fixtures, and only then taken where the
+2021 one could not go — real gravity, the full standard atmosphere, a Raptor whose thrust
+rises as the air thins, and a centre of mass that moves as the tanks drain.
 
 It works on a phone, and not by shrinking: the dials become digits and ticks, the
 event timeline collapses to what just happened and what is next, and the flight
@@ -22,6 +24,18 @@ scale, a cloud deck at 2.5 km, and a compressed-perspective earth that keeps the
 world on screen the whole way instead of losing it at a hundred metres. Above
 the air, velocity streaks carry the speed the world no longer can.
 
+There is a sun. It is where the sun would be — from StarBase's latitude, at the hour the
+scenario starts — and the hull is lit from it, the ground darkens away from it, and the
+sky reddens when it is low. Above the air the stars are the three hundred and twenty
+brightest in the Bright Star Catalogue, placed by right ascension and declination for that
+site and hour: on a September evening the Summer Triangle is overhead, Orion's belt is
+three stars in a line a degree and a half apart, and Orion itself is behind you, because
+that is where it is in September. Re-entry puts a plasma sheath on the windward side of
+the hull, gated by the angle of attack so the belly flop's fire is on the belly, with an
+onboard camera inset showing the same thing close up. The camera has four modes — follow,
+the pad camera that holds still while the vehicle climbs out of frame, a chase view, and
+onboard — chosen from the selector Cinematic mode adds where the flight controls were.
+
 A trajectory map in the corner draws the profile you have flown and the
 touchdown you are heading for — or says `NO SOLUTION — ORBIT` when there isn't
 one. The ring on the ship is the flight-path marker: where the vehicle is
@@ -31,10 +45,10 @@ ninety degrees.
 <p>
 <img src="docs/depth-1km.png" alt="One kilometre up: the ship large in frame, terrain below" width="270">
 <img src="docs/depth-20km.png" alt="Twenty kilometres up: the ship smaller, the earth a band beneath a pale sky" width="270">
-<img src="docs/depth-100km.png" alt="A hundred kilometres up: stars, and the earth below" width="270">
+<img src="docs/depth-100km.png" alt="A hundred kilometres up: the real night sky from StarBase, the sun low off the limb, and the earth below" width="270">
 </p>
 
-![A re-entry at eighty kilometres and seven and a third kilometres a second: the vehicle broadside to the airflow with a plasma trail streaming behind it, velocity streaks tearing past, and the earth a mottled band below](docs/reentry.png)
+![A re-entry at eighty kilometres and seven and a third kilometres a second: the vehicle broadside to the airflow with a plasma sheath on its windward side, an onboard camera inset at the top of the frame showing the same fire close up, velocity streaks tearing past, and the earth a mottled band below](docs/reentry.png)
 
 That picture was impossible until August 2026, and not because nobody took it.
 The view was driven by the wall clock while the simulation was driven by its
@@ -140,14 +154,16 @@ different vehicle, and nobody would have been able to say which parts changed.
 | | 2021 | v2 |
 |---|---|---|
 | Globals | 355 | 0 (lint-enforced) |
-| Simulation step | frame-rate dependent | fixed 120 Hz, ~4–7 µs |
+| Simulation step | frame-rate dependent | fixed 120 Hz, 5.6–12.2 µs (budget 1000) |
 | HUD | 12 Hz, 18 `getElementById` per update | 120 Hz, zero lookups, diffed writes |
-| First-load JS | ~3.5 MB, two CDNs | 194 kB gzip, no third-party origins |
+| First-load JS | ~3.5 MB, two CDNs | 215.8 kB gzip, no third-party origins |
 | Offline | claimed | tested — a full flight with the network off |
 | Interface | one desktop layout | three breakpoints, gated on four phone viewports |
 | Depth | ground, then nothing above 100 m | three parallax layers, camera FOV 1x–5x with altitude |
 | Sound | silent | synthesised from SimState; the atmosphere audibly runs out |
-| Tests | 0 | 1432 unit, 286 end-to-end across five browser projects |
+| Physics | one gravity, one speed of sound, one air density | planet-centred gravity, the full ISA, local Mach, Raptor thrust against ambient pressure, a moving centre of mass |
+| Integrator | Euler at whatever dt the frame gave | velocity Verlet at a fixed dt, second-order and checked against Kepler |
+| Tests | 0 | 1463 unit, 355 end-to-end across five browser projects |
 
 ---
 
@@ -164,10 +180,15 @@ v2/src/audio/  Web Audio graph and the SimState → sound bindings. Never import
 v2/src/core/   Pure TypeScript simulation. The protected zone.
 ```
 
-The 2021 build is still in the repository, at `v2/tests/fixtures/legacy/`. It is retired
-— not built, not served — but the parity tests **execute** it in a Node VM and compare
-v2's simulation against it value for value. It is the evidence the port is faithful, and
-the only thing that records what the original actually did.
+The 2021 build is still in the repository, at `v2/tests/fixtures/legacy/`. It is retired —
+not built, not served, and since August 2026 not a reference either. For nine milestones
+416 parity tests executed it in a Node VM and compared v2 value for value, which is what
+made the port safe to refactor; then the owner retired parity as a standard, on the
+grounds that "the old one is just a fun project, we have a much higher standard now".
+Those tests are deleted and nothing under `v2/` reads that tree. Correctness now means
+agreement with closed-form physics, published reference data and stated contracts —
+things that are true whatever any implementation does. The archive stays so nine
+milestones of porting citations keep resolving. See `docs/VERIFICATION-PLAN.md`.
 
 `core/` is pure: state in, state out. It runs in Node with no browser, which is what
 makes any of this testable.
@@ -191,8 +212,10 @@ Randomness comes from a counter-based generator seeded per stream, with the coun
 stored in the state, so a flight replays exactly. Time warp runs the step loop N times
 per frame; it never scales `dt`, because a step must always mean the same thing.
 
-Golden trajectory fixtures in `v2/tests/golden/` are the behavioural contract. A
-refactor that moves them fails CI.
+Golden trajectory fixtures in `v2/tests/golden/` are the behavioural contract, and since
+parity was retired they are the only guard on behaviour. A refactor that moves one fails
+`npm run test`, and moving one on purpose costs a tier justification and a row in an audit
+table naming which flights changed and why.
 
 ### Nothing changes physics silently
 
@@ -202,20 +225,23 @@ Every change to `core/` declares one tier in its commit message:
 |---|---|---|
 | Refactor | behaviour must not change | numerical proof over the input domain, ≤ 1 ULP, committed as a test |
 | Bug fix | provably wrong today | failing test first, then the fix, then a before/after trajectory diff |
-| Fidelity | more accurate, changes feel | behind a flag, off by default, both paths golden-tested |
+| Fidelity | more accurate, changes feel | the owner's explicit say-so, named in the commit; goldens regenerate with the justification |
 
 The bug fixes so far: a pitch-rate term that was only correct at exactly 60 fps, a
 heating correlation given an area where it wanted a radius, an unclamped keyboard
 throttle that could command 210%, and a random-failure toggle that did nothing.
 
-The fidelity flags — planet-centered gravity, speed of sound from local temperature,
-the full ISA table, and the collapsed trig ladders — are all off by default, because
-CLAUDE.md lists the tuned feel of the 2021 model under what must never change. The last
-of those is a good illustration of why the tiers are worth having: collapsing seven
-quadrant ladders to seven one-line identities is provably the same mathematics, to within
-one ULP over four million sampled angles, and it *still* moves a golden fixture, because
-a third of those angles differ in the final bit and the simulation is a feedback loop. A
-proof of mathematical identity is not a proof of bit-identity.
+The fidelity work — planet-centred gravity, speed of sound from local temperature, the
+full ISA table, the collapsed trig ladders, Raptor thrust against ambient pressure,
+velocity Verlet, a centre of mass that moves with the propellant — was built behind flags
+and shipped without them: the owner retired the flag machinery, and the tuned 2021 feel
+with it, once each piece could be shown to be more right rather than merely different.
+
+The collapsed trig ladders are the best illustration of why the tiers are worth having.
+Collapsing seven quadrant ladders to seven one-line identities is provably the same
+mathematics, to within one ULP over four million sampled angles, and it *still* moves a
+golden fixture, because a third of those angles differ in the final bit and the simulation
+is a feedback loop. A proof of mathematical identity is not a proof of bit-identity.
 
 ---
 
@@ -225,19 +251,47 @@ proof of mathematical identity is not a proof of bit-identity.
 cd v2
 npm install
 npm run dev        # vite dev server
-npm run lint       # eslint, including the six walls
-npm run test       # vitest — 991 tests
+npm run lint       # eslint, including the seven walls
 npm run build      # svelte-check, vite build, service worker, bundle budget
-npm run test:e2e   # playwright — 43 tests, needs a build
+npm run test       # vitest — 1463 tests. Needs a build: the offline suite reads dist/
+npm run coverage   # the same, with enforced floors on src/core/**
+npm run test:e2e   # playwright — 355 tests across five projects, ~50 min
 npm run test:deploy  # the same build served from a subdirectory, as Pages does
+
+npm run gate       # all five, in that order. This is the bar for a commit.
 ```
+
+Build before test, and the order matters: `tests/offline.test.ts` asserts things about
+the shipped output, so `dist/` is its fixture rather than a later step.
 
 The build fails if first-load JS exceeds 250 kB gzip. That is deliberate: the budget is
 a test, not a guideline.
 
+### Continuous integration
+
+`.github/workflows/ci.yml` runs lint, build, the bundle budget, the unit suite, the
+coverage floors, the desktop browser project against the production build, and the subpath
+deploy shape — on every push to every branch.
+
+It ran red from the second commit of the project until M11.9: 121 runs, one green, and
+that one before the first test existed. The cause was the ordering above. `npm run test`
+ran before `npm run build`, nine offline tests threw `ENOENT` on a directory that did not
+exist yet, and the job stopped there — so the build, the budget and both browser suites
+never ran at all, on any commit, for eleven milestones. A hundred and twenty red runs said
+the same nine words and nobody read one of them. It is fixed, and the fix is four lines of
+YAML swapped; the eleven milestones of unread red is the part worth remembering.
+
+CI runs one of the five browser projects, and the gap is worth naming rather than
+implying: the five tests tagged `@mobile-only` — the phone's sheets and their focus trap,
+its digits-and-ticks readouts, its one-line timeline, its folded map — run in no CI project
+at all. Nor do the
+four phone viewports, because several of those specs are timing measurements and a shared
+runner is not an idle machine; the same specs have failed on nothing but CPU contention.
+`npm run gate` on a quiet machine, run by a person, is still the bar.
+
 ### Deploying
 
-Pushing to `main` builds, runs every gate, and publishes to GitHub Pages. Pages serves a
+Pushing to `main` builds, runs the same gates, and publishes to GitHub Pages. Pages serves a
 project site from a subdirectory rather than a domain root, which is why the build uses
 vite's `base: './'` and the service worker precaches scope-relative paths — and why
 `npm run test:deploy` exists to serve the real build from a subdirectory and prove it.
@@ -258,6 +312,10 @@ production; that is not a bug worth finding from a user's bug report.
 - [`docs/SOUND-PLAN.md`](docs/SOUND-PLAN.md) — the silence, and what it would take to end it.
 - [`docs/GRAPHICS-PLAN.md`](docs/GRAPHICS-PLAN.md) — what a re-entry with no vehicle in it
   turned out to mean, and the plan for particles, clouds and ground that follows from it.
+- [`docs/VERIFICATION-PLAN.md`](docs/VERIFICATION-PLAN.md) — what replaced parity: coverage
+  measured rather than claimed, and correctness argued against closed-form physics.
+- [`docs/NEXT-LEVEL-PLAN.md`](docs/NEXT-LEVEL-PLAN.md) — the physics and graphics of M11,
+  and the interface work of M12, each phase surveyed on evidence before it was planned.
 
 ---
 

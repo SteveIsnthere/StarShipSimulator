@@ -229,6 +229,15 @@ made.
 Perf and budget re-measured, screenshots regenerated, `docs/` and the audit table current, the
 full gate green on all five projects.
 
+**Landed 2026-09-02.** Three things it found that were not on this list. The max-Q shake e2e
+was redesigned rather than loosened — M11.8 had turned its subject into a departing airframe —
+and its premise (that the vehicle holds still while photographed) became a Node test with a
+window checked at both ends. GitHub Actions turned out to exist and to have been red since the
+second commit of the project, for an ordering bug that meant the build, the budget and both
+browser suites had never run in CI on any commit; CLAUDE.md had recorded the absence of CI as a
+fact. And the README carried four claims that had stopped being true, the oldest of them since
+M2.10. See the three log entries of 2026-09-02 in `docs/ROADMAP-TASKS.md`.
+
 ## The gate for this milestone
 
 Physics tasks (M11.1–M11.3, M11.8): `npm run lint && npm run test && npm run build && npm run

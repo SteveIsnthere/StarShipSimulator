@@ -30,7 +30,9 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Matched to ci.yml at M11.9, and for the same reason: fifteen minutes was
+    # set when the browser suite was one smoke test.
+    timeout-minutes: 45
 
     steps:
       - uses: actions/checkout@v4
@@ -49,21 +51,25 @@ jobs:
       - name: Lint (the six walls)
         run: npm run lint
 
-      - name: Test
-        run: npm run test
-
+      # Build first: the offline suite reads `v2/dist/`, so the build is its
+      # fixture rather than a later step. Same ordering as ci.yml, same reason.
       # svelte-check -> vite build -> service worker -> bundle budget gate.
       - name: Build
         run: npm run build
 
+      - name: Test
+        run: npm run test
+
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
 
-      # Includes the offline suite, which is the one that would catch a service
-      # worker that precaches the wrong paths — a failure invisible until
-      # someone loses signal.
-      - name: E2E
-        run: npm run test:e2e
+      # The desktop project, as in ci.yml — see the long comment there, including
+      # what it does NOT cover (the five @mobile-only tests run in no project
+      # here). The offline suite is unaffected and does run: it is the one that
+      # would catch a service worker precaching the wrong paths, a failure
+      # invisible until someone loses signal.
+      - name: E2E (desktop project)
+        run: npm run test:e2e -- --project=chromium
 
       # Pages serves from a subdirectory. This is the check that the build
       # actually survives that, run before anything is published rather than

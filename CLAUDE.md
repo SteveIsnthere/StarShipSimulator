@@ -82,8 +82,8 @@ Every change to `core/` declares exactly one tier, named in the commit message:
 - Time warp = run the step loop N times per frame. Never scale dt.
 - Golden trajectory fixtures in `v2/tests/golden/` are the behavioural contract, and since
   M10.2 retired parity they are the ONLY guard on behaviour — so the tier rules below carry
-  more weight, not less. A refactor that moves them fails `npm run test` (see Verification:
-  there is no CI here). Regenerating fixtures requires a Bug-fix or Fidelity tier
+  more weight, not less. A refactor that moves them fails `npm run test`, and since M11.9
+  that is also a red X on the commit (see Verification). Regenerating fixtures requires a Bug-fix or Fidelity tier
   justification in the same commit, and the audit table in `tests/golden/unification.test.ts`
   must gain a row saying which scenarios moved and why.
 
@@ -104,30 +104,49 @@ Every change to `core/` declares exactly one tier, named in the commit message:
 - Zero allocation in the per-frame path. Particles are pooled — the 2021
   engine-shutdown effect leaked a container + emitter per cutoff.
 - DOM references cached at startup (the old HUD did 45 getElementById per frame).
-- Budgets (enforced by `npm run build`, not by any CI): sim step < 1 ms @ 240 Hz · HUD update < 2 ms ·
+- Budgets (enforced by `npm run build`, which CI runs on every push): sim step < 1 ms @ 240 Hz · HUD update < 2 ms ·
   first-load JS ≤ 250 kB gzip. Charting (black box) is lazy-loaded, never in first load.
 - Do not optimise physics maths for speed. Any "optimisation" that changes results is a
   Refactor owing a 1-ULP proof.
 
 ## Verification before any commit
 
-`cd v2 && npm run lint && npm run test && npm run build` — all green, budgets included.
+`cd v2 && npm run lint && npm run build && npm run test` — all green, budgets included.
 For physics changes, also the tier obligation above. One validated commit beats three
 speculative ones.
+
+**BUILD BEFORE TEST**, corrected at M11.9 and not a matter of taste: `tests/offline.test.ts`
+asserts things about the shipped output, so `v2/dist/` is its fixture. In the other order,
+nine of its tests die on ENOENT on a clean checkout.
 
 Since M10.8 the FULL gate is one command:
 
 ```
-cd v2 && npm run gate     # lint, test, build, coverage, playwright
+cd v2 && npm run gate     # lint, build, test, coverage, playwright
 ```
 
-`npm run coverage` enforces measured branch/line floors on `src/core/**` (aggregate 96%
-branch; physics 100%, control 95%, autopilot 95%) and exits non-zero below them, so the
-number cannot regress. Note there is **no CI in this repository** — no workflow runs on a
-push. Every budget and floor described anywhere as "CI-enforced" is in fact enforced by
-these scripts, which someone has to run. The browser suite takes roughly 50 minutes and
-needs an otherwise idle machine: a timing measurement taken while another suite is running
-is not evidence, and has twice produced failures that were pure CPU contention.
+`npm run coverage` enforces measured branch/line floors on `src/core/**` (aggregate 99%
+branch and line; physics 100%, control 95%, autopilot 95%) and exits non-zero below them,
+so the number cannot regress.
+
+**THERE IS CI, and this file said for nine milestones that there was not.** `.github/
+workflows/ci.yml` runs, on every push to every branch: lint, build with the bundle budget,
+the unit suite, the coverage floors, the DESKTOP Playwright project against the production
+build, and the subpath deploy shape. It had been RED since the second commit of the project
+(2026-08-24) and was still red at M11.8 — 121 runs, one green, and that one before the
+first test existed — for exactly the ordering reason above: it ran `npm run test` before
+`npm run build`, nine offline tests threw ENOENT, and the job stopped there, so the build,
+the budget and both browser suites never ran at all, on any commit, for eleven milestones.
+Fixed at M11.9, along with the same ordering in `deploy.yml` and in `npm run gate`.
+
+WHAT CI STILL DOES NOT COVER, stated so a green tick is not read as more than it is. It
+runs one of the five browser projects, so the five `@mobile-only` tests — the phone's sheet
+layout and its focus trap, its digits-and-ticks readouts, its one-line timeline, its folded
+map — run in no CI project at all. And it does not run the four phone viewports, because the browser
+measurements in them are timings, and a shared two-core runner is not an idle machine: the
+same specs failed twice at M11.6 on nothing but CPU contention. `npm run gate` on a quiet
+machine, run by a person, is still the bar for a commit; the browser half of it is still 50
+minutes.
 
 ## What must never change (the soul)
 

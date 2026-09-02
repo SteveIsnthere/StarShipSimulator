@@ -35,6 +35,15 @@ import { AERO_TRAIL_FULL_Q, AERO_TRAIL_MIN_Q, SONIC_BOOM_MIN_Q } from '$view/eff
 import { AERO_FULL_Q, aeroLevel } from '$audio/params';
 import { MAX_Q_FLOOR_KPA } from '$hud/timeline';
 import type { SimState } from '$core/state';
+import { createScenarioState, getScenario } from '$core/scenarios';
+import { fieldsFromPreset, fieldsToPreset } from '$ui/menu';
+import { DT } from '$app/loop';
+import {
+  MAX_Q_FIELDS,
+  MAX_Q_PRESET,
+  OLD_MAX_Q_FIELDS,
+  SUBJECT_WINDOW_SECONDS,
+} from '../e2e/shake-subject';
 import { GOLDEN_DT } from '../golden/record';
 import { GOLDEN_SPECS } from '../golden/scenarios';
 
@@ -238,5 +247,117 @@ describe('the fin vortices carry information again', () => {
     for (const q of [0.5, 2, 7.55, 23.63, 28.61]) {
       expect(finIntensity(q), `${q} kPa`).toBeCloseTo(aeroLevel(q), 10);
     }
+  });
+});
+
+/**
+ * The subject the browser test measures, guarded in Node.
+ *
+ * WHY THIS EXISTS. `tests/e2e/shake.spec.ts` compares the vehicle's silhouette
+ * with the shake on against the same flight under reduced motion, so its whole
+ * design rests on a premise that lives OUTSIDE the view layer: that the vehicle
+ * it photographs holds its attitude while it is being photographed. Nothing
+ * asserted that premise, and at M11.8 — a change to `core/physics/mass.ts`,
+ * three layers away — it stopped being true. The browser suite reported it
+ * fifty minutes later as a failure in the shake, which is not where the change
+ * was.
+ *
+ * So the premise is a test now, and it is a cheap one: same conversion path the
+ * editor uses, same numbers the spec types in, run in Node in a second.
+ */
+describe('the state the shake spec flies', () => {
+  const BOOSTER_SEP = getScenario(MAX_Q_PRESET)!;
+
+  /**
+   * The window, shared with the browser test rather than guessed at here.
+   *
+   * `SUBJECT_WINDOW_SECONDS` is one number imported by both files: this one
+   * proves the subject is flat for that long, and `shake.spec.ts` reads the
+   * mission clock after its last screenshot and fails if it ran past it. The
+   * pair is what makes either worth anything — the review that found this had
+   * the guard covering five seconds while nothing stopped the browser spending
+   * six, which is a guard over a window the thing guarded was leaving.
+   *
+   * Each run reloads the page and starts the flight again from the same seeded
+   * state, so the two runs never share a clock and this is a per-run bound.
+   */
+  const WINDOW_SECONDS = SUBJECT_WINDOW_SECONDS;
+
+  /** Exactly what pressing the preset and typing the fields produces. */
+  function subject(fields: Readonly<Record<string, string>>): SimState {
+    const edited = { ...fieldsFromPreset(BOOSTER_SEP), ...fields };
+    return createScenarioState(fieldsToPreset(edited, BOOSTER_SEP), 1);
+  }
+
+  /** Attitude in degrees and Q in kPa, every quarter second of the window. */
+  function profile(fields: Readonly<Record<string, string>>) {
+    let s = subject(fields);
+    const rows: { t: number; pitch: number; q: number }[] = [];
+    const perSecond = Math.round(1 / DT);
+    for (let i = 0; i <= WINDOW_SECONDS * perSecond; i++) {
+      if (i % (perSecond / 4) === 0)
+        rows.push({
+          t: i * DT,
+          pitch: (s.kinematics.pitch * 180) / Math.PI,
+          q: s.forces.dynamicPressure,
+        });
+      // The browser's step, not the golden recorder's: this is a claim about
+      // what the running app does under the spec's fingers.
+      s = step(s, DT);
+    }
+    // The first row is the state before any step has run, so Q has not been
+    // computed yet. Everything below asks about the flight, not the seed.
+    return rows.slice(1);
+  }
+
+  const WINDOW = profile(MAX_Q_FIELDS);
+
+  it('is still near max-Q for the whole window, so there is a shake to see', () => {
+    const lowest = Math.min(...WINDOW.map((r) => r.q));
+    const amplitude = shakeAmplitude(lowest, 0);
+    expect(lowest, `Q falls to ${lowest.toFixed(1)} kPa`).toBeGreaterThan(15);
+    expect(amplitude, `amplitude bottoms out at ${amplitude.toFixed(2)}`).toBeGreaterThan(0.5);
+  });
+
+  it('holds its attitude, which is the premise the pixel comparison rests on', () => {
+    const worst = Math.max(...WINDOW.map((r) => Math.abs(r.pitch - 90)));
+    // Nose along the velocity vector at zero alpha, on the near-dry vehicle
+    // whose centre of mass is at the station the flap areas balance about.
+    // Measured: 7.2 degrees over the whole six-second window, and 1.0 over the
+    // three the browser actually spends.
+    expect(
+      worst,
+      `turns ${worst.toFixed(1)} degrees off nose-first: ${WINDOW.map((r) => r.pitch.toFixed(1)).join(' ')}`,
+    ).toBeLessThan(12);
+
+    // What the burst actually sees is the RATE, not the total: sixteen frames
+    // at one ninth span a fraction of a second of flight, so the question is
+    // how fast it is turning WHILE photographed. Measured: 0.88 deg/s over the
+    // three seconds the burst takes and 3.32 at the end of the doubled window,
+    // against 55 to 1400 for the subject this replaced. What that is worth in
+    // pixels is not a calculation: the reduced-motion control, which IS this
+    // residual and nothing else, reads 0.7 px on chromium.
+    const fastest = Math.max(
+      ...WINDOW.slice(1).map((r, i) => Math.abs(r.pitch - WINDOW[i]!.pitch) / 0.25),
+    );
+    expect(fastest, `up to ${fastest.toFixed(2)} deg/s`).toBeLessThan(6);
+  });
+
+  it('and the subject it replaced does not, which is why it was replaced', () => {
+    const old = profile(OLD_MAX_Q_FIELDS);
+    const turned = Math.max(...old.map((r) => Math.abs(r.pitch - 45)));
+    const fastest = Math.max(
+      ...old.slice(1).map((r, i) => Math.abs(r.pitch - old[i]!.pitch) / 0.25),
+    );
+    // Side-on to the airstream at 27 kPa with both flap pairs idle at full
+    // deflection and full tanks: since M11.8 moved the centre of mass forward
+    // of the station those areas balance about, that is an airframe departing.
+    // Measured over the same window: 223 degrees, and by the end it is not
+    // flying at all — 1399 deg/s is a vehicle spinning. Over the three seconds
+    // the burst covers it is 76.6 degrees and 55.3 deg/s, sixty-three times the
+    // new subject's worst, and that is why the silhouette it drew moved further
+    // on its own (10 px) than the lens ever moved it (2 to 3).
+    expect(turned, `turns ${turned.toFixed(1)} degrees`).toBeGreaterThan(150);
+    expect(fastest, `up to ${fastest.toFixed(1)} deg/s`).toBeGreaterThan(100);
   });
 });

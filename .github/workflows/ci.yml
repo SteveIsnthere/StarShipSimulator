@@ -16,9 +16,14 @@ defaults:
 
 jobs:
   verify:
-    name: lint · test · build · budget · e2e
+    name: lint · build · budget · test · e2e
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Forty-five, raised from fifteen at M11.9. Fifteen was set at M0.6 when the
+    # browser suite was one smoke test; it is now 355 tests across five
+    # projects, and even the one project CI runs takes longer than that on its
+    # own. The old number never actually bit, because the job had been dying in
+    # `npm run test` long before it reached a browser.
+    timeout-minutes: 45
 
     steps:
       - uses: actions/checkout@v4
@@ -38,24 +43,68 @@ jobs:
       - name: Lint (the six walls)
         run: npm run lint
 
+      # BUILD BEFORE TEST, and the order is the whole point. `tests/offline.ts`
+      # asserts things about the SHIPPED OUTPUT — that the precache list is
+      # derived from the build rather than hand-kept, and that nothing in it
+      # points at a CDN — so `v2/dist/` is its fixture. With the old order it
+      # had none, and nine of its thirteen tests died on ENOENT before reading
+      # a single byte, on every push since 2026-08-24. See M11.9.
+      #
+      # svelte-check -> vite build -> service worker -> bundle budget gate
+      # (250 kB gzip first-load).
+      - name: Build and budget
+        run: npm run build
+
       # Includes the performance budgets from CLAUDE.md: sim step under 1 ms at
       # 240 Hz, and the pool/state-shape invariants that stand in for
-      # "zero allocation in the per-frame path".
+      # "zero allocation in the per-frame path". Those are timings on a shared
+      # runner, which is normally not evidence — they survive here because they
+      # are written for a noisy box: interleaved median RATIOS rather than
+      # medians of times, and headroom of two orders of magnitude (a step costs
+      # 5.6 to 12.2 microseconds against a budget of 1000).
       - name: Test
         run: npm run test
 
-      # svelte-check -> vite build -> bundle budget gate (250 kB gzip first-load).
-      - name: Build and budget
-        run: npm run build
+      # The coverage floors on src/core/** — aggregate 99% branch and line,
+      # physics 100%. They are the thing M10.8 built so the number cannot
+      # regress, and until M11.9 nothing but a person ever ran them.
+      - name: Coverage floors
+        run: npm run coverage
 
       # CI has no pre-installed browser; the remote dev environment does, and the
       # config prefers that one via PLAYWRIGHT_BROWSERS_PATH when present.
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
 
-      # Smoke test against the production build (the config builds and previews).
-      - name: E2E smoke
-        run: npm run test:e2e
+      # THE DESKTOP PROJECT ONLY, and here is exactly what that does and does
+      # not cover, because the tempting summary — "the phone projects are the
+      # same specs at four viewports" — is not true.
+      #
+      # All five projects run on Chromium, so CI could run all five. It runs
+      # one, for about forty minutes saved, and the cost is real:
+      #
+      #   * the four phone projects re-run the mobile specs at four viewports,
+      #     which IS mostly repetition of the same assertions; but
+      #   * five tests tagged @mobile-only run in no CI project at all, because
+      #     the desktop project greps them out. Those are the sheet layout and
+      #     its focus trap, the digits-and-ticks readouts, the one-line timeline
+      #     and the folded map — the phone interface itself. Nothing here
+      #     checks them.
+      #
+      # The browser measurements are the other half of the reason. The max-Q
+      # shake reads how far a silhouette moves between screenshots, and the
+      # plume specs photograph particle systems mid-flight; both were failed at
+      # M11.6 by nothing but CPU contention, and a shared two-core runner is
+      # never idle. (The vitest timing tests two steps up are a different case —
+      # see the note on the Test step.)
+      #
+      # So a green tick here says: it builds, it is inside the budget, 1463 unit
+      # tests pass, the coverage floors hold, and the desktop browser flow works
+      # against the production build. It does not say the phone layouts were
+      # checked. `npm run gate` on a quiet machine still does, and is still the
+      # bar for a commit.
+      - name: E2E (desktop project, against the production build)
+        run: npm run test:e2e -- --project=chromium
 
       # The deploy shape: the same build served from a subdirectory, which is how
       # GitHub Pages serves a project site. A single absolute path in the build
