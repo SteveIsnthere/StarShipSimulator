@@ -10,9 +10,11 @@
  * runs 0..100% and the drawn chord follows it. That is what makes a belly flop
  * readable at a glance.
  */
-import { Container, Graphics, Sprite, type Texture } from 'pixi.js';
+import { Container, Graphics, Mesh, MeshGeometry, Sprite, type Shader, type Texture } from 'pixi.js';
 import { STARSHIP_TEXTURE } from './assets';
 import { worldToScreen, type CameraState, type Viewport } from './camera';
+import { flatLighting, type VehicleLighting } from './lighting';
+import { lightInVehicleFrame, type SunLight } from './sun';
 import { vehicleDiameter, vehicleHeight } from '$core/constants';
 
 /** Fin colour, matching the 2021 art's stainless. */
@@ -49,18 +51,49 @@ export interface VehicleView {
       readonly frontFinExtension: number;
       readonly aftFinExtension: number;
     },
+    /** M11.4: the sun, for the hull's shading. Without it the sprite is drawn flat. */
+    sun?: SunLight,
   ): void;
 }
 
-export function createVehicle(textures: Map<string, Texture>): VehicleView {
+/**
+ * @param lighting M11.4 — the hull's normal map and shader. With it the body
+ *   is a mesh lit by the sun; without it (tests, or a sprite that could not
+ *   be read back) it is the plain sprite it always was.
+ */
+export function createVehicle(
+  textures: Map<string, Texture>,
+  lighting?: VehicleLighting,
+): VehicleView {
   const container = new Container({ label: 'starship' });
 
   // Fins go behind the body so the hull edge stays clean.
   const finsBack = new Graphics();
-  const body = new Sprite(textures.get(STARSHIP_TEXTURE));
-  body.anchor.set(0.5, 0.5);
-
-  container.addChild(finsBack, body);
+  const texture = textures.get(STARSHIP_TEXTURE);
+  /*
+    THE HULL IS A LIT MESH (M11.4). A unit quad, scaled to the drawn size each
+    frame, drawn by the lighting shader with the sprite and its normal map.
+    The plain sprite path is kept because it costs nothing and is what every
+    test that builds a vehicle without a GPU sees.
+  */
+  let sprite: Sprite | undefined;
+  let mesh: Mesh<MeshGeometry, Shader> | undefined;
+  if (lighting && texture) {
+    const geometry = new MeshGeometry({
+      positions: new Float32Array([-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5]),
+      uvs: new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]),
+      indices: new Uint32Array([0, 1, 2, 0, 2, 3]),
+    });
+    mesh = new Mesh<MeshGeometry, Shader>({ geometry, shader: lighting.shader, texture });
+    mesh.label = 'hull';
+    container.addChild(finsBack, mesh);
+  } else {
+    sprite = new Sprite(texture);
+    sprite.anchor.set(0.5, 0.5);
+    container.addChild(finsBack, sprite);
+  }
+  const light = { x: 0, y: 1, z: 0 };
+  let lastFinTint = -1;
 
   let lastHeight = -1;
   let lastFront = -1;
@@ -69,7 +102,7 @@ export function createVehicle(textures: Map<string, Texture>): VehicleView {
   return {
     container,
 
-    update(camera, viewport, state): void {
+    update(camera, viewport, state, sun): void {
       const screen = worldToScreen(
         camera,
         viewport,
@@ -84,8 +117,27 @@ export function createVehicle(textures: Map<string, Texture>): VehicleView {
 
       const drawnHeight = vehicleHeight * viewport.scale;
       const drawnWidth = vehicleDiameter * viewport.scale;
-      body.width = drawnWidth;
-      body.height = drawnHeight;
+      if (sprite) {
+        sprite.width = drawnWidth;
+        sprite.height = drawnHeight;
+      } else if (mesh) {
+        mesh.scale.set(drawnWidth, drawnHeight);
+      }
+
+      // M11.4: the sun in the hull's own frame, and the fins lit as flat
+      // plates facing the viewer. The fin tint is a grey and cannot brighten,
+      // so the flat lighting is clamped at one; the hull's shader is not.
+      if (sun && lighting) {
+        lightInVehicleFrame(sun, state.pitch, light);
+        lighting.set(light.x, light.y, light.z, sun.daylight);
+        const lit = Math.min(1, flatLighting(sun.south, sun.daylight));
+        const shade = Math.round(255 * lit);
+        const tint = (shade << 16) | (shade << 8) | shade;
+        if (tint !== lastFinTint) {
+          lastFinTint = tint;
+          finsBack.tint = tint;
+        }
+      }
 
       // Fins are redrawn only when something about them actually changed —
       // zoom, or an extension. Redrawing four polygons every frame at 120 Hz

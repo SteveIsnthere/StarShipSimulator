@@ -67,6 +67,8 @@ export interface EditorFields {
   speedY: string;
   pitch: string;
   propellant: string;
+  /** The preset the form was last filled from; empty after Clear. M11.4. */
+  basedOn: string;
 }
 
 export const EMPTY_FIELDS: EditorFields = {
@@ -76,6 +78,7 @@ export const EMPTY_FIELDS: EditorFields = {
   speedY: '',
   pitch: '',
   propellant: '',
+  basedOn: '',
 };
 
 /** Fill the form from a preset, as the preset buttons did. tools.js:230. */
@@ -87,6 +90,7 @@ export function fieldsFromPreset(preset: ScenarioPreset): EditorFields {
     speedY: String(preset.speedY),
     pitch: String(preset.pitch as number),
     propellant: String(preset.propellant),
+    basedOn: preset.basedOn ?? preset.id,
   };
 }
 
@@ -138,5 +142,8 @@ export function fieldsToPreset(fields: EditorFields, current: ScenarioPreset): S
     speedY: num(fields.speedY, current.speedY),
     pitch: deg(num(fields.pitch, current.pitch as number)) as Deg,
     propellant: num(fields.propellant, current.propellant),
+    // An emptied form is a flight from nowhere in particular; otherwise the
+    // scenario the form came from, so the sun keeps its hour (M11.4).
+    ...(fields.basedOn ? { basedOn: fields.basedOn } : {}),
   };
 }

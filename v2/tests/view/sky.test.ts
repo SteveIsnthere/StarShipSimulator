@@ -8,6 +8,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import {
+  skyTintLit,
   DARKEN_COMPLETE_ALTITUDE,
   DARKEN_FRACTION,
   DARKEN_START_ALTITUDE,
@@ -163,5 +164,29 @@ describe('the sky is a colour, not a brightness', () => {
     expect(b - r, `zenith is #${r.toString(16)}${g.toString(16)}${b.toString(16)}`).toBeGreaterThan(
       80,
     );
+  });
+});
+
+describe('the sun on the sky — M11.4', () => {
+  it('in full daylight the lit tint IS the altitude tint, bit for bit', () => {
+    // The identity every existing screenshot rests on: a factor of exactly
+    // (1, 1, 1) takes the same path and returns the same integer.
+    for (const altitude of [0, 500, 5_000, 20_000, 35_000, 60_000, 80_000, 200_000]) {
+      expect(skyTintLit(altitude, 1, 1, 1)).toBe(skyTint(altitude));
+    }
+  });
+
+  it('a dusk factor warms it and a night factor darkens it, at every altitude', () => {
+    for (const altitude of [0, 10_000, 50_000, 100_000]) {
+      const day = skyTint(altitude);
+      const dusk = skyTintLit(altitude, 0.95, 0.62, 0.42);
+      const night = skyTintLit(altitude, 0.1, 0.12, 0.2);
+      const r = (c: number) => (c >> 16) & 0xff;
+      const b = (c: number) => c & 0xff;
+      expect(r(dusk)).toBeLessThanOrEqual(r(day));
+      expect(b(dusk)).toBeLessThan(b(day));
+      expect(r(dusk) - b(dusk)).toBeGreaterThan(r(day) - b(day));
+      expect(b(night)).toBeLessThan(b(day) * 0.3);
+    }
   });
 });

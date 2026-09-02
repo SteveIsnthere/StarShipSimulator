@@ -119,6 +119,16 @@ gradient keyed on elevation; a generated normal map for the vehicle sprite lit b
 ground shadow; far-earth terminator. Verified by the pixel harness: the lit and unlit sides of
 the vehicle differ in luma by a stated margin, and the shadow moves with the sun.
 
+**Found while building it.** (1) The 2021 sprite has its light baked in — right flank bright,
+left dark — so a normal map alone would double the shading on one side and fight it on the other.
+The lighting pass measures the baked profile across the straight hull and stores its reciprocal
+as a per-texel gain, so the shader relights albedo; that is what makes the afternoon frame (left
+flank lit) provable. (2) "Ground shadow" cannot be an ellipse on the ground in the shipped
+framing: the camera's floor keeps the eye at ground height, the ground is edge-on, and a shadow
+lying on it is a streak on the horizon line — which is what is drawn, with its geometry intact
+for the camera that will look down on it (M11.6). (3) Longitude is measured from StarBase, not
+from x = 0, which is where the pig is; the intro's first sun frame was midnight.
+
 ### M11.5 — Re-entry: the sheath and the onboard camera
 A plasma sheath shader wrapping the windward side, driven by `thermalPower` and `angleOfAttack`;
 an inset onboard view so the vehicle is legible at re-entry scale while the main view keeps the

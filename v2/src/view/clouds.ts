@@ -22,6 +22,7 @@ import { Container, Sprite, Texture } from 'pixi.js';
 import type { Viewport } from './camera';
 import { compressedScrollSpeed } from './distant-earth';
 import { skyLightness } from './sky';
+import { groundDaylight, type SunLight } from './sun';
 
 /**
  * m — where the deck sits.
@@ -218,7 +219,8 @@ export function puffRandom(index: number, salt: number): number {
 
 export interface CloudDeck {
   readonly container: Container;
-  update(viewport: Viewport, altitude: number, speedX: number, dt: number): void;
+  /** @param sun M11.4 — the hour's light on the deck. Without it, full daylight. */
+  update(viewport: Viewport, altitude: number, speedX: number, dt: number, sun?: SunLight): void;
   /** For tests: the near sub-deck's scroll offset, in px. */
   readonly scrollOffset: number;
   /**
@@ -321,7 +323,7 @@ export function createCloudDeck(texture: Texture = Texture.EMPTY): CloudDeck {
       return farOffset;
     },
 
-    update(viewport, altitude, speedX, dt) {
+    update(viewport, altitude, speedX, dt, sun) {
       const opacity = cloudOpacity(altitude);
       container.visible = opacity > 0.01;
       if (!container.visible) return;
@@ -338,8 +340,13 @@ export function createCloudDeck(texture: Texture = Texture.EMPTY): CloudDeck {
 
       // Cloud is lit by the sky, so it darkens with it — the M6.7 rule that
       // stopped the ground and the sky coming apart on an ascent.
+      // M11.4: and by the sun, through the same one scalar the ground uses —
+      // OUTSIDE the floor, which was sized for the altitude fade: a night
+      // factor inside it would leave the deck a mid-grey sheet over a dark
+      // ground and sky.
       const lightness = skyLightness(altitude);
-      const shade = Math.round(255 * (0.55 + 0.45 * lightness));
+      const night = sun ? groundDaylight(sun) : 1;
+      const shade = Math.round(255 * (0.55 + 0.45 * lightness) * night);
       const tint = (shade << 16) | (shade << 8) | Math.min(255, shade + 6);
 
       const spread = Math.max(0.55, viewport.width / 1280);

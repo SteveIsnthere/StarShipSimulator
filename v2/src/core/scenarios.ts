@@ -42,6 +42,16 @@ export interface ScenarioPreset {
   readonly pitch: Deg;
   /** tonnes. */
   readonly propellant: number;
+  /**
+   * The preset a custom flight was edited from, if any (M11.4).
+   *
+   * Data only: nothing in core reads it. The flight editor fills its form from
+   * a preset and Configure builds a `custom` preset from the form, and this is
+   * how the view learns which scenario that custom flight is a variation of —
+   * the sun's hour follows the scenario, and a landing burn moved fifty metres
+   * should not jump from afternoon to morning.
+   */
+  readonly basedOn?: string;
 }
 
 /**

@@ -25,6 +25,7 @@
  */
 import { Container, Graphics, Sprite, Texture, type Renderer } from 'pixi.js';
 import type { CameraState, Viewport } from './camera';
+import type { SunLight } from './sun';
 
 /**
  * The sky at the HORIZON, at sea level. The anchor for the whole palette.
@@ -71,6 +72,26 @@ export function skyTint(altitude: number): number {
   return (r << 16) | (g << 8) | b;
 }
 
+/**
+ * The sky's tint at an altitude under a sun — M11.4.
+ *
+ * The altitude tint, scaled per channel by the sun's factor. In full daylight
+ * the factor is exactly (1, 1, 1) and this returns `skyTint(altitude)` to the
+ * bit, which is the identity every existing screenshot was taken under; toward
+ * the horizon it warms, and below it the whole palette goes to a deep blue a
+ * tenth as bright. Rounded once, after both multiplies, so the two never
+ * disagree by a rounding step.
+ */
+export function skyTintLit(altitude: number, r: number, g: number, b: number): number {
+  if (r === 1 && g === 1 && b === 1) return skyTint(altitude);
+  const lightness = skyLightness(altitude);
+  const factor = lightness * lightness;
+  const rr = Math.round(SKY_COLOR.r * factor * r);
+  const gg = Math.round(SKY_COLOR.g * factor * g);
+  const bb = Math.round(SKY_COLOR.b * factor * b);
+  return (rr << 16) | (gg << 8) | bb;
+}
+
 /** How visible the stars are: none below the darkening, full once complete. */
 export function starVisibility(altitude: number): number {
   if (altitude <= DARKEN_START_ALTITUDE) return 0;
@@ -82,7 +103,7 @@ export function starVisibility(altitude: number): number {
 
 export interface Sky {
   readonly container: Container;
-  update(camera: CameraState, viewport: Viewport, altitude: number): void;
+  update(camera: CameraState, viewport: Viewport, altitude: number, sun?: SunLight): void;
   resize(viewport: Viewport): void;
   destroy(): void;
 }
@@ -198,7 +219,7 @@ export function createSky(renderer: Renderer, starCount = 220, seed = 0x5741_4c4
       drawnFor = viewport.width;
     },
 
-    update(camera, viewport, altitude) {
+    update(camera, viewport, altitude, sun) {
       if (drawnFor !== viewport.width) {
         gradient.width = viewport.width;
         gradient.height = viewport.height;
@@ -206,8 +227,10 @@ export function createSky(renderer: Renderer, starCount = 220, seed = 0x5741_4c4
         drawnFor = viewport.width;
       }
 
-      gradient.tint = skyTint(altitude);
-      stars.alpha = starVisibility(altitude);
+      // M11.4: the hour has a say. By day this is `skyTint(altitude)` exactly.
+      gradient.tint = sun ? skyTintLit(altitude, sun.skyR, sun.skyG, sun.skyB) : skyTint(altitude);
+      // Stars by altitude or by night, whichever shows more of them.
+      stars.alpha = Math.max(starVisibility(altitude), sun ? sun.stars : 0);
 
       // Parallax. Stars sit effectively at infinity, so they shift by a
       // thousandth of the camera's motion - enough to feel like depth, little

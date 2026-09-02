@@ -919,7 +919,7 @@ thermal coefficient, Earth rotation.
   dt² because its drift is drag at 300 km and a circular orbit is a fixed point of the scheme;
   the table IS repeated (drift a centimetre, dt-independent) and the dt² and 1e-10 claims are
   proven on a vacuum ellipse against Kepler's closed form instead (`tests/core/verlet.test.ts`).
-- [ ] **M11.4 The sun** — elevation derived in `view/` from scenario and `environmentTime`; sky by
+- [x] **M11.4 The sun** — elevation derived in `view/` from scenario and `environmentTime`; sky by
   elevation; generated normal map lighting the vehicle; ground shadow; far-earth terminator.
   Accept: pixel harness shows lit/unlit vehicle sides differ in luma by a stated margin and the
   shadow moves with the sun; the intro's daylight look reproduced at the default elevation; full
@@ -3340,3 +3340,26 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   ends within 7 m of where it did. Three tests re-derived for the new order (the pad, the
   heat-argument probe, the deorbit peak heat 82% → 81%) and one wind assertion corrected: the
   wind reaches the ground track through drag, which now acts within the step.
+- 2026-09-01 · M11.4 · The sun. `view/sun.ts`: each scenario has a local solar hour (morning on
+  the pad, because the art is shaded from its right and the real launches were in the morning; the
+  landing burn at four, so one preset has the sun on the other side), advanced by the clock and by
+  longitude measured from StarBase — the first frame ever drawn with it was the intro at midnight,
+  because the pig is at x = 0 and StarBase is half a planet away. Declination zero, stated. Above
+  fifteen degrees every factor is exactly one, and a test asserts that for every preset, so the
+  sky, ground and cloud tints under every existing screenshot are bit-identical. The hull is a
+  mesh under a shader with a normal map GENERATED from the sprite's silhouette (a body of
+  revolution: r(y) from the alpha, n ∝ (t, −r′, √(1−t²))), and — found while building it — the art
+  has its own light baked in, so the same pass measures the baked profile across the straight hull
+  and stores its clamped reciprocal as a gain: the shader relights albedo, not a picture. The
+  discriminating proof is the afternoon frame: the LEFT flank brighter than the right, which no
+  tint of the art could produce. `tests/e2e/sun.spec.ts` measures both landings on the same pad
+  (morning right/left luma ratio 1.46 against a stated 1.25; afternoon the other way) and the
+  shadow as the difference of left-minus-right along the ground line between the two frames, so
+  the scenery cancels. The shadow is the tangent projection of the hull's two ends; on the pad it
+  is a STREAK on the ground line, because the camera's floor keeps the eye at ground height and
+  the ground is edge-on — the ellipse waits for a camera above the ground (M11.6). The far earth
+  draws its terminator as 48 strips of longitude across three screen widths, each darkened by the
+  sun's elevation there; from 100 km the night is in the frame within an hour of sunset, and the
+  deorbit preset comes home out of the night. A custom flight keeps the hour of the preset it was
+  edited from (`basedOn`, data only, nothing in core reads it — the one change under `core/`,
+  Refactor tier: the eight golden digests are its proof). Budget 208.4 kB of 250.

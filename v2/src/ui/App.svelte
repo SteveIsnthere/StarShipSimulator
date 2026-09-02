@@ -13,6 +13,9 @@
   import { createParticleSystem, createParticleTextures } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
   import { createSky } from '$view/sky';
+  import { createSunLight, writeSun } from '$view/sun';
+  import { createVehicleLighting } from '$view/lighting';
+  import { STARSHIP_TEXTURE } from '$view/assets';
   import { bloomIntensity, createPostPass, heatIntensity } from '$view/post';
   import { heatLimit } from '$core/constants';
   import { createIntroState, createScenarioState, INTRO, type ScenarioPreset } from '$core/scenarios';
@@ -464,7 +467,18 @@
       */
       const terrain = createTerrainTextures();
       const world = createWorld(textures, terrain);
-      const vehicle = createVehicle(textures);
+      /*
+        The sun (M11.4): one object, written once a frame from the scenario,
+        the clock and the longitude, and read by everything below that has a
+        colour. The vehicle's normal map is generated from its sprite here,
+        at mount, and lit by the same object.
+      */
+      const sun = createSunLight();
+      // Preallocated, like the sun: the world reads it every frame.
+      const worldLighting = { sun, downRangeDistance: 0, altitude: 0, pitch: 0 };
+      const hullTexture = textures.get(STARSHIP_TEXTURE);
+      const lighting = hullTexture ? createVehicleLighting(hullTexture) : undefined;
+      const vehicle = createVehicle(textures, lighting);
       /*
         The distant earth goes in the FAR layer, behind the true ground (M7.4).
         Order is the whole trick: below the follow ratio the two lines coincide
@@ -591,17 +605,40 @@
         // The camera has already moved, once per step, inside `onStep`. By here
         // the viewport is set for `s`'s altitude and the lens is where it
         // belongs, which is why neither appears in this function any more.
-        sky.update(view!.camera, view!.viewport, s.kinematics.altitude);
-        distantEarth.update(view!.viewport, s.kinematics.altitude, s.kinematics.speedX, worldDt);
-        clouds.update(view!.viewport, s.kinematics.altitude, s.kinematics.speedX, worldDt);
-        world.update(view!.camera, view!.viewport, s.kinematics.speedX, s.kinematics.altitude);
-        vehicle.update(view!.camera, view!.viewport, {
-          altitude: s.kinematics.altitude,
-          downRangeDistance: s.kinematics.downRangeDistance,
-          pitch: s.kinematics.pitch,
-          frontFinExtension: s.vehicle.frontFinExtension,
-          aftFinExtension: s.vehicle.aftFinExtension,
-        });
+        // Where the sun is this frame: the scenario's hour, advanced by the
+        // clock and shifted by the longitude. Read-only over SimState.
+        writeSun(
+          sun,
+          currentPreset.basedOn ?? currentPreset.id,
+          s.world.environmentTime,
+          s.kinematics.downRangeDistance,
+        );
+        worldLighting.downRangeDistance = s.kinematics.downRangeDistance;
+        worldLighting.altitude = s.kinematics.altitude;
+        worldLighting.pitch = s.kinematics.pitch;
+
+        sky.update(view!.camera, view!.viewport, s.kinematics.altitude, sun);
+        distantEarth.update(view!.viewport, s.kinematics.altitude, s.kinematics.speedX, worldDt, sun);
+        clouds.update(view!.viewport, s.kinematics.altitude, s.kinematics.speedX, worldDt, sun);
+        world.update(
+          view!.camera,
+          view!.viewport,
+          s.kinematics.speedX,
+          s.kinematics.altitude,
+          worldLighting,
+        );
+        vehicle.update(
+          view!.camera,
+          view!.viewport,
+          {
+            altitude: s.kinematics.altitude,
+            downRangeDistance: s.kinematics.downRangeDistance,
+            pitch: s.kinematics.pitch,
+            frontFinExtension: s.vehicle.frontFinExtension,
+            aftFinExtension: s.vehicle.aftFinExtension,
+          },
+          sun,
+        );
 
         effects.update(particles, view!.camera, view!.viewport, s, loop.previous, worldDt);
 
@@ -683,6 +720,9 @@
         document.removeEventListener('visibilitychange', onVisibility);
         keyboard.destroy();
         tilt.destroy();
+        // The hull shader and its generated normal map: Mesh.destroy nulls
+        // its shader reference and no more, so these are released here.
+        lighting?.destroy();
       };
     };
 

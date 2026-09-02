@@ -15,7 +15,9 @@ import {
   horizonSagittaFraction,
   padLightIntensity,
 } from './atmosphere-look';
-import { skyLightness, skyTint } from './sky';
+import { skyLightness, skyTint, skyTintLit } from './sky';
+import { groundDaylight, groundShadow, type GroundShadow, type SunLight } from './sun';
+import { vehicleDiameter, vehicleHeight } from '$core/constants';
 import { scaleColour } from './colour';
 import { horizonCurve, horizonDrop, HORIZON_SEGMENTS } from './horizon';
 import { MOTTLE_MEAN, MOTTLE_TILE, type TerrainTextures } from './terrain';
@@ -37,10 +39,40 @@ interface Placed {
   x: number;
 }
 
+/** M11.4 — what the ground needs to know about the light and the caster. */
+export interface WorldLighting {
+  readonly sun: SunLight;
+  /** m — the vehicle, for its shadow. */
+  readonly downRangeDistance: number;
+  readonly altitude: number;
+  /** rad */
+  readonly pitch: number;
+}
+
+/**
+ * How much a shadow on the ground is flattened by seeing the ground edge-on.
+ * The ground plane is viewed at a grazing angle in this side view; a disc on
+ * it is a thin ellipse. A third is what the far earth's foreshortening uses.
+ */
+export const SHADOW_FORESHORTENING = 0.3;
+/** px — the least a shadow streak is drawn at, so it reads at any zoom. */
+export const SHADOW_MIN_HEIGHT_PX = 6;
+
 export interface World {
   readonly container: Container;
-  /** Reposition everything for this frame. */
-  update(camera: CameraState, viewport: Viewport, speedX: number, altitude: number): void;
+  /**
+   * Reposition everything for this frame.
+   *
+   * @param lighting M11.4 — the sun and the vehicle. Without it the world is
+   *   lit as it was before there was a sun: full daylight, no shadow.
+   */
+  update(
+    camera: CameraState,
+    viewport: Viewport,
+    speedX: number,
+    altitude: number,
+    lighting?: WorldLighting,
+  ): void;
 }
 
 /**
@@ -91,6 +123,17 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
   const horizonHaze = terrain ? new Sprite(terrain.haze) : undefined;
   if (horizonHaze) container.addChild(horizonHaze);
 
+  /*
+    THE VEHICLE'S SHADOW (M11.4), on the ground and under the scenery. Its
+    geometry is `groundShadow` in sun.ts — the tangent projection of the hull's
+    two ends — and this only draws what that says: a soft dark ellipse,
+    foreshortened, rebuilt when its pixel size changes and moved every frame.
+  */
+  const shadow = new Graphics();
+  container.addChild(shadow);
+  const shadowGeometry: GroundShadow = { visible: false, centreX: 0, length: 0, width: 0, alpha: 0 };
+  let shadowKey = -1;
+
   const placed: Placed[] = GROUND_OBJECTS.map((object) => {
     const texture = textures.get(object.src);
     const sprite = new Sprite(texture);
@@ -124,10 +167,14 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
   return {
     container,
 
-    update(camera: CameraState, viewport: Viewport, speedX: number, altitude: number): void {
+    update(camera, viewport, speedX, altitude, lighting): void {
       // Ground: a band from y = 0 downward, wide enough to always cover.
       const horizon = worldToScreen(camera, viewport, camera.posX, 0);
-      const lightness = skyLightness(altitude);
+      // M11.4: the ground's light is the sky's, times the hour's. By day the
+      // second factor is exactly one.
+      const sun = lighting?.sun;
+      const lightness = skyLightness(altitude) * (sun ? groundDaylight(sun) : 1);
+      const skyColour = sun ? skyTintLit(altitude, sun.skyR, sun.skyG, sun.skyB) : skyTint(altitude);
 
       /*
         THE HORIZON BENDS (M6.7).
@@ -230,7 +277,7 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           // this one is the ground you are ON and its foreground is genuinely
           // close: near ground on a clear day has a crisp edge against the sky.
           horizonHaze.height = Math.max(8, viewport.height * (0.05 + 0.22 * haze));
-          horizonHaze.tint = skyTint(altitude);
+          horizonHaze.tint = skyColour;
           /*
             OPAQUE AT THE HORIZON, or the seam is still there. The ramp's own
             alpha reaches 1 at its top, but the sprite's alpha multiplies it, so
@@ -263,8 +310,58 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           hazeBand.fill(0xffffff);
         }
         hazeBand.y = horizon.y;
-        hazeBand.alpha = haze * 0.35;
+        hazeBand.alpha = haze * 0.35 * (sun ? sun.daylight : 1);
         hazeBand.tint = 0xcfe0f2;
+      }
+
+      // The shadow, where the sun and the caster put it. Gated on the ground
+      // LINE being in frame rather than on the ground band: at the camera's
+      // floor the line is exactly the bottom edge and the band is culled, and
+      // that is precisely where the streak has to show.
+      if (lighting && horizon.y <= viewport.height + SHADOW_MIN_HEIGHT_PX) {
+        groundShadow(
+          lighting.altitude,
+          lighting.pitch,
+          vehicleHeight,
+          vehicleDiameter,
+          lighting.sun,
+          shadowGeometry,
+        );
+      } else {
+        shadowGeometry.visible = false;
+      }
+      shadow.visible = shadowGeometry.visible && shadowGeometry.alpha > 0.01;
+      if (shadow.visible && lighting) {
+        const lengthPx = Math.max(2, Math.round(shadowGeometry.length * viewport.scale));
+        const heightPx = Math.max(
+          SHADOW_MIN_HEIGHT_PX,
+          Math.round(shadowGeometry.width * viewport.scale * SHADOW_FORESHORTENING),
+        );
+        const key = lengthPx * 4096 + heightPx;
+        if (key !== shadowKey) {
+          shadowKey = key;
+          shadow.clear();
+          shadow.ellipse(0, 0, lengthPx / 2, heightPx / 2);
+          shadow.fill({ color: 0x000000, alpha: 1 });
+        }
+        const at = worldToScreen(
+          camera,
+          viewport,
+          lighting.downRangeDistance + shadowGeometry.centreX,
+          0,
+        );
+        shadow.x = at.x;
+        /*
+          ON THE GROUND LINE, extending up from it. The camera's floor keeps
+          the eye at ground height (M7.3), so the ground plane is seen edge-on
+          and everything lying on it collapses toward the line — a shadow is
+          a dark streak along the horizon beside the vehicle's base, which is
+          what this draws, with a floor on its height so the streak is a
+          streak and not a row. A camera above the ground (M11.6) sees the
+          ellipse.
+        */
+        shadow.y = at.y - heightPx / 2;
+        shadow.alpha = shadowGeometry.alpha;
       }
 
       // The pad's own lights, which come up as the sky goes down.

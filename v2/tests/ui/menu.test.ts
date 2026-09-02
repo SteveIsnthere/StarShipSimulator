@@ -147,10 +147,37 @@ describe('the flight editor', () => {
   });
 });
 
+describe('a custom flight remembers the preset it came from — M11.4', () => {
+  it('a preset fills `basedOn`, and Configure carries it into the custom preset', () => {
+    for (const preset of ALL_SCENARIOS) {
+      const fields = fieldsFromPreset(preset);
+      expect(fields.basedOn, preset.id).toBe(preset.id);
+      const custom = fieldsToPreset({ ...fields, altitude: '123' }, INTRO);
+      expect(custom.id).toBe('custom');
+      expect(custom.basedOn, preset.id).toBe(preset.id);
+      // And a custom flight edited again still points at the original.
+      expect(fieldsFromPreset(custom).basedOn).toBe(preset.id);
+    }
+  });
+
+  it('a cleared form is based on nothing', () => {
+    const custom = fieldsToPreset({ ...EMPTY_FIELDS, altitude: '500' }, INTRO);
+    expect(custom.basedOn).toBeUndefined();
+  });
+});
+
 describe('what the editor produces is flyable', () => {
   it('applies the 2021 conversions and clamps', () => {
     const preset = fieldsToPreset(
-      { altitude: '-500', xPosition: '250', speedX: '10', speedY: '-5', pitch: '45', propellant: '9999' },
+      {
+        altitude: '-500',
+        xPosition: '250',
+        speedX: '10',
+        speedY: '-5',
+        pitch: '45',
+        propellant: '9999',
+        basedOn: '',
+      },
       INTRO,
     );
     const state = createScenarioState(preset);

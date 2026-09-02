@@ -30,7 +30,9 @@
  */
 import { Container, Graphics, Sprite, TilingSprite, type Texture } from 'pixi.js';
 import type { Viewport } from './camera';
-import { groundTint, hazeIntensity, horizonSagittaFraction } from './atmosphere-look';
+import { groundTint, hazeIntensity, horizonDistance, horizonSagittaFraction } from './atmosphere-look';
+import { elevationAtOffset, groundDarkness, type SunLight } from './sun';
+import { planetCircumference } from '$core/constants';
 import { GROUND_COLOR } from './world';
 import { skyLightness, skyTint } from './sky';
 import { mixColour, scaleColour } from './colour';
@@ -68,6 +70,9 @@ import {
  * five Playwright projects run, which is what makes this layer worth its fill.
  */
 export const FOLLOW_RATIO = 0.05;
+
+/** Strips across the far earth for the terminator (M11.4). Three screen widths. */
+export const TERMINATOR_STRIPS = 48;
 
 /**
  * How much further the line may travel once it stops following, in the same
@@ -252,7 +257,8 @@ export interface DistantEarth {
   /**
    * @param dt s — real seconds, for the scroll
    */
-  update(viewport: Viewport, altitude: number, speedX: number, dt: number): void;
+  /** @param sun M11.4 — for the terminator across the band. Without it, full day. */
+  update(viewport: Viewport, altitude: number, speedX: number, dt: number, sun?: SunLight): void;
   /** For tests: how far the layer has scrolled, in px. */
   readonly scrollOffset: number;
 }
@@ -319,6 +325,21 @@ export function createDistantEarth(terrain?: {
     because scattered light adds to whatever is behind it rather than covering
     it — the stars near the limb dim into it rather than being cut off by it.
   */
+  /*
+    THE TERMINATOR (M11.4). The far earth is the ground seen to the horizon,
+    and the horizon is `horizonDistance(altitude)` away each side — at 100 km
+    about eleven hundred kilometres, which is ten degrees of longitude, which
+    is forty minutes of local time. So when the sun is within an hour of
+    setting, the night is IN THE FRAME, and this draws it: strips across the
+    band, each darkened by how far below the day line the sun is at that
+    strip's longitude. Rebuilt when the hour angle moves half a degree (two
+    minutes of sim time, or fifty kilometres of downrange), never per frame.
+    At noon every strip is clear and the whole thing is hidden.
+  */
+  const terminator = new Graphics();
+  container.addChild(terminator);
+  let terminatorKey = -1;
+
   const limb = new Graphics();
   limb.blendMode = 'add';
   container.addChild(limb);
@@ -337,7 +358,7 @@ export function createDistantEarth(terrain?: {
       return offset;
     },
 
-    update(viewport, altitude, speedX, dt) {
+    update(viewport, altitude, speedX, dt, sun) {
       const visible = distantEarthVisible(altitude, viewport.physicalHeight);
       container.visible = visible;
       if (!visible) return;
@@ -419,7 +440,10 @@ export function createDistantEarth(terrain?: {
         sliver to sit inside the picture.
       */
       const groundShown = scaleColour(tint, MOTTLE_MEAN);
-      band.tint = groundShown;
+      // M11.4: the bare sliver between the bow and the terminator strips is
+      // darkened to the vehicle's own longitude, so it matches the strip
+      // beneath it at night rather than showing as a lit rim on the horizon.
+      band.tint = sun ? scaleColour(groundShown, 1 - groundDarkness(sun.elevation)) : groundShown;
       band.x = 0;
       band.y = lineY;
       band.alpha = 1;
@@ -599,6 +623,49 @@ export function createDistantEarth(terrain?: {
         horizonHaze.tint = skyTint(altitude);
         // Same floor as the near ground's, and for the same reason — see there.
         horizonHaze.alpha = Math.min(1, 0.55 + 0.45 * haze);
+      }
+
+      if (sun) {
+        // Longitude per screen half-width, as an hour angle: the visible
+        // ground spans the horizon distance each way.
+        const spanRad = (horizonDistance(altitude) / planetCircumference) * 2 * Math.PI;
+        const key =
+          Math.round((sun.hourAngle * 180) / Math.PI * 2) * 1_000_003 +
+          Math.round(spanRad * 1000) * 4096 +
+          sagitta * 16 +
+          Math.round(viewport.width / 8);
+        if (key !== terminatorKey) {
+          terminatorKey = key;
+          terminator.clear();
+          let any = false;
+          const left = -viewport.width;
+          const span = viewport.width * 3;
+          for (let i = 0; i < TERMINATOR_STRIPS; i++) {
+            const u = (i + 0.5) / TERMINATOR_STRIPS;
+            // Screen x relative to the centre, in half-widths, is longitude.
+            const offset = (u * 3 - 1.5) * 2;
+            const dark = groundDarkness(elevationAtOffset(sun.hourAngle, offset * spanRad));
+            if (dark > 0.005) {
+              any = true;
+              // Whole-pixel edges that meet exactly: an overlap doubles the
+              // alpha along a seam and a gap leaves a light one, and both
+              // read as bars across the night side.
+              const x0 = Math.round(left + (i * span) / TERMINATOR_STRIPS);
+              const x1 = Math.round(left + ((i + 1) * span) / TERMINATOR_STRIPS);
+              // Below the bow's lowest point, the rule every rectangle over
+              // this band follows (see the mottle): a strip from the line
+              // itself would stand proud of the curve at the frame's edges
+              // and black out the sky above it.
+              terminator.rect(x0, horizonDrop(sagitta), x1 - x0, viewport.height * 2);
+              terminator.fill({ color: 0x000000, alpha: dark });
+            }
+          }
+          terminator.visible = any;
+        }
+        terminator.x = 0;
+        terminator.y = lineY;
+      } else {
+        terminator.visible = false;
       }
 
       const glow = limbIntensity(altitude);
