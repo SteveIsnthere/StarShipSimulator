@@ -112,6 +112,20 @@
 <style>
   .scrim {
     position: fixed;
+    /*
+      THE ONE STACKING SCALE THIS APPLICATION HAS, written down at M12.4.
+
+      Everything used to be ordered by source alone, which worked until the
+      top-right buttons moved into the clock's row: they are earlier in the DOM
+      now and needed lifting over the control rails, and lifting them put them
+      over this dialog as well — Playwright reported `open-black-box`
+      intercepting a click on the menu's own Close.
+
+      So there are three levels and no more. 0 is the world and the controls, 2
+      is the top strip's buttons, 3 is a dialog. A dialog covers everything,
+      which is what a dialog is.
+    */
+    z-index: 3;
     inset: 0;
     background: rgb(6 8 12 / 55%);
   }
@@ -123,6 +137,7 @@
   */
   .sheet {
     position: fixed;
+    z-index: 3;
     inset: 0;
     overflow-y: auto;
     padding: calc(var(--safe-top) + 0.9rem) calc(var(--safe-right) + var(--gutter))

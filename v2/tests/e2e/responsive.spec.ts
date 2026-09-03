@@ -11,8 +11,9 @@
  * @portrait-only or @mobile-only and the config routes them accordingly.
  */
 import { expect, test } from '@playwright/test';
-import { byTestId, readoutValueTestId } from '../../src/ui/testids';
+import { byTestId, readoutTestId, readoutValueTestId } from '../../src/ui/testids';
 import { isPhoneLayout, openControls, openYoke, ready } from './helpers';
+import { END_MS, EVENT_MS } from '../../src/hud/haptics';
 
 test('nothing overflows sideways, at any size @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
@@ -236,4 +237,198 @@ test('the menu is usable on a phone @mobile', async ({ page }) => {
 
   await page.locator(byTestId('menu-close')).click();
   await expect(page.locator(byTestId('menu'))).toHaveCount(0);
+});
+
+/* ── M12.4: nothing on the overlay may sit on top of anything else ──────── */
+
+/**
+ * The elements that make up the overlay, by test id.
+ *
+ * Named rather than discovered, because "every element" is the wrong question:
+ * an overlay is nested boxes, and a child is inside its parent by design. These
+ * are the SIBLINGS — the things that are laid out against each other and whose
+ * only relationship is that they must not collide.
+ */
+const OVERLAY = [
+  readoutTestId('clock'),
+  'cinematic-toggle',
+  'mute-toggle',
+  'open-black-box',
+  'open-menu',
+  // Only present in cinematic mode, which is why the test enters it: review
+  // measured this row sitting on the trajectory map at 844x390, and a check
+  // that never turns cinematic on would have shipped it green.
+  'camera-modes',
+  'timeline',
+  'trajectory-map',
+] as const;
+
+interface Box {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+/** True when two boxes share any area at all. */
+function intersects(a: Box, b: Box): boolean {
+  return (
+    a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height
+  );
+}
+
+test('no two overlay elements sit on top of each other @mobile', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  // Let the readouts fill: an element with no text has no width, and a strip of
+  // zero-width boxes cannot overlap anything.
+  await expect
+    .poll(async () => (await page.locator(byTestId(readoutValueTestId('clock'))).textContent()) !== '', {
+      timeout: 20_000,
+    })
+    .toBe(true);
+
+  /*
+    THE DEFECT THIS EXISTS FOR, stated so it cannot come back quietly. Until
+    M12.4 the mission clock filled the top strip and the four top-right buttons
+    were positioned absolutely over it, so on a phone the clock's digits sat
+    UNDER the CINEMATIC button. It is in `docs/screenshot-phone.png`, it was
+    there for two milestones, and nothing failed — because nothing asked. The
+    fix was to put them in one flex row, which makes the collision impossible
+    rather than unlikely; this is what says so, on all five projects.
+  */
+  const check = async (mode: string): Promise<string[]> => {
+    const boxes = new Map<string, Box>();
+    for (const id of OVERLAY) {
+      const locator = page.locator(byTestId(id));
+      if ((await locator.count()) === 0) continue;
+      if (!(await locator.first().isVisible())) continue;
+      const box = await locator.first().boundingBox();
+      if (box && box.width > 0 && box.height > 0) boxes.set(id, box);
+    }
+    expect(boxes.size, `${mode}: the overlay is on screen`).toBeGreaterThan(4);
+
+    const collisions: string[] = [];
+    const ids = [...boxes.keys()];
+    for (let i = 0; i < ids.length; i++) {
+      for (let j = i + 1; j < ids.length; j++) {
+        const a = boxes.get(ids[i]!)!;
+        const b = boxes.get(ids[j]!)!;
+        if (intersects(a, b)) {
+          collisions.push(
+            `${mode}: ${ids[i]} [${a.x.toFixed(0)},${a.y.toFixed(0)} ${a.width.toFixed(0)}x${a.height.toFixed(0)}]` +
+              ` overlaps ${ids[j]} [${b.x.toFixed(0)},${b.y.toFixed(0)} ${b.width.toFixed(0)}x${b.height.toFixed(0)}]`,
+          );
+        }
+      }
+    }
+    return collisions;
+  };
+
+  const plain = await check('flying');
+  // And again in cinematic, which adds a row of camera buttons under the others.
+  await page.locator(byTestId('cinematic-toggle')).click();
+  await expect(page.locator(byTestId('camera-modes'))).toBeVisible();
+  const cinematic = await check('cinematic');
+
+  const collisions = [...plain, ...cinematic];
+  expect(collisions, collisions.join('\n')).toEqual([]);
+});
+
+/**
+ * M12.4 — the haptics reach the page, and stop when asked to.
+ *
+ * `navigator.vibrate` is not implemented in headless Chromium, so this replaces
+ * it before the app loads and counts the calls. That is the honest limit of
+ * what a browser test can say here: it proves the WIRING — that events reach
+ * the platform call, once each, and that reduced motion silences them — and
+ * says nothing about whether a phone actually buzzed, which no automated test
+ * on any of these five projects could.
+ */
+test('mission events reach navigator.vibrate, one buzz per event @mobile', async ({ page }) => {
+  await page.addInitScript(() => {
+    (window as unknown as { __buzzes: number[] }).__buzzes = [];
+    Object.defineProperty(navigator, 'vibrate', {
+      configurable: true,
+      value: (pattern: number | number[]) => {
+        (window as unknown as { __buzzes: number[] }).__buzzes.push(
+          Array.isArray(pattern) ? pattern[0]! : pattern,
+        );
+        return true;
+      },
+    });
+  });
+
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  // Vibration is gated on a user gesture, like the audio. Nothing before one.
+  expect(await page.evaluate(() => (window as unknown as { __buzzes: number[] }).__buzzes)).toEqual(
+    [],
+  );
+
+  await page.mouse.click(5, 5);
+  await expect(page.locator(byTestId('debrief'))).toHaveCount(1, { timeout: 90_000 });
+
+  /*
+    ONE PER EVENT, COUNTED OVER A FLIGHT THAT RAN ENTIRELY AFTER THE GESTURE.
+
+    The first version asserted "more than none", which a dropped buzz would have
+    passed. Counting against the timeline instead is the right idea and needs
+    one more step to be true: the intro starts at page load and fires LANDING
+    BURN on its first step, before anybody has touched the page — and vibration
+    is gated on a gesture, so that event legitimately produces no buzz. Flying
+    AGAIN from the card gives a whole flight inside the unlocked window, and the
+    events of that flight are the ones that must correspond one to one.
+
+    The count comes from the DEBRIEF CARD's event list rather than from the
+    timeline's dots. The dots are the natural place to look and are the wrong
+    one: the strip renders only the track for the loaded scenario, collapses to
+    a line of text on a phone, and its dots are not all in the DOM at every
+    viewport. The card lists exactly the events the timeline fired, on every
+    project, and it is on screen at the moment this asks.
+  */
+  const before = (
+    await page.evaluate(() => (window as unknown as { __buzzes: number[] }).__buzzes)
+  ).length;
+
+  await page.locator(byTestId('debrief-restart')).click();
+  await expect(page.locator(byTestId('debrief'))).toHaveCount(0);
+  await expect(page.locator(byTestId('debrief'))).toHaveCount(1, { timeout: 90_000 });
+
+  const buzzes = (
+    await page.evaluate(() => (window as unknown as { __buzzes: number[] }).__buzzes)
+  ).slice(before);
+  const fired = await page.locator(`${byTestId('debrief-events')} li`).count();
+
+  expect(fired, 'the second flight fires events').toBeGreaterThan(0);
+  expect(buzzes.length, `${fired} events, buzzes: ${buzzes.join(',')}`).toBe(fired);
+
+  // Two lengths and no others, with the long one last: the flight ended.
+  for (const ms of buzzes) expect([EVENT_MS, END_MS]).toContain(ms);
+  expect(buzzes[buzzes.length - 1], `buzzes: ${buzzes.join(',')}`).toBe(END_MS);
+});
+
+test('and reduced motion silences them @mobile', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.addInitScript(() => {
+    (window as unknown as { __buzzes: number[] }).__buzzes = [];
+    Object.defineProperty(navigator, 'vibrate', {
+      configurable: true,
+      value: () => {
+        (window as unknown as { __buzzes: number[] }).__buzzes.push(1);
+        return true;
+      },
+    });
+  });
+
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  await page.mouse.click(5, 5);
+  await expect(page.locator(byTestId('debrief'))).toHaveCount(1, { timeout: 90_000 });
+
+  // A phone buzzing in someone's hand is motion in the most literal sense a
+  // web page has, and the setting is a request not to be moved.
+  expect(
+    await page.evaluate(() => (window as unknown as { __buzzes: number[] }).__buzzes),
+  ).toEqual([]);
 });

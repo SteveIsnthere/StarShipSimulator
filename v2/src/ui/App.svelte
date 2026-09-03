@@ -43,6 +43,7 @@
     type MapSurface,
   } from '$hud/trajectory-draw';
   import { createTimeline } from '$hud/timeline';
+  import { browserHost, createHaptics } from '$hud/haptics';
   import { createTimelineBinder, type TimelineBinder } from '$hud/timeline-binder';
   import type { EventId } from '$hud/timeline';
   import Controls from './Controls.svelte';
@@ -89,6 +90,15 @@
    * feeding. See hud/timeline.ts for why it has memory at all.
    */
   const timeline = createTimeline();
+
+  /**
+   * The phone's other output (M12.4).
+   *
+   * Built once from the platform, unlocked by the same gesture that unlocks the
+   * audio — both are gated on user activation and both are things a page must
+   * not do to someone who has not touched it yet.
+   */
+  const haptics = createHaptics(browserHost());
   let timelineBinder: TimelineBinder | undefined;
 
   const onTimelineReady = (
@@ -665,6 +675,7 @@
       */
       const onGesture = () => {
         if (!muted) void audio.unlock();
+        haptics.unlock();
       };
       document.addEventListener('pointerdown', onGesture, { capture: true });
       document.addEventListener('keydown', onGesture, { capture: true });
@@ -855,7 +866,21 @@
         // The single per-frame DOM subscriber. It diffs; most frames write nothing.
         // The tracker sees the state before the binders report it, so a dot
         // and the narration beside it can never disagree within a frame.
+        const before = timeline.events.length;
         timeline.observe(s);
+        /*
+          One buzz per event, from the transition rather than from a state
+          (M12.4). `observe` appends at most one event per step and never
+          removes, so a length that grew is an event that just fired — the same
+          reasoning the timeline binder uses to know what to light.
+        */
+        // EVERY new one, not just the last. `observe` can fire more than one
+        // event in a call, and the loop runs many steps per frame under time
+        // warp — the first version buzzed once for a frame in which three
+        // things happened.
+        for (let i = before; i < timeline.events.length; i++) {
+          haptics.event(timeline.events[i]!.id);
+        }
 
         // Sound, from the same tick and under the same law: diffed before
         // writing, and costing one comparison while muted or before the first
@@ -945,22 +970,20 @@
   by what tag it happens to be.
 -->
 <canvas bind:this={canvas} data-testid="world-canvas" aria-label="Starship Simulator"></canvas>
-<Broadcast
-  onready={onBroadcastReady}
-  scenario={scenarioName}
-  {scenarioId}
-  ontimeline={onTimelineReady}
-  onmap={onMapReady}
-/>
-<Controls {emit} {zoom} onready={onControlsReady} hidden={cinematic} />
-<!--
-  Both top-right buttons live in one flex row rather than being positioned
-  individually. They were absolutely positioned with hand-picked offsets at
-  first, and the wider label overlapped its neighbour and swallowed its clicks —
-  which an e2e caught. Letting the layout do the arithmetic cannot drift when a
-  label changes.
--->
-<div class="top-right">
+{#snippet topRight()}
+  <!--
+    The top-right buttons, and since M12.4 they are a CHILD of the clock's row
+    rather than a box positioned over it.
+
+    They already lived in one flex row among themselves — they were absolutely
+    positioned with hand-picked offsets once, and the wider label overlapped its
+    neighbour and swallowed its clicks, which an e2e caught. The same reasoning
+    one level up is what this snippet is: the clock and these buttons share a
+    row now, and things in one row cannot collide. On a phone they did, and the
+    proof sat in `docs/screenshot-phone.png` for two milestones.
+  -->
+  <div class="top-right">
+
   <button
     class="top-button"
     class:is-on={cinematic}
@@ -1014,6 +1037,17 @@
     Menu
   </button>
 </div>
+{/snippet}
+
+<Broadcast
+  onready={onBroadcastReady}
+  scenario={scenarioName}
+  {scenarioId}
+  ontimeline={onTimelineReady}
+  onmap={onMapReady}
+  {topRight}
+/>
+<Controls {emit} {zoom} onready={onControlsReady} hidden={cinematic} />
 
 <!--
   The standalone Restart, and why it is now conditional on the card being gone.
@@ -1105,19 +1139,32 @@
     background: rgb(255 255 255 / 14%);
   }
 
+  /*
+    IN FLOW, not positioned (M12.4). It is a child of the clock's row now, so
+    its place is decided by that row's `margin-left: auto` rather than by
+    offsets that had to be kept clear of a strip they knew nothing about.
+    `position: relative` remains, because the camera selector still hangs
+    beneath it.
+  */
   .top-right {
-    position: absolute;
-    top: calc(var(--safe-top) + 0.75rem);
-    right: calc(var(--safe-right) + 0.75rem);
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 0.4rem;
   }
-  /* The camera row hangs under the buttons, right-aligned with them. */
+  /*
+    The camera row, on its own line under the buttons (M12.4).
+
+    IN FLOW, not absolute. It was positioned, which meant it added no height to
+    the row above it — so nothing downstream knew it was there, and review
+    measured it sitting on top of the trajectory map on a landscape phone in
+    cinematic mode. A wrapped flex line has a height, and a height is what the
+    rest of the layout can be told about.
+  */
   .camera-modes {
-    position: absolute;
-    top: calc(var(--touch) + 0.4rem);
-    right: 0;
+    flex-basis: 100%;
     display: flex;
+    justify-content: flex-end;
     gap: 0.4rem;
   }
   .top-button {

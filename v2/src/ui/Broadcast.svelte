@@ -54,9 +54,21 @@
     ) => void;
     /** Handed straight to TrajectoryMap; the tick drives the surface it yields. */
     onmap: (surface: MapSurface | null) => void;
+    /**
+     * The top-right buttons, rendered INSIDE the clock's row (M12.4).
+     *
+     * A snippet rather than markup of its own, because the buttons need App's
+     * state — cinematic, muted, the camera modes — and the clock needs to be in
+     * the same flex row as them or the two can collide. They did: on a phone
+     * the mission clock's digits sat under the CINEMATIC button, visible in
+     * `docs/screenshot-phone.png` for two milestones, because `.top` filled the
+     * width and `.top-right` was positioned absolutely over it. Nothing that
+     * shares a row can overlap.
+     */
+    topRight?: import('svelte').Snippet;
   }
 
-  const { onready, scenario, scenarioId, ontimeline, onmap }: Props = $props();
+  const { onready, scenario, scenarioId, ontimeline, onmap, topRight }: Props = $props();
 
   /**
    * The long-tail readouts: everything the gauges and the clock do not show.
@@ -159,6 +171,9 @@
       ></span>
     </div>
     <span class="mission bc-label">{scenario}</span>
+    {#if topRight}
+      <div class="top-slot">{@render topRight()}</div>
+    {/if}
   </div>
 
   <!-- ── the lower third ─────────────────────────────────────────────── -->
@@ -324,18 +339,67 @@
 
   /* --- the upper strip --------------------------------------------------- */
 
+  /*
+    ONE ROW, AND THAT IS THE FIX (M12.4).
+
+    The clock filled this strip and the top-right buttons were positioned
+    absolutely over it, so on a narrow screen the mission clock's digits sat
+    UNDER the CINEMATIC button — visible in `docs/screenshot-phone.png` for two
+    milestones, because nothing asserted the two did not intersect. Things in
+    one flex row cannot overlap: the buttons are a child now, `margin-left:
+    auto` puts them right, and `min-width: 0` lets the scenario name give way
+    before anything collides.
+
+    `align-items: flex-start` rather than `baseline`, because the buttons are
+    two rows tall in cinematic mode — the camera selector is a wrapped second
+    line inside them (M12.4 made it one; it used to be positioned absolutely,
+    which added no height and let it sit on the trajectory map).
+
+    THE ROW DOES NOT WRAP; THE BUTTONS DO, among themselves. On a 390 px phone
+    the four of them are most of the width and cannot share a line with the
+    clock — with `nowrap` and no give, the strip overflowed by 14 px and broke
+    the "nothing overflows sideways" test that has guarded this layout since
+    M6.6. Wrapping the OUTER row instead was worse and the browser suite said
+    so: it dropped the buttons a line, into the yoke rail's reach, and the rail
+    took the taps meant for Menu on both landscape phones. So the outer row
+    stays one line and `.top-slot` shrinks, letting its buttons fold into two
+    rows of two where there is no room for four.
+  */
   .top {
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     gap: 0.75rem;
-    padding: calc(var(--safe-top) + 0.6rem) var(--gutter) 1.75rem
+    padding: calc(var(--safe-top) + 0.6rem) calc(var(--safe-right) + var(--gutter)) 1.75rem
       calc(var(--safe-left) + var(--gutter));
     background: var(--scrim-top);
+    /* The strip is a layout row now, so it must not eat the flight's clicks. */
+    pointer-events: none;
+  }
+  .top-slot {
+    margin-left: auto;
+    /* Shrinks before the clock does, and folds internally rather than pushing. */
+    min-width: 0;
+    flex: 0 1 auto;
+    /* Its own children are buttons and do want the pointer. */
+    pointer-events: auto;
+    /*
+      ABOVE THE CONTROL RAILS, and this is the one z-index the change needs.
+
+      These buttons used to be a body-level sibling rendered AFTER `Controls`,
+      so source order put them on top. Moving them into the clock's row moved
+      them before it, and on a landscape phone the yoke rail — which reaches the
+      full height of the screen — took the taps meant for Menu. Playwright named
+      the interceptor, which is the only reason this is a line of CSS rather
+      than a bug report.
+    */
+    position: relative;
+    z-index: 2;
   }
   .clock {
     display: flex;
     align-items: baseline;
     gap: 0.3rem;
+    flex: 0 0 auto;
     font-variant-numeric: tabular-nums;
   }
   .clock-prefix {
@@ -352,6 +416,11 @@
     font-variant-numeric: tabular-nums;
   }
   .mission {
+    /* Gives way first: a truncated scenario name is better than a collision. */
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     color: var(--ink-70);
   }
 
@@ -710,7 +779,29 @@
     */
     .map-slot {
       position: absolute;
-      top: calc(var(--safe-top) + 3rem);
+      /*
+        BELOW THE TOP ROW, derived from it rather than guessed at.
+
+        This was a hand-picked `3rem`, which is 48 px — and the top-right
+        buttons end at about 54, so the map's frame ran under the CINEMATIC
+        button by six pixels on both landscape phones. M12.4's intersection
+        test found it the first time it ran, which is the whole argument for
+        that test: the collision was there before this milestone and nothing
+        had ever asked.
+
+        The row's height is the safe area, the strip's own 0.6rem of padding
+        and one touch target; a little air under that is where the map starts.
+      */
+      /*
+        TWO touch targets of clearance, not one. Cinematic mode puts the camera
+        selector on a second line inside the top-right block, and review
+        measured it sitting on the map at 844x390 — the same collision as the
+        one above, one row lower. Sized for the taller case rather than moved
+        when the mode changes: the map is in `Broadcast` and the mode is
+        `App`'s, and a constant that is right in both states beats a variable
+        threaded through a component boundary to save 44 px of sky.
+      */
+      top: calc(var(--safe-top) + 2 * var(--touch) + 1.8rem);
       left: 50%;
       transform: translateX(-50%);
       margin-left: 0;

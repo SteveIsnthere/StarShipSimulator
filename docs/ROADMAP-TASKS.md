@@ -987,7 +987,7 @@ thermal coefficient, Earth rotation.
   a per-channel readout, the previous flight as a ghost, CSV export via a Blob URL. Accept: CSV
   round-trip and marker positions tested in node; still one lazy import, budget unmoved;
   black-box e2e; full gate.
-- [ ] **M12.4 The phone, finished** — clock and top-right buttons under one layout rule;
+- [x] **M12.4 The phone, finished** — clock and top-right buttons under one layout rule;
   `navigator.vibrate` on events and touchdown behind reduced-motion. Accept: responsive spec
   asserts no two overlay elements intersect on all five projects; full gate.
 - [ ] **M12.5 Settings that reach the mixer** — a volume level beside mute, remembered; a
@@ -3845,3 +3845,46 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   Gate: lint, build (220.2 kB of 250, uPlot still its own lazy chunk), test (1548), coverage
   99.58/99.22/98.78/99.64, and the five-project browser suite — **374 passed, 0 failed, 7
   skipped**.
+- 2026-09-03 · M12.4 · **A collision that sat in the README for two milestones.** The mission
+  clock's digits under the CINEMATIC button, in `docs/screenshot-phone.png`, because `.top` filled
+  the strip and the four top-right buttons were positioned absolutely over it and nothing asserted
+  the two did not intersect. They share one flex row now — things in a row cannot overlap — and
+  the intersection check that says so runs on all five projects.
+  **IT FOUND A SECOND COLLISION IMMEDIATELY, which had nothing to do with this change.** On both
+  landscape phones the trajectory map's frame ran under the CINEMATIC button by six pixels: the
+  map's `top` was a hand-picked `3rem` and the top row ends at about 54. Derived from the row's
+  own tokens now — safe area, the strip's padding, one touch target — rather than measured once
+  by eye.
+  **AND MOVING THE BUTTONS BROKE THREE THINGS THE SUITE THEN CAUGHT, each worth its comment.**
+  (a) With the outer row allowed to wrap, the buttons dropped a line into the yoke rail's reach
+  and the rail took the taps meant for Menu on both landscape phones; the row stays one line now
+  and the BUTTONS fold among themselves instead. (b) They had been a body-level sibling rendered
+  after `Controls`, so source order put them on top; inside the clock's row they are earlier, and
+  needed lifting — which then put them over the MENU, and Playwright reported `open-black-box`
+  intercepting a click on the menu's own Close. That is why this application now has a written
+  stacking scale, three levels and no more: 0 the world and the controls, 2 the top strip's
+  buttons, 3 a dialog. (c) The camera selector was `position: absolute` inside the buttons, so it
+  added no height and nothing downstream knew it was there — review measured it sitting on the map
+  in cinematic mode. It is a wrapped flex line now, and the collision test enters cinematic mode,
+  because a check that never turns it on would have shipped that green.
+  **THE HAPTICS, and what a browser test can honestly say about them.** `navigator.vibrate` on
+  every timeline event, two lengths only — a tick for an event, a longer one for the end — behind
+  `prefers-reduced-motion`, which is a request not to be moved and a phone buzzing in someone's
+  hand is motion in the most literal sense a page has. Gated on a gesture like the audio, and a
+  throw from the browser is swallowed: engines disagree about what counts as activation and a
+  rocket must not stop flying because a phone declined to buzz. Review found the setting sampled
+  once at startup — so turning Reduce Motion on mid-session, which is exactly when someone turns
+  it on, did nothing — and found only the LAST of several events in one frame buzzing.
+  The e2e stubs `navigator.vibrate`, which headless Chromium does not implement, and proves the
+  WIRING: one buzz per event, the long one last, and silence under reduced motion. It says nothing
+  about whether a phone buzzed, which no automated test on these five projects could. Getting the
+  count right needed a second flight: the intro fires LANDING BURN on its first step, before
+  anybody has touched the page, so that event legitimately produces no buzz — the assertion counts
+  over a flight that ran entirely inside the unlocked window.
+  Gate: lint, build (220.5 kB of 250), test (1556), coverage 99.58/99.22/98.78/99.64, and the
+  five-project browser suite — 387 passed, **2 failed**, both `plume.spec.ts` "the plume is longer
+  than the ship at low altitude" on the two landscape phones. Not this task's: it is the named
+  debt M11.9 recorded — `view/particles.ts:806` sheds particle velocity with `1 - drag * dt`,
+  explicit Euler and unclamped, so a long frame shortens the plume. It reports 0.67 ship-lengths
+  against a bar of 1, and it now fails at one worker as well as two, which is the debt getting
+  more visible rather than a regression. Its own task is next.
