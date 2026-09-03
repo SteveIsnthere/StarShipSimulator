@@ -671,6 +671,17 @@ export function createParticleSystem(
   const alpha0 = new Float32Array(capacity);
   const alpha1 = new Float32Array(capacity);
   const dragOf = new Float32Array(capacity);
+  /*
+    How many distinct drags one frame's cache holds. The effect table has NINE
+    (0, 0.6, 0.85, 1.1, 1.4, 1.9, 2.0, 2.6, 3.2); sixteen is room to grow
+    without a resize, and a drag past the sixteenth is computed exactly and not
+    stored — the cache is an optimisation, never a source of a different
+    answer.
+  */
+  const DRAG_CACHE = 16;
+  const dragKeys = new Float64Array(DRAG_CACHE);
+  const dragFactors = new Float64Array(DRAG_CACHE);
+  const dragIntegrals = new Float64Array(DRAG_CACHE);
   const gravityOf = new Float32Array(capacity);
   const colorStart = new Uint32Array(capacity);
   const colorEnd = new Uint32Array(capacity);
@@ -791,6 +802,36 @@ export function createParticleSystem(
     },
 
     update(dt) {
+      /*
+        THE DRAG FACTOR, EXACTLY, and cached per distinct drag for this frame.
+
+        It was `1 - drag * dt`: explicit Euler, unclamped, with `dt` a whole
+        frame of SIMULATED time. At `groundSmoke`'s 1.9 per second one contended
+        0.25 s frame sheds 48% of a particle's speed where the exact `exp(-0.475)`
+        sheds 38%, and past `dt = 1/1.9 = 0.53 s` the factor goes NEGATIVE and
+        the particle flies backwards. `raptorShutdown` at 3.2 turns over at
+        0.31 s. That is a frame-rate dependent picture — the 2021 wound, in
+        `view/` rather than `core/` — and it is why `plume.spec.ts`, and only
+        `plume.spec.ts`, failed whenever the machine was busy.
+
+        `exp(-drag * dt)` is the closed form of the same differential equation,
+        so a slow frame and ten fast ones now agree to the precision of the
+        exponential rather than to first order in dt.
+
+        CACHED because `Math.exp` is a hundred times a multiply and the pool
+        holds four thousand particles. There are ten distinct drags in the whole
+        effect table, so a linear scan over a handful of entries is cheaper than
+        the call it replaces — and the cache is per FRAME, keyed by drag alone,
+        because `dt` is the same for every particle in one update.
+
+        FILLED ON DEMAND, inside the one loop that reads it. A first pass to
+        populate it was written and thrown away: it walked all four thousand
+        particles to find ten numbers, doubling the scan to save nothing, and it
+        needed a closure per frame to read the result — an allocation in the
+        per-frame path, which this file is not allowed.
+      */
+      let cached = 0;
+
       let write = 0;
       for (let n = 0; n < liveCount; n++) {
         const i = live[n]!;
@@ -803,11 +844,57 @@ export function createParticleSystem(
           continue;
         }
 
-        const shed = 1 - dragOf[i]! * dt;
-        vx[i]! *= shed;
-        vy[i]! = vy[i]! * shed - gravityOf[i]! * dt;
-        x[i]! += vx[i]! * dt;
-        y[i]! += vy[i]! * dt;
+        /*
+          THE STEP, IN CLOSED FORM (the particle-drag debt carried out of M11).
+
+          `v' = -k v - g` has an exact solution and this is it, for both the
+          velocity and the DISTANCE TRAVELLED. Doing only the velocity exactly
+          was the first attempt and left 8.7% between one 0.1 s frame and twenty
+          0.005 s ones, because `x += v * dt` is still first order — and the
+          plume's LENGTH is exactly what the pixel harness measures.
+
+          The dragless effects (the velocity streaks) fall out of the same two
+          lines: `(1 - e^-kt)/k` tends to `dt` as k tends to zero, and the cache
+          stores that limit rather than dividing by nothing.
+        */
+        const drag = dragOf[i]!;
+        let slot = -1;
+        for (let k = 0; k < cached; k++) {
+          if (dragKeys[k] === drag) {
+            slot = k;
+            break;
+          }
+        }
+        /*
+          The integral of the decay over the step is what MOVES the particle.
+          `(1 - e^-kt)/k` -> `dt` as k -> 0, so a dragless effect falls out of
+          the same expression rather than needing a second one.
+
+          A full cache does not fall back to anything: it computes the same two
+          numbers and declines to store them. Nine distinct drags in the effect
+          table against sixteen slots means that has never happened, which is
+          why it is a missing store rather than a second code path to get wrong.
+        */
+        const e = slot >= 0 ? dragFactors[slot]! : drag > 0 ? Math.exp(-drag * dt) : 1;
+        const integral = slot >= 0 ? dragIntegrals[slot]! : drag > 0 ? (1 - e) / drag : dt;
+        if (slot < 0 && cached < DRAG_CACHE) {
+          dragKeys[cached] = drag;
+          dragFactors[cached] = e;
+          dragIntegrals[cached] = integral;
+          cached += 1;
+        }
+
+        const gravity = gravityOf[i]!;
+        // Terminal velocity, the constant the solution is written around. Zero
+        // gravity or zero drag both make the second term vanish below.
+        const terminal = drag > 0 ? gravity / drag : 0;
+
+        const vx0 = vx[i]!;
+        const vy0 = vy[i]!;
+        x[i]! += vx0 * integral;
+        y[i]! += (vy0 + terminal) * integral - terminal * dt - (drag > 0 ? 0 : 0.5 * gravity * dt * dt);
+        vx[i]! = vx0 * e;
+        vy[i]! = (vy0 + terminal) * e - terminal - (drag > 0 ? 0 : gravity * dt);
 
         const sprite = sprites[i]!;
         const size = size0[i]! + (size1[i]! - size0[i]!) * t;

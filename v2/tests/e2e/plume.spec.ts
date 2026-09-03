@@ -13,8 +13,10 @@
  *                  2.5 ship-lengths; before M9.6 the same measurement on the
  *                  same frame was 0.26.
  *   VACUUM         the plume must be visibly WIDER relative to the ship, which
- *                  is what `plumeSpreadFactor` exists to do. About 1.1
- *                  ship-lengths across, against 0.55 low down.
+ *                  is what `plumeSpreadFactor` exists to do. 0.92 to 1.38
+ *                  ship-lengths across, against 0.46 to 0.79 low down —
+ *                  re-measured when the particle-drag debt was cleared and the
+ *                  cone band stopped being nailed to the viewport.
  *
  * AND WHAT IS NOT MEASURED HERE, said plainly. The acceptance line also asks for
  * "dimmer in vacuum". The harness cannot honestly compare brightness across
@@ -128,22 +130,30 @@ async function underPowerAt(page: Page, altitude: string): Promise<void> {
 }
 
 /**
- * A thin strip just below the nozzle, where the plume's WIDTH is the cone angle
- * and nothing else.
+ * How deep the cone is measured, in ship-lengths below the nozzle.
  *
- * Measuring width over the whole `BELOW` box did not work and the reason is
- * worth recording: the widest part of a long plume is far from the nozzle, so
- * how much of it lands inside a fixed box depends on where the climbing vehicle
- * happens to be. Run to run on the same project that moved the low-altitude
- * width between 0.72 and 0.84 ship-lengths, which is most of the difference the
- * measurement was trying to detect. In the NEAR FIELD the cone is the cone.
+ * THIS USED TO BE A FIXED RECTANGLE IN THE VIEWPORT — `{x: 0.3, y: 0.56, width:
+ * 0.4, height: 0.08}` — and it was the noisiest measurement in this repository.
+ * The reasoning behind it was right: the widest part of a long plume is far
+ * from the nozzle, so a whole-plume width says more about where the vehicle
+ * drifted to than about the cone. The implementation was wrong, because a
+ * rectangle nailed to the viewport is not "just below the nozzle" on a vehicle
+ * the camera is chasing at full thrust. Four frames 350 ms apart measured one
+ * cone at 0.92, 0.74, 0.49 and 0.53 ship-lengths; frames where the strip missed
+ * the plume altogether came back 0.00, and there is one of those in most runs.
+ *
+ * `topBandPx` (tests/e2e/pixels.ts) anchors the band to the plume's OWN topmost
+ * lit row, which is the nozzle. Four tenths of a ship-length below it is on the
+ * cone in every frame, whatever the camera is doing.
  */
-const NEAR_FIELD: Region = { x: 0.3, y: 0.56, width: 0.4, height: 0.08 };
+const CONE_DEPTH_SHIP_LENGTHS = 0.4;
 
 /** The plume's extent and width, in ship-lengths, as a median of four frames. */
 async function plume(page: Page): Promise<{ span: number; width: number; last: string }> {
   const spans: number[] = [];
   const widths: number[] = [];
+  let clamped = 0;
+  const boxes: string[] = [];
   let last = '';
   /*
     FOUR SAMPLES, AND IT CANNOT BE MORE — which is worth recording because the
@@ -165,22 +175,63 @@ async function plume(page: Page): Promise<{ span: number; width: number; last: s
     against.
   */
   for (let i = 0; i < 4; i++) {
+    /*
+      THE SCALE FIRST, because the band is asked for in image pixels and its
+      depth is a ship-length. The vehicle moves between the two calls; at four
+      tenths of a ship-length the difference that makes is a pixel or two, and
+      the alternative — publishing the scale into the page so one round trip
+      could do both — is a production change for a test's convenience.
+    */
+    const scale = await metrePixels(page);
     const report = await readFrame(page, {
       regions: { below: BELOW },
-      extents: { plume: PLUME, nearField: { ...PLUME, region: NEAR_FIELD } },
+      extents: {
+        plume: { ...PLUME, topBandPx: CONE_DEPTH_SHIP_LENGTHS * scale.vehicleHeightPx },
+      },
       map: { cols: 44, rows: 22 },
     });
-    const scale = await metrePixels(page);
     const found = report.extents['plume']!;
     expect(found.found, `no plume at all\n${describeFrame(report, scale)}`).toBe(true);
     spans.push(inVehicleHeights(found, scale));
-    const near = report.extents['nearField']!;
-    widths.push(near.found ? near.widthPx / scale.vehicleHeightPx : 0);
+    widths.push(found.bandWidthPx / scale.vehicleHeightPx);
+    /*
+      THE ONE WAY THE ANCHOR CAN LIE, counted rather than left implied.
+
+      The band starts at the plume's topmost lit row, and that row is clipped to
+      the top of `BELOW`. If the camera ever lags far enough that the nozzle
+      sits above y = 0.52, the anchor is the region edge and the band is a fixed
+      viewport strip again — the very thing it replaced. It is not a wrong
+      answer, it is a less well-aimed one, and the count goes in the line this
+      helper prints so a drifting number has somewhere to be explained from.
+    */
+    if (found.top <= Math.round(BELOW.y * report.imageHeight)) clamped += 1;
+    boxes.push(`(${found.left},${found.top})-(${found.right},${found.bottom})n${found.count}`);
     last = describeFrame(report, scale);
     await page.waitForTimeout(350);
   }
   const median = (xs: number[]) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)]!;
-  return { span: median(spans), width: median(widths), last };
+  const span = median(spans);
+  const width = median(widths);
+  /*
+    PRINTED ON SUCCESS, not only on failure.
+
+    These two numbers are what the spec is for, and until the particle-drag debt
+    was cleared they were only ever visible when they had already gone wrong: the
+    measurement lives in an `expect` message, and a passing `expect` says
+    nothing. The debt's acceptance line asks for before-and-after numbers on both
+    plume specs, which is impossible to satisfy from a green run that prints no
+    numbers. One line per measurement, with the project on it, and the medians
+    beside the samples they came from.
+  */
+  const info = test.info();
+  console.log(
+    `[plume] ${info.project.name} · ${info.title}: ` +
+      `${span.toFixed(2)} long, ${width.toFixed(2)} across ` +
+      `(spans ${spans.map((n) => n.toFixed(2)).join('/')}, ` +
+      `widths ${widths.map((n) => n.toFixed(2)).join('/')}, ` +
+      `${clamped}/4 anchored to the region edge; ${boxes.join(' ')})`,
+  );
+  return { span, width, last };
 }
 
 test('the plume is longer than the ship at low altitude @mobile', async ({ page }) => {
@@ -230,20 +281,28 @@ test('and blooms wider than the ship in vacuum @mobile', async ({ page }) => {
     The most recognisable thing about watching an ascent, as a number: the same
     engine draws a PENCIL at sea level and a BELL in vacuum.
 
-    WIDTH IN SHIP-LENGTHS, measured in the NEAR FIELD — see `NEAR_FIELD` for why
-    the whole-plume width was too noisy to say anything with. Across the five
-    projects, over two runs:
+    WIDTH IN SHIP-LENGTHS, measured in a band anchored to the nozzle — see
+    `CONE_DEPTH_SHIP_LENGTHS` for why the whole-plume width says nothing and why
+    the fixed viewport strip that preceded it said it too unreliably.
 
-      desktop           0.66-0.73  ->  0.97-1.14
-      Pixel portrait    0.92-0.94  ->  1.32-1.53
-      Pixel landscape   0.91-0.96  ->  1.57-1.60
-      iPhone portrait   1.10       ->  1.76
-      iPhone landscape  1.10       ->  1.77
+    RE-MEASURED when the particle-drag debt was cleared, because the numbers
+    that used to be here were taken through the old strip and are not comparable
+    with these. Ten runs, five projects twice each, sea level -> vacuum:
 
-    Ratios of 1.33 to 1.73, against a bound of 1.2. Aspect — width over length —
-    was tried as the more shape-like statistic and is worse: in vacuum the black
-    sky lets the faint tail register so the LENGTH grows too, which put the
-    desktop project at exactly 1.25 with nothing to spare.
+      desktop           0.46, 0.53  ->  0.92, 0.92
+      Pixel portrait    0.66, 0.78  ->  1.38, 1.14
+      Pixel landscape   0.74, 0.69  ->  1.07, 0.93
+      iPhone portrait   0.73, 0.72  ->  1.08, 1.25
+      iPhone landscape  0.77, 0.79  ->  1.30, 1.10
+
+    Ratios of 1.35 to 2.09 against a bound of 1.2 — the worst case has 12% of
+    margin, where the same ten runs through the old strip ranged 1.10 to 1.62
+    and failed this bound twice. The instrument moved, not the picture.
+
+    Aspect — width over length — was tried as the more shape-like statistic and
+    is worse: in vacuum the black sky lets the faint tail register so the LENGTH
+    grows too, which put the desktop project at exactly 1.25 with nothing to
+    spare.
   */
   const shape =
     `${message}\n  aspect: ${(low.width / low.span).toFixed(2)} low, ` +

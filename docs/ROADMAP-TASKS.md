@@ -953,12 +953,25 @@ thermal coefficient, Earth rotation.
 
 ### Named debt, carried out of M11
 
-- [ ] **Particle drag is integrated with explicit Euler** — `view/particles.ts:806`,
+- [x] **Particle drag is integrated with explicit Euler** — `view/particles.ts:806`,
   `shed = 1 - drag * dt`, unclamped, with `dt` a whole frame of simulated time. At the plume
   emitter's drag of 3.2/s a contended 0.25 s frame sheds 80% against the exact 55%, and past
   0.31 s the factor is negative. Found at M11.9 as the mechanism behind the plume specs' failures
   under parallel load. Accept: `exp(-drag * dt)` or a substep, before/after pixel-harness numbers
   on both plume specs, and the browser suite green under two workers.
+  (The 3.2/s in this entry is `raptorShutdown`; the plume itself is 1.9/s, turning over at
+  0.53 s rather than 0.31 s. The wound is the same and the entry is left as it was written.)
+- [ ] **The low-altitude plume is shorter than the ship when the ship holds still** — found while
+  clearing the entry above, and the more serious of the two. `plume.spec.ts`'s first assertion —
+  the plume is longer than the vehicle — passes on ALTITUDE DRIFT, not on the plume: four
+  screenshots cost the better part of a second of flight each, so a vehicle configured at 2000 m
+  is photographed at 3100 m, and the measurement grows as the camera zooms out. Held near 2000 m
+  in slow motion, `pixel-landscape` measures 0.67, 0.77, 0.87 and 0.81 ship-lengths in four
+  consecutive frames — consistently, in one place, with 800 to 1200 lit pixels, so it is neither
+  noise nor terrain contamination. The same project at 3000 m measures 1.81 to 2.24. Something in
+  the emitter is not scale-invariant even though `spawn` scales speed, size and gravity by the
+  viewport. Accept: find what breaks the invariance, fix it or say why the picture is right, then
+  hold the altitude in the spec so the assertion is about the plume.
 - [ ] **Angular damping uses the wrong axis** — `integralOfRCubedTimesDx` is the rod integral
   about the hull's MIDPOINT while the inertia beside it is about the moving centre of mass
   (M11.8). Taken about the real axis it is 2.5x larger at full tanks and 1.1x at dry, so damping
@@ -3888,3 +3901,49 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   explicit Euler and unclamped, so a long frame shortens the plume. It reports 0.67 ship-lengths
   against a bar of 1, and it now fails at one worker as well as two, which is the debt getting
   more visible rather than a regression. Its own task is next.
+- 2026-09-03 · Debt (particle drag) · `view/particles.ts` sheds particle velocity with `exp(-drag * dt)`
+  and moves it with the exact integral of that decay, `(1 - e^-kt)/k`, instead of `1 - drag * dt`
+  and `v * dt`. Velocity alone was not enough and the first attempt proved it: with the position
+  still first order, one 0.1 s frame carried a particle 8.7% less far than twenty 0.005 s ones, and
+  the plume's LENGTH is what the pixel harness measures. Both are exact now, and the exact solution
+  composes — stepping once over dt and n times over dt/n are the same function — so the residual is
+  float rounding. A per-frame cache keyed by drag alone (nine distinct values in the effect table,
+  sixteen slots) keeps `Math.exp` to about ten calls a frame rather than four thousand, filled on
+  demand inside the one loop that reads it: a separate fill pass walked all four thousand particles
+  to find nine numbers and needed a closure per frame to read them, which is an allocation in the
+  per-frame path.
+  THREE UNIT TESTS, one of which was rewritten twice after the review found it vacuous. "One long
+  frame carries a particle as far as many short ones" and "a frame longer than 1/drag does not send
+  it backwards" (`groundSmoke`, drag 1.9, which turns over at 0.53 s and lives 1.8 s — the plume
+  itself lives 0.42 s and cannot be asked the question). The third has to catch one effect being
+  handed another's decay factor, and the first two attempts could not: comparing a lone system's
+  first particle against a crowded one's is blind, because the first particle's drag is always the
+  first key in the cache and so always at slot 0. Breaking the scan to return 0 unconditionally left
+  it green. It now recovers each particle's drag from its own motion — with no gravity in x,
+  successive displacements are in the ratio `e^-k dt`, so `-ln(r)/dt` reads k off the pixels — and
+  checks it against the drag of the effect that emitted it, established from per-effect emit counts.
+  That mutation now fails it.
+  BEFORE AND AFTER, five projects, the low-altitude cone at the nozzle in ship-lengths:
+  desktop 0.44 -> 0.46/0.53, Pixel portrait 0.62 -> 0.66/0.78, Pixel landscape 0.60 -> 0.74/0.69,
+  iPhone portrait 0.65 -> 0.73/0.72, iPhone landscape 0.65 -> 0.77/0.79. Spans are within noise of
+  each other (desktop 1.55 -> 1.61/1.64, Pixel landscape 1.81 -> 1.79/1.74). The much larger swings
+  the first comparison showed — a span of 1.67 becoming 2.58 — were the INSTRUMENT, not the change,
+  which is the other half of this entry.
+  THE INSTRUMENT. `plume.spec.ts` measured the cone in a rectangle nailed to the viewport, and it
+  was the noisiest number in the repository: four frames 350 ms apart measured one cone at 0.92,
+  0.74, 0.49 and 0.53, because the camera lags a vehicle at full thrust, and frames where the strip
+  missed the plume came back 0.00. `ExtentQuery.topBandPx` anchors the band to the plume's own
+  topmost lit row — the nozzle — so it is on the cone in every frame. Ten runs of the vacuum-bloom
+  ratio through the old strip ranged 1.10 to 1.62 and failed its 1.2 bound twice; through the band
+  they range 1.35 to 2.09. The band's one failure mode, an anchor clipped to the region's top edge,
+  is counted and printed rather than left implied, and the medians are printed on success — until
+  now they were only visible when they had already gone wrong, which no before-and-after can be
+  written from.
+  Gate: lint, build (220.7 kB of 250), 1559 unit tests, coverage 99.22% branch / 99.64% line, and
+  the full browser suite at TWO WORKERS — 389 passed, 0 failed, 39.5 min. The debt's acceptance line
+  asked for exactly that and it is met.
+  ONE THING FOUND AND NOT FIXED, carried as its own item above: held near 2000 m, the low-altitude
+  plume measures 0.67 to 0.87 ship-lengths on `pixel-landscape`, so that spec's first assertion has
+  been passing on the altitude the sampling itself costs. Holding the flight in slow motion to prove
+  it was tried and then REVERTED — it changes what the test photographs, which is not this item's
+  business.

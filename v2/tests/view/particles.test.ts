@@ -242,3 +242,171 @@ describe('motion', () => {
     expect(b.width / a.width).toBeCloseTo(3, 1);
   });
 });
+
+/**
+ * The particle integrator, and the frame-rate dependence it used to carry.
+ *
+ * `view/` is not `core/` and has no golden fixtures, but the wound is the same
+ * one the seven walls exist for: a picture that depends on how fast the machine
+ * happens to be running. Drag was integrated as `1 - drag * dt` — explicit
+ * Euler, unclamped, with `dt` a whole frame of simulated time — so a plume drawn
+ * in one long frame was shorter than the same plume drawn in ten short ones,
+ * and past `dt = 1/drag` the factor went negative and the particles flew
+ * backwards. It is `exp(-drag * dt)` now, which is the closed form of the same
+ * equation and agrees with itself at every step size.
+ *
+ * Measured through the pool rather than on a formula: these ask where the
+ * particles ARE.
+ */
+describe('drag does not depend on the frame rate', () => {
+  /**
+   * Emit one particle of `effect` and carry it forward by `steps` frames of `dt`.
+   *
+   * Returns the POSITION of the farthest live particle, not its distance: a
+   * distance is unsigned, and the failure this file is about is a particle that
+   * reverses. `Math.hypot` says the same thing about a plume 30 px out and a
+   * plume 30 px the wrong way.
+   */
+  function travel(effect: EffectName, dt: number, steps: number): { x: number; y: number } {
+    const s = system(64);
+    s.emit(effect, 0, 0, 0, 1, 1 / 120, 1);
+    for (let i = 0; i < steps; i++) s.update(dt);
+    let best = { x: 0, y: 0 };
+    let far = -1;
+    for (const child of s.container.children) {
+      if (!child.visible) continue;
+      const d = Math.hypot(child.x, child.y);
+      if (d > far) {
+        far = d;
+        best = { x: child.x, y: child.y };
+      }
+    }
+    return best;
+  }
+
+  const length = (p: { x: number; y: number }) => Math.hypot(p.x, p.y);
+
+  it('one long frame carries a particle as far as many short ones', () => {
+    // A tenth of a second, taken in one step and in twenty.
+    const coarse = travel('raptorPlume', 0.1, 1);
+    const fine = travel('raptorPlume', 0.005, 20);
+    expect(length(coarse), 'the particle moved at all').toBeGreaterThan(0);
+    /*
+      The exact solution composes: stepping it once over dt and n times over
+      dt/n are the same function, so what is left here is float rounding, not
+      truncation error. A percent is generous by six orders of magnitude and
+      says so deliberately — the claim under test is "the frame rate does not
+      change the picture", not "these two doubles are bit-identical".
+    */
+    const drift = Math.abs(length(coarse) - length(fine)) / length(fine);
+    expect(drift, `${length(coarse)} vs ${length(fine)}`).toBeLessThan(0.01);
+  });
+
+  it('and a frame longer than 1/drag does not send it backwards', () => {
+    /*
+      THE FAILURE MODE, stated as a number.
+
+      `groundSmoke` is the subject because it is the effect that both fails and
+      survives: its drag is 1.9 per second, so the old `1 - drag * dt` turns
+      negative past dt = 0.526 s — a particle drifting away from the pad would
+      reverse, in one frame, because the machine was busy — and its life is 1.8 s
+      (0.99 at the short end of the jitter), so it is still alive at the end of
+      the long frame to be measured. The plume itself cannot be asked this
+      question: it lives 0.42 s, less than the frame that breaks it.
+
+      0.6 s is past that threshold and inside that life. It is also a frame this
+      application has really seen on a loaded runner.
+    */
+    const long = travel('groundSmoke', 0.6, 1);
+    const short = travel('groundSmoke', 0.01, 60);
+    // SAME SIDE OF THE NOZZLE, which is the claim the title makes. A reversed
+    // particle has a positive distance and a negative projection.
+    const along = (long.x * short.x + long.y * short.y) / length(short);
+    expect(along, `${JSON.stringify(long)} against ${JSON.stringify(short)}`).toBeGreaterThan(0);
+    const drift = Math.abs(length(long) - length(short)) / length(short);
+    expect(drift, `${length(long)} vs ${length(short)}`).toBeLessThan(0.01);
+  });
+
+  it('and every particle is carried by its OWN drag when nine are alive at once', () => {
+    /*
+      THE CACHE, TESTED AS A CACHE — and the second attempt at it.
+
+      The way a per-frame lookup fails is by handing one effect the decay factor
+      of another, and that is invisible to any test that watches one effect at a
+      time. The first version of this test compared the first particle of a
+      lone system against the first particle of a crowded one, which reads well
+      and proves nothing: the first particle's drag is always the first key put
+      in the cache, so it is always found at slot 0 whatever the lookup does.
+      Breaking the scan to return slot 0 unconditionally left it green.
+
+      So ask each particle what drag it thinks it has. With no gravity in x,
+      `x(t) = vx0 (1 - e^-kt) / k`, so successive displacements over equal steps
+      are in the ratio `e^-k dt` exactly — and `-ln(ratio)/dt` recovers k from
+      the pixels, per particle, with no access to anything internal. Every
+      recovered k must be one of the nine in the effect table, and there must be
+      most of nine distinct ones, or something is sharing a factor.
+    */
+    const dt = 0.05;
+    /*
+      WHICH PARTICLE BELONGS TO WHICH EFFECT, established rather than assumed.
+      Sprites come off the free list in order, so the crowd's live children are
+      its emits in emit order; how many each emit produces is what a lone system
+      given the same call produces, because the fractional-emission debt is per
+      effect. Without this the test can only ask "is this drag in the table",
+      which every particle passes even when they are all sharing one factor.
+    */
+    const counts = EFFECT_NAMES.map((name) => {
+      const one = system(600);
+      one.emit(name, 0, 0, 0, 1, 0.1, 1);
+      return one.container.children.filter((c) => c.visible).length;
+    });
+
+    const s = system(600);
+    for (const name of EFFECT_NAMES) s.emit(name, 0, 0, 0, 1, 0.1, 1);
+
+    const live = () => s.container.children.filter((c) => c.visible);
+    const before = live().map((c) => c.x);
+    expect(before.length, 'every effect emitted').toBe(counts.reduce((a, b) => a + b, 0));
+
+    s.update(dt);
+    const first = live().map((c) => c.x);
+    s.update(dt);
+    const second = live().map((c) => c.x);
+    // A particle that died between the two steps would shift the arrays out of
+    // step with each other; at dt = 0.05 against the shortest life (0.42 s x
+    // 0.65) none can, and this says so rather than assuming it.
+    expect(second.length, 'nothing died mid-measurement').toBe(before.length);
+
+    let owner = 0;
+    let remaining = counts[0]!;
+    let checked = 0;
+    for (let i = 0; i < before.length; i++) {
+      while (remaining === 0) {
+        owner += 1;
+        remaining = counts[owner]!;
+      }
+      remaining -= 1;
+      const name = EFFECT_NAMES[owner]!;
+      const d1 = first[i]! - before[i]!;
+      const d2 = second[i]! - first[i]!;
+      /*
+        Particles emitted straight up have no x to read a ratio from, and a
+        small one is mostly noise: positions live in a Float32Array, so a
+        displacement carries about 1e-7 of relative error and `-ln(r)/dt`
+        divides that by the step. A tenth of a pixel is plenty of signal.
+      */
+      if (Math.abs(d1) < 0.1) continue;
+      const k = -Math.log(d2 / d1) / dt;
+      // A hundredth is two orders looser than that noise and still an order
+      // tighter than the closest pair in the table (1.9 against 2.0).
+      expect(k, `a ${name} particle moved as if its drag were ${k}`).toBeCloseTo(
+        EFFECTS[name].drag,
+        2,
+      );
+      checked += 1;
+    }
+    expect(checked, 'particles with enough sideways motion to read').toBeGreaterThan(
+      EFFECT_NAMES.length,
+    );
+  });
+});

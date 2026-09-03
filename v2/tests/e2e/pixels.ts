@@ -184,6 +184,23 @@ export interface ExtentQuery {
   readonly orWarmth?: number;
   /** When true, red-dominant pixels are EXCLUDED — a neutral vehicle, not terrain. */
   readonly excludeWarm?: boolean;
+  /**
+   * Also measure the width over this many image pixels BELOW the extent's own top.
+   *
+   * ANCHORED TO THE SUBJECT, not to the frame, and that is the whole point.
+   * Measuring a plume's cone angle needs a band close to the nozzle — far down
+   * the plume the width is the spread, not the cone. The plume spec did that
+   * with a fixed rectangle at a fixed fraction of the viewport, and it was the
+   * noisiest number in this repository: four frames 350 ms apart measured the
+   * same cone at 0.92, 0.74, 0.49 and 0.53 ship-lengths, because the camera
+   * lags a vehicle under full thrust and the strip lands somewhere different
+   * on the plume each time. Occasionally it lands off it entirely, and the
+   * sample comes back 0.00.
+   *
+   * The plume's own topmost lit row IS the nozzle. A band measured from there
+   * is on the cone in every frame, whatever the camera is doing.
+   */
+  readonly topBandPx?: number;
 }
 
 /** Where the bright thing is, in IMAGE pixels. */
@@ -200,6 +217,13 @@ export interface Extent {
   readonly spanPx: number;
   /** How many pixels passed. */
   readonly count: number;
+  /**
+   * Width over the `topBandPx` rows below `top`. 0 when that was not asked for.
+   *
+   * See `ExtentQuery.topBandPx`: this is the cone at the nozzle rather than the
+   * plume at whatever height the camera happened to leave it.
+   */
+  readonly bandWidthPx: number;
 }
 
 export interface FrameSpec {
@@ -402,6 +426,34 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
         const found = count > 0;
         const widthPx = found ? right - left + 1 : 0;
         const heightPx = found ? bottom - top + 1 : 0;
+        /*
+          A SECOND PASS, because the band is defined from a result of the first.
+          The top row is not known until every row has been looked at, so the
+          band cannot be collected on the way through. Two passes over a region
+          that is at most a third of the frame, once per named query.
+        */
+        let bandLeft = Infinity;
+        let bandRight = -Infinity;
+        if (found && query.topBandPx !== undefined) {
+          const bandEnd = Math.min(y1 - 1, top + query.topBandPx);
+          for (let py = top; py <= bandEnd; py++) {
+            for (let px = x0; px < x1; px++) {
+              const i = (py * bitmap.width + px) * 4;
+              const r = data[i]!;
+              const g = data[i + 1]!;
+              const b = data[i + 2]!;
+              const l = luma(r, g, b);
+              const blazing = query.orWarmth !== undefined && r - b >= query.orWarmth;
+              if (l < query.minLuma && !blazing) continue;
+              if (query.maxLuma !== undefined && l > query.maxLuma) continue;
+              const warm = isWarm(r, g, b, query.minWarmth ?? 40);
+              if (query.warmOnly === true && !warm) continue;
+              if (query.excludeWarm === true && warm) continue;
+              if (px < bandLeft) bandLeft = px;
+              if (px > bandRight) bandRight = px;
+            }
+          }
+        }
         extents[name] = {
           found,
           left: found ? left : 0,
@@ -412,6 +464,7 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
           heightPx,
           spanPx: Math.max(widthPx, heightPx),
           count,
+          bandWidthPx: bandRight >= bandLeft ? bandRight - bandLeft + 1 : 0,
         };
       }
 
@@ -548,7 +601,7 @@ export function describeFrame(report: FrameReport, scale?: Scale): string {
   }
   for (const [name, e] of Object.entries(report.extents)) {
     lines.push(
-      `  EXT ${name.padEnd(8)} found ${e.found}  span ${e.spanPx}px (${e.widthPx}x${e.heightPx})  n ${e.count}  box (${e.left},${e.top})-(${e.right},${e.bottom})` +
+      `  EXT ${name.padEnd(8)} found ${e.found}  span ${e.spanPx}px (${e.widthPx}x${e.heightPx})  band ${e.bandWidthPx}px  n ${e.count}  box (${e.left},${e.top})-(${e.right},${e.bottom})` +
         (scale ? `  = ${inVehicleHeights(e, scale).toFixed(2)} vehicle heights` : ''),
     );
   }
