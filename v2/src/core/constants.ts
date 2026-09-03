@@ -120,7 +120,21 @@ export const dumpLimit = 12000;
 export const vehicleMomentOfInertia =
   (vehicleMass * (vehicleDiameter / 2) ** 2 * 0.25 + (vehicleMass * vehicleHeight ** 2) / 12);
 
-/** m^4 — precomputed integral used by the angular drag term. */
+/**
+ * m^4 — 2021's precomputed integral for the angular drag term. NOT USED BY THE
+ * SIMULATION since the M12 angular-damping tier; kept because the tests measure
+ * against it.
+ *
+ * It is wrong twice over, which is what that tier fixed. `(50/2)^4 / 4` is the
+ * integral of |r|^3 over ONE END of the hull about its midpoint, and both ends
+ * make torque — so it is half the figure even for the axis it assumes. And that
+ * axis is not the one the vehicle turns on: the moment of inertia it was
+ * divided by has been about the moving centre of mass since M11.8.
+ *
+ * `physics/mass.ts`'s `rCubedIntegral` replaces it. This stays here, unused by
+ * `src/`, so that `tests/core/mass.test.ts` can state the size of the
+ * correction against the number it corrects rather than against a literal.
+ */
 export const integralOfRCubedTimesDx = 97656;
 
 // ---------------------------------------------------------------------------

@@ -496,6 +496,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.atmosphere.airDensity,
     s.kinematics.angularVelocity,
     I,
+    massProperties.rCubedIntegral,
   );
   s.forces.frontFinDragAngularAcceleration = aero.getAngularAcceleration(
     s.forces.frontFinDrag,

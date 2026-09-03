@@ -25,6 +25,7 @@
  *     M11.2   thrust with altitude               ALL EIGHT
  *     M11.3   velocity Verlet                    ALL EIGHT
  *     M11.8   the centre of mass moves           ALL EIGHT
+ *     M12     the angular drag axis              ALL EIGHT
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -121,6 +122,42 @@
  * sooner and is still burning as it goes over the top, so MECO now follows
  * APOGEE. Apogee drops 20.8 km to 19.3. See tests/hud/timeline.test.ts.
  *
+ * M12's angular-damping tier moving all eight is the M2.12 argument once more:
+ * the term acts on any vehicle rotating in any air, which is every scenario
+ * that is not sitting still on the pad. The SHAPE is that the movement is
+ * tiny — much smaller than the correction, which is the interesting part.
+ *
+ * The correction is large. `integralOfRCubedTimesDx` was a fixed 97 656, and
+ * that number is wrong twice over: it is `(L/2)^4 / 4`, the integral of |r|^3
+ * over ONE END of a 50 m rod about its midpoint, where both ends make torque;
+ * and the midpoint is not the axis, because the moment of inertia in the same
+ * quotient has been about the moving centre of mass since M11.8. Taken about
+ * the real axis the integral is 2.20x larger at dry mass and 5.02x at the
+ * shipped 350 t load. (The named debt estimated 1.1x and 2.5x. Both were
+ * wrong; `tests/core/mass.test.ts` now measures it instead.)
+ *
+ * A 2-to-5x change in a damping term that moves the trajectories by metres is
+ * not a contradiction: the term is quadratic in the rotation rate and linear in
+ * air density, so it is negligible except when a vehicle is turning fast and
+ * low. THE OUTCOMES: all four landings still land at 25.0 m and 0.00 m/s — the
+ * soul, unchanged. Launch-pad is 0.13 m higher at 90 s. RTLS, which is the one
+ * flight that flips hard in thick air, is 5.9 m higher at the end of its 120 s
+ * and its vertical speed changes by 0.03 m/s. Booster-sep moves 0.01 m in 120 s
+ * and re-entry does not move at the printed precision at all.
+ *
+ * The peak rotation rates fall, which is the direction more damping must move
+ * them, and they are the goldens' own: before-flip 0.8686 to 0.8543 rad/s, RTLS
+ * 0.6546 to 0.6519. Launch-pad, both landing burns and the intro do not change
+ * in the fourth decimal — they never turn fast enough for a term in omega^2 to
+ * matter, which is also why their trajectories hold.
+ *
+ * ONE TEST BOUND MOVED WITH IT, and it is recorded here rather than quietly
+ * relaxed: `camera.test.ts`'s vertical containment for `before-flip-autoland in
+ * chase` went from 0.9994 to 1.0003 of a half-frame. That bound is an EQUALITY
+ * at the ground-mode handoff — the vehicle is exactly at the frame edge — so it
+ * sits on a knife edge and a 0.12 px perturbation lands on either side of it.
+ * It has a one-pixel tolerance now, stated in pixels.
+ *
  * REPRODUCING A DIGEST. The rows block is everything from the NEWLINE BEFORE the
  * `"rows": [` line to the end of the file, hashed as written. That leading
  * newline is part of the hash, and the recipe here used to omit it, so the
@@ -153,15 +190,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // All eight last moved at M11.8, Fidelity: the centre of mass moves.
-  'launch-pad-takeoff': 'c9d39190520b738edbcb31115e4a2f9bcd56deb2af1c046ad2a25e8ada6b0694',
-  'booster-sep-boostback': '97eefaa47db150706db4ee82a9fb414164bff79ad84caccfba556251d6ad77fa',
-  'rtls-boostback': 'eafd2c9ee451d1acfa54332d18d033035f38f17d28b7773a34d90e7ebe5bdbf2',
-  'reentry-autoland': 'edea8efa85a3b12469f62ed0f2d3cb6da0875ad191a6cef7c0dcb2ff131c86c0',
-  'before-flip-autoland': '7c6cdc3f594a27833fe36c3769a6b6a3e40c1fa744320262a47e7627729fc199',
-  'landing-burn-autoland': 'c496e2512d75d8e6403403ed31ebbbf1431509d9e0a75591cb2175b60832f19d',
-  'landing-burn-headwind': '0ae0a9677f2dec60a00c4d78c894955401713b2c19271fac834e1d0762cd6ccc',
-  'intro-demo': 'c1fd4922f3648bd448c11c70da9b55bd98b7511090aa95dcf377250f3244171d',
+  // All eight last moved at M12 debt (angular damping), Fidelity: the drag
+  // integral is taken about the centre of mass.
+  'launch-pad-takeoff': 'f1436278769e9c4d50eda7bd43e8a052e3ab4b3c97032d66680a32c18297dd28',
+  'booster-sep-boostback': 'eecdc5f7a6a4826ba86c253d89ee7ceada3e6bb79050e07e4d94e6b40d23e97c',
+  'rtls-boostback': 'da2fee209b1d6ecd48dff67f3befcc239fcff7481e2b6834384f7d702506985c',
+  'reentry-autoland': 'a77b487754fc0098c247f828180021cfbb7cd7569f0ead0124ee53b6c4afcbf2',
+  'before-flip-autoland': '6480bcb93bc150f108c274adb3e1f323a745c2c292ab6af8a93d1e90a622179b',
+  'landing-burn-autoland': '01d1f27be62b84ff89fcfdc130343325960077db20114651c1295e1436592378',
+  'landing-burn-headwind': '213f39d923bda378f51b61e8d67ae95bb25d9664c94f3a2d3816a25cdfa5cdd4',
+  'intro-demo': 'd83caffeb7836ec62dafd7b2b157ade87259b097ed4bfe0cc8f307578a211109',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

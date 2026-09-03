@@ -975,10 +975,17 @@ thermal coefficient, Earth rotation.
   that has to be held, and nothing short of not engaging the guard does that. The spec now sets
   the throttle to `throttleUpperLimit` by hand and asserts on every sample that it is still there.
   Two runs across all five projects, twenty measurements, throttle 100 on every one.
-- [ ] **Angular damping uses the wrong axis** — `integralOfRCubedTimesDx` is the rod integral
+- [x] **Angular damping uses the wrong axis** — `integralOfRCubedTimesDx` is the rod integral
   about the hull's MIDPOINT while the inertia beside it is about the moving centre of mass
   (M11.8). Taken about the real axis it is 2.5x larger at full tanks and 1.1x at dry, so damping
   is understated. Fidelity tier: it changes the feel of every flight including the landings.
+  **The two ratios in this entry were wrong and are left as written.** Measured, the correction is
+  2.20x at dry and 5.02x at the shipped 350 t load (4.12x at the 1 200 t cap), because the constant
+  is wrong twice over rather than once: 97 656 is `(L/2)^4 / 4`, the integral over ONE END of the
+  hull, and both ends make torque. `tests/core/mass.test.ts` measures it now instead of a comment
+  asserting it. And "changes the feel of every flight" turned out to be the part that was right in
+  spirit and wrong in size: the term is quadratic in the rotation rate, so it moves the flights that
+  turn fast in thick air by metres and leaves the rest where they were.
 
 ### M12 — The interface, pushed (`docs/NEXT-LEVEL-PLAN.md` § M12; proposed 2026-09-01)
 
@@ -4030,3 +4037,30 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   Gate: lint, build (222.4 kB of 250), 1581 unit tests, coverage 99.22% branch / 99.64% line, and
   the full browser suite at two workers — 415 passed, 0 failed, 11 skipped, 1.2 h on a loaded
   container. Four of those skips are the landscape-phone hint, by the assertion above.
+- 2026-09-03 · Debt (angular damping) · FIDELITY TIER, on the owner's instruction of 2026-09-03 to
+  finish the two named debt items. The angular drag term divided an integral taken about the hull's
+  MIDPOINT by a moment of inertia taken about the moving centre of mass — two axes in one quotient,
+  since M11.8 put the centre of mass on the propellant. `physics/mass.ts` computes the integral
+  about the same axis now and the step hands both to `getAngularDragAcceleration`.
+  THE CONSTANT WAS WRONG TWICE, which the debt entry did not know: 97 656 is `(L/2)^4 / 4`, the
+  integral of |r|^3 over ONE END of a 50 m rod about its midpoint, and both ends make torque. So it
+  was half the figure even for the axis it assumed. Taken about the real axis it is 2.20x at dry and
+  5.02x at the shipped 350 t load; the entry estimated 1.1x and 2.5x, and both were wrong.
+  `tests/core/mass.test.ts` checks the closed form against a 200 000-strip numerical integration and
+  records the ratios, so the size of this correction is measured rather than asserted in prose.
+  ALL EIGHT GOLDENS MOVED and the outcomes did not. The four landings still land at 25.0 m and
+  0.00 m/s — the soul, checked first and checked again after the regeneration. Launch-pad is 0.13 m
+  higher at 90 s, RTLS 5.9 m at 120 s, booster-sep 0.01 m, re-entry unmoved at the printed
+  precision. Peak rotation rates fall, which is the direction more damping must move them:
+  before-flip 0.8686 to 0.8543 rad/s, RTLS 0.6546 to 0.6519, and the flights that never turn hard do
+  not change in the fourth decimal. A 2-to-5x change in a term that moves trajectories by metres is
+  not a contradiction — it is quadratic in rate and linear in density, so it is nothing except when a
+  vehicle is turning fast and low.
+  One test bound moved with it and is recorded rather than quietly relaxed: `camera.test.ts`'s
+  vertical containment for before-flip in chase went 0.9994 to 1.0003 of a half-frame. That bound is
+  an EQUALITY at the ground-mode handoff, so a 0.12 px perturbation lands on either side of it; it
+  has a one-pixel tolerance now, derived from the frame it normalises by.
+  The review checked the derivation independently and agreed, then caught that the peak rates in the
+  audit table were from a scratch harness rather than from the goldens. They are the goldens' own
+  now. Gate: lint, build, 1585 unit tests, coverage 99.22% branch, and the full browser suite at two
+  workers — 418 passed, 0 failed.

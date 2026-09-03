@@ -13,6 +13,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import * as C from '$core/constants';
+import { integralOfRCubedTimesDx, vehicleHeight } from '$core/constants';
 import {
   AFT_FIN_STATION,
   CH4_TANK_BOTTOM,
@@ -29,6 +30,7 @@ import {
   fillFraction,
   momentOfInertia,
   propellantCentreOfMass,
+  rCubedIntegral,
   writeMassProperties,
 } from '$core/physics/mass';
 
@@ -210,5 +212,70 @@ describe('what this does to control, which is why it is safe to fly', () => {
       expect(arms.momentOfInertia).toBe(momentOfInertia(p));
       expect(arms.engineArm).toBe(arms.centreOfMass);
     }
+  });
+});
+
+/**
+ * M12 debt: the angular drag integral, about the axis the vehicle turns on.
+ *
+ * The old `integralOfRCubedTimesDx` was a constant 97 656 sitting in a quotient
+ * whose denominator — the moment of inertia — has been about the MOVING centre
+ * of mass since M11.8. Two axes in one expression. It was also, at the midpoint
+ * it did assume, half the integral: 97 656 is one end of a 50 m rod, and both
+ * ends make torque.
+ */
+describe('the angular drag integral (M12, Fidelity)', () => {
+  /**
+   * The same integral by brute force, so the closed form is checked against
+   * something that shares none of its algebra.
+   */
+  const numeric = (com: number, length = vehicleHeight, n = 200_000): number => {
+    const dx = length / n;
+    let total = 0;
+    for (let i = 0; i < n; i++) total += Math.abs((i + 0.5) * dx - com) ** 3 * dx;
+    return total;
+  };
+
+  it('agrees with a numerical integration of |r|^3 along the hull', () => {
+    for (const com of [0, 5, 12.71, 21.8, 25, 40, vehicleHeight]) {
+      expect(rCubedIntegral(com), `com ${com} m`).toBeCloseTo(numeric(com), 0);
+    }
+  });
+
+  it('is smallest about the midpoint, which is what an integral of |r|^3 must be', () => {
+    // A sanity shape rather than a number: moving the axis away from the middle
+    // puts more of the hull further out, and r^3 grows faster than r.
+    const middle = rCubedIntegral(vehicleHeight / 2);
+    for (const com of [5, 12.71, 21.8, 30, 45]) {
+      expect(rCubedIntegral(com), `com ${com} m`).toBeGreaterThanOrEqual(middle);
+    }
+  });
+
+  it('and the constant it replaces was half the rod, about the wrong axis', () => {
+    /*
+      BOTH ERRORS, AS NUMBERS. 97 656 is exactly one half of a 50 m rod about
+      its midpoint — the whole-body figure there is 195 312.5 — and the axis is
+      not the midpoint anyway. The named debt estimated the correction at 1.1x
+      dry and 2.5x wet; it is 2.20x and 5.02x, and this is where that is
+      recorded rather than in a commit message.
+    */
+    // 97 656 is 97 656.25 with the quarter dropped, which is the 2021 constant
+    // as written; the whole-rod figure about the midpoint is exactly twice it.
+    expect(integralOfRCubedTimesDx).toBe(Math.trunc((vehicleHeight / 2) ** 4 / 4));
+    expect(rCubedIntegral(vehicleHeight / 2)).toBe((vehicleHeight / 2) ** 4 / 2);
+    expect(Math.abs(rCubedIntegral(vehicleHeight / 2) - 2 * integralOfRCubedTimesDx)).toBeLessThan(1);
+
+    const dry = rCubedIntegral(centreOfMass(0));
+    const wet = rCubedIntegral(centreOfMass(C.propellantMass));
+    expect(dry / integralOfRCubedTimesDx).toBeCloseTo(2.2, 1);
+    expect(wet / integralOfRCubedTimesDx).toBeCloseTo(5.02, 1);
+  });
+
+  it('and the step hands the drag term the same axis as the inertia', () => {
+    // The defect in one assertion: these two came from different places and now
+    // come from the same one.
+    const properties = createMassProperties(C.propellantMass);
+    expect(properties.rCubedIntegral).toBe(rCubedIntegral(properties.centreOfMass));
+    expect(properties.momentOfInertia).toBe(momentOfInertia(C.propellantMass));
   });
 });

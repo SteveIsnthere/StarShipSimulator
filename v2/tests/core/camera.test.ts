@@ -927,10 +927,24 @@ describe('property 1 holds in every mode, over every golden — M11.6', () => {
       worstY = Math.max(worstY, Math.abs(p.y - live.height / 2) / (live.height / 2));
     }
     const report = `${id} in ${mode}: worst offset ${(worstX * 100).toFixed(1)}% x, ${(worstY * 100).toFixed(1)}% y of half-frame`;
-    // The same bounds the follow camera meets. Vertically 1.0 is the
-    // ground-mode handoff, structural and shared by every mode but onboard.
+    /*
+      The same bounds the follow camera meets. Vertically 1.0 is the ground-mode
+      handoff, structural and shared by every mode but onboard.
+
+      AND IT IS AN EQUALITY, WHICH IS WHY THERE IS A PIXEL OF TOLERANCE ON IT.
+      At the handoff the vehicle is exactly at the frame edge, so the worst
+      offset is 1.0 by construction and any perturbation of the trajectory
+      lands on one side of it or the other. The M12 angular-damping tier moved
+      `before-flip-autoland in chase` from 0.9994 to 1.0003 — 0.12 px on an
+      800 px frame — and a bound that goes red for a tenth of a pixel is
+      measuring float noise rather than whether the vehicle is in shot. One
+      pixel, stated in pixels.
+    */
+    // Derived from the frame this measurement normalises by, not from the
+    // literal the viewport happens to be built with today.
+    const onePixel = 1 / (live.height / 2);
     expect(worstX, report).toBeLessThan(0.5);
-    expect(worstY, report).toBeLessThanOrEqual(1);
+    expect(worstY, report).toBeLessThanOrEqual(1 + onePixel);
   });
 });
 

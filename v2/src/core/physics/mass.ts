@@ -111,6 +111,31 @@ export function momentOfInertia(propellantMass: number): number {
   return dry + lox + ch4;
 }
 
+/**
+ * m^4 — the integral of |r|^3 along the hull, about a pivot `com` metres up.
+ *
+ * WHAT THE ANGULAR DRAG TERM ACTUALLY NEEDS. A strip of hull dx at distance r
+ * from the rotation axis moves at `omega * r`, so its drag is proportional to
+ * `(omega * r)^2 * dx` and its TORQUE to `omega^2 * r^3 * dx`. Both halves push
+ * the same way — each end's drag opposes its own motion — so the integral is
+ * over |r|, taken from the axis to each end and added:
+ *
+ *     (a^4 + (L - a)^4) / 4
+ *
+ * `constants.integralOfRCubedTimesDx` is 97 656, which is `(L/2)^4 / 4` — the
+ * integral over ONE HALF of a 50 m rod about its midpoint, so it was short by a
+ * factor of two before the axis is even considered, and the axis is not the
+ * midpoint: the vehicle rotates about its centre of mass, which M11.8 showed
+ * moves from 21.8 m dry to 12.7 m at the shipped 350 t load.
+ *
+ * Against the constant this is 2.20x at dry and 5.02x wet. The named debt
+ * estimated 1.1x and 2.5x; those numbers were wrong, and the measurement is in
+ * `tests/core/mass.test.ts` rather than in a comment.
+ */
+export function rCubedIntegral(com: number, length = C.vehicleHeight): number {
+  return (com ** 4 + (length - com) ** 4) / 4;
+}
+
 export interface MassProperties {
   /** m — above the gimbal plane. */
   centreOfMass: number;
@@ -124,6 +149,8 @@ export interface MassProperties {
   frontFinArm: number;
   /** m — so are the RCS thrusters. */
   rcsArm: number;
+  /** m^4 — the angular drag integral about this centre of mass. */
+  rCubedIntegral: number;
 }
 
 /** Fill `out` for a propellant load. Allocation-free; the step calls it once a step. */
@@ -135,6 +162,7 @@ export function writeMassProperties(propellantMass: number, out: MassProperties)
   out.aftFinArm = com - AFT_FIN_STATION;
   out.frontFinArm = FRONT_FIN_STATION - com;
   out.rcsArm = RCS_STATION - com;
+  out.rCubedIntegral = rCubedIntegral(com);
 }
 
 export function createMassProperties(propellantMass = 0): MassProperties {
@@ -145,6 +173,7 @@ export function createMassProperties(propellantMass = 0): MassProperties {
     aftFinArm: 0,
     frontFinArm: 0,
     rcsArm: 0,
+    rCubedIntegral: 0,
   };
   writeMassProperties(propellantMass, out);
   return out;

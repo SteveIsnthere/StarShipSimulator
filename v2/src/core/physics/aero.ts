@@ -180,15 +180,24 @@ export function getAttackAngles(
 
 /**
  * physics.js:329 — aerodynamic damping of rotation, always opposing spin.
+ *
+ * THE INTEGRAL IS PASSED IN NOW, and that is the M12 fidelity change. It was
+ * `constants.integralOfRCubedTimesDx`, a fixed 97 656 — the integral over one
+ * half of a 50 m rod about its MIDPOINT, while the moment of inertia in the
+ * same expression has been about the moving centre of mass since M11.8. Two
+ * different axes in one quotient. See `physics/mass.ts`'s `rCubedIntegral`.
+ *
+ * @param rCubedIntegral m^4, about the same axis as the moment of inertia
  * @returns rad/s^2
  */
 export function getAngularDragAcceleration(
   airDensity: number,
   angularVelocity: number,
   vehicleMomentOfInertia: number,
+  rCubedIntegral: number,
 ): number {
   const angularDragAcc =
-    (airDensity * C.vehicleDiameter * angularVelocity ** 2 * C.integralOfRCubedTimesDx) /
+    (airDensity * C.vehicleDiameter * angularVelocity ** 2 * rCubedIntegral) /
     vehicleMomentOfInertia;
 
   if (angularVelocity > 0) return -angularDragAcc;
