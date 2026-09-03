@@ -961,17 +961,20 @@ thermal coefficient, Earth rotation.
   on both plume specs, and the browser suite green under two workers.
   (The 3.2/s in this entry is `raptorShutdown`; the plume itself is 1.9/s, turning over at
   0.53 s rather than 0.31 s. The wound is the same and the entry is left as it was written.)
-- [ ] **The low-altitude plume is shorter than the ship when the ship holds still** — found while
-  clearing the entry above, and the more serious of the two. `plume.spec.ts`'s first assertion —
-  the plume is longer than the vehicle — passes on ALTITUDE DRIFT, not on the plume: four
-  screenshots cost the better part of a second of flight each, so a vehicle configured at 2000 m
-  is photographed at 3100 m, and the measurement grows as the camera zooms out. Held near 2000 m
-  in slow motion, `pixel-landscape` measures 0.67, 0.77, 0.87 and 0.81 ship-lengths in four
-  consecutive frames — consistently, in one place, with 800 to 1200 lit pixels, so it is neither
-  noise nor terrain contamination. The same project at 3000 m measures 1.81 to 2.24. Something in
-  the emitter is not scale-invariant even though `spawn` scales speed, size and gravity by the
-  viewport. Accept: find what breaks the invariance, fix it or say why the picture is right, then
-  hold the altitude in the spec so the assertion is about the plume.
+- [x] **The low-altitude plume is shorter than the ship when the ship holds still** — found while
+  clearing the entry above. `plume.spec.ts`'s first assertion — the plume is longer than the
+  vehicle — was photographing a HALF-THROTTLED engine. **The diagnosis in this entry as first
+  written was wrong, and is corrected here rather than quietly rewritten:** it blamed altitude
+  drift and guessed at a scale-invariance the emitter does not break. Instrumenting the four
+  samples of one run settled it — throttle 87, 86, 84, **50**, and the plume 1.90, 1.99, 0.79,
+  0.85 ship-lengths with it. `auto-max-thrust` is the Thrust Safe Guard: it holds the throttle at
+  whatever keeps the vehicle inside its dynamic-pressure limit, so engaging it and then flying for
+  eight seconds under full thrust is a request to have full thrust taken away. The plume's length
+  scales with power through `PLUME_REACH`, so it went with it. That is also why holding the
+  ALTITUDE in slow motion did not help: the guard answers to dynamic pressure, so it is the SPEED
+  that has to be held, and nothing short of not engaging the guard does that. The spec now sets
+  the throttle to `throttleUpperLimit` by hand and asserts on every sample that it is still there.
+  Two runs across all five projects, twenty measurements, throttle 100 on every one.
 - [ ] **Angular damping uses the wrong axis** — `integralOfRCubedTimesDx` is the rod integral
   about the hull's MIDPOINT while the inertia beside it is about the moving centre of mass
   (M11.8). Taken about the real axis it is 2.5x larger at full tanks and 1.1x at dry, so damping
@@ -3975,3 +3978,21 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   above, reproducing under a loaded container at the same numbers it was recorded at. Sound's own
   seven specs pass, including the three new ones that read the master gain node the browser really
   built.
+- 2026-09-03 · Debt (the plume spec's subject) · The measurement was photographing a half-throttled
+  engine. `underPowerAt` engaged `auto-max-thrust` — the Thrust Safe Guard, whose entire job is to
+  take full thrust away as dynamic pressure rises — and then flew for eight seconds under it. Across
+  the four samples of one instrumented run the throttle read 87, 86, 84, 50, and the plume, whose
+  length scales with power through `PLUME_REACH`, read 1.90, 1.99, 0.79, 0.85 ship-lengths with it.
+  The spec sets the throttle to `throttleUpperLimit` by hand now and asserts on EVERY sample that it
+  is still there, so a subject that drifts fails as itself rather than as the picture.
+  THE FIRST DIAGNOSIS WAS WRONG and the entry above says so rather than being rewritten. It blamed
+  altitude drift and guessed at a scale-invariance the emitter does not break — `spawn` scales
+  speed, size and gravity by the viewport, and the arithmetic works out. Holding the altitude in
+  slow motion had been tried and had not helped, which should have been the clue and was read as
+  noise: the guard answers to dynamic pressure, so it is the SPEED that has to be held. Two hours
+  of measurement, one line of test setup.
+  Low-altitude medians across the five projects go from 0.80-2.60 to 1.85-2.71 — the 2.5 the M9.6
+  acceptance line was written against — and the vacuum-bloom ratios from 1.10-1.62 to 1.69-1.97
+  against a bound of 1.2. Twenty measurements over two runs, throttle 100 on every one.
+  Gate: lint, build, 1576 unit tests, and the full browser suite at two workers — 404 passed, ZERO
+  failed, on all five projects. That is the first entirely green browser run in this milestone.

@@ -28,7 +28,8 @@
  */
 import { expect, test } from '@playwright/test';
 import { byTestId, readoutValueTestId } from '../../src/ui/testids';
-import { ready, tap } from './helpers';
+import { throttleUpperLimit } from '../../src/core/constants';
+import { ready, reveal, tap } from './helpers';
 import { describeFrame, inVehicleHeights, metrePixels, readFrame, type Region } from './pixels';
 
 type Page = import('@playwright/test').Page;
@@ -100,7 +101,28 @@ async function underPowerAt(page: Page, altitude: string): Promise<void> {
   await expect(page.locator(byTestId('menu'))).toBeHidden();
   await page.waitForTimeout(500);
   await tap(page, 'all-raptors');
-  await tap(page, 'auto-max-thrust');
+  /*
+    THE THROTTLE, HELD AT MAXIMUM BY HAND — not the Thrust Safe Guard, which is
+    what this used to engage and is the reason this spec has been unreliable
+    since it was written.
+
+    `auto-max-thrust` is the safe guard: it holds the throttle at whatever keeps
+    the vehicle inside its dynamic-pressure limit. That is exactly the right
+    control for flying and exactly the wrong one for photographing a plume,
+    because the subject here is a vehicle under FULL thrust and the guard's
+    entire job is to take full thrust away as speed builds. Instrumented across
+    the four samples of one run it read 87, 86, 84, 50 — and the plume, whose
+    length scales with power through `PLUME_REACH`, went 1.90, 1.99, 0.79, 0.85
+    ship-lengths with it. The measurement was photographing a half-throttled
+    engine and reporting it as the plume.
+
+    That is also why holding the ALTITUDE did not help when it was tried: the
+    guard responds to dynamic pressure, so it is the SPEED that has to be held
+    down, and nothing short of not engaging it does that.
+  */
+  await reveal(page, 'throttle');
+  await page.locator(byTestId('throttle')).fill(String(throttleUpperLimit));
+  await page.locator(byTestId('throttle')).dispatchEvent('input');
   await expect
     .poll(
       async () => Number(await page.locator(byTestId(readoutValueTestId('throttle'))).textContent()),
@@ -153,6 +175,7 @@ async function plume(page: Page): Promise<{ span: number; width: number; last: s
   const spans: number[] = [];
   const widths: number[] = [];
   let clamped = 0;
+  const throttles: number[] = [];
   const boxes: string[] = [];
   let last = '';
   /*
@@ -183,6 +206,15 @@ async function plume(page: Page): Promise<{ span: number; width: number; last: s
       could do both — is a production change for a test's convenience.
     */
     const scale = await metrePixels(page);
+    /*
+      THE SUBJECT, RE-CHECKED ON EVERY FRAME. The failure this spec spent three
+      milestones on was never a plume that got shorter; it was a throttle that
+      came off while the camera was running, and nothing in the assertion could
+      see the difference. Now a sample taken off full thrust fails as itself.
+    */
+    throttles.push(
+      Number(await page.locator(byTestId(readoutValueTestId('throttle'))).textContent()),
+    );
     const report = await readFrame(page, {
       regions: { below: BELOW },
       extents: {
@@ -209,6 +241,10 @@ async function plume(page: Page): Promise<{ span: number; width: number; last: s
     last = describeFrame(report, scale);
     await page.waitForTimeout(350);
   }
+  expect(
+    Math.min(...throttles),
+    `the throttle came off mid-measurement: ${throttles.join('/')}`,
+  ).toBeGreaterThan(90);
   const median = (xs: number[]) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)]!;
   const span = median(spans);
   const width = median(widths);
@@ -229,7 +265,7 @@ async function plume(page: Page): Promise<{ span: number; width: number; last: s
       `${span.toFixed(2)} long, ${width.toFixed(2)} across ` +
       `(spans ${spans.map((n) => n.toFixed(2)).join('/')}, ` +
       `widths ${widths.map((n) => n.toFixed(2)).join('/')}, ` +
-      `${clamped}/4 anchored to the region edge; ${boxes.join(' ')})`,
+      `${clamped}/4 anchored to the region edge; throttle ${throttles.join('/')}; ${boxes.join(' ')})`,
   );
   return { span, width, last };
 }
