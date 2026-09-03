@@ -6,6 +6,7 @@
 <script lang="ts">
   import ControlButton from './ControlButton.svelte';
   import type { Emit } from './controls';
+  import { AUTOPILOT_MODES } from './guide';
 
   interface Props {
     emit: Emit;
@@ -25,6 +26,19 @@
    */
   const grab = () => emit({ type: 'yokeGrab' });
   const release = () => emit({ type: 'yokeRelease' });
+
+  /**
+   * The modes, two to a row — the layout the panel has always had.
+   *
+   * Chunked here rather than in `guide.ts` because the pairing is a fact about
+   * this rail's width and nothing the guide needs to know. An odd count leaves
+   * the last row with one button, which is what Deorbit already looked like.
+   */
+  const rows = AUTOPILOT_MODES.reduce<(typeof AUTOPILOT_MODES)[number][][]>((acc, mode, i) => {
+    if (i % 2 === 0) acc.push([mode]);
+    else acc[acc.length - 1]!.push(mode);
+    return acc;
+  }, []);
 </script>
 
 <section class="panel">
@@ -50,22 +64,32 @@
   />
 
   <span class="title">Auto Pilot Modes</span>
-  <div class="row">
-    <ControlButton label="Lift-Off" event={{ type: 'autoTakeOff' }} indicator="autoTakeOff" testid="auto-take-off" {emit} />
-    <ControlButton label="Boost-Back" event={{ type: 'boostBack' }} indicator="boostBack" testid="boost-back" {emit} />
-  </div>
-  <div class="row">
-    <ControlButton label="Att-Hold" event={{ type: 'pitchHold' }} indicator="pitchHold" testid="pitch-hold" {emit} />
-    <ControlButton label="Auto-Land" event={{ type: 'autoLand' }} indicator="autoLand" testid="auto-land" {emit} />
-  </div>
-  <div class="row">
-    <!--
-      M2.9(c). The only button here without a 2021 counterpart: there were no
-      orbits to come home from. It hands the vehicle to Auto-Land once the
-      retrograde burn is done, so the two lights are never on together.
-    -->
-    <ControlButton label="Deorbit" event={{ type: 'autoDeorbit' }} indicator="autoDeorbit" testid="auto-deorbit" {emit} />
-  </div>
+  <!--
+    RENDERED FROM `ui/guide.ts`, in pairs, since M12.6.
+
+    These were five hand-written `ControlButton`s and the guide described them
+    in hand-written prose beside them, which is the arrangement `InfoView`'s
+    header exists to complain about: two lists that have to agree and nothing
+    making them. Now the buttons and the help are the same table, so a mode
+    cannot exist in one and not the other.
+
+    Deorbit — M2.9(c) — is the only one without a 2021 counterpart: there were
+    no orbits to come home from. It hands the vehicle to Auto-Land once the
+    retrograde burn is done, so the two lights are never on together.
+  -->
+  {#each rows as row, index (index)}
+    <div class="row">
+      {#each row as mode (mode.testid)}
+        <ControlButton
+          label={mode.label}
+          event={mode.event}
+          indicator={mode.indicator}
+          testid={mode.testid}
+          {emit}
+        />
+      {/each}
+    </div>
+  {/each}
 
   <span class="title">Utilities</span>
   <div class="row">

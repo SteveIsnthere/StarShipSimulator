@@ -18,6 +18,7 @@ import {
   CAMERA_KEY,
   CINEMATIC_KEY,
   clearPreferences,
+  HINT_KEY,
   MAP_KEY,
   NON_PREFERENCE_KEYS,
   PREFERENCE_KEYS,
@@ -36,9 +37,16 @@ function sources(dir: string): string[] {
 }
 
 describe('the preference list', () => {
-  it('names all five, from the four modules that own them', () => {
+  it('names all six, from the modules that own them', () => {
+    /*
+      Six since M12.6 added the first-flight hint — and the grep below is what
+      said so. The hint's key was written in `preferences.ts` and used in
+      `App.svelte`, both correct, and this suite still went red until it was
+      added to `PREFERENCE_KEYS`, which is the entire point of the arrangement:
+      Restore Defaults would otherwise have quietly stopped restoring the hint.
+    */
     expect([...PREFERENCE_KEYS].sort()).toEqual(
-      [MUTE_KEY, VOLUME_KEY, CINEMATIC_KEY, CAMERA_KEY, MAP_KEY].sort(),
+      [MUTE_KEY, VOLUME_KEY, CINEMATIC_KEY, CAMERA_KEY, MAP_KEY, HINT_KEY].sort(),
     );
   });
 

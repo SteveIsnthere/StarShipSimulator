@@ -16,7 +16,8 @@
     readVolume,
     type AudioEngine,
   } from '$audio/engine';
-  import { CAMERA_KEY, CINEMATIC_KEY, clearPreferences } from './preferences';
+  import { CAMERA_KEY, CINEMATIC_KEY, clearPreferences, HINT_KEY } from './preferences';
+  import FirstFlight from './FirstFlight.svelte';
   import { createVehicle } from '$view/vehicle';
   import { createParticleSystem, createParticleTextures } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
@@ -258,6 +259,77 @@
   /** 0 to 1 (M12.5). The engine owns the remembering; this mirrors it for the UI. */
   let volume = $state(readVolume());
 
+  /**
+   * The first-flight hint (M12.6).
+   *
+   * Shown only to a profile that has never dismissed it, and dismissed by the
+   * first input of any kind — see `onGesture`, which already exists for the
+   * audio unlock and is exactly the "someone did something" signal this needs.
+   * A hint that has to be dismissed before you can fly is a worse hint than
+   * none; this one gets out of the way of the same tap that starts the flight.
+   */
+  const readHintSeen = (): boolean => {
+    try {
+      return localStorage.getItem(HINT_KEY) === '1';
+    } catch {
+      // Storage blocked: show it. Once per visit for someone who has blocked
+      // site data is the right side to err on — it is two sentences.
+      return false;
+    }
+  };
+
+  /**
+   * Whether this layout has room for the hint at all.
+   *
+   * THE MEASUREMENT, and it is why this is a decision in JavaScript rather than
+   * a `display: none` in the stylesheet. A landscape phone is about 360 px
+   * tall: the top strip's buttons end at y=72 and the trajectory map's folded
+   * tab starts at y=117, a 45 px band, and the hint's dismiss button alone is
+   * `var(--touch)` — the 44 px floor M6.6 set, which is not a thing to trade
+   * away for a card that shows once. Four placements were tried and each was
+   * photographed or caught by the M12.4 collision check: against the lower
+   * third it lands on the map tab; left of the tab it goes under the opaque
+   * engine rail and is unreadable; in the flex column it pushes the speed and
+   * altitude gauges off the bottom of the screen; stepping the tab down to make
+   * room puts the tab on the timeline.
+   *
+   * So it is not shown there. It is a courtesy, not an instrument, and every
+   * alternative displaces something that is.
+   *
+   * IN JS BECAUSE HIDING IT IN CSS WAS WRONG IN A WAY NOTHING WOULD HAVE
+   * CAUGHT: the card was still "open" as far as this component knew, so the
+   * first tap on a landscape phone wrote HINT_KEY and the hint was marked seen
+   * having never been rendered. Rotating to portrait would then never show it.
+   * One source of truth, and it is this one.
+   */
+  const HINT_FITS = '(height >= 26rem)';
+  const hasRoomForHint = (): boolean => {
+    try {
+      return window.matchMedia(HINT_FITS).matches;
+    } catch {
+      return true;
+    }
+  };
+
+  let hintSeen = $state(readHintSeen());
+  let hintFits = $state(hasRoomForHint());
+  /*
+    A panel covers the hint, so a tap that closes one is not a tap that saw it.
+    Without this, Restore Defaults — which re-opens the hint from inside the
+    menu — was undone by the very click that closed the menu.
+  */
+  const hintOpen = $derived(!hintSeen && hintFits && !menuOpen && infoView === null && !blackBoxOpen);
+
+  const dismissHint = () => {
+    if (!hintOpen) return;
+    hintSeen = true;
+    try {
+      localStorage.setItem(HINT_KEY, '1');
+    } catch {
+      // See readHintSeen.
+    }
+  };
+
   const toggleMuted = () => {
     muted = !muted;
     void audio.setMuted(muted);
@@ -298,6 +370,11 @@
     muted = false;
     void audio.setMuted(false);
     setVolume(DEFAULT_VOLUME);
+    // Including the hint: "restore defaults" from someone who has forgotten how
+    // to fly should bring back the thing that says how. The menu closes with
+    // it, because a hint nobody can see is not restored.
+    hintSeen = false;
+    menuOpen = false;
     cinematic = false;
     cameraMode = 'follow';
     applyCameraMode();
@@ -721,9 +798,24 @@
         the autoplay policy expects. Attached in the capture phase so a click on
         a control counts, not only a click on bare background.
       */
+      /*
+        And the layout is watched, so a rotation is answered. A phone turned
+        upright has room for the hint and gets it — which is only true because
+        nothing is written to storage until the card is actually dismissed.
+      */
+      const room = window.matchMedia(HINT_FITS);
+      const onRoomChange = () => {
+        hintFits = room.matches;
+      };
+      room.addEventListener('change', onRoomChange);
+
       const onGesture = () => {
         if (!muted) void audio.unlock();
         haptics.unlock();
+        // M12.6: the first input of any kind puts the hint away. In the capture
+        // phase and without preventing anything, so the tap that dismisses it
+        // is also the tap that lights the engine.
+        dismissHint();
       };
       document.addEventListener('pointerdown', onGesture, { capture: true });
       document.addEventListener('keydown', onGesture, { capture: true });
@@ -980,6 +1072,7 @@
       return () => {
         window.removeEventListener('resize', onResize);
         document.removeEventListener('pointerdown', onGesture, { capture: true });
+        room.removeEventListener('change', onRoomChange);
         document.removeEventListener('keydown', onGesture, { capture: true });
         document.removeEventListener('pointerdown', dismissDebrief, { capture: true });
         document.removeEventListener('keydown', onDebriefKey, { capture: true });
@@ -1087,6 +1180,10 @@
 </div>
 {/snippet}
 
+{#snippet firstFlight()}
+  <FirstFlight open={hintOpen} onDismiss={dismissHint} />
+{/snippet}
+
 <Broadcast
   onready={onBroadcastReady}
   scenario={scenarioName}
@@ -1094,6 +1191,7 @@
   ontimeline={onTimelineReady}
   onmap={onMapReady}
   {topRight}
+  hint={firstFlight}
 />
 <Controls {emit} {zoom} onready={onControlsReady} hidden={cinematic} />
 

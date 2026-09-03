@@ -1,7 +1,7 @@
 /**
  * Everything this simulator remembers about you, in one list (M12.5).
  *
- * There are five settings that survive a reload and, until this file, they were
+ * There are six things that survive a reload and, until this file, they were
  * declared in four different modules: mute and the level in `audio/engine.ts`,
  * cinematic mode and the camera in `App.svelte`, the trajectory map's fold in
  * `TrajectoryMap.svelte`. Each read was independently correct and each one was
@@ -23,6 +23,8 @@ export const CINEMATIC_KEY = 'starship:cinematic';
 export const CAMERA_KEY = 'starship:camera';
 /** Whether the trajectory map is folded away. M7.1. */
 export const MAP_KEY = 'starship:map';
+/** Whether the first-flight hint has been seen and dismissed. M12.6. */
+export const HINT_KEY = 'starship:hint-seen';
 
 /**
  * Broadcast, sent once a reset has cleared the keys.
@@ -50,6 +52,7 @@ export const PREFERENCE_KEYS: readonly string[] = [
   CINEMATIC_KEY,
   CAMERA_KEY,
   MAP_KEY,
+  HINT_KEY,
 ];
 
 /**

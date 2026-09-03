@@ -179,6 +179,16 @@ export const MENU_TESTIDS = [
 export const TIMELINE_TESTIDS = ['timeline', 'event-now', 'event-next'] as const;
 
 /**
+ * The first-flight hint (M12.6).
+ *
+ * Listed apart from the controls because it is present only on a profile that
+ * has not dismissed it, and only on a layout with room for it — see
+ * `App.svelte`'s `HINT_FITS`. Everything in `CONTROL_TESTIDS` is always there,
+ * and `testids.spec.ts` counts on that.
+ */
+export const HINT_TESTIDS = ['first-flight-hint', 'first-flight-dismiss'] as const;
+
+/**
  * The debrief card (M12.1). Present only after a flight has ended.
  *
  * One id per FIGURE rather than one for the card and a row index, because the
@@ -234,6 +244,7 @@ export const DIALOG_TESTIDS = [
  * page — that is how selectors rot in the first place.
  */
 export const ALL_TESTIDS: readonly string[] = [
+  ...HINT_TESTIDS,
   ...CONTROL_TESTIDS,
   ...READOUT_IDS.map(readoutTestId),
   ...READOUT_IDS.map(readoutValueTestId),

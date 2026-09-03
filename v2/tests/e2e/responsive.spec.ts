@@ -261,6 +261,10 @@ const OVERLAY = [
   'camera-modes',
   'timeline',
   'trajectory-map',
+  // M12.6. A fresh browser context has never dismissed the hint, so it is on
+  // screen for this check without any arranging — which is the state a new
+  // player is in, and the only state in which it can collide with anything.
+  'first-flight-hint',
 ] as const;
 
 interface Box {
@@ -326,9 +330,27 @@ test('no two overlay elements sit on top of each other @mobile', async ({ page }
   };
 
   const plain = await check('flying');
-  // And again in cinematic, which adds a row of camera buttons under the others.
-  await page.locator(byTestId('cinematic-toggle')).click();
+
+  /*
+    And again in cinematic, which adds a row of camera buttons under the others.
+
+    ENTERED THROUGH STORAGE AND A RELOAD, not by clicking the toggle, and the
+    reason is the first-flight hint: clicking anything dismisses it, so the
+    version of this that toggled cinematic measured the second pass with the
+    hint already gone — a cinematic-only collision with it would have shipped
+    green. Cinematic mode is remembered (M6.4), so setting the key and
+    reloading arrives in the same place with the hint still up, because nothing
+    marks it seen until it is actually dismissed.
+  */
+  await page.evaluate(() => localStorage.setItem('starship:cinematic', '1'));
+  await page.reload({ waitUntil: 'load' });
+  await ready(page);
   await expect(page.locator(byTestId('camera-modes'))).toBeVisible();
+  await expect
+    .poll(async () => (await page.locator(byTestId(readoutValueTestId('clock'))).textContent()) !== '', {
+      timeout: 20_000,
+    })
+    .toBe(true);
   const cinematic = await check('cinematic');
 
   const collisions = [...plain, ...cinematic];

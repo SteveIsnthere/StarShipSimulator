@@ -1012,9 +1012,14 @@ thermal coefficient, Earth rotation.
   low-altitude assertion on `pixel-landscape`, which is the debt item recorded above in this
   same session and is nothing to do with sound. Same signature as when it was recorded —
   0.71 ship-lengths, 903 lit pixels, at 3000 m. It is the next task.
-- [ ] **M12.6 The first thing to press** — a first-flight hint on the pad, dismissed by input,
+- [x] **M12.6 The first thing to press** — a first-flight hint on the pad, dismissed by input,
   remembered; guide sections generated from the code's tables. Accept: e2e on a fresh profile sees
   the hint once; full gate.
+  **Met, with one layout stated as an exception rather than left implied:** a landscape phone does
+  not show the hint. The measurement is in `App.svelte` — 45 px between the top strip and the
+  trajectory tab, against a 44 px touch floor for the dismiss button — and four placements were
+  tried and rejected before that conclusion. `hint.spec.ts` asserts the exception in both
+  directions so it is a decision, not a regression.
 - [ ] **M12.7 Ship** — screenshots regenerated, `docs/` current, budget and perf re-measured, the
   full gate on all five projects.
 
@@ -3996,3 +4001,32 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   against a bound of 1.2. Twenty measurements over two runs, throttle 100 on every one.
   Gate: lint, build, 1576 unit tests, and the full browser suite at two workers — 404 passed, ZERO
   failed, on all five projects. That is the first entirely green browser run in this milestone.
+- 2026-09-03 · M12.6 · A hint that shows once, and a guide that cannot lie about the controls.
+  `ui/guide.ts` holds the autopilot modes as a TABLE, and the yoke panel renders it. They were five
+  hand-written buttons beside five hand-written paragraphs, which is the arrangement InfoView's own
+  header exists to complain about; a mode cannot now exist in one and not the other, and
+  `guide.test.ts` joins the table to `CONTROL_TESTIDS` so neither can drift from the markup either.
+  The guide gained a scenario section — the menu had eleven flights and the guide mentioned two, in
+  a sentence about Deorbit — read out of `ALL_SCENARIOS` with the formatter the menu prints, which
+  moved out of `Menu.svelte` rather than being written twice.
+  THE HINT COST FOUR PLACEMENTS AND TWO SCREENSHOTS. It began as a fixed card at a measured offset
+  and the M12.4 collision check put it on the mission timeline on all five projects — which is the
+  same defect that check was built for, caught by the same check, one milestone later. As a flex
+  child of the broadcast column it cannot overlap anything by construction, and that is the shape it
+  ships in. On a LANDSCAPE PHONE none of it works: the top strip's buttons end at y=72 and the
+  trajectory tab starts at y=117, and the dismiss button alone is the 44 px touch floor. Left of the
+  tab it goes under the opaque engine rail — which is not in the collision list, so that version
+  PASSED THE CHECK and was still unreadable; it took a screenshot to see. In the column it pushes
+  the speed and altitude gauges off the bottom of the screen. Stepping the tab down to make room
+  puts the tab on the timeline. So it is not shown there, the reasoning is in the code, and the spec
+  asserts the exception in both directions.
+  The review found seven things and two were real defects rather than tidiness: hiding the hint in
+  CSS left it "open" as far as its owner knew, so the first tap on a landscape phone marked it seen
+  having never drawn it — the decision moved to JavaScript, one source of truth, and a media-query
+  listener answers a rotation. And Restore Defaults re-opened the hint from inside the menu, where
+  the click that closed the menu dismissed it again; the menu closes with it now and a panel being
+  open suppresses the hint outright. Also: the max-throttle key was looked up by matching a
+  binding's PROSE description, which is the same drift one level down, and is an import now.
+  Gate: lint, build (222.4 kB of 250), 1581 unit tests, coverage 99.22% branch / 99.64% line, and
+  the full browser suite at two workers — 415 passed, 0 failed, 11 skipped, 1.2 h on a loaded
+  container. Four of those skips are the landscape-phone hint, by the assertion above.

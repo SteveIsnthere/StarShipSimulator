@@ -66,9 +66,20 @@
      * shares a row can overlap.
      */
     topRight?: import('svelte').Snippet;
+    /**
+     * A transient note above the lower third (M12.6).
+     *
+     * A SLOT RATHER THAN A FIXED CARD, and that is the whole fix. The
+     * first-flight hint was `position: fixed` at a measured offset from the
+     * bottom, and the M12.4 collision check said what that costs: it sat on the
+     * mission timeline on all five projects. Things in one flex column cannot
+     * overlap. `margin-top: auto` on the slot pushes it down against the lower
+     * third, so it takes the free band whatever the layout does with the rest.
+     */
+    hint?: import('svelte').Snippet;
   }
 
-  const { onready, scenario, scenarioId, ontimeline, onmap, topRight }: Props = $props();
+  const { onready, scenario, scenarioId, ontimeline, onmap, topRight, hint }: Props = $props();
 
   /**
    * The long-tail readouts: everything the gauges and the clock do not show.
@@ -175,6 +186,10 @@
       <div class="top-slot">{@render topRight()}</div>
     {/if}
   </div>
+
+  {#if hint}
+    <div class="hint-slot">{@render hint()}</div>
+  {/if}
 
   <!-- ── the lower third ─────────────────────────────────────────────── -->
   <div class="lower">
@@ -423,6 +438,28 @@
     white-space: nowrap;
     color: var(--ink-70);
   }
+
+  /*
+    The hint's band: hard against the lower third, centred, and never wider than
+    the gutters allow. See the `hint` prop for why it is here rather than fixed.
+  */
+  .hint-slot {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0 calc(var(--safe-right) + var(--gutter)) 0.5rem
+      calc(var(--safe-left) + var(--gutter));
+    pointer-events: none;
+  }
+
+  /*
+    There is no `@media` rule hiding this on a landscape phone, and that is
+    deliberate: App.svelte decides whether the hint exists at all, because a
+    card hidden in CSS is still open as far as its owner knows — and the first
+    version marked the hint seen on a layout that never drew it. The
+    measurement behind the decision is recorded there.
+  */
 
   /* --- the lower third --------------------------------------------------- */
 

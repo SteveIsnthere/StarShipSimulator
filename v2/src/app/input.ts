@@ -81,13 +81,24 @@ const THROTTLE_RELATIVE: Record<string, 1 | -1> = {
   s: -1,
 };
 
+/**
+ * The key that puts the throttle at maximum.
+ *
+ * NAMED, because M12.6 needed to quote it in the first-flight hint and reached
+ * for `KEY_BINDINGS.find((b) => b.does === 'throttle to maximum')` — a lookup
+ * by PROSE, which fails silently the day someone rewords a description. This
+ * file exists because a help screen that can drift is worse than none; a lookup
+ * that can drift is the same defect one level down.
+ */
+export const MAX_THROTTLE_KEY = 'Z';
+
 /** The full binding table, for documentation and for the parity sweep in M4.6. */
 export const KEY_BINDINGS: ReadonlyArray<{ keys: string[]; does: string }> = [
   { keys: ['A', 'ArrowLeft'], does: 'pitch left, hold' },
   { keys: ['D', 'ArrowRight'], does: 'pitch right, hold' },
   { keys: ['W', 'ArrowUp', 'Shift'], does: `throttle +${THROTTLE_STEP}` },
   { keys: ['S', 'ArrowDown', 'Control'], does: `throttle -${THROTTLE_STEP}` },
-  { keys: ['Z'], does: 'throttle to maximum' },
+  { keys: [MAX_THROTTLE_KEY], does: 'throttle to maximum' },
   { keys: ['X'], does: 'throttle to minimum' },
   { keys: ['T'], does: 'toggle attitude hold' },
   { keys: ['Space'], does: 'toggle all Raptors' },

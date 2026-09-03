@@ -32,6 +32,7 @@
     type TimeSetting,
   } from './menu';
   import { presetTestId } from './testids';
+  import { scenarioStats } from './guide';
 
   interface Props {
     open: boolean;
@@ -114,22 +115,6 @@
   };
   const volumePercent = $derived(Math.round(volume * 100));
 
-  /**
-   * The stat line under a preset's name.
-   *
-   * Read off the preset rather than written out again, so it cannot drift from
-   * what Configure will actually load. Altitude switches unit at a kilometre for
-   * the same reason the HUD does: 200 and 80000 side by side are hard to
-   * compare, 200 M and 80 KM are not.
-   */
-  function statsOf(preset: ScenarioPreset): string {
-    const altitude =
-      preset.altitude < 1000
-        ? `${preset.altitude.toFixed(0)} M`
-        : `${(preset.altitude / 1000).toFixed(0)} KM`;
-    const speed = Math.round(Math.hypot(preset.speedX, preset.speedY));
-    return `${altitude} · ${speed} M/S · ${preset.propellant} T`;
-  }
 </script>
 
 {#if open}
@@ -173,7 +158,7 @@
               onclick={() => usePreset(preset)}
             >
               <span class="preset-name">{preset.name}</span>
-              <span class="preset-stats">{statsOf(preset)}</span>
+              <span class="preset-stats">{scenarioStats(preset)}</span>
               <span class="preset-note">{preset.description}</span>
             </button>
           {/each}
@@ -197,7 +182,7 @@
               onclick={() => usePreset(preset)}
             >
               <span class="preset-name">{preset.name}</span>
-              <span class="preset-stats">{statsOf(preset)}</span>
+              <span class="preset-stats">{scenarioStats(preset)}</span>
               <span class="preset-note">{preset.description}</span>
             </button>
           {/each}

@@ -11,6 +11,7 @@
 -->
 <script lang="ts">
   import { KEY_BINDINGS } from '$app/input';
+  import { AUTOPILOT_MODES, GUIDE_SCENARIOS, scenarioStats } from './guide';
 
   interface Props {
     view: 'guide' | 'about' | null;
@@ -57,18 +58,43 @@
         </table>
       </details>
 
+      <!--
+        GENERATED, like the keybinds above and for the same reason (M12.6). This
+        was five hand-written list items describing five hand-written buttons;
+        `ui/guide.ts` is now the one table and the yoke panel renders the same
+        rows. A mode cannot be described here and missing from the rail.
+      -->
       <details>
         <summary>Autopilot modes</summary>
-        <ul>
-          <li><b>Lift-Off</b> — ascent on a pitch programme by altitude, 55&deg; at 25 km and 85&deg; at 80 km.</li>
-          <li><b>Boost-Back</b> — kills downrange velocity and points the vehicle home.</li>
-          <li><b>Att-Hold</b> — holds the attitude you let go of the yoke at.</li>
-          <li><b>Auto-Land</b> — the full sequence: aero descent, flip, horizontal null, final burn.</li>
-          <li>
-            <b>Deorbit</b> — new in v2. Holds retrograde, times a burn so the descent ends at
-            StarBase, and hands over to Auto-Land. Try it from the Deorbit or Circularize preset.
-          </li>
+        <ul data-guide="autopilot">
+          {#each AUTOPILOT_MODES as mode (mode.testid)}
+            <li data-mode={mode.testid}><b>{mode.label}</b> — {mode.does}</li>
+          {/each}
         </ul>
+      </details>
+
+      <!--
+        The scenario list did not exist before M12.6 — the menu had eleven and
+        the guide mentioned two, in the Deorbit sentence. Read out of
+        `ALL_SCENARIOS` with the same formatter the menu prints, so it says what
+        Configure will actually load.
+      -->
+      <details>
+        <summary>Flights you can start from</summary>
+        <table data-guide="scenarios">
+          <tbody>
+            {#each GUIDE_SCENARIOS as preset (preset.id)}
+              <tr data-scenario={preset.id}>
+                <td class="name">{preset.name}</td>
+                <td class="stat">{scenarioStats(preset)}</td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+        <p>
+          Every one of them is a starting point rather than a fixed menu item: pressing a preset
+          FILLS the editor, and you fly whatever is in the boxes when you press Configure.
+        </p>
       </details>
 
       <details>
@@ -228,6 +254,18 @@
   .keys {
     white-space: nowrap;
     width: 1%;
+  }
+  /* The scenario table's own two columns: a name and its numbers. */
+  .name {
+    white-space: nowrap;
+    width: 1%;
+    font-weight: 600;
+  }
+  .stat {
+    font-family: var(--font-condensed);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--track-label-tight);
+    color: var(--ink-70);
   }
   kbd {
     display: inline-block;
