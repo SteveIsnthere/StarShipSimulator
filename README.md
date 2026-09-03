@@ -8,7 +8,8 @@ autopilot do it.
 Originally written in 2021 as a first project. This is v2: that flight model extracted
 line by line, locked behind golden trajectory fixtures, and only then taken where the
 2021 one could not go — real gravity, the full standard atmosphere, a Raptor whose thrust
-rises as the air thins, and a centre of mass that moves as the tanks drain.
+rises as the air thins, and a centre of mass that moves as the tanks drain — which the
+aerodynamic damping is measured about, rather than about the middle of the hull.
 
 It works on a phone, and not by shrinking: the dials become digits and ticks, the
 event timeline collapses to what just happened and what is next, and the flight
@@ -69,11 +70,22 @@ yours — full tanks, engines off.
 - **Or don't**: `Lift-Off`, `Boost-Back`, `Att-Hold` and `Auto-Land` will do it for you.
   `Auto-Land` from any altitude is worth watching at least once.
 - **Menu** → scenario presets, from a booster separation at 70 km to a landing burn at
-  200 m, plus two orbital ones. Or type your own numbers into the six fields.
-- **Black Box** → nine plots of the flight you just flew.
+  200 m, plus two orbital ones. Or type your own numbers into the eight fields — which
+  now include a headwind and the hour of the day, so you can fly the same descent into a
+  10 m/s wind or land it at dusk.
+- **Black Box** → nine plots of the flight you just flew, with the mission events marked
+  on every one, a single cursor that reads all nine channels at the moment you point at,
+  your previous flight behind the current one as a ghost, and a CSV export.
+- **When a flight ends** a card says what happened and why: touchdown speeds against the
+  limits, pitch at contact, how far from the pad, peak dynamic pressure, peak heating,
+  peak g, propellant left, and when each event happened. It gets out of the way on the
+  next thing you press.
 - **Keyboard**: WASD or the arrow keys, `Space` for all engines, `1`/`2`/`3` for one,
   `F` fins, `R` RCS, `T` attitude hold, `Backspace` boost-back, `=`/`-` zoom. The full
-  list is in the guide, and it is generated from the binding table, so it cannot drift.
+  list is in the guide, and so are the autopilot modes and every scenario — all three
+  generated from the tables the application itself runs on, so none of them can drift.
+- **Sound** is a switch and a level, both remembered, and Restore Defaults puts every
+  remembered preference back where a fresh install starts.
 
 Works offline. Install it and it keeps working with the network off — the whole thing
 is precached, including the chart library.
@@ -121,7 +133,15 @@ The parts that carry it:
   simply do not light, which is the honest thing for a game you can freestyle.
 - **Cinematic mode** hides the flight controls, leaving exactly the broadcast. It is
   the one deliberate departure: a webcast never shows a button because the viewer
-  cannot press anything, and this is a cockpit.
+  cannot press anything, and this is a cockpit. With the controls away, four camera
+  modes appear — follow, pad, chase, onboard.
+- **On a phone** the same overlay is a different instrument rather than a smaller one:
+  digits and ticks instead of dials, one line of text instead of the timeline, sheets
+  instead of rails, and the mission events reach `navigator.vibrate` unless the system
+  asks for reduced motion.
+- **It tells you what to press.** A first visit gets one line above the lower third
+  naming the first two controls, and any input at all puts it away for good — the tap
+  that clears it is the tap that starts the flight.
 
 Every number on screen still goes through a single `requestAnimationFrame`
 subscriber that diffs before it writes. The gauges and the timeline are attributes
@@ -156,12 +176,12 @@ different vehicle, and nobody would have been able to say which parts changed.
 | Globals | 355 | 0 (lint-enforced) |
 | Simulation step | frame-rate dependent | fixed 120 Hz, 5.6–12.2 µs (budget 1000) |
 | HUD | 12 Hz, 18 `getElementById` per update | 120 Hz, zero lookups, diffed writes |
-| First-load JS | ~3.5 MB, two CDNs | 215.8 kB gzip, no third-party origins |
+| First-load JS | ~3.5 MB, two CDNs | 222.5 kB gzip, no third-party origins |
 | Offline | claimed | tested — a full flight with the network off |
 | Interface | one desktop layout | three breakpoints, gated on four phone viewports |
 | Depth | ground, then nothing above 100 m | three parallax layers, camera FOV 1x–5x with altitude |
 | Sound | silent | synthesised from SimState; the atmosphere audibly runs out |
-| Physics | one gravity, one speed of sound, one air density | planet-centred gravity, the full ISA, local Mach, Raptor thrust against ambient pressure, a moving centre of mass |
+| Physics | one gravity, one speed of sound, one air density | planet-centred gravity, the full ISA, local Mach, Raptor thrust against ambient pressure, a moving centre of mass, and aerodynamic roll damping about that same axis |
 | Integrator | Euler at whatever dt the frame gave | velocity Verlet at a fixed dt, second-order and checked against Kepler |
 | Tests | 0 | 1463 unit, 355 end-to-end across five browser projects |
 
@@ -253,9 +273,9 @@ npm install
 npm run dev        # vite dev server
 npm run lint       # eslint, including the seven walls
 npm run build      # svelte-check, vite build, service worker, bundle budget
-npm run test       # vitest — 1463 tests. Needs a build: the offline suite reads dist/
+npm run test       # vitest — 1585 tests. Needs a build: the offline suite reads dist/
 npm run coverage   # the same, with enforced floors on src/core/**
-npm run test:e2e   # playwright — 355 tests across five projects, ~50 min
+npm run test:e2e   # playwright — 429 tests across five projects, ~50 min on a quiet machine
 npm run test:deploy  # the same build served from a subdirectory, as Pages does
 
 npm run gate       # all five, in that order. This is the bar for a commit.

@@ -28,6 +28,24 @@ import { byTestId, readoutValueTestId } from '../../src/ui/testids';
  * has left it. Waiting for the descent to pass 90 m puts it in the middle of
  * the shot with an engine lit and StarBase behind.
  */
+/**
+ * Put the first-flight hint away before the shutter (M12.7).
+ *
+ * Every Playwright context is a profile that has never been here, so M12.6's
+ * hint is up in every capture — and the first regeneration after it landed put
+ * a two-line onboarding card across the middle of the README's headline image,
+ * over the vehicle. It is the right thing to show a new player and the wrong
+ * thing to show in a photograph of the simulator.
+ *
+ * Dismissed through its own button rather than by clicking the world, because a
+ * click on the world is a gesture the app acts on and these images are supposed
+ * to be of a flight nobody has touched.
+ */
+async function withoutTheHint(page: import('@playwright/test').Page) {
+  const dismiss = page.locator(byTestId('first-flight-dismiss'));
+  if ((await dismiss.count()) > 0 && (await dismiss.isVisible())) await dismiss.click();
+}
+
 async function onFinalApproach(page: import('@playwright/test').Page) {
   const altitude = page.locator(byTestId(readoutValueTestId('altitude')));
   await expect
@@ -46,6 +64,7 @@ test('capture desktop @screenshot', async ({ page }) => {
 
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto('/', { waitUntil: 'load' });
+  await withoutTheHint(page);
   await onFinalApproach(page);
 
   await page.screenshot({
@@ -57,6 +76,7 @@ test('capture phone @screenshot @mobile @mobile-only @portrait-only', async ({ p
   test.skip(!process.env['CAPTURE_SCREENSHOT'], 'set CAPTURE_SCREENSHOT=1 to write the image');
 
   await page.goto('/', { waitUntil: 'load' });
+  await withoutTheHint(page);
   await onFinalApproach(page);
 
   await page.screenshot({

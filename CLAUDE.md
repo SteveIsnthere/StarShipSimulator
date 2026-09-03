@@ -140,13 +140,20 @@ the budget and both browser suites never ran at all, on any commit, for eleven m
 Fixed at M11.9, along with the same ordering in `deploy.yml` and in `npm run gate`.
 
 WHAT CI STILL DOES NOT COVER, stated so a green tick is not read as more than it is. It
-runs one of the five browser projects, so the five `@mobile-only` tests — the phone's sheet
+runs one of the five browser projects, so the seven `@mobile-only` tests — the phone's sheet
 layout and its focus trap, its digits-and-ticks readouts, its one-line timeline, its folded
-map — run in no CI project at all. And it does not run the four phone viewports, because the browser
-measurements in them are timings, and a shared two-core runner is not an idle machine: the
-same specs failed twice at M11.6 on nothing but CPU contention. `npm run gate` on a quiet
-machine, run by a person, is still the bar for a commit; the browser half of it is still 50
-minutes.
+map, and the phone screenshot — run in no CI project at all. And it does not run the four phone
+viewports, because the browser measurements in them are timings, and a shared two-core runner
+is not an idle machine: the same specs failed twice at M11.6 on nothing but CPU contention.
+`npm run gate` on a quiet machine, run by a person, is still the bar for a commit; the browser
+half of it is still 50 minutes, and closer to 70 on a busy container.
+
+AND FOUR MORE ARE SKIPPED BY DESIGN since M12.6: the first-flight hint is not shown on a
+landscape phone, so its two specs skip on the two landscape projects. That is a layout
+decision with a measurement behind it — see `App.svelte`'s `HINT_FITS` — and
+`hint.spec.ts` asserts the exception in both directions rather than leaving it as an
+absence. A skip that nothing asserts is indistinguishable from a test that stopped
+running.
 
 ## What must never change (the soul)
 

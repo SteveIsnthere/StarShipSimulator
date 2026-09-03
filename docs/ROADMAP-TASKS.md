@@ -1027,7 +1027,7 @@ thermal coefficient, Earth rotation.
   trajectory tab, against a 44 px touch floor for the dismiss button — and four placements were
   tried and rejected before that conclusion. `hint.spec.ts` asserts the exception in both
   directions so it is a decision, not a regression.
-- [ ] **M12.7 Ship** — screenshots regenerated, `docs/` current, budget and perf re-measured, the
+- [x] **M12.7 Ship** — screenshots regenerated, `docs/` current, budget and perf re-measured, the
   full gate on all five projects.
 
 
@@ -4064,3 +4064,21 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   audit table were from a scratch harness rather than from the goldens. They are the goldens' own
   now. Gate: lint, build, 1585 unit tests, coverage 99.22% branch, and the full browser suite at two
   workers — 418 passed, 0 failed.
+- 2026-09-03 · M12.7 · Ship. Six images regenerated, and the first regeneration is why the
+  screenshot spec now dismisses the first-flight hint: every Playwright context is a profile that
+  has never been here, so M12.6's card landed across the middle of the README's headline image,
+  over the vehicle. It is the right thing to show a new player and the wrong thing to show in a
+  photograph of the simulator. The depth and re-entry captures were already clean — they open the
+  menu, and opening the menu is a gesture that dismisses it.
+  README carries the M12 surfaces now: the debrief card, the black box's markers, shared cursor,
+  ghost and CSV, the editor's wind and local hour, the camera modes, the phone's separate
+  instrument and its haptics, the level beside the switch, Restore Defaults, and the hint. Its
+  three counts were stale and are measured: 1 585 unit tests, 429 browser tests, 222.5 kB of
+  first-load JS against the 250 kB budget. CLAUDE.md's CI caveat was stale too — seven
+  `@mobile-only` tests, not five — and gains the four M12.6 skips, because a skip that nothing
+  asserts is indistinguishable from a test that stopped running.
+  MEASURED RATHER THAN ASSUMED: the step costs 0.0068 ms against a 1 ms budget at 240 Hz, which is
+  0.7% of it; first-load JS is 222.5 kB of 250; fonts 32.7 kB of 80; audio 0 kB, still synthesised.
+  Gate, all five projects: lint, build, 1 585 unit tests, coverage 99.22% branch and 99.64% line,
+  the subpath deploy shape, and the browser suite at two workers — 418 passed, 0 failed, 11
+  skipped, 1.2 h on a busy container.
