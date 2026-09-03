@@ -1003,8 +1003,12 @@ thermal coefficient, Earth rotation.
 - [x] **M12.4 The phone, finished** — clock and top-right buttons under one layout rule;
   `navigator.vibrate` on events and touchdown behind reduced-motion. Accept: responsive spec
   asserts no two overlay elements intersect on all five projects; full gate.
-- [ ] **M12.5 Settings that reach the mixer** — a volume level beside mute, remembered; a
+- [x] **M12.5 Settings that reach the mixer** — a volume level beside mute, remembered; a
   defaults action. Accept: sound e2e reads the gain; full gate.
+  **Met, with the gate's one failure named rather than absorbed:** `plume.spec.ts`'s
+  low-altitude assertion on `pixel-landscape`, which is the debt item recorded above in this
+  same session and is nothing to do with sound. Same signature as when it was recorded —
+  0.71 ship-lengths, 903 lit pixels, at 3000 m. It is the next task.
 - [ ] **M12.6 The first thing to press** — a first-flight hint on the pad, dismissed by input,
   remembered; guide sections generated from the code's tables. Accept: e2e on a fresh profile sees
   the hint once; full gate.
@@ -3947,3 +3951,27 @@ reason. `core/` is unchanged but for comments; the seven digests have not moved 
   been passing on the altitude the sampling itself costs. Holding the flight in slow motion to prove
   it was tried and then REVERTED — it changes what the test photographs, which is not this item's
   business.
+- 2026-09-03 · M12.5 · A level, and a defaults action that actually restores the defaults.
+  `AudioEngine.setVolume` writes the master gain and remembers the level; the slider lives in the
+  menu's Settings block with the switch beside it. `DEFAULT_VOLUME` is 1 and a test pins it: M8.5
+  balanced four bus gains against a master of 1.0, and shipping 0.8 to leave the new slider
+  somewhere to travel upward would have re-mixed the application as a side effect of adding a
+  control to it. The review caught that, and five other things.
+  Zero is a LEVEL, not a mute — mute suspends the context (SOUND-PLAN 3.4), a level of zero leaves
+  it running and silent — and both directions are asserted. The engine's `remember` flag exists
+  because `localStorage.setItem` is synchronous and `oninput` fires on every pixel of a drag: the
+  gain follows the finger, the writing waits for it to stop, and a test counts the writes.
+  `ui/preferences.ts` is the other half. Five things survive a reload and they were declared in four
+  modules; a Restore Defaults that reached only the ones on its own screen would be worse than none,
+  because the ones it missed would read as bugs. The list is now in one file and a test GREPS `src/`
+  for `starship:` literals and demands the list account for every one — with a named escape hatch for
+  namespaced strings that are not preferences, so the obvious wrong fix (add it to PREFERENCE_KEYS
+  and let the button delete it) is not the easy one. All five take effect immediately: the four this
+  component owns are set directly, and the trajectory map — which owns its own fold — resets on a
+  broadcast, because clearing its key alone would hold the fold for the session and then silently
+  change it on the next visit.
+  Gate: lint, build (221.3 kB of 250), 1576 unit tests, coverage 99.22% branch / 99.64% line, and
+  the browser suite at two workers — 403 passed, ONE failed, and the one is the plume debt recorded
+  above, reproducing under a loaded container at the same numbers it was recorded at. Sound's own
+  seven specs pass, including the three new ones that read the master gain node the browser really
+  built.

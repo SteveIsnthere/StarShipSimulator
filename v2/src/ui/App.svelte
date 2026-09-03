@@ -9,7 +9,14 @@
   import { createDistantEarth } from '$view/distant-earth';
   import { createFlightPathMarker } from '$view/motion-cues';
   import { createCloudDeck } from '$view/clouds';
-  import { createAudioEngine, readMuted, type AudioEngine } from '$audio/engine';
+  import {
+    createAudioEngine,
+    DEFAULT_VOLUME,
+    readMuted,
+    readVolume,
+    type AudioEngine,
+  } from '$audio/engine';
+  import { CAMERA_KEY, CINEMATIC_KEY, clearPreferences } from './preferences';
   import { createVehicle } from '$view/vehicle';
   import { createParticleSystem, createParticleTextures } from '$view/particles';
   import { createEffectDriver } from '$view/effects';
@@ -165,7 +172,6 @@
    * access rather than returning null, and a simulator that will not start
    * because it could not remember a preference would be a poor trade.
    */
-  const CINEMATIC_KEY = 'starship:cinematic';
 
   const readCinematic = (): boolean => {
     try {
@@ -184,7 +190,6 @@
    * Remembered per device through the same guarded read the cinematic flag
    * uses, for the same reason.
    */
-  const CAMERA_KEY = 'starship:camera';
   const isCameraMode = (v: unknown): v is CameraMode =>
     typeof v === 'string' && (CAMERA_MODES as readonly string[]).includes(v);
   const readCameraMode = (): CameraMode => {
@@ -250,12 +255,55 @@
   });
 
   let muted = $state(readMuted());
+  /** 0 to 1 (M12.5). The engine owns the remembering; this mirrors it for the UI. */
+  let volume = $state(readVolume());
 
   const toggleMuted = () => {
     muted = !muted;
     void audio.setMuted(muted);
     // Unmuting IS a gesture, so it is also the moment audio may start.
     if (!muted) void audio.unlock();
+  };
+
+  const setVolume = (level: number, remember = true) => {
+    audio.setVolume(level, { remember });
+    // Read BACK from the engine rather than trusting what went in: the engine
+    // clamps, and a slider that shows 140% because someone scripted one is a
+    // readout that disagrees with the gain it claims to describe.
+    volume = audio.volume;
+    // Letting go of the slider is a gesture, and the commonest reason to move
+    // it is that nothing is coming out yet. Only on the commit: an unlock per
+    // `input` is a promise per pixel of travel.
+    if (remember && !muted) void audio.unlock();
+  };
+
+  /**
+   * Put every remembered preference back where a fresh profile starts (M12.5).
+   *
+   * EVERY ONE, not just the two this task added. Five things are remembered
+   * across visits — sound on or off, the level, cinematic mode, the camera mode
+   * and whether the trajectory map is folded — declared together in
+   * `ui/preferences.ts` and, before that file, in four different modules.
+   * "Restore defaults" that fixed only the ones on the same screen as the
+   * button would be the more confusing of the two behaviours.
+   *
+   * ALL FIVE TAKE EFFECT NOW, not on the next load. The four this component can
+   * reach are set here; the map's fold belongs to `TrajectoryMap`, which resets
+   * itself when `clearPreferences` announces it has run. Clearing storage alone
+   * would leave the map folded for the rest of the session and then silently
+   * unfold on the next visit, which is the worst thing a button called Restore
+   * Defaults could do.
+   */
+  const restoreDefaults = () => {
+    muted = false;
+    void audio.setMuted(false);
+    setVolume(DEFAULT_VOLUME);
+    cinematic = false;
+    cameraMode = 'follow';
+    applyCameraMode();
+    // Last, and it is what tells the map. Everything above writes its own key;
+    // this clears all five and announces it.
+    clearPreferences();
   };
 
   /**
@@ -1088,6 +1136,11 @@
   {onConfigure}
   {onToggleRandomFailure}
   onToggleTiltControl={() => (tiltControl = !tiltControl)}
+  {muted}
+  {volume}
+  onToggleMuted={toggleMuted}
+  onVolumeChange={setVolume}
+  onRestoreDefaults={restoreDefaults}
   onShowInfo={(view) => (infoView = view)}
 />
 <InfoView view={infoView} onClose={() => (infoView = null)} />

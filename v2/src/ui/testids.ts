@@ -152,6 +152,12 @@ export const MENU_TESTIDS = [
   'menu-configure',
   'menu-about',
   'menu-guide',
+  // M12.5: settings that reach the mixer. The level and the switch beside it,
+  // and the action that puts every remembered preference back.
+  'menu-volume',
+  'menu-volume-readout',
+  'menu-mute',
+  'menu-restore-defaults',
   'field-altitude',
   'field-xPosition',
   'field-speedX',

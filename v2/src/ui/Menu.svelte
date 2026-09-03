@@ -38,11 +38,20 @@
     time: TimeSetting;
     randomFailure: boolean;
     tiltControl: boolean;
+    /** Sound, M12.5. The switch and the level, both remembered. */
+    muted: boolean;
+    /** 0 to 1. */
+    volume: number;
     onClose: () => void;
     onTimeChange: (setting: TimeSetting) => void;
     onConfigure: (fields: EditorFields) => void;
     onToggleRandomFailure: () => void;
     onToggleTiltControl: () => void;
+    onToggleMuted: () => void;
+    /** `remember` is false while a drag is in progress. See `commitVolume`. */
+    onVolumeChange: (level: number, remember: boolean) => void;
+    /** Put every remembered preference back where a fresh profile starts. */
+    onRestoreDefaults: () => void;
     /** index.html:224 — the About and Help buttons at the foot of the menu. */
     onShowInfo: (view: 'guide' | 'about') => void;
   }
@@ -52,11 +61,16 @@
     time,
     randomFailure,
     tiltControl,
+    muted,
+    volume,
     onClose,
     onTimeChange,
     onConfigure,
     onToggleRandomFailure,
     onToggleTiltControl,
+    onToggleMuted,
+    onVolumeChange,
+    onRestoreDefaults,
     onShowInfo,
   }: Props = $props();
 
@@ -76,6 +90,29 @@
   const setRate = (event: Event & { currentTarget: HTMLInputElement }) => {
     onTimeChange({ rate: event.currentTarget.valueAsNumber, speedingUp: time.speedingUp });
   };
+
+  /*
+    The level as a WHOLE PERCENT, in the markup and in the slider's own units.
+
+    A range input reports a float, and a gain is a float, but the number a
+    person is shown and the number the slider stops on have to be the same one
+    or the readout jitters between 71 and 72 on a drag that never moved. So the
+    slider counts in percent with a step of one and the engine is handed
+    hundredths.
+  */
+  const setVolume = (event: Event & { currentTarget: HTMLInputElement }) => {
+    onVolumeChange(event.currentTarget.valueAsNumber / 100, false);
+  };
+  /*
+    `change` fires once, when the finger comes off. `input` fires on every pixel
+    of travel and `localStorage.setItem` is synchronous, so remembering on each
+    one is a hundred blocking writes across a drag. The sound still follows the
+    finger; only the remembering waits for it to stop.
+  */
+  const commitVolume = (event: Event & { currentTarget: HTMLInputElement }) => {
+    onVolumeChange(event.currentTarget.valueAsNumber / 100, true);
+  };
+  const volumePercent = $derived(Math.round(volume * 100));
 
   /**
    * The stat line under a preset's name.
@@ -347,6 +384,66 @@
             Tilt Control
           </button>
         </div>
+        <!--
+          SOUND, M12.5: the level, and a switch beside it.
+
+          THERE ARE NOW TWO WAYS TO SILENCE THIS, on two surfaces, and that is
+          deliberate: the menu is a full-screen dialog, so a player who opens it
+          and reads "Muted" beside the slider they just dragged cannot reach the
+          top strip to do anything about it. A switch here is the difference
+          between a readout that explains and a readout that taunts.
+
+          They are the same state and they are NOT the same name. The top strip
+          says "Sound" and is pressed when sound is ON; this one says "Mute" and
+          is pressed when it is OFF. Two buttons reading "Sound" on one screen
+          would be ambiguous to anyone locating a control by its name — a
+          screen reader, speech input, or a test.
+        -->
+        <div class="row sound">
+          <label class="level" for="menu-volume">
+            <span class="label">Volume</span>
+            <input
+              id="menu-volume"
+              class="slider"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value={volumePercent}
+              data-menu-control="volume"
+              data-testid="menu-volume"
+              aria-valuetext={`${volumePercent}%`}
+              oninput={setVolume}
+              onchange={commitVolume}
+            />
+            <span class="rate" data-menu-readout="volume" data-testid="menu-volume-readout"
+              >{muted ? 'Muted' : `${volumePercent}%`}</span
+            >
+          </label>
+          <button
+            class="control"
+            class:is-on={muted}
+            type="button"
+            data-menu-control="mute"
+            data-testid="menu-mute"
+            aria-pressed={muted}
+            onclick={onToggleMuted}
+          >
+            <span class="pip" aria-hidden="true"></span>
+            Mute
+          </button>
+        </div>
+        <div class="row">
+          <button
+            class="control"
+            type="button"
+            data-menu-control="restoreDefaults"
+            data-testid="menu-restore-defaults"
+            onclick={onRestoreDefaults}
+          >
+            Restore Defaults
+          </button>
+        </div>
         <div class="row">
           <button
             class="control"
@@ -605,6 +702,27 @@
     flex: 1 1 9rem;
     min-width: 8rem;
     accent-color: var(--ink-100);
+  }
+  .sound {
+    align-items: center;
+  }
+  .level {
+    display: flex;
+    flex: 1 1 14rem;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+  .level .slider {
+    flex: 1 1 auto;
+    min-width: 4rem;
+  }
+  .level .label {
+    font-family: var(--font-condensed);
+    font-size: var(--size-label);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-45);
   }
   .rate {
     min-width: 4rem;

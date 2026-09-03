@@ -12,7 +12,17 @@
  * pretending otherwise, and so does the M8.5 acceptance line.
  */
 import { describe, expect, it, vi } from 'vitest';
-import { createAudioEngine, MUTE_KEY, readMuted, writeMuted } from '$audio/engine';
+import {
+  clampVolume,
+  createAudioEngine,
+  DEFAULT_VOLUME,
+  MUTE_KEY,
+  readMuted,
+  readVolume,
+  VOLUME_KEY,
+  writeMuted,
+  writeVolume,
+} from '$audio/engine';
 import { BUSES, BUS_GAIN, createMixer, createNoiseBuffer, NOISE_SECONDS } from '$audio/graph';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import { step } from '$core/step';
@@ -209,8 +219,16 @@ describe('mute suspends rather than quietens', () => {
     await engine.setMuted(true);
     expect(context.suspend).toHaveBeenCalled();
     expect(engine.state).toBe('suspended');
-    // And the master gain is untouched: this is not a gain trick.
-    expect(engine.mixer!.master.gain.value).toBe(1);
+    /*
+      And the master gain is untouched: this is not a gain trick.
+
+      Compared against the LEVEL rather than against 1, since M12.5 gave the
+      master a level to sit at. The claim is the same one — muting does not
+      quieten, it suspends — and this is now the sharper way to say it: the gain
+      is exactly where the settings left it, whatever that is.
+    */
+    expect(engine.mixer!.master.gain.value).toBe(engine.volume);
+    expect(engine.volume).toBe(DEFAULT_VOLUME);
   });
 
   it('resumes on unmute', async () => {
@@ -256,6 +274,162 @@ describe('a browser that refuses storage does not take the simulator down', () =
     await engine.setMuted(true);
     expect(engine.muted).toBe(true);
     expect(engine.state).toBe('suspended');
+  });
+});
+
+describe('the level reaches the master gain (M12.5)', () => {
+  it('leaves the shipped mix exactly where M8.5 tuned it', () => {
+    /*
+      PINNED, because it is the one number in this feature that can go wrong
+      silently. The four bus gains were balanced against a master of 1.0; a
+      default of anything less ships a quieter mix than the one that was mixed,
+      and nothing else in the suite would notice. If this line is ever changed,
+      it should be because someone re-mixed on purpose.
+    */
+    expect(DEFAULT_VOLUME).toBe(1);
+  });
+
+  it('a fresh profile starts at the default and puts it on the node', async () => {
+    const context = fakeContext();
+    const engine = createAudioEngine({
+      host: { create: () => context as never },
+      storage: workingStorage(),
+    });
+    expect(engine.volume).toBe(DEFAULT_VOLUME);
+    await engine.unlock();
+    // THE POINT OF THE TASK, as one assertion: a settings control that does not
+    // reach the mixer is a settings control that does nothing.
+    expect(engine.mixer!.master.gain.value).toBe(DEFAULT_VOLUME);
+  });
+
+  it('a remembered level is on the node the moment the graph exists', async () => {
+    const storage = workingStorage();
+    writeVolume(0.25, storage);
+    const context = fakeContext();
+    const engine = createAudioEngine({
+      host: { create: () => context as never },
+      storage,
+    });
+    expect(engine.volume).toBe(0.25);
+    await engine.unlock();
+    expect(engine.mixer!.master.gain.value).toBe(0.25);
+  });
+
+  it('and a change lands on a graph that is already running', async () => {
+    const context = fakeContext();
+    const engine = createAudioEngine({
+      host: { create: () => context as never },
+      storage: workingStorage(),
+    });
+    await engine.unlock();
+    engine.setVolume(0.4);
+    expect(engine.mixer!.master.gain.value).toBe(0.4);
+    expect(engine.volume).toBe(0.4);
+  });
+
+  it('a level set before the first gesture is not lost', () => {
+    const context = fakeContext();
+    const engine = createAudioEngine({
+      host: { create: () => context as never },
+      storage: workingStorage(),
+    });
+    // No unlock: there is no graph to write to, and the autoplay policy says
+    // there must not be one. The level still has to survive to the gesture.
+    engine.setVolume(0.1);
+    expect(engine.volume).toBe(0.1);
+    expect(engine.mixer).toBeNull();
+  });
+
+  it('is remembered across a reload', () => {
+    const storage = workingStorage();
+    const context = fakeContext();
+    createAudioEngine({ host: { create: () => context as never }, storage }).setVolume(0.33);
+    const second = createAudioEngine({
+      host: { create: () => fakeContext() as never },
+      storage,
+    });
+    expect(second.volume).toBe(0.33);
+  });
+
+  it('and zero is a level, not a mute', async () => {
+    /*
+      The distinction the interface comment argues for, asserted rather than
+      described. Mute SUSPENDS the context; a level of zero leaves it running
+      and silent. Collapsing the two would make the switch unreachable from the
+      slider's own end and would quietly change what "muted" means to every
+      other test in this file.
+    */
+    const context = fakeContext();
+    const engine = createAudioEngine({
+      host: { create: () => context as never },
+      storage: workingStorage(),
+    });
+    await engine.unlock();
+    engine.setVolume(0);
+    expect(engine.mixer!.master.gain.value).toBe(0);
+    expect(engine.muted).toBe(false);
+    expect(engine.state).toBe('running');
+  });
+
+  it('clamps anything a slider or a storage can produce', () => {
+    expect(clampVolume(-3)).toBe(0);
+    expect(clampVolume(40)).toBe(1);
+    expect(clampVolume(Number.NaN)).toBe(DEFAULT_VOLUME);
+    expect(clampVolume(0.5)).toBe(0.5);
+  });
+
+  it('and reads a corrupted or absent stored level as the default', () => {
+    const storage = workingStorage();
+    expect(readVolume(storage)).toBe(DEFAULT_VOLUME);
+    storage.setItem(VOLUME_KEY, 'loud');
+    expect(readVolume(storage)).toBe(DEFAULT_VOLUME);
+    storage.setItem(VOLUME_KEY, '9');
+    expect(readVolume(storage)).toBe(1);
+    storage.setItem(VOLUME_KEY, '-1');
+    expect(readVolume(storage)).toBe(0);
+    // AND AN EMPTY STRING IS ABSENT, not zero. `Number('')` is 0, a perfectly
+    // valid level, so without this a key written empty comes back as a
+    // simulator that is silent while its Sound switch reports on.
+    storage.setItem(VOLUME_KEY, '');
+    expect(readVolume(storage)).toBe(DEFAULT_VOLUME);
+    storage.setItem(VOLUME_KEY, '   ');
+    expect(readVolume(storage)).toBe(DEFAULT_VOLUME);
+    // Zero itself still reads as zero: it is a level.
+    storage.setItem(VOLUME_KEY, '0');
+    expect(readVolume(storage)).toBe(0);
+  });
+
+  it('does not write on every pixel of a drag', () => {
+    /*
+      `localStorage.setItem` is synchronous and an `oninput` fires on every step
+      of a slider's travel. The gain still moves on each one — the sound follows
+      the finger — but only the commit is remembered.
+    */
+    const writes: string[] = [];
+    const storage = {
+      getItem: () => null,
+      setItem: (_k: string, v: string) => void writes.push(v),
+    };
+    const engine = createAudioEngine({
+      host: { create: () => fakeContext() as never },
+      storage,
+    });
+    for (const level of [0.9, 0.8, 0.7, 0.6]) engine.setVolume(level, { remember: false });
+    expect(writes, 'a drag in progress writes nothing').toEqual([]);
+    expect(engine.volume, 'but the level still moved').toBe(0.6);
+    engine.setVolume(0.6);
+    expect(writes, 'and letting go writes once').toEqual(['0.6']);
+  });
+
+  it('and a storage that throws costs the level nothing for this session', () => {
+    expect(() => readVolume(hostileStorage)).not.toThrow();
+    expect(readVolume(hostileStorage)).toBe(DEFAULT_VOLUME);
+    const engine = createAudioEngine({
+      host: { create: () => fakeContext() as never },
+      storage: hostileStorage,
+    });
+    expect(() => engine.setVolume(0.2)).not.toThrow();
+    expect(engine.volume).toBe(0.2);
   });
 });
 

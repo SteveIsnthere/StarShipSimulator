@@ -28,6 +28,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { MapContext, MapSurface } from '$hud/trajectory-draw';
+  import { MAP_KEY, PREFERENCES_RESET_EVENT } from './preferences';
 
   interface Props {
     /**
@@ -42,7 +43,6 @@
 
   const { onready }: Props = $props();
 
-  const MAP_KEY = 'starship:map';
 
   /**
    * The lower third is COMPRESSED on a phone in either orientation — the same
@@ -96,8 +96,27 @@
     }
   };
 
+  /**
+   * Put the fold back where a fresh profile starts (M12.5).
+   *
+   * The menu's Restore Defaults clears `MAP_KEY`, which is only half the job:
+   * without this the map keeps whatever fold it had for the rest of the
+   * session and then silently changes on the next visit, which is the most
+   * confusing possible outcome of pressing a button labelled Restore Defaults.
+   * `readExpanded` with nothing stored is the layout default, so this is the
+   * same code path a fresh load takes.
+   */
+  const applyDefaults = () => {
+    expanded = readExpanded();
+    if (surface) {
+      surface.visible = expanded;
+      if (expanded) surface.dirty = true;
+    }
+  };
+
   onMount(() => {
     expanded = readExpanded();
+    window.addEventListener(PREFERENCES_RESET_EVENT, applyDefaults);
 
     const context = canvas.getContext('2d');
     if (!context) {
@@ -143,7 +162,10 @@
     // the lower third reflows, not only when the window does.
     const observer = new ResizeObserver(resize);
     observer.observe(frame);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener(PREFERENCES_RESET_EVENT, applyDefaults);
+    };
   });
 </script>
 

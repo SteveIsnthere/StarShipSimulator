@@ -45,6 +45,26 @@ export interface AudioEngine {
   /** Suspend or resume, and remember the choice. */
   setMuted(muted: boolean): Promise<void>;
   readonly muted: boolean;
+  /**
+   * Set the master level, 0 to 1, and remember it (M12.5).
+   *
+   * DISTINCT FROM MUTE, and the difference is not cosmetic. Mute SUSPENDS the
+   * context — a muted simulator does no audio work at all, which is
+   * SOUND-PLAN 3.4's whole argument. A level is a gain on a running graph: the
+   * work still happens, it is just quieter. So a level of zero is not mute, and
+   * this deliberately does not turn into one; someone who wants silence for
+   * free has the switch for it.
+   *
+   * `remember` defaults to true. A slider being DRAGGED passes false and calls
+   * once more with true when it is let go: `localStorage.setItem` is
+   * synchronous, an `oninput` fires on every pixel of travel, and a hundred
+   * synchronous writes across one drag is a stutter on a phone. The gain still
+   * moves on every one of them — the sound follows the finger; only the
+   * remembering waits for the finger to stop.
+   */
+  setVolume(level: number, options?: { remember?: boolean }): void;
+  /** 0 to 1. The remembered level, whether or not anything is built yet. */
+  readonly volume: number;
   /** 'idle' before the first gesture, then the context's own state. */
   readonly state: string;
   /** Null until unlocked. */
@@ -114,12 +134,68 @@ export function writeMuted(muted: boolean, storage?: Pick<Storage, 'setItem'>): 
   }
 }
 
+export const VOLUME_KEY = 'starship:volume';
+
+/**
+ * The level a fresh profile starts at. Also what the defaults action restores.
+ *
+ * ONE, and that is a decision rather than a placeholder. M8.5 tuned the four
+ * bus gains against a master of 1.0; anything less here would ship a mix 20%
+ * quieter than the one that was balanced, for no reason other than leaving the
+ * new slider somewhere to travel upward. Adding a control is not the moment to
+ * re-mix. `tests/audio/engine.test.ts` pins this value for exactly that reason.
+ */
+export const DEFAULT_VOLUME = 1;
+
+/**
+ * Clamp anything to a usable level.
+ *
+ * Storage is a string a person can edit and a slider is an input that can be
+ * driven from a script, so neither is trusted: NaN, -3 and 40 all have to mean
+ * something, and what they mean is "the nearest level that exists".
+ */
+export function clampVolume(level: number): number {
+  if (!Number.isFinite(level)) return DEFAULT_VOLUME;
+  return Math.min(1, Math.max(0, level));
+}
+
+/** The remembered level, tolerating a browser that refuses storage. */
+export function readVolume(storage?: Pick<Storage, 'getItem'>): number {
+  try {
+    const store = storage ?? localStorage;
+    const stored = store.getItem(VOLUME_KEY);
+    /*
+      An EMPTY string is absent, not zero. `Number('')` is 0, which is a
+      perfectly valid level, so a key written empty by anything — a storage
+      quirk, a hand edit, a half-finished migration — would come back as a
+      simulator that is silent while its Sound switch reports on. That is the
+      worst failure this function has, because it looks like a broken build.
+    */
+    if (stored === null || stored.trim() === '') return DEFAULT_VOLUME;
+    return clampVolume(Number(stored));
+  } catch {
+    return DEFAULT_VOLUME;
+  }
+}
+
+export function writeVolume(level: number, storage?: Pick<Storage, 'setItem'>): void {
+  try {
+    const store = storage ?? localStorage;
+    store.setItem(VOLUME_KEY, String(clampVolume(level)));
+  } catch {
+    // As with mute: the level still works for this session, it just will not be
+    // remembered.
+  }
+}
+
 export interface AudioEngineOptions {
   host: AudioHost;
   /** Injected so the guarded read can be tested against a storage that throws. */
   storage?: Pick<Storage, 'getItem' | 'setItem'>;
   /** Start muted. Defaults to whatever was remembered. */
   muted?: boolean;
+  /** Start at this level, 0 to 1. Defaults to whatever was remembered. */
+  volume?: number;
 }
 
 export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
@@ -129,6 +205,7 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
   let mixer: Mixer | null = null;
   let noise: AudioBuffer | null = null;
   let muted = options.muted ?? readMuted(storage);
+  let volume = clampVolume(options.volume ?? readVolume(storage));
 
   const voices: Voice[] = [];
   const params: AudioParams = createAudioParams();
@@ -184,6 +261,11 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
       if (!context) {
         context = host.create();
         mixer = createMixer(context);
+        // The remembered level reaches the graph the moment the graph exists.
+        // Setting it before this point had nowhere to go, which is why the
+        // level lives in a variable and the node is written from it rather than
+        // the other way round.
+        mixer.master.gain.value = volume;
         noise = createNoiseBuffer(context);
         // Built once, here, and never rebuilt — the claim the leak test makes.
         voices.push(createEngineVoice({ context, mixer, noise }));
@@ -200,6 +282,19 @@ export function createAudioEngine(options: AudioEngineOptions): AudioEngine {
       // Suspend either way; only come back if the player still wants sound.
       if (hidden) await context.suspend();
       else if (!muted) await context.resume();
+    },
+
+    get volume() {
+      return volume;
+    },
+
+    setVolume(level, options) {
+      volume = clampVolume(level);
+      if (options?.remember !== false) writeVolume(volume, storage);
+      // Assigned, not ramped. This is a settings control, not a mix automation:
+      // it moves when a person drags it, at which point the value they let go
+      // on is the value they meant.
+      if (mixer) mixer.master.gain.value = volume;
     },
 
     async setMuted(next) {
