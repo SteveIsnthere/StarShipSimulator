@@ -2,7 +2,8 @@
   uPlot, themed to the broadcast tokens.
 
   LOADED LAZILY, WITH THE LIBRARY. This file is imported from `loadCharts()`
-  beside uPlot's own stylesheet, not from theme.css — which is the whole point.
+  beside uPlot's own stylesheet, not from the entry stylesheet
+  (src/ui/shell/index.css) — which is the whole point.
   uPlot is behind a dynamic import so it does not count against the 250 kB
   first-load budget (M4.5), and pulling its theme into the first-load stylesheet
   would have quietly undone half of that: the CSS would ship on every page load

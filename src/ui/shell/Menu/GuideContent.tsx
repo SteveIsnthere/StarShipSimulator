@@ -1,5 +1,5 @@
 /**
- * The guide. Ported from InfoView.svelte.
+ * The guide.
  *
  * GENERATED WHERE IT CAN BE: the keys from `KEY_BINDINGS`, the autopilot modes
  * from `AUTOPILOT_MODES` (the table the controls render), the scenarios from

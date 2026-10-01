@@ -33,7 +33,7 @@ test('page loads with no console errors and no failed requests @mobile @smoke', 
   const response = await page.goto('/', { waitUntil: 'load' });
   expect(response?.status(), 'index.html should be served').toBe(200);
 
-  // The Svelte root actually mounted, rather than the page merely being 200.
+  // The React root actually mounted, rather than the page merely being 200.
   // Since M3.1 the app is the canvas; there is no longer a placeholder heading.
   await expect(page.locator('[data-testid="world-canvas"]')).toBeVisible();
 

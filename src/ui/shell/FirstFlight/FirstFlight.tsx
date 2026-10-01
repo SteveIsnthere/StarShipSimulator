@@ -65,7 +65,7 @@ export function FirstFlight() {
         <b className="font-semibold text-ui-fg">Menu</b> picks another flight.
       </p>
       {/* A phone has no keyboard; anything that can hover probably does. */}
-      <p className="m-0 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-ui-dim [@media(hover:none)]:hidden">
+      <p className="m-0 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-ui-muted [@media(hover:none)]:hidden">
         {HINT_KEYS.map((k) => (
           <span key={k.cap} className="inline-flex items-center gap-1.5">
             <KeyCap>{k.cap}</KeyCap>

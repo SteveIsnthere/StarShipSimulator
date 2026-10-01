@@ -115,8 +115,8 @@ export function fieldsToPreset(fields: EditorFields, current: ScenarioPreset): S
    * Read one field, whatever the DOM handed back.
    *
    * THE BUG THIS FIXES, found in M6.7 and present since M4.4. `EditorFields`
-   * declares six strings, and Svelte's `bind:value` on `<input type="number">`
-   * does NOT give back a string — it gives a number, or `null` for an empty
+   * declares six strings, and the Svelte shell's `bind:value` on
+   * `<input type="number">` did NOT give back a string — it gives a number, or `null` for an empty
    * box. So the first version's `value.trim()` threw `e.trim is not a function`
    * the moment anyone typed into the editor, and `onConfigure` died before
    * `menuOpen = false`: the flight did not change, the menu did not close, and
@@ -130,7 +130,8 @@ export function fieldsToPreset(fields: EditorFields, current: ScenarioPreset): S
    * Fixed here rather than by changing the input's type, because the type is
    * right: a number field gets a numeric keypad on a phone, which after M6.6 is
    * the point. The lie was the `string` annotation, and this is where it stops
-   * mattering.
+   * mattering. The React shell's `SetupField` hands back strings; this still
+   * reads a number or `null` for any caller that hands back what the DOM does.
    */
   const num = (value: string | number | null | undefined, fallback: number): number => {
     if (value === null || value === undefined) return fallback;

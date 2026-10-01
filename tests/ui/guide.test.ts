@@ -1,7 +1,7 @@
 /**
  * M12.6: the guide cannot lie about the controls.
  *
- * `InfoView.svelte`'s header states the claim this file enforces: 2021's guide
+ * `$ui/guide`'s header states the claim this file enforces: 2021's guide
  * was prose maintained beside the code and had already drifted — it said "+ or
  * -" to zoom where the code bound "=" and "-". The keybind list has been
  * generated since M6.1. The autopilot modes and the scenarios were still prose

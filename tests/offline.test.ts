@@ -130,7 +130,7 @@ describe('the cache version', () => {
 describe('no CDN references anywhere in the shipped output', () => {
   it('fetches nothing from a third-party host', async () => {
     // What this can and cannot prove, stated plainly. A bundle contains URLs
-    // that are never requested: Svelte's error-message links, PixiJS's license
+    // that are never requested: React's error-message links, PixiJS's license
     // header, the GitHub link in the About screen. Grepping for "https://" and
     // demanding zero is a test that fails for the wrong reason and gets
     // weakened until it means nothing.

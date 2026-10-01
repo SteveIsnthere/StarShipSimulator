@@ -50,7 +50,7 @@ export function MissionTimeline({ compact, className }: { compact: boolean; clas
                 data-state="pending"
                 className="peer size-2 border border-ui-line-muted data-[state=current]:border-ui-fg data-[state=current]:bg-ui-fg data-[state=reached]:border-ui-muted data-[state=reached]:bg-ui-muted"
               />
-              <span className="whitespace-nowrap font-mono text-[9px] uppercase leading-none tracking-[0.06em] text-ui-dim peer-data-[state=current]:text-ui-fg peer-data-[state=reached]:text-ui-muted">
+              <span className="whitespace-nowrap font-mono text-[9px] uppercase leading-none tracking-[0.06em] text-ui-muted peer-data-[state=current]:text-ui-fg peer-data-[state=reached]:text-ui-muted">
                 {event}
               </span>
             </span>

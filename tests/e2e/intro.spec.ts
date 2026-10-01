@@ -7,24 +7,9 @@
  * lands.
  */
 import { expect, test } from '@playwright/test';
-import { ready } from './helpers';
+import { altitudeMetres, ready } from './helpers';
 
-/**
- * Read altitude out of the HUD, in metres.
- *
- * The readout switches unit at 1 km (M4.1), so the unit node has to be read
- * too — otherwise a climb past 1000 m looks like a fall to 1.0.
- */
-async function altitude(page: import('@playwright/test').Page): Promise<number> {
-  const row = page.locator('[data-testid="readout-altitude"]');
-  const text = (await row.locator('.value').textContent()) ?? '';
-  // Empty until the HUD's first frame: unread, not zero metres.
-  if (text.trim() === '') return NaN;
-  const value = Number(text);
-  const unit = (await row.locator('.unit').textContent()) ?? '';
-  if (!Number.isFinite(value)) return NaN;
-  return unit === 'KM' ? value * 1000 : value;
-}
+const altitude = altitudeMetres;
 
 test('the intro plays end to end and lands @smoke', async ({ page }) => {
   const errors: string[] = [];

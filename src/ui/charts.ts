@@ -28,7 +28,7 @@ let cached: UPlotConstructor | null = null;
  * The CSS is imported here too, for the same reason: it should not be in the
  * first-load stylesheet when the charts are not on screen. `./charts.css` is
  * our theme over the top of uPlot's, and it rides the same lazy chunk — putting
- * it in theme.css would have shipped a stylesheet for a view most players never
+ * it in the entry stylesheet (`src/ui/shell/index.css`) would have shipped a stylesheet for a view most players never
  * open, on every page load, which is half of what M4.5 removed.
  */
 export async function loadCharts(): Promise<UPlotConstructor> {

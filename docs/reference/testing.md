@@ -5,7 +5,7 @@ How the test harness in the repo root works. Commands run from the repo root.
 | Command | Runs |
 |---|---|
 | `npm run lint` | ESLint, including the seven walls |
-| `npm run build` | `svelte-check` (also type-checks `tests/`), `vite build`, service worker, bundle budget |
+| `npm run build` | `tsc` (also type-checks `tests/`), the design/copy/entry-graph scanners, `vite build`, service worker, bundle budget |
 | `npm run test` | `vitest run`, every `tests/**/*.test.ts` in the `node` environment, 30 s per-test timeout |
 | `npm run coverage` | the same suite with v8 coverage and the floors below, 120 s per-test timeout |
 | `npm run test:e2e` | Playwright smoke tier: `@smoke` specs on the desktop `chromium` project, against the production build |
@@ -79,7 +79,7 @@ The environment is `node` for every suite, which is what keeps `core/` browser-f
 | `tests/` root | 3 | `budget`, `flies-every-scenario`, `offline` |
 
 `tests/types/units.test-d.ts` is not a vitest file: its `@ts-expect-error` lines are the
-assertions, checked by `svelte-check` in `npm run build`.
+assertions, checked by `tsc` in `npm run build`.
 
 ## Golden trajectories
 

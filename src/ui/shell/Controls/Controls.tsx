@@ -3,9 +3,8 @@
  * desktop; on a phone, a tab bar at the bottom edge and at most one sheet
  * above it (docs/design/ia.md; the zones are the shell brief's).
  *
- * Ported from Controls.svelte. This surface owns the indicator binder for the
- * same reason that one did: the nodes it binds are the ones it renders, so it
- * binds after mount, once, and from then on the session's tick toggles their
+ * This surface owns the indicator binder because the nodes it binds are the
+ * ones it renders, so it binds after mount, once, and from then on the session's tick toggles their
  * lit state directly. Nothing here re-renders per frame.
  *
  * Hidden, never unmounted — in cinematic mode and when a group collapses —

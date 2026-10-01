@@ -30,7 +30,7 @@
       "@ui/*": ["node_modules/.kit-types/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.svelte", "tests/**/*.ts", "tests/**/*.tsx", "scripts/**/*.mjs", "*.ts", "*.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "scripts/**/*.mjs", "*.ts", "*.config.ts"],
   "exclude": ["node_modules", "dist", "tests/lint-walls/fixtures", "src/ui/kit"],
   "references": [{ "path": "./tsconfig.kit.json" }]
 }

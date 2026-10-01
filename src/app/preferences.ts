@@ -3,8 +3,8 @@
  *
  * There are six things that survive a reload and, until this file, they were
  * declared in four different modules: mute and the level in `audio/engine.ts`,
- * cinematic mode and the camera in `App.svelte`, the trajectory map's fold in
- * `TrajectoryMap.svelte`. Each read was independently correct and each one was
+ * cinematic mode and the camera in the app shell, the trajectory map's fold in
+ * the map's component. Each read was independently correct and each one was
  * guarded against a browser that refuses site data, which is the interesting
  * part — the pattern was already agreed, it just had no name.
  *

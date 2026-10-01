@@ -1,8 +1,8 @@
 /**
  * What the guide says, taken from the code that does it.
  *
- * THE WOUND, restated from `InfoView.svelte`'s header because this file is the
- * general form of it. 2021's guide was prose maintained by hand beside
+ * THE WOUND, stated here because this file is the general form of it (the
+ * guide's own header, `GuideContent.tsx`, restates it). 2021's guide was prose maintained by hand beside
  * `eventListener.js`, and the two had already drifted: the guide said "+ or -"
  * to zoom where the code bound "=" and "-", and it said A pitched down where
  * the code sent -100. A help screen that can lie is worse than no help screen.
@@ -86,8 +86,9 @@ export const AUTOPILOT_MODES: readonly AutopilotMode[] = [
  * the same reason the HUD does: 200 and 80000 side by side are hard to compare,
  * 200 M and 80 KM are not.
  *
- * Lived in `Menu.svelte` until M12.6, when the guide needed the same line and
- * the alternative was a second implementation of it.
+ * Shared by the menu's Fly section and the guide (`FlySection.tsx`,
+ * `GuideContent.tsx`): it lived in the menu until M12.6, when the guide needed
+ * the same line and the alternative was a second implementation of it.
  */
 export function scenarioStats(preset: ScenarioPreset): string {
   const altitude =

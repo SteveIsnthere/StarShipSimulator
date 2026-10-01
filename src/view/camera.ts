@@ -792,7 +792,7 @@ function integrateCamera(
  * Advance the camera by `dt` seconds of SIMULATED time.
  *
  * NOT REAL SECONDS, since M9.2, and the change of word is the whole of that
- * task. `App.svelte` used to hand this the wall frame time while `advance()`
+ * task. The app's tick used to hand this the wall frame time while `advance()`
  * simulated something else, and the gap between the two is not noise: it is the
  * clamp, the accumulator remainder, the slow-motion divisor, the warp
  * multiplier and the max-steps bailout, all of them one-directional. Pass

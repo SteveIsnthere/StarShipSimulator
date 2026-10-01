@@ -2,7 +2,7 @@
  * Engines: all three on or off, each engine, the throttle, and the guard
  * (docs/design/ia.md, "Controls, grouped by how often they are used").
  *
- * Ported from EnginePanel.svelte. The throttle is bounded by the engines'
+ * The throttle is bounded by the engines'
  * limits — not 0..100 — exactly as core clamps it, and it emits on every input.
  */
 import { useId } from 'react';
@@ -23,9 +23,9 @@ const ENGINES: readonly RaptorIndex[] = [0, 1, 2];
  * indicator is what flips the throttle's value to Off, through the group's
  * `:has()` — no React state, no per-frame work.
  */
-const ENGINE_DOT = 'block size-3 border border-ui-fg in-[.is-on]:bg-ui-fg';
-const THROTTLE_LIVE = 'group-has-[[data-indicator=allRaptors].is-on]/engines:inline hidden';
-const THROTTLE_OFF = 'group-has-[[data-indicator=allRaptors].is-on]/engines:hidden';
+const ENGINE_DOT = 'block size-3 border border-ui-fg in-[[aria-pressed=true]]:bg-ui-fg';
+const THROTTLE_LIVE = 'group-has-[[data-indicator=allRaptors][aria-pressed=true]]/engines:inline hidden';
+const THROTTLE_OFF = 'group-has-[[data-indicator=allRaptors][aria-pressed=true]]/engines:hidden';
 
 /** The guard's one line, on hover and to assistive technology. */
 const GUARD_HINT = 'Throttles back to keep the speed under the safe dynamic-pressure limit.';
@@ -105,8 +105,8 @@ export function EnginesGroup({ blocked }: EnginesGroupProps) {
       >
         <span>Throttle guard</span>
         <span className={STATE_WORD} aria-hidden="true">
-          <span className="in-[.is-on]:hidden">Off</span>
-          <span className="hidden in-[.is-on]:inline">On</span>
+          <span className="in-[[aria-pressed=true]]:hidden">Off</span>
+          <span className="hidden in-[[aria-pressed=true]]:inline">On</span>
         </span>
       </ControlButton>
       <span id={guardHint} className="sr-only">

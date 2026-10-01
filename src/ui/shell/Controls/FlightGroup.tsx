@@ -2,7 +2,7 @@
  * Flight: the yoke, the autopilot as one segmented choice, then Systems
  * (docs/design/ia.md, "Controls, grouped by how often they are used").
  *
- * Ported from YokePanel.svelte. The autopilot modes are still one button each,
+ * The autopilot modes are still one button each,
  * each with its own test id and event — `$ui/guide`'s table, so the buttons and
  * the guide cannot disagree — laid out as a segmented choice with Manual first.
  * Manual has no event of its own: it is current when no mode is, and choosing

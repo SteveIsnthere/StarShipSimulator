@@ -55,7 +55,9 @@ test('the intro lands and says how it went @mobile', async ({ page }) => {
 
   // AGENTS.md's soul: the intro auto-landing sequence lands. If this ever reads
   // CRASH the demo is broken, and the card is how anyone would now find out.
-  await expect(page.locator(byTestId('debrief-outcome'))).toHaveText('TOUCHDOWN');
+  // The outcome as data, and the heading a player reads for it.
+  await expect(page.locator(byTestId('debrief'))).toHaveAttribute('data-outcome', 'TOUCHDOWN');
+  await expect(page.locator(byTestId('debrief-outcome'))).toHaveText('Landed');
   await expect(page.locator(byTestId('debrief-reason'))).toHaveCount(0);
 
   // The three gates, all inside their limits — which is what TOUCHDOWN means,
@@ -73,7 +75,7 @@ test('the intro lands and says how it went @mobile', async ({ page }) => {
     was meant to mean a hundred metres. Asserting the text is what makes the
     number mean something.
   */
-  expect(await reading(page, 'debrief-miss')).toMatch(/^\d+ M$/);
+  expect(await reading(page, 'debrief-miss')).toMatch(/^\d+\s*m$/i);
   expect(await figure(page, 'debrief-miss')).toBeLessThan(100);
 
   // A landing burn from 500 m is subsonic in thick air and gentle: no heating
@@ -84,7 +86,7 @@ test('the intro lands and says how it went @mobile', async ({ page }) => {
   // And the events it flew through are on the card, in order.
   const events = page.locator(`${byTestId('debrief-events')} li`);
   expect(await events.count()).toBeGreaterThan(0);
-  await expect(events.last()).toContainText('TOUCHDOWN');
+  await expect(events.last()).toHaveAttribute('data-event', 'TOUCHDOWN');
 
   /*
     THE OUTCOME AND THE WAY OUT ARE ON SCREEN, on every viewport — which is the

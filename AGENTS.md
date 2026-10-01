@@ -21,7 +21,7 @@ The bar is Steve's flight sim, `flight_sim` ("Flying Bricks"): realistic physics
 | `src/view/` | PixiJS world: camera, sky, sun, stars, clouds, re-entry, particles |
 | `src/hud/` | the per-frame HUD binder and its readouts, timeline, debrief, trajectory map maths |
 | `src/audio/` | Web Audio engine and the sim-state bindings |
-| `src/ui/` | the UI shell (Svelte 5 today; moving to React), tokens, guide, test ids |
+| `src/ui/` | the interface: `shell/` (React surfaces, fonts, `index.css`), `session/` (the framework-free controller: loop, scene, store), `kit/` (flight_sim's kit, vendored), plus the guide, test ids and the black box's model and charts |
 | `tests/` | Vitest suites by layer, `golden/` trajectories, `proofs/`, `lint-walls/`, `e2e/` Playwright specs |
 | `tests/fixtures/legacy/` | the archived 2021 game — read-only, nothing executes it |
 | `scripts/` | build helpers: service worker, budget check, font subsetting, subpath staging |

@@ -253,8 +253,8 @@ describe('what the editor produces is flyable', () => {
 
 describe('the editor reads what the DOM actually hands back', () => {
   /*
-    M6.7. `EditorFields` says six strings; Svelte's `bind:value` on
-    `<input type="number">` says otherwise — a number once anyone has typed,
+    M6.7. `EditorFields` says six strings; the Svelte shell's `bind:value`
+    on `<input type="number">` said otherwise — a number once anyone has typed,
     and `null` when the box is cleared. `fieldsToPreset` trimmed, and threw
     `e.trim is not a function`, which killed `onConfigure` before it could
     close the menu. Live since M4.4, and invisible because every e2e that

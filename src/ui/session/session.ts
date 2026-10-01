@@ -7,8 +7,7 @@
  * renders. It is framework-free: the React shell mounts it on a canvas, hands
  * it the DOM targets the HUD binders write to, and calls its commands.
  *
- * Extracted from App.svelte. Two behaviours are new and come from the
- * information architecture (docs/design/ia.md): an open layer (menu, black box,
+ * Two behaviours come from the information architecture (docs/design/ia.md): an open layer (menu, black box,
  * guide) pauses the flight, and Escape closes the top layer first.
  */
 import { DT, advance, createLoopState, type LoopState } from '$app/loop';

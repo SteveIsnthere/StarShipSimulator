@@ -3,9 +3,8 @@
  * drawn once per frame from the simulation's state. Framework-free; the
  * session owns it and the UI framework never sees it.
  *
- * Extracted from App.svelte's mount and tick unchanged in behaviour. The
- * per-frame path allocates nothing: every object written per frame is built
- * here, once.
+ * The per-frame path allocates nothing: every object written per frame is
+ * built here, once.
  */
 import type { SimState } from '$core/state';
 import type { ScenarioPreset } from '$core/scenarios';

@@ -1,8 +1,8 @@
 /**
  * Drawing the trajectory map.
  *
- * Separated from `trajectory.ts` (which is the maths) and from the Svelte
- * component (which owns the element) for the reason the whole `hud/` layer is
+ * Separated from `trajectory.ts` (which is the maths) and from the React
+ * component (`TrajectoryCard.tsx`, which owns the element) for the reason the whole `hud/` layer is
  * built this way: the draw takes a MINIMAL CONTEXT INTERFACE rather than a real
  * `CanvasRenderingContext2D`, so it can be run in Node against a recording stub
  * and every golden fixture can be replayed through it.
@@ -11,7 +11,7 @@
  * an off-canvas coordinate" a thing a test can say. A draw function that reached
  * for a real canvas could only be checked by looking at it.
  *
- * ONE SUBSCRIBER, THROTTLED. The map is driven from App.svelte's single rAF
+ * ONE SUBSCRIBER, THROTTLED. The map is driven from the session's single rAF
  * tick like everything else, but unlike the readouts it does not redraw every
  * frame: a map that re-ranges a couple of dozen times over a whole flight has
  * nothing to say at 120 Hz. `MAP_REDRAW_HZ` is the rate, and the throttle is

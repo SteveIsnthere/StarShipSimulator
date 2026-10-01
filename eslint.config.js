@@ -1,9 +1,7 @@
 import js from '@eslint/js';
 import ts from 'typescript-eslint';
-import svelte from 'eslint-plugin-svelte';
 import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
-import svelteConfig from './svelte.config.js';
 
 /**
  * The seven walls (`sim-core-conventions`). Each maps to a specific 2021 wound:
@@ -37,8 +35,6 @@ export const CORE_WALL_RULES = {
             '$app/*',
             'pixi.js',
             'pixi.js/*',
-            'svelte',
-            'svelte/*',
             'react',
             'react/*',
             'react-dom',
@@ -146,7 +142,6 @@ export default ts.config(
 
   js.configs.recommended,
   ...ts.configs.recommended,
-  ...svelte.configs.recommended,
 
   {
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
@@ -195,27 +190,12 @@ export default ts.config(
         {
           patterns: [
             {
-              group: ['$view/*', '$audio/*', '**/*.svelte'],
+              group: ['$view/*', '$audio/*'],
               message: 'The shell talks to src/ui/session, not to the view or audio layers directly.',
             },
           ],
         },
       ],
-    },
-  },
-
-  {
-    files: ['**/*.svelte', '**/*.svelte.ts'],
-    languageOptions: {
-      parserOptions: {
-        // The Svelte parser handles the template; TypeScript inside
-        // <script lang="ts"> needs the TS parser delegated to explicitly, or
-        // inline `type` imports fail to parse.
-        parser: ts.parser,
-        projectService: true,
-        extraFileExtensions: ['.svelte'],
-        svelteConfig,
-      },
     },
   },
 

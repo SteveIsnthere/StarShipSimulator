@@ -494,7 +494,7 @@ describe('property 1 — the vehicle stays framed, over all seven goldens', () =
 
     let s: SimState = spec.build();
     /*
-      Seeded with the vehicle's OWN velocity, as App.svelte does.
+      Seeded with the vehicle's OWN velocity, as the session's startFlight does.
 
       The first version of this test started the camera at rest, and re-entry
       failed by 879% of a half-frame. That was the test, not the camera: from

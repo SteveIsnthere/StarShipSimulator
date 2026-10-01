@@ -1,8 +1,7 @@
 /**
  * Settings: sound, time warp, the two flight settings, and Restore defaults.
  *
- * THE VOLUME IS REMEMBERED ONLY WHEN THE FINGER COMES OFF (Menu.svelte,
- * commitVolume). The sound follows every step of a drag (`input`,
+ * THE VOLUME IS REMEMBERED ONLY WHEN THE FINGER COMES OFF. The sound follows every step of a drag (`input`,
  * remember=false), and the level is written to storage once, on the native
  * `change` event, because `localStorage.setItem` is synchronous and a drag is a
  * hundred of them. React's onChange is the `input` event, so `change` is

@@ -12,7 +12,8 @@
  * most one tap.
  */
 import { expect, type Page } from '@playwright/test';
-import { byTestId, readoutValueTestId } from '../../src/ui/testids';
+import { byTestId, readoutUnitTestId, readoutValueTestId } from '../../src/ui/testids';
+import { PHONE_PORTRAIT, SHORT_LANDSCAPE } from '../../src/ui/shell/layout-queries';
 
 /** Wait until the first frame has written a readout — the app is live. */
 export async function ready(page: Page): Promise<void> {
@@ -92,22 +93,60 @@ export async function tap(page: Page, id: string): Promise<void> {
 
 /** True when the layout is the phone one — sheets rather than rails. */
 export async function isPhoneLayout(page: Page): Promise<boolean> {
-  return page.evaluate(() => window.matchMedia('(width < 37.5rem)').matches);
+  return page.evaluate((q) => window.matchMedia(q).matches, PHONE_PORTRAIT);
 }
 
 /**
- * True when the lower third is COMPRESSED — narrow, or short and landscape.
+ * True when the layout is COMPACT — a phone in either orientation.
  *
- * A different question from `isPhoneLayout`, and the difference is the whole
- * point. A landscape phone is over 600px wide, so it gets rails and dials like
- * a desktop; what it does not have is height, so the lower third is squeezed
- * and its text sits higher up the scrim. Anything reasoning about that band has
- * to ask THIS, not about width.
+ * A different question from `isPhoneLayout`. A landscape phone is over 600 px
+ * wide, so it keeps rails like a desktop; what it lacks is height, so the
+ * cluster is the compact one and the rails start folded (`short` in
+ * src/ui/shell/layout.ts).
  */
 export async function isCompactLayout(page: Page): Promise<boolean> {
   return page.evaluate(
-    () =>
-      window.matchMedia('(width < 37.5rem)').matches ||
-      window.matchMedia('(height < 31.25rem) and (orientation: landscape)').matches,
+    ([phone, short]) => window.matchMedia(phone).matches || window.matchMedia(short).matches,
+    [PHONE_PORTRAIT, SHORT_LANDSCAPE] as const,
   );
+}
+
+/** A readout's value and unit, as the HUD shows them; NaN until its first frame. */
+export async function readout(page: Page, id: string): Promise<{ value: number; unit: string }> {
+  const text = (await page.locator(byTestId(readoutValueTestId(id))).textContent()) ?? '';
+  const unit = ((await page.locator(byTestId(readoutUnitTestId(id))).textContent()) ?? '').trim().toLowerCase();
+  // Empty until the HUD's first frame: unread, not zero.
+  return { value: text.trim() === '' ? NaN : Number(text), unit };
+}
+
+/**
+ * Altitude in metres. The readout switches unit at 1 km, so the unit has to be
+ * read too — otherwise a climb past 1000 m looks like a fall to 1.0.
+ */
+export async function altitudeMetres(page: Page): Promise<number> {
+  const { value, unit } = await readout(page, 'altitude');
+  return unit === 'km' ? value * 1000 : value;
+}
+
+/**
+ * A point where the world canvas itself is on top, for a click that has to
+ * land on the world (a gesture) and not on the chrome over it. Scans a grid
+ * rather than assuming a corner: which corners are free depends on the layout.
+ */
+export async function worldPoint(page: Page): Promise<{ x: number; y: number }> {
+  const point = await page.evaluate(() => {
+    const canvas = document.querySelector('[data-testid="world-canvas"]');
+    const box = canvas?.getBoundingClientRect();
+    if (!canvas || !box) return null;
+    for (let fy = 0.5; fy <= 0.9; fy += 0.1) {
+      for (let fx = 0.3; fx <= 0.7; fx += 0.1) {
+        const x = Math.round(box.width * fx);
+        const y = Math.round(box.height * fy);
+        if (document.elementFromPoint(box.x + x, box.y + y) === canvas) return { x, y };
+      }
+    }
+    return null;
+  });
+  expect(point, 'some of the world must be uncovered').not.toBeNull();
+  return point!;
 }

@@ -31,7 +31,7 @@ async function lintAs(fixture: string, asPath: string) {
 const IN_CORE = 'src/core/__wall_fixture__.ts';
 
 describe('the seven walls reject their fixtures inside core/', () => {
-  it('wall 1: no view/ ui/ hud/ app/ PIXI or Svelte imports', async () => {
+  it('wall 1: no view/ ui/ hud/ app/ PIXI or React imports', async () => {
     const messages = await lintAs('wall1-boundary.ts', IN_CORE);
     const hits = messages.filter((m) => m.ruleId === 'no-restricted-imports');
     // pixi.js, react, @ui/Button, $view/camera and ../../hud/binder — all five.

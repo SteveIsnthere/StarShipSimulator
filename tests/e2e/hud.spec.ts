@@ -2,7 +2,7 @@
  * M4.1: the HUD in a real browser.
  *
  * The unit tests prove the binder's behaviour against stubs. What they cannot
- * prove is that the wiring is right: that Svelte rendered the nodes, that the
+ * prove is that the wiring is right: that React rendered the nodes, that the
  * resolver found them, and that the one rAF subscriber is actually writing into
  * the page. That is what this checks.
  */
@@ -35,8 +35,9 @@ test('the readouts are rendered and filled in', async ({ page }) => {
     )
     .toBe(true);
 
-  await expect(page.locator(byTestId('readout-altitude'))).toContainText('ALT');
-  await expect(page.locator(byTestId('readout-mach'))).toContainText('MACH');
+  // Labels are words in the DOM; the uppercase is the stylesheet's.
+  await expect(page.locator(byTestId('readout-altitude'))).toContainText(/altitude/i);
+  await expect(page.locator(byTestId('readout-mach'))).toContainText(/mach/i);
 });
 
 test('the readouts change as the intro flight runs', async ({ page }) => {

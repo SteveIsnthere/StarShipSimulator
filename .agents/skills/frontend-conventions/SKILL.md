@@ -54,6 +54,7 @@ session.zoom(1);
 - Use the `@ui` primitive when one exists (Button, Toggle, SliderRow, NumberField, TabStrip, Dialog, KeyCap, Surface, MetricStrip, LabeledValue, …). Do not build a second button, toggle, field or dialog.
 - **Never edit `src/ui/kit/`.** A change goes to flight_sim first; then re-sync (`src/ui/kit/PROVENANCE.md`) and update the commit there. `npm run kit:drift` reports upstream changes.
 - The kit compiles under `tsconfig.kit.json` (flight_sim's settings) and the app checks against its declarations; its tests run in Vitest's `kit` project.
+- The kit imports only react, react-dom, clsx, tailwind-merge, lucide-react, gsap and `@radix-ui/*` (`tests/ui/kit-boundary.test.ts`; ESLint skips the kit). A re-sync that needs another package adds it there, in the same change.
 
 ## The simulation is the source of truth
 

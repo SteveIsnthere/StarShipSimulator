@@ -46,7 +46,7 @@
  * for in-flight chrome only.
  */
 @theme {
-  --color-flight-backing: rgb(0 0 0 / 0.62);
+  --color-flight-backing: rgb(0 0 0 / 0.68);
   --color-flight-backing-line: rgb(255 255 255 / 0.28);
   --color-flight-caution: var(--color-ui-warning);
   --color-flight-alarm: var(--color-ui-danger);

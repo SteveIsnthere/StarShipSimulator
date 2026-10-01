@@ -1,6 +1,6 @@
 # Architecture
 
-The application is the repo root: TypeScript, Svelte 5, PixiJS 8, built with Vite. This page is
+The application is the repo root: TypeScript, React 19, PixiJS 8, built with Vite. This page is
 the layer map, the rules that keep the simulation pure, and where things live.
 
 ## Layers
@@ -9,7 +9,7 @@ Dependencies point down. A layer may import from layers below it, never above.
 
 | Layer | Path | Owns |
 |---|---|---|
-| ui | `src/ui/` | Svelte 5 components: menu, flight editor, panels, debrief, black box (lazy), the root `App.svelte` that mounts everything and runs the `requestAnimationFrame` tick |
+| ui | `src/ui/` | `session/`: the framework-free controller that mounts the scene and runs the `requestAnimationFrame` tick. `shell/`: the React surfaces over it (status bar, cluster, map, controls, menu, black box and debrief lazy). `kit/`: flight_sim's vendored kit |
 | audio | `src/audio/` | Web Audio graph and mixer; maps SimState to sound parameters |
 | hud | `src/hud/` | Per-frame readout binders, timeline, trajectory map, debrief figures, prediction |
 | view | `src/view/` | PixiJS scene: camera, sky, terrain, clouds, pooled particles, vehicle. No game logic |
@@ -19,13 +19,13 @@ Dependencies point down. A layer may import from layers below it, never above.
 Path aliases `$core`, `$app`, `$view`, `$hud`, `$ui`, `$audio` are defined identically in
 `tsconfig.json`, `vite.config.ts` and `vitest.config.ts`.
 
-Only the `core/` boundary is machine-enforced (walls 1 and 7 below). Above core, the
-direction is a convention, and it currently has one exception: `src/app/input.ts` imports
-the `ControlEvent` type from `$ui/controls` (type-only, no runtime edge). The real import
-graph otherwise follows the table: view imports only core; hud imports core and `DT` from
-`$app/loop`; audio imports core and `limitState` from `$hud/metrics`; ui imports everything.
+The `core/` boundary is machine-enforced (walls 1 and 7 below), and so is the inside of
+`ui/`: the session imports no React, and the shell reaches the view and audio only through the
+session (`frontend-conventions`). Elsewhere above core the direction is a convention, with no
+exceptions today: view imports only core; hud imports core and `DT` from `$app/loop`; audio
+imports core and `limitState` from `$hud/metrics`; ui imports everything.
 
-Per-frame work belongs to the HUD binders and Pixi. Svelte renders on interaction only.
+Per-frame work belongs to the HUD binders and Pixi. React renders on interaction only.
 The per-frame path does not allocate (particles are pooled), and DOM references are
 cached at startup.
 
@@ -49,7 +49,7 @@ Defined in `eslint.config.js` as two exported rule sets, `CORE_WALL_RULES` and
 
 | # | Rule | ESLint mechanism | Scope |
 |---|---|---|---|
-| 1 | No imports of view/ui/hud/app, `pixi.js`, or `svelte` (relative paths and `$` aliases) | `no-restricted-imports` | `src/core/**/*.ts` |
+| 1 | No imports of view/ui/hud/app, `pixi.js`, React, Zustand or the kit (relative paths and `$` aliases) | `no-restricted-imports` | `src/core/**/*.ts` |
 | 2 | No `document`, `window`, `navigator`, `PIXI`; no `globalThis.document/window/performance` | `no-restricted-globals`, `no-restricted-syntax` | core |
 | 3 | No `Math.random`; use `core/rng.ts` | `no-restricted-properties` | core |
 | 4 | No `Date.now`, `performance.now`, `new Date()`; time enters only as `dt` | `no-restricted-properties`, `no-restricted-syntax` | core |
@@ -101,20 +101,21 @@ two live representations, so `src/core/units.ts` brands them: `Rad` and `Deg` ar
 `number & { unique symbol }`. `rad()` / `deg()` tag, `toRad()` / `toDeg()` convert (in the
 order `angle / 180 * PI`, which is bit-significant to the goldens). Passing degrees where
 radians are expected does not compile; `tests/types/units.test-d.ts` proves it with
-`@ts-expect-error` lines that `svelte-check` (part of `npm run build`) checks.
+`@ts-expect-error` lines that `tsc` (part of `npm run build`) checks.
 
 ## Directory map
 
 ```
 
   src/
-    main.ts        mounts App.svelte; registers the service worker in production
+    main.tsx       mounts the React shell; registers the service worker in production
     core/          state step rng units constants scenarios
       physics/     aero atmosphere components engines gravity isa mass prediction thermal
       control/     actuation commands primitives
       autopilot/   index.ts (the stage machines)
-    app/           loop input recorder offline
-    view/ hud/ audio/ ui/   (ui/fonts/ holds committed woff2 subsets)
+    app/           loop input controls menu preferences recorder offline debug
+    view/ hud/ audio/
+    ui/            session/ shell/ kit/   (shell/fonts/ holds committed woff2 subsets)
   tests/
     core/ app/ view/ hud/ audio/ ui/   unit suites per layer
     golden/        trajectory fixtures, recorder, replay, digest audit
@@ -133,8 +134,9 @@ radians are expected does not compile; `tests/types/units.test-d.ts` proves it w
   public/        icon.svg, manifest.webmanifest, assets/*.webp
 ```
 
-`npm run build` is `svelte-check` → `vite build` (`base: './'`) → `build-sw.mjs` →
-`check-budget.mjs`.
+`npm run build` is `tsc` (the kit's project, then the app's) → the design, copy and
+entry-graph scanners → `vite build` (`base: './'`) → `build-sw.mjs` → `check-budget.mjs` →
+`check-entry-graph.mjs`.
 
 ## The archived 2021 tree
 

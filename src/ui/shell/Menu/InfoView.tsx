@@ -1,10 +1,9 @@
 /**
  * The guide and the about view, shown in the menu's dialog in place of the
- * menu (layers 'guide' and 'about'). Ported from InfoView.svelte.
+ * menu (layers 'guide' and 'about').
  *
- * `info-close` goes back to the menu, as closing the Svelte info sheet
- * uncovered the menu beneath it (tests/e2e/parity.spec.ts presses About right
- * after closing the guide). The header's close button closes everything.
+ * `info-close` goes back to the menu, not out of it: tests/e2e/parity.spec.ts
+ * presses About right after closing the guide. The header's close button closes everything.
  */
 import { useEffect, useRef } from 'react';
 import { ArrowLeft } from 'lucide-react';

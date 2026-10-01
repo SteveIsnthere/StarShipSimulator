@@ -1,6 +1,6 @@
 /**
  * The menu: a modal over the paused flight (the session pauses while any layer
- * is open). Ported from Menu.svelte and InfoView.svelte.
+ * is open).
  *
  * One kit Dialog serves three layers: 'menu' shows the four sections, 'guide'
  * and 'about' show those views in its place. Swapping content inside one open
@@ -13,7 +13,7 @@
  * layer and open the menu straight back up.
  *
  * The form lives here rather than in the sheet, so what was typed survives
- * closing the menu and visiting the guide, as it did in Svelte.
+ * closing the menu and visiting the guide.
  */
 import { useCallback, useState } from 'react';
 import { Dialog } from '@ui/Dialog';

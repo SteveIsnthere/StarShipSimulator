@@ -132,7 +132,8 @@ describe('the chart theme rides the lazy chunk, not the first load', () => {
     whether or not anything on screen uses it. That is the same wound, reopened
     one stylesheet at a time, and the JS budget alone cannot see it.
 
-    So: `charts.css` is imported from `loadCharts()` rather than from theme.css,
+    So: `charts.css` is imported from `loadCharts()` rather than from the entry
+    stylesheet (src/ui/shell/index.css),
     and this asserts the consequence — that dist/index.html links exactly one
     stylesheet, and that it is not the chart theme.
   */

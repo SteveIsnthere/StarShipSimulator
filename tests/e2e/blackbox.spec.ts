@@ -88,21 +88,21 @@ test('it closes, and the keyboard is suppressed while it is open', async ({ page
   await page.waitForTimeout(1_000);
 
   const fins = page.locator('[data-testid="fins"]');
-  const before = ((await fins.getAttribute('class')) ?? '').includes('is-on');
+  const before = (await fins.getAttribute('aria-pressed')) === 'true';
 
   await page.locator('[data-testid="open-black-box"]').click();
   await expect(page.locator('[data-testid="black-box"]')).toBeVisible();
 
   await page.keyboard.press('f');
   await page.waitForTimeout(300);
-  expect(((await fins.getAttribute('class')) ?? '').includes('is-on')).toBe(before);
+  await expect(fins).toHaveAttribute('aria-pressed', String(before));
 
   await page.locator('[data-testid="black-box-close"]').click();
   await expect(page.locator('[data-testid="black-box"]')).toHaveCount(0);
 
   // And it works again once closed.
   await page.keyboard.press('f');
-  await expect(fins).toHaveClass(before ? /control/ : /is-on/);
+  await expect(fins).toHaveAttribute('aria-pressed', String(!before));
 });
 
 /* ── M12.3: the black box as an instrument ──────────────────────────────── */

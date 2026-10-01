@@ -10,7 +10,7 @@ as `ControlEvent`s; nothing in `view/`, `hud/` or `audio/` can move a golden dig
 | Instruments | `src/hud` | per frame, one subscriber | readouts, gauges, timeline, trajectory map |
 | View | `src/view` | per frame | PixiJS 8 scene, camera, sky, depth, particles, post |
 | Sound | `src/audio` | per frame, after first gesture | Web Audio graph, mixer, bindings |
-| Shell | `src/ui` | interaction only | Svelte 5 components, tokens, menus, black box |
+| Shell | `src/ui` | interaction only | the session controller, React surfaces, the vendored kit, menus, black box |
 
 `core/` may not import any of these (lint walls 1 and 7). `audio/` does not import `view/`; it
 re-derives the engine edges it needs (`audio/events.ts`).
@@ -38,9 +38,10 @@ and a camera fed wall time drifts kilometres off a re-entering vehicle.
 `interpolate()` exist, but the view currently draws `loop.state` directly — nothing consumes
 `alpha`.
 
-### One tick — `ui/App.svelte`
+### One tick — `ui/session/session.ts`
 
-One `requestAnimationFrame` callback drives everything, in order:
+One `requestAnimationFrame` callback, in the framework-free session, drives everything in order
+(`scene.draw` in `ui/session/scene.ts` is step 2):
 
 1. `advance()` → `worldDt`. Per step inside it: `recorder.sample`, `watch.observe` (debrief),
    `view.followAltitude`, `updateCamera(…, DT)`.
@@ -203,21 +204,29 @@ sky.
 - **Curves** — aero noise silent by 50 km, engine to a floor (`ENGINE_VACUUM_FLOOR`);
   monotonic, pinned at golden states, RMS-asserted under `OfflineAudioContext`.
 
-## Shell — `src/ui` (Svelte 5, moving to React)
+## Shell — `src/ui` (React)
 
-Svelte renders on interaction only; it owns structure, the binders own values.
-`Broadcast.svelte` hands resolvers to `App.svelte` once after mount. The framework-agnostic
-parts:
+`main.tsx` mounts `shell/App.tsx` once. React renders on interaction only; it owns structure,
+the binders own values. The rules are `frontend-conventions`; the look is
+`docs/design/design-system.md`, the zones `docs/design/ia.md`.
 
-- `theme.css` — white at four opacities (`--ink-100/70/45/25`) for hierarchy; colour only as
-  meaning (`--caution`, `--alarm`, `--good`); Barlow with tabular figures (`fonts.ts` records
-  why D-DIN failed); 44 px touch floor. A broadcast layer (`pointer-events: none`) under a
-  hideable controls layer (cinematic mode).
+- `session/` — the framework-free controller. `session.ts` owns the loop, the tick, the HUD
+  binders and every command a surface may call; `scene.ts` owns every Pixi object; `store.ts`
+  is a Zustand vanilla store of what the interface renders, written on transitions only.
+- `shell/` — one folder per surface (`StatusBar`, `Hud`, `TrajectoryCard`, `Controls`, `Menu`,
+  `BlackBox`, `Debrief`, `FirstFlight`). Each renders once and, in an effect, hands the session
+  resolvers for the elements its binders write. `layout.ts` owns the three layouts (`wide`,
+  `phone`, `short`); `--hud-bottom` and `--controls-bottom` carry one surface's edge to another,
+  on resize only. `index.css` holds the fonts and the flight tokens over the kit's.
+- `kit/` — flight_sim's interface kit, vendored byte for byte (`kit/PROVENANCE.md`).
+- `shell/fonts/` — Inter, Inter Tight and JetBrains Mono, subset; `metrics.ts` records their
+  digit widths and why D-DIN was rejected.
 - `testids.ts` — the import-free `data-testid` contract e2e selects by.
 - `guide.ts` — help generated from code tables (`KEY_BINDINGS`, autopilot modes,
   `ALL_SCENARIOS`) so it cannot drift.
-- `preferences.ts` — every persisted key in one list; all storage access guarded.
-- `charts.ts` — uPlot and its CSS behind a dynamic import.
+- `charts.ts` — uPlot and its CSS behind a dynamic import. `blackbox.ts` — the recorder's
+  channels as the black box plots them.
+- `app/preferences.ts` — every persisted key in one list; all storage access guarded.
 
 ## Budgets
 

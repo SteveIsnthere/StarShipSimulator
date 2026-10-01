@@ -50,7 +50,7 @@ export default defineConfig({
       // scope (VERIFICATION-PLAN.md@d2839b9 § Scope).
       // A file with no tests at all still counts against the number: in Vitest 4
       // that is the default for everything matched by `include`, and the old
-      // `all: true` flag is gone (svelte-check rejects it — CoverageOptions has
+      // `all: true` flag is gone (the type-check rejects it — CoverageOptions has
       // no such property). This was verified rather than assumed, against
       // `version.ts`, which no test imported and which duly reported 0% line.
       // That file is gone as of M10.11; add an unimported module here and it

@@ -1,7 +1,7 @@
 /**
  * M9.2: the view runs on the SIMULATION's clock, not the wall's.
  *
- * THE BUG THIS FILE EXISTS FOR. `App.svelte` measured one wall `frameTime` per
+ * THE BUG THIS FILE EXISTS FOR. The app's tick measured one wall `frameTime` per
  * rAF and handed the same number to two different things: to `advance()`, which
  * treats it as real time to be BUDGETED, and to the camera, the cloud deck, the
  * distant earth and the particle system, which treat it as world time that has
@@ -51,7 +51,7 @@ import { GOLDEN_SPECS } from '../golden/scenarios';
 /**
  * Which clock the view is driven by. The whole subject of this file.
  *
- *   perStep   what `App.svelte` does since M9.2: the camera is advanced from
+ *   perStep   what the session does since M9.2: the camera is advanced from
  *             `AdvanceOptions.onStep`, once per simulation step, always at DT
  *   perFrame  the obvious half-fix — once per frame, but with the SIMULATED
  *             elapsed time rather than the frame time. Better, and not enough:
@@ -85,7 +85,7 @@ interface Flown {
 /**
  * Fly a golden scenario through the loop and the camera together.
  *
- * A faithful reproduction of `App.svelte`'s tick and nothing more: measure a
+ * A faithful reproduction of the session's tick and nothing more: measure a
  * frame time, `advance()` the loop with it, then move the camera. The only
  * variable is WHICH NUMBER the camera gets — and that one choice is the entire
  * content of this milestone's first bug.
@@ -103,7 +103,7 @@ function fly(spec: (typeof GOLDEN_SPECS)[number], options: FlightOptions): Flown
   let state: SimState = spec.build();
   const loop = createLoopState(state);
 
-  // Seeded with the vehicle's own velocity, exactly as App.svelte seeds it, so
+  // Seeded with the vehicle's own velocity, exactly as the session seeds it, so
   // there is no start-up transient to mistake for the bug under test.
   const camera = createCamera(
     live,
@@ -163,7 +163,7 @@ function fly(spec: (typeof GOLDEN_SPECS)[number], options: FlightOptions): Flown
     updateCamera(camera, target, live, dt);
   };
 
-  // Allocated once, outside the loop, the way App.svelte allocates its own.
+  // Allocated once, outside the loop, the way the session allocates its own.
   const onStep = options.clock === 'perStep' ? (at: SimState) => follow(at, DT) : undefined;
 
   while (simulated < wanted && frames < 200_000) {

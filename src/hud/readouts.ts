@@ -202,7 +202,7 @@ export const READOUTS: readonly Readout[] = [
 
     They are readouts rather than component state because they change — the
     dials auto-range (hud/metrics.ts) — and anything that changes during flight
-    belongs to the binder. Rendering them from Svelte would mean a reactive
+    belongs to the binder. Rendering them from React would mean a reactive
     value updating mid-flight, which is the one thing the frame path forbids.
   */
   {

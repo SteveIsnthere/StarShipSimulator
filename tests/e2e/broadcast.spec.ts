@@ -3,7 +3,7 @@
  *
  * The unit tests prove the metrics are correct functions of SimState and that
  * the binder diffs them. What only a browser can show is that the wiring holds:
- * that Svelte rendered the skeleton, that the resolver found the arcs and the
+ * that React rendered the skeleton, that the resolver found the arcs and the
  * dots, and that the one rAF subscriber is writing attributes into a live page.
  *
  * That is the same argument M4.1 made for the readouts, and the same failure it
@@ -21,20 +21,19 @@ async function ready(page: import('@playwright/test').Page) {
     .toBe(true);
 }
 
-test('the old top-left readout block is gone', async ({ page }) => {
+test('the primary cluster sits top-centre, clear of the vehicle', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
   // The M4.1 HUD was `.hud`, a thirteen-row grid pinned to the top-left corner.
-  // BROADCAST-UI-PLAN § 1: the world fills the frame and the UI annotates it
-  // from the edges. Nothing may sit up there any more.
   await expect(page.locator('.hud')).toHaveCount(0);
 
+  // ia.md: the cluster lives under the status bar, centred, where the sky is;
+  // the camera brings the vehicle to rest at the bottom of the world.
   const box = await page.locator(byTestId('readout-speed')).boundingBox();
   const viewport = page.viewportSize()!;
-  expect(box, 'the speed gauge should be laid out').not.toBeNull();
-  // Bottom half of the screen — the lower third, not the top-left corner.
-  expect(box!.y).toBeGreaterThan(viewport.height / 2);
+  expect(box, 'the speed readout should be laid out').not.toBeNull();
+  expect(box!.y + box!.height, 'in the top half').toBeLessThan(viewport.height / 2);
 });
 
 test('the gauge arcs move as the flight does', async ({ page }) => {

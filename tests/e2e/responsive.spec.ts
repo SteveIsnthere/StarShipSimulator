@@ -46,14 +46,18 @@ test('the overlay stays inside the viewport @mobile', async ({ page }) => {
   }
 });
 
-test('every control a finger has to hit is big enough @mobile', async ({ page }) => {
+test('every control is big enough for the pointer it has @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
   await openControls(page);
 
-  // 44px is the floor the plan sets and the one both platform guidelines use.
-  // Checked on the real laid-out boxes rather than on the CSS, because padding,
-  // line-height and flex all get a vote.
+  // Density follows the pointer (design-system.md §6): 44 px wherever a finger
+  // can be the pointer — the floor both platform guidelines use — and the kit's
+  // 32 px for a mouse alone. Checked on the real laid-out boxes rather than on
+  // the CSS, because padding, line-height and flex all get a vote.
+  // The kit's own query (src/ui/kit/styles/primitives.css).
+  const coarse = await page.evaluate(() => window.matchMedia('(any-pointer: coarse), (any-pointer: none)').matches);
+  const floor = coarse ? 43.5 : 31.5;
   const SMALL: string[] = [];
   for (const id of [
     'raptor-0',
@@ -67,7 +71,7 @@ test('every control a finger has to hit is big enough @mobile', async ({ page })
   ]) {
     const box = await page.locator(byTestId(id)).boundingBox();
     if (!box) continue;
-    if (box.height < 43.5) SMALL.push(`${id} ${box.height.toFixed(1)}px tall`);
+    if (box.height < floor) SMALL.push(`${id} ${box.height.toFixed(1)}px tall`);
   }
   expect(SMALL).toEqual([]);
 });

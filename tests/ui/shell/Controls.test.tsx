@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 /**
  * The controls surface against a real headless session: every control it owns
- * renders, emits the ControlEvent the Svelte panels did, hands the indicator
+ * renders, emits its ControlEvent, hands the indicator
  * binder a target for every indicator, and lays out as panels or as a tab bar
  * and one sheet.
  */
@@ -40,7 +40,7 @@ const OWNED = [
   'zoom-out',
 ] as const;
 
-/** Every button that emits, and what it emits — the Svelte panels' contract. */
+/** Every button that emits, and the ControlEvent it emits. */
 const EMITS: ReadonlyArray<[string, ControlEvent]> = [
   ['raptor-0', { type: 'raptor', engine: 0 }],
   ['raptor-1', { type: 'raptor', engine: 1 }],
@@ -100,7 +100,7 @@ describe('desktop', () => {
     }
   });
 
-  it('emits the Svelte panels’ event for every button', () => {
+  it('emits its ControlEvent for every button', () => {
     stubLayout(false);
     const { session } = renderWithSession(<Controls />);
     const emit = vi.spyOn(session, 'emit');

@@ -4,8 +4,9 @@
  * THE SHAPE OF THIS FILE. `debrief()` is pure over three inputs, two of which
  * (the timeline, the witness) are fed one state at a time by the loop. So every
  * test here REPLAYS a flight — the same eight the golden fixtures pin — feeding
- * them exactly as `App.svelte` does, and then asks the card questions whose
- * answers are already recorded somewhere else.
+ * both every step (the session feeds the watch every step and the timeline
+ * every frame), and then asks the card questions whose answers are already
+ * recorded somewhere else.
  *
  * THE RECORDER IS THE CROSS-CHECK, NOT THE SOURCE, and after review that is the
  * stronger arrangement rather than a weaker one. The first version read the

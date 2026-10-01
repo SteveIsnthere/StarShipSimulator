@@ -1,4 +1,4 @@
-/** The about view: what this is, what changed in v2, and where the source lives. Ported from InfoView.svelte. */
+/** The about view: what this is, what changed in v2, and where the source lives. */
 import { InfoPart } from './InfoPart';
 
 export function AboutContent() {

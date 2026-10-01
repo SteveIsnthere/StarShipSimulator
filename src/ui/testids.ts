@@ -185,7 +185,7 @@ export const TIMELINE_TESTIDS = ['timeline', 'event-now', 'event-next'] as const
  *
  * Listed apart from the controls because it is present only on a profile that
  * has not dismissed it, and only on a layout with room for it — see
- * `App.svelte`'s `HINT_FITS`. Everything in `CONTROL_TESTIDS` is always there,
+ * `HINT_FITS` in `src/ui/session/session.ts`. Everything in `CONTROL_TESTIDS` is always there,
  * and `testids.spec.ts` counts on that.
  */
 export const HINT_TESTIDS = ['first-flight-hint', 'first-flight-dismiss'] as const;

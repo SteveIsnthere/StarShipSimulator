@@ -13,12 +13,9 @@
  * themselves. The queries are owned here, so no surface invents a breakpoint.
  */
 import { useSyncExternalStore } from 'react';
+import { PHONE_PORTRAIT, SHORT_LANDSCAPE } from './layout-queries';
 
-/** Portrait and narrow: the primary strip above one sheet, controls behind tabs. */
-export const PHONE_PORTRAIT = '(max-width: 37.5rem) and (orientation: portrait)';
-
-/** A phone held sideways: wide enough to look like a laptop, with no height to spend. */
-export const SHORT_LANDSCAPE = '(height < 31.25rem) and (orientation: landscape)';
+export { PHONE_PORTRAIT, SHORT_LANDSCAPE };
 
 export type LayoutMode = 'phone' | 'short' | 'wide';
 
