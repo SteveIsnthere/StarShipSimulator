@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { createInitialState } from '$core/state';
 import { updatePropellant } from '$core/physics/engines';
 import * as C from '$core/constants';
+import { createScenarioState, getScenario } from '$core/scenarios';
 
 describe('the tank empties to zero, never below', () => {
   it('a burn larger than what is left stops at zero', () => {
@@ -27,6 +28,14 @@ describe('the tank empties to zero, never below', () => {
     s.status.dumpingFuel = true;
     s.status.forceDump = true;
     updatePropellant(s, 1 / 120);
+    expect(s.vehicle.propellantMass).toBe(0);
+    expect(s.vehicle.vehicleMass).toBe(C.vehicleDryMass);
+  });
+});
+
+describe('a configured flight starts with a real tank', () => {
+  it('negative propellant typed into the flight editor starts empty, not below dry mass', () => {
+    const s = createScenarioState({ ...getScenario('landing-burn')!, propellant: -50 });
     expect(s.vehicle.propellantMass).toBe(0);
     expect(s.vehicle.vehicleMass).toBe(C.vehicleDryMass);
   });

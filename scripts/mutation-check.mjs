@@ -37,11 +37,17 @@ async function makeCopy() {
   return dir;
 }
 
-function runSuite(dir) {
+/** Ten minutes: a mutation that makes the suite loop forever is ERROR, not a hung job. */
+const RUN_TIMEOUT_MS = 10 * 60 * 1000;
+
+async function runSuite(dir) {
   const out = join(dir, 'vitest-result.json');
+  // A run that dies before writing must not read the previous run's result.
+  await rm(out, { force: true });
   spawnSync('npx', ['vitest', 'run', '--reporter=json', `--outputFile=${out}`, ...SELECTION], {
     cwd: dir,
     stdio: 'ignore',
+    timeout: RUN_TIMEOUT_MS,
   });
   return readFile(out, 'utf8')
     .then((text) => {
@@ -77,7 +83,8 @@ try {
       bad += 1;
       continue;
     }
-    await writeFile(path, original.replace(m.find, m.replace));
+    // split/join, not replace(): a '$' in the replacement is literal.
+    await writeFile(path, original.split(m.find).join(m.replace));
     const r = await runSuite(dir);
     await writeFile(path, original);
     if (r.loadErrors.length) {

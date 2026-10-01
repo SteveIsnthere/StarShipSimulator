@@ -34,5 +34,23 @@
     "file": "src/core/physics/engines.ts",
     "find": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - flowRate * dt);",
     "replace": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass);"
+  },
+  {
+    "id": "burn-clamp-removed",
+    "file": "src/core/physics/engines.ts",
+    "find": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - flowRate * dt);",
+    "replace": "    vehicle.propellantMass -= flowRate * dt;"
+  },
+  {
+    "id": "dump-clamp-removed",
+    "file": "src/core/physics/engines.ts",
+    "find": "      vehicle.propellantMass = Math.max(0, vehicle.propellantMass - C.dumpRate * dt);",
+    "replace": "      vehicle.propellantMass -= C.dumpRate * dt;"
+  },
+  {
+    "id": "editor-floor-removed",
+    "file": "src/core/scenarios.ts",
+    "find": "  if (!(propellantMass > 0)) propellantMass = 0;",
+    "replace": ""
   }
 ]
