@@ -73,7 +73,11 @@ self.addEventListener('install', (event) => {
   // offline behaves exactly like one started online, which means nothing may be
   // fetched lazily at a moment when there is no network -- including the black
   // box chunk, which is lazy on purpose and precached anyway.
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+  // No skipWaiting: a new build waits until the last tab on the old one closes.
+  // Taking over at once would delete the cache an open tab's lazy chunks
+  // (the black box) still need, and they would 404 for the rest of that visit.
+  // A first install has no old worker to wait for, so it activates at once.
+  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)));
 });
 
 /*

@@ -17,14 +17,18 @@ concurrency:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
   build:
     name: build
+    # Only main publishes: a manual run from another branch must not deploy it.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # configure-pages reads the Pages configuration.
+    permissions:
+      contents: read
+      pages: write
     steps:
       - uses: actions/checkout@v7
 
@@ -46,10 +50,6 @@ jobs:
       - name: Single-page fallback
         run: cp dist/index.html dist/404.html
 
-      # Otherwise Jekyll drops files and directories beginning with an underscore.
-      - name: Disable Jekyll
-        run: touch dist/.nojekyll
-
       - uses: actions/configure-pages@v6
 
       - uses: actions/upload-pages-artifact@v5
@@ -61,6 +61,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
+    permissions:
+      pages: write
+      id-token: write
 
     environment:
       name: github-pages
