@@ -108,11 +108,14 @@ export const dumpLimit = 12000;
  * descent. Phase 6, Task 3 (Fidelity).
  *
  * MEASURED, not derived, the way `DEORBIT_ENTRY_RANGE` is. The worst
- * one-engine-out deorbit spends 12.0 t from the flip trigger to touchdown
- * (2026-10-01): 1.5 t in the flip, 8.3 t in an 18 s horizontal adjustment and
- * 2.2 t in the final descent. The reserve is that plus a third. Each tonne of
- * reserve buys about 0.75 t at touchdown (the rest is landing heavier), so 16 t
- * leaves about 3 t on every engine-out deorbit, where the old 12 t left 0.0.
+ * one-engine-out deorbit spent 12.0 t from the flip trigger to touchdown
+ * (2026-10-01, Task 3): 1.5 t in the flip, 8.3 t in an 18 s horizontal
+ * adjustment and 2.2 t in the final descent, so the reserve was set at that
+ * plus a third, 16 t. Task 4c then planned the flip on the ignition delay's
+ * maximum: the earlier flip costs hover, and the worst engine-out landing
+ * spent 13.7 t, so the reserve is 18 t, again about a third over. Each tonne of
+ * reserve buys about 0.75 t at touchdown (the rest is landing heavier): every
+ * engine-out deorbit lands with about 3.8 t, where the old 12 t left 0.0.
  *
  * The plan sized it from the landing-burn predictor (one engine from the
  * trigger, plus the ignition delay), which comes to 6.3 t: the programme spends
@@ -122,7 +125,7 @@ export const dumpLimit = 12000;
  * tests/core/deorbit-range.test.ts: an engine change that makes landing costlier
  * fails there, and the reserve is re-measured in the same commit.
  */
-export const landingReserve = 16_000;
+export const landingReserve = 18_000;
 
 /**
  * kg*m^2 — the spawn value, a solid cylinder about its centre at wet mass.
@@ -491,9 +494,9 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  * must be fitted barely varies at all. So the guidance computes the first and
  * carries the second as a constant, and works from orbits it was never tuned on.
  *
- * MEASURED at 838 km, re-measured at 841.4 km in Phase 6 (Task 3: the descent
- * carries the 16 t landing reserve rather than 12 t, and the heavier vehicle
- * flies farther). It is short of the ~860 km the descent actually covers because it also absorbs the small biases in the two computed
+ * MEASURED at 838 km, re-measured at 841.8 km in Phase 6 (Tasks 3 and 4c: the
+ * descent carries the 18 t landing reserve rather than 12 t, and the heavier
+ * vehicle flies farther). It is short of the ~860 km the descent actually covers because it also absorbs the small biases in the two computed
  * halves. That is what a fitted constant is for; what matters is that it is
  * fitted to something that barely moves.
  *
@@ -513,7 +516,7 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  * The 300 km row is the one to watch: the miss is tolerable, the heating is not
  * far from the structural limit. The orbital presets sit at 150 km deliberately.
  */
-export const DEORBIT_ENTRY_RANGE = 841_400;
+export const DEORBIT_ENTRY_RANGE = 841_800;
 
 /**
  * m — the entry interface: where the vacuum prediction stops and the

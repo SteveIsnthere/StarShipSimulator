@@ -1,6 +1,6 @@
 /**
  * DEORBIT_ENTRY_RANGE is not stale: the deorbit acceptance flight touches down
- * within 1 km of the pad (measured 0.00 km on 2026-10-01, Phase 6 Task 3).
+ * within 1 km of the pad (measured 0.30 km on 2026-10-01, Phase 6 Task 4c).
  *
  * `orbit-demo.test.ts` holds the 10 km acceptance bound; this is the tighter
  * staleness check Phase 5 added, so a guidance change that moves autoLand's
@@ -27,8 +27,8 @@ describe('an engine out on the deorbit still lands, with the reserve doing its j
   /*
     The landing reserve's health check (constants.ts, `landingReserve`). With
     the old 12 t dump target an engine-out deorbit landed on a knife edge,
-    0.00 to 0.22 t left. The 16 t reserve leaves 2.98 to 3.06 t (2026-10-01).
-    The bound is an eighth of the reserve, 2 t: a change that makes the landing
+    0.00 to 0.22 t left. The 18 t reserve leaves 3.81 to 3.84 t (2026-10-01,
+    Task 4c). The bound is an eighth of the reserve, 2.25 t: a change that makes the landing
     a tonne costlier fails here, by name, and the reserve is re-measured in the
     same commit (the engine-out use at the dump target, plus a third).
   */

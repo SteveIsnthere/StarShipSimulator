@@ -182,10 +182,10 @@ Mach); launch-pad starts at rest and moves only in felt g.
 - [x] `ship.engine.count` is in band and gated (truth report 8 of 8). Engine-out landings already fail sea-level engines.
 - [x] Every scenario lands; the intro holds. Golden rows are byte-identical: the nine RVac keys are constant and live in the fixture headers, so no digest moves.
 
-**4c: the start transient.**
-- [ ] The existing ignition delay is the named tier-B start-transient assumption; no spool-up is added on top.
-- [ ] The landing-burn predictor and the reserve account for the transient's maximum, not its mean, so the trigger covers the worst start.
-- [ ] Re-assert the engine-out reserve test.
+**4c: the start transient.** Done 2026-10-01.
+- [x] The existing ignition delay is the named tier-B start-transient assumption; no spool-up is added on top.
+- [x] The flip trigger plans on the delay's 1.2 s maximum (it added 2021's 0.6 s constant, below even the draw's 0.75 s mean). The predictor itself excludes the delay, as before; the trigger adds it.
+- [x] Re-asserted the engine-out reserve test. The earlier flip costs hover: the worst engine-out landing now spends 13.7 t, so the reserve was re-measured at **18 t** (about a third over); engine-out deorbits land with 3.8 t. `DEORBIT_ENTRY_RANGE` re-measured at 841.8 km (miss 0.30 km). Before-flip lands with 8.5 t (was 5.0).
 
 **UI (minimal).** Done with 4b.
 - [x] Six engine marks in two labelled groups (SL, Vac) on the controls and the HUD strip, a toggle per engine, from existing components (`Eyebrow`, `ControlButton`). Keys 4–6 light the RVacs.

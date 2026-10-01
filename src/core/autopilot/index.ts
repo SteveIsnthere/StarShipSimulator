@@ -27,6 +27,7 @@ import * as prim from '../control/primitives';
 import * as gravity from '../physics/gravity';
 import { getAngularAcceleration } from '../physics/aero';
 import {
+  IGNITION_DELAY_MAX_S,
   getHealthySeaLevelCount,
   getTotalMaxThrust,
   getWorkingEngineCount,
@@ -303,9 +304,13 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
   const flipStagePessimisticDuration =
     Math.sqrt((((Math.PI / 2 + C.flipGoalAngle) / 2 / flipStagePessimisticAcc) * 2)) * 2;
 
+  // Phase 6, Task 4c: the ignition delay is the engine's start transient (a
+  // named tier-B assumption: no spool-up on top of it), and the trigger plans
+  // on its MAXIMUM, so the worst start still has the altitude. It added 2021's
+  // 0.6 s "mean" constant before, below even the draw's true 0.75 s mean.
   autopilot.bellyFlopTriggerAltitude =
     autopilot.finalStagePessimisticAltitude +
-    -kinematics.speedY * (flipStagePessimisticDuration + C.raptorIgnitionTimeMean * 0.001) -
+    -kinematics.speedY * (flipStagePessimisticDuration + IGNITION_DELAY_MAX_S) -
     C.horizontalAdjustmentVerticalSpeedLimit * horizontalAdjustmentDurationEstimate +
     C.vehicleHeight / 2;
 }

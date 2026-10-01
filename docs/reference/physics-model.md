@@ -124,7 +124,7 @@ Thrust acts along `pitch − gimbal% × 15°`; the gimbal's lateral component an
 term act only as torques about the engine arm. The step the tank runs dry thrusts in proportion
 to the propellant it actually burned (`updatePropellant` returns the fraction). Fuel-out stops all
 engines and cancels any ignition still counting down; dump runs at
-3500 kg/s down to 12 t unless forced (`dumpLimit`); autoLand stops its own dump at the 16 t
+3500 kg/s down to 12 t unless forced (`dumpLimit`); autoLand stops its own dump at the 18 t
 `landingReserve`. **Ignition** is a dt-ticked delay drawn
 uniformly in 0.3–1.2 s (`engines.ts:147`), preceded by a failure roll at rate 0, or 0.1 with
 Random Failure on (`C:153`, `:163`); the roll is drawn either way.
@@ -242,15 +242,17 @@ input overwrites all.
 - **Pitch hold** re-latches below 0.4 rad/s (`C:569`).
 - **Ascent**: pitch 0→55° by 25 km, →85° by 80 km (`C:531–533`), fins locked; cuts at 12 t.
 - **Max-thrust guard**: holds the speed for q = 35 kPa, hard-coded (`primitives.ts:89`).
-- **Landing reserve**: autoLand dumps to `landingReserve`, 16 t (Phase 6), not the 12 t
-  `dumpLimit`. It is measured, not derived: the worst one-engine-out deorbit spends 12.0 t from
-  the flip trigger to touchdown (1.5 t flip, 8.3 t horizontal adjustment, 2.2 t final descent),
-  twice the predictor's ideal one-engine burn, and the reserve is that plus a third. Engine-out
-  deorbits land with about 3 t; `deorbit-range.test.ts` fails below 2 t.
+- **Landing reserve**: autoLand dumps to `landingReserve`, 18 t (Phase 6), not the 12 t
+  `dumpLimit`. It is measured, not derived: the worst one-engine-out deorbit spends 13.7 t from the
+  flip trigger to touchdown (flip, a long horizontal adjustment, final descent), about twice the
+  predictor's ideal one-engine burn, and the reserve is about a third over that. Engine-out
+  deorbits land with about 3.8 t; `deorbit-range.test.ts` fails below an eighth of the reserve.
+- **Start transient**: the 0.3–1.2 s ignition delay is the engine's start transient (tier B; no
+  spool-up on top), and the flip trigger plans on its 1.2 s maximum.
 - **Landing**: aero descent → flip (`index.ts:275`) → horizontal adjustment → final descent at
   `vy = −h/3 − 0.1` (`index.ts:504`); engine-out sets get tuned trims (`index.ts:403`, `:488`).
 - **Deorbit**: holds retrograde on RCS from the first coast step; fires when the ground left equals
-  burn arc + conic coast to 80 km + 841.4 km (`DEORBIT_ENTRY_RANGE`, fitted); cuts when range-to-go matches it,
+  burn arc + conic coast to 80 km + 841.8 km (`DEORBIT_ENTRY_RANGE`, fitted); cuts when range-to-go matches it,
   within 75–240 m/s around 150 nominal (`C:384–397`); hands to autoLand once falling. Miss: 7 km
   from 150 km at 83 % of `heatLimit` (the 120–300 km rows were measured before Phase 6), 50 km
   from 200 km, 90 km at 95 % from 300 km.
@@ -272,12 +274,13 @@ input overwrites all.
   when it needs more propellant than is aboard.
 - **The flip trigger** plans on 2021's one-engine ladder (two or three engines only when 80% of
   one cannot hold the weight, capped by the engines not failed): a deliberate engine-out
-  pessimism. It adds the flip's fall and the mean ignition delay, and **no further margin**:
-  two were tried (a flat 100 m, and 0.9 s of ignition spread plus throttle slew), and each ran
-  the one-engine-out deorbit dry in the hover the earlier flip bought. The horizontal adjustment
+  pessimism. It adds the flip's fall and the ignition delay's 1.2 s maximum (Phase 6; it was a
+  0.6 s constant), and **no further margin**. Phase 5 tried two (a flat 100 m, and 0.9 s of
+  ignition spread plus throttle slew), and each ran the one-engine-out deorbit dry on the old 12 t
+  dump; the 18 t reserve is what pays for the earlier flip now. The horizontal adjustment
   hands over at 1.1 × the predicted burn on the engines running, plus one second.
-- **The deorbit aim** `DEORBIT_ENTRY_RANGE` (841.4 km since Phase 6) is fitted to `autoLand`; its health
-  is the deorbit flight's miss (0.00 km, `tests/core/deorbit-range.test.ts`), and
+- **The deorbit aim** `DEORBIT_ENTRY_RANGE` (841.8 km since Phase 6) is fitted to `autoLand`; its health
+  is the deorbit flight's miss (0.30 km, `tests/core/deorbit-range.test.ts`), and
   `npm run deorbit:range` prints the re-derived value (the constant plus the miss).
 - **The HUD's impact predictor** (`hud/prediction.ts`) is a conic above the 80 km entry interface
   and, below it, `unpoweredFallInto`: the fall integrated with gravity, drag and lift composed as

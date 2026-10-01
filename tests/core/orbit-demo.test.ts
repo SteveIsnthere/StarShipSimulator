@@ -268,7 +268,7 @@ describe('step 3 — deorbit and land at StarBase', () => {
   it('and the entry is managed, not merely survived', () => {
     // 322 units against a limit of 389 — 83% of it (318 and 82% before M11.3
     // moved the integrator, 315 and 81% after it; Phase 6 put the planet at
-    // Earth's size and the descent on a 16 t reserve, 4 t heavier, and the
+    // Earth's size and the descent on an 18 t reserve, 6 t heavier, and the
     // peak rose two percent). The margin is why the burn is bounded rather
     // than free: a bigger one drops perigee further, meets thick air faster,
     // and pushes the peak up. Tighter than the Re-entry preset's 63%, which is

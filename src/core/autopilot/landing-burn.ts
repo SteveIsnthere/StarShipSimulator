@@ -22,6 +22,9 @@ import type { SimState } from '../state';
 
 /*
  * NO ADDED TRIGGER MARGIN, and that is a measured decision (Phase 5, Task 4).
+ * (Phase 6, Task 4c, since moved the trigger's ignition delay from 2021's 0.6 s
+ * to the draw's 1.2 s maximum: the start transient, not a margin, and the
+ * 18 t landing reserve pays for it.)
  * The trigger's pessimism is the one-engine ladder above, as it always was:
  * with every engine working it plans on a third of the thrust it will have.
  * Two margins were tried on top of the predictor and both broke the
