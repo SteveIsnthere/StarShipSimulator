@@ -42,7 +42,7 @@ async function goOffline(page: import('@playwright/test').Page) {
   await page.context().setOffline(true);
 }
 
-test('the whole app loads with the network off @mobile', async ({ page }) => {
+test('the whole app loads with the network off @mobile @smoke', async ({ page }) => {
   await goOffline(page);
 
   const failed: string[] = [];

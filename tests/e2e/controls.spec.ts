@@ -65,7 +65,7 @@ test('a toggle lights its button and unlights it again @mobile', async ({ page }
   await expect(rcs).not.toHaveClass(/is-on/);
 });
 
-test('lighting the Raptors changes the flight @mobile', async ({ page }) => {
+test('lighting the Raptors changes the flight @mobile @smoke', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
 
   // This has to start from a known engine state, and mid-intro is not one: the

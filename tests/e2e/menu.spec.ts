@@ -14,7 +14,7 @@ async function openMenu(page: import('@playwright/test').Page) {
   await expect(page.locator('[data-testid="menu"]')).toBeVisible();
 }
 
-test('the menu opens, offers every preset, and closes', async ({ page }) => {
+test('the menu opens, offers every preset, and closes @smoke', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await openMenu(page);
 
@@ -55,7 +55,7 @@ test('a preset fills the form without flying it', async ({ page }) => {
   await expect(page.locator('[data-testid="field-altitude"]')).toHaveValue('');
 });
 
-test('Configure starts the new flight and closes the menu', async ({ page }) => {
+test('Configure starts the new flight and closes the menu @smoke', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await openMenu(page);
 

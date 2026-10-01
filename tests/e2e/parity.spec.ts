@@ -15,7 +15,7 @@ async function ready(page: import('@playwright/test').Page) {
     .toBe(true);
 }
 
-test('every 2021 flight control is present', async ({ page }) => {
+test('every 2021 flight control is present @smoke', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 

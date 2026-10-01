@@ -8,7 +8,7 @@
  */
 import { expect, test } from '@playwright/test';
 
-test('every art asset loads', async ({ page }) => {
+test('every art asset loads @smoke', async ({ page }) => {
   const failed: string[] = [];
   page.on('requestfailed', (req) => {
     if (req.url().includes('/assets/')) failed.push(req.url());
