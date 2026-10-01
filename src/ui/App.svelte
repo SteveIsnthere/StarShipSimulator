@@ -29,8 +29,15 @@
   import { STARSHIP_TEXTURE } from '$view/assets';
   import { bloomIntensity, createPostPass, heatIntensity } from '$view/post';
   import { heatLimit } from '$core/constants';
-  import { createIntroState, createScenarioState, INTRO, type ScenarioPreset } from '$core/scenarios';
+  import {
+    createIntroState,
+    createScenarioState,
+    getScenario,
+    INTRO,
+    type ScenarioPreset,
+  } from '$core/scenarios';
   import { advance, createLoopState, DT, type LoopState } from '$app/loop';
+  import { installSimDebug } from '$app/debug';
   import { vehicleHeight } from '$core/constants';
   import {
     createHudBinder,
@@ -516,7 +523,9 @@
   let flightEnded = false;
 
   /** Recomputed only when the time setting changes, never per frame. */
-  const loopOptions = $derived({ ...toLoopOptions(time), onStep });
+  /** Held by `window.__simDebug` (app/debug.ts) for deterministic setup; never by a player. */
+  let debugPaused = $state(false);
+  const loopOptions = $derived({ ...toLoopOptions(time), onStep, paused: debugPaused });
 
   /** What the current flight was configured from, so a partial edit has a base. */
   // $state because the black box reads it for the export's file name (M12.3),
@@ -669,6 +678,16 @@
       const initial = createIntroState();
       const loop = createLoopState(initial);
       loopState = loop;
+      installSimDebug(window, import.meta.env.DEV, {
+        loop: () => loopState,
+        startScenario: (id, overrides) => {
+          const preset = getScenario(id);
+          if (!preset) throw new Error(`no scenario '${id}'`);
+          startFlight({ ...preset, ...overrides });
+        },
+        setPaused: (paused) => (debugPaused = paused),
+        onStep,
+      });
 
       view = await createView({
         canvas,
