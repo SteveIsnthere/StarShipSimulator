@@ -71,8 +71,10 @@ the position error quarters per dt halving and energy error is 7e-13 at 1/120
 
 ## Gravity
 
-Inverse-square from GM. `C.gravity = 9.807` (`C:47`) is never applied as a force; it is a unit for
-TWR, felt g, the g-limit and guidance, plus an add/subtract pair that cancels (`step.ts:371`).
+Inverse-square from GM. `C.gravity = 9.807` is never applied as a force; it is a unit for the TWR
+display, plus an add/subtract pair that cancels (`getVerticalAcceleration`). Felt g subtracts the
+simulation's own gravity and polar terms and divides by g₀ (`standardGravity`); the g-limit judges
+felt g. Felt g is computed in phase 3a, so the break-up check in phase 2 reads the previous step's.
 `coastDownrangeDistance` (`gravity.ts:172`) gives a drag-free conic's downrange arc by Simpson's
 rule (64 intervals); `Infinity` if the orbit never reaches the target radius, 0 for a radial fall.
 
@@ -99,7 +101,12 @@ Density: 1.225 kg/m³ at 0, 1.0e-3 at 50 km, 5.3e-7 at 100 km, 2.1e-9 at 150 km,
 
 ## Propulsion
 
-Three sea-level Raptor 2s. Full-throttle thrust per engine is `max(0, T_vac − p·A_eff)` (`C:261`).
+Six Raptor 2s in `C.RAPTORS`: three sea-level engines (indices 0–2) and three RVacs (3–5). A
+sea-level engine's full-throttle thrust is `max(0, T_vac − p·A_eff)` (`thrustPerRaptorAt`); an RVac's
+is 258 tf in vacuum less `p·A_e` through a 2.3 m exit (`thrustPerRVacAt`, tier B, the diameter a
+named assumption), 380 s, 2.11 MN on the pad. *Engines* (all) lights the sea-level three only and
+shuts down every running engine; the autopilot never lights an RVac, and its landing logic counts
+sea-level engines.
 
 | constant | value | where | source |
 |---|---|---|---|
@@ -214,13 +221,13 @@ commanded to light.
 | reentry | 80 000 | −1 980 000 | 7300, −30 | 30° | 50 |
 | before-flip | 1 000 | −100 | 0, −70 | 90° | 30 |
 | landing-burn | 200 | 0 | 0, −35 | 0° | 20 |
-| circularize | 150 000 | 0 | 7780.7, 0 | 90° | 200 |
-| deorbit | 150 000 | −π·R | 7800.7, 0 | 90° | 300 |
+| circularize | 150 000 | 0 | 7798.3, 0 | 90° | 200 |
+| deorbit | 150 000 | −π·R | 7818.3, 0 | 90° | 300 |
 | intro | 199 | 0 | 0, −50 | 0° | 12 |
 
 `createScenarioState` (`scenarios.ts:279`) floors altitude at 25 m and caps propellant at 1200 t;
 the intro also locks the fins, arms the demo autoland and lights all engines. **Every scenario flies
-the Ship** (50 m, three sea-level Raptors): Booster Sep and RTLS place it at booster-like
+the Ship** (50 m, three sea-level Raptors and three RVacs): Booster Sep and RTLS place it at booster-like
 conditions, and there is no Super Heavy. Orbits sit at 150 km (`scenarios.ts:215`), where a lap
 loses ~100 m; at 100 km an orbit decays within a lap.
 
@@ -245,7 +252,8 @@ input overwrites all.
 - **Deorbit**: holds retrograde on RCS from the first coast step; fires when the ground left equals
   burn arc + conic coast to 80 km + 841.4 km (`DEORBIT_ENTRY_RANGE`, fitted); cuts when range-to-go matches it,
   within 75–240 m/s around 150 nominal (`C:384–397`); hands to autoLand once falling. Miss: 7 km
-  from 150 km at 82 % of `heatLimit`, 50 km from 200 km, 90 km at 95 % from 300 km.
+  from 150 km at 83 % of `heatLimit` (the 120–300 km rows were measured before Phase 6), 50 km
+  from 200 km, 90 km at 95 % from 300 km.
 
 **What guidance assumes** (Phase 5, `src/core/control/guidance-physics.ts`):
 
@@ -254,7 +262,7 @@ input overwrites all.
   applies it, floored at 0.1 m/s² near orbital speed. A commanded TWR of 1 holds a hover within
   0.02 m/s² at any altitude. Boost-back commands its 1.6 g0 deceleration as an acceleration
   (`controlEngineForAcceleration`), so no g enters it. The flat `C.gravity` survives only in the
-  TWR display, felt g and the add-back in `getVerticalAcceleration`.
+  TWR display and the add-back in `getVerticalAcceleration`.
 - **The landing burn** (`autopilot/landing-burn.ts`) is sized by `landingBurnStartAltitude`:
   integrated backward from touchdown with midpoint steps of 0.05 s, gravity at each altitude
   (`gravityAt`, no centrifugal term: the burn is near vertical), thrust at that altitude's

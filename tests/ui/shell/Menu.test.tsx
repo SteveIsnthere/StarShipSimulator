@@ -193,6 +193,7 @@ describe('Fly and Flight setup', () => {
   it('every field shows its name, range and unit', () => {
     // Half a lap of the planet, in whole kilometres, grouped by a thin space.
     const halfLap = String(Math.round(Math.ceil(Math.PI * planetRadius) / 1000));
+    expect(halfLap).toBe('20015'); // half of Earth's 40,030 km mean circumference
     renderAt('menu');
     expect(byId('field-altitude')).toHaveAccessibleName(/^Altitude, 0 to 400\s000 m$/);
     expect(byId('field-xPosition')).toHaveAccessibleName(

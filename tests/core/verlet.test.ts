@@ -118,7 +118,7 @@ describe('the position error is second order in dt, against Kepler', () => {
     const a = 1 / (2 / R0 - (V0 * V0) / MU);
     const apogee = 2 * a - R0;
     expect(keplerRadius(R0, V0, 0)).toBeCloseTo(R0, 6);
-    expect((keplerRadius(R0, V0, SECONDS) - R0) / 1000).toBeCloseTo(2800, -2);
+    expect((keplerRadius(R0, V0, SECONDS) - C.planetRadius) / 1000).toBeCloseTo(4319.9, 0);
     expect(keplerRadius(R0, V0, SECONDS)).toBeLessThan(apogee);
   });
 

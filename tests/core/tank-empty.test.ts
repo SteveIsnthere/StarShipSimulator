@@ -15,7 +15,7 @@ function burning(propellant: number): SimState {
   s.autopilot.autoLandOn = false;
   s.autopilot.demoAutoLandOn = false;
   s.engines.running = [true, true, true, false, false, false];
-  s.engines.ignitionCountdown = [null, null, null];
+  s.engines.ignitionCountdown = [null, null, null, null, null, null];
   s.vehicle.throttle = 100;
   s.vehicle.throttleCurrent = 100;
   s.vehicle.propellantMass = propellant;
@@ -49,5 +49,19 @@ describe('the step the tank empties', () => {
     expect(s.failures.fuelRunOut).toBe(true);
     expect(s.engines.running).toEqual([false, false, false, false, false, false]);
     expect(s.engines.ignitionCountdown).toEqual([null, null, null, null, null, null]);
+  });
+
+  it('an ignition that would finish on the emptying step does not light on propellant already gone', () => {
+    // Found by the Phase 6 independent review: the burn is paid for before the
+    // countdowns tick, so an engine lighting on that step thrust for free.
+    const one = [true, false, false, false, false, false];
+    const flowPerStep = getFuelFlowRate(one, 100) * DT;
+    const s0 = burning(flowPerStep * 0.25);
+    s0.engines.running = one;
+    s0.engines.ignitionCountdown = [null, DT / 2, DT / 2, null, null, null];
+    const s = step(s0, DT);
+    expect(s.engines.running).toEqual(one);
+    expect(s.engines.ignitionCountdown).toEqual([null, null, null, null, null, null]);
+    expect(s.forces.thrust / getThrust(one, 100, s.atmosphere.airPressure)).toBeCloseTo(0.25, 6);
   });
 });

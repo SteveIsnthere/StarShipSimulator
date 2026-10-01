@@ -269,6 +269,10 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
 
   const burnedFraction = eng.updatePropellant(s, dt);
   eng.updateRaptorStatus(s);
+  // The tank emptied this step: the burn above was paid for by the engines
+  // already running, so nothing still counting down may light on it (Phase 6,
+  // Bug fix found in review). fuelRunOut follows next step, as it always has.
+  if (s.vehicle.propellantMass <= 0) s.engines.ignitionCountdown.fill(null);
 
   // Ignition is a dt-ticked countdown now, not a wall-clock timer (M1.4).
   eng.tickIgnition(s, dt);

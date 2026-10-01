@@ -101,10 +101,8 @@ describe('a circular orbit stays circular over one lap', () => {
   const lapSteps = Math.round(((2 * Math.PI * r) / v) / DT);
 
   it('takes Kepler\'s period, about 88 minutes, which is what low orbit takes', () => {
-    const kepler = 2 * Math.PI * Math.sqrt(r ** 3 / MU);
-    expect(Math.abs(lapSteps * DT - kepler)).toBeLessThanOrEqual(DT);
-    expect(kepler / 60).toBeGreaterThan(88);
-    expect(kepler / 60).toBeLessThan(89);
+    // A fixed figure, not the formula again: Earth's period at 200 km.
+    expect((lapSteps * DT) / 60).toBeCloseTo(88.35, 2);
   });
 
   it('altitude holds within a kilometre over a full lap', () => {

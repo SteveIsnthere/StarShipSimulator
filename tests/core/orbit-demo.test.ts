@@ -128,12 +128,14 @@ describe('the orbital presets', () => {
     // moving the altitude cannot leave a stale speed behind.
     expect(circularHere(s) - s.kinematics.speedX).toBeCloseTo(20, 6);
     expect(s.kinematics.speedX).toBe(Math.sqrt(C.planetGravitationalParameter / (C.planetRadius + ORBIT_ALTITUDE)) - 20);
+    expect(s.kinematics.speedX).toBeCloseTo(7798.29, 2); // Earth at 150 km, less 20
   });
 
   it('Deorbit starts exactly circular, half a lap from StarBase', () => {
     const s = createScenarioState(getScenario('deorbit')!);
     expect(s.kinematics.speedX).toBe(circularHere(s));
     expect(s.kinematics.speedX).toBe(Math.sqrt(C.planetGravitationalParameter / (C.planetRadius + ORBIT_ALTITUDE)));
+    expect(s.kinematics.speedX).toBeCloseTo(7818.29, 2); // Earth's circular speed at 150 km
     const fromBase = Math.abs(s.kinematics.downRangeDistance - C.starBaseXPos);
     expect(fromBase).toBeCloseTo(Math.PI * C.planetRadius, -4);
   });
