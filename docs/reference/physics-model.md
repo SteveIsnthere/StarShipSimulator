@@ -169,23 +169,24 @@ autopilot's proportional command applies.
 
 ## Thermal
 
-`thermalPower = 1.83e-7 · v³ · √(ρ / R_n)` (`physics/thermal.ts:41`), Sutton-Graves, v = airspeed,
-R_n = 4.5 m (`C:97`).
+Phase 6, Task 8 (`physics/thermal.ts`).
 
-**The unit is unresolved.** Sutton-Graves is usually published with `1.83e-8` for W/cm²; this is
-ten times that, so the value reads as 10× W/cm² (Re-entry peak 245.9 → 24.6 W/cm²). Nothing in the
-source says whether the factor is a slip or a scaling.
-
-**`heatLimit = 389`** (`C:358`) preserves the 2021 build's margin on the Re-entry preset: 2021
-peaked at 34.7414 of its 55 (0.6317); this model peaks at 245.9079 on the same preset;
-245.9079 / 0.6317 = 389.30, rounded down. Limit and output are consistent whatever the unit.
+- **Flux:** Sutton & Graves (NASA TR R-376), `q = 1.7415e-4 · v³ · √(ρ / R_n)` in W/m², v the
+  airspeed, R_n the hull's 4.5 m radius. Broadside the Ship is a cylinder in crossflow, whose
+  stagnation line takes 1/√2 of a sphere's flux (2-D against axisymmetric; Anderson); the factor runs
+  from 1 nose-on to 0.707 broadside with |sin| of the angle into the wind (the blend is an assumption).
+  2021's 1.83e-7 was the same form on a scale 951.6 times smaller.
+- **Temperature:** radiative equilibrium, `T = (q / εσ)^¼`, ε = 0.85 (the Shuttle HRSI coating,
+  tier B). No soak, no ablation.
+- **Limit:** 1,533 K, the Shuttle HRSI reuse limit (1,260 °C, tier B); `heatLimit` is the flux that
+  holds it, εσT⁴ = 266 kW/m². Peaks: the Re-entry preset 1,372 K (171 kW/m²), the deorbit 1,459 K.
 
 ## Limits and failure
 
 | check | condition | where |
 |---|---|---|
 | g | `perceivedG > 13`: felt g, (acceleration − gravity) / g₀, what the structure carries | `step.ts:193`, `C:298` |
-| heat | `thermalPower > 389` | `C:358` |
+| heat | `thermalPower > heatLimit`: the tile above 1,533 K | `step.ts`, `TILE_LIMIT_KELVIN` |
 | q | `> 50` kPa (goldens peak at 28.6) | `C:461` |
 | contact zone | `altitude ≤ 25·\|cos pitch\|` | `step.ts:139` |
 | landed | in zone, `speedY < −0.5`, `\|speedX\| < 2`, `\|speedY\| < 10`, `\|pitch\| < 0.09` rad | `step.ts:143`, `C:463–465` |
@@ -254,7 +255,7 @@ input overwrites all.
 - **Deorbit**: holds retrograde on RCS from the first coast step; fires when the ground left equals
   burn arc + conic coast to 80 km + 841.8 km (`DEORBIT_ENTRY_RANGE`, fitted); cuts when range-to-go matches it,
   within 75–240 m/s around 150 nominal (`C:384–397`); hands to autoLand once falling. Miss: 7 km
-  from 150 km at 83 % of `heatLimit` (the 120–300 km rows were measured before Phase 6), 50 km
+  from 150 km with the tile at 1,459 K of 1,533 (the 120–300 km rows were measured before Phase 6), 50 km
   from 200 km, 90 km at 95 % from 300 km.
 
 **What guidance assumes** (Phase 5, `src/core/control/guidance-physics.ts`):
@@ -300,7 +301,8 @@ input overwrites all.
 - One vehicle: no Super Heavy, no vacuum Raptor, no staging.
 - Isp does not vary with throttle; engines reach thrust instantly after the ignition delay.
 - Fins, RCS and the gimbal's lateral component make torque only, never translation.
-- Heating is an instantaneous stagnation-point flux on an unresolved scale: no soak, no ablation.
+- Heating is an instantaneous stagnation flux at radiative equilibrium: no soak, no ablation, one
+  temperature for the whole windward hull.
 - Since the centre of mass moves with the propellant (M11.8), the RTLS flight reaches apogee
   before MECO, and the HUD's impact prediction is less accurate at high altitude on it: the
   predictor holds the attitude of the moment, and the vehicle is still turning under thrust.

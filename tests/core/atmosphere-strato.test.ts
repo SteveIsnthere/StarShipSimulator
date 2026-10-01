@@ -167,15 +167,16 @@ describe('the consequence for the Re-entry preset', () => {
       peak = Math.max(peak, s.forces.thermalPower);
     }
     // The number the 2021 build's limit was, which this bug fix blew straight
-    // past. That is the consequence being recorded.
-    expect(peak, 'against the 2021 limit of 55').toBeGreaterThan(55);
-    expect(peak).toBeGreaterThan(70);
+    // past. That is the consequence being recorded. Since Phase 6 the flux is
+    // in W/m^2: 2021's limit of 55 on its old scale is 55 x 951.6 of these.
+    const OLD_UNIT = 1.7415e-4 / 1.83e-7;
+    expect(peak, 'against the 2021 limit of 55').toBeGreaterThan(55 * OLD_UNIT);
+    expect(peak).toBeGreaterThan(70 * OLD_UNIT);
 
-    // And the resolution, since M2.9(a): the limit is 389 now — recalibrated
-    // to preserve the margin 2021 actually flew this preset with, rather than
-    // the number that indexed a quantity M2.2 rescaled. So the vehicle survives
-    // the first second, and the whole descent.
-    expect(heatLimit).toBe(389);
+    // And the resolution: the limit is a tile temperature now (Phase 6, Task
+    // 8), 1,533 K, which a flux of eps sigma T^4 = 266 kW/m^2 holds. So the
+    // vehicle survives the first second, and the whole descent.
+    expect(heatLimit).toBeCloseTo(266_195, 0);
     expect(s.failures.inFlightBreakUp, 'survives the entry now').toBe(false);
   });
 

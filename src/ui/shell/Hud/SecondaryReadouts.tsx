@@ -30,7 +30,7 @@ const SECONDARY: readonly Secondary[] = [
   { id: 'gforce', label: 'G', title: 'Acceleration felt on board, in g' },
   { id: 'twr', label: 'TWR', title: 'Thrust to weight ratio' },
   { id: 'throttle', label: 'Throttle', title: 'Throttle' },
-  { id: 'heat', label: 'Heat', title: 'Heating', metric: 'heat-state' },
+  { id: 'heat', label: 'Heat', title: 'Skin temperature', metric: 'heat-state' },
   { id: 'range', label: 'Range', title: 'Distance to the landing site' },
 ];
 

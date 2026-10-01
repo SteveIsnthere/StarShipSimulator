@@ -22,6 +22,7 @@
  * hand.
  */
 import { describe, expect, it } from 'vitest';
+import { getReentryHeatPower } from '$core/physics/thermal';
 import * as C from '$core/constants';
 import { relativeAirspeed, relativeWindAngle } from '$core/physics/aero';
 import { createInitialState, type SimState } from '$core/state';
@@ -104,7 +105,11 @@ describe('airspeed is the speed through the air, not over the ground', () => {
     const v = relativeAirspeed(200, -100, -60, 0) / relativeAirspeed(200, -100, 0, 0);
     expect(b.forces.dynamicPressure / a.forces.dynamicPressure).toBeCloseTo(v ** 2, 9);
     expect(b.forces.aerodynamicDrag / a.forces.aerodynamicDrag).toBeCloseTo(v ** 2, 9);
-    expect(b.forces.thermalPower / a.forces.thermalPower).toBeCloseTo(v ** 3, 9);
+    // Heating also reads the attitude to the air (Phase 6: a cylinder's
+    // stagnation line takes 1/sqrt(2) of a sphere's flux), and the wind turns
+    // that; divided out, the flux is the cube of the same airspeed.
+    const shape = (st: typeof a) => getReentryHeatPower(1, 1, 1, st.kinematics.angleInToTheWind);
+    expect(b.forces.thermalPower / shape(b) / (a.forces.thermalPower / shape(a))).toBeCloseTo(v ** 3, 9);
   });
 
   it('Mach is relative to the air', () => {

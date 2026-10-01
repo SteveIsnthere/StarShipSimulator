@@ -209,28 +209,15 @@ export interface ForcesState {
   aftFinEffectiveAreaFraction: number;
 
   /**
-   * A STAGNATION-POINT HEAT FLUX ON AN UNRESOLVED SCALE. Compared against
-   * `heatLimit`, which is expressed on the same scale and derived from it.
-   *
-   * M9.4 audited this one and could not name its unit honestly, so it says so
-   * rather than guessing. What IS established: `getReentryHeatPower` is the
-   * Sutton-Graves correlation, `k * v^3 * sqrt(rho / R_nose)`, whose dimensions
-   * are those of a heat flux; the shipped coefficient is 1.83e-7, and the
-   * correlation is commonly published as `1.83e-8 * v^3 * sqrt(rho / R_n)` for
-   * a result in W/cm^2 with v in m/s, rho in kg/m^3 and R_n in m. Same leading
-   * digits, exponent larger by one. On that reading the value here is ten times
-   * a flux in W/cm^2 — the re-entry preset peaks at 245.9 of these units, which
-   * would be 24.6 W/cm^2, a plausible entry heat flux.
-   *
-   * What is NOT established is whether the extra factor of ten is a
-   * transcription slip in the 2021 source or a deliberate scaling. The source
-   * cannot settle it, and settling it would change physics — which this task,
-   * bounded to comments, may not do. So the field is documented as what it
-   * provably is (proportional to a stagnation heat flux) rather than given a
-   * unit it may not have. `heatLimit` was re-derived against THIS scale at
-   * M2.9(a), so the pair is internally consistent whatever the factor is.
+   * W/m^2 — the convective heat flux on the windward hull (Phase 6, Task 8:
+   * Sutton-Graves in SI, by attitude; physics/thermal.ts). Until Phase 6 this
+   * was the same correlation on an unnamed scale about a thousandth of this.
+   * The break-up check compares it with `C.heatLimit`, the flux that holds a
+   * tile at its 1,533 K limit.
    */
   thermalPower: number;
+  /** K — the tile's radiative-equilibrium temperature under `thermalPower`. */
+  surfaceTemperature: number;
   /**
    * kPa — dynamic pressure.
    *
@@ -583,6 +570,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       aftFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0).aftFinEffectiveAreaFraction,
 
       thermalPower: 0,
+      surfaceTemperature: 0,
       dynamicPressure: 0,
 
       perceivedG: 0,

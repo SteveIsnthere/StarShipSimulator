@@ -36,8 +36,8 @@ export const CHANNEL_DISPLAY: Readonly<Record<string, ChannelDisplay>> = {
   lift: { label: 'Lift', unit: 'kN', digits: 1, scale: 1 / 1000 },
   altitude: { label: 'Altitude', unit: 'm', digits: 0 },
   downRange: { label: 'Downrange distance', unit: 'm', digits: 0 },
-  // The simulation's own heating scale has no physical unit (see core/state.ts).
-  thermalPower: { label: 'Heating', unit: '', digits: 0 },
+  // W/m^2 in the simulation since Phase 6, shown in kW/m^2.
+  thermalPower: { label: 'Heat flux', unit: 'kW/m²', digits: 0, scale: 1 / 1000 },
   dynamicPressure: { label: 'Dynamic pressure', unit: 'kPa', digits: 1 },
   g: { label: 'Acceleration', unit: 'g', digits: 2 },
   gX: { label: 'Horizontal acceleration', unit: 'g', digits: 2 },

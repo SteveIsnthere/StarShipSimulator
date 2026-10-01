@@ -192,17 +192,16 @@ Mach); launch-pad starts at rest and moves only in felt g.
 - [x] Test ids `raptor-0`…`raptor-5`, the first three keeping their meaning. Engines (all) keeps its 2021 behaviour. Accessible names: "Sea-level engine 1" … "Vacuum engine 3".
 - [ ] `parity.spec.ts` stays green (run at phase close with the full e2e suite). The look is Phase 8's.
 
-### Task 5: Drag (split in two)
+### Task 5: Drag (split in two) — PARKED 2026-10-01
 
-**5a: the area.**
-- [ ] Replace the `/2.1` with the geometric nose-on area of a 9 m cylinder. The cross-section becomes the projected area at the attitude.
+**Parked, with 6, 7 and 11 downstream (the plan's dependency rule).** Built and measured, not merged; the work is on branch `claude/drag-parked`.
 
-**5b: Cd.**
-- [ ] A Mach curve per regime from the named sources: a broadside blunt cylinder (crossflow Cd vs Mach, Jorgensen / Hoerner) and a nose-on cone-cylinder (DATCOM), blended by the angle into the wind.
-- [ ] Hypersonic broadside Cd is about 1.2–1.3, not the 2.5 cap. Expect re-entry and the deorbit to move hard.
-- [ ] The predictor follows automatically. Re-derive the deorbit range; every scenario lands, or the task parks.
+- 5a (the geometric area, no `/2.1`) and 5b (per-component Cd) cannot land apart: the `/2.1` compensated a broadside Cd applied nose-on, so 5a alone doubles axial drag.
+- 5b's model: broadside crossflow Cd 1.2 subcritical (Jorgensen, NASA TR R-474) to the Newtonian (2/3)·1.84 = 1.227 above Mach 4; nose-first base drag, ogive wave drag and friction; tail-first a blunt face, 0.85·q_stag/q (OpenRocket technical documentation, from Hoerner). Every scenario except the orbital entry still lands.
+- **Why it parks:** hypersonic broadside drag halves (2.5 → 1.23), the vehicle penetrates deeper while fast, and with the physical heat model (Task 8) the deorbit reaches the 1,533 K limit at 65 km and breaks up. The re-entry preset survives at 1,517 K.
+- **What would unpark it, and why that is Steve's:** the autopilot flies entry broadside (88–89° to the wind), where lift is zero. An experiment replacing lift with the crossflow normal force (Newtonian, no moment) changed nothing for that reason. Surviving needs an entry angle-of-attack schedule that flies on lift, or a different deorbit burn: new guidance, outside this plan.
 
-### Task 6: Normal force and centre of pressure (Fidelity)
+### Task 6: Normal force and centre of pressure (Fidelity) — PARKED, downstream of Task 5
 
 - [ ] The body normal force acts at a centre of pressure from slender-body theory plus crossflow (Allen & Perkins; Jorgensen), giving a moment about the moving CoM.
 - [ ] It replaces the hand-tuned Cl curve. Whether the belly-flop's feel survives is recorded with numbers; if it is lost, that is a finding, not a tuning target.
@@ -210,20 +209,20 @@ Mach); launch-pad starts at rest and moves only in felt g.
 - [ ] Record the RCS share of control torque through the descent, for Task 11.
 - [ ] A belly-flop that is statically unstable beyond the fins' authority is a finding for Steve, recorded and parked, not tuned away.
 
-### Task 7: Fins as surfaces (Fidelity)
+### Task 7: Fins as surfaces (Fidelity) — PARKED, downstream of Task 5
 
 - [ ] Each fin pair produces lift and drag (a force and a moment) at its own arm, from its area and deflection. This replaces the torque-only model and the ×1.8 body area, and the fin-authority estimate calls the same function.
 - [ ] Re-record the RCS share of control torque.
 - [ ] The horizontal adjustment's ±5 m/s cap is checked against the new dispersion; widening it is a schedule change, so it does not count as a principled attempt.
 
-### Task 8: The heat shield (Fidelity)
+### Task 8: The heat shield (Fidelity) — done 2026-10-01
 
-- [ ] Convective flux from Sutton & Graves (NASA TR R-376) with **k = 1.7415e-4 kg^0.5/m, in W/m²**. Peak flux in physical terms is about 1,000 × today's number; the old "unit" was 1 kW/m².
-- [ ] Surface temperature at **radiative equilibrium**, T = (q / εσ)^¼, with the tile emissivity from the TPS fact sheet. A thin surface lag only if cited.
-- [ ] Failure at the decided limit: **1,533 K (HRSI 1,260 °C), tier-B**.
-- [ ] Consumers in stated units: the HUD (K), the visual and audio scales, the black box and the debrief.
-- [ ] The re-entry assertion in `flies-every-scenario` bands the **flux** (or temperature within ±5% of the measured value), not "60–100% of the limit", which T ∝ q^¼ makes nearly vacuous.
-- [ ] If the deorbit cannot survive the limit, the task parks. That is the expected outcome on today's numbers, and the limit does not move.
+- [x] Convective flux from Sutton & Graves with k = 1.7415e-4, in W/m², R_n the 4.5 m hull radius. **Added:** broadside, a cylinder's stagnation line takes 1/√2 of a sphere's flux (Anderson); the factor blends with |sin| of the angle into the wind.
+- [x] Radiative equilibrium, ε = 0.85 (the Shuttle HRSI coating). No surface lag (none cited).
+- [x] Failure at 1,533 K; `heatLimit` is the flux that holds it, 266 kW/m².
+- [x] Consumers: the HUD shows skin temperature in K, the debrief the peak skin temperature against 1,533 K, the black box the flux in kW/m²; the visual and audio scales read flux against `heatLimit` as before.
+- [x] `flies-every-scenario` bands the re-entry flux at 170.9 kW/m² ±5%.
+- [x] The deorbit survives on the current drag: 1,459 K, 95% of the limit. Re-entry 1,372 K.
 
 ### Task 10: Wind profile and seeded turbulence (Fidelity; independent of 5–9)
 
@@ -231,7 +230,7 @@ Mach); launch-pad starts at rest and moves only in felt g.
 - [ ] Dryden turbulence (MIL-HDBK-1797 / MIL-F-8785C) from its own seeded RNG stream, keyed so the ignition draws do not shift.
 - [ ] None in the intro. `flies-every-scenario` determinism holds. The editor's wind keeps its meaning; gust stays out of the editor.
 
-### Task 11: RCS (Fidelity; after 6 and 7)
+### Task 11: RCS (Fidelity; after 6 and 7) — PARKED, downstream of Tasks 6 and 7
 
 - [ ] Flown Ships use cold-gas nitrogen thrusters with no published thrust, so the thrust and reserve are a named tier-B assumption with its reasoning. The reserve becomes gas mass.
 - [ ] Off-axis thrusters translate as well as turn.

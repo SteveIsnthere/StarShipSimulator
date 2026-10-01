@@ -14,8 +14,8 @@
  * made the simulation unphysical.
  */
 import { describe, expect, it } from 'vitest';
-import { getReentryHeatPower } from '$core/physics/thermal';
 import { getDynamicPressure } from '$core/physics/aero';
+import { surfaceTemperature, suttonGravesFlux } from '$core/physics/thermal';
 import { circularOrbitalSpeed, gravityAt, MU } from '$core/physics/gravity';
 import { getWorkingEngineCount } from '$core/physics/engines';
 import * as C from '$core/constants';
@@ -24,58 +24,34 @@ import { createMassProperties, writeMassProperties } from '$core/physics/mass';
 /** Scratch for the RCS claim below (M11.8). */
 const rcsArms = createMassProperties();
 
-describe('the thermal units are kilowatts per square metre, near enough', () => {
-  /**
-   * Sutton-Graves in SI: q = K * sqrt(rho / R_nose) * v^3, in W/m^2.
-   *
-   * The 2021 model uses the same form with K = 1.83e-7 where the published
-   * constant is 1.7415e-4 — a factor of 951.6. So `thermalPower` is heat flux
-   * in W/m^2 divided by 951.6, which is within 5% of kW/m^2. Nothing in the
-   * simulation depends on knowing that; everything about whether its numbers
-   * are sane does.
-   */
-  const K_SI = 1.7415e-4;
-  const K_GAME = 1.83e-7;
-  /** W/m^2 per game unit. */
-  const WATTS_PER_UNIT = K_SI / K_GAME;
-
-  it('the game constant is the published one, scaled', () => {
-    // Recovered from the function rather than from a comment: one unit of
-    // thermalPower is 951.6 W/m^2.
+describe('the heat flux is in W/m^2, and the limit is a tile temperature (Phase 6)', () => {
+  it('the flux is Sutton-Graves with the published constant', () => {
+    // q = K sqrt(rho / R_n) v^3 with K = 1.7415e-4 for a flux in W/m^2. 2021
+    // used 1.83e-7, the same form on a scale 951.6 times smaller.
     const rho = 1e-4;
     const v = 7000;
-    const units = getReentryHeatPower(v, rho, C.NOSE_RADIUS);
-    const wattsPerSquareMetre = K_SI * Math.sqrt(rho / C.NOSE_RADIUS) * v ** 3;
-    expect(wattsPerSquareMetre / units).toBeCloseTo(WATTS_PER_UNIT, 6);
-    expect(WATTS_PER_UNIT / 1000, 'kW/m^2 per unit').toBeCloseTo(0.952, 3);
+    expect(suttonGravesFlux(v, rho, C.NOSE_RADIUS)).toBeCloseTo(1.7415e-4 * Math.sqrt(rho / C.NOSE_RADIUS) * v ** 3, 6);
+    expect(C.SUTTON_GRAVES_K / 1.83e-7).toBeCloseTo(951.6, 1);
   });
 
-  it('so heatLimit is about 37 W/cm^2 — a number a heat shield is built to', () => {
-    // For scale: Shuttle's nose cap peaked around 45-70 W/cm^2 on entry from
-    // low orbit, and that is the regime this vehicle flies.
-    const wattsPerSquareCm = (C.heatLimit * WATTS_PER_UNIT) / 1e4;
-    expect(wattsPerSquareCm).toBeGreaterThan(25);
-    expect(wattsPerSquareCm).toBeLessThan(60);
+  it('the limit is the HRSI tile 1,260 C held by radiative equilibrium: 26.6 W/cm^2', () => {
+    // Shuttle's nose cap peaked around 45-70 W/cm^2 entering from low orbit,
+    // on reinforced carbon-carbon; the belly tiles saw a fraction of that.
+    expect(C.TILE_LIMIT_KELVIN).toBe(1533);
+    expect(surfaceTemperature(C.heatLimit)).toBeCloseTo(1533, 6);
+    expect(C.heatLimit / 1e4).toBeCloseTo(26.6, 1);
   });
 
-  it('and the 2021 limit of 55 was 5 W/cm^2, which nothing is built THAT fragile', () => {
-    // The independent corroboration of M2.9(a). The recalibration was derived
-    // from 2021's own margin without reference to any of this — and it landed
-    // on a physically sensible number, where the value it replaced did not.
-    const old = (55 * WATTS_PER_UNIT) / 1e4;
+  it('and the 2021 limit of 55 units was 5 W/cm^2, which nothing is built THAT fragile', () => {
+    const old = (55 * (C.SUTTON_GRAVES_K / 1.83e-7)) / 1e4;
     expect(old).toBeLessThan(6);
   });
 
-  it('a re-entry from low orbit peaks in the twenties, as it should', () => {
-    // 318 units at the orbital entry's peak; the Re-entry preset reaches 246.
-    for (const [units, low, high] of [
-      [246, 18, 30],
-      [318, 25, 40],
-    ] as const) {
-      const wattsPerSquareCm = (units * WATTS_PER_UNIT) / 1e4;
-      expect(wattsPerSquareCm, `${units} units`).toBeGreaterThan(low);
-      expect(wattsPerSquareCm).toBeLessThan(high);
-    }
+  it('a tile at 1,372 K re-radiates 18 W/cm^2: the Re-entry preset\'s peak, in physical terms', () => {
+    // Radiative equilibrium both ways: eps sigma T^4 and its inverse.
+    const flux = C.TILE_EMISSIVITY * C.STEFAN_BOLTZMANN * 1372 ** 4;
+    expect(flux / 1e4).toBeCloseTo(17.1, 1);
+    expect(surfaceTemperature(flux)).toBeCloseTo(1372, 6);
   });
 });
 

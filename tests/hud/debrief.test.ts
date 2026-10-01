@@ -33,6 +33,7 @@
  * the witness were reading the wrong field.
  */
 import { describe, expect, it } from 'vitest';
+import { surfaceTemperature } from '$core/physics/thermal';
 import * as C from '$core/constants';
 import { DT } from '$app/loop';
 import { createRecorder } from '$app/recorder';
@@ -109,7 +110,8 @@ describe('the peaks contain the recorder’s peaks', () => {
       // The recorder's samples are a subset of the steps the card's peaks are
       // taken over, so its maximum can never be the larger of the two.
       expect(card.peakQ.value).toBeGreaterThanOrEqual(peak('dynamicPressure') - 1e-9);
-      expect(card.peakHeat.value).toBeGreaterThanOrEqual(peak('thermalPower') - 1e-9);
+      // Peak heat is a skin temperature since Phase 6: the recorder's flux, through the same equilibrium.
+      expect(card.peakHeat.value).toBeGreaterThanOrEqual(surfaceTemperature(peak('thermalPower')) - 1e-9);
 
       // And close, because these are smooth on the scale of five frames. Q and
       // heating are checked as a ratio rather than a difference so the claim
@@ -119,13 +121,13 @@ describe('the peaks contain the recorder’s peaks', () => {
         expect(card.peakQ.value / peak('dynamicPressure')).toBeLessThan(1.05);
       }
       if (peak('thermalPower') > 1) {
-        expect(card.peakHeat.value / peak('thermalPower')).toBeLessThan(1.05);
+        expect(card.peakHeat.value / surfaceTemperature(peak('thermalPower'))).toBeLessThan(1.05);
       }
 
       // And the fractions are those against the constants the simulation
       // actually breaks the vehicle at — not a second copy of the number.
       expect(card.peakQ.limit).toBe(C.dynamicPressureLimit);
-      expect(card.peakHeat.limit).toBe(C.heatLimit);
+      expect(card.peakHeat.limit).toBe(C.TILE_LIMIT_KELVIN);
       expect(card.peakG.limit).toBe(C.gLimit);
       expect(card.peakQ.fraction).toBeCloseTo(card.peakQ.value / C.dynamicPressureLimit, 10);
     });
@@ -177,7 +179,7 @@ describe('and no peak exceeds what a full-rate replay saw', () => {
         if (s.status.onTheGround) continue;
         trueQ = Math.max(trueQ, s.forces.dynamicPressure);
         trueG = Math.max(trueG, s.forces.perceivedG);
-        trueHeat = Math.max(trueHeat, s.forces.thermalPower);
+        trueHeat = Math.max(trueHeat, s.forces.surfaceTemperature);
       }
       expect(card.peakQ.value).toBeCloseTo(trueQ, 9);
       expect(card.peakG.value).toBeCloseTo(trueG, 9);

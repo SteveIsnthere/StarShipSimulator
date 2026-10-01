@@ -389,50 +389,30 @@ export const finDragCoefficient = 2;
 
 /** g */
 export const gLimit = 13;
+/** kg^0.5/m — the Sutton-Graves constant for air, for a flux in W/m^2 (NASA TR R-376). */
+export const SUTTON_GRAVES_K = 1.7415e-4;
+/** W/(m^2 K^4) — the Stefan-Boltzmann constant (CODATA 2018). */
+export const STEFAN_BOLTZMANN = 5.670374419e-8;
 /**
- * On `thermalPower`'s own scale, whatever that scale is — see the field's JSDoc
- * in state.ts, which M9.4 pins down as far as the source allows: proportional to
- * a Sutton-Graves stagnation heat flux, and ten times W/cm^2 if the correlation's
- * usual coefficient is the intended one. What matters here is that this number
- * was DERIVED from that quantity rather than chosen in any unit, so the pair is
- * consistent however the scale is eventually named. M2.9(a), Bug-fix tier.
- *
- * WHY THIS IS NOT 55. The 2021 value was tuned against a model that was wrong
- * in two ways this rebuild fixed. M2.1 wired in the upper stratosphere, making
- * the air above 40 km several times denser than the isotherm claimed. M2.2
- * passed a nose radius to the Sutton-Graves correlation where 2021 passed a
- * cross-sectional area — the correlation divides by a radius in metres, and an
- * area of 63-500 m^2 is not one, so the old numbers were smaller by
- * sqrt(area / radius) and in units that meant nothing. `thermalPower` after
- * those fixes is a different quantity expressed on a different scale; keeping
- * the number that indexed the old one would be keeping a coincidence.
- *
- * THE RULE, chosen by the owner: preserve the 2021 MARGIN. Not the number, and
- * not a hand-picked difficulty — the ratio of peak heating to the limit that
- * the 2021 build actually flew the Re-entry preset with.
- *
- * THE MEASUREMENT, taken when this constant was calibrated (M2.x) by flying the
- * preset on BOTH implementations — the 2021 tree executing in a VM, and v2. It
- * was re-derived on every test run by tests/parity/heat-margin.test.ts until
- * M10.2 deleted that suite; the numbers below are now a record of how the limit
- * was arrived at, not a live measurement:
- *
- *     2021 peak on Re-entry     34.7414 units      (against its limit of 55)
- *     2021 margin               34.7414 / 55  =  0.6317
- *     v2 peak on Re-entry      245.9079 units
- *     limit preserving it      245.9079 / 0.6317  =  389.30
- *
- * Rounded DOWN to 389, so the recalibration can never grant more headroom than
- * 2021 had: v2 flies the preset at 0.6321 of its limit where 2021 flew it at
- * 0.6317 of its own. The preset is as survivable as it was, and no more.
- *
- * IT HAS MOVED ONCE, and the movement is the point of deriving it rather than
- * picking it. M2.9(a) measured 391.80 and shipped 390; M2.11 (the dead RCS
- * command) took the measurement to 391.47, which rounding absorbed; M2.12 (the
- * doubled tangential term) took it to 389.30, which rounding did not. Each time
- * the rule — preserve 2021's margin — decided, rather than anyone's taste.
+ * Dimensionless — the tile surface's emissivity: the black reaction-cured
+ * glass coating on the Shuttle's HRSI tiles, about 0.85 at entry temperatures
+ * (NASA Orbiter thermal protection system fact sheet). Tier B: Starship's
+ * tiles are not published.
  */
-export const heatLimit = 389;
+export const TILE_EMISSIVITY = 0.85;
+/**
+ * K — the tile's failure limit: the Shuttle HRSI reuse limit of 1,260 C
+ * (NASA TPS fact sheet), a tier-B analogue decided before Phase 6 (Starship's
+ * limit is not public). It does not move to make a flight survive.
+ */
+export const TILE_LIMIT_KELVIN = 1533;
+/**
+ * W/m^2 — the heat flux that holds a tile at `TILE_LIMIT_KELVIN` in radiative
+ * equilibrium, eps sigma T^4: 266 kW/m^2. The break-up check compares the flux
+ * with this, which is the temperature against the limit. Phase 6, Task 8: it
+ * was 389 on 2021's unnamed scale, calibrated to preserve a 2021 margin.
+ */
+export const heatLimit = TILE_EMISSIVITY * STEFAN_BOLTZMANN * TILE_LIMIT_KELVIN ** 4;
 
 // ---------------------------------------------------------------------------
 // Deorbit targeting — M2.9(c). New in v2; 2021 had no orbital autopilot.
@@ -454,7 +434,8 @@ export const heatLimit = 389;
  *     200        324            5 314 km
  *     300        346            4 319 km
  *
- * 150 m/s is the compromise: 308 units is 79% of `heatLimit`, leaving real
+ * 150 m/s is the compromise (measured on the pre-Phase-6 heat scale, where the
+ * limit was 389 units): 308 units is 79% of `heatLimit`, leaving real
  * margin for a hotter-than-nominal entry, and 6195 km of lead is short enough
  * that a coasting orbit reaches the firing point without a long wait.
  */
@@ -508,7 +489,7 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  * hand-circularised orbit, 100 t lighter, and with an engine out. Higher up it
  * degrades, because a faster, steeper entry does not cover 838 km of ground:
  *
- *     150 km (the presets)     within  7 km    entry peaks at 82% of heatLimit
+ *     150 km (the presets)     within  7 km    entry peaks at 82% of heatLimit (old scale)
  *     120 km                          18 km                    76%
  *     200 km                          50 km                    88%
  *     300 km                          90 km                    95%

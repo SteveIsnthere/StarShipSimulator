@@ -40,6 +40,7 @@
  */
 import * as C from '$core/constants';
 import { PROPELLANT_CAPACITY } from '$core/physics/mass';
+import { surfaceTemperature } from '$core/physics/thermal';
 import { DT } from '$app/loop';
 import type { SimState } from '$core/state';
 import type { Timeline, TimelineEvent } from './timeline';
@@ -93,14 +94,14 @@ export interface Witness {
   readonly propellantMass: number;
   /** m/s^2 — total, for the g limit. */
   readonly totalAcceleration: number;
-  /** the heating scale of `core/constants.ts`. */
+  /** W/m^2 — the heat flux (`forces.thermalPower`). */
   readonly thermalPower: number;
   /** kPa. */
   readonly dynamicPressure: number;
 
   /** kPa — the highest this flight reached, exactly. */
   readonly peakDynamicPressure: number;
-  /** The heating scale — the highest this flight reached, exactly. */
+  /** W/m^2 — the highest heat flux this flight reached, exactly. */
   readonly peakThermalPower: number;
   /**
    * g — the highest this flight reached, exactly, as STRUCTURAL g.
@@ -231,7 +232,7 @@ export interface Debrief {
   readonly miss: Judged;
   /** kPa, against `dynamicPressureLimit`. */
   readonly peakQ: Judged;
-  /** the heating scale, against `heatLimit`. */
+  /** the tile's peak radiative-equilibrium temperature, K, against `TILE_LIMIT_KELVIN`. */
   readonly peakHeat: Judged;
   /** g, against `gLimit`. */
   readonly peakG: Judged;
@@ -337,7 +338,7 @@ export function debrief(
       C.vehicleHeight,
     ),
     peakQ: judged(witness?.peakDynamicPressure ?? 0, C.dynamicPressureLimit, overQ),
-    peakHeat: judged(witness?.peakThermalPower ?? 0, C.heatLimit, overHeat),
+    peakHeat: judged(surfaceTemperature(witness?.peakThermalPower ?? 0), C.TILE_LIMIT_KELVIN, overHeat),
     peakG: judged(witness?.peakStructuralG ?? 0, C.gLimit, overG),
     // The recorder holds tonnes; so does the card, because the propellant bar
     // and the editor field are both in tonnes and three units for one quantity

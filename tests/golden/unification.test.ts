@@ -35,6 +35,7 @@
  *     P6.3    the landing reserve                re-entry and RTLS only
  *     P6.4    six Raptors (4a, 4b)               moved NOTHING (headers only)
  *     P6.5    the slowest start, an 18 t reserve five: one flies, two plan, two dump
+ *     P6.8    the heat shield in W/m^2 and K     ALL EIGHT, in thermalPower alone
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -245,6 +246,14 @@
  * its landing) do not move. Engine-out deorbits land with 3.8 t;
  * `DEORBIT_ENTRY_RANGE` is 841.8 km (miss 0.30 km).
  *
+ * P6.8 (Task 8, Fidelity) moves every fixture in exactly one key, and that is
+ * the shape: `thermalPower` is Sutton-Graves in W/m^2 now (k = 1.7415e-4, 951.6
+ * times 2021's 1.83e-7), times 1/sqrt(2) broadside for a cylinder's stagnation
+ * line, and nothing reads it but the break-up check. One key is added,
+ * `surfaceTemperature`, the tile's radiative-equilibrium temperature. No
+ * flight's path moves: the deorbit peaks at 1,459 K and the re-entry preset at
+ * 1,372 K against the 1,533 K limit, so no break-up decision changed.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -313,16 +322,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P6.2 (all eight), P6.3 (two), P6.5 (five): see the table above. Recorded
+  // P6.8 (all eight, thermalPower alone): see the table above. Recorded
   // on x86-64 Linux / Node 22 by .github/workflows/golden-regenerate.yml.
-  'launch-pad-takeoff': 'fc095e9ed78f64ec09792496180960dd3e347fc38105715e6c4633378d3f27f5',
-  'booster-sep-boostback': '93423f60e4096ca5412bf0de83afac96d833721997f338af0af026d29dd2438c',
-  'rtls-boostback': 'b771287234f13e32133fd89179c399227d0d782f704a408ba661d9df5a820dbf',
-  'reentry-autoland': 'd2a40dd6d625b7daa4faa1bff9c7c68791dedf72b81c5c2054ad9747963c7296',
-  'before-flip-autoland': 'a6b586640b894ca410ab010734b51b316b99c4b6aa46bbfbd95252287997b237',
-  'landing-burn-autoland': '594ea80d2fda6ec335af1677debdf126a93c7b103103b06ef9e4c86dfdedf045',
-  'landing-burn-headwind': 'eb7fe0c308f8fa548d22d56cba7384ca2d913489c90c00791b57d7a5073cc83c',
-  'intro-demo': 'a83942e207cef98013bab53ab6bf214b5dfdae0be3249bbe522beb69223775ce',
+  'launch-pad-takeoff': '287e1fc4789e0396575dc668729ce77f3476520cc58ea5ac47b27311c4bb3de0',
+  'booster-sep-boostback': '27c9491654dad845cc4989b608cbc2adc267f78150e597e00094966955a9bfb3',
+  'rtls-boostback': '0b9a512aefaa63067f1b8958953e46e29641a299d325bbcf97a105ed4baeb41a',
+  'reentry-autoland': 'c7563e0ed57727d0317185c812190590a418c6182cabab19ac4a6772432d7097',
+  'before-flip-autoland': 'e51ed9ff42114c32699fcb398eec7e1477e658139a50e60998a5f783af55762c',
+  'landing-burn-autoland': '8c3684de124c6fe8114f6b40c6526ae165587316fc342b9aef5aaceeb20ba67b',
+  'landing-burn-headwind': '1add118ce45d764c9cb9a73860a446ec7d79026dcf9c29447057cb635255a3b0',
+  'intro-demo': '5063e60b32d9b62412403bf0ec21c3288ae0a264dfcd194d2899711caf5467d5',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

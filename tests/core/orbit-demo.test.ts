@@ -26,6 +26,7 @@
  *   It now lands within a few hundred metres of it.
  */
 import { describe, expect, it } from 'vitest';
+import { surfaceTemperature } from '$core/physics/thermal';
 import { circularOrbitalSpeed, coastDownrangeDistance } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
 import {
@@ -266,17 +267,15 @@ describe('step 3 — deorbit and land at StarBase', () => {
   });
 
   it('and the entry is managed, not merely survived', () => {
-    // 322 units against a limit of 389 — 83% of it (318 and 82% before M11.3
-    // moved the integrator, 315 and 81% after it; Phase 6 put the planet at
-    // Earth's size and the descent on an 18 t reserve, 6 t heavier, and the
-    // peak rose two percent). The margin is why the burn is bounded rather
-    // than free: a bigger one drops perigee further, meets thick air faster,
-    // and pushes the peak up. Tighter than the Re-entry preset's 63%, which is
-    // right — coming home from orbit should be the hardest thing the vehicle
-    // does.
-    expect(flight.peakHeat).toBeGreaterThan(250);
+    // Since Phase 6 (Task 8) the limit is a tile temperature: the peak flux
+    // holds the belly at 1,459 K against the 1,533 K limit, 95% of it (the
+    // flux is 82% of the flux that would hold 1,533 K; T goes as q^1/4). The
+    // margin is why the burn is bounded rather than free: a bigger one drops
+    // perigee further, meets thick air faster, and pushes the peak up. Tighter
+    // than the Re-entry preset's 1,372 K, which is right — coming home from
+    // orbit should be the hardest thing the vehicle does.
     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
-    expect(flight.peakHeat / C.heatLimit, 'fraction of the structural limit').toBeCloseTo(0.83, 2);
+    expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature, K').toBeCloseTo(1459, -1);
   });
 
   it('is deterministic — the same flight twice', () => {
