@@ -19,6 +19,10 @@
 import { describe, expect, it } from 'vitest';
 import { Texture } from 'pixi.js';
 import { createParticleSystem, EFFECTS, type EffectName } from '$view/particles';
+import { createEffectDriver } from '$view/effects';
+import { createCamera, writeViewport } from '$view/camera';
+import { createScenarioState, getScenario } from '$core/scenarios';
+import { vehicleHeight } from '$core/constants';
 
 const EFFECT_NAMES = Object.keys(EFFECTS) as EffectName[];
 
@@ -115,6 +119,124 @@ describe('particles are recycled', () => {
 });
 
 describe('emission', () => {
+  it('camera translation and zoom preserve a world particle through the real driver', () => {
+    const s = system(100);
+    const state = createScenarioState(getScenario('landing-burn')!);
+    state.forces.thermalPower = 0;
+    state.forces.dynamicPressure = 0;
+    state.kinematics.trueSpeed = 0;
+    const viewport = { width: 0, height: 0, physicalHeight: 0, physicalWidth: 0, scale: 0 };
+    writeViewport(viewport, 1280, 800, vehicleHeight, 1, 0);
+    const camera = createCamera(viewport, 0, 0, 0);
+    const effects = createEffectDriver();
+    effects.update(s, camera, viewport, state, state, 0);
+    s.burst('groundSmoke', 100, 200, 1, 1);
+    s.burst('velocityStreak', 300, 400, 1, 1);
+    s.update(0.01);
+    const particle = s.container.children.find((c) => c.visible)!;
+    const streak = s.container.children.filter((c) => c.visible)[1]!;
+    const screenBefore = { x: streak.x, y: streak.y, width: streak.width };
+    const before = { x: particle.x, y: particle.y, width: particle.width };
+    const oldScale = viewport.scale;
+    camera.posX += 20;
+    camera.posY += 30;
+    viewport.scale *= 2;
+    effects.update(s, camera, viewport, state, state, 0);
+    expect(particle.x).toBeCloseTo(640 + (before.x - 640) * 2 - 20 * oldScale * 2, 3);
+    expect(particle.y).toBeCloseTo(400 + (before.y - 400) * 2 + 30 * oldScale * 2, 3);
+    expect(particle.width).toBeCloseTo(before.width * 2, 5);
+    expect(streak.x).toBe(screenBefore.x);
+    expect(streak.y).toBe(screenBefore.y);
+    expect(streak.width).toBeCloseTo(screenBefore.width, 5);
+  });
+
+  it('moving-emitter births have the same trajectory across render frame rates', () => {
+    const coarse = system(300);
+    const fine = system(300);
+    coarse.emit('raptorPlumeCore', 25, 0, 0, 1, 0.25, 1);
+    coarse.update(0.25);
+    for (let i = 0; i < 30; i++) {
+      fine.reproject(1, 0, 0, 100 / 120, 0);
+      fine.emit('raptorPlumeCore', 100 * (i + 1) / 120, 0, 0, 1, 1 / 120, 1);
+      fine.update(1 / 120);
+    }
+    const a = coarse.container.children.filter((c) => c.visible);
+    const b = fine.container.children.filter((c) => c.visible);
+    expect(a.length).toBe(75);
+    expect(b.length).toBe(a.length);
+    for (let i = 0; i < a.length; i++) {
+      expect(Math.abs(a[i]!.x - b[i]!.x), `moving birth ${i}`).toBeLessThan(0.0001);
+    }
+  });
+
+  it('an orbital-speed upright plume stays on its nozzle axis', () => {
+    const run = (speed: number) => {
+      const s = system(4000);
+      const state = createScenarioState(getScenario('landing-burn')!);
+      state.kinematics.pitch = 0 as typeof state.kinematics.pitch;
+      state.kinematics.altitude = 5000;
+      state.kinematics.speedX = speed;
+      state.kinematics.trueSpeed = 7300;
+      state.forces.thermalPower = 0;
+      state.forces.dynamicPressure = 0;
+      state.forces.thrust = 1;
+      state.engines.running = [true, true, true, false, false, false];
+      state.vehicle.throttleCurrent = 100;
+      const viewport = { width: 0, height: 0, physicalHeight: 0, physicalWidth: 0, scale: 0 };
+      writeViewport(viewport, 1280, 800, vehicleHeight, 1, 0);
+      const camera = createCamera(viewport, state.kinematics.downRangeDistance, 0, 0);
+      camera.posY = state.kinematics.altitude;
+      const effects = createEffectDriver();
+      for (let i = 0; i < 5; i++) {
+        state.kinematics.downRangeDistance += speed * 0.1;
+        camera.posX = state.kinematics.downRangeDistance;
+        effects.update(s, camera, viewport, state, state, 0.1);
+      }
+      // Core and bell use round sprites; streaks are deliberately stretched.
+      const plume = s.container.children.filter((c) => c.visible && Math.abs(c.width - c.height) < 0.001);
+      return plume.map((particle) => particle.x);
+    };
+    // A sideways change in vehicle velocity must not move an upright plume
+    // off the nozzle axis. Hold the speed-line intensity equal in both runs
+    // so the shared decoration RNG consumes the same draws.
+    const stationary = run(0);
+    const orbital = run(7300);
+    expect(stationary.length).toBeGreaterThan(100);
+    expect(orbital.length).toBe(stationary.length);
+    for (let i = 0; i < orbital.length; i++) {
+      expect(Math.abs(orbital[i]! - stationary[i]!), `plume particle ${i}: carrier velocity`).toBeLessThan(0.001);
+    }
+  });
+
+  it('continuous emission has the same plume at 120 Hz and four frames per second', () => {
+    const coarse = system(300);
+    const fine = system(300);
+    coarse.emit('raptorPlumeCore', 0, 0, 0, 1, 0.25, 1);
+    coarse.update(0.25);
+    for (let i = 0; i < 30; i++) {
+      fine.emit('raptorPlumeCore', 0, 0, 0, 1, 1 / 120, 1);
+      fine.update(1 / 120);
+    }
+    expect(coarse.alive).toBe(75);
+    expect(fine.alive).toBe(coarse.alive);
+    const a = coarse.container.children.filter((c) => c.visible);
+    const b = fine.container.children.filter((c) => c.visible);
+    for (let i = 0; i < a.length; i++) {
+      expect(Math.abs(a[i]!.x - b[i]!.x), `particle ${i}: x`).toBeLessThan(0.0001);
+      expect(Math.abs(a[i]!.y - b[i]!.y), `particle ${i}: y`).toBeLessThan(0.0001);
+      expect(Math.abs(a[i]!.alpha - b[i]!.alpha), `particle ${i}: alpha`).toBeLessThan(0.00001);
+    }
+  });
+
+  it('a frame longer than the plume lifetime still leaves the recent births alive', () => {
+    const s = system(1000);
+    s.emit('raptorPlumeCore', 0, 0, 0, 1, 0.75, 1);
+    s.update(0.75);
+    // Every birth in the final minimum lifetime must survive the frame.
+    const guaranteed = Math.floor(EFFECTS.raptorPlumeCore.rate * EFFECTS.raptorPlumeCore.life * (1 - EFFECTS.raptorPlumeCore.lifeJitter));
+    expect(s.alive).toBeGreaterThanOrEqual(guaranteed);
+  });
+
   it('rate is per second, and honours fractional particles', () => {
     // At 20/s and 1/120 s per frame, a naive floor would emit nothing forever.
     const s = system(2000);
@@ -207,7 +329,7 @@ describe('every 2021 effect is present', () => {
 describe('motion', () => {
   it('particles move away from the emission point', () => {
     const s = system(100);
-    s.emit('raptorPlume', 0, 0, 0, 1, 1 / 10, 1);
+    s.burst('raptorPlume', 0, 0, 24, 1);
     const n = s.alive;
     expect(n).toBeGreaterThan(0);
     for (let i = 0; i < 5; i++) s.update(1 / 60);
@@ -350,19 +472,17 @@ describe('drag does not depend on the frame rate', () => {
     /*
       WHICH PARTICLE BELONGS TO WHICH EFFECT, established rather than assumed.
       Sprites come off the free list in order, so the crowd's live children are
-      its emits in emit order; how many each emit produces is what a lone system
-      given the same call produces, because the fractional-emission debt is per
-      effect. Without this the test can only ask "is this drag in the table",
+      its bursts in burst order. A burst makes each subject already born at the
+      start of both equal integration intervals; continuous emission has its
+      own cadence regression above. Without this the test can only ask "is this drag in the table",
       which every particle passes even when they are all sharing one factor.
     */
-    const counts = EFFECT_NAMES.map((name) => {
-      const one = system(600);
-      one.emit(name, 0, 0, 0, 1, 0.1, 1);
-      return one.container.children.filter((c) => c.visible).length;
-    });
+    const counts = EFFECT_NAMES.map((name) => Math.floor(EFFECTS[name].rate * 0.1));
 
     const s = system(600);
-    for (const name of EFFECT_NAMES) s.emit(name, 0, 0, 0, 1, 0.1, 1);
+    for (let i = 0; i < EFFECT_NAMES.length; i++) {
+      s.burst(EFFECT_NAMES[i]!, 0, 0, counts[i]!, 1);
+    }
 
     const live = () => s.container.children.filter((c) => c.visible);
     const before = live().map((c) => c.x);

@@ -103,16 +103,25 @@ export function createEffectDriver(): EffectDriver {
   // core/ must not know that a renderer exists.
   let showedCrash = false;
   let showedBreakUp = false;
+  let previousScale = 0;
+  let previousOriginX = 0;
+  let previousOriginY = 0;
+  let previousNozzleWorldX = 0;
+  let previousNozzleWorldY = 0;
 
   return {
     reset() {
       showedCrash = false;
       showedBreakUp = false;
+      previousScale = 0;
     },
 
     update(particles, camera, viewport, state, previous, dt) {
       const { kinematics, forces, engines, vehicle, failures, status } = state;
       const scale = viewport.scale;
+      const originX = viewport.width / 2 - (camera.posX + camera.shakeX) * scale;
+      const originY = viewport.height / 2 + (camera.posY + camera.shakeY) * scale;
+      const hasPreviousFrame = previousScale > 0;
 
       const shipScreen = worldToScreen(
         camera,
@@ -129,6 +138,19 @@ export function createEffectDriver(): EffectDriver {
       const nozzleDistance = engineDistanceFromCenterOfMass * scale;
       const nozzleX = shipScreen.x + Math.cos(downAxis) * nozzleDistance;
       const nozzleY = shipScreen.y + Math.sin(downAxis) * nozzleDistance;
+      // The last rendered nozzle, projected by today's camera. `previous` is
+      // only one physics step old, so it cannot describe a slow render frame.
+      const nozzleDx = hasPreviousFrame ? nozzleX - (originX + previousNozzleWorldX * scale) : 0;
+      const nozzleDy = hasPreviousFrame ? nozzleY - (originY - previousNozzleWorldY * scale) : 0;
+      if (hasPreviousFrame) {
+        const ratio = scale / previousScale;
+        particles.reproject(ratio, originX - previousOriginX * ratio, originY - previousOriginY * ratio, nozzleDx, nozzleDy);
+      }
+      previousScale = scale;
+      previousOriginX = originX;
+      previousOriginY = originY;
+      previousNozzleWorldX = kinematics.downRangeDistance + Math.cos(downAxis) * engineDistanceFromCenterOfMass;
+      previousNozzleWorldY = kinematics.altitude - Math.sin(downAxis) * engineDistanceFromCenterOfMass;
 
       // --- engine plume ----------------------------------------------------
       /*

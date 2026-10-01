@@ -33,6 +33,8 @@ export interface Scene {
   draw(state: SimState, previous: SimState, worldDt: number, preset: ScenarioPreset): void;
   /** Match the viewport to the window. */
   resize(width: number, height: number): void;
+  /** Discard effects and emitter history belonging to the preceding flight. */
+  resetFlight(): void;
   destroy(): void;
 }
 
@@ -169,6 +171,10 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
     resize(width, height) {
       view.resize(width, height);
       sky.resize(view.viewport);
+    },
+    resetFlight() {
+      particles.clear();
+      effects.reset();
     },
     destroy() {
       // Mesh.destroy releases neither the hull shader nor its generated normal map.

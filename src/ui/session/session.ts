@@ -166,6 +166,7 @@ export function createSession(): Session {
   // The flight exists from construction, so commands work before (and without) a canvas.
   const loop: LoopState = createLoopState(createIntroState());
   let view: ViewApp | undefined;
+  let resetSceneForFlight: (() => void) | undefined;
   let hud: HudBinder | undefined;
   let metrics: MetricBinder | undefined;
   let indicators: IndicatorBinder | undefined;
@@ -216,6 +217,7 @@ export function createSession(): Session {
   };
 
   const startFlight = (preset: ScenarioPreset) => {
+    resetSceneForFlight?.();
     timeline.reset();
     const fresh = createScenarioState(preset);
     fresh.failures.randomFailure = get().randomFailure;
@@ -392,6 +394,7 @@ export function createSession(): Session {
         v.destroy();
         return () => {};
       }
+      resetSceneForFlight = scene.resetFlight;
 
       // The canvas's parent owns its box (the shell insets it above the phone's
       // bottom chrome); Pixi pins the canvas's own inline size, so the parent is
@@ -476,6 +479,7 @@ export function createSession(): Session {
         window.removeEventListener('resize', onResize);
         room.removeEventListener('change', onRoomChange);
         unwire();
+        if (resetSceneForFlight === scene.resetFlight) resetSceneForFlight = undefined;
         scene.destroy();
         hud?.destroy();
         metrics?.destroy();

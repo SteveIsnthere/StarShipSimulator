@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | built, gated, reviewed on `claude/ship-realism` (`f81908b`); **unmerged** — merge is the next step; Earth's rate (9b) and the parked aero moved to 6b | — |
+| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — final plume repair verification blocks the close; Earth's rate (9b) and the parked aero moved to 6b | — |
 | 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
@@ -73,13 +73,17 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 ## Blocker
 
-None. Paused 2026-10-01 for usage, mid-close of Phase 6.
+Phase 6's requested full-suite rerun found two iPhone plume failures.
+The graphics repair passed focused checks and a fresh independent review;
+complete gate and full-suite verification are pending before merge.
+Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-plume-diagnosis.md).
 
 ## Where Phase 6 stopped (2026-10-01)
 
-- `claude/ship-realism` at `f81908b`, pushed, 24 commits ahead of `main`, nothing uncommitted.
+- Physics implementation is unchanged from its reviewed build; the current branch has a plume timing/projection and flight-reset repair awaiting complete verification.
 - Done on that head: `npm run gate` green (1,935 tests, coverage floors, e2e smoke, subpath deploy); `npm run mutation` 18 of 18 caught; `npm run truth:report` 8 of 8; `/code-review high`; independent physics review (ChatGPT Pro, three rounds, every finding fixed: fixed RVacs, the turbulence sweep, the radial coast, the throttle law, break-up on the tile temperature).
 - `npm run test:e2e:full` on that code (built after the last code commit; every later commit is docs only): **428 passed, 0 failed** (33 min, all five projects). Earlier full-run failures (the debrief's stale heat bound, a pixels flake) are fixed or re-ran green.
+- Requested rerun on `92ed3d6`: 426 passed, 2 failed, 11 configured skips. Both plume failures were repaired without changing browser bounds or retries. Final gate and full-suite rerun precede the merge.
 - Left: merge `--no-ff` to `main` from the main checkout, push, confirm the Pages deploy and the smoke tier against the live URL, tick the roadmap's Phase 6 line with the merge commit, then start 6b.
 
 ## Phase 6 progress (2026-10-01)
