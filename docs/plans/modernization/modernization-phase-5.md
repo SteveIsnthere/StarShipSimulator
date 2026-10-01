@@ -45,6 +45,8 @@ The roadmap said the autopilot and the predictor use g = 9.807 and `airResistanc
 
 ## Global Constraints
 
+**Baseline (Task 1, 2026-10-01).** The burn slack runs from −20.2 m (landing-burn, where the old estimate was optimistic) to +68.2 m (before-flip). Engine-out: landing-burn with two engines out crashes today; the other three variants land. The intro touches down at 10.108 s with all engines off.
+
 **Tiers and goldens**
 - Every change to `src/core` names its tier (`physics-change-policy`). The guidance changes are **Fidelity, approved by this plan**. Helpers that must not change numbers are **Refactor**, with a ≤ 1 ULP proof in `tests/proofs/`.
 - One golden re-bless per task:
@@ -99,15 +101,15 @@ Task 8 closes the phase with parked tasks listed and their truth tests left as `
   - `scripts/deorbit-range.mjs` (as `npm run deorbit:range`).
 
 **Steps**
-- [ ] `npm run margins` writes, for every scenario under autopilot:
+- [x] `npm run margins` writes, for every scenario under autopilot:
   - touchdown vertical and horizontal speed, propellant left, miss distance and touchdown time;
-  - **at the moment the flip triggers**: the altitude, the vertical speed, and the trigger altitude minus the burn altitude a fine-step `step()` run actually needed (the trigger slack);
+  - **at the moment the flip triggers**: the altitude and vertical speed; the autopilot's own burn estimate (`finalStagePessimisticAltitude`); the burn altitude the simulation actually needed; and their difference, the **burn slack**. The needed altitude is measured from a copy of the state, held upright, with every working engine lit at full throttle, by bisection for the lowest start that stops at touchdown height;
   - for the intro (seed 1463897163): each engine's shutdown time and the engines lit at touchdown.
 
   Commit the output. Every later task diffs against it in its commit body.
-- [ ] Engine-out baseline: full flights with one and with two engines failed from the start of the landing burn, on landing-burn and before-flip. The test asserts today's outcomes exactly as they are: those that land must land, and those that don't are recorded as such. It is a regression net, not a wish list.
-- [ ] `npm run deorbit:range` measures the downrange distance `autoLand` covers from the entry interface (`constants.ts:443-450`), so Task 3 onward can re-derive `DEORBIT_ENTRY_RANGE`.
-- [ ] Behaviour truth tests that need no new module, so they compile today.
+- [x] Engine-out baseline: full flights with one and with two engines failed from the start of the landing burn, on landing-burn and before-flip. The test asserts today's outcomes exactly as they are: those that land must land, and those that don't are recorded as such. It is a regression net, not a wish list.
+- [x] `npm run deorbit:range` measures the deorbit flight and prints the re-derived `DEORBIT_ENTRY_RANGE`. The constant is the burn's aim, not the measured crossing-to-touchdown distance; that distance is 857 km against the 838 km constant, while the miss is 0.01 km. So the re-derived value is the constant plus the miss, and `tests/core/deorbit-range.test.ts` holds the miss under 1 km.
+- [x] Behaviour truth tests that need no new module, so they compile today.
 
   **The throttle law at hover.** Set engines lit, throttle at 100 and pitch held. Then call `controlEnginebyEffectiveVerticalTWR(state, 1)` and take one `step()`.
   - Expected: vertical acceleration within 0.02 m/s² of zero, at 0, 10 and 80 km.
@@ -165,7 +167,7 @@ Boost-back goes first and in the same commit, because changing the TWR law under
 - [ ] Remove the thrust ladder's dead flags (`dualRaptorMode`, `trialRaptorMode`). The engine count for sizing is the number of engines not failed.
 - [ ] Compute both pessimistic altitudes from `landingBurnStartAltitude`:
   - **Trigger altitude** = predicted start altitude + the distance fallen during the flip (flip duration × |vY|, as today) + **one named margin**.
-  - **Margin** = the largest trigger slack Task 1 measured on any scenario that lands today, rounded up to the next 50 m, and never less than 100 m. Computed once from `landing-margins.json`, written as a constant with that derivation, and **not adjusted afterward**. If a scenario then fails to land, that is the stop rule, not a reason to raise the margin.
+  - **Margin** = the largest burn slack Task 1 measured on any scenario that lands today (68.2 m, before-flip), rounded up to the next 50 m, and never less than 100 m. That is **100 m**. Computed once from `landing-margins.json`, written as a constant with that derivation, and **not adjusted afterward**. If a scenario then fails to land, that is the stop rule, not a reason to raise the margin.
   - **Horizontal adjustment** keeps its `+1 s` and `*1.1` exit as named margins, now on the predicted altitude.
   - A `null` prediction means "trigger now".
 - [ ] Predicted to move: reentry, before-flip, landing-burn (with and without headwind), booster-sep and rtls. The intro does not run this code (`demoAutoLand` runs only `finalDescentStageController`), so its digest must not move from this task. Its moving is a defect.
