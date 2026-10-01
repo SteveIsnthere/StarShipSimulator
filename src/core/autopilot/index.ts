@@ -26,7 +26,12 @@ import * as cmd from '../control/commands';
 import * as prim from '../control/primitives';
 import * as gravity from '../physics/gravity';
 import { getAngularAcceleration } from '../physics/aero';
-import { getHealthyEngineCount, getWorkingEngineCount, getTotalMaxThrust } from '../physics/engines';
+import {
+  getHealthySeaLevelCount,
+  getTotalMaxThrust,
+  getWorkingEngineCount,
+  getWorkingSeaLevelCount,
+} from '../physics/engines';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
 import type { SimState } from '../state';
 import { rad } from '../units';
@@ -373,7 +378,7 @@ function horizontalAdjustmentStageController(state: SimState): void {
   if (!autopilot.horizontalAdjustmentStageInitialised) {
     if (status.finActive) cmd.toggleFin(state);
     status.finLocked = true;
-    if (getWorkingEngineCount(engines.running) < 3) {
+    if (getWorkingSeaLevelCount(engines.running) < 3) {
       // Mutates the tuning values for the rest of the landing. In 2021 these
       // were globals, so the change persisted across runs until a reload;
       // here they live in SimState and reset with the scenario.
@@ -578,7 +583,7 @@ function predictedDeorbitRange(state: SimState): number {
   // The engines are OFF while this decision is being made — the mode shut them
   // down at configure — so what matters is the thrust that will light, not the
   // thrust that is lit. An engine that has failed will not.
-  const willLight = getHealthyEngineCount(engines.failed);
+  const willLight = getHealthySeaLevelCount(engines.failed);
   if (willLight <= 0) return Infinity;
 
   // M11.2: the burn happens where the air is, which at 150 km is nowhere — so

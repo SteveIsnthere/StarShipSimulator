@@ -23,6 +23,9 @@ const OWNED = [
   'raptor-0',
   'raptor-1',
   'raptor-2',
+  'raptor-3',
+  'raptor-4',
+  'raptor-5',
   'all-raptors',
   'auto-max-thrust',
   'throttle',
@@ -46,6 +49,9 @@ const EMITS: ReadonlyArray<[string, ControlEvent]> = [
   ['raptor-0', { type: 'raptor', engine: 0 }],
   ['raptor-1', { type: 'raptor', engine: 1 }],
   ['raptor-2', { type: 'raptor', engine: 2 }],
+  ['raptor-3', { type: 'raptor', engine: 3 }],
+  ['raptor-4', { type: 'raptor', engine: 4 }],
+  ['raptor-5', { type: 'raptor', engine: 5 }],
   ['all-raptors', { type: 'allRaptors' }],
   ['auto-max-thrust', { type: 'autoMaxThrust' }],
   ['auto-take-off', { type: 'autoTakeOff' }],
@@ -73,6 +79,9 @@ const BY_INDICATOR: Readonly<Record<string, string>> = {
   raptor0: 'raptor-0',
   raptor1: 'raptor-1',
   raptor2: 'raptor-2',
+  raptor3: 'raptor-3',
+  raptor4: 'raptor-4',
+  raptor5: 'raptor-5',
   allRaptors: 'all-raptors',
   autoMaxThrust: 'auto-max-thrust',
   autoTakeOff: 'auto-take-off',
@@ -116,7 +125,9 @@ describe('desktop', () => {
     stubLayout(false);
     renderWithSession(<Controls />);
     expect(screen.getByTestId('all-raptors')).toHaveAccessibleName('Engines');
-    expect(screen.getByTestId('raptor-1')).toHaveAccessibleName('Engine 2');
+    expect(screen.getByTestId('raptor-1')).toHaveAccessibleName('Sea-level engine 2');
+    expect(screen.getByTestId('raptor-4')).toHaveAccessibleName('Vacuum engine 2');
+    expect(screen.getByRole('group', { name: 'Vacuum engines' })).toContainElement(screen.getByTestId('raptor-3'));
     expect(screen.getByTestId('auto-max-thrust')).toHaveAccessibleName('Throttle guard');
     expect(screen.getByTestId('throttle')).toHaveAccessibleName('Throttle');
     expect(screen.getByTestId('yoke-pitch')).toHaveAccessibleName('Attitude');

@@ -61,6 +61,10 @@ const SIMPLE_KEYS: Record<string, InputAction> = {
   '1': { type: 'raptor', engine: 0 },
   '2': { type: 'raptor', engine: 1 },
   '3': { type: 'raptor', engine: 2 },
+  // Phase 6, Task 4b: the RVacs, on the next three keys.
+  '4': { type: 'raptor', engine: 3 },
+  '5': { type: 'raptor', engine: 4 },
+  '6': { type: 'raptor', engine: 5 },
   f: { type: 'fins' },
   r: { type: 'rcs' },
   backspace: { type: 'boostBack' },

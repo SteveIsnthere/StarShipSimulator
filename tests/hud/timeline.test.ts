@@ -175,7 +175,7 @@ describe('the derivation, replayed over every golden', () => {
     const state = unflatten(samples[0]!);
     expect(typeof state.kinematics.altitude).toBe('number');
     expect(Array.isArray(state.engines.running)).toBe(true);
-    expect(state.engines.running).toHaveLength(3);
+    expect(state.engines.running).toHaveLength(C.RAPTORS.length);
     expect(typeof state.status.onTheGround).toBe('boolean');
     expect(typeof state.world.timeSpent).toBe('number');
   });

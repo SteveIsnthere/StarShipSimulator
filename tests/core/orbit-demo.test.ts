@@ -400,7 +400,7 @@ describe('the guidance works from orbits it was never calibrated on', () => {
 
   it('with an engine already failed, so the burn is a third longer', () => {
     const f = from((s) => {
-      s.engines.failed = [true, false, false];
+      s.engines.failed = [true, false, false, false, false, false];
     });
     expect(f.outcome).toBe('landed');
     expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} km`).toBeLessThan(20_000);

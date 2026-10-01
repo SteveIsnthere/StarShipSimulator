@@ -17,7 +17,7 @@
 import { localGravity } from './guidance-physics';
 import * as C from '../constants';
 import { getDrag, relativeAirspeed } from '../physics/aero';
-import { getThrust, getTotalMaxThrust, getTotalMinThrust, getWorkingEngineCount } from '../physics/engines';
+import { getThrust, getTotalMaxThrust, getTotalMinThrust, getWorkingSeaLevelCount } from '../physics/engines';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
 
 /** M11.8 — the arms for the step in hand; written before read, every call. */
@@ -527,7 +527,7 @@ export function raptorAutoShutDown_KeepMinTWRBelow1(
   const minThrust = getTotalMinThrust(running, state.atmosphere.airPressure);
 
   if (getTWR(minThrust, vehicle.vehicleMass, localGravity(state)) > 1) {
-    const count = getWorkingEngineCount(running);
+    const count = getWorkingSeaLevelCount(running);
     if (count === 3) {
       toggleRaptor(state, 0);
     } else if (count === 2) {

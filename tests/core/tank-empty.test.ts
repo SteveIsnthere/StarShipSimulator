@@ -14,7 +14,7 @@ function burning(propellant: number): SimState {
   const s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'landing-burn')!);
   s.autopilot.autoLandOn = false;
   s.autopilot.demoAutoLandOn = false;
-  s.engines.running = [true, true, true];
+  s.engines.running = [true, true, true, false, false, false];
   s.engines.ignitionCountdown = [null, null, null];
   s.vehicle.throttle = 100;
   s.vehicle.throttleCurrent = 100;
@@ -43,11 +43,11 @@ describe('the step the tank empties', () => {
 
   it('an ignition counting down when the tank is empty never lights', () => {
     const s0 = burning(0);
-    s0.engines.running = [false, false, false];
-    s0.engines.ignitionCountdown = [null, null, DT / 2];
+    s0.engines.running = [false, false, false, false, false, false];
+    s0.engines.ignitionCountdown = [null, null, DT / 2, null, null, null];
     const s = step(s0, DT);
     expect(s.failures.fuelRunOut).toBe(true);
-    expect(s.engines.running).toEqual([false, false, false]);
-    expect(s.engines.ignitionCountdown).toEqual([null, null, null]);
+    expect(s.engines.running).toEqual([false, false, false, false, false, false]);
+    expect(s.engines.ignitionCountdown).toEqual([null, null, null, null, null, null]);
   });
 });

@@ -39,7 +39,7 @@ function gliding(speedX: number, speedY: number, wind = 0, gust = 0): SimState {
   s.kinematics.trueSpeed = Math.sqrt(speedX ** 2 + speedY ** 2);
   s.world.wind = wind;
   s.world.gust = gust;
-  s.engines.running = [false, false, false];
+  s.engines.running = [false, false, false, false, false, false];
   s.vehicle.throttle = 0;
   s.vehicle.throttleCurrent = 0;
   s.status.translationModeOn = false;
@@ -158,7 +158,7 @@ describe('what the wind does NOT touch', () => {
     s.kinematics.speedY = -1;
     s.kinematics.trueSpeed = 1;
     s.world.wind = 30;
-    s.engines.running = [false, false, false];
+    s.engines.running = [false, false, false, false, false, false];
     const after = step(s, DT);
     expect(after.status.landed).toBe(true);
     expect(after.failures.crashed).toBe(false);

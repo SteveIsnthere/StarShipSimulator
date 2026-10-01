@@ -217,7 +217,17 @@ export const RAPTORS: readonly RaptorMount[] = [
   mount('sea-level', raptorN1offAxis),
   mount('sea-level', raptorN2offAxis),
   mount('sea-level', raptorN3offAxis),
+  // Phase 6, Task 4b: the three RVacs on the outer ring. Tier-B placement:
+  // the sea-level pattern at three times the offset, so all three lit
+  // together make almost no net off-axis force (0.02% of their thrust; the
+  // 2021 fraction is not linear in the offset), as the sea-level three do.
+  mount('vacuum', -3 * raptorOffsetFromCenter),
+  mount('vacuum', 1.5 * raptorOffsetFromCenter),
+  mount('vacuum', 1.5 * raptorOffsetFromCenter),
 ];
+
+/** Indices of the sea-level engines: what the landing logic and *Engines* (all) light. */
+export const SEA_LEVEL_RAPTORS: readonly number[] = RAPTORS.flatMap((m, i) => (m.kind === 'sea-level' ? [i] : []));
 
 /** m */
 export const engineDistanceFromCenterOfMass = 21.8;
@@ -297,6 +307,34 @@ export const RAPTOR_EFFECTIVE_EXIT_AREA =
 export function thrustPerRaptorAt(ambientPressureKPa: number): number {
   const pascals = Math.max(0, ambientPressureKPa) * 1000;
   return Math.max(0, RAPTOR_THRUST_VACUUM - pascals * RAPTOR_EFFECTIVE_EXIT_AREA);
+}
+
+/*
+  RAPTOR VACUUM (RVac) — Phase 6, Task 4b, tier B. 258 tf and 380 s in vacuum
+  (en.wikipedia.org/wiki/SpaceX_Raptor, the Raptor 2 performance table, read
+  2026-10-01). The exit diameter is the commonly reported 2.3 m; no primary
+  source for it was found, so it is a named assumption. Thrust falls with
+  ambient pressure through the GEOMETRIC exit area, F = F_vac - p * A_e (the
+  sea-level engine's effective area is anchored on an Isp pair that RVac does
+  not publish). No flow-separation limit: Ships fire all six on the stand.
+  At sea level this gives 2.11 MN, 83% of vacuum.
+*/
+
+/** N per RVac at full throttle in vacuum: 258 tf. */
+export const RVAC_THRUST_VACUUM = 258 * 1000 * standardGravity;
+/** s — RVac specific impulse in vacuum. */
+export const RVAC_ISP_VACUUM = 380;
+/** kg/s per RVac at full throttle, constant with altitude: T_vac / (Isp_vac * g0), 679. */
+export const RVAC_MASS_FLOW = RVAC_THRUST_VACUUM / (RVAC_ISP_VACUUM * standardGravity);
+/** m — RVac nozzle exit diameter (tier-B assumption, see above). */
+export const RVAC_EXIT_DIAMETER = 2.3;
+/** m^2 — RVac geometric exit area. */
+export const RVAC_EXIT_AREA = Math.PI * (RVAC_EXIT_DIAMETER / 2) ** 2;
+
+/** N per RVac at full throttle, at an ambient pressure in kPa; clamped like `thrustPerRaptorAt`. */
+export function thrustPerRVacAt(ambientPressureKPa: number): number {
+  const pascals = Math.max(0, ambientPressureKPa) * 1000;
+  return Math.max(0, RVAC_THRUST_VACUUM - pascals * RVAC_EXIT_AREA);
 }
 
 /**

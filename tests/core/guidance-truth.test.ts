@@ -29,7 +29,7 @@ function hovering(altitude: number): SimState {
   s.kinematics.speedY = 0;
   s.kinematics.pitch = rad(0);
   s.kinematics.angularVelocity = 0;
-  s.engines.running = [true, false, false];
+  s.engines.running = [true, false, false, false, false, false];
   s.engines.ignitionCountdown = [null, null, null];
   return s;
 }

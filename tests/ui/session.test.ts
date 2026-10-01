@@ -20,7 +20,7 @@ describe('flights', () => {
     session.startFlight(getScenario('landing-burn')!);
     expect(session.store.getState().preset.id).toBe('landing-burn');
     expect(session.loop.state.kinematics.altitude).toBe(getScenario('landing-burn')!.altitude);
-    expect(session.loop.state.engines.running).toEqual([false, false, false]);
+    expect(session.loop.state.engines.running).toEqual([false, false, false, false, false, false]);
   });
 
   it('restart rebuilds the same preset and clears the ending', () => {

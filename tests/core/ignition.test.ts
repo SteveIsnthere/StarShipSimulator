@@ -198,7 +198,7 @@ describe('ignition bookkeeping', () => {
     expect(s.rng.counters.ignitionDelay).toBe(2);
     // Engine 1 never lights, however long we run.
     tickIgnition(s, 10);
-    expect(s.engines.running).toEqual([true, false, true]);
+    expect(s.engines.running).toEqual([true, false, true, false, false, false]);
   });
 });
 

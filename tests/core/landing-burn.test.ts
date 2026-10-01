@@ -30,7 +30,7 @@ describe('plannedEngineCount: 2021\'s one-engine ladder', () => {
 
   it('never more than are working', () => {
     const s = descending(400_000, 60);
-    s.engines.failed = [true, true, false];
+    s.engines.failed = [true, true, false, false, false, false];
     expect(plannedEngineCount(s)).toBe(1);
   });
 });
@@ -45,15 +45,15 @@ describe('the sizings', () => {
 
   it('a burn that cannot stop the vehicle means start now', () => {
     const s = descending(1_000_000, 100, 3_000);
-    s.engines.failed = [false, true, true]; // one engine, a full ship: cannot hold it
+    s.engines.failed = [false, true, true, false, false, false]; // one engine, a full ship: cannot hold it
     expect(triggerBurnAltitude(s)).toBe(3_000);
-    s.engines.running = [true, false, false];
+    s.engines.running = [true, false, false, false, false, false];
     expect(finalDescentStartAltitude(s)).toBe(3_000);
   });
 
   it('the final descent starts above the predicted burn by its one-second margin', () => {
     const s = descending(12_000, 20, 300);
-    s.engines.running = [true, false, false];
+    s.engines.running = [true, false, false, false, false, false];
     const burn = landingBurnStartAltitude(1, s.vehicle.vehicleMass, 20, C.vehicleHeight * 0.5, createBurnScratch())!;
     expect(finalDescentStartAltitude(s)).toBeCloseTo(burn + 20 * 0.5, 9);
   });

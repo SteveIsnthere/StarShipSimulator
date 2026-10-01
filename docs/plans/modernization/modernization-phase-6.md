@@ -173,24 +173,24 @@ Mach); launch-pad starts at rest and moves only in felt g.
 - [x] Rows unchanged: all eight fixtures regenerate byte-identical on the same machine, and the digests hold. The keys did not grow (three engines record as three).
 - [x] Every 3-tuple consumer is generalised over `C.RAPTORS`: `RaptorIndex`, `getWorkingEngineCount`, the off-axis sum (same addition order), ignition ticks, fuel-out, `toggleAllRaptors`, the HUD indicators and engine metrics, audio edges, view shutdown bursts and the controls. The shutdown order and the landing trims still name engines 0–2 explicitly; 4b keys them on the sea-level engines.
 
-**4b, Fidelity: three RVacs in the core.**
-- [ ] Thrust is F = F_vac − p_a·A_e from a tier-B vacuum thrust and Isp and exit diameter (Wikipedia's Raptor article, named as tier B). There is no flow-separation refusal: Ships fire all six at sea level in static fires.
-- [ ] The **autopilot** does not light RVacs below a stated altitude; that is a guidance rule, not physics. The player may.
-- [ ] RVac ignition draws come from their own RNG stream (or strictly after the sea-level draws), so the intro's delays cannot shift.
-- [ ] `toggleAllRaptors` lights the sea-level engines only (the decision above), so the intro and autoLand's calls are unchanged.
-- [ ] The landing ladder, shutdown order and trims key on sea-level engines.
-- [ ] `ship.engine.count` comes into band and joins `in-band.json`. Engine-out landings extend to sea-level failures.
-- [ ] Every scenario lands; the intro holds.
+**4b, Fidelity: three RVacs in the core.** Done 2026-10-01.
+- [x] Thrust is F = F_vac − p_a·A_e: 258 tf and 380 s in vacuum from Wikipedia's Raptor article (tier B). The article gives no exit diameter; the commonly reported 2.3 m is a named assumption with no primary source found. 2.11 MN on the pad, no flow-separation refusal.
+- [x] **Decided:** the autopilot lights no RVac at all in Phase 6 (every autopilot path goes through *Engines* (all), which lights sea-level engines only). RVac use in guidance, such as a vacuum deorbit burn, is later work. The player may light them anywhere.
+- [x] RVac ignition draws happen only when the player lights one, so the intro's draws cannot shift.
+- [x] `toggleAllRaptors` lights the sea-level engines only and shuts down every running engine, RVacs included.
+- [x] The landing ladder, shutdown order, engine-out trims and the deorbit's thrust sizing count sea-level engines (`getWorkingSeaLevelCount`, `getHealthySeaLevelCount`).
+- [x] `ship.engine.count` is in band and gated (truth report 8 of 8). Engine-out landings already fail sea-level engines.
+- [x] Every scenario lands; the intro holds. Golden rows are byte-identical: the nine RVac keys are constant and live in the fixture headers, so no digest moves.
 
 **4c: the start transient.**
 - [ ] The existing ignition delay is the named tier-B start-transient assumption; no spool-up is added on top.
 - [ ] The landing-burn predictor and the reserve account for the transient's maximum, not its mean, so the trigger covers the worst start.
 - [ ] Re-assert the engine-out reserve test.
 
-**UI (minimal).**
-- [ ] Six engine marks in two labelled groups, and a toggle per engine, from existing components.
-- [ ] Test ids `raptor-0`…`raptor-5`, the first three keeping their meaning. Engines (all) keeps its 2021 behaviour.
-- [ ] `parity.spec.ts` stays green. The look is Phase 8's.
+**UI (minimal).** Done with 4b.
+- [x] Six engine marks in two labelled groups (SL, Vac) on the controls and the HUD strip, a toggle per engine, from existing components (`Eyebrow`, `ControlButton`). Keys 4–6 light the RVacs.
+- [x] Test ids `raptor-0`…`raptor-5`, the first three keeping their meaning. Engines (all) keeps its 2021 behaviour. Accessible names: "Sea-level engine 1" … "Vacuum engine 3".
+- [ ] `parity.spec.ts` stays green (run at phase close with the full e2e suite). The look is Phase 8's.
 
 ### Task 5: Drag (split in two)
 

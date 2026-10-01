@@ -1,11 +1,12 @@
 /**
- * Engines: all three on or off, each engine, the throttle, and the guard
+ * Engines: the sea-level three on or off, each of the six, the throttle, and the guard
  * (docs/design/ia.md, "Controls, grouped by how often they are used").
  *
  * The throttle is bounded by the engines'
  * limits — not 0..100 — exactly as core clamps it, and it emits on every input.
  */
 import { useId } from 'react';
+import { Eyebrow } from '@ui/Eyebrow';
 import { KeyCap } from '@ui/KeyCap';
 import { RAPTORS, throttleLowerLimit, throttleUpperLimit } from '$core/constants';
 import type { RaptorIndex } from '$core/state';
@@ -15,7 +16,14 @@ import { CommandSlider } from './CommandSlider';
 import { readThrottle, useCommandValue } from './useCommandValue';
 import { CONTROL, ENGINE, LIT, STATE_WORD } from './styles';
 
-const ENGINES: readonly RaptorIndex[] = RAPTORS.map((_, i) => i);
+/** The engines in their two sets, each with its visible label and the word its buttons are named with. */
+const ENGINE_SETS = [
+  { kind: 'sea-level', label: 'SL', name: 'Sea-level engine' },
+  { kind: 'vacuum', label: 'Vac', name: 'Vacuum engine' },
+] as const;
+
+const enginesOf = (kind: (typeof ENGINE_SETS)[number]['kind']): readonly RaptorIndex[] =>
+  RAPTORS.flatMap((m, i) => (m.kind === kind ? [i] : []));
 
 /**
  * An engine reads lit by fill (a solid square) and off by its absence (an
@@ -42,7 +50,7 @@ export function EnginesGroup({ blocked }: EnginesGroupProps) {
 
   return (
     <div className="group/engines grid grid-cols-[minmax(0,1fr)] gap-2">
-      {/* Wraps rather than squeezing: on a narrow touch rail the three 44 px engine dots take their own row. */}
+      {/* Wraps rather than squeezing: on a narrow touch rail each set of three 44 px engine dots takes its own row. */}
       <div className="flex flex-wrap items-center gap-1.5">
         <ControlButton
           event={{ type: 'allRaptors' }}
@@ -55,21 +63,26 @@ export function EnginesGroup({ blocked }: EnginesGroupProps) {
             <KeyCap>Space</KeyCap>
           </span>
         </ControlButton>
-        <div className="flex">
-          {ENGINES.map((engine) => (
-            <ControlButton
-              key={engine}
-              event={{ type: 'raptor', engine }}
-              indicator={`raptor${engine}`}
-              testid={`raptor-${engine}`}
-              className={ENGINE}
-              aria-label={`Engine ${engine + 1}`}
-              title={`Engine ${engine + 1}`}
-            >
-              <span className={ENGINE_DOT} aria-hidden="true" />
-            </ControlButton>
-          ))}
-        </div>
+        {ENGINE_SETS.map((set) => (
+          <div key={set.kind} role="group" aria-label={`${set.name}s`} className="flex items-center">
+            <Eyebrow size="sm" tone="muted" className="pr-0.5" aria-hidden="true">
+              {set.label}
+            </Eyebrow>
+            {enginesOf(set.kind).map((engine, n) => (
+              <ControlButton
+                key={engine}
+                event={{ type: 'raptor', engine }}
+                indicator={`raptor${engine}`}
+                testid={`raptor-${engine}`}
+                className={ENGINE}
+                aria-label={`${set.name} ${n + 1}`}
+                title={`${set.name} ${n + 1} (${engine + 1})`}
+              >
+                <span className={ENGINE_DOT} aria-hidden="true" />
+              </ControlButton>
+            ))}
+          </div>
+        ))}
       </div>
 
       <CommandSlider

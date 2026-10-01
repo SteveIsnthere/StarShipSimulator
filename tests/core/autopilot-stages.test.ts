@@ -151,7 +151,8 @@ describe('autoTakeOff follows a pitch programme by altitude', () => {
     const s = litCount(3);
     cmd.toggleAutoTakeOff(s);
     autoTakeOff(s);
-    expect(s.engines.running.every(Boolean)).toBe(true);
+    // The three sea-level engines still burn; the RVacs were never lit.
+    expect(s.engines.running).toEqual([true, true, true, false, false, false]);
   });
 
   it('shuts down and hands back control when the propellant runs low', () => {
@@ -464,7 +465,7 @@ describe('autoDeorbit configures, and declines when it cannot burn', () => {
   it('declines to fire when the burn cannot bring the vehicle down', () => {
     const s = createInitialState();
     cmd.toggleAutoDeorbit(s);
-    s.engines.failed = [true, true, true];
+    s.engines.failed = [true, true, true, false, false, false];
     s.kinematics.altitude = 200_000;
     s.kinematics.distanceToPlanetCenter = C.planetRadius + 200_000;
     s.kinematics.speedX = 7_800;

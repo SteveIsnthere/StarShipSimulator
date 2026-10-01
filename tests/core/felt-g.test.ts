@@ -15,7 +15,7 @@ function coasting(altitude: number) {
   const s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'landing-burn')!);
   s.autopilot.autoLandOn = false;
   s.autopilot.demoAutoLandOn = false;
-  s.engines.running = [false, false, false];
+  s.engines.running = [false, false, false, false, false, false];
   s.kinematics.altitude = altitude;
   s.kinematics.speedX = 0;
   s.kinematics.speedY = 0;

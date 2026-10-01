@@ -16,7 +16,7 @@
  */
 import * as C from '../constants';
 import { createBurnScratch, landingBurnStartAltitude } from '../control/guidance-physics';
-import { getHealthyEngineCount, getWorkingEngineCount } from '../physics/engines';
+import { getHealthySeaLevelCount, getWorkingSeaLevelCount } from '../physics/engines';
 import { gravityAt } from '../physics/gravity';
 import type { SimState } from '../state';
 
@@ -60,7 +60,7 @@ export function plannedEngineCount(state: SimState): number {
   let engines = 1;
   if (C.maxThrustPerRaptor * 0.8 < weight) engines = 2;
   if (C.maxThrustPerRaptor * 2 * 0.8 < weight) engines = 3;
-  return Math.min(engines, getHealthyEngineCount(state.engines.failed));
+  return Math.min(engines, getHealthySeaLevelCount(state.engines.failed));
 }
 
 /**
@@ -87,7 +87,7 @@ export function triggerBurnAltitude(state: SimState): number {
 export function finalDescentStartAltitude(state: SimState): number {
   const descent = -state.kinematics.speedY;
   const predicted = landingBurnStartAltitude(
-    getWorkingEngineCount(state.engines.running),
+    getWorkingSeaLevelCount(state.engines.running),
     state.vehicle.vehicleMass,
     descent,
     C.vehicleHeight * 0.5,

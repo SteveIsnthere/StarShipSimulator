@@ -218,7 +218,7 @@ describe('unpoweredFallInto against the simulation, attitude held', () => {
    */
   function reference(altitude: number, vx: number, vy: number, pitchDeg: number) {
     let s = at(altitude, vx, vy);
-    s.engines.running = [false, false, false];
+    s.engines.running = [false, false, false, false, false, false];
     s.kinematics.pitch = rad((pitchDeg * Math.PI) / 180);
     s = step(s, DT);
     const pitch = s.kinematics.pitch;

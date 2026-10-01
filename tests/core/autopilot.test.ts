@@ -34,7 +34,7 @@ describe('pitchHold', () => {
     start.kinematics.speedY = -100;
     start.kinematics.pitch = 0.6 as never;
     start.kinematics.angularVelocity = 0.3;
-    start.engines.running = [true, true, true];
+    start.engines.running = [true, true, true, false, false, false];
     start.vehicle.throttle = 100;
     start.vehicle.throttleCurrent = 100;
     cmd.togglePitchHold(start);
@@ -56,7 +56,7 @@ describe('pitchHold', () => {
     start.kinematics.speedY = -100;
     start.kinematics.pitch = 0.6 as never;
     start.kinematics.angularVelocity = 0.3;
-    start.engines.running = [true, true, true];
+    start.engines.running = [true, true, true, false, false, false];
     start.vehicle.throttle = 100;
     start.vehicle.throttleCurrent = 100;
 
@@ -175,7 +175,7 @@ describe('autoLand', () => {
     start.kinematics.altitude = 20_000;
     start.kinematics.speedY = -300;
     start.kinematics.speedX = 100;
-    start.engines.running = [true, true, true];
+    start.engines.running = [true, true, true, false, false, false];
     cmd.toggleAutoLand(start);
 
     const end = step(start, DT);

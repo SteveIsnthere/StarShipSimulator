@@ -25,6 +25,20 @@ export function getWorkingEngineCount(running: readonly boolean[]): number {
   return n;
 }
 
+/** How many engines of one kind are flagged in a per-engine array. */
+function countOfKind(flags: readonly boolean[], kind: C.RaptorKind, flagged: boolean): number {
+  let n = 0;
+  for (let i = 0; i < C.RAPTORS.length; i++) {
+    if (C.RAPTORS[i]!.kind === kind && (flags[i] === true) === flagged) n += 1;
+  }
+  return n;
+}
+
+/** Sea-level engines running: what the landing logic counts (the autopilot never lights an RVac). */
+export function getWorkingSeaLevelCount(running: readonly boolean[]): number {
+  return countOfKind(running, 'sea-level', true);
+}
+
 /*
   M11.2, Fidelity: thrust depends on the ambient pressure. Every function here
   that returns a thrust takes the pressure at the nozzle, in kPa as the
@@ -34,13 +48,21 @@ export function getWorkingEngineCount(running: readonly boolean[]): number {
 */
 
 /** physics.js:267, at ambient pressure. @returns N */
-/** Raptors that have not failed: the ones that will light when commanded. */
-export function getHealthyEngineCount(failed: readonly boolean[]): number {
-  return failed.reduce((n, f) => (f ? n : n + 1), 0);
+/** Sea-level Raptors that have not failed: the ones *Engines* (all) lights. */
+export function getHealthySeaLevelCount(failed: readonly boolean[]): number {
+  return countOfKind(failed, 'sea-level', false);
 }
 
+/**
+ * Full-throttle thrust of the running engines, each kind at its own nozzle's
+ * thrust for the ambient pressure. With no RVac running the second term is an
+ * exact +0, so three sea-level engines give 2021's bits.
+ */
 export function getTotalMaxThrust(running: readonly boolean[], ambientPressureKPa: number): number {
-  return getWorkingEngineCount(running) * C.thrustPerRaptorAt(ambientPressureKPa);
+  return (
+    countOfKind(running, 'sea-level', true) * C.thrustPerRaptorAt(ambientPressureKPa) +
+    countOfKind(running, 'vacuum', true) * C.thrustPerRVacAt(ambientPressureKPa)
+  );
 }
 
 /** physics.js:275 — at the lower throttle limit. @returns N */
@@ -76,11 +98,18 @@ export function getOffAxisThrustDifference(
   throttleCurrent: number,
   ambientPressureKPa: number,
 ): number {
-  let fraction = 0;
+  let seaLevel = 0;
+  let vacuum = 0;
   for (let i = 0; i < C.RAPTORS.length; i++) {
-    fraction += (running[i] ? 1 : 0) * C.RAPTORS[i]!.offAxisForceFraction;
+    const m = C.RAPTORS[i]!;
+    const term = (running[i] ? 1 : 0) * m.offAxisForceFraction;
+    if (m.kind === 'sea-level') seaLevel += term;
+    else vacuum += term;
   }
-  return fraction * throttleCurrent * 0.01 * C.thrustPerRaptorAt(ambientPressureKPa);
+  return (
+    seaLevel * throttleCurrent * 0.01 * C.thrustPerRaptorAt(ambientPressureKPa) +
+    vacuum * throttleCurrent * 0.01 * C.thrustPerRVacAt(ambientPressureKPa)
+  );
 }
 
 /** physics.js:518 — nozzle direction in world space, wrapped to (-pi, pi]. */
@@ -106,7 +135,10 @@ export function getGimbalPointingDirection(pitch: Rad, gimbalPosition: number): 
  * is 2021's.
  */
 export function getFuelFlowRate(running: readonly boolean[], throttleCurrent: number): number {
-  return getWorkingEngineCount(running) * throttleCurrent * 0.01 * C.maxFuelFlowPerRaptor;
+  return (
+    countOfKind(running, 'sea-level', true) * throttleCurrent * 0.01 * C.maxFuelFlowPerRaptor +
+    countOfKind(running, 'vacuum', true) * throttleCurrent * 0.01 * C.RVAC_MASS_FLOW
+  );
 }
 
 /**

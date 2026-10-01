@@ -174,7 +174,7 @@ describe('flown: an ascent gains thrust it did not have before', () => {
     // the model in isolation: the same engines, the same throttle, and the
     // recorded `forces.thrust` grows with altitude by the stated amount.
     const st = createScenarioState(ALL_SCENARIOS.find((x) => x.id === 'launch-pad')!);
-    st.engines.running = [true, true, true];
+    st.engines.running = [true, true, true, false, false, false];
     st.vehicle.throttle = 100;
     st.vehicle.throttleCurrent = 100;
 
@@ -189,7 +189,7 @@ describe('flown: an ascent gains thrust it did not have before', () => {
     // Teleport the same state to 30 km and take one step: the only thing that
     // changed is the air.
     const high = createScenarioState(ALL_SCENARIOS.find((x) => x.id === 'launch-pad')!);
-    high.engines.running = [true, true, true];
+    high.engines.running = [true, true, true, false, false, false];
     high.vehicle.throttle = 100;
     high.vehicle.throttleCurrent = 100;
     high.kinematics.altitude = 30_000;
