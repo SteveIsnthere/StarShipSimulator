@@ -7,7 +7,7 @@
  * Wall clock, so it lives in the on-demand timing suite (`npm run bench`).
  */
 import { describe, expect, it } from 'vitest';
-import { createBurnScratch, landingBurnStartAltitude } from '$core/autopilot/guidance-physics';
+import { createBurnScratch, landingBurnStartAltitude } from '$core/control/guidance-physics';
 
 describe('landingBurnStartAltitude cost', () => {
   it('stays under 0.2 ms a call at the flip trigger', () => {

@@ -14,6 +14,7 @@
  * last act. Here they write SimState instead — the value is identical, the
  * getElementById is gone.
  */
+import { localGravity } from './guidance-physics';
 import * as C from '../constants';
 import { getDrag, relativeAirspeed } from '../physics/aero';
 import { getThrust, getTotalMaxThrust, getTotalMinThrust, getWorkingEngineCount } from '../physics/engines';
@@ -273,11 +274,28 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   }
 }
 
-/** autoPilotLowLevelFunctions.js:147 — throttle to hit a target TWR. */
+/**
+ * autoPilotLowLevelFunctions.js:147 — throttle to hit a target TWR.
+ *
+ * TWR against the gravity the vehicle actually feels here (`localGravity`:
+ * gravity at this altitude less the centrifugal term), not a flat 9.807 m/s².
+ * Phase 5, Fidelity: with the flat g a commanded TWR of 1 climbed at
+ * 0.08 m/s² on the pad and 0.32 m/s² at 80 km.
+ */
 export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
+  controlEngineForAcceleration(state, goalTWR * localGravity(state));
+}
+
+/**
+ * Throttle for a target thrust acceleration (m/s²), against the thrust at the
+ * current throttle (2021's denominator, kept: the backlog's
+ * `controlEnginebyTWR` row). For targets that are accelerations already, such
+ * as boost-back's horizontal deceleration, so no gravity enters them.
+ */
+export function controlEngineForAcceleration(state: SimState, acceleration: number): void {
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
-    ((goalTWR * vehicle.vehicleMass * C.gravity) /
+    ((acceleration * vehicle.vehicleMass) /
       getThrust(engines.running, vehicle.throttleCurrent, state.atmosphere.airPressure)) *
     100;
 
@@ -333,7 +351,7 @@ export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
 export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: number): void {
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
-    ((goalTWR * vehicle.vehicleMass * C.gravity) /
+    ((goalTWR * vehicle.vehicleMass * localGravity(state)) /
       getEffectiveVerticalMaxThrust(
         engines.running,
         vehicle.gimbalPointingDirection,
@@ -458,9 +476,9 @@ export function speedAdjustment(
   }
 }
 
-/** physics.js:510 — TWR of an arbitrary force. */
-export function getTWR(force: number, vehicleMass: number): number {
-  return force / (vehicleMass * C.gravity);
+/** physics.js:510 — TWR of an arbitrary force, against a gravity in m/s² (`localGravity`). */
+export function getTWR(force: number, vehicleMass: number, gravity: number): number {
+  return force / (vehicleMass * gravity);
 }
 
 export { getTotalMaxThrust };
@@ -535,7 +553,7 @@ export function raptorAutoShutDown_KeepMinTWRBelow1(
   // the one copy, and it knows about altitude.
   const minThrust = getTotalMinThrust(running, state.atmosphere.airPressure);
 
-  if (getTWR(minThrust, vehicle.vehicleMass) > 1) {
+  if (getTWR(minThrust, vehicle.vehicleMass, localGravity(state)) > 1) {
     const count = getWorkingEngineCount(running);
     if (count === 3) {
       toggleRaptor(state, 0);

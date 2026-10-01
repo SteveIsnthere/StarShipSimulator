@@ -4,7 +4,7 @@
 
 **Goal:** The autopilot sizes its burns, throttles and triggers from the simulation's own gravity, thrust and drag, and the HUD's impact predictor integrates the same drag the simulation does. Phase 6 can then make the aero real without breaking every landing.
 
-**Architecture:** One allocation-free guidance-physics module in `src/core/autopilot/` answers the questions guidance asks:
+**Architecture:** One allocation-free guidance-physics module in `src/core/control/` answers the questions guidance asks:
 - local gravity;
 - thrust for a given engine count at a given air pressure;
 - drag deceleration at a given attitude;
@@ -122,7 +122,7 @@ Task 8 closes the phase with parked tasks listed and their truth tests left as `
 ### Task 2: The guidance-physics module
 
 **Files**
-- Create `src/core/autopilot/guidance-physics.ts` and `tests/core/guidance-physics.test.ts`.
+- Create `src/core/control/guidance-physics.ts` and `tests/core/guidance-physics.test.ts`.
 - Create `isaAtmosphereInto(altitude, out)` beside `isaAtmosphere` (`isa.ts`). It writes temperature, pressure and density into a scratch object, with a ≤ 1 ULP proof against `isaAtmosphere` in `tests/proofs/` (Refactor).
 
 **Interfaces (Produces)**
@@ -150,13 +150,13 @@ Boost-back goes first and in the same commit, because changing the TWR law under
 **Files:** `src/core/autopilot/index.ts:190`, `src/core/constants.ts` (`decelerationStageHorizontalAcc`), `src/core/control/primitives.ts` (`controlEnginebyTWR`, `controlEnginebyEffectiveVerticalTWR`, `getTWR`), tests.
 
 **Steps**
-- [ ] Convert boost-back's deceleration command to an acceleration target. The throttle comes from the required force, `mass × decel`, over the thrust at the current pressure, with no g in it. Keep the target value at its present 15.69 m/s² (`9.807 × 1.6`), now written as an acceleration with that derivation in its comment. Its MECO and time-to-site estimates use the same thrust.
-- [ ] Replace `C.gravity` with `localGravity(state)` in the three TWR laws. `C.gravity` stays for the non-guidance uses (the TWR display, felt g, the g-limit check), which belong to Phase 6.
-- [ ] **Predicted to move: all eight goldens**, because the ascent, the boost-back, every landing and the intro all run through these laws.
-- [ ] Measure the intro on its seed before and after. Inside the constraint, re-bless. Outside it, apply the stop rule and park.
-- [ ] Re-measure the deorbit range and update the constant if it moved.
-- [ ] Margins, engine-out outcomes and the hover truth test go in the commit body; the hover test turns into a plain `it`.
-- [ ] Add a mutant to `tests/mutations.json` in this commit: `localGravity(state)` back to `C.gravity` in `controlEnginebyEffectiveVerticalTWR`. The hover test must catch it.
+- [x] Convert boost-back's deceleration command to an acceleration target. The throttle comes from the required force, `mass × decel`, over the thrust at the current pressure, with no g in it. Keep the target value at its present 15.69 m/s² (`9.807 × 1.6`), now written as an acceleration with that derivation in its comment. Its MECO and time-to-site estimates use the same thrust.
+- [x] Replace `C.gravity` with `localGravity(state)` in the three TWR laws. `C.gravity` stays for the non-guidance uses (the TWR display, felt g, the g-limit check), which belong to Phase 6.
+- [x] **Predicted to move: all eight goldens**, because the ascent, the boost-back, every landing and the intro all run through these laws.
+- [x] Measure the intro on its seed before and after. Inside the constraint, re-bless. Outside it, apply the stop rule and park.
+- [x] Re-measure the deorbit range and update the constant if it moved.
+- [x] Margins, engine-out outcomes and the hover truth test go in the commit body; the hover test turns into a plain `it`.
+- [x] Add a mutant to `tests/mutations.json` in this commit: `localGravity(state)` back to `C.gravity` in `controlEnginebyEffectiveVerticalTWR`. The hover test must catch it.
 
 ### Task 4: Burn sizing and the flip trigger on the predictor (Fidelity)
 

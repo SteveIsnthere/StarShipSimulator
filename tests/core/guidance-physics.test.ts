@@ -13,7 +13,7 @@ import {
   MIN_LOCAL_GRAVITY,
   tailFirstDragDeceleration,
   thrustFor,
-} from '$core/autopilot/guidance-physics';
+} from '$core/control/guidance-physics';
 import * as C from '$core/constants';
 import { gravityAt } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';

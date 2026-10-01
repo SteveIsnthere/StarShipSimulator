@@ -52,5 +52,11 @@
     "file": "src/core/scenarios.ts",
     "find": "  if (!(propellantMass > 0)) propellantMass = 0;",
     "replace": ""
+  },
+  {
+    "id": "guidance-flat-g",
+    "file": "src/core/control/primitives.ts",
+    "find": "    ((goalTWR * vehicle.vehicleMass * localGravity(state)) /",
+    "replace": "    ((goalTWR * vehicle.vehicleMass * C.gravity) /"
   }
 ]

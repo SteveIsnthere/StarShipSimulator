@@ -14,6 +14,7 @@
  * those need a trajectory, and stating them directly reaches the branches a
  * nominal flight never visits.
  */
+import { localGravity } from '$core/control/guidance-physics';
 import { describe, expect, it } from 'vitest';
 import * as C from '$core/constants';
 import { rad, type Rad } from '$core/units';
@@ -124,6 +125,7 @@ describe('controlEnginebyTWR keeps the throttle inside the engine limits', () =>
     const achieved = getTWR(
       3 * perRaptor(s) * (s.vehicle.throttle / 100),
       s.vehicle.vehicleMass,
+      localGravity(s),
     );
     expect(achieved).toBeCloseTo(goalTWR, 6);
   });
@@ -401,8 +403,8 @@ describe('raptorAutoShutDown fires exactly when minimum thrust would lift the ve
   it('does nothing while minimum thrust cannot hold the vehicle up', () => {
     // A heavy vehicle: min TWR below 1, so no shutdown is warranted.
     const s = lit();
-    s.vehicle.vehicleMass = (minThrust(3) / C.gravity) * 2;
-    expect(getTWR(minThrust(3), s.vehicle.vehicleMass)).toBeLessThan(1);
+    s.vehicle.vehicleMass = (minThrust(3) / localGravity(s)) * 2;
+    expect(getTWR(minThrust(3), s.vehicle.vehicleMass, localGravity(s))).toBeLessThan(1);
     const before = [...s.engines.running];
     raptorAutoShutDown_KeepMinTWRBelow1(s, toggleRaptor);
     expect([...s.engines.running]).toEqual(before);
@@ -410,8 +412,8 @@ describe('raptorAutoShutDown fires exactly when minimum thrust would lift the ve
 
   it('shuts one down as soon as it would', () => {
     const s = lit();
-    s.vehicle.vehicleMass = minThrust(3) / C.gravity / 2; // min TWR = 2
-    expect(getTWR(minThrust(3), s.vehicle.vehicleMass)).toBeGreaterThan(1);
+    s.vehicle.vehicleMass = minThrust(3) / localGravity(s) / 2; // min TWR = 2
+    expect(getTWR(minThrust(3), s.vehicle.vehicleMass, localGravity(s))).toBeGreaterThan(1);
     raptorAutoShutDown_KeepMinTWRBelow1(s, toggleRaptor);
     expect(s.engines.running.filter(Boolean).length).toBe(2);
   });

@@ -474,7 +474,11 @@ export const initAutoLandXPosDiffThreshold = 500;
 export const propulsiveCorrectionMinHeight = 5000;
 /** m */
 export const propulsiveCorrectionAccuracyRequired = propulsiveCorrectionMinHeight * 0.05;
-/** m/s^2 */
+/**
+ * m/s^2 — boost-back's target horizontal deceleration: 1.6 g0, about 15.7.
+ * An acceleration, commanded as one (`controlEngineForAcceleration`); until
+ * Phase 5 it was divided by the flat g and sent through the TWR law.
+ */
 export const decelerationStageHorizontalAcc = gravity * 1.6;
 
 /** Engine count used for the pessimistic final-descent thrust estimate. */

@@ -187,7 +187,7 @@ export function autoBoostBack(state: SimState, dt: number): void {
     } else {
       prim.precisionAlignment(state, rad(-autopilot.boostBackDirection), 1);
       prim.raptorAutoShutDown_KeepMinTWRBelow1(state, toggleRaptor);
-      prim.controlEnginebyTWR(state, C.decelerationStageHorizontalAcc / C.gravity);
+      prim.controlEngineForAcceleration(state, C.decelerationStageHorizontalAcc);
     }
 
     if (Math.abs(kinematics.speedX) < 3) {
