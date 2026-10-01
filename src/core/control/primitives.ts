@@ -57,9 +57,15 @@ export function getEffectiveVerticalMaxThrust(
   running: readonly boolean[],
   gimbalPointingDirection: Rad,
   ambientPressureKPa: number,
+  pitch: Rad = gimbalPointingDirection,
 ): number {
   const maxThrust = getTotalMaxThrust(running, ambientPressureKPa);
-  return maxThrust * Math.cos(gimbalPointingDirection);
+  // The RVacs are fixed and push along the hull at `pitch` (Phase 6's
+  // independent review); with none lit the share is exactly 1 and this is the
+  // 2021 expression's bits.
+  const share = gimballedShare(running, ambientPressureKPa);
+  if (share === 1) return maxThrust * Math.cos(gimbalPointingDirection);
+  return maxThrust * share * Math.cos(gimbalPointingDirection) + maxThrust * (1 - share) * Math.cos(pitch);
 }
 
 /** physics.js:533 — the dynamic-pressure speed ceiling autoMaxThrust flies to. */
@@ -338,6 +344,7 @@ export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: nu
         engines.running,
         vehicle.gimbalPointingDirection,
         state.atmosphere.airPressure,
+        state.kinematics.pitch,
       )) *
     100;
 

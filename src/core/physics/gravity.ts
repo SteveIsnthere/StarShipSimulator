@@ -292,8 +292,11 @@ export function coastDownrangeDistance(
     if (omega === 0) return 0;
     // Inertially radial, so no inertial arc; but the ground turns under the
     // fall, and its arc is -omega times the integral of r dt (Phase 6's
-    // independent review: returning 0 here skipped it).
-    return -omega * radialFallIntegralOfR(r, radialSpeed, rTarget);
+    // independent review: returning 0 here skipped it). A climb that never
+    // comes back is the no-intercept answer, +Infinity, whatever omega's sign.
+    if (radialSpeed > 0 && energy >= 0) return Infinity;
+    const integral = radialFallIntegralOfR(r, radialSpeed, rTarget);
+    return Number.isFinite(integral) ? -omega * integral : Infinity;
   }
 
   // Simpson over the integral of r dnu, with r(nu) = p / (1 + e cos nu).

@@ -16,6 +16,8 @@ import {
 } from '$core/physics/engines';
 import { createInitialState } from '$core/state';
 import { step } from '$core/step';
+import { getEffectiveVerticalMaxThrust } from '$core/control/primitives';
+import { rad } from '$core/units';
 
 const ONLY_RVACS = [false, false, false, true, true, true];
 const ONLY_SEA_LEVEL = [true, true, true, false, false, false];
@@ -119,3 +121,26 @@ describe('the RVacs are fixed: they push along the hull and do not steer', () =>
     );
   });
 });
+
+describe('the vertical throttle law projects the RVacs along the hull', () => {
+  it('RVacs alone at pitch 60° with the gimbal deflected: cos(pitch), not cos(gimbal direction)', () => {
+    const running = [false, false, false, true, true, true];
+    const p = 0;
+    const total = 3 * C.thrustPerRVacAt(p);
+    const pitch = rad(Math.PI / 3);
+    const gimbalDirection = rad(Math.PI / 3 - (15 * Math.PI) / 180);
+    expect(getEffectiveVerticalMaxThrust(running, gimbalDirection, p, pitch)).toBeCloseTo(total * 0.5, 3);
+  });
+
+  it('mixed: each kind along its own direction; sea-level only: the old expression to the bit', () => {
+    const mixed = [true, false, false, true, false, false];
+    const p = 0;
+    const pitch = rad(0.4);
+    const g = rad(0.3);
+    const expected = C.thrustPerRaptorAt(p) * Math.cos(0.3) + C.thrustPerRVacAt(p) * Math.cos(0.4);
+    expect(getEffectiveVerticalMaxThrust(mixed, g, p, pitch)).toBeCloseTo(expected, 3);
+    const seaLevel = [true, true, true, false, false, false];
+    expect(getEffectiveVerticalMaxThrust(seaLevel, g, p, pitch)).toBe(3 * C.thrustPerRaptorAt(p) * Math.cos(0.3));
+  });
+});
+

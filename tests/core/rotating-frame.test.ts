@@ -149,5 +149,13 @@ describe('the frame conversions and the guidance that reads them', () => {
     expect(Math.abs(conic / (-EARTH * integral) - 1)).toBeLessThan(1e-3);
     expect(coastDownrangeDistance(r0, 0, 0, target, 0)).toBe(0);
   });
+
+  it('a radial climb that never comes back is +Infinity, the no-intercept answer, at either sign of omega', () => {
+    const r0 = 6_371_000 + 150_000;
+    const target = 6_371_000 + 80_000;
+    for (const w of [EARTH, -EARTH]) {
+      expect(coastDownrangeDistance(r0, groundTangentialSpeed(r0, 0, w), 12_000, target, w)).toBe(Infinity);
+    }
+  });
 });
 
