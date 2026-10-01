@@ -52,6 +52,10 @@
   --color-flight-alarm: var(--color-ui-danger);
   --color-flight-good: var(--color-ui-success);
   --color-plume: #ffb15a;
+  /* A slider's unfilled rail, a chart's grid and its drag selection. */
+  --color-flight-rail: rgb(255 255 255 / 0.25);
+  --color-flight-grid: rgb(255 255 255 / 0.08);
+  --color-flight-selection: rgb(255 255 255 / 0.1);
 }
 
 html,

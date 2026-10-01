@@ -11,6 +11,7 @@ import type { CameraMode } from '$view/camera';
 import type { Debrief } from '$hud/debrief';
 import { INTRO, type ScenarioPreset } from '$core/scenarios';
 import { REAL_TIME, type TimeSetting } from '$app/menu';
+import type { AutopilotMode } from '$hud/autopilot-mode';
 
 /** Which full-screen layer is open over the flight, if any. Only one at a time. */
 export type Layer = 'menu' | 'blackBox' | 'guide' | 'about' | null;
@@ -39,6 +40,8 @@ export interface SessionState {
   flightOver: boolean;
   /** The end-of-flight card, built once on landing, crash or break-up. */
   debrief: Debrief | null;
+  /** The autopilot mode in charge; written when it changes. */
+  autopilot: AutopilotMode;
 }
 
 export type SessionStore = StoreApi<SessionState>;
@@ -63,6 +66,7 @@ export function createSessionStore(initial: InitialPreferences): SessionStore {
     tiltControl: true,
     flightOver: false,
     debrief: null,
+    autopilot: 'land',
     ...initial,
   }));
 }

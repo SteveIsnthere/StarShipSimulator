@@ -50,6 +50,7 @@ export interface MapContext {
   fillStyle: string;
   lineWidth: number;
   font: string;
+  textAlign: 'left' | 'right';
   globalAlpha: number;
   clearRect(x: number, y: number, w: number, h: number): void;
   beginPath(): void;
@@ -377,7 +378,9 @@ export function createMapRenderer(options: MapRendererOptions): MapRenderer {
     // overlapping pair of numbers is worse than none.
     if (height >= 24 * scale) {
       context.fillStyle = MAP_COLOURS.label;
-      context.font = `${9 * scale}px "Barlow Condensed", sans-serif`;
+      // The measured-value face (design-system.md): these are numbers.
+      context.font = `500 ${9 * scale}px "JetBrains Mono", monospace`;
+      context.textAlign = 'left';
       context.fillText(formatSpan(extent.maxX - extent.minX), 3 * scale, height - 3 * scale);
       context.fillText(formatSpan(extent.maxY), 3 * scale, 10 * scale);
 
@@ -394,11 +397,11 @@ export function createMapRenderer(options: MapRendererOptions): MapRenderer {
         ? formatMiss(prediction.miss)
         : NO_SOLUTION_LABEL[prediction.reason];
       if (label) {
-        // Right-aligned by measurement would need measureText on every draw;
-        // the label is short and the map is wide, so an offset from the right
-        // edge scaled by the character count costs nothing and cannot allocate.
-        const approxWidth = label.length * 4.6 * scale;
-        context.fillText(label, Math.max(3 * scale, width - approxWidth - 3 * scale), 10 * scale);
+        // Anchored at the right edge by the context itself: no estimate of the
+        // face's width to go stale when the font changes, and no allocation.
+        context.textAlign = 'right';
+        context.fillText(label, width - 3 * scale, 10 * scale);
+        context.textAlign = 'left';
       }
     }
 

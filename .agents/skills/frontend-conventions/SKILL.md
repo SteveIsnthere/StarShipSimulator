@@ -45,7 +45,8 @@ session.zoom(1);
 
 - One surface per folder under `src/ui/shell/`, named for the surface, its main component in `<Surface>/<Surface>.tsx`. Child components, hooks and helpers stay inside the folder while it is their only consumer.
 - **Promotion rule:** used by a second surface → move it to `src/ui/shell/` root (or to the session, if it is logic) in the same change.
-- A surface owns its layout zone (`ia.md`; positions are fixed so surfaces never overlap). `usePhoneLayout()` in `layout.ts` is the only phone query; the phone controls sheet publishes its height as `--controls-sheet` for the strip above it.
+- A surface owns its layout zone (`ia.md`; positions are fixed so surfaces never overlap). `useLayoutMode()` in `layout.ts` (`phone` · `short` · `wide`, with `usePhoneLayout()` as shorthand) is the only layout query; no surface writes its own media query for layout.
+- Zones that depend on another surface's size read a CSS variable that surface publishes on `<html>`, on resize only: `--hud-bottom` (the Hud: where the cluster ends) and `--controls-bottom` (Controls: how much of the bottom edge the phone's tab bar and open sheet hold; the world's box ends there).
 - **500 lines per file, split first.** Exempt: test files (soft cap 1,000), and the vendored kit.
 
 ## The kit
@@ -73,4 +74,6 @@ session.zoom(1);
 
 ## Approved exceptions
 
-*None yet. Each entry: date, file and rule, why, Steve's sign-off.*
+*Each entry: date, file and rule, why, sign-off.*
+
+- 2026-10-01 · `src/ui/shell/Controls/CommandSlider.tsx` · `gradient` · The slider's fill encodes its measured value — the same functional gradient flight_sim's own `SliderRow` carries (design-system.md §10). Recorded by the unattended modernization run under the approved Phase 4 plan; Steve to confirm.

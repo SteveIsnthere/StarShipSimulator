@@ -174,7 +174,7 @@ exits non-zero.
 
 | Test | Asserts | Measures |
 |---|---|---|
-| `scripts/check-budget.mjs` (in `npm run build`) | first-load JS ≤ 250 kB gzip; fonts ≤ 80 kB; audio ≤ 250 kB | bytes |
+| `scripts/check-budget.mjs` (in `npm run build`) | first-load JS ≤ 300 kB gzip; fonts ≤ 80 kB; audio ≤ 250 kB | bytes |
 | `tests/budget.test.ts` | the budget script's parsing, verdicts and exit codes on synthetic `dist/` trees; chart CSS stays in the lazy chunk | bytes, no clock |
 | `tests/view/perf.timing.test.ts` step budget | a step < 1 ms; 240 steps at 1/240 < 100 ms; autopilot-on/off cost ratio < 4 | wall clock (medians) |
 | `perf.test.ts` / `perf.timing.test.ts` time warp | warp 16 runs 16× the steps (gated); costs < 32× (bench) | step count is work; cost ratio is wall clock |

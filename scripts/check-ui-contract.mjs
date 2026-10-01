@@ -14,7 +14,7 @@ const SCOPE = join(ROOT, 'src/ui/shell');
 /** Each pattern matches JSX text or a string literal a user would read. */
 export const COPY_RULES = [
   { id: 'toggle-all', pattern: /(?:>|['"`])\s*TOGGLE[- ]ALL\s*(?:<|['"`])/gi, say: 'Engines' },
-  { id: 'dumpfuel', pattern: /(?:>|['"`])\s*DUMP ?FUEL\s*(?:<|['"`])/gi, say: 'Dump propellant' },
+  { id: 'dumpfuel', pattern: /(?:>|['"`])\s*(?:DUMP ?FUEL|Dump ?[Ff]uel|DumpFuel)\s*(?:<|['"`])/g, say: 'Dump propellant' },
   { id: 'safe-guard', pattern: /(?:>|['"`])\s*THRUST SAFE ?GUARD\s*(?:<|['"`])/gi, say: 'Throttle guard' },
   { id: 'att-hold', pattern: /(?:>|['"`])\s*ATT-HOLD\s*(?:<|['"`])/gi, say: 'Hold attitude' },
   { id: 'raptor-codes', pattern: />\s*R[123]\s*</g, say: 'Engine 1, 2, 3' },
@@ -53,7 +53,8 @@ function selfTest() {
       throw new Error(`self-test: copy rule ${rule.id} did not fire`);
     }
   }
-  const good = '<button>Engines</button><span>Throttle guard</span><span>Engine 2</span>';
+  // dumpFuel is the control event's name, not copy.
+  const good = "<button>Engines</button><span>Throttle guard</span><span>Engine 2</span>{ type: 'dumpFuel' }";
   if (inspectCopy('t.tsx', good).length) throw new Error('self-test: clean copy flagged');
 }
 

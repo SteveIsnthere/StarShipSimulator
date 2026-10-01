@@ -280,6 +280,7 @@ function recordingContext(width: number, height: number): Recording {
     fillStyle: '',
     lineWidth: 0,
     font: '',
+    textAlign: 'left',
     globalAlpha: 1,
     points,
     texts,
@@ -353,7 +354,7 @@ describe('the renderer', () => {
     const context = recordingContext(560, 200);
     const renderer = createMapRenderer({ context, trail, scale: 2 });
     renderer.redraw(padded());
-    expect(context.font).toBe('18px "Barlow Condensed", sans-serif');
+    expect(context.font).toBe('500 18px "JetBrains Mono", monospace');
     // The last thing stroked sets lineWidth; what matters is that nothing is
     // left at a hairline sub-pixel on a 2x display.
     expect(context.lineWidth).toBeGreaterThanOrEqual(2);

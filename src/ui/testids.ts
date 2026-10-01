@@ -59,6 +59,8 @@ export const CONTROL_TESTIDS = [
   'mute-toggle',
   'open-black-box',
   'open-menu',
+  // The status bar's pause (P), new with the React shell.
+  'pause-toggle',
 ] as const;
 
 /**

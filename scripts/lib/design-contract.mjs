@@ -68,6 +68,9 @@ export const DESIGN_RULES = [
  */
 export const ALLOWANCES = new Map([
   ['src/ui/shell/index.css:raw-colour', new Set(['rgb(', '#000', '#ffb15a'])],
+  // A slider's fill encodes its measured value: the one functional gradient,
+  // as the kit's own SliderRow (design-system.md §10).
+  ['src/ui/shell/Controls/CommandSlider.tsx:gradient', new Set(['linear-gradient('])],
 ]);
 
 function lineFor(source, index) {

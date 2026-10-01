@@ -48,6 +48,7 @@ import { createTimeline, type EventId } from '$hud/timeline';
 import { createTimelineBinder, type TimelineBinder } from '$hud/timeline-binder';
 import { browserHost, createHaptics } from '$hud/haptics';
 import { createFlightWatch, debrief } from '$hud/debrief';
+import { autopilotMode } from '$hud/autopilot-mode';
 import {
   createMapRenderer,
   type MapRenderer,
@@ -249,6 +250,12 @@ export function createSession(): Session {
     view?.setModeZoom(modeZoom(effective));
   };
 
+  /** The store's autopilot field follows the flight; a write only on a change. */
+  const syncAutopilot = () => {
+    const mode = autopilotMode(loop.state);
+    if (mode !== get().autopilot) set({ autopilot: mode });
+  };
+
   const startFlight = (preset: ScenarioPreset) => {
     timeline.reset();
     const fresh = createScenarioState(preset);
@@ -276,6 +283,7 @@ export function createSession(): Session {
     watch.reset();
     flightEnded = false;
     set({ preset, flightOver: false, debrief: null });
+    syncAutopilot();
   };
 
   const dismissHint = () => {
@@ -326,6 +334,7 @@ export function createSession(): Session {
 
     emit(event) {
       applyControl(loop.state, event);
+      syncAutopilot();
     },
     startFlight,
     configure(fields) {
@@ -425,8 +434,15 @@ export function createSession(): Session {
         return () => {};
       }
 
-      const onResize = () => scene.resize(window.innerWidth, window.innerHeight);
-      window.addEventListener('resize', onResize);
+      // The canvas's parent owns its box (the shell insets it above the phone's
+      // bottom chrome); Pixi pins the canvas's own inline size, so the parent is
+      // what to measure. Without one, or without ResizeObserver, the window.
+      const box = canvas.parentElement;
+      const onResize = () =>
+        box ? scene.resize(box.clientWidth, box.clientHeight) : scene.resize(window.innerWidth, window.innerHeight);
+      const observer = box && typeof ResizeObserver !== 'undefined' ? new ResizeObserver(onResize) : null;
+      if (observer && box) observer.observe(box);
+      else window.addEventListener('resize', onResize);
       onResize();
 
       const room = window.matchMedia(HINT_FITS);
@@ -525,6 +541,7 @@ export function createSession(): Session {
         }
 
         // Store writes only on a change, so a steady flight writes nothing.
+        syncAutopilot();
         const over = s.status.landed || s.failures.crashed || s.failures.inFlightBreakUp || s.failures.fuelRunOut;
         if (over !== get().flightOver) set({ flightOver: over });
         // The card waits for the ground or a break-up; running dry in the air is not an ending.
@@ -539,6 +556,7 @@ export function createSession(): Session {
       return () => {
         disposed = true;
         cancelAnimationFrame(frame);
+        observer?.disconnect();
         window.removeEventListener('resize', onResize);
         room.removeEventListener('change', onRoomChange);
         document.removeEventListener('pointerdown', onGesture, { capture: true });

@@ -127,7 +127,7 @@ radians are expected does not compile; `tests/types/units.test-d.ts` proves it w
     fixtures/legacy/  the archived 2021 tree
   scripts/
     build-sw.mjs        service worker precache list, derived from dist/
-    check-budget.mjs    budget gate: first-load JS 250 kB gzip, fonts 80 kB, audio 250 kB
+    check-budget.mjs    budget gate: first-load JS 300 kB gzip, fonts 80 kB, audio 250 kB
     stage-subpath.mjs   copies dist/ under a subdirectory for the deploy test
     subset-fonts.mjs    regenerates the woff2 subsets (manual; needs Python fontTools)
   public/        icon.svg, manifest.webmanifest, assets/*.webp

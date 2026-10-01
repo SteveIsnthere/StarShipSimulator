@@ -52,6 +52,7 @@ export function recordingMapContext(width: number, height: number): MapContext {
     fillStyle: '',
     lineWidth: 0,
     font: '',
+    textAlign: 'left',
     globalAlpha: 1,
     clearRect: () => {},
     beginPath: () => {},

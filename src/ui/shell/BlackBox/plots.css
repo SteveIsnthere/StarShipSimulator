@@ -1,0 +1,82 @@
+/*
+  The black box's plots in the design system's language (docs/design/design-system.md):
+  square, flat, opaque, monochrome chrome; the series' own colours stay, because
+  telling five lines apart is what colour is for on a chart.
+
+  LAZY, with the chart code: imported by ./plots.ts, never by BlackBox.tsx, so
+  none of it is in the first-load stylesheet. Scoped under [data-blackbox] so it
+  outranks uPlot's sheet and src/ui/charts.css (both unlayered) regardless of
+  load order.
+*/
+
+[data-blackbox] .cell {
+  min-width: 0;
+  padding: 12px 12px 10px;
+  border: 1px solid var(--color-ui-line-muted);
+  border-radius: 0;
+  background: var(--color-ui-surface);
+}
+
+[data-blackbox] .uplot,
+[data-blackbox] .uplot * {
+  font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+}
+
+[data-blackbox] .uplot {
+  color: var(--color-ui-muted);
+  line-height: 1.4;
+}
+
+[data-blackbox] .u-title {
+  margin-bottom: 8px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-ui-fg);
+}
+
+[data-blackbox] .u-legend {
+  margin: 6px 0 0;
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--color-ui-muted);
+}
+
+[data-blackbox] .u-legend th {
+  font-weight: 400;
+}
+
+[data-blackbox] .u-legend .u-marker {
+  border-radius: 0;
+}
+
+/* Fixed width: a legend must not reflow as the cursor's digits change. */
+[data-blackbox] .u-legend .u-value {
+  display: inline-block;
+  min-width: 10ch;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ui-fg);
+}
+
+[data-blackbox] .u-cursor-x,
+[data-blackbox] .u-cursor-y {
+  border-color: var(--color-ui-dim);
+}
+
+[data-blackbox] .u-select {
+  background: var(--color-flight-selection);
+}
+
+/* A hidden series (legend click, or the previous flight toggled off): dimmed by
+   its text grade, not by opacity (design-system.md §2.7). */
+[data-blackbox] .u-legend .u-off {
+  opacity: 1;
+  color: var(--color-ui-dim);
+}
+[data-blackbox] .u-legend .u-off .u-value {
+  color: var(--color-ui-dim);
+}

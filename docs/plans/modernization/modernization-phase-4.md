@@ -14,7 +14,7 @@
 
 - flight_sim is read-only. The kit is copied from `/Users/stevewang/dev/flight_sim/web/src/ui/` at a named commit; never edit flight_sim.
 - No change to `src/core/`; the goldens do not move.
-- First-load JS stays ≤ 250 kB gzip (`scripts/check-budget.mjs`). GSAP, the black box's charts and the menu's heavier tabs load lazily.
+- First-load JS stays ≤ 300 kB gzip (`scripts/check-budget.mjs`; re-baselined from 250 for React DOM, see Execution log). GSAP, the black box's charts and the menu's heavier tabs load lazily.
 - Every `data-testid` in `src/ui/testids.ts` keeps its meaning; labels may change. `tests/e2e/parity.spec.ts` (capability parity) stays green with updated labels.
 - No framework code on the per-frame path; zero allocation per frame; the HUD binder owns per-frame DOM writes.
 - Files ≤ 500 lines; one Zustand slice per concern; no rendering, input or side effects inside a store.
@@ -23,7 +23,7 @@
 
 - A phone in portrait with the engine sheet open: the primary flight strip stays visible (an e2e asserts its bounding box is not covered).
 - Escape with the menu open, then again: the first closes the menu and resumes the flight, the second opens nothing (an e2e asserts the sim clock does not advance while the menu is open).
-- A first-load bundle that silently grows past 250 kB because the kit's barrel pulls GSAP or Radix into the entry chunk (the entry-graph check fails the build).
+- A first-load bundle that silently grows past the budget because the kit's barrel pulls GSAP or Radix into the entry chunk (the entry-graph check fails the build).
 - A player with reduced motion on: no animation plays, every state is reachable.
 - Keyboard-only: every control reachable in a sensible order, focus visible on the live scene (the dashed focus owner).
 

@@ -223,7 +223,7 @@ parts:
 
 | Budget | Limit | Enforced by |
 |---|---|---|
-| First-load JS | ≤ 250 kB gzip | `scripts/check-budget.mjs` in `npm run build` — `<script src>` + `modulepreload`, lazy chunks excluded |
+| First-load JS | ≤ 300 kB gzip (250 before the React shell) | `scripts/check-budget.mjs` in `npm run build` — `<script src>` + `modulepreload`, lazy chunks excluded |
 | Fonts / audio | ≤ 80 kB / ≤ 250 kB raw | same script |
 | First-load CSS | no chart theme | `tests/budget.test.ts` |
 | Sim step | < 1 ms (240 Hz) | `tests/view/perf.test.ts` |
