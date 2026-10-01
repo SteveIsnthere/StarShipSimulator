@@ -7,7 +7,7 @@
  */
 import { useId } from 'react';
 import { KeyCap } from '@ui/KeyCap';
-import { throttleLowerLimit, throttleUpperLimit } from '$core/constants';
+import { RAPTORS, throttleLowerLimit, throttleUpperLimit } from '$core/constants';
 import type { RaptorIndex } from '$core/state';
 import { useSession } from '../session-context';
 import { ControlButton } from './ControlButton';
@@ -15,7 +15,7 @@ import { CommandSlider } from './CommandSlider';
 import { readThrottle, useCommandValue } from './useCommandValue';
 import { CONTROL, ENGINE, LIT, STATE_WORD } from './styles';
 
-const ENGINES: readonly RaptorIndex[] = [0, 1, 2];
+const ENGINES: readonly RaptorIndex[] = RAPTORS.map((_, i) => i);
 
 /**
  * An engine reads lit by fill (a solid square) and off by its absence (an

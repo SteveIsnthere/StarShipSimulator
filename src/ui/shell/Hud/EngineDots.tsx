@@ -1,5 +1,5 @@
 /**
- * The three engines, one mark each, read by shape as well as fill
+ * The engines, one mark each, read by shape as well as fill
  * (design-system.md §9): off is an empty square, igniting a square with a
  * centre, lit a solid square, failed a crossed square in the alarm colour.
  *
@@ -7,8 +7,9 @@
  * mark; the shapes are selected from it in CSS, so nothing here re-renders.
  */
 import { Eyebrow } from '@ui/Eyebrow';
+import { RAPTORS } from '$core/constants';
 
-const ENGINES = [0, 1, 2] as const;
+const ENGINES = RAPTORS.map((_, i) => i);
 
 /** On a phone the labels go to a screen reader only: the strip has no room for words beside the marks. */
 export function EngineDots({ compact }: { compact: boolean }) {

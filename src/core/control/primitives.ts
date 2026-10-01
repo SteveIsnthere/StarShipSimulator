@@ -22,7 +22,7 @@ import { createMassProperties, writeMassProperties } from '../physics/mass';
 
 /** M11.8 — the arms for the step in hand; written before read, every call. */
 const arms = createMassProperties();
-import type { SimState } from '../state';
+import type { RaptorIndex, SimState } from '../state';
 import { rad, type Rad } from '../units';
 
 /** autoPilotLowLevelFunctions.js:23 — signed error, wrapped to (-pi, pi]. */
@@ -517,7 +517,7 @@ export function controlHorizontalAccelerationByAeroBreaking(
  */
 export function raptorAutoShutDown_KeepMinTWRBelow1(
   state: SimState,
-  toggleRaptor: (s: SimState, i: 0 | 1 | 2) => void,
+  toggleRaptor: (s: SimState, i: RaptorIndex) => void,
 ): void {
   const { engines, vehicle } = state;
   const running = engines.running;

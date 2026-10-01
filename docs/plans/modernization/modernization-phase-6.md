@@ -170,8 +170,8 @@ Mach); launch-pad starts at rest and moves only in felt g.
 ### Task 4: Six Raptors (split in three)
 
 **4a, Refactor.** Engine arrays of length N with a per-engine type (sea level or vacuum), still three sea-level engines.
-- [ ] Rows unchanged, proved by the golden digests. Only the keys grow if the arrays' recorded shape changes; regenerate only if it does.
-- [ ] Every 3-tuple consumer is generalised: `RaptorIndex`, `getWorkingEngineCount`, the shutdown order, the trims, the HUD, audio, view and controls.
+- [x] Rows unchanged: all eight fixtures regenerate byte-identical on the same machine, and the digests hold. The keys did not grow (three engines record as three).
+- [x] Every 3-tuple consumer is generalised over `C.RAPTORS`: `RaptorIndex`, `getWorkingEngineCount`, the off-axis sum (same addition order), ignition ticks, fuel-out, `toggleAllRaptors`, the HUD indicators and engine metrics, audio edges, view shutdown bursts and the controls. The shutdown order and the landing trims still name engines 0–2 explicitly; 4b keys them on the sea-level engines.
 
 **4b, Fidelity: three RVacs in the core.**
 - [ ] Thrust is F = F_vac − p_a·A_e from a tier-B vacuum thrust and Isp and exit diameter (Wikipedia's Raptor article, named as tier B). There is no flow-separation refusal: Ships fire all six at sea level in static fires.

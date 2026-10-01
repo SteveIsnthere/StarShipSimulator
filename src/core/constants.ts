@@ -189,13 +189,35 @@ export const raptorN1offAxis = -raptorOffsetFromCenter;
 export const raptorN2offAxis = raptorOffsetFromCenter / 2;
 export const raptorN3offAxis = raptorOffsetFromCenter / 2;
 
-/** Dimensionless — fraction of each engine's thrust acting off-axis. */
-export const raptorN1offAxisForceFraction =
-  -raptorN1offAxis / Math.sqrt(raptorN1offAxis ** 2 + (vehicleHeight / 2) ** 2);
-export const raptorN2offAxisForceFraction =
-  -raptorN2offAxis / Math.sqrt(raptorN2offAxis ** 2 + (vehicleHeight / 2) ** 2);
-export const raptorN3offAxisForceFraction =
-  -raptorN3offAxis / Math.sqrt(raptorN3offAxis ** 2 + (vehicleHeight / 2) ** 2);
+/** Which nozzle a Raptor carries. */
+export type RaptorKind = 'sea-level' | 'vacuum';
+
+/** One engine position on the vehicle. */
+export interface RaptorMount {
+  readonly kind: RaptorKind;
+  /** m — lateral offset from the centreline. */
+  readonly offAxis: number;
+  /** Dimensionless — the fraction of its thrust acting off-axis (physics.js:515). */
+  readonly offAxisForceFraction: number;
+}
+
+const mount = (kind: RaptorKind, offAxis: number): RaptorMount => ({
+  kind,
+  offAxis,
+  offAxisForceFraction: -offAxis / Math.sqrt(offAxis ** 2 + (vehicleHeight / 2) ** 2),
+});
+
+/**
+ * Every engine, in index order: the engine arrays in SimState (`running`,
+ * `failed`, `ignitionCountdown`) are this long and indexed the same way.
+ * Indices 0..2 are 2021's N1..N3. Phase 6, Task 4a: a table rather than three
+ * named constants, so the engine count is data.
+ */
+export const RAPTORS: readonly RaptorMount[] = [
+  mount('sea-level', raptorN1offAxis),
+  mount('sea-level', raptorN2offAxis),
+  mount('sea-level', raptorN3offAxis),
+];
 
 /** m */
 export const engineDistanceFromCenterOfMass = 21.8;

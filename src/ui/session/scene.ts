@@ -9,6 +9,7 @@
 import type { SimState } from '$core/state';
 import type { ScenarioPreset } from '$core/scenarios';
 import { heatLimit, vehicleHeight } from '$core/constants';
+import { getWorkingEngineCount } from '$core/physics/engines';
 import type { ViewApp } from '$view/app';
 import { worldToScreen } from '$view/camera';
 import { loadTextures, STARSHIP_TEXTURE } from '$view/assets';
@@ -37,8 +38,7 @@ export interface Scene {
 
 /** Engines lit, counted without allocating (the per-frame path). */
 function litEngines(state: SimState): number {
-  const r = state.engines.running;
-  return (r[0] ? 1 : 0) + (r[1] ? 1 : 0) + (r[2] ? 1 : 0);
+  return getWorkingEngineCount(state.engines.running);
 }
 
 /**

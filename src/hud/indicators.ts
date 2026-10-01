@@ -15,6 +15,7 @@
  * `autoLand` clears itself when the vehicle is down. A panel that only repainted
  * on click would show a lie.
  */
+import * as C from '$core/constants';
 import type { SimState } from '$core/state';
 
 export interface Indicator {
@@ -28,18 +29,12 @@ export const INDICATORS: readonly Indicator[] = [
   // An engine reads as lit while it is igniting, not only once it has caught —
   // the countdown is up to ~0.6 s and a dead-looking button through it would
   // invite a second press, which switches.js:16 treats as a cancel.
-  {
-    id: 'raptor0',
-    on: (s) => s.engines.running[0] || s.engines.ignitionCountdown[0] !== null,
-  },
-  {
-    id: 'raptor1',
-    on: (s) => s.engines.running[1] || s.engines.ignitionCountdown[1] !== null,
-  },
-  {
-    id: 'raptor2',
-    on: (s) => s.engines.running[2] || s.engines.ignitionCountdown[2] !== null,
-  },
+  ...C.RAPTORS.map(
+    (_, i): Indicator => ({
+      id: `raptor${i}`,
+      on: (s) => s.engines.running[i] === true || typeof s.engines.ignitionCountdown[i] === 'number',
+    }),
+  ),
   { id: 'allRaptors', on: (s) => s.engines.running.some(Boolean) },
 
   { id: 'autoMaxThrust', on: (s) => s.autopilot.autoMaxThrustOn },

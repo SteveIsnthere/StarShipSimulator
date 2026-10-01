@@ -18,13 +18,11 @@ import { rad, type Rad } from '../units';
 
 // --- thrust ----------------------------------------------------------------
 
-/** physics.js:288 — 0..3. Verbatim, including its redundant branch structure. */
+/** physics.js:288 — how many engines are running, 0..N (Phase 6, Task 4a: counted, not enumerated). */
 export function getWorkingEngineCount(running: readonly boolean[]): number {
-  const [n1, n2, n3] = running;
-  if (n1 && n2 && n3) return 3;
-  if ((n1 && n2) || (n3 && n2) || (n1 && n3)) return 2;
-  if (n1 || n2 || n3) return 1;
-  return 0;
+  let n = 0;
+  for (const lit of running) if (lit) n += 1;
+  return n;
 }
 
 /*
@@ -69,7 +67,8 @@ export function getThrustVectorForce(thrust: number, gimbalPosition: number): nu
  *
  * The booleans are multiplied directly, relying on JavaScript's true->1 coercion.
  * Ported as `? 1 : 0` because TypeScript will not multiply a boolean; the
- * arithmetic is identical.
+ * arithmetic is identical. Summed over the mount table in index order, the
+ * order 2021's three terms were added in, so three engines give the same bits.
  * @returns N
  */
 export function getOffAxisThrustDifference(
@@ -77,15 +76,11 @@ export function getOffAxisThrustDifference(
   throttleCurrent: number,
   ambientPressureKPa: number,
 ): number {
-  const [n1, n2, n3] = running;
-  return (
-    ((n1 ? 1 : 0) * C.raptorN1offAxisForceFraction +
-      (n2 ? 1 : 0) * C.raptorN2offAxisForceFraction +
-      (n3 ? 1 : 0) * C.raptorN3offAxisForceFraction) *
-    throttleCurrent *
-    0.01 *
-    C.thrustPerRaptorAt(ambientPressureKPa)
-  );
+  let fraction = 0;
+  for (let i = 0; i < C.RAPTORS.length; i++) {
+    fraction += (running[i] ? 1 : 0) * C.RAPTORS[i]!.offAxisForceFraction;
+  }
+  return fraction * throttleCurrent * 0.01 * C.thrustPerRaptorAt(ambientPressureKPa);
 }
 
 /** physics.js:518 — nozzle direction in world space, wrapped to (-pi, pi]. */
@@ -218,7 +213,7 @@ export function rollIgnitionFailure(state: SimState, engine: RaptorIndex): boole
 /** Advance every pending ignition by dt, lighting any that reach zero. */
 export function tickIgnition(state: SimState, dt: number): void {
   const { engines } = state;
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < engines.ignitionCountdown.length; i++) {
     const remaining = engines.ignitionCountdown[i];
     if (remaining === null || remaining === undefined) continue;
     const next = remaining - dt;
@@ -244,7 +239,7 @@ export function shutdownEngine(state: SimState, engine: RaptorIndex): void {
  */
 export function updateRaptorStatus(state: SimState): void {
   if (state.failures.fuelRunOut) {
-    state.engines.running = [false, false, false];
-    state.engines.ignitionCountdown = [null, null, null];
+    state.engines.running.fill(false);
+    state.engines.ignitionCountdown.fill(null);
   }
 }

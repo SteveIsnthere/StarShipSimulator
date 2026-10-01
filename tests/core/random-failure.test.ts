@@ -22,7 +22,7 @@ function attempt(seed: number, randomFailure: boolean): boolean {
   const state = createInitialState(seed);
   if (randomFailure) toggleRandomFailure(state);
   toggleRaptor(state, 0);
-  return state.engines.failed[0];
+  return state.engines.failed[0] === true;
 }
 
 describe('the toggle', () => {

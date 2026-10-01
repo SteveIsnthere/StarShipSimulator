@@ -212,7 +212,7 @@ export function createEffectDriver(): EffectDriver {
       }
 
       // --- engine shutdown: the effect that used to leak -------------------
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < engines.running.length; i++) {
         if (previous.engines.running[i] && !engines.running[i]) {
           particles.burst('raptorShutdown', nozzleX, nozzleY, 30, scale * 0.8);
         }

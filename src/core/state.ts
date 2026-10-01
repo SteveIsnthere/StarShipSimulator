@@ -20,8 +20,11 @@ import { circularOrbitalSpeed } from './physics/gravity';
 import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
 
-/** Which of the three Raptors a field refers to. Indices 0..2 are N1..N3. */
-export type RaptorIndex = 0 | 1 | 2;
+/**
+ * Which Raptor a field refers to: an index into `C.RAPTORS`, and into every
+ * per-engine array here. Indices 0..2 are 2021's N1..N3.
+ */
+export type RaptorIndex = number;
 
 // ---------------------------------------------------------------------------
 
@@ -294,9 +297,9 @@ export interface VehicleState {
 
 export interface EngineState {
   /** Whether each Raptor is commanded on. */
-  running: [boolean, boolean, boolean];
+  running: boolean[];
   /** Whether each Raptor has failed. */
-  failed: [boolean, boolean, boolean];
+  failed: boolean[];
   /**
    * s — time remaining before each commanded engine actually lights, or null
    * when that engine is not igniting.
@@ -310,7 +313,7 @@ export interface EngineState {
    * by timeAccel twice and so lit engines timeAccel times early in simulated
    * terms. Ticked by dt in step(), so warp is exact by construction.
    */
-  ignitionCountdown: [number | null, number | null, number | null];
+  ignitionCountdown: (number | null)[];
 }
 
 export interface StatusState {
@@ -606,9 +609,9 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
     },
 
     engines: {
-      running: [false, false, false],
-      failed: [false, false, false],
-      ignitionCountdown: [null, null, null],
+      running: C.RAPTORS.map(() => false),
+      failed: C.RAPTORS.map(() => false),
+      ignitionCountdown: C.RAPTORS.map(() => null),
     },
 
     status: {

@@ -160,7 +160,7 @@ function checkIfCrash(s: SimState): void {
         kinematics.angularVelocity = 0;
         kinematics.pitch = rad(0);
         vehicle.propellantMass = 0;
-        engines.running = [false, false, false];
+        engines.running.fill(false);
         vehicle.rcsRunTimeRemaining = 0;
       }
     } else if (forces.thrustAcceleration <= gravity.gravityAt(kinematics.distanceToPlanetCenter)) {
@@ -197,7 +197,7 @@ function checkIfBreakUp(s: SimState): void {
     failures.inFlightBreakUp = true;
     kinematics.angularVelocity = 0;
     vehicle.propellantMass = 0;
-    engines.running = [false, false, false];
+    engines.running.fill(false);
     vehicle.rcsRunTimeRemaining = 0;
   }
 }
