@@ -23,9 +23,16 @@ export interface OfflineSupport {
  *   so the app may be served from any path; an absolute '/sw.js' would look for
  *   the worker at the domain root and register nothing when it is not there.
  */
+/** The part of `document` the update check listens to. */
+export interface VisibilitySource {
+  readonly visibilityState: string;
+  addEventListener(type: 'visibilitychange', listener: () => void): void;
+}
+
 export function createOfflineSupport(
   navigatorRef: Navigator = navigator,
   scriptUrl = './sw.js',
+  visibility: VisibilitySource | undefined = typeof document === 'undefined' ? undefined : document,
 ): OfflineSupport {
   const supported = 'serviceWorker' in navigatorRef;
 
@@ -36,7 +43,17 @@ export function createOfflineSupport(
       try {
         // No explicit scope: the default is the worker's own directory, which
         // is exactly the directory the app was served from.
-        await navigatorRef.serviceWorker.register(scriptUrl);
+        const registration = await navigatorRef.serviceWorker.register(scriptUrl);
+        /*
+          Check for a new deploy whenever the page comes back into view. The
+          browser's own check rides on navigation, and on a device whose main
+          thread is saturated (software WebGL, a low-end phone) it was measured
+          not to happen at all — so neither a redeploy nor a rollback would
+          reach that visitor for up to a day.
+        */
+        visibility?.addEventListener('visibilitychange', () => {
+          if (visibility.visibilityState === 'visible') void registration.update?.().catch(() => {});
+        });
         return true;
       } catch {
         return false;

@@ -79,6 +79,24 @@ test('the service worker registers at the subpath scope and precaches it', async
   expect(info.keys.filter((k) => !k.startsWith('/StarShipSimulator/'))).toEqual([]);
 });
 
+test('the install manifest stays under the subpath, and its icon is served', async ({ page }) => {
+  // The manifest's start_url, scope and icons are resolved against the
+  // manifest's own URL. An absolute '/' would install an app that opens the
+  // origin root (another site, or a 404) and claims every site on the origin.
+  await page.goto('./', { waitUntil: 'load' });
+  const href = await page.locator('link[rel="manifest"]').getAttribute('href');
+  const manifestUrl = new URL(href!, page.url()).href;
+  const manifest = await (await page.request.get(manifestUrl)).json();
+  const resolve = (u: string) => new URL(u, manifestUrl).pathname;
+  expect(resolve(manifest.start_url)).toBe('/StarShipSimulator/');
+  expect(resolve(manifest.scope)).toBe('/StarShipSimulator/');
+  for (const icon of manifest.icons) {
+    const url = new URL(icon.src, manifestUrl);
+    expect(url.pathname.startsWith('/StarShipSimulator/'), icon.src).toBe(true);
+    expect((await page.request.get(url.href)).status(), icon.src).toBe(200);
+  }
+});
+
 test('it still works offline from a subdirectory', async ({ page }) => {
   await page.goto('./', { waitUntil: 'load' });
   await expect

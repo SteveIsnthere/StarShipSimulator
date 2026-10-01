@@ -29,7 +29,7 @@ checkout `npm run test` without a prior build fails on ENOENT.
   dispatched.
 
 - Measured on an idle M-series Mac: `npm run gate` about 3 minutes (smoke tier 45 s, subpath
-  deploy 45 s); the desktop project of the full suite 12.6 minutes (133 tests, 5 workers).
+  deploy 5 s); the desktop project of the full suite 12.6 minutes (133 tests, 5 workers).
 - `plume.spec.ts` "blooms wider than the ship in vacuum" measures plume pixels and is
   load-sensitive: it passes alone and has failed under five parallel workers. If it fails in
   a full run, re-run it alone before treating it as a regression.
@@ -192,7 +192,7 @@ looks good, never anything about a single pixel, and nothing at a non-default zo
 
 **Subpath deploy.** `playwright.subpath.config.ts` builds, stages `dist/` under
 `.subpath/StarShipSimulator/` with `scripts/stage-subpath.mjs`, serves it with
-`python3 -m http.server` on 127.0.0.1:4188 (deliberately not `vite preview`, which would
+`scripts/serve-static.mjs` (a plain Node file server) on 127.0.0.1:4188 (deliberately not `vite preview`, which would
 mask path bugs), and runs `tests/deploy/subpath.spec.ts` on one worker. `E2E_SUBPATH_PORT` moves the port;
 `E2E_BASE_URL` points the same spec at a real deployment and starts no server.
 
@@ -201,4 +201,4 @@ run as root) and SwiftShader for WebGL (`--use-gl=angle --use-angle=swiftshader
 --enable-unsafe-swiftshader`; the subpath config uses `--use-gl=swiftshader`). When
 `PLAYWRIGHT_BROWSERS_PATH` holds a `chromium-<rev>` build (Linux or macOS layout), both
 configs use its highest revision instead of Playwright's pinned one (`tests/e2e/chromium.ts`). CI has no such directory and
-runs `npx playwright install --with-deps chromium`. The subpath config needs `python3`.
+runs `npx playwright install --with-deps chromium`.

@@ -48,7 +48,7 @@ export default defineConfig({
         webServer: {
           // A plain static file server, deliberately: `vite preview` rewrites paths
           // and would hide exactly the mistakes this config exists to catch.
-          command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}node scripts/stage-subpath.mjs dist .subpath ${SUBPATH} && python3 -m http.server ${PORT} --directory .subpath --bind 127.0.0.1`,
+          command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}node scripts/stage-subpath.mjs dist .subpath ${SUBPATH} && node scripts/serve-static.mjs .subpath ${PORT}`,
           url: `http://127.0.0.1:${PORT}/${SUBPATH}/`,
           reuseExistingServer: false,
           timeout: 300_000,

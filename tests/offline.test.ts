@@ -201,6 +201,32 @@ describe('registration', () => {
     await expect(support.register()).resolves.toBe(false);
   });
 
+  it('checks for a new deploy when the page comes back into view', async () => {
+    let updates = 0;
+    let listener: (() => void) | undefined;
+    const navigatorRef = {
+      serviceWorker: {
+        register: () =>
+          Promise.resolve({
+            update: () => {
+              updates += 1;
+              return Promise.resolve();
+            },
+          }),
+      },
+    } as unknown as Navigator;
+    const visibility = {
+      visibilityState: 'hidden',
+      addEventListener: (_: string, l: () => void) => void (listener = l),
+    };
+    await createOfflineSupport(navigatorRef, './sw.js', visibility).register();
+    listener!();
+    expect(updates).toBe(0);
+    visibility.visibilityState = 'visible';
+    listener!();
+    expect(updates).toBe(1);
+  });
+
   it('registers at the root scope', async () => {
     const calls: Array<[string, unknown]> = [];
     const navigatorRef = {
