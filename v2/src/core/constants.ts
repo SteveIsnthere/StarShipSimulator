@@ -5,13 +5,13 @@
  * `throttleLowerLimit`, `frontFinSurfaceArea`, `gimbalAngleLimit`,
  * `integralOfRCubedTimesDx`. Porting diffs stay line-by-line comparable against
  * the 2021 tree until goldens lock behaviour; the mechanical rename is M1.10,
- * with its mapping table at docs/RENAME-MAP.md.
+ * with its mapping table at RENAME-MAP.md@d2839b9.
  *
  * Until M10.2 this was checked rather than claimed: tests/parity/constants.test.ts
  * executed the legacy file in a VM and asserted every value here matched it. That
  * suite is deleted and the 2021 tree is archived, so "verbatim" is now a statement
  * about this file's history, not an enforced invariant. Changing a value here is a
- * physics change under the tier rules in CLAUDE.md like any other, and the golden
+ * physics change under the tier rules in `physics-change-policy` like any other, and the golden
  * digests are what will catch it.
  *
  * Derived values are written as the same expressions the legacy file uses, in

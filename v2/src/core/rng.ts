@@ -19,7 +19,7 @@
  *      this, adding a single new random effect anywhere would invalidate every
  *      committed fixture.
  *
- * Sim streams and render-effect randomness never share a stream (CLAUDE.md).
+ * Sim streams and render-effect randomness never share a stream (`sim-core-conventions`).
  */
 
 /**

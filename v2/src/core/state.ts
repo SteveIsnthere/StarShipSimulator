@@ -11,7 +11,7 @@
  *   - Names are the 2021 names, misspellings included (`gimbalPosition`,
  *     `precisionAlignment`, `raptorN1Fail`). Porting diffs stay line-by-line
  *     comparable until goldens lock behaviour; M1.10 renames mechanically with
- *     a mapping table at docs/RENAME-MAP.md.
+ *     a mapping table at RENAME-MAP.md@d2839b9.
  *   - No methods. State is data; behaviour lives in step.ts and physics/.
  */
 import * as C from './constants';

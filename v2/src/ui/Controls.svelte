@@ -160,7 +160,7 @@
     it would have happened to a player — "R1 intercepts pointer events" on every
     attempt to click a control 200px away.
 
-    docs/BROADCAST-UI-PLAN.md § 3 already had the answer: the controls are a
+    BROADCAST-UI-PLAN.md@d2839b9 § 3 already had the answer: the controls are a
     left and a right rail down the sides, and the bottom band belongs to the
     telemetry. M6.4 restyles their surfaces; this is the position.
   */

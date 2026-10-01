@@ -296,7 +296,7 @@ test('no two overlay elements sit on top of each other @mobile', async ({ page }
     THE DEFECT THIS EXISTS FOR, stated so it cannot come back quietly. Until
     M12.4 the mission clock filled the top strip and the four top-right buttons
     were positioned absolutely over it, so on a phone the clock's digits sat
-    UNDER the CINEMATIC button. It is in `docs/screenshot-phone.png`, it was
+    UNDER the CINEMATIC button. It is in `docs/design/screenshots/screenshot-phone.png`, it was
     there for two milestones, and nothing failed — because nothing asked. The
     fix was to put them in one flex row, which makes the collision impossible
     rather than unlikely; this is what says so, on all five projects.

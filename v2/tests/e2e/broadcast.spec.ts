@@ -132,7 +132,7 @@ test('Q is labelled kPa, the unit it has always been', async ({ page }) => {
   await ready(page);
 
   // 2021 printed PSI beside this number and it was never psi. See
-  // docs/PARITY.md and $hud/readouts — a display fix, with core untouched.
+  // PARITY.md@d2839b9 and $hud/readouts — a display fix, with core untouched.
   await expect(page.locator(byTestId('readout-dynamicPressure-unit'))).toHaveText('KPA');
 });
 

@@ -81,7 +81,7 @@ export function niceSpan(span: number): number {
  * nonsense, and it means altitude is always read from the same baseline.
  *
  * Mutates `out` rather than returning an object: this is called every frame the
- * map redraws and CLAUDE.md asks for no allocation on that path.
+ * map redraws and `sim-core-conventions` asks for no allocation on that path.
  */
 export function computeExtent(
   vehicleX: number,

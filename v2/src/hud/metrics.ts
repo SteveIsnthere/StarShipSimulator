@@ -11,7 +11,7 @@
  * `fraction` is a float that changes on literally every frame, so diffing it
  * directly would write every frame, and diffing a formatted version of it would
  * mean building a string every frame just to find out it was not needed —
- * allocation on the per-frame path, which CLAUDE.md forbids.
+ * allocation on the per-frame path, which `sim-core-conventions` forbids.
  *
  * So each metric reports an INTEGER quantum at roughly the precision the screen
  * can show, the binder compares integers (no allocation, no write when equal),

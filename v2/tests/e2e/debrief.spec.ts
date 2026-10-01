@@ -53,7 +53,7 @@ test('the intro lands and says how it went @mobile', async ({ page }) => {
   await ready(page);
   await flyTheIntroDown(page);
 
-  // CLAUDE.md's soul: the intro auto-landing sequence lands. If this ever reads
+  // AGENTS.md's soul: the intro auto-landing sequence lands. If this ever reads
   // CRASH the demo is broken, and the card is how anyone would now find out.
   await expect(page.locator(byTestId('debrief-outcome'))).toHaveText('TOUCHDOWN');
   await expect(page.locator(byTestId('debrief-reason'))).toHaveCount(0);

@@ -18,7 +18,7 @@ files and is precached by the service worker along with them.
 
 ## Why not D-DIN
 
-`docs/BROADCAST-UI-PLAN.md` nominated D-DIN, the OFL member of the DIN family
+`BROADCAST-UI-PLAN.md@d2839b9` nominated D-DIN, the OFL member of the DIN family
 the SpaceX overlay is set in, and made a measurement the decider rather than
 taste. D-DIN failed it: its ten digits have nine distinct advance widths and it
 ships no `tnum` feature, so a telemetry readout set in it slides sideways as it

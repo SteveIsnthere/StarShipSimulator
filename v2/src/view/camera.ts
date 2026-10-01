@@ -24,7 +24,7 @@
  *   5. it never looks below the ground
  *
  * And one hard constraint, which is why `altitudeFov` is flat below 500 m: the
- * intro auto-landing sequence is named in CLAUDE.md's soul, and every landing
+ * intro auto-landing sequence is named in AGENTS.md's soul, and every landing
  * happens in that band. Leaving the curve flat there means the moments that
  * matter most are untouched BY CONSTRUCTION rather than by careful tuning.
  *
@@ -163,7 +163,7 @@ export function zoomStep(scale: number, factor: number): number {
  * m — below this the field of view does not move at all.
  *
  * THE ONE HARD CONSTRAINT of the owner decision. Every landing, and the whole
- * intro auto-landing sequence that CLAUDE.md names as part of the soul, happens
+ * intro auto-landing sequence that AGENTS.md names as part of the soul, happens
  * under 500 m. Flat here means those moments are untouched by construction, and
  * that is a stronger guarantee than any amount of careful tuning: there is no
  * tuning to get wrong.
@@ -798,7 +798,7 @@ function integrateCamera(
  * multiplier and the max-steps bailout, all of them one-directional. Pass
  * `AdvanceResult.simulatedDt`.
  *
- * Mutates in place: this runs once per frame and CLAUDE.md asks for no
+ * Mutates in place: this runs once per frame and AGENTS.md asks for no
  * allocation on that path. The sub-step loop allocates nothing.
  */
 export function updateCamera(

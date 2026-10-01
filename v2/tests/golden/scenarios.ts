@@ -105,7 +105,7 @@ export const GOLDEN_SPECS: readonly GoldenSpec[] = [
   {
     id: 'intro-demo',
     steps: s(45),
-    // CLAUDE.md: "what must never change". This fixture is what enforces that.
+    // AGENTS.md: "what must never change". This fixture is what enforces that.
     setup: 'the intro auto-landing demo',
     build: () => createIntroState(),
   },

@@ -6,7 +6,7 @@
  *     rcsRunTimeRemaining = (rcsRunTimeRemaining * renderTimeInterval - 1) / renderTimeInterval
  *
  * which is algebraically just `remaining - dt`. The obvious tidy-up is to write
- * the subtraction. CLAUDE.md's Refactor tier allows that only with a numerical
+ * the subtraction. `physics-change-policy`'s Refactor tier allows that only with a numerical
  * proof of max abs difference <= 1 ULP over the input domain.
  *
  * The proof does not hold. Measured below: up to 11 ULP near an empty tank.

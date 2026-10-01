@@ -111,7 +111,7 @@ describe('writes are diffed', () => {
   it('formats only on the frames where the quantum moved', () => {
     // The allocation claim, counted rather than assumed: `format` builds a
     // string, so calling it on an unchanged frame is exactly the per-frame
-    // allocation CLAUDE.md forbids.
+    // allocation `sim-core-conventions` forbids.
     const spied = METRICS.map((metric) => ({
       metric,
       spy: vi.spyOn(metric, 'format'),

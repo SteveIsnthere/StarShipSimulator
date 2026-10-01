@@ -153,7 +153,7 @@ export function createEffectDriver(): EffectDriver {
 
         /*
           DENSITY IS NOT POWER, and conflating them is why the intro landing —
-          the sequence CLAUDE.md names as part of the soul — had no visible
+          the sequence AGENTS.md names as part of the soul — had no visible
           engine. One Raptor at 70% throttle is `(1/3) * 0.7 = 0.23` of full
           power, and `intensity` scales the emission RATE, so the plume kept its
           full length and got a quarter of the particles to fill it with: at the

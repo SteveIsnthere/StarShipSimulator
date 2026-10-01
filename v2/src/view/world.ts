@@ -2,7 +2,7 @@
  * The world layer: ground, StarBase, scenery, and the pig.
  *
  * Sprites are created once and repositioned each frame. Nothing here allocates
- * on the per-frame path, which CLAUDE.md requires and which the 2021 renderer
+ * on the per-frame path, which `sim-core-conventions` requires and which the 2021 renderer
  * did not manage — it built a new PIXI.Container per engine shutdown and never
  * removed it.
  */

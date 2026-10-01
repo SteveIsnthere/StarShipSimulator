@@ -2,7 +2,7 @@
  * Re-entry — M11.5: the plasma sheath and the onboard inset.
  *
  * WHAT WAS WRONG. At 80 km the vehicle is a few pixels and the plasma is a
- * trail of dots streaming behind it (`docs/reentry.png`). `thermalPower` and
+ * trail of dots streaming behind it (`docs/design/screenshots/reentry.png`). `thermalPower` and
  * `angleOfAttack` are both in SimState and nothing drew a sheath from them:
  * the thing a re-entry looks like — a shell of ionised air wrapped around the
  * windward face — was absent, and at that scale the vehicle could not have

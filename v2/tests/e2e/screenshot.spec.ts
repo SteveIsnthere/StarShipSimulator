@@ -68,7 +68,7 @@ test('capture desktop @screenshot', async ({ page }) => {
   await onFinalApproach(page);
 
   await page.screenshot({
-    path: fileURLToPath(new URL('../../../docs/screenshot.png', import.meta.url)),
+    path: fileURLToPath(new URL('../../../docs/design/screenshots/screenshot.png', import.meta.url)),
   });
 });
 
@@ -80,7 +80,7 @@ test('capture phone @screenshot @mobile @mobile-only @portrait-only', async ({ p
   await onFinalApproach(page);
 
   await page.screenshot({
-    path: fileURLToPath(new URL('../../../docs/screenshot-phone.png', import.meta.url)),
+    path: fileURLToPath(new URL('../../../docs/design/screenshots/screenshot-phone.png', import.meta.url)),
   });
 });
 
@@ -126,7 +126,7 @@ for (const [label, metres] of [
     await atAltitude(page, metres);
 
     await page.screenshot({
-      path: fileURLToPath(new URL(`../../../docs/depth-${label}.png`, import.meta.url)),
+      path: fileURLToPath(new URL(`../../../docs/design/screenshots/depth-${label}.png`, import.meta.url)),
     });
   });
 }
@@ -172,6 +172,6 @@ test('capture a re-entry @screenshot', async ({ page }) => {
   await page.waitForTimeout(6_000);
 
   await page.screenshot({
-    path: fileURLToPath(new URL('../../../docs/reentry.png', import.meta.url)),
+    path: fileURLToPath(new URL('../../../docs/design/screenshots/reentry.png', import.meta.url)),
   });
 });

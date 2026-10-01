@@ -70,7 +70,7 @@ export interface Judged {
  * The last instant the vehicle was still flying, plus the flight's peaks.
  *
  * MUTATED IN PLACE, one record for the life of the watch. `observe` runs on
- * every simulation step — 120 Hz, times the time-warp factor — and CLAUDE.md's
+ * every simulation step — 120 Hz, times the time-warp factor — and AGENTS.md's
  * per-frame path allows no allocation there; a fresh ten-field object per step
  * is exactly the kind of quiet garbage that rule exists for. The consequence
  * for callers is stated rather than hidden: `watch.last` is a VIEW of the

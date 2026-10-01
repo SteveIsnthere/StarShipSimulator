@@ -1,7 +1,7 @@
 /**
  * M4.6: the parity sweep, as tests.
  *
- * docs/PARITY.md is the checklist; this is the half of it a machine can keep
+ * PARITY.md@d2839b9 is the checklist; this is the half of it a machine can keep
  * honest. Every 2021 `onclick` handler in index.html was enumerated and each
  * one either has a control here or an entry in the document saying why not.
  */

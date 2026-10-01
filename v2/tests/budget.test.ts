@@ -100,7 +100,7 @@ describe('checkBudget', () => {
     expect(result.lazy).toEqual(['lazy.js']);
   });
 
-  it('defaults to the 250 kB budget from CLAUDE.md', () => {
+  it('defaults to the 250 kB budget from `sim-core-conventions`', () => {
     expect(DEFAULT_BUDGET_BYTES).toBe(250 * 1024);
   });
 });

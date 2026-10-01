@@ -9,7 +9,7 @@
   component renders a fixed skeleton once; the arc, the numeral, the unit and
   the full-scale label are all written by the binders through the `data-metric`
   and `data-readout-*` hooks below. Making the value a prop would put a Svelte
-  update on the frame path, which is the one thing CLAUDE.md forbids outright.
+  update on the frame path, which is the one thing `sim-core-conventions` forbids outright.
 -->
 <script lang="ts">
   import { GAUGE_CIRCUMFERENCE, GAUGE_RADIUS, GAUGE_SWEEP } from '$hud/metrics';

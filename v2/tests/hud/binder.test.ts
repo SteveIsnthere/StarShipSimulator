@@ -13,7 +13,7 @@
  *
  *   1. Elements are resolved once. The per-frame path never looks anything up.
  *   2. Writes are diffed. Unchanged readouts cost nothing.
- *   3. The whole update fits the 2 ms budget from CLAUDE.md.
+ *   3. The whole update fits the 2 ms budget from `sim-core-conventions`.
  *
  * The binder takes a resolver rather than reaching for `document`, so all of
  * this runs in plain Node against counting stubs — which is also how the write

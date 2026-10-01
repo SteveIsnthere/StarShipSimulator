@@ -1,7 +1,7 @@
 /**
  * M4.4, Bug fix tier: the before/after trajectory diff.
  *
- * CLAUDE.md requires a Bug fix to show, in the same commit, what it did to all
+ * `physics-change-policy` requires a Bug fix to show, in the same commit, what it did to all
  * six scenarios. Wiring `randomFailure` into the ignition roll changes what
  * `rollIgnitionFailure` compares against, so this measures the change where it
  * could possibly appear.

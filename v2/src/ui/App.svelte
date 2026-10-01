@@ -1121,7 +1121,7 @@
     neighbour and swallowed its clicks, which an e2e caught. The same reasoning
     one level up is what this snippet is: the clock and these buttons share a
     row now, and things in one row cannot collide. On a phone they did, and the
-    proof sat in `docs/screenshot-phone.png` for two milestones.
+    proof sat in `docs/design/screenshots/screenshot-phone.png` for two milestones.
   -->
   <div class="top-right">
 

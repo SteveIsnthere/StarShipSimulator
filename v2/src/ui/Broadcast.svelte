@@ -7,7 +7,7 @@
   problem M6 exists to fix. The reference overlay puts nothing in the top-left
   corner, because the top-left corner is where the world is.
 
-  What lives here now, following docs/BROADCAST-UI-PLAN.md § 3:
+  What lives here now, following BROADCAST-UI-PLAN.md@d2839b9 § 3:
 
     TOP     the mission clock and the scenario name, over a thin scrim.
     BOTTOM  two dial-and-digit gauges; the vehicle's physical state as engine
@@ -61,7 +61,7 @@
      * state — cinematic, muted, the camera modes — and the clock needs to be in
      * the same flex row as them or the two can collide. They did: on a phone
      * the mission clock's digits sat under the CINEMATIC button, visible in
-     * `docs/screenshot-phone.png` for two milestones, because `.top` filled the
+     * `docs/design/screenshots/screenshot-phone.png` for two milestones, because `.top` filled the
      * width and `.top-right` was positioned absolutely over it. Nothing that
      * shares a row can overlap.
      */
@@ -359,7 +359,7 @@
 
     The clock filled this strip and the top-right buttons were positioned
     absolutely over it, so on a narrow screen the mission clock's digits sat
-    UNDER the CINEMATIC button — visible in `docs/screenshot-phone.png` for two
+    UNDER the CINEMATIC button — visible in `docs/design/screenshots/screenshot-phone.png` for two
     milestones, because nothing asserted the two did not intersect. Things in
     one flex row cannot overlap: the buttons are a child now, `margin-left:
     auto` puts them right, and `min-width: 0` lets the scenario name give way

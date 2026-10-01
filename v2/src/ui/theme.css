@@ -3,7 +3,7 @@
 
   Every colour, every border, every type size in the interface resolves to
   something declared here. That is not tidiness for its own sake: the whole
-  claim of docs/BROADCAST-UI-PLAN.md § 2 is that the look comes from a very
+  claim of BROADCAST-UI-PLAN.md@d2839b9 § 2 is that the look comes from a very
   small vocabulary — white at four opacities, one scrim, two warning colours —
   and a vocabulary that small only stays small if it is written down once.
 

@@ -10,7 +10,7 @@
  * So: every particle this system will ever use is allocated once, at
  * construction. Emitting takes one from a free list; dying returns it. Nothing
  * is created, and nothing is destroyed, on the per-frame path — which is what
- * CLAUDE.md asks for and what tests/view/particles.test.ts verifies by counting.
+ * AGENTS.md asks for and what tests/view/particles.test.ts verifies by counting.
  *
  * Particle state lives in parallel typed arrays rather than in objects. That is
  * not premature: at a few thousand live particles, an array-of-objects walks a

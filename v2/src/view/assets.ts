@@ -101,7 +101,7 @@ export const GROUND_OBJECTS: readonly GroundObject[] = [
   },
   {
     /**
-     * The pig. CLAUDE.md: "The pig at x = 0."
+     * The pig. AGENTS.md: "The pig at x = 0."
      *
      * It spawns at absolute world x = 0 — half a planet from StarBase — and
      * roams, so it reappears at the edge of the screen wherever you fly. That

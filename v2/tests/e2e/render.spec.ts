@@ -3,7 +3,7 @@
  *
  * A screenshot test would be brittle and a canvas is opaque to the DOM, so
  * these assert what can be checked honestly: that every texture loaded, that
- * the scene graph has the expected shape, and that the pig is where CLAUDE.md
+ * the scene graph has the expected shape, and that the pig is where AGENTS.md
  * says it must be.
  */
 import { expect, test } from '@playwright/test';

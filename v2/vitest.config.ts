@@ -22,7 +22,7 @@ export default defineConfig({
       provider: 'v8',
       // src/core/** ONLY. M10 is about physics and control logic; view/, hud/,
       // audio/, ui/ and app/ have their own suites and are explicitly out of
-      // scope (docs/VERIFICATION-PLAN.md § Scope).
+      // scope (VERIFICATION-PLAN.md@d2839b9 § Scope).
       // A file with no tests at all still counts against the number: in Vitest 4
       // that is the default for everything matched by `include`, and the old
       // `all: true` flag is gone (svelte-check rejects it — CoverageOptions has
@@ -56,7 +56,7 @@ export default defineConfig({
        * asserting anything scores exactly the same as a real one, and is worse
        * than an uncovered branch because it reads as covered. Where a branch
        * turns out to be genuinely unreachable the rule is to document it in
-       * docs/VERIFICATION-PLAN.md with the argument, not to manufacture a test
+       * VERIFICATION-PLAN.md@d2839b9 with the argument, not to manufacture a test
        * that executes it.
        *
        * A note on the modules reporting 0/0 branches: `thermal.ts`,

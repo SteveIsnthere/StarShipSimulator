@@ -3,7 +3,7 @@
 A Starship flight simulator that runs in a browser. Land it yourself, or watch the
 autopilot do it.
 
-![Starship on final approach, one Raptor lit, StarBase behind, a cloud deck overhead and the trajectory map showing the descent](docs/screenshot.png)
+![Starship on final approach, one Raptor lit, StarBase behind, a cloud deck overhead and the trajectory map showing the descent](docs/design/screenshots/screenshot.png)
 
 Originally written in 2021 as a first project. This is v2: that flight model extracted
 line by line, locked behind golden trajectory fixtures, and only then taken where the
@@ -15,7 +15,7 @@ It works on a phone, and not by shrinking: the dials become digits and ticks, th
 event timeline collapses to what just happened and what is next, and the flight
 controls become bottom sheets with real touch targets.
 
-<img src="docs/screenshot-phone.png" alt="The same landing on a phone: digits and ticks instead of dials, the timeline as one line of text, the controls as a tab bar" width="300">
+<img src="docs/design/screenshots/screenshot-phone.png" alt="The same landing on a phone: digits and ticks instead of dials, the timeline as one line of text, the controls as a tab bar" width="300">
 
 ### It looks like altitude
 
@@ -44,19 +44,19 @@ actually going, as against where its nose points. On a re-entry those differ by
 ninety degrees.
 
 <p>
-<img src="docs/depth-1km.png" alt="One kilometre up: the ship large in frame, terrain below" width="270">
-<img src="docs/depth-20km.png" alt="Twenty kilometres up: the ship smaller, the earth a band beneath a pale sky" width="270">
-<img src="docs/depth-100km.png" alt="A hundred kilometres up: the real night sky from StarBase, the sun low off the limb, and the earth below" width="270">
+<img src="docs/design/screenshots/depth-1km.png" alt="One kilometre up: the ship large in frame, terrain below" width="270">
+<img src="docs/design/screenshots/depth-20km.png" alt="Twenty kilometres up: the ship smaller, the earth a band beneath a pale sky" width="270">
+<img src="docs/design/screenshots/depth-100km.png" alt="A hundred kilometres up: the real night sky from StarBase, the sun low off the limb, and the earth below" width="270">
 </p>
 
-![A re-entry at eighty kilometres and seven and a third kilometres a second: the vehicle broadside to the airflow with a plasma sheath on its windward side, an onboard camera inset at the top of the frame showing the same fire close up, velocity streaks tearing past, and the earth a mottled band below](docs/reentry.png)
+![A re-entry at eighty kilometres and seven and a third kilometres a second: the vehicle broadside to the airflow with a plasma sheath on its windward side, an onboard camera inset at the top of the frame showing the same fire close up, velocity streaks tearing past, and the earth a mottled band below](docs/design/screenshots/reentry.png)
 
 That picture was impossible until August 2026, and not because nobody took it.
 The view was driven by the wall clock while the simulation was driven by its
 own, so a `Re-entry` put the vehicle 1734 px off the left edge of a 1280 px
 frame within four seconds of loading — and the follow law gave up beyond half a
 viewport, so it never came back. Every screenshot anyone could have taken of a
-re-entry was a screenshot of an empty sky. See `docs/GRAPHICS-PLAN.md`.
+re-entry was a screenshot of an empty sky. See `docs/reference/presentation.md`.
 
 ---
 
@@ -208,7 +208,7 @@ grounds that "the old one is just a fun project, we have a much higher standard 
 Those tests are deleted and nothing under `v2/` reads that tree. Correctness now means
 agreement with closed-form physics, published reference data and stated contracts —
 things that are true whatever any implementation does. The archive stays so nine
-milestones of porting citations keep resolving. See `docs/VERIFICATION-PLAN.md`.
+milestones of porting citations keep resolving. See `docs/reference/testing.md`.
 
 `core/` is pure: state in, state out. It runs in Node with no browser, which is what
 makes any of this testable.
@@ -320,22 +320,12 @@ production; that is not a bug worth finding from a user's bug report.
 
 ### Documents
 
-- [`CLAUDE.md`](CLAUDE.md) — the constitution. Read it before changing anything.
-- [`docs/REBUILD-PLAN.md`](docs/REBUILD-PLAN.md) — the plan and its reasoning.
-- [`docs/ROADMAP-TASKS.md`](docs/ROADMAP-TASKS.md) — every task, and a log of what each one found.
-- [`docs/PARITY.md`](docs/PARITY.md) — v2 against the 2021 feature list, line by line.
-- [`docs/RENAME-MAP.md`](docs/RENAME-MAP.md) — the mechanical rename, old name to new.
-- [`docs/BROADCAST-UI-PLAN.md`](docs/BROADCAST-UI-PLAN.md) — the interface: what was studied,
-  what was taken, and the one thing deliberately not copied.
-- [`docs/DEPTH-AND-SPEED-PLAN.md`](docs/DEPTH-AND-SPEED-PLAN.md) — why a 356 m viewport makes
-  orbital speed look like standing still, and the trajectory map that answers it.
-- [`docs/SOUND-PLAN.md`](docs/SOUND-PLAN.md) — the silence, and what it would take to end it.
-- [`docs/GRAPHICS-PLAN.md`](docs/GRAPHICS-PLAN.md) — what a re-entry with no vehicle in it
-  turned out to mean, and the plan for particles, clouds and ground that follows from it.
-- [`docs/VERIFICATION-PLAN.md`](docs/VERIFICATION-PLAN.md) — what replaced parity: coverage
-  measured rather than claimed, and correctness argued against closed-form physics.
-- [`docs/NEXT-LEVEL-PLAN.md`](docs/NEXT-LEVEL-PLAN.md) — the physics and graphics of M11,
-  and the interface work of M12, each phase surveyed on evidence before it was planned.
+- [`AGENTS.md`](AGENTS.md) — the project guide for people and coding agents: repo map, gate, skills.
+- [`docs/reference/`](docs/reference/) — how it works today: architecture, physics model, presentation, testing.
+- [`docs/plans/modernization/`](docs/plans/modernization/) — the live roadmap.
+- [`docs/research/2026-09-30-modernization-audit.md`](docs/research/2026-09-30-modernization-audit.md) — the audit behind it.
+
+The rebuild's own milestone plans and its task log are in git history at `d2839b9`.
 
 ---
 

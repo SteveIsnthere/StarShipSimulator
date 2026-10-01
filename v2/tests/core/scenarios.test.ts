@@ -35,7 +35,7 @@ function flatten(value: unknown, prefix = '', out: Map<string, unknown> = new Ma
 
 describe('the preset catalogue', () => {
   it('has the five presets index.html actually ships', () => {
-    // Reported honestly: CLAUDE.md, the plan and the game's own "What's New?"
+    // Reported honestly: AGENTS.md, the plan and the game's own "What's New?"
     // panel all say six. index.html has five configScenarioPreset buttons and
     // there is no sixth anywhere in the 2021 tree. See core/scenarios.ts.
     expect(PRESETS).toHaveLength(5);

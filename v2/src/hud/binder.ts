@@ -29,7 +29,7 @@
  *   ONE SUBSCRIBER. This is the only thing outside the renderer running per
  *   frame. Svelte renders on interaction; the HUD is not reactive state.
  *
- * The budget is 2 ms per update (CLAUDE.md).
+ * The budget is 2 ms per update (`sim-core-conventions`).
  */
 import type { SimState } from '$core/state';
 import { READOUTS, type Readout } from './readouts';

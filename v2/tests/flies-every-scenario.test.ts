@@ -8,7 +8,7 @@
  *
  * Note what this does NOT claim. It does not claim every scenario lands — the
  * Re-entry preset does not, and why is a known open question about `heatLimit`
- * (see docs/PARITY.md). It claims each one runs to a definite outcome without
+ * (see PARITY.md@d2839b9). It claims each one runs to a definite outcome without
  * producing a non-finite number, getting stuck, or throwing, and that the
  * outcomes are the ones actually observed, written down.
  */
@@ -160,7 +160,7 @@ describe('the autopilot flies the ones it is meant to', () => {
   });
 });
 
-describe('the intro, which CLAUDE.md says must never change', () => {
+describe('the intro, which AGENTS.md says must never change', () => {
   it('lands itself and hands the vehicle over with full tanks', () => {
     let s = createIntroState();
     let handedOver = -1;

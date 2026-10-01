@@ -6,7 +6,7 @@
  * heart of it: a second-order attitude controller that picks its actuator by
  * what is currently available — gimbal, fins, or RCS.
  *
- * Names were corrected in M1.10; docs/RENAME-MAP.md is the dictionary for
+ * Names were corrected in M1.10; RENAME-MAP.md@d2839b9 is the dictionary for
  * reading these against the 2021 originals (`presisionAlignment`, `…Aera`,
  * `throttleLowwerLimmit`, `gimbol…`).
  *

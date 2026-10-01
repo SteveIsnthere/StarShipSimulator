@@ -2,7 +2,7 @@
  * The walls themselves are under test.
  *
  * Each fixture in ./fixtures violates exactly one of the SEVEN walls in
- * CLAUDE.md — six from the 2021 autopsy, and wall 7 added by M8.1 when sound
+ * `sim-core-conventions` — six from the 2021 autopsy, and wall 7 added by M8.1 when sound
  * arrived.
  * We feed each one to ESLint through the real production config and assert that
  * the matching rule fires. A wall that stops rejecting its fixture fails here.

@@ -4,7 +4,7 @@
  *     npx vite-node tests/golden/regenerate.ts
  *
  * Running this is a physics change unless the output is byte-identical.
- * CLAUDE.md permits it only under a declared Bug-fix or Fidelity tier,
+ * `physics-change-policy` permits it only under a declared Bug-fix or Fidelity tier,
  * justified in the same commit. `git diff tests/golden/fixtures/` after running
  * it is the before/after evidence that commit owes.
  */

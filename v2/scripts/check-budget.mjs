@@ -1,6 +1,6 @@
 /**
  * Bundle budget gate. Fails the build when first-load JS exceeds the budget.
- * Budget comes from CLAUDE.md § Performance rules: first-load JS <= 250 kB gzip.
+ * Budget comes from `sim-core-conventions` § Performance rules: first-load JS <= 250 kB gzip.
  *
  * "First load" is the synchronously-fetched module graph of dist/index.html:
  * its <script src> entries plus every <link rel="modulepreload">. Chunks that
@@ -16,7 +16,7 @@ import { join, resolve } from 'node:path';
 export const DEFAULT_BUDGET_BYTES = 250 * 1024;
 
 /**
- * The font budget, self-imposed by M6 (docs/BROADCAST-UI-PLAN.md § 6).
+ * The font budget, self-imposed by M6 (BROADCAST-UI-PLAN.md@d2839b9 § 6).
  *
  * Fonts are not JS and never counted against the first-load number, which is
  * exactly why they need a cap of their own: a webfont family is the easiest
@@ -27,7 +27,7 @@ export const DEFAULT_BUDGET_BYTES = 250 * 1024;
 export const DEFAULT_FONT_BUDGET_BYTES = 80 * 1024;
 
 /**
- * The audio budget, self-imposed by M8 (docs/SOUND-PLAN.md § 2).
+ * The audio budget, self-imposed by M8 (SOUND-PLAN.md@d2839b9 § 2).
  *
  * A new asset class needs a cap on the day it arrives, not on the day someone
  * notices — § 7 names "the budget grows one sample at a time" as the risk, and

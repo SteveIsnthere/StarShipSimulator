@@ -11,7 +11,7 @@
  * where `X * dt` rounds once. The full-loop parity test caught it at step 4,
  * in the fifth significant figure of speedY.
  *
- * CLAUDE.md's Refactor tier permits this with a numerical proof of max abs
+ * `physics-change-policy`'s Refactor tier permits this with a numerical proof of max abs
  * difference <= 1 ULP over the input domain. That proof is below, and it holds:
  * over 800k samples spanning ten decades at four frame rates, the two forms are
  * either identical or differ by exactly one ULP. Never more.

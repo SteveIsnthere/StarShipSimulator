@@ -244,7 +244,7 @@ describe('the vehicle stays in frame, over all seven goldens', () => {
       The same bounds M7.3's property 1 asserts, held under a frame-time
       sequence property 1 never saw: half a frame horizontally, and a whole
       half-frame vertically because the ground-mode handoff puts the vehicle on
-      the top edge by construction and CLAUDE.md names that band as the soul.
+      the top edge by construction and AGENTS.md names that band as the soul.
     */
     expect(flown.worstX, flown.report).toBeLessThan(0.5);
     expect(flown.worstY, flown.report).toBeLessThanOrEqual(1);

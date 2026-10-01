@@ -119,7 +119,7 @@ export function finsActuation(state: SimState, goalPercentage: number, dt: numbe
  * The drain itself stays verbatim: `(remaining * rti - fraction) / rti` with
  * `rti = 1 / dt`, not the algebraically equivalent `remaining - dt * fraction`.
  * The simplification was measured and rejected — it differs by up to 11 ULP
- * near an empty tank, over the 1-ULP bar CLAUDE.md sets for a Refactor. See
+ * near an empty tank, over the 1-ULP bar `physics-change-policy` sets for a Refactor. See
  * tests/proofs/rcs-reserve.test.ts.
  *
  * @param goalPercentage -100 .. 100

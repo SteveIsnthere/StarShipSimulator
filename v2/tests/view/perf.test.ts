@@ -1,7 +1,7 @@
 /**
  * M3.7: the performance audit.
  *
- * CLAUDE.md sets three budgets: sim step under 1 ms at 240 Hz, HUD update under
+ * `sim-core-conventions` sets three budgets: sim step under 1 ms at 240 Hz, HUD update under
  * 2 ms, and zero allocation in the per-frame path. The HUD does not exist until
  * M4.1; the other two are measured here, and the sim budget runs in CI.
  *

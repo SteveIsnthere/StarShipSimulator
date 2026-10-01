@@ -7,7 +7,7 @@
  * their main consumer. Nothing in the simulation has called any of them since
  * M2.10 — `updateAtmosphere` is the ISA, and gravity is planet-centred.
  *
- * WHY THEY MOVED RATHER THAN BEING DELETED. `docs/VERIFICATION-PLAN.md` listed
+ * WHY THEY MOVED RATHER THAN BEING DELETED. `VERIFICATION-PLAN.md@d2839b9` listed
  * them as parity-orphaned exports to remove. That was wrong on the facts: they
  * have live consumers in `tests/core/atmosphere-strato.test.ts` and
  * `tests/core/orbit.test.ts`, which are NOT parity tests — they never execute

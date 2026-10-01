@@ -1,7 +1,7 @@
 /**
  * Record a compact trajectory per scenario to a JSON file.
  *
- * Used to build the before/after diffs CLAUDE.md's Bug-fix tier requires: run
+ * Used to build the before/after diffs `physics-change-policy`'s Bug-fix tier requires: run
  * this on the pre-fix source, run it again on the fixed source, and diff the two
  * files. Recording from the real source both times means the "before" side is
  * the code that actually shipped, not a reconstruction of it.

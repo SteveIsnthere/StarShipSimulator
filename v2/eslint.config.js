@@ -5,7 +5,7 @@ import globals from 'globals';
 import svelteConfig from './svelte.config.js';
 
 /**
- * The six walls (CLAUDE.md). Each maps to a specific 2021 wound:
+ * The seven walls (`sim-core-conventions`). Each maps to a specific 2021 wound:
  *
  *   1. core/ imports nothing from view/ ui/ hud/ app/ — the boundary itself.
  *   2. no document/window/PIXI in core/ — getElementById ran inside the physics loop.

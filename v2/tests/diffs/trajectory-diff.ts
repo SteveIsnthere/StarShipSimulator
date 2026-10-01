@@ -1,7 +1,7 @@
 /**
  * Six-scenario before/after trajectory diff.
  *
- * CLAUDE.md's Bug-fix tier requires a before/after trajectory diff on all six
+ * `physics-change-policy`'s Bug-fix tier requires a before/after trajectory diff on all six
  * scenarios, committed with the fix. This produces it: run every scenario under
  * both the old and new behaviour and report where, and by how much, they part.
  *

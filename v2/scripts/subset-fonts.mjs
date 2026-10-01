@@ -15,7 +15,7 @@
  *     node scripts/subset-fonts.mjs            # rewrites src/ui/fonts/*.woff2
  *     node scripts/subset-fonts.mjs --metrics  # prints the record for fonts.ts
  *
- * WHY BARLOW AND NOT D-DIN. docs/BROADCAST-UI-PLAN.md nominated D-DIN — the
+ * WHY BARLOW AND NOT D-DIN. BROADCAST-UI-PLAN.md@d2839b9 nominated D-DIN — the
  * OFL member of the DIN family the SpaceX overlay uses — and made the
  * tabular-digits test the decider rather than taste. D-DIN failed it, and not
  * marginally: its ten digits have nine distinct advance widths (329..512 per

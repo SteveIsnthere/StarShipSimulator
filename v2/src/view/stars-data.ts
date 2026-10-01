@@ -10,7 +10,7 @@
  * of a pixel at any field this sky is drawn at.
  *
  * Generated, not typed: the script that made it is described in
- * docs/ROADMAP-TASKS.md under M11.7. The named stars below are the ones the
+ * ROADMAP-TASKS.md@d2839b9 under M11.7. The named stars below are the ones the
  * asterism tests reach for, keyed by HR number so a name cannot drift from its
  * row.
  */

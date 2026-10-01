@@ -1,7 +1,7 @@
 <!--
   The trajectory map (M7.1).
 
-  WHY IT EXISTS, measured rather than asserted (docs/DEPTH-AND-SPEED-PLAN.md § 2):
+  WHY IT EXISTS, measured rather than asserted (DEPTH-AND-SPEED-PLAN.md@d2839b9 § 2):
   the main viewport is 356 x 200 metres at every altitude, so the ground leaves
   the screen above ~100 m and every scenario but the final landing is flown
   against a featureless sky. No single camera can fix that — showing the ground

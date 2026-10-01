@@ -151,7 +151,7 @@ describe('the consequence for the Re-entry preset', () => {
    * almost no atmosphere. But `heatLimit = 55` was tuned against that same
    * wrong model, and M2.2 (passing a nose radius where an area is passed today)
    * makes heating larger again. Recalibrating a limit changes feel, which
-   * CLAUDE.md reserves for the owner; the owner's rule was "preserve the 2021
+   * `physics-change-policy` reserves for the owner; the owner's rule was "preserve the 2021
    * margin", and M2.9(a) applied it. The limit is 389 — re-derived from
    * that rule on every test run, so it tracks the physics.
    */

@@ -6,7 +6,7 @@
  * inputs that `configureNewFlight()` later read back out. The numbers are the
  * tuning; the DOM was just where they happened to live. Here they are values.
  *
- * A NOTE ON "THE SIX PRESETS". CLAUDE.md, docs/REBUILD-PLAN.md and the game's
+ * A NOTE ON "THE SIX PRESETS". REBUILD-PLAN.md@d2839b9 and the game's
  * own "What's New?" panel all say six scenario presets. index.html ships five
  * `configScenarioPreset(...)` buttons - Booster Sep, RTLS, Re-entry, Before
  * Flip, Landing Burn - and no sixth anywhere in the tree. Reported rather than
@@ -168,7 +168,7 @@ export const LAUNCH_PAD: ScenarioPreset = {
  * high and too fast for its own `-distanceToGround / 3` descent profile and
  * would arrive hot.
  *
- * v2 pins the canonical 4x value. The intro is in CLAUDE.md's "what must never
+ * v2 pins the canonical 4x value. The intro is in AGENTS.md's "what must never
  * change" list, and a sequence that plays differently depending on the window
  * cannot be held to a golden fixture. This is also a dependency the sim should
  * never have had: wall 1 forbids core/ importing from view/, and this is

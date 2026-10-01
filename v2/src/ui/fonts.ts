@@ -1,7 +1,7 @@
 /**
  * The typeface decision, and the measurements that made it.
  *
- * docs/BROADCAST-UI-PLAN.md § 2 nominated D-DIN and then, deliberately, refused
+ * BROADCAST-UI-PLAN.md@d2839b9 § 2 nominated D-DIN and then, deliberately, refused
  * to let taste decide: "a unit test measures rendered widths of `1111` vs
  * `0000` and fails if they differ by > 1px. If D-DIN fails that test, the
  * fallback (decided by the same test, not by taste) is an OFL DIN-grotesque

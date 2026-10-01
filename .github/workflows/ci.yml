@@ -55,7 +55,7 @@ jobs:
       - name: Build and budget
         run: npm run build
 
-      # Includes the performance budgets from CLAUDE.md: sim step under 1 ms at
+      # Includes the performance budgets from `sim-core-conventions`: sim step under 1 ms at
       # 240 Hz, and the pool/state-shape invariants that stand in for
       # "zero allocation in the per-frame path". Those are timings on a shared
       # runner, which is normally not evidence — they survive here because they

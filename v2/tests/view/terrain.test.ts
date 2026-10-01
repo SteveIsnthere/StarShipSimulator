@@ -156,7 +156,7 @@ describe('more scenery, and nothing new to fetch', () => {
   });
 
   it('THE PIG IS AT x = 0', () => {
-    // CLAUDE.md names it in the soul. It spawns half a planet from StarBase and
+    // AGENTS.md names it in the soul. It spawns half a planet from StarBase and
     // roams, so it reappears wherever you fly. That is the joke, and it is
     // load-bearing.
     const pig = GROUND_OBJECTS.find((o) => o.id === 'pig');

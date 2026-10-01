@@ -1,7 +1,7 @@
 /**
  * M3.6: the intro auto-landing sequence, end to end in v2.
  *
- * CLAUDE.md lists this under "what must never change". The simulation half is
+ * AGENTS.md lists this under "what must never change". The simulation half is
  * already locked by a golden fixture; what these tests add is that the whole
  * thing plays IN THE BROWSER — real renderer, real loop, real frame times — and
  * lands.

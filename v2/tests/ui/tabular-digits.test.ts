@@ -1,7 +1,7 @@
 /**
  * M6.1: the typeface is chosen by measurement.
  *
- * docs/BROADCAST-UI-PLAN.md § 2 wrote the rule before the work started: "a unit
+ * BROADCAST-UI-PLAN.md@d2839b9 § 2 wrote the rule before the work started: "a unit
  * test measures rendered widths of `1111` vs `0000` and fails if they differ by
  * > 1px. If D-DIN fails that test, the fallback (decided by the same test, not
  * by taste) is an OFL DIN-grotesque with true `tnum`." This is that test, and

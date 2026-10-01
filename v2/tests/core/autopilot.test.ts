@@ -122,7 +122,7 @@ describe('autoTakeOff', () => {
   });
 });
 
-describe('the intro demo — CLAUDE.md lists this under "what must never change"', () => {
+describe('the intro demo — AGENTS.md lists this under "what must never change"', () => {
   /** utilities/welcome.js:66 — startRunningGame()'s initial conditions. */
   function introState(): SimState {
     const s = createInitialState();

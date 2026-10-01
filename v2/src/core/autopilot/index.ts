@@ -9,7 +9,7 @@
  * mode simply overwrites an earlier one's command. Reordering changes flight.
  *
  * All six were ported verbatim first, misspellings included, and renamed in
- * M1.10 once the goldens had locked behaviour. docs/RENAME-MAP.md maps these
+ * M1.10 once the goldens had locked behaviour. RENAME-MAP.md@d2839b9 maps these
  * back to their 2021 names (`aeroDesent…`, `presisionAlignment`,
  * `finalDesentStage…`).
  *
@@ -522,7 +522,7 @@ export function finalDescentStageController(
 /**
  * utilities/welcome.js:1 — the intro auto-landing demo.
  *
- * CLAUDE.md lists this under "what must never change". It is the final-descent
+ * AGENTS.md lists this under "what must never change". It is the final-descent
  * controller run alone, from a standing start high in the render box, with a
  * -20 m/s engine-shutdown threshold instead of -5. On touchdown it restores the
  * vehicle for play rather than ending the flight.

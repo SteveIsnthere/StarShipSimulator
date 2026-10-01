@@ -13,7 +13,7 @@
  * the renderer as an interpolation factor. The number of steps per frame varies;
  * what a step means never does.
  *
- * Three consequences, all of them things CLAUDE.md asks for:
+ * Three consequences, all of them things AGENTS.md asks for:
  *   - determinism: the same inputs produce the same trajectory at any frame rate
  *     (tests/golden proves this bit-for-bit across batchings);
  *   - honest time warp: warp N runs N steps per frame. dt is never scaled,
@@ -36,7 +36,7 @@ export const DT = 1 / 120;
  * on the floor instead, which is the right trade: the world runs slow for one
  * frame rather than locking up.
  *
- * 0.25 s is the value CLAUDE.md specifies.
+ * 0.25 s is the value `sim-core-conventions` specifies.
  */
 export const MAX_FRAME_TIME = 0.25;
 
@@ -76,7 +76,7 @@ export interface AdvanceOptions {
    * worth being explicit about why rather than papering over it with one signed
    * number. Speeding up means running MORE steps per frame — that is `timeWarp`
    * above, and it is the only honest way to do it, because a step must always
-   * mean DT seconds (CLAUDE.md).
+   * mean DT seconds (`sim-core-conventions`).
    *
    * Slowing down cannot be "fewer steps per frame": below one step per frame
    * there is no such thing. What it is instead is less REAL time entering the
@@ -102,7 +102,7 @@ export interface AdvanceOptions {
    * most of the sampling points and record a different flight at a different
    * frame rate.
    *
-   * Pass a stable function: this is the per-frame path and CLAUDE.md forbids
+   * Pass a stable function: this is the per-frame path and `sim-core-conventions` forbids
    * allocating in it.
    */
   readonly onStep?: (state: SimState) => void;
@@ -146,7 +146,7 @@ export interface AdvanceResult {
 /**
  * Advance the loop by one frame.
  *
- * @param loop mutated in place — this is the per-frame hot path and CLAUDE.md
+ * @param loop mutated in place — this is the per-frame hot path and `sim-core-conventions`
  *   requires zero allocation here. `step()` itself remains pure.
  * @param frameTime real seconds since the previous frame
  */

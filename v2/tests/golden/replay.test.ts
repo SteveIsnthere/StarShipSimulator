@@ -10,7 +10,7 @@
  * the total number of steps. This test batches the same 1/120 steps into groups
  * of different sizes and asserts the result is IDENTICAL, not merely close.
  *
- * If a fixture in this directory moves, physics changed. CLAUDE.md permits that
+ * If a fixture in this directory moves, physics changed. `physics-change-policy` permits that
  * only under a declared Bug-fix or Fidelity tier justified in the same commit,
  * with `git diff tests/golden/fixtures/` as the evidence.
  */

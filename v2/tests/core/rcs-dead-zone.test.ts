@@ -139,7 +139,7 @@ describe('what the fix must not break', () => {
     expect(s.forces.rcsThrust).toBe(0);
   });
 
-  it('the intro is untouched — CLAUDE.md says it must never change', () => {
+  it('the intro is untouched — AGENTS.md says it must never change', () => {
     // Measured: the intro never reaches the RCS branch at all, so this fix
     // cannot move it. Asserted rather than assumed, because "the soul" is the
     // one thing no tier may quietly regenerate.

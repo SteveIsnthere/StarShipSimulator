@@ -1,5 +1,5 @@
 /**
- * M10.10 — the fourteen branches `docs/VERIFICATION-PLAN.md` named as debt.
+ * M10.10 — the fourteen branches `VERIFICATION-PLAN.md@d2839b9` named as debt.
  *
  * They were left uncovered at M10.8 rather than papered over with tests that
  * execute a line without asserting anything. This file covers the twelve that

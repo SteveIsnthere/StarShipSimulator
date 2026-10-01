@@ -177,7 +177,7 @@ export const READOUTS: readonly Readout[] = [
      * launch vehicles fly max-q at 30-35 — which is kPa (50 psi would be
      * 345 kPa, five times what any vehicle sees), and the value is computed as
      * 0.5*rho*v^2 in SI over a millesimal, which lands in kPa. See
-     * docs/PARITY.md.
+     * PARITY.md@d2839b9.
      *
      * This is a DISPLAY fix, declared as such: nothing in core changed, the
      * number is the same number, and the seven golden digests do not move. What

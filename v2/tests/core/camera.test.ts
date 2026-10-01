@@ -562,7 +562,7 @@ describe('property 1 — the vehicle stays framed, over all seven goldens', () =
       camera at half that, so at the instant of the handoff the vehicle is at the
       top edge by definition — then descends through the frame. That is 2021's
       framing, it is the band every landing and the whole intro happen in, and
-      CLAUDE.md names the intro as part of the soul. Tightening it would mean
+      AGENTS.md names the intro as part of the soul. Tightening it would mean
       retuning the one thing M7.3's flat-below-500 m rule exists to leave alone.
     */
     expect(worstX, report).toBeLessThan(0.5);
