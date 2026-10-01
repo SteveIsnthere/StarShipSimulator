@@ -27,7 +27,7 @@ import {
   type Sample,
 } from './record';
 import { GOLDEN_SPECS } from './scenarios';
-import { ACTIVE_REL_TOL, relDiff } from './compare';
+import { ACTIVE_REL_TOL, matches, relDiff } from './compare';
 
 const DIR = fileURLToPath(new URL('./fixtures/', import.meta.url));
 
@@ -80,7 +80,7 @@ function expectSampleMatches(
     const got = actual[key];
     const diff = relDiff(got, want);
     expect(
-      diff <= ACTIVE_REL_TOL,
+      matches(got, want),
       `${id} step ${atStep} (sample ${index}): ${key} is ${String(got)}, golden has ${String(want)} (relative difference ${diff.toExponential(2)}, tolerance ${ACTIVE_REL_TOL})`,
     ).toBe(true);
   }

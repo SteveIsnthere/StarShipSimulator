@@ -43,6 +43,8 @@ export async function collectAssets(dir, base = dir) {
     }
     if (entry.name.endsWith('.map')) continue;
     if (entry.name === 'sw.js') continue;
+    // The 2021 worker's kill switch: served, never precached.
+    if (entry.name === 'serviceworker.js') continue;
     const ext = entry.name.slice(entry.name.lastIndexOf('.'));
     if (!PRECACHE_EXTENSIONS.has(ext)) continue;
     // Relative, with no leading slash. vite.config.ts builds with `base: './'`
@@ -74,11 +76,20 @@ self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
 
+/*
+  Only this app's own superseded caches, and the 2021 game's ('v2'). The Pages
+  origin is shared with every other project site on it, and their caches are
+  not ours to delete.
+*/
+function isStale(key) {
+  return key !== CACHE && (key.startsWith('starship-') || key === 'v2');
+}
+
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter(isStale).map((k) => caches.delete(k))))
       .then(() => self.clients.claim()),
   );
 });

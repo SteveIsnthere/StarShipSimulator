@@ -22,7 +22,7 @@ test('the app loads and flies from a subdirectory', async ({ page }) => {
 
   const altitude = page.locator('[data-testid="readout-altitude-value"]');
   await expect.poll(async () => (await altitude.textContent()) !== '', { timeout: 15_000 }).toBe(true);
-  await expect(page.locator('canvas')).toBeVisible();
+  await expect(page.locator('[data-testid="world-canvas"]')).toBeVisible();
 
   // The intro flies, so the whole chain is live from a subpath.
   const first = await altitude.textContent();
@@ -101,5 +101,5 @@ test('it still works offline from a subdirectory', async ({ page }) => {
     .toBe(true);
 
   expect(failed).toEqual([]);
-  await expect(page.locator('canvas')).toBeVisible();
+  await expect(page.locator('[data-testid="world-canvas"]')).toBeVisible();
 });

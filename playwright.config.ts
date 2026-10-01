@@ -1,31 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
-import { existsSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { preinstalledChromium } from './tests/e2e/chromium';
 
 /**
  * Smoke tests run against the production build, not the dev server: dev-only
  * transforms and HMR hide errors that ship. `npm run build` therefore runs
  * first, and the budget gate with it.
+ *
+ * E2E_PORT lets two worktrees run the browser suite at once without one
+ * testing the other's server.
  */
-const PORT = 4174;
-
-/**
- * The remote dev environment ships Chromium at PLAYWRIGHT_BROWSERS_PATH and
- * forbids `playwright install`. Its revision will not always match the pinned
- * @playwright/test, so point at the binary directly when it is there. CI has no
- * such directory and installs the matching revision itself.
- */
-function preinstalledChromium(): string | undefined {
-  const root = process.env.PLAYWRIGHT_BROWSERS_PATH;
-  if (!root || !existsSync(root)) return undefined;
-  const dir = readdirSync(root)
-    .filter((d) => /^chromium-\d+$/.test(d))
-    .sort()
-    .pop();
-  if (!dir) return undefined;
-  const bin = join(root, dir, 'chrome-linux', 'chrome');
-  return existsSync(bin) ? bin : undefined;
-}
+const PORT = Number(process.env.E2E_PORT ?? 4174);
 
 const executablePath = preinstalledChromium();
 
@@ -169,9 +153,10 @@ export default defineConfig({
       The timeout stays at three minutes, which is generous for a nine-second
       build: it was never the constraint.
     */
-    command: `npm run build && npm run preview -- --host 127.0.0.1 --port ${PORT} --strictPort`,
+    // E2E_SKIP_BUILD: the gate has just built dist/; do not build it again.
+    command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}npm run preview -- --host 127.0.0.1 --port ${PORT} --strictPort`,
     url: `http://127.0.0.1:${PORT}`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 180_000,
   },
 });

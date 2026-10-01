@@ -8,6 +8,7 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { access, readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { runInNewContext } from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import { buildServiceWorker, collectAssets, renderServiceWorker } from '../scripts/build-sw.mjs';
 import { createOfflineSupport } from '$app/offline';
@@ -100,11 +101,29 @@ describe('the cache version', () => {
     expect(a).toContain("'starship-aaaaaaaaaaaa'");
   });
 
-  it('deletes every cache that is not the current one on activate', () => {
+  it('on activate deletes only its own old caches and the 2021 one, then claims', async () => {
+    // The Pages origin is shared with every other project site on it; their
+    // caches are not this worker's to delete.
     const sw = renderServiceWorker(['index.html'], 'abc123abc123');
-    expect(sw).toContain('caches.delete');
-    expect(sw).toContain('skipWaiting');
-    expect(sw).toContain('clients.claim');
+    const listeners = new Map<string, (e: { waitUntil: (p: Promise<unknown>) => void }) => void>();
+    const deleted: string[] = [];
+    let claimed = false;
+    const self = {
+      registration: { scope: 'https://example.test/StarShipSimulator/' },
+      addEventListener: (t: string, f: (e: { waitUntil: (p: Promise<unknown>) => void }) => void) =>
+        listeners.set(t, f),
+      clients: { claim: async () => void (claimed = true) },
+    };
+    const caches = {
+      keys: async () => ['starship-abc123abc123', 'starship-0ld0ld0ld0ld', 'v2', 'another-site'],
+      delete: async (k: string) => void deleted.push(k),
+    };
+    runInNewContext(sw, { self, caches, URL });
+    let pending: Promise<unknown> = Promise.resolve();
+    listeners.get('activate')!({ waitUntil: (p) => (pending = p) });
+    await pending;
+    expect(deleted.sort()).toEqual(['starship-0ld0ld0ld0ld', 'v2']);
+    expect(claimed).toBe(true);
   });
 });
 

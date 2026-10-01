@@ -29,6 +29,15 @@ export const GOLDEN_REL_TOL = 1e-8;
 /** The tolerance in force on this machine: exact on the recording platform. */
 export const ACTIVE_REL_TOL = isRecordingPlatform() ? 0 : GOLDEN_REL_TOL;
 
+/**
+ * Whether a replayed value matches its golden on this machine: `Object.is` on
+ * the recording platform (so -0 and +0 still differ there), the measured
+ * tolerance elsewhere.
+ */
+export function matches(got: unknown, want: unknown): boolean {
+  return ACTIVE_REL_TOL === 0 ? Object.is(got, want) : relDiff(got, want) <= ACTIVE_REL_TOL;
+}
+
 /** Relative difference, robust at zero and for non-finite sentinels. */
 export function relDiff(got: unknown, want: unknown): number {
   if (Object.is(got, want)) return 0;

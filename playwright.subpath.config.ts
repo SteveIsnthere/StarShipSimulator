@@ -13,23 +13,18 @@
  * Run with: npm run test:deploy
  */
 import { defineConfig, devices } from '@playwright/test';
-import { existsSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { preinstalledChromium } from './tests/e2e/chromium';
 
-const PORT = 4188;
+const PORT = Number(process.env.E2E_SUBPATH_PORT ?? 4188);
 const SUBPATH = 'StarShipSimulator';
 
-/** Reuse the container's Chromium rather than downloading another. */
-function localChromium(): string | undefined {
-  const root = process.env['PLAYWRIGHT_BROWSERS_PATH'];
-  if (!root || !existsSync(root)) return undefined;
-  const dir = readdirSync(root).find((name) => name.startsWith('chromium-'));
-  if (!dir) return undefined;
-  const binary = join(root, dir, 'chrome-linux', 'chrome');
-  return existsSync(binary) ? binary : undefined;
-}
+const executablePath = preinstalledChromium();
 
-const executablePath = localChromium();
+/**
+ * E2E_BASE_URL points the same checks at a real deployment, such as the live
+ * Pages site after a cut-over; then no local server is started.
+ */
+const LIVE = process.env.E2E_BASE_URL?.replace(/\/?$/, '/');
 
 export default defineConfig({
   testDir: './tests/deploy',
@@ -38,7 +33,7 @@ export default defineConfig({
   reporter: [['list']],
 
   use: {
-    baseURL: `http://127.0.0.1:${PORT}/${SUBPATH}/`,
+    baseURL: LIVE ?? `http://127.0.0.1:${PORT}/${SUBPATH}/`,
     trace: 'off',
     ...devices['Desktop Chrome'],
     launchOptions: {
@@ -47,12 +42,16 @@ export default defineConfig({
     },
   },
 
-  webServer: {
-    // A plain static file server, deliberately: `vite preview` rewrites paths
-    // and would hide exactly the mistakes this config exists to catch.
-    command: `npm run build && node scripts/stage-subpath.mjs dist .subpath ${SUBPATH} && python3 -m http.server ${PORT} --directory .subpath --bind 127.0.0.1`,
-    url: `http://127.0.0.1:${PORT}/${SUBPATH}/`,
-    reuseExistingServer: false,
-    timeout: 300_000,
-  },
+  ...(LIVE
+    ? {}
+    : {
+        webServer: {
+          // A plain static file server, deliberately: `vite preview` rewrites paths
+          // and would hide exactly the mistakes this config exists to catch.
+          command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}node scripts/stage-subpath.mjs dist .subpath ${SUBPATH} && python3 -m http.server ${PORT} --directory .subpath --bind 127.0.0.1`,
+          url: `http://127.0.0.1:${PORT}/${SUBPATH}/`,
+          reuseExistingServer: false,
+          timeout: 300_000,
+        },
+      }),
 });

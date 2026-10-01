@@ -234,7 +234,8 @@ test('restore defaults puts back every remembered preference @mobile', async ({ 
 
   await page.locator(MENU).click();
   await page.locator(byTestId('menu-restore-defaults')).click();
-  await page.locator(byTestId('menu-close')).click();
+  // Restore Defaults closes the menu itself, so the restored first-flight hint
+  // is visible (App.svelte, restoreDefaults).
   await expect(page.locator(byTestId('menu'))).toBeHidden();
 
   await expect(page.locator(TOGGLE)).toHaveAttribute('aria-pressed', 'true');

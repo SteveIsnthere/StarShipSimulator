@@ -52,7 +52,7 @@ test('no chart code is loaded until the black box is opened', async ({ page }) =
   expect(scripts.filter((u) => !u.startsWith('http://127.0.0.1'))).toEqual([]);
 });
 
-test('it draws the nine plots of the flight', async ({ page }) => {
+test('it draws the nine plots of the flight @smoke', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 

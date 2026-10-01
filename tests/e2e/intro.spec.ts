@@ -17,13 +17,16 @@ import { ready } from './helpers';
  */
 async function altitude(page: import('@playwright/test').Page): Promise<number> {
   const row = page.locator('[data-testid="readout-altitude"]');
-  const value = Number((await row.locator('.value').textContent()) ?? '');
+  const text = (await row.locator('.value').textContent()) ?? '';
+  // Empty until the HUD's first frame: unread, not zero metres.
+  if (text.trim() === '') return NaN;
+  const value = Number(text);
   const unit = (await row.locator('.unit').textContent()) ?? '';
   if (!Number.isFinite(value)) return NaN;
   return unit === 'KM' ? value * 1000 : value;
 }
 
-test('the intro plays end to end and lands', async ({ page }) => {
+test('the intro plays end to end and lands @smoke', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => {
@@ -33,6 +36,9 @@ test('the intro plays end to end and lands', async ({ page }) => {
   });
 
   await page.goto('/', { waitUntil: 'load' });
+  // The first HUD frame can take seconds on a loaded machine; the intro's
+  // clock does not start before it.
+  await ready(page);
 
   // Starts high in the render box, falling.
   await expect.poll(() => altitude(page), { timeout: 5_000 }).toBeGreaterThan(100);
@@ -49,11 +55,13 @@ test('the intro plays end to end and lands', async ({ page }) => {
 
 test('it decelerates rather than arriving fast', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
 
   /** Vertical speed magnitude, in m/s, from the HUD. */
   const speed = async () => {
     const text = await page.locator('[data-testid="readout-speedY-value"]').textContent();
-    const value = Number(text ?? '');
+    if (!text || text.trim() === '') return NaN;
+    const value = Number(text);
     return Number.isFinite(value) ? Math.abs(value) : NaN;
   };
 
