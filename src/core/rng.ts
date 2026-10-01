@@ -26,11 +26,12 @@
  * The named streams. Adding one here cannot disturb the others' sequences.
  *
  * `ignitionDelay` and `ignitionFailure` are the only two draws in the 2021
- * simulation — physics.js:452 and physics.js:457.
+ * simulation — physics.js:452 and physics.js:457. `turbulence` is Phase 6's
+ * Dryden gusts (physics/wind.ts), two draws a step, and only in wind.
  */
-export type StreamName = 'ignitionDelay' | 'ignitionFailure';
+export type StreamName = 'ignitionDelay' | 'ignitionFailure' | 'turbulence';
 
-export const STREAM_NAMES: readonly StreamName[] = ['ignitionDelay', 'ignitionFailure'];
+export const STREAM_NAMES: readonly StreamName[] = ['ignitionDelay', 'ignitionFailure', 'turbulence'];
 
 /** RNG state as stored in SimState. Counters advance; the seed does not. */
 export interface RngState {
@@ -44,7 +45,7 @@ export interface RngState {
 export function createRng(seed: number): RngState {
   return {
     seed: seed >>> 0,
-    counters: { ignitionDelay: 0, ignitionFailure: 0 },
+    counters: { ignitionDelay: 0, ignitionFailure: 0, turbulence: 0 },
   };
 }
 
@@ -61,6 +62,7 @@ function streamKey(name: string): number {
 const STREAM_KEYS: Record<StreamName, number> = {
   ignitionDelay: streamKey('ignitionDelay'),
   ignitionFailure: streamKey('ignitionFailure'),
+  turbulence: streamKey('turbulence'),
 };
 
 /**

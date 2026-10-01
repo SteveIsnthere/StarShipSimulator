@@ -76,5 +76,17 @@
     "file": "src/core/step.ts",
     "find": "  forces.perceivedG_Y = (kinematics.accelerationY - gy) / C.standardGravity;",
     "replace": "  forces.perceivedG_Y = (kinematics.accelerationY + C.gravity) / C.gravity;"
+  },
+  {
+    "id": "wind-profile-flat",
+    "file": "src/core/physics/wind.ts",
+    "find": "  return referenceWind * (z / WIND_REFERENCE_HEIGHT) ** profileExponent(referenceWind);",
+    "replace": "  return referenceWind;"
+  },
+  {
+    "id": "turbulence-isotropic",
+    "file": "src/core/physics/wind.ts",
+    "find": "  out.sigmaU = sigmaW / shape ** 0.4;",
+    "replace": "  out.sigmaU = sigmaW;"
   }
 ]

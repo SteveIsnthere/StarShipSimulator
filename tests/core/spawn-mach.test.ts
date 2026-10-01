@@ -5,6 +5,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { relativeAirspeed } from '$core/physics/aero';
+import { airVelocityX } from '$core/physics/wind';
 import { speedOfSoundAt } from '$core/physics/atmosphere';
 import { isaAtmosphere } from '$core/physics/isa';
 import { ALL_SCENARIOS, createScenarioState } from '$core/scenarios';
@@ -15,7 +16,7 @@ describe('the starting Mach number', () => {
     const s = createScenarioState(preset);
     const k = s.kinematics;
     const air = isaAtmosphere(k.altitude);
-    const expected = relativeAirspeed(k.speedX, k.speedY, s.world.wind, s.world.gust) / speedOfSoundAt(air.airTemperature);
+    const expected = relativeAirspeed(k.speedX, k.speedY, airVelocityX(s.world, k.altitude), s.world.gustVertical) / speedOfSoundAt(air.airTemperature);
     expect(k.machSpeed).toBeCloseTo(expected, 12);
   });
 

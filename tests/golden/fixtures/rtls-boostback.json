@@ -56,6 +56,7 @@
   "failures.overGLoad": false,
   "failures.overPressure": false,
   "failures.randomFailure": false,
+  "rng.counters.turbulence": 0,
   "rng.seed": 1463897163,
   "status.finLocked": false,
   "status.forceDump": false,
@@ -69,6 +70,10 @@
   "warnings.overGLoadWarning": false,
   "warnings.overPressureWarning": false,
   "world.gust": 0,
+  "world.gustVertical": 0,
+  "world.turbulenceU": 0,
+  "world.turbulenceW1": 0,
+  "world.turbulenceW2": 0,
   "world.wind": 0
  },
  "keys": [

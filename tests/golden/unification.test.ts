@@ -36,6 +36,7 @@
  *     P6.4    six Raptors (4a, 4b)               moved NOTHING (headers only)
  *     P6.5    the slowest start, an 18 t reserve five: one flies, two plan, two dump
  *     P6.8    the heat shield in W/m^2 and K     ALL EIGHT, in thermalPower alone
+ *     P6.10   the wind profile and turbulence    headwind only; seven in shape alone
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -254,6 +255,16 @@
  * flight's path moves: the deorbit peaks at 1,459 K and the re-entry preset at
  * 1,372 K against the 1,533 K limit, so no break-up decision changed.
  *
+ * P6.10 (Task 10, Fidelity) moves the one fixture that carries a wind, and
+ * that is the shape: calm air is calm (no profile, no turbulence, no draw), so
+ * the seven still-air fixtures keep their rows bit for bit and change only in
+ * shape, five constant keys added (`world.gustVertical`, the three turbulence
+ * filter states, `rng.counters.turbulence`). `landing-burn-headwind` now flies
+ * its 10 m/s surface wind up the TM-2008-215633 profile (12.1 m/s at 150 m)
+ * with Dryden gusts from the turbulence stream; `world.gust` leaves the
+ * constant block for the rows. It still lands at 25.0 m, 1.9 m further
+ * downrange than before.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -330,7 +341,8 @@ const DIGESTS: Readonly<Record<string, string>> = {
   'reentry-autoland': 'c7563e0ed57727d0317185c812190590a418c6182cabab19ac4a6772432d7097',
   'before-flip-autoland': 'e51ed9ff42114c32699fcb398eec7e1477e658139a50e60998a5f783af55762c',
   'landing-burn-autoland': '8c3684de124c6fe8114f6b40c6526ae165587316fc342b9aef5aaceeb20ba67b',
-  'landing-burn-headwind': '1add118ce45d764c9cb9a73860a446ec7d79026dcf9c29447057cb635255a3b0',
+  // P6.10 (the one windy fixture): the wind profile and its turbulence.
+  'landing-burn-headwind': 'ca912bbb5979881d0a27e155af90a8370b1b70228093c32d5c756802201b3b63',
   'intro-demo': '5063e60b32d9b62412403bf0ec21c3288ae0a264dfcd194d2899711caf5467d5',
 };
 

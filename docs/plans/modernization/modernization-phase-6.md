@@ -60,7 +60,7 @@ A task that cannot meet that is reverted and parked under the stop rule, and its
 
 A parked task parks everything downstream of it. Independent branches continue.
 
-**Status 2026-10-01:** 1, 2, 3, 4a–c and 8 are done. 5a/5b parked (the deorbit breaks up on physical drag while entry is flown broadside), and 6, 7, 11 with them; Steve approved moving all four to **Phase 6b, Entry on lift** ([modernization-phase-6b.md](modernization-phase-6b.md)). Remaining here: 10, then 9a, 9b, then 12.
+**Status 2026-10-01:** 1, 2, 3, 4a–c, 8 and 10 are done. 5a/5b parked (the deorbit breaks up on physical drag while entry is flown broadside), and 6, 7, 11 with them; Steve approved moving all four to **Phase 6b, Entry on lift** ([modernization-phase-6b.md](modernization-phase-6b.md)). Remaining here: 9a, 9b, then 12.
 
 ## Global Constraints
 
@@ -220,11 +220,11 @@ Moved with Task 5 to [Phase 6b](modernization-phase-6b.md), where it is planned 
 - [x] `flies-every-scenario` bands the re-entry flux at 170.9 kW/m² ±5%.
 - [x] The deorbit survives on the current drag: 1,459 K, 95% of the limit. Re-entry 1,372 K.
 
-### Task 10: Wind profile and seeded turbulence (Fidelity; independent of 5–9)
+### Task 10: Wind profile and seeded turbulence (Fidelity; independent of 5–9) — done 2026-10-01
 
-- [ ] Mean wind with altitude from NASA TM-2008-215633, scaled by the scenario's surface wind.
-- [ ] Dryden turbulence (MIL-HDBK-1797 / MIL-F-8785C) from its own seeded RNG stream, keyed so the ignition draws do not shift.
-- [ ] None in the intro. `flies-every-scenario` determinism holds. The editor's wind keeps its meaning; gust stays out of the editor.
+- [x] Mean wind with altitude from NASA TM-2008-215633 §2.2.5.2 eqs. (2.1)–(2.2): the scenario wind is the 18.3 m reference wind, u(z) = u18.3·(z/18.3)^k with k = 0.52·u18.3^(−3/4) (mean c; k constant below 2 m/s), held at its 150 m value above the surface layer. Decision: winds aloft are not scaled from the surface wind (the TM's §2.3.13.2 says they are set by large-scale conditions), so no climatological jet stream is invented.
+- [x] Dryden turbulence, MIL-F-8785C low-altitude form (σw = 0.1·W20, σu and Lu from 0.177 + 0.000823h, Lw = h), u downrange and w vertical (2D: no v), held at the 10 ft and 1,000 ft edges. u is an exact Ornstein-Uhlenbeck update; w is Dryden's (1 + √3τs)/(1 + τs)² as two lags. The sweep speed is the airspeed, never below the mean wind (a hover still has the field blown past it). Its own stream `turbulence`, two draws a step, and none in calm air.
+- [x] None in the intro (calm air draws nothing). Seven goldens keep their rows bit for bit (shape only); `landing-burn-headwind` moves and still lands. Audit row P6.10. The editor's wind is the surface wind (hint says so); gust stays out of the editor. The guidance predictor reads the mean profile and leaves out the zero-mean turbulence.
 
 ### Task 11: RCS (Fidelity; after 6 and 7) — MOVED to Phase 6b
 

@@ -17,6 +17,7 @@
 import { localGravity } from './guidance-physics';
 import * as C from '../constants';
 import { getDrag, relativeAirspeed } from '../physics/aero';
+import { airVelocityX } from '../physics/wind';
 import { getThrust, getTotalMaxThrust, getTotalMinThrust, getWorkingSeaLevelCount } from '../physics/engines';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
 
@@ -182,8 +183,8 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
     const finAirspeed = relativeAirspeed(
       kinematics.speedX,
       kinematics.speedY,
-      state.world.wind,
-      state.world.gust,
+      airVelocityX(state.world, kinematics.altitude),
+      state.world.gustVertical,
     );
     if (torqueRequired > 0) {
       const maxFinNoseDownTorque =

@@ -56,6 +56,7 @@ import * as aero from './physics/aero';
 import * as comp from './physics/components';
 import * as gravity from './physics/gravity';
 import * as eng from './physics/engines';
+import * as wind from './physics/wind';
 import { createMassProperties, writeMassProperties } from './physics/mass';
 import * as act from './control/actuation';
 import { runAutopilot } from './autopilot';
@@ -250,8 +251,8 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const incomingAirspeed = aero.relativeAirspeed(
     s.kinematics.speedX,
     s.kinematics.speedY,
-    s.world.wind,
-    s.world.gust,
+    wind.airVelocityX(s.world, s.kinematics.altitude),
+    s.world.gustVertical,
   );
 
   s.world.updatedFrameCount += 1;
@@ -299,8 +300,8 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const angleOfRelativeWind = aero.relativeWindAngle(
     s.kinematics.speedX,
     s.kinematics.speedY,
-    s.world.wind,
-    s.world.gust,
+    wind.airVelocityX(s.world, s.kinematics.altitude),
+    s.world.gustVertical,
   );
   const angles = aero.getAttackAngles(s.kinematics.pitch, angleOfRelativeWind);
   s.kinematics.angleOfAttack = angles.angleOfAttack;
@@ -449,8 +450,8 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const airspeed = aero.relativeAirspeed(
     s.kinematics.speedX,
     s.kinematics.speedY,
-    s.world.wind,
-    s.world.gust,
+    wind.airVelocityX(s.world, s.kinematics.altitude),
+    s.world.gustVertical,
   );
   // M2.7, Fidelity. 2021 used a constant 343 m/s everywhere — the sea-level
   // value — so Mach ran ~16% low through the upper atmosphere. That understated
@@ -458,6 +459,10 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // M11.1: Mach is a ratio to the speed of sound in the air the vehicle moves
   // through, so it is the airspeed over the local speed of sound.
   s.kinematics.machSpeed = airspeed / speedOfSoundAt(s.atmosphere.airTemperature);
+
+  // Phase 6, Task 10: the gusts for the next step, at the altitude just
+  // reached. Calm air draws nothing and leaves them at zero (physics/wind.ts).
+  wind.updateTurbulence(s.world, s.rng, s.kinematics.altitude, airspeed, dt);
 
   // 3c. updateRotationalMotion — the same Verlet form, with alpha_n the
   // angular acceleration STORED by the previous step (the torques below need

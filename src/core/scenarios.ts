@@ -24,6 +24,7 @@ import { toggleAllRaptors } from './control/commands';
 import { createInitialState, type SimState } from './state';
 import { circularOrbitalSpeed } from './physics/gravity';
 import { relativeAirspeed } from './physics/aero';
+import { airVelocityX } from './physics/wind';
 import { speedOfSoundAt } from './physics/atmosphere';
 import { isaAtmosphere } from './physics/isa';
 import { deg, toRad, type Deg } from './units';
@@ -317,7 +318,7 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
   // wind, as `step()` computes it (Phase 6, Bug fix: it used 343 m/s, the
   // sea-level speed of sound, so a re-entry's first step read the wrong Mach).
   s.kinematics.machSpeed =
-    relativeAirspeed(s.kinematics.speedX, s.kinematics.speedY, s.world.wind, s.world.gust) /
+    relativeAirspeed(s.kinematics.speedX, s.kinematics.speedY, airVelocityX(s.world, s.kinematics.altitude), s.world.gustVertical) /
     speedOfSoundAt(isaAtmosphere(altitude).airTemperature);
 
   return s;

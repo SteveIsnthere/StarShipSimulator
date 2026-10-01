@@ -25,6 +25,7 @@ import {
 import { getHorizontalAcceleration, getVerticalAcceleration, type AccelerationInputs } from '../physics/components';
 import { gravityAt, tangentialAcceleration, verticalGravityAcceleration } from '../physics/gravity';
 import { isaAtmosphereInto } from '../physics/isa';
+import { meanWindAt } from '../physics/wind';
 import type { SimState } from '../state';
 import { rad } from '../units';
 
@@ -315,14 +316,14 @@ function fallAcceleration(
   pitch: number,
   mass: number,
   maxArea: number,
-  airWind: number,
+  referenceWind: number,
   scratch: BurnScratch,
 ): void {
   const { inputs, acc } = scratch;
   const r = C.planetRadius + altitude;
   const air = scratch.atmosphere;
   isaAtmosphereInto(Math.max(altitude, 0), air);
-  const rx = vx - airWind;
+  const rx = vx - meanWindAt(referenceWind, altitude);
   const speed = Math.sqrt(rx * rx + vy * vy);
   const motion = Math.atan2(rx, vy);
   const attack = wrappedAttackAngle(pitch, motion);
@@ -363,8 +364,10 @@ export function unpoweredFallInto(
   const pitch = kinematics.pitch;
   const mass = vehicle.vehicleMass;
   const maxArea = vehicle.vehicleInFlightMaxArea;
-  // The air's downrange speed, as step() takes it: the wind plus the gust.
-  const airWind = world.wind + world.gust;
+  // The air's downrange speed, as step() takes it, at each height of the fall:
+  // the mean wind profile (physics/wind.ts). The turbulence is left out: it is
+  // zero-mean and decorrelates within seconds, so the expected fall has none.
+  const referenceWind = world.wind;
   const acc = scratch.acc;
   let h = kinematics.altitude;
   let x = 0;
@@ -372,10 +375,10 @@ export function unpoweredFallInto(
   let vy = kinematics.speedY;
   const half = FALL_STEP * 0.5;
   for (let i = 0; i < FALL_STEP_CAP; i++) {
-    fallAcceleration(h, vx, vy, pitch, mass, maxArea, airWind, scratch);
+    fallAcceleration(h, vx, vy, pitch, mass, maxArea, referenceWind, scratch);
     const mvx = vx + acc.x * half;
     const mvy = vy + acc.y * half;
-    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, airWind, scratch);
+    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, referenceWind, scratch);
     const nvx = vx + acc.x * FALL_STEP;
     const nvy = vy + acc.y * FALL_STEP;
     const nh = h + mvy * FALL_STEP;

@@ -35,10 +35,20 @@ export interface WorldState {
   timeSpent: number;
   /** Steps taken. Was `updatedFrameCount`, a frame counter, in 2021. */
   updatedFrameCount: number;
-  /** m/s — steady horizontal wind. */
+  /**
+   * m/s — the steady downrange wind at the 18.3 m reference height: what a
+   * scenario (and the editor) sets. The wind at altitude follows the surface
+   * profile in physics/wind.ts.
+   */
   wind: number;
-  /** m/s — gust component on top of `wind`. */
+  /** m/s — the downrange (Dryden u) turbulence on top of the mean wind. */
   gust: number;
+  /** m/s — the vertical (Dryden w) turbulence, positive up. */
+  gustVertical: number;
+  /** The turbulence filters' unit-variance states (physics/wind.ts). */
+  turbulenceU: number;
+  turbulenceW1: number;
+  turbulenceW2: number;
 }
 
 export interface AtmosphereState {
@@ -494,6 +504,10 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       updatedFrameCount: 0,
       wind: 0,
       gust: 0,
+      gustVertical: 0,
+      turbulenceU: 0,
+      turbulenceW1: 0,
+      turbulenceW2: 0,
     },
 
     atmosphere: {
