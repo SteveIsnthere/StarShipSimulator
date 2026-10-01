@@ -3,15 +3,15 @@
 Continue independently through ONLY this roadmap:
 /Users/stevewang/dev/StarShipSimulator-realism/docs/plans/modernization/modernization-roadmap.md
 
-Run from the worktree `/Users/stevewang/dev/StarShipSimulator-realism`. Each phase gets its own `claude/<slug>` branch from `main` and merges back into `main`; Phase 6 was `claude/ship-realism` (merged), Phase 6b is `claude/entry-on-lift` (create it from `main` in this worktree).
+Run from the worktree `/Users/stevewang/dev/StarShipSimulator-realism`. Each phase gets its own `claude/<slug>` branch from `main` and merges back into `main`; Phase 6 is `claude/ship-realism` (checked out here, pushed, unmerged), Phase 6b is `claude/entry-on-lift` (create it from `main` after Phase 6 merges).
 
 There is no Jira board for this repo. `docs/plans/` is the system of record: the roadmap's Status checkboxes, the phase plans' task checkboxes, `modernization-handover.md`, and `docs/plans/backlog/README.md`. Do not look for tickets.
 
 ## Current truthful status
 
-- Phases 1–6 are done and on `main` (merges `f14aadb`, `53e3c26`, `dfab3c8`, `b84b746`, `3429ea1`, and Phase 6's merge of `claude/ship-realism`, named in the roadmap's Status). 6 of 10 phases done (1–5, 6, 6b, 7, 8, 9): 60%.
-- **The exact first unfinished task is Phase 6b, Task 1:** body-axis aerodynamics and an entry flown on lift (`modernization-phase-6b.md`), on branch `claude/entry-on-lift` from `main`. Its coefficient functions come from `claude/drag-parked` (commit `a06a7a4`; not its blend, not its `step.ts` wiring, not its `XLIFT` experiment line).
-- Already done and must not be redone:
+- Phases 1–5 are done and live on `main` (merges `f14aadb`, `53e3c26`, `dfab3c8`, `b84b746`, `3429ea1`). **Phase 6 is built, gated and independently reviewed on `claude/ship-realism` (head `f81908b`, pushed) but NOT merged.** 5 of 10 phases done (1–5, 6, 6b, 7, 8, 9); about 58% counting Phase 6 as nearly complete.
+- **The exact first unfinished task is Phase 6's close** (`modernization-handover.md`, "Where Phase 6 stopped"): re-run `npm run test:e2e:full` on `claude/ship-realism`; merge it `--no-ff` into `main`; push; verify the deploy; tick the roadmap's Phase 6 line with the merge commit. Then Phase 6b, Task 1 (`modernization-phase-6b.md`) on `claude/entry-on-lift` from `main`; its coefficient functions come from `claude/drag-parked` (commit `a06a7a4`; not its blend, not its `step.ts` wiring, not its `XLIFT` experiment line).
+- Already done and must not be redone (on `claude/ship-realism`):
   - Phase 6: felt g and the g-limit on felt g; the USSA76 thermosphere; the starting Mach; the emptying-step thrust; GM and R; the 18 t `landingReserve`; six Raptors with fixed RVacs (no gimbal); the 1.2 s start transient; the heat shield (Sutton-Graves W/m², skin temperature against a radiative sink, break-up on 1,533 K); the wind profile and Dryden turbulence; the rotating ground frame and all its plumbing at rate zero (`frameRotationRate`; Earth's rate is 6b Task 1b).
   - Golden audit rows P6.1–P6.5, P6.8, P6.10–P6.12 in `tests/golden/unification.test.ts`.
 - Tried and rejected, do not repeat:
@@ -27,7 +27,9 @@ There is no Jira board for this repo. `docs/plans/` is the system of record: the
 
 ## First task
 
-Phase 6b, Task 1: create `claude/entry-on-lift` from `main`; cherry-pick the coefficient functions and `tests/core/drag-model.test.ts` from `claude/drag-parked`; write the failing body-axis tests (`tests/core/body-axis-aero.test.ts`: lift zero and drag the crossflow at α = 90°, axial only at 0 and π, continuity across 90°); then the one force function, the sweep script, the schedule, and the Linux regeneration, exactly as the plan lists.
+Close Phase 6. In `/Users/stevewang/dev/StarShipSimulator-realism` (on `claude/ship-realism`, clean): `npm run build`, then `E2E_SKIP_BUILD=1 npx playwright test` (all five projects, about 36 minutes; run it in the background and wait on its exit). `plume.spec.ts` "blooms wider than the ship in vacuum" is the known flaky backlog row and also fails on `main`; any other failure is real and is fixed before the merge. Then, from the main checkout `/Users/stevewang/dev/StarShipSimulator` (on `main`): `git pull`, `git merge --no-ff claude/ship-realism`, `npm run gate`, push, and confirm the Pages deploy and the smoke tier against https://steveisnthere.github.io/StarShipSimulator/. Tick the roadmap's Phase 6 line with the merge commit and update the handover's table. The review, mutation and truth report are already done on `f81908b`; do not redo them unless the code changes.
+
+Then Phase 6b, Task 1: create `claude/entry-on-lift` from the new `main`; cherry-pick the coefficient functions and `tests/core/drag-model.test.ts` from `claude/drag-parked`; write the failing body-axis tests (`tests/core/body-axis-aero.test.ts`); then the one force function, the sweep script, the schedule, and the Linux regeneration, exactly as the plan lists.
 
 ## Preserve these boundaries
 

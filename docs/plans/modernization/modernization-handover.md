@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | done; Earth's rate (9b) and the parked aero moved to 6b | `Merge claude/ship-realism` (2026-10-01) |
+| 6 Ship realism | built, gated, reviewed on `claude/ship-realism` (`f81908b`); **unmerged** — merge is the next step; Earth's rate (9b) and the parked aero moved to 6b | — |
 | 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
@@ -23,7 +23,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 - **A gate that is green on your Mac and in hosted CI.** Before: 48 of 1,585 unit tests red on arm64, CI green 2 of 132 runs. Now: `npm run gate` about 3 minutes locally, CI about 8 minutes, green on every push since.
 - **A truth harness.** Cited reference bands with a ratchet (`npm run truth:report`), property invariants over every configurable flight, a mutation matrix the suite must turn red (`npm run mutation`, 13 of 13 caught), a debug surface and a browser witness with a positive control.
 - **Two real physics bugs fixed**, both found by the new tests: the tank went negative on the emptying step, and the flight editor accepted negative propellant (a vehicle lighter than its own structure).
-- **Phase 6, Ship realism**: a real Earth (GM, radius, the 1976 atmosphere to its thermosphere), felt g, six Raptors with three fixed RVacs, a heat shield in kelvin against a 1,533 K tile, wind that grows with height and gusts, and a rotating-frame model ready for Earth's spin. Every scenario still lands under autopilot.
+- **Phase 6, Ship realism** (on its branch, merging next): a real Earth (GM, radius, the 1976 atmosphere to its thermosphere), felt g, six Raptors with three fixed RVacs, a heat shield in kelvin against a 1,533 K tile, wind that grows with height and gusts, and a rotating-frame model ready for Earth's spin. Every scenario still lands under autopilot.
 - **The design pass**: `docs/design/ux-critique.md`, `design-system.md`, `ia.md`, and the review page below.
 
 ## For you to look at
@@ -73,7 +73,14 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 ## Blocker
 
-None.
+None. Paused 2026-10-01 for usage, mid-close of Phase 6.
+
+## Where Phase 6 stopped (2026-10-01)
+
+- `claude/ship-realism` at `f81908b`, pushed, 24 commits ahead of `main`, nothing uncommitted.
+- Done on that head: `npm run gate` green (1,935 tests, coverage floors, e2e smoke, subpath deploy); `npm run mutation` 18 of 18 caught; `npm run truth:report` 8 of 8; `/code-review high`; independent physics review (ChatGPT Pro, three rounds, every finding fixed: fixed RVacs, the turbulence sweep, the radial coast, the throttle law, break-up on the tile temperature).
+- **Not confirmed:** the final `npm run test:e2e:full` on that head was still running at the pause (341 passed, 0 failed when last read). The previous full run's failures were the debrief bound (fixed, re-run green on all five projects), one pixels flake (re-run green) and `plume.spec.ts` "blooms wider than the ship in vacuum", the known flaky row in the backlog that also fails on `main`.
+- Left: re-run `npm run test:e2e:full` (judge plume against its backlog row, anything else is real), merge `--no-ff` to `main` from the main checkout, push, confirm the Pages deploy and the smoke tier against the live URL, tick the roadmap's Phase 6 line with the merge commit, then start 6b.
 
 ## Phase 6 progress (2026-10-01)
 
