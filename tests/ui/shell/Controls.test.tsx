@@ -14,6 +14,7 @@ import { CONTROL_TESTIDS } from '$ui/testids';
 import { PHONE_PORTRAIT } from '$ui/shell/layout';
 import { createSession } from '$ui/session/session';
 import { Controls } from '$ui/shell/Controls/Controls';
+import { aboveTabBar } from '$ui/shell/Controls/ControlGroup';
 import { installMemoryStorage } from '../../memory-storage';
 import { renderWithSession } from './render';
 
@@ -282,13 +283,13 @@ describe('the indicator binder', () => {
 });
 
 describe('phone', () => {
-  // The tab bar (56 px) plus an open sheet (240 px).
+  // The tab bar (56 px) plus an open sheet (240 px), above the home indicator.
   const sheet = () => document.documentElement.style.getPropertyValue('--controls-bottom');
 
   it('starts with both sheets closed and the tab bar showing', () => {
     stubLayout(true);
     renderWithSession(<Controls />);
-    expect(sheet()).toBe('56px');
+    expect(sheet()).toBe(aboveTabBar(56));
     expect(screen.getByRole('navigation', { name: 'Controls' })).toBeVisible();
     for (const id of ['engine-panel-toggle', 'yoke-panel-toggle', 'zoom-in', 'zoom-out']) {
       expect(screen.getByTestId(id), id).toBeVisible();
@@ -310,29 +311,29 @@ describe('phone', () => {
     fireEvent.click(engines);
     expect(engines).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByTestId('throttle')).toBeVisible();
-    expect(sheet()).toBe('296px');
+    expect(sheet()).toBe(aboveTabBar(296));
 
     fireEvent.click(flight);
     expect(screen.getByTestId('yoke-pitch')).toBeVisible();
     expect(screen.getByTestId('throttle')).not.toBeVisible();
     expect(engines).toHaveAttribute('aria-expanded', 'false');
-    expect(sheet()).toBe('296px');
+    expect(sheet()).toBe(aboveTabBar(296));
 
     fireEvent.click(flight);
     expect(screen.getByTestId('yoke-pitch')).not.toBeVisible();
-    expect(sheet()).toBe('56px');
+    expect(sheet()).toBe(aboveTabBar(56));
   });
 
   it('gives the bottom back in cinematic mode and on unmount', () => {
     stubLayout(true);
     const { session, unmount } = renderWithSession(<Controls />);
     fireEvent.click(screen.getByTestId('engine-panel-toggle'));
-    expect(sheet()).toBe('296px');
+    expect(sheet()).toBe(aboveTabBar(296));
     act(() => session.toggleCinematic());
     expect(screen.getByTestId('engine-panel-toggle')).not.toBeVisible();
     expect(sheet()).toBe('0px');
     act(() => session.toggleCinematic());
-    expect(sheet()).toBe('296px');
+    expect(sheet()).toBe(aboveTabBar(296));
     unmount();
     expect(sheet()).toBe('');
   });

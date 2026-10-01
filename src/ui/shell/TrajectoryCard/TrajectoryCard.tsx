@@ -90,14 +90,16 @@ export function TrajectoryCard() {
     };
   }, [session]);
 
-  // The tick skips a folded map; an unfolded one redraws at once rather than
-  // showing whatever was on the canvas when it was put away.
+  // The tick skips a map nobody can see (folded, or hidden under the debrief);
+  // a shown one redraws at once rather than showing whatever was on the canvas
+  // when it was put away.
+  const shown = open && !yielded;
   useEffect(() => {
     const record = surface.current;
     if (!record) return;
-    record.visible = open;
-    if (open) record.dirty = true;
-  }, [open]);
+    record.visible = shown;
+    if (shown) record.dirty = true;
+  }, [shown]);
 
   // Restore defaults clears the remembered fold; this applies it now, the way a fresh load would.
   useEffect(() => {

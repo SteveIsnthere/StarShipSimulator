@@ -5,23 +5,26 @@
  * sound, haptics and input, runs the one requestAnimationFrame tick, and
  * exposes commands plus a small store (store.ts) for what the interface
  * renders. It is framework-free: the React shell mounts it on a canvas, hands
- * it the DOM targets the HUD binders write to, and calls its commands.
+ * it the DOM targets the HUD binders write to, and calls its commands. Its
+ * listeners on the document (keys, gestures, input) are ./document-wiring.ts.
  *
- * Two behaviours come from the information architecture (docs/design/ia.md): an open layer (menu, black box,
- * guide) pauses the flight, and Escape closes the top layer first.
+ * From the information architecture (docs/design/ia.md): an open layer (menu,
+ * black box, guide) pauses the flight.
  */
-import { DT, advance, createLoopState, type LoopState } from '$app/loop';
+import { advance, createLoopState, type LoopState } from '$app/loop';
 import { installSimDebug } from '$app/debug';
 import { applyControl, type ControlEvent } from '$app/controls';
-import { bindInput, bindTilt, type InputBinding } from '$app/input';
 import { fieldsToPreset, toLoopOptions, type EditorFields, type TimeSetting } from '$app/menu';
 import {
   CAMERA_KEY,
   CINEMATIC_KEY,
   HINT_KEY,
   clearPreferences,
+  readFlag,
+  readItem,
+  writeItem,
 } from '$app/preferences';
-import { starBaseXPos, vehicleHeight } from '$core/constants';
+import { vehicleHeight } from '$core/constants';
 import { toggleRandomFailure } from '$core/control/commands';
 import {
   createIntroState,
@@ -31,7 +34,7 @@ import {
 } from '$core/scenarios';
 import type { SimState } from '$core/state';
 import { createView, type ViewApp } from '$view/app';
-import { CAMERA_MODES, modeZoom, updateCamera, type CameraMode } from '$view/camera';
+import { CAMERA_MODES, modeZoom, type CameraMode } from '$view/camera';
 import {
   createHudBinder,
   createIndicatorBinder,
@@ -63,6 +66,8 @@ import {
   type AudioEngine,
 } from '$audio/engine';
 import { createScene } from './scene';
+import { createCameraFollow } from './camera-follow';
+import { wireDocument } from './document-wiring';
 import { createSessionStore, isHintOpen, isPaused, type Layer, type SessionStore } from './store';
 
 /** Below this height there is no room for the first-flight hint (measured; see the hint's history). */
@@ -116,29 +121,9 @@ export interface Session {
   readThrottle(): number;
 }
 
-function readFlag(key: string): boolean {
-  try {
-    return localStorage.getItem(key) === '1';
-  } catch {
-    return false;
-  }
-}
-
-function writeItem(key: string, value: string): void {
-  try {
-    localStorage.setItem(key, value);
-  } catch {
-    // Site data blocked: the setting still holds for this visit.
-  }
-}
-
 function readCameraMode(): CameraMode {
-  try {
-    const stored = localStorage.getItem(CAMERA_KEY);
-    return (CAMERA_MODES as readonly string[]).includes(stored ?? '') ? (stored as CameraMode) : 'follow';
-  } catch {
-    return 'follow';
-  }
+  const stored = readItem(CAMERA_KEY) ?? '';
+  return (CAMERA_MODES as readonly string[]).includes(stored) ? (stored as CameraMode) : 'follow';
 }
 
 function hasRoomForHint(): boolean {
@@ -194,23 +179,7 @@ export function createSession(): Session {
   let mapOptions: MapRendererOptions | undefined;
   let flightEnded = false;
 
-  // Allocated once, refilled per step (the per-frame path allocates nothing).
-  const cameraTarget = {
-    downRangeDistance: 0,
-    altitude: 0,
-    speedX: 0,
-    speedY: 0,
-    landed: false,
-    onTheGround: false,
-    crashed: false,
-    dynamicPressure: 0,
-    thrustAcceleration: 0,
-  };
-  const cameraOptions: { reducedMotion: boolean; mode: CameraMode; padX: number } = {
-    reducedMotion: typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches,
-    mode: 'follow',
-    padX: starBaseXPos,
-  };
+  const camera = createCameraFollow();
 
   /**
    * Once per simulation step, not per frame: the recorder samples steps, and
@@ -222,16 +191,7 @@ export function createSession(): Session {
     watch.observe(state);
     if (!view) return;
     view.followAltitude(state.kinematics.altitude);
-    cameraTarget.downRangeDistance = state.kinematics.downRangeDistance;
-    cameraTarget.altitude = state.kinematics.altitude;
-    cameraTarget.speedX = state.kinematics.speedX;
-    cameraTarget.speedY = state.kinematics.speedY;
-    cameraTarget.landed = state.status.landed;
-    cameraTarget.onTheGround = state.status.onTheGround;
-    cameraTarget.crashed = state.failures.crashed;
-    cameraTarget.dynamicPressure = state.forces.dynamicPressure;
-    cameraTarget.thrustAcceleration = state.forces.thrustAcceleration;
-    updateCamera(view.camera, cameraTarget, view.viewport, DT, cameraOptions);
+    camera.step(view, state);
   };
 
   // Rebuilt only when the time setting or the pause changes, never per frame.
@@ -245,7 +205,7 @@ export function createSession(): Session {
   const applyCameraMode = () => {
     const s = get();
     const effective: CameraMode = s.cinematic ? s.cameraMode : 'follow';
-    cameraOptions.mode = effective;
+    camera.setMode(effective);
     view?.setModeZoom(modeZoom(effective));
   };
 
@@ -448,61 +408,18 @@ export function createSession(): Session {
       const onRoomChange = () => set({ hintFits: room.matches });
       room.addEventListener('change', onRoomChange);
 
-      // Every interaction may unlock audio and haptics, and the first one puts
-      // the hint away. Capture phase, nothing prevented: the tap that dismisses
-      // the hint also lights the engine.
-      const onGesture = () => {
-        if (!get().muted) unlockAudio();
-        haptics.unlock();
-        dismissHint();
-      };
-      document.addEventListener('pointerdown', onGesture, { capture: true });
-      document.addEventListener('keydown', onGesture, { capture: true });
-
-      // The debrief is a summary, not a dialog: the first touch elsewhere puts it
-      // away, and the control under that touch still gets the touch. Not while a
-      // layer is open over it (going to the black box and back keeps the card).
-      const onPointerAway = (event: Event) => {
-        const s = get();
-        if (s.debrief === null || s.layer !== null) return;
-        const target = event.target as Element | null;
-        if (target?.closest?.('[data-debrief]')) return;
-        set({ debrief: null });
-      };
-      document.addEventListener('pointerdown', onPointerAway, { capture: true });
-
-      // Escape closes the top layer first, then the debrief, then opens the
-      // menu. P pauses. Neither fires while typing into a field.
-      const onKey = (event: KeyboardEvent) => {
-        const typing =
-          event.target instanceof HTMLElement &&
-          (event.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName));
-        const s = get();
-        if (event.key === 'Escape') {
-          if (s.layer !== null) set({ layer: null });
-          else if (s.debrief !== null) set({ debrief: null });
-          else set({ layer: 'menu' });
-          event.preventDefault();
-        } else if ((event.key === 'p' || event.key === 'P') && !typing && s.layer === null) {
-          set({ playerPaused: !s.playerPaused });
-        }
-      };
-      document.addEventListener('keydown', onKey);
-
-      // A tab in the background must not keep a rocket roaring in a pocket.
-      const onVisibility = () => void audio.setBackgrounded(document.hidden);
-      document.addEventListener('visibilitychange', onVisibility);
-
-      const keyboard: InputBinding = bindInput(document, {
-        control: (e) => session.emit(e),
-        view: (action) => session.zoom(action.direction),
+      const unwire = wireDocument({
+        store,
+        onGesture: () => {
+          if (!get().muted) unlockAudio();
+          haptics.unlock();
+          dismissHint();
+        },
+        onBackgrounded: (hidden) => void audio.setBackgrounded(hidden),
+        emit: (e) => session.emit(e),
+        zoom: (direction) => session.zoom(direction),
         readThrottle: () => live.state.vehicle.throttle,
-        isBlocked: () => get().layer !== null,
-      });
-      const tilt: InputBinding = bindTilt(window, {
-        control: (e) => session.emit(e),
         isManual: () => !get().tiltControl || live.state.autopilot.manualControlOn,
-        orientationAngle: () => screen.orientation?.angle ?? 0,
       });
 
       let last = performance.now();
@@ -558,13 +475,7 @@ export function createSession(): Session {
         observer?.disconnect();
         window.removeEventListener('resize', onResize);
         room.removeEventListener('change', onRoomChange);
-        document.removeEventListener('pointerdown', onGesture, { capture: true });
-        document.removeEventListener('keydown', onGesture, { capture: true });
-        document.removeEventListener('pointerdown', onPointerAway, { capture: true });
-        document.removeEventListener('keydown', onKey);
-        document.removeEventListener('visibilitychange', onVisibility);
-        keyboard.destroy();
-        tilt.destroy();
+        unwire();
         scene.destroy();
         hud?.destroy();
         metrics?.destroy();

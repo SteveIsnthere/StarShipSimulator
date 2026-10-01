@@ -6,7 +6,7 @@
  * closes its sheet, and "no tab selected" is the normal state — the world is
  * the point, and a sheet covers part of it.
  */
-import { TAB_BAR_HEIGHT } from './ControlGroup';
+import { BOTTOM_INSET, TAB_BAR_HEIGHT, aboveTabBar } from './ControlGroup';
 import { ZoomButtons } from './ZoomButtons';
 
 export interface PhoneTab {
@@ -28,7 +28,8 @@ export function PhoneTabBar({ tabs }: { tabs: readonly PhoneTab[] }) {
     <nav
       aria-label="Controls"
       className="absolute inset-x-0 bottom-0 flex divide-x divide-ui-line-muted border-t border-ui-line-muted bg-ui-surface"
-      style={{ height: TAB_BAR_HEIGHT }}
+      // The tabs keep their 56 px; the bar extends under the home indicator.
+      style={{ height: aboveTabBar(TAB_BAR_HEIGHT), paddingBottom: BOTTOM_INSET }}
     >
       {tabs.map((tab) => (
         <button

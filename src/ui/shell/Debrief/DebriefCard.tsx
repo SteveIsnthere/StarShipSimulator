@@ -27,9 +27,11 @@ import { EVENT_LABEL, OUTCOME_HEADING, figures, reasonSentence } from './figures
  * Tailwind finds classes by scanning for literal strings.
  */
 const PLACEMENT = {
-  // Short screens: wider and lower-capped, ending above the folded control rails.
-  desktop: 'ui-safe-margin-top left-1/2 -translate-x-1/2 top-14 w-[min(560px,calc(100vw-32px))] max-h-[calc(100dvh-72px)] [@media(max-height:32rem)]:w-[600px] [@media(max-height:32rem)]:max-h-[calc(100dvh-124px)]',
-  phone: 'left-3 right-3 top-[calc(61px+env(safe-area-inset-top,0px))] max-h-[calc(100dvh-133px-env(safe-area-inset-top,0px))]',
+  // Centred, so it takes only the vertical safe inset and narrows by the side ones
+  // (the kit's rule for centred chrome). Short screens: wider and lower-capped,
+  // ending above the folded control rails.
+  desktop: 'ui-safe-margin-top left-1/2 -translate-x-1/2 top-14 w-[min(560px,calc(var(--ui-safe-width)-32px))] max-h-[calc(100dvh-72px)] [@media(max-height:32rem)]:w-[min(600px,calc(var(--ui-safe-width)-32px))] [@media(max-height:32rem)]:max-h-[calc(100dvh-124px)]',
+  phone: 'left-3 right-3 top-[calc(61px+env(safe-area-inset-top,0px))] max-h-[calc(100dvh-133px-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px))]',
 } as const;
 
 export function DebriefCard({ card }: { card: FlightDebrief }) {
@@ -44,7 +46,7 @@ export function DebriefCard({ card }: { card: FlightDebrief }) {
       data-debrief
       data-testid="debrief"
       data-outcome={card.outcome}
-      className={`ui-safe-margins absolute flex flex-col overflow-hidden border border-ui-line bg-ui-surface text-ui-fg pointer-events-none! ${PLACEMENT[phone ? 'phone' : 'desktop']}`}
+      className={`absolute flex flex-col overflow-hidden border border-ui-line bg-ui-surface text-ui-fg pointer-events-none! ${PLACEMENT[phone ? 'phone' : 'desktop']}`}
     >
       <header className="flex shrink-0 items-start justify-between gap-3 border-b border-ui-line-muted py-4 pr-3 pl-5 [@media(max-height:32rem)]:py-2.5">
         <div className="flex min-w-0 flex-col gap-1.5">

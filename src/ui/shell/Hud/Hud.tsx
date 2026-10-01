@@ -37,7 +37,7 @@ import { detachedMetric, detachedReadout, metricResolver, readoutResolver } from
  */
 const PLACEMENT = {
   wide: 'ui-safe-margin-top inset-x-0 top-14 mx-auto w-[min(560px,calc(var(--ui-safe-width)-32px))] gap-3 border px-[18px] py-3',
-  short: 'ui-safe-margin-top inset-x-0 top-[52px] mx-auto w-[min(420px,calc(100vw-480px))] gap-2 border px-3 py-2',
+  short: 'ui-safe-margin-top inset-x-0 top-[52px] mx-auto w-[min(420px,calc(var(--ui-safe-width)-480px))] gap-2 border px-3 py-2',
   phone: 'inset-x-0 top-[calc(53px+env(safe-area-inset-top,0px))] gap-2 border-b px-3 py-2',
 } as const;
 
@@ -50,8 +50,13 @@ export function Hud() {
   // A phone in either orientation: digits and ticks, short labels, no rail.
   const compact = mode !== 'wide';
   const debriefUp = useSessionState((s) => s.debrief !== null);
-  // Open on a desktop, folded on a phone where every row costs the world.
-  const [expanded, setExpanded] = useState(() => !compact);
+  // Open on a desktop, folded on a phone where every row costs the world. A
+  // change of layout (a rotation) resets it to that layout's default, as the
+  // control groups do; any other re-render keeps the pilot's choice.
+  const [fold, setFold] = useState(() => ({ mode, expanded: !compact }));
+  if (fold.mode !== mode) setFold({ mode, expanded: !compact });
+  const expanded = fold.expanded;
+  const setExpanded = (next: (open: boolean) => boolean) => setFold((f) => ({ ...f, expanded: next(f.expanded) }));
   const secondaryId = useId();
 
   /*

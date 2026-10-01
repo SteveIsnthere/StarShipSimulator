@@ -20,6 +20,15 @@ export const SHEET_HEIGHT = 240;
 /** The phone tab bar's height, which the sheet sits on. */
 export const TAB_BAR_HEIGHT = 56;
 
+/**
+ * The home indicator's strip, which the page draws under (viewport-fit=cover):
+ * the tab bar pads itself by it, and everything stacked on the tab bar adds it.
+ */
+export const BOTTOM_INSET = 'env(safe-area-inset-bottom, 0px)';
+
+/** `px` above the tab bar, as a CSS length that clears the home indicator too. */
+export const aboveTabBar = (px: number): string => `calc(${px}px + ${BOTTOM_INSET})`;
+
 export interface ControlGroupProps {
   title: string;
   /** For the toggle's aria-controls. */
@@ -68,7 +77,7 @@ export function ControlGroup({
           ? 'absolute inset-x-0 overflow-y-auto overscroll-contain border-t border-ui-line bg-ui-surface px-4 pt-3 pb-2'
           : `flight-panel ui-safe-margins absolute bottom-4 p-3 ${placement}`
       }
-      style={phone ? { bottom: TAB_BAR_HEIGHT, height: SHEET_HEIGHT } : undefined}
+      style={phone ? { bottom: aboveTabBar(TAB_BAR_HEIGHT), height: SHEET_HEIGHT } : undefined}
     >
       {phone ? null : (
         <div className="flex items-center gap-1.5">

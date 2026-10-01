@@ -13,7 +13,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useLayoutMode, type LayoutMode } from '../layout';
 import { useSession, useSessionState } from '../session-context';
-import { ControlGroup, SHEET_HEIGHT, TAB_BAR_HEIGHT } from './ControlGroup';
+import { ControlGroup, SHEET_HEIGHT, TAB_BAR_HEIGHT, aboveTabBar } from './ControlGroup';
 import { EnginesGroup } from './EnginesGroup';
 import { FlightGroup } from './FlightGroup';
 import { PhoneTabBar } from './PhoneTabBar';
@@ -85,10 +85,10 @@ export function Controls() {
   }, [session]);
 
   const tabBar = phone && !cinematic;
-  const bottom = tabBar ? TAB_BAR_HEIGHT + (open.engines || open.flight ? SHEET_HEIGHT : 0) : 0;
+  const bottom = tabBar ? aboveTabBar(TAB_BAR_HEIGHT + (open.engines || open.flight ? SHEET_HEIGHT : 0)) : '0px';
   useEffect(() => {
     const style = document.documentElement.style;
-    style.setProperty(BOTTOM_VARIABLE, `${bottom}px`);
+    style.setProperty(BOTTOM_VARIABLE, bottom);
     return () => {
       style.removeProperty(BOTTOM_VARIABLE);
     };

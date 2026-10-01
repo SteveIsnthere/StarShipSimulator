@@ -56,12 +56,14 @@ describe('TrajectoryCard', () => {
   it('makes way for the debrief on a phone, and only there', () => {
     for (const phone of [true, false]) {
       stubMedia(phone);
-      const { session, unmount } = renderCard();
+      const { session, unmount, surface } = renderCard('1');
       // Only its presence matters here; the card's contents are Debrief.test's.
       act(() => session.store.setState({ flightOver: true, debrief: {} as Debrief }));
       const card = screen.getByTestId('trajectory-map');
       if (phone) expect(card, 'phone').not.toBeVisible();
       else expect(card, 'desktop').toBeVisible();
+      // A hidden map is not drawn: the tick skips it.
+      expect(surface()!.visible, 'drawn').toBe(!phone);
       unmount();
     }
   });

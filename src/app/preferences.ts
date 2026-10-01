@@ -69,6 +69,33 @@ export const PREFERENCE_KEYS: readonly string[] = [
 export const NON_PREFERENCE_KEYS: readonly string[] = [PREFERENCES_RESET_EVENT];
 
 /**
+ * A remembered value, or null. Every read is guarded: a browser with site data
+ * blocked THROWS on access rather than returning null, and a preference must
+ * never stop the simulator starting.
+ */
+export function readItem(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+/** A remembered on/off flag; anything but '1', or blocked storage, is off. */
+export function readFlag(key: string): boolean {
+  return readItem(key) === '1';
+}
+
+/** Remember a value. Site data blocked: the setting still holds for this visit. */
+export function writeItem(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Nothing to do: the in-memory state already changed.
+  }
+}
+
+/**
  * Forget every remembered preference.
  *
  * Guarded the same way every read is: a browser with site data blocked THROWS
