@@ -68,7 +68,7 @@ describe('invariants over any configurable flight', () => {
         for (let i = 0; i < STEPS; i++) {
           const before = energy(s);
           s = step(s, GOLDEN_DT, { throttle: 0 });
-          if (s.status.landed || s.status.crashed) break;
+          if (s.status.landed || s.failures.crashed) break;
           // Velocity Verlet's per-step energy error, bounded generously: a
           // millionth of the gravitational scale at the surface.
           const slack = 1e-6 * (MU / s.kinematics.distanceToPlanetCenter);
