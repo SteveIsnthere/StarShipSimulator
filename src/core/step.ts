@@ -256,7 +256,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   checkIfCrash(s);
   checkIfOutOfFuel(s);
 
-  eng.updatePropellant(s, dt);
+  const burnedFraction = eng.updatePropellant(s, dt);
   eng.updateRaptorStatus(s);
 
   // Ignition is a dt-ticked countdown now, not a wall-clock timer (M1.4).
@@ -331,11 +331,10 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.vehicle.vehicleInFlightMaxArea,
   );
   // M11.2: thrust at the ambient pressure phase 1 just set from the altitude.
-  s.forces.thrust = eng.getThrust(
-    s.engines.running,
-    s.vehicle.throttleCurrent,
-    s.atmosphere.airPressure,
-  );
+  // Scaled on the step the tank runs dry: only the propellant left was burned.
+  s.forces.thrust =
+    eng.getThrust(s.engines.running, s.vehicle.throttleCurrent, s.atmosphere.airPressure) *
+    burnedFraction;
 
   // 3b. updateSpactialMotion — velocity Verlet since M11.3 (see the header).
   //

@@ -118,14 +118,22 @@ export function getFuelFlowRate(running: readonly boolean[], throttleCurrent: nu
  * updateBackEnd.js:41-58 — burn, then dump. Mutates `state`.
  *
  * `X / renderTimeInterval` becomes `X * dt`; see the file header.
+ *
+ * Returns the fraction of a full step's burn the propellant covered: 1 on
+ * every step but the one the tank runs dry, where it is what was left over
+ * what a full step needs. The step scales that step's thrust by it (Phase 6,
+ * Bug fix: the emptying step used to thrust in full on its last kilograms).
  */
-export function updatePropellant(state: SimState, dt: number): void {
+export function updatePropellant(state: SimState, dt: number): number {
   const { vehicle, engines, status } = state;
+  let burned = 1;
 
   if (vehicle.propellantMass > 0) {
     const flowRate = getFuelFlowRate(engines.running, vehicle.throttleCurrent);
+    const needed = flowRate * dt;
+    if (needed > vehicle.propellantMass) burned = vehicle.propellantMass / needed;
     // The last step burns what is left, not a full step's worth below zero.
-    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - flowRate * dt);
+    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - needed);
   } else {
     vehicle.propellantMass = 0;
   }
@@ -139,6 +147,7 @@ export function updatePropellant(state: SimState, dt: number): void {
   }
 
   vehicle.vehicleMass = C.vehicleDryMass + vehicle.propellantMass;
+  return burned;
 }
 
 
@@ -229,9 +238,14 @@ export function shutdownEngine(state: SimState, engine: RaptorIndex): void {
   state.engines.ignitionCountdown[engine] = null;
 }
 
-/** updateBackEnd.js:64 — out of fuel stops every engine. */
+/**
+ * updateBackEnd.js:64 — out of fuel stops every engine, and cancels any
+ * ignition still counting down (Phase 6, Bug fix: one could light for a step
+ * on an empty tank, because the countdown ticks after this).
+ */
 export function updateRaptorStatus(state: SimState): void {
   if (state.failures.fuelRunOut) {
     state.engines.running = [false, false, false];
+    state.engines.ignitionCountdown = [null, null, null];
   }
 }
