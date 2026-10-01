@@ -122,7 +122,10 @@ describe('recording', () => {
     const b = createRecorder();
     const loopB = createLoopState(createScenarioState(getScenario('rtls')!));
     while (loopB.totalSteps < loopA.totalSteps) {
-      advance(loopB, 1 / 240, { timeWarp: 4, onStep: (state) => b.sample(state) });
+      advance(loopB, 1 / 240, {
+        timeWarp: 4,
+        onStep: (state) => b.sample(state),
+      });
     }
 
     // Stepped by hand, the reference.
@@ -183,33 +186,5 @@ describe('the recorder stays out of the simulation', () => {
     );
 
     expect(after).toBe(before);
-  });
-
-  it('a long recording does not slow the step down', () => {
-    // The reason the recorder is not in SimState: cloning a growing array on
-    // every step would make each step O(flight length). This shows it is not.
-    const recorder = createRecorder();
-    let s: SimState = createScenarioState(getScenario('booster-sep')!);
-
-    const time = (frames: number) => {
-      const t0 = performance.now();
-      for (let i = 0; i < frames; i++) {
-        s = step(s, DT);
-        recorder.sample(s);
-      }
-      return performance.now() - t0;
-    };
-
-    time(2_000);
-    const early = Math.min(time(2_000), time(2_000));
-    for (let i = 0; i < 20_000; i++) {
-      s = step(s, DT);
-      recorder.sample(s);
-    }
-    const late = Math.min(time(2_000), time(2_000));
-
-    expect(recorder.length).toBeGreaterThan(4_000);
-    // Generous: this catches O(n), not a 30% drift from cache effects.
-    expect(late, `${early.toFixed(1)} ms then ${late.toFixed(1)} ms`).toBeLessThan(early * 3 + 5);
   });
 });

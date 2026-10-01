@@ -17,7 +17,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:deploy": "playwright test --config playwright.subpath.config.ts",
-    "golden:regenerate": "vite-node tests/golden/regenerate.ts"
+    "golden:regenerate": "vite-node tests/golden/regenerate.ts",
+    "bench": "vitest run --config vitest.timing.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

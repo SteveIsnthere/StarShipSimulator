@@ -21,52 +21,16 @@
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { describe, expect, it, vi } from 'vitest';
-import {
-  createHudBinder,
-  createIndicatorBinder,
-  createMetricBinder,
-  type ClassTarget,
-  type TextTarget,
-} from '$hud/binder';
+import { describe, expect, it } from 'vitest';
+import { createHudBinder } from '$hud/binder';
 import { READOUTS } from '$hud/readouts';
-import { METRICS } from '$hud/metrics';
-import { INDICATORS } from '$hud/indicators';
-import { createTimeline, trackFor } from '$hud/timeline';
-import { createMapRenderer, type MapContext } from '$hud/trajectory-draw';
-import { createTimelineBinder } from '$hud/timeline-binder';
 import { createInitialState, type SimState } from '$core/state';
 import { createScenarioState, getScenario, PRESETS } from '$core/scenarios';
 import { step } from '$core/step';
 import { DT } from '$app/loop';
 import * as cmd from '$core/control/commands';
 
-/** A text node that records how many times it was written, and to what. */
-function counter(): TextTarget & { writes: number; text: string | null } {
-  return {
-    writes: 0,
-    text: null,
-    get textContent() {
-      return this.text;
-    },
-    set textContent(next: string | null) {
-      this.text = next;
-      this.writes += 1;
-    },
-  };
-}
-
-function harness() {
-  const elements = new Map<string, { value: ReturnType<typeof counter>; unit: ReturnType<typeof counter> }>();
-  for (const readout of READOUTS) elements.set(readout.id, { value: counter(), unit: counter() });
-
-  const resolve = vi.fn((id: string) => {
-    const pair = elements.get(id);
-    return { value: pair?.value ?? null, unit: pair?.unit ?? null };
-  });
-
-  return { elements, resolve, binder: createHudBinder({ resolve }) };
-}
+import { counter, harness } from './binder-harness';
 
 describe('resolution happens once', () => {
   it('resolves every readout exactly once, at bind time', () => {
@@ -208,134 +172,12 @@ describe('missing elements', () => {
     // A panel may be collapsed or not yet mounted. That must not throw, and must
     // not stop the readouts that ARE on screen from updating.
     const binder = createHudBinder({
-      resolve: (id) => (id === 'altitude' ? { value: null, unit: null } : { value: counter(), unit: counter() }),
+      resolve: (id) =>
+        id === 'altitude' ? { value: null, unit: null } : { value: counter(), unit: counter() },
     });
 
     expect(() => binder.update(createInitialState())).not.toThrow();
     expect(binder.lastWriteCount).toBe((READOUTS.length - 1) * 2);
-  });
-});
-
-describe('the 2 ms budget', () => {
-  it('an update costs a small fraction of 2 ms, even when every readout changes', () => {
-    const { binder } = harness();
-    let state: SimState = createScenarioState(getScenario('reentry')!);
-
-    // Warm up so this measures steady state, not first-call compilation.
-    for (let i = 0; i < 500; i++) {
-      state = step(state, DT);
-      binder.update(state);
-    }
-
-    const samples: number[] = [];
-    for (let run = 0; run < 7; run++) {
-      const states: SimState[] = [];
-      for (let i = 0; i < 1_000; i++) {
-        state = step(state, DT);
-        states.push(state);
-      }
-      const t0 = performance.now();
-      for (const s of states) binder.update(s);
-      samples.push((performance.now() - t0) / 1_000);
-    }
-    samples.sort((a, b) => a - b);
-    const perUpdate = samples[Math.floor(samples.length / 2)]!;
-
-    expect(perUpdate, `HUD update cost ${perUpdate.toFixed(4)} ms`).toBeLessThan(2);
-  });
-
-  it('all FOUR binders together still fit it, on the finished overlay', () => {
-    /*
-      The budget is per frame, not per binder. M6.2 put a third binder on the
-      frame path (gauges, bars, dots, chevron) and M6.3 a fourth (the event
-      track). Measuring the readout binder alone would have kept saying 'green'
-      while the actual per-frame cost grew — exactly the shape of regression a
-      budget exists to catch. So this measures what App.svelte's tick really
-      calls, in the order it calls it.
-    */
-    const text = harness();
-
-    const metricEls = new Map<string, { setAttribute(name: string, value: string): void }>();
-    for (const metric of METRICS) {
-      metricEls.set(metric.id, { setAttribute: () => {} });
-    }
-    const metrics = createMetricBinder({ resolve: (id) => metricEls.get(id) ?? null });
-
-    const indicatorEls = new Map<string, ClassTarget>();
-    for (const indicator of INDICATORS) {
-      indicatorEls.set(indicator.id, { classList: { toggle: () => {} } });
-    }
-    const indicators = createIndicatorBinder({ resolve: (id) => indicatorEls.get(id) ?? null });
-
-    const timeline = createTimeline();
-    const track = trackFor('reentry');
-    const timelineBinder = createTimelineBinder({
-      timeline,
-      resolveText: () => ({ textContent: null }),
-    });
-    timelineBinder.rebind(track, () => ({ setAttribute: () => {} }));
-
-    let state: SimState = createScenarioState(getScenario('reentry')!);
-    cmd.toggleAutoLand(state);
-
-    /*
-      M7.7: the map is IN this benchmark, not beside it.
-
-      The whole reason this test measures the frame rather than one binder is
-      the note above — a per-binder benchmark keeps saying green while the real
-      cost grows. M7.1 added a canvas repaint to the same tick, and leaving it
-      out would have reintroduced exactly that blind spot one milestone after
-      it was closed.
-
-      It is offered at 10 Hz through `update`, which is what App.svelte does, so
-      what is measured is the real amortised cost: nine frames of one throttle
-      check and a tenth that repaints.
-    */
-    const mapContext = recordingMapContext(280, 104);
-    const trail = { downRange: [] as number[], altitude: [] as number[] };
-    const map = createMapRenderer({ context: mapContext, trail });
-
-    const tick = (s: SimState) => {
-      timeline.observe(s);
-      text.binder.update(s);
-      metrics.update(s);
-      timelineBinder.update();
-      indicators.update(s);
-      map.update(s, 1 / 120);
-      // The trail grows as the recorder feeds it, so the decimation is
-      // measured over a real length rather than an empty array.
-      if (trail.downRange.length < 20_000 && s.world.updatedFrameCount % 5 === 0) {
-        trail.downRange.push(s.kinematics.downRangeDistance);
-        trail.altitude.push(s.kinematics.altitude);
-      }
-    };
-
-    for (let i = 0; i < 500; i++) {
-      state = step(state, DT);
-      tick(state);
-    }
-
-    const samples: number[] = [];
-    for (let run = 0; run < 7; run++) {
-      const states: SimState[] = [];
-      for (let i = 0; i < 1_000; i++) {
-        state = step(state, DT);
-        states.push(state);
-      }
-      const t0 = performance.now();
-      for (const s of states) tick(s);
-      samples.push((performance.now() - t0) / 1_000);
-    }
-    samples.sort((a, b) => a - b);
-    const perFrame = samples[Math.floor(samples.length / 2)]!;
-
-    const report =
-      `whole-HUD frame cost ${perFrame.toFixed(4)} ms of a 2 ms budget, ` +
-      `map redrew ${map.drawCount} times over ${trail.downRange.length} trail points`;
-    console.log(report);
-    expect(perFrame, report).toBeLessThan(2);
-    // And the map was genuinely in the loop, or this measured the old frame.
-    expect(map.drawCount).toBeGreaterThan(10);
   });
 });
 
@@ -361,31 +203,3 @@ describe('the source itself', () => {
     expect(offenders).toEqual([]);
   });
 });
-
-/**
- * A recording 2D context for the benchmark above.
- *
- * Deliberately does the cheapest possible thing per call: the point of putting
- * the map in the frame benchmark is to measure the MAP's arithmetic — the
- * decimation, the extent, the projection of three hundred points — not
- * Chromium's rasteriser, which is not running in Node anyway.
- */
-function recordingMapContext(width: number, height: number): MapContext {
-  return {
-    canvas: { width, height },
-    strokeStyle: '',
-    fillStyle: '',
-    lineWidth: 0,
-    font: '',
-    globalAlpha: 1,
-    clearRect: () => {},
-    beginPath: () => {},
-    moveTo: () => {},
-    lineTo: () => {},
-    arc: () => {},
-    stroke: () => {},
-    fill: () => {},
-    fillText: () => {},
-    setLineDash: () => {},
-  };
-}

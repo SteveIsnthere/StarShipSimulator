@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
@@ -17,6 +17,8 @@ export default defineConfig({
     // environment enforces that: a DOM leak into core/ fails here, not in review.
     environment: 'node',
     include: ['tests/**/*.test.ts', 'src/**/*.test.ts'],
+    // Wall-clock budgets run on demand (`npm run bench`, vitest.timing.config.ts).
+    exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts'],
     testTimeout: 30_000,
     coverage: {
       provider: 'v8',
