@@ -164,9 +164,10 @@ function checkIfCrash(s: SimState): void {
         engines.running.fill(false);
         vehicle.rcsRunTimeRemaining = 0;
       }
-    } else if (forces.thrustAcceleration <= gravity.gravityAt(kinematics.distanceToPlanetCenter)) {
+    } else if (forces.thrustAcceleration <= gravity.verticalWeight(kinematics.distanceToPlanetCenter)) {
       // configOnTheGround(). M11.3: against the LOCAL gravity, which is what
-      // the integrator applies — GM/R^2 at the pad, not the 9.807 constant
+      // the integrator applies at rest — GM/R^2 at the pad less the turning
+      // ground's centrifugal term (Phase 6 Task 9), not the 9.807 constant
       // 2021 compared with. The two disagreed by 0.8% then, and in that band phase
       // 2 zeroed the speeds while 3b's a*dt^2/2 term crept the vehicle upward.
       status.onTheGround = true;
