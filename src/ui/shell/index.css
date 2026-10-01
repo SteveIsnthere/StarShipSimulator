@@ -89,12 +89,9 @@ body {
   border: 1px solid var(--color-flight-backing-line);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    /* 0.01ms rather than 0 so transitionend still fires for code that waits on it. */
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-}
+/*
+ * Reduced motion is the kit's (styles/motion.css): every transition 0s. Not
+ * redeclared here. A 0.01ms override once made EVERY element transition (the
+ * default transition-property is `all`), so a hidden panel stayed painted for
+ * a frame after it was hidden.
+ */

@@ -120,7 +120,7 @@ test('engine state is drawn by shape, not by motion', async ({ page }) => {
   expect(animated).toBe(false);
 });
 
-test('reduced motion makes every transition instant, and only then', async ({ page }) => {
+test('reduced motion makes every transition instant, and adds none', async ({ page }) => {
   const duration = async () =>
     page.locator(byTestId('pause-toggle')).evaluate((el) => getComputedStyle(el).transitionDuration);
 
@@ -131,8 +131,16 @@ test('reduced motion makes every transition instant, and only then', async ({ pa
   expect(parseFloat(await duration())).toBeGreaterThan(0.01);
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  // 0.01ms, not 0, so transitionend still fires (index.css).
-  expect(parseFloat(await duration())).toBeLessThanOrEqual(0.00001);
+  // 0s (the kit's motion.css): no transition at all, so nothing lags a frame.
+  expect(parseFloat(await duration())).toBe(0);
+
+  // And an element with no transition of its own does not get one: hiding a
+  // panel must take effect in the very next frame (the shell once forced a
+  // 0.01ms transition on everything, and a hidden HUD stayed painted).
+  const property = await page
+    .locator(byTestId('readout-altitude-value'))
+    .evaluate((el) => getComputedStyle(el).transitionDuration);
+  expect(parseFloat(property)).toBe(0);
 });
 
 test('the overlay announces itself sensibly to a screen reader @mobile', async ({ page }) => {

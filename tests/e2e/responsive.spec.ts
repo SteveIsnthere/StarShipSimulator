@@ -83,14 +83,22 @@ const measureCanvas = (page: import('@playwright/test').Page) =>
     return { w: Math.round(rect.width), h: Math.round(rect.height) };
   });
 
-test('the canvas fills the viewport @mobile', async ({ page }) => {
+test('the world fills the screen down to the controls @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
+  // Full width, from the top edge. On a phone it stops at the controls' tab
+  // bar, so the ground and the vehicle on it are never under the controls
+  // (ia.md); everywhere else it runs to the bottom edge.
   const viewport = page.viewportSize()!;
-  const canvas = await measureCanvas(page);
-  expect(canvas.w).toBe(viewport.width);
-  expect(canvas.h).toBe(viewport.height);
+  const canvas = await page.locator(byTestId('world-canvas')).boundingBox();
+  const tabBar = page.getByRole('navigation', { name: 'Controls' });
+  const floor = (await tabBar.isVisible()) ? (await tabBar.boundingBox())!.y : viewport.height;
+  expect(canvas).not.toBeNull();
+  expect(Math.round(canvas!.x)).toBe(0);
+  expect(Math.round(canvas!.y)).toBe(0);
+  expect(Math.round(canvas!.width)).toBe(viewport.width);
+  expect(Math.abs(canvas!.y + canvas!.height - floor)).toBeLessThanOrEqual(1);
 });
 
 /**

@@ -2,9 +2,9 @@
  * The camera selector: the one thing cinematic mode adds rather than hides.
  *
  * Present only in cinematic mode. With the flight controls gone, it takes their
- * place: under the status bar's left end on a desktop, and on a phone the band
- * at the bottom edge where the controls' tab bar sits in the cockpit (the
- * primary strip already stands clear of that band).
+ * place at the bottom edge: centred on a desktop and a landscape phone, and on
+ * a portrait phone the band where the controls' tab bar sits. The top belongs
+ * to the primary cluster in every layout.
  */
 import type { SessionState } from '$ui/session/store';
 import { Button } from '@ui/Button';
@@ -40,7 +40,8 @@ export function CameraModes({ phone }: { phone: boolean }) {
         'absolute z-20 border-flight-backing-line bg-flight-backing',
         phone
           ? 'ui-safe-margin-bottom inset-x-0 bottom-0 grid h-14 grid-cols-4 items-center gap-1 border-t px-3'
-          : 'ui-safe-margins left-4 top-14 flex items-center gap-1 border p-1 pl-3',
+          : // Cinematic hides the controls, so the bottom edge is free; the top holds the cluster.
+            'ui-safe-margin-bottom bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1 border p-1 pl-3',
       )}
     >
       {!phone && (

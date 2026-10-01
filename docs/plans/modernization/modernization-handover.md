@@ -9,7 +9,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 1 Green gate and cut-over | done, live | `f14aadb` (2026-10-01) |
 | 2 Truth harness | done | `53e3c26` |
 | 3 Design pass | done (review page published) | `53e3c26` |
-| 4 React shell | in progress on `claude/react-shell` | — |
+| 4 React shell | built and reviewed on `claude/react-shell`; browser suite closing out | — |
 | 5 Guidance on real physics | not started | — |
 | 6 Ship realism | not started | — |
 | 7 Super Heavy | not started | — |
@@ -35,11 +35,21 @@ The unattended run's report. Updated as phases land; the last section is always 
 - **Kit reuse**: flight_sim's `web/src/ui` vendored byte for byte, type-checked under its own settings; nothing in flight_sim changed.
 - **Layers pause the flight**, Escape closes the top layer, P pauses (from the IA).
 
+- **Flight screen layout (Phase 4)**: the primary cluster moved from bottom-centre to top-centre. At the bottom it covered the vehicle on the pad and at touchdown. On a phone the world ends above the controls so the camera reframes instead of being covered, and a phone held sideways gets its own compact layout. `docs/design/ia.md` records the change.
+- **Flight backing deepened from 62% to 68% black**: the new contrast test measured the label grey at 4.11:1 over a noon sky, under the 4.5:1 floor.
+- **Engine states drawn by shape, not blinking**: the old blink tests were passing on nothing; the new specs check the shapes and that reduced motion adds no transition.
+- **Bundle budget 250 → 300 kB** for React DOM (275 kB measured), and one design-scanner exception for the throttle slider's measured fill. Both recorded where the rules live; confirm or overrule.
+
 ## Parked — yours to decide
 
 - **No LICENSE** in a public repo. Choose one before this grows further.
 - **Two dead remote branches**, `origin/exp` and `origin/feat/modernize-app`: nothing in either is worth keeping. Delete when you agree.
 - **Codex can't run as a peer reviewer**: `~/.codex/config.toml` names `gpt-6.1-sol`, which a ChatGPT login does not support. ChatGPT Pro and fresh subagents reviewed instead.
+
+## Follow-ups recorded for Phase 8
+
+- The throttle and yoke sliders follow the simulation only on keys, store changes and when touched, not while the autopilot moves them (the Svelte slider never followed at all).
+- The debrief has no grade or comparison with the previous flight yet (ia.md asks for both).
 
 ## Blocker
 
