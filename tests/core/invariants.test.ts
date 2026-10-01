@@ -64,7 +64,7 @@ describe('invariants over any configurable flight', () => {
   it('with the engines off and no wind, orbital energy never rises beyond integrator error', () => {
     fc.assert(
       fc.property(arbitraryFlight(STEPS), (f) => {
-        const flight = { ...f, enginesOn: false, preset: { ...f.preset, wind: 0 } };
+        const flight = { ...f, enginesOn: false, dumping: false, preset: { ...f.preset, wind: 0 } };
         let s = startOf(flight);
         const energy = (x: typeof s) =>
           specificOrbitalEnergy(x.kinematics.distanceToPlanetCenter, x.kinematics.trueSpeed);

@@ -42,7 +42,7 @@ async function hoverAt2km(page: Page, enginesOn: boolean): Promise<void> {
         };
       }
     ).__simDebug;
-    // Enough propellant that full thrust is a slow climb, not a departure.
+    // Enough propellant that full thrust is a slow descent, not a departure.
     debug.setScenario('landing-burn', {
       altitude: 2000,
       speedX: 0,
