@@ -130,8 +130,10 @@ sea-level engines.
 | gimbal | ±15°, slew 600 %/s | `C:190–192` | tuned, no source |
 | engine offsets | N1 −1 m, N2/N3 +0.5 m | `C:173–176` | tuned, no source |
 
-Thrust and fuel flow scale with working engines × throttle % (`physics/engines.ts:49`, `:108`).
-Thrust acts along `pitch − gimbal% × 15°`; the gimbal's lateral component and the engine-offset
+Thrust and fuel flow scale with working engines × throttle % (`physics/engines.ts`). The
+sea-level engines' thrust acts along `pitch − gimbal% × 15°`; the RVacs are fixed and push along
+the hull (`gimballedShare`), so the gimbal's torque and the autopilot's gimbal authority read the
+sea-level share alone; the gimbal's lateral component and the engine-offset
 term act only as torques about the engine arm. The step the tank runs dry thrusts in proportion
 to the propellant it actually burned (`updatePropellant` returns the fraction). Fuel-out stops all
 engines and cancels any ignition still counting down; dump runs at
@@ -222,8 +224,9 @@ sets it, the flight editor can. The air's velocity at the vehicle is `(airVeloci
 - **Turbulence:** Dryden, MIL-F-8785C low-altitude form: `σw = 0.1·W20`, `σu = σw/(0.177 +
   0.000823h)^0.4`, `Lw = h`, `Lu = h/(0.177 + 0.000823h)^1.2` (h in ft), held at the 10 ft and
   1,000 ft edges. u downrange (`world.gust`) is a first-order filter, w vertical (`gustVertical`) is
-  Dryden's `(1 + √3τs)/(1 + τs)²`; the 2D world has no lateral v. The sweep speed is the airspeed,
-  never below the mean wind. Calm air (`wind = 0`) has no turbulence and takes no draw.
+  Dryden's `(1 + √3τs)/(1 + τs)²`; the 2D world has no lateral v. The sweep speed is the vehicle's
+  speed through the mean air (Taylor's frozen field), with no floor: a hover sweeps the whole
+  wind, a vehicle drifting with it sweeps nothing. Calm air (`wind = 0`) has no turbulence and takes no draw.
 
 Every aero term and the autopilot's fin-authority estimate read the relative wind; guidance, HUD and
 touchdown use ground speeds; the fall predictor reads the mean profile and leaves out the zero-mean
