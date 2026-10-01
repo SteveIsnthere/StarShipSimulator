@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import ts from 'typescript-eslint';
 import svelte from 'eslint-plugin-svelte';
+import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 import svelteConfig from './svelte.config.js';
 
@@ -156,6 +157,13 @@ export default ts.config(
       'prefer-const': 'error',
       ...NO_GLOBALS_RULE,
     },
+  },
+
+  {
+    // The rules of hooks, as flight_sim applies them to the same kit.
+    files: ['src/**/*.tsx'],
+    plugins: { 'react-hooks': reactHooks },
+    rules: { ...reactHooks.configs.recommended.rules },
   },
 
   {
