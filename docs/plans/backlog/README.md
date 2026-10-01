@@ -21,7 +21,6 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 | Legacy exports still shipped in `core/`: `legacyEffectiveVerticalMaxThrust` (`src/core/control/primitives.ts`) and six `legacy*Coefficient` exports (`src/core/physics/components.ts`) | 5 |
 | `horizontalSteering` calls `precisionAlignment` twice (kept on purpose: the first call has side effects) — resolve when guidance is rebuilt | 5 |
 | Render interpolation: `advance()` returns `alpha` but nothing reads it; the view draws the latest step | 4 |
-| `src/app/input.ts` imports `ControlEvent` from `$ui/controls` — an upward import no wall catches | 4 |
 | Per-frame allocations: `s.engines.running.filter(Boolean)` in `App.svelte`; `worldToScreen` returns a new object (`src/view/camera.ts`) | 4 |
 | Stale comments: `camera.ts` header (claims interpolated state and real dt), `CameraTarget.dynamicPressure` says Pa (it is kPa), `effects.ts` `previous`, `record.ts` sampling rate (says 24 steps; it is 60), `eslint.config.js` and the workflows say "six walls" (there are seven) | 1 (workflows), 4 (view), 2 (golden) |
 | `post.ts` sets `uTexelSize` once and never on resize | 4 |
