@@ -3,14 +3,14 @@
 Continue independently through ONLY this roadmap:
 /Users/stevewang/dev/StarShipSimulator-modernization/docs/plans/modernization/modernization-roadmap.md
 
-Work on branch `claude/modernization`, in the worktree `/Users/stevewang/dev/StarShipSimulator-modernization`. It already exists; don't recreate it. It is the integration branch until Phase 1 lands it on `main` (Task 9 of the Phase 1 plan). After that, each phase gets its own `claude/<slug>` branch from `main` and merges back into `main`.
+Phase 1 has landed: `main` is the base and deploys on push. Each phase gets its own `claude/<slug>` branch from `main` and merges back into `main`.
 
 There is no Jira board for this repo. `docs/plans/` is the system of record: the roadmap's Status checkboxes, the phase plans' task checkboxes, and `docs/plans/backlog/README.md`. Do not look for tickets.
 
 ## Current truthful status
 
-- 0% of the roadmap is complete; 0 of 8 phases are done.
-- The exact first unfinished task is the first unchecked box in `docs/plans/modernization/modernization-phase-1.md`; its Execution log section says what was done and decided.
+- Phase 1 is done and live (2026-10-01). The phase in progress is the first unchecked one in the roadmap's Status list.
+- The exact first unfinished task is the first unchecked box in that phase's plan; each finished plan's Execution log says what was done and decided.
 - Already done and must not be redone:
   - The rebuild itself, M0–M12.7 (commits up to `d2839b9`): the pure core, the walls, the goldens, the Svelte UI, the view, the audio.
   - The repo-docs pass, commits `d059bf6`..`94f4fe3` on this branch: `AGENTS.md`, `CLAUDE.md` = `@AGENTS.md`, `.agents/skills/` with the `.claude/skills` link, `docs/reference/` (architecture, physics-model, presentation, testing), `docs/research/2026-09-30-modernization-audit.md`, `docs/plans/backlog/README.md`, the old plan files deleted, every citation re-pointed.

@@ -203,7 +203,7 @@ self.addEventListener('activate', (event) => {
 **Files:**
 - Modify: `AGENTS.md` (the integration-branch note), `docs/plans/modernization/modernization-roadmap.md`
 
-- [ ] **Step 1: Keep a way back.** Tag the untouched 2021 tree, and build a `classic` branch Pages can be pointed back at. A rollback must also release visitors who already have the NEW worker (`sw.js`, cache-first), or they stay on the new build: so `classic` is the 2021 tree plus one commit adding an `sw.js` kill switch (deletes `starship-*` caches only, unregisters, reloads each page — the mirror image of `public/serviceworker.js`).
+- [x] **Step 1: Keep a way back.** Tag the untouched 2021 tree, and build a `classic` branch Pages can be pointed back at. A rollback must also release visitors who already have the NEW worker (`sw.js`, cache-first), or they stay on the new build: so `classic` is the 2021 tree plus one commit adding an `sw.js` kill switch (deletes `starship-*` caches only, unregisters, reloads each page — the mirror image of `public/serviceworker.js`).
 
 ```bash
 git tag -a v0-classic 51ac6a0 -m "The 2021 game, as served until the rebuild cut-over"
@@ -217,8 +217,8 @@ git worktree add ../StarShipSimulator-classic -b classic 51ac6a0
   Write the rollback into `docs/reference/architecture.md` under "Deploy":
   `gh api -X PUT repos/SteveIsnthere/StarShipSimulator/pages -f build_type=legacy -f 'source[branch]=classic' -f 'source[path]=/'`
 
-- [ ] **Step 2: Review.** `/code-review high` on `main...claude/modernization`, then `cross-agent-review` (this is the live site). Fix what is real.
-- [ ] **Step 3: Switch the source, then merge.**
+- [x] **Step 2: Review.** `/code-review high` on `main...claude/modernization`, then `cross-agent-review` (this is the live site). Fix what is real.
+- [x] **Step 3: Switch the source, then merge.**
 
 ```bash
 gh api -X PUT repos/SteveIsnthere/StarShipSimulator/pages -f build_type=workflow
@@ -228,51 +228,51 @@ git push origin main
 ```
 
   Pages keeps serving the last legacy deployment until `deploy.yml` publishes, so there is no blank window.
-- [ ] **Step 4: Verify live.** Watch the Deploy run to completion (`gh run watch`), confirm it deployed the merge commit, then:
+- [x] **Step 4: Verify live.** Watch the Deploy run to completion (`gh run watch`), confirm it deployed the merge commit, then:
   - `curl -fsS https://steveisnthere.github.io/StarShipSimulator/` → 200 and the body contains `data-testid="world-canvas"` or the new app's root script (not the 2021 `backend/` scripts).
   - `curl -fsS -o /dev/null` on `.../manifest.webmanifest`, `.../sw.js` and `.../serviceworker.js` → 200.
   - `E2E_BASE_URL=https://steveisnthere.github.io/StarShipSimulator/ npm run test:deploy` → the four subpath specs pass against the live site (assert a non-zero test count in the output).
   - If any of these fail and cannot be fixed forward within the hour, run the rollback from Step 1 and record why.
-- [ ] **Step 5:** Commit: `test: timings move to a bench, the gate counts work`.
+- [x] **Step 5:** Commit: `test: timings move to a bench, the gate counts work`.
 
 ### Task 5: A browser tier that fits a merge gate
 
 **Files:**
 - Modify: `playwright.config.ts`, `package.json`, the specs tagged in Step 2, `tests/e2e/broadcast.spec.ts`, `tests/e2e/plume.spec.ts`, `tests/e2e/sound.spec.ts`
 
-- [ ] **Step 1: Port and browser.** Replace `const PORT = 4174` with `const PORT = Number(process.env.E2E_PORT ?? 4174)` and set `reuseExistingServer: false`. `preinstalledChromium()` also checks the macOS layout (`chrome-mac/Chromium.app/Contents/MacOS/Chromium`) and otherwise returns `undefined` so Playwright uses its own install. `playwright.subpath.config.ts` has its own copy of the lookup (taking the first revision rather than the highest): move one implementation into `tests/e2e/chromium.ts` and import it from both configs. Document `npx playwright install chromium` in `docs/reference/testing.md`.
-- [ ] **Step 2: The smoke tier.** Tag `@smoke` on the specs that prove the app is usable: it boots and the intro lands; each scenario starts from the menu; the menu opens and closes; a manual throttle-up lifts off; the offline reload works; the Black Box opens. Target ≤ 3 minutes on the chromium project.
-- [ ] **Step 3: Scripts.** `test:e2e` runs `--grep @smoke --project=chromium`; `test:e2e:full` runs all five projects. `gate` stays lint → build → test → coverage → test:e2e and gains `test:deploy`.
-- [ ] **Step 4: The three specs CI saw fail.** Run each in isolation 5 times on the Mac: `broadcast.spec.ts:96` (mission clock), `plume.spec.ts:273/299` (@mobile, "no plume at all"), `sound.spec.ts:216` (restore defaults). For each: if it fails on an idle machine, it is a defect — write the failing reason in the commit and fix the product. If it fails only under load, change its waits to the simulation's clock (`window` debug hooks the specs already use) instead of wall-clock timeouts.
-- [ ] **Step 5:** `npm run test:e2e` ≤ 3 min and green; `npm run test:e2e:full` green on the Mac with its measured time written in `docs/reference/testing.md`. Commit: `test(e2e): a smoke tier for the gate, the full suite on demand`.
+- [x] **Step 1: Port and browser.** Replace `const PORT = 4174` with `const PORT = Number(process.env.E2E_PORT ?? 4174)` and set `reuseExistingServer: false`. `preinstalledChromium()` also checks the macOS layout (`chrome-mac/Chromium.app/Contents/MacOS/Chromium`) and otherwise returns `undefined` so Playwright uses its own install. `playwright.subpath.config.ts` has its own copy of the lookup (taking the first revision rather than the highest): move one implementation into `tests/e2e/chromium.ts` and import it from both configs. Document `npx playwright install chromium` in `docs/reference/testing.md`.
+- [x] **Step 2: The smoke tier.** Tag `@smoke` on the specs that prove the app is usable: it boots and the intro lands; each scenario starts from the menu; the menu opens and closes; a manual throttle-up lifts off; the offline reload works; the Black Box opens. Target ≤ 3 minutes on the chromium project.
+- [x] **Step 3: Scripts.** `test:e2e` runs `--grep @smoke --project=chromium`; `test:e2e:full` runs all five projects. `gate` stays lint → build → test → coverage → test:e2e and gains `test:deploy`.
+- [x] **Step 4: The three specs CI saw fail.** Run each in isolation 5 times on the Mac: `broadcast.spec.ts:96` (mission clock), `plume.spec.ts:273/299` (@mobile, "no plume at all"), `sound.spec.ts:216` (restore defaults). For each: if it fails on an idle machine, it is a defect — write the failing reason in the commit and fix the product. If it fails only under load, change its waits to the simulation's clock (`window` debug hooks the specs already use) instead of wall-clock timeouts.
+- [x] **Step 5:** `npm run test:e2e` ≤ 3 min and green; `npm run test:e2e:full` green on the Mac with its measured time written in `docs/reference/testing.md`. Commit: `test(e2e): a smoke tier for the gate, the full suite on demand`.
 
 ### Task 6: CI that finishes and means something
 
 **Files:**
 - Modify: `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`
 
-- [ ] **Step 1:** Bump `actions/checkout`, `actions/setup-node`, `actions/upload-artifact`, `actions/configure-pages`, `actions/upload-pages-artifact` and `actions/deploy-pages` to their current major versions (check each repo's releases with `gh release list -R actions/<name> -L 1`). `node-version-file: .nvmrc`.
-- [ ] **Step 2:** `ci.yml` runs `npm run gate` (which now includes the smoke tier and `test:deploy`) with `timeout-minutes: 20`. Add a `workflow_dispatch`-only job `e2e-full` that runs `npm run test:e2e:full` with `timeout-minutes: 90`. No schedule.
-- [ ] **Step 3:** `deploy.yml` runs the same `npm run gate` before upload. Rewrite the long historical comments in both workflows as one or two lines of current fact each.
-- [ ] **Step 4:** Push `claude/modernization`. CI must be green on three consecutive pushes. If hosted CI cannot start because of billing or spending limits, record the exact message and continue on the complete local gate (Steve's standing rule).
-- [ ] **Step 5:** Commit: `ci: one gate, in twenty minutes, on the current actions`.
+- [x] **Step 1:** Bump `actions/checkout`, `actions/setup-node`, `actions/upload-artifact`, `actions/configure-pages`, `actions/upload-pages-artifact` and `actions/deploy-pages` to their current major versions (check each repo's releases with `gh release list -R actions/<name> -L 1`). `node-version-file: .nvmrc`.
+- [x] **Step 2:** `ci.yml` runs `npm run gate` (which now includes the smoke tier and `test:deploy`) with `timeout-minutes: 20`. Add a `workflow_dispatch`-only job `e2e-full` that runs `npm run test:e2e:full` with `timeout-minutes: 90`. No schedule.
+- [x] **Step 3:** `deploy.yml` runs the same `npm run gate` before upload. Rewrite the long historical comments in both workflows as one or two lines of current fact each.
+- [x] **Step 4:** Push `claude/modernization`. CI must be green on three consecutive pushes. If hosted CI cannot start because of billing or spending limits, record the exact message and continue on the complete local gate (Steve's standing rule).
+- [x] **Step 5:** Commit: `ci: one gate, in twenty minutes, on the current actions`.
 
 ### Task 7: Docs follow the new truth
 
 **Files:**
 - Modify: `AGENTS.md`, `.agents/skills/verification-and-gates/SKILL.md`, `docs/reference/testing.md`, `docs/reference/architecture.md`, `README.md`
 
-- [ ] **Step 1:** Every statement about the gate, goldens, the e2e tiers, CI, ports and the repo layout matches what Tasks 1–6 built. Remove "the goldens reproduce only on x86-64 Linux" and "CI has passed 2 of 132" from `docs/reference/testing.md`, replacing them with the current behaviour.
-- [ ] **Step 2:** README: test counts are not stated as numbers (they go stale); the quick-start says `npm ci && npx playwright install chromium && npm run dev`.
-- [ ] **Step 3:** `bash ~/.agent-config/skills/repo-docs-maid/scripts/check.sh` exits 0. Commit: `docs: the gate as it now is`.
+- [x] **Step 1:** Every statement about the gate, goldens, the e2e tiers, CI, ports and the repo layout matches what Tasks 1–6 built. Remove "the goldens reproduce only on x86-64 Linux" and "CI has passed 2 of 132" from `docs/reference/testing.md`, replacing them with the current behaviour.
+- [x] **Step 2:** README: test counts are not stated as numbers (they go stale); the quick-start says `npm ci && npx playwright install chromium && npm run dev`.
+- [x] **Step 3:** `bash ~/.agent-config/skills/repo-docs-maid/scripts/check.sh` exits 0. Commit: `docs: the gate as it now is`.
 
 ### Task 8: Retire the 2021 service worker
 
 **Files:**
 - Create: `public/serviceworker.js`, `tests/offline-classic.test.ts`
 
-- [ ] **Step 1: The failing test.** `tests/offline-classic.test.ts` reads `dist/serviceworker.js` after a build and asserts it: calls `self.registration.unregister()`, deletes every cache, and calls `client.navigate(client.url)` for each window client; and that the precache list in `dist/sw.js` does not include `serviceworker.js`.
-- [ ] **Step 2: The kill switch.** 2021 registered `serviceworker.js` at the default scope `/StarShipSimulator/`. Its update check fetches that same URL, so a file there replaces it:
+- [x] **Step 1: The failing test.** `tests/offline-classic.test.ts` reads `dist/serviceworker.js` after a build and asserts it: calls `self.registration.unregister()`, deletes every cache, and calls `client.navigate(client.url)` for each window client; and that the precache list in `dist/sw.js` does not include `serviceworker.js`.
+- [x] **Step 2: The kill switch.** 2021 registered `serviceworker.js` at the default scope `/StarShipSimulator/`. Its update check fetches that same URL, so a file there replaces it:
 
 ```js
 // public/serviceworker.js — replaces the 2021 worker for returning visitors.
@@ -287,14 +287,14 @@ self.addEventListener('activate', (event) => {
 ```
 
   Exclude it from the precache list in `scripts/build-sw.mjs` (next to the existing `sw.js` exclusion).
-- [ ] **Step 3:** `npm run build && npm run test` green. Commit: `feat(offline): returning 2021 visitors are handed to the new app`.
+- [x] **Step 3:** `npm run build && npm run test` green. Commit: `feat(offline): returning 2021 visitors are handed to the new app`.
 
 ### Task 9: Cut over
 
 **Files:**
 - Modify: `AGENTS.md` (the integration-branch note), `docs/plans/modernization/modernization-roadmap.md`
 
-- [ ] **Step 1: Keep a way back.** Tag the untouched 2021 tree, and build a `classic` branch Pages can be pointed back at. A rollback must also release visitors who already have the NEW worker (`sw.js`, cache-first), or they stay on the new build: so `classic` is the 2021 tree plus one commit adding an `sw.js` kill switch (deletes `starship-*` caches only, unregisters, reloads each page — the mirror image of `public/serviceworker.js`).
+- [x] **Step 1: Keep a way back.** Tag the untouched 2021 tree, and build a `classic` branch Pages can be pointed back at. A rollback must also release visitors who already have the NEW worker (`sw.js`, cache-first), or they stay on the new build: so `classic` is the 2021 tree plus one commit adding an `sw.js` kill switch (deletes `starship-*` caches only, unregisters, reloads each page — the mirror image of `public/serviceworker.js`).
 
 ```bash
 git tag -a v0-classic 51ac6a0 -m "The 2021 game, as served until the rebuild cut-over"
@@ -308,8 +308,8 @@ git worktree add ../StarShipSimulator-classic -b classic 51ac6a0
   Write the rollback into `docs/reference/architecture.md` under "Deploy":
   `gh api -X PUT repos/SteveIsnthere/StarShipSimulator/pages -f build_type=legacy -f 'source[branch]=classic' -f 'source[path]=/'`
 
-- [ ] **Step 2: Review.** `/code-review high` on `main...claude/modernization`, then `cross-agent-review` (this is the live site). Fix what is real.
-- [ ] **Step 3: Switch the source, then merge.**
+- [x] **Step 2: Review.** `/code-review high` on `main...claude/modernization`, then `cross-agent-review` (this is the live site). Fix what is real.
+- [x] **Step 3: Switch the source, then merge.**
 
 ```bash
 gh api -X PUT repos/SteveIsnthere/StarShipSimulator/pages -f build_type=workflow
@@ -319,12 +319,12 @@ git push origin main
 ```
 
   Pages keeps serving the last legacy deployment until `deploy.yml` publishes, so there is no blank window.
-- [ ] **Step 4: Verify live.** Watch the Deploy run to completion (`gh run watch`). Then:
+- [x] **Step 4: Verify live.** Watch the Deploy run to completion (`gh run watch`). Then:
   - `curl -sI https://steveisnthere.github.io/StarShipSimulator/` → 200; the body contains the new app's root element.
   - `curl -sI https://steveisnthere.github.io/StarShipSimulator/manifest.webmanifest` and `.../sw.js` and `.../serviceworker.js` → 200.
   - Run the smoke tier against the live URL with the subpath config (`E2E_BASE_URL=https://steveisnthere.github.io/StarShipSimulator/ npx playwright test --config playwright.subpath.config.ts --grep @smoke`; add `E2E_BASE_URL` support to that config if missing).
   - If any of these fail and cannot be fixed forward within the hour, run the rollback from Step 1 and record why.
-- [ ] **Step 5:** `AGENTS.md`: remove the integration-branch paragraph; `main` is the base, branches come from `main`. Tick Phase 1 in the roadmap. Commit on `main` via a short branch and merge, per `git-conventions`.
+- [x] **Step 5:** `AGENTS.md`: remove the integration-branch paragraph; `main` is the base, branches come from `main`. Tick Phase 1 in the roadmap. Commit on `main` via a short branch and merge, per `git-conventions`.
 
 ## Execution log — decisions and findings
 
@@ -337,3 +337,4 @@ Recorded by the run that executed this phase (2026-10-01), for whoever reads the
 - **Task 8:** both service workers now delete only their own caches — the Pages origin is shared.
 
 **Plan review (ChatGPT Pro, 2026-10-01; Codex unavailable: its configured model is not supported with a ChatGPT login).** Accepted and applied: the move loop; the shared-origin cache deletion; the rollback needing a kill switch for the new worker; the live check using GET and the real deploy spec; the sensitivity test excluding the perturbed input; the >100x assertion that could not pass at the 1e-8 cap; credential preflight for the Pages API; bug-fix precedence in Phase 2 (GOAL now says so); bounded diagnosis of flaky specs (GOAL now says so); completion evidence for realism coverage and landings (GOAL now says so). Rejected: moving the debug API into Phase 1 — the three failing specs were fixed with existing interfaces, so nothing in Phase 1 needed it.
+- **Task 9:** independent review by a fresh subagent (Codex unavailable) drove the migration and the rollback in a real Chromium; both worked, and its five fixable findings were fixed before the merge (`bd909a4`). Pages switched to `build_type=workflow` with the 2021 site still serving, then `main` merged (`f14aadb`); Deploy run 36835200006 succeeded; the live site serves the new build, and the subpath deploy specs pass against the live URL (5/5). The local subpath flake was Python's `http.server`, now replaced.

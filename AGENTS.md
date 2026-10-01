@@ -9,8 +9,7 @@ The bar is Steve's flight sim, `flight_sim` ("Flying Bricks"): realistic physics
 ## Branches, tracking and deploy
 
 - **No Jira board.** `docs/plans/` is the system of record. Branches are `<agent>/<slug>` with no key (`git-conventions`).
-- `main` still holds the 2021 vanilla-JS game, which GitHub Pages serves (legacy build from `main:/`) at https://steveisnthere.github.io/StarShipSimulator/. The rebuild has never been merged to `main`.
-- **`claude/modernization` is the integration branch** until the cut-over phase of the modernization roadmap lands it on `main`. Branch from it, and merge back into it, until then. Merging into `main` before the Pages cut-over breaks the live site.
+- `main` is the base: branch from it and merge back into it (`git-conventions`). Pushing to `main` deploys to GitHub Pages at https://steveisnthere.github.io/StarShipSimulator/ (`.github/workflows/deploy.yml`). The 2021 game is tag `v0-classic`; the rollback is in `docs/reference/architecture.md`.
 - The live roadmap is [docs/plans/modernization/](docs/plans/modernization/).
 
 ## Repo map
@@ -60,7 +59,7 @@ What each proves, the coverage floors, and how to read a red gate: `verification
 - **Every 2021 control keeps a working equivalent** (`tests/e2e/parity.spec.ts`). Layout, labels and key bindings may change; capability may not disappear.
 - **Physics** changes only under a tier from `physics-change-policy`. Golden fixtures in `tests/golden/fixtures/` never move without one.
 - **`tests/fixtures/legacy/`** is never modified.
-- **The live site** (`main`, GitHub Pages settings, `deploy.yml`) changes only through the cut-over phase of an approved plan.
+- **The live site:** GitHub Pages settings, `deploy.yml` and the two service workers change only under an approved plan, with an independent review.
 
 ## Docs
 
