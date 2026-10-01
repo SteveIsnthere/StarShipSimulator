@@ -22,7 +22,7 @@ import {
   MAP_KEY,
   NON_PREFERENCE_KEYS,
   PREFERENCE_KEYS,
-} from '$ui/preferences';
+} from '$app/preferences';
 import { MUTE_KEY, VOLUME_KEY } from '$audio/engine';
 
 const SRC = join(import.meta.dirname, '../../src');
@@ -32,7 +32,7 @@ function sources(dir: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
     if (entry.isDirectory()) return sources(path);
-    return /\.(ts|svelte)$/.test(entry.name) ? [path] : [];
+    return /\.tsx?$/.test(entry.name) ? [path] : [];
   });
 }
 
@@ -41,7 +41,7 @@ describe('the preference list', () => {
     /*
       Six since M12.6 added the first-flight hint — and the grep below is what
       said so. The hint's key was written in `preferences.ts` and used in
-      `App.svelte`, both correct, and this suite still went red until it was
+      the app shell, both correct, and this suite still went red until it was
       added to `PREFERENCE_KEYS`, which is the entire point of the arrangement:
       Restore Defaults would otherwise have quietly stopped restoring the hint.
     */

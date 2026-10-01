@@ -32,7 +32,7 @@ function sourceFiles(dir: string, out: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
     if (statSync(full).isDirectory()) sourceFiles(full, out);
-    else if (/\.(svelte|css|ts)$/.test(entry)) out.push(full);
+    else if (/\.(css|ts|tsx)$/.test(entry)) out.push(full);
   }
   return out;
 }
@@ -141,7 +141,7 @@ describe('state is not spelled in green', () => {
       `accent-color: #0d0` on the sliders. Nothing in this interface says "on"
       by recolouring a word — controls carry a pip that fills.
 
-      Colour that MEANS something is untouched: --caution, --alarm and --good
+      Colour that MEANS something is untouched: --color-flight-caution, -alarm and -good
       are tokens and are what this checks the tree uses instead.
     */
     const greens = /#0d0\b|#0a0\b|#00ff00\b|#0f0\b/i;
@@ -153,9 +153,9 @@ describe('state is not spelled in green', () => {
   });
 
   it('the meaning colours are still declared, so the rule above is a rule and not a ban', () => {
-    const theme = readFileSync(join(SRC, 'ui/theme.css'), 'utf8');
-    expect(theme).toContain('--caution');
-    expect(theme).toContain('--alarm');
-    expect(theme).toContain('--good');
+    const theme = readFileSync(join(SRC, 'ui/shell/index.css'), 'utf8');
+    expect(theme).toContain('--color-flight-caution');
+    expect(theme).toContain('--color-flight-alarm');
+    expect(theme).toContain('--color-flight-good');
   });
 });

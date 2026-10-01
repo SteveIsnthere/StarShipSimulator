@@ -14,7 +14,7 @@ All commands run in the repo root.
 | step | command | proves |
 |---|---|---|
 | lint | `npm run lint` | ESLint, including the seven walls (`sim-core-conventions`) |
-| build | `npm run build` | `svelte-check`, the Vite build, the service worker, and the bundle/font/audio budgets |
+| build | `npm run build` | the kit's and the app's type-check (`tsc`), the design, copy and entry-graph scanners, the Vite build, the service worker, and the bundle/font/audio budgets |
 | unit | `npm run test` | Vitest: core, goldens, proofs, HUD, view, UI, audio, offline |
 | coverage | `npm run coverage` | the per-module floors on `src/core/**` in `vitest.config.ts` |
 | browser smoke | `npm run test:e2e` | the `@smoke` Playwright specs on desktop Chromium: the app boots, flies, lands, works offline |

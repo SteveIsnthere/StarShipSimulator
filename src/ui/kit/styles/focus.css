@@ -1,0 +1,13 @@
+/* One focus owner for keyboard and latched gamepad navigation. The black
+ * backing keeps the white dashed outline legible on white selection and scene. */
+:focus-visible,
+html[data-gp-nav] [data-gp-scope] :focus {
+	outline: 2px dashed var(--color-ui-fg);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 3px var(--color-ui-bg);
+}
+
+html[data-gp-nav],
+html[data-gp-nav] * {
+	cursor: none !important;
+}

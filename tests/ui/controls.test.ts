@@ -8,7 +8,7 @@
  * asymmetries, which are the parts a rewrite would quietly smooth away.
  */
 import { describe, expect, it } from 'vitest';
-import { applyControl, type ControlEvent } from '$ui/controls';
+import { applyControl, type ControlEvent } from '$app/controls';
 import { createInitialState, type SimState } from '$core/state';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import { throttleLowerLimit, throttleUpperLimit } from '$core/constants';

@@ -36,7 +36,7 @@ import { AERO_FULL_Q, aeroLevel } from '$audio/params';
 import { MAX_Q_FLOOR_KPA } from '$hud/timeline';
 import type { SimState } from '$core/state';
 import { createScenarioState, getScenario } from '$core/scenarios';
-import { fieldsFromPreset, fieldsToPreset } from '$ui/menu';
+import { fieldsFromPreset, fieldsToPreset } from '$app/menu';
 import { DT } from '$app/loop';
 import {
   MAX_Q_FIELDS,

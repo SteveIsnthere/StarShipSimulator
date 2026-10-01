@@ -21,7 +21,7 @@ The bar is Steve's flight sim, `flight_sim` ("Flying Bricks"): realistic physics
 | `src/view/` | PixiJS world: camera, sky, sun, stars, clouds, re-entry, particles |
 | `src/hud/` | the per-frame HUD binder and its readouts, timeline, debrief, trajectory map maths |
 | `src/audio/` | Web Audio engine and the sim-state bindings |
-| `src/ui/` | the UI shell (Svelte 5 today; moving to React), tokens, guide, test ids |
+| `src/ui/` | the interface: `shell/` (React surfaces, fonts, `index.css`), `session/` (the framework-free controller: loop, scene, store), `kit/` (flight_sim's kit, vendored), plus the guide, test ids and the black box's model and charts |
 | `tests/` | Vitest suites by layer, `golden/` trajectories, `proofs/`, `lint-walls/`, `e2e/` Playwright specs |
 | `tests/fixtures/legacy/` | the archived 2021 game — read-only, nothing executes it |
 | `scripts/` | build helpers: service worker, budget check, font subsetting, subpath staging |
@@ -47,10 +47,11 @@ What each proves, the coverage floors, and how to read a red gate: `verification
 | `sim-core-conventions` | the layer map, the seven lint walls, determinism, units, per-frame performance rules |
 | `physics-change-policy` | the Refactor / Bug fix / Fidelity tiers, truth tests vs goldens, regenerating goldens |
 | `verification-and-gates` | the gate commands and order, coverage floors, CI coverage, reading results honestly |
+| `frontend-conventions` | the interface: shell, session controller, vendored kit, per-frame rules, test ids, layout zones, interface tests |
 | `git-conventions` *(global)* | branches, commits, review and the merge rule |
 | `repo-docs-layout` *(global)* | where docs, plans and skills live |
 | `goalgen` / `rng` *(global)* | turning an objective into a roadmap, phase plans and a `/goal` contract |
-| `establish-conventions` *(global)* | writing new convention skills, such as the frontend conventions the React port adds |
+| `establish-conventions` *(global)* | writing new convention skills |
 | `ui-foundations` *(global)* | UI rules no project may override |
 
 ## Protected — ask Steve before changing

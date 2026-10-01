@@ -94,6 +94,15 @@ async function underPowerAt(page: Page, altitude: string): Promise<void> {
     ['xPosition', '30000'],
     ['speedX', '0'],
     ['speedY', '0'],
+    /*
+      Tanks for the whole measurement. The preset carries 20 t, about ten
+      seconds at full thrust, and the setup plus four frames used to finish a
+      few seconds before burnout; a layout that needs one more tap to reach the
+      engines (a folded rail on a landscape phone) ran it dry and photographed
+      "no plume at all". 200 t is a hundred seconds and still lifts off at a
+      thrust-to-weight of about two.
+    */
+    ['propellant', '200'],
   ] as const) {
     await page.locator(byTestId(`field-${name}`)).fill(value);
   }

@@ -87,7 +87,7 @@ describe('checkBudget', () => {
   });
 
   it('fails a bundle over budget', async () => {
-    const dist = await makeDist('over', { entryBytes: 300_000 });
+    const dist = await makeDist('over', { entryBytes: 400_000 });
     const result = await checkBudget(dist, DEFAULT_BUDGET_BYTES);
     expect(result.ok).toBe(false);
     expect(result.total).toBeGreaterThan(DEFAULT_BUDGET_BYTES);
@@ -100,8 +100,8 @@ describe('checkBudget', () => {
     expect(result.lazy).toEqual(['lazy.js']);
   });
 
-  it('defaults to the 250 kB budget from `sim-core-conventions`', () => {
-    expect(DEFAULT_BUDGET_BYTES).toBe(250 * 1024);
+  it('defaults to the 300 kB budget from `sim-core-conventions`', () => {
+    expect(DEFAULT_BUDGET_BYTES).toBe(300 * 1024);
   });
 });
 
@@ -132,7 +132,8 @@ describe('the chart theme rides the lazy chunk, not the first load', () => {
     whether or not anything on screen uses it. That is the same wound, reopened
     one stylesheet at a time, and the JS budget alone cannot see it.
 
-    So: `charts.css` is imported from `loadCharts()` rather than from theme.css,
+    So: `charts.css` is imported from `loadCharts()` rather than from the entry
+    stylesheet (src/ui/shell/index.css),
     and this asserts the consequence — that dist/index.html links exactly one
     stylesheet, and that it is not the chart theme.
   */

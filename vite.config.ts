@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
   base: './',
-  plugins: [svelte()],
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       $core: fileURLToPath(new URL('./src/core', import.meta.url)),
@@ -13,6 +14,8 @@ export default defineConfig({
       $hud: fileURLToPath(new URL('./src/hud', import.meta.url)),
       $ui: fileURLToPath(new URL('./src/ui', import.meta.url)),
       $audio: fileURLToPath(new URL('./src/audio', import.meta.url)),
+      // flight_sim's kit, vendored byte-for-byte; it imports itself as @ui.
+      '@ui': fileURLToPath(new URL('./src/ui/kit', import.meta.url)),
     },
   },
   build: {

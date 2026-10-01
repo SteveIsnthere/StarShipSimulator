@@ -1,0 +1,41 @@
+@theme {
+	/* Portable Flying Bricks chrome. Product data palettes stay in styles/theme.css. */
+	--color-ui-bg: #000000;
+	--color-ui-surface: #050505;
+	--color-ui-surface-raised: #111111;
+	--color-ui-surface-sunken: #000000;
+	--color-ui-fg: #ffffff;
+	--color-ui-muted: #b8b8b8;
+	--color-ui-dim: #8a8a8a;
+	--color-ui-disabled-fg: #858585;
+	--color-ui-disabled-bg: #0a0a0a;
+	--color-ui-line: #ffffff;
+	--color-ui-line-muted: #5a5a5a;
+	--color-ui-selected: #ffffff;
+	--color-ui-on-selected: #000000;
+
+	/* Fixed semantic roles. White remains the product accent. */
+	--color-ui-danger: #ff6b6b;
+	--color-ui-warning: #ffd166;
+	--color-ui-success: #6ee7a0;
+
+	--radius-ui-control: 0px;
+	--radius-ui-panel: 0px;
+	--radius-ui-tile: 0px;
+	--radius-ui-sheet: 0px;
+
+	--motion-duration-fast: 140ms;
+	--motion-duration-base: 220ms;
+	--motion-duration-slow: 320ms;
+	--motion-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+	--motion-ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
+	--motion-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+	--font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-tight: 'Inter Tight', 'Inter', system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+
+	--z-page-footer: 40;
+	--z-input-legend: 50;
+	--z-overlay-portal: 60;
+}

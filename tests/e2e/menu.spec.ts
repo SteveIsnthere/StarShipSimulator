@@ -2,7 +2,7 @@
  * M4.4: the menu in a browser.
  */
 import { expect, test } from '@playwright/test';
-import { ready } from './helpers';
+import { ready, readout } from './helpers';
 
 async function openMenu(page: import('@playwright/test').Page) {
   await expect
@@ -65,11 +65,8 @@ test('Configure starts the new flight and closes the menu @smoke', async ({ page
   await expect(page.locator('[data-testid="menu"]')).toHaveCount(0);
 
   // 70 km, so the altitude readout switches to kilometres.
-  const altitude = page.locator('[data-testid="readout-altitude"]');
-  await expect(altitude.locator('.unit')).toHaveText('KM', { timeout: 5_000 });
-  await expect
-    .poll(async () => Number(await altitude.locator('.value').textContent()), { timeout: 5_000 })
-    .toBeGreaterThan(65);
+  await expect.poll(async () => (await readout(page, 'altitude')).unit, { timeout: 5_000 }).toBe('km');
+  await expect.poll(async () => (await readout(page, 'altitude')).value, { timeout: 5_000 }).toBeGreaterThan(65);
 
   // And the tanks are the preset's 500 t, not what the intro left behind.
   await expect

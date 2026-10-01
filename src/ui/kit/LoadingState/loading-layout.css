@@ -1,0 +1,57 @@
+@import 'tailwindcss/theme.css';
+@import '../tokens.css';
+
+/* Shared by the initial HTML stand-in and the React loading surface. */
+.ui-loading-stack {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	box-sizing: border-box;
+	width: 368px;
+	max-width: 100%;
+	padding: 20px 24px;
+	text-align: center;
+}
+.ui-loading-lockup { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.ui-loading-mark { width: 80px; height: 67px; object-fit: contain; }
+.ui-loading-status-slot { width: 100%; min-height: 20px; display: flex; align-items: center; justify-content: center; }
+.ui-loading-announcement {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+.ui-loading-status {
+	font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+	font-size: 11px;
+	line-height: 16px;
+	text-transform: uppercase;
+	letter-spacing: 0.18em;
+	color: var(--color-ui-muted);
+}
+
+/*
+ * The flight loading screen's page frame, shared with the static HTML stand-in: the
+ * hangar's own header (LandingPage: max-w-[1280px], px-4 sm:px-8 lg:px-10, pt-5 pb-5,
+ * border-b) and Wordmark size md (h-7 w-[33px] mark, text-base Inter Tight semibold).
+ * loadingParity pins these values to those components.
+ */
+.ui-loading-band { position: relative; z-index: 1; background: var(--color-ui-bg); }
+.ui-loading-frame { box-sizing: border-box; width: 100%; max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 16px; padding-right: 16px; }
+@media (min-width: 640px) { .ui-loading-frame { padding-left: 32px; padding-right: 32px; } }
+@media (min-width: 1024px) { .ui-loading-frame { padding-left: 40px; padding-right: 40px; } }
+.ui-loading-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--color-ui-line); }
+.ui-loading-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--color-ui-fg); }
+.ui-loading-brand-mark { width: 33px; height: 28px; object-fit: contain; }
+.ui-loading-brand-name { font-family: 'Inter Tight', 'Inter', system-ui, sans-serif; font-size: 16px; line-height: 24px; font-weight: 600; letter-spacing: -0.025em; }
+/* The stand-in's one message: shown only when the app itself fails to load. */
+.ui-loading-foot { position: relative; z-index: 1; margin-top: auto; padding-bottom: 32px; }
+.ui-loading-boot-error { margin: 0; font-family: 'Inter', system-ui, sans-serif; font-size: 15px; line-height: 20px; font-weight: 500; color: var(--color-ui-fg); }

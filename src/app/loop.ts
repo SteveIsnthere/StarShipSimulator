@@ -134,7 +134,7 @@ export interface AdvanceResult {
    * is one-directional and cumulative.
    *
    * It cost three milestones to find that out. `advance` already returned
-   * `steps` and `clamped`, which between them say the same thing; App.svelte
+   * `steps` and `clamped`, which between them say the same thing; the app's tick
    * discarded the whole result and passed its own `frameTime` to the camera,
    * the cloud deck, the distant earth and the particle system. On `reentry`
    * that put the vehicle 1734 px off the left edge of a 1280 px frame, and

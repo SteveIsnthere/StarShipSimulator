@@ -72,8 +72,8 @@ describe('the 2 ms budget', () => {
       frame path (gauges, bars, dots, chevron) and M6.3 a fourth (the event
       track). Measuring the readout binder alone would have kept saying 'green'
       while the actual per-frame cost grew — exactly the shape of regression a
-      budget exists to catch. So this measures what App.svelte's tick really
-      calls, in the order it calls it.
+      budget exists to catch. So this measures what the session's tick really
+      calls for the HUD, in the order it calls it.
     */
     const text = harness();
 
@@ -113,7 +113,7 @@ describe('the 2 ms budget', () => {
       out would have reintroduced exactly that blind spot one milestone after
       it was closed.
 
-      It is offered at 10 Hz through `update`, which is what App.svelte does, so
+      It is offered at 10 Hz through `update`, which is what the session's tick does, so
       what is measured is the real amortised cost: nine frames of one throttle
       check and a tenth that repaints.
     */

@@ -2,7 +2,7 @@
  * M6.1: the type, measured where it actually renders.
  *
  * tests/ui/tabular-digits.test.ts proves the FONT we chose has tabular figures,
- * from advance widths pinned in src/ui/fonts.ts. It cannot prove three things
+ * from advance widths pinned in src/ui/shell/fonts/metrics.ts. It cannot prove three things
  * that would each break the readouts just as thoroughly: that the woff2 files
  * ship and load, that the stylesheet asks for the tabular set, and that the
  * pinned numbers still describe the bytes on disk.
@@ -11,11 +11,23 @@
  * with the real stylesheet applied — the plan's test, done the plan's way.
  */
 import { expect, test } from '@playwright/test';
+import {
+  FAMILY,
+  FAMILY_DISPLAY,
+  FAMILY_MONO,
+  LARGEST_NUMERAL_PX,
+} from '../../src/ui/shell/fonts/metrics';
 
-/** Kept in step with src/ui/fonts.ts. */
-const FAMILY = 'Barlow Semi Condensed';
-const FAMILY_CONDENSED = 'Barlow Condensed';
-const LARGEST_NUMERAL_PX = 44;
+/** Every face index.css declares: family and weight. */
+const FACES = [
+  { family: FAMILY, weight: 400 },
+  { family: FAMILY, weight: 600 },
+  { family: FAMILY_DISPLAY, weight: 600 },
+  { family: FAMILY_MONO, weight: 500 },
+] as const;
+
+/** The faces whose default figures are proportional: the ones `tnum` matters for. */
+const PROPORTIONAL = FACES.filter((face) => face.family !== FAMILY_MONO);
 
 async function ready(page: import('@playwright/test').Page) {
   await expect
@@ -28,7 +40,7 @@ async function ready(page: import('@playwright/test').Page) {
   await page.evaluate(() => document.fonts.ready);
 }
 
-test('both faces load from the app itself, not from a CDN', async ({ page }) => {
+test('every face loads from the app itself, not from a CDN', async ({ page }) => {
   const fontRequests: string[] = [];
   page.on('request', (req) => {
     if (req.resourceType() === 'font') fontRequests.push(req.url());
@@ -37,18 +49,23 @@ test('both faces load from the app itself, not from a CDN', async ({ page }) => 
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
-  const loaded = await page.evaluate(
-    ([regular, condensed, size]) => ({
-      regular: document.fonts.check(`400 ${size}px '${regular}'`),
-      bold: document.fonts.check(`700 ${size}px '${regular}'`),
-      condensed: document.fonts.check(`400 ${size}px '${condensed}'`),
-    }),
-    [FAMILY, FAMILY_CONDENSED, LARGEST_NUMERAL_PX] as const,
-  );
+  // Each declared face, by its own FontFace status. Not `document.fonts.check`:
+  // that answers true for a family nobody declared, which once let this test
+  // pass against fonts that had been deleted.
+  const status = await page.evaluate(async (faces) => {
+    await Promise.all(faces.map((f) => document.fonts.load(`${f.weight} 16px '${f.family}'`)));
+    return faces.map((f) => {
+      const declared = [...document.fonts].filter(
+        (face) => face.family.replace(/['"]/g, '') === f.family && String(face.weight) === String(f.weight),
+      );
+      return { face: `${f.family} ${f.weight}`, declared: declared.length, loaded: declared.some((d) => d.status === 'loaded') };
+    });
+  }, FACES);
 
-  expect(loaded.regular, `${FAMILY} 400 did not load`).toBe(true);
-  expect(loaded.bold, `${FAMILY} 700 did not load`).toBe(true);
-  expect(loaded.condensed, `${FAMILY_CONDENSED} did not load`).toBe(true);
+  for (const face of status) {
+    expect(face.declared, `${face.face} is not declared`).toBeGreaterThan(0);
+    expect(face.loaded, `${face.face} did not load`).toBe(true);
+  }
 
   // Self-hosted is not optional: the 2021 build pulled two libraries from CDNs
   // and could not run offline because of it. tests/e2e/smoke.spec.ts holds the
@@ -83,7 +100,7 @@ test('1111 and 0000 measure the same width in the shipped type', async ({ page }
   await ready(page);
 
   const measured = await page.evaluate(
-    ([family, condensed, size]) => {
+    ([faces, size]) => {
       const host = document.createElement('div');
       host.style.cssText =
         'position:fixed;left:-9999px;top:0;white-space:pre;letter-spacing:0;line-height:1';
@@ -106,16 +123,12 @@ test('1111 and 0000 measure the same width in the shipped type', async ({ page }
         return context.measureText(text).width;
       };
 
-      const faces = [
-        { name: family, weight: 700, css: `'${family}'` },
-        { name: condensed, weight: 400, css: `'${condensed}'` },
-      ];
-
       const out = faces.map((face) => {
-        const base = `font-family:${face.css};font-weight:${face.weight};font-size:${size}px;`;
-        const canvasFont = `${face.weight} ${size}px ${face.css}`;
+        const css = `'${face.family}'`;
+        const base = `font-family:${css};font-weight:${face.weight};font-size:${size}px;`;
+        const canvasFont = `${face.weight} ${size}px ${css}`;
         return {
-          name: face.name,
+          name: `${face.family} ${face.weight}`,
           tabular: {
             ones: domWidth('1111', `${base}font-variant-numeric:tabular-nums;`),
             zeroes: domWidth('0000', `${base}font-variant-numeric:tabular-nums;`),
@@ -130,7 +143,7 @@ test('1111 and 0000 measure the same width in the shipped type', async ({ page }
       host.remove();
       return out;
     },
-    [FAMILY, FAMILY_CONDENSED, LARGEST_NUMERAL_PX] as const,
+    [PROPORTIONAL, LARGEST_NUMERAL_PX] as const,
   );
 
   for (const face of measured) {
@@ -163,6 +176,7 @@ test('the readouts themselves are set in the tabular face', async ({ page }) => 
       };
     });
 
-  expect(style.family).toContain(FAMILY);
+  // The primary readouts are display numerals (design-system.md §5).
+  expect(style.family).toContain(FAMILY_DISPLAY);
   expect(style.numeric).toContain('tabular-nums');
 });

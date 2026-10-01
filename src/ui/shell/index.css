@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+/* flight_sim's kit: tokens, the one focus owner, primitives and motion. */
+@import '../kit/tokens.css';
+@import '../kit/styles/primitives.css';
+@import '../kit/styles/focus.css';
+@import '../kit/styles/motion.css';
+
+/*
+ * Self-hosted and subset (src/ui/shell/fonts/README.md): Inter for the
+ * interface, Inter Tight for display, JetBrains Mono for measured values.
+ * The family names match the kit's --font-* tokens. swap, so text is never
+ * invisible while a face loads.
+ */
+@font-face {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('./fonts/Inter-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('./fonts/Inter-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter Tight';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('./fonts/InterTight-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('./fonts/JetBrainsMono-Medium.woff2') format('woff2');
+}
+
+/*
+ * The product's flight tokens (docs/design/design-system.md §4, §8). The
+ * semantic roles alias the kit's; the backing is the one translucent surface,
+ * for in-flight chrome only.
+ */
+@theme {
+  --color-flight-backing: rgb(0 0 0 / 0.68);
+  --color-flight-backing-line: rgb(255 255 255 / 0.28);
+  --color-flight-caution: var(--color-ui-warning);
+  --color-flight-alarm: var(--color-ui-danger);
+  --color-flight-good: var(--color-ui-success);
+  --color-plume: #ffb15a;
+  /* A slider's unfilled rail, a chart's grid and its drag selection. */
+  --color-flight-rail: rgb(255 255 255 / 0.25);
+  --color-flight-grid: rgb(255 255 255 / 0.08);
+  --color-flight-selection: rgb(255 255 255 / 0.1);
+}
+
+html,
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  color: var(--color-ui-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Every number on screen is tabular: a value never shifts as its digits change. */
+body {
+  font-variant-numeric: tabular-nums;
+}
+
+/* In-flight chrome: square, translucent black, a light perimeter. */
+.flight-panel {
+  background: var(--color-flight-backing);
+  border: 1px solid var(--color-flight-backing-line);
+}
+
+/*
+ * Reduced motion is the kit's (styles/motion.css): every transition 0s. Not
+ * redeclared here. A 0.01ms override once made EVERY element transition (the
+ * default transition-property is `all`), so a hidden panel stayed painted for
+ * a frame after it was hidden.
+ */

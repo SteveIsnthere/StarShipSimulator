@@ -74,8 +74,8 @@ export interface AudioEngine {
   /**
    * Push one frame of simulation state.
    *
-   * Called from App.svelte's single rAF subscriber, like every binder in
-   * `hud/`. Costs one property read while muted or before the first gesture,
+   * Called from the session's single rAF tick (`src/ui/session/session.ts`),
+   * like every binder in `hud/`. Costs one property read while muted or before the first gesture,
    * and a handful of diffed comparisons after it.
    */
   update(state: SimState): void;

@@ -10,15 +10,38 @@ export default defineConfig({
       $hud: fileURLToPath(new URL('./src/hud', import.meta.url)),
       $ui: fileURLToPath(new URL('./src/ui', import.meta.url)),
       $audio: fileURLToPath(new URL('./src/audio', import.meta.url)),
+      '@ui': fileURLToPath(new URL('./src/ui/kit', import.meta.url)),
     },
   },
   test: {
     // core/ must run in plain Node with no browser. Keeping the default
     // environment enforces that: a DOM leak into core/ fails here, not in review.
     environment: 'node',
-    include: ['tests/**/*.test.ts', 'src/**/*.test.ts'],
-    // Wall-clock budgets run on demand (`npm run bench`, vitest.timing.config.ts).
-    exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts'],
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'unit',
+          include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx', 'src/**/*.test.ts'],
+          // Wall-clock budgets run on demand (`npm run bench`); the vendored
+          // kit's own tests run in the jsdom project below.
+          exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts', 'src/ui/kit/**'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'kit',
+          environment: 'jsdom',
+          // As flight_sim runs them: Testing Library cleans the DOM between
+          // tests through the global afterEach.
+          globals: true,
+          include: ['src/ui/kit/**/*.test.ts', 'src/ui/kit/**/*.test.tsx'],
+          exclude: [...configDefaults.exclude],
+          setupFiles: ['tests/setup-dom.ts'],
+        },
+      },
+    ],
     testTimeout: 30_000,
     coverage: {
       provider: 'v8',
@@ -27,7 +50,7 @@ export default defineConfig({
       // scope (VERIFICATION-PLAN.md@d2839b9 § Scope).
       // A file with no tests at all still counts against the number: in Vitest 4
       // that is the default for everything matched by `include`, and the old
-      // `all: true` flag is gone (svelte-check rejects it — CoverageOptions has
+      // `all: true` flag is gone (the type-check rejects it — CoverageOptions has
       // no such property). This was verified rather than assumed, against
       // `version.ts`, which no test imported and which duly reported 0% line.
       // That file is gone as of M10.11; add an unimported module here and it

@@ -1,8 +1,7 @@
 import js from '@eslint/js';
 import ts from 'typescript-eslint';
-import svelte from 'eslint-plugin-svelte';
+import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
-import svelteConfig from './svelte.config.js';
 
 /**
  * The seven walls (`sim-core-conventions`). Each maps to a specific 2021 wound:
@@ -36,8 +35,14 @@ export const CORE_WALL_RULES = {
             '$app/*',
             'pixi.js',
             'pixi.js/*',
-            'svelte',
-            'svelte/*',
+            'react',
+            'react/*',
+            'react-dom',
+            'react-dom/*',
+            'zustand',
+            'zustand/*',
+            '@ui',
+            '@ui/*',
           ],
           message: 'Wall 1: core/ is pure. No renderer, UI, HUD or app imports.',
         },
@@ -115,6 +120,8 @@ export default ts.config(
   {
     ignores: [
       'dist/**',
+      // flight_sim's kit, vendored byte-for-byte; flight_sim lints it.
+      'src/ui/kit/**',
       // The staged copy of dist/ that the subpath deploy test serves (M5.3).
       '.subpath/**',
       /*
@@ -135,7 +142,6 @@ export default ts.config(
 
   js.configs.recommended,
   ...ts.configs.recommended,
-  ...svelte.configs.recommended,
 
   {
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
@@ -149,17 +155,47 @@ export default ts.config(
   },
 
   {
-    files: ['**/*.svelte', '**/*.svelte.ts'],
-    languageOptions: {
-      parserOptions: {
-        // The Svelte parser handles the template; TypeScript inside
-        // <script lang="ts"> needs the TS parser delegated to explicitly, or
-        // inline `type` imports fail to parse.
-        parser: ts.parser,
-        projectService: true,
-        extraFileExtensions: ['.svelte'],
-        svelteConfig,
-      },
+    // The rules of hooks, as flight_sim applies them to the same kit.
+    files: ['src/**/*.tsx'],
+    plugins: { 'react-hooks': reactHooks },
+    rules: { ...reactHooks.configs.recommended.rules },
+  },
+
+  {
+    // The session is framework-free: the shell renders it, it never renders.
+    files: ['src/ui/session/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          // Exact: zustand/vanilla is the framework-free store the session uses.
+          paths: [{ name: 'zustand', message: 'src/ui/session is framework-free: use zustand/vanilla.' }],
+          patterns: [
+            {
+              group: ['react', 'react/*', 'react-dom', 'react-dom/*', '@ui', '@ui/*', '$ui/shell/*'],
+              message: 'src/ui/session is framework-free: no React and no shell imports.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    // The shell reaches the world, sound and loop only through the session.
+    files: ['src/ui/shell/**/*.ts', 'src/ui/shell/**/*.tsx'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['$view/*', '$audio/*'],
+              message: 'The shell talks to src/ui/session, not to the view or audio layers directly.',
+            },
+          ],
+        },
+      ],
     },
   },
 

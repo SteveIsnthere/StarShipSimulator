@@ -34,7 +34,7 @@ Phase 1, Task 1: move every tracked path under `v2/` to the repo root in a commi
 - **Capability parity:** every 2021 control keeps a working equivalent (`tests/e2e/parity.spec.ts`). Labels, layout and keys may change.
 - **The seven walls** and a pure, deterministic `step()` (`sim-core-conventions`). The one sanctioned global is `window.__simDebug` in `src/app/debug.ts` (Phase 2 Task 5).
 - **Physics changes only under a tier** from `physics-change-policy`. This roadmap is the approval for the Fidelity changes Phases 5–7 name. Truth tests are never re-blessed; no tuning constant moves to pass one.
-- **Budgets:** first-load JS ≤ 250 kB gzip; the light gate ≤ 5 minutes on Steve's Mac; hosted CI ≤ 20 minutes.
+- **Budgets:** first-load JS ≤ 300 kB gzip (250 until the React shell, whose React DOM costs about 45 kB; re-baselined in Phase 4 and recorded in the handover); the light gate ≤ 5 minutes on Steve's Mac; hosted CI ≤ 20 minutes.
 - **`tests/fixtures/legacy/`** (the archived 2021 game) is never modified.
 - **flight_sim is read-only.** Copy from `/Users/stevewang/dev/flight_sim/web/src/ui/`; never edit that repo.
 - **Stay JavaScript/TypeScript.** No Rust, no WASM, no new language runtime.

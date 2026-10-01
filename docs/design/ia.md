@@ -8,12 +8,16 @@ The default screen is the flight. Four zones, each with one job:
 
 | zone | holds | rule |
 |---|---|---|
-| **Primary cluster** (bottom-centre on desktop; a strip above the controls on a phone) | altitude, vertical speed, speed, propellant, engines and throttle, attitude | always visible in flight; never covered |
+| **Primary cluster** (top-centre under the status bar; on a phone a full-width strip there) | altitude, vertical speed, speed, propellant, engines and throttle, attitude | always visible in flight; never covered. Gives its zone to the debrief once a flight ends |
 | **Status bar** (top) | wordmark, scenario and phase, mission clock, *Pause*, *Menu* | one row at every width |
-| **Controls** (left: *Engines*; right: *Flight*) | grouped by use, below | collapse to a single button each on a phone, opening a sheet under the primary strip |
+| **Controls** (bottom-left: *Engines*; bottom-right: *Flight*) | grouped by use, below | collapse to a tab each on a phone, opening one sheet at a time; held sideways, narrower rails that start folded and open one at a time |
 | **Situational** (beside the primary cluster) | the landing cue, heating, max-Q, warnings, toasts | appear only when they matter; never stack more than two |
 
-The secondary readouts (horizontal speed, mach, Q, g, TWR, range) live in an expandable row beneath the primary cluster, collapsed on a phone. The trajectory map is a corner card, folded by default on a phone. The onboard camera inset appears during re-entry only, in a fixed corner that does not collide with the status bar.
+The secondary readouts (horizontal speed, mach, Q, g, TWR, range) live in an expandable row beneath the primary cluster, collapsed on a phone. The trajectory map is a top-right card, folded by default on a phone in either orientation.
+
+**Why the cluster is at the top** (changed 2026-10-01, from bottom-centre): the camera brings the vehicle to rest at the bottom of the world, so a bottom cluster covered it on the pad and at touchdown, the two moments a pilot most needs to see it. The sky above is empty in every phase. On a phone the world ends above the controls (the tab bar, and a sheet while one is open), so the camera reframes rather than being covered.
+
+**Three layouts** (`src/ui/shell/layout.ts`): *wide*; *phone* (portrait, ≤ 600 px); *short* (landscape under 500 px tall, a phone held sideways: the phone's compact cluster between 216 px rails). The onboard camera inset appears during re-entry only, in a fixed corner that does not collide with the status bar.
 
 ### Controls, grouped by how often they are used
 

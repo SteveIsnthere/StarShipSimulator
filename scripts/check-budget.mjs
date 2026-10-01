@@ -1,6 +1,6 @@
 /**
  * Bundle budget gate. Fails the build when first-load JS exceeds the budget.
- * Budget comes from `sim-core-conventions` § Per-frame performance: first-load JS <= 250 kB gzip.
+ * Budget: first-load JS <= 300 kB gzip (`sim-core-conventions` § Per-frame performance).
  *
  * "First load" is the synchronously-fetched module graph of dist/index.html:
  * its <script src> entries plus every <link rel="modulepreload">. Chunks that
@@ -13,7 +13,14 @@ import { readdir, readFile } from 'node:fs/promises';
 import { gzipSync } from 'node:zlib';
 import { join, resolve } from 'node:path';
 
-export const DEFAULT_BUDGET_BYTES = 250 * 1024;
+/*
+ * 300 kB since the React shell (2026-10-01). It was 250 kB for the Svelte build;
+ * React DOM alone is about 45 kB gzip and Steve chose React to share
+ * flight_sim's kit, so the budget moved with that decision rather than the app
+ * contorting around it. Measured at the change: 274.7 kB with the menu, black box
+ * and debrief lazy. PixiJS is most of the rest.
+ */
+export const DEFAULT_BUDGET_BYTES = 300 * 1024;
 
 /**
  * The font budget, self-imposed by M6 (BROADCAST-UI-PLAN.md@d2839b9 § 6).

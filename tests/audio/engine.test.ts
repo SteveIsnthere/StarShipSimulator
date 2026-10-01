@@ -556,7 +556,7 @@ describe('transients reach the bank through the engine (M8.4)', () => {
     expect(first).toBeGreaterThan(0);
 
     // Without a reset the latches are spent: the second flight's touchdown
-    // would be swallowed. `resetFlight` is what App.svelte calls on Configure.
+    // would be swallowed. `resetFlight` is what the session's startFlight calls on Configure.
     engine.resetFlight();
     fly();
     expect(engine.transientCount).toBeGreaterThan(first);

@@ -46,14 +46,18 @@ test('the overlay stays inside the viewport @mobile', async ({ page }) => {
   }
 });
 
-test('every control a finger has to hit is big enough @mobile', async ({ page }) => {
+test('every control is big enough for the pointer it has @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
   await openControls(page);
 
-  // 44px is the floor the plan sets and the one both platform guidelines use.
-  // Checked on the real laid-out boxes rather than on the CSS, because padding,
-  // line-height and flex all get a vote.
+  // Density follows the pointer (design-system.md §6): 44 px wherever a finger
+  // can be the pointer — the floor both platform guidelines use — and the kit's
+  // 32 px for a mouse alone. Checked on the real laid-out boxes rather than on
+  // the CSS, because padding, line-height and flex all get a vote.
+  // The kit's own query (src/ui/kit/styles/primitives.css).
+  const coarse = await page.evaluate(() => window.matchMedia('(any-pointer: coarse), (any-pointer: none)').matches);
+  const floor = coarse ? 43.5 : 31.5;
   const SMALL: string[] = [];
   for (const id of [
     'raptor-0',
@@ -67,7 +71,7 @@ test('every control a finger has to hit is big enough @mobile', async ({ page })
   ]) {
     const box = await page.locator(byTestId(id)).boundingBox();
     if (!box) continue;
-    if (box.height < 43.5) SMALL.push(`${id} ${box.height.toFixed(1)}px tall`);
+    if (box.height < floor) SMALL.push(`${id} ${box.height.toFixed(1)}px tall`);
   }
   expect(SMALL).toEqual([]);
 });
@@ -79,14 +83,22 @@ const measureCanvas = (page: import('@playwright/test').Page) =>
     return { w: Math.round(rect.width), h: Math.round(rect.height) };
   });
 
-test('the canvas fills the viewport @mobile', async ({ page }) => {
+test('the world fills the screen down to the controls @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
+  // Full width, from the top edge. On a phone it stops at the controls' tab
+  // bar, so the ground and the vehicle on it are never under the controls
+  // (ia.md); everywhere else it runs to the bottom edge.
   const viewport = page.viewportSize()!;
-  const canvas = await measureCanvas(page);
-  expect(canvas.w).toBe(viewport.width);
-  expect(canvas.h).toBe(viewport.height);
+  const canvas = await page.locator(byTestId('world-canvas')).boundingBox();
+  const tabBar = page.getByRole('navigation', { name: 'Controls' });
+  const floor = (await tabBar.isVisible()) ? (await tabBar.boundingBox())!.y : viewport.height;
+  expect(canvas).not.toBeNull();
+  expect(Math.round(canvas!.x)).toBe(0);
+  expect(Math.round(canvas!.y)).toBe(0);
+  expect(Math.round(canvas!.width)).toBe(viewport.width);
+  expect(Math.abs(canvas!.y + canvas!.height - floor)).toBeLessThanOrEqual(1);
 });
 
 /**
@@ -196,6 +208,27 @@ test('the panels are sheets, and only one opens at a time @mobile @mobile-only @
   await page.locator(byTestId('yoke-panel-toggle')).click();
   await expect(yoke).toBeVisible();
   await expect(engines).not.toBeVisible();
+});
+
+test('no sheet ever covers the primary strip @mobile @mobile-only @portrait-only', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  expect(await isPhoneLayout(page)).toBe(true);
+
+  // ia.md: the flight data is never covered. The strip sits under the status
+  // bar and the sheets rise from the tab bar; this holds them apart, with
+  // Details open, which is the strip at its tallest.
+  await page.locator(byTestId('hud-toggle')).click();
+  const strip = (await page.getByRole('region', { name: 'Flight data' }).boundingBox())!;
+  for (const [toggle, control] of [
+    ['engine-panel-toggle', 'throttle'],
+    ['yoke-panel-toggle', 'yoke-pitch'],
+  ] as const) {
+    await page.locator(byTestId(toggle)).click();
+    await expect(page.locator(byTestId(control))).toBeVisible();
+    const sheet = (await page.getByRole('region', { name: toggle === 'engine-panel-toggle' ? 'Engines' : 'Flight', exact: true }).boundingBox())!;
+    expect(sheet.y, `${toggle}: sheet top vs strip bottom`).toBeGreaterThanOrEqual(strip.y + strip.height);
+  }
 });
 
 test('a closed sheet cannot be tabbed into @mobile @mobile-only @portrait-only', async ({

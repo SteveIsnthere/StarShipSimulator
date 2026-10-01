@@ -1,0 +1,35 @@
+{
+  // The vendored kit (src/ui/kit, a byte-for-byte copy of flight_sim's
+  // web/src/ui) is type-checked under flight_sim's own compiler settings and
+  // emits declarations. tsconfig.json checks the rest of the app against those
+  // declarations, so this repo's stricter settings never require editing the
+  // kit, and the kit never loosens them for the app.
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./node_modules/.kit-types",
+    "rootDir": "./src/ui/kit",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.kit.tsbuildinfo",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ui": ["src/ui/kit/index.ts"],
+      "@ui/*": ["src/ui/kit/*"]
+    }
+  },
+  "include": ["src/ui/kit/**/*.ts", "src/ui/kit/**/*.tsx"],
+  "exclude": ["src/ui/kit/**/*.test.ts", "src/ui/kit/**/*.test.tsx"]
+}

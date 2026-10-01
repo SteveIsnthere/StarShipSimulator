@@ -21,8 +21,7 @@ const HINT = byTestId(HINT_ID);
  *
  * A landscape phone has 45 px between the top strip's buttons and the
  * trajectory tab, and the hint's dismiss button alone is the 44 px touch floor.
- * `Broadcast.svelte`'s `hint-slot` records the four placements that were tried
- * and what each one displaced. The hint is a courtesy; the instruments are not.
+ * `HINT_FITS` in `src/ui/session/session.ts` is that cut-off. The hint is a courtesy; the instruments are not.
  */
 const noRoom = (page: Page): Promise<boolean> =>
   page.evaluate(() => window.matchMedia('(height < 26rem)').matches);

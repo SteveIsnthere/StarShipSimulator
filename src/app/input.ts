@@ -15,7 +15,7 @@
  *
  * The bindings themselves are 2021's, key for key.
  */
-import type { ControlEvent } from '$ui/controls';
+import type { ControlEvent } from './controls';
 
 /** Actions that belong to the view rather than the simulation. */
 export type ViewAction = { readonly type: 'zoom'; readonly direction: 1 | -1 };

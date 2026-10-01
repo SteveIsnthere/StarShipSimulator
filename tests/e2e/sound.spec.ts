@@ -12,7 +12,7 @@ import { expect, test } from '@playwright/test';
 
 type Page = import('@playwright/test').Page;
 import { byTestId } from '../../src/ui/testids';
-import { ready } from './helpers';
+import { ready, worldPoint } from './helpers';
 
 const TOGGLE = byTestId('mute-toggle');
 const MENU = byTestId('open-menu');
@@ -136,7 +136,7 @@ test('a gesture brings the context to running, and mute suspends it @mobile', as
   expect(await state()).toBeNull();
 
   // A click on the world is a gesture, and the commonest one.
-  await page.locator(byTestId('world-canvas')).click({ position: { x: 10, y: 10 } });
+  await page.locator(byTestId('world-canvas')).click({ position: await worldPoint(page) });
   await expect.poll(state, { timeout: 5_000 }).toBe('running');
 
   // Muting SUSPENDS it — SOUND-PLAN § 3.4 — rather than zeroing a gain, so a
@@ -169,7 +169,7 @@ test('the level reaches the master gain, and is remembered @mobile', async ({ pa
 
   // A gesture, so there is a graph at all — before one there is no gain to read
   // and the autoplay policy says there must not be.
-  await page.locator(byTestId('world-canvas')).click({ position: { x: 10, y: 10 } });
+  await page.locator(byTestId('world-canvas')).click({ position: await worldPoint(page) });
   await expect.poll(() => masterGain(page), { timeout: 5_000 }).toBeCloseTo(1, 5);
 
   await setLevel(page, 30);
@@ -179,7 +179,7 @@ test('the level reaches the master gain, and is remembered @mobile', async ({ pa
   // component's own state cannot fake.
   await page.reload({ waitUntil: 'load' });
   await ready(page);
-  await page.locator(byTestId('world-canvas')).click({ position: { x: 10, y: 10 } });
+  await page.locator(byTestId('world-canvas')).click({ position: await worldPoint(page) });
   await expect.poll(() => masterGain(page), { timeout: 5_000 }).toBeCloseTo(0.3, 5);
   await page.locator(MENU).click();
   await expect(page.locator(byTestId('menu-volume-readout'))).toHaveText('30%');
@@ -190,7 +190,7 @@ test('the level is not a mute, and mute is not a level @mobile', async ({ page }
   await watchMasterGain(page);
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
-  await page.locator(byTestId('world-canvas')).click({ position: { x: 10, y: 10 } });
+  await page.locator(byTestId('world-canvas')).click({ position: await worldPoint(page) });
   await expect.poll(() => masterGain(page), { timeout: 5_000 }).toBeCloseTo(1, 5);
 
   // Muting suspends and leaves the gain where the settings left it.
@@ -235,7 +235,7 @@ test('restore defaults puts back every remembered preference @mobile', async ({ 
   await page.locator(MENU).click();
   await page.locator(byTestId('menu-restore-defaults')).click();
   // Restore Defaults closes the menu itself, so the restored first-flight hint
-  // is visible (App.svelte, restoreDefaults).
+  // is visible (session.ts, restoreDefaults).
   await expect(page.locator(byTestId('menu'))).toBeHidden();
 
   await expect(page.locator(TOGGLE)).toHaveAttribute('aria-pressed', 'true');
@@ -247,7 +247,7 @@ test('restore defaults puts back every remembered preference @mobile', async ({ 
     next visit, which is the worst thing this button could do.
   */
   await expect(map).toHaveAttribute('aria-expanded', String(!foldedToStart));
-  await page.locator(byTestId('world-canvas')).click({ position: { x: 10, y: 10 } });
+  await page.locator(byTestId('world-canvas')).click({ position: await worldPoint(page) });
   await expect.poll(() => masterGain(page), { timeout: 5_000 }).toBeCloseTo(1, 5);
 
   // And it is the STORAGE that was cleared, not just the live state: a reload

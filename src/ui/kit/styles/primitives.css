@@ -1,0 +1,141 @@
+.ui-target {
+	min-height: 32px;
+}
+
+.ui-icon-target {
+	min-width: 32px;
+	min-height: 32px;
+}
+
+.ui-text-field {
+	min-height: 32px;
+}
+
+/* Layout owns safe-area spacing; content remains opaque and scrolls in one
+ * body. `max()` preserves the desktop breathing room when no cutout exists.
+ * This rule owns all four insets and is unlayered, so it beats any Tailwind
+ * position utility: a shell centres between the insets with `mx-auto` and a
+ * max width, never with `left-1/2 -translate-x-1/2`. */
+.ui-safe-viewport {
+	top: max(1rem, env(safe-area-inset-top));
+	right: max(1rem, env(safe-area-inset-right));
+	bottom: max(1rem, env(safe-area-inset-bottom));
+	left: max(1rem, env(safe-area-inset-left));
+	height: auto;
+	max-height: calc(100dvh - max(1rem, env(safe-area-inset-top)) - max(1rem, env(safe-area-inset-bottom)));
+}
+
+/* Edge-anchored live-scene chrome (HUD corners, touch controls, minimap,
+ * cards, sheets). Margins shift an absolutely or fixed positioned element away
+ * from whichever edges it is anchored to by that edge's inset, so one class
+ * works in every corner and both landscape directions without changing the
+ * element's own offsets; on screens without insets it is inert. Full-bleed
+ * layers (the conformal cockpit HUD, weather on the glass) must not use it.
+ * Unlayered, so it replaces margin utilities: never combine the two. */
+.ui-safe-margins {
+	margin: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+
+/* Horizontally centred chrome (`left-1/2 -translate-x-1/2`) takes only its
+ * vertical inset: a side margin would pull it off centre. Its width subtracts
+ * twice the larger side inset, so a centred box clears a notch on either side:
+ * `w-[min(520px,calc(var(--ui-safe-width)-24px))]`. */
+:root {
+	--ui-safe-inset-x: max(env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+	--ui-safe-width: calc(100vw - 2 * var(--ui-safe-inset-x));
+}
+
+.ui-safe-margin-top {
+	margin-top: env(safe-area-inset-top, 0px);
+}
+
+.ui-safe-margin-bottom {
+	margin-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.ui-safe-page {
+	padding-top: max(1rem, env(safe-area-inset-top));
+	padding-right: max(1rem, env(safe-area-inset-right));
+	padding-bottom: max(6rem, env(safe-area-inset-bottom));
+	padding-left: max(1rem, env(safe-area-inset-left));
+}
+
+@media (min-width: 640px) {
+	.ui-safe-viewport {
+		top: max(2rem, env(safe-area-inset-top));
+		bottom: max(2rem, env(safe-area-inset-bottom));
+		max-height: calc(100dvh - max(2rem, env(safe-area-inset-top)) - max(2rem, env(safe-area-inset-bottom)));
+	}
+	.ui-safe-page {
+		padding-right: max(1.5rem, env(safe-area-inset-right));
+		padding-left: max(1.5rem, env(safe-area-inset-left));
+	}
+}
+
+@media (any-pointer: coarse), (any-pointer: none) {
+	.ui-target,
+	.ui-icon-target,
+	.ui-text-field {
+		min-height: 44px;
+	}
+	.ui-icon-target {
+		min-width: 44px;
+	}
+	.ui-text-field {
+		font-size: 16px;
+	}
+}
+
+html[data-gp-nav] .ui-target,
+html[data-gp-nav] .ui-icon-target,
+html[data-gp-nav] .ui-text-field {
+	min-height: 44px;
+}
+
+html[data-gp-nav] .ui-icon-target {
+	min-width: 44px;
+}
+
+.ui-disabled,
+:disabled.ui-target,
+:disabled.ui-icon-target,
+:disabled.ui-text-field {
+	color: var(--color-ui-disabled-fg);
+	background: var(--color-ui-disabled-bg);
+	border-color: var(--color-ui-line-muted);
+	border-style: solid;
+	cursor: not-allowed;
+}
+
+.ui-disabled:hover,
+:disabled.ui-target:hover,
+:disabled.ui-icon-target:hover,
+:disabled.ui-text-field:hover {
+	color: var(--color-ui-disabled-fg);
+	background: var(--color-ui-disabled-bg);
+	border-color: var(--color-ui-line-muted);
+}
+
+.ui-overlay-panel {
+	background: var(--color-ui-bg);
+	border: 1px solid var(--color-ui-line);
+	box-shadow: none;
+	backdrop-filter: none;
+}
+
+.depress {
+	transition: transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.depress:active {
+	transform: translateY(1px);
+	transition-duration: 80ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.depress,
+	.depress:active {
+		transform: none;
+		transition: none;
+	}
+}

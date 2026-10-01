@@ -192,7 +192,7 @@ different vehicle, and nobody would have been able to say which parts changed.
 Dependencies point down. Only down.
 
 ```
-src/ui/     Svelte 5 — panels, menu, editor, black box. Interaction-driven only.
+src/ui/     React shell on a framework-free session controller. Interaction-driven only.
 src/hud/    The HUD binder. One rAF subscriber, diffs state, writes text nodes.
 src/view/   PixiJS v8 — sprites, pooled particles, camera, sky. No game logic.
 src/app/    The loop, input, the flight recorder, offline support.
@@ -271,7 +271,7 @@ is a feedback loop. A proof of mathematical identity is not a proof of bit-ident
 npm install
 npm run dev        # vite dev server
 npm run lint       # eslint, including the seven walls
-npm run build      # svelte-check, vite build, service worker, bundle budget
+npm run build      # type-check, scanners, vite build, service worker, bundle budget
 npm run test       # vitest — 1585 tests. Needs a build: the offline suite reads dist/
 npm run coverage   # the same, with enforced floors on src/core/**
 npm run test:e2e   # playwright — 429 tests across five projects, ~50 min on a quiet machine

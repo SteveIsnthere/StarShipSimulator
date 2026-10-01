@@ -4,79 +4,55 @@
  * Three things, each of which the design could plausibly have got wrong and
  * none of which is visible by looking:
  *
- *   THE CONTRAST BAND. `tests/ui/contrast.test.ts` certifies that white ink
- *   over the scrim over a noon sky clears AA — but only up to three quarters
- *   of the scrim's height, because above that the gradient has faded and
- *   nothing would pass. That is a claim about the STYLESHEET. This is the other
- *   half: a claim about the LAYOUT, that no text is actually up there. Neither
- *   test means much alone.
+ *   THE BACKING. `tests/ui/contrast.test.ts` certifies that the interface's
+ *   text clears AA on the flight backing over a noon sky. That is a claim about
+ *   the STYLESHEET. This is the other half: a claim about the LAYOUT, that every
+ *   live number actually sits on that backing (or on an opaque surface) rather
+ *   than on the bare sky. Neither test means much alone.
  *
  *   FOCUS. The 2021 build had no focus styling at all and was mouse-only in
  *   practice. Every control is a real button now, so the keyboard already
  *   works; what has to be true is that you can SEE where it is.
  *
- *   MOTION. Two things blink — the engine dots during ignition, the current
- *   timeline event — and both are genuine signals rather than decoration, so
- *   under `prefers-reduced-motion` they hold still rather than disappearing.
+ *   MOTION. State is drawn by shape, never by motion alone: an engine reads
+ *   off · igniting · lit · failed as an empty, centred, solid or crossed
+ *   square (design-system.md §9). And under `prefers-reduced-motion` every
+ *   transition in the interface collapses to an instant.
  */
 import { expect, test } from '@playwright/test';
 import { byTestId, READOUT_IDS, readoutValueTestId } from '../../src/ui/testids';
-import { isCompactLayout, ready } from './helpers';
+import { ready } from './helpers';
 
 /**
- * Must match TEXT_BAND_TOP and PHONE_BAND_TOP in tests/ui/contrast.test.ts.
- *
- * Two numbers because there are two scrims, and which one applies is decided by
- * COMPRESSION rather than by width: a compressed lower third — narrow, or short
- * and landscape — puts text higher up its own ramp, so `--scrim-phone` holds
- * its depth further up to carry the same contrast budget.
- *
- * That distinction was learned twice. The two portrait projects failed first
- * and were fixed with a width query; the two landscape ones then failed the
- * same way, because a landscape phone is over 600px wide and had been treated
- * as a desktop. Which is the argument for running all four.
+ * The shallowest background a live number may sit on. Below the flight
+ * backing's 0.68 (src/ui/shell/index.css) by a margin, so a deliberate deepening
+ * never trips it; the bare sky (no background at all) always does.
  */
-const TEXT_BAND_TOP = 0.75;
-const COMPACT_BAND_TOP = 0.9;
+const BACKED_ALPHA = 0.6;
 
-test('no text sits above the part of the scrim that was certified @mobile', async ({ page }) => {
+test('every live number sits on the backing, not on the bare sky @mobile', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
-  const lower = await page.locator(byTestId('readout-speed')).evaluate((el) => {
-    // Walk up to the element that paints the scrim.
-    let node: HTMLElement | null = el as HTMLElement;
-    while (node && !getComputedStyle(node).backgroundImage.includes('linear-gradient')) {
-      node = node.parentElement;
-    }
-    if (!node) return null;
-    const rect = node.getBoundingClientRect();
-    return { top: rect.top, height: rect.height };
-  });
-  expect(lower, 'the lower third should paint a gradient').not.toBeNull();
-
   // Every readout the binder writes into, plus the timeline's narration.
-  const ids = [
-    ...READOUT_IDS.filter((id) => id !== 'clock').map(readoutValueTestId),
-    'event-now',
-  ];
-
-  const bandTop = (await isCompactLayout(page)) ? COMPACT_BAND_TOP : TEXT_BAND_TOP;
+  const ids = [...READOUT_IDS.map(readoutValueTestId), 'event-now'];
 
   const offenders: string[] = [];
   for (const id of ids) {
     const locator = page.locator(byTestId(id));
-    if ((await locator.count()) === 0) continue;
-    const box = await locator.boundingBox();
-    if (!box) continue;
-    // 0 at the bottom of the scrim, 1 at its top — the same axis the contrast
-    // model uses. The TOP of the text box is what matters: that is its
-    // thinnest-scrim edge.
-    const height = lower!.height;
-    const fromBottom = (lower!.top + height - box.y) / height;
-    if (fromBottom > bandTop) {
-      offenders.push(`${id} at ${(fromBottom * 100).toFixed(0)}% up the scrim`);
-    }
+    if ((await locator.count()) === 0 || !(await locator.first().isVisible())) continue;
+    const backed = await locator.first().evaluate((el, floor) => {
+      // Walk up to the first ancestor that paints a background, and require it
+      // to be at least as deep as the backing contrast.test certifies.
+      for (let node: HTMLElement | null = el as HTMLElement; node; node = node.parentElement) {
+        const match = /rgba?\(([^)]+)\)/.exec(getComputedStyle(node).backgroundColor);
+        const parts = match ? match[1]!.split(/[ ,/]+/).filter(Boolean) : [];
+        const alpha = parts.length === 4 ? Number(parts[3]) : parts.length === 3 ? 1 : 0;
+        if (alpha > 0) return alpha >= floor;
+      }
+      return false;
+    }, BACKED_ALPHA);
+    if (!backed) offenders.push(id);
   }
   expect(offenders).toEqual([]);
 });
@@ -127,33 +103,44 @@ test('a control operated by keyboard actually does something @mobile', async ({ 
   await expect(toggle).toHaveAttribute('aria-pressed', 'false');
 });
 
-test('reduced motion holds the blink still without hiding it', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+test('engine state is drawn by shape, not by motion', async ({ page }) => {
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
 
-  const duration = await page.evaluate(() =>
-    getComputedStyle(document.documentElement).getPropertyValue('--blink-duration').trim(),
-  );
-  expect(duration).toBe('0s');
-
-  // The dot is still THERE, and still reports its state — the signal survives,
-  // only the motion goes. A reduced-motion rule that hid the engine dots would
-  // be removing information, not animation.
   const dot = page.locator('[data-metric="engine-0"]');
   await expect(dot).toBeVisible();
   await expect(dot).toHaveAttribute('data-state', /off|igniting|lit|failed/);
+  // Nothing on the mark animates: the state is in its shape, which reduced
+  // motion cannot take away.
+  const animated = await page.evaluate(() =>
+    [...document.querySelectorAll('[data-metric^="engine-"], [data-metric^="engine-"] *')].some(
+      (el) => getComputedStyle(el).animationName !== 'none',
+    ),
+  );
+  expect(animated).toBe(false);
 });
 
-test('motion is on by default, or the rule above proves nothing', async ({ page }) => {
+test('reduced motion makes every transition instant, and adds none', async ({ page }) => {
+  const duration = async () =>
+    page.locator(byTestId('pause-toggle')).evaluate((el) => getComputedStyle(el).transitionDuration);
+
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
+  // The positive control: by default the button does transition.
+  expect(parseFloat(await duration())).toBeGreaterThan(0.01);
 
-  const duration = await page.evaluate(() =>
-    getComputedStyle(document.documentElement).getPropertyValue('--blink-duration').trim(),
-  );
-  expect(duration).not.toBe('0s');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  // 0s (the kit's motion.css): no transition at all, so nothing lags a frame.
+  expect(parseFloat(await duration())).toBe(0);
+
+  // And an element with no transition of its own does not get one: hiding a
+  // panel must take effect in the very next frame (the shell once forced a
+  // 0.01ms transition on everything, and a hidden HUD stayed painted).
+  const property = await page
+    .locator(byTestId('readout-altitude-value'))
+    .evaluate((el) => getComputedStyle(el).transitionDuration);
+  expect(parseFloat(property)).toBe(0);
 });
 
 test('the overlay announces itself sensibly to a screen reader @mobile', async ({ page }) => {
