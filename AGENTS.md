@@ -2,7 +2,7 @@
 
 ## What is this?
 
-A 2D Starship flight simulator that runs in the browser. Fly it yourself or watch the autopilot land it, from the pad, a booster separation, a return to launch site, an orbital re-entry, a flip, or a landing burn. It started in 2021 as Steve's first project. The current app is a rebuild under `v2/`: a pure, deterministic TypeScript simulation core (real gravity, the 1976 standard atmosphere, Raptor thrust that varies with altitude, a centre of mass that moves as the tanks drain), drawn with PixiJS, with a framework-free per-frame HUD.
+A 2D Starship flight simulator that runs in the browser. Fly it yourself or watch the autopilot land it, from the pad, a booster separation, a return to launch site, an orbital re-entry, a flip, or a landing burn. It started in 2021 as Steve's first project. The current app is a rebuild of it: a pure, deterministic TypeScript simulation core (real gravity, the 1976 standard atmosphere, Raptor thrust that varies with altitude, a centre of mass that moves as the tanks drain), drawn with PixiJS, with a framework-free per-frame HUD.
 
 The bar is Steve's flight sim, `flight_sim` ("Flying Bricks"): realistic physics proven by tests, and Apple-level UX. Everything stays in the JavaScript/TypeScript ecosystem — no Rust, no WASM.
 
@@ -17,21 +17,21 @@ The bar is Steve's flight sim, `flight_sim` ("Flying Bricks"): realistic physics
 
 | path | holds |
 |---|---|
-| `v2/src/core/` | the pure simulation: `step.ts`, `state.ts`, `physics/`, `control/`, `autopilot/`, `scenarios.ts`, `rng.ts`, `units.ts` |
-| `v2/src/app/` | the fixed-step loop, input, flight recorder, offline/service worker wiring |
-| `v2/src/view/` | PixiJS world: camera, sky, sun, stars, clouds, re-entry, particles |
-| `v2/src/hud/` | the per-frame HUD binder and its readouts, timeline, debrief, trajectory map maths |
-| `v2/src/audio/` | Web Audio engine and the sim-state bindings |
-| `v2/src/ui/` | the UI shell (Svelte 5 today; moving to React), tokens, guide, test ids |
-| `v2/tests/` | Vitest suites by layer, `golden/` trajectories, `proofs/`, `lint-walls/`, `e2e/` Playwright specs |
-| `v2/tests/fixtures/legacy/` | the archived 2021 game — read-only, nothing executes it |
-| `v2/scripts/` | build helpers: service worker, budget check, font subsetting, subpath staging |
+| `src/core/` | the pure simulation: `step.ts`, `state.ts`, `physics/`, `control/`, `autopilot/`, `scenarios.ts`, `rng.ts`, `units.ts` |
+| `src/app/` | the fixed-step loop, input, flight recorder, offline/service worker wiring |
+| `src/view/` | PixiJS world: camera, sky, sun, stars, clouds, re-entry, particles |
+| `src/hud/` | the per-frame HUD binder and its readouts, timeline, debrief, trajectory map maths |
+| `src/audio/` | Web Audio engine and the sim-state bindings |
+| `src/ui/` | the UI shell (Svelte 5 today; moving to React), tokens, guide, test ids |
+| `tests/` | Vitest suites by layer, `golden/` trajectories, `proofs/`, `lint-walls/`, `e2e/` Playwright specs |
+| `tests/fixtures/legacy/` | the archived 2021 game — read-only, nothing executes it |
+| `scripts/` | build helpers: service worker, budget check, font subsetting, subpath staging |
 | `.github/workflows/` | `ci.yml` (every push) and `deploy.yml` (Pages, on `main`) |
 | `docs/` | see Docs below |
 
 ## The gate
 
-From `v2/`, in this order — build before test is required, not a preference:
+From the repo root, in this order — build before test is required, not a preference:
 
 ```bash
 npm run lint && npm run build && npm run test && npm run coverage
@@ -58,9 +58,9 @@ What each proves, the coverage floors, and how to read a red gate: `verification
 ## Protected — ask Steve before changing
 
 - **The soul:** the intro auto-landing sequence, the scenario presets, and the pig at x = 0.
-- **Every 2021 control keeps a working equivalent** (`v2/tests/e2e/parity.spec.ts`). Layout, labels and key bindings may change; capability may not disappear.
-- **Physics** changes only under a tier from `physics-change-policy`. Golden fixtures in `v2/tests/golden/fixtures/` never move without one.
-- **`v2/tests/fixtures/legacy/`** is never modified.
+- **Every 2021 control keeps a working equivalent** (`tests/e2e/parity.spec.ts`). Layout, labels and key bindings may change; capability may not disappear.
+- **Physics** changes only under a tier from `physics-change-policy`. Golden fixtures in `tests/golden/fixtures/` never move without one.
+- **`tests/fixtures/legacy/`** is never modified.
 - **The live site** (`main`, GitHub Pages settings, `deploy.yml`) changes only through the cut-over phase of an approved plan.
 
 ## Docs

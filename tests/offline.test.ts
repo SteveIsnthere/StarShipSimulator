@@ -17,7 +17,7 @@ const dist = fileURLToPath(new URL('../dist/', import.meta.url));
 /**
  * The build is this file's fixture, and saying so is worth a hook.
  *
- * Nine of the tests below read `v2/dist/`, so without a build they do not fail
+ * Nine of the tests below read `dist/`, so without a build they do not fail
  * on what they assert — they die on ENOENT with a path and no advice. That is
  * exactly what happened in GitHub Actions, on every push from 2026-08-24 to
  * M11.9: the workflow ran `npm run test` before `npm run build`, nine tests

@@ -10,10 +10,6 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-defaults:
-  run:
-    working-directory: v2
-
 jobs:
   verify:
     name: lint · build · budget · test · e2e
@@ -32,7 +28,7 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: v2/package-lock.json
+          cache-dependency-path: package-lock.json
 
       # `npm ci`, not `npm install` — the lockfile is the pinned-version contract
       # from M0.1 and CI must fail if it drifts, not silently resolve around it.
@@ -46,7 +42,7 @@ jobs:
       # BUILD BEFORE TEST, and the order is the whole point. `tests/offline.ts`
       # asserts things about the SHIPPED OUTPUT — that the precache list is
       # derived from the build rather than hand-kept, and that nothing in it
-      # points at a CDN — so `v2/dist/` is its fixture. With the old order it
+      # points at a CDN — so `dist/` is its fixture. With the old order it
       # had none, and nine of its thirteen tests died on ENOENT before reading
       # a single byte, on every push since 2026-08-24. See M11.9.
       #
@@ -119,7 +115,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: v2/playwright-report
+          path: playwright-report
           retention-days: 7
           if-no-files-found: ignore
 
@@ -128,7 +124,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: v2/dist
+          path: dist
           retention-days: 7
           if-no-files-found: ignore
 
@@ -136,7 +132,7 @@ jobs:
     name: repo hygiene
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    # Runs at the repo root, not in v2/ — this guards the whole tree.
+    # Guards the whole tree.
     defaults:
       run:
         working-directory: .

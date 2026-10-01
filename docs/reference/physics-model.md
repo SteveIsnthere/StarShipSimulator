@@ -1,7 +1,7 @@
 # Physics model
 
-How `v2/src/core` simulates a flight. The code is the source of truth. Paths are relative to
-`v2/src/core/`; `C:` means `constants.ts`.
+How `src/core` simulates a flight. The code is the source of truth. Paths are relative to
+`src/core/`; `C:` means `constants.ts`.
 
 `step(state, dt, input)` (`step.ts:227`) is pure: it clones the state, reads no clock, DOM or
 global, and returns a new `SimState`. The app steps at a fixed `DT = 1/120 s`

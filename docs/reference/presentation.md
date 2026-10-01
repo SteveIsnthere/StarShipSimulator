@@ -1,16 +1,16 @@
 # Presentation layers
 
-Everything above `v2/src/core` turns `SimState` into frames, numbers, sound and controls. The
+Everything above `src/core` turns `SimState` into frames, numbers, sound and controls. The
 invariant: **presentation reads `SimState` and never writes it.** Commands reach the sim only
 as `ControlEvent`s; nothing in `view/`, `hud/` or `audio/` can move a golden digest.
 
 | Layer | Directory | Cadence | Owns |
 |---|---|---|---|
-| Loop | `v2/src/app` | per frame and per step | fixed-dt loop, input, recorder, SW registration |
-| Instruments | `v2/src/hud` | per frame, one subscriber | readouts, gauges, timeline, trajectory map |
-| View | `v2/src/view` | per frame | PixiJS 8 scene, camera, sky, depth, particles, post |
-| Sound | `v2/src/audio` | per frame, after first gesture | Web Audio graph, mixer, bindings |
-| Shell | `v2/src/ui` | interaction only | Svelte 5 components, tokens, menus, black box |
+| Loop | `src/app` | per frame and per step | fixed-dt loop, input, recorder, SW registration |
+| Instruments | `src/hud` | per frame, one subscriber | readouts, gauges, timeline, trajectory map |
+| View | `src/view` | per frame | PixiJS 8 scene, camera, sky, depth, particles, post |
+| Sound | `src/audio` | per frame, after first gesture | Web Audio graph, mixer, bindings |
+| Shell | `src/ui` | interaction only | Svelte 5 components, tokens, menus, black box |
 
 `core/` may not import any of these (lint walls 1 and 7). `audio/` does not import `view/`; it
 re-derives the engine edges it needs (`audio/events.ts`).
@@ -69,7 +69,7 @@ because the trajectory map holds the arrays; `copyFrom()` fills the previous-fli
 `dist/`: every asset precached (lazy chunks included), scope-relative paths, a content-hashed
 cache name. Cache-first with `ignoreVary`; any navigation gets the cached `index.html`.
 
-## Instruments — `v2/src/hud`
+## Instruments — `src/hud`
 
 ### The binder law — `hud/binder.ts`
 
@@ -114,7 +114,7 @@ numbers. The map is an instrument: axes stretched and labelled, every value from
 `core/` at true scale. The flight-path marker's angle is exactly `angleOfMotion`. Any
 compressing curve in `view/` is a named function whose comment says it is one.
 
-## View — `v2/src/view`
+## View — `src/view`
 
 ### Scene — `view/app.ts`
 
@@ -182,7 +182,7 @@ sky.
 - `post.ts` — hand-written bloom and heat-shimmer filters (`pixi-filters` would cost ~80 kB
   gzip), each *detached* below `POST_THRESHOLD` so the pad and cruise pay for no full-screen pass.
 
-## Sound — `v2/src/audio`
+## Sound — `src/audio`
 
 | File | Role |
 |---|---|
@@ -203,7 +203,7 @@ sky.
 - **Curves** — aero noise silent by 50 km, engine to a floor (`ENGINE_VACUUM_FLOOR`);
   monotonic, pinned at golden states, RMS-asserted under `OfflineAudioContext`.
 
-## Shell — `v2/src/ui` (Svelte 5, moving to React)
+## Shell — `src/ui` (Svelte 5, moving to React)
 
 Svelte renders on interaction only; it owns structure, the binders own values.
 `Broadcast.svelte` hands resolvers to `App.svelte` once after mount. The framework-agnostic
@@ -238,7 +238,7 @@ parts:
 scope-relative for the same reason. `stage-subpath.mjs` + `playwright.subpath.config.ts`
 (`npm run test:deploy`) prove it under `/StarShipSimulator/`. `.github/workflows/deploy.yml`
 runs the gate, copies `index.html` to `404.html` (deep links land in the app), adds
-`.nojekyll`, and publishes `v2/dist` to Pages.
+`.nojekyll`, and publishes `dist` to Pages.
 
 ## Testing the picture
 

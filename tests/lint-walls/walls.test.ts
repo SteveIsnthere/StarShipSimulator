@@ -21,7 +21,7 @@ const CWD = fileURLToPath(new URL('../../', import.meta.url));
 
 const eslint = new ESLint({ cwd: CWD });
 
-/** Lint fixture text as though it lived at `asPath`, relative to v2/. */
+/** Lint fixture text as though it lived at `asPath`, relative to the repo root. */
 async function lintAs(fixture: string, asPath: string) {
   const code = await readFile(FIXTURES + fixture, 'utf8');
   const [result] = await eslint.lintText(code, { filePath: CWD + asPath });
@@ -94,7 +94,7 @@ describe('the seven walls reject their fixtures inside core/', () => {
 });
 
 describe('wall 6 is repo-wide, not core-only', () => {
-  // The other five walls guard the protected zone. Wall 6 guards all of v2/,
+  // The other five walls guard the protected zone. Wall 6 guards the whole repo,
   // because the 2021 tree's 355 globals were spread across every layer.
   for (const path of ['src/app/__wall_fixture__.ts', 'src/view/__wall_fixture__.ts']) {
     it(`rejects globalThis assignment in ${path}`, async () => {

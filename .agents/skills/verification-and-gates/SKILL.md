@@ -9,7 +9,7 @@ How the harness is built is explained in [docs/reference/testing.md](../../../do
 
 ## The gate
 
-All commands run in `v2/`.
+All commands run in the repo root.
 
 | step | command | proves |
 |---|---|---|
@@ -22,13 +22,13 @@ All commands run in `v2/`.
 
 `npm run gate` runs lint, build, test, coverage and test:e2e in that order. It does not run `test:deploy`.
 
-**Build before test, always.** `tests/offline.test.ts` asserts on the shipped output, so `v2/dist/` is its fixture. In the other order, it fails on ENOENT on a clean checkout.
+**Build before test, always.** `tests/offline.test.ts` asserts on the shipped output, so `dist/` is its fixture. In the other order, it fails on ENOENT on a clean checkout.
 
 While iterating, run the narrowest thing that covers the change (`npx vitest run tests/core/<file>`); run the full gate once before merging.
 
 ## Coverage floors
 
-`npm run coverage` exits non-zero below the floors, so they cannot regress: aggregate 99% branches/lines/statements and 98% functions over `src/core/**`; `src/core/physics/**` at 100% branches, lines and functions; control and autopilot at their own floors in `v2/vitest.config.ts`. Never lower a floor to get green. A floor moves up when the measured number does.
+`npm run coverage` exits non-zero below the floors, so they cannot regress: aggregate 99% branches/lines/statements and 98% functions over `src/core/**`; `src/core/physics/**` at 100% branches, lines and functions; control and autopilot at their own floors in `vitest.config.ts`. Never lower a floor to get green. A floor moves up when the measured number does.
 
 ## Reading a gate honestly
 
@@ -41,7 +41,7 @@ While iterating, run the narrowest thing that covers the change (`npx vitest run
 
 ## Hosted CI
 
-`.github/workflows/ci.yml` runs on every push to every branch, in `v2/`, on Node 22: lint, build with the budget, unit, coverage, the desktop chromium Playwright project, and the subpath deploy check. It does not run the four phone projects, so `@mobile`-only specs run in no CI job. `deploy.yml` publishes `v2/dist` to GitHub Pages on pushes to `main`.
+`.github/workflows/ci.yml` runs on every push to every branch, in the repo root, on Node 22: lint, build with the budget, unit, coverage, the desktop chromium Playwright project, and the subpath deploy check. It does not run the four phone projects, so `@mobile`-only specs run in no CI job. `deploy.yml` publishes `dist` to GitHub Pages on pushes to `main`.
 
 ## Parallel agents
 

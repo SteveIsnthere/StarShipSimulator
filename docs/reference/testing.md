@@ -1,6 +1,6 @@
 # Testing
 
-How the test harness in `v2/` works. Commands run from `v2/`.
+How the test harness in the repo root works. Commands run from the repo root.
 
 | Command | Runs |
 |---|---|
@@ -12,7 +12,7 @@ How the test harness in `v2/` works. Commands run from `v2/`.
 | `npm run test:deploy` | Playwright, subpath deploy config |
 | `npm run gate` | lint → build → test → coverage → test:e2e |
 
-Build before test: `tests/offline.test.ts` reads `v2/dist/` as its fixture, so on a clean
+Build before test: `tests/offline.test.ts` reads `dist/` as its fixture, so on a clean
 checkout `npm run test` without a prior build fails on ENOENT.
 
 ## Current state, stated plainly

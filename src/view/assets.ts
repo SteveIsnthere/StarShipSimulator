@@ -6,7 +6,7 @@
  * and the source image's aspect ratio, which is why the ground objects stay
  * proportionate at any zoom.
  *
- * The images are the 2021 ones, copied into v2/public/assets. They are the
+ * The images are the 2021 ones, copied into public/assets. They are the
  * game's look and there is no reason to redraw them.
  */
 import { Assets, type Texture } from 'pixi.js';

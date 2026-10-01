@@ -1,6 +1,6 @@
 # Architecture
 
-The application is `v2/`: TypeScript, Svelte 5, PixiJS 8, built with Vite. This page is
+The application is the repo root: TypeScript, Svelte 5, PixiJS 8, built with Vite. This page is
 the layer map, the rules that keep the simulation pure, and where things live.
 
 ## Layers
@@ -44,7 +44,7 @@ reordering them is a physics change. Translation is integrated with velocity Ver
 
 ## The seven walls
 
-Defined in `v2/eslint.config.js` as two exported rule sets, `CORE_WALL_RULES` and
+Defined in `eslint.config.js` as two exported rule sets, `CORE_WALL_RULES` and
 `NO_GLOBALS_RULE`. All are ESLint `error`s, so `npm run lint` fails on any violation.
 
 | # | Rule | ESLint mechanism | Scope |
@@ -54,7 +54,7 @@ Defined in `v2/eslint.config.js` as two exported rule sets, `CORE_WALL_RULES` an
 | 3 | No `Math.random`; use `core/rng.ts` | `no-restricted-properties` | core |
 | 4 | No `Date.now`, `performance.now`, `new Date()`; time enters only as `dt` | `no-restricted-properties`, `no-restricted-syntax` | core |
 | 5 | No `setTimeout`, `setInterval`, `requestAnimationFrame` | `no-restricted-syntax` | core |
-| 6 | No assignment to `globalThis` | `no-restricted-syntax` | all of `v2/` |
+| 6 | No assignment to `globalThis` | `no-restricted-syntax` | all of the repo root |
 | 7 | No imports of `audio/` (`**/audio/**`, `$audio`, `$audio/*`); sound is an output of the simulation, never an input | `no-restricted-imports` (own pattern group, own message) | core |
 
 Each message names its wall. Because walls 4, 5 and 6 all use `no-restricted-syntax`, the
@@ -103,10 +103,10 @@ order `angle / 180 * PI`, which is bit-significant to the goldens). Passing degr
 radians are expected does not compile; `tests/types/units.test-d.ts` proves it with
 `@ts-expect-error` lines that `svelte-check` (part of `npm run build`) checks.
 
-## Directory map of v2/
+## Directory map of 
 
 ```
-v2/
+
   src/
     main.ts        mounts App.svelte; registers the service worker in production
     core/          state step rng units constants scenarios
@@ -138,7 +138,7 @@ v2/
 
 ## The archived 2021 tree
 
-`v2/tests/fixtures/legacy/` holds the original 2021 simulator (backend, render,
+`tests/fixtures/legacy/` holds the original 2021 simulator (backend, render,
 displayComponents, utilities, its own service worker). It is a historical reference for
 humans only, kept so porting notes that cite file and line still resolve. Nothing builds,
 serves, imports or executes it: ESLint ignores it, no test or script references it, and
@@ -147,8 +147,8 @@ by agreement with it. Do not modify it. See its `README.md`.
 
 ## CI
 
-Both workflows run in `v2/` on `ubuntu-latest` with Node 22 (`actions/setup-node@v4`, npm
-cache keyed on `v2/package-lock.json`) and install with `npm ci`.
+Both workflows run in the repo root on `ubuntu-latest` with Node 22 (`actions/setup-node@v4`, npm
+cache keyed on `package-lock.json`) and install with `npm ci`.
 
 **`.github/workflows/ci.yml`** — on every push to any branch and on pull requests;
 superseded runs on the same ref are cancelled.
@@ -160,7 +160,7 @@ superseded runs on the same ref are cancelled.
 - `hygiene` (timeout 5 min, repo root): fails if any `.DS_Store`, `node_modules/` or
   `dist/` path is tracked.
 
-Build runs before test because `tests/offline.test.ts` reads `v2/dist/`.
+Build runs before test because `tests/offline.test.ts` reads `dist/`.
 
 **`.github/workflows/deploy.yml`** — on push to `main` and `workflow_dispatch`; one deploy
 at a time, never cancelled midway.

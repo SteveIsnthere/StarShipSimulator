@@ -12,7 +12,7 @@ import svelteConfig from './svelte.config.js';
  *   3. no Math.random in core/ — unseeded randomness makes golden fixtures impossible.
  *   4. no Date.now/performance.now in core/ — time enters the sim only as dt.
  *   5. no setTimeout/setInterval in core/ — engine ignition ran on wall-clock timers.
- *   6. no globalThis assignment anywhere in v2/ — the old tree had 355 globals.
+ *   6. no globalThis assignment anywhere in the repo — the old tree had 355 globals.
  *   7. core/ imports nothing from audio/ — sound is an OUTPUT of the simulation.
  *
  * Walls 1-5 and 7 are scoped to src/core. Wall 6 is repo-wide.
@@ -96,7 +96,7 @@ export const CORE_WALL_RULES = {
   ],
 };
 
-/** Wall 6 applies to all of v2/, not just core/. */
+/** Wall 6 applies to the whole repo, not just core/. */
 export const NO_GLOBALS_RULE = {
   'no-restricted-syntax': [
     'error',

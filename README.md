@@ -192,20 +192,20 @@ different vehicle, and nobody would have been able to say which parts changed.
 Dependencies point down. Only down.
 
 ```
-v2/src/ui/     Svelte 5 — panels, menu, editor, black box. Interaction-driven only.
-v2/src/hud/    The HUD binder. One rAF subscriber, diffs state, writes text nodes.
-v2/src/view/   PixiJS v8 — sprites, pooled particles, camera, sky. No game logic.
-v2/src/app/    The loop, input, the flight recorder, offline support.
-v2/src/audio/  Web Audio graph and the SimState → sound bindings. Never imported by core/.
-v2/src/core/   Pure TypeScript simulation. The protected zone.
+src/ui/     Svelte 5 — panels, menu, editor, black box. Interaction-driven only.
+src/hud/    The HUD binder. One rAF subscriber, diffs state, writes text nodes.
+src/view/   PixiJS v8 — sprites, pooled particles, camera, sky. No game logic.
+src/app/    The loop, input, the flight recorder, offline support.
+src/audio/  Web Audio graph and the SimState → sound bindings. Never imported by core/.
+src/core/   Pure TypeScript simulation. The protected zone.
 ```
 
-The 2021 build is still in the repository, at `v2/tests/fixtures/legacy/`. It is retired —
+The 2021 build is still in the repository, at `tests/fixtures/legacy/`. It is retired —
 not built, not served, and since August 2026 not a reference either. For nine milestones
 416 parity tests executed it in a Node VM and compared v2 value for value, which is what
 made the port safe to refactor; then the owner retired parity as a standard, on the
 grounds that "the old one is just a fun project, we have a much higher standard now".
-Those tests are deleted and nothing under `v2/` reads that tree. Correctness now means
+Those tests are deleted and nothing under the repo root reads that tree. Correctness now means
 agreement with closed-form physics, published reference data and stated contracts —
 things that are true whatever any implementation does. The archive stays so nine
 milestones of porting citations keep resolving. See `docs/reference/testing.md`.
@@ -221,7 +221,7 @@ error, each with a test that feeds it a violation and asserts it fails:
 3. `core/` may not call `Math.random` — seeded streams only, counters in state.
 4. `core/` may not call `Date.now` or `performance.now` — time enters as `dt`.
 5. `core/` may not call `setTimeout` or `setInterval`.
-6. Nothing anywhere in `v2/` may assign to `globalThis`.
+6. Nothing anywhere in the repo root may assign to `globalThis`.
 7. `core/` may not import from `audio/` — sound is an output, never an input. The one
    wall with no 2021 wound behind it, because the 2021 build made no sound at all.
 
@@ -232,7 +232,7 @@ Randomness comes from a counter-based generator seeded per stream, with the coun
 stored in the state, so a flight replays exactly. Time warp runs the step loop N times
 per frame; it never scales `dt`, because a step must always mean the same thing.
 
-Golden trajectory fixtures in `v2/tests/golden/` are the behavioural contract, and since
+Golden trajectory fixtures in `tests/golden/` are the behavioural contract, and since
 parity was retired they are the only guard on behaviour. A refactor that moves one fails
 `npm run test`, and moving one on purpose costs a tier justification and a row in an audit
 table naming which flights changed and why.
@@ -268,7 +268,6 @@ is a feedback loop. A proof of mathematical identity is not a proof of bit-ident
 ## Development
 
 ```bash
-cd v2
 npm install
 npm run dev        # vite dev server
 npm run lint       # eslint, including the seven walls

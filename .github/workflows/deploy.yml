@@ -22,10 +22,6 @@ permissions:
   pages: write
   id-token: write
 
-defaults:
-  run:
-    working-directory: v2
-
 jobs:
   build:
     name: build
@@ -41,7 +37,7 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: v2/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install
         run: npm ci
@@ -51,7 +47,7 @@ jobs:
       - name: Lint (the six walls)
         run: npm run lint
 
-      # Build first: the offline suite reads `v2/dist/`, so the build is its
+      # Build first: the offline suite reads `dist/`, so the build is its
       # fixture rather than a later step. Same ordering as ci.yml, same reason.
       # svelte-check -> vite build -> service worker -> bundle budget gate.
       - name: Build
@@ -93,7 +89,7 @@ jobs:
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: v2/dist
+          path: dist
 
   deploy:
     name: deploy
