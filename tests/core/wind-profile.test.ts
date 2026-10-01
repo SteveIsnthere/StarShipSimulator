@@ -87,15 +87,20 @@ describe('the Dryden intensities (MIL-F-8785C, low altitude)', () => {
   });
 });
 
-/** Run the turbulence alone at a fixed height and airspeed; return the gust series. */
+/**
+ * Run the turbulence alone at a fixed height, the vehicle moving through the
+ * mean air at `airspeed` (straight down, so the sweep is exactly that); return
+ * the gust series.
+ */
 function series(wind: number, height: number, airspeed: number, dt: number, n: number) {
   const world = createInitialState().world;
   world.wind = wind;
   const rng = createRng(1234);
   const u = new Float64Array(n);
   const w = new Float64Array(n);
+  const groundX = meanWindAt(wind, height);
   for (let i = 0; i < n; i++) {
-    updateTurbulence(world, rng, height, airspeed, dt);
+    updateTurbulence(world, rng, height, groundX, -airspeed, dt);
     u[i] = world.gust;
     w[i] = world.gustVertical;
   }
@@ -167,6 +172,30 @@ describe('the turbulence statistics over a long seeded run', () => {
     // far the turbulence stream has run.
     const fresh = createRng(1234);
     for (const i of [0, 1, 7, 100]) expect(peek(rng, 'ignitionDelay', i)).toBe(peek(fresh, 'ignitionDelay', i));
+  });
+});
+
+describe('the sweep is the speed through the mean air', () => {
+  it('a vehicle drifting with the wind sweeps nothing, and its gusts hold', () => {
+    const { u, w } = series(10, 200, 0, 1 / 60, 600);
+    expect(u.every((v) => v === u[0])).toBe(true);
+    expect(w.every((v) => v === w[0])).toBe(true);
+  });
+
+  it('a vehicle hovering over the ground has the whole wind blowing through it', () => {
+    // At 200 m in a 10 m/s surface wind the mean air moves at 12.1 m/s, so a
+    // hover sweeps the field at that speed: the same series as flying through
+    // still mean air at 12.1 m/s.
+    const world = createInitialState().world;
+    world.wind = 10;
+    const rng = createRng(1234);
+    const hover: number[] = [];
+    for (let i = 0; i < 300; i++) {
+      updateTurbulence(world, rng, 200, 0, 0, 1 / 60);
+      hover.push(world.gust);
+    }
+    const through = series(10, 200, meanWindAt(10, 200), 1 / 60, 300).u;
+    for (let i = 0; i < 300; i++) expect(hover[i]).toBeCloseTo(through[i]!, 12);
   });
 });
 

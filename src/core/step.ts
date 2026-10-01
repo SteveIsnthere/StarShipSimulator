@@ -369,6 +369,11 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.vehicle.vehicleMass,
   );
   s.forces.thrustAcceleration = aero.getAcceleration(s.forces.thrust, s.vehicle.vehicleMass);
+  // The sea-level engines gimbal; the RVacs push along the hull. With no RVac
+  // lit the share is exactly 1 and the fixed part an exact +0.
+  const gimballedThrust =
+    s.forces.thrust * eng.gimballedShare(s.engines.running, s.atmosphere.airPressure);
+  const fixedThrust = s.forces.thrust - gimballedThrust;
 
   const accelInputs: comp.AccelerationInputs = {
     // M11.1: drag opposes the relative wind and lift is normal to it, so the
@@ -379,7 +384,9 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     gimbalPointingDirection: s.vehicle.gimbalPointingDirection,
     aerodynamicDragAcceleration: s.forces.aerodynamicDragAcceleration,
     aerodynamicLiftAcceleration: s.forces.aerodynamicLiftAcceleration,
-    thrustAcceleration: s.forces.thrustAcceleration,
+    thrustAcceleration: aero.getAcceleration(gimballedThrust, s.vehicle.vehicleMass),
+    fixedThrustAcceleration: aero.getAcceleration(fixedThrust, s.vehicle.vehicleMass),
+    pitch: s.kinematics.pitch,
   };
   const bodyAccelerationX = comp.getHorizontalAcceleration(accelInputs);
   // M2.6, Fidelity. getVerticalAcceleration applies a constant -gravity;
@@ -463,7 +470,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
 
   // Phase 6, Task 10: the gusts for the next step, at the altitude just
   // reached. Calm air draws nothing and leaves them at zero (physics/wind.ts).
-  wind.updateTurbulence(s.world, s.rng, s.kinematics.altitude, airspeed, dt);
+  wind.updateTurbulence(s.world, s.rng, s.kinematics.altitude, s.kinematics.speedX, s.kinematics.speedY, dt);
 
   // 3c. updateRotationalMotion — the same Verlet form, with alpha_n the
   // angular acceleration STORED by the previous step (the torques below need
@@ -492,7 +499,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // once alpha_{n+1} is known.
   s.kinematics.angularVelocity = omega0 + alpha0 * dt;
 
-  s.forces.thrustVectorForce = eng.getThrustVectorForce(s.forces.thrust, s.vehicle.gimbalPosition);
+  s.forces.thrustVectorForce = eng.getThrustVectorForce(gimballedThrust, s.vehicle.gimbalPosition);
   s.forces.frontFinDrag = aero.getFrontFinDrag(
     s.atmosphere.airDensity,
     airspeed,

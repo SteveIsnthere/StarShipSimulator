@@ -288,7 +288,13 @@ export function coastDownrangeDistance(
    * and fails every comparison it is put into — so the mode does not decline to
    * fire, it silently never reaches its trigger.
    */
-  if (!(end > start)) return 0;
+  if (!(end > start)) {
+    if (omega === 0) return 0;
+    // Inertially radial, so no inertial arc; but the ground turns under the
+    // fall, and its arc is -omega times the integral of r dt (Phase 6's
+    // independent review: returning 0 here skipped it).
+    return -omega * radialFallIntegralOfR(r, radialSpeed, rTarget);
+  }
 
   // Simpson over the integral of r dnu, with r(nu) = p / (1 + e cos nu).
   const INTERVALS = 64;
@@ -313,4 +319,34 @@ export function coastDownrangeDistance(
     cubes += radiusAt(start + i * stepSize) ** 3 * (i % 2 === 0 ? 2 : 4);
   }
   return inertialArc - (omega * (cubes * stepSize)) / 3 / h;
+}
+
+/** s — the radial fall's step, and its cap (about 28 hours, beyond any coast here). */
+const RADIAL_STEP = 0.1;
+const RADIAL_STEP_CAP = 1_000_000;
+
+/**
+ * m·s — the integral of r dt along a purely radial two-body fall from r to
+ * rTarget, by velocity Verlet: the time-weighted radius `coastDownrangeDistance`
+ * needs when the conic degenerates to a line. Infinity if the fall never
+ * reaches rTarget within the cap (an escape).
+ */
+function radialFallIntegralOfR(r0: number, radialSpeed: number, rTarget: number): number {
+  let r = r0;
+  let v = radialSpeed;
+  let a = -gravityAt(r);
+  let sum = 0;
+  for (let i = 0; i < RADIAL_STEP_CAP; i++) {
+    const next = r + v * RADIAL_STEP + 0.5 * a * RADIAL_STEP * RADIAL_STEP;
+    if (next <= rTarget) {
+      const f = (r - rTarget) / (r - next);
+      return sum + 0.5 * (r + rTarget) * f * RADIAL_STEP;
+    }
+    const aNext = -gravityAt(next);
+    v += 0.5 * (a + aNext) * RADIAL_STEP;
+    sum += 0.5 * (r + next) * RADIAL_STEP;
+    r = next;
+    a = aNext;
+  }
+  return Infinity;
 }

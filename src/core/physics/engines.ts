@@ -79,6 +79,18 @@ export function getThrust(
   return getTotalMaxThrust(running, ambientPressureKPa) * throttleCurrent * 0.01;
 }
 
+/**
+ * The share of the running engines' thrust that gimbals: the sea-level
+ * engines'. The RVacs are fixed (Phase 6, found by the independent review: they
+ * were steering with the gimbal). Exactly 1 with no RVac running, so the
+ * gimballed thrust is the total's bits.
+ */
+export function gimballedShare(running: readonly boolean[], ambientPressureKPa: number): number {
+  if (countOfKind(running, 'vacuum', true) === 0) return 1;
+  const total = getTotalMaxThrust(running, ambientPressureKPa);
+  return total > 0 ? (countOfKind(running, 'sea-level', true) * C.thrustPerRaptorAt(ambientPressureKPa)) / total : 0;
+}
+
 /** physics.js:283 — the lateral component produced by gimbal deflection. @returns N */
 export function getThrustVectorForce(thrust: number, gimbalPosition: number): number {
   return thrust * Math.sin(0.01 * gimbalPosition * C.gimbalAngleLimit);

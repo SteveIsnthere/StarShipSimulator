@@ -88,8 +88,23 @@ export interface AccelerationInputs {
   aerodynamicDragAcceleration: number;
   /** m/s^2 */
   aerodynamicLiftAcceleration: number;
-  /** m/s^2 */
+  /** m/s^2 — the GIMBALLED thrust, along `gimbalPointingDirection`. */
   thrustAcceleration: number;
+  /**
+   * m/s^2 — thrust from fixed engines (the RVacs), along the hull at `pitch`
+   * (Phase 6, independent review: the vacuum engines do not gimbal). Absent or
+   * zero, the sum is the gimballed component's bits.
+   */
+  fixedThrustAcceleration?: number;
+  /** rad — the hull's attitude, which fixed thrust follows. */
+  pitch?: Rad;
+}
+
+/** The thrust's share of one axis: gimballed, plus fixed along the hull when any is lit. */
+function thrustAlong(i: AccelerationInputs, coefficient: (direction: Rad) => number): number {
+  const gimballed = coefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+  const fixed = i.fixedThrustAcceleration ?? 0;
+  return fixed === 0 ? gimballed : gimballed + coefficient(i.pitch ?? (0 as Rad)) * fixed;
 }
 
 /** physics.js:99 — sum of drag, lift and thrust components. @returns m/s^2 */
@@ -101,8 +116,7 @@ export function getHorizontalAcceleration(i: AccelerationInputs): number {
     ? -liftCoefficient * i.aerodynamicLiftAcceleration
     : liftCoefficient * i.aerodynamicLiftAcceleration;
 
-  const thrustComponent =
-    horizontalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+  const thrustComponent = thrustAlong(i, horizontalThrustCoefficient);
 
   // 2021 sums drag + thrust + lift, in that order. Kept: float addition is not
   // associative and the goldens see the difference.
@@ -129,8 +143,7 @@ export function getVerticalAcceleration(i: AccelerationInputs, gravity: number):
     ? -liftCoefficient * i.aerodynamicLiftAcceleration
     : liftCoefficient * i.aerodynamicLiftAcceleration;
 
-  const thrustComponent =
-    verticalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+  const thrustComponent = thrustAlong(i, verticalThrustCoefficient);
 
   return -gravity + dragComponent + thrustComponent + liftComponent;
 }

@@ -18,7 +18,13 @@ import { localGravity } from './guidance-physics';
 import * as C from '../constants';
 import { getDrag, relativeAirspeed } from '../physics/aero';
 import { airVelocityX } from '../physics/wind';
-import { getThrust, getTotalMaxThrust, getTotalMinThrust, getWorkingSeaLevelCount } from '../physics/engines';
+import {
+  getThrust,
+  getTotalMaxThrust,
+  getTotalMinThrust,
+  getWorkingSeaLevelCount,
+  gimballedShare,
+} from '../physics/engines';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
 
 /** M11.8 — the arms for the step in hand; written before read, every call. */
@@ -150,9 +156,14 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
     }
   };
 
+  // Only the sea-level engines gimbal (the RVacs are fixed): the authority is
+  // their share of the thrust, which is all of it when no RVac is lit.
+  const gimballedThrust =
+    forces.thrust * gimballedShare(state.engines.running, state.atmosphere.airPressure);
+
   const controlByThrustVector = (): void => {
     const vectorForceRequired = torqueRequired / arms.engineArm;
-    const ratio = vectorForceRequired / forces.thrust;
+    const ratio = vectorForceRequired / gimballedThrust;
 
     if (ratio >= 1) {
       yokePosition = 100;
@@ -235,7 +246,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
     autopilot.pitchControl = yokePosition;
   };
 
-  if (forces.thrust > 0) {
+  if (gimballedThrust > 0) {
     // Both 2021 branches (with and without fins) have identical bodies.
     controlByThrustVector();
   } else if (status.finActive) {

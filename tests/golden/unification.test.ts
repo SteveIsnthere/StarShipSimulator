@@ -37,6 +37,7 @@
  *     P6.5    the slowest start, an 18 t reserve five: one flies, two plan, two dump
  *     P6.8    the heat shield in W/m^2 and K     ALL EIGHT, in thermalPower alone
  *     P6.10   the wind profile and turbulence    headwind only; seven in shape alone
+ *     P6.11   review: sweep speed, fixed RVacs   headwind only (the sweep); RVacs moved nothing
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -265,6 +266,14 @@
  * constant block for the rows. It still lands at 25.0 m, 1.9 m further
  * downrange than before.
  *
+ * P6.11 (Phase 6's independent review, Fidelity) is two corrections and one
+ * latent fix. The turbulence sweeps at the vehicle's speed through the MEAN
+ * air, with no floor and no gust feedback; only the windy fixture moves, and
+ * it still lands at 25.0 m. The RVacs no longer gimbal: their thrust follows
+ * the hull and the gimbal's torque and authority read the sea-level share,
+ * which is exactly 1 with no RVac lit, so no fixture moves. The radial coast
+ * at a turning rate is unreachable at rate zero.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -341,8 +350,8 @@ const DIGESTS: Readonly<Record<string, string>> = {
   'reentry-autoland': 'c7563e0ed57727d0317185c812190590a418c6182cabab19ac4a6772432d7097',
   'before-flip-autoland': 'e51ed9ff42114c32699fcb398eec7e1477e658139a50e60998a5f783af55762c',
   'landing-burn-autoland': '8c3684de124c6fe8114f6b40c6526ae165587316fc342b9aef5aaceeb20ba67b',
-  // P6.10 (the one windy fixture): the wind profile and its turbulence.
-  'landing-burn-headwind': 'ca912bbb5979881d0a27e155af90a8370b1b70228093c32d5c756802201b3b63',
+  // P6.11 (the one windy fixture): the turbulence's sweep speed.
+  'landing-burn-headwind': '5a33cae3d996f0296b0b3285707bb4c1ee162733087b7633902dd3e64ba446e2',
   'intro-demo': '5063e60b32d9b62412403bf0ec21c3288ae0a264dfcd194d2899711caf5467d5',
 };
 

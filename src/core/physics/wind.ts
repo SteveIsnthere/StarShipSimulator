@@ -47,9 +47,12 @@
  * goes to zero and the tests measure it at the speeds the landings fly.
  *
  * V, the speed at which the vehicle sweeps through the frozen turbulence
- * field, is the airspeed, but never less than the mean wind at height: a
- * hovering vehicle still has the field blown past it (Taylor's hypothesis with
- * the wind as the convection speed, the usual rotorcraft treatment).
+ * field, is its speed through the MEAN air (Taylor's hypothesis: the field is
+ * carried by the mean wind). A vehicle hovering over the ground has the whole
+ * wind blowing through it; one drifting with the wind sweeps nothing and its
+ * gusts hold. The gusts themselves are not fed back into V. (Phase 6's
+ * independent review: a floor at the mean wind, the first version, advanced
+ * the field at full wind speed for a vehicle riding with it.)
  *
  * CALM AIR IS CALM. With no surface wind there is no turbulence and NO DRAW is
  * taken, so every still-air flight — the intro and every preset — is the same
@@ -134,19 +137,20 @@ const W_VARIANCE_GAIN = 2;
  * `world.gustVertical`. In calm air it writes zeros and draws nothing.
  *
  * @param altitude m, where the vehicle is now
- * @param airspeed m/s, through the mean air
+ * @param speedX m/s, downrange over the ground
+ * @param speedY m/s, up
  */
 export function updateTurbulence(
   world: WorldState,
   rng: RngState,
   altitude: number,
-  airspeed: number,
+  speedX: number,
+  speedY: number,
   dt: number,
 ): void {
   if (world.wind === 0) return;
-  const mean = Math.abs(meanWindAt(world.wind, altitude));
   drydenIntensity(meanWindAt(world.wind, W20_HEIGHT), altitude, intensity);
-  const sweep = Math.max(airspeed, mean);
+  const sweep = Math.hypot(speedX - meanWindAt(world.wind, altitude), speedY);
 
   // Two independent standard normals from one stream (Box-Muller).
   const r = Math.sqrt(-2 * Math.log(1 - draw(rng, 'turbulence')));

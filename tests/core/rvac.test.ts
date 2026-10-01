@@ -15,6 +15,7 @@ import {
   getWorkingSeaLevelCount,
 } from '$core/physics/engines';
 import { createInitialState } from '$core/state';
+import { step } from '$core/step';
 
 const ONLY_RVACS = [false, false, false, true, true, true];
 const ONLY_SEA_LEVEL = [true, true, true, false, false, false];
@@ -78,5 +79,43 @@ describe('the landing logic counts sea-level engines only', () => {
     const s = createInitialState();
     toggleAllRaptors(s);
     expect(s.engines.ignitionCountdown.map((c) => c !== null)).toEqual(ONLY_SEA_LEVEL);
+  });
+});
+
+describe('the RVacs are fixed: they push along the hull and do not steer', () => {
+  // Found by Phase 6's independent review: the whole thrust went through the
+  // gimbal, so RVacs alone could translate sideways and pitch the vehicle.
+  function vacuumOnly(gimbalPosition: number, seaLevelToo = false) {
+    const s = createInitialState();
+    s.kinematics.altitude = 120_000;
+    s.kinematics.distanceToPlanetCenter = C.planetRadius + 120_000;
+    s.kinematics.pitch = (Math.PI / 2) as never;
+    s.status.finActive = false;
+    s.status.rcsActive = false;
+    s.engines.running = [seaLevelToo, false, false, true, true, true];
+    s.engines.ignitionCountdown = [null, null, null, null, null, null];
+    s.vehicle.throttle = 100;
+    s.vehicle.throttleCurrent = 100;
+    s.vehicle.gimbalPosition = gimbalPosition;
+    return s;
+  }
+
+  it('a deflected gimbal makes no torque and no sideways push with only RVacs lit', () => {
+    const straight = step(vacuumOnly(0), 1 / 120);
+    const deflected = step(vacuumOnly(80), 1 / 120);
+    expect(deflected.forces.thrustVectorForce).toBe(0);
+    // Pointing prograde, the hull is horizontal: a gimballed engine would tilt
+    // the push off it; fixed engines push the same way whatever the gimbal says.
+    expect(deflected.kinematics.accelerationY).toBe(straight.kinematics.accelerationY);
+    expect(deflected.kinematics.accelerationX).toBe(straight.kinematics.accelerationX);
+  });
+
+  it('with a sea-level engine lit too, only its thrust steers', () => {
+    const s = step(vacuumOnly(80, true), 1 / 120);
+    const seaLevel = C.thrustPerRaptorAt(s.atmosphere.airPressure);
+    expect(s.forces.thrustVectorForce).toBeCloseTo(
+      seaLevel * Math.sin(0.8 * C.gimbalAngleLimit),
+      3,
+    );
   });
 });

@@ -129,4 +129,25 @@ describe('the frame conversions and the guidance that reads them', () => {
     const inertialArc = coastDownrangeDistance(r0, inertial, 0, target, 0);
     expect(inertialArc - conic).toBeGreaterThan(100_000);
   });
+
+  it('a fall that is radial in the inertial frame still covers ground: -omega times the integral of r dt', () => {
+    // Ground speed -omega r is zero inertial angular momentum: the conic is a
+    // line. The reference integrates the same radial fall in its own steps.
+    const r0 = 6_371_000 + 150_000;
+    const target = 6_371_000 + 80_000;
+    let r = r0;
+    let vr = 0;
+    let integral = 0;
+    const dt = 0.001;
+    while (r > target) {
+      vr -= (MU / (r * r)) * dt;
+      integral += r * dt;
+      r += vr * dt;
+    }
+    const conic = coastDownrangeDistance(r0, groundTangentialSpeed(r0, 0, EARTH), 0, target, EARTH);
+    expect(conic).toBeLessThan(0);
+    expect(Math.abs(conic / (-EARTH * integral) - 1)).toBeLessThan(1e-3);
+    expect(coastDownrangeDistance(r0, 0, 0, target, 0)).toBe(0);
+  });
 });
+
