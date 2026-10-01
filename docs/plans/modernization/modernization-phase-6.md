@@ -60,7 +60,7 @@ A task that cannot meet that is reverted and parked under the stop rule, and its
 
 A parked task parks everything downstream of it. Independent branches continue.
 
-**Status 2026-10-01:** 1, 2, 3, 4a–c, 8, 10 and 9a are done. 5a/5b parked (the deorbit breaks up on physical drag while entry is flown broadside), and 6, 7, 11 with them; Steve approved moving all four to **Phase 6b, Entry on lift** ([modernization-phase-6b.md](modernization-phase-6b.md)). Remaining here: 9b, then 12.
+**Status 2026-10-01:** 1, 2, 3, 4a–c, 8, 10 and 9a are done; 9b moved to Phase 6b (Task 1b). 5a/5b parked (the deorbit breaks up on physical drag while entry is flown broadside), and 6, 7, 11 with them; Steve approved moving all four to **Phase 6b, Entry on lift** ([modernization-phase-6b.md](modernization-phase-6b.md)). Remaining here: 12.
 
 ## Global Constraints
 
@@ -236,12 +236,11 @@ Moved with Task 5 to [Phase 6b](modernization-phase-6b.md), where it is planned 
 - [x] Integrate in the rotating ground frame, adding Coriolis and centrifugal terms (a_r += 2ωv_t + ω²r, a_t −= 2ωv_r) to the existing polar integrator, with ω a parameter (`C.frameRotationRate`, 0; `verticalGravityAcceleration` and `tangentialAcceleration` take it, so `step()`, felt g and the predictor share it).
 - [x] At ω = 0, bit-identical (golden digests unchanged; signed zeros kept by short-circuiting at ω = 0). `tests/core/rotating-frame*.test.ts` prove the ω ≠ 0 form against the inertial frame: a circular orbit flown at its ground-relative speed, a body held at the synchronous radius.
 
-**9b, Fidelity.**
-- [ ] ω = Earth's sidereal rate (cited). The surface speed along the flight is Starbase's 26°N (about 418 m/s); +x is east (prograde).
-- [ ] The touchdown check (`step.ts:144`, |speedX| < 2) reads ground-relative speed, which it already is.
-- [ ] Orbital presets (`CIRCULAR`, `scenarios.ts:218`) are stated inertial and converted to ground-relative.
-- [ ] The never-re-blessed truth tests are proved by transforming to the inertial frame.
-- [ ] Re-derive the deorbit aim; every scenario lands.
+**9b, Fidelity — MOVED to Phase 6b as Task 1b (2026-10-01).** Everything the rotation needs landed with 9a at rate zero, and the rest was measured with it on:
+- [x] ω = Earth's sidereal rate (WGS 84, 7.292115e-5 rad/s) times cos 26°: `C.EARTH_FRAME_ROTATION_RATE`, 6.554e-5 rad/s, 417.6 m/s at the pad. `frameRotationRate` stays 0.
+- [x] Orbital presets stated inertial and converted (`groundTangentialSpeed`); the deorbit's coast conic returns the ground arc (inertial arc less ω∫r dt); the burn predictor and the flip ladder weigh the vehicle with the turning ground's centrifugal term (`verticalWeight`).
+- [x] The never-re-blessed truth tests (orbit, Verlet/Kepler, angular momentum, the coast, the energy invariant as the Jacobi integral, felt g, the predictor) are transformed to the inertial frame and pass with ω on.
+- **Why it did not switch on:** with ω on, the circularize-then-deorbit flight misses the pad by **11.1 km** against its 10 km acceptance (`orbit-demo.test.ts`), where the deorbit preset misses by 0.21 km (`DEORBIT_ENTRY_RANGE` 801.0 km). The broadside descent has no range control above 20 m/s across the ground, and the turning ground widens the descent spread between a heavy and a light entry from 5 km to 14 km; no single constant holds both the 1 km health test and the 10 km acceptance. Entry range control is what Phase 6b builds, so the switch is its Task 1b. Measured with ω on, for that task: re-entry preset peak 149.8 kW/m² (from 170.9); deorbit peak 1,412 K (from 1,459); envelope misses 120 km +38.9, 200 km −47.7, 300 km −77.7 km (300 km heating 0.82 of the limit, from 0.95).
 
 ### Task 12: Close
 

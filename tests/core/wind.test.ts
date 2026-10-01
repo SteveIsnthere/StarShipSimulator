@@ -156,10 +156,13 @@ describe('the aerodynamic angles follow the relative wind', () => {
     // no horizontal drag component at all; in a crosswind it must — that is the
     // decomposition taking the relative-wind angle, and it is what pushes a
     // descending vehicle downwind.
+    // (A turning ground adds its Coriolis term, -2 omega v_r, to both alike:
+    // Phase 6 Task 9. It is the whole of the still-air figure.)
     const still = step(gliding(0, -80), DT);
     const cross = step(gliding(0, -80, 20), DT);
-    expect(Math.abs(still.kinematics.accelerationX)).toBeLessThan(1e-9);
-    expect(Math.abs(cross.kinematics.accelerationX)).toBeGreaterThan(0.01);
+    const coriolis = -2 * C.frameRotationRate * still.kinematics.speedY;
+    expect(Math.abs(still.kinematics.accelerationX - coriolis)).toBeLessThan(1e-6);
+    expect(Math.abs(cross.kinematics.accelerationX - still.kinematics.accelerationX)).toBeGreaterThan(0.01);
   });
 });
 

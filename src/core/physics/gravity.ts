@@ -75,6 +75,15 @@ export function verticalGravityAcceleration(
   return inertialTangential ** 2 / distanceToPlanetCenter - gravityAt(distanceToPlanetCenter);
 }
 
+/**
+ * m/s², positive down — what a vehicle with no downrange speed weighs per unit
+ * mass at r: gravity less the turning ground's centrifugal term. Exactly
+ * `gravityAt(r)` at omega = 0.
+ */
+export function verticalWeight(distanceToPlanetCenter: number, omega: number = C.frameRotationRate): number {
+  return -verticalGravityAcceleration(distanceToPlanetCenter, 0, omega);
+}
+
 /*
   THE ROTATING GROUND FRAME — Phase 6, Task 9. The simulation's speeds are
   relative to the ground. When the ground turns at omega in the flight plane,
@@ -98,6 +107,15 @@ export function inertialTangentialSpeed(
   omega: number = C.frameRotationRate,
 ): number {
   return omega === 0 ? tangentialSpeed : tangentialSpeed + omega * distanceToPlanetCenter;
+}
+
+/** m/s — the inverse: the ground-relative tangential speed of an inertial one. */
+export function groundTangentialSpeed(
+  distanceToPlanetCenter: number,
+  inertialSpeed: number,
+  omega: number = C.frameRotationRate,
+): number {
+  return omega === 0 ? inertialSpeed : inertialSpeed - omega * distanceToPlanetCenter;
 }
 
 /**
@@ -196,17 +214,22 @@ export function specificAngularMomentum(
  * metre over a 5000 km arc.
  *
  * @param r m — current distance from the planet's centre
- * @param tangentialSpeed m/s — the component along the track
+ * @param groundTangentialSpeed m/s — the component along the track, over the ground
  * @param radialSpeed m/s — the component along r, positive outward
  * @param rTarget m — the radius the coast is being predicted down to
+ * @param omega rad/s — the ground frame's rotation rate
  * @returns m, or Infinity when the orbit never reaches rTarget
  */
 export function coastDownrangeDistance(
   r: number,
-  tangentialSpeed: number,
+  groundTangentialSpeed: number,
   radialSpeed: number,
   rTarget: number,
+  omega: number = C.frameRotationRate,
 ): number {
+  // The conic is inertial (Phase 6 Task 9b): the speed the orbit has is the
+  // ground speed plus the ground's own.
+  const tangentialSpeed = inertialTangentialSpeed(r, groundTangentialSpeed, omega);
   const speedSquared = tangentialSpeed ** 2 + radialSpeed ** 2;
   const energy = speedSquared / 2 - MU / r;
   const h = r * tangentialSpeed;
@@ -275,5 +298,19 @@ export function coastDownrangeDistance(
   for (let i = 1; i < INTERVALS; i++) {
     sum += radiusAt(start + i * stepSize) * (i % 2 === 0 ? 2 : 4);
   }
-  return (sum * stepSize) / 3;
+  const inertialArc = (sum * stepSize) / 3;
+  if (omega === 0) return inertialArc;
+
+  /*
+    THE GROUND TURNS UNDER THE COAST (Phase 6 Task 9b). Downrange distance
+    integrates the ground-relative tangential speed, r (dtheta/dt - omega), so
+    the ground arc is the inertial arc less omega times the integral of r dt.
+    On the conic dt = r^2/h dnu, so that integral is the integral of r^3/h dnu,
+    by the same Simpson's rule.
+  */
+  let cubes = radiusAt(start) ** 3 + radiusAt(end) ** 3;
+  for (let i = 1; i < INTERVALS; i++) {
+    cubes += radiusAt(start + i * stepSize) ** 3 * (i % 2 === 0 ? 2 : 4);
+  }
+  return inertialArc - (omega * (cubes * stepSize)) / 3 / h;
 }

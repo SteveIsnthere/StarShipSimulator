@@ -17,7 +17,7 @@
 import * as C from '../constants';
 import { createBurnScratch, landingBurnStartAltitude } from '../control/guidance-physics';
 import { getHealthySeaLevelCount, getWorkingSeaLevelCount } from '../physics/engines';
-import { gravityAt } from '../physics/gravity';
+import { verticalWeight } from '../physics/gravity';
 import type { SimState } from '../state';
 
 /*
@@ -44,8 +44,8 @@ import type { SimState } from '../state';
  */
 export const HORIZONTAL_ADJUSTMENT_MARGIN_S = 1;
 
-/** m/s² — gravity at the pad, where the burn ends. */
-const PAD_GRAVITY = gravityAt(C.planetRadius);
+/** m/s² — gravity at the pad as a vehicle standing on it feels it, where the burn ends. */
+const PAD_GRAVITY = verticalWeight(C.planetRadius);
 
 /** One scratch for both sizings; fully rewritten on every call. */
 const scratch = createBurnScratch();

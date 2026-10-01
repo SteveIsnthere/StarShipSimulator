@@ -19,6 +19,7 @@ import {
 import * as C from '$core/constants';
 import { gravityAt } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
+import { wrappedAttackAngle } from '$core/physics/aero';
 import { ALL_SCENARIOS, createScenarioState } from '$core/scenarios';
 import { step } from '$core/step';
 import type { SimState } from '$core/state';
@@ -41,12 +42,19 @@ function at(altitude: number, speedX = 0, speedY = 0): SimState {
 
 describe('localGravity', () => {
   it('is gravity at altitude when not moving downrange', () => {
-    for (const h of [0, 10_000, 80_000]) expect(localGravity(at(h))).toBe(gravityAt(R + h));
+    // Written out independently: gravity less the turning ground's
+    // centrifugal term (zero until the frame turns, Phase 6 Task 9).
+    const w = C.frameRotationRate;
+    for (const h of [0, 10_000, 80_000]) {
+      expect(localGravity(at(h))).toBeCloseTo(gravityAt(R + h) - w ** 2 * (R + h), 12);
+    }
   });
 
   it('subtracts the centrifugal term of the downrange speed', () => {
     const v = 2_000;
-    expect(localGravity(at(40_000, v))).toBeCloseTo(gravityAt(R + 40_000) - v ** 2 / (R + 40_000), 12);
+    const r = R + 40_000;
+    const inertial = v + C.frameRotationRate * r;
+    expect(localGravity(at(40_000, v))).toBeCloseTo(gravityAt(r) - inertial ** 2 / r, 12);
   });
 
   it('never drops below its floor, even at and past orbital speed', () => {
@@ -96,7 +104,10 @@ function referenceStop(altitude: number, speed: number, engines: number, propell
   s.vehicle.vehicleMass = C.vehicleDryMass + s.vehicle.propellantMass;
   const mass = s.vehicle.vehicleMass;
   for (let i = 0; i < Math.round(60 / DT); i++) {
-    s.kinematics.pitch = rad(0);
+    // Flown tail first, as the predictor assumes: the nose opposite the
+    // motion. Straight down that is pitch 0; a turning ground's Coriolis term
+    // adds a little sideways drift, and the burn follows it (Phase 6 Task 9).
+    s.kinematics.pitch = rad(wrappedAttackAngle(Math.atan2(s.kinematics.speedX, s.kinematics.speedY), Math.PI));
     s.kinematics.angularVelocity = 0;
     s = step(s, DT);
     if (s.status.onTheGround || s.status.landed || s.failures.crashed) {

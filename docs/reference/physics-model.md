@@ -29,8 +29,17 @@ Angles are branded `Rad`/`Deg` types (`units.ts`).
 
 Two polar correction terms make the local frame exact for a central force:
 
-- vertical `v_t²/r − GM/r²` (`gravity.ts:69`): centrifugal plus gravity, cancelling at circular speed;
-- tangential `−v_r·v_t/r` (`gravity.ts:107`): conserves angular momentum `r·v_t`.
+- vertical `v_t²/r − GM/r²` (`verticalGravityAcceleration`): centrifugal plus gravity, cancelling at circular speed;
+- tangential `−v_r·v_t/r` (`tangentialAcceleration`): conserves angular momentum `r·v_t`.
+
+**The ground frame can turn** (Phase 6, Task 9). Speeds are ground-relative; with the frame turning
+at ω the inertial tangential speed is `v_t + ω·r` (`inertialTangentialSpeed`, and its inverse
+`groundTangentialSpeed`), and the two terms gain the Coriolis and centrifugal parts:
+`a_r += 2ω·v_t + ω²·r`, `a_t −= 2ω·v_r`. `step()`, felt g and the guidance predictors all read
+these functions, so one rate (`C.frameRotationRate`) moves them together. **The rate is 0**:
+Earth's, `C.EARTH_FRAME_ROTATION_RATE` = 7.292115e-5 · cos 26° rad/s (WGS 84; Starbase heading
+due east, 417.6 m/s at the pad), switches on in Phase 6b once the entry has range control. At 0
+every term short-circuits to the inertial expression on the same operands, signed zeros included.
 
 ## Step order
 
@@ -47,8 +56,8 @@ Order is a contract; several phases read what the previous one wrote.
 | 4 | controls | autopilot, then manual input (overrides), then fins/RCS/gimbal, then throttle slew |
 | 5 | clocks | `environmentTime`; `timeSpent` only while flying |
 
-So the limit checks read the previous step's forces, and a scenario's first step uses a spawn
-Mach computed against a constant 343 m/s (`scenarios.ts:293`).
+So the limit checks read the previous step's forces (a Phase 6b bug fix). A scenario's first
+step uses a spawn Mach against the local speed of sound and the relative wind.
 
 ## Integrator
 
@@ -75,8 +84,10 @@ Inverse-square from GM. `C.gravity = 9.807` is never applied as a force; it is a
 display, plus an add/subtract pair that cancels (`getVerticalAcceleration`). Felt g subtracts the
 simulation's own gravity and polar terms and divides by g₀ (`standardGravity`); the g-limit judges
 felt g. Felt g is computed in phase 3a, so the break-up check in phase 2 reads the previous step's.
-`coastDownrangeDistance` (`gravity.ts:172`) gives a drag-free conic's downrange arc by Simpson's
-rule (64 intervals); `Infinity` if the orbit never reaches the target radius, 0 for a radial fall.
+`coastDownrangeDistance` gives a drag-free conic's downrange arc by Simpson's rule (64 intervals),
+from the ground-relative speed: the inertial arc less `ω·∫r dt` (`dt = r²/h dν` on the conic);
+`Infinity` if the orbit never reaches the target radius, 0 for a radial fall. `verticalWeight(r)`
+is what a vehicle with no downrange speed weighs: gravity less the turning ground's `ω²r`.
 
 ## Atmosphere
 
@@ -147,7 +158,8 @@ RCS = 41.8 − CoM.
 
 ## Aerodynamics
 
-Every aero term uses airspeed `|(speedX − wind − gust, speedY)|` (`aero.ts:139`). θ is
+Every aero term uses airspeed `|(speedX − airX, speedY − airY)|` (`aero.ts`, the air's velocity
+from the Wind section). θ is
 `angleInToTheWind`.
 
 | term | formula | where | source |
@@ -199,18 +211,30 @@ also zeroes speeds and pitch.
 
 ## Wind
 
-`world.wind` (m/s, downrange) is one constant per flight, from `ScenarioPreset.wind`
-(`scenarios.ts:309`); no shipped preset sets it, the flight editor can. It enters every aero term
-and the autopilot's fin-authority estimate; guidance, HUD and touchdown use ground speeds.
-`world.gust` is always 0 — nothing writes it. At zero wind the relative-wind maths is bit-identical
-to the ground-speed maths.
+`physics/wind.ts` (Phase 6, Task 10). `world.wind` (m/s, downrange) is the scenario's **surface**
+wind, the steady wind at the 18.3 m reference height, from `ScenarioPreset.wind`; no shipped preset
+sets it, the flight editor can. The air's velocity at the vehicle is `(airVelocityX, gustVertical)`:
+
+- **Mean profile:** NASA/TM-2008-215633 §2.2.5.2 eqs. (2.1)–(2.2), `u(z) = u18.3·(z/18.3)^k`,
+  `k = 0.52·u18.3^(−3/4)` (mean c; constant below 2 m/s), held at its 150 m value above the surface
+  layer. Tier B: the law is fitted to peak winds and applied to the steady one; winds aloft are not
+  scaled from the surface (the TM: they are set by large-scale conditions).
+- **Turbulence:** Dryden, MIL-F-8785C low-altitude form: `σw = 0.1·W20`, `σu = σw/(0.177 +
+  0.000823h)^0.4`, `Lw = h`, `Lu = h/(0.177 + 0.000823h)^1.2` (h in ft), held at the 10 ft and
+  1,000 ft edges. u downrange (`world.gust`) is a first-order filter, w vertical (`gustVertical`) is
+  Dryden's `(1 + √3τs)/(1 + τs)²`; the 2D world has no lateral v. The sweep speed is the airspeed,
+  never below the mean wind. Calm air (`wind = 0`) has no turbulence and takes no draw.
+
+Every aero term and the autopilot's fin-authority estimate read the relative wind; guidance, HUD and
+touchdown use ground speeds; the fall predictor reads the mean profile and leaves out the zero-mean
+turbulence. In calm air the relative-wind maths is bit-identical to the ground-speed maths.
 
 ## Randomness
 
 `rng.ts` hashes (seed, stream, counter); counters live in `SimState`, so a state fixes every future
-draw and any draw can be sought directly. Two independently keyed streams: `ignitionDelay`,
-`ignitionFailure`. Default seed `0x57414C4B` (`state.ts:487`). Draws happen only when an engine is
-commanded to light.
+draw and any draw can be sought directly. Three independently keyed streams: `ignitionDelay`,
+`ignitionFailure` and `turbulence`. Default seed `0x57414C4B` (`state.ts`). Ignition draws happen only
+when an engine is commanded to light; turbulence takes two a step, only in wind.
 
 ## Scenarios
 
@@ -267,8 +291,8 @@ input overwrites all.
   (`controlEngineForAcceleration`), so no g enters it. The flat `C.gravity` survives only in the
   TWR display and the add-back in `getVerticalAcceleration`.
 - **The landing burn** (`autopilot/landing-burn.ts`) is sized by `landingBurnStartAltitude`:
-  integrated backward from touchdown with midpoint steps of 0.05 s, gravity at each altitude
-  (`gravityAt`, no centrifugal term: the burn is near vertical), thrust at that altitude's
+  integrated backward from touchdown with midpoint steps of 0.05 s, the weight at each altitude
+  (`verticalWeight`: no downrange speed, so only the turning ground's centrifugal term), thrust at that altitude's
   pressure, drag tail first with the Mach-dependent coefficient, and the touchdown mass solved by a
   bracketed regula falsi (Illinois). It agrees with fine-step `step()` runs to within 0.5 m on burns of 176 m to
   11.8 km, and returns null (read as "start now") when no burn can stop the vehicle, including
@@ -290,15 +314,16 @@ input overwrites all.
 
 ## Known simplifications
 
-- The planet does not rotate (`C.planetLinearVelocity` is unused): no ~418 m/s launch bonus, no
-  Coriolis.
-- Attitude is relative to local vertical with no frame-rotation term: at ω = 0 the vehicle keeps its
-  pitch to the horizon, turning inertially at the orbital rate.
+- The ground frame's rate is 0 until Phase 6b: no ~418 m/s launch bonus, no Coriolis yet. The
+  machinery and its tests are in place (State and frame).
+- Attitude is relative to local vertical with no frame-rotation term: the vehicle keeps its pitch
+  to the horizon, turning inertially at the orbital rate.
 - Downrange is arc length at orbital radius, wrapped at the surface circumference.
-- Wind is one constant horizontal value with no altitude profile; gust is always 0.
+- Wind has no direction change with height and no lateral component; above 150 m the mean wind and
+  above 1,000 ft the turbulence intensity are held.
 - Body Cd depends on Mach only: attitude-blind, no transonic peak.
 - Aero and thrust forces are held at the incoming state for each step.
-- One vehicle: no Super Heavy, no vacuum Raptor, no staging.
+- One vehicle: no Super Heavy, no staging.
 - Isp does not vary with throttle; engines reach thrust instantly after the ignition delay.
 - Fins, RCS and the gimbal's lateral component make torque only, never translation.
 - Heating is an instantaneous stagnation flux at radiative equilibrium: no soak, no ablation, one

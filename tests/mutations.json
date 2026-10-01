@@ -88,5 +88,11 @@
     "file": "src/core/physics/wind.ts",
     "find": "  out.sigmaU = sigmaW / shape ** 0.4;",
     "replace": "  out.sigmaU = sigmaW;"
+  },
+  {
+    "id": "coriolis-halved",
+    "file": "src/core/physics/gravity.ts",
+    "find": "  const coupled = omega === 0 ? tangentialSpeed : tangentialSpeed + 2 * omega * distanceToPlanetCenter;",
+    "replace": "  const coupled = omega === 0 ? tangentialSpeed : tangentialSpeed + omega * distanceToPlanetCenter;"
   }
 ]

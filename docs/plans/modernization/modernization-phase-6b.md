@@ -8,7 +8,7 @@
 
 **Tech Stack:** TypeScript, Vitest, fast-check; the Phase 2 truth harness; the Phase 5 predictor (`src/core/control/guidance-physics.ts`).
 
-**Spec:** [modernization-roadmap.md](modernization-roadmap.md) Phase 6b; [modernization-phase-6.md](modernization-phase-6.md) Tasks 5, 6, 7, 11 (moved here); [physics-change-policy](../../../.agents/skills/physics-change-policy/SKILL.md); [docs/reference/physics-model.md](../../reference/physics-model.md); backlog rows tagged 6b.
+**Spec:** [modernization-roadmap.md](modernization-roadmap.md) Phase 6b; [modernization-phase-6.md](modernization-phase-6.md) Tasks 5, 6, 7, 9b, 11 (moved here); [physics-change-policy](../../../.agents/skills/physics-change-policy/SKILL.md); [docs/reference/physics-model.md](../../reference/physics-model.md); backlog rows tagged 6b.
 
 **Starts after** Phase 6 merges to `main`. Branch `claude/entry-on-lift` from `main`.
 
@@ -57,6 +57,16 @@ These three cannot land apart: physical drag alone breaks up the deorbit, and li
 - [ ] Re-derive `DEORBIT_ENTRY_RANGE` (`npm run deorbit:range`; lift lengthens the entry). Re-measure `landingReserve` if `deorbit-range.test.ts` fails its eighth-of-reserve bound.
 - [ ] Tests: lift points away from the planet during entry in both directions (assert the lift's vertical acceleration > 0 over the hypersonic segment); at α = 90° lift is zero and drag equals the crossflow drag; at α = 0 and π the force is axial only; continuity across α = 90° and across M_t and M_b; the predictor agrees with `step()` within a metre (existing test unchanged); `flies-every-scenario` lands every scenario; re-entry flux band in `flies-every-scenario` re-measured and re-banded ±5% with the date.
 - [ ] Golden regeneration (all eight expected), audit row P6b.1 with the per-scenario shape, digests, margins diffed.
+
+### Task 1b: Earth's rotation on (Fidelity; was Phase 6 Task 9b; after Task 1)
+
+Everything is in place at rate zero (Phase 6 Task 9a and the 9b work): the Coriolis and centrifugal terms in `verticalGravityAcceleration` / `tangentialAcceleration`, `verticalWeight` in the burn predictor and the flip ladder, the ground-arc coast conic, the orbital presets converted with `groundTangentialSpeed`, and every truth test transformed to the inertial frame and proved with the rate on. What it waited for is range control in the descent: with the rate on and broadside entry, the circularize-then-deorbit flight missed by 11.1 km against the 10 km acceptance (Phase 6 plan, Task 9b, has the numbers).
+
+- [ ] Set `frameRotationRate = EARTH_FRAME_ROTATION_RATE` (`constants.ts`), and update its comment.
+- [ ] Task 1's entry flies the range: the entry angle (or a bank-free lift modulation inside Task 1's schedule) trims the hypersonic range toward the pad, so a heavy and a light entry land together. If Task 1's schedule already does this, measure and say so; if not, add a range term to the schedule (lift up for long, down for short) inside the same ±α authority, never by moving the 10 km or 1 km bounds.
+- [ ] Re-derive `DEORBIT_ENTRY_RANGE` (`npm run deorbit:range`), re-measure the re-entry flux band and the deorbit peak temperature in `orbit-demo.test.ts` and `flies-every-scenario.test.ts` with the date, and the 300 km heating row (its bound states what it measures).
+- [ ] `orbit-demo.test.ts` (every flight, including the circularize demo within 10 km) and `deorbit-range.test.ts` (within 1 km) green; the `rotating-frame.test.ts` "default rate is zero" test becomes "is Earth's".
+- [ ] Golden regeneration (all eight will move: the ascent gains 418 m/s, every descent feels Coriolis), audit row P6b.1b.
 
 ### Task 2: Centre of pressure and the aerodynamic moment (Fidelity; was Phase 6 Task 6)
 

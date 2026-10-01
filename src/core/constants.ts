@@ -42,11 +42,32 @@ export const planetTimeToRotate = 24 * (60 * 60);
 /** m/s */
 export const planetLinearVelocity = planetCircumference / planetTimeToRotate;
 
+/** rad/s — Earth's rotation rate, sidereal (WGS 84, NIMA TR8350.2 §3.2). */
+export const EARTH_ROTATION_RATE = 7.292115e-5;
+/** rad — Starbase's latitude, 25.997°N; the flights head due east from it. */
+export const LAUNCH_LATITUDE = toRad(deg(25.997));
+
+/**
+ * rad/s — Earth's spin about the normal of the flight plane: the great circle
+ * heading due east from Starbase, so Ω cos φ, which gives the pad its 417.6 m/s
+ * eastward (+x is east, prograde). The spin's in-plane part only turns the
+ * plane itself, which a 2D simulation leaves out (tier B).
+ */
+export const EARTH_FRAME_ROTATION_RATE = EARTH_ROTATION_RATE * Math.cos(LAUNCH_LATITUDE);
+
 /**
  * rad/s — how fast the ground frame turns in the flight plane. The simulation
  * integrates in the frame of the ground, so a turning planet adds Coriolis and
- * centrifugal terms (physics/gravity.ts). Zero: the frame is inertial, as it
- * always has been (Phase 6 Task 9a, Refactor).
+ * centrifugal terms (physics/gravity.ts), and everything that needs the frame
+ * reads this one number.
+ *
+ * ZERO FOR NOW, and that is a recorded decision (Phase 6, 2026-10-01). At
+ * `EARTH_FRAME_ROTATION_RATE` every truth test passes transformed to the
+ * inertial frame, but the circularize-then-deorbit flight misses the pad by
+ * 11.1 km against its 10 km acceptance: the broadside descent has no range
+ * control, and the turning ground widens the spread between a heavy and a
+ * light entry from 5 to 14 km. Entry range control is Phase 6b's, so the
+ * switch to Earth's rate is Phase 6b's Task 1b, after the entry flies on lift.
  */
 export const frameRotationRate = 0;
 
@@ -485,8 +506,10 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  *
  * MEASURED at 838 km, re-measured at 841.8 km in Phase 6 (Tasks 3 and 4c: the
  * descent carries the 18 t landing reserve rather than 12 t, and the heavier
- * vehicle flies farther). It is short of the ~860 km the descent actually covers because it also absorbs the small biases in the two computed
- * halves. That is what a fitted constant is for; what matters is that it is
+ * vehicle flies farther). With the ground turning at Earth's rate it measures
+ * 801.0 km (miss 0.21 km), for Phase 6b's Task 1b. It is short of what the
+ * descent actually covers because it also absorbs the small biases in the two
+ * computed halves. That is what a fitted constant is for; what matters is that it is
  * fitted to something that barely moves.
  *
  * THE ENVELOPE, measured before Phase 6 (the planet and the reserve have moved

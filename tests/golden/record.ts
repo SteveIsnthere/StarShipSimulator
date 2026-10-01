@@ -7,9 +7,9 @@
  *
  * WHY SAMPLED, NOT EVERY STEP. A 60 s flight at 120 Hz is 7200 states; at ~60
  * numeric fields each that is half a million numbers per scenario. Sampling
- * every 24 steps (5 Hz) keeps fixtures reviewable in a diff while still
- * catching any divergence — errors in a feedback loop grow, they do not hide
- * for a fifth of a second and then vanish.
+ * every 60 steps (2 Hz, `SAMPLE_EVERY`) keeps fixtures reviewable in a diff
+ * while still catching any divergence — errors in a feedback loop grow, they
+ * do not hide for half a second and then vanish.
  *
  * WHY FULL PRECISION. Values are written with the shortest round-trip decimal
  * form JavaScript produces (`String(x)`), so reading a fixture back gives the

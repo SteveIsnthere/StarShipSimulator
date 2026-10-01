@@ -5,6 +5,7 @@
  *
  * Seeded, so the gate is deterministic. Set FC_SEED to explore other seeds.
  */
+import * as C from '$core/constants';
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
 import { step } from '$core/step';
@@ -66,8 +67,13 @@ describe('invariants over any configurable flight', () => {
       fc.property(arbitraryFlight(STEPS), (f) => {
         const flight = { ...f, enginesOn: false, dumping: false, preset: { ...f.preset, wind: 0 } };
         let s = startOf(flight);
+        // In the turning ground frame the conserved quantity of free motion is
+        // the Jacobi integral, the energy less the centrifugal potential
+        // omega^2 r^2 / 2; air at rest over the ground only ever takes from it.
+        // At omega = 0 it is the orbital energy (Phase 6 Task 9).
         const energy = (x: typeof s) =>
-          specificOrbitalEnergy(x.kinematics.distanceToPlanetCenter, x.kinematics.trueSpeed);
+          specificOrbitalEnergy(x.kinematics.distanceToPlanetCenter, x.kinematics.trueSpeed) -
+          0.5 * C.frameRotationRate ** 2 * x.kinematics.distanceToPlanetCenter ** 2;
         for (let i = 0; i < STEPS; i++) {
           const before = energy(s);
           s = step(s, GOLDEN_DT, { throttle: 0 });

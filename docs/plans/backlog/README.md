@@ -10,9 +10,7 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 | The unexplained `/ 2.1` in `getCrossSectionalArea` (`src/core/physics/aero.ts`) | 6b |
 | Break-up and crash checks read the previous step's forces | 6b |
 | `controlEnginebyTWR` divides the required thrust by the thrust at `throttleCurrent`, not at full throttle (`src/core/control/primitives.ts`), a 2021 quirk that makes its TWR wrong whenever the throttle is not at 100%. Phase 5's truth tests use the effective-vertical law instead | 6b |
-| Earth rotation (`planetLinearVelocity` and `planetTimeToRotate` unused); pitch integrated against local vertical with no frame-rotation term | 6 |
-| Gust is never written; no turbulence stream (`src/core/scenarios.ts` comment) | 6 |
-| Stale comments outside the view: `record.ts` sampling rate (says 24 steps; it is 60), `eslint.config.js` and the workflows say "six walls" (there are seven) | 6 |
+| Earth's rate in the ground frame (the frame and its tests are in at rate 0; switching on waits for entry range control, Phase 6b Task 1b); pitch integrated against local vertical with no frame-rotation term | 6b |
 | Render interpolation: `advance()` returns `alpha` but nothing reads it; the view draws the latest step | 8 |
 | Per-frame allocations: `engines.running.filter(Boolean)` in `src/view/effects.ts`; `worldToScreen` returns a new object (`src/view/camera.ts`) | 8 |
 | Stale view comments: `camera.ts` header (claims interpolated state and real dt), `CameraTarget.dynamicPressure` says Pa (it is kPa), `effects.ts` `previous` | 8 |

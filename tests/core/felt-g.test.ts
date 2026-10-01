@@ -34,7 +34,10 @@ describe('felt g', () => {
     let s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'launch-pad')!);
     for (let i = 0; i < 3; i++) s = step(s, DT);
     expect(s.status.onTheGround).toBe(true);
-    expect(s.forces.perceivedG).toBeCloseTo(gravityAt(C.planetRadius + s.kinematics.altitude) / C.standardGravity, 12);
+    // Gravity less the turning ground's centrifugal term, written out (zero
+    // until the frame turns, Phase 6 Task 9).
+    const r = C.planetRadius + s.kinematics.altitude;
+    expect(s.forces.perceivedG).toBeCloseTo((gravityAt(r) - C.frameRotationRate ** 2 * r) / C.standardGravity, 12);
   });
 
   it('breaks the airframe at the felt limit, not at the net acceleration', () => {
