@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | Tasks 1–4 done on `claude/ship-realism`, unmerged ([phase 6](modernization-phase-6.md)) | — |
+| 6 Ship realism | Tasks 1–4 and 8 done on `claude/ship-realism`, unmerged; 5, 6, 7, 11 parked ([phase 6](modernization-phase-6.md)) | — |
 | 7 Super Heavy | not started | — |
 | 8 UX to flight_sim level | not started | — |
 
@@ -52,6 +52,8 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 ## Parked — yours to decide
 
+- **Entry guidance, which unparks Tasks 5, 6, 7 and 11.** With a physical drag model (built, on `claude/drag-parked`), hypersonic broadside drag halves and the deorbit reaches the 1,533 K tile limit at 65 km. The autopilot flies entry broadside, where lift is zero, so no lift model helps. A Ship survives by flying entry on lift at a lower angle of attack. That is new guidance, outside the Phase 6 plan: say whether to add an entry angle-of-attack schedule (my recommendation, as a Phase 6b), or to keep 2021's broadside entry and its unphysical drag.
+
 - **No LICENSE** in a public repo. Choose one before this grows further.
 - **Two dead remote branches**, `origin/exp` and `origin/feat/modernize-app`: nothing in either is worth keeping. Delete when you agree.
 - **Codex can't run as a peer reviewer**: `~/.codex/config.toml` names `gpt-6.1-sol`, which a ChatGPT login does not support. ChatGPT Pro and fresh subagents reviewed instead.
@@ -75,5 +77,6 @@ None.
 
 - Tasks 1–4 on `claude/ship-realism`, each pushed with its Linux-regenerated goldens and an audit row (P6.1–P6.5): felt g, the 1976 thermosphere, the starting Mach, the emptying-step thrust; Earth's GM and radius; the measured landing reserve; six Raptors; the start transient.
 - **Independent review of Tasks 1–3** (a fresh subagent; Codex cannot run here): no correctness bugs in the physics. It found one real edge (an ignition finishing on the emptying step thrust for free, fixed in `cff0046`), stale docs and four tests my planet rewrite had made tautological (re-anchored to fixed figures). Both fixed.
-- Next: Task 5 (drag area and Cd), then 6–11, then the close (full e2e, `/code-review high`, an independent physics review of the whole phase, merge).
+- Task 8 (the heat shield) done: Sutton-Graves in W/m², skin temperature in K, the 1,533 K limit; the deorbit peaks at 1,459 K. Task 5 parked (see Parked), and 6, 7, 11 with it.
+- Next: Task 10 (wind profile and turbulence), Task 9 (Earth's rotation), then the close (full e2e, `/code-review high`, an independent physics review of the whole phase, merge).
 
