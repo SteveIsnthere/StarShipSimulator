@@ -32,6 +32,7 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 | `plume.spec.ts` "blooms wider than the ship in vacuum" is flaky on `main` too (2 of 3 runs failed on desktop, 2026-10-01; the vacuum/sea-level width ratio ranges about 1.0–2.0 against a 1.2 bound). The measurement, not the plume, needs fixing before the bound means anything | 8 |
 | The throttle and yoke sliders follow the simulation on keys, store changes and touch, not while the autopilot moves them | 8 |
 | The debrief has no grade and no comparison with the previous flight (ia.md asks for both) | 8 |
+| During the intro's demonstration landing the status bar reads "Autopilot · Land" while the Flight panel lights Manual: the panel lights only the real autopilot flags, not `demoAutoLandOn`. Lighting Land needs a decision on what Land and Manual do mid-demo; the intro is protected | 8 |
 | Audio tuned "by ear" and never tuned: `ENGINE_VACUUM_FLOOR = 0.22`, `BUS_GAIN` in `src/audio/graph.ts`; camera `SHAKE_FRACTION = 0.006` | 8 |
 
 ## Not in any phase

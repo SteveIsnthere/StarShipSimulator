@@ -9,8 +9,8 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 1 Green gate and cut-over | done, live | `f14aadb` (2026-10-01) |
 | 2 Truth harness | done | `53e3c26` |
 | 3 Design pass | done (review page published) | `53e3c26` |
-| 4 React shell | built and reviewed on `claude/react-shell`; browser suite closing out | — |
-| 5 Guidance on real physics | not started | — |
+| 4 React shell | done, live | `dfab3c8` |
+| 5 Guidance on real physics | plan written ([phase 5](modernization-phase-5.md)) | — |
 | 6 Ship realism | not started | — |
 | 7 Super Heavy | not started | — |
 | 8 UX to flight_sim level | not started | — |
