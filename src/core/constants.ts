@@ -435,6 +435,8 @@ export const TILE_EMISSIVITY = 0.85;
  * limit is not public). It does not move to make a flight survive.
  */
 export const TILE_LIMIT_KELVIN = 1533;
+/** K — add to °C. */
+export const CELSIUS_TO_KELVIN = 273.15;
 /**
  * W/m^2 — the heat flux that holds a tile at `TILE_LIMIT_KELVIN` in radiative
  * equilibrium, eps sigma T^4: 266 kW/m^2. The break-up check compares the flux

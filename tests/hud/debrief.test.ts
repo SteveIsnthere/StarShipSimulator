@@ -120,8 +120,10 @@ describe('the peaks contain the recorder’s peaks', () => {
       if (peak('dynamicPressure') > 1) {
         expect(card.peakQ.value / peak('dynamicPressure')).toBeLessThan(1.05);
       }
+      // The card's temperature includes the tile's surroundings (at most the
+      // sea-level 288.15 K), so the bound above it is that sink's.
       if (peak('thermalPower') > 1) {
-        expect(card.peakHeat.value / surfaceTemperature(peak('thermalPower'))).toBeLessThan(1.05);
+        expect(card.peakHeat.value / surfaceTemperature(peak('thermalPower'), 288.15)).toBeLessThan(1.05);
       }
 
       // And the fractions are those against the constants the simulation

@@ -190,8 +190,11 @@ Phase 6, Task 8 (`physics/thermal.ts`).
   stagnation line takes 1/√2 of a sphere's flux (2-D against axisymmetric; Anderson); the factor runs
   from 1 nose-on to 0.707 broadside with |sin| of the angle into the wind (the blend is an assumption).
   2021's 1.83e-7 was the same form on a scale 951.6 times smaller.
-- **Temperature:** radiative equilibrium, `T = (q / εσ)^¼`, ε = 0.85 (the Shuttle HRSI coating,
-  tier B). No soak, no ablation.
+- **Temperature:** radiative equilibrium with the surroundings, `εσ(T⁴ − T_sink⁴) = q`, ε = 0.85
+  (the Shuttle HRSI coating, tier B). The sink is the air below 86 km and the mesopause's
+  186.95 K above it (`radiativeSinkKelvin`; the thermosphere's 1,000 K gas is too thin to warm
+  anything, tier B), so an unheated tile reads its surroundings, 288 K on the pad. No soak, no
+  ablation.
 - **Limit:** 1,533 K, the Shuttle HRSI reuse limit (1,260 °C, tier B); `heatLimit` is the flux that
   holds it, εσT⁴ = 266 kW/m². Peaks: the Re-entry preset 1,372 K (171 kW/m²), the deorbit 1,459 K.
 

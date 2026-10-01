@@ -19,6 +19,7 @@
  * `C.TILE_LIMIT_KELVIN`; `C.heatLimit` is the flux that holds a tile there.
  */
 import * as C from '../constants';
+import { isaAtmosphere, THERMOSPHERE_BASE } from './isa';
 
 /** Stagnation flux of a sphere of radius R_n, Sutton-Graves. @returns W/m^2 */
 export function suttonGravesFlux(trueSpeed: number, airDensity: number, noseRadius: number): number {
@@ -41,7 +42,31 @@ export function getReentryHeatPower(
   return suttonGravesFlux(trueSpeed, airDensity, noseRadius) * shape;
 }
 
-/** The tile's radiative-equilibrium temperature under a flux. @returns K */
-export function surfaceTemperature(heatFlux: number): number {
-  return (Math.max(0, heatFlux) / (C.TILE_EMISSIVITY * C.STEFAN_BOLTZMANN)) ** 0.25;
+/**
+ * The tile's radiative-equilibrium temperature under a flux, exchanging with
+ * surroundings at `ambientKelvin` (`radiativeSinkKelvin`): εσ(T⁴ − T_amb⁴) = q.
+ * With no flux the tile sits at its surroundings' temperature, not at absolute zero (Phase 6 close: the
+ * first version left out the ambient term, and a gentle landing burn read
+ * 129 K, colder than the air it flew through). The break-up check stays on
+ * the flux, `heatLimit` = εσT_lim⁴; the ambient term moves the reading at that
+ * flux by at most half a kelvin (288 K air: (1 + 1.2e-3)^¼).
+ * @returns K
+ */
+export function surfaceTemperature(heatFlux: number, ambientKelvin = 0): number {
+  return (Math.max(0, heatFlux) / (C.TILE_EMISSIVITY * C.STEFAN_BOLTZMANN) + ambientKelvin ** 4) ** 0.25;
 }
+
+/** K — the air's temperature at the base of the thermosphere, 86 km (186.95 K). */
+const MESOPAUSE_KELVIN = isaAtmosphere(THERMOSPHERE_BASE).airTemperature + C.CELSIUS_TO_KELVIN;
+
+/**
+ * K — what the tile exchanges heat with when nothing heats it: the air, where
+ * there is air enough to matter, and above 86 km a sky held at the mesopause's
+ * 186.95 K (86 km geometric). The 1976 standard's thermosphere is 1,000 K of gas too thin to warm
+ * anything; a tile up there radiates to Earth and space. A tier-B choice,
+ * continuous at 86 km.
+ */
+export function radiativeSinkKelvin(altitude: number, airTemperatureCelsius: number): number {
+  return altitude < THERMOSPHERE_BASE ? airTemperatureCelsius + C.CELSIUS_TO_KELVIN : MESOPAUSE_KELVIN;
+}
+

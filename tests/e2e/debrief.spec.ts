@@ -79,8 +79,11 @@ test('the intro lands and says how it went @mobile', async ({ page }) => {
   expect(await figure(page, 'debrief-miss')).toBeLessThan(100);
 
   // A landing burn from 500 m is subsonic in thick air and gentle: no heating
-  // worth the name, and nowhere near the structural limits.
-  expect(await figure(page, 'debrief-peak-heat')).toBeLessThan(10);
+  // worth the name, and nowhere near the structural limits. Peak heat is the
+  // tile's temperature in kelvin since Phase 6: the air's own, 288 K at sea
+  // level, and a few kelvin more at most.
+  expect(await figure(page, 'debrief-peak-heat')).toBeGreaterThan(280);
+  expect(await figure(page, 'debrief-peak-heat')).toBeLessThan(300);
   expect(await figure(page, 'debrief-peak-g')).toBeLessThan(13);
 
   // And the events it flew through are on the card, in order.

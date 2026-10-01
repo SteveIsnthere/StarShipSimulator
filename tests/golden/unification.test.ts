@@ -38,6 +38,7 @@
  *     P6.8    the heat shield in W/m^2 and K     ALL EIGHT, in thermalPower alone
  *     P6.10   the wind profile and turbulence    headwind only; seven in shape alone
  *     P6.11   review: sweep speed, fixed RVacs   headwind only (the sweep); RVacs moved nothing
+ *     P6.12   the tile against its surroundings  ALL EIGHT, in surfaceTemperature alone
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -274,6 +275,12 @@
  * which is exactly 1 with no RVac lit, so no fixture moves. The radial coast
  * at a turning rate is unreachable at rate zero.
  *
+ * P6.12 (Phase 6 close, Fidelity) moves every fixture in one key,
+ * `surfaceTemperature`, and nothing else: the tile's equilibrium now includes
+ * its surroundings (the air below 86 km, the mesopause's 186.95 K above), so a
+ * vehicle on the pad reads 288 K instead of 0 K. The break-up check reads the
+ * flux and does not see it.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -342,17 +349,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P6.8 (all eight, thermalPower alone): see the table above. Recorded
+  // P6.12 (all eight, surfaceTemperature alone): see the table above. Recorded
   // on x86-64 Linux / Node 22 by .github/workflows/golden-regenerate.yml.
-  'launch-pad-takeoff': '287e1fc4789e0396575dc668729ce77f3476520cc58ea5ac47b27311c4bb3de0',
-  'booster-sep-boostback': '27c9491654dad845cc4989b608cbc2adc267f78150e597e00094966955a9bfb3',
-  'rtls-boostback': '0b9a512aefaa63067f1b8958953e46e29641a299d325bbcf97a105ed4baeb41a',
-  'reentry-autoland': 'c7563e0ed57727d0317185c812190590a418c6182cabab19ac4a6772432d7097',
-  'before-flip-autoland': 'e51ed9ff42114c32699fcb398eec7e1477e658139a50e60998a5f783af55762c',
-  'landing-burn-autoland': '8c3684de124c6fe8114f6b40c6526ae165587316fc342b9aef5aaceeb20ba67b',
-  // P6.11 (the one windy fixture): the turbulence's sweep speed.
-  'landing-burn-headwind': '5a33cae3d996f0296b0b3285707bb4c1ee162733087b7633902dd3e64ba446e2',
-  'intro-demo': '5063e60b32d9b62412403bf0ec21c3288ae0a264dfcd194d2899711caf5467d5',
+  'launch-pad-takeoff': 'b71e2203290dde3c170ac1259e0dc1754eafff9fafcdd5d54a843b6f1852bc92',
+  'booster-sep-boostback': 'ccf3e19863f7a7956aae8cf8ca7554d4bcfc02787252fa1a07ce00070c154e6e',
+  'rtls-boostback': '45f937f35bbaa30947b947aa3896b2ae453b75a7cad24e9e189e510fa8815392',
+  'reentry-autoland': '07d95cf7a2df29509becf3a3feb6ecf64e0462c59a2c4beff264eaf4e3afbff4',
+  'before-flip-autoland': '1509712cf0d6cd184156c6df17fcaf83bb3dfb960761954f1dbb18590c4e0bc0',
+  'landing-burn-autoland': '6c238ea6a05910435041e83fb17a96fefaebbd42d817fa894dc82e4f60e8542c',
+  'landing-burn-headwind': '0cc15afd883b96e662c9cd32bfcfa5faf43cc591090cbda9042c7339ee53d3e4',
+  'intro-demo': 'cecdc48322e0704619df6b729dd34b538b59f7823507094466013b3935f3000c',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

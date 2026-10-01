@@ -15,7 +15,8 @@
  */
 import { describe, expect, it } from 'vitest';
 import { getDynamicPressure } from '$core/physics/aero';
-import { surfaceTemperature, suttonGravesFlux } from '$core/physics/thermal';
+import { radiativeSinkKelvin, surfaceTemperature, suttonGravesFlux } from '$core/physics/thermal';
+import { isaAtmosphere } from '$core/physics/isa';
 import { circularOrbitalSpeed, gravityAt, MU } from '$core/physics/gravity';
 import { getWorkingEngineCount } from '$core/physics/engines';
 import * as C from '$core/constants';
@@ -198,3 +199,19 @@ describe('the deorbit burn is a normal size for the job', () => {
     expect(spent / 1000).toBeLessThan(30);
   });
 });
+
+describe('the tile sits at its surroundings when nothing heats it (Phase 6 close)', () => {
+  it('reads the sink with no flux, and the flux-only figure far above it', () => {
+    expect(surfaceTemperature(0, 288.15)).toBeCloseTo(288.15, 9);
+    expect(surfaceTemperature(C.heatLimit, 288.15) - 1533).toBeLessThan(0.5);
+    expect(surfaceTemperature(C.heatLimit, 288.15) - 1533).toBeGreaterThan(0);
+  });
+
+  it('the sink is the air below 86 km and the mesopause above it, continuous at 86 km', () => {
+    expect(radiativeSinkKelvin(0, 15)).toBeCloseTo(288.15, 9);
+    expect(radiativeSinkKelvin(150_000, 700)).toBeCloseTo(186.95, 2);
+    const below = radiativeSinkKelvin(85_999.9, isaAtmosphere(85_999.9).airTemperature);
+    expect(Math.abs(below - radiativeSinkKelvin(86_000, 0))).toBeLessThan(0.01);
+  });
+});
+

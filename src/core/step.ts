@@ -51,7 +51,7 @@
  */
 import * as C from './constants';
 import { speedOfSoundAt, updateAtmosphere } from './physics/atmosphere';
-import { getReentryHeatPower, surfaceTemperature } from './physics/thermal';
+import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from './physics/thermal';
 import * as aero from './physics/aero';
 import * as comp from './physics/components';
 import * as gravity from './physics/gravity';
@@ -326,7 +326,10 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     C.NOSE_RADIUS,
     s.kinematics.angleInToTheWind,
   );
-  s.forces.surfaceTemperature = surfaceTemperature(s.forces.thermalPower);
+  s.forces.surfaceTemperature = surfaceTemperature(
+    s.forces.thermalPower,
+    radiativeSinkKelvin(s.kinematics.altitude, s.atmosphere.airTemperature),
+  );
   s.forces.dynamicPressure = aero.getDynamicPressure(
     s.atmosphere.airDensity,
     incomingAirspeed,

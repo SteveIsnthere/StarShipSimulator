@@ -40,7 +40,6 @@
  */
 import * as C from '$core/constants';
 import { PROPELLANT_CAPACITY } from '$core/physics/mass';
-import { surfaceTemperature } from '$core/physics/thermal';
 import { DT } from '$app/loop';
 import type { SimState } from '$core/state';
 import type { Timeline, TimelineEvent } from './timeline';
@@ -103,6 +102,8 @@ export interface Witness {
   readonly peakDynamicPressure: number;
   /** W/m^2 — the highest heat flux this flight reached, exactly. */
   readonly peakThermalPower: number;
+  /** K — the hottest the tile got (`forces.surfaceTemperature`), exactly. */
+  readonly peakSurfaceTemperature: number;
   /**
    * g — the highest this flight reached, exactly, as STRUCTURAL g.
    *
@@ -160,6 +161,7 @@ export function createFlightWatch(): FlightWatch {
     dynamicPressure: 0,
     peakDynamicPressure: 0,
     peakThermalPower: 0,
+    peakSurfaceTemperature: 0,
     peakStructuralG: 0,
   };
 
@@ -190,6 +192,9 @@ export function createFlightWatch(): FlightWatch {
       if (forces.thermalPower > record.peakThermalPower) {
         record.peakThermalPower = forces.thermalPower;
       }
+      if (forces.surfaceTemperature > record.peakSurfaceTemperature) {
+        record.peakSurfaceTemperature = forces.surfaceTemperature;
+      }
       if (structuralG > record.peakStructuralG) record.peakStructuralG = structuralG;
     },
 
@@ -197,6 +202,7 @@ export function createFlightWatch(): FlightWatch {
       seen = false;
       record.peakDynamicPressure = 0;
       record.peakThermalPower = 0;
+      record.peakSurfaceTemperature = 0;
       record.peakStructuralG = 0;
     },
   };
@@ -338,7 +344,7 @@ export function debrief(
       C.vehicleHeight,
     ),
     peakQ: judged(witness?.peakDynamicPressure ?? 0, C.dynamicPressureLimit, overQ),
-    peakHeat: judged(surfaceTemperature(witness?.peakThermalPower ?? 0), C.TILE_LIMIT_KELVIN, overHeat),
+    peakHeat: judged(witness?.peakSurfaceTemperature ?? 0, C.TILE_LIMIT_KELVIN, overHeat),
     peakG: judged(witness?.peakStructuralG ?? 0, C.gLimit, overG),
     // The recorder holds tonnes; so does the card, because the propellant bar
     // and the editor field are both in tonnes and three units for one quantity
