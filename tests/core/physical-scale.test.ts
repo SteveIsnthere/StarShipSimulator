@@ -100,22 +100,26 @@ describe('dynamic pressure is kilopascals, whatever 2021 labelled it', () => {
 });
 
 describe('the planet is Earth, to within a percent', () => {
-  it('its gravitational parameter is Earth\'s', () => {
-    // 3.986e14. The radius is 6400 km rather than 6371, so surface gravity is
-    // 9.731 rather than 9.807 — which is why the 2021 constant is 0.78% high.
-    expect(MU / 3.986e14).toBeCloseTo(1, 2);
-    expect(gravityAt(C.planetRadius)).toBeCloseTo(9.731, 2);
+  it('its gravitational parameter and radius are Earth\'s', () => {
+    // Since Phase 6: GM from IERS 2010 / WGS 84, R the IUGG mean radius. The
+    // pull at the surface is GM/R^2 = 9.820, above standard gravity's 9.807
+    // because that one is read on a rotating Earth (2021 had 6400 km and 9.731).
+    expect(MU).toBe(3.986004418e14);
+    expect(C.planetRadius).toBe(6_371_000);
+    expect(gravityAt(C.planetRadius)).toBe(MU / C.planetRadius ** 2);
+    expect(gravityAt(C.planetRadius)).toBeCloseTo(9.820, 3);
   });
 
   it('escape velocity is 11.2 km/s', () => {
     expect(Math.sqrt((2 * MU) / C.planetRadius) / 1000).toBeCloseTo(11.16, 1);
   });
 
-  it('low orbit is 7.8 km/s and takes 88 minutes', () => {
+  it('low orbit is 7.8 km/s and takes Kepler\'s 87 minutes', () => {
     const r = C.planetRadius + 150_000;
     const v = circularOrbitalSpeed(r);
     expect(v).toBeCloseTo(7800, -2);
-    expect((2 * Math.PI * r) / v / 60).toBeCloseTo(88, 0);
+    expect((2 * Math.PI * r) / v).toBeCloseTo(2 * Math.PI * Math.sqrt(r ** 3 / MU), 6);
+    expect((2 * Math.PI * r) / v / 60).toBeCloseTo(87.3, 1);
   });
 });
 

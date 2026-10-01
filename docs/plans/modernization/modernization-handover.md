@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | plan written ([phase 6](modernization-phase-6.md)) | — |
+| 6 Ship realism | Tasks 1–3 done on `claude/ship-realism` ([phase 6](modernization-phase-6.md)) | — |
 | 7 Super Heavy | not started | — |
 | 8 UX to flight_sim level | not started | — |
 
@@ -19,7 +19,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 - **The rebuild is live** at https://steveisnthere.github.io/StarShipSimulator/ in place of the 2021 game. Returning visitors' 2021 service worker is retired by a kill switch; the 2021 game is tag `v0-classic`, and branch `classic` is the one-command rollback (`docs/reference/architecture.md`).
 - **A gate that is green on your Mac and in hosted CI.** Before: 48 of 1,585 unit tests red on arm64, CI green 2 of 132 runs. Now: `npm run gate` about 3 minutes locally, CI about 8 minutes, green on every push since.
-- **A truth harness.** Cited reference bands with a ratchet (`npm run truth:report`), property invariants over every configurable flight, a mutation matrix the suite must turn red (`npm run mutation`, 9 of 9 caught), a debug surface and a browser witness with a positive control.
+- **A truth harness.** Cited reference bands with a ratchet (`npm run truth:report`), property invariants over every configurable flight, a mutation matrix the suite must turn red (`npm run mutation`, 13 of 13 caught), a debug surface and a browser witness with a positive control.
 - **Two real physics bugs fixed**, both found by the new tests: the tank went negative on the emptying step, and the flight editor accepted negative propellant (a vehicle lighter than its own structure).
 - **The design pass**: `docs/design/ux-critique.md`, `design-system.md`, `ia.md`, and the review page below.
 
@@ -45,7 +45,8 @@ The unattended run's report. Updated as phases land; the last section is always 
   - the six-engine UI is minimal now and the look is Phase 8's;
   - *Engines* (all) lights the three sea-level engines, as in 2021;
   - Earth rotation uses a rotating ground frame at Starbase's 26°N, done last;
-  - spool-up is the existing ignition transient, not a second invented one.
+  - spool-up is the existing ignition transient, not a second invented one;
+  - **the landing reserve is measured, not computed (changed during Task 3).** The plan's formula gave 6.3 t, but the landing programme spends 12.0 t engine-out, so a computed reserve would have crashed every deorbit. It is 16 t (that plus a third), health-checked the way the deorbit aim is; engine-out deorbits now land with 3 t instead of 0.0–0.2 t.
 
 ## Parked — yours to decide
 

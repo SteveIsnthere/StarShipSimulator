@@ -127,13 +127,13 @@ describe('the orbital presets', () => {
     // Derived from circularOrbitalSpeed at spawn rather than transcribed, so
     // moving the altitude cannot leave a stale speed behind.
     expect(circularHere(s) - s.kinematics.speedX).toBeCloseTo(20, 6);
-    expect(s.kinematics.speedX).toBeCloseTo(7780.68, 1);
+    expect(s.kinematics.speedX).toBe(Math.sqrt(C.planetGravitationalParameter / (C.planetRadius + ORBIT_ALTITUDE)) - 20);
   });
 
   it('Deorbit starts exactly circular, half a lap from StarBase', () => {
     const s = createScenarioState(getScenario('deorbit')!);
     expect(s.kinematics.speedX).toBe(circularHere(s));
-    expect(s.kinematics.speedX).toBeCloseTo(7800.68, 1);
+    expect(s.kinematics.speedX).toBe(Math.sqrt(C.planetGravitationalParameter / (C.planetRadius + ORBIT_ALTITUDE)));
     const fromBase = Math.abs(s.kinematics.downRangeDistance - C.starBaseXPos);
     expect(fromBase).toBeCloseTo(Math.PI * C.planetRadius, -4);
   });
@@ -170,7 +170,8 @@ describe('step 2 — coast a full lap', () => {
   it('a 150 km orbit holds for a full 88-minute lap', () => {
     let s = circularAt(150_000);
     const steps = lapSteps(150_000);
-    expect((steps * DT) / 60).toBeCloseTo(87.9, 0);
+    const r = C.planetRadius + 150_000;
+    expect(Math.abs(steps * DT - 2 * Math.PI * Math.sqrt(r ** 3 / C.planetGravitationalParameter))).toBeLessThanOrEqual(DT);
 
     let min = Infinity;
     let max = -Infinity;
@@ -263,16 +264,17 @@ describe('step 3 — deorbit and land at StarBase', () => {
   });
 
   it('and the entry is managed, not merely survived', () => {
-    // 315 units against a limit of 389 — 81% of it (318 and 82% before M11.3
-    // moved the integrator; the entry is a second-order trajectory now and the
-    // peak moved one percent). The margin is why the burn is bounded rather
+    // 322 units against a limit of 389 — 83% of it (318 and 82% before M11.3
+    // moved the integrator, 315 and 81% after it; Phase 6 put the planet at
+    // Earth's size and the descent on a 16 t reserve, 4 t heavier, and the
+    // peak rose two percent). The margin is why the burn is bounded rather
     // than free: a bigger one drops perigee further, meets thick air faster,
     // and pushes the peak up. Tighter than the Re-entry preset's 63%, which is
     // right — coming home from orbit should be the hardest thing the vehicle
     // does.
     expect(flight.peakHeat).toBeGreaterThan(250);
     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
-    expect(flight.peakHeat / C.heatLimit, 'fraction of the structural limit').toBeCloseTo(0.81, 2);
+    expect(flight.peakHeat / C.heatLimit, 'fraction of the structural limit').toBeCloseTo(0.83, 2);
   });
 
   it('is deterministic — the same flight twice', () => {

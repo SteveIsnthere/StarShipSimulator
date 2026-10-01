@@ -16,6 +16,7 @@
  */
 import * as C from './constants';
 import { updateVehicleInFlightMaxArea } from './physics/aero';
+import { circularOrbitalSpeed } from './physics/gravity';
 import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
 
@@ -516,9 +517,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       downRangeDistance: C.starBaseXPos,
       downRangeDistanceNextFrame: C.starBaseXPos,
       distanceToPlanetCenter,
-      orbitalVelocityAtCurrentAltitude: Math.sqrt(
-        (C.gravitationalConstant * C.planetMass) / distanceToPlanetCenter,
-      ),
+      orbitalVelocityAtCurrentAltitude: circularOrbitalSpeed(distanceToPlanetCenter),
 
       trueSpeed: 0,
       speedX: 0,

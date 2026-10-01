@@ -7,6 +7,7 @@
 import { describe, expect, it } from 'vitest';
 import { DT } from '$app/loop';
 import * as C from '$core/constants';
+import { gravityAt } from '$core/physics/gravity';
 import { ALL_SCENARIOS, createScenarioState } from '$core/scenarios';
 import { step } from '$core/step';
 
@@ -33,7 +34,7 @@ describe('felt g', () => {
     let s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'launch-pad')!);
     for (let i = 0; i < 3; i++) s = step(s, DT);
     expect(s.status.onTheGround).toBe(true);
-    expect(s.forces.perceivedG).toBeCloseTo(9.731 / C.standardGravity, 3);
+    expect(s.forces.perceivedG).toBeCloseTo(gravityAt(C.planetRadius + s.kinematics.altitude) / C.standardGravity, 12);
   });
 
   it('breaks the airframe at the felt limit, not at the net acceleration', () => {

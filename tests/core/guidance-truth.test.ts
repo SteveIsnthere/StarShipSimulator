@@ -8,7 +8,9 @@
  */
 import { describe, expect, it } from 'vitest';
 import { DT } from '$app/loop';
+import * as C from '$core/constants';
 import { controlEnginebyEffectiveVerticalTWR } from '$core/control/primitives';
+import { gravityAt } from '$core/physics/gravity';
 import { ALL_SCENARIOS, createScenarioState } from '$core/scenarios';
 import { step } from '$core/step';
 import type { SimState } from '$core/state';
@@ -54,7 +56,7 @@ function hoverAcceleration(altitude: number, twr = 1): { acceleration: number; t
 describe('the vertical TWR law holds a hover at TWR 1', () => {
   for (const altitude of [0, 10_000, 80_000]) {
     // Until Phase 5 Task 3 the law sized thrust with a flat g of 9.807 m/s²
-    // against the simulation's 9.731 at the surface (less with altitude), so a
+    // against the simulation's 9.731 at the surface then (less with altitude), so a
     // commanded TWR of 1 climbed at 0.076, 0.107 and 0.316 m/s² at 0, 10 and 80 km.
     it(`at ${altitude / 1000} km the vertical acceleration is within 0.02 m/s² of zero`, () => {
       const { acceleration, throttle } = hoverAcceleration(altitude);
@@ -71,7 +73,8 @@ describe('the vertical TWR law holds a hover at TWR 1', () => {
     const { acceleration, throttle } = hoverAcceleration(0, 1.1);
     expect(throttle).toBeGreaterThan(40);
     expect(throttle).toBeLessThan(100);
-    expect(acceleration).toBeGreaterThan(0.1 * 9.731 - 0.02);
-    expect(acceleration).toBeLessThan(0.1 * 9.731 + 0.02);
+    const padGravity = gravityAt(C.planetRadius);
+    expect(acceleration).toBeGreaterThan(0.1 * padGravity - 0.02);
+    expect(acceleration).toBeLessThan(0.1 * padGravity + 0.02);
   });
 });

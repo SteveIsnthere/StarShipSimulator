@@ -510,7 +510,7 @@ describe('the predicted path on the map (M7.2)', () => {
     const r = C.planetRadius + 300_000;
     state.kinematics.altitude = 300_000;
     state.kinematics.distanceToPlanetCenter = r;
-    state.kinematics.speedX = Math.sqrt((C.gravitationalConstant * C.planetMass) / r);
+    state.kinematics.speedX = Math.sqrt(C.planetGravitationalParameter / r);
     state.kinematics.speedY = 0;
 
     const context = recordingContext(280, 100);

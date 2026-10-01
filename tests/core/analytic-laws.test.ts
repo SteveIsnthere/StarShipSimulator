@@ -120,10 +120,10 @@ describe('gravity is inverse-square, to the last bit', () => {
     }
   });
 
-  it('MU is G*M as published, not a fitted number', () => {
-    // The standard gravitational parameter is the product of the two published
-    // constants, exactly — this guards against someone "tuning" MU directly.
-    expect(MU).toBe(C.gravitationalConstant * C.planetMass);
+  it('MU is the published GM, not a fitted number', () => {
+    // IERS Conventions 2010 / WGS 84, to the digit — this guards against
+    // someone "tuning" MU directly.
+    expect(MU).toBe(3.986004418e14);
   });
 });
 

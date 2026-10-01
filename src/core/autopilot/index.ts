@@ -250,10 +250,14 @@ export function autoLand(state: SimState, dt: number): void {
     if (!status.finActive) cmd.toggleFin(state);
     if (!status.rcsActive) cmd.toggleRcs(state);
     vehicle.throttle = C.throttleLowerLimit;
-    if (vehicle.propellantMass > C.dumpLimit && !status.dumpingFuel) cmd.toggleDumpFuel(state);
+    if (vehicle.propellantMass > C.landingReserve && !status.dumpingFuel) cmd.toggleDumpFuel(state);
     if (getWorkingEngineCount(engines.running) > 0) cmd.toggleAllRaptors(state);
     autopilot.initVehicleConfigCompleted = true;
   }
+
+  // The dump stops at the landing reserve, above the 12 t where a dump stops
+  // on its own (constants.ts). A dump started under autoLand is autoLand's.
+  if (status.dumpingFuel && vehicle.propellantMass <= C.landingReserve) cmd.toggleDumpFuel(state);
 
   if (!autopilot.aeroDescentCompleted) {
     updateBellyFlopTriggerAltitude(state);

@@ -113,9 +113,13 @@ describe('the position error is second order in dt, against Kepler', () => {
     keplerRadius(R0, V0, SECONDS);
 
   it('the reference itself: an ellipse that climbs 2800 km in 2000 s', () => {
-    // Sanity on the closed form before trusting it as a reference.
-    expect((keplerRadius(R0, V0, SECONDS) - C.planetRadius) / 1000).toBeCloseTo(4308.2, 0);
+    // Sanity on the closed form before trusting it as a reference: it starts at
+    // perigee, climbs, and stays below the apogee vis-viva puts it at.
+    const a = 1 / (2 / R0 - (V0 * V0) / MU);
+    const apogee = 2 * a - R0;
     expect(keplerRadius(R0, V0, 0)).toBeCloseTo(R0, 6);
+    expect((keplerRadius(R0, V0, SECONDS) - R0) / 1000).toBeCloseTo(2800, -2);
+    expect(keplerRadius(R0, V0, SECONDS)).toBeLessThan(apogee);
   });
 
   it('halving dt quarters the error — the ratio is 4, where Euler gave 2', () => {

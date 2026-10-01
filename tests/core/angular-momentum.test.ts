@@ -46,7 +46,7 @@
 import { describe, expect, it } from 'vitest';
 import { createInitialState, type SimState } from '$core/state';
 import { step } from '$core/step';
-import { circularOrbitalSpeed, MU, tangentialAcceleration } from '$core/physics/gravity';
+import { circularOrbitalSpeed, coastDownrangeDistance, MU, tangentialAcceleration } from '$core/physics/gravity';
 import * as C from '$core/constants';
 
 const DT = 1 / 120;
@@ -172,9 +172,14 @@ describe('a ballistic coast matches an independent two-body integration', () => 
 
   const reference = referenceCoast(altitude, tangential, radial, 80_000);
 
-  it('the reference itself is a sane 4939 km in 643 s', () => {
-    expect(reference.arc / 1000).toBeCloseTo(4938.6, 0);
-    expect(reference.seconds).toBeCloseTo(643, -1);
+  it('the reference itself is the conic\'s arc, at orbital speed', () => {
+    // Sanity on the reference before trusting it: it agrees with the closed-form
+    // conic (Simpson over true anomaly, good to a metre) to well under 1e-4,
+    // and covers that arc at about the speed it started with.
+    const conic = coastDownrangeDistance(C.planetRadius + altitude, tangential, radial, C.planetRadius + 80_000);
+    expect(Math.abs(reference.arc / conic - 1)).toBeLessThan(1e-4);
+    expect(reference.arc / reference.seconds).toBeGreaterThan(0.95 * tangential);
+    expect(reference.arc / reference.seconds).toBeLessThan(1.05 * tangential);
   });
 
   it('the simulation agrees to within a kilometre in five thousand', () => {

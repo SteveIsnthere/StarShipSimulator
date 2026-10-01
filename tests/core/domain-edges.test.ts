@@ -355,7 +355,7 @@ describe('the ballistic coast predictor', () => {
 
   it('a circular orbit never descends, and says so', () => {
     const r = C.planetRadius + 200_000;
-    const circular = Math.sqrt((C.gravitationalConstant * C.planetMass) / r);
+    const circular = Math.sqrt(C.planetGravitationalParameter / r);
     expect(coastDownrangeDistance(r, circular, 0, C.planetRadius)).toBe(Infinity);
   });
 });

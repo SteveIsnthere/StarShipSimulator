@@ -165,7 +165,7 @@ describe('every scenario actually flies', () => {
   it('Re-entry starts at genuinely orbital speed, which is the point of it', () => {
     const s = createScenarioState(getScenario('reentry')!);
     const circular = Math.sqrt(
-      (C.gravitationalConstant * C.planetMass) / s.kinematics.distanceToPlanetCenter,
+      C.planetGravitationalParameter / s.kinematics.distanceToPlanetCenter,
     );
     // 7300 m/s against ~7860 m/s circular: sub-orbital but close, which is why
     // the 2021 relief hack showing zero relief here is so wrong. M2.6.

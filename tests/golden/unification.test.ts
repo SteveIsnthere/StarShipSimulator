@@ -31,6 +31,8 @@
  *     P5.5    dead prediction fields removed     moved NOTHING (headers only)
  *     P5.6    the trigger computed where it acts re-entry and RTLS, planning keys only
  *     P6.1    felt g, thermosphere, start Mach   ALL EIGHT: felt g in its 3 keys; see below
+ *     P6.2    the planet is Earth                ALL EIGHT
+ *     P6.3    the landing reserve                re-entry and RTLS only
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -205,6 +207,26 @@
  * the intro (9.775 s, no engines lit, the same three shutdowns) are unchanged
  * to the digit.
  *
+ * P6.2 (Phase 6, Task 2, Fidelity) moving all eight is the M2.12 argument:
+ * gravity acts on everything. GM is the published 3.986004418e14 (it was G*M,
+ * 3.9857e14) and the radius Earth's mean 6371 km (it was 6400), so the pad
+ * pulls 9.820 m/s² where it pulled 9.731, 0.9% harder. The ISA's geopotential
+ * moved to the standard's own r0 in the same change. P6.3 (Task 3, Fidelity)
+ * rides the same regeneration because Task 2 alone ran the one-engine-out
+ * deorbit to 0.000 t: autoLand dumps to a 16 t `landingReserve` rather than the
+ * 12 t `dumpLimit`. Measured alone (a preview at 12 t against 16 t), it moves
+ * re-entry and RTLS only, from the sample their dumps would have stopped at:
+ * booster-sep's window ends before its landing, and before-flip's dump is cut
+ * by the flip before it reaches 16 t.
+ *
+ * THE OUTCOMES, both together: every flight ends as it did. The three that
+ * dump through the reserve (booster-sep, RTLS, re-entry) touch down with 4.5 t
+ * where they had 1.4 t; the misses are 0.9 m and 0.6 m (3.3 and 4.2); the
+ * short landings move by a few hundredths of a tonne. The intro touches down
+ * at 9.85 s, 0.075 s later than the 9.775 s anchor, with no engine lit; the
+ * engine-out deorbits land with 3 t instead of 0.0 to 0.2 t, and
+ * `DEORBIT_ENTRY_RANGE` was re-measured at 841.4 km (miss 0.00 km).
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -273,16 +295,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P6.1 (all eight): see the table above. Recorded
+  // P6.2 (all eight), P6.3 (two): see the table above. Recorded
   // on x86-64 Linux / Node 22 by .github/workflows/golden-regenerate.yml.
-  'launch-pad-takeoff': '144c03983ba2c8b877764f2f4c2d560f179648383d942e0e9878c491f7c4c9a6',
-  'booster-sep-boostback': '0859d738216b8d9a8842f6cb859014d7b0bad4d1eb9047d707fa3d083a0a6e47',
-  'rtls-boostback': '870917ea3f8329995134188c6f07d42672d44a329d44172f195f0b0e8248e903',
-  'reentry-autoland': '617640b4a134d7b7862802085611800d205c98c674a7b270833c26859fd35fab',
-  'before-flip-autoland': 'f7cb6db491ffb1dd3d9988fc9a11ea89962747168228fb6d7e98093beb03bbfd',
-  'landing-burn-autoland': '3db0a8f0fb02e9baf345dc7bd03886c2251faee2988bcd5977d24421dd6db6d8',
-  'landing-burn-headwind': 'b061d7dcb36c27986e3f2f065c24f8316be52dd1a4ca8992e6ff0aebffb8c05b',
-  'intro-demo': '33e5d042c1e233e953960d0fed3252fe42c28b4e6233a141bbef2c29be4ab594',
+  'launch-pad-takeoff': 'fc095e9ed78f64ec09792496180960dd3e347fc38105715e6c4633378d3f27f5',
+  'booster-sep-boostback': '93423f60e4096ca5412bf0de83afac96d833721997f338af0af026d29dd2438c',
+  'rtls-boostback': 'afc512ded9dc1434da785d89bcacb3fafd850bf1f70eed0537802b256b88afca',
+  'reentry-autoland': '3722a69e44c934b2f62d50de8c85a73761a3a50cd1231b1f20a6fa95e2c1be55',
+  'before-flip-autoland': 'e166a0d11bc83d3072b0ce0a412184e479878742ed944c54762dbefb0009da8d',
+  'landing-burn-autoland': '3df7b323fafdc0e4721f626f11b46320e44f5a0db78f98d92f64ef11e6a64206',
+  'landing-burn-headwind': 'c1d896b60980f0299cd67a205e55336fdc5ec7442bb6445bbed9f59a9c011c73',
+  'intro-demo': 'a83942e207cef98013bab53ab6bf214b5dfdae0be3249bbe522beb69223775ce',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

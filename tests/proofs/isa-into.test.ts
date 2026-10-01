@@ -10,8 +10,18 @@
  * each other, since one now calls the other. Object.is, so 0 ULP. (A first
  * version compared with values recorded on a Mac, which fails on the Linux
  * recording platform, where the last bit of exp/pow can differ.)
+ *
+ * The frozen copy takes geopotential against `C.planetRadius`; since Phase 6,
+ * Task 2 the live ISA takes it against the 1976 standard's r0 and reads no
+ * planet radius at all. So the frozen copy is run with `planetRadius` mocked to
+ * r0, and the proof still says exactly one thing: apart from that radius, the
+ * function is the one it was.
  */
-import { describe, expect, it } from 'vitest';
+vi.mock('$core/constants', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('$core/constants')>()),
+  planetRadius: 6_356_766,
+}));
+import { describe, expect, it, vi } from 'vitest';
 import type { Atmosphere } from '$core/physics/atmosphere';
 import { isaAtmosphere, isaAtmosphereInto } from '$core/physics/isa';
 import { isaAtmosphere as legacyIsa } from './fixtures/isa-legacy';

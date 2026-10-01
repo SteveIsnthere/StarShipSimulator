@@ -32,7 +32,7 @@
 import * as C from '../constants';
 
 /** Standard gravitational parameter, GM. m^3/s^2. */
-export const MU = C.gravitationalConstant * C.planetMass;
+export const MU = C.planetGravitationalParameter;
 
 /** m/s^2 — magnitude of gravity at a distance r from the planet's centre. */
 export function gravityAt(distanceToPlanetCenter: number): number {

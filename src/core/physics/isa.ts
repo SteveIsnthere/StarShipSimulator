@@ -116,13 +116,22 @@ const LAYERS = buildLayers();
 export const ISA_TOP_GEOPOTENTIAL = 84_852;
 
 /**
- * Geometric altitude to geopotential altitude.
+ * m — the 1976 standard's effective Earth radius r0 (U.S. Standard Atmosphere
+ * 1976, eq. 18). Not the planet's radius: it is the radius at which the
+ * standard's geopotential reproduces its sea-level g0, and its tables are
+ * defined against it, so 86 km geometric is exactly the 84,852 m top.
+ */
+export const USSA76_R0 = 6_356_766;
+
+/**
+ * Geometric altitude to geopotential altitude, H = r0*h / (r0 + h).
  *
- * H = r*h / (r + h). Uses the simulation's own planet radius rather than
- * Earth's, so the two models describe the same planet.
+ * Phase 6, Task 2: this used the simulation's planet radius until the planet
+ * became Earth's. The atmosphere is the standard's, so it takes the standard's
+ * r0; the gap to the planet's 6,371 km moves the 86 km seam by about 3 m.
  */
 export function geopotentialAltitude(geometricAltitude: number): number {
-  return (C.planetRadius * geometricAltitude) / (C.planetRadius + geometricAltitude);
+  return (USSA76_R0 * geometricAltitude) / (USSA76_R0 + geometricAltitude);
 }
 
 /** The layer containing a given geopotential altitude. */
@@ -288,7 +297,7 @@ const T_110 = 240; // K
 const LAPSE_110 = 12; // K/km
 const T_120 = 360; // K
 const LAMBDA = 0.01875; // 1/km
-const R_0_KM = 6356.766; // km, the standard's effective radius
+const R_0_KM = USSA76_R0 / 1000; // km
 
 /** K — the 1976 standard's kinetic temperature at a geometric altitude above 86 km. */
 function thermosphereKelvin(altitude: number): number {

@@ -24,19 +24,23 @@ import { deg, rad, toRad, type Rad } from './units';
 // World — initWorld()
 // ---------------------------------------------------------------------------
 
-/** m */
-export const planetRadius = 6400000;
+/**
+ * m — Earth's mean radius (IUGG, 6,371.0 km). Phase 6, Task 2: 2021 used
+ * 6,400 km, which put surface gravity 0.9% low.
+ */
+export const planetRadius = 6_371_000;
 /** m */
 export const planetCircumference = 2 * planetRadius * Math.PI;
-/** kg */
-export const planetMass = 5.972e24;
+/**
+ * m^3/s^2 — Earth's standard gravitational parameter, GM (IERS Conventions
+ * 2010; WGS 84). GM is known to ten digits where G and M separately are not,
+ * so it is the one constant; 2021 multiplied G = 6.674e-11 by M = 5.972e24.
+ */
+export const planetGravitationalParameter = 3.986004418e14;
 /** s */
 export const planetTimeToRotate = 24 * (60 * 60);
 /** m/s */
 export const planetLinearVelocity = planetCircumference / planetTimeToRotate;
-
-/** m^3 kg^-1 s^-2 */
-export const gravitationalConstant = 6.674e-11;
 
 /**
  * m/s^2. Constant everywhere in the 2021 model — 4.0% high at 100 km, 7.2% at
@@ -91,8 +95,34 @@ export const vehicleMass = vehicleDryMass + propellantMass;
 
 /** kg/s */
 export const dumpRate = 3500;
-/** kg */
+/**
+ * kg — where a dump stops on its own, and autoTakeOff's MECO and a boost-back
+ * exit (autopilot/index.ts). Not the landing dump's target since Phase 6: see
+ * `landingReserve`.
+ */
 export const dumpLimit = 12000;
+
+/**
+ * kg — what autoLand dumps down to: the propellant its landing programme keeps
+ * for the flip, the landing burn, the horizontal adjustment and the final
+ * descent. Phase 6, Task 3 (Fidelity).
+ *
+ * MEASURED, not derived, the way `DEORBIT_ENTRY_RANGE` is. The worst
+ * one-engine-out deorbit spends 12.0 t from the flip trigger to touchdown
+ * (2026-10-01): 1.5 t in the flip, 8.3 t in an 18 s horizontal adjustment and
+ * 2.2 t in the final descent. The reserve is that plus a third. Each tonne of
+ * reserve buys about 0.75 t at touchdown (the rest is landing heavier), so 16 t
+ * leaves about 3 t on every engine-out deorbit, where the old 12 t left 0.0.
+ *
+ * The plan sized it from the landing-burn predictor (one engine from the
+ * trigger, plus the ignition delay), which comes to 6.3 t: the programme spends
+ * twice the ideal burn, because it lights every engine through the flip and
+ * flies a long, low-throttle adjustment the predictor does not model. A
+ * reserve computed from that would crash every deorbit. Its health check is
+ * tests/core/deorbit-range.test.ts: an engine change that makes landing costlier
+ * fails there, and the reserve is re-measured in the same commit.
+ */
+export const landingReserve = 16_000;
 
 /**
  * kg*m^2 — the spawn value, a solid cylinder about its centre at wet mass.
@@ -401,12 +431,15 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  * must be fitted barely varies at all. So the guidance computes the first and
  * carries the second as a constant, and works from orbits it was never tuned on.
  *
- * MEASURED at 838 km, and it is 838 km rather than the ~854 km the descent
- * actually covers because it also absorbs the small biases in the two computed
+ * MEASURED at 838 km, re-measured at 841.4 km in Phase 6 (Task 3: the descent
+ * carries the 16 t landing reserve rather than 12 t, and the heavier vehicle
+ * flies farther). It is short of the ~860 km the descent actually covers because it also absorbs the small biases in the two computed
  * halves. That is what a fitted constant is for; what matters is that it is
  * fitted to something that barely moves.
  *
- * THE ENVELOPE, measured, because a number like this should come with one. From
+ * THE ENVELOPE, measured before Phase 6 (the planet and the reserve have moved
+ * since; re-measure before relying on the rows), because a number like this
+ * should come with one. From
  * a 150 km orbit and its neighbourhood the vehicle lands within a few kilometres
  * of the pad — including from a different starting longitude, from a
  * hand-circularised orbit, 100 t lighter, and with an engine out. Higher up it
@@ -420,7 +453,7 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  * The 300 km row is the one to watch: the miss is tolerable, the heating is not
  * far from the structural limit. The orbital presets sit at 150 km deliberately.
  */
-export const DEORBIT_ENTRY_RANGE = 838_000;
+export const DEORBIT_ENTRY_RANGE = 841_400;
 
 /**
  * m — the entry interface: where the vacuum prediction stops and the

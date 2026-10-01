@@ -165,8 +165,8 @@ function checkIfCrash(s: SimState): void {
       }
     } else if (forces.thrustAcceleration <= gravity.gravityAt(kinematics.distanceToPlanetCenter)) {
       // configOnTheGround(). M11.3: against the LOCAL gravity, which is what
-      // the integrator applies — 9.731 m/s^2 at the pad, not the 9.807 constant
-      // 2021 compared with. The two disagreed by 0.8%, and in that band phase
+      // the integrator applies — GM/R^2 at the pad, not the 9.807 constant
+      // 2021 compared with. The two disagreed by 0.8% then, and in that band phase
       // 2 zeroed the speeds while 3b's a*dt^2/2 term crept the vehicle upward.
       status.onTheGround = true;
       kinematics.speedX = 0;

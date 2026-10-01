@@ -51,8 +51,9 @@ const scratch = createBurnScratch();
  * The engine count the trigger plans the burn on: one, or two or three when
  * one cannot hold 1/0.8 of the weight (2021's ladder, in thrust-to-weight on
  * the gravity the vehicle feels at the pad), and never more than are working.
- * On pad gravity (9.731) rather than the flat 9.807 the one-to-two boundary
- * moves from 184.0 t to 185.4 t: the ladder's meaning, on the true weight.
+ * On pad gravity (9.820 since Phase 6) rather than the flat 9.807 the
+ * one-to-two boundary moves from 184.0 t to 183.7 t: the ladder's meaning, on
+ * the true weight.
  */
 export function plannedEngineCount(state: SimState): number {
   const weight = state.vehicle.vehicleMass * PAD_GRAVITY;

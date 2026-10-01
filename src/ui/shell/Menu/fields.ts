@@ -36,7 +36,7 @@ const HALF_LAP = Math.ceil(Math.PI * planetRadius);
 const MINUS = '−';
 const THIN = ' ';
 
-/** 20106 -> "20 106", with a real minus sign. */
+/** 20015 -> "20 015", with a real minus sign. */
 function figure(n: number): string {
   const digits = Math.abs(n).toLocaleString('en-US', { maximumFractionDigits: 0 }).replace(/,/g, THIN);
   return n < 0 ? `${MINUS}${digits}` : digits;

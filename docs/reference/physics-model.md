@@ -9,8 +9,10 @@ global, and returns a new `SimState`. The app steps at a fixed `DT = 1/120 s`
 
 ## State and frame
 
-The planet is a non-rotating sphere: R = 6 400 000 m (`C:28`), M = 5.972e24 kg (`C:32`),
-GM = 3.9857e14 m³/s² (`physics/gravity.ts:35`), surface gravity 9.731 m/s². The vehicle is a
+The planet is Earth as a non-rotating sphere: R = 6 371 000 m, the IUGG mean radius
+(`constants.ts`, `planetRadius`), and GM = 3.986004418e14 m³/s², IERS 2010 / WGS 84
+(`planetGravitationalParameter`), one cited constant rather than G × M. The pull at the surface
+is 9.820 m/s², above g₀ = 9.80665 because g₀ is read on a rotating Earth. The vehicle is a
 point with one rotational degree of freedom, in a local frame:
 
 | field | meaning, sign |
@@ -80,8 +82,8 @@ rule (64 intervals); `Infinity` if the orbit never reaches the target radius, 0 
 thrust anchors), g₀ = 9.80665 (`C:227`, shared with Isp).
 
 - **To 86 km:** US Standard Atmosphere 1976, seven lapse-rate layers (`isa.ts:65`), base pressures
-  integrated upward so layers join exactly, against geopotential altitude `R·h/(R+h)` with the
-  simulation's own radius.
+  integrated upward so layers join exactly, against geopotential altitude `r₀·h/(r₀+h)` with the
+  standard's r₀ = 6 356 766 m (its eq. 18), not the planet's radius, so 86 km is the table's top.
 - **Above 86 km:** 20 exponential bands with transcribed scale heights (`isa.ts:164`) and densities
   chained from the ISA's 86 km value, so the seam is continuous; the first band's 5.44 km is
   derived to hit the table's 100 km density. Temperature is the 1976 standard's kinetic
@@ -115,7 +117,8 @@ Thrust acts along `pitch − gimbal% × 15°`; the gimbal's lateral component an
 term act only as torques about the engine arm. The step the tank runs dry thrusts in proportion
 to the propellant it actually burned (`updatePropellant` returns the fraction). Fuel-out stops all
 engines and cancels any ignition still counting down; dump runs at
-3500 kg/s down to 12 t unless forced (`C:109–111`). **Ignition** is a dt-ticked delay drawn
+3500 kg/s down to 12 t unless forced (`dumpLimit`); autoLand stops its own dump at the 16 t
+`landingReserve`. **Ignition** is a dt-ticked delay drawn
 uniformly in 0.3–1.2 s (`engines.ts:147`), preceded by a failure roll at rate 0, or 0.1 with
 Random Failure on (`C:153`, `:163`); the roll is drawn either way.
 
@@ -232,10 +235,15 @@ input overwrites all.
 - **Pitch hold** re-latches below 0.4 rad/s (`C:569`).
 - **Ascent**: pitch 0→55° by 25 km, →85° by 80 km (`C:531–533`), fins locked; cuts at 12 t.
 - **Max-thrust guard**: holds the speed for q = 35 kPa, hard-coded (`primitives.ts:89`).
+- **Landing reserve**: autoLand dumps to `landingReserve`, 16 t (Phase 6), not the 12 t
+  `dumpLimit`. It is measured, not derived: the worst one-engine-out deorbit spends 12.0 t from
+  the flip trigger to touchdown (1.5 t flip, 8.3 t horizontal adjustment, 2.2 t final descent),
+  twice the predictor's ideal one-engine burn, and the reserve is that plus a third. Engine-out
+  deorbits land with about 3 t; `deorbit-range.test.ts` fails below 2 t.
 - **Landing**: aero descent → flip (`index.ts:275`) → horizontal adjustment → final descent at
   `vy = −h/3 − 0.1` (`index.ts:504`); engine-out sets get tuned trims (`index.ts:403`, `:488`).
 - **Deorbit**: holds retrograde on RCS from the first coast step; fires when the ground left equals
-  burn arc + conic coast to 80 km + 838 km (`C:439`, fitted); cuts when range-to-go matches it,
+  burn arc + conic coast to 80 km + 841.4 km (`DEORBIT_ENTRY_RANGE`, fitted); cuts when range-to-go matches it,
   within 75–240 m/s around 150 nominal (`C:384–397`); hands to autoLand once falling. Miss: 7 km
   from 150 km at 82 % of `heatLimit`, 50 km from 200 km, 90 km at 95 % from 300 km.
 
@@ -260,8 +268,8 @@ input overwrites all.
   two were tried (a flat 100 m, and 0.9 s of ignition spread plus throttle slew), and each ran
   the one-engine-out deorbit dry in the hover the earlier flip bought. The horizontal adjustment
   hands over at 1.1 × the predicted burn on the engines running, plus one second.
-- **The deorbit aim** `DEORBIT_ENTRY_RANGE` (838 km, `C:439`) is fitted to `autoLand`; its health
-  is the deorbit flight's miss (0.01 km, `tests/core/deorbit-range.test.ts`), and
+- **The deorbit aim** `DEORBIT_ENTRY_RANGE` (841.4 km since Phase 6) is fitted to `autoLand`; its health
+  is the deorbit flight's miss (0.00 km, `tests/core/deorbit-range.test.ts`), and
   `npm run deorbit:range` prints the re-derived value (the constant plus the miss).
 - **The HUD's impact predictor** (`hud/prediction.ts`) is a conic above the 80 km entry interface
   and, below it, `unpoweredFallInto`: the fall integrated with gravity, drag and lift composed as
@@ -271,7 +279,7 @@ input overwrites all.
 ## Known simplifications
 
 - The planet does not rotate (`C.planetLinearVelocity` is unused): no ~418 m/s launch bonus, no
-  Coriolis. It is 6400 km in radius with Earth's mass.
+  Coriolis.
 - Attitude is relative to local vertical with no frame-rotation term: at ω = 0 the vehicle keeps its
   pitch to the horizon, turning inertially at the orbital rate.
 - Downrange is arc length at orbital radius, wrapped at the surface circumference.

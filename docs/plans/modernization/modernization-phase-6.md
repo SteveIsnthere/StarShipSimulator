@@ -109,7 +109,7 @@ A parked task parks everything downstream of it. Independent branches continue.
 
 ## Review Focus
 
-- **Spool-up and the engine-out cases:** the reserve (Task 3) must be live-computed, so the engine changes flow into it.
+- **Spool-up and the engine-out cases:** the reserve (Task 3) is measured, not computed (see Task 3), so an engine change that makes landing costlier must fail `deorbit-range.test.ts` and re-measure it.
 - **Halved entry drag:** a hypersonic broadside Cd of about 1.2–1.3 against today's cap of 2.5 roughly halves entry drag. Re-entry and the deorbit move hard in Task 5b.
 - **RCS authority in the descent:** realistic cold-gas RCS can take attitude authority from the belly-flop. Tasks 6 and 7 record the RCS share of control torque, so Task 11's feasibility is known early.
 - **A heat criterion on a knife edge:** at ε = 0.85 the deorbit peak is about 1,600 K against a 1,533 K limit. That is the expected park, not something to fix.
@@ -150,20 +150,22 @@ Mach); launch-pad starts at rest and moves only in felt g.
 
 ### Task 2: The planet (Fidelity)
 
-- [ ] `MU` becomes the one cited constant: 3.986004418e14 m³/s² (IERS 2010 / WGS 84). Delete `planetMass` and `gravitationalConstant`, and the inline copy in `state.ts:520`.
-- [ ] R = 6,371.0 km (mean radius). Pad gravity becomes 9.820 m/s².
-- [ ] Note that `isa.ts:125` uses `planetRadius` for geopotential, where the 1976 standard uses r₀ = 6,356,766 m. Either switch to the standard's r₀ (cited), or record the deviation.
-- [ ] Derived values follow from the constants, never retyped: the preset circular speeds, `starBaseXPos`, `HALF_LAP`, `ENTRY_RADIUS` and the view's horizon.
-- [ ] Rewrite the tests that state the old numbers from the formula, not from new literals: `physical-scale.test.ts:107`, `orbit-demo.test.ts:130-173`, `menu.test.ts:237`, `atmosphere-look.test.ts:48`.
-- [ ] `earth.radius` joins `in-band.json`; `orbit.circular.200km` stays in.
-- [ ] Re-derive the deorbit range. Every scenario lands; the intro holds against the anchor. Golden re-bless: all eight.
+- [x] `MU` becomes the one cited constant: 3.986004418e14 m³/s² (IERS 2010 / WGS 84). Delete `planetMass` and `gravitationalConstant`, and the inline copy in `state.ts:520`.
+- [x] R = 6,371.0 km (mean radius). Pad gravity becomes 9.820 m/s².
+- [x] Note that `isa.ts:125` uses `planetRadius` for geopotential, where the 1976 standard uses r₀ = 6,356,766 m. Either switch to the standard's r₀ (cited), or record the deviation. **Switched** to r₀: the tables are defined against it, and the thermosphere already used it.
+- [x] Derived values follow from the constants, never retyped: the preset circular speeds, `starBaseXPos`, `HALF_LAP`, `ENTRY_RADIUS` and the view's horizon.
+- [x] Rewrite the tests that state the old numbers from the formula, not from new literals: `physical-scale.test.ts:107`, `orbit-demo.test.ts:130-173`, `menu.test.ts:237`, `atmosphere-look.test.ts:48`.
+- [x] `earth.radius` joins `in-band.json`; `orbit.circular.200km` stays in.
+- [x] Re-derive the deorbit range. Every scenario lands; the intro holds against the anchor. Golden re-bless: all eight.
+
+**Done 2026-10-01**, with Task 3 on one regeneration (audit P6.2, P6.3): Task 2 alone ran the one-engine-out deorbit to 0.000 t. Deorbit aim re-measured at 841.4 km; the intro touches down at 9.85 s (+0.075 s).
 
 ### Task 3: A landing reserve (Fidelity)
 
-- [ ] Add a new `landingReserve`, used **only** at the dump target (`autopilot/index.ts:253`). `dumpLimit` keeps its MECO (`:110`) and boost-back (`:200`) meanings untouched.
-- [ ] The reserve is **computed at run time** from `landingBurnStartAltitude`, never frozen: the propellant one sea-level engine needs to land from the flip trigger's worst case, plus the ignition-delay maximum. Later engine changes flow into it.
-- [ ] Predicted to move: the deorbit and the landers that dump (re-entry, before-flip, landing-burn). Not the ascent, not the boost-backs.
-- [ ] `deorbit-range.test.ts` asserts every one-engine-out deorbit lands with at least half the computed reserve. Margins diffed.
+- [x] Add a new `landingReserve`, used **only** at the dump target (`autopilot/index.ts:253`). `dumpLimit` keeps its MECO (`:110`) and boost-back (`:200`) meanings untouched. autoLand also stops its own dump at the reserve, since the engine model stops a dump only at `dumpLimit`.
+- [x] ~~The reserve is computed at run time from `landingBurnStartAltitude`~~. **Changed, 2026-10-01 (decided unattended):** measured, not computed. The formula (one engine from the trigger plus the ignition delay) gives 6.3 t, but the landing programme spends 12.0 t engine-out from the trigger to touchdown (1.5 t flip, 8.3 t horizontal adjustment, 2.2 t final descent), so a computed reserve would crash every deorbit. `landingReserve` = 16 t, the worst engine-out use plus a third, with a health check like `DEORBIT_ENTRY_RANGE`'s. Task 4's engine changes must re-measure it if that check fails.
+- [x] Predicted to move: the deorbit and the landers that dump. **Measured:** re-entry and RTLS in their golden windows (before-flip's dump is cut by the flip first). Booster-sep and RTLS DO move in outcome (their boost-backs hand over to autoLand): the prediction "not the boost-backs" was wrong.
+- [x] `deorbit-range.test.ts` asserts every one-engine-out deorbit lands with at least an eighth of the reserve, 2 t (measured 3.0 t); the plan's "half the reserve" would have needed a 24 t reserve. Margins diffed (audit P6.3).
 
 ### Task 4: Six Raptors (split in three)
 

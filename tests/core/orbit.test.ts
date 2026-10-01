@@ -54,15 +54,17 @@ function run(s: SimState, steps: number): SimState {
 }
 
 describe('the gravity field itself', () => {
-  it('is 9.731 m/s^2 at the surface — 0.78% BELOW the constant it replaces', () => {
-    // Worth stating precisely, because it is a feel change on its own.
-    // The game's planet has Earth's mass but a 6400 km radius (Earth's is
-    // 6371 km), so GM/R^2 is 9.7307. The 2021 constant is 9.807, which is
-    // Earth's actual surface gravity - correct for Earth, 0.78% too strong for
-    // this planet. Turning the flag on therefore makes everything very slightly
-    // lighter, at sea level as well as in orbit.
-    expect(gravityAt(C.planetRadius)).toBeCloseTo(9.7307, 4);
-    expect(gravityAt(C.planetRadius) / C.gravity - 1).toBeCloseTo(-0.0078, 4);
+  it('is GM/R^2 at the surface — 0.14% ABOVE standard gravity', () => {
+    // Worth stating precisely, because it is a feel change on its own. Since
+    // Phase 6 the planet is Earth: GM 3.986004418e14, mean radius 6371 km,
+    // so the pull at the surface is 9.820 m/s^2. Standard gravity, 9.80665, is
+    // smaller because it is what a scale reads on a ROTATING Earth; this planet
+    // does not rotate yet (Task 9). (Before Phase 6 the radius was 6400 km and
+    // the pull 0.78% below the constant.)
+    const pull = 3.986004418e14 / 6_371_000 ** 2;
+    expect(gravityAt(C.planetRadius)).toBe(pull);
+    expect(pull).toBeCloseTo(9.820, 3);
+    expect(gravityAt(C.planetRadius) / C.gravity - 1).toBeCloseTo(0.0014, 4);
   });
 
   it('falls off as one over r squared', () => {
@@ -98,8 +100,11 @@ describe('a circular orbit stays circular over one lap', () => {
   /** One full lap, in steps. */
   const lapSteps = Math.round(((2 * Math.PI * r) / v) / DT);
 
-  it('takes about 89 minutes, which is what low orbit takes', () => {
-    expect((lapSteps * DT) / 60).toBeCloseTo(88.94, 1);
+  it('takes Kepler\'s period, about 88 minutes, which is what low orbit takes', () => {
+    const kepler = 2 * Math.PI * Math.sqrt(r ** 3 / MU);
+    expect(Math.abs(lapSteps * DT - kepler)).toBeLessThanOrEqual(DT);
+    expect(kepler / 60).toBeGreaterThan(88);
+    expect(kepler / 60).toBeLessThan(89);
   });
 
   it('altitude holds within a kilometre over a full lap', () => {
