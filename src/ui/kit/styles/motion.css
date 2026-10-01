@@ -1,0 +1,34 @@
+@keyframes ui-view-exit {
+	to { opacity: 0; transform: translateX(-12px); }
+}
+
+@keyframes ui-view-enter {
+	from { opacity: 0; transform: translateX(12px); }
+	to { opacity: 1; transform: translateX(0); }
+}
+
+.ui-view-exit { animation: ui-view-exit 100ms var(--motion-ease-exit) both; pointer-events: none; }
+.ui-view-enter { animation: ui-view-enter 160ms var(--motion-ease-emphasized) both; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+	.ui-view-exit,
+	.ui-view-enter { animation: none; transform: none; }
+}
+
+/* Interaction motion follows the preference too (design-system §7.1.6): with
+ * reduced motion every CSS transition completes instantly, so a control that
+ * slides, rotates or scales on hover, press or toggle, or an instrument bar,
+ * snaps to its end state; looping spinners and pulses stop. Keyframe entrances
+ * keep the opacity-only cross-fades defined in styles/animations.css (FB-134). */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	::before,
+	::after {
+		transition-duration: 0s !important;
+		transition-delay: 0s !important;
+	}
+	.animate-spin,
+	.animate-pulse {
+		animation: none !important;
+	}
+}

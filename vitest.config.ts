@@ -10,6 +10,7 @@ export default defineConfig({
       $hud: fileURLToPath(new URL('./src/hud', import.meta.url)),
       $ui: fileURLToPath(new URL('./src/ui', import.meta.url)),
       $audio: fileURLToPath(new URL('./src/audio', import.meta.url)),
+      '@ui': fileURLToPath(new URL('./src/ui/kit', import.meta.url)),
     },
   },
   test: {
