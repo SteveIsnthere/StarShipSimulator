@@ -1,18 +1,16 @@
 name: Deploy
 
-# Static hosting on GitHub Pages. The build is `base: './'`, so the same output
-# works at a domain root and under a repository subpath — which is what Pages
-# serves — with no build-time configuration difference between the two.
+# GitHub Pages, from the Actions source. The build is `base: './'`, so the same
+# output works at a domain root and under the repository subpath Pages serves.
 
 on:
   push:
     branches: [main]
-  # Deployable on demand, so a broken deploy can be re-run without an empty
-  # commit to trigger it.
+  # Re-runnable without an empty commit.
   workflow_dispatch:
 
-# One deploy at a time, and never cancel one midway: a half-finished deploy of a
-# static site is a site serving a mix of two builds. Queue instead.
+# One deploy at a time, never cancelled midway: a half-finished deploy of a
+# static site serves a mix of two builds.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -26,68 +24,35 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    # Matched to ci.yml at M11.9, and for the same reason: fifteen minutes was
-    # set when the browser suite was one smoke test.
-    timeout-minutes: 45
-
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version-file: .nvmrc
           cache: npm
-          cache-dependency-path: package-lock.json
 
-      - name: Install
-        run: npm ci
-
-      # The same gates CI runs. Deploy does not get a shortcut: a build that
-      # would fail review must not reach users because it was pushed to main.
-      - name: Lint (the six walls)
-        run: npm run lint
-
-      # Build first: the offline suite reads `dist/`, so the build is its
-      # fixture rather than a later step. Same ordering as ci.yml, same reason.
-      # svelte-check -> vite build -> service worker -> bundle budget gate.
-      - name: Build
-        run: npm run build
-
-      - name: Test
-        run: npm run test
+      - run: npm ci
 
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
 
-      # The desktop project, as in ci.yml — see the long comment there, including
-      # what it does NOT cover (the five @mobile-only tests run in no project
-      # here). The offline suite is unaffected and does run: it is the one that
-      # would catch a service worker precaching the wrong paths, a failure
-      # invisible until someone loses signal.
-      - name: E2E (desktop project)
-        run: npm run test:e2e -- --project=chromium
+      # The same gate as CI: nothing reaches users that would fail review.
+      - name: Gate
+        run: npm run gate
 
-      # Pages serves from a subdirectory. This is the check that the build
-      # actually survives that, run before anything is published rather than
-      # discovered afterwards.
-      - name: E2E deploy shape (subpath)
-        run: npm run test:deploy
-
-      # Pages serves 404.html for unknown paths. There is one page, so the shell
-      # IS the 404: a deep link lands in the simulator rather than on GitHub's
-      # error page. The service worker does the same thing for navigations it
-      # cannot match, so online and offline behave alike.
+      # Pages serves 404.html for unknown paths; the app has one page.
       - name: Single-page fallback
         run: cp dist/index.html dist/404.html
 
-      # Pages would otherwise run the output through Jekyll, which drops files
-      # and directories beginning with an underscore.
+      # Otherwise Jekyll drops files and directories beginning with an underscore.
       - name: Disable Jekyll
         run: touch dist/.nojekyll
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
@@ -103,4 +68,4 @@ jobs:
 
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
