@@ -245,15 +245,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P5.3 (all eight), P5.4 (five), P5.6 (two): see the table above.
-  'launch-pad-takeoff': '520b3264c3f22ea479601c578ed37436f0a7b85dbdcde56e18c5fb054cc44e27',
-  'booster-sep-boostback': '213f6e221a047db82a787eb31d62793c0846cf2b6faf0cfe4fb8ae1add880422',
-  'rtls-boostback': '0ca7313673a5546c3e0202ac1987d2f8870db19093fd10b82effbfc9b506eb09',
-  'reentry-autoland': '09ac1ce2faaccbbd03ad5831d7810a60a01d4594b86e8fddf77da887623810f5',
-  'before-flip-autoland': '46148aebd23beff329356094d15ed307c68c9fcf00915bd1f93d3ede7a00ee6d',
-  'landing-burn-autoland': '45f42931ca0eb7f419e6d3ff749b941d3fcb0b466739897c7566bcc8571a44a0',
-  'landing-burn-headwind': 'a56dc0fd15ffdcb6500bafcb169a458af55471320e6075ad4d09b61f6a092a1f',
-  'intro-demo': 'ebf86ff5b168f716b66def589be50e0db550ec30141769994b663611510fc90b',
+  // P5.3 (all eight), P5.4 (five), P5.6 (two): see the table above. Recorded
+  // on x86-64 Linux / Node 22 by .github/workflows/golden-regenerate.yml.
+  'launch-pad-takeoff': 'f1436278769e9c4d50eda7bd43e8a052e3ab4b3c97032d66680a32c18297dd28',
+  'booster-sep-boostback': 'eecdc5f7a6a4826ba86c253d89ee7ceada3e6bb79050e07e4d94e6b40d23e97c',
+  'rtls-boostback': 'a54470ec8bb87b16c4ad3cefb003a332013591ab35df1ca34e51535815b53c4c',
+  'reentry-autoland': 'b02a9291945fae7a75e6034f5a04339376c8c6d1c8791f6320c8d860ce0242d4',
+  'before-flip-autoland': '0668f1fd93066ff87d8bd8d26753391903eed2aec6234f927f14dee5bef43bc1',
+  'landing-burn-autoland': '613b6f76752aec231e901357e66dfcea4bec6810b07c7a5e6c034f1ddad0b8ea',
+  'landing-burn-headwind': '233e7779084d83920a56d802ca11e8fdcb2c867d406f42bb08dbfabc52a2619b',
+  'intro-demo': '5b346014dd0e74bac432b82f81bc6c561e216ce30e0c388af68a5137609fbb8e',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

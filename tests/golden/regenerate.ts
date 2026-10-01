@@ -12,6 +12,23 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { record, samplesOf, serialise } from './record';
 import { GOLDEN_SPECS } from './scenarios';
+import { isRecordingPlatform } from './compare';
+
+/*
+  Fixtures are committed only from the recording platform, where replay is
+  checked bit for bit (compare.ts). Phase 5 re-blessed them on a Mac once, and
+  main went red on Linux in the 16th digit. Elsewhere this refuses, unless asked
+  for a local preview (GOLDEN_PREVIEW=1), whose output must not be committed.
+*/
+if (!isRecordingPlatform() && process.env['GOLDEN_PREVIEW'] !== '1') {
+  console.error(
+    'golden:regenerate: not the recording platform (x86-64 Linux, Node 22).\n' +
+      '  Commit fixtures from .github/workflows/golden-regenerate.yml:\n' +
+      '    git push origin HEAD:golden/<name>   then download the golden-fixtures artifact.\n' +
+      '  For a local preview only (never committed): GOLDEN_PREVIEW=1 npm run golden:regenerate',
+  );
+  process.exit(1);
+}
 
 const DIR = fileURLToPath(new URL('./fixtures/', import.meta.url));
 mkdirSync(DIR, { recursive: true });

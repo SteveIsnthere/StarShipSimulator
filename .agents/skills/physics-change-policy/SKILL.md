@@ -25,7 +25,7 @@ A Fidelity change inside an approved plan in `docs/plans/` is approved by that p
 ## Regenerating goldens
 
 1. Every truth test and the rest of the unit suite passes first.
-2. Regenerate from the full, unfiltered set: `npm run golden:regenerate`.
+2. Regenerate from the full, unfiltered set, **on the recording platform** (x86-64 Linux, Node 22): push the branch as `golden/<name>` (`git push origin HEAD:golden/<name>`), let `.github/workflows/golden-regenerate.yml` run, and commit the `golden-fixtures` artifact. `npm run golden:regenerate` refuses anywhere else; `GOLDEN_PREVIEW=1` previews locally, never for a commit (Mac fixtures fail CI in the last digit).
 3. Predict which scenarios should move before looking. Compare the prediction with what moved: a change that moves a scenario it should not reach is a defect, not a re-bless.
 4. Add a row to the audit table at the top of `tests/golden/unification.test.ts`: what changed, and which scenarios moved.
 5. Code, fixtures and the audit row land in the same commit.
