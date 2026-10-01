@@ -210,6 +210,27 @@ test('the panels are sheets, and only one opens at a time @mobile @mobile-only @
   await expect(engines).not.toBeVisible();
 });
 
+test('no sheet ever covers the primary strip @mobile @mobile-only @portrait-only', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'load' });
+  await ready(page);
+  expect(await isPhoneLayout(page)).toBe(true);
+
+  // ia.md: the flight data is never covered. The strip sits under the status
+  // bar and the sheets rise from the tab bar; this holds them apart, with
+  // Details open, which is the strip at its tallest.
+  await page.locator(byTestId('hud-toggle')).click();
+  const strip = (await page.getByRole('region', { name: 'Flight data' }).boundingBox())!;
+  for (const [toggle, control] of [
+    ['engine-panel-toggle', 'throttle'],
+    ['yoke-panel-toggle', 'yoke-pitch'],
+  ] as const) {
+    await page.locator(byTestId(toggle)).click();
+    await expect(page.locator(byTestId(control))).toBeVisible();
+    const sheet = (await page.getByRole('region', { name: toggle === 'engine-panel-toggle' ? 'Engines' : 'Flight', exact: true }).boundingBox())!;
+    expect(sheet.y, `${toggle}: sheet top vs strip bottom`).toBeGreaterThanOrEqual(strip.y + strip.height);
+  }
+});
+
 test('a closed sheet cannot be tabbed into @mobile @mobile-only @portrait-only', async ({
   page,
 }) => {
