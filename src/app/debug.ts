@@ -35,7 +35,10 @@ export interface SimDebug {
   pause(): void;
   resume(): void;
   readonly paused: boolean;
-  /** Advance exactly `n` fixed steps (use while paused). */
+  /**
+   * Advance exactly `n` raw fixed-DT steps (use while paused): no player
+   * input, no time warp. `n` steps are always n/120 s of flight.
+   */
   step(n: number): void;
   /** Every number and boolean in the live state, by flattened path. */
   telemetry(): Readonly<Record<string, number | boolean>>;

@@ -26,19 +26,20 @@ function fly(flight: ReturnType<typeof startOf>, throttles: number[], pitch: num
 }
 
 describe('invariants over any configurable flight', () => {
-  it('every number stays finite, or is a documented sentinel', () => {
+  it('every number stays finite, or is a sentinel it started as', () => {
     fc.assert(
       fc.property(arbitraryFlight(STEPS), (f) => {
         const states = fly(startOf(f), f.throttles, f.pitchCommands);
+        // Infinity is a sentinel ("no prediction yet") only where the state
+        // starts with it; a field that becomes Infinity, or NaN, is a fault.
+        const first = flattenState(states[0]);
         const last = flattenState(states.at(-1));
         for (const [key, value] of Object.entries(last)) {
           if (typeof value !== 'number') continue;
-          // Infinity is a documented "no prediction yet" sentinel; NaN never is.
           expect(Number.isNaN(value), `${key} is NaN`).toBe(false);
-        }
-        const k = states.at(-1)!.kinematics;
-        for (const v of [k.altitude, k.speedX, k.speedY, k.pitch, k.angularVelocity]) {
-          expect(Number.isFinite(v)).toBe(true);
+          if (!Number.isFinite(value)) {
+            expect(first[key], `${key} became ${value}`).toBe(value);
+          }
         }
       }),
       PARAMS,
@@ -71,9 +72,10 @@ describe('invariants over any configurable flight', () => {
           const before = energy(s);
           s = step(s, GOLDEN_DT, { throttle: 0 });
           if (s.status.landed || s.failures.crashed) break;
-          // Velocity Verlet's per-step energy error, bounded generously: a
-          // millionth of the gravitational scale at the surface.
-          const slack = 1e-6 * (MU / s.kinematics.distanceToPlanetCenter);
+          // Rounding only: the worst per-step rise measured over 1,000 flights
+          // (seed 7) was 2.5e-16 of GM/r. 1e-12 is 4,000 times that, and a
+          // real energy source of even a few J/kg per step exceeds it.
+          const slack = 1e-12 * (MU / s.kinematics.distanceToPlanetCenter);
           expect(energy(s), `step ${i + 1}`).toBeLessThanOrEqual(before + slack);
         }
       }),
