@@ -10,7 +10,7 @@ There is no Jira board for this repo. `docs/plans/` is the system of record: the
 ## Current truthful status
 
 - 0% of the roadmap is complete; 0 of 8 phases are done.
-- The exact first unfinished task is **Phase 1, Task 1, Step 1** in `docs/plans/modernization/modernization-phase-1.md`: the pure-rename commit that moves `v2/` to the repo root.
+- The exact first unfinished task is the first unchecked box in `docs/plans/modernization/modernization-phase-1.md`; its Execution log section says what was done and decided.
 - Already done and must not be redone:
   - The rebuild itself, M0–M12.7 (commits up to `d2839b9`): the pure core, the walls, the goldens, the Svelte UI, the view, the audio.
   - The repo-docs pass, commits `d059bf6`..`94f4fe3` on this branch: `AGENTS.md`, `CLAUDE.md` = `@AGENTS.md`, `.agents/skills/` with the `.claude/skills` link, `docs/reference/` (architecture, physics-model, presentation, testing), `docs/research/2026-09-30-modernization-audit.md`, `docs/plans/backlog/README.md`, the old plan files deleted, every citation re-pointed.
@@ -74,6 +74,8 @@ Made by the planner, stated so the run inherits them:
 - Never rewrite history.
 - Keep the roadmap truthful after each phase: tick its Status line, and write the next phase's plan with `superpowers:writing-plans` (`modernization-phase-<n>.md`) before starting it.
 - When a phase closes, move any decision that still holds into `docs/reference/` and keep `AGENTS.md`, the skills and the backlog true.
+- **A real defect found by a new test is fixed, even in a phase that otherwise forbids physics changes.** Bug-fix tier only: the failing test first, the fix, a trajectory audit of every golden in the commit body, and an independent reviewer before merge. That precedence beats any phase's "no core behaviour change" constraint.
+- **Diagnosis is bounded.** A failing or flaky check gets at most three diagnosis attempts, each recorded (trace, screenshot, hypothesis, result). Then it is fixed, or the phase stops with that check named as the blocker and its evidence kept. Never loosen a bound, delete an assertion, or add a retry to get past it.
 - Phase 4 writes a `frontend-conventions` project skill with `establish-conventions`, modelled on flight_sim's, and adds it to `AGENTS.md`'s skills table.
 
 ## Reporting
@@ -92,10 +94,12 @@ Stop when all of these are objectively true:
 - [ ] every phase in the roadmap's Status list is checked off
 - [ ] on `main`, `npm run gate` exits 0 on Steve's Mac, and the last three hosted CI runs on `main` are green (or the billing exception above is recorded)
 - [ ] https://steveisnthere.github.io/StarShipSimulator/ serves the React build, and the smoke tier passes against that URL
-- [ ] `npm run truth:report` shows every tier-A row IN, and `npm run mutation` shows every mutation CAUGHT
-- [ ] every scenario, Ship and Super Heavy, lands under autopilot (`tests/flies-every-scenario.test.ts`)
+- [ ] `npm run truth:report` shows every tier-A row IN, and the registry covers at least: Raptor sea-level and vacuum Isp and thrust, RVac Isp, Ship and Super Heavy propellant and dry mass, engine counts, planet radius, max-Q altitude and value on an ascent, and re-entry peak heating — a row may not be deleted to make this true
+- [ ] `npm run mutation` shows every mutation CAUGHT by a named assertion failure, with the unmodified control run passing first
+- [ ] every scenario, Ship and Super Heavy, lands (or is caught) under autopilot, asserted per scenario id in `tests/flies-every-scenario.test.ts` — not "reaches a definite outcome"
 - [ ] no `.svelte` file remains, and the design-contract and UI-contract scanners pass with their self-tests in `npm run build`
 - [ ] `docs/reference/` describes the shipped system, `bash ~/.agent-config/skills/repo-docs-maid/scripts/check.sh` exits 0, and the backlog names every deferral in words
 - [ ] the roadmap's closing section summarises what shipped, with the merge commit of each phase
+- [ ] a motion-review page for Steve (launch, staging, belly flop, landing, catch) is published and linked from the closing section; his verdict is owner acceptance, recorded separately — the run is engineering-complete without it
 
 Do not continue into the backlog's unphased items (shareable flights, licensed audio) after this condition is met.

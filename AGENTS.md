@@ -31,13 +31,12 @@ The bar is Steve's flight sim, `flight_sim` ("Flying Bricks"): realistic physics
 
 ## The gate
 
-From the repo root, in this order — build before test is required, not a preference:
+From the repo root. `npm run gate` builds before it tests; that order is required, not a preference:
 
 ```bash
-npm run lint && npm run build && npm run test && npm run coverage
-npm run test:e2e       # Playwright, five projects
-npm run test:deploy    # the build under the Pages subpath
-npm run gate           # lint, build, test, coverage, test:e2e
+npm run gate           # lint, build, test, coverage, e2e smoke, subpath deploy
+npm run test:e2e:full  # every browser spec, all five projects (on demand)
+npm run bench          # wall-clock budgets (on demand, idle machine)
 ```
 
 What each proves, the coverage floors, and how to read a red gate: `verification-and-gates`.

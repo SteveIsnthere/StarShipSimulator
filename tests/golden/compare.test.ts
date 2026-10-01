@@ -26,7 +26,7 @@ describe('the golden tolerance stays far below a real physics change', () => {
     expect(ACTIVE_REL_TOL).toBe(isRecordingPlatform() ? 0 : GOLDEN_REL_TOL);
   });
 
-  it('a 1e-6 change in propellant mass moves a replay past the tolerance', () => {
+  it('a 1e-6 change in propellant mass moves the trajectory past the tolerance', () => {
     // End to end through step(): if the tolerance could hide this, it could
     // hide a physics change.
     const spec = GOLDEN_SPECS.find((g) => g.id === 'landing-burn-autoland')!;
@@ -40,7 +40,11 @@ describe('the golden tolerance stays far below a real physics change', () => {
       if (i % 60 === 0) {
         const fa = flattenState(a);
         const fb = flattenState(b);
-        for (const k of Object.keys(fa)) worst = Math.max(worst, relDiff(fb[k], fa[k]));
+        // Only the trajectory: the perturbed input (vehicle.*) must not be what
+        // trips the check, or this would prove nothing about propagation.
+        for (const k of Object.keys(fa)) {
+          if (k.startsWith('kinematics.')) worst = Math.max(worst, relDiff(fb[k], fa[k]));
+        }
       }
     }
     expect(worst).toBeGreaterThan(GOLDEN_REL_TOL * 10);

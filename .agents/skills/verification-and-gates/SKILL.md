@@ -17,10 +17,15 @@ All commands run in the repo root.
 | build | `npm run build` | `svelte-check`, the Vite build, the service worker, and the bundle/font/audio budgets |
 | unit | `npm run test` | Vitest: core, goldens, proofs, HUD, view, UI, audio, offline |
 | coverage | `npm run coverage` | the per-module floors on `src/core/**` in `vitest.config.ts` |
-| browser | `npm run test:e2e` | Playwright, five projects (desktop chromium plus four phone viewports) |
+| browser smoke | `npm run test:e2e` | the `@smoke` Playwright specs on desktop Chromium: the app boots, flies, lands, works offline |
 | deploy shape | `npm run test:deploy` | the build works under the GitHub Pages subpath |
 
-`npm run gate` runs lint, build, test, coverage and test:e2e in that order. It does not run `test:deploy`.
+`npm run gate` runs all six in that order. Off the gate, on demand:
+
+- `npm run test:e2e:full` — every spec on all five projects (desktop plus four phone viewports). Run it before a release or after UI work.
+- `npm run bench` — the wall-clock budgets (`*.timing.test.ts`), on an idle machine.
+
+First run on a machine: `npx playwright install chromium` (prefix `NODE_EXTRA_CA_CERTS=/etc/ssl/cert.pem` if Node rejects the certificate chain).
 
 **Build before test, always.** `tests/offline.test.ts` asserts on the shipped output, so `dist/` is its fixture. In the other order, it fails on ENOENT on a clean checkout.
 
@@ -41,8 +46,10 @@ While iterating, run the narrowest thing that covers the change (`npx vitest run
 
 ## Hosted CI
 
-`.github/workflows/ci.yml` runs on every push to every branch, in the repo root, on Node 22: lint, build with the budget, unit, coverage, the desktop chromium Playwright project, and the subpath deploy check. It does not run the four phone projects, so `@mobile`-only specs run in no CI job. `deploy.yml` publishes `dist` to GitHub Pages on pushes to `main`.
+`.github/workflows/ci.yml` runs `npm run gate` on every push, on the `.nvmrc` Node, in ≤ 20 minutes. Its manual `e2e-full` job (workflow dispatch) runs the full browser suite and the bench. `deploy.yml` runs the same gate and publishes `dist` to GitHub Pages on pushes to `main`.
+
+If hosted CI cannot start because of billing or spending limits, record the exact message and rely on the complete local gate (Steve's standing rule).
 
 ## Parallel agents
 
-The Playwright web server uses a fixed port and `reuseExistingServer`, and agents sharing one worktree's `node_modules` have corrupted each other's runs. Run browser checks from your own worktree, one at a time.
+Each agent runs from its own worktree with its own `node_modules`; sharing one has corrupted runs. Two browser runs at once need different ports: `E2E_PORT` (default 4174) and `E2E_SUBPATH_PORT` (default 4188). Servers are never reused, so a run never tests someone else's build.

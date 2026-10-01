@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - Starts after Phase 1 is merged to `main`. Paths are root-relative (the app is no longer under `v2/`).
-- No behaviour change in `src/core/`. This phase adds tests, tooling and one debug surface; no golden moves.
+- No behaviour change in `src/core/` except a Bug fix a new test exposes (the GOAL's precedence rule: failing test first, trajectory audit, independent review). This phase adds tests, tooling and one debug surface.
 - The light gate stays ≤ 5 minutes on Steve's Mac. Anything slower runs on demand (`npm run mutation`, `npm run truth:report`) and in CI's manual `e2e-full` job.
 - Zero known-reds. A Tier-2 row that is out of band today is reported, not gated, until it first comes in band (the ratchet in Task 2).
 - Never tune a constant to bring a row in band (`physics-change-policy`).
@@ -108,7 +108,7 @@ export function judge(b: Band): Verdict;   // factor = value / nearest bound whe
 - Modify: `package.json` (`"mutation"`)
 
 - [ ] **Step 1: The matrix.** Each entry is `{ "id", "file", "find", "replace", "expect": "<test file glob that must fail>" }`, exact-string. At least: gravity sign flipped in `src/core/physics/gravity.ts`; drag force zeroed in `aero.ts`; `dt` doubled in the position update of `step.ts`; the sea-level and vacuum Isp anchors swapped in `constants.ts`; the RNG counter not advanced in `rng.ts`; the propellant decrement removed in `mass.ts`. Copy each `find` string from the file at implementation time — the script must refuse an entry whose `find` occurs zero or more than one time.
-- [ ] **Step 2: The runner.** `scripts/mutation-check.mjs` copies the repo (minus `node_modules`, `dist`, `.git`) to a temp dir under `os.tmpdir()`, symlinks `node_modules`, and for each entry: applies it, runs `npx vitest run <expect>` there, records CAUGHT if the exit code is non-zero, and restores the file. It never edits the working tree. It prints a table and exits non-zero if any mutation SURVIVED.
+- [ ] **Step 2: The runner.** `scripts/mutation-check.mjs` copies the repo (minus `node_modules`, `dist`, `.git`) to a temp dir under `os.tmpdir()`, symlinks `node_modules`, and for each entry: applies it, runs `npx vitest run <expect>` there, records CAUGHT only if Vitest reports at least one named assertion failure in the selected files (parse the JSON reporter; an import error, a missing file or zero selected tests is ERROR, not CAUGHT), and restores the file. Before any mutation it runs the same selection unmodified and requires it to pass. It never edits the working tree. It prints a table and exits non-zero if any mutation SURVIVED.
 - [ ] **Step 3:** Run `npm run mutation`. Every entry CAUGHT. If one survives, that is a missing test: add the test that catches it (in the suite named by `expect`), then re-run.
 - [ ] **Step 4:** Add `npm run mutation` to CI's manual `e2e-full` job, not the gate. Commit: `test: a mutation matrix the suite must turn red`.
 
