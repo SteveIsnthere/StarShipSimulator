@@ -14,7 +14,14 @@
 import * as C from '../constants';
 import type { Atmosphere } from '../physics/atmosphere';
 import { speedOfSoundAt } from '../physics/atmosphere';
-import { getBodyDragCoefficient, getCrossSectionalArea, getDrag, getLift } from '../physics/aero';
+import {
+  foldedIntoWind,
+  getBodyDragCoefficient,
+  getCrossSectionalArea,
+  getDrag,
+  getLift,
+  wrappedAttackAngle,
+} from '../physics/aero';
 import { getHorizontalAcceleration, getVerticalAcceleration, type AccelerationInputs } from '../physics/components';
 import { gravityAt, tangentialAcceleration, verticalGravityAcceleration } from '../physics/gravity';
 import { isaAtmosphereInto } from '../physics/isa';
@@ -57,13 +64,36 @@ export function thrustFor(engines: number, airPressureKPa: number): number {
  */
 const TAIL_FIRST_AREA = getCrossSectionalArea(rad(0), C.vehicleInFlightMaxArea);
 
-/** What the predictor reads and writes; one per caller, reused every call. */
+/**
+ * Everything the predictors write while they work; one per caller, reused on
+ * every call. Owned by the caller rather than the module, so two callers (or a
+ * call inside another) can never share it.
+ */
 export interface BurnScratch {
   readonly atmosphere: Atmosphere;
+  /** s — the last backward pass's burn duration. */
+  duration: number;
+  /** The fall's force composition, fed like `step()`'s. */
+  readonly inputs: AccelerationInputs;
+  /** m/s² — the fall's acceleration at the point last evaluated. */
+  readonly acc: { x: number; y: number };
 }
 
 export function createBurnScratch(): BurnScratch {
-  return { atmosphere: { airTemperature: 0, airPressure: 0, airDensity: 0 } };
+  return {
+    atmosphere: { airTemperature: 0, airPressure: 0, airDensity: 0 },
+    duration: 0,
+    // Thrust and gimbal stay zero: the fall is unpowered.
+    inputs: {
+      angleOfMotion: rad(0),
+      angleOfAttack: rad(0),
+      gimbalPointingDirection: rad(0),
+      aerodynamicDragAcceleration: 0,
+      aerodynamicLiftAcceleration: 0,
+      thrustAcceleration: 0,
+    },
+    acc: { x: 0, y: 0 },
+  };
 }
 
 /**
@@ -94,7 +124,7 @@ export const BURN_STEP_CAP = 1200;
  * One backward pass from touchdown: the altitude at which the descent speed
  * reaches `descentSpeed`, starting at `touchdownMass` and growing the mass back
  * at the full-throttle flow. Returns NaN when the burn cannot reach that speed
- * within the cap; writes the burn's duration into `duration[0]`.
+ * within the cap; writes the burn's duration into `scratch.duration`.
  */
 function backwardPass(
   engines: number,
@@ -102,7 +132,6 @@ function backwardPass(
   descentSpeed: number,
   touchdownHeight: number,
   scratch: BurnScratch,
-  duration: number[],
 ): number {
   const flow = engines * C.maxFuelFlowPerRaptor;
   const half = BURN_STEP * 0.5;
@@ -122,7 +151,7 @@ function backwardPass(
     if (next >= descentSpeed) {
       // Interpolate inside the step to where the speed is matched.
       const f = (descentSpeed - u) / (next - u);
-      duration[0] = (i + f) * BURN_STEP;
+      scratch.duration = (i + f) * BURN_STEP;
       return h + (u + 0.5 * (descentSpeed - u)) * f * BURN_STEP;
     }
     h += (u + next) * 0.5 * BURN_STEP;
@@ -146,8 +175,6 @@ function burnDeceleration(engines: number, h: number, u: number, m: number, scra
 const MASS_PASSES = 6;
 const MASS_TOLERANCE = 1;
 
-/** Scratch for the burn's duration, so the passes return two numbers without allocating. */
-const DURATION: number[] = [0];
 
 /**
  * m — the altitude at which a full-throttle burn on `engines` Raptors, flown
@@ -192,17 +219,17 @@ export function landingBurnStartAltitude(
   const lowerBound = thrustFor(engines, C.SEA_LEVEL_PRESSURE_PA / 1000) / mass - gravityAt(C.planetRadius);
   if (lowerBound <= 0) return null;
   let m0 = Math.max(mass - flow * (descentSpeed / lowerBound), C.vehicleDryMass);
-  const start0 = backwardPass(engines, m0, descentSpeed, touchdownHeight, scratch, DURATION);
+  const start0 = backwardPass(engines, m0, descentSpeed, touchdownHeight, scratch);
   if (Number.isNaN(start0)) return null;
-  let r0 = mass - flow * DURATION[0]! - m0;
-  let m1 = mass - flow * DURATION[0]!;
+  let r0 = mass - flow * scratch.duration - m0;
+  let m1 = mass - flow * scratch.duration;
   let start = start0;
   for (let pass = 0; pass < MASS_PASSES; pass++) {
     // Not enough propellant for the burn at all: it cannot stop the vehicle.
     if (m1 < C.vehicleDryMass) return null;
-    start = backwardPass(engines, m1, descentSpeed, touchdownHeight, scratch, DURATION);
+    start = backwardPass(engines, m1, descentSpeed, touchdownHeight, scratch);
     if (Number.isNaN(start)) return null;
-    const r1 = mass - flow * DURATION[0]! - m1;
+    const r1 = mass - flow * scratch.duration - m1;
     if (Math.abs(r1) < MASS_TOLERANCE || r1 === r0) break;
     const next = m1 - (r1 * (m1 - m0)) / (r1 - r0);
     m0 = m1;
@@ -230,26 +257,10 @@ export function createFallResult(): FallResult {
   return { reached: false, time: Number.NaN, downRange: 0 };
 }
 
-/** s — the fall's integration step; m — its cap, about seventeen minutes of fall. */
+/** s — the fall's integration step. */
 export const FALL_STEP = 0.25;
+/** Steps — the fall's cap: 4 000 of `FALL_STEP`, about seventeen minutes of fall. */
 export const FALL_STEP_CAP = 4_000;
-
-/**
- * The composition `step()` uses (`getHorizontalAcceleration` and
- * `getVerticalAcceleration`), fed from one preallocated inputs object so the
- * loop allocates nothing. Thrust and gimbal stay zero: the fall is unpowered.
- */
-const FALL_INPUTS: AccelerationInputs = {
-  angleOfMotion: rad(0),
-  angleOfAttack: rad(0),
-  gimbalPointingDirection: rad(0),
-  aerodynamicDragAcceleration: 0,
-  aerodynamicLiftAcceleration: 0,
-  thrustAcceleration: 0,
-};
-
-/** Acceleration scratch for the fall, so its midpoint step allocates nothing. */
-const FALL_ACC = { x: 0, y: 0 };
 
 /**
  * The unpowered accelerations at a point, exactly as `step()` composes them:
@@ -264,27 +275,26 @@ function fallAcceleration(
   pitch: number,
   mass: number,
   maxArea: number,
-  wind: number,
+  airWind: number,
   scratch: BurnScratch,
 ): void {
+  const { inputs, acc } = scratch;
   const r = C.planetRadius + altitude;
   const air = scratch.atmosphere;
   isaAtmosphereInto(Math.max(altitude, 0), air);
-  const rx = vx - wind;
+  const rx = vx - airWind;
   const speed = Math.sqrt(rx * rx + vy * vy);
   const motion = Math.atan2(rx, vy);
-  let attack = pitch - motion;
-  if (attack < -Math.PI) attack = Math.PI * 2 + attack;
-  else if (attack > Math.PI) attack = -(Math.PI * 2 - attack);
-  const intoWind = attack > Math.PI / 2 ? Math.PI - attack : attack < -Math.PI / 2 ? -Math.PI - attack : attack;
+  const attack = wrappedAttackAngle(pitch, motion);
+  const intoWind = foldedIntoWind(attack);
   const area = getCrossSectionalArea(rad(intoWind), maxArea);
   const mach = speed / speedOfSoundAt(air.airTemperature);
-  FALL_INPUTS.angleOfMotion = rad(motion);
-  FALL_INPUTS.angleOfAttack = rad(attack);
-  FALL_INPUTS.aerodynamicDragAcceleration = getDrag(air.airDensity, speed, area, getBodyDragCoefficient(mach)) / mass;
-  FALL_INPUTS.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
-  FALL_ACC.x = getHorizontalAcceleration(FALL_INPUTS) + tangentialAcceleration(r, vx, vy);
-  FALL_ACC.y = getVerticalAcceleration(FALL_INPUTS, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);
+  inputs.angleOfMotion = rad(motion);
+  inputs.angleOfAttack = rad(attack);
+  inputs.aerodynamicDragAcceleration = getDrag(air.airDensity, speed, area, getBodyDragCoefficient(mach)) / mass;
+  inputs.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
+  acc.x = getHorizontalAcceleration(inputs) + tangentialAcceleration(r, vx, vy);
+  acc.y = getVerticalAcceleration(inputs, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);
 }
 
 /**
@@ -313,19 +323,21 @@ export function unpoweredFallInto(
   const pitch = kinematics.pitch;
   const mass = vehicle.vehicleMass;
   const maxArea = vehicle.vehicleInFlightMaxArea;
-  const wind = world.wind;
+  // The air's downrange speed, as step() takes it: the wind plus the gust.
+  const airWind = world.wind + world.gust;
+  const acc = scratch.acc;
   let h = kinematics.altitude;
   let x = 0;
   let vx = kinematics.speedX;
   let vy = kinematics.speedY;
   const half = FALL_STEP * 0.5;
   for (let i = 0; i < FALL_STEP_CAP; i++) {
-    fallAcceleration(h, vx, vy, pitch, mass, maxArea, wind, scratch);
-    const mvx = vx + FALL_ACC.x * half;
-    const mvy = vy + FALL_ACC.y * half;
-    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, wind, scratch);
-    const nvx = vx + FALL_ACC.x * FALL_STEP;
-    const nvy = vy + FALL_ACC.y * FALL_STEP;
+    fallAcceleration(h, vx, vy, pitch, mass, maxArea, airWind, scratch);
+    const mvx = vx + acc.x * half;
+    const mvy = vy + acc.y * half;
+    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, airWind, scratch);
+    const nvx = vx + acc.x * FALL_STEP;
+    const nvy = vy + acc.y * FALL_STEP;
     const nh = h + mvy * FALL_STEP;
     const nx = x + mvx * FALL_STEP;
     if (nh <= groundAltitude) {

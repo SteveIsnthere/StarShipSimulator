@@ -270,6 +270,8 @@ export function autoLand(state: SimState, dt: number): void {
 /** autoPilotModes.js:194 — how high to start the flip, worst case. */
 function updateBellyFlopTriggerAltitude(state: SimState): void {
   const { autopilot, kinematics, vehicle } = state;
+  // Read only below the ceiling (aeroDescentController); not worth computing above it.
+  if (kinematics.altitude >= C.flipTriggerCeiling) return;
 
   // Phase 5: the burn sized by the predictor on the planned engine count
   // (./landing-burn.ts), not a flat-g, sea-level, drag-free estimate.
@@ -336,7 +338,7 @@ function aeroDescentController(state: SimState): void {
   if (
     (kinematics.altitude < autopilot.bellyFlopTriggerAltitude &&
       kinematics.speedY < 5 &&
-      kinematics.altitude < 2500) ||
+      kinematics.altitude < C.flipTriggerCeiling) ||
     kinematics.altitude < 300
   ) {
     autopilot.aeroDescentCompleted = true;

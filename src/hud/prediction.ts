@@ -26,9 +26,9 @@
  *   error is measured in tests/hud/prediction.test.ts rather than assumed.
  *
  * AND WHEN IT CANNOT ANSWER IT SAYS SO. An orbit whose perigee is above the
- * target never comes down, and the fall model overflows above roughly 280 km.
- * A fall that does not come down within the integrator's cap (a vehicle
- * climbing away) returns `none` with a reason too. A predictor that always prints a number is
+ * target never comes down, and a fall that does not reach the ground within the
+ * integrator's cap (a vehicle climbing away) is not a touchdown either; both
+ * return `none` with a reason. A predictor that always prints a number is
  * worse than one that admits its domain — the wrong number is indistinguishable
  * from the right one on a dial.
  */

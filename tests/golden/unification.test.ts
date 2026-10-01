@@ -29,6 +29,7 @@
  *     P5.3    guidance on local gravity          ALL EIGHT
  *     P5.4    the burn sized by the predictor    five: three fly, two plan
  *     P5.5    dead prediction fields removed     moved NOTHING (headers only)
+ *     P5.6    the trigger computed where it acts re-entry and RTLS, planning keys only
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -165,6 +166,14 @@
  * file changes, no rows block does, and every digest above is unchanged. That
  * is the check that the removal is only a removal.
  *
+ * P5.6 computes the flip trigger only below the 2 500 m it can act under
+ * (`flipTriggerCeiling`; aeroDescentController reads it nowhere higher): the
+ * predictor behind it was too costly to run every step from 80 km down, and it
+ * timed the orbit tests out under coverage. Re-entry and RTLS, whose windows
+ * end above the ceiling, lose the two planning keys from their rows (they are
+ * constant now, so they move to the header); nothing else moves, and the
+ * flights are bit-for-bit the same.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -233,11 +242,11 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P5.3 (all eight) then P5.4 (five): see the table above.
+  // P5.3 (all eight), P5.4 (five), P5.6 (two): see the table above.
   'launch-pad-takeoff': '520b3264c3f22ea479601c578ed37436f0a7b85dbdcde56e18c5fb054cc44e27',
   'booster-sep-boostback': '213f6e221a047db82a787eb31d62793c0846cf2b6faf0cfe4fb8ae1add880422',
-  'rtls-boostback': '44a90c7a4eb7f3459e125442cc888e6370210f5df9bc42de0ad297a6c1a3d8d8',
-  'reentry-autoland': '8893d5b0ac260b18c58556ec5bb89fb0870958d654368c6e6512613ca6434341',
+  'rtls-boostback': '0ca7313673a5546c3e0202ac1987d2f8870db19093fd10b82effbfc9b506eb09',
+  'reentry-autoland': '09ac1ce2faaccbbd03ad5831d7810a60a01d4594b86e8fddf77da887623810f5',
   'before-flip-autoland': '46148aebd23beff329356094d15ed307c68c9fcf00915bd1f93d3ede7a00ee6d',
   'landing-burn-autoland': '45f42931ca0eb7f419e6d3ff749b941d3fcb0b466739897c7566bcc8571a44a0',
   'landing-burn-headwind': 'a56dc0fd15ffdcb6500bafcb169a458af55471320e6075ad4d09b61f6a092a1f',

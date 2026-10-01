@@ -463,6 +463,14 @@ export const propulsiveCorrectionAccuracyRequired = propulsiveCorrectionMinHeigh
  */
 export const decelerationStageHorizontalAcc = gravity * 1.6;
 
+/**
+ * m — the highest the flip can trigger: the aero descent hands over only below
+ * it (or below 300 m, whatever the trigger says). The trigger is computed only
+ * under it, because above it nothing reads the value (Phase 5: the predictor
+ * behind the trigger is too costly to run for a number nothing uses).
+ */
+export const flipTriggerCeiling = 2500;
+
 /** Engine count used for the pessimistic final-descent thrust estimate. */
 export const autoLandFinalStageEngineCount = 1;
 /** N */

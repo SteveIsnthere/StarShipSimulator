@@ -158,24 +158,29 @@ export function getAttackAngles(
   pitch: Rad,
   angleOfMotion: Rad,
 ): { angleOfAttack: Rad; angleInToTheWind: Rad } {
-  let angleOfAttack: number = pitch - angleOfMotion;
+  const angleOfAttack = wrappedAttackAngle(pitch, angleOfMotion);
+  return { angleOfAttack: rad(angleOfAttack), angleInToTheWind: rad(foldedIntoWind(angleOfAttack)) };
+}
 
+/**
+ * rad — `getAttackAngles`' attack angle, wrapped to (-pi, pi], as a number: the
+ * form a loop can ask without allocating (Phase 5's fall predictor).
+ */
+export function wrappedAttackAngle(pitch: number, angleOfMotion: number): number {
+  let angleOfAttack = pitch - angleOfMotion;
   if (angleOfAttack < -Math.PI) {
     angleOfAttack = Math.PI * 2 + angleOfAttack;
   } else if (angleOfAttack > Math.PI) {
     angleOfAttack = -(Math.PI * 2 - angleOfAttack);
   }
+  return angleOfAttack;
+}
 
-  let angleInToTheWind: number;
-  if (angleOfAttack > Math.PI / 2) {
-    angleInToTheWind = Math.PI - angleOfAttack;
-  } else if (angleOfAttack < -Math.PI / 2) {
-    angleInToTheWind = -Math.PI - angleOfAttack;
-  } else {
-    angleInToTheWind = angleOfAttack;
-  }
-
-  return { angleOfAttack: rad(angleOfAttack), angleInToTheWind: rad(angleInToTheWind) };
+/** rad — the angle into the wind: the attack angle with the rear half folded onto the front. */
+export function foldedIntoWind(angleOfAttack: number): number {
+  if (angleOfAttack > Math.PI / 2) return Math.PI - angleOfAttack;
+  if (angleOfAttack < -Math.PI / 2) return -Math.PI - angleOfAttack;
+  return angleOfAttack;
 }
 
 /**
