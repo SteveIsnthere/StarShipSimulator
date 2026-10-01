@@ -2,7 +2,7 @@
  * Guidance truth tests: what the autopilot's laws should do, stated as
  * behaviour against the simulation's own physics, independent of any tuning.
  *
- * Phase 5 (docs/plans/modernization/modernization-phase-5.md). A test that
+ * Phase 5 (merged b84b746; the decisions are in docs/reference/physics-model.md, "What guidance assumes"). A test that
  * fails on the code of its day is marked `it.fails` with the reason, and the
  * task that fixes the law turns it into a plain `it`.
  */

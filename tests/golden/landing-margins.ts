@@ -1,7 +1,7 @@
 /**
  * Landing margins: how much room the autopilot leaves, scenario by scenario.
  *
- * Phase 5 (docs/plans/modernization/modernization-phase-5.md) replaces the
+ * Phase 5 (merged b84b746; the decisions are in docs/reference/physics-model.md, "What guidance assumes") replaces the
  * guidance's flat-g, sea-level, drag-free estimates with the simulation's own
  * physics. Correcting an estimate can remove slack the landings quietly relied
  * on, so this measures the slack first and every guidance change diffs against

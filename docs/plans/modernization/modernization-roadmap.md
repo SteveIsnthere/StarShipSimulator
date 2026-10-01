@@ -12,6 +12,11 @@ The evidence behind every phase is [docs/research/2026-09-30-modernization-audit
 - **Realism scope:** full Ship realism **plus a separate Super Heavy** (33 Raptors, grid fins, hot staging), so booster scenarios fly the booster.
 - **Tracking:** local. `docs/plans/` is the system of record; no Jira.
 
+## Steve's decisions (2026-10-01)
+
+- **Entry on lift, as Phase 6b.** Physical drag (cited, built) halves hypersonic drag, and with the physical heat shield the deorbit breaks up at 1,533 K because the autopilot flies entry broadside, where lift is zero. Phase 6b gives the autopilot an entry angle-of-attack schedule that flies on lift, then lands the parked aero tasks on it. The tile limit never moves.
+- **Graphics and visuals get their own phase, before UX** (Phase 8), covering engines and plumes, re-entry and heat, the environment, and the vehicle and camera. Like Phase 3, it publishes its visual direction to a private review page and proceeds without waiting; Steve's verdict folds in as a scope change.
+
 ## Phases
 
 | # | phase | depends on | end state | verified by |
@@ -21,9 +26,11 @@ The evidence behind every phase is [docs/research/2026-09-30-modernization-audit
 | 3 | **Design pass** | 1 | a written design system for Starship (tokens, type, density, motion, live-scene chrome, brand layer), a new information architecture for every surface, and reviewed prototype screenshots | `docs/design/design-system.md` and `docs/design/ia.md` exist; a review page of prototypes is published for Steve |
 | 4 | **React shell** | 3 | no `.svelte` files; React 19 + Tailwind 4 + vendored flight_sim kit; `App.svelte`'s jobs split into Zustand slices and hooks; the design scanners in the build | `npm run build` runs the scanners with self-tests; e2e smoke and a11y specs pass; first-load JS ≤ 300 kB (re-baselined from 250 for React DOM, 2026-10-01) |
 | 5 | **Guidance on real physics** | 2 | autopilot burns, throttles and triggers use the simulation's own gravity, thrust and drag instead of g = 9.807; the HUD predictor drops `airResistance_k = 250` for the simulation's drag | every scenario lands under autopilot; the guidance truth tests pass; goldens re-blessed once per change, each with an audit row |
-| 6 | **Ship realism** | 5 | Mach-dependent drag; normal force and centre of pressure; geometric fins; an integrated heat-shield model in stated units; Earth rotation in an inertial 2D frame; wind profile and seeded turbulence; real RCS; 3 sea-level + 3 vacuum Raptors with spool-up; R⊕ = 6,371 km | Tier-2 bands in-band for the Ship rows; every Ship scenario lands; one golden re-bless per change with its audit row |
-| 7 | **Super Heavy** | 6, 4 | a second vehicle: 33 Raptors, grid fins, hot staging; booster-sep and RTLS fly the booster to a tower catch; a two-vehicle camera and HUD | booster bands in-band; booster scenarios land under autopilot; e2e covers staging |
-| 8 | **UX to flight_sim level** | 4, 7 | modal behaviour, pause, modern keymap with rebinding, gamepad and key legend; guided first flight and per-scenario objectives; a Starship HUD; an instrument-grade Black Box; a phone layout that never hides flight data; a graded debrief; toasts; a phone frame-time budget | flight_sim's UI quality checklist at desktop / 1024×768 / 390×844; witness specs with positive controls; Steve's verdict on a motion-review page |
+| 6 | **Ship realism** | 5 | felt g, the 1976 thermosphere, Earth's GM and radius, a measured landing reserve, 3 sea-level + 3 vacuum Raptors with the start transient, a heat shield in W/m² and K with a 1,533 K tile limit, a wind profile with seeded turbulence, Earth rotation in a rotating ground frame | every Ship scenario lands; truth report 8 of 8 in band; one Linux golden regeneration per change with its audit row; the drag, normal-force, fin and RCS tasks moved to 6b |
+| 6b | **Entry on lift** | 6 | an entry angle-of-attack schedule that flies on lift and holds the tile under 1,533 K; then, on it, per-component drag (geometric area, cited Cd), body normal force at a centre of pressure, fins as lifting surfaces, and real RCS | the deorbit and re-entry land with the physical drag and heat models; every scenario lands; the parked models' tests pass; a belly-flop that cannot be held is a recorded finding, not a tuning target |
+| 7 | **Super Heavy** | 6b, 4 | a second vehicle: 33 Raptors, grid fins, hot staging; booster-sep and RTLS fly the booster to a tower catch; a two-vehicle camera and HUD (functional rendering; the look is Phase 8's) | booster bands in-band; booster scenarios caught under autopilot; e2e covers staging |
+| 8 | **Visuals** | 7 | the graphics a player sees, physically driven: per-engine plumes (sea-level and RVac) that expand with altitude, Mach diamonds, staging and landing glare; plasma and tile glow from the skin temperature; atmospheric sky by altitude and sun, the Starbase pad, tower and chopsticks, ocean, coastline, clouds and night; a detailed Ship and Super Heavy with moving fins; cinematic camera, shake, bloom; within a phone frame budget | a published visual-direction review page; pure look functions pinned by tests (as `atmosphere-look.ts` is); screenshot specs per scene; 60 fps desktop and the phone frame budget measured in CI-runnable benches |
+| 9 | **UX to flight_sim level** | 4, 8 | modal behaviour, pause, modern keymap with rebinding, gamepad and key legend; guided first flight and per-scenario objectives; a Starship HUD (including the six-engine look); an instrument-grade Black Box; a phone layout that never hides flight data; a graded debrief; toasts | flight_sim's UI quality checklist at desktop / 1024×768 / 390×844; witness specs with positive controls; Steve's verdict on a motion-review page |
 
 Phases 2 and 3 both depend only on 1. The run takes them in table order.
 
@@ -34,13 +41,17 @@ Phases 2 and 3 both depend only on 1. The run takes them in table order.
 - **Design before the port.** Porting the flat, mid-tier layout faithfully and then redesigning it would rewrite the UI twice.
 - **Guidance before aero.** The autopilot lands only because tuned constants match tuned aero. Changing aero first breaks every landing with no way to tell which change did it.
 - **Super Heavy after the Ship is real and the UI is React.** It reuses the Ship's aero and thermal models, and its HUD is built once, in the new shell.
+- **Entry on lift before Super Heavy.** The booster reuses the Ship's drag, normal-force and fin models, which only land once the Ship can survive entry on them.
+- **Visuals after Super Heavy, before UX.** The booster, staging and the tower catch are the scenes the visuals most need, and the UX phase's motion-review page should show the finished graphics.
 
 ## Risks
 
-- **Realism vs playability.** Real aero, real RCS and real heating can make hand-flying unplayable. Phase 6 keeps every scenario landable under autopilot; Phase 8 adds guidance cues and onboarding for hand-flying. If a human cannot land a scenario at all, that is a finding for Steve, not something to tune away.
+- **Realism vs playability.** Real aero, real RCS and real heating can make hand-flying unplayable. Phases 6 and 6b keep every scenario landable under autopilot; Phase 9 adds guidance cues and onboarding for hand-flying. If a human cannot land a scenario at all, that is a finding for Steve, not something to tune away.
 - **Public Starship data is uneven.** Tier-2 bands carry an A/B source rating; only A rows gate.
 - **Vendored kit drift.** The drift check reports differences from flight_sim; it does not block. Steve decides when to sync.
 - **Live-site cut-over.** Returning visitors have the 2021 service worker. Phase 1 ships a replacement worker at the same scope and a rollback.
+- **Entry on lift may not be enough.** If no schedule within the vehicle's control authority keeps the tile under 1,533 K on physical drag, 6b parks its aero tasks again and reports; the limit does not move and 2021's broadside drag stays.
+- **Graphics cost on phones.** Every visual addition is measured against the phone frame budget; an effect that breaks it gets a reduced-quality path, not a pass.
 - **Over-importing flight_sim process.** No known-red lists, no 15 MB baselines, no full audit longer than the light gate. Copy the principles, not the machinery.
 
 ## Deferred
@@ -49,13 +60,17 @@ Recorded, not built: [docs/plans/backlog/README.md](../backlog/README.md).
 
 ## Status
 
-- [x] Phase 1 — Green gate and cut-over (merged `f14aadb`, live 2026-10-01) ([phase plan](modernization-phase-1.md))
-- [x] Phase 2 — Truth harness ([phase plan](modernization-phase-2.md))
-- [x] Phase 3 — Design pass ([phase plan](modernization-phase-3.md))
-- [x] Phase 4 — React shell ([phase plan](modernization-phase-4.md))
-- [x] Phase 5 — Guidance on real physics ([phase plan](modernization-phase-5.md))
-- [ ] Phase 6 — Ship realism ([phase plan](modernization-phase-6.md))
-- [ ] Phase 7 — Super Heavy
-- [ ] Phase 8 — UX to flight_sim level
+Finished phase plans are closed out (`repo-docs-layout`): their record is the merge commit, and their decisions live in `docs/reference/`.
 
-Phases 3–8 get their phase plan when the phase before them lands, written by the run from this roadmap with `superpowers:writing-plans`.
+- [x] Phase 1 — Green gate and cut-over (merged `f14aadb`, live 2026-10-01)
+- [x] Phase 2 — Truth harness (merged `53e3c26`)
+- [x] Phase 3 — Design pass (merged `53e3c26`)
+- [x] Phase 4 — React shell (merged `dfab3c8`)
+- [x] Phase 5 — Guidance on real physics (merged `b84b746`; goldens on the recording platform `3429ea1`)
+- [ ] Phase 6 — Ship realism ([phase plan](modernization-phase-6.md)) — Tasks 1–4 and 8 done on `claude/ship-realism`; 10, 9 and the close remain
+- [ ] Phase 6b — Entry on lift ([phase plan](modernization-phase-6b.md))
+- [ ] Phase 7 — Super Heavy
+- [ ] Phase 8 — Visuals
+- [ ] Phase 9 — UX to flight_sim level
+
+Phases 7–9 get their phase plan when the phase before them lands, written by the run from this roadmap with `superpowers:writing-plans`.

@@ -2,7 +2,7 @@
  * The physics guidance reasons with: the simulation's own gravity, thrust,
  * atmosphere and drag, asked the way the autopilot needs to ask them.
  *
- * Phase 5 (docs/plans/modernization/modernization-phase-5.md). Until then the
+ * Phase 5 (merged b84b746; the decisions are in docs/reference/physics-model.md, "What guidance assumes"). Until then the
  * guidance sized its burns with a flat g of 9.807 m/s², sea-level thrust and no
  * drag, and landed only because those errors happened to leave room. Everything
  * here is a function of the same models `step()` integrates, so an estimate is

@@ -9,7 +9,7 @@
  * Deliberately absent: a grade and a comparison with the previous attempt
  * (docs/design/ia.md lists both). The model carries neither, and a card that
  * invents a verdict the simulation never made is worse than one that omits it.
- * Phase 8 adds grading to the model; the card shows it when it exists.
+ * Phase 9 (UX) adds grading to the model; the card shows it when it exists.
  */
 import { LIMIT_STATES, limitState } from '$hud/metrics';
 import { formatClock, formatRange } from '$hud/readouts';

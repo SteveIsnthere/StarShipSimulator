@@ -29,7 +29,7 @@ A task that cannot meet that is reverted and parked under the stop rule, and its
 | Question | Decided | Why |
 |---|---|---|
 | The tile's failure limit | NASA Shuttle HRSI reuse limit, **1,260 °C (1,533 K)**, a tier-B analogue (NASA Orbiter TPS fact sheet) | Starship's tile limit is not public. Naming the limit before the run stops the agent picking whichever number passes. If the deorbit cannot survive it, Task 8 parks; the limit never moves. |
-| The six-engine UI | **Minimal in Phase 6** (six marks, a toggle each); the look is Phase 8's | Phase 8 rebuilds the HUD anyway. |
+| The six-engine UI | **Minimal in Phase 6** (six marks, a toggle each); the look is Phase 9's (UX) | Phase 9 rebuilds the HUD anyway. |
 | What *Engines* (all) lights | **The three sea-level engines**, as the 2021 control did | Parity and the intro keep their meaning. RVacs are lit individually, or by guidance in vacuum. |
 | The rotating frame | **Rotating ground frame** (the pad stays fixed); surface speed at **Starbase's 26°N, about 418 m/s eastward**; the editor's speeds stay ground-relative; **done last** | It keeps every pad-relative consumer unchanged. 26°N is where the vehicle flies from. |
 | Spool-up | **Folded into the existing ignition transient** as one named tier-B assumption, not a second invented transient | No public start-transient data exists; the 0.3–1.2 s delay already stands in for it. |
@@ -59,6 +59,8 @@ A task that cannot meet that is reverted and parked under the stop rule, and its
 ```
 
 A parked task parks everything downstream of it. Independent branches continue.
+
+**Status 2026-10-01:** 1, 2, 3, 4a–c and 8 are done. 5a/5b parked (the deorbit breaks up on physical drag while entry is flown broadside), and 6, 7, 11 with them; Steve approved moving all four to **Phase 6b, Entry on lift** ([modernization-phase-6b.md](modernization-phase-6b.md)). Remaining here: 10, then 9a, 9b, then 12.
 
 ## Global Constraints
 
@@ -190,9 +192,9 @@ Mach); launch-pad starts at rest and moves only in felt g.
 **UI (minimal).** Done with 4b.
 - [x] Six engine marks in two labelled groups (SL, Vac) on the controls and the HUD strip, a toggle per engine, from existing components (`Eyebrow`, `ControlButton`). Keys 4–6 light the RVacs.
 - [x] Test ids `raptor-0`…`raptor-5`, the first three keeping their meaning. Engines (all) keeps its 2021 behaviour. Accessible names: "Sea-level engine 1" … "Vacuum engine 3".
-- [ ] `parity.spec.ts` stays green (run at phase close with the full e2e suite). The look is Phase 8's.
+- [ ] `parity.spec.ts` stays green (run at phase close with the full e2e suite). The look is Phase 9's.
 
-### Task 5: Drag (split in two) — PARKED 2026-10-01
+### Task 5: Drag (split in two) — PARKED 2026-10-01, MOVED to Phase 6b
 
 **Parked, with 6, 7 and 11 downstream (the plan's dependency rule).** Built and measured, not merged; the work is on branch `claude/drag-parked`.
 
@@ -201,19 +203,13 @@ Mach); launch-pad starts at rest and moves only in felt g.
 - **Why it parks:** hypersonic broadside drag halves (2.5 → 1.23), the vehicle penetrates deeper while fast, and with the physical heat model (Task 8) the deorbit reaches the 1,533 K limit at 65 km and breaks up. The re-entry preset survives at 1,517 K.
 - **What would unpark it, and why that is Steve's:** the autopilot flies entry broadside (88–89° to the wind), where lift is zero. An experiment replacing lift with the crossflow normal force (Newtonian, no moment) changed nothing for that reason. Surviving needs an entry angle-of-attack schedule that flies on lift, or a different deorbit burn: new guidance, outside this plan.
 
-### Task 6: Normal force and centre of pressure (Fidelity) — PARKED, downstream of Task 5
+### Task 6: Normal force and centre of pressure (Fidelity) — MOVED to Phase 6b
 
-- [ ] The body normal force acts at a centre of pressure from slender-body theory plus crossflow (Allen & Perkins; Jorgensen), giving a moment about the moving CoM.
-- [ ] It replaces the hand-tuned Cl curve. Whether the belly-flop's feel survives is recorded with numbers; if it is lost, that is a finding, not a tuning target.
-- [ ] Attitude control includes the aerodynamic moment as a known term.
-- [ ] Record the RCS share of control torque through the descent, for Task 11.
-- [ ] A belly-flop that is statically unstable beyond the fins' authority is a finding for Steve, recorded and parked, not tuned away.
+Moved with Task 5 to [Phase 6b](modernization-phase-6b.md), where it is planned on the entry-on-lift work. Its original requirements are carried there unchanged.
 
-### Task 7: Fins as surfaces (Fidelity) — PARKED, downstream of Task 5
+### Task 7: Fins as surfaces (Fidelity) — MOVED to Phase 6b
 
-- [ ] Each fin pair produces lift and drag (a force and a moment) at its own arm, from its area and deflection. This replaces the torque-only model and the ×1.8 body area, and the fin-authority estimate calls the same function.
-- [ ] Re-record the RCS share of control torque.
-- [ ] The horizontal adjustment's ±5 m/s cap is checked against the new dispersion; widening it is a schedule change, so it does not count as a principled attempt.
+Moved with Task 5 to [Phase 6b](modernization-phase-6b.md), where it is planned on the entry-on-lift work. Its original requirements are carried there unchanged.
 
 ### Task 8: The heat shield (Fidelity) — done 2026-10-01
 
@@ -230,11 +226,9 @@ Mach); launch-pad starts at rest and moves only in felt g.
 - [ ] Dryden turbulence (MIL-HDBK-1797 / MIL-F-8785C) from its own seeded RNG stream, keyed so the ignition draws do not shift.
 - [ ] None in the intro. `flies-every-scenario` determinism holds. The editor's wind keeps its meaning; gust stays out of the editor.
 
-### Task 11: RCS (Fidelity; after 6 and 7) — PARKED, downstream of Tasks 6 and 7
+### Task 11: RCS (Fidelity; after 6 and 7) — MOVED to Phase 6b
 
-- [ ] Flown Ships use cold-gas nitrogen thrusters with no published thrust, so the thrust and reserve are a named tier-B assumption with its reasoning. The reserve becomes gas mass.
-- [ ] Off-axis thrusters translate as well as turn.
-- [ ] Using Tasks 6 and 7's recorded RCS share: if realistic RCS cannot hold the belly-flop, the descent keeps attitude on fins and gimbal, the way the real vehicle does. The vacuum flip moves to the gimballed engines if the RCS cannot do it before the firing point.
+Moved with Task 5 to [Phase 6b](modernization-phase-6b.md), where it is planned on the entry-on-lift work. Its original requirements are carried there unchanged.
 
 ### Task 9: The rotating frame (last; split in two)
 
@@ -252,6 +246,7 @@ Mach); launch-pad starts at rest and moves only in felt g.
 ### Task 12: Close
 
 - [ ] `docs/reference/physics-model.md` rewritten to the new models, with every source and every tier-B assumption listed.
-- [ ] Remove the backlog rows this phase answers, and list every parked task with its numbers.
+- [ ] Remove the backlog rows this phase answers (the two Phase 6 rows left: rotation, turbulence; and the stale workflow and `record.ts` comments), and confirm Tasks 5, 6, 7, 11 sit in Phase 6b's plan.
 - [ ] Full gate, `npm run mutation` (with a mutant per new model), truth report, `/code-review high`, and an independent physics reviewer.
-- [ ] Merge, verify the deploy, tick Phase 6, write the Phase 7 plan.
+- [ ] `npm run test:e2e:full` (every browser spec; `parity.spec.ts` must be green with six engines).
+- [ ] Merge `claude/ship-realism` to `main`, verify the deploy, tick Phase 6 in the roadmap, and start Phase 6b from its plan.

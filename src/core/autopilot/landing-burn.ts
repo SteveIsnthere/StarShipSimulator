@@ -2,7 +2,7 @@
  * How much altitude the landing burn needs: the sizing behind the flip trigger
  * and the end of the horizontal adjustment.
  *
- * Phase 5, Task 4 (docs/plans/modernization/modernization-phase-5.md). Until
+ * Phase 5, Task 4 (merged b84b746; the decisions are in docs/reference/physics-model.md, "What guidance assumes"). Until
  * then both were a constant-deceleration estimate at sea-level thrust, a flat
  * g of 9.807 m/s² and no drag. Now they ask the predictor
  * (`landingBurnStartAltitude`), which integrates the simulation's own gravity,

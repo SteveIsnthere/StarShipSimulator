@@ -11,9 +11,11 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | Tasks 1–4 and 8 done on `claude/ship-realism`, unmerged; 5, 6, 7, 11 parked ([phase 6](modernization-phase-6.md)) | — |
+| 6 Ship realism | Tasks 1–4 and 8 done on `claude/ship-realism`, unmerged; 10, 9 and the close remain ([phase 6](modernization-phase-6.md)) | — |
+| 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
-| 8 UX to flight_sim level | not started | — |
+| 8 Visuals | not started (added 2026-10-01) | — |
+| 9 UX to flight_sim level | not started | — |
 
 ## Shipped
 
@@ -42,17 +44,16 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 - **Phase 6 calls, made unattended (you are buying these; details in [phase 6](modernization-phase-6.md)):**
   - the tile limit is NASA's Shuttle HRSI 1,260 °C (Starship's is not public), so the deorbit may park rather than move the limit;
-  - the six-engine UI is minimal now and the look is Phase 8's;
+  - the six-engine UI is minimal now and the look is Phase 9's (UX);
   - *Engines* (all) lights the three sea-level engines, as in 2021;
   - Earth rotation uses a rotating ground frame at Starbase's 26°N, done last;
   - spool-up is the existing ignition transient, not a second invented one;
   - **the landing reserve is measured, not computed (changed during Task 3).** The plan's formula gave 6.3 t, but the landing programme spends 12.0 t engine-out, so a computed reserve would have crashed every deorbit. It is 18 t after Task 4c (the worst engine-out use plus about a third), health-checked the way the deorbit aim is; engine-out deorbits now land with 3.8 t instead of 0.0–0.2 t;
-  - **the RVacs (Task 4b)**: 258 tf and 380 s from Wikipedia; the 2.3 m exit is the commonly reported figure with no primary source found. The autopilot lights no RVac in Phase 6 (a vacuum deorbit burn on RVacs is later work); *Engines* (all) lights the sea-level three and shuts everything down. The controls and HUD show six marks in two labelled sets, keys 4–6 for the RVacs: a minimal UI, the look is Phase 8's;
+  - **the RVacs (Task 4b)**: 258 tf and 380 s from Wikipedia; the 2.3 m exit is the commonly reported figure with no primary source found. The autopilot lights no RVac in Phase 6 (a vacuum deorbit burn on RVacs is later work); *Engines* (all) lights the sea-level three and shuts everything down. The controls and HUD show six marks in two labelled sets, keys 4–6 for the RVacs: a minimal UI, the look is Phase 9's;
   - **the flip trigger plans on the slowest engine start** (1.2 s, Task 4c), not 2021's 0.6 s constant.
 
 ## Parked — yours to decide
 
-- **Entry guidance, which unparks Tasks 5, 6, 7 and 11.** With a physical drag model (built, on `claude/drag-parked`), hypersonic broadside drag halves and the deorbit reaches the 1,533 K tile limit at 65 km. The autopilot flies entry broadside, where lift is zero, so no lift model helps. A Ship survives by flying entry on lift at a lower angle of attack. That is new guidance, outside the Phase 6 plan: say whether to add an entry angle-of-attack schedule (my recommendation, as a Phase 6b), or to keep 2021's broadside entry and its unphysical drag.
 
 - **No LICENSE** in a public repo. Choose one before this grows further.
 - **Two dead remote branches**, `origin/exp` and `origin/feat/modernize-app`: nothing in either is worth keeping. Delete when you agree.
@@ -60,7 +61,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 - **Guidance (Phase 5)**: the autopilot's throttle laws, landing-burn sizing and the HUD impact predictor run on the simulation's own gravity, thrust and drag. The flip trigger keeps its one-engine pessimism with no added margin, because a one-engine-out deorbit lands with almost no propellant (the 12 t dump limit is the real constraint; backlog).
 
-## Follow-ups recorded for Phase 8
+## Follow-ups recorded for Phase 9 (UX)
 
 - The throttle and yoke sliders follow the simulation only on keys, store changes and when touched, not while the autopilot moves them (the Svelte slider never followed at all).
 - The debrief has no grade or comparison with the previous flight yet (ia.md asks for both).
@@ -79,4 +80,10 @@ None.
 - **Independent review of Tasks 1–3** (a fresh subagent; Codex cannot run here): no correctness bugs in the physics. It found one real edge (an ignition finishing on the emptying step thrust for free, fixed in `cff0046`), stale docs and four tests my planet rewrite had made tautological (re-anchored to fixed figures). Both fixed.
 - Task 8 (the heat shield) done: Sutton-Graves in W/m², skin temperature in K, the 1,533 K limit; the deorbit peaks at 1,459 K. Task 5 parked (see Parked), and 6, 7, 11 with it.
 - Next: Task 10 (wind profile and turbulence), Task 9 (Earth's rotation), then the close (full e2e, `/code-review high`, an independent physics review of the whole phase, merge).
+
+## Roadmap update (2026-10-01, Steve)
+
+- **Phase 6b, Entry on lift**, approved: the autopilot gets an entry angle-of-attack schedule, and the parked aero tasks land on it, with a stop rule if no angle keeps the tile under 1,533 K.
+- **Phase 8, Visuals**, added before UX (now Phase 9): engines and plumes, re-entry and heat, the environment, the vehicle and camera. It publishes its visual direction and proceeds without waiting.
+- The finished Phase 1–5 plans are closed out; the roadmap's Status names each merge commit.
 
