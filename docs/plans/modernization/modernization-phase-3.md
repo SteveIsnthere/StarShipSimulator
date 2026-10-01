@@ -1,6 +1,6 @@
 # Phase 3 — Design pass Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Decide how every surface of the simulator looks and is organised before any of it is rebuilt in React, written down as a design system and an information architecture, and shown to Steve as rendered prototypes.
 
@@ -34,37 +34,42 @@
 **Files:**
 - Create: `docs/design/ux-critique.md`
 
-- [ ] **Step 1:** Run the current build (`npm run build && npm run preview`) and walk every surface at 1280×720, 1024×768 and 390×844 in the browser: first load and the intro, the first-flight hint, the HUD during a landing burn, a re-entry, the engine and yoke panels, the menu (scenarios, flight editor, time warp, settings, about, guide), the black box, the debrief, cinematic mode, the trajectory map. Screenshot each into `docs/design/screenshots/critique/`.
-- [ ] **Step 2:** Write the critique as an Apple-level reviewer would: per surface, what the player is trying to do there, what gets in the way, and the one change that matters most. Start from the audit's measured defects (Escape, focus trap, pause, first-flight copy, phone top bar, engine sheet occluding flight data, Black Box radians and ±π spikes, flat hierarchy, developer labels R1/R2/R3, TOGGLE-ALL, DUMPFUEL, FS 200 M/S) and add what the walk finds.
-- [ ] **Step 3:** Commit: `docs(design): what is wrong with the interface today, surface by surface`.
+- [x] **Step 1:** Run the current build (`npm run build && npm run preview`) and walk every surface at 1280×720, 1024×768 and 390×844 in the browser: first load and the intro, the first-flight hint, the HUD during a landing burn, a re-entry, the engine and yoke panels, the menu (scenarios, flight editor, time warp, settings, about, guide), the black box, the debrief, cinematic mode, the trajectory map. Screenshot each into `docs/design/screenshots/critique/`.
+- [x] **Step 2:** Write the critique as an Apple-level reviewer would: per surface, what the player is trying to do there, what gets in the way, and the one change that matters most. Start from the audit's measured defects (Escape, focus trap, pause, first-flight copy, phone top bar, engine sheet occluding flight data, Black Box radians and ±π spikes, flat hierarchy, developer labels R1/R2/R3, TOGGLE-ALL, DUMPFUEL, FS 200 M/S) and add what the walk finds.
+- [x] **Step 3:** Commit: `docs(design): what is wrong with the interface today, surface by surface`.
 
 ### Task 2: The design system
 
 **Files:**
 - Create: `docs/design/design-system.md`
 
-- [ ] **Step 1:** Use flight_sim's `docs/design/design-system.md` as the structure: character, non-negotiables, tokens, type, geometry and density, motion tiers, live-scene chrome, loading, responsive, ownership. Carry its rules over where they hold for a space flight simulator, and say where Starship departs and why.
-- [ ] **Step 2:** The Starship brand layer: a wordmark (text-based, Inter Tight, no SpaceX logo or imitation of it), the loading moment (real progress only — no fake percentages), and the copy vocabulary (flight words a player understands: "Engines", "Throttle", "Land", not "TOGGLE-ALL" or "DUMPFUEL"). State that the product is an unofficial fan simulator.
-- [ ] **Step 3:** The in-flight HUD rules: what is primary (altitude, speed, vertical speed, propellant, throttle and engine state, attitude), what is secondary, what appears only when relevant (re-entry heating, max-Q, landing cues); tapes or readouts for each; units and their switching; the engines-off state; the translucent backing and its contrast rule against the live scene.
-- [ ] **Step 4:** Commit: `docs(design): the Starship design system, on flight_sim's foundation`.
+- [x] **Step 1:** Use flight_sim's `docs/design/design-system.md` as the structure: character, non-negotiables, tokens, type, geometry and density, motion tiers, live-scene chrome, loading, responsive, ownership. Carry its rules over where they hold for a space flight simulator, and say where Starship departs and why.
+- [x] **Step 2:** The Starship brand layer: a wordmark (text-based, Inter Tight, no SpaceX logo or imitation of it), the loading moment (real progress only — no fake percentages), and the copy vocabulary (flight words a player understands: "Engines", "Throttle", "Land", not "TOGGLE-ALL" or "DUMPFUEL"). State that the product is an unofficial fan simulator.
+- [x] **Step 3:** The in-flight HUD rules: what is primary (altitude, speed, vertical speed, propellant, throttle and engine state, attitude), what is secondary, what appears only when relevant (re-entry heating, max-Q, landing cues); tapes or readouts for each; units and their switching; the engines-off state; the translucent backing and its contrast rule against the live scene.
+- [x] **Step 4:** Commit: `docs(design): the Starship design system, on flight_sim's foundation`.
 
 ### Task 3: The information architecture
 
 **Files:**
 - Create: `docs/design/ia.md`
 
-- [ ] **Step 1:** Every surface and how a player reaches it: the HUD; the controls (engines, throttle, attitude, autopilot modes, utilities) and their grouping by how often they are used; the menu as tabs (Fly — scenarios; Flight setup — the editor with validated fields and units; Settings — sound, controls, display; About); the black box; the debrief with a grade and comparison to the previous attempt; the guided first flight and per-scenario objectives; the phone layout.
-- [ ] **Step 2:** The input model: the new keymap (pause, Escape closes the top layer, no Control or Backspace bindings), rebinding, gamepad mapping, the on-screen key legend, what the sim does while a layer is open (pauses).
-- [ ] **Step 3:** Map every 2021 control to its new home, as a table, so capability parity is visibly kept.
-- [ ] **Step 4:** Commit: `docs(design): where everything lives, and how a player gets there`.
+- [x] **Step 1:** Every surface and how a player reaches it: the HUD; the controls (engines, throttle, attitude, autopilot modes, utilities) and their grouping by how often they are used; the menu as tabs (Fly — scenarios; Flight setup — the editor with validated fields and units; Settings — sound, controls, display; About); the black box; the debrief with a grade and comparison to the previous attempt; the guided first flight and per-scenario objectives; the phone layout.
+- [x] **Step 2:** The input model: the new keymap (pause, Escape closes the top layer, no Control or Backspace bindings), rebinding, gamepad mapping, the on-screen key legend, what the sim does while a layer is open (pauses).
+- [x] **Step 3:** Map every 2021 control to its new home, as a table, so capability parity is visibly kept.
+- [x] **Step 4:** Commit: `docs(design): where everything lives, and how a player gets there`.
 
 ### Task 4: Prototypes and the review page
 
 **Files:**
 - Create: `design/prototypes/` (a standalone Vite + React + Tailwind 4 page; its own `package.json`; excluded from the app build, lint and gate)
 
-- [ ] **Step 1:** Copy flight_sim's `web/src/ui/tokens.css`, `styles/` and the primitives the prototypes need into `design/prototypes/src/kit/`, with a note naming the flight_sim commit. This is a throwaway copy; Phase 4 vendors the kit properly.
-- [ ] **Step 2:** Build static prototypes over a captured frame of the real game (from Task 1's screenshots) for: the HUD in a landing burn (desktop and phone portrait), the menu (each tab), the flight editor, the first-flight guide, the debrief, the black box. Mock data, no simulation.
-- [ ] **Step 3:** Screenshot each at 1280×720 and 390×844 with Playwright into `docs/design/screenshots/prototypes/`.
-- [ ] **Step 4:** Publish one private review page (Artifact tool, after loading `artifact-design`) showing current against proposed for each surface, with the critique's point beside each. Link it from `docs/design/ia.md`.
-- [ ] **Step 5:** Commit: `docs(design): prototypes of every surface, and a page to review them`. Tick Phase 3 in the roadmap and continue to Phase 4.
+- [x] **Step 1:** Copy flight_sim's `web/src/ui/tokens.css`, `styles/` and the primitives the prototypes need into `design/prototypes/src/kit/`, with a note naming the flight_sim commit. This is a throwaway copy; Phase 4 vendors the kit properly.
+- [x] **Step 2:** Build static prototypes over a captured frame of the real game (from Task 1's screenshots) for: the HUD in a landing burn (desktop and phone portrait), the menu (each tab), the flight editor, the first-flight guide, the debrief, the black box. Mock data, no simulation.
+- [x] **Step 3:** Screenshot each at 1280×720 and 390×844 with Playwright into `docs/design/screenshots/prototypes/`.
+- [x] **Step 4:** Publish one private review page (Artifact tool, after loading `artifact-design`) showing current against proposed for each surface, with the critique's point beside each. Link it from `docs/design/ia.md`.
+- [x] **Step 5:** Commit: `docs(design): prototypes of every surface, and a page to review them`. Tick Phase 3 in the roadmap and continue to Phase 4.
+
+## Execution log — decisions and findings
+
+- **Task 4, deviation:** the prototypes are static HTML mocks in the review page itself (`docs/design/review/index.html`), drawn at the game's resolution with flight_sim's token values over clean frames captured from the real build through `window.__simDebug`, rather than a separate Vite + React page. The React port in Phase 4 builds the real thing with the vendored kit; a second throwaway React app would have duplicated it.
+- Review page: https://claude.ai/artifact/9rAusShWLCkpoHMhoVy5TR (private). The run continues into Phase 4 without waiting for Steve's verdict, per the GOAL.

@@ -1,0 +1,321 @@
+<title>Starship Interface Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a single review column; each surface is "today" beside "proposed", the proposal drawn
+   at the game's own resolution over a real frame, scaled with container units. */
+:root {
+  --bg: #000;
+  --surface: #0b0b0b;
+  --raised: #141414;
+  --fg: #fff;
+  --muted: #b8b8b8;
+  --dim: #8a8a8a;
+  --line: #fff;
+  --line-muted: #4a4a4a;
+  --warning: #ffd166;
+  --danger: #ff6b6b;
+  --success: #6ee7a0;
+  --backing: rgba(0, 0, 0, 0.62);
+  --font-ui: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--font-ui); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 64px; }
+header.page { display: grid; gap: 14px; border-bottom: 1px solid var(--line-muted); padding-bottom: 32px; }
+.eyebrow { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 600 clamp(30px, 5vw, 48px)/1.05 var(--font-display); letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+h2 { font: 600 24px/1.2 var(--font-display); letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 68ch; color: var(--muted); }
+p strong { color: var(--fg); font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 24px; font: 12px var(--font-mono); color: var(--dim); }
+.legend b { color: var(--fg); font-weight: 500; }
+nav.toc { display: flex; flex-wrap: wrap; gap: 8px; }
+nav.toc a { color: var(--fg); text-decoration: none; border: 1px solid var(--line-muted); padding: 7px 12px; font: 500 12px var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; }
+nav.toc a:hover, nav.toc a:focus-visible { border-color: var(--line); outline: none; }
+section.surface { display: grid; gap: 20px; scroll-margin-top: 24px; }
+.surface-head { display: grid; gap: 8px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.pair.phone { grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: start; }
+@media (max-width: 860px) { .pair, .pair.phone { grid-template-columns: minmax(0, 1fr); } }
+figure { margin: 0; display: grid; gap: 8px; min-width: 0; }
+figcaption { font: 500 11px/1 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: flex; gap: 10px; align-items: center; }
+figcaption .tag { border: 1px solid var(--line-muted); padding: 3px 6px; color: var(--fg); }
+figcaption .tag.new { background: var(--fg); color: #000; border-color: var(--fg); }
+.shot { width: 100%; display: block; border: 1px solid var(--line-muted); }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 28px; }
+.notes div { border-top: 1px solid var(--line-muted); padding-top: 10px; display: grid; gap: 4px; }
+.notes h3 { margin: 0; font: 600 13px/1.3 var(--font-ui); }
+.notes p { font-size: 13.5px; }
+
+/* ——— The proposed frames: drawn at 1280 (or 390) units wide, scaled by the container ——— */
+.frame { position: relative; container-type: inline-size; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); background: #0d1a2b center / cover no-repeat; --u: calc(100cqw / 1280); font-family: var(--font-ui); }
+.frame.phone { aspect-ratio: 390 / 844; --u: calc(100cqw / 390); }
+.frame.dim::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.55); z-index: 1; }
+.u { position: absolute; z-index: 2; }
+.backing { background: var(--backing); border: 1px solid rgba(255, 255, 255, 0.28); }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.lbl { font: 500 calc(var(--u) * 10) / 1 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.val { font: 600 calc(var(--u) * 34) / 1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; color: var(--fg); }
+.val small { font: 500 calc(var(--u) * 13) / 1 var(--font-mono); color: var(--muted); margin-left: calc(var(--u) * 4); letter-spacing: 0; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: calc(var(--u) * 6); height: calc(var(--u) * 32); padding: 0 calc(var(--u) * 12); border: 1px solid rgba(255, 255, 255, 0.7); color: var(--fg); background: var(--backing); font: 500 calc(var(--u) * 12.5) / 1 var(--font-ui); white-space: nowrap; }
+.btn.on { background: var(--fg); color: #000; border-color: var(--fg); }
+.key { font: 500 calc(var(--u) * 10) / 1 var(--font-mono); border: 1px solid currentColor; padding: calc(var(--u) * 2) calc(var(--u) * 4); opacity: 1; color: var(--muted); }
+.btn.on .key { color: #000; }
+.track { height: calc(var(--u) * 4); background: rgba(255, 255, 255, 0.25); position: relative; }
+.track i { position: absolute; inset: 0 auto 0 0; background: var(--fg); }
+.track b { position: absolute; top: 50%; width: calc(var(--u) * 12); height: calc(var(--u) * 12); background: var(--fg); transform: translate(-50%, -50%); }
+.group { display: grid; gap: calc(var(--u) * 8); padding: calc(var(--u) * 12); }
+.row { display: flex; gap: calc(var(--u) * 6); align-items: center; }
+.dot { width: calc(var(--u) * 12); height: calc(var(--u) * 12); border: 1px solid var(--fg); }
+.dot.lit { background: var(--fg); }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(255, 255, 255, 0.7); }
+.seg span { font: 500 calc(var(--u) * 11.5) / 1 var(--font-ui); padding: calc(var(--u) * 9) calc(var(--u) * 6); text-align: center; color: var(--fg); background: var(--backing); border-right: 1px solid rgba(255, 255, 255, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+.seg span.on { background: var(--fg); color: #000; }
+.caution { color: var(--warning); }
+.chip { font: 500 calc(var(--u) * 10) / 1 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; padding: calc(var(--u) * 3) calc(var(--u) * 5); border: 1px solid currentColor; }
+
+/* Phone frame */
+.phone .lbl { font-size: calc(var(--u) * 9.5); }
+.phone .val { font-size: calc(var(--u) * 26); }
+.phone .btn { height: calc(var(--u) * 44); font-size: calc(var(--u) * 13); }
+
+/* Menu */
+.modal { position: absolute; z-index: 3; inset: calc(var(--u) * 70) calc(var(--u) * 170); background: var(--surface); border: 1px solid var(--line); display: grid; grid-template-rows: auto auto 1fr; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: calc(var(--u) * 18) calc(var(--u) * 24); border-bottom: 1px solid var(--line-muted); }
+.tabs { display: flex; border-bottom: 1px solid var(--line-muted); }
+.tabs span { font: 500 calc(var(--u) * 13) / 1 var(--font-ui); padding: calc(var(--u) * 13) calc(var(--u) * 22); color: var(--muted); }
+.tabs span.on { background: var(--fg); color: #000; }
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--u) * 16) calc(var(--u) * 20); padding: calc(var(--u) * 22) calc(var(--u) * 24); align-content: start; }
+.field { display: grid; gap: calc(var(--u) * 6); }
+.input { display: flex; align-items: center; justify-content: space-between; height: calc(var(--u) * 40); border: 1px solid rgba(255, 255, 255, 0.55); padding: 0 calc(var(--u) * 12); font: 500 calc(var(--u) * 15) / 1 var(--font-mono); font-variant-numeric: tabular-nums; }
+.input em { font-style: normal; color: var(--muted); font-size: calc(var(--u) * 12); }
+.input.bad { border-color: var(--danger); }
+.hint { font: 400 calc(var(--u) * 11) / 1.3 var(--font-ui); color: var(--dim); }
+.hint.bad { color: var(--danger); }
+
+a:focus-visible, .btn:focus-visible { outline: 2px dashed var(--fg); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="page">
+    <span class="eyebrow">Starship Simulator · Design review · Phase 3 · 2026-10-01</span>
+    <h1>The interface, today and proposed</h1>
+    <p>Each surface shows the shipped build on the left and the proposal on the right, drawn over a real frame from the game. The proposals follow <strong>docs/design/design-system.md</strong> (flight_sim's monochrome language with a Starship brand layer) and <strong>docs/design/ia.md</strong>. They are static mocks for direction: the React port builds them for real. Numbers in the mocks are illustrative, not a live flight.</p>
+    <div class="legend"><span><b>Today</b> production build, 1280×720 or 390×844</span><span><b>Proposed</b> static mock, same resolution</span></div>
+    <nav class="toc" aria-label="Surfaces">
+      <a href="#hud">Flight HUD</a><a href="#phone">Phone</a><a href="#menu">Menu</a><a href="#debrief">Debrief</a><a href="#first-flight">First flight</a>
+    </nav>
+  </header>
+
+  <!-- ——— HUD ——— -->
+  <section class="surface" id="hud">
+    <div class="surface-head">
+      <span class="eyebrow">Surface 1</span>
+      <h2>Flight HUD, landing burn</h2>
+      <p>Today thirty controls share one weight and the number that decides a landing, vertical speed, is the smallest on screen. Proposed: one primary cluster, controls grouped by use and named in a player's words, and a landing cue that appears only below 2 km.</p>
+    </div>
+    <div class="pair">
+      <figure>
+        <figcaption><span class="tag">Today</span>Intro, final descent</figcaption>
+        <img class="shot" src="current-desktop-01-first-load.jpg" alt="The current HUD: about thirty equally weighted uppercase buttons around the vehicle, dials for speed and altitude, a hint card over the ship." loading="lazy">
+      </figure>
+      <figure>
+        <figcaption><span class="tag new">Proposed</span>Same moment</figcaption>
+        <div class="frame" style="background-image:url('world-landing-desktop.jpg')" role="img" aria-label="Proposed HUD: a status bar, engine and flight control groups, and a primary cluster of altitude, vertical speed and speed with a landing cue.">
+          <!-- status bar -->
+          <div class="u" style="left:0;right:0;top:0;height:calc(var(--u)*44);display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--u)*16);background:linear-gradient(transparent,transparent),var(--backing);border-bottom:1px solid rgba(255,255,255,.2)">
+            <div class="row" style="gap:calc(var(--u)*14)"><span style="font:700 calc(var(--u)*13)/1 var(--font-display);letter-spacing:.18em">STARSHIP</span><span class="lbl">Landing burn</span><span class="lbl" style="color:var(--fg)">Autopilot · Land</span></div>
+            <span class="mono" style="font-size:calc(var(--u)*15);font-weight:500">T+ 00:00:42</span>
+            <div class="row"><span class="btn">Pause <span class="key">P</span></span><span class="btn">Menu <span class="key">Esc</span></span></div>
+          </div>
+          <!-- engines -->
+          <div class="u backing group" style="left:calc(var(--u)*16);bottom:calc(var(--u)*16);width:calc(var(--u)*228)">
+            <span class="lbl">Engines</span>
+            <div class="row" style="justify-content:space-between"><span class="btn on">Engines on <span class="key">Space</span></span><div class="row"><span class="dot lit"></span><span class="dot lit"></span><span class="dot lit"></span></div></div>
+            <div class="row" style="justify-content:space-between"><span style="font-size:calc(var(--u)*12.5)">Throttle</span><span class="mono" style="font-size:calc(var(--u)*13)">70 %</span></div>
+            <div class="track"><i style="width:70%"></i><b style="left:70%"></b></div>
+            <span class="btn" style="justify-content:space-between">Throttle guard <span class="lbl">Off</span></span>
+          </div>
+          <!-- flight -->
+          <div class="u backing group" style="right:calc(var(--u)*16);bottom:calc(var(--u)*16);width:calc(var(--u)*300)">
+            <span class="lbl">Flight</span>
+            <div class="row" style="justify-content:space-between"><span style="font-size:calc(var(--u)*12.5)">Attitude</span><span class="mono" style="font-size:calc(var(--u)*13)">+2°</span></div>
+            <div class="track"><i style="width:51%"></i><b style="left:51%"></b></div>
+            <div class="seg"><span>Manual</span><span>Lift off</span><span>Boost back</span><span>Hold</span><span class="on">Land</span><span>Deorbit</span></div>
+            <div class="row"><span class="btn">Fins</span><span class="btn">Reaction control</span><span class="btn">Dump</span></div>
+          </div>
+          <!-- primary cluster -->
+          <div class="u backing" style="left:50%;transform:translateX(-50%);bottom:calc(var(--u)*16);width:calc(var(--u)*560);padding:calc(var(--u)*14) calc(var(--u)*18);display:grid;gap:calc(var(--u)*12)">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*12)">
+              <div style="display:grid;gap:calc(var(--u)*6)"><span class="lbl">Altitude</span><span class="val">612<small>m</small></span></div>
+              <div style="display:grid;gap:calc(var(--u)*6)"><span class="lbl">Vertical speed</span><span class="val">−58.2<small>m/s</small></span></div>
+              <div style="display:grid;gap:calc(var(--u)*6)"><span class="lbl">Speed</span><span class="val">58.4<small>m/s</small></span></div>
+            </div>
+            <div style="display:grid;grid-template-columns:auto 1fr auto;gap:calc(var(--u)*10);align-items:center"><span class="lbl">Propellant</span><div class="track"><i style="width:3.3%"></i></div><span class="mono" style="font-size:calc(var(--u)*12)">40 t</span></div>
+            <div class="mono" style="display:flex;justify-content:space-between;font-size:calc(var(--u)*11.5);color:var(--muted)"><span>H/S 0.3 m/s</span><span>Mach 0.17</span><span>Q 1.9 kPa</span><span>1.8 g</span><span>TWR 1.6</span><span>12 m long</span></div>
+          </div>
+          <!-- landing cue -->
+          <div class="u backing" style="left:calc(50% + var(--u)*300);bottom:calc(var(--u)*114);width:calc(var(--u)*176);padding:calc(var(--u)*10) calc(var(--u)*12);display:grid;gap:calc(var(--u)*6);border-color:var(--warning)">
+            <span class="chip caution" style="justify-self:start">Landing cue</span>
+            <span style="font-size:calc(var(--u)*12.5)">Start burn at <b class="mono">410 m</b></span>
+            <span style="font-size:calc(var(--u)*12.5);color:var(--muted)">Impact in <b class="mono" style="color:var(--fg)">10.5 s</b></span>
+          </div>
+        </div>
+      </figure>
+    </div>
+    <div class="notes">
+      <div><h3>One place to look</h3><p>Altitude, vertical speed and speed are the largest type on screen, side by side, with units that never move.</p></div>
+      <div><h3>Engines off reads Off</h3><p>The throttle shows its own value; with the engines off it says Off instead of 100 %, and each engine dot shows lit, igniting, failed or off.</p></div>
+      <div><h3>Situational, then gone</h3><p>The landing cue, heating and max-Q appear only when they matter, in caution style with a word, never by colour alone.</p></div>
+    </div>
+  </section>
+
+  <!-- ——— Phone ——— -->
+  <section class="surface" id="phone">
+    <div class="surface-head">
+      <span class="eyebrow">Surface 2</span>
+      <h2>Phone, throttling during a landing</h2>
+      <p>Today opening Engines covers speed, altitude and vertical speed, exactly when the player needs them, and the top bar wraps to two rows. Proposed: one status row, a flight-data strip no sheet can cover, the sheet beneath it.</p>
+    </div>
+    <div class="pair phone">
+      <figure>
+        <figcaption><span class="tag">Today</span>Engines open</figcaption>
+        <img class="shot" src="current-phone-07-engine-sheet.jpg" alt="The current phone layout with the engine sheet open: the lower third is controls and no flight data is visible." loading="lazy">
+      </figure>
+      <figure>
+        <figcaption><span class="tag new">Proposed</span>Engines open</figcaption>
+        <div class="frame phone" style="background-image:url('world-landing-phone.jpg')" role="img" aria-label="Proposed phone layout: one status row, a flight-data strip, and the engine sheet below it.">
+          <div class="u" style="left:0;right:0;top:0;height:calc(var(--u)*52);display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--u)*12);background:var(--backing);border-bottom:1px solid rgba(255,255,255,.2)">
+            <span class="mono" style="font-size:calc(var(--u)*15);font-weight:500">T+ 00:42</span>
+            <span class="lbl" style="color:var(--fg)">Autopilot · Land</span>
+            <div class="row"><span class="btn" style="width:calc(var(--u)*44);padding:0">II</span><span class="btn" style="width:calc(var(--u)*44);padding:0">≡</span></div>
+          </div>
+          <div class="u backing" style="left:0;right:0;bottom:calc(var(--u)*318);padding:calc(var(--u)*10) calc(var(--u)*12);display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*8);border-left:0;border-right:0">
+            <div style="display:grid;gap:calc(var(--u)*5)"><span class="lbl">Altitude</span><span class="val">612<small>m</small></span></div>
+            <div style="display:grid;gap:calc(var(--u)*5)"><span class="lbl">V/S</span><span class="val">−58.2</span></div>
+            <div style="display:grid;gap:calc(var(--u)*5)"><span class="lbl">Speed</span><span class="val">58.4</span></div>
+          </div>
+          <div class="u" style="left:0;right:0;bottom:0;height:calc(var(--u)*318);background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-rows:1fr auto">
+            <div class="group" style="padding:calc(var(--u)*16);gap:calc(var(--u)*12)">
+              <div class="row" style="justify-content:space-between"><span class="btn on" style="flex:1">Engines on</span><div class="row" style="margin-left:calc(var(--u)*12)"><span class="dot lit"></span><span class="dot lit"></span><span class="dot lit"></span></div></div>
+              <div class="row" style="justify-content:space-between"><span style="font-size:calc(var(--u)*14)">Throttle</span><span class="mono" style="font-size:calc(var(--u)*15)">70 %</span></div>
+              <div class="track" style="height:calc(var(--u)*6)"><i style="width:70%"></i><b style="left:70%;width:calc(var(--u)*22);height:calc(var(--u)*22)"></b></div>
+              <div style="display:grid;grid-template-columns:auto 1fr auto;gap:calc(var(--u)*10);align-items:center"><span class="lbl">Propellant</span><div class="track"><i style="width:3.3%"></i></div><span class="mono" style="font-size:calc(var(--u)*12)">40 t</span></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-muted)">
+              <span class="btn on" style="border:0">Engines</span><span class="btn" style="border:0;border-left:1px solid var(--line-muted)">Flight</span><span class="btn" style="border:0;border-left:1px solid var(--line-muted)">Map</span>
+            </div>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ——— Menu ——— -->
+  <section class="surface" id="menu">
+    <div class="surface-head">
+      <span class="eyebrow">Surface 3</span>
+      <h2>Menu and flight setup</h2>
+      <p>Today one long screen does four jobs, units live only in placeholders that vanish on typing, and the flight keeps running behind it. Proposed: a modal that pauses the flight, four tabs, and fields that keep their units and say what is wrong.</p>
+    </div>
+    <div class="pair">
+      <figure>
+        <figcaption><span class="tag">Today</span>Menu open</figcaption>
+        <img class="shot" src="current-desktop-03-menu.jpg" alt="The current menu: scenarios, an eight-field editor with placeholder units, and time warp on one screen." loading="lazy">
+      </figure>
+      <figure>
+        <figcaption><span class="tag new">Proposed</span>Flight setup tab</figcaption>
+        <div class="frame dim" style="background-image:url('world-reentry-desktop.jpg')" role="img" aria-label="Proposed menu: a modal with Fly, Flight setup, Settings and About tabs; the flight setup fields show units and ranges, one field shows an error.">
+          <div class="modal">
+            <div class="modal-head"><div class="row" style="gap:calc(var(--u)*12)"><span style="font:600 calc(var(--u)*18)/1 var(--font-display)">Menu</span><span class="chip" style="color:var(--muted)">Flight paused</span></div><span class="btn">Close <span class="key">Esc</span></span></div>
+            <div class="tabs"><span>Fly</span><span class="on">Flight setup</span><span>Settings</span><span>About</span></div>
+            <div class="fields">
+              <div class="field"><span class="lbl">Altitude</span><div class="input">80 000<em>m</em></div><span class="hint">0 to 400 000 m</span></div>
+              <div class="field"><span class="lbl">Distance to the pad</span><div class="input">1 980 000<em>m short</em></div><span class="hint">Up to 20 000 km either side</span></div>
+              <div class="field"><span class="lbl">Horizontal speed</span><div class="input">7 300<em>m/s</em></div><span class="hint">−8 000 to 8 000 m/s</span></div>
+              <div class="field"><span class="lbl">Vertical speed</span><div class="input">−30<em>m/s</em></div><span class="hint">Negative is falling</span></div>
+              <div class="field"><span class="lbl">Pitch</span><div class="input bad">210<em>°</em></div><span class="hint bad">Pitch is −180° to 180°. Try −150°.</span></div>
+              <div class="field"><span class="lbl">Propellant</span><div class="input">50<em>t</em></div><span class="hint">0 to 1 200 t</span></div>
+              <div class="row" style="grid-column:1/-1;justify-content:flex-end;gap:calc(var(--u)*8)"><span class="btn">Reset to Re-entry</span><span class="btn on">Start flight</span></div>
+            </div>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ——— Debrief ——— -->
+  <section class="surface" id="debrief">
+    <div class="surface-head">
+      <span class="eyebrow">Surface 4</span>
+      <h2>Debrief</h2>
+      <p>Today the strongest surface, judging each figure against its limit, but it covers the controls, has no grade and no comparison. Proposed: beside the vehicle, a heading that says what happened, a grade, the change since the last attempt, and one thing to try next.</p>
+    </div>
+    <div class="pair">
+      <figure>
+        <figcaption><span class="tag">Today</span>After the intro lands</figcaption>
+        <img class="shot" src="current-desktop-02-intro-landed-debrief.jpg" alt="The current debrief card centred over the controls, listing descent, drift, pitch, miss, time, peak Q, peak heat, peak g and propellant." loading="lazy">
+      </figure>
+      <figure>
+        <figcaption><span class="tag new">Proposed</span>Same landing</figcaption>
+        <div class="frame dim" style="background-image:url('world-landing-desktop.jpg')" role="img" aria-label="Proposed debrief panel on the right: Landed, grade A, figures against limits, comparison with the previous attempt, a tip, and actions.">
+          <div class="u" style="right:calc(var(--u)*40);top:calc(var(--u)*70);width:calc(var(--u)*420);background:var(--surface);border:1px solid var(--line);display:grid">
+            <div style="padding:calc(var(--u)*20) calc(var(--u)*22);display:flex;justify-content:space-between;align-items:start;border-bottom:1px solid var(--line-muted)">
+              <div style="display:grid;gap:calc(var(--u)*6)"><span class="lbl">Landing burn · 00:10</span><span style="font:600 calc(var(--u)*30)/1 var(--font-display)">Landed</span></div>
+              <div style="display:grid;place-items:center;width:calc(var(--u)*56);height:calc(var(--u)*56);background:var(--fg);color:#000;font:700 calc(var(--u)*30)/1 var(--font-display)">A</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*14);padding:calc(var(--u)*18) calc(var(--u)*22)">
+              <div style="display:grid;gap:calc(var(--u)*4)"><span class="lbl">Touchdown</span><span class="val" style="font-size:calc(var(--u)*24)">1.3<small>m/s</small></span><span class="hint">limit 10</span></div>
+              <div style="display:grid;gap:calc(var(--u)*4)"><span class="lbl">Drift</span><span class="val" style="font-size:calc(var(--u)*24)">0.17<small>m/s</small></span><span class="hint">limit 2</span></div>
+              <div style="display:grid;gap:calc(var(--u)*4)"><span class="lbl">Off the pad</span><span class="val" style="font-size:calc(var(--u)*24)">1<small>m long</small></span><span class="hint">tilt 0.0°, limit 5.2°</span></div>
+            </div>
+            <div style="padding:0 calc(var(--u)*22) calc(var(--u)*18);display:grid;gap:calc(var(--u)*8)">
+              <span style="font-size:calc(var(--u)*13)"><span class="chip" style="color:var(--success);margin-right:calc(var(--u)*6)">Better</span>0.4 m/s softer than your last landing.</span>
+              <span style="font-size:calc(var(--u)*13);color:var(--muted)">Next: start the burn 40 m lower to save 3 t of propellant.</span>
+            </div>
+            <div class="row" style="border-top:1px solid var(--line-muted);padding:calc(var(--u)*14) calc(var(--u)*22);justify-content:flex-end;gap:calc(var(--u)*8)"><span class="btn">Black box</span><span class="btn">Change scenario</span><span class="btn on">Fly again</span></div>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ——— First flight ——— -->
+  <section class="surface" id="first-flight">
+    <div class="surface-head">
+      <span class="eyebrow">Surface 5</span>
+      <h2>First flight</h2>
+      <p>Today a card over the vehicle names "All Raptors" and "Thrust", which are not on screen. Proposed: after the intro lands, four steps on the pad, each pointing at the control it names, skippable at every step.</p>
+    </div>
+    <div class="pair phone">
+      <figure>
+        <figcaption><span class="tag">Today</span>Fresh profile</figcaption>
+        <img class="shot" src="current-phone-01-first-load.jpg" alt="The current first-flight hint on a phone: a card across the vehicle naming controls that do not exist." loading="lazy">
+      </figure>
+      <figure>
+        <figcaption><span class="tag new">Proposed</span>Step 1 of 4</figcaption>
+        <div class="frame phone" style="background-image:url('world-landing-phone.jpg')" role="img" aria-label="Proposed first flight: a step card above the controls says Light the engines, with an outline around the Engines button.">
+          <div class="u backing" style="left:calc(var(--u)*16);right:calc(var(--u)*16);bottom:calc(var(--u)*170);padding:calc(var(--u)*14);display:grid;gap:calc(var(--u)*8);border-color:var(--fg)">
+            <div class="row" style="justify-content:space-between"><span class="lbl">First flight · 1 of 4</span><span class="lbl" style="color:var(--fg)">Skip</span></div>
+            <span style="font:600 calc(var(--u)*20)/1.15 var(--font-display)">Light the engines</span>
+            <span style="font-size:calc(var(--u)*13);color:var(--muted)">Press <b style="color:var(--fg)">Engines</b>. Then push the throttle past 70 % to lift off.</span>
+          </div>
+          <div class="u" style="left:calc(var(--u)*16);right:calc(var(--u)*16);bottom:calc(var(--u)*24);display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*8)">
+            <span class="btn" style="outline:2px dashed var(--fg);outline-offset:4px">Engines</span><span class="btn">Flight</span><span class="btn">Map</span>
+          </div>
+          <div class="u" style="left:calc(var(--u)*56);bottom:calc(var(--u)*74);width:1px;height:calc(var(--u)*96);background:var(--fg)"></div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--line-muted);padding-top:20px;display:grid;gap:6px">
+    <span class="eyebrow">Sources in the repository</span>
+    <p>docs/design/ux-critique.md · docs/design/design-system.md · docs/design/ia.md · docs/plans/modernization/modernization-roadmap.md</p>
+  </footer>
+</div>

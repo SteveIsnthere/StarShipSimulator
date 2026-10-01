@@ -91,4 +91,4 @@ Every one keeps a working equivalent, which `tests/e2e/parity.spec.ts` enforces.
 
 ## Review
 
-Prototypes of these surfaces, current against proposed, are published for Steve as a private review page (link added here when published).
+Prototypes of these surfaces, current against proposed, are published for Steve as a private review page: https://claude.ai/artifact/9rAusShWLCkpoHMhoVy5TR (source in [review/](review/), published 2026-10-01). His verdict, when it arrives, is folded in as a scope change to Phase 4 or 8.
