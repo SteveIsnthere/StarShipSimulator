@@ -79,8 +79,8 @@ None. Paused 2026-10-01 for usage, mid-close of Phase 6.
 
 - `claude/ship-realism` at `f81908b`, pushed, 24 commits ahead of `main`, nothing uncommitted.
 - Done on that head: `npm run gate` green (1,935 tests, coverage floors, e2e smoke, subpath deploy); `npm run mutation` 18 of 18 caught; `npm run truth:report` 8 of 8; `/code-review high`; independent physics review (ChatGPT Pro, three rounds, every finding fixed: fixed RVacs, the turbulence sweep, the radial coast, the throttle law, break-up on the tile temperature).
-- **Not confirmed:** the final `npm run test:e2e:full` on that head was still running at the pause (341 passed, 0 failed when last read). The previous full run's failures were the debrief bound (fixed, re-run green on all five projects), one pixels flake (re-run green) and `plume.spec.ts` "blooms wider than the ship in vacuum", the known flaky row in the backlog that also fails on `main`.
-- Left: re-run `npm run test:e2e:full` (judge plume against its backlog row, anything else is real), merge `--no-ff` to `main` from the main checkout, push, confirm the Pages deploy and the smoke tier against the live URL, tick the roadmap's Phase 6 line with the merge commit, then start 6b.
+- `npm run test:e2e:full` on that code (built after the last code commit; every later commit is docs only): **428 passed, 0 failed** (33 min, all five projects). Earlier full-run failures (the debrief's stale heat bound, a pixels flake) are fixed or re-ran green.
+- Left: merge `--no-ff` to `main` from the main checkout, push, confirm the Pages deploy and the smoke tier against the live URL, tick the roadmap's Phase 6 line with the merge commit, then start 6b.
 
 ## Phase 6 progress (2026-10-01)
 
