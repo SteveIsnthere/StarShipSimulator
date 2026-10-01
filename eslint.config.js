@@ -38,6 +38,14 @@ export const CORE_WALL_RULES = {
             'pixi.js/*',
             'svelte',
             'svelte/*',
+            'react',
+            'react/*',
+            'react-dom',
+            'react-dom/*',
+            'zustand',
+            'zustand/*',
+            '@ui',
+            '@ui/*',
           ],
           message: 'Wall 1: core/ is pure. No renderer, UI, HUD or app imports.',
         },
@@ -115,6 +123,8 @@ export default ts.config(
   {
     ignores: [
       'dist/**',
+      // flight_sim's kit, vendored byte-for-byte; flight_sim lints it.
+      'src/ui/kit/**',
       // The staged copy of dist/ that the subpath deploy test serves (M5.3).
       '.subpath/**',
       /*

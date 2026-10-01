@@ -17,9 +17,31 @@ export default defineConfig({
     // core/ must run in plain Node with no browser. Keeping the default
     // environment enforces that: a DOM leak into core/ fails here, not in review.
     environment: 'node',
-    include: ['tests/**/*.test.ts', 'src/**/*.test.ts'],
-    // Wall-clock budgets run on demand (`npm run bench`, vitest.timing.config.ts).
-    exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts'],
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'unit',
+          include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx', 'src/**/*.test.ts'],
+          // Wall-clock budgets run on demand (`npm run bench`); the vendored
+          // kit's own tests run in the jsdom project below.
+          exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts', 'src/ui/kit/**'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'kit',
+          environment: 'jsdom',
+          // As flight_sim runs them: Testing Library cleans the DOM between
+          // tests through the global afterEach.
+          globals: true,
+          include: ['src/ui/kit/**/*.test.ts', 'src/ui/kit/**/*.test.tsx'],
+          exclude: [...configDefaults.exclude],
+          setupFiles: ['tests/setup-dom.ts'],
+        },
+      },
+    ],
     testTimeout: 30_000,
     coverage: {
       provider: 'v8',

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "svelte-check --tsconfig ./tsconfig.json && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs",
+    "build": "tsc -b tsconfig.kit.json && svelte-check --tsconfig ./tsconfig.json && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest run",
@@ -21,7 +21,8 @@
     "bench": "vitest run --config vitest.timing.config.ts",
     "test:e2e:full": "playwright test",
     "truth:report": "vite-node scripts/truth-report.ts",
-    "mutation": "node scripts/mutation-check.mjs"
+    "mutation": "node scripts/mutation-check.mjs",
+    "kit:drift": "node scripts/kit-drift.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

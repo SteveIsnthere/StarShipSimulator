@@ -3,15 +3,14 @@
  * A timing on a shared or loaded machine is not evidence; these are for an
  * idle machine and a person reading the numbers.
  */
-import { configDefaults, defineConfig } from 'vitest/config';
+import { defineConfig } from 'vitest/config';
 import base from './vitest.config';
 
 export default defineConfig({
-  ...base,
+  resolve: base.resolve ?? {},
   test: {
-    ...base.test,
+    environment: 'node',
     include: ['tests/**/*.timing.test.ts'],
-    exclude: [...configDefaults.exclude],
-    coverage: { enabled: false },
+    testTimeout: 30_000,
   },
 });
