@@ -6,8 +6,13 @@ name: Golden regenerate
 # regenerates its fixtures HERE, on demand, and the job hands them back as an
 # artifact for the change's own commit (physics-change-policy: code, fixtures
 # and the audit row land together). It writes nothing to the repository.
+#
+# Run it by pushing the change's branch under `golden/` as well
+# (`git push origin HEAD:golden/<name>`), or by dispatch from the default branch.
 on:
   workflow_dispatch:
+  push:
+    branches: ['golden/**']
 
 permissions:
   contents: read
