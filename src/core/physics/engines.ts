@@ -119,14 +119,15 @@ export function updatePropellant(state: SimState, dt: number): void {
 
   if (vehicle.propellantMass > 0) {
     const flowRate = getFuelFlowRate(engines.running, vehicle.throttleCurrent);
-    vehicle.propellantMass -= flowRate * dt;
+    // The last step burns what is left, not a full step's worth below zero.
+    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - flowRate * dt);
   } else {
     vehicle.propellantMass = 0;
   }
 
   if (status.dumpingFuel) {
     if ((vehicle.propellantMass > C.dumpLimit || status.forceDump) && vehicle.propellantMass > 0) {
-      vehicle.propellantMass -= C.dumpRate * dt;
+      vehicle.propellantMass = Math.max(0, vehicle.propellantMass - C.dumpRate * dt);
     } else {
       status.dumpingFuel = !status.dumpingFuel;
     }
