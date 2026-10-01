@@ -44,7 +44,8 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-  # The full browser suite (five projects) and the wall-clock bench. Too slow
+  # The full browser suite (five projects), the wall-clock bench, the mutation
+  # matrix and the reference report. Too slow
   # and too timing-sensitive for every push; run it by hand before a release.
   e2e-full:
     name: e2e full + bench
@@ -61,6 +62,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e:full
       - run: npm run bench
+      - run: npm run mutation
+      - run: npm run truth:report
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v7

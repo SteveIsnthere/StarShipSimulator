@@ -1,0 +1,56 @@
+[
+  {
+    "id": "gravity-sign",
+    "file": "src/core/physics/gravity.ts",
+    "find": "  return MU / distanceToPlanetCenter ** 2;",
+    "replace": "  return -MU / distanceToPlanetCenter ** 2;"
+  },
+  {
+    "id": "drag-zeroed",
+    "file": "src/core/physics/aero.ts",
+    "find": "  return (1 / 2) * airDensity * trueSpeed ** 2 * dragCoefficient * crossSectionArea;",
+    "replace": "  return 0 * airDensity * trueSpeed ** 2 * dragCoefficient * crossSectionArea;"
+  },
+  {
+    "id": "position-dt-doubled",
+    "file": "src/core/step.ts",
+    "find": "  s.kinematics.altitude += vy0 * dt + ay0 * halfDtSquared;",
+    "replace": "  s.kinematics.altitude += vy0 * 2 * dt + ay0 * halfDtSquared;"
+  },
+  {
+    "id": "isp-anchors-swapped",
+    "file": "src/core/constants.ts",
+    "find": "export const RAPTOR_ISP_SEA_LEVEL = 327;",
+    "replace": "export const RAPTOR_ISP_SEA_LEVEL = 350;"
+  },
+  {
+    "id": "rng-counter-frozen",
+    "file": "src/core/rng.ts",
+    "find": "  rng.counters[stream] += 1;",
+    "replace": "  rng.counters[stream] += 0;"
+  },
+  {
+    "id": "propellant-not-burned",
+    "file": "src/core/physics/engines.ts",
+    "find": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - flowRate * dt);",
+    "replace": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass);"
+  },
+  {
+    "id": "burn-clamp-removed",
+    "file": "src/core/physics/engines.ts",
+    "find": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - flowRate * dt);",
+    "replace": "    vehicle.propellantMass -= flowRate * dt;"
+  },
+  {
+    "id": "dump-clamp-removed",
+    "file": "src/core/physics/engines.ts",
+    "find": "      vehicle.propellantMass = Math.max(0, vehicle.propellantMass - C.dumpRate * dt);",
+    "replace": "      vehicle.propellantMass -= C.dumpRate * dt;"
+  },
+  {
+    "id": "editor-floor-removed",
+    "file": "src/core/scenarios.ts",
+    "find": "  if (!(propellantMass > 0)) propellantMass = 0;",
+    "replace": ""
+  }
+]

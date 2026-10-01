@@ -50,9 +50,9 @@ Recorded, not built: [docs/plans/backlog/README.md](../backlog/README.md).
 ## Status
 
 - [x] Phase 1 — Green gate and cut-over (merged `f14aadb`, live 2026-10-01) ([phase plan](modernization-phase-1.md))
-- [ ] Phase 2 — Truth harness ([phase plan](modernization-phase-2.md))
-- [ ] Phase 3 — Design pass
-- [ ] Phase 4 — React shell
+- [x] Phase 2 — Truth harness ([phase plan](modernization-phase-2.md))
+- [x] Phase 3 — Design pass ([phase plan](modernization-phase-3.md))
+- [ ] Phase 4 — React shell ([phase plan](modernization-phase-4.md))
 - [ ] Phase 5 — Guidance on real physics
 - [ ] Phase 6 — Ship realism
 - [ ] Phase 7 — Super Heavy

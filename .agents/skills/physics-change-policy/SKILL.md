@@ -19,6 +19,7 @@ A Fidelity change inside an approved plan in `docs/plans/` is approved by that p
 
 - **Closed-form and analytic tests are never re-blessed.** Kepler, vis-viva, energy and angular-momentum conservation, ISA tables (`tests/core/analytic-laws.test.ts`, `verlet.test.ts`, `isa.test.ts`). If one fails, the physics is wrong.
 - **Golden trajectories are regression baselines.** They may move, but only under a Bug-fix or Fidelity tier, and only while every truth test still passes.
+- **Reference bands are truth too.** Run `npm run truth:report` before and after a physics change and paste both into the commit body. A tier-A row in `tests/reference/in-band.json` leaving its band is a failure, never a re-bless; a row coming in band gets added to it.
 - **Never move a tuning constant to make a truth test pass.** Fix the physics. A new tunable must be a physical quantity with a real-world value and a cited source in a comment.
 
 ## Regenerating goldens

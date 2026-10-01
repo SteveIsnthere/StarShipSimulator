@@ -296,6 +296,9 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
 
   let propellantMass = preset.propellant * 1000;
   if (propellantMass > PROPELLANT_CAPACITY) propellantMass = PROPELLANT_CAPACITY;
+  // A negative number typed into the flight editor is an empty tank, not a
+  // vehicle lighter than its own structure.
+  if (!(propellantMass > 0)) propellantMass = 0;
   s.vehicle.propellantMass = propellantMass;
   s.vehicle.vehicleMass = C.vehicleDryMass + propellantMass;
 

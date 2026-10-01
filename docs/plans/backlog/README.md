@@ -11,6 +11,8 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 | Re-entry heating coefficient 1.83e-7 vs the published Sutton-Graves 1.83e-8, and `heatLimit = 389` calibrated around it | 6 |
 | Earth rotation (`planetLinearVelocity` and `planetTimeToRotate` unused); pitch integrated against local vertical with no frame-rotation term | 6 |
 | Gust is never written; no turbulence stream (`src/core/scenarios.ts` comment) | 6 |
+| The emptying step still applies a full step of thrust from the last few kilograms (at most about 0.4 m/s extra) | 6 |
+| An engine whose ignition was counting down when the tank emptied still lights for one step with no propellant (`tickIgnition` runs after `updateRaptorStatus`, which never clears `ignitionCountdown`) | 6 |
 | Thermosphere temperature is 293 K at 100 km against the standard's 195 K (only Mach reads it) | 6 |
 | The g-limit reads net acceleration including gravity, not felt g | 6 |
 | Break-up and crash checks read the previous step's forces; a scenario's first step uses Mach against a constant 343 m/s (`src/core/scenarios.ts`) | 6 |
