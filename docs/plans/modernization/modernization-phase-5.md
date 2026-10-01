@@ -77,7 +77,7 @@ Task 8 closes the phase with parked tasks listed and their truth tests left as `
 
 **Performance**
 - The guidance path allocates nothing per step (`sim-core-conventions`).
-- A predictor call costs at most 400 integration sub-steps of 0.05 s and reuses one scratch object.
+- A predictor call costs at most 1,200 midpoint sub-steps of 0.05 s (60 s of burn) per mass pass, and reuses one scratch object. Measured: 0.04–0.5 ms a call, about 0.1 ms at the flip trigger.
 - `tests/view/perf.test.ts` (sim step under 1 ms) stays green.
 
 ## Review Focus
@@ -133,16 +133,15 @@ Task 8 closes the phase with parked tasks listed and their truth tests left as `
   - Integrates **backward** from v = 0 at `touchdownHeight`.
   - At each altitude: full thrust at that altitude's pressure, `gravityAt(r(h))` (no centrifugal term: a future vertical burn is not at today's horizontal speed), the tail-first drag, and mass growing backward at the full-thrust flow rate.
   - Integration runs until the descent speed reaches the vehicle's current |vY|. That altitude is the start altitude.
-  - Sub-step 0.05 s, cap 400 steps. Returns `null` if the cap is reached first.
-- `unpoweredFallInto(state, out): void` — the 2D unpowered fall for the HUD (Task 7): gravity at altitude and drag at the current attitude, integrated to the ground. The result goes into a scratch object.
+  - Midpoint sub-steps of 0.05 s, cap 1,200 (60 s). The touchdown mass is solved by a secant iteration on the fixed point (current mass less the fuel the burn uses), seeded from the sea-level burn time. Returns `null` if the cap is reached, the deceleration is not positive, or the burn needs more propellant than the vehicle carries.
 
 **Steps**
-- [ ] Unit tests for each function, against hand-computed values at sea level, 10 km and 80 km.
-- [ ] Test the `null` path: two engines on a full-mass vehicle at 300 m/s descent returns `null` within the cap.
-- [ ] Test that the clamp holds at orbital speed.
-- [ ] fast-check: the start altitude is monotonic in descent speed and in mass.
-- [ ] The Task 1 stopping-altitude cases pass against the fine-step references, within **2% of the burn distance or 20 m**, whichever is larger.
-- [ ] A per-call timing test in `*.timing.test.ts` stays under 0.2 ms.
+- [x] Unit tests for each function, against hand-computed values at sea level, 10 km and 80 km.
+- [x] Test the `null` path: two engines on a full-mass vehicle at 300 m/s descent returns `null` within the cap.
+- [x] Test that the clamp holds at orbital speed.
+- [x] fast-check: the start altitude is monotonic in descent speed and in mass.
+- [x] The Task 1 stopping-altitude cases pass against the fine-step references, within **2% of the burn distance or 20 m**, whichever is larger.
+- [x] A per-call timing test in `*.timing.test.ts` stays under 0.2 ms at the flip-trigger state.
 
 ### Task 3: Boost-back target and the TWR laws on local gravity (Fidelity)
 
@@ -188,7 +187,7 @@ Boost-back goes first and in the same commit, because changing the TWR law under
   - the comment in `record.ts:151`.
 
 **Steps**
-- [ ] Rebuild `predict()` on `unpoweredFallInto`, and delete the false comment.
+- [ ] Add `unpoweredFallInto(state, out)` to `guidance-physics.ts`: the 2D unpowered fall (gravity at altitude, drag at the current attitude, integrated to the ground into a scratch object), with unit tests against a `step()` run. Rebuild `predict()` on it, and delete the false comment.
 - [ ] Record the error bounds against the goldens in `prediction.test.ts`, before and after. Tighten them to what the new predictor achieves, never loosen.
 - [ ] Removing the dead fields changes the goldens' keys only. Re-bless with an audit row saying so: "keys removed, no row values changed". Verify that claim by diffing the rows blocks.
 

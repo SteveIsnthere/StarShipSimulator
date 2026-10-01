@@ -213,15 +213,23 @@ function tableDensityAt(altitude: number): number {
 
 /** Pressure and temperature from the lapse-rate table, clamped at its ceiling. */
 function tableStateAt(altitude: number): { pressurePascal: number; temperatureKelvin: number } {
+  const out = { pressurePascal: 0, temperatureKelvin: 0 };
+  tableStateInto(altitude, out);
+  return out;
+}
+
+/** `tableStateAt`, written into `out` rather than a new object. */
+function tableStateInto(altitude: number, out: { pressurePascal: number; temperatureKelvin: number }): void {
   const geopotential = Math.max(geopotentialAltitude(altitude), 0);
   const withinTable = Math.min(geopotential, ISA_TOP_GEOPOTENTIAL);
   const layer = layerFor(withinTable);
   const dh = withinTable - layer.baseAltitude;
-  return {
-    temperatureKelvin: layer.baseTemperature + layer.lapseRate * dh,
-    pressurePascal: pressureInLayer(layer.basePressure, layer.baseTemperature, layer.lapseRate, dh),
-  };
+  out.temperatureKelvin = layer.baseTemperature + layer.lapseRate * dh;
+  out.pressurePascal = pressureInLayer(layer.basePressure, layer.baseTemperature, layer.lapseRate, dh);
 }
+
+/** The mesopause temperature the thermosphere warms from, K. Computed once. */
+const MESOPAUSE_KELVIN = tableStateAt(THERMOSPHERE_BASE).temperatureKelvin;
 
 /**
  * The ISA at a geometric altitude, with a thermosphere above it.
@@ -263,13 +271,29 @@ function tableStateAt(altitude: number): { pressurePascal: number; temperatureKe
  * @param altitude m, geometric
  */
 export function isaAtmosphere(altitude: number): Atmosphere {
+  const out: Atmosphere = { airTemperature: 0, airPressure: 0, airDensity: 0 };
+  isaAtmosphereInto(altitude, out);
+  return out;
+}
+
+/** Scratch for `isaAtmosphereInto`'s lapse-rate lookup; module-private, so never shared across a call. */
+const TABLE_SCRATCH = { pressurePascal: 0, temperatureKelvin: 0 };
+
+/**
+ * `isaAtmosphere`, written into `out`: the allocation-free form for a loop that
+ * asks many times per step (Phase 5's guidance predictor). Same arithmetic in
+ * the same order, so the two agree to the bit (`tests/proofs/isa-into.test.ts`).
+ *
+ * @param altitude m, geometric
+ */
+export function isaAtmosphereInto(altitude: number, out: Atmosphere): void {
   if (altitude <= THERMOSPHERE_BASE) {
-    const { pressurePascal, temperatureKelvin } = tableStateAt(altitude);
-    return {
-      airTemperature: temperatureKelvin - 273.15,
-      airPressure: pressurePascal / 1000,
-      airDensity: pressurePascal / (R * temperatureKelvin),
-    };
+    tableStateInto(altitude, TABLE_SCRATCH);
+    const { pressurePascal, temperatureKelvin } = TABLE_SCRATCH;
+    out.airTemperature = temperatureKelvin - 273.15;
+    out.airPressure = pressurePascal / 1000;
+    out.airDensity = pressurePascal / (R * temperatureKelvin);
+    return;
   }
 
   let band = THERMOSPHERE[0]!;
@@ -281,13 +305,10 @@ export function isaAtmosphere(altitude: number): Atmosphere {
 
   // Warms from the mesopause toward the exosphere over a ~100 km e-folding —
   // the standard's shape, which is what the Mach number needs it for.
-  const mesopause = tableStateAt(THERMOSPHERE_BASE).temperatureKelvin;
   const temperatureKelvin =
-    T_EXOSPHERE - (T_EXOSPHERE - mesopause) * Math.exp(-(altitude - THERMOSPHERE_BASE) / 100_000);
+    T_EXOSPHERE - (T_EXOSPHERE - MESOPAUSE_KELVIN) * Math.exp(-(altitude - THERMOSPHERE_BASE) / 100_000);
 
-  return {
-    airTemperature: temperatureKelvin - 273.15,
-    airPressure: (airDensity * R * temperatureKelvin) / 1000,
-    airDensity,
-  };
+  out.airTemperature = temperatureKelvin - 273.15;
+  out.airPressure = (airDensity * R * temperatureKelvin) / 1000;
+  out.airDensity = airDensity;
 }
