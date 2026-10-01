@@ -167,6 +167,44 @@ export default ts.config(
   },
 
   {
+    // The session is framework-free: the shell renders it, it never renders.
+    files: ['src/ui/session/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          // Exact: zustand/vanilla is the framework-free store the session uses.
+          paths: [{ name: 'zustand', message: 'src/ui/session is framework-free: use zustand/vanilla.' }],
+          patterns: [
+            {
+              group: ['react', 'react/*', 'react-dom', 'react-dom/*', '@ui', '@ui/*', '$ui/shell/*'],
+              message: 'src/ui/session is framework-free: no React and no shell imports.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    // The shell reaches the world, sound and loop only through the session.
+    files: ['src/ui/shell/**/*.ts', 'src/ui/shell/**/*.tsx'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['$view/*', '$audio/*', '**/*.svelte'],
+              message: 'The shell talks to src/ui/session, not to the view or audio layers directly.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
     files: ['**/*.svelte', '**/*.svelte.ts'],
     languageOptions: {
       parserOptions: {
