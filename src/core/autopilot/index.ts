@@ -24,7 +24,6 @@
 import * as C from '../constants';
 import * as cmd from '../control/commands';
 import * as prim from '../control/primitives';
-import { getFreeFallTimeRemainingPrediction } from '../physics/prediction';
 import * as gravity from '../physics/gravity';
 import { getAngularAcceleration } from '../physics/aero';
 import { getWorkingEngineCount, getTotalMaxThrust } from '../physics/engines';
@@ -210,8 +209,6 @@ function resetBoostBackState(state: SimState): void {
   const { autopilot } = state;
   autopilot.autoBoostBackOn = false;
   autopilot.decelerationStageEstDuration = 0;
-  autopilot.finalXPosPrediction = Infinity;
-  autopilot.freeFallTimeRemainingPrediction = Infinity;
   autopilot.boostBackDirection = 0;
   autopilot.boostBackInitCompleted = false;
   autopilot.boostBackAeroDeceleration = true;
@@ -242,7 +239,7 @@ function resetAutoLandState(state: SimState): void {
   autopilot.finalDescentStageCompleted = false;
 }
 
-export { getFreeFallTimeRemainingPrediction, getAngularAcceleration, getTotalMaxThrust };
+export { getAngularAcceleration, getTotalMaxThrust };
 
 /** autoPilotModes.js:147 — the landing programme: four stages, in order. */
 export function autoLand(state: SimState, dt: number): void {

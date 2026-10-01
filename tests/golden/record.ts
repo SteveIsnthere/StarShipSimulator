@@ -148,7 +148,7 @@ export function record(
  * what makes a fixture as precise as the code it guards. Three things it does
  * NOT survive, all of which occur in SimState, all encoded as sentinels here:
  *
- *   Infinity   pitchRecord seeds with it; so do the boostback predictions.
+ *   Infinity   pitchRecord seeds with it.
  *              JSON writes null, erasing the difference between "no prediction
  *              yet" and "zero".
  *   NaN        same fate. No field uses it as a sentinel any more (M1.5 moved

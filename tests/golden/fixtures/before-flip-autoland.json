@@ -26,8 +26,6 @@
   "autopilot.deorbitTargetSpeed": "@undefined",
   "autopilot.effectiveVerticalMaxThrust": "@undefined",
   "autopilot.finalDescentStageCompleted": false,
-  "autopilot.finalXPosPrediction": "@Infinity",
-  "autopilot.freeFallTimeRemainingPrediction": "@Infinity",
   "autopilot.holdingPitch": 0,
   "autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle": 0,
   "autopilot.horizontalAdjustmentHorizontalSpeedLimit": 5,

@@ -45,24 +45,6 @@ export const gravitationalConstant = 6.674e-11;
  * g, and the add-back in getVerticalAcceleration.
  */
 export const gravity = 9.807;
-/**
- * kg/m — the lumped quadratic-drag coefficient in the autopilot's fall
- * predictions. NOT dimensionless, which is what this said until M9.4.
- *
- * Its own use proves it. `getFreeFallTimeRemainingPrediction` computes
- * `sqrt(vehicleMass / (gravity * airResistance_k))` and calls the result
- * seconds; for that to be seconds, `kg / ((m/s^2) * k)` must be s^2, so k is
- * kg/m. The same function then exponentiates
- * `(altitude - goalHeight) * airResistance_k / vehicleMass`, which is
- * `m * (kg/m) / kg` — dimensionless, as an exponent has to be. Both readings
- * agree, and both agree with the physics: a drag law `F = k v^2` has k in kg/m
- * because newtons are kg m/s^2.
- *
- * A drag COEFFICIENT is the dimensionless thing this is not; `hud/prediction.ts`
- * also divides by it to get a time constant `mass / (k * speed)`, which is
- * seconds only under the same reading.
- */
-export const airResistance_k = 250;
 
 /**
  * m/s. Constant in the 2021 model. The real value at 11 km is ~295 m/s, so Mach

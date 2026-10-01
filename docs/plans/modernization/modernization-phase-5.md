@@ -188,13 +188,13 @@ Boost-back goes first and in the same commit, because changing the TWR law under
   - the comment in `record.ts:151`.
 
 **Steps**
-- [ ] Add `unpoweredFallInto(state, out)` to `guidance-physics.ts`: the 2D unpowered fall (gravity at altitude, drag at the current attitude, integrated to the ground into a scratch object), with unit tests against a `step()` run. Rebuild `predict()` on it, and delete the false comment.
-- [ ] Record the error bounds against the goldens in `prediction.test.ts`, before and after. Tighten them to what the new predictor achieves, never loosen.
-- [ ] Removing the dead fields changes the goldens' keys only. Re-bless with an audit row saying so: "keys removed, no row values changed". Verify that claim by diffing the rows blocks.
+- [x] Add `unpoweredFallInto(state, out)` to `guidance-physics.ts`: the 2D unpowered fall (gravity at altitude, drag at the current attitude, integrated to the ground into a scratch object), with unit tests against a `step()` run. Rebuild `predict()` on it, and delete the false comment.
+- [x] Record the error bounds against the goldens in `prediction.test.ts`, before and after. Tighten them to what the new predictor achieves, never loosen.
+- [x] Removing the dead fields changes the goldens' keys only. Re-bless with an audit row saying so: "keys removed, no row values changed". Verify that claim by diffing the rows blocks.
 
 ### Task 6: Close
 
-- [ ] `docs/reference/physics-model.md` gains a "Guidance" section. It covers what guidance assumes, the predictor, the named margins and their derivations, and the deorbit range's measurement.
+- [x] `docs/reference/physics-model.md` gains a "Guidance" section. It covers what guidance assumes, the predictor, the named margins and their derivations, and the deorbit range's measurement.
 - [ ] Remove the backlog rows this phase answers: the `airResistance_k` row. Remove `horizontalSteering` calling `precisionAlignment` twice only if Task 4 resolved it. Add the `controlEnginebyTWR` divide-by-`throttleCurrent` quirk as a new row.
 - [ ] Run the full gate, `npm run mutation` (every guidance mutant from a landed task caught), `npm run truth:report` and `/code-review high`. Then send the physics to an independent reviewer that never saw it.
 - [ ] Merge, verify the deploy, tick Phase 5 with any parked task named, and write the Phase 6 plan.

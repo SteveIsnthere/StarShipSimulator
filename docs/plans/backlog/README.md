@@ -17,7 +17,6 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 | The g-limit reads net acceleration including gravity, not felt g | 6 |
 | Break-up and crash checks read the previous step's forces; a scenario's first step uses Mach against a constant 343 m/s (`src/core/scenarios.ts`) | 6 |
 | With the moving centre of mass, RTLS reaches apogee before MECO and the high-altitude impact prediction is less accurate | 5 |
-| `airResistance_k = 250` now feeds only the HUD impact predictor, and `src/hud/prediction.ts` claims the simulation integrates it | 5 |
 | Legacy exports still shipped in `core/`: `legacyEffectiveVerticalMaxThrust` (`src/core/control/primitives.ts`) and six `legacy*Coefficient` exports (`src/core/physics/components.ts`) | 5 |
 | `controlEnginebyTWR` divides the required thrust by the thrust at `throttleCurrent`, not at full throttle (`src/core/control/primitives.ts:281`), a 2021 quirk that makes its TWR wrong whenever the throttle is not at 100%. Phase 5's truth tests use the effective-vertical law instead | 6 |
 | `horizontalSteering` calls `precisionAlignment` twice (kept on purpose: the first call has side effects) — resolve when guidance is rebuilt | 5 |

@@ -385,10 +385,6 @@ export interface AutopilotState {
   boostBackDirection: number;
   /** s. */
   decelerationStageEstDuration: number;
-  /** m — predicted touchdown position; Infinity until predicted. */
-  finalXPosPrediction: number;
-  /** s — Infinity until predicted. */
-  freeFallTimeRemainingPrediction: number;
 
   /**
    * M2.9(c) — the deorbit-targeting mode. New in v2; 2021 had nothing like it,
@@ -664,8 +660,6 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       accelerationStageCompleted: false,
       boostBackDirection: 0,
       decelerationStageEstDuration: 0,
-      finalXPosPrediction: Infinity,
-      freeFallTimeRemainingPrediction: Infinity,
 
       autoDeorbitOn: false,
       deorbitInitCompleted: false,

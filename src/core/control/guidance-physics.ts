@@ -14,8 +14,9 @@
 import * as C from '../constants';
 import type { Atmosphere } from '../physics/atmosphere';
 import { speedOfSoundAt } from '../physics/atmosphere';
-import { getBodyDragCoefficient, getCrossSectionalArea, getDrag } from '../physics/aero';
-import { gravityAt, verticalGravityAcceleration } from '../physics/gravity';
+import { getBodyDragCoefficient, getCrossSectionalArea, getDrag, getLift } from '../physics/aero';
+import { getHorizontalAcceleration, getVerticalAcceleration, type AccelerationInputs } from '../physics/components';
+import { gravityAt, tangentialAcceleration, verticalGravityAcceleration } from '../physics/gravity';
 import { isaAtmosphereInto } from '../physics/isa';
 import type { SimState } from '../state';
 import { rad } from '../units';
@@ -209,4 +210,138 @@ export function landingBurnStartAltitude(
     m1 = next;
   }
   return start;
+}
+
+// ---------------------------------------------------------------------------
+// The unpowered fall, for the HUD's impact predictor
+// ---------------------------------------------------------------------------
+
+/** Where an unpowered fall ends; written by `unpoweredFallInto`. */
+export interface FallResult {
+  /** True when the fall reached `groundAltitude` within the step cap. */
+  reached: boolean;
+  /** s — time to reach it. */
+  time: number;
+  /** m — downrange displacement from where it started. */
+  downRange: number;
+}
+
+export function createFallResult(): FallResult {
+  return { reached: false, time: Number.NaN, downRange: 0 };
+}
+
+/** s — the fall's integration step; m — its cap, about seventeen minutes of fall. */
+export const FALL_STEP = 0.25;
+export const FALL_STEP_CAP = 4_000;
+
+/**
+ * The composition `step()` uses (`getHorizontalAcceleration` and
+ * `getVerticalAcceleration`), fed from one preallocated inputs object so the
+ * loop allocates nothing. Thrust and gimbal stay zero: the fall is unpowered.
+ */
+const FALL_INPUTS: AccelerationInputs = {
+  angleOfMotion: rad(0),
+  angleOfAttack: rad(0),
+  gimbalPointingDirection: rad(0),
+  aerodynamicDragAcceleration: 0,
+  aerodynamicLiftAcceleration: 0,
+  thrustAcceleration: 0,
+};
+
+/** Acceleration scratch for the fall, so its midpoint step allocates nothing. */
+const FALL_ACC = { x: 0, y: 0 };
+
+/**
+ * The unpowered accelerations at a point, exactly as `step()` composes them:
+ * drag along and lift across the relative wind (attack angles folded as
+ * `getAttackAngles` does, inline so nothing is allocated), plus gravity with
+ * its centrifugal and tangential terms.
+ */
+function fallAcceleration(
+  altitude: number,
+  vx: number,
+  vy: number,
+  pitch: number,
+  mass: number,
+  maxArea: number,
+  wind: number,
+  scratch: BurnScratch,
+): void {
+  const r = C.planetRadius + altitude;
+  const air = scratch.atmosphere;
+  isaAtmosphereInto(Math.max(altitude, 0), air);
+  const rx = vx - wind;
+  const speed = Math.sqrt(rx * rx + vy * vy);
+  const motion = Math.atan2(rx, vy);
+  let attack = pitch - motion;
+  if (attack < -Math.PI) attack = Math.PI * 2 + attack;
+  else if (attack > Math.PI) attack = -(Math.PI * 2 - attack);
+  const intoWind = attack > Math.PI / 2 ? Math.PI - attack : attack < -Math.PI / 2 ? -Math.PI - attack : attack;
+  const area = getCrossSectionalArea(rad(intoWind), maxArea);
+  const mach = speed / speedOfSoundAt(air.airTemperature);
+  FALL_INPUTS.angleOfMotion = rad(motion);
+  FALL_INPUTS.angleOfAttack = rad(attack);
+  FALL_INPUTS.aerodynamicDragAcceleration = getDrag(air.airDensity, speed, area, getBodyDragCoefficient(mach)) / mass;
+  FALL_INPUTS.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
+  FALL_ACC.x = getHorizontalAcceleration(FALL_INPUTS) + tangentialAcceleration(r, vx, vy);
+  FALL_ACC.y = getVerticalAcceleration(FALL_INPUTS, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);
+}
+
+/**
+ * Where the vehicle comes down if nothing more is done: no thrust, its attitude
+ * held, integrated to `groundAltitude` with the forces `step()` applies to an
+ * unpowered body — gravity at altitude with the centrifugal and tangential
+ * terms, and drag through the relative wind at the cross-section its attitude
+ * presents, with the Mach-dependent coefficient.
+ *
+ * Drag and lift through the relative wind, composed exactly as `step()`
+ * composes them, at the cross-section the held attitude presents. Leaves out
+ * the fins' own forces and any change of attitude: the prediction answers
+ * "where does it come down if held as it is". Measured against the simulation
+ * in tests/core/guidance-physics.test.ts.
+ *
+ * Midpoint steps of `FALL_STEP`; `reached` is false when the cap runs out first
+ * (a vehicle climbing away, or one so high it is still falling).
+ */
+export function unpoweredFallInto(
+  state: SimState,
+  groundAltitude: number,
+  scratch: BurnScratch,
+  out: FallResult,
+): void {
+  const { kinematics, vehicle, world } = state;
+  const pitch = kinematics.pitch;
+  const mass = vehicle.vehicleMass;
+  const maxArea = vehicle.vehicleInFlightMaxArea;
+  const wind = world.wind;
+  let h = kinematics.altitude;
+  let x = 0;
+  let vx = kinematics.speedX;
+  let vy = kinematics.speedY;
+  const half = FALL_STEP * 0.5;
+  for (let i = 0; i < FALL_STEP_CAP; i++) {
+    fallAcceleration(h, vx, vy, pitch, mass, maxArea, wind, scratch);
+    const mvx = vx + FALL_ACC.x * half;
+    const mvy = vy + FALL_ACC.y * half;
+    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, wind, scratch);
+    const nvx = vx + FALL_ACC.x * FALL_STEP;
+    const nvy = vy + FALL_ACC.y * FALL_STEP;
+    const nh = h + mvy * FALL_STEP;
+    const nx = x + mvx * FALL_STEP;
+    if (nh <= groundAltitude) {
+      // Interpolate inside the step to the ground.
+      const f = (h - groundAltitude) / (h - nh);
+      out.reached = true;
+      out.time = (i + f) * FALL_STEP;
+      out.downRange = x + (nx - x) * f;
+      return;
+    }
+    h = nh;
+    x = nx;
+    vx = nvx;
+    vy = nvy;
+  }
+  out.reached = false;
+  out.time = Number.NaN;
+  out.downRange = x;
 }

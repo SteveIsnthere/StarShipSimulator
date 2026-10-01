@@ -232,13 +232,34 @@ input overwrites all.
   within 75–240 m/s around 150 nominal (`C:384–397`); hands to autoLand once falling. Miss: 7 km
   from 150 km at 82 % of `heatLimit`, 50 km from 200 km, 90 km at 95 % from 300 km.
 
-**Approximations inside guidance:** all TWR, burn and flip sizing uses flat `9.807`, not local g;
-boost-back decelerates at 1.6 g (`C:478`); landing burns are sized on sea-level thrust
-(`index.ts:415`) and the flip trigger on one engine, stepping to two or three when 80 % of that
-cannot hold the weight (`index.ts:283`). `getFreeFallTimeRemainingPrediction`
-(`physics/prediction.ts:13`) lumps drag as `F = k·v²` with `airResistance_k = 250 kg/m` (`C:65`,
-tuned, no source) — effectively sea-level terminal velocity all the way down. The simulation never
-uses k; its consumer is the HUD impact predictor (`hud/prediction.ts`).
+**What guidance assumes** (Phase 5, `src/core/control/guidance-physics.ts`):
+
+- **Throttle laws** (`controlEnginebyTWR`, `controlEnginebyEffectiveVerticalTWR`, `getTWR`) size
+  thrust against `localGravity`: gravity at altitude less the centrifugal term, exactly as `step()`
+  applies it, floored at 0.1 m/s² near orbital speed. A commanded TWR of 1 holds a hover within
+  0.02 m/s² at any altitude. Boost-back commands its 1.6 g0 deceleration as an acceleration
+  (`controlEngineForAcceleration`), so no g enters it. The flat `C.gravity` survives only in the
+  TWR display, felt g and the add-back in `getVerticalAcceleration`.
+- **The landing burn** (`autopilot/landing-burn.ts`) is sized by `landingBurnStartAltitude`:
+  integrated backward from touchdown with midpoint steps of 0.05 s, gravity at each altitude
+  (`gravityAt`, no centrifugal term: the burn is near vertical), thrust at that altitude's
+  pressure, drag tail first with the Mach-dependent coefficient, and the touchdown mass solved by a
+  secant iteration. It agrees with fine-step `step()` runs to within 0.5 m on burns of 176 m to
+  11.8 km, and returns null (read as "start now") when no burn can stop the vehicle, including
+  when it needs more propellant than is aboard.
+- **The flip trigger** plans on 2021's one-engine ladder (two or three engines only when 80% of
+  one cannot hold the weight, capped by the engines not failed): a deliberate engine-out
+  pessimism. It adds the flip's fall and the mean ignition delay, and **no further margin**:
+  two were tried (a flat 100 m, and 0.9 s of ignition spread plus throttle slew), and each ran
+  the one-engine-out deorbit dry in the hover the earlier flip bought. The horizontal adjustment
+  hands over at 1.1 × the predicted burn on the engines running, plus one second.
+- **The deorbit aim** `DEORBIT_ENTRY_RANGE` (838 km, `C:439`) is fitted to `autoLand`; its health
+  is the deorbit flight's miss (0.01 km, `tests/core/deorbit-range.test.ts`), and
+  `npm run deorbit:range` prints the re-derived value (the constant plus the miss).
+- **The HUD's impact predictor** (`hud/prediction.ts`) is a conic above the 80 km entry interface
+  and, below it, `unpoweredFallInto`: the fall integrated with gravity, drag and lift composed as
+  `step()` composes them, at the attitude held now. It cannot know that a controller will move the
+  attitude, which is what remains of its error. `airResistance_k` is gone.
 
 ## Known simplifications
 

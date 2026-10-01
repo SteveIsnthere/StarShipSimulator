@@ -28,6 +28,7 @@
  *     M12     the angular drag axis              ALL EIGHT
  *     P5.3    guidance on local gravity          ALL EIGHT
  *     P5.4    the burn sized by the predictor    five: three fly, two plan
+ *     P5.5    dead prediction fields removed     moved NOTHING (headers only)
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -157,6 +158,12 @@
  * right, the prediction was not. Ascent, booster-sep and the intro do not move
  * (the intro runs only the final descent, which this does not touch); every
  * fixture's header loses the two flags.
+ *
+ * P5.5 removed `autopilot.freeFallTimeRemainingPrediction` and
+ * `finalXPosPrediction`, set to Infinity and never filled in since the port.
+ * They were constant in every fixture, so they lived in the headers: every
+ * file changes, no rows block does, and every digest above is unchanged. That
+ * is the check that the removal is only a removal.
  *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario

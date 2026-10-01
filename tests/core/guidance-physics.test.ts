@@ -8,11 +8,13 @@ import { DT } from '$app/loop';
 import {
   BURN_STEP_CAP,
   createBurnScratch,
+  createFallResult,
   landingBurnStartAltitude,
   localGravity,
   MIN_LOCAL_GRAVITY,
   tailFirstDragDeceleration,
   thrustFor,
+  unpoweredFallInto,
 } from '$core/control/guidance-physics';
 import * as C from '$core/constants';
 import { gravityAt } from '$core/physics/gravity';
@@ -159,5 +161,61 @@ describe('landingBurnStartAltitude: the edges', () => {
       ),
       { seed: 42, numRuns: 200 },
     );
+  });
+});
+
+describe('unpoweredFallInto against the simulation, attitude held', () => {
+  /**
+   * The reference: engines off, autopilot off, attitude held, flown by `step()`
+   * to touchdown height. The prediction holds attitude AND cross-section; the
+   * simulation's fin controller still works the flaps, which changes the area
+   * mid-fall, so the two agree closely but not exactly (measured: downrange
+   * within 3-8%, time within 10%, a vertical drop within 2%).
+   */
+  function reference(altitude: number, vx: number, vy: number, pitchDeg: number) {
+    let s = at(altitude, vx, vy);
+    s.engines.running = [false, false, false];
+    s.kinematics.pitch = rad((pitchDeg * Math.PI) / 180);
+    s = step(s, DT);
+    const pitch = s.kinematics.pitch;
+    const start = s;
+    const x0 = s.kinematics.downRangeDistance;
+    let t = 0;
+    for (let i = 0; i < Math.round(1_500 / DT); i++) {
+      s.kinematics.pitch = pitch;
+      s.kinematics.angularVelocity = 0;
+      s = step(s, DT);
+      t += DT;
+      if (s.kinematics.altitude <= C.vehicleHeight / 2 + 0.01 || s.status.onTheGround) break;
+    }
+    return { start, time: t, downRange: s.kinematics.downRangeDistance - x0 };
+  }
+
+  const cases = [
+    { name: 'a vertical drop from 40 km', h: 40_000, vx: 0, vy: 0, pitch: 0, time: 0.03 },
+    { name: 'upright from 40 km, moving downrange', h: 40_000, vx: 200, vy: -50, pitch: 0, time: 0.05 },
+    { name: 'belly-down from 10 km', h: 10_000, vx: 100, vy: -150, pitch: 90, time: 0.12 },
+    { name: 'belly-down from 2 km', h: 2_000, vx: 30, vy: -60, pitch: 90, time: 0.12 },
+    { name: 're-entering from 70 km', h: 70_000, vx: 1_500, vy: -300, pitch: 60, time: 0.12 },
+  ];
+  for (const c of cases) {
+    it(c.name, () => {
+      const ref = reference(c.h, c.vx, c.vy, c.pitch);
+      const out = createFallResult();
+      unpoweredFallInto(ref.start, C.vehicleHeight / 2, createBurnScratch(), out);
+      expect(out.reached).toBe(true);
+      expect(Math.abs(out.time - ref.time) / ref.time, `time ${out.time.toFixed(1)} vs ${ref.time.toFixed(1)} s`).toBeLessThan(c.time);
+      expect(Math.abs(out.downRange - ref.downRange), `downrange ${out.downRange.toFixed(0)} vs ${ref.downRange.toFixed(0)} m`).toBeLessThanOrEqual(
+        Math.max(0.1 * Math.abs(ref.downRange), 50),
+      );
+    });
+  }
+
+  it('says it did not reach the ground when the cap runs out', () => {
+    const s = at(60_000, 0, 7_000); // climbing at 7 km/s: thousands of km up, still away at the cap
+    const out = createFallResult();
+    unpoweredFallInto(s, C.vehicleHeight / 2, createBurnScratch(), out);
+    expect(out.reached).toBe(false);
+    expect(out.time).toBeNaN();
   });
 });

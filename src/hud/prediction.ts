@@ -3,10 +3,9 @@
  *
  * WHY THIS EXISTS. M2.13 built `coastDownrangeDistance` — a real conic
  * predictor, checked against the simulation to a kilometre in five thousand —
- * so the deorbit autopilot could decide when to fire. M2.9 exported
- * `getFreeFallTimeRemainingPrediction` alongside it. Between them the
- * simulation has always known where a coast ends, and in five years the player
- * has never been shown it. This is the display; core is untouched.
+ * so the deorbit autopilot could decide when to fire, and Phase 5 added the
+ * integrated fall below the entry interface (`unpoweredFallInto`). Between them
+ * the simulation knows where a coast ends; this is the display of it.
  *
  * WHAT IT CLAIMS, precisely. Both models are UNPOWERED continuations: this is
  * where the vehicle goes if no further thrust is applied. That is the honest
@@ -21,20 +20,21 @@
  *   through 80 km of atmosphere the model does not contain would be a made-up
  *   number wearing a decimal point.
  *
- *   BELOW IT drag dominates and the conic is meaningless, so the terminal-
- *   velocity fall model answers instead. Its own limitation is stated where it
- *   is used, and its error against seven real flights is measured in
- *   tests/hud/prediction.test.ts rather than assumed.
+ *   BELOW IT drag dominates and the conic is meaningless, so the fall is
+ *   integrated instead, with the simulation's own forces (Phase 5:
+ *   `unpoweredFallInto`). Its limits are stated where it is used, and its
+ *   error is measured in tests/hud/prediction.test.ts rather than assumed.
  *
  * AND WHEN IT CANNOT ANSWER IT SAYS SO. An orbit whose perigee is above the
  * target never comes down, and the fall model overflows above roughly 280 km.
- * Both return `none` with a reason. A predictor that always prints a number is
+ * A fall that does not come down within the integrator's cap (a vehicle
+ * climbing away) returns `none` with a reason too. A predictor that always prints a number is
  * worse than one that admits its domain — the wrong number is indistinguishable
  * from the right one on a dial.
  */
 import * as C from '$core/constants';
 import { coastDownrangeDistance } from '$core/physics/gravity';
-import { getFreeFallTimeRemainingPrediction } from '$core/physics/prediction';
+import { createBurnScratch, createFallResult, unpoweredFallInto } from '$core/control/guidance-physics';
 import type { SimState } from '$core/state';
 
 export type PredictionKind = 'touchdown' | 'entry' | 'none';
@@ -80,37 +80,9 @@ export const ENTRY_RADIUS = C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE;
  */
 export const GROUND_ALTITUDE = C.vehicleHeight / 2;
 
-/**
- * m — how far a vehicle drifts downrange in `time`, given that drag is eating
- * the speed that carries it.
- *
- * WHY THIS IS NOT `speedX * time`. That was the first version, and measuring it
- * is what condemned it: dropped unpowered from 40 km at 200 m/s downrange, it
- * predicted 107 km of drift where the simulation produced 1.3 km. Not a
- * tuning error — a modelling one. Quadratic drag has a time constant
- * `mass / (k * v)`, which for this vehicle at 200 m/s is FOUR SECONDS. Assuming
- * the speed survives a two-hundred-second fall is assuming away the entire
- * atmosphere.
- *
- * So this is the exact solution instead, for the same quadratic drag law and the
- * same `airResistance_k` the simulation itself integrates: with
- * `dv/dt = -(k/m) v^2` the speed goes as `v0 / (1 + t/tau)` and the distance as
- * `v0 tau ln(1 + t/tau)`. No new physics — core is untouched, and this is a
- * closed form of the law core already applies.
- *
- * Its useful property is the logarithm. The fall TIME this is handed is itself
- * a rough number (the closed form below assumes sea-level terminal velocity all
- * the way down, and is several times long from high altitude) — but a log turns
- * a factor-of-five error in time into a factor-of-two error in distance. The
- * weak part of the model is wrapped inside the part that does not care.
- */
-export function dragLimitedDrift(speedX: number, time: number, mass: number): number {
-  if (!Number.isFinite(speedX) || !Number.isFinite(time) || time <= 0) return 0;
-  const speed = Math.abs(speedX);
-  if (speed < 1e-6 || mass <= 0) return 0;
-  const tau = mass / (C.airResistance_k * speed);
-  return Math.sign(speedX) * speed * tau * Math.log1p(time / tau);
-}
+/** Scratch for the fall, so a prediction allocates nothing. */
+const fallScratch = createBurnScratch();
+const fall = createFallResult();
 
 /**
  * Write the prediction for `state` into `out`.
@@ -118,7 +90,7 @@ export function dragLimitedDrift(speedX: number, time: number, mass: number): nu
  * Mutates rather than returning, like everything else on the frame path.
  */
 export function predict(state: SimState, out: Prediction): void {
-  const { kinematics, vehicle, status, failures } = state;
+  const { kinematics, status, failures } = state;
 
   /*
     A flight that is not in the air predicts nothing — there is no trajectory
@@ -174,35 +146,28 @@ export function predict(state: SimState, out: Prediction): void {
   }
 
   /*
-    The fall model, and its honest limitation: it is a closed form for a fall at
-    TERMINAL velocity through air of uniform density, plus a first-order term
-    for the speed the vehicle already has. High up, where the air is thin, the
-    real vehicle falls faster than sea-level terminal velocity, so this
-    overestimates the time — and therefore the downrange, which is speedX times
-    that time. The error shrinks as the ground approaches, which is the regime
-    the number is for. It is measured over all seven goldens rather than
-    described: see tests/hud/prediction.test.ts.
+    The fall, integrated with the simulation's own forces: gravity with its
+    centrifugal and tangential terms, drag and lift through the relative wind,
+    the vehicle's attitude held as it is now (src/core/control/guidance-physics.ts).
+    What it cannot know is how the vehicle will be flown: a pilot or a flap
+    controller that changes the attitude changes the fall, and the prediction
+    moves with it, which is what makes it a control instrument.
   */
-  const time = getFreeFallTimeRemainingPrediction(
-    kinematics.altitude,
-    GROUND_ALTITUDE,
-    vehicle.vehicleMass,
-    kinematics.speedY,
-  );
-  if (!Number.isFinite(time) || time < 0) {
-    // Overflows above roughly 280 km, and goes negative for a vehicle climbing
-    // hard enough that the first-order term dominates. Neither is a touchdown.
+  unpoweredFallInto(state, GROUND_ALTITUDE, fallScratch, fall);
+  if (!fall.reached) {
+    // Climbing away, or still falling at the integrator's cap: not a touchdown.
     out.kind = 'none';
     out.reason = 'out-of-domain';
     out.time = NaN;
     return;
   }
+  const time = fall.time;
 
   out.kind = 'touchdown';
   out.reason = '';
   out.time = time;
   out.altitude = GROUND_ALTITUDE;
-  out.downRange = here + dragLimitedDrift(kinematics.speedX, time, vehicle.vehicleMass);
+  out.downRange = here + fall.downRange;
   out.miss = out.downRange;
 }
 
