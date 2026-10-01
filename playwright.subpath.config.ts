@@ -24,7 +24,7 @@ const executablePath = preinstalledChromium();
  * E2E_BASE_URL points the same checks at a real deployment, such as the live
  * Pages site after a cut-over; then no local server is started.
  */
-const LIVE = process.env.E2E_BASE_URL;
+const LIVE = process.env.E2E_BASE_URL?.replace(/\/?$/, '/');
 
 export default defineConfig({
   testDir: './tests/deploy',
@@ -48,7 +48,7 @@ export default defineConfig({
         webServer: {
           // A plain static file server, deliberately: `vite preview` rewrites paths
           // and would hide exactly the mistakes this config exists to catch.
-          command: `npm run build && node scripts/stage-subpath.mjs dist .subpath ${SUBPATH} && python3 -m http.server ${PORT} --directory .subpath --bind 127.0.0.1`,
+          command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}node scripts/stage-subpath.mjs dist .subpath ${SUBPATH} && python3 -m http.server ${PORT} --directory .subpath --bind 127.0.0.1`,
           url: `http://127.0.0.1:${PORT}/${SUBPATH}/`,
           reuseExistingServer: false,
           timeout: 300_000,

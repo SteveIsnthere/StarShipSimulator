@@ -1,9 +1,10 @@
 name: CI
 
 on:
+  # Every branch push, which already covers a PR's branch; a pull_request
+  # trigger as well would run the gate twice per push.
   push:
     branches: ['**']
-  pull_request:
   workflow_dispatch:
 
 # Cancel superseded runs on the same ref; a stale red run is noise.

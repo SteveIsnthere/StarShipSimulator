@@ -153,7 +153,8 @@ export default defineConfig({
       The timeout stays at three minutes, which is generous for a nine-second
       build: it was never the constraint.
     */
-    command: `npm run build && npm run preview -- --host 127.0.0.1 --port ${PORT} --strictPort`,
+    // E2E_SKIP_BUILD: the gate has just built dist/; do not build it again.
+    command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}npm run preview -- --host 127.0.0.1 --port ${PORT} --strictPort`,
     url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: false,
     timeout: 180_000,
