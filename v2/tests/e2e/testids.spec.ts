@@ -11,7 +11,7 @@
  * for a reason nobody will find quickly.
  *
  * This spec is also the capability-parity gate the milestone runs on. M6 retires
- * visual parity with the 2021 build (AGENTS.md, second amendment) and keeps
+ * visual parity with the 2021 build (CLAUDE.md@d2839b9, second amendment) and keeps
  * capability parity in its place: every 2021 control still exists and works.
  * With the ids fixed here, "still exists" survives any amount of restyling.
  */

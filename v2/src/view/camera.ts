@@ -798,7 +798,7 @@ function integrateCamera(
  * multiplier and the max-steps bailout, all of them one-directional. Pass
  * `AdvanceResult.simulatedDt`.
  *
- * Mutates in place: this runs once per frame and AGENTS.md asks for no
+ * Mutates in place: this runs once per frame and `sim-core-conventions` asks for no
  * allocation on that path. The sub-step loop allocates nothing.
  */
 export function updateCamera(

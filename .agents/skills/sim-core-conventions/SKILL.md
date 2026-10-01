@@ -52,7 +52,7 @@ Never disable a wall with an inline `eslint-disable`. If a wall is in the way, t
 - No framework code inside a frame. The UI renders on interaction; the HUD binder and Pixi own the per-frame path.
 - Zero allocation on the per-frame path. Particles are pooled.
 - DOM references are resolved once at startup, never per frame.
-- `npm run build` enforces the bundle budgets (`v2/scripts/check-budget.mjs`): first-load JS ≤ 250 kB gzip, plus fonts and audio; charting is lazy-loaded and never in the first load. Vitest enforces the step and HUD budgets (`v2/tests/view/perf.test.ts`, `v2/tests/hud/binder.test.ts`): a sim step well under 1 ms at the fixed 120 Hz dt, a HUD update < 2 ms.
+- `npm run build` enforces the bundle budgets (`v2/scripts/check-budget.mjs`): first-load JS ≤ 250 kB gzip, plus fonts and audio; charting is lazy-loaded and never in the first load. Vitest enforces the step and HUD budgets (`v2/tests/view/perf.test.ts`, `v2/tests/hud/binder.test.ts`): a sim step < 1 ms, so 240 steps per second of wall clock fit easily (the fixed dt is 1/120 s, and time warp multiplies the steps), and a HUD update < 2 ms.
 - Do not optimise physics maths for speed. An "optimisation" that changes results is a physics change (`physics-change-policy`).
 
 ## The archived 2021 tree

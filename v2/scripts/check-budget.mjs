@@ -1,6 +1,6 @@
 /**
  * Bundle budget gate. Fails the build when first-load JS exceeds the budget.
- * Budget comes from `sim-core-conventions` § Performance rules: first-load JS <= 250 kB gzip.
+ * Budget comes from `sim-core-conventions` § Per-frame performance: first-load JS <= 250 kB gzip.
  *
  * "First load" is the synchronously-fetched module graph of dist/index.html:
  * its <script src> entries plus every <link rel="modulepreload">. Chunks that

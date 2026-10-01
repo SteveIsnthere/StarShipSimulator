@@ -25,7 +25,7 @@
  * third of sampled angles produce a different last bit, and compounded through
  * a feedback loop that moves the fixtures — measured, at step 4260 of
  * launch-pad-takeoff, perceivedG_Y shifts in its sixteenth significant figure.
- * `physics-change-policy` is explicit that a refactor moving a golden fails CI. A proof of
+ * `physics-change-policy` allows a golden to move only under a Bug-fix or Fidelity tier, and a moved golden fails `npm run test`. A proof of
  * mathematical identity is not a proof of bit-identity, and the tier asks for
  * the second.
  *

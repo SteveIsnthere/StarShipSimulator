@@ -13,7 +13,7 @@
  * the renderer as an interpolation factor. The number of steps per frame varies;
  * what a step means never does.
  *
- * Three consequences, all of them things AGENTS.md asks for:
+ * Three consequences, all of them things `sim-core-conventions` asks for:
  *   - determinism: the same inputs produce the same trajectory at any frame rate
  *     (tests/golden proves this bit-for-bit across batchings);
  *   - honest time warp: warp N runs N steps per frame. dt is never scaled,
@@ -36,7 +36,7 @@ export const DT = 1 / 120;
  * on the floor instead, which is the right trade: the world runs slow for one
  * frame rather than locking up.
  *
- * 0.25 s is the value `sim-core-conventions` specifies.
+ * 0.25 s is the value the rebuild's constitution specified (CLAUDE.md@d2839b9).
  */
 export const MAX_FRAME_TIME = 0.25;
 
