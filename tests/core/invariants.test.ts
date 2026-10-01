@@ -50,7 +50,9 @@ describe('invariants over any configurable flight', () => {
       fc.property(arbitraryFlight(STEPS), (f) => {
         const states = fly(startOf(f), f.throttles, f.pitchCommands);
         for (let i = 1; i < states.length; i++) {
-          expect(states[i]!.vehicle.vehicleMass).toBeLessThanOrEqual(states[i - 1]!.vehicle.vehicleMass);
+          expect(states[i]!.vehicle.vehicleMass).toBeLessThanOrEqual(
+            states[i - 1]!.vehicle.vehicleMass,
+          );
           expect(states[i]!.vehicle.propellantMass).toBeGreaterThanOrEqual(0);
         }
       }),
