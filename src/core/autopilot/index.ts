@@ -24,13 +24,13 @@
 import * as C from '../constants';
 import * as cmd from '../control/commands';
 import * as prim from '../control/primitives';
-import { getFreeFallTimeRemainingPrediction } from '../physics/prediction';
 import * as gravity from '../physics/gravity';
 import { getAngularAcceleration } from '../physics/aero';
-import { getWorkingEngineCount, getTotalMaxThrust } from '../physics/engines';
+import { getHealthyEngineCount, getWorkingEngineCount, getTotalMaxThrust } from '../physics/engines';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
 import type { SimState } from '../state';
 import { rad } from '../units';
+import { finalDescentStartAltitude, plannedEngineCount, triggerBurnAltitude } from './landing-burn';
 
 const toggleRaptor = cmd.toggleRaptor;
 const toggleFin = cmd.toggleFin;
@@ -187,7 +187,7 @@ export function autoBoostBack(state: SimState, dt: number): void {
     } else {
       prim.precisionAlignment(state, rad(-autopilot.boostBackDirection), 1);
       prim.raptorAutoShutDown_KeepMinTWRBelow1(state, toggleRaptor);
-      prim.controlEnginebyTWR(state, C.decelerationStageHorizontalAcc / C.gravity);
+      prim.controlEngineForAcceleration(state, C.decelerationStageHorizontalAcc);
     }
 
     if (Math.abs(kinematics.speedX) < 3) {
@@ -209,8 +209,6 @@ function resetBoostBackState(state: SimState): void {
   const { autopilot } = state;
   autopilot.autoBoostBackOn = false;
   autopilot.decelerationStageEstDuration = 0;
-  autopilot.finalXPosPrediction = Infinity;
-  autopilot.freeFallTimeRemainingPrediction = Infinity;
   autopilot.boostBackDirection = 0;
   autopilot.boostBackInitCompleted = false;
   autopilot.boostBackAeroDeceleration = true;
@@ -225,8 +223,6 @@ function resetAutoLandState(state: SimState): void {
   autopilot.autoLandOn = false;
   autopilot.initVehicleConfigCompleted = false;
   autopilot.landingSiteXPos = C.starBaseXPos;
-  autopilot.dualRaptorMode = false;
-  autopilot.trialRaptorMode = false;
   autopilot.aeroDescentCompleted = false;
   autopilot.fineTunePercentage = undefined;
   autopilot.bellyFlopTriggerAltitude = 0;
@@ -243,7 +239,7 @@ function resetAutoLandState(state: SimState): void {
   autopilot.finalDescentStageCompleted = false;
 }
 
-export { getFreeFallTimeRemainingPrediction, getAngularAcceleration, getTotalMaxThrust };
+export { getAngularAcceleration, getTotalMaxThrust };
 
 /** autoPilotModes.js:147 — the landing programme: four stages, in order. */
 export function autoLand(state: SimState, dt: number): void {
@@ -274,28 +270,16 @@ export function autoLand(state: SimState, dt: number): void {
 /** autoPilotModes.js:194 — how high to start the flip, worst case. */
 function updateBellyFlopTriggerAltitude(state: SimState): void {
   const { autopilot, kinematics, vehicle } = state;
+  // Read only below the ceiling (aeroDescentController); not worth computing above it.
+  if (kinematics.altitude >= C.flipTriggerCeiling) return;
 
-  let finalStagePessimisticAvailableThrust = C.finalStagePessimisticAvailableThrust;
-  let horizontalAdjustmentDurationEstimate = C.horizontalAdjustmentDurationEstimateSingleEngine;
-  autopilot.dualRaptorMode = false;
-  autopilot.trialRaptorMode = false;
-
-  if (finalStagePessimisticAvailableThrust * 0.8 < C.gravity * vehicle.vehicleMass) {
-    finalStagePessimisticAvailableThrust = C.finalStagePessimisticAvailableThrustDualRaptorMode;
-    horizontalAdjustmentDurationEstimate = C.horizontalAdjustmentDurationEstimateDualRaptorMode;
-    autopilot.dualRaptorMode = true;
-    if (finalStagePessimisticAvailableThrust * 0.8 < C.gravity * vehicle.vehicleMass) {
-      horizontalAdjustmentDurationEstimate = C.horizontalAdjustmentDurationEstimateDualRaptorMode;
-      finalStagePessimisticAvailableThrust = C.finalStagePessimisticAvailableThrustTrialRaptorMode;
-      autopilot.trialRaptorMode = true;
-    }
-  }
-
-  const finalStagePessimisticAvailableAcc =
-    finalStagePessimisticAvailableThrust / vehicle.vehicleMass - C.gravity;
-  const finalStagePessimisticDuration = -kinematics.speedY / finalStagePessimisticAvailableAcc;
-  autopilot.finalStagePessimisticAltitude =
-    -kinematics.speedY * finalStagePessimisticDuration * 0.5;
+  // Phase 5: the burn sized by the predictor on the planned engine count
+  // (./landing-burn.ts), not a flat-g, sea-level, drag-free estimate.
+  const horizontalAdjustmentDurationEstimate =
+    plannedEngineCount(state) > 1
+      ? C.horizontalAdjustmentDurationEstimateDualRaptorMode
+      : C.horizontalAdjustmentDurationEstimateSingleEngine;
+  autopilot.finalStagePessimisticAltitude = triggerBurnAltitude(state);
 
   // M11.8: the live arm, not the constant. The inertia beside it has followed
   // the propellant since this milestone, and pairing a variable inertia with a
@@ -354,7 +338,7 @@ function aeroDescentController(state: SimState): void {
   if (
     (kinematics.altitude < autopilot.bellyFlopTriggerAltitude &&
       kinematics.speedY < 5 &&
-      kinematics.altitude < 2500) ||
+      kinematics.altitude < C.flipTriggerCeiling) ||
     kinematics.altitude < 300
   ) {
     autopilot.aeroDescentCompleted = true;
@@ -380,7 +364,7 @@ function flipStageController(state: SimState): void {
 
 /** autoPilotModes.js:290 — null out horizontal error before the final burn. */
 function horizontalAdjustmentStageController(state: SimState): void {
-  const { autopilot, kinematics, vehicle, engines, status } = state;
+  const { autopilot, kinematics, engines, status } = state;
 
   if (!autopilot.horizontalAdjustmentStageInitialised) {
     if (status.finActive) cmd.toggleFin(state);
@@ -407,17 +391,9 @@ function horizontalAdjustmentStageController(state: SimState): void {
     targetDifference += 4;
   }
 
-  // M11.2: PESSIMISTIC means the sea-level thrust, not the thrust at the
-  // current altitude — the burn this sizes ends at the pad, where thrust is
-  // lowest, and `updateBellyFlopTriggerAltitude` reasons from the same fixed
-  // worst case. Reading the thrust here would overstate it by 1.5% at 2 km.
-  const finalStagePessimisticAvailableAcc =
-    getTotalMaxThrust(engines.running, C.SEA_LEVEL_PRESSURE_PA / 1000) / vehicle.vehicleMass -
-    C.gravity;
-  const finalStagePessimisticDuration =
-    -kinematics.speedY / finalStagePessimisticAvailableAcc + 1;
-  autopilot.finalStagePessimisticAltitude =
-    -kinematics.speedY * finalStagePessimisticDuration * 0.5 + C.vehicleHeight * 0.5;
+  // Phase 5: the burn on the engines running now, from the predictor
+  // (./landing-burn.ts), with its one-second margin.
+  autopilot.finalStagePessimisticAltitude = finalDescentStartAltitude(state);
 
   autopilot.horizontalAdjustmentTimeLeft =
     (kinematics.altitude - autopilot.finalStagePessimisticAltitude - C.vehicleHeight / 2) /
@@ -598,7 +574,7 @@ function predictedDeorbitRange(state: SimState): number {
   // The engines are OFF while this decision is being made — the mode shut them
   // down at configure — so what matters is the thrust that will light, not the
   // thrust that is lit. An engine that has failed will not.
-  const willLight = engines.failed.reduce((n, failed) => (failed ? n : n + 1), 0);
+  const willLight = getHealthyEngineCount(engines.failed);
   if (willLight <= 0) return Infinity;
 
   // M11.2: the burn happens where the air is, which at 150 km is nowhere — so

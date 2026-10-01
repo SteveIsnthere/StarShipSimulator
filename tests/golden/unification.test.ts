@@ -26,6 +26,10 @@
  *     M11.3   velocity Verlet                    ALL EIGHT
  *     M11.8   the centre of mass moves           ALL EIGHT
  *     M12     the angular drag axis              ALL EIGHT
+ *     P5.3    guidance on local gravity          ALL EIGHT
+ *     P5.4    the burn sized by the predictor    five: three fly, two plan
+ *     P5.5    dead prediction fields removed     moved NOTHING (headers only)
+ *     P5.6    the trigger computed where it acts re-entry and RTLS, planning keys only
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -122,6 +126,57 @@
  * sooner and is still burning as it goes over the top, so MECO now follows
  * APOGEE. Apogee drops 20.8 km to 19.3. See tests/hud/timeline.test.ts.
  *
+ * P5.3 (Phase 5, Task 3, Fidelity) moving all eight is the shape of a change
+ * to the throttle laws every flight runs through: the TWR laws size thrust
+ * against `localGravity` (gravity at altitude less the centrifugal term)
+ * instead of a flat 9.807 m/s², and boost-back commands its 1.6 g0 deceleration
+ * as an acceleration instead of a TWR. The four landings move: up to 1 m of
+ * altitude and 1.2 m/s of vertical speed mid-burn, all still touching down at
+ * 25.0 m and 0.00 m/s, with slightly more propellant left (a TWR of 1 no longer
+ * over-thrusts by 0.8%). Ascent, both boost-backs and re-entry move by under a
+ * millimetre, in throttle-command keys only: in their recorded windows the
+ * engines are either saturated at full throttle or off, so the law changes the
+ * command and almost nothing physical. THE INTRO (protected): the same engines
+ * lit at touchdown (none), touchdown 9.775 s against 10.108 s, inside the
+ * plan's +-0.5 s; its last engine shuts down 0.33 s sooner, which is the true
+ * gravity being lower than the flat one. Margins before and after:
+ * tests/golden/landing-margins.json and the commit message.
+ *
+ * P5.4 (Phase 5, Task 4, Fidelity): the flip trigger and the end of the
+ * horizontal adjustment size the landing burn with the predictor (gravity at
+ * altitude, thrust at altitude, tail-first drag, mass flow) on the same
+ * one-engine ladder, instead of a flat-g, sea-level, drag-free estimate; no
+ * margin is added (two were tried and both starved the one-engine-out deorbit
+ * of propellant; see src/core/autopilot/landing-burn.ts), and the dead
+ * `dualRaptorMode`/`trialRaptorMode` flags go. THREE FLY DIFFERENTLY:
+ * before-flip and both landing-burns (up to 41 m and 17 m/s mid-descent), all
+ * landing, before-flip 1.5 m from the pad and landing-burn 0.5 m. THE TRADE:
+ * the short flights spend propellant (before-flip 7.75 -> 4.61 t, landing-burn
+ * 13.97 -> 12.72 t and 2.8 s longer) while the long ones keep more (1.1 -> 1.4
+ * t); everything lands. TWO MOVE ONLY
+ * IN THEIR PLANNING KEYS: re-entry and RTLS, whose recorded windows reach the
+ * aero descent, where the trigger is recomputed every step, but end before the
+ * flip: `bellyFlopTriggerAltitude` and `finalStagePessimisticAltitude` change,
+ * nothing physical does. The commit predicted re-entry but NOT RTLS, wrongly
+ * assuming its 120 s window ended before the aero descent; the code's reach was
+ * right, the prediction was not. Ascent, booster-sep and the intro do not move
+ * (the intro runs only the final descent, which this does not touch); every
+ * fixture's header loses the two flags.
+ *
+ * P5.5 removed `autopilot.freeFallTimeRemainingPrediction` and
+ * `finalXPosPrediction`, set to Infinity and never filled in since the port.
+ * They were constant in every fixture, so they lived in the headers: every
+ * file changes, no rows block does, and every digest above is unchanged. That
+ * is the check that the removal is only a removal.
+ *
+ * P5.6 computes the flip trigger only below the 2 500 m it can act under
+ * (`flipTriggerCeiling`; aeroDescentController reads it nowhere higher): the
+ * predictor behind it was too costly to run every step from 80 km down, and it
+ * timed the orbit tests out under coverage. Re-entry and RTLS, whose windows
+ * end above the ceiling, lose the two planning keys from their rows (they are
+ * constant now, so they move to the header); nothing else moves, and the
+ * flights are bit-for-bit the same.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -190,16 +245,15 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // All eight last moved at M12 debt (angular damping), Fidelity: the drag
-  // integral is taken about the centre of mass.
-  'launch-pad-takeoff': 'f1436278769e9c4d50eda7bd43e8a052e3ab4b3c97032d66680a32c18297dd28',
-  'booster-sep-boostback': 'eecdc5f7a6a4826ba86c253d89ee7ceada3e6bb79050e07e4d94e6b40d23e97c',
-  'rtls-boostback': 'da2fee209b1d6ecd48dff67f3befcc239fcff7481e2b6834384f7d702506985c',
-  'reentry-autoland': 'a77b487754fc0098c247f828180021cfbb7cd7569f0ead0124ee53b6c4afcbf2',
-  'before-flip-autoland': '6480bcb93bc150f108c274adb3e1f323a745c2c292ab6af8a93d1e90a622179b',
-  'landing-burn-autoland': '01d1f27be62b84ff89fcfdc130343325960077db20114651c1295e1436592378',
-  'landing-burn-headwind': '213f39d923bda378f51b61e8d67ae95bb25d9664c94f3a2d3816a25cdfa5cdd4',
-  'intro-demo': 'd83caffeb7836ec62dafd7b2b157ade87259b097ed4bfe0cc8f307578a211109',
+  // P5.3 (all eight), P5.4 (five), P5.6 (two): see the table above.
+  'launch-pad-takeoff': '520b3264c3f22ea479601c578ed37436f0a7b85dbdcde56e18c5fb054cc44e27',
+  'booster-sep-boostback': '213f6e221a047db82a787eb31d62793c0846cf2b6faf0cfe4fb8ae1add880422',
+  'rtls-boostback': '0ca7313673a5546c3e0202ac1987d2f8870db19093fd10b82effbfc9b506eb09',
+  'reentry-autoland': '09ac1ce2faaccbbd03ad5831d7810a60a01d4594b86e8fddf77da887623810f5',
+  'before-flip-autoland': '46148aebd23beff329356094d15ed307c68c9fcf00915bd1f93d3ede7a00ee6d',
+  'landing-burn-autoland': '45f42931ca0eb7f419e6d3ff749b941d3fcb0b466739897c7566bcc8571a44a0',
+  'landing-burn-headwind': 'a56dc0fd15ffdcb6500bafcb169a458af55471320e6075ad4d09b61f6a092a1f',
+  'intro-demo': 'ebf86ff5b168f716b66def589be50e0db550ec30141769994b663611510fc90b',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

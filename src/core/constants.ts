@@ -45,24 +45,6 @@ export const gravitationalConstant = 6.674e-11;
  * g, and the add-back in getVerticalAcceleration.
  */
 export const gravity = 9.807;
-/**
- * kg/m — the lumped quadratic-drag coefficient in the autopilot's fall
- * predictions. NOT dimensionless, which is what this said until M9.4.
- *
- * Its own use proves it. `getFreeFallTimeRemainingPrediction` computes
- * `sqrt(vehicleMass / (gravity * airResistance_k))` and calls the result
- * seconds; for that to be seconds, `kg / ((m/s^2) * k)` must be s^2, so k is
- * kg/m. The same function then exponentiates
- * `(altitude - goalHeight) * airResistance_k / vehicleMass`, which is
- * `m * (kg/m) / kg` — dimensionless, as an exponent has to be. Both readings
- * agree, and both agree with the physics: a drag law `F = k v^2` has k in kg/m
- * because newtons are kg m/s^2.
- *
- * A drag COEFFICIENT is the dimensionless thing this is not; `hud/prediction.ts`
- * also divides by it to get a time constant `mass / (k * speed)`, which is
- * seconds only under the same reading.
- */
-export const airResistance_k = 250;
 
 /**
  * m/s. Constant in the 2021 model. The real value at 11 km is ~295 m/s, so Mach
@@ -474,8 +456,20 @@ export const initAutoLandXPosDiffThreshold = 500;
 export const propulsiveCorrectionMinHeight = 5000;
 /** m */
 export const propulsiveCorrectionAccuracyRequired = propulsiveCorrectionMinHeight * 0.05;
-/** m/s^2 */
+/**
+ * m/s^2 — boost-back's target horizontal deceleration: 1.6 g0, about 15.7.
+ * An acceleration, commanded as one (`controlEngineForAcceleration`); until
+ * Phase 5 it was divided by the flat g and sent through the TWR law.
+ */
 export const decelerationStageHorizontalAcc = gravity * 1.6;
+
+/**
+ * m — the highest the flip can trigger: the aero descent hands over only below
+ * it (or below 300 m, whatever the trigger says). The trigger is computed only
+ * under it, because above it nothing reads the value (Phase 5: the predictor
+ * behind the trigger is too costly to run for a number nothing uses).
+ */
+export const flipTriggerCeiling = 2500;
 
 /** Engine count used for the pessimistic final-descent thrust estimate. */
 export const autoLandFinalStageEngineCount = 1;

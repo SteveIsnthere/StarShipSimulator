@@ -37,32 +37,21 @@ function fly(initial: SimState, maxSeconds: number): { outcome: Outcome; seconds
 }
 
 /**
- * No NaN anywhere, and no Infinity outside the two fields where it means
- * something.
+ * No NaN and no Infinity anywhere.
  *
- * The distinction is not pedantry. `freeFallTimeRemainingPrediction` and
- * `finalXPosPrediction` are Infinity when the prediction has no solution — the
- * vehicle is not falling, or thrust exceeds gravity — and that is the 2021
- * model's own answer, ported verbatim and already encoded in the golden
- * fixtures (which needed an Infinity sentinel for exactly this). A blanket
- * `Number.isFinite` check would flag them, and the fix would be to weaken the
- * check until it caught nothing.
- *
- * A NaN, by contrast, is always a dead simulation: it propagates through every
+ * Until Phase 5 two fields were exempt: `freeFallTimeRemainingPrediction` and
+ * `finalXPosPrediction`, Infinity as the 2021 model's "no solution". Nothing
+ * ever filled them in, and Phase 5 removed them, so the check is total: a
+ * non-finite number is always a dead simulation. A NaN propagates through every
  * subsequent step and nothing recovers.
  */
-const INFINITY_IS_MEANINGFUL = new Set([
-  'autopilot.freeFallTimeRemainingPrediction',
-  'autopilot.finalXPosPrediction',
-]);
-
 function assertFinite(state: SimState, label: string): void {
   const bad: string[] = [];
   const walk = (value: unknown, path: string) => {
     if (typeof value === 'number') {
       if (Number.isNaN(value)) {
         bad.push(`${path} = NaN`);
-      } else if (!Number.isFinite(value) && !INFINITY_IS_MEANINGFUL.has(path.split('.').slice(1).join('.'))) {
+      } else if (!Number.isFinite(value)) {
         bad.push(`${path} = ${value}`);
       }
       return;

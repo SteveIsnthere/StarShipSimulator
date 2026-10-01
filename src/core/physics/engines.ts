@@ -36,6 +36,11 @@ export function getWorkingEngineCount(running: readonly boolean[]): number {
 */
 
 /** physics.js:267, at ambient pressure. @returns N */
+/** Raptors that have not failed: the ones that will light when commanded. */
+export function getHealthyEngineCount(failed: readonly boolean[]): number {
+  return failed.reduce((n, f) => (f ? n : n + 1), 0);
+}
+
 export function getTotalMaxThrust(running: readonly boolean[], ambientPressureKPa: number): number {
   return getWorkingEngineCount(running) * C.thrustPerRaptorAt(ambientPressureKPa);
 }

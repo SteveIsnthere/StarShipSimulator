@@ -4,7 +4,7 @@
 
 **Goal:** The autopilot sizes its burns, throttles and triggers from the simulation's own gravity, thrust and drag, and the HUD's impact predictor integrates the same drag the simulation does. Phase 6 can then make the aero real without breaking every landing.
 
-**Architecture:** One allocation-free guidance-physics module in `src/core/autopilot/` answers the questions guidance asks:
+**Architecture:** One allocation-free guidance-physics module in `src/core/control/` answers the questions guidance asks:
 - local gravity;
 - thrust for a given engine count at a given air pressure;
 - drag deceleration at a given attitude;
@@ -45,6 +45,10 @@ The roadmap said the autopilot and the predictor use g = 9.807 and `airResistanc
 
 ## Global Constraints
 
+**Stop rule, as used in Task 4:** two principled attempts at the margin; the second (none) passed.
+
+**Baseline (Task 1, 2026-10-01).** The burn slack runs from −20.2 m (landing-burn, where the old estimate was optimistic) to +68.2 m (before-flip). Engine-out: landing-burn with two engines out crashes today; the other three variants land. The intro touches down at 10.108 s with all engines off.
+
 **Tiers and goldens**
 - Every change to `src/core` names its tier (`physics-change-policy`). The guidance changes are **Fidelity, approved by this plan**. Helpers that must not change numbers are **Refactor**, with a ≤ 1 ULP proof in `tests/proofs/`.
 - One golden re-bless per task:
@@ -75,7 +79,7 @@ Task 8 closes the phase with parked tasks listed and their truth tests left as `
 
 **Performance**
 - The guidance path allocates nothing per step (`sim-core-conventions`).
-- A predictor call costs at most 400 integration sub-steps of 0.05 s and reuses one scratch object.
+- A predictor call costs at most 1,200 midpoint sub-steps of 0.05 s (60 s of burn) per mass pass, and reuses one scratch object. Measured: 0.04–0.5 ms a call, about 0.1 ms at the flip trigger.
 - `tests/view/perf.test.ts` (sim step under 1 ms) stays green.
 
 ## Review Focus
@@ -99,15 +103,15 @@ Task 8 closes the phase with parked tasks listed and their truth tests left as `
   - `scripts/deorbit-range.mjs` (as `npm run deorbit:range`).
 
 **Steps**
-- [ ] `npm run margins` writes, for every scenario under autopilot:
+- [x] `npm run margins` writes, for every scenario under autopilot:
   - touchdown vertical and horizontal speed, propellant left, miss distance and touchdown time;
-  - **at the moment the flip triggers**: the altitude, the vertical speed, and the trigger altitude minus the burn altitude a fine-step `step()` run actually needed (the trigger slack);
+  - **at the moment the flip triggers**: the altitude and vertical speed; the autopilot's own burn estimate (`finalStagePessimisticAltitude`); the burn altitude the simulation actually needed; and their difference, the **burn slack**. The needed altitude is measured from a copy of the state, held upright, with every working engine lit at full throttle, by bisection for the lowest start that stops at touchdown height;
   - for the intro (seed 1463897163): each engine's shutdown time and the engines lit at touchdown.
 
   Commit the output. Every later task diffs against it in its commit body.
-- [ ] Engine-out baseline: full flights with one and with two engines failed from the start of the landing burn, on landing-burn and before-flip. The test asserts today's outcomes exactly as they are: those that land must land, and those that don't are recorded as such. It is a regression net, not a wish list.
-- [ ] `npm run deorbit:range` measures the downrange distance `autoLand` covers from the entry interface (`constants.ts:443-450`), so Task 3 onward can re-derive `DEORBIT_ENTRY_RANGE`.
-- [ ] Behaviour truth tests that need no new module, so they compile today.
+- [x] Engine-out baseline: full flights with one and with two engines failed from the start of the landing burn, on landing-burn and before-flip. The test asserts today's outcomes exactly as they are: those that land must land, and those that don't are recorded as such. It is a regression net, not a wish list.
+- [x] `npm run deorbit:range` measures the deorbit flight and prints the re-derived `DEORBIT_ENTRY_RANGE`. The constant is the burn's aim, not the measured crossing-to-touchdown distance; that distance is 857 km against the 838 km constant, while the miss is 0.01 km. So the re-derived value is the constant plus the miss, and `tests/core/deorbit-range.test.ts` holds the miss under 1 km.
+- [x] Behaviour truth tests that need no new module, so they compile today.
 
   **The throttle law at hover.** Set engines lit, throttle at 100 and pitch held. Then call `controlEnginebyEffectiveVerticalTWR(state, 1)` and take one `step()`.
   - Expected: vertical acceleration within 0.02 m/s² of zero, at 0, 10 and 80 km.
@@ -120,7 +124,7 @@ Task 8 closes the phase with parked tasks listed and their truth tests left as `
 ### Task 2: The guidance-physics module
 
 **Files**
-- Create `src/core/autopilot/guidance-physics.ts` and `tests/core/guidance-physics.test.ts`.
+- Create `src/core/control/guidance-physics.ts` and `tests/core/guidance-physics.test.ts`.
 - Create `isaAtmosphereInto(altitude, out)` beside `isaAtmosphere` (`isa.ts`). It writes temperature, pressure and density into a scratch object, with a ≤ 1 ULP proof against `isaAtmosphere` in `tests/proofs/` (Refactor).
 
 **Interfaces (Produces)**
@@ -131,16 +135,15 @@ Task 8 closes the phase with parked tasks listed and their truth tests left as `
   - Integrates **backward** from v = 0 at `touchdownHeight`.
   - At each altitude: full thrust at that altitude's pressure, `gravityAt(r(h))` (no centrifugal term: a future vertical burn is not at today's horizontal speed), the tail-first drag, and mass growing backward at the full-thrust flow rate.
   - Integration runs until the descent speed reaches the vehicle's current |vY|. That altitude is the start altitude.
-  - Sub-step 0.05 s, cap 400 steps. Returns `null` if the cap is reached first.
-- `unpoweredFallInto(state, out): void` — the 2D unpowered fall for the HUD (Task 7): gravity at altitude and drag at the current attitude, integrated to the ground. The result goes into a scratch object.
+  - Midpoint sub-steps of 0.05 s, cap 1,200 (60 s). The touchdown mass is solved by a secant iteration on the fixed point (current mass less the fuel the burn uses), seeded from the sea-level burn time. Returns `null` if the cap is reached, the deceleration is not positive, or the burn needs more propellant than the vehicle carries.
 
 **Steps**
-- [ ] Unit tests for each function, against hand-computed values at sea level, 10 km and 80 km.
-- [ ] Test the `null` path: two engines on a full-mass vehicle at 300 m/s descent returns `null` within the cap.
-- [ ] Test that the clamp holds at orbital speed.
-- [ ] fast-check: the start altitude is monotonic in descent speed and in mass.
-- [ ] The Task 1 stopping-altitude cases pass against the fine-step references, within **2% of the burn distance or 20 m**, whichever is larger.
-- [ ] A per-call timing test in `*.timing.test.ts` stays under 0.2 ms.
+- [x] Unit tests for each function, against hand-computed values at sea level, 10 km and 80 km.
+- [x] Test the `null` path: two engines on a full-mass vehicle at 300 m/s descent returns `null` within the cap.
+- [x] Test that the clamp holds at orbital speed.
+- [x] fast-check: the start altitude is monotonic in descent speed and in mass.
+- [x] The Task 1 stopping-altitude cases pass against the fine-step references, within **2% of the burn distance or 20 m**, whichever is larger.
+- [x] A per-call timing test in `*.timing.test.ts` stays under 0.2 ms at the flip-trigger state.
 
 ### Task 3: Boost-back target and the TWR laws on local gravity (Fidelity)
 
@@ -149,28 +152,27 @@ Boost-back goes first and in the same commit, because changing the TWR law under
 **Files:** `src/core/autopilot/index.ts:190`, `src/core/constants.ts` (`decelerationStageHorizontalAcc`), `src/core/control/primitives.ts` (`controlEnginebyTWR`, `controlEnginebyEffectiveVerticalTWR`, `getTWR`), tests.
 
 **Steps**
-- [ ] Convert boost-back's deceleration command to an acceleration target. The throttle comes from the required force, `mass × decel`, over the thrust at the current pressure, with no g in it. Keep the target value at its present 15.69 m/s² (`9.807 × 1.6`), now written as an acceleration with that derivation in its comment. Its MECO and time-to-site estimates use the same thrust.
-- [ ] Replace `C.gravity` with `localGravity(state)` in the three TWR laws. `C.gravity` stays for the non-guidance uses (the TWR display, felt g, the g-limit check), which belong to Phase 6.
-- [ ] **Predicted to move: all eight goldens**, because the ascent, the boost-back, every landing and the intro all run through these laws.
-- [ ] Measure the intro on its seed before and after. Inside the constraint, re-bless. Outside it, apply the stop rule and park.
-- [ ] Re-measure the deorbit range and update the constant if it moved.
-- [ ] Margins, engine-out outcomes and the hover truth test go in the commit body; the hover test turns into a plain `it`.
-- [ ] Add a mutant to `tests/mutations.json` in this commit: `localGravity(state)` back to `C.gravity` in `controlEnginebyEffectiveVerticalTWR`. The hover test must catch it.
+- [x] Convert boost-back's deceleration command to an acceleration target. The throttle comes from the required force, `mass × decel`, over the thrust at the current pressure, with no g in it. Keep the target value at its present 15.69 m/s² (`9.807 × 1.6`), now written as an acceleration with that derivation in its comment. Its MECO and time-to-site estimates use the same thrust.
+- [x] Replace `C.gravity` with `localGravity(state)` in the three TWR laws. `C.gravity` stays for the non-guidance uses (the TWR display, felt g, the g-limit check), which belong to Phase 6.
+- [x] **Predicted to move: all eight goldens**, because the ascent, the boost-back, every landing and the intro all run through these laws.
+- [x] Measure the intro on its seed before and after. Inside the constraint, re-bless. Outside it, apply the stop rule and park.
+- [x] Re-measure the deorbit range and update the constant if it moved.
+- [x] Margins, engine-out outcomes and the hover truth test go in the commit body; the hover test turns into a plain `it`.
+- [x] Add a mutant to `tests/mutations.json` in this commit: `localGravity(state)` back to `C.gravity` in `controlEnginebyEffectiveVerticalTWR`. The hover test must catch it.
 
 ### Task 4: Burn sizing and the flip trigger on the predictor (Fidelity)
 
 **Files:** a new `src/core/autopilot/landing-burn.ts` holding the sizing; `src/core/autopilot/index.ts` (call sites only: `updateBellyFlopTriggerAltitude` at `:283-317`, horizontal adjustment at `:413-422`, `:459`); tests.
 
 **Steps**
-- [ ] Remove the thrust ladder's dead flags (`dualRaptorMode`, `trialRaptorMode`). The engine count for sizing is the number of engines not failed.
-- [ ] Compute both pessimistic altitudes from `landingBurnStartAltitude`:
-  - **Trigger altitude** = predicted start altitude + the distance fallen during the flip (flip duration × |vY|, as today) + **one named margin**.
-  - **Margin** = the largest trigger slack Task 1 measured on any scenario that lands today, rounded up to the next 50 m, and never less than 100 m. Computed once from `landing-margins.json`, written as a constant with that derivation, and **not adjusted afterward**. If a scenario then fails to land, that is the stop rule, not a reason to raise the margin.
-  - **Horizontal adjustment** keeps its `+1 s` and `*1.1` exit as named margins, now on the predicted altitude.
-  - A `null` prediction means "trigger now".
-- [ ] Predicted to move: reentry, before-flip, landing-burn (with and without headwind), booster-sep and rtls. The intro does not run this code (`demoAutoLand` runs only `finalDescentStageController`), so its digest must not move from this task. Its moving is a defect.
-- [ ] Engine-out outcomes do not get worse. Deorbit range re-measured. Margins in the commit body.
-- [ ] Add a mutant in this commit: drag dropped from the predictor. The Task 2 stopping-altitude cases must catch it.
+- [x] Remove the thrust ladder's dead flags (`dualRaptorMode`, `trialRaptorMode`). The ladder's engine count is capped by the engines not failed.
+- [x] Compute both pessimistic altitudes from `landingBurnStartAltitude`:
+  - **Trigger altitude** = the predicted burn on the **planned engine count** (2021's one-engine ladder, kept: it is the trigger's engine-out pessimism, a design choice), plus the flip's fall and the ignition mean, as before. **No added margin** (decided while building, 2026-10-01): the planned flat 100 m (from Task 1's burn slack, which turned out to compare a one-engine plan with an all-engines-from-cold burn, so it did not describe this) and a derived 0.9 s (ignition spread plus throttle slew) each flipped the vehicle earlier, and the longer hover ran the one-engine-out deorbit out of propellant. That flight lands with none to spare at baseline. The predictor is within a metre of the simulation, so a margin would only spend fuel.
+  - **Horizontal adjustment** keeps its `+1 s` as a named margin and its `*1.1` exit, now on the predicted altitude with the engines running.
+  - A `null` prediction means "start now" (also when the burn needs more propellant than is aboard).
+- [x] Predicted to move: reentry, before-flip, landing-burn (with and without headwind). Moved: those, plus RTLS in its planning keys only (its window reaches the aero descent; the prediction was wrong, not the code). The intro, ascent and booster-sep do not move.
+- [x] Engine-out outcomes do not get worse. Deorbit range re-measured. Margins in the commit body.
+- [x] Add a mutant in this commit: drag dropped from the predictor. The Task 2 stopping-altitude cases must catch it.
 
 ### Task 5: The HUD predictor on the simulation's drag (no core physics change)
 
@@ -186,13 +188,20 @@ Boost-back goes first and in the same commit, because changing the TWR law under
   - the comment in `record.ts:151`.
 
 **Steps**
-- [ ] Rebuild `predict()` on `unpoweredFallInto`, and delete the false comment.
-- [ ] Record the error bounds against the goldens in `prediction.test.ts`, before and after. Tighten them to what the new predictor achieves, never loosen.
-- [ ] Removing the dead fields changes the goldens' keys only. Re-bless with an audit row saying so: "keys removed, no row values changed". Verify that claim by diffing the rows blocks.
+- [x] Add `unpoweredFallInto(state, out)` to `guidance-physics.ts`: the 2D unpowered fall (gravity at altitude, drag at the current attitude, integrated to the ground into a scratch object), with unit tests against a `step()` run. Rebuild `predict()` on it, and delete the false comment.
+- [x] Record the error bounds against the goldens in `prediction.test.ts`, before and after. Tighten them to what the new predictor achieves, never loosen.
+- [x] Removing the dead fields changes the goldens' keys only. Re-bless with an audit row saying so: "keys removed, no row values changed". Verify that claim by diffing the rows blocks.
 
 ### Task 6: Close
 
-- [ ] `docs/reference/physics-model.md` gains a "Guidance" section. It covers what guidance assumes, the predictor, the named margins and their derivations, and the deorbit range's measurement.
-- [ ] Remove the backlog rows this phase answers: the `airResistance_k` row. Remove `horizontalSteering` calling `precisionAlignment` twice only if Task 4 resolved it. Add the `controlEnginebyTWR` divide-by-`throttleCurrent` quirk as a new row.
-- [ ] Run the full gate, `npm run mutation` (every guidance mutant from a landed task caught), `npm run truth:report` and `/code-review high`. Then send the physics to an independent reviewer that never saw it.
-- [ ] Merge, verify the deploy, tick Phase 5 with any parked task named, and write the Phase 6 plan.
+- [x] `docs/reference/physics-model.md` gains a "Guidance" section. It covers what guidance assumes, the predictor, the named margins and their derivations, and the deorbit range's measurement.
+- [x] Remove the backlog rows this phase answers: the `airResistance_k` row. Remove `horizontalSteering` calling `precisionAlignment` twice only if Task 4 resolved it. Add the `controlEnginebyTWR` divide-by-`throttleCurrent` quirk as a new row.
+- [x] Run the full gate, `npm run mutation` (every guidance mutant from a landed task caught), `npm run truth:report` and `/code-review high`. Then send the physics to an independent reviewer that never saw it.
+- [x] Merge, verify the deploy, tick Phase 5 with any parked task named, and write the Phase 6 plan.
+
+## Close-out (2026-10-01)
+
+- **Done:** Tasks 1–6 on `claude/guidance`. Every scenario lands; the intro moved 0.333 s (inside ±0.5 s), none lit at touchdown; engine-out outcomes unchanged; deorbit miss 0.01 km; mutation 11/11; truth report unchanged.
+- **Decided while building** (each recorded where it lives): the trigger keeps the one-engine ladder and adds no margin (two tried, both starved the one-engine-out deorbit); `DEORBIT_ENTRY_RANGE` stays (re-derived within 11 m); the trigger is computed only below `flipTriggerCeiling`; the predictor answers `null` ("start now") rather than guess when a burn is longer than its 60 s cap.
+- **Reviews:** `/code-review high` (six findings, all fixed); an independent reviewer (nothing blocking; one real defect in the mass iteration, fixed, and fixing it exposed the cap case, also fixed).
+- **Left for later** (backlog): the 12 t `dumpLimit` leaves no engine-out reserve (engine-out deorbits land with 0.1–0.2 t); `controlEnginebyTWR`'s divide-by-`throttleCurrent` quirk.

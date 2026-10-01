@@ -146,6 +146,12 @@ describe('autoLand — the landing-target offsets by engine configuration', () =
     s.autopilot.horizontalAdjustmentStageInitialised = true;
     s.autopilot.landingSiteXPos = 1_000;
     s.engines.running = running;
+    // A vehicle one engine can actually stop: the burn has to be possible for
+    // the stage to leave time to adjust in (Phase 5 sizes it with the
+    // predictor, which answers "now" for a burn that cannot stop the vehicle;
+    // the old formula returned a negative altitude there).
+    s.vehicle.propellantMass = 20_000;
+    s.vehicle.vehicleMass = C.vehicleDryMass + s.vehicle.propellantMass;
     return s;
   }
 

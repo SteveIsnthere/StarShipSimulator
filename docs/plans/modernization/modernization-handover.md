@@ -10,7 +10,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 2 Truth harness | done | `53e3c26` |
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
-| 5 Guidance on real physics | plan written ([phase 5](modernization-phase-5.md)) | — |
+| 5 Guidance on real physics | done, live | (this merge) |
 | 6 Ship realism | not started | — |
 | 7 Super Heavy | not started | — |
 | 8 UX to flight_sim level | not started | — |
@@ -45,6 +45,8 @@ The unattended run's report. Updated as phases land; the last section is always 
 - **No LICENSE** in a public repo. Choose one before this grows further.
 - **Two dead remote branches**, `origin/exp` and `origin/feat/modernize-app`: nothing in either is worth keeping. Delete when you agree.
 - **Codex can't run as a peer reviewer**: `~/.codex/config.toml` names `gpt-6.1-sol`, which a ChatGPT login does not support. ChatGPT Pro and fresh subagents reviewed instead.
+
+- **Guidance (Phase 5)**: the autopilot's throttle laws, landing-burn sizing and the HUD impact predictor run on the simulation's own gravity, thrust and drag. The flip trigger keeps its one-engine pessimism with no added margin, because a one-engine-out deorbit lands with almost no propellant (the 12 t dump limit is the real constraint; backlog).
 
 ## Follow-ups recorded for Phase 8
 

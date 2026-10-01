@@ -53,7 +53,7 @@ Recorded, not built: [docs/plans/backlog/README.md](../backlog/README.md).
 - [x] Phase 2 — Truth harness ([phase plan](modernization-phase-2.md))
 - [x] Phase 3 — Design pass ([phase plan](modernization-phase-3.md))
 - [x] Phase 4 — React shell ([phase plan](modernization-phase-4.md))
-- [ ] Phase 5 — Guidance on real physics ([phase plan](modernization-phase-5.md))
+- [x] Phase 5 — Guidance on real physics ([phase plan](modernization-phase-5.md))
 - [ ] Phase 6 — Ship realism
 - [ ] Phase 7 — Super Heavy
 - [ ] Phase 8 — UX to flight_sim level

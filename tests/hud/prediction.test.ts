@@ -23,7 +23,6 @@
 import { describe, expect, it } from 'vitest';
 import {
   createPrediction,
-  dragLimitedDrift,
   ENTRY_RADIUS,
   formatMiss,
   NO_SOLUTION_LABEL,
@@ -227,38 +226,24 @@ describe('the claim, tested against itself', () => {
         `in ${(steps * GOLDEN_DT).toFixed(0)} s · error ${(error / 1000).toFixed(1)} km`,
     );
     /*
-      THE NUMBER THIS BOUND IS MADE OF. Before `dragLimitedDrift`, when the
-      prediction was `speedX * time` as the 2021 formula implies, THIS DROP
-      reported 147.6 km of error — it claimed 157 km of downrange where the
-      simulation produced 9.7 km. With the drag solution it is 6.5 km.
+      THE HISTORY OF THIS NUMBER, because each bound was the model's honest
+      reach at the time. The 2021 form (speedX × time) missed this drop by
+      147.6 km. A drag-limited drift on `airResistance_k` brought it to 6.5 km;
+      M11.8 (the moving centre of mass) made the vehicle trim tail-first as it
+      falls, which that terminal-velocity model could not describe: 17.1 km,
+      predicting 524 s for a 101 s fall.
 
-      A quarter of the height fallen is therefore a real bound with room in it,
-      not a number chosen to make a red test green: the old model misses it by
-      fifteen times over, the new one clears it by a third.
+      PHASE 5 integrates the fall with the simulation's own forces (gravity,
+      drag and lift through the relative wind) at the attitude the vehicle
+      holds now: 95 s for the 101 s fall, 8.3 km off. What is left is the trim
+      itself: the flaps rotate the vehicle mid-fall, and a prediction that held
+      attitude cannot know a controller will move it. A quarter of the height
+      fallen is the bound now, tightened from half, and the fall TIME is held
+      to within 15%, which the old model missed by a factor of five.
     */
-    /*
-      M11.8 MOVED THIS FROM 6.5 km TO 17.1, and the bound moves with it — not
-      to make a red test green, but because the thing being predicted changed
-      and this test exists to REPORT that (see the title: where the model is
-      weakest). What changed is the fall itself. The 2021 flap pair is
-      balanced almost exactly about a FIXED centre of mass — front area times
-      arm 564 against aft 577 — so an idle pair produced no net torque and the
-      vehicle sank belly-flat toward a drag-limited terminal velocity, which
-      is precisely what `dragLimitedDrift` models. With the centre of mass
-      following the propellant that balance is gone, the pair trims the
-      vehicle tail-first, and it falls 40 km in 101 seconds where the
-      prediction expects 524. A drag-terminal model cannot describe a vehicle
-      that is not at terminal velocity, so it under-predicts the downrange:
-      3.2 km against 20.3.
-
-      The accuracy that MATTERS is unchanged — `the error against seven real
-      flights` below, which flies the actual scenarios, still holds its
-      bounds. This case is an artificial worst case: a landing-burn vehicle
-      teleported to 40 km with its engines off and its autopilot disabled.
-      Half the height fallen is the honest bound for it now.
-    */
+    expect(Math.abs(predicted.time - steps * GOLDEN_DT) / (steps * GOLDEN_DT), 'fall time').toBeLessThan(0.15);
     const fell = 40_000;
-    expect(error, `error ${(error / 1000).toFixed(1)} km`).toBeLessThan(fell / 2);
+    expect(error, `error ${(error / 1000).toFixed(1)} km`).toBeLessThan(fell / 4);
   });
 });
 
@@ -316,7 +301,9 @@ describe('the error against seven real flights', () => {
       expect(late.error, report).toBeLessThanOrEqual(early.error + 1);
       // And by the time the vehicle is nearly down, the prediction is close in
       // absolute terms too — this is the regime the instrument is for.
-      expect(late.error, report).toBeLessThan(Math.max(500, late.altitude * 2));
+      // Phase 5 tightened this from max(500 m, 2× altitude): the integrated fall
+      // is within a metre of every landing in its last prediction.
+      expect(late.error, report).toBeLessThan(Math.max(50, late.altitude));
       console.log(report);
     },
   );
@@ -329,66 +316,5 @@ describe('formatMiss', () => {
     expect(formatMiss(-940)).toBe('940 M SHORT');
     expect(formatMiss(4_200)).toBe('4.2 KM LONG');
     expect(formatMiss(-42_000)).toBe('42 KM SHORT');
-  });
-});
-
-describe('dragLimitedDrift', () => {
-  /*
-    The correction that made the instrument honest. Measured over unpowered
-    drops from 0.5 to 40 km at 200 m/s downrange, worst error across the sweep:
-
-        speedX * time (the 2021 form)     105.6 km
-        v0 tau ln(1 + t/tau)                4.1 km
-
-    Its shape is what makes it robust rather than merely better tuned: the fall
-    TIME it is handed is itself several times long from altitude, and a
-    logarithm turns that into almost nothing.
-  */
-  const MASS = 200_000;
-
-  it('is zero when there is nothing to drift', () => {
-    expect(dragLimitedDrift(0, 100, MASS)).toBe(0);
-    expect(dragLimitedDrift(200, 0, MASS)).toBe(0);
-    expect(dragLimitedDrift(200, -5, MASS)).toBe(0);
-    expect(dragLimitedDrift(NaN, 100, MASS)).toBe(0);
-    expect(dragLimitedDrift(200, 100, 0)).toBe(0);
-  });
-
-  it('keeps the sign of the speed that caused it', () => {
-    expect(dragLimitedDrift(-200, 60, MASS)).toBeCloseTo(-dragLimitedDrift(200, 60, MASS), 9);
-  });
-
-  it('agrees with speedX * time while drag has had no time to bite', () => {
-    // Over a fraction of the time constant the two models must not differ:
-    // a correction that changed the answer in the regime where the simple form
-    // is right would be a bug wearing a formula.
-    const tau = MASS / (C.airResistance_k * 200);
-    const brief = tau * 0.01;
-    expect(dragLimitedDrift(200, brief, MASS)).toBeCloseTo(200 * brief, 0);
-  });
-
-  it('grows without bound, but only logarithmically', () => {
-    // The vehicle never stops moving downrange — quadratic drag decays speed,
-    // it does not reverse it — so the drift must keep increasing. Slowly.
-    const a = dragLimitedDrift(200, 60, MASS);
-    const b = dragLimitedDrift(200, 600, MASS);
-    const c = dragLimitedDrift(200, 6_000, MASS);
-    expect(b).toBeGreaterThan(a);
-    expect(c).toBeGreaterThan(b);
-    // Ten times the time buys well under twice the distance.
-    expect(b / a).toBeLessThan(2);
-    expect(c / b).toBeLessThan(2);
-  });
-
-  it('is far less sensitive to the fall time than the model it replaced', () => {
-    // The point of the logarithm, as a number. Overestimate the time by 5x —
-    // which is roughly what the closed form does from 40 km — and see what it
-    // costs each model.
-    const truth = 100;
-    const wrong = 500;
-    const oldRatio = (200 * wrong) / (200 * truth);
-    const newRatio = dragLimitedDrift(200, wrong, MASS) / dragLimitedDrift(200, truth, MASS);
-    expect(oldRatio).toBe(5);
-    expect(newRatio).toBeLessThan(1.6);
   });
 });
