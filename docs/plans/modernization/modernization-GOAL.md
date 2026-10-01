@@ -3,21 +3,22 @@
 Continue independently through ONLY this roadmap:
 /Users/stevewang/dev/StarShipSimulator-realism/docs/plans/modernization/modernization-roadmap.md
 
-Run from the worktree `/Users/stevewang/dev/StarShipSimulator-realism`, which has branch `claude/ship-realism` checked out (Phase 6). It already exists; do not recreate it. Each later phase gets its own `claude/<slug>` branch from `main` (6b: `claude/entry-on-lift`) and merges back into `main`.
+Run from the worktree `/Users/stevewang/dev/StarShipSimulator-realism`. Each phase gets its own `claude/<slug>` branch from `main` and merges back into `main`; Phase 6 was `claude/ship-realism` (merged), Phase 6b is `claude/entry-on-lift` (create it from `main` in this worktree).
 
 There is no Jira board for this repo. `docs/plans/` is the system of record: the roadmap's Status checkboxes, the phase plans' task checkboxes, `modernization-handover.md`, and `docs/plans/backlog/README.md`. Do not look for tickets.
 
 ## Current truthful status
 
-- Phases 1–5 are done and live on `main` (merges `f14aadb`, `53e3c26`, `dfab3c8`, `b84b746`, `3429ea1`). Phase 6 is in progress: 5 of 10 phases done (1–5, 6, 6b, 7, 8, 9), about 55% of the roadmap counting Phase 6 as two-thirds done.
-- Phase 6 on `claude/ship-realism` (ahead of `main`, unmerged): Tasks 1, 2, 3, 4a–c and 8 are done; Tasks 5, 6, 7, 11 moved to Phase 6b.
-- **The exact first unfinished task is Phase 6, Task 10:** the mean wind profile with altitude (NASA TM-2008-215633, scaled by the scenario's surface wind) and Dryden turbulence from its own seeded RNG stream (`modernization-phase-6.md`, Task 10).
+- Phases 1–6 are done and on `main` (merges `f14aadb`, `53e3c26`, `dfab3c8`, `b84b746`, `3429ea1`, and Phase 6's merge of `claude/ship-realism`, named in the roadmap's Status). 6 of 10 phases done (1–5, 6, 6b, 7, 8, 9): 60%.
+- **The exact first unfinished task is Phase 6b, Task 1:** body-axis aerodynamics and an entry flown on lift (`modernization-phase-6b.md`), on branch `claude/entry-on-lift` from `main`. Its coefficient functions come from `claude/drag-parked` (commit `a06a7a4`; not its blend, not its `step.ts` wiring, not its `XLIFT` experiment line).
 - Already done and must not be redone:
-  - Phase 6 Task 1: felt g and the g-limit on felt g; the USSA76 thermosphere; the starting Mach; the emptying-step thrust; pending ignitions cancelled on an empty tank; legacy ladders moved to `tests/proofs/fixtures/`; `horizontalSteering`'s double call kept and documented.
-  - Task 2: GM 3.986004418e14, R 6,371 km, ISA geopotential on the standard's r0. Task 3: the 18 t `landingReserve`. Task 4: six Raptors (`C.RAPTORS`), RVacs, the 1.2 s start transient in the flip trigger; `DEORBIT_ENTRY_RANGE` 841.8 km. Task 8: the heat shield (Sutton-Graves W/m², skin temperature K, 1,533 K limit).
-  - Golden audit rows P6.1–P6.5 and P6.8 in `tests/golden/unification.test.ts`.
+  - Phase 6: felt g and the g-limit on felt g; the USSA76 thermosphere; the starting Mach; the emptying-step thrust; GM and R; the 18 t `landingReserve`; six Raptors with fixed RVacs (no gimbal); the 1.2 s start transient; the heat shield (Sutton-Graves W/m², skin temperature against a radiative sink, break-up on 1,533 K); the wind profile and Dryden turbulence; the rotating ground frame and all its plumbing at rate zero (`frameRotationRate`; Earth's rate is 6b Task 1b).
+  - Golden audit rows P6.1–P6.5, P6.8, P6.10–P6.12 in `tests/golden/unification.test.ts`.
 - Tried and rejected, do not repeat:
   - **Physical drag with a broadside entry** (`claude/drag-parked`): the deorbit breaks up at 1,533 K at 65 km. Swapping only the lift coefficient for a Newtonian one changes nothing at 89°. Phase 6b does it on lift, with body-axis forces.
+  - **Earth's rate on a broadside, uncontrolled descent:** the circularize-then-deorbit flight misses by 11.1 km against its 10 km acceptance; no single `DEORBIT_ENTRY_RANGE` holds both that and the 1 km health test. It waits for 6b's range control (Task 1b).
+  - **Codex as the peer reviewer:** `~/.codex/config.toml` names `gpt-6.1-sol`, unsupported on a ChatGPT login. Go straight to ChatGPT Pro (`ask-chatgpt`, the GitHub connector at the pushed SHA), then a fresh subagent.
+  - **Editing source while `npm run mutation` runs:** it mutates and restores files in place; an edit during the run is lost or corrupts the result. Run it alone.
   - **A landing reserve computed from the burn predictor** (one engine from the trigger plus the ignition delay, 6.3 t): the landing programme spends 12–14 t; it would crash every deorbit. The reserve is measured.
   - **A single `precisionAlignment` in `horizontalSteering`:** it moves two goldens.
   - **Added flip-trigger margins** (a flat 100 m; 0.9 s) on the old 12 t dump: they ran the engine-out deorbit dry.
@@ -26,7 +27,7 @@ There is no Jira board for this repo. `docs/plans/` is the system of record: the
 
 ## First task
 
-Phase 6, Task 10: write the failing tests first (`tests/core/wind-profile.test.ts`: the mean profile at the cited altitudes, the turbulence statistics of the Dryden filter over a long seeded run, the ignition draws unchanged by a turbulence stream, no turbulence in the intro), implement in `src/core/physics/` behind the existing `world.wind` / `world.gust`, then regenerate the goldens on Linux with an audit row.
+Phase 6b, Task 1: create `claude/entry-on-lift` from `main`; cherry-pick the coefficient functions and `tests/core/drag-model.test.ts` from `claude/drag-parked`; write the failing body-axis tests (`tests/core/body-axis-aero.test.ts`: lift zero and drag the crossflow at α = 90°, axial only at 0 and π, continuity across 90°); then the one force function, the sweep script, the schedule, and the Linux regeneration, exactly as the plan lists.
 
 ## Preserve these boundaries
 
@@ -53,7 +54,7 @@ Steve, 2026-10-01:
 - **Phase 6b, Entry on lift**, takes the parked drag, normal-force, fin and RCS tasks, on an entry angle-of-attack schedule (`modernization-phase-6b.md`, with its stop rule).
 - **Phase 8, Visuals, before Phase 9, UX.** All four areas: engines and plumes (per-engine sea-level and RVac plumes expanding with altitude, Mach diamonds, staging and landing glare); re-entry and heat (plasma and tile glow from the skin temperature, belly-flop shading); environment (sky by altitude and sun, Starbase pad, tower and chopsticks, ocean, coastline, clouds, night); vehicle and camera (detailed Ship and Super Heavy, moving fins, cinematic moves, shake, bloom). Phase 8 publishes its visual direction to a private review page with the `Artifact` tool and proceeds without waiting; Steve's verdict folds in as a scope change.
 
-Phase 6 calls made unattended (recorded in `modernization-phase-6.md`): the HRSI 1,533 K limit; the six-engine UI minimal until Phase 9; *Engines* (all) lights the three sea-level engines and shuts all six; the autopilot lights no RVac; the RVac exit diameter 2.3 m (commonly reported, no primary source); Earth rotation in a rotating ground frame at 26°N, done last; spool-up is the existing ignition delay.
+Phase 6 calls made unattended (now in `docs/reference/physics-model.md` and the handover): the HRSI 1,533 K limit, judged on the tile's temperature against a radiative sink (the air below 86 km); the six-engine UI minimal until Phase 9; *Engines* (all) lights the three sea-level engines and shuts all six; the RVacs are fixed (no gimbal) and the autopilot lights none; the RVac exit diameter 2.3 m (commonly reported, no primary source); the rotating ground frame at 26°N built at rate zero, Earth's rate switched on in 6b once the entry has range control; spool-up is the existing ignition delay; the wind is a surface wind on NASA's profile, held above 150 m.
 
 Made by the planner, stated so the run inherits them:
 - **The live site cut-over is approved as part of Phase 1.** Pages switches to the Actions source, the 2021 game stays reachable as tag `v0-classic` and branch `classic` (the rollback target), and returning visitors are handed over by a kill-switch `serviceworker.js`.

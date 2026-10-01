@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | Tasks 1–4, 8, 10 and 9a done on `claude/ship-realism`, unmerged; Earth's rate (9b) moved to 6b; the close is under way ([phase 6](modernization-phase-6.md)) | — |
+| 6 Ship realism | done; Earth's rate (9b) and the parked aero moved to 6b | `Merge claude/ship-realism` (2026-10-01) |
 | 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
@@ -23,6 +23,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 - **A gate that is green on your Mac and in hosted CI.** Before: 48 of 1,585 unit tests red on arm64, CI green 2 of 132 runs. Now: `npm run gate` about 3 minutes locally, CI about 8 minutes, green on every push since.
 - **A truth harness.** Cited reference bands with a ratchet (`npm run truth:report`), property invariants over every configurable flight, a mutation matrix the suite must turn red (`npm run mutation`, 13 of 13 caught), a debug surface and a browser witness with a positive control.
 - **Two real physics bugs fixed**, both found by the new tests: the tank went negative on the emptying step, and the flight editor accepted negative propellant (a vehicle lighter than its own structure).
+- **Phase 6, Ship realism**: a real Earth (GM, radius, the 1976 atmosphere to its thermosphere), felt g, six Raptors with three fixed RVacs, a heat shield in kelvin against a 1,533 K tile, wind that grows with height and gusts, and a rotating-frame model ready for Earth's spin. Every scenario still lands under autopilot.
 - **The design pass**: `docs/design/ux-critique.md`, `design-system.md`, `ia.md`, and the review page below.
 
 ## For you to look at
@@ -42,7 +43,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 - **Engine states drawn by shape, not blinking**: the old blink tests were passing on nothing; the new specs check the shapes and that reduced motion adds no transition.
 - **Bundle budget 250 → 300 kB** for React DOM (275 kB measured), and one design-scanner exception for the throttle slider's measured fill. Both recorded where the rules live; confirm or overrule.
 
-- **Phase 6 calls, made unattended (you are buying these; details in [phase 6](modernization-phase-6.md)):**
+- **Phase 6 calls, made unattended (you are buying these; the model is in `docs/reference/physics-model.md`):**
   - the tile limit is NASA's Shuttle HRSI 1,260 °C (Starship's is not public), so the deorbit may park rather than move the limit;
   - the six-engine UI is minimal now and the look is Phase 9's (UX);
   - *Engines* (all) lights the three sea-level engines, as in 2021;

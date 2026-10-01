@@ -67,7 +67,7 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 - [x] Phase 3 — Design pass (merged `53e3c26`)
 - [x] Phase 4 — React shell (merged `dfab3c8`)
 - [x] Phase 5 — Guidance on real physics (merged `b84b746`; goldens on the recording platform `3429ea1`)
-- [ ] Phase 6 — Ship realism ([phase plan](modernization-phase-6.md)) — Tasks 1–4 and 8 done on `claude/ship-realism`; 10, 9 and the close remain
+- [x] Phase 6 — Ship realism (merged: the `Merge claude/ship-realism` commit, 2026-10-01; Earth's rate and the parked aero moved to 6b)
 - [ ] Phase 6b — Entry on lift ([phase plan](modernization-phase-6b.md))
 - [ ] Phase 7 — Super Heavy
 - [ ] Phase 8 — Visuals
