@@ -48,7 +48,9 @@ export const gravity = 9.807;
 
 /**
  * m/s. Constant in the 2021 model. The real value at 11 km is ~295 m/s, so Mach
- * runs ~14% low through the whole upper atmosphere. M2.7 makes it sqrt(gamma*R*T).
+ * runs ~14% low through the whole upper atmosphere. M2.7 makes it sqrt(gamma*R*T),
+ * and since Phase 6 nothing in the simulation reads this: it is kept only as the
+ * 2021 reference the speed-of-sound tests measure the correction against.
  */
 export const speedOfSound = 343;
 

@@ -23,6 +23,9 @@ import { PROPELLANT_CAPACITY } from './physics/mass';
 import { toggleAllRaptors } from './control/commands';
 import { createInitialState, type SimState } from './state';
 import { circularOrbitalSpeed } from './physics/gravity';
+import { relativeAirspeed } from './physics/aero';
+import { speedOfSoundAt } from './physics/atmosphere';
+import { isaAtmosphere } from './physics/isa';
 import { deg, toRad, type Deg } from './units';
 
 /** The six numbers a 2021 preset button carried, in their original units. */
@@ -290,7 +293,6 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
   s.kinematics.speedX = preset.speedX;
   s.kinematics.speedY = preset.speedY;
   s.kinematics.trueSpeed = Math.sqrt(preset.speedX ** 2 + preset.speedY ** 2);
-  s.kinematics.machSpeed = s.kinematics.trueSpeed / C.speedOfSound;
 
   s.kinematics.pitch = toRad(preset.pitch);
 
@@ -310,6 +312,13 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
     typed into a form is not a gust.
   */
   s.world.wind = preset.wind ?? 0;
+
+  // The Mach number of the air the flight starts in, through the relative
+  // wind, as `step()` computes it (Phase 6, Bug fix: it used 343 m/s, the
+  // sea-level speed of sound, so a re-entry's first step read the wrong Mach).
+  s.kinematics.machSpeed =
+    relativeAirspeed(s.kinematics.speedX, s.kinematics.speedY, s.world.wind, s.world.gust) /
+    speedOfSoundAt(isaAtmosphere(altitude).airTemperature);
 
   return s;
 }

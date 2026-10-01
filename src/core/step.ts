@@ -179,11 +179,18 @@ function checkIfCrash(s: SimState): void {
   }
 }
 
-/** physics.js:420 — structural limits. */
+/**
+ * physics.js:420 — structural limits.
+ *
+ * The g-limit judges FELT g, the specific force the airframe carries (thrust
+ * and aerodynamics), not the net acceleration with gravity in it (Phase 6,
+ * Bug fix: a free fall read nearly 1 g, and a hard burn upward read a whole g
+ * light).
+ */
 function checkIfBreakUp(s: SimState): void {
   const { kinematics, forces, failures, vehicle, engines } = s;
   if (
-    kinematics.totalAcceleration > C.gLimit * C.gravity ||
+    forces.perceivedG > C.gLimit ||
     forces.thermalPower > C.heatLimit ||
     forces.dynamicPressure > C.dynamicPressureLimit
   ) {
@@ -201,16 +208,20 @@ function checkIfOutOfFuel(s: SimState): void {
 }
 
 /**
- * physics.js:246 — felt acceleration.
+ * physics.js:246 — felt acceleration: the specific force, in g0.
  *
- * 2021 added `orbitGravityAccCompensation` here; that term is gone (M2.10) and
- * was identically zero in the fidelity path before it went, so this expression
- * is unchanged numerically.
+ * The acceleration less what gravity and the polar terms contribute, which is
+ * what thrust, aerodynamics and the ground supply: zero in free fall, the local
+ * gravity on the pad. Phase 6, Bug fix: this added back a flat 9.807 m/s², so a
+ * free fall read 0.03 g at 150 km and the pad read 1.008 g.
  */
 function updatePerceivedG(s: SimState): void {
   const { kinematics, forces } = s;
-  forces.perceivedG_Y = (kinematics.accelerationY + C.gravity) / C.gravity;
-  forces.perceivedG_X = kinematics.accelerationX / C.gravity;
+  const r = kinematics.distanceToPlanetCenter;
+  const gx = gravity.tangentialAcceleration(r, kinematics.speedX, kinematics.speedY);
+  const gy = gravity.verticalGravityAcceleration(r, kinematics.speedX);
+  forces.perceivedG_Y = (kinematics.accelerationY - gy) / C.standardGravity;
+  forces.perceivedG_X = (kinematics.accelerationX - gx) / C.standardGravity;
   forces.perceivedG = Math.sqrt(forces.perceivedG_Y ** 2 + forces.perceivedG_X ** 2);
 }
 

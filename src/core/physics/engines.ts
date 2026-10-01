@@ -150,7 +150,6 @@ export function updatePropellant(state: SimState, dt: number): number {
   return burned;
 }
 
-
 // --- ignition --------------------------------------------------------------
 
 /**

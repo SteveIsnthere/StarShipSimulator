@@ -132,34 +132,27 @@ describe('the peaks contain the recorder’s peaks', () => {
   }
 });
 
-describe('peak G is the g the simulation judges, not the g the pilot feels', () => {
+describe('peak G is the felt g, which is also the g the simulation judges', () => {
+  /*
+    Until Phase 6 these were two numbers: the card showed the net acceleration
+    over a flat g, which is what `checkIfBreakUp` judged, while the recorder's
+    `g` channel was the felt g. They differed by up to a full g. The g-limit now
+    judges the felt g (the specific force the airframe carries), so the card,
+    the limit and the recorder all read one quantity.
+  */
   for (const flight of FLIGHTS) {
     it(`${flight.id}`, () => {
-      const { recorder, card } = flight.run();
-      const felt = Math.max(0, ...(recorder.series['g'] ?? []).map((v) => Math.abs(v)));
-
-      // `checkIfBreakUp` compares `totalAcceleration > gLimit * gravity`, so
-      // the card's figure is `totalAcceleration / gravity` — recomputed here
-      // from a full-rate replay rather than taken from the card.
+      const { card } = flight.run();
       const spec = GOLDEN_SPECS.find((x) => x.id === flight.id)!;
       let s = spec.build();
-      let structural = 0;
+      let felt = 0;
       for (let i = 0; i < spec.steps; i++) {
         s = step(s, DT);
         if (s.failures.crashed || s.failures.inFlightBreakUp || s.status.landed) break;
         if (s.status.onTheGround) continue;
-        structural = Math.max(structural, s.kinematics.totalAcceleration / C.gravity);
+        felt = Math.max(felt, s.forces.perceivedG);
       }
-      expect(card.peakG.value).toBeCloseTo(structural, 6);
-
-      /*
-        And the two are NOT the same number, which is why this matters. Felt g
-        carries the one-g offset a vehicle at rest reads; structural g is the
-        acceleration the airframe is judged on. Asserting they differ somewhere
-        is what would fail if a future edit quietly went back to the recorder's
-        channel.
-      */
-      expect(Math.abs(card.peakG.value - felt)).toBeGreaterThan(0);
+      expect(card.peakG.value).toBeCloseTo(felt, 9);
     });
   }
 });
@@ -183,7 +176,7 @@ describe('and no peak exceeds what a full-rate replay saw', () => {
         if (s.failures.crashed || s.failures.inFlightBreakUp || s.status.landed) break;
         if (s.status.onTheGround) continue;
         trueQ = Math.max(trueQ, s.forces.dynamicPressure);
-        trueG = Math.max(trueG, s.kinematics.totalAcceleration / C.gravity);
+        trueG = Math.max(trueG, s.forces.perceivedG);
         trueHeat = Math.max(trueHeat, s.forces.thermalPower);
       }
       expect(card.peakQ.value).toBeCloseTo(trueQ, 9);

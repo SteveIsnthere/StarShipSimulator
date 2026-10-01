@@ -32,14 +32,20 @@
   {
     "id": "propellant-not-burned",
     "file": "src/core/physics/engines.ts",
-    "find": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - flowRate * dt);",
+    "find": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - needed);",
     "replace": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass);"
   },
   {
     "id": "burn-clamp-removed",
     "file": "src/core/physics/engines.ts",
-    "find": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - flowRate * dt);",
-    "replace": "    vehicle.propellantMass -= flowRate * dt;"
+    "find": "    vehicle.propellantMass = Math.max(0, vehicle.propellantMass - needed);",
+    "replace": "    vehicle.propellantMass -= needed;"
+  },
+  {
+    "id": "last-step-full-thrust",
+    "file": "src/core/physics/engines.ts",
+    "find": "    if (needed > vehicle.propellantMass) burned = vehicle.propellantMass / needed;",
+    "replace": "    if (needed > vehicle.propellantMass) burned = 1;"
   },
   {
     "id": "dump-clamp-removed",
@@ -64,5 +70,11 @@
     "file": "src/core/control/guidance-physics.ts",
     "find": "  return getDrag(air.airDensity, speed, TAIL_FIRST_AREA, getBodyDragCoefficient(mach)) / mass;",
     "replace": "  return 0 * getDrag(air.airDensity, speed, TAIL_FIRST_AREA, getBodyDragCoefficient(mach)) / mass;"
+  },
+  {
+    "id": "felt-g-flat",
+    "file": "src/core/step.ts",
+    "find": "  forces.perceivedG_Y = (kinematics.accelerationY - gy) / C.standardGravity;",
+    "replace": "  forces.perceivedG_Y = (kinematics.accelerationY + C.gravity) / C.gravity;"
   }
 ]

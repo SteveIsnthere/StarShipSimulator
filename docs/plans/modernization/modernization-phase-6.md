@@ -119,16 +119,33 @@ A parked task parks everything downstream of it. Independent branches continue.
 
 ### Task 1: Baseline, bug fixes, and the Phase 5 leftovers
 
-- [ ] Record the phase baseline: `npm run margins`, `npm run deorbit:range`, `npm run truth:report` and the intro anchor (9.775 s), as a dated note in this plan.
-- [ ] Bug fixes, failing test first each. They may share one golden regeneration if CI time is scarce.
+**Baseline, 2026-10-01** (at 6b9f640, the tank-empty fix, which moved no golden):
+
+- Margins (`landing-margins.json`): every landing lands; miss 0.5 m (landing burn), 1.5 m (before
+  flip), 3.5 m (booster sep), 3.8 m (RTLS), 12.8 m (headwind); propellant at touchdown 1.41–12.72 t.
+  Engine-out: one-out lands both, landing-burn two-out crashes (as before Phase 6).
+- Deorbit: lands, range 857.39 km against `DEORBIT_ENTRY_RANGE` 838 km, miss 0.01 km.
+- Truth report: 6 of 8 rows in band; out are engine count (3 against 6) and Earth's radius
+  (6400 km, ×1.004). Tasks 2 and 4 own both.
+- Intro: touchdown 9.775 s, no engines lit, shutdowns at 2.392, 2.400 and 9.725 s.
+
+After Task 1's fixes: identical outcomes to within 0.4 m of miss and 0.03 t of propellant; the deorbit
+range and the intro anchor unchanged to the digit. Felt g moves only the three `perceivedG` keys of
+all eight goldens; the thermosphere moves only booster-sep (the one flight above 86 km); the starting
+Mach moves the six flights that start moving below re-entry, from their first step's drag, and
+re-entry only in its first sample's Mach (its first-step drag coefficient is the same at either
+Mach); launch-pad starts at rest and moves only in felt g.
+
+- [x] Record the phase baseline: `npm run margins`, `npm run deorbit:range`, `npm run truth:report` and the intro anchor (9.775 s), as a dated note in this plan.
+- [x] Bug fixes, failing test first each. They may share one golden regeneration if CI time is scarce.
   - The emptying step applies a full step of thrust from the last kilograms (`engines.ts:128`): scale the thrust by the propellant actually burned.
   - Emptying the tank does not cancel a pending ignition (`step.ts:260-263`): cancel it.
   - Thermosphere temperature (`isa.ts`): the US Standard Atmosphere 1976 profile above 86 km. Prove first that `pressureInLayer` and the density chain cannot read it, so density is unchanged.
   - The g-limit reads net acceleration (`step.ts:186`): use felt g, (thrust + aero) / g0.
   - A scenario's first step uses Mach against 343 m/s (`scenarios.ts:293`): use the speed of sound at the starting altitude.
-- [ ] Refactors, each with a proof:
-  - Delete the unused legacy exports.
-  - `horizontalSteering`'s double `precisionAlignment`: keep it and document why, or prove a single call reproduces the goldens.
+- [x] Refactors, each with a proof:
+  - Delete the unused legacy exports. **Moved** to `tests/proofs/fixtures/legacy-ladders.ts`, frozen, where the three proofs that compare against them import them.
+  - `horizontalSteering`'s double `precisionAlignment`: keep it and document why, or prove a single call reproduces the goldens. **Kept**: a single call moves the landing-burn-autoland and landing-burn-headwind goldens (the first call's `rcsThrustCommand` survives the second).
   - Move the RTLS apogee-before-MECO row to `physics-model.md` as a description.
 
 ### Task 2: The planet (Fidelity)

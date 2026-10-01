@@ -115,7 +115,8 @@ describe('createScenarioState applies configureNewFlight verbatim', () => {
   it('derives trueSpeed and Mach from the components', () => {
     const s = createScenarioState(getScenario('booster-sep')!);
     expect(s.kinematics.trueSpeed).toBeCloseTo(Math.sqrt(1130 ** 2 + 1130 ** 2), 9);
-    expect(s.kinematics.machSpeed).toBeCloseTo(s.kinematics.trueSpeed / C.speedOfSound, 9);
+    // Mach against the air at the starting altitude (spawn-mach.test.ts), not 343 m/s.
+    expect(s.kinematics.machSpeed).toBeGreaterThan(s.kinematics.trueSpeed / C.speedOfSound);
   });
 
   it('the launch pad preset reproduces the default spawn', () => {

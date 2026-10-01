@@ -27,12 +27,12 @@
  * this task's plan said. Review of the first version found two faults that are
  * one fault: the recorder samples one frame in five, so a break-up could show
  * a peak BELOW the limit flagged red (the flag came from the witness, the
- * number from the sample); and its `g` channel is `perceivedG`, the felt g with
- * its one-g offset, while `checkIfBreakUp` judges `totalAcceleration / gravity`
- * — measured across the goldens the two differ by up to a full g in both
- * directions, so a clean landing could read "13.5 g of 13" in alarm red. A card
- * whose number and whose verdict come from different places will eventually
- * disagree with itself, so both now come from the step.
+ * number from the sample); and its `g` channel was then a different g from the
+ * one `checkIfBreakUp` judged (they differed by up to a full g), so a clean
+ * landing could read "13.5 g of 13" in alarm red. A card whose number and whose
+ * verdict come from different places will eventually disagree with itself, so
+ * both come from the step. Since Phase 6 they are also the same quantity: the
+ * felt g, `perceivedG`, which the g-limit judges too.
  *
  * The recorder did not go to waste: `tests/hud/debrief.test.ts` replays every
  * golden and cross-checks each figure against its series, which is a better use
@@ -105,10 +105,10 @@ export interface Witness {
   /**
    * g — the highest this flight reached, exactly, as STRUCTURAL g.
    *
-   * `totalAcceleration / gravity`, which is the quantity `checkIfBreakUp`
-   * compares with `gLimit`. Not `perceivedG`: that is the felt g, offset by one
-   * on the pad, and judging it against a structural limit is comparing two
-   * different numbers that happen to share a unit.
+   * The felt g (`perceivedG`, the specific force in g0), which is the load the
+   * airframe carries and what `checkIfBreakUp` compares with `gLimit` since
+   * Phase 6. Before, both read the net acceleration over a flat g, which counts
+   * gravity as load.
    */
   readonly peakStructuralG: number;
 }
@@ -182,7 +182,7 @@ export function createFlightWatch(): FlightWatch {
       record.thermalPower = forces.thermalPower;
       record.dynamicPressure = forces.dynamicPressure;
 
-      const structuralG = kinematics.totalAcceleration / C.gravity;
+      const structuralG = forces.perceivedG;
       if (forces.dynamicPressure > record.peakDynamicPressure) {
         record.peakDynamicPressure = forces.dynamicPressure;
       }
@@ -297,7 +297,7 @@ export function debrief(
     And which limit broke it. `checkIfBreakUp` tests three; the witness carries
     all three because the state does not keep them past the step that used them.
   */
-  const overG = (witness?.totalAcceleration ?? 0) > C.gLimit * C.gravity;
+  const overG = (witness?.peakStructuralG ?? 0) > C.gLimit;
   const overHeat = (witness?.thermalPower ?? 0) > C.heatLimit;
   const overQ = (witness?.dynamicPressure ?? 0) > C.dynamicPressureLimit;
 

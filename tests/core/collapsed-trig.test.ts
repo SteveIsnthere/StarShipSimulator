@@ -17,11 +17,11 @@
  * from the flight path, and whether the copies kept for the parity suite are
  * still the 2021 ones.
  */
+import * as legacy from '../proofs/fixtures/legacy-ladders';
 import { describe, expect, it } from 'vitest';
 import * as comp from '$core/physics/components';
 import {
   getEffectiveVerticalMaxThrust,
-  legacyEffectiveVerticalMaxThrust,
 } from '$core/control/primitives';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import type { SimState } from '$core/state';
@@ -44,37 +44,37 @@ const LADDERS = [
   {
     name: 'horizontalDrag',
     shipped: comp.horizontalDragCoefficient,
-    ladder: comp.legacyHorizontalDragCoefficient,
+    ladder: legacy.legacyHorizontalDragCoefficient,
     collapsed: (x: number) => -Math.sin(x),
   },
   {
     name: 'verticalDrag',
     shipped: comp.verticalDragCoefficient,
-    ladder: comp.legacyVerticalDragCoefficient,
+    ladder: legacy.legacyVerticalDragCoefficient,
     collapsed: (x: number) => -Math.cos(x),
   },
   {
     name: 'horizontalLift',
     shipped: comp.horizontalLiftCoefficient,
-    ladder: comp.legacyHorizontalLiftCoefficient,
+    ladder: legacy.legacyHorizontalLiftCoefficient,
     collapsed: (x: number) => -Math.cos(x),
   },
   {
     name: 'verticalLift',
     shipped: comp.verticalLiftCoefficient,
-    ladder: comp.legacyVerticalLiftCoefficient,
+    ladder: legacy.legacyVerticalLiftCoefficient,
     collapsed: (x: number) => Math.sin(x),
   },
   {
     name: 'horizontalThrust',
     shipped: comp.horizontalThrustCoefficient,
-    ladder: comp.legacyHorizontalThrustCoefficient,
+    ladder: legacy.legacyHorizontalThrustCoefficient,
     collapsed: (x: number) => Math.sin(x),
   },
   {
     name: 'verticalThrust',
     shipped: comp.verticalThrustCoefficient,
-    ladder: comp.legacyVerticalThrustCoefficient,
+    ladder: legacy.legacyVerticalThrustCoefficient,
     collapsed: (x: number) => Math.cos(x),
   },
 ] as const;
@@ -114,7 +114,7 @@ describe('the 2021 ladders are still here, and still 2021', () => {
         (a) =>
           !Object.is(
             getEffectiveVerticalMaxThrust(running, a, 0),
-            legacyEffectiveVerticalMaxThrust(running, a, 0),
+            legacy.legacyEffectiveVerticalMaxThrust(running, a, 0),
           ),
       ),
     ).toBe(true);
@@ -148,13 +148,13 @@ describe('the collapsed form is what reaches the simulation', () => {
 
     const viaLadders = (() => {
       const dragComponent =
-        comp.legacyHorizontalDragCoefficient(i.angleOfMotion) * i.aerodynamicDragAcceleration;
-      const lift = comp.legacyHorizontalLiftCoefficient(i.angleOfMotion);
+        legacy.legacyHorizontalDragCoefficient(i.angleOfMotion) * i.aerodynamicDragAcceleration;
+      const lift = legacy.legacyHorizontalLiftCoefficient(i.angleOfMotion);
       const liftComponent = comp.liftSignIsInverted(i.angleOfAttack)
         ? -lift * i.aerodynamicLiftAcceleration
         : lift * i.aerodynamicLiftAcceleration;
       const thrustComponent =
-        comp.legacyHorizontalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+        legacy.legacyHorizontalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
       return dragComponent + thrustComponent + liftComponent;
     })();
 

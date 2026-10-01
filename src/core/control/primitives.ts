@@ -42,11 +42,9 @@ export function getPitchDifference(pitch: Rad, goal: Rad): number {
  * The quadrant ladder here was a seventh copy of `verticalThrustCoefficient`
  * from physics/components.ts, inlined in 2021. It collapses to `cos` like the
  * other six and, since M2.10, ships collapsed like the other six — collapsing
- * some but not all of them would be the worst of both. The ladder is preserved
- * below as `legacyEffectiveVerticalMaxThrust`, originally for the parity suite;
- * since M10.2 its one consumer is tests/core/collapsed-trig.test.ts, which uses
- * it as the independent second implementation the collapse is proved against.
- * It is not dead code — deleting it would break that proof.
+ * some but not all of them would be the worst of both. The 2021 ladder lives in
+ * tests/proofs/fixtures/legacy-ladders.ts (Phase 6 moved it out of shipped
+ * code), the independent second implementation the collapse is proved against.
  */
 export function getEffectiveVerticalMaxThrust(
   running: readonly boolean[],
@@ -55,34 +53,6 @@ export function getEffectiveVerticalMaxThrust(
 ): number {
   const maxThrust = getTotalMaxThrust(running, ambientPressureKPa);
   return maxThrust * Math.cos(gimbalPointingDirection);
-}
-
-/**
- * physics.js:477 verbatim — the 2021 quadrant ladder. Kept not for parity (that
- * suite is gone) but as the independent second implementation that
- * tests/core/collapsed-trig.test.ts proves the collapsed `cos` form against.
- */
-export function legacyEffectiveVerticalMaxThrust(
-  running: readonly boolean[],
-  gimbalPointingDirection: Rad,
-  ambientPressureKPa: number,
-): number {
-  // M11.2: the same pressure-dependent thrust as the collapsed form, so the
-  // two still differ ONLY in the trig — which is what collapsed-trig proves.
-  const maxThrust = getTotalMaxThrust(running, ambientPressureKPa);
-
-  let coefficient: number;
-  if (0 <= gimbalPointingDirection && gimbalPointingDirection <= Math.PI / 2) {
-    coefficient = Math.cos(gimbalPointingDirection);
-  } else if (Math.PI / 2 < gimbalPointingDirection && gimbalPointingDirection <= Math.PI) {
-    coefficient = -Math.sin(gimbalPointingDirection - Math.PI / 2);
-  } else if (-Math.PI / 2 <= gimbalPointingDirection && gimbalPointingDirection < 0) {
-    coefficient = Math.cos(gimbalPointingDirection);
-  } else {
-    coefficient = Math.sin(gimbalPointingDirection + Math.PI / 2);
-  }
-
-  return maxThrust * coefficient;
 }
 
 /** physics.js:533 — the dynamic-pressure speed ceiling autoMaxThrust flies to. */
@@ -382,9 +352,12 @@ export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: nu
  * autoPilotLowLevelFunctions.js:173 — steer toward a horizontal speed.
  *
  * Note that it calls precisionAlignment TWICE in the near-target case, the
- * second call overriding the first with a scaled-down angle. Wasteful, and
- * ported as found: the first call has side effects (it can write rcsThrust),
- * so collapsing it would change behaviour.
+ * second call overriding the first with a scaled-down angle. It looks
+ * wasteful, but the first call's side effects are load-bearing: it can set
+ * `autopilot.rcsThrustCommand`, which the second call writes only when its own
+ * pitch error is large enough to use RCS. Measured in
+ * Phase 6, Task 1: a single call with the final angle moves the
+ * landing-burn-autoland and landing-burn-headwind goldens. Keep both calls.
  */
 export function horizontalSteering(
   state: SimState,

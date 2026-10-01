@@ -84,9 +84,14 @@ thrust anchors), g₀ = 9.80665 (`C:227`, shared with Isp).
   simulation's own radius.
 - **Above 86 km:** 20 exponential bands with transcribed scale heights (`isa.ts:164`) and densities
   chained from the ISA's 86 km value, so the seam is continuous; the first band's 5.44 km is
-  derived to hit the table's 100 km density. Temperature rises toward 1000 K, 100 km e-fold;
-  pressure from the ideal gas law.
-- **Speed of sound:** `√(1.4 · 287.053 · T)` (`physics/atmosphere.ts:68`).
+  derived to hit the table's 100 km density. Temperature is the 1976 standard's kinetic
+  temperature (eqs. 25–30): isothermal 186.87 K to 91 km, an elliptical rise to 240 K at 110 km,
+  12 K/km to 360 K at 120 km, then an exponential approach to 1000 K. Density never reads it;
+  pressure is recovered from density by the ideal gas law, and the Mach number is its only
+  consumer.
+- **Speed of sound:** `√(1.4 · 287.053 · T)` (`physics/atmosphere.ts:68`), also for a scenario's
+  starting Mach (`scenarios.ts:321`), so the first step's drag reads the same air as every
+  later one.
 
 Density: 1.225 kg/m³ at 0, 1.0e-3 at 50 km, 5.3e-7 at 100 km, 2.1e-9 at 150 km, 2.4e-11 at 300 km.
 
@@ -107,7 +112,9 @@ Three sea-level Raptor 2s. Full-throttle thrust per engine is `max(0, T_vac − 
 
 Thrust and fuel flow scale with working engines × throttle % (`physics/engines.ts:49`, `:108`).
 Thrust acts along `pitch − gimbal% × 15°`; the gimbal's lateral component and the engine-offset
-term act only as torques about the engine arm. Fuel-out stops all engines; dump runs at
+term act only as torques about the engine arm. The step the tank runs dry thrusts in proportion
+to the propellant it actually burned (`updatePropellant` returns the fraction). Fuel-out stops all
+engines and cancels any ignition still counting down; dump runs at
 3500 kg/s down to 12 t unless forced (`C:109–111`). **Ignition** is a dt-ticked delay drawn
 uniformly in 0.3–1.2 s (`engines.ts:147`), preceded by a failure roll at rate 0, or 0.1 with
 Random Failure on (`C:153`, `:163`); the roll is drawn either way.
@@ -167,7 +174,7 @@ peaked at 34.7414 of its 55 (0.6317); this model peaks at 245.9079 on the same p
 
 | check | condition | where |
 |---|---|---|
-| g | `totalAcceleration > 13 × 9.807` m/s² — net acceleration incl. gravity, not felt g | `step.ts:186`, `C:314` |
+| g | `perceivedG > 13`: felt g, (acceleration − gravity) / g₀, what the structure carries | `step.ts:193`, `C:298` |
 | heat | `thermalPower > 389` | `C:358` |
 | q | `> 50` kPa (goldens peak at 28.6) | `C:461` |
 | contact zone | `altitude ≤ 25·\|cos pitch\|` | `step.ts:139` |
@@ -244,7 +251,7 @@ input overwrites all.
   integrated backward from touchdown with midpoint steps of 0.05 s, gravity at each altitude
   (`gravityAt`, no centrifugal term: the burn is near vertical), thrust at that altitude's
   pressure, drag tail first with the Mach-dependent coefficient, and the touchdown mass solved by a
-  secant iteration. It agrees with fine-step `step()` runs to within 0.5 m on burns of 176 m to
+  bracketed regula falsi (Illinois). It agrees with fine-step `step()` runs to within 0.5 m on burns of 176 m to
   11.8 km, and returns null (read as "start now") when no burn can stop the vehicle, including
   when it needs more propellant than is aboard.
 - **The flip trigger** plans on 2021's one-engine ladder (two or three engines only when 80% of
@@ -275,6 +282,6 @@ input overwrites all.
 - Isp does not vary with throttle; engines reach thrust instantly after the ignition delay.
 - Fins, RCS and the gimbal's lateral component make torque only, never translation.
 - Heating is an instantaneous stagnation-point flux on an unresolved scale: no soak, no ablation.
-- The g-limit tests net acceleration including gravity, not felt load.
-- Thermosphere temperature follows the standard's trend, not its values (293 K at 100 km against
-  195 K); only Mach reads it.
+- Since the centre of mass moves with the propellant (M11.8), the RTLS flight reaches apogee
+  before MECO, and the HUD's impact prediction is less accurate at high altitude on it: the
+  predictor holds the attitude of the moment, and the vehicle is still turning under thrust.

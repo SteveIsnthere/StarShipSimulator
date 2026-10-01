@@ -279,14 +279,18 @@ describe('the top of the table, and the thermosphere above it', () => {
     expect(isothermalAt(300_000) / 1.916e-11, 'old model at 300 km').toBeLessThan(1e-6);
   });
 
-  it('warms toward the exosphere rather than staying at the mesopause', () => {
-    // Carried because the Mach number reads it. Monotone, and bounded.
+  it('warms toward the exosphere the way the 1976 standard does', () => {
+    // Carried because the Mach number reads it. The standard's shape (Phase 6):
+    // isothermal from 86 to 91 km, then never cooling, bounded by 1000 K. The
+    // 86 km seam steps by 0.08 K, the standard's own difference between the
+    // table's molecular-scale temperature and the kinetic temperature above it.
     expect(isaAtmosphere(86_000).airTemperature).toBeCloseTo(-86.2, 0);
+    expect(isaAtmosphere(91_000).airTemperature).toBe(isaAtmosphere(87_000).airTemperature);
     expect(isaAtmosphere(150_000).airTemperature).toBeGreaterThan(200);
     expect(isaAtmosphere(500_000).airTemperature).toBeGreaterThan(650);
     expect(isaAtmosphere(1_000_000).airTemperature).toBeLessThan(727);
     let previous = -Infinity;
-    for (let h = 86_000; h <= 1_000_000; h += 5_000) {
+    for (let h = 91_000; h <= 1_000_000; h += 5_000) {
       const t = isaAtmosphere(h).airTemperature;
       expect(t, `cooled at ${h} m`).toBeGreaterThan(previous);
       previous = t;

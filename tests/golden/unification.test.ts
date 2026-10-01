@@ -30,6 +30,7 @@
  *     P5.4    the burn sized by the predictor    five: three fly, two plan
  *     P5.5    dead prediction fields removed     moved NOTHING (headers only)
  *     P5.6    the trigger computed where it acts re-entry and RTLS, planning keys only
+ *     P6.1    felt g, thermosphere, start Mach   ALL EIGHT: felt g in its 3 keys; see below
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -177,6 +178,33 @@
  * constant now, so they move to the header); nothing else moves, and the
  * flights are bit-for-bit the same.
  *
+ * P6.1 (Phase 6, Task 1, Bug fix) is three fixes on one regeneration, and each
+ * was measured alone on a preview so the shape could be split by cause:
+ *
+ * - FELT G. `perceivedG` (and _X, _Y) added a flat 9.807 m/s² back to the net
+ *   acceleration, so a free fall at 150 km read 0.03 g and the pad 1.008 g; it
+ *   subtracts the simulation's own gravity and polar terms now. The g-limit
+ *   read the net acceleration, gravity included, and judges felt g now. Alone
+ *   this moves exactly those three keys in all eight fixtures and nothing else:
+ *   no golden comes near 13 g either way, so no break-up decision changed.
+ * - THE THERMOSPHERE. The 1976 standard's kinetic temperature above 86 km
+ *   replaces a single exponential that read 293 K at 100 km (195 K in the
+ *   standard). Density is chained from the table and never reads it; only Mach
+ *   does. Alone it moves booster-sep only, the one flight above 86 km: the
+ *   M2.14 shape again.
+ * - THE STARTING MACH. A scenario's spawn state computed Mach against a flat
+ *   343 m/s and the still-air speed, and the first step's drag coefficient
+ *   reads it. It is the airspeed over the speed of sound at the starting
+ *   altitude now. It moves the six flights that start moving below Mach 10,
+ *   from their first step; re-entry only in its first sample's Mach (the body
+ *   Cd is flat at 2.5 above Mach 10); launch-pad starts at rest and does not
+ *   move.
+ *
+ * THE OUTCOMES (npm run margins, before and after): every flight ends as it
+ * did, within 0.4 m of miss and 0.03 t of propellant; the deorbit range and
+ * the intro (9.775 s, no engines lit, the same three shutdowns) are unchanged
+ * to the digit.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -245,16 +273,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P5.3 (all eight), P5.4 (five), P5.6 (two): see the table above. Recorded
+  // P6.1 (all eight): see the table above. Recorded
   // on x86-64 Linux / Node 22 by .github/workflows/golden-regenerate.yml.
-  'launch-pad-takeoff': 'f1436278769e9c4d50eda7bd43e8a052e3ab4b3c97032d66680a32c18297dd28',
-  'booster-sep-boostback': 'eecdc5f7a6a4826ba86c253d89ee7ceada3e6bb79050e07e4d94e6b40d23e97c',
-  'rtls-boostback': 'a54470ec8bb87b16c4ad3cefb003a332013591ab35df1ca34e51535815b53c4c',
-  'reentry-autoland': 'b02a9291945fae7a75e6034f5a04339376c8c6d1c8791f6320c8d860ce0242d4',
-  'before-flip-autoland': '0668f1fd93066ff87d8bd8d26753391903eed2aec6234f927f14dee5bef43bc1',
-  'landing-burn-autoland': '613b6f76752aec231e901357e66dfcea4bec6810b07c7a5e6c034f1ddad0b8ea',
-  'landing-burn-headwind': '233e7779084d83920a56d802ca11e8fdcb2c867d406f42bb08dbfabc52a2619b',
-  'intro-demo': '5b346014dd0e74bac432b82f81bc6c561e216ce30e0c388af68a5137609fbb8e',
+  'launch-pad-takeoff': '144c03983ba2c8b877764f2f4c2d560f179648383d942e0e9878c491f7c4c9a6',
+  'booster-sep-boostback': '0859d738216b8d9a8842f6cb859014d7b0bad4d1eb9047d707fa3d083a0a6e47',
+  'rtls-boostback': '870917ea3f8329995134188c6f07d42672d44a329d44172f195f0b0e8248e903',
+  'reentry-autoland': '617640b4a134d7b7862802085611800d205c98c674a7b270833c26859fd35fab',
+  'before-flip-autoland': 'f7cb6db491ffb1dd3d9988fc9a11ea89962747168228fb6d7e98093beb03bbfd',
+  'landing-burn-autoland': '3db0a8f0fb02e9baf345dc7bd03886c2251faee2988bcd5977d24421dd6db6d8',
+  'landing-burn-headwind': 'b061d7dcb36c27986e3f2f065c24f8316be52dd1a4ca8992e6ff0aebffb8c05b',
+  'intro-demo': '33e5d042c1e233e953960d0fed3252fe42c28b4e6233a141bbef2c29be4ab594',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

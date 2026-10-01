@@ -4,8 +4,9 @@
  * implementation they replaced.
  *
  * The comparison is against the pre-refactor implementation itself, frozen
- * verbatim in fixtures/isa-legacy.ts and run on the same machine, at 4001
- * altitudes from 0 to ~400 km (deliberately off the round numbers); not against
+ * verbatim in fixtures/isa-legacy.ts and run on the same machine, at about
+ * 4000 altitudes from 0 to 86 km (deliberately off the round numbers; above
+ * 86 km a later Bug fix changed the temperature on purpose); not against
  * each other, since one now calls the other. Object.is, so 0 ULP. (A first
  * version compared with values recorded on a Mac, which fails on the Linux
  * recording platform, where the last bit of exp/pow can differ.)
@@ -21,7 +22,10 @@ describe('the allocation-free ISA is the ISA', () => {
     const mismatches: string[] = [];
     let checked = 0;
     for (let i = 0; i <= 4000; i++) {
-      const altitude = i * 100 + (i % 7) * 13.37;
+      // The table regime only: above 86 km the temperature changed since, by a
+      // Bug fix with its own test (thermosphere.test.ts), not by this refactor.
+      const altitude = (i * 86_000) / 4000 + (i % 7) * 1.337;
+      if (altitude > 86_000) continue;
       const want = legacyIsa(altitude);
       isaAtmosphereInto(altitude, out);
       const fresh = isaAtmosphere(altitude);
@@ -38,6 +42,6 @@ describe('the allocation-free ISA is the ISA', () => {
       checked += 1;
     }
     expect(mismatches.slice(0, 5)).toEqual([]);
-    expect(checked).toBe(4001);
+    expect(checked).toBeGreaterThan(3990);
   });
 });
