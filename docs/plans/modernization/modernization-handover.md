@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | Tasks 1–4 and 8 done on `claude/ship-realism`, unmerged; 10, 9 and the close remain ([phase 6](modernization-phase-6.md)) | — |
+| 6 Ship realism | Tasks 1–4, 8, 10 and 9a done on `claude/ship-realism`, unmerged; Earth's rate (9b) moved to 6b; the close is under way ([phase 6](modernization-phase-6.md)) | — |
 | 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
@@ -57,7 +57,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 - **No LICENSE** in a public repo. Choose one before this grows further.
 - **Two dead remote branches**, `origin/exp` and `origin/feat/modernize-app`: nothing in either is worth keeping. Delete when you agree.
-- **Codex can't run as a peer reviewer**: `~/.codex/config.toml` names `gpt-6.1-sol`, which a ChatGPT login does not support. ChatGPT Pro and fresh subagents reviewed instead.
+- **Codex can't run as a peer reviewer**: `~/.codex/config.toml` names `gpt-6.1-sol`, which a ChatGPT login does not support (still so on 2026-10-01, Phase 6's close). ChatGPT Pro and fresh subagents reviewed instead. Changing that lever is yours.
 
 - **Guidance (Phase 5)**: the autopilot's throttle laws, landing-burn sizing and the HUD impact predictor run on the simulation's own gravity, thrust and drag. The flip trigger keeps its one-engine pessimism with no added margin, because a one-engine-out deorbit lands with almost no propellant (the 12 t dump limit is the real constraint; backlog).
 
@@ -79,7 +79,10 @@ None.
 - Tasks 1–4 on `claude/ship-realism`, each pushed with its Linux-regenerated goldens and an audit row (P6.1–P6.5): felt g, the 1976 thermosphere, the starting Mach, the emptying-step thrust; Earth's GM and radius; the measured landing reserve; six Raptors; the start transient.
 - **Independent review of Tasks 1–3** (a fresh subagent; Codex cannot run here): no correctness bugs in the physics. It found one real edge (an ignition finishing on the emptying step thrust for free, fixed in `cff0046`), stale docs and four tests my planet rewrite had made tautological (re-anchored to fixed figures). Both fixed.
 - Task 8 (the heat shield) done: Sutton-Graves in W/m², skin temperature in K, the 1,533 K limit; the deorbit peaks at 1,459 K. Task 5 parked (see Parked), and 6, 7, 11 with it.
-- Next: Task 10 (wind profile and turbulence), Task 9 (Earth's rotation), then the close (full e2e, `/code-review high`, an independent physics review of the whole phase, merge).
+- Task 10 done (`172fcb1`): a scenario's wind is the surface wind, carried up NASA's power-law profile, with MIL-F-8785C Dryden turbulence from its own seeded stream. Calm air is untouched: seven goldens kept their rows bit for bit; the headwind fixture moved and still lands.
+- Task 9a done (`3facf39`), and the rest of the rotation plumbing (`8515c18`): Coriolis and centrifugal terms, the ground-relative deorbit conic, the converted orbital presets, the weight the burn predictor uses, every inertial truth test transformed and proved with Earth's rate on.
+- **Earth's rate is NOT switched on — decided on your behalf.** With it on, the circularize-then-deorbit flight missed by 11.1 km against its 10 km acceptance; the broadside descent has no range control, and the turning ground widens the heavy/light spread from 5 to 14 km. No constant holds both that bound and the 1 km health test. Range control is what Phase 6b's entry on lift builds, so the switch is 6b Task 1b, with the measured numbers in the plan.
+- Next: the close (full e2e, `/code-review high`, the independent physics review, merge).
 
 ## Roadmap update (2026-10-01, Steve)
 

@@ -12,10 +12,15 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import {
+  circularOrbitalSpeed,
+  coastDownrangeDistance,
   gravityAt,
+  groundTangentialSpeed,
   inertialTangentialSpeed,
+  MU,
   tangentialAcceleration,
   verticalGravityAcceleration,
+  verticalWeight,
 } from '$core/physics/gravity';
 
 /** rad/s — Earth's sidereal rate (IERS), for scale. */
@@ -81,5 +86,47 @@ describe('at omega != 0 it is the inertial motion seen from the turning ground',
 
   it("puts the pad's own eastward speed in the inertial figure", () => {
     expect(inertialTangentialSpeed(6_371_000, 0, EARTH)).toBeCloseTo(464.58, 2);
+  });
+});
+
+describe('the frame conversions and the guidance that reads them', () => {
+  it('ground and inertial tangential speeds are inverses: v_inertial = v_ground + omega r', () => {
+    fc.assert(
+      fc.property(radius, speed, omega, (r, v, w) => {
+        expect(groundTangentialSpeed(r, v, w)).toBeCloseTo(v - w * r, 9);
+        expect(inertialTangentialSpeed(r, groundTangentialSpeed(r, v, w), w)).toBeCloseTo(v, 9);
+      }),
+    );
+  });
+
+  it("a vehicle with no ground speed weighs gravity less the ground's centrifugal term", () => {
+    const r = 6_371_000;
+    expect(verticalWeight(r, EARTH)).toBeCloseTo(gravityAt(r) - EARTH ** 2 * r, 12);
+    expect(verticalWeight(r, 0)).toBe(gravityAt(r));
+  });
+
+  it("the coast conic's ground arc is the inertial arc less what the ground turned under it", () => {
+    // An independent reference: two-body motion integrated in the INERTIAL
+    // frame by small steps, accumulating the ground arc r (dtheta/dt - omega)
+    // directly. The conic takes the ground speed and must give the same arc.
+    const r0 = 6_371_000 + 150_000;
+    const inertial = circularOrbitalSpeed(r0) - 120;
+    const target = 6_371_000 + 80_000;
+    let r = r0;
+    let vr = 0;
+    const h = r0 * inertial;
+    let ground = 0;
+    const dt = 0.01;
+    for (let i = 0; i < 2_000_000 && r > target; i++) {
+      const vt = h / r;
+      vr += ((vt * vt) / r - MU / (r * r)) * dt;
+      r += vr * dt;
+      ground += (vt - EARTH * r) * dt;
+    }
+    const conic = coastDownrangeDistance(r0, groundTangentialSpeed(r0, inertial, EARTH), 0, target, EARTH);
+    expect(Math.abs(conic / ground - 1)).toBeLessThan(1e-4);
+    // And it is shorter than the inertial arc by the ground's turn, hundreds of km.
+    const inertialArc = coastDownrangeDistance(r0, inertial, 0, target, 0);
+    expect(inertialArc - conic).toBeGreaterThan(100_000);
   });
 });
