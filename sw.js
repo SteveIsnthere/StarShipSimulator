@@ -13,7 +13,8 @@ self.addEventListener('activate', (event) => {
       }
       await self.registration.unregister();
       const pages = await self.clients.matchAll({ type: 'window' });
-      await Promise.all(pages.map((client) => client.navigate(client.url)));
+      // allSettled: one page that cannot be navigated must not stop the rest.
+      await Promise.allSettled(pages.map((client) => client.navigate(client.url)));
     })(),
   );
 });
