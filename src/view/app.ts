@@ -1,0 +1,262 @@
+/**
+ * The PixiJS v8 application shell.
+ *
+ * Everything about the renderer that is not "what to draw": creating the
+ * canvas, sizing it, reacting to the window, and holding the scene graph.
+ *
+ * Layer order is fixed here rather than left to insertion order, so a later
+ * task cannot accidentally draw the ship behind the sky.
+ */
+import { Application, Container } from 'pixi.js';
+import {
+  computeViewport,
+  createCamera,
+  MAX_ZOOM_SCALE,
+  writeViewport,
+  zoomStep,
+  ZOOM_IN_FACTOR,
+  ZOOM_OUT_FACTOR,
+  type CameraState,
+  type MutableViewport,
+  type Viewport,
+} from './camera';
+
+/**
+ * The renderer's clear colour: roughly the middle of the sky gradient.
+ *
+ * Only ever visible for the frames between `init` and the sky sprite being
+ * sized, so what matters is that it is not a colour the sky never shows. It was
+ * 2021's flat fill; the sky's own anchor moved at the M9 look pass and this
+ * follows it rather than sitting a shade off.
+ */
+export const SKY_COLOR = 0xa1bddb;
+
+/** Named layers, back to front. */
+export interface Layers {
+  /** Sky gradient and stars. Never scrolls with the camera. */
+  readonly sky: Container;
+  /** Distant parallax: clouds, far terrain. */
+  readonly far: Container;
+  /** The ground, StarBase, trees, the pig. */
+  readonly world: Container;
+  /** Particle effects behind the vehicle (engine plumes). */
+  readonly effectsBehind: Container;
+  /** The vehicle. */
+  readonly vehicle: Container;
+  /** Particle effects in front (re-entry shimmer, debris). */
+  readonly effectsFront: Container;
+}
+
+export interface ViewApp {
+  readonly app: Application;
+  readonly layers: Layers;
+  readonly camera: CameraState;
+  viewport: Viewport;
+  /**
+   * Track the altitude field of view (M7.3).
+   *
+   * Called once per frame from the one rAF tick. It MUTATES the live viewport
+   * rather than replacing it — the field of view moves continuously with
+   * altitude now, and a fresh viewport object per frame is exactly what the
+   * zero-allocation budget forbids.
+   */
+  followAltitude(altitude: number): void;
+  /** Recompute the viewport and resize the renderer. */
+  resize(width: number, height: number): void;
+  /** Zoom one step in (+1) or out (-1). tools.js:152. */
+  zoom(direction: 1 | -1): void;
+  /**
+   * M11.6 — the camera mode's field of view, as a multiplier on the manual
+   * zoom. Chase and onboard look closer; the others leave it at one. Applied
+   * where the manual zoom is, so the two multiply and neither fights the
+   * altitude field of view.
+   */
+  setModeZoom(factor: number): void;
+  destroy(): void;
+}
+
+export interface ViewOptions {
+  /** Where to mount. */
+  readonly canvas: HTMLCanvasElement;
+  /** m — used to scale the world so the ship is a sensible size on screen. */
+  readonly vehicleHeight: number;
+  /** m — initial camera position. */
+  readonly downRangeDistance: number;
+  readonly speedX?: number;
+  readonly speedY?: number;
+  readonly width?: number;
+  readonly height?: number;
+  /** Passed through to Pixi; tests use 'webgl' since WebGPU is unavailable headless. */
+  readonly preference?: 'webgl' | 'webgpu';
+}
+
+/**
+ * Create the renderer.
+ *
+ * Async because Pixi v8's `init` is: it negotiates WebGPU and falls back to
+ * WebGL, and neither is available synchronously.
+ */
+export async function createView(options: ViewOptions): Promise<ViewApp> {
+  // Sized from the window rather than from the element. A canvas with no width
+  // attribute reports its intrinsic 300x150 until CSS layout has settled, so
+  // reading clientWidth here renders the first frames at the wrong size and
+  // then snaps - a visible flash on load, and one an e2e test caught.
+  const width = options.width ?? globalThis.innerWidth ?? 800;
+  const height = options.height ?? globalThis.innerHeight ?? 600;
+
+  const app = new Application();
+  await app.init({
+    canvas: options.canvas,
+    width,
+    height,
+    background: SKY_COLOR,
+    antialias: true,
+    // Match device pixels so text and thin geometry stay crisp, but cap the
+    // ratio: a 3x phone display costs 9x the fill rate for no visible gain.
+    resolution: Math.min(globalThis.devicePixelRatio || 1, 2),
+    autoDensity: true,
+    ...(options.preference ? { preference: options.preference } : {}),
+  });
+
+  const layers: Layers = {
+    sky: new Container({ label: 'sky' }),
+    far: new Container({ label: 'far' }),
+    world: new Container({ label: 'world' }),
+    effectsBehind: new Container({ label: 'effectsBehind' }),
+    vehicle: new Container({ label: 'vehicle' }),
+    effectsFront: new Container({ label: 'effectsFront' }),
+  };
+  // Back to front. Explicit, so draw order is a property of this file rather
+  // than of whatever order later tasks happen to add sprites in.
+  app.stage.addChild(
+    layers.sky,
+    layers.far,
+    layers.world,
+    layers.effectsBehind,
+    layers.vehicle,
+    layers.effectsFront,
+  );
+
+  let zoomFactor = 1;
+  let modeZoomFactor = 1;
+  /**
+   * The altitude the field of view is currently set for.
+   *
+   * Held because a zoom press and a window resize both have to rebuild the
+   * viewport, and neither of them knows where the vehicle is.
+   */
+  let lastAltitude = 0;
+  // Mutable, and handed out through the readonly `Viewport` view. See
+  // `followAltitude`.
+  const viewport: MutableViewport = computeViewport(width, height, options.vehicleHeight);
+  const camera = createCamera(
+    viewport,
+    options.downRangeDistance,
+    options.speedX ?? 0,
+    options.speedY ?? 0,
+  );
+
+  const view: ViewApp = {
+    app,
+    layers,
+    camera,
+    get viewport() {
+      return viewport;
+    },
+    set viewport(next: Viewport) {
+      // Copy in rather than rebind: the camera, the sky and the world all hold
+      // this object.
+      viewport.width = next.width;
+      viewport.height = next.height;
+      viewport.physicalHeight = next.physicalHeight;
+      viewport.physicalWidth = next.physicalWidth;
+      viewport.scale = next.scale;
+    },
+    followAltitude(altitude: number) {
+      lastAltitude = altitude;
+      writeViewport(
+        viewport,
+        viewport.width,
+        viewport.height,
+        options.vehicleHeight,
+        zoomFactor * modeZoomFactor,
+        altitude,
+      );
+    },
+    setModeZoom(factor: number) {
+      if (factor === modeZoomFactor) return;
+      modeZoomFactor = factor;
+      /*
+        The mode multiplies the manual zoom, and the manual zoom is clamped on
+        its own — so a 2x mode on top of a full manual zoom would draw a hull
+        taller than the window (review found 900 px in 800). The manual factor
+        gives way: it is pulled down so the COMBINED scale stays inside the
+        ceiling, and it grows back when the mode lets go.
+      */
+      const base = computeViewport(viewport.width, viewport.height, options.vehicleHeight).scale;
+      if (base * zoomFactor * modeZoomFactor > MAX_ZOOM_SCALE) {
+        zoomFactor = MAX_ZOOM_SCALE / (base * modeZoomFactor);
+      }
+      writeViewport(
+        viewport,
+        viewport.width,
+        viewport.height,
+        options.vehicleHeight,
+        zoomFactor * modeZoomFactor,
+        lastAltitude,
+      );
+    },
+    zoom(direction: 1 | -1) {
+      /*
+        The limits are on the resulting scale, not on the factor, so the step is
+        computed against what the viewport actually shows — but against what
+        MANUAL zoom alone would show, not the combined view.
+
+        That distinction is the owner decision's "zoom multiplies the altitude
+        FOV rather than fighting it", made concrete: measured against the
+        combined scale, the zoom range would shrink as the vehicle climbed and a
+        pilot at 20 km would find the button had stopped working, for reasons
+        nothing on screen explains. Allocating a viewport here is free — a zoom
+        press is an interaction, not a frame.
+      */
+      const factor = direction > 0 ? ZOOM_IN_FACTOR : ZOOM_OUT_FACTOR;
+      const manual = computeViewport(
+        viewport.width,
+        viewport.height,
+        options.vehicleHeight,
+        zoomFactor,
+      );
+      // Zooming IN is bounded by what is actually drawn — manual times the
+      // camera mode's multiplier (M11.6) — so a close mode cannot be zoomed
+      // past the ceiling; zooming OUT is bounded by the manual scale alone, so
+      // it always works, whatever the mode.
+      const bound = direction > 0 ? manual.scale * modeZoomFactor : manual.scale;
+      if (zoomStep(bound, factor) === bound) return;
+      zoomFactor *= factor;
+      writeViewport(
+        viewport,
+        viewport.width,
+        viewport.height,
+        options.vehicleHeight,
+        zoomFactor * modeZoomFactor,
+        lastAltitude,
+      );
+    },
+    resize(nextWidth: number, nextHeight: number) {
+      app.renderer.resize(nextWidth, nextHeight);
+      writeViewport(
+        viewport,
+        nextWidth,
+        nextHeight,
+        options.vehicleHeight,
+        zoomFactor * modeZoomFactor,
+        lastAltitude,
+      );
+    },
+    destroy() {
+      app.destroy(true, { children: true, texture: true });
+    },
+  };
+
+  return view;
+}

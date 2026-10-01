@@ -1,0 +1,326 @@
+/**
+ * The voices: Web Audio graphs that turn `AudioParams` into sound.
+ *
+ * SYNTHESIS, NOT SAMPLES, and SOUND-PLAN § 3.1 is the argument. The continuous
+ * sounds here are all filtered noise with a parameter that moves, which is three
+ * nodes — and that has properties a sample loop cannot match:
+ *
+ *   It is a FUNCTION OF SIMSTATE, exactly like every readout in `hud/`. Throttle
+ *   moves, the timbre moves, continuously, with no crossfade between a "low"
+ *   loop and a "high" loop.
+ *
+ *   It costs NO BYTES. A rumble loop long enough not to sound looped is hundreds
+ *   of kB; this is a few lines and the audio budget still reads 0.0 kB.
+ *
+ *   It is TESTABLE, because the parameters are pure functions living next door
+ *   in params.ts and the graph itself renders under `OfflineAudioContext`.
+ *
+ * ONE SUBSCRIBER, DIFFED BEFORE WRITING — the same law as every binder in
+ * `hud/`, for a sharper reason here: an AudioParam set to the value it already
+ * holds is a wasted call, and a `setTargetAtTime` per parameter per frame at
+ * 120 Hz is how a Web Audio graph starts stuttering (§ 6).
+ */
+import type { AudioGraphContext, Mixer } from './graph';
+import {
+  ENGINE_SUB_HZ,
+  WARNING_HZ,
+  WARNING_LEVEL,
+  WARNING_PULSE_HZ,
+  type AudioParams,
+} from './params';
+
+/**
+ * s — the time constant every parameter change is smoothed over.
+ *
+ * `setTargetAtTime` rather than `setValueAtTime`, because a gain that jumps
+ * clicks. 40 ms is fast enough that a throttle-up feels immediate and slow
+ * enough that nothing zippers.
+ */
+export const SMOOTH_SECONDS = 0.04;
+
+export interface Voice {
+  /** Push a frame's parameters. Writes only what moved. */
+  update(params: AudioParams): void;
+  /** AudioParam writes performed by the last update. */
+  readonly lastWriteCount: number;
+  readonly totalWrites: number;
+  /** Nodes this voice created. Fixed at construction — see the leak test. */
+  readonly nodeCount: number;
+  stop(): void;
+}
+
+export interface EngineVoiceOptions {
+  context: AudioGraphContext;
+  mixer: Mixer;
+  /** The shared looping noise buffer, built once with the graph. */
+  noise: AudioBuffer;
+}
+
+/**
+ * The engine: filtered noise, plus a sub-oscillator under it.
+ *
+ *   noise -> lowpass ---\
+ *                        +--> gain -> engine bus
+ *   sub oscillator -----/
+ *
+ * The noise is the plume; the oscillator is the vehicle it is bolted to. Both
+ * are needed — noise alone is a hiss and a tone alone is a hum, and the thing
+ * a rocket sounds like is a big object being shaken by an enormous hiss.
+ */
+export function createEngineVoice(options: EngineVoiceOptions): Voice {
+  const { context, mixer, noise } = options;
+
+  const source = context.createBufferSource();
+  source.buffer = noise;
+  source.loop = true;
+
+  const filter = context.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.Q.value = 0.9;
+
+  const sub = context.createOscillator();
+  sub.type = 'sine';
+  sub.frequency.value = ENGINE_SUB_HZ;
+
+  /*
+    The sub sits under the noise at a FIXED ratio, and this constant is the
+    whole of it: `subGain` feeds `gain`, which already applies the level, so
+    anything level-dependent here would be applied twice.
+
+    That is not a hypothetical. The first version set this to `level * 0.33` on
+    every update, which made the sub scale as the SQUARE of the level — and the
+    OfflineAudioContext render caught it as an arithmetic discrepancy nobody
+    would have heard as a bug: the vacuum fade measured 0.106 of sea level where
+    the documented floor is 0.22, because the noise path was fading linearly
+    while the sub faded quadratically underneath it. A throttle-down would have
+    lost its bottom end far faster than intended.
+  */
+  const subGain = context.createGain();
+  subGain.gain.value = 0.33;
+
+  const gain = context.createGain();
+  gain.gain.value = 0;
+
+  source.connect(filter);
+  filter.connect(gain);
+  sub.connect(subGain);
+  subGain.connect(gain);
+  gain.connect(mixer.bus('engine'));
+
+  source.start();
+  sub.start();
+
+  // Not a number, so the first update always writes.
+  let lastLevel: number | null = null;
+  let lastHz: number | null = null;
+  let lastWriteCount = 0;
+  let totalWrites = 0;
+
+  return {
+    get lastWriteCount() {
+      return lastWriteCount;
+    },
+    get totalWrites() {
+      return totalWrites;
+    },
+    // source, filter, sub, subGain, gain.
+    nodeCount: 5,
+
+    update(params) {
+      lastWriteCount = 0;
+      const now = context.currentTime;
+
+      /*
+        The air fade is folded into the level here rather than given its own
+        node. One multiply against one gain is cheaper than a second gain stage,
+        and — more to the point — it keeps "how loud is the engine" a single
+        number that a test can read, instead of a product of two nodes nobody
+        can see at once.
+      */
+      const level = params.engine * params.engineAir;
+      if (level !== lastLevel) {
+        lastLevel = level;
+        gain.gain.setTargetAtTime(level, now, SMOOTH_SECONDS);
+        lastWriteCount += 1;
+      }
+
+      if (params.engineHz !== lastHz) {
+        lastHz = params.engineHz;
+        filter.frequency.setTargetAtTime(params.engineHz, now, SMOOTH_SECONDS);
+        lastWriteCount += 1;
+      }
+
+      totalWrites += lastWriteCount;
+    },
+
+    stop() {
+      source.stop();
+      sub.stop();
+    },
+  };
+}
+
+/**
+ * The airflow: band-passed noise, and the thing that goes to nothing.
+ *
+ *   noise -> bandpass -> gain -> aero bus
+ *
+ * Simpler than the engine, deliberately. The engine is a machine and needs two
+ * voices to sound like one; airflow is one phenomenon and a second layer would
+ * only muddy the band a small speaker has to reproduce.
+ *
+ * ITS FADE REACHES ZERO, and the engine's does not. That difference is the
+ * milestone: a vacuum where everything is quieter sounds like the volume being
+ * turned down, and a vacuum where the air stops but the vehicle you are bolted
+ * to does not sounds like space.
+ */
+export function createAeroVoice(options: EngineVoiceOptions): Voice {
+  const { context, mixer, noise } = options;
+
+  const source = context.createBufferSource();
+  source.buffer = noise;
+  source.loop = true;
+
+  const filter = context.createBiquadFilter();
+  filter.type = 'bandpass';
+  // Broad. A narrow band on noise whistles, and airflow is a rush rather than
+  // a tone — the Q is what separates "wind" from "kettle".
+  filter.Q.value = 0.7;
+
+  const gain = context.createGain();
+  gain.gain.value = 0;
+
+  source.connect(filter);
+  filter.connect(gain);
+  gain.connect(mixer.bus('aero'));
+  source.start();
+
+  let lastLevel: number | null = null;
+  let lastHz: number | null = null;
+  let lastWriteCount = 0;
+  let totalWrites = 0;
+
+  return {
+    get lastWriteCount() {
+      return lastWriteCount;
+    },
+    get totalWrites() {
+      return totalWrites;
+    },
+    // source, filter, gain.
+    nodeCount: 3,
+
+    update(params) {
+      lastWriteCount = 0;
+      const now = context.currentTime;
+
+      const level = params.aero * params.aeroAir;
+      if (level !== lastLevel) {
+        lastLevel = level;
+        gain.gain.setTargetAtTime(level, now, SMOOTH_SECONDS);
+        lastWriteCount += 1;
+      }
+
+      if (params.aeroHz !== lastHz) {
+        lastHz = params.aeroHz;
+        filter.frequency.setTargetAtTime(params.aeroHz, now, SMOOTH_SECONDS);
+        lastWriteCount += 1;
+      }
+
+      totalWrites += lastWriteCount;
+    },
+
+    stop() {
+      source.stop();
+    },
+  };
+}
+
+/**
+ * The warning tone.
+ *
+ *   oscillator -> pulse gain -> level gain -> warning bus
+ *
+ * PULSED RATHER THAN STEADY, because a steady tone becomes furniture within
+ * about ten seconds and a pulse does not. The pulse is a second oscillator
+ * driving the gain — a low-frequency oscillator in the classic sense — rather
+ * than anything scheduled per frame, so it keeps its rhythm exactly while the
+ * simulation is time-warped, paused or running slowly.
+ *
+ * Its thresholds are the HUD's, imported rather than copied (see
+ * `warningState`). An ear and an eye disagreeing about whether the vehicle is
+ * in trouble would be worse than either alone.
+ */
+export function createWarningVoice(options: EngineVoiceOptions): Voice {
+  const { context, mixer } = options;
+
+  const tone = context.createOscillator();
+  tone.type = 'square';
+  tone.frequency.value = WARNING_HZ[1];
+
+  // The pulse. A sine through a gain gives a smooth throb rather than a click,
+  // which matters because this can run for a minute during a hot re-entry.
+  const lfo = context.createOscillator();
+  lfo.type = 'sine';
+  lfo.frequency.value = WARNING_PULSE_HZ[1];
+
+  const lfoDepth = context.createGain();
+  lfoDepth.gain.value = 0.5;
+
+  const pulse = context.createGain();
+  pulse.gain.value = 0.5;
+
+  const level = context.createGain();
+  level.gain.value = 0;
+
+  tone.connect(pulse);
+  lfo.connect(lfoDepth);
+  // The LFO modulates the pulse gain's own AudioParam: 0.5 +/- 0.5, so the tone
+  // goes fully off between beats rather than merely quieter.
+  lfoDepth.connect(pulse.gain);
+  pulse.connect(level);
+  level.connect(mixer.bus('warning'));
+
+  tone.start();
+  lfo.start();
+
+  let lastState: number | null = null;
+  let lastWriteCount = 0;
+  let totalWrites = 0;
+
+  return {
+    get lastWriteCount() {
+      return lastWriteCount;
+    },
+    get totalWrites() {
+      return totalWrites;
+    },
+    // tone, lfo, lfoDepth, pulse, level.
+    nodeCount: 5,
+
+    update(params) {
+      lastWriteCount = 0;
+      // A three-valued state, so this writes at most a handful of times in a
+      // whole flight — the cheapest diff in the layer.
+      if (params.warning === lastState) return;
+      lastState = params.warning;
+
+      const now = context.currentTime;
+      const index = Math.max(0, Math.min(2, Math.round(params.warning)));
+      level.gain.setTargetAtTime(WARNING_LEVEL[index]!, now, SMOOTH_SECONDS);
+      tone.frequency.setTargetAtTime(WARNING_HZ[index] || WARNING_HZ[1]!, now, SMOOTH_SECONDS);
+      lfo.frequency.setTargetAtTime(
+        WARNING_PULSE_HZ[index] || WARNING_PULSE_HZ[1]!,
+        now,
+        SMOOTH_SECONDS,
+      );
+      lastWriteCount = 3;
+      totalWrites += 3;
+    },
+
+    stop() {
+      tone.stop();
+      lfo.stop();
+    },
+  };
+}

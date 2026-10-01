@@ -1,0 +1,77 @@
+/*
+  uPlot, themed to the broadcast tokens.
+
+  LOADED LAZILY, WITH THE LIBRARY. This file is imported from `loadCharts()`
+  beside uPlot's own stylesheet, not from theme.css — which is the whole point.
+  uPlot is behind a dynamic import so it does not count against the 250 kB
+  first-load budget (M4.5), and pulling its theme into the first-load stylesheet
+  would have quietly undone half of that: the CSS would ship on every page load
+  for a view most players never open. `npm run build` prints the first-load
+  number, and it does not move for this file.
+
+  uPlot ships a light theme with hairline-thin grey axes on white. Everything
+  below is a token substitution, nothing structural — the charts are the same
+  charts, drawn in the same design language as the rest of the application.
+*/
+
+.uplot,
+.uplot * {
+  font-family: var(--font-condensed), 'Helvetica Neue', Arial, sans-serif;
+}
+
+.uplot {
+  color: var(--ink-70);
+}
+
+/* The plot title, set as a micro-label like every other heading here. */
+.u-title {
+  font-family: var(--font-condensed), 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+}
+
+/*
+  The legend. uPlot draws it as a table with a colour swatch per series; the
+  swatch stays the series colour, because that is the one place in this design
+  where a hue is load-bearing — it is how you tell one line from another.
+*/
+.u-legend {
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-70);
+}
+.u-legend .u-marker {
+  border-width: 2px;
+}
+.u-legend .u-value {
+  color: var(--ink-100);
+  font-variant-numeric: tabular-nums;
+}
+.u-legend .u-inactive {
+  opacity: 0.4;
+}
+
+/* The crosshair, when the cursor is over a plot. */
+.u-cursor-x,
+.u-cursor-y {
+  border-color: var(--ink-45);
+}
+
+.u-select {
+  background: rgb(255 255 255 / 10%);
+}
+
+/*
+  One card per plot, matching the panels: flat surface, hairline, 2px radius.
+  The 5% inset white sheet these used to sit on is gone.
+*/
+.cell {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--ink-25);
+  border-radius: 2px;
+  background: rgb(255 255 255 / 4%);
+}

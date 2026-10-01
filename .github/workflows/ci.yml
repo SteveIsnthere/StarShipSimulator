@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  # Every branch push, which already covers a PR's branch; a pull_request
+  # trigger as well would run the gate twice per push.
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+# Cancel superseded runs on the same ref; a stale red run is noise.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      # lint -> build (budgets) -> unit -> coverage floors -> e2e smoke -> subpath deploy.
+      # Build runs before test: tests/offline.test.ts reads dist/.
+      - name: Gate
+        run: npm run gate
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
+          if-no-files-found: ignore
+
+  # The full browser suite (five projects) and the wall-clock bench. Too slow
+  # and too timing-sensitive for every push; run it by hand before a release.
+  e2e-full:
+    name: e2e full + bench
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e:full
+      - run: npm run bench
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report-full
+          path: playwright-report
+          retention-days: 7
+          if-no-files-found: ignore
+
+  hygiene:
+    name: repo hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: No .DS_Store tracked
+        run: |
+          if git ls-files | grep -F '.DS_Store'; then
+            echo "::error::.DS_Store files are tracked. Add to .gitignore and git rm --cached them."
+            exit 1
+          fi
+
+      - name: No dependencies or build output tracked
+        run: |
+          if git ls-files | grep -E '(^|/)(node_modules|dist)/'; then
+            echo "::error::node_modules or dist is tracked."
+            exit 1
+          fi
