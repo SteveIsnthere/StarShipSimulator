@@ -99,7 +99,10 @@ export function createBurnScratch(): BurnScratch {
       gimbalPointingDirection: rad(0),
       aerodynamicDragAcceleration: 0,
       aerodynamicLiftAcceleration: 0,
+      // An unpowered fall: no thrust of either kind.
       thrustAcceleration: 0,
+      fixedThrustAcceleration: 0,
+      pitch: rad(0),
     },
     acc: { x: 0, y: 0 },
   };

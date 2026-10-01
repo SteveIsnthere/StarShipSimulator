@@ -17,6 +17,7 @@ import {
 import { createInitialState } from '$core/state';
 import { step } from '$core/step';
 import { getEffectiveVerticalMaxThrust } from '$core/control/primitives';
+import { gimballedShare } from '$core/physics/engines';
 import { rad } from '$core/units';
 
 const ONLY_RVACS = [false, false, false, true, true, true];
@@ -141,6 +142,13 @@ describe('the vertical throttle law projects the RVacs along the hull', () => {
     expect(getEffectiveVerticalMaxThrust(mixed, g, p, pitch)).toBeCloseTo(expected, 3);
     const seaLevel = [true, true, true, false, false, false];
     expect(getEffectiveVerticalMaxThrust(seaLevel, g, p, pitch)).toBe(3 * C.thrustPerRaptorAt(p) * Math.cos(0.3));
+  });
+});
+
+describe('the gimballed share in its corners', () => {
+  it('is 1 with no RVac lit, and 0 when lit RVacs make no thrust (an ambient pressure past their exit pressure)', () => {
+    expect(gimballedShare([true, true, true, false, false, false], 101.325)).toBe(1);
+    expect(gimballedShare([false, false, false, true, false, false], 1e6)).toBe(0);
   });
 });
 

@@ -144,6 +144,8 @@ describe('the collapsed form is what reaches the simulation', () => {
       aerodynamicDragAcceleration: 12,
       aerodynamicLiftAcceleration: 4,
       thrustAcceleration: 20,
+      fixedThrustAcceleration: 0,
+      pitch: rad(0),
     };
 
     const viaLadders = (() => {

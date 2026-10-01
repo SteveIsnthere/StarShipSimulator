@@ -157,5 +157,12 @@ describe('the frame conversions and the guidance that reads them', () => {
       expect(coastDownrangeDistance(r0, groundTangentialSpeed(r0, 0, w), 12_000, target, w)).toBe(Infinity);
     }
   });
+
+  it('a radial fall too slow to finish within the step cap is +Infinity, not a guess', () => {
+    // From rest at a hundred million kilometres the fall takes years; the cap
+    // is about 28 hours.
+    const far = 1e11;
+    expect(coastDownrangeDistance(far, groundTangentialSpeed(far, 0, EARTH), 0, 6_451_000, EARTH)).toBe(Infinity);
+  });
 });
 
