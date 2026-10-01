@@ -5,7 +5,7 @@
 -->
 <script lang="ts">
   import ControlButton from './ControlButton.svelte';
-  import type { Emit } from './controls';
+  import type { Emit } from '$app/controls';
   import { AUTOPILOT_MODES } from './guide';
 
   interface Props {

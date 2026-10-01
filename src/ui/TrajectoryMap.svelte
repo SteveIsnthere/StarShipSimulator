@@ -28,7 +28,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { MapContext, MapSurface } from '$hud/trajectory-draw';
-  import { MAP_KEY, PREFERENCES_RESET_EVENT } from './preferences';
+  import { MAP_KEY, PREFERENCES_RESET_EVENT } from '$app/preferences';
 
   interface Props {
     /**

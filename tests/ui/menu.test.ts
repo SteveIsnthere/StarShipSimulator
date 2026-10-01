@@ -11,7 +11,7 @@ import {
   REAL_TIME,
   toLoopOptions,
   type EditorFields,
-} from '$ui/menu';
+} from '$app/menu';
 import { ALL_SCENARIOS, createScenarioState, getScenario, INTRO, PRESETS, ORBITAL_PRESETS } from '$core/scenarios';
 import { advance, createLoopState, DT } from '$app/loop';
 import { vehicleHeight, starBaseXPos } from '$core/constants';

@@ -20,7 +20,7 @@
  * one sentence per mode saying what it is for.
  */
 import { ALL_SCENARIOS, INTRO, type ScenarioPreset } from '$core/scenarios';
-import type { ControlEvent } from './controls';
+import type { ControlEvent } from '$app/controls';
 
 /** One autopilot button: what it emits, what it lights, and what it does. */
 export interface AutopilotMode {

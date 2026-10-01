@@ -30,7 +30,7 @@
     MIN_TIME_RATE,
     type EditorFields,
     type TimeSetting,
-  } from './menu';
+  } from '$app/menu';
   import { presetTestId } from './testids';
   import { scenarioStats } from './guide';
 

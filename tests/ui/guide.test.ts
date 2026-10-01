@@ -15,7 +15,7 @@ import { describe, expect, it } from 'vitest';
 import { AUTOPILOT_MODES, GUIDE_SCENARIOS, scenarioStats } from '$ui/guide';
 import { ALL_SCENARIOS, INTRO, LAUNCH_PAD } from '$core/scenarios';
 import { CONTROL_TESTIDS } from '$ui/testids';
-import { applyControl } from '$ui/controls';
+import { applyControl } from '$app/controls';
 import { createScenarioState } from '$core/scenarios';
 
 describe('the autopilot table', () => {

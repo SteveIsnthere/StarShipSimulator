@@ -19,7 +19,7 @@
   happens to be why the contrast holds in both states.
 -->
 <script lang="ts">
-  import type { ControlEvent, Emit } from './controls';
+  import type { ControlEvent, Emit } from '$app/controls';
 
   interface Props {
     label: string;

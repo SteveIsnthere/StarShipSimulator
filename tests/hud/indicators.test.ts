@@ -19,7 +19,7 @@ import { createInitialState, type SimState } from '$core/state';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import { step } from '$core/step';
 import { DT } from '$app/loop';
-import { applyControl } from '$ui/controls';
+import { applyControl } from '$app/controls';
 
 /** A class list that records every toggle. */
 function target(): ClassTarget & { toggles: boolean[]; on: boolean } {

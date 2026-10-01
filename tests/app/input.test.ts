@@ -22,7 +22,7 @@ import {
   tiltToPitchControl,
   type InputAction,
 } from '$app/input';
-import { applyControl, type ControlEvent } from '$ui/controls';
+import { applyControl, type ControlEvent } from '$app/controls';
 import { createInitialState } from '$core/state';
 import { throttleLowerLimit, throttleUpperLimit } from '$core/constants';
 

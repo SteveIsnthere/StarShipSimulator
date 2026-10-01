@@ -16,7 +16,7 @@
     readVolume,
     type AudioEngine,
   } from '$audio/engine';
-  import { CAMERA_KEY, CINEMATIC_KEY, clearPreferences, HINT_KEY } from './preferences';
+  import { CAMERA_KEY, CINEMATIC_KEY, clearPreferences, HINT_KEY } from '$app/preferences';
   import FirstFlight from './FirstFlight.svelte';
   import { createVehicle } from '$view/vehicle';
   import { createParticleSystem, createParticleTextures } from '$view/particles';
@@ -62,7 +62,7 @@
   import { createTimelineBinder, type TimelineBinder } from '$hud/timeline-binder';
   import type { EventId } from '$hud/timeline';
   import Controls from './Controls.svelte';
-  import { applyControl, type ControlEvent } from './controls';
+  import { applyControl, type ControlEvent } from '$app/controls';
   import { bindInput, bindTilt, type InputBinding, type ViewAction } from '$app/input';
   import Menu from './Menu.svelte';
   import {
@@ -71,7 +71,7 @@
     toLoopOptions,
     type EditorFields,
     type TimeSetting,
-  } from './menu';
+  } from '$app/menu';
   import { toggleRandomFailure } from '$core/control/commands';
   import BlackBox from './BlackBox.svelte';
   import Debrief from './Debrief.svelte';

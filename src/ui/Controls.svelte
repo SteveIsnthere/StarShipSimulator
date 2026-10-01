@@ -9,7 +9,7 @@
   import { onMount } from 'svelte';
   import EnginePanel from './EnginePanel.svelte';
   import YokePanel from './YokePanel.svelte';
-  import type { Emit } from './controls';
+  import type { Emit } from '$app/controls';
   import type { ClassTarget } from '$hud/binder';
 
   interface Props {

@@ -22,7 +22,7 @@ import {
   MAP_KEY,
   NON_PREFERENCE_KEYS,
   PREFERENCE_KEYS,
-} from '$ui/preferences';
+} from '$app/preferences';
 import { MUTE_KEY, VOLUME_KEY } from '$audio/engine';
 
 const SRC = join(import.meta.dirname, '../../src');
