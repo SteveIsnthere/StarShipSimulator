@@ -24,6 +24,8 @@ All commands run in the repo root.
 
 - `npm run test:e2e:full` — every spec on all five projects (desktop plus four phone viewports). Run it before a release or after UI work.
 - `npm run bench` — the wall-clock budgets (`*.timing.test.ts`), on an idle machine.
+- `npm run truth:report` — every reference band, IN or OUT (`physics-change-policy`).
+- `npm run mutation` — every deliberate fault in `tests/mutations.json` must be caught by a named assertion. Run it after changing tests or physics.
 
 First run on a machine: `npx playwright install chromium` (prefix `NODE_EXTRA_CA_CERTS=/etc/ssl/cert.pem` if Node rejects the certificate chain).
 
@@ -43,6 +45,7 @@ While iterating, run the narrowest thing that covers the change (`npx vitest run
 - **No wall-clock assertions in gated tests.** Count steps or work instead. A timing assertion is flaky under load and turns the gate red for no reason.
 - **A skipped test needs an assertion that it is skipped for the stated reason.** A skip nothing asserts is indistinguishable from a test that stopped running.
 - **Never weaken a tolerance or delete an assertion to make a gate pass.** Find the cause.
+- **A witness without a positive control is not evidence.** A browser check that something is drawn must also show the detector reading it as absent when the cause is removed.
 
 ## Hosted CI
 

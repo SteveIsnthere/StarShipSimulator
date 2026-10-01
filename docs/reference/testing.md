@@ -34,6 +34,33 @@ checkout `npm run test` without a prior build fails on ENOENT.
   load-sensitive: it passes alone and has failed under five parallel workers. If it fails in
   a full run, re-run it alone before treating it as a regression.
 
+## Truth tiers
+
+Correctness is judged against truths that hold independently of this code, in three tiers.
+
+| tier | what | where | may it move? |
+|---|---|---|---|
+| 1 | closed form: Kepler, vis-viva, energy and angular-momentum conservation, ISA tables; property invariants over every configurable flight | `tests/core/analytic-laws.test.ts`, `verlet.test.ts`, `angular-momentum.test.ts`, `isa.test.ts`, `invariants.test.ts` | never re-blessed |
+| 2 | published reference bands, each cited, tier A (stated or physical) or B (estimate) | `tests/reference/anchors.ts`; `npm run truth:report` | a tier-A row in band is ratcheted (`in-band.json`) and may not leave it |
+| 3 | golden trajectories | `tests/golden/` | under a Bug-fix or Fidelity tier only |
+
+**Invariants** (`tests/core/invariants.test.ts`, fast-check, seed 42 unless `FC_SEED`): no
+NaN anywhere after 120 steps of any flight; mass never rises and propellant never goes
+negative; engines off and no wind, orbital energy never rises beyond integrator error; the
+same flight twice is identical. Flights are generated through `createScenarioState`, the
+flight editor's path (`tests/core/arbitraries.ts`).
+
+**Mutation matrix** (`npm run mutation`, about 3 minutes, not in the gate): each fault in
+`tests/mutations.json` is applied to a temp copy and must fail a named assertion; the
+unmodified copy runs first and must pass.
+
+**Witnesses.** A browser spec that claims something is drawn carries a positive control: the
+same setup with the cause removed, which must read as absent. `witness-plume.spec.ts`
+(engines lit vs off) and `reentry.spec.ts` (hot vs cold flight) are the pattern. Setup goes
+through `window.__simDebug` (`src/app/debug.ts`, present only in dev or with `?debug=1`):
+`setScenario(id, overrides)`, `setState(path: value)`, `pause`, `resume`, `step(n)`,
+`telemetry()`.
+
 ## Vitest suites
 
 The environment is `node` for every suite, which is what keeps `core/` browser-free.

@@ -32,6 +32,8 @@ ESLint errors, configured in `eslint.config.js` (`CORE_WALL_RULES`). `tests/lint
 6. Nothing in the repo root assigns to `globalThis`.
 7. `core/` imports nothing from `audio/` — sound is an output of the simulation, never an input.
 
+`src/app/debug.ts` is the one file that attaches a global (`window.__simDebug`, defined rather than assigned, and only in a dev build or with `?debug=1`). No other file may.
+
 Never disable a wall with an inline `eslint-disable`. If a wall is in the way, the code is in the wrong layer.
 
 ## Determinism
