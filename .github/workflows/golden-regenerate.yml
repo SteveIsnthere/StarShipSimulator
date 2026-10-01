@@ -1,0 +1,43 @@
+name: Golden regenerate
+
+# The golden fixtures replay bit-exactly only on the platform that recorded
+# them, x86-64 Linux under Node 22 (tests/golden/compare.ts). A re-bless made
+# on any other machine fails there in the last digit. So a Fidelity change
+# regenerates its fixtures HERE, on demand, and the job hands them back as an
+# artifact for the change's own commit (physics-change-policy: code, fixtures
+# and the audit row land together). It writes nothing to the repository.
+#
+# Run it by pushing the change's branch under `golden/` as well
+# (`git push origin HEAD:golden/<name>`), or by dispatch from the default branch.
+on:
+  workflow_dispatch:
+  push:
+    branches: ['golden/**']
+
+permissions:
+  contents: read
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Confirm the recording platform
+        run: node -e "if (process.platform !== 'linux' || process.arch !== 'x64' || process.versions.node.split('.')[0] !== '22') { console.error('not the recording platform:', process.platform, process.arch, process.versions.node); process.exit(1) }"
+
+      - name: Regenerate
+        run: npm run golden:regenerate
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: golden-fixtures
+          path: tests/golden/fixtures/
