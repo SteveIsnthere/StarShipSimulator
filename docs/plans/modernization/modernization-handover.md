@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | Tasks 1–3 done on `claude/ship-realism` ([phase 6](modernization-phase-6.md)) | — |
+| 6 Ship realism | Tasks 1–4 done on `claude/ship-realism`, unmerged ([phase 6](modernization-phase-6.md)) | — |
 | 7 Super Heavy | not started | — |
 | 8 UX to flight_sim level | not started | — |
 
@@ -46,7 +46,9 @@ The unattended run's report. Updated as phases land; the last section is always 
   - *Engines* (all) lights the three sea-level engines, as in 2021;
   - Earth rotation uses a rotating ground frame at Starbase's 26°N, done last;
   - spool-up is the existing ignition transient, not a second invented one;
-  - **the landing reserve is measured, not computed (changed during Task 3).** The plan's formula gave 6.3 t, but the landing programme spends 12.0 t engine-out, so a computed reserve would have crashed every deorbit. It is 16 t (that plus a third), health-checked the way the deorbit aim is; engine-out deorbits now land with 3 t instead of 0.0–0.2 t.
+  - **the landing reserve is measured, not computed (changed during Task 3).** The plan's formula gave 6.3 t, but the landing programme spends 12.0 t engine-out, so a computed reserve would have crashed every deorbit. It is 18 t after Task 4c (the worst engine-out use plus about a third), health-checked the way the deorbit aim is; engine-out deorbits now land with 3.8 t instead of 0.0–0.2 t;
+  - **the RVacs (Task 4b)**: 258 tf and 380 s from Wikipedia; the 2.3 m exit is the commonly reported figure with no primary source found. The autopilot lights no RVac in Phase 6 (a vacuum deorbit burn on RVacs is later work); *Engines* (all) lights the sea-level three and shuts everything down. The controls and HUD show six marks in two labelled sets, keys 4–6 for the RVacs: a minimal UI, the look is Phase 8's;
+  - **the flip trigger plans on the slowest engine start** (1.2 s, Task 4c), not 2021's 0.6 s constant.
 
 ## Parked — yours to decide
 
@@ -68,3 +70,10 @@ The unattended run's report. Updated as phases land; the last section is always 
 ## Blocker
 
 None.
+
+## Phase 6 progress (2026-10-01)
+
+- Tasks 1–4 on `claude/ship-realism`, each pushed with its Linux-regenerated goldens and an audit row (P6.1–P6.5): felt g, the 1976 thermosphere, the starting Mach, the emptying-step thrust; Earth's GM and radius; the measured landing reserve; six Raptors; the start transient.
+- **Independent review of Tasks 1–3** (a fresh subagent; Codex cannot run here): no correctness bugs in the physics. It found one real edge (an ignition finishing on the emptying step thrust for free, fixed in `cff0046`), stale docs and four tests my planet rewrite had made tautological (re-anchored to fixed figures). Both fixed.
+- Next: Task 5 (drag area and Cd), then 6–11, then the close (full e2e, `/code-review high`, an independent physics review of the whole phase, merge).
+
