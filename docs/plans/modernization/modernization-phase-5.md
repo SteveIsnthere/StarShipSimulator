@@ -195,6 +195,13 @@ Boost-back goes first and in the same commit, because changing the TWR law under
 ### Task 6: Close
 
 - [x] `docs/reference/physics-model.md` gains a "Guidance" section. It covers what guidance assumes, the predictor, the named margins and their derivations, and the deorbit range's measurement.
-- [ ] Remove the backlog rows this phase answers: the `airResistance_k` row. Remove `horizontalSteering` calling `precisionAlignment` twice only if Task 4 resolved it. Add the `controlEnginebyTWR` divide-by-`throttleCurrent` quirk as a new row.
-- [ ] Run the full gate, `npm run mutation` (every guidance mutant from a landed task caught), `npm run truth:report` and `/code-review high`. Then send the physics to an independent reviewer that never saw it.
-- [ ] Merge, verify the deploy, tick Phase 5 with any parked task named, and write the Phase 6 plan.
+- [x] Remove the backlog rows this phase answers: the `airResistance_k` row. Remove `horizontalSteering` calling `precisionAlignment` twice only if Task 4 resolved it. Add the `controlEnginebyTWR` divide-by-`throttleCurrent` quirk as a new row.
+- [x] Run the full gate, `npm run mutation` (every guidance mutant from a landed task caught), `npm run truth:report` and `/code-review high`. Then send the physics to an independent reviewer that never saw it.
+- [x] Merge, verify the deploy, tick Phase 5 with any parked task named, and write the Phase 6 plan.
+
+## Close-out (2026-10-01)
+
+- **Done:** Tasks 1–6 on `claude/guidance`. Every scenario lands; the intro moved 0.333 s (inside ±0.5 s), none lit at touchdown; engine-out outcomes unchanged; deorbit miss 0.01 km; mutation 11/11; truth report unchanged.
+- **Decided while building** (each recorded where it lives): the trigger keeps the one-engine ladder and adds no margin (two tried, both starved the one-engine-out deorbit); `DEORBIT_ENTRY_RANGE` stays (re-derived within 11 m); the trigger is computed only below `flipTriggerCeiling`; the predictor answers `null` ("start now") rather than guess when a burn is longer than its 60 s cap.
+- **Reviews:** `/code-review high` (six findings, all fixed); an independent reviewer (nothing blocking; one real defect in the mass iteration, fixed, and fixing it exposed the cap case, also fixed).
+- **Left for later** (backlog): the 12 t `dumpLimit` leaves no engine-out reserve (engine-out deorbits land with 0.1–0.2 t); `controlEnginebyTWR`'s divide-by-`throttleCurrent` quirk.
