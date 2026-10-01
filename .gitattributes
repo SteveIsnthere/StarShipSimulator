@@ -1,0 +1,5 @@
+# The project skills live at .agents/skills (Codex and Antigravity read that
+# path directly) and .claude/skills is a committed symlink to it, so Claude
+# Code reads the same files. Git for Windows needs symlink=dir to create a
+# directory link when it checks the link out before its target exists.
+.claude/skills symlink=dir
