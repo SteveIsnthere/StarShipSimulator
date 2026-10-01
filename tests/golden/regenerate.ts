@@ -1,7 +1,7 @@
 /**
  * Regenerate every golden fixture.
  *
- *     npx vite-node tests/golden/regenerate.ts
+ *     npm run golden:regenerate
  *
  * Running this is a physics change unless the output is byte-identical.
  * `physics-change-policy` permits it only under a declared Bug-fix or Fidelity tier,

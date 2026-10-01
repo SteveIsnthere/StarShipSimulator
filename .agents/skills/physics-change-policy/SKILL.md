@@ -24,7 +24,7 @@ A Fidelity change inside an approved plan in `docs/plans/` is approved by that p
 ## Regenerating goldens
 
 1. Every truth test and the rest of the unit suite passes first.
-2. Regenerate from the full, unfiltered set: `npx vite-node tests/golden/regenerate.ts`. `vite-node` is not yet a pinned devDependency (the modernization Phase 1 adds it); until then, check that `npx` resolved a version compatible with the repo's Vite.
+2. Regenerate from the full, unfiltered set: `npm run golden:regenerate`.
 3. Predict which scenarios should move before looking. Compare the prediction with what moved: a change that moves a scenario it should not reach is a defect, not a re-bless.
 4. Add a row to the audit table at the top of `tests/golden/unification.test.ts`: what changed, and which scenarios moved.
 5. Code, fixtures and the audit row land in the same commit.
