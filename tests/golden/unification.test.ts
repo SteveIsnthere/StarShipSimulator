@@ -27,6 +27,7 @@
  *     M11.8   the centre of mass moves           ALL EIGHT
  *     M12     the angular drag axis              ALL EIGHT
  *     P5.3    guidance on local gravity          ALL EIGHT
+ *     P5.4    the burn sized by the predictor    five: three fly, two plan
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -139,6 +140,24 @@
  * gravity being lower than the flat one. Margins before and after:
  * tests/golden/landing-margins.json and the commit message.
  *
+ * P5.4 (Phase 5, Task 4, Fidelity): the flip trigger and the end of the
+ * horizontal adjustment size the landing burn with the predictor (gravity at
+ * altitude, thrust at altitude, tail-first drag, mass flow) on the same
+ * one-engine ladder, instead of a flat-g, sea-level, drag-free estimate; no
+ * margin is added (two were tried and both starved the one-engine-out deorbit
+ * of propellant; see src/core/autopilot/landing-burn.ts), and the dead
+ * `dualRaptorMode`/`trialRaptorMode` flags go. THREE FLY DIFFERENTLY:
+ * before-flip and both landing-burns (up to 41 m and 17 m/s mid-descent), all
+ * landing, before-flip 1.5 m from the pad and landing-burn 0.5 m. TWO MOVE ONLY
+ * IN THEIR PLANNING KEYS: re-entry and RTLS, whose recorded windows reach the
+ * aero descent, where the trigger is recomputed every step, but end before the
+ * flip: `bellyFlopTriggerAltitude` and `finalStagePessimisticAltitude` change,
+ * nothing physical does. The commit predicted re-entry but NOT RTLS, wrongly
+ * assuming its 120 s window ended before the aero descent; the code's reach was
+ * right, the prediction was not. Ascent, booster-sep and the intro do not move
+ * (the intro runs only the final descent, which this does not touch); every
+ * fixture's header loses the two flags.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -207,15 +226,14 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // All eight last moved at P5.3 (Phase 5 Task 3), Fidelity: the throttle laws
-  // on local gravity, boost-back commanded as an acceleration.
+  // P5.3 (all eight) then P5.4 (five): see the table above.
   'launch-pad-takeoff': '520b3264c3f22ea479601c578ed37436f0a7b85dbdcde56e18c5fb054cc44e27',
   'booster-sep-boostback': '213f6e221a047db82a787eb31d62793c0846cf2b6faf0cfe4fb8ae1add880422',
-  'rtls-boostback': 'ddb443dff0f334f4867a023132a0303b6748fae8ddfdce4bc60a9729869ad0db',
-  'reentry-autoland': '8733da213e9fab5638686eaaee07e5095b8b82a03057447f4d3753dd622966a1',
-  'before-flip-autoland': 'f2030bc36600079930788484bc1e83bbcaae15d60ecd59b6e5f84272bb31b07d',
-  'landing-burn-autoland': '577757d2fc96031804ab040d216459f0e3e236b74c29971db28a3ef7ca815f86',
-  'landing-burn-headwind': 'd4300c513540d2668225522473ee7397c37ac414b2de9d303e6fec6323e55f2d',
+  'rtls-boostback': '44a90c7a4eb7f3459e125442cc888e6370210f5df9bc42de0ad297a6c1a3d8d8',
+  'reentry-autoland': '8893d5b0ac260b18c58556ec5bb89fb0870958d654368c6e6512613ca6434341',
+  'before-flip-autoland': '46148aebd23beff329356094d15ed307c68c9fcf00915bd1f93d3ede7a00ee6d',
+  'landing-burn-autoland': '45f42931ca0eb7f419e6d3ff749b941d3fcb0b466739897c7566bcc8571a44a0',
+  'landing-burn-headwind': 'a56dc0fd15ffdcb6500bafcb169a458af55471320e6075ad4d09b61f6a092a1f',
   'intro-demo': 'ebf86ff5b168f716b66def589be50e0db550ec30141769994b663611510fc90b',
 };
 

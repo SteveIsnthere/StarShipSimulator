@@ -19,6 +19,14 @@
  *   lit at full throttle at a chosen altitude, bisected for the lowest altitude
  *   that still stops the vehicle at touchdown height. Ignition delay, drag,
  *   thrust at altitude and mass flow are all the simulation's.
+ *
+ *   READ THE SLACK WITH ITS LIMITS. "Needed" lights every working engine from
+ *   cold, so it includes the ignition delay (a 0.3-1.2 s draw) and the slew
+ *   from the throttle's floor; the autopilot's estimate excludes both, because
+ *   the trigger adds the delay separately, and since Phase 5 it plans on one
+ *   engine while "needed" lights all three. The two are not the same burn, so
+ *   the slack is a diagnostic of how an estimate moved between commits, not a
+ *   margin to size anything from (Phase 5 tried; see landing-burn.ts).
  */
 import { DT } from '$app/loop';
 import { setThrottle, toggleRaptor } from '$core/control/commands';

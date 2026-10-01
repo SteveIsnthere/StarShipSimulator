@@ -45,6 +45,8 @@ The roadmap said the autopilot and the predictor use g = 9.807 and `airResistanc
 
 ## Global Constraints
 
+**Stop rule, as used in Task 4:** two principled attempts at the margin; the second (none) passed.
+
 **Baseline (Task 1, 2026-10-01).** The burn slack runs from −20.2 m (landing-burn, where the old estimate was optimistic) to +68.2 m (before-flip). Engine-out: landing-burn with two engines out crashes today; the other three variants land. The intro touches down at 10.108 s with all engines off.
 
 **Tiers and goldens**
@@ -163,15 +165,14 @@ Boost-back goes first and in the same commit, because changing the TWR law under
 **Files:** a new `src/core/autopilot/landing-burn.ts` holding the sizing; `src/core/autopilot/index.ts` (call sites only: `updateBellyFlopTriggerAltitude` at `:283-317`, horizontal adjustment at `:413-422`, `:459`); tests.
 
 **Steps**
-- [ ] Remove the thrust ladder's dead flags (`dualRaptorMode`, `trialRaptorMode`). The engine count for sizing is the number of engines not failed.
-- [ ] Compute both pessimistic altitudes from `landingBurnStartAltitude`:
-  - **Trigger altitude** = predicted start altitude + the distance fallen during the flip (flip duration × |vY|, as today) + **one named margin**.
-  - **Margin** = the largest burn slack Task 1 measured on any scenario that lands today (68.2 m, before-flip), rounded up to the next 50 m, and never less than 100 m. That is **100 m**. Computed once from `landing-margins.json`, written as a constant with that derivation, and **not adjusted afterward**. If a scenario then fails to land, that is the stop rule, not a reason to raise the margin.
-  - **Horizontal adjustment** keeps its `+1 s` and `*1.1` exit as named margins, now on the predicted altitude.
-  - A `null` prediction means "trigger now".
-- [ ] Predicted to move: reentry, before-flip, landing-burn (with and without headwind), booster-sep and rtls. The intro does not run this code (`demoAutoLand` runs only `finalDescentStageController`), so its digest must not move from this task. Its moving is a defect.
-- [ ] Engine-out outcomes do not get worse. Deorbit range re-measured. Margins in the commit body.
-- [ ] Add a mutant in this commit: drag dropped from the predictor. The Task 2 stopping-altitude cases must catch it.
+- [x] Remove the thrust ladder's dead flags (`dualRaptorMode`, `trialRaptorMode`). The ladder's engine count is capped by the engines not failed.
+- [x] Compute both pessimistic altitudes from `landingBurnStartAltitude`:
+  - **Trigger altitude** = the predicted burn on the **planned engine count** (2021's one-engine ladder, kept: it is the trigger's engine-out pessimism, a design choice), plus the flip's fall and the ignition mean, as before. **No added margin** (decided while building, 2026-10-01): the planned flat 100 m (from Task 1's burn slack, which turned out to compare a one-engine plan with an all-engines-from-cold burn, so it did not describe this) and a derived 0.9 s (ignition spread plus throttle slew) each flipped the vehicle earlier, and the longer hover ran the one-engine-out deorbit out of propellant. That flight lands with none to spare at baseline. The predictor is within a metre of the simulation, so a margin would only spend fuel.
+  - **Horizontal adjustment** keeps its `+1 s` as a named margin and its `*1.1` exit, now on the predicted altitude with the engines running.
+  - A `null` prediction means "start now" (also when the burn needs more propellant than is aboard).
+- [x] Predicted to move: reentry, before-flip, landing-burn (with and without headwind). Moved: those, plus RTLS in its planning keys only (its window reaches the aero descent; the prediction was wrong, not the code). The intro, ascent and booster-sep do not move.
+- [x] Engine-out outcomes do not get worse. Deorbit range re-measured. Margins in the commit body.
+- [x] Add a mutant in this commit: drag dropped from the predictor. The Task 2 stopping-altitude cases must catch it.
 
 ### Task 5: The HUD predictor on the simulation's drag (no core physics change)
 

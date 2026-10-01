@@ -405,8 +405,6 @@ export interface AutopilotState {
   initVehicleConfigCompleted: boolean;
   /** m. */
   landingSiteXPos: number;
-  dualRaptorMode: boolean;
-  trialRaptorMode: boolean;
 
   aeroDescentCompleted: boolean;
   /** Fraction, max 1. Undefined until the aero-descent stage runs. */
@@ -678,8 +676,6 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       autoLandOn: false,
       initVehicleConfigCompleted: false,
       landingSiteXPos: C.starBaseXPos,
-      dualRaptorMode: false,
-      trialRaptorMode: false,
 
       aeroDescentCompleted: false,
       fineTunePercentage: undefined,
