@@ -17,6 +17,7 @@ import { speedOfSoundAt } from '../physics/atmosphere';
 import {
   foldedIntoWind,
   getBodyDragCoefficient,
+  tailFirstDragCoefficient,
   getCrossSectionalArea,
   getDrag,
   getLift,
@@ -58,7 +59,7 @@ export function thrustFor(engines: number, airPressureKPa: number): number {
 
 /**
  * Drag area in the landing-burn attitude: tail first, the airflow along the
- * axis (`getCrossSectionalArea` at 0°, which is the nose-on area / 2.1). Not
+ * axis (`getCrossSectionalArea` at 0°, the base area; Phase 6 removed a / 2.1). Not
  * the current area: during the aero descent the vehicle is broadside, several
  * times this, and the burn is flown after the flip.
  */
@@ -117,7 +118,7 @@ export function tailFirstDragDeceleration(
   const air = scratch.atmosphere;
   isaAtmosphereInto(altitude, air);
   const mach = speed / speedOfSoundAt(air.airTemperature);
-  return getDrag(air.airDensity, speed, TAIL_FIRST_AREA, getBodyDragCoefficient(mach)) / mass;
+  return getDrag(air.airDensity, speed, TAIL_FIRST_AREA, tailFirstDragCoefficient(mach)) / mass;
 }
 
 /** s — the predictor's integration step. */
@@ -331,7 +332,8 @@ function fallAcceleration(
   const mach = speed / speedOfSoundAt(air.airTemperature);
   inputs.angleOfMotion = rad(motion);
   inputs.angleOfAttack = rad(attack);
-  inputs.aerodynamicDragAcceleration = getDrag(air.airDensity, speed, area, getBodyDragCoefficient(mach)) / mass;
+  inputs.aerodynamicDragAcceleration =
+    getDrag(air.airDensity, speed, area, getBodyDragCoefficient(mach, attack, maxArea)) / mass;
   inputs.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
   acc.x = getHorizontalAcceleration(inputs) + tangentialAcceleration(r, vx, vy);
   acc.y = getVerticalAcceleration(inputs, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);

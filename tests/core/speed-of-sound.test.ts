@@ -63,21 +63,25 @@ describe('the size of the 2021 error', () => {
     expect(machConstant / machReal - 1).toBeCloseTo(-0.14, 2);
   });
 
-  it('and understated drag, because Cd is a function of Mach', () => {
-    // The consequence that actually matters. Below Mach 10 the body drag
-    // coefficient rises with Mach, so an understated Mach means understated Cd.
+  it('and misjudged drag, because Cd is a function of Mach', () => {
+    // The consequence that actually matters. Broadside between Mach 1 and 4
+    // the coefficient falls with Mach (Phase 6), so the understated Mach
+    // overstated the drag here.
     const speed = 1000;
-    const cdConstant = getBodyDragCoefficient(speed / C.speedOfSound);
-    const cdReal = getBodyDragCoefficient(speed / soundAtAltitude(11_000));
-    expect(cdReal).toBeGreaterThan(cdConstant);
+    const broadside = Math.PI / 2;
+    const cdConstant = getBodyDragCoefficient(speed / C.speedOfSound, broadside, C.vehicleInFlightMaxArea);
+    const cdReal = getBodyDragCoefficient(speed / soundAtAltitude(11_000), broadside, C.vehicleInFlightMaxArea);
+    expect(cdReal).toBeLessThan(cdConstant);
   });
 
-  it('but not above Mach 10, where the coefficient is capped', () => {
-    // Worth knowing where the fix stops mattering: hypersonic re-entry is
-    // already at the 2.5 cap under either speed of sound.
+  it('but not above Mach 4, where the broadside coefficient is its Newtonian limit', () => {
+    // Worth knowing where the fix stops mattering: hypersonic re-entry is at
+    // the limit under either speed of sound.
     const speed = 7000;
-    expect(getBodyDragCoefficient(speed / C.speedOfSound)).toBe(2.5);
-    expect(getBodyDragCoefficient(speed / soundAtAltitude(60_000))).toBe(2.5);
+    const broadside = Math.PI / 2;
+    expect(getBodyDragCoefficient(speed / C.speedOfSound, broadside, C.vehicleInFlightMaxArea)).toBe(
+      getBodyDragCoefficient(speed / soundAtAltitude(60_000), broadside, C.vehicleInFlightMaxArea),
+    );
   });
 });
 

@@ -26,16 +26,19 @@ export function getDynamicPressure(airDensity: number, trueSpeed: number): numbe
 }
 
 /**
- * physics.js:39 — area presented to the airflow.
+ * physics.js:39 — area presented to the airflow: the projected area of the
+ * cylinder at its attitude, broadside (with the fins) plus nose-on.
  *
- * Blends broadside and nose-on area by attitude. The `/ 2.1` on the nose-on term
- * is an unexplained tuning constant; it is part of the feel and stays.
+ * Phase 6, Task 5a: the nose-on term was divided by an unexplained 2.1, which
+ * stood in for a body drag coefficient far too high for an axial flow. The
+ * coefficients are per component now (`getBodyDragCoefficient`), so the area
+ * is the geometry.
  * @returns m^2
  */
 export function getCrossSectionalArea(angleInToTheWind: Rad, vehicleInFlightMaxArea: number): number {
   return (
     Math.abs(Math.sin(angleInToTheWind) * vehicleInFlightMaxArea) +
-    Math.abs(Math.cos(angleInToTheWind) * C.vehicleMinArea) / 2.1
+    Math.abs(Math.cos(angleInToTheWind) * C.vehicleMinArea)
   );
 }
 
@@ -62,6 +65,7 @@ export function getDrag(
  */
 export function getLiftCoefficient(angleInToTheWind: Rad): number {
   const angleITW = Math.abs(angleInToTheWind);
+  if (globalThis.process?.env?.XLIFT) return 1.227 * Math.sin(angleITW) ** 2 * Math.cos(angleITW);
 
   if (angleITW >= 1.48) return -1.1 * angleITW + 1.728;
   if (angleITW >= 0.52) return (-1 / 9.6) * angleITW + 0.254;
@@ -84,13 +88,117 @@ export function getLift(
   return liftCoefficient * airDensity * trueSpeed ** 2 * wingArea * 0.5;
 }
 
+/*
+  BODY DRAG, PER COMPONENT — Phase 6, Task 5b (Fidelity). 2021 used one
+  coefficient for every attitude, 1.153 + 0.1347 M capped at 2.5: a broadside
+  cylinder's number applied nose-on too (the `/ 2.1` on the area undid half of
+  that), rising with Mach where a bluff body's falls. Now the broadside and the
+  axial flows each have their own coefficient, on their own projected area.
+
+  Sources (Niskanen, OpenRocket technical documentation, 2013, Ch. 3 and
+  App. B, which take them from Hoerner, Fluid-Dynamic Drag, 1965):
+  - q_stag/q, the stagnation-pressure ratio (eq. B.1);
+  - a blunt face: Cd = 0.85 q_stag/q (eq. B.2);
+  - base drag: Cd = 0.12 + 0.13 M^2 below Mach 1, 0.25 / M above (eq. 3.94);
+  - a conical or tangent-ogive nose: 0 subsonic with a smooth joint (eq. 3.86),
+    sin(e) at Mach 1 (B.6), 2.1 sin^2 e + 0.5 sin e / sqrt(M^2 - 1) from Mach
+    1.3 (B.4), tan e = 1 / (2 f_N) (B.3); between, linear here (OpenRocket
+    fits polynomials).
+  Broadside, a cylinder in crossflow: 1.2 at subcritical crossflow Mach
+  (Jorgensen, NASA TR R-474, 1977); the Newtonian limit (2/3) 1.84 = 1.227
+  above Mach 4, matching the ~1.24 measured there (Penland, NACA, Mach 6.86);
+  rising with q_stag/q from Mach 0.4 to 1 (1.47 there), and a straight line
+  from Mach 1 to 4 (an interpolation, not a source).
+  Named assumptions: the nose fineness 1.5 (no published nose length) and
+  skin friction 0.035 on the base area (a turbulent Cf of about 0.0016 at
+  Re ~ 1e9, over a wetted area 22 times the base). Engine plumes filling the
+  base are not modelled.
+*/
+
+/** The nose cone's fineness, length over diameter (named assumption, see above). */
+const NOSE_FINENESS = 1.5;
+/** sin of the equivalent cone's half-apex angle: tan e = 1 / (2 f_N) (eq. B.3). */
+const NOSE_SIN_E = Math.sin(Math.atan(1 / (2 * NOSE_FINENESS)));
+/** Skin friction, referenced to the base area (named assumption, see above). */
+const SKIN_FRICTION = 0.035;
+
+/** q_stag / q: the stagnation-pressure ratio of the flow (Hoerner; OpenRocket eq. B.1). */
+export function stagnationPressureRatio(machSpeed: number): number {
+  const m = Math.max(0, machSpeed);
+  if (m < 1) return 1 + (m * m) / 4 + m ** 4 / 40;
+  return 1.84 - 0.76 / m ** 2 + 0.166 / m ** 4 + 0.035 / m ** 6;
+}
+
+/** Base drag of a flat base (OpenRocket eq. 3.94). */
+function baseDrag(m: number): number {
+  return m < 1 ? 0.12 + 0.13 * m * m : 0.25 / m;
+}
+
+/** Wave drag of the ogive nose, as its equivalent cone (OpenRocket B.3-B.6, 3.86). */
+function noseWaveDrag(m: number): number {
+  if (m <= 0.8) return 0;
+  const atMach1 = NOSE_SIN_E;
+  const atMach13 = 2.1 * NOSE_SIN_E ** 2 + (0.5 * NOSE_SIN_E) / Math.sqrt(1.3 ** 2 - 1);
+  if (m < 1) return (atMach1 * (m - 0.8)) / 0.2;
+  if (m < 1.3) return atMach1 + ((atMach13 - atMach1) * (m - 1)) / 0.3;
+  return 2.1 * NOSE_SIN_E ** 2 + (0.5 * NOSE_SIN_E) / Math.sqrt(m * m - 1);
+}
+
+/** The subcritical crossflow coefficient, and the Mach it holds to. */
+const CROSSFLOW_SUBCRITICAL = 1.2;
+const CROSSFLOW_SUBCRITICAL_MACH = 0.4;
+/** The broadside Newtonian limit: (2/3) of the hypersonic q_stag/q. */
+const CROSSFLOW_NEWTONIAN = (2 / 3) * 1.84;
 /**
- * physics.js:79 — body drag coefficient, linear in Mach then capped.
+ * The broadside coefficient at Mach 1, from below: the subcritical value
+ * scaled by the stagnation-pressure rise from Mach 0.4 (1.47). Taken from the
+ * subsonic fit; the source's two fits meet 0.5% apart at Mach 1.
+ */
+const CROSSFLOW_MACH_1 =
+  (CROSSFLOW_SUBCRITICAL * (1 + 1 / 4 + 1 / 40)) / stagnationPressureRatio(CROSSFLOW_SUBCRITICAL_MACH);
+
+/** Broadside: a circular cylinder in crossflow, on the side area. */
+export function broadsideDragCoefficient(machSpeed: number): number {
+  const m = Math.max(0, machSpeed);
+  if (m <= CROSSFLOW_SUBCRITICAL_MACH) return CROSSFLOW_SUBCRITICAL;
+  if (m < 1) {
+    return (CROSSFLOW_SUBCRITICAL * stagnationPressureRatio(m)) / stagnationPressureRatio(CROSSFLOW_SUBCRITICAL_MACH);
+  }
+  if (m >= 4) return CROSSFLOW_NEWTONIAN;
+  return CROSSFLOW_MACH_1 + ((CROSSFLOW_NEWTONIAN - CROSSFLOW_MACH_1) * (m - 1)) / 3;
+}
+
+/** Nose first: the ogive's wave drag, the flat base, skin friction; on the base area. */
+export function noseFirstDragCoefficient(machSpeed: number): number {
+  const m = Math.max(0, machSpeed);
+  return noseWaveDrag(m) + baseDrag(m) + SKIN_FRICTION;
+}
+
+/** Tail first: the flat engine end as a blunt face, the pointed nose leaving no base; on the base area. */
+export function tailFirstDragCoefficient(machSpeed: number): number {
+  return 0.85 * stagnationPressureRatio(machSpeed) + SKIN_FRICTION;
+}
+
+/**
+ * The body drag coefficient on `getCrossSectionalArea`'s projected area: the
+ * broadside and axial terms each on their own area, divided back by the total,
+ * so `getDrag` with the projected area gives their sum. The axial term is the
+ * nose's when the attack angle is under 90 degrees, the tail's beyond.
+ * @param angleOfAttack rad, unfolded (-pi, pi]: which end leads
  * @returns dimensionless
  */
-export function getBodyDragCoefficient(machSpeed: number): number {
-  if (machSpeed >= 10) return 2.5;
-  return machSpeed * 0.1347 + 1.153;
+export function getBodyDragCoefficient(
+  machSpeed: number,
+  angleOfAttack: number,
+  vehicleInFlightMaxArea: number,
+): number {
+  const side = Math.abs(Math.sin(angleOfAttack)) * vehicleInFlightMaxArea;
+  const end = Math.abs(Math.cos(angleOfAttack)) * C.vehicleMinArea;
+  const axial =
+    Math.abs(angleOfAttack) < Math.PI / 2
+      ? noseFirstDragCoefficient(machSpeed)
+      : tailFirstDragCoefficient(machSpeed);
+  return (broadsideDragCoefficient(machSpeed) * side + axial * end) / (side + end);
 }
 
 /** physics.js:89 — `force / mass`. @returns m/s^2 */

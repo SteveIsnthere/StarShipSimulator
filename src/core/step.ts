@@ -292,6 +292,13 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.kinematics.angleInToTheWind,
     s.vehicle.vehicleInFlightMaxArea,
   );
+  // The drag coefficient reads the same (previous) attitude the area does,
+  // unfolded, so it knows which end leads (Phase 6, Task 5b).
+  const dragCoefficient = aero.getBodyDragCoefficient(
+    s.kinematics.machSpeed,
+    s.kinematics.angleOfAttack,
+    s.vehicle.vehicleInFlightMaxArea,
+  );
   s.kinematics.angleOfMotion = aero.getAngleOfMotion(s.kinematics.speedX, s.kinematics.speedY);
   // M11.1: the aerodynamic angles are measured from the relative wind, which is
   // the ground track only in still air. `angleOfMotion` stays the ground track
@@ -339,7 +346,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.atmosphere.airDensity,
     incomingAirspeed,
     s.forces.crossSectionalArea,
-    aero.getBodyDragCoefficient(s.kinematics.machSpeed),
+    dragCoefficient,
   );
   s.forces.aerodynamicLift = aero.getLift(
     s.atmosphere.airDensity,

@@ -161,22 +161,19 @@ describe('the aerodynamic coefficients over their whole reachable domain', () =>
     }
   });
 
-  it('body drag is capped at Mach 10 and never runs away', () => {
-    // Mach 30 is beyond anything this vehicle reaches, but the cap is what
-    // stops a re-entry from acquiring unbounded drag, so it is worth pinning
-    // well past the reachable range.
-    expect(getBodyDragCoefficient(0)).toBeCloseTo(1.153, 6);
-    for (const mach of [10, 11, 30, 100, 1e6]) {
-      expect(getBodyDragCoefficient(mach), `Mach ${mach}`).toBe(2.5);
+  it('body drag is bounded at every Mach and attitude, and never runs away', () => {
+    // Mach 1e6 is beyond anything this vehicle reaches, but a coefficient that
+    // grew without bound would give a re-entry unbounded drag. Since Phase 6
+    // the curves settle to their hypersonic limits instead of a cap.
+    for (const mach of [0, 0.5, 1, 1.3, 4, 10, 30, 100, 1e6]) {
+      for (const attack of [0, 0.3, Math.PI / 2, 2.5, Math.PI, -Math.PI / 2]) {
+        const cd = getBodyDragCoefficient(mach, attack, C.vehicleInFlightMaxArea);
+        expect(Number.isFinite(cd), `Mach ${mach}, ${attack} rad`).toBe(true);
+        expect(cd, `Mach ${mach}, ${attack} rad`).toBeGreaterThan(0);
+        expect(cd, `Mach ${mach}, ${attack} rad`).toBeLessThan(2);
+      }
     }
-    // Monotone non-decreasing up to the cap: drag must not fall as it goes
-    // faster anywhere in between.
-    let previous = -Infinity;
-    for (let mach = 0; mach <= 12; mach += 0.01) {
-      const cd = getBodyDragCoefficient(mach);
-      expect(cd, `Mach ${mach}`).toBeGreaterThanOrEqual(previous);
-      previous = cd;
-    }
+    expect(getBodyDragCoefficient(1e6, Math.PI / 2, C.vehicleInFlightMaxArea)).toBeCloseTo((2 / 3) * 1.84, 9);
   });
 
   it('cross-sectional area is positive at every attitude', () => {
