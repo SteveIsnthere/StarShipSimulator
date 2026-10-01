@@ -138,6 +138,18 @@ describe('landingBurnStartAltitude: the edges', () => {
     expect(BURN_STEP_CAP).toBe(1200);
   });
 
+  it('returns null when the burn stops decelerating as the mass grows back', () => {
+    // One engine on 225 t barely decelerates; integrated back from touchdown the
+    // vehicle is heavier at every earlier instant, until one engine cannot hold
+    // it at all, long before a 300 m/s descent is matched.
+    expect(landingBurnStartAltitude(1, 225_000, 300, 25, createBurnScratch())).toBeNull();
+  });
+
+  it('returns null when even the lightest guess cannot finish inside the cap', () => {
+    // Thin air, one engine, 3 km/s: about six minutes of burn against a 60 s cap.
+    expect(landingBurnStartAltitude(1, 130_000, 3_000, 60_000, createBurnScratch())).toBeNull();
+  });
+
   it('is the touchdown height when already at rest, and null without engines', () => {
     expect(landingBurnStartAltitude(3, 150_000, 0, 25, createBurnScratch())).toBe(25);
     expect(landingBurnStartAltitude(0, 150_000, 50, 25, createBurnScratch())).toBeNull();

@@ -143,9 +143,10 @@ function backwardPass(
     // deceleration falls, so a first-order step evaluated at the later, lighter
     // end overstates it: 1.5% of an eleven-second burn, measured.
     const a1 = burnDeceleration(engines, h, u, m, scratch);
-    if (a1 <= 0) return Number.NaN;
     const uMid = u + a1 * half;
     const a2 = burnDeceleration(engines, h + (u + uMid) * 0.5 * half, uMid, m + flow * half, scratch);
+    // One guard, on the deceleration the step actually uses. The midpoint is
+    // heavier than the start, so if the start could not decelerate, neither can it.
     if (a2 <= 0) return Number.NaN;
     const next = u + a2 * BURN_STEP;
     if (next >= descentSpeed) {
