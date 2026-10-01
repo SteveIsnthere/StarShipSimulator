@@ -10,8 +10,8 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 2 Truth harness | done | `53e3c26` |
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
-| 5 Guidance on real physics | done, live | (this merge) |
-| 6 Ship realism | not started | — |
+| 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
+| 6 Ship realism | plan written ([phase 6](modernization-phase-6.md)) | — |
 | 7 Super Heavy | not started | — |
 | 8 UX to flight_sim level | not started | — |
 
@@ -40,6 +40,13 @@ The unattended run's report. Updated as phases land; the last section is always 
 - **Engine states drawn by shape, not blinking**: the old blink tests were passing on nothing; the new specs check the shapes and that reduced motion adds no transition.
 - **Bundle budget 250 → 300 kB** for React DOM (275 kB measured), and one design-scanner exception for the throttle slider's measured fill. Both recorded where the rules live; confirm or overrule.
 
+- **Phase 6 calls, made unattended (you are buying these; details in [phase 6](modernization-phase-6.md)):**
+  - the tile limit is NASA's Shuttle HRSI 1,260 °C (Starship's is not public), so the deorbit may park rather than move the limit;
+  - the six-engine UI is minimal now and the look is Phase 8's;
+  - *Engines* (all) lights the three sea-level engines, as in 2021;
+  - Earth rotation uses a rotating ground frame at Starbase's 26°N, done last;
+  - spool-up is the existing ignition transient, not a second invented one.
+
 ## Parked — yours to decide
 
 - **No LICENSE** in a public repo. Choose one before this grows further.
@@ -52,6 +59,10 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 - The throttle and yoke sliders follow the simulation only on keys, store changes and when touched, not while the autopilot moves them (the Svelte slider never followed at all).
 - The debrief has no grade or comparison with the previous flight yet (ia.md asks for both).
+
+## Incidents
+
+- **2026-10-01, main red for one merge.** Phase 5's goldens were re-blessed on the Mac; they replay bit-exactly only on x86-64 Linux / Node 22, so CI failed in the 16th digit and the deploy did not publish (the live site kept the previous build). Fixed in `3429ea1`: fixtures now come from `.github/workflows/golden-regenerate.yml` (push a branch as `golden/<name>`), `golden:regenerate` refuses anywhere else, and the policy says so.
 
 ## Blocker
 
