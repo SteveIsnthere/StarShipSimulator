@@ -73,6 +73,13 @@ export interface BurnScratch {
   readonly atmosphere: Atmosphere;
   /** s — the last backward pass's burn duration. */
   duration: number;
+  /**
+   * The last backward pass ran out of steps before matching the speed: the
+   * burn is longer than the predictor sizes, which is not the same as the
+   * vehicle being too heavy to decelerate (that pass returns NaN with this
+   * false).
+   */
+  capped: boolean;
   /** The fall's force composition, fed like `step()`'s. */
   readonly inputs: AccelerationInputs;
   /** m/s² — the fall's acceleration at the point last evaluated. */
@@ -83,6 +90,7 @@ export function createBurnScratch(): BurnScratch {
   return {
     atmosphere: { airTemperature: 0, airPressure: 0, airDensity: 0 },
     duration: 0,
+    capped: false,
     // Thrust and gimbal stay zero: the fall is unpowered.
     inputs: {
       angleOfMotion: rad(0),
@@ -138,6 +146,7 @@ function backwardPass(
   let h = touchdownHeight;
   let u = 0;
   let m = touchdownMass;
+  scratch.capped = false;
   for (let i = 0; i < BURN_STEP_CAP; i++) {
     // Midpoint (second-order) step. Backward in time the mass grows and the
     // deceleration falls, so a first-order step evaluated at the later, lighter
@@ -159,6 +168,7 @@ function backwardPass(
     u = next;
     m += flow * BURN_STEP;
   }
+  scratch.capped = true;
   return Number.NaN;
 }
 
@@ -173,7 +183,7 @@ function burnDeceleration(engines: number, h: number, u: number, m: number, scra
 }
 
 /** Most passes of the touchdown-mass iteration, and the residual it stops at (kg). */
-const MASS_PASSES = 6;
+const MASS_PASSES = 24;
 const MASS_TOLERANCE = 1;
 
 
@@ -208,35 +218,64 @@ export function landingBurnStartAltitude(
   const flow = engines * C.maxFuelFlowPerRaptor;
   /*
     The touchdown mass m_td is the current mass less what the burn uses, and
-    what the burn uses depends on m_td: a fixed point of
-        residual(m_td) = mass − flow × duration(m_td) − m_td = 0.
-    Plain substitution oscillates around it (measured: still 4% out at 40 km
-    after four passes), so this is a secant iteration on the residual, which
-    settles in a few passes. The first point is the burn time at sea-level
-    thrust and the current mass: a lower bound on the deceleration (thrust only
-    grows with altitude, and drag only helps), so it burns at least as much as
-    the real burn and its backward pass, the lightest, is the most feasible.
+    what the burn uses depends on m_td: a root of
+        residual(m_td) = mass − flow × duration(m_td) − m_td.
+    Heavier means a longer burn, so the residual falls as m_td rises: one root.
+
+    BRACKETED, because an open iteration fails here. The light end is the burn
+    time at sea-level thrust and the current mass, a lower bound on the
+    deceleration (thrust only grows with altitude, drag only helps), so it
+    burns at least as much as the real burn: residual > 0. The heavy end is the
+    current mass less what that light burn takes: residual <= 0. A secant from
+    those two overshot past the current mass near the hover limit, where the
+    backward pass cannot decelerate at all, and answered "start now" for burns
+    that were feasible (found by Phase 5's independent review: one engine from
+    190 t at 150 m/s). Regula falsi with the Illinois correction stays inside
+    the bracket; a pass that cannot decelerate means "too heavy" and bisects,
+    and a pass that runs out of steps means the burn is longer than this sizes:
+    null, never a guess.
   */
   const lowerBound = thrustFor(engines, C.SEA_LEVEL_PRESSURE_PA / 1000) / mass - gravityAt(C.planetRadius);
   if (lowerBound <= 0) return null;
-  let m0 = Math.max(mass - flow * (descentSpeed / lowerBound), C.vehicleDryMass);
-  const start0 = backwardPass(engines, m0, descentSpeed, touchdownHeight, scratch);
-  if (Number.isNaN(start0)) return null;
-  let r0 = mass - flow * scratch.duration - m0;
-  let m1 = mass - flow * scratch.duration;
-  let start = start0;
+  let light = Math.max(mass - flow * (descentSpeed / lowerBound), C.vehicleDryMass);
+  let start = backwardPass(engines, light, descentSpeed, touchdownHeight, scratch);
+  if (Number.isNaN(start)) return null;
+  let rLight = mass - flow * scratch.duration - light;
+  // Not enough propellant for even the lightest burn: it cannot stop the vehicle.
+  if (rLight < 0) return null;
+  if (rLight < MASS_TOLERANCE) return start;
+  let heavy = mass - flow * scratch.duration;
+  let rHeavy = Number.NaN; // unknown until evaluated; NaN reads "too heavy"
+  let side = 0;
   for (let pass = 0; pass < MASS_PASSES; pass++) {
-    // Not enough propellant for the burn at all: it cannot stop the vehicle.
-    if (m1 < C.vehicleDryMass) return null;
-    start = backwardPass(engines, m1, descentSpeed, touchdownHeight, scratch);
-    if (Number.isNaN(start)) return null;
-    const r1 = mass - flow * scratch.duration - m1;
-    if (Math.abs(r1) < MASS_TOLERANCE || r1 === r0) break;
-    const next = m1 - (r1 * (m1 - m0)) / (r1 - r0);
-    m0 = m1;
-    r0 = r1;
-    m1 = next;
+    const m = Number.isNaN(rHeavy)
+      ? pass === 0
+        ? heavy
+        : (light + heavy) / 2
+      : heavy - (rHeavy * (heavy - light)) / (rHeavy - rLight);
+    const s = backwardPass(engines, m, descentSpeed, touchdownHeight, scratch);
+    // Longer than the predictor sizes: no answer, never a guess from the light
+    // end (that answer was optimistic: 14.6 km for a burn the simulation needed
+    // 20 km for, measured while fixing this).
+    if (scratch.capped) return null;
+    const r = Number.isNaN(s) ? Number.NaN : mass - flow * scratch.duration - m;
+    if (!Number.isNaN(r) && Math.abs(r) < MASS_TOLERANCE) return s;
+    if (!Number.isNaN(r) && r > 0) {
+      light = m;
+      rLight = r;
+      start = s;
+      if (side === 1 && !Number.isNaN(rHeavy)) rHeavy *= 0.5; // Illinois
+      side = 1;
+    } else {
+      heavy = m;
+      rHeavy = r;
+      if (side === -1) rLight *= 0.5; // Illinois
+      side = -1;
+    }
+    if (heavy - light < MASS_TOLERANCE) break;
   }
+  // The light end is always a burn the vehicle can fly; at the tolerance it is
+  // within a kilogram of the touchdown mass.
   return start;
 }
 

@@ -152,6 +152,12 @@ export function predict(state: SimState, out: Prediction): void {
     What it cannot know is how the vehicle will be flown: a pilot or a flap
     controller that changes the attitude changes the fall, and the prediction
     moves with it, which is what makes it a control instrument.
+
+    A CLIMBING vehicle below the interface gets a touchdown too: where it comes
+    down if the engines stop now. The closed form this replaced answered `none`
+    for most of an ascent; the unpowered continuation is the honest reading
+    there as well, and only a climb that does not come back inside the cap is
+    'out-of-domain'.
   */
   unpoweredFallInto(state, GROUND_ALTITUDE, fallScratch, fall);
   if (!fall.reached) {

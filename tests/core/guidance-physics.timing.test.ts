@@ -22,12 +22,12 @@ describe('landingBurnStartAltitude cost', () => {
 });
 
 describe('unpoweredFallInto cost', () => {
-  it('stays under 1 ms a call from just under the entry interface (the HUD asks at 10 Hz)', async () => {
+  it('stays under 1 ms a call on a long descending arc under the entry interface', async () => {
     const { createFallResult, unpoweredFallInto } = await import('$core/control/guidance-physics');
     const { ALL_SCENARIOS, createScenarioState } = await import('$core/scenarios');
     const C = await import('$core/constants');
-    // The long arc: 79 km, 2 km/s downrange, barely descending. The worst the
-    // HUD meets below the interface, where the conic hands over to this.
+    // A long descending arc: 79 km, 2 km/s downrange, barely descending
+    // (measured 0.38 ms, 228 s of fall).
     const s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'reentry')!);
     s.kinematics.altitude = 79_000;
     s.kinematics.speedX = 2_000;
@@ -41,5 +41,29 @@ describe('unpoweredFallInto cost', () => {
     const perCall = (performance.now() - t0) / runs;
     expect(out.reached).toBe(true);
     expect(perCall, `${perCall.toFixed(3)} ms per call, ${out.time.toFixed(0)} s of fall`).toBeLessThan(1);
+  });
+});
+
+describe('unpoweredFallInto worst case', () => {
+  it('stays inside the 2 ms HUD budget when a climb runs it to its cap', async () => {
+    const { createFallResult, unpoweredFallInto } = await import('$core/control/guidance-physics');
+    const { ALL_SCENARIOS, createScenarioState } = await import('$core/scenarios');
+    const C = await import('$core/constants');
+    // The true worst case (found by Phase 5's review): below the interface but
+    // climbing so hard the fall never ends inside the cap, so every one of the
+    // 4 000 steps runs. The HUD asks at MAP_REDRAW_HZ (10 Hz).
+    const s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'reentry')!);
+    s.kinematics.altitude = 60_000;
+    s.kinematics.speedX = 0;
+    s.kinematics.speedY = 7_000;
+    const scratch = createBurnScratch();
+    const out = createFallResult();
+    for (let i = 0; i < 5; i++) unpoweredFallInto(s, C.vehicleHeight / 2, scratch, out); // warm
+    const runs = 50;
+    const t0 = performance.now();
+    for (let i = 0; i < runs; i++) unpoweredFallInto(s, C.vehicleHeight / 2, scratch, out);
+    const perCall = (performance.now() - t0) / runs;
+    expect(out.reached).toBe(false);
+    expect(perCall, `${perCall.toFixed(3)} ms per call at the cap`).toBeLessThan(2);
   });
 });

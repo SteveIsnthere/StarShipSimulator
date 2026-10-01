@@ -27,10 +27,16 @@ export interface DeorbitRange {
   readonly range: number;
   /** m — touchdown − pad */
   readonly miss: number;
+  /** t — propellant left at touchdown */
+  readonly propellant: number;
 }
 
-export function measureDeorbitRange(maxSeconds = 8_000): DeorbitRange {
+export function measureDeorbitRange(
+  mutate: (s: ReturnType<typeof createScenarioState>) => void = () => {},
+  maxSeconds = 8_000,
+): DeorbitRange {
   let s = createScenarioState(getScenario('deorbit')!);
+  mutate(s);
   cmd.toggleAutoDeorbit(s);
   let entry = Number.NaN;
   let outcome: DeorbitRange['outcome'] = 'flying';
@@ -57,5 +63,6 @@ export function measureDeorbitRange(maxSeconds = 8_000): DeorbitRange {
     touchdownDownRange: touchdown,
     range: touchdown - entry,
     miss: touchdown - C.starBaseXPos,
+    propellant: s.vehicle.propellantMass / 1000,
   };
 }

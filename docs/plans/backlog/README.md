@@ -18,6 +18,7 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 | Break-up and crash checks read the previous step's forces; a scenario's first step uses Mach against a constant 343 m/s (`src/core/scenarios.ts`) | 6 |
 | With the moving centre of mass, RTLS reaches apogee before MECO and the high-altitude impact prediction is less accurate | 5 |
 | Legacy exports still shipped in `core/`: `legacyEffectiveVerticalMaxThrust` (`src/core/control/primitives.ts`) and six `legacy*Coefficient` exports (`src/core/physics/components.ts`) | 5 |
+| The 12 t `dumpLimit` leaves no engine-out reserve: a one-engine-out deorbit lands with 0.1–0.2 t (Phase 5; it was 0.00 t before), which is why no trigger margin could be afforded. Size the dump limit from the landing-burn predictor on the engine-out case | 6 |
 | `controlEnginebyTWR` divides the required thrust by the thrust at `throttleCurrent`, not at full throttle (`src/core/control/primitives.ts:281`), a 2021 quirk that makes its TWR wrong whenever the throttle is not at 100%. Phase 5's truth tests use the effective-vertical law instead | 6 |
 | `horizontalSteering` calls `precisionAlignment` twice (kept on purpose: the first call has side effects) — resolve when guidance is rebuilt | 5 |
 | Render interpolation: `advance()` returns `alpha` but nothing reads it; the view draws the latest step | 4 |

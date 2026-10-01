@@ -26,7 +26,7 @@ import * as cmd from '../control/commands';
 import * as prim from '../control/primitives';
 import * as gravity from '../physics/gravity';
 import { getAngularAcceleration } from '../physics/aero';
-import { getWorkingEngineCount, getTotalMaxThrust } from '../physics/engines';
+import { getHealthyEngineCount, getWorkingEngineCount, getTotalMaxThrust } from '../physics/engines';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
 import type { SimState } from '../state';
 import { rad } from '../units';
@@ -574,7 +574,7 @@ function predictedDeorbitRange(state: SimState): number {
   // The engines are OFF while this decision is being made — the mode shut them
   // down at configure — so what matters is the thrust that will light, not the
   // thrust that is lit. An engine that has failed will not.
-  const willLight = engines.failed.reduce((n, failed) => (failed ? n : n + 1), 0);
+  const willLight = getHealthyEngineCount(engines.failed);
   if (willLight <= 0) return Infinity;
 
   // M11.2: the burn happens where the air is, which at 150 km is nowhere — so

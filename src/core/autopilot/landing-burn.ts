@@ -16,7 +16,7 @@
  */
 import * as C from '../constants';
 import { createBurnScratch, landingBurnStartAltitude } from '../control/guidance-physics';
-import { getWorkingEngineCount } from '../physics/engines';
+import { getHealthyEngineCount, getWorkingEngineCount } from '../physics/engines';
 import { gravityAt } from '../physics/gravity';
 import type { SimState } from '../state';
 
@@ -47,23 +47,19 @@ const PAD_GRAVITY = gravityAt(C.planetRadius);
 /** One scratch for both sizings; fully rewritten on every call. */
 const scratch = createBurnScratch();
 
-/** Raptors that have not failed. */
-function workingEngines(state: SimState): number {
-  const failed = state.engines.failed;
-  return (failed[0] ? 0 : 1) + (failed[1] ? 0 : 1) + (failed[2] ? 0 : 1);
-}
-
 /**
  * The engine count the trigger plans the burn on: one, or two or three when
  * one cannot hold 1/0.8 of the weight (2021's ladder, in thrust-to-weight on
  * the gravity the vehicle feels at the pad), and never more than are working.
+ * On pad gravity (9.731) rather than the flat 9.807 the one-to-two boundary
+ * moves from 184.0 t to 185.4 t: the ladder's meaning, on the true weight.
  */
 export function plannedEngineCount(state: SimState): number {
   const weight = state.vehicle.vehicleMass * PAD_GRAVITY;
   let engines = 1;
   if (C.maxThrustPerRaptor * 0.8 < weight) engines = 2;
   if (C.maxThrustPerRaptor * 2 * 0.8 < weight) engines = 3;
-  return Math.min(engines, workingEngines(state));
+  return Math.min(engines, getHealthyEngineCount(state.engines.failed));
 }
 
 /**

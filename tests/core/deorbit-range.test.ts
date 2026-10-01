@@ -21,3 +21,21 @@ describe('the deorbit aim matches the autoLand it aims for', () => {
     expect(Math.abs(m.miss), `missed by ${(m.miss / 1000).toFixed(2)} km; re-derive with npm run deorbit:range`).toBeLessThan(1_000);
   });
 });
+
+describe('an engine out on the deorbit still lands, with propellant to spare', () => {
+  /*
+    A regression net, not a margin. With any one engine failed the deorbit
+    lands on a knife edge: 0.11, 0.21 and 0.22 t left (Phase 5; it was 0.00 t
+    before Phase 5 Task 4). The cause is the 12 t dumpLimit, which leaves no
+    engine-out reserve (backlog). A guidance change that spends a few hundred
+    kilograms more fails here, by name, instead of quietly crashing a flight
+    nobody re-flies.
+  */
+  it.each([0, 1, 2] as const)('engine %i out', (engine) => {
+    const m = measureDeorbitRange((s) => {
+      s.engines.failed[engine] = true;
+    });
+    expect(m.outcome).toBe('landed');
+    expect(m.propellant, `${m.propellant.toFixed(3)} t left`).toBeGreaterThan(0);
+  });
+});

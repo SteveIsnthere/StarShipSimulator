@@ -150,7 +150,10 @@
  * of propellant; see src/core/autopilot/landing-burn.ts), and the dead
  * `dualRaptorMode`/`trialRaptorMode` flags go. THREE FLY DIFFERENTLY:
  * before-flip and both landing-burns (up to 41 m and 17 m/s mid-descent), all
- * landing, before-flip 1.5 m from the pad and landing-burn 0.5 m. TWO MOVE ONLY
+ * landing, before-flip 1.5 m from the pad and landing-burn 0.5 m. THE TRADE:
+ * the short flights spend propellant (before-flip 7.75 -> 4.61 t, landing-burn
+ * 13.97 -> 12.72 t and 2.8 s longer) while the long ones keep more (1.1 -> 1.4
+ * t); everything lands. TWO MOVE ONLY
  * IN THEIR PLANNING KEYS: re-entry and RTLS, whose recorded windows reach the
  * aero descent, where the trigger is recomputed every step, but end before the
  * flip: `bellyFlopTriggerAltitude` and `finalStagePessimisticAltitude` change,

@@ -100,7 +100,7 @@ function referenceStop(altitude: number, speed: number, engines: number, propell
     s.kinematics.angularVelocity = 0;
     s = step(s, DT);
     if (s.status.onTheGround || s.status.landed || s.failures.crashed) {
-      throw new Error(`reached the ground from ${altitude} m at ${speed} m/s: not a stop`);
+      throw new Error(`reached the ground from ${altitude} m at ${speed} m/s: not a stop (alt ${s.kinematics.altitude.toFixed(0)} vY ${s.kinematics.speedY.toFixed(1)} crashed ${s.failures.crashed} ground ${s.status.onTheGround})`);
     }
     if (s.kinematics.speedY >= 0) return { stop: s.kinematics.altitude, mass };
   }
@@ -114,16 +114,21 @@ describe('landingBurnStartAltitude against the simulation', () => {
     { altitude: 2_000, speed: 80, engines: 1, propellant: 20_000 },
     { altitude: 10_000, speed: 250, engines: 3, propellant: 120_000 },
     { altitude: 40_000, speed: 600, engines: 3, propellant: 200_000 },
+    // Near the hover limit: one engine on 190 t. An open secant answered "start
+    // now" here (Phase 5's independent review); the bracketed iteration must not.
+    { altitude: 3_000, speed: 150, engines: 1, propellant: 70_000 },
   ];
   for (const c of cases) {
-    it(`from ${c.altitude / 1000} km at ${c.speed} m/s on ${c.engines} engine(s): within 2% of the burn or 20 m`, () => {
+    it(`from ${c.altitude / 1000} km at ${c.speed} m/s on ${c.engines} engine(s): within 0.1% of the burn or 2 m`, () => {
       const { stop, mass } = referenceStop(c.altitude, c.speed, c.engines, c.propellant);
       const predicted = landingBurnStartAltitude(c.engines, mass, c.speed, stop, createBurnScratch());
       expect(predicted).not.toBeNull();
       const burn = c.altitude - stop;
       const error = Math.abs(predicted! - c.altitude);
       expect(error, `predicted ${predicted!.toFixed(1)} m, actual ${c.altitude} m, burn ${burn.toFixed(0)} m`).toBeLessThanOrEqual(
-        Math.max(0.02 * burn, 20),
+        // Measured: 0.03-0.5 m on burns of 176 m to 11.8 km. The bound is that
+        // with room, and tight enough that dropping drag fails every case.
+        Math.max(0.001 * burn, 2),
       );
     });
   }
@@ -138,11 +143,18 @@ describe('landingBurnStartAltitude: the edges', () => {
     expect(BURN_STEP_CAP).toBe(1200);
   });
 
-  it('returns null when the burn stops decelerating as the mass grows back', () => {
-    // One engine on 225 t barely decelerates; integrated back from touchdown the
-    // vehicle is heavier at every earlier instant, until one engine cannot hold
-    // it at all, long before a 300 m/s descent is matched.
-    expect(landingBurnStartAltitude(1, 225_000, 300, 25, createBurnScratch())).toBeNull();
+  it('returns null at the hover limit: no burn can end at the pad if thrust there is below weight', () => {
+    // One engine on 232 t: 2.25 MN against 2.26 MN of weight at sea level. It
+    // can stop high up, where thrust is larger, but never at touchdown height.
+    expect(landingBurnStartAltitude(1, 232_000, 30, 25, createBurnScratch())).toBeNull();
+  });
+
+  it('returns null, never a guess, when the burn is longer than the cap', () => {
+    // One engine on 225 t at 300 m/s: the simulation needs 87 s of burn (from
+    // 20 km it stops at 5.5 km). The bracketed iteration once bisected toward
+    // the light end here and answered 14.6 km, an optimistic number for the
+    // trigger to act on. Longer than the predictor sizes is "start now".
+    expect(landingBurnStartAltitude(1, 225_000, 300, 5_509, createBurnScratch())).toBeNull();
   });
 
   it('returns null when even the lightest guess cannot finish inside the cap', () => {
@@ -153,6 +165,26 @@ describe('landingBurnStartAltitude: the edges', () => {
   it('is the touchdown height when already at rest, and null without engines', () => {
     expect(landingBurnStartAltitude(3, 150_000, 0, 25, createBurnScratch())).toBe(25);
     expect(landingBurnStartAltitude(0, 150_000, 50, 25, createBurnScratch())).toBeNull();
+  });
+
+  it('rises with descent speed and with mass on one engine, the ladder\'s usual plan (property)', () => {
+    const scratch = createBurnScratch();
+    fc.assert(
+      fc.property(
+        fc.double({ min: 20, max: 120, noNaN: true }),
+        fc.double({ min: 1, max: 20, noNaN: true }),
+        fc.double({ min: 125_000, max: 185_000, noNaN: true }),
+        fc.double({ min: 500, max: 5_000, noNaN: true }),
+        (speed, more, mass, heavier) => {
+          const base = landingBurnStartAltitude(1, mass, speed, 25, scratch);
+          const faster = landingBurnStartAltitude(1, mass, speed + more, 25, scratch);
+          const loaded = landingBurnStartAltitude(1, mass + heavier, speed, 25, scratch);
+          if (base === null) return true;
+          return (faster === null || faster > base) && (loaded === null || loaded >= base);
+        },
+      ),
+      { seed: 42, numRuns: 200 },
+    );
   });
 
   it('rises with descent speed and with mass (property)', () => {
