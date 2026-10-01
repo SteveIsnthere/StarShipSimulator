@@ -47,9 +47,10 @@ export function getReentryHeatPower(
  * surroundings at `ambientKelvin` (`radiativeSinkKelvin`): εσ(T⁴ − T_amb⁴) = q.
  * With no flux the tile sits at its surroundings' temperature, not at absolute zero (Phase 6 close: the
  * first version left out the ambient term, and a gentle landing burn read
- * 129 K, colder than the air it flew through). The break-up check stays on
- * the flux, `heatLimit` = εσT_lim⁴; the ambient term moves the reading at that
- * flux by at most half a kelvin (288 K air: (1 + 1.2e-3)^¼).
+ * 129 K, colder than the air it flew through). The break-up check reads this
+ * temperature against `TILE_LIMIT_KELVIN`; `heatLimit` = εσT_lim⁴ is the flux
+ * scale the plasma, the audio and the warnings are drawn against, within half
+ * a kelvin of the same limit.
  * @returns K
  */
 export function surfaceTemperature(heatFlux: number, ambientKelvin = 0): number {

@@ -82,7 +82,7 @@ None.
 - Task 10 done (`172fcb1`): a scenario's wind is the surface wind, carried up NASA's power-law profile, with MIL-F-8785C Dryden turbulence from its own seeded stream. Calm air is untouched: seven goldens kept their rows bit for bit; the headwind fixture moved and still lands.
 - Task 9a done (`3facf39`), and the rest of the rotation plumbing (`8515c18`): Coriolis and centrifugal terms, the ground-relative deorbit conic, the converted orbital presets, the weight the burn predictor uses, every inertial truth test transformed and proved with Earth's rate on.
 - **Earth's rate is NOT switched on — decided on your behalf.** With it on, the circularize-then-deorbit flight missed by 11.1 km against its 10 km acceptance; the broadside descent has no range control, and the turning ground widens the heavy/light spread from 5 to 14 km. No constant holds both that bound and the 1 km health test. Range control is what Phase 6b's entry on lift builds, so the switch is 6b Task 1b, with the measured numbers in the plan.
-- Next: the close (full e2e, `/code-review high`, the independent physics review, merge).
+- The close: independent physics review by ChatGPT Pro in three rounds (Codex still cannot run). It found the RVacs steering with the gimbal (in the integrator, the torque, and the throttle law), a turbulence sweep-speed floor, and two latent rotating-frame edges; all fixed with tests. The full e2e run found the tile reading 0 K on the pad (equilibrium against absolute zero, and the debrief e2e bound still in the old units); fixed with a radiative sink, the air below 86 km.
 
 ## Roadmap update (2026-10-01, Steve)
 

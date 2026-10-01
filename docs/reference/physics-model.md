@@ -195,15 +195,15 @@ Phase 6, Task 8 (`physics/thermal.ts`).
   186.95 K above it (`radiativeSinkKelvin`; the thermosphere's 1,000 K gas is too thin to warm
   anything, tier B), so an unheated tile reads its surroundings, 288 K on the pad. No soak, no
   ablation.
-- **Limit:** 1,533 K, the Shuttle HRSI reuse limit (1,260 °C, tier B); `heatLimit` is the flux that
-  holds it, εσT⁴ = 266 kW/m². Peaks: the Re-entry preset 1,372 K (171 kW/m²), the deorbit 1,459 K.
+- **Limit:** 1,533 K, the Shuttle HRSI reuse limit (1,260 °C, tier B), judged on the temperature;
+  `heatLimit` = εσT⁴ = 266 kW/m² is the flux scale the plasma, audio and warnings use. Peaks: the Re-entry preset 1,372 K (171 kW/m²), the deorbit 1,459 K.
 
 ## Limits and failure
 
 | check | condition | where |
 |---|---|---|
 | g | `perceivedG > 13`: felt g, (acceleration − gravity) / g₀, what the structure carries | `step.ts:193`, `C:298` |
-| heat | `thermalPower > heatLimit`: the tile above 1,533 K | `step.ts`, `TILE_LIMIT_KELVIN` |
+| heat | `surfaceTemperature > 1,533 K` (`TILE_LIMIT_KELVIN`): the tile itself; `heatLimit` is the matching flux scale for the cues | `step.ts` |
 | q | `> 50` kPa (goldens peak at 28.6) | `C:461` |
 | contact zone | `altitude ≤ 25·\|cos pitch\|` | `step.ts:139` |
 | landed | in zone, `speedY < −0.5`, `\|speedX\| < 2`, `\|speedY\| < 10`, `\|pitch\| < 0.09` rad | `step.ts:143`, `C:463–465` |

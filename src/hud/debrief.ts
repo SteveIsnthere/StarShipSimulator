@@ -95,6 +95,8 @@ export interface Witness {
   readonly totalAcceleration: number;
   /** W/m^2 — the heat flux (`forces.thermalPower`). */
   readonly thermalPower: number;
+  /** K — the tile's temperature (`forces.surfaceTemperature`), what the heat limit judges. */
+  readonly surfaceTemperature: number;
   /** kPa. */
   readonly dynamicPressure: number;
 
@@ -158,6 +160,7 @@ export function createFlightWatch(): FlightWatch {
     propellantMass: 0,
     totalAcceleration: 0,
     thermalPower: 0,
+    surfaceTemperature: 0,
     dynamicPressure: 0,
     peakDynamicPressure: 0,
     peakThermalPower: 0,
@@ -183,6 +186,7 @@ export function createFlightWatch(): FlightWatch {
       record.propellantMass = vehicle.propellantMass;
       record.totalAcceleration = kinematics.totalAcceleration;
       record.thermalPower = forces.thermalPower;
+      record.surfaceTemperature = forces.surfaceTemperature;
       record.dynamicPressure = forces.dynamicPressure;
 
       const structuralG = forces.perceivedG;
@@ -305,7 +309,7 @@ export function debrief(
     all three because the state does not keep them past the step that used them.
   */
   const overG = (witness?.peakStructuralG ?? 0) > C.gLimit;
-  const overHeat = (witness?.thermalPower ?? 0) > C.heatLimit;
+  const overHeat = (witness?.surfaceTemperature ?? 0) > C.TILE_LIMIT_KELVIN;
   const overQ = (witness?.dynamicPressure ?? 0) > C.dynamicPressureLimit;
 
   const reasons: string[] = [];

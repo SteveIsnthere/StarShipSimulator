@@ -244,8 +244,9 @@ Moved with Task 5 to [Phase 6b](modernization-phase-6b.md), where it is planned 
 
 ### Task 12: Close
 
-- [ ] `docs/reference/physics-model.md` rewritten to the new models, with every source and every tier-B assumption listed.
-- [ ] Remove the backlog rows this phase answers (the two Phase 6 rows left: rotation, turbulence; and the stale workflow and `record.ts` comments), and confirm Tasks 5, 6, 7, 11 sit in Phase 6b's plan.
+- [x] `docs/reference/physics-model.md` rewritten to the new models, with every source and every tier-B assumption listed.
+- [x] Remove the backlog rows this phase answers (turbulence and the stale comments removed; rotation re-pointed to 6b Task 1b), and confirm Tasks 5, 6, 7, 9b, 11 sit in Phase 6b's plan.
+- Independent physics review (ChatGPT Pro; the Codex peer could not run, `gpt-6.1-sol` unsupported on a ChatGPT login), three rounds. Round 1: RVacs steered with the gimbal; the turbulence sweep had a floor at the mean wind and fed the gust back; a radial coast at a turning rate skipped the ground's turn — all fixed (`d3a42fa`, audit row P6.11). Round 2: the vertical throttle law still gimballed the RVacs; the radial fallback could return −Infinity — fixed (`30398bd`). The full e2e run found the skin temperature fell to 0 K with no heating (radiative equilibrium against absolute zero) — fixed with a radiative sink (`f4bc4ab`, audit row P6.12).
 - [ ] Full gate, `npm run mutation` (with a mutant per new model), truth report, `/code-review high`, and an independent physics reviewer.
 - [ ] `npm run test:e2e:full` (every browser spec; `parity.spec.ts` must be green with six engines).
 - [ ] Merge `claude/ship-realism` to `main`, verify the deploy, tick Phase 6 in the roadmap, and start Phase 6b from its plan.

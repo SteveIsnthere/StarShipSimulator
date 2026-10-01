@@ -193,7 +193,10 @@ function checkIfBreakUp(s: SimState): void {
   const { kinematics, forces, failures, vehicle, engines } = s;
   if (
     forces.perceivedG > C.gLimit ||
-    forces.thermalPower > C.heatLimit ||
+    // The tile itself, against its limit: the temperature, which includes the
+    // surroundings, so the reading and the verdict cannot disagree (Phase 6's
+    // independent review: judging the flux let a tile read 1,533.04 K whole).
+    forces.surfaceTemperature > C.TILE_LIMIT_KELVIN ||
     forces.dynamicPressure > C.dynamicPressureLimit
   ) {
     failures.inFlightBreakUp = true;

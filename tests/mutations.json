@@ -94,5 +94,17 @@
     "file": "src/core/physics/gravity.ts",
     "find": "  const coupled = omega === 0 ? tangentialSpeed : tangentialSpeed + 2 * omega * distanceToPlanetCenter;",
     "replace": "  const coupled = omega === 0 ? tangentialSpeed : tangentialSpeed + omega * distanceToPlanetCenter;"
+  },
+  {
+    "id": "rvac-gimballed",
+    "file": "src/core/physics/engines.ts",
+    "find": "  if (countOfKind(running, 'vacuum', true) === 0) return 1;",
+    "replace": "  return 1;"
+  },
+  {
+    "id": "tile-sink-dropped",
+    "file": "src/core/step.ts",
+    "find": "    radiativeSinkKelvin(s.kinematics.altitude, s.atmosphere.airTemperature),",
+    "replace": "    0,"
   }
 ]

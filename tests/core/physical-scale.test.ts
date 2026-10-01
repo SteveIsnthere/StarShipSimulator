@@ -21,6 +21,8 @@ import { circularOrbitalSpeed, gravityAt, MU } from '$core/physics/gravity';
 import { getWorkingEngineCount } from '$core/physics/engines';
 import * as C from '$core/constants';
 import { createMassProperties, writeMassProperties } from '$core/physics/mass';
+import { createInitialState } from '$core/state';
+import { step } from '$core/step';
 
 /** Scratch for the RCS claim below (M11.8). */
 const rcsArms = createMassProperties();
@@ -212,6 +214,21 @@ describe('the tile sits at its surroundings when nothing heats it (Phase 6 close
     expect(radiativeSinkKelvin(150_000, 700)).toBeCloseTo(186.95, 2);
     const below = radiativeSinkKelvin(85_999.9, isaAtmosphere(85_999.9).airTemperature);
     expect(Math.abs(below - radiativeSinkKelvin(86_000, 0))).toBeLessThan(0.01);
+  });
+});
+
+describe('the tile breaks up on its temperature, the reading the HUD shows', () => {
+  function heatedTo(kelvin: number) {
+    const st = createInitialState();
+    st.kinematics.altitude = 60_000;
+    st.kinematics.distanceToPlanetCenter = C.planetRadius + 60_000;
+    st.forces.surfaceTemperature = kelvin;
+    st.engines.running = [false, false, false, false, false, false];
+    return step(st, 1 / 120);
+  }
+  it('above 1,533 K it breaks up; at 1,533 K it does not', () => {
+    expect(heatedTo(C.TILE_LIMIT_KELVIN + 0.01).failures.inFlightBreakUp).toBe(true);
+    expect(heatedTo(C.TILE_LIMIT_KELVIN).failures.inFlightBreakUp).toBe(false);
   });
 });
 
