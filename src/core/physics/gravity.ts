@@ -69,8 +69,35 @@ export function circularOrbitalSpeed(distanceToPlanetCenter: number): number {
 export function verticalGravityAcceleration(
   distanceToPlanetCenter: number,
   tangentialSpeed: number,
+  omega: number = C.frameRotationRate,
 ): number {
-  return tangentialSpeed ** 2 / distanceToPlanetCenter - gravityAt(distanceToPlanetCenter);
+  const inertialTangential = inertialTangentialSpeed(distanceToPlanetCenter, tangentialSpeed, omega);
+  return inertialTangential ** 2 / distanceToPlanetCenter - gravityAt(distanceToPlanetCenter);
+}
+
+/*
+  THE ROTATING GROUND FRAME — Phase 6, Task 9. The simulation's speeds are
+  relative to the ground. When the ground turns at omega in the flight plane,
+  the inertial tangential speed is v_t + omega*r, and the two equations of
+  motion above, written for the ground-relative speeds, become
+
+      a_r = (v_t + omega*r)^2 / r - GM/r^2  =  v_t^2/r - g + 2*omega*v_t + omega^2*r
+      a_t = -v_r * (v_t + 2*omega*r) / r    =  -v_r*v_t/r - 2*omega*v_r
+
+  that is, the inertial terms plus the Coriolis (2*omega*v) and centrifugal
+  (omega^2*r) terms. At omega = 0 both short-circuit to the inertial
+  expressions on the same operands, so the result is the same bits, signed
+  zeros included: `v_t + 0` would turn a -0 into +0, and the sign of a zero
+  speed reaches atan2.
+*/
+
+/** m/s — the tangential speed in the inertial frame, from the ground-relative one. */
+export function inertialTangentialSpeed(
+  distanceToPlanetCenter: number,
+  tangentialSpeed: number,
+  omega: number = C.frameRotationRate,
+): number {
+  return omega === 0 ? tangentialSpeed : tangentialSpeed + omega * distanceToPlanetCenter;
 }
 
 /**
@@ -102,14 +129,19 @@ export function verticalGravityAcceleration(
  * regardless. Measured on an ellipse in vacuum: 12.6% drift, and an orbit whose
  * apogee should be 4015 km reaching 1380 km.
  *
+ * In a turning ground frame the Coriolis term joins it (see the note above
+ * `inertialTangentialSpeed`).
+ *
  * @returns m/s^2 applied to the downrange component
  */
 export function tangentialAcceleration(
   distanceToPlanetCenter: number,
   tangentialSpeed: number,
   radialSpeed: number,
+  omega: number = C.frameRotationRate,
 ): number {
-  return (-radialSpeed * tangentialSpeed) / distanceToPlanetCenter;
+  const coupled = omega === 0 ? tangentialSpeed : tangentialSpeed + 2 * omega * distanceToPlanetCenter;
+  return (-radialSpeed * coupled) / distanceToPlanetCenter;
 }
 
 /** Specific orbital energy, J/kg. Conserved under gravity alone. */

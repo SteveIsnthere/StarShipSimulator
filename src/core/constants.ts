@@ -43,6 +43,14 @@ export const planetTimeToRotate = 24 * (60 * 60);
 export const planetLinearVelocity = planetCircumference / planetTimeToRotate;
 
 /**
+ * rad/s — how fast the ground frame turns in the flight plane. The simulation
+ * integrates in the frame of the ground, so a turning planet adds Coriolis and
+ * centrifugal terms (physics/gravity.ts). Zero: the frame is inertial, as it
+ * always has been (Phase 6 Task 9a, Refactor).
+ */
+export const frameRotationRate = 0;
+
+/**
  * m/s^2. Constant everywhere in the 2021 model — 4.0% high at 100 km, 7.2% at
  * 200 km. M2.6 replaced it with -GM*r_hat/r^2, shipped unconditionally at
  * M2.10; the constant survives only where 2021 used it as a unit — TWR, felt

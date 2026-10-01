@@ -1,0 +1,85 @@
+/**
+ * The rotating ground frame (Phase 6, Task 9a, Refactor).
+ *
+ * The simulation integrates ground-relative speeds. A planet turning at omega
+ * in the flight plane adds the Coriolis (2*omega*v) and centrifugal
+ * (omega^2*r) terms to the two polar equations (physics/gravity.ts). At
+ * omega = 0 the expressions are the inertial ones bit for bit — that is what
+ * lets 9a land without moving a golden — and at omega != 0 they are the
+ * inertial equations seen from the turning ground, which the tests below prove
+ * by transforming back.
+ */
+import fc from 'fast-check';
+import { describe, expect, it } from 'vitest';
+import {
+  gravityAt,
+  inertialTangentialSpeed,
+  tangentialAcceleration,
+  verticalGravityAcceleration,
+} from '$core/physics/gravity';
+
+/** rad/s — Earth's sidereal rate (IERS), for scale. */
+const EARTH = 7.2921159e-5;
+
+const radius = fc.double({ min: 6.3e6, max: 5e7, noNaN: true });
+const speed = fc.double({ min: -9e3, max: 9e3, noNaN: true });
+const omega = fc.double({ min: -2e-4, max: 2e-4, noNaN: true });
+
+describe('at omega = 0 the frame is inertial, bit for bit', () => {
+  it('both equations are the inertial expressions on the same operands', () => {
+    fc.assert(
+      fc.property(radius, speed, speed, (r, vt, vr) => {
+        expect(Object.is(verticalGravityAcceleration(r, vt, 0), vt ** 2 / r - gravityAt(r))).toBe(true);
+        expect(Object.is(tangentialAcceleration(r, vt, vr, 0), (-vr * vt) / r)).toBe(true);
+      }),
+    );
+  });
+
+  it('keeps the sign of a zero speed', () => {
+    // `v + 0` would make -0 into +0, and a zero speed's sign reaches atan2.
+    expect(Object.is(inertialTangentialSpeed(7e6, -0, 0), -0)).toBe(true);
+    expect(Object.is(tangentialAcceleration(7e6, -0, -5, 0), (5 * -0) / 7e6)).toBe(true);
+  });
+
+  it('is what step() uses today: the default rate is zero', () => {
+    expect(verticalGravityAcceleration(7e6, 1234)).toBe(verticalGravityAcceleration(7e6, 1234, 0));
+    expect(tangentialAcceleration(7e6, 1234, -56)).toBe(tangentialAcceleration(7e6, 1234, -56, 0));
+  });
+});
+
+describe('at omega != 0 it is the inertial motion seen from the turning ground', () => {
+  it('adds Coriolis and centrifugal terms: a_r += 2 omega v_t + omega^2 r, a_t -= 2 omega v_r', () => {
+    fc.assert(
+      fc.property(radius, speed, speed, omega, (r, vt, vr, w) => {
+        const ar = verticalGravityAcceleration(r, vt, w);
+        const at = tangentialAcceleration(r, vt, vr, w);
+        const expectedR = vt ** 2 / r - gravityAt(r) + 2 * w * vt + w ** 2 * r;
+        const expectedT = (-vr * vt) / r - 2 * w * vr;
+        expect(Math.abs(ar - expectedR)).toBeLessThan(1e-9 * (1 + Math.abs(expectedR)));
+        expect(Math.abs(at - expectedT)).toBeLessThan(1e-9 * (1 + Math.abs(expectedT)));
+      }),
+    );
+  });
+
+  it('conserves the inertial angular momentum r (v_t + omega r)', () => {
+    // dh/dt = v_r (v_t + omega r) + r (a_t + omega v_r), and it must vanish.
+    fc.assert(
+      fc.property(radius, speed, speed, omega, (r, vt, vr, w) => {
+        const dh = vr * (vt + w * r) + r * (tangentialAcceleration(r, vt, vr, w) + w * vr);
+        expect(Math.abs(dh)).toBeLessThan(1e-6 * (1 + Math.abs(vr * (vt + w * r))));
+      }),
+    );
+  });
+
+  it('holds a body still over the ground at the synchronous radius', () => {
+    // Gravity balances the centrifugal term exactly where omega^2 r^3 = GM:
+    // 42,164 km for Earth's sidereal rate, the geostationary radius.
+    const r = (3.986004418e14 / EARTH ** 2) ** (1 / 3);
+    expect(r / 1000).toBeCloseTo(42_164, 0);
+    expect(verticalGravityAcceleration(r, 0, EARTH)).toBeCloseTo(0, 12);
+  });
+
+  it("puts the pad's own eastward speed in the inertial figure", () => {
+    expect(inertialTangentialSpeed(6_371_000, 0, EARTH)).toBeCloseTo(464.58, 2);
+  });
+});
