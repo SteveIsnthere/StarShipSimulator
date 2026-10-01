@@ -1,14 +1,12 @@
 /**
  * Golden trajectories — the behavioural contract.
  *
- * M1.8 acceptance: fixtures committed, and replay is bit-identical across
- * 30/60/144 fps frame batching.
+ * Each fixture is replayed from its initial state and compared sample by
+ * sample: bit-exact on the platform that recorded it, within a measured
+ * tolerance elsewhere (tests/golden/compare.ts says why and how much).
  *
- * WHAT FRAME BATCHING MEANS HERE. The loop (M1.11) runs a fixed dt and drains an
- * accumulator, so a 30 fps frame runs 4 steps of 1/120 and a 144 fps frame runs
- * 0 or 1. The number of steps per frame must not change the trajectory — only
- * the total number of steps. This test batches the same 1/120 steps into groups
- * of different sizes and asserts the result is IDENTICAL, not merely close.
+ * That the frame rate cannot change the trajectory is the loop's property, and
+ * tests/core/loop.test.ts proves it through the real accumulator.
  *
  * If a fixture in this directory moves, physics changed. `physics-change-policy` permits that
  * only under a declared Bug-fix or Fidelity tier justified in the same commit,
@@ -29,6 +27,7 @@ import {
   type Sample,
 } from './record';
 import { GOLDEN_SPECS } from './scenarios';
+import { ACTIVE_REL_TOL, relDiff } from './compare';
 
 const DIR = fileURLToPath(new URL('./fixtures/', import.meta.url));
 
@@ -44,7 +43,7 @@ function loadSamples(id: string): Sample[] {
 describe.each(GOLDEN_SPECS)('$id', (spec) => {
   const golden = loadSamples(spec.id);
 
-  it('replays exactly, field for field, sample for sample', () => {
+  it('replays field for field, sample for sample', () => {
     let s = spec.build();
     let sampleIndex = 0;
 
@@ -58,50 +57,6 @@ describe.each(GOLDEN_SPECS)('$id', (spec) => {
       }
     }
     expect(sampleIndex, 'sample count').toBe(golden.length);
-  });
-
-  it.each([1, 2, 4, 8])('is identical when %d steps are batched per frame', (perFrame) => {
-    // 4 steps/frame is 30 fps at dt=1/120; 2 is 60 fps; 1 is 120 fps.
-    // 144 fps drains 0 or 1 steps per frame, covered by perFrame=1 plus the
-    // ragged-batching test below.
-    let s = spec.build();
-    let stepsTaken = 0;
-    let sampleIndex = 1;
-
-    while (stepsTaken < spec.steps) {
-      const n = Math.min(perFrame, spec.steps - stepsTaken);
-      for (let k = 0; k < n; k++) {
-        s = step(s, GOLDEN_DT);
-        stepsTaken += 1;
-        if (stepsTaken % SAMPLE_EVERY === 0) {
-          expectSampleMatches(golden, sampleIndex++, flattenState(s), spec.id, stepsTaken);
-        }
-      }
-    }
-    expect(sampleIndex).toBe(golden.length);
-  });
-
-  it('is identical under ragged batching, as a real frame budget produces', () => {
-    // A 144 Hz display against a 120 Hz sim yields 1,1,0,1,1,0,... and a
-    // stuttering one yields anything. Batch sizes cycle irregularly here.
-    const pattern = [1, 0, 2, 1, 3, 0, 1, 5, 1, 0, 2];
-    let s = spec.build();
-    let stepsTaken = 0;
-    let sampleIndex = 1;
-    let p = 0;
-
-    while (stepsTaken < spec.steps) {
-      const n = Math.min(pattern[p % pattern.length]!, spec.steps - stepsTaken);
-      p += 1;
-      for (let k = 0; k < n; k++) {
-        s = step(s, GOLDEN_DT);
-        stepsTaken += 1;
-        if (stepsTaken % SAMPLE_EVERY === 0) {
-          expectSampleMatches(golden, sampleIndex++, flattenState(s), spec.id, stepsTaken);
-        }
-      }
-    }
-    expect(sampleIndex).toBe(golden.length);
   });
 });
 
@@ -123,9 +78,10 @@ function expectSampleMatches(
   for (const key of expectedKeys) {
     const want = expected![key];
     const got = actual[key];
+    const diff = relDiff(got, want);
     expect(
-      Object.is(got, want),
-      `${id} step ${atStep} (sample ${index}): ${key} is ${String(got)}, golden has ${String(want)}`,
+      diff <= ACTIVE_REL_TOL,
+      `${id} step ${atStep} (sample ${index}): ${key} is ${String(got)}, golden has ${String(want)} (relative difference ${diff.toExponential(2)}, tolerance ${ACTIVE_REL_TOL})`,
     ).toBe(true);
   }
 }
