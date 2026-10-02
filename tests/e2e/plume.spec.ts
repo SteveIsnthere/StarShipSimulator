@@ -188,13 +188,42 @@ async function plume(page: Page): Promise<{ span: number; width: number; last: s
       await particlesVisible(page, false);
       const background = await captureCanvas(page);
       await particlesVisible(page, true);
-      const report = await readFrame(page, {
+      const spec = {
         regions: { below: BELOW },
         extents: {
           plume: { ...PLUME, region: below, topBandPx: CONE_DEPTH_SHIP_LENGTHS * scale.vehicleHeightPx },
         },
         map: { cols: 44, rows: 22 },
-      }, background);
+      };
+      // Diagnostic captures retain the exact inputs to the original detector.
+      // The flight stays paused, so attachment I/O advances no particle time.
+      const diagnostics = process.env['P6B_PLUME_DIAGNOSTICS'] === '1';
+      const prefix = `plume-step-${lastSampleStep}-sample-${i}`;
+      if (diagnostics) await test.info().attach(`${prefix}-background`, {
+        body: background, contentType: 'image/png',
+      });
+      const report = await readFrame(page, spec, background, diagnostics
+        ? async (shot) => { await test.info().attach(`${prefix}-subject`, {
+          body: shot, contentType: 'image/png',
+        }); }
+        : undefined);
+      if (diagnostics) {
+        const repeated = await readFrame(page, spec, background, async (shot) => {
+          await test.info().attach(`${prefix}-frozen-repeat`, {
+            body: shot, contentType: 'image/png',
+          });
+        });
+        const telemetry = await page.evaluate(() => (window as unknown as {
+          __simDebug: { telemetry(): Record<string, number | boolean> }
+        }).__simDebug.telemetry());
+        await test.info().attach(`${prefix}-measurement`, {
+          body: JSON.stringify({ spec, scale, geometry, telemetry,
+            extent: report.extents['plume'], frozenExtent: repeated.extents['plume'] }, null, 2),
+          contentType: 'application/json',
+        });
+        console.log(`[plume-frozen] ${test.info().project.name} step ${lastSampleStep}: ` +
+          JSON.stringify({ extent: report.extents['plume'], repeat: repeated.extents['plume'] }));
+      }
       const found = report.extents['plume']!;
       expect(found.found, `no plume at all\n${describeFrame(report, scale)}`).toBe(true);
       spans.push(inVehicleHeights(found, scale));

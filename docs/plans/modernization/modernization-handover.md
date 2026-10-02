@@ -282,3 +282,21 @@ Phase6b fallback checkpoint eb703cb is committed/pushed; localgate and hostedCI3
 ## Reviewed browser repair release checkpoint (2026-10-02)
 
 The repaired source passes the complete localgate (1980units/1980instrumented,13smoke,5subpath), unchanged floors, docs-layoutcheck and all21mutation faults after848greencontrol tests. Focused five-project original plume/terrain assertions10/10pass; fresh independent and high-depth source review clean. No seed tuning or effectparameter/assertion/retry changes. Preserve/push the coherent checkpoint, then run finalfullbrowser against its unchanged runtime and obtain finalreviewacceptance before merging. Main/live080f108,60%; Phase6b–9 remain.
+
+## Candidate verification in flight (2026-10-02)
+
+Reviewed repair76c60e3 committed/pushed; complete1980-test localgate and all21mutationfaults green. Finalfullbrowser running (session2684; /tmp/starship-browser-cycle1-full-final.log), hostedCI37044401235 succeeded at sameSHA. Independent physics revalidation:21Linuxcorepins/all8fixtures unchanged; no actionable boundaryconcern, conditional on finalbrowser/CI results. Main/live080f108,60%; no phase tick/merge/deploy claim. Finish existingverification, then close6b and execute7–9.
+
+## Hosted candidate gate verified (2026-10-02)
+
+HostedCI37044401235 succeeds at76c60e3; Linuxgate/hygiene green. Configured hostedfullbrowser/bench skipped, not claimed. Local fullbrowser session2684 still running and the previously failing Android landscape vacuum assertion now passes. iPhone outcomes/finalfullsuite result remain required; no merge/deploy/phase tick. Main/live080f108,60%,four phases remain.
+
+## Final browser failure and next bounded diagnosis (2026-10-02)
+
+At committed candidate `76c60e3db222118fe342560efe8d1fff2c6464bc`, the final full browser run completed with exit 1: 435 passed, three failed, 11 configured skips, 30.8 minutes, zero local retries. Session 2684 is complete; never resume or restart it. Full raw log, all three failure screenshots/context and the last-run manifest are preserved in `fallback-browser-cycle1-final/`, with SHA256 manifest. Hosted CI 37044401235 succeeded at the same candidate; local gate and all 21 mutation faults remain green. These checks do not override the failed browser acceptance.
+
+Cycle 1 attempt 1 is unsuccessful as release acceptance. Both original failures passed: Pixel landscape vacuum width and iPhone portrait exact-altitude terrain. Remaining failures are iPhone portrait low-altitude plume length 0.9156261427575323 and landscape length 0.8853575099391015 against original >1, plus landscape vacuum width 0.43333333333333335 against original >0.4994324415041085 (low width times 1.2). No bounds, retries, effect parameters or seed were changed. No merge, phase tick or deployment is authorized yet.
+
+Fresh independent `fallback_camera_review` confirms the cadence/restart repair remains valid, but does not prove pixel acceptance. Low landscape qualifying pixel counts 3286/3324/3326/3166 are nearly constant while measured lengths vary 0.89/0.70/0.89/2.29. This argues against wholesale starvation; it does not establish the cause. The detector collects an unrestricted bounding box, with no connectedness filter. Screenshots taken after the measurement show dotted distal tails but cannot establish RGB at the actual failed sample.
+
+Cycle 1 attempt 2 starts with diagnostic evidence, not parameter tuning: preserve each original paused subject/background pair, record unchanged threshold decisions and exact step/viewport/nozzle, repeat a capture of the same frozen sample to distinguish compositor variation from state-dependent threshold crossing. If needed, expose read-only per-emitter live count/age/alpha/geometric extent and replay prescribed startup/render cadence through the real frame path. Do not use debug.step alone: it advances physics/camera without particle time. Retain original four samples, intervals, assertions, bounds, seed and retries. Record the hypothesis and evidence before any causal repair; no unchanged-code rerun for luck. Main/live remain 080f108, six of ten phases complete (60%). Full scope remains 6b, 7, 8 and 9; no owner question is pending.

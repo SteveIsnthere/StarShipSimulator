@@ -299,11 +299,17 @@ export async function captureCanvas(page: Page): Promise<Buffer> {
   return shot;
 }
 
-export async function readFrame(page: Page, spec: FrameSpec = {}, reference?: Buffer): Promise<FrameReport> {
+export async function readFrame(
+  page: Page,
+  spec: FrameSpec = {},
+  reference?: Buffer,
+  onCapture?: (shot: Buffer) => Promise<void>,
+): Promise<FrameReport> {
   const canvas = page.locator(byTestId('world-canvas'));
   const box = await canvas.boundingBox();
   if (!box) throw new Error('the world canvas has no box — is the app mounted?');
   const shot = await captureCanvas(page);
+  if (onCapture) await onCapture(shot);
   const dataUrl = `data:image/png;base64,${shot.toString('base64')}`;
 
   const result = await page.evaluate(
