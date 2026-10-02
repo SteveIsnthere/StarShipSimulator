@@ -17,12 +17,13 @@
  * never changes, no matter what is thrown at it.
  */
 import { describe, expect, it } from 'vitest';
-import { Texture } from 'pixi.js';
+import { Sprite, Texture } from 'pixi.js';
 import { createParticleSystem, EFFECTS, type EffectName } from '$view/particles';
 import { createEffectDriver } from '$view/effects';
 import { createCamera, writeViewport } from '$view/camera';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import { vehicleHeight } from '$core/constants';
+import { updateAtmosphere } from '$core/physics/atmosphere';
 
 const EFFECT_NAMES = Object.keys(EFFECTS) as EffectName[];
 
@@ -115,6 +116,63 @@ describe('particles are recycled', () => {
     s.burst('raptorShutdown', 0, 0, 50, 1);
     for (let i = 0; i < 400; i++) s.update(1 / 60);
     expect(s.container.children.every((c) => !c.visible)).toBe(true);
+  });
+});
+
+describe('combined plume cadence', () => {
+  const textures = { core: Texture.WHITE, soft: Texture.EMPTY, smoke: Texture.EMPTY, wisp: Texture.EMPTY };
+  const snapshot = (particles: ReturnType<typeof createParticleSystem>, texture: Texture) =>
+    particles.container.children.filter((child): child is Sprite => child instanceof Sprite && child.visible && child.texture === texture)
+      .map((child) => ({ x: child.x, y: child.y, alpha: child.alpha, width: child.width }))
+      .sort((a, b) => a.y - b.y || a.x - b.x);
+
+  it.each([updateAtmosphere(2000).airPressure, 0])('core and bell keep the same steady plume across render batches at pressure %s', (pressure) => {
+    const run = (hz: number) => {
+      const particles = createParticleSystem(textures, 4000, 12345);
+      const state = createScenarioState(getScenario('landing-burn')!);
+      state.kinematics.altitude = 2000;
+      state.kinematics.pitch = 0 as typeof state.kinematics.pitch;
+      state.kinematics.trueSpeed = 0;
+      state.kinematics.machSpeed = 0;
+      state.forces.thermalPower = 0;
+      state.forces.dynamicPressure = 0;
+      state.forces.thrust = 1;
+      state.engines.running = [true, true, true, false, false, false];
+      state.vehicle.throttleCurrent = 100;
+      state.atmosphere.airPressure = pressure;
+      const viewport = { width: 0, height: 0, physicalHeight: 0, physicalWidth: 0, scale: 0 };
+      writeViewport(viewport, 1280, 800, vehicleHeight, 1, 2000);
+      const camera = createCamera(viewport, state.kinematics.downRangeDistance, 0, 0);
+      camera.posY = state.kinematics.altitude;
+      const effects = createEffectDriver();
+      for (let i = 0; i < hz * 2; i++) effects.update(particles, camera, viewport, state, state, 1 / hz);
+      return [snapshot(particles, Texture.WHITE), snapshot(particles, Texture.EMPTY)];
+    };
+    const fine = run(120);
+    const coarse = run(4);
+    for (let emitter = 0; emitter < fine.length; emitter++) {
+      expect(fine[emitter]!.length).toBeGreaterThan(50);
+      expect(coarse[emitter]!.length, `emitter ${emitter}: survivor count`).toBe(fine[emitter]!.length);
+      for (let i = 0; i < fine[emitter]!.length; i++) {
+        for (const field of ['x', 'y', 'alpha', 'width'] as const) {
+          expect(Math.abs(coarse[emitter]![i]![field] - fine[emitter]![i]![field]), `emitter ${emitter}, particle ${i}, ${field}`).toBeLessThan(0.001);
+        }
+      }
+    }
+  });
+
+  it('a cleared flight has the same plume as a fresh flight after unrelated emission', () => {
+    const fresh = createParticleSystem(textures, 4000, 12345);
+    const restarted = createParticleSystem(textures, 4000, 12345);
+    restarted.burst('explosion', 0, 0, 100, 1);
+    restarted.emit('raptorPlumeCore', 0, 0, 0, 1, 0.25, 1);
+    restarted.update(0.25);
+    restarted.clear();
+    for (const particles of [fresh, restarted]) {
+      particles.emit('raptorPlumeCore', 0, 0, 0, 1, 0.25, 1);
+      particles.update(0.25);
+    }
+    expect(snapshot(restarted, Texture.WHITE)).toEqual(snapshot(fresh, Texture.WHITE));
   });
 });
 

@@ -1,0 +1,45 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+stdout | tests/view/particles.test.ts > combined plume cadence > core and bell keep the same steady plume across render batches at pressure 80000
+cadence diagnostic 80000 0 {"fine":[{"x":35267224,"y":452.3451843261719,"alpha":0.7345090385224385,"width":2.658767128065691},{"x":35267224,"y":452.5975341796875,"alpha":0.5054832999442322,"width":2.6199274017189875},{"x":35267224,"y":455.6606140136719,"alpha":0.365339349284674,"width":2.6377909100389174},{"x":35267224,"y":456.4929504394531,"alpha":1.0066047630765267,"width":2.754770303134731},{"x":35267224,"y":456.6451416015625,"alpha":1.1337301476156052,"width":2.7014170851600867},{"x":35267224,"y":459.0694885253906,"alpha":0.969135085831065,"width":2.6649609445442355}],"coarse":[{"x":35267224,"y":452.3451843261719,"alpha":0.7345090385224385,"width":2.658767128065691},{"x":35267224,"y":452.5975341796875,"alpha":0.50548329783625,"width":2.619927418568526},{"x":35267224,"y":455.66064453125,"alpha":0.36534459288968535,"width":2.6377909100389174},{"x":35267224,"y":456.492919921875,"alpha":1.0065787692744916,"width":2.754770303134731},{"x":35267224,"y":456.6451416015625,"alpha":1.1337301476156052,"width":2.7014170851600867},{"x":35267224,"y":459.0694885253906,"alpha":0.969135085831065,"width":2.6649609445442355}],"fine45":[{"x":35267224,"y":501.45306396484375,"alpha":0.8903576576994279,"width":3.286979074846806},{"x":35267224,"y":505.6408996582031,"alpha":0.3000780840820252,"width":3.5935294775043927},{"x":35267224,"y":508.75054931640625,"alpha":0.38898231787972287,"width":3.302810938714698},{"x":35267224,"y":509.223388671875,"alpha":0.6123130925144892,"width":3.9645668606474933},{"x":35267224,"y":509.2458801269531,"alpha":0.6575946464312478,"width":3.8347542494449915}],"coarse45":[{"x":35267224,"y":501.45306396484375,"alpha":0.8903576576994279,"width":3.286979074846806},{"x":35267224,"y":505.64093017578125,"alpha":0.3000687016098263,"width":3.593529268630931},{"x":35267220,"y":508.7504577636719,"alpha":0.4629005724498069,"width":3.3028108426426654},{"x":35267224,"y":509.2234191894531,"alpha":0.6123337661009375,"width":3.964566571285198},{"x":35267224,"y":509.24591064453125,"alpha":0.6576159833806324,"width":3.834753900744917}]}
+
+stdout | tests/view/particles.test.ts > combined plume cadence > core and bell keep the same steady plume across render batches at pressure 0
+cadence diagnostic 0 0 {"fine":[{"x":35267224,"y":470.40789794921875,"alpha":0.7944007860247367,"width":6.115164538051346},{"x":35267224,"y":470.9951171875,"alpha":0.8021112921989495,"width":6.025833170698036},{"x":35267224,"y":478.0773010253906,"alpha":0.7985650084284509,"width":6.066919238341816},{"x":35267224,"y":479.9521179199219,"alpha":0.7753421276936725,"width":6.335971832691423},{"x":35267224,"y":480.3486633300781,"alpha":0.7859338685554751,"width":6.213259435806097},{"x":35267224,"y":485.9237976074219,"alpha":0.7931711826085476,"width":6.129410315434657}],"coarse":[{"x":35267224,"y":470.40789794921875,"alpha":0.7944007860247367,"width":6.115164538051346},{"x":35267224,"y":470.9951171875,"alpha":0.8021112888539601,"width":6.0258332094519735},{"x":35267224,"y":478.0773010253906,"alpha":0.7985650084284509,"width":6.066919238341816},{"x":35267220,"y":479.9521179199219,"alpha":0.7753421276936725,"width":6.335971832691423},{"x":35267224,"y":480.3486328125,"alpha":0.7859338685554751,"width":6.213259435806097},{"x":35267224,"y":485.9237976074219,"alpha":0.7931711826085476,"width":6.129410315434657}],"fine45":[{"x":35267224,"y":583.2670288085938,"alpha":0.6696874435276391,"width":7.560051963176186},{"x":35267224,"y":592.7758178710938,"alpha":0.6088307126820232,"width":8.265117863683855},{"x":35267224,"y":599.8084716796875,"alpha":0.6665444840996297,"width":7.596465248749973},{"x":35267224,"y":600.9910278320312,"alpha":0.5351719539139809,"width":9.118503813921901},{"x":35267224,"y":601.0411376953125,"alpha":0.5609424995463786,"width":8.81993481899881}],"coarse45":[{"x":35267216,"y":583.2670288085938,"alpha":0.6696874435276391,"width":7.560051963176186},{"x":35267232,"y":592.7756958007812,"alpha":0.6088307541478176,"width":8.265117383274912},{"x":35267212,"y":599.8084106445312,"alpha":0.6665445031719577,"width":7.596465027784307},{"x":35267236,"y":600.990966796875,"alpha":0.5351720113585092,"width":9.118503148388646},{"x":35267236,"y":601.0411376953125,"alpha":0.5609425687707097,"width":8.819934016988668}]}
+
+ ❯ |unit| tests/view/particles.test.ts (48 tests | 2 failed | 46 skipped) 61ms
+     × core and bell keep the same steady plume across render batches at pressure 80000 45ms
+     × core and bell keep the same steady plume across render batches at pressure 0 16ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/particles.test.ts > combined plume cadence > core and bell keep the same steady plume across render batches at pressure 80000
+AssertionError: emitter 0, particle 45, x: expected 4 to be less than 0.001
+ ❯ tests/view/particles.test.ts:158:132
+    156|       for (let i = 0; i < fine[emitter]!.length; i++) {
+    157|         for (const field of ['x', 'y', 'alpha', 'width'] as const) {
+    158|           expect(Math.abs(coarse[emitter]![i]![field] - fine[emitter]!…
+       |                                                                                                                                    ^
+    159|         }
+    160|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/view/particles.test.ts > combined plume cadence > core and bell keep the same steady plume across render batches at pressure 0
+AssertionError: emitter 0, particle 11, x: expected 4 to be less than 0.001
+ ❯ tests/view/particles.test.ts:158:132
+    156|       for (let i = 0; i < fine[emitter]!.length; i++) {
+    157|         for (const field of ['x', 'y', 'alpha', 'width'] as const) {
+    158|           expect(Math.abs(coarse[emitter]![i]![field] - fine[emitter]!…
+       |                                                                                                                                    ^
+    159|         }
+    160|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 46 skipped (48)
+   Start at  10:34:13
+   Duration  334ms (transform 71ms, setup 0ms, import 177ms, tests 61ms, environment 0ms)
+

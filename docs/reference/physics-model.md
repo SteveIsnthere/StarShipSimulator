@@ -50,8 +50,8 @@ Order is a contract; several phases read what the previous one wrote.
 | 0 | airspeed | relative airspeed from the incoming speeds, before a crash can zero them |
 | 1 | environment | atmosphere at the current altitude |
 | 2 | status | collision, fuel-out; propellant burn and dump; fuel-out shutdown; ignition countdowns |
-| 3a | params | fin fractions, max area, cross-section (previous `angleInToTheWind`), angles, gimbal direction, heat, q, pitch rate, TWR, felt g, drag (Cd from previous Mach), lift, thrust at ambient pressure |
-| 3b | translation | Verlet; radius refreshed after the position update; `trueSpeed`, Mach |
+| 3a | params | fin fractions, max area, cross-section (previous `angleInToTheWind`), angles, gimbal direction, heat, q, pitch rate, TWR, drag (Cd from previous Mach), lift, thrust at ambient pressure |
+| 3b | translation | current vertical support and felt g from specific force; Verlet; radius refreshed after position; `trueSpeed`, Mach |
 | 3c | rotation | mass properties for this load; Verlet rotation with all torques |
 | 4 | controls | autopilot, then manual input (overrides), then fins/RCS/gimbal, then throttle slew |
 | 4b | failure | current pressure, skin temperature and felt g; shutdown cancels pending ignition |
@@ -207,7 +207,7 @@ Phase 6, Task 8 (`physics/thermal.ts`).
 | contact zone | `altitude ≤ 25·\|cos pitch\|` | `step.ts:139` |
 | landed | in zone, `speedY < −0.5`, `\|speedX\| < 2`, `\|speedY\| < 10`, `\|pitch\| < 0.09` rad | `step.ts:143`, `C:463–465` |
 | crashed | in zone, `speedY < −0.5`, any landing criterion missed | `step.ts:155` |
-| resting | in zone, not falling, thrust accel ≤ local g | `step.ts:166` |
+| resting | in zone, not falling, current vertical specific force ≤ local weight | `updateGroundContact` |
 | fuel out | `propellantMass ≤ 0` | `step.ts:199` |
 
 Break-up empties propellant and RCS, restores dry mass/inertia, stops engines and pending ignition, and zeroes rotation; the vehicle then falls with this step’s already paid impulse. A crash

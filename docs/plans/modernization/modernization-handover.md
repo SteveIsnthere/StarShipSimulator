@@ -274,3 +274,11 @@ Next: Linuxrecording/audit coherentfallbackstate, then fullPhase6bclosure and7�
 ## Gate-green fallback checkpoint (2026-10-02)
 
 Complete localgate exits0:1977units and1977coverage-instrumentedtests; unchangedcoveragefloors, smoke and5subpath checks pass. All8Linuxfixtures/audits coherent with source; intro motionexact, reentryoriginal180s motionexact,600slanded. Full5-browser suite nowrunning; mutation/finalreleaseacceptance/merge/main-gate/deploy stillrequired. High-depth branchreview found onlystale authoritative-roadmap checkpoint; accepted/corrected, followup requested. No partialphase merge; main/live080f108,60%,fourphasesremain. Next finishfullbrowser, runmutationALONE, finalreviewfollowups, phaseclose/merge/deploy then7–9.
+
+## Browser diagnosis checkpoint (2026-10-02)
+
+Phase6b fallback checkpoint eb703cb is committed/pushed; localgate and hostedCI37037625477 are green. Fullbrowser finished436pass/2fail/11configuredskips with zero local retries. Failures are Pixel landscape vacuum width and iPhone portrait ground structure. Rawlog/screenshots/context preserved in body-momentresearch/fallback-browser-cycle1. Fresh independent review supports cycle1attempt1: separate emitter random streams/reset histories after watched-red combined cadence/restart regressions, and photograph terrain at original configured altitudes while paused.61focused units/build/lint pass; all10focusedbrowser checks pass; fullgate after renderer changes and all21mutations pass. Assertions/effectparameters/retries unchanged. Finalfullbrowser/mutation/fullphasegate/reviews/merge/main-gate/deploy remain required. Main/live080f108,60%,four phases remain; no owner input needed.
+
+## Reviewed browser repair release checkpoint (2026-10-02)
+
+The repaired source passes the complete localgate (1980units/1980instrumented,13smoke,5subpath), unchanged floors, docs-layoutcheck and all21mutation faults after848greencontrol tests. Focused five-project original plume/terrain assertions10/10pass; fresh independent and high-depth source review clean. No seed tuning or effectparameter/assertion/retry changes. Preserve/push the coherent checkpoint, then run finalfullbrowser against its unchanged runtime and obtain finalreviewacceptance before merging. Main/live080f108,60%; Phase6b–9 remain.

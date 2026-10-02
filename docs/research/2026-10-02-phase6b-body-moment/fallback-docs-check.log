@@ -1,0 +1,15 @@
+-- instructions
+ok    AGENTS.md 4955B of 32768B
+ok    CLAUDE.md is exactly @AGENTS.md
+-- skills
+ok    .claude/skills -> ../.agents/skills
+ok    .gitattributes marks .claude/skills symlink=dir
+ok    4 skills with valid frontmatter
+-- docs
+ok    docs/ top level matches the fixed tree (+ listed: plans reference design research )
+ok    no archive directories under docs/
+ok    every plan file is under docs/plans/
+ok    AGENTS.md names docs/plans/ as the plans location
+-- links
+ok    no dead relative links in AGENTS.md or skills
+-- 0 failed, 0 warnings

@@ -562,15 +562,30 @@ export function createParticleTextures(renderer: Renderer, cell = 64): ParticleT
 }
 
 /** Deterministic jitter, so an effect looks the same in a replayed golden. */
-function makeRandom(seed: number): () => number {
-  let state = seed >>> 0 || 1;
-  return () => {
+interface RandomStream {
+  (): number;
+  reset(): void;
+}
+
+function makeRandom(seed: number): RandomStream {
+  const initial = seed >>> 0 || 1;
+  let state = initial;
+  const next = () => {
     state ^= state << 13;
     state ^= state >>> 17;
     state ^= state << 5;
     state >>>= 0;
     return state / 4294967296;
   };
+  next.reset = () => { state = initial; };
+  return next;
+}
+
+/** Stable FNV-1a key: adding an effect cannot shift another effect's stream. */
+function effectSeed(seed: number, name: EffectName): number {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < name.length; i++) hash = Math.imul(hash ^ name.charCodeAt(i), 0x01000193);
+  return (seed ^ hash) >>> 0;
 }
 
 export interface ParticleSystem {
@@ -726,12 +741,16 @@ export function createParticleSystem(
     free[i] = capacity - 1 - i;
   }
 
-  const random = makeRandom(seed);
+  // Each emitter owns its jitter. A slow render batches core births before bell
+  // births; a fast render interleaves them. Shared randomness changes geometry.
+  const randoms = new Map<EffectName, RandomStream>();
+  for (const name of Object.keys(EFFECTS) as EffectName[]) randoms.set(name, makeRandom(effectSeed(seed, name)));
   /** Carried fractional particles, so a low rate still emits smoothly. */
   const debt = new Map<EffectName, number>();
 
   const spawn = (
     config: EmitterConfig,
+    random: RandomStream,
     px: number,
     py: number,
     angle: number,
@@ -798,6 +817,7 @@ export function createParticleSystem(
     emit(effect, px, py, angle, intensity, dt, scale, spreadFactor = 1, bandSpacing = 0, bandStrength = 0) {
       if (intensity <= 0 || dt <= 0) return;
       const config = EFFECTS[effect];
+      const random = randoms.get(effect)!;
       const rate = config.rate * intensity;
       const carried = debt.get(effect) ?? 0;
       const wanted = rate * dt + carried;
@@ -805,15 +825,16 @@ export function createParticleSystem(
       debt.set(effect, wanted - whole);
       for (let n = 0; n < whole; n++) {
         const delay = Math.min(dt, (n + 1 - carried) / rate);
-        const i = spawn(config, px, py, angle, scale, spreadFactor, bandSpacing, bandStrength);
+        const i = spawn(config, random, px, py, angle, scale, spreadFactor, bandSpacing, bandStrength);
         if (i !== undefined) birthDelay[i] = delay;
       }
     },
 
     burst(effect, px, py, count, scale) {
       const config = EFFECTS[effect];
+      const random = randoms.get(effect)!;
       for (let n = 0; n < count; n++) {
-        spawn(config, px, py, random() * Math.PI * 2, scale);
+        spawn(config, random, px, py, random() * Math.PI * 2, scale);
       }
     },
 
@@ -988,6 +1009,7 @@ export function createParticleSystem(
       }
       liveCount = 0;
       debt.clear();
+      for (const random of randoms.values()) random.reset();
     },
 
     destroy() {

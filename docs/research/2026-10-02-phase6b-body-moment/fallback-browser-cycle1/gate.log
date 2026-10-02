@@ -1,0 +1,346 @@
+
+> starship-simulator-v2@0.1.0 gate
+> npm run lint && npm run build && npm run test && npm run coverage && E2E_SKIP_BUILD=1 npm run test:e2e && E2E_SKIP_BUILD=1 npm run test:deploy
+
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+design contract: ok (11 rules, self-test passed)
+copy contract: ok (9 rules, self-test passed)
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 2491 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     2.35 kB │ gzip:   0.95 kB
+dist/assets/InterTight-SemiBold-DJfiTN08.woff2     11.10 kB
+dist/assets/Inter-Regular-BVdEcXjD.woff2           12.00 kB
+dist/assets/Inter-SemiBold-DlULF7c_.woff2          12.46 kB
+dist/assets/JetBrainsMono-Medium-CMl9fZ9Q.woff2    16.54 kB
+dist/assets/charts-BBZhrHKM.css                     0.69 kB │ gzip:   0.35 kB
+dist/assets/plots-D2GbP0iN.css                      1.17 kB │ gzip:   0.46 kB
+dist/assets/uPlot-CnsZ1jie.css                      1.64 kB │ gzip:   0.69 kB
+dist/assets/index-T-XNwGKQ.css                     53.09 kB │ gzip:  10.20 kB
+dist/assets/webworkerAll-CWKZq1aH.js                0.05 kB │ gzip:   0.06 kB
+dist/assets/getTextureBatchBindGroup-Bt6AC8uX.js    0.40 kB │ gzip:   0.31 kB │ map:     1.78 kB
+dist/assets/CanvasPool-ccaPBm8-.js                  0.80 kB │ gzip:   0.45 kB │ map:     3.51 kB
+dist/assets/Cache-DGqfkvRQ.js                       1.14 kB │ gzip:   0.59 kB │ map:     4.85 kB
+dist/assets/constants-DTgHfLDf.js                   1.62 kB │ gzip:   0.93 kB │ map:    35.34 kB
+dist/assets/plots-Bqkauk09.js                       4.63 kB │ gzip:   2.28 kB │ map:    24.91 kB
+dist/assets/canvasUtils-BVPkC6ub.js                 6.06 kB │ gzip:   2.06 kB │ map:    21.91 kB
+dist/assets/Debrief-DoNCqs29.js                     6.60 kB │ gzip:   2.52 kB │ map:    20.76 kB
+dist/assets/BlackBox-kJNxNayZ.js                    9.89 kB │ gzip:   4.16 kB │ map:    37.30 kB
+dist/assets/BufferResource-CZg6dyUf.js             11.13 kB │ gzip:   2.89 kB │ map:    26.53 kB
+dist/assets/state-D62ubXaV.js                      14.91 kB │ gzip:   5.86 kB │ map:   130.93 kB
+dist/assets/init-DnH_wx8r.js                       15.66 kB │ gzip:   4.92 kB │ map:    54.96 kB
+dist/assets/GCManagedHash-DqPcw2Gj.js              19.37 kB │ gzip:   6.32 kB │ map:    67.25 kB
+dist/assets/Menu-DLssovCJ.js                       23.36 kB │ gzip:   7.77 kB │ map:    73.85 kB
+dist/assets/Button-s_Cybpy_.js                     36.83 kB │ gzip:  12.30 kB │ map:   175.21 kB
+dist/assets/Filter-C-jCSOcL.js                     38.97 kB │ gzip:  11.18 kB │ map:   182.95 kB
+dist/assets/Dialog-CD-Z1StI.js                     39.90 kB │ gzip:  13.65 kB │ map:   184.47 kB
+dist/assets/browserAll-fr67y4YH.js                 42.72 kB │ gzip:  11.20 kB │ map:   156.94 kB
+dist/assets/uPlot.esm-C4ecZUO0.js                  51.04 kB │ gzip:  22.28 kB │ map:   252.56 kB
+dist/assets/RenderTargetSystem-CGVbkJQT.js         57.47 kB │ gzip:  16.21 kB │ map:   213.58 kB
+dist/assets/GraphicsContext-DLmAmwc0.js            61.32 kB │ gzip:  20.55 kB │ map:   346.25 kB
+dist/assets/Geometry-coEMng49.js                   65.52 kB │ gzip:  21.50 kB │ map:   326.26 kB
+dist/assets/index-Wip6ENfF.js                     600.82 kB │ gzip: 187.44 kB │ map: 2,827.11 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 578ms
+service worker: 44 assets precached, version bed2bd6d4b10
+  assets/index-Wip6ENfF.js                           181.2 kB gzip
+  assets/Geometry-coEMng49.js                         20.7 kB gzip
+  assets/Button-s_Cybpy_.js                           11.9 kB gzip
+  assets/constants-DTgHfLDf.js                         0.9 kB gzip
+  assets/state-D62ubXaV.js                             5.7 kB gzip
+  assets/Filter-C-jCSOcL.js                           10.8 kB gzip
+  assets/canvasUtils-BVPkC6ub.js                       2.0 kB gzip
+  assets/Cache-DGqfkvRQ.js                             0.6 kB gzip
+  assets/GCManagedHash-DqPcw2Gj.js                     6.2 kB gzip
+  assets/RenderTargetSystem-CGVbkJQT.js               15.7 kB gzip
+  assets/getTextureBatchBindGroup-Bt6AC8uX.js          0.3 kB gzip
+  assets/GraphicsContext-DLmAmwc0.js                  19.9 kB gzip
+  assets/CanvasPool-ccaPBm8-.js                        0.4 kB gzip
+  assets/BufferResource-CZg6dyUf.js                    2.8 kB gzip
+  TOTAL first-load JS                                279.1 kB gzip
+  BUDGET                                             300.0 kB gzip
+  (lazy chunks, not counted: BlackBox-kJNxNayZ.js, Debrief-DoNCqs29.js, Dialog-CD-Z1StI.js, Menu-DLssovCJ.js, browserAll-fr67y4YH.js, init-DnH_wx8r.js, plots-Bqkauk09.js, uPlot.esm-C4ecZUO0.js, webworkerAll-CWKZq1aH.js)
+  assets/index-T-XNwGKQ.css                            9.9 kB gzip (css)
+  Inter-Regular-BVdEcXjD.woff2                        11.7 kB raw
+  Inter-SemiBold-DlULF7c_.woff2                       12.2 kB raw
+  InterTight-SemiBold-DJfiTN08.woff2                  10.8 kB raw
+  JetBrainsMono-Medium-CMl9fZ9Q.woff2                 16.2 kB raw
+  TOTAL fonts                                         50.9 kB raw
+  FONT BUDGET                                         80.0 kB raw
+  TOTAL audio                                          0.0 kB raw
+  AUDIO BUDGET                                       250.0 kB raw
+
+budget: OK — 279.1 kB of 300.0 kB JS
+budget: OK — 50.9 kB of 80.0 kB fonts
+budget: OK — 0.0 kB of 250.0 kB audio
+entry graph: ok (14 first-load files, no uPlot or GSAP)
+
+> starship-simulator-v2@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+(node:192) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:191) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:194) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:195) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:193) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:209) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:208) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:210) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:211) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:246) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:248) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:250) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:251) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:252) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:254) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:253) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:255) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:256) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:259) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:258) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:257) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:260) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:261) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:262) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:263) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:264) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:265) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:266) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:267) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+ Test Files  149 passed (149)
+      Tests  1980 passed (1980)
+   Start at  10:39:41
+   Duration  61.50s (transform 4.55s, setup 2.11s, import 34.50s, tests 216.48s, environment 22.87s)
+
+
+> starship-simulator-v2@0.1.0 coverage
+> vitest run --coverage --testTimeout=120000
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+      Coverage enabled with v8
+
+(node:740) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:739) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:741) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:742) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:743) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:750) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:752) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:751) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:753) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:755) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:757) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:754) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:758) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:760) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:761) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:764) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:772) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:763) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:778) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:780) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:784) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:783) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:785) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:786) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:787) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:789) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:788) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:790) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:791) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+ Test Files  149 passed (149)
+      Tests  1980 passed (1980)
+   Start at  10:40:44
+   Duration  147.05s (transform 4.27s, setup 2.22s, import 60.65s, tests 601.98s, environment 23.79s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   99.46 |     99.1 |      99 |   99.63 |                   
+ core/autopilot    |   99.68 |     99.2 |     100 |     100 |                   
+  index.ts         |   99.66 |    99.18 |     100 |     100 | 100,442           
+ core/control      |   98.11 |    97.91 |   96.36 |   98.53 |                   
+  actuation.ts     |   97.61 |      100 |   88.88 |   97.43 | 188               
+  commands.ts      |   95.23 |       95 |   94.73 |   94.28 | 131-132           
+  ...ce-physics.ts |   97.81 |    95.45 |     100 |   99.18 | 284               
+  primitives.ts    |   99.33 |       99 |     100 |   99.31 | 244               
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 99.46% ( 1474/1482 )
+Branches     : 99.1% ( 665/671 )
+Functions    : 99% ( 198/200 )
+Lines        : 99.63% ( 1355/1360 )
+================================================================================
+
+> starship-simulator-v2@0.1.0 test:e2e
+> playwright test --project=chromium --grep @smoke
+
+[WebServer] (node:1383) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 13 tests using 3 workers
+
+(node:1384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1385) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1386) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › tests/e2e/blackbox.spec.ts:55:1 › it draws the nine plots of the flight @smoke (9.1s)
+  ✓   1 [chromium] › tests/e2e/intro.spec.ts:14:1 › the intro plays end to end and lands @smoke (15.8s)
+  ✓   4 [chromium] › tests/e2e/menu.spec.ts:17:1 › the menu opens, offers every preset, and closes @smoke (7.9s)
+  ✓   3 [chromium] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (21.2s)
+  ✓   6 [chromium] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (6.6s)
+  ✓   5 [chromium] › tests/e2e/menu.spec.ts:58:1 › Configure starts the new flight and closes the menu @smoke (8.5s)
+  ✓   7 [chromium] › tests/e2e/parity.spec.ts:18:1 › every 2021 flight control is present @smoke (4.9s)
+  ✓   9 [chromium] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (1.9s)
+  ✓  10 [chromium] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (2.2s)
+  ✓   8 [chromium] › tests/e2e/render.spec.ts:11:1 › every art asset loads @smoke (4.9s)
+  ✓  11 [chromium] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (3.2s)
+  ✓  12 [chromium] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (4.1s)
+[witness-plume] fire pixels below the ship: engines off 0, engines lit 476
+  ✓  13 [chromium] › tests/e2e/witness-plume.spec.ts:85:1 › engines lit draw fire below the ship, and engines off do not @smoke (9.9s)
+
+  13 passed (40.4s)
+
+> starship-simulator-v2@0.1.0 test:deploy
+> playwright test --config playwright.subpath.config.ts
+
+[WebServer] (node:1455) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:1456) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/deploy/subpath.spec.ts:11:1 › the app loads and flies from a subdirectory (1.8s)
+  ✓  2 tests/deploy/subpath.spec.ts:36:1 › every asset is requested under the subpath (734ms)
+  ✓  3 tests/deploy/subpath.spec.ts:59:1 › the service worker registers at the subpath scope and precaches it (2.2s)
+  ✓  4 tests/deploy/subpath.spec.ts:82:1 › the install manifest stays under the subpath, and its icon is served (206ms)
+  ✓  5 tests/deploy/subpath.spec.ts:100:1 › it still works offline from a subdirectory (2.1s)
+
+  5 passed (7.9s)

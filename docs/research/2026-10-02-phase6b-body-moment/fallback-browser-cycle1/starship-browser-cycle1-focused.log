@@ -1,0 +1,191 @@
+[WebServer] (node:99809) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 3 workers
+
+(node:99812) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99811) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  200 m: spread 8.56, 3 buckets, top 46%
+ 6000 m: spread 10.84, 4 buckets, top 34%
+40000 m: spread 8.96, 4 buckets, top 37%
+  200 m: spread 7.96, 3 buckets, top 47%
+ 6000 m: spread 10.28, 4 buckets, top 35%
+40000 m: spread 11.12, 4 buckets, top 30%
+  ✓   1 [pixel-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (13.9s)
+  ✓   3 [chromium] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (14.8s)
+(node:99843) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  200 m: spread 13.20, 4 buckets, top 21%
+ 6000 m: spread 15.21, 5 buckets, top 31%
+40000 m: spread 12.21, 5 buckets, top 27%
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 2.57 long, 0.38 across (spans 2.16/1.82/2.64/2.57, widths 0.38/0.32/0.39/0.37, steps 382/424/458/488; 0/4 anchored to the region edge; throttle 100/100/100/100; (625,387)-(662,557)n1206 (616,382)-(658,525)n1149 (624,383)-(662,591)n1119 (621,379)-(660,582)n1060)
+  ✓   5 [pixel-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (21.0s)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 2.37 long, 0.32 across (spans 1.94/1.80/2.37/2.45, widths 0.32/0.32/0.29/0.34, steps 484/510/550/580; 0/4 anchored to the region edge; throttle 100/100/100/100; (502,744)-(577,1048)n4599 (492,741)-(580,1023)n4122 (507,739)-(587,1110)n4296 (513,735)-(583,1118)n3903)
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 1.94 long, 0.56 across (spans 2.14/1.94/1.89/1.72, widths 0.28/0.53/0.56/0.61, steps 362/400/434/468; 0/4 anchored to the region edge; throttle 100/100/100/100; (622,373)-(649,449)n249 (625,371)-(648,440)n254 (627,370)-(657,437)n301 (626,367)-(662,428)n265)
+low: 2.57 long, 0.38 across · vacuum: 1.94 long, 0.56 across
+frame 1280x720 @1.00x  altitude 120000 m  vehicle 36 px
+  below      mean   48.6  spread  18.19  tones  6  bright 0.002  dark 0.944  warm 0.0047  top #332222:0.54 #222222:0.18 #333322:0.13 #111122:0.04 #222211:0.02
+  EXT plume    found true  span 62px (37x62)  band 22px  n 265  box (626,367)-(662,428)  = 1.72 vehicle heights
+  |      :   -                            -    |
+  |                                            |
+  |             +      -      = =    #         |
+  |        :     .       ==            --      |
+  |        =     +         -                   |
+  |              -     +-  : -      =    -     |
+  |            ==            .       +     -   |
+  |  +    -  =  =++            -    * ==       |
+  |    =                 +   - =      ==       |
+  |   -      -             -  - -      -       |
+  |.............-.......@%.....................|
+  |.....=-......-.-:....@@.....................|
+  |++*******************@@***@*******%*******++|
+  |******...............+%...............******|
+  |.....................++.....................|
+  |.....................=#.....................|
+  |.....................=-.....................|
+  |.....................:-.....................|
+  |..:::::::::::........:..::::::::::..........|
+  |.:::::::::::::........:::::::::::::........:|
+  |.:::::::::::::........:::::::::::::........:|
+  |....::::::::::.....::....::::::::::.....::..|
+  aspect: 0.15 low, 0.29 vacuum
+  ✓   2 [chromium] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.1m)
+(node:99885) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 0.94 long, 0.56 across (spans 1.02/0.94/0.87/0.93, widths 0.49/0.52/0.69/0.56, steps 504/545/581/623; 0/4 anchored to the region edge; throttle 100/100/100/100; (519,727)-(579,799)n988 (531,726)-(575,792)n892 (521,731)-(579,792)n871 (506,732)-(571,791)n786)
+low: 2.37 long, 0.32 across · vacuum: 0.94 long, 0.56 across
+frame 1082x1425 @2.63x  altitude 120000 m  vehicle 71 px
+  below      mean   48.3  spread  21.34  tones  7  bright 0.004  dark 0.928  warm 0.0120  top #332222:0.42 #222222:0.32 #333322:0.06 #222211:0.06 #111122:0.03
+  EXT plume    found true  span 66px (66x60)  band 40px  n 786  box (506,732)-(571,791)  = 0.93 vehicle heights
+  |                                            |
+  |                                            |
+  | ++              -                 =  =:    |
+  |    =                   =                   |
+  |   +=                      -                |
+  |   -              +-        -   --          |
+  |==                              ::          |
+  |  =  +                                -     |
+  |                     .+          -   =      |
+  |                           .-     -    -    |
+  |.-..................%@%*....................|
+  |--.....-............#@@#....................|
+  |*********************%%*********@***********|
+  |.....................=+.....................|
+  |.....................+=.....................|
+  |.....................==:....................|
+  |.....................:::....................|
+  |::...................:::...........:::::::::|
+  |::::...........................:::::::::::::|
+  |:::...........................::::::::::::::|
+  |:::....................................:::::|
+  |....................:::::...................|
+  aspect: 0.14 low, 0.60 vacuum
+  ✓   4 [pixel-portrait] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.1m)
+  200 m: spread 6.66, 3 buckets, top 55%
+ 6000 m: spread 9.06, 4 buckets, top 39%
+40000 m: spread 8.34, 3 buckets, top 41%
+(node:99900) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [iphone-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (16.5s)
+(node:99911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 1.57 long, 0.39 across (spans 0.94/1.81/1.57/0.86, widths 0.35/0.39/0.39/0.38, steps 503/533/559/589; 0/4 anchored to the region edge; throttle 100/100/100/100; (1104,495)-(1168,603)n3044 (1105,495)-(1163,703)n2306 (1106,495)-(1164,676)n2644 (1108,493)-(1177,592)n2591)
+  200 m: spread 13.49, 4 buckets, top 26%
+ 6000 m: spread 14.78, 5 buckets, top 35%
+40000 m: spread 11.97, 5 buckets, top 28%
+  ✓   9 [iphone-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (17.2s)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 1.66 long, 0.36 across (spans 1.23/1.66/1.52/2.16, widths 0.30/0.37/0.36/0.36, steps 492/526/544/566; 0/4 anchored to the region edge; throttle 100/100/100/100; (543,580)-(612,742)n2844 (559,573)-(630,792)n3624 (558,574)-(625,774)n2871 (559,573)-(624,857)n2821)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 1.10 long, 0.55 across (spans 1.24/0.84/1.10/0.90, widths 0.38/0.63/0.55/0.30, steps 486/526/550/598; 0/4 anchored to the region edge; throttle 100/100/100/100; (1124,483)-(1143,547)n571 (1112,482)-(1146,525)n523 (1121,480)-(1158,537)n443 (1116,483)-(1144,529)n251)
+low: 1.57 long, 0.39 across · vacuum: 1.10 long, 0.55 across
+frame 2265x945 @2.62x  altitude 120000 m  vehicle 53 px
+  below      mean   47.9  spread  17.48  tones  6  bright 0.001  dark 0.944  warm 0.0049  top #332222:0.66 #222222:0.16 #111122:0.04 #333322:0.03 #222211:0.02
+  EXT plume    found true  span 47px (29x47)  band 16px  n 251  box (1116,483)-(1144,529)  = 0.90 vehicle heights
+  |          -  -                    --        |
+  |                                            |
+  |               +    - .   ==   #            |
+  |            =   =     =        # -          |
+  |            =   +      -                    |
+  |                -   ++  --    =   -         |
+  |               =.       .-     +   -        |
+  |       +   - = =+          -  * =           |
+  |         = .         -+  -==    =           |
+  |        -    -       #--:---    -           |
+  |..........:....-.....@%.....................|
+  |.........==....-.-...@@............:........|
+  |-==++***##***********%%**@*****%*******++==-|
+  |********:............-*............:********|
+  |.....................=-.....................|
+  |.....................--.....................|
+  |.....................::.....................|
+  |.....................::.....................|
+  |.....................::.....................|
+  |............................................|
+  |............................................|
+  |...::::::.........................::::::....|
+  aspect: 0.25 low, 0.50 vacuum
+  ✓   6 [pixel-landscape] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.4m)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 0.98 long, 0.50 across (spans 0.98/0.75/0.82/1.08, widths 0.47/0.50/0.57/0.25, steps 500/541/570/604; 0/4 anchored to the region edge; throttle 100/100/100/100; (560,565)-(615,623)n691 (579,564)-(611,608)n591 (579,564)-(616,612)n647 (574,562)-(599,626)n384)
+low: 1.66 long, 0.36 across · vacuum: 0.98 long, 0.50 across
+frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   46.8  spread  19.74  tones  6  bright 0.002  dark 0.933  warm 0.0102  top #332222:0.37 #222222:0.37 #222211:0.11 #111122:0.03 #333322:0.02
+  EXT plume    found true  span 65px (26x65)  band 15px  n 384  box (574,562)-(599,626)  = 1.08 vehicle heights
+  |   -                                        |
+  |                                            |
+  |       +          -:   :       = ==        #|
+  |         =             =                   #|
+  |        ++               -.                 |
+  |        -          +-     -  -.         ==  |
+  |      ==                     -.           .+|
+  |  ==   == +                      -      *   |
+  |                     -+      --  =          |
+  |  --                 ##   -   --  -         |
+  |.......-............#@%#....................|
+  |......--...-........-@@-....................|
+  |*********************@@******@*************#|
+  |=:...................:+...................-=|
+  |.....................=-.....................|
+  |.....................--:....................|
+  |.....................:::....................|
+  |.....................::.....................|
+  |::..........................................|
+  |:::.....................................::::|
+  |:::::::.............................::::::::|
+  |:::::::...........................::::::::::|
+  aspect: 0.22 low, 0.51 vacuum
+  ✓   8 [iphone-portrait] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (56.7s)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 1.60 long, 0.37 across (spans 1.60/0.80/1.73/1.30, widths 0.37/0.37/0.38/0.34, steps 380/422/460/498; 0/4 anchored to the region edge; throttle 100/100/100/100; (1097,554)-(1156,764)n3265 (1098,545)-(1152,650)n3298 (1097,540)-(1159,767)n3320 (1100,539)-(1168,710)n3079)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 1.00 long, 0.58 across (spans 1.00/1.15/0.98/0.85, widths 0.67/0.58/0.43/0.53, steps 384/423/463/503; 0/4 anchored to the region edge; throttle 100/100/100/100; (1101,530)-(1144,589)n588 (1104,528)-(1146,596)n709 (1103,525)-(1160,583)n771 (1101,523)-(1151,572)n530)
+low: 1.60 long, 0.37 across · vacuum: 1.00 long, 0.58 across
+frame 2250x1020 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   48.1  spread  18.27  tones  5  bright 0.002  dark 0.942  warm 0.0051  top #332222:0.60 #222222:0.18 #333322:0.06 #111122:0.04 #112222:0.02
+  EXT plume    found true  span 51px (51x50)  band 32px  n 530  box (1101,523)-(1151,572)  = 0.85 vehicle heights
+  |         -  --                      -       |
+  |                                            |
+  |              .+    - -   ==    #           |
+  |           =   ==     =         #.-         |
+  |           =   +=      -                    |
+  |               -    +-  --     =   -        |
+  |              =          -      +   -       |
+  |      +   - =  =+          -  ** =          |
+  |        = :          -+  - =     =          |
+  |       -    --       ## - -.-    -          |
+  |.........-....--.....@@...:.................|
+  |........=-....-..-...@@.............-.......|
+  |==+++**#**************@**@******%******+++==|
+  |*******+.............==.............+*******|
+  |.....................=-.....................|
+  |.....................+=.....................|
+  |.....................--.....................|
+  |.....................:-.....................|
+  |.....................::.....................|
+  |......................:.....................|
+  |............................................|
+  |.......:::::::::...........................:|
+  aspect: 0.23 low, 0.58 vacuum
+  ✓  10 [iphone-landscape] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (53.6s)
+
+  10 passed (2.6m)

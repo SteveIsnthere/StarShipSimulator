@@ -27,3 +27,11 @@ Fixture integration initially added duplicateSAMPLE_EVERY import, then reference
 Coverage completes successfully:149files/1977instrumentedtests pass; aggregate99.1%branches/99.63%lines/99%functions, allunchangedglobal/per-layerfloors pass. Fullgate rerun is now warranted after correcting its solefield-namefailure. No additionalcoveragecampaign needed.
 
 Complete localgate now exits0 aftertheknownreplaytypo correction;1977units/1977instrumentedunits, unchangedfloors, smoke and5subpathchecks pass. Fullfive-browser suite running; mutation andfinalacceptancepending. Checkpoint maypreserve/pushcoherentsource+Linuxfixtures+audit, but phasecannotmergeyet.
+
+Coherent source/fixture/audit checkpoint eb703cb75f8993407e9fdabeb60d1199a00755b2 committed/pushed with TierFidelity approval and fullbefore/afterreference reports. Main remains080f108. Source/fixtures gate-green and reviewed; fullbrowser andmutation stillpending. Verbatim archivedscientifictestfragment intentionally retains its source EOFblankline; diffwhitespace check excludes only parked-files/** rawbytes rather than altering recoveredscience.
+
+Docs-layoutcheck exits0, zero failures/warnings. Remaining postcheckpoint change is a documentation-only clarification: current feltg/groundsupport belongs to translation phase3b, rather than oldphase3a; no runtime/test/fixture changes.
+
+HostedCI37037625477 succeeds at pushed coherentcheckpoint eb703cb75f8993407e9fdabeb60d1199a00755b2. Its fullLinuxgate andhygienechecks pass; hostedfullbrowser/bench job is configuredskipped, notclaimedrun. Localfullfive-browser remainsrunning. Auditedrecordingbranch golden/phase6b-broadside-fallback removed after artifacts/source/checkpoint preservation.
+
+Browser verification at eb703cb finished436pass/2fail/11configuredskips. Reviewed bounded repair now passes watched-red cadence/restart witnesses,61focused units,10five-project browser checks, complete1980-test localgate and all21mutations after848greencontrols. Detailed original failure artifacts and diagnosis are in fallback-browser-diagnosis.md/fallback-browser-cycle1. No physics/golden/effectparameter/assertion/retry changes; finalfullbrowser remains required beforephaseclosure.

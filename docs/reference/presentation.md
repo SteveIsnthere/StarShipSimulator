@@ -177,7 +177,9 @@ sky.
   angle of attack; an onboard inset shows the vehicle large while hot (show > 0.1, hide < 0.06).
 - `particles.ts` — fixed pool of 4000 in parallel typed arrays with a free list, allocated once;
   four generated textures (`core`, `soft`, `smoke`, `wisp`), ten `EFFECTS`. Shock diamonds are
-  brightness bands within the plume core, not an emitter.
+  brightness bands within the plume core, not an emitter. Each effect has a fixed, name-keyed
+  random stream, so batching core and bell births at different frame rates preserves their
+  jitter. Clearing a flight resets emitter debt and random history as well as live particles.
 - `effects.ts` — emitters from state, bursts from `previous`→`state` edges. Q thresholds are
   kPa, range-checked against the goldens (`tests/view/dynamic-pressure.test.ts`).
 - `post.ts` — hand-written bloom and heat-shimmer filters (`pixi-filters` would cost ~80 kB
