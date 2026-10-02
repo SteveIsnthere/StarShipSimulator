@@ -30,6 +30,41 @@ const EFFECT_NAMES = Object.keys(EFFECTS) as EffectName[];
 /** Pixi's EMPTY texture needs no GPU, so these run headless. */
 const system = (capacity = 500) => createParticleSystem(Texture.EMPTY, capacity, 12345);
 
+describe('explicit particle inspection', () => {
+  it('bounds a vertical stretched streak in screen coordinates', () => {
+    const s = system();
+    s.emit('velocityStreak', 100, 200, Math.PI / 2, 1, 1 / 60, 1);
+    s.update(1 / 60);
+    const visible = s.container.children.filter((child) => child.visible) as Sprite[];
+    for (const sprite of visible) sprite.rotation = Math.PI / 2;
+    const row = s.inspect().find((entry) => entry.effect === 'velocityStreak')!;
+    expect(row.count).toBeGreaterThan(0);
+    expect(row.left).toBeCloseTo(Math.min(...visible.map((sprite) => sprite.x - sprite.height / 2)), 8);
+    expect(row.bottom).toBeCloseTo(Math.max(...visible.map((sprite) => sprite.y + sprite.width / 2)), 8);
+    s.container.destroy({ children: true });
+  });
+
+  it('reports rendered geometry without retaining mutable snapshot aliases', () => {
+    const s = system();
+    s.emit('raptorPlumeCore', 100, 200, 0, 1, 1 / 60, 2);
+    s.update(1 / 60);
+    const snapshot = s.inspect();
+    const row = snapshot.find((entry) => entry.effect === 'raptorPlumeCore')!;
+    const visible = s.container.children.filter((child) => child.visible) as Sprite[];
+    expect(row.count).toBe(s.alive);
+    expect(row.count).toBeGreaterThan(0);
+    expect(row.left).toBe(Math.min(...visible.map((sprite) => sprite.x - sprite.width / 2)));
+    expect(row.right).toBe(Math.max(...visible.map((sprite) => sprite.x + sprite.width / 2)));
+    expect(row.alphaMax).toBe(Math.max(...visible.map((sprite) => sprite.alpha)));
+    expect(row.dt).toBe(1 / 60);
+    expect(row.scale).toBe(2);
+    s.clear();
+    expect(s.inspect().every((entry) => entry.count === 0 && entry.dt === 0)).toBe(true);
+    expect(row.count).toBeGreaterThan(0);
+    s.container.destroy({ children: true });
+  });
+});
+
 describe('the pool never grows', () => {
   it('allocates every sprite up front', () => {
     const s = system(500);

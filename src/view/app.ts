@@ -8,6 +8,7 @@
  * task cannot accidentally draw the ship behind the sky.
  */
 import { Application, Container } from 'pixi.js';
+import { installEmissionBlending } from './emission-blending';
 import {
   computeViewport,
   createCamera,
@@ -117,6 +118,7 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
     autoDensity: true,
     ...(options.preference ? { preference: options.preference } : {}),
   });
+  const restoreEmissionBlending = installEmissionBlending(app.renderer);
 
   const layers: Layers = {
     sky: new Container({ label: 'sky' }),
@@ -254,6 +256,7 @@ export async function createView(options: ViewOptions): Promise<ViewApp> {
       );
     },
     destroy() {
+      restoreEmissionBlending();
       app.destroy(true, { children: true, texture: true });
     },
   };

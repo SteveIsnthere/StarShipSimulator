@@ -36,7 +36,8 @@ export interface Scene {
   /** Discard effects and emitter history belonging to the preceding flight. */
   resetFlight(): void;
   /** Debug witnesses use the actual rendered nozzle, never a viewport guess. */
-  presentation(): { nozzleX: number; nozzleY: number; width: number; height: number };
+  presentation(): { nozzleX: number; nozzleY: number; width: number; height: number;
+    worldDt: number; particles: readonly Readonly<Record<string, number | string>>[] };
   setParticlesVisible(visible: boolean): void;
   destroy(): void;
 }
@@ -116,9 +117,11 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
     view.viewport.height,
   );
   let elapsed = 0;
+  let lastWorldDt = 0;
 
   return {
     draw(s, previous, worldDt, preset) {
+      if (worldDt > 0) lastWorldDt = worldDt;
       // The sun from the scenario's hour, the clock and the longitude.
       writeSun(
         sun,
@@ -176,12 +179,15 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
       sky.resize(view.viewport);
     },
     presentation() {
-      return { nozzleX: effects.nozzle.x, nozzleY: effects.nozzle.y, width: view.viewport.width, height: view.viewport.height };
+      return { nozzleX: effects.nozzle.x, nozzleY: effects.nozzle.y,
+        width: view.viewport.width, height: view.viewport.height,
+        worldDt: lastWorldDt, particles: particles.inspect() };
     },
     setParticlesVisible(visible) {
       particles.container.visible = visible;
     },
     resetFlight() {
+      lastWorldDt = 0;
       particles.clear();
       effects.reset();
     },

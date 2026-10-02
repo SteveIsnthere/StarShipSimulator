@@ -1,0 +1,485 @@
+{
+  "scope": "24 frozen image pairs; original detector reproduced exactly; no changed acceptance",
+  "rows": [
+    {
+      "project": "iphone-portrait",
+      "test": "the plume is longer than the ship at low altitude @mobile",
+      "step": 488,
+      "altitude": 1964.1021873031104,
+      "observed": {
+        "left": 539,
+        "right": 612,
+        "top": 583,
+        "bottom": 763,
+        "count": 3026
+      },
+      "bandWidthPx": 43,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 9414,
+      "distalQualifiedPixels": 9,
+      "distalMaxSubjectLuma": 243.942,
+      "distalMaxSubjectWarmth": 61.0,
+      "distalMaxRgbChange": 108.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "the plume is longer than the ship at low altitude @mobile",
+      "step": 522,
+      "altitude": 1965.6081083356132,
+      "observed": {
+        "left": 559,
+        "right": 624,
+        "top": 575,
+        "bottom": 692,
+        "count": 2945
+      },
+      "bandWidthPx": 51,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 10065,
+      "distalQualifiedPixels": 0,
+      "distalMaxSubjectLuma": 195.16199999999998,
+      "distalMaxSubjectWarmth": 66.0,
+      "distalMaxRgbChange": 81.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "the plume is longer than the ship at low altitude @mobile",
+      "step": 558,
+      "altitude": 1968.2497224999615,
+      "observed": {
+        "left": 558,
+        "right": 626,
+        "top": 574,
+        "bottom": 764,
+        "count": 2914
+      },
+      "bandWidthPx": 44,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 10388,
+      "distalQualifiedPixels": 19,
+      "distalMaxSubjectLuma": 222.75900000000001,
+      "distalMaxSubjectWarmth": 74.0,
+      "distalMaxRgbChange": 119.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "the plume is longer than the ship at low altitude @mobile",
+      "step": 597,
+      "altitude": 1972.330728426949,
+      "observed": {
+        "left": 551,
+        "right": 626,
+        "top": 578,
+        "bottom": 851,
+        "count": 3119
+      },
+      "bandWidthPx": 49,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 9614,
+      "distalQualifiedPixels": 46,
+      "distalMaxSubjectLuma": 255.0,
+      "distalMaxSubjectWarmth": 77.0,
+      "distalMaxRgbChange": 135.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 481,
+      "altitude": 1963.5603157727862,
+      "observed": {
+        "left": 545,
+        "right": 617,
+        "top": 579,
+        "bottom": 806,
+        "count": 2766
+      },
+      "bandWidthPx": 47,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 9752,
+      "distalQualifiedPixels": 15,
+      "distalMaxSubjectLuma": 236.48399999999998,
+      "distalMaxSubjectWarmth": 57.0,
+      "distalMaxRgbChange": 135.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 515,
+      "altitude": 1964.8175496998858,
+      "observed": {
+        "left": 559,
+        "right": 622,
+        "top": 576,
+        "bottom": 815,
+        "count": 3186
+      },
+      "bandWidthPx": 47,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 10588,
+      "distalQualifiedPixels": 18,
+      "distalMaxSubjectLuma": 237.443,
+      "distalMaxSubjectWarmth": 65.0,
+      "distalMaxRgbChange": 147.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 535,
+      "altitude": 1966.0053245634306,
+      "observed": {
+        "left": 553,
+        "right": 616,
+        "top": 577,
+        "bottom": 860,
+        "count": 2628
+      },
+      "bandWidthPx": 51,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 10135,
+      "distalQualifiedPixels": 25,
+      "distalMaxSubjectLuma": 234.157,
+      "distalMaxSubjectWarmth": 78.0,
+      "distalMaxRgbChange": 141.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 573,
+      "altitude": 1969.1793124479846,
+      "observed": {
+        "left": 553,
+        "right": 621,
+        "top": 576,
+        "bottom": 773,
+        "count": 2830
+      },
+      "bandWidthPx": 55,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 10604,
+      "distalQualifiedPixels": 6,
+      "distalMaxSubjectLuma": 216.269,
+      "distalMaxSubjectWarmth": 55.0,
+      "distalMaxRgbChange": 116.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 514,
+      "altitude": 119962.41994920434,
+      "observed": {
+        "left": 570,
+        "right": 612,
+        "top": 560,
+        "bottom": 637,
+        "count": 795
+      },
+      "bandWidthPx": 36,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 9448,
+      "distalQualifiedPixels": 1,
+      "distalMaxSubjectLuma": 204.927,
+      "distalMaxSubjectWarmth": 44.0,
+      "distalMaxRgbChange": 114.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 550,
+      "altitude": 119964.86396953234,
+      "observed": {
+        "left": 559,
+        "right": 619,
+        "top": 563,
+        "bottom": 625,
+        "count": 712
+      },
+      "bandWidthPx": 37,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 10288,
+      "distalQualifiedPixels": 5,
+      "distalMaxSubjectLuma": 223.391,
+      "distalMaxSubjectWarmth": 54.0,
+      "distalMaxRgbChange": 148.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 590,
+      "altitude": 119969.0070396448,
+      "observed": {
+        "left": 576,
+        "right": 613,
+        "top": 562,
+        "bottom": 614,
+        "count": 650
+      },
+      "bandWidthPx": 34,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 9163,
+      "distalQualifiedPixels": 0,
+      "distalMaxSubjectLuma": 182.03099999999998,
+      "distalMaxSubjectWarmth": 54.0,
+      "distalMaxRgbChange": 117.0
+    },
+    {
+      "project": "iphone-portrait",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 632,
+      "altitude": 119974.98033294354,
+      "observed": {
+        "left": 568,
+        "right": 604,
+        "top": 562,
+        "bottom": 605,
+        "count": 466
+      },
+      "bandWidthPx": 26,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 8646,
+      "distalQualifiedPixels": 0,
+      "distalMaxSubjectLuma": 174.29399999999998,
+      "distalMaxSubjectWarmth": 53.0,
+      "distalMaxRgbChange": 95.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "the plume is longer than the ship at low altitude @mobile",
+      "step": 508,
+      "altitude": 1972.1779988880237,
+      "observed": {
+        "left": 1099,
+        "right": 1167,
+        "top": 537,
+        "bottom": 755,
+        "count": 3107
+      },
+      "bandWidthPx": 45,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 10567,
+      "distalQualifiedPixels": 2,
+      "distalMaxSubjectLuma": 204.186,
+      "distalMaxSubjectWarmth": 62.0,
+      "distalMaxRgbChange": 83.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "the plume is longer than the ship at low altitude @mobile",
+      "step": 538,
+      "altitude": 1974.7709840839882,
+      "observed": {
+        "left": 1096,
+        "right": 1161,
+        "top": 539,
+        "bottom": 746,
+        "count": 3171
+      },
+      "bandWidthPx": 47,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 10166,
+      "distalQualifiedPixels": 13,
+      "distalMaxSubjectLuma": 221.77,
+      "distalMaxSubjectWarmth": 68.0,
+      "distalMaxRgbChange": 104.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "the plume is longer than the ship at low altitude @mobile",
+      "step": 566,
+      "altitude": 1977.86778028922,
+      "observed": {
+        "left": 1102,
+        "right": 1174,
+        "top": 537,
+        "bottom": 624,
+        "count": 3017
+      },
+      "bandWidthPx": 53,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 9886,
+      "distalQualifiedPixels": 0,
+      "distalMaxSubjectLuma": 178.04399999999998,
+      "distalMaxSubjectWarmth": 60.0,
+      "distalMaxRgbChange": 64.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "the plume is longer than the ship at low altitude @mobile",
+      "step": 594,
+      "altitude": 1981.6194818870279,
+      "observed": {
+        "left": 1093,
+        "right": 1154,
+        "top": 544,
+        "bottom": 788,
+        "count": 3255
+      },
+      "bandWidthPx": 51,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 8418,
+      "distalQualifiedPixels": 21,
+      "distalMaxSubjectLuma": 229.42799999999997,
+      "distalMaxSubjectWarmth": 78.0,
+      "distalMaxRgbChange": 122.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 390,
+      "altitude": 1971.7111400994872,
+      "observed": {
+        "left": 1096,
+        "right": 1157,
+        "top": 555,
+        "bottom": 800,
+        "count": 2818
+      },
+      "bandWidthPx": 53,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 8749,
+      "distalQualifiedPixels": 15,
+      "distalMaxSubjectLuma": 235.54,
+      "distalMaxSubjectWarmth": 67.0,
+      "distalMaxRgbChange": 129.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 432,
+      "altitude": 1972.0774432628245,
+      "observed": {
+        "left": 1090,
+        "right": 1146,
+        "top": 548,
+        "bottom": 746,
+        "count": 3010
+      },
+      "bandWidthPx": 48,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 9742,
+      "distalQualifiedPixels": 9,
+      "distalMaxSubjectLuma": 232.84099999999998,
+      "distalMaxSubjectWarmth": 64.0,
+      "distalMaxRgbChange": 113.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 464,
+      "altitude": 1973.3344818317482,
+      "observed": {
+        "left": 1103,
+        "right": 1162,
+        "top": 540,
+        "bottom": 647,
+        "count": 3278
+      },
+      "bandWidthPx": 56,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 9505,
+      "distalQualifiedPixels": 0,
+      "distalMaxSubjectLuma": 171.81599999999997,
+      "distalMaxSubjectWarmth": 67.0,
+      "distalMaxRgbChange": 69.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 500,
+      "altitude": 1975.763085026124,
+      "observed": {
+        "left": 1098,
+        "right": 1165,
+        "top": 539,
+        "bottom": 737,
+        "count": 2978
+      },
+      "bandWidthPx": 48,
+      "backgroundExcluded": 0,
+      "distalChangedPixels": 9538,
+      "distalQualifiedPixels": 8,
+      "distalMaxSubjectLuma": 236.357,
+      "distalMaxSubjectWarmth": 64.0,
+      "distalMaxRgbChange": 118.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 370,
+      "altitude": 119974.72192581055,
+      "observed": {
+        "left": 1104,
+        "right": 1145,
+        "top": 531,
+        "bottom": 597,
+        "count": 836
+      },
+      "bandWidthPx": 42,
+      "backgroundExcluded": 16,
+      "distalChangedPixels": 9774,
+      "distalQualifiedPixels": 48,
+      "distalMaxSubjectLuma": 185.006,
+      "distalMaxSubjectWarmth": 120.0,
+      "distalMaxRgbChange": 159.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 412,
+      "altitude": 119975.38509734753,
+      "observed": {
+        "left": 1116,
+        "right": 1153,
+        "top": 528,
+        "bottom": 575,
+        "count": 664
+      },
+      "bandWidthPx": 26,
+      "backgroundExcluded": 16,
+      "distalChangedPixels": 9556,
+      "distalQualifiedPixels": 0,
+      "distalMaxSubjectLuma": 165.94299999999998,
+      "distalMaxSubjectWarmth": 85.0,
+      "distalMaxRgbChange": 112.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 452,
+      "altitude": 119977.54410672902,
+      "observed": {
+        "left": 1087,
+        "right": 1135,
+        "top": 525,
+        "bottom": 570,
+        "count": 453
+      },
+      "bandWidthPx": 21,
+      "backgroundExcluded": 16,
+      "distalChangedPixels": 9977,
+      "distalQualifiedPixels": 0,
+      "distalMaxSubjectLuma": 175.248,
+      "distalMaxSubjectWarmth": 64.0,
+      "distalMaxRgbChange": 134.0
+    },
+    {
+      "project": "iphone-landscape",
+      "test": "and blooms wider than the ship in vacuum @mobile",
+      "step": 494,
+      "altitude": 119981.42101284616,
+      "observed": {
+        "left": 1106,
+        "right": 1154,
+        "top": 524,
+        "bottom": 572,
+        "count": 608
+      },
+      "bandWidthPx": 22,
+      "backgroundExcluded": 16,
+      "distalChangedPixels": 10289,
+      "distalQualifiedPixels": 0,
+      "distalMaxSubjectLuma": 189.404,
+      "distalMaxSubjectWarmth": 61.0,
+      "distalMaxRgbChange": 120.0
+    }
+  ]
+}
