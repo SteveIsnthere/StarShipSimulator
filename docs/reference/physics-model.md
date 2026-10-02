@@ -38,7 +38,7 @@ at ω the inertial tangential speed is `v_t + ω·r` (`inertialTangentialSpeed`,
 `a_r += 2ω·v_t + ω²·r`, `a_t −= 2ω·v_r`. `step()`, felt g and the guidance predictors all read
 these functions, so one rate (`C.frameRotationRate`) moves them together. **The rate is 0**:
 Earth's, `C.EARTH_FRAME_ROTATION_RATE` = 7.292115e-5 · cos 26° rad/s (WGS 84; Starbase heading
-due east, 417.6 m/s at the pad), switches on in Phase 6b once the entry has range control. At 0
+due east, 417.6 m/s at the pad), remains parked with Phase 6b’s physical entry model. At 0
 every term short-circuits to the inertial expression on the same operands, signed zeros included.
 
 ## Step order
@@ -49,15 +49,15 @@ Order is a contract; several phases read what the previous one wrote.
 |---|---|---|
 | 0 | airspeed | relative airspeed from the incoming speeds, before a crash can zero them |
 | 1 | environment | atmosphere at the current altitude |
-| 2 | status | break-up, ground contact, fuel-out; propellant burn and dump; fuel-out shutdown; ignition countdowns |
+| 2 | status | collision, fuel-out; propellant burn and dump; fuel-out shutdown; ignition countdowns |
 | 3a | params | fin fractions, max area, cross-section (previous `angleInToTheWind`), angles, gimbal direction, heat, q, pitch rate, TWR, felt g, drag (Cd from previous Mach), lift, thrust at ambient pressure |
 | 3b | translation | Verlet; radius refreshed after the position update; `trueSpeed`, Mach |
 | 3c | rotation | mass properties for this load; Verlet rotation with all torques |
 | 4 | controls | autopilot, then manual input (overrides), then fins/RCS/gimbal, then throttle slew |
+| 4b | failure | current pressure, skin temperature and felt g; shutdown cancels pending ignition |
 | 5 | clocks | `environmentTime`; `timeSpent` only while flying |
 
-So the limit checks read the previous step's forces (a Phase 6b bug fix). A scenario's first
-step uses a spawn Mach against the local speed of sound and the relative wind.
+Phase 6b Task 5 makes breakup read the current step’s forces and ground support read current vertical specific force. Collision still shuts down before fuel use. A scenario’s first step uses spawn Mach against local speed of sound and relative wind.
 
 ## Integrator
 
@@ -82,8 +82,7 @@ the position error quarters per dt halving and energy error is 7e-13 at 1/120
 
 Inverse-square from GM. `C.gravity = 9.807` is never applied as a force; it is a unit for the TWR
 display, plus an add/subtract pair that cancels (`getVerticalAcceleration`). Felt g subtracts the
-simulation's own gravity and polar terms and divides by g₀ (`standardGravity`); the g-limit judges
-felt g. Felt g is computed in phase 3a, so the break-up check in phase 2 reads the previous step's.
+simulation’s gravity and polar terms by reading the current specific-force decomposition, then divides by g₀ (`standardGravity`). Ground support supplies the opposing gravity/polar force. The g-limit judges this current felt g at the end of controls.
 `coastDownrangeDistance` gives a drag-free conic's downrange arc by Simpson's rule (64 intervals),
 from the ground-relative speed: the inertial arc less `ω·∫r dt` (`dt = r²/h dν` on the conic);
 `Infinity` if the orbit never reaches the target radius, 0 for a radial fall. `verticalWeight(r)`
@@ -211,7 +210,7 @@ Phase 6, Task 8 (`physics/thermal.ts`).
 | resting | in zone, not falling, thrust accel ≤ local g | `step.ts:166` |
 | fuel out | `propellantMass ≤ 0` | `step.ts:199` |
 
-Break-up empties propellant and RCS, stops engines, zeroes rotation; the vehicle then falls. A crash
+Break-up empties propellant and RCS, restores dry mass/inertia, stops engines and pending ignition, and zeroes rotation; the vehicle then falls with this step’s already paid impulse. A crash
 also zeroes speeds and pitch.
 
 ## Wind
@@ -320,7 +319,7 @@ input overwrites all.
 
 ## Known simplifications
 
-- The ground frame's rate is 0 until Phase 6b: no ~418 m/s launch bonus, no Coriolis yet. The
+- The ground frame’s rate remains 0 under Phase 6b’s approved fallback: no ~418 m/s launch bonus, no Coriolis yet. The
   machinery and its tests are in place (State and frame).
 - Attitude is relative to local vertical with no frame-rotation term: the vehicle keeps its pitch
   to the horizon, turning inertially at the orbital rate.
@@ -337,3 +336,7 @@ input overwrites all.
 - Since the centre of mass moves with the propellant (M11.8), the RTLS flight reaches apogee
   before MECO, and the HUD's impact prediction is less accurate at high altitude on it: the
   predictor holds the attitude of the moment, and the vehicle is still turning under thrust.
+
+## Phase 6b parked aerodynamics
+
+The shipped model remains the Phase 6 broadside force curve, legacy fin torque and800kN/25s torque-only RCS. NASA R474 body-axis/CoP forces, sourced paired hypersonic surfaces, the65° schedule/range trim, Earth rate and their22t reserve/aim are parked under Steve’s approved fallback. Fresh independent review confirmed the prescribed family exceeds existing attitude-control authority after identical-handoff convergence checks. This is a conclusion about that family/model, not universal optimal-control infeasibility. Evidence and complete source/scientific-test recovery are in `docs/research/2026-10-02-phase6b-body-moment/`. Task5 failure/support/throttle corrections, the independent final-descent braking envelope and first-loss debrief capture remain. No parked model is claimed as shipped.

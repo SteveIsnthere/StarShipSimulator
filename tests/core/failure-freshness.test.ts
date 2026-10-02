@@ -97,14 +97,19 @@ describe('ground contact reads current thrust', () => {
 });
 
 describe('felt g reads current forces', () => {
-  it('breaks on aerodynamic specific force while pressure and temperature stay below their limits', () => {
+  it('breaks on current thrust and drag while pressure and temperature stay below their limits', () => {
     const s = createScenarioState(getScenario('landing-burn')!);
     s.kinematics.altitude = 20_000;
     s.kinematics.distanceToPlanetCenter = C.planetRadius + 20_000;
-    // At 850 m/s broadside, aerodynamic specific force is above 13 g while
-    // gravity keeps the net upward acceleration below 13 g.
+    // Six lit engines on near-dry tanks plus tail-first drag exceed 13 g
+    // of specific force; gravity keeps the net acceleration below 13 g.
+    s.vehicle.propellantMass = 1_000;
+    s.vehicle.vehicleMass = C.vehicleDryMass + 1_000;
+    s.vehicle.throttle = s.vehicle.throttleCurrent = 100;
+    s.engines.running.fill(true);
+    s.autopilot.autoLandOn = false;
     s.kinematics.speedY = -850;
-    s.kinematics.pitch = rad(Math.PI / 2);
+    s.kinematics.pitch = rad(0);
     s.forces.perceivedG = 0;
     const next = step(s, 1 / 120);
     expect(next.forces.dynamicPressure).toBeLessThan(C.dynamicPressureLimit);

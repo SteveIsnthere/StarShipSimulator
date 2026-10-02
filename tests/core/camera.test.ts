@@ -1013,3 +1013,52 @@ describe('properties 2, 3 and 4 hold in every mode — M11.6', () => {
     expect(run()).toEqual(run());
   });
 });
+
+
+describe('rendered shake respects ground and framing clearance', () => {
+  it.each([0, 100, 200])('avoids below-ground world and keeps the vehicle framed at altitude %i through every shake phase', (altitude) => {
+    const v = viewport();
+    for (let phase = 0; phase < 120; phase++) {
+      const camera = createCamera(v, 0, 0, -30);
+      camera.shakeTime = phase / 20;
+      updateCamera(camera, target({ altitude, speedY: -30, dynamicPressure: 50 }), v, 0);
+      const ground = worldToScreen(camera, v, 0, 0);
+      const vehicle = worldToScreen(camera, v, 0, altitude);
+      expect(ground.y).toBeGreaterThanOrEqual(v.height);
+      expect(vehicle.y).toBeGreaterThanOrEqual(0);
+      expect(vehicle.y).toBeLessThanOrEqual(v.height);
+    }
+  });
+
+  it('respects the rendered floor while sticky, without reframing a crashed vehicle', () => {
+    const v = viewport();
+    const camera = createCamera(v, 0, 0, -30);
+    camera.shakeTime = 0.4;
+    camera.posY = v.physicalHeight / 2 + 1;
+    const airborne = target({ altitude: v.physicalHeight + 1, speedY: -30, dynamicPressure: 50 });
+    updateCamera(camera, airborne, v, 0);
+    expect(camera.sticky).toBe(true);
+    expect(camera.posY + camera.shakeY).toBeGreaterThanOrEqual(v.physicalHeight / 2);
+    expect(worldToScreen(camera, v, 0, airborne.altitude).y).toBeGreaterThanOrEqual(0);
+    let wreckLeftFrame = false;
+    for (let phase = 0; phase < 120; phase++) {
+      camera.shakeTime = phase / 20;
+      updateCamera(camera, target({ altitude: 0, crashed: true, dynamicPressure: 50 }), v, 0);
+      expect(camera.posY + camera.shakeY).toBeGreaterThanOrEqual(v.physicalHeight / 2);
+      wreckLeftFrame ||= worldToScreen(camera, v, 0, 0).y > v.height;
+    }
+    expect(wreckLeftFrame).toBe(true);
+  });
+
+  it('retains unconstrained airborne shake and zero shake for reduced motion', () => {
+    const v = viewport();
+    const camera = createCamera(v, 0, 0, 0);
+    camera.posY = 5_000;
+    camera.shakeTime = 0.4;
+    updateCamera(camera, target({ altitude: 5_000, dynamicPressure: 50 }), v, 0);
+    expect(camera.shakeY).not.toBe(0);
+    updateCamera(camera, target({ altitude: 5_000, dynamicPressure: 50 }), v, 0, { reducedMotion: true });
+    expect(camera.shakeX).toBe(0);
+    expect(camera.shakeY).toBe(0);
+  });
+});

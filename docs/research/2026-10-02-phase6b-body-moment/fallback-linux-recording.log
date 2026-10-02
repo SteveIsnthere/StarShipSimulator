@@ -1,0 +1,233 @@
+regenerate	Set up job	﻿2026-10-02T16:42:52.8975701Z Current runner version: '2.337.0'
+regenerate	Set up job	2026-10-02T16:42:52.8993022Z ##[group]Runner Image Provisioner
+regenerate	Set up job	2026-10-02T16:42:52.8993644Z Hosted Compute Agent
+regenerate	Set up job	2026-10-02T16:42:52.8994023Z Version: 20260901.588
+regenerate	Set up job	2026-10-02T16:42:52.8994388Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+regenerate	Set up job	2026-10-02T16:42:52.8994959Z Build Date: 2026-09-01T19:56:44Z
+regenerate	Set up job	2026-10-02T16:42:52.8995355Z Worker ID: {daf3ac00-8ada-4751-96e2-23ff9bfc02b3}
+regenerate	Set up job	2026-10-02T16:42:52.8995755Z Azure Region: centralus
+regenerate	Set up job	2026-10-02T16:42:52.8996167Z ##[endgroup]
+regenerate	Set up job	2026-10-02T16:42:52.8996912Z ##[group]Operating System
+regenerate	Set up job	2026-10-02T16:42:52.8997291Z Ubuntu
+regenerate	Set up job	2026-10-02T16:42:52.8997613Z 24.04.5
+regenerate	Set up job	2026-10-02T16:42:52.8997974Z LTS
+regenerate	Set up job	2026-10-02T16:42:52.8998348Z ##[endgroup]
+regenerate	Set up job	2026-10-02T16:42:52.8998670Z ##[group]Runner Image
+regenerate	Set up job	2026-10-02T16:42:52.8999044Z Image: ubuntu-24.04
+regenerate	Set up job	2026-10-02T16:42:52.8999387Z Version: 20260927.320.1
+regenerate	Set up job	2026-10-02T16:42:52.8999972Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+regenerate	Set up job	2026-10-02T16:42:52.9000994Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+regenerate	Set up job	2026-10-02T16:42:52.9001552Z ##[endgroup]
+regenerate	Set up job	2026-10-02T16:42:52.9002215Z ##[group]GITHUB_TOKEN Permissions
+regenerate	Set up job	2026-10-02T16:42:52.9003567Z Contents: read
+regenerate	Set up job	2026-10-02T16:42:52.9003916Z Metadata: read
+regenerate	Set up job	2026-10-02T16:42:52.9004239Z ##[endgroup]
+regenerate	Set up job	2026-10-02T16:42:52.9005795Z Secret source: Actions
+regenerate	Set up job	2026-10-02T16:42:52.9006363Z Cache mode: write
+regenerate	Set up job	2026-10-02T16:42:52.9006844Z Prepare workflow directory
+regenerate	Set up job	2026-10-02T16:42:52.9197020Z Prepare all required actions
+regenerate	Set up job	2026-10-02T16:42:52.9226884Z Getting action download info
+regenerate	Set up job	2026-10-02T16:42:53.1554213Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+regenerate	Set up job	2026-10-02T16:42:53.2332478Z Download action repository 'actions/setup-node@v6' (SHA:249970729cb0ef3589644e2896645e5dc5ba9c38)
+regenerate	Set up job	2026-10-02T16:42:53.3412404Z Download action repository 'actions/upload-artifact@v7' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+regenerate	Set up job	2026-10-02T16:42:53.4930403Z Complete job name: regenerate
+regenerate	Run actions/checkout@v7	﻿2026-10-02T16:42:53.5361111Z ##[group]Run actions/checkout@v7
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5361530Z with:
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5361783Z   repository: SteveIsnthere/StarShipSimulator
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5363677Z   token: ***
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5363900Z   ssh-strict: true
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5364129Z   ssh-user: git
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5364362Z   persist-credentials: true
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5364800Z   clean: true
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5365038Z   sparse-checkout-cone-mode: true
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5365308Z   fetch-depth: 1
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5365532Z   fetch-tags: false
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5365798Z   show-progress: true
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5366030Z   lfs: false
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5366245Z   submodules: false
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5366480Z   set-safe-directory: true
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5366743Z   allow-unsafe-pr-checkout: false
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.5367086Z ##[endgroup]
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6005675Z Syncing repository: SteveIsnthere/StarShipSimulator
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6007149Z ##[group]Getting Git version info
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6007617Z Working directory is '/home/runner/work/StarShipSimulator/StarShipSimulator'
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6008219Z [command]/usr/bin/git version
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6101336Z git version 2.55.0
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6114254Z ##[endgroup]
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6122085Z Temporarily overriding HOME='/home/runner/work/_temp/612ece36-c780-42ec-8673-518426ce3233' before making global git config changes
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6123078Z Adding repository directory to the temporary git global config as a safe directory
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6126099Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StarShipSimulator/StarShipSimulator
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6164488Z Deleting the contents of '/home/runner/work/StarShipSimulator/StarShipSimulator'
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6167008Z ##[group]Determining repository object format
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6168073Z ##[endgroup]
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6168440Z ##[group]Initializing the repository
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6171031Z [command]/usr/bin/git init /home/runner/work/StarShipSimulator/StarShipSimulator
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6291111Z hint: Using 'master' as the name for the initial branch. This default branch name
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6292430Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6292930Z hint: to use in all of your new repositories, which will suppress this warning,
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6293308Z hint: call:
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6293519Z hint:
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6293806Z hint: 	git config --global init.defaultBranch <name>
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6294123Z hint:
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6294419Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6295229Z hint: 'development'. The just-created branch can be renamed via this command:
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6295698Z hint:
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6295913Z hint: 	git branch -m <name>
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6296160Z hint:
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6296484Z hint: Disable this message with "git config set advice.defaultBranchName false"
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6300746Z Initialized empty Git repository in /home/runner/work/StarShipSimulator/StarShipSimulator/.git/
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6307201Z [command]/usr/bin/git remote add origin https://github.com/SteveIsnthere/StarShipSimulator
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6356352Z ##[endgroup]
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6356804Z ##[group]Disabling automatic garbage collection
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6359287Z [command]/usr/bin/git config --local gc.auto 0
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6395360Z ##[endgroup]
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6395984Z ##[group]Setting up auth
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6396459Z Removing SSH command configuration
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6399501Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6428451Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6707457Z Removing HTTP extra header
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6710358Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6736448Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6895066Z Removing includeIf entries pointing to credentials config files
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6898235Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.6924470Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.7093530Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.7121918Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path /home/runner/work/_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.7148608Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.7178656Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.7205143Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.7228827Z ##[endgroup]
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.7229443Z ##[group]Fetching the repository
+regenerate	Run actions/checkout@v7	2026-10-02T16:42:53.7233574Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +845c41d9d36d04fae5db4131e0cce230646eb0a0:refs/remotes/origin/golden/phase6b-broadside-fallback
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8730432Z From https://github.com/SteveIsnthere/StarShipSimulator
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8731269Z  * [new ref]         845c41d9d36d04fae5db4131e0cce230646eb0a0 -> origin/golden/phase6b-broadside-fallback
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8738348Z [command]/usr/bin/git branch --list --remote origin/golden/phase6b-broadside-fallback
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8762173Z   origin/golden/phase6b-broadside-fallback
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8767759Z [command]/usr/bin/git rev-parse refs/remotes/origin/golden/phase6b-broadside-fallback
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8787955Z 845c41d9d36d04fae5db4131e0cce230646eb0a0
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8791057Z ##[endgroup]
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8791342Z ##[group]Determining the checkout info
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8791672Z ##[endgroup]
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8793764Z [command]/usr/bin/git sparse-checkout disable
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8836785Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8861881Z ##[group]Checking out the ref
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:09.8865221Z [command]/usr/bin/git checkout --progress --force -B golden/phase6b-broadside-fallback refs/remotes/origin/golden/phase6b-broadside-fallback
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:10.3158543Z Switched to a new branch 'golden/phase6b-broadside-fallback'
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:10.3160472Z branch 'golden/phase6b-broadside-fallback' set up to track 'origin/golden/phase6b-broadside-fallback'.
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:10.3236720Z ##[endgroup]
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:10.3279469Z [command]/usr/bin/git log -1 --format=%H
+regenerate	Run actions/checkout@v7	2026-10-02T16:43:10.3305350Z 845c41d9d36d04fae5db4131e0cce230646eb0a0
+regenerate	Run actions/setup-node@v6	﻿2026-10-02T16:43:10.3496995Z ##[group]Run actions/setup-node@v6
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.3497202Z with:
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.3497353Z   node-version-file: .nvmrc
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.3497515Z   cache: npm
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.3497659Z   check-latest: false
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.3498973Z   token: ***
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.3499122Z   package-manager-cache: true
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.3499303Z ##[endgroup]
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.4429560Z Resolved .nvmrc as 22
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.4474961Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.4477213Z ##[group]Environment details
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.7363703Z node: v22.23.3
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.7364260Z npm: 10.9.9
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.7364438Z yarn: 1.22.22
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.7365722Z ##[endgroup]
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.7375844Z [command]/opt/hostedtoolcache/node/22.23.3/x64/bin/npm config get cache
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.8127102Z /home/runner/.npm
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:10.9832712Z Cache hit for: node-cache-Linux-x64-npm-1edac62bc7bf12112173a9f527a930d37489418009792304d1d1887f25a12d90
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:12.0456188Z Received 109197371 of 109197371 (100.0%), 115.7 MBs/sec
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:12.0458174Z Cache Size: ~104 MB (109197371 B)
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:12.0499855Z [command]/usr/bin/tar -xf /home/runner/work/_temp/096bbab8-9859-4724-97d3-68122687a790/cache.tzst -P -C /home/runner/work/StarShipSimulator/StarShipSimulator --use-compress-program unzstd
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:12.2191697Z Cache restored successfully
+regenerate	Run actions/setup-node@v6	2026-10-02T16:43:12.2239145Z Cache restored from key: node-cache-Linux-x64-npm-1edac62bc7bf12112173a9f527a930d37489418009792304d1d1887f25a12d90
+regenerate	Run npm ci	﻿2026-10-02T16:43:12.2389103Z ##[group]Run npm ci
+regenerate	Run npm ci	2026-10-02T16:43:12.2389331Z ^[[36;1mnpm ci^[[0m
+regenerate	Run npm ci	2026-10-02T16:43:12.2623633Z shell: /usr/bin/bash -e {0}
+regenerate	Run npm ci	2026-10-02T16:43:12.2623856Z ##[endgroup]
+regenerate	Run npm ci	2026-10-02T16:43:14.1832931Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+regenerate	Run npm ci	2026-10-02T16:43:15.8389403Z 
+regenerate	Run npm ci	2026-10-02T16:43:15.8390339Z added 341 packages, and audited 342 packages in 4s
+regenerate	Run npm ci	2026-10-02T16:43:15.8390652Z 
+regenerate	Run npm ci	2026-10-02T16:43:15.8390819Z 74 packages are looking for funding
+regenerate	Run npm ci	2026-10-02T16:43:15.8391152Z   run `npm fund` for details
+regenerate	Run npm ci	2026-10-02T16:43:15.8396078Z 
+regenerate	Run npm ci	2026-10-02T16:43:15.8396564Z found 0 vulnerabilities
+regenerate	Confirm the recording platform	﻿2026-10-02T16:43:15.9069106Z ##[group]Run node -e "if (process.platform !== 'linux' || process.arch !== 'x64' || process.versions.node.split('.')[0] !== '22') { console.error('not the recording platform:', process.platform, process.arch, process.versions.node); process.exit(1) }"
+regenerate	Confirm the recording platform	2026-10-02T16:43:15.9070152Z ^[[36;1mnode -e "if (process.platform !== 'linux' || process.arch !== 'x64' || process.versions.node.split('.')[0] !== '22') { console.error('not the recording platform:', process.platform, process.arch, process.versions.node); process.exit(1) }"^[[0m
+regenerate	Confirm the recording platform	2026-10-02T16:43:15.9128898Z shell: /usr/bin/bash -e {0}
+regenerate	Confirm the recording platform	2026-10-02T16:43:15.9129066Z ##[endgroup]
+regenerate	Regenerate	﻿2026-10-02T16:43:15.9384026Z ##[group]Run npm run golden:regenerate
+regenerate	Regenerate	2026-10-02T16:43:15.9384222Z ^[[36;1mnpm run golden:regenerate^[[0m
+regenerate	Regenerate	2026-10-02T16:43:15.9432703Z shell: /usr/bin/bash -e {0}
+regenerate	Regenerate	2026-10-02T16:43:15.9432877Z ##[endgroup]
+regenerate	Regenerate	2026-10-02T16:43:16.0082186Z 
+regenerate	Regenerate	2026-10-02T16:43:16.0083042Z > starship-simulator-v2@0.1.0 golden:regenerate
+regenerate	Regenerate	2026-10-02T16:43:16.0083370Z > vite-node tests/golden/regenerate.ts
+regenerate	Regenerate	2026-10-02T16:43:16.0083507Z 
+regenerate	Regenerate	2026-10-02T16:43:16.5080952Z launch-pad-takeoff          181 samples  alt    22216.6 m  vy    510.38 m/s  
+regenerate	Regenerate	2026-10-02T16:43:16.6162527Z booster-sep-boostback       241 samples  alt   143289.3 m  vy     48.08 m/s  
+regenerate	Regenerate	2026-10-02T16:43:16.7166938Z rtls-boostback              241 samples  alt     7779.7 m  vy    -92.62 m/s  
+regenerate	Regenerate	2026-10-02T16:43:17.6194014Z reentry-autoland           1201 samples  alt       25.0 m  vy      0.00 m/s  landed
+regenerate	Regenerate	2026-10-02T16:43:17.8214011Z before-flip-autoland        121 samples  alt       25.0 m  vy      0.00 m/s  landed
+regenerate	Regenerate	2026-10-02T16:43:17.8579811Z landing-burn-autoland        91 samples  alt       25.0 m  vy      0.00 m/s  landed
+regenerate	Regenerate	2026-10-02T16:43:17.9008113Z landing-burn-headwind        91 samples  alt       25.0 m  vy      0.00 m/s  landed
+regenerate	Regenerate	2026-10-02T16:43:17.9275988Z intro-demo                   91 samples  alt       25.0 m  vy      0.00 m/s  landed
+regenerate	Regenerate	2026-10-02T16:43:17.9276348Z 
+regenerate	Regenerate	2026-10-02T16:43:17.9276506Z 8 fixtures written to tests/golden/fixtures/
+regenerate	Run actions/upload-artifact@v7	﻿2026-10-02T16:43:17.9613723Z ##[group]Run actions/upload-artifact@v7
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:17.9613908Z with:
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:17.9614027Z   name: golden-fixtures
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:17.9614178Z   path: tests/golden/fixtures/
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:17.9614324Z   if-no-files-found: warn
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:17.9614458Z   compression-level: 6
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:17.9614794Z   overwrite: false
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:17.9614955Z   include-hidden-files: false
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:17.9615092Z   archive: true
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:17.9615210Z ##[endgroup]
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:18.0523731Z With the provided path, there will be 8 files uploaded
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:18.0526848Z Artifact name is valid!
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:18.0527334Z Root directory input is valid!
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:18.3282534Z Uploading artifact: golden-fixtures.zip
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:18.3310737Z Beginning upload of artifact content to blob storage
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:18.7564976Z Uploaded bytes 809301
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:18.7942187Z Finished uploading artifact content to blob storage!
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:18.7942836Z SHA256 digest of uploaded artifact is 2127f21ae7bdd097090d20b3a571652e9ee55ecc2fc6e5dc815aa23801c3a536
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:18.7954295Z Finalizing artifact upload
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:19.0856169Z Artifact golden-fixtures successfully finalized. Artifact ID 11240500421
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:19.0857313Z Artifact golden-fixtures has been successfully uploaded! Final size is 809301 bytes. Artifact ID is 11240500421
+regenerate	Run actions/upload-artifact@v7	2026-10-02T16:43:19.0863202Z Artifact download URL: https://github.com/SteveIsnthere/StarShipSimulator/actions/runs/37035784562/artifacts/11240500421
+regenerate	Post Run actions/setup-node@v6	﻿2026-10-02T16:43:19.1021297Z Post job cleanup.
+regenerate	Post Run actions/setup-node@v6	2026-10-02T16:43:19.1822048Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-1edac62bc7bf12112173a9f527a930d37489418009792304d1d1887f25a12d90, not saving cache.
+regenerate	Post Run actions/checkout@v7	﻿2026-10-02T16:43:19.1941999Z Post job cleanup.
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2497227Z [command]/usr/bin/git version
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2528727Z git version 2.55.0
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2555747Z Temporarily overriding HOME='/home/runner/work/_temp/9c01388f-6a28-4154-8026-5c1ea9aa6673' before making global git config changes
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2556529Z Adding repository directory to the temporary git global config as a safe directory
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2559257Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StarShipSimulator/StarShipSimulator
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2585022Z Removing SSH command configuration
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2589581Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2620891Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2822970Z Removing HTTP extra header
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2827925Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.2866820Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3081113Z Removing includeIf entries pointing to credentials config files
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3102595Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3114991Z includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3115861Z includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3116667Z includeif.gitdir:/github/workspace/.git.path
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3117235Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3121269Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3143925Z /home/runner/work/_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3152750Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-9de90d16\-3142\-4381\-a4f9\-f6f70ba41ded\.config
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3183599Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3204769Z /home/runner/work/_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3216890Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-9de90d16\-3142\-4381\-a4f9\-f6f70ba41ded\.config
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3245831Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3266321Z /github/runner_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3270796Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-9de90d16\-3142\-4381\-a4f9\-f6f70ba41ded\.config
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3298801Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3324360Z /github/runner_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3326990Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-9de90d16\-3142\-4381\-a4f9\-f6f70ba41ded\.config
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3355144Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+regenerate	Post Run actions/checkout@v7	2026-10-02T16:43:19.3531291Z Removing credentials config '/home/runner/work/_temp/git-credentials-9de90d16-3142-4381-a4f9-f6f70ba41ded.config'
+regenerate	Complete job	﻿2026-10-02T16:43:19.3639248Z Cleaning up orphan processes

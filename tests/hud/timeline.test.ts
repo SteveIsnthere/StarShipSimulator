@@ -131,7 +131,8 @@ const EXPECTED: Readonly<Record<string, readonly EventId[]>> = {
   */
   'rtls-boostback': ['MAX-Q', 'APOGEE', 'MECO'],
   // Starts at exactly the 80 km interface and descends through it.
-  'reentry-autoland': ['ENTRY'],
+  // The approved 600 s window now includes the broadside landing.
+  'reentry-autoland': ['ENTRY', 'MAX-Q', 'FLIP', 'LANDING BURN', 'TOUCHDOWN'],
   'before-flip-autoland': ['FLIP', 'LANDING BURN', 'TOUCHDOWN'],
   'landing-burn-autoland': ['FLIP', 'LANDING BURN', 'TOUCHDOWN'],
   // M11.1: the same landing flown into 10 m/s of wind. Observed to fire the

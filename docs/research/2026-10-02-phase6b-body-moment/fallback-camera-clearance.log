@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/camera.test.ts (105 tests | 1 failed | 100 skipped) 29ms
+     × respects the rendered floor while sticky, without reframing a crashed vehicle 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/camera.test.ts > rendered shake respects ground and framing clearance > respects the rendered floor while sticky, without reframing a crashed vehicle
+AssertionError: expected -0.03999999999996362 to be greater than or equal to 0
+ ❯ tests/core/camera.test.ts:1041:62
+    1039|     expect(camera.sticky).toBe(true);
+    1040|     expect(camera.posY + camera.shakeY).toBeGreaterThanOrEqual(v.physi…
+    1041|     expect(worldToScreen(camera, v, 0, airborne.altitude).y).toBeGreat…
+       |                                                              ^
+    1042|     let wreckLeftFrame = false;
+    1043|     for (let phase = 0; phase < 120; phase++) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed | 100 skipped (105)
+   Start at  09:40:35
+   Duration  602ms (transform 294ms, setup 0ms, import 358ms, tests 29ms, environment 0ms)
+

@@ -14,7 +14,14 @@
 import * as C from '../constants';
 import type { Atmosphere } from '../physics/atmosphere';
 import { speedOfSoundAt } from '../physics/atmosphere';
-import { getBodyAxisAccelerations, wrappedAttackAngle, type BodyAxisAccelerations } from '../physics/aero';
+import {
+  foldedIntoWind,
+  getBodyDragCoefficient,
+  getCrossSectionalArea,
+  getDrag,
+  getLift,
+  wrappedAttackAngle,
+} from '../physics/aero';
 import { getHorizontalAcceleration, getVerticalAcceleration, type AccelerationInputs } from '../physics/components';
 import { tangentialAcceleration, verticalGravityAcceleration, verticalWeight } from '../physics/gravity';
 import { isaAtmosphereInto } from '../physics/isa';
@@ -51,6 +58,14 @@ export function thrustFor(engines: number, airPressureKPa: number): number {
 }
 
 /**
+ * Drag area in the landing-burn attitude: tail first, the airflow along the
+ * axis (`getCrossSectionalArea` at 0°, which is the nose-on area / 2.1). Not
+ * the current area: during the aero descent the vehicle is broadside, several
+ * times this, and the burn is flown after the flip.
+ */
+const TAIL_FIRST_AREA = getCrossSectionalArea(rad(0), C.vehicleInFlightMaxArea);
+
+/**
  * Everything the predictors write while they work; one per caller, reused on
  * every call. Owned by the caller rather than the module, so two callers (or a
  * call inside another) can never share it.
@@ -70,7 +85,6 @@ export interface BurnScratch {
   readonly inputs: AccelerationInputs;
   /** m/s² — the fall's acceleration at the point last evaluated. */
   readonly acc: { x: number; y: number };
-  readonly bodyAxes: BodyAxisAccelerations;
 }
 
 export function createBurnScratch(): BurnScratch {
@@ -91,7 +105,6 @@ export function createBurnScratch(): BurnScratch {
       pitch: rad(0),
     },
     acc: { x: 0, y: 0 },
-    bodyAxes: { drag: 0, lift: 0 },
   };
 }
 
@@ -108,10 +121,7 @@ export function tailFirstDragDeceleration(
   const air = scratch.atmosphere;
   isaAtmosphereInto(altitude, air);
   const mach = speed / speedOfSoundAt(air.airTemperature);
-  return getBodyAxisAccelerations(
-    air.airDensity, speed, mach, rad(Math.PI), C.vehicleInFlightMaxArea,
-    mass, scratch.bodyAxes,
-  ).drag;
+  return getDrag(air.airDensity, speed, TAIL_FIRST_AREA, getBodyDragCoefficient(mach)) / mass;
 }
 
 /** s — the predictor's integration step. */
@@ -303,7 +313,7 @@ export const FALL_STEP_CAP = 4_000;
  * `getAttackAngles` does, inline so nothing is allocated), plus gravity with
  * its centrifugal and tangential terms.
  */
-export function fallAcceleration(
+function fallAcceleration(
   altitude: number,
   vx: number,
   vy: number,
@@ -321,14 +331,13 @@ export function fallAcceleration(
   const speed = Math.sqrt(rx * rx + vy * vy);
   const motion = Math.atan2(rx, vy);
   const attack = wrappedAttackAngle(pitch, motion);
+  const intoWind = foldedIntoWind(attack);
+  const area = getCrossSectionalArea(rad(intoWind), maxArea);
   const mach = speed / speedOfSoundAt(air.airTemperature);
   inputs.angleOfMotion = rad(motion);
   inputs.angleOfAttack = rad(attack);
-  const forces = getBodyAxisAccelerations(
-    air.airDensity, speed, mach, rad(attack), maxArea, mass, scratch.bodyAxes,
-  );
-  inputs.aerodynamicDragAcceleration = forces.drag;
-  inputs.aerodynamicLiftAcceleration = forces.lift;
+  inputs.aerodynamicDragAcceleration = getDrag(air.airDensity, speed, area, getBodyDragCoefficient(mach)) / mass;
+  inputs.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
   acc.x = getHorizontalAcceleration(inputs) + tangentialAcceleration(r, vx, vy);
   acc.y = getVerticalAcceleration(inputs, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);
 }

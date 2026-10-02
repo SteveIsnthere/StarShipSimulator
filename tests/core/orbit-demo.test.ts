@@ -315,11 +315,10 @@ describe('step 3 — deorbit and land at StarBase', () => {
   });
 
   it('and the entry is managed, not merely survived', () => {
-    // Coherent Phase6b Tasks1+1b, measured2026-10-01: Earth's rate and
-    // the 65-degree schedule. Retain the absolute limit and the original
-    // ±5 K characterization width; the physical tile includes its sink.
+    // Shipped Phase 6 broadside characterization restored under the approved
+    // fallback. Keep the absolute tile limit and original ±5 K width.
     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
-    expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature, K').toBeCloseTo(1424, -1);
+    expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature, K').toBeCloseTo(1459, -1);
   });
 
   it('is deterministic — the same flight twice', () => {

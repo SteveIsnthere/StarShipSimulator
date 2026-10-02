@@ -1,0 +1,26 @@
+{
+  "src/core/constants.ts": {
+    "fallbackSha256": "b27d00e2356991fbb8af143507a0357bf29d2674d13f04935adee65ff0c58b36",
+    "mainSha256": "b27d00e2356991fbb8af143507a0357bf29d2674d13f04935adee65ff0c58b36"
+  },
+  "src/core/state.ts": {
+    "fallbackSha256": "5eff1cd10eb3623899d7dd9aa94112e4a9ea9b34c214c1fc2c7dc02ba200d749",
+    "mainSha256": "5eff1cd10eb3623899d7dd9aa94112e4a9ea9b34c214c1fc2c7dc02ba200d749"
+  },
+  "src/core/control/commands.ts": {
+    "fallbackSha256": "7f7353eced61cbafe41873861adcc00805f6006a9d64ba77e70056aa20687a85",
+    "mainSha256": "7f7353eced61cbafe41873861adcc00805f6006a9d64ba77e70056aa20687a85"
+  },
+  "src/core/control/actuation.ts": {
+    "fallbackSha256": "ba2a7f69d2f2f5f487a3f45450a8ef5af6466ff9159e202431ef8128a2ce51f5",
+    "mainSha256": "ba2a7f69d2f2f5f487a3f45450a8ef5af6466ff9159e202431ef8128a2ce51f5"
+  },
+  "src/core/control/guidance-physics.ts": {
+    "fallbackSha256": "a9150432c44111c83ff066a05b93079d9e145e90aa0868fa42c4afe712b63d34",
+    "mainSha256": "a9150432c44111c83ff066a05b93079d9e145e90aa0868fa42c4afe712b63d34"
+  },
+  "src/core/physics/aero.ts": {
+    "fallbackSha256": "fdba527b0b892377201f0d929a1b40a69ff68ad8f905cf154962370eda44a474",
+    "mainSha256": "fdba527b0b892377201f0d929a1b40a69ff68ad8f905cf154962370eda44a474"
+  }
+}

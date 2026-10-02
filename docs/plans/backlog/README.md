@@ -6,7 +6,6 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 
 | item | phase |
 |---|---|
-| Pitch integrated against local vertical with no frame-rotation term (Earth rate/range control implemented in Tasks1+1b; remaining attitude-frame question is retained for the Task2 moment audit) | 6b |
 | Render interpolation: `advance()` returns `alpha` but nothing reads it; the view draws the latest step | 8 |
 | Per-frame allocations: `engines.running.filter(Boolean)` in `src/view/effects.ts`; `worldToScreen` returns a new object (`src/view/camera.ts`) | 8 |
 | Stale view comments: `camera.ts` header (claims interpolated state and real dt), `CameraTarget.dynamicPressure` says Pa (it is kPa), `effects.ts` `previous` | 8 |
@@ -31,3 +30,8 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 - **Licensed audio recordings** in place of the synthesised transients. Only `src/audio/transients.ts` would change; needs a licence trail Steve accepts.
 - **A sixth preset.** The 2021 About text says six presets; `index.html` shipped five. Ask Steve whether one was cut.
 - **Max-Q shake test cost** is structural (two flights per test); the only lever left is the worker count.
+
+## Parked by Steve’s Phase 6b fallback
+
+- Physical body-axis drag/normal force and centre of pressure, paired fin surface forces, realistic translational RCS and vacuum flip; the65° entry schedule/range trim, Earth rotation and their reserve/aim calibration. The independently reviewed prescribed entry family exceeds modeled authority. These Tasks1–4 remain deferred, rather than shipped or assigned to Phases7–9. The coupled source/scientific tests, measurements and reviews are preserved in `docs/research/2026-10-02-phase6b-body-moment/` and checkpointc24235f.
+- Attitude integrated against local vertical without a turning-frame transport term. Frame rate remains zero in the fallback; any later Earth-rate/attitude model must resolve it together.

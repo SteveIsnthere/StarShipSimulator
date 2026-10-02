@@ -62,10 +62,7 @@ import { createMassProperties, writeMassProperties } from './physics/mass';
 import * as act from './control/actuation';
 import { runAutopilot } from './autopilot';
 import { cloneState, type SimState } from './state';
-import { rad, type Rad } from './units';
-
-/** Reused only during this synchronous step; no retained state or allocation. */
-const bodyAxisAccelerations: aero.BodyAxisAccelerations = { drag: 0, lift: 0 };
+import { rad } from './units';
 
 /**
  * Everything the outside world can tell the simulation in one step.
@@ -75,8 +72,6 @@ const bodyAxisAccelerations: aero.BodyAxisAccelerations = { drag: 0, lift: 0 };
  * the hot path and what makes a step replayable.
  */
 export interface StepInput {
-  /** rad — deterministic offline entry-sweep override; normal flights use the selected schedule. */
-  entryAngleOfAttack?: Rad | undefined;
   /** % — commanded throttle, 0..100. Undefined leaves the current command. */
   throttle?: number | undefined;
   /** % — pitch command, -100..100. Undefined leaves the current command. */
@@ -354,14 +349,18 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
 
   updatePitchRateOfChange(s, dt);
 
-  aero.getBodyAxisAccelerations(
-    s.atmosphere.airDensity, incomingAirspeed,
-    incomingAirspeed / speedOfSoundAt(s.atmosphere.airTemperature),
-    s.kinematics.angleOfAttack, s.vehicle.vehicleInFlightMaxArea,
-    s.vehicle.vehicleMass, bodyAxisAccelerations,
+  s.forces.aerodynamicDrag = aero.getDrag(
+    s.atmosphere.airDensity,
+    incomingAirspeed,
+    s.forces.crossSectionalArea,
+    aero.getBodyDragCoefficient(s.kinematics.machSpeed),
   );
-  s.forces.aerodynamicDrag = bodyAxisAccelerations.drag * s.vehicle.vehicleMass;
-  s.forces.aerodynamicLift = bodyAxisAccelerations.lift * s.vehicle.vehicleMass;
+  s.forces.aerodynamicLift = aero.getLift(
+    s.atmosphere.airDensity,
+    incomingAirspeed,
+    s.kinematics.angleInToTheWind,
+    s.vehicle.vehicleInFlightMaxArea,
+  );
   // M11.2: thrust at the ambient pressure phase 1 just set from the altitude.
   // Scaled on the step the tank runs dry: only the propellant left was burned.
   s.forces.thrust =
@@ -591,7 +590,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // That is 2021's order — readInputFromManualFlightControl() ran after
   // autoPilotControlInput() and simply clobbered whatever the autopilot wrote,
   // which is why any manual touch instantly takes over.
-  runAutopilot(s, dt, input.entryAngleOfAttack);
+  runAutopilot(s, dt);
 
   if (input.throttle !== undefined) s.vehicle.throttle = input.throttle;
   if (input.pitchControl !== undefined) s.autopilot.pitchControl = input.pitchControl;

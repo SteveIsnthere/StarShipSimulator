@@ -144,11 +144,10 @@ describe('the autopilot flies the ones it is meant to', () => {
     assertFinite(s, 'reentry');
 
     expect(outcome, `after ${seconds.toFixed(1)} s`).toBe('landed');
-    // Phase6b Tasks1+1b, measured2026-10-01: Earth’s rate, 65-degree entry,
-    // Mach20-to-two schedule and bounded range feedback peak at144021.289 W/m². Preserve
-    // the plan's ±5% band and the independent absolute thermal limit.
-    expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(144_000 * 0.95);
-    expect(peak).toBeLessThan(144_000 * 1.05);
+    // Approved broadside fallback: restore Phase 6’s measured 170.9 kW/m²
+    // characterization, keeping its ±5% band and absolute thermal limit.
+    expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(170_900 * 0.95);
+    expect(peak).toBeLessThan(170_900 * 1.05);
     expect(peak).toBeLessThan(C.heatLimit);
   });
 });

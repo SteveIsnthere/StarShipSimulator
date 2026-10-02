@@ -10,7 +10,6 @@
  * by transforming back.
  */
 import fc from 'fast-check';
-import { frameRotationRate, EARTH_FRAME_ROTATION_RATE } from '$core/constants';
 import { describe, expect, it } from 'vitest';
 import {
   circularOrbitalSpeed,
@@ -46,12 +45,11 @@ describe('at omega = 0 the frame is inertial, bit for bit', () => {
     expect(Object.is(inertialTangentialSpeed(7e6, -0, 0), -0)).toBe(true);
     expect(Object.is(tangentialAcceleration(7e6, -0, -5, 0), (5 * -0) / 7e6)).toBe(true);
   });
-});
 
-it('uses Earth’s projected rate by default, including in step()', () => {
-  expect(frameRotationRate).toBe(EARTH_FRAME_ROTATION_RATE);
-  expect(verticalGravityAcceleration(7e6, 1234)).toBe(verticalGravityAcceleration(7e6, 1234, EARTH_FRAME_ROTATION_RATE));
-  expect(tangentialAcceleration(7e6, 1234, -56)).toBe(tangentialAcceleration(7e6, 1234, -56, EARTH_FRAME_ROTATION_RATE));
+  it('is what step() uses today: the default rate is zero', () => {
+    expect(verticalGravityAcceleration(7e6, 1234)).toBe(verticalGravityAcceleration(7e6, 1234, 0));
+    expect(tangentialAcceleration(7e6, 1234, -56)).toBe(tangentialAcceleration(7e6, 1234, -56, 0));
+  });
 });
 
 describe('at omega != 0 it is the inertial motion seen from the turning ground', () => {

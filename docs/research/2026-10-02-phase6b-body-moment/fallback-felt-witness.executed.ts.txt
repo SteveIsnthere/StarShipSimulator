@@ -1,0 +1,7 @@
+import * as C from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/constants';
+import { createScenarioState, getScenario } from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/scenarios';
+import { step } from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/step';
+import { rad } from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/units';
+for(const speed of [850,950,1000,1050]){
+ const s=createScenarioState(getScenario('landing-burn')!); s.autopilot.autoLandOn=false; s.engines.running.fill(false); s.kinematics.altitude=20000; s.kinematics.distanceToPlanetCenter=C.planetRadius+20000;s.kinematics.speedX=0; s.kinematics.speedY=-speed; s.kinematics.pitch=rad(Math.PI/2); const n=step(s,1/120); console.log(JSON.stringify({speed,felt:n.forces.perceivedG,net:n.kinematics.totalAcceleration/C.standardGravity,q:n.forces.dynamicPressure,T:n.forces.surfaceTemperature,broken:n.failures.inFlightBreakUp}));
+}

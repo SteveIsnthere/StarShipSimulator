@@ -1,0 +1,34 @@
+import { expect, it } from 'vitest';
+import * as C from '$core/constants';
+import { createScenarioState, getScenario } from '$core/scenarios';
+import { step } from '$core/step';
+import { rad } from '$core/units';
+import { BODY_PLANFORM_AREA } from '$core/physics/body-moment';
+import { updateAtmosphere } from '$core/physics/atmosphere';
+
+it('a hypersonic aft pair adds its pressure force without inflating the hull', () => {
+  const make = (extension: number) => {
+    const s = createScenarioState(getScenario('before-flip')!);
+    s.autopilot.autoLandOn = false;
+    s.status.rcsActive = false;
+    s.engines.running.fill(false);
+    s.kinematics.altitude = 80000;
+    s.kinematics.distanceToPlanetCenter = C.planetRadius + 80000;
+    s.kinematics.speedX = 5000;
+    s.kinematics.speedY = 0;
+    s.kinematics.pitch = rad(0);
+    s.kinematics.angularVelocity = 0;
+    s.kinematics.angularAcceleration = 0;
+    s.vehicle.frontFinExtension = 0;
+    s.vehicle.aftFinExtension = extension;
+    return s;
+  };
+  const stowed = step(make(0), 1 / 120), deployed = step(make(100), 1 / 120);
+  expect(deployed.failures.inFlightBreakUp).toBe(false);
+  expect(stowed.vehicle.vehicleInFlightMaxArea).toBe(BODY_PLANFORM_AREA);
+  expect(deployed.vehicle.vehicleInFlightMaxArea).toBe(BODY_PLANFORM_AREA);
+  const q = 0.5 * updateAtmosphere(80000).airDensity * 5000 ** 2;
+  const expectedAddedDrag = 2 * q * C.aftFinSurfaceArea * Math.sin(C.finActuationMaxAngle) ** 3;
+  expect(deployed.forces.aerodynamicDrag - stowed.forces.aerodynamicDrag).toBeCloseTo(expectedAddedDrag, 7);
+  expect(deployed.forces.aftFinDragAngularAcceleration).toBeGreaterThan(0);
+});

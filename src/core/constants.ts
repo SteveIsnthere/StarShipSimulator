@@ -61,11 +61,15 @@ export const EARTH_FRAME_ROTATION_RATE = EARTH_ROTATION_RATE * Math.cos(LAUNCH_L
  * centrifugal terms (physics/gravity.ts), and everything that needs the frame
  * reads this one number.
  *
- * Phase6b Tasks1+1b, Fidelity: Earth's projected sidereal rate is on now
- * that the physical entry schedule has bounded range control. The 2D plane
- * uses only the normal component of Earth's spin, as documented above.
+ * ZERO FOR NOW, and that is a recorded decision (Phase 6, 2026-10-01). At
+ * `EARTH_FRAME_ROTATION_RATE` every truth test passes transformed to the
+ * inertial frame, but the circularize-then-deorbit flight misses the pad by
+ * 11.1 km against its 10 km acceptance: the broadside descent has no range
+ * control, and the turning ground widens the spread between a heavy and a
+ * light entry from 5 to 14 km. Entry range control is Phase 6b's, so the
+ * switch to Earth's rate is Phase 6b's Task 1b, after the entry flies on lift.
  */
-export const frameRotationRate = EARTH_FRAME_ROTATION_RATE;
+export const frameRotationRate = 0;
 
 /**
  * m/s^2. Constant everywhere in the 2021 model — 4.0% high at 100 km, 7.2% at
@@ -139,11 +143,8 @@ export const dumpLimit = 12000;
  * plus a third, 16 t. Task 4c then planned the flip on the ignition delay's
  * maximum: the earlier flip costs hover, and the worst engine-out landing
  * spent 13.7 t, so the reserve is 18 t, again about a third over. Each tonne of
- * reserve buys about 0.75 t at touchdown (the rest is landing heavier).
- * Phase 6b's physical drag and entry schedule spend 16.15 t in the worst
- * engine-out landing (2026-10-01): 18 t leaves only 1.86 t, below the unchanged
- * eighth-of-reserve health bound. The measured use plus a third is 21.53 t;
- * round up to 22 t and re-measure the aim for this heavier descent.
+ * reserve buys about 0.75 t at touchdown (the rest is landing heavier): every
+ * engine-out deorbit lands with about 3.8 t, where the old 12 t left 0.0.
  *
  * The plan sized it from the landing-burn predictor (one engine from the
  * trigger, plus the ignition delay), which comes to 6.3 t: the programme spends
@@ -153,7 +154,7 @@ export const dumpLimit = 12000;
  * tests/core/deorbit-range.test.ts: an engine change that makes landing costlier
  * fails there, and the reserve is re-measured in the same commit.
  */
-export const landingReserve = 22_000;
+export const landingReserve = 18_000;
 
 /**
  * kg*m^2 — the spawn value, a solid cylinder about its centre at wet mass.
@@ -513,13 +514,6 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  * computed halves. That is what a fitted constant is for; what matters is that it is
  * fitted to something that barely moves.
  *
- * Phase6b Tasks1+1b (2026-10-02): 2,758,826 m is the fixed65-degree
- * co-calibration from recorded aim/miss pairs at2,924,026 and
- * 2,750,421 m (slope -0.887441606). Operational range health passed after
- * the independently witnessed nonlinear solver fix. Verify both contracts
- * under this common aim. Final fixed65 sweep lands+0.3m at1424.614K;
- * 120km envelope lands+37.322km within40km. Full phase close is still owed.
- *
  * THE ENVELOPE, measured before Phase 6 (the planet and the reserve have moved
  * since; re-measure before relying on the rows), because a number like this
  * should come with one. From
@@ -536,7 +530,7 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  * The 300 km row is the one to watch: the miss is tolerable, the heating is not
  * far from the structural limit. The orbital presets sit at 150 km deliberately.
  */
-export const DEORBIT_ENTRY_RANGE = 2_758_826;
+export const DEORBIT_ENTRY_RANGE = 841_800;
 
 /**
  * m — the entry interface: where the vacuum prediction stops and the
@@ -692,16 +686,3 @@ export const PITCH_HOLD_RATE_THRESHOLD = 0.4;
  * last frame-rate dependency from the physics.
  */
 export const frameRate = 60;
-
-/** Phase6b Tasks1+1b rotating sweep, measured2026-10-02:65 degrees.
- * At the common2,758,826m aim, this is the only prescribed fixed-angle row
- * landing deorbit within10km and1533K: +0.3m,1424.614K at68.328km.
- * The cooler60-degree row misses+682km. Operational bounded feedback
- * retains the reentry900s envelope; fixed open-loop reentry is diagnostic.
- * All16 rows: docs/research/2026-10-01-phase6b-task1-progress/
- * rotation-accepted-sweep.log. M_t20/M_b2 and trim authority are unchanged.
- */
-export const ENTRY_LIFT_ANGLE = toRad(deg(65));
-/** The continuous Mach20-to-two blend is unchanged during rotation calibration. */
-export const ENTRY_LIFT_MACH = 20;
-export const ENTRY_BROADSIDE_MACH = 2;

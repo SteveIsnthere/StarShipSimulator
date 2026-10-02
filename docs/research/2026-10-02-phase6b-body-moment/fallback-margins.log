@@ -1,0 +1,19 @@
+
+> starship-simulator-v2@0.1.0 margins
+> vite-node scripts/landing-margins.ts
+
+launch-pad-takeoff               brokeUp  t=445.0s vY=-398.76 vX=316.05 prop=0.00t miss=753253.0m
+booster-sep-boostback            landed   t=500.1s vY=0.00 vX=0.00 prop=5.70t miss=3025.2m  | trigger at 756.2m vY=-63.0 est burn 279.0m needed 290.6m slack -11.7m
+rtls-boostback                   landed   t=237.0s vY=0.00 vX=0.00 prop=5.68t miss=1.1m  | trigger at 760.9m vY=-63.3 est burn 282.1m needed 298.8m slack -16.7m
+reentry-autoland                 landed   t=457.2s vY=0.00 vX=0.00 prop=5.62t miss=815336.2m  | trigger at 756.1m vY=-63.0 est burn 278.8m needed 279.2m slack -0.3m
+before-flip-autoland             landed   t=29.3s vY=0.00 vX=0.00 prop=8.51t miss=0.3m  | trigger at 849.8m vY=-67.8 est burn 345.2m needed 302.1m slack 43.2m
+landing-burn-autoland            landed   t=13.9s vY=0.00 vX=0.00 prop=12.58t miss=0.8m  | trigger at 199.7m vY=-35.1 est burn 94.1m needed 117.8m slack -23.7m
+landing-burn-headwind            landed   t=14.3s vY=0.00 vX=0.00 prop=12.48t miss=15.1m  | trigger at 199.7m vY=-35.1 est burn 94.1m needed 113.7m slack -19.6m
+intro-demo                       landed   t=9.8s vY=0.00 vX=0.00 prop=350.00t miss=0.6m
+landing-burn-autoland/one-out    landed   t=8.2s vY=0.00 vX=0.00 prop=15.14t miss=2.0m
+landing-burn-autoland/two-out    crashed  t=5.4s vY=0.00 vX=0.00 prop=0.00t miss=3.0m
+before-flip-autoland/one-out     landed   t=34.0s vY=0.00 vX=0.00 prop=7.11t miss=1.3m
+before-flip-autoland/two-out     landed   t=27.7s vY=0.00 vX=0.00 prop=10.01t miss=7.9m
+intro: touchdown 9.850s lit 000000 shutdowns e0@2.383 e1@2.392 e2@9.800
+
+wrote /Users/stevewang/dev/StarShipSimulator-realism/tests/golden/landing-margins.json

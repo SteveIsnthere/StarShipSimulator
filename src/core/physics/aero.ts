@@ -28,14 +28,14 @@ export function getDynamicPressure(airDensity: number, trueSpeed: number): numbe
 /**
  * physics.js:39 — area presented to the airflow.
  *
- * The actual projected geometry. Phase 6b removes the unexplained /2.1;
- * axial and crossflow coefficients now belong to their respective body axes.
+ * Blends broadside and nose-on area by attitude. The `/ 2.1` on the nose-on term
+ * is an unexplained tuning constant; it is part of the feel and stays.
  * @returns m^2
  */
 export function getCrossSectionalArea(angleInToTheWind: Rad, vehicleInFlightMaxArea: number): number {
   return (
     Math.abs(Math.sin(angleInToTheWind) * vehicleInFlightMaxArea) +
-    Math.abs(Math.cos(angleInToTheWind) * C.vehicleMinArea)
+    Math.abs(Math.cos(angleInToTheWind) * C.vehicleMinArea) / 2.1
   );
 }
 
@@ -91,154 +91,6 @@ export function getLift(
 export function getBodyDragCoefficient(machSpeed: number): number {
   if (machSpeed >= 10) return 2.5;
   return machSpeed * 0.1347 + 1.153;
-}
-
-/*
-  BODY DRAG, PER COMPONENT — Phase 6b, Task 1 (Fidelity). 2021 used one
-  coefficient for every attitude, 1.153 + 0.1347 M capped at 2.5: a broadside
-  cylinder's number applied nose-on too (the `/ 2.1` on the area undid half of
-  that), rising with Mach where a bluff body's falls. Now the broadside and the
-  axial flows each have their own coefficient, on their own projected area.
-
-  Sources (Niskanen, OpenRocket technical documentation, 2013, Ch. 3 and
-  App. B, which take them from Hoerner, Fluid-Dynamic Drag, 1965):
-  - q_stag/q, the stagnation-pressure ratio (eq. B.1);
-  - a blunt face: Cd = 0.85 q_stag/q (eq. B.2);
-  - base drag: Cd = 0.12 + 0.13 M^2 below Mach 1, 0.25 / M above (eq. 3.94);
-  - a conical or tangent-ogive nose: 0 subsonic with a smooth joint (eq. 3.86),
-    sin(e) at Mach 1 (B.6), 2.1 sin^2 e + 0.5 sin e / sqrt(M^2 - 1) from Mach
-    1.3 (B.4), tan e = 1 / (2 f_N) (B.3); between, linear here (OpenRocket
-    fits polynomials).
-  Broadside, a cylinder in crossflow: 1.2 at subcritical crossflow Mach
-  (Jorgensen, NASA TR R-474, 1977); the Newtonian limit (2/3) 1.84 = 1.227
-  above Mach 4, matching the ~1.24 measured there (Penland, NACA, Mach 6.86);
-  rising with q_stag/q from Mach 0.4 to 1 (1.47 there), and a straight line
-  from Mach 1 to 4 (an interpolation, not a source).
-  Named assumptions: the nose fineness 1.5 (no published nose length) and
-  skin friction 0.035 on the base area (a turbulent Cf of about 0.0016 at
-  Re ~ 1e9, over a wetted area 22 times the base). Engine plumes filling the
-  base are not modelled.
-*/
-
-/** The nose cone's fineness, length over diameter (named assumption, see above). */
-const NOSE_FINENESS = 1.5;
-/** sin of the equivalent cone's half-apex angle: tan e = 1 / (2 f_N) (eq. B.3). */
-const NOSE_SIN_E = Math.sin(Math.atan(1 / (2 * NOSE_FINENESS)));
-/** Skin friction, referenced to the base area (named assumption, see above). */
-const SKIN_FRICTION = 0.035;
-
-/** q_stag / q: the stagnation-pressure ratio of the flow (Hoerner; OpenRocket eq. B.1). */
-export function stagnationPressureRatio(machSpeed: number): number {
-  const m = Math.max(0, machSpeed);
-  if (m < 1) return 1 + (m * m) / 4 + m ** 4 / 40;
-  return 1.84 - 0.76 / m ** 2 + 0.166 / m ** 4 + 0.035 / m ** 6;
-}
-
-/** Base drag of a flat base (OpenRocket eq. 3.94). */
-function baseDrag(m: number): number {
-  return m < 1 ? 0.12 + 0.13 * m * m : 0.25 / m;
-}
-
-/** Wave drag of the ogive nose, as its equivalent cone (OpenRocket B.3-B.6, 3.86). */
-function noseWaveDrag(m: number): number {
-  if (m <= 0.8) return 0;
-  const atMach1 = NOSE_SIN_E;
-  const atMach13 = 2.1 * NOSE_SIN_E ** 2 + (0.5 * NOSE_SIN_E) / Math.sqrt(1.3 ** 2 - 1);
-  if (m < 1) return (atMach1 * (m - 0.8)) / 0.2;
-  if (m < 1.3) return atMach1 + ((atMach13 - atMach1) * (m - 1)) / 0.3;
-  return 2.1 * NOSE_SIN_E ** 2 + (0.5 * NOSE_SIN_E) / Math.sqrt(m * m - 1);
-}
-
-/** The subcritical crossflow coefficient, and the Mach it holds to. */
-const CROSSFLOW_SUBCRITICAL = 1.2;
-const CROSSFLOW_SUBCRITICAL_MACH = 0.4;
-/** The broadside Newtonian limit: (2/3) of the hypersonic q_stag/q. */
-const CROSSFLOW_NEWTONIAN = (2 / 3) * 1.84;
-/**
- * The broadside coefficient at Mach 1, from below: the subcritical value
- * scaled by the stagnation-pressure rise from Mach 0.4 (1.47). Taken from the
- * subsonic fit; the source's two fits meet 0.5% apart at Mach 1.
- */
-const CROSSFLOW_MACH_1 =
-  (CROSSFLOW_SUBCRITICAL * (1 + 1 / 4 + 1 / 40)) / stagnationPressureRatio(CROSSFLOW_SUBCRITICAL_MACH);
-
-/** Broadside: a circular cylinder in crossflow, on the side area. */
-export function broadsideDragCoefficient(machSpeed: number): number {
-  const m = Math.max(0, machSpeed);
-  if (m <= CROSSFLOW_SUBCRITICAL_MACH) return CROSSFLOW_SUBCRITICAL;
-  if (m < 1) {
-    return (CROSSFLOW_SUBCRITICAL * stagnationPressureRatio(m)) / stagnationPressureRatio(CROSSFLOW_SUBCRITICAL_MACH);
-  }
-  if (m >= 4) return CROSSFLOW_NEWTONIAN;
-  return CROSSFLOW_MACH_1 + ((CROSSFLOW_NEWTONIAN - CROSSFLOW_MACH_1) * (m - 1)) / 3;
-}
-
-/** Nose first: the ogive's wave drag, the flat base, skin friction; on the base area. */
-export function noseFirstDragCoefficient(machSpeed: number): number {
-  const m = Math.max(0, machSpeed);
-  return noseWaveDrag(m) + baseDrag(m) + SKIN_FRICTION;
-}
-
-/** Tail first: the flat engine end as a blunt face, the pointed nose leaving no base; on the base area. */
-export function tailFirstDragCoefficient(machSpeed: number): number {
-  return 0.85 * stagnationPressureRatio(machSpeed) + SKIN_FRICTION;
-}
-
-/** Caller-owned m/s² output, reused by the integrator and predictor. */
-export interface BodyAxisAccelerations { drag: number; lift: number }
-
-/**
- * Finite-cylinder crossflow factor: NASA TR R-474 Figure 4, printed p77,
- * circular-cylinder curve at length/diameter 50/9: approximately 0.63.
- * Section2.3.2 (printed pp17–18) recommends unity at supersonic/hypersonic
- * crossflow; Figure4's value is measured only at very low subsonic Mach.
- * https://ntrs.nasa.gov/api/citations/19770026166/downloads/19770026166.pdf
- * Named tier-B assumption, approved before flights: bridge smoothly over
- * Figure6's Mn=0.4–1.6 data interval. Those data are for fineness10/12,
- * not Ship's50/9, so the smooth bridge and omission of the transonic dip
- * are engineering assumptions, not Ship-specific experimental results.
- */
-function bodyCrossflowFactor(crossflowMach: number): number {
-  if (crossflowMach <= 0.4) return 0.63;
-  if (crossflowMach >= 1.6) return 1;
-  const t = (crossflowMach - 0.4) / 1.2;
-  return 0.63 + 0.37 * t * t * (3 - 2 * t);
-}
-
-/**
- * Phase 6b Task 1: Jorgensen's body-axis normal and axial forces, converted
- * to positive drag and lift magnitude. components.ts supplies lift direction.
- * NASA TR R-474 eq 2.12 folds alpha above 90 degrees for the normal force;
- * eq 2.3 uses crossflow Mach M*|sin(alpha)| for the cylinder coefficient.
- * The approved plan uses normal-force lift N*|cos(alpha)|, neglecting the
- * axial contribution to lift as a named engineering approximation.
- * Writes the caller's buffer; no per-frame object allocation.
- */
-export function getBodyAxisAccelerations(
-  airDensity: number,
-  trueSpeed: number,
-  machSpeed: number,
-  angleOfAttack: Rad,
-  planformArea: number,
-  mass: number,
-  out: BodyAxisAccelerations,
-): BodyAxisAccelerations {
-  const attack = Math.abs(angleOfAttack);
-  const normalAngle = attack > Math.PI / 2 ? Math.PI - attack : attack;
-  const sin = Math.abs(Math.sin(angleOfAttack));
-  const cos = Math.abs(Math.cos(angleOfAttack));
-  const q = 0.5 * airDensity * trueSpeed ** 2;
-  const crossflowMach = machSpeed * sin;
-  const normal = q * (
-    C.vehicleMinArea * Math.sin(2 * normalAngle) * Math.cos(normalAngle / 2) +
-    bodyCrossflowFactor(crossflowMach) * broadsideDragCoefficient(crossflowMach) * planformArea * sin ** 2
-  );
-  const axialCd = attack <= Math.PI / 2
-    ? noseFirstDragCoefficient(machSpeed) : tailFirstDragCoefficient(machSpeed);
-  const axial = q * C.vehicleMinArea * axialCd * cos ** 2;
-  out.drag = (normal * sin + axial * cos) / mass;
-  out.lift = normal * cos / mass;
-  return out;
 }
 
 /** physics.js:89 — `force / mass`. @returns m/s^2 */

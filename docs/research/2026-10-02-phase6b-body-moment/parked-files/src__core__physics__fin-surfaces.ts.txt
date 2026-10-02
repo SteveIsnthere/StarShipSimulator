@@ -1,0 +1,53 @@
+/**
+ * Phase6b Task3 Fidelity, hypersonic pressure-only surface approximation.
+ * NASA TM88338 eq1: Cp=2*sin²(incidence).
+ * https://ntrs.nasa.gov/api/citations/19870002265/downloads/19870002265.pdf
+ *
+ * Named tier-B geometry: both pair hinges are longitudinal. Deployment delta
+ * gives sin(incidence)=sin(attack)*sin(delta); projection into the simulation
+ * plane supplies another sin(delta). Zhang et al's actual FRONT hinge is
+ * skewed, omitted here; no measured Ship coefficient or local-flow correction
+ * is claimed. See the pre-implementation fin-envelope-ruling/review evidence.
+ * This primitive is for Mach>=5 diagnosis only, not a low-Mach surface model.
+ */
+import * as C from '../constants';
+import type { Rad } from '../units';
+
+/** Diagnostic domain only; no low-Mach surface law has been adopted. */
+export const HYPERSONIC_FIN_MIN_MACH = 5;
+
+/** Caller-owned force output; lift uses the signed relative-wind normal. */
+export interface FinForce {
+  /** N — signed body-transverse pressure force, positive to the hull's right. */
+  normal: number;
+  /** N — force opposing relative velocity. */
+  drag: number;
+  /** N — signed force along (-cos(windAngle), sin(windAngle)). */
+  lift: number;
+  /** N m — clockwise moment about the supplied signed station-minus-CoM arm. */
+  moment: number;
+}
+
+/**
+ * Area is the entire pair's area; extension retains the existing 0..100%.
+ * Caller supplies wrapped attack [-pi,pi], nonnegative physical inputs and
+ * enforces Mach>=5. Rad branding does not itself wrap an angle.
+ */
+export function writeHypersonicFinForce(
+  airDensity: number,
+  airspeed: number,
+  attack: Rad,
+  extension: number,
+  area: number,
+  signedArm: number,
+  out: FinForce,
+): FinForce {
+  const sinAttack = Math.sin(attack);
+  const sinDeployment = Math.sin(C.finActuationMaxAngle * extension / 100);
+  const q = 0.5 * airDensity * airspeed ** 2;
+  out.normal = Math.sign(attack) * 2 * q * area * sinAttack ** 2 * sinDeployment ** 3;
+  out.drag = out.normal * sinAttack;
+  out.lift = -out.normal * Math.cos(attack);
+  out.moment = out.normal * signedArm;
+  return out;
+}

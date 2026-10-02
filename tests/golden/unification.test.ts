@@ -42,6 +42,7 @@
  *     P6b.1   body forces and lifting entry      ALL EIGHT: forces, guidance and state shape
  *     P6b.1b  Earth rotation and common aim      ALL EIGHT: turning-ground dynamics
  *     P6b.5   current forces and throttle demand ALL EIGHT: freshness; isolated RTLS motion
+ *     P6b.F   approved broadside fallback        ALL EIGHT: restores model, retains Task5
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -315,6 +316,26 @@
  * The independent braking-profile audit leaves intro byte-identical across
  * that adaptation alone; the combined new forces/rotation legitimately move it.
  *
+ * P6b.F (Fidelity, Steve’s conditional fallback approved2026-10-02):
+ * independently reviewed prescribed entry family exceeds modeled authority.
+ * Tasks1–4 are parked; constants/state/commands/actuation/aero/guidance return
+ * byte-for-byte to shippedPhase6 080f108. Task5 fixes, independent descent
+ * braking and first-loss debrief remain. Linux37035784562 records immutable
+ * snapshot845c41d9d36d04fae5db4131e0cce230646eb0a0; all21corepins match.
+ * All eight accepted parked-model fixtures move as predicted; entry history
+ * keys disappear. Against shippedPhase6, intro/before-flip/booster/ascent
+ * kinematics are identical; only fresh g/TWR/support/time readings change.
+ * RTLS and two final-descent flights move as predicted by the retained fixes.
+ * Reentry’s original180s kinematics are exact; its retained600s extension
+ * now lands at457.158s. Original numeric descent bounds are asserted at the
+ * exact180s sample, plus landed/no-crash/vy0/alt<26 at600s. Independent review
+ * confirms this preserves original coverage and adds landing, without moving
+ * physical limits. All-sample survival and900s full-scenario acceptance remain.
+ * Intro’s physical trajectory is exact against080f108; fresh-clock touchdown
+ * reads9.841667s inside9.85±0.5s, allsixenginesoff. Field-by-field dual-baseline
+ * audit/digests in body-momentresearch/fallback-golden-audit.json. No truth row
+ * or golden tolerance moved. Parked models are not claimed as shipped.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -383,16 +404,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P6b.1/P6b.1b/P6b.5 (all eight): see the table and recorded audit above. Recorded
+  // P6b.F (all eight): see the declared fallback and dual-baseline audit above. Recorded
   // on x86-64 Linux / Node 22 by .github/workflows/golden-regenerate.yml.
-  'launch-pad-takeoff': '5637a9251f497b9e0ea517e9166dce44d4f073562dfa85faa87268dcf8ac14b7',
-  'booster-sep-boostback': '3434b2f3dd7ec91bb74fc03c606d00692e6bff59791ec69acb37e6dcf4c38fb5',
-  'rtls-boostback': '383a0cbfce23268ac9454aab4cd4b1b49d6bd1f4aefb60812b71bfe5934f61a7',
-  'reentry-autoland': 'dc11109aa70623ab176b6caeacd51816254f19b7ccd008ed8b9f77e26252464c',
-  'before-flip-autoland': '6ba544ad3d97ee4ec2001bc1925a14465e61539a402a61fa8d776ef1aa59c3a3',
-  'landing-burn-autoland': 'b4e6e876fc3a0498bc36f39491a9230153af46b48d1cf93cc1be5aca80be1e1f',
-  'landing-burn-headwind': '5505a4440bbe31b619a60ee25851d622e69a3971a074ca982853d76dcb017002',
-  'intro-demo': 'fd8b81de9959c8246385e24e9708c8d05afa58d49ae2a2ad1b9b469d3b0658fb',
+  'launch-pad-takeoff': '3ed135d0884f75d124d6702d151808ee7b6975024c14f752ae59c3ca0576e094',
+  'booster-sep-boostback': 'ad8a6ab21505d5b5bce5e06f80cf19c57df2bb8228828e9f60fa6398d817133e',
+  'rtls-boostback': '9a8ac13183448b334904bde2f3e9f048e7cd23a76d4b8e8bdbb1093d32ab7b01',
+  'reentry-autoland': '4ee303f827fa9e619e18e8eb3f52f9fb1f04e3295eed85a1582accbbbdf9cd1a',
+  'before-flip-autoland': 'a0a7e543c00e4ec36456d2739b0b6e31d112548f34fcb356f06d13812c23cda4',
+  'landing-burn-autoland': '9364e5240df63b403aa9b1f29b1f39aaaab966534cd7c21a1de93e5dd5a01690',
+  'landing-burn-headwind': '7a4a5f8bd3d41f9203e602e739fc878db9b2229c282477892f9f4afb07638673',
+  'intro-demo': '788986778965daa73070e0db782d8b98e3bafc6c40c6da501e7895be80640a98',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

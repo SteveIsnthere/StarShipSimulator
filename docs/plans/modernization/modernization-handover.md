@@ -12,7 +12,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
 | 6 Ship realism | done, live; gate and live deployment smoke verified | `080f108` |
-| 6b Entry on lift | unfinished; rotation on; range health stopped; extra 300 km verification unused | — |
+| 6b Entry on lift | approved fallback implemented; Task5 retained; release checks pending | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
 | 9 UX to flight_sim level | not started | — |
@@ -262,3 +262,15 @@ Fresh ideal_family_review confirms approvedprescribedfamily infeasible withinexi
 Next executeSteve'sauthorizedparking: restoreaffectedTasks1–4aero/schedule/Earthrate/model-dependentreserve/aimtoshippedPhase6broadside baseline through deliberateauditedsourcechange;retainTask5currentforcebreakup/support/fullthrottleTWRfixes andnecessaryindependentbraking/debrief fixes. Preserve source,scientifictests,logs and reviews;do notclaimparkedphysics shipped. acceptedc242source/fixtures remainsinGithistory;latest15unacceptedsource/testfiles preservedbyparked-coupled-source.patch+SHA256 againstdaffd60,51787bytes,forward/reversechecksPASS. Oldpatches historical. Noreset/rebase/discard.
 
 Then requiredfull6b gate/coverage/mutation/fullbrowser/highreview/independentphysicsreview/Linuxfixtures/audit/merge/deploy;continue7–9. No partialphase merge. Main/live080f108,60%,fourphasesremain. Noownerquestionorblockedgoal.
+
+## Deliberate fallback implementation checkpoint (2026-10-02)
+
+Affected Tasks1–4 source now deliberately restored to shippedPhase6 broadside baseline: constants/state/commands/actuation/guidance/aero byte-identical to080f108; sourcepins in body-momentresearch/fallback-restoration-pins.json. Task5 current-force/support/throttle/shutdown fixes, independent braking and first-loss debrief remain. Scientific source/tests/sweep preserved verbatim in parked-files/*.txt +SHA256 and earlier pushedcheckpoint/patches. Tasks1–4 are parked, notshipped. Backlog names every deferral; physical/reference/assertion bounds unchanged.
+
+Build/lint/truth8/8 and focused91pass. New600s broadside record exposes camera shake bypassing rendered groundfloor; fresh independent fallback_camera_review confirms minimaldecorative-offsetclearancefix. Original four framingfailures nowpass; newfivecheapclearancechecks pass aftercorrecting invalidnovelfixture/input andgroundprojection inequality. Allredlogs retained. Explicitnon-fixture collection1915pass/onefixednoveltest; live timeline and comparechecks separate. Expectednewreentryevents include touchdown within600s; fixturesstillparkedmodel untilLinuxregen. No completegate/coverage/mutation/fullbrowser/finalphasereviews/merge/deploy claimed.
+
+Next: Linuxrecording/audit coherentfallbackstate, then fullPhase6bclosure and7–9. Main/live080f108,60%;noownerquestion.
+
+## Gate-green fallback checkpoint (2026-10-02)
+
+Complete localgate exits0:1977units and1977coverage-instrumentedtests; unchangedcoveragefloors, smoke and5subpath checks pass. All8Linuxfixtures/audits coherent with source; intro motionexact, reentryoriginal180s motionexact,600slanded. Full5-browser suite nowrunning; mutation/finalreleaseacceptance/merge/main-gate/deploy stillrequired. High-depth branchreview found onlystale authoritative-roadmap checkpoint; accepted/corrected, followup requested. No partialphase merge; main/live080f108,60%,fourphasesremain. Next finishfullbrowser, runmutationALONE, finalreviewfollowups, phaseclose/merge/deploy then7–9.

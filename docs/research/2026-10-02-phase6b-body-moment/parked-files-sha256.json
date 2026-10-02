@@ -1,0 +1,18 @@
+{
+  "src/core/autopilot/entry.ts": "dfda1908442348f814a393b766d515e3e58cd5307dbb082d3ce875ac332b3408",
+  "src/core/control/entry-range.ts": "fb3dcc52e92f1b5c1f69d25675cfaf5a56156d728b36e8c65b1686bf3b0151c9",
+  "src/core/control/fin-authority.ts": "0119228644e432f5b120571cc7e819b3bf1a2f7548477e5c1f0f5890f59e36ac",
+  "src/core/physics/body-moment.ts": "14c55d0bea6923656bd18e3ebe765a6efb9623ecc94117d06a6b755bec4d3ded",
+  "src/core/physics/fin-surfaces.ts": "cbedca1ed9d1d641db1d4f31002283a14909cadcaa3e8ff2e6c25b2b86de1edc",
+  "tests/core/body-axis-aero.test.ts": "25e446b34a9bf85dd41b8c4164ac756f523b2734a46870a5b81a9e7b9195ba36",
+  "tests/core/drag-model.test.ts": "8a4a5d7f53c19c66f7b12277588b72f9f51e01e34c56865070988c72e8e361ab",
+  "tests/core/entry-on-lift.test.ts": "d16fe9cc38211d769e037fba80c6b055971b9a8136d421709f88c8e7346668ee",
+  "tests/core/entry-range.test.ts": "3b926717a4f47664556b53b02189f2ac672b1a95838eeffeebe36b1323f33ae6",
+  "tests/core/body-moment.test.ts": "96da8a46f1185de5a48c6bdcd7d407593d98601f20c7aa3e8560b88bba0d1e7f",
+  "tests/core/fin-authority.test.ts": "3ed440e53192d54b55359a354935994ef05459aff03e8b8ce36606578db2e32b",
+  "tests/core/fin-rcs-allocation.test.ts": "399073bbf782fef108e3df79e1f373f7ae36682e84f9ef9cd5a94ca97fba04c0",
+  "tests/core/fin-surface-predictor.test.ts": "300e6c0eea0e359f1f23b25805bd3ef1aaf6dd1bc0ab45d4f65f26123e291e3e",
+  "tests/core/fin-surface-step.test.ts": "50e28791ec4f9b981b7540c78ecdc61eb9e373a192e293acd390cfac4bfb6a1d",
+  "tests/core/fin-surfaces.test.ts": "d8f3654fd3c3f05c90e22dd4230b17fc88eae9b6990563c48fe205071dd7cd1c",
+  "scripts/entry-sweep.ts": "9ae9b0ad7036c5b0dd725da777bccf026b3aff5716141b43c747b282234d946c"
+}

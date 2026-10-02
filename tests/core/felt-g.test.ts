@@ -43,11 +43,15 @@ describe('felt g', () => {
   });
 
   it('breaks the airframe at the felt limit, not at the net acceleration', () => {
-    // Real broadside drag produces over 13 g felt; gravity leaves the net
-    // upward acceleration below 13 g. No stored force stands in for it.
+    // Six lit engines on near-dry tanks plus tail-first drag exceed 13 g
+    // felt; gravity leaves net acceleration below 13 g. No stale reading.
     const s0 = coasting(20_000);
     s0.kinematics.speedY = -850;
-    s0.kinematics.pitch = rad(Math.PI / 2);
+    s0.kinematics.pitch = rad(0);
+    s0.vehicle.propellantMass = 1_000;
+    s0.vehicle.vehicleMass = C.vehicleDryMass + 1_000;
+    s0.vehicle.throttle = s0.vehicle.throttleCurrent = 100;
+    s0.engines.running.fill(true);
     const s = step(s0, DT);
     expect(s.kinematics.totalAcceleration / C.standardGravity).toBeLessThan(C.gLimit);
     expect(s.forces.perceivedG).toBeGreaterThan(C.gLimit);

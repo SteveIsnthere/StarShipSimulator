@@ -1,0 +1,77 @@
+/** Task3: the commanded couple uses the same surface forces as integration. */
+import * as C from '../constants';
+import { rad, type Rad } from '../units';
+import type { SimState } from '../state';
+import { relativeAirspeed, relativeWindAngle, wrappedAttackAngle } from '../physics/aero';
+import { airVelocityX } from '../physics/wind';
+import { speedOfSoundAt } from '../physics/atmosphere';
+import { writeHypersonicFinForce, HYPERSONIC_FIN_MIN_MACH, type FinForce } from '../physics/fin-surfaces';
+
+export interface FinControlFlow { speed: number; attack: Rad; hypersonic: boolean }
+
+/** Controller and actual actuator share the returned attitude/wind snapshot. */
+export function writeFinControlFlowInto(state: SimState, out: FinControlFlow): FinControlFlow {
+  const k = state.kinematics;
+  const windX = airVelocityX(state.world, k.altitude);
+  out.speed = relativeAirspeed(k.speedX, k.speedY, windX, state.world.gustVertical);
+  out.hypersonic = out.speed / speedOfSoundAt(state.atmosphere.airTemperature) >= HYPERSONIC_FIN_MIN_MACH;
+  out.attack = out.hypersonic ? rad(wrappedAttackAngle(k.pitch,
+    relativeWindAngle(k.speedX, k.speedY, windX, state.world.gustVertical))) : k.angleOfAttack;
+  return out;
+}
+
+export interface FinTargets { front: number; aft: number }
+
+/** Existing 2021 actuator family, command -100..100 and targets 0..100%. */
+export function writeFinTargetsInto(attack: number, command: number, out: FinTargets): FinTargets {
+  const half = command / 2;
+  out.front = attack < 0 ? 50 - half : 50 + half;
+  out.aft = attack < 0 ? 50 + half : 50 - half;
+  return out;
+}
+
+// Synchronous scratch only; every field read is overwritten by this call.
+const targets: FinTargets = { front: 0, aft: 0 };
+const front: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
+const aft: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
+
+export function finMomentAtCommand(
+  rho: number, speed: number, attack: Rad, frontArm: number, aftArm: number, command: number,
+): number {
+  writeFinTargetsInto(attack, command, targets);
+  return finMomentAtExtensions(rho, speed, attack, frontArm, aftArm, targets.front, targets.aft);
+}
+
+/** Shared pressure law at achieved extensions, including slew and neutral torque. */
+export function finMomentAtExtensions(
+  rho: number, speed: number, attack: Rad, frontArm: number, aftArm: number,
+  frontExtension: number, aftExtension: number,
+): number {
+  writeHypersonicFinForce(rho, speed, attack, frontExtension, C.frontFinSurfaceArea, frontArm, front);
+  writeHypersonicFinForce(rho, speed, attack, aftExtension, C.aftFinSurfaceArea, aftArm, aft);
+  return front.moment + aft.moment;
+}
+
+/**
+ * Invert this monotone paired family, including its nonzero neutral moment.
+ * Existing slew is still applied by actuation; this is the target couple,
+ * not a claim that the surfaces can move there instantaneously.
+ * 24 bisections bound command error below 200/2^24 percent, with no new
+ * physical gain/authority. Caller gates the hypersonic model domain.
+ */
+export function hypersonicFinCommand(
+  rho: number, speed: number, attack: Rad, frontArm: number, aftArm: number, torque: number,
+): number {
+  let low = -100, high = 100;
+  const minimum = finMomentAtCommand(rho, speed, attack, frontArm, aftArm, low);
+  const maximum = finMomentAtCommand(rho, speed, attack, frontArm, aftArm, high);
+  if (minimum === maximum || Number.isNaN(torque)) return 0;
+  if (torque <= minimum) return low;
+  if (torque >= maximum) return high;
+  for (let i = 0; i < 24; i++) {
+    const middle = (low + high) / 2;
+    if (finMomentAtCommand(rho, speed, attack, frontArm, aftArm, middle) < torque) low = middle;
+    else high = middle;
+  }
+  return (low + high) / 2;
+}

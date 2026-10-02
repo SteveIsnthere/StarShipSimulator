@@ -3,79 +3,79 @@
   {
    "id": "launch-pad-takeoff",
    "outcome": "brokeUp",
-   "seconds": 420.68333333333334,
-   "speedY": -1124.650191903806,
-   "speedX": 2304.3882220683936,
+   "seconds": 444.9916666666667,
+   "speedY": -398.7615135740804,
+   "speedX": 316.04621896875136,
    "propellant": 0,
-   "miss": 829630.0585409366,
+   "miss": 753252.9706539735,
    "trigger": null
   },
   {
    "id": "booster-sep-boostback",
    "outcome": "landed",
-   "seconds": 465.19166666666666,
+   "seconds": 500.06666666666666,
    "speedY": 0,
    "speedX": 0,
-   "propellant": 6.8312869052568095,
-   "miss": 1301.474647693336,
+   "propellant": 5.703913684152305,
+   "miss": 3025.2304486595094,
    "trigger": {
-    "altitude": 994.5053408779166,
-    "speedY": -79.207647556267,
-    "triggerAltitude": 994.6438313020332,
-    "estimatedBurnAltitude": 437.73445623923527,
-    "neededBurnAltitude": 355.4271132484306,
-    "slack": 82.30734299080467
+    "altitude": 756.2166309113364,
+    "speedY": -62.96531284596805,
+    "triggerAltitude": 756.3255519297056,
+    "estimatedBurnAltitude": 278.95854392900947,
+    "neededBurnAltitude": 290.637291698259,
+    "slack": -11.678747769249526
    }
   },
   {
    "id": "rtls-boostback",
    "outcome": "landed",
-   "seconds": 210.21666666666667,
+   "seconds": 237.025,
    "speedY": 0,
    "speedX": 0,
-   "propellant": 6.543763799780632,
-   "miss": 0.1982274204492569,
+   "propellant": 5.67682117709249,
+   "miss": 1.0551999397575855,
    "trigger": {
-    "altitude": 1027.6506833891863,
-    "speedY": -81.52172380857563,
-    "triggerAltitude": 1028.2059203257786,
-    "estimatedBurnAltitude": 460.55248736607166,
-    "neededBurnAltitude": 364.7654171250465,
-    "slack": 95.78707024102516
+    "altitude": 760.9421920130974,
+    "speedY": -63.336217159296105,
+    "triggerAltitude": 761.1443129453593,
+    "estimatedBurnAltitude": 282.07789744855125,
+    "neededBurnAltitude": 298.82224136424816,
+    "slack": -16.744343915696902
    }
   },
   {
    "id": "reentry-autoland",
    "outcome": "landed",
-   "seconds": 855.2166666666667,
+   "seconds": 457.1666666666667,
    "speedY": 0,
    "speedX": 0,
-   "propellant": 6.830514291241219,
-   "miss": 1756315.6075075194,
+   "propellant": 5.623428701377361,
+   "miss": 815336.194223199,
    "trigger": {
-    "altitude": 993.8884803864404,
-    "speedY": -79.1695889669648,
-    "triggerAltitude": 994.0345946348034,
-    "estimatedBurnAltitude": 437.3114739177199,
-    "neededBurnAltitude": 344.8088929400555,
-    "slack": 92.50258097766442
+    "altitude": 756.1033941294185,
+    "speedY": -62.96127781901399,
+    "triggerAltitude": 756.1778322262494,
+    "estimatedBurnAltitude": 278.84741122386293,
+    "neededBurnAltitude": 279.1726643653056,
+    "slack": -0.3252531414426585
    }
   },
   {
    "id": "before-flip-autoland",
    "outcome": "landed",
-   "seconds": 28.55,
+   "seconds": 29.28333333333333,
    "speedY": 0,
    "speedX": 0,
-   "propellant": 11.729207245994774,
-   "miss": 0.3070586360991001,
+   "propellant": 8.511783670324244,
+   "miss": 0.316526647657156,
    "trigger": {
-    "altitude": 935.8115751876959,
-    "speedY": -72.41443613401046,
-    "triggerAltitude": 936.114184957288,
-    "estimatedBurnAltitude": 404.8589809432361,
-    "neededBurnAltitude": 307.84968838836653,
-    "slack": 97.00929255486955
+    "altitude": 849.7824129221165,
+    "speedY": -67.81472495480139,
+    "triggerAltitude": 849.87756628491,
+    "estimatedBurnAltitude": 345.2449749812341,
+    "neededBurnAltitude": 302.0753418410235,
+    "slack": 43.169633140210635
    }
   },
   {
@@ -84,42 +84,42 @@
    "seconds": 13.9,
    "speedY": 0,
    "speedX": 0,
-   "propellant": 12.628425221757277,
-   "miss": 1.0518529675900936,
+   "propellant": 12.575447274651196,
+   "miss": 0.7769177444279194,
    "trigger": {
-    "altitude": 199.70800362778894,
-    "speedY": -35.07912933438986,
-    "triggerAltitude": 444.2442544325131,
-    "estimatedBurnAltitude": 92.92639731981235,
-    "neededBurnAltitude": 119.86098634477602,
-    "slack": -26.93458902496367
+    "altitude": 199.70799882661845,
+    "speedY": -35.08028161532336,
+    "triggerAltitude": 445.4255803307126,
+    "estimatedBurnAltitude": 94.10242424125526,
+    "neededBurnAltitude": 117.81362437664106,
+    "slack": -23.711200135385795
    }
   },
   {
    "id": "landing-burn-headwind",
    "outcome": "landed",
-   "seconds": 13.875,
+   "seconds": 14.35,
    "speedY": 0,
    "speedX": 0,
-   "propellant": 12.630416825399973,
-   "miss": 9.453387700021267,
+   "propellant": 12.476193988984521,
+   "miss": 15.11790357530117,
    "trigger": {
-    "altitude": 199.70800252289862,
-    "speedY": -35.07939450562119,
-    "triggerAltitude": 444.24683088863566,
-    "estimatedBurnAltitude": 92.92775433703724,
-    "neededBurnAltitude": 119.8609857448551,
-    "slack": -26.933231407817857
+    "altitude": 199.70798480230448,
+    "speedY": -35.08364745067297,
+    "triggerAltitude": 445.45864210781485,
+    "estimatedBurnAltitude": 94.12000760266426,
+    "neededBurnAltitude": 113.71889853242024,
+    "slack": -19.59889092975598
    }
   },
   {
    "id": "intro-demo",
    "outcome": "landed",
-   "seconds": 9.858333333333333,
+   "seconds": 9.85,
    "speedY": 0,
    "speedX": 0,
    "propellant": 350,
-   "miss": 0.815735574811697,
+   "miss": 0.5883985348045826,
    "trigger": null
   }
  ],
@@ -127,41 +127,41 @@
   {
    "id": "landing-burn-autoland/one-out",
    "outcome": "landed",
-   "seconds": 8.241666666666667,
+   "seconds": 8.225,
    "speedY": 0,
    "speedX": 0,
-   "propellant": 15.184156325595415,
-   "miss": 2.1238882802426815,
+   "propellant": 15.138191812562145,
+   "miss": 1.9612842947244644,
    "trigger": null
   },
   {
    "id": "landing-burn-autoland/two-out",
    "outcome": "crashed",
-   "seconds": 5.525,
+   "seconds": 5.433333333333334,
    "speedY": 0,
    "speedX": 0,
    "propellant": 0,
-   "miss": 3.1067890748381615,
+   "miss": 3.0417440831661224,
    "trigger": null
   },
   {
    "id": "before-flip-autoland/one-out",
    "outcome": "landed",
-   "seconds": 32.141666666666666,
+   "seconds": 34.016666666666666,
    "speedY": 0,
    "speedX": 0,
-   "propellant": 10.744895157900338,
-   "miss": 0.36969539523124695,
+   "propellant": 7.11432419106397,
+   "miss": 1.2690344490110874,
    "trigger": null
   },
   {
    "id": "before-flip-autoland/two-out",
    "outcome": "landed",
-   "seconds": 18.366666666666667,
+   "seconds": 27.733333333333334,
    "speedY": 0,
    "speedX": 0,
-   "propellant": 17.13721008260359,
-   "miss": 82.68330518528819,
+   "propellant": 10.011777751045663,
+   "miss": 7.893742300570011,
    "trigger": null
   }
  ],
@@ -169,11 +169,11 @@
   "shutdowns": [
    {
     "engine": 0,
-    "seconds": 2.4
+    "seconds": 2.3833333333333333
    },
    {
     "engine": 1,
-    "seconds": 2.408333333333333
+    "seconds": 2.3916666666666666
    },
    {
     "engine": 2,
@@ -188,6 +188,6 @@
    false,
    false
   ],
-  "touchdown": 9.858333333333333
+  "touchdown": 9.85
  }
 }

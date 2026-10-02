@@ -336,7 +336,7 @@ describe('the ballistic coast predictor', () => {
     // whole function: the ordinary path must keep working.
     const rTarget = C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE;
     const r = C.planetRadius + 200_000;
-    for (const rate of [0, C.frameRotationRate]) {
+    for (const rate of [0, C.EARTH_FRAME_ROTATION_RATE]) {
       const arc = coastDownrangeDistance(r, groundTangentialSpeed(r, 7_650, rate), 0, rTarget, rate);
       expect(Number.isFinite(arc)).toBe(true);
       expect(arc).toBeGreaterThan(1_000_000);

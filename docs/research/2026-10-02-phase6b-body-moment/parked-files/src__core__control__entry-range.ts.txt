@@ -8,6 +8,12 @@ import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from '..
 import type { SimState } from '../state';
 import { rad, type Rad } from '../units';
 import { fallAcceleration, type BurnScratch, type FallResult } from './guidance-physics';
+import { BODY_PLANFORM_AREA } from '../physics/body-moment';
+import { writeHypersonicFinForce, HYPERSONIC_FIN_MIN_MACH, type FinForce } from '../physics/fin-surfaces';
+import { updateVehicleInFlightMaxArea } from '../physics/aero';
+
+const frontSurface: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
+const aftSurface: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
 
 export interface EntryPrediction extends FallResult {
   /** K — maximum radiative-equilibrium skin temperature on the forecast. */
@@ -21,12 +27,23 @@ export function createEntryPrediction(): EntryPrediction {
 function scheduledAcceleration(
   h: number, vx: number, vy: number, mass: number, area: number,
   referenceWind: number, entryAngle: Rad, pitchBias: Rad, scratch: BurnScratch,
+  frontExtension: number, aftExtension: number,
 ): number {
   isaAtmosphereInto(Math.max(h, 0), scratch.atmosphere);
   const speed = Math.hypot(vx - meanWindAt(referenceWind, h), vy);
   const mach = speed / speedOfSoundAt(scratch.atmosphere.airTemperature);
   const pitch = Math.atan2(vx, vy) - Math.PI / 2 + entryPitchOffset(mach, vx, entryAngle) + pitchBias;
-  fallAcceleration(h, vx, vy, pitch, mass, area, referenceWind, scratch);
+  const hypersonic = mach >= HYPERSONIC_FIN_MIN_MACH;
+  fallAcceleration(h, vx, vy, pitch, mass, hypersonic ? BODY_PLANFORM_AREA : area, referenceWind, scratch);
+  if (hypersonic) {
+    writeHypersonicFinForce(scratch.atmosphere.airDensity, speed, scratch.inputs.angleOfAttack,
+      frontExtension, C.frontFinSurfaceArea, 0, frontSurface);
+    writeHypersonicFinForce(scratch.atmosphere.airDensity, speed, scratch.inputs.angleOfAttack,
+      aftExtension, C.aftFinSurfaceArea, 0, aftSurface);
+    const normal = (frontSurface.normal + aftSurface.normal) / mass;
+    scratch.acc.x += normal * Math.cos(pitch);
+    scratch.acc.y -= normal * Math.sin(pitch);
+  }
   return surfaceTemperature(
     getReentryHeatPower(speed, scratch.atmosphere.airDensity, C.NOSE_RADIUS, scratch.inputs.angleOfAttack),
     radiativeSinkKelvin(h, scratch.atmosphere.airTemperature),
@@ -52,7 +69,10 @@ export function predictEntryRangeInto(
   const floorMass = C.vehicleDryMass + C.landingReserve;
   const dumping = state.status.dumpingFuel;
   const half = stepSeconds * 0.5;
-  const area = state.vehicle.vehicleInFlightMaxArea;
+  // A current hypersonic state stores hull-only area. The forecast also crosses
+  // the still-legacy low-Mach domain, whose area follows these same surfaces.
+  const area = updateVehicleInFlightMaxArea(state.vehicle.frontFinExtension,
+    state.vehicle.aftFinExtension).vehicleInFlightMaxArea;
   const wind = state.world.wind;
   out.peakKelvin = 0;
   out.reached = h <= 1000;
@@ -60,10 +80,12 @@ export function predictEntryRangeInto(
   out.downRange = 0;
   if (out.reached) return;
   for (let n = 0; n < Math.round(2500 / stepSeconds); n++) {
-    const incomingKelvin = scheduledAcceleration(h, vx, vy, mass, area, wind, entryAngle, pitchBias, scratch);
+    const incomingKelvin = scheduledAcceleration(h, vx, vy, mass, area, wind, entryAngle, pitchBias, scratch,
+      state.vehicle.frontFinExtension, state.vehicle.aftFinExtension);
     const mx = vx + scratch.acc.x * half, my = vy + scratch.acc.y * half;
     const midMass = dumping ? Math.max(floorMass, mass - C.dumpRate * half) : mass;
-    const midpointKelvin = scheduledAcceleration(h + vy * half, mx, my, midMass, area, wind, entryAngle, pitchBias, scratch);
+    const midpointKelvin = scheduledAcceleration(h + vy * half, mx, my, midMass, area, wind, entryAngle, pitchBias, scratch,
+      state.vehicle.frontFinExtension, state.vehicle.aftFinExtension);
     out.peakKelvin = Math.max(out.peakKelvin, incomingKelvin, midpointKelvin);
     const nx = vx + scratch.acc.x * stepSeconds, ny = vy + scratch.acc.y * stepSeconds;
     const nh = h + my * stepSeconds, nextX = x + mx * stepSeconds;

@@ -838,6 +838,19 @@ export function updateCamera(
     SHAKE_FRACTION;
   camera.shakeX = amplitude * shakeOffset(camera.shakeTime, 1);
   camera.shakeY = amplitude * shakeOffset(camera.shakeTime, 2);
+  // Shake moves the rendered eye, so it must obey the same ground floor as
+  // the follow camera. At ground handoff a negative offset otherwise exposes
+  // below-ground world and pushes a framed ship above the top edge.
+  const halfHeight = viewport.physicalHeight * 0.5;
+  let minimumShakeY = halfHeight - camera.posY;
+  let maximumShakeY = Number.POSITIVE_INFINITY;
+  if (!target.crashed && Math.abs(target.altitude - camera.posY) <= halfHeight) {
+    // Decorative shake uses only the clearance of an already framed ship;
+    // it does not pull an intentionally unframed wreck back into shot.
+    minimumShakeY = Math.max(minimumShakeY, target.altitude - halfHeight - camera.posY);
+    maximumShakeY = target.altitude + halfHeight - camera.posY;
+  }
+  camera.shakeY = Math.max(minimumShakeY, Math.min(maximumShakeY, camera.shakeY));
 }
 
 /**
