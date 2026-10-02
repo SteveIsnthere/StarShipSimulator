@@ -2,95 +2,41 @@ diff --git a/package.json b/package.json
 index 97722a7..287dc05 100644
 --- a/package.json
 +++ b/package.json
-@@ -23,6 +23,7 @@
-     "truth:report": "vite-node scripts/truth-report.ts",
-     "margins": "vite-node scripts/landing-margins.ts",
-     "deorbit:range": "vite-node scripts/deorbit-range.ts",
+@@ -25,0 +26 @@
 +    "entry:sweep": "vite-node scripts/entry-sweep.ts",
-     "mutation": "node scripts/mutation-check.mjs",
-     "kit:drift": "node scripts/kit-drift.mjs"
-   },
 diff --git a/src/core/autopilot/index.ts b/src/core/autopilot/index.ts
 index be70a04..de58cce 100644
 --- a/src/core/autopilot/index.ts
 +++ b/src/core/autopilot/index.ts
-@@ -22,6 +22,7 @@
-  * pause, respects warp exactly, and is deterministic under replay.
-  */
- import * as C from '../constants';
+@@ -24,0 +25 @@ import * as C from '../constants';
 +import { entryPitchOffset } from './entry';
- import * as cmd from '../control/commands';
- import * as prim from '../control/primitives';
- import * as gravity from '../physics/gravity';
-@@ -35,7 +36,7 @@ import {
- } from '../physics/engines';
- import { createMassProperties, writeMassProperties } from '../physics/mass';
- import type { SimState } from '../state';
+@@ -38 +39 @@ import type { SimState } from '../state';
 -import { rad } from '../units';
 +import { rad, type Rad } from '../units';
- import { finalDescentStartAltitude, plannedEngineCount, triggerBurnAltitude } from './landing-burn';
- 
- const toggleRaptor = cmd.toggleRaptor;
-@@ -248,7 +249,7 @@ function resetAutoLandState(state: SimState): void {
- export { getAngularAcceleration, getTotalMaxThrust };
- 
- /** autoPilotModes.js:147 — the landing programme: four stages, in order. */
+@@ -251 +252 @@ export { getAngularAcceleration, getTotalMaxThrust };
 -export function autoLand(state: SimState, dt: number): void {
 +export function autoLand(state: SimState, dt: number, entryAngle: Rad = C.ENTRY_LIFT_ANGLE): void {
-   const { autopilot, vehicle, engines, status } = state;
-   if (!autopilot.autoLandOn || autopilot.manualControlOn) return;
- 
-@@ -267,7 +268,7 @@ export function autoLand(state: SimState, dt: number): void {
- 
-   if (!autopilot.aeroDescentCompleted) {
-     updateBellyFlopTriggerAltitude(state);
+@@ -270 +271 @@ export function autoLand(state: SimState, dt: number): void {
 -    aeroDescentController(state);
 +    aeroDescentController(state, entryAngle);
-   } else if (!autopilot.flipCompleted) {
-     flipStageController(state);
-   } else if (!autopilot.horizontalAdjustmentStageCompleted) {
-@@ -316,7 +317,7 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
- }
- 
- /** autoPilotModes.js:222 — glide belly-down, steering toward the pad. */
+@@ -319 +320 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
 -function aeroDescentController(state: SimState): void {
 +function aeroDescentController(state: SimState, entryAngle: Rad): void {
-   const { autopilot, kinematics } = state;
- 
-   const distanceToSite =
-@@ -347,7 +348,8 @@ function aeroDescentController(state: SimState): void {
-         -C.aeroDescentMaxCorrectionAngle * C.fineTuneMultiplier * autopilot.fineTunePercentage;
-     }
-   }
+@@ -350 +351,2 @@ function aeroDescentController(state: SimState): void {
 -  prim.precisionAlignment(state, rad(correctionAngle + Math.PI / 2), 0.7);
 +  const entryOffset = entryPitchOffset(kinematics.machSpeed, kinematics.speedX, entryAngle);
 +  prim.precisionAlignment(state, rad(correctionAngle + Math.PI / 2 + entryOffset), 0.7);
- 
-   if (
-     (kinematics.altitude < autopilot.bellyFlopTriggerAltitude &&
-@@ -745,12 +747,12 @@ export function autoDeorbit(state: SimState): void {
-  * what any of the six do. It hands over by switching itself off and autoLand
-  * on, so the two are never both steering.
-  */
+@@ -748 +750 @@ export function autoDeorbit(state: SimState): void {
 -export function runAutopilot(state: SimState, dt: number): void {
 +export function runAutopilot(state: SimState, dt: number, entryAngle: Rad = C.ENTRY_LIFT_ANGLE): void {
-   demoAutoLand(state, dt);
-   autoMaxThrust(state);
-   pitchHold(state);
-   autoTakeOff(state);
+@@ -753 +755 @@ export function runAutopilot(state: SimState, dt: number): void {
 -  autoLand(state, dt);
 +  autoLand(state, dt, entryAngle);
-   autoBoostBack(state, dt);
-   autoDeorbit(state);
- }
 diff --git a/src/core/constants.ts b/src/core/constants.ts
-index 665bedb..e927331 100644
+index 665bedb..e3959df 100644
 --- a/src/core/constants.ts
 +++ b/src/core/constants.ts
-@@ -143,8 +143,11 @@ export const dumpLimit = 12000;
-  * plus a third, 16 t. Task 4c then planned the flip on the ignition delay's
-  * maximum: the earlier flip costs hover, and the worst engine-out landing
-  * spent 13.7 t, so the reserve is 18 t, again about a third over. Each tonne of
+@@ -146,2 +146,5 @@ export const dumpLimit = 12000;
 - * reserve buys about 0.75 t at touchdown (the rest is landing heavier): every
 - * engine-out deorbit lands with about 3.8 t, where the old 12 t left 0.0.
 + * reserve buys about 0.75 t at touchdown (the rest is landing heavier).
@@ -98,47 +44,30 @@ index 665bedb..e927331 100644
 + * engine-out landing (2026-10-01): 18 t leaves only 1.86 t, below the unchanged
 + * eighth-of-reserve health bound. The measured use plus a third is 21.53 t;
 + * round up to 22 t and re-measure the aim for this heavier descent.
-  *
-  * The plan sized it from the landing-burn predictor (one engine from the
-  * trigger, plus the ignition delay), which comes to 6.3 t: the programme spends
-@@ -154,7 +157,7 @@ export const dumpLimit = 12000;
-  * tests/core/deorbit-range.test.ts: an engine change that makes landing costlier
-  * fails there, and the reserve is re-measured in the same commit.
-  */
+@@ -157 +160 @@ export const dumpLimit = 12000;
 -export const landingReserve = 18_000;
 +export const landingReserve = 22_000;
- 
- /**
-  * kg*m^2 — the spawn value, a solid cylinder about its centre at wet mass.
-@@ -530,7 +533,7 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
-  * The 300 km row is the one to watch: the miss is tolerable, the heating is not
-  * far from the structural limit. The orbital presets sit at 150 km deliberately.
-  */
+@@ -533 +536 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
 -export const DEORBIT_ENTRY_RANGE = 841_800;
-+export const DEORBIT_ENTRY_RANGE = 4_450_439;
- 
- /**
-  * m — the entry interface: where the vacuum prediction stops and the
-@@ -686,3 +689,11 @@ export const PITCH_HOLD_RATE_THRESHOLD = 0.4;
-  * last frame-rate dependency from the physics.
-  */
- export const frameRate = 60;
++export const DEORBIT_ENTRY_RANGE = 3_966_736;
+@@ -688,0 +692,12 @@ export const frameRate = 60;
 +
 +/** Phase 6b's eight-angle sweep: 60° is the coolest entry that lands within 10 km.
 + * Measured 1,515.29 K at 68.23 km with the unchanged 1,533 K tile limit.
 + */
 +export const ENTRY_LIFT_ANGLE = rad(Math.PI / 3);
-+/** Start the approved sweep at Mach five; fully broadside by Mach two. */
-+export const ENTRY_LIFT_MACH = 5;
++/** Begin the blend after initial hypersonic heating, fully broadside by Mach2.
++ * The corrected Mach5 seed sweep takes977 s on Reentry, beyond its900 s
++ * acceptance. The Mach20 trial releases the late glide earlier; re-sweep
++ * before selecting the final schedule. No thermal or landing bound moved.
++ */
++export const ENTRY_LIFT_MACH = 20;
 +export const ENTRY_BROADSIDE_MACH = 2;
 diff --git a/src/core/control/guidance-physics.ts b/src/core/control/guidance-physics.ts
 index 19afe1a..664012e 100644
 --- a/src/core/control/guidance-physics.ts
 +++ b/src/core/control/guidance-physics.ts
-@@ -14,14 +14,7 @@
- import * as C from '../constants';
- import type { Atmosphere } from '../physics/atmosphere';
- import { speedOfSoundAt } from '../physics/atmosphere';
+@@ -17,8 +17 @@ import { speedOfSoundAt } from '../physics/atmosphere';
 -import {
 -  foldedIntoWind,
 -  getBodyDragCoefficient,
@@ -148,13 +77,7 @@ index 19afe1a..664012e 100644
 -  wrappedAttackAngle,
 -} from '../physics/aero';
 +import { getBodyAxisAccelerations, wrappedAttackAngle, type BodyAxisAccelerations } from '../physics/aero';
- import { getHorizontalAcceleration, getVerticalAcceleration, type AccelerationInputs } from '../physics/components';
- import { tangentialAcceleration, verticalGravityAcceleration, verticalWeight } from '../physics/gravity';
- import { isaAtmosphereInto } from '../physics/isa';
-@@ -57,14 +50,6 @@ export function thrustFor(engines: number, airPressureKPa: number): number {
-   return engines * C.thrustPerRaptorAt(airPressureKPa);
- }
- 
+@@ -60,8 +52,0 @@ export function thrustFor(engines: number, airPressureKPa: number): number {
 -/**
 - * Drag area in the landing-burn attitude: tail first, the airflow along the
 - * axis (`getCrossSectionalArea` at 0°, which is the nose-on area / 2.1). Not
@@ -163,46 +86,20 @@ index 19afe1a..664012e 100644
 - */
 -const TAIL_FIRST_AREA = getCrossSectionalArea(rad(0), C.vehicleInFlightMaxArea);
 -
- /**
-  * Everything the predictors write while they work; one per caller, reused on
-  * every call. Owned by the caller rather than the module, so two callers (or a
-@@ -85,6 +70,7 @@ export interface BurnScratch {
-   readonly inputs: AccelerationInputs;
-   /** m/s² — the fall's acceleration at the point last evaluated. */
-   readonly acc: { x: number; y: number };
+@@ -87,0 +73 @@ export interface BurnScratch {
 +  readonly bodyAxes: BodyAxisAccelerations;
- }
- 
- export function createBurnScratch(): BurnScratch {
-@@ -105,6 +91,7 @@ export function createBurnScratch(): BurnScratch {
-       pitch: rad(0),
-     },
-     acc: { x: 0, y: 0 },
+@@ -107,0 +94 @@ export function createBurnScratch(): BurnScratch {
 +    bodyAxes: { drag: 0, lift: 0 },
-   };
- }
- 
-@@ -121,7 +108,10 @@ export function tailFirstDragDeceleration(
-   const air = scratch.atmosphere;
-   isaAtmosphereInto(altitude, air);
-   const mach = speed / speedOfSoundAt(air.airTemperature);
+@@ -124 +111,4 @@ export function tailFirstDragDeceleration(
 -  return getDrag(air.airDensity, speed, TAIL_FIRST_AREA, getBodyDragCoefficient(mach)) / mass;
 +  return getBodyAxisAccelerations(
 +    air.airDensity, speed, mach, rad(Math.PI), C.vehicleInFlightMaxArea,
 +    mass, scratch.bodyAxes,
 +  ).drag;
- }
- 
- /** s — the predictor's integration step. */
-@@ -331,13 +321,14 @@ function fallAcceleration(
-   const speed = Math.sqrt(rx * rx + vy * vy);
-   const motion = Math.atan2(rx, vy);
-   const attack = wrappedAttackAngle(pitch, motion);
+@@ -334,2 +323,0 @@ function fallAcceleration(
 -  const intoWind = foldedIntoWind(attack);
 -  const area = getCrossSectionalArea(rad(intoWind), maxArea);
-   const mach = speed / speedOfSoundAt(air.airTemperature);
-   inputs.angleOfMotion = rad(motion);
-   inputs.angleOfAttack = rad(attack);
+@@ -339,2 +327,5 @@ function fallAcceleration(
 -  inputs.aerodynamicDragAcceleration = getDrag(air.airDensity, speed, area, getBodyDragCoefficient(mach)) / mass;
 -  inputs.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
 +  const forces = getBodyAxisAccelerations(
@@ -210,35 +107,19 @@ index 19afe1a..664012e 100644
 +  );
 +  inputs.aerodynamicDragAcceleration = forces.drag;
 +  inputs.aerodynamicLiftAcceleration = forces.lift;
-   acc.x = getHorizontalAcceleration(inputs) + tangentialAcceleration(r, vx, vy);
-   acc.y = getVerticalAcceleration(inputs, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);
- }
 diff --git a/src/core/physics/aero.ts b/src/core/physics/aero.ts
-index 83ef81b..326a838 100644
+index 83ef81b..4d00676 100644
 --- a/src/core/physics/aero.ts
 +++ b/src/core/physics/aero.ts
-@@ -28,14 +28,14 @@ export function getDynamicPressure(airDensity: number, trueSpeed: number): numbe
- /**
-  * physics.js:39 — area presented to the airflow.
-  *
+@@ -31,2 +31,2 @@ export function getDynamicPressure(airDensity: number, trueSpeed: number): numbe
 - * Blends broadside and nose-on area by attitude. The `/ 2.1` on the nose-on term
 - * is an unexplained tuning constant; it is part of the feel and stays.
 + * The actual projected geometry. Phase 6b removes the unexplained /2.1;
 + * axial and crossflow coefficients now belong to their respective body axes.
-  * @returns m^2
-  */
- export function getCrossSectionalArea(angleInToTheWind: Rad, vehicleInFlightMaxArea: number): number {
-   return (
-     Math.abs(Math.sin(angleInToTheWind) * vehicleInFlightMaxArea) +
+@@ -38 +38 @@ export function getCrossSectionalArea(angleInToTheWind: Rad, vehicleInFlightMaxA
 -    Math.abs(Math.cos(angleInToTheWind) * C.vehicleMinArea) / 2.1
 +    Math.abs(Math.cos(angleInToTheWind) * C.vehicleMinArea)
-   );
- }
- 
-@@ -93,6 +93,144 @@ export function getBodyDragCoefficient(machSpeed: number): number {
-   return machSpeed * 0.1347 + 1.153;
- }
- 
+@@ -95,0 +96,148 @@ export function getBodyDragCoefficient(machSpeed: number): number {
 +/*
 +  BODY DRAG, PER COMPONENT — Phase 6b, Task 1 (Fidelity). 2021 used one
 +  coefficient for every attitude, 1.153 + 0.1347 M capped at 2.5: a broadside
@@ -336,11 +217,20 @@ index 83ef81b..326a838 100644
 +/**
 + * Finite-cylinder crossflow factor: NASA TR R-474 Figure 4, printed p77,
 + * circular-cylinder curve at length/diameter 50/9: approximately 0.63.
-+ * Named approximation: this low-subsonic measured factor is held at all Mach
-+ * numbers for the approved Phase 6b sweep. The source's p17 notes eta may
-+ * approach one in supersonic/hypersonic crossflow; this is not a high-Mach datum.
++ * Section2.3.2 (printed pp17–18) recommends unity at supersonic/hypersonic
++ * crossflow; Figure4's value is measured only at very low subsonic Mach.
++ * https://ntrs.nasa.gov/api/citations/19770026166/downloads/19770026166.pdf
++ * Named tier-B assumption, approved before flights: bridge smoothly over
++ * Figure6's Mn=0.4–1.6 data interval. Those data are for fineness10/12,
++ * not Ship's50/9, so the smooth bridge and omission of the transonic dip
++ * are engineering assumptions, not Ship-specific experimental results.
 + */
-+const BODY_CROSSFLOW_FACTOR = 0.63;
++function bodyCrossflowFactor(crossflowMach: number): number {
++  if (crossflowMach <= 0.4) return 0.63;
++  if (crossflowMach >= 1.6) return 1;
++  const t = (crossflowMach - 0.4) / 1.2;
++  return 0.63 + 0.37 * t * t * (3 - 2 * t);
++}
 +
 +/**
 + * Phase 6b Task 1: Jorgensen's body-axis normal and axial forces, converted
@@ -365,9 +255,10 @@ index 83ef81b..326a838 100644
 +  const sin = Math.abs(Math.sin(angleOfAttack));
 +  const cos = Math.abs(Math.cos(angleOfAttack));
 +  const q = 0.5 * airDensity * trueSpeed ** 2;
++  const crossflowMach = machSpeed * sin;
 +  const normal = q * (
 +    C.vehicleMinArea * Math.sin(2 * normalAngle) * Math.cos(normalAngle / 2) +
-+    BODY_CROSSFLOW_FACTOR * broadsideDragCoefficient(machSpeed * sin) * planformArea * sin ** 2
++    bodyCrossflowFactor(crossflowMach) * broadsideDragCoefficient(crossflowMach) * planformArea * sin ** 2
 +  );
 +  const axialCd = attack <= Math.PI / 2
 +    ? noseFirstDragCoefficient(machSpeed) : tailFirstDragCoefficient(machSpeed);
@@ -377,38 +268,20 @@ index 83ef81b..326a838 100644
 +  return out;
 +}
 +
- /** physics.js:89 — `force / mass`. @returns m/s^2 */
- export function getAcceleration(force: number, mass: number): number {
-   return force / mass;
 diff --git a/src/core/step.ts b/src/core/step.ts
 index 594b14f..ff9368d 100644
 --- a/src/core/step.ts
 +++ b/src/core/step.ts
-@@ -61,7 +61,10 @@ import { createMassProperties, writeMassProperties } from './physics/mass';
- import * as act from './control/actuation';
- import { runAutopilot } from './autopilot';
- import { cloneState, type SimState } from './state';
+@@ -64 +64,4 @@ import { cloneState, type SimState } from './state';
 -import { rad } from './units';
 +import { rad, type Rad } from './units';
 +
 +/** Reused only during this synchronous step; no retained state or allocation. */
 +const bodyAxisAccelerations: aero.BodyAxisAccelerations = { drag: 0, lift: 0 };
- 
- /**
-  * Everything the outside world can tell the simulation in one step.
-@@ -71,6 +74,8 @@ import { rad } from './units';
-  * the hot path and what makes a step replayable.
-  */
- export interface StepInput {
+@@ -73,0 +77,2 @@ export interface StepInput {
 +  /** rad — deterministic offline entry-sweep override; normal flights use the selected schedule. */
 +  entryAngleOfAttack?: Rad | undefined;
-   /** % — commanded throttle, 0..100. Undefined leaves the current command. */
-   throttle?: number | undefined;
-   /** % — pitch command, -100..100. Undefined leaves the current command. */
-@@ -343,18 +348,14 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
- 
-   updatePerceivedG(s);
- 
+@@ -346,11 +351,5 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
 -  s.forces.aerodynamicDrag = aero.getDrag(
 -    s.atmosphere.airDensity,
 -    incomingAirspeed,
@@ -425,29 +298,17 @@ index 594b14f..ff9368d 100644
 +    incomingAirspeed / speedOfSoundAt(s.atmosphere.airTemperature),
 +    s.kinematics.angleOfAttack, s.vehicle.vehicleInFlightMaxArea,
 +    s.vehicle.vehicleMass, bodyAxisAccelerations,
-   );
+@@ -357,0 +357,2 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
 +  s.forces.aerodynamicDrag = bodyAxisAccelerations.drag * s.vehicle.vehicleMass;
 +  s.forces.aerodynamicLift = bodyAxisAccelerations.lift * s.vehicle.vehicleMass;
-   // M11.2: thrust at the ambient pressure phase 1 just set from the altitude.
-   // Scaled on the step the tank runs dry: only the propellant left was burned.
-   s.forces.thrust =
-@@ -576,7 +577,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
-   // That is 2021's order — readInputFromManualFlightControl() ran after
-   // autoPilotControlInput() and simply clobbered whatever the autopilot wrote,
-   // which is why any manual touch instantly takes over.
+@@ -579 +580 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
 -  runAutopilot(s, dt);
 +  runAutopilot(s, dt, input.entryAngleOfAttack);
- 
-   if (input.throttle !== undefined) s.vehicle.throttle = input.throttle;
-   if (input.pitchControl !== undefined) s.autopilot.pitchControl = input.pitchControl;
 diff --git a/tests/core/control-contracts.test.ts b/tests/core/control-contracts.test.ts
 index c797468..5d8bf12 100644
 --- a/tests/core/control-contracts.test.ts
 +++ b/tests/core/control-contracts.test.ts
-@@ -116,6 +116,21 @@ describe('the vertical thrust projection', () => {
- });
- 
- describe('controlEnginebyTWR keeps the throttle inside the engine limits', () => {
+@@ -118,0 +119,15 @@ describe('controlEnginebyTWR keeps the throttle inside the engine limits', () =>
 +  it('reaches the commanded TWR from 60% actual throttle without counting it twice', () => {
 +    const s = lit();
 +    s.vehicle.vehicleMass = 200_000;
@@ -463,17 +324,70 @@ index c797468..5d8bf12 100644
 +    expect(achieved).toBeCloseTo(goalTWR, 6);
 +  });
 +
-   it('reaches the commanded TWR when it is achievable', () => {
-     // The contract: after the call, the thrust at the commanded throttle should
-     // produce the TWR that was asked for.
 diff --git a/tests/core/guidance-physics.test.ts b/tests/core/guidance-physics.test.ts
-index 79666db..0516d54 100644
+index 79666db..90b0216 100644
 --- a/tests/core/guidance-physics.test.ts
 +++ b/tests/core/guidance-physics.test.ts
-@@ -220,6 +220,40 @@ describe('landingBurnStartAltitude: the edges', () => {
- });
- 
- describe('unpoweredFallInto against the simulation, attitude held', () => {
+@@ -20 +20 @@ import * as C from '$core/constants';
+-import { gravityAt } from '$core/physics/gravity';
++import { gravityAt, verticalWeight } from '$core/physics/gravity';
+@@ -152,2 +152,2 @@ describe('landingBurnStartAltitude: the edges', () => {
+-    // Nor can three stop 4 km/s inside the step cap (60 s).
+-    expect(landingBurnStartAltitude(3, 200_000, 4_000, 25, createBurnScratch())).toBeNull();
++    // The former three-engine/4 km/s null characterization is replaced below
++    // under Steve's explicit Phase6b approval: physical drag changes its premise.
+@@ -156,0 +157,50 @@ describe('landingBurnStartAltitude: the edges', () => {
++  it('mechanically stops 4 km/s within the cap, while the real vehicle breaks up', () => {
++    const mass = 200_000;
++    const start = landingBurnStartAltitude(3, mass, 4_000, 25, createBurnScratch());
++    expect(start).not.toBeNull();
++    // Independent forward RK4 integration of the force-only contract. Shared
++    // drag physics, opposite time direction and a finer integration method;
++    // no structural/thermal survival is asserted by this mechanical witness.
++    const scratch = createBurnScratch();
++    const flow = 3 * C.maxFuelFlowPerRaptor;
++    const acceleration = (h: number, v: number, m: number) => {
++      const drag = tailFirstDragDeceleration(h, -v, m, scratch);
++      return thrustFor(3, scratch.atmosphere.airPressure) / m + drag - verticalWeight(R + h);
++    };
++    let h = start!;
++    let v = -4_000;
++    let m = mass;
++    let elapsed = 0;
++    for (let n = 0; n < 120 * 60 && v < 0; n++) {
++      const oldH = h, oldV = v;
++      const a1 = acceleration(h, v, m);
++      const v2 = v + a1 * DT / 2;
++      const a2 = acceleration(h + v * DT / 2, v2, m - flow * DT / 2);
++      const v3 = v + a2 * DT / 2;
++      const a3 = acceleration(h + v2 * DT / 2, v3, m - flow * DT / 2);
++      const v4 = v + a3 * DT;
++      const a4 = acceleration(h + v3 * DT, v4, m - flow * DT);
++      h += (v + 2 * v2 + 2 * v3 + v4) * DT / 6;
++      v += (a1 + 2 * a2 + 2 * a3 + a4) * DT / 6;
++      m -= flow * DT;
++      elapsed += DT;
++      if (v >= 0) {
++        const fraction = -oldV / (v - oldV);
++        h = oldH + fraction * (h - oldH);
++        elapsed -= (1 - fraction) * DT;
++      }
++    }
++    expect(v).toBeGreaterThanOrEqual(0);
++    expect(elapsed).toBeLessThan(60);
++    expect(Math.abs(h - 25)).toBeLessThanOrEqual(Math.max(0.001 * (start! - 25), 2));
++
++    let real = at(start!, 0, -4_000);
++    real.vehicle.propellantMass = mass - C.vehicleDryMass;
++    real.vehicle.vehicleMass = mass;
++    real.vehicle.throttle = real.vehicle.throttleCurrent = 100;
++    real.engines.running = [true, true, true, false, false, false];
++    real.engines.ignitionCountdown.fill(null);
++    for (let n = 0; n < 3 && !real.failures.inFlightBreakUp; n++) real = step(real, DT);
++    expect(real.failures.inFlightBreakUp).toBe(true);
++  });
++
+@@ -222,0 +273,34 @@ describe('unpoweredFallInto against the simulation, attitude held', () => {
 +  it.each([-100, 100])('agrees within a metre over a controlled lifting fall at vx=%i', (vx) => {
 +    let s = at(10_000, vx, -60);
 +    s.engines.running.fill(false);
@@ -508,9 +422,6 @@ index 79666db..0516d54 100644
 +    expect(Math.abs(predicted.downRange - actual)).toBeLessThan(1);
 +  });
 +
-   /**
-    * The reference: engines off, autopilot off, attitude held, flown by `step()`
-    * to touchdown height. The prediction holds attitude AND cross-section; the
 diff --git a/scripts/entry-sweep.ts b/scripts/entry-sweep.ts
 new file mode 100644
 index 0000000..6bdaf09
@@ -580,16 +491,16 @@ index 0000000..eaecc74
 +}
 diff --git a/tests/core/body-axis-aero.test.ts b/tests/core/body-axis-aero.test.ts
 new file mode 100644
-index 0000000..5c7b2ab
+index 0000000..dc1a615
 --- /dev/null
 +++ b/tests/core/body-axis-aero.test.ts
-@@ -0,0 +1,86 @@
+@@ -0,0 +1,109 @@
 +/** Phase 6b: the integrator consumes the physical broadside force. */
 +import { describe, expect, it } from 'vitest';
 +import { DT } from '$app/loop';
 +import { getScenario, createScenarioState } from '$core/scenarios';
 +import { step } from '$core/step';
-+import { getBodyAxisAccelerations } from '$core/physics/aero';
++import { broadsideDragCoefficient, getBodyAxisAccelerations } from '$core/physics/aero';
 +import { getVerticalAcceleration } from '$core/physics/components';
 +import { rad } from '$core/units';
 +
@@ -604,8 +515,8 @@ index 0000000..5c7b2ab
 +  s.engines.running.fill(false);
 +  const next = step(s, DT);
 +  const q = 0.5 * next.atmosphere.airDensity * 3_000 ** 2;
-+  // Figure 4 finite-length factor .63, Newtonian cylinder coefficient 1.2266667.
-+  expect(next.forces.aerodynamicDrag / (q * next.vehicle.vehicleInFlightMaxArea)).toBeCloseTo(0.7728, 9);
++  // R-474 p17: hypersonic eta=1; Newtonian cylinder coefficient 1.2266667.
++  expect(next.forces.aerodynamicDrag / (q * next.vehicle.vehicleInFlightMaxArea)).toBeCloseTo(1.226666666666667, 9);
 +  expect(Math.abs(next.forces.aerodynamicLiftAcceleration)).toBeLessThan(1e-10);
 +});
 +
@@ -625,7 +536,7 @@ index 0000000..5c7b2ab
 +
 +  it('has exactly the cylinder crossflow drag and no lift at broadside', () => {
 +    force(Math.PI / 2);
-+    expect(out.drag).toBeCloseTo(3.4776, 10);
++    expect(out.drag).toBeCloseTo(5.52, 10);
 +    expect(out.lift).toBeLessThan(1e-12);
 +  });
 +
@@ -668,6 +579,29 @@ index 0000000..5c7b2ab
 +    force(0.4);
 +    force(0.4, 0.2, 0);
 +    expect(out).toEqual({ lift: 0, drag: 0 });
++  });
++});
++
++describe('the approved finite-length crossflow factor', () => {
++  const eta = (mach: number) => {
++    const f = getBodyAxisAccelerations(0.2, 100, mach, rad(Math.PI / 2), 450, 100_000, out);
++    return f.drag / (4.5 * broadsideDragCoefficient(mach));
++  };
++  it('keeps the low-speed Figure4 factor and recovers hypersonic unity', () => {
++    expect(eta(0)).toBeCloseTo(0.63, 12);
++    expect(eta(0.4)).toBeCloseTo(0.63, 12);
++    expect(eta(1.6)).toBeCloseTo(1, 12);
++    expect(eta(10)).toBeCloseTo(1, 12);
++  });
++  it('uses the predeclared bridge, without fitting a transonic dip', () => {
++    expect(eta(0.7)).toBeCloseTo(0.6878125, 12);
++    expect(eta(1)).toBeCloseTo(0.815, 12);
++    expect(eta(1.3)).toBeCloseTo(0.9421875, 12);
++  });
++  it('has no force step at either endpoint', () => {
++    for (const mach of [0.4, 1.6]) {
++      expect(Math.abs(eta(mach + 1e-8) - eta(mach - 1e-8))).toBeLessThan(1e-8);
++    }
 +  });
 +});
 diff --git a/tests/core/drag-model.test.ts b/tests/core/drag-model.test.ts
@@ -759,14 +693,17 @@ index 0000000..1550b0d
 +});
 diff --git a/tests/core/entry-on-lift.test.ts b/tests/core/entry-on-lift.test.ts
 new file mode 100644
-index 0000000..f23d952
+index 0000000..c18e2d8
 --- /dev/null
 +++ b/tests/core/entry-on-lift.test.ts
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,70 @@
 +import { describe, expect, it } from 'vitest';
 +import { autoLand } from '$core/autopilot';
 +import { createScenarioState, getScenario } from '$core/scenarios';
 +import { entryPitchOffset } from '$core/autopilot/entry';
++import { toggleAutoLand } from '$core/control/commands';
++import { getVerticalAcceleration } from '$core/physics/components';
++import { step } from '$core/step';
 +import { rad } from '$core/units';
 +
 +// A missing entry schedule steers an already correctly aligned vehicle back
@@ -783,7 +720,7 @@ index 0000000..f23d952
 +      s.kinematics.angleOfMotion = rad(motion * Math.PI / 180);
 +      s.kinematics.pitch = rad(pitch * Math.PI / 180);
 +      s.kinematics.angularVelocity = 0;
-+      s.kinematics.machSpeed = 10;
++      s.kinematics.machSpeed = 40;
 +      s.forces.offAxisThrustDifferenceAcceleration = 0;
 +      autoLand(s, 1 / 120);
 +      expect(s.autopilot.pitchControl).toBeCloseTo(0, 9);
@@ -792,16 +729,40 @@ index 0000000..f23d952
 +  }
 +});
 +
-+describe('the Mach-five to Mach-two blend', () => {
-+  it('returns the original broadside law below Mach two and the entry angle above five', () => {
++it.each([-6000, 6000])('keeps lift outward through the flown hypersonic segment at vx=%i', (vx) => {
++  let s = createScenarioState(getScenario('reentry')!);
++  s.kinematics.speedX = vx;
++  s.kinematics.speedY = -200;
++  const motion = Math.atan2(vx, -200);
++  s.kinematics.pitch = rad(motion - Math.PI / 2 + Math.sign(vx) * Math.PI / 6);
++  s.kinematics.angularVelocity = 0;
++  toggleAutoLand(s);
++  for (let n = 0; n < 1200; n++) {
++    s = step(s, 1 / 120);
++    expect(s.kinematics.machSpeed).toBeGreaterThan(5);
++    const liftY = getVerticalAcceleration({
++      angleOfMotion: s.kinematics.angleOfMotion,
++      angleOfAttack: s.kinematics.angleOfAttack,
++      aerodynamicDragAcceleration: 0,
++      aerodynamicLiftAcceleration: s.forces.aerodynamicLiftAcceleration,
++      thrustAcceleration: 0, fixedThrustAcceleration: 0,
++      gimbalPointingDirection: rad(0), pitch: s.kinematics.pitch,
++    }, 0);
++    expect(liftY, `step ${n}`).toBeGreaterThan(0);
++    expect(s.failures.inFlightBreakUp).toBe(false);
++  }
++});
++
++describe('the Mach-twenty to Mach-two blend', () => {
++  it('returns the original broadside law below Mach two and the entry angle above twenty', () => {
 +    expect(entryPitchOffset(1, 3000, rad(Math.PI / 3))).toBe(0);
 +    expect(entryPitchOffset(2, 3000, rad(Math.PI / 3))).toBe(0);
-+    expect(entryPitchOffset(5, 3000, rad(Math.PI / 3))).toBeCloseTo(Math.PI / 6, 12);
-+    expect(entryPitchOffset(10, -3000, rad(Math.PI / 3))).toBeCloseTo(-Math.PI / 6, 12);
-+    expect(entryPitchOffset(3.5, 3000, rad(Math.PI / 3))).toBeCloseTo(Math.PI / 12, 12);
++    expect(entryPitchOffset(20, 3000, rad(Math.PI / 3))).toBeCloseTo(Math.PI / 6, 12);
++    expect(entryPitchOffset(40, -3000, rad(Math.PI / 3))).toBeCloseTo(-Math.PI / 6, 12);
++    expect(entryPitchOffset(11, 3000, rad(Math.PI / 3))).toBeCloseTo(Math.PI / 12, 12);
 +  });
 +  it('has no pitch step at either boundary in either direction', () => {
-+    for (const mach of [2, 5]) for (const vx of [-3000, 3000]) {
++    for (const mach of [2, 20]) for (const vx of [-3000, 3000]) {
 +      expect(Math.abs(entryPitchOffset(mach+1e-8,vx,rad(Math.PI/3))-entryPitchOffset(mach-1e-8,vx,rad(Math.PI/3)))).toBeLessThan(1e-8);
 +    }
 +  });

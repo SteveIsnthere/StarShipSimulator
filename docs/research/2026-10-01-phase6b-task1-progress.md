@@ -76,4 +76,42 @@ Task5 preflight lint and production build exit0. The targeted3 assertions fail f
 
 Steve’s “sounds good” approved both recommended exceptions after the goal was marked blocked. Historical pending statements above describe the prior wait and are superseded. No new question is required. Exact approved replacement scope and source-based correction, including the predeclared smooth bridge, are in modernization-GOAL.md and the phase plan. Neither exception is implemented; old red assertions/source remain unchanged. Full roadmap scope remains6b,7,8,9.
 
-A recovery-only patch is retained beside this note as in-progress-source.patch. It captures the current uncommitted source/tests (including untracked files) so the approved atomic Fidelity work survives loss of this checkout. It is not a completed core commit or a regenerated baseline. In the existing worktree, do not apply it over the already-present changes. In a clean checkout at this documentation checkpoint, check with git apply --check, then apply only if the source changes are absent.
+A recovery-only patch is retained beside this note as in-progress-source.patch. It captures the current uncommitted source/tests (including untracked files) so the approved atomic Fidelity work survives loss of this checkout. It is not a completed core commit or a regenerated baseline. In the existing worktree, do not apply it over the already-present changes. In a clean checkout at this documentation checkpoint, check with git apply --unidiff-zero --check, then apply with --unidiff-zero only if the source changes are absent.
+
+## Latest corrected-model checkpoint — goalgen refresh
+
+**Both approved corrections are implemented in the working tree.** The shared force model uses the exact predeclared Mach-aware eta bridge, and the obsolete 4 km/s null characterization is replaced by forward mechanical and real-breakup witnesses. Focused coefficient/body/schedule checks pass; the complete predictor suite passes 27/27. Actual flown hypersonic lift points outward in both directions (entry suite 6/6). Build, lint and the current truth registry (8/8 IN) passed after the eta/predictor edits, before the later Mach-20 schedule and flown-lift additions; these checks are not a final gate.
+
+The corrected Mach-five sweep gives 60° deorbit peak1446.925 K but reentry takes977.183 s against the unchanged900 s harness. A predeclared, tested trial begins the linear blend at Mach20 instead, ending at Mach2. Its full eight-angle/two-preset sweep gives 60° deorbit1447.895 K and reentry1346.043 K in815.958 s. This resolves the measured duration problem in the sweep, not all landing acceptance. The selected60° and Mach20 schedule remain provisional pending pad/range acceptance.
+
+Current source constants: reserve22,000 kg, angle60°, M_t20, M_b2, DEORBIT_ENTRY_RANGE3,966,736 m. At the previous4,416,537 m aim, the Mach20 sweep misses -449,800.9 m; the current measured calibration lands but misses -114.37 km (raw script derives3,852,370 m; not applied). The calibration is red. Use the two measured points for a principled numerical correction, then address range dispersion with the plan's permitted bank-free lift/range modulation; do not keep guessing or weaken the one-km health/10 km acceptance.
+
+The broader corrected-model landing run was 43 pass/11 fail before the Mach20 change: demo now lands (source correction resolved its third thermal diagnosis) but misses158.23 km; reentry duration, pad health, timing, old peak-temperature characterization, longitude/light-mass/120 km envelopes and300 km breakup remained red. Recheck affected cases only after a justified change. No new diagnostic attempts are authorized by this refresh; the resolved demo-heating diagnosis used its third attempt. Engine-out reserve checks passed with22 t before Mach20; revalidate under the final schedule. Task5's three watched-red regressions are preserved; runtime fixes have not begun. No Linux golden regeneration, task core commit, mutation run or full phase gate has been completed.
+
+**Next bounded task:** finish Task1's deorbit aim/range acceptance on the existing branch, using measured calibration and permitted guidance authority. Preserve the exact eta bridge, all physical limits and diagnosis counts. Measure actual peak flux for the plan's dated ±5% band, finish scenario/engine-out acceptance, then recording-platform goldens and audit. Earth's rotation remains zero until Task1b. Task1 is not checked off.
+
+### Corrected sweep evidence
+
+The previous tables and pending statements are historical; this section supersedes their status. Both complete corrected-model sweeps are retained in `eta-sweep.log` and `mach20-sweep.log` alongside this note. The Mach20 table uses aim4,416,537 m and reserve22 t:
+
+```csv
+angle,preset,peakKelvin,peakAltitudeMetres,missMetres,outcome,seconds,speedAt1km,peakFlipAttackDegrees
+45,deorbit,1477.981,71407.7,2886433.3,landed,3420.017,81.909,159.754
+45,reentry,1360.261,72868.9,3337084.1,landed,1148.525,81.912,160.278
+50,deorbit,1460.729,71537.6,1607863.8,landed,3223.808,81.925,159.257
+50,reentry,1344.826,72785.4,2607584.0,landed,1025.383,81.916,160.266
+55,deorbit,1450.693,71361.9,503940.9,landed,3052.117,81.936,159.291
+55,reentry,1340.577,72112.2,1960159.2,landed,914.967,81.931,160.200
+60,deorbit,1447.895,70853.4,-449800.9,landed,2903.333,81.978,140.589
+60,reentry,1346.043,70923.7,1388111.1,landed,815.958,81.930,160.585
+65,deorbit,1452.731,69947.7,-1265853.9,landed,2771.925,82.055,142.110
+65,reentry,1360.614,69161.8,878544.5,landed,726.350,81.915,162.086
+70,deorbit,1465.584,68555.9,-1940749.6,landed,2659.417,82.086,142.009
+70,reentry,1383.396,66910.8,421763.7,landed,645.142,81.850,167.549
+75,deorbit,1487.492,66510.7,-2516394.9,landed,2560.592,82.066,140.089
+75,reentry,1412.693,64253.6,31413.5,landed,571.700,81.792,167.562
+90,deorbit,1533.038,65645.4,-3941485.9,brokeUp,2067.967,,0.000
+90,reentry,1524.321,55645.5,-664741.9,landed,416.442,81.679,138.966
+```
+
+Raw current-aim calibration: `mach20-range.log`; prior corrected Mach-five landing failures: `eta-landings.log`; latest flown-lift checks: `flown-lift.log`. All logs are retained with their original results, including watched-red runs. Recovery patch refreshed to include the current corrected source/tests; validated against the index and existing working tree. Never apply it over existing changes.

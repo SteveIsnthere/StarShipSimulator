@@ -12,7 +12,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
 | 6 Ship realism | done, live; gate and live deployment smoke verified | `080f108` |
-| 6b Entry on lift | Task1 active; preset60° survives, broader demo/range acceptance red | — |
+| 6b Entry on lift | Task1 active; approved corrections implemented, range acceptance red | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
 | 9 UX to flight_sim level | not started | — |
@@ -83,7 +83,7 @@ was never disabled. Two hosted menu checks needed their existing retry;
 recorded for Phase 9 with exact evidence.
 
 Six of ten phases are done (60%). Phase 6b Task 1 is next on
-`claude/entry-on-lift`, created from `080f108`. Task 1 model work is in progress and uncommitted; see the goal contract and the Task 1 progress note for the named predictor failure and measured sweeps, broader landing failures and now-approved owner exceptions.
+`claude/entry-on-lift`, created from `080f108`. Task 1 model work is in progress and uncommitted; see the goal contract and the Task 1 progress note for the resolved predictor characterization, corrected sweeps and remaining range/landing failures.
 
 [Phase 6 close evidence](../../research/2026-10-01-phase6-close.md).
 
@@ -114,6 +114,14 @@ Six of ten phases are done (60%). Phase 6b Task 1 is next on
 
 ## Latest Phase6b Task1 checkpoint
 
-The shared physical force model and Mach-five to two schedule are built but uncommitted. Prescribed sweep gives a viable60° deorbit at1515.29 K and7.67 km miss with the trial aim. This is not phase completion: all fixed-angle circularize-demo entries break up, reentry exceeds the existing900 s harness, and the one-km aim health remains red. The measured22 t reserve passes all three engine-out reserve assertions. The current4450439 m aim still misses4.70 km. See [Task1 progress](../../research/2026-10-01-phase6b-task1-progress.md) for both sweeps and exact bounded diagnoses.
+**Both approved corrections are implemented in the working tree.** The shared force model uses the exact predeclared Mach-aware eta bridge, and the obsolete 4 km/s null characterization is replaced by forward mechanical and real-breakup witnesses. Focused coefficient/body/schedule checks pass; the complete predictor suite passes 27/27. Actual flown hypersonic lift points outward in both directions (entry suite 6/6). Build, lint and the current truth registry (8/8 IN) passed after the eta/predictor edits, before the later Mach-20 schedule and flown-lift additions; these checks are not a final gate.
 
-Steve approved both recommended exceptions on2026-10-01: replace only the obsolete4 km/s cap characterization with a forward mechanical witness and a real breakup witness, preserving all genuine cap tests; correct the crossflow factor to recover hypersonic unity, with the declared Mach0.4–1.6 smooth bridge fixed before rerunning flights. The goal contract and phase plan state the exact assumptions and unchanged limits. No implementation of these exceptions yet. Preserve all source/tests; no goldens regenerated or Task1 core commit. Task5’s three regression assertions have watched red evidence; its runtime fixes have not begun.
+The corrected Mach-five sweep gives 60° deorbit peak1446.925 K but reentry takes977.183 s against the unchanged900 s harness. A predeclared, tested trial begins the linear blend at Mach20 instead, ending at Mach2. Its full eight-angle/two-preset sweep gives 60° deorbit1447.895 K and reentry1346.043 K in815.958 s. This resolves the measured duration problem in the sweep, not all landing acceptance. The selected60° and Mach20 schedule remain provisional pending pad/range acceptance.
+
+Current source constants: reserve22,000 kg, angle60°, M_t20, M_b2, DEORBIT_ENTRY_RANGE3,966,736 m. At the previous4,416,537 m aim, the Mach20 sweep misses -449,800.9 m; the current measured calibration lands but misses -114.37 km (raw script derives3,852,370 m; not applied). The calibration is red. Use the two measured points for a principled numerical correction, then address range dispersion with the plan's permitted bank-free lift/range modulation; do not keep guessing or weaken the one-km health/10 km acceptance.
+
+The broader corrected-model landing run was 43 pass/11 fail before the Mach20 change: demo now lands (source correction resolved its third thermal diagnosis) but misses158.23 km; reentry duration, pad health, timing, old peak-temperature characterization, longitude/light-mass/120 km envelopes and300 km breakup remained red. Recheck affected cases only after a justified change. No new diagnostic attempts are authorized by this refresh; the resolved demo-heating diagnosis used its third attempt. Engine-out reserve checks passed with22 t before Mach20; revalidate under the final schedule. Task5's three watched-red regressions are preserved; runtime fixes have not begun. No Linux golden regeneration, task core commit, mutation run or full phase gate has been completed.
+
+**Next bounded task:** finish Task1's deorbit aim/range acceptance on the existing branch, using measured calibration and permitted guidance authority. Preserve the exact eta bridge, all physical limits and diagnosis counts. Measure actual peak flux for the plan's dated ±5% band, finish scenario/engine-out acceptance, then recording-platform goldens and audit. Earth's rotation remains zero until Task1b. Task1 is not checked off.
+
+[Exact logs and sweep tables](../../research/2026-10-01-phase6b-task1-progress.md).
