@@ -15,12 +15,12 @@ import {
   R,
   T0_KELVIN,
   THERMOSPHERE_BASE,
+  USSA76_R0,
 } from '$core/physics/isa';
 import { updateAtmosphere } from '$core/physics/atmosphere';
 // The 2021 three-layer model, for the comparisons below. In the test tree since
 // M10.9 — nothing in the simulation calls it.
 import { legacyAtmosphere } from './legacy-models';
-import * as C from '$core/constants';
 import { createInitialState } from '$core/state';
 import { step } from '$core/step';
 
@@ -70,7 +70,7 @@ const PUBLISHED: ReadonlyArray<readonly [number, number, string, string]> = [
 
 /** Geometric altitude that yields a given geopotential altitude. */
 const geometricFor = (geopotential: number) =>
-  (C.planetRadius * geopotential) / (C.planetRadius - geopotential);
+  (USSA76_R0 * geopotential) / (USSA76_R0 - geopotential);
 
 /**
  * Half of the last significant digit of a decimal literal, relative to itself.
@@ -111,7 +111,7 @@ describe('reproduces the published standard atmosphere', () => {
     // correct model sits anywhere in [0, half-a-last-digit) from it — the 5 km
     // density lands at 92% of that. Using exactly half a digit as a strict
     // bound would therefore redden a correct model on a sub-ppm change to R,
-    // G0 or planetRadius. Two is the smallest factor that is not knife-edge,
+    // G0 or r0. Two is the smallest factor that is not knife-edge,
     // and the bound is still ~13x tighter than the 5% it replaced.
     expect(Math.abs(a.airPressure / Number(pressure) - 1), 'pressure, relative').toBeLessThan(
       2 * quantisationOf(pressure),
@@ -219,9 +219,13 @@ describe('geopotential altitude', () => {
     expect(86_000 - geopotentialAltitude(86_000)).toBeGreaterThan(1_100);
   });
 
-  it('uses the simulation planet radius, not Earth\'s', () => {
+  it('uses the standard\'s r0, not the planet\'s radius', () => {
+    // The 1976 tables are defined against r0 = 6,356,766 m (eq. 18); with it,
+    // 86 km geometric is the table's 84,852 m top to the metre.
     const h = 50_000;
-    expect(geopotentialAltitude(h)).toBeCloseTo((C.planetRadius * h) / (C.planetRadius + h), 9);
+    expect(USSA76_R0).toBe(6_356_766);
+    expect(geopotentialAltitude(h)).toBeCloseTo((USSA76_R0 * h) / (USSA76_R0 + h), 9);
+    expect(geopotentialAltitude(THERMOSPHERE_BASE)).toBeCloseTo(ISA_TOP_GEOPOTENTIAL, 0);
   });
 });
 
@@ -235,10 +239,12 @@ describe('the top of the table, and the thermosphere above it', () => {
     // The bands' base densities are chained from whatever the table gives at
     // the seam rather than transcribed, precisely so this holds. A jolt here
     // would be a jolt the vehicle feels.
+    // One metre either side is one metre of atmosphere: at a ~6 km scale
+    // height that is 1.7e-4 of the density, and a step would be far larger.
     const below = isaAtmosphere(THERMOSPHERE_BASE - 1).airDensity;
     const at = isaAtmosphere(THERMOSPHERE_BASE).airDensity;
     const above = isaAtmosphere(THERMOSPHERE_BASE + 1).airDensity;
-    expect(at).toBe(below);
+    expect(Math.abs(below / at - 1), 'density step below the seam').toBeLessThan(2e-4);
     expect(Math.abs(above / at - 1), 'density step at the seam').toBeLessThan(2e-4);
   });
 
@@ -279,14 +285,18 @@ describe('the top of the table, and the thermosphere above it', () => {
     expect(isothermalAt(300_000) / 1.916e-11, 'old model at 300 km').toBeLessThan(1e-6);
   });
 
-  it('warms toward the exosphere rather than staying at the mesopause', () => {
-    // Carried because the Mach number reads it. Monotone, and bounded.
+  it('warms toward the exosphere the way the 1976 standard does', () => {
+    // Carried because the Mach number reads it. The standard's shape (Phase 6):
+    // isothermal from 86 to 91 km, then never cooling, bounded by 1000 K. The
+    // 86 km seam steps by 0.08 K, the standard's own difference between the
+    // table's molecular-scale temperature and the kinetic temperature above it.
     expect(isaAtmosphere(86_000).airTemperature).toBeCloseTo(-86.2, 0);
+    expect(isaAtmosphere(91_000).airTemperature).toBe(isaAtmosphere(87_000).airTemperature);
     expect(isaAtmosphere(150_000).airTemperature).toBeGreaterThan(200);
     expect(isaAtmosphere(500_000).airTemperature).toBeGreaterThan(650);
     expect(isaAtmosphere(1_000_000).airTemperature).toBeLessThan(727);
     let previous = -Infinity;
-    for (let h = 86_000; h <= 1_000_000; h += 5_000) {
+    for (let h = 91_000; h <= 1_000_000; h += 5_000) {
       const t = isaAtmosphere(h).airTemperature;
       expect(t, `cooled at ${h} m`).toBeGreaterThan(previous);
       previous = t;

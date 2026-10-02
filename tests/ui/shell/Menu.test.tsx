@@ -10,6 +10,7 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { fieldsFromPreset } from '$app/menu';
+import { planetRadius } from '$core/constants';
 import { getScenario, INTRO } from '$core/scenarios';
 import { AUTOPILOT_MODES, GUIDE_SCENARIOS } from '$ui/guide';
 import type { Layer } from '$ui/session/store';
@@ -190,10 +191,13 @@ describe('Fly and Flight setup', () => {
   });
 
   it('every field shows its name, range and unit', () => {
+    // Half a lap of the planet, in whole kilometres, grouped by a thin space.
+    const halfLap = String(Math.round(Math.ceil(Math.PI * planetRadius) / 1000));
+    expect(halfLap).toBe('20015'); // half of Earth's 40,030 km mean circumference
     renderAt('menu');
     expect(byId('field-altitude')).toHaveAccessibleName(/^Altitude, 0 to 400\s000 m$/);
     expect(byId('field-xPosition')).toHaveAccessibleName(
-      /^Distance from the pad, Up to 20\s106 km either side, Negative is short of the pad$/,
+      new RegExp(`^Distance from the pad, Up to ${halfLap.slice(0, -3)}\\s${halfLap.slice(-3)} km either side, Negative is short of the pad$`),
     );
     expect(byId('field-launchHour')).toHaveAccessibleName(/^Time of day, 0 to 24 h, Local solar time$/);
     expect(byId('field-propellant').parentElement).toHaveTextContent('t');

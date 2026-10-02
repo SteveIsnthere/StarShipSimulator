@@ -270,13 +270,13 @@ describe('re-entry heating at the edges', () => {
   it('is zero at rest and in vacuum, and finite through a whole descent', () => {
     // The Sutton-Graves form goes as v^3 * sqrt(rho / R_nose), so v = 0 or
     // rho = 0 must give exactly zero heating rather than a NaN.
-    // Argument order is (trueSpeed, airDensity, noseRadius) — easy to transpose,
+    // Argument order is (trueSpeed, airDensity, noseRadius, angle) — easy to transpose,
     // and transposing it makes this test assert nothing, so it is spelt out.
-    expect(getReentryHeatPower(0, 0, C.NOSE_RADIUS)).toBe(0);
-    expect(getReentryHeatPower(0, 1.225, C.NOSE_RADIUS), 'at rest in thick air').toBe(0);
-    expect(getReentryHeatPower(7_800, 0, C.NOSE_RADIUS), 'fast in vacuum').toBe(0);
+    expect(getReentryHeatPower(0, 0, C.NOSE_RADIUS, Math.PI / 2)).toBe(0);
+    expect(getReentryHeatPower(0, 1.225, C.NOSE_RADIUS, Math.PI / 2), 'at rest in thick air').toBe(0);
+    expect(getReentryHeatPower(7_800, 0, C.NOSE_RADIUS, Math.PI / 2), 'fast in vacuum').toBe(0);
     for (let h = 0; h <= 200_000; h += 2_000) {
-      const q = getReentryHeatPower(7_800, isaAtmosphere(h).airDensity, C.NOSE_RADIUS);
+      const q = getReentryHeatPower(7_800, isaAtmosphere(h).airDensity, C.NOSE_RADIUS, Math.PI / 2);
       expect(Number.isFinite(q), `${h} m`).toBe(true);
       expect(q, `${h} m`).toBeGreaterThanOrEqual(0);
     }
@@ -355,7 +355,7 @@ describe('the ballistic coast predictor', () => {
 
   it('a circular orbit never descends, and says so', () => {
     const r = C.planetRadius + 200_000;
-    const circular = Math.sqrt((C.gravitationalConstant * C.planetMass) / r);
+    const circular = Math.sqrt(C.planetGravitationalParameter / r);
     expect(coastDownrangeDistance(r, circular, 0, C.planetRadius)).toBe(Infinity);
   });
 });

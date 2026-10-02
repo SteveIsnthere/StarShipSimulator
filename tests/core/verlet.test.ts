@@ -38,20 +38,27 @@ import * as C from '$core/constants';
 import {
   MU,
   circularOrbitalSpeed,
+  groundTangentialSpeed,
+  inertialTangentialSpeed,
   specificAngularMomentum,
   specificOrbitalEnergy,
 } from '$core/physics/gravity';
 import { createInitialState, type SimState } from '$core/state';
 import { step } from '$core/step';
 
-/** A vehicle in vacuum at `altitude`, moving downrange at `speed`, nose first. */
+/**
+ * A vehicle in vacuum at `altitude`, moving downrange at the INERTIAL `speed`,
+ * nose first. Set up at its ground-relative speed, because the ground turns
+ * (Phase 6 Task 9), and read back through `inertialSpeed`: Kepler is the
+ * inertial frame's, so the comparisons are transformed, never re-blessed.
+ */
 function inOrbit(altitude: number, speed: number): SimState {
   const s = createInitialState();
   s.kinematics.altitude = altitude;
   s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
-  s.kinematics.speedX = speed;
+  s.kinematics.speedX = groundTangentialSpeed(C.planetRadius + altitude, speed);
   s.kinematics.speedY = 0;
-  s.kinematics.trueSpeed = speed;
+  s.kinematics.trueSpeed = Math.abs(s.kinematics.speedX);
   s.kinematics.pitch = (Math.PI / 2) as never;
   return s;
 }
@@ -70,15 +77,20 @@ function coast(s0: SimState, hz: number, seconds: number) {
   coasts.set(key, result);
   return result;
 }
+/** m/s — the inertial tangential speed of a state. */
+const inertialX = (s: SimState) => inertialTangentialSpeed(s.kinematics.distanceToPlanetCenter, s.kinematics.speedX);
+/** m/s — the inertial speed of a state. */
+const inertialSpeed = (s: SimState) => Math.hypot(inertialX(s), s.kinematics.speedY);
+
 function flyCoast(s0: SimState, hz: number, seconds: number) {
   const dt = 1 / hz;
-  const e0 = specificOrbitalEnergy(s0.kinematics.distanceToPlanetCenter, s0.kinematics.trueSpeed);
+  const e0 = specificOrbitalEnergy(s0.kinematics.distanceToPlanetCenter, inertialSpeed(s0));
   let s = s0;
   let worstEnergy = 0;
   for (let i = 0; i < seconds * hz; i++) {
     s = step(s, dt);
     const k = s.kinematics;
-    const e = specificOrbitalEnergy(k.distanceToPlanetCenter, k.trueSpeed);
+    const e = specificOrbitalEnergy(k.distanceToPlanetCenter, inertialSpeed(s));
     worstEnergy = Math.max(worstEnergy, Math.abs((e - e0) / e0));
   }
   return { state: s, worstEnergy };
@@ -113,9 +125,13 @@ describe('the position error is second order in dt, against Kepler', () => {
     keplerRadius(R0, V0, SECONDS);
 
   it('the reference itself: an ellipse that climbs 2800 km in 2000 s', () => {
-    // Sanity on the closed form before trusting it as a reference.
-    expect((keplerRadius(R0, V0, SECONDS) - C.planetRadius) / 1000).toBeCloseTo(4308.2, 0);
+    // Sanity on the closed form before trusting it as a reference: it starts at
+    // perigee, climbs, and stays below the apogee vis-viva puts it at.
+    const a = 1 / (2 / R0 - (V0 * V0) / MU);
+    const apogee = 2 * a - R0;
     expect(keplerRadius(R0, V0, 0)).toBeCloseTo(R0, 6);
+    expect((keplerRadius(R0, V0, SECONDS) - C.planetRadius) / 1000).toBeCloseTo(4319.9, 0);
+    expect(keplerRadius(R0, V0, SECONDS)).toBeLessThan(apogee);
   });
 
   it('halving dt quarters the error — the ratio is 4, where Euler gave 2', () => {
@@ -148,9 +164,9 @@ describe('energy is conserved on an eccentric orbit', () => {
 
   it('and angular momentum with it, on the same orbit', () => {
     const s0 = inOrbit(PERIGEE, V0);
-    const h0 = specificAngularMomentum(s0.kinematics.distanceToPlanetCenter, s0.kinematics.speedX);
+    const h0 = specificAngularMomentum(s0.kinematics.distanceToPlanetCenter, inertialX(s0));
     const { state } = coast(s0, 120, SECONDS);
-    const h1 = specificAngularMomentum(state.kinematics.distanceToPlanetCenter, state.kinematics.speedX);
+    const h1 = specificAngularMomentum(state.kinematics.distanceToPlanetCenter, inertialX(state));
     expect(Math.abs((h1 - h0) / h0)).toBeLessThan(1e-10);
   });
 });

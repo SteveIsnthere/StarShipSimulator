@@ -197,7 +197,7 @@ describe('integration with SimState', () => {
   it('counters live in SimState, so a state determines all future draws', () => {
     const s = createInitialState();
     expect(s.rng.seed).toBe(DEFAULT_SEED);
-    expect(s.rng.counters).toEqual({ ignitionDelay: 0, ignitionFailure: 0 });
+    expect(s.rng.counters).toEqual({ ignitionDelay: 0, ignitionFailure: 0, turbulence: 0 });
   });
 
   it('a cloned state advances independently of its source', () => {

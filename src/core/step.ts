@@ -51,11 +51,12 @@
  */
 import * as C from './constants';
 import { speedOfSoundAt, updateAtmosphere } from './physics/atmosphere';
-import { getReentryHeatPower } from './physics/thermal';
+import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from './physics/thermal';
 import * as aero from './physics/aero';
 import * as comp from './physics/components';
 import * as gravity from './physics/gravity';
 import * as eng from './physics/engines';
+import * as wind from './physics/wind';
 import { createMassProperties, writeMassProperties } from './physics/mass';
 import * as act from './control/actuation';
 import { runAutopilot } from './autopilot';
@@ -160,13 +161,14 @@ function checkIfCrash(s: SimState): void {
         kinematics.angularVelocity = 0;
         kinematics.pitch = rad(0);
         vehicle.propellantMass = 0;
-        engines.running = [false, false, false];
+        engines.running.fill(false);
         vehicle.rcsRunTimeRemaining = 0;
       }
-    } else if (forces.thrustAcceleration <= gravity.gravityAt(kinematics.distanceToPlanetCenter)) {
+    } else if (forces.thrustAcceleration <= gravity.verticalWeight(kinematics.distanceToPlanetCenter)) {
       // configOnTheGround(). M11.3: against the LOCAL gravity, which is what
-      // the integrator applies — 9.731 m/s^2 at the pad, not the 9.807 constant
-      // 2021 compared with. The two disagreed by 0.8%, and in that band phase
+      // the integrator applies at rest — GM/R^2 at the pad less the turning
+      // ground's centrifugal term (Phase 6 Task 9), not the 9.807 constant
+      // 2021 compared with. The two disagreed by 0.8% then, and in that band phase
       // 2 zeroed the speeds while 3b's a*dt^2/2 term crept the vehicle upward.
       status.onTheGround = true;
       kinematics.speedX = 0;
@@ -179,18 +181,28 @@ function checkIfCrash(s: SimState): void {
   }
 }
 
-/** physics.js:420 — structural limits. */
+/**
+ * physics.js:420 — structural limits.
+ *
+ * The g-limit judges FELT g, the specific force the airframe carries (thrust
+ * and aerodynamics), not the net acceleration with gravity in it (Phase 6,
+ * Bug fix: a free fall read nearly 1 g, and a hard burn upward read a whole g
+ * light).
+ */
 function checkIfBreakUp(s: SimState): void {
   const { kinematics, forces, failures, vehicle, engines } = s;
   if (
-    kinematics.totalAcceleration > C.gLimit * C.gravity ||
-    forces.thermalPower > C.heatLimit ||
+    forces.perceivedG > C.gLimit ||
+    // The tile itself, against its limit: the temperature, which includes the
+    // surroundings, so the reading and the verdict cannot disagree (Phase 6's
+    // independent review: judging the flux let a tile read 1,533.04 K whole).
+    forces.surfaceTemperature > C.TILE_LIMIT_KELVIN ||
     forces.dynamicPressure > C.dynamicPressureLimit
   ) {
     failures.inFlightBreakUp = true;
     kinematics.angularVelocity = 0;
     vehicle.propellantMass = 0;
-    engines.running = [false, false, false];
+    engines.running.fill(false);
     vehicle.rcsRunTimeRemaining = 0;
   }
 }
@@ -201,16 +213,20 @@ function checkIfOutOfFuel(s: SimState): void {
 }
 
 /**
- * physics.js:246 — felt acceleration.
+ * physics.js:246 — felt acceleration: the specific force, in g0.
  *
- * 2021 added `orbitGravityAccCompensation` here; that term is gone (M2.10) and
- * was identically zero in the fidelity path before it went, so this expression
- * is unchanged numerically.
+ * The acceleration less what gravity and the polar terms contribute, which is
+ * what thrust, aerodynamics and the ground supply: zero in free fall, the local
+ * gravity on the pad. Phase 6, Bug fix: this added back a flat 9.807 m/s², so a
+ * free fall read 0.03 g at 150 km and the pad read 1.008 g.
  */
 function updatePerceivedG(s: SimState): void {
   const { kinematics, forces } = s;
-  forces.perceivedG_Y = (kinematics.accelerationY + C.gravity) / C.gravity;
-  forces.perceivedG_X = kinematics.accelerationX / C.gravity;
+  const r = kinematics.distanceToPlanetCenter;
+  const gx = gravity.tangentialAcceleration(r, kinematics.speedX, kinematics.speedY);
+  const gy = gravity.verticalGravityAcceleration(r, kinematics.speedX);
+  forces.perceivedG_Y = (kinematics.accelerationY - gy) / C.standardGravity;
+  forces.perceivedG_X = (kinematics.accelerationX - gx) / C.standardGravity;
   forces.perceivedG = Math.sqrt(forces.perceivedG_Y ** 2 + forces.perceivedG_X ** 2);
 }
 
@@ -239,8 +255,8 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const incomingAirspeed = aero.relativeAirspeed(
     s.kinematics.speedX,
     s.kinematics.speedY,
-    s.world.wind,
-    s.world.gust,
+    wind.airVelocityX(s.world, s.kinematics.altitude),
+    s.world.gustVertical,
   );
 
   s.world.updatedFrameCount += 1;
@@ -256,8 +272,12 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   checkIfCrash(s);
   checkIfOutOfFuel(s);
 
-  eng.updatePropellant(s, dt);
+  const burnedFraction = eng.updatePropellant(s, dt);
   eng.updateRaptorStatus(s);
+  // The tank emptied this step: the burn above was paid for by the engines
+  // already running, so nothing still counting down may light on it (Phase 6,
+  // Bug fix found in review). fuelRunOut follows next step, as it always has.
+  if (s.vehicle.propellantMass <= 0) s.engines.ignitionCountdown.fill(null);
 
   // Ignition is a dt-ticked countdown now, not a wall-clock timer (M1.4).
   eng.tickIgnition(s, dt);
@@ -284,8 +304,8 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const angleOfRelativeWind = aero.relativeWindAngle(
     s.kinematics.speedX,
     s.kinematics.speedY,
-    s.world.wind,
-    s.world.gust,
+    wind.airVelocityX(s.world, s.kinematics.altitude),
+    s.world.gustVertical,
   );
   const angles = aero.getAttackAngles(s.kinematics.pitch, angleOfRelativeWind);
   s.kinematics.angleOfAttack = angles.angleOfAttack;
@@ -307,6 +327,11 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     incomingAirspeed,
     s.atmosphere.airDensity,
     C.NOSE_RADIUS,
+    s.kinematics.angleInToTheWind,
+  );
+  s.forces.surfaceTemperature = surfaceTemperature(
+    s.forces.thermalPower,
+    radiativeSinkKelvin(s.kinematics.altitude, s.atmosphere.airTemperature),
   );
   s.forces.dynamicPressure = aero.getDynamicPressure(
     s.atmosphere.airDensity,
@@ -331,11 +356,10 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.vehicle.vehicleInFlightMaxArea,
   );
   // M11.2: thrust at the ambient pressure phase 1 just set from the altitude.
-  s.forces.thrust = eng.getThrust(
-    s.engines.running,
-    s.vehicle.throttleCurrent,
-    s.atmosphere.airPressure,
-  );
+  // Scaled on the step the tank runs dry: only the propellant left was burned.
+  s.forces.thrust =
+    eng.getThrust(s.engines.running, s.vehicle.throttleCurrent, s.atmosphere.airPressure) *
+    burnedFraction;
 
   // 3b. updateSpactialMotion — velocity Verlet since M11.3 (see the header).
   //
@@ -351,6 +375,11 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.vehicle.vehicleMass,
   );
   s.forces.thrustAcceleration = aero.getAcceleration(s.forces.thrust, s.vehicle.vehicleMass);
+  // The sea-level engines gimbal; the RVacs push along the hull. With no RVac
+  // lit the share is exactly 1 and the fixed part an exact +0.
+  const gimballedThrust =
+    s.forces.thrust * eng.gimballedShare(s.engines.running, s.atmosphere.airPressure);
+  const fixedThrust = s.forces.thrust - gimballedThrust;
 
   const accelInputs: comp.AccelerationInputs = {
     // M11.1: drag opposes the relative wind and lift is normal to it, so the
@@ -361,7 +390,9 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     gimbalPointingDirection: s.vehicle.gimbalPointingDirection,
     aerodynamicDragAcceleration: s.forces.aerodynamicDragAcceleration,
     aerodynamicLiftAcceleration: s.forces.aerodynamicLiftAcceleration,
-    thrustAcceleration: s.forces.thrustAcceleration,
+    thrustAcceleration: aero.getAcceleration(gimballedThrust, s.vehicle.vehicleMass),
+    fixedThrustAcceleration: aero.getAcceleration(fixedThrust, s.vehicle.vehicleMass),
+    pitch: s.kinematics.pitch,
   };
   const bodyAccelerationX = comp.getHorizontalAcceleration(accelInputs);
   // M2.6, Fidelity. getVerticalAcceleration applies a constant -gravity;
@@ -433,8 +464,8 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const airspeed = aero.relativeAirspeed(
     s.kinematics.speedX,
     s.kinematics.speedY,
-    s.world.wind,
-    s.world.gust,
+    wind.airVelocityX(s.world, s.kinematics.altitude),
+    s.world.gustVertical,
   );
   // M2.7, Fidelity. 2021 used a constant 343 m/s everywhere — the sea-level
   // value — so Mach ran ~16% low through the upper atmosphere. That understated
@@ -442,6 +473,10 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // M11.1: Mach is a ratio to the speed of sound in the air the vehicle moves
   // through, so it is the airspeed over the local speed of sound.
   s.kinematics.machSpeed = airspeed / speedOfSoundAt(s.atmosphere.airTemperature);
+
+  // Phase 6, Task 10: the gusts for the next step, at the altitude just
+  // reached. Calm air draws nothing and leaves them at zero (physics/wind.ts).
+  wind.updateTurbulence(s.world, s.rng, s.kinematics.altitude, s.kinematics.speedX, s.kinematics.speedY, dt);
 
   // 3c. updateRotationalMotion — the same Verlet form, with alpha_n the
   // angular acceleration STORED by the previous step (the torques below need
@@ -470,7 +505,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // once alpha_{n+1} is known.
   s.kinematics.angularVelocity = omega0 + alpha0 * dt;
 
-  s.forces.thrustVectorForce = eng.getThrustVectorForce(s.forces.thrust, s.vehicle.gimbalPosition);
+  s.forces.thrustVectorForce = eng.getThrustVectorForce(gimballedThrust, s.vehicle.gimbalPosition);
   s.forces.frontFinDrag = aero.getFrontFinDrag(
     s.atmosphere.airDensity,
     airspeed,

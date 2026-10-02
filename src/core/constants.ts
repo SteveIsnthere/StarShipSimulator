@@ -24,19 +24,52 @@ import { deg, rad, toRad, type Rad } from './units';
 // World — initWorld()
 // ---------------------------------------------------------------------------
 
-/** m */
-export const planetRadius = 6400000;
+/**
+ * m — Earth's mean radius (IUGG, 6,371.0 km). Phase 6, Task 2: 2021 used
+ * 6,400 km, which put surface gravity 0.9% low.
+ */
+export const planetRadius = 6_371_000;
 /** m */
 export const planetCircumference = 2 * planetRadius * Math.PI;
-/** kg */
-export const planetMass = 5.972e24;
+/**
+ * m^3/s^2 — Earth's standard gravitational parameter, GM (IERS Conventions
+ * 2010; WGS 84). GM is known to ten digits where G and M separately are not,
+ * so it is the one constant; 2021 multiplied G = 6.674e-11 by M = 5.972e24.
+ */
+export const planetGravitationalParameter = 3.986004418e14;
 /** s */
 export const planetTimeToRotate = 24 * (60 * 60);
 /** m/s */
 export const planetLinearVelocity = planetCircumference / planetTimeToRotate;
 
-/** m^3 kg^-1 s^-2 */
-export const gravitationalConstant = 6.674e-11;
+/** rad/s — Earth's rotation rate, sidereal (WGS 84, NIMA TR8350.2 §3.2). */
+export const EARTH_ROTATION_RATE = 7.292115e-5;
+/** rad — Starbase's latitude, 25.997°N; the flights head due east from it. */
+export const LAUNCH_LATITUDE = toRad(deg(25.997));
+
+/**
+ * rad/s — Earth's spin about the normal of the flight plane: the great circle
+ * heading due east from Starbase, so Ω cos φ, which gives the pad its 417.6 m/s
+ * eastward (+x is east, prograde). The spin's in-plane part only turns the
+ * plane itself, which a 2D simulation leaves out (tier B).
+ */
+export const EARTH_FRAME_ROTATION_RATE = EARTH_ROTATION_RATE * Math.cos(LAUNCH_LATITUDE);
+
+/**
+ * rad/s — how fast the ground frame turns in the flight plane. The simulation
+ * integrates in the frame of the ground, so a turning planet adds Coriolis and
+ * centrifugal terms (physics/gravity.ts), and everything that needs the frame
+ * reads this one number.
+ *
+ * ZERO FOR NOW, and that is a recorded decision (Phase 6, 2026-10-01). At
+ * `EARTH_FRAME_ROTATION_RATE` every truth test passes transformed to the
+ * inertial frame, but the circularize-then-deorbit flight misses the pad by
+ * 11.1 km against its 10 km acceptance: the broadside descent has no range
+ * control, and the turning ground widens the spread between a heavy and a
+ * light entry from 5 to 14 km. Entry range control is Phase 6b's, so the
+ * switch to Earth's rate is Phase 6b's Task 1b, after the entry flies on lift.
+ */
+export const frameRotationRate = 0;
 
 /**
  * m/s^2. Constant everywhere in the 2021 model — 4.0% high at 100 km, 7.2% at
@@ -48,7 +81,9 @@ export const gravity = 9.807;
 
 /**
  * m/s. Constant in the 2021 model. The real value at 11 km is ~295 m/s, so Mach
- * runs ~14% low through the whole upper atmosphere. M2.7 makes it sqrt(gamma*R*T).
+ * runs ~14% low through the whole upper atmosphere. M2.7 makes it sqrt(gamma*R*T),
+ * and since Phase 6 nothing in the simulation reads this: it is kept only as the
+ * 2021 reference the speed-of-sound tests measure the correction against.
  */
 export const speedOfSound = 343;
 
@@ -89,8 +124,37 @@ export const vehicleMass = vehicleDryMass + propellantMass;
 
 /** kg/s */
 export const dumpRate = 3500;
-/** kg */
+/**
+ * kg — where a dump stops on its own, and autoTakeOff's MECO and a boost-back
+ * exit (autopilot/index.ts). Not the landing dump's target since Phase 6: see
+ * `landingReserve`.
+ */
 export const dumpLimit = 12000;
+
+/**
+ * kg — what autoLand dumps down to: the propellant its landing programme keeps
+ * for the flip, the landing burn, the horizontal adjustment and the final
+ * descent. Phase 6, Task 3 (Fidelity).
+ *
+ * MEASURED, not derived, the way `DEORBIT_ENTRY_RANGE` is. The worst
+ * one-engine-out deorbit spent 12.0 t from the flip trigger to touchdown
+ * (2026-10-01, Task 3): 1.5 t in the flip, 8.3 t in an 18 s horizontal
+ * adjustment and 2.2 t in the final descent, so the reserve was set at that
+ * plus a third, 16 t. Task 4c then planned the flip on the ignition delay's
+ * maximum: the earlier flip costs hover, and the worst engine-out landing
+ * spent 13.7 t, so the reserve is 18 t, again about a third over. Each tonne of
+ * reserve buys about 0.75 t at touchdown (the rest is landing heavier): every
+ * engine-out deorbit lands with about 3.8 t, where the old 12 t left 0.0.
+ *
+ * The plan sized it from the landing-burn predictor (one engine from the
+ * trigger, plus the ignition delay), which comes to 6.3 t: the programme spends
+ * twice the ideal burn, because it lights every engine through the flip and
+ * flies a long, low-throttle adjustment the predictor does not model. A
+ * reserve computed from that would crash every deorbit. Its health check is
+ * tests/core/deorbit-range.test.ts: an engine change that makes landing costlier
+ * fails there, and the reserve is re-measured in the same commit.
+ */
+export const landingReserve = 18_000;
 
 /**
  * kg*m^2 — the spawn value, a solid cylinder about its centre at wet mass.
@@ -157,13 +221,45 @@ export const raptorN1offAxis = -raptorOffsetFromCenter;
 export const raptorN2offAxis = raptorOffsetFromCenter / 2;
 export const raptorN3offAxis = raptorOffsetFromCenter / 2;
 
-/** Dimensionless — fraction of each engine's thrust acting off-axis. */
-export const raptorN1offAxisForceFraction =
-  -raptorN1offAxis / Math.sqrt(raptorN1offAxis ** 2 + (vehicleHeight / 2) ** 2);
-export const raptorN2offAxisForceFraction =
-  -raptorN2offAxis / Math.sqrt(raptorN2offAxis ** 2 + (vehicleHeight / 2) ** 2);
-export const raptorN3offAxisForceFraction =
-  -raptorN3offAxis / Math.sqrt(raptorN3offAxis ** 2 + (vehicleHeight / 2) ** 2);
+/** Which nozzle a Raptor carries. */
+export type RaptorKind = 'sea-level' | 'vacuum';
+
+/** One engine position on the vehicle. */
+export interface RaptorMount {
+  readonly kind: RaptorKind;
+  /** m — lateral offset from the centreline. */
+  readonly offAxis: number;
+  /** Dimensionless — the fraction of its thrust acting off-axis (physics.js:515). */
+  readonly offAxisForceFraction: number;
+}
+
+const mount = (kind: RaptorKind, offAxis: number): RaptorMount => ({
+  kind,
+  offAxis,
+  offAxisForceFraction: -offAxis / Math.sqrt(offAxis ** 2 + (vehicleHeight / 2) ** 2),
+});
+
+/**
+ * Every engine, in index order: the engine arrays in SimState (`running`,
+ * `failed`, `ignitionCountdown`) are this long and indexed the same way.
+ * Indices 0..2 are 2021's N1..N3. Phase 6, Task 4a: a table rather than three
+ * named constants, so the engine count is data.
+ */
+export const RAPTORS: readonly RaptorMount[] = [
+  mount('sea-level', raptorN1offAxis),
+  mount('sea-level', raptorN2offAxis),
+  mount('sea-level', raptorN3offAxis),
+  // Phase 6, Task 4b: the three RVacs on the outer ring. Tier-B placement:
+  // the sea-level pattern at three times the offset, so all three lit
+  // together make almost no net off-axis force (0.02% of their thrust; the
+  // 2021 fraction is not linear in the offset), as the sea-level three do.
+  mount('vacuum', -3 * raptorOffsetFromCenter),
+  mount('vacuum', 1.5 * raptorOffsetFromCenter),
+  mount('vacuum', 1.5 * raptorOffsetFromCenter),
+];
+
+/** Indices of the sea-level engines: what the landing logic and *Engines* (all) light. */
+export const SEA_LEVEL_RAPTORS: readonly number[] = RAPTORS.flatMap((m, i) => (m.kind === 'sea-level' ? [i] : []));
 
 /** m */
 export const engineDistanceFromCenterOfMass = 21.8;
@@ -245,6 +341,34 @@ export function thrustPerRaptorAt(ambientPressureKPa: number): number {
   return Math.max(0, RAPTOR_THRUST_VACUUM - pascals * RAPTOR_EFFECTIVE_EXIT_AREA);
 }
 
+/*
+  RAPTOR VACUUM (RVac) — Phase 6, Task 4b, tier B. 258 tf and 380 s in vacuum
+  (en.wikipedia.org/wiki/SpaceX_Raptor, the Raptor 2 performance table, read
+  2026-10-01). The exit diameter is the commonly reported 2.3 m; no primary
+  source for it was found, so it is a named assumption. Thrust falls with
+  ambient pressure through the GEOMETRIC exit area, F = F_vac - p * A_e (the
+  sea-level engine's effective area is anchored on an Isp pair that RVac does
+  not publish). No flow-separation limit: Ships fire all six on the stand.
+  At sea level this gives 2.11 MN, 83% of vacuum.
+*/
+
+/** N per RVac at full throttle in vacuum: 258 tf. */
+export const RVAC_THRUST_VACUUM = 258 * 1000 * standardGravity;
+/** s — RVac specific impulse in vacuum. */
+export const RVAC_ISP_VACUUM = 380;
+/** kg/s per RVac at full throttle, constant with altitude: T_vac / (Isp_vac * g0), 679. */
+export const RVAC_MASS_FLOW = RVAC_THRUST_VACUUM / (RVAC_ISP_VACUUM * standardGravity);
+/** m — RVac nozzle exit diameter (tier-B assumption, see above). */
+export const RVAC_EXIT_DIAMETER = 2.3;
+/** m^2 — RVac geometric exit area. */
+export const RVAC_EXIT_AREA = Math.PI * (RVAC_EXIT_DIAMETER / 2) ** 2;
+
+/** N per RVac at full throttle, at an ambient pressure in kPa; clamped like `thrustPerRaptorAt`. */
+export function thrustPerRVacAt(ambientPressureKPa: number): number {
+  const pascals = Math.max(0, ambientPressureKPa) * 1000;
+  return Math.max(0, RVAC_THRUST_VACUUM - pascals * RVAC_EXIT_AREA);
+}
+
 /**
  * N per engine — the SEA-LEVEL reference, under its 2021 name.
  *
@@ -294,50 +418,32 @@ export const finDragCoefficient = 2;
 
 /** g */
 export const gLimit = 13;
+/** kg^0.5/m — the Sutton-Graves constant for air, for a flux in W/m^2 (NASA TR R-376). */
+export const SUTTON_GRAVES_K = 1.7415e-4;
+/** W/(m^2 K^4) — the Stefan-Boltzmann constant (CODATA 2018). */
+export const STEFAN_BOLTZMANN = 5.670374419e-8;
 /**
- * On `thermalPower`'s own scale, whatever that scale is — see the field's JSDoc
- * in state.ts, which M9.4 pins down as far as the source allows: proportional to
- * a Sutton-Graves stagnation heat flux, and ten times W/cm^2 if the correlation's
- * usual coefficient is the intended one. What matters here is that this number
- * was DERIVED from that quantity rather than chosen in any unit, so the pair is
- * consistent however the scale is eventually named. M2.9(a), Bug-fix tier.
- *
- * WHY THIS IS NOT 55. The 2021 value was tuned against a model that was wrong
- * in two ways this rebuild fixed. M2.1 wired in the upper stratosphere, making
- * the air above 40 km several times denser than the isotherm claimed. M2.2
- * passed a nose radius to the Sutton-Graves correlation where 2021 passed a
- * cross-sectional area — the correlation divides by a radius in metres, and an
- * area of 63-500 m^2 is not one, so the old numbers were smaller by
- * sqrt(area / radius) and in units that meant nothing. `thermalPower` after
- * those fixes is a different quantity expressed on a different scale; keeping
- * the number that indexed the old one would be keeping a coincidence.
- *
- * THE RULE, chosen by the owner: preserve the 2021 MARGIN. Not the number, and
- * not a hand-picked difficulty — the ratio of peak heating to the limit that
- * the 2021 build actually flew the Re-entry preset with.
- *
- * THE MEASUREMENT, taken when this constant was calibrated (M2.x) by flying the
- * preset on BOTH implementations — the 2021 tree executing in a VM, and v2. It
- * was re-derived on every test run by tests/parity/heat-margin.test.ts until
- * M10.2 deleted that suite; the numbers below are now a record of how the limit
- * was arrived at, not a live measurement:
- *
- *     2021 peak on Re-entry     34.7414 units      (against its limit of 55)
- *     2021 margin               34.7414 / 55  =  0.6317
- *     v2 peak on Re-entry      245.9079 units
- *     limit preserving it      245.9079 / 0.6317  =  389.30
- *
- * Rounded DOWN to 389, so the recalibration can never grant more headroom than
- * 2021 had: v2 flies the preset at 0.6321 of its limit where 2021 flew it at
- * 0.6317 of its own. The preset is as survivable as it was, and no more.
- *
- * IT HAS MOVED ONCE, and the movement is the point of deriving it rather than
- * picking it. M2.9(a) measured 391.80 and shipped 390; M2.11 (the dead RCS
- * command) took the measurement to 391.47, which rounding absorbed; M2.12 (the
- * doubled tangential term) took it to 389.30, which rounding did not. Each time
- * the rule — preserve 2021's margin — decided, rather than anyone's taste.
+ * Dimensionless — the tile surface's emissivity: the black reaction-cured
+ * glass coating on the Shuttle's HRSI tiles, about 0.85 at entry temperatures
+ * (NASA Orbiter thermal protection system fact sheet). Tier B: Starship's
+ * tiles are not published.
  */
-export const heatLimit = 389;
+export const TILE_EMISSIVITY = 0.85;
+/**
+ * K — the tile's failure limit: the Shuttle HRSI reuse limit of 1,260 C
+ * (NASA TPS fact sheet), a tier-B analogue decided before Phase 6 (Starship's
+ * limit is not public). It does not move to make a flight survive.
+ */
+export const TILE_LIMIT_KELVIN = 1533;
+/** K — add to °C. */
+export const CELSIUS_TO_KELVIN = 273.15;
+/**
+ * W/m^2 — the heat flux that holds a tile at `TILE_LIMIT_KELVIN` in radiative
+ * equilibrium, eps sigma T^4: 266 kW/m^2. The break-up check compares the flux
+ * with this, which is the temperature against the limit. Phase 6, Task 8: it
+ * was 389 on 2021's unnamed scale, calibrated to preserve a 2021 margin.
+ */
+export const heatLimit = TILE_EMISSIVITY * STEFAN_BOLTZMANN * TILE_LIMIT_KELVIN ** 4;
 
 // ---------------------------------------------------------------------------
 // Deorbit targeting — M2.9(c). New in v2; 2021 had no orbital autopilot.
@@ -359,7 +465,8 @@ export const heatLimit = 389;
  *     200        324            5 314 km
  *     300        346            4 319 km
  *
- * 150 m/s is the compromise: 308 units is 79% of `heatLimit`, leaving real
+ * 150 m/s is the compromise (measured on the pre-Phase-6 heat scale, where the
+ * limit was 389 units): 308 units is 79% of `heatLimit`, leaving real
  * margin for a hotter-than-nominal entry, and 6195 km of lead is short enough
  * that a coasting orbit reaches the firing point without a long wait.
  */
@@ -399,18 +506,23 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  * must be fitted barely varies at all. So the guidance computes the first and
  * carries the second as a constant, and works from orbits it was never tuned on.
  *
- * MEASURED at 838 km, and it is 838 km rather than the ~854 km the descent
- * actually covers because it also absorbs the small biases in the two computed
- * halves. That is what a fitted constant is for; what matters is that it is
+ * MEASURED at 838 km, re-measured at 841.8 km in Phase 6 (Tasks 3 and 4c: the
+ * descent carries the 18 t landing reserve rather than 12 t, and the heavier
+ * vehicle flies farther). With the ground turning at Earth's rate it measures
+ * 801.0 km (miss 0.21 km), for Phase 6b's Task 1b. It is short of what the
+ * descent actually covers because it also absorbs the small biases in the two
+ * computed halves. That is what a fitted constant is for; what matters is that it is
  * fitted to something that barely moves.
  *
- * THE ENVELOPE, measured, because a number like this should come with one. From
+ * THE ENVELOPE, measured before Phase 6 (the planet and the reserve have moved
+ * since; re-measure before relying on the rows), because a number like this
+ * should come with one. From
  * a 150 km orbit and its neighbourhood the vehicle lands within a few kilometres
  * of the pad — including from a different starting longitude, from a
  * hand-circularised orbit, 100 t lighter, and with an engine out. Higher up it
  * degrades, because a faster, steeper entry does not cover 838 km of ground:
  *
- *     150 km (the presets)     within  7 km    entry peaks at 82% of heatLimit
+ *     150 km (the presets)     within  7 km    entry peaks at 82% of heatLimit (old scale)
  *     120 km                          18 km                    76%
  *     200 km                          50 km                    88%
  *     300 km                          90 km                    95%
@@ -418,7 +530,7 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
  * The 300 km row is the one to watch: the miss is tolerable, the heating is not
  * far from the structural limit. The orbital presets sit at 150 km deliberately.
  */
-export const DEORBIT_ENTRY_RANGE = 838_000;
+export const DEORBIT_ENTRY_RANGE = 841_800;
 
 /**
  * m — the entry interface: where the vacuum prediction stops and the

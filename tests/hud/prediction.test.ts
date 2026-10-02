@@ -83,7 +83,7 @@ describe('the domain, stated rather than papered over', () => {
     state.kinematics.altitude = 300_000;
     state.kinematics.distanceToPlanetCenter = r;
     state.kinematics.speedX = Math.sqrt(
-      (C.gravitationalConstant * C.planetMass) / r,
+      C.planetGravitationalParameter / r,
     );
     state.kinematics.speedY = 0;
     const p = predictionOf(state);

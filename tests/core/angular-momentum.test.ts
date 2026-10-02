@@ -46,19 +46,31 @@
 import { describe, expect, it } from 'vitest';
 import { createInitialState, type SimState } from '$core/state';
 import { step } from '$core/step';
-import { circularOrbitalSpeed, MU, tangentialAcceleration } from '$core/physics/gravity';
+import {
+  circularOrbitalSpeed,
+  coastDownrangeDistance,
+  groundTangentialSpeed,
+  inertialTangentialSpeed,
+  MU,
+  tangentialAcceleration,
+} from '$core/physics/gravity';
 import * as C from '$core/constants';
 
 const DT = 1 / 120;
 
-/** A vehicle in vacuum, nose-first so aerodynamics cannot muddy the question. */
+/**
+ * A vehicle in vacuum, nose-first so aerodynamics cannot muddy the question,
+ * moving at the INERTIAL `tangential` speed. The ground turns (Phase 6 Task
+ * 9), so it is set up at its ground-relative speed and read back inertially:
+ * angular momentum and the two-body reference are the inertial frame's.
+ */
 function inVacuum(altitude: number, tangential: number, radial = 0): SimState {
   const s = createInitialState();
   s.kinematics.altitude = altitude;
   s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
-  s.kinematics.speedX = tangential;
+  s.kinematics.speedX = groundTangentialSpeed(C.planetRadius + altitude, tangential);
   s.kinematics.speedY = radial;
-  s.kinematics.trueSpeed = Math.hypot(tangential, radial);
+  s.kinematics.trueSpeed = Math.hypot(s.kinematics.speedX, radial);
   s.kinematics.pitch = (Math.PI / 2) as never;
   return s;
 }
@@ -98,11 +110,13 @@ describe('the term itself', () => {
     const r = C.planetRadius + 150_000;
     const vt = 7_650;
     const vr = -120;
-    expect(tangentialAcceleration(r, vt, vr)).toBeCloseTo((-vr * vt) / r, 12);
+    // The inertial term (omega = 0); the turning frame's form is proved in
+    // tests/core/rotating-frame.test.ts.
+    expect(tangentialAcceleration(r, vt, vr, 0)).toBeCloseTo((-vr * vt) / r, 12);
 
     // The identity the choice rests on, checked rather than asserted in prose:
     // d(r*v_t)/dt = v_r*v_t + r*(dv_t/dt) must be zero.
-    const dh = vr * vt + r * tangentialAcceleration(r, vt, vr);
+    const dh = vr * vt + r * tangentialAcceleration(r, vt, vr, 0);
     expect(Math.abs(dh) / (r * vt), 'angular momentum is not conserved').toBeLessThan(1e-15);
   });
 
@@ -126,7 +140,9 @@ describe('angular momentum is conserved on an eccentric orbit', () => {
     let worst = 0;
     for (let i = 0; i < 120 * 6_000; i++) {
       s = step(s, DT);
-      const h = s.kinematics.distanceToPlanetCenter * s.kinematics.speedX;
+      const h =
+        s.kinematics.distanceToPlanetCenter *
+        inertialTangentialSpeed(s.kinematics.distanceToPlanetCenter, s.kinematics.speedX);
       worst = Math.max(worst, Math.abs(h / h0 - 1));
     }
     // Measured 1.2e-6 after the fix; 0.126 before it.
@@ -161,10 +177,15 @@ describe('a ballistic coast matches an independent two-body integration', () => 
   function simCoast(dt: number) {
     let s = inVacuum(altitude, tangential, radial);
     const x0 = s.kinematics.downRangeDistance;
+    // The ground arc plus what the ground turned under it, omega times the
+    // integral of r dt, is the inertial arc the reference sweeps.
+    let turned = 0;
     for (let i = 0; i < 120 * 4_000; i++) {
+      const r0 = s.kinematics.distanceToPlanetCenter;
       s = step(s, dt);
+      turned += C.frameRotationRate * 0.5 * (r0 + s.kinematics.distanceToPlanetCenter) * dt;
       if (s.kinematics.altitude <= 80_000) {
-        return { arc: s.kinematics.downRangeDistance - x0, seconds: i * dt };
+        return { arc: s.kinematics.downRangeDistance - x0 + turned, seconds: i * dt };
       }
     }
     return { arc: NaN, seconds: NaN };
@@ -172,15 +193,38 @@ describe('a ballistic coast matches an independent two-body integration', () => 
 
   const reference = referenceCoast(altitude, tangential, radial, 80_000);
 
-  it('the reference itself is a sane 4939 km in 643 s', () => {
-    expect(reference.arc / 1000).toBeCloseTo(4938.6, 0);
-    expect(reference.seconds).toBeCloseTo(643, -1);
+  it('the reference itself is the conic\'s arc, at orbital speed', () => {
+    // Sanity on the reference before trusting it: it agrees with the closed-form
+    // conic (Simpson over true anomaly, good to a metre) to well under 1e-4,
+    // and covers that arc at about the speed it started with.
+    const conic = coastDownrangeDistance(C.planetRadius + altitude, tangential, radial, C.planetRadius + 80_000, 0);
+    expect(Math.abs(reference.arc / conic - 1)).toBeLessThan(1e-4);
+    expect(reference.arc / reference.seconds).toBeGreaterThan(0.95 * tangential);
+    expect(reference.arc / reference.seconds).toBeLessThan(1.05 * tangential);
   });
 
   it('the simulation agrees to within a kilometre in five thousand', () => {
     const sim = simCoast(DT);
     const error = Math.abs(sim.arc - reference.arc);
     expect(error / reference.arc, `${(error / 1000).toFixed(1)} km out`).toBeLessThan(1e-3);
+  });
+
+  it("and the guidance's conic predicts the ground arc the simulation flies", () => {
+    // coastDownrangeDistance takes the ground-relative speed and returns the
+    // ground arc (the inertial arc less what the ground turned under it), which
+    // is what the deorbit autopilot compares with the distance to the pad.
+    let s = inVacuum(altitude, tangential, radial);
+    const predicted = coastDownrangeDistance(
+      s.kinematics.distanceToPlanetCenter,
+      s.kinematics.speedX,
+      radial,
+      C.planetRadius + 80_000,
+    );
+    const x0 = s.kinematics.downRangeDistance;
+    for (let i = 0; i < 120 * 4_000 && s.kinematics.altitude > 80_000; i++) s = step(s, DT);
+    expect(s.kinematics.altitude, 'reached the entry interface').toBeLessThanOrEqual(80_000);
+    const flown = s.kinematics.downRangeDistance - x0;
+    expect(Math.abs(predicted / flown - 1)).toBeLessThan(1e-3);
   });
 
   it('and CONVERGES — which is how a model error tells itself from an integrator one', () => {

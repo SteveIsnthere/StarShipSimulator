@@ -26,7 +26,7 @@
  * These tests were written before the fix and observed to fail.
  */
 import { describe, expect, it } from 'vitest';
-import { getReentryHeatPower } from '$core/physics/thermal';
+import { getReentryHeatPower, suttonGravesFlux } from '$core/physics/thermal';
 import { NOSE_RADIUS, vehicleDiameter, vehicleMinArea } from '$core/constants';
 import { createInitialState } from '$core/state';
 import { step } from '$core/step';
@@ -71,32 +71,28 @@ describe('step() passes the radius, not the area', () => {
     return { heat: s.forces.thermalPower, area: s.forces.crossSectionalArea };
   }
 
-  it('heating no longer falls when the vehicle turns broadside', () => {
-    // The clearest symptom, and note it is driven by ATTITUDE rather than by
-    // writing crossSectionalArea directly - step() recomputes that field before
-    // using it, so injecting an area would have made this test vacuous.
+  it('heating no longer falls with the AREA when the vehicle turns broadside', () => {
+    // The clearest symptom, driven by ATTITUDE rather than by writing
+    // crossSectionalArea directly - step() recomputes that field before using
+    // it, so injecting an area would have made this test vacuous.
     //
     // Moving from nose-on to broadside raises the presented area severalfold.
-    // With the area in the denominator, computed heat FELL as the vehicle
-    // presented more of itself to a hypersonic flow.
+    // With the area in the denominator, computed heat FELL by sqrt of that.
+    // Since Phase 6 (Task 8) heat depends on attitude through the SHAPE
+    // instead: a cylinder's stagnation line takes 1/sqrt(2) of a sphere's
+    // flux, so broadside heats 0.707 of nose-on, whatever the area.
     const noseOn = heatAtAttitude(Math.PI / 2);
     const broadside = heatAtAttitude(0);
 
     expect(broadside.area / noseOn.area, 'the areas must actually differ').toBeGreaterThan(3);
-
-    // Heating now depends on the nose radius, not on how the vehicle is turned.
-    // Not bit-identical: the lift's sign follows the angle of attack, so after
-    // one step the two speeds differ by 3e-11 m/s and the heat in the 13th
-    // digit. The claim is that heat no longer TRACKS the area — a 15x area
-    // difference used to move it by sqrt(15), and now moves it by 1e-13.
-    const heatRatio = broadside.heat / noseOn.heat;
-    expect(Math.abs(heatRatio - 1)).toBeLessThan(1e-10);
-    // For contrast: under the old argument that same pair differed by sqrt(3).
+    // To 1e-4: one step of drag on the two different areas separates the speeds.
+    expect(broadside.heat / noseOn.heat).toBeCloseTo(Math.SQRT1_2, 4);
+    // For contrast: under the old argument that same pair differed by sqrt(area ratio).
     expect(Math.sqrt(broadside.area / noseOn.area)).toBeGreaterThan(1.7);
 
     // And under the 2021 argument it would have dropped as the area grew.
-    const legacyNoseOn = getReentryHeatPower(3000, 1e-4, noseOn.area);
-    const legacyBroadside = getReentryHeatPower(3000, 1e-4, broadside.area);
+    const legacyNoseOn = suttonGravesFlux(3000, 1e-4, noseOn.area);
+    const legacyBroadside = suttonGravesFlux(3000, 1e-4, broadside.area);
     expect(legacyBroadside).toBeLessThan(legacyNoseOn);
   });
 
@@ -114,6 +110,7 @@ describe('step() passes the radius, not the area', () => {
       before.kinematics.trueSpeed,
       after.atmosphere.airDensity,
       NOSE_RADIUS,
+      after.kinematics.angleInToTheWind,
     );
     expect(after.forces.thermalPower).toBe(expected);
   });
@@ -126,38 +123,35 @@ describe('step() passes the radius, not the area', () => {
     const after = step(s, 1 / 120);
 
     const area = after.forces.crossSectionalArea;
-    const legacy = getReentryHeatPower(
-      s.kinematics.trueSpeed,
-      after.atmosphere.airDensity,
-      area,
-    );
-    expect(after.forces.thermalPower).toBeGreaterThan(legacy);
-    expect(after.forces.thermalPower / legacy).toBeCloseTo(Math.sqrt(area / NOSE_RADIUS), 6);
+    const correct = suttonGravesFlux(s.kinematics.trueSpeed, after.atmosphere.airDensity, NOSE_RADIUS);
+    const legacy = suttonGravesFlux(s.kinematics.trueSpeed, after.atmosphere.airDensity, area);
+    expect(correct).toBeGreaterThan(legacy);
+    expect(correct / legacy).toBeCloseTo(Math.sqrt(area / NOSE_RADIUS), 6);
   });
 });
 
 describe('the correlation itself behaves', () => {
   it('scales with the cube of speed', () => {
-    const a = getReentryHeatPower(1000, 1e-4, NOSE_RADIUS);
-    const b = getReentryHeatPower(2000, 1e-4, NOSE_RADIUS);
+    const a = suttonGravesFlux(1000, 1e-4, NOSE_RADIUS);
+    const b = suttonGravesFlux(2000, 1e-4, NOSE_RADIUS);
     expect(b / a).toBeCloseTo(8, 9);
   });
 
   it('scales with the square root of density', () => {
-    const a = getReentryHeatPower(3000, 1e-4, NOSE_RADIUS);
-    const b = getReentryHeatPower(3000, 4e-4, NOSE_RADIUS);
+    const a = suttonGravesFlux(3000, 1e-4, NOSE_RADIUS);
+    const b = suttonGravesFlux(3000, 4e-4, NOSE_RADIUS);
     expect(b / a).toBeCloseTo(2, 9);
   });
 
   it('a blunter nose heats less, which is why re-entry vehicles are blunt', () => {
-    const sharp = getReentryHeatPower(3000, 1e-4, 1);
-    const blunt = getReentryHeatPower(3000, 1e-4, 9);
+    const sharp = suttonGravesFlux(3000, 1e-4, 1);
+    const blunt = suttonGravesFlux(3000, 1e-4, 9);
     expect(blunt).toBeLessThan(sharp);
     expect(sharp / blunt).toBeCloseTo(3, 9);
   });
 
   it('is zero at zero speed and zero density', () => {
-    expect(getReentryHeatPower(0, 1e-4, NOSE_RADIUS)).toBe(0);
-    expect(getReentryHeatPower(3000, 0, NOSE_RADIUS)).toBe(0);
+    expect(suttonGravesFlux(0, 1e-4, NOSE_RADIUS)).toBe(0);
+    expect(suttonGravesFlux(3000, 0, NOSE_RADIUS)).toBe(0);
   });
 });

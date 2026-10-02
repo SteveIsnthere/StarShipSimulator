@@ -36,7 +36,7 @@ const HALF_LAP = Math.ceil(Math.PI * planetRadius);
 const MINUS = '−';
 const THIN = ' ';
 
-/** 20106 -> "20 106", with a real minus sign. */
+/** 20015 -> "20 015", with a real minus sign. */
 function figure(n: number): string {
   const digits = Math.abs(n).toLocaleString('en-US', { maximumFractionDigits: 0 }).replace(/,/g, THIN);
   return n < 0 ? `${MINUS}${digits}` : digits;
@@ -87,7 +87,7 @@ export const FIELD_SPECS: readonly FieldSpec[] = [
   spec('speedY', 'Vertical speed', 'm/s', -3000, 3000, 'Negative is falling'),
   spec('pitch', 'Pitch', '°', -180, 180, '0° is upright, 90° is level'),
   spec('propellant', 'Propellant', 't', 0, PROPELLANT_CAPACITY / 1000),
-  spec('wind', 'Wind', 'm/s', -60, 60, 'Positive blows downrange'),
+  spec('wind', 'Wind', 'm/s', -60, 60, 'At the surface; positive blows downrange'),
   spec('launchHour', 'Time of day', 'h', 0, 24, 'Local solar time'),
 ];
 

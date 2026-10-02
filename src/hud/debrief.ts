@@ -27,12 +27,12 @@
  * this task's plan said. Review of the first version found two faults that are
  * one fault: the recorder samples one frame in five, so a break-up could show
  * a peak BELOW the limit flagged red (the flag came from the witness, the
- * number from the sample); and its `g` channel is `perceivedG`, the felt g with
- * its one-g offset, while `checkIfBreakUp` judges `totalAcceleration / gravity`
- * — measured across the goldens the two differ by up to a full g in both
- * directions, so a clean landing could read "13.5 g of 13" in alarm red. A card
- * whose number and whose verdict come from different places will eventually
- * disagree with itself, so both now come from the step.
+ * number from the sample); and its `g` channel was then a different g from the
+ * one `checkIfBreakUp` judged (they differed by up to a full g), so a clean
+ * landing could read "13.5 g of 13" in alarm red. A card whose number and whose
+ * verdict come from different places will eventually disagree with itself, so
+ * both come from the step. Since Phase 6 they are also the same quantity: the
+ * felt g, `perceivedG`, which the g-limit judges too.
  *
  * The recorder did not go to waste: `tests/hud/debrief.test.ts` replays every
  * golden and cross-checks each figure against its series, which is a better use
@@ -93,22 +93,26 @@ export interface Witness {
   readonly propellantMass: number;
   /** m/s^2 — total, for the g limit. */
   readonly totalAcceleration: number;
-  /** the heating scale of `core/constants.ts`. */
+  /** W/m^2 — the heat flux (`forces.thermalPower`). */
   readonly thermalPower: number;
+  /** K — the tile's temperature (`forces.surfaceTemperature`), what the heat limit judges. */
+  readonly surfaceTemperature: number;
   /** kPa. */
   readonly dynamicPressure: number;
 
   /** kPa — the highest this flight reached, exactly. */
   readonly peakDynamicPressure: number;
-  /** The heating scale — the highest this flight reached, exactly. */
+  /** W/m^2 — the highest heat flux this flight reached, exactly. */
   readonly peakThermalPower: number;
+  /** K — the hottest the tile got (`forces.surfaceTemperature`), exactly. */
+  readonly peakSurfaceTemperature: number;
   /**
    * g — the highest this flight reached, exactly, as STRUCTURAL g.
    *
-   * `totalAcceleration / gravity`, which is the quantity `checkIfBreakUp`
-   * compares with `gLimit`. Not `perceivedG`: that is the felt g, offset by one
-   * on the pad, and judging it against a structural limit is comparing two
-   * different numbers that happen to share a unit.
+   * The felt g (`perceivedG`, the specific force in g0), which is the load the
+   * airframe carries and what `checkIfBreakUp` compares with `gLimit` since
+   * Phase 6. Before, both read the net acceleration over a flat g, which counts
+   * gravity as load.
    */
   readonly peakStructuralG: number;
 }
@@ -156,9 +160,11 @@ export function createFlightWatch(): FlightWatch {
     propellantMass: 0,
     totalAcceleration: 0,
     thermalPower: 0,
+    surfaceTemperature: 0,
     dynamicPressure: 0,
     peakDynamicPressure: 0,
     peakThermalPower: 0,
+    peakSurfaceTemperature: 0,
     peakStructuralG: 0,
   };
 
@@ -180,14 +186,18 @@ export function createFlightWatch(): FlightWatch {
       record.propellantMass = vehicle.propellantMass;
       record.totalAcceleration = kinematics.totalAcceleration;
       record.thermalPower = forces.thermalPower;
+      record.surfaceTemperature = forces.surfaceTemperature;
       record.dynamicPressure = forces.dynamicPressure;
 
-      const structuralG = kinematics.totalAcceleration / C.gravity;
+      const structuralG = forces.perceivedG;
       if (forces.dynamicPressure > record.peakDynamicPressure) {
         record.peakDynamicPressure = forces.dynamicPressure;
       }
       if (forces.thermalPower > record.peakThermalPower) {
         record.peakThermalPower = forces.thermalPower;
+      }
+      if (forces.surfaceTemperature > record.peakSurfaceTemperature) {
+        record.peakSurfaceTemperature = forces.surfaceTemperature;
       }
       if (structuralG > record.peakStructuralG) record.peakStructuralG = structuralG;
     },
@@ -196,6 +206,7 @@ export function createFlightWatch(): FlightWatch {
       seen = false;
       record.peakDynamicPressure = 0;
       record.peakThermalPower = 0;
+      record.peakSurfaceTemperature = 0;
       record.peakStructuralG = 0;
     },
   };
@@ -231,7 +242,7 @@ export interface Debrief {
   readonly miss: Judged;
   /** kPa, against `dynamicPressureLimit`. */
   readonly peakQ: Judged;
-  /** the heating scale, against `heatLimit`. */
+  /** the tile's peak radiative-equilibrium temperature, K, against `TILE_LIMIT_KELVIN`. */
   readonly peakHeat: Judged;
   /** g, against `gLimit`. */
   readonly peakG: Judged;
@@ -297,8 +308,8 @@ export function debrief(
     And which limit broke it. `checkIfBreakUp` tests three; the witness carries
     all three because the state does not keep them past the step that used them.
   */
-  const overG = (witness?.totalAcceleration ?? 0) > C.gLimit * C.gravity;
-  const overHeat = (witness?.thermalPower ?? 0) > C.heatLimit;
+  const overG = (witness?.peakStructuralG ?? 0) > C.gLimit;
+  const overHeat = (witness?.surfaceTemperature ?? 0) > C.TILE_LIMIT_KELVIN;
   const overQ = (witness?.dynamicPressure ?? 0) > C.dynamicPressureLimit;
 
   const reasons: string[] = [];
@@ -337,7 +348,7 @@ export function debrief(
       C.vehicleHeight,
     ),
     peakQ: judged(witness?.peakDynamicPressure ?? 0, C.dynamicPressureLimit, overQ),
-    peakHeat: judged(witness?.peakThermalPower ?? 0, C.heatLimit, overHeat),
+    peakHeat: judged(witness?.peakSurfaceTemperature ?? 0, C.TILE_LIMIT_KELVIN, overHeat),
     peakG: judged(witness?.peakStructuralG ?? 0, C.gLimit, overG),
     // The recorder holds tonnes; so does the card, because the propellant bar
     // and the editor field are both in tonnes and three units for one quantity

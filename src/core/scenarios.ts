@@ -22,7 +22,11 @@ import * as C from './constants';
 import { PROPELLANT_CAPACITY } from './physics/mass';
 import { toggleAllRaptors } from './control/commands';
 import { createInitialState, type SimState } from './state';
-import { circularOrbitalSpeed } from './physics/gravity';
+import { circularOrbitalSpeed, groundTangentialSpeed } from './physics/gravity';
+import { relativeAirspeed } from './physics/aero';
+import { airVelocityX } from './physics/wind';
+import { speedOfSoundAt } from './physics/atmosphere';
+import { isaAtmosphere } from './physics/isa';
 import { deg, toRad, type Deg } from './units';
 
 /** The six numbers a 2021 preset button carried, in their original units. */
@@ -54,7 +58,9 @@ export interface ScenarioPreset {
    */
   readonly basedOn?: string;
   /**
-   * m/s — steady air movement downrange, into `world.wind` (M12.2).
+   * m/s — steady air movement downrange, into `world.wind` (M12.2): the
+   * surface wind at the 18.3 m reference height, which the wind profile and
+   * its turbulence build on (physics/wind.ts, Phase 6 Task 10).
    *
    * OPTIONAL, AND EVERY SHIPPED PRESET LEAVES IT OUT, which is what makes
    * adding it a Refactor rather than a Fidelity change: `createScenarioState`
@@ -214,8 +220,16 @@ export const INTRO: ScenarioPreset = {
  */
 export const ORBIT_ALTITUDE = 150_000;
 
-/** Circular speed at that altitude, sqrt(GM/r) — 7800.7 m/s. */
-const CIRCULAR = circularOrbitalSpeed(C.planetRadius + ORBIT_ALTITUDE);
+/**
+ * m/s — circular speed at that altitude over the GROUND. The orbit is
+ * circular in the inertial frame, sqrt(GM/r) = 7,818.3 m/s; the simulation's
+ * speeds are ground-relative since Phase 6 Task 9b, so the presets fly it
+ * less the ground's own speed at that radius, omega * r (427.4 m/s).
+ */
+const CIRCULAR = groundTangentialSpeed(
+  C.planetRadius + ORBIT_ALTITUDE,
+  circularOrbitalSpeed(C.planetRadius + ORBIT_ALTITUDE),
+);
 
 /**
  * How far short of circular the Circularize preset spawns, in m/s.
@@ -290,7 +304,6 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
   s.kinematics.speedX = preset.speedX;
   s.kinematics.speedY = preset.speedY;
   s.kinematics.trueSpeed = Math.sqrt(preset.speedX ** 2 + preset.speedY ** 2);
-  s.kinematics.machSpeed = s.kinematics.trueSpeed / C.speedOfSound;
 
   s.kinematics.pitch = toRad(preset.pitch);
 
@@ -306,10 +319,17 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
     The wind (M12.2). Absent means calm, which is what `createInitialState`
     already wrote, so this line changes nothing for any preset in this file —
     see `ScenarioPreset.wind`. `world.gust` is deliberately not editable: it is
-    the term M11.1 left for a future task about turbulence, and a steady number
-    typed into a form is not a gust.
+    the turbulence the wind brings (physics/wind.ts), and a steady number typed
+    into a form is not a gust.
   */
   s.world.wind = preset.wind ?? 0;
+
+  // The Mach number of the air the flight starts in, through the relative
+  // wind, as `step()` computes it (Phase 6, Bug fix: it used 343 m/s, the
+  // sea-level speed of sound, so a re-entry's first step read the wrong Mach).
+  s.kinematics.machSpeed =
+    relativeAirspeed(s.kinematics.speedX, s.kinematics.speedY, airVelocityX(s.world, s.kinematics.altitude), s.world.gustVertical) /
+    speedOfSoundAt(isaAtmosphere(altitude).airTemperature);
 
   return s;
 }

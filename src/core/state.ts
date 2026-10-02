@@ -16,11 +16,15 @@
  */
 import * as C from './constants';
 import { updateVehicleInFlightMaxArea } from './physics/aero';
+import { circularOrbitalSpeed } from './physics/gravity';
 import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
 
-/** Which of the three Raptors a field refers to. Indices 0..2 are N1..N3. */
-export type RaptorIndex = 0 | 1 | 2;
+/**
+ * Which Raptor a field refers to: an index into `C.RAPTORS`, and into every
+ * per-engine array here. Indices 0..2 are 2021's N1..N3.
+ */
+export type RaptorIndex = number;
 
 // ---------------------------------------------------------------------------
 
@@ -31,10 +35,20 @@ export interface WorldState {
   timeSpent: number;
   /** Steps taken. Was `updatedFrameCount`, a frame counter, in 2021. */
   updatedFrameCount: number;
-  /** m/s — steady horizontal wind. */
+  /**
+   * m/s — the steady downrange wind at the 18.3 m reference height: what a
+   * scenario (and the editor) sets. The wind at altitude follows the surface
+   * profile in physics/wind.ts.
+   */
   wind: number;
-  /** m/s — gust component on top of `wind`. */
+  /** m/s — the downrange (Dryden u) turbulence on top of the mean wind. */
   gust: number;
+  /** m/s — the vertical (Dryden w) turbulence, positive up. */
+  gustVertical: number;
+  /** The turbulence filters' unit-variance states (physics/wind.ts). */
+  turbulenceU: number;
+  turbulenceW1: number;
+  turbulenceW2: number;
 }
 
 export interface AtmosphereState {
@@ -205,28 +219,15 @@ export interface ForcesState {
   aftFinEffectiveAreaFraction: number;
 
   /**
-   * A STAGNATION-POINT HEAT FLUX ON AN UNRESOLVED SCALE. Compared against
-   * `heatLimit`, which is expressed on the same scale and derived from it.
-   *
-   * M9.4 audited this one and could not name its unit honestly, so it says so
-   * rather than guessing. What IS established: `getReentryHeatPower` is the
-   * Sutton-Graves correlation, `k * v^3 * sqrt(rho / R_nose)`, whose dimensions
-   * are those of a heat flux; the shipped coefficient is 1.83e-7, and the
-   * correlation is commonly published as `1.83e-8 * v^3 * sqrt(rho / R_n)` for
-   * a result in W/cm^2 with v in m/s, rho in kg/m^3 and R_n in m. Same leading
-   * digits, exponent larger by one. On that reading the value here is ten times
-   * a flux in W/cm^2 — the re-entry preset peaks at 245.9 of these units, which
-   * would be 24.6 W/cm^2, a plausible entry heat flux.
-   *
-   * What is NOT established is whether the extra factor of ten is a
-   * transcription slip in the 2021 source or a deliberate scaling. The source
-   * cannot settle it, and settling it would change physics — which this task,
-   * bounded to comments, may not do. So the field is documented as what it
-   * provably is (proportional to a stagnation heat flux) rather than given a
-   * unit it may not have. `heatLimit` was re-derived against THIS scale at
-   * M2.9(a), so the pair is internally consistent whatever the factor is.
+   * W/m^2 — the convective heat flux on the windward hull (Phase 6, Task 8:
+   * Sutton-Graves in SI, by attitude; physics/thermal.ts). Until Phase 6 this
+   * was the same correlation on an unnamed scale about a thousandth of this.
+   * The break-up check compares it with `C.heatLimit`, the flux that holds a
+   * tile at its 1,533 K limit.
    */
   thermalPower: number;
+  /** K — the tile's radiative-equilibrium temperature under `thermalPower`. */
+  surfaceTemperature: number;
   /**
    * kPa — dynamic pressure.
    *
@@ -293,9 +294,9 @@ export interface VehicleState {
 
 export interface EngineState {
   /** Whether each Raptor is commanded on. */
-  running: [boolean, boolean, boolean];
+  running: boolean[];
   /** Whether each Raptor has failed. */
-  failed: [boolean, boolean, boolean];
+  failed: boolean[];
   /**
    * s — time remaining before each commanded engine actually lights, or null
    * when that engine is not igniting.
@@ -309,7 +310,7 @@ export interface EngineState {
    * by timeAccel twice and so lit engines timeAccel times early in simulated
    * terms. Ticked by dt in step(), so warp is exact by construction.
    */
-  ignitionCountdown: [number | null, number | null, number | null];
+  ignitionCountdown: (number | null)[];
 }
 
 export interface StatusState {
@@ -503,6 +504,10 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       updatedFrameCount: 0,
       wind: 0,
       gust: 0,
+      gustVertical: 0,
+      turbulenceU: 0,
+      turbulenceW1: 0,
+      turbulenceW2: 0,
     },
 
     atmosphere: {
@@ -516,9 +521,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       downRangeDistance: C.starBaseXPos,
       downRangeDistanceNextFrame: C.starBaseXPos,
       distanceToPlanetCenter,
-      orbitalVelocityAtCurrentAltitude: Math.sqrt(
-        (C.gravitationalConstant * C.planetMass) / distanceToPlanetCenter,
-      ),
+      orbitalVelocityAtCurrentAltitude: circularOrbitalSpeed(distanceToPlanetCenter),
 
       trueSpeed: 0,
       speedX: 0,
@@ -581,6 +584,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       aftFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0).aftFinEffectiveAreaFraction,
 
       thermalPower: 0,
+      surfaceTemperature: 0,
       dynamicPressure: 0,
 
       perceivedG: 0,
@@ -607,9 +611,9 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
     },
 
     engines: {
-      running: [false, false, false],
-      failed: [false, false, false],
-      ignitionCountdown: [null, null, null],
+      running: C.RAPTORS.map(() => false),
+      failed: C.RAPTORS.map(() => false),
+      ignitionCountdown: C.RAPTORS.map(() => null),
     },
 
     status: {

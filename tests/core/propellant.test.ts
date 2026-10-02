@@ -14,7 +14,7 @@ describe('the tank empties to zero, never below', () => {
   it('a burn larger than what is left stops at zero', () => {
     const s = createInitialState();
     s.vehicle.propellantMass = 1;
-    s.engines.running = [true, true, true];
+    s.engines.running = [true, true, true, false, false, false];
     s.vehicle.throttleCurrent = 100;
     updatePropellant(s, 1 / 120);
     expect(s.vehicle.propellantMass).toBe(0);
@@ -24,7 +24,7 @@ describe('the tank empties to zero, never below', () => {
   it('a dump larger than what is left stops at zero', () => {
     const s = createInitialState();
     s.vehicle.propellantMass = 1;
-    s.engines.running = [false, false, false];
+    s.engines.running = [false, false, false, false, false, false];
     s.status.dumpingFuel = true;
     s.status.forceDump = true;
     updatePropellant(s, 1 / 120);

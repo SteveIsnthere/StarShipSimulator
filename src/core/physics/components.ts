@@ -67,86 +67,6 @@ export function verticalThrustCoefficient(gimbalPointingDirection: Rad): number 
   return Math.cos(gimbalPointingDirection);
 }
 
-// --- the 2021 ladders, kept for parity and for the proof --------------------
-
-/** physics.js:110 */
-export function legacyHorizontalDragCoefficient(angleOfMotion: Rad): number {
-  if (0 <= angleOfMotion && angleOfMotion <= HALF_PI) {
-    return -Math.sin(angleOfMotion);
-  } else if (HALF_PI < angleOfMotion && angleOfMotion <= Math.PI) {
-    return -Math.sin(Math.PI - angleOfMotion);
-  } else if (-HALF_PI <= angleOfMotion && angleOfMotion < 0) {
-    return Math.sin(-angleOfMotion);
-  } else {
-    return Math.sin(angleOfMotion + Math.PI);
-  }
-}
-
-/** physics.js:186 */
-export function legacyVerticalDragCoefficient(angleOfMotion: Rad): number {
-  if (0 <= angleOfMotion && angleOfMotion <= HALF_PI) {
-    return -Math.cos(angleOfMotion);
-  } else if (HALF_PI < angleOfMotion && angleOfMotion <= Math.PI) {
-    return Math.cos(Math.PI - angleOfMotion);
-  } else if (-HALF_PI <= angleOfMotion && angleOfMotion < 0) {
-    return -Math.cos(angleOfMotion);
-  } else {
-    return Math.cos(angleOfMotion + Math.PI);
-  }
-}
-
-/** physics.js:128 */
-export function legacyHorizontalLiftCoefficient(angleOfMotion: Rad): number {
-  if (0 <= angleOfMotion && angleOfMotion <= HALF_PI) {
-    return -Math.sin(HALF_PI - angleOfMotion);
-  } else if (HALF_PI < angleOfMotion && angleOfMotion < Math.PI) {
-    return Math.cos(Math.PI - angleOfMotion);
-  } else if (-HALF_PI <= angleOfMotion && angleOfMotion < 0) {
-    return -Math.sin(HALF_PI + angleOfMotion);
-  } else {
-    return Math.sin(-angleOfMotion - HALF_PI);
-  }
-}
-
-/** physics.js:203 */
-export function legacyVerticalLiftCoefficient(angleOfMotion: Rad): number {
-  if (0 <= angleOfMotion && angleOfMotion <= HALF_PI) {
-    return Math.cos(HALF_PI - angleOfMotion);
-  } else if (HALF_PI < angleOfMotion && angleOfMotion <= Math.PI) {
-    return Math.sin(Math.PI - angleOfMotion);
-  } else if (-HALF_PI <= angleOfMotion && angleOfMotion < 0) {
-    return -Math.cos(HALF_PI + angleOfMotion);
-  } else {
-    return -Math.cos(-angleOfMotion - HALF_PI);
-  }
-}
-
-/** physics.js:159 */
-export function legacyHorizontalThrustCoefficient(gimbalPointingDirection: Rad): number {
-  if (0 <= gimbalPointingDirection && gimbalPointingDirection <= HALF_PI) {
-    return Math.sin(gimbalPointingDirection);
-  } else if (HALF_PI < gimbalPointingDirection && gimbalPointingDirection <= Math.PI) {
-    return Math.cos(gimbalPointingDirection - HALF_PI);
-  } else if (-HALF_PI <= gimbalPointingDirection && gimbalPointingDirection < 0) {
-    return Math.sin(gimbalPointingDirection);
-  } else {
-    return -Math.cos(gimbalPointingDirection + HALF_PI);
-  }
-}
-
-/** physics.js:230 */
-export function legacyVerticalThrustCoefficient(gimbalPointingDirection: Rad): number {
-  if (0 <= gimbalPointingDirection && gimbalPointingDirection <= HALF_PI) {
-    return Math.cos(gimbalPointingDirection);
-  } else if (HALF_PI < gimbalPointingDirection && gimbalPointingDirection <= Math.PI) {
-    return -Math.sin(gimbalPointingDirection - HALF_PI);
-  } else if (-HALF_PI <= gimbalPointingDirection && gimbalPointingDirection < 0) {
-    return Math.cos(gimbalPointingDirection);
-  } else {
-    return Math.sin(gimbalPointingDirection + HALF_PI);
-  }
-}
-
 /**
  * physics.js:145 and :218 — the sign of the lift component flips depending on
  * which side of the airflow the nose is on. Shared by both axes verbatim.
@@ -168,8 +88,23 @@ export interface AccelerationInputs {
   aerodynamicDragAcceleration: number;
   /** m/s^2 */
   aerodynamicLiftAcceleration: number;
-  /** m/s^2 */
+  /** m/s^2 — the GIMBALLED thrust, along `gimbalPointingDirection`. */
   thrustAcceleration: number;
+  /**
+   * m/s^2 — thrust from fixed engines (the RVacs), along the hull at `pitch`
+   * (Phase 6, independent review: the vacuum engines do not gimbal). At zero,
+   * the sum is the gimballed component's bits.
+   */
+  fixedThrustAcceleration: number;
+  /** rad — the hull's attitude, which fixed thrust follows. */
+  pitch: Rad;
+}
+
+/** The thrust's share of one axis: gimballed, plus fixed along the hull when any is lit. */
+function thrustAlong(i: AccelerationInputs, coefficient: (direction: Rad) => number): number {
+  const gimballed = coefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+  const fixed = i.fixedThrustAcceleration;
+  return fixed === 0 ? gimballed : gimballed + coefficient(i.pitch) * fixed;
 }
 
 /** physics.js:99 — sum of drag, lift and thrust components. @returns m/s^2 */
@@ -181,8 +116,7 @@ export function getHorizontalAcceleration(i: AccelerationInputs): number {
     ? -liftCoefficient * i.aerodynamicLiftAcceleration
     : liftCoefficient * i.aerodynamicLiftAcceleration;
 
-  const thrustComponent =
-    horizontalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+  const thrustComponent = thrustAlong(i, horizontalThrustCoefficient);
 
   // 2021 sums drag + thrust + lift, in that order. Kept: float addition is not
   // associative and the goldens see the difference.
@@ -209,8 +143,7 @@ export function getVerticalAcceleration(i: AccelerationInputs, gravity: number):
     ? -liftCoefficient * i.aerodynamicLiftAcceleration
     : liftCoefficient * i.aerodynamicLiftAcceleration;
 
-  const thrustComponent =
-    verticalThrustCoefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+  const thrustComponent = thrustAlong(i, verticalThrustCoefficient);
 
   return -gravity + dragComponent + thrustComponent + liftComponent;
 }

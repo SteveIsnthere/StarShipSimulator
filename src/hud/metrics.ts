@@ -22,7 +22,7 @@
  * with no DOM — which is the only reason the gauge auto-ranging below can be
  * checked at all.
  */
-import type { SimState } from '$core/state';
+import type { RaptorIndex, SimState } from '$core/state';
 import * as C from '$core/constants';
 import { toDeg } from '$core/units';
 
@@ -117,10 +117,10 @@ export function propellantFraction(state: SimState): number {
 export const ENGINE_STATES = ['off', 'igniting', 'lit', 'failed'] as const;
 export type EngineDotState = (typeof ENGINE_STATES)[number];
 
-export function engineState(state: SimState, engine: 0 | 1 | 2): number {
+export function engineState(state: SimState, engine: RaptorIndex): number {
   if (state.engines.failed[engine]) return 3;
   if (state.engines.running[engine]) return 2;
-  if (state.engines.ignitionCountdown[engine] !== null) return 1;
+  if (typeof state.engines.ignitionCountdown[engine] === 'number') return 1;
   return 0;
 }
 
@@ -193,7 +193,7 @@ const linear = (id: string, fraction: (state: SimState) => number): Metric => ({
   format: (q) => (q / 10).toFixed(1),
 });
 
-const dot = (engine: 0 | 1 | 2): Metric => ({
+const dot = (engine: RaptorIndex): Metric => ({
   id: `engine-${engine}`,
   attribute: 'data-state',
   quantum: (state) => engineState(state, engine),
@@ -216,9 +216,7 @@ export const METRICS: readonly Metric[] = [
   bar('propellant-ch4'),
   bar('propellant-lox'),
 
-  dot(0),
-  dot(1),
-  dot(2),
+  ...C.RAPTORS.map((_, engine) => dot(engine)),
 
   /**
    * The attitude chevron.

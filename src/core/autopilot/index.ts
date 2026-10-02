@@ -26,7 +26,13 @@ import * as cmd from '../control/commands';
 import * as prim from '../control/primitives';
 import * as gravity from '../physics/gravity';
 import { getAngularAcceleration } from '../physics/aero';
-import { getHealthyEngineCount, getWorkingEngineCount, getTotalMaxThrust } from '../physics/engines';
+import {
+  IGNITION_DELAY_MAX_S,
+  getHealthySeaLevelCount,
+  getTotalMaxThrust,
+  getWorkingEngineCount,
+  getWorkingSeaLevelCount,
+} from '../physics/engines';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
 import type { SimState } from '../state';
 import { rad } from '../units';
@@ -250,10 +256,14 @@ export function autoLand(state: SimState, dt: number): void {
     if (!status.finActive) cmd.toggleFin(state);
     if (!status.rcsActive) cmd.toggleRcs(state);
     vehicle.throttle = C.throttleLowerLimit;
-    if (vehicle.propellantMass > C.dumpLimit && !status.dumpingFuel) cmd.toggleDumpFuel(state);
+    if (vehicle.propellantMass > C.landingReserve && !status.dumpingFuel) cmd.toggleDumpFuel(state);
     if (getWorkingEngineCount(engines.running) > 0) cmd.toggleAllRaptors(state);
     autopilot.initVehicleConfigCompleted = true;
   }
+
+  // The dump stops at the landing reserve, above the 12 t where a dump stops
+  // on its own (constants.ts). A dump started under autoLand is autoLand's.
+  if (status.dumpingFuel && vehicle.propellantMass <= C.landingReserve) cmd.toggleDumpFuel(state);
 
   if (!autopilot.aeroDescentCompleted) {
     updateBellyFlopTriggerAltitude(state);
@@ -294,9 +304,13 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
   const flipStagePessimisticDuration =
     Math.sqrt((((Math.PI / 2 + C.flipGoalAngle) / 2 / flipStagePessimisticAcc) * 2)) * 2;
 
+  // Phase 6, Task 4c: the ignition delay is the engine's start transient (a
+  // named tier-B assumption: no spool-up on top of it), and the trigger plans
+  // on its MAXIMUM, so the worst start still has the altitude. It added 2021's
+  // 0.6 s "mean" constant before, below even the draw's true 0.75 s mean.
   autopilot.bellyFlopTriggerAltitude =
     autopilot.finalStagePessimisticAltitude +
-    -kinematics.speedY * (flipStagePessimisticDuration + C.raptorIgnitionTimeMean * 0.001) -
+    -kinematics.speedY * (flipStagePessimisticDuration + IGNITION_DELAY_MAX_S) -
     C.horizontalAdjustmentVerticalSpeedLimit * horizontalAdjustmentDurationEstimate +
     C.vehicleHeight / 2;
 }
@@ -369,7 +383,7 @@ function horizontalAdjustmentStageController(state: SimState): void {
   if (!autopilot.horizontalAdjustmentStageInitialised) {
     if (status.finActive) cmd.toggleFin(state);
     status.finLocked = true;
-    if (getWorkingEngineCount(engines.running) < 3) {
+    if (getWorkingSeaLevelCount(engines.running) < 3) {
       // Mutates the tuning values for the rest of the landing. In 2021 these
       // were globals, so the change persisted across runs until a reload;
       // here they live in SimState and reset with the scenario.
@@ -574,7 +588,7 @@ function predictedDeorbitRange(state: SimState): number {
   // The engines are OFF while this decision is being made — the mode shut them
   // down at configure — so what matters is the thrust that will light, not the
   // thrust that is lit. An engine that has failed will not.
-  const willLight = getHealthyEngineCount(engines.failed);
+  const willLight = getHealthySeaLevelCount(engines.failed);
   if (willLight <= 0) return Infinity;
 
   // M11.2: the burn happens where the air is, which at 150 km is nowhere — so

@@ -9,7 +9,7 @@
  * Deliberately absent: a grade and a comparison with the previous attempt
  * (docs/design/ia.md lists both). The model carries neither, and a card that
  * invents a verdict the simulation never made is worse than one that omits it.
- * Phase 8 adds grading to the model; the card shows it when it exists.
+ * Phase 9 (UX) adds grading to the model; the card shows it when it exists.
  */
 import { LIMIT_STATES, limitState } from '$hud/metrics';
 import { formatClock, formatRange } from '$hud/readouts';
@@ -135,8 +135,8 @@ export function figures(card: Debrief): readonly Figure[] {
       note: `left of ${card.propellant.limit.toFixed(0)} t`, word: null, level: null },
     judgedFigure('debrief-peak-q', 'peakQ', 'Peak Q', card.peakQ,
       card.peakQ.value.toFixed(1), 'kPa', card.peakQ.limit.toFixed(0)),
-    judgedFigure('debrief-peak-heat', 'peakHeat', 'Peak heating', card.peakHeat,
-      (card.peakHeat.fraction * 100).toFixed(0), '%', '100%'),
+    judgedFigure('debrief-peak-heat', 'peakHeat', 'Peak skin temperature', card.peakHeat,
+      card.peakHeat.value.toFixed(0), 'K', card.peakHeat.limit.toFixed(0)),
     judgedFigure('debrief-peak-g', 'peakG', 'Peak g', card.peakG,
       card.peakG.value.toFixed(1), 'g', card.peakG.limit.toFixed(0)),
   ];

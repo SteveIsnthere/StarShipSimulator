@@ -188,7 +188,8 @@ export const READOUTS: readonly Readout[] = [
     value: (s) => s.forces.dynamicPressure.toFixed(1),
     unit: () => 'KPA',
   },
-  { id: 'heat', label: 'HEAT', value: (s) => s.forces.thermalPower.toFixed(0), unit: () => '' },
+  // Phase 6, Task 8: the tile's temperature, in kelvin, where this was 2021's unitless scale.
+  { id: 'heat', label: 'HEAT', value: (s) => s.forces.surfaceTemperature.toFixed(0), unit: () => 'K' },
   {
     id: 'range',
     label: 'RANGE',

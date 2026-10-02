@@ -94,7 +94,7 @@ describe('autoBoostBack — the already-on guards on the way out', () => {
     s.kinematics.downRangeDistance = C.starBaseXPos - 100;
     s.autopilot.accelerationStageCompleted = false;
     s.autopilot.autoMaxThrustOn = false;
-    s.engines.running = [true, true, true];
+    s.engines.running = [true, true, true, false, false, false];
 
     autoBoostBack(s, DT);
 
@@ -114,13 +114,13 @@ describe('autoBoostBack — the already-on guards on the way out', () => {
     s.autopilot.boostBackDecelerationStageInitCompleted = true;
     s.autopilot.boostBackDecelerationCheckCountdown = DT / 2;
     s.kinematics.accelerationX = Math.abs(C.decelerationStageHorizontalAcc) * 100;
-    s.engines.running = [false, false, false];
+    s.engines.running = [false, false, false, false, false, false];
 
     autoBoostBack(s, DT);
 
     expect(s.autopilot.boostBackDecelerationCheckCountdown, 'the check ran').toBeNull();
     expect(s.autopilot.boostBackAeroDeceleration, 'air is still doing the work').toBe(true);
-    expect(s.engines.running, 'so no engine was lit').toEqual([false, false, false]);
+    expect(s.engines.running, 'so no engine was lit').toEqual([false, false, false, false, false, false]);
   });
 });
 
@@ -219,7 +219,7 @@ describe('finalDescentStageController — touchdown with fuel already dumping', 
     s.kinematics.speedY = -1;
     s.autopilot.autoLandOn = true;
     s.status.dumpingFuel = true;
-    s.engines.running = [true, true, true];
+    s.engines.running = [true, true, true, false, false, false];
 
     finalDescentStageController(s, DT);
 
@@ -247,7 +247,7 @@ describe('autoDeorbit — the two guards at the end of the burn', () => {
 
   it('completes the burn without toggling engines that are already out (line 694)', () => {
     const s = burning();
-    s.engines.running = [false, false, false];
+    s.engines.running = [false, false, false, false, false, false];
 
     autoDeorbit(s);
 
@@ -259,19 +259,19 @@ describe('autoDeorbit — the two guards at the end of the burn', () => {
     expect(
       s.engines.ignitionCountdown.map((c) => c !== null),
       'and no ignition was commanded on the way out',
-    ).toEqual([false, false, false]);
-    expect(s.engines.running).toEqual([false, false, false]);
+    ).toEqual([false, false, false, false, false, false]);
+    expect(s.engines.running).toEqual([false, false, false, false, false, false]);
   });
 
   it('and shuts the engines down when they are still lit', () => {
     // The covered half, so the assertion above cannot pass vacuously.
     const s = burning();
-    s.engines.running = [true, true, true];
+    s.engines.running = [true, true, true, false, false, false];
 
     autoDeorbit(s);
 
     expect(s.autopilot.deorbitBurnCompleted).toBe(true);
-    expect(s.engines.running).toEqual([false, false, false]);
+    expect(s.engines.running).toEqual([false, false, false, false, false, false]);
   });
 
   it('does not toggle autoLand off when handing over with it already on (line 703)', () => {
@@ -298,7 +298,7 @@ describe('precisionAlignment — the negative RCS dead zone', () => {
     s.kinematics.altitude = 60_000;
     s.status.rcsActive = true;
     s.status.translationModeOn = true;
-    s.engines.running = [false, false, false];
+    s.engines.running = [false, false, false, false, false, false];
     s.vehicle.throttleCurrent = 0;
     s.forces.thrust = 0;
     // The error's sign sets the command's sign: pitchDifference = pitch - goal,
@@ -337,7 +337,7 @@ describe('precisionAlignment — the exactly-zero RCS command', () => {
     s.kinematics.altitude = 60_000;
     s.status.rcsActive = true;
     s.status.translationModeOn = true;
-    s.engines.running = [false, false, false];
+    s.engines.running = [false, false, false, false, false, false];
     s.vehicle.throttleCurrent = 0;
     s.forces.thrust = 0;
     s.forces.offAxisThrustDifferenceAcceleration = 0;
@@ -407,18 +407,21 @@ describe('the unreachable pair, argued rather than tested', () => {
     // Ignition is dt-ticked (wall 5), so lighting an engine COMMANDS it rather
     // than setting `running` — the observable is the countdown, not the flag.
     const allOff = createInitialState();
-    allOff.engines.running = [false, false, false];
+    allOff.engines.running = [false, false, false, false, false, false];
     toggleAllRaptors(allOff);
     expect(
       allOff.engines.ignitionCountdown.map((c) => c !== null),
-      'all off means command all three to light',
-    ).toEqual([true, true, true]);
+      'all off means command the three sea-level engines to light, not the RVacs',
+    ).toEqual([true, true, true, false, false, false]);
 
     // And the mixed case takes the other arm, shutting down only what is lit.
     const mixed = createInitialState();
-    mixed.engines.running = [true, false, true];
+    mixed.engines.running = [true, false, true, false, true, false];
     toggleAllRaptors(mixed);
-    expect(mixed.engines.running, 'any lit means shut the lit ones down').toEqual([
+    expect(mixed.engines.running, 'any lit means shut the lit ones down, an RVac too').toEqual([
+      false,
+      false,
+      false,
       false,
       false,
       false,

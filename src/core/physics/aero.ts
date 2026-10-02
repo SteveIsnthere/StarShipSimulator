@@ -125,7 +125,7 @@ export function getAngleOfMotion(speedX: number, speedY: number): Rad {
   rather than stored — the HUD, the guidance and the touchdown check keep the
   ground figures, and nothing outside the physics needs the air ones.
 
-  BIT-IDENTICAL AT ZERO WIND, by construction. `speedX - 0 - 0` is `speedX`
+  BIT-IDENTICAL AT ZERO WIND, by construction. `speedX - 0` is `speedX`
   exactly in IEEE 754 (including -0), so at wind = 0 these return the same bits
   as `sqrt(speedX^2 + speedY^2)` and `atan2(speedX, speedY)` on the same
   operands. That is what lets the seven still-air golden digests stay exactly
@@ -133,21 +133,23 @@ export function getAngleOfMotion(speedX: number, speedY: number): Rad {
 */
 
 /**
- * m/s — speed through the air. `wind` and `gust` are the air's downrange
- * velocity; the relative wind is the ground velocity minus theirs.
+ * m/s — speed through the air. `airX` and `airY` are the air's own velocity,
+ * downrange and up (physics/wind.ts); the relative wind is the ground velocity
+ * minus it. Phase 6 Task 10 made the air's velocity a vector: the mean wind at
+ * height plus Dryden turbulence in both axes.
  */
 export function relativeAirspeed(
   speedX: number,
   speedY: number,
-  wind: number,
-  gust: number,
+  airX: number,
+  airY: number,
 ): number {
-  return Math.sqrt((speedX - wind - gust) ** 2 + speedY ** 2);
+  return Math.sqrt((speedX - airX) ** 2 + (speedY - airY) ** 2);
 }
 
 /** rad — direction of the relative wind, from vertical, as `getAngleOfMotion`. */
-export function relativeWindAngle(speedX: number, speedY: number, wind: number, gust: number): Rad {
-  return getAngleOfMotion(speedX - wind - gust, speedY);
+export function relativeWindAngle(speedX: number, speedY: number, airX: number, airY: number): Rad {
+  return getAngleOfMotion(speedX - airX, speedY - airY);
 }
 
 /**

@@ -14,6 +14,7 @@
  * those need a trajectory, and stating them directly reaches the branches a
  * nominal flight never visits.
  */
+import * as legacy from '../proofs/fixtures/legacy-ladders';
 import { localGravity } from '$core/control/guidance-physics';
 import { describe, expect, it } from 'vitest';
 import * as C from '$core/constants';
@@ -26,7 +27,6 @@ import {
   getPitchDifference,
   getTWR,
   horizontalSpeedAdjustment,
-  legacyEffectiveVerticalMaxThrust,
   precisionAlignment,
   raptorAutoShutDown_KeepMinTWRBelow1,
   speedAdjustment,
@@ -100,7 +100,7 @@ describe('the vertical thrust projection', () => {
     const running = [true, true, true] as const;
     for (let a = -Math.PI; a <= Math.PI; a += Math.PI / 500) {
       const collapsed = getEffectiveVerticalMaxThrust(running, rad(a), SEA_LEVEL_KPA);
-      const ladder = legacyEffectiveVerticalMaxThrust(running, rad(a), SEA_LEVEL_KPA);
+      const ladder = legacy.legacyEffectiveVerticalMaxThrust(running, rad(a), SEA_LEVEL_KPA);
       expect(Math.abs(collapsed - ladder), `gimbal ${a}`).toBeLessThan(1e-6);
     }
   });

@@ -32,7 +32,7 @@
 import * as C from '../constants';
 
 /** Standard gravitational parameter, GM. m^3/s^2. */
-export const MU = C.gravitationalConstant * C.planetMass;
+export const MU = C.planetGravitationalParameter;
 
 /** m/s^2 — magnitude of gravity at a distance r from the planet's centre. */
 export function gravityAt(distanceToPlanetCenter: number): number {
@@ -69,8 +69,53 @@ export function circularOrbitalSpeed(distanceToPlanetCenter: number): number {
 export function verticalGravityAcceleration(
   distanceToPlanetCenter: number,
   tangentialSpeed: number,
+  omega: number = C.frameRotationRate,
 ): number {
-  return tangentialSpeed ** 2 / distanceToPlanetCenter - gravityAt(distanceToPlanetCenter);
+  const inertialTangential = inertialTangentialSpeed(distanceToPlanetCenter, tangentialSpeed, omega);
+  return inertialTangential ** 2 / distanceToPlanetCenter - gravityAt(distanceToPlanetCenter);
+}
+
+/**
+ * m/s², positive down — what a vehicle with no downrange speed weighs per unit
+ * mass at r: gravity less the turning ground's centrifugal term. Exactly
+ * `gravityAt(r)` at omega = 0.
+ */
+export function verticalWeight(distanceToPlanetCenter: number, omega: number = C.frameRotationRate): number {
+  return -verticalGravityAcceleration(distanceToPlanetCenter, 0, omega);
+}
+
+/*
+  THE ROTATING GROUND FRAME — Phase 6, Task 9. The simulation's speeds are
+  relative to the ground. When the ground turns at omega in the flight plane,
+  the inertial tangential speed is v_t + omega*r, and the two equations of
+  motion above, written for the ground-relative speeds, become
+
+      a_r = (v_t + omega*r)^2 / r - GM/r^2  =  v_t^2/r - g + 2*omega*v_t + omega^2*r
+      a_t = -v_r * (v_t + 2*omega*r) / r    =  -v_r*v_t/r - 2*omega*v_r
+
+  that is, the inertial terms plus the Coriolis (2*omega*v) and centrifugal
+  (omega^2*r) terms. At omega = 0 both short-circuit to the inertial
+  expressions on the same operands, so the result is the same bits, signed
+  zeros included: `v_t + 0` would turn a -0 into +0, and the sign of a zero
+  speed reaches atan2.
+*/
+
+/** m/s — the tangential speed in the inertial frame, from the ground-relative one. */
+export function inertialTangentialSpeed(
+  distanceToPlanetCenter: number,
+  tangentialSpeed: number,
+  omega: number = C.frameRotationRate,
+): number {
+  return omega === 0 ? tangentialSpeed : tangentialSpeed + omega * distanceToPlanetCenter;
+}
+
+/** m/s — the inverse: the ground-relative tangential speed of an inertial one. */
+export function groundTangentialSpeed(
+  distanceToPlanetCenter: number,
+  inertialSpeed: number,
+  omega: number = C.frameRotationRate,
+): number {
+  return omega === 0 ? inertialSpeed : inertialSpeed - omega * distanceToPlanetCenter;
 }
 
 /**
@@ -102,14 +147,19 @@ export function verticalGravityAcceleration(
  * regardless. Measured on an ellipse in vacuum: 12.6% drift, and an orbit whose
  * apogee should be 4015 km reaching 1380 km.
  *
+ * In a turning ground frame the Coriolis term joins it (see the note above
+ * `inertialTangentialSpeed`).
+ *
  * @returns m/s^2 applied to the downrange component
  */
 export function tangentialAcceleration(
   distanceToPlanetCenter: number,
   tangentialSpeed: number,
   radialSpeed: number,
+  omega: number = C.frameRotationRate,
 ): number {
-  return (-radialSpeed * tangentialSpeed) / distanceToPlanetCenter;
+  const coupled = omega === 0 ? tangentialSpeed : tangentialSpeed + 2 * omega * distanceToPlanetCenter;
+  return (-radialSpeed * coupled) / distanceToPlanetCenter;
 }
 
 /** Specific orbital energy, J/kg. Conserved under gravity alone. */
@@ -164,17 +214,22 @@ export function specificAngularMomentum(
  * metre over a 5000 km arc.
  *
  * @param r m — current distance from the planet's centre
- * @param tangentialSpeed m/s — the component along the track
+ * @param groundTangentialSpeed m/s — the component along the track, over the ground
  * @param radialSpeed m/s — the component along r, positive outward
  * @param rTarget m — the radius the coast is being predicted down to
+ * @param omega rad/s — the ground frame's rotation rate
  * @returns m, or Infinity when the orbit never reaches rTarget
  */
 export function coastDownrangeDistance(
   r: number,
-  tangentialSpeed: number,
+  groundTangentialSpeed: number,
   radialSpeed: number,
   rTarget: number,
+  omega: number = C.frameRotationRate,
 ): number {
+  // The conic is inertial (Phase 6 Task 9b): the speed the orbit has is the
+  // ground speed plus the ground's own.
+  const tangentialSpeed = inertialTangentialSpeed(r, groundTangentialSpeed, omega);
   const speedSquared = tangentialSpeed ** 2 + radialSpeed ** 2;
   const energy = speedSquared / 2 - MU / r;
   const h = r * tangentialSpeed;
@@ -233,7 +288,16 @@ export function coastDownrangeDistance(
    * and fails every comparison it is put into — so the mode does not decline to
    * fire, it silently never reaches its trigger.
    */
-  if (!(end > start)) return 0;
+  if (!(end > start)) {
+    if (omega === 0) return 0;
+    // Inertially radial, so no inertial arc; but the ground turns under the
+    // fall, and its arc is -omega times the integral of r dt (Phase 6's
+    // independent review: returning 0 here skipped it). A climb that never
+    // comes back is the no-intercept answer, +Infinity, whatever omega's sign.
+    if (radialSpeed > 0 && energy >= 0) return Infinity;
+    const integral = radialFallIntegralOfR(r, radialSpeed, rTarget);
+    return Number.isFinite(integral) ? -omega * integral : Infinity;
+  }
 
   // Simpson over the integral of r dnu, with r(nu) = p / (1 + e cos nu).
   const INTERVALS = 64;
@@ -243,5 +307,49 @@ export function coastDownrangeDistance(
   for (let i = 1; i < INTERVALS; i++) {
     sum += radiusAt(start + i * stepSize) * (i % 2 === 0 ? 2 : 4);
   }
-  return (sum * stepSize) / 3;
+  const inertialArc = (sum * stepSize) / 3;
+  if (omega === 0) return inertialArc;
+
+  /*
+    THE GROUND TURNS UNDER THE COAST (Phase 6 Task 9b). Downrange distance
+    integrates the ground-relative tangential speed, r (dtheta/dt - omega), so
+    the ground arc is the inertial arc less omega times the integral of r dt.
+    On the conic dt = r^2/h dnu, so that integral is the integral of r^3/h dnu,
+    by the same Simpson's rule.
+  */
+  let cubes = radiusAt(start) ** 3 + radiusAt(end) ** 3;
+  for (let i = 1; i < INTERVALS; i++) {
+    cubes += radiusAt(start + i * stepSize) ** 3 * (i % 2 === 0 ? 2 : 4);
+  }
+  return inertialArc - (omega * (cubes * stepSize)) / 3 / h;
+}
+
+/** s — the radial fall's step, and its cap (about 28 hours, beyond any coast here). */
+const RADIAL_STEP = 0.1;
+const RADIAL_STEP_CAP = 1_000_000;
+
+/**
+ * m·s — the integral of r dt along a purely radial two-body fall from r to
+ * rTarget, by velocity Verlet: the time-weighted radius `coastDownrangeDistance`
+ * needs when the conic degenerates to a line. Infinity if the fall never
+ * reaches rTarget within the cap (an escape).
+ */
+function radialFallIntegralOfR(r0: number, radialSpeed: number, rTarget: number): number {
+  let r = r0;
+  let v = radialSpeed;
+  let a = -gravityAt(r);
+  let sum = 0;
+  for (let i = 0; i < RADIAL_STEP_CAP; i++) {
+    const next = r + v * RADIAL_STEP + 0.5 * a * RADIAL_STEP * RADIAL_STEP;
+    if (next <= rTarget) {
+      const f = (r - rTarget) / (r - next);
+      return sum + 0.5 * (r + rTarget) * f * RADIAL_STEP;
+    }
+    const aNext = -gravityAt(next);
+    v += 0.5 * (a + aNext) * RADIAL_STEP;
+    sum += 0.5 * (r + next) * RADIAL_STEP;
+    r = next;
+    a = aNext;
+  }
+  return Infinity;
 }

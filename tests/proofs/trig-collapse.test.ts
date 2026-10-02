@@ -46,6 +46,7 @@
  * multiplied by an acceleration and summed, so the absolute difference is what
  * propagates, and unit-ULP is the scale to judge it against.
  */
+import * as legacy from './fixtures/legacy-ladders';
 import { describe, expect, it } from 'vitest';
 import * as comp from '$core/physics/components';
 import { rad, type Rad } from '$core/units';
@@ -301,12 +302,12 @@ describe('the shipped implementation is the collapse — M2.10', () => {
 
 /** The ladder copies kept in src/, by case name. */
 const PRESERVED: Readonly<Record<string, (a: Rad) => number>> = {
-  'horizontalDrag = -sin(x)': comp.legacyHorizontalDragCoefficient,
-  'verticalDrag = -cos(x)': comp.legacyVerticalDragCoefficient,
-  'horizontalLift = -cos(x)': comp.legacyHorizontalLiftCoefficient,
-  'verticalLift = sin(x)': comp.legacyVerticalLiftCoefficient,
-  'horizontalThrust = sin(x)': comp.legacyHorizontalThrustCoefficient,
-  'verticalThrust = cos(x)': comp.legacyVerticalThrustCoefficient,
+  'horizontalDrag = -sin(x)': legacy.legacyHorizontalDragCoefficient,
+  'verticalDrag = -cos(x)': legacy.legacyVerticalDragCoefficient,
+  'horizontalLift = -cos(x)': legacy.legacyHorizontalLiftCoefficient,
+  'verticalLift = sin(x)': legacy.legacyVerticalLiftCoefficient,
+  'horizontalThrust = sin(x)': legacy.legacyHorizontalThrustCoefficient,
+  'verticalThrust = cos(x)': legacy.legacyVerticalThrustCoefficient,
 };
 
 describe('the proof is not vacuous', () => {

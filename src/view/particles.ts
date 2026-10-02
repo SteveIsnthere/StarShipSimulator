@@ -584,7 +584,7 @@ export interface ParticleSystem {
    *
    * @param intensity 0..1 — scales rate. 0 emits nothing.
    * @param angle rad — direction of the cone, screen space, 0 = right
-   * @param dt seconds, used to convert rate into a whole number of particles
+   * @param dt seconds in the upcoming update; births are distributed across it
    */
   emit(
     effect: EffectName,
@@ -627,6 +627,8 @@ export interface ParticleSystem {
   burst(effect: EffectName, x: number, y: number, count: number, scale: number): void;
   /** Advance every live particle. */
   update(dt: number): void;
+  /** Reproject world effects, carry nozzle effects with their source, and leave screen streaks in place. */
+  reproject(scaleRatio: number, offsetX: number, offsetY: number, nozzleDisplacementX?: number, nozzleDisplacementY?: number): void;
   /** Kill everything without deallocating. */
   clear(): void;
   destroy(): void;
@@ -665,6 +667,11 @@ export function createParticleSystem(
   const vx = new Float32Array(capacity);
   const vy = new Float32Array(capacity);
   const age = new Float32Array(capacity);
+  // Seconds from the frame's start until this particle is born. Continuous
+  // emitters distribute births over dt; bursts are present at frame start.
+  const birthDelay = new Float64Array(capacity);
+  const worldAnchored = new Uint8Array(capacity);
+  const nozzleAnchored = new Uint8Array(capacity);
   const life = new Float32Array(capacity);
   const size0 = new Float32Array(capacity);
   const size1 = new Float32Array(capacity);
@@ -674,12 +681,13 @@ export function createParticleSystem(
   /*
     How many distinct drags one frame's cache holds. The effect table has NINE
     (0, 0.6, 0.85, 1.1, 1.4, 1.9, 2.0, 2.6, 3.2); sixteen is room to grow
-    without a resize, and a drag past the sixteenth is computed exactly and not
-    stored — the cache is an optimisation, never a source of a different
-    answer.
+    without a resize. Each cache entry pairs a drag with its integration time;
+    excess pairs are computed exactly without being stored. The cache is an
+    optimisation, never a source of a different answer.
   */
   const DRAG_CACHE = 16;
   const dragKeys = new Float64Array(DRAG_CACHE);
+  const dragSteps = new Float64Array(DRAG_CACHE);
   const dragFactors = new Float64Array(DRAG_CACHE);
   const dragIntegrals = new Float64Array(DRAG_CACHE);
   const gravityOf = new Float32Array(capacity);
@@ -688,8 +696,8 @@ export function createParticleSystem(
   /**
    * Where each particle was born, and how it bands (M9.6).
    *
-   * Spawn position is stored because the shock diamonds have to be STATIONARY in
-   * the world while the gas moves through them — so the brightness has to be a
+   * Spawn position is stored because shock diamonds are stationary relative to
+   * the nozzle while gas moves through them — so the brightness has to be a
    * function of how far a particle has TRAVELLED, not of how old it is. Four
    * more Float32Arrays at 4000 capacity is 64 kB, allocated once with everything
    * else; `bandOf` is 0 for every particle of every other effect, and the update
@@ -731,8 +739,8 @@ export function createParticleSystem(
     spreadFactor = 1,
     bandSpacing = 0,
     bandStrength = 0,
-  ): void => {
-    if (freeCount === 0) return;
+  ): number | undefined => {
+    if (freeCount === 0) return undefined;
     const i = free[--freeCount]!;
 
     const direction = angle + (random() * 2 - 1) * config.spread * spreadFactor;
@@ -743,6 +751,9 @@ export function createParticleSystem(
     vx[i] = Math.cos(direction) * speed;
     vy[i] = Math.sin(direction) * speed;
     age[i] = 0;
+    birthDelay[i] = 0;
+    worldAnchored[i] = config === EFFECTS.velocityStreak ? 0 : 1;
+    nozzleAnchored[i] = config === EFFECTS.raptorPlume || config === EFFECTS.raptorPlumeCore ? 1 : 0;
     life[i] = config.life * (1 + (random() * 2 - 1) * config.lifeJitter);
     size0[i] = config.startSize * scale;
     size1[i] = config.endSize * scale;
@@ -773,6 +784,7 @@ export function createParticleSystem(
     if (stretchOf[i] === 1) sprite.rotation = 0;
 
     live[liveCount++] = i;
+    return i;
   };
 
 
@@ -786,11 +798,15 @@ export function createParticleSystem(
     emit(effect, px, py, angle, intensity, dt, scale, spreadFactor = 1, bandSpacing = 0, bandStrength = 0) {
       if (intensity <= 0 || dt <= 0) return;
       const config = EFFECTS[effect];
-      const wanted = config.rate * intensity * dt + (debt.get(effect) ?? 0);
+      const rate = config.rate * intensity;
+      const carried = debt.get(effect) ?? 0;
+      const wanted = rate * dt + carried;
       const whole = Math.floor(wanted);
       debt.set(effect, wanted - whole);
       for (let n = 0; n < whole; n++) {
-        spawn(config, px, py, angle, scale, spreadFactor, bandSpacing, bandStrength);
+        const delay = Math.min(dt, (n + 1 - carried) / rate);
+        const i = spawn(config, px, py, angle, scale, spreadFactor, bandSpacing, bandStrength);
+        if (i !== undefined) birthDelay[i] = delay;
       }
     },
 
@@ -798,6 +814,33 @@ export function createParticleSystem(
       const config = EFFECTS[effect];
       for (let n = 0; n < count; n++) {
         spawn(config, px, py, random() * Math.PI * 2, scale);
+      }
+    },
+
+    reproject(ratio, offsetX, offsetY, nozzleDx = 0, nozzleDy = 0) {
+      if (ratio === 1 && offsetX === 0 && offsetY === 0 && nozzleDx === 0 && nozzleDy === 0) return;
+      for (let n = 0; n < liveCount; n++) {
+        const i = live[n]!;
+        if (!worldAnchored[i]) continue;
+        // Core/bell speeds and standing shock cells are in the nozzle frame.
+        // Smoke and wakes stay in the world; velocity streaks stay on screen.
+        const dx = offsetX + (nozzleAnchored[i] ? nozzleDx : 0);
+        const dy = offsetY + (nozzleAnchored[i] ? nozzleDy : 0);
+        x[i] = x[i]! * ratio + dx;
+        y[i] = y[i]! * ratio + dy;
+        spawnX[i] = spawnX[i]! * ratio + dx;
+        spawnY[i] = spawnY[i]! * ratio + dy;
+        vx[i]! *= ratio;
+        vy[i]! *= ratio;
+        gravityOf[i]! *= ratio;
+        size0[i]! *= ratio;
+        size1[i]! *= ratio;
+        bandOf[i]! *= ratio;
+        const sprite = sprites[i]!;
+        sprite.x = x[i]!;
+        sprite.y = y[i]!;
+        sprite.width *= ratio;
+        sprite.height *= ratio;
       }
     },
 
@@ -821,8 +864,8 @@ export function createParticleSystem(
         CACHED because `Math.exp` is a hundred times a multiply and the pool
         holds four thousand particles. There are ten distinct drags in the whole
         effect table, so a linear scan over a handful of entries is cheaper than
-        the call it replaces — and the cache is per FRAME, keyed by drag alone,
-        because `dt` is the same for every particle in one update.
+        the call it replaces. The cache keys include the integration duration:
+        a new birth advances only through the remainder of its first frame.
 
         FILLED ON DEMAND, inside the one loop that reads it. A first pass to
         populate it was written and thrown away: it walked all four thousand
@@ -835,7 +878,10 @@ export function createParticleSystem(
       let write = 0;
       for (let n = 0; n < liveCount; n++) {
         const i = live[n]!;
-        age[i]! += dt;
+        const pending = birthDelay[i]!;
+        const particleDt = Math.max(0, dt - pending);
+        birthDelay[i] = Math.max(0, pending - dt);
+        age[i]! += particleDt;
         const t = age[i]! / life[i]!;
 
         if (t >= 1) {
@@ -860,7 +906,7 @@ export function createParticleSystem(
         const drag = dragOf[i]!;
         let slot = -1;
         for (let k = 0; k < cached; k++) {
-          if (dragKeys[k] === drag) {
+          if (dragKeys[k] === drag && dragSteps[k] === particleDt) {
             slot = k;
             break;
           }
@@ -870,15 +916,15 @@ export function createParticleSystem(
           `(1 - e^-kt)/k` -> `dt` as k -> 0, so a dragless effect falls out of
           the same expression rather than needing a second one.
 
-          A full cache does not fall back to anything: it computes the same two
-          numbers and declines to store them. Nine distinct drags in the effect
-          table against sixteen slots means that has never happened, which is
-          why it is a missing store rather than a second code path to get wrong.
+          A full cache computes the same two numbers without storing them.
+          Births have distinct durations, so a busy emission frame can fill it;
+          existing particles still share one duration per drag.
         */
-        const e = slot >= 0 ? dragFactors[slot]! : drag > 0 ? Math.exp(-drag * dt) : 1;
-        const integral = slot >= 0 ? dragIntegrals[slot]! : drag > 0 ? (1 - e) / drag : dt;
+        const e = slot >= 0 ? dragFactors[slot]! : drag > 0 ? Math.exp(-drag * particleDt) : 1;
+        const integral = slot >= 0 ? dragIntegrals[slot]! : drag > 0 ? (1 - e) / drag : particleDt;
         if (slot < 0 && cached < DRAG_CACHE) {
           dragKeys[cached] = drag;
+          dragSteps[cached] = particleDt;
           dragFactors[cached] = e;
           dragIntegrals[cached] = integral;
           cached += 1;
@@ -892,9 +938,9 @@ export function createParticleSystem(
         const vx0 = vx[i]!;
         const vy0 = vy[i]!;
         x[i]! += vx0 * integral;
-        y[i]! += (vy0 + terminal) * integral - terminal * dt - (drag > 0 ? 0 : 0.5 * gravity * dt * dt);
+        y[i]! += (vy0 + terminal) * integral - terminal * particleDt - (drag > 0 ? 0 : 0.5 * gravity * particleDt * particleDt);
         vx[i]! = vx0 * e;
-        vy[i]! = (vy0 + terminal) * e - terminal - (drag > 0 ? 0 : gravity * dt);
+        vy[i]! = (vy0 + terminal) * e - terminal - (drag > 0 ? 0 : gravity * particleDt);
 
         const sprite = sprites[i]!;
         const size = size0[i]! + (size1[i]! - size0[i]!) * t;
@@ -915,7 +961,7 @@ export function createParticleSystem(
         let alpha = alpha0[i]! + (alpha1[i]! - alpha0[i]!) * t;
         /*
           The shock train (M9.6). A cosine of the distance TRAVELLED, so the
-          bright bands stand still in the world while the gas streams through
+          bright bands stand still at the nozzle while the gas streams through
           them — which is what a standing shock is. Every particle of every other
           effect has `bandOf` at 0 and pays one comparison.
         */

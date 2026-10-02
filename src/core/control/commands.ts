@@ -34,18 +34,22 @@ export function toggleRaptor(state: SimState, engine: RaptorIndex): void {
 }
 
 /**
- * switches.js:108 — all three at once.
+ * switches.js:108 — *Engines* (all).
  *
  * Note the 2021 asymmetry, preserved: if ANY engine is running it shuts down
  * only the running ones; otherwise it starts only the stopped ones. An engine
  * mid-ignition is neither, so the pattern differs subtly from "toggle each".
+ *
+ * Phase 6, Task 4b: it shuts down every running engine, RVacs included, but
+ * starts only the three sea-level engines, as the 2021 control did. RVacs are
+ * lit one by one, so the intro and autoLand, which call this, are unchanged.
  */
 export function toggleAllRaptors(state: SimState): void {
   const { running } = state.engines;
-  if (running[0] || running[1] || running[2]) {
-    for (const i of [0, 1, 2] as const) if (running[i]) toggleRaptor(state, i);
+  if (running.some(Boolean)) {
+    for (let i = 0; i < running.length; i++) if (running[i]) toggleRaptor(state, i);
   } else {
-    for (const i of [0, 1, 2] as const) if (!running[i]) toggleRaptor(state, i);
+    for (const i of C.SEA_LEVEL_RAPTORS) if (!running[i]) toggleRaptor(state, i);
   }
 }
 

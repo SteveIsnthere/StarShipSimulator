@@ -26,7 +26,13 @@
  *   It now lands within a few hundred metres of it.
  */
 import { describe, expect, it } from 'vitest';
-import { circularOrbitalSpeed, coastDownrangeDistance } from '$core/physics/gravity';
+import { surfaceTemperature } from '$core/physics/thermal';
+import {
+  circularOrbitalSpeed,
+  coastDownrangeDistance,
+  groundTangentialSpeed,
+  inertialTangentialSpeed,
+} from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
 import {
   createScenarioState,
@@ -42,13 +48,20 @@ import * as C from '$core/constants';
 const DT = 1 / 120;
 
 const circularHere = (s: SimState) => circularOrbitalSpeed(s.kinematics.distanceToPlanetCenter);
+/**
+ * The orbit is inertial and the simulation's speeds are over the turning
+ * ground (Phase 6 Task 9b), so every orbital comparison reads the inertial
+ * speed, and every orbit built by hand is flown at its ground-relative one.
+ */
+const inertialX = (s: SimState) =>
+  inertialTangentialSpeed(s.kinematics.distanceToPlanetCenter, s.kinematics.speedX);
 
 /** Put a state in a circular orbit at `altitude`. */
 function circularAt(altitude: number): SimState {
   const s = createScenarioState(getScenario('deorbit')!);
   s.kinematics.altitude = altitude;
   s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
-  s.kinematics.speedX = circularOrbitalSpeed(C.planetRadius + altitude);
+  s.kinematics.speedX = groundTangentialSpeed(C.planetRadius + altitude, circularOrbitalSpeed(C.planetRadius + altitude));
   s.kinematics.speedY = 0;
   s.kinematics.trueSpeed = s.kinematics.speedX;
   return s;
@@ -126,14 +139,19 @@ describe('the orbital presets', () => {
     const s = createScenarioState(getScenario('circularize')!);
     // Derived from circularOrbitalSpeed at spawn rather than transcribed, so
     // moving the altitude cannot leave a stale speed behind.
-    expect(circularHere(s) - s.kinematics.speedX).toBeCloseTo(20, 6);
-    expect(s.kinematics.speedX).toBeCloseTo(7780.68, 1);
+    expect(circularHere(s) - inertialX(s)).toBeCloseTo(20, 6);
+    expect(inertialX(s)).toBeCloseTo(Math.sqrt(C.planetGravitationalParameter / (C.planetRadius + ORBIT_ALTITUDE)) - 20, 9);
+    expect(inertialX(s)).toBeCloseTo(7798.29, 2); // Earth at 150 km, less 20
+    // Over the ground it is less by the ground's own speed at 150 km, omega*r
+    // (427.4 m/s at Earth's rate; nothing while the frame does not turn).
+    expect(s.kinematics.speedX).toBeCloseTo(7798.29 - C.frameRotationRate * (C.planetRadius + ORBIT_ALTITUDE), 2);
   });
 
   it('Deorbit starts exactly circular, half a lap from StarBase', () => {
     const s = createScenarioState(getScenario('deorbit')!);
-    expect(s.kinematics.speedX).toBe(circularHere(s));
-    expect(s.kinematics.speedX).toBeCloseTo(7800.68, 1);
+    expect(inertialX(s)).toBeCloseTo(circularHere(s), 9);
+    expect(inertialX(s)).toBeCloseTo(Math.sqrt(C.planetGravitationalParameter / (C.planetRadius + ORBIT_ALTITUDE)), 9);
+    expect(inertialX(s)).toBeCloseTo(7818.29, 2); // Earth's circular speed at 150 km
     const fromBase = Math.abs(s.kinematics.downRangeDistance - C.starBaseXPos);
     expect(fromBase).toBeCloseTo(Math.PI * C.planetRadius, -4);
   });
@@ -142,7 +160,7 @@ describe('the orbital presets', () => {
 describe('step 1 — circularize', () => {
   it('a short prograde burn closes the orbit', () => {
     let s = createScenarioState(getScenario('circularize')!);
-    const needed = circularHere(s) - s.kinematics.speedX;
+    const needed = circularHere(s) - inertialX(s);
 
     cmd.toggleAllRaptors(s);
     s.vehicle.throttle = 100;
@@ -150,7 +168,7 @@ describe('step 1 — circularize', () => {
 
     let burnSteps = 0;
     for (let i = 0; i < 120 * 300; i++) {
-      if (s.kinematics.speedX >= circularHere(s)) {
+      if (inertialX(s) >= circularHere(s)) {
         cmd.toggleAllRaptors(s);
         break;
       }
@@ -160,7 +178,7 @@ describe('step 1 — circularize', () => {
 
     expect(needed).toBeCloseTo(20, 6);
     expect(burnSteps * DT, 'burn duration').toBeLessThan(30);
-    expect(s.kinematics.speedX / circularHere(s)).toBeCloseTo(1, 3);
+    expect(inertialX(s) / circularHere(s)).toBeCloseTo(1, 3);
     expect(s.failures.inFlightBreakUp).toBe(false);
     expect(s.kinematics.altitude).toBeGreaterThan(145_000);
   });
@@ -170,7 +188,8 @@ describe('step 2 — coast a full lap', () => {
   it('a 150 km orbit holds for a full 88-minute lap', () => {
     let s = circularAt(150_000);
     const steps = lapSteps(150_000);
-    expect((steps * DT) / 60).toBeCloseTo(87.9, 0);
+    const r = C.planetRadius + 150_000;
+    expect(Math.abs(steps * DT - 2 * Math.PI * Math.sqrt(r ** 3 / C.planetGravitationalParameter))).toBeLessThanOrEqual(DT);
 
     let min = Infinity;
     let max = -Infinity;
@@ -263,16 +282,15 @@ describe('step 3 — deorbit and land at StarBase', () => {
   });
 
   it('and the entry is managed, not merely survived', () => {
-    // 315 units against a limit of 389 — 81% of it (318 and 82% before M11.3
-    // moved the integrator; the entry is a second-order trajectory now and the
-    // peak moved one percent). The margin is why the burn is bounded rather
-    // than free: a bigger one drops perigee further, meets thick air faster,
-    // and pushes the peak up. Tighter than the Re-entry preset's 63%, which is
-    // right — coming home from orbit should be the hardest thing the vehicle
-    // does.
-    expect(flight.peakHeat).toBeGreaterThan(250);
+    // Since Phase 6 (Task 8) the limit is a tile temperature: the peak flux
+    // holds the belly at 1,459 K against the 1,533 K limit, 95% of it (the
+    // flux is 82% of the flux that would hold 1,533 K; T goes as q^1/4). The
+    // margin is why the burn is bounded rather than free: a bigger one drops
+    // perigee further, meets thick air faster, and pushes the peak up. Tighter
+    // than the Re-entry preset's 1,372 K, which is right — coming home from
+    // orbit should be the hardest thing the vehicle does.
     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
-    expect(flight.peakHeat / C.heatLimit, 'fraction of the structural limit').toBeCloseTo(0.81, 2);
+    expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature, K').toBeCloseTo(1459, -1);
   });
 
   it('is deterministic — the same flight twice', () => {
@@ -309,14 +327,14 @@ describe('THE WHOLE DEMO, end to end — the M2.9 acceptance line', () => {
     s.vehicle.throttleCurrent = 100;
     let burnSteps = 0;
     for (let i = 0; i < 120 * 300; i++) {
-      if (s.kinematics.speedX >= circularSpeed()) break;
+      if (inertialX(s) >= circularSpeed()) break;
       s = step(s, DT);
       burnSteps += 1;
     }
     cmd.toggleAllRaptors(s);
     const afterCircularise = {
       altitude: s.kinematics.altitude,
-      ratio: s.kinematics.speedX / circularSpeed(),
+      ratio: inertialX(s) / circularSpeed(),
       seconds: burnSteps * DT,
     };
 
@@ -374,7 +392,7 @@ describe('the guidance works from orbits it was never calibrated on', () => {
   const circularAtAltitude = (altitude: number) => (s: SimState) => {
     s.kinematics.altitude = altitude;
     s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
-    s.kinematics.speedX = circularOrbitalSpeed(C.planetRadius + altitude);
+    s.kinematics.speedX = groundTangentialSpeed(C.planetRadius + altitude, circularOrbitalSpeed(C.planetRadius + altitude));
     s.kinematics.trueSpeed = s.kinematics.speedX;
   };
 
@@ -398,7 +416,7 @@ describe('the guidance works from orbits it was never calibrated on', () => {
 
   it('with an engine already failed, so the burn is a third longer', () => {
     const f = from((s) => {
-      s.engines.failed = [true, false, false];
+      s.engines.failed = [true, false, false, false, false, false];
     });
     expect(f.outcome).toBe('landed');
     expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} km`).toBeLessThan(20_000);

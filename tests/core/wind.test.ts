@@ -22,8 +22,10 @@
  * hand.
  */
 import { describe, expect, it } from 'vitest';
+import { getReentryHeatPower } from '$core/physics/thermal';
 import * as C from '$core/constants';
 import { relativeAirspeed, relativeWindAngle } from '$core/physics/aero';
+import { meanWindAt } from '$core/physics/wind';
 import { createInitialState, type SimState } from '$core/state';
 import { step } from '$core/step';
 
@@ -39,7 +41,7 @@ function gliding(speedX: number, speedY: number, wind = 0, gust = 0): SimState {
   s.kinematics.trueSpeed = Math.sqrt(speedX ** 2 + speedY ** 2);
   s.world.wind = wind;
   s.world.gust = gust;
-  s.engines.running = [false, false, false];
+  s.engines.running = [false, false, false, false, false, false];
   s.vehicle.throttle = 0;
   s.vehicle.throttleCurrent = 0;
   s.status.translationModeOn = false;
@@ -62,9 +64,11 @@ describe('the helpers are the ground expressions applied to the relative wind', 
     }
   });
 
-  it('subtract the wind and the gust from the downrange component only', () => {
-    expect(relativeAirspeed(100, -20, 12, 3)).toBe(Math.sqrt((100 - 15) ** 2 + 20 ** 2));
-    expect(relativeWindAngle(100, -20, 12, 3)).toBe(Math.atan2(85, -20));
+  it("subtract the air's velocity component by component", () => {
+    // Phase 6 Task 10: the air is a vector, the mean wind plus the gusts
+    // downrange and the vertical gust up (physics/wind.ts).
+    expect(relativeAirspeed(100, -20, 15, 3)).toBe(Math.sqrt((100 - 15) ** 2 + (-20 - 3) ** 2));
+    expect(relativeWindAngle(100, -20, 15, 3)).toBe(Math.atan2(85, -23));
   });
 });
 
@@ -91,8 +95,10 @@ describe('airspeed is the speed through the air, not over the ground', () => {
     expect(s.forces.dynamicPressure).toBeGreaterThan(0);
     expect(s.forces.aerodynamicDrag).toBeGreaterThan(0);
     expect(s.forces.thermalPower).toBeGreaterThan(0);
-    // Exactly what 25 m/s of air gives: q = rho * v^2 * 0.0005 with v = 25.
-    const q = s.atmosphere.airDensity * 25 ** 2 * 0.0005;
+    // Exactly what that air gives: q = rho * v^2 * 0.0005, with v the 25 m/s
+    // surface wind carried up the profile to the glider's 2 km.
+    const v = meanWindAt(25, 2_000);
+    const q = s.atmosphere.airDensity * v ** 2 * 0.0005;
     expect(s.forces.dynamicPressure).toBe(q);
   });
 
@@ -101,10 +107,14 @@ describe('airspeed is the speed through the air, not over the ground', () => {
     // runs that differ only in wind are v^2, v^2 and v^3 of the same v.
     const a = step(gliding(200, -100, 0), DT);
     const b = step(gliding(200, -100, -60), DT);
-    const v = relativeAirspeed(200, -100, -60, 0) / relativeAirspeed(200, -100, 0, 0);
+    const v = relativeAirspeed(200, -100, meanWindAt(-60, 2_000), 0) / relativeAirspeed(200, -100, 0, 0);
     expect(b.forces.dynamicPressure / a.forces.dynamicPressure).toBeCloseTo(v ** 2, 9);
     expect(b.forces.aerodynamicDrag / a.forces.aerodynamicDrag).toBeCloseTo(v ** 2, 9);
-    expect(b.forces.thermalPower / a.forces.thermalPower).toBeCloseTo(v ** 3, 9);
+    // Heating also reads the attitude to the air (Phase 6: a cylinder's
+    // stagnation line takes 1/sqrt(2) of a sphere's flux), and the wind turns
+    // that; divided out, the flux is the cube of the same airspeed.
+    const shape = (st: typeof a) => getReentryHeatPower(1, 1, 1, st.kinematics.angleInToTheWind);
+    expect(b.forces.thermalPower / shape(b) / (a.forces.thermalPower / shape(a))).toBeCloseTo(v ** 3, 9);
   });
 
   it('Mach is relative to the air', () => {
@@ -115,7 +125,12 @@ describe('airspeed is the speed through the air, not over the ground', () => {
     const still = step(gliding(300, 0), DT);
     const head = step(gliding(300, 0, -100), DT);
     const vs = relativeAirspeed(still.kinematics.speedX, still.kinematics.speedY, 0, 0);
-    const vh = relativeAirspeed(head.kinematics.speedX, head.kinematics.speedY, -100, 0);
+    const vh = relativeAirspeed(
+      head.kinematics.speedX,
+      head.kinematics.speedY,
+      meanWindAt(-100, head.kinematics.altitude),
+      0,
+    );
     expect(head.kinematics.machSpeed).toBeGreaterThan(still.kinematics.machSpeed);
     expect(head.kinematics.machSpeed / still.kinematics.machSpeed).toBeCloseTo(vh / vs, 9);
   });
@@ -141,10 +156,13 @@ describe('the aerodynamic angles follow the relative wind', () => {
     // no horizontal drag component at all; in a crosswind it must — that is the
     // decomposition taking the relative-wind angle, and it is what pushes a
     // descending vehicle downwind.
+    // (A turning ground adds its Coriolis term, -2 omega v_r, to both alike:
+    // Phase 6 Task 9. It is the whole of the still-air figure.)
     const still = step(gliding(0, -80), DT);
     const cross = step(gliding(0, -80, 20), DT);
-    expect(Math.abs(still.kinematics.accelerationX)).toBeLessThan(1e-9);
-    expect(Math.abs(cross.kinematics.accelerationX)).toBeGreaterThan(0.01);
+    const coriolis = -2 * C.frameRotationRate * still.kinematics.speedY;
+    expect(Math.abs(still.kinematics.accelerationX - coriolis)).toBeLessThan(1e-6);
+    expect(Math.abs(cross.kinematics.accelerationX - still.kinematics.accelerationX)).toBeGreaterThan(0.01);
   });
 });
 
@@ -158,7 +176,7 @@ describe('what the wind does NOT touch', () => {
     s.kinematics.speedY = -1;
     s.kinematics.trueSpeed = 1;
     s.world.wind = 30;
-    s.engines.running = [false, false, false];
+    s.engines.running = [false, false, false, false, false, false];
     const after = step(s, DT);
     expect(after.status.landed).toBe(true);
     expect(after.failures.crashed).toBe(false);

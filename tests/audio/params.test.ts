@@ -37,8 +37,8 @@ describe('counting what is actually lit', () => {
 
   it('counts a commanded, working, finished-igniting engine', () => {
     const s = state();
-    s.engines.running = [true, true, false];
-    s.engines.failed = [false, false, false];
+    s.engines.running = [true, true, false, false, false, false];
+    s.engines.failed = [false, false, false, false, false, false];
     s.engines.ignitionCountdown = [null, null, null];
     expect(litEngines(s)).toBe(2);
   });
@@ -53,16 +53,16 @@ describe('counting what is actually lit', () => {
       simulation.
     */
     const s = state();
-    s.engines.running = [true, true, true];
-    s.engines.failed = [false, false, false];
+    s.engines.running = [true, true, true, false, false, false];
+    s.engines.failed = [false, false, false, false, false, false];
     s.engines.ignitionCountdown = [0.4, null, null];
     expect(litEngines(s)).toBe(2);
   });
 
   it('does not count a failed engine', () => {
     const s = state();
-    s.engines.running = [true, true, true];
-    s.engines.failed = [false, true, false];
+    s.engines.running = [true, true, true, false, false, false];
+    s.engines.failed = [false, true, false, false, false, false];
     s.engines.ignitionCountdown = [null, null, null];
     expect(litEngines(s)).toBe(2);
   });

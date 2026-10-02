@@ -2,7 +2,7 @@
  * The physics guidance reasons with: the simulation's own gravity, thrust,
  * atmosphere and drag, asked the way the autopilot needs to ask them.
  *
- * Phase 5 (docs/plans/modernization/modernization-phase-5.md). Until then the
+ * Phase 5 (merged b84b746; the decisions are in docs/reference/physics-model.md, "What guidance assumes"). Until then the
  * guidance sized its burns with a flat g of 9.807 m/s², sea-level thrust and no
  * drag, and landed only because those errors happened to leave room. Everything
  * here is a function of the same models `step()` integrates, so an estimate is
@@ -23,8 +23,9 @@ import {
   wrappedAttackAngle,
 } from '../physics/aero';
 import { getHorizontalAcceleration, getVerticalAcceleration, type AccelerationInputs } from '../physics/components';
-import { gravityAt, tangentialAcceleration, verticalGravityAcceleration } from '../physics/gravity';
+import { tangentialAcceleration, verticalGravityAcceleration, verticalWeight } from '../physics/gravity';
 import { isaAtmosphereInto } from '../physics/isa';
+import { meanWindAt } from '../physics/wind';
 import type { SimState } from '../state';
 import { rad } from '../units';
 
@@ -98,7 +99,10 @@ export function createBurnScratch(): BurnScratch {
       gimbalPointingDirection: rad(0),
       aerodynamicDragAcceleration: 0,
       aerodynamicLiftAcceleration: 0,
+      // An unpowered fall: no thrust of either kind.
       thrustAcceleration: 0,
+      fixedThrustAcceleration: 0,
+      pitch: rad(0),
     },
     acc: { x: 0, y: 0 },
   };
@@ -179,7 +183,7 @@ function backwardPass(
  */
 function burnDeceleration(engines: number, h: number, u: number, m: number, scratch: BurnScratch): number {
   const drag = tailFirstDragDeceleration(h, u, m, scratch);
-  return thrustFor(engines, scratch.atmosphere.airPressure) / m + drag - gravityAt(C.planetRadius + h);
+  return thrustFor(engines, scratch.atmosphere.airPressure) / m + drag - verticalWeight(C.planetRadius + h);
 }
 
 /** Most passes of the touchdown-mass iteration, and the residual it stops at (kg). */
@@ -195,8 +199,9 @@ const MASS_TOLERANCE = 1;
  *
  * Integrated BACKWARD from touchdown, because the start altitude is the
  * unknown: from rest at the touchdown height, run time in reverse until the
- * descent speed matches. Gravity at each altitude (`gravityAt`, no centrifugal
- * term: a landing burn is nearly vertical), thrust at that altitude's
+ * descent speed matches. Gravity at each altitude as a vertical vehicle feels
+ * it (`verticalWeight`: no downrange speed, so no centrifugal term of its own,
+ * but the turning ground's), thrust at that altitude's
  * pressure, drag in the burn attitude, and mass that grows back at the flow.
  *
  * The mass at touchdown is unknown until the burn is sized (it is the current
@@ -235,7 +240,7 @@ export function landingBurnStartAltitude(
     and a pass that runs out of steps means the burn is longer than this sizes:
     null, never a guess.
   */
-  const lowerBound = thrustFor(engines, C.SEA_LEVEL_PRESSURE_PA / 1000) / mass - gravityAt(C.planetRadius);
+  const lowerBound = thrustFor(engines, C.SEA_LEVEL_PRESSURE_PA / 1000) / mass - verticalWeight(C.planetRadius);
   if (lowerBound <= 0) return null;
   let light = Math.max(mass - flow * (descentSpeed / lowerBound), C.vehicleDryMass);
   let start = backwardPass(engines, light, descentSpeed, touchdownHeight, scratch);
@@ -315,14 +320,14 @@ function fallAcceleration(
   pitch: number,
   mass: number,
   maxArea: number,
-  airWind: number,
+  referenceWind: number,
   scratch: BurnScratch,
 ): void {
   const { inputs, acc } = scratch;
   const r = C.planetRadius + altitude;
   const air = scratch.atmosphere;
   isaAtmosphereInto(Math.max(altitude, 0), air);
-  const rx = vx - airWind;
+  const rx = vx - meanWindAt(referenceWind, altitude);
   const speed = Math.sqrt(rx * rx + vy * vy);
   const motion = Math.atan2(rx, vy);
   const attack = wrappedAttackAngle(pitch, motion);
@@ -363,8 +368,10 @@ export function unpoweredFallInto(
   const pitch = kinematics.pitch;
   const mass = vehicle.vehicleMass;
   const maxArea = vehicle.vehicleInFlightMaxArea;
-  // The air's downrange speed, as step() takes it: the wind plus the gust.
-  const airWind = world.wind + world.gust;
+  // The air's downrange speed, as step() takes it, at each height of the fall:
+  // the mean wind profile (physics/wind.ts). The turbulence is left out: it is
+  // zero-mean and decorrelates within seconds, so the expected fall has none.
+  const referenceWind = world.wind;
   const acc = scratch.acc;
   let h = kinematics.altitude;
   let x = 0;
@@ -372,10 +379,10 @@ export function unpoweredFallInto(
   let vy = kinematics.speedY;
   const half = FALL_STEP * 0.5;
   for (let i = 0; i < FALL_STEP_CAP; i++) {
-    fallAcceleration(h, vx, vy, pitch, mass, maxArea, airWind, scratch);
+    fallAcceleration(h, vx, vy, pitch, mass, maxArea, referenceWind, scratch);
     const mvx = vx + acc.x * half;
     const mvy = vy + acc.y * half;
-    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, airWind, scratch);
+    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, referenceWind, scratch);
     const nvx = vx + acc.x * FALL_STEP;
     const nvy = vy + acc.y * FALL_STEP;
     const nh = h + mvy * FALL_STEP;

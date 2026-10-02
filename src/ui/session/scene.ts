@@ -9,6 +9,7 @@
 import type { SimState } from '$core/state';
 import type { ScenarioPreset } from '$core/scenarios';
 import { heatLimit, vehicleHeight } from '$core/constants';
+import { getWorkingEngineCount } from '$core/physics/engines';
 import type { ViewApp } from '$view/app';
 import { worldToScreen } from '$view/camera';
 import { loadTextures, STARSHIP_TEXTURE } from '$view/assets';
@@ -32,13 +33,17 @@ export interface Scene {
   draw(state: SimState, previous: SimState, worldDt: number, preset: ScenarioPreset): void;
   /** Match the viewport to the window. */
   resize(width: number, height: number): void;
+  /** Discard effects and emitter history belonging to the preceding flight. */
+  resetFlight(): void;
+  /** Debug witnesses use the actual rendered nozzle, never a viewport guess. */
+  presentation(): { nozzleX: number; nozzleY: number; width: number; height: number };
+  setParticlesVisible(visible: boolean): void;
   destroy(): void;
 }
 
 /** Engines lit, counted without allocating (the per-frame path). */
 function litEngines(state: SimState): number {
-  const r = state.engines.running;
-  return (r[0] ? 1 : 0) + (r[1] ? 1 : 0) + (r[2] ? 1 : 0);
+  return getWorkingEngineCount(state.engines.running);
 }
 
 /**
@@ -169,6 +174,16 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
     resize(width, height) {
       view.resize(width, height);
       sky.resize(view.viewport);
+    },
+    presentation() {
+      return { nozzleX: effects.nozzle.x, nozzleY: effects.nozzle.y, width: view.viewport.width, height: view.viewport.height };
+    },
+    setParticlesVisible(visible) {
+      particles.container.visible = visible;
+    },
+    resetFlight() {
+      particles.clear();
+      effects.reset();
     },
     destroy() {
       // Mesh.destroy releases neither the hull shader nor its generated normal map.

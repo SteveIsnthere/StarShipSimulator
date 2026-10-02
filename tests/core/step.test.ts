@@ -178,7 +178,7 @@ describe('it actually simulates something', () => {
     commandIgnition(s, 2);
     s.vehicle.throttle = 100;
     s = run(s, 600); // 5 s: ~1 s ignition, then thrust
-    expect(s.engines.running).toEqual([true, true, true]);
+    expect(s.engines.running).toEqual([true, true, true, false, false, false]);
     expect(s.forces.thrust).toBeGreaterThan(0);
     expect(s.kinematics.speedY).toBeGreaterThan(0);
     expect(s.kinematics.altitude).toBeGreaterThan(createInitialState().kinematics.altitude);

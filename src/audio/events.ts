@@ -16,6 +16,7 @@
  * crash would explode sixty times a second — and a restart re-arms it, because
  * the same flight flown again is a new flight.
  */
+import { RAPTORS } from '$core/constants';
 import type { SimState } from '$core/state';
 import type { TransientName } from './transients';
 
@@ -33,7 +34,7 @@ export interface EdgeDetector {
 
 export function createEdgeDetector(): EdgeDetector {
   /** Per-engine: was it lit last frame? */
-  const wasLit: [boolean, boolean, boolean] = [false, false, false];
+  const wasLit: boolean[] = RAPTORS.map(() => false);
   let armed = false;
   let showedTouchdown = false;
   let showedCrash = false;
@@ -46,9 +47,7 @@ export function createEdgeDetector(): EdgeDetector {
 
   return {
     reset() {
-      wasLit[0] = false;
-      wasLit[1] = false;
-      wasLit[2] = false;
+      wasLit.fill(false);
       armed = false;
       showedTouchdown = false;
       showedCrash = false;
@@ -63,12 +62,12 @@ export function createEdgeDetector(): EdgeDetector {
         that happened before the flight existed.
       */
       if (!armed) {
-        for (let i = 0; i < 3; i++) wasLit[i] = isLit(state, i);
+        for (let i = 0; i < wasLit.length; i++) wasLit[i] = isLit(state, i);
         armed = true;
         return;
       }
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < wasLit.length; i++) {
         const lit = isLit(state, i);
         if (lit !== wasLit[i]) {
           // An engine that FAILS is not a shutdown — it is a failure, and M8.5's

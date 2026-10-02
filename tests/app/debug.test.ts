@@ -85,3 +85,19 @@ describe('what it does', () => {
     });
   });
 });
+
+
+describe('on-demand presentation controls', () => {
+  it('delegates geometry and visibility without changing simulation telemetry', () => {
+    const loop = harness().loop;
+    const geometry = { nozzleX: 30, nozzleY: 40, width: 100, height: 200 };
+    const visibility: boolean[] = [];
+    const debug = createSimDebug({ loop: () => loop, startScenario: () => {}, setPaused: () => {},
+      presentation: () => geometry, setParticlesVisible: (visible) => visibility.push(visible) });
+    const before = debug.telemetry();
+    expect(debug.presentation()).toBe(geometry);
+    debug.setParticlesVisible(false); debug.setParticlesVisible(true);
+    expect(visibility).toEqual([false, true]);
+    expect(debug.telemetry()).toEqual(before);
+  });
+});

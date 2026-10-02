@@ -66,7 +66,8 @@ It opens with the autopilot landing a Starship. When it touches down the vehicle
 yours — full tanks, engines off.
 
 - **Fly it**: the yoke on the right pitches the nose; the slider on the left is the
-  throttle; `R1`/`R2`/`R3` and `Toggle-All` light the Raptors.
+  throttle; three sea-level Raptors and three vacuum Raptors light one by one, and
+  `Engines` lights the sea-level three.
 - **Or don't**: `Lift-Off`, `Boost-Back`, `Att-Hold` and `Auto-Land` will do it for you.
   `Auto-Land` from any altitude is worth watching at least once.
 - **Menu** → scenario presets, from a booster separation at 70 km to a landing burn at
@@ -77,10 +78,11 @@ yours — full tanks, engines off.
   on every one, a single cursor that reads all nine channels at the moment you point at,
   your previous flight behind the current one as a ghost, and a CSV export.
 - **When a flight ends** a card says what happened and why: touchdown speeds against the
-  limits, pitch at contact, how far from the pad, peak dynamic pressure, peak heating,
+  limits, pitch at contact, how far from the pad, peak dynamic pressure, the heat shield's
+  peak temperature against its 1,533 K limit,
   peak g, propellant left, and when each event happened. It gets out of the way on the
   next thing you press.
-- **Keyboard**: WASD or the arrow keys, `Space` for all engines, `1`/`2`/`3` for one,
+- **Keyboard**: WASD or the arrow keys, `Space` for the sea-level engines, `1`–`6` for one,
   `F` fins, `R` RCS, `T` attitude hold, `Backspace` boost-back, `=`/`-` zoom. The full
   list is in the guide, and so are the autopilot modes and every scenario — all three
   generated from the tables the application itself runs on, so none of them can drift.

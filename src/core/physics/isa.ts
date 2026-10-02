@@ -116,13 +116,22 @@ const LAYERS = buildLayers();
 export const ISA_TOP_GEOPOTENTIAL = 84_852;
 
 /**
- * Geometric altitude to geopotential altitude.
+ * m — the 1976 standard's effective Earth radius r0 (U.S. Standard Atmosphere
+ * 1976, eq. 18). Not the planet's radius: it is the radius at which the
+ * standard's geopotential reproduces its sea-level g0, and its tables are
+ * defined against it, so 86 km geometric is exactly the 84,852 m top.
+ */
+export const USSA76_R0 = 6_356_766;
+
+/**
+ * Geometric altitude to geopotential altitude, H = r0*h / (r0 + h).
  *
- * H = r*h / (r + h). Uses the simulation's own planet radius rather than
- * Earth's, so the two models describe the same planet.
+ * Phase 6, Task 2: this used the simulation's planet radius until the planet
+ * became Earth's. The atmosphere is the standard's, so it takes the standard's
+ * r0; the gap to the planet's 6,371 km moves the 86 km seam by about 3 m.
  */
 export function geopotentialAltitude(geometricAltitude: number): number {
-  return (C.planetRadius * geometricAltitude) / (C.planetRadius + geometricAltitude);
+  return (USSA76_R0 * geometricAltitude) / (USSA76_R0 + geometricAltitude);
 }
 
 /** The layer containing a given geopotential altitude. */
@@ -228,9 +237,6 @@ function tableStateInto(altitude: number, out: { pressurePascal: number; tempera
   out.pressurePascal = pressureInLayer(layer.basePressure, layer.baseTemperature, layer.lapseRate, dh);
 }
 
-/** The mesopause temperature the thermosphere warms from, K. Computed once. */
-const MESOPAUSE_KELVIN = tableStateAt(THERMOSPHERE_BASE).temperatureKelvin;
-
 /**
  * The ISA at a geometric altitude, with a thermosphere above it.
  *
@@ -276,6 +282,33 @@ export function isaAtmosphere(altitude: number): Atmosphere {
   return out;
 }
 
+/*
+ * Kinetic temperature above 86 km, U.S. Standard Atmosphere 1976 (eqs. 25-30,
+ * Table I). Phase 6, Bug fix: a single exponential from the mesopause read
+ * 293 K at 100 km against the standard's 195 K. Only the Mach number reads
+ * it: density above 86 km is chained from the table (above), and pressure is
+ * recovered from the ideal gas law.
+ */
+const T_86_TO_91 = 186.8673; // K, isothermal
+const T_C = 263.1905; // K, elliptical segment's centre
+const A_ELLIPSE = -76.3232; // K
+const a_ELLIPSE = -19.9429; // km
+const T_110 = 240; // K
+const LAPSE_110 = 12; // K/km
+const T_120 = 360; // K
+const LAMBDA = 0.01875; // 1/km
+const R_0_KM = USSA76_R0 / 1000; // km
+
+/** K — the 1976 standard's kinetic temperature at a geometric altitude above 86 km. */
+function thermosphereKelvin(altitude: number): number {
+  const z = altitude / 1000;
+  if (z <= 91) return T_86_TO_91;
+  if (z <= 110) return T_C + A_ELLIPSE * Math.sqrt(1 - ((z - 91) / a_ELLIPSE) ** 2);
+  if (z <= 120) return T_110 + LAPSE_110 * (z - 110);
+  const xi = ((z - 120) * (R_0_KM + 120)) / (R_0_KM + z);
+  return T_EXOSPHERE - (T_EXOSPHERE - T_120) * Math.exp(-LAMBDA * xi);
+}
+
 /** Scratch for `isaAtmosphereInto`'s lapse-rate lookup; module-private, so never shared across a call. */
 const TABLE_SCRATCH = { pressurePascal: 0, temperatureKelvin: 0 };
 
@@ -303,10 +336,7 @@ export function isaAtmosphereInto(altitude: number, out: Atmosphere): void {
   }
   const airDensity = band.density * Math.exp(-(altitude - band.base) / band.scaleHeight);
 
-  // Warms from the mesopause toward the exosphere over a ~100 km e-folding —
-  // the standard's shape, which is what the Mach number needs it for.
-  const temperatureKelvin =
-    T_EXOSPHERE - (T_EXOSPHERE - MESOPAUSE_KELVIN) * Math.exp(-(altitude - THERMOSPHERE_BASE) / 100_000);
+  const temperatureKelvin = thermosphereKelvin(altitude);
 
   out.airTemperature = temperatureKelvin - 273.15;
   out.airPressure = (airDensity * R * temperatureKelvin) / 1000;

@@ -2,7 +2,7 @@
  * How much altitude the landing burn needs: the sizing behind the flip trigger
  * and the end of the horizontal adjustment.
  *
- * Phase 5, Task 4 (docs/plans/modernization/modernization-phase-5.md). Until
+ * Phase 5, Task 4 (merged b84b746; the decisions are in docs/reference/physics-model.md, "What guidance assumes"). Until
  * then both were a constant-deceleration estimate at sea-level thrust, a flat
  * g of 9.807 m/s² and no drag. Now they ask the predictor
  * (`landingBurnStartAltitude`), which integrates the simulation's own gravity,
@@ -16,12 +16,15 @@
  */
 import * as C from '../constants';
 import { createBurnScratch, landingBurnStartAltitude } from '../control/guidance-physics';
-import { getHealthyEngineCount, getWorkingEngineCount } from '../physics/engines';
-import { gravityAt } from '../physics/gravity';
+import { getHealthySeaLevelCount, getWorkingSeaLevelCount } from '../physics/engines';
+import { verticalWeight } from '../physics/gravity';
 import type { SimState } from '../state';
 
 /*
  * NO ADDED TRIGGER MARGIN, and that is a measured decision (Phase 5, Task 4).
+ * (Phase 6, Task 4c, since moved the trigger's ignition delay from 2021's 0.6 s
+ * to the draw's 1.2 s maximum: the start transient, not a margin, and the
+ * 18 t landing reserve pays for it.)
  * The trigger's pessimism is the one-engine ladder above, as it always was:
  * with every engine working it plans on a third of the thrust it will have.
  * Two margins were tried on top of the predictor and both broke the
@@ -41,8 +44,8 @@ import type { SimState } from '../state';
  */
 export const HORIZONTAL_ADJUSTMENT_MARGIN_S = 1;
 
-/** m/s² — gravity at the pad, where the burn ends. */
-const PAD_GRAVITY = gravityAt(C.planetRadius);
+/** m/s² — gravity at the pad as a vehicle standing on it feels it, where the burn ends. */
+const PAD_GRAVITY = verticalWeight(C.planetRadius);
 
 /** One scratch for both sizings; fully rewritten on every call. */
 const scratch = createBurnScratch();
@@ -51,15 +54,16 @@ const scratch = createBurnScratch();
  * The engine count the trigger plans the burn on: one, or two or three when
  * one cannot hold 1/0.8 of the weight (2021's ladder, in thrust-to-weight on
  * the gravity the vehicle feels at the pad), and never more than are working.
- * On pad gravity (9.731) rather than the flat 9.807 the one-to-two boundary
- * moves from 184.0 t to 185.4 t: the ladder's meaning, on the true weight.
+ * On pad gravity (9.820 since Phase 6) rather than the flat 9.807 the
+ * one-to-two boundary moves from 184.0 t to 183.7 t: the ladder's meaning, on
+ * the true weight.
  */
 export function plannedEngineCount(state: SimState): number {
   const weight = state.vehicle.vehicleMass * PAD_GRAVITY;
   let engines = 1;
   if (C.maxThrustPerRaptor * 0.8 < weight) engines = 2;
   if (C.maxThrustPerRaptor * 2 * 0.8 < weight) engines = 3;
-  return Math.min(engines, getHealthyEngineCount(state.engines.failed));
+  return Math.min(engines, getHealthySeaLevelCount(state.engines.failed));
 }
 
 /**
@@ -86,7 +90,7 @@ export function triggerBurnAltitude(state: SimState): number {
 export function finalDescentStartAltitude(state: SimState): number {
   const descent = -state.kinematics.speedY;
   const predicted = landingBurnStartAltitude(
-    getWorkingEngineCount(state.engines.running),
+    getWorkingSeaLevelCount(state.engines.running),
     state.vehicle.vehicleMass,
     descent,
     C.vehicleHeight * 0.5,

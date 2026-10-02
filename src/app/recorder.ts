@@ -62,7 +62,7 @@ export const CHANNELS: readonly Channel[] = [
   },
 
   // thermalPower & dynamicPressure
-  { id: 'thermalPower', label: 'Heating', read: (s) => s.forces.thermalPower },
+  { id: 'thermalPower', label: 'Heat flux', read: (s) => s.forces.thermalPower },
   { id: 'dynamicPressure', label: 'Dynamic pressure', read: (s) => s.forces.dynamicPressure },
 
   // accelerationPlot
