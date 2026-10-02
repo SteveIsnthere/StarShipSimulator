@@ -150,6 +150,11 @@ function valueNoise(u: number, v: number, lattice: number, salt: number): number
  * in one atlas so they batch as a single draw call, and a bilinear sample at a
  * frame edge would otherwise pick up the neighbour.
  */
+/** Existing 2021 soft profile, shared with the continuous gas feather. */
+export function softParticleProfile(t: number): number {
+  return t >= 1 ? 0 : t < 0.4 ? 1 - 0.35 * (t / 0.4) : 0.65 * (1 - (t - 0.4) / 0.6);
+}
+
 export function writeParticleTexture(
   name: ParticleTextureName,
   cell: number,
@@ -176,7 +181,7 @@ export function writeParticleTexture(
             like what it was tuned to.
           */
           const t = Math.hypot(dx, dy);
-          alpha = t >= 1 ? 0 : t < 0.4 ? 1 - 0.35 * (t / 0.4) : 0.65 * (1 - (t - 0.4) / 0.6);
+          alpha = softParticleProfile(t);
           break;
         }
         case 'core': {

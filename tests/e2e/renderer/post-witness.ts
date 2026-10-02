@@ -151,3 +151,6 @@ async function bloomFootprint(): Promise<{ maxDifference: number; directDifferen
 }
 (window as unknown as { bloomFootprint: typeof bloomFootprint }).bloomFootprint = bloomFootprint;
 (window as unknown as { postSampling: typeof samplingWitness }).postSampling = samplingWitness;
+
+import { bellWitness } from './emissive-bell-witness';
+(window as unknown as { bellWitness: typeof bellWitness }).bellWitness = bellWitness;

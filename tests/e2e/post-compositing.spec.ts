@@ -88,3 +88,23 @@ test('additive bloom survives a real WebGL context restoration @mobile', async (
   const report = await render(page, 'fire', true);
   expect(report.bloomMinimum).toBeGreaterThanOrEqual(-1);
 });
+
+
+test('continuous bell follows actual engine lifecycle and pressure @mobile', async ({ page }) => {
+  await openWitness(page);
+  const report = await page.evaluate(() => (window as unknown as {
+    bellWitness(): Promise<import('./renderer/emissive-bell-witness').BellReport>;
+  }).bellWitness());
+  await test.info().attach('continuous-bell-measurements', { body: JSON.stringify(report), contentType: 'application/json' });
+  console.log('[continuous-bell]', report);
+  expect(report.offEnergy).toBe(0);
+  expect(report.oneEnergy).toBeGreaterThan(0);
+  expect(report.threeEnergy / report.oneEnergy).toBeGreaterThan(2.8);
+  expect(report.threeEnergy / report.oneEnergy).toBeLessThan(3.2);
+  expect(report.pausedDifference).toBe(0);
+  expect(report.restartEnergy).toBe(0);
+  expect(report.widths[0]).toBeGreaterThan(0);
+  expect(report.widths[1]!).toBeGreaterThan(report.widths[0]!);
+  expect(report.smokeMinimum.every(value => value < -3)).toBe(true);
+  expect(report.mixedRed[0]!).toBeLessThan(report.mixedRed[1]! - 3);
+});
