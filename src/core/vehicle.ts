@@ -27,6 +27,9 @@ export interface VehicleDefinition {
   readonly aftFinArea: number;
   readonly engines: readonly C.RaptorMount[];
   readonly ignitionGroup: readonly number[];
+  /** Optional four-grid-fin geometry, absent on Ship. SI units. */
+  readonly gridFins?: { readonly area: number; readonly station: number; readonly maxAngle: number };
+
 }
 
 /** Shared LOX/methane properties used to size both vehicles' tanks. */

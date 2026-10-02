@@ -17,6 +17,7 @@
 import * as C from './constants';
 import { SHIP, type VehicleDefinition } from './vehicle';
 import { updateVehicleInFlightMaxArea } from './physics/aero';
+import { momentOfInertia } from './physics/mass';
 import { circularOrbitalSpeed } from './physics/gravity';
 import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
@@ -598,7 +599,8 @@ export function createInitialState(seed = DEFAULT_SEED, model: VehicleDefinition
       vehicleMass: spawnMass,
       propellantMass: model.initialPropellant,
       vehicleMomentOfInertia:
-        spawnMass * (model.diameter / 2) ** 2 * 0.25 + (spawnMass * model.height ** 2) / 12,
+        model.gridFins ? momentOfInertia(model.initialPropellant, model) :
+          spawnMass * (model.diameter / 2) ** 2 * 0.25 + (spawnMass * model.height ** 2) / 12,
       vehicleInFlightMaxArea: model.maxArea,
 
       throttle: 100,
@@ -607,8 +609,8 @@ export function createInitialState(seed = DEFAULT_SEED, model: VehicleDefinition
       gimbalPosition: 0,
       gimbalPointingDirection: rad(0),
 
-      frontFinExtension: 0,
-      aftFinExtension: 0,
+      frontFinExtension: model.gridFins ? 50 : 0,
+      aftFinExtension: model.gridFins ? 50 : 0,
 
       rcsRunTimeRemaining: C.rcsRunTimeRemaining,
     },

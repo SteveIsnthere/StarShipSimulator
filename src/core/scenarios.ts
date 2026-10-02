@@ -19,7 +19,9 @@
  * pitch in DEGREES, and propellant in TONNES.
  */
 import * as C from './constants';
-import { PROPELLANT_CAPACITY } from './physics/mass';
+import { SHIP, type VehicleDefinition } from './vehicle';
+import { momentOfInertia } from './physics/mass';
+import { SUPER_HEAVY } from './vehicles/super-heavy';
 import { toggleAllRaptors } from './control/commands';
 import { createInitialState, type SimState } from './state';
 import { circularOrbitalSpeed, groundTangentialSpeed } from './physics/gravity';
@@ -291,10 +293,21 @@ export function getScenario(id: string): ScenarioPreset | undefined {
  * degrees, and propellant is tonnes capped at 1200 t.
  */
 export function createScenarioState(preset: ScenarioPreset, seed?: number): SimState {
-  const s = seed === undefined ? createInitialState() : createInitialState(seed);
+  return createStateForVehicle(preset, seed, SHIP);
+}
+
+/** Preset identity selects the physical vehicle; custom flights inherit their base. */
+export function createScenarioVehicle(preset: ScenarioPreset, seed?: number): { state: SimState; vehicle: VehicleDefinition } {
+  const id = preset.id === 'custom' ? preset.basedOn : preset.id;
+  const vehicle = id === 'booster-sep' || id === 'rtls' ? SUPER_HEAVY : SHIP;
+  return { state: createStateForVehicle(preset, seed, vehicle), vehicle };
+}
+
+function createStateForVehicle(preset: ScenarioPreset, seed: number | undefined, model: VehicleDefinition): SimState {
+  const s = createInitialState(seed, model);
 
   let altitude = preset.altitude;
-  if (altitude < C.vehicleHeight / 2) altitude = C.vehicleHeight / 2;
+  if (altitude < model.height / 2) altitude = model.height / 2;
   s.kinematics.altitude = altitude;
   s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
 
@@ -308,12 +321,13 @@ export function createScenarioState(preset: ScenarioPreset, seed?: number): SimS
   s.kinematics.pitch = toRad(preset.pitch);
 
   let propellantMass = preset.propellant * 1000;
-  if (propellantMass > PROPELLANT_CAPACITY) propellantMass = PROPELLANT_CAPACITY;
+  if (propellantMass > model.propellantCapacity) propellantMass = model.propellantCapacity;
   // A negative number typed into the flight editor is an empty tank, not a
   // vehicle lighter than its own structure.
   if (!(propellantMass > 0)) propellantMass = 0;
   s.vehicle.propellantMass = propellantMass;
-  s.vehicle.vehicleMass = C.vehicleDryMass + propellantMass;
+  s.vehicle.vehicleMass = model.dryMass + propellantMass;
+  if (model.gridFins) s.vehicle.vehicleMomentOfInertia = momentOfInertia(propellantMass, model);
 
   /*
     The wind (M12.2). Absent means calm, which is what `createInitialState`

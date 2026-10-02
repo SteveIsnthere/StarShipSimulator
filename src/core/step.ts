@@ -52,6 +52,7 @@
  */
 import * as C from './constants';
 import { SHIP, type VehicleDefinition } from './vehicle';
+import { createGridFinForces, writeGridFinForces } from './physics/grid-fins';
 import { speedOfSoundAt, updateAtmosphere } from './physics/atmosphere';
 import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from './physics/thermal';
 import * as aero from './physics/aero';
@@ -251,6 +252,8 @@ function updatePerceivedG(s: SimState, specificX: number, specificY: number): vo
  * @param input commands from the player or autopilot this step
  * @returns a new SimState
  */
+const gridFinForces = createGridFinForces();
+
 export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT, model: VehicleDefinition = SHIP): SimState {
   const s = cloneState(previous);
 
@@ -404,12 +407,20 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     fixedThrustAcceleration: aero.getAcceleration(fixedThrust, s.vehicle.vehicleMass),
     pitch: s.kinematics.pitch,
   };
-  const bodyAccelerationX = comp.getHorizontalAcceleration(accelInputs);
+  if (model.gridFins) {
+    writeMassProperties(s.vehicle.propellantMass,massProperties,model);
+    writeGridFinForces(s.atmosphere.airDensity,
+      s.kinematics.speedX - wind.airVelocityX(s.world,s.kinematics.altitude),
+      s.kinematics.speedY - s.world.gustVertical,
+      rad((s.vehicle.frontFinExtension-50)/50*model.gridFins.maxAngle),
+      s.kinematics.pitch,massProperties.centreOfMass,model,gridFinForces);
+  }
+  const bodyAccelerationX = model.gridFins ? comp.getHorizontalAcceleration(accelInputs) + gridFinForces.forceX/s.vehicle.vehicleMass : comp.getHorizontalAcceleration(accelInputs);
   // M2.6, Fidelity. getVerticalAcceleration applies a constant -gravity;
   // adding C.gravity back and applying real gravity plus the centrifugal term
   // per end of the step is deliberate: it is what made M2.10's unification
   // provably bit-identical, and float addition is not associative.
-  const bodyAccelerationY = comp.getVerticalAcceleration(accelInputs, C.gravity) + C.gravity;
+  const bodyAccelerationY = model.gridFins ? comp.getVerticalAcceleration(accelInputs, C.gravity) + C.gravity + gridFinForces.forceY/s.vehicle.vehicleMass : comp.getVerticalAcceleration(accelInputs, C.gravity) + C.gravity;
 
   updateGroundContact(s, bodyAccelerationY, model);
 
@@ -579,6 +590,19 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     I,
   );
 
+  if (model.gridFins) {
+    writeGridFinForces(s.atmosphere.airDensity,
+      s.kinematics.speedX - wind.airVelocityX(s.world,s.kinematics.altitude),
+      s.kinematics.speedY - s.world.gustVertical,
+      rad((s.vehicle.frontFinExtension-50)/50*model.gridFins.maxAngle),
+      s.kinematics.pitch,massProperties.centreOfMass,model,gridFinForces);
+    s.forces.frontFinDrag = gridFinForces.lift;
+    s.forces.frontFinDragAngularAcceleration = gridFinForces.torque/I;
+    s.forces.offAxisThrustDifferenceAcceleration = eng.getOffAxisThrustTorque(
+      s.engines.running,s.vehicle.throttleCurrent,s.atmosphere.airPressure,
+      rad(s.vehicle.gimbalPosition*.01*C.gimbalAngleLimit),model)*burnedFraction/I;
+  }
+
   const alpha1 =
     s.forces.thrustVectorAcceleration +
     s.forces.angularDragAcceleration +
@@ -602,7 +626,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   if (input.throttle !== undefined) s.vehicle.throttle = input.throttle;
   if (input.pitchControl !== undefined) s.autopilot.pitchControl = input.pitchControl;
 
-  act.controlTranslation(s, s.autopilot.pitchControl, dt);
+  act.controlTranslation(s, s.autopilot.pitchControl, dt, model);
   act.throttleUpdate(s, dt);
 
   // Judge current pressure, tile temperature and specific force. Shutdown is

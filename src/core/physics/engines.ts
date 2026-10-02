@@ -88,6 +88,15 @@ export function getThrust(
  * gimballed thrust is the total's bits.
  */
 export function gimballedShare(running: readonly boolean[], ambientPressureKPa: number, model: VehicleDefinition = SHIP): number {
+  if (model.engines.some(m => m.gimballed === false && m.kind === 'sea-level')) {
+    let lit = 0, steerable = 0;
+    for (let i=0;i<model.engines.length;i++) if (running[i]) {
+      lit++;
+      if (model.engines[i]!.gimballed === true) steerable++;
+    }
+    // All booster mounts use the same SL nozzle, so thrust cancels exactly.
+    return lit > 0 ? steerable/lit : 0;
+  }
   if (countOfKind(running, 'vacuum', true, model) === 0) return 1;
   const total = getTotalMaxThrust(running, ambientPressureKPa, model);
   return total > 0 ? (countOfKind(running, 'sea-level', true, model) * C.thrustPerRaptorAt(ambientPressureKPa)) / total : 0;
@@ -289,4 +298,17 @@ export function updateRaptorStatus(state: SimState): void {
     state.engines.running.fill(false);
     state.engines.ignitionCountdown.fill(null);
   }
+}
+
+/** N m — axial thrust torque of actual booster offsets, clockwise positive.
+ * Fixed outer mounts do not follow the commanded gimbal. Ship retains its
+ * historical off-axis expression in step; this is the new booster model. */
+export function getOffAxisThrustTorque(running:readonly boolean[],throttle:number,pressure:number,gimbalAngle:Rad,model:VehicleDefinition):number {
+  let torque=0;
+  for(let i=0;i<model.engines.length;i++) if(running[i]) {
+    const mount=model.engines[i]!;
+    const thrust=mount.kind==='sea-level'?C.thrustPerRaptorAt(pressure):C.thrustPerRVacAt(pressure);
+    torque-=mount.offAxis*thrust*throttle*.01*Math.cos(mount.gimballed?gimbalAngle:0);
+  }
+  return torque;
 }

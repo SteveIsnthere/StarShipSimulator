@@ -4,6 +4,7 @@
  */
 import * as C from '$core/constants';
 import { createInitialState } from '$core/state';
+import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import { PROPELLANT_CAPACITY } from '$core/physics/mass';
 import { getFuelFlowRate, getTotalMaxThrust } from '$core/physics/engines';
 import { circularOrbitalSpeed } from '$core/physics/gravity';
@@ -113,4 +114,41 @@ export const BANDS: readonly Band[] = [
     conditions: 'vacuum, 200 km above the mean radius',
     probe: () => circularOrbitalSpeed(C.planetRadius + 200_000),
   },
+  {
+    id:'super-heavy.height',quantity:'historical booster hull height, m',
+    ...around(71,.01),unit:'m',tier:'A',
+    source:'FAA https://www.faa.gov/media/94371 PDF108/printed41, historical71m x9m cohort',
+    conditions:'Raptor2 historical booster, excluding future V3 expansion',probe:()=>SUPER_HEAVY.height,
+  },
+  {
+    id:'super-heavy.diameter',quantity:'historical booster hull diameter, m',
+    ...around(9,.01),unit:'m',tier:'A',
+    source:'FAA https://www.faa.gov/media/94371 PDF108/printed41',
+    conditions:'Raptor2 historical booster',probe:()=>SUPER_HEAVY.diameter,
+  },
+  {
+    id:'super-heavy.propellant.capacity',quantity:'historical booster full propellant load, kg',
+    ...around(3400000,.05),unit:'kg',tier:'A',
+    source:'FAA https://www.faa.gov/media/94371 PDF230, SpaceX page accessed2025-02-07',
+    conditions:'historical3400t cohort; future4100t cap excluded',probe:()=>SUPER_HEAVY.propellantCapacity,
+  },
+  {
+    id:'super-heavy.engine.count',quantity:'booster Raptor engine count',
+    min:33,max:33,unit:'engines',tier:'A',
+    source:'SpaceX https://www.spacex.com/updates/reusability',
+    conditions:'33 sea-level Raptors,13 steerable',probe:()=>createInitialState(123,SUPER_HEAVY).engines.running.length,
+  },
+  {
+    id:'super-heavy.dry.mass',quantity:'estimated booster dry mass, kg',
+    ...around(200000,.2),unit:'kg',tier:'B',
+    source:'Phase7 declared engineering estimate; no verified primary dry-mass declaration',
+    conditions:'160–240t sensitivity, not manufacturer-certified',probe:()=>SUPER_HEAVY.dryMass,
+  },
+  {
+    id:'super-heavy.grid-fin.area',quantity:'estimated combined four-fin reference area, m²',
+    ...around(24,.25),unit:'m²',tier:'B',
+    source:'Phase7 declared flat-plate engineering approximation, not measured coefficient data',
+    conditions:'four coupled upper grid fins',probe:()=>SUPER_HEAVY.gridFins!.area,
+  },
+
 ];

@@ -12,6 +12,7 @@
  * changes behaviour.
  */
 import * as C from '../constants';
+import { SHIP, type VehicleDefinition } from '../vehicle';
 import type { SimState } from '../state';
 import type { Rad } from '../units';
 
@@ -176,9 +177,14 @@ export function throttleUpdate(state: SimState, dt: number): void {
  * The fins get half the commanded authority; RCS and gimbal get all of it.
  * @param pitchControl -100 .. 100
  */
-export function controlTranslation(state: SimState, pitchControl: number, dt: number): void {
+export function controlTranslation(state: SimState, pitchControl: number, dt: number, model: VehicleDefinition = SHIP): void {
   if (!state.status.translationModeOn) return;
-  finsActuation(state, pitchControl / 2, dt);
+  if (model.gridFins) {
+    const command=state.status.finActive && !state.status.finLocked ? Math.max(-100,Math.min(100,pitchControl)) : 0;
+    frontFinActuation(state,50+command/2,dt);
+    // The four upper fins act together; the second legacy field is neutral.
+    aftFinActuation(state,50,dt);
+  } else finsActuation(state, pitchControl / 2, dt);
   rcsControl(state, pitchControl, dt);
   thrustVectorControl(state, pitchControl, dt);
 }
