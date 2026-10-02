@@ -86,9 +86,10 @@ Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-p
 
 ## Where Phase 6 stopped (2026-10-01)
 
-- Physics implementation is unchanged from its reviewed build; the current branch has a plume timing/projection and flight-reset repair awaiting complete verification.
-- Done on that head: `npm run gate` green (1,935 tests, coverage floors, e2e smoke, subpath deploy); `npm run mutation` 18 of 18 caught; `npm run truth:report` 8 of 8; `/code-review high`; independent physics review (ChatGPT Pro, three rounds, every finding fixed: fixed RVacs, the turbulence sweep, the radial coast, the throttle law, break-up on the tile temperature).
-- `npm run test:e2e:full` on that code (built after the last code commit; every later commit is docs only): **428 passed, 0 failed** (33 min, all five projects). Earlier full-run failures (the debrief's stale heat bound, a pixels flake) are fixed or re-ran green.
+- Latest source change: `4c03814`, the plume timing/projection and flight-reset repair. Physics and goldens are unchanged from the independently reviewed implementation. The current checkout is clean and pushed; later commits preserve the blocker and evidence.
+- Historical verification before the requested rerun, on `f81908b`: `npm run gate` green (1,935 tests, coverage floors, e2e smoke, subpath deploy); `npm run mutation` 18 of 18 caught; `npm run truth:report` 8 of 8; `/code-review high`; independent physics review (ChatGPT Pro, three rounds, every finding fixed: fixed RVacs, the turbulence sweep, the radial coast, the throttle law, break-up on the tile temperature).
+- Historical `npm run test:e2e:full` before this goal's requested rerun: **428 passed, 0 failed** (33 min, all five projects). This is superseded by the failing reruns below. Earlier full-run failures (the debrief's stale heat bound, a pixels flake) are fixed or re-ran green.
+- Current source verification on `4c03814`: complete local gate green (1,940 tests, coverage floors, smoke and subpath deployment), hosted CI `36940931396` green, independent graphics review clean; **full e2e red: 427 passed, 1 failed, 11 configured skips**.
 - Requested rerun on `92ed3d6`: 426 passed, 2 failed, 11 configured skips. The repair changed no browser bounds or retries. Final gate and hosted CI passed, but the final full-suite rerun still fails the iPhone portrait vacuum-width check. The three-attempt contract stops this phase.
 - Left: merge `--no-ff` to `main` from the main checkout, push, confirm the Pages deploy and the smoke tier against the live URL, tick the roadmap's Phase 6 line with the merge commit, then start 6b.
 
