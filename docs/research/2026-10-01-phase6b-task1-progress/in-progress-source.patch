@@ -5,13 +5,13 @@ index 97722a7..287dc05 100644
 @@ -25,0 +26 @@
 +    "entry:sweep": "vite-node scripts/entry-sweep.ts",
 diff --git a/src/core/autopilot/index.ts b/src/core/autopilot/index.ts
-index be70a04..adda00c 100644
+index be70a04..4580bab 100644
 --- a/src/core/autopilot/index.ts
 +++ b/src/core/autopilot/index.ts
 @@ -24,0 +25,3 @@ import * as C from '../constants';
 +import { entryPitchOffset } from './entry';
-+import { entryRangeTrim, predictEntryRangeInto } from '../control/entry-range';
-+import { createBurnScratch, createFallResult } from '../control/guidance-physics';
++import { createEntryPrediction, entryRangeTrim, predictEntryRangeInto, thermallyConstrainedTrim } from '../control/entry-range';
++import { createBurnScratch } from '../control/guidance-physics';
 @@ -38 +41 @@ import type { SimState } from '../state';
 -import { rad } from '../units';
 +import { rad, type Rad } from '../units';
@@ -24,15 +24,16 @@ index be70a04..adda00c 100644
 @@ -270 +275 @@ export function autoLand(state: SimState, dt: number): void {
 -    aeroDescentController(state);
 +    aeroDescentController(state, dt, entryAngle);
-@@ -319 +324,6 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
+@@ -319 +324,7 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
 -function aeroDescentController(state: SimState): void {
 +// Reused only within a synchronous prediction; flight history lives in SimState.
 +const entryRangeScratch = createBurnScratch();
-+const lowEntryRange = createFallResult();
-+const highEntryRange = createFallResult();
++const lowEntryRange = createEntryPrediction();
++const highEntryRange = createEntryPrediction();
++const candidateEntryRange = createEntryPrediction();
 +
 +function aeroDescentController(state: SimState, dt: number, entryAngle?: Rad): void {
-@@ -350 +360,30 @@ function aeroDescentController(state: SimState): void {
+@@ -350 +361,36 @@ function aeroDescentController(state: SimState): void {
 -  prim.precisionAlignment(state, rad(correctionAngle + Math.PI / 2), 0.7);
 +  const baseAngle = entryAngle ?? C.ENTRY_LIFT_ANGLE;
 +  let selectedAngle = baseAngle;
@@ -56,18 +57,24 @@ index be70a04..adda00c 100644
 +      let gap = autopilot.landingSiteXPos - kinematics.downRangeDistance;
 +      if (gap > C.planetCircumference / 2) gap -= C.planetCircumference;
 +      if (gap < -C.planetCircumference / 2) gap += C.planetCircumference;
-+      autopilot.entryRangeTrim = lowEntryRange.reached && highEntryRange.reached
++      const requestedTrim = lowEntryRange.reached && highEntryRange.reached
 +        ? entryRangeTrim(gap, lowEntryRange.downRange, highEntryRange.downRange) : rad(0);
++      predictEntryRangeInto(state, rad(baseAngle + requestedTrim), entryRangeScratch, candidateEntryRange, 0.5, bias);
++      // A range solution cannot trade away the tile. Receding-horizon choice
++      // may vary the trim when no single fixed entry is thermally feasible;
++      // even then it chooses only inside the existing three-degree authority.
++      autopilot.entryRangeTrim = thermallyConstrainedTrim(requestedTrim,
++        candidateEntryRange, lowEntryRange, highEntryRange);
 +      autopilot.entryRangeCountdown = 1;
 +    }
 +    selectedAngle = rad(baseAngle + autopilot.entryRangeTrim);
 +  }
 +  const entryOffset = entryPitchOffset(kinematics.machSpeed, kinematics.speedX, selectedAngle);
 +  prim.precisionAlignment(state, rad(correctionAngle + Math.PI / 2 + entryOffset), 0.7);
-@@ -748 +787 @@ export function autoDeorbit(state: SimState): void {
+@@ -748 +794 @@ export function autoDeorbit(state: SimState): void {
 -export function runAutopilot(state: SimState, dt: number): void {
 +export function runAutopilot(state: SimState, dt: number, entryAngle?: Rad): void {
-@@ -753 +792 @@ export function runAutopilot(state: SimState, dt: number): void {
+@@ -753 +799 @@ export function runAutopilot(state: SimState, dt: number): void {
 -  autoLand(state, dt);
 +  autoLand(state, dt, entryAngle);
 diff --git a/src/core/constants.ts b/src/core/constants.ts
@@ -158,6 +165,21 @@ index 19afe1a..09c15e3 100644
 +  );
 +  inputs.aerodynamicDragAcceleration = forces.drag;
 +  inputs.aerodynamicLiftAcceleration = forces.lift;
+diff --git a/src/core/control/primitives.ts b/src/core/control/primitives.ts
+index 9b583f8..3c72260 100644
+--- a/src/core/control/primitives.ts
++++ b/src/core/control/primitives.ts
+@@ -22 +21,0 @@ import {
+-  getThrust,
+@@ -278,3 +277,2 @@ export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
+- * Throttle for a target thrust acceleration (m/s²), against the thrust at the
+- * current throttle (2021's denominator, kept: the backlog's
+- * `controlEnginebyTWR` row). For targets that are accelerations already, such
++ * Throttle for a target thrust acceleration (m/s²), against full-throttle thrust. Phase6b Task5, Bug fix: dividing by current thrust
++ * counted the current throttle twice and overshot the requested acceleration. For targets that are accelerations already, such
+@@ -287 +285 @@ export function controlEngineForAcceleration(state: SimState, acceleration: numb
+-      getThrust(engines.running, vehicle.throttleCurrent, state.atmosphere.airPressure)) *
++      getTotalMaxThrust(engines.running, state.atmosphere.airPressure)) *
 diff --git a/src/core/physics/aero.ts b/src/core/physics/aero.ts
 index 83ef81b..4d00676 100644
 --- a/src/core/physics/aero.ts
@@ -570,29 +592,43 @@ index 0000000..eaecc74
 +}
 diff --git a/src/core/control/entry-range.ts b/src/core/control/entry-range.ts
 new file mode 100644
-index 0000000..27e4a35
+index 0000000..b3a0464
 --- /dev/null
 +++ b/src/core/control/entry-range.ts
-@@ -0,0 +1,73 @@
+@@ -0,0 +1,104 @@
 +/** Scheduled unpowered entry, using exactly the forces the fall predictor shares with step(). */
 +import * as C from '../constants';
 +import { entryPitchOffset } from '../autopilot/entry';
 +import { speedOfSoundAt } from '../physics/atmosphere';
 +import { isaAtmosphereInto } from '../physics/isa';
 +import { meanWindAt } from '../physics/wind';
++import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from '../physics/thermal';
 +import type { SimState } from '../state';
 +import { rad, type Rad } from '../units';
 +import { fallAcceleration, type BurnScratch, type FallResult } from './guidance-physics';
 +
++export interface EntryPrediction extends FallResult {
++  /** K — maximum radiative-equilibrium skin temperature on the forecast. */
++  peakKelvin: number;
++}
++
++export function createEntryPrediction(): EntryPrediction {
++  return { reached: false, time: Number.NaN, downRange: 0, peakKelvin: 0 };
++}
++
 +function scheduledAcceleration(
 +  h: number, vx: number, vy: number, mass: number, area: number,
 +  referenceWind: number, entryAngle: Rad, pitchBias: Rad, scratch: BurnScratch,
-+): void {
++): number {
 +  isaAtmosphereInto(Math.max(h, 0), scratch.atmosphere);
 +  const speed = Math.hypot(vx - meanWindAt(referenceWind, h), vy);
 +  const mach = speed / speedOfSoundAt(scratch.atmosphere.airTemperature);
 +  const pitch = Math.atan2(vx, vy) - Math.PI / 2 + entryPitchOffset(mach, vx, entryAngle) + pitchBias;
 +  fallAcceleration(h, vx, vy, pitch, mass, area, referenceWind, scratch);
++  return surfaceTemperature(
++    getReentryHeatPower(speed, scratch.atmosphere.airDensity, C.NOSE_RADIUS, scratch.inputs.angleOfAttack),
++    radiativeSinkKelvin(h, scratch.atmosphere.airTemperature),
++  );
 +}
 +
 +/**
@@ -605,7 +641,7 @@ index 0000000..27e4a35
 + * orbital start as a touchdown. Caller owns and reuses all scratch buffers.
 + */
 +export function predictEntryRangeInto(
-+  state: SimState, entryAngle: Rad, scratch: BurnScratch, out: FallResult,
++  state: SimState, entryAngle: Rad, scratch: BurnScratch, out: EntryPrediction,
 +  stepSeconds = 0.5, pitchBias: Rad = rad(0),
 +): void {
 +  let h = state.kinematics.altitude;
@@ -616,15 +652,17 @@ index 0000000..27e4a35
 +  const half = stepSeconds * 0.5;
 +  const area = state.vehicle.vehicleInFlightMaxArea;
 +  const wind = state.world.wind;
++  out.peakKelvin = 0;
 +  out.reached = h <= 1000;
 +  out.time = out.reached ? 0 : Number.NaN;
 +  out.downRange = 0;
 +  if (out.reached) return;
 +  for (let n = 0; n < Math.round(2500 / stepSeconds); n++) {
-+    scheduledAcceleration(h, vx, vy, mass, area, wind, entryAngle, pitchBias, scratch);
++    const incomingKelvin = scheduledAcceleration(h, vx, vy, mass, area, wind, entryAngle, pitchBias, scratch);
 +    const mx = vx + scratch.acc.x * half, my = vy + scratch.acc.y * half;
 +    const midMass = dumping ? Math.max(floorMass, mass - C.dumpRate * half) : mass;
-+    scheduledAcceleration(h + vy * half, mx, my, midMass, area, wind, entryAngle, pitchBias, scratch);
++    const midpointKelvin = scheduledAcceleration(h + vy * half, mx, my, midMass, area, wind, entryAngle, pitchBias, scratch);
++    out.peakKelvin = Math.max(out.peakKelvin, incomingKelvin, midpointKelvin);
 +    const nx = vx + scratch.acc.x * stepSeconds, ny = vy + scratch.acc.y * stepSeconds;
 +    const nh = h + my * stepSeconds, nextX = x + mx * stepSeconds;
 +    if (nh <= 1000) {
@@ -646,6 +684,21 @@ index 0000000..27e4a35
 +  if (!Number.isFinite(span) || Math.abs(span) < 1) return rad(0);
 +  const fraction = Math.max(0, Math.min(1, (target - lowAngleRange) / span));
 +  return rad(C.aeroDescentMaxCorrectionAngle * (2 * fraction - 1));
++}
++
++/** Thermal constraint on a range solution, always within the same trim authority. */
++export function thermallyConstrainedTrim(
++  requested: Rad, candidate: EntryPrediction, low: EntryPrediction, high: EntryPrediction,
++): Rad {
++  if (candidate.reached && candidate.peakKelvin <= C.TILE_LIMIT_KELVIN) return requested;
++  let best = candidate.reached ? candidate.peakKelvin : Infinity;
++  let trim = candidate.reached ? requested : rad(0);
++  if (low.reached && low.peakKelvin < best) {
++    best = low.peakKelvin;
++    trim = rad(-C.aeroDescentMaxCorrectionAngle);
++  }
++  if (high.reached && high.peakKelvin < best) trim = C.aeroDescentMaxCorrectionAngle;
++  return trim;
 +}
 diff --git a/tests/core/body-axis-aero.test.ts b/tests/core/body-axis-aero.test.ts
 new file mode 100644
@@ -927,15 +980,15 @@ index 0000000..d62722b
 +});
 diff --git a/tests/core/entry-range.test.ts b/tests/core/entry-range.test.ts
 new file mode 100644
-index 0000000..dba57e9
+index 0000000..827dd9e
 --- /dev/null
 +++ b/tests/core/entry-range.test.ts
-@@ -0,0 +1,78 @@
+@@ -0,0 +1,100 @@
 +import { expect, it } from 'vitest';
 +import * as C from '$core/constants';
 +import { createScenarioState, getScenario } from '$core/scenarios';
-+import { createBurnScratch, createFallResult } from '$core/control/guidance-physics';
-+import { predictEntryRangeInto } from '$core/control/entry-range';
++import { createBurnScratch } from '$core/control/guidance-physics';
++import { createEntryPrediction, predictEntryRangeInto } from '$core/control/entry-range';
 +import { updateVehicleInFlightMaxArea } from '$core/physics/aero';
 +import { entryPitchOffset } from '$core/autopilot/entry';
 +import { step } from '$core/step';
@@ -954,28 +1007,32 @@ index 0000000..dba57e9
 +  s.status.finLocked = false; // inactive, unlocked fins stay fully extended
 +  const origin = s.kinematics.downRangeDistance;
 +  const scratch = createBurnScratch();
-+  const prediction = createFallResult();
++  const prediction = createEntryPrediction();
 +  predictEntryRangeInto(s, C.ENTRY_LIFT_ANGLE, scratch, prediction, 0.5, bias);
 +  expect(prediction.reached).toBe(true);
-+  const halfStep = createFallResult();
++  const halfStep = createEntryPrediction();
 +  predictEntryRangeInto(s, C.ENTRY_LIFT_ANGLE, scratch, halfStep, 0.25, bias);
 +  expect(Math.abs(prediction.downRange - halfStep.downRange)).toBeLessThan(1_000);
++  let peakKelvin = 0;
 +  for (let n = 0; n < 120 * 1200 && s.kinematics.altitude > 1000; n++) {
 +    const motion = Math.atan2(s.kinematics.speedX, s.kinematics.speedY);
 +    s.kinematics.pitch = rad(motion - Math.PI / 2 +
 +      entryPitchOffset(s.kinematics.machSpeed, s.kinematics.speedX, C.ENTRY_LIFT_ANGLE) + bias);
 +    s.kinematics.angularVelocity = 0;
 +    s = step(s, 1 / 120);
++    peakKelvin = Math.max(peakKelvin, s.forces.surfaceTemperature);
 +    expect(s.failures.inFlightBreakUp).toBe(false);
 +  }
 +  expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
++  expect(Math.abs(prediction.peakKelvin - peakKelvin)).toBeLessThan(1);
++  expect(Math.abs(prediction.peakKelvin - halfStep.peakKelvin)).toBeLessThan(1);
 +  const flown = s.kinematics.downRangeDistance - origin;
 +  expect(Math.abs(prediction.downRange - flown)).toBeLessThan(2_000);
 +});
 +
 +it('reports a cap rather than inventing a touchdown for a vehicle in orbit', () => {
 +  const s = createScenarioState(getScenario('deorbit')!);
-+  const out = createFallResult();
++  const out = createEntryPrediction();
 +  predictEntryRangeInto(s, C.ENTRY_LIFT_ANGLE, createBurnScratch(), out);
 +  expect(out.reached).toBe(false);
 +  expect(Number.isNaN(out.time)).toBe(true);
@@ -1008,6 +1065,24 @@ index 0000000..dba57e9
 +  toggleAutoLand(once);
 +  expect(once.autopilot.entryRangeCountdown).toBe(0);
 +  expect(once.autopilot.entryRangeTrim).toBe(0);
++});
++
++it('preserves a safe range solution and chooses the coolest feasible prediction when it is unsafe', async () => {
++  const { thermallyConstrainedTrim } = await import('$core/control/entry-range');
++  const candidate = { ...createEntryPrediction(), reached: true, peakKelvin: 1540 };
++  const low = { ...candidate, peakKelvin: 1530 };
++  const high = { ...candidate, peakKelvin: 1535 };
++  const trim = rad(Math.PI / 180);
++  const limit = Math.PI / 60;
++  expect(thermallyConstrainedTrim(trim, candidate, low, high)).toBeCloseTo(-limit, 12);
++  expect(thermallyConstrainedTrim(trim, candidate, high, low)).toBeCloseTo(limit, 12);
++  expect(thermallyConstrainedTrim(trim, { ...candidate, peakKelvin: 1520 }, low, high)).toBe(trim);
++  // Even when every forecast is unsafe, choose the lowest predicted peak;
++  // do not invent a feasible result or exceed the existing authority.
++  expect(thermallyConstrainedTrim(trim, { ...candidate, peakKelvin: 1550 },
++    { ...low, peakKelvin: 1545 }, { ...high, peakKelvin: 1542 })).toBeCloseTo(limit, 12);
++  expect(thermallyConstrainedTrim(trim, { ...candidate, reached: false },
++    { ...low, reached: false }, { ...high, reached: false })).toBe(0);
 +});
 diff --git a/tests/core/failure-freshness.test.ts b/tests/core/failure-freshness.test.ts
 new file mode 100644

@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-range.test.ts (8 tests | 1 failed) 2242ms
+   × preserves a safe range solution and chooses the coolest feasible prediction when it is unsafe 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > preserves a safe range solution and chooses the coolest feasible prediction when it is unsafe
+AssertionError: expected 0.017453292519943295 to be close to -0.05235987755982988, received difference is 0.06981317007977318, but expected 5e-13
+ ❯ tests/core/entry-range.test.ts:91:64
+     89|   const trim = rad(Math.PI / 180);
+     90|   const limit = Math.PI / 60;
+     91|   expect(thermallyConstrainedTrim(trim, candidate, low, high)).toBeClo…
+       |                                                                ^
+     92|   expect(thermallyConstrainedTrim(trim, candidate, high, low)).toBeClo…
+     93|   expect(thermallyConstrainedTrim(trim, { ...candidate, peakKelvin: 15…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  22:15:56
+   Duration  2.46s (transform 96ms, setup 0ms, import 115ms, tests 2.24s, environment 0ms)
+

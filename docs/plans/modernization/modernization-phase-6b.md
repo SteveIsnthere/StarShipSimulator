@@ -73,7 +73,7 @@ The two prescribed sweeps, before/after belly-flop numbers and raw logs are reta
 | 75 | 1533.027 | 66798.1 | -3895571.8 | brokeUp | 1503.301 | 60626.4 | +231571.3 | landed |
 | 90 | 1533.062 | 67179.9 | -4035615.2 | brokeUp | 1533.053 | 62381.1 | -1017101.5 | brokeUp |
 
-The table above is historical constant-eta evidence. Both approved corrections and bounded range feedback are now implemented. The final corrected fixed-angle sweep at aim3,812,057 m chooses60°: deorbit1463.710 K at70.051 km, miss-14.8 m, landed; reentry1346.043 K and815.958 s. Its complete16 rows are retained in calibrated-sweep.log and the progress note. Operational preset/demo range, three reserve checks and longitude/light/engine-out/120 km envelopes pass. The flux band is remeasured to161800 W/m²±5% on2026-10-01 as this task requires. Remaining red:300 km thermal breakup and unchanged1500 s coast assertion. Next bounded step: thermal-envelope prediction within existing±3° range authority (300 km diagnosis2); no wider authority or limits. No goldens/core commit/full gate yet; acceptance checkboxes remain open.
+The table above is historical constant-eta evidence. Both approved corrections and bounded range feedback are now implemented. The final corrected fixed-angle sweep at aim3,812,057 m chooses60°: deorbit1463.710 K at70.051 km, miss-14.8 m, landed; reentry1346.043 K and815.958 s. Its complete16 rows are retained in calibrated-sweep.log and the progress note. Operational preset/demo range, three reserve checks and longitude/light/engine-out/120 km envelopes pass. The flux band is remeasured to161800 W/m²±5% on2026-10-01 as this task requires. Remaining red:300 km thermal breakup and unchanged1500 s coast assertion. That planned thermal-envelope diagnosis has since completed and attempt 3 failed; see the final checkpoint. No wider authority or limits were used. No goldens/core commit/full gate yet; acceptance checkboxes remain open.
 
 ### Resume approvals — Steve, 2026-10-01
 
@@ -86,7 +86,7 @@ Steve approved both recommended exceptions (“sounds good”) after the goal wa
 
 The narrow approvals do not change the1,533 K tile limit, one-km health check,10 km landing acceptance,900 s reentry harness, reserve-health fraction, coverage floors, golden tolerances, control authority or diagnosis budget. Re-measure reserve/aim under the corrected model as already authorized. Existing source-derived coefficient tests remain truth; new body-force literal cases may be updated only to independently calculate the newly approved eta, retaining every assertion’s force/sign/continuity property. All analytic tests and reference bands remain binding. The prescribed eight-angle sweep must be run for the corrected model, since earlier tables describe the superseded constant factor; retain those tables as evidence, not current acceptance.
 
-**Implementation status:** the eta TDD cycle and approved predictor replacement are complete in the working tree. Do not repeat them. Preset/demo range and flux remeasurement now pass. Continue the remaining300 km thermal-envelope diagnosis and coast-time diagnosis before recording-platform goldens. Preserve all limits, diagnosis counts and stop rules.
+**Implementation status:** the eta TDD cycle and approved predictor replacement are complete in the working tree. Do not repeat them. Preset/demo range and flux remeasurement now pass. The subsequent thermal diagnosis exhausted its three attempts; follow the final checkpoint and goal contract before recording-platform goldens. Preserve all limits, diagnosis counts and stop rules.
 
 ### Task 1b: Earth's rotation on (Fidelity; was Phase 6 Task 9b; after Task 1)
 
@@ -134,3 +134,17 @@ Measured with the rate on (2026-10-01, broadside entry, 2021 drag): `DEORBIT_ENT
 - [ ] Remove the backlog rows this phase answers.
 - [ ] Full gate, `npm run test:e2e:full`, `npm run mutation` (a mutant per new model), truth report, the `code-review` skill at `high`, and an independent physics reviewer (`cross-agent-review`).
 - [ ] Merge `claude/entry-on-lift` to `main`, verify the deploy, tick Phase 6b in the roadmap, write the Phase 7 plan with `superpowers:writing-plans`.
+
+## Thermal diagnosis and Task 5 checkpoint (2026-10-01)
+
+Task 1's 300 km diagnosis is stopped after attempt 3. Diagnosis 2 added peak skin temperature to the existing entry predictor using the shared Sutton-Graves/radiative-sink functions; four flown fixed-fin/tracking-bias witnesses and step convergence retain the new 1 K bound. Watched red and green are retained. At the actual 300 km flight's 80 km crossing, forecasts at 57/60/63° gave 1549.25/1544.99/1542.88 K using observed -0.212° bias. Even the -3° tracking-bias forecasts exceed 1533 K. No fixed choice within existing authority was thermally feasible.
+
+Diagnosis 3 retained safe range solutions and otherwise chose the coolest reached forecast among the range candidate and the same ±3° endpoints, once per simulated second. Selector red/green and 51 focused passes are retained. The real 300 km check still returned `brokeUp`; its landing assertion remains unchanged. No fourth run, including a full suite containing that check, is authorized while Steve's exception is pending. Thermal build/lint passed and truth remained 8/8 IN before the subsequent throttle change.
+
+Coast diagnosis 1 independently records ignition at 1433.05 s: pad gap 8,811,094.695 m versus predicted burn + coast + entry range 8,811,117.731 m. Keeping ignition after 1500 s would require changing the measured aim by approximately 523 km. Its old assertion remains unchanged pending the owner's choice of a firing-geometry witness.
+
+Independent Task 5 is partial. Its previously watched-red 60%-actual-throttle regression now passes: requested acceleration divides by full-throttle `getTotalMaxThrust`, retaining NaN/Infinity clamps. All 38 control-contract tests pass. Failure-freshness runtime changes and current-thrust/felt-g witnesses are not implemented; two pressure regressions remain red. No build/lint after the throttle edit, golden audit, complete gate, independent review or source commit is claimed. Earlier landing acceptance predates this throttle change and must be verified under the final model.
+
+Owner decisions pending: replacing only the obsolete coast floor; bringing Earth rotation forward into coherent Tasks 1+1b with exactly one additional 300 km verification. Until recorded, rate stays zero and the diagnosis stop remains binding. The preset fixed-angle sweep's stop rule has not fired. Preserve physical limits, source bridge, guidance authority and every other assertion.
+
+Evidence: `thermal-predictor-red.log`, `thermal-predictor-green.log`, `thermal-envelope2.log`, `thermal-envelope.ts`, `thermal-trim-red.log`, `thermal-focused.log`, `thermal-build.log`, `thermal-lint.log`, `thermal-truth.log`, `300km-attempt3.log`, `task5-throttle-green.log`. Logs are raw, including failures. The refreshed `in-progress-source.patch` includes current thermal/throttle code and passes forward/index and reverse/worktree checks with `--unidiff-zero`; it is recovery evidence, not shipped physics.

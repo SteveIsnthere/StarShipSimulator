@@ -116,7 +116,7 @@ angle,preset,peakKelvin,peakAltitudeMetres,missMetres,outcome,seconds,speedAt1km
 
 Raw current-aim calibration: `mach20-range.log`; prior corrected Mach-five landing failures: `eta-landings.log`; latest flown-lift checks: `flown-lift.log`. All logs are retained with their original results, including watched-red runs. Recovery patch refreshed to include the current corrected source/tests; validated against the index and existing working tree. Never apply it over existing changes.
 
-## Latest bounded-feedback checkpoint
+## Retained bounded-feedback checkpoint (before Task 5)
 
 Both owner corrections remain implemented. Task1 now includes scheduled-entry range prediction through the same fallAcceleration/body forces as step(), including planned dumping to22 t, current fin area, mean wind and rotating-frame gravity. It forecasts to1 km with midpoint0.5 s steps and a2500 s cap; convergence at0.25 s and real-step witnesses in both directions hold the unchanged new2 km prediction bound. That is an entry-range approximation, not the existing metre-accuracy burn/fall witnesses, which remain intact. The first range witness failure came from a fixture whose locked fins retracted; its setup was corrected without changing the2 km bound. Genuine tracking-bias cases then watched red and passed after prediction carried the observed near-track pitch error. No attitude command is enlarged by that bias.
 
@@ -149,3 +149,17 @@ angle,preset,peakKelvin,peakAltitudeMetres,missMetres,outcome,seconds,speedAt1km
 ```
 
 Raw broad acceptance: bias-landings.log; updated flux/scenario/entry witnesses: range-final-focused.log; bounded diagnoses: range-diagnosis1.log and range-diagnosis.ts. Missing-import build/test failures are retained as range-build.log/range-focused.log and corrected green logs, not hidden. Recovery patch refreshed and checked both ways with --unidiff-zero.
+
+## Thermal diagnosis and Task 5 checkpoint (2026-10-01)
+
+Task 1's 300 km diagnosis is stopped after attempt 3. Diagnosis 2 added peak skin temperature to the existing entry predictor using the shared Sutton-Graves/radiative-sink functions; four flown fixed-fin/tracking-bias witnesses and step convergence retain the new 1 K bound. Watched red and green are retained. At the actual 300 km flight's 80 km crossing, forecasts at 57/60/63° gave 1549.25/1544.99/1542.88 K using observed -0.212° bias. Even the -3° tracking-bias forecasts exceed 1533 K. No fixed choice within existing authority was thermally feasible.
+
+Diagnosis 3 retained safe range solutions and otherwise chose the coolest reached forecast among the range candidate and the same ±3° endpoints, once per simulated second. Selector red/green and 51 focused passes are retained. The real 300 km check still returned `brokeUp`; its landing assertion remains unchanged. No fourth run, including a full suite containing that check, is authorized while Steve's exception is pending. Thermal build/lint passed and truth remained 8/8 IN before the subsequent throttle change.
+
+Coast diagnosis 1 independently records ignition at 1433.05 s: pad gap 8,811,094.695 m versus predicted burn + coast + entry range 8,811,117.731 m. Keeping ignition after 1500 s would require changing the measured aim by approximately 523 km. Its old assertion remains unchanged pending the owner's choice of a firing-geometry witness.
+
+Independent Task 5 is partial. Its previously watched-red 60%-actual-throttle regression now passes: requested acceleration divides by full-throttle `getTotalMaxThrust`, retaining NaN/Infinity clamps. All 38 control-contract tests pass. Failure-freshness runtime changes and current-thrust/felt-g witnesses are not implemented; two pressure regressions remain red. No build/lint after the throttle edit, golden audit, complete gate, independent review or source commit is claimed. Earlier landing acceptance predates this throttle change and must be verified under the final model.
+
+Owner decisions pending: replacing only the obsolete coast floor; bringing Earth rotation forward into coherent Tasks 1+1b with exactly one additional 300 km verification. Until recorded, rate stays zero and the diagnosis stop remains binding. The preset fixed-angle sweep's stop rule has not fired. Preserve physical limits, source bridge, guidance authority and every other assertion.
+
+Evidence: `thermal-predictor-red.log`, `thermal-predictor-green.log`, `thermal-envelope2.log`, `thermal-envelope.ts`, `thermal-trim-red.log`, `thermal-focused.log`, `thermal-build.log`, `thermal-lint.log`, `thermal-truth.log`, `300km-attempt3.log`, `task5-throttle-green.log`. Logs are raw, including failures. The refreshed `in-progress-source.patch` includes current thermal/throttle code and passes forward/index and reverse/worktree checks with `--unidiff-zero`; it is recovery evidence, not shipped physics.
