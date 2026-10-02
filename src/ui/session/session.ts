@@ -67,6 +67,7 @@ import {
 } from '$audio/engine';
 import { createScene } from './scene';
 import { createCameraFollow } from './camera-follow';
+import { createPresentationProbe } from './debug-presentation';
 import { wireDocument } from './document-wiring';
 import { createSessionStore, isHintOpen, isPaused, type Layer, type SessionStore } from './store';
 
@@ -179,6 +180,7 @@ export function createSession(): Session {
   let mapSurface: MapSurface | null = null;
   let mapOptions: MapRendererOptions | undefined;
   let flightEnded = false;
+  const presentationProbe = createPresentationProbe();
 
   const camera = createCameraFollow();
 
@@ -379,6 +381,8 @@ export function createSession(): Session {
         },
         setPaused: (debugPaused) => set({ debugPaused }),
         onStep,
+        presentation: presentationProbe.presentation,
+        setParticlesVisible: presentationProbe.setParticlesVisible,
       });
 
       const v = await createView({
@@ -395,6 +399,7 @@ export function createSession(): Session {
         return () => {};
       }
       resetSceneForFlight = scene.resetFlight;
+      presentationProbe.bind(scene);
 
       // The canvas's parent owns its box (the shell insets it above the phone's
       // bottom chrome); Pixi pins the canvas's own inline size, so the parent is
@@ -480,6 +485,7 @@ export function createSession(): Session {
         room.removeEventListener('change', onRoomChange);
         unwire();
         if (resetSceneForFlight === scene.resetFlight) resetSceneForFlight = undefined;
+        presentationProbe.unbind(scene);
         scene.destroy();
         hud?.destroy();
         metrics?.destroy();

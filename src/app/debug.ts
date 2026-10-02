@@ -20,6 +20,14 @@ export type FlightOverrides = Partial<
   >
 >;
 
+export interface DebugPresentation {
+  /** Canvas CSS pixels from the last rendered frame. */
+  nozzleX: number;
+  nozzleY: number;
+  width: number;
+  height: number;
+}
+
 export interface SimDebug {
   /**
    * Start a flight from a scenario id, optionally moved, as the flight editor
@@ -42,6 +50,9 @@ export interface SimDebug {
   step(n: number): void;
   /** Every number and boolean in the live state, by flattened path. */
   telemetry(): Readonly<Record<string, number | boolean>>;
+  presentation(): DebugPresentation;
+  /** Hide particles for an otherwise identical background control render. */
+  setParticlesVisible(visible: boolean): void;
 }
 
 export interface SimDebugDeps {
@@ -53,6 +64,8 @@ export interface SimDebugDeps {
   setPaused(paused: boolean): void;
   /** Run per step, as the app's frame loop would (camera, recorder). */
   onStep?(state: SimState): void;
+  presentation?(): DebugPresentation;
+  setParticlesVisible?(visible: boolean): void;
 }
 
 /** Whether this page should expose the debug surface. */
@@ -126,6 +139,14 @@ export function createSimDebug(deps: SimDebugDeps): SimDebug {
       }
     },
     telemetry: () => flatten(live().state),
+    presentation() {
+      if (!deps.presentation) throw new Error("presentation is not mounted");
+      return deps.presentation();
+    },
+    setParticlesVisible(visible) {
+      if (!deps.setParticlesVisible) throw new Error("presentation is not mounted");
+      deps.setParticlesVisible(visible);
+    },
   };
 }
 

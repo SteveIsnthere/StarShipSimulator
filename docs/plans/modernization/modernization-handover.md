@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — attempt 4 passed focused vacuum-width checks; separate iPhone low-altitude length failure remains; full suite pending; Earth's rate (9b) and the parked aero moved to 6b | — |
+| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — all 10 final focused plume checks pass after measurement repairs; final full suite pending; Earth's rate (9b) and the parked aero moved to 6b | — |
 | 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
@@ -113,3 +113,9 @@ Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-p
 
 
 Phase 6 checkpoint: attempt 4 corrects screenshot DPR; all five focused vacuum-width checks passed. A separate iPhone portrait low-altitude length failure (0.735 against >1) remains. Its first diagnosis identified white-core exclusion and fixed-region hull contamination; no classifier repair has been made. Final full-suite verification remains required; the no-fifth-attempt vacuum stop rule still applies. See the plume investigation for exact evidence.
+
+Final measurement checkpoint (verification in progress): same-frame background
+mask, actual-nozzle clipping, bright-star rejection and distinct-frame sampling
+passed all10 focused plume checks. Fresh independent review is clean. Complete local gate passed (1,941 unit tests, coverage,13 smoke and5 subpath).
+The full suite is running on that same build and remains required before merge. Do not redo the completed
+instrument repairs; see the investigation for each bounded diagnosis.

@@ -35,6 +35,9 @@ export interface Scene {
   resize(width: number, height: number): void;
   /** Discard effects and emitter history belonging to the preceding flight. */
   resetFlight(): void;
+  /** Debug witnesses use the actual rendered nozzle, never a viewport guess. */
+  presentation(): { nozzleX: number; nozzleY: number; width: number; height: number };
+  setParticlesVisible(visible: boolean): void;
   destroy(): void;
 }
 
@@ -171,6 +174,12 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
     resize(width, height) {
       view.resize(width, height);
       sky.resize(view.viewport);
+    },
+    presentation() {
+      return { nozzleX: effects.nozzle.x, nozzleY: effects.nozzle.y, width: view.viewport.width, height: view.viewport.height };
+    },
+    setParticlesVisible(visible) {
+      particles.container.visible = visible;
     },
     resetFlight() {
       particles.clear();

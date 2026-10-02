@@ -1,0 +1,22 @@
+[WebServer] (node:56533) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 3 workers
+
+(node:56536) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56534) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56535) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (1.3s)
+  ✓  1 [pixel-landscape] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (1.3s)
+  ✓  3 [pixel-portrait] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (1.3s)
+(node:56549) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56550) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [iphone-landscape] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (932ms)
+  ✓  4 [iphone-portrait] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (957ms)
+
+  5 passed (4.5s)

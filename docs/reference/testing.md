@@ -59,7 +59,10 @@ same setup with the cause removed, which must read as absent. `witness-plume.spe
 (engines lit vs off) and `reentry.spec.ts` (hot vs cold flight) are the pattern. Setup goes
 through `window.__simDebug` (`src/app/debug.ts`, present only in dev or with `?debug=1`):
 `setScenario(id, overrides)`, `setState(path: value)`, `pause`, `resume`, `step(n)`,
-`telemetry()`.
+`telemetry()`. The on-demand `presentation()` probe reports the last rendered
+nozzle in canvas CSS pixels; `setParticlesVisible(visible)` supplies a background
+control without changing simulation state. Ordinary production loads expose
+neither command unless the debug surface is enabled.
 
 ## Vitest suites
 
@@ -216,6 +219,16 @@ screenshots the canvas, decodes it in the page via `createImageBitmap` +
 `metrePixels` and `inVehicleHeights` convert extents to ship-lengths. It proves structure
 (a region is lit, a plume extends N ship-lengths, the frame changed), never that something
 looks good, never anything about a single pixel, and nothing at a non-default zoom.
+The screenshot uses device pixels even when Pixi caps its backing buffer at2x;
+`metrePixels` therefore uses the full screenshot DPR. `pixel-scale.spec.ts`
+checks that conversion against a known-size subject and its erased control.
+For exhaust, the same paused frame is photographed with particles visible and
+hidden. Only pixels newly satisfying the original bright-or-warm query below
+the actual nozzle count; pre-existing bright stars, reticle and terrain are
+excluded. Each of the four samples must have a distinct simulation step id,
+with the existing350ms wall-time interval. `plume-instrument.spec.ts` checks
+white core, warm halo, stars (including a faint particle over a bright star),
+reticle, terrain and nose-side fire controls.
 
 **Subpath deploy.** `playwright.subpath.config.ts` builds, stages `dist/` under
 `.subpath/StarShipSimulator/` with `scripts/stage-subpath.mjs`, serves it with

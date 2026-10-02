@@ -87,6 +87,8 @@ export const PLUME_DENSITY_FLOOR = 0.45;
 export const PLUME_REACH_FLOOR = 0.5;
 
 export interface EffectDriver {
+  /** Last rendered engine nozzle, in canvas CSS pixels. */
+  readonly nozzle: Readonly<{ x: number; y: number }>;
   update(
     particles: ParticleSystem,
     camera: CameraState,
@@ -101,6 +103,7 @@ export interface EffectDriver {
 export function createEffectDriver(): EffectDriver {
   // Edge detection state. Not in SimState: these are presentation facts, and
   // core/ must not know that a renderer exists.
+  const nozzle = { x: 0, y: 0 };
   let showedCrash = false;
   let showedBreakUp = false;
   let previousScale = 0;
@@ -110,6 +113,7 @@ export function createEffectDriver(): EffectDriver {
   let previousNozzleWorldY = 0;
 
   return {
+    nozzle,
     reset() {
       showedCrash = false;
       showedBreakUp = false;
@@ -138,6 +142,8 @@ export function createEffectDriver(): EffectDriver {
       const nozzleDistance = engineDistanceFromCenterOfMass * scale;
       const nozzleX = shipScreen.x + Math.cos(downAxis) * nozzleDistance;
       const nozzleY = shipScreen.y + Math.sin(downAxis) * nozzleDistance;
+      nozzle.x = nozzleX;
+      nozzle.y = nozzleY;
       // The last rendered nozzle, projected by today's camera. `previous` is
       // only one physics step old, so it cannot describe a slow render frame.
       const nozzleDx = hasPreviousFrame ? nozzleX - (originX + previousNozzleWorldX * scale) : 0;

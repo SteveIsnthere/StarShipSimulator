@@ -1,0 +1,187 @@
+[WebServer] (node:57223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 3 workers
+
+(node:57225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57226) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 1.94 long, 0.34 across (spans 2.79/1.73/1.94/1.65, widths 0.32/0.33/0.37/0.34, steps 390/420/450/480; 0/4 anchored to the region edge; throttle 100/100/100/100; (621,386)-(659,606)n944 (625,383)-(659,519)n1150 (625,384)-(661,537)n1191 (620,384)-(656,514)n1056)
+[plume] chromium · the plume is longer than the ship at low altitude @mobile: 2.22 long, 0.35 across (spans 2.22/2.01/2.71/2.03, widths 0.35/0.38/0.34/0.35, steps 390/418/448/478; 0/4 anchored to the region edge; throttle 100/100/100/100; (625,388)-(660,563)n1229 (622,381)-(660,539)n1195 (622,384)-(656,598)n1057 (619,379)-(665,539)n1197)
+[plume] pixel-portrait · the plume is longer than the ship at low altitude @mobile: 1.52 long, 0.36 across (spans 1.37/1.80/1.23/1.52, widths 0.36/0.36/0.34/0.34, steps 484/514/544/564; 0/4 anchored to the region edge; throttle 100/100/100/100; (509,746)-(583,960)n4417 (496,750)-(573,1031)n4755 (503,747)-(592,939)n4407 (507,746)-(593,983)n3833)
+  ✓   2 [chromium] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (47.0s)
+(node:57272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [pixel-portrait] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (49.3s)
+(node:57282) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 1.81 long, 0.56 across (spans 3.58/1.72/1.81/1.44, widths 0.33/0.50/0.56/0.58, steps 365/407/443/481; 0/4 anchored to the region edge; throttle 100/100/100/100; (629,372)-(653,500)n295 (628,369)-(656,430)n279 (624,367)-(659,431)n330 (630,367)-(663,418)n267)
+low: 1.94 long, 0.34 across · vacuum: 1.81 long, 0.56 across
+frame 1280x720 @1.00x  altitude 120000 m  vehicle 36 px
+  below      mean   48.6  spread  18.11  tones  6  bright 0.002  dark 0.943  warm 0.0047  top #332222:0.54 #222222:0.18 #333322:0.13 #111122:0.04 #222211:0.02
+  EXT plume    found true  span 52px (34x52)  band 21px  n 267  box (630,367)-(663,418)  = 1.44 vehicle heights
+  |      :   -                            -    |
+  |                                            |
+  |             +      -      = =    #         |
+  |        :     .       ==            --      |
+  |        =     +         -                   |
+  |              -     +-  : -      =    -     |
+  |            ==            .       +     -   |
+  |  +    -  =  =++            -    * ==       |
+  |    =                 +   - =      ==       |
+  |   -      -             -  - -      -       |
+  |.............-.......%@.....................|
+  |.....=-......-.-:....@@.....................|
+  |++*******************#@***@*******%*******++|
+  |******...............+*...............******|
+  |.....................=+.....................|
+  |.....................-+.....................|
+  |.....................-=.....................|
+  |.....................::.....................|
+  |..:::::::::::...........::::::::::..........|
+  |.:::::::::::::........:::::::::::::........:|
+  |.:::::::::::::........:::::::::::::........:|
+  |....::::::::::.....::....::::::::::.....::..|
+  aspect: 0.18 low, 0.31 vacuum
+  ✓   1 [chromium] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.2m)
+(node:57291) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 1.87 long, 0.36 across (spans 1.08/2.15/1.87/1.31, widths 0.29/0.34/0.41/0.36, steps 484/514/540/566; 0/4 anchored to the region edge; throttle 100/100/100/100; (502,746)-(586,915)n4497 (508,742)-(573,1079)n4119 (503,742)-(595,1034)n4287 (498,743)-(572,948)n4162)
+[plume] pixel-landscape · the plume is longer than the ship at low altitude @mobile: 1.09 long, 0.40 across (spans 2.01/1.09/1.07/0.72, widths 0.35/0.42/0.34/0.40, steps 510/538/568/598; 0/4 anchored to the region edge; throttle 100/100/100/100; (1104,497)-(1159,728)n2475 (1105,493)-(1171,618)n2604 (1102,495)-(1162,618)n2643 (1112,495)-(1165,577)n2696)
+  ✓   5 [pixel-landscape] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (1.1m)
+(node:57323) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 1.07 long, 0.56 across (spans 1.15/0.94/1.07/0.79, widths 0.53/0.60/0.49/0.56, steps 488/523/563/603; 0/4 anchored to the region edge; throttle 100/100/100/100; (519,732)-(560,813)n857 (522,725)-(582,791)n1047 (504,726)-(554,801)n680 (508,730)-(555,785)n767)
+low: 1.87 long, 0.36 across · vacuum: 1.07 long, 0.56 across
+frame 1082x1425 @2.63x  altitude 120000 m  vehicle 71 px
+  below      mean   48.2  spread  20.84  tones  7  bright 0.004  dark 0.931  warm 0.0125  top #332222:0.42 #222222:0.32 #333322:0.06 #222211:0.06 #111122:0.03
+  EXT plume    found true  span 56px (48x56)  band 40px  n 767  box (508,730)-(555,785)  = 0.79 vehicle heights
+  |                                            |
+  |                                            |
+  | ++              -                 =  =:    |
+  |    =                   =                   |
+  |   +=                      -                |
+  |   -              +-        -   --          |
+  |==                              ::          |
+  |  =  +                                -     |
+  |                     .+          -   =      |
+  |                           .-     -    -    |
+  |.-..................#@%#....................|
+  |--.....-...........:@@@+....................|
+  |*********************@@*********@***********|
+  |...................::==.....................|
+  |.....................==.....................|
+  |.....................--:....................|
+  |.....................--:....................|
+  |::...................:::............::::::::|
+  |::::...........................:::::::::::::|
+  |:::...........................::::::::::::::|
+  |:::....................................:::::|
+  |....................:::::...................|
+  aspect: 0.19 low, 0.53 vacuum
+  ✓   4 [pixel-portrait] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.4m)
+(node:57331) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 1.50 long, 0.36 across (spans 1.17/1.80/1.50/1.44, widths 0.32/0.37/0.29/0.36, steps 506/536/562/592; 0/4 anchored to the region edge; throttle 100/100/100/100; (1106,495)-(1157,629)n2452 (1101,496)-(1171,703)n2657 (1104,494)-(1165,667)n2542 (1114,495)-(1165,661)n2806)
+[plume] iphone-portrait · the plume is longer than the ship at low altitude @mobile: 1.59 long, 0.39 across (spans 1.59/1.45/1.79/1.01, widths 0.25/0.41/0.39/0.38, steps 492/535/563/586; 0/4 anchored to the region edge; throttle 100/100/100/100; (555,582)-(608,791)n2757 (558,576)-(624,767)n3415 (559,576)-(630,812)n3241 (552,581)-(621,713)n2860)
+  ✓   7 [iphone-portrait] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (43.4s)
+(node:57359) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 1.07 long, 0.48 across (spans 1.07/0.97/0.78/1.07, widths 0.40/0.51/0.48/0.46, steps 506/548/572/615; 0/4 anchored to the region edge; throttle 100/100/100/100; (1120,484)-(1153,539)n657 (1106,482)-(1156,527)n611 (1112,480)-(1149,520)n325 (1115,483)-(1144,538)n430)
+low: 1.50 long, 0.36 across · vacuum: 1.07 long, 0.48 across
+frame 2265x945 @2.62x  altitude 120000 m  vehicle 53 px
+  below      mean   48.0  spread  17.91  tones  5  bright 0.002  dark 0.944  warm 0.0040  top #332222:0.66 #222222:0.16 #111122:0.04 #333322:0.03 #222211:0.02
+  EXT plume    found true  span 56px (30x56)  band 24px  n 430  box (1115,483)-(1144,538)  = 1.07 vehicle heights
+  |          -  -                    --        |
+  |                                            |
+  |               +    - .   ==   #            |
+  |            =   =     =        # -          |
+  |            =   +      -                    |
+  |                -   ++  --    =   -         |
+  |               =.       .-     +   -        |
+  |       +   - = =+          -  * =           |
+  |         = .         -+  -==    =           |
+  |        -    -       -#-:---    -           |
+  |..........:....-.....@@.....................|
+  |.........==....-.-...@@............:........|
+  |-==++***##***********%@**@*****%*******++==-|
+  |********:............-=............:********|
+  |.....................==.....................|
+  |.....................--.....................|
+  |.....................::.....................|
+  |.....................::.....................|
+  |.....................::.....................|
+  |............................................|
+  |............................................|
+  |...::::::.........................::::::....|
+  aspect: 0.24 low, 0.45 vacuum
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 1.36 long, 0.39 across (spans 1.03/1.88/1.10/1.36, widths 0.30/0.35/0.39/0.39, steps 490/526/566/598; 0/4 anchored to the region edge; throttle 100/100/100/100; (555,582)-(608,717)n2761 (550,579)-(605,826)n3244 (557,577)-(626,722)n3187 (560,579)-(623,758)n2831)
+  ✓   6 [pixel-landscape] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.7m)
+(node:57369) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 0.90 long, 0.58 across (spans 0.63/0.90/1.03/0.85, widths 0.57/0.60/0.58/0.53, steps 512/554/592/626; 0/4 anchored to the region edge; throttle 100/100/100/100; (557,563)-(593,600)n642 (567,564)-(620,609)n873 (566,564)-(610,625)n443 (578,565)-(613,615)n617)
+low: 1.36 long, 0.39 across · vacuum: 0.90 long, 0.58 across
+frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   46.9  spread  20.96  tones  6  bright 0.004  dark 0.935  warm 0.0086  top #332222:0.37 #222222:0.36 #222211:0.11 #111122:0.03 #333322:0.02
+  EXT plume    found true  span 51px (36x51)  band 32px  n 617  box (578,565)-(613,615)  = 0.85 vehicle heights
+  |   -                                        |
+  |                                            |
+  |       +          -:   :       = ==        #|
+  |         =             =                   #|
+  |        ++               -.                 |
+  |        -          +-     -  -.         ==  |
+  |      ==                     -.           .+|
+  |  ==   == +                      -      *   |
+  |                     -+      --  =          |
+  |  --                 -:   -   --  -         |
+  |.......-............#@%#....................|
+  |......--...-........:@@%....................|
+  |**********************#******@*************#|
+  |=:...................:=...................-=|
+  |.....................=-.....................|
+  |.....................--:....................|
+  |.....................:-:....................|
+  |.....................::.....................|
+  |::.....................:....................|
+  |:::.....................................::::|
+  |:::::::.............................::::::::|
+  |:::::::...........................::::::::::|
+  aspect: 0.28 low, 0.65 vacuum
+  ✓   8 [iphone-portrait] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.1m)
+[plume] iphone-landscape · the plume is longer than the ship at low altitude @mobile: 1.22 long, 0.39 across (spans 1.17/1.07/1.30/1.22, widths 0.34/0.40/0.39/0.36, steps 494/524/554/588; 0/4 anchored to the region edge; throttle 100/100/100/100; (1103,536)-(1163,689)n3369 (1088,535)-(1148,676)n3412 (1095,530)-(1164,701)n3815 (1104,531)-(1160,691)n2871)
+  ✓   9 [iphone-landscape] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (52.3s)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 1.67 long, 0.41 across (spans 2.07/1.67/0.76/1.36, widths 0.35/0.34/0.41/0.41, steps 390/429/457/494; 0/4 anchored to the region edge; throttle 100/100/100/100; (1092,556)-(1151,829)n2517 (1096,547)-(1158,767)n3069 (1098,543)-(1164,642)n3062 (1096,542)-(1161,721)n3654)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 0.98 long, 0.57 across (spans 1.27/0.92/0.98/0.87, widths 0.57/0.38/0.58/0.43, steps 371/411/447/489; 0/4 anchored to the region edge; throttle 100/100/100/100; (1117,532)-(1156,607)n622 (1103,526)-(1157,576)n628 (1110,525)-(1144,583)n705 (1113,523)-(1164,574)n773)
+low: 1.67 long, 0.41 across · vacuum: 0.98 long, 0.57 across
+frame 2250x1020 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   48.2  spread  18.90  tones  4  bright 0.003  dark 0.942  warm 0.0054  top #332222:0.60 #222222:0.18 #333322:0.06 #111122:0.04 #112222:0.02
+  EXT plume    found true  span 52px (52x52)  band 26px  n 773  box (1113,523)-(1164,574)  = 0.87 vehicle heights
+  |         -  --                      -       |
+  |                                            |
+  |              .+    - -   ==    #           |
+  |           =   ==     =         #.-         |
+  |           =   +=      -                    |
+  |               -    +-  --     =   -        |
+  |              =          -      +   -       |
+  |      +   - =  =+          -  ** =          |
+  |        = :          -+  - =     =          |
+  |       -    --       :# - -.-    -          |
+  |.........-....--.....@@...:.................|
+  |........=-....-..-...@@.............-.......|
+  |==+++**#*************@@**@******%******+++==|
+  |*******+.............==.............+*******|
+  |.....................==.....................|
+  |.....................--.....................|
+  |.....................::.....................|
+  |.....................::.....................|
+  |.....................::.....................|
+  |......................:.....................|
+  |............................................|
+  |.......:::::::::...........................:|
+  aspect: 0.24 low, 0.58 vacuum
+  ✓  10 [iphone-landscape] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.0m)
+
+  10 passed (4.1m)

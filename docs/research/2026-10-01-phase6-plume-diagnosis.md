@@ -181,3 +181,71 @@ and final scale fixture, reproduced the low-altitude failure, and rejected a
 brightness-only patch because it would admit hull/reticle contamination. The
 stale docs-only claim was corrected. No remaining checkpoint findings; this
 is not Phase 6 merge clearance. Local gate log: attempt4/gate.log.
+
+
+Low-altitude attempt 1 repair in progress: read the last rendered nozzle through
+an on-demand debug presentation probe. Each of the same four samples pauses
+only for its subject/background pair, with the existing 350ms wall-time interval between
+samples. Hide the particle container for the background, restoring it in a
+finally block; accept only changed pixels below the actual nozzle. This permits
+the documented bright-core OR warm-halo predicate at minLuma200/orWarmth100
+without admitting unchanged white stars/reticle or brown terrain. Numeric
+thresholds, length/width assertions, sample count and retries remain unchanged.
+A synthetic positive/negative control checks background, stars, reticle,
+nose-side fire, neutral white core and dim warm halo before the real plume run.
+The renderer's effects driver publishes its existing nozzle calculation;
+no physics or effect parameters change. Focused result pending.
+
+
+Low-altitude attempt 1 focused result: **9 passed, 1 failed** (4.2 minutes).
+All five low-altitude checks passed with the repaired instrument, including
+portrait iPhone median 1.01 (>1 unchanged); all four phone vacuum checks passed,
+including portrait iPhone width0.55 against low0.41*1.2. Desktop vacuum width
+failed: 0.42 against low0.39*1.2. The authorized iPhone stop condition did not
+fire. The newly exposed desktop project check enters its normal three-attempt
+budget; no full suite or merge is justified by this run.
+
+Reviewer finding accepted: RGB inequality alone could count a faint additive
+particle over an already-bright star (220/220/220→221/220/220). The paired mask
+now requires a pixel to newly satisfy the unchanged query; pre-existing bright
+pixels are excluded. The control fixture now brightens a gray star by one red
+level and requires the plume's bottom to remain at the known white-core edge.
+Both extent and cone-band passes use the same predicate. No shader, particle
+parameter or simulation value changed. Review-fix verification pending.
+
+
+Review-fixed focused result: **9 passed, 1 failed** (4.0 minutes). All five
+low-altitude checks passed; desktop vacuum passed; portrait iPhone vacuum
+passed0.65 against low0.39*1.2. Pixel landscape vacuum newly failed0.419047619
+against >0.425490496. Retained under low-length-attempt1/review-fixed.
+
+Pixel landscape vacuum diagnosis attempt 1: samples 0/1 and2/3 have identical
+bounding boxes AND exact accepted-pixel counts in both low and vacuum frames.
+Pausing for paired captures has exposed a sampling defect: under slow software
+rendering the existing350ms wall interval can finish before a fresh flight
+frame draws, so the purported four-frame median counts the same flight state
+twice. The repair keeps exactly four samples, the350ms interval, all numeric
+thresholds/bounds and retries. It waits until the simulation has advanced
+before pausing the next sample, records each step id and asserts four distinct
+states. No additional sample or best-frame selection is introduced. Focused
+verification pending. The original iPhone stop condition remains unchanged.
+
+
+Distinct-frame focused result: **10/10 passed** (4.0 minutes), with four distinct
+step ids printed for every measurement. Pixel landscape vacuum0.48 exceeded
+its paired low0.36*1.2. Original portrait iPhone vacuum also passed. Exact run
+log and all traces are retained in pixel-landscape-attempt1/. This completes
+that diagnostic repair; it does not substitute for the final full suite.
+Fresh review confirmed the counter advances in the synchronous drawing tick
+and the uniqueness assertion neither adds nor selects samples. The minor
+wall-time wording correction was accepted. The complete gate and full suite on
+this final source remain pending. Physics, goldens and effect parameters are
+unchanged throughout the measurement repair.
+
+
+Final repaired source: complete `npm run gate` passed (1,941 unit tests,
+coverage floors,13 smoke checks and5 subpath checks). The gate log is retained
+as pixel-landscape-attempt1/gate.log. The independent high-depth reviewer
+accepted the bright-star and distinct-frame fixes with no remaining findings.
+`E2E_SKIP_BUILD=1 npm run test:e2e:full` is running against that same build;
+no result, merge or deploy is claimed yet.

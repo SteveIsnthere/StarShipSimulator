@@ -68,7 +68,7 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 - [x] Phase 3 — Design pass (merged `53e3c26`)
 - [x] Phase 4 — React shell (merged `dfab3c8`)
 - [x] Phase 5 — Guidance on real physics (merged `b84b746`; goldens on the recording platform `3429ea1`)
-- [ ] Phase 6 — Ship realism — **built and reviewed on `claude/ship-realism`; NOT merged.** Previous graphics source `4c03814`: local gate and hosted CI green, but full e2e **427 passed / 1 failed / 11 configured skips**. The latest focused run passed all five vacuum-width checks after attempt 4's screenshot-scale repair, but exposed iPhone portrait low-altitude length at 0.735 against >1. That separate check blocks the close; final full-suite verification is pending. Steve approved one additional vacuum-width diagnosis attempt (attempt 4, in verification); see [the goal contract](modernization-GOAL.md#first-task) and [retained evidence](../../research/2026-10-01-phase6-plume-diagnosis.md). Repair, verify the final build and review before merge; then verify the deploy and tick this line with its merge SHA. Its implementation plan was already closed out; branch commits and `docs/reference/physics-model.md` hold the record. Earth's rate and the parked aero moved to 6b.
+- [ ] Phase 6 — Ship realism — **built and reviewed on `claude/ship-realism`; NOT merged.** Previous graphics source `4c03814`: local gate and hosted CI green, but full e2e **427 passed / 1 failed / 11 configured skips**. The final focused run passes all 10 plume checks after screenshot-scale, actual-nozzle, paired-background, bright-star and distinct-frame repairs. Final full-suite verification blocks the close. Steve approved one additional vacuum-width diagnosis attempt (attempt 4, in verification); see [the goal contract](modernization-GOAL.md#first-task) and [retained evidence](../../research/2026-10-01-phase6-plume-diagnosis.md). Verify the final build and complete its review before merge; then verify the deploy and tick this line with its merge SHA. Its implementation plan was already closed out; branch commits and `docs/reference/physics-model.md` hold the record. Earth's rate and the parked aero moved to 6b.
 - [ ] Phase 6b — Entry on lift ([phase plan](modernization-phase-6b.md))
 - [ ] Phase 7 — Super Heavy
 - [ ] Phase 8 — Visuals
@@ -77,3 +77,7 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 Phases 7–9 get their phase plan when the phase before them lands, written by the run from this roadmap with `superpowers:writing-plans`.
 
 Phase 6 checkpoint: attempt 4 corrects screenshot DPR; all five focused vacuum-width checks passed. A separate iPhone portrait low-altitude length failure (0.735 against >1) remains. Its first diagnosis identified white-core exclusion and fixed-region hull contamination; no classifier repair has been made. Final full-suite verification remains required; the no-fifth-attempt vacuum stop rule still applies. See the plume investigation for exact evidence.
+
+Final instrument-focused run:10/10 passed after actual-nozzle clipping, paired
+background control, bright-star rejection and distinct-frame sampling. Review
+is clean. Complete final local gate passed; full-suite verification is running. Phase6 is unmerged.

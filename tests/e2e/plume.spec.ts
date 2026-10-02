@@ -30,58 +30,19 @@ import { expect, test } from '@playwright/test';
 import { byTestId, readoutValueTestId } from '../../src/ui/testids';
 import { throttleUpperLimit } from '../../src/core/constants';
 import { ready, reveal, tap } from './helpers';
-import { describeFrame, inVehicleHeights, metrePixels, readFrame, type Region } from './pixels';
+import { describeFrame, inVehicleHeights, metrePixels, readFrame, captureCanvas, type Region } from './pixels';
 
 type Page = import('@playwright/test').Page;
 
-/**
- * A column strictly BELOW the vehicle, which is where the plume is.
- *
- * Below, because the flight-path marker (M7.5) is drawn at the vehicle along its
- * velocity, and a vehicle climbing under full thrust points it upward — out of
- * this box. Measuring a box centred on the ship measured the instrument as often
- * as the plume.
- */
+/** Horizontal measurement column; its top follows the actual rendered nozzle. */
 const BELOW: Region = { x: 0.36, y: 0.52, width: 0.28, height: 0.47 };
 
 /**
- * The plume, as pixels: warm and lit.
- *
- * `warmOnly` excludes the stars, which are white and are everywhere in the
- * vacuum frame. The luma floor does two jobs: it excludes the dark sky around
- * them, and since the M9 look pass it is also what excludes the GROUND.
- *
- * THAT SECOND JOB USED TO BELONG TO THE COLOUR TEST, and it stopped working.
- * Warming `GROUND_COLOR` gave the terrain chroma of its own — red leads blue by
- * 62 there — so it started passing `warmOnly` and the plume measurement began
- * reporting nine ship-lengths of hillside. Raising the warmth margin instead
- * was tried and is worse: the hot part of a plume is nearly WHITE, so a margin
- * strict enough to drop the ground drops the core as well and the measurement
- * collapsed to 0.72.
- *
- * AND A LUMA FLOOR ALONE WAS WRONG TOO, which the browser said and the
- * arithmetic had not. `minLuma: 150` does keep the ground out, and it also cuts
- * the dim halo that is the whole subject of the vacuum measurement — the spread
- * assertion went from comfortable to 0.56 against 0.53 and failed on two
- * projects. Fire is two things at once here: a white-hot throat that only
- * brightness identifies, and a cool wide halo that only colour identifies.
- * `orWarmth` is the disjunction that admits both, and the ground satisfies
- * neither clause. *
- * AND THE LUMA FLOOR MOVED AT M9.15, from 150 to 200, because the number under
- * it was measured before the horizon was. "The brightest the ground ever gets
- * is luma 147" was true when it was written and false three tasks later: the
- * horizon wash mixes terrain toward the SKY, and the sky is the brightest thing
- * in the frame, so washed ground near the horizon now reaches luma 168. At a
- * floor of 150 the whole width of the terrain passed as fire and the plume
- * measured 12.6 ship-lengths across on a landscape phone.
- *
- * Re-measured rather than nudged: on that frame the brightest warm terrain
- * pixel is rgb(183,166,143) at luma 168.0 and the brightest pixel in the plume
- * column is 251.8. A floor of 200 sits between them with 32 of margin below and
- * 52 above, and the plume's cooler body is caught by `orWarmth` regardless of
- * how bright it is.
+ * Bright core OR strongly warm halo, with the original numeric thresholds.
+ * A same-frame particles-hidden reference rejects unchanged stars, terrain,
+ * hull and reticle; nozzle clipping rejects RCS fire above the engine exhaust.
  */
-const PLUME = { region: BELOW, minLuma: 200, orWarmth: 100, warmOnly: true };
+const PLUME = { region: BELOW, minLuma: 200, orWarmth: 100, warmOnly: false };
 
 /** Hold the vehicle at an altitude with all three engines at full thrust. */
 async function underPowerAt(page: Page, altitude: string): Promise<void> {
@@ -179,6 +140,15 @@ async function underPowerAt(page: Page, altitude: string): Promise<void> {
  */
 const CONE_DEPTH_SHIP_LENGTHS = 0.4;
 
+/** Wait for the next composed frame after a debug presentation change. */
+async function painted(page: Page): Promise<void> {
+  await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+}
+async function particlesVisible(page: Page, visible: boolean): Promise<void> {
+  await page.evaluate((show) => (window as unknown as { __simDebug: { setParticlesVisible(v: boolean): void } }).__simDebug.setParticlesVisible(show), visible);
+  await painted(page);
+}
+
 /** The plume's extent and width, in ship-lengths, as a median of four frames. */
 async function plume(page: Page): Promise<{ span: number; width: number; last: string }> {
   const spans: number[] = [];
@@ -187,73 +157,63 @@ async function plume(page: Page): Promise<{ span: number; width: number; last: s
   const throttles: number[] = [];
   const boxes: string[] = [];
   let last = '';
-  /*
-    FOUR SAMPLES, AND IT CANNOT BE MORE — which is worth recording because the
-    obvious improvement was tried and does not work.
-
-    The vacuum-spread median straddles its bound on one project: three runs on
-    pixel-landscape measured the cone at 1.05, 1.13 and 1.15 ship-lengths across
-    and one measured 0.85. A plume is stochastic — its width at an instant is
-    where a few hundred pooled particles happen to be — so the right answer
-    looks like a better estimator rather than a looser bound.
-
-    It is not available here. Each sample is a screenshot plus an in-page decode,
-    which under software WebGL costs the better part of a second of FLIGHT, and
-    the subject is a vehicle under full thrust. Seven samples carried it from
-    2000 m to 4800 m and clean out of the measurement box — "no plume at all",
-    which is true and is not the question. Cutting the spacing from 350 ms to
-    120 ms changed nothing, because the wait was never what the time was going
-    on. More evidence costs altitude, and altitude is the thing being measured
-    against.
-  */
+  let lastSampleStep = -1;
+  const sampleSteps: number[] = [];
+  // Keep four samples and the 350ms wall-time interval between them. Pause only while
+  // photographing each subject/background pair so their geometry is identical.
   for (let i = 0; i < 4; i++) {
-    /*
-      THE SCALE FIRST, because the band is asked for in image pixels and its
-      depth is a ship-length. The vehicle moves between the two calls; at four
-      tenths of a ship-length the difference that makes is a pixel or two, and
-      the alternative — publishing the scale into the page so one round trip
-      could do both — is a production change for a test's convenience.
-    */
-    const scale = await metrePixels(page);
-    /*
-      THE SUBJECT, RE-CHECKED ON EVERY FRAME. The failure this spec spent three
-      milestones on was never a plume that got shorter; it was a throttle that
-      came off while the camera was running, and nothing in the assertion could
-      see the difference. Now a sample taken off full thrust fails as itself.
-    */
-    throttles.push(
-      Number(await page.locator(byTestId(readoutValueTestId('throttle'))).textContent()),
-    );
-    const report = await readFrame(page, {
-      regions: { below: BELOW },
-      extents: {
-        plume: { ...PLUME, topBandPx: CONE_DEPTH_SHIP_LENGTHS * scale.vehicleHeightPx },
-      },
-      map: { cols: 44, rows: 22 },
-    });
-    const found = report.extents['plume']!;
-    expect(found.found, `no plume at all\n${describeFrame(report, scale)}`).toBe(true);
-    spans.push(inVehicleHeights(found, scale));
-    widths.push(found.bandWidthPx / scale.vehicleHeightPx);
-    /*
-      THE ONE WAY THE ANCHOR CAN LIE, counted rather than left implied.
-
-      The band starts at the plume's topmost lit row, and that row is clipped to
-      the top of `BELOW`. If the camera ever lags far enough that the nozzle
-      sits above y = 0.52, the anchor is the region edge and the band is a fixed
-      viewport strip again — the very thing it replaced. It is not a wrong
-      answer, it is a less well-aimed one, and the count goes in the line this
-      helper prints so a drifting number has somewhere to be explained from.
-    */
-    if (found.top <= Math.round(BELOW.y * report.imageHeight)) clamped += 1;
-    boxes.push(`(${found.left},${found.top})-(${found.right},${found.bottom})n${found.count}`);
-    last = describeFrame(report, scale);
+    // Four frames means four different simulation states. Under software
+    // rendering 350ms can expire before the resumed loop draws another frame.
+    await expect.poll(() => page.evaluate(() => Number((window as unknown as {
+      __simDebug: { telemetry(): Record<string, number | boolean> }
+    }).__simDebug.telemetry()['world.updatedFrameCount']))).toBeGreaterThan(lastSampleStep);
+    await page.evaluate(() => (window as unknown as { __simDebug: { pause(): void } }).__simDebug.pause());
+    await painted(page);
+    try {
+      lastSampleStep = await page.evaluate(() => Number((window as unknown as {
+        __simDebug: { telemetry(): Record<string, number | boolean> }
+      }).__simDebug.telemetry()['world.updatedFrameCount']));
+      sampleSteps.push(lastSampleStep);
+      const scale = await metrePixels(page);
+      throttles.push(
+        Number(await page.locator(byTestId(readoutValueTestId('throttle'))).textContent()),
+      );
+      const geometry = await page.evaluate(() => (window as unknown as {
+        __simDebug: { presentation(): { nozzleY: number; height: number } }
+      }).__simDebug.presentation());
+      const below: Region = { ...BELOW, y: geometry.nozzleY / geometry.height,
+        height: 0.99 - geometry.nozzleY / geometry.height };
+      expect(below.y, 'the nozzle must be inside the measurement canvas').toBeGreaterThan(0);
+      expect(below.height, 'the nozzle must leave room for exhaust').toBeGreaterThan(0);
+      await particlesVisible(page, false);
+      const background = await captureCanvas(page);
+      await particlesVisible(page, true);
+      const report = await readFrame(page, {
+        regions: { below: BELOW },
+        extents: {
+          plume: { ...PLUME, region: below, topBandPx: CONE_DEPTH_SHIP_LENGTHS * scale.vehicleHeightPx },
+        },
+        map: { cols: 44, rows: 22 },
+      }, background);
+      const found = report.extents['plume']!;
+      expect(found.found, `no plume at all\n${describeFrame(report, scale)}`).toBe(true);
+      spans.push(inVehicleHeights(found, scale));
+      widths.push(found.bandWidthPx / scale.vehicleHeightPx);
+      // Report how often the detected core starts right at the nozzle plane.
+      if (found.top <= Math.round(below.y * report.imageHeight)) clamped += 1;
+      boxes.push(`(${found.left},${found.top})-(${found.right},${found.bottom})n${found.count}`);
+      last = describeFrame(report, scale);
+    } finally {
+      await particlesVisible(page, true);
+      await page.evaluate(() => (window as unknown as { __simDebug: { resume(): void } }).__simDebug.resume());
+    }
     await page.waitForTimeout(350);
   }
   expect(
     Math.min(...throttles),
     `the throttle came off mid-measurement: ${throttles.join('/')}`,
   ).toBeGreaterThan(90);
+  expect(new Set(sampleSteps).size, 'four distinct flight frames').toBe(4);
   const median = (xs: number[]) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)]!;
   const span = median(spans);
   const width = median(widths);
@@ -274,14 +234,14 @@ async function plume(page: Page): Promise<{ span: number; width: number; last: s
       `${span.toFixed(2)} long, ${width.toFixed(2)} across ` +
       `(spans ${spans.map((n) => n.toFixed(2)).join('/')}, ` +
       `widths ${widths.map((n) => n.toFixed(2)).join('/')}, ` +
-      `${clamped}/4 anchored to the region edge; throttle ${throttles.join('/')}; ${boxes.join(' ')})`,
+      `steps ${sampleSteps.join("/")}; ${clamped}/4 anchored to the region edge; throttle ${throttles.join('/')}; ${boxes.join(' ')})`,
   );
   return { span, width, last };
 }
 
 test('the plume is longer than the ship at low altitude @mobile', async ({ page }) => {
   test.setTimeout(180_000);
-  await page.goto('/', { waitUntil: 'load' });
+  await page.goto('/?debug=1', { waitUntil: 'load' });
   await ready(page);
   await underPowerAt(page, '2000');
 
@@ -308,12 +268,12 @@ test('the plume is longer than the ship at low altitude @mobile', async ({ page 
 test('and blooms wider than the ship in vacuum @mobile', async ({ page }) => {
   test.setTimeout(240_000);
 
-  await page.goto('/', { waitUntil: 'load' });
+  await page.goto('/?debug=1', { waitUntil: 'load' });
   await ready(page);
   await underPowerAt(page, '2000');
   const low = await plume(page);
 
-  await page.goto('/', { waitUntil: 'load' });
+  await page.goto('/?debug=1', { waitUntil: 'load' });
   await ready(page);
   await underPowerAt(page, '120000');
   const vacuum = await plume(page);

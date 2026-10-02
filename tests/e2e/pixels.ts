@@ -18,8 +18,8 @@
  * WHAT THIS IS NOT: a golden-image differ. Pixel comparison across five
  * Playwright projects, two device scale factors and a SwiftShader rasteriser is
  * a maintenance tax paid in false failures, and this project retired visual
- * parity at M6 for exactly that reason. Nothing here compares one picture with
- * another picture. It measures STRUCTURE — how much of a region is lit, how far
+ * parity at M6 for exactly that reason. No test compares against a historical reference image. A paired
+ * capture may exclude the unchanged background of the same paused frame. It measures STRUCTURE — how much of a region is lit, how far
  * a bright thing extends, how many distinct tones a band contains — and those
  * are claims that survive a renderer changing its mind about antialiasing.
  *
@@ -262,10 +262,9 @@ export interface FrameReport {
  * fresh shot per question would be measuring a different frame each time, and a
  * rocket moves.
  */
-export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<FrameReport> {
+/** Photograph only the canvas, with all composited HUD siblings hidden. */
+export async function captureCanvas(page: Page): Promise<Buffer> {
   const canvas = page.locator(byTestId('world-canvas'));
-  const box = await canvas.boundingBox();
-  if (!box) throw new Error('the world canvas has no box — is the app mounted?');
   /*
     Hide everything that is not the canvas or one of its ancestors, shoot, and
     restore. See the file header: without this the harness measures the HUD.
@@ -297,10 +296,18 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
       }
     });
   }
+  return shot;
+}
+
+export async function readFrame(page: Page, spec: FrameSpec = {}, reference?: Buffer): Promise<FrameReport> {
+  const canvas = page.locator(byTestId('world-canvas'));
+  const box = await canvas.boundingBox();
+  if (!box) throw new Error('the world canvas has no box — is the app mounted?');
+  const shot = await captureCanvas(page);
   const dataUrl = `data:image/png;base64,${shot.toString('base64')}`;
 
   const result = await page.evaluate(
-    async ([url, json, cssWidth]) => {
+    async ([url, json, cssWidth, referenceUrl]) => {
       const request: {
         regions: Record<string, Region>;
         extents: Record<string, ExtentQuery>;
@@ -319,6 +326,16 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
       const data = ctx.getImageData(0, 0, bitmap.width, bitmap.height)
         .data as unknown as number[];
 
+      let referenceData: Uint8ClampedArray | undefined;
+      if (referenceUrl) {
+        const referenceBitmap = await createImageBitmap(await (await fetch(referenceUrl)).blob());
+        if (referenceBitmap.width !== bitmap.width || referenceBitmap.height !== bitmap.height) {
+          throw new Error('reference frame dimensions changed');
+        }
+        ctx.drawImage(referenceBitmap, 0, 0);
+        referenceData = ctx.getImageData(0, 0, bitmap.width, bitmap.height).data;
+        referenceBitmap.close();
+      }
       const luma = (r: number, g: number, b: number) => 0.299 * r + 0.587 * g + 0.114 * b;
       /** Fire: clearly red-dominant and not washed out to white. */
       const isWarm = (r: number, g: number, b: number, margin = 40) =>
@@ -326,6 +343,24 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
       /** Smoke: near-neutral and neither black nor blown out. */
       const isGrey = (r: number, g: number, b: number) =>
         Math.max(r, g, b) - Math.min(r, g, b) < 26 && r > 40 && r < 232;
+
+      // A paired reference admits only pixels newly satisfying the query.
+      // A dim particle cannot turn an already-bright star into exhaust.
+      const qualifies = (pixels: readonly number[] | Uint8ClampedArray, i: number, query: ExtentQuery) => {
+        const r = pixels[i]!;
+        const g = pixels[i + 1]!;
+        const b = pixels[i + 2]!;
+        const l = luma(r, g, b);
+        const blazing = query.orWarmth !== undefined && r - b >= query.orWarmth;
+        if (l < query.minLuma && !blazing) return false;
+        if (query.maxLuma !== undefined && l > query.maxLuma) return false;
+        const warm = isWarm(r, g, b, query.minWarmth ?? 40);
+        if (query.warmOnly === true && !warm) return false;
+        if (query.excludeWarm === true && warm) return false;
+        return true;
+      };
+      const matches = (i: number, query: ExtentQuery) => qualifies(data, i, query) &&
+        (referenceData === undefined || !qualifies(referenceData, i, query));
 
       const bounds = (region: Region) => {
         const x0 = Math.max(0, Math.floor(region.x * bitmap.width));
@@ -405,17 +440,7 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
         for (let py = y0; py < y1; py++) {
           for (let px = x0; px < x1; px++) {
             const i = (py * bitmap.width + px) * 4;
-            const r = data[i]!;
-            const g = data[i + 1]!;
-            const b = data[i + 2]!;
-            const l = luma(r, g, b);
-            // See `orWarmth`: bright, OR unmistakably on fire.
-            const blazing = query.orWarmth !== undefined && r - b >= query.orWarmth;
-            if (l < query.minLuma && !blazing) continue;
-            if (query.maxLuma !== undefined && l > query.maxLuma) continue;
-            const warm = isWarm(r, g, b, query.minWarmth ?? 40);
-            if (query.warmOnly === true && !warm) continue;
-            if (query.excludeWarm === true && warm) continue;
+            if (!matches(i, query)) continue;
             count++;
             if (px < left) left = px;
             if (px > right) right = px;
@@ -439,16 +464,7 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
           for (let py = top; py <= bandEnd; py++) {
             for (let px = x0; px < x1; px++) {
               const i = (py * bitmap.width + px) * 4;
-              const r = data[i]!;
-              const g = data[i + 1]!;
-              const b = data[i + 2]!;
-              const l = luma(r, g, b);
-              const blazing = query.orWarmth !== undefined && r - b >= query.orWarmth;
-              if (l < query.minLuma && !blazing) continue;
-              if (query.maxLuma !== undefined && l > query.maxLuma) continue;
-              const warm = isWarm(r, g, b, query.minWarmth ?? 40);
-              if (query.warmOnly === true && !warm) continue;
-              if (query.excludeWarm === true && warm) continue;
+              if (!matches(i, query)) continue;
               if (px < bandLeft) bandLeft = px;
               if (px > bandRight) bandRight = px;
             }
@@ -518,6 +534,7 @@ export async function readFrame(page: Page, spec: FrameSpec = {}): Promise<Frame
         ...(spec.map ? { map: spec.map } : {}),
       }),
       box.width,
+      reference ? `data:image/png;base64,${reference.toString("base64")}` : "",
     ] as const,
   );
 
