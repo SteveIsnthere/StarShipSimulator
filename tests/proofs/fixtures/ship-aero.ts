@@ -1,3 +1,7 @@
+/** Shipped aerodynamic arithmetic from e17b24d.
+ * Original SHA256: fdba527b0b892377201f0d929a1b40a69ff68ad8f905cf154962370eda44a474
+ * Only import paths adjusted; never update to match implementation.
+ */
 /**
  * Aerodynamics, ported verbatim from backend/physics.js.
  *
@@ -5,9 +9,8 @@
  * arguments now. That is the whole substance of the port: same arithmetic, same
  * order of operations, no ambient state.
  */
-import * as C from '../constants';
-import { SHIP, type VehicleDefinition } from '../vehicle';
-import { rad, type Rad } from '../units';
+import * as C from '$core/constants';
+import { rad, type Rad } from '$core/units';
 
 /**
  * physics.js:34 — `airDensity * trueSpeed^2 * 0.0005`.
@@ -33,10 +36,10 @@ export function getDynamicPressure(airDensity: number, trueSpeed: number): numbe
  * is an unexplained tuning constant; it is part of the feel and stays.
  * @returns m^2
  */
-export function getCrossSectionalArea(angleInToTheWind: Rad, vehicleInFlightMaxArea: number, model: VehicleDefinition = SHIP): number {
+export function getCrossSectionalArea(angleInToTheWind: Rad, vehicleInFlightMaxArea: number): number {
   return (
     Math.abs(Math.sin(angleInToTheWind) * vehicleInFlightMaxArea) +
-    Math.abs(Math.cos(angleInToTheWind) * model.minArea) / 2.1
+    Math.abs(Math.cos(angleInToTheWind) * C.vehicleMinArea) / 2.1
   );
 }
 
@@ -203,10 +206,9 @@ export function getAngularDragAcceleration(
   angularVelocity: number,
   vehicleMomentOfInertia: number,
   rCubedIntegral: number,
-  model: VehicleDefinition = SHIP,
 ): number {
   const angularDragAcc =
-    (airDensity * model.diameter * angularVelocity ** 2 * rCubedIntegral) /
+    (airDensity * C.vehicleDiameter * angularVelocity ** 2 * rCubedIntegral) /
     vehicleMomentOfInertia;
 
   if (angularVelocity > 0) return -angularDragAcc;
@@ -224,13 +226,12 @@ export function getFrontFinDrag(
   angleOfAttack: Rad,
   angleInToTheWind: Rad,
   frontFinEffectiveAreaFraction: number,
-  model: VehicleDefinition = SHIP,
 ): number {
   const drag =
     getDrag(
       airDensity,
       trueSpeed,
-      Math.abs(Math.sin(angleInToTheWind)) * model.frontFinArea,
+      Math.abs(Math.sin(angleInToTheWind)) * C.frontFinSurfaceArea,
       C.finDragCoefficient,
     ) * frontFinEffectiveAreaFraction;
 
@@ -248,13 +249,12 @@ export function getAftFinDrag(
   angleOfAttack: Rad,
   angleInToTheWind: Rad,
   aftFinEffectiveAreaFraction: number,
-  model: VehicleDefinition = SHIP,
 ): number {
   const drag =
     getDrag(
       airDensity,
       trueSpeed,
-      Math.abs(Math.sin(angleInToTheWind)) * model.aftFinArea,
+      Math.abs(Math.sin(angleInToTheWind)) * C.aftFinSurfaceArea,
       C.finDragCoefficient,
     ) * aftFinEffectiveAreaFraction;
 
@@ -278,7 +278,6 @@ export function getAftFinDrag(
 export function updateVehicleInFlightMaxArea(
   frontFinExtension: number,
   aftFinExtension: number,
-  model: VehicleDefinition = SHIP,
 ): {
   frontFinEffectiveAreaFraction: number;
   aftFinEffectiveAreaFraction: number;
@@ -291,11 +290,11 @@ export function updateVehicleInFlightMaxArea(
   const aftFinEffectiveAreaFraction = Math.sin(C.finActuationMaxAngle * aftFinExtension * 0.01);
 
   const totalFinSurfaceArea =
-    frontFinEffectiveAreaFraction * model.frontFinArea +
-    aftFinEffectiveAreaFraction * model.aftFinArea;
+    frontFinEffectiveAreaFraction * C.frontFinSurfaceArea +
+    aftFinEffectiveAreaFraction * C.aftFinSurfaceArea;
 
   // 1.8: fins have a higher drag coefficient than the body. Comment is 2021's.
-  const vehicleInFlightMaxArea = model.maxArea + totalFinSurfaceArea * 1.8;
+  const vehicleInFlightMaxArea = C.vehicleMaxArea + totalFinSurfaceArea * 1.8;
 
   return {
     frontFinEffectiveAreaFraction,

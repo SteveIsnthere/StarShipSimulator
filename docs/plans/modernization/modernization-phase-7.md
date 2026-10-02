@@ -87,7 +87,7 @@ export function stepMission(previous: MissionState, dt: number, input?: MissionI
 
 ### Task 1: Explicit vehicle parameters with unchanged Ship physics (Refactor)
 
-**Files:** Create `src/core/vehicle.ts`, `tests/proofs/ship-vehicle.test.ts`, `tests/proofs/fixtures/ship-mass.ts`; modify existing mass/engines/aero/state/step/control/guidance functions listed above. Tests: existing core/analytic/golden/intro suites.
+**Files:** Create `src/core/vehicle.ts`, `tests/proofs/ship-vehicle.test.ts`, `tests/proofs/ship-engines.test.ts`, `tests/proofs/ship-geometry.test.ts`, independent shipped mass/engine/aero proof fixtures; modify existing mass/engines/aero/state/step/control/guidance functions listed above. Tests: existing core/analytic/golden/intro suites.
 
 **Interfaces:** Consumes current `SimState`, `RaptorMount`, constants and `step`. Produces `VehicleDefinition`, `SHIP`, trailing model inputs and unchanged Ship default results for Tasks 2–5. `createMassProperties(p = 0, vehicle = SHIP)` and `writeMassProperties(p, out, vehicle = SHIP)` preserve existing parameter positions.
 
@@ -109,8 +109,8 @@ for (let mask = 0; mask < 64; mask++) {
 }
 ```
 The default-vs-explicit comparison supplements independent old arithmetic; it alone is vacuous. Snapshot old engine/aero expressions in the proof, and add altered-model positive controls.
-- [ ] Pass model into collision height, mass/inertia, min/max projected area, fin dimensions, engine masks and guidance drag/dry-mass floors. Defaults preserve every Ship operation and RNG draw. Do not add a UI model id to SimState. Run `npm run build` then `npx vitest run tests/proofs/ship-vehicle.test.ts tests/core tests/golden tests/flies-every-scenario.test.ts`. Expected: all pass, no changed Ship fixture. Run truth report and record same bands before/after.
-- [ ] Commit/push coherent mass, engine/geometry and final integration checkpoints, each with `Physics tier: Refactor` and measured domain/max ULP. Final task command: `npx vitest run tests/proofs/ship-vehicle.test.ts tests/core tests/golden tests/flies-every-scenario.test.ts`.
+- [ ] Pass model into collision height, mass/inertia, min/max projected area, fin dimensions, engine masks and guidance drag/dry-mass floors. Defaults preserve every Ship operation and RNG draw. Do not add a UI model id to SimState. Run `npm run build` then `npx vitest run tests/proofs/ship-vehicle.test.ts tests/proofs/ship-engines.test.ts tests/proofs/ship-geometry.test.ts tests/core tests/golden tests/flies-every-scenario.test.ts`. Expected: all pass, no changed Ship fixture. Run truth report and record same bands before/after.
+- [ ] Commit/push coherent mass, engine/geometry and final integration checkpoints, each with `Physics tier: Refactor` and measured domain/max ULP. Final task command: `npx vitest run tests/proofs/ship-vehicle.test.ts tests/proofs/ship-engines.test.ts tests/proofs/ship-geometry.test.ts tests/core tests/golden tests/flies-every-scenario.test.ts`.
 
 ### Task 2: Physical booster, grid fins and preserved preset identity (Fidelity)
 

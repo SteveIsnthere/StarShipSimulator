@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/proofs/ship-vehicle.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/ship-vehicle.test.ts [ tests/proofs/ship-vehicle.test.ts ]
+Error: Cannot find module '$core/vehicle' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/proofs/ship-vehicle.test.ts
+ ❯ tests/proofs/ship-vehicle.test.ts:4:1
+      2|  * while every Ship result stays ≤1 local-value ULP from shipped arith…
+      3| import { describe, expect, it } from 'vitest';
+      4| import { SHIP } from '$core/vehicle';
+       | ^
+      5| import * as mass from '$core/physics/mass';
+      6| import * as shipped from './fixtures/ship-mass';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  15:55:58
+   Duration  127ms (transform 15ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

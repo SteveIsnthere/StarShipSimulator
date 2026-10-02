@@ -1,3 +1,7 @@
+/** Shipped engine implementation from e17b24d (same as7a757d7).
+ * Original SHA256: 0d970c9106ea9d74ed5931bbe6af70fe64bad1fad27847c03546057ebd8e70ba
+ * Only import paths adjusted. Independent baseline; do not update to match implementation.
+ */
 /**
  * Engines: thrust, fuel, and ignition.
  *
@@ -11,11 +15,10 @@
  * exact port, not a reinterpretation — the 2021 model was already dt-based,
  * just written in a way that hid it behind a measured frame rate.
  */
-import * as C from '../constants';
-import { SHIP, type VehicleDefinition } from '../vehicle';
-import { draw } from '../rng';
-import type { RaptorIndex, SimState } from '../state';
-import { rad, type Rad } from '../units';
+import * as C from '$core/constants';
+import { draw } from '$core/rng';
+import type { RaptorIndex, SimState } from '$core/state';
+import { rad, type Rad } from '$core/units';
 
 // --- thrust ----------------------------------------------------------------
 
@@ -27,17 +30,17 @@ export function getWorkingEngineCount(running: readonly boolean[]): number {
 }
 
 /** How many engines of one kind are flagged in a per-engine array. */
-function countOfKind(flags: readonly boolean[], kind: C.RaptorKind, flagged: boolean, model: VehicleDefinition): number {
+function countOfKind(flags: readonly boolean[], kind: C.RaptorKind, flagged: boolean): number {
   let n = 0;
-  for (let i = 0; i < model.engines.length; i++) {
-    if (model.engines[i]!.kind === kind && (flags[i] === true) === flagged) n += 1;
+  for (let i = 0; i < C.RAPTORS.length; i++) {
+    if (C.RAPTORS[i]!.kind === kind && (flags[i] === true) === flagged) n += 1;
   }
   return n;
 }
 
 /** Sea-level engines running: what the landing logic counts (the autopilot never lights an RVac). */
-export function getWorkingSeaLevelCount(running: readonly boolean[], model: VehicleDefinition = SHIP): number {
-  return countOfKind(running, 'sea-level', true, model);
+export function getWorkingSeaLevelCount(running: readonly boolean[]): number {
+  return countOfKind(running, 'sea-level', true);
 }
 
 /*
@@ -50,8 +53,8 @@ export function getWorkingSeaLevelCount(running: readonly boolean[], model: Vehi
 
 /** physics.js:267, at ambient pressure. @returns N */
 /** Sea-level Raptors that have not failed: the ones *Engines* (all) lights. */
-export function getHealthySeaLevelCount(failed: readonly boolean[], model: VehicleDefinition = SHIP): number {
-  return countOfKind(failed, 'sea-level', false, model);
+export function getHealthySeaLevelCount(failed: readonly boolean[]): number {
+  return countOfKind(failed, 'sea-level', false);
 }
 
 /**
@@ -59,16 +62,16 @@ export function getHealthySeaLevelCount(failed: readonly boolean[], model: Vehic
  * thrust for the ambient pressure. With no RVac running the second term is an
  * exact +0, so three sea-level engines give 2021's bits.
  */
-export function getTotalMaxThrust(running: readonly boolean[], ambientPressureKPa: number, model: VehicleDefinition = SHIP): number {
+export function getTotalMaxThrust(running: readonly boolean[], ambientPressureKPa: number): number {
   return (
-    countOfKind(running, 'sea-level', true, model) * C.thrustPerRaptorAt(ambientPressureKPa) +
-    countOfKind(running, 'vacuum', true, model) * C.thrustPerRVacAt(ambientPressureKPa)
+    countOfKind(running, 'sea-level', true) * C.thrustPerRaptorAt(ambientPressureKPa) +
+    countOfKind(running, 'vacuum', true) * C.thrustPerRVacAt(ambientPressureKPa)
   );
 }
 
 /** physics.js:275 — at the lower throttle limit. @returns N */
-export function getTotalMinThrust(running: readonly boolean[], ambientPressureKPa: number, model: VehicleDefinition = SHIP): number {
-  return getTotalMaxThrust(running, ambientPressureKPa, model) * C.throttleLowerLimit * 0.01;
+export function getTotalMinThrust(running: readonly boolean[], ambientPressureKPa: number): number {
+  return getTotalMaxThrust(running, ambientPressureKPa) * C.throttleLowerLimit * 0.01;
 }
 
 /** physics.js:261. @returns N */
@@ -76,9 +79,8 @@ export function getThrust(
   running: readonly boolean[],
   throttleCurrent: number,
   ambientPressureKPa: number,
-  model: VehicleDefinition = SHIP,
 ): number {
-  return getTotalMaxThrust(running, ambientPressureKPa, model) * throttleCurrent * 0.01;
+  return getTotalMaxThrust(running, ambientPressureKPa) * throttleCurrent * 0.01;
 }
 
 /**
@@ -87,10 +89,10 @@ export function getThrust(
  * were steering with the gimbal). Exactly 1 with no RVac running, so the
  * gimballed thrust is the total's bits.
  */
-export function gimballedShare(running: readonly boolean[], ambientPressureKPa: number, model: VehicleDefinition = SHIP): number {
-  if (countOfKind(running, 'vacuum', true, model) === 0) return 1;
-  const total = getTotalMaxThrust(running, ambientPressureKPa, model);
-  return total > 0 ? (countOfKind(running, 'sea-level', true, model) * C.thrustPerRaptorAt(ambientPressureKPa)) / total : 0;
+export function gimballedShare(running: readonly boolean[], ambientPressureKPa: number): number {
+  if (countOfKind(running, 'vacuum', true) === 0) return 1;
+  const total = getTotalMaxThrust(running, ambientPressureKPa);
+  return total > 0 ? (countOfKind(running, 'sea-level', true) * C.thrustPerRaptorAt(ambientPressureKPa)) / total : 0;
 }
 
 /** physics.js:283 — the lateral component produced by gimbal deflection. @returns N */
@@ -111,12 +113,11 @@ export function getOffAxisThrustDifference(
   running: readonly boolean[],
   throttleCurrent: number,
   ambientPressureKPa: number,
-  model: VehicleDefinition = SHIP,
 ): number {
   let seaLevel = 0;
   let vacuum = 0;
-  for (let i = 0; i < model.engines.length; i++) {
-    const m = model.engines[i]!;
+  for (let i = 0; i < C.RAPTORS.length; i++) {
+    const m = C.RAPTORS[i]!;
     const term = (running[i] ? 1 : 0) * m.offAxisForceFraction;
     if (m.kind === 'sea-level') seaLevel += term;
     else vacuum += term;
@@ -149,10 +150,10 @@ export function getGimbalPointingDirection(pitch: Rad, gimbalPosition: number): 
  * 650 to 703 kg/s (327 s on the pad, from the public figure); the shape here
  * is 2021's.
  */
-export function getFuelFlowRate(running: readonly boolean[], throttleCurrent: number, model: VehicleDefinition = SHIP): number {
+export function getFuelFlowRate(running: readonly boolean[], throttleCurrent: number): number {
   return (
-    countOfKind(running, 'sea-level', true, model) * throttleCurrent * 0.01 * C.maxFuelFlowPerRaptor +
-    countOfKind(running, 'vacuum', true, model) * throttleCurrent * 0.01 * C.RVAC_MASS_FLOW
+    countOfKind(running, 'sea-level', true) * throttleCurrent * 0.01 * C.maxFuelFlowPerRaptor +
+    countOfKind(running, 'vacuum', true) * throttleCurrent * 0.01 * C.RVAC_MASS_FLOW
   );
 }
 
@@ -166,12 +167,12 @@ export function getFuelFlowRate(running: readonly boolean[], throttleCurrent: nu
  * what a full step needs. The step scales that step's thrust by it (Phase 6,
  * Bug fix: the emptying step used to thrust in full on its last kilograms).
  */
-export function updatePropellant(state: SimState, dt: number, model: VehicleDefinition = SHIP): number {
+export function updatePropellant(state: SimState, dt: number): number {
   const { vehicle, engines, status } = state;
   let burned = 1;
 
   if (vehicle.propellantMass > 0) {
-    const flowRate = getFuelFlowRate(engines.running, vehicle.throttleCurrent, model);
+    const flowRate = getFuelFlowRate(engines.running, vehicle.throttleCurrent);
     const needed = flowRate * dt;
     if (needed > vehicle.propellantMass) burned = vehicle.propellantMass / needed;
     // The last step burns what is left, not a full step's worth below zero.
@@ -188,7 +189,7 @@ export function updatePropellant(state: SimState, dt: number, model: VehicleDefi
     }
   }
 
-  vehicle.vehicleMass = model.dryMass + vehicle.propellantMass;
+  vehicle.vehicleMass = C.vehicleDryMass + vehicle.propellantMass;
   return burned;
 }
 
