@@ -88,7 +88,7 @@ Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-p
 
 ## Where Phase 6 stopped (2026-10-01)
 
-- Latest source change: `4c03814`, the plume timing/projection and flight-reset repair. Physics and goldens are unchanged from the independently reviewed implementation. The current checkout is clean and pushed; later commits preserve the blocker and evidence.
+- Latest graphics change: `4c03814`, the plume timing/projection and flight-reset repair. Physics and goldens are unchanged from the independently reviewed implementation. Checkpoint `6e3f514` changes the screenshot-scale helper and adds its regression fixture; its complete local gate passed. The checkpoint is pushed; the low-altitude length failure and pending full suite still prevent a merge.
 - Historical verification before the requested rerun, on `f81908b`: `npm run gate` green (1,935 tests, coverage floors, e2e smoke, subpath deploy); `npm run mutation` 18 of 18 caught; `npm run truth:report` 8 of 8; `/code-review high`; independent physics review (ChatGPT Pro, three rounds, every finding fixed: fixed RVacs, the turbulence sweep, the radial coast, the throttle law, break-up on the tile temperature).
 - Historical `npm run test:e2e:full` before this goal's requested rerun: **428 passed, 0 failed** (33 min, all five projects). This is superseded by the failing reruns below. Earlier full-run failures (the debrief's stale heat bound, a pixels flake) are fixed or re-ran green.
 - Current source verification on `4c03814`: complete local gate green (1,940 tests, coverage floors, smoke and subpath deployment), hosted CI `36940931396` green, independent graphics review clean; **full e2e red: 427 passed, 1 failed, 11 configured skips**.
