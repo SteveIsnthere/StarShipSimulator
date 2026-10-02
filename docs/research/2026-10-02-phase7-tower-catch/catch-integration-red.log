@@ -1,0 +1,73 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/tower-catch.test.ts (8 tests | 3 failed) 7ms
+     × secures the actual interpolated crossing pose, cancels all engines and preserves remaining fuel 4ms
+     × cannot report a slow ground touchdown as a catch 0ms
+     × captures through the real integrator and remains airborne on following steps 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/tower-catch.test.ts > secured tower contact > secures the actual interpolated crossing pose, cancels all engines and preserves remaining fuel
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/tower-catch.test.ts:87:34
+     85|     for(let i=0;i<10;i++) {
+     86|       const held=step(current,1/120,{},SUPER_HEAVY);
+     87|       expect(held.status.landed).toBe(true);expect(held.kinematics.alt…
+       |                                  ^
+     88|     }
+     89|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/core/tower-catch.test.ts > secured tower contact > cannot report a slow ground touchdown as a catch
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/tower-catch.test.ts:95:32
+     93|     s.kinematics.speedY=-1;s.status.onTheGround=false;
+     94|     const next=step(s,1/120,{},SUPER_HEAVY);
+     95|     expect(next.status.landed).toBe(false);
+       |                                ^
+     96|     expect(next.failures.crashed).toBe(true);
+     97|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/core/tower-catch.test.ts > secured tower contact > captures through the real integrator and remains airborne on following steps
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/tower-catch.test.ts:110:34
+    108|     s.kinematics.downRangeDistance=C.starBaseXPos;s.kinematics.speedY=…
+    109|     const caught=step(s,1/120,{},SUPER_HEAVY);
+    110|     expect(caught.status.landed).toBe(true);expect(caught.status.onThe…
+       |                                  ^
+    111|     expect(caught.kinematics.altitude).toBe(90.5);
+    112|     expect(step(caught,1/120,{},SUPER_HEAVY).status.landed).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 5 passed (8)
+   Start at  16:38:07
+   Duration  227ms (transform 93ms, setup 0ms, import 113ms, tests 7ms, environment 0ms)
+

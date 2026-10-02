@@ -53,6 +53,7 @@
 import * as C from './constants';
 import { SHIP, type VehicleDefinition } from './vehicle';
 import { createGridFinForces, writeGridFinForces } from './physics/grid-fins';
+import { secureTowerCatch } from './physics/tower-catch';
 import { speedOfSoundAt, updateAtmosphere } from './physics/atmosphere';
 import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from './physics/thermal';
 import * as aero from './physics/aero';
@@ -144,8 +145,9 @@ function checkIfCrash(s: SimState, model: VehicleDefinition): void {
     kinematics.altitude <=
     model.height * Math.abs(Math.cos(kinematics.pitch)) * 0.5
   ) {
-    if (kinematics.speedY < -0.5) {
+    if (kinematics.speedY < -0.5 || (model.id === 'super-heavy' && kinematics.speedY < 0)) {
       if (
+        model.id === 'ship' &&
         Math.abs(kinematics.speedX) < 2 &&
         Math.abs(kinematics.speedY) < C.touchDownSpeedLimit &&
         Math.abs(kinematics.pitch) < C.touchDownPitchLimit
@@ -256,6 +258,15 @@ const gridFinForces = createGridFinForces();
 
 export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT, model: VehicleDefinition = SHIP): SimState {
   const s = cloneState(previous);
+  // Chopstick contact carries weight and torque until a scenario restart.
+  // A secured booster has no ground contact and cannot restart propulsion.
+  if (model.id === 'super-heavy' && previous.status.landed) {
+    s.engines.running.fill(false);
+    s.engines.ignitionCountdown.fill(null);
+    s.world.environmentTime += dt;
+    s.world.updatedFrameCount += 1;
+    return s;
+  }
 
   /*
     M11.1, Fidelity: the aerodynamics act through the RELATIVE wind, and this
@@ -633,6 +644,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // last, cancelling even an ignition just requested by controls. Motion
   // retains this step's paid impulse; no engine can fire on the next step.
   checkIfBreakUp(s, model);
+  if (model.id === 'super-heavy') secureTowerCatch(previous, s, model);
 
   // --- bookkeeping ---------------------------------------------------------
   s.world.environmentTime += dt;
