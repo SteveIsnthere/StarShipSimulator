@@ -60,3 +60,14 @@ Fresh source review of NASA R474 §2.3.2 printed pp17–18: Figure 4's eta is co
 Next: resolve the pending assertion exception only after Steve answers; resolve the hypersonic-factor approximation with a source-justified ruling; then entry/range acceptance, flux measurement, mutation and full Linux golden audit. No golden was regenerated and no core change committed.
 
 Execution scratch: `.superpowers/sdd/modernization-phase-6b/`, ledger and baseline script. Logs are retained alongside this note.
+
+## Independent Task5 preflight while owner decisions are pending
+
+Prepared and watched three failing regression assertions, with no runtime-source change:
+- At60% current throttle, asking for TWR2 commands thrust for TWR3.333333 instead. Existing nominal100% throttle test hides the denominator error. New test lives in tests/core/control-contracts.test.ts and independently evaluates commanded thrust against local weight.
+- The first overpressure step computes a pressure above the unchanged50 kPa limit but returns inFlightBreakUp=false because it checked the incoming safe reading.
+- A safe orbital state with an incoming stale overpressure reading returns inFlightBreakUp=true despite computing a safe current pressure.
+
+Both freshness assertions live in tests/core/failure-freshness.test.ts and verify the current pressure is respectively unsafe/safe before checking the verdict. Exact3-failure output is task5-red.log. These failures are required TDD evidence for the already-approved Task5; they are intentionally unresolved, not additional attempts at the Task1 heating/predictor checks. Task5 core fix has not begun, to preserve serial physics work and atomic golden audits. No owner response has arrived for either Task1 exception.
+
+Task5 preflight lint and production build exit0. The targeted3 assertions fail for the documented defects, with37 unrelated tests filtered out by name; this does not claim a green unit suite. Logs retained beside task5-red.log.
