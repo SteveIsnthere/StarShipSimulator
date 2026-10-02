@@ -1,0 +1,13 @@
+[WebServer] (node:73804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:73805) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:73806) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (26.2s)
+  ✓  1 [chromium] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (1.1m)
+
+  2 passed (1.1m)

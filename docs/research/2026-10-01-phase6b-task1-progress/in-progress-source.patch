@@ -99,10 +99,24 @@ index be70a04..21fee4b 100644
 -  autoLand(state, dt);
 +  autoLand(state, dt, entryAngle);
 diff --git a/src/core/constants.ts b/src/core/constants.ts
-index 665bedb..6a9a4c6 100644
+index 665bedb..ffb7cdf 100644
 --- a/src/core/constants.ts
 +++ b/src/core/constants.ts
-@@ -146,2 +146,5 @@ export const dumpLimit = 12000;
+@@ -64,7 +64,3 @@ export const EARTH_FRAME_ROTATION_RATE = EARTH_ROTATION_RATE * Math.cos(LAUNCH_L
+- * ZERO FOR NOW, and that is a recorded decision (Phase 6, 2026-10-01). At
+- * `EARTH_FRAME_ROTATION_RATE` every truth test passes transformed to the
+- * inertial frame, but the circularize-then-deorbit flight misses the pad by
+- * 11.1 km against its 10 km acceptance: the broadside descent has no range
+- * control, and the turning ground widens the spread between a heavy and a
+- * light entry from 5 to 14 km. Entry range control is Phase 6b's, so the
+- * switch to Earth's rate is Phase 6b's Task 1b, after the entry flies on lift.
++ * Phase6b Tasks1+1b, Fidelity: Earth's projected sidereal rate is on now
++ * that the physical entry schedule has bounded range control. The 2D plane
++ * uses only the normal component of Earth's spin, as documented above.
+@@ -72 +68 @@ export const EARTH_FRAME_ROTATION_RATE = EARTH_ROTATION_RATE * Math.cos(LAUNCH_L
+-export const frameRotationRate = 0;
++export const frameRotationRate = EARTH_FRAME_ROTATION_RATE;
+@@ -146,2 +142,5 @@ export const dumpLimit = 12000;
 - * reserve buys about 0.75 t at touchdown (the rest is landing heavier): every
 - * engine-out deorbit lands with about 3.8 t, where the old 12 t left 0.0.
 + * reserve buys about 0.75 t at touchdown (the rest is landing heavier).
@@ -110,24 +124,28 @@ index 665bedb..6a9a4c6 100644
 + * engine-out landing (2026-10-01): 18 t leaves only 1.86 t, below the unchanged
 + * eighth-of-reserve health bound. The measured use plus a third is 21.53 t;
 + * round up to 22 t and re-measure the aim for this heavier descent.
-@@ -157 +160 @@ export const dumpLimit = 12000;
+@@ -157 +156 @@ export const dumpLimit = 12000;
 -export const landingReserve = 18_000;
 +export const landingReserve = 22_000;
-@@ -533 +536 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
+@@ -516,0 +516,5 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
++ * Phase6b Tasks1+1b (2026-10-01): current2,924,026 m aim is a measured secant
++ * estimate under physical body forces and Earth's rate. The one-km health
++ * check is still red at-1.333 km; calibration is stopped after three attempts,
++ * pending the owner's next diagnosis exception. This is not shipped acceptance.
++ *
+@@ -533 +537 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
 -export const DEORBIT_ENTRY_RANGE = 841_800;
-+export const DEORBIT_ENTRY_RANGE = 3_812_057;
-@@ -688,0 +692,13 @@ export const frameRate = 60;
++export const DEORBIT_ENTRY_RANGE = 2_924_026;
+@@ -688,0 +693,11 @@ export const frameRate = 60;
 +
-+/** Phase 6b's eight-angle sweep: 60° is the coolest entry that lands within 10 km.
-+ * Fixed-angle corrected sweep at aim3,812,057m:1463.710K at70.051km,
-+ * pad miss-14.8m. The1,533K tile limit is unchanged.
++/** Phase6b Tasks1+1b rotating sweep, measured2026-10-01: 65 degrees.
++ * Operational60-degree entry now takes985.450 s beyond the unchanged900 s
++ * harness; the next prescribed sweep candidate65 lands it in855.217 s at
++ * 1315.063 K. The65-degree fixed sweep is1405.481 K before aim calibration.
++ * Final rotating aim/range acceptance remains unfinished; see the plan ledger.
 + */
-+export const ENTRY_LIFT_ANGLE = rad(Math.PI / 3);
-+/** Begin the blend after initial hypersonic heating, fully broadside by Mach2.
-+ * The corrected Mach5 seed sweep takes977 s on Reentry, beyond its900 s
-+ * acceptance. The corrected Mach20 sweep lands it in815.958s; the calibrated
-+ * deorbit60-degree row survives and lands within10km. No bound moved.
-+ */
++export const ENTRY_LIFT_ANGLE = toRad(deg(65));
++/** The continuous Mach20-to-two blend is unchanged during rotation calibration. */
 +export const ENTRY_LIFT_MACH = 20;
 +export const ENTRY_BROADSIDE_MACH = 2;
 diff --git a/src/core/control/commands.ts b/src/core/control/commands.ts
@@ -495,6 +513,44 @@ index 594b14f..15f75e0 100644
 +  // retains this step's paid impulse; no engine can fire on the next step.
 +  checkIfBreakUp(s);
 +
+diff --git a/src/hud/debrief.ts b/src/hud/debrief.ts
+index 7d3940b..0946fb4 100644
+--- a/src/hud/debrief.ts
++++ b/src/hud/debrief.ts
+@@ -139 +139 @@ export interface FlightWatch {
+-/** True while the vehicle is still flying — the same test the recorder uses. */
++/** Contact has erased its kinematics; a first breakup state still carries its verdict. */
+@@ -143 +142,0 @@ function airborne(s: SimState): boolean {
+-    !s.failures.inFlightBreakUp &&
+@@ -152,0 +152 @@ export function createFlightWatch(): FlightWatch {
++  let lossSeen = false;
+@@ -177 +177,4 @@ export function createFlightWatch(): FlightWatch {
+-      if (!airborne(s)) return;
++      if (lossSeen || !airborne(s)) return;
++      // Current-force failures occur in this returned step. Capture its actual
++      // loads once, then keep the loss record while the debris continues falling.
++      lossSeen = s.failures.inFlightBreakUp;
+@@ -206,0 +210 @@ export function createFlightWatch(): FlightWatch {
++      lossSeen = false;
+diff --git a/tests/core/autopilot-stages.test.ts b/tests/core/autopilot-stages.test.ts
+index d77306e..625ae81 100644
+--- a/tests/core/autopilot-stages.test.ts
++++ b/tests/core/autopilot-stages.test.ts
+@@ -33,0 +34 @@ import { step } from '$core/step';
++import { circularOrbitalSpeed, groundTangentialSpeed } from '$core/physics/gravity';
+@@ -471 +472,3 @@ describe('autoDeorbit configures, and declines when it cannot burn', () => {
+-    s.kinematics.speedX = 7_800;
++    s.kinematics.speedX = groundTangentialSpeed(
++      s.kinematics.distanceToPlanetCenter, circularOrbitalSpeed(s.kinematics.distanceToPlanetCenter),
++    );
+@@ -491 +494,3 @@ describe('autoDeorbit configures, and declines when it cannot burn', () => {
+-    s.kinematics.speedX = 7_800;
++    s.kinematics.speedX = groundTangentialSpeed(
++      s.kinematics.distanceToPlanetCenter, circularOrbitalSpeed(s.kinematics.distanceToPlanetCenter),
++    );
+@@ -500 +505 @@ describe('autoDeorbit configures, and declines when it cannot burn', () => {
+-        (s.kinematics.downRangeDistance + 7_800) % C.planetCircumference;
++        (s.kinematics.downRangeDistance + s.kinematics.speedX) % C.planetCircumference;
 diff --git a/tests/core/control-contracts.test.ts b/tests/core/control-contracts.test.ts
 index c797468..5d8bf12 100644
 --- a/tests/core/control-contracts.test.ts
@@ -515,6 +571,40 @@ index c797468..5d8bf12 100644
 +    expect(achieved).toBeCloseTo(goalTWR, 6);
 +  });
 +
+diff --git a/tests/core/domain-edges.test.ts b/tests/core/domain-edges.test.ts
+index 0d2d12e..f54bcfb 100644
+--- a/tests/core/domain-edges.test.ts
++++ b/tests/core/domain-edges.test.ts
+@@ -37 +37 @@ import {
+-import { coastDownrangeDistance } from '$core/physics/gravity';
++import { coastDownrangeDistance, groundTangentialSpeed } from '$core/physics/gravity';
+@@ -293 +293,3 @@ describe('the ballistic coast predictor', () => {
+-    const result = coastDownrangeDistance(C.planetRadius + 200_000, 0, 0, rTarget);
++    // This is the inertial zero-angular-momentum degeneracy. Earth turns
++    // under a radial fall; rotating-frame.test.ts independently integrates that arc.
++    const result = coastDownrangeDistance(C.planetRadius + 200_000, 0, 0, rTarget, 0);
+@@ -312 +314 @@ describe('the ballistic coast predictor', () => {
+-        const out = coastDownrangeDistance(r, vt, 0, rTarget);
++        const out = coastDownrangeDistance(r, vt, 0, rTarget, 0);
+@@ -321 +323 @@ describe('the ballistic coast predictor', () => {
+-    // moving downrange at close to the deorbit delta-v. Asserted against the
++    // moving at the ground speed whose post-burn inertial speed is zero. Asserted against the
+@@ -325 +327,2 @@ describe('the ballistic coast predictor', () => {
+-    for (const speedX of [C.DEORBIT_DELTA_V, C.DEORBIT_DELTA_V + 1e-9, C.DEORBIT_DELTA_V - 1e-9]) {
++    const radialAfterBurn = groundTangentialSpeed(r, C.DEORBIT_DELTA_V);
++    for (const speedX of [radialAfterBurn, radialAfterBurn + 1e-9, radialAfterBurn - 1e-9]) {
+@@ -335,4 +338,7 @@ describe('the ballistic coast predictor', () => {
+-    const arc = coastDownrangeDistance(C.planetRadius + 200_000, 7_650, 0, rTarget);
+-    expect(Number.isFinite(arc)).toBe(true);
+-    expect(arc).toBeGreaterThan(1_000_000);
+-    expect(arc).toBeLessThan(20_000_000);
++    const r = C.planetRadius + 200_000;
++    for (const rate of [0, C.frameRotationRate]) {
++      const arc = coastDownrangeDistance(r, groundTangentialSpeed(r, 7_650, rate), 0, rTarget, rate);
++      expect(Number.isFinite(arc)).toBe(true);
++      expect(arc).toBeGreaterThan(1_000_000);
++      expect(arc).toBeLessThan(20_000_000);
++    }
 diff --git a/tests/core/felt-g.test.ts b/tests/core/felt-g.test.ts
 index 645cd23..e745aa6 100644
 --- a/tests/core/felt-g.test.ts
@@ -651,6 +741,68 @@ index 79666db..90b0216 100644
 +    expect(Math.abs(predicted.downRange - actual)).toBeLessThan(1);
 +  });
 +
+diff --git a/tests/core/orbit-demo.test.ts b/tests/core/orbit-demo.test.ts
+index 6c2989c..51768e7 100644
+--- a/tests/core/orbit-demo.test.ts
++++ b/tests/core/orbit-demo.test.ts
+@@ -36,0 +37 @@ import { isaAtmosphere } from '$core/physics/isa';
++import { getHealthySeaLevelCount } from '$core/physics/engines';
+@@ -86,0 +88,18 @@ interface Flight {
++  firingResidualBefore: number;
++  firingResidualAt: number;
++}
++
++/** Distance to the pad minus mechanical burn/coast/entry distance, in metres. */
++function firingResidual(s: SimState): number {
++  const k = s.kinematics;
++  const healthy = getHealthySeaLevelCount(s.engines.failed);
++  const burnTime = C.DEORBIT_DELTA_V * s.vehicle.vehicleMass /
++    (healthy * C.thrustPerRaptorAt(s.atmosphere.airPressure));
++  const burnDistance = (k.speedX - C.DEORBIT_DELTA_V / 2) * burnTime;
++  const coastDistance = coastDownrangeDistance(
++    k.distanceToPlanetCenter, k.speedX - C.DEORBIT_DELTA_V,
++    k.speedY, C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE,
++  );
++  const gap = C.starBaseXPos - k.downRangeDistance;
++  const groundDistance = gap < 0 ? gap + C.planetCircumference : gap;
++  return groundDistance - burnDistance - coastDistance - C.DEORBIT_ENTRY_RANGE;
+@@ -94,0 +114,2 @@ function fly(start: SimState, maxSeconds: number): Flight {
++  let firingResidualBefore = NaN;
++  let firingResidualAt = NaN;
+@@ -98,0 +120 @@ function fly(start: SimState, maxSeconds: number): Flight {
++    const before = s;
+@@ -101 +123,5 @@ function fly(start: SimState, maxSeconds: number): Flight {
+-    if (burnStartedAt < 0 && s.autopilot.deorbitBurnStarted) burnStartedAt = i / 120;
++    if (burnStartedAt < 0 && s.autopilot.deorbitBurnStarted) {
++      burnStartedAt = i / 120;
++      firingResidualBefore = firingResidual(before);
++      firingResidualAt = firingResidual(s);
++    }
+@@ -119,0 +146,2 @@ function fly(start: SimState, maxSeconds: number): Flight {
++    firingResidualBefore,
++    firingResidualAt,
+@@ -269 +297,6 @@ describe('step 3 — deorbit and land at StarBase', () => {
+-    expect(flight.burnStartedAt, 'coasted most of a lap before firing').toBeGreaterThan(1_500);
++    // Owner-approved replacement of the obsolete 1500 s floor: ignition is
++    // the first fixed step crossing the calculated firing point. The bound
++    // is the step's own root bracket, not a fitted number of seconds/metres.
++    expect(flight.burnStartedAt, 'coasted before firing').toBeGreaterThan(0);
++    expect(flight.firingResidualBefore, 'still short of the firing point').toBeGreaterThan(0);
++    expect(flight.firingResidualAt, 'crossed the firing point').toBeLessThanOrEqual(0);
+@@ -285,7 +318,3 @@ describe('step 3 — deorbit and land at StarBase', () => {
+-    // Since Phase 6 (Task 8) the limit is a tile temperature: the peak flux
+-    // holds the belly at 1,459 K against the 1,533 K limit, 95% of it (the
+-    // flux is 82% of the flux that would hold 1,533 K; T goes as q^1/4). The
+-    // margin is why the burn is bounded rather than free: a bigger one drops
+-    // perigee further, meets thick air faster, and pushes the peak up. Tighter
+-    // than the Re-entry preset's 1,372 K, which is right — coming home from
+-    // orbit should be the hardest thing the vehicle does.
++    // Coherent Phase6b Tasks1+1b, measured2026-10-01: Earth's rate and
++    // the 65-degree schedule. Retain the absolute limit and the original
++    // ±5 K characterization width; the physical tile includes its sink.
+@@ -293 +322 @@ describe('step 3 — deorbit and land at StarBase', () => {
+-    expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature, K').toBeCloseTo(1459, -1);
++    expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature, K').toBeCloseTo(1424, -1);
 diff --git a/tests/core/physical-scale.test.ts b/tests/core/physical-scale.test.ts
 index 7f76ec0..ad9bf48 100644
 --- a/tests/core/physical-scale.test.ts
@@ -676,6 +828,23 @@ index 7f76ec0..ad9bf48 100644
 +    return next;
 @@ -234 +246,0 @@ describe('the tile breaks up on its temperature, the reading the HUD shows', ()
 -
+diff --git a/tests/core/rotating-frame.test.ts b/tests/core/rotating-frame.test.ts
+index 2938f34..98a3f76 100644
+--- a/tests/core/rotating-frame.test.ts
++++ b/tests/core/rotating-frame.test.ts
+@@ -12,0 +13 @@ import fc from 'fast-check';
++import { frameRotationRate, EARTH_FRAME_ROTATION_RATE } from '$core/constants';
+@@ -47,0 +49 @@ describe('at omega = 0 the frame is inertial, bit for bit', () => {
++});
+@@ -49,4 +51,4 @@ describe('at omega = 0 the frame is inertial, bit for bit', () => {
+-  it('is what step() uses today: the default rate is zero', () => {
+-    expect(verticalGravityAcceleration(7e6, 1234)).toBe(verticalGravityAcceleration(7e6, 1234, 0));
+-    expect(tangentialAcceleration(7e6, 1234, -56)).toBe(tangentialAcceleration(7e6, 1234, -56, 0));
+-  });
++it('uses Earth’s projected rate by default, including in step()', () => {
++  expect(frameRotationRate).toBe(EARTH_FRAME_ROTATION_RATE);
++  expect(verticalGravityAcceleration(7e6, 1234)).toBe(verticalGravityAcceleration(7e6, 1234, EARTH_FRAME_ROTATION_RATE));
++  expect(tangentialAcceleration(7e6, 1234, -56)).toBe(tangentialAcceleration(7e6, 1234, -56, EARTH_FRAME_ROTATION_RATE));
 diff --git a/tests/core/wind.test.ts b/tests/core/wind.test.ts
 index a1d9c7c..b2b60a7 100644
 --- a/tests/core/wind.test.ts
@@ -689,8 +858,61 @@ index a1d9c7c..b2b60a7 100644
 +    const a = step(gliding(40, 0, 0), DT);
 +    const b = step(gliding(40, 0, -10), DT);
 +    const v = relativeAirspeed(40, 0, meanWindAt(-10, 2_000), 0) / relativeAirspeed(40, 0, 0, 0);
+diff --git a/tests/e2e/shake-subject.ts b/tests/e2e/shake-subject.ts
+index f4a49bc..c186806 100644
+--- a/tests/e2e/shake-subject.ts
++++ b/tests/e2e/shake-subject.ts
+@@ -20,10 +20,5 @@
+- * WHY IT IS NOW FLOWN NOSE-FIRST AND NEARLY DRY. The original subject was the
+- * Booster Sep preset moved to 10 km at 368 m/s, which left its 45-degree pitch
+- * and its 500 tonnes untouched: a vehicle side-on to the airstream at 28 kPa
+- * with both flap pairs idle at full deflection. It held still for ten
+- * milestones because the 2021 flaps balance almost exactly about a FIXED centre
+- * of mass. M11.8 made the centre of mass move with the propellant, the forward
+- * pair ended up far ahead of it on a full vehicle, and the subject started
+- * doing what the physics now says it should: 55 degrees per second inside the
+- * window the burst is taken in, which showed up as 10 px of silhouette wander
+- * with the shake OFF against 12 px with it on.
++ * WHY IT IS FLOWN NOSE-FIRST AND DRY. The loaded, side-on subject below
++ * departs under the fin moment. With physical body normal force, even the old
++ * 20 t nose-first subject develops enough alpha to exceed the unchanged six
++ * deg/s guard. Its CoM is 19.8 m, below the neutral fin station toward the
++ * engines; the resulting fin moment increases that departure.
+@@ -31,21 +26,8 @@
+- * The two changes below remove that, and neither is a loosening of what is
+- * asserted — both make the subject MORE like a real vehicle at max-Q:
+- *
+- *   pitch 90      nose along the velocity vector, so the angle of attack is
+- *                 zero and the flaps make no couple. A real rocket flies max-Q
+- *                 at essentially zero alpha for exactly this reason.
+- *   propellant 20 the near-dry vehicle, whose centre of mass is at the dry
+- *                 station the 2021 flap areas were balanced about, so what
+- *                 little alpha develops is nearly untorqued.
+- *
+- * Measured over the three simulated seconds the spec spends there — a number
+- * the spec asserts rather than assumes, see `SUBJECT_WINDOW_SECONDS` — the
+- * subject turns 1.0 degree in total and never faster than 0.88 of one per
+- * second, where the old one turned 77 and reached 55.3 per second, a factor of
+- * 63, with Q above 23 kPa throughout against a shake that saturates at 30. Over
+- * the doubled window the guard actually enforces it is 7.2 degrees and 3.3 per
+- * second, and the old subject is no longer flying at all.
+- *
+- * `tests/view/dynamic-pressure.test.ts` asserts both halves of that, so a
+- * future change to `core/` that destabilises this state fails in Node in a
+- * second rather than in a fifty-minute browser run.
++ * Use empty tanks, not a numerically optimized load: dry CoM is 21.8 m above
++ * the engines, beyond the area-weighted neutral fin station of 21.61 m.
++ * Thus the remaining fin moment restores a small departure instead of
++ * amplifying it. This is a ballistic rendering witness, not a preset or a
++ * claim about a fueled rocket's max-Q stability. Pitch starts at 90 degrees
++ * along the flow. All pressure, attitude, window and screenshot bounds stay
++ * unchanged; the old unstable subject remains the positive control.
++
+@@ -91 +73 @@ export const MAX_Q_FIELDS: Readonly<Record<string, string>> = {
+-  propellant: '20',
++  propellant: '0',
 diff --git a/tests/flies-every-scenario.test.ts b/tests/flies-every-scenario.test.ts
-index a0de296..723d450 100644
+index a0de296..e72d633 100644
 --- a/tests/flies-every-scenario.test.ts
 +++ b/tests/flies-every-scenario.test.ts
 @@ -147,6 +147,5 @@ describe('the autopilot flies the ones it is meant to', () => {
@@ -700,11 +922,77 @@ index a0de296..723d450 100644
 -    // (2026-10-01), within 5%.
 -    expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(170_900 * 0.95);
 -    expect(peak).toBeLessThan(170_900 * 1.05);
-+    // Phase6b Task1, measured2026-10-01: body-axis forces, Mach20-to-two
-+    // schedule and bounded range feedback peak at161759.227 W/m². Preserve
++    // Phase6b Tasks1+1b, measured2026-10-01: Earth’s rate, 65-degree entry,
++    // Mach20-to-two schedule and bounded range feedback peak at144021.289 W/m². Preserve
 +    // the plan's ±5% band and the independent absolute thermal limit.
-+    expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(161_800 * 0.95);
-+    expect(peak).toBeLessThan(161_800 * 1.05);
++    expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(144_000 * 0.95);
++    expect(peak).toBeLessThan(144_000 * 1.05);
+diff --git a/tests/hud/debrief.test.ts b/tests/hud/debrief.test.ts
+index 26b7d5e..da450b6 100644
+--- a/tests/hud/debrief.test.ts
++++ b/tests/hud/debrief.test.ts
+@@ -362 +362 @@ describe('a break-up is not a landing, and the card does not pretend otherwise',
+-    return { state: s, card: debrief(s, timeline, watch.last) };
++    return { state: s, timeline, watch, card: debrief(s, timeline, watch.last) };
+@@ -384,0 +385,23 @@ describe('a break-up is not a landing, and the card does not pretend otherwise',
++  it('captures the first-step loss and freezes it while the debris falls', () => {
++    const { state, watch, timeline } = comeApart();
++    expect(state.world.updatedFrameCount).toBe(1);
++    expect(watch.last).toBeDefined();
++    const loss = { ...watch.last! };
++    expect(loss.dynamicPressure).toBe(state.forces.dynamicPressure);
++    expect(loss.speedY).toBe(state.kinematics.speedY);
++    let debris = state;
++    for (let i = 0; i < 120; i++) {
++      debris = step(debris, DT);
++      watch.observe(debris);
++      timeline.observe(debris);
++    }
++    expect(debris.kinematics.altitude).not.toBe(state.kinematics.altitude);
++    expect(watch.last).toEqual(loss);
++    expect(debrief(debris, timeline, watch.last).peakQ.value).toBe(loss.dynamicPressure);
++
++    watch.reset();
++    expect(watch.last).toBeUndefined();
++    watch.observe(state);
++    expect(watch.last).toEqual(loss);
++  });
++
+diff --git a/tests/view/dynamic-pressure.test.ts b/tests/view/dynamic-pressure.test.ts
+index 9437b39..4162e30 100644
+--- a/tests/view/dynamic-pressure.test.ts
++++ b/tests/view/dynamic-pressure.test.ts
+@@ -32 +32,2 @@ import { step } from '$core/step';
+-import { dynamicPressureLimit } from '$core/constants';
++import { dynamicPressureLimit, frontFinSurfaceArea, aftFinSurfaceArea } from '$core/constants';
++import { centreOfMass, FRONT_FIN_STATION, AFT_FIN_STATION } from '$core/physics/mass';
+@@ -314,0 +316,11 @@ describe('the state the shake spec flies', () => {
++  it('uses dry tanks beyond the neutral fin station instead of tuning a load', () => {
++    const neutralStation = (
++      frontFinSurfaceArea * FRONT_FIN_STATION + aftFinSurfaceArea * AFT_FIN_STATION
++    ) / (frontFinSurfaceArea + aftFinSurfaceArea);
++    const s = subject(MAX_Q_FIELDS);
++    expect(s.vehicle.propellantMass).toBe(0);
++    expect(centreOfMass(s.vehicle.propellantMass)).toBeGreaterThan(neutralStation);
++    // The old near-dry load remains on the destabilizing side of the station.
++    expect(centreOfMass(20_000)).toBeLessThan(neutralStation);
++  });
++
+@@ -325,3 +337 @@ describe('the state the shake spec flies', () => {
+-    // whose centre of mass is at the station the flap areas balance about.
+-    // Measured: 7.2 degrees over the whole six-second window, and 1.0 over the
+-    // three the browser actually spends.
++    // whose centre of mass is beyond the neutral fin station.
+@@ -334,6 +344,3 @@ describe('the state the shake spec flies', () => {
+-    // at one ninth span a fraction of a second of flight, so the question is
+-    // how fast it is turning WHILE photographed. Measured: 0.88 deg/s over the
+-    // three seconds the burst takes and 3.32 at the end of the doubled window,
+-    // against 55 to 1400 for the subject this replaced. What that is worth in
+-    // pixels is not a calculation: the reduced-motion control, which IS this
+-    // residual and nothing else, reads 0.7 px on chromium.
++    // at one ninth span a fraction of a second of flight. Keep the unchanged
++    // rate bound; the browser's reduced-motion control measures the residual
++    // motion in pixels rather than assuming this bound is sufficient.
 diff --git a/scripts/entry-sweep.ts b/scripts/entry-sweep.ts
 new file mode 100644
 index 0000000..6bdaf09

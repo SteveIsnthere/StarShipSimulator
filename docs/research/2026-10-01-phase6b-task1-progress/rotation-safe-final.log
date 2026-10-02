@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/deorbit-range.test.ts (6 tests | 1 failed) 14348ms
+     × within 1 km of the pad 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/deorbit-range.test.ts > the deorbit aim matches the autoLand it aims for > within 1 km of the pad
+AssertionError: missed by -1.33 km; re-derive with npm run deorbit:range: expected 1333.1828538365662 to be less than 1000
+ ❯ tests/core/deorbit-range.test.ts:22:114
+     20|
+     21|   it('within 1 km of the pad', () => {
+     22|     expect(Math.abs(m.miss), `missed by ${(m.miss / 1000).toFixed(2)} …
+       |                                                                                                                  ^
+     23|   });
+     24| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 66 passed | 1 skipped (68)
+   Start at  23:40:18
+   Duration  37.14s (transform 534ms, setup 0ms, import 19.29s, tests 55.24s, environment 0ms)
+

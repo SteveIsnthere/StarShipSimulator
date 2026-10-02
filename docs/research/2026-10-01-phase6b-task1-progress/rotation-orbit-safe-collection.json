@@ -1,0 +1,152 @@
+[
+  {
+    "name": "the orbital presets > exist, and are declared separately from the 2021 five",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the orbital presets > both spawn at 150 km — M2.9(b), the owner's decision",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the orbital presets > Circularize starts exactly 20 m/s short of circular speed",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the orbital presets > Deorbit starts exactly circular, half a lap from StarBase",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 1 — circularize > a short prograde burn closes the orbit",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 2 — coast a full lap > a 150 km orbit holds for a full 88-minute lap",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 2 — coast a full lap > and 100 km still does not — which is why the presets are at 150",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 2 — coast a full lap > the atmosphere is 256 times thinner at 150 km than at 100 km",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 3 — deorbit and land at StarBase > survives the entry",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 3 — deorbit and land at StarBase > and touches down within 10 km of the pad",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 3 — deorbit and land at StarBase > lands gently, within the touchdown limits",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 3 — deorbit and land at StarBase > flies the sequence it is supposed to: coast, burn, hand over, descend",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 3 — deorbit and land at StarBase > and the entry is managed, not merely survived",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "step 3 — deorbit and land at StarBase > is deterministic — the same flight twice",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "THE WHOLE DEMO, end to end — the M2.9 acceptance line > the circularisation burn takes seconds and closes the orbit",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "THE WHOLE DEMO, end to end — the M2.9 acceptance line > it coasts most of a lap before the autopilot fires",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "THE WHOLE DEMO, end to end — the M2.9 acceptance line > survives the entry and lands at StarBase",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "THE WHOLE DEMO, end to end — the M2.9 acceptance line > THE NUMBER: within 10 km of the pad, from a flight it was not fitted to",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "THE WHOLE DEMO, end to end — the M2.9 acceptance line > and it is ninety minutes of flight, not a shortcut",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the guidance works from orbits it was never calibrated on > from a different starting longitude — half a lap further round",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the guidance works from orbits it was never calibrated on > 100 tonnes lighter at ignition",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the guidance works from orbits it was never calibrated on > with an engine already failed, so the burn is a third longer",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the guidance works from orbits it was never calibrated on > from 120 km, below the presets",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the deorbit mode itself > spends the coast turning around, because RCS is slow",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the deorbit mode itself > does not fire until the ground track is right",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the deorbit mode itself > turning it off resets it, so re-arming starts from the coast",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the deorbit mode itself > does nothing at all while it is off, which every other scenario relies on",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the thermosphere the presets sit in > matches the published standard at 100 km within 6%",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the thermosphere the presets sit in > and at 150 km, where the orbital presets fly, within 1%",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  },
+  {
+    "name": "the thermosphere the presets sit in > decays smoothly and stays positive to any altitude",
+    "file": "/Users/stevewang/dev/StarShipSimulator-realism/tests/core/orbit-demo.test.ts",
+    "projectName": "unit"
+  }
+]
