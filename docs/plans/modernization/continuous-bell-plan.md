@@ -60,7 +60,7 @@ const axial = travel * Math.cos(angle);
 
 ### Task 2: Scene lifecycle and original acceptance
 
-**Files:** Modify `src/ui/session/scene.ts`, `tests/ui/session.test.ts` only if its mock interface changes, `tests/e2e/plume.spec.ts` only for on-demand diagnostic metadata (its assertions do not change), and `docs/reference/presentation.md`.
+**Files:** Modify `src/ui/session/scene.ts` and optional `src/app/debug.ts` on-demand metadata; add actual scene witness `tests/e2e/emissive-bell.spec.ts`; `tests/ui/session.test.ts` only if its mock interface changes, `tests/e2e/plume.spec.ts` only for on-demand diagnostic metadata (its assertions do not change), and `docs/reference/presentation.md`.
 
 **Interfaces:** Scene owns `EmissiveBell`; the existing `setParticlesVisible(boolean)` hides/restores both particle detail and continuous gas, and `resetFlight()` clears both.
 
@@ -82,3 +82,11 @@ const axial = travel * Math.cos(angle);
 ## Technical review ruling — 2026-10-02
 
 Fresh plume_cycle3_review accepted five columns with finite existing-size feather; clip longitudinal texture age alongside geometry, reset on actual off/failure/restart and never advance while paused. Actual rendered appearance and unchanged original acceptance remain mandatory. Cost if wrong: visible field artifacts require a new evidence-backed correction before release.
+
+## Execution ledger
+
+Task1 component checkpoint ede66f8: independent review fixes watched red-to-green; seven new tests/83focused/1992full units green; build/lint green; eight desktop post witnesses green before descriptor/teardown repair. Task2 in progress. Scene witness watched absence red, then actual frozen hide/restore and restart green. Optional on-demand bell count exposes actual mesh visibility for shutdown/failure witnesses; no per-frame diagnostics allocation.
+
+## Cycle3attempt3 ruling — actual appearance overrides provisional model
+
+The51numericchecks pass, but fresh independent actualPNGreview rejects flatwhiteinterior. Replace the plateau UV by `(x / radius + 1) / 2` (birthcentre remains0.5), retaining allfivevertices, geometry, pressure curves, perengine contributions, color/alpha and softprofile. This supersedes Task1’s centreUV plateau representation; no gain/oldconfig/threshold change. Actualappearance plus unchanged originalacceptance required. Effectiveparentvisibility regression watchedred then5projectsgreen. Task2 remainsinprogress until appearance accepted; Task3notstarted.

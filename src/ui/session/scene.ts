@@ -21,6 +21,7 @@ import { createCloudDeck } from '$view/clouds';
 import { createVehicle } from '$view/vehicle';
 import { createParticleSystem, createParticleTextures } from '$view/particles';
 import { createEffectDriver } from '$view/effects';
+import { createEmissiveBell } from '$view/emissive-bell';
 import { createSky } from '$view/sky';
 import { createSunLight, writeSun } from '$view/sun';
 import { createVehicleLighting } from '$view/lighting';
@@ -37,7 +38,7 @@ export interface Scene {
   resetFlight(): void;
   /** Debug witnesses use the actual rendered nozzle, never a viewport guess. */
   presentation(): { nozzleX: number; nozzleY: number; width: number; height: number;
-    worldDt: number; particles: readonly Readonly<Record<string, number | string>>[] };
+    worldDt: number; bell: { visibleMounts: number }; particles: readonly Readonly<Record<string, number | string>>[] };
   setParticlesVisible(visible: boolean): void;
   destroy(): void;
 }
@@ -103,6 +104,8 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
 
   const particles = createParticleSystem(particleTextures);
   const effects = createEffectDriver();
+  const bell = createEmissiveBell();
+  view.layers.effectsBehind.addChild(bell.container);
   view.layers.effectsBehind.addChild(particles.container);
 
   // The flight-path marker is an instrument: in front of everything.
@@ -147,6 +150,7 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
       vehicle.update(view.camera, view.viewport, vehicleState, sun);
 
       effects.update(particles, view.camera, view.viewport, s, previous, worldDt);
+      bell.update(s, view.viewport.scale, effects.nozzle.x, effects.nozzle.y, worldDt);
 
       const strength = plasmaIntensity(s.forces.thermalPower, heatLimit);
       windwardInHull(s.kinematics.angleOfAttack, windward);
@@ -181,18 +185,21 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
     presentation() {
       return { nozzleX: effects.nozzle.x, nozzleY: effects.nozzle.y,
         width: view.viewport.width, height: view.viewport.height,
-        worldDt: lastWorldDt, particles: particles.inspect() };
+        worldDt: lastWorldDt, bell: { visibleMounts: bell.container.visible ? bell.container.children.filter(child => child.visible).length : 0 }, particles: particles.inspect() };
     },
     setParticlesVisible(visible) {
       particles.container.visible = visible;
+      bell.container.visible = visible;
     },
     resetFlight() {
       lastWorldDt = 0;
       particles.clear();
+      bell.reset();
       effects.reset();
     },
     destroy() {
       // Mesh.destroy releases neither the hull shader nor its generated normal map.
+      bell.destroy();
       sheath.destroy();
       inset.destroy();
       lighting?.destroy();

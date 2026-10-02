@@ -1,0 +1,20 @@
+[WebServer] (node:12789) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:12790) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 30829,
+  threeEnergy: 91601,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 20, 137 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 31, 54 ]
+}
+  ✓  1 [chromium] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (1.0s)
+
+  1 passed (2.6s)
