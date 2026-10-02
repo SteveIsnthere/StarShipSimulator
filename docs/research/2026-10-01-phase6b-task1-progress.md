@@ -71,3 +71,9 @@ Prepared and watched three failing regression assertions, with no runtime-source
 Both freshness assertions live in tests/core/failure-freshness.test.ts and verify the current pressure is respectively unsafe/safe before checking the verdict. Exact3-failure output is task5-red.log. These failures are required TDD evidence for the already-approved Task5; they are intentionally unresolved, not additional attempts at the Task1 heating/predictor checks. Task5 core fix has not begun, to preserve serial physics work and atomic golden audits. No owner response has arrived for either Task1 exception.
 
 Task5 preflight lint and production build exit0. The targeted3 assertions fail for the documented defects, with37 unrelated tests filtered out by name; this does not claim a green unit suite. Logs retained beside task5-red.log.
+
+## Owner approval checkpoint —2026-10-01
+
+Steve’s “sounds good” approved both recommended exceptions after the goal was marked blocked. Historical pending statements above describe the prior wait and are superseded. No new question is required. Exact approved replacement scope and source-based correction, including the predeclared smooth bridge, are in modernization-GOAL.md and the phase plan. Neither exception is implemented; old red assertions/source remain unchanged. Full roadmap scope remains6b,7,8,9.
+
+A recovery-only patch is retained beside this note as in-progress-source.patch. It captures the current uncommitted source/tests (including untracked files) so the approved atomic Fidelity work survives loss of this checkout. It is not a completed core commit or a regenerated baseline. In the existing worktree, do not apply it over the already-present changes. In a clean checkout at this documentation checkpoint, check with git apply --check, then apply only if the source changes are absent.

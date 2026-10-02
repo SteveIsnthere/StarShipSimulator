@@ -83,7 +83,7 @@ was never disabled. Two hosted menu checks needed their existing retry;
 recorded for Phase 9 with exact evidence.
 
 Six of ten phases are done (60%). Phase 6b Task 1 is next on
-`claude/entry-on-lift`, created from `080f108`. Task 1 model work is in progress and uncommitted; see the goal contract and the Task 1 progress note for the named predictor failure and measured sweeps, broader landing failures and pending owner exceptions.
+`claude/entry-on-lift`, created from `080f108`. Task 1 model work is in progress and uncommitted; see the goal contract and the Task 1 progress note for the named predictor failure and measured sweeps, broader landing failures and now-approved owner exceptions.
 
 [Phase 6 close evidence](../../research/2026-10-01-phase6-close.md).
 
@@ -94,7 +94,7 @@ Six of ten phases are done (60%). Phase 6b Task 1 is next on
 - Historical `npm run test:e2e:full` before this goal's requested rerun: **428 passed, 0 failed** (33 min, all five projects). This is superseded by the failing reruns below. Earlier full-run failures (the debrief's stale heat bound, a pixels flake) are fixed or re-ran green.
 - Current source verification on `4c03814`: complete local gate green (1,940 tests, coverage floors, smoke and subpath deployment), hosted CI `36940931396` green, independent graphics review clean; **full e2e red: 427 passed, 1 failed, 11 configured skips**.
 - Requested rerun on `92ed3d6`: 426 passed, 2 failed, 11 configured skips. The repair changed no browser bounds or retries. Final gate and hosted CI passed, but the final full-suite rerun still fails the iPhone portrait vacuum-width check. The three-attempt contract stopped the phase; Steve has now approved exactly one further attempt, now in progress.
-- Left: merge `--no-ff` to `main` from the main checkout, push, confirm the Pages deploy and the smoke tier against the live URL, tick the roadmap's Phase 6 line with the merge commit, then start 6b.
+- Left at that historical checkpoint: merge/deploy Phase6 and start6b. This is completed at080f108; do not redo it.
 
 ## Phase 6 progress (2026-10-01)
 
@@ -116,4 +116,4 @@ Six of ten phases are done (60%). Phase 6b Task 1 is next on
 
 The shared physical force model and Mach-five to two schedule are built but uncommitted. Prescribed sweep gives a viable60° deorbit at1515.29 K and7.67 km miss with the trial aim. This is not phase completion: all fixed-angle circularize-demo entries break up, reentry exceeds the existing900 s harness, and the one-km aim health remains red. The measured22 t reserve passes all three engine-out reserve assertions. The current4450439 m aim still misses4.70 km. See [Task1 progress](../../research/2026-10-01-phase6b-task1-progress.md) for both sweeps and exact bounded diagnoses.
 
-Pending Steve: replace the obsolete4 km/s predictor cap characterization with an independent forward witness (review recommendation), explicitly add full-trajectory flightworthiness, or park the model. The red assertion is unchanged pending that answer. Independent source review also identifies the hypersonic extrapolation of the low-speed eta0.63 factor as unjustified by NASA R474; no correction implemented. Preserve source and tests; no goldens regenerated or Task1 core commit.
+Steve approved both recommended exceptions on2026-10-01: replace only the obsolete4 km/s cap characterization with a forward mechanical witness and a real breakup witness, preserving all genuine cap tests; correct the crossflow factor to recover hypersonic unity, with the declared Mach0.4–1.6 smooth bridge fixed before rerunning flights. The goal contract and phase plan state the exact assumptions and unchanged limits. No implementation of these exceptions yet. Preserve all source/tests; no goldens regenerated or Task1 core commit. Task5’s three regression assertions have watched red evidence; its runtime fixes have not begun.

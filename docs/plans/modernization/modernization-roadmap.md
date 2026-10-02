@@ -15,7 +15,7 @@ The evidence behind every phase is [docs/research/2026-09-30-modernization-audit
 ## Steve's decisions (2026-10-01)
 
 - **Entry on lift, as Phase 6b.** Physical drag (cited, built) halves hypersonic drag, and with the physical heat shield the deorbit breaks up at 1,533 K because the autopilot flies entry broadside, where lift is zero. Phase 6b gives the autopilot an entry angle-of-attack schedule that flies on lift, then lands the parked aero tasks on it. The tile limit never moves.
-- **Phase 6 resume:** one additional diagnosis attempt (attempt 4) for the iPhone portrait vacuum-plume width failure, with all assertions, bounds and retries unchanged. It is in progress; if it remains red, Phase 6 stops again. The general three-attempt rule remains.
+- **Phase 6 resume:** one additional diagnosis attempt (attempt 4) for the iPhone portrait vacuum-plume width failure, with all assertions, bounds and retries unchanged. It passed final verification; Phase 6 is merged and live at080f108. The general three-attempt rule remains.
 - **Graphics and visuals get their own phase, before UX** (Phase 8), covering engines and plumes, re-entry and heat, the environment, and the vehicle and camera. Like Phase 3, it publishes its visual direction to a private review page and proceeds without waiting; Steve's verdict folds in as a scope change.
 
 ## Phases
@@ -81,4 +81,4 @@ Phases 7–9 get their phase plan when the phase before them lands, written by t
 
 Phase 6 is merged and live at `080f108`. Six of ten phases are complete (60%).
 Phase 6b starts on `claude/entry-on-lift`, created from that main merge.
-See its [plan](modernization-phase-6b.md); Task 1 is next.
+Task1 is active with uncommitted shared-force/schedule work and retained sweeps; broader landing acceptance is red. Steve approved replacing the single obsolete predictor characterization and correcting the low-speed factor’s hypersonic extrapolation. The next concrete step is the Mach-aware-factor TDD cycle in its [plan](modernization-phase-6b.md), with a declared bridge fixed before testing. Full remaining scope is6b,7,8,9; no new scope or weaker acceptance.
