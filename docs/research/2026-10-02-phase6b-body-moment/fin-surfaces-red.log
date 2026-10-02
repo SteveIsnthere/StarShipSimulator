@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/fin-surfaces.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/fin-surfaces.test.ts [ tests/core/fin-surfaces.test.ts ]
+Error: Cannot find module '$core/physics/fin-surfaces' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/fin-surfaces.test.ts
+ ❯ tests/core/fin-surfaces.test.ts:4:1
+      2| import * as C from '$core/constants';
+      3| import { rad } from '$core/units';
+      4| import { writeHypersonicFinForce } from '$core/physics/fin-surfaces';
+       | ^
+      5|
+      6| const empty = () => ({ normal: 0, drag: 0, lift: 0, moment: 0 });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  07:59:33
+   Duration  140ms (transform 26ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

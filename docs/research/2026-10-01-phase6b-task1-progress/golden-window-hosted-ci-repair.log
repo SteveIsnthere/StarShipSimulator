@@ -1,0 +1,1047 @@
+gate	Gate	﻿2026-10-02T14:34:46.5929354Z ##[group]Run npm run gate
+gate	Gate	2026-10-02T14:34:46.5929538Z ^[[36;1mnpm run gate^[[0m
+gate	Gate	2026-10-02T14:34:46.5983350Z shell: /usr/bin/bash -e {0}
+gate	Gate	2026-10-02T14:34:46.5983517Z ##[endgroup]
+gate	Gate	2026-10-02T14:34:46.7562815Z 
+gate	Gate	2026-10-02T14:34:46.7563533Z > starship-simulator-v2@0.1.0 gate
+gate	Gate	2026-10-02T14:34:46.7586083Z > npm run lint && npm run build && npm run test && npm run coverage && E2E_SKIP_BUILD=1 npm run test:e2e && E2E_SKIP_BUILD=1 npm run test:deploy
+gate	Gate	2026-10-02T14:34:46.7586898Z 
+gate	Gate	2026-10-02T14:34:46.8237004Z 
+gate	Gate	2026-10-02T14:34:46.8237740Z > starship-simulator-v2@0.1.0 lint
+gate	Gate	2026-10-02T14:34:46.8238128Z > eslint .
+gate	Gate	2026-10-02T14:34:46.8238246Z 
+gate	Gate	2026-10-02T14:34:53.3519132Z 
+gate	Gate	2026-10-02T14:34:53.3519861Z > starship-simulator-v2@0.1.0 build
+gate	Gate	2026-10-02T14:34:53.3521162Z > tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+gate	Gate	2026-10-02T14:34:53.3522083Z 
+gate	Gate	2026-10-02T14:34:59.7556174Z design contract: ok (11 rules, self-test passed)
+gate	Gate	2026-10-02T14:34:59.7843386Z copy contract: ok (9 rules, self-test passed)
+gate	Gate	2026-10-02T14:35:00.0267483Z ^[[36mvite v8.2.2 ^[[32mbuilding client environment for production...^[[36m^[[39m
+gate	Gate	2026-10-02T14:35:00.0353891Z transforming...
+gate	Gate	2026-10-02T14:35:00.3504577Z ✓ 2493 modules transformed.
+gate	Gate	2026-10-02T14:35:00.4056987Z rendering chunks...
+gate	Gate	2026-10-02T14:35:00.7440488Z computing gzip size...
+gate	Gate	2026-10-02T14:35:00.7518531Z dist/index.html                                     2.35 kB │ gzip:   0.94 kB
+gate	Gate	2026-10-02T14:35:00.7518987Z dist/assets/InterTight-SemiBold-DJfiTN08.woff2     11.10 kB
+gate	Gate	2026-10-02T14:35:00.7519274Z dist/assets/Inter-Regular-BVdEcXjD.woff2           12.00 kB
+gate	Gate	2026-10-02T14:35:00.7519541Z dist/assets/Inter-SemiBold-DlULF7c_.woff2          12.46 kB
+gate	Gate	2026-10-02T14:35:00.7519809Z dist/assets/JetBrainsMono-Medium-CMl9fZ9Q.woff2    16.54 kB
+gate	Gate	2026-10-02T14:35:00.7520159Z dist/assets/charts-BBZhrHKM.css                     0.69 kB │ gzip:   0.35 kB
+gate	Gate	2026-10-02T14:35:00.7520578Z dist/assets/plots-D2GbP0iN.css                      1.17 kB │ gzip:   0.46 kB
+gate	Gate	2026-10-02T14:35:00.7520924Z dist/assets/uPlot-CnsZ1jie.css                      1.64 kB │ gzip:   0.69 kB
+gate	Gate	2026-10-02T14:35:00.7521267Z dist/assets/index-B0OT9yWl.css                     53.06 kB │ gzip:  10.19 kB
+gate	Gate	2026-10-02T14:35:00.7521623Z dist/assets/webworkerAll-CHX88v5T.js                0.05 kB │ gzip:   0.06 kB
+gate	Gate	2026-10-02T14:35:00.7522517Z dist/assets/getTextureBatchBindGroup-Bt6AC8uX.js    0.40 kB │ gzip:   0.31 kB │ map:     1.78 kB
+gate	Gate	2026-10-02T14:35:00.7522958Z dist/assets/CanvasPool-ccaPBm8-.js                  0.80 kB │ gzip:   0.45 kB │ map:     3.51 kB
+gate	Gate	2026-10-02T14:35:00.7523363Z dist/assets/Cache-DGqfkvRQ.js                       1.14 kB │ gzip:   0.59 kB │ map:     4.85 kB
+gate	Gate	2026-10-02T14:35:00.7523762Z dist/assets/constants-BtWjrpN3.js                   1.65 kB │ gzip:   0.93 kB │ map:    36.48 kB
+gate	Gate	2026-10-02T14:35:00.7524388Z dist/assets/plots-CX3zxHgo.js                       4.63 kB │ gzip:   2.28 kB │ map:    24.91 kB
+gate	Gate	2026-10-02T14:35:00.7524936Z dist/assets/canvasUtils-BVPkC6ub.js                 6.06 kB │ gzip:   2.06 kB │ map:    21.91 kB
+gate	Gate	2026-10-02T14:35:00.7525343Z dist/assets/Debrief-DM92yF2P.js                     6.60 kB │ gzip:   2.52 kB │ map:    20.76 kB
+gate	Gate	2026-10-02T14:35:00.7525742Z dist/assets/BlackBox-OCl6Ex8c.js                    9.89 kB │ gzip:   4.16 kB │ map:    37.30 kB
+gate	Gate	2026-10-02T14:35:00.7526163Z dist/assets/BufferResource-CZg6dyUf.js             11.13 kB │ gzip:   2.89 kB │ map:    26.53 kB
+gate	Gate	2026-10-02T14:35:00.7526714Z dist/assets/init-DnH_wx8r.js                       15.66 kB │ gzip:   4.92 kB │ map:    54.96 kB
+gate	Gate	2026-10-02T14:35:00.7527103Z dist/assets/state-yeSWtWfP.js                      15.73 kB │ gzip:   6.20 kB │ map:   140.02 kB
+gate	Gate	2026-10-02T14:35:00.7527504Z dist/assets/GCManagedHash-DqPcw2Gj.js              19.37 kB │ gzip:   6.32 kB │ map:    67.25 kB
+gate	Gate	2026-10-02T14:35:00.7527901Z dist/assets/Menu-DgJwxiuS.js                       23.36 kB │ gzip:   7.77 kB │ map:    73.85 kB
+gate	Gate	2026-10-02T14:35:00.7528523Z dist/assets/Button-s_Cybpy_.js                     36.83 kB │ gzip:  12.30 kB │ map:   175.21 kB
+gate	Gate	2026-10-02T14:35:00.7528945Z dist/assets/Filter-C-jCSOcL.js                     38.97 kB │ gzip:  11.18 kB │ map:   182.95 kB
+gate	Gate	2026-10-02T14:35:00.7529559Z dist/assets/Dialog-DDv8Pvw0.js                     39.90 kB │ gzip:  13.64 kB │ map:   184.47 kB
+gate	Gate	2026-10-02T14:35:00.7530100Z dist/assets/browserAll-C3TR0S31.js                 42.72 kB │ gzip:  11.20 kB │ map:   156.94 kB
+gate	Gate	2026-10-02T14:35:00.7530499Z dist/assets/uPlot.esm-C4ecZUO0.js                  51.04 kB │ gzip:  22.28 kB │ map:   252.56 kB
+gate	Gate	2026-10-02T14:35:00.7530914Z dist/assets/RenderTargetSystem-CGVbkJQT.js         57.47 kB │ gzip:  16.21 kB │ map:   213.58 kB
+gate	Gate	2026-10-02T14:35:00.7531346Z dist/assets/GraphicsContext-DLmAmwc0.js            61.32 kB │ gzip:  20.55 kB │ map:   346.25 kB
+gate	Gate	2026-10-02T14:35:00.7531754Z dist/assets/Geometry-coEMng49.js                   65.52 kB │ gzip:  21.50 kB │ map:   326.26 kB
+gate	Gate	2026-10-02T14:35:00.7532153Z dist/assets/index-D3faReFx.js                     603.01 kB │ gzip: 188.24 kB │ map: 2,839.54 kB
+gate	Gate	2026-10-02T14:35:00.7532332Z 
+gate	Gate	2026-10-02T14:35:00.7532554Z ^[[33m[plugin builtin:vite-reporter] 
+gate	Gate	2026-10-02T14:35:00.7532819Z (!) Some chunks are larger than 500 kB after minification. Consider:
+gate	Gate	2026-10-02T14:35:00.7533086Z - Using dynamic import() to code-split the application
+gate	Gate	2026-10-02T14:35:00.7533546Z - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+gate	Gate	2026-10-02T14:35:00.7534036Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.^[[39m
+gate	Gate	2026-10-02T14:35:00.7534661Z ^[[32m✓ built in 723ms^[[39m
+gate	Gate	2026-10-02T14:35:00.8242430Z service worker: 44 assets precached, version 649fb464d31b
+gate	Gate	2026-10-02T14:35:00.8762539Z   assets/index-D3faReFx.js                           182.2 kB gzip
+gate	Gate	2026-10-02T14:35:00.8763162Z   assets/Geometry-coEMng49.js                         20.8 kB gzip
+gate	Gate	2026-10-02T14:35:00.8763646Z   assets/Button-s_Cybpy_.js                           11.9 kB gzip
+gate	Gate	2026-10-02T14:35:00.8764093Z   assets/constants-BtWjrpN3.js                         0.9 kB gzip
+gate	Gate	2026-10-02T14:35:00.8764531Z   assets/state-yeSWtWfP.js                             6.0 kB gzip
+gate	Gate	2026-10-02T14:35:00.8764964Z   assets/Filter-C-jCSOcL.js                           10.9 kB gzip
+gate	Gate	2026-10-02T14:35:00.8765397Z   assets/canvasUtils-BVPkC6ub.js                       2.0 kB gzip
+gate	Gate	2026-10-02T14:35:00.8766370Z   assets/Cache-DGqfkvRQ.js                             0.6 kB gzip
+gate	Gate	2026-10-02T14:35:00.8767181Z   assets/GCManagedHash-DqPcw2Gj.js                     6.2 kB gzip
+gate	Gate	2026-10-02T14:35:00.8767653Z   assets/RenderTargetSystem-CGVbkJQT.js               15.7 kB gzip
+gate	Gate	2026-10-02T14:35:00.8768093Z   assets/getTextureBatchBindGroup-Bt6AC8uX.js          0.3 kB gzip
+gate	Gate	2026-10-02T14:35:00.8768528Z   assets/GraphicsContext-DLmAmwc0.js                  19.9 kB gzip
+gate	Gate	2026-10-02T14:35:00.8768958Z   assets/CanvasPool-ccaPBm8-.js                        0.4 kB gzip
+gate	Gate	2026-10-02T14:35:00.8769382Z   assets/BufferResource-CZg6dyUf.js                    2.8 kB gzip
+gate	Gate	2026-10-02T14:35:00.8769773Z   TOTAL first-load JS                                280.7 kB gzip
+gate	Gate	2026-10-02T14:35:00.8770126Z   BUDGET                                             300.0 kB gzip
+gate	Gate	2026-10-02T14:35:00.8771037Z   (lazy chunks, not counted: BlackBox-OCl6Ex8c.js, Debrief-DM92yF2P.js, Dialog-DDv8Pvw0.js, Menu-DgJwxiuS.js, browserAll-C3TR0S31.js, init-DnH_wx8r.js, plots-CX3zxHgo.js, uPlot.esm-C4ecZUO0.js, webworkerAll-CHX88v5T.js)
+gate	Gate	2026-10-02T14:35:00.8771968Z   assets/index-B0OT9yWl.css                            9.9 kB gzip (css)
+gate	Gate	2026-10-02T14:35:00.8772416Z   Inter-Regular-BVdEcXjD.woff2                        11.7 kB raw
+gate	Gate	2026-10-02T14:35:00.8772848Z   Inter-SemiBold-DlULF7c_.woff2                       12.2 kB raw
+gate	Gate	2026-10-02T14:35:00.8773303Z   InterTight-SemiBold-DJfiTN08.woff2                  10.8 kB raw
+gate	Gate	2026-10-02T14:35:00.8773751Z   JetBrainsMono-Medium-CMl9fZ9Q.woff2                 16.2 kB raw
+gate	Gate	2026-10-02T14:35:00.8774425Z   TOTAL fonts                                         50.9 kB raw
+gate	Gate	2026-10-02T14:35:00.8774829Z   FONT BUDGET                                         80.0 kB raw
+gate	Gate	2026-10-02T14:35:00.8775186Z   TOTAL audio                                          0.0 kB raw
+gate	Gate	2026-10-02T14:35:00.8775585Z   AUDIO BUDGET                                       250.0 kB raw
+gate	Gate	2026-10-02T14:35:00.8775793Z 
+gate	Gate	2026-10-02T14:35:00.8776286Z budget: OK — 280.7 kB of 300.0 kB JS
+gate	Gate	2026-10-02T14:35:00.8776813Z budget: OK — 50.9 kB of 80.0 kB fonts
+gate	Gate	2026-10-02T14:35:00.8777182Z budget: OK — 0.0 kB of 250.0 kB audio
+gate	Gate	2026-10-02T14:35:00.9090507Z entry graph: ok (14 first-load files, no uPlot or GSAP)
+gate	Gate	2026-10-02T14:35:00.9787236Z 
+gate	Gate	2026-10-02T14:35:00.9787963Z > starship-simulator-v2@0.1.0 test
+gate	Gate	2026-10-02T14:35:00.9788343Z > vitest run
+gate	Gate	2026-10-02T14:35:00.9788468Z 
+gate	Gate	2026-10-02T14:35:01.2145880Z 
+gate	Gate	2026-10-02T14:35:01.2149130Z ^[[1m^[[30m^[[46m RUN ^[[49m^[[39m^[[22m ^[[36mv4.1.11 ^[[39m^[[90m/home/runner/work/StarShipSimulator/StarShipSimulator^[[39m
+gate	Gate	2026-10-02T14:35:01.2149609Z 
+gate	Gate	2026-10-02T14:35:02.6420546Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.6693268Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7048101Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7128216Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7197732Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7431407Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7548614Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7652700Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7778775Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7807520Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7927990Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7929755Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.7982407Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:35:02.8020076Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/BrickField.test.tsx ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 320^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:02.9093752Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/ConfirmDialog/ConfirmDialog.test.tsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 431^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:03.7950229Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/brickMotion.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 150^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:03.9975587Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/input/GamepadNavProvider.test.tsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 404^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:04.5925948Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/TransitionView/TransitionView.test.tsx ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 50^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:04.7658734Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/useChipPanelMorph.test.tsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 2277^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:04.7660130Z    ^[[33m^[[2m✓^[[22m^[[39m mounts at once, hands the frame to the shell and settles after the expansion ^[[33m 441^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:04.7661187Z    ^[[33m^[[2m✓^[[22m^[[39m ends open and consistent after a rapid open, close, open ^[[33m 487^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:04.7663350Z    ^[[33m^[[2m✓^[[22m^[[39m ends closed and unmounted after a rapid close, open, close ^[[33m 702^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:04.7664208Z    ^[[33m^[[2m✓^[[22m^[[39m kills the motion when unmounted mid-flight ^[[33m 321^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:04.9868579Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/effects.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 185^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:05.8640474Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/NumberField/NumberField.test.tsx ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[33m 347^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:06.1293432Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/input/InputOwnershipProvider.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 182^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:06.2368119Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/LoadingState/LoadingState.test.tsx ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 290^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:06.8388569Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/input/ownership.test.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:07.2124781Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/useMotionTimeline.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 22^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:07.5253641Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Dialog/Dialog.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 255^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:07.8242761Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/renderer.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:08.1708657Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/gpuTimer.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:08.7586727Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/ConnectedMedia/ConnectedMedia.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 212^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:08.9127945Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/FieldStatus/FieldStatus.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 152^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:09.5985271Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/LoadingState/LoadingState.accessibility.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 253^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:09.8268674Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/InputLegend/InputLegend.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 73^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:10.0602637Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/SliderRow/SliderRow.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 153^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:10.5298829Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/styles/motion.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 3^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:10.9338497Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Tile/Tile.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 165^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:11.1128745Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/useReducedMotion.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:11.6802965Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Button/Button.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 164^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:12.1878636Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/FormRow/FormRow.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 165^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:12.3587446Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Toggle/Toggle.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 171^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:12.8988689Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/TabStrip/TabStrip.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 143^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:13.2779184Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/internal/utils.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:13.5068574Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/autopilot-stages.test.ts ^[[2m(^[[22m^[[2m40 tests^[[22m^[[2m)^[[22m^[[32m 43^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:13.6416249Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/public-api.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 3^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:13.7118787Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/golden/unification.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:14.0548134Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/control-contracts.test.ts ^[[2m(^[[22m^[[2m38 tests^[[22m^[[2m)^[[22m^[[32m 143^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:15.5342644Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/particles.test.ts ^[[2m(^[[22m^[[2m45 tests^[[22m^[[2m)^[[22m^[[33m 1058^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:15.5346748Z      ^[[33m^[[2m✓^[[22m^[[39m THE LEAK: ten thousand engine shutdowns add nothing ^[[33m 687^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:26.4569115Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/trajectory.test.ts ^[[2m(^[[22m^[[2m39 tests^[[22m^[[2m)^[[22m^[[33m 10772^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:26.4587841Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff ^[[33m 329^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:26.4597510Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback ^[[33m 319^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:26.4598163Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback ^[[33m 489^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:26.4598717Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 8422^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:26.4599315Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 674^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:27.3859836Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/domain-edges.test.ts ^[[2m(^[[22m^[[2m28 tests^[[22m^[[2m)^[[22m^[[33m 751^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:27.3860851Z      ^[[33m^[[2m✓^[[22m^[[39m and getAttackAngles really does wrap into [-pi, pi] ^[[33m 453^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:27.5903050Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/named-branches.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[32m 36^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:28.0442769Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/engine.test.ts ^[[2m(^[[22m^[[2m31 tests^[[22m^[[2m)^[[22m^[[32m 224^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:42.1978461Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/camera.test.ts ^[[2m(^[[22m^[[2m100 tests^[[22m^[[2m)^[[22m^[[33m 28836^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:42.2008409Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 5693^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:42.2047673Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 495^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:42.2063468Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland in pad ^[[33m 6934^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:42.2077209Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland in chase ^[[33m 4867^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:42.2097331Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland in onboard ^[[33m 6533^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:42.2098103Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland in pad ^[[33m 495^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:42.2098876Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland in chase ^[[33m 466^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:35:42.2099614Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland in onboard ^[[33m 457^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.5978448Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/debrief.test.ts ^[[2m(^[[22m^[[2m52 tests^[[22m^[[2m)^[[22m^[[33m 46152^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6006817Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 5913^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6018036Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 537^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6047515Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 5935^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6067635Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 437^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6117791Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 11758^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6157469Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 640^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6158406Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 10542^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6187721Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 871^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6202532Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 6111^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.6208902Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 474^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:28.8145780Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/isa.test.ts ^[[2m(^[[22m^[[2m30 tests^[[22m^[[2m)^[[22m^[[32m 47^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:34.7908031Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/dynamic-pressure.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 23^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:34.9507350Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/stars.test.ts ^[[2m(^[[22m^[[2m24 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:35.9867627Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/guidance-physics.test.ts ^[[2m(^[[22m^[[2m27 tests^[[22m^[[2m)^[[22m^[[33m 856^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:36.1544272Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/sun.test.ts ^[[2m(^[[22m^[[2m33 tests^[[22m^[[2m)^[[22m^[[32m 21^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:37.7888133Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:36:39.5181735Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Menu.test.tsx ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 1472^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:40.7048207Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/trig-collapse.test.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[33m 1061^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:49.3245261Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe claim, tested against itself^[[2m > ^[[22m^[[2ma genuinely unpowered fall lands near where it was predicted to
+gate	Gate	2026-10-02T14:36:49.3256914Z ^[[22m^[[39munpowered drop · fell 0.2 km · predicted 0.00 km in 3.4 s · actual 0.00 km in 3.4 s · error 0.00 km
+gate	Gate	2026-10-02T14:36:49.3257948Z 
+gate	Gate	2026-10-02T14:36:49.3934705Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe claim, tested against itself^[[2m > ^[[22m^[[2mreports how wrong it is from high altitude, where the model is weakest
+gate	Gate	2026-10-02T14:36:49.3938198Z ^[[22m^[[39mfrom 40 km unpowered · predicted 13.7 km in 101 s · actual 19.2 km in 104 s · error 5.5 km
+gate	Gate	2026-10-02T14:36:49.3938930Z 
+gate	Gate	2026-10-02T14:36:49.7538591Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe error against seven real flights^[[2m > ^[[22m^[[2mbefore-flip-autoland converges as the ground approaches
+gate	Gate	2026-10-02T14:36:49.7540237Z ^[[22m^[[39mbefore-flip-autoland: touchdown at -0.00 km · at 1.0 km up, error 0.10 km · at 27 m up, error 0 m
+gate	Gate	2026-10-02T14:36:49.7541648Z 
+gate	Gate	2026-10-02T14:36:49.7644476Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe error against seven real flights^[[2m > ^[[22m^[[2mlanding-burn-autoland converges as the ground approaches
+gate	Gate	2026-10-02T14:36:49.7647131Z ^[[22m^[[39mlanding-burn-autoland: touchdown at 0.00 km · at 0.2 km up, error 0.00 km · at 26 m up, error 0 m
+gate	Gate	2026-10-02T14:36:49.7647791Z 
+gate	Gate	2026-10-02T14:36:49.7752891Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe error against seven real flights^[[2m > ^[[22m^[[2mintro-demo converges as the ground approaches
+gate	Gate	2026-10-02T14:36:49.7777666Z ^[[22m^[[39mintro-demo: touchdown at 0.00 km · at 0.2 km up, error 0.00 km · at 25 m up, error 0 m
+gate	Gate	2026-10-02T14:36:49.7786926Z 
+gate	Gate	2026-10-02T14:36:49.7787870Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/prediction.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[33m 8927^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:49.7788854Z      ^[[33m^[[2m✓^[[22m^[[39m never returns a non-finite number to a caller ^[[33m 8439^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:49.7789757Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland converges as the ground approaches ^[[33m 359^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6645894Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/orbit-demo.test.ts ^[[2m(^[[22m^[[2m31 tests^[[22m^[[2m)^[[22m^[[33m 75623^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6646641Z      ^[[33m^[[2m✓^[[22m^[[39m a 150 km orbit holds for a full 88-minute lap ^[[33m 3332^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6647360Z      ^[[33m^[[2m✓^[[22m^[[39m and 100 km still does not — which is why the presets are at 150 ^[[33m 2218^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6648656Z      ^[[33m^[[2m✓^[[22m^[[39m is deterministic — the same flight twice ^[[33m 11109^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6649391Z      ^[[33m^[[2m✓^[[22m^[[39m from a different starting longitude — half a lap further round ^[[33m 14755^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6650048Z      ^[[33m^[[2m✓^[[22m^[[39m 100 tonnes lighter at ignition ^[[33m 10519^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6650740Z      ^[[33m^[[2m✓^[[22m^[[39m with an engine already failed, so the burn is a third longer ^[[33m 10217^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6651372Z      ^[[33m^[[2m✓^[[22m^[[39m from 120 km, below the presets ^[[33m 8565^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6652010Z      ^[[33m^[[2m✓^[[22m^[[39m from 300 km it still lands, but the envelope is showing ^[[33m 10433^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6652703Z      ^[[33m^[[2m✓^[[22m^[[39m spends the coast turning around, because RCS is slow ^[[33m 2224^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.6653380Z      ^[[33m^[[2m✓^[[22m^[[39m does not fire until the ground track is right ^[[33m 2208^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.9602018Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/clouds.test.ts ^[[2m(^[[22m^[[2m18 tests^[[22m^[[2m)^[[22m^[[33m 749^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:50.9603122Z      ^[[33m^[[2m✓^[[22m^[[39m is continuous and monotonic through the crossing ^[[33m 474^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:51.7868967Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:36:52.7176867Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Controls.test.tsx ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 765^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:57.9040520Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/distant-earth.test.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[33m 4764^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:57.9060967Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland stays readable ^[[33m 3694^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:57.9061905Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland stays readable ^[[33m 404^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.2188495Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/menu.test.ts ^[[2m(^[[22m^[[2m25 tests^[[22m^[[2m)^[[22m^[[32m 128^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.6962478Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/view-clock.test.ts ^[[2m(^[[22m^[[2m56 tests^[[22m^[[2m)^[[22m^[[33m 90467^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.6973032Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland, with frames dropping ^[[33m 5954^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7058777Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland, with frames dropping ^[[33m 504^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7069062Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland, at 9x warp ^[[33m 4854^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7069970Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland, at 9x warp ^[[33m 307^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7070725Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland, at 1/9 speed ^[[33m 4751^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7071660Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland lands the camera on the same metre with a 400 ms stall every two seconds ^[[33m 10052^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7072738Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland lands the camera on the same metre with 9x time warp ^[[33m 11626^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7074004Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland lands the camera on the same metre with 1/9 slow motion ^[[33m 12434^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7075116Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland lands the camera on the same metre with a 400 ms stall every two seconds ^[[33m 763^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7076172Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland lands the camera on the same metre with 9x time warp ^[[33m 757^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7077241Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland lands the camera on the same metre with 1/9 slow motion ^[[33m 864^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7079655Z      ^[[33m^[[2m✓^[[22m^[[39m the wall clock loses the vehicle when frames drop ^[[33m 6785^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7081074Z      ^[[33m^[[2m✓^[[22m^[[39m the wall clock loses it at 9x warp, failing the other way round ^[[33m 6619^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7081978Z      ^[[33m^[[2m✓^[[22m^[[39m and simulated time once per FRAME is better, but still not enough ^[[33m 6608^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.7082880Z      ^[[33m^[[2m✓^[[22m^[[39m all three agree when nothing goes wrong, which is why this survived ^[[33m 14014^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:58.8878927Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/mass.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 61^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:36:59.5877667Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/blackbox.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 317^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:04.9192694Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/timeline.test.ts ^[[2m(^[[22m^[[2m29 tests^[[22m^[[2m)^[[22m^[[33m 13803^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:04.9208431Z      ^[[33m^[[2m✓^[[22m^[[39m 'reentry-autoland' fires its events in order, flown live ^[[33m 5985^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:04.9209705Z      ^[[33m^[[2m✓^[[22m^[[39m 'before-flip-autoland' fires its events in order, flown live ^[[33m 456^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:04.9210730Z      ^[[33m^[[2m✓^[[22m^[[39m a state exactly at the entry interface counts as crossing it ^[[33m 5825^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:05.0598799Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/physical-scale.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:05.6558539Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/loop.test.ts ^[[2m(^[[22m^[[2m24 tests^[[22m^[[2m)^[[22m^[[33m 428^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:05.8168551Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/analytic-laws.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:06.6108943Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/metrics.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 570^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:06.6198517Z      ^[[33m^[[2m✓^[[22m^[[39m formats every metric to a non-empty string across a whole flight ^[[33m 479^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:13.1688689Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/orbit.test.ts ^[[2m(^[[22m^[[2m18 tests^[[22m^[[2m)^[[22m^[[33m 14760^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:13.1717714Z      ^[[33m^[[2m✓^[[22m^[[39m altitude holds within a kilometre over a full lap ^[[33m 3123^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:13.1718425Z      ^[[33m^[[2m✓^[[22m^[[39m speed holds within a metre per second over a full lap ^[[33m 3262^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:13.1719487Z      ^[[33m^[[2m✓^[[22m^[[39m never dips into the atmosphere or climbs away ^[[33m 2598^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:13.1720058Z      ^[[33m^[[2m✓^[[22m^[[39m completes a full revolution of downrange distance ^[[33m 2017^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:13.1720562Z      ^[[33m^[[2m✓^[[22m^[[39m an elliptical orbit comes back down again ^[[33m 3355^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:13.7954622Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe two fades differ, and that IS the milestone^[[2m > ^[[22m^[[2mreaches the floor by 50 km, over the real atmosphere model
+gate	Gate	2026-10-02T14:37:13.7956168Z ^[[22m^[[39mabove 50 km · at 70 km: aero 2.21e-3, engine air 0.2490
+gate	Gate	2026-10-02T14:37:13.7956940Z 
+gate	Gate	2026-10-02T14:37:13.8721418Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe two fades differ, and that IS the milestone^[[2m > ^[[22m^[[2mthe airflow is loud where the flight is fast and low
+gate	Gate	2026-10-02T14:37:13.8724089Z ^[[22m^[[39mlaunch: peak airflow 0.737 at 5.5 km
+gate	Gate	2026-10-02T14:37:13.8724620Z 
+gate	Gate	2026-10-02T14:37:13.9537739Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe re-entry golden, rendered as it climbs out^[[2m > ^[[22m^[[2mthe level falls as the air does
+gate	Gate	2026-10-02T14:37:13.9540602Z ^[[22m^[[39m70 km -> RMS 0.00023 · 110 km -> RMS 0.02861 · 134 km -> RMS 0.02841
+gate	Gate	2026-10-02T14:37:13.9541232Z 
+gate	Gate	2026-10-02T14:37:13.9632268Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe re-entry golden, rendered as it climbs out^[[2m > ^[[22m^[[2mthe same vehicle is measurably louder in air than in vacuum
+gate	Gate	2026-10-02T14:37:13.9642956Z ^[[22m^[[39msame vehicle · in air RMS 0.13151 · in vacuum RMS 0.02820
+gate	Gate	2026-10-02T14:37:13.9669978Z 
+gate	Gate	2026-10-02T14:37:13.9670954Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/vacuum.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[33m 588^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:13.9671947Z      ^[[33m^[[2m✓^[[22m^[[39m reaches the floor by 50 km, over the real atmosphere model ^[[33m 414^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:14.2068755Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/fin-fraction.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 57^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:14.2323863Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/plume.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[33m 7165^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:14.2325174Z      ^[[33m^[[2m✓^[[22m^[[39m reports the range each flight puts the plume through ^[[33m 7111^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:14.3822010Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/ignition.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 38^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:15.1213697Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/scenarios.test.ts ^[[2m(^[[22m^[[2m51 tests^[[22m^[[2m)^[[22m^[[33m 730^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:18.7379386Z ^[[90mstdout^[[2m | tests/view/perf.test.ts^[[2m > ^[[22m^[[2mparticle pool headroom, with the velocity streaks added^[[2m > ^[[22m^[[2mreports peak usage across all seven scenarios against the 576 baseline
+gate	Gate	2026-10-02T14:37:18.7429028Z ^[[22m^[[39mlaunch-pad-takeoff: peak 735 · booster-sep-boostback: peak 492 · rtls-boostback: peak 538 · reentry-autoland: peak 547 · before-flip-autoland: peak 647 · landing-burn-autoland: peak 647 · landing-burn-headwind: peak 656 · intro-demo: peak 648
+gate	Gate	2026-10-02T14:37:18.7447910Z    worst 735 of 4000 (82% free), at launch-pad-takeoff; baseline before M7.5 was 576
+gate	Gate	2026-10-02T14:37:18.7476786Z 
+gate	Gate	2026-10-02T14:37:20.3304055Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/perf.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 20393^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:20.3305365Z      ^[[33m^[[2m✓^[[22m^[[39m the particle pool is fixed for the life of the system ^[[33m 689^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:20.3331318Z      ^[[33m^[[2m✓^[[22m^[[39m the M6.7 and M7.5 effects do not grow it either ^[[33m 3033^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:20.3332695Z      ^[[33m^[[2m✓^[[22m^[[39m reports peak usage across all seven scenarios against the 576 baseline ^[[33m 14731^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:20.3334275Z      ^[[33m^[[2m✓^[[22m^[[39m the shock-banded core does not grow the pool either ^[[33m 1590^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:21.3542171Z ^[[90mstdout^[[2m | tests/audio/params.test.ts^[[2m > ^[[22m^[[2mat the throttles and engine counts the seven scenarios reach^[[2m > ^[[22m^[[2mreports the range each flight actually visits
+gate	Gate	2026-10-02T14:37:21.3543373Z ^[[22m^[[39mlaunch-pad-takeoff: engine level 0.00–1.00, up to 3 lit
+gate	Gate	2026-10-02T14:37:21.3544057Z booster-sep-boostback: engine level 0.00–1.00, up to 3 lit
+gate	Gate	2026-10-02T14:37:21.3544710Z rtls-boostback: engine level 0.00–1.00, up to 3 lit
+gate	Gate	2026-10-02T14:37:21.3545306Z reentry-autoland: engine level 0.00–0.00, up to 0 lit
+gate	Gate	2026-10-02T14:37:21.3545871Z before-flip-autoland: engine level 0.00–0.74, up to 3 lit
+gate	Gate	2026-10-02T14:37:21.3546593Z landing-burn-autoland: engine level 0.00–0.73, up to 3 lit
+gate	Gate	2026-10-02T14:37:21.3547179Z landing-burn-headwind: engine level 0.00–0.74, up to 3 lit
+gate	Gate	2026-10-02T14:37:21.3547721Z intro-demo: engine level 0.00–0.86, up to 3 lit
+gate	Gate	2026-10-02T14:37:21.3548062Z 
+gate	Gate	2026-10-02T14:37:21.3566558Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/params.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[33m 6088^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:21.3585349Z      ^[[33m^[[2m✓^[[22m^[[39m reports the range each flight actually visits ^[[33m 6072^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:22.2419100Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/verlet.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 7677^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:22.2428224Z      ^[[33m^[[2m✓^[[22m^[[39m halving dt quarters the error — the ratio is 4, where Euler gave 2 ^[[33m 1014^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:22.2429938Z      ^[[33m^[[2m✓^[[22m^[[39m and is millimetres at 15 Hz, where Euler was 796 metres ^[[33m 1005^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:22.2430828Z      ^[[33m^[[2m✓^[[22m^[[39m to a part in 10^10 or better at every rate the simulation runs at ^[[33m 2587^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:22.2431694Z      ^[[33m^[[2m✓^[[22m^[[39m altitude drift is a centimetre, and does not depend on dt ^[[33m 2725^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:22.2432571Z      ^[[33m^[[2m✓^[[22m^[[39m and in true vacuum, at 800 km, energy and altitude do not move at all ^[[33m 333^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:23.5248183Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:37:24.2273653Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/BlackBox.test.tsx ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[33m 566^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:24.4437004Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/offline.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 51^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:24.6215943Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/thrust-altitude.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[32m 10^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:25.1386899Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/particle-textures.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 156^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:25.3153943Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/wind.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:25.7038894Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/horizon.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 16^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:26.7238455Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/entry-range.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[33m 5198^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:26.7268197Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction -1 with a measured 0-degree tracking bias ^[[33m 1205^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:26.7269417Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction 1 with a measured 0-degree tracking bias ^[[33m 1584^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:26.7328132Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction -1 with a measured 2-degree tracking bias ^[[33m 899^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:26.7357846Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction 1 with a measured -2-degree tracking bias ^[[33m 1329^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:28.6614558Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/angular-momentum.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 8161^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:28.6617017Z      ^[[33m^[[2m✓^[[22m^[[39m to better than a part in ten thousand over a hundred minutes ^[[33m 3332^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:28.6617965Z      ^[[33m^[[2m✓^[[22m^[[39m and the orbit reaches the apogee the energy says it should ^[[33m 2998^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:28.6618829Z      ^[[33m^[[2m✓^[[22m^[[39m the simulation agrees to within a kilometre in five thousand ^[[33m 400^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:28.6619782Z      ^[[33m^[[2m✓^[[22m^[[39m and CONVERGES — which is how a model error tells itself from an integrator one ^[[33m 1143^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:30.2049841Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/autopilot.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[33m 1393^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:30.2077998Z      ^[[33m^[[2m✓^[[22m^[[39m computes a belly-flop trigger altitude and ends the aero descent below it ^[[33m 1077^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:30.4028545Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/atmosphere-strato.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 55^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:33.0023900Z ^[[90mstdout^[[2m | tests/audio/warnings.test.ts^[[2m > ^[[22m^[[2mear and eye read the same thresholds^[[2m > ^[[22m^[[2mstays quiet through all seven, and reports how much margin they had
+gate	Gate	2026-10-02T14:37:33.0028588Z ^[[22m^[[39mlaunch-pad-takeoff: nominal (heat 0.02, Q 0.58 of limit)
+gate	Gate	2026-10-02T14:37:33.0029365Z booster-sep-boostback: nominal (heat 0.01, Q 0.00 of limit)
+gate	Gate	2026-10-02T14:37:33.0030576Z rtls-boostback: nominal (heat 0.02, Q 0.57 of limit)
+gate	Gate	2026-10-02T14:37:33.0031148Z reentry-autoland: nominal (heat 0.54, Q 0.16 of limit)
+gate	Gate	2026-10-02T14:37:33.0031757Z before-flip-autoland: nominal (heat 0.00, Q 0.07 of limit)
+gate	Gate	2026-10-02T14:37:33.0032348Z landing-burn-autoland: nominal (heat 0.00, Q 0.02 of limit)
+gate	Gate	2026-10-02T14:37:33.0032929Z landing-burn-headwind: nominal (heat 0.00, Q 0.02 of limit)
+gate	Gate	2026-10-02T14:37:33.0033497Z intro-demo: nominal (heat 0.00, Q 0.03 of limit)
+gate	Gate	2026-10-02T14:37:33.0033923Z 
+gate	Gate	2026-10-02T14:37:33.0197928Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/warnings.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[33m 6162^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:33.0200758Z      ^[[33m^[[2m✓^[[22m^[[39m stays quiet through all seven, and reports how much margin they had ^[[33m 6143^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:33.6980895Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/wind-profile.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 214^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:33.8608377Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/input.test.ts ^[[2m(^[[22m^[[2m32 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:34.8068255Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:37:35.7152092Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Hud.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 613^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:36.3257375Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/terrain.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 197^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:37.2560579Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mat the speeds the seven scenarios actually reach^[[2m > ^[[22m^[[2mreports where the streaks are silent and where they blow
+gate	Gate	2026-10-02T14:37:37.2565445Z ^[[22m^[[39mlaunch-pad-takeoff: peak 730 m/s -> streak 0.23, silent 32% of the flight
+gate	Gate	2026-10-02T14:37:37.2566343Z booster-sep-boostback: peak 1599 m/s -> streak 0.88, silent 0% of the flight
+gate	Gate	2026-10-02T14:37:37.2567246Z rtls-boostback: peak 542 m/s -> streak 0.12, silent 30% of the flight
+gate	Gate	2026-10-02T14:37:37.2567912Z reentry-autoland: peak 7300 m/s -> streak 1.00, silent 0% of the flight
+gate	Gate	2026-10-02T14:37:37.2568601Z before-flip-autoland: peak 79 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:37:37.2569304Z landing-burn-autoland: peak 37 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:37:37.2570005Z landing-burn-headwind: peak 37 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:37:37.2570652Z intro-demo: peak 51 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:37:37.2571108Z 
+gate	Gate	2026-10-02T14:37:37.3877017Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mlaunch-pad-takeoff: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:37:37.3880909Z ^[[22m^[[39mlaunch-pad-takeoff: nose and flight path diverge by up to 9°
+gate	Gate	2026-10-02T14:37:37.3881584Z 
+gate	Gate	2026-10-02T14:37:37.4968686Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mbooster-sep-boostback: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:37:37.4972147Z ^[[22m^[[39mbooster-sep-boostback: nose and flight path diverge by up to 134°
+gate	Gate	2026-10-02T14:37:37.4972757Z 
+gate	Gate	2026-10-02T14:37:37.6083892Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mrtls-boostback: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:37:37.6117750Z ^[[22m^[[39mrtls-boostback: nose and flight path diverge by up to 179°
+gate	Gate	2026-10-02T14:37:37.6146714Z 
+gate	Gate	2026-10-02T14:37:38.4092929Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/golden/replay.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 12366^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:38.4146752Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 542^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:38.4147651Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 527^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:38.4187990Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 479^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:38.4228706Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 6548^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:38.4229611Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 730^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:38.4230433Z      ^[[33m^[[2m✓^[[22m^[[39m round-trip through the serialiser preserves every value exactly ^[[33m 2694^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:38.9138523Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/step.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 322^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:39.1158198Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/atmosphere-look.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 2455^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:39.1177941Z      ^[[33m^[[2m✓^[[22m^[[39m rises monotonically between the two ^[[33m 2374^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:40.1329426Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:37:40.4158660Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Debrief.test.tsx ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 239^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:40.5072639Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/binder.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 1216^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:40.5107148Z      ^[[33m^[[2m✓^[[22m^[[39m a real flight writes a small fraction of what an undiffed binder would ^[[33m 1184^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:40.7371907Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe engine is louder at 100% than at 40% — measured, not asserted^[[2m > ^[[22m^[[2mrises with throttle
+gate	Gate	2026-10-02T14:37:40.7422332Z ^[[22m^[[39mthree engines: 40% RMS 0.09131 · 100% RMS 0.13051
+gate	Gate	2026-10-02T14:37:40.7454345Z 
+gate	Gate	2026-10-02T14:37:40.7488333Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe engine is louder at 100% than at 40% — measured, not asserted^[[2m > ^[[22m^[[2mrises with engine count
+gate	Gate	2026-10-02T14:37:40.7537514Z ^[[22m^[[39mat 100%: one engine RMS 0.07535 · three RMS 0.13051
+gate	Gate	2026-10-02T14:37:40.7584826Z 
+gate	Gate	2026-10-02T14:37:40.7586242Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe engine is louder at 100% than at 40% — measured, not asserted^[[2m > ^[[22m^[[2mdistinguishes three engines at 40% from two at 100%
+gate	Gate	2026-10-02T14:37:40.7607583Z ^[[22m^[[39mthree at 40% RMS 0.09131 · two at 100% RMS 0.10656
+gate	Gate	2026-10-02T14:37:40.7627613Z 
+gate	Gate	2026-10-02T14:37:40.7637726Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe air fade, rendered^[[2m > ^[[22m^[[2mfalls toward its floor in vacuum without reaching silence
+gate	Gate	2026-10-02T14:37:40.7639139Z ^[[22m^[[39msea level RMS 0.13051 · vacuum RMS 0.02871 · ratio 0.2200 against a floor of 0.22
+gate	Gate	2026-10-02T14:37:40.7639546Z 
+gate	Gate	2026-10-02T14:37:40.7789574Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/render.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 52^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:41.1613375Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rng.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 604^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:41.1616984Z      ^[[33m^[[2m✓^[[22m^[[39m stays in [0, 1) ^[[33m 511^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:41.6278463Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/timeline-binder.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 284^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:41.8333537Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/controls.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 32^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:42.0292222Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rotating-frame.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 50^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:42.4828721Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mlaunch-pad-takeoff
+gate	Gate	2026-10-02T14:37:42.4880005Z ^[[22m^[[39mlaunch-pad-takeoff: ignition x3
+gate	Gate	2026-10-02T14:37:42.4897206Z 
+gate	Gate	2026-10-02T14:37:42.6326910Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mbooster-sep-boostback
+gate	Gate	2026-10-02T14:37:42.6335960Z ^[[22m^[[39mbooster-sep-boostback: ignition x3
+gate	Gate	2026-10-02T14:37:42.6336803Z 
+gate	Gate	2026-10-02T14:37:42.8157750Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mrtls-boostback
+gate	Gate	2026-10-02T14:37:42.8164125Z ^[[22m^[[39mrtls-boostback: ignition x6, shutdown x6
+gate	Gate	2026-10-02T14:37:42.8164545Z 
+gate	Gate	2026-10-02T14:37:43.5461040Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mreentry-autoland: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:37:43.5477663Z ^[[22m^[[39mreentry-autoland: nose and flight path diverge by up to 85°
+gate	Gate	2026-10-02T14:37:43.5507032Z 
+gate	Gate	2026-10-02T14:37:43.8668516Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mbefore-flip-autoland: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:37:43.8670017Z ^[[22m^[[39mbefore-flip-autoland: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:37:43.8670583Z 
+gate	Gate	2026-10-02T14:37:43.8890392Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mlanding-burn-autoland: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:37:43.8892782Z ^[[22m^[[39mlanding-burn-autoland: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:37:43.8893478Z 
+gate	Gate	2026-10-02T14:37:43.9154385Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mlanding-burn-headwind: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:37:43.9156985Z ^[[22m^[[39mlanding-burn-headwind: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:37:43.9157561Z 
+gate	Gate	2026-10-02T14:37:43.9374850Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mintro-demo: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:37:43.9376176Z ^[[22m^[[39mintro-demo: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:37:43.9376936Z 
+gate	Gate	2026-10-02T14:37:48.4872431Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/motion-cues.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[33m 17690^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:48.4873805Z      ^[[33m^[[2m✓^[[22m^[[39m reports where the streaks are silent and where they blow ^[[33m 6451^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:48.4874635Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland: the marker never disagrees with the state vector ^[[33m 5938^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:48.4875581Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland: the marker never disagrees with the state vector ^[[33m 321^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:48.4876620Z      ^[[33m^[[2m✓^[[22m^[[39m the divergence is real on at least one scenario, or this draws nothing ^[[33m 4546^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:48.5425554Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mreentry-autoland
+gate	Gate	2026-10-02T14:37:48.5428918Z ^[[22m^[[39mreentry-autoland: nothing
+gate	Gate	2026-10-02T14:37:48.5429373Z 
+gate	Gate	2026-10-02T14:37:49.0138529Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mbefore-flip-autoland
+gate	Gate	2026-10-02T14:37:49.0167914Z ^[[22m^[[39mbefore-flip-autoland: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:37:49.0196777Z 
+gate	Gate	2026-10-02T14:37:49.0764334Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mlanding-burn-autoland
+gate	Gate	2026-10-02T14:37:49.0777753Z ^[[22m^[[39mlanding-burn-autoland: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:37:49.0778341Z 
+gate	Gate	2026-10-02T14:37:49.1595846Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mlanding-burn-headwind
+gate	Gate	2026-10-02T14:37:49.1663707Z ^[[22m^[[39mlanding-burn-headwind: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:37:49.1675988Z 
+gate	Gate	2026-10-02T14:37:49.2251442Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mintro-demo
+gate	Gate	2026-10-02T14:37:49.2267910Z ^[[22m^[[39mintro-demo: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:37:49.2268373Z 
+gate	Gate	2026-10-02T14:37:49.2999580Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/transients.test.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[33m 7008^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:49.3017819Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 5727^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:49.3018475Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 471^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:49.6850944Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:37:49.6986701Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/sky.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[32m 16^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:49.8748716Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/heat-argument.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:50.1298453Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/StatusBar.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 376^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:50.3104313Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rvac.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:50.6222785Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/recorder.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 131^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:50.9408457Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/budget.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 169^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:51.2085968Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/collapsed-trig.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 98^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:51.3839930Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/no-neumorphism.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 33^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:51.5308485Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rcs-dead-zone.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 1476^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:51.5348358Z      ^[[33m^[[2m✓^[[22m^[[39m and then HOLDS it, rather than carrying on rotating ^[[33m 851^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:51.5376027Z      ^[[33m^[[2m✓^[[22m^[[39m the thrusters fire below saturation, not only at the cap ^[[33m 326^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:51.6469679Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/pitch-rate.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 97^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:51.9170076Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/contrast.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:52.2258930Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/indicators.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 134^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:52.6976041Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/lighting.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 15^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:53.0446278Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/lint-walls/walls.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[33m 1140^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:53.0458239Z      ^[[33m^[[2m✓^[[22m^[[39m wall 1: no view/ ui/ hud/ app/ PIXI or React imports ^[[33m 906^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:53.2208769Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/failure-freshness.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:53.4237139Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/speed-of-sound.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 40^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:53.7375185Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/dt-substitution.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 170^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:53.8168182Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:37:53.8948746Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/tabular-digits.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:54.2929598Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/TrajectoryCard.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 289^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:54.5008769Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/body-axis-aero.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 24^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:54.7138631Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/preferences.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 22^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:55.2042122Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/reentry.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:55.4148666Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/rcs-reserve.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 4^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:55.4512697Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/BlackBoxPlots.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 584^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:55.5958754Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/haptics.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:56.7811884Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:37:56.9783543Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/FirstFlight.test.tsx ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 68^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:57.2305604Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/random-failure.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 72^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:57.2523334Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/invariants.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 1655^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:57.2524961Z      ^[[33m^[[2m✓^[[22m^[[39m every number stays finite, or is a sentinel it started as ^[[33m 597^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:57.2525951Z      ^[[33m^[[2m✓^[[22m^[[39m mass never increases, and propellant never goes negative ^[[33m 626^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:57.2527165Z      ^[[33m^[[2m✓^[[22m^[[39m with the engines off and no wind, orbital energy never rises beyond integrator error ^[[33m 335^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:57.3907103Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/readouts.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:57.5808848Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/guide.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:57.8081176Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/debug.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 18^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:58.0618740Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/guidance-truth.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 99^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:58.2199845Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/drag-model.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:58.2598232Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:37:58.3322632Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/session.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:58.7158103Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/entry-on-lift.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[33m 336^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:58.9113134Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/felt-g.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:59.0858708Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/tank-empty.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:59.4913638Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/post.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:59.6210748Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/zoom.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:59.7578685Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/offline-classic.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:37:59.9338372Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/isa-into.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 31^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.1058536Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/landing-burn.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.2455308Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/testids.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.3874855Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/kit-boundary.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.5333750Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/random-failure-diff.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[33m 2031^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.5342986Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep is deterministic and identical across runs ^[[33m 319^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.5344567Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip is deterministic and identical across runs ^[[33m 854^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.9809327Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/flies-every-scenario.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 20045^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.9811808Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad flies ^[[33m 432^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.9829424Z      ^[[33m^[[2m✓^[[22m^[[39m circularize flies ^[[33m 314^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.9830563Z      ^[[33m^[[2m✓^[[22m^[[39m deorbit flies ^[[33m 388^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.9831178Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep: auto-land landed ^[[33m 2054^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.9831822Z      ^[[33m^[[2m✓^[[22m^[[39m rtls: auto-land landed ^[[33m 1629^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.9832437Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip: auto-land landed ^[[33m 456^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.9833057Z      ^[[33m^[[2m✓^[[22m^[[39m reentry: auto-land landed ^[[33m 7047^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:00.9833781Z      ^[[33m^[[2m✓^[[22m^[[39m reentry: survives the heat it now actually meets ^[[33m 7198^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:01.1948964Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/golden/compare.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 76^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:01.3127793Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/thermosphere.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:01.4778772Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/final-descent-profile.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 4^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:01.6502202Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/spawn-mach.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:01.7998426Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/propellant.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 4^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:01.9311758Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/reference/bands.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:02.0393335Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/reference/ratchet.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 4^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:02.7668902Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/engine-out-landings.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 584^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:02.7718030Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland/one-out: landed ^[[33m 430^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:02.8535510Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rotating-frame-step.test.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[33m 2127^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:02.8536851Z      ^[[33m^[[2m✓^[[22m^[[39m a circular inertial orbit stays circular when flown at its ground-relative speed ^[[33m 1061^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:02.8537773Z      ^[[33m^[[2m✓^[[22m^[[39m a body at the synchronous radius with no ground speed stays over the same point ^[[33m 1063^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:02.9378752Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/fields-presets.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 3^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:29.1165698Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/deorbit-range.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[33m 21299^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:29.1167589Z      ^[[33m^[[2m✓^[[22m^[[39m engine 0 out ^[[33m 7122^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:29.1169030Z      ^[[33m^[[2m✓^[[22m^[[39m engine 1 out ^[[33m 7076^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:29.1169357Z      ^[[33m^[[2m✓^[[22m^[[39m engine 2 out ^[[33m 7097^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:29.1237220Z 
+gate	Gate	2026-10-02T14:38:29.1248671Z ^[[2m Test Files ^[[22m ^[[1m^[[32m153 passed^[[39m^[[22m^[[90m (153)^[[39m
+gate	Gate	2026-10-02T14:38:29.1254548Z ^[[2m      Tests ^[[22m ^[[1m^[[32m2011 passed^[[39m^[[22m^[[90m (2011)^[[39m
+gate	Gate	2026-10-02T14:38:29.1257606Z ^[[2m   Start at ^[[22m 14:35:01
+gate	Gate	2026-10-02T14:38:29.1258640Z ^[[2m   Duration ^[[22m 207.89s^[[2m (transform 4.43s, setup 2.05s, import 55.43s, tests 470.85s, environment 24.64s)^[[22m
+gate	Gate	2026-10-02T14:38:29.1259245Z 
+gate	Gate	2026-10-02T14:38:29.2777453Z 
+gate	Gate	2026-10-02T14:38:29.2778178Z > starship-simulator-v2@0.1.0 coverage
+gate	Gate	2026-10-02T14:38:29.2778659Z > vitest run --coverage --testTimeout=120000
+gate	Gate	2026-10-02T14:38:29.2778873Z 
+gate	Gate	2026-10-02T14:38:29.5901565Z 
+gate	Gate	2026-10-02T14:38:29.5904204Z ^[[1m^[[30m^[[46m RUN ^[[49m^[[39m^[[22m ^[[36mv4.1.11 ^[[39m^[[90m/home/runner/work/StarShipSimulator/StarShipSimulator^[[39m
+gate	Gate	2026-10-02T14:38:29.5905607Z       ^[[2mCoverage enabled with ^[[22m^[[33mv8^[[39m
+gate	Gate	2026-10-02T14:38:29.5905821Z 
+gate	Gate	2026-10-02T14:38:31.5378206Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/input/GamepadNavProvider.test.tsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 547^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:31.6360330Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/ConfirmDialog/ConfirmDialog.test.tsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 564^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:32.6958161Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.7247871Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.7482518Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.7588268Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.7668628Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/NumberField/NumberField.test.tsx ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 262^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:32.7747836Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.8055322Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.8319748Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.8523914Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.8758482Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.8800509Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.8881779Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.8910137Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.9037572Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:38:32.9307610Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/BrickField.test.tsx ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 332^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:33.3439294Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/useChipPanelMorph.test.tsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 2301^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:33.3472139Z    ^[[33m^[[2m✓^[[22m^[[39m mounts at once, hands the frame to the shell and settles after the expansion ^[[33m 463^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:33.3497677Z    ^[[33m^[[2m✓^[[22m^[[39m ends open and consistent after a rapid open, close, open ^[[33m 494^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:33.3498498Z    ^[[33m^[[2m✓^[[22m^[[39m ends closed and unmounted after a rapid close, open, close ^[[33m 705^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:33.3499185Z    ^[[33m^[[2m✓^[[22m^[[39m kills the motion when unmounted mid-flight ^[[33m 320^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:34.3469661Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/LoadingState/LoadingState.test.tsx ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 390^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:34.4626026Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Dialog/Dialog.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[33m 315^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:34.8911897Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/LoadingState/LoadingState.accessibility.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 229^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:35.7914382Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/ConnectedMedia/ConnectedMedia.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 214^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:35.9108629Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/effects.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 273^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:36.2408627Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/input/InputOwnershipProvider.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 177^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:37.1529400Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Toggle/Toggle.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 153^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:37.3246226Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Tile/Tile.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 234^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:37.6557681Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/FormRow/FormRow.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 183^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:38.4675390Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Button/Button.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 190^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:38.6688093Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/SliderRow/SliderRow.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 185^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:39.0652347Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/FieldStatus/FieldStatus.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 233^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:39.6868607Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/brickMotion.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 244^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:39.9781948Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/TabStrip/TabStrip.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 169^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:40.3140542Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/InputLegend/InputLegend.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 52^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:40.9498705Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/TransitionView/TransitionView.test.tsx ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 124^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:41.1268395Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/useMotionTimeline.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 25^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:41.3928683Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/useReducedMotion.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 19^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:41.9651535Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/input/ownership.test.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:42.1419149Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/gpuTimer.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:42.4160145Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/internal/utils.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:43.0580718Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/renderer.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:43.3292348Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/styles/motion.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:38:43.5278323Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/public-api.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 4^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3408956Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/debrief.test.ts ^[[2m(^[[22m^[[2m52 tests^[[22m^[[2m)^[[22m^[[33m 84534^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3444162Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff ^[[33m 352^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3444964Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 13053^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3445556Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 1361^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3446151Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 9076^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3446819Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 673^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3447379Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 18126^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3447933Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 1383^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3448480Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 23317^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3449367Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 1499^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3449978Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 10353^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:40:08.3450556Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 761^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4268486Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/camera.test.ts ^[[2m(^[[22m^[[2m100 tests^[[22m^[[2m)^[[22m^[[33m 64793^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4298125Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback ^[[33m 306^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4348166Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 11174^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4351071Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 1262^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4351696Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback in pad ^[[33m 315^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4352350Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback in chase ^[[33m 304^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4353076Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback in onboard ^[[33m 304^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4353690Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback in pad ^[[33m 317^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4354273Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback in chase ^[[33m 318^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4354865Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback in onboard ^[[33m 319^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4355460Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland in pad ^[[33m 14804^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4356084Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland in chase ^[[33m 15025^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4356824Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland in onboard ^[[33m 13989^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4359018Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland in pad ^[[33m 1230^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4359657Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland in chase ^[[33m 1219^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:41:13.4360316Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland in onboard ^[[33m 1215^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9822695Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/view-clock.test.ts ^[[2m(^[[22m^[[2m56 tests^[[22m^[[2m)^[[22m^[[33m 202482^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9848097Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff, with frames dropping ^[[33m 310^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9867744Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback, with frames dropping ^[[33m 311^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9868475Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland, with frames dropping ^[[33m 13156^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9872354Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland, with frames dropping ^[[33m 757^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9873263Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland, at 9x warp ^[[33m 14378^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9874170Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland, at 9x warp ^[[33m 1166^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9874816Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland, at 1/9 speed ^[[33m 15397^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9875499Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland, at 1/9 speed ^[[33m 1245^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9876342Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff lands the camera on the same metre with a 400 ms stall every two seconds ^[[33m 370^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9877494Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff lands the camera on the same metre with 9x time warp ^[[33m 368^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9878472Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff lands the camera on the same metre with 1/9 slow motion ^[[33m 397^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9879544Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback lands the camera on the same metre with a 400 ms stall every two seconds ^[[33m 506^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9880584Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback lands the camera on the same metre with 9x time warp ^[[33m 511^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9881498Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback lands the camera on the same metre with 1/9 slow motion ^[[33m 572^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9882814Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback lands the camera on the same metre with a 400 ms stall every two seconds ^[[33m 523^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9883739Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback lands the camera on the same metre with 9x time warp ^[[33m 499^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9884646Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback lands the camera on the same metre with 1/9 slow motion ^[[33m 455^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9885584Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland lands the camera on the same metre with a 400 ms stall every two seconds ^[[33m 27919^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9886621Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland lands the camera on the same metre with 9x time warp ^[[33m 24453^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9887558Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland lands the camera on the same metre with 1/9 slow motion ^[[33m 30021^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9888622Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland lands the camera on the same metre with a 400 ms stall every two seconds ^[[33m 1404^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9889601Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland lands the camera on the same metre with 9x time warp ^[[33m 1390^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9890540Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland lands the camera on the same metre with 1/9 slow motion ^[[33m 1412^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9891370Z      ^[[33m^[[2m✓^[[22m^[[39m the wall clock loses the vehicle when frames drop ^[[33m 12212^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9892121Z      ^[[33m^[[2m✓^[[22m^[[39m the wall clock loses it at 9x warp, failing the other way round ^[[33m 16008^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9892916Z      ^[[33m^[[2m✓^[[22m^[[39m and simulated time once per FRAME is better, but still not enough ^[[33m 11287^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:05.9893732Z      ^[[33m^[[2m✓^[[22m^[[39m all three agree when nothing goes wrong, which is why this survived ^[[33m 22058^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6958093Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/orbit-demo.test.ts ^[[2m(^[[22m^[[2m31 tests^[[22m^[[2m)^[[22m^[[33m 158615^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6959299Z      ^[[33m^[[2m✓^[[22m^[[39m a 150 km orbit holds for a full 88-minute lap ^[[33m 7622^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6960238Z      ^[[33m^[[2m✓^[[22m^[[39m and 100 km still does not — which is why the presets are at 150 ^[[33m 4814^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6961550Z      ^[[33m^[[2m✓^[[22m^[[39m is deterministic — the same flight twice ^[[33m 27046^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6962403Z      ^[[33m^[[2m✓^[[22m^[[39m from a different starting longitude — half a lap further round ^[[33m 25333^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6963171Z      ^[[33m^[[2m✓^[[22m^[[39m 100 tonnes lighter at ignition ^[[33m 20338^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6963936Z      ^[[33m^[[2m✓^[[22m^[[39m with an engine already failed, so the burn is a third longer ^[[33m 23246^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6964700Z      ^[[33m^[[2m✓^[[22m^[[39m from 120 km, below the presets ^[[33m 17346^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6965483Z      ^[[33m^[[2m✓^[[22m^[[39m from 300 km it still lands, but the envelope is showing ^[[33m 24487^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6966294Z      ^[[33m^[[2m✓^[[22m^[[39m spends the coast turning around, because RCS is slow ^[[33m 3196^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:16.6967169Z      ^[[33m^[[2m✓^[[22m^[[39m does not fire until the ground track is right ^[[33m 5109^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:48.8858641Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/deorbit-range.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[33m 71444^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:48.8865602Z      ^[[33m^[[2m✓^[[22m^[[39m engine 0 out ^[[33m 26789^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:48.8907218Z      ^[[33m^[[2m✓^[[22m^[[39m engine 1 out ^[[33m 22678^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:42:48.8947218Z      ^[[33m^[[2m✓^[[22m^[[39m engine 2 out ^[[33m 21973^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:01.3393973Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mat the speeds the seven scenarios actually reach^[[2m > ^[[22m^[[2mreports where the streaks are silent and where they blow
+gate	Gate	2026-10-02T14:43:01.3407801Z ^[[22m^[[39mlaunch-pad-takeoff: peak 730 m/s -> streak 0.23, silent 32% of the flight
+gate	Gate	2026-10-02T14:43:01.3408535Z booster-sep-boostback: peak 1599 m/s -> streak 0.88, silent 0% of the flight
+gate	Gate	2026-10-02T14:43:01.3409207Z rtls-boostback: peak 542 m/s -> streak 0.12, silent 30% of the flight
+gate	Gate	2026-10-02T14:43:01.3409808Z reentry-autoland: peak 7300 m/s -> streak 1.00, silent 0% of the flight
+gate	Gate	2026-10-02T14:43:01.3411148Z before-flip-autoland: peak 79 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:43:01.3411926Z landing-burn-autoland: peak 37 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:43:01.3412580Z landing-burn-headwind: peak 37 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:43:01.3413171Z intro-demo: peak 51 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:43:01.3413596Z 
+gate	Gate	2026-10-02T14:43:01.5531923Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mlaunch-pad-takeoff: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:43:01.5533185Z ^[[22m^[[39mlaunch-pad-takeoff: nose and flight path diverge by up to 9°
+gate	Gate	2026-10-02T14:43:01.5533822Z 
+gate	Gate	2026-10-02T14:43:01.7007268Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mbooster-sep-boostback: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:43:01.7008714Z ^[[22m^[[39mbooster-sep-boostback: nose and flight path diverge by up to 134°
+gate	Gate	2026-10-02T14:43:01.7009214Z 
+gate	Gate	2026-10-02T14:43:01.8529629Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mrtls-boostback: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:43:01.8530893Z ^[[22m^[[39mrtls-boostback: nose and flight path diverge by up to 179°
+gate	Gate	2026-10-02T14:43:01.8531407Z 
+gate	Gate	2026-10-02T14:43:06.9402482Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/flies-every-scenario.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 50059^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:06.9403594Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad flies ^[[33m 941^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:06.9404251Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep flies ^[[33m 487^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:06.9404843Z      ^[[33m^[[2m✓^[[22m^[[39m circularize flies ^[[33m 624^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:06.9405411Z      ^[[33m^[[2m✓^[[22m^[[39m deorbit flies ^[[33m 569^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:06.9406678Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep: auto-land landed ^[[33m 5498^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:06.9407398Z      ^[[33m^[[2m✓^[[22m^[[39m rtls: auto-land landed ^[[33m 3841^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:06.9408040Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip: auto-land landed ^[[33m 628^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:06.9408696Z      ^[[33m^[[2m✓^[[22m^[[39m reentry: auto-land landed ^[[33m 16220^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:06.9409462Z      ^[[33m^[[2m✓^[[22m^[[39m reentry: survives the heat it now actually meets ^[[33m 20580^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:12.4472228Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mreentry-autoland: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:43:12.4507633Z ^[[22m^[[39mreentry-autoland: nose and flight path diverge by up to 85°
+gate	Gate	2026-10-02T14:43:12.4527142Z 
+gate	Gate	2026-10-02T14:43:13.6738966Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mbefore-flip-autoland: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:43:13.6740358Z ^[[22m^[[39mbefore-flip-autoland: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:43:13.6741051Z 
+gate	Gate	2026-10-02T14:43:13.7561506Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mlanding-burn-autoland: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:43:13.7562891Z ^[[22m^[[39mlanding-burn-autoland: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:43:13.7563990Z 
+gate	Gate	2026-10-02T14:43:13.8460910Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mlanding-burn-headwind: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:43:13.8462241Z ^[[22m^[[39mlanding-burn-headwind: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:43:13.8462750Z 
+gate	Gate	2026-10-02T14:43:13.9296313Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mintro-demo: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:43:13.9304025Z ^[[22m^[[39mintro-demo: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:43:13.9326758Z 
+gate	Gate	2026-10-02T14:43:21.2262736Z ^[[90mstdout^[[2m | tests/view/perf.test.ts^[[2m > ^[[22m^[[2mparticle pool headroom, with the velocity streaks added^[[2m > ^[[22m^[[2mreports peak usage across all seven scenarios against the 576 baseline
+gate	Gate	2026-10-02T14:43:21.2288398Z ^[[22m^[[39mlaunch-pad-takeoff: peak 735 · booster-sep-boostback: peak 492 · rtls-boostback: peak 538 · reentry-autoland: peak 547 · before-flip-autoland: peak 647 · landing-burn-autoland: peak 647 · landing-burn-headwind: peak 656 · intro-demo: peak 648
+gate	Gate	2026-10-02T14:43:21.2289183Z    worst 735 of 4000 (82% free), at launch-pad-takeoff; baseline before M7.5 was 576
+gate	Gate	2026-10-02T14:43:21.2289375Z 
+gate	Gate	2026-10-02T14:43:27.5066018Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/perf.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 81039^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:27.5070272Z      ^[[33m^[[2m✓^[[22m^[[39m the particle pool is fixed for the life of the system ^[[33m 5180^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:27.5071411Z      ^[[33m^[[2m✓^[[22m^[[39m the M6.7 and M7.5 effects do not grow it either ^[[33m 11598^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:27.5072287Z      ^[[33m^[[2m✓^[[22m^[[39m a long flight does not grow the heap without bound ^[[33m 362^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:27.5073218Z      ^[[33m^[[2m✓^[[22m^[[39m reports peak usage across all seven scenarios against the 576 baseline ^[[33m 57443^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:27.5074185Z      ^[[33m^[[2m✓^[[22m^[[39m the shock-banded core does not grow the pool either ^[[33m 6250^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:29.0547636Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/motion-cues.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[33m 39811^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:29.0548721Z      ^[[33m^[[2m✓^[[22m^[[39m reports where the streaks are silent and where they blow ^[[33m 12117^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:29.0558178Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland: the marker never disagrees with the state vector ^[[33m 10593^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:29.0559963Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland: the marker never disagrees with the state vector ^[[33m 1228^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:29.0561065Z      ^[[33m^[[2m✓^[[22m^[[39m the divergence is real on at least one scenario, or this draws nothing ^[[33m 15097^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:48.0230117Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/orbit.test.ts ^[[2m(^[[22m^[[2m18 tests^[[22m^[[2m)^[[22m^[[33m 40883^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:48.0258172Z      ^[[33m^[[2m✓^[[22m^[[39m altitude holds within a kilometre over a full lap ^[[33m 8015^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:48.0259219Z      ^[[33m^[[2m✓^[[22m^[[39m speed holds within a metre per second over a full lap ^[[33m 7844^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:48.0260157Z      ^[[33m^[[2m✓^[[22m^[[39m never dips into the atmosphere or climbs away ^[[33m 6140^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:48.0260945Z      ^[[33m^[[2m✓^[[22m^[[39m completes a full revolution of downrange distance ^[[33m 4705^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:48.0261830Z      ^[[33m^[[2m✓^[[22m^[[39m specific orbital energy drifts by less than one part in a thousand ^[[33m 506^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:48.0262710Z      ^[[33m^[[2m✓^[[22m^[[39m specific angular momentum is conserved as the vehicle climbs ^[[33m 447^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:48.0263499Z      ^[[33m^[[2m✓^[[22m^[[39m an elliptical orbit comes back down again ^[[33m 13035^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:50.4098556Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/timeline.test.ts ^[[2m(^[[22m^[[2m29 tests^[[22m^[[2m)^[[22m^[[33m 22680^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:50.4127634Z      ^[[33m^[[2m✓^[[22m^[[39m 'booster-sep-boostback' fires its events in order, flown live ^[[33m 310^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:50.4155490Z      ^[[33m^[[2m✓^[[22m^[[39m 'reentry-autoland' fires its events in order, flown live ^[[33m 10935^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:50.4180287Z      ^[[33m^[[2m✓^[[22m^[[39m 'before-flip-autoland' fires its events in order, flown live ^[[33m 748^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:50.4187856Z      ^[[33m^[[2m✓^[[22m^[[39m a state exactly at the entry interface counts as crossing it ^[[33m 9228^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:54.0778546Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/golden/replay.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 24654^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:54.0797780Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 611^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:54.0817512Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 688^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:54.0837285Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 687^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:54.0857441Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 17398^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:54.0897175Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 1533^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:43:54.0917297Z      ^[[33m^[[2m✓^[[22m^[[39m round-trip through the serialiser preserves every value exactly ^[[33m 2629^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:07.5070755Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe claim, tested against itself^[[2m > ^[[22m^[[2ma genuinely unpowered fall lands near where it was predicted to
+gate	Gate	2026-10-02T14:44:07.5072336Z ^[[22m^[[39munpowered drop · fell 0.2 km · predicted 0.00 km in 3.4 s · actual 0.00 km in 3.4 s · error 0.00 km
+gate	Gate	2026-10-02T14:44:07.5072945Z 
+gate	Gate	2026-10-02T14:44:07.6301639Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe claim, tested against itself^[[2m > ^[[22m^[[2mreports how wrong it is from high altitude, where the model is weakest
+gate	Gate	2026-10-02T14:44:07.6303031Z ^[[22m^[[39mfrom 40 km unpowered · predicted 13.7 km in 101 s · actual 19.2 km in 104 s · error 5.5 km
+gate	Gate	2026-10-02T14:44:07.6303591Z 
+gate	Gate	2026-10-02T14:44:08.2810049Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe error against seven real flights^[[2m > ^[[22m^[[2mbefore-flip-autoland converges as the ground approaches
+gate	Gate	2026-10-02T14:44:08.2811610Z ^[[22m^[[39mbefore-flip-autoland: touchdown at -0.00 km · at 1.0 km up, error 0.10 km · at 27 m up, error 0 m
+gate	Gate	2026-10-02T14:44:08.2812378Z 
+gate	Gate	2026-10-02T14:44:08.3043457Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe error against seven real flights^[[2m > ^[[22m^[[2mlanding-burn-autoland converges as the ground approaches
+gate	Gate	2026-10-02T14:44:08.3044862Z ^[[22m^[[39mlanding-burn-autoland: touchdown at 0.00 km · at 0.2 km up, error 0.00 km · at 26 m up, error 0 m
+gate	Gate	2026-10-02T14:44:08.3045520Z 
+gate	Gate	2026-10-02T14:44:08.3261310Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe error against seven real flights^[[2m > ^[[22m^[[2mintro-demo converges as the ground approaches
+gate	Gate	2026-10-02T14:44:08.3264227Z ^[[22m^[[39mintro-demo: touchdown at 0.00 km · at 0.2 km up, error 0.00 km · at 25 m up, error 0 m
+gate	Gate	2026-10-02T14:44:08.3264892Z 
+gate	Gate	2026-10-02T14:44:08.3345386Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/prediction.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[33m 17704^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:08.3347706Z      ^[[33m^[[2m✓^[[22m^[[39m never returns a non-finite number to a caller ^[[33m 16824^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:08.3348681Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland converges as the ground approaches ^[[33m 652^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:13.5453747Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/trajectory.test.ts ^[[2m(^[[22m^[[2m39 tests^[[22m^[[2m)^[[22m^[[33m 25289^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:13.5455371Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff ^[[33m 686^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:13.5456013Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback ^[[33m 680^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:13.5456754Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback ^[[33m 762^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:13.5457318Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 20940^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:13.5457910Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 1417^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:18.1412990Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/angular-momentum.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 23874^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:18.1414253Z      ^[[33m^[[2m✓^[[22m^[[39m to better than a part in ten thousand over a hundred minutes ^[[33m 9444^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:18.1415207Z      ^[[33m^[[2m✓^[[22m^[[39m and the orbit reaches the apogee the energy says it should ^[[33m 8630^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:18.1416092Z      ^[[33m^[[2m✓^[[22m^[[39m the simulation agrees to within a kilometre in five thousand ^[[33m 566^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:18.1417332Z      ^[[33m^[[2m✓^[[22m^[[39m and the guidance's conic predicts the ground arc the simulation flies ^[[33m 585^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:18.1418319Z      ^[[33m^[[2m✓^[[22m^[[39m and CONVERGES — which is how a model error tells itself from an integrator one ^[[33m 4642^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:18.7412072Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mlaunch-pad-takeoff
+gate	Gate	2026-10-02T14:44:18.7413881Z ^[[22m^[[39mlaunch-pad-takeoff: ignition x3
+gate	Gate	2026-10-02T14:44:18.7414363Z 
+gate	Gate	2026-10-02T14:44:19.0191055Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mbooster-sep-boostback
+gate	Gate	2026-10-02T14:44:19.0194785Z ^[[22m^[[39mbooster-sep-boostback: ignition x3
+gate	Gate	2026-10-02T14:44:19.0195308Z 
+gate	Gate	2026-10-02T14:44:19.3092327Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mrtls-boostback
+gate	Gate	2026-10-02T14:44:19.3095868Z ^[[22m^[[39mrtls-boostback: ignition x6, shutdown x6
+gate	Gate	2026-10-02T14:44:19.3096386Z 
+gate	Gate	2026-10-02T14:44:23.8907490Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/verlet.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 15412^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:23.8938458Z      ^[[33m^[[2m✓^[[22m^[[39m halving dt quarters the error — the ratio is 4, where Euler gave 2 ^[[33m 1666^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:23.8939425Z      ^[[33m^[[2m✓^[[22m^[[39m and is millimetres at 15 Hz, where Euler was 796 metres ^[[33m 2078^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:23.8940360Z      ^[[33m^[[2m✓^[[22m^[[39m to a part in 10^10 or better at every rate the simulation runs at ^[[33m 6291^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:23.8941318Z      ^[[33m^[[2m✓^[[22m^[[39m altitude drift is a centimetre, and does not depend on dt ^[[33m 4614^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:23.8942167Z      ^[[33m^[[2m✓^[[22m^[[39m and in true vacuum, at 800 km, energy and altitude do not move at all ^[[33m 747^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:27.2848012Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/plume.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[33m 13372^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:27.2857897Z      ^[[33m^[[2m✓^[[22m^[[39m reports the range each flight puts the plume through ^[[33m 13332^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:32.7508454Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mreentry-autoland
+gate	Gate	2026-10-02T14:44:32.7527235Z ^[[22m^[[39mreentry-autoland: nothing
+gate	Gate	2026-10-02T14:44:32.7537133Z 
+gate	Gate	2026-10-02T14:44:33.9858940Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mbefore-flip-autoland
+gate	Gate	2026-10-02T14:44:33.9862104Z ^[[22m^[[39mbefore-flip-autoland: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:44:33.9862556Z 
+gate	Gate	2026-10-02T14:44:34.0923164Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mlanding-burn-autoland
+gate	Gate	2026-10-02T14:44:34.0950344Z ^[[22m^[[39mlanding-burn-autoland: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:44:34.0976878Z 
+gate	Gate	2026-10-02T14:44:34.2095440Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mlanding-burn-headwind
+gate	Gate	2026-10-02T14:44:34.2098724Z ^[[22m^[[39mlanding-burn-headwind: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:44:34.2099182Z 
+gate	Gate	2026-10-02T14:44:34.2970710Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mintro-demo
+gate	Gate	2026-10-02T14:44:34.2972978Z ^[[22m^[[39mintro-demo: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:44:34.2973377Z 
+gate	Gate	2026-10-02T14:44:34.4295055Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/transients.test.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[33m 15996^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:34.4299518Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff ^[[33m 327^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:34.4300541Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 13442^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:34.4301204Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 1234^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:36.7441496Z ^[[90mstdout^[[2m | tests/audio/warnings.test.ts^[[2m > ^[[22m^[[2mear and eye read the same thresholds^[[2m > ^[[22m^[[2mstays quiet through all seven, and reports how much margin they had
+gate	Gate	2026-10-02T14:44:36.7444681Z ^[[22m^[[39mlaunch-pad-takeoff: nominal (heat 0.02, Q 0.58 of limit)
+gate	Gate	2026-10-02T14:44:36.7445390Z booster-sep-boostback: nominal (heat 0.01, Q 0.00 of limit)
+gate	Gate	2026-10-02T14:44:36.7445919Z rtls-boostback: nominal (heat 0.02, Q 0.57 of limit)
+gate	Gate	2026-10-02T14:44:36.7447097Z reentry-autoland: nominal (heat 0.54, Q 0.16 of limit)
+gate	Gate	2026-10-02T14:44:36.7447624Z before-flip-autoland: nominal (heat 0.00, Q 0.07 of limit)
+gate	Gate	2026-10-02T14:44:36.7448165Z landing-burn-autoland: nominal (heat 0.00, Q 0.02 of limit)
+gate	Gate	2026-10-02T14:44:36.7448706Z landing-burn-headwind: nominal (heat 0.00, Q 0.02 of limit)
+gate	Gate	2026-10-02T14:44:36.7449207Z intro-demo: nominal (heat 0.00, Q 0.03 of limit)
+gate	Gate	2026-10-02T14:44:36.7449578Z 
+gate	Gate	2026-10-02T14:44:36.7687098Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/warnings.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[33m 12715^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:36.7697630Z      ^[[33m^[[2m✓^[[22m^[[39m stays quiet through all seven, and reports how much margin they had ^[[33m 12695^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:42.5372890Z ^[[90mstdout^[[2m | tests/audio/params.test.ts^[[2m > ^[[22m^[[2mat the throttles and engine counts the seven scenarios reach^[[2m > ^[[22m^[[2mreports the range each flight actually visits
+gate	Gate	2026-10-02T14:44:42.5378403Z ^[[22m^[[39mlaunch-pad-takeoff: engine level 0.00–1.00, up to 3 lit
+gate	Gate	2026-10-02T14:44:42.5379220Z booster-sep-boostback: engine level 0.00–1.00, up to 3 lit
+gate	Gate	2026-10-02T14:44:42.5379807Z rtls-boostback: engine level 0.00–1.00, up to 3 lit
+gate	Gate	2026-10-02T14:44:42.5380363Z reentry-autoland: engine level 0.00–0.00, up to 0 lit
+gate	Gate	2026-10-02T14:44:42.5380939Z before-flip-autoland: engine level 0.00–0.74, up to 3 lit
+gate	Gate	2026-10-02T14:44:42.5381527Z landing-burn-autoland: engine level 0.00–0.73, up to 3 lit
+gate	Gate	2026-10-02T14:44:42.5382135Z landing-burn-headwind: engine level 0.00–0.74, up to 3 lit
+gate	Gate	2026-10-02T14:44:42.5382695Z intro-demo: engine level 0.00–0.86, up to 3 lit
+gate	Gate	2026-10-02T14:44:42.5383063Z 
+gate	Gate	2026-10-02T14:44:42.5513069Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/params.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[33m 15077^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:42.5516817Z      ^[[33m^[[2m✓^[[22m^[[39m reports the range each flight actually visits ^[[33m 15062^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:43.0676061Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/entry-range.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[33m 8459^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:43.0687843Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction -1 with a measured 0-degree tracking bias ^[[33m 1834^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:43.0688802Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction 1 with a measured 0-degree tracking bias ^[[33m 2415^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:43.0689785Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction -1 with a measured 2-degree tracking bias ^[[33m 1631^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:43.0691016Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction 1 with a measured -2-degree tracking bias ^[[33m 2275^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:44.6204204Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/atmosphere-look.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 1765^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:44.6209743Z      ^[[33m^[[2m✓^[[22m^[[39m rises monotonically between the two ^[[33m 1687^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:46.8205045Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rotating-frame-step.test.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[33m 3580^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:46.8207053Z      ^[[33m^[[2m✓^[[22m^[[39m a circular inertial orbit stays circular when flown at its ground-relative speed ^[[33m 1835^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:46.8208093Z      ^[[33m^[[2m✓^[[22m^[[39m a body at the synchronous radius with no ground speed stays over the same point ^[[33m 1743^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:47.7553989Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/random-failure-diff.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[33m 3003^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:47.7585534Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep is deterministic and identical across runs ^[[33m 351^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:47.7607639Z      ^[[33m^[[2m✓^[[22m^[[39m reentry is deterministic and identical across runs ^[[33m 349^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:47.7608548Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip is deterministic and identical across runs ^[[33m 1577^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:49.3142713Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/invariants.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 2275^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:49.3167940Z      ^[[33m^[[2m✓^[[22m^[[39m every number stays finite, or is a sentinel it started as ^[[33m 694^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:49.3169041Z      ^[[33m^[[2m✓^[[22m^[[39m mass never increases, and propellant never goes negative ^[[33m 832^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:49.3170123Z      ^[[33m^[[2m✓^[[22m^[[39m with the engines off and no wind, orbital energy never rises beyond integrator error ^[[33m 620^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:50.2358131Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rcs-dead-zone.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 2334^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:50.2404709Z      ^[[33m^[[2m✓^[[22m^[[39m and then HOLDS it, rather than carrying on rotating ^[[33m 1238^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:50.2405769Z      ^[[33m^[[2m✓^[[22m^[[39m the thrusters fire below saturation, not only at the cap ^[[33m 657^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:50.3796731Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/distant-earth.test.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[33m 13207^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:50.3797588Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland stays readable ^[[33m 11102^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:50.3798170Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland stays readable ^[[33m 1165^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:51.1144365Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:44:53.1141009Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Menu.test.tsx ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 1724^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:53.2037001Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/autopilot.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[33m 2810^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:53.2040085Z      ^[[33m^[[2m✓^[[22m^[[39m computes a belly-flop trigger altitude and ends the aero descent below it ^[[33m 2359^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:53.4945171Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/binder.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 2886^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:53.4967711Z      ^[[33m^[[2m✓^[[22m^[[39m a real flight writes a small fraction of what an undiffed binder would ^[[33m 2837^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:54.3692287Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/lint-walls/walls.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[33m 907^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:54.3693920Z      ^[[33m^[[2m✓^[[22m^[[39m wall 1: no view/ ui/ hud/ app/ PIXI or React imports ^[[33m 768^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.6195369Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/trig-collapse.test.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[33m 3286^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.6210125Z      ^[[33m^[[2m✓^[[22m^[[39m 'horizontalDrag = -sin(x)' ^[[33m 335^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.6210909Z      ^[[33m^[[2m✓^[[22m^[[39m 'verticalDrag = -cos(x)' ^[[33m 477^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.6212835Z      ^[[33m^[[2m✓^[[22m^[[39m 'horizontalLift = -cos(x)' ^[[33m 447^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.6214798Z      ^[[33m^[[2m✓^[[22m^[[39m 'verticalLift = sin(x)' ^[[33m 444^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.6216588Z      ^[[33m^[[2m✓^[[22m^[[39m 'horizontalThrust = sin(x)' ^[[33m 481^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.6217188Z      ^[[33m^[[2m✓^[[22m^[[39m 'verticalThrust = cos(x)' ^[[33m 476^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.6219211Z      ^[[33m^[[2m✓^[[22m^[[39m records the measured maxima, so unblocking M1.9 starts from numbers ^[[33m 307^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.8648535Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/guidance-physics.test.ts ^[[2m(^[[22m^[[2m27 tests^[[22m^[[2m)^[[22m^[[33m 2289^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.8649880Z      ^[[33m^[[2m✓^[[22m^[[39m rises with descent speed and with mass on one engine, the ladder's usual plan (property) ^[[33m 796^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:56.8650958Z      ^[[33m^[[2m✓^[[22m^[[39m re-entering from 70 km ^[[33m 547^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:57.6505415Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:44:57.6773372Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/domain-edges.test.ts ^[[2m(^[[22m^[[2m28 tests^[[22m^[[2m)^[[22m^[[33m 664^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:57.6786858Z      ^[[33m^[[2m✓^[[22m^[[39m and getAttackAngles really does wrap into [-pi, pi] ^[[33m 377^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:58.8253004Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Controls.test.tsx ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 940^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:59.6988368Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/clouds.test.ts ^[[2m(^[[22m^[[2m18 tests^[[22m^[[2m)^[[22m^[[33m 1604^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:59.7017937Z      ^[[33m^[[2m✓^[[22m^[[39m is continuous and monotonic through the crossing ^[[33m 406^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:44:59.7047587Z      ^[[33m^[[2m✓^[[22m^[[39m keeps its scroll offset bounded over a long flight ^[[33m 960^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:00.2877286Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/scenarios.test.ts ^[[2m(^[[22m^[[2m51 tests^[[22m^[[2m)^[[22m^[[33m 1266^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:00.7474016Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:45:00.9894226Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rng.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 516^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:00.9902809Z      ^[[33m^[[2m✓^[[22m^[[39m stays in [0, 1) ^[[33m 405^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:01.7378753Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/particles.test.ts ^[[2m(^[[22m^[[2m45 tests^[[22m^[[2m)^[[22m^[[33m 7837^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:01.7383468Z      ^[[33m^[[2m✓^[[22m^[[39m emitting does not add a single child ^[[33m 375^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:01.7418026Z      ^[[33m^[[2m✓^[[22m^[[39m THE LEAK: ten thousand engine shutdowns add nothing ^[[33m 6647^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:01.7418923Z      ^[[33m^[[2m✓^[[22m^[[39m a recycled slot can be used again, indefinitely ^[[33m 308^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:01.9317566Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Hud.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 856^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:02.0488276Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe two fades differ, and that IS the milestone^[[2m > ^[[22m^[[2mreaches the floor by 50 km, over the real atmosphere model
+gate	Gate	2026-10-02T14:45:02.0488930Z ^[[22m^[[39mabove 50 km · at 70 km: aero 2.21e-3, engine air 0.2490
+gate	Gate	2026-10-02T14:45:02.0489694Z 
+gate	Gate	2026-10-02T14:45:02.2581850Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe two fades differ, and that IS the milestone^[[2m > ^[[22m^[[2mthe airflow is loud where the flight is fast and low
+gate	Gate	2026-10-02T14:45:02.2609426Z ^[[22m^[[39mlaunch: peak airflow 0.737 at 5.5 km
+gate	Gate	2026-10-02T14:45:02.2627148Z 
+gate	Gate	2026-10-02T14:45:02.4253630Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe re-entry golden, rendered as it climbs out^[[2m > ^[[22m^[[2mthe level falls as the air does
+gate	Gate	2026-10-02T14:45:02.4307564Z ^[[22m^[[39m70 km -> RMS 0.00023 · 110 km -> RMS 0.02861 · 134 km -> RMS 0.02841
+gate	Gate	2026-10-02T14:45:02.4336690Z 
+gate	Gate	2026-10-02T14:45:02.4447205Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe re-entry golden, rendered as it climbs out^[[2m > ^[[22m^[[2mthe same vehicle is measurably louder in air than in vacuum
+gate	Gate	2026-10-02T14:45:02.4448387Z ^[[22m^[[39msame vehicle · in air RMS 0.13151 · in vacuum RMS 0.02820
+gate	Gate	2026-10-02T14:45:02.4449020Z 
+gate	Gate	2026-10-02T14:45:02.4595068Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/vacuum.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[33m 1199^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:02.4627762Z      ^[[33m^[[2m✓^[[22m^[[39m reaches the floor by 50 km, over the real atmosphere model ^[[33m 798^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:03.2353028Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/engine-out-landings.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 1308^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:03.2354178Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland/one-out: landed ^[[33m 999^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:03.5305326Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/BlackBoxPlots.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 590^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:03.8801660Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/metrics.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 1211^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:03.8807759Z      ^[[33m^[[2m✓^[[22m^[[39m formats every metric to a non-empty string across a whole flight ^[[33m 1079^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:04.7796157Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:45:04.8566783Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/loop.test.ts ^[[2m(^[[22m^[[2m24 tests^[[22m^[[2m)^[[22m^[[33m 1122^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:04.8619665Z      ^[[33m^[[2m✓^[[22m^[[39m 60 fps and 30 fps reach the identical state after the same simulated time ^[[33m 835^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:05.2968105Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:45:05.6433607Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/entry-on-lift.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[33m 596^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:05.6448119Z    ^[[33m^[[2m✓^[[22m^[[39m keeps lift outward through the flown hypersonic segment at vx=-6000 ^[[33m 321^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:05.7155505Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/BlackBox.test.tsx ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[33m 612^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:05.7984064Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/StatusBar.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 384^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:06.2482293Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/step.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 449^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:06.7226084Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/blackbox.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 405^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:06.7259468Z      ^[[33m^[[2m✓^[[22m^[[39m round-trips every sample of a real flight, bit for bit ^[[33m 368^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:06.8878375Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/timeline-binder.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 455^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:06.9888131Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:45:07.4335674Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/engine.test.ts ^[[2m(^[[22m^[[2m31 tests^[[22m^[[2m)^[[22m^[[33m 340^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:07.5648468Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/TrajectoryCard.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 324^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:07.9547808Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:45:08.2903171Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Debrief.test.tsx ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 231^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:08.3889291Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/terrain.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[33m 380^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:08.5319708Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/wind-profile.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[33m 388^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:08.6316295Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/dt-substitution.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 174^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:08.7313829Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/budget.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 167^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:08.9712626Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/control-contracts.test.ts ^[[2m(^[[22m^[[2m38 tests^[[22m^[[2m)^[[22m^[[32m 153^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.1027262Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/indicators.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 162^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.1304734Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/particle-textures.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 226^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.3730054Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/recorder.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 192^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.4088846Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/guidance-truth.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 93^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.4423152Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/menu.test.ts ^[[2m(^[[22m^[[2m25 tests^[[22m^[[2m)^[[22m^[[32m 155^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.6910824Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/collapsed-trig.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 125^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.7220364Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/pitch-rate.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 122^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.7232562Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/golden/compare.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 119^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.9675602Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/mass.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 96^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:09.9810416Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/random-failure.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 94^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:10.1692611Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/atmosphere-strato.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 57^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:10.2208842Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/fin-fraction.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 64^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:10.4098810Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe engine is louder at 100% than at 40% — measured, not asserted^[[2m > ^[[22m^[[2mrises with throttle
+gate	Gate	2026-10-02T14:45:10.4147580Z ^[[22m^[[39mthree engines: 40% RMS 0.09131 · 100% RMS 0.13051
+gate	Gate	2026-10-02T14:45:10.4177170Z 
+gate	Gate	2026-10-02T14:45:10.4195050Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe engine is louder at 100% than at 40% — measured, not asserted^[[2m > ^[[22m^[[2mrises with engine count
+gate	Gate	2026-10-02T14:45:10.4398363Z ^[[22m^[[39mat 100%: one engine RMS 0.07535 · three RMS 0.13051
+gate	Gate	2026-10-02T14:45:10.4437043Z 
+gate	Gate	2026-10-02T14:45:10.4474380Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe engine is louder at 100% than at 40% — measured, not asserted^[[2m > ^[[22m^[[2mdistinguishes three engines at 40% from two at 100%
+gate	Gate	2026-10-02T14:45:10.4475507Z ^[[22m^[[39mthree at 40% RMS 0.09131 · two at 100% RMS 0.10656
+gate	Gate	2026-10-02T14:45:10.4475661Z 
+gate	Gate	2026-10-02T14:45:10.4578566Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe air fade, rendered^[[2m > ^[[22m^[[2mfalls toward its floor in vacuum without reaching silence
+gate	Gate	2026-10-02T14:45:10.4610159Z ^[[22m^[[39msea level RMS 0.13051 · vacuum RMS 0.02871 · ratio 0.2200 against a floor of 0.22
+gate	Gate	2026-10-02T14:45:10.4636731Z 
+gate	Gate	2026-10-02T14:45:10.4853594Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/offline.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 83^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:10.5021633Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/render.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 95^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:10.8224813Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rotating-frame.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 81^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:10.8243712Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/isa.test.ts ^[[2m(^[[22m^[[2m30 tests^[[22m^[[2m)^[[22m^[[32m 69^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:10.9877258Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:45:11.1047559Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/autopilot-stages.test.ts ^[[2m(^[[22m^[[2m40 tests^[[22m^[[2m)^[[22m^[[32m 44^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.1430225Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/speed-of-sound.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 59^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.2831722Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/FirstFlight.test.tsx ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 96^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.3406899Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/ignition.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 48^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.3716963Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/named-branches.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[32m 41^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.4976738Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/no-neumorphism.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 34^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.5718573Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/controls.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 38^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.5733088Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/isa-into.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 23^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.7170140Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/body-axis-aero.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 26^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.7719670Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/preferences.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 15^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:11.9380392Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/sun.test.ts ^[[2m(^[[22m^[[2m33 tests^[[22m^[[2m)^[[22m^[[32m 24^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:12.0014217Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/debug.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 20^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:12.4232319Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/sky.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[32m 27^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:12.4264624Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/horizon.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 15^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:12.6337724Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/stars.test.ts ^[[2m(^[[22m^[[2m24 tests^[[22m^[[2m)^[[22m^[[32m 29^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:12.8254855Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/landing-burn.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:12.8762531Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/lighting.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 10^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:13.0074530Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/golden/unification.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:13.0807018Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rvac.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:13.2549050Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/input.test.ts ^[[2m(^[[22m^[[2m32 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:13.4218622Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/spawn-mach.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:13.6330172Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/wind.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:13.8548353Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/felt-g.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:13.9740313Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:45:14.0509161Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/failure-freshness.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:14.0752462Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/session.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:14.2646318Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/tank-empty.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 10^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:14.2779390Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/thrust-altitude.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[32m 23^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:14.4378706Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/analytic-laws.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:14.6328449Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/guide.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:14.6806003Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/contrast.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:14.7864064Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/testids.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:14.8609368Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/heat-argument.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:14.9344970Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/tabular-digits.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.0377872Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/physical-scale.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.0649275Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/offline-classic.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.1878491Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/haptics.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.2025999Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/readouts.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.3329438Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/kit-boundary.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.4601691Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/drag-model.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.6308507Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/post.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.6409438Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/reference/bands.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.7568886Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/thermosphere.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 3^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:15.8947648Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/zoom.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:16.0814555Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/final-descent-profile.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:16.0918099Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/reentry.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 4^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:16.2226777Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/reference/ratchet.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:16.2550606Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/propellant.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:16.4388667Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/fields-presets.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 4^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:16.4549905Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/rcs-reserve.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 4^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:23.2639954Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/dynamic-pressure.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 37^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:45:23.7880536Z 
+gate	Gate	2026-10-02T14:45:23.7892177Z ^[[2m Test Files ^[[22m ^[[1m^[[32m153 passed^[[39m^[[22m^[[90m (153)^[[39m
+gate	Gate	2026-10-02T14:45:23.7903438Z ^[[2m      Tests ^[[22m ^[[1m^[[32m2011 passed^[[39m^[[22m^[[90m (2011)^[[39m
+gate	Gate	2026-10-02T14:45:23.7903871Z ^[[2m   Start at ^[[22m 14:38:29
+gate	Gate	2026-10-02T14:45:23.7906033Z ^[[2m   Duration ^[[22m 414.18s^[[2m (transform 4.11s, setup 2.49s, import 112.12s, tests 1063.28s, environment 25.10s)^[[22m
+gate	Gate	2026-10-02T14:45:23.7907738Z 
+gate	Gate	2026-10-02T14:45:23.7951145Z ^[[34m % ^[[39m^[[2mCoverage report from ^[[22m^[[33mv8^[[39m
+gate	Gate	2026-10-02T14:45:23.7995163Z -------------------|---------|----------|---------|---------|-------------------
+gate	Gate	2026-10-02T14:45:23.7995762Z File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+gate	Gate	2026-10-02T14:45:23.7996198Z -------------------|---------|----------|---------|---------|-------------------
+gate	Gate	2026-10-02T14:45:23.8000581Z All files          |   99.09 |    98.55 |    98.6 |   99.46 |                   
+gate	Gate	2026-10-02T14:45:23.8000982Z  core              |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8001373Z   constants.ts     |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8001764Z   rng.ts           |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8002151Z   scenarios.ts     |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8002552Z   state.ts         |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8002931Z   step.ts          |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8003308Z   units.ts         |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8003705Z  core/autopilot    |   99.14 |    98.52 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8004421Z   entry.ts         |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8004801Z   index.ts         |   99.09 |    98.46 |     100 |     100 | 102,381-382,486   
+gate	Gate	2026-10-02T14:45:23.8005197Z   landing-burn.ts  |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8005610Z  core/control      |   97.78 |    97.07 |   96.72 |   98.52 |                   
+gate	Gate	2026-10-02T14:45:23.8006010Z   actuation.ts     |   97.61 |      100 |   88.88 |   97.43 | 188               
+gate	Gate	2026-10-02T14:45:23.8006523Z   commands.ts      |   95.45 |       95 |   94.73 |   94.59 | 132-133           
+gate	Gate	2026-10-02T14:45:23.8006930Z   entry-range.ts   |   97.53 |    95.74 |     100 |   98.46 | 123               
+gate	Gate	2026-10-02T14:45:23.8007341Z   ...ce-physics.ts |   97.03 |    93.18 |     100 |   99.16 | 274               
+gate	Gate	2026-10-02T14:45:23.8007752Z   primitives.ts    |   99.33 |       99 |     100 |   99.31 | 244               
+gate	Gate	2026-10-02T14:45:23.8008159Z  core/physics      |   99.57 |      100 |   98.96 |   99.52 |                   
+gate	Gate	2026-10-02T14:45:23.8008542Z   aero.ts          |      98 |      100 |   96.15 |   97.61 | 83-84             
+gate	Gate	2026-10-02T14:45:23.8008930Z   atmosphere.ts    |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8009331Z   components.ts    |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8009730Z   engines.ts       |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8010121Z   gravity.ts       |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8010505Z   isa.ts           |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8010836Z   mass.ts          |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8011077Z   thermal.ts       |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8011309Z   wind.ts          |     100 |      100 |     100 |     100 |                   
+gate	Gate	2026-10-02T14:45:23.8011586Z -------------------|---------|----------|---------|---------|-------------------
+gate	Gate	2026-10-02T14:45:23.8060544Z ERROR: Coverage for branches (98.55%) does not meet global threshold (99%)
+gate	Gate	2026-10-02T14:45:23.8061146Z ERROR: Coverage for lines (99.52%) does not meet "src/core/physics/**" threshold (100%)
+gate	Gate	2026-10-02T14:45:23.8061734Z ERROR: Coverage for functions (98.96%) does not meet "src/core/physics/**" threshold (100%)
+gate	Gate	2026-10-02T14:45:23.8621030Z ##[error]Process completed with exit code 1.
