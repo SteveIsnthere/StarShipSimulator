@@ -212,3 +212,11 @@ Linux recording run36985191265 succeeded from immutable764d191 snapshot;46 sourc
 Owner question is pending for only reentry recording-window180->600s, keeping every literal numeric assertion and existing heat/900s/range/authority/source constraints. No duration/assertion changed; do not treat pending choice as approval. Current gate is not green. Keep Task1acceptance open; Tasks2–4/nextphases cannot start yet. Independent Task5Bugfixes are implemented/tested/audited; its two backlogrows can close in this branch. No runtimecommit/phasegate/mutation/finalreview/merge claimed.
 
 If approved: record all8 again onLinux with only that durationextension; prove identical existing361sample reentryprefix and separately audit840added samples, then coherent source/fixtures/audit commit and Task2. Preserve initialrun/failedcheckpoint. Initialrecordingbranch remains until finalartifact checkpoint.
+
+## Reentry recording exception approved (2026-10-02)
+
+Steve explicitly answered “yep approved” to extending only the reentry golden recording180->600s. This supersedes the pending window decision above. Keep all literal numerical assertions, uninterrupted survival,1533K,900s, range/authority/eta contracts intact. Regenerate onLinux/Node22; preserve the361-sample180s prefix exactly against initial run36985191265, audit840newtail samples, and require all seven other fixtures byte-identical. No owner question is pending. Task1 remains open until this artifact audit/checkpoint is complete; then continue Tasks2–4 and full6b/7/8/9 scope.
+
+## Tasks1+1b coherent checkpoint (2026-10-02)
+
+Body-axis lifting entry andEarthrotation are accepted at common2758826m/65°/22t with all range,thermal,900s and authority limits retained. Approved reentry600s artifact audit passes:original361samples exact,840tail audited,sevenother files identical. Fullunits1995/1995,lint/build/truth8/8pass. Window/camerahelper independentreview clean. Task1/1b andTask5 complete onbranch;phase6b stillopen,main/livePhase6. NextTask2CoP/moment,then3fins/4RCS and fullphaseclose;full6b/7/8/9goal unchanged,no owner question pending.

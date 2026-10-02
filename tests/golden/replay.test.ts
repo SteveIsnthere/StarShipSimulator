@@ -166,7 +166,7 @@ describe('the fixtures themselves', () => {
     }
 
     // And it is a real descent, not a vehicle sitting where it spawned: 80 km
-    // down to 45 km, still supersonic, in the 180 s the fixture covers.
+    // down below 50 km, still supersonic, in the approved 600 s recording.
     const first = samples[0]!;
     const last = samples[samples.length - 1]!;
     expect(Number(first['kinematics.altitude'])).toBeGreaterThan(79_000);

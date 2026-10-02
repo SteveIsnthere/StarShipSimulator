@@ -49,18 +49,18 @@ These three cannot land apart: physical drag alone breaks up the deorbit, and li
 
 **Files:** `src/core/physics/aero.ts`, `src/core/step.ts`, `src/core/control/guidance-physics.ts`, `src/core/autopilot/index.ts`, `src/core/constants.ts`; tests `tests/core/drag-model.test.ts` (from `claude/drag-parked`), new `tests/core/body-axis-aero.test.ts`, new `tests/core/entry-on-lift.test.ts`.
 
-- [ ] Cherry-pick the coefficient functions and `tests/core/drag-model.test.ts` from `claude/drag-parked` (not its `getBodyDragCoefficient` blend or its `step.ts` wiring).
-- [ ] **Forces in body axes.** With α the attack angle (unfolded, `kinematics.angleOfAttack`) and q the dynamic pressure:
+- [x] Cherry-pick the coefficient functions and `tests/core/drag-model.test.ts` from `claude/drag-parked` (not its `getBodyDragCoefficient` blend or its `step.ts` wiring).
+- [x] **Forces in body axes.** With α the attack angle (unfolded, `kinematics.angleOfAttack`) and q the dynamic pressure:
   - normal force `N = q · [A_base · sin 2α · cos(α/2)` (slender-body, Allen & Perkins) `+ η · Cdc(M) · A_plan · sin²α]` (crossflow; Jorgensen NASA TR R-474), A_plan = `vehicleInFlightMaxArea`, η the Mach-aware crossflow factor approved in Resume approvals below:0.63 at low Mn,1 at high Mn, with the declared bridge; cite the source and Ship-specific transition limitation;
   - axial force `A = q · A_base · Cd_axial(M) · cos²α` with `Cd_axial` the nose-first or tail-first coefficient by the sign of cos α;
   - drag `D = N·|sin α| + A·|cos α|`, lift `L = N·cos α` in magnitude, with the lift direction from the existing sign convention (`liftSignIsInverted`, `components.ts`).
   - One exported function returns {lift, drag} accelerations and is called by `step()` and by `guidance-physics.ts` (`tailFirstDragDeceleration` is α = π; `fallAcceleration` passes its own α).
-- [ ] This replaces `getLiftCoefficient`'s hand-tuned five segments and the 2021 drag blend. Measure and record (numbers, in this plan) the belly-flop before and after: terminal speed at 1 km, peak angle of attack in the flip, landing miss. A lost "feel" is a finding, not a tuning target.
-- [ ] **The sweep.** Write `scripts/entry-sweep.ts` (`npm run entry:sweep`): for α_e ∈ {45, 50, 55, 60, 65, 70, 75, 90}°, fly the deorbit and the re-entry preset with the entry held at α_e above Mach M_t and record peak skin temperature, its altitude, landing miss, outcome. Record the table here.
-- [ ] **The schedule.** In `aeroDescentController`, while Mach > M_t the pitch target is the motion direction rotated by α_e on the side that makes lift point away from the planet (keep the ±3° range trims on top); between M_t and M_b it blends linearly to broadside; below M_b it is 2021's broadside law unchanged. Defaults to start the sweep: M_t = 5, M_b = 2. Choose α_e (and adjust M_t, M_b only if the sweep shows a reason) as the angle with the lowest peak temperature that also lands within 10 km; name the choice and its row from the table in `constants.ts`.
-- [ ] Re-derive `DEORBIT_ENTRY_RANGE` (`npm run deorbit:range`; lift lengthens the entry). Re-measure `landingReserve` if `deorbit-range.test.ts` fails its eighth-of-reserve bound.
-- [ ] Tests: lift points away from the planet during entry in both directions (assert the lift's vertical acceleration > 0 over the hypersonic segment); at α = 90° lift is zero and drag equals the crossflow drag; at α = 0 and π the force is axial only; continuity across α = 90° and across M_t and M_b; the predictor agrees with `step()` within a metre (existing test unchanged); `flies-every-scenario` lands every scenario; re-entry flux band in `flies-every-scenario` re-measured and re-banded ±5% with the date.
-- [ ] Golden regeneration (all eight expected), audit row P6b.1 with the per-scenario shape, digests, margins diffed.
+- [x] This replaces `getLiftCoefficient`'s hand-tuned five segments and the 2021 drag blend. Measure and record (numbers, in this plan) the belly-flop before and after: terminal speed at 1 km, peak angle of attack in the flip, landing miss. A lost "feel" is a finding, not a tuning target.
+- [x] **The sweep.** Write `scripts/entry-sweep.ts` (`npm run entry:sweep`): for α_e ∈ {45, 50, 55, 60, 65, 70, 75, 90}°, fly the deorbit and the re-entry preset with the entry held at α_e above Mach M_t and record peak skin temperature, its altitude, landing miss, outcome. Record the table here.
+- [x] **The schedule.** In `aeroDescentController`, while Mach > M_t the pitch target is the motion direction rotated by α_e on the side that makes lift point away from the planet (keep the ±3° range trims on top); between M_t and M_b it blends linearly to broadside; below M_b it is 2021's broadside law unchanged. Defaults to start the sweep: M_t = 5, M_b = 2. Choose α_e (and adjust M_t, M_b only if the sweep shows a reason) as the angle with the lowest peak temperature that also lands within 10 km; name the choice and its row from the table in `constants.ts`.
+- [x] Re-derive `DEORBIT_ENTRY_RANGE` (`npm run deorbit:range`; lift lengthens the entry). Re-measure `landingReserve` if `deorbit-range.test.ts` fails its eighth-of-reserve bound.
+- [x] Tests: lift points away from the planet during entry in both directions (assert the lift's vertical acceleration > 0 over the hypersonic segment); at α = 90° lift is zero and drag equals the crossflow drag; at α = 0 and π the force is axial only; continuity across α = 90° and across M_t and M_b; the predictor agrees with `step()` within a metre (existing test unchanged); `flies-every-scenario` lands every scenario; re-entry flux band in `flies-every-scenario` re-measured and re-banded ±5% with the date.
+- [x] Golden regeneration (all eight expected), audit row P6b.1 with the per-scenario shape, digests, margins diffed.
 
 ### Task 1 measured checkpoint (not complete)
 
@@ -98,11 +98,11 @@ Everything is in place at rate zero (Phase 6 Task 9a and the 9b work): the Corio
 
 Measured with the rate on (2026-10-01, broadside entry, 2021 drag): `DEORBIT_ENTRY_RANGE` re-derives to 801.0 km (deorbit preset miss 0.21 km); the circularize-then-deorbit flight misses by 11.1 km (3.2 km with the rate off); the heavy/light descent spread grows from 5 to 14 km; re-entry preset peak 149.8 kW/m² (170.9 off); deorbit peak 1,412 K (1,459 off); envelope misses 120 km +38.9 km, 200 km −47.7 km, 300 km −77.7 km, with 300 km heating at 0.82 of the limit (0.95 off). The coast conic itself agrees with the simulation to about 4 km (its drag-free arc above 80 km); the spread is in the open-loop descent.
 
-- [ ] Set `frameRotationRate = EARTH_FRAME_ROTATION_RATE` (`constants.ts`), and update its comment.
-- [ ] Task 1's entry flies the range: the entry angle (or a bank-free lift modulation inside Task 1's schedule) trims the hypersonic range toward the pad, so a heavy and a light entry land together. If Task 1's schedule already does this, measure and say so; if not, add a range term to the schedule (lift up for long, down for short) inside the same ±α authority, never by moving the 10 km or 1 km bounds.
-- [ ] Re-derive `DEORBIT_ENTRY_RANGE` (`npm run deorbit:range`), re-measure the re-entry flux band and the deorbit peak temperature in `orbit-demo.test.ts` and `flies-every-scenario.test.ts` with the date, and the 300 km heating row (its bound states what it measures).
-- [ ] `orbit-demo.test.ts` (every flight, including the circularize demo within 10 km) and `deorbit-range.test.ts` (within 1 km) green; the `rotating-frame.test.ts` "default rate is zero" test becomes "is Earth's".
-- [ ] Golden regeneration (all eight will move: the ascent gains 418 m/s, every descent feels Coriolis), audit row P6b.1b.
+- [x] Set `frameRotationRate = EARTH_FRAME_ROTATION_RATE` (`constants.ts`), and update its comment.
+- [x] Task 1's entry flies the range: the entry angle (or a bank-free lift modulation inside Task 1's schedule) trims the hypersonic range toward the pad, so a heavy and a light entry land together. If Task 1's schedule already does this, measure and say so; if not, add a range term to the schedule (lift up for long, down for short) inside the same ±α authority, never by moving the 10 km or 1 km bounds.
+- [x] Re-derive `DEORBIT_ENTRY_RANGE` (`npm run deorbit:range`), re-measure the re-entry flux band and the deorbit peak temperature in `orbit-demo.test.ts` and `flies-every-scenario.test.ts` with the date, and the 300 km heating row (its bound states what it measures).
+- [x] `orbit-demo.test.ts` (every flight, including the circularize demo within 10 km) and `deorbit-range.test.ts` (within 1 km) green; the `rotating-frame.test.ts` "default rate is zero" test becomes "is Earth's".
+- [x] Golden regeneration (all eight will move: the ascent gains 418 m/s, every descent feels Coriolis), audit row P6b.1b.
 
 ### Task 2: Centre of pressure and the aerodynamic moment (Fidelity; was Phase 6 Task 6)
 
@@ -228,3 +228,15 @@ Linux recording run36985191265 succeeded from immutable764d191 snapshot;46 sourc
 Owner question is pending for only reentry recording-window180->600s, keeping every literal numeric assertion and existing heat/900s/range/authority/source constraints. No duration/assertion changed; do not treat pending choice as approval. Current gate is not green. Keep Task1acceptance open; Tasks2–4/nextphases cannot start yet. Independent Task5Bugfixes are implemented/tested/audited; its two backlogrows can close in this branch. No runtimecommit/phasegate/mutation/finalreview/merge claimed.
 
 If approved: record all8 again onLinux with only that durationextension; prove identical existing361sample reentryprefix and separately audit840added samples, then coherent source/fixtures/audit commit and Task2. Preserve initialrun/failedcheckpoint. Initialrecordingbranch remains until finalartifact checkpoint.
+
+## Reentry recording exception approved (2026-10-02)
+
+Steve explicitly answered “yep approved” to extending only the reentry golden recording180->600s. This supersedes the pending window decision above. Keep all literal numerical assertions, uninterrupted survival,1533K,900s, range/authority/eta contracts intact. Regenerate onLinux/Node22; preserve the361-sample180s prefix exactly against initial run36985191265, audit840newtail samples, and require all seven other fixtures byte-identical. No owner question is pending. Task1 remains open until this artifact audit/checkpoint is complete; then continue Tasks2–4 and full6b/7/8/9 scope.
+
+## Coherent Tasks1+1b checkpoint complete (2026-10-02)
+
+The approved600s recording extension is implemented. Linux37016645116/8c5f85a:361original reentrysamples exact,840newtail audited,sevensibling files byte-identical. Fresh independent window and camera-harness reviews clean. Fullunits153files/1995tests pass;lint/build/truth8/8pass. Camera helper’s fixed200000display-frameguard truncated1/9playback at44444of72000steps;watchedred completion witness,derived playback framebudget and retained exact camera/framing/negativecontrols now pass. This changes no runtime,flightbounds or goldenvalues.
+
+Task1/1b implementation and recording/audit acceptance are complete;Task5 Bugfixes remain complete in the same coherent checkpoint. Final fixed sweep at common2758826m:65°deorbit1424.614K at68328m,+0.3m,landed3073.15s;it is the only qualifyingdeorbit row. Operationaldeorbit+6.851m;120km+37321.649m within40km;approved300km verification consumed/passed. Beforeflip measured1kmspeed70.0764->70.0301m/s,flip144.9222->151.47495°,miss+.3165->-.30706m. Fullsweep/margins/fielddiffs retained.
+
+Next:Task2 centreofpressure/moment research and implementation. Task2–4 and finalphase gate/coverage/mutation/fullbrowser/highreview/independentphysicsreview/merge/deploy remain. No partialphase merge;main/live stillPhase6.

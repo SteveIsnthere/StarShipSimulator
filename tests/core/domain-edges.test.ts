@@ -34,7 +34,7 @@ import {
   getTotalMinThrust,
   getThrust,
 } from '$core/physics/engines';
-import { coastDownrangeDistance } from '$core/physics/gravity';
+import { coastDownrangeDistance, groundTangentialSpeed } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
 import { speedOfSoundAt, updateAtmosphere } from '$core/physics/atmosphere';
 import { getReentryHeatPower } from '$core/physics/thermal';
@@ -290,7 +290,9 @@ describe('the ballistic coast predictor', () => {
    */
   it('a purely radial fall covers no downrange distance — it does not return NaN', () => {
     const rTarget = C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE;
-    const result = coastDownrangeDistance(C.planetRadius + 200_000, 0, 0, rTarget);
+    // This is the inertial zero-angular-momentum degeneracy. Earth turns
+    // under a radial fall; rotating-frame.test.ts independently integrates that arc.
+    const result = coastDownrangeDistance(C.planetRadius + 200_000, 0, 0, rTarget, 0);
     expect(Number.isNaN(result)).toBe(false);
     expect(result).toBe(0);
   });
@@ -309,7 +311,7 @@ describe('the ballistic coast predictor', () => {
     const r = C.planetRadius + 200_000;
     for (const magnitude of [0, 1e-12, 1e-9, 1e-6, 1e-5, 4.09e-5, 1e-4, 1e-3, 0.1, 1]) {
       for (const vt of [magnitude, -magnitude]) {
-        const out = coastDownrangeDistance(r, vt, 0, rTarget);
+        const out = coastDownrangeDistance(r, vt, 0, rTarget, 0);
         expect(Number.isNaN(out), `tangential speed ${vt}`).toBe(false);
       }
     }
@@ -318,11 +320,12 @@ describe('the ballistic coast predictor', () => {
   it('and the reachability claim is about a real caller, checked by arithmetic', () => {
     // `predictedDeorbitRange` passes `speedX - DEORBIT_DELTA_V` as the
     // tangential speed, so the degenerate input is presented by any vehicle
-    // moving downrange at close to the deorbit delta-v. Asserted against the
+    // moving at the ground speed whose post-burn inertial speed is zero. Asserted against the
     // function, not against itself.
     const rTarget = C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE;
     const r = C.planetRadius + 200_000;
-    for (const speedX of [C.DEORBIT_DELTA_V, C.DEORBIT_DELTA_V + 1e-9, C.DEORBIT_DELTA_V - 1e-9]) {
+    const radialAfterBurn = groundTangentialSpeed(r, C.DEORBIT_DELTA_V);
+    for (const speedX of [radialAfterBurn, radialAfterBurn + 1e-9, radialAfterBurn - 1e-9]) {
       const out = coastDownrangeDistance(r, speedX - C.DEORBIT_DELTA_V, 0, rTarget);
       expect(Number.isNaN(out), `speedX ${speedX}`).toBe(false);
     }
@@ -332,10 +335,13 @@ describe('the ballistic coast predictor', () => {
     // Guards against "fixing" the degenerate case by short-circuiting the
     // whole function: the ordinary path must keep working.
     const rTarget = C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE;
-    const arc = coastDownrangeDistance(C.planetRadius + 200_000, 7_650, 0, rTarget);
-    expect(Number.isFinite(arc)).toBe(true);
-    expect(arc).toBeGreaterThan(1_000_000);
-    expect(arc).toBeLessThan(20_000_000);
+    const r = C.planetRadius + 200_000;
+    for (const rate of [0, C.frameRotationRate]) {
+      const arc = coastDownrangeDistance(r, groundTangentialSpeed(r, 7_650, rate), 0, rTarget, rate);
+      expect(Number.isFinite(arc)).toBe(true);
+      expect(arc).toBeGreaterThan(1_000_000);
+      expect(arc).toBeLessThan(20_000_000);
+    }
   });
 
   it('a target already behind is a lap ahead, not a negative arc', () => {

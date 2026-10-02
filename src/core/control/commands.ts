@@ -11,6 +11,7 @@
  */
 import { commandIgnition, getWorkingEngineCount, rollIgnitionFailure, shutdownEngine } from '../physics/engines';
 import * as C from '../constants';
+import { rad } from '../units';
 import type { RaptorIndex, SimState } from '../state';
 
 /**
@@ -155,6 +156,8 @@ export function toggleBoostBack(state: SimState): void {
 
 export function toggleAutoLand(state: SimState): void {
   state.autopilot.autoLandOn = !state.autopilot.autoLandOn;
+  state.autopilot.entryRangeCountdown = 0;
+  state.autopilot.entryRangeTrim = rad(0);
 }
 
 /**

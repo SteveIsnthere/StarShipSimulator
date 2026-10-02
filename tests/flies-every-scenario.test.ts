@@ -144,12 +144,11 @@ describe('the autopilot flies the ones it is meant to', () => {
     assertFinite(s, 'reentry');
 
     expect(outcome, `after ${seconds.toFixed(1)} s`).toBe('landed');
-    // Since Phase 6 the limit is a tile temperature (1,533 K) and T goes as
-    // q^1/4, so "60-100% of the limit" would pass almost anything. Banded on
-    // the measured flux instead: 170.9 kW/m^2, a skin temperature of 1,372 K
-    // (2026-10-01), within 5%.
-    expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(170_900 * 0.95);
-    expect(peak).toBeLessThan(170_900 * 1.05);
+    // Phase6b Tasks1+1b, measured2026-10-01: Earth’s rate, 65-degree entry,
+    // Mach20-to-two schedule and bounded range feedback peak at144021.289 W/m². Preserve
+    // the plan's ±5% band and the independent absolute thermal limit.
+    expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(144_000 * 0.95);
+    expect(peak).toBeLessThan(144_000 * 1.05);
     expect(peak).toBeLessThan(C.heatLimit);
   });
 });

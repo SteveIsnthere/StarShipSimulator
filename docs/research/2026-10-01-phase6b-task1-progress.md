@@ -246,3 +246,7 @@ Linux recording run36985191265 succeeded from immutable764d191 snapshot;46 sourc
 Owner question is pending for only reentry recording-window180->600s, keeping every literal numeric assertion and existing heat/900s/range/authority/source constraints. No duration/assertion changed; do not treat pending choice as approval. Current gate is not green. Keep Task1acceptance open; Tasks2–4/nextphases cannot start yet. Independent Task5Bugfixes are implemented/tested/audited; its two backlogrows can close in this branch. No runtimecommit/phasegate/mutation/finalreview/merge claimed.
 
 If approved: record all8 again onLinux with only that durationextension; prove identical existing361sample reentryprefix and separately audit840added samples, then coherent source/fixtures/audit commit and Task2. Preserve initialrun/failedcheckpoint. Initialrecordingbranch remains until finalartifact checkpoint.
+
+## Coherent accepted checkpoint —2026-10-02
+
+Tasks1+1b andTask5 complete onbranch. Steve approvedonly reentry recording180->600s;Linux37016645116/8c5f85a preserves361original samples exactly and840tail separatelyaudited;sevenother files byte-identical. Fullunits153files/1995tests pass,lint/build/truth8/8pass. Old camerahelper cap stopped1/9playback at370.37s;exactcompletion witness watchedred,derived displayframeguard and all retained equality/framing/negativecontrols pass. Independentnarrowreviews clean. Task2 is next;fullphaseclose/merge/deploy notdone. Recoverypatch/pins above describe historical precommit snapshots;usecommitted branch source for recovery.

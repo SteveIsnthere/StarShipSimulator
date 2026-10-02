@@ -136,11 +136,10 @@ export interface FlightWatch {
   reset(): void;
 }
 
-/** True while the vehicle is still flying — the same test the recorder uses. */
+/** Contact has erased its kinematics; a first breakup state still carries its verdict. */
 function airborne(s: SimState): boolean {
   return (
     !s.failures.crashed &&
-    !s.failures.inFlightBreakUp &&
     !s.status.onTheGround &&
     !s.status.landed
   );
@@ -150,6 +149,7 @@ export function createFlightWatch(): FlightWatch {
   // One record, written in place. `seen` is what makes `last` undefined before
   // the first airborne step without allocating an object to say so.
   let seen = false;
+  let lossSeen = false;
   const record = {
     at: 0,
     speedX: 0,
@@ -174,7 +174,10 @@ export function createFlightWatch(): FlightWatch {
     },
 
     observe(s: SimState): void {
-      if (!airborne(s)) return;
+      if (lossSeen || !airborne(s)) return;
+      // Current-force failures occur in this returned step. Capture its actual
+      // loads once, then keep the loss record while the debris continues falling.
+      lossSeen = s.failures.inFlightBreakUp;
       const { kinematics, forces, vehicle } = s;
       seen = true;
       record.at = s.world.timeSpent;
@@ -204,6 +207,7 @@ export function createFlightWatch(): FlightWatch {
 
     reset(): void {
       seen = false;
+      lossSeen = false;
       record.peakDynamicPressure = 0;
       record.peakThermalPower = 0;
       record.peakSurfaceTemperature = 0;

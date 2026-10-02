@@ -403,6 +403,10 @@ export interface AutopilotState {
   /** m. */
   landingSiteXPos: number;
 
+  /** s — simulated countdown to the next scheduled-entry range prediction. */
+  entryRangeCountdown: number;
+  /** rad — entry attack-angle trim, bounded by the existing three-degree authority. */
+  entryRangeTrim: Rad;
   aeroDescentCompleted: boolean;
   /** Fraction, max 1. Undefined until the aero-descent stage runs. */
   fineTunePercentage: number | undefined;
@@ -675,6 +679,8 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       initVehicleConfigCompleted: false,
       landingSiteXPos: C.starBaseXPos,
 
+      entryRangeCountdown: 0,
+      entryRangeTrim: rad(0),
       aeroDescentCompleted: false,
       fineTunePercentage: undefined,
 

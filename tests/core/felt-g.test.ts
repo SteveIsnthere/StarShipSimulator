@@ -10,6 +10,7 @@ import * as C from '$core/constants';
 import { gravityAt } from '$core/physics/gravity';
 import { ALL_SCENARIOS, createScenarioState } from '$core/scenarios';
 import { step } from '$core/step';
+import { rad } from '$core/units';
 
 function coasting(altitude: number) {
   const s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'landing-burn')!);
@@ -17,6 +18,7 @@ function coasting(altitude: number) {
   s.autopilot.demoAutoLandOn = false;
   s.engines.running = [false, false, false, false, false, false];
   s.kinematics.altitude = altitude;
+  s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
   s.kinematics.speedX = 0;
   s.kinematics.speedY = 0;
   return s;
@@ -41,22 +43,28 @@ describe('felt g', () => {
   });
 
   it('breaks the airframe at the felt limit, not at the net acceleration', () => {
-    // 12.5 g net upward is 13.5 g felt: over the 13 g limit. The old check read
-    // the net figure and let it pass.
-    const s0 = coasting(10_000);
-    s0.kinematics.accelerationY = 12.5 * C.standardGravity;
-    s0.kinematics.totalAcceleration = 12.5 * C.standardGravity;
-    s0.forces.perceivedG = 13.5;
+    // Real broadside drag produces over 13 g felt; gravity leaves the net
+    // upward acceleration below 13 g. No stored force stands in for it.
+    const s0 = coasting(20_000);
+    s0.kinematics.speedY = -850;
+    s0.kinematics.pitch = rad(Math.PI / 2);
     const s = step(s0, DT);
+    expect(s.kinematics.totalAcceleration / C.standardGravity).toBeLessThan(C.gLimit);
+    expect(s.forces.perceivedG).toBeGreaterThan(C.gLimit);
+    expect(s.forces.dynamicPressure).toBeLessThan(C.dynamicPressureLimit);
+    expect(s.forces.surfaceTemperature).toBeLessThan(C.TILE_LIMIT_KELVIN);
     expect(s.failures.inFlightBreakUp).toBe(true);
   });
 
   it('and a free fall well past 13 g of net acceleration does not break it', () => {
-    // Only reachable by hand: the point is which number is compared.
-    const s0 = coasting(10_000);
-    s0.kinematics.totalAcceleration = 14 * C.standardGravity;
-    s0.forces.perceivedG = 0.5;
+    // A fast vacuum trajectory has a large radial coordinate acceleration
+    // from v_t²/r, although gravity is its only inertial force. Generate the
+    // >13 g net reading physically instead of injecting an old stored value.
+    const s0 = coasting(1_500_000);
+    s0.kinematics.speedX = 34_000;
     const s = step(s0, DT);
+    expect(s.kinematics.totalAcceleration / C.standardGravity).toBeGreaterThan(C.gLimit);
+    expect(s.forces.perceivedG).toBeLessThan(1e-3);
     expect(s.failures.inFlightBreakUp).toBe(false);
   });
 });

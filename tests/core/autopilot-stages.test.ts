@@ -31,6 +31,7 @@ import {
   finalDescentStageController,
 } from '$core/autopilot/index';
 import { step } from '$core/step';
+import { circularOrbitalSpeed, groundTangentialSpeed } from '$core/physics/gravity';
 import * as cmd from '$core/control/commands';
 import { createInitialState, type SimState } from '$core/state';
 
@@ -468,7 +469,9 @@ describe('autoDeorbit configures, and declines when it cannot burn', () => {
     s.engines.failed = [true, true, true, false, false, false];
     s.kinematics.altitude = 200_000;
     s.kinematics.distanceToPlanetCenter = C.planetRadius + 200_000;
-    s.kinematics.speedX = 7_800;
+    s.kinematics.speedX = groundTangentialSpeed(
+      s.kinematics.distanceToPlanetCenter, circularOrbitalSpeed(s.kinematics.distanceToPlanetCenter),
+    );
 
     for (let i = 0; i < 500; i++) autoDeorbit(s);
 
@@ -488,7 +491,9 @@ describe('autoDeorbit configures, and declines when it cannot burn', () => {
     cmd.toggleAutoDeorbit(s);
     s.kinematics.altitude = 200_000;
     s.kinematics.distanceToPlanetCenter = C.planetRadius + 200_000;
-    s.kinematics.speedX = 7_800;
+    s.kinematics.speedX = groundTangentialSpeed(
+      s.kinematics.distanceToPlanetCenter, circularOrbitalSpeed(s.kinematics.distanceToPlanetCenter),
+    );
     s.autopilot.landingSiteXPos = 0;
 
     let fired = false;
@@ -497,7 +502,7 @@ describe('autoDeorbit configures, and declines when it cannot burn', () => {
       fired = s.autopilot.deorbitBurnStarted;
       // Walk the vehicle round its orbit so a firing point arrives.
       s.kinematics.downRangeDistance =
-        (s.kinematics.downRangeDistance + 7_800) % C.planetCircumference;
+        (s.kinematics.downRangeDistance + s.kinematics.speedX) % C.planetCircumference;
     }
     expect(fired).toBe(true);
   });

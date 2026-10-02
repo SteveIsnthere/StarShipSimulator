@@ -19,7 +19,6 @@ import * as C from '../constants';
 import { getDrag, relativeAirspeed } from '../physics/aero';
 import { airVelocityX } from '../physics/wind';
 import {
-  getThrust,
   getTotalMaxThrust,
   getTotalMinThrust,
   getWorkingSeaLevelCount,
@@ -275,16 +274,15 @@ export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
 }
 
 /**
- * Throttle for a target thrust acceleration (m/s²), against the thrust at the
- * current throttle (2021's denominator, kept: the backlog's
- * `controlEnginebyTWR` row). For targets that are accelerations already, such
+ * Throttle for a target thrust acceleration (m/s²), against full-throttle thrust. Phase6b Task5, Bug fix: dividing by current thrust
+ * counted the current throttle twice and overshot the requested acceleration. For targets that are accelerations already, such
  * as boost-back's horizontal deceleration, so no gravity enters them.
  */
 export function controlEngineForAcceleration(state: SimState, acceleration: number): void {
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
     ((acceleration * vehicle.vehicleMass) /
-      getThrust(engines.running, vehicle.throttleCurrent, state.atmosphere.airPressure)) *
+      getTotalMaxThrust(engines.running, state.atmosphere.airPressure)) *
     100;
 
   /**

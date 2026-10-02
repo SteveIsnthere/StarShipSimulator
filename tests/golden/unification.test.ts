@@ -39,6 +39,9 @@
  *     P6.10   the wind profile and turbulence    headwind only; seven in shape alone
  *     P6.11   review: sweep speed, fixed RVacs   headwind only (the sweep); RVacs moved nothing
  *     P6.12   the tile against its surroundings  ALL EIGHT, in surfaceTemperature alone
+ *     P6b.1   body forces and lifting entry      ALL EIGHT: forces, guidance and state shape
+ *     P6b.1b  Earth rotation and common aim      ALL EIGHT: turning-ground dynamics
+ *     P6b.5   current forces and throttle demand ALL EIGHT: freshness; isolated RTLS motion
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -281,6 +284,37 @@
  * vehicle on the pad reads 288 K instead of 0 K. The break-up check reads the
  * flux and does not see it.
  *
+ * P6b.1/P6b.1b (approved Phase6b Tasks1+1b, Fidelity) land together:
+ * source-derived body-axis forces, lifting entry, bounded range feedback,
+ * the measured22t reserve/common2758826m aim and Earth's projected rate.
+ * All eight move as predicted, with two entry-history keys added to the
+ * schema. Launch/booster/RTLS/reentry remain flying in their recording
+ * windows; before-flip, landing-burn, headwind and intro still land. RTLS
+ * and reentry's full landing outcomes are checked beyond these windows.
+ * Intro retains its original final-descent law: measured touchdown9.858s,
+ * all six engines off, against the unchanged9.85s +/-0.5 contract.
+ *
+ * P6b.5 (Bug fix) reads this step's forces/support/failure state and sizes
+ * requested TWR against full-throttle thrust. Watched-red witnesses and the
+ * isolated eight-scenario trajectory diff are in the Task1 research evidence.
+ * In that pre-rotation isolation only RTLS kinematics moved; all eight changed
+ * freshness/time readouts. The separately witnessed nonlinear range-solver
+ * Bug fix corrects17.8km interpolation residual inside unchanged authority.
+ * No golden flies deorbit; its real health/envelope are separate acceptance.
+ *
+ * These rows share the coherent Linux baseline from hosted run36985191265,
+ * snapshot764d191. Steve approved only the reentry180->600s recording
+ * extension on2026-10-02, recorded by Linux run37016645116/snapshot8c5f85a.
+ * Its361-sample original prefix is exact;840new tail samples are separately
+ * audited in golden-window-audit.json. All seven other files are byte-identical.
+ * Every literal descent/survival assertion and full-flight bound is retained.
+ * The per-field before/after diff, schemas, digests and
+ * landing margins are retained under docs/research/
+ * 2026-10-01-phase6b-task1-progress/range-cycle2-golden-audit.json and the
+ * associated prediction/accepted-margins logs. Every truth row remains IN.
+ * The independent braking-profile audit leaves intro byte-identical across
+ * that adaptation alone; the combined new forces/rotation legitimately move it.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -349,16 +383,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P6.12 (all eight, surfaceTemperature alone): see the table above. Recorded
+  // P6b.1/P6b.1b/P6b.5 (all eight): see the table and recorded audit above. Recorded
   // on x86-64 Linux / Node 22 by .github/workflows/golden-regenerate.yml.
-  'launch-pad-takeoff': 'b71e2203290dde3c170ac1259e0dc1754eafff9fafcdd5d54a843b6f1852bc92',
-  'booster-sep-boostback': 'ccf3e19863f7a7956aae8cf8ca7554d4bcfc02787252fa1a07ce00070c154e6e',
-  'rtls-boostback': '45f937f35bbaa30947b947aa3896b2ae453b75a7cad24e9e189e510fa8815392',
-  'reentry-autoland': '07d95cf7a2df29509becf3a3feb6ecf64e0462c59a2c4beff264eaf4e3afbff4',
-  'before-flip-autoland': '1509712cf0d6cd184156c6df17fcaf83bb3dfb960761954f1dbb18590c4e0bc0',
-  'landing-burn-autoland': '6c238ea6a05910435041e83fb17a96fefaebbd42d817fa894dc82e4f60e8542c',
-  'landing-burn-headwind': '0cc15afd883b96e662c9cd32bfcfa5faf43cc591090cbda9042c7339ee53d3e4',
-  'intro-demo': 'cecdc48322e0704619df6b729dd34b538b59f7823507094466013b3935f3000c',
+  'launch-pad-takeoff': '5637a9251f497b9e0ea517e9166dce44d4f073562dfa85faa87268dcf8ac14b7',
+  'booster-sep-boostback': '3434b2f3dd7ec91bb74fc03c606d00692e6bff59791ec69acb37e6dcf4c38fb5',
+  'rtls-boostback': '383a0cbfce23268ac9454aab4cd4b1b49d6bd1f4aefb60812b71bfe5934f61a7',
+  'reentry-autoland': 'dc11109aa70623ab176b6caeacd51816254f19b7ccd008ed8b9f77e26252464c',
+  'before-flip-autoland': '6ba544ad3d97ee4ec2001bc1925a14465e61539a402a61fa8d776ef1aa59c3a3',
+  'landing-burn-autoland': 'b4e6e876fc3a0498bc36f39491a9230153af46b48d1cf93cc1be5aca80be1e1f',
+  'landing-burn-headwind': '5505a4440bbe31b619a60ee25851d622e69a3971a074ca982853d76dcb017002',
+  'intro-demo': 'fd8b81de9959c8246385e24e9708c8d05afa58d49ae2a2ad1b9b469d3b0658fb',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

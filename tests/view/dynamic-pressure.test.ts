@@ -29,7 +29,8 @@
  */
 import { describe, expect, it } from 'vitest';
 import { step } from '$core/step';
-import { dynamicPressureLimit } from '$core/constants';
+import { dynamicPressureLimit, frontFinSurfaceArea, aftFinSurfaceArea } from '$core/constants';
+import { centreOfMass, FRONT_FIN_STATION, AFT_FIN_STATION } from '$core/physics/mass';
 import { SHAKE_FULL_Q, shakeAmplitude, SHAKE_FRACTION } from '$view/camera';
 import { AERO_TRAIL_FULL_Q, AERO_TRAIL_MIN_Q, SONIC_BOOM_MIN_Q } from '$view/effects';
 import { AERO_FULL_Q, aeroLevel } from '$audio/params';
@@ -312,6 +313,17 @@ describe('the state the shake spec flies', () => {
 
   const WINDOW = profile(MAX_Q_FIELDS);
 
+  it('uses dry tanks beyond the neutral fin station instead of tuning a load', () => {
+    const neutralStation = (
+      frontFinSurfaceArea * FRONT_FIN_STATION + aftFinSurfaceArea * AFT_FIN_STATION
+    ) / (frontFinSurfaceArea + aftFinSurfaceArea);
+    const s = subject(MAX_Q_FIELDS);
+    expect(s.vehicle.propellantMass).toBe(0);
+    expect(centreOfMass(s.vehicle.propellantMass)).toBeGreaterThan(neutralStation);
+    // The old near-dry load remains on the destabilizing side of the station.
+    expect(centreOfMass(20_000)).toBeLessThan(neutralStation);
+  });
+
   it('is still near max-Q for the whole window, so there is a shake to see', () => {
     const lowest = Math.min(...WINDOW.map((r) => r.q));
     const amplitude = shakeAmplitude(lowest, 0);
@@ -322,21 +334,16 @@ describe('the state the shake spec flies', () => {
   it('holds its attitude, which is the premise the pixel comparison rests on', () => {
     const worst = Math.max(...WINDOW.map((r) => Math.abs(r.pitch - 90)));
     // Nose along the velocity vector at zero alpha, on the near-dry vehicle
-    // whose centre of mass is at the station the flap areas balance about.
-    // Measured: 7.2 degrees over the whole six-second window, and 1.0 over the
-    // three the browser actually spends.
+    // whose centre of mass is beyond the neutral fin station.
     expect(
       worst,
       `turns ${worst.toFixed(1)} degrees off nose-first: ${WINDOW.map((r) => r.pitch.toFixed(1)).join(' ')}`,
     ).toBeLessThan(12);
 
     // What the burst actually sees is the RATE, not the total: sixteen frames
-    // at one ninth span a fraction of a second of flight, so the question is
-    // how fast it is turning WHILE photographed. Measured: 0.88 deg/s over the
-    // three seconds the burst takes and 3.32 at the end of the doubled window,
-    // against 55 to 1400 for the subject this replaced. What that is worth in
-    // pixels is not a calculation: the reduced-motion control, which IS this
-    // residual and nothing else, reads 0.7 px on chromium.
+    // at one ninth span a fraction of a second of flight. Keep the unchanged
+    // rate bound; the browser's reduced-motion control measures the residual
+    // motion in pixels rather than assuming this bound is sufficient.
     const fastest = Math.max(
       ...WINDOW.slice(1).map((r, i) => Math.abs(r.pitch - WINDOW[i]!.pitch) / 0.25),
     );

@@ -6,9 +6,7 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 
 | item | phase |
 |---|---|
-| Cd shape: Mach-only and attitude-blind, no transonic peak (a cited model is built and parked on `claude/drag-parked`) | 6b |
-| The unexplained `/ 2.1` in `getCrossSectionalArea` (`src/core/physics/aero.ts`) | 6b |
-| Earth's rate in the ground frame (the frame and its tests are in at rate 0; switching on waits for entry range control, Phase 6b Task 1b); pitch integrated against local vertical with no frame-rotation term | 6b |
+| Pitch integrated against local vertical with no frame-rotation term (Earth rate/range control implemented in Tasks1+1b; remaining attitude-frame question is retained for the Task2 moment audit) | 6b |
 | Render interpolation: `advance()` returns `alpha` but nothing reads it; the view draws the latest step | 8 |
 | Per-frame allocations: `engines.running.filter(Boolean)` in `src/view/effects.ts`; `worldToScreen` returns a new object (`src/view/camera.ts`) | 8 |
 | Stale view comments: `camera.ts` header (claims interpolated state and real dt), `CameraTarget.dynamicPressure` says Pa (it is kPa), `effects.ts` `previous` | 8 |

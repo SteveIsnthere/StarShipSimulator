@@ -17,38 +17,20 @@
  *      runs reloads the page and starts the flight again, so this is a per-run
  *      window, not their sum: `SUBJECT_WINDOW_SECONDS` below.
  *
- * WHY IT IS NOW FLOWN NOSE-FIRST AND NEARLY DRY. The original subject was the
- * Booster Sep preset moved to 10 km at 368 m/s, which left its 45-degree pitch
- * and its 500 tonnes untouched: a vehicle side-on to the airstream at 28 kPa
- * with both flap pairs idle at full deflection. It held still for ten
- * milestones because the 2021 flaps balance almost exactly about a FIXED centre
- * of mass. M11.8 made the centre of mass move with the propellant, the forward
- * pair ended up far ahead of it on a full vehicle, and the subject started
- * doing what the physics now says it should: 55 degrees per second inside the
- * window the burst is taken in, which showed up as 10 px of silhouette wander
- * with the shake OFF against 12 px with it on.
+ * WHY IT IS FLOWN NOSE-FIRST AND DRY. The loaded, side-on subject below
+ * departs under the fin moment. With physical body normal force, even the old
+ * 20 t nose-first subject develops enough alpha to exceed the unchanged six
+ * deg/s guard. Its CoM is 19.8 m, below the neutral fin station toward the
+ * engines; the resulting fin moment increases that departure.
  *
- * The two changes below remove that, and neither is a loosening of what is
- * asserted — both make the subject MORE like a real vehicle at max-Q:
- *
- *   pitch 90      nose along the velocity vector, so the angle of attack is
- *                 zero and the flaps make no couple. A real rocket flies max-Q
- *                 at essentially zero alpha for exactly this reason.
- *   propellant 20 the near-dry vehicle, whose centre of mass is at the dry
- *                 station the 2021 flap areas were balanced about, so what
- *                 little alpha develops is nearly untorqued.
- *
- * Measured over the three simulated seconds the spec spends there — a number
- * the spec asserts rather than assumes, see `SUBJECT_WINDOW_SECONDS` — the
- * subject turns 1.0 degree in total and never faster than 0.88 of one per
- * second, where the old one turned 77 and reached 55.3 per second, a factor of
- * 63, with Q above 23 kPa throughout against a shake that saturates at 30. Over
- * the doubled window the guard actually enforces it is 7.2 degrees and 3.3 per
- * second, and the old subject is no longer flying at all.
- *
- * `tests/view/dynamic-pressure.test.ts` asserts both halves of that, so a
- * future change to `core/` that destabilises this state fails in Node in a
- * second rather than in a fifty-minute browser run.
+ * Use empty tanks, not a numerically optimized load: dry CoM is 21.8 m above
+ * the engines, beyond the area-weighted neutral fin station of 21.61 m.
+ * Thus the remaining fin moment restores a small departure instead of
+ * amplifying it. This is a ballistic rendering witness, not a preset or a
+ * claim about a fueled rocket's max-Q stability. Pitch starts at 90 degrees
+ * along the flow. All pressure, attitude, window and screenshot bounds stay
+ * unchanged; the old unstable subject remains the positive control.
+
  */
 
 /** The preset the editor starts from. */
@@ -88,7 +70,7 @@ export const MAX_Q_FIELDS: Readonly<Record<string, string>> = {
   speedX: '368',
   speedY: '0',
   pitch: '90',
-  propellant: '20',
+  propellant: '0',
 };
 
 /**

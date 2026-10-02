@@ -22,6 +22,9 @@
  * pause, respects warp exactly, and is deterministic under replay.
  */
 import * as C from '../constants';
+import { entryPitchOffset } from './entry';
+import { createEntryPrediction, solveEntryRangeTrimInto, predictEntryRangeInto, thermallyConstrainedTrim } from '../control/entry-range';
+import { createBurnScratch, localGravity } from '../control/guidance-physics';
 import * as cmd from '../control/commands';
 import * as prim from '../control/primitives';
 import * as gravity from '../physics/gravity';
@@ -35,7 +38,7 @@ import {
 } from '../physics/engines';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
 import type { SimState } from '../state';
-import { rad } from '../units';
+import { rad, type Rad } from '../units';
 import { finalDescentStartAltitude, plannedEngineCount, triggerBurnAltitude } from './landing-burn';
 
 const toggleRaptor = cmd.toggleRaptor;
@@ -229,6 +232,8 @@ function resetAutoLandState(state: SimState): void {
   autopilot.autoLandOn = false;
   autopilot.initVehicleConfigCompleted = false;
   autopilot.landingSiteXPos = C.starBaseXPos;
+  autopilot.entryRangeCountdown = 0;
+  autopilot.entryRangeTrim = rad(0);
   autopilot.aeroDescentCompleted = false;
   autopilot.fineTunePercentage = undefined;
   autopilot.bellyFlopTriggerAltitude = 0;
@@ -248,7 +253,7 @@ function resetAutoLandState(state: SimState): void {
 export { getAngularAcceleration, getTotalMaxThrust };
 
 /** autoPilotModes.js:147 — the landing programme: four stages, in order. */
-export function autoLand(state: SimState, dt: number): void {
+export function autoLand(state: SimState, dt: number, entryAngle?: Rad): void {
   const { autopilot, vehicle, engines, status } = state;
   if (!autopilot.autoLandOn || autopilot.manualControlOn) return;
 
@@ -267,7 +272,7 @@ export function autoLand(state: SimState, dt: number): void {
 
   if (!autopilot.aeroDescentCompleted) {
     updateBellyFlopTriggerAltitude(state);
-    aeroDescentController(state);
+    aeroDescentController(state, dt, entryAngle);
   } else if (!autopilot.flipCompleted) {
     flipStageController(state);
   } else if (!autopilot.horizontalAdjustmentStageCompleted) {
@@ -316,7 +321,13 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
 }
 
 /** autoPilotModes.js:222 — glide belly-down, steering toward the pad. */
-function aeroDescentController(state: SimState): void {
+// Reused only within a synchronous prediction; flight history lives in SimState.
+const entryRangeScratch = createBurnScratch();
+const lowEntryRange = createEntryPrediction();
+const highEntryRange = createEntryPrediction();
+const candidateEntryRange = createEntryPrediction();
+
+function aeroDescentController(state: SimState, dt: number, entryAngle?: Rad): void {
   const { autopilot, kinematics } = state;
 
   const distanceToSite =
@@ -347,7 +358,41 @@ function aeroDescentController(state: SimState): void {
         -C.aeroDescentMaxCorrectionAngle * C.fineTuneMultiplier * autopilot.fineTunePercentage;
     }
   }
-  prim.precisionAlignment(state, rad(correctionAngle + Math.PI / 2), 0.7);
+  const baseAngle = entryAngle ?? C.ENTRY_LIFT_ANGLE;
+  let selectedAngle = baseAngle;
+  // An explicit angle is the offline fixed-angle sweep contract. Operational
+  // flights solve a bounded range trim, refreshed once per simulated second.
+  if (entryAngle === undefined && kinematics.altitude <= C.ENTRY_INTERFACE_ALTITUDE &&
+      kinematics.machSpeed > C.ENTRY_BROADSIDE_MACH && Math.abs(kinematics.speedX) > 20) {
+    autopilot.entryRangeCountdown = Math.max(0, autopilot.entryRangeCountdown - dt);
+    if (autopilot.entryRangeCountdown === 0) {
+      const limit = C.aeroDescentMaxCorrectionAngle;
+      const previousGoal = rad(kinematics.angleOfMotion - Math.PI / 2 +
+        entryPitchOffset(kinematics.machSpeed, kinematics.speedX,
+          rad(baseAngle + autopilot.entryRangeTrim)));
+      // Carry the observed tracking offset into the forecast. The existing
+      // fin controller has a steady torque-induced offset; predicting perfect
+      // alignment systematically overestimates range late in the descent.
+      const observedBias = prim.getPitchDifference(kinematics.pitch, previousGoal);
+      const bias = rad(Math.abs(observedBias) <= limit ? observedBias : 0);
+      predictEntryRangeInto(state, rad(baseAngle - limit), entryRangeScratch, lowEntryRange, 0.5, bias);
+      predictEntryRangeInto(state, rad(baseAngle + limit), entryRangeScratch, highEntryRange, 0.5, bias);
+      let gap = autopilot.landingSiteXPos - kinematics.downRangeDistance;
+      if (gap > C.planetCircumference / 2) gap -= C.planetCircumference;
+      if (gap < -C.planetCircumference / 2) gap += C.planetCircumference;
+      const requestedTrim = solveEntryRangeTrimInto(state, baseAngle, gap, bias,
+        entryRangeScratch, lowEntryRange, highEntryRange, candidateEntryRange);
+      // A range solution cannot trade away the tile. Receding-horizon choice
+      // may vary the trim when no single fixed entry is thermally feasible;
+      // even then it chooses only inside the existing three-degree authority.
+      autopilot.entryRangeTrim = thermallyConstrainedTrim(requestedTrim,
+        candidateEntryRange, lowEntryRange, highEntryRange);
+      autopilot.entryRangeCountdown = 1;
+    }
+    selectedAngle = rad(baseAngle + autopilot.entryRangeTrim);
+  }
+  const entryOffset = entryPitchOffset(kinematics.machSpeed, kinematics.speedX, selectedAngle);
+  prim.precisionAlignment(state, rad(correctionAngle + Math.PI / 2 + entryOffset), 0.7);
 
   if (
     (kinematics.altitude < autopilot.bellyFlopTriggerAltitude &&
@@ -491,7 +536,25 @@ export function finalDescentStageController(
     prim.raptorAutoShutDown_KeepMinTWRBelow1(state, toggleRaptor);
   }
 
-  prim.verticalSpeedAdjustment(state, -autopilot.distanceToGround / 3 - 0.1, 10, 3);
+  const nominalTarget = -autopilot.distanceToGround / 3 - 0.1;
+  const weight = localGravity(state);
+  const brakingAcceleration = prim.getEffectiveVerticalMaxThrust(
+    engines.running, vehicle.gimbalPointingDirection, state.atmosphere.airPressure, kinematics.pitch,
+  ) / vehicle.vehicleMass - weight;
+  const brakingSpeed = Math.sqrt(2 * Math.max(0, brakingAcceleration) * Math.max(0, autopilot.distanceToGround));
+  if (!onTouchdown && brakingAcceleration > 0 && -nominalTarget > brakingSpeed) {
+    // Phase 6b Task 1, Fidelity: distance/3 can ask a lone engine to
+    // descend faster than it can stop. v²=2*a*h bounds that moving target;
+    // its derivative requires +a braking feed-forward, alongside the existing
+    // 10 m/s feedback scale and TWR ceiling. Ignore drag credit. This local
+    // envelope is refreshed each step, not a trigger margin. The intro's
+    // callback keeps its existing sequence and descent law.
+    const error = kinematics.speedY + brakingSpeed;
+    const goalTWR = 1 + brakingAcceleration / weight - error / 10;
+    prim.controlEnginebyEffectiveVerticalTWR(state, Math.max(0, Math.min(3, goalTWR)));
+  } else {
+    prim.verticalSpeedAdjustment(state, nominalTarget, 10, 3);
+  }
 
   // checkIfTD
   if (kinematics.altitude <= C.vehicleHeight * 0.5 + 0.05) {
@@ -745,12 +808,12 @@ export function autoDeorbit(state: SimState): void {
  * what any of the six do. It hands over by switching itself off and autoLand
  * on, so the two are never both steering.
  */
-export function runAutopilot(state: SimState, dt: number): void {
+export function runAutopilot(state: SimState, dt: number, entryAngle?: Rad): void {
   demoAutoLand(state, dt);
   autoMaxThrust(state);
   pitchHold(state);
   autoTakeOff(state);
-  autoLand(state, dt);
+  autoLand(state, dt, entryAngle);
   autoBoostBack(state, dt);
   autoDeorbit(state);
 }

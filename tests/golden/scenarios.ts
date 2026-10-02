@@ -53,7 +53,9 @@ export const GOLDEN_SPECS: readonly GoldenSpec[] = [
   },
   {
     id: 'reentry-autoland',
-    steps: s(180),
+    // Approved 2026-10-02: a ten-minute supersonic descent segment on lift.
+    // Preserve the original 180 s prefix and all fixture-own descent bounds.
+    steps: s(600),
     setup: 'autoLand from orbital re-entry',
     build: () => {
       const st = createScenarioState(ALL_SCENARIOS.find((x) => x.id === 'reentry')!);

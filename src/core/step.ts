@@ -8,9 +8,10 @@
  *
  * ORDER IS THE CONTRACT. The phases run in a specific sequence and several read
  * values the previous phase just wrote. Reordering anything here is a physics
- * change, not a tidy-up. The 2021 phase order is kept:
+ * change, not a tidy-up. Phase 6b Task 5, Bug fix: ground support and
+ * breakup now read current forces; collision still precedes fuel use:
  *   1. environmentUpDate      atmosphere from altitude
- *   2. vehicleStatusUpDate    failures, propellant, engine status
+ *   2. vehicleStatusUpDate    collision, propellant, engine status
  *   3. FlightParamsUpDate     basic params, spatial motion, rotational motion
  *   4. controlsUpdate         autopilot, translation, throttle
  *
@@ -61,7 +62,10 @@ import { createMassProperties, writeMassProperties } from './physics/mass';
 import * as act from './control/actuation';
 import { runAutopilot } from './autopilot';
 import { cloneState, type SimState } from './state';
-import { rad } from './units';
+import { rad, type Rad } from './units';
+
+/** Reused only during this synchronous step; no retained state or allocation. */
+const bodyAxisAccelerations: aero.BodyAxisAccelerations = { drag: 0, lift: 0 };
 
 /**
  * Everything the outside world can tell the simulation in one step.
@@ -71,6 +75,8 @@ import { rad } from './units';
  * the hot path and what makes a step replayable.
  */
 export interface StepInput {
+  /** rad — deterministic offline entry-sweep override; normal flights use the selected schedule. */
+  entryAngleOfAttack?: Rad | undefined;
   /** % — commanded throttle, 0..100. Undefined leaves the current command. */
   throttle?: number | undefined;
   /** % — pitch command, -100..100. Undefined leaves the current command. */
@@ -135,7 +141,7 @@ function updateOrbitalGeometry(s: SimState): void {
 
 /** physics.js:365 — ground contact: land, crash, or rest. */
 function checkIfCrash(s: SimState): void {
-  const { kinematics, status, failures, vehicle, engines, forces } = s;
+  const { kinematics, status, failures, vehicle, engines } = s;
 
   if (
     kinematics.altitude <=
@@ -164,20 +170,24 @@ function checkIfCrash(s: SimState): void {
         engines.running.fill(false);
         vehicle.rcsRunTimeRemaining = 0;
       }
-    } else if (forces.thrustAcceleration <= gravity.verticalWeight(kinematics.distanceToPlanetCenter)) {
-      // configOnTheGround(). M11.3: against the LOCAL gravity, which is what
-      // the integrator applies at rest — GM/R^2 at the pad less the turning
-      // ground's centrifugal term (Phase 6 Task 9), not the 9.807 constant
-      // 2021 compared with. The two disagreed by 0.8% then, and in that band phase
-      // 2 zeroed the speeds while 3b's a*dt^2/2 term crept the vehicle upward.
-      status.onTheGround = true;
-      kinematics.speedX = 0;
-      kinematics.speedY = 0;
-      kinematics.angularVelocity = 0;
     }
   } else {
     status.landed = false;
     status.onTheGround = false;
+  }
+}
+
+/** Ground support uses the current vertical force, including gimbal direction. */
+function updateGroundContact(s: SimState, verticalSpecificForce: number): void {
+  const { kinematics, status } = s;
+  const contactHeight = C.vehicleHeight * Math.abs(Math.cos(kinematics.pitch)) * 0.5;
+  if (kinematics.altitude > contactHeight || kinematics.speedY < -0.5) return;
+  if (s.failures.crashed || status.landed) return;
+  status.onTheGround = verticalSpecificForce <= gravity.verticalWeight(kinematics.distanceToPlanetCenter);
+  if (status.onTheGround) {
+    kinematics.speedX = 0;
+    kinematics.speedY = 0;
+    kinematics.angularVelocity = 0;
   }
 }
 
@@ -202,8 +212,13 @@ function checkIfBreakUp(s: SimState): void {
     failures.inFlightBreakUp = true;
     kinematics.angularVelocity = 0;
     vehicle.propellantMass = 0;
+    vehicle.vehicleMass = C.vehicleDryMass;
+    writeMassProperties(0, massProperties);
+    vehicle.vehicleMomentOfInertia = massProperties.momentOfInertia;
     engines.running.fill(false);
+    engines.ignitionCountdown.fill(null);
     vehicle.rcsRunTimeRemaining = 0;
+    forces.rcsThrust = 0;
   }
 }
 
@@ -220,13 +235,13 @@ function checkIfOutOfFuel(s: SimState): void {
  * gravity on the pad. Phase 6, Bug fix: this added back a flat 9.807 m/s², so a
  * free fall read 0.03 g at 150 km and the pad read 1.008 g.
  */
-function updatePerceivedG(s: SimState): void {
-  const { kinematics, forces } = s;
-  const r = kinematics.distanceToPlanetCenter;
-  const gx = gravity.tangentialAcceleration(r, kinematics.speedX, kinematics.speedY);
-  const gy = gravity.verticalGravityAcceleration(r, kinematics.speedX);
-  forces.perceivedG_Y = (kinematics.accelerationY - gy) / C.standardGravity;
-  forces.perceivedG_X = (kinematics.accelerationX - gx) / C.standardGravity;
+function updatePerceivedG(s: SimState, specificX: number, specificY: number): void {
+  // The current force decomposition already excludes gravity/polar terms.
+  // Ground support supplies their opposite when held. Reading it directly
+  // avoids both the previous acceleration and a mismatched Verlet velocity.
+  const { forces } = s;
+  forces.perceivedG_Y = specificY / C.standardGravity;
+  forces.perceivedG_X = specificX / C.standardGravity;
   forces.perceivedG = Math.sqrt(forces.perceivedG_Y ** 2 + forces.perceivedG_X ** 2);
 }
 
@@ -268,7 +283,6 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.atmosphere.airDensity = atmosphere.airDensity;
 
   // --- 2. vehicleStatusUpDate ----------------------------------------------
-  checkIfBreakUp(s);
   checkIfCrash(s);
   checkIfOutOfFuel(s);
 
@@ -339,22 +353,15 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   );
 
   updatePitchRateOfChange(s, dt);
-  s.forces.twr = s.forces.thrustAcceleration / C.gravity;
 
-  updatePerceivedG(s);
-
-  s.forces.aerodynamicDrag = aero.getDrag(
-    s.atmosphere.airDensity,
-    incomingAirspeed,
-    s.forces.crossSectionalArea,
-    aero.getBodyDragCoefficient(s.kinematics.machSpeed),
+  aero.getBodyAxisAccelerations(
+    s.atmosphere.airDensity, incomingAirspeed,
+    incomingAirspeed / speedOfSoundAt(s.atmosphere.airTemperature),
+    s.kinematics.angleOfAttack, s.vehicle.vehicleInFlightMaxArea,
+    s.vehicle.vehicleMass, bodyAxisAccelerations,
   );
-  s.forces.aerodynamicLift = aero.getLift(
-    s.atmosphere.airDensity,
-    incomingAirspeed,
-    s.kinematics.angleInToTheWind,
-    s.vehicle.vehicleInFlightMaxArea,
-  );
+  s.forces.aerodynamicDrag = bodyAxisAccelerations.drag * s.vehicle.vehicleMass;
+  s.forces.aerodynamicLift = bodyAxisAccelerations.lift * s.vehicle.vehicleMass;
   // M11.2: thrust at the ambient pressure phase 1 just set from the altitude.
   // Scaled on the step the tank runs dry: only the propellant left was burned.
   s.forces.thrust =
@@ -375,6 +382,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.vehicle.vehicleMass,
   );
   s.forces.thrustAcceleration = aero.getAcceleration(s.forces.thrust, s.vehicle.vehicleMass);
+  s.forces.twr = s.forces.thrustAcceleration / C.gravity;
   // The sea-level engines gimbal; the RVacs push along the hull. With no RVac
   // lit the share is exactly 1 and the fixed part an exact +0.
   const gimballedThrust =
@@ -401,6 +409,8 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // provably bit-identical, and float addition is not associative.
   const bodyAccelerationY = comp.getVerticalAcceleration(accelInputs, C.gravity) + C.gravity;
 
+  updateGroundContact(s, bodyAccelerationY);
+
   // a_n: at the incoming position and velocity.
   const r0 = s.kinematics.distanceToPlanetCenter;
   const vx0 = s.kinematics.speedX;
@@ -408,7 +418,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   let ax0 = bodyAccelerationX + gravity.tangentialAcceleration(r0, vx0, vy0);
   let ay0 = bodyAccelerationY + gravity.verticalGravityAcceleration(r0, vx0);
 
-  // GROUND CONTACT — M11.3. A vehicle resting on the pad (phase 2 has just
+  // GROUND CONTACT — M11.3. A vehicle resting on the pad (current support has just
   // zeroed its speeds) with less than a g of thrust is HELD by the ground: the
   // normal force cancels the net downward acceleration and friction the
   // sideways one, so it neither sinks nor creeps. The pre-M11.3 order hid
@@ -421,6 +431,11 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     ax0 = 0;
     ay0 = 0;
   }
+
+  updatePerceivedG(s,
+    held ? -gravity.tangentialAcceleration(r0, vx0, vy0) : bodyAccelerationX,
+    held ? -gravity.verticalGravityAcceleration(r0, vx0) : bodyAccelerationY,
+  );
 
   // x_{n+1} = x_n + v_n dt + a_n dt^2 / 2.
   const halfDtSquared = 0.5 * dt * dt;
@@ -576,13 +591,18 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // That is 2021's order — readInputFromManualFlightControl() ran after
   // autoPilotControlInput() and simply clobbered whatever the autopilot wrote,
   // which is why any manual touch instantly takes over.
-  runAutopilot(s, dt);
+  runAutopilot(s, dt, input.entryAngleOfAttack);
 
   if (input.throttle !== undefined) s.vehicle.throttle = input.throttle;
   if (input.pitchControl !== undefined) s.autopilot.pitchControl = input.pitchControl;
 
   act.controlTranslation(s, s.autopilot.pitchControl, dt);
   act.throttleUpdate(s, dt);
+
+  // Judge current pressure, tile temperature and specific force. Shutdown is
+  // last, cancelling even an ignition just requested by controls. Motion
+  // retains this step's paid impulse; no engine can fire on the next step.
+  checkIfBreakUp(s);
 
   // --- bookkeeping ---------------------------------------------------------
   s.world.environmentTime += dt;

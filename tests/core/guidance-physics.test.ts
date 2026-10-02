@@ -17,7 +17,7 @@ import {
   unpoweredFallInto,
 } from '$core/control/guidance-physics';
 import * as C from '$core/constants';
-import { gravityAt } from '$core/physics/gravity';
+import { gravityAt, verticalWeight } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
 import { wrappedAttackAngle } from '$core/physics/aero';
 import { ALL_SCENARIOS, createScenarioState } from '$core/scenarios';
@@ -149,9 +149,59 @@ describe('landingBurnStartAltitude: the edges', () => {
   it('returns null, within the cap, when the burn cannot stop the vehicle', () => {
     // One engine cannot hold up a full-tanked vehicle at all.
     expect(landingBurnStartAltitude(1, C.vehicleMass, 300, 25, createBurnScratch())).toBeNull();
-    // Nor can three stop 4 km/s inside the step cap (60 s).
-    expect(landingBurnStartAltitude(3, 200_000, 4_000, 25, createBurnScratch())).toBeNull();
+    // The former three-engine/4 km/s null characterization is replaced below
+    // under Steve's explicit Phase6b approval: physical drag changes its premise.
     expect(BURN_STEP_CAP).toBe(1200);
+  });
+
+  it('mechanically stops 4 km/s within the cap, while the real vehicle breaks up', () => {
+    const mass = 200_000;
+    const start = landingBurnStartAltitude(3, mass, 4_000, 25, createBurnScratch());
+    expect(start).not.toBeNull();
+    // Independent forward RK4 integration of the force-only contract. Shared
+    // drag physics, opposite time direction and a finer integration method;
+    // no structural/thermal survival is asserted by this mechanical witness.
+    const scratch = createBurnScratch();
+    const flow = 3 * C.maxFuelFlowPerRaptor;
+    const acceleration = (h: number, v: number, m: number) => {
+      const drag = tailFirstDragDeceleration(h, -v, m, scratch);
+      return thrustFor(3, scratch.atmosphere.airPressure) / m + drag - verticalWeight(R + h);
+    };
+    let h = start!;
+    let v = -4_000;
+    let m = mass;
+    let elapsed = 0;
+    for (let n = 0; n < 120 * 60 && v < 0; n++) {
+      const oldH = h, oldV = v;
+      const a1 = acceleration(h, v, m);
+      const v2 = v + a1 * DT / 2;
+      const a2 = acceleration(h + v * DT / 2, v2, m - flow * DT / 2);
+      const v3 = v + a2 * DT / 2;
+      const a3 = acceleration(h + v2 * DT / 2, v3, m - flow * DT / 2);
+      const v4 = v + a3 * DT;
+      const a4 = acceleration(h + v3 * DT, v4, m - flow * DT);
+      h += (v + 2 * v2 + 2 * v3 + v4) * DT / 6;
+      v += (a1 + 2 * a2 + 2 * a3 + a4) * DT / 6;
+      m -= flow * DT;
+      elapsed += DT;
+      if (v >= 0) {
+        const fraction = -oldV / (v - oldV);
+        h = oldH + fraction * (h - oldH);
+        elapsed -= (1 - fraction) * DT;
+      }
+    }
+    expect(v).toBeGreaterThanOrEqual(0);
+    expect(elapsed).toBeLessThan(60);
+    expect(Math.abs(h - 25)).toBeLessThanOrEqual(Math.max(0.001 * (start! - 25), 2));
+
+    let real = at(start!, 0, -4_000);
+    real.vehicle.propellantMass = mass - C.vehicleDryMass;
+    real.vehicle.vehicleMass = mass;
+    real.vehicle.throttle = real.vehicle.throttleCurrent = 100;
+    real.engines.running = [true, true, true, false, false, false];
+    real.engines.ignitionCountdown.fill(null);
+    for (let n = 0; n < 3 && !real.failures.inFlightBreakUp; n++) real = step(real, DT);
+    expect(real.failures.inFlightBreakUp).toBe(true);
   });
 
   it('returns null at the hover limit: no burn can end at the pad if thrust there is below weight', () => {
@@ -220,6 +270,40 @@ describe('landingBurnStartAltitude: the edges', () => {
 });
 
 describe('unpoweredFallInto against the simulation, attitude held', () => {
+  it.each([-100, 100])('agrees within a metre over a controlled lifting fall at vx=%i', (vx) => {
+    let s = at(10_000, vx, -60);
+    s.engines.running.fill(false);
+    s.world.wind = 0;
+    const pitch = rad(vx > 0 ? Math.PI / 3 : 2 * Math.PI / 3);
+    s.kinematics.pitch = pitch;
+    s.status.finActive = false;
+    s.status.finLocked = true;
+    s.vehicle.frontFinExtension = s.vehicle.aftFinExtension = 0;
+    // Initialise the same fixed geometry the predictor will hold.
+    s = step(s, DT);
+    const ground = 9_500;
+    const predicted = createFallResult();
+    unpoweredFallInto(s, ground, createBurnScratch(), predicted);
+    const x0 = s.kinematics.downRangeDistance;
+    let actual = Number.NaN;
+    for (let i = 0; i < 120 * 60; i++) {
+      s.kinematics.pitch = pitch;
+      s.kinematics.angularVelocity = 0;
+      const before = s;
+      s = step(s, DT);
+      if (s.kinematics.altitude <= ground) {
+        const fraction = (before.kinematics.altitude - ground) /
+          (before.kinematics.altitude - s.kinematics.altitude);
+        actual = before.kinematics.downRangeDistance - x0 + fraction *
+          (s.kinematics.downRangeDistance - before.kinematics.downRangeDistance);
+        break;
+      }
+    }
+    expect(predicted.reached).toBe(true);
+    expect(Number.isFinite(actual)).toBe(true);
+    expect(Math.abs(predicted.downRange - actual)).toBeLessThan(1);
+  });
+
   /**
    * The reference: engines off, autopilot off, attitude held, flown by `step()`
    * to touchdown height. The prediction holds attitude AND cross-section; the

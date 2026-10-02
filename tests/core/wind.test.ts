@@ -105,9 +105,11 @@ describe('airspeed is the speed through the air, not over the ground', () => {
   it('is q, drag and heating from the same one airspeed', () => {
     // The three read the same incoming airspeed, so their ratios across two
     // runs that differ only in wind are v^2, v^2 and v^3 of the same v.
-    const a = step(gliding(200, -100, 0), DT);
-    const b = step(gliding(200, -100, -60), DT);
-    const v = relativeAirspeed(200, -100, meanWindAt(-60, 2_000), 0) / relativeAirspeed(200, -100, 0, 0);
+    // Collinear subsonic flow keeps both the body angle and crossflow
+    // coefficient fixed, isolating speed from the new Mach/attitude model.
+    const a = step(gliding(40, 0, 0), DT);
+    const b = step(gliding(40, 0, -10), DT);
+    const v = relativeAirspeed(40, 0, meanWindAt(-10, 2_000), 0) / relativeAirspeed(40, 0, 0, 0);
     expect(b.forces.dynamicPressure / a.forces.dynamicPressure).toBeCloseTo(v ** 2, 9);
     expect(b.forces.aerodynamicDrag / a.forces.aerodynamicDrag).toBeCloseTo(v ** 2, 9);
     // Heating also reads the attitude to the air (Phase 6: a cylinder's

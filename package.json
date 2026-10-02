@@ -23,6 +23,7 @@
     "truth:report": "vite-node scripts/truth-report.ts",
     "margins": "vite-node scripts/landing-margins.ts",
     "deorbit:range": "vite-node scripts/deorbit-range.ts",
+    "entry:sweep": "vite-node scripts/entry-sweep.ts",
     "mutation": "node scripts/mutation-check.mjs",
     "kit:drift": "node scripts/kit-drift.mjs"
   },

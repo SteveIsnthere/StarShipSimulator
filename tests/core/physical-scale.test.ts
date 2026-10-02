@@ -222,13 +222,25 @@ describe('the tile breaks up on its temperature, the reading the HUD shows', () 
     const st = createInitialState();
     st.kinematics.altitude = 60_000;
     st.kinematics.distanceToPlanetCenter = C.planetRadius + 60_000;
-    st.forces.surfaceTemperature = kelvin;
+    // Independently invert the cited Sutton-Graves/radiative-equilibrium
+    // equations to produce the temperature through real current-step forces.
+    // Upright hull, horizontal velocity: broadside cylinder factor 1/sqrt(2).
+    const air = isaAtmosphere(60_000);
+    const sink = air.airTemperature + C.CELSIUS_TO_KELVIN;
+    const flux = C.TILE_EMISSIVITY * C.STEFAN_BOLTZMANN * (kelvin ** 4 - sink ** 4);
+    // Choose the representable speed just below the inverse's rounded value;
+    // cube-root roundoff must not place the exact-limit fixture above it.
+    st.kinematics.speedX = Math.cbrt(flux /
+      (C.SUTTON_GRAVES_K * Math.sqrt(air.airDensity / C.NOSE_RADIUS) * Math.SQRT1_2)) * (1 - Number.EPSILON);
     st.engines.running = [false, false, false, false, false, false];
-    return step(st, 1 / 120);
+    const next = step(st, 1 / 120);
+    expect(next.forces.surfaceTemperature).toBeCloseTo(kelvin, 9);
+    expect(next.forces.dynamicPressure).toBeLessThan(C.dynamicPressureLimit);
+    expect(next.forces.perceivedG).toBeLessThan(C.gLimit);
+    return next;
   }
   it('above 1,533 K it breaks up; at 1,533 K it does not', () => {
     expect(heatedTo(C.TILE_LIMIT_KELVIN + 0.01).failures.inFlightBreakUp).toBe(true);
     expect(heatedTo(C.TILE_LIMIT_KELVIN).failures.inFlightBreakUp).toBe(false);
   });
 });
-
