@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/drag-model.test.ts (1 test | 1 failed) 3ms
+   × presents the full nine-metre base circle to axial flow 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/drag-model.test.ts > presents the full nine-metre base circle to axial flow
+AssertionError: expected 30.29392915961586 to be close to 63.61725123519331, received difference is 33.32332207557745, but expected 5e-11
+ ❯ tests/core/drag-model.test.ts:7:46
+      5|
+      6| it('presents the full nine-metre base circle to axial flow', () => {
+      7|   expect(getCrossSectionalArea(rad(0), 450)).toBeCloseTo(63.6172512351…
+       |                                              ^
+      8|   expect(getCrossSectionalArea(rad(Math.PI / 2), 450)).toBeCloseTo(450…
+      9| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  19:55:49
+   Duration  143ms (transform 25ms, setup 0ms, import 32ms, tests 3ms, environment 0ms)
+

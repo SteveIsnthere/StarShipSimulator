@@ -11,7 +11,7 @@ There is no Jira board for this repo. `docs/plans/` is the system of record: the
 
 - **60% complete by phase count: 6 of 10 phases done.** Phases 1–6 are merged and live; Phase 6 merge `080f108` is on `main`. Phases 6b, 7, 8 and 9 remain unfinished. Steve confirmed this full remaining roadmap scope on 2026-10-01.
 - **Phase 6 closure is verified:** final branch full suite 438 passed, 0 failed, 11 configured skips; fresh independent high-depth review clean; complete gate green on main; hosted CI `36956332929` and Pages `36956332944` succeeded at `080f108`; live deployment smoke 5/5 passed. Served service worker matches the locally verified build byte for byte, version `b72a7b0bad39`. Exact logs and the two initial Node certificate-trust failures are retained in `docs/research/2026-10-01-phase6-close/`; certificate checking remained enabled. Two hosted menu smoke checks needed their existing retries, recorded for Phase 9 in the backlog. Do not redo Phase 6's finished verification or measurement repairs.
-- **The exact next task is Phase 6b Task 1**, on the existing `claude/entry-on-lift`. Port only the coefficient functions and relevant `tests/core/drag-model.test.ts` from `claude/drag-parked` (`a06a7a4`), excluding its blend, `step.ts` wiring and `XLIFT` experiment. Then body-axis tests first, the shared force model and measured entry sweep, exactly as the approved plan specifies. No Phase 6b physics is implemented yet.
+- **The exact next task is Phase 6b Task 1**, on the existing `claude/entry-on-lift`. Port only the coefficient functions and relevant `tests/core/drag-model.test.ts` from `claude/drag-parked` (`a06a7a4`), excluding its blend, `step.ts` wiring and `XLIFT` experiment. Then body-axis tests first, the shared force model and measured entry sweep, exactly as the approved plan specifies. Task 1 is in progress with uncommitted model work: coefficient functions and geometry are ported, body-axis acceleration is called by step and both predictor paths, and 17 new coefficient/body-axis checks pass. Lint and production build are green. The focused predictor suite has one red edge assertion (`landingBurnStartAltitude: returns null, within the cap, when the burn cannot stop the vehicle`): the 4 km/s input now produces 19,410.93 m instead of null. Preserve this named failure for diagnosis; do not weaken the bound. The entry schedule, full sweep, revised range and Linux golden audit are not built. Do not commit this Fidelity task in pieces or regenerate goldens before its truth and landing acceptance is green.
 - Already done and must not be redone (merged in Phase 6):
   - Phase 6: felt g and the g-limit on felt g; the USSA76 thermosphere; the starting Mach; the emptying-step thrust; GM and R; the 18 t `landingReserve`; six Raptors with fixed RVacs (no gimbal); the 1.2 s start transient; the heat shield (Sutton-Graves W/m², skin temperature against a radiative sink, break-up on 1,533 K); the wind profile and Dryden turbulence; the rotating ground frame and all its plumbing at rate zero (`frameRotationRate`; Earth's rate is 6b Task 1b).
   - Golden audit rows P6.1–P6.5, P6.8, P6.10–P6.12 in `tests/golden/unification.test.ts`.
@@ -31,13 +31,9 @@ There is no Jira board for this repo. `docs/plans/` is the system of record: the
 
 ## First task
 
-**Phase 6b Task 1:** use the existing `claude/entry-on-lift` branch, created
+**Continue Phase 6b Task 1:** preserve the in-progress changes listed above; do not redo their red/green evidence. Use the existing `claude/entry-on-lift` branch, created
 from Phase 6's main merge `080f108`. Read `modernization-phase-6b.md` and the
-affected simulation, predictor and autopilot code before editing. Port only
-the parked coefficient functions and their relevant tests, not the old blend
-or wiring. Write failing body-axis tests, implement one shared force function,
-then the sweep and schedule, Linux golden regeneration and audit as that plan
-lists. The sweep's stop rule and unchanged 1,533 K tile limit remain binding.
+affected simulation, predictor and autopilot code before editing. The coefficient port and shared force wiring are already in the working tree; their tests and source have not been committed because this task must land as one coherent Fidelity change. Next implement and verify the entry schedule and sweep, diagnose the named predictor edge, then the Linux golden regeneration and audit as the plan lists. Read the execution ledger at `.superpowers/sdd/modernization-phase-6b/progress.md` and `docs/research/2026-10-01-phase6b-task1-progress.md` for the exact partial state and baseline. The sweep's stop rule and unchanged 1,533 K tile limit remain binding.
 
 Pre-flight source check: NASA TR R-474 equation 2.12 folds the normal-force
 angle above 90 degrees (`alphaPrime = pi - |alpha|`); its crossflow coefficient

@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/guidance-physics.test.ts (24 tests | 1 failed) 387ms
+     × returns null, within the cap, when the burn cannot stop the vehicle 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/guidance-physics.test.ts > landingBurnStartAltitude: the edges > returns null, within the cap, when the burn cannot stop the vehicle
+AssertionError: expected 19410.927732029744 to be null
+
+- Expected:
+null
+
++ Received:
+19410.927732029744
+
+ ❯ tests/core/guidance-physics.test.ts:153:82
+    151|     expect(landingBurnStartAltitude(1, C.vehicleMass, 300, 25, createB…
+    152|     // Nor can three stop 4 km/s inside the step cap (60 s).
+    153|     expect(landingBurnStartAltitude(3, 200_000, 4_000, 25, createBurnS…
+       |                                                                                  ^
+    154|     expect(BURN_STEP_CAP).toBe(1200);
+    155|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 40 passed (41)
+   Start at  19:59:53
+   Duration  627ms (transform 172ms, setup 0ms, import 258ms, tests 398ms, environment 0ms)
+

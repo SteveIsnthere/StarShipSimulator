@@ -1,0 +1,110 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/body-axis-aero.test.ts (7 tests | 7 failed) 6ms
+   × uses geometric crossflow drag at hypersonic broadside instead of the 2021 blend 4ms
+     × is axial only at zero and pi, with the flat base producing more drag 1ms
+     × has exactly the cylinder crossflow drag and no lift at broadside 0ms
+     × is dissipative and left/right symmetric through every quadrant 0ms
+     × remains continuous when the leading end changes at ninety degrees 0ms
+     × gives outward lift on either direction of hypersonic entry 0ms
+     × writes zero forces at rest or in vacuum, reusing the caller buffer 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/body-axis-aero.test.ts > uses geometric crossflow drag at hypersonic broadside instead of the 2021 blend
+AssertionError: expected 0.164964558362664 to be close to 0.7728, received difference is 0.607835441637336, but expected 5e-10
+ ❯ tests/core/body-axis-aero.test.ts:22:83
+     20|   const q = 0.5 * next.atmosphere.airDensity * 3_000 ** 2;
+     21|   // Figure 4 finite-length factor .63, Newtonian cylinder coefficient…
+     22|   expect(next.forces.aerodynamicDrag / (q * next.vehicle.vehicleInFlig…
+       |                                                                                   ^
+     23|   expect(Math.abs(next.forces.aerodynamicLiftAcceleration)).toBeLessTh…
+     24| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  |unit| tests/core/body-axis-aero.test.ts > body-axis forces over the full attitude domain > is axial only at zero and pi, with the flat base producing more drag
+TypeError: getBodyAxisAccelerations is not a function
+ ❯ force tests/core/body-axis-aero.test.ts:28:3
+     26| const out = { lift: 0, drag: 0 };
+     27| const force = (angle: number, density = 0.2, speed = 100) =>
+     28|   getBodyAxisAccelerations(density, speed, 10, rad(angle), 450, 100_00…
+       |   ^
+     29|
+     30| describe('body-axis forces over the full attitude domain', () => {
+ ❯ tests/core/body-axis-aero.test.ts:32:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  |unit| tests/core/body-axis-aero.test.ts > body-axis forces over the full attitude domain > has exactly the cylinder crossflow drag and no lift at broadside
+TypeError: getBodyAxisAccelerations is not a function
+ ❯ force tests/core/body-axis-aero.test.ts:28:3
+     26| const out = { lift: 0, drag: 0 };
+     27| const force = (angle: number, density = 0.2, speed = 100) =>
+     28|   getBodyAxisAccelerations(density, speed, 10, rad(angle), 450, 100_00…
+       |   ^
+     29|
+     30| describe('body-axis forces over the full attitude domain', () => {
+ ❯ tests/core/body-axis-aero.test.ts:41:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  |unit| tests/core/body-axis-aero.test.ts > body-axis forces over the full attitude domain > is dissipative and left/right symmetric through every quadrant
+TypeError: getBodyAxisAccelerations is not a function
+ ❯ force tests/core/body-axis-aero.test.ts:28:3
+     26| const out = { lift: 0, drag: 0 };
+     27| const force = (angle: number, density = 0.2, speed = 100) =>
+     28|   getBodyAxisAccelerations(density, speed, 10, rad(angle), 450, 100_00…
+       |   ^
+     29|
+     30| describe('body-axis forces over the full attitude domain', () => {
+ ❯ tests/core/body-axis-aero.test.ts:49:29
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  |unit| tests/core/body-axis-aero.test.ts > body-axis forces over the full attitude domain > remains continuous when the leading end changes at ninety degrees
+TypeError: getBodyAxisAccelerations is not a function
+ ❯ force tests/core/body-axis-aero.test.ts:28:3
+     26| const out = { lift: 0, drag: 0 };
+     27| const force = (angle: number, density = 0.2, speed = 100) =>
+     28|   getBodyAxisAccelerations(density, speed, 10, rad(angle), 450, 100_00…
+       |   ^
+     29|
+     30| describe('body-axis forces over the full attitude domain', () => {
+ ❯ tests/core/body-axis-aero.test.ts:59:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  |unit| tests/core/body-axis-aero.test.ts > body-axis forces over the full attitude domain > gives outward lift on either direction of hypersonic entry
+TypeError: getBodyAxisAccelerations is not a function
+ ❯ force tests/core/body-axis-aero.test.ts:28:3
+     26| const out = { lift: 0, drag: 0 };
+     27| const force = (angle: number, density = 0.2, speed = 100) =>
+     28|   getBodyAxisAccelerations(density, speed, 10, rad(angle), 450, 100_00…
+       |   ^
+     29|
+     30| describe('body-axis forces over the full attitude domain', () => {
+ ❯ tests/core/body-axis-aero.test.ts:67:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  |unit| tests/core/body-axis-aero.test.ts > body-axis forces over the full attitude domain > writes zero forces at rest or in vacuum, reusing the caller buffer
+TypeError: getBodyAxisAccelerations is not a function
+ ❯ force tests/core/body-axis-aero.test.ts:28:3
+     26| const out = { lift: 0, drag: 0 };
+     27| const force = (angle: number, density = 0.2, speed = 100) =>
+     28|   getBodyAxisAccelerations(density, speed, 10, rad(angle), 450, 100_00…
+       |   ^
+     29|
+     30| describe('body-axis forces over the full attitude domain', () => {
+ ❯ tests/core/body-axis-aero.test.ts:79:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed (7)
+   Start at  19:58:50
+   Duration  195ms (transform 76ms, setup 0ms, import 92ms, tests 6ms, environment 0ms)
+

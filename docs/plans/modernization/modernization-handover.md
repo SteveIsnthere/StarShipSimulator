@@ -83,7 +83,7 @@ was never disabled. Two hosted menu checks needed their existing retry;
 recorded for Phase 9 with exact evidence.
 
 Six of ten phases are done (60%). Phase 6b Task 1 is next on
-`claude/entry-on-lift`, created from `080f108`. No 6b physics is implemented yet.
+`claude/entry-on-lift`, created from `080f108`. Task 1 model work is in progress and uncommitted; see the goal contract and the Task 1 progress note for the named predictor failure and remaining schedule/sweep.
 
 [Phase 6 close evidence](../../research/2026-10-01-phase6-close.md).
 
