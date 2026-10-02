@@ -1,0 +1,10 @@
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-02-phase6b-body-moment/coupled-fin-flight-attempt3.ts
+  2:13  error  'C' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (1 error, 0 warnings)
+

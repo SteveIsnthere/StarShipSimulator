@@ -1,0 +1,13 @@
+# Confirmed conditional fallback — ideal_family_review
+
+Fresh independent reviewer confirms approvedprescribedfamily infeasible withinexistingmodeledauthority;authorizedfallback mayproceed. Commonhandoffrepair removesnumericalblocker:22completehandoffs,44rows, original1/120physicsfields exact. Deorbitdt differences≤.00834s/≤.00805K/≤.0415equivalentgasseconds;reentry≤.0125s/≤.0327K/≤.0958gas.
+
+SubtractALLinertialallowance: selected65±3andoperational demand84.985–97.305fullthrust-equivalentseconds against25s, withinstantaneousfins/freealignment/free trimjumps andgeometric36.8marmbudget736MNms. Lowestnonthermalrow47.660sat900stimeout;alldeorbit45–75rowsoverreserve.90deorbitidealthermalfailurebeforeMach5with~6.504sused. Noledger/force snapshot/units/freejump/numericaldefect explainsmargins.
+
+Conclusion isapprovedphysicalmodel failsreviewedprescribedentryfamily withinexistingauthority. Notuniversaloptimal-controlinfeasibility;imposedidealpathsare notscenarioacceptance. Coupled maxfintranslationdoesnotclaimgloballybestcontrol. Strongeruniversalproofwithdrawn asoutsideplan;nofurtheroptimizationcampaign required. Reviewerread-only,noadditionalflights/edits/tests.
+
+ExecuteSteve'sstandingfallback: parkTasks1–4(includingEarthrotation/range/schedule/model-dependentreserve/aim);auditedrestoretoPhase6'sshipped2021broadside force/control model;retainTask5currentforcefailure/support/fullthrottleTWRfixes andnecessarydependentbraking/debrief fixes. Preserveall findings/source. Main/live still080f108 untilPhase6bfullgate/reviews/merge/deploy. Continue7–9afterclose;noownerquestion.
+
+Recovery:acceptedTask1/1b/5sourcefixturescheckpointc24235f remainsinGithistory;parked-coupled-source.patch andSHA256preserve15currentunacceptedsource/testfiles againstdaffd60,checkedforward/index and reverse/worktree. Priorpatches historical;neverapplyoverexistingchanges.
+
+Exact executedidealrunnerbytes preservedas .executed.ts.txt. Lintcaughtone deadassignment ofpreviousGoal=undefined immediatelyoverwrittenbygoal; removedonlythatdeadstore fromlive.ts copies, no numerical/controlflowchanges or simulationrerun.

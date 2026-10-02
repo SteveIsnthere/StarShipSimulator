@@ -1,4 +1,4 @@
-/** Cycle2 attempt3: prescribed fixed-angle sweep;: actual coupled force/controller, no disabled failures. */
+/** Reviewed cycle3 attempt2: prescribed fixed-angle sweep: known disturbance compensation with feedback deadzone. */
 import { createScenarioState, getScenario } from '../../../src/core/scenarios';
 import { toggleAutoDeorbit, toggleAutoLand } from '../../../src/core/control/commands';
 import { writeFinControlFlowInto, type FinControlFlow } from '../../../src/core/control/fin-authority';
@@ -16,9 +16,12 @@ for (const angle of [45, 50, 55, 60, 65, 70, 75, 90]) for (const id of ['reentry
   let nextSample = 0;
   let emptySeen = false, errorSeen = false, peak = 0;
   let emptySeconds: number | null = null;
+  let tracked = false, entryStarted = false;
+  let entryReserve: number | null = null, lastIntactReserve = s.vehicle.rcsRunTimeRemaining;
   let bodyImpulse = 0, finImpulse = 0, rcsImpulse = 0, gimbalImpulse = 0;
   let outcome = 'timeout', seconds = 0;
   for (let n = 1; n <= (id === 'deorbit' ? 4000 : 900) / dt; n++) {
+    const priorReserve = s.vehicle.rcsRunTimeRemaining;
     const integratedRcsThrust = s.forces.rcsThrust;
     const integratedFrontExtension = s.vehicle.frontFinExtension;
     const integratedAftExtension = s.vehicle.aftFinExtension;
@@ -38,16 +41,23 @@ for (const angle of [45, 50, 55, 60, 65, 70, 75, 90]) for (const id of ['reentry
     rcsImpulse += Math.abs(f.rcsThrustAngularAcceleration) * v.vehicleMomentOfInertia * dt;
     gimbalImpulse += Math.abs(f.thrustVectorAcceleration) * v.vehicleMomentOfInertia * dt;
     }
-    const empty = !emptySeen && v.rcsRunTimeRemaining <= 0;
-    const lost = !errorSeen && entryStage && Math.abs(error) > Math.PI / 18 && f.dynamicPressure > 0.001;
+    const intact = !s.failures.inFlightBreakUp && !s.failures.crashed;
+    const entryStart = !entryStarted && entryStage;
+    if (entryStart) { entryStarted = true; entryReserve = priorReserve; }
+    if (intact) lastIntactReserve = v.rcsRunTimeRemaining;
+    if (entryStage && Math.abs(error) <= 0.1) tracked = true;
+    const compensationDemand = -(f.bodyAerodynamicAcceleration + f.offAxisThrustDifferenceAcceleration) * v.vehicleMomentOfInertia;
+    const feedbackDemand = Math.abs(error) > 0.1 ? (-error / 0.7 ** 2 - 2 * k.angularVelocity / 0.7) * v.vehicleMomentOfInertia : 0;
+    const empty = !emptySeen && intact && priorReserve > 0 && v.rcsRunTimeRemaining <= 0;
+    const lost = !errorSeen && tracked && entryStage && Math.abs(error) > Math.PI / 18 && f.dynamicPressure > 0.001;
     if (s.failures.inFlightBreakUp) outcome = 'brokeUp';
     else if (s.failures.crashed) outcome = 'crashed';
     else if (s.status.landed) outcome = 'landed';
     else if (entryStage && k.machSpeed <= 5) outcome = 'reached-Mach5';
     const final = outcome !== 'timeout';
-    if ((entryStage && seconds >= nextSample) || empty || lost || final) {
-      console.log(JSON.stringify({ angle, id, seconds, event: final ? outcome : empty ? 'rcs-empty' : lost ? 'first-10deg-error' : 'interval',
-        entryStage, altitude: k.altitude, mach: k.machSpeed, qForcePhasePa: f.dynamicPressure * 1000,
+    if ((entryStage && seconds >= nextSample) || entryStart || empty || lost || final) {
+      console.log(JSON.stringify({ angle, id, seconds, event: final ? outcome : empty ? 'rcs-empty' : lost ? 'tracking-loss-10deg' : entryStart ? 'entry-start' : 'interval',
+        entryStage, finActive: s.status.finActive, rcsActive: s.status.rcsActive, thrust: f.thrust, tracked, compensationDemand: intact && entryStage ? compensationDemand : null, feedbackDemand: intact && entryStage ? feedbackDemand : null, altitude: k.altitude, mach: k.machSpeed, qForcePhasePa: f.dynamicPressure * 1000,
         forcePhaseAttackDeg: k.angleOfAttack * 180 / Math.PI, controllerAttackDeg: flow.attack * 180 / Math.PI,
         controllerHypersonic: flow.hypersonic, errorDeg: error * 180 / Math.PI,
         pitchControl: s.autopilot.pitchControl, frontExtension: v.frontFinExtension, aftExtension: v.aftFinExtension,
@@ -70,7 +80,7 @@ for (const angle of [45, 50, 55, 60, 65, 70, 75, 90]) for (const id of ['reentry
     if (final) break;
   }
   const total = finImpulse + rcsImpulse + gimbalImpulse;
-  console.log(JSON.stringify({ angle, id, event: 'summary', seconds, outcome, peak, emptySeconds, bodyImpulse, finImpulse,
+  console.log(JSON.stringify({ angle, id, event: 'summary', seconds, outcome, peak, emptySeconds, entryReserve, lastIntactReserve, bodyImpulse, finImpulse,
     rcsImpulse, gimbalImpulse, rcsShare: total > 0 ? rcsImpulse / total : 0,
     qualification: 'Mach>=5 diagnostic only; no full-flight or low-Mach acceptance. Breakup-reset mass excluded from impulse totals; integrated moments versus newly issued commands labeled.' }));
 }

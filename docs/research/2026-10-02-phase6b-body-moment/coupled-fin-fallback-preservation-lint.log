@@ -1,0 +1,13 @@
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-02-phase6b-body-moment/coupled-fin-cycle3-ideal.ts
+  53:40  error  The value assigned to 'previousGoal' is not used in subsequent statements  no-useless-assignment
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-02-phase6b-body-moment/coupled-fin-ideal-full-scenario-dt-sensitivity.ts
+  40:40  error  The value assigned to 'previousGoal' is not used in subsequent statements  no-useless-assignment
+
+✖ 2 problems (2 errors, 0 warnings)
+

@@ -1,0 +1,50 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/fin-rcs-allocation.test.ts (13 tests | 4 failed) 8ms
+     × compensates known moment without feedback inside the deadzone, error-0.05 omega-0.03 2ms
+     × compensates known moment without feedback inside the deadzone, error0 omega0 0ms
+     × compensates known moment without feedback inside the deadzone, error0.05 omega0.03 0ms
+     × inside-deadzone fin and total demands are independent of feedback inputs 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > compensates known moment without feedback inside the deadzone, error-0.05 omega-0.03
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > compensates known moment without feedback inside the deadzone, error0 omega0
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > compensates known moment without feedback inside the deadzone, error0.05 omega0.03
+AssertionError: expected +0 not to be +0 // Object.is equality
+ ❯ tests/core/fin-rcs-allocation.test.ts:81:38
+     79|       controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
+     80|       const actual = achievedMoment(s);
+     81|       expect(s.forces.rcsThrust).not.toBe(0);
+       |                                      ^
+     82|       expect(actual.moment + s.forces.rcsThrust * actual.arm).toBeClos…
+     83|       expect(s.vehicle.rcsRunTimeRemaining).toBe(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > inside-deadzone fin and total demands are independent of feedback inputs
+AssertionError: expected 40.32730811834335 to be 1.113238513469696 // Object.is equality
+
+- Expected
++ Received
+
+- 1.113238513469696
++ 40.32730811834335
+
+ ❯ tests/core/fin-rcs-allocation.test.ts:92:38
+     90|     b.forces.bodyAerodynamicAcceleration = a.forces.bodyAerodynamicAcc…
+     91|     precisionAlignment(b, rad(b.kinematics.pitch + 0.05), 1);
+     92|     expect(b.autopilot.pitchControl).toBe(a.autopilot.pitchControl);
+       |                                      ^
+     93|     expect(b.autopilot.rcsThrustCommand).toBe(a.autopilot.rcsThrustCom…
+     94|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 9 passed (13)
+   Start at  08:43:11
+   Duration  237ms (transform 97ms, setup 0ms, import 119ms, tests 8ms, environment 0ms)
+
