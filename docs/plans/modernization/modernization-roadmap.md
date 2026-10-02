@@ -129,3 +129,10 @@ Cycle2attempt2 completed:5passed/5failed,4.6min,zero retries; all five vacuum-wi
 
 
 Cycle2attempt3 is running original5projectplume+30rendererchecks,session92029,/tmp/starship-plume-cycle2-attempt3-browser.log,HTML/tmp/starship-browser-cycle2-attempt3-html. A precise watched-red bloom coordinate defect is repaired: identical localemission differed46RGB with canvasdimension alone; corrected suppliedinputtexels retainallkernelparameters and yield0difference/visiblepositivecontrol432. All6desktoprendererchecks/build/lint/focused65units pass; high-depthfollowuprequested. Preserveactualfinalresult before furtherdiagnosis; this isthirdattempt ofcycle2. Main/live080f108,60%; no merge/tick orownerquestion.
+
+
+## Cycle2attempt3 final result and fresh cycle3 review
+
+At source d4f3606, originalfiveprojectplume plus30rendererwitnesses completed37passed/3failed,exit1,zero retries,4.9min. All30rendererwitnesses andall5lowlength checks pass; iPhoneportrait/landscapevacwidth also pass. Vacuumwidth remainsfailed on desktopChromium,Pixelportrait,Pixellandscape. All60exact frozenpairs arebyteidentical. FullactualPNG/JSON/HTML/rawlogs/results/hashmanifest retained in fallback-browser-cycle2-attempt3/. This isnotreleaseacceptance anddoesnotclosePhase6b. High-depth/independent source reviewfoundnoactionablefinding ininput-coordinate fix; meaningfulpositivecontrols caughtinitialsharedprecisionlinkfailure,correctedwithoutkernelparameter changes.
+
+Allthree cycle2attempts arecomplete. Fresh independent plume_cycle3_review isactive,read-only,analyzingactualremainingpixels/source before recordingnewbounded evidence-backedcycle3 approach. No furtherbrowserdiagnosis orsourceparameterchanges before thatreview/approach. Noownerquestion; approvedstandingcycles apply. Main/live080f108,60%,6b7 8 9remainunfinished. Existingsourcebuild/lint/focusedchecks green; finalfullgate/fullbrowser/mutation/releasereviews/merge/main-gate/deploy stillrequired.
