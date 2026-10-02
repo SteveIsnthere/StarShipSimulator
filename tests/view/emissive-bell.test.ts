@@ -38,8 +38,12 @@ describe('continuous nozzle-frame gas', () => {
       previous = width;
       expect([...positions, ...uvs].every(Number.isFinite)).toBe(true);
       expect(uvs.at(-1)).toBe(1);
-      // Continuous fan samples the texture centre; only the existing-size feather fades.
-      expect(Array.from(uvs.slice(-10)).filter((_, i) => i % 2 === 0)).toEqual([0, 0.5, 0.5, 0.5, 1]);
+      // The complete envelope uses the same soft profile, not a flat angular plateau.
+      expect(uvs.at(-10)).toBe(0);
+      expect(uvs.at(-8)).toBeLessThan(0.5);
+      expect(uvs.at(-6)).toBe(0.5);
+      expect(uvs.at(-4)).toBeGreaterThan(0.5);
+      expect(uvs.at(-2)).toBe(1);
     }
   });
 });
@@ -112,4 +116,14 @@ describe('owned renderer resources', () => {
     }
     bell.destroy();
   });
+});
+
+
+it('places fan vertices in the existing transverse fade instead of a saturated interior plateau', () => {
+  const { positions, uvs } = buffers();
+  writeBellGeometry(positions, uvs, 1, 1, 1, 0.42);
+  // Hand-calculated nominal sea-level endpoint: travel28.649m,
+  // fan5.692m, radius11.542m; symmetric normalized transverse coordinates.
+  expect(uvs.at(-8)).toBeCloseTo(0.2534, 3);
+  expect(uvs.at(-4)).toBeCloseTo(0.7466, 3);
 });

@@ -9,11 +9,12 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 | Render interpolation: `advance()` returns `alpha` but nothing reads it; the view draws the latest step | 8 |
 | Per-frame allocations: `engines.running.filter(Boolean)` in `src/view/effects.ts`; `worldToScreen` returns a new object (`src/view/camera.ts`) | 8 |
 | Stale view comments: `camera.ts` header (claims interpolated state and real dt), `CameraTarget.dynamicPressure` says Pa (it is kPa), `effects.ts` `previous` | 8 |
-| `post.ts` sets `uTexelSize` once and never on resize | 8 |
+| `post.ts` heat pass sets custom `uTexelSize` once and never on resize; bloom now uses Pixi input coordinates | 8 |
 | Reversible visual defaults awaiting a playtest: no accent colour, cinematic mode off by default, the light daytime sky | 8 |
 | 60 fps on a mid-range phone is a stated goal that nothing measures | 8 |
 | Hosted `menu.spec.ts` smoke flakiness: "the menu opens, offers every preset, and closes" and "Configure starts the new flight and closes the menu" each failed their first menu-visibility assertion then passed the existing retry in Phase 6 deploy run `36956332944`. Local main smoke and full five-project suite were green. Diagnose readiness/input timing with retained logs before Phase 9 closes; no retry or bound increase. See `docs/research/2026-10-01-phase6-close/hosted-deploy.log` | 9 |
-| The RVacs have no plume of their own: the view draws plumes from the running count, not per engine and nozzle | 8 |
+| Per-engine continuous gas now exists (Phase6b prerequisite); particle core/detail still uses aggregate counts. Distinguish sea-level and RVac nozzle/plume detail in the complete visual pass | 8 |
+| Continuous gas accepted after full-envelope soft profile; strong low-altitude saturation and the distal beaded particle tail remain visual weaknesses, per actual-image review in `fallback-browser-cycle3-attempt3/visual-review.md` | 8 |
 | Camera `SHAKE_FRACTION = 0.006` set by eye | 8 |
 | Telemetry-loss states (values freeze and dim) and entry flap pictograms from the broadcast reference were never built | 9 |
 | iOS tilt control needs a permission button; not ported | 9 |

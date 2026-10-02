@@ -26,9 +26,12 @@ export function writeBellGeometry(
     const axial = travel * Math.cos(angle);
     for (let col = 0; col < COLUMNS; col++) {
       const offset = (row * COLUMNS + col) * 2;
-      positions[offset] = col === 0 ? -radius : col === 1 ? -fan : col === 2 ? 0 : col === 3 ? fan : radius;
+      const x = col === 0 ? -radius : col === 1 ? -fan : col === 2 ? 0 : col === 3 ? fan : radius;
+      positions[offset] = x;
       positions[offset + 1] = axial;
-      uvs[offset] = col === 0 ? 0 : col === 4 ? 1 : 0.5;
+      // One unchanged soft profile across the complete envelope; overlapping
+      // engine light must not turn an authored constant interior into a slab.
+      uvs[offset] = radius > 0 ? 0.5 + x / (2 * radius) : 0.5;
       uvs[offset + 1] = t;
     }
   }

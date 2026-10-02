@@ -341,3 +341,9 @@ Nextnativecycle3attempt2 follows continuous-bell-plan.md: continuousnozzle-frame
 ## Cycle3attempt2 actual visual rejection and next approach
 
 Cycle3attempt2:51checks pass(original10five-project plume/36renderer/5scene),all60frozenpairs byte-identical. ActualPNG review rejects saturated straight-sided white interior before6bclosure. Cycle3attempt3 maps transverseUV by actualx/radius to spread unchangedsoftprofile acrossfullenvelope; no oldconfig/seed/threshold/bound changes. Revised capture-hide regression watchedred; all5actualscene lifecycle checks pass after effectiveparentvisibility fix. Execute thirdapproach natively, inspectpixels and originalacceptance, thenfullreleasechecks. Main/live080f108,60%,fourphasesunfinished; noownerquestion.
+
+## Cycle3attempt3 accepted; final release verification
+
+Cycle 3 attempt 3 is accepted as the Phase 6b continuous-gas prerequisite. The full-envelope soft profile passes 84 focused tests, build/lint, all 51 browser checks (10 original plume, 36 renderer and 5 strengthened scene checks), and actual image review. All 60 ordered frozen pairs are byte-identical. The complete final-source local gate passes 1,993 unit and coverage tests, unchanged coverage floors, smoke and subpath checks. All 21 Linux simulation source pins match.
+
+The additional tonne-input fixture is corrected: mass assertion watched clamped fulltank red, then corrected20t/200t overrides pass6scenechecks. Actual20t one-engine image is inspected and attached gas is legible. Next: obtain fresh high-depth whole-phase review, run mutation alone, then the final full five-project browser suite at the pushed unchanged candidate. Only after final acceptance: merge/main gate/hosted deploy/live identity and smoke, tick Phase 6b, then execute Phases 7–9. No further unchanged plume diagnosis or fallback feasibility redo. Main/live remain080f108;60%,four phases unfinished; no owner question.

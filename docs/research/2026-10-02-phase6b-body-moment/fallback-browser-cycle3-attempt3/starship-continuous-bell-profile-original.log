@@ -1,0 +1,454 @@
+[WebServer] (node:14761) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 51 tests using 1 worker
+
+(node:14762) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (9.4s)
+[plume-frozen] chromium step 386: {"extent":{"found":true,"left":609,"right":662,"top":383,"bottom":641,"widthPx":54,"heightPx":259,"spanPx":259,"count":2390,"bandWidthPx":41},"repeat":{"found":true,"left":609,"right":662,"top":383,"bottom":641,"widthPx":54,"heightPx":259,"spanPx":259,"count":2390,"bandWidthPx":41}}
+[plume-frozen] chromium step 418: {"extent":{"found":true,"left":611,"right":673,"top":381,"bottom":627,"widthPx":63,"heightPx":247,"spanPx":247,"count":2499,"bandWidthPx":43},"repeat":{"found":true,"left":611,"right":673,"top":381,"bottom":627,"widthPx":63,"heightPx":247,"spanPx":247,"count":2499,"bandWidthPx":43}}
+[plume-frozen] chromium step 452: {"extent":{"found":true,"left":615,"right":667,"top":379,"bottom":646,"widthPx":53,"heightPx":268,"spanPx":268,"count":2434,"bandWidthPx":41},"repeat":{"found":true,"left":615,"right":667,"top":379,"bottom":646,"widthPx":53,"heightPx":268,"spanPx":268,"count":2434,"bandWidthPx":41}}
+[plume-frozen] chromium step 492: {"extent":{"found":true,"left":613,"right":668,"top":376,"bottom":609,"widthPx":56,"heightPx":234,"spanPx":234,"count":2436,"bandWidthPx":41},"repeat":{"found":true,"left":613,"right":668,"top":376,"bottom":609,"widthPx":56,"heightPx":234,"spanPx":234,"count":2436,"bandWidthPx":41}}
+[plume] chromium · the plume is longer than the ship at low altitude @mobile: 3.27 long, 0.52 across (spans 3.27/3.12/3.38/2.95, widths 0.52/0.54/0.52/0.52, steps 386/418/452/492; 0/4 anchored to the region edge; throttle 100/100/100/100; (609,383)-(662,641)n2390 (611,381)-(673,627)n2499 (615,379)-(667,646)n2434 (613,376)-(668,609)n2436)
+  ✓   2 [chromium] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (25.6s)
+[plume-frozen] chromium step 380: {"extent":{"found":true,"left":609,"right":663,"top":384,"bottom":623,"widthPx":55,"heightPx":240,"spanPx":240,"count":2444,"bandWidthPx":45},"repeat":{"found":true,"left":609,"right":663,"top":384,"bottom":623,"widthPx":55,"heightPx":240,"spanPx":240,"count":2444,"bandWidthPx":45}}
+[plume-frozen] chromium step 422: {"extent":{"found":true,"left":608,"right":664,"top":382,"bottom":622,"widthPx":57,"heightPx":241,"spanPx":241,"count":2590,"bandWidthPx":41},"repeat":{"found":true,"left":608,"right":664,"top":382,"bottom":622,"widthPx":57,"heightPx":241,"spanPx":241,"count":2590,"bandWidthPx":41}}
+[plume-frozen] chromium step 454: {"extent":{"found":true,"left":614,"right":673,"top":379,"bottom":612,"widthPx":60,"heightPx":234,"spanPx":234,"count":2658,"bandWidthPx":40},"repeat":{"found":true,"left":614,"right":673,"top":379,"bottom":612,"widthPx":60,"heightPx":234,"spanPx":234,"count":2658,"bandWidthPx":40}}
+[plume-frozen] chromium step 488: {"extent":{"found":true,"left":612,"right":667,"top":376,"bottom":605,"widthPx":56,"heightPx":230,"spanPx":230,"count":2468,"bandWidthPx":39},"repeat":{"found":true,"left":612,"right":667,"top":376,"bottom":605,"widthPx":56,"heightPx":230,"spanPx":230,"count":2468,"bandWidthPx":39}}
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 3.03 long, 0.52 across (spans 3.03/3.04/2.95/2.90, widths 0.57/0.52/0.50/0.49, steps 380/422/454/488; 0/4 anchored to the region edge; throttle 100/100/100/100; (609,384)-(663,623)n2444 (608,382)-(664,622)n2590 (614,379)-(673,612)n2658 (612,376)-(667,605)n2468)
+[plume-frozen] chromium step 380: {"extent":{"found":true,"left":624,"right":654,"top":369,"bottom":431,"widthPx":31,"heightPx":63,"spanPx":63,"count":699,"bandWidthPx":26},"repeat":{"found":true,"left":624,"right":654,"top":369,"bottom":431,"widthPx":31,"heightPx":63,"spanPx":63,"count":699,"bandWidthPx":26}}
+[plume-frozen] chromium step 416: {"extent":{"found":true,"left":618,"right":659,"top":369,"bottom":458,"widthPx":42,"heightPx":90,"spanPx":90,"count":724,"bandWidthPx":27},"repeat":{"found":true,"left":618,"right":659,"top":369,"bottom":458,"widthPx":42,"heightPx":90,"spanPx":90,"count":724,"bandWidthPx":27}}
+[plume-frozen] chromium step 453: {"extent":{"found":true,"left":626,"right":660,"top":367,"bottom":471,"widthPx":35,"heightPx":105,"spanPx":105,"count":746,"bandWidthPx":25},"repeat":{"found":true,"left":626,"right":660,"top":367,"bottom":471,"widthPx":35,"heightPx":105,"spanPx":105,"count":746,"bandWidthPx":25}}
+[plume-frozen] chromium step 495: {"extent":{"found":true,"left":624,"right":660,"top":367,"bottom":483,"widthPx":37,"heightPx":117,"spanPx":117,"count":757,"bandWidthPx":29},"repeat":{"found":true,"left":624,"right":660,"top":367,"bottom":483,"widthPx":37,"heightPx":117,"spanPx":117,"count":757,"bandWidthPx":29}}
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 2.92 long, 0.75 across (spans 1.75/2.50/2.92/3.25, widths 0.72/0.75/0.69/0.81, steps 380/416/453/495; 1/4 anchored to the region edge; throttle 100/100/100/100; (624,369)-(654,431)n699 (618,369)-(659,458)n724 (626,367)-(660,471)n746 (624,367)-(660,483)n757)
+low: 3.03 long, 0.52 across · vacuum: 2.92 long, 0.75 across
+frame 1280x720 @1.00x  altitude 120000 m  vehicle 36 px
+  below      mean   49.4  spread  22.08  tones  5  bright 0.007  dark 0.941  warm 0.0043  top #332222:0.54 #222222:0.18 #333322:0.13 #111122:0.04 #222211:0.02
+  EXT plume    found true  span 117px (37x117)  band 29px  n 757  box (624,367)-(660,483)  = 3.25 vehicle heights
+  |      :   -                            -    |
+  |                                            |
+  |             +      -      = =    #         |
+  |        :     .       ==            --      |
+  |        =     +         -                   |
+  |              -     +-  : -      =    -     |
+  |            ==            .       +     -   |
+  |  +    -  =  =++            -    * ==       |
+  |    =                 +   - =      ==       |
+  |   -      -             -  - -      -       |
+  |.............-.......@@.....................|
+  |.....=-......-.-:....@@.....................|
+  |++*******************@@***@*******%*******++|
+  |******...............%@...............******|
+  |.....................@*.....................|
+  |.....................**.....................|
+  |.....................=-.....................|
+  |.....................:-.....................|
+  |..:::::::::::........:..::::::::::..........|
+  |.:::::::::::::........:::::::::::::........:|
+  |.:::::::::::::........:::::::::::::........:|
+  |....::::::::::.....::....::::::::::.....::..|
+  aspect: 0.17 low, 0.26 vacuum
+  ✓   3 [chromium] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (42.9s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓   4 [chromium] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (1.1s)
+[post-sampling] [{"scale":0.4,"resolution":1,"phase":0,"source":"particles","directEnergy":139009,"directPixels":1044,"modes":[{"name":"configured","energy":164471,"lostPixels":1,"maxLoss":7,"bleedPixels":77,"detectorWidth":11},{"name":"current","energy":164808,"lostPixels":11,"maxLoss":17,"bleedPixels":78,"detectorWidth":11},{"name":"resolution","energy":164808,"lostPixels":11,"maxLoss":17,"bleedPixels":78,"detectorWidth":11},{"name":"antialias","energy":164471,"lostPixels":1,"maxLoss":7,"bleedPixels":77,"detectorWidth":11},{"name":"both","energy":164471,"lostPixels":1,"maxLoss":7,"bleedPixels":77,"detectorWidth":11}]},{"scale":0.4,"resolution":1,"phase":0.25,"source":"particles","directEnergy":139377,"directPixels":1030,"modes":[{"name":"configured","energy":165254,"lostPixels":0,"maxLoss":5,"bleedPixels":85,"detectorWidth":11},{"name":"current","energy":165435,"lostPixels":8,"maxLoss":21,"bleedPixels":85,"detectorWidth":11},{"name":"resolution","energy":165435,"lostPixels":8,"maxLoss":21,"bleedPixels":85,"detectorWidth":11},{"name":"antialias","energy":165254,"lostPixels":0,"maxLoss":5,"bleedPixels":85,"detectorWidth":11},{"name":"both","energy":165254,"lostPixels":0,"maxLoss":5,"bleedPixels":85,"detectorWidth":11}]},{"scale":0.4,"resolution":1,"phase":0.5,"source":"particles","directEnergy":138070,"directPixels":1043,"modes":[{"name":"configured","energy":162931,"lostPixels":3,"maxLoss":10,"bleedPixels":75,"detectorWidth":12},{"name":"current","energy":162865,"lostPixels":14,"maxLoss":19,"bleedPixels":78,"detectorWidth":12},{"name":"resolution","energy":162865,"lostPixels":14,"maxLoss":19,"bleedPixels":78,"detectorWidth":12},{"name":"antialias","energy":162931,"lostPixels":3,"maxLoss":10,"bleedPixels":75,"detectorWidth":12},{"name":"both","energy":162931,"lostPixels":3,"maxLoss":10,"bleedPixels":75,"detectorWidth":12}]},{"scale":0.4,"resolution":1,"phase":0.75,"source":"particles","directEnergy":139138,"directPixels":1060,"modes":[{"name":"configured","energy":166363,"lostPixels":3,"maxLoss":6,"bleedPixels":74,"detectorWidth":11},{"name":"current","energy":166053,"lostPixels":17,"maxLoss":14,"bleedPixels":74,"detectorWidth":12},{"name":"resolution","energy":166053,"lostPixels":17,"maxLoss":14,"bleedPixels":74,"detectorWidth":12},{"name":"antialias","energy":166363,"lostPixels":3,"maxLoss":6,"bleedPixels":74,"detectorWidth":11},{"name":"both","energy":166363,"lostPixels":3,"maxLoss":6,"bleedPixels":74,"detectorWidth":11}]},{"scale":0.4,"resolution":1,"phase":0,"source":"control","directEnergy":25830,"directPixels":42,"modes":[{"name":"configured","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"both","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6}]},{"scale":0.4,"resolution":1,"phase":0.25,"source":"control","directEnergy":25830,"directPixels":42,"modes":[{"name":"configured","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"both","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7}]},{"scale":0.4,"resolution":1,"phase":0.5,"source":"control","directEnergy":25845,"directPixels":48,"modes":[{"name":"configured","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.4,"resolution":1,"phase":0.75,"source":"control","directEnergy":25845,"directPixels":48,"modes":[{"name":"configured","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.4,"resolution":2,"phase":0,"source":"particles","directEnergy":554463,"directPixels":4139,"modes":[{"name":"configured","energy":673281,"lostPixels":0,"maxLoss":1,"bleedPixels":318,"detectorWidth":23},{"name":"current","energy":651577,"lostPixels":31,"maxLoss":165,"bleedPixels":881,"detectorWidth":23},{"name":"resolution","energy":672829,"lostPixels":10,"maxLoss":7,"bleedPixels":317,"detectorWidth":23},{"name":"antialias","energy":650341,"lostPixels":31,"maxLoss":165,"bleedPixels":903,"detectorWidth":22},{"name":"both","energy":673281,"lostPixels":0,"maxLoss":1,"bleedPixels":318,"detectorWidth":23}]},{"scale":0.4,"resolution":2,"phase":0.25,"source":"particles","directEnergy":554158,"directPixels":4137,"modes":[{"name":"configured","energy":670389,"lostPixels":0,"maxLoss":1,"bleedPixels":333,"detectorWidth":22},{"name":"current","energy":654893,"lostPixels":31,"maxLoss":201,"bleedPixels":877,"detectorWidth":22},{"name":"resolution","energy":670000,"lostPixels":5,"maxLoss":7,"bleedPixels":333,"detectorWidth":22},{"name":"antialias","energy":654120,"lostPixels":29,"maxLoss":201,"bleedPixels":889,"detectorWidth":22},{"name":"both","energy":670389,"lostPixels":0,"maxLoss":1,"bleedPixels":333,"detectorWidth":22}]},{"scale":0.4,"resolution":2,"phase":0.5,"source":"particles","directEnergy":554463,"directPixels":4139,"modes":[{"name":"configured","energy":673282,"lostPixels":0,"maxLoss":1,"bleedPixels":318,"detectorWidth":23},{"name":"current","energy":645709,"lostPixels":26,"maxLoss":204,"bleedPixels":861,"detectorWidth":22},{"name":"resolution","energy":672830,"lostPixels":10,"maxLoss":7,"bleedPixels":317,"detectorWidth":23},{"name":"antialias","energy":645896,"lostPixels":27,"maxLoss":204,"bleedPixels":907,"detectorWidth":22},{"name":"both","energy":673282,"lostPixels":0,"maxLoss":1,"bleedPixels":318,"detectorWidth":23}]},{"scale":0.4,"resolution":2,"phase":0.75,"source":"particles","directEnergy":554158,"directPixels":4137,"modes":[{"name":"configured","energy":670389,"lostPixels":0,"maxLoss":1,"bleedPixels":333,"detectorWidth":22},{"name":"current","energy":657020,"lostPixels":30,"maxLoss":179,"bleedPixels":884,"detectorWidth":23},{"name":"resolution","energy":670000,"lostPixels":5,"maxLoss":7,"bleedPixels":333,"detectorWidth":22},{"name":"antialias","energy":658290,"lostPixels":29,"maxLoss":180,"bleedPixels":915,"detectorWidth":23},{"name":"both","energy":670389,"lostPixels":0,"maxLoss":1,"bleedPixels":333,"detectorWidth":22}]},{"scale":0.4,"resolution":2,"phase":0,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":41,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":197052,"lostPixels":0,"maxLoss":8,"bleedPixels":556,"detectorWidth":14},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12}]},{"scale":0.4,"resolution":2,"phase":0.25,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":41,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":197052,"lostPixels":0,"maxLoss":8,"bleedPixels":556,"detectorWidth":13},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13}]},{"scale":0.4,"resolution":2,"phase":0.5,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":160,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":189042,"lostPixels":0,"maxLoss":77,"bleedPixels":518,"detectorWidth":14},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12}]},{"scale":0.4,"resolution":2,"phase":0.75,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":160,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":189042,"lostPixels":0,"maxLoss":77,"bleedPixels":518,"detectorWidth":13},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13}]},{"scale":0.543,"resolution":1,"phase":0,"source":"particles","directEnergy":256640,"directPixels":1922,"modes":[{"name":"configured","energy":301643,"lostPixels":1,"maxLoss":2,"bleedPixels":91,"detectorWidth":16},{"name":"current","energy":301439,"lostPixels":5,"maxLoss":13,"bleedPixels":91,"detectorWidth":16},{"name":"resolution","energy":301439,"lostPixels":5,"maxLoss":13,"bleedPixels":91,"detectorWidth":16},{"name":"antialias","energy":301643,"lostPixels":1,"maxLoss":2,"bleedPixels":91,"detectorWidth":16},{"name":"both","energy":301643,"lostPixels":1,"maxLoss":2,"bleedPixels":91,"detectorWidth":16}]},{"scale":0.543,"resolution":1,"phase":0.25,"source":"particles","directEnergy":255390,"directPixels":1904,"modes":[{"name":"configured","energy":297415,"lostPixels":0,"maxLoss":3,"bleedPixels":86,"detectorWidth":15},{"name":"current","energy":297053,"lostPixels":10,"maxLoss":16,"bleedPixels":88,"detectorWidth":15},{"name":"resolution","energy":297053,"lostPixels":10,"maxLoss":16,"bleedPixels":88,"detectorWidth":15},{"name":"antialias","energy":297415,"lostPixels":0,"maxLoss":3,"bleedPixels":86,"detectorWidth":15},{"name":"both","energy":297415,"lostPixels":0,"maxLoss":3,"bleedPixels":86,"detectorWidth":15}]},{"scale":0.543,"resolution":1,"phase":0.5,"source":"particles","directEnergy":255453,"directPixels":1915,"modes":[{"name":"configured","energy":297588,"lostPixels":0,"maxLoss":1,"bleedPixels":83,"detectorWidth":15},{"name":"current","energy":297112,"lostPixels":9,"maxLoss":10,"bleedPixels":83,"detectorWidth":15},{"name":"resolution","energy":297112,"lostPixels":9,"maxLoss":10,"bleedPixels":83,"detectorWidth":15},{"name":"antialias","energy":297588,"lostPixels":0,"maxLoss":1,"bleedPixels":83,"detectorWidth":15},{"name":"both","energy":297588,"lostPixels":0,"maxLoss":1,"bleedPixels":83,"detectorWidth":15}]},{"scale":0.543,"resolution":1,"phase":0.75,"source":"particles","directEnergy":255407,"directPixels":1911,"modes":[{"name":"configured","energy":299015,"lostPixels":0,"maxLoss":1,"bleedPixels":87,"detectorWidth":16},{"name":"current","energy":298883,"lostPixels":11,"maxLoss":11,"bleedPixels":87,"detectorWidth":16},{"name":"resolution","energy":298883,"lostPixels":11,"maxLoss":11,"bleedPixels":87,"detectorWidth":16},{"name":"antialias","energy":299015,"lostPixels":0,"maxLoss":1,"bleedPixels":87,"detectorWidth":16},{"name":"both","energy":299015,"lostPixels":0,"maxLoss":1,"bleedPixels":87,"detectorWidth":16}]},{"scale":0.543,"resolution":1,"phase":0,"source":"control","directEnergy":25830,"directPixels":42,"modes":[{"name":"configured","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"both","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6}]},{"scale":0.543,"resolution":1,"phase":0.25,"source":"control","directEnergy":25830,"directPixels":42,"modes":[{"name":"configured","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"both","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7}]},{"scale":0.543,"resolution":1,"phase":0.5,"source":"control","directEnergy":25845,"directPixels":48,"modes":[{"name":"configured","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.543,"resolution":1,"phase":0.75,"source":"control","directEnergy":25845,"directPixels":48,"modes":[{"name":"configured","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":1,"maxLoss":60,"bleedPixels":133,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":1,"maxLoss":60,"bleedPixels":133,"detectorWidth":6},{"name":"antialias","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.543,"resolution":2,"phase":0,"source":"particles","directEnergy":1021550,"directPixels":7604,"modes":[{"name":"configured","energy":1208731,"lostPixels":0,"maxLoss":0,"bleedPixels":372,"detectorWidth":31},{"name":"current","energy":1196753,"lostPixels":31,"maxLoss":158,"bleedPixels":1038,"detectorWidth":31},{"name":"resolution","energy":1208415,"lostPixels":2,"maxLoss":7,"bleedPixels":372,"detectorWidth":31},{"name":"antialias","energy":1197450,"lostPixels":31,"maxLoss":158,"bleedPixels":1058,"detectorWidth":31},{"name":"both","energy":1208731,"lostPixels":0,"maxLoss":0,"bleedPixels":372,"detectorWidth":31}]},{"scale":0.543,"resolution":2,"phase":0.25,"source":"particles","directEnergy":1022586,"directPixels":7622,"modes":[{"name":"configured","energy":1213442,"lostPixels":0,"maxLoss":0,"bleedPixels":397,"detectorWidth":31},{"name":"current","energy":1180391,"lostPixels":32,"maxLoss":152,"bleedPixels":1036,"detectorWidth":31},{"name":"resolution","energy":1212931,"lostPixels":6,"maxLoss":6,"bleedPixels":397,"detectorWidth":31},{"name":"antialias","energy":1181776,"lostPixels":32,"maxLoss":152,"bleedPixels":1058,"detectorWidth":31},{"name":"both","energy":1213442,"lostPixels":0,"maxLoss":0,"bleedPixels":397,"detectorWidth":31}]},{"scale":0.543,"resolution":2,"phase":0.5,"source":"particles","directEnergy":1021584,"directPixels":7604,"modes":[{"name":"configured","energy":1208731,"lostPixels":0,"maxLoss":1,"bleedPixels":372,"detectorWidth":31},{"name":"current","energy":1181383,"lostPixels":46,"maxLoss":147,"bleedPixels":1043,"detectorWidth":31},{"name":"resolution","energy":1208415,"lostPixels":2,"maxLoss":7,"bleedPixels":372,"detectorWidth":31},{"name":"antialias","energy":1182996,"lostPixels":45,"maxLoss":147,"bleedPixels":1054,"detectorWidth":31},{"name":"both","energy":1208731,"lostPixels":0,"maxLoss":1,"bleedPixels":372,"detectorWidth":31}]},{"scale":0.543,"resolution":2,"phase":0.75,"source":"particles","directEnergy":1022586,"directPixels":7622,"modes":[{"name":"configured","energy":1213442,"lostPixels":0,"maxLoss":0,"bleedPixels":397,"detectorWidth":31},{"name":"current","energy":1187102,"lostPixels":33,"maxLoss":144,"bleedPixels":982,"detectorWidth":31},{"name":"resolution","energy":1212931,"lostPixels":6,"maxLoss":6,"bleedPixels":397,"detectorWidth":31},{"name":"antialias","energy":1187780,"lostPixels":31,"maxLoss":144,"bleedPixels":1011,"detectorWidth":31},{"name":"both","energy":1213442,"lostPixels":0,"maxLoss":0,"bleedPixels":397,"detectorWidth":31}]},{"scale":0.543,"resolution":2,"phase":0,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":210744,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":34,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":197052,"lostPixels":0,"maxLoss":41,"bleedPixels":556,"detectorWidth":14},{"name":"both","energy":210744,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12}]},{"scale":0.543,"resolution":2,"phase":0.25,"source":"control","directEnergy":103317,"directPixels":168,"modes":[{"name":"configured","energy":206349,"lostPixels":1,"maxLoss":60,"bleedPixels":551,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":41,"bleedPixels":556,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":600,"detectorWidth":12},{"name":"antialias","energy":197052,"lostPixels":0,"maxLoss":24,"bleedPixels":544,"detectorWidth":13},{"name":"both","energy":206349,"lostPixels":1,"maxLoss":60,"bleedPixels":551,"detectorWidth":13}]},{"scale":0.543,"resolution":2,"phase":0.5,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":210744,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":164,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":189042,"lostPixels":0,"maxLoss":127,"bleedPixels":518,"detectorWidth":14},{"name":"both","energy":210744,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12}]},{"scale":0.543,"resolution":2,"phase":0.75,"source":"control","directEnergy":103317,"directPixels":168,"modes":[{"name":"configured","energy":206349,"lostPixels":1,"maxLoss":60,"bleedPixels":551,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":101,"bleedPixels":556,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":600,"detectorWidth":12},{"name":"antialias","energy":189042,"lostPixels":0,"maxLoss":77,"bleedPixels":506,"detectorWidth":13},{"name":"both","energy":206349,"lostPixels":1,"maxLoss":60,"bleedPixels":551,"detectorWidth":13}]},{"scale":0.72,"resolution":1,"phase":0,"source":"particles","directEnergy":449200,"directPixels":3355,"modes":[{"name":"configured","energy":513163,"lostPixels":0,"maxLoss":1,"bleedPixels":97,"detectorWidth":21},{"name":"current","energy":512779,"lostPixels":7,"maxLoss":6,"bleedPixels":97,"detectorWidth":21},{"name":"resolution","energy":512779,"lostPixels":7,"maxLoss":6,"bleedPixels":97,"detectorWidth":21},{"name":"antialias","energy":513163,"lostPixels":0,"maxLoss":1,"bleedPixels":97,"detectorWidth":21},{"name":"both","energy":513163,"lostPixels":0,"maxLoss":1,"bleedPixels":97,"detectorWidth":21}]},{"scale":0.72,"resolution":1,"phase":0.25,"source":"particles","directEnergy":448851,"directPixels":3334,"modes":[{"name":"configured","energy":514521,"lostPixels":0,"maxLoss":1,"bleedPixels":99,"detectorWidth":21},{"name":"current","energy":514301,"lostPixels":7,"maxLoss":8,"bleedPixels":99,"detectorWidth":21},{"name":"resolution","energy":514301,"lostPixels":7,"maxLoss":8,"bleedPixels":99,"detectorWidth":21},{"name":"antialias","energy":514521,"lostPixels":0,"maxLoss":1,"bleedPixels":99,"detectorWidth":21},{"name":"both","energy":514521,"lostPixels":0,"maxLoss":1,"bleedPixels":99,"detectorWidth":21}]},{"scale":0.72,"resolution":1,"phase":0.5,"source":"particles","directEnergy":449633,"directPixels":3356,"modes":[{"name":"configured","energy":514363,"lostPixels":0,"maxLoss":2,"bleedPixels":90,"detectorWidth":20},{"name":"current","energy":513714,"lostPixels":13,"maxLoss":8,"bleedPixels":90,"detectorWidth":20},{"name":"resolution","energy":513714,"lostPixels":13,"maxLoss":8,"bleedPixels":90,"detectorWidth":20},{"name":"antialias","energy":514363,"lostPixels":0,"maxLoss":2,"bleedPixels":90,"detectorWidth":20},{"name":"both","energy":514363,"lostPixels":0,"maxLoss":2,"bleedPixels":90,"detectorWidth":20}]},{"scale":0.72,"resolution":1,"phase":0.75,"source":"particles","directEnergy":449262,"directPixels":3351,"modes":[{"name":"configured","energy":513197,"lostPixels":0,"maxLoss":1,"bleedPixels":95,"detectorWidth":20},{"name":"current","energy":512782,"lostPixels":7,"maxLoss":13,"bleedPixels":95,"detectorWidth":20},{"name":"resolution","energy":512782,"lostPixels":7,"maxLoss":13,"bleedPixels":95,"detectorWidth":20},{"name":"antialias","energy":513197,"lostPixels":0,"maxLoss":1,"bleedPixels":95,"detectorWidth":20},{"name":"both","energy":513197,"lostPixels":0,"maxLoss":1,"bleedPixels":95,"detectorWidth":20}]},{"scale":0.72,"resolution":1,"phase":0,"source":"control","directEnergy":25830,"directPixels":42,"modes":[{"name":"configured","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"both","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6}]},{"scale":0.72,"resolution":1,"phase":0.25,"source":"control","directEnergy":25830,"directPixels":42,"modes":[{"name":"configured","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"both","energy":49044,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7}]},{"scale":0.72,"resolution":1,"phase":0.5,"source":"control","directEnergy":25845,"directPixels":48,"modes":[{"name":"configured","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.72,"resolution":1,"phase":0.75,"source":"control","directEnergy":25845,"directPixels":48,"modes":[{"name":"configured","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47694,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.72,"resolution":2,"phase":0,"source":"particles","directEnergy":1795621,"directPixels":13385,"modes":[{"name":"configured","energy":2083579,"lostPixels":0,"maxLoss":1,"bleedPixels":444,"detectorWidth":41},{"name":"current","energy":2039997,"lostPixels":51,"maxLoss":136,"bleedPixels":1149,"detectorWidth":41},{"name":"resolution","energy":2083356,"lostPixels":2,"maxLoss":4,"bleedPixels":444,"detectorWidth":41},{"name":"antialias","energy":2041528,"lostPixels":51,"maxLoss":136,"bleedPixels":1166,"detectorWidth":41},{"name":"both","energy":2083579,"lostPixels":0,"maxLoss":1,"bleedPixels":444,"detectorWidth":41}]},{"scale":0.72,"resolution":2,"phase":0.25,"source":"particles","directEnergy":1796174,"directPixels":13404,"modes":[{"name":"configured","energy":2083606,"lostPixels":0,"maxLoss":0,"bleedPixels":457,"detectorWidth":42},{"name":"current","energy":2045280,"lostPixels":58,"maxLoss":124,"bleedPixels":1073,"detectorWidth":41},{"name":"resolution","energy":2083362,"lostPixels":5,"maxLoss":4,"bleedPixels":457,"detectorWidth":42},{"name":"antialias","energy":2046138,"lostPixels":58,"maxLoss":124,"bleedPixels":1094,"detectorWidth":41},{"name":"both","energy":2083606,"lostPixels":0,"maxLoss":0,"bleedPixels":457,"detectorWidth":42}]},{"scale":0.72,"resolution":2,"phase":0.5,"source":"particles","directEnergy":1795621,"directPixels":13385,"modes":[{"name":"configured","energy":2083579,"lostPixels":0,"maxLoss":1,"bleedPixels":444,"detectorWidth":41},{"name":"current","energy":2043705,"lostPixels":45,"maxLoss":126,"bleedPixels":1118,"detectorWidth":41},{"name":"resolution","energy":2083356,"lostPixels":2,"maxLoss":4,"bleedPixels":444,"detectorWidth":41},{"name":"antialias","energy":2046256,"lostPixels":45,"maxLoss":126,"bleedPixels":1163,"detectorWidth":41},{"name":"both","energy":2083579,"lostPixels":0,"maxLoss":1,"bleedPixels":444,"detectorWidth":41}]},{"scale":0.72,"resolution":2,"phase":0.75,"source":"particles","directEnergy":1796174,"directPixels":13404,"modes":[{"name":"configured","energy":2083606,"lostPixels":0,"maxLoss":0,"bleedPixels":457,"detectorWidth":42},{"name":"current","energy":2041816,"lostPixels":54,"maxLoss":123,"bleedPixels":1099,"detectorWidth":40},{"name":"resolution","energy":2083362,"lostPixels":5,"maxLoss":4,"bleedPixels":457,"detectorWidth":42},{"name":"antialias","energy":2043467,"lostPixels":54,"maxLoss":123,"bleedPixels":1122,"detectorWidth":40},{"name":"both","energy":2083606,"lostPixels":0,"maxLoss":0,"bleedPixels":457,"detectorWidth":42}]},{"scale":0.72,"resolution":2,"phase":0,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":210744,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":41,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":197052,"lostPixels":0,"maxLoss":8,"bleedPixels":556,"detectorWidth":14},{"name":"both","energy":210744,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12}]},{"scale":0.72,"resolution":2,"phase":0.25,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":206349,"lostPixels":0,"maxLoss":24,"bleedPixels":562,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":41,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":197052,"lostPixels":0,"maxLoss":8,"bleedPixels":556,"detectorWidth":13},{"name":"both","energy":206349,"lostPixels":0,"maxLoss":24,"bleedPixels":562,"detectorWidth":13}]},{"scale":0.72,"resolution":2,"phase":0.5,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":210744,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":160,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":189042,"lostPixels":0,"maxLoss":77,"bleedPixels":518,"detectorWidth":14},{"name":"both","energy":210744,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12}]},{"scale":0.72,"resolution":2,"phase":0.75,"source":"control","directEnergy":103284,"directPixels":156,"modes":[{"name":"configured","energy":206349,"lostPixels":0,"maxLoss":24,"bleedPixels":562,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":160,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":189042,"lostPixels":0,"maxLoss":77,"bleedPixels":518,"detectorWidth":13},{"name":"both","energy":206349,"lostPixels":0,"maxLoss":24,"bleedPixels":562,"detectorWidth":13}]}]
+  ✓   5 [chromium] › tests/e2e/post-compositing.spec.ts:44:1 › bloom preserves production particle coverage on a high-density canvas (13.6s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓   6 [chromium] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (729ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓   7 [chromium] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (723ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓   8 [chromium] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (1.0s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓   9 [chromium] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (994ms)
+  ✓  10 [chromium] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (964ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22209,
+  threeEnergy: 66407,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  11 [chromium] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (804ms)
+(node:14876) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [pixel-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (12.2s)
+[plume-frozen] pixel-portrait step 496: {"extent":{"found":true,"left":482,"right":602,"top":733,"bottom":1248,"widthPx":121,"heightPx":516,"spanPx":516,"count":10394,"bandWidthPx":84},"repeat":{"found":true,"left":482,"right":602,"top":733,"bottom":1248,"widthPx":121,"heightPx":516,"spanPx":516,"count":10394,"bandWidthPx":84}}
+[plume-frozen] pixel-portrait step 536: {"extent":{"found":true,"left":488,"right":613,"top":729,"bottom":1310,"widthPx":126,"heightPx":582,"spanPx":582,"count":10819,"bandWidthPx":83},"repeat":{"found":true,"left":488,"right":613,"top":729,"bottom":1310,"widthPx":126,"heightPx":582,"spanPx":582,"count":10819,"bandWidthPx":83}}
+[plume-frozen] pixel-portrait step 574: {"extent":{"found":true,"left":488,"right":609,"top":731,"bottom":1234,"widthPx":122,"heightPx":504,"spanPx":504,"count":10720,"bandWidthPx":86},"repeat":{"found":true,"left":488,"right":609,"top":731,"bottom":1234,"widthPx":122,"heightPx":504,"spanPx":504,"count":10720,"bandWidthPx":86}}
+[plume-frozen] pixel-portrait step 606: {"extent":{"found":true,"left":481,"right":604,"top":741,"bottom":1220,"widthPx":124,"heightPx":480,"spanPx":480,"count":10941,"bandWidthPx":82},"repeat":{"found":true,"left":481,"right":604,"top":741,"bottom":1220,"widthPx":124,"heightPx":480,"spanPx":480,"count":10941,"bandWidthPx":82}}
+[plume] pixel-portrait · the plume is longer than the ship at low altitude @mobile: 3.29 long, 0.54 across (spans 3.29/3.71/3.21/3.06, widths 0.54/0.53/0.55/0.52, steps 496/536/574/606; 0/4 anchored to the region edge; throttle 100/100/100/100; (482,733)-(602,1248)n10394 (488,729)-(613,1310)n10819 (488,731)-(609,1234)n10720 (481,741)-(604,1220)n10941)
+  ✓  13 [pixel-portrait] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (33.4s)
+[plume-frozen] pixel-portrait step 486: {"extent":{"found":true,"left":478,"right":595,"top":738,"bottom":1220,"widthPx":118,"heightPx":483,"spanPx":483,"count":10545,"bandWidthPx":81},"repeat":{"found":true,"left":478,"right":595,"top":738,"bottom":1220,"widthPx":118,"heightPx":483,"spanPx":483,"count":10545,"bandWidthPx":81}}
+[plume-frozen] pixel-portrait step 528: {"extent":{"found":true,"left":487,"right":602,"top":734,"bottom":1290,"widthPx":116,"heightPx":557,"spanPx":557,"count":10743,"bandWidthPx":79},"repeat":{"found":true,"left":487,"right":602,"top":734,"bottom":1290,"widthPx":116,"heightPx":557,"spanPx":557,"count":10743,"bandWidthPx":79}}
+[plume-frozen] pixel-portrait step 568: {"extent":{"found":true,"left":483,"right":600,"top":734,"bottom":1291,"widthPx":118,"heightPx":558,"spanPx":558,"count":10405,"bandWidthPx":84},"repeat":{"found":true,"left":483,"right":600,"top":734,"bottom":1291,"widthPx":118,"heightPx":558,"spanPx":558,"count":10405,"bandWidthPx":84}}
+[plume-frozen] pixel-portrait step 604: {"extent":{"found":true,"left":479,"right":599,"top":739,"bottom":1218,"widthPx":121,"heightPx":480,"spanPx":480,"count":10165,"bandWidthPx":80},"repeat":{"found":true,"left":479,"right":599,"top":739,"bottom":1218,"widthPx":121,"heightPx":480,"spanPx":480,"count":10165,"bandWidthPx":80}}
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 3.55 long, 0.52 across (spans 3.08/3.55/3.55/3.06, widths 0.52/0.50/0.54/0.51, steps 486/528/568/604; 1/4 anchored to the region edge; throttle 100/100/100/100; (478,738)-(595,1220)n10545 (487,734)-(602,1290)n10743 (483,734)-(600,1291)n10405 (479,739)-(599,1218)n10165)
+[plume-frozen] pixel-portrait step 489: {"extent":{"found":true,"left":506,"right":577,"top":721,"bottom":857,"widthPx":72,"heightPx":137,"spanPx":137,"count":2922,"bandWidthPx":54},"repeat":{"found":true,"left":506,"right":577,"top":721,"bottom":857,"widthPx":72,"heightPx":137,"spanPx":137,"count":2922,"bandWidthPx":54}}
+[plume-frozen] pixel-portrait step 529: {"extent":{"found":true,"left":503,"right":571,"top":722,"bottom":929,"widthPx":69,"heightPx":208,"spanPx":208,"count":2796,"bandWidthPx":53},"repeat":{"found":true,"left":503,"right":571,"top":722,"bottom":929,"widthPx":69,"heightPx":208,"spanPx":208,"count":2796,"bandWidthPx":53}}
+[plume-frozen] pixel-portrait step 565: {"extent":{"found":true,"left":506,"right":584,"top":722,"bottom":849,"widthPx":79,"heightPx":128,"spanPx":128,"count":2929,"bandWidthPx":57},"repeat":{"found":true,"left":506,"right":584,"top":722,"bottom":849,"widthPx":79,"heightPx":128,"spanPx":128,"count":2929,"bandWidthPx":57}}
+[plume-frozen] pixel-portrait step 605: {"extent":{"found":true,"left":506,"right":573,"top":727,"bottom":888,"widthPx":68,"heightPx":162,"spanPx":162,"count":2967,"bandWidthPx":54},"repeat":{"found":true,"left":506,"right":573,"top":727,"bottom":888,"widthPx":68,"heightPx":162,"spanPx":162,"count":2967,"bandWidthPx":54}}
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 2.27 long, 0.76 across (spans 1.92/2.92/1.80/2.27, widths 0.76/0.74/0.80/0.76, steps 489/529/565/605; 1/4 anchored to the region edge; throttle 100/100/100/100; (506,721)-(577,857)n2922 (503,722)-(571,929)n2796 (506,722)-(584,849)n2929 (506,727)-(573,888)n2967)
+low: 3.55 long, 0.52 across · vacuum: 2.27 long, 0.76 across
+frame 1082x1425 @2.63x  altitude 120000 m  vehicle 71 px
+  below      mean   50.3  spread  29.34  tones  7  bright 0.017  dark 0.923  warm 0.0098  top #332222:0.42 #222222:0.32 #222211:0.06 #333322:0.06 #111122:0.03
+  EXT plume    found true  span 162px (68x162)  band 54px  n 2967  box (506,727)-(573,888)  = 2.27 vehicle heights
+  |                                            |
+  |                                            |
+  | ++              -                 =  =:    |
+  |    =                   =                   |
+  |   +=                      -                |
+  |   -              +-        -   --          |
+  |==                              ::          |
+  |  =  +                                -     |
+  |                     .+          -   =      |
+  |                           .-     -    -    |
+  |.-..................#@%#....................|
+  |--.....-............@@@@-...................|
+  |********************%@@#********@***********|
+  |.....................*%.....................|
+  |.....................#*.....................|
+  |.....................+=:....................|
+  |.....................---....................|
+  |::...................:::...........:::::::::|
+  |::::...........................:::::::::::::|
+  |:::...........................::::::::::::::|
+  |:::....................................:::::|
+  |....................:::::...................|
+  aspect: 0.15 low, 0.33 vacuum
+  ✓  14 [pixel-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (47.9s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  15 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (1.2s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  16 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (708ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  17 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (730ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  18 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (964ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  19 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (957ms)
+  ✓  20 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (987ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22209,
+  threeEnergy: 66407,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  21 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (773ms)
+(node:15031) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  22 [pixel-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (11.1s)
+[plume-frozen] pixel-landscape step 361: {"extent":{"found":true,"left":1088,"right":1171,"top":510,"bottom":880,"widthPx":84,"heightPx":371,"spanPx":371,"count":5683,"bandWidthPx":66},"repeat":{"found":true,"left":1088,"right":1171,"top":510,"bottom":880,"widthPx":84,"heightPx":371,"spanPx":371,"count":5683,"bandWidthPx":66}}
+[plume-frozen] pixel-landscape step 402: {"extent":{"found":true,"left":1090,"right":1166,"top":503,"bottom":914,"widthPx":77,"heightPx":412,"spanPx":412,"count":5387,"bandWidthPx":61},"repeat":{"found":true,"left":1090,"right":1166,"top":503,"bottom":914,"widthPx":77,"heightPx":412,"spanPx":412,"count":5387,"bandWidthPx":61}}
+[plume-frozen] pixel-landscape step 442: {"extent":{"found":true,"left":1086,"right":1165,"top":497,"bottom":817,"widthPx":80,"heightPx":321,"spanPx":321,"count":5836,"bandWidthPx":62},"repeat":{"found":true,"left":1086,"right":1165,"top":497,"bottom":817,"widthPx":80,"heightPx":321,"spanPx":321,"count":5836,"bandWidthPx":62}}
+[plume-frozen] pixel-landscape step 470: {"extent":{"found":true,"left":1094,"right":1174,"top":492,"bottom":839,"widthPx":81,"heightPx":348,"spanPx":348,"count":5668,"bandWidthPx":60},"repeat":{"found":true,"left":1094,"right":1174,"top":492,"bottom":839,"widthPx":81,"heightPx":348,"spanPx":348,"count":5668,"bandWidthPx":60}}
+[plume] pixel-landscape · the plume is longer than the ship at low altitude @mobile: 3.21 long, 0.54 across (spans 3.21/3.56/2.78/3.01, widths 0.57/0.53/0.54/0.52, steps 361/402/442/470; 4/4 anchored to the region edge; throttle 100/100/100/100; (1088,510)-(1171,880)n5683 (1090,503)-(1166,914)n5387 (1086,497)-(1165,817)n5836 (1094,492)-(1174,839)n5668)
+  ✓  23 [pixel-landscape] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (34.9s)
+[plume-frozen] pixel-landscape step 490: {"extent":{"found":true,"left":1082,"right":1170,"top":490,"bottom":868,"widthPx":89,"heightPx":379,"spanPx":379,"count":5894,"bandWidthPx":62},"repeat":{"found":true,"left":1082,"right":1170,"top":490,"bottom":868,"widthPx":89,"heightPx":379,"spanPx":379,"count":5894,"bandWidthPx":62}}
+[plume-frozen] pixel-landscape step 520: {"extent":{"found":true,"left":1099,"right":1175,"top":487,"bottom":864,"widthPx":77,"heightPx":378,"spanPx":378,"count":6025,"bandWidthPx":60},"repeat":{"found":true,"left":1099,"right":1175,"top":487,"bottom":864,"widthPx":77,"heightPx":378,"spanPx":378,"count":6025,"bandWidthPx":60}}
+[plume-frozen] pixel-landscape step 560: {"extent":{"found":true,"left":1093,"right":1175,"top":487,"bottom":832,"widthPx":83,"heightPx":346,"spanPx":346,"count":5803,"bandWidthPx":62},"repeat":{"found":true,"left":1093,"right":1175,"top":487,"bottom":832,"widthPx":83,"heightPx":346,"spanPx":346,"count":5803,"bandWidthPx":62}}
+[plume-frozen] pixel-landscape step 590: {"extent":{"found":true,"left":1091,"right":1179,"top":491,"bottom":861,"widthPx":89,"heightPx":371,"spanPx":371,"count":6117,"bandWidthPx":59},"repeat":{"found":true,"left":1091,"right":1179,"top":491,"bottom":861,"widthPx":89,"heightPx":371,"spanPx":371,"count":6117,"bandWidthPx":59}}
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 3.27 long, 0.54 across (spans 3.28/3.27/2.99/3.21, widths 0.54/0.52/0.54/0.51, steps 490/520/560/590; 3/4 anchored to the region edge; throttle 100/100/100/100; (1082,490)-(1170,868)n5894 (1099,487)-(1175,864)n6025 (1093,487)-(1175,832)n5803 (1091,491)-(1179,861)n6117)
+[plume-frozen] pixel-landscape step 504: {"extent":{"found":true,"left":1110,"right":1157,"top":482,"bottom":554,"widthPx":48,"heightPx":73,"spanPx":73,"count":1716,"bandWidthPx":42},"repeat":{"found":true,"left":1110,"right":1157,"top":482,"bottom":554,"widthPx":48,"heightPx":73,"spanPx":73,"count":1716,"bandWidthPx":42}}
+[plume-frozen] pixel-landscape step 540: {"extent":{"found":true,"left":1107,"right":1160,"top":482,"bottom":555,"widthPx":54,"heightPx":74,"spanPx":74,"count":1592,"bandWidthPx":37},"repeat":{"found":true,"left":1107,"right":1160,"top":482,"bottom":555,"widthPx":54,"heightPx":74,"spanPx":74,"count":1592,"bandWidthPx":37}}
+[plume-frozen] pixel-landscape step 576: {"extent":{"found":true,"left":1107,"right":1166,"top":482,"bottom":571,"widthPx":60,"heightPx":90,"spanPx":90,"count":1630,"bandWidthPx":45},"repeat":{"found":true,"left":1107,"right":1166,"top":482,"bottom":571,"widthPx":60,"heightPx":90,"spanPx":90,"count":1630,"bandWidthPx":45}}
+[plume-frozen] pixel-landscape step 616: {"extent":{"found":true,"left":1104,"right":1162,"top":483,"bottom":576,"widthPx":59,"heightPx":94,"spanPx":94,"count":1704,"bandWidthPx":42},"repeat":{"found":true,"left":1104,"right":1162,"top":483,"bottom":576,"widthPx":59,"heightPx":94,"spanPx":94,"count":1704,"bandWidthPx":42}}
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 1.71 long, 0.80 across (spans 1.39/1.41/1.71/1.79, widths 0.80/0.70/0.86/0.80, steps 504/540/576/616; 1/4 anchored to the region edge; throttle 100/100/100/100; (1110,482)-(1157,554)n1716 (1107,482)-(1160,555)n1592 (1107,482)-(1166,571)n1630 (1104,483)-(1162,576)n1704)
+low: 3.27 long, 0.54 across · vacuum: 1.71 long, 0.80 across
+frame 2265x945 @2.62x  altitude 120000 m  vehicle 53 px
+  below      mean   49.0  spread  23.02  tones  4  bright 0.009  dark 0.941  warm 0.0028  top #332222:0.66 #222222:0.16 #111122:0.04 #333322:0.03 #222211:0.02
+  EXT plume    found true  span 94px (59x94)  band 42px  n 1704  box (1104,483)-(1162,576)  = 1.79 vehicle heights
+  |          -  -                    --        |
+  |                                            |
+  |               +    - .   ==   #            |
+  |            =   =     =        # -          |
+  |            =   +      -                    |
+  |                -   ++  --    =   -         |
+  |               =.       .-     +   -        |
+  |       +   - = =+          -  * =           |
+  |         = .         -+  -==    =           |
+  |        -    -       : -:---    -           |
+  |..........:....-.....@@.....................|
+  |.........==....-.-...@@............:........|
+  |-==++***##***********@@#*@*****%*******++==-|
+  |********:............#@............:********|
+  |.....................*+.....................|
+  |.....................=+.....................|
+  |.....................++.....................|
+  |.....................--.....................|
+  |.....................::.....................|
+  |............................................|
+  |............................................|
+  |...::::::.........................::::::....|
+  aspect: 0.16 low, 0.47 vacuum
+  ✓  24 [pixel-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (1.0m)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  25 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (1.2s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  26 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (707ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  27 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (713ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  28 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (959ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  29 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (961ms)
+  ✓  30 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (995ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22209,
+  threeEnergy: 66407,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  31 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (778ms)
+(node:15086) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  32 [iphone-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (10.3s)
+[plume-frozen] iphone-portrait step 481: {"extent":{"found":true,"left":532,"right":632,"top":575,"bottom":920,"widthPx":101,"heightPx":346,"spanPx":346,"count":7623,"bandWidthPx":70},"repeat":{"found":true,"left":532,"right":632,"top":575,"bottom":920,"widthPx":101,"heightPx":346,"spanPx":346,"count":7623,"bandWidthPx":70}}
+[plume-frozen] iphone-portrait step 523: {"extent":{"found":true,"left":543,"right":638,"top":570,"bottom":944,"widthPx":96,"heightPx":375,"spanPx":375,"count":7864,"bandWidthPx":71},"repeat":{"found":true,"left":543,"right":638,"top":570,"bottom":944,"widthPx":96,"heightPx":375,"spanPx":375,"count":7864,"bandWidthPx":71}}
+[plume-frozen] iphone-portrait step 564: {"extent":{"found":true,"left":540,"right":635,"top":570,"bottom":983,"widthPx":96,"heightPx":414,"spanPx":414,"count":7690,"bandWidthPx":72},"repeat":{"found":true,"left":540,"right":635,"top":570,"bottom":983,"widthPx":96,"heightPx":414,"spanPx":414,"count":7690,"bandWidthPx":72}}
+[plume-frozen] iphone-portrait step 600: {"extent":{"found":true,"left":541,"right":640,"top":573,"bottom":930,"widthPx":100,"heightPx":358,"spanPx":358,"count":8057,"bandWidthPx":68},"repeat":{"found":true,"left":541,"right":640,"top":573,"bottom":930,"widthPx":100,"heightPx":358,"spanPx":358,"count":8057,"bandWidthPx":68}}
+[plume] iphone-portrait · the plume is longer than the ship at low altitude @mobile: 2.84 long, 0.54 across (spans 2.62/2.84/3.13/2.71, widths 0.53/0.54/0.54/0.51, steps 481/523/564/600; 3/4 anchored to the region edge; throttle 100/100/100/100; (532,575)-(632,920)n7623 (543,570)-(638,944)n7864 (540,570)-(635,983)n7690 (541,573)-(640,930)n8057)
+  ✓  33 [iphone-portrait] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (23.6s)
+[plume-frozen] iphone-portrait step 486: {"extent":{"found":true,"left":534,"right":633,"top":572,"bottom":957,"widthPx":100,"heightPx":386,"spanPx":386,"count":7588,"bandWidthPx":69},"repeat":{"found":true,"left":534,"right":633,"top":572,"bottom":957,"widthPx":100,"heightPx":386,"spanPx":386,"count":7588,"bandWidthPx":69}}
+[plume-frozen] iphone-portrait step 522: {"extent":{"found":true,"left":543,"right":638,"top":570,"bottom":927,"widthPx":96,"heightPx":358,"spanPx":358,"count":7797,"bandWidthPx":71},"repeat":{"found":true,"left":543,"right":638,"top":570,"bottom":927,"widthPx":96,"heightPx":358,"spanPx":358,"count":7797,"bandWidthPx":71}}
+[plume-frozen] iphone-portrait step 560: {"extent":{"found":true,"left":541,"right":633,"top":570,"bottom":982,"widthPx":93,"heightPx":413,"spanPx":413,"count":7836,"bandWidthPx":75},"repeat":{"found":true,"left":541,"right":633,"top":570,"bottom":982,"widthPx":93,"heightPx":413,"spanPx":413,"count":7836,"bandWidthPx":75}}
+[plume-frozen] iphone-portrait step 600: {"extent":{"found":true,"left":544,"right":643,"top":573,"bottom":993,"widthPx":100,"heightPx":421,"spanPx":421,"count":8090,"bandWidthPx":69},"repeat":{"found":true,"left":544,"right":643,"top":573,"bottom":993,"widthPx":100,"heightPx":421,"spanPx":421,"count":8090,"bandWidthPx":69}}
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 3.13 long, 0.54 across (spans 2.92/2.71/3.13/3.19, widths 0.52/0.54/0.57/0.52, steps 486/522/560/600; 2/4 anchored to the region edge; throttle 100/100/100/100; (534,572)-(633,957)n7588 (543,570)-(638,927)n7797 (541,570)-(633,982)n7836 (544,573)-(643,993)n8090)
+[plume-frozen] iphone-portrait step 502: {"extent":{"found":true,"left":562,"right":620,"top":561,"bottom":746,"widthPx":59,"heightPx":186,"spanPx":186,"count":2204,"bandWidthPx":45},"repeat":{"found":true,"left":562,"right":620,"top":561,"bottom":746,"widthPx":59,"heightPx":186,"spanPx":186,"count":2204,"bandWidthPx":45}}
+[plume-frozen] iphone-portrait step 540: {"extent":{"found":true,"left":559,"right":620,"top":560,"bottom":689,"widthPx":62,"heightPx":130,"spanPx":130,"count":2203,"bandWidthPx":50},"repeat":{"found":true,"left":559,"right":620,"top":560,"bottom":689,"widthPx":62,"heightPx":130,"spanPx":130,"count":2203,"bandWidthPx":50}}
+[plume-frozen] iphone-portrait step 578: {"extent":{"found":true,"left":553,"right":622,"top":561,"bottom":656,"widthPx":70,"heightPx":96,"spanPx":96,"count":2166,"bandWidthPx":43},"repeat":{"found":true,"left":553,"right":622,"top":561,"bottom":656,"widthPx":70,"heightPx":96,"spanPx":96,"count":2166,"bandWidthPx":43}}
+[plume-frozen] iphone-portrait step 618: {"extent":{"found":true,"left":564,"right":623,"top":565,"bottom":665,"widthPx":60,"heightPx":101,"spanPx":101,"count":2043,"bandWidthPx":47},"repeat":{"found":true,"left":564,"right":623,"top":565,"bottom":665,"widthPx":60,"heightPx":101,"spanPx":101,"count":2043,"bandWidthPx":47}}
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 2.17 long, 0.78 across (spans 3.10/2.17/1.60/1.68, widths 0.75/0.83/0.72/0.78, steps 502/540/578/618; 2/4 anchored to the region edge; throttle 100/100/100/100; (562,561)-(620,746)n2204 (559,560)-(620,689)n2203 (553,561)-(622,656)n2166 (564,565)-(623,665)n2043)
+low: 3.13 long, 0.54 across · vacuum: 2.17 long, 0.78 across
+frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   49.0  spread  29.16  tones  4  bright 0.018  dark 0.928  warm 0.0076  top #222222:0.37 #332222:0.36 #222211:0.11 #111122:0.03 #333322:0.02
+  EXT plume    found true  span 101px (60x101)  band 47px  n 2043  box (564,565)-(623,665)  = 1.68 vehicle heights
+  |   -                                        |
+  |                                            |
+  |       +          -:   :       = ==        #|
+  |         =             =                   #|
+  |        ++               -.                 |
+  |        -          +-     -  -.         ==  |
+  |      ==                     -.           .+|
+  |  ==   == +                      -      *   |
+  |                     -+      --  =          |
+  |  --                      -   --  -         |
+  |.......-............#%%#....................|
+  |......--...-........+@@@....................|
+  |*********************@@@*****@*************#|
+  |=:..................:*%:..................-=|
+  |.....................*+.....................|
+  |.....................*+.....................|
+  |.....................-*=....................|
+  |.....................-::....................|
+  |::...................::.....................|
+  |:::.....................................::::|
+  |:::::::.............................::::::::|
+  |:::::::...........................::::::::::|
+  aspect: 0.17 low, 0.36 vacuum
+  ✓  34 [iphone-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (40.6s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  35 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (1.2s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  36 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (700ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  37 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (693ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  38 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (969ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  39 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (957ms)
+  ✓  40 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (977ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22209,
+  threeEnergy: 66407,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  41 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (778ms)
+(node:15116) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  42 [iphone-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (9.1s)
+[plume-frozen] iphone-landscape step 484: {"extent":{"found":true,"left":1072,"right":1170,"top":531,"bottom":981,"widthPx":99,"heightPx":451,"spanPx":451,"count":7399,"bandWidthPx":67},"repeat":{"found":true,"left":1072,"right":1170,"top":531,"bottom":981,"widthPx":99,"heightPx":451,"spanPx":451,"count":7399,"bandWidthPx":67}}
+[plume-frozen] iphone-landscape step 516: {"extent":{"found":true,"left":1086,"right":1180,"top":527,"bottom":905,"widthPx":95,"heightPx":379,"spanPx":379,"count":7862,"bandWidthPx":68},"repeat":{"found":true,"left":1086,"right":1180,"top":527,"bottom":905,"widthPx":95,"heightPx":379,"spanPx":379,"count":7862,"bandWidthPx":68}}
+[plume-frozen] iphone-landscape step 548: {"extent":{"found":true,"left":1081,"right":1169,"top":527,"bottom":893,"widthPx":89,"heightPx":367,"spanPx":367,"count":7175,"bandWidthPx":67},"repeat":{"found":true,"left":1081,"right":1169,"top":527,"bottom":893,"widthPx":89,"heightPx":367,"spanPx":367,"count":7175,"bandWidthPx":67}}
+[plume-frozen] iphone-landscape step 586: {"extent":{"found":true,"left":1083,"right":1179,"top":527,"bottom":921,"widthPx":97,"heightPx":395,"spanPx":395,"count":7626,"bandWidthPx":69},"repeat":{"found":true,"left":1083,"right":1179,"top":527,"bottom":921,"widthPx":97,"heightPx":395,"spanPx":395,"count":7626,"bandWidthPx":69}}
+[plume] iphone-landscape · the plume is longer than the ship at low altitude @mobile: 2.99 long, 0.51 across (spans 3.41/2.87/2.78/2.99, widths 0.51/0.51/0.51/0.52, steps 484/516/548/586; 4/4 anchored to the region edge; throttle 100/100/100/100; (1072,531)-(1170,981)n7399 (1086,527)-(1180,905)n7862 (1081,527)-(1169,893)n7175 (1083,527)-(1179,921)n7626)
+  ✓  43 [iphone-landscape] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (34.8s)
+[plume-frozen] iphone-landscape step 498: {"extent":{"found":true,"left":1079,"right":1176,"top":531,"bottom":910,"widthPx":98,"heightPx":380,"spanPx":380,"count":7676,"bandWidthPx":68},"repeat":{"found":true,"left":1079,"right":1176,"top":531,"bottom":910,"widthPx":98,"heightPx":380,"spanPx":380,"count":7676,"bandWidthPx":68}}
+[plume-frozen] iphone-landscape step 530: {"extent":{"found":true,"left":1080,"right":1168,"top":529,"bottom":979,"widthPx":89,"heightPx":451,"spanPx":451,"count":7118,"bandWidthPx":71},"repeat":{"found":true,"left":1080,"right":1168,"top":529,"bottom":979,"widthPx":89,"heightPx":451,"spanPx":451,"count":7118,"bandWidthPx":71}}
+[plume-frozen] iphone-landscape step 568: {"extent":{"found":true,"left":1081,"right":1175,"top":531,"bottom":927,"widthPx":95,"heightPx":397,"spanPx":397,"count":7448,"bandWidthPx":72},"repeat":{"found":true,"left":1081,"right":1175,"top":531,"bottom":927,"widthPx":95,"heightPx":397,"spanPx":397,"count":7448,"bandWidthPx":72}}
+[plume-frozen] iphone-landscape step 602: {"extent":{"found":true,"left":1081,"right":1183,"top":533,"bottom":878,"widthPx":103,"heightPx":346,"spanPx":346,"count":7855,"bandWidthPx":71},"repeat":{"found":true,"left":1081,"right":1183,"top":533,"bottom":878,"widthPx":103,"heightPx":346,"spanPx":346,"count":7855,"bandWidthPx":71}}
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 3.00 long, 0.54 across (spans 2.88/3.41/3.00/2.62, widths 0.51/0.54/0.54/0.54, steps 498/530/568/602; 3/4 anchored to the region edge; throttle 100/100/100/100; (1079,531)-(1176,910)n7676 (1080,529)-(1168,979)n7118 (1081,531)-(1175,927)n7448 (1081,533)-(1183,878)n7855)
+[plume-frozen] iphone-landscape step 370: {"extent":{"found":true,"left":1101,"right":1160,"top":530,"bottom":645,"widthPx":60,"heightPx":116,"spanPx":116,"count":2516,"bandWidthPx":50},"repeat":{"found":true,"left":1101,"right":1160,"top":530,"bottom":645,"widthPx":60,"heightPx":116,"spanPx":116,"count":2516,"bandWidthPx":50}}
+[plume-frozen] iphone-landscape step 414: {"extent":{"found":true,"left":1103,"right":1161,"top":523,"bottom":701,"widthPx":59,"heightPx":179,"spanPx":179,"count":2376,"bandWidthPx":43},"repeat":{"found":true,"left":1103,"right":1161,"top":523,"bottom":701,"widthPx":59,"heightPx":179,"spanPx":179,"count":2376,"bandWidthPx":43}}
+[plume-frozen] iphone-landscape step 449: {"extent":{"found":true,"left":1080,"right":1152,"top":522,"bottom":632,"widthPx":73,"heightPx":111,"spanPx":111,"count":2348,"bandWidthPx":44},"repeat":{"found":true,"left":1080,"right":1152,"top":522,"bottom":632,"widthPx":73,"heightPx":111,"spanPx":111,"count":2348,"bandWidthPx":44}}
+[plume-frozen] iphone-landscape step 485: {"extent":{"found":true,"left":1098,"right":1152,"top":521,"bottom":647,"widthPx":55,"heightPx":127,"spanPx":127,"count":2306,"bandWidthPx":47},"repeat":{"found":true,"left":1098,"right":1152,"top":521,"bottom":647,"widthPx":55,"heightPx":127,"spanPx":127,"count":2306,"bandWidthPx":47}}
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 2.12 long, 0.78 across (spans 1.93/2.98/1.85/2.12, widths 0.83/0.72/0.73/0.78, steps 370/414/449/485; 2/4 anchored to the region edge; throttle 100/100/100/100; (1101,530)-(1160,645)n2516 (1103,523)-(1161,701)n2376 (1080,522)-(1152,632)n2348 (1098,521)-(1152,647)n2306)
+low: 3.00 long, 0.54 across · vacuum: 2.12 long, 0.78 across
+frame 2250x1020 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   49.3  spread  24.23  tones  4  bright 0.010  dark 0.938  warm 0.0046  top #332222:0.60 #222222:0.18 #333322:0.06 #111122:0.04 #112222:0.02
+  EXT plume    found true  span 127px (55x127)  band 47px  n 2306  box (1098,521)-(1152,647)  = 2.12 vehicle heights
+  |         -  --                      -       |
+  |                                            |
+  |              .+    - -   ==    #           |
+  |           =   ==     =         #.-         |
+  |           =   +=      -                    |
+  |               -    +-  --     =   -        |
+  |              =          -      +   -       |
+  |      +   - =  =+          -  ** =          |
+  |        = :          -+  - =     =          |
+  |       -    --       #. - -.-    -          |
+  |.........-....--.....@%...:.................|
+  |........=-....-..-...@@.............-.......|
+  |==+++**#*************@@**@******%******+++==|
+  |*******+............:#%:............+*******|
+  |.....................#+.....................|
+  |.....................++.....................|
+  |.....................==.....................|
+  |.....................-=.....................|
+  |.....................-:.....................|
+  |............................................|
+  |............................................|
+  |.......:::::::::...........................:|
+  aspect: 0.18 low, 0.37 vacuum
+  ✓  44 [iphone-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (53.7s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  45 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (1.3s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  46 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (713ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  47 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (712ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  48 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (978ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  49 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (962ms)
+  ✓  50 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (991ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22209,
+  threeEnergy: 66407,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  51 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (779ms)
+
+  51 passed (8.4m)

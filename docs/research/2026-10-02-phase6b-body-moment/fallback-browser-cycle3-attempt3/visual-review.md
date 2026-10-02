@@ -1,0 +1,15 @@
+# Cycle3attempt3 visual and source acceptance
+
+Fresh independent plume_cycle3_review inspected actual desktop low/vacuum and PixelLandscape vacuum images. Accepts Phase6b's minimum continuous-gas rendering: the previous broad triangular white plateau is gone; the hot center is narrower inside expanding soft orange gas, attached correctly with a fading outer edge. Low altitude remains strongly saturated and the distal tail beaded; both are recorded for Phase8, not claimed polished.
+
+Structural fix maps transverse UV from actual x/radius into the unchanged soft profile. No emitter constants, gain, seed, numeric bounds or retry changes. A nominal endpoint test watched0.5 versus independently calculated0.2534 red, then green. Eight component/84focused tests, build and lint pass. All51browserchecks pass (original10five-project plume,36renderer,5strengthenedscene lifecycle),8.4minutes,zero retries. All60 ordered subject/repeat PNG pairs byte-identical. An initial parser keyed by attachment name falsely compared one low/vacuum pair with coincident frame380 after reload; adjacency pairing fixes the evidence parser, not runtime.
+
+Real WebGL one/three engine energies22209/66407; off/restart0; pause difference0; distinct whole-field luma/warmth diagnostic widths6/24. Smoke darkens8 in both orders; smoke-after red30 versus smoke-before51. These controls are not original band acceptance, which is separately10/10green.
+
+Initial additional one-engine case at1km,−30m/s: its propellant override mistakenly used kg rather than tonnes and clamped to1200t. The saved single-engine/ image is historical fixture-error evidence, not a20t landing proof. Corrected fixture verification is pending. At the clamped mass: one healthy engine and two failed engines, actual positive thrust and one visible gas mount; browser passes and PNG/state saved in single-engine/. Author inspected the low-altitude image and identified the incorrect tank readout. Gas is attached and legible, but the intended20t fixture must be rerun with corrected units.
+
+All21 Linux physics runtime pins match. Complete final-source gate, mutation alone, fullfive-browser suite, high-depth whole-phase independent reviews, coherentpush/mainmerge/maingate/hosted/live verification remain required. This is conditional source/visual acceptance, not Phase6b completion. Main/live080f108,60%,four phases unfinished.
+
+## Corrected tonne-input fixture verification
+
+The additional mass assertion watched1197766.82kg against intended<20000kg red, exposing the clamped input. Corrected debug overrides use200t for the lifecycle flight and20t for the single-engine case. Build and all6actualscene checks pass, including all5viewports. The single-engine case has actual thrust2272332N,remainingpropellant17444.44kg and one visible continuous mount with two failed engines. The author inspected corrected screenshot f3eb1651 in fixture-units-green/html-report/data/: gas is attached to the tilted one-engine vehicle and visibly legible. No production runtime changed; final gate above remains applicable to source.
