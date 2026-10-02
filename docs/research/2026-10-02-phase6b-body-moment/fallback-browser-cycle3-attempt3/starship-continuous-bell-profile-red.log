@@ -1,0 +1,43 @@
+
+> starship-simulator-v2@0.1.0 test
+> vitest run tests/view/emissive-bell.test.ts
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/emissive-bell.test.ts (8 tests | 2 failed) 66ms
+     × expands smoothly as ambient pressure drops while reusing finite buffers 2ms
+   × places fan vertices in the existing transverse fade instead of a saturated interior plateau 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/emissive-bell.test.ts > continuous nozzle-frame gas > expands smoothly as ambient pressure drops while reusing finite buffers
+AssertionError: expected 0.5 to be less than 0.5
+ ❯ tests/view/emissive-bell.test.ts:43:26
+     41|       // The complete envelope uses the same soft profile, not a flat …
+     42|       expect(uvs.at(-10)).toBe(0);
+     43|       expect(uvs.at(-8)).toBeLessThan(0.5);
+       |                          ^
+     44|       expect(uvs.at(-6)).toBe(0.5);
+     45|       expect(uvs.at(-4)).toBeGreaterThan(0.5);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/view/emissive-bell.test.ts > places fan vertices in the existing transverse fade instead of a saturated interior plateau
+AssertionError: expected 0.5 to be close to 0.2534, received difference is 0.24659999999999999, but expected 0.0005
+ ❯ tests/view/emissive-bell.test.ts:127:22
+    125|   // Hand-calculated nominal sea-level endpoint: travel28.649m,
+    126|   // fan5.692m, radius11.542m; symmetric normalized transverse coordin…
+    127|   expect(uvs.at(-8)).toBeCloseTo(0.2534, 3);
+       |                      ^
+    128|   expect(uvs.at(-4)).toBeCloseTo(0.7466, 3);
+    129| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 passed (8)
+   Start at  13:26:45
+   Duration  487ms (transform 84ms, setup 0ms, import 314ms, tests 66ms, environment 0ms)
+

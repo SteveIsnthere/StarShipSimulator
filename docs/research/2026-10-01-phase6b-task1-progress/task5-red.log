@@ -1,0 +1,67 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/control-contracts.test.ts (38 tests | 1 failed | 37 skipped) 4ms
+     × reaches the commanded TWR from 60% actual throttle without counting it twice 3ms
+ ❯ |unit| tests/core/failure-freshness.test.ts (2 tests | 2 failed) 5ms
+     × breaks up on the first overpressure step even when the incoming pressure was safe 4ms
+     × does not break a safe vacuum state because its incoming pressure reading was stale 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/control-contracts.test.ts > controlEnginebyTWR keeps the throttle inside the engine limits > reaches the commanded TWR from 60% actual throttle without counting it twice
+AssertionError: expected 3.3333333333333335 to be close to 2, received difference is 1.3333333333333335, but expected 5e-7
+ ❯ tests/core/control-contracts.test.ts:131:22
+    129|       localGravity(s),
+    130|     );
+    131|     expect(achieved).toBeCloseTo(goalTWR, 6);
+       |                      ^
+    132|   });
+    133|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > breakup reads current forces > breaks up on the first overpressure step even when the incoming pressure was safe
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/failure-freshness.test.ts:18:43
+     16|     const next = step(s, 1 / 120);
+     17|     expect(next.forces.dynamicPressure).toBeGreaterThan(C.dynamicPress…
+     18|     expect(next.failures.inFlightBreakUp).toBe(true);
+       |                                           ^
+     19|   });
+     20|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > breakup reads current forces > does not break a safe vacuum state because its incoming pressure reading was stale
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/failure-freshness.test.ts:28:43
+     26|     const next = step(s, 1 / 120);
+     27|     expect(next.forces.dynamicPressure).toBeLessThan(C.dynamicPressure…
+     28|     expect(next.failures.inFlightBreakUp).toBe(false);
+       |                                           ^
+     29|   });
+     30| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 37 skipped (40)
+   Start at  20:30:22
+   Duration  227ms (transform 158ms, setup 0ms, import 209ms, tests 9ms, environment 0ms)
+

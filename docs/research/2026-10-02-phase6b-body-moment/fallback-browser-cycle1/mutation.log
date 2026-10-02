@@ -1,0 +1,26 @@
+
+> starship-simulator-v2@0.1.0 mutation
+> node scripts/mutation-check.mjs
+
+control: 848 tests pass unmodified
+CAUGHT    gravity-sign: 96 assertions, e.g. gravity is inverse-square, to the last bit g(r) * r^2 is the gravitational parameter, within 1 ULP
+CAUGHT    drag-zeroed: 41 assertions, e.g. the aerodynamic terms are dimensionally what they claim and it is in kPa, while drag is in newtons — the one unit trap here
+CAUGHT    position-dt-doubled: 58 assertions, e.g. angular momentum is conserved on an eccentric orbit to better than a part in ten thousand over a hundred minutes
+CAUGHT    isp-anchors-swapped: 19 assertions, e.g. landingBurnStartAltitude against the simulation from 3 km at 150 m/s on 1 engine(s): within 0.1% of the burn or 2 m
+CAUGHT    rng-counter-frozen: 20 assertions, e.g. ignition delay is simulated time, not wall-clock time draws from the seeded ignitionDelay stream, so replays match
+CAUGHT    propellant-not-burned: 18 assertions, e.g. Newton's second law at zero and negative mass and mass stays positive across a full flight, so none of that is reached
+CAUGHT    burn-clamp-removed: 3 assertions, e.g. invariants over any configurable flight mass never increases, and propellant never goes negative
+CAUGHT    last-step-full-thrust: 2 assertions, e.g. the step the tank empties thrusts only for the fraction of the step the propellant lasts
+CAUGHT    dump-clamp-removed: 2 assertions, e.g. 'landing-burn-autoland' replays field for field, sample for sample
+CAUGHT    editor-floor-removed: 2 assertions, e.g. invariants over any configurable flight mass never increases, and propellant never goes negative
+CAUGHT    guidance-flat-g: 6 assertions, e.g. the vertical TWR law holds a hover at TWR 1 at 80 km the vertical acceleration is within 0.02 m/s² of zero
+CAUGHT    guidance-drag-dropped: 10 assertions, e.g. tailFirstDragDeceleration is zero at rest and grows with speed and density
+CAUGHT    felt-g-flat: 11 assertions, e.g. felt g is zero in free fall, where nothing but gravity acts
+CAUGHT    wind-profile-flat: 3 assertions, e.g. the mean profile (TM-2008-215633 eqs. 2.1-2.2) follows the power law with k = 0.52 u^(-3/4) through the surface layer
+CAUGHT    turbulence-isotropic: 2 assertions, e.g. 'landing-burn-headwind' replays field for field, sample for sample
+CAUGHT    coriolis-halved: 2 assertions, e.g. at omega != 0 it is the inertial motion seen from the turning ground adds Coriolis and centrifugal terms: a_r += 2 omega v_t + omega^2 r, a_t -= 2 omega v_r
+CAUGHT    rvac-gimballed: 5 assertions, e.g. the RVacs are fixed: they push along the hull and do not steer a deflected gimbal makes no torque and no sideways push with only RVacs lit
+CAUGHT    tile-sink-dropped: 9 assertions, e.g. the tile breaks up on its temperature, the reading the HUD shows above 1,533 K it breaks up; at 1,533 K it does not
+CAUGHT    breakup-current-check-removed: 5 assertions, e.g. breakup reads current forces breaks up on the first overpressure step even when the incoming pressure was safe
+CAUGHT    throttle-current-denominator: 2 assertions, e.g. controlEnginebyTWR keeps the throttle inside the engine limits reaches the commanded TWR from 60% actual throttle without counting it twice
+CAUGHT    final-descent-braking-removed: 4 assertions, e.g. brakes immediately when the distance-over-three target exceeds the one-engine stopping envelope

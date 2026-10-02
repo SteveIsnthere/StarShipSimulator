@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/golden/replay.test.ts (17 tests | 1 failed) 3009ms
+     × reentry-autoland now survives — M2.9(a) recalibrated the heat limit 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > the fixtures themselves > reentry-autoland now survives — M2.9(a) recalibrated the heat limit
+AssertionError: expected 78090.72056313329 to be less than 50000
+ ❯ tests/golden/replay.test.ts:173:49
+    171|     const last = samples[samples.length - 1]!;
+    172|     expect(Number(first['kinematics.altitude'])).toBeGreaterThan(79_00…
+    173|     expect(Number(last['kinematics.altitude'])).toBeLessThan(50_000);
+       |                                                 ^
+    174|     expect(Number(last['kinematics.speedY'])).toBeLessThan(-100);
+    175|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 26 passed (27)
+   Start at  01:44:26
+   Duration  3.28s (transform 160ms, setup 0ms, import 242ms, tests 3.02s, environment 0ms)
+

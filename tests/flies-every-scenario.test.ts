@@ -144,10 +144,8 @@ describe('the autopilot flies the ones it is meant to', () => {
     assertFinite(s, 'reentry');
 
     expect(outcome, `after ${seconds.toFixed(1)} s`).toBe('landed');
-    // Since Phase 6 the limit is a tile temperature (1,533 K) and T goes as
-    // q^1/4, so "60-100% of the limit" would pass almost anything. Banded on
-    // the measured flux instead: 170.9 kW/m^2, a skin temperature of 1,372 K
-    // (2026-10-01), within 5%.
+    // Approved broadside fallback: restore Phase 6’s measured 170.9 kW/m²
+    // characterization, keeping its ±5% band and absolute thermal limit.
     expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(170_900 * 0.95);
     expect(peak).toBeLessThan(170_900 * 1.05);
     expect(peak).toBeLessThan(C.heatLimit);

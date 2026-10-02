@@ -121,7 +121,7 @@ compressing curve in `view/` is a named function whose comment says it is one.
 
 Pixi 8 (WebGPU, falling back to WebGL; tests force `webgl`), resolution capped at DPR 2. Draw
 order is fixed here, back to front: `sky` (gradient, stars) → `far` (distant earth, then clouds)
-→ `world` (ground, StarBase, shadow, pad glow, the pig) → `effectsBehind` (particle pool; bloom)
+→ `world` (ground, StarBase, shadow, pad glow, the pig) → `effectsBehind` (continuous engine gas, particle pool; bloom)
 → `vehicle` (hull, fins, sheath; heat filter) → `effectsFront` (flight-path marker, inset). The
 viewport is one `MutableViewport` updated in place; manual zoom, mode zoom and altitude FOV
 multiply rather than fight.
@@ -177,7 +177,14 @@ sky.
   angle of attack; an onboard inset shows the vehicle large while hot (show > 0.1, hide < 0.06).
 - `particles.ts` — fixed pool of 4000 in parallel typed arrays with a free list, allocated once;
   four generated textures (`core`, `soft`, `smoke`, `wisp`), ten `EFFECTS`. Shock diamonds are
-  brightness bands within the plume core, not an emitter.
+  brightness bands within the plume core, not an emitter. Each effect has a fixed, name-keyed
+  random stream, so batching core and bell births at different frame rates preserves their
+  jitter. Clearing a flight resets emitter debt and random history as well as live particles.
+- `emissive-bell.ts` — one preallocated nozzle-frame mesh per actual healthy firing Raptor.
+  Continuous angular gas follows existing pressure expansion, drag, size, tint and alpha; the
+  existing particle-size soft feather forms its edge. Per-engine fronts grow with simulation
+  time and reset on shutdown/restart; pause holds them. This is authored visualization,
+  not quantitative photometry. Particle detail and gas share capture visibility and bloom.
 - `effects.ts` — emitters from state, bursts from `previous`→`state` edges. Q thresholds are
   kPa, range-checked against the goldens (`tests/view/dynamic-pressure.test.ts`).
 - `post.ts` — hand-written bloom and heat-shimmer filters (`pixi-filters` would cost ~80 kB

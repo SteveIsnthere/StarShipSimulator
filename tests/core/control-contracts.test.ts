@@ -116,6 +116,21 @@ describe('the vertical thrust projection', () => {
 });
 
 describe('controlEnginebyTWR keeps the throttle inside the engine limits', () => {
+  it('reaches the commanded TWR from 60% actual throttle without counting it twice', () => {
+    const s = lit();
+    s.vehicle.vehicleMass = 200_000;
+    s.vehicle.throttleCurrent = 60;
+    s.atmosphere.airPressure = SEA_LEVEL_KPA;
+    const goalTWR = 2;
+    controlEnginebyTWR(s, goalTWR);
+    const achieved = getTWR(
+      3 * perRaptor(s) * s.vehicle.throttle / 100,
+      s.vehicle.vehicleMass,
+      localGravity(s),
+    );
+    expect(achieved).toBeCloseTo(goalTWR, 6);
+  });
+
   it('reaches the commanded TWR when it is achievable', () => {
     // The contract: after the call, the thrust at the commanded throttle should
     // produce the TWR that was asked for.

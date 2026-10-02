@@ -1,0 +1,13 @@
+{
+  "base": "556617dddc864a07d3cdd8ea4cafc851dab8bbdd",
+  "files": {
+    "src/core/control/primitives.ts": "83d1206964393a2bac275e10dcdb6a98253815b57283b7ba6623d216acb9ba86",
+    "src/core/physics/aero.ts": "39cce27fcd9e4cb8474031162461dbdf9a38292e8c417cf6e3951457c8e4441d",
+    "src/core/state.ts": "896cc9be5638f7ad0ac60e5fcec0035276eab27dccdeefd10938b09eb72ec9aa",
+    "src/core/step.ts": "20c7a61841fb606ecaf1d2506b8259c955cce8493d438411e6aa7e64fcbaaa43",
+    "src/core/physics/body-moment.ts": "14c55d0bea6923656bd18e3ebe765a6efb9623ecc94117d06a6b755bec4d3ded",
+    "tests/core/body-moment.test.ts": "96da8a46f1185de5a48c6bdcd7d407593d98601f20c7aa3e8560b88bba0d1e7f",
+    "src/core/physics/fin-surfaces.ts": "014550d01897feb9f61565527e7291413113d64db56d8c15ab44dba02186fcde",
+    "tests/core/fin-surfaces.test.ts": "d8f3654fd3c3f05c90e22dd4230b17fc88eae9b6990563c48fe205071dd7cd1c"
+  }
+}

@@ -1,0 +1,13 @@
+
+> starship-simulator-v2@0.1.0 test
+> vitest run tests/view/emissive-bell.test.ts tests/view/particles.test.ts tests/view/particle-textures.test.ts tests/view/post.test.ts tests/view/emission-blending.test.ts
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+
+ Test Files  5 passed (5)
+      Tests  81 passed (81)
+   Start at  13:07:36
+   Duration  1.24s (transform 292ms, setup 0ms, import 1.38s, tests 840ms, environment 0ms)
+

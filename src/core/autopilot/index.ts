@@ -22,6 +22,7 @@
  * pause, respects warp exactly, and is deterministic under replay.
  */
 import * as C from '../constants';
+import { localGravity } from '../control/guidance-physics';
 import * as cmd from '../control/commands';
 import * as prim from '../control/primitives';
 import * as gravity from '../physics/gravity';
@@ -491,7 +492,25 @@ export function finalDescentStageController(
     prim.raptorAutoShutDown_KeepMinTWRBelow1(state, toggleRaptor);
   }
 
-  prim.verticalSpeedAdjustment(state, -autopilot.distanceToGround / 3 - 0.1, 10, 3);
+  const nominalTarget = -autopilot.distanceToGround / 3 - 0.1;
+  const weight = localGravity(state);
+  const brakingAcceleration = prim.getEffectiveVerticalMaxThrust(
+    engines.running, vehicle.gimbalPointingDirection, state.atmosphere.airPressure, kinematics.pitch,
+  ) / vehicle.vehicleMass - weight;
+  const brakingSpeed = Math.sqrt(2 * Math.max(0, brakingAcceleration) * Math.max(0, autopilot.distanceToGround));
+  if (!onTouchdown && brakingAcceleration > 0 && -nominalTarget > brakingSpeed) {
+    // Phase 6b descent braking, retained with the Task 5 throttle fix: distance/3 can ask a lone engine to
+    // descend faster than it can stop. v²=2*a*h bounds that moving target;
+    // its derivative requires +a braking feed-forward, alongside the existing
+    // 10 m/s feedback scale and TWR ceiling. Ignore drag credit. This local
+    // envelope is refreshed each step, not a trigger margin. The intro's
+    // callback keeps its existing sequence and descent law.
+    const error = kinematics.speedY + brakingSpeed;
+    const goalTWR = 1 + brakingAcceleration / weight - error / 10;
+    prim.controlEnginebyEffectiveVerticalTWR(state, Math.max(0, Math.min(3, goalTWR)));
+  } else {
+    prim.verticalSpeedAdjustment(state, nominalTarget, 10, 3);
+  }
 
   // checkIfTD
   if (kinematics.altitude <= C.vehicleHeight * 0.5 + 0.05) {

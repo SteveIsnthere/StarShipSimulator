@@ -1,0 +1,63 @@
+import { describe, expect, it } from 'vitest';
+import { rad } from '$core/units';
+import { finMomentAtCommand, hypersonicFinCommand, writeFinTargetsInto } from '$core/control/fin-authority';
+import { finsActuation } from '$core/control/actuation';
+import { createScenarioState, getScenario } from '$core/scenarios';
+
+describe('surface authority follows the existing paired actuator family', () => {
+  it.each([-1, 1])('shares exactly the real actuator targets at attack sign%s', (sign) => {
+    for (const command of [-100, -37, 0, 42, 100]) {
+      const target = { front: 0, aft: 0 };
+      writeFinTargetsInto(sign, command, target);
+      const s = createScenarioState(getScenario('before-flip')!);
+      s.status.finActive = true;
+      s.kinematics.angleOfAttack = rad(sign);
+      finsActuation(s, command / 2, 1);
+      expect(target.front + target.aft).toBe(100);
+      expect(s.vehicle.frontFinExtension).toBe(target.front);
+      expect(s.vehicle.aftFinExtension).toBe(target.aft);
+    }
+  });
+
+  it('balances nonzero neutral torque rather than interpreting zero demand as neutral', () => {
+    const attack = rad(-Math.PI / 2);
+    const neutral = finMomentAtCommand(0.2, 100, attack, 23.3, -12.6, 0);
+    expect(neutral).not.toBe(0);
+    const command = hypersonicFinCommand(0.2, 100, attack, 23.3, -12.6, 0);
+    expect(command).not.toBe(0);
+    expect(Math.abs(finMomentAtCommand(0.2, 100, attack, 23.3, -12.6, command))).toBeLessThan(1);
+  });
+
+  it.each([-1, 1])('solves attainable torque and clamps outside actual endpoints for sign%s', (sign) => {
+    const alpha = rad(sign * Math.PI / 3);
+    const low = finMomentAtCommand(0.2, 100, alpha, 25, -10, -100);
+    const high = finMomentAtCommand(0.2, 100, alpha, 25, -10, 100);
+    expect(high).toBeGreaterThan(low);
+    const wanted = low * 0.3 + high * 0.7;
+    const command = hypersonicFinCommand(0.2, 100, alpha, 25, -10, wanted);
+    expect(Math.abs(finMomentAtCommand(0.2, 100, alpha, 25, -10, command) - wanted)).toBeLessThan(1);
+    expect(hypersonicFinCommand(0.2, 100, alpha, 25, -10, low - 1)).toBe(-100);
+    expect(hypersonicFinCommand(0.2, 100, alpha, 25, -10, high + 1)).toBe(100);
+  });
+
+  it('returns neutral when no aerodynamic authority exists', () => {
+    expect(hypersonicFinCommand(0, 100, rad(1), 25, -10, 100)).toBe(0);
+    expect(hypersonicFinCommand(0.2, 0, rad(1), 25, -10, -100)).toBe(0);
+    expect(hypersonicFinCommand(0.2, 100, rad(0), 25, -10, 100)).toBe(0);
+  });
+
+  it('hypersonic actuation follows returned attack when it crossed the stored force-phase sign', () => {
+    const s = createScenarioState(getScenario('before-flip')!);
+    s.status.finActive = true;
+    s.kinematics.speedX = 0;
+    s.kinematics.speedY = 2000;
+    s.kinematics.pitch = rad(0.2);
+    s.kinematics.angleOfAttack = rad(-0.2);
+    s.world.wind = 0;
+    s.world.gust = 0;
+    s.world.gustVertical = 0;
+    finsActuation(s, 50, 1);
+    expect(s.vehicle.frontFinExtension).toBe(100);
+    expect(s.vehicle.aftFinExtension).toBe(0);
+  });
+});

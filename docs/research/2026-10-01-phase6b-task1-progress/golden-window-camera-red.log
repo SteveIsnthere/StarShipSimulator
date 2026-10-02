@@ -1,0 +1,34 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/app/view-clock.test.ts (40 tests | 1 failed | 39 skipped) 6977ms
+     × reentry-autoland lands the camera on the same metre at 60 fps, with stalls, and at 9x 6976ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/app/view-clock.test.ts > property 3, strengthened: the camera path does not depend on the frame rate > reentry-autoland lands the camera on the same metre at 60 fps, with stalls, and at 9x
+AssertionError: 1/9 slow motion completed the flight
+reentry-autoland on the perStep clock: worst offset 30% x (at t+3.6 s), 9% y, over 200000 frames: expected 44444 to be 72000 // Object.is equality
+
+- Expected
++ Received
+
+- 72000
++ 44444
+
+ ❯ tests/app/view-clock.test.ts:294:88
+    292|       ] as const) {
+    293|         const other = fly(spec, { clock: 'perStep', ...options });
+    294|         expect(other.simulatedSteps, `${label} completed the flight\n$…
+       |                                                                                        ^
+    295|         expect(other.finalX, `${label}\n${reference.report}\n${other.r…
+    296|           reference.finalX,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 39 skipped (40)
+   Start at  07:03:20
+   Duration  7.21s (transform 99ms, setup 0ms, import 121ms, tests 6.98s, environment 0ms)
+

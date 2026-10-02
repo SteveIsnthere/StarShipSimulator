@@ -1,0 +1,182 @@
+/** Task2 Fidelity: a body normal force must turn the unactuated hull. */
+import { describe, expect, it } from 'vitest';
+import * as C from '$core/constants';
+import { createScenarioState, getScenario } from '$core/scenarios';
+import { step } from '$core/step';
+import { rad } from '$core/units';
+
+// Removing the physical body moment leaves an unactuated broadside hull
+// motionless. The existing damping is zero at zero angular velocity.
+describe('the normal force has a physical arm about the moving centre of mass', () => {
+  it('turns the nose clockwise when the broadside force acts above the dry CoM', () => {
+    const s = createScenarioState(getScenario('before-flip')!);
+    s.autopilot.autoLandOn = false;
+    s.status.finActive = false;
+    s.status.rcsActive = false;
+    s.vehicle.propellantMass = 0;
+    s.vehicle.vehicleMass = C.vehicleDryMass;
+    s.kinematics.altitude = 1_000;
+    s.kinematics.distanceToPlanetCenter = C.planetRadius + 1_000;
+    s.kinematics.pitch = rad(Math.PI / 2);
+    s.kinematics.speedX = 0;
+    s.kinematics.speedY = 100;
+    s.kinematics.angularVelocity = 0;
+    s.kinematics.angularAcceleration = 0;
+    s.engines.running.fill(false);
+    const next = step(s, 1 / 120);
+    expect(next.failures.inFlightBreakUp).toBe(false);
+    expect(next.forces.rcsThrust).toBe(0);
+    expect(next.forces.thrust).toBe(0);
+    expect(next.kinematics.angularAcceleration).toBeGreaterThan(0);
+    expect(next.kinematics.angularVelocity).toBeGreaterThan(0);
+  });
+});
+
+import {
+  bodyAerodynamicMoment, BODY_VOLUME, BODY_PLANFORM_AREA, BODY_CROSSFLOW_STATION,
+  BODY_NOSE_FIRST_STATION, BODY_TAIL_FIRST_STATION,
+} from '$core/physics/body-moment';
+import { broadsideDragCoefficient } from '$core/physics/aero';
+import { createMassProperties } from '$core/physics/mass';
+import { precisionAlignment } from '$core/control/primitives';
+
+describe('the source geometry and physical moment', () => {
+  it('matches independently integrated ogive geometry, rather than a fitted CoP', () => {
+    // Independent midpoint quadrature of the declared50m/9m/13.5m nose.
+    // This checks the analytic integrals without repeating their formulas.
+    let volume = 0, area = 0, firstMoment = 0;
+    const dx = 50 / 100_000;
+    for (let i = 0; i < 100_000; i++) {
+      const z = (i + 0.5) * dx;
+      const radius = z <= 36.5 ? 4.5 : Math.sqrt(22.5 ** 2 - (z - 36.5) ** 2) - 18;
+      volume += Math.PI * radius ** 2 * dx;
+      area += 2 * radius * dx;
+      firstMoment += z * 2 * radius * dx;
+    }
+    expect(BODY_VOLUME).toBeCloseTo(volume, 6);
+    expect(BODY_PLANFORM_AREA).toBeCloseTo(area, 6);
+    expect(BODY_CROSSFLOW_STATION).toBeCloseTo(firstMoment / area, 7);
+    expect(BODY_NOSE_FIRST_STATION).toBeCloseTo(volume / (Math.PI * 4.5 ** 2), 7);
+    expect(BODY_TAIL_FIRST_STATION).toBeCloseTo(50 - volume / (Math.PI * 4.5 ** 2), 7);
+  });
+
+  it('has the independently calculated broadside force arm and opposite mirrored moment', () => {
+    // q1000Pa,high-Mn eta1; the potential term vanishes broadside.
+    const normalForce = 1_000 * ((2 / 3) * 1.84) * 450;
+    const expected = normalForce * (22.95696986224274 - 21.8);
+    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI / 2), 450, 21.8)).toBeCloseTo(expected, 6);
+    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(-Math.PI / 2), 450, 21.8)).toBeCloseTo(-expected, 6);
+  });
+
+  it('changes sign when the moving CoM crosses the crossflow force station', () => {
+    expect(bodyAerodynamicMoment(0.2, 100, 1, rad(Math.PI / 2), 450, 20)).toBeGreaterThan(0);
+    expect(bodyAerodynamicMoment(0.2, 100, 1, rad(Math.PI / 2), 450, 26)).toBeLessThan(0);
+    expect(bodyAerodynamicMoment(0.2, 100, 1, rad(Math.PI / 2), 450, BODY_CROSSFLOW_STATION)).toBeCloseTo(0, 7);
+  });
+
+  it('retains the low crossflow-Mach factor at broadside and moving arms at tail-first attack', () => {
+    const broadside = 1_000 * 0.63 * 1.2 * 450 * (BODY_CROSSFLOW_STATION - 21.8);
+    expect(bodyAerodynamicMoment(0.2, 100, 0.2, rad(Math.PI / 2), 450, 21.8)).toBeCloseTo(broadside, 6);
+    // R474 eq2.14: at150° the potential station is V/Ab from the nose.
+    const a = Math.PI / 6;
+    const potential = Math.PI * 4.5 ** 2 * Math.sin(2 * a) * Math.cos(a / 2);
+    const crossflow = broadsideDragCoefficient(5) * 450 / 4;
+    const moment = 1_000 * (potential * (6.075498956977995 - 21.8) +
+      crossflow * (22.95696986224274 - 21.8));
+    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(5 * Math.PI / 6), 450, 21.8)).toBeCloseTo(moment, 6);
+  });
+
+  it('is continuous through the potential-station switch at90degrees', () => {
+    const left = bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI / 2 - 1e-9), 450, 21.8);
+    const right = bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI / 2 + 1e-9), 450, 21.8);
+    expect(Math.abs(left - right)).toBeLessThan(0.01);
+  });
+
+  it('vanishes without air or speed and at both axial endpoints', () => {
+    expect(bodyAerodynamicMoment(0, 100, 10, rad(1), 450, 21.8)).toBe(0);
+    expect(bodyAerodynamicMoment(1, 0, 0, rad(1), 450, 21.8)).toBe(0);
+    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(0), 450, 21.8)).toBe(0);
+    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI), 450, 21.8)).toBeCloseTo(0, 7);
+  });
+});
+
+describe('attitude feed-forward', () => {
+  it('cancels the known body moment while aligning outside the existing RCS dead zone', () => {
+    const s = createScenarioState(getScenario('before-flip')!);
+    s.vehicle.propellantMass = 0;
+    const props = createMassProperties(0);
+    s.vehicle.vehicleMomentOfInertia = props.momentOfInertia;
+    s.engines.running.fill(false);
+    s.status.finActive = false;
+    s.status.rcsActive = true;
+    s.kinematics.angularVelocity = 0;
+    s.forces.offAxisThrustDifferenceAcceleration = 0;
+    const moment = bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI / 2), 450, props.centreOfMass);
+    s.forces.bodyAerodynamicMoment = moment;
+    s.forces.bodyAerodynamicAcceleration = moment / props.momentOfInertia;
+    precisionAlignment(s, rad(s.kinematics.pitch - 0.2), 1);
+    expect(s.autopilot.rcsThrustCommand).toBeLessThan(0);
+    expect(Math.abs(s.autopilot.rcsThrustCommand)).toBeLessThan(C.rcsMaxThrust);
+    expect(s.autopilot.rcsThrustCommand * props.rcsArm + moment).toBeCloseTo(-0.2 * props.momentOfInertia, 6);
+  });
+});
+
+import { relativeAirspeed, wrappedAttackAngle } from '$core/physics/aero';
+import { airVelocityX } from '$core/physics/wind';
+
+it('evaluates speed, Mach and attack from the same pre-update gust snapshot', () => {
+  const s = createScenarioState(getScenario('before-flip')!);
+  s.autopilot.autoLandOn = false;
+  s.world.wind = 10;
+  s.world.gust = 20;
+  s.world.gustVertical = -15;
+  s.status.finActive = false;
+  s.status.rcsActive = false;
+  s.kinematics.speedX = 100;
+  s.kinematics.speedY = -50;
+  s.kinematics.angularVelocity = 0;
+  s.kinematics.angularAcceleration = 0;
+  const next = step(s, 1 / 120);
+  const vx = next.kinematics.speedX - airVelocityX(s.world, next.kinematics.altitude);
+  const vy = next.kinematics.speedY - s.world.gustVertical;
+  const speed = relativeAirspeed(next.kinematics.speedX, next.kinematics.speedY,
+    airVelocityX(s.world, next.kinematics.altitude), s.world.gustVertical);
+  const attack = rad(wrappedAttackAngle(next.kinematics.pitch, Math.atan2(vx, vy)));
+  const expected = bodyAerodynamicMoment(next.atmosphere.airDensity, speed,
+    next.kinematics.machSpeed, attack, next.vehicle.vehicleInFlightMaxArea,
+    createMassProperties(next.vehicle.propellantMass).centreOfMass);
+  expect(next.world.gust).not.toBe(s.world.gust);
+  expect(next.world.gustVertical).not.toBe(s.world.gustVertical);
+  expect(next.forces.bodyAerodynamicMoment).toBe(expected);
+});
+
+import { getHorizontalAcceleration, getVerticalAcceleration } from '$core/physics/components';
+
+it('matches independently crossed normal-force vectors in acute, obtuse and mirrored quadrants', () => {
+  const motion = 0.3, mass = 120_000, com = 21.8, q = 1_000;
+  for (const degrees of [-150, -115, -90, -65, -30, 30, 65, 90, 115, 150]) {
+    const attack = degrees * Math.PI / 180;
+    const pitch = motion + attack;
+    const folded = Math.min(Math.abs(attack), Math.PI - Math.abs(attack));
+    const potential = q * Math.PI * 4.5 ** 2 * Math.sin(2 * folded) * Math.cos(folded / 2);
+    const crossflow = q * ((2 / 3) * 1.84) * 450 * Math.sin(attack) ** 2;
+    const normal = potential + crossflow;
+    const station = (potential * (Math.abs(degrees) <= 90 ? 43.924501043022005 : 6.075498956977995) +
+      crossflow * 22.95696986224274) / normal;
+    const input = {
+      angleOfMotion: rad(motion), angleOfAttack: rad(attack), pitch: rad(pitch),
+      aerodynamicDragAcceleration: normal * Math.abs(Math.sin(attack)) / mass,
+      aerodynamicLiftAcceleration: normal * Math.abs(Math.cos(attack)) / mass,
+      thrustAcceleration: 0, fixedThrustAcceleration: 0, gimbalPointingDirection: rad(0),
+    };
+    const fx = getHorizontalAcceleration(input) * mass;
+    const fy = getVerticalAcceleration(input, 0) * mass;
+    // The normal contribution pushes toward hull-right for positive attack.
+    expect(fx).toBeCloseTo(Math.sign(attack) * normal * Math.cos(pitch), 6);
+    expect(fy).toBeCloseTo(-Math.sign(attack) * normal * Math.sin(pitch), 6);
+    const rx = (station - com) * Math.sin(pitch);
+    const ry = (station - com) * Math.cos(pitch);
+    const clockwiseMoment = ry * fx - rx * fy;
+    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(attack), 450, com)).toBeCloseTo(clockwiseMoment, 6);
+  }
+});

@@ -150,6 +150,11 @@ function valueNoise(u: number, v: number, lattice: number, salt: number): number
  * in one atlas so they batch as a single draw call, and a bilinear sample at a
  * frame edge would otherwise pick up the neighbour.
  */
+/** Existing 2021 soft profile, shared with the continuous gas feather. */
+export function softParticleProfile(t: number): number {
+  return t >= 1 ? 0 : t < 0.4 ? 1 - 0.35 * (t / 0.4) : 0.65 * (1 - (t - 0.4) / 0.6);
+}
+
 export function writeParticleTexture(
   name: ParticleTextureName,
   cell: number,
@@ -176,7 +181,7 @@ export function writeParticleTexture(
             like what it was tuned to.
           */
           const t = Math.hypot(dx, dy);
-          alpha = t >= 1 ? 0 : t < 0.4 ? 1 - 0.35 * (t / 0.4) : 0.65 * (1 - (t - 0.4) / 0.6);
+          alpha = softParticleProfile(t);
           break;
         }
         case 'core': {
@@ -562,15 +567,30 @@ export function createParticleTextures(renderer: Renderer, cell = 64): ParticleT
 }
 
 /** Deterministic jitter, so an effect looks the same in a replayed golden. */
-function makeRandom(seed: number): () => number {
-  let state = seed >>> 0 || 1;
-  return () => {
+interface RandomStream {
+  (): number;
+  reset(): void;
+}
+
+function makeRandom(seed: number): RandomStream {
+  const initial = seed >>> 0 || 1;
+  let state = initial;
+  const next = () => {
     state ^= state << 13;
     state ^= state >>> 17;
     state ^= state << 5;
     state >>>= 0;
     return state / 4294967296;
   };
+  next.reset = () => { state = initial; };
+  return next;
+}
+
+/** Stable FNV-1a key: adding an effect cannot shift another effect's stream. */
+function effectSeed(seed: number, name: EffectName): number {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < name.length; i++) hash = Math.imul(hash ^ name.charCodeAt(i), 0x01000193);
+  return (seed ^ hash) >>> 0;
 }
 
 export interface ParticleSystem {
@@ -579,6 +599,8 @@ export interface ParticleSystem {
   readonly capacity: number;
   /** Currently alive. */
   readonly alive: number;
+  /** On-demand debug snapshot; ages/dt in seconds, bounds in canvas CSS pixels. */
+  inspect(): readonly Readonly<Record<string, number | string>>[];
   /**
    * Emit from a world point.
    *
@@ -673,6 +695,7 @@ export function createParticleSystem(
   const worldAnchored = new Uint8Array(capacity);
   const nozzleAnchored = new Uint8Array(capacity);
   const life = new Float32Array(capacity);
+  const configOf = new Array<EmitterConfig>(capacity);
   const size0 = new Float32Array(capacity);
   const size1 = new Float32Array(capacity);
   const alpha0 = new Float32Array(capacity);
@@ -726,12 +749,18 @@ export function createParticleSystem(
     free[i] = capacity - 1 - i;
   }
 
-  const random = makeRandom(seed);
+  // Each emitter owns its jitter. A slow render batches core births before bell
+  // births; a fast render interleaves them. Shared randomness changes geometry.
+  const randoms = new Map<EffectName, RandomStream>();
+  for (const name of Object.keys(EFFECTS) as EffectName[]) randoms.set(name, makeRandom(effectSeed(seed, name)));
   /** Carried fractional particles, so a low rate still emits smoothly. */
   const debt = new Map<EffectName, number>();
+  const emissions = new Map<EmitterConfig, { dt: number; scale: number; intensity: number; spread: number }>();
+  for (const config of Object.values(EFFECTS)) emissions.set(config, { dt: 0, scale: 0, intensity: 0, spread: 0 });
 
   const spawn = (
     config: EmitterConfig,
+    random: RandomStream,
     px: number,
     py: number,
     angle: number,
@@ -742,6 +771,7 @@ export function createParticleSystem(
   ): number | undefined => {
     if (freeCount === 0) return undefined;
     const i = free[--freeCount]!;
+    configOf[i] = config;
 
     const direction = angle + (random() * 2 - 1) * config.spread * spreadFactor;
     const speed = config.speed * scale * (1 + (random() * 2 - 1) * config.speedJitter);
@@ -795,9 +825,53 @@ export function createParticleSystem(
       return liveCount;
     },
 
+    inspect() {
+      // Allocate only when the existing debug API explicitly requests a snapshot.
+      const rows = Object.entries(EFFECTS).map(([effect, config]) => ({
+        effect, count: 0, ageMin: Infinity, ageMax: 0, lifeMin: Infinity, lifeMax: 0,
+        alphaMin: Infinity, alphaMax: 0, left: Infinity, right: -Infinity,
+        top: Infinity, bottom: -Infinity, ...emissions.get(config)!,
+      }));
+      const byConfig = new Map<EmitterConfig, typeof rows[number]>(
+        Object.values(EFFECTS).map((config, index) => [config, rows[index]!]),
+      );
+      for (let n = 0; n < liveCount; n++) {
+        const i = live[n]!;
+        const row = byConfig.get(configOf[i]!)!;
+        const sprite = sprites[i]!;
+        row.count++;
+        row.ageMin = Math.min(row.ageMin, age[i]!);
+        row.ageMax = Math.max(row.ageMax, age[i]!);
+        row.lifeMin = Math.min(row.lifeMin, life[i]!);
+        row.lifeMax = Math.max(row.lifeMax, life[i]!);
+        row.alphaMin = Math.min(row.alphaMin, sprite.alpha);
+        row.alphaMax = Math.max(row.alphaMax, sprite.alpha);
+        const cosine = Math.abs(Math.cos(sprite.rotation));
+        const sine = Math.abs(Math.sin(sprite.rotation));
+        const halfWidth = (cosine * sprite.width + sine * sprite.height) / 2;
+        const halfHeight = (sine * sprite.width + cosine * sprite.height) / 2;
+        row.left = Math.min(row.left, sprite.x - halfWidth);
+        row.right = Math.max(row.right, sprite.x + halfWidth);
+        row.top = Math.min(row.top, sprite.y - halfHeight);
+        row.bottom = Math.max(row.bottom, sprite.y + halfHeight);
+      }
+      for (const row of rows) {
+        if (row.count === 0) Object.assign(row, {
+          ageMin: 0, lifeMin: 0, alphaMin: 0, left: 0, right: 0, top: 0, bottom: 0,
+        });
+      }
+      return rows;
+    },
+
     emit(effect, px, py, angle, intensity, dt, scale, spreadFactor = 1, bandSpacing = 0, bandStrength = 0) {
       if (intensity <= 0 || dt <= 0) return;
       const config = EFFECTS[effect];
+      const random = randoms.get(effect)!;
+      const emission = emissions.get(config)!;
+      emission.dt = dt;
+      emission.scale = scale;
+      emission.intensity = intensity;
+      emission.spread = spreadFactor;
       const rate = config.rate * intensity;
       const carried = debt.get(effect) ?? 0;
       const wanted = rate * dt + carried;
@@ -805,15 +879,16 @@ export function createParticleSystem(
       debt.set(effect, wanted - whole);
       for (let n = 0; n < whole; n++) {
         const delay = Math.min(dt, (n + 1 - carried) / rate);
-        const i = spawn(config, px, py, angle, scale, spreadFactor, bandSpacing, bandStrength);
+        const i = spawn(config, random, px, py, angle, scale, spreadFactor, bandSpacing, bandStrength);
         if (i !== undefined) birthDelay[i] = delay;
       }
     },
 
     burst(effect, px, py, count, scale) {
       const config = EFFECTS[effect];
+      const random = randoms.get(effect)!;
       for (let n = 0; n < count; n++) {
-        spawn(config, px, py, random() * Math.PI * 2, scale);
+        spawn(config, random, px, py, random() * Math.PI * 2, scale);
       }
     },
 
@@ -988,6 +1063,13 @@ export function createParticleSystem(
       }
       liveCount = 0;
       debt.clear();
+      for (const random of randoms.values()) random.reset();
+      for (const emission of emissions.values()) {
+        emission.dt = 0;
+        emission.scale = 0;
+        emission.intensity = 0;
+        emission.spread = 0;
+      }
     },
 
     destroy() {

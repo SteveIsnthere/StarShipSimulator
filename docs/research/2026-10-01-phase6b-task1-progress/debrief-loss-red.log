@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/hud/debrief.test.ts (52 tests | 1 failed | 51 skipped) 5ms
+     × captures the first-step loss and freezes it while the debris falls 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/hud/debrief.test.ts > a break-up is not a landing, and the card does not pretend otherwise > captures the first-step loss and freezes it while the debris falls
+AssertionError: expected undefined to be defined
+ ❯ tests/hud/debrief.test.ts:388:24
+    386|     const { state, watch, timeline } = comeApart();
+    387|     expect(state.world.updatedFrameCount).toBe(1);
+    388|     expect(watch.last).toBeDefined();
+       |                        ^
+    389|     const loss = { ...watch.last! };
+    390|     expect(loss.dynamicPressure).toBe(state.forces.dynamicPressure);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 51 skipped (52)
+   Start at  23:25:36
+   Duration  227ms (transform 95ms, setup 0ms, import 117ms, tests 5ms, environment 0ms)
+

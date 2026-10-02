@@ -74,8 +74,8 @@
   {
     "id": "felt-g-flat",
     "file": "src/core/step.ts",
-    "find": "  forces.perceivedG_Y = (kinematics.accelerationY - gy) / C.standardGravity;",
-    "replace": "  forces.perceivedG_Y = (kinematics.accelerationY + C.gravity) / C.gravity;"
+    "find": "  forces.perceivedG_Y = specificY / C.standardGravity;",
+    "replace": "  forces.perceivedG_Y = (specificY + C.gravity) / C.gravity;"
   },
   {
     "id": "wind-profile-flat",
@@ -106,5 +106,23 @@
     "file": "src/core/step.ts",
     "find": "    radiativeSinkKelvin(s.kinematics.altitude, s.atmosphere.airTemperature),",
     "replace": "    0,"
+  },
+  {
+    "id": "breakup-current-check-removed",
+    "file": "src/core/step.ts",
+    "find": "  checkIfBreakUp(s);",
+    "replace": "  // Fault: current force failure is never checked."
+  },
+  {
+    "id": "throttle-current-denominator",
+    "file": "src/core/control/primitives.ts",
+    "find": "      getTotalMaxThrust(engines.running, state.atmosphere.airPressure)) *",
+    "replace": "      (getTotalMaxThrust(engines.running, state.atmosphere.airPressure) * vehicle.throttleCurrent * 0.01)) *"
+  },
+  {
+    "id": "final-descent-braking-removed",
+    "file": "src/core/autopilot/index.ts",
+    "find": "  if (!onTouchdown && brakingAcceleration > 0 && -nominalTarget > brakingSpeed) {",
+    "replace": "  if (false && !onTouchdown && brakingAcceleration > 0 && -nominalTarget > brakingSpeed) {"
   }
 ]

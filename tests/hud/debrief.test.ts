@@ -359,7 +359,7 @@ describe('a break-up is not a landing, and the card does not pretend otherwise',
       watch.observe(s);
       if (s.failures.inFlightBreakUp) break;
     }
-    return { state: s, card: debrief(s, timeline, watch.last) };
+    return { state: s, timeline, watch, card: debrief(s, timeline, watch.last) };
   }
 
   it('breaks up, and says why', () => {
@@ -380,6 +380,29 @@ describe('a break-up is not a landing, and the card does not pretend otherwise',
     // measured — but the flag is what tells the view not to draw four numbers
     // that would read as a verdict on a landing nobody attempted.
     expect(Math.abs(card.vertical.value)).toBeGreaterThan(0);
+  });
+
+  it('captures the first-step loss and freezes it while the debris falls', () => {
+    const { state, watch, timeline } = comeApart();
+    expect(state.world.updatedFrameCount).toBe(1);
+    expect(watch.last).toBeDefined();
+    const loss = { ...watch.last! };
+    expect(loss.dynamicPressure).toBe(state.forces.dynamicPressure);
+    expect(loss.speedY).toBe(state.kinematics.speedY);
+    let debris = state;
+    for (let i = 0; i < 120; i++) {
+      debris = step(debris, DT);
+      watch.observe(debris);
+      timeline.observe(debris);
+    }
+    expect(debris.kinematics.altitude).not.toBe(state.kinematics.altitude);
+    expect(watch.last).toEqual(loss);
+    expect(debrief(debris, timeline, watch.last).peakQ.value).toBe(loss.dynamicPressure);
+
+    watch.reset();
+    expect(watch.last).toBeUndefined();
+    watch.observe(state);
+    expect(watch.last).toEqual(loss);
   });
 
   it('and the peak it broke on is at or past the limit it broke on', () => {

@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/body-moment.test.ts (8 tests | 1 failed) 9ms
+     × asks existing RCS authority to cancel the known body moment when holding pitch 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/body-moment.test.ts > attitude feed-forward > asks existing RCS authority to cancel the known body moment when holding pitch
+AssertionError: expected 0 to be less than 0
+ ❯ tests/core/body-moment.test.ts:118:42
+    116|     s.forces.bodyAerodynamicAcceleration = moment / props.momentOfIner…
+    117|     precisionAlignment(s, s.kinematics.pitch, 1);
+    118|     expect(s.autopilot.rcsThrustCommand).toBeLessThan(0);
+       |                                          ^
+    119|     expect(Math.abs(s.autopilot.rcsThrustCommand)).toBeLessThan(C.rcsM…
+    120|     expect(s.autopilot.rcsThrustCommand * props.rcsArm + moment).toBeC…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 61 passed (62)
+   Start at  07:17:46
+   Duration  377ms (transform 289ms, setup 0ms, import 429ms, tests 217ms, environment 0ms)
+

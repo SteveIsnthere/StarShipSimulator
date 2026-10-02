@@ -1,0 +1,10 @@
+{
+  "candidate": "9bb03f91f94b69dfece97359355403ec8702ab4e",
+  "reviewedRuntime": "142881e203428833cf52c2b83d5578dfef1a288f",
+  "command": "PLAYWRIGHT_HTML_REPORT=/tmp/starship-phase6b-final-full-html PLAYWRIGHT_HTML_OPEN=never npm run test:e2e:full -- --workers=1 --retries=0 --reporter=list,html",
+  "platform": "arm64 macOS / Chromium SwiftShader; phone projects are Chromium viewports, not Safari or hardware phones",
+  "runtimeUnchanged": true,
+  "exitCode": 0,
+  "optionalPlumeDiagnosticCapture": false,
+  "diagnosticCaptureLimit": "Final suite has no subject/frozen-repeat attachments; earlier accepted focused attempt3 preserves60exactpairs."
+}

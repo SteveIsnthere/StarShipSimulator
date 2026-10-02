@@ -1,0 +1,13 @@
+# Phase 6b Task 5 and dependent landing guidance — independent review
+
+Reviewed 2026-10-01 by fresh in-harness agent `task5_independent_review`, with no implementation history. This was the `cross-agent-review` fallback: Claude Code's subscription availability check exited 2 (`CLI authentication check failed; inspect native login status. No model was started and no credentials were changed by this helper.`); connected Chrome returned `Browser is not available: chrome`, and the browser inventory exposed only MCP Apps and the in-app browser. No account/configuration was changed. Pro did not run.
+
+Scope: current-force ground contact, collision/fuel ordering, felt g, breakup shutdown, full-throttle denominator, the dependent final-descent braking envelope/feed-forward, surrounding gravity/engine/actuation code and the meaningful regression tests. The broader body-axis/entry Fidelity implementation was surrounding context, not independently approved as complete. No gate, mutation, stopped orbit check or golden regeneration was run by this reviewer.
+
+The reviewer found one P2: moving breakup after rotational physics returned dry mass/zero propellant with wet inertia. Accepted. The shutdown witness watched red (29,578,228.924115032 versus dry 25,607,500 kg m²), then breakup refreshed mass properties/inertia. The reviewer rechecked the delta and independently ran `failure-freshness.test.ts` and `final-descent-profile.test.ts`: 10 passed, exit 0. No additional actionable findings; no substantive finding rejected.
+
+The engine-loss witness confirms a changed controller demand after three engines become one during final descent. It is not a full-flight acceptance of every possible transient failure. Existing engine-out flights all retain their recorded allowed outcomes; the formerly failing before-flip/two-out flight lands after the dependent braking adaptation.
+
+Tier recommendation adopted: freshness, support, throttle denominator and shutdown bookkeeping remain Bug fix; the descent profile is a dependent Fidelity adaptation under Phase 6b Task 1's physical body-aero plan. Its inline comment now names that tier. Both need coherent source/fixture/audit commits once the phase's complete acceptance passes. This partial review does not replace the phase's final high-depth code review and independent physics review.
+
+Exact source hashes and trajectory deltas are in `task5-trajectory-audit.json`; the refreshed recovery patch retains the reviewed source. The only source change after the final review was the comment aligning the descent profile's tier. No full-gate or merge readiness is claimed.

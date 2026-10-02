@@ -1,0 +1,38 @@
+# Fresh independent cycle 2 review
+
+## Reviewed cycle 2 approach — additive compositing (2026-10-02)
+
+Fresh independent plume_cycle2_review found a concrete source/pixel defect. All24 nominal additive captures contain channel decreases against the same frozen background; landscape low step566 has6547 pixels decreasing a channel by>3 and minimum RGB differences[0,-31,-75]. Core/bell sprites use Pixi add[ONE,ONE], but the parent effectsBehind bloom filter retains accumulated particle alpha and composites with normal[ONE,ONE_MINUS_SRC_ALPHA]. The filtered emission therefore subtracts background light. The original detector is reproduced exactly offline; low-altitude reference exclusion is zero, vacuum landscape excludes only16pixels per capture. Distal particles are present but fall below original200luma/100warmth cutoffs. This establishes compositing defect, not final acceptance or every remaining cause.
+
+Cycle2attempt1: watched-red real WebGL witness with actual production particle system/post pass over uniform opaque background, compare direct additive with bloom enabled and retain normal smoke control. A fix must preserve mixed normal/additive semantics; switching the entire layer/filter to add would incorrectly turn smoke into light. Keep source effects/seed/thresholds/bounds/retries unchanged. A test-only bundled renderer fixture is served by Playwright routing, avoiding a production debug API or build entry. Then narrow causal repair and focused original capture; emitter read-only count/age/extent/worldDt diagnostics if vacuum still fails. Do not claim focused checks releaseproof; finishfullsuite/gate/reviews beforemerge.
+
+## Cycle2attempt1 watched-red compositing witness
+
+Actual production particles/post shaders rendered in real WebGL over uniform opaque background. Direct additive control passes; bloom subtracts59RGB levels from background and137from directlight, failing original physical monotonic-light property (rounding allowance1). Normal smoke positivecontrol passes. The bundled fixture is test-only; no production API or buildentry changes. Full raw red and failurecapture retained.
+
+Protected Pixi blendModesMap access/globalmap edits and sprite reparenting/splitting are rejected: the former couples to private renderer state, the latter changes mixed smoke/fire draworder and poolstructure. Fresh independent review establishes exact emission/occlusion algebra: additive RGB staysONE/ONE but alphaZERO/ONE; normal draws unchanged. A narrow renderer-local adapter through public setBlendMode (WebGL) / getColorTargets (WebGPU) can preserve exact mixed order and pool without params/seed changes. Document the pinned dependency contract, uninstall before renderer destruction, verify both mixeddraworders and real WebGL contextrestoration. WebGPUdescriptor behavior must be checked separately; no unsupportedhardwareclaim. This is a reviewed causal renderer repair, not finalplume acceptance.
+
+
+## Repair review and attempt2 result
+
+Independent adapter review found no blocking GL/GPU cache, blend algebra, restoration or lifecycle issue. High-depth review found the Canvas fallback assumption; explicit WEBGPU guard and no-state Canvas witness resolve it. WebGPU descriptor behavior only is validated. Original renderer state fails four named actual WebGL witnesses; repaired source passes five, including both mixed draw orders and real context restoration. The initial hundreds-of-smoke-draw mixed fixture incorrectly applied a one-draw rounding allowance to accumulated 8bit quantization; corrected two exact control draws retain the original allowance. All intermediate evidence remains preserved.
+
+Cycle2attempt2 original five-project plume diagnostic completed exit1:5passed/5failed,4.6min,zero retries. Every original low-length check passes; every vacuum-width check fails. HTML report preserves60 exact subject/background/frozen pairs; every subject/frozen PNG pair is byte-identical. Original thresholds, bounds, samples, seed, effect parameters and retries are unchanged. These are diagnostic results, not release acceptance. Raw log/HTMLreport/testresults/report.json/capture-summary.json/SHA256SUMS are in fallback-browser-cycle2-attempt2/.
+
+Live core populations158–173 and bell91–106, ages/lives fully populated and emission intensity1 in both scenes. Spread changes from~2.11low to3.6vac. CSS camera-normalized particle scale expands: desktoplow~2.23/~79vehiclepx versusvac~1.49/~36px. Lastpositive worldDt ranges~.04–.25s. This rules out wholesale emitter starvation in this captured run; it does not establish final visibility cause. Fresh independent analysis of exact geometry/pixels is requested before cycle2attempt3. No seed/parameter/threshold adjustment is justified by these counts.
+
+High-depth inspection review found rotated stretched streak bounds were unrotated. Accepted and fixed with rotated rectangle extents plus vertical-streak witness; zero-rotation plume rows are unaffected. Snapshots copy scalar rows and allocate only on explicit debug inspection. Final build and69 focused tests pass. Full phase gate/browser/mutation/release review remain outstanding.
+
+
+## Reviewed cycle2attempt3 approach
+
+Fresh independent saved-pixel analysis replays actual vacuum RGB emission delta onto each project's low-band median background, keeping original200/100 predicate/band. Actual vacuum widths~.33–.65 become~.80–1.017. This counterfactual isolates backdrop-dependent detection loss, not acceptance; no detector/backdrop change authorized. Geometric expansion/emission is real.
+
+Independent precise source finding: bloom uTexelSize is canvas reciprocal dimensions, while shader vTextureCoord addresses cropped/pooled filter input. Pixi FilterSystem supplies input dimensions via uInputSize. Cycle2attempt3 will establish watched-red real-renderer local-footprint invariance with identical frozen sprites/background/params on different canvas sizes, with visible direct and bloom positive controls. If red, switch only existing kernel offset coordinate to supplied uInputSize.zw; preserve taps/weights/strength/threshold/effect params. Original plume acceptance remains unchanged and must be rerun after repair. No guarantee this resolves visibility gap. Third attempt in this reviewed cycle; a further failed diagnosis requires fresh independent review and a new evidence-backed cycle.
+
+
+## Cycle2attempt3 final result and fresh cycle3 review
+
+At source d4f3606, originalfiveprojectplume plus30rendererwitnesses completed37passed/3failed,exit1,zero retries,4.9min. All30rendererwitnesses andall5lowlength checks pass; iPhoneportrait/landscapevacwidth also pass. Vacuumwidth remainsfailed on desktopChromium,Pixelportrait,Pixellandscape. All60exact frozenpairs arebyteidentical. FullactualPNG/JSON/HTML/rawlogs/results/hashmanifest retained in fallback-browser-cycle2-attempt3/. This isnotreleaseacceptance anddoesnotclosePhase6b. High-depth/independent source reviewfoundnoactionablefinding ininput-coordinate fix; meaningfulpositivecontrols caughtinitialsharedprecisionlinkfailure,correctedwithoutkernelparameter changes.
+
+Allthree cycle2attempts arecomplete. Fresh independent plume_cycle3_review isactive,read-only,analyzingactualremainingpixels/source before recordingnewbounded evidence-backedcycle3 approach. No furtherbrowserdiagnosis orsourceparameterchanges before thatreview/approach. Noownerquestion; approvedstandingcycles apply. Main/live080f108,60%,6b7 8 9remainunfinished. Existingsourcebuild/lint/focusedchecks green; finalfullgate/fullbrowser/mutation/releasereviews/merge/main-gate/deploy stillrequired.

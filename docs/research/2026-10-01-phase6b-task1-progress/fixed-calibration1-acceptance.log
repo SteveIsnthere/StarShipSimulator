@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/orbit-demo.test.ts (31 tests | 1 failed) 30476ms
+     × from 120 km, below the presets 3331ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > from 120 km, below the presets
+AssertionError: missed by 41.6 km: expected 41616.386302340776 to be less than 40000
+ ❯ tests/core/orbit-demo.test.ts:457:76
+    455|     const f = from(circularAtAltitude(120_000));
+    456|     expect(f.outcome).toBe('landed');
+    457|     expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} …
+       |                                                                            ^
+    458|   });
+    459|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 98 passed (99)
+   Start at  01:25:34
+   Duration  44.89s (transform 463ms, setup 0ms, import 21.32s, tests 64.62s, environment 0ms)
+

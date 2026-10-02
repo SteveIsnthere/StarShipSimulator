@@ -1,0 +1,429 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+(node:93865) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:93864) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:93866) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:93867) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:93868) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93869) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93870) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93872) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93871) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93874) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93873) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93876) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93875) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93877) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93878) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93880) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93879) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93881) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93882) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93883) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93885) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93884) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93886) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93887) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93888) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93889) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93890) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93892) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93891) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ |unit| tests/core/camera.test.ts (100 tests | 1 failed) 11277ms
+     × reentry-autoland 1436ms
+ ❯ |unit| tests/app/view-clock.test.ts (56 tests | 3 failed) 26325ms
+     × reentry-autoland, with frames dropping 1178ms
+     × reentry-autoland, at 9x warp 1088ms
+     × reentry-autoland, at 1/9 speed 1297ms
+ ❯ |unit| tests/golden/replay.test.ts (17 tests | 8 failed) 4178ms
+     × replays field for field, sample for sample 11ms
+     × replays field for field, sample for sample 2ms
+     × replays field for field, sample for sample 2ms
+     × replays field for field, sample for sample 2ms
+     × replays field for field, sample for sample 1ms
+     × replays field for field, sample for sample 1ms
+     × replays field for field, sample for sample 1ms
+     × replays field for field, sample for sample 2ms
+ ❯ |unit| tests/hud/timeline.test.ts (29 tests | 1 failed) 3969ms
+     × 'reentry-autoland' fires its events in order, flown live 1182ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/app/view-clock.test.ts > the vehicle stays in frame, over all seven goldens > reentry-autoland, with frames dropping
+AssertionError: reentry-autoland on the perStep clock: worst offset 31% x (at t+166.1 s), 100% y, over 32248 frames: expected 1.0011953381817553 to be less than or equal to 1
+ ❯ tests/app/view-clock.test.ts:257:40
+    255|     */
+    256|     expect(flown.worstX, flown.report).toBeLessThan(0.5);
+    257|     expect(flown.worstY, flown.report).toBeLessThanOrEqual(1);
+       |                                        ^
+    258|     expect(flown.lost, flown.report).toBe(false);
+    259|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/13]⎯
+
+ FAIL  |unit| tests/app/view-clock.test.ts > the vehicle stays in frame, over all seven goldens > reentry-autoland, at 9x warp
+AssertionError: reentry-autoland on the perStep clock: worst offset 31% x (at t+165.6 s), 100% y, over 4000 frames: expected 1.0011953381817553 to be less than or equal to 1
+ ❯ tests/app/view-clock.test.ts:264:40
+    262|     const flown = fly(spec, { clock: 'perStep', frameTime: steady, tim…
+    263|     expect(flown.worstX, flown.report).toBeLessThan(0.5);
+    264|     expect(flown.worstY, flown.report).toBeLessThanOrEqual(1);
+       |                                        ^
+    265|     expect(flown.lost, flown.report).toBe(false);
+    266|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/13]⎯
+
+ FAIL  |unit| tests/app/view-clock.test.ts > the vehicle stays in frame, over all seven goldens > reentry-autoland, at 1/9 speed
+AssertionError: reentry-autoland on the perStep clock: worst offset 31% x (at t+166.1 s), 100% y, over 324000 frames: expected 1.0011953381817553 to be less than or equal to 1
+ ❯ tests/app/view-clock.test.ts:271:40
+    269|     const flown = fly(spec, { clock: 'perStep', frameTime: steady, slo…
+    270|     expect(flown.worstX, flown.report).toBeLessThan(0.5);
+    271|     expect(flown.worstY, flown.report).toBeLessThanOrEqual(1);
+       |                                        ^
+    272|     expect(flown.lost, flown.report).toBe(false);
+    273|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/13]⎯
+
+ FAIL  |unit| tests/core/camera.test.ts > property 1 — the vehicle stays framed, over all seven goldens > reentry-autoland
+AssertionError: reentry-autoland: worst offset 34.7% x, 100.1% y of half-frame: expected 1.0011953381843883 to be less than or equal to 1
+ ❯ tests/core/camera.test.ts:569:28
+    567|     */
+    568|     expect(worstX, report).toBeLessThan(0.5);
+    569|     expect(worstY, report).toBeLessThanOrEqual(1);
+       |                            ^
+    570|   });
+    571| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/13]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'launch-pad-takeoff' > replays field for field, sample for sample
+AssertionError: launch-pad-takeoff: SimState shape changed: expected [ 'atmosphere.airDensity', …(156) ] to deeply equal [ 'atmosphere.airDensity', …(158) ]
+
+- Expected
++ Received
+
+@@ -22,12 +22,10 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
+-   "autopilot.entryRangeCountdown",
+-   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/13]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'booster-sep-boostback' > replays field for field, sample for sample
+AssertionError: booster-sep-boostback: SimState shape changed: expected [ 'atmosphere.airDensity', …(156) ] to deeply equal [ 'atmosphere.airDensity', …(158) ]
+
+- Expected
++ Received
+
+@@ -22,12 +22,10 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
+-   "autopilot.entryRangeCountdown",
+-   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/13]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'rtls-boostback' > replays field for field, sample for sample
+AssertionError: rtls-boostback: SimState shape changed: expected [ 'atmosphere.airDensity', …(156) ] to deeply equal [ 'atmosphere.airDensity', …(158) ]
+
+- Expected
++ Received
+
+@@ -22,12 +22,10 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
+-   "autopilot.entryRangeCountdown",
+-   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/13]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'reentry-autoland' > replays field for field, sample for sample
+AssertionError: reentry-autoland: SimState shape changed: expected [ 'atmosphere.airDensity', …(156) ] to deeply equal [ 'atmosphere.airDensity', …(158) ]
+
+- Expected
++ Received
+
+@@ -22,12 +22,10 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
+-   "autopilot.entryRangeCountdown",
+-   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/13]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'before-flip-autoland' > replays field for field, sample for sample
+AssertionError: before-flip-autoland: SimState shape changed: expected [ 'atmosphere.airDensity', …(156) ] to deeply equal [ 'atmosphere.airDensity', …(158) ]
+
+- Expected
++ Received
+
+@@ -22,12 +22,10 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
+-   "autopilot.entryRangeCountdown",
+-   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/13]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'landing-burn-autoland' > replays field for field, sample for sample
+AssertionError: landing-burn-autoland: SimState shape changed: expected [ 'atmosphere.airDensity', …(156) ] to deeply equal [ 'atmosphere.airDensity', …(158) ]
+
+- Expected
++ Received
+
+@@ -22,12 +22,10 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
+-   "autopilot.entryRangeCountdown",
+-   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/13]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'landing-burn-headwind' > replays field for field, sample for sample
+AssertionError: landing-burn-headwind: SimState shape changed: expected [ 'atmosphere.airDensity', …(156) ] to deeply equal [ 'atmosphere.airDensity', …(158) ]
+
+- Expected
++ Received
+
+@@ -22,12 +22,10 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
+-   "autopilot.entryRangeCountdown",
+-   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/13]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'intro-demo' > replays field for field, sample for sample
+AssertionError: intro-demo: SimState shape changed: expected [ 'atmosphere.airDensity', …(156) ] to deeply equal [ 'atmosphere.airDensity', …(158) ]
+
+- Expected
++ Received
+
+@@ -22,12 +22,10 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
+-   "autopilot.entryRangeCountdown",
+-   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/13]⎯
+
+ FAIL  |unit| tests/hud/timeline.test.ts > the derivation, replayed over every golden > 'reentry-autoland' fires its events in order, flown live
+AssertionError: expected [ 'ENTRY', 'MAX-Q', 'FLIP', …(2) ] to deeply equal [ 'ENTRY' ]
+
+- Expected
++ Received
+
+  [
+    "ENTRY",
++   "MAX-Q",
++   "FLIP",
++   "LANDING BURN",
++   "TOUCHDOWN",
+  ]
+
+ ❯ tests/hud/timeline.test.ts:149:36
+    147|
+    148|   it.each(GOLDEN_SPECS)('$id fires its events in order, flown live', (…
+    149|     expect(eventsFromFlight(spec)).toEqual(EXPECTED[spec.id]);
+       |                                    ^
+    150|   });
+    151|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/13]⎯
+
+
+ Test Files  4 failed | 145 passed (149)
+      Tests  13 failed | 1959 passed (1972)
+   Start at  09:33:20
+   Duration  60.86s (transform 4.17s, setup 1.70s, import 34.08s, tests 214.92s, environment 21.90s)
+

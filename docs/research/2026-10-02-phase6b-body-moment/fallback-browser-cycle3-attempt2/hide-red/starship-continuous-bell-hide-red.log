@@ -1,0 +1,34 @@
+[WebServer] (node:14328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:14329) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (7.4s)
+
+
+  1) [chromium] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 3
+
+      26 |   await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.setParticlesVisible(false));
+      27 |   await painted();
+    > 28 |   expect((await presentation()).bell?.visibleMounts).toBe(0);
+         |                                                      ^
+      29 |   const hidden = await page.locator(byTestId('world-canvas')).screenshot();
+      30 |   expect(hidden.equals(first)).toBe(false);
+      31 |   await painted();
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/emissive-bell.spec.ts:28:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/emissive-bell-scene-resets-9bf8e--its-particle-detail-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/emissive-bell-scene-resets-9bf8e--its-particle-detail-mobile-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile 

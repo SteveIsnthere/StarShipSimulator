@@ -1,0 +1,36 @@
+[WebServer] (node:16421) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:16424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/emissive-bell.spec.ts:54:1 › one healthy landing engine renders gas without inventing failed mounts (7.0s)
+
+
+  1) [chromium] › tests/e2e/emissive-bell.spec.ts:54:1 › one healthy landing engine renders gas without inventing failed mounts 
+
+    Error: the intended20t landing fixture must not clamp to a full tank
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 20000
+    Received:   1197766.819571909
+
+      74 |   expect(actual.presentation.bell?.visibleMounts).toBe(1);
+      75 |   expect(Number(actual.thrust)).toBeGreaterThan(0);
+    > 76 |   expect(Number(actual.propellant), 'the intended20t landing fixture must not clamp to a full tank').toBeLessThan(20000);
+         |                                                                                                      ^
+      77 |   expect(Number(actual.propellant)).toBeGreaterThan(0);
+      78 |   await test.info().attach('single-engine-landing', { body: await page.locator(byTestId('world-canvas')).screenshot(), contentType: 'image/png' });
+      79 |   await test.info().attach('single-engine-state', { body: JSON.stringify(actual), contentType: 'application/json' });
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/emissive-bell.spec.ts:76:102
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/emissive-bell-one-healthy--a6858-out-inventing-failed-mounts-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/emissive-bell-one-healthy--a6858-out-inventing-failed-mounts-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/e2e/emissive-bell.spec.ts:54:1 › one healthy landing engine renders gas without inventing failed mounts 

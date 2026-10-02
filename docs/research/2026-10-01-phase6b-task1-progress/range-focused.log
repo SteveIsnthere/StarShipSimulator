@@ -1,0 +1,29 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-on-lift.test.ts (6 tests | 2 failed) 9ms
+   × keeps lift outward through the flown hypersonic segment at vx=-6000 5ms
+   × keeps lift outward through the flown hypersonic segment at vx=6000 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-on-lift.test.ts > keeps lift outward through the flown hypersonic segment at vx=-6000
+ FAIL  |unit| tests/core/entry-on-lift.test.ts > keeps lift outward through the flown hypersonic segment at vx=6000
+ReferenceError: rad is not defined
+ ❯ toggleAutoLand src/core/control/commands.ts:159:9
+    157|   state.autopilot.autoLandOn = !state.autopilot.autoLandOn;
+    158|   state.autopilot.entryRangeCountdown = 0;
+    159|   state.autopilot.entryRangeTrim = rad(0);
+       |         ^
+    160| }
+    161|
+ ❯ tests/core/entry-on-lift.test.ts:40:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  2 failed | 45 passed (47)
+   Start at  21:51:18
+   Duration  1.54s (transform 473ms, setup 0ms, import 662ms, tests 1.70s, environment 0ms)
+

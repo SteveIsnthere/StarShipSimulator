@@ -18,7 +18,7 @@ const VERTEX = `
 in vec2 aPosition;
 out vec2 vTextureCoord;
 
-uniform vec4 uInputSize;
+uniform highp vec4 uInputSize;
 uniform vec4 uOutputFrame;
 uniform vec4 uOutputTexture;
 
@@ -51,7 +51,8 @@ in vec2 vTextureCoord;
 out vec4 finalColor;
 
 uniform sampler2D uTexture;
-uniform vec2 uTexelSize;
+// Pixi's cropped filter-input dimensions in logical pixels, not the canvas.
+uniform highp vec4 uInputSize;
 uniform float uStrength;
 uniform float uThreshold;
 
@@ -71,10 +72,10 @@ void main(void) {
   for (int i = 1; i <= 4; i++) {
     float o = float(i) * 1.6;
     float w = 0.19 / float(i);
-    bleed += brightPass(vTextureCoord + vec2( o, 0.0) * uTexelSize) * w;
-    bleed += brightPass(vTextureCoord + vec2(-o, 0.0) * uTexelSize) * w;
-    bleed += brightPass(vTextureCoord + vec2(0.0,  o) * uTexelSize) * w;
-    bleed += brightPass(vTextureCoord + vec2(0.0, -o) * uTexelSize) * w;
+    bleed += brightPass(vTextureCoord + vec2( o, 0.0) * uInputSize.zw) * w;
+    bleed += brightPass(vTextureCoord + vec2(-o, 0.0) * uInputSize.zw) * w;
+    bleed += brightPass(vTextureCoord + vec2(0.0,  o) * uInputSize.zw) * w;
+    bleed += brightPass(vTextureCoord + vec2(0.0, -o) * uInputSize.zw) * w;
   }
 
   finalColor = vec4(base.rgb + bleed * uStrength, base.a);
@@ -145,10 +146,13 @@ export function createPostPass(
   height: number,
 ): PostPass {
   const bloomFilter = new Filter({
+    // Filtering must preserve the root's subpixel source coverage. Downsampling
+    // a phone's DPR2 emission into a DPR1, non-MSAA input erases thin gas detail.
+    resolution: 'inherit',
+    antialias: 'inherit',
     glProgram: GlProgram.from({ vertex: VERTEX, fragment: BLOOM_FRAGMENT, name: 'bloom' }),
     resources: {
       bloomUniforms: {
-        uTexelSize: { value: new Float32Array([1 / width, 1 / height]), type: 'vec2<f32>' },
         uStrength: { value: 0, type: 'f32' },
         uThreshold: { value: 0.62, type: 'f32' },
       },
@@ -171,7 +175,7 @@ export function createPostPass(
   let heatAttached = false;
 
   const bloomUniforms = bloomFilter.resources['bloomUniforms'] as {
-    uniforms: { uStrength: number; uTexelSize: Float32Array };
+    uniforms: { uStrength: number };
   };
   const heatUniforms = heatFilter.resources['heatUniforms'] as {
     uniforms: { uTime: number; uIntensity: number; uCenter: Float32Array; uTexelSize: Float32Array };

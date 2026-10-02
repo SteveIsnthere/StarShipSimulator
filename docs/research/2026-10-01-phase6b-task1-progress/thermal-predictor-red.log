@@ -1,0 +1,65 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-range.test.ts (7 tests | 4 failed) 2347ms
+   × predicts direction -1 with a measured 0-degree tracking bias 596ms
+   × predicts direction 1 with a measured 0-degree tracking bias 594ms
+   × predicts direction -1 with a measured 2-degree tracking bias 557ms
+   × predicts direction 1 with a measured -2-degree tracking bias 585ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > predicts direction -1 with a measured 0-degree tracking bias
+AssertionError: expected 1328.6082089116173 to be less than 1
+ ❯ tests/core/entry-range.test.ts:41:56
+     39|   }
+     40|   expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
+     41|   expect(Math.abs(prediction.peakKelvin - peakKelvin)).toBeLessThan(1);
+       |                                                        ^
+     42|   expect(Math.abs(prediction.peakKelvin - halfStep.peakKelvin)).toBeLe…
+     43|   const flown = s.kinematics.downRangeDistance - origin;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > predicts direction 1 with a measured 0-degree tracking bias
+AssertionError: expected 1328.6793287339628 to be less than 1
+ ❯ tests/core/entry-range.test.ts:41:56
+     39|   }
+     40|   expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
+     41|   expect(Math.abs(prediction.peakKelvin - peakKelvin)).toBeLessThan(1);
+       |                                                        ^
+     42|   expect(Math.abs(prediction.peakKelvin - halfStep.peakKelvin)).toBeLe…
+     43|   const flown = s.kinematics.downRangeDistance - origin;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > predicts direction -1 with a measured 2-degree tracking bias
+AssertionError: expected 1333.210550037411 to be less than 1
+ ❯ tests/core/entry-range.test.ts:41:56
+     39|   }
+     40|   expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
+     41|   expect(Math.abs(prediction.peakKelvin - peakKelvin)).toBeLessThan(1);
+       |                                                        ^
+     42|   expect(Math.abs(prediction.peakKelvin - halfStep.peakKelvin)).toBeLe…
+     43|   const flown = s.kinematics.downRangeDistance - origin;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > predicts direction 1 with a measured -2-degree tracking bias
+AssertionError: expected 1333.3590146055549 to be less than 1
+ ❯ tests/core/entry-range.test.ts:41:56
+     39|   }
+     40|   expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
+     41|   expect(Math.abs(prediction.peakKelvin - peakKelvin)).toBeLessThan(1);
+       |                                                        ^
+     42|   expect(Math.abs(prediction.peakKelvin - halfStep.peakKelvin)).toBeLe…
+     43|   const flown = s.kinematics.downRangeDistance - origin;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 3 passed (7)
+   Start at  22:09:50
+   Duration  2.57s (transform 98ms, setup 0ms, import 118ms, tests 2.35s, environment 0ms)
+

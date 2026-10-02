@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-on-lift.test.ts (4 tests | 1 failed) 4ms
+     × returns the original broadside law below Mach two and the entry angle above twenty 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-on-lift.test.ts > the Mach-twenty to Mach-two blend > returns the original broadside law below Mach two and the entry angle above twenty
+AssertionError: expected 0.5235987755982989 to be close to 0.2617993877991494, received difference is 0.2617993877991495, but expected 5e-13
+ ❯ tests/core/entry-on-lift.test.ts:36:58
+     34|     expect(entryPitchOffset(20, 3000, rad(Math.PI / 3))).toBeCloseTo(M…
+     35|     expect(entryPitchOffset(40, -3000, rad(Math.PI / 3))).toBeCloseTo(…
+     36|     expect(entryPitchOffset(11, 3000, rad(Math.PI / 3))).toBeCloseTo(M…
+       |                                                          ^
+     37|   });
+     38|   it('has no pitch step at either boundary in either direction', () =>…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  21:30:18
+   Duration  215ms (transform 85ms, setup 0ms, import 101ms, tests 4ms, environment 0ms)
+

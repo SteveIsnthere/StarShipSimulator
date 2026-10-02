@@ -1,0 +1,22 @@
+[WebServer] (node:14450) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:14451) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (9.7s)
+(node:14472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [pixel-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (11.5s)
+(node:14479) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [pixel-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (11.3s)
+(node:14494) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [iphone-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (10.1s)
+(node:14501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [iphone-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (9.8s)
+
+  5 passed (55.4s)

@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/orbit-demo.test.ts (31 tests | 1 failed | 30 skipped) 927ms
+     × from 300 km it still lands, but the envelope is showing 926ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > from 300 km it still lands, but the envelope is showing
+AssertionError: expected 'brokeUp' to be 'landed' // Object.is equality
+
+Expected: "landed"
+Received: "brokeUp"
+
+ ❯ tests/core/orbit-demo.test.ts:436:23
+    434|     // is here so that reason stays measured rather than remembered.
+    435|     const f = from(circularAtAltitude(300_000));
+    436|     expect(f.outcome).toBe('landed');
+       |                       ^
+    437|     expect(Math.abs(f.miss)).toBeLessThan(150_000);
+    438|     expect(f.peakHeat / C.heatLimit, 'entry heating from 300 km').toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 30 skipped (31)
+   Start at  22:18:36
+   Duration  8.51s (transform 95ms, setup 0ms, import 7.48s, tests 927ms, environment 0ms)
+

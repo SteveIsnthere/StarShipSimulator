@@ -79,6 +79,7 @@ interface Flown {
   /** True if the vehicle was ever outside the frame entirely. */
   readonly lost: boolean;
   readonly frames: number;
+  readonly simulatedSteps: number;
   readonly report: string;
 }
 
@@ -140,6 +141,11 @@ function fly(spec: (typeof GOLDEN_SPECS)[number], options: FlightOptions): Flown
   // Enough frames to fly the whole recorded scenario at whatever rate the
   // options ask for, plus slack for the frames that simulate nothing.
   const wanted = spec.steps;
+  // These frame sequences offer at least 1/60 s per frame. Derive enough
+  // frames for the complete flight at its playback rate, plus one for the
+  // accumulator remainder. The old fixed guard stopped the approved 600 s
+  // reentry at 370.37 s under 1/9 speed (44,444 of 72,000 steps).
+  const maxFrames = Math.max(200_000, Math.ceil((wanted * DT * 60 * slow) / warp) + 1);
   let simulated = 0;
   let frames = 0;
   let worstX = 0;
@@ -166,7 +172,7 @@ function fly(spec: (typeof GOLDEN_SPECS)[number], options: FlightOptions): Flown
   // Allocated once, outside the loop, the way the session allocates its own.
   const onStep = options.clock === 'perStep' ? (at: SimState) => follow(at, DT) : undefined;
 
-  while (simulated < wanted && frames < 200_000) {
+  while (simulated < wanted && frames < maxFrames) {
     const frameTime = options.frameTime(frames);
     const result = advance(loop, frameTime, {
       timeWarp: warp,
@@ -215,6 +221,7 @@ function fly(spec: (typeof GOLDEN_SPECS)[number], options: FlightOptions): Flown
     finalY: camera.posY,
     lost,
     frames,
+    simulatedSteps: simulated,
     report:
       `${spec.id} on the ${options.clock} clock: worst offset ` +
       `${(worstX * 100).toFixed(0)}% x (at t+${worstAt.toFixed(1)} s), ` +
@@ -278,25 +285,24 @@ describe('property 3, strengthened: the camera path does not depend on the frame
     Which is why this is an equality rather than a bound, and why it is the test
     worth having. A tolerance can absorb a regression; an identity cannot.
   */
-  it.each(GOLDEN_SPECS.map((s) => [s.id, s] as const))(
-    '%s lands the camera on the same metre at 60 fps, with stalls, and at 9x',
-    (_id, spec) => {
-      const reference = fly(spec, { clock: 'perStep', frameTime: steady });
-      for (const [label, options] of [
-        ['a 400 ms stall every two seconds', { frameTime: stalling }],
-        ['9x time warp', { frameTime: steady, timeWarp: 9 }],
-        ['1/9 slow motion', { frameTime: steady, slowMotion: 9 }],
-      ] as const) {
-        const other = fly(spec, { clock: 'perStep', ...options });
-        expect(other.finalX, `${label}\n${reference.report}\n${other.report}`).toBe(
-          reference.finalX,
-        );
-        expect(other.finalY, `${label}\n${reference.report}\n${other.report}`).toBe(
-          reference.finalY,
-        );
-      }
-    },
-  );
+  // Each playback comparison is one proof and one bounded test. Keeping all
+  // four complete600s flights inside one callback exceeded the unchanged30s
+  // timeout on the hosted runner; no clock/frame assertion is relaxed.
+  const comparisons = [
+    ['a 400 ms stall every two seconds', { frameTime: stalling }],
+    ['9x time warp', { frameTime: steady, timeWarp: 9 }],
+    ['1/9 slow motion', { frameTime: steady, slowMotion: 9 }],
+  ] as const;
+  it.each(GOLDEN_SPECS.flatMap((spec) =>
+    comparisons.map(([label, options]) => [spec.id, label, spec, options] as const),
+  ))('%s lands the camera on the same metre with %s', (_id, label, spec, options) => {
+    const reference = fly(spec, { clock: 'perStep', frameTime: steady });
+    const other = fly(spec, { clock: 'perStep', ...options });
+    expect(reference.simulatedSteps, reference.report).toBe(spec.steps);
+    expect(other.simulatedSteps, `${label} completed the flight\n${other.report}`).toBe(spec.steps);
+    expect(other.finalX, `${label}\n${reference.report}\n${other.report}`).toBe(reference.finalX);
+    expect(other.finalY, `${label}\n${reference.report}\n${other.report}`).toBe(reference.finalY);
+  });
 });
 
 describe('and the two clocks that do not work', () => {

@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-range.test.ts (4 tests | 1 failed) 1116ms
+   × solves the range trim in both directions and preserves three-degree authority 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > solves the range trim in both directions and preserves three-degree authority
+AssertionError: expected +0 to be close to -0.05235987755982988, received difference is 0.05235987755982988, but expected 5e-13
+ ❯ tests/core/entry-range.test.ts:54:43
+     52|   const limit = Math.PI / 60;
+     53|   // Reducing the attack angle lengthens the outward-lift entry.
+     54|   expect(entryRangeTrim(1200, 1200, 800)).toBeCloseTo(-limit, 12);
+       |                                           ^
+     55|   expect(entryRangeTrim(800, 1200, 800)).toBeCloseTo(limit, 12);
+     56|   expect(entryRangeTrim(1000, 1200, 800)).toBeCloseTo(0, 12);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  21:50:11
+   Duration  1.33s (transform 97ms, setup 0ms, import 115ms, tests 1.12s, environment 0ms)
+

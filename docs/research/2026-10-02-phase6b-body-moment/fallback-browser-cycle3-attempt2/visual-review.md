@@ -1,0 +1,11 @@
+# Cycle3attempt2 actual visual review — rejected
+
+Fresh independent plume_cycle3_review inspected lowdesktop522f7778, vacuumdesktop e8e49d12 and vacuum PixelLandscape2aa678d8 PNGs in original/html-report/data/. Primary author also inspected all three. Numeric acceptance is green:51checks, original10five-project plume checks,36renderer and5scene witnesses; all60 exact subject/repeat PNG pairs byte-identical. This is not phase acceptance.
+
+Actual lowdesktop shows a flat-white straight-sided trapezoid attached to the nozzle; vacuum has a triangular white cap with a soft orange halo. Attachment and outer feather are correct, but the saturated interior violates the plan's explicit artificial-cone rejection. Cause: all interior fan vertices sample UV0.5; three real mount contributions overlap a constant transverse-alpha interior.
+
+Cycle3attempt3 approach: retain geometry, mounts, longitudinal colors/alpha/life/pressure curves and original particle seed/parameters. Map transverse UV by actual x/radius, so the unchanged soft profile covers the whole continuous envelope. No new gain, brightness sweep, threshold/bound/retry change. A cone-shaped envelope with a transverse gradient is not inherently a blob; this supersedes the earlier rejected full-profile assumption. Watch a narrow pure test fail against the plateau mapping, then implement; inspect actual low/vacuum pixels and run original acceptance once at changed source. Detailed turbulence belongs to Phase8, but the conspicuous flat interior cannot be deferred to it.
+
+Separate source review found a lifecycle test gap: existing PNG hide/restoration passes even if only particle detail hides. Effective visibleMounts now includes parent visibility, and the scene test asserts0hidden/3restored using world-canvas test id. This witness watched0expected/3actual before correction. Five-project revised lifecycle verification is in progress; retain its result before modifying runtime again.
+
+After this third diagnosis, any further failed acceptance requires a fresh independent review and a recorded new evidence-backed cycle under Steve's standing approval. Main/live080f108,60%,four phases unfinished. No owner question or release claim.

@@ -1,0 +1,156 @@
+[WebServer] (node:6075) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 3 workers
+
+(node:6081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6080) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6082) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume-frozen] iphone-portrait step 485: {"extent":{"found":true,"left":558,"right":616,"top":584,"bottom":812,"widthPx":59,"heightPx":229,"spanPx":229,"count":3085,"bandWidthPx":49},"repeat":{"found":true,"left":558,"right":616,"top":584,"bottom":812,"widthPx":59,"heightPx":229,"spanPx":229,"count":3085,"bandWidthPx":49}}
+[plume-frozen] iphone-portrait step 482: {"extent":{"found":true,"left":550,"right":613,"top":579,"bottom":758,"widthPx":64,"heightPx":180,"spanPx":180,"count":3084,"bandWidthPx":55},"repeat":{"found":true,"left":550,"right":613,"top":579,"bottom":758,"widthPx":64,"heightPx":180,"spanPx":180,"count":3084,"bandWidthPx":55}}
+[plume-frozen] iphone-landscape step 504: {"extent":{"found":true,"left":1097,"right":1162,"top":540,"bottom":673,"widthPx":66,"heightPx":134,"spanPx":134,"count":3068,"bandWidthPx":51},"repeat":{"found":true,"left":1097,"right":1162,"top":540,"bottom":673,"widthPx":66,"heightPx":134,"spanPx":134,"count":3068,"bandWidthPx":51}}
+[plume-frozen] iphone-portrait step 525: {"extent":{"found":true,"left":553,"right":620,"top":579,"bottom":731,"widthPx":68,"heightPx":153,"spanPx":153,"count":2871,"bandWidthPx":49},"repeat":{"found":true,"left":553,"right":620,"top":579,"bottom":731,"widthPx":68,"heightPx":153,"spanPx":153,"count":2871,"bandWidthPx":49}}
+[plume-frozen] iphone-portrait step 526: {"extent":{"found":true,"left":559,"right":622,"top":575,"bottom":848,"widthPx":64,"heightPx":274,"spanPx":274,"count":2999,"bandWidthPx":55},"repeat":{"found":true,"left":559,"right":622,"top":575,"bottom":848,"widthPx":64,"heightPx":274,"spanPx":274,"count":2999,"bandWidthPx":55}}
+[plume-frozen] iphone-portrait step 565: {"extent":{"found":true,"left":552,"right":619,"top":578,"bottom":740,"widthPx":68,"heightPx":163,"spanPx":163,"count":2755,"bandWidthPx":53},"repeat":{"found":true,"left":552,"right":619,"top":578,"bottom":740,"widthPx":68,"heightPx":163,"spanPx":163,"count":2755,"bandWidthPx":53}}
+[plume-frozen] iphone-landscape step 534: {"extent":{"found":true,"left":1098,"right":1162,"top":536,"bottom":726,"widthPx":65,"heightPx":191,"spanPx":191,"count":3086,"bandWidthPx":45},"repeat":{"found":true,"left":1098,"right":1162,"top":536,"bottom":726,"widthPx":65,"heightPx":191,"spanPx":191,"count":3086,"bandWidthPx":45}}
+[plume-frozen] iphone-portrait step 544: {"extent":{"found":true,"left":553,"right":612,"top":573,"bottom":707,"widthPx":60,"heightPx":135,"spanPx":135,"count":2751,"bandWidthPx":50},"repeat":{"found":true,"left":553,"right":612,"top":573,"bottom":707,"widthPx":60,"heightPx":135,"spanPx":135,"count":2751,"bandWidthPx":50}}
+[plume-frozen] iphone-portrait step 608: {"extent":{"found":true,"left":557,"right":620,"top":578,"bottom":740,"widthPx":64,"heightPx":163,"spanPx":163,"count":3114,"bandWidthPx":47},"repeat":{"found":true,"left":557,"right":620,"top":578,"bottom":740,"widthPx":64,"heightPx":163,"spanPx":163,"count":3114,"bandWidthPx":47}}
+[plume] iphone-portrait · the plume is longer than the ship at low altitude @mobile: 1.23 long, 0.37 across (spans 1.73/1.16/1.23/1.23, widths 0.37/0.37/0.40/0.36, steps 485/525/565/608; 0/4 anchored to the region edge; throttle 100/100/100/100; (558,584)-(616,812)n3085 (553,579)-(620,731)n2871 (552,578)-(619,740)n2755 (557,578)-(620,740)n3114)
+  ✓  2 [iphone-portrait] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (42.8s)
+[plume-frozen] iphone-portrait step 580: {"extent":{"found":true,"left":556,"right":623,"top":573,"bottom":820,"widthPx":68,"heightPx":248,"spanPx":248,"count":2807,"bandWidthPx":55},"repeat":{"found":true,"left":556,"right":623,"top":573,"bottom":820,"widthPx":68,"heightPx":248,"spanPx":248,"count":2807,"bandWidthPx":55}}
+(node:6153) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 1.88 long, 0.42 across (spans 1.36/2.07/1.02/1.88, widths 0.42/0.42/0.38/0.42, steps 482/526/544/580; 0/4 anchored to the region edge; throttle 100/100/100/100; (550,579)-(613,758)n3084 (559,575)-(622,848)n2999 (553,573)-(612,707)n2751 (556,573)-(623,820)n2807)
+[plume-frozen] iphone-landscape step 562: {"extent":{"found":true,"left":1097,"right":1164,"top":540,"bottom":637,"widthPx":68,"heightPx":98,"spanPx":98,"count":3154,"bandWidthPx":60},"repeat":{"found":true,"left":1097,"right":1164,"top":540,"bottom":637,"widthPx":68,"heightPx":98,"spanPx":98,"count":3154,"bandWidthPx":60}}
+[plume-frozen] iphone-landscape step 594: {"extent":{"found":true,"left":1095,"right":1154,"top":542,"bottom":758,"widthPx":60,"heightPx":217,"spanPx":217,"count":3190,"bandWidthPx":48},"repeat":{"found":true,"left":1095,"right":1154,"top":542,"bottom":758,"widthPx":60,"heightPx":217,"spanPx":217,"count":3190,"bandWidthPx":48}}
+[plume] iphone-landscape · the plume is longer than the ship at low altitude @mobile: 1.45 long, 0.39 across (spans 1.01/1.45/0.74/1.64, widths 0.39/0.34/0.45/0.36, steps 504/534/562/594; 0/4 anchored to the region edge; throttle 100/100/100/100; (1097,540)-(1162,673)n3068 (1098,536)-(1162,726)n3086 (1097,540)-(1164,637)n3154 (1095,542)-(1154,758)n3190)
+[plume-frozen] iphone-portrait step 486: {"extent":{"found":true,"left":554,"right":605,"top":563,"bottom":621,"widthPx":52,"heightPx":59,"spanPx":59,"count":541,"bandWidthPx":27},"repeat":{"found":true,"left":554,"right":605,"top":563,"bottom":621,"widthPx":52,"heightPx":59,"spanPx":59,"count":541,"bandWidthPx":27}}
+  ✓  1 [iphone-landscape] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (58.7s)
+[plume-frozen] iphone-portrait step 528: {"extent":{"found":true,"left":570,"right":617,"top":562,"bottom":614,"widthPx":48,"heightPx":53,"spanPx":53,"count":640,"bandWidthPx":35},"repeat":{"found":true,"left":570,"right":617,"top":562,"bottom":614,"widthPx":48,"heightPx":53,"spanPx":53,"count":640,"bandWidthPx":35}}
+[plume-frozen] iphone-portrait step 562: {"extent":{"found":true,"left":571,"right":612,"top":561,"bottom":622,"widthPx":42,"heightPx":62,"spanPx":62,"count":569,"bandWidthPx":29},"repeat":{"found":true,"left":571,"right":612,"top":561,"bottom":622,"widthPx":42,"heightPx":62,"spanPx":62,"count":569,"bandWidthPx":29}}
+[plume-frozen] iphone-landscape step 496: {"extent":{"found":true,"left":1092,"right":1160,"top":540,"bottom":693,"widthPx":69,"heightPx":154,"spanPx":154,"count":3516,"bandWidthPx":57},"repeat":{"found":true,"left":1092,"right":1160,"top":540,"bottom":693,"widthPx":69,"heightPx":154,"spanPx":154,"count":3516,"bandWidthPx":57}}
+[plume-frozen] iphone-portrait step 596: {"extent":{"found":true,"left":567,"right":624,"top":564,"bottom":623,"widthPx":58,"heightPx":60,"spanPx":60,"count":614,"bandWidthPx":23},"repeat":{"found":true,"left":567,"right":624,"top":564,"bottom":623,"widthPx":58,"heightPx":60,"spanPx":60,"count":614,"bandWidthPx":23}}
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 1.00 long, 0.48 across (spans 0.98/0.88/1.03/1.00, widths 0.45/0.58/0.48/0.38, steps 486/528/562/596; 0/4 anchored to the region edge; throttle 100/100/100/100; (554,563)-(605,621)n541 (570,562)-(617,614)n640 (571,561)-(612,622)n569 (567,564)-(624,623)n614)
+low: 1.88 long, 0.42 across · vacuum: 1.00 long, 0.48 across
+frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   46.9  spread  20.49  tones  6  bright 0.003  dark 0.933  warm 0.0097  top #332222:0.37 #222222:0.37 #222211:0.11 #111122:0.03 #333322:0.02
+  EXT plume    found true  span 60px (58x60)  band 23px  n 614  box (567,564)-(624,623)  = 1.00 vehicle heights
+  |   -                                        |
+  |                                            |
+  |       +          -:   :       = ==        #|
+  |         =             =                   #|
+  |        ++               -.                 |
+  |        -          +-     -  -.         ==  |
+  |      ==                     -.           .+|
+  |  ==   == +                      -      *   |
+  |                     -+      --  =          |
+  |  --                 *.   -   --  -         |
+  |.......-............#@%#....................|
+  |......--...-........-@@@....................|
+  |*********************%%@*****@*************#|
+  |=:..................:=*:..................-=|
+  |.....................--.....................|
+  |.....................--.....................|
+  |.....................:-.....................|
+  |.....................::.....................|
+  |::....................:.....................|
+  |:::.....................................::::|
+  |:::::::.............................::::::::|
+  |:::::::...........................::::::::::|
+  aspect: 0.22 low, 0.48 vacuum
+  ✘  3 [iphone-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (1.2m)
+[plume-frozen] iphone-landscape step 520: {"extent":{"found":true,"left":1100,"right":1167,"top":533,"bottom":627,"widthPx":68,"heightPx":95,"spanPx":95,"count":3186,"bandWidthPx":48},"repeat":{"found":true,"left":1100,"right":1167,"top":533,"bottom":627,"widthPx":68,"heightPx":95,"spanPx":95,"count":3186,"bandWidthPx":48}}
+[plume-frozen] iphone-landscape step 554: {"extent":{"found":true,"left":1095,"right":1160,"top":537,"bottom":641,"widthPx":66,"heightPx":105,"spanPx":105,"count":3148,"bandWidthPx":44},"repeat":{"found":true,"left":1095,"right":1160,"top":537,"bottom":641,"widthPx":66,"heightPx":105,"spanPx":105,"count":3148,"bandWidthPx":44}}
+[plume-frozen] iphone-landscape step 588: {"extent":{"found":true,"left":1094,"right":1169,"top":538,"bottom":767,"widthPx":76,"heightPx":230,"spanPx":230,"count":3333,"bandWidthPx":49},"repeat":{"found":true,"left":1094,"right":1169,"top":538,"bottom":767,"widthPx":76,"heightPx":230,"spanPx":230,"count":3333,"bandWidthPx":49}}
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 1.17 long, 0.37 across (spans 1.17/0.72/0.79/1.74, widths 0.43/0.36/0.33/0.37, steps 496/520/554/588; 0/4 anchored to the region edge; throttle 100/100/100/100; (1092,540)-(1160,693)n3516 (1100,533)-(1167,627)n3186 (1095,537)-(1160,641)n3148 (1094,538)-(1169,767)n3333)
+[plume-frozen] iphone-landscape step 382: {"extent":{"found":true,"left":1101,"right":1141,"top":532,"bottom":599,"widthPx":41,"heightPx":68,"spanPx":68,"count":534,"bandWidthPx":41},"repeat":{"found":true,"left":1101,"right":1141,"top":532,"bottom":599,"widthPx":41,"heightPx":68,"spanPx":68,"count":534,"bandWidthPx":41}}
+[plume-frozen] iphone-landscape step 420: {"extent":{"found":true,"left":1106,"right":1146,"top":530,"bottom":596,"widthPx":41,"heightPx":67,"spanPx":67,"count":738,"bandWidthPx":30},"repeat":{"found":true,"left":1106,"right":1146,"top":530,"bottom":596,"widthPx":41,"heightPx":67,"spanPx":67,"count":738,"bandWidthPx":30}}
+[plume-frozen] iphone-landscape step 462: {"extent":{"found":true,"left":1102,"right":1157,"top":528,"bottom":588,"widthPx":56,"heightPx":61,"spanPx":61,"count":800,"bandWidthPx":25},"repeat":{"found":true,"left":1102,"right":1157,"top":528,"bottom":588,"widthPx":56,"heightPx":61,"spanPx":61,"count":800,"bandWidthPx":25}}
+[plume-frozen] iphone-landscape step 502: {"extent":{"found":true,"left":1099,"right":1148,"top":525,"bottom":568,"widthPx":50,"heightPx":44,"spanPx":50,"count":498,"bandWidthPx":31},"repeat":{"found":true,"left":1099,"right":1148,"top":525,"bottom":568,"widthPx":50,"heightPx":44,"spanPx":50,"count":498,"bandWidthPx":31}}
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 1.12 long, 0.52 across (spans 1.13/1.12/1.02/0.83, widths 0.68/0.50/0.42/0.52, steps 382/420/462/502; 0/4 anchored to the region edge; throttle 100/100/100/100; (1101,532)-(1141,599)n534 (1106,530)-(1146,596)n738 (1102,528)-(1157,588)n800 (1099,525)-(1148,568)n498)
+low: 1.17 long, 0.37 across · vacuum: 1.12 long, 0.52 across
+frame 2250x1020 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   48.1  spread  18.17  tones  5  bright 0.002  dark 0.942  warm 0.0051  top #332222:0.60 #222222:0.18 #333322:0.06 #111122:0.04 #112222:0.02
+  EXT plume    found true  span 50px (50x44)  band 31px  n 498  box (1099,525)-(1148,568)  = 0.83 vehicle heights
+  |         -  --                      -       |
+  |                                            |
+  |              .+    - -   ==    #           |
+  |           =   ==     =         #.-         |
+  |           =   +=      -                    |
+  |               -    +-  --     =   -        |
+  |              =          -      +   -       |
+  |      +   - =  =+          -  ** =          |
+  |        = :          -+  - =     =          |
+  |       -    --       #. - -.-    -          |
+  |.........-....--.....@%...:.................|
+  |........=-....-..-...@@.............-.......|
+  |==+++**#*************##**@******%******+++==|
+  |*******+.............+=.............+*******|
+  |.....................--.....................|
+  |.....................-=.....................|
+  |.....................--.....................|
+  |.....................:-.....................|
+  |.....................::.....................|
+  |......................:.....................|
+  |............................................|
+  |.......:::::::::...........................:|
+  aspect: 0.32 low, 0.46 vacuum
+  ✓  4 [iphone-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (58.9s)
+
+
+  1) [iphone-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+
+    Error: low: 1.88 long, 0.42 across · vacuum: 1.00 long, 0.48 across
+    frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+      below      mean   46.9  spread  20.49  tones  6  bright 0.003  dark 0.933  warm 0.0097  top #332222:0.37 #222222:0.37 #222211:0.11 #111122:0.03 #333322:0.02
+      EXT plume    found true  span 60px (58x60)  band 23px  n 614  box (567,564)-(624,623)  = 1.00 vehicle heights
+      |   -                                        |
+      |                                            |
+      |       +          -:   :       = ==        #|
+      |         =             =                   #|
+      |        ++               -.                 |
+      |        -          +-     -  -.         ==  |
+      |      ==                     -.           .+|
+      |  ==   == +                      -      *   |
+      |                     -+      --  =          |
+      |  --                 *.   -   --  -         |
+      |.......-............#@%#....................|
+      |......--...-........-@@@....................|
+      |*********************%%@*****@*************#|
+      |=:..................:=*:..................-=|
+      |.....................--.....................|
+      |.....................--.....................|
+      |.....................:-.....................|
+      |.....................::.....................|
+      |::....................:.....................|
+      |:::.....................................::::|
+      |:::::::.............................::::::::|
+      |:::::::...........................::::::::::|
+      aspect: 0.22 low, 0.48 vacuum
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.4994324415041085
+    Received:   0.48333333333333334
+
+      343 |     `${(vacuum.width / vacuum.span).toFixed(2)} vacuum`;
+      344 |   console.log(shape);
+    > 345 |   expect(vacuum.width, shape).toBeGreaterThan(low.width * 1.2);
+          |                               ^
+      346 |   expect(vacuum.width, shape).toBeGreaterThan(0.2);
+      347 | });
+      348 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/plume.spec.ts:345:31
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-iphone-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-iphone-portrait/error-context.md
+
+  1 failed
+    [iphone-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+  3 passed (1.7m)

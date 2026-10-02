@@ -1,0 +1,2837 @@
+{
+  "platform": "x86-64 Linux / Node22, hosted run36985191265",
+  "baseline": "080f1088ec07863751ffd8b2fa8bf8106d4b22af",
+  "recordingSnapshot": "764d19145edb06553500d256bb425d6c0f1669f3",
+  "fixtures": [
+    {
+      "id": "before-flip-autoland",
+      "rows": 121,
+      "addedKeys": [
+        "autopilot.entryRangeCountdown",
+        "autopilot.entryRangeTrim"
+      ],
+      "beforeDigest": "1509712cf0d6cd184156c6df17fcaf83bb3dfb960761954f1dbb18590c4e0bc0",
+      "afterDigest": "6ba544ad3d97ee4ec2001bc1925a14465e61539a402a61fa8d776ef1aa59c3a3",
+      "changedFields": {
+        "atmosphere.airDensity": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 0.002704028283763815
+        },
+        "atmosphere.airPressure": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 0.2754806692221763
+        },
+        "atmosphere.airTemperature": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 0.150904195810881
+        },
+        "autopilot.bellyFlopTriggerAltitude": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 849.87756628491
+        },
+        "autopilot.finalStagePessimisticAltitude": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 252.20972034424784
+        },
+        "autopilot.fineTunePercentage": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 0.005788472186658163
+        },
+        "autopilot.pitchControl": {
+          "firstSample": 1,
+          "changedSamples": 118,
+          "maxAbsDelta": 200
+        },
+        "forces.aerodynamicDrag": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 1283657.4814456843
+        },
+        "forces.aerodynamicDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 9.12349738311005
+        },
+        "forces.aerodynamicLift": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 494572.1647873865
+        },
+        "forces.aerodynamicLiftAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 3.387757604753529
+        },
+        "forces.aftFinDrag": {
+          "firstSample": 1,
+          "changedSamples": 25,
+          "maxAbsDelta": 123910.61862196309
+        },
+        "forces.aftFinDragAngularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 25,
+          "maxAbsDelta": 0.04268491812933744
+        },
+        "forces.aftFinEffectiveAreaFraction": {
+          "firstSample": 1,
+          "changedSamples": 11,
+          "maxAbsDelta": 0.8572989891886034
+        },
+        "forces.angularDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 0.05280562639437772
+        },
+        "forces.crossSectionalArea": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 248.2256544156354
+        },
+        "forces.dynamicPressure": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 0.8942007519923689
+        },
+        "forces.frontFinDrag": {
+          "firstSample": 1,
+          "changedSamples": 24,
+          "maxAbsDelta": 75366.54196543327
+        },
+        "forces.frontFinDragAngularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 24,
+          "maxAbsDelta": 0.0630172712402425
+        },
+        "forces.frontFinEffectiveAreaFraction": {
+          "firstSample": 1,
+          "changedSamples": 9,
+          "maxAbsDelta": 0.8572989891886034
+        },
+        "forces.perceivedG": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 1.1031940155122513
+        },
+        "forces.perceivedG_X": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 1.9836931782578522
+        },
+        "forces.perceivedG_Y": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 1.2522560369128874
+        },
+        "forces.surfaceTemperature": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 2.590919910871662
+        },
+        "forces.thermalPower": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 11.554781483863568
+        },
+        "forces.thrustVectorAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 57,
+          "maxAbsDelta": 0.9146199185289305
+        },
+        "forces.thrustVectorForce": {
+          "firstSample": 1,
+          "changedSamples": 57,
+          "maxAbsDelta": 1409521.7710540749
+        },
+        "kinematics.accelerationX": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 19.40784343657034
+        },
+        "kinematics.accelerationY": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 12.253767332861466
+        },
+        "kinematics.altitude": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 23.2169732277341
+        },
+        "kinematics.angleInToTheWind": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 0.8623373065174089
+        },
+        "kinematics.angleOfAttack": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 6.264642413552036
+        },
+        "kinematics.angleOfMotion": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 6.283121682125978
+        },
+        "kinematics.angularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 1.0385415653124814
+        },
+        "kinematics.angularVelocity": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 0.6307808281194032
+        },
+        "kinematics.distanceToPlanetCenter": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 23.21697322744876
+        },
+        "kinematics.downRangeDistance": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 27.642339453101158
+        },
+        "kinematics.downRangeDistanceNextFrame": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 27.642339453101158
+        },
+        "kinematics.machSpeed": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 0.03167904647398398
+        },
+        "kinematics.orbitalVelocityAtCurrentAltitude": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 0.014411843223570031
+        },
+        "kinematics.pitch": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 0.9408806260786446
+        },
+        "kinematics.pitchRateOfChange": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 0.627621577841242
+        },
+        "kinematics.pitchRecord[0]": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 0.9426435684712926
+        },
+        "kinematics.pitchRecord[1]": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 0.9417981085220638
+        },
+        "kinematics.speedX": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 17.202082413821415
+        },
+        "kinematics.speedY": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 9.361157395028343
+        },
+        "kinematics.totalAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 10.498466311360962
+        },
+        "kinematics.trueSpeed": {
+          "firstSample": 1,
+          "changedSamples": 58,
+          "maxAbsDelta": 10.697490543666433
+        },
+        "vehicle.aftFinExtension": {
+          "firstSample": 1,
+          "changedSamples": 11,
+          "maxAbsDelta": 100
+        },
+        "vehicle.frontFinExtension": {
+          "firstSample": 1,
+          "changedSamples": 9,
+          "maxAbsDelta": 100
+        },
+        "vehicle.gimbalPointingDirection": {
+          "firstSample": 1,
+          "changedSamples": 120,
+          "maxAbsDelta": 1.4653968841203626
+        },
+        "vehicle.gimbalPosition": {
+          "firstSample": 1,
+          "changedSamples": 118,
+          "maxAbsDelta": 200
+        },
+        "vehicle.vehicleInFlightMaxArea": {
+          "firstSample": 1,
+          "changedSamples": 11,
+          "maxAbsDelta": 68.80092748706579
+        },
+        "engines.ignitionCountdown[2]": {
+          "firstSample": 2,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "autopilot.aeroDescentCompleted": {
+          "firstSample": 2,
+          "changedSamples": 4,
+          "maxAbsDelta": 0
+        },
+        "autopilot.flipStageInitialised": {
+          "firstSample": 2,
+          "changedSamples": 4,
+          "maxAbsDelta": 0
+        },
+        "engines.ignitionCountdown[0]": {
+          "firstSample": 2,
+          "changedSamples": 4,
+          "maxAbsDelta": 0
+        },
+        "engines.ignitionCountdown[1]": {
+          "firstSample": 2,
+          "changedSamples": 5,
+          "maxAbsDelta": 0
+        },
+        "rng.counters.ignitionDelay": {
+          "firstSample": 2,
+          "changedSamples": 3,
+          "maxAbsDelta": 3
+        },
+        "rng.counters.ignitionFailure": {
+          "firstSample": 2,
+          "changedSamples": 3,
+          "maxAbsDelta": 3
+        },
+        "status.dumpingFuel": {
+          "firstSample": 2,
+          "changedSamples": 4,
+          "maxAbsDelta": 0
+        },
+        "status.rcsActive": {
+          "firstSample": 2,
+          "changedSamples": 3,
+          "maxAbsDelta": 0
+        },
+        "vehicle.propellantMass": {
+          "firstSample": 2,
+          "changedSamples": 62,
+          "maxAbsDelta": 3820.094291539557
+        },
+        "vehicle.vehicleMass": {
+          "firstSample": 2,
+          "changedSamples": 62,
+          "maxAbsDelta": 3820.0942915395717
+        },
+        "vehicle.vehicleMomentOfInertia": {
+          "firstSample": 2,
+          "changedSamples": 62,
+          "maxAbsDelta": 624066.6102514602
+        },
+        "engines.running[2]": {
+          "firstSample": 3,
+          "changedSamples": 3,
+          "maxAbsDelta": 0
+        },
+        "forces.offAxisThrustDifferenceAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 56,
+          "maxAbsDelta": 0.021674921379345048
+        },
+        "forces.thrust": {
+          "firstSample": 3,
+          "changedSamples": 56,
+          "maxAbsDelta": 1816772.0257480831
+        },
+        "forces.thrustAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 56,
+          "maxAbsDelta": 12.39199555605604
+        },
+        "forces.twr": {
+          "firstSample": 3,
+          "changedSamples": 56,
+          "maxAbsDelta": 1.263586780468649
+        },
+        "engines.running[0]": {
+          "firstSample": 4,
+          "changedSamples": 4,
+          "maxAbsDelta": 0
+        },
+        "engines.running[1]": {
+          "firstSample": 5,
+          "changedSamples": 3,
+          "maxAbsDelta": 0
+        },
+        "autopilot.flipCompleted": {
+          "firstSample": 9,
+          "changedSamples": 3,
+          "maxAbsDelta": 0
+        },
+        "autopilot.horizontalAdjustmentDesiredSpeed": {
+          "firstSample": 9,
+          "changedSamples": 37,
+          "maxAbsDelta": 10
+        },
+        "autopilot.horizontalAdjustmentStageInitialised": {
+          "firstSample": 9,
+          "changedSamples": 3,
+          "maxAbsDelta": 0
+        },
+        "autopilot.horizontalAdjustmentTimeLeft": {
+          "firstSample": 9,
+          "changedSamples": 50,
+          "maxAbsDelta": 1.6864390582602482
+        },
+        "status.finActive": {
+          "firstSample": 9,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "status.finLocked": {
+          "firstSample": 9,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "vehicle.throttle": {
+          "firstSample": 9,
+          "changedSamples": 49,
+          "maxAbsDelta": 32.639171529524624
+        },
+        "vehicle.throttleCurrent": {
+          "firstSample": 9,
+          "changedSamples": 50,
+          "maxAbsDelta": 32.639171529524624
+        },
+        "autopilot.distanceToGround": {
+          "firstSample": 44,
+          "changedSamples": 15,
+          "maxAbsDelta": 20.829683186893945
+        },
+        "autopilot.finalDescentStageInitialised": {
+          "firstSample": 44,
+          "changedSamples": 3,
+          "maxAbsDelta": 0
+        },
+        "autopilot.horizontalAdjustmentStageCompleted": {
+          "firstSample": 44,
+          "changedSamples": 3,
+          "maxAbsDelta": 0
+        },
+        "autopilot.autoLandOn": {
+          "firstSample": 58,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "autopilot.initVehicleConfigCompleted": {
+          "firstSample": 58,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "status.forceDump": {
+          "firstSample": 58,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "status.landed": {
+          "firstSample": 58,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "world.timeSpent": {
+          "firstSample": 58,
+          "changedSamples": 63,
+          "maxAbsDelta": 0.7333333333332916
+        },
+        "status.onTheGround": {
+          "firstSample": 59,
+          "changedSamples": 62,
+          "maxAbsDelta": 0
+        }
+      },
+      "endBefore": {
+        "kinematics.altitude": 24.987892050436383,
+        "kinematics.speedX": 0,
+        "kinematics.speedY": 0,
+        "vehicle.propellantMass": 0,
+        "status.landed": true,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      },
+      "endAfter": {
+        "kinematics.altitude": 24.995553962175496,
+        "kinematics.speedX": 0,
+        "kinematics.speedY": 0,
+        "vehicle.propellantMass": 0,
+        "status.landed": true,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      }
+    },
+    {
+      "id": "booster-sep-boostback",
+      "rows": 241,
+      "addedKeys": [
+        "autopilot.entryRangeCountdown",
+        "autopilot.entryRangeTrim"
+      ],
+      "beforeDigest": "ccf3e19863f7a7956aae8cf8ca7554d4bcfc02787252fa1a07ce00070c154e6e",
+      "afterDigest": "3434b2f3dd7ec91bb74fc03c606d00692e6bff59791ec69acb37e6dcf4c38fb5",
+      "changedFields": {
+        "atmosphere.airDensity": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 2.5346148888904858e-08
+        },
+        "atmosphere.airPressure": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 1.4648006851249304e-06
+        },
+        "atmosphere.airTemperature": {
+          "firstSample": 1,
+          "changedSamples": 231,
+          "maxAbsDelta": 6.383528797568715
+        },
+        "autopilot.decelerationStageEstDuration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.5980411086156039
+        },
+        "forces.aerodynamicDrag": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 34779.348168289594
+        },
+        "forces.aerodynamicDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.05641519282658434
+        },
+        "forces.aerodynamicLift": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 13829.4766626579
+        },
+        "forces.aerodynamicLiftAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.022432639876958406
+        },
+        "forces.aftFinDrag": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 1.2049251713583544
+        },
+        "forces.aftFinDragAngularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 7.442103337035842e-08
+        },
+        "forces.angularDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 1.360488959432873e-10
+        },
+        "forces.crossSectionalArea": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 40.53426479621281
+        },
+        "forces.dynamicPressure": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 2.008489732438761e-05
+        },
+        "forces.frontFinDrag": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.63666351849065
+        },
+        "forces.frontFinDragAngularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 3.792090171636075e-07
+        },
+        "forces.offAxisThrustDifferenceAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 4.3537395910675514e-13
+        },
+        "forces.perceivedG": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.0056999190603646
+        },
+        "forces.perceivedG_X": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.004089737959223454
+        },
+        "forces.perceivedG_Y": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.007243886374668218
+        },
+        "forces.surfaceTemperature": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.18434143720327256
+        },
+        "forces.thermalPower": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.629103332483794
+        },
+        "forces.thrust": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.006880371831357479
+        },
+        "forces.thrustAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 1.1505104424713863e-08
+        },
+        "forces.thrustVectorAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 3.444331616586638e-07
+        },
+        "forces.thrustVectorForce": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 1.4960399208939634
+        },
+        "forces.twr": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 9.559889237431562e-05
+        },
+        "kinematics.accelerationX": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.13535383821834257
+        },
+        "kinematics.accelerationY": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.2323849353121048
+        },
+        "kinematics.altitude": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 834.4937207310577
+        },
+        "kinematics.angleInToTheWind": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.022595938530694415
+        },
+        "kinematics.angleOfAttack": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.022595938530694415
+        },
+        "kinematics.angleOfMotion": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.022595938600525653
+        },
+        "kinematics.angularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 2.3804190446563567e-07
+        },
+        "kinematics.angularVelocity": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 2.0588189914017008e-07
+        },
+        "kinematics.distanceToPlanetCenter": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 834.493720731698
+        },
+        "kinematics.downRangeDistance": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 723.5014578588307
+        },
+        "kinematics.downRangeDistanceNextFrame": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 723.5014578588307
+        },
+        "kinematics.machSpeed": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.02442314769891063
+        },
+        "kinematics.orbitalVelocityAtCurrentAltitude": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.5009791860356927
+        },
+        "kinematics.pitch": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 4.036486159764152e-07
+        },
+        "kinematics.pitchRateOfChange": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 2.060751502774849e-07
+        },
+        "kinematics.pitchRecord[0]": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 4.0308231485930435e-07
+        },
+        "kinematics.pitchRecord[1]": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 4.0337083229147197e-07
+        },
+        "kinematics.speedX": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 9.383982643509057
+        },
+        "kinematics.speedY": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 9.657842000328515
+        },
+        "kinematics.totalAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.26040464525984897
+        },
+        "kinematics.trueSpeed": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 13.184544374052109
+        },
+        "vehicle.gimbalPointingDirection": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 5.479073738601237e-07
+        },
+        "autopilot.pitchControl": {
+          "firstSample": 3,
+          "changedSamples": 238,
+          "maxAbsDelta": 7.910487357420948e-05
+        },
+        "vehicle.gimbalPosition": {
+          "firstSample": 3,
+          "changedSamples": 238,
+          "maxAbsDelta": 7.910487357420948e-05
+        }
+      },
+      "endBefore": {
+        "kinematics.altitude": 143289.2690749999,
+        "kinematics.speedX": -620.9547528943768,
+        "kinematics.speedY": 48.0835556613002,
+        "vehicle.propellantMass": 248553.26197748736,
+        "status.landed": false,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      },
+      "endAfter": {
+        "kinematics.altitude": 144123.76279573096,
+        "kinematics.speedX": -630.3387355378859,
+        "kinematics.speedY": 57.210330129516606,
+        "vehicle.propellantMass": 248553.26197748736,
+        "status.landed": false,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      }
+    },
+    {
+      "id": "intro-demo",
+      "rows": 91,
+      "addedKeys": [
+        "autopilot.entryRangeCountdown",
+        "autopilot.entryRangeTrim"
+      ],
+      "beforeDigest": "cecdc48322e0704619df6b729dd34b538b59f7823507094466013b3935f3000c",
+      "afterDigest": "fd8b81de9959c8246385e24e9708c8d05afa58d49ae2a2ad1b9b469d3b0658fb",
+      "changedFields": {
+        "atmosphere.airDensity": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 2.8478653147923083e-05
+        },
+        "atmosphere.airPressure": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.002904409835906563
+        },
+        "atmosphere.airTemperature": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.001582292952264197
+        },
+        "autopilot.distanceToGround": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.2434843738678154
+        },
+        "autopilot.pitchControl": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 1.0303996002537619
+        },
+        "forces.aerodynamicDrag": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 31494.76891082588
+        },
+        "forces.aerodynamicDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.23882601208733223
+        },
+        "forces.aerodynamicLift": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 5317.3489779889405
+        },
+        "forces.aerodynamicLiftAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.04066001068908062
+        },
+        "forces.angularDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 3.1575846910039875e-06
+        },
+        "forces.crossSectionalArea": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 36.158331335721584
+        },
+        "forces.dynamicPressure": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.011647990384383355
+        },
+        "forces.offAxisThrustDifferenceAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.0004359068586342607
+        },
+        "forces.perceivedG": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.07327621954408281
+        },
+        "forces.perceivedG_X": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.0032569033768227867
+        },
+        "forces.perceivedG_Y": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.07331926788280008
+        },
+        "forces.surfaceTemperature": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.02790763650483541
+        },
+        "forces.thermalPower": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.12678456346752398
+        },
+        "forces.thrust": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 62742.28809698019
+        },
+        "forces.thrustAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.4853009287247936
+        },
+        "forces.thrustVectorAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.003279043864240677
+        },
+        "forces.thrustVectorForce": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 4227.73600594492
+        },
+        "forces.twr": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.07589046314548797
+        },
+        "kinematics.accelerationX": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.04287016514966768
+        },
+        "kinematics.accelerationY": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.43177535294004876
+        },
+        "kinematics.altitude": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.2434843738678154
+        },
+        "kinematics.angleInToTheWind": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.011447566702115441
+        },
+        "kinematics.angleOfAttack": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.011447566702115441
+        },
+        "kinematics.angleOfMotion": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 6.281449515374325
+        },
+        "kinematics.angularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.003258685642693623
+        },
+        "kinematics.angularVelocity": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.0015664769220590808
+        },
+        "kinematics.distanceToPlanetCenter": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.24348437320441008
+        },
+        "kinematics.downRangeDistance": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.2273370400071144
+        },
+        "kinematics.downRangeDistanceNextFrame": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.2273370400071144
+        },
+        "kinematics.machSpeed": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.0005835184924536663
+        },
+        "kinematics.orbitalVelocityAtCurrentAltitude": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.00015114413963601692
+        },
+        "kinematics.pitch": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.0017873057151458985
+        },
+        "kinematics.pitchRateOfChange": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.0015826196523351967
+        },
+        "kinematics.pitchRecord[0]": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.0017850999323935062
+        },
+        "kinematics.pitchRecord[1]": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.001786228020833426
+        },
+        "kinematics.speedX": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.0623854233465258
+        },
+        "kinematics.speedY": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.19829261546190935
+        },
+        "kinematics.totalAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.43066079553503656
+        },
+        "kinematics.trueSpeed": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 0.19830279107964088
+        },
+        "vehicle.gimbalPointingDirection": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.0029363427250827107
+        },
+        "vehicle.gimbalPosition": {
+          "firstSample": 1,
+          "changedSamples": 19,
+          "maxAbsDelta": 1.0303996002537619
+        },
+        "vehicle.throttle": {
+          "firstSample": 1,
+          "changedSamples": 16,
+          "maxAbsDelta": 1.3205364129101156
+        },
+        "vehicle.propellantMass": {
+          "firstSample": 2,
+          "changedSamples": 18,
+          "maxAbsDelta": 27.269511812386554
+        },
+        "vehicle.throttleCurrent": {
+          "firstSample": 2,
+          "changedSamples": 18,
+          "maxAbsDelta": 1.3205364129101156
+        },
+        "vehicle.vehicleMass": {
+          "firstSample": 2,
+          "changedSamples": 18,
+          "maxAbsDelta": 27.26951181239565
+        },
+        "vehicle.vehicleMomentOfInertia": {
+          "firstSample": 2,
+          "changedSamples": 18,
+          "maxAbsDelta": 5679.339307308197
+        },
+        "status.onTheGround": {
+          "firstSample": 20,
+          "changedSamples": 71,
+          "maxAbsDelta": 0
+        },
+        "world.timeSpent": {
+          "firstSample": 20,
+          "changedSamples": 71,
+          "maxAbsDelta": 0.00833333333333286
+        }
+      },
+      "endBefore": {
+        "kinematics.altitude": 24.994991622108838,
+        "kinematics.speedX": 0,
+        "kinematics.speedY": 0,
+        "vehicle.propellantMass": 350000,
+        "status.landed": true,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      },
+      "endAfter": {
+        "kinematics.altitude": 24.98875066481473,
+        "kinematics.speedX": 0,
+        "kinematics.speedY": 0,
+        "vehicle.propellantMass": 350000,
+        "status.landed": true,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      }
+    },
+    {
+      "id": "landing-burn-autoland",
+      "rows": 91,
+      "addedKeys": [
+        "autopilot.entryRangeCountdown",
+        "autopilot.entryRangeTrim"
+      ],
+      "beforeDigest": "6c238ea6a05910435041e83fb17a96fefaebbd42d817fa894dc82e4f60e8542c",
+      "afterDigest": "b4e6e876fc3a0498bc36f39491a9230153af46b48d1cf93cc1be5aca80be1e1f",
+      "changedFields": {
+        "atmosphere.airDensity": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.001492965471567853
+        },
+        "atmosphere.airPressure": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.1521857884796134
+        },
+        "atmosphere.airTemperature": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.08308342146523273
+        },
+        "autopilot.bellyFlopTriggerAltitude": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 1.181325898199475
+        },
+        "autopilot.distanceToGround": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 12.77123138635443
+        },
+        "autopilot.finalStagePessimisticAltitude": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 4.329044716655517e-05
+        },
+        "autopilot.horizontalAdjustmentDesiredSpeed": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0
+        },
+        "autopilot.horizontalAdjustmentTimeLeft": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 6.982809597233519e-05
+        },
+        "autopilot.pitchControl": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 41.621834814639875
+        },
+        "forces.aerodynamicDrag": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 17542.161306976595
+        },
+        "forces.aerodynamicDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.12534048021182045
+        },
+        "forces.aerodynamicLift": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 5605.243465901825
+        },
+        "forces.aerodynamicLiftAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.04022498120034055
+        },
+        "forces.angularDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 2.645056143799729e-05
+        },
+        "forces.crossSectionalArea": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 60.803142800844235
+        },
+        "forces.dynamicPressure": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.1608724625846658
+        },
+        "forces.offAxisThrustDifferenceAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.008420650616234341
+        },
+        "forces.perceivedG": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.45978670664578347
+        },
+        "forces.perceivedG_X": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.11186632200700121
+        },
+        "forces.perceivedG_Y": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.45978451982924806
+        },
+        "forces.surfaceTemperature": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.26128009702460986
+        },
+        "forces.thermalPower": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 1.1560173186875136
+        },
+        "forces.thrust": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 626534.3677314196
+        },
+        "forces.thrustAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 4.485828619558361
+        },
+        "forces.thrustVectorAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.09794793213616564
+        },
+        "forces.thrustVectorForce": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 137033.68023318436
+        },
+        "forces.twr": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.4491771775385618
+        },
+        "kinematics.accelerationX": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 1.1053279213842149
+        },
+        "kinematics.accelerationY": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 4.616322017392827
+        },
+        "kinematics.altitude": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 12.77123138635443
+        },
+        "kinematics.angleInToTheWind": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.17198486330581142
+        },
+        "kinematics.angleOfAttack": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 6.2689628952574274
+        },
+        "kinematics.angleOfMotion": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 6.27885524573448
+        },
+        "kinematics.angularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.09878206516155831
+        },
+        "kinematics.angularVelocity": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.014909743323486647
+        },
+        "kinematics.distanceToPlanetCenter": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 12.771231386810541
+        },
+        "kinematics.downRangeDistance": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.5586207285523415
+        },
+        "kinematics.downRangeDistanceNextFrame": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.5586207285523415
+        },
+        "kinematics.machSpeed": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.012508379094998393
+        },
+        "kinematics.orbitalVelocityAtCurrentAltitude": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.007927764646410651
+        },
+        "kinematics.pitch": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.006332665956367462
+        },
+        "kinematics.pitchRateOfChange": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.014934405801527162
+        },
+        "kinematics.pitchRecord[0]": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.006133142315961201
+        },
+        "kinematics.pitchRecord[1]": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.006236462496575161
+        },
+        "kinematics.speedX": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 0.15131623158550225
+        },
+        "kinematics.speedY": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 4.254116291123726
+        },
+        "kinematics.totalAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 1.3549376061146767
+        },
+        "kinematics.trueSpeed": {
+          "firstSample": 1,
+          "changedSamples": 27,
+          "maxAbsDelta": 4.2529014592201975
+        },
+        "vehicle.gimbalPointingDirection": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.09396193300025997
+        },
+        "vehicle.gimbalPosition": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 32.32686055343199
+        },
+        "vehicle.propellantMass": {
+          "firstSample": 1,
+          "changedSamples": 35,
+          "maxAbsDelta": 882.3243000927987
+        },
+        "vehicle.throttle": {
+          "firstSample": 1,
+          "changedSamples": 16,
+          "maxAbsDelta": 29.426323605780766
+        },
+        "vehicle.vehicleMass": {
+          "firstSample": 1,
+          "changedSamples": 35,
+          "maxAbsDelta": 882.3243000927905
+        },
+        "vehicle.vehicleMomentOfInertia": {
+          "firstSample": 1,
+          "changedSamples": 35,
+          "maxAbsDelta": 198092.17481591552
+        },
+        "vehicle.throttleCurrent": {
+          "firstSample": 2,
+          "changedSamples": 17,
+          "maxAbsDelta": 28.426323605780766
+        },
+        "forces.aftFinDrag": {
+          "firstSample": 12,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "forces.aftFinDragAngularAcceleration": {
+          "firstSample": 12,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "forces.frontFinDrag": {
+          "firstSample": 12,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "forces.frontFinDragAngularAcceleration": {
+          "firstSample": 12,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "status.onTheGround": {
+          "firstSample": 28,
+          "changedSamples": 63,
+          "maxAbsDelta": 0
+        },
+        "world.timeSpent": {
+          "firstSample": 28,
+          "changedSamples": 63,
+          "maxAbsDelta": 0.2666666666666515
+        },
+        "failures.fuelRunOut": {
+          "firstSample": 35,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "status.dumpingFuel": {
+          "firstSample": 35,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        }
+      },
+      "endBefore": {
+        "kinematics.altitude": 24.998790906894886,
+        "kinematics.speedX": 0,
+        "kinematics.speedY": 0,
+        "vehicle.propellantMass": 0,
+        "status.landed": true,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      },
+      "endAfter": {
+        "kinematics.altitude": 24.995650292468245,
+        "kinematics.speedX": 0,
+        "kinematics.speedY": 0,
+        "vehicle.propellantMass": 0,
+        "status.landed": true,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      }
+    },
+    {
+      "id": "landing-burn-headwind",
+      "rows": 91,
+      "addedKeys": [
+        "autopilot.entryRangeCountdown",
+        "autopilot.entryRangeTrim"
+      ],
+      "beforeDigest": "0cc15afd883b96e662c9cd32bfcfa5faf43cc591090cbda9042c7339ee53d3e4",
+      "afterDigest": "5505a4440bbe31b619a60ee25851d622e69a3971a074ca982853d76dcb017002",
+      "changedFields": {
+        "atmosphere.airDensity": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.00097829981197739
+        },
+        "atmosphere.airPressure": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.09971855290903875
+        },
+        "atmosphere.airTemperature": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.0544506143234571
+        },
+        "autopilot.bellyFlopTriggerAltitude": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 445.45864210781485
+        },
+        "autopilot.distanceToGround": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 8.370786019740663
+        },
+        "autopilot.finalStagePessimisticAltitude": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 2.6554701548775483e-05
+        },
+        "autopilot.horizontalAdjustmentDesiredSpeed": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 0.0003825914409330297
+        },
+        "autopilot.horizontalAdjustmentTimeLeft": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 6.483927848244253e-05
+        },
+        "autopilot.pitchControl": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 17.204639480243674
+        },
+        "forces.aerodynamicDrag": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 112315.43788082975
+        },
+        "forces.aerodynamicDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.8030591919457308
+        },
+        "forces.aerodynamicLift": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 119193.87596473935
+        },
+        "forces.aerodynamicLiftAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.8522305787623862
+        },
+        "forces.angularDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 0.00018834287535083796
+        },
+        "forces.crossSectionalArea": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 57.50532686382434
+        },
+        "forces.dynamicPressure": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.10366254386674512
+        },
+        "forces.offAxisThrustDifferenceAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 0.019836800865272144
+        },
+        "forces.perceivedG": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.3794981725824703
+        },
+        "forces.perceivedG_X": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 0.13750003396796995
+        },
+        "forces.perceivedG_Y": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.39913309281140275
+        },
+        "forces.surfaceTemperature": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.17206023737219311
+        },
+        "forces.thermalPower": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.7656481766654157
+        },
+        "forces.thrust": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 1371536.8169800004
+        },
+        "forces.thrustAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 10.326257354754635
+        },
+        "forces.thrustVectorAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 0.03224239986096905
+        },
+        "forces.thrustVectorForce": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 47973.83260013745
+        },
+        "forces.twr": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 1.053192203799604
+        },
+        "kinematics.accelerationX": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 1.3470467729524964
+        },
+        "kinematics.accelerationY": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 4.03024092299175
+        },
+        "kinematics.altitude": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 8.370786019740663
+        },
+        "kinematics.angleInToTheWind": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.1389137408833312
+        },
+        "kinematics.angleOfAttack": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.1389137408833312
+        },
+        "kinematics.angleOfMotion": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 2.487199639974246
+        },
+        "kinematics.angularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 0.03194437680886211
+        },
+        "kinematics.angularVelocity": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 0.026375067868149117
+        },
+        "kinematics.distanceToPlanetCenter": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 8.370786019600928
+        },
+        "kinematics.downRangeDistance": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 5.196421779692173
+        },
+        "kinematics.downRangeDistanceNextFrame": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 5.196421779692173
+        },
+        "kinematics.machSpeed": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.007458024268866589
+        },
+        "kinematics.orbitalVelocityAtCurrentAltitude": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.005196177810830704
+        },
+        "kinematics.pitch": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.049075358402265484
+        },
+        "kinematics.pitchRateOfChange": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 0.026291267094332837
+        },
+        "kinematics.pitchRecord[0]": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.048976209156491105
+        },
+        "kinematics.pitchRecord[1]": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.04902689120263788
+        },
+        "kinematics.speedX": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 1.8279999403932876
+        },
+        "kinematics.speedY": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 3.2989626345154157
+        },
+        "kinematics.totalAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 1.095625702240976
+        },
+        "kinematics.trueSpeed": {
+          "firstSample": 1,
+          "changedSamples": 28,
+          "maxAbsDelta": 3.389811444363911
+        },
+        "vehicle.gimbalPointingDirection": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.06629145750741472
+        },
+        "vehicle.gimbalPosition": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 17.204639480243674
+        },
+        "vehicle.propellantMass": {
+          "firstSample": 1,
+          "changedSamples": 35,
+          "maxAbsDelta": 729.8263704285155
+        },
+        "vehicle.throttle": {
+          "firstSample": 1,
+          "changedSamples": 17,
+          "maxAbsDelta": 29.574393021904285
+        },
+        "vehicle.vehicleMass": {
+          "firstSample": 1,
+          "changedSamples": 35,
+          "maxAbsDelta": 729.82637042852
+        },
+        "vehicle.vehicleMomentOfInertia": {
+          "firstSample": 1,
+          "changedSamples": 35,
+          "maxAbsDelta": 162060.0065533705
+        },
+        "world.gust": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.08689210778327605
+        },
+        "world.gustVertical": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.05246096927139571
+        },
+        "world.turbulenceU": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.058072739805474866
+        },
+        "world.turbulenceW1": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.043596783234370884
+        },
+        "world.turbulenceW2": {
+          "firstSample": 1,
+          "changedSamples": 90,
+          "maxAbsDelta": 0.019636688295555815
+        },
+        "vehicle.throttleCurrent": {
+          "firstSample": 2,
+          "changedSamples": 17,
+          "maxAbsDelta": 28.574393021904285
+        },
+        "autopilot.aeroDescentCompleted": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "autopilot.autoLandOn": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "autopilot.finalDescentStageInitialised": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "autopilot.flipCompleted": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "autopilot.flipStageInitialised": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "autopilot.horizontalAdjustmentStageCompleted": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "autopilot.horizontalAdjustmentStageInitialised": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "autopilot.initVehicleConfigCompleted": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "engines.running[2]": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "status.dumpingFuel": {
+          "firstSample": 28,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "status.forceDump": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "status.landed": {
+          "firstSample": 28,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "world.timeSpent": {
+          "firstSample": 28,
+          "changedSamples": 63,
+          "maxAbsDelta": 0.2249999999999872
+        },
+        "status.onTheGround": {
+          "firstSample": 29,
+          "changedSamples": 62,
+          "maxAbsDelta": 0
+        },
+        "failures.fuelRunOut": {
+          "firstSample": 35,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        }
+      },
+      "endBefore": {
+        "kinematics.altitude": 24.99616536008572,
+        "kinematics.speedX": 0,
+        "kinematics.speedY": 0,
+        "vehicle.propellantMass": 0,
+        "status.landed": true,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      },
+      "endAfter": {
+        "kinematics.altitude": 24.99644516930381,
+        "kinematics.speedX": 0,
+        "kinematics.speedY": 0,
+        "vehicle.propellantMass": 0,
+        "status.landed": true,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      }
+    },
+    {
+      "id": "launch-pad-takeoff",
+      "rows": 181,
+      "addedKeys": [
+        "autopilot.entryRangeCountdown",
+        "autopilot.entryRangeTrim"
+      ],
+      "beforeDigest": "b71e2203290dde3c170ac1259e0dc1754eafff9fafcdd5d54a843b6f1852bc92",
+      "afterDigest": "5637a9251f497b9e0ea517e9166dce44d4f073562dfa85faa87268dcf8ac14b7",
+      "changedFields": {
+        "forces.crossSectionalArea": {
+          "firstSample": 1,
+          "changedSamples": 180,
+          "maxAbsDelta": 71.64770191528734
+        },
+        "forces.perceivedG": {
+          "firstSample": 1,
+          "changedSamples": 180,
+          "maxAbsDelta": 0.29027662222407846
+        },
+        "forces.perceivedG_Y": {
+          "firstSample": 1,
+          "changedSamples": 180,
+          "maxAbsDelta": 0.17371069628519242
+        },
+        "forces.twr": {
+          "firstSample": 1,
+          "changedSamples": 180,
+          "maxAbsDelta": 0.0044087112692334784
+        },
+        "atmosphere.airDensity": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.04745524924599054
+        },
+        "atmosphere.airPressure": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 3.066489051262991
+        },
+        "atmosphere.airTemperature": {
+          "firstSample": 3,
+          "changedSamples": 142,
+          "maxAbsDelta": 5.228144668461113
+        },
+        "autopilot.pitchControl": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.01059746937008358
+        },
+        "forces.aerodynamicDrag": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 808126.6481620517
+        },
+        "forces.aerodynamicDragAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 2.8671612711616694
+        },
+        "forces.aerodynamicLift": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 250673.617717953
+        },
+        "forces.aerodynamicLiftAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.8893676381759121
+        },
+        "forces.angularDragAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 7.185724700296814e-07
+        },
+        "forces.dynamicPressure": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 4.012058332172668
+        },
+        "forces.offAxisThrustDifferenceAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 3.3731613746094995e-08
+        },
+        "forces.perceivedG_X": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.2472643356888553
+        },
+        "forces.surfaceTemperature": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 25.575812384096764
+        },
+        "forces.thermalPower": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 980.4566124630537
+        },
+        "forces.thrust": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 14403.71951284632
+        },
+        "forces.thrustAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.041998002794315425
+        },
+        "forces.thrustVectorAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 6.638752792371977e-05
+        },
+        "forces.thrustVectorForce": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 201.1000151436
+        },
+        "kinematics.accelerationX": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 2.335945469863926
+        },
+        "kinematics.accelerationY": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 1.786988769222944
+        },
+        "kinematics.altitude": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 2224.809235898556
+        },
+        "kinematics.angleInToTheWind": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.0872709081948817
+        },
+        "kinematics.angleOfAttack": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.0872709081948817
+        },
+        "kinematics.angleOfMotion": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.017038985307871735
+        },
+        "kinematics.angularAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 6.655698432726627e-05
+        },
+        "kinematics.angularVelocity": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.0024295746820597215
+        },
+        "kinematics.distanceToPlanetCenter": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 2224.809235898778
+        },
+        "kinematics.downRangeDistance": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 571.7682242617011
+        },
+        "kinematics.downRangeDistanceNextFrame": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 571.7682242617011
+        },
+        "kinematics.machSpeed": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.2718691503548283
+        },
+        "kinematics.orbitalVelocityAtCurrentAltitude": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 1.373533355638756
+        },
+        "kinematics.pitch": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.07025216703318704
+        },
+        "kinematics.pitchRateOfChange": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.002428743249303089
+        },
+        "kinematics.pitchRecord[0]": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.07021168335993244
+        },
+        "kinematics.pitchRecord[1]": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.07023192288700997
+        },
+        "kinematics.speedX": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 42.73207966462695
+        },
+        "kinematics.speedY": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 73.63249115572899
+        },
+        "kinematics.totalAcceleration": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 2.72449645510466
+        },
+        "kinematics.trueSpeed": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 84.30820890983148
+        },
+        "vehicle.gimbalPointingDirection": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.07020437752039832
+        },
+        "vehicle.gimbalPosition": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.01059746937008358
+        },
+        "world.timeSpent": {
+          "firstSample": 3,
+          "changedSamples": 178,
+          "maxAbsDelta": 0.008333333333339965
+        }
+      },
+      "endBefore": {
+        "kinematics.altitude": 22216.614996329397,
+        "kinematics.speedX": 407.6854348376743,
+        "kinematics.speedY": 510.37776559583324,
+        "vehicle.propellantMass": 161856.01427108713,
+        "status.landed": false,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      },
+      "endAfter": {
+        "kinematics.altitude": 24441.424232227953,
+        "kinematics.speedX": 450.41751450230123,
+        "kinematics.speedY": 584.0102567515622,
+        "vehicle.propellantMass": 161856.01427108713,
+        "status.landed": false,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      }
+    },
+    {
+      "id": "reentry-autoland",
+      "rows": 361,
+      "addedKeys": [
+        "autopilot.entryRangeCountdown",
+        "autopilot.entryRangeTrim"
+      ],
+      "beforeDigest": "07d95cf7a2df29509becf3a3feb6ecf64e0462c59a2c4beff264eaf4e3afbff4",
+      "afterDigest": "76382111afebdc9d212cade2af6bee1a8a2e7acc33806459f28c57ac353790fd",
+      "changedFields": {
+        "atmosphere.airDensity": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.0024936226370498825
+        },
+        "atmosphere.airPressure": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.18598328335426073
+        },
+        "atmosphere.airTemperature": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 68.76792847097266
+        },
+        "forces.aerodynamicDrag": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 10008261.338420834
+        },
+        "forces.aerodynamicDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 72.60134158798729
+        },
+        "forces.aerodynamicLift": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 121260.29413573908
+        },
+        "forces.aerodynamicLiftAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.8536366722352415
+        },
+        "forces.aftFinDrag": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 388205.26805260923
+        },
+        "forces.aftFinDragAngularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.143865756392451
+        },
+        "forces.angularDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 9.284630311889412e-08
+        },
+        "forces.crossSectionalArea": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 22.482406180894998
+        },
+        "forces.dynamicPressure": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 7.788563456708805
+        },
+        "forces.frontFinDrag": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 167176.8140938485
+        },
+        "forces.frontFinDragAngularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.14372680939734211
+        },
+        "forces.perceivedG": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 7.386172876531772
+        },
+        "forces.perceivedG_X": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 7.364124587928337
+        },
+        "forces.perceivedG_Y": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.8386576369145186
+        },
+        "forces.rcsThrust": {
+          "firstSample": 1,
+          "changedSamples": 6,
+          "maxAbsDelta": 458521.3487253443
+        },
+        "forces.rcsThrustAngularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 6,
+          "maxAbsDelta": 0.3400003300486683
+        },
+        "forces.surfaceTemperature": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 185.93531174002317
+        },
+        "forces.thermalPower": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 70483.47066854886
+        },
+        "kinematics.accelerationX": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 72.03937240704204
+        },
+        "kinematics.accelerationY": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 2.825327056160596
+        },
+        "kinematics.altitude": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 34870.83838441493
+        },
+        "kinematics.angleInToTheWind": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.38294344969272887
+        },
+        "kinematics.angleOfAttack": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.4189475118059005
+        },
+        "kinematics.angleOfMotion": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.14786029495365116
+        },
+        "kinematics.angularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.3404281240044093
+        },
+        "kinematics.angularVelocity": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.18972415381123467
+        },
+        "kinematics.distanceToPlanetCenter": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 34870.83838441502
+        },
+        "kinematics.downRangeDistance": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 187305.62523970753
+        },
+        "kinematics.downRangeDistanceNextFrame": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 187305.62523970753
+        },
+        "kinematics.machSpeed": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 16.266171463847662
+        },
+        "kinematics.orbitalVelocityAtCurrentAltitude": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 21.341214694127302
+        },
+        "kinematics.pitch": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.4106812609118199
+        },
+        "kinematics.pitchRateOfChange": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.19085374444014258
+        },
+        "kinematics.pitchRecord[0]": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.4107655813585059
+        },
+        "kinematics.pitchRecord[1]": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.4107235572275759
+        },
+        "kinematics.speedX": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 4367.100566076498
+        },
+        "kinematics.speedY": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 374.1491729770391
+        },
+        "kinematics.totalAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 72.02251202386776
+        },
+        "kinematics.trueSpeed": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 4338.135408713455
+        },
+        "vehicle.gimbalPointingDirection": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.5733790498454336
+        },
+        "vehicle.rcsRunTimeRemaining": {
+          "firstSample": 1,
+          "changedSamples": 360,
+          "maxAbsDelta": 0.7149696946856352
+        },
+        "forces.aftFinEffectiveAreaFraction": {
+          "firstSample": 2,
+          "changedSamples": 350,
+          "maxAbsDelta": 0.455668650106742
+        },
+        "forces.frontFinEffectiveAreaFraction": {
+          "firstSample": 2,
+          "changedSamples": 349,
+          "maxAbsDelta": 0.3390934094907356
+        },
+        "vehicle.aftFinExtension": {
+          "firstSample": 2,
+          "changedSamples": 350,
+          "maxAbsDelta": 46.242544104917535
+        },
+        "vehicle.frontFinExtension": {
+          "firstSample": 2,
+          "changedSamples": 349,
+          "maxAbsDelta": 46.242544104917535
+        },
+        "vehicle.gimbalPosition": {
+          "firstSample": 2,
+          "changedSamples": 348,
+          "maxAbsDelta": 92.48508820983507
+        },
+        "vehicle.vehicleInFlightMaxArea": {
+          "firstSample": 2,
+          "changedSamples": 350,
+          "maxAbsDelta": 23.14581208739355
+        },
+        "autopilot.pitchControl": {
+          "firstSample": 10,
+          "changedSamples": 347,
+          "maxAbsDelta": 92.48508820983507
+        },
+        "status.dumpingFuel": {
+          "firstSample": 17,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "vehicle.propellantMass": {
+          "firstSample": 17,
+          "changedSamples": 344,
+          "maxAbsDelta": 3995.8333333334995
+        },
+        "vehicle.vehicleMass": {
+          "firstSample": 17,
+          "changedSamples": 344,
+          "maxAbsDelta": 3995.8333333334886
+        },
+        "vehicle.vehicleMomentOfInertia": {
+          "firstSample": 17,
+          "changedSamples": 344,
+          "maxAbsDelta": 689815.3048633747
+        },
+        "forces.thrustVectorAcceleration": {
+          "firstSample": 19,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        },
+        "forces.thrustVectorForce": {
+          "firstSample": 19,
+          "changedSamples": 1,
+          "maxAbsDelta": 0
+        }
+      },
+      "endBefore": {
+        "kinematics.altitude": 43219.88217871836,
+        "kinematics.speedX": 2550.7481417942518,
+        "kinematics.speedY": -385.59900827138705,
+        "vehicle.propellantMass": 17975.000000000815,
+        "status.landed": false,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      },
+      "endAfter": {
+        "kinematics.altitude": 78090.72056313329,
+        "kinematics.speedX": 6917.848707870749,
+        "kinematics.speedY": -14.826296420986324,
+        "vehicle.propellantMass": 21970.833333334314,
+        "status.landed": false,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      }
+    },
+    {
+      "id": "rtls-boostback",
+      "rows": 241,
+      "addedKeys": [
+        "autopilot.entryRangeCountdown",
+        "autopilot.entryRangeTrim"
+      ],
+      "beforeDigest": "45f937f35bbaa30947b947aa3896b2ae453b75a7cad24e9e189e510fa8815392",
+      "afterDigest": "383a0cbfce23268ac9454aab4cd4b1b49d6bd1f4aefb60812b71bfe5934f61a7",
+      "changedFields": {
+        "atmosphere.airDensity": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.06763256347676871
+        },
+        "atmosphere.airPressure": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 5.7708017281435104
+        },
+        "autopilot.decelerationStageEstDuration": {
+          "firstSample": 1,
+          "changedSamples": 105,
+          "maxAbsDelta": 26.436097938416964
+        },
+        "forces.aerodynamicDrag": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 6289871.851855938
+        },
+        "forces.aerodynamicDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 19.74227544822057
+        },
+        "forces.aerodynamicLift": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 5775964.863461826
+        },
+        "forces.aerodynamicLiftAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 18.18948954749095
+        },
+        "forces.aftFinDrag": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 389363.70078006387
+        },
+        "forces.aftFinDragAngularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.04914315732683583
+        },
+        "forces.angularDragAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.0032975202847128028
+        },
+        "forces.crossSectionalArea": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 371.7795463865721
+        },
+        "forces.dynamicPressure": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 2.5639358474827816
+        },
+        "forces.frontFinDrag": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 131370.64514729727
+        },
+        "forces.frontFinDragAngularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.09594632114880211
+        },
+        "forces.offAxisThrustDifferenceAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 98,
+          "maxAbsDelta": 0.031096530943171597
+        },
+        "forces.perceivedG": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 2.4884099219393283
+        },
+        "forces.perceivedG_X": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 3.70451379378905
+        },
+        "forces.perceivedG_Y": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 2.147319824380013
+        },
+        "forces.surfaceTemperature": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 41.46589921768992
+        },
+        "forces.thermalPower": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 603.3306685354505
+        },
+        "forces.thrust": {
+          "firstSample": 1,
+          "changedSamples": 98,
+          "maxAbsDelta": 7216374.595630454
+        },
+        "forces.thrustAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 98,
+          "maxAbsDelta": 27.36195581923989
+        },
+        "forces.thrustVectorAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 124,
+          "maxAbsDelta": 0.33918388614520784
+        },
+        "forces.thrustVectorForce": {
+          "firstSample": 1,
+          "changedSamples": 124,
+          "maxAbsDelta": 972934.6974514744
+        },
+        "forces.twr": {
+          "firstSample": 1,
+          "changedSamples": 98,
+          "maxAbsDelta": 2.790043419928611
+        },
+        "kinematics.accelerationX": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 36.378110299256406
+        },
+        "kinematics.accelerationY": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 21.276073177085056
+        },
+        "kinematics.altitude": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 1036.2581111126729
+        },
+        "kinematics.angleInToTheWind": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 1.0544060740460315
+        },
+        "kinematics.angleOfAttack": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 5.967926131264294
+        },
+        "kinematics.angleOfMotion": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 6.266590316114222
+        },
+        "kinematics.angularAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.8399186900872266
+        },
+        "kinematics.angularVelocity": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.6118903498493418
+        },
+        "kinematics.distanceToPlanetCenter": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 1036.258111112751
+        },
+        "kinematics.downRangeDistance": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 920.1281036771834
+        },
+        "kinematics.downRangeDistanceNextFrame": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 920.1281036771834
+        },
+        "kinematics.machSpeed": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.1899552655397989
+        },
+        "kinematics.orbitalVelocityAtCurrentAltitude": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.6421666184733112
+        },
+        "kinematics.pitch": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.993065505780728
+        },
+        "kinematics.pitchRateOfChange": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.6131044696996435
+        },
+        "kinematics.pitchRecord[0]": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.9943563600383829
+        },
+        "kinematics.pitchRecord[1]": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 0.9937404135148943
+        },
+        "kinematics.speedX": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 85.63347287390184
+        },
+        "kinematics.speedY": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 40.27062802807836
+        },
+        "kinematics.totalAcceleration": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 21.646580634509927
+        },
+        "kinematics.trueSpeed": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 56.05001668412194
+        },
+        "vehicle.gimbalPointingDirection": {
+          "firstSample": 1,
+          "changedSamples": 240,
+          "maxAbsDelta": 1.51210320135721
+        },
+        "autopilot.pitchControl": {
+          "firstSample": 3,
+          "changedSamples": 238,
+          "maxAbsDelta": 198
+        },
+        "vehicle.gimbalPosition": {
+          "firstSample": 3,
+          "changedSamples": 238,
+          "maxAbsDelta": 198
+        },
+        "autopilot.accelerationStageCompleted": {
+          "firstSample": 52,
+          "changedSamples": 15,
+          "maxAbsDelta": 0
+        },
+        "autopilot.autoMaxThrustOn": {
+          "firstSample": 52,
+          "changedSamples": 4,
+          "maxAbsDelta": 0
+        },
+        "autopilot.boostBackDecelerationCheckCountdown": {
+          "firstSample": 52,
+          "changedSamples": 14,
+          "maxAbsDelta": 1.783333333333358
+        },
+        "autopilot.boostBackDecelerationStageInitCompleted": {
+          "firstSample": 52,
+          "changedSamples": 15,
+          "maxAbsDelta": 0
+        },
+        "autopilot.horizontalAccelerationByAeroBreakingCorrectionAngle": {
+          "firstSample": 52,
+          "changedSamples": 10,
+          "maxAbsDelta": 0.9337511498169593
+        },
+        "engines.running[0]": {
+          "firstSample": 52,
+          "changedSamples": 5,
+          "maxAbsDelta": 0
+        },
+        "engines.running[1]": {
+          "firstSample": 52,
+          "changedSamples": 18,
+          "maxAbsDelta": 0
+        },
+        "engines.running[2]": {
+          "firstSample": 52,
+          "changedSamples": 19,
+          "maxAbsDelta": 0
+        },
+        "forces.aftFinEffectiveAreaFraction": {
+          "firstSample": 52,
+          "changedSamples": 189,
+          "maxAbsDelta": 0.8494863377909415
+        },
+        "forces.rcsThrust": {
+          "firstSample": 52,
+          "changedSamples": 20,
+          "maxAbsDelta": 1148102.7660604627
+        },
+        "forces.rcsThrustAngularAcceleration": {
+          "firstSample": 52,
+          "changedSamples": 21,
+          "maxAbsDelta": 0.7533945764239796
+        },
+        "status.finActive": {
+          "firstSample": 52,
+          "changedSamples": 4,
+          "maxAbsDelta": 0
+        },
+        "vehicle.aftFinExtension": {
+          "firstSample": 52,
+          "changedSamples": 189,
+          "maxAbsDelta": 99.0
+        },
+        "vehicle.propellantMass": {
+          "firstSample": 52,
+          "changedSamples": 189,
+          "maxAbsDelta": 13215.415942873442
+        },
+        "vehicle.rcsRunTimeRemaining": {
+          "firstSample": 52,
+          "changedSamples": 189,
+          "maxAbsDelta": 1.1428395067732353
+        },
+        "vehicle.vehicleInFlightMaxArea": {
+          "firstSample": 52,
+          "changedSamples": 189,
+          "maxAbsDelta": 66.20216715988397
+        },
+        "vehicle.vehicleMass": {
+          "firstSample": 52,
+          "changedSamples": 189,
+          "maxAbsDelta": 13215.415942873427
+        },
+        "vehicle.vehicleMomentOfInertia": {
+          "firstSample": 52,
+          "changedSamples": 189,
+          "maxAbsDelta": 2130874.489363648
+        },
+        "forces.frontFinEffectiveAreaFraction": {
+          "firstSample": 54,
+          "changedSamples": 187,
+          "maxAbsDelta": 0.8494863377909415
+        },
+        "vehicle.frontFinExtension": {
+          "firstSample": 54,
+          "changedSamples": 187,
+          "maxAbsDelta": 99.0
+        },
+        "autopilot.boostBackAeroDeceleration": {
+          "firstSample": 62,
+          "changedSamples": 15,
+          "maxAbsDelta": 0
+        },
+        "engines.ignitionCountdown[0]": {
+          "firstSample": 62,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "engines.ignitionCountdown[1]": {
+          "firstSample": 62,
+          "changedSamples": 3,
+          "maxAbsDelta": 0
+        },
+        "engines.ignitionCountdown[2]": {
+          "firstSample": 62,
+          "changedSamples": 2,
+          "maxAbsDelta": 0
+        },
+        "rng.counters.ignitionDelay": {
+          "firstSample": 62,
+          "changedSamples": 4,
+          "maxAbsDelta": 3
+        },
+        "rng.counters.ignitionFailure": {
+          "firstSample": 62,
+          "changedSamples": 4,
+          "maxAbsDelta": 3
+        },
+        "vehicle.throttle": {
+          "firstSample": 63,
+          "changedSamples": 43,
+          "maxAbsDelta": 40.50705093209014
+        },
+        "vehicle.throttleCurrent": {
+          "firstSample": 63,
+          "changedSamples": 44,
+          "maxAbsDelta": 40.326634003319555
+        },
+        "autopilot.autoBoostBackOn": {
+          "firstSample": 95,
+          "changedSamples": 11,
+          "maxAbsDelta": 0
+        },
+        "autopilot.autoLandOn": {
+          "firstSample": 95,
+          "changedSamples": 11,
+          "maxAbsDelta": 0
+        },
+        "autopilot.boostBackDirection": {
+          "firstSample": 95,
+          "changedSamples": 11,
+          "maxAbsDelta": 1.5707963267948966
+        },
+        "autopilot.boostBackInitCompleted": {
+          "firstSample": 95,
+          "changedSamples": 11,
+          "maxAbsDelta": 0
+        },
+        "autopilot.initVehicleConfigCompleted": {
+          "firstSample": 95,
+          "changedSamples": 11,
+          "maxAbsDelta": 0
+        },
+        "status.dumpingFuel": {
+          "firstSample": 95,
+          "changedSamples": 16,
+          "maxAbsDelta": 0
+        },
+        "autopilot.fineTunePercentage": {
+          "firstSample": 125,
+          "changedSamples": 116,
+          "maxAbsDelta": 0.9163615042754957
+        },
+        "atmosphere.airTemperature": {
+          "firstSample": 175,
+          "changedSamples": 66,
+          "maxAbsDelta": 6.719128467581527
+        }
+      },
+      "endBefore": {
+        "kinematics.altitude": 7834.750189558704,
+        "kinematics.speedX": -1.4148300785029666,
+        "kinematics.speedY": -93.01257237537111,
+        "vehicle.propellantMass": 17997.608251852977,
+        "status.landed": false,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      },
+      "endAfter": {
+        "kinematics.altitude": 6798.492078446031,
+        "kinematics.speedX": 0.15562828610439824,
+        "kinematics.speedY": -112.78705685604686,
+        "vehicle.propellantMass": 21996.35752805772,
+        "status.landed": false,
+        "failures.crashed": false,
+        "failures.inFlightBreakUp": false
+      }
+    }
+  ]
+}

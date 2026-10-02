@@ -1,0 +1,13 @@
+# Fresh exhausted-cycle disposition — entry_cycle3_review
+
+Read-only fresh reviewer, no edits/tests/flights. Fallback not yet established. Residual accounting is repaired, but the retained0.1rad gate suppresses Task2 knownbodymoment along with feedback. Fixed65reentry tracks roughly70.5–70.8deg; fixed90tracks95.6–95.9deg. All16failures thus retain a plausible tracking/trajectory/thermal confound. At fixed65reentry240s: body−2.267MN m, fins+0.530MN m, RCS0 despite8.87s remaining; pulsed deadzone corrections produce offset.
+
+Correct measurement: fixed90 reserve-empty times equal breakup because breakup resets reserve. Last intact sampled reserves7.18s reentry/12.48s deorbit. These are thermal failures while tracking, not exhaustion. Absolute impulse totals describe usage, not minimum required budget.
+
+New bounded cycle recommended: explicitly record intentional Fidelity control-policy correction, separating disturbance compensation from feedback in hypersonic fin branch. Preserve0.1rad feedback deadzone; inside it demand only cancellation of existing knownbodymoment, subtracting actual achieved finmoment after unchangedslew. Outside retain existing feedback. Allthrust/reserve/blend/slew/gimbal/thermal/flightbounds unchanged. Supersede the unaccepted zero-total-RCS-with-body characterization with exact compensation, absentfeedback, residual/saturation/reservecost/cancellation witnesses. No physical assertion weakened.
+
+Attempt1: both operational entries once toMach5/failure, log compensation/feedback separately. Attempt2ifneeded: prescribed fixed8anglepair sweep with actualtracking/signedtorques. Attempt3reserved for evidence-selected cause or favorable compensatingbudget bound, no tuning. Correct intactstate exhaustion detection and separate initialalignment from latertrackingloss. Fresh causal disposition beforefallback.
+
+Preflight reinspection confirms coherentD-onlyinside/D+PDoutside policy and no stale/snapshot blocker. Reviewer requested nonzerooffaxis compensation witness; added, no runtime change.
+
+Cycle3 attempt1 operational pair still exhausts intactRCS beforetrackingloss/breakup. At reentryempty313.4167s:body−3.140944MN m, fins+.646719MN m, integratedRCS+2.494311MN m, net85.59Nm, feedback0,3.34degerror;deorbitempty2434.025s:body−6.496659MN m, fins+1.257312MN m, RCS+5.239280MN m,net−67.01Nm,feedback0,4.50degerror. This directly witnesses compensation, not total-demanddoublecount. Both stillfail;thirdcycle attempt2all16fixedanglesfailbeforeMach5. Correct90deorbitthermalrow retains5.027sreserve,emptySecondsnull. Fresh reviewer assessing nextcause/budgetbound beforethirdattempt/fallback.

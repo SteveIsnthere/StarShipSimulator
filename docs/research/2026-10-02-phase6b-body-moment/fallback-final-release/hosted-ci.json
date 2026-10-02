@@ -1,0 +1,20 @@
+{
+  "runId": 37065061174,
+  "url": "https://github.com/SteveIsnthere/StarShipSimulator/actions/runs/37065061174",
+  "candidate": "9bb03f91f94b69dfece97359355403ec8702ab4e",
+  "conclusion": "success",
+  "environment": "GitHub-hosted Linux x64 / Node 22",
+  "scope": "Configured gate and repository hygiene; hosted full-browser and benchmark jobs skipped",
+  "rawLogSha256": "195dd500bee7174551c1613f92e3c5ed9ffddf38d308484350bfc88a210b8e61",
+  "earlierCancelledDocPushes": [
+    37063979266,
+    37064257068
+  ],
+  "existingSmokeFlake": {
+    "test": "tests/e2e/menu.spec.ts:17 \u2014 the menu opens, offers every preset, and closes",
+    "initialFailure": "menu visibility absent after click",
+    "passingRetry": 1,
+    "rawLogLines": "1665\u20131702",
+    "disposition": "Existing Phase9 menu readiness backlog; final local fullsuite all retries0."
+  }
+}

@@ -1,0 +1,23 @@
+[WebServer] (node:16547) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:16557) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (9.6s)
+  ✓  2 [chromium] › tests/e2e/emissive-bell.spec.ts:54:1 › one healthy landing engine renders gas without inventing failed mounts (7.0s)
+(node:16565) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [pixel-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (11.7s)
+(node:16572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [pixel-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (11.3s)
+(node:16581) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [iphone-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (10.5s)
+(node:16587) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 [iphone-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (10.4s)
+
+  6 passed (1.1m)

@@ -1,0 +1,40 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/failure-freshness.test.ts (7 tests | 1 failed) 9ms
+     × breaks on aerodynamic specific force while pressure and temperature stay below their limits 2ms
+ ❯ |unit| tests/core/felt-g.test.ts (4 tests | 1 failed) 8ms
+     × breaks the airframe at the felt limit, not at the net acceleration 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > felt g reads current forces > breaks on aerodynamic specific force while pressure and temperature stay below their limits
+AssertionError: expected 0.8269772096208194 to be greater than 13
+ ❯ tests/core/failure-freshness.test.ts:113:36
+    111|     expect(next.forces.surfaceTemperature).toBeLessThan(C.TILE_LIMIT_K…
+    112|     expect(next.kinematics.totalAcceleration / C.standardGravity).toBe…
+    113|     expect(next.forces.perceivedG).toBeGreaterThan(C.gLimit);
+       |                                    ^
+    114|     expect(next.failures.inFlightBreakUp).toBe(true);
+    115|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/felt-g.test.ts > felt g > breaks the airframe at the felt limit, not at the net acceleration
+AssertionError: expected 0.8269772096208194 to be greater than 13
+ ❯ tests/core/felt-g.test.ts:53:33
+     51|     const s = step(s0, DT);
+     52|     expect(s.kinematics.totalAcceleration / C.standardGravity).toBeLes…
+     53|     expect(s.forces.perceivedG).toBeGreaterThan(C.gLimit);
+       |                                 ^
+     54|     expect(s.forces.dynamicPressure).toBeLessThan(C.dynamicPressureLim…
+     55|     expect(s.forces.surfaceTemperature).toBeLessThan(C.TILE_LIMIT_KELV…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 4 passed (6)
+      Tests  2 failed | 89 passed (91)
+   Start at  09:32:20
+   Duration  632ms (transform 366ms, setup 0ms, import 614ms, tests 442ms, environment 0ms)
+

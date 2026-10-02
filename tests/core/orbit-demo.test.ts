@@ -34,6 +34,7 @@ import {
   inertialTangentialSpeed,
 } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
+import { getHealthySeaLevelCount } from '$core/physics/engines';
 import {
   createScenarioState,
   getScenario,
@@ -84,6 +85,24 @@ interface Flight {
   miss: number;
   burnStartedAt: number;
   handedOverAt: number;
+  firingResidualBefore: number;
+  firingResidualAt: number;
+}
+
+/** Distance to the pad minus mechanical burn/coast/entry distance, in metres. */
+function firingResidual(s: SimState): number {
+  const k = s.kinematics;
+  const healthy = getHealthySeaLevelCount(s.engines.failed);
+  const burnTime = C.DEORBIT_DELTA_V * s.vehicle.vehicleMass /
+    (healthy * C.thrustPerRaptorAt(s.atmosphere.airPressure));
+  const burnDistance = (k.speedX - C.DEORBIT_DELTA_V / 2) * burnTime;
+  const coastDistance = coastDownrangeDistance(
+    k.distanceToPlanetCenter, k.speedX - C.DEORBIT_DELTA_V,
+    k.speedY, C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE,
+  );
+  const gap = C.starBaseXPos - k.downRangeDistance;
+  const groundDistance = gap < 0 ? gap + C.planetCircumference : gap;
+  return groundDistance - burnDistance - coastDistance - C.DEORBIT_ENTRY_RANGE;
 }
 
 /** Fly a state to a conclusion, recording what happened on the way. */
@@ -92,13 +111,20 @@ function fly(start: SimState, maxSeconds: number): Flight {
   let peakHeat = 0;
   let burnStartedAt = -1;
   let handedOverAt = -1;
+  let firingResidualBefore = NaN;
+  let firingResidualAt = NaN;
   let outcome: Outcome = 'flying';
   let seconds = maxSeconds;
 
   for (let i = 1; i <= 120 * maxSeconds; i++) {
+    const before = s;
     s = step(s, DT);
     peakHeat = Math.max(peakHeat, s.forces.thermalPower);
-    if (burnStartedAt < 0 && s.autopilot.deorbitBurnStarted) burnStartedAt = i / 120;
+    if (burnStartedAt < 0 && s.autopilot.deorbitBurnStarted) {
+      burnStartedAt = i / 120;
+      firingResidualBefore = firingResidual(before);
+      firingResidualAt = firingResidual(s);
+    }
     if (handedOverAt < 0 && s.autopilot.autoLandOn) handedOverAt = i / 120;
     if (s.failures.inFlightBreakUp) outcome = 'brokeUp';
     else if (s.failures.crashed) outcome = 'crashed';
@@ -117,6 +143,8 @@ function fly(start: SimState, maxSeconds: number): Flight {
     miss: s.kinematics.downRangeDistance - C.starBaseXPos,
     burnStartedAt,
     handedOverAt,
+    firingResidualBefore,
+    firingResidualAt,
   };
 }
 
@@ -266,7 +294,12 @@ describe('step 3 — deorbit and land at StarBase', () => {
   it('flies the sequence it is supposed to: coast, burn, hand over, descend', () => {
     // Not merely "it landed" — that could happen by accident. The phases have to
     // have run, in order, at the times the design says.
-    expect(flight.burnStartedAt, 'coasted most of a lap before firing').toBeGreaterThan(1_500);
+    // Owner-approved replacement of the obsolete 1500 s floor: ignition is
+    // the first fixed step crossing the calculated firing point. The bound
+    // is the step's own root bracket, not a fitted number of seconds/metres.
+    expect(flight.burnStartedAt, 'coasted before firing').toBeGreaterThan(0);
+    expect(flight.firingResidualBefore, 'still short of the firing point').toBeGreaterThan(0);
+    expect(flight.firingResidualAt, 'crossed the firing point').toBeLessThanOrEqual(0);
     expect(flight.handedOverAt, 'handed over shortly after the burn').toBeGreaterThan(
       flight.burnStartedAt,
     );
@@ -282,13 +315,8 @@ describe('step 3 — deorbit and land at StarBase', () => {
   });
 
   it('and the entry is managed, not merely survived', () => {
-    // Since Phase 6 (Task 8) the limit is a tile temperature: the peak flux
-    // holds the belly at 1,459 K against the 1,533 K limit, 95% of it (the
-    // flux is 82% of the flux that would hold 1,533 K; T goes as q^1/4). The
-    // margin is why the burn is bounded rather than free: a bigger one drops
-    // perigee further, meets thick air faster, and pushes the peak up. Tighter
-    // than the Re-entry preset's 1,372 K, which is right — coming home from
-    // orbit should be the hardest thing the vehicle does.
+    // Shipped Phase 6 broadside characterization restored under the approved
+    // fallback. Keep the absolute tile limit and original ±5 K width.
     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
     expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature, K').toBeCloseTo(1459, -1);
   });

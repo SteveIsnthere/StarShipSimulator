@@ -1,0 +1,43 @@
+
+> starship-simulator-v2@0.1.0 test
+> vitest run tests/view/emissive-bell.test.ts
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/emissive-bell.test.ts (5 tests | 2 failed) 5ms
+     × shows only firing, healthy mounts and keeps capture visibility while updating 1ms
+     × holds gas age when paused and clears it on shutdown and flight reset 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/emissive-bell.test.ts > actual mount lifecycle > shows only firing, healthy mounts and keeps capture visibility while updating
+Error: continuous mount renderer missing
+ ❯ createEmissiveBell src/view/emissive-bell.ts:31:53
+     29| }
+     30|
+     31| export function createEmissiveBell(): never { throw new Error("continu…
+       |                                                     ^
+     32|
+ ❯ tests/view/emissive-bell.test.ts:49:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/view/emissive-bell.test.ts > actual mount lifecycle > holds gas age when paused and clears it on shutdown and flight reset
+Error: continuous mount renderer missing
+ ❯ createEmissiveBell src/view/emissive-bell.ts:31:53
+     29| }
+     30|
+     31| export function createEmissiveBell(): never { throw new Error("continu…
+       |                                                     ^
+     32|
+ ❯ tests/view/emissive-bell.test.ts:69:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed (5)
+   Start at  13:04:18
+   Duration  404ms (transform 68ms, setup 0ms, import 292ms, tests 5ms, environment 0ms)
+

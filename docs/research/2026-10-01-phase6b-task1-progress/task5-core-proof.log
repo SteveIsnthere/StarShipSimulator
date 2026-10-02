@@ -1,0 +1,75 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/engine-out-landings.test.ts (4 tests | 1 failed) 569ms
+     × before-flip-autoland/two-out: landed 71ms
+ ❯ |unit| tests/core/wind.test.ts (10 tests | 1 failed) 19ms
+     × is q, drag and heating from the same one airspeed 4ms
+ ❯ |unit| tests/core/orbit-demo.test.ts (31 tests | 2 failed) 34793ms
+     × flies the sequence it is supposed to: coast, burn, hand over, descend 11ms
+     × from 300 km it still lands, but the envelope is showing 1174ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/engine-out-landings.test.ts > engine-out landings hold their recorded outcome > before-flip-autoland/two-out: landed
+AssertionError: expected 'crashed' to be 'landed' // Object.is equality
+
+Expected: "landed"
+Received: "crashed"
+
+ ❯ tests/core/engine-out-landings.test.ts:21:31
+     19|       const flown = flyAndMeasure(variant.id, buildEngineOut(variant),…
+     20|       if (recorded.outcome === 'landed') {
+     21|         expect(flown.outcome).toBe('landed');
+       |                               ^
+     22|         expect(Math.abs(flown.speedY)).toBeLessThan(10);
+     23|       } else {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > step 3 — deorbit and land at StarBase > flies the sequence it is supposed to: coast, burn, hand over, descend
+AssertionError: coasted most of a lap before firing: expected 1433.05 to be greater than 1500
+ ❯ tests/core/orbit-demo.test.ts:269:73
+    267|     // Not merely "it landed" — that could happen by accident. The pha…
+    268|     // have run, in order, at the times the design says.
+    269|     expect(flight.burnStartedAt, 'coasted most of a lap before firing'…
+       |                                                                         ^
+    270|     expect(flight.handedOverAt, 'handed over shortly after the burn').…
+    271|       flight.burnStartedAt,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > from 300 km it still lands, but the envelope is showing
+AssertionError: expected 'brokeUp' to be 'landed' // Object.is equality
+
+Expected: "landed"
+Received: "brokeUp"
+
+ ❯ tests/core/orbit-demo.test.ts:436:23
+    434|     // is here so that reason stays measured rather than remembered.
+    435|     const f = from(circularAtAltitude(300_000));
+    436|     expect(f.outcome).toBe('landed');
+       |                       ^
+    437|     expect(Math.abs(f.miss)).toBeLessThan(150_000);
+    438|     expect(f.peakHeat / C.heatLimit, 'entry heating from 300 km').toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |unit| tests/core/wind.test.ts > airspeed is the speed through the air, not over the ground > is q, drag and heating from the same one airspeed
+AssertionError: expected 1.9975266355690466 to be close to 1.5846761895622565, received difference is 0.4128504460067901, but expected 5e-10
+ ❯ tests/core/wind.test.ts:112:65
+    110|     const v = relativeAirspeed(200, -100, meanWindAt(-60, 2_000), 0) /…
+    111|     expect(b.forces.dynamicPressure / a.forces.dynamicPressure).toBeCl…
+    112|     expect(b.forces.aerodynamicDrag / a.forces.aerodynamicDrag).toBeCl…
+       |                                                                 ^
+    113|     // Heating also reads the attitude to the air (Phase 6: a cylinder…
+    114|     // stagnation line takes 1/sqrt(2) of a sphere's flux), and the wi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  3 failed | 52 passed (55)
+      Tests  4 failed | 846 passed (850)
+   Start at  22:43:58
+   Duration  57.22s (transform 1.29s, setup 0ms, import 37.19s, tests 160.13s, environment 5ms)
+

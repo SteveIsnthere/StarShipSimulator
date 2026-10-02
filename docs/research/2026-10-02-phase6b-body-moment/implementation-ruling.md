@@ -1,0 +1,20 @@
+# Task2 implementation ruling — before runtime edits,2026-10-02
+
+Base c24235f, Tasks1+1b/5 checkpoint accepted and pushed; main/livePhase6.
+Tier Fidelity under approved modernization-phase-6b Task2.
+
+Source checked: NASA TR R474 printedpp9–11,eqs2.11–2.15. The moment is the sum of potential-flow and crossflow normal-force moments about the moving CoM. Potential normal-force station from nose is L−V/Ab for nose-first, V/Ab for tail-first; crossflow station is the body planform centroid. Use the exact same normal-force terms as Task1 and the fixed eta bridge. No duplicate coefficient model.
+
+Geometry ruling: retain Task1's named nose-fineness1.5 assumption as a tangent-ogive nose on the existing50m/9m hull. Compute its volume and planform centroid analytically; verify geometry by independent integration. This shape is a declared Ship approximation,not measured CoP data. Current fin-inflated planform force remains until Task3;Task2's body force/moment share its coefficient terms. Task3 replaces the inflated-area approximation and adds separate fin force moments. Do not tune shape orCoP against flights.
+
+Positive pitch is clockwise; positive attack gives positive body-normal force on the hull's right side, so moment=sign(alpha)*normalForce*(station−CoM). Validate the sign with a real stripped-control step and independent vector moment. The potential station switches across90degrees but its force vanishes there; total moment must remain continuous.
+
+Files: add src/core/physics/body-moment.ts; expose shared normal-area terms and nose assumption in aero.ts; physical moment/acceleration fields in state.ts; evaluate the moment from the predicted attitude/current relative wind in step's rotational Verlet force phase;subtract known body-moment acceleration in precisionAlignment. No control authority increase. Add truth tests for moment sign, movingCoM,zero-density/axial cases,90degree continuity, independent geometry/quadrature and force-term agreement. Record RCS angular-impulse share with a read-only descent trace forTask4. Preserve all failed acceptance and obtain fresh review if a diagnosis cycle is exhausted.
+
+Remaining attitude-frame debt is retained in backlog rather than silently deleted after switching Earth rate on. Assess its physical semantics during this moment integration audit before deciding any Bugfix;no unsourced patch. Goldens all expected to move with new physical state fields/moment; regenerate onLinux after acceptance,neverMac. Fullphase gate/coverage/mutation/fullbrowser/finalreviews remain atphaseclose.
+
+Initialmodelstep/bodyforce checks pass. A new feedforwardfixture assumedRCS works atzero pitcherror,but the existing tested0.1rad deadzone deliberately gates it. Retain that authority/logic forTask2;test knownmoment cancellation while aligning0.2rad outside it,with total commanded moment equal to independentPD target. This corrects a newtest's false precondition,not an existing bound. Task4's realistic RCS audit must consider the deadzone behavior;no silent RCSchange here.
+
+Initialdescenttrace:beforefliplands29.275s;reentrybreaks337.175s at1533.073K after consumingRCSreserve,62.4%actuatorangularimpulse fromRCS. Initialscript hadundefinedtargetfield (missJSONnull) and wrongdeorbit toggle;itsdeorbittimeout isinvalid acceptance evidence,not modelinfeasibility. Correct onlymeasurementinputs and preserveinitiallog;no physics/tuning change. Finsremainold model untilTask3;independentreview must distinguish authoritylimit from implementationerror beforefallback.
+
+Freshindependentreviewer confirms sourcepotentialstations/sign/tailfold/geometry/feedforward. P2 accepted:momentangle reads post-updategust whileairspeed/Mach readpre-updategust. Addwindy snapshotwitness beforefix. Alsoadd independentvectorforce/torque proof for acute/obtuse/mirroredattack. Exactnormalterm matchestranslationnormalcontribution;fulltranslation includesTask1'sapproved axial-lift omissionapproximation,not a single full-resultantCoP. No finding rejected.

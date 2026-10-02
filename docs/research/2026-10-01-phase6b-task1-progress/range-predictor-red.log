@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-range.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts [ tests/core/entry-range.test.ts ]
+Error: Cannot find module '$core/control/entry-range' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/entry-range.test.ts
+ ❯ tests/core/entry-range.test.ts:5:1
+      3| import { createScenarioState, getScenario } from '$core/scenarios';
+      4| import { createBurnScratch, createFallResult } from '$core/control/gui…
+      5| import { predictEntryRangeInto } from '$core/control/entry-range';
+       | ^
+      6| import { entryPitchOffset } from '$core/autopilot/entry';
+      7| import { step } from '$core/step';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  21:46:52
+   Duration  183ms (transform 62ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

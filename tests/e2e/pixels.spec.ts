@@ -295,7 +295,7 @@ test('and the ground has structure at every altitude it is visible from @mobile'
   page,
 }) => {
   test.setTimeout(180_000);
-  await page.goto('/', { waitUntil: 'load' });
+  await page.goto('/?debug=1', { waitUntil: 'load' });
   await ready(page);
 
   /*
@@ -306,7 +306,18 @@ test('and the ground has structure at every altitude it is visible from @mobile'
   */
   const report: string[] = [];
   for (const altitude of ['200', '6000', '40000']) {
-    await preset(page, 'booster-sep', { altitude, speedX: '60', speedY: '0' });
+    // This is a terrain photograph at the named altitude. Waiting while a
+    // free-falling flight runs can move 200 m below the far-earth threshold.
+    // The app initializes the camera at the new scenario; paint it while paused.
+    await page.evaluate((height) => {
+      const debug = (window as unknown as { __simDebug: import('../../src/app/debug').SimDebug }).__simDebug;
+      debug.pause();
+      debug.setScenario('booster-sep', { altitude: Number(height), speedX: 60, speedY: 0 });
+    }, altitude);
+    await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+    const photographedAltitude = await page.evaluate(() =>
+      Number((window as unknown as { __simDebug: import('../../src/app/debug').SimDebug }).__simDebug.telemetry()['kinematics.altitude']));
+    expect(photographedAltitude, 'photograph the configured terrain altitude').toBe(Number(altitude));
     const frame = await readFrame(page, { regions: { ground: GROUND }, map: { cols: 48, rows: 14 } });
     const band = frame.regions['ground']!;
     report.push(

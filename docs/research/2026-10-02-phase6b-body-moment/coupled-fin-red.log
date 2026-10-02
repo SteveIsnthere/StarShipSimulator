@@ -1,0 +1,49 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/fin-authority.test.ts (0 test)
+ ❯ |unit| tests/core/fin-surface-step.test.ts (1 test | 1 failed) 5ms
+   × a hypersonic aft pair adds its pressure force without inflating the hull 5ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/fin-authority.test.ts [ tests/core/fin-authority.test.ts ]
+Error: Cannot find module '$core/control/fin-authority' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/fin-authority.test.ts
+ ❯ tests/core/fin-authority.test.ts:3:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import { rad } from '$core/units';
+      3| import { finMomentAtCommand, hypersonicFinCommand, writeFinTargetsInto…
+       | ^
+      4| import { finsActuation } from '$core/control/actuation';
+      5| import { createScenarioState, getScenario } from '$core/scenarios';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/fin-surface-step.test.ts > a hypersonic aft pair adds its pressure force without inflating the hull
+AssertionError: expected 450 to be 411.2724363266002 // Object.is equality
+
+- Expected
++ Received
+
+- 411.2724363266002
++ 450
+
+ ❯ tests/core/fin-surface-step.test.ts:28:49
+     26|   const stowed = step(make(0), 1 / 120), deployed = step(make(100), 1 …
+     27|   expect(deployed.failures.inFlightBreakUp).toBe(false);
+     28|   expect(stowed.vehicle.vehicleInFlightMaxArea).toBe(BODY_PLANFORM_ARE…
+       |                                                 ^
+     29|   expect(deployed.vehicle.vehicleInFlightMaxArea).toBe(BODY_PLANFORM_A…
+     30|   const q = 0.5 * updateAtmosphere(80000).airDensity * 5000 ** 2;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  1 failed (1)
+   Start at  08:08:36
+   Duration  229ms (transform 107ms, setup 0ms, import 113ms, tests 5ms, environment 0ms)
+

@@ -1,0 +1,5 @@
+import { GOLDEN_SPECS } from '/Users/stevewang/dev/StarShipSimulator-realism/tests/golden/scenarios';
+import { step } from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/step';
+import * as cam from '/Users/stevewang/dev/StarShipSimulator-realism/src/view/camera';
+import { vehicleHeight } from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/constants';
+const spec=GOLDEN_SPECS.find(s=>s.id==='reentry-autoland')!;let s=spec.build();const v=cam.computeViewport(1280,800,vehicleHeight,1,s.kinematics.altitude);const c=cam.createCamera(v,s.kinematics.downRangeDistance,s.kinematics.speedX,s.kinematics.speedY);c.posY=Math.max(v.physicalHeight/2,s.kinematics.altitude);let worst=0;for(let i=0;i<spec.steps;i+=2){s=step(step(s,1/120),1/120);cam.writeViewport(v,1280,800,vehicleHeight,1,s.kinematics.altitude);cam.updateCamera(c,{...s.kinematics,...s.status,...s.failures,...s.forces},v,1/60);const off=Math.abs(s.kinematics.altitude-c.posY)/(v.physicalHeight/2);if(off>worst){worst=off;if(off>.98)console.log(JSON.stringify({time:(i+2)/120,off,alt:s.kinematics.altitude,vy:s.kinematics.speedY,camY:c.posY,camVy:c.speedY,H:v.physicalHeight,sticky:c.sticky}));}}

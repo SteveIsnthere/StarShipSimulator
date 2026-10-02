@@ -1,0 +1,10 @@
+[WebServer] (node:15411) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:15421) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/emissive-bell.spec.ts:54:1 › one healthy landing engine renders gas without inventing failed mounts (8.9s)
+
+  1 passed (10.1s)

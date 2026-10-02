@@ -1,0 +1,39 @@
+[WebServer] (node:10092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:10093) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[renderer-error] PixiJS Error: Could not initialize shader.
+[renderer-error] PixiJS Error: Could not initialize shader.
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 0 }
+  ✘  1 [chromium] › tests/e2e/post-compositing.spec.ts:32:1 › local bloom footprint is independent of canvas dimensions @mobile (1.4s)
+
+
+  1) [chromium] › tests/e2e/post-compositing.spec.ts:32:1 › local bloom footprint is independent of canvas dimensions @mobile 
+
+    Error: bloom actually adds visible light outside the source
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      37 |   console.log('[bloom-footprint]', report);
+      38 |   expect(report.directDifference, 'the identical unfiltered local source is a positive control').toBe(0);
+    > 39 |   expect(report.changed, 'bloom actually adds visible light outside the source').toBeGreaterThan(0);
+         |                                                                                  ^
+      40 |   expect(report.maxDifference, 'canvas extent cannot change the same local bloom kernel').toBeLessThanOrEqual(1);
+      41 | });
+      42 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:39:82
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-local-blo-367ca-of-canvas-dimensions-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-local-blo-367ca-of-canvas-dimensions-mobile-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/e2e/post-compositing.spec.ts:32:1 › local bloom footprint is independent of canvas dimensions @mobile 

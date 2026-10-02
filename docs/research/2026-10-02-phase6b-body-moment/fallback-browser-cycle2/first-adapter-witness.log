@@ -1,0 +1,119 @@
+[WebServer] (node:7690) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 3 workers
+
+(node:7691) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7693) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  1 [chromium] › tests/e2e/post-compositing.spec.ts:26:1 › bloom adds light without darkening additive exhaust @mobile (1.3s)
+[post-composite] fire-then-smoke {
+  directMinimum: -9,
+  bloomMinimum: -10,
+  bloomVsDirectMinimum: -4,
+  directChanged: 7573
+}
+  ✘  2 [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed fire-then-smoke compositing @mobile (1.6s)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  4 [chromium] › tests/e2e/post-compositing.spec.ts:35:1 › bloom preserves normal smoke occlusion @mobile (617ms)
+(node:7710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] smoke-then-fire {
+  directMinimum: -9,
+  bloomMinimum: -10,
+  bloomVsDirectMinimum: -4,
+  directChanged: 7575
+}
+  ✘  5 [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed smoke-then-fire compositing @mobile (987ms)
+  ✘  3 [chromium] › tests/e2e/post-compositing.spec.ts:52:1 › additive bloom survives a real WebGL context restoration @mobile (1.0m)
+
+
+  1) [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed fire-then-smoke compositing @mobile 
+
+    Error: bloom never subtracts light in either mixed draw order
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= -1
+    Received:    -4
+
+      46 |     console.log('[post-composite]', kind, report);
+      47 |     expect(report.directChanged).toBeGreaterThan(100);
+    > 48 |     expect(report.bloomVsDirectMinimum, 'bloom never subtracts light in either mixed draw order').toBeGreaterThanOrEqual(-1);
+         |                                                                                                   ^
+      49 |   });
+      50 | }
+      51 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:48:99
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-bloom-ret-b2dff-en-smoke-compositing-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-bloom-ret-b2dff-en-smoke-compositing-mobile-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed smoke-then-fire compositing @mobile 
+
+    Error: bloom never subtracts light in either mixed draw order
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= -1
+    Received:    -4
+
+      46 |     console.log('[post-composite]', kind, report);
+      47 |     expect(report.directChanged).toBeGreaterThan(100);
+    > 48 |     expect(report.bloomVsDirectMinimum, 'bloom never subtracts light in either mixed draw order').toBeGreaterThanOrEqual(-1);
+         |                                                                                                   ^
+      49 |   });
+      50 | }
+      51 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:48:99
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-bloom-ret-add73-hen-fire-compositing-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-bloom-ret-add73-hen-fire-compositing-mobile-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/post-compositing.spec.ts:52:1 › additive bloom survives a real WebGL context restoration @mobile 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: page.evaluate: Test timeout of 60000ms exceeded.
+
+      19 |   }));
+      20 |   await page.goto('/__post-witness');
+    > 21 |   return page.evaluate(([effect, restoreContext]) => (window as unknown as {
+         |               ^
+      22 |     postWitness(kind: WitnessKind, restore: boolean): Promise<CompositeReport>;
+      23 |   }).postWitness(effect, restoreContext), [kind, restore] as const);
+      24 | }
+        at render (/Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:21:15)
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:53:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-additive--719ee--context-restoration-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-additive--719ee--context-restoration-mobile-chromium/error-context.md
+
+  3 failed
+    [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed fire-then-smoke compositing @mobile 
+    [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed smoke-then-fire compositing @mobile 
+    [chromium] › tests/e2e/post-compositing.spec.ts:52:1 › additive bloom survives a real WebGL context restoration @mobile 
+  2 passed (1.0m)

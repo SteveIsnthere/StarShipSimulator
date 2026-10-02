@@ -1,0 +1,207 @@
+
+> starship-simulator-v2@0.1.0 gate
+> npm run lint && npm run build && npm run test && npm run coverage && E2E_SKIP_BUILD=1 npm run test:e2e && E2E_SKIP_BUILD=1 npm run test:deploy
+
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+design contract: ok (11 rules, self-test passed)
+copy contract: ok (9 rules, self-test passed)
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 2491 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     2.35 kB │ gzip:   0.94 kB
+dist/assets/InterTight-SemiBold-DJfiTN08.woff2     11.10 kB
+dist/assets/Inter-Regular-BVdEcXjD.woff2           12.00 kB
+dist/assets/Inter-SemiBold-DlULF7c_.woff2          12.46 kB
+dist/assets/JetBrainsMono-Medium-CMl9fZ9Q.woff2    16.54 kB
+dist/assets/charts-BBZhrHKM.css                     0.69 kB │ gzip:   0.35 kB
+dist/assets/plots-D2GbP0iN.css                      1.17 kB │ gzip:   0.46 kB
+dist/assets/uPlot-CnsZ1jie.css                      1.64 kB │ gzip:   0.69 kB
+dist/assets/index-T-XNwGKQ.css                     53.09 kB │ gzip:  10.20 kB
+dist/assets/webworkerAll-DpKO2d_i.js                0.05 kB │ gzip:   0.06 kB
+dist/assets/getTextureBatchBindGroup-Bt6AC8uX.js    0.40 kB │ gzip:   0.31 kB │ map:     1.78 kB
+dist/assets/CanvasPool-ccaPBm8-.js                  0.80 kB │ gzip:   0.45 kB │ map:     3.51 kB
+dist/assets/Cache-DGqfkvRQ.js                       1.14 kB │ gzip:   0.59 kB │ map:     4.85 kB
+dist/assets/constants-DTgHfLDf.js                   1.62 kB │ gzip:   0.93 kB │ map:    35.34 kB
+dist/assets/plots-Dv7dnLnT.js                       4.63 kB │ gzip:   2.28 kB │ map:    24.91 kB
+dist/assets/canvasUtils-BVPkC6ub.js                 6.06 kB │ gzip:   2.06 kB │ map:    21.91 kB
+dist/assets/Debrief-DlOVuPsd.js                     6.60 kB │ gzip:   2.52 kB │ map:    20.76 kB
+dist/assets/BlackBox-BxEl2-qo.js                    9.89 kB │ gzip:   4.16 kB │ map:    37.30 kB
+dist/assets/BufferResource-CZg6dyUf.js             11.13 kB │ gzip:   2.89 kB │ map:    26.53 kB
+dist/assets/state-D62ubXaV.js                      14.91 kB │ gzip:   5.86 kB │ map:   130.93 kB
+dist/assets/init-DnH_wx8r.js                       15.66 kB │ gzip:   4.92 kB │ map:    54.96 kB
+dist/assets/GCManagedHash-DqPcw2Gj.js              19.37 kB │ gzip:   6.32 kB │ map:    67.25 kB
+dist/assets/Menu-ORKGoNav.js                       23.36 kB │ gzip:   7.77 kB │ map:    73.85 kB
+dist/assets/Button-s_Cybpy_.js                     36.83 kB │ gzip:  12.30 kB │ map:   175.21 kB
+dist/assets/Filter-C-jCSOcL.js                     38.97 kB │ gzip:  11.18 kB │ map:   182.95 kB
+dist/assets/Dialog-CZsPFZiA.js                     39.90 kB │ gzip:  13.64 kB │ map:   184.47 kB
+dist/assets/browserAll-Co_IhQb_.js                 42.72 kB │ gzip:  11.20 kB │ map:   156.94 kB
+dist/assets/uPlot.esm-C4ecZUO0.js                  51.04 kB │ gzip:  22.28 kB │ map:   252.56 kB
+dist/assets/RenderTargetSystem-CGVbkJQT.js         57.47 kB │ gzip:  16.21 kB │ map:   213.58 kB
+dist/assets/GraphicsContext-DLmAmwc0.js            61.32 kB │ gzip:  20.55 kB │ map:   346.25 kB
+dist/assets/Geometry-coEMng49.js                   65.52 kB │ gzip:  21.50 kB │ map:   326.26 kB
+dist/assets/index-CSbAh3fg.js                     600.55 kB │ gzip: 187.32 kB │ map: 2,825.74 kB
+
+✓ built in 591ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+service worker: 44 assets precached, version c0ccd4bc8548
+  assets/index-CSbAh3fg.js                           181.1 kB gzip
+  assets/Geometry-coEMng49.js                         20.7 kB gzip
+  assets/Button-s_Cybpy_.js                           11.9 kB gzip
+  assets/constants-DTgHfLDf.js                         0.9 kB gzip
+  assets/state-D62ubXaV.js                             5.7 kB gzip
+  assets/Filter-C-jCSOcL.js                           10.8 kB gzip
+  assets/canvasUtils-BVPkC6ub.js                       2.0 kB gzip
+  assets/Cache-DGqfkvRQ.js                             0.6 kB gzip
+  assets/GCManagedHash-DqPcw2Gj.js                     6.2 kB gzip
+  assets/RenderTargetSystem-CGVbkJQT.js               15.7 kB gzip
+  assets/getTextureBatchBindGroup-Bt6AC8uX.js          0.3 kB gzip
+  assets/GraphicsContext-DLmAmwc0.js                  19.9 kB gzip
+  assets/CanvasPool-ccaPBm8-.js                        0.4 kB gzip
+  assets/BufferResource-CZg6dyUf.js                    2.8 kB gzip
+  TOTAL first-load JS                                279.0 kB gzip
+  BUDGET                                             300.0 kB gzip
+  (lazy chunks, not counted: BlackBox-BxEl2-qo.js, Debrief-DlOVuPsd.js, Dialog-CZsPFZiA.js, Menu-ORKGoNav.js, browserAll-Co_IhQb_.js, init-DnH_wx8r.js, plots-Dv7dnLnT.js, uPlot.esm-C4ecZUO0.js, webworkerAll-DpKO2d_i.js)
+  assets/index-T-XNwGKQ.css                            9.9 kB gzip (css)
+  Inter-Regular-BVdEcXjD.woff2                        11.7 kB raw
+  Inter-SemiBold-DlULF7c_.woff2                       12.2 kB raw
+  InterTight-SemiBold-DJfiTN08.woff2                  10.8 kB raw
+  JetBrainsMono-Medium-CMl9fZ9Q.woff2                 16.2 kB raw
+  TOTAL fonts                                         50.9 kB raw
+  FONT BUDGET                                         80.0 kB raw
+  TOTAL audio                                          0.0 kB raw
+  AUDIO BUDGET                                       250.0 kB raw
+
+budget: OK — 279.0 kB of 300.0 kB JS
+budget: OK — 50.9 kB of 80.0 kB fonts
+budget: OK — 0.0 kB of 250.0 kB audio
+entry graph: ok (14 first-load files, no uPlot or GSAP)
+
+> starship-simulator-v2@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+(node:95808) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95810) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:95807) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:95809) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:95811) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95820) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95821) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95822) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95823) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95824) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95826) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95825) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95827) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95828) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95829) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95830) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95831) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95832) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95833) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95835) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95834) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95836) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95837) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95838) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95839) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95840) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95841) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95843) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95842) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ |unit| tests/golden/replay.test.ts (17 tests | 1 failed) 9256ms
+     × reentry-autoland now survives — M2.9(a) recalibrated the heat limit 82ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > the fixtures themselves > reentry-autoland now survives — M2.9(a) recalibrated the heat limit
+AssertionError: expected undefined to be 21600 // Object.is equality
+
+- Expected:
+21600
+
++ Received:
+undefined
+
+ ❯ tests/golden/replay.test.ts:175:36
+    173|     expect(Number(first['kinematics.altitude'])).toBeGreaterThan(79_00…
+    174|     const descent = samples[180 / (GOLDEN_DT * SAMPLE_EVERY)]!;
+    175|     expect(descent['world.frame']).toBe(180 / GOLDEN_DT);
+       |                                    ^
+    176|     expect(Number(descent['kinematics.altitude'])).toBeLessThan(50_000…
+    177|     expect(Number(descent['kinematics.speedY'])).toBeLessThan(-100);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 148 passed (149)
+      Tests  1 failed | 1976 passed (1977)
+   Start at  09:47:21
+   Duration  62.41s (transform 4.53s, setup 1.88s, import 34.29s, tests 204.77s, environment 22.72s)
+

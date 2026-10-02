@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-range.test.ts (9 tests | 1 failed) 2061ms
+   × checks the nonlinear candidate range while trim authority is still available 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > checks the nonlinear candidate range while trim authority is still available
+AssertionError: expected 17833.633443966042 to be less than 100
+ ❯ tests/core/entry-range.test.ts:136:6
+    134|   expect(Math.abs(s.autopilot.entryRangeTrim)).toBeLessThan(C.aeroDesc…
+    135|   expect(Math.abs(candidate.downRange - (s.autopilot.landingSiteXPos -…
+    136|     .toBeLessThan(100);
+       |      ^
+    137| });
+    138|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  01:07:58
+   Duration  2.28s (transform 89ms, setup 0ms, import 110ms, tests 2.06s, environment 0ms)
+

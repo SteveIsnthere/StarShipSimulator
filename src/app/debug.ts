@@ -26,6 +26,12 @@ export interface DebugPresentation {
   nozzleY: number;
   width: number;
   height: number;
+  /** Last positive render interval, in simulated seconds; zero after restart. */
+  worldDt?: number;
+  /** On-demand count of actual visible continuous-engine meshes. */
+  bell?: { visibleMounts: number };
+  /** On-demand particle statistics, produced by the presentation layer. */
+  particles?: readonly Readonly<Record<string, number | string>>[];
 }
 
 export interface SimDebug {

@@ -1,0 +1,54 @@
+
+> starship-simulator-v2@0.1.0 test
+> vitest run tests/view/emissive-bell.test.ts
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/emissive-bell.test.ts (7 tests | 2 failed) 11ms
+     × releases every owned geometry buffer when the scene tears down 3ms
+     × declares its premultiplied RGBA bytes consistently for both renderer backends 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/emissive-bell.test.ts > owned renderer resources > releases every owned geometry buffer when the scene tears down
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/view/emissive-bell.test.ts:99:55
+     97|     const buffers = (bell.container.children as Mesh[]).flatMap(mesh =…
+     98|     bell.destroy();
+     99|     expect(buffers.every(buffer => buffer.destroyed)).toBe(true);
+       |                                                       ^
+    100|   });
+    101|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/view/emissive-bell.test.ts > owned renderer resources > declares its premultiplied RGBA bytes consistently for both renderer backends
+AssertionError: expected 'bgra8unorm' to be 'rgba8unorm' // Object.is equality
+
+Expected: "rgba8unorm"
+Received: "bgra8unorm"
+
+ ❯ tests/view/emissive-bell.test.ts:105:27
+    103|     const bell = createEmissiveBell();
+    104|     const source = (bell.container.children[0] as Mesh).texture.source;
+    105|     expect(source.format).toBe('rgba8unorm');
+       |                           ^
+    106|     expect(source.alphaMode).toBe('premultiplied-alpha');
+    107|     const bytes = source.resource as Uint8Array;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 5 passed (7)
+   Start at  13:09:16
+   Duration  417ms (transform 79ms, setup 0ms, import 304ms, tests 11ms, environment 0ms)
+

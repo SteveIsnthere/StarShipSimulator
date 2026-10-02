@@ -1,0 +1,42 @@
+[WebServer] (node:7975) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 3 workers
+
+(node:7978) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7976) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7977) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  1 [chromium] › tests/e2e/post-compositing.spec.ts:26:1 › bloom adds light without darkening additive exhaust @mobile (1.6s)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  3 [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed fire-then-smoke compositing @mobile (2.0s)
+  ✓  2 [chromium] › tests/e2e/post-compositing.spec.ts:52:1 › additive bloom survives a real WebGL context restoration @mobile (2.0s)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  4 [chromium] › tests/e2e/post-compositing.spec.ts:35:1 › bloom preserves normal smoke occlusion @mobile (884ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  5 [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed smoke-then-fire compositing @mobile (928ms)
+
+  5 passed (4.5s)

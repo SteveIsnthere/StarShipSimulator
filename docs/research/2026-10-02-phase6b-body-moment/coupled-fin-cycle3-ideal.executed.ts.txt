@@ -1,0 +1,108 @@
+/** Reviewed common-handoff numerical repair; virtual tracking, never scenario acceptance. */
+import { writeFileSync } from 'node:fs';
+import type { SimState } from '../../../src/core/state';
+import * as C from '../../../src/core/constants';
+import { createScenarioState, getScenario } from '../../../src/core/scenarios';
+import { toggleAutoDeorbit, toggleAutoLand } from '../../../src/core/control/commands';
+import { entryPitchOffset } from '../../../src/core/autopilot/entry';
+import { getPitchDifference } from '../../../src/core/control/primitives';
+import { hypersonicFinCommand, writeFinTargetsInto, writeFinControlFlowInto, type FinControlFlow } from '../../../src/core/control/fin-authority';
+import { bodyAerodynamicMoment, BODY_PLANFORM_AREA } from '../../../src/core/physics/body-moment';
+import { createMassProperties, writeMassProperties, RCS_STATION, TANK_BOTTOM } from '../../../src/core/physics/mass';
+import { step } from '../../../src/core/step';
+import { rad, type Rad } from '../../../src/core/units';
+
+const flow: FinControlFlow = { speed: 0, attack: rad(0), hypersonic: false };
+const targets = { front: 0, aft: 0 };
+const arms = createMassProperties();
+const generousArm = RCS_STATION - TANK_BOTTOM;
+const generousBudget = C.rcsMaxThrust * C.rcsRunTimeRemaining * generousArm;
+const handoffs = new Map<string, { state: SimState; seconds: number }>();
+for (const dt of [1 / 120, 1 / 240]) {
+  for (const angle of [45, 50, 55, 60, 62, 65, 68, 70, 75, 90, 'operational'] as const) {
+    for (const id of ['reentry', 'deorbit'] as const) {
+      let s = createScenarioState(getScenario(id)!);
+      if (id === 'deorbit') toggleAutoDeorbit(s); else toggleAutoLand(s);
+      const key = `${angle}:${id}`;
+      let elapsedOffset = 0;
+      if (dt === 1 / 240) {
+        const handoff = handoffs.get(key)!;
+        s = structuredClone(handoff.state);
+        elapsedOffset = handoff.seconds;
+      }
+      const input = angle === 'operational' ? {} : { entryAngleOfAttack: rad(angle * Math.PI / 180) };
+      let previousGoal: Rad | undefined, previousRate = 0, previousTrim = s.autopilot.entryRangeTrim;
+      let started = false, startSeconds = 0, impulse = 0, inertialAllowance = 0, peak = 0;
+      let firstBudgetSeconds: number | null = null, outcome = 'timeout', seconds = 0;
+      let trimMin = 0, trimMax = 0, jumpCount = 0, maxRequiredForce = 0;
+      for (let n = 1; n <= Math.round(((id === 'reentry' ? 900 : 4000) - elapsedOffset) / dt); n++) {
+        writeFinControlFlowInto(s, flow);
+        const ideal = s.autopilot.autoLandOn && s.status.finActive && !s.autopilot.aeroDescentCompleted && flow.hypersonic;
+        let targetAcceleration = 0;
+        if (ideal) {
+          if (!started) {
+            started = true; startSeconds = elapsedOffset + (n - 1) * dt;
+            if (dt === 1 / 120) handoffs.set(key, { state: structuredClone(s), seconds: startSeconds });
+          }
+          const entryAngle = angle === 'operational' ? rad(C.ENTRY_LIFT_ANGLE + s.autopilot.entryRangeTrim) : input.entryAngleOfAttack!;
+          const goal = rad(s.kinematics.angleOfMotion - Math.PI / 2 +
+            entryPitchOffset(s.kinematics.machSpeed, s.kinematics.speedX, entryAngle));
+          const trimJump = angle === 'operational' && s.autopilot.entryRangeTrim !== previousTrim;
+          let rate = previousGoal === undefined || trimJump ? 0 : getPitchDifference(goal, previousGoal) / dt;
+          targetAcceleration = previousGoal === undefined || trimJump ? 0 : (rate - previousRate) / dt;
+          if (trimJump) { jumpCount++; previousGoal = undefined; rate = 0; }
+          previousGoal = goal;
+          previousRate = rate;
+          previousTrim = s.autopilot.entryRangeTrim;
+          trimMin = Math.min(trimMin, previousTrim);
+          trimMax = Math.max(trimMax, previousTrim);
+          // Imposed virtual pose/rate, granting perfect tracking. Cost is charged
+          // independently below; this state is not a realizable flight claim.
+          s.kinematics.pitch = goal;
+          s.kinematics.angularVelocity = rate;
+          s.kinematics.angularAcceleration = targetAcceleration;
+          s.forces.rcsThrust = 0;
+          s.vehicle.rcsRunTimeRemaining = C.rcsRunTimeRemaining;
+          writeFinControlFlowInto(s, flow);
+          writeMassProperties(s.vehicle.propellantMass, arms);
+          const body = bodyAerodynamicMoment(s.atmosphere.airDensity, flow.speed,
+            s.kinematics.machSpeed, flow.attack, BODY_PLANFORM_AREA, arms.centreOfMass);
+          const command = hypersonicFinCommand(s.atmosphere.airDensity, flow.speed, flow.attack,
+            arms.frontFinArm, -arms.aftFinArm, arms.momentOfInertia * targetAcceleration - body);
+          writeFinTargetsInto(flow.attack, command, targets);
+          s.vehicle.frontFinExtension = targets.front;
+          s.vehicle.aftFinExtension = targets.aft;
+        }
+        s = step(s, dt, input);
+        seconds = elapsedOffset + n * dt;
+        peak = Math.max(peak, s.forces.surfaceTemperature);
+        if (ideal && !s.failures.inFlightBreakUp && !s.failures.crashed) {
+          const f = s.forces, inertia = s.vehicle.vehicleMomentOfInertia;
+          const otherTorque = f.bodyAerodynamicMoment + inertia * (
+            f.frontFinDragAngularAcceleration + f.aftFinDragAngularAcceleration +
+            f.angularDragAcceleration + f.offAxisThrustDifferenceAcceleration + f.thrustVectorAcceleration);
+          const required = inertia * targetAcceleration - otherTorque;
+          impulse += Math.abs(required) * dt;
+          inertialAllowance += Math.abs(inertia * targetAcceleration) * dt;
+          maxRequiredForce = Math.max(maxRequiredForce, Math.abs(required) / generousArm);
+          if (firstBudgetSeconds === null && impulse > generousBudget) firstBudgetSeconds = seconds;
+        }
+        if (s.failures.inFlightBreakUp) outcome = 'brokeUp';
+        else if (s.failures.crashed) outcome = 'crashed';
+        else if (s.status.landed) outcome = 'landed';
+        else if (started && s.kinematics.machSpeed <= 5) outcome = 'reached-Mach5';
+        else if (started && s.autopilot.aeroDescentCompleted) outcome = 'left-entry-stage';
+        if (outcome !== 'timeout') break;
+      }
+      console.log(JSON.stringify({ dt, angle, id, outcome, seconds, startSeconds, peak,
+        requiredImpulse: impulse, requiredImpulseMinusAllInertial: Math.max(0, impulse - inertialAllowance), generousArm, generousBudget, fractionOfGenerousBudget: impulse / generousBudget,
+        equivalentFullThrustSeconds: impulse / (C.rcsMaxThrust * generousArm),
+        equivalentSecondsMinusAllInertial: Math.max(0, impulse - inertialAllowance) / (C.rcsMaxThrust * generousArm), firstBudgetSeconds,
+        inertialAbsoluteImpulse: inertialAllowance, maxRequiredForce, trimMinDegrees: trimMin * 180 / Math.PI,
+        trimMaxDegrees: trimMax * 180 / Math.PI, freeTrimJumps: jumpCount,
+        qualification: 'Imposed ideal prescribed pose and instantaneous paired fins; full gas/alignment free, geometric arm bound. Coupled fin translation is not a global optimal path. Final breakup-reset mass excluded.' }));
+    }
+  }
+}
+
+writeFileSync("docs/research/2026-10-02-phase6b-body-moment/coupled-fin-ideal-handoffs.json", JSON.stringify(Object.fromEntries(handoffs), null, 2) + "\n");

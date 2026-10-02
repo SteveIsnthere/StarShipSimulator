@@ -39,6 +39,10 @@
  *     P6.10   the wind profile and turbulence    headwind only; seven in shape alone
  *     P6.11   review: sweep speed, fixed RVacs   headwind only (the sweep); RVacs moved nothing
  *     P6.12   the tile against its surroundings  ALL EIGHT, in surfaceTemperature alone
+ *     P6b.1   body forces and lifting entry      ALL EIGHT: forces, guidance and state shape
+ *     P6b.1b  Earth rotation and common aim      ALL EIGHT: turning-ground dynamics
+ *     P6b.5   current forces and throttle demand ALL EIGHT: freshness; isolated RTLS motion
+ *     P6b.F   approved broadside fallback        ALL EIGHT: restores model, retains Task5
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
@@ -281,6 +285,57 @@
  * vehicle on the pad reads 288 K instead of 0 K. The break-up check reads the
  * flux and does not see it.
  *
+ * P6b.1/P6b.1b (approved Phase6b Tasks1+1b, Fidelity) land together:
+ * source-derived body-axis forces, lifting entry, bounded range feedback,
+ * the measured22t reserve/common2758826m aim and Earth's projected rate.
+ * All eight move as predicted, with two entry-history keys added to the
+ * schema. Launch/booster/RTLS/reentry remain flying in their recording
+ * windows; before-flip, landing-burn, headwind and intro still land. RTLS
+ * and reentry's full landing outcomes are checked beyond these windows.
+ * Intro retains its original final-descent law: measured touchdown9.858s,
+ * all six engines off, against the unchanged9.85s +/-0.5 contract.
+ *
+ * P6b.5 (Bug fix) reads this step's forces/support/failure state and sizes
+ * requested TWR against full-throttle thrust. Watched-red witnesses and the
+ * isolated eight-scenario trajectory diff are in the Task1 research evidence.
+ * In that pre-rotation isolation only RTLS kinematics moved; all eight changed
+ * freshness/time readouts. The separately witnessed nonlinear range-solver
+ * Bug fix corrects17.8km interpolation residual inside unchanged authority.
+ * No golden flies deorbit; its real health/envelope are separate acceptance.
+ *
+ * These rows share the coherent Linux baseline from hosted run36985191265,
+ * snapshot764d191. Steve approved only the reentry180->600s recording
+ * extension on2026-10-02, recorded by Linux run37016645116/snapshot8c5f85a.
+ * Its361-sample original prefix is exact;840new tail samples are separately
+ * audited in golden-window-audit.json. All seven other files are byte-identical.
+ * Every literal descent/survival assertion and full-flight bound is retained.
+ * The per-field before/after diff, schemas, digests and
+ * landing margins are retained under docs/research/
+ * 2026-10-01-phase6b-task1-progress/range-cycle2-golden-audit.json and the
+ * associated prediction/accepted-margins logs. Every truth row remains IN.
+ * The independent braking-profile audit leaves intro byte-identical across
+ * that adaptation alone; the combined new forces/rotation legitimately move it.
+ *
+ * P6b.F (Fidelity, Steve’s conditional fallback approved2026-10-02):
+ * independently reviewed prescribed entry family exceeds modeled authority.
+ * Tasks1–4 are parked; constants/state/commands/actuation/aero/guidance return
+ * byte-for-byte to shippedPhase6 080f108. Task5 fixes, independent descent
+ * braking and first-loss debrief remain. Linux37035784562 records immutable
+ * snapshot845c41d9d36d04fae5db4131e0cce230646eb0a0; all21corepins match.
+ * All eight accepted parked-model fixtures move as predicted; entry history
+ * keys disappear. Against shippedPhase6, intro/before-flip/booster/ascent
+ * kinematics are identical; only fresh g/TWR/support/time readings change.
+ * RTLS and two final-descent flights move as predicted by the retained fixes.
+ * Reentry’s original180s kinematics are exact; its retained600s extension
+ * now lands at457.158s. Original numeric descent bounds are asserted at the
+ * exact180s sample, plus landed/no-crash/vy0/alt<26 at600s. Independent review
+ * confirms this preserves original coverage and adds landing, without moving
+ * physical limits. All-sample survival and900s full-scenario acceptance remain.
+ * Intro’s physical trajectory is exact against080f108; fresh-clock touchdown
+ * reads9.841667s inside9.85±0.5s, allsixenginesoff. Field-by-field dual-baseline
+ * audit/digests in body-momentresearch/fallback-golden-audit.json. No truth row
+ * or golden tolerance moved. Parked models are not claimed as shipped.
+ *
  * M12's angular-damping tier moving all eight is the M2.12 argument once more:
  * the term acts on any vehicle rotating in any air, which is every scenario
  * that is not sitting still on the pad. The SHAPE is that the movement is
@@ -349,16 +404,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P6.12 (all eight, surfaceTemperature alone): see the table above. Recorded
+  // P6b.F (all eight): see the declared fallback and dual-baseline audit above. Recorded
   // on x86-64 Linux / Node 22 by .github/workflows/golden-regenerate.yml.
-  'launch-pad-takeoff': 'b71e2203290dde3c170ac1259e0dc1754eafff9fafcdd5d54a843b6f1852bc92',
-  'booster-sep-boostback': 'ccf3e19863f7a7956aae8cf8ca7554d4bcfc02787252fa1a07ce00070c154e6e',
-  'rtls-boostback': '45f937f35bbaa30947b947aa3896b2ae453b75a7cad24e9e189e510fa8815392',
-  'reentry-autoland': '07d95cf7a2df29509becf3a3feb6ecf64e0462c59a2c4beff264eaf4e3afbff4',
-  'before-flip-autoland': '1509712cf0d6cd184156c6df17fcaf83bb3dfb960761954f1dbb18590c4e0bc0',
-  'landing-burn-autoland': '6c238ea6a05910435041e83fb17a96fefaebbd42d817fa894dc82e4f60e8542c',
-  'landing-burn-headwind': '0cc15afd883b96e662c9cd32bfcfa5faf43cc591090cbda9042c7339ee53d3e4',
-  'intro-demo': 'cecdc48322e0704619df6b729dd34b538b59f7823507094466013b3935f3000c',
+  'launch-pad-takeoff': '3ed135d0884f75d124d6702d151808ee7b6975024c14f752ae59c3ca0576e094',
+  'booster-sep-boostback': 'ad8a6ab21505d5b5bce5e06f80cf19c57df2bb8228828e9f60fa6398d817133e',
+  'rtls-boostback': '9a8ac13183448b334904bde2f3e9f048e7cd23a76d4b8e8bdbb1093d32ab7b01',
+  'reentry-autoland': '4ee303f827fa9e619e18e8eb3f52f9fb1f04e3295eed85a1582accbbbdf9cd1a',
+  'before-flip-autoland': 'a0a7e543c00e4ec36456d2739b0b6e31d112548f34fcb356f06d13812c23cda4',
+  'landing-burn-autoland': '9364e5240df63b403aa9b1f29b1f39aaaab966534cd7c21a1de93e5dd5a01690',
+  'landing-burn-headwind': '7a4a5f8bd3d41f9203e602e739fc878db9b2229c282477892f9f4afb07638673',
+  'intro-demo': '788986778965daa73070e0db782d8b98e3bafc6c40c6da501e7895be80640a98',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

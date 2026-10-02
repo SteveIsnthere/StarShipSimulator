@@ -1,0 +1,63 @@
+import { describe, expect, it } from 'vitest';
+import * as C from '$core/constants';
+import { rad } from '$core/units';
+import { writeHypersonicFinForce } from '$core/physics/fin-surfaces';
+
+const empty = () => ({ normal: 0, drag: 0, lift: 0, moment: 0 });
+const thirtyDegreeExtension = 100 * (Math.PI / 6) / C.finActuationMaxAngle;
+
+describe('a longitudinal hinged pair carries a pressure force and moment', () => {
+  it('uses projected plate pressure, rather than a torque-only area multiplier', () => {
+    // q=1000Pa; sin(delta)=1/2. At broadside Cp=2*(1/2)^2;
+    // pressure's in-plane projection supplies another factor1/2.
+    const out = empty();
+    expect(writeHypersonicFinForce(0.2, 100, rad(Math.PI / 2),
+      thirtyDegreeExtension, 24.2, 23.3, out)).toBe(out);
+    expect(out.normal).toBeCloseTo(6050, 10);
+    expect(out.drag).toBeCloseTo(6050, 10);
+    expect(out.lift).toBeCloseTo(0, 10);
+    expect(out.moment).toBeCloseTo(140965, 8);
+  });
+
+  it('includes incidence and mirrors the physical force and signed arm', () => {
+    const front = empty(), aft = empty();
+    writeHypersonicFinForce(0.2, 100, rad(-Math.PI / 6), thirtyDegreeExtension,
+      24.2, 23.3, front);
+    writeHypersonicFinForce(0.2, 100, rad(-Math.PI / 6), thirtyDegreeExtension,
+      45.8, -12.6, aft);
+    expect(front.normal).toBeCloseTo(-1512.5, 10);
+    expect(front.drag).toBeCloseTo(756.25, 10);
+    expect(front.lift).toBeCloseTo(1512.5 * Math.sqrt(3) / 2, 10);
+    expect(front.moment).toBeCloseTo(-35241.25, 9);
+    expect(aft.moment).toBeCloseTo(36067.5, 9);
+  });
+
+  it.each([-150, -90, -30, 0, 30, 90, 150])('resolves the same force vector at %s degrees', (deg) => {
+    const alpha = deg * Math.PI / 180;
+    const motion = 0.37, pitch = motion + alpha;
+    const out = empty();
+    writeHypersonicFinForce(0.2, 100, rad(alpha), 100, 24.2, 23.3, out);
+    // Independent projected vector: drag opposes velocity, signed lift is
+    // perpendicular. Their sum must equal the body-transverse plate force.
+    const x = -Math.sin(motion) * out.drag - Math.cos(motion) * out.lift;
+    const y = -Math.cos(motion) * out.drag + Math.sin(motion) * out.lift;
+    expect(x).toBeCloseTo(out.normal * Math.cos(pitch), 8);
+    expect(y).toBeCloseTo(-out.normal * Math.sin(pitch), 8);
+    // Clockwise r_y*F_x-r_x*F_y, independent world-axis cross product.
+    const torque = 23.3 * Math.cos(pitch) * x - 23.3 * Math.sin(pitch) * y;
+    expect(out.moment).toBeCloseTo(torque, 7);
+    expect(out.drag).toBeGreaterThanOrEqual(0);
+  });
+
+  it('clears every output with no flow or no deployment, including reused scratch', () => {
+    const out = empty();
+    for (const [rho, speed, extension] of [[0, 100, 100], [0.2, 0, 100], [0.2, 100, 0]]) {
+      Object.assign(out, { normal: 1, drag: 2, lift: 3, moment: 4 });
+      writeHypersonicFinForce(rho!, speed!, rad(Math.PI / 2), extension!, 24.2, 23.3, out);
+      expect(out.normal).toBe(0);
+      expect(out.drag).toBe(0);
+      expect(Math.abs(out.lift)).toBe(0);
+      expect(out.moment).toBe(0);
+    }
+  });
+});

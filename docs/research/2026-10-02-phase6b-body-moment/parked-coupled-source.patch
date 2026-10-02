@@ -1,0 +1,1016 @@
+diff --git a/src/core/control/actuation.ts b/src/core/control/actuation.ts
+index 7ddddca..2b19405 100644
+--- a/src/core/control/actuation.ts
++++ b/src/core/control/actuation.ts
+@@ -16 +16,8 @@ import type { SimState } from '../state';
+-import type { Rad } from '../units';
++import { rad, type Rad } from '../units';
++import { finMomentAtExtensions, writeFinTargetsInto, writeFinControlFlowInto, type FinControlFlow } from './fin-authority';
++
++import { createMassProperties, writeMassProperties } from '../physics/mass';
++const arms = createMassProperties();
++
++const finTargets = { front: 0, aft: 0 };
++const finFlow: FinControlFlow = { speed: 0, attack: rad(0), hypersonic: false };
+@@ -65 +72 @@ export function finsActuation(state: SimState, goalPercentage: number, dt: numbe
+-  const { status, kinematics } = state;
++  const { status } = state;
+@@ -68,7 +75,4 @@ export function finsActuation(state: SimState, goalPercentage: number, dt: numbe
+-    if (kinematics.angleOfAttack < 0) {
+-      frontFinActuation(state, 50 - goalPercentage, dt);
+-      aftFinActuation(state, 50 + goalPercentage, dt);
+-    } else {
+-      frontFinActuation(state, 50 + goalPercentage, dt);
+-      aftFinActuation(state, 50 - goalPercentage, dt);
+-    }
++    writeFinControlFlowInto(state, finFlow);
++    writeFinTargetsInto(finFlow.attack, goalPercentage * 2, finTargets);
++    frontFinActuation(state, finTargets.front, dt);
++    aftFinActuation(state, finTargets.aft, dt);
+@@ -132 +136,2 @@ export function rcsControl(state: SimState, goalPercentage: number, dt: number):
+-  const commanded = autopilot.rcsThrustCommand;
++  let commanded = autopilot.rcsThrustCommand;
++  const allocateFins = autopilot.finRcsAllocationPending;
+@@ -133,0 +139,11 @@ export function rcsControl(state: SimState, goalPercentage: number, dt: number):
++  autopilot.finRcsAllocationPending = false;
++
++  if (allocateFins) {
++    writeFinControlFlowInto(state, finFlow);
++    writeMassProperties(vehicle.propellantMass, arms);
++    const finMoment = finMomentAtExtensions(state.atmosphere.airDensity, finFlow.speed,
++      finFlow.attack, arms.frontFinArm, -arms.aftFinArm,
++      vehicle.frontFinExtension, vehicle.aftFinExtension);
++    commanded = Math.max(-C.rcsMaxThrust, Math.min(C.rcsMaxThrust,
++      commanded - finMoment / arms.rcsArm));
++  }
+@@ -180 +196,5 @@ export function controlTranslation(state: SimState, pitchControl: number, dt: nu
+-  if (!state.status.translationModeOn) return;
++  if (!state.status.translationModeOn) {
++    state.autopilot.finRcsAllocationPending = false;
++    state.autopilot.rcsThrustCommand = 0;
++    return;
++  }
+diff --git a/src/core/control/entry-range.ts b/src/core/control/entry-range.ts
+index d207f57..cf9d83f 100644
+--- a/src/core/control/entry-range.ts
++++ b/src/core/control/entry-range.ts
+@@ -10,0 +11,6 @@ import { fallAcceleration, type BurnScratch, type FallResult } from './guidance-
++import { BODY_PLANFORM_AREA } from '../physics/body-moment';
++import { writeHypersonicFinForce, HYPERSONIC_FIN_MIN_MACH, type FinForce } from '../physics/fin-surfaces';
++import { updateVehicleInFlightMaxArea } from '../physics/aero';
++
++const frontSurface: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
++const aftSurface: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
+@@ -23,0 +30 @@ function scheduledAcceleration(
++  frontExtension: number, aftExtension: number,
+@@ -29 +36,11 @@ function scheduledAcceleration(
+-  fallAcceleration(h, vx, vy, pitch, mass, area, referenceWind, scratch);
++  const hypersonic = mach >= HYPERSONIC_FIN_MIN_MACH;
++  fallAcceleration(h, vx, vy, pitch, mass, hypersonic ? BODY_PLANFORM_AREA : area, referenceWind, scratch);
++  if (hypersonic) {
++    writeHypersonicFinForce(scratch.atmosphere.airDensity, speed, scratch.inputs.angleOfAttack,
++      frontExtension, C.frontFinSurfaceArea, 0, frontSurface);
++    writeHypersonicFinForce(scratch.atmosphere.airDensity, speed, scratch.inputs.angleOfAttack,
++      aftExtension, C.aftFinSurfaceArea, 0, aftSurface);
++    const normal = (frontSurface.normal + aftSurface.normal) / mass;
++    scratch.acc.x += normal * Math.cos(pitch);
++    scratch.acc.y -= normal * Math.sin(pitch);
++  }
+@@ -55 +72,4 @@ export function predictEntryRangeInto(
+-  const area = state.vehicle.vehicleInFlightMaxArea;
++  // A current hypersonic state stores hull-only area. The forecast also crosses
++  // the still-legacy low-Mach domain, whose area follows these same surfaces.
++  const area = updateVehicleInFlightMaxArea(state.vehicle.frontFinExtension,
++    state.vehicle.aftFinExtension).vehicleInFlightMaxArea;
+@@ -63 +83,2 @@ export function predictEntryRangeInto(
+-    const incomingKelvin = scheduledAcceleration(h, vx, vy, mass, area, wind, entryAngle, pitchBias, scratch);
++    const incomingKelvin = scheduledAcceleration(h, vx, vy, mass, area, wind, entryAngle, pitchBias, scratch,
++      state.vehicle.frontFinExtension, state.vehicle.aftFinExtension);
+@@ -66 +87,2 @@ export function predictEntryRangeInto(
+-    const midpointKelvin = scheduledAcceleration(h + vy * half, mx, my, midMass, area, wind, entryAngle, pitchBias, scratch);
++    const midpointKelvin = scheduledAcceleration(h + vy * half, mx, my, midMass, area, wind, entryAngle, pitchBias, scratch,
++      state.vehicle.frontFinExtension, state.vehicle.aftFinExtension);
+diff --git a/src/core/control/fin-authority.ts b/src/core/control/fin-authority.ts
+new file mode 100644
+index 0000000..3157a89
+--- /dev/null
++++ b/src/core/control/fin-authority.ts
+@@ -0,0 +1,77 @@
++/** Task3: the commanded couple uses the same surface forces as integration. */
++import * as C from '../constants';
++import { rad, type Rad } from '../units';
++import type { SimState } from '../state';
++import { relativeAirspeed, relativeWindAngle, wrappedAttackAngle } from '../physics/aero';
++import { airVelocityX } from '../physics/wind';
++import { speedOfSoundAt } from '../physics/atmosphere';
++import { writeHypersonicFinForce, HYPERSONIC_FIN_MIN_MACH, type FinForce } from '../physics/fin-surfaces';
++
++export interface FinControlFlow { speed: number; attack: Rad; hypersonic: boolean }
++
++/** Controller and actual actuator share the returned attitude/wind snapshot. */
++export function writeFinControlFlowInto(state: SimState, out: FinControlFlow): FinControlFlow {
++  const k = state.kinematics;
++  const windX = airVelocityX(state.world, k.altitude);
++  out.speed = relativeAirspeed(k.speedX, k.speedY, windX, state.world.gustVertical);
++  out.hypersonic = out.speed / speedOfSoundAt(state.atmosphere.airTemperature) >= HYPERSONIC_FIN_MIN_MACH;
++  out.attack = out.hypersonic ? rad(wrappedAttackAngle(k.pitch,
++    relativeWindAngle(k.speedX, k.speedY, windX, state.world.gustVertical))) : k.angleOfAttack;
++  return out;
++}
++
++export interface FinTargets { front: number; aft: number }
++
++/** Existing 2021 actuator family, command -100..100 and targets 0..100%. */
++export function writeFinTargetsInto(attack: number, command: number, out: FinTargets): FinTargets {
++  const half = command / 2;
++  out.front = attack < 0 ? 50 - half : 50 + half;
++  out.aft = attack < 0 ? 50 + half : 50 - half;
++  return out;
++}
++
++// Synchronous scratch only; every field read is overwritten by this call.
++const targets: FinTargets = { front: 0, aft: 0 };
++const front: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
++const aft: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
++
++export function finMomentAtCommand(
++  rho: number, speed: number, attack: Rad, frontArm: number, aftArm: number, command: number,
++): number {
++  writeFinTargetsInto(attack, command, targets);
++  return finMomentAtExtensions(rho, speed, attack, frontArm, aftArm, targets.front, targets.aft);
++}
++
++/** Shared pressure law at achieved extensions, including slew and neutral torque. */
++export function finMomentAtExtensions(
++  rho: number, speed: number, attack: Rad, frontArm: number, aftArm: number,
++  frontExtension: number, aftExtension: number,
++): number {
++  writeHypersonicFinForce(rho, speed, attack, frontExtension, C.frontFinSurfaceArea, frontArm, front);
++  writeHypersonicFinForce(rho, speed, attack, aftExtension, C.aftFinSurfaceArea, aftArm, aft);
++  return front.moment + aft.moment;
++}
++
++/**
++ * Invert this monotone paired family, including its nonzero neutral moment.
++ * Existing slew is still applied by actuation; this is the target couple,
++ * not a claim that the surfaces can move there instantaneously.
++ * 24 bisections bound command error below 200/2^24 percent, with no new
++ * physical gain/authority. Caller gates the hypersonic model domain.
++ */
++export function hypersonicFinCommand(
++  rho: number, speed: number, attack: Rad, frontArm: number, aftArm: number, torque: number,
++): number {
++  let low = -100, high = 100;
++  const minimum = finMomentAtCommand(rho, speed, attack, frontArm, aftArm, low);
++  const maximum = finMomentAtCommand(rho, speed, attack, frontArm, aftArm, high);
++  if (minimum === maximum || Number.isNaN(torque)) return 0;
++  if (torque <= minimum) return low;
++  if (torque >= maximum) return high;
++  for (let i = 0; i < 24; i++) {
++    const middle = (low + high) / 2;
++    if (finMomentAtCommand(rho, speed, attack, frontArm, aftArm, middle) < torque) low = middle;
++    else high = middle;
++  }
++  return (low + high) / 2;
++}
+diff --git a/src/core/control/primitives.ts b/src/core/control/primitives.ts
+index 3c72260..d99a8cc 100644
+--- a/src/core/control/primitives.ts
++++ b/src/core/control/primitives.ts
+@@ -19,2 +19,2 @@ import * as C from '../constants';
+-import { getDrag, relativeAirspeed } from '../physics/aero';
+-import { airVelocityX } from '../physics/wind';
++import { getDrag } from '../physics/aero';
++import { hypersonicFinCommand, writeFinControlFlowInto, type FinControlFlow } from './fin-authority';
+@@ -32,0 +33 @@ import { rad, type Rad } from '../units';
++const finFlow: FinControlFlow = { speed: 0, attack: rad(0), hypersonic: false };
+@@ -97,0 +99,2 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
++  if (autopilot.finRcsAllocationPending) autopilot.rcsThrustCommand = 0;
++  autopilot.finRcsAllocationPending = false;
+@@ -103 +106,2 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
+-    forces.offAxisThrustDifferenceAcceleration;
++    forces.offAxisThrustDifferenceAcceleration -
++    forces.bodyAerodynamicAcceleration;
+@@ -199,6 +203,23 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
+-    const finAirspeed = relativeAirspeed(
+-      kinematics.speedX,
+-      kinematics.speedY,
+-      airVelocityX(state.world, kinematics.altitude),
+-      state.world.gustVertical,
+-    );
++    writeFinControlFlowInto(state, finFlow);
++    const finAirspeed = finFlow.speed;
++    if (finFlow.hypersonic) {
++      // Task2 known disturbance compensation remains live inside the existing
++      // feedback deadzone. This intentional Task3 Fidelity policy separates
++      // steady body torque from attitude corrections; it adds no authority.
++      const outsideFeedbackDeadzone = Math.abs(pitchDifference) > 0.1;
++      const finTorqueRequired = outsideFeedbackDeadzone ? torqueRequired :
++        -(forces.bodyAerodynamicAcceleration + forces.offAxisThrustDifferenceAcceleration) *
++          vehicle.vehicleMomentOfInertia;
++      yokePosition = hypersonicFinCommand(state.atmosphere.airDensity, finAirspeed,
++        finFlow.attack, arms.frontFinArm, -arms.aftFinArm, finTorqueRequired);
++      // Defer residual allocation until the unchanged slew has actually run.
++      // The fin command remains independent when the residual RCS saturates.
++      if (status.rcsActive) {
++        yokePosition *= 0.99;
++        autopilot.rcsThrustCommand = 0;
++        autopilot.rcsThrustCommand = finTorqueRequired / arms.rcsArm;
++        autopilot.finRcsAllocationPending = true;
++      }
++      autopilot.pitchControl = yokePosition;
++      return;
++    }
+diff --git a/src/core/physics/aero.ts b/src/core/physics/aero.ts
+index 4d00676..4bfe1cf 100644
+--- a/src/core/physics/aero.ts
++++ b/src/core/physics/aero.ts
+@@ -124 +124 @@ export function getBodyDragCoefficient(machSpeed: number): number {
+-const NOSE_FINENESS = 1.5;
++export const NOSE_FINENESS = 1.5;
+@@ -207,0 +208,14 @@ function bodyCrossflowFactor(crossflowMach: number): number {
++/** m² — the potential-flow normal term of NASA R474 eq2.12. */
++export function bodyPotentialNormalArea(angleOfAttack: Rad): number {
++  const attack = Math.abs(angleOfAttack);
++  const normalAngle = attack > Math.PI / 2 ? Math.PI - attack : attack;
++  return C.vehicleMinArea * Math.sin(2 * normalAngle) * Math.cos(normalAngle / 2);
++}
++
++/** m² — the crossflow normal term of NASA R474 eq2.12, including Cd/eta. */
++export function bodyCrossflowNormalArea(machSpeed: number, angleOfAttack: Rad, planformArea: number): number {
++  const sin = Math.abs(Math.sin(angleOfAttack));
++  const crossflowMach = machSpeed * sin;
++  return bodyCrossflowFactor(crossflowMach) * broadsideDragCoefficient(crossflowMach) * planformArea * sin ** 2;
++}
++
+@@ -227 +240,0 @@ export function getBodyAxisAccelerations(
+-  const normalAngle = attack > Math.PI / 2 ? Math.PI - attack : attack;
+@@ -231 +243,0 @@ export function getBodyAxisAccelerations(
+-  const crossflowMach = machSpeed * sin;
+@@ -233,2 +245,2 @@ export function getBodyAxisAccelerations(
+-    C.vehicleMinArea * Math.sin(2 * normalAngle) * Math.cos(normalAngle / 2) +
+-    bodyCrossflowFactor(crossflowMach) * broadsideDragCoefficient(crossflowMach) * planformArea * sin ** 2
++    bodyPotentialNormalArea(angleOfAttack) +
++    bodyCrossflowNormalArea(machSpeed, angleOfAttack, planformArea)
+diff --git a/src/core/physics/body-moment.ts b/src/core/physics/body-moment.ts
+new file mode 100644
+index 0000000..3bbdb56
+--- /dev/null
++++ b/src/core/physics/body-moment.ts
+@@ -0,0 +1,61 @@
++/**
++ * Phase6b Task2 Fidelity: body normal-force moment about the moving CoM.
++ * NASA TR R474 eqs2.13–2.15, printedpp10–11:
++ * https://ntrs.nasa.gov/api/citations/19770026166/downloads/19770026166.pdf
++ *
++ * Geometry is a named Ship approximation: the same1.5 nose-fineness assumption
++ * used for Task1's axial coefficient, as a tangent ogive on the50m/9m hull.
++ * Neither the nose shape nor its CoP is fitted to flight outcomes.
++ */
++import * as C from '../constants';
++import type { Rad } from '../units';
++import { bodyCrossflowNormalArea, bodyPotentialNormalArea, NOSE_FINENESS } from './aero';
++
++const radius = C.vehicleDiameter / 2;
++const noseLength = C.vehicleDiameter * NOSE_FINENESS;
++const cylinderLength = C.vehicleHeight - noseLength;
++const ogiveRadius = (radius ** 2 + noseLength ** 2) / (2 * radius);
++const offset = radius - ogiveRadius;
++const root = Math.sqrt(ogiveRadius ** 2 - noseLength ** 2);
++const arc = Math.asin(noseLength / ogiveRadius);
++// Nose radius at distance x from its tip:
++// sqrt(ogiveRadius² - (noseLength-x)²) + offset.
++const noseRadiusIntegral = (noseLength * root + ogiveRadius ** 2 * arc) / 2 + offset * noseLength;
++const noseSquaredRadiusIntegral =
++  ogiveRadius ** 2 * noseLength - noseLength ** 3 / 3 +
++  offset * (noseLength * root + ogiveRadius ** 2 * arc) + offset ** 2 * noseLength;
++const noseFirstRadiusMoment = noseLength * noseRadiusIntegral -
++  ((ogiveRadius ** 3 - root ** 3) / 3 + offset * noseLength ** 2 / 2);
++
++/** m³ — analytic ogive plus cylinder volume. */
++export const BODY_VOLUME = Math.PI * (radius ** 2 * cylinderLength + noseSquaredRadiusIntegral);
++/** m² — projected hull geometry, excluding fins. Task3 separates their forces. */
++export const BODY_PLANFORM_AREA = 2 * radius * cylinderLength + 2 * noseRadiusIntegral;
++/** m — crossflow normal-force station above the gimbal plane. */
++export const BODY_CROSSFLOW_STATION =
++  (radius * cylinderLength ** 2 +
++    2 * (C.vehicleHeight * noseRadiusIntegral - noseFirstRadiusMoment)) / BODY_PLANFORM_AREA;
++/** m — potential normal-force station for nose-first flow (R474 eq2.13). */
++export const BODY_NOSE_FIRST_STATION = BODY_VOLUME / C.vehicleMinArea;
++/** m — tail-first counterpart (R474 eq2.14). */
++export const BODY_TAIL_FIRST_STATION = C.vehicleHeight - BODY_NOSE_FIRST_STATION;
++
++/** N m — clockwise, about a CoM station measured above the gimbal plane. */
++export function bodyAerodynamicMoment(
++  airDensity: number,
++  airspeed: number,
++  mach: number,
++  attack: Rad,
++  planformArea: number,
++  centreOfMass: number,
++): number {
++  const potentialStation = Math.abs(attack) <= Math.PI / 2
++    ? BODY_NOSE_FIRST_STATION : BODY_TAIL_FIRST_STATION;
++  const potentialArea = bodyPotentialNormalArea(attack);
++  const crossflowArea = bodyCrossflowNormalArea(mach, attack, planformArea);
++  // Positive attack pushes toward the hull's right side. A force above the
++  // CoM therefore increases its clockwise pitch; below the CoM it decreases it.
++  return Math.sign(attack) * 0.5 * airDensity * airspeed ** 2 *
++    (potentialArea * (potentialStation - centreOfMass) +
++      crossflowArea * (BODY_CROSSFLOW_STATION - centreOfMass));
++}
+diff --git a/src/core/physics/fin-surfaces.ts b/src/core/physics/fin-surfaces.ts
+new file mode 100644
+index 0000000..217d591
+--- /dev/null
++++ b/src/core/physics/fin-surfaces.ts
+@@ -0,0 +1,53 @@
++/**
++ * Phase6b Task3 Fidelity, hypersonic pressure-only surface approximation.
++ * NASA TM88338 eq1: Cp=2*sin²(incidence).
++ * https://ntrs.nasa.gov/api/citations/19870002265/downloads/19870002265.pdf
++ *
++ * Named tier-B geometry: both pair hinges are longitudinal. Deployment delta
++ * gives sin(incidence)=sin(attack)*sin(delta); projection into the simulation
++ * plane supplies another sin(delta). Zhang et al's actual FRONT hinge is
++ * skewed, omitted here; no measured Ship coefficient or local-flow correction
++ * is claimed. See the pre-implementation fin-envelope-ruling/review evidence.
++ * This primitive is for Mach>=5 diagnosis only, not a low-Mach surface model.
++ */
++import * as C from '../constants';
++import type { Rad } from '../units';
++
++/** Diagnostic domain only; no low-Mach surface law has been adopted. */
++export const HYPERSONIC_FIN_MIN_MACH = 5;
++
++/** Caller-owned force output; lift uses the signed relative-wind normal. */
++export interface FinForce {
++  /** N — signed body-transverse pressure force, positive to the hull's right. */
++  normal: number;
++  /** N — force opposing relative velocity. */
++  drag: number;
++  /** N — signed force along (-cos(windAngle), sin(windAngle)). */
++  lift: number;
++  /** N m — clockwise moment about the supplied signed station-minus-CoM arm. */
++  moment: number;
++}
++
++/**
++ * Area is the entire pair's area; extension retains the existing 0..100%.
++ * Caller supplies wrapped attack [-pi,pi], nonnegative physical inputs and
++ * enforces Mach>=5. Rad branding does not itself wrap an angle.
++ */
++export function writeHypersonicFinForce(
++  airDensity: number,
++  airspeed: number,
++  attack: Rad,
++  extension: number,
++  area: number,
++  signedArm: number,
++  out: FinForce,
++): FinForce {
++  const sinAttack = Math.sin(attack);
++  const sinDeployment = Math.sin(C.finActuationMaxAngle * extension / 100);
++  const q = 0.5 * airDensity * airspeed ** 2;
++  out.normal = Math.sign(attack) * 2 * q * area * sinAttack ** 2 * sinDeployment ** 3;
++  out.drag = out.normal * sinAttack;
++  out.lift = -out.normal * Math.cos(attack);
++  out.moment = out.normal * signedArm;
++  return out;
++}
+diff --git a/src/core/state.ts b/src/core/state.ts
+index 8a11ddb..dab6358 100644
+--- a/src/core/state.ts
++++ b/src/core/state.ts
+@@ -147,0 +148,4 @@ export interface ForcesState {
++  /** N m — clockwise body-normal-force moment about this step's moving CoM. */
++  bodyAerodynamicMoment: number;
++  /** rad/s² — bodyAerodynamicMoment divided by this step's inertia. */
++  bodyAerodynamicAcceleration: number;
+@@ -364,0 +369,3 @@ export interface AutopilotState {
++  /** This-step hypersonic allocation: command is total torque / RCS arm,
++   * before subtracting the achieved fin moment. Consumed with the command. */
++  finRcsAllocationPending: boolean;
+@@ -554,0 +562,2 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
++      bodyAerodynamicMoment: 0,
++      bodyAerodynamicAcceleration: 0,
+@@ -657,0 +667 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
++      finRcsAllocationPending: false,
+diff --git a/src/core/step.ts b/src/core/step.ts
+index 15f75e0..172ac34 100644
+--- a/src/core/step.ts
++++ b/src/core/step.ts
+@@ -53,0 +54,2 @@ import * as C from './constants';
++import { bodyAerodynamicMoment, BODY_PLANFORM_AREA } from './physics/body-moment';
++import { writeHypersonicFinForce, HYPERSONIC_FIN_MIN_MACH, type FinForce } from './physics/fin-surfaces';
+@@ -68,0 +71,2 @@ const bodyAxisAccelerations: aero.BodyAxisAccelerations = { drag: 0, lift: 0 };
++const frontSurface: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
++const aftSurface: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
+@@ -283,0 +288 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
++  const hypersonicSurfaces = incomingAirspeed / speedOfSoundAt(atmosphere.airTemperature) >= HYPERSONIC_FIN_MIN_MACH;
+@@ -308 +313 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
+-  s.vehicle.vehicleInFlightMaxArea = finAreas.vehicleInFlightMaxArea;
++  s.vehicle.vehicleInFlightMaxArea = hypersonicSurfaces ? BODY_PLANFORM_AREA : finAreas.vehicleInFlightMaxArea;
+@@ -364,0 +370,9 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
++  if (hypersonicSurfaces) {
++    writeHypersonicFinForce(s.atmosphere.airDensity, incomingAirspeed, s.kinematics.angleOfAttack,
++      s.vehicle.frontFinExtension, C.frontFinSurfaceArea, 0, frontSurface);
++    writeHypersonicFinForce(s.atmosphere.airDensity, incomingAirspeed, s.kinematics.angleOfAttack,
++      s.vehicle.aftFinExtension, C.aftFinSurfaceArea, 0, aftSurface);
++    s.forces.aerodynamicDrag += frontSurface.drag + aftSurface.drag;
++    // components.ts applies the quadrant sign to the stored lift magnitude.
++    s.forces.aerodynamicLift += Math.abs(frontSurface.lift) + Math.abs(aftSurface.lift);
++  }
+@@ -484,0 +499,6 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
++  // The moment must use this same relative-wind snapshot: turbulence below
++  // advances the gust for the next step, not for one part of this force.
++  const momentRelativeWindAngle = aero.getAngleOfMotion(
++    s.kinematics.speedX - wind.airVelocityX(s.world, s.kinematics.altitude),
++    s.kinematics.speedY - s.world.gustVertical,
++  );
+@@ -539,0 +560,18 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
++  // Task2 Fidelity: the normal force turns the hull about the same moving
++  // CoM as its fins and engines. Evaluate at the predicted attitude/current
++  // relative wind, using the same body-force terms as translation.
++  const bodyAttack = rad(aero.wrappedAttackAngle(s.kinematics.pitch, momentRelativeWindAngle));
++  if (hypersonicSurfaces) {
++    writeHypersonicFinForce(s.atmosphere.airDensity, airspeed, bodyAttack,
++      s.vehicle.frontFinExtension, C.frontFinSurfaceArea, massProperties.frontFinArm, frontSurface);
++    writeHypersonicFinForce(s.atmosphere.airDensity, airspeed, bodyAttack,
++      s.vehicle.aftFinExtension, C.aftFinSurfaceArea, -massProperties.aftFinArm, aftSurface);
++    s.forces.frontFinDrag = frontSurface.normal;
++    // The legacy field pairs a positive aft arm with this inverted sign.
++    s.forces.aftFinDrag = -aftSurface.normal;
++  }
++  s.forces.bodyAerodynamicMoment = bodyAerodynamicMoment(
++    s.atmosphere.airDensity, airspeed, s.kinematics.machSpeed, bodyAttack,
++    s.vehicle.vehicleInFlightMaxArea, massProperties.centreOfMass,
++  );
++  s.forces.bodyAerodynamicAcceleration = s.forces.bodyAerodynamicMoment / I;
+@@ -582 +620,2 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
+-    s.forces.offAxisThrustDifferenceAcceleration;
++    s.forces.offAxisThrustDifferenceAcceleration +
++    s.forces.bodyAerodynamicAcceleration;
+@@ -597 +636,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
+-  if (input.pitchControl !== undefined) s.autopilot.pitchControl = input.pitchControl;
++  if (input.pitchControl !== undefined) {
++    s.autopilot.pitchControl = input.pitchControl;
++    if (s.autopilot.finRcsAllocationPending) {
++      s.autopilot.finRcsAllocationPending = false;
++      s.autopilot.rcsThrustCommand = 0;
++    }
++  }
+diff --git a/tests/core/body-moment.test.ts b/tests/core/body-moment.test.ts
+new file mode 100644
+index 0000000..5ee178e
+--- /dev/null
++++ b/tests/core/body-moment.test.ts
+@@ -0,0 +1,182 @@
++/** Task2 Fidelity: a body normal force must turn the unactuated hull. */
++import { describe, expect, it } from 'vitest';
++import * as C from '$core/constants';
++import { createScenarioState, getScenario } from '$core/scenarios';
++import { step } from '$core/step';
++import { rad } from '$core/units';
++
++// Removing the physical body moment leaves an unactuated broadside hull
++// motionless. The existing damping is zero at zero angular velocity.
++describe('the normal force has a physical arm about the moving centre of mass', () => {
++  it('turns the nose clockwise when the broadside force acts above the dry CoM', () => {
++    const s = createScenarioState(getScenario('before-flip')!);
++    s.autopilot.autoLandOn = false;
++    s.status.finActive = false;
++    s.status.rcsActive = false;
++    s.vehicle.propellantMass = 0;
++    s.vehicle.vehicleMass = C.vehicleDryMass;
++    s.kinematics.altitude = 1_000;
++    s.kinematics.distanceToPlanetCenter = C.planetRadius + 1_000;
++    s.kinematics.pitch = rad(Math.PI / 2);
++    s.kinematics.speedX = 0;
++    s.kinematics.speedY = 100;
++    s.kinematics.angularVelocity = 0;
++    s.kinematics.angularAcceleration = 0;
++    s.engines.running.fill(false);
++    const next = step(s, 1 / 120);
++    expect(next.failures.inFlightBreakUp).toBe(false);
++    expect(next.forces.rcsThrust).toBe(0);
++    expect(next.forces.thrust).toBe(0);
++    expect(next.kinematics.angularAcceleration).toBeGreaterThan(0);
++    expect(next.kinematics.angularVelocity).toBeGreaterThan(0);
++  });
++});
++
++import {
++  bodyAerodynamicMoment, BODY_VOLUME, BODY_PLANFORM_AREA, BODY_CROSSFLOW_STATION,
++  BODY_NOSE_FIRST_STATION, BODY_TAIL_FIRST_STATION,
++} from '$core/physics/body-moment';
++import { broadsideDragCoefficient } from '$core/physics/aero';
++import { createMassProperties } from '$core/physics/mass';
++import { precisionAlignment } from '$core/control/primitives';
++
++describe('the source geometry and physical moment', () => {
++  it('matches independently integrated ogive geometry, rather than a fitted CoP', () => {
++    // Independent midpoint quadrature of the declared50m/9m/13.5m nose.
++    // This checks the analytic integrals without repeating their formulas.
++    let volume = 0, area = 0, firstMoment = 0;
++    const dx = 50 / 100_000;
++    for (let i = 0; i < 100_000; i++) {
++      const z = (i + 0.5) * dx;
++      const radius = z <= 36.5 ? 4.5 : Math.sqrt(22.5 ** 2 - (z - 36.5) ** 2) - 18;
++      volume += Math.PI * radius ** 2 * dx;
++      area += 2 * radius * dx;
++      firstMoment += z * 2 * radius * dx;
++    }
++    expect(BODY_VOLUME).toBeCloseTo(volume, 6);
++    expect(BODY_PLANFORM_AREA).toBeCloseTo(area, 6);
++    expect(BODY_CROSSFLOW_STATION).toBeCloseTo(firstMoment / area, 7);
++    expect(BODY_NOSE_FIRST_STATION).toBeCloseTo(volume / (Math.PI * 4.5 ** 2), 7);
++    expect(BODY_TAIL_FIRST_STATION).toBeCloseTo(50 - volume / (Math.PI * 4.5 ** 2), 7);
++  });
++
++  it('has the independently calculated broadside force arm and opposite mirrored moment', () => {
++    // q1000Pa,high-Mn eta1; the potential term vanishes broadside.
++    const normalForce = 1_000 * ((2 / 3) * 1.84) * 450;
++    const expected = normalForce * (22.95696986224274 - 21.8);
++    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI / 2), 450, 21.8)).toBeCloseTo(expected, 6);
++    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(-Math.PI / 2), 450, 21.8)).toBeCloseTo(-expected, 6);
++  });
++
++  it('changes sign when the moving CoM crosses the crossflow force station', () => {
++    expect(bodyAerodynamicMoment(0.2, 100, 1, rad(Math.PI / 2), 450, 20)).toBeGreaterThan(0);
++    expect(bodyAerodynamicMoment(0.2, 100, 1, rad(Math.PI / 2), 450, 26)).toBeLessThan(0);
++    expect(bodyAerodynamicMoment(0.2, 100, 1, rad(Math.PI / 2), 450, BODY_CROSSFLOW_STATION)).toBeCloseTo(0, 7);
++  });
++
++  it('retains the low crossflow-Mach factor at broadside and moving arms at tail-first attack', () => {
++    const broadside = 1_000 * 0.63 * 1.2 * 450 * (BODY_CROSSFLOW_STATION - 21.8);
++    expect(bodyAerodynamicMoment(0.2, 100, 0.2, rad(Math.PI / 2), 450, 21.8)).toBeCloseTo(broadside, 6);
++    // R474 eq2.14: at150° the potential station is V/Ab from the nose.
++    const a = Math.PI / 6;
++    const potential = Math.PI * 4.5 ** 2 * Math.sin(2 * a) * Math.cos(a / 2);
++    const crossflow = broadsideDragCoefficient(5) * 450 / 4;
++    const moment = 1_000 * (potential * (6.075498956977995 - 21.8) +
++      crossflow * (22.95696986224274 - 21.8));
++    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(5 * Math.PI / 6), 450, 21.8)).toBeCloseTo(moment, 6);
++  });
++
++  it('is continuous through the potential-station switch at90degrees', () => {
++    const left = bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI / 2 - 1e-9), 450, 21.8);
++    const right = bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI / 2 + 1e-9), 450, 21.8);
++    expect(Math.abs(left - right)).toBeLessThan(0.01);
++  });
++
++  it('vanishes without air or speed and at both axial endpoints', () => {
++    expect(bodyAerodynamicMoment(0, 100, 10, rad(1), 450, 21.8)).toBe(0);
++    expect(bodyAerodynamicMoment(1, 0, 0, rad(1), 450, 21.8)).toBe(0);
++    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(0), 450, 21.8)).toBe(0);
++    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI), 450, 21.8)).toBeCloseTo(0, 7);
++  });
++});
++
++describe('attitude feed-forward', () => {
++  it('cancels the known body moment while aligning outside the existing RCS dead zone', () => {
++    const s = createScenarioState(getScenario('before-flip')!);
++    s.vehicle.propellantMass = 0;
++    const props = createMassProperties(0);
++    s.vehicle.vehicleMomentOfInertia = props.momentOfInertia;
++    s.engines.running.fill(false);
++    s.status.finActive = false;
++    s.status.rcsActive = true;
++    s.kinematics.angularVelocity = 0;
++    s.forces.offAxisThrustDifferenceAcceleration = 0;
++    const moment = bodyAerodynamicMoment(0.2, 100, 10, rad(Math.PI / 2), 450, props.centreOfMass);
++    s.forces.bodyAerodynamicMoment = moment;
++    s.forces.bodyAerodynamicAcceleration = moment / props.momentOfInertia;
++    precisionAlignment(s, rad(s.kinematics.pitch - 0.2), 1);
++    expect(s.autopilot.rcsThrustCommand).toBeLessThan(0);
++    expect(Math.abs(s.autopilot.rcsThrustCommand)).toBeLessThan(C.rcsMaxThrust);
++    expect(s.autopilot.rcsThrustCommand * props.rcsArm + moment).toBeCloseTo(-0.2 * props.momentOfInertia, 6);
++  });
++});
++
++import { relativeAirspeed, wrappedAttackAngle } from '$core/physics/aero';
++import { airVelocityX } from '$core/physics/wind';
++
++it('evaluates speed, Mach and attack from the same pre-update gust snapshot', () => {
++  const s = createScenarioState(getScenario('before-flip')!);
++  s.autopilot.autoLandOn = false;
++  s.world.wind = 10;
++  s.world.gust = 20;
++  s.world.gustVertical = -15;
++  s.status.finActive = false;
++  s.status.rcsActive = false;
++  s.kinematics.speedX = 100;
++  s.kinematics.speedY = -50;
++  s.kinematics.angularVelocity = 0;
++  s.kinematics.angularAcceleration = 0;
++  const next = step(s, 1 / 120);
++  const vx = next.kinematics.speedX - airVelocityX(s.world, next.kinematics.altitude);
++  const vy = next.kinematics.speedY - s.world.gustVertical;
++  const speed = relativeAirspeed(next.kinematics.speedX, next.kinematics.speedY,
++    airVelocityX(s.world, next.kinematics.altitude), s.world.gustVertical);
++  const attack = rad(wrappedAttackAngle(next.kinematics.pitch, Math.atan2(vx, vy)));
++  const expected = bodyAerodynamicMoment(next.atmosphere.airDensity, speed,
++    next.kinematics.machSpeed, attack, next.vehicle.vehicleInFlightMaxArea,
++    createMassProperties(next.vehicle.propellantMass).centreOfMass);
++  expect(next.world.gust).not.toBe(s.world.gust);
++  expect(next.world.gustVertical).not.toBe(s.world.gustVertical);
++  expect(next.forces.bodyAerodynamicMoment).toBe(expected);
++});
++
++import { getHorizontalAcceleration, getVerticalAcceleration } from '$core/physics/components';
++
++it('matches independently crossed normal-force vectors in acute, obtuse and mirrored quadrants', () => {
++  const motion = 0.3, mass = 120_000, com = 21.8, q = 1_000;
++  for (const degrees of [-150, -115, -90, -65, -30, 30, 65, 90, 115, 150]) {
++    const attack = degrees * Math.PI / 180;
++    const pitch = motion + attack;
++    const folded = Math.min(Math.abs(attack), Math.PI - Math.abs(attack));
++    const potential = q * Math.PI * 4.5 ** 2 * Math.sin(2 * folded) * Math.cos(folded / 2);
++    const crossflow = q * ((2 / 3) * 1.84) * 450 * Math.sin(attack) ** 2;
++    const normal = potential + crossflow;
++    const station = (potential * (Math.abs(degrees) <= 90 ? 43.924501043022005 : 6.075498956977995) +
++      crossflow * 22.95696986224274) / normal;
++    const input = {
++      angleOfMotion: rad(motion), angleOfAttack: rad(attack), pitch: rad(pitch),
++      aerodynamicDragAcceleration: normal * Math.abs(Math.sin(attack)) / mass,
++      aerodynamicLiftAcceleration: normal * Math.abs(Math.cos(attack)) / mass,
++      thrustAcceleration: 0, fixedThrustAcceleration: 0, gimbalPointingDirection: rad(0),
++    };
++    const fx = getHorizontalAcceleration(input) * mass;
++    const fy = getVerticalAcceleration(input, 0) * mass;
++    // The normal contribution pushes toward hull-right for positive attack.
++    expect(fx).toBeCloseTo(Math.sign(attack) * normal * Math.cos(pitch), 6);
++    expect(fy).toBeCloseTo(-Math.sign(attack) * normal * Math.sin(pitch), 6);
++    const rx = (station - com) * Math.sin(pitch);
++    const ry = (station - com) * Math.cos(pitch);
++    const clockwiseMoment = ry * fx - rx * fy;
++    expect(bodyAerodynamicMoment(0.2, 100, 10, rad(attack), 450, com)).toBeCloseTo(clockwiseMoment, 6);
++  }
++});
+diff --git a/tests/core/fin-authority.test.ts b/tests/core/fin-authority.test.ts
+new file mode 100644
+index 0000000..47c1b85
+--- /dev/null
++++ b/tests/core/fin-authority.test.ts
+@@ -0,0 +1,63 @@
++import { describe, expect, it } from 'vitest';
++import { rad } from '$core/units';
++import { finMomentAtCommand, hypersonicFinCommand, writeFinTargetsInto } from '$core/control/fin-authority';
++import { finsActuation } from '$core/control/actuation';
++import { createScenarioState, getScenario } from '$core/scenarios';
++
++describe('surface authority follows the existing paired actuator family', () => {
++  it.each([-1, 1])('shares exactly the real actuator targets at attack sign%s', (sign) => {
++    for (const command of [-100, -37, 0, 42, 100]) {
++      const target = { front: 0, aft: 0 };
++      writeFinTargetsInto(sign, command, target);
++      const s = createScenarioState(getScenario('before-flip')!);
++      s.status.finActive = true;
++      s.kinematics.angleOfAttack = rad(sign);
++      finsActuation(s, command / 2, 1);
++      expect(target.front + target.aft).toBe(100);
++      expect(s.vehicle.frontFinExtension).toBe(target.front);
++      expect(s.vehicle.aftFinExtension).toBe(target.aft);
++    }
++  });
++
++  it('balances nonzero neutral torque rather than interpreting zero demand as neutral', () => {
++    const attack = rad(-Math.PI / 2);
++    const neutral = finMomentAtCommand(0.2, 100, attack, 23.3, -12.6, 0);
++    expect(neutral).not.toBe(0);
++    const command = hypersonicFinCommand(0.2, 100, attack, 23.3, -12.6, 0);
++    expect(command).not.toBe(0);
++    expect(Math.abs(finMomentAtCommand(0.2, 100, attack, 23.3, -12.6, command))).toBeLessThan(1);
++  });
++
++  it.each([-1, 1])('solves attainable torque and clamps outside actual endpoints for sign%s', (sign) => {
++    const alpha = rad(sign * Math.PI / 3);
++    const low = finMomentAtCommand(0.2, 100, alpha, 25, -10, -100);
++    const high = finMomentAtCommand(0.2, 100, alpha, 25, -10, 100);
++    expect(high).toBeGreaterThan(low);
++    const wanted = low * 0.3 + high * 0.7;
++    const command = hypersonicFinCommand(0.2, 100, alpha, 25, -10, wanted);
++    expect(Math.abs(finMomentAtCommand(0.2, 100, alpha, 25, -10, command) - wanted)).toBeLessThan(1);
++    expect(hypersonicFinCommand(0.2, 100, alpha, 25, -10, low - 1)).toBe(-100);
++    expect(hypersonicFinCommand(0.2, 100, alpha, 25, -10, high + 1)).toBe(100);
++  });
++
++  it('returns neutral when no aerodynamic authority exists', () => {
++    expect(hypersonicFinCommand(0, 100, rad(1), 25, -10, 100)).toBe(0);
++    expect(hypersonicFinCommand(0.2, 0, rad(1), 25, -10, -100)).toBe(0);
++    expect(hypersonicFinCommand(0.2, 100, rad(0), 25, -10, 100)).toBe(0);
++  });
++
++  it('hypersonic actuation follows returned attack when it crossed the stored force-phase sign', () => {
++    const s = createScenarioState(getScenario('before-flip')!);
++    s.status.finActive = true;
++    s.kinematics.speedX = 0;
++    s.kinematics.speedY = 2000;
++    s.kinematics.pitch = rad(0.2);
++    s.kinematics.angleOfAttack = rad(-0.2);
++    s.world.wind = 0;
++    s.world.gust = 0;
++    s.world.gustVertical = 0;
++    finsActuation(s, 50, 1);
++    expect(s.vehicle.frontFinExtension).toBe(100);
++    expect(s.vehicle.aftFinExtension).toBe(0);
++  });
++});
+diff --git a/tests/core/fin-rcs-allocation.test.ts b/tests/core/fin-rcs-allocation.test.ts
+new file mode 100644
+index 0000000..f6c5ea3
+--- /dev/null
++++ b/tests/core/fin-rcs-allocation.test.ts
+@@ -0,0 +1,156 @@
++import { describe, expect, it } from 'vitest';
++import { createScenarioState, getScenario } from '$core/scenarios';
++import { precisionAlignment } from '$core/control/primitives';
++import { controlTranslation, rcsControl } from '$core/control/actuation';
++import { writeHypersonicFinForce, type FinForce } from '$core/physics/fin-surfaces';
++import { createMassProperties, writeMassProperties } from '$core/physics/mass';
++import { rad } from '$core/units';
++import { step } from '$core/step';
++import * as C from '$core/constants';
++
++function prepared(error = 0.2, torque = 1e6, angularVelocity = 0) {
++  const s = createScenarioState(getScenario('reentry')!);
++  s.status.finActive = true;
++  s.status.rcsActive = true;
++  s.status.translationModeOn = true;
++  s.kinematics.speedX = 0;
++  s.kinematics.speedY = 5000;
++  s.kinematics.pitch = rad(-1);
++  s.kinematics.angleOfAttack = rad(-1);
++  s.kinematics.angularVelocity = angularVelocity;
++  s.world.wind = 0;
++  s.world.gust = 0;
++  s.world.gustVertical = 0;
++  s.atmosphere.airDensity = 0.01;
++  s.atmosphere.airTemperature = 250;
++  s.forces.thrust = 0;
++  s.forces.offAxisThrustDifferenceAcceleration = 0;
++  s.forces.bodyAerodynamicAcceleration = -error - torque / s.vehicle.vehicleMomentOfInertia;
++  s.vehicle.frontFinExtension = 40;
++  s.vehicle.aftFinExtension = 60;
++  precisionAlignment(s, rad(s.kinematics.pitch - error), 1);
++  return s;
++}
++
++function achievedMoment(s: ReturnType<typeof prepared>) {
++  const arms = createMassProperties();
++  writeMassProperties(s.vehicle.propellantMass, arms);
++  const f: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
++  writeHypersonicFinForce(0.01, 5000, rad(-1), s.vehicle.frontFinExtension,
++    C.frontFinSurfaceArea, arms.frontFinArm, f);
++  const front = f.moment;
++  writeHypersonicFinForce(0.01, 5000, rad(-1), s.vehicle.aftFinExtension,
++    C.aftFinSurfaceArea, -arms.aftFinArm, f);
++  return { moment: front + f.moment, arm: arms.rcsArm };
++}
++
++describe('hypersonic paired fins and RCS allocate one torque demand', () => {
++  it.each([1 / 120, 0.1])('pays only the residual after actual slew at dt%s', (dt) => {
++    const s = prepared();
++    const reserve = s.vehicle.rcsRunTimeRemaining;
++    controlTranslation(s, s.autopilot.pitchControl, dt);
++    const actual = achievedMoment(s);
++    const expected = Math.max(-C.rcsMaxThrust, Math.min(C.rcsMaxThrust,
++      (1e6 - actual.moment) / actual.arm));
++    expect(s.forces.rcsThrust).toBeCloseTo(expected, 6);
++    expect(s.vehicle.rcsRunTimeRemaining).toBe(
++      (reserve * (1 / dt) - Math.abs(expected) / C.rcsMaxThrust) / (1 / dt));
++    expect(s.autopilot.rcsThrustCommand).toBe(0);
++    rcsControl(s, 0, dt);
++    expect(s.forces.rcsThrust).toBe(0);
++  });
++
++  it.each([-1, 1])('RCS saturation does not overwrite the fin command, sign%s', (sign) => {
++    const s = prepared(0.2, sign * 1e9);
++    expect(Math.abs(s.autopilot.pitchControl)).toBe(99);
++    const command = s.autopilot.pitchControl;
++    controlTranslation(s, command, 1 / 120);
++    expect(s.autopilot.pitchControl).toBe(command);
++    expect(s.forces.rcsThrust).toBe(sign * C.rcsMaxThrust);
++  });
++
++  // Supersedes the unaccepted zero-total-command characterization under the
++  // explicitly reviewed Fidelity policy: feedback stays gated, known torque does not.
++  it.each([[-0.05, -0.03], [0, 0], [0.05, 0.03]])(
++    'compensates known moment without feedback inside the deadzone, error%s omega%s', (error, omega) => {
++      const s = prepared(error, 1e6, omega);
++      const known = -s.forces.bodyAerodynamicAcceleration * s.vehicle.vehicleMomentOfInertia;
++      const reserve = s.vehicle.rcsRunTimeRemaining;
++      controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
++      const actual = achievedMoment(s);
++      expect(s.forces.rcsThrust).not.toBe(0);
++      expect(actual.moment + s.forces.rcsThrust * actual.arm).toBeCloseTo(known, 6);
++      expect(s.vehicle.rcsRunTimeRemaining).toBe(
++        (reserve * 120 - Math.abs(s.forces.rcsThrust) / C.rcsMaxThrust) / 120);
++    });
++
++  it('compensates the signed body plus off-axis disturbance inside the deadzone', () => {
++    const s = prepared(0.05);
++    s.forces.offAxisThrustDifferenceAcceleration = 0.005;
++    precisionAlignment(s, rad(s.kinematics.pitch - 0.05), 1);
++    const known = -(s.forces.bodyAerodynamicAcceleration +
++      s.forces.offAxisThrustDifferenceAcceleration) * s.vehicle.vehicleMomentOfInertia;
++    controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
++    const actual = achievedMoment(s);
++    expect(actual.moment + s.forces.rcsThrust * actual.arm).toBeCloseTo(known, 6);
++  });
++
++  it('inside-deadzone fin and total demands are independent of feedback inputs', () => {
++    const a = prepared(0.05, 1e6, 0.03);
++    const b = prepared(-0.05, 1e6, -0.03);
++    b.forces.bodyAerodynamicAcceleration = a.forces.bodyAerodynamicAcceleration;
++    precisionAlignment(b, rad(b.kinematics.pitch + 0.05), 1);
++    expect(b.autopilot.pitchControl).toBe(a.autopilot.pitchControl);
++    expect(b.autopilot.rcsThrustCommand).toBe(a.autopilot.rcsThrustCommand);
++  });
++
++  it('cancels autonomous residual allocation on explicit manual pitch input', () => {
++    const s = prepared();
++    s.autopilot.autoLandOn = false;
++    s.autopilot.pitchHoldOn = true;
++    s.autopilot.holdingPitch = rad(s.kinematics.pitch - 0.2);
++    const autonomous = step(s, 1 / 120);
++    expect(autonomous.forces.rcsThrust).not.toBe(0);
++    const manual = step(s, 1 / 120, { pitchControl: 0 });
++    expect(manual.forces.rcsThrust).toBe(0);
++    expect(manual.autopilot.finRcsAllocationPending).toBe(false);
++    expect(manual.autopilot.rcsThrustCommand).toBe(0);
++  });
++
++  it('clears a pending request when control translation is disabled', () => {
++    const s = prepared();
++    s.status.translationModeOn = false;
++    controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
++    expect(s.autopilot.finRcsAllocationPending).toBe(false);
++    expect(s.autopilot.rcsThrustCommand).toBe(0);
++    s.status.translationModeOn = true;
++    controlTranslation(s, 0, 1 / 120);
++    expect(s.forces.rcsThrust).toBe(0);
++  });
++
++  it('a superseding alignment clears an unallocated raw request', () => {
++    const s = prepared(0.2, 1e9);
++    s.status.finActive = false;
++    precisionAlignment(s, s.kinematics.pitch, 1);
++    controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
++    expect(s.forces.rcsThrust).toBe(0);
++  });
++
++  it('superseding alignment preserves an ordinary proportional command', () => {
++    const s = prepared();
++    s.autopilot.finRcsAllocationPending = false;
++    s.autopilot.rcsThrustCommand = 456;
++    s.status.finActive = false;
++    precisionAlignment(s, s.kinematics.pitch, 1);
++    controlTranslation(s, 0, 1 / 120);
++    expect(s.forces.rcsThrust).toBe(456);
++  });
++
++  it('keeps the player bang-bang command and reserve accounting', () => {
++    const s = prepared();
++    const reserve = s.vehicle.rcsRunTimeRemaining;
++    rcsControl(s, 100, 0.1);
++    expect(s.forces.rcsThrust).toBe(C.rcsMaxThrust);
++    expect(s.vehicle.rcsRunTimeRemaining).toBe((reserve * 10 - 1) / 10);
++  });
++});
+diff --git a/tests/core/fin-surface-predictor.test.ts b/tests/core/fin-surface-predictor.test.ts
+new file mode 100644
+index 0000000..d2b4b75
+--- /dev/null
++++ b/tests/core/fin-surface-predictor.test.ts
+@@ -0,0 +1,20 @@
++import { expect, it } from 'vitest';
++import { createScenarioState, getScenario } from '$core/scenarios';
++import { createEntryPrediction, predictEntryRangeInto } from '$core/control/entry-range';
++import { createBurnScratch } from '$core/control/guidance-physics';
++import { BODY_PLANFORM_AREA } from '$core/physics/body-moment';
++import { updateVehicleInFlightMaxArea } from '$core/physics/aero';
++import { rad } from '$core/units';
++
++it('forecast geometry follows the actual surfaces across Mach5, not a cached current-domain area', () => {
++  const s = createScenarioState(getScenario('reentry')!);
++  s.vehicle.frontFinExtension = 25;
++  s.vehicle.aftFinExtension = 75;
++  s.vehicle.vehicleInFlightMaxArea = BODY_PLANFORM_AREA;
++  const bodyOnlyCache = createEntryPrediction(), legacyCache = createEntryPrediction();
++  predictEntryRangeInto(s, rad(65 * Math.PI / 180), createBurnScratch(), bodyOnlyCache);
++  s.vehicle.vehicleInFlightMaxArea = updateVehicleInFlightMaxArea(25, 75).vehicleInFlightMaxArea;
++  predictEntryRangeInto(s, rad(65 * Math.PI / 180), createBurnScratch(), legacyCache);
++  expect(bodyOnlyCache.reached).toBe(true);
++  expect(bodyOnlyCache).toEqual(legacyCache);
++});
+diff --git a/tests/core/fin-surface-step.test.ts b/tests/core/fin-surface-step.test.ts
+new file mode 100644
+index 0000000..9df3915
+--- /dev/null
++++ b/tests/core/fin-surface-step.test.ts
+@@ -0,0 +1,34 @@
++import { expect, it } from 'vitest';
++import * as C from '$core/constants';
++import { createScenarioState, getScenario } from '$core/scenarios';
++import { step } from '$core/step';
++import { rad } from '$core/units';
++import { BODY_PLANFORM_AREA } from '$core/physics/body-moment';
++import { updateAtmosphere } from '$core/physics/atmosphere';
++
++it('a hypersonic aft pair adds its pressure force without inflating the hull', () => {
++  const make = (extension: number) => {
++    const s = createScenarioState(getScenario('before-flip')!);
++    s.autopilot.autoLandOn = false;
++    s.status.rcsActive = false;
++    s.engines.running.fill(false);
++    s.kinematics.altitude = 80000;
++    s.kinematics.distanceToPlanetCenter = C.planetRadius + 80000;
++    s.kinematics.speedX = 5000;
++    s.kinematics.speedY = 0;
++    s.kinematics.pitch = rad(0);
++    s.kinematics.angularVelocity = 0;
++    s.kinematics.angularAcceleration = 0;
++    s.vehicle.frontFinExtension = 0;
++    s.vehicle.aftFinExtension = extension;
++    return s;
++  };
++  const stowed = step(make(0), 1 / 120), deployed = step(make(100), 1 / 120);
++  expect(deployed.failures.inFlightBreakUp).toBe(false);
++  expect(stowed.vehicle.vehicleInFlightMaxArea).toBe(BODY_PLANFORM_AREA);
++  expect(deployed.vehicle.vehicleInFlightMaxArea).toBe(BODY_PLANFORM_AREA);
++  const q = 0.5 * updateAtmosphere(80000).airDensity * 5000 ** 2;
++  const expectedAddedDrag = 2 * q * C.aftFinSurfaceArea * Math.sin(C.finActuationMaxAngle) ** 3;
++  expect(deployed.forces.aerodynamicDrag - stowed.forces.aerodynamicDrag).toBeCloseTo(expectedAddedDrag, 7);
++  expect(deployed.forces.aftFinDragAngularAcceleration).toBeGreaterThan(0);
++});
+diff --git a/tests/core/fin-surfaces.test.ts b/tests/core/fin-surfaces.test.ts
+new file mode 100644
+index 0000000..df376ac
+--- /dev/null
++++ b/tests/core/fin-surfaces.test.ts
+@@ -0,0 +1,63 @@
++import { describe, expect, it } from 'vitest';
++import * as C from '$core/constants';
++import { rad } from '$core/units';
++import { writeHypersonicFinForce } from '$core/physics/fin-surfaces';
++
++const empty = () => ({ normal: 0, drag: 0, lift: 0, moment: 0 });
++const thirtyDegreeExtension = 100 * (Math.PI / 6) / C.finActuationMaxAngle;
++
++describe('a longitudinal hinged pair carries a pressure force and moment', () => {
++  it('uses projected plate pressure, rather than a torque-only area multiplier', () => {
++    // q=1000Pa; sin(delta)=1/2. At broadside Cp=2*(1/2)^2;
++    // pressure's in-plane projection supplies another factor1/2.
++    const out = empty();
++    expect(writeHypersonicFinForce(0.2, 100, rad(Math.PI / 2),
++      thirtyDegreeExtension, 24.2, 23.3, out)).toBe(out);
++    expect(out.normal).toBeCloseTo(6050, 10);
++    expect(out.drag).toBeCloseTo(6050, 10);
++    expect(out.lift).toBeCloseTo(0, 10);
++    expect(out.moment).toBeCloseTo(140965, 8);
++  });
++
++  it('includes incidence and mirrors the physical force and signed arm', () => {
++    const front = empty(), aft = empty();
++    writeHypersonicFinForce(0.2, 100, rad(-Math.PI / 6), thirtyDegreeExtension,
++      24.2, 23.3, front);
++    writeHypersonicFinForce(0.2, 100, rad(-Math.PI / 6), thirtyDegreeExtension,
++      45.8, -12.6, aft);
++    expect(front.normal).toBeCloseTo(-1512.5, 10);
++    expect(front.drag).toBeCloseTo(756.25, 10);
++    expect(front.lift).toBeCloseTo(1512.5 * Math.sqrt(3) / 2, 10);
++    expect(front.moment).toBeCloseTo(-35241.25, 9);
++    expect(aft.moment).toBeCloseTo(36067.5, 9);
++  });
++
++  it.each([-150, -90, -30, 0, 30, 90, 150])('resolves the same force vector at %s degrees', (deg) => {
++    const alpha = deg * Math.PI / 180;
++    const motion = 0.37, pitch = motion + alpha;
++    const out = empty();
++    writeHypersonicFinForce(0.2, 100, rad(alpha), 100, 24.2, 23.3, out);
++    // Independent projected vector: drag opposes velocity, signed lift is
++    // perpendicular. Their sum must equal the body-transverse plate force.
++    const x = -Math.sin(motion) * out.drag - Math.cos(motion) * out.lift;
++    const y = -Math.cos(motion) * out.drag + Math.sin(motion) * out.lift;
++    expect(x).toBeCloseTo(out.normal * Math.cos(pitch), 8);
++    expect(y).toBeCloseTo(-out.normal * Math.sin(pitch), 8);
++    // Clockwise r_y*F_x-r_x*F_y, independent world-axis cross product.
++    const torque = 23.3 * Math.cos(pitch) * x - 23.3 * Math.sin(pitch) * y;
++    expect(out.moment).toBeCloseTo(torque, 7);
++    expect(out.drag).toBeGreaterThanOrEqual(0);
++  });
++
++  it('clears every output with no flow or no deployment, including reused scratch', () => {
++    const out = empty();
++    for (const [rho, speed, extension] of [[0, 100, 100], [0.2, 0, 100], [0.2, 100, 0]]) {
++      Object.assign(out, { normal: 1, drag: 2, lift: 3, moment: 4 });
++      writeHypersonicFinForce(rho!, speed!, rad(Math.PI / 2), extension!, 24.2, 23.3, out);
++      expect(out.normal).toBe(0);
++      expect(out.drag).toBe(0);
++      expect(Math.abs(out.lift)).toBe(0);
++      expect(out.moment).toBe(0);
++    }
++  });
++});

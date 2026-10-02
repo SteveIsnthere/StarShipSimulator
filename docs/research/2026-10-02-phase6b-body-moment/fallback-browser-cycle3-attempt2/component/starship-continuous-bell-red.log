@@ -1,0 +1,56 @@
+
+> starship-simulator-v2@0.1.0 test
+> vitest run tests/view/emissive-bell.test.ts
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/emissive-bell.test.ts (3 tests | 3 failed) 5ms
+     × starts at the nozzle without displaying future ages 4ms
+     × clips the growing geometry and fade to the same actual gas age 0ms
+     × expands smoothly as ambient pressure drops while reusing finite buffers 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/emissive-bell.test.ts > continuous nozzle-frame gas > starts at the nozzle without displaying future ages
+AssertionError: expected +0 to be close to -1.53, received difference is 1.53, but expected 0.005
+ ❯ tests/view/emissive-bell.test.ts:15:26
+     13|       expect(uvs[i + 1]).toBe(0);
+     14|     }
+     15|     expect(positions[0]).toBeCloseTo(-1.53);
+       |                          ^
+     16|     expect(positions[8]).toBeCloseTo(1.53);
+     17|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/view/emissive-bell.test.ts > continuous nozzle-frame gas > clips the growing geometry and fade to the same actual gas age
+AssertionError: expected +0 to be close to 0.25, received difference is 0.25, but expected 0.005
+ ❯ tests/view/emissive-bell.test.ts:22:24
+     20|     const { positions, uvs } = buffers();
+     21|     writeBellGeometry(positions, uvs, 1, 1, 1, 0.105);
+     22|     expect(uvs.at(-1)).toBeCloseTo(0.25);
+       |                        ^
+     23|     expect(positions.at(-1)).toBeGreaterThan(0);
+     24|     expect(positions.at(-1)).toBeLessThan(11);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/view/emissive-bell.test.ts > continuous nozzle-frame gas > expands smoothly as ambient pressure drops while reusing finite buffers
+AssertionError: expected 0 to be greater than 0
+ ❯ tests/view/emissive-bell.test.ts:34:21
+     32|       writeBellGeometry(positions, uvs, plumeScaleFactor(pressure), pl…
+     33|       const width = positions.at(-2)! - positions.at(-10)!;
+     34|       expect(width).toBeGreaterThan(previous);
+       |                     ^
+     35|       previous = width;
+     36|       expect([...positions, ...uvs].every(Number.isFinite)).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  13:03:20
+   Duration  133ms (transform 26ms, setup 0ms, import 33ms, tests 5ms, environment 0ms)
+

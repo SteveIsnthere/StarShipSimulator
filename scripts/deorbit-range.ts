@@ -13,8 +13,6 @@ console.log(`outcome ${m.outcome}`);
 console.log(`entry interface at ${km(m.entryDownRange)}, touchdown at ${km(m.touchdownDownRange)}`);
 console.log(`range ${km(m.range)} against DEORBIT_ENTRY_RANGE ${km(DEORBIT_ENTRY_RANGE)} (${(((m.range - DEORBIT_ENTRY_RANGE) / DEORBIT_ENTRY_RANGE) * 100).toFixed(2)}%)`);
 console.log(`miss ${km(m.miss)}`);
-// The constant is the deorbit burn's aim, not the measured crossing-to-touchdown
-// distance (they differ by a few per cent: the burn aims the vacuum conic's
-// crossing, the air bends the real one). An overshoot of `miss` means the aim
-// should be that much longer, so the re-derived value is the constant plus the miss.
-console.log(`re-derived DEORBIT_ENTRY_RANGE: ${Math.round(DEORBIT_ENTRY_RANGE + m.miss)} m`);
+// A single flight measures range health. Any calibration requires recorded
+// aim/miss evidence and the full approved scenario envelope.
+console.log(`current measured aim: ${DEORBIT_ENTRY_RANGE} m; do not infer a replacement from one miss`);

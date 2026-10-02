@@ -1,0 +1,20 @@
+import { expect, it } from 'vitest';
+import { createScenarioState, getScenario } from '$core/scenarios';
+import { createEntryPrediction, predictEntryRangeInto } from '$core/control/entry-range';
+import { createBurnScratch } from '$core/control/guidance-physics';
+import { BODY_PLANFORM_AREA } from '$core/physics/body-moment';
+import { updateVehicleInFlightMaxArea } from '$core/physics/aero';
+import { rad } from '$core/units';
+
+it('forecast geometry follows the actual surfaces across Mach5, not a cached current-domain area', () => {
+  const s = createScenarioState(getScenario('reentry')!);
+  s.vehicle.frontFinExtension = 25;
+  s.vehicle.aftFinExtension = 75;
+  s.vehicle.vehicleInFlightMaxArea = BODY_PLANFORM_AREA;
+  const bodyOnlyCache = createEntryPrediction(), legacyCache = createEntryPrediction();
+  predictEntryRangeInto(s, rad(65 * Math.PI / 180), createBurnScratch(), bodyOnlyCache);
+  s.vehicle.vehicleInFlightMaxArea = updateVehicleInFlightMaxArea(25, 75).vehicleInFlightMaxArea;
+  predictEntryRangeInto(s, rad(65 * Math.PI / 180), createBurnScratch(), legacyCache);
+  expect(bodyOnlyCache.reached).toBe(true);
+  expect(bodyOnlyCache).toEqual(legacyCache);
+});

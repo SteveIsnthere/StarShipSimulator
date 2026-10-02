@@ -1,0 +1,27 @@
+[WebServer] (node:76648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:76660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (52.6s)
+  ✓   2 [chromium] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (17.0s)
+(node:76724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [pixel-portrait] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (59.7s)
+  ✓   4 [pixel-portrait] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (18.3s)
+(node:76793) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [pixel-landscape] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (1.2m)
+  ✓   6 [pixel-landscape] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (23.5s)
+(node:76836) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [iphone-portrait] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (56.7s)
+  ✓   8 [iphone-portrait] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (17.1s)
+(node:76854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [iphone-landscape] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (1.2m)
+  ✓  10 [iphone-landscape] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (22.1s)
+
+  10 passed (6.9m)

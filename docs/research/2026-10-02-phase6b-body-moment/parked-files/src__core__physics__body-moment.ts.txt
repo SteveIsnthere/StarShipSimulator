@@ -1,0 +1,61 @@
+/**
+ * Phase6b Task2 Fidelity: body normal-force moment about the moving CoM.
+ * NASA TR R474 eqs2.13–2.15, printedpp10–11:
+ * https://ntrs.nasa.gov/api/citations/19770026166/downloads/19770026166.pdf
+ *
+ * Geometry is a named Ship approximation: the same1.5 nose-fineness assumption
+ * used for Task1's axial coefficient, as a tangent ogive on the50m/9m hull.
+ * Neither the nose shape nor its CoP is fitted to flight outcomes.
+ */
+import * as C from '../constants';
+import type { Rad } from '../units';
+import { bodyCrossflowNormalArea, bodyPotentialNormalArea, NOSE_FINENESS } from './aero';
+
+const radius = C.vehicleDiameter / 2;
+const noseLength = C.vehicleDiameter * NOSE_FINENESS;
+const cylinderLength = C.vehicleHeight - noseLength;
+const ogiveRadius = (radius ** 2 + noseLength ** 2) / (2 * radius);
+const offset = radius - ogiveRadius;
+const root = Math.sqrt(ogiveRadius ** 2 - noseLength ** 2);
+const arc = Math.asin(noseLength / ogiveRadius);
+// Nose radius at distance x from its tip:
+// sqrt(ogiveRadius² - (noseLength-x)²) + offset.
+const noseRadiusIntegral = (noseLength * root + ogiveRadius ** 2 * arc) / 2 + offset * noseLength;
+const noseSquaredRadiusIntegral =
+  ogiveRadius ** 2 * noseLength - noseLength ** 3 / 3 +
+  offset * (noseLength * root + ogiveRadius ** 2 * arc) + offset ** 2 * noseLength;
+const noseFirstRadiusMoment = noseLength * noseRadiusIntegral -
+  ((ogiveRadius ** 3 - root ** 3) / 3 + offset * noseLength ** 2 / 2);
+
+/** m³ — analytic ogive plus cylinder volume. */
+export const BODY_VOLUME = Math.PI * (radius ** 2 * cylinderLength + noseSquaredRadiusIntegral);
+/** m² — projected hull geometry, excluding fins. Task3 separates their forces. */
+export const BODY_PLANFORM_AREA = 2 * radius * cylinderLength + 2 * noseRadiusIntegral;
+/** m — crossflow normal-force station above the gimbal plane. */
+export const BODY_CROSSFLOW_STATION =
+  (radius * cylinderLength ** 2 +
+    2 * (C.vehicleHeight * noseRadiusIntegral - noseFirstRadiusMoment)) / BODY_PLANFORM_AREA;
+/** m — potential normal-force station for nose-first flow (R474 eq2.13). */
+export const BODY_NOSE_FIRST_STATION = BODY_VOLUME / C.vehicleMinArea;
+/** m — tail-first counterpart (R474 eq2.14). */
+export const BODY_TAIL_FIRST_STATION = C.vehicleHeight - BODY_NOSE_FIRST_STATION;
+
+/** N m — clockwise, about a CoM station measured above the gimbal plane. */
+export function bodyAerodynamicMoment(
+  airDensity: number,
+  airspeed: number,
+  mach: number,
+  attack: Rad,
+  planformArea: number,
+  centreOfMass: number,
+): number {
+  const potentialStation = Math.abs(attack) <= Math.PI / 2
+    ? BODY_NOSE_FIRST_STATION : BODY_TAIL_FIRST_STATION;
+  const potentialArea = bodyPotentialNormalArea(attack);
+  const crossflowArea = bodyCrossflowNormalArea(mach, attack, planformArea);
+  // Positive attack pushes toward the hull's right side. A force above the
+  // CoM therefore increases its clockwise pitch; below the CoM it decreases it.
+  return Math.sign(attack) * 0.5 * airDensity * airspeed ** 2 *
+    (potentialArea * (potentialStation - centreOfMass) +
+      crossflowArea * (BODY_CROSSFLOW_STATION - centreOfMass));
+}

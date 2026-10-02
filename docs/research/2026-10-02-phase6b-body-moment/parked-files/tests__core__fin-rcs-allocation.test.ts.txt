@@ -1,0 +1,156 @@
+import { describe, expect, it } from 'vitest';
+import { createScenarioState, getScenario } from '$core/scenarios';
+import { precisionAlignment } from '$core/control/primitives';
+import { controlTranslation, rcsControl } from '$core/control/actuation';
+import { writeHypersonicFinForce, type FinForce } from '$core/physics/fin-surfaces';
+import { createMassProperties, writeMassProperties } from '$core/physics/mass';
+import { rad } from '$core/units';
+import { step } from '$core/step';
+import * as C from '$core/constants';
+
+function prepared(error = 0.2, torque = 1e6, angularVelocity = 0) {
+  const s = createScenarioState(getScenario('reentry')!);
+  s.status.finActive = true;
+  s.status.rcsActive = true;
+  s.status.translationModeOn = true;
+  s.kinematics.speedX = 0;
+  s.kinematics.speedY = 5000;
+  s.kinematics.pitch = rad(-1);
+  s.kinematics.angleOfAttack = rad(-1);
+  s.kinematics.angularVelocity = angularVelocity;
+  s.world.wind = 0;
+  s.world.gust = 0;
+  s.world.gustVertical = 0;
+  s.atmosphere.airDensity = 0.01;
+  s.atmosphere.airTemperature = 250;
+  s.forces.thrust = 0;
+  s.forces.offAxisThrustDifferenceAcceleration = 0;
+  s.forces.bodyAerodynamicAcceleration = -error - torque / s.vehicle.vehicleMomentOfInertia;
+  s.vehicle.frontFinExtension = 40;
+  s.vehicle.aftFinExtension = 60;
+  precisionAlignment(s, rad(s.kinematics.pitch - error), 1);
+  return s;
+}
+
+function achievedMoment(s: ReturnType<typeof prepared>) {
+  const arms = createMassProperties();
+  writeMassProperties(s.vehicle.propellantMass, arms);
+  const f: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
+  writeHypersonicFinForce(0.01, 5000, rad(-1), s.vehicle.frontFinExtension,
+    C.frontFinSurfaceArea, arms.frontFinArm, f);
+  const front = f.moment;
+  writeHypersonicFinForce(0.01, 5000, rad(-1), s.vehicle.aftFinExtension,
+    C.aftFinSurfaceArea, -arms.aftFinArm, f);
+  return { moment: front + f.moment, arm: arms.rcsArm };
+}
+
+describe('hypersonic paired fins and RCS allocate one torque demand', () => {
+  it.each([1 / 120, 0.1])('pays only the residual after actual slew at dt%s', (dt) => {
+    const s = prepared();
+    const reserve = s.vehicle.rcsRunTimeRemaining;
+    controlTranslation(s, s.autopilot.pitchControl, dt);
+    const actual = achievedMoment(s);
+    const expected = Math.max(-C.rcsMaxThrust, Math.min(C.rcsMaxThrust,
+      (1e6 - actual.moment) / actual.arm));
+    expect(s.forces.rcsThrust).toBeCloseTo(expected, 6);
+    expect(s.vehicle.rcsRunTimeRemaining).toBe(
+      (reserve * (1 / dt) - Math.abs(expected) / C.rcsMaxThrust) / (1 / dt));
+    expect(s.autopilot.rcsThrustCommand).toBe(0);
+    rcsControl(s, 0, dt);
+    expect(s.forces.rcsThrust).toBe(0);
+  });
+
+  it.each([-1, 1])('RCS saturation does not overwrite the fin command, sign%s', (sign) => {
+    const s = prepared(0.2, sign * 1e9);
+    expect(Math.abs(s.autopilot.pitchControl)).toBe(99);
+    const command = s.autopilot.pitchControl;
+    controlTranslation(s, command, 1 / 120);
+    expect(s.autopilot.pitchControl).toBe(command);
+    expect(s.forces.rcsThrust).toBe(sign * C.rcsMaxThrust);
+  });
+
+  // Supersedes the unaccepted zero-total-command characterization under the
+  // explicitly reviewed Fidelity policy: feedback stays gated, known torque does not.
+  it.each([[-0.05, -0.03], [0, 0], [0.05, 0.03]])(
+    'compensates known moment without feedback inside the deadzone, error%s omega%s', (error, omega) => {
+      const s = prepared(error, 1e6, omega);
+      const known = -s.forces.bodyAerodynamicAcceleration * s.vehicle.vehicleMomentOfInertia;
+      const reserve = s.vehicle.rcsRunTimeRemaining;
+      controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
+      const actual = achievedMoment(s);
+      expect(s.forces.rcsThrust).not.toBe(0);
+      expect(actual.moment + s.forces.rcsThrust * actual.arm).toBeCloseTo(known, 6);
+      expect(s.vehicle.rcsRunTimeRemaining).toBe(
+        (reserve * 120 - Math.abs(s.forces.rcsThrust) / C.rcsMaxThrust) / 120);
+    });
+
+  it('compensates the signed body plus off-axis disturbance inside the deadzone', () => {
+    const s = prepared(0.05);
+    s.forces.offAxisThrustDifferenceAcceleration = 0.005;
+    precisionAlignment(s, rad(s.kinematics.pitch - 0.05), 1);
+    const known = -(s.forces.bodyAerodynamicAcceleration +
+      s.forces.offAxisThrustDifferenceAcceleration) * s.vehicle.vehicleMomentOfInertia;
+    controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
+    const actual = achievedMoment(s);
+    expect(actual.moment + s.forces.rcsThrust * actual.arm).toBeCloseTo(known, 6);
+  });
+
+  it('inside-deadzone fin and total demands are independent of feedback inputs', () => {
+    const a = prepared(0.05, 1e6, 0.03);
+    const b = prepared(-0.05, 1e6, -0.03);
+    b.forces.bodyAerodynamicAcceleration = a.forces.bodyAerodynamicAcceleration;
+    precisionAlignment(b, rad(b.kinematics.pitch + 0.05), 1);
+    expect(b.autopilot.pitchControl).toBe(a.autopilot.pitchControl);
+    expect(b.autopilot.rcsThrustCommand).toBe(a.autopilot.rcsThrustCommand);
+  });
+
+  it('cancels autonomous residual allocation on explicit manual pitch input', () => {
+    const s = prepared();
+    s.autopilot.autoLandOn = false;
+    s.autopilot.pitchHoldOn = true;
+    s.autopilot.holdingPitch = rad(s.kinematics.pitch - 0.2);
+    const autonomous = step(s, 1 / 120);
+    expect(autonomous.forces.rcsThrust).not.toBe(0);
+    const manual = step(s, 1 / 120, { pitchControl: 0 });
+    expect(manual.forces.rcsThrust).toBe(0);
+    expect(manual.autopilot.finRcsAllocationPending).toBe(false);
+    expect(manual.autopilot.rcsThrustCommand).toBe(0);
+  });
+
+  it('clears a pending request when control translation is disabled', () => {
+    const s = prepared();
+    s.status.translationModeOn = false;
+    controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
+    expect(s.autopilot.finRcsAllocationPending).toBe(false);
+    expect(s.autopilot.rcsThrustCommand).toBe(0);
+    s.status.translationModeOn = true;
+    controlTranslation(s, 0, 1 / 120);
+    expect(s.forces.rcsThrust).toBe(0);
+  });
+
+  it('a superseding alignment clears an unallocated raw request', () => {
+    const s = prepared(0.2, 1e9);
+    s.status.finActive = false;
+    precisionAlignment(s, s.kinematics.pitch, 1);
+    controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
+    expect(s.forces.rcsThrust).toBe(0);
+  });
+
+  it('superseding alignment preserves an ordinary proportional command', () => {
+    const s = prepared();
+    s.autopilot.finRcsAllocationPending = false;
+    s.autopilot.rcsThrustCommand = 456;
+    s.status.finActive = false;
+    precisionAlignment(s, s.kinematics.pitch, 1);
+    controlTranslation(s, 0, 1 / 120);
+    expect(s.forces.rcsThrust).toBe(456);
+  });
+
+  it('keeps the player bang-bang command and reserve accounting', () => {
+    const s = prepared();
+    const reserve = s.vehicle.rcsRunTimeRemaining;
+    rcsControl(s, 100, 0.1);
+    expect(s.forces.rcsThrust).toBe(C.rcsMaxThrust);
+    expect(s.vehicle.rcsRunTimeRemaining).toBe((reserve * 10 - 1) / 10);
+  });
+});

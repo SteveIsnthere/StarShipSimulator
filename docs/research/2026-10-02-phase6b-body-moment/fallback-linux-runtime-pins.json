@@ -1,0 +1,23 @@
+{
+  "src/core/state.ts": "5eff1cd10eb3623899d7dd9aa94112e4a9ea9b34c214c1fc2c7dc02ba200d749",
+  "src/core/step.ts": "8b4c26123be6fd4398ae6639cae8c3115c854589bd3e4535afb5910ccec77044",
+  "src/core/constants.ts": "b27d00e2356991fbb8af143507a0357bf29d2674d13f04935adee65ff0c58b36",
+  "src/core/rng.ts": "aa493ec3f7046883081ea9c03e4680413d2ae9819d84851ccca82899c2346789",
+  "src/core/units.ts": "73f40f19c2e50b268c31427a85bf018034e54efc106a42a4db4aabe03b905d98",
+  "src/core/scenarios.ts": "fd847dcdb1e6f7b5ac7b365eda44468db65f6c28f2411588bfb2388d066063be",
+  "src/core/physics/atmosphere.ts": "803413066381e746f50183061cf26307c81a983991f0f4b51cffb8794ff52c70",
+  "src/core/physics/components.ts": "6d6ebc1f2ed977bef18f4543a843fa3688796b5bf57939cfb476ac674be7eed7",
+  "src/core/physics/gravity.ts": "2eee855b40527750bbc3706c2c538ef79fa2ee442598c8be32c9b20ef98cf60d",
+  "src/core/physics/isa.ts": "bd83423a16ae1362073dc9f2a3e733a16125bfdb51cb03ca081c079da52a804e",
+  "src/core/physics/aero.ts": "fdba527b0b892377201f0d929a1b40a69ff68ad8f905cf154962370eda44a474",
+  "src/core/physics/wind.ts": "0aeb98eb36b169f2bc68ac0c2773a18a9bef82c2be9453a583b2bd5feef34518",
+  "src/core/physics/engines.ts": "0d970c9106ea9d74ed5931bbe6af70fe64bad1fad27847c03546057ebd8e70ba",
+  "src/core/physics/thermal.ts": "cc1a21ea8970b898ba20c6d44569b31a934e5d0ed95cd08f27b22509438c3b5d",
+  "src/core/physics/mass.ts": "988cf3844b792985083e654339a44b1cc36cf5276be70a5a50f17f2ec2ed49b6",
+  "src/core/autopilot/landing-burn.ts": "886bb10e45733da2a8d6a46fc85f7cadc7263c9d6e9e9d2436c5f68597382e23",
+  "src/core/autopilot/index.ts": "3ed99952d2a8c261befb239c4d02dad97918d1054688733bef59912089fee24b",
+  "src/core/control/guidance-physics.ts": "a9150432c44111c83ff066a05b93079d9e145e90aa0868fa42c4afe712b63d34",
+  "src/core/control/commands.ts": "7f7353eced61cbafe41873861adcc00805f6006a9d64ba77e70056aa20687a85",
+  "src/core/control/actuation.ts": "ba2a7f69d2f2f5f487a3f45450a8ef5af6466ff9159e202431ef8128a2ce51f5",
+  "src/core/control/primitives.ts": "1c05d4acb7fd58c51a5cbc07ac6a9e648ddacf277174a9aee10c10f0fb3f9c81"
+}

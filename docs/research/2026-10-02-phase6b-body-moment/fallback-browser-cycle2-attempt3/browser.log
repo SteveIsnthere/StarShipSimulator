@@ -1,0 +1,565 @@
+[WebServer] (node:10270) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 40 tests using 3 workers
+
+(node:10272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10271) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10273) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓   1 [chromium] › tests/e2e/post-compositing.spec.ts:32:1 › local bloom footprint is independent of canvas dimensions @mobile (2.3s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓   4 [chromium] › tests/e2e/post-compositing.spec.ts:43:1 › bloom adds light without darkening additive exhaust @mobile (935ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓   5 [chromium] › tests/e2e/post-compositing.spec.ts:52:1 › bloom preserves normal smoke occlusion @mobile (932ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓   6 [chromium] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed fire-then-smoke compositing @mobile (1.8s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓   7 [chromium] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed smoke-then-fire compositing @mobile (2.5s)
+  ✓   8 [chromium] › tests/e2e/post-compositing.spec.ts:69:1 › additive bloom survives a real WebGL context restoration @mobile (1.8s)
+(node:10313) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume-frozen] chromium step 378: {"extent":{"found":true,"left":612,"right":670,"top":386,"bottom":662,"widthPx":59,"heightPx":277,"spanPx":277,"count":2138,"bandWidthPx":44},"repeat":{"found":true,"left":612,"right":670,"top":386,"bottom":662,"widthPx":59,"heightPx":277,"spanPx":277,"count":2138,"bandWidthPx":44}}
+[plume-frozen] chromium step 384: {"extent":{"found":true,"left":613,"right":668,"top":384,"bottom":621,"widthPx":56,"heightPx":238,"spanPx":238,"count":2228,"bandWidthPx":40},"repeat":{"found":true,"left":613,"right":668,"top":384,"bottom":621,"widthPx":56,"heightPx":238,"spanPx":238,"count":2228,"bandWidthPx":40}}
+[plume-frozen] chromium step 412: {"extent":{"found":true,"left":617,"right":666,"top":382,"bottom":620,"widthPx":50,"heightPx":239,"spanPx":239,"count":2069,"bandWidthPx":40},"repeat":{"found":true,"left":617,"right":666,"top":382,"bottom":620,"widthPx":50,"heightPx":239,"spanPx":239,"count":2069,"bandWidthPx":40}}
+[plume-frozen] chromium step 406: {"extent":{"found":true,"left":611,"right":671,"top":383,"bottom":638,"widthPx":61,"heightPx":256,"spanPx":256,"count":2202,"bandWidthPx":39},"repeat":{"found":true,"left":611,"right":671,"top":383,"bottom":638,"widthPx":61,"heightPx":256,"spanPx":256,"count":2202,"bandWidthPx":39}}
+[plume-frozen] pixel-portrait step 481: {"extent":{"found":true,"left":484,"right":595,"top":739,"bottom":1150,"widthPx":112,"heightPx":412,"spanPx":412,"count":9269,"bandWidthPx":77},"repeat":{"found":true,"left":484,"right":595,"top":739,"bottom":1150,"widthPx":112,"heightPx":412,"spanPx":412,"count":9269,"bandWidthPx":77}}
+[plume-frozen] chromium step 440: {"extent":{"found":true,"left":617,"right":667,"top":384,"bottom":604,"widthPx":51,"heightPx":221,"spanPx":221,"count":2164,"bandWidthPx":39},"repeat":{"found":true,"left":617,"right":667,"top":384,"bottom":604,"widthPx":51,"heightPx":221,"spanPx":221,"count":2164,"bandWidthPx":39}}
+[plume-frozen] chromium step 434: {"extent":{"found":true,"left":609,"right":664,"top":383,"bottom":604,"widthPx":56,"heightPx":222,"spanPx":222,"count":2178,"bandWidthPx":44},"repeat":{"found":true,"left":609,"right":664,"top":383,"bottom":604,"widthPx":56,"heightPx":222,"spanPx":222,"count":2178,"bandWidthPx":44}}
+[plume-frozen] pixel-portrait step 507: {"extent":{"found":true,"left":487,"right":601,"top":737,"bottom":1146,"widthPx":115,"heightPx":410,"spanPx":410,"count":8979,"bandWidthPx":72},"repeat":{"found":true,"left":487,"right":601,"top":737,"bottom":1146,"widthPx":115,"heightPx":410,"spanPx":410,"count":8979,"bandWidthPx":72}}
+[plume-frozen] chromium step 468: {"extent":{"found":true,"left":614,"right":667,"top":384,"bottom":643,"widthPx":54,"heightPx":260,"spanPx":260,"count":2073,"bandWidthPx":39},"repeat":{"found":true,"left":614,"right":667,"top":384,"bottom":643,"widthPx":54,"heightPx":260,"spanPx":260,"count":2073,"bandWidthPx":39}}
+[plume-frozen] chromium step 460: {"extent":{"found":true,"left":620,"right":669,"top":379,"bottom":618,"widthPx":50,"heightPx":240,"spanPx":240,"count":2303,"bandWidthPx":37},"repeat":{"found":true,"left":620,"right":669,"top":379,"bottom":618,"widthPx":50,"heightPx":240,"spanPx":240,"count":2303,"bandWidthPx":37}}
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 3.28 long, 0.50 across (spans 3.49/3.01/2.79/3.28, widths 0.55/0.50/0.49/0.49, steps 378/412/440/468; 0/4 anchored to the region edge; throttle 100/100/100/100; (612,386)-(670,662)n2138 (617,382)-(666,620)n2069 (617,384)-(667,604)n2164 (614,384)-(667,643)n2073)
+[plume] chromium · the plume is longer than the ship at low altitude @mobile: 3.03 long, 0.50 across (spans 3.00/3.23/2.80/3.03, widths 0.50/0.49/0.55/0.47, steps 384/406/434/460; 0/4 anchored to the region edge; throttle 100/100/100/100; (613,384)-(668,621)n2228 (611,383)-(671,638)n2202 (609,383)-(664,604)n2178 (620,379)-(669,618)n2303)
+  ✓   2 [chromium] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (52.2s)
+(node:10405) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume-frozen] pixel-portrait step 533: {"extent":{"found":true,"left":488,"right":597,"top":737,"bottom":1112,"widthPx":110,"heightPx":376,"spanPx":376,"count":9312,"bandWidthPx":77},"repeat":{"found":true,"left":488,"right":597,"top":737,"bottom":1112,"widthPx":110,"heightPx":376,"spanPx":376,"count":9312,"bandWidthPx":77}}
+[plume-frozen] pixel-portrait step 573: {"extent":{"found":true,"left":488,"right":597,"top":740,"bottom":1169,"widthPx":110,"heightPx":430,"spanPx":430,"count":9304,"bandWidthPx":85},"repeat":{"found":true,"left":488,"right":597,"top":740,"bottom":1169,"widthPx":110,"heightPx":430,"spanPx":430,"count":9304,"bandWidthPx":85}}
+[plume] pixel-portrait · the plume is longer than the ship at low altitude @mobile: 2.62 long, 0.49 across (spans 2.62/2.61/2.40/2.74, widths 0.49/0.46/0.49/0.54, steps 481/507/533/573; 0/4 anchored to the region edge; throttle 100/100/100/100; (484,739)-(595,1150)n9269 (487,737)-(601,1146)n8979 (488,737)-(597,1112)n9312 (488,740)-(597,1169)n9304)
+[plume-frozen] chromium step 369: {"extent":{"found":true,"left":623,"right":652,"top":372,"bottom":450,"widthPx":30,"heightPx":79,"spanPx":79,"count":353,"bandWidthPx":17},"repeat":{"found":true,"left":623,"right":652,"top":372,"bottom":450,"widthPx":30,"heightPx":79,"spanPx":79,"count":353,"bandWidthPx":17}}
+  ✓   9 [pixel-portrait] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (58.9s)
+[plume-frozen] chromium step 415: {"extent":{"found":true,"left":617,"right":647,"top":372,"bottom":448,"widthPx":31,"heightPx":77,"spanPx":77,"count":259,"bandWidthPx":15},"repeat":{"found":true,"left":617,"right":647,"top":372,"bottom":448,"widthPx":31,"heightPx":77,"spanPx":77,"count":259,"bandWidthPx":15}}
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  11 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:32:1 › local bloom footprint is independent of canvas dimensions @mobile (2.7s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  12 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:43:1 › bloom adds light without darkening additive exhaust @mobile (1.7s)
+[plume-frozen] pixel-portrait step 496: {"extent":{"found":true,"left":479,"right":593,"top":740,"bottom":1196,"widthPx":115,"heightPx":457,"spanPx":457,"count":9106,"bandWidthPx":81},"repeat":{"found":true,"left":479,"right":593,"top":740,"bottom":1196,"widthPx":115,"heightPx":457,"spanPx":457,"count":9106,"bandWidthPx":81}}
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  13 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:52:1 › bloom preserves normal smoke occlusion @mobile (1.8s)
+[plume-frozen] chromium step 451: {"extent":{"found":true,"left":628,"right":652,"top":368,"bottom":448,"widthPx":25,"heightPx":81,"spanPx":81,"count":282,"bandWidthPx":24},"repeat":{"found":true,"left":628,"right":652,"top":368,"bottom":448,"widthPx":25,"heightPx":81,"spanPx":81,"count":282,"bandWidthPx":24}}
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  14 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed fire-then-smoke compositing @mobile (2.2s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  15 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed smoke-then-fire compositing @mobile (2.2s)
+[plume-frozen] chromium step 489: {"extent":{"found":true,"left":631,"right":654,"top":368,"bottom":476,"widthPx":24,"heightPx":109,"spanPx":109,"count":261,"bandWidthPx":19},"repeat":{"found":true,"left":631,"right":654,"top":368,"bottom":476,"widthPx":24,"heightPx":109,"spanPx":109,"count":261,"bandWidthPx":19}}
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 2.25 long, 0.53 across (spans 2.19/2.14/2.25/3.03, widths 0.47/0.42/0.67/0.53, steps 369/415/451/489; 0/4 anchored to the region edge; throttle 100/100/100/100; (623,372)-(652,450)n353 (617,372)-(647,448)n259 (628,368)-(652,448)n282 (631,368)-(654,476)n261)
+low: 3.28 long, 0.50 across · vacuum: 2.25 long, 0.53 across
+frame 1280x720 @1.00x  altitude 120000 m  vehicle 36 px
+  below      mean   48.9  spread  19.49  tones  6  bright 0.004  dark 0.943  warm 0.0037  top #332222:0.54 #222222:0.18 #333322:0.13 #111122:0.04 #222211:0.02
+  EXT plume    found true  span 109px (24x109)  band 19px  n 261  box (631,368)-(654,476)  = 3.03 vehicle heights
+  |      :   -                            -    |
+  |                                            |
+  |             +      -      = =    #         |
+  |        :     .       ==            --      |
+  |        =     +         -                   |
+  |              -     +-  : -      =    -     |
+  |            ==            .       +     -   |
+  |  +    -  =  =++            -    * ==       |
+  |    =                 +   - =      ==       |
+  |   -      -             -  - -      -       |
+  |.............-.......@@.....................|
+  |.....=-......-.-:....@@.....................|
+  |++*******************@@#**@*******%*******++|
+  |******...............%@...............******|
+  |.....................##.....................|
+  |.....................=*.....................|
+  |.....................==.....................|
+  |.....................:-.....................|
+  |..:::::::::::........::.::::::::::..........|
+  |.:::::::::::::........:::::::::::::........:|
+  |.:::::::::::::........:::::::::::::........:|
+  |....::::::::::.....::....::::::::::.....::..|
+  aspect: 0.15 low, 0.23 vacuum
+  ✓  16 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:69:1 › additive bloom survives a real WebGL context restoration @mobile (2.8s)
+  ✘   3 [chromium] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (1.4m)
+[plume-frozen] pixel-portrait step 540: {"extent":{"found":true,"left":491,"right":601,"top":732,"bottom":1232,"widthPx":111,"heightPx":501,"spanPx":501,"count":9044,"bandWidthPx":76},"repeat":{"found":true,"left":491,"right":601,"top":732,"bottom":1232,"widthPx":111,"heightPx":501,"spanPx":501,"count":9044,"bandWidthPx":76}}
+(node:10479) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume-frozen] pixel-portrait step 572: {"extent":{"found":true,"left":489,"right":594,"top":737,"bottom":1089,"widthPx":106,"heightPx":353,"spanPx":353,"count":9426,"bandWidthPx":84},"repeat":{"found":true,"left":489,"right":594,"top":737,"bottom":1089,"widthPx":106,"heightPx":353,"spanPx":353,"count":9426,"bandWidthPx":84}}
+[plume-frozen] pixel-portrait step 591: {"extent":{"found":true,"left":485,"right":603,"top":738,"bottom":1306,"widthPx":119,"heightPx":569,"spanPx":569,"count":9132,"bandWidthPx":78},"repeat":{"found":true,"left":485,"right":603,"top":738,"bottom":1306,"widthPx":119,"heightPx":569,"spanPx":569,"count":9132,"bandWidthPx":78}}
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 3.19 long, 0.52 across (spans 2.91/3.19/2.25/3.62, widths 0.52/0.48/0.54/0.50, steps 496/540/572/591; 0/4 anchored to the region edge; throttle 100/100/100/100; (479,740)-(593,1196)n9106 (491,732)-(601,1232)n9044 (489,737)-(594,1089)n9426 (485,738)-(603,1306)n9132)
+[plume-frozen] pixel-landscape step 390: {"extent":{"found":true,"left":1096,"right":1177,"top":504,"bottom":807,"widthPx":82,"heightPx":304,"spanPx":304,"count":4972,"bandWidthPx":60},"repeat":{"found":true,"left":1096,"right":1177,"top":504,"bottom":807,"widthPx":82,"heightPx":304,"spanPx":304,"count":4972,"bandWidthPx":60}}
+[plume-frozen] pixel-landscape step 390: {"extent":{"found":true,"left":1095,"right":1173,"top":508,"bottom":810,"widthPx":79,"heightPx":303,"spanPx":303,"count":4900,"bandWidthPx":58},"repeat":{"found":true,"left":1095,"right":1173,"top":508,"bottom":810,"widthPx":79,"heightPx":303,"spanPx":303,"count":4900,"bandWidthPx":58}}
+[plume-frozen] pixel-portrait step 490: {"extent":{"found":true,"left":518,"right":587,"top":727,"bottom":826,"widthPx":70,"heightPx":100,"spanPx":100,"count":1202,"bandWidthPx":43},"repeat":{"found":true,"left":518,"right":587,"top":727,"bottom":826,"widthPx":70,"heightPx":100,"spanPx":100,"count":1202,"bandWidthPx":43}}
+[plume-frozen] pixel-landscape step 420: {"extent":{"found":true,"left":1096,"right":1174,"top":505,"bottom":796,"widthPx":79,"heightPx":292,"spanPx":292,"count":4976,"bandWidthPx":53},"repeat":{"found":true,"left":1096,"right":1174,"top":505,"bottom":796,"widthPx":79,"heightPx":292,"spanPx":292,"count":4976,"bandWidthPx":53}}
+[plume-frozen] pixel-landscape step 420: {"extent":{"found":true,"left":1098,"right":1177,"top":501,"bottom":776,"widthPx":80,"heightPx":276,"spanPx":276,"count":5058,"bandWidthPx":62},"repeat":{"found":true,"left":1098,"right":1177,"top":501,"bottom":776,"widthPx":80,"heightPx":276,"spanPx":276,"count":5058,"bandWidthPx":62}}
+[plume-frozen] pixel-portrait step 522: {"extent":{"found":true,"left":524,"right":571,"top":732,"bottom":826,"widthPx":48,"heightPx":95,"spanPx":95,"count":1082,"bandWidthPx":39},"repeat":{"found":true,"left":524,"right":571,"top":732,"bottom":826,"widthPx":48,"heightPx":95,"spanPx":95,"count":1082,"bandWidthPx":39}}
+[plume-frozen] pixel-portrait step 550: {"extent":{"found":true,"left":522,"right":592,"top":724,"bottom":810,"widthPx":71,"heightPx":87,"spanPx":87,"count":1070,"bandWidthPx":42},"repeat":{"found":true,"left":522,"right":592,"top":724,"bottom":810,"widthPx":71,"heightPx":87,"spanPx":87,"count":1070,"bandWidthPx":42}}
+[plume-frozen] pixel-landscape step 450: {"extent":{"found":true,"left":1088,"right":1162,"top":499,"bottom":705,"widthPx":75,"heightPx":207,"spanPx":207,"count":5093,"bandWidthPx":57},"repeat":{"found":true,"left":1088,"right":1162,"top":499,"bottom":705,"widthPx":75,"heightPx":207,"spanPx":207,"count":5093,"bandWidthPx":57}}
+[plume-frozen] pixel-portrait step 582: {"extent":{"found":true,"left":527,"right":568,"top":733,"bottom":826,"widthPx":42,"heightPx":94,"spanPx":94,"count":948,"bandWidthPx":42},"repeat":{"found":true,"left":527,"right":568,"top":733,"bottom":826,"widthPx":42,"heightPx":94,"spanPx":94,"count":948,"bandWidthPx":42}}
+[plume-frozen] pixel-landscape step 450: {"extent":{"found":true,"left":1088,"right":1165,"top":498,"bottom":700,"widthPx":78,"heightPx":203,"spanPx":203,"count":5207,"bandWidthPx":58},"repeat":{"found":true,"left":1088,"right":1165,"top":498,"bottom":700,"widthPx":78,"heightPx":203,"spanPx":203,"count":5207,"bandWidthPx":58}}
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 1.33 long, 0.59 across (spans 1.40/1.33/1.22/1.32, widths 0.60/0.55/0.59/0.59, steps 490/522/550/582; 0/4 anchored to the region edge; throttle 100/100/100/100; (518,727)-(587,826)n1202 (524,732)-(571,826)n1082 (522,724)-(592,810)n1070 (527,733)-(568,826)n948)
+low: 3.19 long, 0.52 across · vacuum: 1.33 long, 0.59 across
+frame 1082x1425 @2.63x  altitude 120000 m  vehicle 71 px
+  below      mean   49.2  spread  24.59  tones  8  bright 0.010  dark 0.925  warm 0.0103  top #332222:0.42 #222222:0.32 #333322:0.06 #222211:0.06 #111122:0.03
+  EXT plume    found true  span 94px (42x94)  band 42px  n 948  box (527,733)-(568,826)  = 1.32 vehicle heights
+  |                                            |
+  |                                            |
+  | ++              -                 =  =:    |
+  |    =                   =                   |
+  |   +=                      -                |
+  |   -              +-        -   --          |
+  |==                              ::          |
+  |  =  +                                -     |
+  |                     .+          -   =      |
+  |                           .-     -    -    |
+  |.-..................#@%#....................|
+  |--.....-............#@@@....................|
+  |*********************@%*********@***********|
+  |.....................#+.....................|
+  |.....................=+.....................|
+  |.....................=-:....................|
+  |.....................--:....................|
+  |::...................:::...........:::::::::|
+  |::::...........................:::::::::::::|
+  |:::...........................::::::::::::::|
+  |:::....................................:::::|
+  |....................:::::...................|
+  aspect: 0.16 low, 0.44 vacuum
+  ✘  10 [pixel-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (1.7m)
+(node:10601) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  19 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:32:1 › local bloom footprint is independent of canvas dimensions @mobile (3.2s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  20 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:43:1 › bloom adds light without darkening additive exhaust @mobile (1.6s)
+[plume-frozen] pixel-landscape step 480: {"extent":{"found":true,"left":1104,"right":1177,"top":492,"bottom":770,"widthPx":74,"heightPx":279,"spanPx":279,"count":5087,"bandWidthPx":52},"repeat":{"found":true,"left":1104,"right":1177,"top":492,"bottom":770,"widthPx":74,"heightPx":279,"spanPx":279,"count":5087,"bandWidthPx":52}}
+[plume-frozen] pixel-landscape step 480: {"extent":{"found":true,"left":1097,"right":1176,"top":495,"bottom":773,"widthPx":80,"heightPx":279,"spanPx":279,"count":5026,"bandWidthPx":50},"repeat":{"found":true,"left":1097,"right":1176,"top":495,"bottom":773,"widthPx":80,"heightPx":279,"spanPx":279,"count":5026,"bandWidthPx":50}}
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 2.41 long, 0.50 across (spans 2.62/2.39/1.79/2.41, widths 0.50/0.54/0.49/0.45, steps 390/420/450/480; 0/4 anchored to the region edge; throttle 100/100/100/100; (1095,508)-(1173,810)n4900 (1098,501)-(1177,776)n5058 (1088,499)-(1162,705)n5093 (1104,492)-(1177,770)n5087)
+  ✓  21 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:52:1 › bloom preserves normal smoke occlusion @mobile (1.8s)
+[plume] pixel-landscape · the plume is longer than the ship at low altitude @mobile: 2.53 long, 0.50 across (spans 2.63/2.53/1.76/2.41, widths 0.52/0.46/0.50/0.43, steps 390/420/450/480; 0/4 anchored to the region edge; throttle 100/100/100/100; (1096,504)-(1177,807)n4972 (1096,505)-(1174,796)n4976 (1088,498)-(1165,700)n5207 (1097,495)-(1176,773)n5026)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  22 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed fire-then-smoke compositing @mobile (1.8s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  23 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed smoke-then-fire compositing @mobile (2.1s)
+  ✓  18 [pixel-landscape] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (1.4m)
+(node:10622) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  24 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:69:1 › additive bloom survives a real WebGL context restoration @mobile (2.0s)
+(node:10629) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume-frozen] pixel-landscape step 493: {"extent":{"found":true,"left":1105,"right":1151,"top":481,"bottom":546,"widthPx":47,"heightPx":66,"spanPx":66,"count":514,"bandWidthPx":25},"repeat":{"found":true,"left":1105,"right":1151,"top":481,"bottom":546,"widthPx":47,"heightPx":66,"spanPx":66,"count":514,"bandWidthPx":25}}
+[plume-frozen] pixel-landscape step 536: {"extent":{"found":true,"left":1119,"right":1161,"top":481,"bottom":547,"widthPx":43,"heightPx":67,"spanPx":67,"count":565,"bandWidthPx":21},"repeat":{"found":true,"left":1119,"right":1161,"top":481,"bottom":547,"widthPx":43,"heightPx":67,"spanPx":67,"count":565,"bandWidthPx":21}}
+[plume-frozen] iphone-portrait step 512: {"extent":{"found":true,"left":540,"right":633,"top":576,"bottom":838,"widthPx":94,"heightPx":263,"spanPx":263,"count":6584,"bandWidthPx":57},"repeat":{"found":true,"left":540,"right":633,"top":576,"bottom":838,"widthPx":94,"heightPx":263,"spanPx":263,"count":6584,"bandWidthPx":57}}
+[plume-frozen] iphone-portrait step 492: {"extent":{"found":true,"left":535,"right":632,"top":580,"bottom":923,"widthPx":98,"heightPx":344,"spanPx":344,"count":6780,"bandWidthPx":65},"repeat":{"found":true,"left":535,"right":632,"top":580,"bottom":923,"widthPx":98,"heightPx":344,"spanPx":344,"count":6780,"bandWidthPx":65}}
+[plume-frozen] pixel-landscape step 576: {"extent":{"found":true,"left":1121,"right":1156,"top":483,"bottom":546,"widthPx":36,"heightPx":64,"spanPx":64,"count":617,"bandWidthPx":32},"repeat":{"found":true,"left":1121,"right":1156,"top":483,"bottom":546,"widthPx":36,"heightPx":64,"spanPx":64,"count":617,"bandWidthPx":32}}
+[plume-frozen] iphone-portrait step 552: {"extent":{"found":true,"left":542,"right":627,"top":573,"bottom":833,"widthPx":86,"heightPx":261,"spanPx":261,"count":5881,"bandWidthPx":59},"repeat":{"found":true,"left":542,"right":627,"top":573,"bottom":833,"widthPx":86,"heightPx":261,"spanPx":261,"count":5881,"bandWidthPx":59}}
+[plume-frozen] iphone-portrait step 526: {"extent":{"found":true,"left":538,"right":632,"top":569,"bottom":896,"widthPx":95,"heightPx":328,"spanPx":328,"count":6470,"bandWidthPx":65},"repeat":{"found":true,"left":538,"right":632,"top":569,"bottom":896,"widthPx":95,"heightPx":328,"spanPx":328,"count":6470,"bandWidthPx":65}}
+[plume-frozen] pixel-landscape step 608: {"extent":{"found":true,"left":1116,"right":1168,"top":480,"bottom":547,"widthPx":53,"heightPx":68,"spanPx":68,"count":425,"bandWidthPx":26},"repeat":{"found":true,"left":1116,"right":1168,"top":480,"bottom":547,"widthPx":53,"heightPx":68,"spanPx":68,"count":425,"bandWidthPx":26}}
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 1.28 long, 0.50 across (spans 1.26/1.28/1.22/1.30, widths 0.48/0.40/0.61/0.50, steps 493/536/576/608; 0/4 anchored to the region edge; throttle 100/100/100/100; (1105,481)-(1151,546)n514 (1119,481)-(1161,547)n565 (1121,483)-(1156,546)n617 (1116,480)-(1168,547)n425)
+low: 2.41 long, 0.50 across · vacuum: 1.28 long, 0.50 across
+frame 2265x945 @2.62x  altitude 120000 m  vehicle 53 px
+  below      mean   48.2  spread  18.33  tones  6  bright 0.003  dark 0.942  warm 0.0043  top #332222:0.66 #222222:0.16 #111122:0.04 #333322:0.03 #222211:0.02
+  EXT plume    found true  span 68px (53x68)  band 26px  n 425  box (1116,480)-(1168,547)  = 1.30 vehicle heights
+  |          -  -                    --        |
+  |                                            |
+  |               +    - .   ==   #            |
+  |            =   =     =        # -          |
+  |            =   +      -                    |
+  |                -   ++  --    =   -         |
+  |               =.       .-     +   -        |
+  |       +   - = =+          -  * =           |
+  |         = .         -+  -==    =           |
+  |        -    -       ##-:---    -           |
+  |..........:....-.....%%.....................|
+  |.........==....-.-...@@............:........|
+  |-==++***##***********#@**@*****%*******++==-|
+  |********:............**............:********|
+  |.....................=+.....................|
+  |.....................=-.....................|
+  |.....................:-.....................|
+  |.....................-:.....................|
+  |.....................::.....................|
+  |............................................|
+  |............................................|
+  |...::::::.........................::::::....|
+  aspect: 0.21 low, 0.39 vacuum
+[plume-frozen] iphone-portrait step 586: {"extent":{"found":true,"left":541,"right":638,"top":573,"bottom":898,"widthPx":98,"heightPx":326,"spanPx":326,"count":6630,"bandWidthPx":68},"repeat":{"found":true,"left":541,"right":638,"top":573,"bottom":898,"widthPx":98,"heightPx":326,"spanPx":326,"count":6630,"bandWidthPx":68}}
+  ✘  17 [pixel-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (2.0m)
+(node:10643) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume-frozen] iphone-portrait step 558: {"extent":{"found":true,"left":545,"right":635,"top":567,"bottom":866,"widthPx":91,"heightPx":300,"spanPx":300,"count":6709,"bandWidthPx":67},"repeat":{"found":true,"left":545,"right":635,"top":567,"bottom":866,"widthPx":91,"heightPx":300,"spanPx":300,"count":6709,"bandWidthPx":67}}
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  27 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:32:1 › local bloom footprint is independent of canvas dimensions @mobile (3.1s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+[plume-frozen] iphone-portrait step 612: {"extent":{"found":true,"left":542,"right":637,"top":576,"bottom":884,"widthPx":96,"heightPx":309,"spanPx":309,"count":6989,"bandWidthPx":57},"repeat":{"found":true,"left":542,"right":637,"top":576,"bottom":884,"widthPx":96,"heightPx":309,"spanPx":309,"count":6989,"bandWidthPx":57}}
+  ✓  28 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:43:1 › bloom adds light without darkening additive exhaust @mobile (2.0s)
+[plume] iphone-portrait · the plume is longer than the ship at low altitude @mobile: 2.34 long, 0.45 across (spans 1.99/1.98/2.47/2.34, widths 0.43/0.45/0.51/0.43, steps 512/552/586/612; 0/4 anchored to the region edge; throttle 100/100/100/100; (540,576)-(633,838)n6584 (542,573)-(627,833)n5881 (541,573)-(638,898)n6630 (542,576)-(637,884)n6989)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  29 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:52:1 › bloom preserves normal smoke occlusion @mobile (1.4s)
+[plume-frozen] iphone-portrait step 598: {"extent":{"found":true,"left":542,"right":630,"top":565,"bottom":755,"widthPx":89,"heightPx":191,"spanPx":191,"count":6880,"bandWidthPx":71},"repeat":{"found":true,"left":542,"right":630,"top":565,"bottom":755,"widthPx":89,"heightPx":191,"spanPx":191,"count":6880,"bandWidthPx":71}}
+  ✓  25 [iphone-portrait] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (46.7s)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 2.48 long, 0.51 across (spans 2.60/2.48/2.27/1.45, widths 0.49/0.49/0.51/0.54, steps 492/526/558/598; 0/4 anchored to the region edge; throttle 100/100/100/100; (535,580)-(632,923)n6780 (538,569)-(632,896)n6470 (545,567)-(635,866)n6709 (542,565)-(630,755)n6880)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  30 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed fire-then-smoke compositing @mobile (2.1s)
+(node:10661) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  31 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed smoke-then-fire compositing @mobile (1.7s)
+  ✓  33 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:69:1 › additive bloom survives a real WebGL context restoration @mobile (1.7s)
+(node:10667) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume-frozen] iphone-portrait step 512: {"extent":{"found":true,"left":563,"right":611,"top":561,"bottom":619,"widthPx":49,"heightPx":59,"spanPx":59,"count":870,"bandWidthPx":32},"repeat":{"found":true,"left":563,"right":611,"top":561,"bottom":619,"widthPx":49,"heightPx":59,"spanPx":59,"count":870,"bandWidthPx":32}}
+[plume-frozen] iphone-portrait step 554: {"extent":{"found":true,"left":559,"right":607,"top":562,"bottom":603,"widthPx":49,"heightPx":42,"spanPx":49,"count":649,"bandWidthPx":40},"repeat":{"found":true,"left":559,"right":607,"top":562,"bottom":603,"widthPx":49,"heightPx":42,"spanPx":49,"count":649,"bandWidthPx":40}}
+[plume-frozen] iphone-portrait step 594: {"extent":{"found":true,"left":573,"right":618,"top":563,"bottom":632,"widthPx":46,"heightPx":70,"spanPx":70,"count":689,"bandWidthPx":42},"repeat":{"found":true,"left":573,"right":618,"top":563,"bottom":632,"widthPx":46,"heightPx":70,"spanPx":70,"count":689,"bandWidthPx":42}}
+[plume-frozen] iphone-landscape step 486: {"extent":{"found":true,"left":1074,"right":1167,"top":530,"bottom":895,"widthPx":94,"heightPx":366,"spanPx":366,"count":6280,"bandWidthPx":65},"repeat":{"found":true,"left":1074,"right":1167,"top":530,"bottom":895,"widthPx":94,"heightPx":366,"spanPx":366,"count":6280,"bandWidthPx":65}}
+[plume-frozen] iphone-portrait step 638: {"extent":{"found":true,"left":561,"right":610,"top":565,"bottom":637,"widthPx":50,"heightPx":73,"spanPx":73,"count":643,"bandWidthPx":33},"repeat":{"found":true,"left":561,"right":610,"top":565,"bottom":637,"widthPx":50,"heightPx":73,"spanPx":73,"count":643,"bandWidthPx":33}}
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 1.17 long, 0.67 across (spans 0.98/0.82/1.17/1.22, widths 0.53/0.67/0.70/0.55, steps 512/554/594/638; 0/4 anchored to the region edge; throttle 100/100/100/100; (563,561)-(611,619)n870 (559,562)-(607,603)n649 (573,563)-(618,632)n689 (561,565)-(610,637)n643)
+low: 2.48 long, 0.51 across · vacuum: 1.17 long, 0.67 across
+frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   47.7  spread  23.34  tones  7  bright 0.010  dark 0.929  warm 0.0089  top #332222:0.37 #222222:0.36 #222211:0.11 #111122:0.03 #333322:0.02
+  EXT plume    found true  span 73px (50x73)  band 33px  n 643  box (561,565)-(610,637)  = 1.22 vehicle heights
+  |   -                                        |
+  |                                            |
+  |       +          -:   :       = ==        #|
+  |         =             =                   #|
+  |        ++               -.                 |
+  |        -          +-     -  -.         ==  |
+  |      ==                     -.           .+|
+  |  ==   == +                      -      *   |
+  |                     -+      --  =          |
+  |  --                 =    -   --  -         |
+  |.......-............#@%#....................|
+  |......--...-........*@@#....................|
+  |********************#%@******@*************#|
+  |=:...................==...................-=|
+  |.....................==.....................|
+  |.....................-=.....................|
+  |.....................--.....................|
+  |.....................:::....................|
+  |::...................:......................|
+  |:::.....................................::::|
+  |:::::::.............................::::::::|
+  |:::::::...........................::::::::::|
+  aspect: 0.20 low, 0.57 vacuum
+  ✓  26 [iphone-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (1.2m)
+(node:10682) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume-frozen] iphone-landscape step 504: {"extent":{"found":true,"left":1087,"right":1175,"top":531,"bottom":791,"widthPx":89,"heightPx":261,"spanPx":261,"count":6368,"bandWidthPx":57},"repeat":{"found":true,"left":1087,"right":1175,"top":531,"bottom":791,"widthPx":89,"heightPx":261,"spanPx":261,"count":6368,"bandWidthPx":57}}
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  35 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:32:1 › local bloom footprint is independent of canvas dimensions @mobile (3.4s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  36 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:43:1 › bloom adds light without darkening additive exhaust @mobile (1.8s)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  37 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:52:1 › bloom preserves normal smoke occlusion @mobile (1.7s)
+[plume-frozen] iphone-landscape step 516: {"extent":{"found":true,"left":1087,"right":1166,"top":531,"bottom":907,"widthPx":80,"heightPx":377,"spanPx":377,"count":6487,"bandWidthPx":59},"repeat":{"found":true,"left":1087,"right":1166,"top":531,"bottom":907,"widthPx":80,"heightPx":377,"spanPx":377,"count":6487,"bandWidthPx":59}}
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  38 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed fire-then-smoke compositing @mobile (2.3s)
+[plume-frozen] iphone-landscape step 548: {"extent":{"found":true,"left":1085,"right":1169,"top":528,"bottom":848,"widthPx":85,"heightPx":321,"spanPx":321,"count":5616,"bandWidthPx":56},"repeat":{"found":true,"left":1085,"right":1169,"top":528,"bottom":848,"widthPx":85,"heightPx":321,"spanPx":321,"count":5616,"bandWidthPx":56}}
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  39 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed smoke-then-fire compositing @mobile (2.1s)
+  ✓  40 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:69:1 › additive bloom survives a real WebGL context restoration @mobile (2.4s)
+[plume-frozen] iphone-landscape step 542: {"extent":{"found":true,"left":1085,"right":1167,"top":528,"bottom":828,"widthPx":83,"heightPx":301,"spanPx":301,"count":5438,"bandWidthPx":58},"repeat":{"found":true,"left":1085,"right":1167,"top":528,"bottom":828,"widthPx":83,"heightPx":301,"spanPx":301,"count":5438,"bandWidthPx":58}}
+[plume-frozen] iphone-landscape step 576: {"extent":{"found":true,"left":1081,"right":1172,"top":533,"bottom":789,"widthPx":92,"heightPx":257,"spanPx":257,"count":6129,"bandWidthPx":74},"repeat":{"found":true,"left":1081,"right":1172,"top":533,"bottom":789,"widthPx":92,"heightPx":257,"spanPx":257,"count":6129,"bandWidthPx":74}}
+[plume-frozen] iphone-landscape step 578: {"extent":{"found":true,"left":1083,"right":1173,"top":530,"bottom":782,"widthPx":91,"heightPx":253,"spanPx":253,"count":6144,"bandWidthPx":63},"repeat":{"found":true,"left":1083,"right":1173,"top":530,"bottom":782,"widthPx":91,"heightPx":253,"spanPx":253,"count":6144,"bandWidthPx":63}}
+[plume] iphone-landscape · the plume is longer than the ship at low altitude @mobile: 2.77 long, 0.48 across (spans 2.77/2.85/2.28/1.91, widths 0.49/0.45/0.44/0.48, steps 486/516/542/578; 0/4 anchored to the region edge; throttle 100/100/100/100; (1074,530)-(1167,895)n6280 (1087,531)-(1166,907)n6487 (1085,528)-(1167,828)n5438 (1083,530)-(1173,782)n6144)
+  ✓  32 [iphone-landscape] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (57.1s)
+[plume-frozen] iphone-landscape step 598: {"extent":{"found":true,"left":1077,"right":1175,"top":533,"bottom":803,"widthPx":99,"heightPx":271,"spanPx":271,"count":6361,"bandWidthPx":60},"repeat":{"found":true,"left":1077,"right":1175,"top":533,"bottom":803,"widthPx":99,"heightPx":271,"spanPx":271,"count":6361,"bandWidthPx":60}}
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 2.05 long, 0.45 across (spans 1.98/2.43/1.94/2.05, widths 0.43/0.42/0.56/0.45, steps 504/548/576/598; 0/4 anchored to the region edge; throttle 100/100/100/100; (1087,531)-(1175,791)n6368 (1085,528)-(1169,848)n5616 (1081,533)-(1172,789)n6129 (1077,533)-(1175,803)n6361)
+[plume-frozen] iphone-landscape step 364: {"extent":{"found":true,"left":1104,"right":1151,"top":534,"bottom":603,"widthPx":48,"heightPx":70,"spanPx":70,"count":1219,"bandWidthPx":41},"repeat":{"found":true,"left":1104,"right":1151,"top":534,"bottom":603,"widthPx":48,"heightPx":70,"spanPx":70,"count":1219,"bandWidthPx":41}}
+[plume-frozen] iphone-landscape step 402: {"extent":{"found":true,"left":1093,"right":1152,"top":529,"bottom":593,"widthPx":60,"heightPx":65,"spanPx":65,"count":1260,"bandWidthPx":31},"repeat":{"found":true,"left":1093,"right":1152,"top":529,"bottom":593,"widthPx":60,"heightPx":65,"spanPx":65,"count":1260,"bandWidthPx":31}}
+[plume-frozen] iphone-landscape step 442: {"extent":{"found":true,"left":1080,"right":1142,"top":525,"bottom":590,"widthPx":63,"heightPx":66,"spanPx":66,"count":800,"bandWidthPx":28},"repeat":{"found":true,"left":1080,"right":1142,"top":525,"bottom":590,"widthPx":63,"heightPx":66,"spanPx":66,"count":800,"bandWidthPx":28}}
+[plume-frozen] iphone-landscape step 482: {"extent":{"found":true,"left":1111,"right":1156,"top":522,"bottom":604,"widthPx":46,"heightPx":83,"spanPx":83,"count":802,"bandWidthPx":42},"repeat":{"found":true,"left":1111,"right":1156,"top":522,"bottom":604,"widthPx":46,"heightPx":83,"spanPx":83,"count":802,"bandWidthPx":42}}
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 1.17 long, 0.68 across (spans 1.17/1.08/1.10/1.38, widths 0.68/0.52/0.47/0.70, steps 364/402/442/482; 0/4 anchored to the region edge; throttle 100/100/100/100; (1104,534)-(1151,603)n1219 (1093,529)-(1152,593)n1260 (1080,525)-(1142,590)n800 (1111,522)-(1156,604)n802)
+low: 2.05 long, 0.45 across · vacuum: 1.17 long, 0.68 across
+frame 2250x1020 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   48.6  spread  20.39  tones  4  bright 0.006  dark 0.939  warm 0.0043  top #332222:0.60 #222222:0.18 #333322:0.07 #111122:0.04 #112222:0.02
+  EXT plume    found true  span 83px (46x83)  band 42px  n 802  box (1111,522)-(1156,604)  = 1.38 vehicle heights
+  |         -  --                      -       |
+  |                                            |
+  |              .+    - -   ==    #           |
+  |           =   ==     =         #.-         |
+  |           =   +=      -                    |
+  |               -    +-  --     =   -        |
+  |              =          -      +   -       |
+  |      +   - =  =+          -  ** =          |
+  |        = :          -+  - =     =          |
+  |       -    --       ## - -.-    -          |
+  |.........-....--.....@%...:.................|
+  |........=-....-..-...@@.............-.......|
+  |==+++**#*************%@**@******%******+++==|
+  |*******+............:=%:............+*******|
+  |.....................-=.....................|
+  |.....................=+.....................|
+  |.....................-=.....................|
+  |.....................:-.....................|
+  |.....................::.....................|
+  |............................................|
+  |............................................|
+  |.......:::::::::...........................:|
+  aspect: 0.22 low, 0.59 vacuum
+  ✓  34 [iphone-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (1.2m)
+
+
+  1) [chromium] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile ─
+
+    Error: low: 3.28 long, 0.50 across · vacuum: 2.25 long, 0.53 across
+    frame 1280x720 @1.00x  altitude 120000 m  vehicle 36 px
+      below      mean   48.9  spread  19.49  tones  6  bright 0.004  dark 0.943  warm 0.0037  top #332222:0.54 #222222:0.18 #333322:0.13 #111122:0.04 #222211:0.02
+      EXT plume    found true  span 109px (24x109)  band 19px  n 261  box (631,368)-(654,476)  = 3.03 vehicle heights
+      |      :   -                            -    |
+      |                                            |
+      |             +      -      = =    #         |
+      |        :     .       ==            --      |
+      |        =     +         -                   |
+      |              -     +-  : -      =    -     |
+      |            ==            .       +     -   |
+      |  +    -  =  =++            -    * ==       |
+      |    =                 +   - =      ==       |
+      |   -      -             -  - -      -       |
+      |.............-.......@@.....................|
+      |.....=-......-.-:....@@.....................|
+      |++*******************@@#**@*******%*******++|
+      |******...............%@...............******|
+      |.....................##.....................|
+      |.....................=*.....................|
+      |.....................==.....................|
+      |.....................:-.....................|
+      |..:::::::::::........::.::::::::::..........|
+      |.:::::::::::::........:::::::::::::........:|
+      |.:::::::::::::........:::::::::::::........:|
+      |....::::::::::.....::....::::::::::.....::..|
+      aspect: 0.15 low, 0.23 vacuum
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.6053726563686164
+    Received:   0.5277777777777778
+
+      343 |     `${(vacuum.width / vacuum.span).toFixed(2)} vacuum`;
+      344 |   console.log(shape);
+    > 345 |   expect(vacuum.width, shape).toBeGreaterThan(low.width * 1.2);
+          |                               ^
+      346 |   expect(vacuum.width, shape).toBeGreaterThan(0.2);
+      347 | });
+      348 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/plume.spec.ts:345:31
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-chromium/error-context.md
+
+  2) [pixel-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+
+    Error: low: 3.19 long, 0.52 across · vacuum: 1.33 long, 0.59 across
+    frame 1082x1425 @2.63x  altitude 120000 m  vehicle 71 px
+      below      mean   49.2  spread  24.59  tones  8  bright 0.010  dark 0.925  warm 0.0103  top #332222:0.42 #222222:0.32 #333322:0.06 #222211:0.06 #111122:0.03
+      EXT plume    found true  span 94px (42x94)  band 42px  n 948  box (527,733)-(568,826)  = 1.32 vehicle heights
+      |                                            |
+      |                                            |
+      | ++              -                 =  =:    |
+      |    =                   =                   |
+      |   +=                      -                |
+      |   -              +-        -   --          |
+      |==                              ::          |
+      |  =  +                                -     |
+      |                     .+          -   =      |
+      |                           .-     -    -    |
+      |.-..................#@%#....................|
+      |--.....-............#@@@....................|
+      |*********************@%*********@***********|
+      |.....................#+.....................|
+      |.....................=+.....................|
+      |.....................=-:....................|
+      |.....................--:....................|
+      |::...................:::...........:::::::::|
+      |::::...........................:::::::::::::|
+      |:::...........................::::::::::::::|
+      |:::....................................:::::|
+      |....................:::::...................|
+      aspect: 0.16 low, 0.44 vacuum
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.6192288576588213
+    Received:   0.5893186003683241
+
+      343 |     `${(vacuum.width / vacuum.span).toFixed(2)} vacuum`;
+      344 |   console.log(shape);
+    > 345 |   expect(vacuum.width, shape).toBeGreaterThan(low.width * 1.2);
+          |                               ^
+      346 |   expect(vacuum.width, shape).toBeGreaterThan(0.2);
+      347 | });
+      348 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/plume.spec.ts:345:31
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-pixel-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-pixel-portrait/error-context.md
+
+  3) [pixel-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+
+    Error: low: 2.41 long, 0.50 across · vacuum: 1.28 long, 0.50 across
+    frame 2265x945 @2.62x  altitude 120000 m  vehicle 53 px
+      below      mean   48.2  spread  18.33  tones  6  bright 0.003  dark 0.942  warm 0.0043  top #332222:0.66 #222222:0.16 #111122:0.04 #333322:0.03 #222211:0.02
+      EXT plume    found true  span 68px (53x68)  band 26px  n 425  box (1116,480)-(1168,547)  = 1.30 vehicle heights
+      |          -  -                    --        |
+      |                                            |
+      |               +    - .   ==   #            |
+      |            =   =     =        # -          |
+      |            =   +      -                    |
+      |                -   ++  --    =   -         |
+      |               =.       .-     +   -        |
+      |       +   - = =+          -  * =           |
+      |         = .         -+  -==    =           |
+      |        -    -       ##-:---    -           |
+      |..........:....-.....%%.....................|
+      |.........==....-.-...@@............:........|
+      |-==++***##***********#@**@*****%*******++==-|
+      |********:............**............:********|
+      |.....................=+.....................|
+      |.....................=-.....................|
+      |.....................:-.....................|
+      |.....................-:.....................|
+      |.....................::.....................|
+      |............................................|
+      |............................................|
+      |...::::::.........................::::::....|
+      aspect: 0.21 low, 0.39 vacuum
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.60191338404651
+    Received:   0.49523809523809526
+
+      343 |     `${(vacuum.width / vacuum.span).toFixed(2)} vacuum`;
+      344 |   console.log(shape);
+    > 345 |   expect(vacuum.width, shape).toBeGreaterThan(low.width * 1.2);
+          |                               ^
+      346 |   expect(vacuum.width, shape).toBeGreaterThan(0.2);
+      347 | });
+      348 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/plume.spec.ts:345:31
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-pixel-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-pixel-landscape/error-context.md
+
+  3 failed
+    [chromium] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile ──
+    [pixel-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+    [pixel-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+  37 passed (4.9m)

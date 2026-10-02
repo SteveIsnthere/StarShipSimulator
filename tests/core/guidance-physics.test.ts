@@ -149,7 +149,7 @@ describe('landingBurnStartAltitude: the edges', () => {
   it('returns null, within the cap, when the burn cannot stop the vehicle', () => {
     // One engine cannot hold up a full-tanked vehicle at all.
     expect(landingBurnStartAltitude(1, C.vehicleMass, 300, 25, createBurnScratch())).toBeNull();
-    // Nor can three stop 4 km/s inside the step cap (60 s).
+    // The approved broadside fallback restores this force-only cap premise.
     expect(landingBurnStartAltitude(3, 200_000, 4_000, 25, createBurnScratch())).toBeNull();
     expect(BURN_STEP_CAP).toBe(1200);
   });
@@ -220,6 +220,40 @@ describe('landingBurnStartAltitude: the edges', () => {
 });
 
 describe('unpoweredFallInto against the simulation, attitude held', () => {
+  it.each([-100, 100])('agrees within a metre over a controlled lifting fall at vx=%i', (vx) => {
+    let s = at(10_000, vx, -60);
+    s.engines.running.fill(false);
+    s.world.wind = 0;
+    const pitch = rad(vx > 0 ? Math.PI / 3 : 2 * Math.PI / 3);
+    s.kinematics.pitch = pitch;
+    s.status.finActive = false;
+    s.status.finLocked = true;
+    s.vehicle.frontFinExtension = s.vehicle.aftFinExtension = 0;
+    // Initialise the same fixed geometry the predictor will hold.
+    s = step(s, DT);
+    const ground = 9_500;
+    const predicted = createFallResult();
+    unpoweredFallInto(s, ground, createBurnScratch(), predicted);
+    const x0 = s.kinematics.downRangeDistance;
+    let actual = Number.NaN;
+    for (let i = 0; i < 120 * 60; i++) {
+      s.kinematics.pitch = pitch;
+      s.kinematics.angularVelocity = 0;
+      const before = s;
+      s = step(s, DT);
+      if (s.kinematics.altitude <= ground) {
+        const fraction = (before.kinematics.altitude - ground) /
+          (before.kinematics.altitude - s.kinematics.altitude);
+        actual = before.kinematics.downRangeDistance - x0 + fraction *
+          (s.kinematics.downRangeDistance - before.kinematics.downRangeDistance);
+        break;
+      }
+    }
+    expect(predicted.reached).toBe(true);
+    expect(Number.isFinite(actual)).toBe(true);
+    expect(Math.abs(predicted.downRange - actual)).toBeLessThan(1);
+  });
+
   /**
    * The reference: engines off, autopilot off, attitude held, flown by `step()`
    * to touchdown height. The prediction holds attitude AND cross-section; the

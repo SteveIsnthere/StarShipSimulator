@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+
+ Test Files  4 passed (4)
+      Tests  43 passed (43)
+   Start at  23:30:34
+   Duration  5.40s (transform 259ms, setup 0ms, import 398ms, tests 9.26s, environment 0ms)
+

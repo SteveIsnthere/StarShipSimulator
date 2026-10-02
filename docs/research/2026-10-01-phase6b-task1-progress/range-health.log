@@ -1,0 +1,65 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/deorbit-range.test.ts (6 tests | 4 failed) 4237ms
+     × within 1 km of the pad 1ms
+     × engine 0 out 1387ms
+     × engine 1 out 1427ms
+     × engine 2 out 1419ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/deorbit-range.test.ts > the deorbit aim matches the autoLand it aims for > within 1 km of the pad
+AssertionError: missed by -2.20 km; re-derive with npm run deorbit:range: expected 2197.357661768794 to be less than 1000
+ ❯ tests/core/deorbit-range.test.ts:22:114
+     20|
+     21|   it('within 1 km of the pad', () => {
+     22|     expect(Math.abs(m.miss), `missed by ${(m.miss / 1000).toFixed(2)} …
+       |                                                                                                                  ^
+     23|   });
+     24| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/core/deorbit-range.test.ts > an engine out on the deorbit still lands, with the reserve doing its job > engine 0 out
+AssertionError: 1.915 t left: expected 1.914846213785798 to be greater than 2.25
+ ❯ tests/core/deorbit-range.test.ts:40:63
+     38|     });
+     39|     expect(m.outcome).toBe('landed');
+     40|     expect(m.propellant, `${m.propellant.toFixed(3)} t left`).toBeGrea…
+       |                                                               ^
+     41|   });
+     42|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/core/deorbit-range.test.ts > an engine out on the deorbit still lands, with the reserve doing its job > engine 1 out
+AssertionError: 1.856 t left: expected 1.8560791696650556 to be greater than 2.25
+ ❯ tests/core/deorbit-range.test.ts:40:63
+     38|     });
+     39|     expect(m.outcome).toBe('landed');
+     40|     expect(m.propellant, `${m.propellant.toFixed(3)} t left`).toBeGrea…
+       |                                                               ^
+     41|   });
+     42|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |unit| tests/core/deorbit-range.test.ts > an engine out on the deorbit still lands, with the reserve doing its job > engine 2 out
+AssertionError: 1.892 t left: expected 1.8918576967970249 to be greater than 2.25
+ ❯ tests/core/deorbit-range.test.ts:40:63
+     38|     });
+     39|     expect(m.outcome).toBe('landed');
+     40|     expect(m.propellant, `${m.propellant.toFixed(3)} t left`).toBeGrea…
+       |                                                               ^
+     41|   });
+     42|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 2 passed (6)
+   Start at  20:15:31
+   Duration  5.86s (transform 86ms, setup 0ms, import 1.51s, tests 4.24s, environment 0ms)
+

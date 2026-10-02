@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-range.test.ts (3 tests | 2 failed) 1129ms
+   × predicts the scheduled unpowered entry in direction -1 580ms
+   × predicts the scheduled unpowered entry in direction 1 543ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > predicts the scheduled unpowered entry in direction -1
+AssertionError: expected 7504.261322051752 to be less than 2000
+ ❯ tests/core/entry-range.test.ts:38:50
+     36|   expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
+     37|   const flown = s.kinematics.downRangeDistance - origin;
+     38|   expect(Math.abs(prediction.downRange - flown)).toBeLessThan(2_000);
+       |                                                  ^
+     39| });
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > predicts the scheduled unpowered entry in direction 1
+AssertionError: expected 17170.64661939442 to be less than 2000
+ ❯ tests/core/entry-range.test.ts:38:50
+     36|   expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
+     37|   const flown = s.kinematics.downRangeDistance - origin;
+     38|   expect(Math.abs(prediction.downRange - flown)).toBeLessThan(2_000);
+       |                                                  ^
+     39| });
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  21:48:10
+   Duration  1.37s (transform 114ms, setup 0ms, import 136ms, tests 1.13s, environment 0ms)
+

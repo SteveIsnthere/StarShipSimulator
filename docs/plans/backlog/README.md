@@ -6,19 +6,15 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 
 | item | phase |
 |---|---|
-| Cd shape: Mach-only and attitude-blind, no transonic peak (a cited model is built and parked on `claude/drag-parked`) | 6b |
-| The unexplained `/ 2.1` in `getCrossSectionalArea` (`src/core/physics/aero.ts`) | 6b |
-| Break-up and crash checks read the previous step's forces | 6b |
-| `controlEnginebyTWR` divides the required thrust by the thrust at `throttleCurrent`, not at full throttle (`src/core/control/primitives.ts`), a 2021 quirk that makes its TWR wrong whenever the throttle is not at 100%. Phase 5's truth tests use the effective-vertical law instead | 6b |
-| Earth's rate in the ground frame (the frame and its tests are in at rate 0; switching on waits for entry range control, Phase 6b Task 1b); pitch integrated against local vertical with no frame-rotation term | 6b |
 | Render interpolation: `advance()` returns `alpha` but nothing reads it; the view draws the latest step | 8 |
 | Per-frame allocations: `engines.running.filter(Boolean)` in `src/view/effects.ts`; `worldToScreen` returns a new object (`src/view/camera.ts`) | 8 |
 | Stale view comments: `camera.ts` header (claims interpolated state and real dt), `CameraTarget.dynamicPressure` says Pa (it is kPa), `effects.ts` `previous` | 8 |
-| `post.ts` sets `uTexelSize` once and never on resize | 8 |
+| `post.ts` heat pass sets custom `uTexelSize` once and never on resize; bloom now uses Pixi input coordinates | 8 |
 | Reversible visual defaults awaiting a playtest: no accent colour, cinematic mode off by default, the light daytime sky | 8 |
 | 60 fps on a mid-range phone is a stated goal that nothing measures | 8 |
-| `plume.spec.ts` "blooms wider than the ship in vacuum" is flaky on `main` too (2 of 3 runs failed on desktop, 2026-10-01; the vacuum/sea-level width ratio ranges about 1.0–2.0 against a 1.2 bound). The measurement, not the plume, needs fixing before the bound means anything | 8 |
-| The RVacs have no plume of their own: the view draws plumes from the running count, not per engine and nozzle | 8 |
+| Hosted `menu.spec.ts` smoke flakiness: "the menu opens, offers every preset, and closes" and "Configure starts the new flight and closes the menu" each failed their first menu-visibility assertion then passed the existing retry in Phase 6 deploy run `36956332944`. Local main smoke and full five-project suite were green. Diagnose readiness/input timing with retained logs before Phase 9 closes; no retry or bound increase. See `docs/research/2026-10-01-phase6-close/hosted-deploy.log` | 9 |
+| Per-engine continuous gas now exists (Phase6b prerequisite); particle core/detail still uses aggregate counts. Distinguish sea-level and RVac nozzle/plume detail in the complete visual pass | 8 |
+| Continuous gas accepted after full-envelope soft profile; strong low-altitude saturation and the distal beaded particle tail remain visual weaknesses, per actual-image review in `fallback-browser-cycle3-attempt3/visual-review.md` | 8 |
 | Camera `SHAKE_FRACTION = 0.006` set by eye | 8 |
 | Telemetry-loss states (values freeze and dim) and entry flap pictograms from the broadcast reference were never built | 9 |
 | iOS tilt control needs a permission button; not ported | 9 |
@@ -35,3 +31,8 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 - **Licensed audio recordings** in place of the synthesised transients. Only `src/audio/transients.ts` would change; needs a licence trail Steve accepts.
 - **A sixth preset.** The 2021 About text says six presets; `index.html` shipped five. Ask Steve whether one was cut.
 - **Max-Q shake test cost** is structural (two flights per test); the only lever left is the worker count.
+
+## Parked by Steve’s Phase 6b fallback
+
+- Physical body-axis drag/normal force and centre of pressure, paired fin surface forces, realistic translational RCS and vacuum flip; the65° entry schedule/range trim, Earth rotation and their reserve/aim calibration. The independently reviewed prescribed entry family exceeds modeled authority. These Tasks1–4 remain deferred, rather than shipped or assigned to Phases7–9. The coupled source/scientific tests, measurements and reviews are preserved in `docs/research/2026-10-02-phase6b-body-moment/` and checkpointc24235f.
+- Attitude integrated against local vertical without a turning-frame transport term. Frame rate remains zero in the fallback; any later Earth-rate/attitude model must resolve it together.

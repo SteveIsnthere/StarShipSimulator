@@ -1,0 +1,3 @@
+# Approved recording extension prediction — 2026-10-02
+
+Written before generating new artifacts. Runtime source is unchanged from immutable764d191 / initial Linux run36985191265. Only reentry recording steps21600->72000 (180->600s) change; dt, cadence, seed, setup and flattened schema stay identical. Reentry rows361->1201: every original361 sample must match exactly, then840 new samples are audited separately. The other seven fixture files must be byte-identical. At600s the measured current flight is43238.098m altitude/-251.203m/s vertical speed, still descending without breakup; these measurements predict outcomes, not replacement assertions. All literal golden descent/survival assertions,900s full-flight and1533K heat contracts remain intact.

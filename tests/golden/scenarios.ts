@@ -53,7 +53,9 @@ export const GOLDEN_SPECS: readonly GoldenSpec[] = [
   },
   {
     id: 'reentry-autoland',
-    steps: s(180),
+    // Approved 2026-10-02: retain the ten-minute recording window through
+    // the broadside fallback, including entry, descent and touchdown.
+    steps: s(600),
     setup: 'autoLand from orbital re-entry',
     build: () => {
       const st = createScenarioState(ALL_SCENARIOS.find((x) => x.id === 'reentry')!);
