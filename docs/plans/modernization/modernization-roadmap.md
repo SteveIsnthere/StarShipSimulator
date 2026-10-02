@@ -75,7 +75,7 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 - [x] Phase 4 — React shell (merged `dfab3c8`)
 - [x] Phase 5 — Guidance on real physics (merged `b84b746`; goldens on the recording platform `3429ea1`)
 - [x] Phase 6 — Ship realism (merged `080f108`, live 2026-10-01 Vancouver time). Complete gate green on main; branch full e2e 438 passed / 0 failed / 11 configured skips. CI `36956332929` and Pages `36956332944` succeeded at the merge SHA. Live deployment smoke 5/5 passed; served service worker matches the verified build byte for byte, cache version `b72a7b0bad39`. Hosted menu smoke needed existing retries on two checks; retained as Phase 9 debt. [Close evidence](../../research/2026-10-01-phase6-close.md). Earth's rate and the parked aero moved to 6b.
-- [x] Phase 6b — Closed under the approved broadside fallback (merged `c2ae5e4`, live2026-10-02). Task5/braking/debrief andcontinuous exhaust fixes ship; body-axis/fin/RCS/Earth-rate remain explicitly parked. Complete main gate, independenthighreview, finalfullbrowser480pass/0fail/11configuredskips/0retries, all21mutationfaults, mainCI37071475434/Pages37071475425 andlive5smoke pass. All44servedassets match version3da4ee45585e. Two existinghostedmenuflakes remain Phase9. [Closure evidence](../../research/2026-10-02-phase6b-close.md).
+- [x] Phase 6b — Closed under the approved broadside fallback (merged `c2ae5e4`, live 2026-10-02). Task 5/braking/debrief and continuous exhaust fixes ship; body-axis/fin/RCS/Earth-rate remain explicitly parked. Complete main gate, independent high review, final full browser 480 passes / zero failures / 11 configured skips / zero retries, all 21 mutation faults, main CI37071475434/Pages37071475425 and live smoke5/5 pass. All 44 served assets match version3da4ee45585e. Two existing hosted menu flakes remain Phase 9. [Closure evidence](../../research/2026-10-02-phase6b-close.md).
 - [ ] Phase 7 — Super Heavy
 - [ ] Phase 8 — Visuals
 - [ ] Phase 9 — UX to flight_sim level
@@ -83,109 +83,10 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 Phases 7–9 get their phase plan when the phase before them lands, written by the run from this roadmap with `superpowers:writing-plans`.
 
 
-## Current checkpoint (2026-10-02)
+## Current checkpoint
 
-Phase6 is merged/live at`080f108`; six of ten phases complete (60%). Phase6b remains on existing`claude/entry-on-lift`. Fresh independent review confirmed the approved prescribed entry family cannot meet the scenarios within modeled authority after identical-handoff numerical repair. Steve’s conditional fallback is implemented: affected Tasks1–4 restored to shipped Phase6 broadside force/control/rate/reserve/aim; Task5 current-force/support/throttle fixes, independent descent braking and first-breakup debrief retained. Parked scientific/source tests and all measurements/reviews remain recoverable; the backlog names the deferrals. No further range/fin feasibility campaign is needed. The prior approved extra300km verification passed and is consumed.
+Seven of ten phases are complete (70%). Phase 6b is merged and live at `c2ae5e4` under the approved fallback. Current-force/braking/debrief and continuous exhaust fixes ship; the independently reviewed aero family remains parked in the backlog.
 
-Linux recording`37035784562` at immutable`845c41d9` succeeded; all21corepins match. All8fixtures integrated and field-audited against both shippedPhase6 and parkedc242 checkpoints. Intro physicalmotion/enginesequence exact; reentry original180s motion exact and the retained600s window now lands. Original numericdescent bounds are checked at exact180s plus stronger600s landing assertions, independently reviewed. Fresh physics and camera reviews found no actionable runtime defect. Existing camera framing checks pass after decorative shake is constrained to rendered clearance; physical follow law unchanged.
+Complete main gate, final full browser, mutation, independent review, hosted CI/Pages and live verification pass. Hosted CI and deploy each have two existing menu visibility flakes passing retry 1; Phase 9 owns the readiness repair. Exact evidence and limits: [Phase 6b closure](../../research/2026-10-02-phase6b-close.md).
 
-The corrected complete local gate exits0: lint/build,1977units,1977instrumentedtests with unchangedcoveragefloors, smoke and5subpath checks pass. The first typo failure remains recorded. Fullfive-browser verification at committed `eb703cb` finished436pass/2fail/11configuredskips. Pixel landscape plume width and iPhone portrait ground captures require the bounded reviewed diagnosis recorded in [browser diagnosis](../../research/2026-10-02-phase6b-body-moment/fallback-browser-diagnosis.md). Its narrow cadence/restart repair and exact-altitude terrain setup pass focused units/build/lint; all ten focused browser checks pass; the complete gate after renderer changes passes and mutation catches all21faults. Final fullbrowser, mutation, fullgate after renderer changes, finalreviewacceptance, coherentcommit/push/mainmerge/gate/deploy remain required; no phase tick or shipped6b claimed. Continue7–9 after closure. Follow the [goal contract](modernization-GOAL.md), [restoration evidence](../../research/2026-10-02-phase6b-body-moment/fallback-restoration.md) and [Linux audit](../../research/2026-10-02-phase6b-body-moment/fallback-golden-audit.json).
-
-## Reviewed browser repair release checkpoint (2026-10-02)
-
-The repaired source passes the complete localgate (1980units/1980instrumented,13smoke,5subpath), unchanged floors, docs-layoutcheck and all21mutation faults after848greencontrol tests. Focused five-project original plume/terrain assertions10/10pass; fresh independent and high-depth source review clean. No seed tuning or effectparameter/assertion/retry changes. Preserve/push the coherent checkpoint, then run finalfullbrowser against its unchanged runtime and obtain finalreviewacceptance before merging. Main/live080f108,60%; Phase6b–9 remain.
-
-## Candidate verification in flight (2026-10-02)
-
-Reviewed repair76c60e3 committed/pushed; complete1980-test localgate and all21mutationfaults green. Finalfullbrowser running (session2684; /tmp/starship-browser-cycle1-full-final.log), hostedCI37044401235 succeeded at sameSHA. Independent physics revalidation:21Linuxcorepins/all8fixtures unchanged; no actionable boundaryconcern, conditional on finalbrowser/CI results. Main/live080f108,60%; no phase tick/merge/deploy claim. Finish existingverification, then close6b and execute7–9.
-
-## Hosted candidate gate verified (2026-10-02)
-
-HostedCI37044401235 succeeds at76c60e3; Linuxgate/hygiene green. Configured hostedfullbrowser/bench skipped, not claimed. Local fullbrowser session2684 still running and the previously failing Android landscape vacuum assertion now passes. iPhone outcomes/finalfullsuite result remain required; no merge/deploy/phase tick. Main/live080f108,60%,four phases remain.
-
-## Final browser failure and next bounded diagnosis (2026-10-02)
-
-At committed candidate `76c60e3db222118fe342560efe8d1fff2c6464bc`, the final full browser run completed with exit 1: 435 passed, three failed, 11 configured skips, 30.8 minutes, zero local retries. Session 2684 is complete; never resume or restart it. Full raw log, all three failure screenshots/context and the last-run manifest are preserved in `fallback-browser-cycle1-final/`, with SHA256 manifest. Hosted CI 37044401235 succeeded at the same candidate; local gate and all 21 mutation faults remain green. These checks do not override the failed browser acceptance.
-
-Cycle 1 attempt 1 is unsuccessful as release acceptance. Both original failures passed: Pixel landscape vacuum width and iPhone portrait exact-altitude terrain. Remaining failures are iPhone portrait low-altitude plume length 0.9156261427575323 and landscape length 0.8853575099391015 against original >1, plus landscape vacuum width 0.43333333333333335 against original >0.4994324415041085 (low width times 1.2). No bounds, retries, effect parameters or seed were changed. No merge, phase tick or deployment is authorized yet.
-
-Fresh independent `fallback_camera_review` confirms the cadence/restart repair remains valid, but does not prove pixel acceptance. Low landscape qualifying pixel counts 3286/3324/3326/3166 are nearly constant while measured lengths vary 0.89/0.70/0.89/2.29. This argues against wholesale starvation; it does not establish the cause. The detector collects an unrestricted bounding box, with no connectedness filter. Screenshots taken after the measurement show dotted distal tails but cannot establish RGB at the actual failed sample.
-
-Cycle 1 attempt 2 starts with diagnostic evidence, not parameter tuning: preserve each original paused subject/background pair, record unchanged threshold decisions and exact step/viewport/nozzle, repeat a capture of the same frozen sample to distinguish compositor variation from state-dependent threshold crossing. If needed, expose read-only per-emitter live count/age/alpha/geometric extent and replay prescribed startup/render cadence through the real frame path. Do not use debug.step alone: it advances physics/camera without particle time. Retain original four samples, intervals, assertions, bounds, seed and retries. Record the hypothesis and evidence before any causal repair; no unchanged-code rerun for luck. Main/live remain 080f108, six of ten phases complete (60%). Full scope remains 6b, 7, 8 and 9; no owner question is pending.
-
-## Completed attempt 3 and fresh cycle review (2026-10-02)
-
-Cycle1attempt3 completed exit1: three diagnostic checks passed, iPhone landscape vacuum width failed, 1.9 minutes, zero retries. The instrumented run is not release acceptance. Its HTML reporter preserved all exact measurement inputs:24 subject/background/frozen-repeat pairs,49deduplicated PNGs including automaticfailure screenshot. Every24subject/frozen-repeat PNG pair is byte-identical, confirming no observed compositor variation within frozen states. Variation between different sampled flight states remains; its cause is not established. Full log/testresults/HTMLreport/extracted report JSON/capture-summary/hash manifest are preserved in fallback-browser-cycle1-attempt3/. The existing full435pass/3fail result remains authoritative release evidence.
-
-Three cycle1attempts are recorded. Fresh independent plume_cycle2_review is active, read-only, inspecting actual saved pixel inputs and source before a new bounded cycle approach is recorded. Do not run another browser diagnostic, tune parameters/seed/thresholds, or claim success from the three focused passes. Next compare distal threshold and reference-exclusion decisions with actual images; emitter-internal read-only diagnostics remain an option if necessary. No further core/aero feasibility work. Main/live080f108,60%,6b/7/8/9 remain unfinished; no owner question.
-
-
-## Cycle2 compositing repair and remaining width diagnosis (2026-10-02)
-
-Fresh independent review identified real additive-alpha occlusion through bloom. The public renderer-local adapter passes actual WebGL fire/smoke, both controlled mixed draw orders and real context restoration; original state fails four witnesses. The high-depth Canvas fallback finding is fixed with an explicit renderer guard. All original five low-length checks pass, but original vacuum width still fails four projects (focused31pass/4fail); no release acceptance or phase tick. Read-only emitter snapshots now expose real counts/ages/alpha/geometry/emission inputs and last positive worldDt. Build/lint/68 focused checks pass. Cycle2attempt2 five-project original captures are running with HTML attachment persistence; analyze and preserve actual results before another repair. Original assertions, bounds, seed, effect parameters and retries remain unchanged. Main/live080f108,60%; full6b/7/8/9 scope remains authorized, no owner question.
-
-
-Cycle2attempt2 completed:5passed/5failed,4.6min,zero retries; all five vacuum-width checks fail. Exact60 frozen PNG pairs are byte-identical; steady full core/bell populations rule out wholesale starvation in this run. Camera-normalized geometry expansion is present. All raw captured geometry/pixels/logs/reports/hashes retained in fallback-browser-cycle2-attempt2/. Fresh independent analysis requested for cycle2attempt3; do not repeat unchanged source for luck. High-depth rotated-streak diagnostic finding fixed; final build and69 focused checks pass. Main/live080f108,60%,four unfinished phases; no owner question.
-
-
-Cycle2attempt3 is running original5projectplume+30rendererchecks,session92029,/tmp/starship-plume-cycle2-attempt3-browser.log,HTML/tmp/starship-browser-cycle2-attempt3-html. A precise watched-red bloom coordinate defect is repaired: identical localemission differed46RGB with canvasdimension alone; corrected suppliedinputtexels retainallkernelparameters and yield0difference/visiblepositivecontrol432. All6desktoprendererchecks/build/lint/focused65units pass; high-depthfollowuprequested. Preserveactualfinalresult before furtherdiagnosis; this isthirdattempt ofcycle2. Main/live080f108,60%; no merge/tick orownerquestion.
-
-
-## Cycle2attempt3 final result and fresh cycle3 review
-
-At source d4f3606, originalfiveprojectplume plus30rendererwitnesses completed37passed/3failed,exit1,zero retries,4.9min. All30rendererwitnesses andall5lowlength checks pass; iPhoneportrait/landscapevacwidth also pass. Vacuumwidth remainsfailed on desktopChromium,Pixelportrait,Pixellandscape. All60exact frozenpairs arebyteidentical. FullactualPNG/JSON/HTML/rawlogs/results/hashmanifest retained in fallback-browser-cycle2-attempt3/. This isnotreleaseacceptance anddoesnotclosePhase6b. High-depth/independent source reviewfoundnoactionablefinding ininput-coordinate fix; meaningfulpositivecontrols caughtinitialsharedprecisionlinkfailure,correctedwithoutkernelparameter changes.
-
-Allthree cycle2attempts arecomplete. Fresh independent plume_cycle3_review isactive,read-only,analyzingactualremainingpixels/source before recordingnewbounded evidence-backedcycle3 approach. No furtherbrowserdiagnosis orsourceparameterchanges before thatreview/approach. Noownerquestion; approvedstandingcycles apply. Main/live080f108,60%,6b7 8 9remainunfinished. Existingsourcebuild/lint/focusedchecks green; finalfullgate/fullbrowser/mutation/releasereviews/merge/main-gate/deploy stillrequired.
-
-
-## Cycle3attempt1 sampling repair and continuous-bell prerequisite
-
-Fresh independent cycle3 review established expandedvisiblegas outsideoriginalbrightthresholds; no newbugwasassumed. Controlledfrozenproduction-driver tests provedfilterdownsampling/MSAAcoverage loss onDPR2: watchedredconfiguredsource maxloss204RGB,26–58sourcepixelserased; bothsettingsinherit preserveall12DPR2cases within0–1RGB/zeroerasedpixels. Bloom-onlyresolution/antialiasinherit implemented; heatunchanged. All7desktoprendererwitnesses/build/lint/65focusedunits pass; freshindependentandhigh-depthsource reviews clean. DPR1notuniversal1RGB anddetectorwidthsnearlyunchanged,so no originalwidthclosureclaim. Rawdata/logs/HTML/failurecapture/hash in fallback-browser-cycle3-attempt1/.
-
-Nextnativecycle3attempt2 follows continuous-bell-plan.md: continuousnozzle-framefield alongsideunchangedparticles,existingpressurecurves/bellgeometry/tint/alpha/per-running-enginecontributions,preallocatedmeshes/lifecycle/meaningfulabsencecontrols,originalacceptancebounds unchanged. This brings minimumvisible-bell prerequisite forward fromapprovedvisualscope; Phase8remainsunfinished. Planreview requested beforeimplementation, noownerquestion. Nocore/aerorestoration/feasibilitywork. Main/live080f108,60%,6b7 8 9unfinished.
-
-## Cycle3attempt2 actual visual rejection and next approach
-
-Cycle3attempt2:51checks pass(original10five-project plume/36renderer/5scene),all60frozenpairs byte-identical. ActualPNG review rejects saturated straight-sided white interior before6bclosure. Cycle3attempt3 maps transverseUV by actualx/radius to spread unchangedsoftprofile acrossfullenvelope; no oldconfig/seed/threshold/bound changes. Revised capture-hide regression watchedred; all5actualscene lifecycle checks pass after effectiveparentvisibility fix. Execute thirdapproach natively, inspectpixels and originalacceptance, thenfullreleasechecks. Main/live080f108,60%,fourphasesunfinished; noownerquestion.
-
-## Cycle3attempt3 accepted; final release verification
-
-Cycle 3 attempt 3 is accepted as the Phase 6b continuous-gas prerequisite. The full-envelope soft profile passes 84 focused tests, build/lint, all 51 browser checks (10 original plume, 36 renderer and 5 strengthened scene checks), and actual image review. All 60 ordered frozen pairs are byte-identical. The complete final-source local gate passes 1,993 unit and coverage tests, unchanged coverage floors, smoke and subpath checks. All 21 Linux simulation source pins match.
-
-The additional tonne-input fixture is corrected: mass assertion watched clamped fulltank red, then corrected20t/200t overrides pass6scenechecks. Actual20t one-engine image is inspected and attached gas is legible. Next: obtain fresh high-depth whole-phase review, run mutation alone, then the final full five-project browser suite at the pushed unchanged candidate. Only after final acceptance: merge/main gate/hosted deploy/live identity and smoke, tick Phase 6b, then execute Phases 7–9. No further unchanged plume diagnosis or fallback feasibility redo. Main/live remain080f108;60%,four phases unfinished; no owner question.
-
-## Final source review checkpoint
-
-Source `142881e203428833cf52c2b83d5578dfef1a288f` is committed and pushed. Fresh independent native-harness high-depth whole-phase reviewer `phase6b_release_high` reports no actionable finding in `080f108..142881e`; independently verifies all21Linux runtime hashes/eightfixture row digests and protected intro/reentry motion. This is the documented peer/Pro fallback, not cross-vendor review. Full report and declined-to-judge dispositions are in `docs/research/2026-10-02-phase6b-body-moment/fallback-final-release/high-review.md`.
-
-Complete local gate is green at unchanged production runtime; final mutation runs alone (session57940, raw `/tmp/starship-phase6b-final-mutation.log`). Unmodified control848pass and faults checked so far caught by named assertions; final result pending. Final five-project fullbrowser has not started. Do not merge, tick6b or infer final acceptance. After mutation completion, preserve raw result and build/fullbrowser at the pushed unchanged candidate; then mainmerge/gate/CI/Pages/liveidentity/smoke and continue7–9. Main/live080f108,60%,fourphasesunfinished; noownerquestion.
-
-## Final mutation acceptance
-
-Final mutation completed exit0: unmodified control848pass, all21faults CAUGHT by named assertions, no SURVIVED/ERROR. Full raw `fallback-final-release/phase6b-final-mutation.log` is retained. Source/runtime/tests unchanged from reviewed142881e; only release documentation follows. Fresh high-depth whole-phase source review is clean. Next finalfullfive-browser with workers1/retries0/list+HTML; no runtime/test edits during capture. Main/live080f108,60%,fourunfinishedphases. Merge/main-gate/CI/Pages/liveidentity/smoke and7–9 remain required.
-
-## Final full browser verification running
-
-Final five-project suite runs at committed/pushed `9bb03f91f94b69dfece97359355403ec8702ab4e`, runtime/tests byte-identical to reviewed142881e. Session32317; raw `/tmp/starship-phase6b-final-full.log`; isolated HTML `/tmp/starship-phase6b-final-full-html`.491configuredchecks,workers1,retries0; productionbuild succeeds before capture. Resume this existing session; never restart it or launch another browser/build/test command until complete. Do not edit runtime/tests/fixtures during capture. Preserve fullraw/HTML/test-results and hashes before any later browser invocation. Desktop originallow/vac plume and allrendererwitnesses pass so far; finalresult andphoneoutcomes remain pending.
-
-Finalmutation session57940 completedexit0/control848green/all21namedfaultscaught; do not rerun it without new changes. Freshwhole-phase highreviewclean at142881e. HostedCI37065061174 running at9bb; earlier142/c2doc pushes cancelledbyCI concurrency, not green results. Main/live080f108,60%,four phasesremain; mainmerge/gate/deploy/livechecks and7–9 remain required. Preparation notes only `/tmp/starship-phase7-preparation.md`; noPhase7plan/implementationyet.
-
-## Final branch verification accepted by checks
-
-At pushed `9bb03f91f94b69dfece97359355403ec8702ab4e` (runtime/tests identical to reviewed `142881e`), the final full suite completed exit 0: **480 passed, zero failed/flaky, 11 configured skips, five projects, zero retries**. All ten original plume checks pass. Complete final local gate and all21 mutation faults are green; hosted CI37065061174 succeeds at the same candidate. Raw evidence, HTML/data, extracted report, provenance and hashes are retained in `fallback-final-release/`. Optional plume diagnostic capture was off in this final full run; earlier accepted attempt3 has60/60 byte-identical frozen pairs, not claimed as final captures.
-
-Next obtain existing fresh reviewer's final evidence acceptance, commit/push retained results, merge normally to main, run complete main gate, then push and verify hosted Pages, served build identity and live smoke. Only then tick6b and close its finished plans; execute7–9. Main/live080f108,60%,four phases unfinished; no owner question.
-
-Final independent evidence review accepts the candidate for main merge. Hosted CI has one existing menu smoke flake (`menu.spec.ts:17`, passed retry1); preserved raw lines1665–1702 and existing Phase9 backlog. Final local fullsuite has all491retry0. No new source blocker; main gate/deploy/live verification still required.
-
-## Local main integration underway
-
-Independent final release acceptance is retained and coherent evidence checkpoint83353fb pushed. Normal localmain merge `c2ae5e46a25db0bdd63504a8f93d37056176b069` succeeds; production/tests identical to acceptedbranch. Complete main gate runs in primarycheckout session24097, raw `/tmp/starship-phase6b-main-gate.log`. Do not pushmain until exit0. Originmain/live080f108; no6btick yet. After pushCI/Pages/liveidentity/smoke, close6b andexecute7–9. Finalfullbrowser session32317 completedexit0; neverresume/restart.
-
-## Main gate and push verified
-
-Complete maingate session24097 exits0:1993units/1993coverage,unchangedfloors,13smoke and5subpath;rawphase6b-main-gate.log andmain-gate.json retained. Main merge `c2ae5e46a25db0bdd63504a8f93d37056176b069` pushed normally. MainCI37071475434 andPages37071475425 running atsameSHA;liveidentity/smoke stillpending. Localbuild serviceworker version3da4ee45585e. Main ismerged,6bnotyetliveclosed/ticked;60%,four phasesuntilverifiedclosure. Neverrestartfullbrowser32317 ormaingate24097. Afterliveclosurecontinue7–9.
-
-## Current next phase
-
-Sevenoftenphases complete(70%). Phase6b ismerged/liveverified atc2ae5e4 underapprovedfallback. Itsfinishedplansclose; Phase7SuperHeavy isnext, followedby8Visuals and9UX. NoPhase7 implementationstarted andnoownerquestionpending. CurrentGOAL supersedes allhistoricaldiagnostic checkpointsabove; donotredo6b.
+Phase 7 Super Heavy is next, followed by Phase 8 Visuals and Phase 9 UX. Its plan is written from the shipped code before implementation. No owner question is pending. The active [goal contract](modernization-GOAL.md) is authoritative; completed diagnosis history remains in research and Git at `3f003ec`.
