@@ -5,35 +5,73 @@ index 97722a7..287dc05 100644
 @@ -25,0 +26 @@
 +    "entry:sweep": "vite-node scripts/entry-sweep.ts",
 diff --git a/src/core/autopilot/index.ts b/src/core/autopilot/index.ts
-index be70a04..de58cce 100644
+index be70a04..adda00c 100644
 --- a/src/core/autopilot/index.ts
 +++ b/src/core/autopilot/index.ts
-@@ -24,0 +25 @@ import * as C from '../constants';
+@@ -24,0 +25,3 @@ import * as C from '../constants';
 +import { entryPitchOffset } from './entry';
-@@ -38 +39 @@ import type { SimState } from '../state';
++import { entryRangeTrim, predictEntryRangeInto } from '../control/entry-range';
++import { createBurnScratch, createFallResult } from '../control/guidance-physics';
+@@ -38 +41 @@ import type { SimState } from '../state';
 -import { rad } from '../units';
 +import { rad, type Rad } from '../units';
-@@ -251 +252 @@ export { getAngularAcceleration, getTotalMaxThrust };
+@@ -231,0 +235,2 @@ function resetAutoLandState(state: SimState): void {
++  autopilot.entryRangeCountdown = 0;
++  autopilot.entryRangeTrim = rad(0);
+@@ -251 +256 @@ export { getAngularAcceleration, getTotalMaxThrust };
 -export function autoLand(state: SimState, dt: number): void {
-+export function autoLand(state: SimState, dt: number, entryAngle: Rad = C.ENTRY_LIFT_ANGLE): void {
-@@ -270 +271 @@ export function autoLand(state: SimState, dt: number): void {
++export function autoLand(state: SimState, dt: number, entryAngle?: Rad): void {
+@@ -270 +275 @@ export function autoLand(state: SimState, dt: number): void {
 -    aeroDescentController(state);
-+    aeroDescentController(state, entryAngle);
-@@ -319 +320 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
++    aeroDescentController(state, dt, entryAngle);
+@@ -319 +324,6 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
 -function aeroDescentController(state: SimState): void {
-+function aeroDescentController(state: SimState, entryAngle: Rad): void {
-@@ -350 +351,2 @@ function aeroDescentController(state: SimState): void {
++// Reused only within a synchronous prediction; flight history lives in SimState.
++const entryRangeScratch = createBurnScratch();
++const lowEntryRange = createFallResult();
++const highEntryRange = createFallResult();
++
++function aeroDescentController(state: SimState, dt: number, entryAngle?: Rad): void {
+@@ -350 +360,30 @@ function aeroDescentController(state: SimState): void {
 -  prim.precisionAlignment(state, rad(correctionAngle + Math.PI / 2), 0.7);
-+  const entryOffset = entryPitchOffset(kinematics.machSpeed, kinematics.speedX, entryAngle);
++  const baseAngle = entryAngle ?? C.ENTRY_LIFT_ANGLE;
++  let selectedAngle = baseAngle;
++  // An explicit angle is the offline fixed-angle sweep contract. Operational
++  // flights solve a bounded range trim, refreshed once per simulated second.
++  if (entryAngle === undefined && kinematics.altitude <= C.ENTRY_INTERFACE_ALTITUDE &&
++      kinematics.machSpeed > C.ENTRY_BROADSIDE_MACH && Math.abs(kinematics.speedX) > 20) {
++    autopilot.entryRangeCountdown = Math.max(0, autopilot.entryRangeCountdown - dt);
++    if (autopilot.entryRangeCountdown === 0) {
++      const limit = C.aeroDescentMaxCorrectionAngle;
++      const previousGoal = rad(kinematics.angleOfMotion - Math.PI / 2 +
++        entryPitchOffset(kinematics.machSpeed, kinematics.speedX,
++          rad(baseAngle + autopilot.entryRangeTrim)));
++      // Carry the observed tracking offset into the forecast. The existing
++      // fin controller has a steady torque-induced offset; predicting perfect
++      // alignment systematically overestimates range late in the descent.
++      const observedBias = prim.getPitchDifference(kinematics.pitch, previousGoal);
++      const bias = rad(Math.abs(observedBias) <= limit ? observedBias : 0);
++      predictEntryRangeInto(state, rad(baseAngle - limit), entryRangeScratch, lowEntryRange, 0.5, bias);
++      predictEntryRangeInto(state, rad(baseAngle + limit), entryRangeScratch, highEntryRange, 0.5, bias);
++      let gap = autopilot.landingSiteXPos - kinematics.downRangeDistance;
++      if (gap > C.planetCircumference / 2) gap -= C.planetCircumference;
++      if (gap < -C.planetCircumference / 2) gap += C.planetCircumference;
++      autopilot.entryRangeTrim = lowEntryRange.reached && highEntryRange.reached
++        ? entryRangeTrim(gap, lowEntryRange.downRange, highEntryRange.downRange) : rad(0);
++      autopilot.entryRangeCountdown = 1;
++    }
++    selectedAngle = rad(baseAngle + autopilot.entryRangeTrim);
++  }
++  const entryOffset = entryPitchOffset(kinematics.machSpeed, kinematics.speedX, selectedAngle);
 +  prim.precisionAlignment(state, rad(correctionAngle + Math.PI / 2 + entryOffset), 0.7);
-@@ -748 +750 @@ export function autoDeorbit(state: SimState): void {
+@@ -748 +787 @@ export function autoDeorbit(state: SimState): void {
 -export function runAutopilot(state: SimState, dt: number): void {
-+export function runAutopilot(state: SimState, dt: number, entryAngle: Rad = C.ENTRY_LIFT_ANGLE): void {
-@@ -753 +755 @@ export function runAutopilot(state: SimState, dt: number): void {
++export function runAutopilot(state: SimState, dt: number, entryAngle?: Rad): void {
+@@ -753 +792 @@ export function runAutopilot(state: SimState, dt: number): void {
 -  autoLand(state, dt);
 +  autoLand(state, dt, entryAngle);
 diff --git a/src/core/constants.ts b/src/core/constants.ts
-index 665bedb..e3959df 100644
+index 665bedb..6a9a4c6 100644
 --- a/src/core/constants.ts
 +++ b/src/core/constants.ts
 @@ -146,2 +146,5 @@ export const dumpLimit = 12000;
@@ -49,22 +87,32 @@ index 665bedb..e3959df 100644
 +export const landingReserve = 22_000;
 @@ -533 +536 @@ export const DEORBIT_DELTA_V_MAX = DEORBIT_DELTA_V * 1.6;
 -export const DEORBIT_ENTRY_RANGE = 841_800;
-+export const DEORBIT_ENTRY_RANGE = 3_966_736;
-@@ -688,0 +692,12 @@ export const frameRate = 60;
++export const DEORBIT_ENTRY_RANGE = 3_812_057;
+@@ -688,0 +692,13 @@ export const frameRate = 60;
 +
 +/** Phase 6b's eight-angle sweep: 60° is the coolest entry that lands within 10 km.
-+ * Measured 1,515.29 K at 68.23 km with the unchanged 1,533 K tile limit.
++ * Fixed-angle corrected sweep at aim3,812,057m:1463.710K at70.051km,
++ * pad miss-14.8m. The1,533K tile limit is unchanged.
 + */
 +export const ENTRY_LIFT_ANGLE = rad(Math.PI / 3);
 +/** Begin the blend after initial hypersonic heating, fully broadside by Mach2.
 + * The corrected Mach5 seed sweep takes977 s on Reentry, beyond its900 s
-+ * acceptance. The Mach20 trial releases the late glide earlier; re-sweep
-+ * before selecting the final schedule. No thermal or landing bound moved.
++ * acceptance. The corrected Mach20 sweep lands it in815.958s; the calibrated
++ * deorbit60-degree row survives and lands within10km. No bound moved.
 + */
 +export const ENTRY_LIFT_MACH = 20;
 +export const ENTRY_BROADSIDE_MACH = 2;
+diff --git a/src/core/control/commands.ts b/src/core/control/commands.ts
+index e68407b..bb65841 100644
+--- a/src/core/control/commands.ts
++++ b/src/core/control/commands.ts
+@@ -13,0 +14 @@ import * as C from '../constants';
++import { rad } from '../units';
+@@ -157,0 +159,2 @@ export function toggleAutoLand(state: SimState): void {
++  state.autopilot.entryRangeCountdown = 0;
++  state.autopilot.entryRangeTrim = rad(0);
 diff --git a/src/core/control/guidance-physics.ts b/src/core/control/guidance-physics.ts
-index 19afe1a..664012e 100644
+index 19afe1a..09c15e3 100644
 --- a/src/core/control/guidance-physics.ts
 +++ b/src/core/control/guidance-physics.ts
 @@ -17,8 +17 @@ import { speedOfSoundAt } from '../physics/atmosphere';
@@ -96,6 +144,9 @@ index 19afe1a..664012e 100644
 +    air.airDensity, speed, mach, rad(Math.PI), C.vehicleInFlightMaxArea,
 +    mass, scratch.bodyAxes,
 +  ).drag;
+@@ -316 +306 @@ export const FALL_STEP_CAP = 4_000;
+-function fallAcceleration(
++export function fallAcceleration(
 @@ -334,2 +323,0 @@ function fallAcceleration(
 -  const intoWind = foldedIntoWind(attack);
 -  const area = getCrossSectionalArea(rad(intoWind), maxArea);
@@ -268,6 +319,18 @@ index 83ef81b..4d00676 100644
 +  return out;
 +}
 +
+diff --git a/src/core/state.ts b/src/core/state.ts
+index 8bb6d5f..8a11ddb 100644
+--- a/src/core/state.ts
++++ b/src/core/state.ts
+@@ -405,0 +406,4 @@ export interface AutopilotState {
++  /** s — simulated countdown to the next scheduled-entry range prediction. */
++  entryRangeCountdown: number;
++  /** rad — entry attack-angle trim, bounded by the existing three-degree authority. */
++  entryRangeTrim: Rad;
+@@ -677,0 +682,2 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
++      entryRangeCountdown: 0,
++      entryRangeTrim: rad(0),
 diff --git a/src/core/step.ts b/src/core/step.ts
 index 594b14f..ff9368d 100644
 --- a/src/core/step.ts
@@ -422,6 +485,22 @@ index 79666db..90b0216 100644
 +    expect(Math.abs(predicted.downRange - actual)).toBeLessThan(1);
 +  });
 +
+diff --git a/tests/flies-every-scenario.test.ts b/tests/flies-every-scenario.test.ts
+index a0de296..723d450 100644
+--- a/tests/flies-every-scenario.test.ts
++++ b/tests/flies-every-scenario.test.ts
+@@ -147,6 +147,5 @@ describe('the autopilot flies the ones it is meant to', () => {
+-    // Since Phase 6 the limit is a tile temperature (1,533 K) and T goes as
+-    // q^1/4, so "60-100% of the limit" would pass almost anything. Banded on
+-    // the measured flux instead: 170.9 kW/m^2, a skin temperature of 1,372 K
+-    // (2026-10-01), within 5%.
+-    expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(170_900 * 0.95);
+-    expect(peak).toBeLessThan(170_900 * 1.05);
++    // Phase6b Task1, measured2026-10-01: body-axis forces, Mach20-to-two
++    // schedule and bounded range feedback peak at161759.227 W/m². Preserve
++    // the plan's ±5% band and the independent absolute thermal limit.
++    expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(161_800 * 0.95);
++    expect(peak).toBeLessThan(161_800 * 1.05);
 diff --git a/scripts/entry-sweep.ts b/scripts/entry-sweep.ts
 new file mode 100644
 index 0000000..6bdaf09
@@ -488,6 +567,85 @@ index 0000000..eaecc74
 +  const weight = Math.min(1, (mach - C.ENTRY_BROADSIDE_MACH) /
 +    (C.ENTRY_LIFT_MACH - C.ENTRY_BROADSIDE_MACH));
 +  return rad(Math.sign(speedX) * (Math.PI / 2 - entryAngle) * weight);
++}
+diff --git a/src/core/control/entry-range.ts b/src/core/control/entry-range.ts
+new file mode 100644
+index 0000000..27e4a35
+--- /dev/null
++++ b/src/core/control/entry-range.ts
+@@ -0,0 +1,73 @@
++/** Scheduled unpowered entry, using exactly the forces the fall predictor shares with step(). */
++import * as C from '../constants';
++import { entryPitchOffset } from '../autopilot/entry';
++import { speedOfSoundAt } from '../physics/atmosphere';
++import { isaAtmosphereInto } from '../physics/isa';
++import { meanWindAt } from '../physics/wind';
++import type { SimState } from '../state';
++import { rad, type Rad } from '../units';
++import { fallAcceleration, type BurnScratch, type FallResult } from './guidance-physics';
++
++function scheduledAcceleration(
++  h: number, vx: number, vy: number, mass: number, area: number,
++  referenceWind: number, entryAngle: Rad, pitchBias: Rad, scratch: BurnScratch,
++): void {
++  isaAtmosphereInto(Math.max(h, 0), scratch.atmosphere);
++  const speed = Math.hypot(vx - meanWindAt(referenceWind, h), vy);
++  const mach = speed / speedOfSoundAt(scratch.atmosphere.airTemperature);
++  const pitch = Math.atan2(vx, vy) - Math.PI / 2 + entryPitchOffset(mach, vx, entryAngle) + pitchBias;
++  fallAcceleration(h, vx, vy, pitch, mass, area, referenceWind, scratch);
++}
++
++/**
++ * Signed displacement to 1 km under the entry schedule, not a flightworthiness
++ * claim. Midpoint integration includes the planned dump to the landing reserve;
++ * fins keep their current presented planform. Attitude lag, gusts and the powered
++ * flip/landing are excluded, so guidance repeats the prediction as the flight
++ * proceeds. The optional measured pitch tracking bias stays fixed over a
++ * forecast; it changes the prediction, never the requested pitch. 2500 s cap covers the slowest measured sweep without accepting an
++ * orbital start as a touchdown. Caller owns and reuses all scratch buffers.
++ */
++export function predictEntryRangeInto(
++  state: SimState, entryAngle: Rad, scratch: BurnScratch, out: FallResult,
++  stepSeconds = 0.5, pitchBias: Rad = rad(0),
++): void {
++  let h = state.kinematics.altitude;
++  let vx = state.kinematics.speedX, vy = state.kinematics.speedY, x = 0;
++  let mass = state.vehicle.vehicleMass;
++  const floorMass = C.vehicleDryMass + C.landingReserve;
++  const dumping = state.status.dumpingFuel;
++  const half = stepSeconds * 0.5;
++  const area = state.vehicle.vehicleInFlightMaxArea;
++  const wind = state.world.wind;
++  out.reached = h <= 1000;
++  out.time = out.reached ? 0 : Number.NaN;
++  out.downRange = 0;
++  if (out.reached) return;
++  for (let n = 0; n < Math.round(2500 / stepSeconds); n++) {
++    scheduledAcceleration(h, vx, vy, mass, area, wind, entryAngle, pitchBias, scratch);
++    const mx = vx + scratch.acc.x * half, my = vy + scratch.acc.y * half;
++    const midMass = dumping ? Math.max(floorMass, mass - C.dumpRate * half) : mass;
++    scheduledAcceleration(h + vy * half, mx, my, midMass, area, wind, entryAngle, pitchBias, scratch);
++    const nx = vx + scratch.acc.x * stepSeconds, ny = vy + scratch.acc.y * stepSeconds;
++    const nh = h + my * stepSeconds, nextX = x + mx * stepSeconds;
++    if (nh <= 1000) {
++      const fraction = (h - 1000) / (h - nh);
++      out.reached = true;
++      out.time = (n + fraction) * stepSeconds;
++      out.downRange = x + (nextX - x) * fraction;
++      return;
++    }
++    h = nh; x = nextX; vx = nx; vy = ny;
++    if (dumping) mass = Math.max(floorMass, mass - C.dumpRate * stepSeconds);
++  }
++  out.downRange = x;
++}
++
++/** Angle trim solved from the signed ranges at the two authority limits. */
++export function entryRangeTrim(target: number, lowAngleRange: number, highAngleRange: number): Rad {
++  const span = highAngleRange - lowAngleRange;
++  if (!Number.isFinite(span) || Math.abs(span) < 1) return rad(0);
++  const fraction = Math.max(0, Math.min(1, (target - lowAngleRange) / span));
++  return rad(C.aeroDescentMaxCorrectionAngle * (2 * fraction - 1));
 +}
 diff --git a/tests/core/body-axis-aero.test.ts b/tests/core/body-axis-aero.test.ts
 new file mode 100644
@@ -693,7 +851,7 @@ index 0000000..1550b0d
 +});
 diff --git a/tests/core/entry-on-lift.test.ts b/tests/core/entry-on-lift.test.ts
 new file mode 100644
-index 0000000..c18e2d8
+index 0000000..d62722b
 --- /dev/null
 +++ b/tests/core/entry-on-lift.test.ts
 @@ -0,0 +1,70 @@
@@ -722,7 +880,7 @@ index 0000000..c18e2d8
 +      s.kinematics.angularVelocity = 0;
 +      s.kinematics.machSpeed = 40;
 +      s.forces.offAxisThrustDifferenceAcceleration = 0;
-+      autoLand(s, 1 / 120);
++      autoLand(s, 1 / 120, rad(Math.PI / 3));
 +      expect(s.autopilot.pitchControl).toBeCloseTo(0, 9);
 +      expect(s.autopilot.rcsThrustCommand).toBeCloseTo(0, 9);
 +    });
@@ -766,6 +924,90 @@ index 0000000..c18e2d8
 +      expect(Math.abs(entryPitchOffset(mach+1e-8,vx,rad(Math.PI/3))-entryPitchOffset(mach-1e-8,vx,rad(Math.PI/3)))).toBeLessThan(1e-8);
 +    }
 +  });
++});
+diff --git a/tests/core/entry-range.test.ts b/tests/core/entry-range.test.ts
+new file mode 100644
+index 0000000..dba57e9
+--- /dev/null
++++ b/tests/core/entry-range.test.ts
+@@ -0,0 +1,78 @@
++import { expect, it } from 'vitest';
++import * as C from '$core/constants';
++import { createScenarioState, getScenario } from '$core/scenarios';
++import { createBurnScratch, createFallResult } from '$core/control/guidance-physics';
++import { predictEntryRangeInto } from '$core/control/entry-range';
++import { updateVehicleInFlightMaxArea } from '$core/physics/aero';
++import { entryPitchOffset } from '$core/autopilot/entry';
++import { step } from '$core/step';
++import { rad } from '$core/units';
++
++it.each([[-1, 0], [1, 0], [-1, 2], [1, -2]] as const)('predicts direction %i with a measured %i-degree tracking bias', (direction, biasDegrees) => {
++  const bias = rad(biasDegrees * Math.PI / 180);
++  let s = createScenarioState(getScenario('reentry')!);
++  s.kinematics.speedX *= direction;
++  s.vehicle.propellantMass = 22_000;
++  s.vehicle.vehicleMass = C.vehicleDryMass + 22_000;
++  s.vehicle.frontFinExtension = 100;
++  s.vehicle.aftFinExtension = 100;
++  s.vehicle.vehicleInFlightMaxArea = updateVehicleInFlightMaxArea(100, 100).vehicleInFlightMaxArea;
++  s.status.finActive = false;
++  s.status.finLocked = false; // inactive, unlocked fins stay fully extended
++  const origin = s.kinematics.downRangeDistance;
++  const scratch = createBurnScratch();
++  const prediction = createFallResult();
++  predictEntryRangeInto(s, C.ENTRY_LIFT_ANGLE, scratch, prediction, 0.5, bias);
++  expect(prediction.reached).toBe(true);
++  const halfStep = createFallResult();
++  predictEntryRangeInto(s, C.ENTRY_LIFT_ANGLE, scratch, halfStep, 0.25, bias);
++  expect(Math.abs(prediction.downRange - halfStep.downRange)).toBeLessThan(1_000);
++  for (let n = 0; n < 120 * 1200 && s.kinematics.altitude > 1000; n++) {
++    const motion = Math.atan2(s.kinematics.speedX, s.kinematics.speedY);
++    s.kinematics.pitch = rad(motion - Math.PI / 2 +
++      entryPitchOffset(s.kinematics.machSpeed, s.kinematics.speedX, C.ENTRY_LIFT_ANGLE) + bias);
++    s.kinematics.angularVelocity = 0;
++    s = step(s, 1 / 120);
++    expect(s.failures.inFlightBreakUp).toBe(false);
++  }
++  expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
++  const flown = s.kinematics.downRangeDistance - origin;
++  expect(Math.abs(prediction.downRange - flown)).toBeLessThan(2_000);
++});
++
++it('reports a cap rather than inventing a touchdown for a vehicle in orbit', () => {
++  const s = createScenarioState(getScenario('deorbit')!);
++  const out = createFallResult();
++  predictEntryRangeInto(s, C.ENTRY_LIFT_ANGLE, createBurnScratch(), out);
++  expect(out.reached).toBe(false);
++  expect(Number.isNaN(out.time)).toBe(true);
++});
++
++it('solves the range trim in both directions and preserves three-degree authority', async () => {
++  const { entryRangeTrim } = await import('$core/control/entry-range');
++  const limit = Math.PI / 60;
++  // Reducing the attack angle lengthens the outward-lift entry.
++  expect(entryRangeTrim(1200, 1200, 800)).toBeCloseTo(-limit, 12);
++  expect(entryRangeTrim(800, 1200, 800)).toBeCloseTo(limit, 12);
++  expect(entryRangeTrim(1000, 1200, 800)).toBeCloseTo(0, 12);
++  expect(entryRangeTrim(-1200, -1200, -800)).toBeCloseTo(-limit, 12);
++  expect(entryRangeTrim(-800, -1200, -800)).toBeCloseTo(limit, 12);
++  expect(entryRangeTrim(5000, 1200, 800)).toBeCloseTo(-limit, 12);
++  expect(entryRangeTrim(0, 1200, 800)).toBeCloseTo(limit, 12);
++  expect(entryRangeTrim(1000, 1000, 1000)).toBe(0);
++});
++
++it('keeps feedback deterministic, resets its countdown, and leaves fixed-angle sweeps open-loop', async () => {
++  const { toggleAutoLand } = await import('$core/control/commands');
++  const s = createScenarioState(getScenario('reentry')!);
++  toggleAutoLand(s);
++  const once = step(s, 1 / 120);
++  expect(once.autopilot.entryRangeCountdown).toBe(1);
++  expect(step(s, 1 / 120)).toEqual(once);
++  const fixed = step(s, 1 / 120, { entryAngleOfAttack: C.ENTRY_LIFT_ANGLE });
++  expect(fixed.autopilot.entryRangeCountdown).toBe(0);
++  expect(fixed.autopilot.entryRangeTrim).toBe(0);
++  toggleAutoLand(once);
++  expect(once.autopilot.entryRangeCountdown).toBe(0);
++  expect(once.autopilot.entryRangeTrim).toBe(0);
 +});
 diff --git a/tests/core/failure-freshness.test.ts b/tests/core/failure-freshness.test.ts
 new file mode 100644

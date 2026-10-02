@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-range.test.ts (6 tests | 2 failed) 2216ms
+   × predicts direction -1 with a measured 2-degree tracking bias 525ms
+   × predicts direction 1 with a measured -2-degree tracking bias 543ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > predicts direction -1 with a measured 2-degree tracking bias
+AssertionError: expected 221570.89598176954 to be less than 2000
+ ❯ tests/core/entry-range.test.ts:40:50
+     38|   expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
+     39|   const flown = s.kinematics.downRangeDistance - origin;
+     40|   expect(Math.abs(prediction.downRange - flown)).toBeLessThan(2_000);
+       |                                                  ^
+     41| });
+     42|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/entry-range.test.ts > predicts direction 1 with a measured -2-degree tracking bias
+AssertionError: expected 236107.73942746595 to be less than 2000
+ ❯ tests/core/entry-range.test.ts:40:50
+     38|   expect(s.kinematics.altitude).toBeLessThanOrEqual(1000);
+     39|   const flown = s.kinematics.downRangeDistance - origin;
+     40|   expect(Math.abs(prediction.downRange - flown)).toBeLessThan(2_000);
+       |                                                  ^
+     41| });
+     42|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 4 passed (6)
+   Start at  21:56:02
+   Duration  2.43s (transform 89ms, setup 0ms, import 112ms, tests 2.22s, environment 0ms)
+

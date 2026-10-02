@@ -1,0 +1,97 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/flies-every-scenario.test.ts (17 tests | 1 failed) 7906ms
+     × reentry: survives the heat it now actually meets 2356ms
+ ❯ |unit| tests/core/deorbit-range.test.ts (6 tests | 1 failed) 10386ms
+     × within 1 km of the pad 2ms
+ ❯ |unit| tests/core/orbit-demo.test.ts (31 tests | 4 failed) 18936ms
+     × and touches down within 10 km of the pad 3ms
+     × flies the sequence it is supposed to: coast, burn, hand over, descend 0ms
+     × THE NUMBER: within 10 km of the pad, from a flight it was not fitted to 0ms
+     × from 300 km it still lands, but the envelope is showing 855ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/flies-every-scenario.test.ts > the autopilot flies the ones it is meant to > reentry: survives the heat it now actually meets
+AssertionError: peak heat flux, W/m^2: expected 161759.2274307887 to be greater than 162355
+ ❯ tests/flies-every-scenario.test.ts:151:43
+    149|     // the measured flux instead: 170.9 kW/m^2, a skin temperature of …
+    150|     // (2026-10-01), within 5%.
+    151|     expect(peak, 'peak heat flux, W/m^2').toBeGreaterThan(170_900 * 0.…
+       |                                           ^
+    152|     expect(peak).toBeLessThan(170_900 * 1.05);
+    153|     expect(peak).toBeLessThan(C.heatLimit);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |unit| tests/core/deorbit-range.test.ts > the deorbit aim matches the autoLand it aims for > within 1 km of the pad
+AssertionError: missed by -10.38 km; re-derive with npm run deorbit:range: expected 10384.239176236093 to be less than 1000
+ ❯ tests/core/deorbit-range.test.ts:22:114
+     20|
+     21|   it('within 1 km of the pad', () => {
+     22|     expect(Math.abs(m.miss), `missed by ${(m.miss / 1000).toFixed(2)} …
+       |                                                                                                                  ^
+     23|   });
+     24| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > step 3 — deorbit and land at StarBase > and touches down within 10 km of the pad
+AssertionError: missed by -10.38 km: expected 10384.239176236093 to be less than 10000
+ ❯ tests/core/orbit-demo.test.ts:254:86
+    252|     // exact flight, and missed by 192 km when flown from anywhere els…
+    253|     // the envelope block below for what the guidance actually does.
+    254|     expect(Math.abs(flight.miss), `missed by ${(flight.miss / 1000).to…
+       |                                                                                      ^
+    255|       10_000,
+    256|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > step 3 — deorbit and land at StarBase > flies the sequence it is supposed to: coast, burn, hand over, descend
+AssertionError: coasted most of a lap before firing: expected 1433.05 to be greater than 1500
+ ❯ tests/core/orbit-demo.test.ts:269:73
+    267|     // Not merely "it landed" — that could happen by accident. The pha…
+    268|     // have run, in order, at the times the design says.
+    269|     expect(flight.burnStartedAt, 'coasted most of a lap before firing'…
+       |                                                                         ^
+    270|     expect(flight.handedOverAt, 'handed over shortly after the burn').…
+    271|       flight.burnStartedAt,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > THE WHOLE DEMO, end to end — the M2.9 acceptance line > THE NUMBER: within 10 km of the pad, from a flight it was not fitted to
+AssertionError: missed by -10.15 km: expected 10153.231157146394 to be less than 10000
+ ❯ tests/core/orbit-demo.test.ts:369:7
+    367|       Math.abs(demo.flight.miss),
+    368|       `missed by ${(demo.flight.miss / 1000).toFixed(2)} km`,
+    369|     ).toBeLessThan(10_000);
+       |       ^
+    370|   });
+    371|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > from 300 km it still lands, but the envelope is showing
+AssertionError: expected 'brokeUp' to be 'landed' // Object.is equality
+
+Expected: "landed"
+Received: "brokeUp"
+
+ ❯ tests/core/orbit-demo.test.ts:436:23
+    434|     // is here so that reason stays measured rather than remembered.
+    435|     const f = from(circularAtAltitude(300_000));
+    436|     expect(f.outcome).toBe('landed');
+       |                       ^
+    437|     expect(Math.abs(f.miss)).toBeLessThan(150_000);
+    438|     expect(f.peakHeat / C.heatLimit, 'entry heating from 300 km').toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  6 failed | 48 passed (54)
+   Start at  21:52:24
+   Duration  27.97s (transform 246ms, setup 0ms, import 12.99s, tests 37.23s, environment 0ms)
+

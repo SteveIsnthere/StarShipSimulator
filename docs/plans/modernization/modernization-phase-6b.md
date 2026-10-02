@@ -73,7 +73,7 @@ The two prescribed sweeps, before/after belly-flop numbers and raw logs are reta
 | 75 | 1533.027 | 66798.1 | -3895571.8 | brokeUp | 1503.301 | 60626.4 | +231571.3 | landed |
 | 90 | 1533.062 | 67179.9 | -4035615.2 | brokeUp | 1533.053 | 62381.1 | -1017101.5 | brokeUp |
 
-The table above is historical constant-eta evidence, superseded by the corrected model. Both approved corrections below are implemented with watched red/green evidence. The corrected Mach-five sweep resolves demo heating but reentry lasts977.183 s; the measured Mach20-to-two trial gives60° deorbit1447.895 K and reentry1346.043 K in815.958 s. All corrected sweep rows and logs are in the progress note. Current aim3,966,736 m still misses114.37 km, so selection/schedule remain provisional and all Task1 acceptance checkboxes remain open. Next: measured aim/range acceptance and broader scenario checks, then Linux golden audit. No core commit or goldens yet.
+The table above is historical constant-eta evidence. Both approved corrections and bounded range feedback are now implemented. The final corrected fixed-angle sweep at aim3,812,057 m chooses60°: deorbit1463.710 K at70.051 km, miss-14.8 m, landed; reentry1346.043 K and815.958 s. Its complete16 rows are retained in calibrated-sweep.log and the progress note. Operational preset/demo range, three reserve checks and longitude/light/engine-out/120 km envelopes pass. The flux band is remeasured to161800 W/m²±5% on2026-10-01 as this task requires. Remaining red:300 km thermal breakup and unchanged1500 s coast assertion. Next bounded step: thermal-envelope prediction within existing±3° range authority (300 km diagnosis2); no wider authority or limits. No goldens/core commit/full gate yet; acceptance checkboxes remain open.
 
 ### Resume approvals — Steve, 2026-10-01
 
@@ -86,7 +86,7 @@ Steve approved both recommended exceptions (“sounds good”) after the goal wa
 
 The narrow approvals do not change the1,533 K tile limit, one-km health check,10 km landing acceptance,900 s reentry harness, reserve-health fraction, coverage floors, golden tolerances, control authority or diagnosis budget. Re-measure reserve/aim under the corrected model as already authorized. Existing source-derived coefficient tests remain truth; new body-force literal cases may be updated only to independently calculate the newly approved eta, retaining every assertion’s force/sign/continuity property. All analytic tests and reference bands remain binding. The prescribed eight-angle sweep must be run for the corrected model, since earlier tables describe the superseded constant factor; retain those tables as evidence, not current acceptance.
 
-**Implementation status:** the eta TDD cycle and approved predictor replacement are complete in the working tree. Do not repeat them. Continue measured aim/range acceptance with the recorded Mach20 measurements; finish scenario/engine-out checks and actual flux measurement before recording-platform goldens. Preserve all limits, diagnosis counts and stop rules.
+**Implementation status:** the eta TDD cycle and approved predictor replacement are complete in the working tree. Do not repeat them. Preset/demo range and flux remeasurement now pass. Continue the remaining300 km thermal-envelope diagnosis and coast-time diagnosis before recording-platform goldens. Preserve all limits, diagnosis counts and stop rules.
 
 ### Task 1b: Earth's rotation on (Fidelity; was Phase 6 Task 9b; after Task 1)
 

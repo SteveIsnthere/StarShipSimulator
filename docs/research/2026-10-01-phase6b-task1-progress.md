@@ -115,3 +115,37 @@ angle,preset,peakKelvin,peakAltitudeMetres,missMetres,outcome,seconds,speedAt1km
 ```
 
 Raw current-aim calibration: `mach20-range.log`; prior corrected Mach-five landing failures: `eta-landings.log`; latest flown-lift checks: `flown-lift.log`. All logs are retained with their original results, including watched-red runs. Recovery patch refreshed to include the current corrected source/tests; validated against the index and existing working tree. Never apply it over existing changes.
+
+## Latest bounded-feedback checkpoint
+
+Both owner corrections remain implemented. Task1 now includes scheduled-entry range prediction through the same fallAcceleration/body forces as step(), including planned dumping to22 t, current fin area, mean wind and rotating-frame gravity. It forecasts to1 km with midpoint0.5 s steps and a2500 s cap; convergence at0.25 s and real-step witnesses in both directions hold the unchanged new2 km prediction bound. That is an entry-range approximation, not the existing metre-accuracy burn/fall witnesses, which remain intact. The first range witness failure came from a fixture whose locked fins retracted; its setup was corrected without changing the2 km bound. Genuine tracking-bias cases then watched red and passed after prediction carried the observed near-track pitch error. No attitude command is enlarged by that bias.
+
+Operational guidance solves an entry-angle trim within the existing±3° authority, refreshed once per simulated second. Countdown and trim are in SimState; synchronous scratch buffers carry no flight history. Explicit offline entryAngleOfAttack overrides keep the prescribed sweep open-loop. Determinism, reset and override witnesses pass. Measured update cost1.825 ms once per simulated second; actual entry steps including updates average0.02185 ms in the on-demand probe. This is not the complete phase benchmark.
+
+Secant calibration from recorded aim/miss pairs gives currentDEORBIT_ENTRY_RANGE3,812,057 m. Final fixed-angle sweep at that aim selects60°: deorbit1463.710 K at70.051 km, miss-14.8 m, landed2959.675 s; reentry1346.043 K, landed815.958 s. This satisfies the preset sweep's thermal/10 km feasibility rule. With bounded feedback and measured tracking bias, preset one-km health, demo ten-km acceptance, all three reserve checks, longitude/light/engine-out/120 km range envelopes and all intended auto-land scenarios pass. The last full54-check landing run was51 pass/3 fail; its residual flux characterization was subsequently remeasured under Task1's explicit±5% permission:161759.227 W/m², band centred161800, absolute thermal limit retained. The updated scenario/entry-prediction focused run passes24/24. Build and lint pass; final truth report8/8 IN. No complete unit suite, mutation, Linux goldens/audit or phase gate yet.
+
+**Outstanding acceptance:** coast starts1433.05 s against the unchanged>1500 s assertion;300 km entry still breaks at1533.03 K/68.441 km. Neither assertion is changed. Range diagnosis1 rejected fin-area variation as the principal shortfall (neutral/current forecasts differ<1 km), found actual tracking offset~2.5° causing late inward lift; measured-bias prediction fixed preset/demo range. The300 km case has used only diagnosis1: trace shows thermal breakup atalpha60.60°, trim-0.113°, not pressure. Next bounded task: forecast the thermal envelope of the existing±3° range authority for that300 km entry, using the shared aero and thermal functions, before choosing a constrained guidance change. Record diagnosis2, then its result; no extra attempts are authorized. Do not change the tile limit, burn bounds, eta bridge or range limits. The coast assertion still needs its own principled diagnosis; do not delete or relax it. Earth's rate remains zero until Task1b. Task5 regression tests remain watched-red, with runtime fixes not begun.
+
+### Final calibrated fixed-angle sweep
+
+```csv
+angle,preset,peakKelvin,peakAltitudeMetres,missMetres,outcome,seconds,speedAt1km,peakFlipAttackDegrees
+45,deorbit,1496.027,70565.0,3209426.9,landed,3461.283,81.905,159.516
+45,reentry,1360.261,72868.9,3337084.1,landed,1148.525,81.912,160.278
+50,deorbit,1478.070,70707.0,1985853.8,landed,3272.500,81.928,159.305
+50,reentry,1344.826,72785.4,2607584.0,landed,1025.383,81.916,160.266
+55,deorbit,1467.289,70545.3,919647.3,landed,3105.417,81.934,159.351
+55,reentry,1340.577,72112.2,1960159.2,landed,914.967,81.931,160.200
+60,deorbit,1463.710,70051.4,-14.8,landed,2959.675,81.642,152.031
+60,reentry,1346.043,70923.7,1388111.1,landed,815.958,81.930,160.585
+65,deorbit,1467.478,69179.0,-780365.5,landed,2834.383,82.086,142.214
+65,reentry,1360.614,69161.8,878544.5,landed,726.350,81.915,162.086
+70,deorbit,1479.211,67827.9,-1429824.8,landed,2725.308,82.097,142.046
+70,reentry,1383.396,66910.8,421763.7,landed,645.142,81.850,167.549
+75,deorbit,1499.454,65873.1,-1986660.1,landed,2629.158,82.101,141.145
+75,reentry,1412.693,64253.6,31413.5,landed,571.700,81.792,167.562
+90,deorbit,1533.054,65771.3,-3362585.7,brokeUp,2143.308,,0.000
+90,reentry,1524.321,55645.5,-664741.9,landed,416.442,81.679,138.966
+```
+
+Raw broad acceptance: bias-landings.log; updated flux/scenario/entry witnesses: range-final-focused.log; bounded diagnoses: range-diagnosis1.log and range-diagnosis.ts. Missing-import build/test failures are retained as range-build.log/range-focused.log and corrected green logs, not hidden. Recovery patch refreshed and checked both ways with --unidiff-zero.
