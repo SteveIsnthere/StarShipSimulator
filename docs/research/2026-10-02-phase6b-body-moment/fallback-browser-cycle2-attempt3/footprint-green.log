@@ -1,0 +1,152 @@
+[WebServer] (node:9946) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 3 workers
+
+(node:9947) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9949) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: -88,
+  directChanged: 5589
+}
+  ✘  3 [chromium] › tests/e2e/post-compositing.spec.ts:50:1 › bloom preserves normal smoke occlusion @mobile (1.2s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: -16,
+  directChanged: 12800
+}
+(node:9967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/post-compositing.spec.ts:59:3 › bloom retains mixed smoke-then-fire compositing @mobile (1.6s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 0 }
+(node:9968) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/post-compositing.spec.ts:30:1 › local bloom footprint is independent of canvas dimensions @mobile (2.1s)
+(node:9975) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  4 [chromium] › tests/e2e/post-compositing.spec.ts:59:3 › bloom retains mixed fire-then-smoke compositing @mobile (1.5s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: -127,
+  directChanged: 3415
+}
+  ✘  6 [chromium] › tests/e2e/post-compositing.spec.ts:41:1 › bloom adds light without darkening additive exhaust @mobile (1.2s)
+  ✓  5 [chromium] › tests/e2e/post-compositing.spec.ts:67:1 › additive bloom survives a real WebGL context restoration @mobile (1.7s)
+
+
+  1) [chromium] › tests/e2e/post-compositing.spec.ts:30:1 › local bloom footprint is independent of canvas dimensions @mobile 
+
+    Error: bloom actually adds visible light outside the source
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      35 |   console.log('[bloom-footprint]', report);
+      36 |   expect(report.directDifference, 'the identical unfiltered local source is a positive control').toBe(0);
+    > 37 |   expect(report.changed, 'bloom actually adds visible light outside the source').toBeGreaterThan(0);
+         |                                                                                  ^
+      38 |   expect(report.maxDifference, 'canvas extent cannot change the same local bloom kernel').toBeLessThanOrEqual(1);
+      39 | });
+      40 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:37:82
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-local-blo-367ca-of-canvas-dimensions-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-local-blo-367ca-of-canvas-dimensions-mobile-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/post-compositing.spec.ts:41:1 › bloom adds light without darkening additive exhaust @mobile 
+
+    Error: bloom never removes direct additive light
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= -1
+    Received:    -127
+
+      45 |   expect(report.directMinimum, 'direct additive fire never subtracts background light').toBeGreaterThanOrEqual(-1);
+      46 |   expect(report.bloomMinimum, 'bloomed additive fire never subtracts background light').toBeGreaterThanOrEqual(-1);
+    > 47 |   expect(report.bloomVsDirectMinimum, 'bloom never removes direct additive light').toBeGreaterThanOrEqual(-1);
+         |                                                                                    ^
+      48 | });
+      49 |
+      50 | test('bloom preserves normal smoke occlusion @mobile', async ({ page }) => {
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:47:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-bloom-add-898a2-ing-additive-exhaust-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-bloom-add-898a2-ing-additive-exhaust-mobile-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/post-compositing.spec.ts:50:1 › bloom preserves normal smoke occlusion @mobile 
+
+    Error: filtered smoke still darkens its background
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < -3
+    Received:   0
+
+      53 |   expect(report.directChanged, 'the normal smoke positive control is visible').toBeGreaterThan(100);
+      54 |   expect(report.directMinimum, 'unfiltered smoke darkens its background').toBeLessThan(-3);
+    > 55 |   expect(report.bloomMinimum, 'filtered smoke still darkens its background').toBeLessThan(-3);
+         |                                                                              ^
+      56 | });
+      57 |
+      58 | for (const kind of ['fire-then-smoke', 'smoke-then-fire'] as const) {
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:55:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-bloom-pre-14ea1-rmal-smoke-occlusion-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-bloom-pre-14ea1-rmal-smoke-occlusion-mobile-chromium/error-context.md
+
+  4) [chromium] › tests/e2e/post-compositing.spec.ts:59:3 › bloom retains mixed smoke-then-fire compositing @mobile 
+
+    Error: bloom never subtracts light in either mixed draw order
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= -1
+    Received:    -16
+
+      61 |     console.log('[post-composite]', kind, report);
+      62 |     expect(report.directChanged).toBeGreaterThan(100);
+    > 63 |     expect(report.bloomVsDirectMinimum, 'bloom never subtracts light in either mixed draw order').toBeGreaterThanOrEqual(-1);
+         |                                                                                                   ^
+      64 |   });
+      65 | }
+      66 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:63:99
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-bloom-ret-add73-hen-fire-compositing-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-bloom-ret-add73-hen-fire-compositing-mobile-chromium/error-context.md
+
+  4 failed
+    [chromium] › tests/e2e/post-compositing.spec.ts:30:1 › local bloom footprint is independent of canvas dimensions @mobile 
+    [chromium] › tests/e2e/post-compositing.spec.ts:41:1 › bloom adds light without darkening additive exhaust @mobile 
+    [chromium] › tests/e2e/post-compositing.spec.ts:50:1 › bloom preserves normal smoke occlusion @mobile 
+    [chromium] › tests/e2e/post-compositing.spec.ts:59:3 › bloom retains mixed smoke-then-fire compositing @mobile 
+  2 passed (5.3s)

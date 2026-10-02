@@ -1,0 +1,3 @@
+# Cycle2attempt3 — input-texture coordinate repair
+
+Watched-red local-footprint witness: direct crop identical, actual bloom differs46RGB solely duecanvasdimensions. Fixed offset usesPixi supplieduInputSize.zw, retainingtap/weight/strength/threshold. Firstimplementation hadshareduniformprecision mismatch between vertex(highpdefault) and fragment(mediumpdefault), causingprogramlinkfailure andblankfilteredoutput. Positivecontrols caught it; do not interpret apparent0difference asgreen. Explicitmatchinghighp shareduniformprecision resolveslinking; all6desktoprendererwitnesses pass (footprintmaxdifference0withvisiblebleed). Intermediatefailedlogs retained. Build before original five-project plume acceptance; no source/effect/threshold/retry tuning.

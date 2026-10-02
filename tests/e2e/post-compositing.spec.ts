@@ -10,7 +10,9 @@ test.beforeAll(async () => {
   source = result.outputFiles[0]!.text;
 });
 
-async function render(page: import('@playwright/test').Page, kind: WitnessKind, restore = false): Promise<CompositeReport> {
+async function openWitness(page: import('@playwright/test').Page): Promise<void> {
+  page.on('console', (message) => { if (message.type() === 'error') console.log('[renderer-error]', message.text()); });
+  page.on('pageerror', (error) => console.log('[renderer-error]', error.message));
   await page.route('**/__post-witness.js', (route) => route.fulfill({
     contentType: 'application/javascript', body: source,
   }));
@@ -18,10 +20,25 @@ async function render(page: import('@playwright/test').Page, kind: WitnessKind, 
     contentType: 'text/html', body: '<script src="/__post-witness.js"></script>',
   }));
   await page.goto('/__post-witness');
+}
+
+async function render(page: import('@playwright/test').Page, kind: WitnessKind, restore = false): Promise<CompositeReport> {
+  await openWitness(page);
   return page.evaluate(([effect, restoreContext, baseline]) => (window as unknown as {
     postWitness(kind: WitnessKind, restore: boolean, baseline: boolean): Promise<CompositeReport>;
   }).postWitness(effect, restoreContext, baseline), [kind, restore, process.env['P6B_COMPOSITING_BASELINE'] === '1'] as const);
 }
+
+test('local bloom footprint is independent of canvas dimensions @mobile', async ({ page }) => {
+  await openWitness(page);
+  const report = await page.evaluate(() => (window as unknown as {
+    bloomFootprint(): Promise<{ maxDifference: number; directDifference: number; changed: number }>;
+  }).bloomFootprint());
+  console.log('[bloom-footprint]', report);
+  expect(report.directDifference, 'the identical unfiltered local source is a positive control').toBe(0);
+  expect(report.changed, 'bloom actually adds visible light outside the source').toBeGreaterThan(0);
+  expect(report.maxDifference, 'canvas extent cannot change the same local bloom kernel').toBeLessThanOrEqual(1);
+});
 
 test('bloom adds light without darkening additive exhaust @mobile', async ({ page }) => {
   const report = await render(page, 'fire');

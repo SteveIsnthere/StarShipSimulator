@@ -1,0 +1,44 @@
+[WebServer] (node:10148) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 3 workers
+
+(node:10149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10151) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10150) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  1 [chromium] › tests/e2e/post-compositing.spec.ts:52:1 › bloom preserves normal smoke occlusion @mobile (1.2s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  3 [chromium] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed smoke-then-fire compositing @mobile (1.6s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  2 [chromium] › tests/e2e/post-compositing.spec.ts:32:1 › local bloom footprint is independent of canvas dimensions @mobile (1.7s)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  4 [chromium] › tests/e2e/post-compositing.spec.ts:61:3 › bloom retains mixed fire-then-smoke compositing @mobile (1.1s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  6 [chromium] › tests/e2e/post-compositing.spec.ts:43:1 › bloom adds light without darkening additive exhaust @mobile (767ms)
+  ✓  5 [chromium] › tests/e2e/post-compositing.spec.ts:69:1 › additive bloom survives a real WebGL context restoration @mobile (1.1s)
+
+  6 passed (4.0s)

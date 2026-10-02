@@ -320,3 +320,6 @@ Fresh independent review identified real additive-alpha occlusion through bloom.
 
 
 Cycle2attempt2 completed:5passed/5failed,4.6min,zero retries; all five vacuum-width checks fail. Exact60 frozen PNG pairs are byte-identical; steady full core/bell populations rule out wholesale starvation in this run. Camera-normalized geometry expansion is present. All raw captured geometry/pixels/logs/reports/hashes retained in fallback-browser-cycle2-attempt2/. Fresh independent analysis requested for cycle2attempt3; do not repeat unchanged source for luck. High-depth rotated-streak diagnostic finding fixed; final build and69 focused checks pass. Main/live080f108,60%,four unfinished phases; no owner question.
+
+
+Cycle2attempt3 is running original5projectplume+30rendererchecks,session92029,/tmp/starship-plume-cycle2-attempt3-browser.log,HTML/tmp/starship-browser-cycle2-attempt3-html. A precise watched-red bloom coordinate defect is repaired: identical localemission differed46RGB with canvasdimension alone; corrected suppliedinputtexels retainallkernelparameters and yield0difference/visiblepositivecontrol432. All6desktoprendererchecks/build/lint/focused65units pass; high-depthfollowuprequested. Preserveactualfinalresult before furtherdiagnosis; this isthirdattempt ofcycle2. Main/live080f108,60%; no merge/tick orownerquestion.

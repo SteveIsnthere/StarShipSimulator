@@ -1,4 +1,4 @@
-import { Application, Container, Sprite, Texture, type WebGLRenderer } from 'pixi.js';
+import { Application, Container, Rectangle, Sprite, Texture, type WebGLRenderer } from 'pixi.js';
 import { createParticleSystem, createParticleTextures } from '../../../src/view/particles';
 import { createPostPass } from '../../../src/view/post';
 import { installEmissionBlending } from '../../../src/view/emission-blending';
@@ -98,3 +98,54 @@ async function witness(kind: WitnessKind, restoreContext = false, baseline = fal
 }
 
 (window as unknown as { postWitness: typeof witness }).postWitness = witness;
+
+async function bloomFootprint(): Promise<{ maxDifference: number; directDifference: number; changed: number }> {
+  const crops: Uint8ClampedArray[] = [];
+  const directCrops: Uint8ClampedArray[] = [];
+  let changed = 0;
+  for (const multiplier of [1, 2]) {
+    const app = new Application();
+    await app.init({ width: 320 * multiplier, height: 480 * multiplier,
+      background: 0x101010, antialias: false, resolution: 1, preference: 'webgl', autoStart: false });
+    const uninstall = installEmissionBlending(app.renderer);
+    const layer = new Container();
+    layer.filterArea = new Rectangle(40, 40, 100, 100);
+    const sprite = new Sprite(Texture.WHITE);
+    sprite.position.set(80, 80);
+    sprite.width = 3;
+    sprite.height = 3;
+    sprite.blendMode = 'add';
+    layer.addChild(sprite);
+    app.stage.addChild(layer);
+    const post = createPostPass(layer, new Container(), 320 * multiplier, 480 * multiplier);
+    const crop = async () => {
+      app.render();
+      const image = new Image();
+      image.src = (app.canvas as HTMLCanvasElement).toDataURL();
+      await image.decode();
+      const copy = document.createElement('canvas');
+      copy.width = app.canvas.width;
+      copy.height = app.canvas.height;
+      const context = copy.getContext('2d')!;
+      context.drawImage(image, 0, 0);
+      return context.getImageData(40, 40, 100, 100).data;
+    };
+    const direct = await crop();
+    post.update(1, 0, { x: 0.5, y: 0.5 }, 1);
+    const bloom = await crop();
+    for (let i = 0; i < bloom.length; i++) if (i % 4 !== 3 && bloom[i]! > direct[i]!) changed++;
+    directCrops.push(direct);
+    crops.push(bloom);
+    post.destroy();
+    uninstall();
+    app.destroy(true, { children: true });
+  }
+  let maxDifference = 0;
+  let directDifference = 0;
+  for (let i = 0; i < crops[0]!.length; i++) {
+    maxDifference = Math.max(maxDifference, Math.abs(crops[0]![i]! - crops[1]![i]!));
+    directDifference = Math.max(directDifference, Math.abs(directCrops[0]![i]! - directCrops[1]![i]!));
+  }
+  return { maxDifference, directDifference, changed };
+}
+(window as unknown as { bloomFootprint: typeof bloomFootprint }).bloomFootprint = bloomFootprint;
