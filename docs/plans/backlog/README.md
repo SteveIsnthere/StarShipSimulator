@@ -8,8 +8,6 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 |---|---|
 | Cd shape: Mach-only and attitude-blind, no transonic peak (a cited model is built and parked on `claude/drag-parked`) | 6b |
 | The unexplained `/ 2.1` in `getCrossSectionalArea` (`src/core/physics/aero.ts`) | 6b |
-| Break-up and crash checks read the previous step's forces | 6b |
-| `controlEnginebyTWR` divides the required thrust by the thrust at `throttleCurrent`, not at full throttle (`src/core/control/primitives.ts`), a 2021 quirk that makes its TWR wrong whenever the throttle is not at 100%. Phase 5's truth tests use the effective-vertical law instead | 6b |
 | Earth's rate in the ground frame (the frame and its tests are in at rate 0; switching on waits for entry range control, Phase 6b Task 1b); pitch integrated against local vertical with no frame-rotation term | 6b |
 | Render interpolation: `advance()` returns `alpha` but nothing reads it; the view draws the latest step | 8 |
 | Per-frame allocations: `engines.running.filter(Boolean)` in `src/view/effects.ts`; `worldToScreen` returns a new object (`src/view/camera.ts`) | 8 |

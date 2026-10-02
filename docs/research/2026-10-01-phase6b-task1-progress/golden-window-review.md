@@ -1,0 +1,11 @@
+# Reentry golden-window review — 2026-10-02
+
+Peer check golden-window-peer-check.log failed authentication; Pro Chrome remains unavailable. Fresh in-harness reviewer golden_window_review read the goal, current snapshot/pins,180s fixture, full flight evidence and causal measurement script. This is fallback independence, not a cross-vendor review.
+
+Finding: the old180s endpoint h<50km/vy<-100 characterization is obsolete under intended outward-lift entry; it is not established runtime/model error. Current180s h78090.72/vy-14.826; outward lift+.904944m/s² offsets most of framegravity-1.228612, with drag+.004846 and thrust0. Monotone descent/horizontal deceleration then crosses50km at569.75s (h49999.019/vy-195.254), reaches43238.098m/vy-251.203 at600s and lands855.217s at1315.063K peak. All46 pinned files match; incoming-force/end-Verlet difference in decomposition is expected. No reviewer flights or source writes.
+
+The timed characterization is an explicit contract: extending steps is not authorized merely by Fidelity or keeping the literal numbers. Owner question asks a narrow fixed600s recording-window exception, retaining every numeric fixture assertion and uninterrupted survival, plus900s full-flight limit,1533K,±3deg,eta/health/range bounds. No approval has arrived; do not edit the duration or replay assertions. The gate is red in one fixture-own characterization despite all eight numerical replays passing.
+
+If approved: change only reentry duration180->600, explain ten-minute supersonic descent segment, regenerateall8 onLinux/Node22, require the existing361samples through180s byte-equivalent in flattened values, audit840newtail samples separately. Update audit metadata/unequal-row assumption only for this approved extension; every other schema/metadata/numeric bound remains unchanged. Fixed600 is a round horizon with substantial descent margins, not the first passing instant. Reentry still misses its historical preset target by1756km; this is recorded and not claimed as pad accuracy.
+
+No substantive findings rejected. Accepted the stale-window diagnosis and explicit approval boundary; owner decision remains pending. Current raw failure range-cycle2-golden-replay.log, exact source in range-cycle2-source-sha256.json; initialLinuxrun36985191265/snapshot764d191. Final phase reviews remain required.

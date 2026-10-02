@@ -1,0 +1,8 @@
+{
+  "snapshotSha": "764d19145edb06553500d256bb425d6c0f1669f3",
+  "snapshotTree": "9e8ae36f8faecffc359e669a37263810d8fa3e82",
+  "parent": "5a1358763b3c3b134aaa8dceaea2a73cc1999574",
+  "recordingBranch": "golden/entry-lift-rotation-20261002",
+  "runtimePins": "range-cycle2-source-sha256.json",
+  "prerequisite": "range-cycle2-accepted-units.log:1987pass/8stale-golden-only; truth8/8"
+}

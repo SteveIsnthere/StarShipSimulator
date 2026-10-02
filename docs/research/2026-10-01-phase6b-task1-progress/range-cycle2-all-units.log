@@ -1,0 +1,353 @@
+
+> starship-simulator-v2@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+(node:79871) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:79874) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:79870) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:79872) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:79873) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79875) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79876) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79878) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79877) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79880) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79879) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79881) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79882) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79883) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79884) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79886) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79885) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79887) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79889) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79888) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79891) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79890) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79892) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79893) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79894) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79896) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79895) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79897) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79898) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ |unit| tests/golden/replay.test.ts (17 tests | 8 failed) 2423ms
+     × replays field for field, sample for sample 12ms
+     × replays field for field, sample for sample 2ms
+     × replays field for field, sample for sample 1ms
+     × replays field for field, sample for sample 1ms
+     × replays field for field, sample for sample 1ms
+     × replays field for field, sample for sample 1ms
+     × replays field for field, sample for sample 1ms
+     × replays field for field, sample for sample 1ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'launch-pad-takeoff' > replays field for field, sample for sample
+AssertionError: launch-pad-takeoff: SimState shape changed: expected [ 'atmosphere.airDensity', …(158) ] to deeply equal [ 'atmosphere.airDensity', …(156) ]
+
+- Expected
++ Received
+
+@@ -22,10 +22,12 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
++   "autopilot.entryRangeCountdown",
++   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'booster-sep-boostback' > replays field for field, sample for sample
+AssertionError: booster-sep-boostback: SimState shape changed: expected [ 'atmosphere.airDensity', …(158) ] to deeply equal [ 'atmosphere.airDensity', …(156) ]
+
+- Expected
++ Received
+
+@@ -22,10 +22,12 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
++   "autopilot.entryRangeCountdown",
++   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'rtls-boostback' > replays field for field, sample for sample
+AssertionError: rtls-boostback: SimState shape changed: expected [ 'atmosphere.airDensity', …(158) ] to deeply equal [ 'atmosphere.airDensity', …(156) ]
+
+- Expected
++ Received
+
+@@ -22,10 +22,12 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
++   "autopilot.entryRangeCountdown",
++   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'reentry-autoland' > replays field for field, sample for sample
+AssertionError: reentry-autoland: SimState shape changed: expected [ 'atmosphere.airDensity', …(158) ] to deeply equal [ 'atmosphere.airDensity', …(156) ]
+
+- Expected
++ Received
+
+@@ -22,10 +22,12 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
++   "autopilot.entryRangeCountdown",
++   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'before-flip-autoland' > replays field for field, sample for sample
+AssertionError: before-flip-autoland: SimState shape changed: expected [ 'atmosphere.airDensity', …(158) ] to deeply equal [ 'atmosphere.airDensity', …(156) ]
+
+- Expected
++ Received
+
+@@ -22,10 +22,12 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
++   "autopilot.entryRangeCountdown",
++   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'landing-burn-autoland' > replays field for field, sample for sample
+AssertionError: landing-burn-autoland: SimState shape changed: expected [ 'atmosphere.airDensity', …(158) ] to deeply equal [ 'atmosphere.airDensity', …(156) ]
+
+- Expected
++ Received
+
+@@ -22,10 +22,12 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
++   "autopilot.entryRangeCountdown",
++   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'landing-burn-headwind' > replays field for field, sample for sample
+AssertionError: landing-burn-headwind: SimState shape changed: expected [ 'atmosphere.airDensity', …(158) ] to deeply equal [ 'atmosphere.airDensity', …(156) ]
+
+- Expected
++ Received
+
+@@ -22,10 +22,12 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
++   "autopilot.entryRangeCountdown",
++   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  |unit| tests/golden/replay.test.ts > 'intro-demo' > replays field for field, sample for sample
+AssertionError: intro-demo: SimState shape changed: expected [ 'atmosphere.airDensity', …(158) ] to deeply equal [ 'atmosphere.airDensity', …(156) ]
+
+- Expected
++ Received
+
+@@ -22,10 +22,12 @@
+    "autopilot.deorbitBurnStarted",
+    "autopilot.deorbitInitCompleted",
+    "autopilot.deorbitTargetSpeed",
+    "autopilot.distanceToGround",
+    "autopilot.effectiveVerticalMaxThrust",
++   "autopilot.entryRangeCountdown",
++   "autopilot.entryRangeTrim",
+    "autopilot.finalDescentStageCompleted",
+    "autopilot.finalDescentStageInitialised",
+    "autopilot.finalStagePessimisticAltitude",
+    "autopilot.fineTunePercentage",
+    "autopilot.flipCompleted",
+
+ ❯ expectSampleMatches tests/golden/replay.test.ts:76:55
+     74|   const expectedKeys = Object.keys(expected!).sort();
+     75|   const actualKeys = Object.keys(actual).sort();
+     76|   expect(actualKeys, `${id}: SimState shape changed`).toEqual(expected…
+       |                                                       ^
+     77|
+     78|   for (const key of expectedKeys) {
+ ❯ tests/golden/replay.test.ts:51:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed | 152 passed (153)
+      Tests  8 failed | 1987 passed (1995)
+   Start at  01:16:10
+   Duration  104.24s (transform 4.84s, setup 1.98s, import 57.41s, tests 282.00s, environment 24.40s)
+

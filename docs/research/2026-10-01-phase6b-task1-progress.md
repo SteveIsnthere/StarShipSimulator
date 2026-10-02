@@ -224,3 +224,25 @@ This adds evidence to the rotating-entry checkpoint; it does not complete Phase 
 Full remaining scope is still Phases 6b, 7, 8 and 9. Steve requested goalgen to refresh the handover command; the specific extra range-diagnosis authorization is presented separately with options. Existing approvals and unused extra 300 km verification remain intact.
 
 [Review provenance and browser evidence](2026-10-01-phase6b-task1-progress/rotation-independent-review.md).
+
+## Successful range cycle and common calibration checkpoint (2026-10-02)
+
+This supersedes previous current-status/stop statements. Phase6 remains merged/live080f108;6b unfinished,6/10 phases complete. Standing autonomy approvals are binding; no owner question pending.
+
+The fresh fallback range review led to exact-input traces: endpoint interpolation left17.8km candidate residual at79km with safe unsaturated authority. Watched-red Bug-fix regression and safeguarded nonlinear solve preserve +/-3deg authority/thermal guard;12 solver tests pass. Real health6/6 and focused95/95 pass at aim2924026, then the named extra300km verification passes and is CONSUMED. Complete units at that aim1987pass/8 stale golden schemas only; no other unit failure. No fixtures written.
+
+Fixed sweep at2924026 had no qualifying row. Independent calibration follow-up retained the open-loop measurement contract, rather than silently enabling feedback. Attempt1 measured secant2750421:fixed65+7459m at1424.567K, but operational120km+41616m exceeded40km. Attempt2 trace shows signed overshoot established during saturated+3deg entry; powered stage recovers only110m, burn cuts on guidance below240m/s ceiling. Attempt3 updated measured fixed-root2758826 passes fixed65+0.3m and120km+37321.649m. Final prescribed16-row sweep confirms65 is the only deorbit angle below1533K and within10km:1424.614K at68.328km. The cooler60 row misses+682km. M_t20/M_b2,eta,reserve22t,bounds and authority unchanged. Fixed reentry misses remain diagnostic; operational900s is mandatory.
+
+Final build passed; complete units/truth under2758826 are next. Recording-platform fixtures/audit/margins/coherent source commit remain owed; Task1/1b checkboxes stay open until that checkpoint. Tasks2–4 not started, no partial phase merge or phase7 start. No full phase gate/mutation/final reviews claimed.
+
+Evidence: range-cycle2-review.md records approaches before execution and fallback review dispositions; range-cycle2 baseline/solver-inputs/red/green/health/acceptance logs, rotation-300km-approved-verification.log, fixed-calibration1/3 logs, fixed-calibration2/3-120km traces, rotation-accepted-sweep.log. Raw failures retained. Earlier32 source pins are historical; new pins/recovery patch will be refreshed before checkpoint.
+
+## Linux audit and narrowly pending window decision (2026-10-02)
+
+Final common aim2758826 complete units1987pass/8 stalegolden-only failures; build/lint/truth8/8pass. Actual deorbit measurement lands+6.851m,1425.663K,3079.233s,6.276t left; reentry855.217s,1315.063K,144021.289W/m²,miss+1756315.6m (not pad accuracy). Beforeflip1km70.030m/s/peakflip151.475deg/miss-0.307m versus old70.076/144.922/+0.3165; full old/newbelly tables retained. Intro9.858s/allenginesoff, every existing margin outcome unchanged including known impossible landingburn/two-out crash.
+
+Linux recording run36985191265 succeeded from immutable764d191 snapshot;46 sourcepins match. All8 artifacts expectedly move with2 entry-history keys; full field/digest audit and updated margins retained. CopiedLinuxartifacts and audit rows are unfinished source: numerical replays/unification26pass, but one fixture characterization fails (180s reentry endpoint h<50km/vy<-100). Fresh independent fallbackreview/trace establishes intended lifted entry: crosses50km569.75s,600s h43238m/vy-251m/s,landswithin900.
+
+Owner question is pending for only reentry recording-window180->600s, keeping every literal numeric assertion and existing heat/900s/range/authority/source constraints. No duration/assertion changed; do not treat pending choice as approval. Current gate is not green. Keep Task1acceptance open; Tasks2–4/nextphases cannot start yet. Independent Task5Bugfixes are implemented/tested/audited; its two backlogrows can close in this branch. No runtimecommit/phasegate/mutation/finalreview/merge claimed.
+
+If approved: record all8 again onLinux with only that durationextension; prove identical existing361sample reentryprefix and separately audit840added samples, then coherent source/fixtures/audit commit and Task2. Preserve initialrun/failedcheckpoint. Initialrecordingbranch remains until finalartifact checkpoint.

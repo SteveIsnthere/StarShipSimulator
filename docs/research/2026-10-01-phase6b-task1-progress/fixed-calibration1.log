@@ -1,0 +1,7 @@
+
+> starship-simulator-v2@0.1.0 entry:sweep
+> vite-node scripts/entry-sweep.ts 65
+
+angle,preset,peakKelvin,peakAltitudeMetres,missMetres,outcome,seconds,speedAt1km,peakFlipAttackDegrees
+65,deorbit,1424.567,68330.0,7459.1,landed,3075.725,81.443,165.540
+65,reentry,1311.174,68098.0,2216021.7,landed,931.942,81.441,167.164

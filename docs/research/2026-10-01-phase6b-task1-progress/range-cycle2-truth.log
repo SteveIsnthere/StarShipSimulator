@@ -1,0 +1,14 @@
+
+> starship-simulator-v2@0.1.0 truth:report
+> vite-node scripts/truth-report.ts
+
+IN   A raptor2.sl.thrust          2,255,530 N        [2,142,753, 2,368,306]     
+IN   A raptor2.vac.isp            350 s              [336.59, 357.41]           
+IN   B raptor2.sl.isp             327 s              [317.19, 336.81]           
+IN   A ship.propellant.capacity   1,200,000 kg       [1,140,000, 1,260,000]     
+IN   B ship.dry.mass              120,000 kg         [75,000, 125,000]          
+IN   A ship.engine.count          6 engines          [6, 6]                     
+IN   A earth.radius               6,371,000 m        [6,364,629, 6,377,371]     
+IN   A orbit.circular.200km       7,788 m/s          [7,750, 7,827]             
+
+8 of 8 rows in band
