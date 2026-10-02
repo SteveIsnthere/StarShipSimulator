@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/physical-scale.test.ts (20 tests | 1 failed) 13ms
+     × above 1,533 K it breaks up; at 1,533 K it does not 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/physical-scale.test.ts > the tile breaks up on its temperature, the reading the HUD shows > above 1,533 K it breaks up; at 1,533 K it does not
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/physical-scale.test.ts:242:68
+    240|   it('above 1,533 K it breaks up; at 1,533 K it does not', () => {
+    241|     expect(heatedTo(C.TILE_LIMIT_KELVIN + 0.01).failures.inFlightBreak…
+    242|     expect(heatedTo(C.TILE_LIMIT_KELVIN).failures.inFlightBreakUp).toB…
+       |                                                                    ^
+    243|   });
+    244| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 43 passed (44)
+   Start at  22:41:10
+   Duration  396ms (transform 346ms, setup 0ms, import 505ms, tests 124ms, environment 0ms)
+

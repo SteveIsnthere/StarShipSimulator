@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/failure-freshness.test.ts (7 tests | 1 failed | 6 skipped) 6ms
+     × cancels engines and pending ignition when current pressure breaks the vehicle 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > breakup reads current forces > cancels engines and pending ignition when current pressure breaks the vehicle
+AssertionError: expected 29578228.924115032 to be 25607500 // Object.is equality
+
+- Expected
++ Received
+
+- 25607500
++ 29578228.924115032
+
+ ❯ tests/core/failure-freshness.test.ts:50:49
+     48|     const dry = createMassProperties();
+     49|     writeMassProperties(0, dry);
+     50|     expect(next.vehicle.vehicleMomentOfInertia).toBe(dry.momentOfInert…
+       |                                                 ^
+     51|     expect(next.kinematics.angularVelocity).toBe(0);
+     52|     expect(step(next, 1 / 120).forces.thrust).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  23:01:18
+   Duration  220ms (transform 92ms, setup 0ms, import 111ms, tests 6ms, environment 0ms)
+

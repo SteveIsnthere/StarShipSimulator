@@ -15,7 +15,7 @@ The evidence behind every phase is [docs/research/2026-09-30-modernization-audit
 ## Steve's decisions (2026-10-01)
 
 - **Entry on lift, as Phase 6b.** Physical drag (cited, built) halves hypersonic drag, and with the physical heat shield the deorbit breaks up at 1,533 K because the autopilot flies entry broadside, where lift is zero. Phase 6b gives the autopilot an entry angle-of-attack schedule that flies on lift, then lands the parked aero tasks on it. The tile limit never moves.
-- **Phase 6 resume:** one additional diagnosis attempt (attempt 4) for the iPhone portrait vacuum-plume width failure, with all assertions, bounds and retries unchanged. It passed final verification; Phase 6 is merged and live at080f108. The general three-attempt rule remains.
+- **Phase 6 resume:** one additional diagnosis attempt (attempt 4) for the iPhone portrait vacuum-plume width failure, with all assertions, bounds and retries unchanged. It passed final verification; Phase 6 is merged and live at `080f108`. The general three-attempt rule remains.
 - **Graphics and visuals get their own phase, before UX** (Phase 8), covering engines and plumes, re-entry and heat, the environment, and the vehicle and camera. Like Phase 3, it publishes its visual direction to a private review page and proceeds without waiting; Steve's verdict folds in as a scope change.
 
 ## Phases
@@ -79,6 +79,4 @@ Phases 7–9 get their phase plan when the phase before them lands, written by t
 
 ## Current checkpoint (2026-10-01)
 
-Phase 6 is merged and live at `080f108`. Six of ten phases are complete (60%).
-Phase 6b starts on `claude/entry-on-lift`, created from that main merge.
-Task 1 remains unfinished. The 300 km thermal case exhausted three diagnosis attempts and still breaks up; do not rerun it without the owner's specific extra-verification exception. Coast firing geometry is diagnosed, but its old 1500 s characterization is unchanged. Independent Task 5 is next: its full-throttle correction passes 38 control-contract tests; current-force failure checks remain unimplemented. Earlier entry landing results predate that throttle change. Two owner decisions await recording in the [goal contract](modernization-GOAL.md). Full scope 6b, 7, 8, 9 and all physical/landing limits remain unchanged. See [latest evidence](../../research/2026-10-01-phase6b-task1-progress.md).
+Phase 6 is merged/live at `080f108`. Six of ten phases are complete (60%). Existing claude/entry-on-lift holds unfinished Phase 6b. Task 5 force freshness/throttle fixes and dependent Fidelity braking adaptation are implemented, partially reviewed and preview-audited; no source commit, Linux goldens or complete gate yet. Four HUD/view unit failures are the next task. Steve approved the coast firing-geometry replacement and coherent Tasks 1+1b with one further 300 km verification after rotation. Three authorized diagnoses plus one accidental excluded-suite run are recorded; no reruns for luck. Full scope6b,7,8,9 and all physical/landing limits remain unchanged. Follow the [goal contract](modernization-GOAL.md) and [latest evidence](../../research/2026-10-01-phase6b-task1-progress.md).

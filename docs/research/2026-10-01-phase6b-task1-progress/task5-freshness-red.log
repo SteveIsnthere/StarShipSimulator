@@ -1,0 +1,106 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/failure-freshness.test.ts (5 tests | 5 failed) 6ms
+     × breaks up on the first overpressure step even when the incoming pressure was safe 5ms
+     × does not break a safe vacuum state because its incoming pressure reading was stale 0ms
+     × releases the pad on the first lifting step despite an incoming zero-thrust reading 0ms
+     × supports the unpowered vehicle immediately despite a stale high-thrust reading 0ms
+     × breaks on aerodynamic specific force while pressure and temperature stay below their limits 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > breakup reads current forces > breaks up on the first overpressure step even when the incoming pressure was safe
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/failure-freshness.test.ts:20:43
+     18|     const next = step(s, 1 / 120);
+     19|     expect(next.forces.dynamicPressure).toBeGreaterThan(C.dynamicPress…
+     20|     expect(next.failures.inFlightBreakUp).toBe(true);
+       |                                           ^
+     21|   });
+     22|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > breakup reads current forces > does not break a safe vacuum state because its incoming pressure reading was stale
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/failure-freshness.test.ts:30:43
+     28|     const next = step(s, 1 / 120);
+     29|     expect(next.forces.dynamicPressure).toBeLessThan(C.dynamicPressure…
+     30|     expect(next.failures.inFlightBreakUp).toBe(false);
+       |                                           ^
+     31|   });
+     32| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > ground contact reads current thrust > releases the pad on the first lifting step despite an incoming zero-thrust reading
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/failure-freshness.test.ts:45:37
+     43|     const next = step(s, 1 / 120);
+     44|     expect(next.forces.thrustAcceleration).toBeGreaterThan(gravityAt(C…
+     45|     expect(next.status.onTheGround).toBe(false);
+       |                                     ^
+     46|     expect(next.kinematics.speedY).toBeGreaterThan(0);
+     47|     expect(next.kinematics.altitude).toBeGreaterThan(s.kinematics.alti…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > ground contact reads current thrust > supports the unpowered vehicle immediately despite a stale high-thrust reading
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/failure-freshness.test.ts:56:37
+     54|     const next = step(s, 1 / 120);
+     55|     expect(next.forces.thrustAcceleration).toBe(0);
+     56|     expect(next.status.onTheGround).toBe(true);
+       |                                     ^
+     57|     expect(next.kinematics.altitude).toBe(s.kinematics.altitude);
+     58|     expect(next.kinematics.speedY).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > felt g reads current forces > breaks on aerodynamic specific force while pressure and temperature stay below their limits
+AssertionError: expected 13.778468683666647 to be less than 13
+ ❯ tests/core/failure-freshness.test.ts:73:67
+     71|     expect(next.forces.dynamicPressure).toBeLessThan(C.dynamicPressure…
+     72|     expect(next.forces.surfaceTemperature).toBeLessThan(C.TILE_LIMIT_K…
+     73|     expect(next.kinematics.totalAcceleration / C.standardGravity).toBe…
+       |                                                                   ^
+     74|     expect(next.forces.perceivedG).toBeGreaterThan(C.gLimit);
+     75|     expect(next.failures.inFlightBreakUp).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  22:38:45
+   Duration  233ms (transform 92ms, setup 0ms, import 112ms, tests 6ms, environment 0ms)
+

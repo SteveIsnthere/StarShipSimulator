@@ -1,0 +1,54 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/felt-g.test.ts (4 tests | 1 failed) 7ms
+     × breaks the airframe at the felt limit, not at the net acceleration 3ms
+ ❯ |unit| tests/core/physical-scale.test.ts (20 tests | 1 failed) 10ms
+     × above 1,533 K it breaks up; at 1,533 K it does not 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/felt-g.test.ts > felt g > breaks the airframe at the felt limit, not at the net acceleration
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/felt-g.test.ts:51:40
+     49|     s0.forces.perceivedG = 13.5;
+     50|     const s = step(s0, DT);
+     51|     expect(s.failures.inFlightBreakUp).toBe(true);
+       |                                        ^
+     52|   });
+     53|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/physical-scale.test.ts > the tile breaks up on its temperature, the reading the HUD shows > above 1,533 K it breaks up; at 1,533 K it does not
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/physical-scale.test.ts:230:75
+    228|   }
+    229|   it('above 1,533 K it breaks up; at 1,533 K it does not', () => {
+    230|     expect(heatedTo(C.TILE_LIMIT_KELVIN + 0.01).failures.inFlightBreak…
+       |                                                                           ^
+    231|     expect(heatedTo(C.TILE_LIMIT_KELVIN).failures.inFlightBreakUp).toB…
+    232|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 2 passed (4)
+      Tests  2 failed | 42 passed (44)
+   Start at  22:40:12
+   Duration  383ms (transform 335ms, setup 0ms, import 485ms, tests 125ms, environment 0ms)
+

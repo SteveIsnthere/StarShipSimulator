@@ -1,0 +1,7 @@
+{
+  "file": "tests/core/analytic-laws.test.ts",
+  "matchesGitHead": true,
+  "sha256": "a1ca3ac9071b68c342fca54aca73de25830768fafb7197ddef605c512e4f1533",
+  "cliError": "vitest list --json consumed the first file as its optional output path; source restored from unchanged Git version",
+  "correctedCollection": "805 tests; orbit-demo absent; core-proof-safe2 exits0"
+}

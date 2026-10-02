@@ -60,7 +60,7 @@ These three cannot land apart: physical drag alone breaks up the deorbit, and li
 
 ### Task 1 measured checkpoint (not complete)
 
-The two prescribed sweeps, before/after belly-flop numbers and raw logs are retained in [Task1 progress](../../research/2026-10-01-phase6b-task1-progress.md). The second sweep at aim4483442 m and18 t reserve records:
+The two prescribed sweeps, before/after belly-flop numbers and raw logs are retained in [Task 1 progress](../../research/2026-10-01-phase6b-task1-progress.md). The second sweep at aim4483442 m and18 t reserve records:
 
 | angle | deorbit peak K | peak altitude m | pad miss m | outcome | reentry peak K | peak altitude m | pad miss m | outcome |
 |---|---:|---:|---:|---|---:|---:|---:|---|
@@ -88,7 +88,7 @@ The narrow approvals do not change the1,533 K tile limit, one-km health check,10
 
 **Implementation status:** the eta TDD cycle and approved predictor replacement are complete in the working tree. Do not repeat them. Preset/demo range and flux remeasurement now pass. The subsequent thermal diagnosis exhausted its three attempts; follow the final checkpoint and goal contract before recording-platform goldens. Preserve all limits, diagnosis counts and stop rules.
 
-### Task 1b: Earth's rotation on (Fidelity; was Phase 6 Task 9b; after Task 1)
+### Task 1b: Earth's rotation on (Fidelity; now coherent with Task 1, owner approved)
 
 Everything is in place at rate zero (Phase 6 Task 9a and the 9b work): the Coriolis and centrifugal terms in `verticalGravityAcceleration` / `tangentialAcceleration`, `verticalWeight` in the burn predictor and the flip ladder, the ground-arc coast conic, the orbital presets converted with `groundTangentialSpeed`, and every truth test transformed to the inertial frame and proved with the rate on. What it waited for is range control in the descent: with the rate on and broadside entry, the circularize-then-deorbit flight missed by 11.1 km against the 10 km acceptance.
 
@@ -135,7 +135,7 @@ Measured with the rate on (2026-10-01, broadside entry, 2021 drag): `DEORBIT_ENT
 - [ ] Full gate, `npm run test:e2e:full`, `npm run mutation` (a mutant per new model), truth report, the `code-review` skill at `high`, and an independent physics reviewer (`cross-agent-review`).
 - [ ] Merge `claude/entry-on-lift` to `main`, verify the deploy, tick Phase 6b in the roadmap, write the Phase 7 plan with `superpowers:writing-plans`.
 
-## Thermal diagnosis and Task 5 checkpoint (2026-10-01)
+## Historical thermal diagnosis and Task 5 checkpoint (2026-10-01)
 
 Task 1's 300 km diagnosis is stopped after attempt 3. Diagnosis 2 added peak skin temperature to the existing entry predictor using the shared Sutton-Graves/radiative-sink functions; four flown fixed-fin/tracking-bias witnesses and step convergence retain the new 1 K bound. Watched red and green are retained. At the actual 300 km flight's 80 km crossing, forecasts at 57/60/63° gave 1549.25/1544.99/1542.88 K using observed -0.212° bias. Even the -3° tracking-bias forecasts exceed 1533 K. No fixed choice within existing authority was thermally feasible.
 
@@ -148,3 +148,23 @@ Independent Task 5 is partial. Its previously watched-red 60%-actual-throttle re
 Owner decisions pending: replacing only the obsolete coast floor; bringing Earth rotation forward into coherent Tasks 1+1b with exactly one additional 300 km verification. Until recorded, rate stays zero and the diagnosis stop remains binding. The preset fixed-angle sweep's stop rule has not fired. Preserve physical limits, source bridge, guidance authority and every other assertion.
 
 Evidence: `thermal-predictor-red.log`, `thermal-predictor-green.log`, `thermal-envelope2.log`, `thermal-envelope.ts`, `thermal-trim-red.log`, `thermal-focused.log`, `thermal-build.log`, `thermal-lint.log`, `thermal-truth.log`, `300km-attempt3.log`, `task5-throttle-green.log`. Logs are raw, including failures. The refreshed `in-progress-source.patch` includes current thermal/throttle code and passes forward/index and reverse/worktree checks with `--unidiff-zero`; it is recovery evidence, not shipped physics.
+
+## Refreshed checkpoint and owner approvals (2026-10-01)
+
+This section supersedes earlier checkpoint status. Phase 6 remains merged/live at `080f108`; six of ten phases are done (60%). Phase 6b is unfinished on existing claude/entry-on-lift. No unfinished runtime source has been committed or merged.
+
+Steve's latest “sounds good” approves both previously presented recommendations:
+1. Replace only the obsolete >1500 s coast characterization with a calculated firing-geometry witness. Keep burn sequence, duration bounds, total-flight checks and genuine predictor cap/null cases.
+2. Bring Task 1b Earth rotation forward and finish Tasks 1+1b as one coherent Fidelity change. Permit exactly one further named 300 km verification after that change and its other focused acceptance. The three authorized diagnoses are exhausted. An accidental fourth run occurred when Vitest ignored the global CLI exclude; it still broke up and grants no authority. The new exception is one further verification after that accidental run. If it fails, stop that diagnosis again and report; do not change physical limits or rerun for luck. A successful result permits the ordinary required release gate containing the case, not a new diagnosis campaign.
+
+Current source still has rotation zero and the old coast assertion; the approvals authorize their next implementation. Preserve1533 K, one-km health, ten-km landing, burn bounds, ±3° authority, the fixed source bridge and general three-attempt rule. The preset sweep stop rule has not fired.
+
+Task 5's current-force fixes are implemented: fresh pressure/felt-g breakup checks, ground support from current vertical specific force, collision before fuel use, fresh TWR, and breakup shutdown with dry mass/inertia and cancelled ignition. Full-throttle demand correction is retained. Real physical fixtures replace fabricated stale values without weakening their properties. The dependent final-descent v²=2ah braking envelope/feed-forward belongs to Task 1 Fidelity; intro keeps its original descent law. Before-flip/two-out now lands. Do not redo these fixes.
+
+Build, lint and truth report passed on the reviewed source. Explicit safe collection passed 805 core/proof tests; the focused landing acceptance passed 36. Independent review found one P2 wet inertia after breakup: watched red, fixed, reviewer independently passed 10 regression tests. No substantive finding rejected. This partial review does not replace the phase's final high-depth code review/independent physics review.
+
+Mac preview trajectory audit separates entry context, Task 5 and the dependent profile. Task 5 changes RTLS kinematics (max86.7589 m altitude/2.5201 m/s vertical speed); other seven kinematics are identical, though fresh force/time readings move. Profile changes landing-burn and headwind trajectories (max12.3379 m/4.11582 m/s); intro is byte-identical across that adaptation. No golden fixture was changed. Linux regeneration, complete phase audit/coherent source commits, mutation and complete gate remain required.
+
+The remaining-layer run is red: 1099 passed/4 failed in 94 files. Three failures are in tests/hud/debrief.test.ts (breakup reason, measured vertical speed and peak-Q exceedance). One is tests/view/dynamic-pressure.test.ts (shake witness attitude speed6.38 deg/s against unchanged<6). First task: understand and fix these real regression/fixture causes while preserving each assertion's property and bounds. Read affected code and applicable frontend conventions before changing it; count each diagnosis. Then finish the approved coast/rotation changes and their bounded verification. Do not start Phase 7 yet.
+
+Recovery patch includes all unfinished tracked/untracked source and tests. Check forward against the index and reverse against current source with --unidiff-zero; never apply over existing edits. Vitest --exclude did not prevent orbit-demo execution. Use explicit filenames and verify collection before any run while a named check is stopped. Vitest list --json takes an optional output filename: an earlier invocation overwrote analytic-laws.test.ts; it was restored byte-for-byte from HEAD and has no diff. Always supply a separate JSON output path. Exact failures/restoration/review/audit are retained in the progress evidence. Earlier green acceptance is historical where the model has subsequently changed.
