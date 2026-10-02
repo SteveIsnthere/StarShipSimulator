@@ -1,0 +1,23 @@
+{
+  "stats": {
+    "total": 491,
+    "expected": 480,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 11,
+    "ok": true
+  },
+  "projects": [
+    "chromium",
+    "pixel-portrait",
+    "pixel-landscape",
+    "iphone-portrait",
+    "iphone-landscape"
+  ],
+  "durationMs": 3404765.049,
+  "errors": [],
+  "frozenPairs": 0,
+  "byteIdenticalPairs": 0,
+  "pairComparison": "ordered adjacent subject/frozen-repeat; duplicate attachment names never joined by name",
+  "pairs": []
+}

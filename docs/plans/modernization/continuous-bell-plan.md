@@ -1,6 +1,6 @@
 # Continuous exhaust bell implementation plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Steve already authorized native independent execution of the full roadmap; no additional handover approval is pending.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking. Steve already authorized native independent execution of the full roadmap; no additional handover approval is pending.
 
 **Goal:** Make the existing pressure-expanded exhaust bell continuous and visible rather than relying on random soft particles to define its silhouette.
 
@@ -36,8 +36,8 @@
 
 **Interfaces:** Export `createEmissiveBell(): EmissiveBell` and `EmissiveBell { readonly container: Container; update(state: SimState, scale: number, nozzleX: number, nozzleY: number, worldDt: number): void; reset(): void; destroy(): void }`. Export `writeBellGeometry(positions: Float32Array, uvs: Float32Array, expansion: number, spread: number, reach: number, frontAge: number): void` for pure geometry witnesses; buffers contain a fixed sequence of five vertices per age row from birth to nominal bell life.
 
-- [ ] Write pure tests for finite geometry, a zero-age nozzle section, smooth increasing envelope as pressure drops, and reused buffer identity. Read `EFFECTS.raptorPlume`, `plumeScaleFactor`, `plumeSpreadFactor`, `RAPTORS` and existing colour helpers first.
-- [ ] Implement geometry from the existing bell's closed-form travel and size, without a new empirical width constant. For each fixed age fraction `t`, use:
+- [x] Write pure tests for finite geometry, a zero-age nozzle section, smooth increasing envelope as pressure drops, and reused buffer identity. Read `EFFECTS.raptorPlume`, `plumeScaleFactor`, `plumeSpreadFactor`, `RAPTORS` and existing colour helpers first.
+- [x] Implement geometry from the existing bell's closed-form travel and size, without a new empirical width constant. For each fixed age fraction `t`, use:
 
 ```ts
 const tEffective = Math.min(t, frontAge / EFFECTS.raptorPlume.life);
@@ -53,10 +53,10 @@ const axial = travel * Math.cos(angle);
 ```
 
   Write five positions at x `[-radius,-fan,0,fan,radius]`, y `axial`; UVu `(x / radius + 1) / 2` across the whole envelope (see cycle3attempt3 ruling), UVv `tEffective`. Repeated birth vertices are intentionally degenerate, with no epsilon width. Allocate32 rows once; this is geometric tessellation, not a new plume calibration.
-- [ ] Generate one startup coloured texture whose longitudinal tint and alpha interpolate the existing bell start/end values against `t`; the unchanged soft radial profile spans the whole transverse envelope. Extract and reuse that profile; actual-image review rejected the initial constant interior plateau (history below). This is authored continuous gas, not a photometry correction. Reuse existing packed colour helpers. Do not add a test-specific contrast gain, backdrop, exposure or pressure switch.
-- [ ] Create one reusable mesh per `RAPTORS` entry, using that shared texture and additive blending. On update, show only actually running nonfailed engines under actual positive thrust; scale by the actual viewport and existing power/reach calculation; place mount offsets perpendicular to the vehicle axis from the existing rendered nozzle. Match the existing nozzle-frame pitch convention. All per-frame writes mutate preallocated buffers/transforms and visibility only. Advance preallocated per-engine frontAge by worldDt up to nominal life; dt0 holds, engine off/failure and flight reset clear it. Each mount adds one field contribution, never multiplied again by the total engine count. Share one owned texture/source and destroy it exactly once; each mesh owns its geometry.
-- [ ] Add real-renderer controls: emission-off absence, running-engine presence, the same prescribed nozzle/camera across subpixel phases, pressure expansion with the original detector, and both normal-smoke draw orders. Run build before focused units/browser. Record actual rendered appearance and failure inputs; reject a hard-edged artificial cone or detached field instead of weakening acceptance.
-- [ ] Review and commit a coherent component checkpoint after the meaningful checks pass.
+- [x] Generate one startup coloured texture whose longitudinal tint and alpha interpolate the existing bell start/end values against `t`; the unchanged soft radial profile spans the whole transverse envelope. Extract and reuse that profile; actual-image review rejected the initial constant interior plateau (history below). This is authored continuous gas, not a photometry correction. Reuse existing packed colour helpers. Do not add a test-specific contrast gain, backdrop, exposure or pressure switch.
+- [x] Create one reusable mesh per `RAPTORS` entry, using that shared texture and additive blending. On update, show only actually running nonfailed engines under actual positive thrust; scale by the actual viewport and existing power/reach calculation; place mount offsets perpendicular to the vehicle axis from the existing rendered nozzle. Match the existing nozzle-frame pitch convention. All per-frame writes mutate preallocated buffers/transforms and visibility only. Advance preallocated per-engine frontAge by worldDt up to nominal life; dt0 holds, engine off/failure and flight reset clear it. Each mount adds one field contribution, never multiplied again by the total engine count. Share one owned texture/source and destroy it exactly once; each mesh owns its geometry.
+- [x] Add real-renderer controls: emission-off absence, running-engine presence, the same prescribed nozzle/camera across subpixel phases, pressure expansion with the original detector, and both normal-smoke draw orders. Run build before focused units/browser. Record actual rendered appearance and failure inputs; reject a hard-edged artificial cone or detached field instead of weakening acceptance.
+- [x] Review and commit a coherent component checkpoint after the meaningful checks pass.
 
 ### Task 2: Scene lifecycle and original acceptance
 
@@ -64,11 +64,11 @@ const axial = travel * Math.cos(angle);
 
 **Interfaces:** Scene owns `EmissiveBell`; the existing `setParticlesVisible(boolean)` hides/restores both particle detail and continuous gas, and `resetFlight()` clears both.
 
-- [ ] Add the field as a sibling behind particle detail in `effectsBehind`, keeping pool shape and mixed draw order intact.
-- [ ] Call `bell.update` after `effects.update`, passing `effects.nozzle.x/y`, current scale/state and worldDt. Keep capture visibility on the field parent so child updates cannot reveal a hidden field. Reset before each new flight, destroy before renderer destruction, and retain the frozen field while paused. Add restart/off-state tests covering actual scene lifecycle.
-- [ ] Run the unchanged original five-project plume checks with retained actual subject/background pairs and HTML reporter. This is cycle3attempt2; record its result before another diagnosis. Keep all seven renderer quality witnesses.
-- [ ] Document the continuous field honestly as authored engine visualization driven by existing geometry/state, with particles supplying detail; do not claim quantitative photometry or Phase8 completion.
-- [ ] If original acceptance still fails, obtain an evidence-backed review of this representation for the third attempt. Never run unchanged code for luck or tune old emitter constants.
+- [x] Add the field as a sibling behind particle detail in `effectsBehind`, keeping pool shape and mixed draw order intact.
+- [x] Call `bell.update` after `effects.update`, passing `effects.nozzle.x/y`, current scale/state and worldDt. Keep capture visibility on the field parent so child updates cannot reveal a hidden field. Reset before each new flight, destroy before renderer destruction, and retain the frozen field while paused. Add restart/off-state tests covering actual scene lifecycle.
+- [x] Run the unchanged original five-project plume checks with retained actual subject/background pairs and HTML reporter. This is cycle3attempt2; record its result before another diagnosis. Keep all seven renderer quality witnesses.
+- [x] Document the continuous field honestly as authored engine visualization driven by existing geometry/state, with particles supplying detail; do not claim quantitative photometry or Phase8 completion.
+- [x] If original acceptance still fails, obtain an evidence-backed review of this representation for the third attempt. Never run unchanged code for luck or tune old emitter constants.
 
 ### Task 3: Close Phase6b and continue the entire roadmap
 
@@ -94,3 +94,7 @@ The51numericchecks pass, but fresh independent actualPNGreview rejects flatwhite
 ## Task2 accepted checkpoint
 
 Actual-image review accepts the complete-envelope profile. Fullgate1993units/coverage plus smoke/subpath green;84focused,51original/renderer/scene and corrected6scenechecks pass. Stronglow-altitude saturation/distalbeadedtail recordedforPhase8. Finalsourcecommit follows; nextTask3fullrelease acceptance/mutationALONE/fullbrowser,thenmain/liveclosureandremainingphaseplans.
+
+## Final branch verification checkpoint
+
+Task1 and2 complete. Final complete gate, mutation control848/all21faults and five-project fullbrowser480pass/0failed/11configuredskips/0retries pass at unchanged reviewed source. HostedCI37065061174 is green. Task3 still requires final evidence acceptance, main merge/gate/deploy/live verification. Remaining7–9 execution belongs to the active modernization goal; this component plan closes after6b lands, without claiming later phases complete.

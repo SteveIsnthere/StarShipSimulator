@@ -163,3 +163,17 @@ Complete local gate is green at unchanged production runtime; final mutation run
 ## Final mutation acceptance
 
 Final mutation completed exit0: unmodified control848pass, all21faults CAUGHT by named assertions, no SURVIVED/ERROR. Full raw `fallback-final-release/phase6b-final-mutation.log` is retained. Source/runtime/tests unchanged from reviewed142881e; only release documentation follows. Fresh high-depth whole-phase source review is clean. Next finalfullfive-browser with workers1/retries0/list+HTML; no runtime/test edits during capture. Main/live080f108,60%,fourunfinishedphases. Merge/main-gate/CI/Pages/liveidentity/smoke and7–9 remain required.
+
+## Final full browser verification running
+
+Final five-project suite runs at committed/pushed `9bb03f91f94b69dfece97359355403ec8702ab4e`, runtime/tests byte-identical to reviewed142881e. Session32317; raw `/tmp/starship-phase6b-final-full.log`; isolated HTML `/tmp/starship-phase6b-final-full-html`.491configuredchecks,workers1,retries0; productionbuild succeeds before capture. Resume this existing session; never restart it or launch another browser/build/test command until complete. Do not edit runtime/tests/fixtures during capture. Preserve fullraw/HTML/test-results and hashes before any later browser invocation. Desktop originallow/vac plume and allrendererwitnesses pass so far; finalresult andphoneoutcomes remain pending.
+
+Finalmutation session57940 completedexit0/control848green/all21namedfaultscaught; do not rerun it without new changes. Freshwhole-phase highreviewclean at142881e. HostedCI37065061174 running at9bb; earlier142/c2doc pushes cancelledbyCI concurrency, not green results. Main/live080f108,60%,four phasesremain; mainmerge/gate/deploy/livechecks and7–9 remain required. Preparation notes only `/tmp/starship-phase7-preparation.md`; noPhase7plan/implementationyet.
+
+## Final branch verification accepted by checks
+
+At pushed `9bb03f91f94b69dfece97359355403ec8702ab4e` (runtime/tests identical to reviewed `142881e`), the final full suite completed exit 0: **480 passed, zero failed/flaky, 11 configured skips, five projects, zero retries**. All ten original plume checks pass. Complete final local gate and all21 mutation faults are green; hosted CI37065061174 succeeds at the same candidate. Raw evidence, HTML/data, extracted report, provenance and hashes are retained in `fallback-final-release/`. Optional plume diagnostic capture was off in this final full run; earlier accepted attempt3 has60/60 byte-identical frozen pairs, not claimed as final captures.
+
+Next obtain existing fresh reviewer's final evidence acceptance, commit/push retained results, merge normally to main, run complete main gate, then push and verify hosted Pages, served build identity and live smoke. Only then tick6b and close its finished plans; execute7–9. Main/live080f108,60%,four phases unfinished; no owner question.
+
+Final independent evidence review accepts the candidate for main merge. Hosted CI has one existing menu smoke flake (`menu.spec.ts:17`, passed retry1); preserved raw lines1665–1702 and existing Phase9 backlog. Final local fullsuite has all491retry0. No new source blocker; main gate/deploy/live verification still required.
