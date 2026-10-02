@@ -1,0 +1,546 @@
+[WebServer] (node:8307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 35 tests using 3 workers
+
+(node:8312) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8311) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8310) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓   1 [chromium] › tests/e2e/post-compositing.spec.ts:26:1 › bloom adds light without darkening additive exhaust @mobile (1.4s)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓   4 [chromium] › tests/e2e/post-compositing.spec.ts:35:1 › bloom preserves normal smoke occlusion @mobile (836ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓   5 [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed fire-then-smoke compositing @mobile (1.2s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓   6 [chromium] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed smoke-then-fire compositing @mobile (1.6s)
+  ✓   7 [chromium] › tests/e2e/post-compositing.spec.ts:52:1 › additive bloom survives a real WebGL context restoration @mobile (2.2s)
+(node:8353) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 3.01 long, 0.50 across (spans 3.01/2.99/3.00/3.15, widths 0.48/0.53/0.50/0.49, steps 380/410/438/468; 0/4 anchored to the region edge; throttle 100/100/100/100; (610,386)-(664,624)n2208 (614,386)-(669,622)n2192 (610,379)-(663,616)n2219 (616,381)-(666,630)n2027)
+[plume] chromium · the plume is longer than the ship at low altitude @mobile: 3.06 long, 0.55 across (spans 3.08/2.91/3.06/2.59, widths 0.55/0.58/0.55/0.45, steps 379/409/434/464; 0/4 anchored to the region edge; throttle 100/100/100/100; (611,386)-(670,629)n2080 (613,385)-(663,615)n2103 (614,385)-(663,627)n2137 (616,382)-(668,586)n1962)
+  ✓   3 [chromium] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (40.3s)
+(node:8387) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] pixel-portrait · the plume is longer than the ship at low altitude @mobile: 2.60 long, 0.50 across (spans 2.60/2.45/2.93/2.50, widths 0.50/0.50/0.50/0.55, steps 488/534/555/591; 0/4 anchored to the region edge; throttle 100/100/100/100; (476,744)-(590,1151)n8752 (488,742)-(598,1125)n9070 (489,744)-(597,1203)n8044 (485,746)-(602,1137)n8960)
+  ✓   8 [pixel-portrait] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (44.5s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  10 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:26:1 › bloom adds light without darkening additive exhaust @mobile (1.8s)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  11 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:35:1 › bloom preserves normal smoke occlusion @mobile (1.4s)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  12 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed fire-then-smoke compositing @mobile (2.9s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  13 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed smoke-then-fire compositing @mobile (1.9s)
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 2.78 long, 0.50 across (spans 2.44/2.78/3.56/1.50, widths 0.44/0.44/0.56/0.50, steps 389/425/462/508; 0/4 anchored to the region edge; throttle 100/100/100/100; (628,372)-(653,459)n314 (631,370)-(646,469)n237 (626,370)-(660,497)n246 (638,368)-(660,421)n254)
+low: 3.01 long, 0.50 across · vacuum: 2.78 long, 0.50 across
+frame 1280x720 @1.00x  altitude 120000 m  vehicle 36 px
+  below      mean   48.9  spread  19.14  tones  6  bright 0.003  dark 0.942  warm 0.0040  top #332222:0.54 #222222:0.18 #333322:0.13 #111122:0.04 #222211:0.02
+  EXT plume    found true  span 54px (23x54)  band 18px  n 254  box (638,368)-(660,421)  = 1.50 vehicle heights
+  |      :   -                            -    |
+  |                                            |
+  |             +      -      = =    #         |
+  |        :     .       ==            --      |
+  |        =     +         -                   |
+  |              -     +-  : -      =    -     |
+  |            ==            .       +     -   |
+  |  +    -  =  =++            -    * ==       |
+  |    =                 +   - =      ==       |
+  |   -      -             -  - -      -       |
+  |.............-.......%@.....................|
+  |.....=-......-.-:....@@.....................|
+  |++*******************#@***@*******%*******++|
+  |******..............:+#...............******|
+  |.....................+*.....................|
+  |.....................++.....................|
+  |.....................-=.....................|
+  |.....................-:.....................|
+  |..:::::::::::.........:.::::::::::..........|
+  |.:::::::::::::........:::::::::::::........:|
+  |.:::::::::::::........:::::::::::::........:|
+  |....::::::::::.....::....::::::::::.....::..|
+  aspect: 0.17 low, 0.18 vacuum
+  ✘   2 [chromium] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (1.1m)
+  ✓  14 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:52:1 › additive bloom survives a real WebGL context restoration @mobile (2.6s)
+(node:8428) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8430) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 2.80 long, 0.51 across (spans 2.94/2.80/2.80/2.66, widths 0.51/0.54/0.50/0.50, steps 508/537/577/617; 0/4 anchored to the region edge; throttle 100/100/100/100; (494,750)-(598,1210)n8362 (493,747)-(596,1186)n8497 (489,747)-(609,1185)n9312 (497,751)-(613,1167)n8430)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 1.40 long, 0.62 across (spans 1.36/1.35/1.40/1.42, widths 0.60/0.62/0.67/0.36, steps 483/518/554/584; 0/4 anchored to the region edge; throttle 100/100/100/100; (522,730)-(564,826)n1088 (508,731)-(578,826)n1014 (523,726)-(570,825)n916 (519,723)-(589,823)n681)
+low: 2.80 long, 0.51 across · vacuum: 1.40 long, 0.62 across
+frame 1082x1425 @2.63x  altitude 120000 m  vehicle 71 px
+  below      mean   48.5  spread  21.47  tones  7  bright 0.005  dark 0.924  warm 0.0111  top #332222:0.42 #222222:0.32 #333322:0.06 #222211:0.06 #111122:0.03
+  EXT plume    found true  span 101px (71x101)  band 26px  n 681  box (519,723)-(589,823)  = 1.42 vehicle heights
+  |                                            |
+  |                                            |
+  | ++              -                 =  =:    |
+  |    =                   =                   |
+  |   +=                      -                |
+  |   -              +-        -   --          |
+  |==                              ::          |
+  |  =  +                                -     |
+  |                     .+          -   =      |
+  |                           .-     -    -    |
+  |.-..................#@@#....................|
+  |--.....-...........:*@@*+...................|
+  |*********************#@*********@***********|
+  |.....................*+::...................|
+  |.....................=+-....................|
+  |.....................-=-....................|
+  |.....................:::....................|
+  |::..................:-:............:::::::::|
+  |::::...........................:::::::::::::|
+  |:::...........................::::::::::::::|
+  |:::....................................:::::|
+  |....................:::::...................|
+  aspect: 0.18 low, 0.44 vacuum
+  ✓   9 [pixel-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (1.2m)
+(node:8507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  17 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:26:1 › bloom adds light without darkening additive exhaust @mobile (2.6s)
+[plume] pixel-landscape · the plume is longer than the ship at low altitude @mobile: 2.38 long, 0.50 across (spans 2.59/2.38/1.74/2.37, widths 0.48/0.48/0.56/0.50, steps 390/420/450/480; 0/4 anchored to the region edge; throttle 100/100/100/100; (1098,512)-(1177,810)n4528 (1097,507)-(1174,781)n4664 (1089,500)-(1165,700)n4915 (1095,502)-(1176,775)n4692)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  18 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:35:1 › bloom preserves normal smoke occlusion @mobile (2.3s)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 2.36 long, 0.57 across (spans 2.36/2.29/2.38/2.24, widths 0.45/0.48/0.57/0.60, steps 386/416/446/474; 0/4 anchored to the region edge; throttle 100/100/100/100; (1092,512)-(1170,784)n4434 (1092,508)-(1175,772)n4495 (1089,501)-(1165,775)n4812 (1102,500)-(1170,758)n4217)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  19 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed fire-then-smoke compositing @mobile (1.9s)
+  ✓  15 [pixel-landscape] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (1.0m)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  20 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed smoke-then-fire compositing @mobile (2.3s)
+(node:8539) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  21 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:52:1 › additive bloom survives a real WebGL context restoration @mobile (2.1s)
+(node:8544) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 1.30 long, 0.51 across (spans 1.30/1.12/2.32/1.18, widths 0.51/0.50/0.46/0.53, steps 508/546/588/620; 0/4 anchored to the region edge; throttle 100/100/100/100; (1120,480)-(1151,547)n455 (1126,479)-(1159,537)n490 (1117,481)-(1170,602)n472 (1102,485)-(1154,546)n413)
+low: 2.36 long, 0.57 across · vacuum: 1.30 long, 0.51 across
+frame 2265x945 @2.62x  altitude 120000 m  vehicle 53 px
+  below      mean   48.3  spread  19.34  tones  4  bright 0.005  dark 0.943  warm 0.0038  top #332222:0.66 #222222:0.16 #111122:0.04 #333322:0.03 #222211:0.02
+  EXT plume    found true  span 62px (53x62)  band 28px  n 413  box (1102,485)-(1154,546)  = 1.18 vehicle heights
+  |          -  -                    --        |
+  |                                            |
+  |               +    - .   ==   #            |
+  |            =   =     =        # -          |
+  |            =   +      -                    |
+  |                -   ++  --    =   -         |
+  |               =.       .-     +   -        |
+  |       +   - = =+          -  * =           |
+  |         = .         -+  -==    =           |
+  |        -    -       - -:---    -           |
+  |..........:....-.....@%.....................|
+  |.........==....-.-...@@............:........|
+  |-==++***##***********@@**@*****%*******++==-|
+  |********:............++............:********|
+  |.....................*=.....................|
+  |.....................==.....................|
+  |.....................--.....................|
+  |.....................::.....................|
+  |.....................::.....................|
+  |............................................|
+  |............................................|
+  |...::::::.........................::::::....|
+  aspect: 0.24 low, 0.40 vacuum
+  ✘  16 [pixel-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (1.5m)
+(node:8569) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  24 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:26:1 › bloom adds light without darkening additive exhaust @mobile (2.2s)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  25 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:35:1 › bloom preserves normal smoke occlusion @mobile (1.3s)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  26 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed fire-then-smoke compositing @mobile (2.0s)
+[plume] iphone-portrait · the plume is longer than the ship at low altitude @mobile: 2.65 long, 0.49 across (spans 2.44/2.16/2.72/2.65, widths 0.49/0.48/0.49/0.46, steps 482/516/554/584; 0/4 anchored to the region edge; throttle 100/100/100/100; (542,582)-(630,904)n6240 (536,572)-(633,857)n6366 (548,570)-(634,928)n6367 (540,575)-(629,924)n5663)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 2.20 long, 0.51 across (spans 2.37/2.20/1.49/1.45, widths 0.44/0.53/0.51/0.46, steps 507/545/569/599; 0/4 anchored to the region edge; throttle 100/100/100/100; (541,580)-(634,892)n6213 (542,581)-(628,871)n5524 (541,577)-(632,773)n6287 (538,581)-(638,772)n6198)
+  ✓  22 [iphone-portrait] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (35.8s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  27 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed smoke-then-fire compositing @mobile (2.1s)
+(node:8581) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  28 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:52:1 › additive bloom survives a real WebGL context restoration @mobile (1.8s)
+(node:8586) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 1.27 long, 0.45 across (spans 1.20/1.30/1.25/1.27, widths 0.45/0.35/0.55/0.37, steps 483/522/562/596; 0/4 anchored to the region edge; throttle 100/100/100/100; (548,568)-(602,639)n579 (567,567)-(613,644)n622 (572,564)-(609,638)n694 (565,564)-(601,639)n546)
+low: 2.20 long, 0.51 across · vacuum: 1.27 long, 0.45 across
+frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   47.4  spread  22.32  tones  7  bright 0.007  dark 0.930  warm 0.0086  top #332222:0.37 #222222:0.37 #222211:0.11 #111122:0.03 #333322:0.02
+  EXT plume    found true  span 76px (37x76)  band 22px  n 546  box (565,564)-(601,639)  = 1.27 vehicle heights
+  |   -                                        |
+  |                                            |
+  |       +          -:   :       = ==        #|
+  |         =             =                   #|
+  |        ++               -.                 |
+  |        -          +-     -  -.         ==  |
+  |      ==                     -.           .+|
+  |  ==   == +                      -      *   |
+  |                     -+      --  =          |
+  |  --                 *-   -   --  -         |
+  |.......-............#@%#....................|
+  |......--...-........+@@+....................|
+  |*********************@@******@*************#|
+  |=:...................+=:..................-=|
+  |.....................==.....................|
+  |.....................==.....................|
+  |.....................--:....................|
+  |.....................::.....................|
+  |::...................:......................|
+  |:::.....................................::::|
+  |:::::::.............................::::::::|
+  |:::::::...........................::::::::::|
+  aspect: 0.23 low, 0.36 vacuum
+  ✘  23 [iphone-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (56.3s)
+(node:8595) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: 0,
+  directChanged: 3415
+}
+  ✓  31 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:26:1 › bloom adds light without darkening additive exhaust @mobile (2.3s)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -11,
+  bloomVsDirectMinimum: -4,
+  directChanged: 5589
+}
+  ✓  32 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:35:1 › bloom preserves normal smoke occlusion @mobile (1.5s)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  33 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed fire-then-smoke compositing @mobile (2.3s)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  34 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:44:3 › bloom retains mixed smoke-then-fire compositing @mobile (2.5s)
+  ✓  35 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:52:1 › additive bloom survives a real WebGL context restoration @mobile (2.3s)
+[plume] iphone-landscape · the plume is longer than the ship at low altitude @mobile: 2.66 long, 0.55 across (spans 2.94/2.66/1.88/2.29, widths 0.57/0.55/0.51/0.55, steps 494/531/555/593; 0/4 anchored to the region edge; throttle 100/100/100/100; (1091,539)-(1170,926)n5336 (1083,538)-(1171,889)n5743 (1086,533)-(1173,780)n5749 (1080,537)-(1177,839)n5945)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 2.58 long, 0.54 across (spans 2.58/1.96/1.80/2.86, widths 0.54/0.56/0.54/0.51, steps 499/543/565/601; 0/4 anchored to the region edge; throttle 100/100/100/100; (1087,535)-(1168,875)n5496 (1085,536)-(1166,794)n5201 (1084,536)-(1167,773)n5952 (1080,537)-(1179,914)n6191)
+  ✓  29 [iphone-landscape] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (41.7s)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 1.15 long, 0.65 across (spans 1.17/1.03/1.12/1.15, widths 0.67/0.40/0.32/0.65, steps 366/404/444/484; 0/4 anchored to the region edge; throttle 100/100/100/100; (1105,534)-(1149,603)n1042 (1093,529)-(1150,590)n967 (1080,525)-(1135,591)n660 (1110,522)-(1154,590)n624)
+low: 2.58 long, 0.54 across · vacuum: 1.15 long, 0.65 across
+frame 2250x1020 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   48.5  spread  19.91  tones  4  bright 0.005  dark 0.940  warm 0.0042  top #332222:0.60 #222222:0.18 #333322:0.07 #111122:0.04 #112222:0.02
+  EXT plume    found true  span 69px (45x69)  band 39px  n 624  box (1110,522)-(1154,590)  = 1.15 vehicle heights
+  |         -  --                      -       |
+  |                                            |
+  |              .+    - -   ==    #           |
+  |           =   ==     =         #.-         |
+  |           =   +=      -                    |
+  |               -    +-  --     =   -        |
+  |              =          -      +   -       |
+  |      +   - =  =+          -  ** =          |
+  |        = :          -+  - =     =          |
+  |       -    --       ## - -.-    -          |
+  |.........-....--.....@%...:.................|
+  |........=-....-..-...@@.............-.......|
+  |==+++**#*************%@**@******%******+++==|
+  |*******+............:++:............+*******|
+  |.....................++.....................|
+  |.....................==.....................|
+  |.....................--.....................|
+  |.....................:-.....................|
+  |.....................::.....................|
+  |............................................|
+  |............................................|
+  |.......:::::::::...........................:|
+  aspect: 0.21 low, 0.57 vacuum
+  ✘  30 [iphone-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (54.9s)
+
+
+  1) [chromium] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile ─
+
+    Error: low: 3.01 long, 0.50 across · vacuum: 2.78 long, 0.50 across
+    frame 1280x720 @1.00x  altitude 120000 m  vehicle 36 px
+      below      mean   48.9  spread  19.14  tones  6  bright 0.003  dark 0.942  warm 0.0040  top #332222:0.54 #222222:0.18 #333322:0.13 #111122:0.04 #222211:0.02
+      EXT plume    found true  span 54px (23x54)  band 18px  n 254  box (638,368)-(660,421)  = 1.50 vehicle heights
+      |      :   -                            -    |
+      |                                            |
+      |             +      -      = =    #         |
+      |        :     .       ==            --      |
+      |        =     +         -                   |
+      |              -     +-  : -      =    -     |
+      |            ==            .       +     -   |
+      |  +    -  =  =++            -    * ==       |
+      |    =                 +   - =      ==       |
+      |   -      -             -  - -      -       |
+      |.............-.......%@.....................|
+      |.....=-......-.-:....@@.....................|
+      |++*******************#@***@*******%*******++|
+      |******..............:+#...............******|
+      |.....................+*.....................|
+      |.....................++.....................|
+      |.....................-=.....................|
+      |.....................-:.....................|
+      |..:::::::::::.........:.::::::::::..........|
+      |.:::::::::::::........:::::::::::::........:|
+      |.:::::::::::::........:::::::::::::........:|
+      |....::::::::::.....::....::::::::::.....::..|
+      aspect: 0.17 low, 0.18 vacuum
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.6053726563686164
+    Received:   0.5
+
+      343 |     `${(vacuum.width / vacuum.span).toFixed(2)} vacuum`;
+      344 |   console.log(shape);
+    > 345 |   expect(vacuum.width, shape).toBeGreaterThan(low.width * 1.2);
+          |                               ^
+      346 |   expect(vacuum.width, shape).toBeGreaterThan(0.2);
+      347 | });
+      348 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/plume.spec.ts:345:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-chromium/error-context.md
+
+  2) [pixel-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+
+    Error: low: 2.36 long, 0.57 across · vacuum: 1.30 long, 0.51 across
+    frame 2265x945 @2.62x  altitude 120000 m  vehicle 53 px
+      below      mean   48.3  spread  19.34  tones  4  bright 0.005  dark 0.943  warm 0.0038  top #332222:0.66 #222222:0.16 #111122:0.04 #333322:0.03 #222211:0.02
+      EXT plume    found true  span 62px (53x62)  band 28px  n 413  box (1102,485)-(1154,546)  = 1.18 vehicle heights
+      |          -  -                    --        |
+      |                                            |
+      |               +    - .   ==   #            |
+      |            =   =     =        # -          |
+      |            =   +      -                    |
+      |                -   ++  --    =   -         |
+      |               =.       .-     +   -        |
+      |       +   - = =+          -  * =           |
+      |         = .         -+  -==    =           |
+      |        -    -       - -:---    -           |
+      |..........:....-.....@%.....................|
+      |.........==....-.-...@@............:........|
+      |-==++***##***********@@**@*****%*******++==-|
+      |********:............++............:********|
+      |.....................*=.....................|
+      |.....................==.....................|
+      |.....................--.....................|
+      |.....................::.....................|
+      |.....................::.....................|
+      |............................................|
+      |............................................|
+      |...::::::.........................::::::....|
+      aspect: 0.24 low, 0.40 vacuum
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.6849359197770631
+    Received:   0.5142857142857142
+
+      343 |     `${(vacuum.width / vacuum.span).toFixed(2)} vacuum`;
+      344 |   console.log(shape);
+    > 345 |   expect(vacuum.width, shape).toBeGreaterThan(low.width * 1.2);
+          |                               ^
+      346 |   expect(vacuum.width, shape).toBeGreaterThan(0.2);
+      347 | });
+      348 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/plume.spec.ts:345:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-pixel-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-pixel-landscape/error-context.md
+
+  3) [iphone-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+
+    Error: low: 2.20 long, 0.51 across · vacuum: 1.27 long, 0.45 across
+    frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+      below      mean   47.4  spread  22.32  tones  7  bright 0.007  dark 0.930  warm 0.0086  top #332222:0.37 #222222:0.37 #222211:0.11 #111122:0.03 #333322:0.02
+      EXT plume    found true  span 76px (37x76)  band 22px  n 546  box (565,564)-(601,639)  = 1.27 vehicle heights
+      |   -                                        |
+      |                                            |
+      |       +          -:   :       = ==        #|
+      |         =             =                   #|
+      |        ++               -.                 |
+      |        -          +-     -  -.         ==  |
+      |      ==                     -.           .+|
+      |  ==   == +                      -      *   |
+      |                     -+      --  =          |
+      |  --                 *-   -   --  -         |
+      |.......-............#@%#....................|
+      |......--...-........+@@+....................|
+      |*********************@@******@*************#|
+      |=:...................+=:..................-=|
+      |.....................==.....................|
+      |.....................==.....................|
+      |.....................--:....................|
+      |.....................::.....................|
+      |::...................:......................|
+      |:::.....................................::::|
+      |:::::::.............................::::::::|
+      |:::::::...........................::::::::::|
+      aspect: 0.23 low, 0.36 vacuum
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.6174801094959887
+    Received:   0.45
+
+      343 |     `${(vacuum.width / vacuum.span).toFixed(2)} vacuum`;
+      344 |   console.log(shape);
+    > 345 |   expect(vacuum.width, shape).toBeGreaterThan(low.width * 1.2);
+          |                               ^
+      346 |   expect(vacuum.width, shape).toBeGreaterThan(0.2);
+      347 | });
+      348 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/plume.spec.ts:345:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-iphone-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-iphone-portrait/error-context.md
+
+  4) [iphone-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+
+    Error: low: 2.58 long, 0.54 across · vacuum: 1.15 long, 0.65 across
+    frame 2250x1020 @3.00x  altitude 120000 m  vehicle 60 px
+      below      mean   48.5  spread  19.91  tones  4  bright 0.005  dark 0.940  warm 0.0042  top #332222:0.60 #222222:0.18 #333322:0.07 #111122:0.04 #112222:0.02
+      EXT plume    found true  span 69px (45x69)  band 39px  n 624  box (1110,522)-(1154,590)  = 1.15 vehicle heights
+      |         -  --                      -       |
+      |                                            |
+      |              .+    - -   ==    #           |
+      |           =   ==     =         #.-         |
+      |           =   +=      -                    |
+      |               -    +-  --     =   -        |
+      |              =          -      +   -       |
+      |      +   - =  =+          -  ** =          |
+      |        = :          -+  - =     =          |
+      |       -    --       ## - -.-    -          |
+      |.........-....--.....@%...:.................|
+      |........=-....-..-...@@.............-.......|
+      |==+++**#*************%@**@******%******+++==|
+      |*******+............:++:............+*******|
+      |.....................++.....................|
+      |.....................==.....................|
+      |.....................--.....................|
+      |.....................:-.....................|
+      |.....................::.....................|
+      |............................................|
+      |............................................|
+      |.......:::::::::...........................:|
+      aspect: 0.21 low, 0.57 vacuum
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.6538024688781058
+    Received:   0.65
+
+      343 |     `${(vacuum.width / vacuum.span).toFixed(2)} vacuum`;
+      344 |   console.log(shape);
+    > 345 |   expect(vacuum.width, shape).toBeGreaterThan(low.width * 1.2);
+          |                               ^
+      346 |   expect(vacuum.width, shape).toBeGreaterThan(0.2);
+      347 | });
+      348 |
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/plume.spec.ts:345:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-iphone-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/plume-and-blooms-wider-than-the-ship-in-vacuum-mobile-iphone-landscape/error-context.md
+
+  4 failed
+    [chromium] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile ──
+    [pixel-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+    [iphone-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+    [iphone-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile 
+  31 passed (3.7m)
