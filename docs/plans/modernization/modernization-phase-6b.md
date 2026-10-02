@@ -10,7 +10,9 @@
 
 **Spec:** [modernization-roadmap.md](modernization-roadmap.md) Phase 6b; Phase 6's Tasks 5, 6, 7, 9b, 11 (moved here; Phase 6 must merge before this plan starts; its implementation plan was closed out early, and the current record is its branch commits and `docs/reference/physics-model.md`); [physics-change-policy](../../../.agents/skills/physics-change-policy/SKILL.md); [docs/reference/physics-model.md](../../reference/physics-model.md); backlog rows tagged 6b.
 
-**Starts after** Phase 6 merges to `main`. Branch `claude/entry-on-lift` from `main`.
+**Starts after** Phase 6 merges to `main`. Existing branch `claude/entry-on-lift` is already checked out in `/Users/stevewang/dev/StarShipSimulator-realism`; do not recreate it.
+
+**Read current status first:** the final dated checkpoint below and `modernization-GOAL.md` govern the next action. Earlier measured checkpoints are historical evidence, not instructions to undo implemented work. Tasks 1+1b and Task 5 have unfinished source in this checkout; no acceptance checkbox is completed until its full required evidence exists.
 
 ## What is already known (do not re-measure)
 
@@ -23,11 +25,13 @@
 - The tile limit is 1,533 K and never moves. The soul (intro, presets, pig at x = 0) is untouched; the intro's anchor (touchdown 9.85 s, no engine lit) holds within ±0.5 s.
 - No tuning constant moves to make a truth test pass. A measured choice (the entry angle) is chosen by a recorded sweep, never by trying values until a golden passes.
 - The predictor and `step()` call one force function. Never a second copy of the aerodynamics.
-- Every task ends with `npm run gate` green, `npm run mutation` with a mutant for each new model, and the truth report.
+- Use focused checks during each task and retain before/after truth evidence. Run the complete `npm run gate`, model mutation checks and full browser suite at the coherent phase close. Build before testing; do not regenerate goldens or run mutation concurrently with source edits. Every new model needs a caught mutant before merge. This follows the goal contract’s once-per-phase full gate rule.
 
-## Stop rule
+## Feasibility fallback and diagnosis rule — approved 2026-10-02
 
-If Task 1's sweep finds no entry angle within the vehicle's control authority that keeps the deorbit under 1,533 K **and** lands it within 10 km, Tasks 1–4 park again. Revert to `main`, record the sweep table in this plan and the handover as the finding for Steve, and go to Task 5, then the close. 2021's broadside drag stays. Do not move the limit, the drag sources, or the deorbit burn bounds to make it pass.
+A failed check gets at most three recorded diagnoses in a cycle. When exhausted, obtain a fresh independent review and record a new evidence-backed approach, then continue another cycle without owner permission. The standing approval covers the current one-km range failure and later 300 km/plume failures. It supersedes historical stop/pending-exception statements below. Preserve physical limits, assertion bounds, control authority, coverage and release gates; never rerun for luck.
+
+If Task 1's prescribed sweep finds no entry angle within existing authority that keeps the deorbit under 1,533 K and lands within 10 km, get an independent review to confirm physical infeasibility rather than a guidance or numerical defect. Steve approved the existing fallback: park Tasks 1–4, restore affected aero to the shipped 2021 broadside model through a deliberate audited change, preserve all findings and source recovery evidence, retain Task 5 fixes, then finish the close and continue Phases 7–9. Never reset or discard unfinished work. A failed one-km calibration alone does not trigger this fallback. Do not move the heat limit, drag sources, burn/range bounds or control authority.
 
 ## Review Focus
 
@@ -193,3 +197,12 @@ This adds evidence to the rotating-entry checkpoint; it does not complete Phase 
 Full remaining scope is still Phases 6b, 7, 8 and 9. Steve requested goalgen to refresh the handover command; the specific extra range-diagnosis authorization is presented separately with options. Existing approvals and unused extra 300 km verification remain intact.
 
 [Review provenance and browser evidence](../../research/2026-10-01-phase6b-task1-progress/rotation-independent-review.md).
+
+
+## Standing autonomy checkpoint (2026-10-02, Steve)
+
+This is the current authority and supersedes all earlier pending questions and automatic diagnosis stops in this file. Steve explicitly approved reviewed diagnosis cycles for the entire roadmap: after three failed attempts, get a fresh independent review, record a new evidence-backed approach, then continue another bounded cycle. This reopens the current one-km range failure and later 300 km/plume failures. Limits, bounds, authority, coverage and release gates remain unchanged. No reruns for luck.
+
+Steve also explicitly approved the existing Phase 6b broadside fallback when independent review establishes physical infeasibility within existing authority. Preserve evidence/unfinished work, restore affected aero deliberately with an audit, retain Task 5 fixes, record parked tasks, complete phase verification/merge, and continue 7–9. A red calibration alone does not prove infeasibility; an easier passing model is not a reason to park the approved physical one.
+
+Next task: fresh independent review of the three range aim/miss attempts and predictor/guidance, then record a causal approach before the next diagnosis cycle. The previous bounded physics reviewer excluded range diagnosis and does not satisfy this requirement. No new health/300 km flight has run during this plan refresh. All 32 reviewed source pins still match. Source remains unfinished/uncommitted; Phase 6 remains live at080f108, Phase 6b remains open, and full6b/7/8/9 scope stays intact. No owner decision is pending.

@@ -181,3 +181,12 @@ This adds evidence to the rotating-entry checkpoint; it does not complete Phase 
 Full remaining scope is still Phases 6b, 7, 8 and 9. Steve requested goalgen to refresh the handover command; the specific extra range-diagnosis authorization is presented separately with options. Existing approvals and unused extra 300 km verification remain intact.
 
 [Review provenance and browser evidence](../../research/2026-10-01-phase6b-task1-progress/rotation-independent-review.md).
+
+
+## Standing autonomy checkpoint (2026-10-02, Steve)
+
+This is the current authority and supersedes all earlier pending questions and automatic diagnosis stops in this file. Steve explicitly approved reviewed diagnosis cycles for the entire roadmap: after three failed attempts, get a fresh independent review, record a new evidence-backed approach, then continue another bounded cycle. This reopens the current one-km range failure and later 300 km/plume failures. Limits, bounds, authority, coverage and release gates remain unchanged. No reruns for luck.
+
+Steve also explicitly approved the existing Phase 6b broadside fallback when independent review establishes physical infeasibility within existing authority. Preserve evidence/unfinished work, restore affected aero deliberately with an audit, retain Task 5 fixes, record parked tasks, complete phase verification/merge, and continue 7–9. A red calibration alone does not prove infeasibility; an easier passing model is not a reason to park the approved physical one.
+
+Next task: fresh independent review of the three range aim/miss attempts and predictor/guidance, then record a causal approach before the next diagnosis cycle. The previous bounded physics reviewer excluded range diagnosis and does not satisfy this requirement. No new health/300 km flight has run during this plan refresh. All 32 reviewed source pins still match. Source remains unfinished/uncommitted; Phase 6 remains live at080f108, Phase 6b remains open, and full6b/7/8/9 scope stays intact. No owner decision is pending.
