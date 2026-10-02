@@ -177,3 +177,11 @@ At pushed `9bb03f91f94b69dfece97359355403ec8702ab4e` (runtime/tests identical to
 Next obtain existing fresh reviewer's final evidence acceptance, commit/push retained results, merge normally to main, run complete main gate, then push and verify hosted Pages, served build identity and live smoke. Only then tick6b and close its finished plans; execute7–9. Main/live080f108,60%,four phases unfinished; no owner question.
 
 Final independent evidence review accepts the candidate for main merge. Hosted CI has one existing menu smoke flake (`menu.spec.ts:17`, passed retry1); preserved raw lines1665–1702 and existing Phase9 backlog. Final local fullsuite has all491retry0. No new source blocker; main gate/deploy/live verification still required.
+
+## Local main integration underway
+
+Independent final release acceptance is retained and coherent evidence checkpoint83353fb pushed. Normal localmain merge `c2ae5e46a25db0bdd63504a8f93d37056176b069` succeeds; production/tests identical to acceptedbranch. Complete main gate runs in primarycheckout session24097, raw `/tmp/starship-phase6b-main-gate.log`. Do not pushmain until exit0. Originmain/live080f108; no6btick yet. After pushCI/Pages/liveidentity/smoke, close6b andexecute7–9. Finalfullbrowser session32317 completedexit0; neverresume/restart.
+
+## Main gate and push verified
+
+Complete maingate session24097 exits0:1993units/1993coverage,unchangedfloors,13smoke and5subpath;rawphase6b-main-gate.log andmain-gate.json retained. Main merge `c2ae5e46a25db0bdd63504a8f93d37056176b069` pushed normally. MainCI37071475434 andPages37071475425 running atsameSHA;liveidentity/smoke stillpending. Localbuild serviceworker version3da4ee45585e. Main ismerged,6bnotyetliveclosed/ticked;60%,four phasesuntilverifiedclosure. Neverrestartfullbrowser32317 ormaingate24097. Afterliveclosurecontinue7–9.
