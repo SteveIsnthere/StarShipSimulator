@@ -104,7 +104,80 @@ Hosted CI `36940931396` passed on the same commit.
 ## Resume authorization (2026-10-01)
 
 Steve approved the recommended option: one additional diagnosis attempt,
-keeping every assertion, bound and retry unchanged. Attempt 4 has not started.
+keeping every assertion, bound and retry unchanged. Attempt 4 is in progress; see its hypothesis below.
 The live contract in `docs/plans/modernization/modernization-GOAL.md` defines
 its repair, verification and stop condition. No fifth attempt is authorized.
 The existing failure remains a release blocker until final verification is green.
+
+## Attempt 4: screenshot pixels versus renderer pixels
+
+Hypothesis: `metrePixels()` caps its image scale at 2, matching Pixi's backing
+buffer resolution, while `readFrame()` measures a composited Playwright
+screenshot at the device scale factor. The retained iPhone failure explicitly
+reports a 1170-pixel image for a 390 CSS-pixel canvas (3x), but derives its
+vehicle height and cone-band depth with a 2x multiplier. The intended 0.4
+ship-length band therefore samples only 0.267 ship lengths on that device.
+This is a measurement-unit defect, independent of any effect tuning.
+
+Plan: prove the mismatch with a known-size canvas fixture whose backing buffer
+uses the same 2x cap and whose screenshot uses the device pixel ratio. Include
+an erased-fixture control so the pixel detector cannot pass on the background.
+Correct the screenshot scale, leaving the plume assertions, thresholds, sample
+count and retry settings unchanged. Run the focused plume suite with traces,
+then the gate and full suite if focused verification succeeds. No fifth attempt
+is authorized.
+
+Red proof: the new known-size canvas test passed on desktop and failed on all
+four phone viewports. On iPhone, the 100 CSS-pixel subject measures 300 image
+pixels against the helper's 200. The initial Pixel failures also included
+fixture contamination and are not independent proof of the cap defect. The fixture uses the real renderer's 2x backing-buffer
+cap and includes an erased-subject control. Its failed traces, screenshots and
+log are retained in `2026-10-01-phase6-plume-evidence/attempt4/red-scale/`.
+
+Repair: `metrePixels()` now converts CSS pixels with the screenshot's device
+pixel ratio, without Pixi's backing-buffer cap. No product source, plume
+classifier, sampling parameters, existing assertion, bound or retry changed.
+Post-repair focused verification finished: 12 passed, 3 failed. All ten plume
+checks ran; the five vacuum-width checks passed, including iPhone portrait
+(0.80 across against low-altitude 0.39). A separate iPhone portrait low-altitude
+length check failed: spans 0.51/0.66/0.73/1.74, median 0.734801695647775
+against unchanged >1. Two synthetic Pixel fixture failures came from white
+page pixels at the screenshot's fractional bottom edge. The fixture now uses
+the production viewport metadata, a black page background and an integer
+pixel start (48 CSS pixels vertically); the 100 CSS-pixel subject height and
+<=1 pixel bound stay unchanged. The erased control remains required. Final
+scale fixture: 5/5 passed. The intermediate failures and final traces are kept
+under attempt4; they are fixture corrections, not plume reruns.
+
+The focused result is not release proof. The complete local gate passed on this checkpoint (1,940 unit tests, coverage,
+13 smoke checks and 5 subpath checks), but no full browser suite has yet
+verified this repair; no merge or deploy is authorized by this result.
+
+## Separate low-altitude length diagnosis: attempt 1
+
+Hypothesis from retained exact PNGs: the instrument excludes the white-hot core
+and its fixed BELOW region does not stay below the moving nozzle. The warmOnly
+predicate requires red dominance even when minLuma admits a bright pixel,
+contradicting the documented brightness-or-warmth selection. In sample 3 the
+existing detector starts at y576 beside the nose, while the nozzle is near
+y687, so its 1.74 length includes vehicle height.
+
+A fresh high-depth reviewer independently decoded the four measured PNGs and
+reproduced every logged box. Simply admitting bright pixels gives spans
+162/117/192/287px but includes reticle/hull or nose-side effects. That apparent
+pass is rejected: no classifier patch was made. The next repair must anchor
+the exhaust measurement below the actual nozzle and prove that stars, reticle,
+terrain and nose-side effects cannot pass, retaining all numeric thresholds,
+assertions, sample counts and retry settings. Correct isolation may still
+reveal a real product failure; do not assume a passing outcome.
+
+This is a different check and retains the normal three-attempt budget. Attempt
+1 has evidence and a hypothesis, with its repair pending. Attempt 4 of vacuum
+width remains in final verification; any repeat of that check stops Phase 6
+again with no fifth attempt. Physics and graphics source are unchanged.
+
+Checkpoint review: a fresh high-depth reviewer confirmed the screenshot units
+and final scale fixture, reproduced the low-altitude failure, and rejected a
+brightness-only patch because it would admit hull/reticle contamination. The
+stale docs-only claim was corrected. No remaining checkpoint findings; this
+is not Phase 6 merge clearance. Local gate log: attempt4/gate.log.

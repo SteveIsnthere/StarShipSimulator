@@ -561,7 +561,11 @@ export async function metrePixels(page: Page): Promise<Scale> {
   const altitude = unit?.trim().toUpperCase() === 'KM' ? shown * 1000 : shown;
 
   const viewport = computeViewport(box.width, box.height, vehicleHeight, 1, altitude);
-  const imageScale = await page.evaluate(() => Math.min(window.devicePixelRatio || 1, 2));
+  // Playwright photographs the composited element at the device pixel ratio.
+  // Pixi's 2x backing-buffer cap does not cap screenshot pixels: on a 3x phone
+  // a 100 CSS-pixel subject is still 300 image pixels high. Capping this value
+  // shortened every requested cone band and inflated its normalized extents.
+  const imageScale = await page.evaluate(() => window.devicePixelRatio || 1);
   return {
     altitude,
     cssPerMetre: viewport.scale,

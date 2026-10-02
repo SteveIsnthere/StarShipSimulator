@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — iPhone portrait vacuum-width check still fails after three diagnosis attempts; attempt 4 approved and unused; Earth's rate (9b) and the parked aero moved to 6b | — |
+| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — attempt 4 passed focused vacuum-width checks; separate iPhone low-altitude length failure remains; full suite pending; Earth's rate (9b) and the parked aero moved to 6b | — |
 | 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
@@ -80,7 +80,7 @@ passed, but they do not replace this required release check. No merge or
 Phase 6b implementation has happened. Final result: 427 passed, 1 failed, 11 configured skips (32.5 minutes).
 Vacuum width was 0.70 against >0.7176042091538909.
 Steve approved one additional diagnosis attempt on 2026-10-01, with all
-assertions, bounds and retries unchanged. Attempt 4 has not started. Resume
+assertions, bounds and retries unchanged. Attempt 4 repaired the screenshot/renderer pixel-scale mismatch and passed focused vacuum-width checks. A separate low-altitude length failure remains; final full-suite verification is pending. Resume
 from the retained evidence and the goal contract's First task. If the same
 check remains red, stop again; no fifth attempt is authorized.
 
@@ -92,7 +92,7 @@ Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-p
 - Historical verification before the requested rerun, on `f81908b`: `npm run gate` green (1,935 tests, coverage floors, e2e smoke, subpath deploy); `npm run mutation` 18 of 18 caught; `npm run truth:report` 8 of 8; `/code-review high`; independent physics review (ChatGPT Pro, three rounds, every finding fixed: fixed RVacs, the turbulence sweep, the radial coast, the throttle law, break-up on the tile temperature).
 - Historical `npm run test:e2e:full` before this goal's requested rerun: **428 passed, 0 failed** (33 min, all five projects). This is superseded by the failing reruns below. Earlier full-run failures (the debrief's stale heat bound, a pixels flake) are fixed or re-ran green.
 - Current source verification on `4c03814`: complete local gate green (1,940 tests, coverage floors, smoke and subpath deployment), hosted CI `36940931396` green, independent graphics review clean; **full e2e red: 427 passed, 1 failed, 11 configured skips**.
-- Requested rerun on `92ed3d6`: 426 passed, 2 failed, 11 configured skips. The repair changed no browser bounds or retries. Final gate and hosted CI passed, but the final full-suite rerun still fails the iPhone portrait vacuum-width check. The three-attempt contract stopped the phase; Steve has now approved exactly one further attempt, unused at this handover.
+- Requested rerun on `92ed3d6`: 426 passed, 2 failed, 11 configured skips. The repair changed no browser bounds or retries. Final gate and hosted CI passed, but the final full-suite rerun still fails the iPhone portrait vacuum-width check. The three-attempt contract stopped the phase; Steve has now approved exactly one further attempt, now in progress.
 - Left: merge `--no-ff` to `main` from the main checkout, push, confirm the Pages deploy and the smoke tier against the live URL, tick the roadmap's Phase 6 line with the merge commit, then start 6b.
 
 ## Phase 6 progress (2026-10-01)
@@ -111,3 +111,5 @@ Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-p
 - **Phase 8, Visuals**, added before UX (now Phase 9): engines and plumes, re-entry and heat, the environment, the vehicle and camera. It publishes its visual direction and proceeds without waiting.
 - The finished Phase 1–5 plans are closed out; the roadmap's Status names each merge commit.
 
+
+Phase 6 checkpoint: attempt 4 corrects screenshot DPR; all five focused vacuum-width checks passed. A separate iPhone portrait low-altitude length failure (0.735 against >1) remains. Its first diagnosis identified white-core exclusion and fixed-region hull contamination; no classifier repair has been made. Final full-suite verification remains required; the no-fifth-attempt vacuum stop rule still applies. See the plume investigation for exact evidence.

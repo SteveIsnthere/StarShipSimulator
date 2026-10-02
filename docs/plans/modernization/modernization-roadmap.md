@@ -15,7 +15,7 @@ The evidence behind every phase is [docs/research/2026-09-30-modernization-audit
 ## Steve's decisions (2026-10-01)
 
 - **Entry on lift, as Phase 6b.** Physical drag (cited, built) halves hypersonic drag, and with the physical heat shield the deorbit breaks up at 1,533 K because the autopilot flies entry broadside, where lift is zero. Phase 6b gives the autopilot an entry angle-of-attack schedule that flies on lift, then lands the parked aero tasks on it. The tile limit never moves.
-- **Phase 6 resume:** one additional diagnosis attempt (attempt 4) for the iPhone portrait vacuum-plume width failure, with all assertions, bounds and retries unchanged. It is unused; if it remains red, Phase 6 stops again. The general three-attempt rule remains.
+- **Phase 6 resume:** one additional diagnosis attempt (attempt 4) for the iPhone portrait vacuum-plume width failure, with all assertions, bounds and retries unchanged. It is in progress; if it remains red, Phase 6 stops again. The general three-attempt rule remains.
 - **Graphics and visuals get their own phase, before UX** (Phase 8), covering engines and plumes, re-entry and heat, the environment, and the vehicle and camera. Like Phase 3, it publishes its visual direction to a private review page and proceeds without waiting; Steve's verdict folds in as a scope change.
 
 ## Phases
@@ -68,10 +68,12 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 - [x] Phase 3 — Design pass (merged `53e3c26`)
 - [x] Phase 4 — React shell (merged `dfab3c8`)
 - [x] Phase 5 — Guidance on real physics (merged `b84b746`; goldens on the recording platform `3429ea1`)
-- [ ] Phase 6 — Ship realism — **built and reviewed on `claude/ship-realism`; NOT merged.** Latest source `4c03814`: local gate and hosted CI green, but full e2e **427 passed / 1 failed / 11 configured skips**. The iPhone portrait vacuum-width check blocks the close. Steve approved one additional diagnosis attempt (attempt 4, unused); see [the goal contract](modernization-GOAL.md#first-task) and [retained evidence](../../research/2026-10-01-phase6-plume-diagnosis.md). Repair, verify the final build and review before merge; then verify the deploy and tick this line with its merge SHA. Its implementation plan was already closed out; branch commits and `docs/reference/physics-model.md` hold the record. Earth's rate and the parked aero moved to 6b.
+- [ ] Phase 6 — Ship realism — **built and reviewed on `claude/ship-realism`; NOT merged.** Latest source `4c03814`: local gate and hosted CI green, but full e2e **427 passed / 1 failed / 11 configured skips**. The latest focused run passed all five vacuum-width checks after attempt 4's screenshot-scale repair, but exposed iPhone portrait low-altitude length at 0.735 against >1. That separate check blocks the close; final full-suite verification is pending. Steve approved one additional vacuum-width diagnosis attempt (attempt 4, in verification); see [the goal contract](modernization-GOAL.md#first-task) and [retained evidence](../../research/2026-10-01-phase6-plume-diagnosis.md). Repair, verify the final build and review before merge; then verify the deploy and tick this line with its merge SHA. Its implementation plan was already closed out; branch commits and `docs/reference/physics-model.md` hold the record. Earth's rate and the parked aero moved to 6b.
 - [ ] Phase 6b — Entry on lift ([phase plan](modernization-phase-6b.md))
 - [ ] Phase 7 — Super Heavy
 - [ ] Phase 8 — Visuals
 - [ ] Phase 9 — UX to flight_sim level
 
 Phases 7–9 get their phase plan when the phase before them lands, written by the run from this roadmap with `superpowers:writing-plans`.
+
+Phase 6 checkpoint: attempt 4 corrects screenshot DPR; all five focused vacuum-width checks passed. A separate iPhone portrait low-altitude length failure (0.735 against >1) remains. Its first diagnosis identified white-core exclusion and fixed-region hull contamination; no classifier repair has been made. Final full-suite verification remains required; the no-fifth-attempt vacuum stop rule still applies. See the plume investigation for exact evidence.

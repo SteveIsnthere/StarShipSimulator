@@ -1,0 +1,90 @@
+[WebServer] (node:53741) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 3 workers
+
+(node:53742) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:53744) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:53743) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (959ms)
+  ✘  3 [pixel-portrait] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (1.1s)
+(node:53759) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:53760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [pixel-landscape] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (1.6s)
+  ✓  4 [iphone-portrait] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (1.2s)
+  ✓  5 [iphone-landscape] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (1.1s)
+
+
+  1) [pixel-portrait] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile 
+
+    Error: screenshot and scale use the same pixels
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    393.5
+
+      30 |   const subject = frame.extents.subject!;
+      31 |   expect(subject.found).toBe(true);
+    > 32 |   expect(Math.abs(subject.heightPx - scale.vehicleHeightPx), 'screenshot and scale use the same pixels').toBeLessThanOrEqual(1);
+         |                                                                                                          ^
+      33 |
+      34 |   await page.evaluate(() => {
+      35 |     const canvas = document.querySelector('canvas')!;
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/pixel-scale.spec.ts:32:106
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/pixel-scale-a-known-size-c-b0aa8-s-one-vehicle-height-mobile-pixel-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/pixel-scale-a-known-size-c-b0aa8-s-one-vehicle-height-mobile-pixel-portrait/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/pixel-scale-a-known-size-c-b0aa8-s-one-vehicle-height-mobile-pixel-portrait/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/pixel-scale-a-known-size-c-b0aa8-s-one-vehicle-height-mobile-pixel-portrait/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [pixel-landscape] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile 
+
+    Error: screenshot and scale use the same pixels
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    393.5
+
+      30 |   const subject = frame.extents.subject!;
+      31 |   expect(subject.found).toBe(true);
+    > 32 |   expect(Math.abs(subject.heightPx - scale.vehicleHeightPx), 'screenshot and scale use the same pixels').toBeLessThanOrEqual(1);
+         |                                                                                                          ^
+      33 |
+      34 |   await page.evaluate(() => {
+      35 |     const canvas = document.querySelector('canvas')!;
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/pixel-scale.spec.ts:32:106
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/pixel-scale-a-known-size-c-b0aa8-s-one-vehicle-height-mobile-pixel-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/pixel-scale-a-known-size-c-b0aa8-s-one-vehicle-height-mobile-pixel-landscape/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/pixel-scale-a-known-size-c-b0aa8-s-one-vehicle-height-mobile-pixel-landscape/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/pixel-scale-a-known-size-c-b0aa8-s-one-vehicle-height-mobile-pixel-landscape/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [pixel-portrait] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile 
+    [pixel-landscape] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile 
+  3 passed (4.9s)
