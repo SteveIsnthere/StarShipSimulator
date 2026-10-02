@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { build } from 'esbuild';
 import type { CompositeReport, WitnessKind } from './renderer/post-witness';
+import type { SamplingRow } from './renderer/post-sampling';
 
 let source: string;
 test.beforeAll(async () => {
@@ -38,6 +39,23 @@ test('local bloom footprint is independent of canvas dimensions @mobile', async 
   expect(report.directDifference, 'the identical unfiltered local source is a positive control').toBe(0);
   expect(report.changed, 'bloom actually adds visible light outside the source').toBeGreaterThan(0);
   expect(report.maxDifference, 'canvas extent cannot change the same local bloom kernel').toBeLessThanOrEqual(1);
+});
+
+test('bloom preserves production particle coverage on a high-density canvas', async ({ page }) => {
+  test.setTimeout(120000);
+  await openWitness(page);
+  const rows = await page.evaluate(() => (window as unknown as {
+    postSampling(): Promise<SamplingRow[]>;
+  }).postSampling());
+  await test.info().attach('sampling-measurements', { body: JSON.stringify(rows, null, 2), contentType: 'application/json' });
+  console.log('[post-sampling]', JSON.stringify(rows));
+  expect(rows.every((row) => row.directPixels > 0 && row.directEnergy > 0), 'each frozen source is visibly present').toBe(true);
+  expect(rows.filter((row) => row.source === 'control').every((row) => row.modes.some((mode) => mode.bleedPixels > 0)),
+    'the several-pixel source produces positive bloom bleed').toBe(true);
+  const actual = rows.filter((row) => row.source === 'particles' && row.resolution === 2)
+    .map((row) => row.modes.find((mode) => mode.name === 'configured')!);
+  expect(Math.max(...actual.map((mode) => mode.maxLoss)), 'bloom preserves directly rendered emission across subpixel phases').toBeLessThanOrEqual(1);
+  expect(actual.every((mode) => mode.lostPixels === 0), 'bloom cannot erase covered source pixels').toBe(true);
 });
 
 test('bloom adds light without darkening additive exhaust @mobile', async ({ page }) => {

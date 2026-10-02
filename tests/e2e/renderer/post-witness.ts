@@ -2,6 +2,7 @@ import { Application, Container, Rectangle, Sprite, Texture, type WebGLRenderer 
 import { createParticleSystem, createParticleTextures } from '../../../src/view/particles';
 import { createPostPass } from '../../../src/view/post';
 import { installEmissionBlending } from '../../../src/view/emission-blending';
+import { samplingWitness } from './post-sampling';
 
 export type WitnessKind = 'fire' | 'smoke' | 'fire-then-smoke' | 'smoke-then-fire';
 
@@ -149,3 +150,4 @@ async function bloomFootprint(): Promise<{ maxDifference: number; directDifferen
   return { maxDifference, directDifference, changed };
 }
 (window as unknown as { bloomFootprint: typeof bloomFootprint }).bloomFootprint = bloomFootprint;
+(window as unknown as { postSampling: typeof samplingWitness }).postSampling = samplingWitness;

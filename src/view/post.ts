@@ -146,6 +146,10 @@ export function createPostPass(
   height: number,
 ): PostPass {
   const bloomFilter = new Filter({
+    // Filtering must preserve the root's subpixel source coverage. Downsampling
+    // a phone's DPR2 emission into a DPR1, non-MSAA input erases thin gas detail.
+    resolution: 'inherit',
+    antialias: 'inherit',
     glProgram: GlProgram.from({ vertex: VERTEX, fragment: BLOOM_FRAGMENT, name: 'bloom' }),
     resources: {
       bloomUniforms: {

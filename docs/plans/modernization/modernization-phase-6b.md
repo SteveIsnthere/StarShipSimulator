@@ -294,3 +294,10 @@ Next: Linuxrecording/audit coherentfallbackstate, then fullPhase6bclosure and7�
 ## Gate-green fallback checkpoint (2026-10-02)
 
 Complete localgate exits0:1977units and1977coverage-instrumentedtests; unchangedcoveragefloors, smoke and5subpath checks pass. All8Linuxfixtures/audits coherent with source; intro motionexact, reentryoriginal180s motionexact,600slanded. Full5-browser suite nowrunning; mutation/finalreleaseacceptance/merge/main-gate/deploy stillrequired. High-depth branchreview found onlystale authoritative-roadmap checkpoint; accepted/corrected, followup requested. No partialphase merge; main/live080f108,60%,fourphasesremain. Next finishfullbrowser, runmutationALONE, finalreviewfollowups, phaseclose/merge/deploy then7–9.
+
+
+## Cycle3attempt1 sampling repair and continuous-bell prerequisite
+
+Fresh independent cycle3 review established expandedvisiblegas outsideoriginalbrightthresholds; no newbugwasassumed. Controlledfrozenproduction-driver tests provedfilterdownsampling/MSAAcoverage loss onDPR2: watchedredconfiguredsource maxloss204RGB,26–58sourcepixelserased; bothsettingsinherit preserveall12DPR2cases within0–1RGB/zeroerasedpixels. Bloom-onlyresolution/antialiasinherit implemented; heatunchanged. All7desktoprendererwitnesses/build/lint/65focusedunits pass; freshindependentandhigh-depthsource reviews clean. DPR1notuniversal1RGB anddetectorwidthsnearlyunchanged,so no originalwidthclosureclaim. Rawdata/logs/HTML/failurecapture/hash in fallback-browser-cycle3-attempt1/.
+
+Nextnativecycle3attempt2 follows continuous-bell-plan.md: continuousnozzle-framefield alongsideunchangedparticles,existingpressurecurves/bellgeometry/tint/alpha/per-running-enginecontributions,preallocatedmeshes/lifecycle/meaningfulabsencecontrols,originalacceptancebounds unchanged. This brings minimumvisible-bell prerequisite forward fromapprovedvisualscope; Phase8remainsunfinished. Planreview requested beforeimplementation, noownerquestion. Nocore/aerorestoration/feasibilitywork. Main/live080f108,60%,6b7 8 9unfinished.
