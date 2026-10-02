@@ -68,7 +68,7 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 - [x] Phase 3 — Design pass (merged `53e3c26`)
 - [x] Phase 4 — React shell (merged `dfab3c8`)
 - [x] Phase 5 — Guidance on real physics (merged `b84b746`; goldens on the recording platform `3429ea1`)
-- [ ] Phase 6 — Ship realism — **built and independently reviewed on `claude/ship-realism`; NOT merged.** Product checkpoint `1644fe1`: complete local gate and hosted CI `36953300952` green; final full e2e **438 passed / 0 failed / 11 configured skips**. All measurement repairs are complete. Next: merge, run the main gate, verify the deploy, then tick this line with its merge SHA. Retained bounded diagnosis history: [goal contract](modernization-GOAL.md#first-task), [evidence](../../research/2026-10-01-phase6-plume-diagnosis.md). The implementation plan was already closed out; branch commits and `docs/reference/physics-model.md` hold the record. Earth's rate and the parked aero moved to 6b.
+- [x] Phase 6 — Ship realism (merged `080f108`, live 2026-10-01 Vancouver time). Complete gate green on main; branch full e2e 438 passed / 0 failed / 11 configured skips. CI `36956332929` and Pages `36956332944` succeeded at the merge SHA. Live deployment smoke 5/5 passed; served service worker matches the verified build byte for byte, cache version `b72a7b0bad39`. Hosted menu smoke needed existing retries on two checks; retained as Phase 9 debt. [Close evidence](../../research/2026-10-01-phase6-close.md). Earth's rate and the parked aero moved to 6b.
 - [ ] Phase 6b — Entry on lift ([phase plan](modernization-phase-6b.md))
 - [ ] Phase 7 — Super Heavy
 - [ ] Phase 8 — Visuals
@@ -77,20 +77,8 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 Phases 7–9 get their phase plan when the phase before them lands, written by the run from this roadmap with `superpowers:writing-plans`.
 
 
-## Current verification checkpoint (2026-10-01)
+## Current checkpoint (2026-10-01)
 
-Product checkpoint `1644fe1` is pushed and unmerged. Screenshot DPR,
-actual-nozzle clipping, paired background control, bright-star rejection and
-distinct-frame sampling repairs are complete. Final focused plume checks
-10/10 passed; fresh independent high-depth review is clean. The complete local
-gate passed (1,941 unit tests, coverage floors, 13 smoke and 5 subpath checks);
-hosted CI `36953300952` passed at the same SHA. Physics and goldens are unchanged.
-
-The final full suite passed on that built source: **438 passed, 11 configured
-skips, exit 0** (36.1 minutes), all five projects. Its log and hosted CI log
-are retained with the gate log in the investigation evidence. The next task
-is Phase 6's `--no-ff` merge, main gate, push and live deploy verification, then
-tick its Status line with the merge SHA before Phase 6b Task 1. No fifth
-diagnosis attempt for the original iPhone portrait vacuum-width check is
-authorized if it becomes red again. Steve confirmed the full remaining roadmap
-scope (6, 6b, 7, 8, 9).
+Phase 6 is merged and live at `080f108`. Six of ten phases are complete (60%).
+Phase 6b starts on `claude/entry-on-lift`, created from that main merge.
+See its [plan](modernization-phase-6b.md); Task 1 is next.

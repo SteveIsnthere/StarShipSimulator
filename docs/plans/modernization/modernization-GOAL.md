@@ -3,18 +3,16 @@
 Continue independently through ONLY this roadmap:
 /Users/stevewang/dev/StarShipSimulator-realism/docs/plans/modernization/modernization-roadmap.md
 
-Run from the worktree `/Users/stevewang/dev/StarShipSimulator-realism`. Each phase gets its own `claude/<slug>` branch from `main` and merges back into `main`; Phase 6 is `claude/ship-realism` (checked out here, pushed, unmerged), Phase 6b is `claude/entry-on-lift` (create it from `main` after Phase 6 merges).
+Run from the worktree `/Users/stevewang/dev/StarShipSimulator-realism`. Each phase gets its own `claude/<slug>` branch from `main` and merges back into `main`. Phase 6 is merged and live at `080f108`. Phase 6b's `claude/entry-on-lift` already exists, created from that new `main` and checked out here; do not recreate it.
 
 There is no Jira board for this repo. `docs/plans/` is the system of record: the roadmap's Status checkboxes, the phase plans' task checkboxes, `modernization-handover.md`, and `docs/plans/backlog/README.md`. Do not look for tickets.
 
 ## Current truthful status
 
-- **50% complete by phase count: 5 of 10 phases done.** Phases 1–5 are merged and live on `main` (`f14aadb`, `53e3c26`, `dfab3c8`, `b84b746`, `3429ea1`). Phases 6, 6b, 7, 8 and 9 remain unfinished. Phase 6 is built and independently reviewed but **unmerged**. Resume the existing `claude/ship-realism` branch; do not recreate it. Verified product checkpoint `1644fe1` is pushed, 34 commits ahead of `main`, none behind, with a clean checkout before this documentation refresh. `main` remains at `3d39536`. Steve confirmed the full remaining roadmap scope on 2026-10-01.
-- **The approved fourth diagnosis attempt is in final verification** for `tests/e2e/plume.spec.ts` "and blooms wider than the ship in vacuum" on iPhone portrait. The previous full suite on `4c03814` finished **427 passed, 1 failed, 11 configured skips**, despite its green gate, hosted CI and independent graphics review. Vacuum width was 0.70 against >0.7176042091538909. That red result is retained; historical green runs cannot justify a merge.
-- **Steve approved one additional diagnosis attempt on 2026-10-01**, with every assertion, bound, sample count and retry unchanged. This is attempt 4 for that specific project and check, not a budget reset. Screenshot DPR, actual-nozzle clipping, paired background masking, bright-star rejection and distinct-frame sampling repairs are complete at `1644fe1`: final focused plume checks **10/10 green**, independent high-depth review clean, complete local gate green (**1,941 unit tests, coverage floors, 13 smoke and 5 subpath checks**), hosted CI **36953300952 green** at the same SHA. Physics, golden fixtures and effect parameters are unchanged by the measurement repairs.
-- **Required final full suite passed on `1644fe1`'s built source:** **438 passed, 11 configured skips, exit 0** (36.1 minutes), all five projects. The complete gate ran before this suite; no source changed between them. Logs are retained at `docs/research/2026-10-01-phase6-plume-evidence/pixel-landscape-attempt1/{gate,full,hosted-ci}.log`. Process `30896` has completed; do not rerun completed verification for this checkpoint. Phase 6 remains unmerged and the live site has not received it.
-- **The exact next task is to close Phase 6:** merge `--no-ff` into `main`, verify its gate and deploy, tick the roadmap with the merge SHA. Then Phase 6b Task 1 on `claude/entry-on-lift`, created from the new `main`. Its coefficient functions come from `claude/drag-parked` (`a06a7a4`), excluding its blend, `step.ts` wiring and `XLIFT` experiment.
-- Already done and must not be redone (on `claude/ship-realism`):
+- **60% complete by phase count: 6 of 10 phases done.** Phases 1–6 are merged and live; Phase 6 merge `080f108` is on `main`. Phases 6b, 7, 8 and 9 remain unfinished. Steve confirmed this full remaining roadmap scope on 2026-10-01.
+- **Phase 6 closure is verified:** final branch full suite 438 passed, 0 failed, 11 configured skips; fresh independent high-depth review clean; complete gate green on main; hosted CI `36956332929` and Pages `36956332944` succeeded at `080f108`; live deployment smoke 5/5 passed. Served service worker matches the locally verified build byte for byte, version `b72a7b0bad39`. Exact logs and the two initial Node certificate-trust failures are retained in `docs/research/2026-10-01-phase6-close/`; certificate checking remained enabled. Two hosted menu smoke checks needed their existing retries, recorded for Phase 9 in the backlog. Do not redo Phase 6's finished verification or measurement repairs.
+- **The exact next task is Phase 6b Task 1**, on the existing `claude/entry-on-lift`. Port only the coefficient functions and relevant `tests/core/drag-model.test.ts` from `claude/drag-parked` (`a06a7a4`), excluding its blend, `step.ts` wiring and `XLIFT` experiment. Then body-axis tests first, the shared force model and measured entry sweep, exactly as the approved plan specifies. No Phase 6b physics is implemented yet.
+- Already done and must not be redone (merged in Phase 6):
   - Phase 6: felt g and the g-limit on felt g; the USSA76 thermosphere; the starting Mach; the emptying-step thrust; GM and R; the 18 t `landingReserve`; six Raptors with fixed RVacs (no gimbal); the 1.2 s start transient; the heat shield (Sutton-Graves W/m², skin temperature against a radiative sink, break-up on 1,533 K); the wind profile and Dryden turbulence; the rotating ground frame and all its plumbing at rate zero (`frameRotationRate`; Earth's rate is 6b Task 1b).
   - Golden audit rows P6.1–P6.5, P6.8, P6.10–P6.12 in `tests/golden/unification.test.ts`.
   - `4c03814`'s graphics repair: rate-crossing birth times, exact integration of each newborn's remaining frame, camera reprojection, nozzle-frame core/bell motion, and flight-start clearing of particles and emitter history. Keep the regression tests for cadence, camera transforms, orbital carrier velocity and pool reuse. These fixes passed focused checks and independent review, but did not make the full suite green.
@@ -33,29 +31,25 @@ There is no Jira board for this repo. `docs/plans/` is the system of record: the
 
 ## First task
 
-**Close Phase 6 next:** from the main checkout, confirm a clean `main`, pull
-fast-forward only, merge the pushed `claude/ship-realism` with `--no-ff`, run
-`npm run gate` on main, then push and verify the Pages deploy and live smoke
-tier. Branch verification and review are complete on product checkpoint
-`1644fe1`; do not redo the finished measurement repairs or full suite merely
-because this documentation refresh adds a commit. The required main gate
-still runs after the merge. No source parameter, assertion, bound, sample
-count or retry was tuned to make verification pass.
+**Phase 6b Task 1:** use the existing `claude/entry-on-lift` branch, created
+from Phase 6's main merge `080f108`. Read `modernization-phase-6b.md` and the
+affected simulation, predictor and autopilot code before editing. Port only
+the parked coefficient functions and their relevant tests, not the old blend
+or wiring. Write failing body-axis tests, implement one shared force function,
+then the sweep and schedule, Linux golden regeneration and audit as that plan
+lists. The sweep's stop rule and unchanged 1,533 K tile limit remain binding.
 
-Retain the bounded diagnosis history and no-fifth-attempt rule for the original
-iPhone portrait vacuum-width check if it becomes red again; other newly failing
-checks retain the normal three-attempt limit. Never rerun a failed final suite
-hoping for a lucky pass. Physics and goldens are unchanged by these repairs.
+Pre-flight source check: NASA TR R-474 equation 2.12 folds the normal-force
+angle above 90 degrees (`alphaPrime = pi - |alpha|`); its crossflow coefficient
+uses `M * |sin(alpha)|` (equation 2.3), and Figure 4 contains the finite-length
+factor. Record these conventions and any necessary ruling in the implementation
+ledger before writing tests; do not blindly extrapolate the plan's shorthand
+into negative drag or reversed lift. Source: https://ntrs.nasa.gov/api/citations/19770026166/downloads/19770026166.pdf.
 
-- [x] Record attempt 4's screenshot-scale hypothesis, reproduce it, repair the units, and retain focused traces: all five vacuum-width checks passed.
-- [x] Complete the separate low-altitude length diagnosis (attempt 1): paired background control and actual-nozzle clipping repair the classifier. A review-found bright-star false positive is fixed; distinct-frame sampling repairs a newly exposed Pixel landscape check. Final focused plume run: 10/10 passed, with traces retained. No threshold, bound, sample count or retry changed.
-- [x] Complete final `npm run gate` and independent high-depth review on `1644fe1`: both green, with hosted CI `36953300952` green.
-- [x] Final full suite on the same built source: 438 passed, 11 configured skips, exit 0; full log retained with the gate and hosted CI logs.
-- [ ] If this same check remains red in post-repair focused or full verification, stop Phase 6 again, name the check and retain attempt 4's evidence. No fifth diagnosis attempt is authorized. All other failing checks retain the normal three-attempt rule.
-- [ ] If verification and review are green, commit and push the repair. From `/Users/stevewang/dev/StarShipSimulator` on `main`: pull fast-forward only, merge `claude/ship-realism` with `--no-ff`, run `npm run gate` on main, push, verify the Pages deploy and live smoke tier at https://steveisnthere.github.io/StarShipSimulator/.
-- [ ] Tick Phase 6 in the roadmap with the merge SHA and update the handover. Only then create `claude/entry-on-lift` from the new `main` in the realism worktree and begin Phase 6b.
-
-Then Phase 6b, Task 1: create `claude/entry-on-lift` from the new `main`; cherry-pick the coefficient functions and `tests/core/drag-model.test.ts` from `claude/drag-parked`; write the failing body-axis tests (`tests/core/body-axis-aero.test.ts`); then the one force function, the sweep script, the schedule, and the Linux regeneration, exactly as the plan lists.
+Phase 6 closure completed: main merge, gate, push, deploy, live smoke and
+roadmap tick. Its completed plan was already closed out. Retain the bounded
+plume history; no fifth diagnosis attempt for the original iPhone portrait
+vacuum-width check is authorized if it becomes red again.
 
 ## Preserve these boundaries
 
@@ -113,7 +107,7 @@ Made by the planner, stated so the run inherits them:
 - Keep the roadmap truthful after each phase: tick its Status line, close out the finished phase plan (delete it; the merge commit and `docs/reference/` hold the record), and write the next phase's plan with `superpowers:writing-plans` (`modernization-phase-<n>.md`) before starting it. Keep `modernization-handover.md` current at each checkpoint.
 - When a phase closes, move any decision that still holds into `docs/reference/` and keep `AGENTS.md`, the skills and the backlog true.
 - **A real defect found by a new test is fixed, even in a phase that otherwise forbids physics changes.** Bug-fix tier only: the failing test first, the fix, a trajectory audit of every golden in the commit body, and an independent reviewer before merge. That precedence beats any phase's "no core behaviour change" constraint.
-- **Diagnosis is bounded.** A failing or flaky check gets at most three diagnosis attempts, each recorded (trace, screenshot, hypothesis, result). Then it is fixed, or the phase stops with that check named as the blocker and its evidence kept. The sole exception is Steve's approved fourth attempt for the Phase 6 iPhone portrait vacuum-width check, defined above; it is now in progress; do not start a fifth attempt. Never loosen a bound, delete an assertion, or add a retry to get past it.
+- **Diagnosis is bounded.** A failing or flaky check gets at most three diagnosis attempts, each recorded (trace, screenshot, hypothesis, result). Then it is fixed, or the phase stops with that check named as the blocker and its evidence kept. The sole exception is Steve's approved fourth attempt for the Phase 6 iPhone portrait vacuum-width check, defined above; it passed final verification and is closed; do not start a fifth attempt if the same check becomes red again. Never loosen a bound, delete an assertion, or add a retry to get past it.
 - Independent work runs in parallel only where it does not share files or goldens: reviews in the background while the next task proceeds. Physics tasks are serial (they share `step.ts` and every golden).
 
 ## Reporting

@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — all 10 final focused plume checks pass after measurement repairs; final full suite 438 passed / 0 failed; merge and deploy pending; Earth's rate (9b) and the parked aero moved to 6b | — |
+| 6 Ship realism | done, live; gate and live deployment smoke verified | `080f108` |
 | 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
@@ -23,7 +23,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 - **A gate that is green on your Mac and in hosted CI.** Before: 48 of 1,585 unit tests red on arm64, CI green 2 of 132 runs. Now: `npm run gate` about 3 minutes locally, CI about 8 minutes, green on every push since.
 - **A truth harness.** Cited reference bands with a ratchet (`npm run truth:report`), property invariants over every configurable flight, a mutation matrix the suite must turn red (`npm run mutation`, 13 of 13 caught), a debug surface and a browser witness with a positive control.
 - **Two real physics bugs fixed**, both found by the new tests: the tank went negative on the emptying step, and the flight editor accepted negative propellant (a vehicle lighter than its own structure).
-- **Phase 6, Ship realism** (on its branch, merging next): a real Earth (GM, radius, the 1976 atmosphere to its thermosphere), felt g, six Raptors with three fixed RVacs, a heat shield in kelvin against a 1,533 K tile, wind that grows with height and gusts, and a rotating-frame model ready for Earth's spin. Every scenario still lands under autopilot.
+- **Phase 6, Ship realism** (merged and live): a real Earth (GM, radius, the 1976 atmosphere to its thermosphere), felt g, six Raptors with three fixed RVacs, a heat shield in kelvin against a 1,533 K tile, wind that grows with height and gusts, and a rotating-frame model ready for Earth's spin. Every scenario still lands under autopilot.
 - **The design pass**: `docs/design/ux-critique.md`, `design-system.md`, `ia.md`, and the review page below.
 
 ## For you to look at
@@ -71,15 +71,21 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 - **2026-10-01, main red for one merge.** Phase 5's goldens were re-blessed on the Mac; they replay bit-exactly only on x86-64 Linux / Node 22, so CI failed in the 16th digit and the deploy did not publish (the live site kept the previous build). Fixed in `3429ea1`: fixtures now come from `.github/workflows/golden-regenerate.yml` (push a branch as `golden/<name>`), `golden:regenerate` refuses anywhere else, and the policy says so.
 
-## Current release requirement
+## Current checkpoint
 
-Phase 6 is unmerged. Product checkpoint `1644fe1` has a green complete gate,
-hosted CI and independent high-depth review, plus a final full suite of
-438 passed, 0 failed, 11 configured skips. The next task is its `--no-ff` merge,
-main gate and live deploy verification. Previous failures remain in the
-investigation; they are not erased by the repaired result.
+Phase 6 is merged and live at `080f108`: complete main gate green, hosted CI
+`36956332929` and Pages deploy `36956332944` succeeded. Live deployment smoke
+5/5 passed using `NODE_EXTRA_CA_CERTS=/etc/ssl/cert.pem`; the served service
+worker matches the verified build byte for byte (`b72a7b0bad39`). The first
+live attempts exposed a Node CA-store mismatch, not a manifest defect; both
+failed logs and the final green log are retained. Certificate verification
+was never disabled. Two hosted menu checks needed their existing retry;
+recorded for Phase 9 with exact evidence.
 
-Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-plume-diagnosis.md).
+Six of ten phases are done (60%). Phase 6b Task 1 is next on
+`claude/entry-on-lift`, created from `080f108`. No 6b physics is implemented yet.
+
+[Phase 6 close evidence](../../research/2026-10-01-phase6-close.md).
 
 ## Retained verification history (2026-10-01)
 
@@ -105,23 +111,3 @@ Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-p
 - **Phase 6b, Entry on lift**, approved: the autopilot gets an entry angle-of-attack schedule, and the parked aero tasks land on it, with a stop rule if no angle keeps the tile under 1,533 K.
 - **Phase 8, Visuals**, added before UX (now Phase 9): engines and plumes, re-entry and heat, the environment, the vehicle and camera. It publishes its visual direction and proceeds without waiting.
 - The finished Phase 1–5 plans are closed out; the roadmap's Status names each merge commit.
-
-
-
-## Current verification checkpoint (2026-10-01)
-
-Product checkpoint `1644fe1` is pushed and unmerged. Screenshot DPR,
-actual-nozzle clipping, paired background control, bright-star rejection and
-distinct-frame sampling repairs are complete. Final focused plume checks
-10/10 passed; fresh independent high-depth review is clean. The complete local
-gate passed (1,941 unit tests, coverage floors, 13 smoke and 5 subpath checks);
-hosted CI `36953300952` passed at the same SHA. Physics and goldens are unchanged.
-
-The final full suite passed on that built source: **438 passed, 11 configured
-skips, exit 0** (36.1 minutes), all five projects. Its log and hosted CI log
-are retained with the gate log in the investigation evidence. The next task
-is Phase 6's `--no-ff` merge, main gate, push and live deploy verification, then
-tick its Status line with the merge SHA before Phase 6b Task 1. No fifth
-diagnosis attempt for the original iPhone portrait vacuum-width check is
-authorized if it becomes red again. Steve confirmed the full remaining roadmap
-scope (6, 6b, 7, 8, 9).

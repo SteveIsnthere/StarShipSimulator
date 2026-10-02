@@ -17,7 +17,7 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 | `post.ts` sets `uTexelSize` once and never on resize | 8 |
 | Reversible visual defaults awaiting a playtest: no accent colour, cinematic mode off by default, the light daytime sky | 8 |
 | 60 fps on a mid-range phone is a stated goal that nothing measures | 8 |
-| `plume.spec.ts` "blooms wider than the ship in vacuum" is flaky on `main` too (2 of 3 runs failed on desktop, 2026-10-01; the vacuum/sea-level width ratio ranges about 1.0–2.0 against a 1.2 bound). The measurement, not the plume, needs fixing before the bound means anything | 8 |
+| Hosted `menu.spec.ts` smoke flakiness: "the menu opens, offers every preset, and closes" and "Configure starts the new flight and closes the menu" each failed their first menu-visibility assertion then passed the existing retry in Phase 6 deploy run `36956332944`. Local main smoke and full five-project suite were green. Diagnose readiness/input timing with retained logs before Phase 9 closes; no retry or bound increase. See `docs/research/2026-10-01-phase6-close/hosted-deploy.log` | 9 |
 | The RVacs have no plume of their own: the view draws plumes from the running count, not per engine and nozzle | 8 |
 | Camera `SHAKE_FRACTION = 0.006` set by eye | 8 |
 | Telemetry-loss states (values freeze and dim) and entry flap pictograms from the broadcast reference were never built | 9 |
