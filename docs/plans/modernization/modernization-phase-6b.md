@@ -8,13 +8,13 @@
 
 **Tech Stack:** TypeScript, Vitest, fast-check; the Phase 2 truth harness; the Phase 5 predictor (`src/core/control/guidance-physics.ts`).
 
-**Spec:** [modernization-roadmap.md](modernization-roadmap.md) Phase 6b; Phase 6's Tasks 5, 6, 7, 9b, 11 (moved here; Phase 6 merged and its plan closed out, the record is its merge commit and `docs/reference/physics-model.md`); [physics-change-policy](../../../.agents/skills/physics-change-policy/SKILL.md); [docs/reference/physics-model.md](../../reference/physics-model.md); backlog rows tagged 6b.
+**Spec:** [modernization-roadmap.md](modernization-roadmap.md) Phase 6b; Phase 6's Tasks 5, 6, 7, 9b, 11 (moved here; Phase 6 must merge before this plan starts; its implementation plan was closed out early, and the current record is its branch commits and `docs/reference/physics-model.md`); [physics-change-policy](../../../.agents/skills/physics-change-policy/SKILL.md); [docs/reference/physics-model.md](../../reference/physics-model.md); backlog rows tagged 6b.
 
 **Starts after** Phase 6 merges to `main`. Branch `claude/entry-on-lift` from `main`.
 
 ## What is already known (do not re-measure)
 
-- **The parked drag model** is on branch `claude/drag-parked` (one commit on top of Phase 6 Task 8, `9a7855a`): `getCrossSectionalArea` without the `/2.1`; `stagnationPressureRatio`, `broadsideDragCoefficient` (Jorgensen 1.2 subcritical → Newtonian 1.227 above Mach 4), `noseFirstDragCoefficient` (OpenRocket base drag eq. 3.94 + ogive wave drag B.3–B.6 + 0.035 friction), `tailFirstDragCoefficient` (0.85·q_stag/q + 0.035); `tests/core/drag-model.test.ts`. Its coefficient functions and sources are right and are reused; its blend (`getBodyDragCoefficient`, broadside force applied along the flow) is what Task 1 replaces.
+- **The parked drag model** is on branch `claude/drag-parked` (parked commit `a06a7a4` on top of the Phase 6 Task 8 baseline `9a7855a`): `getCrossSectionalArea` without the `/2.1`; `stagnationPressureRatio`, `broadsideDragCoefficient` (Jorgensen 1.2 subcritical → Newtonian 1.227 above Mach 4), `noseFirstDragCoefficient` (OpenRocket base drag eq. 3.94 + ogive wave drag B.3–B.6 + 0.035 friction), `tailFirstDragCoefficient` (0.85·q_stag/q + 0.035); `tests/core/drag-model.test.ts`. Its coefficient functions and sources are right and are reused; its blend (`getBodyDragCoefficient`, broadside force applied along the flow) is what Task 1 replaces.
 - **Why it parked:** with that model and the Phase 6 heat shield the deorbit reaches the 1,533 K tile limit at 65 km and breaks up. The autopilot flies entry at 88–89° to the wind (`aeroDescentController`, `src/core/autopilot/index.ts`: `pitch = angleOfMotion − π + π/2`, ±3° trims), where lift is zero. Swapping only the lift coefficient for a Newtonian one changed nothing, because at 89° it is zero.
 - **The heat model** (Phase 6 Task 8): Sutton-Graves in W/m² with a 1/√2 cylinder factor broadside, radiative equilibrium at ε = 0.85, limit 1,533 K. Today (2021 drag, broadside entry): deorbit 1,459 K, re-entry preset 1,372 K.
 
