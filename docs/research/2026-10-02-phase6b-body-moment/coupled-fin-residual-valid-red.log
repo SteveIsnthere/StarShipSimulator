@@ -1,0 +1,81 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/fin-rcs-allocation.test.ts (8 tests | 5 failed) 7ms
+     × pays only the residual after actual slew at dt0.008333333333333333 3ms
+     × pays only the residual after actual slew at dt0.1 0ms
+     × RCS saturation does not overwrite the fin command, sign-1 1ms
+     × RCS saturation does not overwrite the fin command, sign1 0ms
+     × cancels autonomous residual allocation on explicit manual pitch input 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > pays only the residual after actual slew at dt0.008333333333333333
+AssertionError: expected 41599.039137759326 to be close to -160439.84545259117, received difference is 202038.8845903505, but expected 5e-7
+ ❯ tests/core/fin-rcs-allocation.test.ts:55:32
+     53|     const expected = Math.max(-C.rcsMaxThrust, Math.min(C.rcsMaxThrust,
+     54|       (1e6 - actual.moment) / actual.arm));
+     55|     expect(s.forces.rcsThrust).toBeCloseTo(expected, 6);
+       |                                ^
+     56|     expect(s.vehicle.rcsRunTimeRemaining).toBe(
+     57|       (reserve * (1 / dt) - Math.abs(expected) / C.rcsMaxThrust) / (1 …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > pays only the residual after actual slew at dt0.1
+AssertionError: expected 41599.039137759326 to be close to 2723.4548446323633, received difference is 38875.584293126965, but expected 5e-7
+ ❯ tests/core/fin-rcs-allocation.test.ts:55:32
+     53|     const expected = Math.max(-C.rcsMaxThrust, Math.min(C.rcsMaxThrust,
+     54|       (1e6 - actual.moment) / actual.arm));
+     55|     expect(s.forces.rcsThrust).toBeCloseTo(expected, 6);
+       |                                ^
+     56|     expect(s.vehicle.rcsRunTimeRemaining).toBe(
+     57|       (reserve * (1 / dt) - Math.abs(expected) / C.rcsMaxThrust) / (1 …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > RCS saturation does not overwrite the fin command, sign-1
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > RCS saturation does not overwrite the fin command, sign1
+AssertionError: expected 100 to be 99 // Object.is equality
+
+- Expected
++ Received
+
+- 99
++ 100
+
+ ❯ tests/core/fin-rcs-allocation.test.ts:65:48
+     63|   it.each([-1, 1])('RCS saturation does not overwrite the fin command,…
+     64|     const s = prepared(0.2, sign * 1e9);
+     65|     expect(Math.abs(s.autopilot.pitchControl)).toBe(99);
+       |                                                ^
+     66|     const command = s.autopilot.pitchControl;
+     67|     controlTranslation(s, command, 1 / 120);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > cancels autonomous residual allocation on explicit manual pitch input
+AssertionError: expected 41599.039137759326 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 41599.039137759326
+
+ ❯ tests/core/fin-rcs-allocation.test.ts:87:37
+     85|     expect(autonomous.forces.rcsThrust).not.toBe(0);
+     86|     const manual = step(s, 1 / 120, { pitchControl: 0 });
+     87|     expect(manual.forces.rcsThrust).toBe(0);
+       |                                     ^
+     88|     expect(manual.autopilot.finRcsAllocationPending).toBe(false);
+     89|     expect(manual.autopilot.rcsThrustCommand).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 3 passed (8)
+   Start at  08:31:06
+   Duration  223ms (transform 89ms, setup 0ms, import 110ms, tests 7ms, environment 0ms)
+

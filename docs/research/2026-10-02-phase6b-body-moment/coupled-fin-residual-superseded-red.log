@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/fin-rcs-allocation.test.ts (10 tests | 1 failed) 8ms
+     × a superseding alignment clears an unallocated raw request 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > a superseding alignment clears an unallocated raw request
+AssertionError: expected 41599039.13775911 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 41599039.13775911
+
+ ❯ tests/core/fin-rcs-allocation.test.ts:108:32
+    106|     precisionAlignment(s, s.kinematics.pitch, 1);
+    107|     controlTranslation(s, s.autopilot.pitchControl, 1 / 120);
+    108|     expect(s.forces.rcsThrust).toBe(0);
+       |                                ^
+    109|   });
+    110|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  08:31:50
+   Duration  225ms (transform 89ms, setup 0ms, import 108ms, tests 8ms, environment 0ms)
+

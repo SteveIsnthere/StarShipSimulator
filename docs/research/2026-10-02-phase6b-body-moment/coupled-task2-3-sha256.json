@@ -1,0 +1,20 @@
+{
+  "base": "f51c293f78b640240db8f0b675a4a06386943431",
+  "files": {
+    "src/core/control/actuation.ts": "3c63b117aaa3e518481fb99b3e218c3d7badad3ec5b7a0865ea6bcd438b90a1f",
+    "src/core/control/entry-range.ts": "fb3dcc52e92f1b5c1f69d25675cfaf5a56156d728b36e8c65b1686bf3b0151c9",
+    "src/core/control/fin-authority.ts": "0119228644e432f5b120571cc7e819b3bf1a2f7548477e5c1f0f5890f59e36ac",
+    "src/core/control/primitives.ts": "229a829a1ec74ca07aff4b5ab48791a8d53e854530a49f3a6c7e41d7978fe75d",
+    "src/core/physics/aero.ts": "39cce27fcd9e4cb8474031162461dbdf9a38292e8c417cf6e3951457c8e4441d",
+    "src/core/physics/body-moment.ts": "14c55d0bea6923656bd18e3ebe765a6efb9623ecc94117d06a6b755bec4d3ded",
+    "src/core/physics/fin-surfaces.ts": "cbedca1ed9d1d641db1d4f31002283a14909cadcaa3e8ff2e6c25b2b86de1edc",
+    "src/core/state.ts": "3f8a39b15ee65e6245f17b7e0a194613474a9845b2e426a59693714a74b24ff0",
+    "src/core/step.ts": "f38834613de62240456fa1135a19a0d3fe8bb9b166dc3b83c3ff968080454c3d",
+    "tests/core/body-moment.test.ts": "96da8a46f1185de5a48c6bdcd7d407593d98601f20c7aa3e8560b88bba0d1e7f",
+    "tests/core/fin-authority.test.ts": "3ed440e53192d54b55359a354935994ef05459aff03e8b8ce36606578db2e32b",
+    "tests/core/fin-rcs-allocation.test.ts": "1b8db70444cf30d2faeb4af6332768fc07f09da5945ea5540690f97ea0c297fb",
+    "tests/core/fin-surface-predictor.test.ts": "300e6c0eea0e359f1f23b25805bd3ef1aaf6dd1bc0ab45d4f65f26123e291e3e",
+    "tests/core/fin-surface-step.test.ts": "50e28791ec4f9b981b7540c78ecdc61eb9e373a192e293acd390cfac4bfb6a1d",
+    "tests/core/fin-surfaces.test.ts": "d8f3654fd3c3f05c90e22dd4230b17fc88eae9b6990563c48fe205071dd7cd1c"
+  }
+}

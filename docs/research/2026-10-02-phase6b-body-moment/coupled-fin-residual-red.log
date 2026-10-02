@@ -1,0 +1,51 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/fin-rcs-allocation.test.ts (6 tests | 4 failed) 6ms
+     × pays only the residual after actual slew at dt0.008333333333333333 3ms
+     × pays only the residual after actual slew at dt0.1 0ms
+     × RCS saturation does not overwrite the fin command, sign-1 2ms
+     × RCS saturation does not overwrite the fin command, sign1 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > pays only the residual after actual slew at dt0.008333333333333333
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > pays only the residual after actual slew at dt0.1
+TypeError: Cannot read properties of undefined (reading 'frontFinArm')
+ ❯ achievedMoment tests/core/fin-rcs-allocation.test.ts:38:33
+     36|   const f: FinForce = { normal: 0, drag: 0, lift: 0, moment: 0 };
+     37|   writeHypersonicFinForce(0.01, 5000, rad(-1), s.vehicle.frontFinExten…
+     38|     C.frontFinSurfaceArea, arms.frontFinArm, f);
+       |                                 ^
+     39|   const front = f.moment;
+     40|   writeHypersonicFinForce(0.01, 5000, rad(-1), s.vehicle.aftFinExtensi…
+ ❯ tests/core/fin-rcs-allocation.test.ts:50:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > RCS saturation does not overwrite the fin command, sign-1
+ FAIL  |unit| tests/core/fin-rcs-allocation.test.ts > hypersonic paired fins and RCS allocate one torque demand > RCS saturation does not overwrite the fin command, sign1
+AssertionError: expected 100 to be 99 // Object.is equality
+
+- Expected
++ Received
+
+- 99
++ 100
+
+ ❯ tests/core/fin-rcs-allocation.test.ts:63:48
+     61|   it.each([-1, 1])('RCS saturation does not overwrite the fin command,…
+     62|     const s = prepared(0.2, sign * 1e9);
+     63|     expect(Math.abs(s.autopilot.pitchControl)).toBe(99);
+       |                                                ^
+     64|     const command = s.autopilot.pitchControl;
+     65|     controlTranslation(s, command, 1 / 120);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 2 passed (6)
+   Start at  08:29:07
+   Duration  206ms (transform 77ms, setup 0ms, import 94ms, tests 6ms, environment 0ms)
+

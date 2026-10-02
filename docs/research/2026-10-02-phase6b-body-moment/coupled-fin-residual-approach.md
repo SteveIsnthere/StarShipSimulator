@@ -1,0 +1,9 @@
+# Coupled flight diagnosis 2 — residual allocation
+
+Attempt 1 failed both required entries after RCS exhaustion. It does not establish physical infeasibility: the allocator requested total torque from RCS while the fins contributed their own torque. Fresh independent reviewer coupled_fin_review confirmed this confound and recommended residual allocation before any fallback ruling.
+
+Implement within approved Task3 Fidelity integration: preserve the 0.1 rad RCS deadzone, 800 kN thrust, reserve accounting, paired target family, 0.99 command blend and unchanged fin slew. Carry a one-step allocation marker with the raw total requested RCS force. After actual fin actuation, subtract the shared pressure function's moment at the achieved extensions and moving mass arms. Clamp the remaining force to existing RCS authority without overwriting the independently solved fin command. Consume the marker in that step; explicit manual pitch input cancels the allocation. No steady feedforward inside the deadzone.
+
+Before flight: watched-red witnesses for actual slew-dependent residual, saturation independent of fins, deadzone, consumption, manual cancellation and unchanged player bang-bang. Build, lint, focused controller/force proofs and truth report. Then fly each required entry once, stopping at failure or Mach5; retain thermal/failure/authority bounds. Label integrated force snapshot separately from newly issued commands. Exclude breakup-reset mass from authority conclusions. This is attempt2 of the current bounded three-flight cycle, not scenario acceptance or a low-Mach model.
+
+Preflight review found a second alignment could clear the allocation marker while leaving the raw request. Added a watched-red superseding-alignment witness and clear only marked raw requests; ordinary proportional-command carryover remains unchanged. Reviewer's exact findings retained in coupled-fin-residual-review.md.

@@ -1,0 +1,7 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/core/fin-rcs-allocation.test.ts(38,33): error TS2339: Property 'frontFinArm' does not exist on type 'void'.
+tests/core/fin-rcs-allocation.test.ts(41,32): error TS2339: Property 'aftFinArm' does not exist on type 'void'.
+tests/core/fin-rcs-allocation.test.ts(42,48): error TS2339: Property 'rcsArm' does not exist on type 'void'.

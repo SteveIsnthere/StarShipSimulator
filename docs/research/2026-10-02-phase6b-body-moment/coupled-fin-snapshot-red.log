@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/fin-authority.test.ts (7 tests | 1 failed) 6ms
+     × hypersonic actuation follows returned attack when it crossed the stored force-phase sign 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/fin-authority.test.ts > surface authority follows the existing paired actuator family > hypersonic actuation follows returned attack when it crossed the stored force-phase sign
+AssertionError: expected +0 to be 100 // Object.is equality
+
+- Expected
++ Received
+
+- 100
++ 0
+
+ ❯ tests/core/fin-authority.test.ts:60:41
+     58|     s.world.gustVertical = 0;
+     59|     finsActuation(s, 50, 1);
+     60|     expect(s.vehicle.frontFinExtension).toBe(100);
+       |                                         ^
+     61|     expect(s.vehicle.aftFinExtension).toBe(0);
+     62|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  08:14:03
+   Duration  189ms (transform 59ms, setup 0ms, import 74ms, tests 6ms, environment 0ms)
+
