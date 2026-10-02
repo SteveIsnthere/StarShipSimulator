@@ -12,7 +12,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
 | 6 Ship realism | done, live; gate and live deployment smoke verified | `080f108` |
-| 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
+| 6b Entry on lift | Task1 active; preset60° survives, broader demo/range acceptance red | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
 | 9 UX to flight_sim level | not started | — |
@@ -83,7 +83,7 @@ was never disabled. Two hosted menu checks needed their existing retry;
 recorded for Phase 9 with exact evidence.
 
 Six of ten phases are done (60%). Phase 6b Task 1 is next on
-`claude/entry-on-lift`, created from `080f108`. Task 1 model work is in progress and uncommitted; see the goal contract and the Task 1 progress note for the named predictor failure and remaining schedule/sweep.
+`claude/entry-on-lift`, created from `080f108`. Task 1 model work is in progress and uncommitted; see the goal contract and the Task 1 progress note for the named predictor failure and measured sweeps, broader landing failures and pending owner exceptions.
 
 [Phase 6 close evidence](../../research/2026-10-01-phase6-close.md).
 
@@ -111,3 +111,9 @@ Six of ten phases are done (60%). Phase 6b Task 1 is next on
 - **Phase 6b, Entry on lift**, approved: the autopilot gets an entry angle-of-attack schedule, and the parked aero tasks land on it, with a stop rule if no angle keeps the tile under 1,533 K.
 - **Phase 8, Visuals**, added before UX (now Phase 9): engines and plumes, re-entry and heat, the environment, the vehicle and camera. It publishes its visual direction and proceeds without waiting.
 - The finished Phase 1–5 plans are closed out; the roadmap's Status names each merge commit.
+
+## Latest Phase6b Task1 checkpoint
+
+The shared physical force model and Mach-five to two schedule are built but uncommitted. Prescribed sweep gives a viable60° deorbit at1515.29 K and7.67 km miss with the trial aim. This is not phase completion: all fixed-angle circularize-demo entries break up, reentry exceeds the existing900 s harness, and the one-km aim health remains red. The measured22 t reserve passes all three engine-out reserve assertions. The current4450439 m aim still misses4.70 km. See [Task1 progress](../../research/2026-10-01-phase6b-task1-progress.md) for both sweeps and exact bounded diagnoses.
+
+Pending Steve: replace the obsolete4 km/s predictor cap characterization with an independent forward witness (review recommendation), explicitly add full-trajectory flightworthiness, or park the model. The red assertion is unchanged pending that answer. Independent source review also identifies the hypersonic extrapolation of the low-speed eta0.63 factor as unjustified by NASA R474; no correction implemented. Preserve source and tests; no goldens regenerated or Task1 core commit.

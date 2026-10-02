@@ -1,0 +1,20 @@
+{ h: 19410.927732029744, duration: 20.98767688219908, capped: false }
+{
+  time: 0.016666666666666666,
+  altitude: 19344.327694609503,
+  speed: -3991.0454863790446,
+  g: 44.0512537434731,
+  temperature: 2415.4655423642166,
+  q: 782.773579988581,
+  failures: {
+    crashed: false,
+    inFlightBreakUp: true,
+    coldGasRunOut: false,
+    fuelRunOut: true,
+    heatDamaged: false,
+    overPressure: false,
+    overGLoad: false,
+    flippedOver: false,
+    randomFailure: false
+  }
+}

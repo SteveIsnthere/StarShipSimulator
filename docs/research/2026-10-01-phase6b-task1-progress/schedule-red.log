@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/entry-on-lift.test.ts (2 tests | 2 failed) 4ms
+     × holds an outward-lift attitude while travelling at 3000 m/s 3ms
+     × holds an outward-lift attitude while travelling at -3000 m/s 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/entry-on-lift.test.ts > the high-Mach entry target > holds an outward-lift attitude while travelling at 3000 m/s
+AssertionError: expected -100 to be close to +0, received difference is 100, but expected 5e-10
+ ❯ tests/core/entry-on-lift.test.ts:23:40
+     21|       s.forces.offAxisThrustDifferenceAcceleration = 0;
+     22|       autoLand(s, 1 / 120);
+     23|       expect(s.autopilot.pitchControl).toBeCloseTo(0, 9);
+       |                                        ^
+     24|       expect(s.autopilot.rcsThrustCommand).toBeCloseTo(0, 9);
+     25|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/entry-on-lift.test.ts > the high-Mach entry target > holds an outward-lift attitude while travelling at -3000 m/s
+AssertionError: expected 100 to be close to +0, received difference is 100, but expected 5e-10
+ ❯ tests/core/entry-on-lift.test.ts:23:40
+     21|       s.forces.offAxisThrustDifferenceAcceleration = 0;
+     22|       autoLand(s, 1 / 120);
+     23|       expect(s.autopilot.pitchControl).toBeCloseTo(0, 9);
+       |                                        ^
+     24|       expect(s.autopilot.rcsThrustCommand).toBeCloseTo(0, 9);
+     25|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  20:06:49
+   Duration  205ms (transform 79ms, setup 0ms, import 97ms, tests 4ms, environment 0ms)
+

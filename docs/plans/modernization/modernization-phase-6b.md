@@ -58,6 +58,23 @@ These three cannot land apart: physical drag alone breaks up the deorbit, and li
 - [ ] Tests: lift points away from the planet during entry in both directions (assert the lift's vertical acceleration > 0 over the hypersonic segment); at α = 90° lift is zero and drag equals the crossflow drag; at α = 0 and π the force is axial only; continuity across α = 90° and across M_t and M_b; the predictor agrees with `step()` within a metre (existing test unchanged); `flies-every-scenario` lands every scenario; re-entry flux band in `flies-every-scenario` re-measured and re-banded ±5% with the date.
 - [ ] Golden regeneration (all eight expected), audit row P6b.1 with the per-scenario shape, digests, margins diffed.
 
+### Task 1 measured checkpoint (not complete)
+
+The two prescribed sweeps, before/after belly-flop numbers and raw logs are retained in [Task1 progress](../../research/2026-10-01-phase6b-task1-progress.md). The second sweep at aim4483442 m and18 t reserve records:
+
+| angle | deorbit peak K | peak altitude m | pad miss m | outcome | reentry peak K | peak altitude m | pad miss m | outcome |
+|---|---:|---:|---:|---|---:|---:|---:|---|
+| 45 | 1533.012 | 69596.0 | -3863393.2 | brokeUp | 1448.234 | 69297.0 | +4186220.8 | landed |
+| 50 | 1524.161 | 69113.9 | +2286254.7 | landed | 1434.327 | 69139.9 | +3312842.6 | landed |
+| 55 | 1516.024 | 68841.8 | +1053612.7 | landed | 1430.566 | 68473.2 | +2536160.4 | landed |
+| 60 | 1515.292 | 68228.2 | -7667.1 | landed | 1436.223 | 67291.7 | +1847865.8 | landed |
+| 65 | 1522.330 | 67209.7 | -925059.0 | landed | 1450.856 | 65572.7 | +1236421.2 | landed |
+| 70 | 1533.011 | 66589.5 | -3804055.9 | brokeUp | 1473.673 | 63324.5 | +695225.4 | landed |
+| 75 | 1533.027 | 66798.1 | -3895571.8 | brokeUp | 1503.301 | 60626.4 | +231571.3 | landed |
+| 90 | 1533.062 | 67179.9 | -4035615.2 | brokeUp | 1533.053 | 62381.1 | -1017101.5 | brokeUp |
+
+Provisional selection60° survives and lands within10 km; the preset stop rule did not fire. Broader acceptance is red: all8 fixed-angle circularize-demo entries break up; reentry exceeds900 s; tight pad health remains red after measured reserve change to22 t. A fresh source review identifies the constant0.63 factor as a low-Mach extrapolation NASA does not recommend for hypersonic crossflow. Owner exceptions for the predictor characterization and the plan’s constant-factor assumption are pending. No golden regeneration or core commit; exact diagnosis counts and next actions are in the progress note.
+
 ### Task 1b: Earth's rotation on (Fidelity; was Phase 6 Task 9b; after Task 1)
 
 Everything is in place at rate zero (Phase 6 Task 9a and the 9b work): the Coriolis and centrifugal terms in `verticalGravityAcceleration` / `tangentialAcceleration`, `verticalWeight` in the burn predictor and the flip ladder, the ground-arc coast conic, the orbital presets converted with `groundTangentialSpeed`, and every truth test transformed to the inertial frame and proved with the rate on. What it waited for is range control in the descent: with the rate on and broadside entry, the circularize-then-deorbit flight missed by 11.1 km against the 10 km acceptance.
