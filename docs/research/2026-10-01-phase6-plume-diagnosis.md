@@ -89,4 +89,16 @@ The final focused particle, plume, pool-performance and session checks passed
 73 tests (`/tmp/starship-phase6-review-fixes-green2.log`). The fresh reviewer re-ran both reproductions and reported no findings on
 the final repair. The complete local gate passed (`/tmp/starship-phase6-final-gate.log`):
 1,940 unit tests, coverage floors, desktop smoke and subpath deployment checks.
-The final full browser suite is running against this repair.
+The final full browser suite on `4c03814` failed the iPhone portrait vacuum-width
+check again. Final result: 427 passed, 1 failed, 11 configured skips, exit 1 (32.5 minutes).
+Vacuum width was 0.70 against the unchanged >0.7176042091538909 requirement. This exhausts the three
+diagnosis attempts; the Phase 6 close stops under the contract. No further
+repair or merge is authorized by this bounded run.
+
+Final failure evidence is preserved in
+[the evidence directory](2026-10-01-phase6-plume-evidence/): screenshot and
+Playwright error context. The complete full-run and gate logs are retained there.
+Hosted CI `36940931396` passed on the same commit.
+Further diagnosis requires Steve to override the three-attempt limit; the
+question was submitted through the interactive question tool and remains
+pending. No fourth diagnosis attempt was made.

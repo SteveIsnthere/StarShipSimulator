@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — final plume repair verification blocks the close; Earth's rate (9b) and the parked aero moved to 6b | — |
+| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — iPhone portrait vacuum-width check still fails after three diagnosis attempts; close stopped; Earth's rate (9b) and the parked aero moved to 6b | — |
 | 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
@@ -73,9 +73,15 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 ## Blocker
 
-Phase 6's requested full-suite rerun found two iPhone plume failures.
-The graphics repair passed focused checks and a fresh independent review;
-complete gate and full-suite verification are pending before merge.
+Phase 6 is stopped by `plume.spec.ts` "and blooms wider than the ship in
+vacuum" on iPhone portrait. The final full run on `4c03814` failed it after
+three recorded diagnosis attempts. The complete local gate and hosted CI
+passed, but they do not replace this required release check. No merge or
+Phase 6b implementation has happened. Final result: 427 passed, 1 failed, 11 configured skips (32.5 minutes).
+Vacuum width was 0.70 against >0.7176042091538909.
+Steve was asked whether to authorize one additional diagnosis attempt, with
+all assertions unchanged; that decision is pending.
+
 Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-plume-diagnosis.md).
 
 ## Where Phase 6 stopped (2026-10-01)
@@ -83,7 +89,7 @@ Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-p
 - Physics implementation is unchanged from its reviewed build; the current branch has a plume timing/projection and flight-reset repair awaiting complete verification.
 - Done on that head: `npm run gate` green (1,935 tests, coverage floors, e2e smoke, subpath deploy); `npm run mutation` 18 of 18 caught; `npm run truth:report` 8 of 8; `/code-review high`; independent physics review (ChatGPT Pro, three rounds, every finding fixed: fixed RVacs, the turbulence sweep, the radial coast, the throttle law, break-up on the tile temperature).
 - `npm run test:e2e:full` on that code (built after the last code commit; every later commit is docs only): **428 passed, 0 failed** (33 min, all five projects). Earlier full-run failures (the debrief's stale heat bound, a pixels flake) are fixed or re-ran green.
-- Requested rerun on `92ed3d6`: 426 passed, 2 failed, 11 configured skips. Both plume failures were repaired without changing browser bounds or retries. Final gate and full-suite rerun precede the merge.
+- Requested rerun on `92ed3d6`: 426 passed, 2 failed, 11 configured skips. The repair changed no browser bounds or retries. Final gate and hosted CI passed, but the final full-suite rerun still fails the iPhone portrait vacuum-width check. The three-attempt contract stops this phase.
 - Left: merge `--no-ff` to `main` from the main checkout, push, confirm the Pages deploy and the smoke tier against the live URL, tick the roadmap's Phase 6 line with the merge commit, then start 6b.
 
 ## Phase 6 progress (2026-10-01)
