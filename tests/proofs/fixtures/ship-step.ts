@@ -1,3 +1,7 @@
+/** Shipped step from934d3cd (same as7a757d7).
+ * Original SHA256: 8b4c26123be6fd4398ae6639cae8c3115c854589bd3e4535afb5910ccec77044
+ * Only imports adjusted; dependent Ship helpers have independent equivalence proofs.
+ */
 /**
  * The simulation step. Ported from backend/updateBackEnd.js.
  *
@@ -50,20 +54,19 @@
  * `frameRate / timeAccel` and so is the reciprocal of simulated seconds per
  * frame. `X / renderTimeInterval` is therefore exactly `X * dt`.
  */
-import * as C from './constants';
-import { SHIP, type VehicleDefinition } from './vehicle';
-import { speedOfSoundAt, updateAtmosphere } from './physics/atmosphere';
-import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from './physics/thermal';
-import * as aero from './physics/aero';
-import * as comp from './physics/components';
-import * as gravity from './physics/gravity';
-import * as eng from './physics/engines';
-import * as wind from './physics/wind';
-import { createMassProperties, writeMassProperties } from './physics/mass';
-import * as act from './control/actuation';
-import { runAutopilot } from './autopilot';
-import { cloneState, type SimState } from './state';
-import { rad } from './units';
+import * as C from '$core/constants';
+import { speedOfSoundAt, updateAtmosphere } from '$core/physics/atmosphere';
+import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from '$core/physics/thermal';
+import * as aero from '$core/physics/aero';
+import * as comp from '$core/physics/components';
+import * as gravity from '$core/physics/gravity';
+import * as eng from '$core/physics/engines';
+import * as wind from '$core/physics/wind';
+import { createMassProperties, writeMassProperties } from '$core/physics/mass';
+import * as act from '$core/control/actuation';
+import { runAutopilot } from '$core/autopilot';
+import { cloneState, type SimState } from '$core/state';
+import { rad } from '$core/units';
 
 /**
  * Everything the outside world can tell the simulation in one step.
@@ -136,12 +139,12 @@ function updateOrbitalGeometry(s: SimState): void {
 }
 
 /** physics.js:365 — ground contact: land, crash, or rest. */
-function checkIfCrash(s: SimState, model: VehicleDefinition): void {
+function checkIfCrash(s: SimState): void {
   const { kinematics, status, failures, vehicle, engines } = s;
 
   if (
     kinematics.altitude <=
-    model.height * Math.abs(Math.cos(kinematics.pitch)) * 0.5
+    C.vehicleHeight * Math.abs(Math.cos(kinematics.pitch)) * 0.5
   ) {
     if (kinematics.speedY < -0.5) {
       if (
@@ -174,9 +177,9 @@ function checkIfCrash(s: SimState, model: VehicleDefinition): void {
 }
 
 /** Ground support uses the current vertical force, including gimbal direction. */
-function updateGroundContact(s: SimState, verticalSpecificForce: number, model: VehicleDefinition): void {
+function updateGroundContact(s: SimState, verticalSpecificForce: number): void {
   const { kinematics, status } = s;
-  const contactHeight = model.height * Math.abs(Math.cos(kinematics.pitch)) * 0.5;
+  const contactHeight = C.vehicleHeight * Math.abs(Math.cos(kinematics.pitch)) * 0.5;
   if (kinematics.altitude > contactHeight || kinematics.speedY < -0.5) return;
   if (s.failures.crashed || status.landed) return;
   status.onTheGround = verticalSpecificForce <= gravity.verticalWeight(kinematics.distanceToPlanetCenter);
@@ -195,7 +198,7 @@ function updateGroundContact(s: SimState, verticalSpecificForce: number, model: 
  * Bug fix: a free fall read nearly 1 g, and a hard burn upward read a whole g
  * light).
  */
-function checkIfBreakUp(s: SimState, model: VehicleDefinition): void {
+function checkIfBreakUp(s: SimState): void {
   const { kinematics, forces, failures, vehicle, engines } = s;
   if (
     forces.perceivedG > C.gLimit ||
@@ -208,8 +211,8 @@ function checkIfBreakUp(s: SimState, model: VehicleDefinition): void {
     failures.inFlightBreakUp = true;
     kinematics.angularVelocity = 0;
     vehicle.propellantMass = 0;
-    vehicle.vehicleMass = model.dryMass;
-    writeMassProperties(0, massProperties, model);
+    vehicle.vehicleMass = C.vehicleDryMass;
+    writeMassProperties(0, massProperties);
     vehicle.vehicleMomentOfInertia = massProperties.momentOfInertia;
     engines.running.fill(false);
     engines.ignitionCountdown.fill(null);
@@ -251,7 +254,7 @@ function updatePerceivedG(s: SimState, specificX: number, specificY: number): vo
  * @param input commands from the player or autopilot this step
  * @returns a new SimState
  */
-export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT, model: VehicleDefinition = SHIP): SimState {
+export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT): SimState {
   const s = cloneState(previous);
 
   /*
@@ -279,10 +282,10 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.atmosphere.airDensity = atmosphere.airDensity;
 
   // --- 2. vehicleStatusUpDate ----------------------------------------------
-  checkIfCrash(s, model);
+  checkIfCrash(s);
   checkIfOutOfFuel(s);
 
-  const burnedFraction = eng.updatePropellant(s, dt, model);
+  const burnedFraction = eng.updatePropellant(s, dt);
   eng.updateRaptorStatus(s);
   // The tank emptied this step: the burn above was paid for by the engines
   // already running, so nothing still counting down may light on it (Phase 6,
@@ -298,7 +301,6 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   const finAreas = aero.updateVehicleInFlightMaxArea(
     s.vehicle.frontFinExtension,
     s.vehicle.aftFinExtension,
-    model,
   );
   s.forces.frontFinEffectiveAreaFraction = finAreas.frontFinEffectiveAreaFraction;
   s.forces.aftFinEffectiveAreaFraction = finAreas.aftFinEffectiveAreaFraction;
@@ -307,7 +309,6 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.forces.crossSectionalArea = aero.getCrossSectionalArea(
     s.kinematics.angleInToTheWind,
     s.vehicle.vehicleInFlightMaxArea,
-    model,
   );
   s.kinematics.angleOfMotion = aero.getAngleOfMotion(s.kinematics.speedX, s.kinematics.speedY);
   // M11.1: the aerodynamic angles are measured from the relative wind, which is
@@ -338,7 +339,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   s.forces.thermalPower = getReentryHeatPower(
     incomingAirspeed,
     s.atmosphere.airDensity,
-    model.diameter / 2,
+    C.NOSE_RADIUS,
     s.kinematics.angleInToTheWind,
   );
   s.forces.surfaceTemperature = surfaceTemperature(
@@ -367,7 +368,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // M11.2: thrust at the ambient pressure phase 1 just set from the altitude.
   // Scaled on the step the tank runs dry: only the propellant left was burned.
   s.forces.thrust =
-    eng.getThrust(s.engines.running, s.vehicle.throttleCurrent, s.atmosphere.airPressure, model) *
+    eng.getThrust(s.engines.running, s.vehicle.throttleCurrent, s.atmosphere.airPressure) *
     burnedFraction;
 
   // 3b. updateSpactialMotion — velocity Verlet since M11.3 (see the header).
@@ -388,7 +389,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // The sea-level engines gimbal; the RVacs push along the hull. With no RVac
   // lit the share is exactly 1 and the fixed part an exact +0.
   const gimballedThrust =
-    s.forces.thrust * eng.gimballedShare(s.engines.running, s.atmosphere.airPressure, model);
+    s.forces.thrust * eng.gimballedShare(s.engines.running, s.atmosphere.airPressure);
   const fixedThrust = s.forces.thrust - gimballedThrust;
 
   const accelInputs: comp.AccelerationInputs = {
@@ -411,7 +412,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // provably bit-identical, and float addition is not associative.
   const bodyAccelerationY = comp.getVerticalAcceleration(accelInputs, C.gravity) + C.gravity;
 
-  updateGroundContact(s, bodyAccelerationY, model);
+  updateGroundContact(s, bodyAccelerationY);
 
   // a_n: at the incoming position and velocity.
   const r0 = s.kinematics.distanceToPlanetCenter;
@@ -502,7 +503,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // M11.8: the moment arms and the inertia follow the propellant. The centre
   // of mass moves as the tanks drain (physics/mass.ts), so the gimbal's arm,
   // the fins' arms and the RCS arm are all functions of the load this step.
-  writeMassProperties(s.vehicle.propellantMass, massProperties, model);
+  writeMassProperties(s.vehicle.propellantMass, massProperties);
   s.vehicle.vehicleMomentOfInertia = massProperties.momentOfInertia;
 
   // Wrap BEFORE integrating, exactly as 2021 does, so a step can leave pitch
@@ -529,7 +530,6 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.kinematics.angleOfAttack,
     s.kinematics.angleInToTheWind,
     s.forces.frontFinEffectiveAreaFraction,
-    model,
   );
   s.forces.aftFinDrag = aero.getAftFinDrag(
     s.atmosphere.airDensity,
@@ -537,7 +537,6 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.kinematics.angleOfAttack,
     s.kinematics.angleInToTheWind,
     s.forces.aftFinEffectiveAreaFraction,
-    model,
   );
 
   const I = s.vehicle.vehicleMomentOfInertia;
@@ -551,7 +550,6 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.kinematics.angularVelocity,
     I,
     massProperties.rCubedIntegral,
-    model,
   );
   s.forces.frontFinDragAngularAcceleration = aero.getAngularAcceleration(
     s.forces.frontFinDrag,
@@ -573,7 +571,6 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
       s.engines.running,
       s.vehicle.throttleCurrent,
       s.atmosphere.airPressure,
-      model,
     ),
     massProperties.engineArm,
     I,
@@ -608,7 +605,7 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // Judge current pressure, tile temperature and specific force. Shutdown is
   // last, cancelling even an ignition just requested by controls. Motion
   // retains this step's paid impulse; no engine can fire on the next step.
-  checkIfBreakUp(s, model);
+  checkIfBreakUp(s);
 
   // --- bookkeeping ---------------------------------------------------------
   s.world.environmentTime += dt;

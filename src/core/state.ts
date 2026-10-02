@@ -15,6 +15,7 @@
  *   - No methods. State is data; behaviour lives in step.ts and physics/.
  */
 import * as C from './constants';
+import { SHIP, type VehicleDefinition } from './vehicle';
 import { updateVehicleInFlightMaxArea } from './physics/aero';
 import { circularOrbitalSpeed } from './physics/gravity';
 import { createRng, type RngState } from './rng';
@@ -491,9 +492,10 @@ export const DEFAULT_SEED = 0x5741_4c4b;
  * the HUD reads 1 g), so the spawn state starts there too rather than logging a
  * free-fall reading for one row.
  */
-export function createInitialState(seed = DEFAULT_SEED): SimState {
-  const altitude = C.vehicleHeight / 2;
+export function createInitialState(seed = DEFAULT_SEED, model: VehicleDefinition = SHIP): SimState {
+  const altitude = model.height / 2;
   const distanceToPlanetCenter = C.planetRadius + altitude;
+  const spawnMass = model.dryMass + model.initialPropellant;
 
   return {
     rng: createRng(seed),
@@ -579,9 +581,9 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       // and sin(0) = 0, so both forms agreed and the defect was latent - it
       // only bites a state that starts with fins deployed, which is exactly
       // what the flight editor (M4.4) and any save/restore produce.
-      frontFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0)
+      frontFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0, model)
         .frontFinEffectiveAreaFraction,
-      aftFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0).aftFinEffectiveAreaFraction,
+      aftFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0, model).aftFinEffectiveAreaFraction,
 
       thermalPower: 0,
       surfaceTemperature: 0,
@@ -593,10 +595,11 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
     },
 
     vehicle: {
-      vehicleMass: C.vehicleMass,
-      propellantMass: C.propellantMass,
-      vehicleMomentOfInertia: C.vehicleMomentOfInertia,
-      vehicleInFlightMaxArea: C.vehicleInFlightMaxArea,
+      vehicleMass: spawnMass,
+      propellantMass: model.initialPropellant,
+      vehicleMomentOfInertia:
+        spawnMass * (model.diameter / 2) ** 2 * 0.25 + (spawnMass * model.height ** 2) / 12,
+      vehicleInFlightMaxArea: model.maxArea,
 
       throttle: 100,
       throttleCurrent: 100,
@@ -611,9 +614,9 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
     },
 
     engines: {
-      running: C.RAPTORS.map(() => false),
-      failed: C.RAPTORS.map(() => false),
-      ignitionCountdown: C.RAPTORS.map(() => null),
+      running: model.engines.map(() => false),
+      failed: model.engines.map(() => false),
+      ignitionCountdown: model.engines.map(() => null),
     },
 
     status: {
@@ -755,10 +758,11 @@ export function cloneState(s: SimState): SimState {
  * Exists because M2.3 was precisely the failure of construction and simulation
  * to agree on what these fields mean.
  */
-export function syncDerivedFields(s: SimState): void {
+export function syncDerivedFields(s: SimState, model: VehicleDefinition = SHIP): void {
   const fins = updateVehicleInFlightMaxArea(
     s.vehicle.frontFinExtension,
     s.vehicle.aftFinExtension,
+    model,
   );
   s.forces.frontFinEffectiveAreaFraction = fins.frontFinEffectiveAreaFraction;
   s.forces.aftFinEffectiveAreaFraction = fins.aftFinEffectiveAreaFraction;

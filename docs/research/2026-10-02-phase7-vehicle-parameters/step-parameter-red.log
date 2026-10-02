@@ -1,0 +1,93 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/proofs/ship-step.test.ts (6 tests | 4 failed) 252ms
+     × creates engine arrays, mass and contact height for the supplied vehicle 3ms
+     × holds an unpowered selected vehicle at its own pad height 1ms
+     × uses the supplied fin geometry when restored state fields are synchronized 0ms
+     × starts the model ignition group without writing nonexistent engine slots 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/ship-step.test.ts > model propagation through state, commands and the integrator > creates engine arrays, mass and contact height for the supplied vehicle
+AssertionError: expected 25 to be 50 // Object.is equality
+
+- Expected
++ Received
+
+- 50
++ 25
+
+ ❯ tests/proofs/ship-step.test.ts:22:35
+     20|   it('creates engine arrays, mass and contact height for the supplied …
+     21|     const s = createInitialState(123, alternate);
+     22|     expect(s.kinematics.altitude).toBe(50);
+       |                                   ^
+     23|     expect(s.vehicle.propellantMass).toBe(40_000);
+     24|     expect(s.vehicle.vehicleMass).toBe(280_000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/proofs/ship-step.test.ts > model propagation through state, commands and the integrator > holds an unpowered selected vehicle at its own pad height
+AssertionError: expected 49.99965902175634 to be 50 // Object.is equality
+
+- Expected
++ Received
+
+- 50
++ 49.99965902175634
+
+ ❯ tests/proofs/ship-step.test.ts:36:38
+     34|     s.kinematics.altitude = 50;
+     35|     const next = step(s, 1 / 120, {}, alternate);
+     36|     expect(next.kinematics.altitude).toBe(50);
+       |                                      ^
+     37|     expect(next.kinematics.speedY).toBe(0);
+     38|     expect(next.status.onTheGround).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/proofs/ship-step.test.ts > model propagation through state, commands and the integrator > uses the supplied fin geometry when restored state fields are synchronized
+AssertionError: expected 450 to be 1200 // Object.is equality
+
+- Expected
++ Received
+
+- 1200
++ 450
+
+ ❯ tests/proofs/ship-step.test.ts:47:46
+     45|     const s = shippedInitial(123);
+     46|     syncDerivedFields(s, alternate);
+     47|     expect(s.vehicle.vehicleInFlightMaxArea).toBe(1200);
+       |                                              ^
+     48|   });
+     49|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |unit| tests/proofs/ship-step.test.ts > model propagation through state, commands and the integrator > starts the model ignition group without writing nonexistent engine slots
+AssertionError: expected [ 1.1676736605120823, …(2) ] to have a length of 2 but got 3
+
+- Expected
++ Received
+
+- 2
++ 3
+
+ ❯ tests/proofs/ship-step.test.ts:56:41
+     54|     s.engines.ignitionCountdown = [null, null];
+     55|     toggleAllRaptors(s, alternate);
+     56|     expect(s.engines.ignitionCountdown).toHaveLength(2);
+       |                                         ^
+     57|     expect(s.engines.ignitionCountdown[0]).toBe(null);
+     58|     expect(s.engines.ignitionCountdown[1]).toBeGreaterThan(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 2 passed (6)
+   Start at  16:09:32
+   Duration  464ms (transform 87ms, setup 0ms, import 106ms, tests 252ms, environment 0ms)
+

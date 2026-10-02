@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/proofs/ship-guidance.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/ship-guidance.test.ts [ tests/proofs/ship-guidance.test.ts ]
+Error: Cannot find module './guidance-physics' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/proofs/fixtures/ship-primitives.ts
+ ❯ tests/proofs/fixtures/ship-primitives.ts:20:1
+     18|  * getElementById is gone.
+     19|  */
+     20| import { localGravity } from './guidance-physics';
+       | ^
+     21| import * as C from '$core/constants';
+     22| import { getDrag, relativeAirspeed } from '$core/physics/aero';
+ ❯ tests/proofs/ship-guidance.test.ts:11:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  16:14:24
+   Duration  191ms (transform 67ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

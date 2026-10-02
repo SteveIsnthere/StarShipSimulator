@@ -11,6 +11,7 @@
  */
 import { commandIgnition, getWorkingEngineCount, rollIgnitionFailure, shutdownEngine } from '../physics/engines';
 import * as C from '../constants';
+import { SHIP, type VehicleDefinition } from '../vehicle';
 import type { RaptorIndex, SimState } from '../state';
 
 /**
@@ -44,12 +45,12 @@ export function toggleRaptor(state: SimState, engine: RaptorIndex): void {
  * starts only the three sea-level engines, as the 2021 control did. RVacs are
  * lit one by one, so the intro and autoLand, which call this, are unchanged.
  */
-export function toggleAllRaptors(state: SimState): void {
+export function toggleAllRaptors(state: SimState, model: VehicleDefinition = SHIP): void {
   const { running } = state.engines;
   if (running.some(Boolean)) {
     for (let i = 0; i < running.length; i++) if (running[i]) toggleRaptor(state, i);
   } else {
-    for (const i of C.SEA_LEVEL_RAPTORS) if (!running[i]) toggleRaptor(state, i);
+    for (const i of model.ignitionGroup) if (!running[i]) toggleRaptor(state, i);
   }
 }
 

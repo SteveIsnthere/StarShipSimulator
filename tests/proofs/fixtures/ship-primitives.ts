@@ -1,3 +1,6 @@
+/** Shipped src/core/control/primitives.ts from934d3cd.
+ * Original SHA256: 1c05d4acb7fd58c51a5cbc07ac6a9e648ddacf277174a9aee10c10f0fb3f9c81
+ * Imports adjusted only; dependent Ship helpers have separate equivalence proofs. */
 /**
  * Autopilot control primitives, ported from
  * backend/flightcontrol/autoPilotLowLevelFunctions.js.
@@ -14,23 +17,22 @@
  * last act. Here they write SimState instead — the value is identical, the
  * getElementById is gone.
  */
-import { localGravity } from './guidance-physics';
-import * as C from '../constants';
-import { SHIP, type VehicleDefinition } from '../vehicle';
-import { getDrag, relativeAirspeed } from '../physics/aero';
-import { airVelocityX } from '../physics/wind';
+import { localGravity } from './ship-guidance';
+import * as C from '$core/constants';
+import { getDrag, relativeAirspeed } from '$core/physics/aero';
+import { airVelocityX } from '$core/physics/wind';
 import {
   getTotalMaxThrust,
   getTotalMinThrust,
   getWorkingSeaLevelCount,
   gimballedShare,
-} from '../physics/engines';
-import { createMassProperties, writeMassProperties } from '../physics/mass';
+} from '$core/physics/engines';
+import { createMassProperties, writeMassProperties } from '$core/physics/mass';
 
 /** M11.8 — the arms for the step in hand; written before read, every call. */
 const arms = createMassProperties();
-import type { RaptorIndex, SimState } from '../state';
-import { rad, type Rad } from '../units';
+import type { RaptorIndex, SimState } from '$core/state';
+import { rad, type Rad } from '$core/units';
 
 /** autoPilotLowLevelFunctions.js:23 — signed error, wrapped to (-pi, pi]. */
 export function getPitchDifference(pitch: Rad, goal: Rad): number {
@@ -58,13 +60,12 @@ export function getEffectiveVerticalMaxThrust(
   gimbalPointingDirection: Rad,
   ambientPressureKPa: number,
   pitch: Rad = gimbalPointingDirection,
-  model: VehicleDefinition = SHIP,
 ): number {
-  const maxThrust = getTotalMaxThrust(running, ambientPressureKPa, model);
+  const maxThrust = getTotalMaxThrust(running, ambientPressureKPa);
   // The RVacs are fixed and push along the hull at `pitch` (Phase 6's
   // independent review); with none lit the share is exactly 1 and this is the
   // 2021 expression's bits.
-  const share = gimballedShare(running, ambientPressureKPa, model);
+  const share = gimballedShare(running, ambientPressureKPa);
   if (share === 1) return maxThrust * Math.cos(gimbalPointingDirection);
   return maxThrust * share * Math.cos(gimbalPointingDirection) + maxThrust * (1 - share) * Math.cos(pitch);
 }
@@ -94,7 +95,7 @@ export function getMaxSpeedWithSafeDynamicPressure(airDensity: number): number {
  *
  * @param timeNeededToAlign seconds; smaller is more aggressive
  */
-export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign: number, model: VehicleDefinition = SHIP): void {
+export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign: number): void {
   const { kinematics, forces, status, vehicle, autopilot } = state;
 
   const pitchDifference = getPitchDifference(kinematics.pitch, goal);
@@ -108,7 +109,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   // M11.8: the arms the controllers divide by follow the propellant, as the
   // step's do — a controller that assumed the empty-tank arms would ask a
   // full ship for half the deflection it needs.
-  writeMassProperties(vehicle.propellantMass, arms, model);
+  writeMassProperties(vehicle.propellantMass, arms);
 
   /**
    * Initialised to 0, where 2021 declared it with no initialiser.
@@ -166,7 +167,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   // Only the sea-level engines gimbal (the RVacs are fixed): the authority is
   // their share of the thrust, which is all of it when no RVac is lit.
   const gimballedThrust =
-    forces.thrust * gimballedShare(state.engines.running, state.atmosphere.airPressure, model);
+    forces.thrust * gimballedShare(state.engines.running, state.atmosphere.airPressure);
 
   const controlByThrustVector = (): void => {
     const vectorForceRequired = torqueRequired / arms.engineArm;
@@ -209,7 +210,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
-          model.frontFinArea,
+          C.frontFinSurfaceArea,
           C.finDragCoefficient,
         ) *
           Math.sin(C.finActuationMaxAngle) *
@@ -217,7 +218,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
-          model.aftFinArea,
+          C.aftFinSurfaceArea,
           C.finDragCoefficient,
         ) *
           arms.aftFinArm;
@@ -228,7 +229,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
-          model.aftFinArea,
+          C.aftFinSurfaceArea,
           C.finDragCoefficient,
         ) *
           Math.sin(C.finActuationMaxAngle) *
@@ -236,7 +237,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
-          model.frontFinArea,
+          C.frontFinSurfaceArea,
           C.finDragCoefficient,
         ) *
           arms.frontFinArm;
@@ -271,8 +272,8 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
  * Phase 5, Fidelity: with the flat g a commanded TWR of 1 climbed at
  * 0.08 m/s² on the pad and 0.32 m/s² at 80 km.
  */
-export function controlEnginebyTWR(state: SimState, goalTWR: number, model: VehicleDefinition = SHIP): void {
-  controlEngineForAcceleration(state, goalTWR * localGravity(state), model);
+export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
+  controlEngineForAcceleration(state, goalTWR * localGravity(state));
 }
 
 /**
@@ -280,11 +281,11 @@ export function controlEnginebyTWR(state: SimState, goalTWR: number, model: Vehi
  * counted the current throttle twice and overshot the requested acceleration. For targets that are accelerations already, such
  * as boost-back's horizontal deceleration, so no gravity enters them.
  */
-export function controlEngineForAcceleration(state: SimState, acceleration: number, model: VehicleDefinition = SHIP): void {
+export function controlEngineForAcceleration(state: SimState, acceleration: number): void {
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
     ((acceleration * vehicle.vehicleMass) /
-      getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model)) *
+      getTotalMaxThrust(engines.running, state.atmosphere.airPressure)) *
     100;
 
   /**
