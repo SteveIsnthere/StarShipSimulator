@@ -9,10 +9,11 @@ There is no Jira board for this repo. `docs/plans/` is the system of record: the
 
 ## Current truthful status
 
-- **50% complete by phase count: 5 of 10 phases done.** Phases 1–5 are merged and live on `main` (`f14aadb`, `53e3c26`, `dfab3c8`, `b84b746`, `3429ea1`). Phases 6, 6b, 7, 8 and 9 remain unfinished. Phase 6 is built and independently reviewed but **unmerged**. Resume the existing `claude/ship-realism` branch; do not recreate it. At checkpoint `6e3f514`, it is 32 commits ahead of `main`, none behind, with a clean checkout. The current checkpoint changes the screenshot scale helper and adds its regression fixture; simulation and effect source are unchanged. `main` remains at `3d39536`.
-- **The approved fourth diagnosis attempt is in verification** for `tests/e2e/plume.spec.ts` "and blooms wider than the ship in vacuum" on iPhone portrait. The latest graphics change is `4c03814`; `6e3f514` corrects the screenshot-scale helper and adds its regression fixture. Complete local gate passed (1,940 tests), hosted CI `36940931396` passed, and a fresh graphics reviewer found no remaining defect. The required full suite nevertheless finished **427 passed, 1 failed, 11 configured skips**: vacuum width 0.70 against the unchanged >0.7176042091538909 requirement. The old 428/0 result is historical and cannot justify a merge.
-- **Steve approved one additional diagnosis attempt on 2026-10-01**, with every assertion, bound and retry unchanged. This is attempt 4 for this specific check, not a reset of the three-attempt budget or permission for unlimited retries. The screenshot-scale repair passed all five focused vacuum-width checks. A separate iPhone portrait low-altitude length check failed at 0.734801695647775 against >1. The classifier/fixed-region repair, star negative control and distinct-frame sampling repair now pass all 10 focused plume checks. Complete final verification is pending. The full suite has not verified the repair. Record its hypothesis, repair and result in `docs/research/2026-10-01-phase6-plume-diagnosis.md`; preserve its trace and screenshot with the existing evidence.
-- After that repair passes all required checks and review, close Phase 6: merge `--no-ff` into `main`, verify its gate and deploy, tick the roadmap with the merge SHA. Then Phase 6b Task 1 on `claude/entry-on-lift`, created from the new `main`. Its coefficient functions come from `claude/drag-parked` (`a06a7a4`), excluding its blend, `step.ts` wiring and `XLIFT` experiment.
+- **50% complete by phase count: 5 of 10 phases done.** Phases 1–5 are merged and live on `main` (`f14aadb`, `53e3c26`, `dfab3c8`, `b84b746`, `3429ea1`). Phases 6, 6b, 7, 8 and 9 remain unfinished. Phase 6 is built and independently reviewed but **unmerged**. Resume the existing `claude/ship-realism` branch; do not recreate it. Verified product checkpoint `1644fe1` is pushed, 34 commits ahead of `main`, none behind, with a clean checkout before this documentation refresh. `main` remains at `3d39536`. Steve confirmed the full remaining roadmap scope on 2026-10-01.
+- **The approved fourth diagnosis attempt is in final verification** for `tests/e2e/plume.spec.ts` "and blooms wider than the ship in vacuum" on iPhone portrait. The previous full suite on `4c03814` finished **427 passed, 1 failed, 11 configured skips**, despite its green gate, hosted CI and independent graphics review. Vacuum width was 0.70 against >0.7176042091538909. That red result is retained; historical green runs cannot justify a merge.
+- **Steve approved one additional diagnosis attempt on 2026-10-01**, with every assertion, bound, sample count and retry unchanged. This is attempt 4 for that specific project and check, not a budget reset. Screenshot DPR, actual-nozzle clipping, paired background masking, bright-star rejection and distinct-frame sampling repairs are complete at `1644fe1`: final focused plume checks **10/10 green**, independent high-depth review clean, complete local gate green (**1,941 unit tests, coverage floors, 13 smoke and 5 subpath checks**), hosted CI **36953300952 green** at the same SHA. Physics, golden fixtures and effect parameters are unchanged by the measurement repairs.
+- **Required final full suite passed on `1644fe1`'s built source:** **438 passed, 11 configured skips, exit 0** (36.1 minutes), all five projects. The complete gate ran before this suite; no source changed between them. Logs are retained at `docs/research/2026-10-01-phase6-plume-evidence/pixel-landscape-attempt1/{gate,full,hosted-ci}.log`. Process `30896` has completed; do not rerun completed verification for this checkpoint. Phase 6 remains unmerged and the live site has not received it.
+- **The exact next task is to close Phase 6:** merge `--no-ff` into `main`, verify its gate and deploy, tick the roadmap with the merge SHA. Then Phase 6b Task 1 on `claude/entry-on-lift`, created from the new `main`. Its coefficient functions come from `claude/drag-parked` (`a06a7a4`), excluding its blend, `step.ts` wiring and `XLIFT` experiment.
 - Already done and must not be redone (on `claude/ship-realism`):
   - Phase 6: felt g and the g-limit on felt g; the USSA76 thermosphere; the starting Mach; the emptying-step thrust; GM and R; the 18 t `landingReserve`; six Raptors with fixed RVacs (no gimbal); the 1.2 s start transient; the heat shield (Sutton-Graves W/m², skin temperature against a radiative sink, break-up on 1,533 K); the wind profile and Dryden turbulence; the rotating ground frame and all its plumbing at rate zero (`frameRotationRate`; Earth's rate is 6b Task 1b).
   - Golden audit rows P6.1–P6.5, P6.8, P6.10–P6.12 in `tests/golden/unification.test.ts`.
@@ -32,22 +33,24 @@ There is no Jira board for this repo. `docs/plans/` is the system of record: the
 
 ## First task
 
-The measurement repairs are complete and the final focused plume run is
-10/10 green. **Finish final verification next:** the complete gate, followed
-by `npm run test:e2e:full` on the same source. Do not redo the completed
-screenshot-DPR, actual-nozzle, paired-background, bright-star or distinct-frame
-repairs. Their traces, hypothesis and results are in
-`docs/research/2026-10-01-phase6-plume-diagnosis.md` and its evidence directory.
-Vacuum-width attempt4 remains in final verification: if the original iPhone
-portrait check becomes red, stop again; no fifth attempt is authorized. Keep
-all thresholds, bounds, assertions, sample counts and retries unchanged. Any
-other newly failing check retains the normal three-attempt limit; never rerun a
-failed final suite hoping for a lucky pass. No source parameter was tuned to
-satisfy the measurement, and no physics or golden changed in these repairs.
+**Close Phase 6 next:** from the main checkout, confirm a clean `main`, pull
+fast-forward only, merge the pushed `claude/ship-realism` with `--no-ff`, run
+`npm run gate` on main, then push and verify the Pages deploy and live smoke
+tier. Branch verification and review are complete on product checkpoint
+`1644fe1`; do not redo the finished measurement repairs or full suite merely
+because this documentation refresh adds a commit. The required main gate
+still runs after the merge. No source parameter, assertion, bound, sample
+count or retry was tuned to make verification pass.
+
+Retain the bounded diagnosis history and no-fifth-attempt rule for the original
+iPhone portrait vacuum-width check if it becomes red again; other newly failing
+checks retain the normal three-attempt limit. Never rerun a failed final suite
+hoping for a lucky pass. Physics and goldens are unchanged by these repairs.
 
 - [x] Record attempt 4's screenshot-scale hypothesis, reproduce it, repair the units, and retain focused traces: all five vacuum-width checks passed.
 - [x] Complete the separate low-altitude length diagnosis (attempt 1): paired background control and actual-nozzle clipping repair the classifier. A review-found bright-star false positive is fixed; distinct-frame sampling repairs a newly exposed Pixel landscape check. Final focused plume run: 10/10 passed, with traces retained. No threshold, bound, sample count or retry changed.
-- [ ] Run the complete `npm run gate`, then `npm run test:e2e:full` on the final repaired build. Finish a clean high-depth review of the new diff and any required independent review before merge. Keep review fixes and verification on the same final source; never claim a pre-fix result verifies it.
+- [x] Complete final `npm run gate` and independent high-depth review on `1644fe1`: both green, with hosted CI `36953300952` green.
+- [x] Final full suite on the same built source: 438 passed, 11 configured skips, exit 0; full log retained with the gate and hosted CI logs.
 - [ ] If this same check remains red in post-repair focused or full verification, stop Phase 6 again, name the check and retain attempt 4's evidence. No fifth diagnosis attempt is authorized. All other failing checks retain the normal three-attempt rule.
 - [ ] If verification and review are green, commit and push the repair. From `/Users/stevewang/dev/StarShipSimulator` on `main`: pull fast-forward only, merge `claude/ship-realism` with `--no-ff`, run `npm run gate` on main, push, verify the Pages deploy and live smoke tier at https://steveisnthere.github.io/StarShipSimulator/.
 - [ ] Tick Phase 6 in the roadmap with the merge SHA and update the handover. Only then create `claude/entry-on-lift` from the new `main` in the realism worktree and begin Phase 6b.

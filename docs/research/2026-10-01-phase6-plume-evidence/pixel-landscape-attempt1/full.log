@@ -1,0 +1,662 @@
+
+> starship-simulator-v2@0.1.0 test:e2e:full
+> playwright test
+
+[WebServer] (node:58505) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 449 tests using 3 workers
+
+(node:58506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    3 [chromium] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (7.3s)
+  ✓    2 [chromium] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (7.8s)
+  ✓    1 [chromium] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (8.4s)
+  ✓    4 [chromium] › tests/e2e/a11y.spec.ts:106:1 › engine state is drawn by shape, not by motion (4.7s)
+  ✓    6 [chromium] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (4.5s)
+  ✓    5 [chromium] › tests/e2e/a11y.spec.ts:123:1 › reduced motion makes every transition instant, and adds none (5.3s)
+  ✓    7 [chromium] › tests/e2e/blackbox.spec.ts:19:1 › no chart code is loaded until the black box is opened (6.5s)
+  ✓    8 [chromium] › tests/e2e/blackbox.spec.ts:55:1 › it draws the nine plots of the flight @smoke (8.0s)
+  ✓    9 [chromium] › tests/e2e/blackbox.spec.ts:85:1 › it closes, and the keyboard is suppressed while it is open (8.3s)
+  ✓   12 [chromium] › tests/e2e/broadcast.spec.ts:24:1 › the primary cluster sits top-centre, clear of the vehicle (4.5s)
+  ✓   11 [chromium] › tests/e2e/blackbox.spec.ts:200:1 › the export hands over a CSV of the flight (8.0s)
+  ✓   10 [chromium] › tests/e2e/blackbox.spec.ts:147:1 › the shared cursor reads every channel at one moment (10.6s)
+  ✓   13 [chromium] › tests/e2e/broadcast.spec.ts:39:1 › the gauge arcs move as the flight does (5.8s)
+  ✓   14 [chromium] › tests/e2e/broadcast.spec.ts:56:1 › the engine dots follow the engines (6.0s)
+  ✓   15 [chromium] › tests/e2e/broadcast.spec.ts:74:1 › the propellant bars drain (6.3s)
+  ✓   16 [chromium] › tests/e2e/broadcast.spec.ts:95:1 › the mission clock counts simulated seconds (7.4s)
+  ✓   18 [chromium] › tests/e2e/broadcast.spec.ts:129:1 › Q is labelled kPa, the unit it has always been (4.8s)
+  ✓   17 [chromium] › tests/e2e/broadcast.spec.ts:106:1 › the attitude chevron rotates with the pitch readout (5.8s)
+  ✓   21 [chromium] › tests/e2e/cinematic.spec.ts:19:1 › it defaults off — this is a cockpit first (5.0s)
+  ✓   20 [chromium] › tests/e2e/broadcast.spec.ts:163:1 › the overlay does not intercept pointer events over the world (5.5s)
+  ✓   19 [chromium] › tests/e2e/broadcast.spec.ts:138:1 › the engineering strip collapses without breaking the gauges (7.9s)
+  ✓   22 [chromium] › tests/e2e/cinematic.spec.ts:31:1 › it hides the controls layer and leaves the broadcast (6.3s)
+  ✓   24 [chromium] › tests/e2e/cinematic.spec.ts:71:1 › a hidden control cannot be clicked, by keyboard or by pointer (5.4s)
+  ✓   23 [chromium] › tests/e2e/cinematic.spec.ts:48:1 › the hidden controls keep tracking the simulation (8.9s)
+  ✓   26 [chromium] › tests/e2e/cinematic.spec.ts:107:1 › it survives a browser that refuses site data (6.6s)
+  ✓   27 [chromium] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (8.6s)
+  ✓   25 [chromium] › tests/e2e/cinematic.spec.ts:88:1 › the choice is remembered across a reload (12.9s)
+  ✓   29 [chromium] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (7.4s)
+  ✓   30 [chromium] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (9.2s)
+  ✓   32 [chromium] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (5.3s)
+  ✓   28 [chromium] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (31.9s)
+  ✓   31 [chromium] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (24.0s)
+  ✓   34 [chromium] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (8.5s)
+  ✓   33 [chromium] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (22.3s)
+  ✓   35 [chromium] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (26.1s)
+  ✓   36 [chromium] › tests/e2e/debrief.spec.ts:137:1 › the card is dismissible, and both its buttons work (26.2s)
+  ✓   37 [chromium] › tests/e2e/debrief.spec.ts:180:1 › and Escape closes it, which a dialog-shaped thing owes the keyboard (24.4s)
+  ✓   40 [chromium] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile (7.6s)
+  ✓   39 [chromium] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile (13.0s)
+  ✓   38 [chromium] › tests/e2e/debrief.spec.ts:190:1 › and flying again clears it (19.8s)
+  ✓   41 [chromium] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (9.1s)
+  ✓   42 [chromium] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (8.7s)
+  ✓   43 [chromium] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (7.0s)
+  ✓   44 [chromium] › tests/e2e/hud.spec.ts:15:1 › the readouts are rendered and filled in (6.1s)
+  ✓   45 [chromium] › tests/e2e/hud.spec.ts:43:1 › the readouts change as the intro flight runs (6.2s)
+  ✓   46 [chromium] › tests/e2e/hud.spec.ts:65:1 › nothing in the page reintroduces a per-frame lookup (6.5s)
+  ✓   47 [chromium] › tests/e2e/input.spec.ts:31:1 › keys toggle the same things the buttons do (7.6s)
+  ✓   48 [chromium] › tests/e2e/input.spec.ts:48:1 › space toggles the engines without scrolling the page (6.6s)
+  ✓   50 [chromium] › tests/e2e/input.spec.ts:81:1 › the zoom keys and buttons change how much world is drawn (8.7s)
+  ✓   49 [chromium] › tests/e2e/input.spec.ts:59:1 › the throttle keys cannot leave the engine limits (21.3s)
+  ✓   51 [chromium] › tests/e2e/intro.spec.ts:14:1 › the intro plays end to end and lands @smoke (17.3s)
+  ✓   52 [chromium] › tests/e2e/intro.spec.ts:41:1 › it decelerates rather than arriving fast (14.6s)
+  ✓   53 [chromium] › tests/e2e/intro.spec.ts:62:1 › the vehicle is drawn throughout, not just at the end (9.3s)
+  ✓   54 [chromium] › tests/e2e/menu.spec.ts:17:1 › the menu opens, offers every preset, and closes @smoke (8.7s)
+  ✓   55 [chromium] › tests/e2e/menu.spec.ts:40:1 › a preset fills the form without flying it (8.1s)
+  ✓   57 [chromium] › tests/e2e/menu.spec.ts:77:1 › typing in the editor does not fire the engines (6.4s)
+  ✓   56 [chromium] › tests/e2e/menu.spec.ts:58:1 › Configure starts the new flight and closes the menu @smoke (8.0s)
+  ✓   58 [chromium] › tests/e2e/menu.spec.ts:109:1 › time warp changes how fast the flight runs (6.9s)
+  ✓   60 [chromium] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (7.6s)
+  ✓   59 [chromium] › tests/e2e/menu.spec.ts:124:1 › the random-failure toggle lights and persists into a new flight (8.4s)
+  ✓   61 [chromium] › tests/e2e/menu.spec.ts:190:1 › the Launch Pad preset flies the flight the game starts you on (7.3s)
+  ✓   62 [chromium] › tests/e2e/menu.spec.ts:218:1 › a preset leaves wind and hour blank, and they survive a Clear (7.2s)
+  ✓   64 [chromium] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (6.2s)
+  ✓   66 [chromium] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (8.4s)
+  ✓   63 [chromium] › tests/e2e/menu.spec.ts:234:1 › the headwind flight is reachable from the menu, and the air knows (18.4s)
+  ✓   68 [chromium] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (9.5s)
+  ✓   67 [chromium] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (12.5s)
+  ✓   65 [chromium] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (30.8s)
+  ✓   69 [chromium] › tests/e2e/parity.spec.ts:18:1 › every 2021 flight control is present @smoke (14.0s)
+  ✓   70 [chromium] › tests/e2e/parity.spec.ts:47:1 › the panels and the HUD collapse, as they did in 2021 (18.6s)
+  ✓   71 [chromium] › tests/e2e/parity.spec.ts:74:1 › collapsing a panel does not stop the binder writing to it (11.1s)
+  ✓   72 [chromium] › tests/e2e/parity.spec.ts:94:1 › the restart button appears when the flight ends and starts it again (15.6s)
+  ✓   74 [chromium] › tests/e2e/parity.spec.ts:152:1 › the tilt-control switch is present and on by default (9.2s)
+  ✓   75 [chromium] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (761ms)
+  ✓   73 [chromium] › tests/e2e/parity.spec.ts:131:1 › the guide and the about screen open from the menu (11.8s)
+  ✓   77 [chromium] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (13.5s)
+  ✓   78 [chromium] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (14.1s)
+  ✓   76 [chromium] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (15.7s)
+ground band: spread 10.30, 4 tone bucket(s), top colour #887755 at 34%
+  ✓   79 [chromium] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (14.2s)
+  ✓   80 [chromium] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (13.5s)
+  ✓   82 [chromium] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (671ms)
+  200 m: spread 7.30, 2 buckets, top 59%
+ 6000 m: spread 10.38, 4 buckets, top 34%
+40000 m: spread 11.11, 4 buckets, top 30%
+  ✓   81 [chromium] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (28.3s)
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 2.59 long, 0.38 across (spans 2.89/2.02/2.07/2.59, widths 0.35/0.38/0.39/0.33, steps 385/415/443/461; 0/4 anchored to the region edge; throttle 100/100/100/100; (622,388)-(655,616)n1146 (621,382)-(660,541)n1273 (623,383)-(660,546)n1120 (620,382)-(652,586)n1057)
+[plume] chromium · the plume is longer than the ship at low altitude @mobile: 2.30 long, 0.38 across (spans 2.11/2.30/2.59/2.08, widths 0.37/0.32/0.38/0.43, steps 387/429/455/478; 0/4 anchored to the region edge; throttle 100/100/100/100; (621,384)-(655,550)n1247 (619,383)-(660,564)n1160 (619,382)-(660,586)n1279 (623,381)-(659,545)n1314)
+  ✓   83 [chromium] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (37.9s)
+  ✓   85 [chromium] › tests/e2e/reentry.spec.ts:48:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (22.0s)
+  ✓   87 [chromium] › tests/e2e/render.spec.ts:39:1 › the webp images are actually fetched (4.2s)
+  ✓   86 [chromium] › tests/e2e/render.spec.ts:11:1 › every art asset loads @smoke (5.2s)
+  ✓   89 [chromium] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (4.9s)
+  ✓   88 [chromium] › tests/e2e/render.spec.ts:75:1 › the renderer draws frames without erroring (6.1s)
+  ✓   90 [chromium] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (5.6s)
+  ✓   91 [chromium] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (6.7s)
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 2.11 long, 0.50 across (spans 1.58/1.89/2.19/2.11, widths 0.50/0.42/0.53/0.44, steps 364/404/440/481; 0/4 anchored to the region edge; throttle 100/100/100/100; (633,373)-(652,429)n189 (629,371)-(661,438)n265 (627,370)-(650,448)n215 (625,368)-(651,443)n310)
+low: 2.59 long, 0.38 across · vacuum: 2.11 long, 0.50 across
+frame 1280x720 @1.00x  altitude 120000 m  vehicle 36 px
+  below      mean   48.6  spread  18.38  tones  7  bright 0.002  dark 0.944  warm 0.0051  top #332222:0.54 #222222:0.18 #333322:0.13 #111122:0.04 #222211:0.02
+  EXT plume    found true  span 76px (27x76)  band 16px  n 310  box (625,368)-(651,443)  = 2.11 vehicle heights
+  |      :   -                            -    |
+  |                                            |
+  |             +      -      = =    #         |
+  |        :     .       ==            --      |
+  |        =     +         -                   |
+  |              -     +-  : -      =    -     |
+  |            ==            .       +     -   |
+  |  +    -  =  =++            -    * ==       |
+  |    =                 +   - =      ==       |
+  |   -      -             -  - -      -       |
+  |.............-.......@#.....................|
+  |.....=-......-.-:....@@.....................|
+  |++*******************@@***@*******%*******++|
+  |******...............*@...............******|
+  |.....................++.....................|
+  |.....................==.....................|
+  |.....................--.....................|
+  |.....................::.....................|
+  |..:::::::::::...........::::::::::..........|
+  |.:::::::::::::........:::::::::::::........:|
+  |.:::::::::::::........:::::::::::::........:|
+  |....::::::::::.....::....::::::::::.....::..|
+  aspect: 0.15 low, 0.24 vacuum
+  ✓   84 [chromium] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (59.5s)
+  ✓   92 [chromium] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (6.6s)
+  ✓   93 [chromium] › tests/e2e/responsive.spec.ts:117:1 › the renderer follows a window resize (7.1s)
+  ✓   94 [chromium] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (5.0s)
+  ✓   95 [chromium] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (6.4s)
+  ✓   96 [chromium] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (8.1s)
+  -   99 [chromium] › tests/e2e/screenshot.spec.ts:62:1 › capture desktop @screenshot
+  -  100 [chromium] › tests/e2e/screenshot.spec.ts:121:3 › capture the distant earth at 1km @screenshot
+  -  101 [chromium] › tests/e2e/screenshot.spec.ts:121:3 › capture the distant earth at 20km @screenshot
+  -  102 [chromium] › tests/e2e/screenshot.spec.ts:121:3 › capture the distant earth at 100km @screenshot
+  -  103 [chromium] › tests/e2e/screenshot.spec.ts:150:1 › capture a re-entry @screenshot
+  ✓   98 [chromium] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (15.6s)
+  ✓   97 [chromium] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (18.8s)
+  ✓  106 [chromium] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (2.5s)
+  ✓  107 [chromium] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (3.4s)
+  ✓  108 [chromium] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (5.0s)
+  ✓  109 [chromium] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (7.1s)
+  ✓  110 [chromium] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (8.1s)
+  ✓  105 [chromium] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (29.7s)
+  ✓  111 [chromium] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (6.5s)
+  ✓  112 [chromium] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (7.3s)
+  ✓  113 [chromium] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (10.6s)
+  ✓  114 [chromium] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (15.2s)
+  ✓  115 [chromium] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (12.1s)
+  ✓  116 [chromium] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (23.4s)
+  ✓  104 [chromium] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (1.7m)
+  ✓  119 [chromium] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (7.8s)
+  ✓  117 [chromium] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (45.7s)
+  ✓  120 [chromium] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (7.4s)
+  ✓  121 [chromium] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (8.9s)
+  ✓  122 [chromium] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (17.4s)
+  ✓  118 [chromium] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (52.4s)
+  ✓  123 [chromium] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (20.1s)
+  ✓  124 [chromium] › tests/e2e/timeline.spec.ts:25:1 › the intro track is drawn and reaches touchdown (19.5s)
+  ✓  125 [chromium] › tests/e2e/timeline.spec.ts:48:1 › the narration says where the flight is and what is next (16.8s)
+  ✓  128 [chromium] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (5.4s)
+  ✓  127 [chromium] › tests/e2e/timeline.spec.ts:106:1 › a scenario that never reaches an event leaves it dark (11.7s)
+  ✓  126 [chromium] › tests/e2e/timeline.spec.ts:66:1 › configuring a new scenario redraws the track and rebinds it (25.7s)
+  ✓  129 [chromium] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (8.0s)
+  ✓  131 [chromium] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (8.6s)
+  ✓  130 [chromium] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (10.7s)
+  ✓  132 [chromium] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (12.5s)
+  ✓  134 [chromium] › tests/e2e/trajectory.spec.ts:201:1 › the map starts open where there is room (5.1s)
+  ✓  133 [chromium] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (8.5s)
+  ✓  135 [chromium] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (6.9s)
+  ✓  136 [chromium] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (7.9s)
+  ✓  137 [chromium] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (9.4s)
+  ✓  138 [chromium] › tests/e2e/typography.spec.ts:43:1 › every face loads from the app itself, not from a CDN (6.9s)
+  ✓  139 [chromium] › tests/e2e/typography.spec.ts:98:1 › 1111 and 0000 measure the same width in the shipped type (7.2s)
+(node:59468) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  140 [chromium] › tests/e2e/typography.spec.ts:165:1 › the readouts themselves are set in the tabular face (6.1s)
+(node:59474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  142 [pixel-portrait] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (11.2s)
+[witness-plume] fire pixels below the ship: engines off 0, engines lit 331
+  ✓  143 [pixel-portrait] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (10.9s)
+  ✓  141 [chromium] › tests/e2e/witness-plume.spec.ts:85:1 › engines lit draw fire below the ship, and engines off do not @smoke (18.0s)
+(node:59498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  144 [pixel-portrait] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (9.8s)
+  ✓  145 [pixel-portrait] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (7.6s)
+  ✓  146 [pixel-portrait] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (15.1s)
+  ✓  148 [pixel-portrait] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (11.1s)
+  ✓  149 [pixel-portrait] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (13.0s)
+  ✓  151 [pixel-portrait] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (10.6s)
+  ✓  147 [pixel-portrait] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (36.4s)
+  ✓  150 [pixel-portrait] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (26.5s)
+  ✓  153 [pixel-portrait] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (11.7s)
+  ✓  152 [pixel-portrait] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (26.2s)
+  ✓  154 [pixel-portrait] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (23.4s)
+  ✓  155 [pixel-portrait] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile (15.3s)
+  ✓  156 [pixel-portrait] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile (8.3s)
+  ✓  157 [pixel-portrait] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (9.3s)
+  ✓  158 [pixel-portrait] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (11.0s)
+  ✓  159 [pixel-portrait] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (9.9s)
+  ✓  160 [pixel-portrait] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (12.8s)
+  ✓  161 [pixel-portrait] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (14.0s)
+  ✓  163 [pixel-portrait] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (12.9s)
+  ✓  164 [pixel-portrait] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (17.1s)
+  ✓  166 [pixel-portrait] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (729ms)
+  ✓  162 [pixel-portrait] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (29.2s)
+  ✓  165 [pixel-portrait] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (13.1s)
+  ✓  167 [pixel-portrait] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (26.0s)
+  ✓  168 [pixel-portrait] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (32.7s)
+  ✓  169 [pixel-portrait] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (32.4s)
+  ✓  170 [pixel-portrait] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (24.4s)
+  ✓  173 [pixel-portrait] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (1.4s)
+ground band: spread 11.14, 4 tone bucket(s), top colour #776655 at 34%
+  ✓  171 [pixel-portrait] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (21.7s)
+  200 m: spread 8.92, 2 buckets, top 37%
+ 6000 m: spread 11.15, 4 buckets, top 34%
+40000 m: spread 9.12, 4 buckets, top 36%
+  ✓  172 [pixel-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (39.9s)
+[plume] pixel-portrait · the plume is longer than the ship at low altitude @mobile: 1.68 long, 0.38 across (spans 1.10/1.68/1.22/2.00, widths 0.38/0.34/0.38/0.31, steps 482/512/548/584; 0/4 anchored to the region edge; throttle 100/100/100/100; (506,751)-(581,922)n4138 (502,740)-(589,1002)n4422 (505,738)-(576,928)n4780 (504,742)-(588,1055)n4515)
+  ✓  174 [pixel-portrait] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (48.8s)
+  ✓  176 [pixel-portrait] › tests/e2e/reentry.spec.ts:48:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (24.7s)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 1.71 long, 0.39 across (spans 1.50/2.29/1.71/1.68, widths 0.39/0.35/0.44/0.32, steps 484/522/560/590; 0/4 anchored to the region edge; throttle 100/100/100/100; (510,746)-(582,980)n4406 (509,743)-(583,1101)n4652 (498,742)-(576,1010)n5031 (501,743)-(583,1005)n4443)
+  ✓  178 [pixel-portrait] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (7.8s)
+  ✓  177 [pixel-portrait] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (9.2s)
+  ✓  180 [pixel-portrait] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (11.8s)
+  ✓  179 [pixel-portrait] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (17.3s)
+  ✓  182 [pixel-portrait] › tests/e2e/responsive.spec.ts:147:1 › the dials become digits and ticks on a phone @mobile @mobile-only @portrait-only (8.6s)
+  ✓  181 [pixel-portrait] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (13.8s)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 0.98 long, 0.56 across (spans 0.83/0.88/0.98/1.19, widths 0.42/0.56/0.58/0.32, steps 497/527/559/591; 0/4 anchored to the region edge; throttle 100/100/100/100; (511,727)-(566,785)n742 (511,725)-(565,787)n1096 (511,728)-(569,797)n1290 (500,726)-(584,780)n822)
+low: 1.71 long, 0.39 across · vacuum: 0.98 long, 0.56 across
+frame 1082x1425 @2.63x  altitude 120000 m  vehicle 71 px
+  below      mean   48.1  spread  20.36  tones  7  bright 0.003  dark 0.927  warm 0.0127  top #332222:0.42 #222222:0.32 #222211:0.06 #333322:0.06 #111122:0.03
+  EXT plume    found true  span 85px (85x55)  band 23px  n 822  box (500,726)-(584,780)  = 1.19 vehicle heights
+  |                                            |
+  |                                            |
+  | ++              -                 =  =:    |
+  |    =                   =                   |
+  |   +=                      -                |
+  |   -              +-        -   --          |
+  |==                              ::          |
+  |  =  +                                -     |
+  |                     .+          -   =      |
+  |                           .-     -    -    |
+  |.-..................#@@#....................|
+  |--.....-...........:*@@@:...................|
+  |********************************@***********|
+  |.....................-+:....................|
+  |.....................=-=....................|
+  |.....................:-=....................|
+  |.....................:::....................|
+  |::...................:.............:::::::::|
+  |::::...........................:::::::::::::|
+  |:::...........................::::::::::::::|
+  |:::....................................:::::|
+  |....................:::::...................|
+  aspect: 0.23 low, 0.57 vacuum
+  ✓  175 [pixel-portrait] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.4m)
+  ✓  183 [pixel-portrait] › tests/e2e/responsive.spec.ts:173:1 › the timeline collapses to now and next on a phone @mobile @mobile-only @portrait-only (5.9s)
+  ✓  184 [pixel-portrait] › tests/e2e/responsive.spec.ts:188:1 › the panels are sheets, and only one opens at a time @mobile @mobile-only @portrait-only (8.0s)
+  ✓  186 [pixel-portrait] › tests/e2e/responsive.spec.ts:234:1 › a closed sheet cannot be tabbed into @mobile @mobile-only @portrait-only (6.2s)
+  ✓  185 [pixel-portrait] › tests/e2e/responsive.spec.ts:213:1 › no sheet ever covers the primary strip @mobile @mobile-only @portrait-only (9.6s)
+  ✓  187 [pixel-portrait] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (6.4s)
+  ✓  188 [pixel-portrait] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (10.9s)
+  -  191 [pixel-portrait] › tests/e2e/screenshot.spec.ts:75:1 › capture phone @screenshot @mobile @mobile-only @portrait-only
+  ✓  189 [pixel-portrait] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (23.1s)
+  ✓  190 [pixel-portrait] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (21.4s)
+  ✓  194 [pixel-portrait] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (4.4s)
+  ✓  195 [pixel-portrait] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (3.7s)
+  ✓  196 [pixel-portrait] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (9.2s)
+  ✓  197 [pixel-portrait] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (9.1s)
+  ✓  198 [pixel-portrait] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (10.6s)
+  ✓  193 [pixel-portrait] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (41.5s)
+  ✓  199 [pixel-portrait] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (9.8s)
+  ✓  200 [pixel-portrait] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (9.5s)
+  ✓  201 [pixel-portrait] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (13.9s)
+  ✓  202 [pixel-portrait] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (19.0s)
+  ✓  203 [pixel-portrait] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (15.7s)
+  ✓  204 [pixel-portrait] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (25.9s)
+  ✓  192 [pixel-portrait] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (2.1m)
+  ✓  207 [pixel-portrait] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (7.6s)
+  ✓  205 [pixel-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (41.6s)
+  ✓  208 [pixel-portrait] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (5.7s)
+  ✓  209 [pixel-portrait] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (6.9s)
+  ✓  210 [pixel-portrait] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (8.8s)
+  ✓  206 [pixel-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (42.0s)
+  ✓  211 [pixel-portrait] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (12.7s)
+  ✓  212 [pixel-portrait] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (9.2s)
+  ✓  213 [pixel-portrait] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (8.7s)
+  ✓  214 [pixel-portrait] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (10.5s)
+  ✓  215 [pixel-portrait] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (8.3s)
+  ✓  218 [pixel-portrait] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (5.8s)
+  ✓  216 [pixel-portrait] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (11.7s)
+  ✓  217 [pixel-portrait] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (9.0s)
+  ✓  219 [pixel-portrait] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (7.4s)
+(node:59817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  220 [pixel-portrait] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (8.1s)
+(node:59822) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  221 [pixel-portrait] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (9.4s)
+(node:59828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  222 [pixel-landscape] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (8.8s)
+  ✓  223 [pixel-landscape] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (9.1s)
+  ✓  224 [pixel-landscape] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (9.5s)
+  ✓  225 [pixel-landscape] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (5.7s)
+  ✓  226 [pixel-landscape] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (9.2s)
+  ✓  228 [pixel-landscape] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (11.2s)
+  ✓  229 [pixel-landscape] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (13.2s)
+  ✓  231 [pixel-landscape] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (6.9s)
+  ✓  227 [pixel-landscape] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (29.7s)
+  ✓  230 [pixel-landscape] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (21.7s)
+  ✓  233 [pixel-landscape] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (10.1s)
+  -  235 [pixel-landscape] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile
+  ✓  232 [pixel-landscape] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (21.6s)
+  -  236 [pixel-landscape] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile
+  ✓  234 [pixel-landscape] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (20.1s)
+  ✓  237 [pixel-landscape] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (8.9s)
+  ✓  239 [pixel-landscape] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (5.9s)
+  ✓  238 [pixel-landscape] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (8.7s)
+  ✓  240 [pixel-landscape] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (8.0s)
+  ✓  241 [pixel-landscape] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (7.2s)
+  ✓  243 [pixel-landscape] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (12.3s)
+  ✓  244 [pixel-landscape] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (12.2s)
+  ✓  246 [pixel-landscape] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (1.1s)
+  ✓  245 [pixel-landscape] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (7.0s)
+  ✓  242 [pixel-landscape] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (27.5s)
+  ✓  247 [pixel-landscape] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (17.7s)
+  ✓  248 [pixel-landscape] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (18.3s)
+  ✓  249 [pixel-landscape] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (15.5s)
+  ✓  250 [pixel-landscape] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (16.7s)
+  ✓  253 [pixel-landscape] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (916ms)
+ground band: spread 15.03, 5 tone bucket(s), top colour #998866 at 33%
+  ✓  251 [pixel-landscape] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (16.4s)
+  200 m: spread 11.44, 4 buckets, top 41%
+ 6000 m: spread 15.08, 5 buckets, top 32%
+40000 m: spread 12.37, 5 buckets, top 27%
+  ✓  252 [pixel-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (31.9s)
+  ✓  256 [pixel-landscape] › tests/e2e/reentry.spec.ts:48:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (22.9s)
+[plume] pixel-landscape · the plume is longer than the ship at low altitude @mobile: 1.22 long, 0.37 across (spans 1.22/1.79/0.95/1.00, widths 0.33/0.36/0.42/0.37, steps 508/534/561/591; 0/4 anchored to the region edge; throttle 100/100/100/100; (1109,494)-(1166,634)n2756 (1107,496)-(1161,702)n2748 (1105,493)-(1154,602)n2546 (1107,496)-(1166,611)n2848)
+  ✓  257 [pixel-landscape] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (8.3s)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 2.14 long, 0.40 across (spans 0.85/2.14/1.29/2.50, widths 0.40/0.40/0.32/0.35, steps 510/540/566/596; 0/4 anchored to the region edge; throttle 100/100/100/100; (1105,497)-(1161,594)n2839 (1109,492)-(1164,739)n2413 (1113,494)-(1160,642)n2527 (1105,496)-(1156,784)n2690)
+  ✓  254 [pixel-landscape] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (52.7s)
+  ✓  258 [pixel-landscape] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (7.5s)
+  ✓  259 [pixel-landscape] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (8.3s)
+  ✓  260 [pixel-landscape] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (7.2s)
+  ✓  261 [pixel-landscape] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (8.3s)
+  ✓  262 [pixel-landscape] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (9.8s)
+  ✓  263 [pixel-landscape] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (11.9s)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 1.16 long, 0.50 across (spans 1.52/0.88/0.93/1.16, widths 0.42/0.48/0.74/0.50, steps 510/538/570/606; 0/4 anchored to the region edge; throttle 100/100/100/100; (1115,481)-(1147,560)n413 (1110,483)-(1155,526)n491 (1107,483)-(1155,528)n502 (1107,482)-(1167,537)n386)
+low: 2.14 long, 0.40 across · vacuum: 1.16 long, 0.50 across
+frame 2265x945 @2.62x  altitude 120000 m  vehicle 53 px
+  below      mean   48.0  spread  17.78  tones  5  bright 0.001  dark 0.944  warm 0.0050  top #332222:0.66 #222222:0.16 #111122:0.04 #333322:0.03 #222211:0.02
+  EXT plume    found true  span 61px (61x56)  band 26px  n 386  box (1107,482)-(1167,537)  = 1.16 vehicle heights
+  |          -  -                    --        |
+  |                                            |
+  |               +    - .   ==   #            |
+  |            =   =     =        # -          |
+  |            =   +      -                    |
+  |                -   ++  --    =   -         |
+  |               =.       .-     +   -        |
+  |       +   - = =+          -  * =           |
+  |         = .         -+  -==    =           |
+  |        -    -       +#-:---    -           |
+  |..........:....-.....@@.....................|
+  |.........==....-.-...@@............:........|
+  |-==++***##***********@@**@*****%*******++==-|
+  |********:............==............:********|
+  |.....................-=.....................|
+  |.....................--.....................|
+  |.....................-:.....................|
+  |.....................::.....................|
+  |.....................::.....................|
+  |............................................|
+  |............................................|
+  |...::::::.........................::::::....|
+  aspect: 0.19 low, 0.43 vacuum
+  ✓  255 [pixel-landscape] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.4m)
+  ✓  264 [pixel-landscape] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (22.5s)
+  ✓  265 [pixel-landscape] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (19.5s)
+  ✓  268 [pixel-landscape] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (6.8s)
+  ✓  269 [pixel-landscape] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (6.0s)
+  ✓  270 [pixel-landscape] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (8.4s)
+  ✓  271 [pixel-landscape] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (10.7s)
+  ✓  272 [pixel-landscape] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (9.4s)
+  ✓  267 [pixel-landscape] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (49.0s)
+  ✓  273 [pixel-landscape] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (10.9s)
+  ✓  274 [pixel-landscape] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (11.9s)
+  ✓  275 [pixel-landscape] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (14.6s)
+  ✓  276 [pixel-landscape] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (19.7s)
+  ✓  277 [pixel-landscape] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (15.0s)
+  ✓  278 [pixel-landscape] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (27.2s)
+  ✓  279 [pixel-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (47.6s)
+  ✓  266 [pixel-landscape] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (2.5m)
+  ✓  281 [pixel-landscape] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (9.5s)
+  ✓  282 [pixel-landscape] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (7.7s)
+  ✓  283 [pixel-landscape] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (7.0s)
+  ✓  280 [pixel-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (45.1s)
+  ✓  284 [pixel-landscape] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (8.6s)
+  ✓  285 [pixel-landscape] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (12.5s)
+  ✓  286 [pixel-landscape] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (8.3s)
+  ✓  287 [pixel-landscape] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (8.5s)
+  ✓  289 [pixel-landscape] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (9.9s)
+  ✓  288 [pixel-landscape] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (12.0s)
+  ✓  290 [pixel-landscape] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (13.0s)
+  ✓  292 [pixel-landscape] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (6.7s)
+  ✓  291 [pixel-landscape] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (10.8s)
+  ✓  293 [pixel-landscape] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (8.3s)
+(node:60139) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  294 [pixel-landscape] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (9.6s)
+(node:60144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  295 [pixel-landscape] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (10.4s)
+(node:60149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  296 [iphone-portrait] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (8.0s)
+  ✓  297 [iphone-portrait] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (8.3s)
+  ✓  299 [iphone-portrait] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (6.1s)
+  ✓  298 [iphone-portrait] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (9.4s)
+  ✓  300 [iphone-portrait] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (9.0s)
+  ✓  302 [iphone-portrait] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (7.1s)
+  ✓  303 [iphone-portrait] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (8.1s)
+  ✓  305 [iphone-portrait] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (7.5s)
+  ✓  301 [iphone-portrait] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (27.7s)
+  ✓  304 [iphone-portrait] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (20.1s)
+  ✓  307 [iphone-portrait] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (8.8s)
+  ✓  306 [iphone-portrait] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (19.6s)
+  ✓  308 [iphone-portrait] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (17.7s)
+  ✓  309 [iphone-portrait] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile (12.8s)
+  ✓  310 [iphone-portrait] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile (7.8s)
+  ✓  311 [iphone-portrait] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (7.9s)
+  ✓  313 [iphone-portrait] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (5.4s)
+  ✓  312 [iphone-portrait] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (8.2s)
+  ✓  314 [iphone-portrait] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (8.1s)
+  ✓  315 [iphone-portrait] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (10.7s)
+  ✓  317 [iphone-portrait] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (12.2s)
+  ✓  316 [iphone-portrait] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (20.0s)
+  ✓  318 [iphone-portrait] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (12.0s)
+  ✓  320 [iphone-portrait] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (739ms)
+  ✓  319 [iphone-portrait] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (11.1s)
+  ✓  322 [iphone-portrait] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (12.2s)
+  ✓  321 [iphone-portrait] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (13.7s)
+  ✓  323 [iphone-portrait] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (14.2s)
+ground band: spread 9.11, 4 tone bucket(s), top colour #887755 at 39%
+  ✓  324 [iphone-portrait] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (13.6s)
+  ✓  327 [iphone-portrait] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (892ms)
+  ✓  325 [iphone-portrait] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (13.9s)
+  200 m: spread 13.88, 2 buckets, top 47%
+ 6000 m: spread 9.16, 4 buckets, top 39%
+40000 m: spread 9.30, 3 buckets, top 39%
+  ✓  326 [iphone-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (27.4s)
+[plume] iphone-portrait · the plume is longer than the ship at low altitude @mobile: 1.72 long, 0.35 across (spans 1.73/1.32/1.72/1.35, widths 0.34/0.38/0.34/0.35, steps 482/516/546/579; 0/4 anchored to the region edge; throttle 100/100/100/100; (558,584)-(623,812)n3174 (546,579)-(617,752)n3302 (568,574)-(629,800)n3152 (550,580)-(615,758)n3558)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 1.37 long, 0.38 across (spans 0.89/1.58/1.23/1.37, widths 0.33/0.38/0.38/0.36, steps 492/526/557/591; 0/4 anchored to the region edge; throttle 100/100/100/100; (562,583)-(615,699)n2613 (559,576)-(623,784)n3231 (551,574)-(624,735)n3575 (551,580)-(620,760)n2889)
+  ✓  328 [iphone-portrait] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (33.8s)
+  ✓  331 [iphone-portrait] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (6.3s)
+  ✓  330 [iphone-portrait] › tests/e2e/reentry.spec.ts:48:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (18.1s)
+  ✓  332 [iphone-portrait] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (6.4s)
+  ✓  333 [iphone-portrait] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (8.3s)
+  ✓  334 [iphone-portrait] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (6.9s)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 0.98 long, 0.48 across (spans 0.98/0.95/1.25/0.97, widths 0.55/0.35/0.48/0.48, steps 503/539/581/623; 0/4 anchored to the region edge; throttle 100/100/100/100; (573,564)-(607,622)n677 (557,563)-(613,606)n707 (561,564)-(614,638)n948 (554,565)-(611,614)n498)
+low: 1.37 long, 0.38 across · vacuum: 0.98 long, 0.48 across
+frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   46.9  spread  20.43  tones  7  bright 0.002  dark 0.933  warm 0.0105  top #332222:0.37 #222222:0.36 #222211:0.11 #111122:0.03 #333322:0.02
+  EXT plume    found true  span 58px (58x50)  band 29px  n 498  box (554,565)-(611,614)  = 0.97 vehicle heights
+  |   -                                        |
+  |                                            |
+  |       +          -:   :       = ==        #|
+  |         =             =                   #|
+  |        ++               -.                 |
+  |        -          +-     -  -.         ==  |
+  |      ==                     -.           .+|
+  |  ==   == +                      -      *   |
+  |                     -+      --  =          |
+  |  --                 +    -   --  -         |
+  |.......-............#@%#....................|
+  |......--...-........*@@+....................|
+  |*********************#*******@*************#|
+  |=:..................:+-.:.................-=|
+  |.....................==.....................|
+  |.....................-=.....................|
+  |.....................--:....................|
+  |.....................:......................|
+  |::...................:......................|
+  |:::.....................................::::|
+  |:::::::.............................::::::::|
+  |:::::::...........................::::::::::|
+  aspect: 0.28 low, 0.49 vacuum
+  ✓  329 [iphone-portrait] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (55.4s)
+  ✓  335 [iphone-portrait] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (7.1s)
+  ✓  336 [iphone-portrait] › tests/e2e/responsive.spec.ts:147:1 › the dials become digits and ticks on a phone @mobile @mobile-only @portrait-only (6.5s)
+  ✓  337 [iphone-portrait] › tests/e2e/responsive.spec.ts:173:1 › the timeline collapses to now and next on a phone @mobile @mobile-only @portrait-only (7.0s)
+  ✓  338 [iphone-portrait] › tests/e2e/responsive.spec.ts:188:1 › the panels are sheets, and only one opens at a time @mobile @mobile-only @portrait-only (7.7s)
+  ✓  340 [iphone-portrait] › tests/e2e/responsive.spec.ts:234:1 › a closed sheet cannot be tabbed into @mobile @mobile-only @portrait-only (5.8s)
+  ✓  339 [iphone-portrait] › tests/e2e/responsive.spec.ts:213:1 › no sheet ever covers the primary strip @mobile @mobile-only @portrait-only (8.9s)
+  ✓  341 [iphone-portrait] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (7.9s)
+  ✓  342 [iphone-portrait] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (10.6s)
+  -  345 [iphone-portrait] › tests/e2e/screenshot.spec.ts:75:1 › capture phone @screenshot @mobile @mobile-only @portrait-only
+  ✓  343 [iphone-portrait] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (20.3s)
+  ✓  344 [iphone-portrait] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (17.6s)
+  ✓  348 [iphone-portrait] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (5.6s)
+  ✓  349 [iphone-portrait] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (3.8s)
+  ✓  350 [iphone-portrait] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (8.4s)
+  ✓  351 [iphone-portrait] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (8.3s)
+  ✓  347 [iphone-portrait] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (31.8s)
+  ✓  352 [iphone-portrait] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (7.8s)
+  ✓  353 [iphone-portrait] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (6.7s)
+  ✓  354 [iphone-portrait] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (8.6s)
+  ✓  355 [iphone-portrait] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (9.8s)
+  ✓  356 [iphone-portrait] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (15.2s)
+  ✓  357 [iphone-portrait] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (12.8s)
+  ✓  358 [iphone-portrait] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (24.5s)
+  ✓  346 [iphone-portrait] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (1.8m)
+  ✓  359 [iphone-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (37.7s)
+  ✓  361 [iphone-portrait] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (6.7s)
+  ✓  362 [iphone-portrait] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (7.2s)
+  ✓  363 [iphone-portrait] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (6.0s)
+  ✓  364 [iphone-portrait] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (7.5s)
+  ✓  365 [iphone-portrait] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (10.3s)
+  ✓  360 [iphone-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (36.7s)
+  ✓  366 [iphone-portrait] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (7.5s)
+  ✓  367 [iphone-portrait] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (7.2s)
+  ✓  368 [iphone-portrait] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (8.9s)
+  ✓  369 [iphone-portrait] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (8.1s)
+  ✓  372 [iphone-portrait] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (5.1s)
+  ✓  371 [iphone-portrait] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (7.0s)
+  ✓  370 [iphone-portrait] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (11.1s)
+  ✓  373 [iphone-portrait] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (7.5s)
+(node:60387) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  374 [iphone-portrait] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (7.1s)
+(node:60393) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  375 [iphone-portrait] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (8.3s)
+(node:60398) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  376 [iphone-landscape] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (8.3s)
+  ✓  377 [iphone-landscape] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (9.0s)
+  ✓  378 [iphone-landscape] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (9.5s)
+  ✓  379 [iphone-landscape] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (6.2s)
+  ✓  380 [iphone-landscape] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (9.9s)
+  ✓  382 [iphone-landscape] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (9.4s)
+  ✓  383 [iphone-landscape] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (10.5s)
+  ✓  385 [iphone-landscape] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (6.8s)
+  ✓  381 [iphone-landscape] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (28.7s)
+  ✓  384 [iphone-landscape] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (20.2s)
+  ✓  387 [iphone-landscape] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (8.8s)
+  ✓  386 [iphone-landscape] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (19.5s)
+  -  389 [iphone-landscape] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile
+  ✓  388 [iphone-landscape] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (18.3s)
+  -  390 [iphone-landscape] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile
+  ✓  391 [iphone-landscape] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (8.8s)
+  ✓  393 [iphone-landscape] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (5.3s)
+  ✓  392 [iphone-landscape] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (8.2s)
+  ✓  394 [iphone-landscape] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (7.5s)
+  ✓  395 [iphone-landscape] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (8.6s)
+  ✓  397 [iphone-landscape] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (10.2s)
+  ✓  398 [iphone-landscape] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (11.0s)
+  ✓  400 [iphone-landscape] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (575ms)
+  ✓  399 [iphone-landscape] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (7.4s)
+  ✓  396 [iphone-landscape] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (23.0s)
+  ✓  401 [iphone-landscape] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (15.8s)
+  ✓  402 [iphone-landscape] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (16.8s)
+  ✓  403 [iphone-landscape] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (16.5s)
+  ✓  404 [iphone-landscape] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (16.1s)
+ground band: spread 14.62, 5 tone bucket(s), top colour #998866 at 34%
+  ✓  407 [iphone-landscape] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (1.0s)
+  ✓  405 [iphone-landscape] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (14.8s)
+  200 m: spread 10.03, 3 buckets, top 46%
+ 6000 m: spread 14.60, 5 buckets, top 34%
+40000 m: spread 11.66, 5 buckets, top 30%
+  ✓  406 [iphone-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (30.7s)
+  ✓  410 [iphone-landscape] › tests/e2e/reentry.spec.ts:48:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (22.9s)
+[plume] iphone-landscape · the plume is longer than the ship at low altitude @mobile: 1.38 long, 0.36 across (spans 1.08/1.94/1.38/1.23, widths 0.36/0.30/0.35/0.36, steps 504/530/560/590; 0/4 anchored to the region edge; throttle 100/100/100/100; (1094,537)-(1153,679)n2844 (1106,535)-(1157,791)n3070 (1094,537)-(1157,719)n3601 (1099,534)-(1170,695)n3107)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 1.43 long, 0.36 across (spans 1.67/1.01/0.81/1.43, widths 0.26/0.36/0.34/0.36, steps 510/534/576/606; 0/4 anchored to the region edge; throttle 100/100/100/100; (1095,535)-(1157,755)n2968 (1099,532)-(1164,665)n3437 (1099,535)-(1166,641)n3764 (1090,537)-(1147,725)n2722)
+  ✓  408 [iphone-landscape] › tests/e2e/plume.spec.ts:242:1 › the plume is longer than the ship at low altitude @mobile (48.6s)
+  ✓  411 [iphone-landscape] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (7.6s)
+  ✓  412 [iphone-landscape] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (7.0s)
+  ✓  413 [iphone-landscape] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (8.6s)
+  ✓  414 [iphone-landscape] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (6.5s)
+  ✓  415 [iphone-landscape] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (9.0s)
+  ✓  416 [iphone-landscape] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (9.3s)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 0.80 long, 0.62 across (spans 0.70/0.80/1.08/0.77, widths 0.70/0.50/0.62/0.43, steps 506/538/570/600; 0/4 anchored to the region edge; throttle 100/100/100/100; (1101,521)-(1142,554)n536 (1108,522)-(1144,569)n599 (1104,520)-(1148,584)n729 (1114,523)-(1159,568)n558)
+low: 1.43 long, 0.36 across · vacuum: 0.80 long, 0.62 across
+frame 2250x1020 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   48.1  spread  18.35  tones  5  bright 0.002  dark 0.941  warm 0.0059  top #332222:0.60 #222222:0.18 #333322:0.06 #111122:0.04 #112222:0.02
+  EXT plume    found true  span 46px (46x46)  band 26px  n 558  box (1114,523)-(1159,568)  = 0.77 vehicle heights
+  |         -  --                      -       |
+  |                                            |
+  |              .+    - -   ==    #           |
+  |           =   ==     =         #.-         |
+  |           =   +=      -                    |
+  |               -    +-  --     =   -        |
+  |              =          -      +   -       |
+  |      +   - =  =+          -  ** =          |
+  |        = :          -+  - =     =          |
+  |       -    --       #. - -.-    -          |
+  |.........-....--.....@%...:.................|
+  |........=-....-..-...@@.............-.......|
+  |==+++**#*************@@**@******%******+++==|
+  |*******+............:=+:............+*******|
+  |.....................==.....................|
+  |.....................-=.....................|
+  |.....................--.....................|
+  |.....................::.....................|
+  |.....................::.....................|
+  |............................................|
+  |............................................|
+  |.......:::::::::...........................:|
+  aspect: 0.25 low, 0.77 vacuum
+  ✓  409 [iphone-landscape] › tests/e2e/plume.spec.ts:268:1 › and blooms wider than the ship in vacuum @mobile (1.2m)
+  ✓  417 [iphone-landscape] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (11.4s)
+  ✓  418 [iphone-landscape] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (20.7s)
+  ✓  419 [iphone-landscape] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (16.9s)
+  ✓  422 [iphone-landscape] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (4.0s)
+  ✓  423 [iphone-landscape] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (3.5s)
+  ✓  424 [iphone-landscape] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (6.6s)
+  ✓  425 [iphone-landscape] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (7.9s)
+  ✓  426 [iphone-landscape] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (8.6s)
+  ✓  421 [iphone-landscape] › tests/e2e/shake.spec.ts:391:1 › and does not shake a vehicle standing on the ground @mobile (36.5s)
+  ✓  427 [iphone-landscape] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (9.1s)
+  ✓  428 [iphone-landscape] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (8.8s)
+  ✓  429 [iphone-landscape] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (9.9s)
+  ✓  430 [iphone-landscape] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (16.8s)
+  ✓  431 [iphone-landscape] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (12.7s)
+  ✓  432 [iphone-landscape] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (24.9s)
+  ✓  433 [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (42.4s)
+  ✓  420 [iphone-landscape] › tests/e2e/shake.spec.ts:278:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (2.1m)
+  ✓  435 [iphone-landscape] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (7.5s)
+  ✓  437 [iphone-landscape] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (6.7s)
+  ✓  436 [iphone-landscape] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (7.2s)
+  ✓  438 [iphone-landscape] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (8.7s)
+  ✓  434 [iphone-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (43.0s)
+  ✓  439 [iphone-landscape] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (11.5s)
+  ✓  440 [iphone-landscape] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (6.6s)
+  ✓  441 [iphone-landscape] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (8.0s)
+  ✓  442 [iphone-landscape] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (10.0s)
+  ✓  443 [iphone-landscape] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (9.1s)
+  ✓  444 [iphone-landscape] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (10.6s)
+  ✓  445 [iphone-landscape] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (8.9s)
+  ✓  446 [iphone-landscape] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (6.4s)
+  ✓  447 [iphone-landscape] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (7.1s)
+  ✓  448 [iphone-landscape] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (7.8s)
+  ✓  449 [iphone-landscape] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (8.4s)
+
+  11 skipped
+  438 passed (36.1m)

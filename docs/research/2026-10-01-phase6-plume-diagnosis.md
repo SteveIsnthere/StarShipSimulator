@@ -249,3 +249,12 @@ as pixel-landscape-attempt1/gate.log. The independent high-depth reviewer
 accepted the bright-star and distinct-frame fixes with no remaining findings.
 `E2E_SKIP_BUILD=1 npm run test:e2e:full` is running against that same build;
 no result, merge or deploy is claimed yet.
+
+
+Final full verification on product checkpoint `1644fe1`: **438 passed,
+0 failed, 11 configured skips, exit 0** (36.1 minutes), all five projects.
+Original iPhone portrait vacuum-width check passed. The gate ran before this
+suite on the same source. Complete gate, independent high-depth review and
+hosted CI `36953300952` are green. Exact full and hosted CI logs are retained
+in pixel-landscape-attempt1/full.log and hosted-ci.log. Phase 6 remains
+unmerged; main gate and live deploy verification are still required.

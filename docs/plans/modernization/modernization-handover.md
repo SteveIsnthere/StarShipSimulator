@@ -11,7 +11,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 3 Design pass | done (review page published) | `53e3c26` |
 | 4 React shell | done, live | `dfab3c8` |
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
-| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — all 10 final focused plume checks pass after measurement repairs; final full suite pending; Earth's rate (9b) and the parked aero moved to 6b | — |
+| 6 Ship realism | built, physics reviewed on `claude/ship-realism`; **unmerged** — all 10 final focused plume checks pass after measurement repairs; final full suite 438 passed / 0 failed; merge and deploy pending; Earth's rate (9b) and the parked aero moved to 6b | — |
 | 6b Entry on lift | planned ([phase 6b](modernization-phase-6b.md)): the parked drag, normal force, fins and RCS, on an entry flown on lift | — |
 | 7 Super Heavy | not started | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
@@ -71,24 +71,19 @@ The unattended run's report. Updated as phases land; the last section is always 
 
 - **2026-10-01, main red for one merge.** Phase 5's goldens were re-blessed on the Mac; they replay bit-exactly only on x86-64 Linux / Node 22, so CI failed in the 16th digit and the deploy did not publish (the live site kept the previous build). Fixed in `3429ea1`: fixtures now come from `.github/workflows/golden-regenerate.yml` (push a branch as `golden/<name>`), `golden:regenerate` refuses anywhere else, and the policy says so.
 
-## Blocker
+## Current release requirement
 
-Phase 6 is stopped by `plume.spec.ts` "and blooms wider than the ship in
-vacuum" on iPhone portrait. The final full run on `4c03814` failed it after
-three recorded diagnosis attempts. The complete local gate and hosted CI
-passed, but they do not replace this required release check. No merge or
-Phase 6b implementation has happened. Final result: 427 passed, 1 failed, 11 configured skips (32.5 minutes).
-Vacuum width was 0.70 against >0.7176042091538909.
-Steve approved one additional diagnosis attempt on 2026-10-01, with all
-assertions, bounds and retries unchanged. Attempt 4 repaired the screenshot/renderer pixel-scale mismatch and passed focused vacuum-width checks. A separate low-altitude length failure remains; final full-suite verification is pending. Resume
-from the retained evidence and the goal contract's First task. If the same
-check remains red, stop again; no fifth attempt is authorized.
+Phase 6 is unmerged. Product checkpoint `1644fe1` has a green complete gate,
+hosted CI and independent high-depth review, plus a final full suite of
+438 passed, 0 failed, 11 configured skips. The next task is its `--no-ff` merge,
+main gate and live deploy verification. Previous failures remain in the
+investigation; they are not erased by the repaired result.
 
 Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-plume-diagnosis.md).
 
-## Where Phase 6 stopped (2026-10-01)
+## Retained verification history (2026-10-01)
 
-- Latest graphics change: `4c03814`, the plume timing/projection and flight-reset repair. Physics and goldens are unchanged from the independently reviewed implementation. Checkpoint `6e3f514` changes the screenshot-scale helper and adds its regression fixture; its complete local gate passed. The checkpoint is pushed; the low-altitude length failure and pending full suite still prevent a merge.
+- Latest graphics change: `4c03814`, the plume timing/projection and flight-reset repair. Physics and goldens are unchanged from the independently reviewed implementation. Checkpoint `6e3f514` changes the screenshot-scale helper and adds its regression fixture; its complete local gate passed. That checkpoint was pushed; its low-altitude length failure then prevented a merge. Both measurement and final verification are now complete at `1644fe1`, as recorded below.
 - Historical verification before the requested rerun, on `f81908b`: `npm run gate` green (1,935 tests, coverage floors, e2e smoke, subpath deploy); `npm run mutation` 18 of 18 caught; `npm run truth:report` 8 of 8; `/code-review high`; independent physics review (ChatGPT Pro, three rounds, every finding fixed: fixed RVacs, the turbulence sweep, the radial coast, the throttle law, break-up on the tile temperature).
 - Historical `npm run test:e2e:full` before this goal's requested rerun: **428 passed, 0 failed** (33 min, all five projects). This is superseded by the failing reruns below. Earlier full-run failures (the debrief's stale heat bound, a pixels flake) are fixed or re-ran green.
 - Current source verification on `4c03814`: complete local gate green (1,940 tests, coverage floors, smoke and subpath deployment), hosted CI `36940931396` green, independent graphics review clean; **full e2e red: 427 passed, 1 failed, 11 configured skips**.
@@ -112,10 +107,21 @@ Evidence and diagnosis: [plume investigation](../../research/2026-10-01-phase6-p
 - The finished Phase 1–5 plans are closed out; the roadmap's Status names each merge commit.
 
 
-Phase 6 checkpoint: attempt 4 corrects screenshot DPR; all five focused vacuum-width checks passed. A separate iPhone portrait low-altitude length failure (0.735 against >1) remains. Its first diagnosis identified white-core exclusion and fixed-region hull contamination; no classifier repair has been made. Final full-suite verification remains required; the no-fifth-attempt vacuum stop rule still applies. See the plume investigation for exact evidence.
 
-Final measurement checkpoint (verification in progress): same-frame background
-mask, actual-nozzle clipping, bright-star rejection and distinct-frame sampling
-passed all10 focused plume checks. Fresh independent review is clean. Complete local gate passed (1,941 unit tests, coverage,13 smoke and5 subpath).
-The full suite is running on that same build and remains required before merge. Do not redo the completed
-instrument repairs; see the investigation for each bounded diagnosis.
+## Current verification checkpoint (2026-10-01)
+
+Product checkpoint `1644fe1` is pushed and unmerged. Screenshot DPR,
+actual-nozzle clipping, paired background control, bright-star rejection and
+distinct-frame sampling repairs are complete. Final focused plume checks
+10/10 passed; fresh independent high-depth review is clean. The complete local
+gate passed (1,941 unit tests, coverage floors, 13 smoke and 5 subpath checks);
+hosted CI `36953300952` passed at the same SHA. Physics and goldens are unchanged.
+
+The final full suite passed on that built source: **438 passed, 11 configured
+skips, exit 0** (36.1 minutes), all five projects. Its log and hosted CI log
+are retained with the gate log in the investigation evidence. The next task
+is Phase 6's `--no-ff` merge, main gate, push and live deploy verification, then
+tick its Status line with the merge SHA before Phase 6b Task 1. No fifth
+diagnosis attempt for the original iPhone portrait vacuum-width check is
+authorized if it becomes red again. Steve confirmed the full remaining roadmap
+scope (6, 6b, 7, 8, 9).
