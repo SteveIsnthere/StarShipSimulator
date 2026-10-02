@@ -220,3 +220,9 @@ Steve explicitly answered “yep approved” to extending only the reentry golde
 ## Tasks1+1b coherent checkpoint (2026-10-02)
 
 Body-axis lifting entry andEarthrotation are accepted at common2758826m/65°/22t with all range,thermal,900s and authority limits retained. Approved reentry600s artifact audit passes:original361samples exact,840tail audited,sevenother files identical. Fullunits1995/1995,lint/build/truth8/8pass. Window/camerahelper independentreview clean. Task1/1b andTask5 complete onbranch;phase6b stillopen,main/livePhase6. NextTask2CoP/moment,then3fins/4RCS and fullphaseclose;full6b/7/8/9goal unchanged,no owner question pending.
+
+## Task2 unaccepted model and CI consumer repair (2026-10-02)
+
+Task1/1b/5 coherentc24235f iscommitted/pushed,recordingbranchesdeleted. HostedCI37017954727 red onlyreentrycameraidentitycallback30stimeout;local1995unitspass remainsMacproof. Splitconsumerproof into8×3individualcomparisons withliteralbounds/timeout/retries unchanged;isolatedc242build/focused83pass,independentreviewclean. Hostedverification pendingrepairpush.
+
+Task2 bodymoment implemented butunaccepted/uncommitted;64focusedpass/build/lint/truth8/8. Freshreviewconfirmedsource/sign/tailgeometry,foundmixedgustsnapshot;watchedred,fixed,quadrantvectorproofadded/reviewed. Correctedrealdescents:beforefliplands29.275s;reentry337.175s/deorbit2441.558s thermalbreakup withRCSempty,62.40/78.55%RCSangularimpulse. Oldstaticfinscannotcountermoment atsampledstates;thisdoesnotproveplannedTask3 infeasible or thermalcause. No findingrejected,no limits/authority tuned. Nextrepresentativestate/timeline capture andsource-backedTask3surfacegeometry/law/torqueenvelopewithfinsremovedfrombodyarea,thenfaithfulsharedforceimplementation ifbounddoesnotreject. Readnewbody-momentresearchruling/review;recoverunfinishedsource onlyfromnewpatch/pins ifabsent. Task2–4/fullphaseclose remainopen. Main/livePhase6,full6b/7/8/9scope remains,noownerquestionpending.

@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/body-moment.test.ts (9 tests | 1 failed | 8 skipped) 6ms
+   × evaluates speed, Mach and attack from the same pre-update gust snapshot 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/body-moment.test.ts > evaluates speed, Mach and attack from the same pre-update gust snapshot
+AssertionError: expected -5328103.060360357 to be -4980986.201003413 // Object.is equality
+
+- Expected
++ Received
+
+- -4980986.201003413
++ -5328103.060360357
+
+ ❯ tests/core/body-moment.test.ts:150:45
+    148|   expect(next.world.gust).not.toBe(s.world.gust);
+    149|   expect(next.world.gustVertical).not.toBe(s.world.gustVertical);
+    150|   expect(next.forces.bodyAerodynamicMoment).toBe(expected);
+       |                                             ^
+    151| });
+    152|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  07:22:40
+   Duration  233ms (transform 94ms, setup 0ms, import 115ms, tests 6ms, environment 0ms)
+

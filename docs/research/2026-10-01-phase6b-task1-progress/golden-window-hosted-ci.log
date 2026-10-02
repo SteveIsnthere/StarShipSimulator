@@ -1,0 +1,1255 @@
+gate	Set up job	﻿2026-10-02T14:10:02.9866362Z Current runner version: '2.337.0'
+gate	Set up job	2026-10-02T14:10:02.9904285Z ##[group]Runner Image Provisioner
+gate	Set up job	2026-10-02T14:10:02.9905525Z Hosted Compute Agent
+gate	Set up job	2026-10-02T14:10:02.9906651Z Version: 20260901.588
+gate	Set up job	2026-10-02T14:10:02.9907666Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+gate	Set up job	2026-10-02T14:10:02.9908975Z Build Date: 2026-09-01T19:56:44Z
+gate	Set up job	2026-10-02T14:10:02.9910448Z Worker ID: {b3e12912-ebfd-40c4-b741-6c558a078863}
+gate	Set up job	2026-10-02T14:10:02.9911624Z Azure Region: northcentralus
+gate	Set up job	2026-10-02T14:10:02.9912756Z ##[endgroup]
+gate	Set up job	2026-10-02T14:10:02.9914726Z ##[group]Operating System
+gate	Set up job	2026-10-02T14:10:02.9915864Z Ubuntu
+gate	Set up job	2026-10-02T14:10:02.9916688Z 24.04.5
+gate	Set up job	2026-10-02T14:10:02.9917450Z LTS
+gate	Set up job	2026-10-02T14:10:02.9919025Z ##[endgroup]
+gate	Set up job	2026-10-02T14:10:02.9920127Z ##[group]Runner Image
+gate	Set up job	2026-10-02T14:10:02.9921222Z Image: ubuntu-24.04
+gate	Set up job	2026-10-02T14:10:02.9922144Z Version: 20260927.320.1
+gate	Set up job	2026-10-02T14:10:02.9923913Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+gate	Set up job	2026-10-02T14:10:02.9926856Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+gate	Set up job	2026-10-02T14:10:02.9928658Z ##[endgroup]
+gate	Set up job	2026-10-02T14:10:02.9934033Z ##[group]GITHUB_TOKEN Permissions
+gate	Set up job	2026-10-02T14:10:02.9937431Z Actions: write
+gate	Set up job	2026-10-02T14:10:02.9938444Z ArtifactMetadata: write
+gate	Set up job	2026-10-02T14:10:02.9939715Z Attestations: write
+gate	Set up job	2026-10-02T14:10:02.9940782Z Checks: write
+gate	Set up job	2026-10-02T14:10:02.9941664Z CodeQuality: write
+gate	Set up job	2026-10-02T14:10:02.9942592Z Contents: write
+gate	Set up job	2026-10-02T14:10:02.9943331Z CopilotRequests: write
+gate	Set up job	2026-10-02T14:10:02.9943985Z Deployments: write
+gate	Set up job	2026-10-02T14:10:02.9944632Z Discussions: write
+gate	Set up job	2026-10-02T14:10:02.9945232Z Drives: write
+gate	Set up job	2026-10-02T14:10:02.9945877Z Issues: write
+gate	Set up job	2026-10-02T14:10:02.9946579Z Metadata: read
+gate	Set up job	2026-10-02T14:10:02.9947287Z Models: read
+gate	Set up job	2026-10-02T14:10:02.9947911Z Packages: write
+gate	Set up job	2026-10-02T14:10:02.9948488Z Pages: write
+gate	Set up job	2026-10-02T14:10:02.9949032Z PullRequests: write
+gate	Set up job	2026-10-02T14:10:02.9949943Z RepositoryProjects: write
+gate	Set up job	2026-10-02T14:10:02.9950651Z SecurityEvents: write
+gate	Set up job	2026-10-02T14:10:02.9951294Z Statuses: write
+gate	Set up job	2026-10-02T14:10:02.9951945Z VulnerabilityAlerts: read
+gate	Set up job	2026-10-02T14:10:02.9952564Z ##[endgroup]
+gate	Set up job	2026-10-02T14:10:02.9954736Z Secret source: Actions
+gate	Set up job	2026-10-02T14:10:02.9955741Z Cache mode: write
+gate	Set up job	2026-10-02T14:10:02.9956907Z Prepare workflow directory
+gate	Set up job	2026-10-02T14:10:03.0348143Z Prepare all required actions
+gate	Set up job	2026-10-02T14:10:03.0416162Z Getting action download info
+gate	Set up job	2026-10-02T14:10:03.5236614Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+gate	Set up job	2026-10-02T14:10:03.6253130Z Download action repository 'actions/setup-node@v6' (SHA:249970729cb0ef3589644e2896645e5dc5ba9c38)
+gate	Set up job	2026-10-02T14:10:03.7098725Z Download action repository 'actions/upload-artifact@v7' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+gate	Set up job	2026-10-02T14:10:03.8970768Z Complete job name: gate
+gate	Run actions/checkout@v7	﻿2026-10-02T14:10:03.9779465Z ##[group]Run actions/checkout@v7
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9780445Z with:
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9780977Z   repository: SteveIsnthere/StarShipSimulator
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9786074Z   token: ***
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9786566Z   ssh-strict: true
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9787046Z   ssh-user: git
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9787550Z   persist-credentials: true
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9788089Z   clean: true
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9788579Z   sparse-checkout-cone-mode: true
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9789164Z   fetch-depth: 1
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9789848Z   fetch-tags: false
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9790386Z   show-progress: true
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9790879Z   lfs: false
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9791327Z   submodules: false
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9791821Z   set-safe-directory: true
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9792383Z   allow-unsafe-pr-checkout: false
+gate	Run actions/checkout@v7	2026-10-02T14:10:03.9793227Z ##[endgroup]
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0833280Z Syncing repository: SteveIsnthere/StarShipSimulator
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0836527Z ##[group]Getting Git version info
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0837965Z Working directory is '/home/runner/work/StarShipSimulator/StarShipSimulator'
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0840635Z [command]/usr/bin/git version
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0894523Z git version 2.55.0
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0920006Z ##[endgroup]
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0928232Z Temporarily overriding HOME='/home/runner/work/_temp/d2602916-6731-4923-81f4-c200f9e6ef38' before making global git config changes
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0930944Z Adding repository directory to the temporary git global config as a safe directory
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0933327Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StarShipSimulator/StarShipSimulator
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0991222Z Deleting the contents of '/home/runner/work/StarShipSimulator/StarShipSimulator'
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0995425Z ##[group]Determining repository object format
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0997256Z ##[endgroup]
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.0998764Z ##[group]Initializing the repository
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1002303Z [command]/usr/bin/git init /home/runner/work/StarShipSimulator/StarShipSimulator
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1087746Z hint: Using 'master' as the name for the initial branch. This default branch name
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1089460Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1090639Z hint: to use in all of your new repositories, which will suppress this warning,
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1091559Z hint: call:
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1092094Z hint:
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1096587Z hint: 	git config --global init.defaultBranch <name>
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1097940Z hint:
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1099494Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1101455Z hint: 'development'. The just-created branch can be renamed via this command:
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1103135Z hint:
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1104162Z hint: 	git branch -m <name>
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1105315Z hint:
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1106815Z hint: Disable this message with "git config set advice.defaultBranchName false"
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1109184Z Initialized empty Git repository in /home/runner/work/StarShipSimulator/StarShipSimulator/.git/
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1115381Z [command]/usr/bin/git remote add origin https://github.com/SteveIsnthere/StarShipSimulator
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1162052Z ##[endgroup]
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1163630Z ##[group]Disabling automatic garbage collection
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1167247Z [command]/usr/bin/git config --local gc.auto 0
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1222611Z ##[endgroup]
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1250825Z ##[group]Setting up auth
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1253962Z Removing SSH command configuration
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1255240Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1258772Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1624908Z Removing HTTP extra header
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1631765Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1676878Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1934573Z Removing includeIf entries pointing to credentials config files
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1940155Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.1989597Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.2237725Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.2282393Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path /home/runner/work/_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.2321136Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.2358288Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.2395397Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.2428830Z ##[endgroup]
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.2429919Z ##[group]Fetching the repository
+gate	Run actions/checkout@v7	2026-10-02T14:10:04.2435817Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c24235f158b17fec15c38a9804d411bb3309d76f:refs/remotes/origin/claude/entry-on-lift
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5819865Z From https://github.com/SteveIsnthere/StarShipSimulator
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5821097Z  * [new ref]         c24235f158b17fec15c38a9804d411bb3309d76f -> origin/claude/entry-on-lift
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5840765Z [command]/usr/bin/git branch --list --remote origin/claude/entry-on-lift
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5865492Z   origin/claude/entry-on-lift
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5875199Z [command]/usr/bin/git rev-parse refs/remotes/origin/claude/entry-on-lift
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5905812Z c24235f158b17fec15c38a9804d411bb3309d76f
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5910491Z ##[endgroup]
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5911339Z ##[group]Determining the checkout info
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5915278Z ##[endgroup]
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5917614Z [command]/usr/bin/git sparse-checkout disable
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.5974324Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.6011891Z ##[group]Checking out the ref
+gate	Run actions/checkout@v7	2026-10-02T14:10:21.6015680Z [command]/usr/bin/git checkout --progress --force -B claude/entry-on-lift refs/remotes/origin/claude/entry-on-lift
+gate	Run actions/checkout@v7	2026-10-02T14:10:22.2633445Z Switched to a new branch 'claude/entry-on-lift'
+gate	Run actions/checkout@v7	2026-10-02T14:10:22.2650288Z branch 'claude/entry-on-lift' set up to track 'origin/claude/entry-on-lift'.
+gate	Run actions/checkout@v7	2026-10-02T14:10:22.2698685Z ##[endgroup]
+gate	Run actions/checkout@v7	2026-10-02T14:10:22.2760500Z [command]/usr/bin/git log -1 --format=%H
+gate	Run actions/checkout@v7	2026-10-02T14:10:22.2801482Z c24235f158b17fec15c38a9804d411bb3309d76f
+gate	Run actions/setup-node@v6	﻿2026-10-02T14:10:22.3251418Z ##[group]Run actions/setup-node@v6
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.3251786Z with:
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.3252046Z   node-version-file: .nvmrc
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.3252349Z   cache: npm
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.3252584Z   check-latest: false
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.3255750Z   token: ***
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.3256026Z   package-manager-cache: true
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.3256330Z ##[endgroup]
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.4660827Z Resolved .nvmrc as 22
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.4720560Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.4724728Z ##[group]Environment details
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.8475698Z node: v22.23.3
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.8476300Z npm: 10.9.9
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.8476998Z yarn: 1.22.22
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.8478341Z ##[endgroup]
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.8495515Z [command]/opt/hostedtoolcache/node/22.23.3/x64/bin/npm config get cache
+gate	Run actions/setup-node@v6	2026-10-02T14:10:22.9605018Z /home/runner/.npm
+gate	Run actions/setup-node@v6	2026-10-02T14:10:23.0837098Z Cache hit for: node-cache-Linux-x64-npm-1edac62bc7bf12112173a9f527a930d37489418009792304d1d1887f25a12d90
+gate	Run actions/setup-node@v6	2026-10-02T14:10:24.2233027Z Received 105003067 of 109197371 (96.2%), 100.1 MBs/sec
+gate	Run actions/setup-node@v6	2026-10-02T14:10:24.2950151Z Received 109197371 of 109197371 (100.0%), 97.1 MBs/sec
+gate	Run actions/setup-node@v6	2026-10-02T14:10:24.2951309Z Cache Size: ~104 MB (109197371 B)
+gate	Run actions/setup-node@v6	2026-10-02T14:10:24.3104749Z [command]/usr/bin/tar -xf /home/runner/work/_temp/50e5c93c-d83b-4673-8035-4840e6c85e51/cache.tzst -P -C /home/runner/work/StarShipSimulator/StarShipSimulator --use-compress-program unzstd
+gate	Run actions/setup-node@v6	2026-10-02T14:10:24.5223368Z Cache restored successfully
+gate	Run actions/setup-node@v6	2026-10-02T14:10:24.5285065Z Cache restored from key: node-cache-Linux-x64-npm-1edac62bc7bf12112173a9f527a930d37489418009792304d1d1887f25a12d90
+gate	Run npm ci	﻿2026-10-02T14:10:24.5490269Z ##[group]Run npm ci
+gate	Run npm ci	2026-10-02T14:10:24.5490872Z ^[[36;1mnpm ci^[[0m
+gate	Run npm ci	2026-10-02T14:10:24.5739589Z shell: /usr/bin/bash -e {0}
+gate	Run npm ci	2026-10-02T14:10:24.5739947Z ##[endgroup]
+gate	Run npm ci	2026-10-02T14:10:27.8306249Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+gate	Run npm ci	2026-10-02T14:10:31.0270244Z 
+gate	Run npm ci	2026-10-02T14:10:31.0271207Z added 341 packages, and audited 342 packages in 6s
+gate	Run npm ci	2026-10-02T14:10:31.0271798Z 
+gate	Run npm ci	2026-10-02T14:10:31.0272252Z 74 packages are looking for funding
+gate	Run npm ci	2026-10-02T14:10:31.0272858Z   run `npm fund` for details
+gate	Run npm ci	2026-10-02T14:10:31.0281118Z 
+gate	Run npm ci	2026-10-02T14:10:31.0281553Z found 0 vulnerabilities
+gate	Install Chromium for Playwright	﻿2026-10-02T14:10:31.1232172Z ##[group]Run npx playwright install --with-deps chromium
+gate	Install Chromium for Playwright	2026-10-02T14:10:31.1232684Z ^[[36;1mnpx playwright install --with-deps chromium^[[0m
+gate	Install Chromium for Playwright	2026-10-02T14:10:31.1304948Z shell: /usr/bin/bash -e {0}
+gate	Install Chromium for Playwright	2026-10-02T14:10:31.1305271Z ##[endgroup]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.0608586Z Installing dependencies...
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.0682950Z Switching to root user to install dependencies...
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.2082963Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.2362813Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.3303015Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.6 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.3412941Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.3424422Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.3429657Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [458 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.3468907Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.3501253Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.3556689Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [510 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.4797444Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1364 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.4910738Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [304 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.4937247Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [180 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.4960382Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1699 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.5090484Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [341 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.5130416Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.5200559Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1720 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.5282740Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [394 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.5316046Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.5620856Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5764 B]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.6064329Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.6341182Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1069 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.6407709Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [221 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.6431326Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Components [46.3 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.6451486Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1216 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.6520460Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [244 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.6543791Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.3 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.6580835Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1566 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:32.6648903Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [361 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:37.6061715Z Fetched 12.6 MB in 2s (7795 kB/s)
+gate	Install Chromium for Playwright	2026-10-02T14:10:38.5512996Z Reading package lists...
+gate	Install Chromium for Playwright	2026-10-02T14:10:38.5793545Z Reading package lists...
+gate	Install Chromium for Playwright	2026-10-02T14:10:38.8306705Z Building dependency tree...
+gate	Install Chromium for Playwright	2026-10-02T14:10:38.8314802Z Reading state information...
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0316377Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0317262Z libasound2t64 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0318757Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0319989Z libatk-bridge2.0-0t64 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0320767Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0321454Z libatk1.0-0t64 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0322216Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0322952Z libatspi2.0-0t64 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0323668Z libcairo2 is already the newest version (1.18.0-3build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0324355Z libcairo2 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0325147Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0326082Z libcups2t64 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0326885Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0327589Z libdbus-1-3 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0328395Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0329090Z libdrm2 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0330106Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.9).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0330823Z libglib2.0-0t64 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0331523Z libnspr4 is already the newest version (2:4.35-1.1build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0332145Z libnspr4 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0332837Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0333255Z libnss3 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0333716Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0334178Z libpango-1.0-0 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0334694Z libx11-6 is already the newest version (2:1.8.7-1build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0335225Z libx11-6 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0335628Z libxcb1 is already the newest version (1.15-1ubuntu2).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0336048Z libxcb1 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0336498Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0337121Z libxcomposite1 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0337593Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0338022Z libxdamage1 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0338558Z libxext6 is already the newest version (2:1.3.4-1build2).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0339166Z libxext6 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0340042Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0340712Z libxfixes3 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0341410Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0342093Z libxkbcommon0 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0342532Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0343110Z libxrandr2 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0343818Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0344768Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0345483Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0345956Z libfontconfig1 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0347017Z libfreetype6 is already the newest version (2.13.2+dfsg-1ubuntu0.1).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0347809Z libfreetype6 set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0348558Z fonts-liberation is already the newest version (1:2.1.5-3).
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0349472Z fonts-liberation set to manually installed.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0350205Z The following additional packages will be installed:
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0351015Z   libgl1-mesa-dri libglx-mesa0 libwayland-server0 mesa-libgallium
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0351703Z   xfonts-encodings xfonts-utils
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0352176Z Recommended packages:
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0352658Z   fonts-ipafont-mincho fonts-tlwg-loma
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0584810Z The following NEW packages will be installed:
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0585885Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0597308Z   fonts-wqy-zenhei libwayland-server0 xfonts-cyrillic xfonts-encodings
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0598058Z   xfonts-scalable xfonts-utils
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0604508Z The following packages will be upgraded:
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0612122Z   libgbm1 libgl1-mesa-dri libglx-mesa0 mesa-libgallium
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0818179Z 4 upgraded, 10 newly installed, 0 to remove and 21 not upgraded.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0819013Z Need to get 32.1 MB of archives.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0820018Z After this operation, 79.7 MB of additional disk space will be used.
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.0820873Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.1524918Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.4231144Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.6736522Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.7075917Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:39.8540098Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:40.2386675Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgl1-mesa-dri amd64 25.2.8-0ubuntu0.24.04.3 [37.9 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:40.2673323Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libwayland-server0 amd64 1.22.0-2.1build1 [33.9 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:40.2951501Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglx-mesa0 amd64 25.2.8-0ubuntu0.24.04.3 [110 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:40.3264740Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgbm1 amd64 25.2.8-0ubuntu0.24.04.3 [34.3 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:40.3543796Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 mesa-libgallium amd64 25.2.8-0ubuntu0.24.04.3 [10.8 MB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:40.9475596Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.0226704Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.0616129Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.1243598Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4437154Z Fetched 32.1 MB in 2s (15.5 MB/s)
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4665400Z Selecting previously unselected package fonts-ipafont-gothic.
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4897593Z (Reading database ... 
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4898480Z (Reading database ... 5%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4899176Z (Reading database ... 10%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4899902Z (Reading database ... 15%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4900357Z (Reading database ... 20%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4900792Z (Reading database ... 25%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4901100Z (Reading database ... 30%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4901568Z (Reading database ... 35%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4902339Z (Reading database ... 40%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4902704Z (Reading database ... 45%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4902975Z (Reading database ... 50%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.4930756Z (Reading database ... 55%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.6287025Z (Reading database ... 60%
+gate	Install Chromium for Playwright	2026-10-02T14:10:41.8194119Z (Reading database ... 65%
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.0242362Z (Reading database ... 70%
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.1864561Z (Reading database ... 75%
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.3252943Z (Reading database ... 80%
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.5239755Z (Reading database ... 85%
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.6686867Z (Reading database ... 90%
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.7906396Z (Reading database ... 95%
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.7907334Z (Reading database ... 100%
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.7908100Z (Reading database ... 202296 files and directories currently installed.)
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.7956572Z Preparing to unpack .../00-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:42.8054324Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.0577071Z Selecting previously unselected package fonts-freefont-ttf.
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.0715155Z Preparing to unpack .../01-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.0729698Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.1632344Z Selecting previously unselected package fonts-tlwg-loma-otf.
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.1773317Z Preparing to unpack .../02-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.1780241Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.2009205Z Selecting previously unselected package fonts-unifont.
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.2148753Z Preparing to unpack .../03-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.2155982Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.3340806Z Selecting previously unselected package fonts-wqy-zenhei.
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.3480056Z Preparing to unpack .../04-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.3594412Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.8830072Z Preparing to unpack .../05-libgl1-mesa-dri_25.2.8-0ubuntu0.24.04.3_amd64.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.8994438Z Unpacking libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.3) over (25.2.8-0ubuntu0.24.04.2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.9376589Z Selecting previously unselected package libwayland-server0:amd64.
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.9516227Z Preparing to unpack .../06-libwayland-server0_1.22.0-2.1build1_amd64.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.9528629Z Unpacking libwayland-server0:amd64 (1.22.0-2.1build1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.9879592Z Preparing to unpack .../07-libglx-mesa0_25.2.8-0ubuntu0.24.04.3_amd64.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:43.9897357Z Unpacking libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.3) over (25.2.8-0ubuntu0.24.04.2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.0291968Z Preparing to unpack .../08-libgbm1_25.2.8-0ubuntu0.24.04.3_amd64.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.0310321Z Unpacking libgbm1:amd64 (25.2.8-0ubuntu0.24.04.3) over (25.2.8-0ubuntu0.24.04.2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.0690530Z Preparing to unpack .../09-mesa-libgallium_25.2.8-0ubuntu0.24.04.3_amd64.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.0707695Z Unpacking mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.3) over (25.2.8-0ubuntu0.24.04.2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.2484416Z Selecting previously unselected package xfonts-encodings.
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.2619135Z Preparing to unpack .../10-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.2624885Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.2913895Z Selecting previously unselected package xfonts-utils.
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.3046332Z Preparing to unpack .../11-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.3051589Z Unpacking xfonts-utils (1:7.7+6build3) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.3386891Z Selecting previously unselected package xfonts-cyrillic.
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.3527426Z Preparing to unpack .../12-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.3533309Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.3893940Z Selecting previously unselected package xfonts-scalable.
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4033807Z Preparing to unpack .../13-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4040579Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4525928Z Setting up libwayland-server0:amd64 (1.22.0-2.1build1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4545230Z Setting up mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.3) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4560785Z Setting up libgbm1:amd64 (25.2.8-0ubuntu0.24.04.3) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4575400Z Setting up libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.3) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4649878Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4762069Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4777116Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4791183Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4804854Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4873729Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4887313Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4901622Z Setting up libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.3) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4916489Z Setting up xfonts-utils (1:7.7+6build3) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.4956865Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.5279516Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.5595792Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.5883161Z Processing triggers for man-db (2.12.0-4build2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.5904002Z Not building database; man-db/auto-update is not 'true'.
+gate	Install Chromium for Playwright	2026-10-02T14:10:44.5917369Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3070594Z 
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3071413Z Running kernel seems to be up-to-date.
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3071846Z 
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3072105Z No services need to be restarted.
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3072450Z 
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3072709Z No containers need to be restarted.
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3073028Z 
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3073336Z No user sessions are running outdated binaries.
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3073710Z 
+gate	Install Chromium for Playwright	2026-10-02T14:10:45.3074208Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+gate	Install Chromium for Playwright	2026-10-02T14:10:46.3117400Z Downloading Chrome for Testing 151.0.7922.34 (playwright chromium v1234) from https://cdn.playwright.dev/builds/cft/151.0.7922.34/linux64/chrome-linux64.zip
+gate	Install Chromium for Playwright	2026-10-02T14:10:47.4014755Z |                                                                                |   0% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:47.6893508Z |■■■■■■■■                                                                        |  10% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:47.8080830Z |■■■■■■■■■■■■■■■■                                                                |  20% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:47.8866949Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:47.9624730Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:48.0525247Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:48.1427196Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:48.2326564Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:48.3228065Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:48.4127538Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:48.5043244Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 184.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:51.2252909Z Chrome for Testing 151.0.7922.34 (playwright chromium v1234) downloaded to /home/runner/.cache/ms-playwright/chromium-1234
+gate	Install Chromium for Playwright	2026-10-02T14:10:51.2256838Z Downloading FFmpeg (playwright ffmpeg v1011) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2020681Z |                                                                                |   0% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2070296Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2107366Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2134761Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2159769Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2172095Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2186717Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2200164Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2214596Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2226936Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2239436Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2858122Z FFmpeg (playwright ffmpeg v1011) downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+gate	Install Chromium for Playwright	2026-10-02T14:10:52.2863456Z Downloading Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) from https://cdn.playwright.dev/builds/cft/151.0.7922.34/linux64/chrome-headless-shell-linux64.zip
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.3206449Z |                                                                                |   0% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.4497283Z |■■■■■■■■                                                                        |  10% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.5109802Z |■■■■■■■■■■■■■■■■                                                                |  20% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.5672617Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.6212380Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.6793810Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.7436345Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.7983920Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.8597389Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.9102654Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:53.9630365Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 114.7 MiB
+gate	Install Chromium for Playwright	2026-10-02T14:10:56.0031733Z Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1234
+gate	Gate	﻿2026-10-02T14:10:56.0404151Z ##[group]Run npm run gate
+gate	Gate	2026-10-02T14:10:56.0404653Z ^[[36;1mnpm run gate^[[0m
+gate	Gate	2026-10-02T14:10:56.0497793Z shell: /usr/bin/bash -e {0}
+gate	Gate	2026-10-02T14:10:56.0498128Z ##[endgroup]
+gate	Gate	2026-10-02T14:10:56.1906827Z 
+gate	Gate	2026-10-02T14:10:56.1907565Z > starship-simulator-v2@0.1.0 gate
+gate	Gate	2026-10-02T14:10:56.1908590Z > npm run lint && npm run build && npm run test && npm run coverage && E2E_SKIP_BUILD=1 npm run test:e2e && E2E_SKIP_BUILD=1 npm run test:deploy
+gate	Gate	2026-10-02T14:10:56.1909198Z 
+gate	Gate	2026-10-02T14:10:56.3000986Z 
+gate	Gate	2026-10-02T14:10:56.3001749Z > starship-simulator-v2@0.1.0 lint
+gate	Gate	2026-10-02T14:10:56.3002230Z > eslint .
+gate	Gate	2026-10-02T14:10:56.3002378Z 
+gate	Gate	2026-10-02T14:11:05.6954732Z 
+gate	Gate	2026-10-02T14:11:05.6955496Z > starship-simulator-v2@0.1.0 build
+gate	Gate	2026-10-02T14:11:05.6957036Z > tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+gate	Gate	2026-10-02T14:11:05.6958122Z 
+gate	Gate	2026-10-02T14:11:15.2820725Z design contract: ok (11 rules, self-test passed)
+gate	Gate	2026-10-02T14:11:15.3256788Z copy contract: ok (9 rules, self-test passed)
+gate	Gate	2026-10-02T14:11:15.7076130Z ^[[36mvite v8.2.2 ^[[32mbuilding client environment for production...^[[36m^[[39m
+gate	Gate	2026-10-02T14:11:15.7204093Z transforming...
+gate	Gate	2026-10-02T14:11:16.2183122Z ✓ 2493 modules transformed.
+gate	Gate	2026-10-02T14:11:16.2885457Z rendering chunks...
+gate	Gate	2026-10-02T14:11:16.8430602Z computing gzip size...
+gate	Gate	2026-10-02T14:11:16.8578713Z dist/index.html                                     2.35 kB │ gzip:   0.94 kB
+gate	Gate	2026-10-02T14:11:16.8579900Z dist/assets/InterTight-SemiBold-DJfiTN08.woff2     11.10 kB
+gate	Gate	2026-10-02T14:11:16.8580683Z dist/assets/Inter-Regular-BVdEcXjD.woff2           12.00 kB
+gate	Gate	2026-10-02T14:11:16.8581436Z dist/assets/Inter-SemiBold-DlULF7c_.woff2          12.46 kB
+gate	Gate	2026-10-02T14:11:16.8582171Z dist/assets/JetBrainsMono-Medium-CMl9fZ9Q.woff2    16.54 kB
+gate	Gate	2026-10-02T14:11:16.8583295Z dist/assets/charts-BBZhrHKM.css                     0.69 kB │ gzip:   0.35 kB
+gate	Gate	2026-10-02T14:11:16.8584482Z dist/assets/plots-D2GbP0iN.css                      1.17 kB │ gzip:   0.46 kB
+gate	Gate	2026-10-02T14:11:16.8585570Z dist/assets/uPlot-CnsZ1jie.css                      1.64 kB │ gzip:   0.69 kB
+gate	Gate	2026-10-02T14:11:16.8586667Z dist/assets/index-B0OT9yWl.css                     53.06 kB │ gzip:  10.19 kB
+gate	Gate	2026-10-02T14:11:16.8587656Z dist/assets/webworkerAll-CHX88v5T.js                0.05 kB │ gzip:   0.06 kB
+gate	Gate	2026-10-02T14:11:16.8589068Z dist/assets/getTextureBatchBindGroup-Bt6AC8uX.js    0.40 kB │ gzip:   0.31 kB │ map:     1.78 kB
+gate	Gate	2026-10-02T14:11:16.8590152Z dist/assets/CanvasPool-ccaPBm8-.js                  0.80 kB │ gzip:   0.45 kB │ map:     3.51 kB
+gate	Gate	2026-10-02T14:11:16.8590948Z dist/assets/Cache-DGqfkvRQ.js                       1.14 kB │ gzip:   0.59 kB │ map:     4.85 kB
+gate	Gate	2026-10-02T14:11:16.8591720Z dist/assets/constants-BtWjrpN3.js                   1.65 kB │ gzip:   0.93 kB │ map:    36.48 kB
+gate	Gate	2026-10-02T14:11:16.8592485Z dist/assets/plots-CX3zxHgo.js                       4.63 kB │ gzip:   2.28 kB │ map:    24.91 kB
+gate	Gate	2026-10-02T14:11:16.8593284Z dist/assets/canvasUtils-BVPkC6ub.js                 6.06 kB │ gzip:   2.06 kB │ map:    21.91 kB
+gate	Gate	2026-10-02T14:11:16.8594355Z dist/assets/Debrief-DM92yF2P.js                     6.60 kB │ gzip:   2.52 kB │ map:    20.76 kB
+gate	Gate	2026-10-02T14:11:16.8595657Z dist/assets/BlackBox-OCl6Ex8c.js                    9.89 kB │ gzip:   4.16 kB │ map:    37.30 kB
+gate	Gate	2026-10-02T14:11:16.8596996Z dist/assets/BufferResource-CZg6dyUf.js             11.13 kB │ gzip:   2.89 kB │ map:    26.53 kB
+gate	Gate	2026-10-02T14:11:16.8598324Z dist/assets/init-DnH_wx8r.js                       15.66 kB │ gzip:   4.92 kB │ map:    54.96 kB
+gate	Gate	2026-10-02T14:11:16.8599198Z dist/assets/state-yeSWtWfP.js                      15.73 kB │ gzip:   6.20 kB │ map:   140.02 kB
+gate	Gate	2026-10-02T14:11:16.8600165Z dist/assets/GCManagedHash-DqPcw2Gj.js              19.37 kB │ gzip:   6.32 kB │ map:    67.25 kB
+gate	Gate	2026-10-02T14:11:16.8600999Z dist/assets/Menu-DgJwxiuS.js                       23.36 kB │ gzip:   7.77 kB │ map:    73.85 kB
+gate	Gate	2026-10-02T14:11:16.8602088Z dist/assets/Button-s_Cybpy_.js                     36.83 kB │ gzip:  12.30 kB │ map:   175.21 kB
+gate	Gate	2026-10-02T14:11:16.8603042Z dist/assets/Filter-C-jCSOcL.js                     38.97 kB │ gzip:  11.18 kB │ map:   182.95 kB
+gate	Gate	2026-10-02T14:11:16.8604246Z dist/assets/Dialog-DDv8Pvw0.js                     39.90 kB │ gzip:  13.64 kB │ map:   184.47 kB
+gate	Gate	2026-10-02T14:11:16.8605179Z dist/assets/browserAll-C3TR0S31.js                 42.72 kB │ gzip:  11.20 kB │ map:   156.94 kB
+gate	Gate	2026-10-02T14:11:16.8605983Z dist/assets/uPlot.esm-C4ecZUO0.js                  51.04 kB │ gzip:  22.28 kB │ map:   252.56 kB
+gate	Gate	2026-10-02T14:11:16.8606803Z dist/assets/RenderTargetSystem-CGVbkJQT.js         57.47 kB │ gzip:  16.21 kB │ map:   213.58 kB
+gate	Gate	2026-10-02T14:11:16.8607631Z dist/assets/GraphicsContext-DLmAmwc0.js            61.32 kB │ gzip:  20.55 kB │ map:   346.25 kB
+gate	Gate	2026-10-02T14:11:16.8608422Z dist/assets/Geometry-coEMng49.js                   65.52 kB │ gzip:  21.50 kB │ map:   326.26 kB
+gate	Gate	2026-10-02T14:11:16.8609661Z dist/assets/index-D3faReFx.js                     603.01 kB │ gzip: 188.24 kB │ map: 2,839.54 kB
+gate	Gate	2026-10-02T14:11:16.8610181Z 
+gate	Gate	2026-10-02T14:11:16.8610686Z ^[[33m[plugin builtin:vite-reporter] 
+gate	Gate	2026-10-02T14:11:16.8611491Z (!) Some chunks are larger than 500 kB after minification. Consider:
+gate	Gate	2026-10-02T14:11:16.8612384Z - Using dynamic import() to code-split the application
+gate	Gate	2026-10-02T14:11:16.8613909Z - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+gate	Gate	2026-10-02T14:11:16.8615334Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.^[[39m
+gate	Gate	2026-10-02T14:11:16.8616326Z ^[[32m✓ built in 1.15s^[[39m
+gate	Gate	2026-10-02T14:11:16.9612331Z service worker: 44 assets precached, version 649fb464d31b
+gate	Gate	2026-10-02T14:11:17.0420702Z   assets/index-D3faReFx.js                           182.2 kB gzip
+gate	Gate	2026-10-02T14:11:17.0422198Z   assets/Geometry-coEMng49.js                         20.8 kB gzip
+gate	Gate	2026-10-02T14:11:17.0423139Z   assets/Button-s_Cybpy_.js                           11.9 kB gzip
+gate	Gate	2026-10-02T14:11:17.0423917Z   assets/constants-BtWjrpN3.js                         0.9 kB gzip
+gate	Gate	2026-10-02T14:11:17.0424731Z   assets/state-yeSWtWfP.js                             6.0 kB gzip
+gate	Gate	2026-10-02T14:11:17.0425531Z   assets/Filter-C-jCSOcL.js                           10.9 kB gzip
+gate	Gate	2026-10-02T14:11:17.0426352Z   assets/canvasUtils-BVPkC6ub.js                       2.0 kB gzip
+gate	Gate	2026-10-02T14:11:17.0427917Z   assets/Cache-DGqfkvRQ.js                             0.6 kB gzip
+gate	Gate	2026-10-02T14:11:17.0428744Z   assets/GCManagedHash-DqPcw2Gj.js                     6.2 kB gzip
+gate	Gate	2026-10-02T14:11:17.0429802Z   assets/RenderTargetSystem-CGVbkJQT.js               15.7 kB gzip
+gate	Gate	2026-10-02T14:11:17.0430620Z   assets/getTextureBatchBindGroup-Bt6AC8uX.js          0.3 kB gzip
+gate	Gate	2026-10-02T14:11:17.0431436Z   assets/GraphicsContext-DLmAmwc0.js                  19.9 kB gzip
+gate	Gate	2026-10-02T14:11:17.0432253Z   assets/CanvasPool-ccaPBm8-.js                        0.4 kB gzip
+gate	Gate	2026-10-02T14:11:17.0433002Z   assets/BufferResource-CZg6dyUf.js                    2.8 kB gzip
+gate	Gate	2026-10-02T14:11:17.0433704Z   TOTAL first-load JS                                280.7 kB gzip
+gate	Gate	2026-10-02T14:11:17.0434315Z   BUDGET                                             300.0 kB gzip
+gate	Gate	2026-10-02T14:11:17.0436040Z   (lazy chunks, not counted: BlackBox-OCl6Ex8c.js, Debrief-DM92yF2P.js, Dialog-DDv8Pvw0.js, Menu-DgJwxiuS.js, browserAll-C3TR0S31.js, init-DnH_wx8r.js, plots-CX3zxHgo.js, uPlot.esm-C4ecZUO0.js, webworkerAll-CHX88v5T.js)
+gate	Gate	2026-10-02T14:11:17.0437819Z   assets/index-B0OT9yWl.css                            9.9 kB gzip (css)
+gate	Gate	2026-10-02T14:11:17.0438671Z   Inter-Regular-BVdEcXjD.woff2                        11.7 kB raw
+gate	Gate	2026-10-02T14:11:17.0439702Z   Inter-SemiBold-DlULF7c_.woff2                       12.2 kB raw
+gate	Gate	2026-10-02T14:11:17.0440477Z   InterTight-SemiBold-DJfiTN08.woff2                  10.8 kB raw
+gate	Gate	2026-10-02T14:11:17.0441323Z   JetBrainsMono-Medium-CMl9fZ9Q.woff2                 16.2 kB raw
+gate	Gate	2026-10-02T14:11:17.0442517Z   TOTAL fonts                                         50.9 kB raw
+gate	Gate	2026-10-02T14:11:17.0443235Z   FONT BUDGET                                         80.0 kB raw
+gate	Gate	2026-10-02T14:11:17.0443928Z   TOTAL audio                                          0.0 kB raw
+gate	Gate	2026-10-02T14:11:17.0444888Z   AUDIO BUDGET                                       250.0 kB raw
+gate	Gate	2026-10-02T14:11:17.0445362Z 
+gate	Gate	2026-10-02T14:11:17.0445972Z budget: OK — 280.7 kB of 300.0 kB JS
+gate	Gate	2026-10-02T14:11:17.0446585Z budget: OK — 50.9 kB of 80.0 kB fonts
+gate	Gate	2026-10-02T14:11:17.0447227Z budget: OK — 0.0 kB of 250.0 kB audio
+gate	Gate	2026-10-02T14:11:17.0922118Z entry graph: ok (14 first-load files, no uPlot or GSAP)
+gate	Gate	2026-10-02T14:11:17.2087504Z 
+gate	Gate	2026-10-02T14:11:17.2088567Z > starship-simulator-v2@0.1.0 test
+gate	Gate	2026-10-02T14:11:17.2089159Z > vitest run
+gate	Gate	2026-10-02T14:11:17.2089535Z 
+gate	Gate	2026-10-02T14:11:17.5785998Z 
+gate	Gate	2026-10-02T14:11:17.5790722Z ^[[1m^[[30m^[[46m RUN ^[[49m^[[39m^[[22m ^[[36mv4.1.11 ^[[39m^[[90m/home/runner/work/StarShipSimulator/StarShipSimulator^[[39m
+gate	Gate	2026-10-02T14:11:17.5791613Z 
+gate	Gate	2026-10-02T14:11:19.8778625Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:19.9116936Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:19.9451295Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:19.9585208Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:19.9700367Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:19.9964248Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:20.0182777Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:20.0451373Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:20.0644402Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:20.0679102Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:20.0803784Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:20.0891185Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:20.1064325Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:11:20.1101417Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/BrickField.test.tsx ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 486^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:20.3771956Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/ConfirmDialog/ConfirmDialog.test.tsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 680^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:20.3774566Z    ^[[33m^[[2m✓^[[22m^[[39m queues requests, resolves each once, and preserves alert semantics ^[[33m 362^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:21.8037885Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/brickMotion.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 263^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:21.9962597Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/input/GamepadNavProvider.test.tsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 558^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:22.0032745Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/useChipPanelMorph.test.tsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 2407^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:22.0142167Z    ^[[33m^[[2m✓^[[22m^[[39m mounts at once, hands the frame to the shell and settles after the expansion ^[[33m 550^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:22.0167887Z    ^[[33m^[[2m✓^[[22m^[[39m ends open and consistent after a rapid open, close, open ^[[33m 485^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:22.0211547Z    ^[[33m^[[2m✓^[[22m^[[39m ends closed and unmounted after a rapid close, open, close ^[[33m 723^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:22.0240711Z    ^[[33m^[[2m✓^[[22m^[[39m kills the motion when unmounted mid-flight ^[[33m 327^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:23.3658070Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/TransitionView/TransitionView.test.tsx ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 110^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:23.9103701Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/effects.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 241^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:24.2324621Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/NumberField/NumberField.test.tsx ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[33m 512^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:24.2333894Z      ^[[33m^[[2m✓^[[22m^[[39m keeps empty optional overrides distinct from zero without changing required-field behavior ^[[33m 360^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:25.6401630Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/input/ownership.test.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[32m 19^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:25.6921891Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/LoadingState/LoadingState.test.tsx ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 540^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:25.6991201Z    ^[[33m^[[2m✓^[[22m^[[39m renders valid measured progress and never derives unknown progress ^[[33m 356^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:25.8872022Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/input/InputOwnershipProvider.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 267^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:27.2791825Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/renderer.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:27.4531630Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/useMotionTimeline.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 36^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:27.9203220Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Dialog/Dialog.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[33m 382^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:27.9274755Z    ^[[33m^[[2m✓^[[22m^[[39m uses the safe viewport shell and keeps one scroll owner ^[[33m 304^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:28.8251751Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/BrickField/gpuTimer.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 24^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:29.2749575Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/ConnectedMedia/ConnectedMedia.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 261^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:29.8551905Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/FieldStatus/FieldStatus.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 277^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:30.8293308Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/LoadingState/LoadingState.accessibility.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[33m 313^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:30.8351690Z    ^[[33m^[[2m✓^[[22m^[[39m updates one stable live region immediately outside the keyed inert animation ^[[33m 310^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:31.1485850Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/InputLegend/InputLegend.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 67^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:31.8534742Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/SliderRow/SliderRow.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 247^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:32.2738961Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/styles/motion.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:33.0487944Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Tile/Tile.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 278^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:33.5357271Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/motion/useReducedMotion.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 18^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:34.1951742Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Button/Button.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 285^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:35.0801572Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/FormRow/FormRow.test.tsx ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 288^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:35.4324439Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/Toggle/Toggle.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 202^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:36.0317661Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/TabStrip/TabStrip.test.tsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 220^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:36.8841761Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/internal/utils.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:37.2504756Z  ^[[32m✓^[[39m ^[[30m^[[45m kit ^[[49m^[[39m src/ui/kit/public-api.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:37.2831752Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/autopilot-stages.test.ts ^[[2m(^[[22m^[[2m40 tests^[[22m^[[2m)^[[22m^[[32m 84^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:37.5441370Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/golden/unification.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 19^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:38.0132574Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/control-contracts.test.ts ^[[2m(^[[22m^[[2m38 tests^[[22m^[[2m)^[[22m^[[32m 182^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:40.7037100Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/particles.test.ts ^[[2m(^[[22m^[[2m45 tests^[[22m^[[2m)^[[22m^[[33m 2103^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:40.7039151Z      ^[[33m^[[2m✓^[[22m^[[39m THE LEAK: ten thousand engine shutdowns add nothing ^[[33m 1338^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:58.3841175Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/trajectory.test.ts ^[[2m(^[[22m^[[2m39 tests^[[22m^[[2m)^[[22m^[[33m 17394^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:58.3842661Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff ^[[33m 788^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:58.3843614Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback ^[[33m 867^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:58.3844673Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback ^[[33m 933^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:58.3845670Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 12707^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:58.3846642Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 1163^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:58.3847619Z      ^[[33m^[[2m✓^[[22m^[[39m landing-burn-headwind ^[[33m 324^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:59.8847820Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/domain-edges.test.ts ^[[2m(^[[22m^[[2m28 tests^[[22m^[[2m)^[[22m^[[33m 1181^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:11:59.8850362Z      ^[[33m^[[2m✓^[[22m^[[39m and getAttackAngles really does wrap into [-pi, pi] ^[[33m 758^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:00.2040663Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/named-branches.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[32m 46^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:00.8808221Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/engine.test.ts ^[[2m(^[[22m^[[2m31 tests^[[22m^[[2m)^[[22m^[[33m 323^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3431641Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/camera.test.ts ^[[2m(^[[22m^[[2m100 tests^[[22m^[[2m)^[[22m^[[33m 53665^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3450308Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff ^[[33m 334^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3451291Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 10205^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3452208Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 886^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3453187Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback in pad ^[[33m 306^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3454125Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback in chase ^[[33m 308^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3455092Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback in onboard ^[[33m 303^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3456050Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland in pad ^[[33m 11064^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3456974Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland in chase ^[[33m 12000^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3457987Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland in onboard ^[[33m 12007^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3459722Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland in pad ^[[33m 855^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3460743Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland in chase ^[[33m 823^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:12:30.3461787Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland in onboard ^[[33m 797^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2842352Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/debrief.test.ts ^[[2m(^[[22m^[[2m52 tests^[[22m^[[2m)^[[22m^[[33m 77540^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2876127Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff ^[[33m 375^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2877840Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 8546^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2878901Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 807^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2880200Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 10347^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2881232Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 731^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2882285Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 20464^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2883299Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 1487^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2884336Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback ^[[33m 339^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2885352Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback ^[[33m 342^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2886343Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 18745^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2887392Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 993^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2888391Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 9729^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.2889536Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 733^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:48.6217557Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/isa.test.ts ^[[2m(^[[22m^[[2m30 tests^[[22m^[[2m)^[[22m^[[32m 98^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:13:59.7531543Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/dynamic-pressure.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 42^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:00.0444559Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/stars.test.ts ^[[2m(^[[22m^[[2m24 tests^[[22m^[[2m)^[[22m^[[32m 29^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:02.0042857Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/guidance-physics.test.ts ^[[2m(^[[22m^[[2m27 tests^[[22m^[[2m)^[[22m^[[33m 1679^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:02.0045777Z      ^[[33m^[[2m✓^[[22m^[[39m rises with descent speed and with mass on one engine, the ladder's usual plan (property) ^[[33m 428^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:02.0047335Z      ^[[33m^[[2m✓^[[22m^[[39m re-entering from 70 km ^[[33m 372^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:02.2251464Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/sun.test.ts ^[[2m(^[[22m^[[2m33 tests^[[22m^[[2m)^[[22m^[[32m 25^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:04.8048923Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:14:07.4842968Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Menu.test.tsx ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 2264^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:07.4844543Z      ^[[33m^[[2m✓^[[22m^[[39m opens on the menu layer only ^[[33m 309^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:09.7931408Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/trig-collapse.test.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[33m 2088^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:09.8027906Z      ^[[33m^[[2m✓^[[22m^[[39m 'verticalLift = sin(x)' ^[[33m 313^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4771970Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/orbit-demo.test.ts ^[[2m(^[[22m^[[2m31 tests^[[22m^[[2m)^[[22m^[[33m 117067^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4828951Z      ^[[33m^[[2m✓^[[22m^[[39m a 150 km orbit holds for a full 88-minute lap ^[[33m 4420^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4831789Z      ^[[33m^[[2m✓^[[22m^[[39m and 100 km still does not — which is why the presets are at 150 ^[[33m 3070^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4833356Z      ^[[33m^[[2m✓^[[22m^[[39m is deterministic — the same flight twice ^[[33m 17307^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4870698Z      ^[[33m^[[2m✓^[[22m^[[39m from a different starting longitude — half a lap further round ^[[33m 22597^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4880416Z      ^[[33m^[[2m✓^[[22m^[[39m 100 tonnes lighter at ignition ^[[33m 16961^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4920511Z      ^[[33m^[[2m✓^[[22m^[[39m with an engine already failed, so the burn is a third longer ^[[33m 15881^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4922139Z      ^[[33m^[[2m✓^[[22m^[[39m from 120 km, below the presets ^[[33m 15101^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4948653Z      ^[[33m^[[2m✓^[[22m^[[39m from 300 km it still lands, but the envelope is showing ^[[33m 14152^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4951692Z      ^[[33m^[[2m✓^[[22m^[[39m spends the coast turning around, because RCS is slow ^[[33m 4030^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:10.4953208Z      ^[[33m^[[2m✓^[[22m^[[39m does not fire until the ground track is right ^[[33m 3479^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:12.1527728Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/clouds.test.ts ^[[2m(^[[22m^[[2m18 tests^[[22m^[[2m)^[[22m^[[33m 984^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:12.1536914Z      ^[[33m^[[2m✓^[[22m^[[39m is continuous and monotonic through the crossing ^[[33m 633^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:13.9393720Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:14:15.3003642Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Controls.test.tsx ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 1106^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:15.3061166Z      ^[[33m^[[2m✓^[[22m^[[39m renders every control this surface owns ^[[33m 374^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8469650Z  ^[[31m❯^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/view-clock.test.ts ^[[2m(^[[22m^[[2m40 tests^[[22m^[[2m | ^[[22m^[[31m1 failed^[[39m^[[2m)^[[22m^[[33m 137699^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8472093Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff, with frames dropping ^[[33m 334^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8473773Z      ^[[32m✓^[[39m booster-sep-boostback, with frames dropping^[[32m 272^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8475168Z      ^[[32m✓^[[39m rtls-boostback, with frames dropping^[[32m 250^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8476536Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland, with frames dropping ^[[33m 10314^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8477870Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland, with frames dropping ^[[33m 953^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8479114Z      ^[[32m✓^[[39m landing-burn-autoland, with frames dropping^[[32m 95^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8481203Z      ^[[32m✓^[[39m landing-burn-headwind, with frames dropping^[[32m 142^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8482407Z      ^[[32m✓^[[39m intro-demo, with frames dropping^[[32m 75^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8483543Z      ^[[32m✓^[[39m launch-pad-takeoff, at 9x warp^[[32m 101^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8484683Z      ^[[32m✓^[[39m booster-sep-boostback, at 9x warp^[[32m 173^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8485792Z      ^[[32m✓^[[39m rtls-boostback, at 9x warp^[[32m 178^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8486915Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland, at 9x warp ^[[33m 10866^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8488030Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland, at 9x warp ^[[33m 624^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8489134Z      ^[[32m✓^[[39m landing-burn-autoland, at 9x warp^[[32m 44^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8490397Z      ^[[32m✓^[[39m landing-burn-headwind, at 9x warp^[[32m 65^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8491447Z      ^[[32m✓^[[39m intro-demo, at 9x warp^[[32m 43^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8492471Z      ^[[32m✓^[[39m launch-pad-takeoff, at 1/9 speed^[[32m 130^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8493665Z      ^[[32m✓^[[39m booster-sep-boostback, at 1/9 speed^[[32m 169^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8510382Z      ^[[32m✓^[[39m rtls-boostback, at 1/9 speed^[[32m 181^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8530710Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland, at 1/9 speed ^[[33m 9903^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8532224Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland, at 1/9 speed ^[[33m 552^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8534030Z      ^[[32m✓^[[39m landing-burn-autoland, at 1/9 speed^[[32m 42^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8535192Z      ^[[32m✓^[[39m landing-burn-headwind, at 1/9 speed^[[32m 56^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8536295Z      ^[[32m✓^[[39m intro-demo, at 1/9 speed^[[32m 38^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8537953Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff lands the camera on the same metre at 60 fps, with stalls, and at 9x ^[[33m 329^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8540114Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep-boostback lands the camera on the same metre at 60 fps, with stalls, and at 9x ^[[33m 569^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8542040Z      ^[[33m^[[2m✓^[[22m^[[39m rtls-boostback lands the camera on the same metre at 60 fps, with stalls, and at 9x ^[[33m 712^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8544101Z ^[[31m     ^[[31m×^[[31m reentry-autoland lands the camera on the same metre at 60 fps, with stalls, and at 9x^[[39m^[[33m 41782^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8546058Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland lands the camera on the same metre at 60 fps, with stalls, and at 9x ^[[33m 2369^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8547954Z      ^[[32m✓^[[39m landing-burn-autoland lands the camera on the same metre at 60 fps, with stalls, and at 9x^[[32m 216^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8549882Z      ^[[32m✓^[[39m landing-burn-headwind lands the camera on the same metre at 60 fps, with stalls, and at 9x^[[32m 284^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8551668Z      ^[[32m✓^[[39m intro-demo lands the camera on the same metre at 60 fps, with stalls, and at 9x^[[32m 214^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8553337Z      ^[[33m^[[2m✓^[[22m^[[39m the wall clock loses the vehicle when frames drop ^[[33m 11541^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8554965Z      ^[[33m^[[2m✓^[[22m^[[39m the wall clock loses it at 9x warp, failing the other way round ^[[33m 10564^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8556475Z      ^[[33m^[[2m✓^[[22m^[[39m and simulated time once per FRAME is better, but still not enough ^[[33m 10870^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8558031Z      ^[[33m^[[2m✓^[[22m^[[39m all three agree when nothing goes wrong, which is why this survived ^[[33m 22624^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8559675Z      ^[[32m✓^[[39m are the same length, which is what makes the per-step camera exact^[[32m 0^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8561110Z      ^[[32m✓^[[39m says how much time it actually simulated, not how much it was offered^[[32m 1^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8562871Z      ^[[32m✓^[[39m reports nine times the frame at warp 9, and a ninth of it in slow motion^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:18.8564267Z      ^[[32m✓^[[39m simulates nothing while paused, so the view holds still too^[[32m 0^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:24.7520812Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe claim, tested against itself^[[2m > ^[[22m^[[2ma genuinely unpowered fall lands near where it was predicted to
+gate	Gate	2026-10-02T14:14:24.7523113Z ^[[22m^[[39munpowered drop · fell 0.2 km · predicted 0.00 km in 3.4 s · actual 0.00 km in 3.4 s · error 0.00 km
+gate	Gate	2026-10-02T14:14:24.7524080Z 
+gate	Gate	2026-10-02T14:14:24.8685995Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe claim, tested against itself^[[2m > ^[[22m^[[2mreports how wrong it is from high altitude, where the model is weakest
+gate	Gate	2026-10-02T14:14:24.8692024Z ^[[22m^[[39mfrom 40 km unpowered · predicted 13.7 km in 101 s · actual 19.2 km in 104 s · error 5.5 km
+gate	Gate	2026-10-02T14:14:24.8693060Z 
+gate	Gate	2026-10-02T14:14:25.3663711Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe error against seven real flights^[[2m > ^[[22m^[[2mbefore-flip-autoland converges as the ground approaches
+gate	Gate	2026-10-02T14:14:25.3669743Z ^[[22m^[[39mbefore-flip-autoland: touchdown at -0.00 km · at 1.0 km up, error 0.10 km · at 27 m up, error 0 m
+gate	Gate	2026-10-02T14:14:25.3670900Z 
+gate	Gate	2026-10-02T14:14:25.3857765Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe error against seven real flights^[[2m > ^[[22m^[[2mlanding-burn-autoland converges as the ground approaches
+gate	Gate	2026-10-02T14:14:25.3862336Z ^[[22m^[[39mlanding-burn-autoland: touchdown at 0.00 km · at 0.2 km up, error 0.00 km · at 26 m up, error 0 m
+gate	Gate	2026-10-02T14:14:25.3863484Z 
+gate	Gate	2026-10-02T14:14:25.4046547Z ^[[90mstdout^[[2m | tests/hud/prediction.test.ts^[[2m > ^[[22m^[[2mthe error against seven real flights^[[2m > ^[[22m^[[2mintro-demo converges as the ground approaches
+gate	Gate	2026-10-02T14:14:25.4070651Z ^[[22m^[[39mintro-demo: touchdown at 0.00 km · at 0.2 km up, error 0.00 km · at 25 m up, error 0 m
+gate	Gate	2026-10-02T14:14:25.4089610Z 
+gate	Gate	2026-10-02T14:14:25.4090914Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/prediction.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[33m 15359^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:25.4092666Z      ^[[33m^[[2m✓^[[22m^[[39m never returns a non-finite number to a caller ^[[33m 14648^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:25.4094115Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland converges as the ground approaches ^[[33m 497^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:25.7512130Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/menu.test.ts ^[[2m(^[[22m^[[2m25 tests^[[22m^[[2m)^[[22m^[[32m 148^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:31.0596251Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/distant-earth.test.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[33m 11656^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:31.0615868Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland stays readable ^[[33m 9725^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:31.0640616Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland stays readable ^[[33m 866^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:31.3641630Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/mass.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 117^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:32.6023124Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/blackbox.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 562^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:32.6044878Z      ^[[33m^[[2m✓^[[22m^[[39m round-trips every sample of a real flight, bit for bit ^[[33m 525^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:37.7520066Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/timeline.test.ts ^[[2m(^[[22m^[[2m29 tests^[[22m^[[2m)^[[22m^[[33m 22185^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:37.7537638Z      ^[[33m^[[2m✓^[[22m^[[39m 'reentry-autoland' fires its events in order, flown live ^[[33m 9205^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:37.7539608Z      ^[[33m^[[2m✓^[[22m^[[39m 'before-flip-autoland' fires its events in order, flown live ^[[33m 857^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:37.7541441Z      ^[[33m^[[2m✓^[[22m^[[39m 'reentry-autoland' derives the same events from the fixture bytes ^[[33m 412^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:37.7543259Z      ^[[33m^[[2m✓^[[22m^[[39m a state exactly at the entry interface counts as crossing it ^[[33m 9685^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:38.0751315Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/physical-scale.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:39.2289594Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/loop.test.ts ^[[2m(^[[22m^[[2m24 tests^[[22m^[[2m)^[[22m^[[33m 837^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:39.2291777Z      ^[[33m^[[2m✓^[[22m^[[39m 60 fps and 30 fps reach the identical state after the same simulated time ^[[33m 527^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:39.4680155Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/analytic-laws.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:40.7692088Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/metrics.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 974^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:40.7721205Z      ^[[33m^[[2m✓^[[22m^[[39m formats every metric to a non-empty string across a whole flight ^[[33m 835^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:50.8906427Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/plume.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[33m 9589^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:50.8921095Z      ^[[33m^[[2m✓^[[22m^[[39m reports the range each flight puts the plume through ^[[33m 9530^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:51.8907468Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe two fades differ, and that IS the milestone^[[2m > ^[[22m^[[2mreaches the floor by 50 km, over the real atmosphere model
+gate	Gate	2026-10-02T14:14:51.8910535Z ^[[22m^[[39mabove 50 km · at 70 km: aero 2.21e-3, engine air 0.2490
+gate	Gate	2026-10-02T14:14:51.8911563Z 
+gate	Gate	2026-10-02T14:14:52.0275647Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe two fades differ, and that IS the milestone^[[2m > ^[[22m^[[2mthe airflow is loud where the flight is fast and low
+gate	Gate	2026-10-02T14:14:52.0293292Z ^[[22m^[[39mlaunch: peak airflow 0.737 at 5.5 km
+gate	Gate	2026-10-02T14:14:52.0294200Z 
+gate	Gate	2026-10-02T14:14:52.1635583Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe re-entry golden, rendered as it climbs out^[[2m > ^[[22m^[[2mthe level falls as the air does
+gate	Gate	2026-10-02T14:14:52.1637594Z ^[[22m^[[39m70 km -> RMS 0.00023 · 110 km -> RMS 0.02861 · 134 km -> RMS 0.02841
+gate	Gate	2026-10-02T14:14:52.1638440Z 
+gate	Gate	2026-10-02T14:14:52.1809809Z ^[[90mstdout^[[2m | tests/audio/vacuum.test.ts^[[2m > ^[[22m^[[2mthe re-entry golden, rendered as it climbs out^[[2m > ^[[22m^[[2mthe same vehicle is measurably louder in air than in vacuum
+gate	Gate	2026-10-02T14:14:52.1812138Z ^[[22m^[[39msame vehicle · in air RMS 0.13151 · in vacuum RMS 0.02820
+gate	Gate	2026-10-02T14:14:52.1812954Z 
+gate	Gate	2026-10-02T14:14:52.1816234Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/vacuum.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[33m 983^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:52.1818196Z      ^[[33m^[[2m✓^[[22m^[[39m reaches the floor by 50 km, over the real atmosphere model ^[[33m 688^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:52.4387337Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/fin-fraction.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 65^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:53.8148878Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/scenarios.test.ts ^[[2m(^[[22m^[[2m51 tests^[[22m^[[2m)^[[22m^[[33m 1175^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:54.1129158Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/ignition.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 67^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:55.1807687Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/orbit.test.ts ^[[2m(^[[22m^[[2m18 tests^[[22m^[[2m)^[[22m^[[33m 29161^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:55.1821105Z      ^[[33m^[[2m✓^[[22m^[[39m altitude holds within a kilometre over a full lap ^[[33m 5485^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:55.1828595Z      ^[[33m^[[2m✓^[[22m^[[39m speed holds within a metre per second over a full lap ^[[33m 4645^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:55.1830564Z      ^[[33m^[[2m✓^[[22m^[[39m never dips into the atmosphere or climbs away ^[[33m 4514^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:55.1832081Z      ^[[33m^[[2m✓^[[22m^[[39m completes a full revolution of downrange distance ^[[33m 4489^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:55.1833717Z      ^[[33m^[[2m✓^[[22m^[[39m specific orbital energy drifts by less than one part in a thousand ^[[33m 404^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:14:55.1860781Z      ^[[33m^[[2m✓^[[22m^[[39m an elliptical orbit comes back down again ^[[33m 9271^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:05.9952805Z ^[[90mstdout^[[2m | tests/view/perf.test.ts^[[2m > ^[[22m^[[2mparticle pool headroom, with the velocity streaks added^[[2m > ^[[22m^[[2mreports peak usage across all seven scenarios against the 576 baseline
+gate	Gate	2026-10-02T14:15:05.9982499Z ^[[22m^[[39mlaunch-pad-takeoff: peak 735 · booster-sep-boostback: peak 492 · rtls-boostback: peak 538 · reentry-autoland: peak 547 · before-flip-autoland: peak 647 · landing-burn-autoland: peak 647 · landing-burn-headwind: peak 656 · intro-demo: peak 648
+gate	Gate	2026-10-02T14:15:06.0010249Z    worst 735 of 4000 (82% free), at launch-pad-takeoff; baseline before M7.5 was 576
+gate	Gate	2026-10-02T14:15:06.0011235Z 
+gate	Gate	2026-10-02T14:15:06.1112812Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/verlet.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 11734^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:06.1116751Z      ^[[33m^[[2m✓^[[22m^[[39m halving dt quarters the error — the ratio is 4, where Euler gave 2 ^[[33m 2059^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:06.1118719Z      ^[[33m^[[2m✓^[[22m^[[39m and is millimetres at 15 Hz, where Euler was 796 metres ^[[33m 1423^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:06.1120672Z      ^[[33m^[[2m✓^[[22m^[[39m to a part in 10^10 or better at every rate the simulation runs at ^[[33m 2695^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:06.1122975Z      ^[[33m^[[2m✓^[[22m^[[39m altitude drift is a centimetre, and does not depend on dt ^[[33m 4556^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:06.1124751Z      ^[[33m^[[2m✓^[[22m^[[39m and in true vacuum, at 800 km, energy and altitude do not move at all ^[[33m 976^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:08.1847579Z ^[[90mstdout^[[2m | tests/audio/params.test.ts^[[2m > ^[[22m^[[2mat the throttles and engine counts the seven scenarios reach^[[2m > ^[[22m^[[2mreports the range each flight actually visits
+gate	Gate	2026-10-02T14:15:08.1854560Z ^[[22m^[[39mlaunch-pad-takeoff: engine level 0.00–1.00, up to 3 lit
+gate	Gate	2026-10-02T14:15:08.1855918Z booster-sep-boostback: engine level 0.00–1.00, up to 3 lit
+gate	Gate	2026-10-02T14:15:08.1856997Z rtls-boostback: engine level 0.00–1.00, up to 3 lit
+gate	Gate	2026-10-02T14:15:08.1858037Z reentry-autoland: engine level 0.00–0.00, up to 0 lit
+gate	Gate	2026-10-02T14:15:08.1859132Z before-flip-autoland: engine level 0.00–0.74, up to 3 lit
+gate	Gate	2026-10-02T14:15:08.1860562Z landing-burn-autoland: engine level 0.00–0.73, up to 3 lit
+gate	Gate	2026-10-02T14:15:08.1861687Z landing-burn-headwind: engine level 0.00–0.74, up to 3 lit
+gate	Gate	2026-10-02T14:15:08.1862705Z intro-demo: engine level 0.00–0.86, up to 3 lit
+gate	Gate	2026-10-02T14:15:08.1863353Z 
+gate	Gate	2026-10-02T14:15:08.1884616Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/params.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[33m 12777^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:08.1887634Z      ^[[33m^[[2m✓^[[22m^[[39m reports the range each flight actually visits ^[[33m 12749^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:08.5544398Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/perf.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 35228^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:08.5547442Z      ^[[33m^[[2m✓^[[22m^[[39m the particle pool is fixed for the life of the system ^[[33m 1871^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:08.5549461Z      ^[[33m^[[2m✓^[[22m^[[39m the M6.7 and M7.5 effects do not grow it either ^[[33m 4800^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:08.5551103Z      ^[[33m^[[2m✓^[[22m^[[39m a long flight does not grow the heap without bound ^[[33m 407^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:08.5552846Z      ^[[33m^[[2m✓^[[22m^[[39m reports peak usage across all seven scenarios against the 576 baseline ^[[33m 25405^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:08.5562477Z      ^[[33m^[[2m✓^[[22m^[[39m the shock-banded core does not grow the pool either ^[[33m 2560^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:10.5534949Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:15:11.6161592Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/BlackBox.test.tsx ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[33m 824^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:11.9545910Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/offline.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 88^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:12.2711455Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/thrust-altitude.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:13.1642909Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/particle-textures.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 253^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:13.4537472Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/wind.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 22^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:14.1222023Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/horizon.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 24^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:17.7669049Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/entry-range.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[33m 9304^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:17.7670956Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction -1 with a measured 0-degree tracking bias ^[[33m 2264^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:17.7672422Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction 1 with a measured 0-degree tracking bias ^[[33m 2510^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:17.7673841Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction -1 with a measured 2-degree tracking bias ^[[33m 1719^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:17.7675806Z    ^[[33m^[[2m✓^[[22m^[[39m predicts direction 1 with a measured -2-degree tracking bias ^[[33m 2519^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:21.1010628Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/angular-momentum.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 14717^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:21.1051527Z      ^[[33m^[[2m✓^[[22m^[[39m to better than a part in ten thousand over a hundred minutes ^[[33m 5677^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:21.1053363Z      ^[[33m^[[2m✓^[[22m^[[39m and the orbit reaches the apogee the energy says it should ^[[33m 4689^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:21.1054973Z      ^[[33m^[[2m✓^[[22m^[[39m the simulation agrees to within a kilometre in five thousand ^[[33m 602^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:21.1056709Z      ^[[33m^[[2m✓^[[22m^[[39m and the guidance's conic predicts the ground arc the simulation flies ^[[33m 493^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:21.1068535Z      ^[[33m^[[2m✓^[[22m^[[39m and CONVERGES — which is how a model error tells itself from an integrator one ^[[33m 3247^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:23.1671775Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/autopilot.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[33m 1791^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:23.1700809Z      ^[[33m^[[2m✓^[[22m^[[39m computes a belly-flop trigger altitude and ends the aero descent below it ^[[33m 1314^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:23.3930506Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/atmosphere-strato.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 66^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:28.8277578Z ^[[90mstdout^[[2m | tests/audio/warnings.test.ts^[[2m > ^[[22m^[[2mear and eye read the same thresholds^[[2m > ^[[22m^[[2mstays quiet through all seven, and reports how much margin they had
+gate	Gate	2026-10-02T14:15:28.8279908Z ^[[22m^[[39mlaunch-pad-takeoff: nominal (heat 0.02, Q 0.58 of limit)
+gate	Gate	2026-10-02T14:15:28.8281177Z booster-sep-boostback: nominal (heat 0.01, Q 0.00 of limit)
+gate	Gate	2026-10-02T14:15:28.8282193Z rtls-boostback: nominal (heat 0.02, Q 0.57 of limit)
+gate	Gate	2026-10-02T14:15:28.8283174Z reentry-autoland: nominal (heat 0.54, Q 0.16 of limit)
+gate	Gate	2026-10-02T14:15:28.8284217Z before-flip-autoland: nominal (heat 0.00, Q 0.07 of limit)
+gate	Gate	2026-10-02T14:15:28.8285240Z landing-burn-autoland: nominal (heat 0.00, Q 0.02 of limit)
+gate	Gate	2026-10-02T14:15:28.8286275Z landing-burn-headwind: nominal (heat 0.00, Q 0.02 of limit)
+gate	Gate	2026-10-02T14:15:28.8287207Z intro-demo: nominal (heat 0.00, Q 0.03 of limit)
+gate	Gate	2026-10-02T14:15:28.8287780Z 
+gate	Gate	2026-10-02T14:15:28.8481146Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/warnings.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[33m 10805^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:28.8483318Z      ^[[33m^[[2m✓^[[22m^[[39m stays quiet through all seven, and reports how much margin they had ^[[33m 10780^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:29.8200667Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/wind-profile.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[33m 416^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:30.0971495Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/input.test.ts ^[[2m(^[[22m^[[2m32 tests^[[22m^[[2m)^[[22m^[[32m 21^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:31.7861487Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:15:32.8900336Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Hud.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 779^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:33.6749473Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/terrain.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 258^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:34.5475080Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mat the speeds the seven scenarios actually reach^[[2m > ^[[22m^[[2mreports where the streaks are silent and where they blow
+gate	Gate	2026-10-02T14:15:34.5494917Z ^[[22m^[[39mlaunch-pad-takeoff: peak 730 m/s -> streak 0.23, silent 32% of the flight
+gate	Gate	2026-10-02T14:15:34.5496638Z booster-sep-boostback: peak 1599 m/s -> streak 0.88, silent 0% of the flight
+gate	Gate	2026-10-02T14:15:34.5497931Z rtls-boostback: peak 542 m/s -> streak 0.12, silent 30% of the flight
+gate	Gate	2026-10-02T14:15:34.5500119Z reentry-autoland: peak 7300 m/s -> streak 1.00, silent 0% of the flight
+gate	Gate	2026-10-02T14:15:34.5501412Z before-flip-autoland: peak 79 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:15:34.5502716Z landing-burn-autoland: peak 37 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:15:34.5503997Z landing-burn-headwind: peak 37 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:15:34.5505180Z intro-demo: peak 51 m/s -> streak 0.00, silent 100% of the flight
+gate	Gate	2026-10-02T14:15:34.5505942Z 
+gate	Gate	2026-10-02T14:15:34.8240534Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mlaunch-pad-takeoff: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:15:34.8272915Z ^[[22m^[[39mlaunch-pad-takeoff: nose and flight path diverge by up to 9°
+gate	Gate	2026-10-02T14:15:34.8299728Z 
+gate	Gate	2026-10-02T14:15:35.0186484Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mbooster-sep-boostback: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:15:35.0201066Z ^[[22m^[[39mbooster-sep-boostback: nose and flight path diverge by up to 134°
+gate	Gate	2026-10-02T14:15:35.0201880Z 
+gate	Gate	2026-10-02T14:15:35.2167888Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mrtls-boostback: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:15:35.2170091Z ^[[22m^[[39mrtls-boostback: nose and flight path diverge by up to 179°
+gate	Gate	2026-10-02T14:15:35.2208880Z 
+gate	Gate	2026-10-02T14:15:37.0271554Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/golden/replay.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 22367^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.0310724Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 856^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.0350454Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 967^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.0370832Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 971^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.0384427Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 11953^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.0386852Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 1105^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.0440462Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 346^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.0470141Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 404^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.0471428Z      ^[[33m^[[2m✓^[[22m^[[39m replays field for field, sample for sample ^[[33m 329^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.0500473Z      ^[[33m^[[2m✓^[[22m^[[39m round-trip through the serialiser preserves every value exactly ^[[33m 4990^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:37.7583256Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/step.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 528^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:38.3515872Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/atmosphere-look.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[33m 4012^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:38.3517870Z      ^[[33m^[[2m✓^[[22m^[[39m rises monotonically between the two ^[[33m 3903^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:39.6678475Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:15:40.1699911Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/Debrief.test.tsx ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[33m 422^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:40.6894575Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/binder.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 2087^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:40.6896283Z      ^[[33m^[[2m✓^[[22m^[[39m a real flight writes a small fraction of what an undiffed binder would ^[[33m 2044^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:41.0695819Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe engine is louder at 100% than at 40% — measured, not asserted^[[2m > ^[[22m^[[2mrises with throttle
+gate	Gate	2026-10-02T14:15:41.0717632Z ^[[22m^[[39mthree engines: 40% RMS 0.09131 · 100% RMS 0.13051
+gate	Gate	2026-10-02T14:15:41.0749800Z 
+gate	Gate	2026-10-02T14:15:41.0793973Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe engine is louder at 100% than at 40% — measured, not asserted^[[2m > ^[[22m^[[2mrises with engine count
+gate	Gate	2026-10-02T14:15:41.0829902Z ^[[22m^[[39mat 100%: one engine RMS 0.07535 · three RMS 0.13051
+gate	Gate	2026-10-02T14:15:41.0863288Z 
+gate	Gate	2026-10-02T14:15:41.0941873Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe engine is louder at 100% than at 40% — measured, not asserted^[[2m > ^[[22m^[[2mdistinguishes three engines at 40% from two at 100%
+gate	Gate	2026-10-02T14:15:41.0970201Z ^[[22m^[[39mthree at 40% RMS 0.09131 · two at 100% RMS 0.10656
+gate	Gate	2026-10-02T14:15:41.0992824Z 
+gate	Gate	2026-10-02T14:15:41.1051659Z ^[[90mstdout^[[2m | tests/audio/render.test.ts^[[2m > ^[[22m^[[2mthe air fade, rendered^[[2m > ^[[22m^[[2mfalls toward its floor in vacuum without reaching silence
+gate	Gate	2026-10-02T14:15:41.1110841Z ^[[22m^[[39msea level RMS 0.13051 · vacuum RMS 0.02871 · ratio 0.2200 against a floor of 0.22
+gate	Gate	2026-10-02T14:15:41.1129683Z 
+gate	Gate	2026-10-02T14:15:41.1461431Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/render.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 93^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:41.5221766Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rng.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 1139^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:41.5251491Z      ^[[33m^[[2m✓^[[22m^[[39m stays in [0, 1) ^[[33m 964^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:42.1367327Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/timeline-binder.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 382^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:42.4011112Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/controls.test.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 33^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:42.7014259Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rotating-frame.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 64^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:43.4282122Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mlaunch-pad-takeoff
+gate	Gate	2026-10-02T14:15:43.4292131Z ^[[22m^[[39mlaunch-pad-takeoff: ignition x3
+gate	Gate	2026-10-02T14:15:43.4298172Z 
+gate	Gate	2026-10-02T14:15:43.6845057Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mbooster-sep-boostback
+gate	Gate	2026-10-02T14:15:43.6870251Z ^[[22m^[[39mbooster-sep-boostback: ignition x3
+gate	Gate	2026-10-02T14:15:43.6899700Z 
+gate	Gate	2026-10-02T14:15:43.9531235Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mrtls-boostback
+gate	Gate	2026-10-02T14:15:43.9570199Z ^[[22m^[[39mrtls-boostback: ignition x6, shutdown x6
+gate	Gate	2026-10-02T14:15:43.9583963Z 
+gate	Gate	2026-10-02T14:15:45.2230434Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mreentry-autoland: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:15:45.2250674Z ^[[22m^[[39mreentry-autoland: nose and flight path diverge by up to 85°
+gate	Gate	2026-10-02T14:15:45.2255592Z 
+gate	Gate	2026-10-02T14:15:46.0784926Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mbefore-flip-autoland: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:15:46.0786994Z ^[[22m^[[39mbefore-flip-autoland: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:15:46.0787972Z 
+gate	Gate	2026-10-02T14:15:46.1386742Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mlanding-burn-autoland: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:15:46.1388848Z ^[[22m^[[39mlanding-burn-autoland: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:15:46.1389797Z 
+gate	Gate	2026-10-02T14:15:46.2091782Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mlanding-burn-headwind: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:15:46.2093708Z ^[[22m^[[39mlanding-burn-headwind: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:15:46.2095028Z 
+gate	Gate	2026-10-02T14:15:46.2698058Z ^[[90mstdout^[[2m | tests/view/motion-cues.test.ts^[[2m > ^[[22m^[[2mthe flight-path marker^[[2m > ^[[22m^[[2mintro-demo: the marker never disagrees with the state vector
+gate	Gate	2026-10-02T14:15:46.2699977Z ^[[22m^[[39mintro-demo: nose and flight path diverge by up to 180°
+gate	Gate	2026-10-02T14:15:46.2700667Z 
+gate	Gate	2026-10-02T14:15:53.9606156Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mreentry-autoland
+gate	Gate	2026-10-02T14:15:53.9607883Z ^[[22m^[[39mreentry-autoland: nothing
+gate	Gate	2026-10-02T14:15:53.9608552Z 
+gate	Gate	2026-10-02T14:15:54.8289114Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mbefore-flip-autoland
+gate	Gate	2026-10-02T14:15:54.8311192Z ^[[22m^[[39mbefore-flip-autoland: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:15:54.8339869Z 
+gate	Gate	2026-10-02T14:15:54.9334686Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mlanding-burn-autoland
+gate	Gate	2026-10-02T14:15:54.9336402Z ^[[22m^[[39mlanding-burn-autoland: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:15:54.9337085Z 
+gate	Gate	2026-10-02T14:15:55.0461125Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mlanding-burn-headwind
+gate	Gate	2026-10-02T14:15:55.0491119Z ^[[22m^[[39mlanding-burn-headwind: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:15:55.0519864Z 
+gate	Gate	2026-10-02T14:15:55.1163081Z ^[[90mstdout^[[2m | tests/audio/transients.test.ts^[[2m > ^[[22m^[[2mthe latch fires once per event^[[2m > ^[[22m^[[2mintro-demo
+gate	Gate	2026-10-02T14:15:55.1165255Z ^[[22m^[[39mintro-demo: ignition x3, shutdown x3, touchdown x1
+gate	Gate	2026-10-02T14:15:55.1166097Z 
+gate	Gate	2026-10-02T14:15:55.2482852Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/audio/transients.test.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[33m 12161^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:55.2532015Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad-takeoff ^[[33m 339^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:55.2533608Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland ^[[33m 10005^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:55.2560766Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland ^[[33m 870^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:55.2692504Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/motion-cues.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[33m 31357^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:55.2731247Z      ^[[33m^[[2m✓^[[22m^[[39m reports where the streaks are silent and where they blow ^[[33m 10624^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:55.2732822Z      ^[[33m^[[2m✓^[[22m^[[39m reentry-autoland: the marker never disagrees with the state vector ^[[33m 10006^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:55.2734317Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland: the marker never disagrees with the state vector ^[[33m 855^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:55.2735736Z      ^[[33m^[[2m✓^[[22m^[[39m the divergence is real on at least one scenario, or this draws nothing ^[[33m 8996^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:55.9167254Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/sky.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[32m 30^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:56.1611572Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/heat-argument.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 10^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:57.0751989Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:15:57.6237466Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/StatusBar.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 479^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:57.8355031Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rvac.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:58.2541391Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/recorder.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 211^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:58.6560596Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/budget.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 221^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:58.8172097Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rcs-dead-zone.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 2453^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:58.8174413Z      ^[[33m^[[2m✓^[[22m^[[39m and then HOLDS it, rather than carrying on rotating ^[[33m 1350^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:58.8178853Z      ^[[33m^[[2m✓^[[22m^[[39m the thrusters fire below saturation, not only at the cap ^[[33m 669^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:59.0132212Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/collapsed-trig.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 118^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:59.0702676Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/no-neumorphism.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 47^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:59.3791645Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/pitch-rate.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 139^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:15:59.6861417Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/contrast.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:00.0691404Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/indicators.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 157^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:00.7163387Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/lighting.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 15^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:01.2491588Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/lint-walls/walls.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[33m 1483^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:01.2499431Z      ^[[33m^[[2m✓^[[22m^[[39m wall 1: no view/ ui/ hud/ app/ PIXI or React imports ^[[33m 1261^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:01.5046790Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/failure-freshness.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 15^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:01.7528954Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/speed-of-sound.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 43^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:02.1938357Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/dt-substitution.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 239^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:02.3194988Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:16:02.4033540Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/tabular-digits.test.ts ^[[2m(^[[22m^[[2m22 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:02.9710138Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/TrajectoryCard.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 382^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:03.2636138Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/body-axis-aero.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 33^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:03.4981504Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/preferences.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 25^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:04.2451511Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/reentry.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 10^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:04.5461939Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/rcs-reserve.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:04.6147799Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/BlackBoxPlots.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 751^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:04.6182494Z      ^[[33m^[[2m✓^[[22m^[[39m draws one cell per plot, keyed by the recorder ids ^[[33m 409^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:04.8192323Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/haptics.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 10^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:06.5227321Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:16:06.7992162Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/FirstFlight.test.tsx ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 110^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:07.1577219Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/random-failure.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 111^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:07.5091195Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/invariants.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 2706^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:07.5100982Z      ^[[33m^[[2m✓^[[22m^[[39m every number stays finite, or is a sentinel it started as ^[[33m 898^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:07.5102488Z      ^[[33m^[[2m✓^[[22m^[[39m mass never increases, and propellant never goes negative ^[[33m 1097^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:07.5104267Z      ^[[33m^[[2m✓^[[22m^[[39m with the engines off and no wind, orbital energy never rises beyond integrator error ^[[33m 545^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:07.7424827Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/hud/readouts.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:07.9927024Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/guide.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:08.2791597Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/debug.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 37^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:08.6383457Z Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+gate	Gate	2026-10-02T14:16:08.6791981Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/guidance-truth.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 120^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:08.7423153Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/session.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 19^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:08.8731922Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/drag-model.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:09.5091561Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/entry-on-lift.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[33m 551^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:09.5107059Z    ^[[33m^[[2m✓^[[22m^[[39m keeps lift outward through the flown hypersonic segment at vx=-6000 ^[[33m 314^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:09.7681373Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/felt-g.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:10.0243966Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/tank-empty.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:10.6051454Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/post.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:10.7951261Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/view/zoom.test.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:10.9555919Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/offline-classic.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:11.2064416Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/proofs/isa-into.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 39^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:11.4560613Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/landing-burn.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 25^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:11.6421144Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/testids.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:11.8394986Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/kit-boundary.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:12.2669732Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/random-failure-diff.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[33m 3165^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:12.2671418Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep is deterministic and identical across runs ^[[33m 396^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:12.2672716Z      ^[[33m^[[2m✓^[[22m^[[39m reentry is deterministic and identical across runs ^[[33m 391^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:12.2674043Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip is deterministic and identical across runs ^[[33m 1450^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.0856344Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/rotating-frame-step.test.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[33m 2589^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.0858893Z      ^[[33m^[[2m✓^[[22m^[[39m a circular inertial orbit stays circular when flown at its ground-relative speed ^[[33m 1445^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.0860707Z      ^[[33m^[[2m✓^[[22m^[[39m a body at the synchronous radius with no ground speed stays over the same point ^[[33m 1141^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.4239620Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/golden/compare.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 119^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.5712151Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/thermosphere.test.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7508354Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/flies-every-scenario.test.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 34379^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7523134Z      ^[[33m^[[2m✓^[[22m^[[39m launch-pad flies ^[[33m 751^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7524357Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep flies ^[[33m 386^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7525681Z      ^[[33m^[[2m✓^[[22m^[[39m circularize flies ^[[33m 613^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7526557Z      ^[[33m^[[2m✓^[[22m^[[39m deorbit flies ^[[33m 626^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7527470Z      ^[[33m^[[2m✓^[[22m^[[39m booster-sep: auto-land landed ^[[33m 2604^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7528363Z      ^[[33m^[[2m✓^[[22m^[[39m rtls: auto-land landed ^[[33m 1906^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7529885Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip: auto-land landed ^[[33m 516^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7530728Z      ^[[33m^[[2m✓^[[22m^[[39m reentry: auto-land landed ^[[33m 13494^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7531712Z      ^[[33m^[[2m✓^[[22m^[[39m reentry: survives the heat it now actually meets ^[[33m 12859^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.7693146Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/final-descent-profile.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:15.9457254Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/propellant.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:16.0011623Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/spawn-mach.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:16.1669706Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/reference/bands.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 10^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:16.2322308Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/reference/ratchet.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:16.4798055Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/ui/shell/fields-presets.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:17.1341578Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/engine-out-landings.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 718^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:17.1343059Z      ^[[33m^[[2m✓^[[22m^[[39m before-flip-autoland/one-out: landed ^[[33m 521^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:59.2029582Z  ^[[32m✓^[[39m ^[[30m^[[42m unit ^[[49m^[[39m tests/core/deorbit-range.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[33m 34594^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:59.2031450Z      ^[[33m^[[2m✓^[[22m^[[39m engine 0 out ^[[33m 11558^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:59.2032626Z      ^[[33m^[[2m✓^[[22m^[[39m engine 1 out ^[[33m 11495^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:59.2033838Z      ^[[33m^[[2m✓^[[22m^[[39m engine 2 out ^[[33m 11536^[[2mms^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:59.2112895Z 
+gate	Gate	2026-10-02T14:16:59.2113601Z ^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m^[[1m^[[41m Failed Tests 1 ^[[49m^[[22m^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m
+gate	Gate	2026-10-02T14:16:59.2113928Z 
+gate	Gate	2026-10-02T14:16:59.2116697Z ^[[41m^[[1m FAIL ^[[22m^[[49m ^[[30m^[[42m unit ^[[49m^[[39m tests/app/view-clock.test.ts^[[2m > ^[[22mproperty 3, strengthened: the camera path does not depend on the frame rate^[[2m > ^[[22mreentry-autoland lands the camera on the same metre at 60 fps, with stalls, and at 9x
+gate	Gate	2026-10-02T14:16:59.2123773Z ^[[31m^[[1mError^[[22m: Test timed out in 30000ms.
+gate	Gate	2026-10-02T14:16:59.2125317Z If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".^[[39m
+gate	Gate	2026-10-02T14:16:59.2126390Z ^[[36m ^[[2m❯^[[22m tests/app/view-clock.test.ts:^[[2m288:55^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:59.2209067Z     ^[[90m286|^[[39m     worth having. A tolerance can absorb a regression; an identity can…
+gate	Gate	2026-10-02T14:16:59.2209991Z     ^[[90m287|^[[39m   */^[[39m
+gate	Gate	2026-10-02T14:16:59.2211202Z     ^[[90m288|^[[39m   it^[[33m.^[[39m^[[34meach^[[39m(^[[33mGOLDEN_SPECS^[[39m^[[33m.^[[39m^[[34mmap^[[39m((s) ^[[33m=>^[[39m [s^[[33m.^[[39mid^[[33m,^[[39m s] ^[[35mas^[[39m ^[[35mconst^[[39m))(
+gate	Gate	2026-10-02T14:16:59.2212139Z     ^[[90m   |^[[39m                                                       ^[[31m^^[[39m
+gate	Gate	2026-10-02T14:16:59.2212767Z     ^[[90m289|^[[39m     '%s lands the camera on the same metre at 60 fps, with stalls, and…
+gate	Gate	2026-10-02T14:16:59.2213323Z     ^[[90m290|^[[39m     (_id^[[33m,^[[39m spec) ^[[33m=>^[[39m {
+gate	Gate	2026-10-02T14:16:59.2213696Z 
+gate	Gate	2026-10-02T14:16:59.2214286Z ^[[31m^[[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯^[[22m^[[39m
+gate	Gate	2026-10-02T14:16:59.2214652Z 
+gate	Gate	2026-10-02T14:16:59.2217018Z 
+gate	Gate	2026-10-02T14:16:59.2237241Z ^[[2m Test Files ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m152 passed^[[39m^[[22m^[[90m (153)^[[39m
+gate	Gate	2026-10-02T14:16:59.2256350Z ^[[2m      Tests ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m1994 passed^[[39m^[[22m^[[90m (1995)^[[39m
+gate	Gate	2026-10-02T14:16:59.2257484Z ^[[2m   Start at ^[[22m 14:11:17
+gate	Gate	2026-10-02T14:16:59.2259854Z ^[[2m   Duration ^[[22m 341.60s^[[2m (transform 5.86s, setup 3.09s, import 91.16s, tests 777.66s, environment 41.12s)^[[22m
+gate	Gate	2026-10-02T14:16:59.2261564Z 
+gate	Gate	2026-10-02T14:16:59.2309193Z 
+gate	Gate	2026-10-02T14:16:59.2341037Z ##[error]Error: Test timed out in 30000ms.
+gate	Gate	If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+gate	Gate	 ❯ tests/app/view-clock.test.ts:288:55
+gate	Gate	
+gate	Gate	
+gate	Gate	2026-10-02T14:16:59.2959957Z ##[error]Process completed with exit code 1.
+gate	Upload Playwright report	﻿2026-10-02T14:16:59.3049172Z ##[group]Run actions/upload-artifact@v7
+gate	Upload Playwright report	2026-10-02T14:16:59.3049733Z with:
+gate	Upload Playwright report	2026-10-02T14:16:59.3049964Z   name: playwright-report
+gate	Upload Playwright report	2026-10-02T14:16:59.3050232Z   path: playwright-report
+gate	Upload Playwright report	2026-10-02T14:16:59.3050484Z   retention-days: 7
+gate	Upload Playwright report	2026-10-02T14:16:59.3050729Z   if-no-files-found: ignore
+gate	Upload Playwright report	2026-10-02T14:16:59.3050992Z   compression-level: 6
+gate	Upload Playwright report	2026-10-02T14:16:59.3051236Z   overwrite: false
+gate	Upload Playwright report	2026-10-02T14:16:59.3051474Z   include-hidden-files: false
+gate	Upload Playwright report	2026-10-02T14:16:59.3051757Z   archive: true
+gate	Upload Playwright report	2026-10-02T14:16:59.3051978Z ##[endgroup]
+gate	Upload Playwright report	2026-10-02T14:16:59.4450622Z No files were found with the provided path: playwright-report. No artifacts will be uploaded.
+gate	Post Run actions/checkout@v7	﻿2026-10-02T14:16:59.4699078Z Post job cleanup.
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.5617184Z [command]/usr/bin/git version
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.5672633Z git version 2.55.0
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.5706607Z Temporarily overriding HOME='/home/runner/work/_temp/bfc5aa51-f0bf-405e-b2ac-570dd0441d5d' before making global git config changes
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.5708128Z Adding repository directory to the temporary git global config as a safe directory
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.5712347Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StarShipSimulator/StarShipSimulator
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.5750291Z Removing SSH command configuration
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.5757072Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.5795710Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6059735Z Removing HTTP extra header
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6065460Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6103072Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6383673Z Removing includeIf entries pointing to credentials config files
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6392113Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6432991Z includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6434447Z includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6437850Z includeif.gitdir:/github/workspace/.git.path
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6438944Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6444660Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6478373Z /home/runner/work/_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6490680Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-84d5cf19\-503d\-40b4\-a13d\-f2997f020338\.config
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6540648Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6576106Z /home/runner/work/_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6596217Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-84d5cf19\-503d\-40b4\-a13d\-f2997f020338\.config
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6642996Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6676388Z /github/runner_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6684828Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-84d5cf19\-503d\-40b4\-a13d\-f2997f020338\.config
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6727690Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6757311Z /github/runner_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6766526Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-84d5cf19\-503d\-40b4\-a13d\-f2997f020338\.config
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.6807088Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+gate	Post Run actions/checkout@v7	2026-10-02T14:16:59.7053529Z Removing credentials config '/home/runner/work/_temp/git-credentials-84d5cf19-503d-40b4-a13d-f2997f020338.config'
+gate	Complete job	﻿2026-10-02T14:16:59.7248054Z Cleaning up orphan processes
+repo hygiene	Set up job	﻿2026-10-02T14:10:02.4215368Z Current runner version: '2.337.0'
+repo hygiene	Set up job	2026-10-02T14:10:02.4244176Z ##[group]Runner Image Provisioner
+repo hygiene	Set up job	2026-10-02T14:10:02.4245050Z Hosted Compute Agent
+repo hygiene	Set up job	2026-10-02T14:10:02.4245719Z Version: 20260901.588
+repo hygiene	Set up job	2026-10-02T14:10:02.4246372Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+repo hygiene	Set up job	2026-10-02T14:10:02.4247142Z Build Date: 2026-09-01T19:56:44Z
+repo hygiene	Set up job	2026-10-02T14:10:02.4247883Z Worker ID: {b60b9f7d-acc1-4f2b-91da-4098bc0b286b}
+repo hygiene	Set up job	2026-10-02T14:10:02.4248643Z Azure Region: eastus
+repo hygiene	Set up job	2026-10-02T14:10:02.4249260Z ##[endgroup]
+repo hygiene	Set up job	2026-10-02T14:10:02.4250826Z ##[group]Operating System
+repo hygiene	Set up job	2026-10-02T14:10:02.4251508Z Ubuntu
+repo hygiene	Set up job	2026-10-02T14:10:02.4252127Z 24.04.5
+repo hygiene	Set up job	2026-10-02T14:10:02.4252641Z LTS
+repo hygiene	Set up job	2026-10-02T14:10:02.4253176Z ##[endgroup]
+repo hygiene	Set up job	2026-10-02T14:10:02.4253958Z ##[group]Runner Image
+repo hygiene	Set up job	2026-10-02T14:10:02.4254620Z Image: ubuntu-24.04
+repo hygiene	Set up job	2026-10-02T14:10:02.4255247Z Version: 20260927.320.1
+repo hygiene	Set up job	2026-10-02T14:10:02.4256390Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+repo hygiene	Set up job	2026-10-02T14:10:02.4258180Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+repo hygiene	Set up job	2026-10-02T14:10:02.4259208Z ##[endgroup]
+repo hygiene	Set up job	2026-10-02T14:10:02.4262819Z ##[group]GITHUB_TOKEN Permissions
+repo hygiene	Set up job	2026-10-02T14:10:02.4265661Z Actions: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4266371Z ArtifactMetadata: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4266987Z Attestations: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4267620Z Checks: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4268177Z CodeQuality: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4268811Z Contents: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4269419Z CopilotRequests: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4270005Z Deployments: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4270696Z Discussions: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4271254Z Drives: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4271771Z Issues: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4272393Z Metadata: read
+repo hygiene	Set up job	2026-10-02T14:10:02.4273011Z Models: read
+repo hygiene	Set up job	2026-10-02T14:10:02.4274010Z Packages: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4274692Z Pages: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4275229Z PullRequests: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4275912Z RepositoryProjects: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4276572Z SecurityEvents: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4277206Z Statuses: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4277771Z VulnerabilityAlerts: read
+repo hygiene	Set up job	2026-10-02T14:10:02.4278361Z ##[endgroup]
+repo hygiene	Set up job	2026-10-02T14:10:02.4280946Z Secret source: Actions
+repo hygiene	Set up job	2026-10-02T14:10:02.4281925Z Cache mode: write
+repo hygiene	Set up job	2026-10-02T14:10:02.4282728Z Prepare workflow directory
+repo hygiene	Set up job	2026-10-02T14:10:02.4618254Z Prepare all required actions
+repo hygiene	Set up job	2026-10-02T14:10:02.4667774Z Getting action download info
+repo hygiene	Set up job	2026-10-02T14:10:02.7599900Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+repo hygiene	Set up job	2026-10-02T14:10:02.9847867Z Complete job name: repo hygiene
+repo hygiene	Run actions/checkout@v7	﻿2026-10-02T14:10:03.0621737Z ##[group]Run actions/checkout@v7
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0622783Z with:
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0623348Z   repository: SteveIsnthere/StarShipSimulator
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0627579Z   token: ***
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0628042Z   ssh-strict: true
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0628484Z   ssh-user: git
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0628939Z   persist-credentials: true
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0629442Z   clean: true
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0629888Z   sparse-checkout-cone-mode: true
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0630409Z   fetch-depth: 1
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0630903Z   fetch-tags: false
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0631439Z   show-progress: true
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0631948Z   lfs: false
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0632423Z   submodules: false
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0632872Z   set-safe-directory: true
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0633368Z   allow-unsafe-pr-checkout: false
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.0634363Z ##[endgroup]
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1658875Z Syncing repository: SteveIsnthere/StarShipSimulator
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1661733Z ##[group]Getting Git version info
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1663160Z Working directory is '/home/runner/work/StarShipSimulator/StarShipSimulator'
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1665630Z [command]/usr/bin/git version
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1782283Z git version 2.55.0
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1807186Z ##[endgroup]
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1828752Z Temporarily overriding HOME='/home/runner/work/_temp/fec10965-82cc-406c-99be-a5067ca0e659' before making global git config changes
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1831237Z Adding repository directory to the temporary git global config as a safe directory
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1834975Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StarShipSimulator/StarShipSimulator
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1892321Z Deleting the contents of '/home/runner/work/StarShipSimulator/StarShipSimulator'
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1896469Z ##[group]Determining repository object format
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1898349Z ##[endgroup]
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1899442Z ##[group]Initializing the repository
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.1904263Z [command]/usr/bin/git init /home/runner/work/StarShipSimulator/StarShipSimulator
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2035527Z hint: Using 'master' as the name for the initial branch. This default branch name
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2037262Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2038903Z hint: to use in all of your new repositories, which will suppress this warning,
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2040238Z hint: call:
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2040936Z hint:
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2041788Z hint: 	git config --global init.defaultBranch <name>
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2042824Z hint:
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2044022Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2045635Z hint: 'development'. The just-created branch can be renamed via this command:
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2046903Z hint:
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2047612Z hint: 	git branch -m <name>
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2048426Z hint:
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2049484Z hint: Disable this message with "git config set advice.defaultBranchName false"
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2057039Z Initialized empty Git repository in /home/runner/work/StarShipSimulator/StarShipSimulator/.git/
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2068920Z [command]/usr/bin/git remote add origin https://github.com/SteveIsnthere/StarShipSimulator
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2131774Z ##[endgroup]
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2133083Z ##[group]Disabling automatic garbage collection
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2146029Z [command]/usr/bin/git config --local gc.auto 0
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2186114Z ##[endgroup]
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2187306Z ##[group]Setting up auth
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2188202Z Removing SSH command configuration
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2193560Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2233298Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2650334Z Removing HTTP extra header
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2657413Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2694696Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2916584Z Removing includeIf entries pointing to credentials config files
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2921447Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.2958170Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.3188837Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.3231272Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path /home/runner/work/_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.3266663Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.3304996Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.3341563Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.3375529Z ##[endgroup]
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.3376867Z ##[group]Fetching the repository
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:03.3384475Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c24235f158b17fec15c38a9804d411bb3309d76f:refs/remotes/origin/claude/entry-on-lift
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2545515Z From https://github.com/SteveIsnthere/StarShipSimulator
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2546681Z  * [new ref]         c24235f158b17fec15c38a9804d411bb3309d76f -> origin/claude/entry-on-lift
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2556567Z [command]/usr/bin/git branch --list --remote origin/claude/entry-on-lift
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2585946Z   origin/claude/entry-on-lift
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2594274Z [command]/usr/bin/git rev-parse refs/remotes/origin/claude/entry-on-lift
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2619937Z c24235f158b17fec15c38a9804d411bb3309d76f
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2624296Z ##[endgroup]
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2625191Z ##[group]Determining the checkout info
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2626134Z ##[endgroup]
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2629919Z [command]/usr/bin/git sparse-checkout disable
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2687731Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2722303Z ##[group]Checking out the ref
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.2726745Z [command]/usr/bin/git checkout --progress --force -B claude/entry-on-lift refs/remotes/origin/claude/entry-on-lift
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.8697658Z Switched to a new branch 'claude/entry-on-lift'
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.8703369Z branch 'claude/entry-on-lift' set up to track 'origin/claude/entry-on-lift'.
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.8755880Z ##[endgroup]
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.8809895Z [command]/usr/bin/git log -1 --format=%H
+repo hygiene	Run actions/checkout@v7	2026-10-02T14:10:18.8842512Z c24235f158b17fec15c38a9804d411bb3309d76f
+repo hygiene	No .DS_Store tracked	﻿2026-10-02T14:10:18.9117467Z ##[group]Run if git ls-files | grep -F '.DS_Store'; then
+repo hygiene	No .DS_Store tracked	2026-10-02T14:10:18.9118065Z ^[[36;1mif git ls-files | grep -F '.DS_Store'; then^[[0m
+repo hygiene	No .DS_Store tracked	2026-10-02T14:10:18.9118619Z ^[[36;1m  echo "::error::.DS_Store files are tracked. Add to .gitignore and git rm --cached them."^[[0m
+repo hygiene	No .DS_Store tracked	2026-10-02T14:10:18.9119124Z ^[[36;1m  exit 1^[[0m
+repo hygiene	No .DS_Store tracked	2026-10-02T14:10:18.9119384Z ^[[36;1mfi^[[0m
+repo hygiene	No .DS_Store tracked	2026-10-02T14:10:18.9438940Z shell: /usr/bin/bash -e {0}
+repo hygiene	No .DS_Store tracked	2026-10-02T14:10:18.9439448Z ##[endgroup]
+repo hygiene	No dependencies or build output tracked	﻿2026-10-02T14:10:18.9618900Z ##[group]Run if git ls-files | grep -E '(^|/)(node_modules|dist)/'; then
+repo hygiene	No dependencies or build output tracked	2026-10-02T14:10:18.9619523Z ^[[36;1mif git ls-files | grep -E '(^|/)(node_modules|dist)/'; then^[[0m
+repo hygiene	No dependencies or build output tracked	2026-10-02T14:10:18.9620000Z ^[[36;1m  echo "::error::node_modules or dist is tracked."^[[0m
+repo hygiene	No dependencies or build output tracked	2026-10-02T14:10:18.9620379Z ^[[36;1m  exit 1^[[0m
+repo hygiene	No dependencies or build output tracked	2026-10-02T14:10:18.9620655Z ^[[36;1mfi^[[0m
+repo hygiene	No dependencies or build output tracked	2026-10-02T14:10:18.9686811Z shell: /usr/bin/bash -e {0}
+repo hygiene	No dependencies or build output tracked	2026-10-02T14:10:18.9687169Z ##[endgroup]
+repo hygiene	Post Run actions/checkout@v7	﻿2026-10-02T14:10:18.9931510Z Post job cleanup.
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.0908906Z [command]/usr/bin/git version
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.0950002Z git version 2.55.0
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.0998957Z Temporarily overriding HOME='/home/runner/work/_temp/a15285ea-bb5d-42dd-91ff-5042a2ac3529' before making global git config changes
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1000245Z Adding repository directory to the temporary git global config as a safe directory
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1006113Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StarShipSimulator/StarShipSimulator
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1040553Z Removing SSH command configuration
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1047672Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1084380Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1351317Z Removing HTTP extra header
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1364947Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1412323Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1681569Z Removing includeIf entries pointing to credentials config files
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1689350Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1732550Z includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1734548Z includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1735794Z includeif.gitdir:/github/workspace/.git.path
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1736808Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1744151Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1775321Z /home/runner/work/_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1786134Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-8649dbcc\-1070\-4062\-badb\-bf5c74394480\.config
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1828653Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1858285Z /home/runner/work/_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1876805Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/StarShipSimulator/StarShipSimulator/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-8649dbcc\-1070\-4062\-badb\-bf5c74394480\.config
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1916314Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1943043Z /github/runner_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1950763Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-8649dbcc\-1070\-4062\-badb\-bf5c74394480\.config
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.1987369Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.2013669Z /github/runner_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.2022697Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-8649dbcc\-1070\-4062\-badb\-bf5c74394480\.config
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.2061215Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+repo hygiene	Post Run actions/checkout@v7	2026-10-02T14:10:19.2299514Z Removing credentials config '/home/runner/work/_temp/git-credentials-8649dbcc-1070-4062-badb-bf5c74394480.config'
+repo hygiene	Complete job	﻿2026-10-02T14:10:19.2501016Z Cleaning up orphan processes

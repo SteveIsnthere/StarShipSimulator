@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /private/tmp/starship-window-ci-c242
+
+
+ Test Files  3 passed (3)
+      Tests  83 passed (83)
+   Start at  07:30:30
+   Duration  35.61s (transform 234ms, setup 0ms, import 410ms, tests 42.08s, environment 0ms)
+
