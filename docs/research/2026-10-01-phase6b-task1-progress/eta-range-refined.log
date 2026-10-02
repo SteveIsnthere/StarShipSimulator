@@ -1,0 +1,9 @@
+
+> starship-simulator-v2@0.1.0 deorbit:range
+> vite-node scripts/deorbit-range.ts
+
+outcome landed
+entry interface at 15630.55 km, touchdown at 20003.74 km
+range 4373.20 km against DEORBIT_ENTRY_RANGE 4416.54 km (-0.98%)
+miss -11.35 km
+re-derived DEORBIT_ENTRY_RANGE: 4405192 m

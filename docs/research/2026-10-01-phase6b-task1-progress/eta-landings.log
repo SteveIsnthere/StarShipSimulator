@@ -1,0 +1,170 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/flies-every-scenario.test.ts (17 tests | 2 failed) 4144ms
+     × reentry: auto-land landed 464ms
+     × reentry: survives the heat it now actually meets 422ms
+ ❯ |unit| tests/core/deorbit-range.test.ts (6 tests | 1 failed) 6028ms
+     × within 1 km of the pad 3ms
+ ❯ |unit| tests/core/orbit-demo.test.ts (31 tests | 8 failed) 13408ms
+     × and touches down within 10 km of the pad 3ms
+     × flies the sequence it is supposed to: coast, burn, hand over, descend 0ms
+     × and the entry is managed, not merely survived 0ms
+     × THE NUMBER: within 10 km of the pad, from a flight it was not fitted to 0ms
+     × from a different starting longitude — half a lap further round 2526ms
+     × 100 tonnes lighter at ignition 1669ms
+     × from 120 km, below the presets 1596ms
+     × from 300 km it still lands, but the envelope is showing 703ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/flies-every-scenario.test.ts > the autopilot flies the ones it is meant to > reentry: auto-land landed
+AssertionError: reentry after 900.0 s: expected 'flying' to be 'landed' // Object.is equality
+
+Expected: "landed"
+Received: "flying"
+
+ ❯ tests/flies-every-scenario.test.ts:114:76
+    112|       assertFinite(result.state, id);
+    113|
+    114|       expect(result.outcome, `${id} after ${result.seconds.toFixed(1)}…
+       |                                                                            ^
+    115|       if (expected === 'landed') {
+    116|         // Landed means landed, not "stopped moving": within the touch…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  |unit| tests/flies-every-scenario.test.ts > the autopilot flies the ones it is meant to > reentry: survives the heat it now actually meets
+AssertionError: after 0.0 s: expected 'flying' to be 'landed' // Object.is equality
+
+Expected: "landed"
+Received: "flying"
+
+ ❯ tests/flies-every-scenario.test.ts:146:54
+    144|     assertFinite(s, 'reentry');
+    145|
+    146|     expect(outcome, `after ${seconds.toFixed(1)} s`).toBe('landed');
+       |                                                      ^
+    147|     // Since Phase 6 the limit is a tile temperature (1,533 K) and T g…
+    148|     // q^1/4, so "60-100% of the limit" would pass almost anything. Ba…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  |unit| tests/core/deorbit-range.test.ts > the deorbit aim matches the autoLand it aims for > within 1 km of the pad
+AssertionError: missed by -33.90 km; re-derive with npm run deorbit:range: expected 33901.57330782339 to be less than 1000
+ ❯ tests/core/deorbit-range.test.ts:22:114
+     20|
+     21|   it('within 1 km of the pad', () => {
+     22|     expect(Math.abs(m.miss), `missed by ${(m.miss / 1000).toFixed(2)} …
+       |                                                                                                                  ^
+     23|   });
+     24| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > step 3 — deorbit and land at StarBase > and touches down within 10 km of the pad
+AssertionError: missed by -33.90 km: expected 33901.57330782339 to be less than 10000
+ ❯ tests/core/orbit-demo.test.ts:254:86
+    252|     // exact flight, and missed by 192 km when flown from anywhere els…
+    253|     // the envelope block below for what the guidance actually does.
+    254|     expect(Math.abs(flight.miss), `missed by ${(flight.miss / 1000).to…
+       |                                                                                      ^
+    255|       10_000,
+    256|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > step 3 — deorbit and land at StarBase > flies the sequence it is supposed to: coast, burn, hand over, descend
+AssertionError: coasted most of a lap before firing: expected 1351.3833333333334 to be greater than 1500
+ ❯ tests/core/orbit-demo.test.ts:269:73
+    267|     // Not merely "it landed" — that could happen by accident. The pha…
+    268|     // have run, in order, at the times the design says.
+    269|     expect(flight.burnStartedAt, 'coasted most of a lap before firing'…
+       |                                                                         ^
+    270|     expect(flight.handedOverAt, 'handed over shortly after the burn').…
+    271|       flight.burnStartedAt,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > step 3 — deorbit and land at StarBase > and the entry is managed, not merely survived
+AssertionError: peak skin temperature, K: expected 1446.741143779062 to be close to 1459, received difference is 12.258856220938014, but expected 5
+ ❯ tests/core/orbit-demo.test.ts:293:77
+    291|     // orbit should be the hardest thing the vehicle does.
+    292|     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
+    293|     expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature…
+       |                                                                             ^
+    294|   });
+    295|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > THE WHOLE DEMO, end to end — the M2.9 acceptance line > THE NUMBER: within 10 km of the pad, from a flight it was not fitted to
+AssertionError: missed by -158.23 km: expected 158226.6398444511 to be less than 10000
+ ❯ tests/core/orbit-demo.test.ts:369:7
+    367|       Math.abs(demo.flight.miss),
+    368|       `missed by ${(demo.flight.miss / 1000).toFixed(2)} km`,
+    369|     ).toBeLessThan(10_000);
+       |       ^
+    370|   });
+    371|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > from a different starting longitude — half a lap further round
+AssertionError: missed by -116.9 km: expected 116929.25151895359 to be less than 20000
+ ❯ tests/core/orbit-demo.test.ts:405:76
+    403|     });
+    404|     expect(f.outcome).toBe('landed');
+    405|     expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} …
+       |                                                                            ^
+    406|   });
+    407|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > 100 tonnes lighter at ignition
+AssertionError: missed by -51.6 km: expected 51609.17331895605 to be less than 20000
+ ❯ tests/core/orbit-demo.test.ts:414:76
+    412|     });
+    413|     expect(f.outcome).toBe('landed');
+    414|     expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} …
+       |                                                                            ^
+    415|   });
+    416|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > from 120 km, below the presets
+AssertionError: missed by 189.7 km: expected 189734.13783900067 to be less than 40000
+ ❯ tests/core/orbit-demo.test.ts:428:76
+    426|     const f = from(circularAtAltitude(120_000));
+    427|     expect(f.outcome).toBe('landed');
+    428|     expect(Math.abs(f.miss), `missed by ${(f.miss / 1000).toFixed(1)} …
+       |                                                                            ^
+    429|   });
+    430|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > from 300 km it still lands, but the envelope is showing
+AssertionError: expected 'brokeUp' to be 'landed' // Object.is equality
+
+Expected: "landed"
+Received: "brokeUp"
+
+ ❯ tests/core/orbit-demo.test.ts:436:23
+    434|     // is here so that reason stays measured rather than remembered.
+    435|     const f = from(circularAtAltitude(300_000));
+    436|     expect(f.outcome).toBe('landed');
+       |                       ^
+    437|     expect(Math.abs(f.miss)).toBeLessThan(150_000);
+    438|     expect(f.peakHeat / C.heatLimit, 'entry heating from 300 km').toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  11 failed | 43 passed (54)
+   Start at  21:20:08
+   Duration  19.53s (transform 253ms, setup 0ms, import 8.99s, tests 23.58s, environment 0ms)
+
