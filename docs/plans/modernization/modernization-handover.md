@@ -137,7 +137,7 @@ Owner decisions pending: replacing only the obsolete coast floor; bringing Earth
 
 Evidence: `thermal-predictor-red.log`, `thermal-predictor-green.log`, `thermal-envelope2.log`, `thermal-envelope.ts`, `thermal-trim-red.log`, `thermal-focused.log`, `thermal-build.log`, `thermal-lint.log`, `thermal-truth.log`, `300km-attempt3.log`, `task5-throttle-green.log`. Logs are raw, including failures. The refreshed `in-progress-source.patch` includes current thermal/throttle code and passes forward/index and reverse/worktree checks with `--unidiff-zero`; it is recovery evidence, not shipped physics.
 
-## Refreshed checkpoint and owner approvals (2026-10-01)
+## Historical refreshed checkpoint and owner approvals (2026-10-01)
 
 This section supersedes earlier checkpoint status. Phase 6 remains merged/live at `080f108`; six of ten phases are done (60%). Phase 6b is unfinished on existing claude/entry-on-lift. No unfinished runtime source has been committed or merged.
 
@@ -172,3 +172,12 @@ Range calibration remains red. The fixed65° sweep miss-896527.1 m gave aim2,915
 The broad unit run initially found three inertial-fixture assumptions after switching the default rate. Diagnosis1 converts the achievable orbital controller fixture to ground-relative circular speed, makes the zero-angular-momentum degeneracy proof explicitly omega0, exercises the same finite-arc bounds at both0/Earth rates, and converts the real caller's post-burn radial input. All assertion properties/bounds stay intact;81 focused checks pass. Final explicit safe collection:147 files/1905 tests pass, with stopped orbit-demo/deorbit-range files and golden replay files absent. This is not the complete unit suite or phase gate. Final build, lint and truth8/8 pass. No mutation, Linux fixture generation, complete gate, final phase reviews or runtime source commit is claimed.
 
 Next dependent action is the owner's narrow range-diagnosis decision. While pending, preserve all source and investigate only independent authorized checks/review preparation that cannot rerun the stopped health/300 km cases. Tasks2–4 have not started; do not silently skip Task 1 acceptance or start Phase 7. Keep the full remaining6b/7/8/9 scope. This turn made concrete source and verification progress; the goal stays active.
+
+
+## Independent review and browser checkpoint (2026-10-02)
+
+This adds evidence to the rotating-entry checkpoint; it does not complete Phase 6b or authorize stopped range work. The final rotating build passed the shake rendering witness across all five Playwright projects (10/10, exit 0). A fresh independent in-harness reviewer found no actionable findings in the bounded implemented physics/HUD scope, passed 111 narrow tests and four filtered observer cases, and confirmed all 32 source hashes. Claude CLI authentication failed and Chrome was unavailable, so neither cross-vendor fallback ran. No stopped health/300 km flight, full gate, coverage, mutation or golden regeneration ran. Final phase acceptance/reviews remain required.
+
+Full remaining scope is still Phases 6b, 7, 8 and 9. Steve requested goalgen to refresh the handover command; the specific extra range-diagnosis authorization is presented separately with options. Existing approvals and unused extra 300 km verification remain intact.
+
+[Review provenance and browser evidence](../../research/2026-10-01-phase6b-task1-progress/rotation-independent-review.md).
