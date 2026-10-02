@@ -1,0 +1,16 @@
+
+> starship-simulator-v2@0.1.0 test:deploy
+> playwright test --config playwright.subpath.config.ts
+
+
+Running 5 tests using 1 worker
+
+(node:23345) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/deploy/subpath.spec.ts:11:1 › the app loads and flies from a subdirectory (2.5s)
+  ✓  2 tests/deploy/subpath.spec.ts:36:1 › every asset is requested under the subpath (750ms)
+  ✓  3 tests/deploy/subpath.spec.ts:59:1 › the service worker registers at the subpath scope and precaches it (1.9s)
+  ✓  4 tests/deploy/subpath.spec.ts:82:1 › the install manifest stays under the subpath, and its icon is served (299ms)
+  ✓  5 tests/deploy/subpath.spec.ts:100:1 › it still works offline from a subdirectory (2.4s)
+
+  5 passed (8.5s)

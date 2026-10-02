@@ -1,0 +1,279 @@
+{
+  "mainSha": "c2ae5e46a25db0bdd63504a8f93d37056176b069",
+  "baseURL": "https://steveisnthere.github.io/StarShipSimulator/",
+  "serviceWorkerVersion": "3da4ee45585e",
+  "serviceWorker": {
+    "path": "sw.js",
+    "sha256": "89e9732301fbccff54b7fe2be06a600cb65fc295e68e7f7dcc7355c9abf71c4a",
+    "bytes": 4490,
+    "evidencePath": "sw.js.txt"
+  },
+  "verifiedPrecachedAssets": 44,
+  "assets": [
+    {
+      "path": "assets/BlackBox-DH54wejI.js",
+      "sha256": "b667c784be7ab961a61b0c6f48577d99508a4188d227e3cb277665dca5ba3c58",
+      "bytes": 9892,
+      "evidencePath": "assets/BlackBox-DH54wejI.js.txt"
+    },
+    {
+      "path": "assets/BufferResource-CZg6dyUf.js",
+      "sha256": "996673edfbe1f8d0df5fa901ff744bc5ef8712d80d357ff11fcdd3000588d2b0",
+      "bytes": 11134,
+      "evidencePath": "assets/BufferResource-CZg6dyUf.js.txt"
+    },
+    {
+      "path": "assets/Button-s_Cybpy_.js",
+      "sha256": "d4e1817ceeb2fef540d04636aa73fb37e860e1a8e3c19a9cfaeeb4089495183d",
+      "bytes": 36830,
+      "evidencePath": "assets/Button-s_Cybpy_.js.txt"
+    },
+    {
+      "path": "assets/Cache-DGqfkvRQ.js",
+      "sha256": "1ccbe8a79cbb2aa1295697a691a5a4fe4c4810edd36ce5cc6f212af3d9da02e4",
+      "bytes": 1141,
+      "evidencePath": "assets/Cache-DGqfkvRQ.js.txt"
+    },
+    {
+      "path": "assets/CanvasPool-ccaPBm8-.js",
+      "sha256": "b33f3c86bfa6e19ab47a6e8895a4775a99d8aae32dad3625225155d0e766ef98",
+      "bytes": 804,
+      "evidencePath": "assets/CanvasPool-ccaPBm8-.js.txt"
+    },
+    {
+      "path": "assets/Debrief-DhgTH_BR.js",
+      "sha256": "ffbf7492c0b1e451589649ecf8bb1296ef6c2817bb2ca8f7e1fe1227d782232c",
+      "bytes": 6606,
+      "evidencePath": "assets/Debrief-DhgTH_BR.js.txt"
+    },
+    {
+      "path": "assets/Dialog-BRREbu8Z.js",
+      "sha256": "17fd684fd786f4d0e8c5007fd2f29044ab251619d4351009aaddbf9c32bc1f90",
+      "bytes": 39908,
+      "evidencePath": "assets/Dialog-BRREbu8Z.js.txt"
+    },
+    {
+      "path": "assets/Filter-C-jCSOcL.js",
+      "sha256": "7e9b3e962ced39820e80effb18f49bb19b0f5038f061366cdcca7adb1158eea8",
+      "bytes": 38970,
+      "evidencePath": "assets/Filter-C-jCSOcL.js.txt"
+    },
+    {
+      "path": "assets/GCManagedHash-DqPcw2Gj.js",
+      "sha256": "b27834dab9a644c62cab3a89279d549412eabf8a089c85225f334798efc83f9f",
+      "bytes": 19372,
+      "evidencePath": "assets/GCManagedHash-DqPcw2Gj.js.txt"
+    },
+    {
+      "path": "assets/Geometry-coEMng49.js",
+      "sha256": "f7cae41d172f92e787809dd9afcfdff780d151ae3323af3f02ce9cedff78d559",
+      "bytes": 65520,
+      "evidencePath": "assets/Geometry-coEMng49.js.txt"
+    },
+    {
+      "path": "assets/GraphicsContext-DLmAmwc0.js",
+      "sha256": "10f90be18dd28d8daed6b1541c20d295d77189acc9b7f8656d6615079e8a449e",
+      "bytes": 61321,
+      "evidencePath": "assets/GraphicsContext-DLmAmwc0.js.txt"
+    },
+    {
+      "path": "assets/Inter-Regular-BVdEcXjD.woff2",
+      "sha256": "5b8d5892b4db0ea5eb9eec8edb2dd319fc0b5f5b1fb5b937b45a4e4a13b6da53",
+      "bytes": 12008,
+      "evidencePath": "assets/Inter-Regular-BVdEcXjD.woff2"
+    },
+    {
+      "path": "assets/Inter-SemiBold-DlULF7c_.woff2",
+      "sha256": "4e16b68be805575a52dbee81be16fb07b5e168275afdd22e3044884418a30ed1",
+      "bytes": 12468,
+      "evidencePath": "assets/Inter-SemiBold-DlULF7c_.woff2"
+    },
+    {
+      "path": "assets/InterTight-SemiBold-DJfiTN08.woff2",
+      "sha256": "57f500127621cd5fee13cab4a15b982f631d1fb6752c97d20d908bd08de23cf3",
+      "bytes": 11104,
+      "evidencePath": "assets/InterTight-SemiBold-DJfiTN08.woff2"
+    },
+    {
+      "path": "assets/JetBrainsMono-Medium-CMl9fZ9Q.woff2",
+      "sha256": "87858d28876614419a0f053386e78ef5f67b848001addb1c1c4af0f00de92ecd",
+      "bytes": 16540,
+      "evidencePath": "assets/JetBrainsMono-Medium-CMl9fZ9Q.woff2"
+    },
+    {
+      "path": "assets/Menu-Bt1jdeUk.js",
+      "sha256": "3c7a338b744c5d6d92ea2c860a6defb5e8db413e35686775f3b73005b8ffccb1",
+      "bytes": 23363,
+      "evidencePath": "assets/Menu-Bt1jdeUk.js.txt"
+    },
+    {
+      "path": "assets/RenderTargetSystem-CGVbkJQT.js",
+      "sha256": "191554f048addbfe68691979752396649d0b7cfe7b695b0c9256e4e8421ce538",
+      "bytes": 57479,
+      "evidencePath": "assets/RenderTargetSystem-CGVbkJQT.js.txt"
+    },
+    {
+      "path": "assets/Starship.webp",
+      "sha256": "c9d25bc1b496b4d27ee26ff039d0ff7bfa68d6a5936e199c7af2308c4c4adf8d",
+      "bytes": 41250,
+      "evidencePath": "assets/Starship.webp"
+    },
+    {
+      "path": "assets/browserAll-r__XUddT.js",
+      "sha256": "f45fefeb2b5735ffd4af1cb84a43d7b07b2d7b858b8ce20a6093364329d68260",
+      "bytes": 42726,
+      "evidencePath": "assets/browserAll-r__XUddT.js.txt"
+    },
+    {
+      "path": "assets/canvasUtils-BVPkC6ub.js",
+      "sha256": "048971b8c6719cfb4430573d07a55404fae07f02900e50f18b43ef1747e44b86",
+      "bytes": 6069,
+      "evidencePath": "assets/canvasUtils-BVPkC6ub.js.txt"
+    },
+    {
+      "path": "assets/charts-BBZhrHKM.css",
+      "sha256": "99a175f502b79550239afb3e87a50beab48a3fba0ef186c87fd8b24c9afd99a2",
+      "bytes": 693,
+      "evidencePath": "assets/charts-BBZhrHKM.css"
+    },
+    {
+      "path": "assets/constants-DTgHfLDf.js",
+      "sha256": "f51b21eca5e13962d7e3282bad3d472132e2cc584779685184255384b2e56207",
+      "bytes": 1626,
+      "evidencePath": "assets/constants-DTgHfLDf.js.txt"
+    },
+    {
+      "path": "assets/getTextureBatchBindGroup-Bt6AC8uX.js",
+      "sha256": "5280b5391faef03a4a1e0b26d3d7cdfd990437bcc7c72f13433543874663e126",
+      "bytes": 404,
+      "evidencePath": "assets/getTextureBatchBindGroup-Bt6AC8uX.js.txt"
+    },
+    {
+      "path": "assets/index-BPHJo-F9.js",
+      "sha256": "67a1b0505d8728a981f84f29a26cc51603ab195828b17ed9c41548778f4d16b9",
+      "bytes": 605039,
+      "evidencePath": "assets/index-BPHJo-F9.js.txt"
+    },
+    {
+      "path": "assets/index-BnaZiob0.css",
+      "sha256": "b07453c88f54756f79627fedd55054d7e5b1ab6a0fac28ede1563a3123e12c43",
+      "bytes": 54704,
+      "evidencePath": "assets/index-BnaZiob0.css"
+    },
+    {
+      "path": "assets/init-DnH_wx8r.js",
+      "sha256": "9f5ccb37bca8dba876b3318d1918d957aef0b7a13bf0602fbe0c958c4fa8cee4",
+      "bytes": 15661,
+      "evidencePath": "assets/init-DnH_wx8r.js.txt"
+    },
+    {
+      "path": "assets/lunchpad_Light1.webp",
+      "sha256": "2b979fadd6ea8076f9c6340989efe723e5c02e7ffe8ae6a0e84b8f67da3a9286",
+      "bytes": 33342,
+      "evidencePath": "assets/lunchpad_Light1.webp"
+    },
+    {
+      "path": "assets/lunchpad_Light2.webp",
+      "sha256": "0ecfcb920be8e0eb3ce7ce82345b8f707d8ab93a4f2442aa3303042eb5c8cf18",
+      "bytes": 33178,
+      "evidencePath": "assets/lunchpad_Light2.webp"
+    },
+    {
+      "path": "assets/pig.webp",
+      "sha256": "932ef01e3241c1ddcb0eaa27b21ea9ffda034c8185cdc271f335559d46a7ec7a",
+      "bytes": 12954,
+      "evidencePath": "assets/pig.webp"
+    },
+    {
+      "path": "assets/plots-D2GbP0iN.css",
+      "sha256": "698c252546135be902c038c323afb48459187daa2ee51555dfc05f2e4729dc16",
+      "bytes": 1174,
+      "evidencePath": "assets/plots-D2GbP0iN.css"
+    },
+    {
+      "path": "assets/plots-DprjxOyN.js",
+      "sha256": "3f8961afe354fc403a16c15ec770bda31079226da3b1206c2c6d56bec3f401bf",
+      "bytes": 4634,
+      "evidencePath": "assets/plots-DprjxOyN.js.txt"
+    },
+    {
+      "path": "assets/sn15.webp",
+      "sha256": "0dca7f7a4300aacc726e67bbd8df84ec44e87b7f894786d779fda657b70b52a8",
+      "bytes": 74652,
+      "evidencePath": "assets/sn15.webp"
+    },
+    {
+      "path": "assets/starBaseBackGround.webp",
+      "sha256": "a6ba3be4e9886ecddc8fcb87b63ee8790b30f4260339dd9379e46e43604dbd75",
+      "bytes": 118016,
+      "evidencePath": "assets/starBaseBackGround.webp"
+    },
+    {
+      "path": "assets/starBaseBackGround2.webp",
+      "sha256": "de17f7cd0c339e33012f6bb9cf09831b0772989f4933ed8528b94da91cd30094",
+      "bytes": 374330,
+      "evidencePath": "assets/starBaseBackGround2.webp"
+    },
+    {
+      "path": "assets/starhopper.webp",
+      "sha256": "18d787ffa3c8a335496a716e10dd1e3b1928216eeb949d67b20f70030069cf73",
+      "bytes": 107494,
+      "evidencePath": "assets/starhopper.webp"
+    },
+    {
+      "path": "assets/state-D62ubXaV.js",
+      "sha256": "6488c92c6af01829dd266d3e971e8e2ecd725d46d6a8189201c7b3f062464dfe",
+      "bytes": 14918,
+      "evidencePath": "assets/state-D62ubXaV.js.txt"
+    },
+    {
+      "path": "assets/tree1.webp",
+      "sha256": "a619ac2b77ce81c18c3df23141ecf2197b91fcfb2ea17129b8e336746a88663a",
+      "bytes": 54646,
+      "evidencePath": "assets/tree1.webp"
+    },
+    {
+      "path": "assets/tree2.webp",
+      "sha256": "a363d125f4e2d5bce0d67bee389e051cc84bcfbba7aef75d86f10f9a69b80ce3",
+      "bytes": 32514,
+      "evidencePath": "assets/tree2.webp"
+    },
+    {
+      "path": "assets/uPlot-CnsZ1jie.css",
+      "sha256": "0fd9465202f6dfceac29e67c17e5ac9fb1b7ba7615c1bb08782391b791d9f1e0",
+      "bytes": 1644,
+      "evidencePath": "assets/uPlot-CnsZ1jie.css"
+    },
+    {
+      "path": "assets/uPlot.esm-C4ecZUO0.js",
+      "sha256": "9b18dcc3e2b7d5f2772f6bc47d07f5ae188ca3255a7d7f4a7a5f2f3cd67d6870",
+      "bytes": 51043,
+      "evidencePath": "assets/uPlot.esm-C4ecZUO0.js.txt"
+    },
+    {
+      "path": "assets/webworkerAll-DvylQK-b.js",
+      "sha256": "dc8b43bc3fe168d91255ebe04aa4ab418d026b4e232567d6b0aa1823a242d5e9",
+      "bytes": 55,
+      "evidencePath": "assets/webworkerAll-DvylQK-b.js.txt"
+    },
+    {
+      "path": "icon.svg",
+      "sha256": "8fca8bf870cbaac0c5a22ce6c61891f04536f59d8955b8b1e62fd57992e39493",
+      "bytes": 343,
+      "evidencePath": "icon.svg"
+    },
+    {
+      "path": "index.html",
+      "sha256": "1cb9a3d304daf364132c8e51ea31ba4b29a1facd649402ebb8e06c00655fb55f",
+      "bytes": 2356,
+      "evidencePath": "index.html"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "sha256": "967f4db3dab163c63f9ff81b9f842a82bebabb10ef20f12578bfc4773781f50c",
+      "bytes": 419,
+      "evidencePath": "manifest.webmanifest"
+    }
+  ],
+  "tlsVerification": "curl default enabled; no insecure options"
+}
