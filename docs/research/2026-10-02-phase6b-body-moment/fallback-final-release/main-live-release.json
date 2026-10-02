@@ -1,0 +1,35 @@
+{
+  "mergeSha": "c2ae5e46a25db0bdd63504a8f93d37056176b069",
+  "mainGateExitCode": 0,
+  "mainCI": {
+    "id": 37071475434,
+    "conclusion": "success"
+  },
+  "pages": {
+    "id": 37071475425,
+    "conclusion": "success"
+  },
+  "liveSmoke": {
+    "exitCode": 0,
+    "passes": 5,
+    "retries": 0,
+    "certificateValidation": true
+  },
+  "liveBuild": {
+    "serviceWorkerVersion": "3da4ee45585e",
+    "assetsByteIdentical": 44
+  },
+  "hostedSmokeCaveat": {
+    "tests": [
+      "menu.spec.ts:17",
+      "menu.spec.ts:58"
+    ],
+    "initialVisibilityFailures": 2,
+    "passingRetry": 1,
+    "occursIn": [
+      "main CI",
+      "Pages gate"
+    ],
+    "disposition": "Existing Phase9 readiness debt; no assertion/retry change."
+  }
+}

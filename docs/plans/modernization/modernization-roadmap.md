@@ -75,7 +75,7 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 - [x] Phase 4 — React shell (merged `dfab3c8`)
 - [x] Phase 5 — Guidance on real physics (merged `b84b746`; goldens on the recording platform `3429ea1`)
 - [x] Phase 6 — Ship realism (merged `080f108`, live 2026-10-01 Vancouver time). Complete gate green on main; branch full e2e 438 passed / 0 failed / 11 configured skips. CI `36956332929` and Pages `36956332944` succeeded at the merge SHA. Live deployment smoke 5/5 passed; served service worker matches the verified build byte for byte, cache version `b72a7b0bad39`. Hosted menu smoke needed existing retries on two checks; retained as Phase 9 debt. [Close evidence](../../research/2026-10-01-phase6-close.md). Earth's rate and the parked aero moved to 6b.
-- [ ] Phase 6b — Entry on lift ([phase plan](modernization-phase-6b.md))
+- [x] Phase 6b — Closed under the approved broadside fallback (merged `c2ae5e4`, live2026-10-02). Task5/braking/debrief andcontinuous exhaust fixes ship; body-axis/fin/RCS/Earth-rate remain explicitly parked. Complete main gate, independenthighreview, finalfullbrowser480pass/0fail/11configuredskips/0retries, all21mutationfaults, mainCI37071475434/Pages37071475425 andlive5smoke pass. All44servedassets match version3da4ee45585e. Two existinghostedmenuflakes remain Phase9. [Closure evidence](../../research/2026-10-02-phase6b-close.md).
 - [ ] Phase 7 — Super Heavy
 - [ ] Phase 8 — Visuals
 - [ ] Phase 9 — UX to flight_sim level
@@ -185,3 +185,7 @@ Independent final release acceptance is retained and coherent evidence checkpoin
 ## Main gate and push verified
 
 Complete maingate session24097 exits0:1993units/1993coverage,unchangedfloors,13smoke and5subpath;rawphase6b-main-gate.log andmain-gate.json retained. Main merge `c2ae5e46a25db0bdd63504a8f93d37056176b069` pushed normally. MainCI37071475434 andPages37071475425 running atsameSHA;liveidentity/smoke stillpending. Localbuild serviceworker version3da4ee45585e. Main ismerged,6bnotyetliveclosed/ticked;60%,four phasesuntilverifiedclosure. Neverrestartfullbrowser32317 ormaingate24097. Afterliveclosurecontinue7–9.
+
+## Current next phase
+
+Sevenoftenphases complete(70%). Phase6b ismerged/liveverified atc2ae5e4 underapprovedfallback. Itsfinishedplansclose; Phase7SuperHeavy isnext, followedby8Visuals and9UX. NoPhase7 implementationstarted andnoownerquestionpending. CurrentGOAL supersedes allhistoricaldiagnostic checkpointsabove; donotredo6b.

@@ -379,3 +379,7 @@ Independent final release acceptance is retained and coherent evidence checkpoin
 ## Main gate and push verified
 
 Complete maingate session24097 exits0:1993units/1993coverage,unchangedfloors,13smoke and5subpath;rawphase6b-main-gate.log andmain-gate.json retained. Main merge `c2ae5e46a25db0bdd63504a8f93d37056176b069` pushed normally. MainCI37071475434 andPages37071475425 running atsameSHA;liveidentity/smoke stillpending. Localbuild serviceworker version3da4ee45585e. Main ismerged,6bnotyetliveclosed/ticked;60%,four phasesuntilverifiedclosure. Neverrestartfullbrowser32317 ormaingate24097. Afterliveclosurecontinue7–9.
+
+## Phase6b closed; Phase7 next
+
+Phase6b merged/livec2ae5e4,70%,sevenoften complete. Exactclosure/results/limits in `docs/research/2026-10-02-phase6b-close.md` andfallback-final-release/. MainCI37071475434/Pages37071475425 succeed; each hasexisting2menuvisibilityflakes passingretry1 (Phase9 debt). Livesmoke5pass/all44assets byte-identical/version3da4ee45585e. Closefinished6b/componentplans, review/merge documentationclosure normally, thenwrite/execute7/8/9. NoTask1–4parkedmodelredo, nofullbrowser/main gate/mutationrerun withoutnewchange. CurrentGOAL carries thenext boundedtask; noownerquestion.
