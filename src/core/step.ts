@@ -64,6 +64,9 @@ import * as wind from './physics/wind';
 import { createMassProperties, writeMassProperties } from './physics/mass';
 import * as act from './control/actuation';
 import { runAutopilot } from './autopilot';
+import { runBoosterPostStep } from './autopilot/booster';
+import type { MechanicalControl } from './control/mechanical';
+import { invalidateBoosterReturn } from './control/booster-return-plan';
 import { cloneState, type SimState } from './state';
 import { rad } from './units';
 
@@ -257,6 +260,22 @@ function updatePerceivedG(s: SimState, specificX: number, specificY: number): vo
 const gridFinForces = createGridFinForces();
 
 export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT, model: VehicleDefinition = SHIP): SimState {
+  const next=advance(previous,dt,input,model,flightControls);
+  if(model.id==='super-heavy')runBoosterPostStep(next,dt,model,advanceMechanics);
+  return next;
+}
+
+function flightControls(state:SimState,dt:number,model:VehicleDefinition):void {
+  runAutopilot(state,dt,model,advanceMechanics);
+}
+
+/** The very same physics/engine/actuator advance, with a supplied planned
+ * control law. Input and all RNG are cloned just as in normal step(). */
+export function advanceMechanics(previous:SimState,dt:number,control:MechanicalControl,model:VehicleDefinition):SimState {
+  return advance(previous,dt,NO_INPUT,model,control);
+}
+
+function advance(previous:SimState,dt:number,input:StepInput,model:VehicleDefinition,control:MechanicalControl):SimState {
   const s = cloneState(previous);
   // Chopstick contact carries weight and torque until a scenario restart.
   // A secured booster has no ground contact and cannot restart propulsion.
@@ -267,6 +286,11 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
     s.world.updatedFrameCount += 1;
     return s;
   }
+
+  // Invalidate before policy can execute a cutoff from the old commanded
+  // future. Post-step planning may observe the complete overridden source.
+  if(model.id==='super-heavy' && (input.pitchControl!==undefined || input.throttle!==undefined))
+    invalidateBoosterReturn(s.autopilot);
 
   /*
     M11.1, Fidelity: the aerodynamics act through the RELATIVE wind, and this
@@ -632,12 +656,15 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
   // That is 2021's order — readInputFromManualFlightControl() ran after
   // autoPilotControlInput() and simply clobbered whatever the autopilot wrote,
   // which is why any manual touch instantly takes over.
-  runAutopilot(s, dt);
+  control(s, dt, model);
 
   if (input.throttle !== undefined) s.vehicle.throttle = input.throttle;
-  if (input.pitchControl !== undefined) s.autopilot.pitchControl = input.pitchControl;
+  if (input.pitchControl !== undefined) {
+    s.autopilot.pitchControl = input.pitchControl;
+    if (model.gridFins) s.autopilot.boosterFinControl = input.pitchControl;
+  }
 
-  act.controlTranslation(s, s.autopilot.pitchControl, dt, model);
+  act.controlTranslation(s, s.autopilot.pitchControl, dt, model, input.pitchControl !== undefined);
   act.throttleUpdate(s, dt);
 
   // Judge current pressure, tile temperature and specific force. Shutdown is

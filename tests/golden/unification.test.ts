@@ -43,6 +43,7 @@
  *     P6b.1b  Earth rotation and common aim      ALL EIGHT: turning-ground dynamics
  *     P6b.5   current forces and throttle demand ALL EIGHT: freshness; isolated RTLS motion
  *     P6b.F   approved broadside fallback        ALL EIGHT: restores model, retains Task5
+ *     P7.3    actual booster capture guidance    eight Ship unchanged; two actual booster fixtures added
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle

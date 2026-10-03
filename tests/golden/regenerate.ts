@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { record, samplesOf, serialise } from './record';
 import { GOLDEN_SPECS } from './scenarios';
 import { isRecordingPlatform } from './compare';
+import { boosterSpecs,recordBooster } from './booster-record';
 
 /*
   Fixtures are committed only from the recording platform, where replay is
@@ -46,3 +47,13 @@ for (const spec of GOLDEN_SPECS) {
   );
 }
 console.log(`\n${GOLDEN_SPECS.length} fixtures written to tests/golden/fixtures/`);
+
+mkdirSync(`${DIR}booster/`,{recursive:true});
+for(const spec of boosterSpecs) {
+  const golden=recordBooster(spec);
+  writeFileSync(`${DIR}booster/${spec.id}.json`,serialise(golden)+'\n');
+  const last=samplesOf(golden).at(-1)!;
+  if(!last['status.landed'] || last['status.onTheGround'] || !(Number(last['vehicle.propellantMass'])>0))
+    throw new Error(`${spec.id}: recording did not physically catch`);
+  console.log(`${spec.id}: actual booster caught, ${Number(last['vehicle.propellantMass'])}kg remaining`);
+}

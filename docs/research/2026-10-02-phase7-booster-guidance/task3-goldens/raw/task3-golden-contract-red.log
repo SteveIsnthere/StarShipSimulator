@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/golden/booster-record.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/golden/booster-record.test.ts [ tests/golden/booster-record.test.ts ]
+Error: Cannot find module './booster-record' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/golden/booster-record.test.ts
+ ❯ tests/golden/booster-record.test.ts:3:1
+      1| import { describe,expect,it } from 'vitest';
+      2| import { createScenarioVehicle,PRESETS } from '$core/scenarios';
+      3| import { boosterSample,boosterSpecs } from './booster-record';
+       | ^
+      4| import { flattenState } from './record';
+      5|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  22:29:40
+   Duration  180ms (transform 58ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

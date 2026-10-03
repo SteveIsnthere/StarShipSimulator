@@ -1,0 +1,58 @@
+{
+  "workflow": 37100120181,
+  "source": "213307f3bbc4bca6fc518013115bddfaa99ec4e1",
+  "platform": "linux/x64/Node22",
+  "prediction": "eight Ship byte-identical; two actual booster catches added",
+  "existing": {
+    "before-flip-autoland.json": {
+      "byteIdentical": true,
+      "sha256": "cbfb87a0930a42720942f6ebac435c5f7431a3b92a341b4f1fb4251cf79630ac"
+    },
+    "booster-sep-boostback.json": {
+      "byteIdentical": true,
+      "sha256": "042c5e74039a92a4c85ef176b0190ef2e6d9b82944e81c483c4d87531a1c1d54"
+    },
+    "intro-demo.json": {
+      "byteIdentical": true,
+      "sha256": "5936807264fccd93933de09b1bf292c48d0a7dc22e487ea074f2515538b9f1c7"
+    },
+    "landing-burn-autoland.json": {
+      "byteIdentical": true,
+      "sha256": "a17089cba6dbb0d3aa79ff2f2ae058cbbb469640f2ad733e258323a9f4b87796"
+    },
+    "landing-burn-headwind.json": {
+      "byteIdentical": true,
+      "sha256": "422c4ad6e6940f5afea8c0df2b055c597689dd3b2382c4a1c8bbc46a6b9867ec"
+    },
+    "launch-pad-takeoff.json": {
+      "byteIdentical": true,
+      "sha256": "4b12b151bcd85352b7c3326bcc797bfd4fd70d639bb2ed2872428719a724ac18"
+    },
+    "reentry-autoland.json": {
+      "byteIdentical": true,
+      "sha256": "02a070d010b97a8c666bf92fa72aa59c8f839e7e13d176033f832f2c8c99cf9b"
+    },
+    "rtls-boostback.json": {
+      "byteIdentical": true,
+      "sha256": "f7b8f3aca74fe88ceb3e558061e47119ea1474a80cef129117f8698ff1d0d4df"
+    }
+  },
+  "added": {
+    "booster-sep-catch.json": {
+      "sha256": "5c754d0217301aeec35c9850a8ac71b31abae86635898e2724abdb1e08dbbd98",
+      "samples": 1801,
+      "steps": 108000,
+      "fuel": 89425.68651596611,
+      "caught": true,
+      "onGround": false
+    },
+    "rtls-catch.json": {
+      "sha256": "8b10c24c1d68136477226b0728420870046d456f198dcedf64aaf4ba9113fb33",
+      "samples": 1801,
+      "steps": 108000,
+      "fuel": 90446.76144551557,
+      "caught": true,
+      "onGround": false
+    }
+  }
+}

@@ -1,0 +1,50 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (18 tests | 2 failed | 15 skipped) 13ms
+     × starts replacement work from the complete returned overridden source without mutating the old frame 10ms
+     × removes an accepted old cutoff before automatic controls can execute it on a manual override 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster manual input invalidates source-pinned future authority > starts replacement work from the complete returned overridden source without mutating the old frame
+AssertionError: expected 0.008333333333333333 to be 0.016666666666666666 // Object.is equality
+
+- Expected
++ Received
+
+- 0.016666666666666666
++ 0.008333333333333333
+
+ ❯ tests/core/booster-command.test.ts:261:42
+    259|     const next=step(first,1/120,{pitchControl:100,throttle:40},SUPER_H…
+    260|     const origin=next.autopilot.boosterPrediction!.origin;
+    261|     expect(origin.world.environmentTime).toBe(next.world.environmentTi…
+       |                                          ^
+    262|     expect(origin.autopilot.pitchControl).toBe(100);expect(origin.vehi…
+    263|     expect(origin.vehicle.gimbalPosition).toBe(next.vehicle.gimbalPosi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster manual input invalidates source-pinned future authority > removes an accepted old cutoff before automatic controls can execute it on a manual override
+AssertionError: expected 'coast' to be 'boostback' // Object.is equality
+
+Expected: "boostback"
+Received: "coast"
+
+ ❯ tests/core/booster-command.test.ts:272:41
+    270|     initial.autopilot.boosterReturnPlan={originTime:0,shutdownAt:1/120…
+    271|     const next=step(initial,1/120,{pitchControl:100,throttle:40},SUPER…
+    272|     expect(next.autopilot.boosterPhase).toBe('boostback');
+       |                                         ^
+    273|     expect(next.autopilot.boosterReturnPlan).toBeUndefined();
+    274|     expect(next.autopilot.pitchControl).toBe(100);expect(next.vehicle.…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed | 15 skipped (18)
+   Start at  22:37:01
+   Duration  274ms (transform 115ms, setup 0ms, import 140ms, tests 13ms, environment 0ms)
+

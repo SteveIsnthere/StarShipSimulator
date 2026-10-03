@@ -28,7 +28,9 @@ import { tangentialAcceleration, verticalGravityAcceleration, verticalWeight } f
 import { isaAtmosphereInto } from '../physics/isa';
 import { meanWindAt } from '../physics/wind';
 import type { SimState } from '../state';
-import { rad } from '../units';
+import { rad, type Rad } from '../units';
+import { createMassProperties, writeMassProperties } from '../physics/mass';
+import { createGridFinForces, writeGridFinForces } from '../physics/grid-fins';
 
 /**
  * m/s² — the floor `localGravity` never goes below.
@@ -193,6 +195,23 @@ function burnDeceleration(engines: number, h: number, u: number, m: number, scra
 const MASS_PASSES = 24;
 const MASS_TOLERANCE = 1;
 
+/** Conservative upper bound for the existing SL-Raptor burn predictor's
+ * trigger, not an alternative burn solution. Through a forward stopping burn,
+ * thrust >= sea-level, mass <= initial mass, drag assists and gravity <= its
+ * catch-plane value. Thus deceleration >= thrustSL/mass - gravityMax, and
+ * distance <= u²/(2aMin). One full midpoint step's mass plus the existing root
+ * residual bounds the backward predictor's endpoint interpolation. Infinity
+ * means no positive lower acceleration bound; run the exact predictor then.
+ * This only saves work safely ABOVE the bound. It never commands an engine. */
+export function conservativeBurnStartAltitude(engines:number,mass:number,descentSpeed:number,touchdownHeight:number):number {
+  if(engines<=0 || mass<=0)return Infinity;
+  const upperMass=mass+engines*C.maxFuelFlowPerRaptor*BURN_STEP+MASS_TOLERANCE;
+  const minAcceleration=thrustFor(engines,C.SEA_LEVEL_PRESSURE_PA/1000)/upperMass
+    -verticalWeight(C.planetRadius+touchdownHeight);
+  if(minAcceleration<=0)return Infinity;
+  return touchdownHeight+Math.max(0,descentSpeed)**2/(2*minAcceleration);
+}
+
 
 /**
  * m — the altitude at which a full-throttle burn on `engines` Raptors, flown
@@ -327,14 +346,18 @@ function fallAcceleration(
   referenceWind: number,
   scratch: BurnScratch,
   model: VehicleDefinition,
+  gustX=0,
+  gustY=0,
 ): void {
   const { inputs, acc } = scratch;
   const r = C.planetRadius + altitude;
   const air = scratch.atmosphere;
   isaAtmosphereInto(Math.max(altitude, 0), air);
-  const rx = vx - meanWindAt(referenceWind, altitude);
-  const speed = Math.sqrt(rx * rx + vy * vy);
-  const motion = Math.atan2(rx, vy);
+  const meanRelativeX = vx - meanWindAt(referenceWind, altitude);
+  const rx = gustX===0?meanRelativeX:meanRelativeX-gustX;
+  const ry = gustY===0?vy:vy-gustY;
+  const speed = Math.sqrt(rx * rx + ry * ry);
+  const motion = Math.atan2(rx, ry);
   const attack = wrappedAttackAngle(pitch, motion);
   const intoWind = foldedIntoWind(attack);
   const area = getCrossSectionalArea(rad(intoWind), maxArea, model);
@@ -345,6 +368,24 @@ function fallAcceleration(
   inputs.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
   acc.x = getHorizontalAcceleration(inputs) + tangentialAcceleration(r, vx, vy);
   acc.y = getVerticalAcceleration(inputs, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);
+}
+
+const forceMass=createMassProperties(),forceGrid=createGridFinForces();
+/** The existing force law at a proposed hull attitude. No integration or
+ * actuator impulse: callers must still prove actual slew/contact mechanically.
+ * Includes current gusts and the delivered grid-fin deflection. */
+export function writeUnpoweredAcceleration(state:SimState,pitch:Rad,model:VehicleDefinition,scratch:BurnScratch):void {
+  const k=state.kinematics;
+  fallAcceleration(k.altitude,k.speedX,k.speedY,pitch,state.vehicle.vehicleMass,
+    state.vehicle.vehicleInFlightMaxArea,state.world.wind,scratch,model,state.world.gust,state.world.gustVertical);
+  if(model.gridFins){
+    writeMassProperties(state.vehicle.propellantMass,forceMass,model);
+    writeGridFinForces(scratch.atmosphere.airDensity,
+      k.speedX-meanWindAt(state.world.wind,k.altitude)-state.world.gust,k.speedY-state.world.gustVertical,
+      rad((state.vehicle.frontFinExtension-50)/50*model.gridFins.maxAngle),pitch,forceMass.centreOfMass,model,forceGrid);
+    scratch.acc.x+=forceGrid.forceX/state.vehicle.vehicleMass;
+    scratch.acc.y+=forceGrid.forceY/state.vehicle.vehicleMass;
+  }
 }
 
 /**
@@ -369,9 +410,10 @@ export function unpoweredFallInto(
   scratch: BurnScratch,
   out: FallResult,
   model: VehicleDefinition = SHIP,
+  pitchOverride = state.kinematics.pitch,
 ): void {
   const { kinematics, vehicle, world } = state;
-  const pitch = kinematics.pitch;
+  const pitch = pitchOverride;
   const mass = vehicle.vehicleMass;
   const maxArea = vehicle.vehicleInFlightMaxArea;
   // The air's downrange speed, as step() takes it, at each height of the fall:

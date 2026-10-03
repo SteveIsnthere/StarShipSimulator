@@ -13,7 +13,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
 | 6 Ship realism | done, live; gate and live deployment smoke verified | `080f108` |
 | 6b Entry on lift | closed under approved broadside fallback, live and verified | `c2ae5e4` |
-| 7 Super Heavy | not started | — |
+| 7 Super Heavy | Tasks1–3 core implemented; hot staging/UI/release remain | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
 | 9 UX to flight_sim level | not started | — |
 
@@ -90,3 +90,7 @@ Cycle4 partial checkpoint: executable cutoff/complete returned readiness/startup
 Cycle4attempt2 original traced harness4pass; both physical airborne catches retain fuel/no failures/finite full state and hold. Attempt1 finite-origin metadata failure fixed at booster construction, without Ship change.110focused/Ship checks/build/lint0/14truthIN. Recovery23pins/patch/raw actual events in `../../research/2026-10-02-phase7-booster-guidance/cycle4-terminal-allocation/README.md`.2/3cycle consumed; current result green. Next finish Task3 selected-model scenario suite/fuel docs/fixtures, Task4hotstage/Task5controls/Task6release, then8/9.7phase notclosed; no gate/review/merge/deploy claimed. Steve approved only coast-only determinism wait4000actualstep/≤4percall exception; production deadlines unchanged.
 
 Scenario integration follow-up: selected-model scenario/catch/analytic77pass, complete unit baseline2120pass/168files/67.06s including eight unchanged Ship goldens. Fuel/physics documentation measured. Current24pins/checked recovery patch against65e7641 (scenario-source files in cycle4-terminal-allocation). No runtime committed yet; next actual booster golden coverage/Linux audit then coherent Task3code/fixtures/audit commit, hotstage4/UI5/release6/8/9. No task3diagnosis replay needed.
+
+## Latest: Task3 actual booster fixtures, Task4 next
+
+Task3 final2128units/170files, build/lint0 and14truthIN. Both actual booster catches are represented by Linux22 fixtures; eight existing Ship files are byte-identical. Fresh independent fallback review found and verified the stale manual-input cutoff fix; Task5 generic autopilot and direct UI-event invalidation obligations remain. Hosted snapshot CI37100120187 fails coverage floors despite2122units passing. Record/fix all floor deficits before Phase7 release; do not lower them. Exact raw evidence/review/final source recovery is task3-goldens. Next shared-dynamics Refactor proof/checkpoint, physical hot staging, two-vehicle functional UI and complete release, then8/9. Main/live unchanged;70%byphasecount.
