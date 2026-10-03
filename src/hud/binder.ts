@@ -143,6 +143,7 @@ export interface IndicatorBinder {
 
 export interface IndicatorBindOptions {
   resolve(id: string): ClassTarget | null;
+  indicators?: readonly Indicator[];
   /** Class applied while the control is active. Defaults to `is-on`. */
   activeClass?: string;
 }
@@ -167,7 +168,7 @@ export function createIndicatorBinder(options: IndicatorBindOptions): IndicatorB
     el: ClassTarget | null;
     /** Deliberately neither true nor false, so the first update always writes. */
     last: boolean | null;
-  }> = INDICATORS.map((indicator) => ({
+  }> = (options.indicators ?? INDICATORS).map((indicator) => ({
     indicator,
     el: options.resolve(indicator.id),
     last: null,
@@ -224,6 +225,7 @@ export interface MetricBinder {
 
 export interface MetricBindOptions {
   resolve(id: string): AttributeTarget | null;
+  metrics?: readonly Metric[];
 }
 
 /**
@@ -254,7 +256,7 @@ export function createMetricBinder(options: MetricBindOptions): MetricBinder {
     el: AttributeTarget | null;
     /** Not a number, so the first update always writes. */
     last: number | null;
-  }> = METRICS.map((metric) => ({
+  }> = (options.metrics ?? METRICS).map((metric) => ({
     metric,
     el: options.resolve(metric.id),
     last: null,

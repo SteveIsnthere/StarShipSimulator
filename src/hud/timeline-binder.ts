@@ -42,6 +42,8 @@ export interface TimelineBinder {
    * frame.
    */
   rebind(track: readonly EventId[], resolve: (id: string) => AttributeTarget | null): void;
+  /** Selection changes the history, while cached DOM targets remain valid. */
+  follow(timeline: Timeline): void;
   readonly lastWriteCount: number;
   readonly totalWrites: number;
   destroy(): void;
@@ -83,7 +85,7 @@ export function narrate(
 }
 
 export function createTimelineBinder(options: TimelineBindOptions): TimelineBinder {
-  const { timeline } = options;
+  let timeline = options.timeline;
 
   let bound: Array<{ event: EventId; el: AttributeTarget | null; last: NodeState | null }> = [];
   let track: readonly EventId[] = [];
@@ -113,6 +115,13 @@ export function createTimelineBinder(options: TimelineBindOptions): TimelineBind
         // freshly rendered dots are never left showing a stale state.
         last: null,
       }));
+      lastNow = ' ';
+      lastNext = ' ';
+    },
+
+    follow(next): void {
+      timeline = next;
+      for (const entry of bound) entry.last = null;
       lastNow = ' ';
       lastNext = ' ';
     },

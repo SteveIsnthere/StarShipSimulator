@@ -58,6 +58,7 @@ export function Controls() {
   const cinematic = useSessionState((s) => s.cinematic);
   // The session already ignores keys while a layer is open; the sliders follow.
   const blocked = useSessionState((s) => s.layer !== null);
+  const selectedVehicle = useSessionState(s => s.selectedVehicle);
 
   const [open, setOpen] = useState(() => initialOpen(mode));
   if (open.mode !== mode) setOpen(initialOpen(mode));
@@ -82,7 +83,7 @@ export function Controls() {
       indicators.current = null;
       session.bindIndicators(() => null);
     };
-  }, [session]);
+  }, [session, selectedVehicle]);
 
   const tabBar = phone && !cinematic;
   const bottom = tabBar ? aboveTabBar(TAB_BAR_HEIGHT + (open.engines || open.flight ? SHEET_HEIGHT : 0)) : '0px';

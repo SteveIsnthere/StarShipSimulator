@@ -10,7 +10,8 @@
  */
 import type { ControlEvent } from '$app/controls';
 import { AUTOPILOT_MODES } from '$ui/guide';
-import { useSession } from '../session-context';
+import { useSession, useSessionState } from '../session-context';
+import { MissionControls } from './MissionControls';
 import { ControlButton } from './ControlButton';
 import { CommandSlider } from './CommandSlider';
 import { MANUAL_PROPS } from './indicators';
@@ -52,6 +53,8 @@ export interface FlightGroupProps {
 export function FlightGroup({ blocked, onManual }: FlightGroupProps) {
   const session = useSession();
   const yoke = useCommandValue(readYoke);
+  const attached = useSessionState(s => s.missionPhase === 'attached');
+  const booster = useSessionState(s => s.selectedVehicle === 'super-heavy');
 
   /*
     switches.js:2 and :8. Grabbing the yoke suspends attitude hold; letting go
@@ -63,6 +66,7 @@ export function FlightGroup({ blocked, onManual }: FlightGroupProps) {
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)] gap-2">
+      <MissionControls blocked={blocked} />
       <CommandSlider
         label="Attitude"
         value={yoke.value}
@@ -100,8 +104,9 @@ export function FlightGroup({ blocked, onManual }: FlightGroupProps) {
             indicator={mode.indicator}
             testid={mode.testid}
             className={SEGMENT}
+            disabled={attached || (booster && mode.testid === 'auto-deorbit')}
           >
-            {MODE_LABELS[mode.testid] ?? mode.label}
+            {booster && mode.testid === 'auto-land' ? 'Catch' : MODE_LABELS[mode.testid] ?? mode.label}
           </ControlButton>
         ))}
       </div>

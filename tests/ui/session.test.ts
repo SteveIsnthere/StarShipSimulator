@@ -14,6 +14,57 @@ import { DT } from '$app/loop';
 beforeEach(() => void installMemoryStorage());
 
 describe('flights', () => {
+  it('keeps separate selected-body histories while both hot-stage bodies advance', () => {
+    const session = createSession();
+    session.startHotStage();
+    const shipRecorder = session.recorder;
+    const shipTimeline = session.timeline;
+    expect(session.store.getState().missionPhase).toBe('attached');
+    session.stage();
+    for (let i = 0; i < 180; i++) session.advance(DT);
+    expect(session.mission!.phase).toBe('separated');
+    expect(shipRecorder.length).toBeGreaterThan(0);
+    const shipSamples = [...shipRecorder.series['propellant']!];
+    session.selectVehicle('super-heavy');
+    const boosterRecorder = session.recorder;
+    expect(boosterRecorder).not.toBe(shipRecorder);
+    expect(session.timeline).not.toBe(shipTimeline);
+    expect(boosterRecorder.length).toBe(shipRecorder.length);
+    expect(session.store.getState().selectedVehicle).toBe('super-heavy');
+    expect(session.loop.state).toBe(session.mission!.booster);
+    session.openLayer('blackBox');
+    session.advance(1);
+    expect(shipRecorder.series['propellant']).toEqual(shipSamples);
+    session.closeLayer();
+    session.advance(DT);
+    session.selectVehicle('ship');
+    expect(session.recorder).toBe(shipRecorder);
+    expect(shipRecorder.series['propellant']![0]).toBeGreaterThan(1000);
+    // The first sample precedes ignition; actual fuel has not been spent yet.
+    expect(boosterRecorder.series['propellant']![0]).toBe(500);
+    session.restart();
+    expect(session.mission!.phase).toBe('attached');
+    expect(session.model.id).toBe('ship');
+    expect(session.recorder.length).toBe(0);
+    expect(session.previousRecorder.length).toBeGreaterThan(0);
+    expect(session.loop.totalSteps).toBe(0);
+  });
+
+  it('restarts the requested hot-stage seed and applies the shared failure setting to both bodies', () => {
+    const session = createSession();
+    session.startHotStage(123);
+    const initial = structuredClone(session.mission);
+    session.toggleRandomFailure();
+    expect(session.mission!.ship.failures.randomFailure).toBe(true);
+    expect(session.mission!.booster.failures.randomFailure).toBe(true);
+    session.toggleRandomFailure();
+    session.stage();
+    session.advance(DT);
+    session.restart();
+    expect(session.mission).toEqual(initial);
+    expect(session.store.getState().stageRequested).toBe(false);
+  });
+
   it('uses the selected booster model in the actual session loop and operator controls', () => {
     const session = createSession();
     session.startFlight(getScenario('rtls')!);

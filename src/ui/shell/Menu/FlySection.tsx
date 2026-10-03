@@ -8,6 +8,7 @@
  */
 import { Eyebrow } from '@ui/Eyebrow';
 import { Tile } from '@ui/Tile';
+import { Button } from '@ui/Button';
 import type { ScenarioPreset } from '$core/scenarios';
 import { scenarioStats } from '$ui/guide';
 import { presetTestId } from '$ui/testids';
@@ -17,9 +18,10 @@ export interface FlySectionProps {
   /** The preset the form was last filled from. */
   selectedId: string;
   onPick: (preset: ScenarioPreset) => void;
+  onStartHotStage(): void;
 }
 
-export function FlySection({ selectedId, onPick }: FlySectionProps) {
+export function FlySection({ selectedId, onPick, onStartHotStage }: FlySectionProps) {
   return (
     <div className="flex flex-col gap-5">
       {SCENARIO_GROUPS.map((group) => (
@@ -48,6 +50,11 @@ export function FlySection({ selectedId, onPick }: FlySectionProps) {
           </div>
         </div>
       ))}
+      <div className="grid gap-2 border-t border-ui-line-muted pt-3">
+        <Eyebrow as="h3">Two-vehicle mission</Eyebrow>
+        <p className="text-[12px] leading-4 text-ui-muted">Start attached, stage, then choose which vehicle to fly.</p>
+        <Button type="button" data-testid="start-hot-stage" onClick={onStartHotStage}>Start hot staging</Button>
+      </div>
     </div>
   );
 }

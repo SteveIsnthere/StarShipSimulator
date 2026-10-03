@@ -56,6 +56,7 @@ export function createMissionController() {
     loop,
     get model() { return model; },
     get mission() { return missionLoop?.state; },
+    get stagePending() { return stagePending; },
     startFlight(preset: ScenarioPreset) {
       const flight = createScenarioVehicle(preset);
       missionLoop = undefined;
@@ -73,6 +74,7 @@ export function createMissionController() {
       project();
     },
     emit(event: ControlEvent) {
+      if (model.id === 'super-heavy' && event.type === 'autoDeorbit') return;
       // The attached demonstration is manually staged; its core intentionally
       // does not run either free-flight autopilot until physical separation.
       if (missionLoop?.state.phase === 'attached' && (

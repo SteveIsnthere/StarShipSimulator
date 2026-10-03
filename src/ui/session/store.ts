@@ -12,6 +12,7 @@ import type { Debrief } from '$hud/debrief';
 import { INTRO, type ScenarioPreset } from '$core/scenarios';
 import { REAL_TIME, type TimeSetting } from '$app/menu';
 import type { AutopilotMode } from '$hud/autopilot-mode';
+import type { VehicleDefinition } from '$core/vehicle';
 
 /** Which full-screen layer is open over the flight, if any. Only one at a time. */
 export type Layer = 'menu' | 'blackBox' | 'guide' | 'about' | null;
@@ -19,6 +20,10 @@ export type Layer = 'menu' | 'blackBox' | 'guide' | 'about' | null;
 export interface SessionState {
   /** The preset the current flight was built from. */
   preset: ScenarioPreset;
+  selectedVehicle: VehicleDefinition['id'];
+  missionPhase: 'attached' | 'separated' | null;
+  stageRequested: boolean;
+  stagingFailed: boolean;
   layer: Layer;
   /** Paused by the player (P). A layer also pauses the flight; see `isPaused`. */
   playerPaused: boolean;
@@ -58,6 +63,10 @@ export interface InitialPreferences {
 export function createSessionStore(initial: InitialPreferences): SessionStore {
   return createStore<SessionState>(() => ({
     preset: INTRO,
+    selectedVehicle: 'ship',
+    missionPhase: null,
+    stageRequested: false,
+    stagingFailed: false,
     layer: null,
     playerPaused: false,
     debugPaused: false,

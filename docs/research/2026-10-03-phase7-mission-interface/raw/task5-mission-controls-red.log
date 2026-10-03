@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/shell/MissionControls.test.tsx (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/shell/MissionControls.test.tsx [ tests/ui/shell/MissionControls.test.tsx ]
+Error: Failed to resolve import "$ui/shell/Controls/MissionControls" from "tests/ui/shell/MissionControls.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/stevewang/dev/StarShipSimulator-realism/tests/ui/shell/MissionControls.test.tsx:4:32
+  2  |  import { act, fireEvent, screen } from "@testing-library/react";
+  3  |  import { describe, expect, it } from "vitest";
+  4  |  import { MissionControls } from "$ui/shell/Controls/MissionControls";
+     |                                   ^
+  5  |  import { createSession } from "$ui/session/session";
+  6  |  import { DT } from "$app/loop";
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/node.js:31147:39
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/node.js:31144:14
+ ❯ normalizeUrl node_modules/vite/dist/node/chunks/node.js:28083:18
+ ❯ node_modules/vite/dist/node/chunks/node.js:28153:30
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/node.js:28119:4
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/node.js:30932:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/node.js:20671:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  23:52:08
+   Duration  640ms (transform 0ms, setup 0ms, import 0ms, tests 0ms, environment 496ms)
+

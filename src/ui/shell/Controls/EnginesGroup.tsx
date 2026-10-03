@@ -10,11 +10,12 @@ import { Eyebrow } from '@ui/Eyebrow';
 import { KeyCap } from '@ui/KeyCap';
 import { RAPTORS, throttleLowerLimit, throttleUpperLimit } from '$core/constants';
 import type { RaptorIndex } from '$core/state';
-import { useSession } from '../session-context';
+import { useSession, useSessionState } from '../session-context';
 import { ControlButton } from './ControlButton';
 import { CommandSlider } from './CommandSlider';
 import { readThrottle, useCommandValue } from './useCommandValue';
 import { CONTROL, ENGINE, LIT, STATE_WORD } from './styles';
+import { BoosterEngineGroups } from '../BoosterEngineGroups';
 
 /** The engines in their two sets, each with its visible label and the word its buttons are named with. */
 const ENGINE_SETS = [
@@ -47,6 +48,8 @@ export function EnginesGroup({ blocked }: EnginesGroupProps) {
   const session = useSession();
   const throttle = useCommandValue(readThrottle);
   const guardHint = useId();
+  const attached = useSessionState(s => s.missionPhase === 'attached');
+  const booster = useSessionState(s => s.selectedVehicle === 'super-heavy');
 
   return (
     <div className="group/engines grid grid-cols-[minmax(0,1fr)] gap-2">
@@ -63,7 +66,7 @@ export function EnginesGroup({ blocked }: EnginesGroupProps) {
             <KeyCap>Space</KeyCap>
           </span>
         </ControlButton>
-        {ENGINE_SETS.map((set) => (
+        {booster ? <BoosterEngineGroups interactive /> : ENGINE_SETS.map((set) => (
           <div key={set.kind} role="group" aria-label={`${set.name}s`} className="flex items-center">
             <Eyebrow size="sm" tone="muted" className="pr-0.5" aria-hidden="true">
               {set.label}
@@ -115,6 +118,7 @@ export function EnginesGroup({ blocked }: EnginesGroupProps) {
         className={`${CONTROL} ${LIT} w-full justify-between px-3`}
         title={GUARD_HINT}
         aria-describedby={guardHint}
+        disabled={attached}
       >
         <span>Throttle guard</span>
         <span className={STATE_WORD} aria-hidden="true">

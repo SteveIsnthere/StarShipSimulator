@@ -1,0 +1,24 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/hud/engine-groups.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/hud/engine-groups.test.ts [ tests/hud/engine-groups.test.ts ]
+Error: Cannot find module '$hud/engine-groups' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/hud/engine-groups.test.ts
+ ❯ tests/hud/engine-groups.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import { createEngineGroupBinder } from '$hud/engine-groups';
+       | ^
+      3| import { createScenarioVehicle, getScenario } from '$core/scenarios';
+      4|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  23:56:01
+   Duration  114ms (transform 10ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

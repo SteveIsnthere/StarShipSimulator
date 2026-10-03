@@ -17,6 +17,8 @@
  */
 import * as C from '$core/constants';
 import type { SimState } from '$core/state';
+import type { VehicleDefinition } from '$core/vehicle';
+import { BOOSTER_ENGINE_GROUPS } from '$core/vehicles/super-heavy';
 
 export interface Indicator {
   /** Matches the ControlEvent it corresponds to, where there is one. */
@@ -50,3 +52,14 @@ export const INDICATORS: readonly Indicator[] = [
   { id: 'rcs', on: (s) => s.status.rcsActive },
   { id: 'dumpFuel', on: (s) => s.status.dumpingFuel },
 ];
+
+export function indicatorsFor(model: VehicleDefinition): readonly Indicator[] {
+  if (model.id === 'ship') return INDICATORS;
+  return [
+    ...INDICATORS.filter(indicator => !indicator.id.startsWith('raptor')),
+    ...Object.entries(BOOSTER_ENGINE_GROUPS).map(([group, indices]): Indicator => ({
+      id: `group-${group}`,
+      on: state => indices.some(i => state.engines.running[i] || typeof state.engines.ignitionCountdown[i] === 'number'),
+    })),
+  ];
+}

@@ -50,6 +50,7 @@ export function Hud() {
   // A phone in either orientation: digits and ticks, short labels, no rail.
   const compact = mode !== 'wide';
   const debriefUp = useSessionState((s) => s.debrief !== null);
+  const selectedVehicle = useSessionState(s => s.selectedVehicle);
   // Open on a desktop, folded on a phone where every row costs the world. A
   // change of layout (a rotation) resets it to that layout's default, as the
   // control groups do; any other re-render keeps the pilot's choice.
@@ -88,7 +89,7 @@ export function Hud() {
   useEffect(() => {
     session.bindHud(readoutResolver(), metricResolver());
     return () => session.bindHud(detachedReadout, detachedMetric);
-  }, [session]);
+  }, [session, selectedVehicle]);
 
   return (
     <section

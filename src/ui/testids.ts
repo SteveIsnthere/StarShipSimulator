@@ -66,6 +66,10 @@ export const CONTROL_TESTIDS = [
   'pause-toggle',
 ] as const;
 
+/** Mission-only controls; original preset controls keep their own contract. */
+export const MISSION_TESTIDS = ['start-hot-stage', 'select-ship', 'select-super-heavy', 'stage'] as const;
+export const BOOSTER_CONTROL_TESTIDS = ['engine-group-centre', 'engine-group-inner', 'engine-group-outer'] as const;
+
 /**
  * The drawn readouts — gauge arcs, propellant bars, engine dots, the attitude
  * chevron — by the id `$hud/metrics` gives them.
