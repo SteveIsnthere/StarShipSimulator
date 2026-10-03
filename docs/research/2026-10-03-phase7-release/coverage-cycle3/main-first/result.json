@@ -1,0 +1,15 @@
+{
+  "mainSha": "17657d1d53904d92397c7f5f7d5ae1c91474421d",
+  "checksExit": 0,
+  "seconds": 300.64,
+  "budgetSeconds": 300,
+  "timingAcceptance": false,
+  "unitFiles": 194,
+  "unitTests": 2285,
+  "coverageFiles": 165,
+  "coverageTests": 2170,
+  "smoke": 13,
+  "subpath": 5,
+  "truthTierA": "11 of11 IN",
+  "next": "cycle3attempt2 reviewedexpandedcompactseal42roots/no luckrerun"
+}

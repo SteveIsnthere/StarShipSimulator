@@ -28,7 +28,20 @@
     "src/ui/kit/motion/useMotionTimeline.test.tsx",
     "src/ui/kit/motion/useReducedMotion.test.tsx",
     "src/ui/kit/public-api.test.ts",
-    "src/ui/kit/styles/motion.test.ts"
+    "src/ui/kit/styles/motion.test.ts",
+    "tests/budget.test.ts",
+    "tests/lint-walls/walls.test.ts",
+    "tests/offline-classic.test.ts",
+    "tests/offline.test.ts",
+    "tests/proofs/dt-substitution.test.ts",
+    "tests/proofs/rcs-reserve.test.ts",
+    "tests/ui/kit-boundary.test.ts",
+    "tests/ui/no-neumorphism.test.ts",
+    "tests/ui/tabular-digits.test.ts",
+    "tests/view/emission-blending.test.ts",
+    "tests/view/horizon.test.ts",
+    "tests/view/lighting.test.ts",
+    "tests/view/particle-textures.test.ts"
   ],
-  "seal": "924fe7a8674f1a4510770cb2e3aa39077a5506b69e7f595cbc4bc764b305b6fa"
+  "seal": "3fac3bc585f0c4ddc7dae27314aa36872f7f1cbdf31c7d443c9448d5ff64e919"
 }

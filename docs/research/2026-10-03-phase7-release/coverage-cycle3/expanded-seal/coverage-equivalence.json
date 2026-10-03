@@ -1,0 +1,12 @@
+{
+  "baseline": "docs/research/2026-10-03-phase7-release/browser-cycle1/threads-full-coverage-final.json",
+  "coreFiles": 35,
+  "candidateCoreFiles": 35,
+  "exactMapsAndCounters": false,
+  "differences": [
+    {
+      "file": "physics/gravity.ts",
+      "kind": "b"
+    }
+  ]
+}

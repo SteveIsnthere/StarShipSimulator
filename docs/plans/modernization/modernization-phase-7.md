@@ -443,3 +443,9 @@ Freshcycle3read-onlyreview afterexhaustedcycle2: measuredkitstarts/runs6.565sbef
 
 
 Cycle3attempt1 COMPLETE actualexit0,292.92s≤300. Complete194/2285unit,165/2170coverage(exact29kitomitted)/allfloors/13smoke5subpath. Coverage186.13/unit75.79, no swaps. All35coremaps/s/f exactbaseline; onlyreviewedrandomgravityomega brancharmvariation withconservedtotals/coveredarms. Actualmanifest/header/guard sourcepins andfullresults archivedcoverage-cycle3. Main merge/main gate/CI/Pages/live remain beforephase7tick.
+
+
+Main merge17657d1/pushcomplete; actualmain47639 gateexit0/all1942285unit1652170coverage/floors/13smoke5subpath but300.64>300. Maintruth20/all11A IN, genericmaxQaltBOUTretained. Cycle3attempt2approach freshaffectedreview: extend compactseal toexact13previouslyauditedcore-freeroots, retainallunit/unknown/guardiancoverage. Theirassertionwork2.83saggregate, startup/importcostadditional; no generousmarginsavingclaimed. Wholeaffectedsource/testtrees+implicitoffline.ts/ESLint/classicSW/setup/config/package/helper/roster hash; missing/null/symlink/additions defaultfullcoverage. Null-nullcertificate edge fixed(regression) beforemeasure. Build/lint/23guardian pass; discovery152=194−42/guardincluded, bothprojectexclusions coverageonly. Affectedassessmentclean; newboundedtimedgate next, no luckrerun. MainCI/Pagespending andphase7tickstillopen.
+
+
+Cycle3attempt2 expanded seal COMPLETE52018 exit0/285.89s≤300, all194/2293unit152/2062coverage/originalfloors/13smoke5subpath. All35coremaps/s/f exact; only reviewed random-zero gravity branch arms vary with conserved totals/covered arms. Evidence coverage-cycle3/expanded-seal. Main176 hostedCI37123756427/Pages37123756428 success. Final affected acceptance/commit/follow-up merge/timedmain/live13+assets remain beforetick7; no runtime change.

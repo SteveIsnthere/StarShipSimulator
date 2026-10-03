@@ -1,0 +1,6 @@
+{
+  "scripts/coverage-exclusions.mjs": "e3cdb55da04d0a6b7cc68adb17d8de062093a1c71f165907ed199f646f40ebad",
+  "tests/coverage-exclusions.json": "0f7c386470743360c20c14d44cbb2965f089698ec8a11e2e2beb0d0135b8ddb4",
+  "tests/coverage-exclusions.test.ts": "d6570d5aafca616bd7cf0b2ab34423359d0d6f3778bc39adc73fcbbf8810be72",
+  "vitest.config.ts": "fc05c5f7bc356fbf5e7a0cb84b264274f64e8bc0616fb139c431b907bc4ce3b3"
+}
