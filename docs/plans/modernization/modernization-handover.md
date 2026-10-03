@@ -173,3 +173,15 @@ Main follow-up282f141 pushed; actual50829 COMPLETEexit0/294.66s≤300, full194/2
 
 
 Phase8plan is now saved atmodernization-phase-8.md, all4areas/sixscenes/explicit16.67msdesktop33.33msphone render budgets/privatereviewpage/nativeimplementation. Planning while final Phase7CI follows is a recorded ruling; no Phase8implementation has started and Phase7closure still governs dependency. Actual thermal fieldforces.surfaceTemperature is equilibrium, notstoredthermalinertia; no residualheat invented.
+
+
+Docs affectedhighreview4cfa339: accepted/fixed invalid2arg createCameraexample→all4requiredargs, stalecurrentlive smoke statement→COMPLETE13, and mandatory full-frame cost+actualcadence desktop59fps/phone29.5fps (60/30targets) so render-only timing cannotpassslow simulation. Source/configunchanged; Pages37125079092success, CI37125079180pending. No newownerquestion.
+
+
+Main282CI37125079180 COMPLETEfailure: coveragebooster-sep:auto-land120000ms timeout;151roots2061pass/onefail/517.92s. Fullunitpasses, sameSHAPages37125079092success. Localmain294.66s/live13/assets44green. No closure/tick7; diagnose freshreview/testwork/harnessscheduling withouttimeout/bound/assertion/corechanges/luckrerun. Rawpreservedhosted-timeout.
+
+
+Hostedtimeout cycle1attempt1 implementation/affectedreviewclean: Linuxcoverage-only maxWorkersmin(2,max(1,availableParallelism−1)), Mac6/Linuxunit/watch unchanged, no deadline/assertion/floor/runtimechange. Exact42seal configonly renewal, build/lint/23guardian/discovery152 pass. Complete timedMacgate72006 nowrunning, no testedsource edits/concurrentheavychecks; actualgate→archive/corecompare→commitpushbranchhostCI requiredbeforemainmerge. No7checkbox/8implementation.
+
+
+Hostedtimeout cycle1attempt1 local72006 COMPLETEexit0/285.19s,194/2293unit152/2062coverage/originalfloors/13smoke5subpath;35maps/s/f exact knownzero-gravityarmconserved. Sourceassessmentclean. Commitpushchangedharness→actualbranchhosttrialnext; no mainmerge/tick7 untildemonstratedrepair, no ownerquestion.

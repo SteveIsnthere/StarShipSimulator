@@ -19,7 +19,7 @@ Build before test: `tests/offline.test.ts` reads `dist/` as its fixture, so on a
 checkout `npm run test` without a prior build fails on ENOENT.
 
 On Darwin, noninteractive Vitest batch runs use at most six available workers;
-watch mode and Linux keep Vitest's defaults. The default fork pool and per-file
+watch mode and Linux unit batches keep Vitest's defaults. Linux coverage batches cap workers at two without increasing the default on smaller machines, reducing contention among V8-instrumented flights. The default fork pool and per-file
 isolation remain intact. Coverage also writes per-test timing JSON to
 `coverage/test-results.json`. Its only additional omissions are the 42 audited
 core-free roots (29 kit, 13 build/offline/proof/presentation) in `tests/coverage-exclusions.json`. The complete unit stage still

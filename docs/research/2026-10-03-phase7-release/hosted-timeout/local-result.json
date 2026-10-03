@@ -1,0 +1,15 @@
+{
+  "session": 72006,
+  "exitCode": 0,
+  "wallSeconds": 285.19,
+  "unitFiles": 194,
+  "unitTests": 2293,
+  "coverageFiles": 152,
+  "coverageTests": 2062,
+  "originalFloors": "all pass",
+  "smoke": 13,
+  "subpath": 5,
+  "coreMapsStatementFunctionCounters": "exact baseline",
+  "branchDifference": "only known gravity zero arms; conserved totals/covered arms",
+  "hostedTrial": "still required"
+}

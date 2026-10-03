@@ -16,7 +16,7 @@
 - No numerical core changes, golden regeneration, preset changes, intro sequence edits or pig movement. State is read-only; all physical limits and parity assertions remain.
 - First-load JavaScript ≤300 kB gzip; six-command gate ≤300 seconds on Steve’s Mac; hosted CI ≤20 minutes. Floors remain unchanged.
 - Render curves are authored visualization, not quantitative exhaust photometry, geographic surveying or temperature imaging. Label compression in source and reference docs.
-- Desktop render work p95 ≤16.67 ms; phone reduced-quality render work p95 ≤33.33 ms, including GPU completion in the benchmark. Measure RAF cadence separately; viewport emulation is not an actual handset claim.
+- Desktop full-frame work p95 ≤16.67 ms and measured steady cadence ≥59 frames/s (60 fps target); phone reduced-quality full-frame work p95 ≤33.33 ms and measured cadence ≥29.5 frames/s (30 fps target). Full-frame work includes the actual session tick, simulation, HUD, scene and GPU completion, not rendering alone. Viewport emulation is not an actual handset claim.
 - Build before tests; no concurrent heavy checks. All existing bounds, positive controls and zero local retries remain. Renew coverage seals only after auditing all affected closures; otherwise retain conservative full coverage.
 - Existing worktree and native inline execution stay in use. Independent reviewers are for review; do not dispatch implementation tasks.
 
@@ -109,7 +109,7 @@ Use the actual container/world transform as the graph witness, keeping GPU image
 
 ```ts
 const coast = createCoast();
-const camera = createCamera(viewport, 0);
+const camera = createCamera(viewport, 0, 0, 0);
 coast.update(camera, viewport, sun);
 const initial = coast.container.x;
 camera.posX += 100;
@@ -144,8 +144,8 @@ Run build then focused `tests/view/booster.test.ts`, new detail suite and origin
 
 **Consumes:** same actual six scenes and existing renderer; **Produces:** `renderQuality(width:number,height:number,dpr:number,reduced:boolean):RenderQuality` with named bounded particle/detail/post policy, chosen on startup/resize or explicit quality transition, never from per-frame store writes.
 
-- [ ] Write behavior tests for bounded full/reduced resource counts, startup allocation, pause/restart and reduced-motion; no per-frame wall assertions in the gate. Add opt-in `RUN_VISUAL_BUDGET=1` Playwright spec with warmed fixed deterministic flights and at least300 measured frames per scene, actual draw time plus GPU completion, mean/median/p95 and RAF cadence, renderer/backend/DPR metadata. Run desktop1280×720 andphone390×844/844×390; CPU-throttled emulation is clearly labeled.
-- [ ] Measure full graphics on idle desktop then reduced phone path serially. Require p95 render work ≤16.67ms desktop and≤33.33ms phone. An over-budget effect gets bounded reduced geometry/particle/post policy, retaining all meaningful scene cues and physical data; run original pixel controls on both paths. Do not weaken benchmark bounds after measurement.
+- [ ] Write behavior tests for bounded full/reduced resource counts, startup allocation, pause/restart and reduced-motion; no per-frame wall assertions in the gate. Add opt-in `RUN_VISUAL_BUDGET=1` Playwright spec with warmed fixed deterministic flights and at least300 measured frames per scene, actual full session tick plus GPU completion, mean/median/p95 and RAF cadence, renderer/backend/DPR metadata. Run desktop1280×720 andphone390×844/844×390; CPU-throttled emulation is clearly labeled.
+- [ ] Measure full graphics on idle desktop then reduced phone path serially. Require p95 full-frame work ≤16.67ms desktop and≤33.33ms phone, plus actual steady RAF cadence ≥59frames/s desktop and≥29.5frames/s phone. Both cost and cadence must pass; a slow simulation cannot pass a render-only budget. An over-budget effect gets bounded reduced geometry/particle/post policy, retaining all meaningful scene cues and physical data; run original pixel controls on both paths. Do not weaken benchmark bounds after measurement.
 - [ ] Write/execute `visual-scenes.spec.ts` for Launch/Staging/Belly flop/Entry/Landing/Catch. Capture actual PNGs as artifacts; assert actual drawn vehicle/environment/effect structure with absence controls, not just screenshot file existence. Run original full five-browser suite; no retries added.
 - [ ] Audit changed coverage-root closures, retain full coverage on any uncertainty, and renew seal only after independent audit. Run ordered complete timed gate, truth report and all21mutations; preserve current core source/goldens. Fix actual failures through approved bounded diagnosis cycles.
 - [ ] Obtain fresh high-depth independent whole-phase review, fix real findings and record dispositions. Merge/push `claude/visuals` to main, run main gate, check hosted CI/Pages, served-byte identity and current live smoke. Tick Phase8 only then; promote decisions to references, delete finished plan and write Phase9 plan. Owner visual verdict remains separate.

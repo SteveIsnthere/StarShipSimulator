@@ -1,0 +1,7 @@
+# Hosted timeout diagnosis cycle 1
+
+Failure is wall timeout, not a failed catch outcome: sameSHA Pages gate and local fullgate pass. CI coverage booster-sep129.156s versus unit23.240s; Pages coverage42.599s versusunit13.677s. CI otherCPU-heavy covered suites also slow: viewperf127.584s versus26.483s; booster-guidance150.895s versus44.353s. TestCPU-sum1403.87/wall517.92≈2.71 is consistent withthreeworkers, not proof of exact runner cores. InstalledVitest4.1.11 cli-api resolveMaxWorkers usesmax(availableParallelism−1,1) forbatch, unlike latestdocs default wording.
+
+Fresh independent affected reviewer recommends Linux batchcoverage-only capmin(2,max(1,availableParallelism−1)); this never increasesworker count on1/2coreLinux. Macbatch6, Linuxunit/watch defaults, forks/fileisolation/provider/floors/120000ms timeout/all real flights and900simseconds remain unchanged. Hypothesis: fewer simultaneousV8-covered CPU-heavy flights reduce individual contention and complete belowdeadline; total hostedgate mustremain≤20minutes. Not yet measured; no guarantee or unchanged luck rerun.
+
+Official maxWorkers API: https://v4.vitest.dev/config/maxworkers . Installedsource controls pinned-version default calculation. No workflow/live settings, physics, golden or test assertion changes. Config-only seal renewal is limited to this auditedexisting input; same42runtimeclosures remain unchanged. Build/lint/23guard/discovery, complete timedMacgate, then branchhostCI are required before main merge.
