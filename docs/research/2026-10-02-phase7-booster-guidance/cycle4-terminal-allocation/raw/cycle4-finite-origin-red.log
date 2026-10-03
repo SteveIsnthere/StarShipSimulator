@@ -1,0 +1,37 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (15 tests | 1 failed | 14 skipped) 5ms
+     × constructs finite actual pitch history before immutable first-source planning 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster delivered attitude authority > constructs finite actual pitch history before immutable first-source planning
+AssertionError: expected [ Infinity, Infinity ] to deeply equal [ +0, +0 ]
+
+- Expected
++ Received
+
+  [
+-   0,
+-   0,
++   Infinity,
++   Infinity,
+  ]
+
+ ❯ tests/core/booster-command.test.ts:24:42
+     22|   it('constructs finite actual pitch history before immutable first-so…
+     23|     const spawn=createInitialState(123,SUPER_HEAVY);
+     24|     expect(spawn.kinematics.pitchRecord).toEqual([spawn.kinematics.pit…
+       |                                          ^
+     25|     for(const id of ['booster-sep','rtls']) {
+     26|       const initial=createScenarioVehicle(PRESETS.find(p=>p.id===id)!,…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 skipped (15)
+   Start at  22:20:15
+   Duration  217ms (transform 96ms, setup 0ms, import 118ms, tests 5ms, environment 0ms)
+

@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (13 tests | 1 failed | 12 skipped) 10ms
+     × reserves startup distance for cold centres but not already delivered landing thrust 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster continuous entry handoff > reserves startup distance for cold centres but not already delivered landing thrust
+AssertionError: expected 'terminal' to be 'entry' // Object.is equality
+
+Expected: "entry"
+Received: "terminal"
+
+ ❯ tests/core/booster-command.test.ts:78:38
+     76|     runBoosterAutopilot(s,1/120,SUPER_HEAVY);
+     77|     runBoosterAutopilot(unlit,1/120,SUPER_HEAVY);
+     78|     expect(s.autopilot.boosterPhase).toBe('entry');
+       |                                      ^
+     79|     expect(unlit.autopilot.boosterPhase).toBe('terminal');
+     80|     expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  21:59:02
+   Duration  250ms (transform 109ms, setup 0ms, import 136ms, tests 10ms, environment 0ms)
+

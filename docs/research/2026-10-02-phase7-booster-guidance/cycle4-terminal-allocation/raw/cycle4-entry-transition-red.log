@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (24 tests | 1 failed | 23 skipped) 10ms
+     × waits for the actual terminal command after a running-centre entry handoff 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > waits for the actual terminal command after a running-centre entry handoff
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/booster-forecast.test.ts:38:76
+     36|     const w=createBoosterReadyWork(s,rad(0),0);
+     37|     advanceBoosterForecast(w,1,advanceMechanics,runBoosterPolicy,SUPER…
+     38|     expect(w.state.autopilot.boosterPhase).toBe('terminal');expect(w.d…
+       |                                                                            ^
+     39|     expect(w.state.autopilot.boosterArrivalTime).toBeUndefined();
+     40|     advanceBoosterForecast(w,1,advanceMechanics,runBoosterPolicy,SUPER…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 23 skipped (24)
+   Start at  21:37:44
+   Duration  229ms (transform 96ms, setup 0ms, import 119ms, tests 10ms, environment 0ms)
+

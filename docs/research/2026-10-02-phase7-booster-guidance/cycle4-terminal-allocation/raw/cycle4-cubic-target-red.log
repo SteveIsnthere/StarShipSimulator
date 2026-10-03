@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (25 tests | 1 failed | 24 skipped) 6ms
+     × targets zero final horizontal acceleration for the commanded upright cubic 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > targets zero final horizontal acceleration for the commanded upright cubic
+AssertionError: expected 0.05877416051254259 to be close to 0.11504023171779065, received difference is 0.05626607120524806, but expected 5e-13
+ ❯ tests/core/booster-forecast.test.ts:55:40
+     53|     // Root telemetry must optimize that actual upright-centre boundar…
+     54|     const endpointAcceleration=6*x/t**2+2*k.speedX/t;
+     55|     expect(6*w.result.rangeError/t**2).toBeCloseTo(endpointAcceleratio…
+       |                                        ^
+     56|   });
+     57|   it('observes the complete returned readiness command, paid slew and …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 24 skipped (25)
+   Start at  21:42:45
+   Duration  225ms (transform 97ms, setup 0ms, import 119ms, tests 6ms, environment 0ms)
+

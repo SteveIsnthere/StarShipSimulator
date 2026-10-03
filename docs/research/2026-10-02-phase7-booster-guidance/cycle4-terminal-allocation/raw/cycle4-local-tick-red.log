@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-prediction.test.ts (18 tests | 1 failed | 17 skipped) 7ms
+     × measures the first paid response at the nearest executable live tick, not another ignition-delay burn 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > measures the first paid response at the nearest executable live tick, not another ignition-delay burn
+AssertionError: expected 5.2 to be 4.008333333333334 // Object.is equality
+
+- Expected
++ Received
+
+- 4.008333333333334
++ 5.2
+
+ ❯ tests/core/booster-prediction.test.ts:146:53
+    144|     j.rollout.done=true;j.rollout.result=f;j.rollout.shutdownAt=4;
+    145|     advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy…
+    146|     expect(s.autopilot.boosterPrediction!.duration).toBe((4*120+1)/120…
+       |                                                     ^
+    147|     expect(s.autopilot.boosterPrediction!.high).toBeUndefined();
+    148|     expect(s.autopilot.boosterReturnPlan).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 skipped (18)
+   Start at  21:54:55
+   Duration  231ms (transform 102ms, setup 0ms, import 124ms, tests 7ms, environment 0ms)
+

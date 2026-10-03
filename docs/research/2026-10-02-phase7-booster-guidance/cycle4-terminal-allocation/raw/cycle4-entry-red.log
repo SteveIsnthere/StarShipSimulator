@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (12 tests | 1 failed | 11 skipped) 6ms
+     × reduces paid13-engine entry to three feasible centres without repeated shutdown/ignition 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster continuous entry handoff > reduces paid13-engine entry to three feasible centres without repeated shutdown/ignition
+AssertionError: expected 'coast' to be 'entry' // Object.is equality
+
+Expected: "entry"
+Received: "coast"
+
+ ❯ tests/core/booster-command.test.ts:72:38
+     70|     const draws=s.rng.counters.ignitionFailure;
+     71|     runBoosterAutopilot(s,1/120,SUPER_HEAVY);
+     72|     expect(s.autopilot.boosterPhase).toBe('entry');
+       |                                      ^
+     73|     expect(s.engines.running.filter(Boolean)).toHaveLength(3);
+     74|     expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 skipped (12)
+   Start at  21:35:59
+   Duration  222ms (transform 92ms, setup 0ms, import 114ms, tests 6ms, environment 0ms)
+
