@@ -8,8 +8,25 @@ import { computeViewport, createCamera } from '$view/camera';
 import { createScenarioVehicle, getScenario } from '$core/scenarios';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import { rad } from '$core/units';
+import { getGimbalPointingDirection } from '$core/physics/engines';
 
 describe('the actual booster body and engine plane', () => {
+  it('aligns neutral inner and fixed outer plumes with the real45degree hull, and follows the world gimbal heading', () => {
+    const bell = createEmissiveBell(SUPER_HEAVY);
+    const state = createScenarioVehicle(getScenario('booster-sep')!).state;
+    expect(state.kinematics.pitch).toBeCloseTo(Math.PI / 4);
+    state.engines.running[0] = state.engines.running[13] = true;
+    state.forces.thrust = 1;
+    state.vehicle.gimbalPointingDirection = getGimbalPointingDirection(state.kinematics.pitch, 0);
+    bell.update(state, 1, 0, 0, 1 / 120);
+    expect(bell.container.children[0]!.rotation).toBeCloseTo(Math.PI / 4);
+    expect(bell.container.children[13]!.rotation).toBeCloseTo(Math.PI / 4);
+    state.vehicle.gimbalPointingDirection = getGimbalPointingDirection(state.kinematics.pitch, 20);
+    bell.update(state, 1, 0, 0, 1 / 120);
+    expect(bell.container.children[0]!.rotation).toBeCloseTo(Math.PI / 4 - 3 * Math.PI / 180);
+    expect(bell.container.children[13]!.rotation).toBeCloseTo(Math.PI / 4);
+    bell.destroy();
+  });
   it('draws its 71m hull and four real upper fins at the physical pose', () => {
     const body = createBoosterVehicle();
     const viewport = computeViewport(800, 600, 50);
@@ -43,7 +60,7 @@ describe('the actual booster body and engine plane', () => {
     state.vehicle.gimbalPointingDirection = rad(0.1);
     bell.update(state, 2, 100, 200, 0.1);
     expect(bell.container.children.filter(child => child.visible)).toHaveLength(32);
-    expect(bell.container.children[0]!.rotation).toBeCloseTo(state.kinematics.pitch + 0.1);
+    expect(bell.container.children[0]!.rotation).toBeCloseTo(0.1);
     expect(bell.container.children[14]!.rotation).toBe(state.kinematics.pitch);
     expect(bell.container.children[32]!.x).toBeCloseTo(100 + Math.cos(state.kinematics.pitch) * SUPER_HEAVY.engines[32]!.offAxis * 2);
     state.forces.thrust = 0;

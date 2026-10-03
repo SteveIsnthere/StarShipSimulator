@@ -114,7 +114,8 @@ export function createEmissiveBell(model: VehicleDefinition = SHIP): EmissiveBel
         mesh.geometry.getBuffer('aUV').update();
         const mount = model.engines[i]!.offAxis * scale;
         mesh.position.set(nozzleX + Math.cos(pitch) * mount, nozzleY + Math.sin(pitch) * mount);
-        mesh.rotation = pitch + (model.id === 'super-heavy' && model.engines[i]!.gimballed ? state.vehicle.gimbalPointingDirection : 0);
+        mesh.rotation = model.id === 'super-heavy' && model.engines[i]!.gimballed
+          ? state.vehicle.gimbalPointingDirection : pitch;
         mesh.scale.set(scale);
       }
     },

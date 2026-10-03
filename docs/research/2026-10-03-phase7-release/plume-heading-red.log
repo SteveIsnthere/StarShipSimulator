@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/booster.test.ts (4 tests | 1 failed) 14ms
+     × aligns neutral inner and fixed outer plumes with the real45degree hull, and follows the world gimbal heading 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/booster.test.ts > the actual booster body and engine plane > aligns neutral inner and fixed outer plumes with the real45degree hull, and follows the world gimbal heading
+AssertionError: expected 1.5707963267948966 to be close to 0.7853981633974483, received difference is 0.7853981633974483, but expected 0.005
+ ❯ tests/view/booster.test.ts:22:50
+     20|     state.vehicle.gimbalPointingDirection = getGimbalPointingDirection…
+     21|     bell.update(state, 1, 0, 0, 1 / 120);
+     22|     expect(bell.container.children[0]!.rotation).toBeCloseTo(Math.PI /…
+       |                                                  ^
+     23|     expect(bell.container.children[13]!.rotation).toBeCloseTo(Math.PI …
+     24|     state.vehicle.gimbalPointingDirection = getGimbalPointingDirection…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  01:15:39
+   Duration  476ms (transform 121ms, setup 0ms, import 358ms, tests 14ms, environment 0ms)
+

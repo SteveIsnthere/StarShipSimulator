@@ -11,3 +11,9 @@ A new negative browser fixture had raw numeric pitch0 where brandedDeg is requir
 Review also reproduced two unresolved physical defects: booster prediction treats randomFailure preference as realized failure and rejects valid fine catches; separated mission mass-COM velocities are advanced as geometric hull velocities, producing rotational COM drift. Independent repro scripts/report remain pending reviewer completion. Fix each serially under a recorded Bug-fix tier with RED/unchanged golden audit and fresh follow-up; no authority, seed, bounds or floor changes.
 
 Main/live unchanged;70%byphase count,7/8/9 unmerged.
+
+## Final fresh review and plume follow-up
+
+Complete independent fallback report retained as fresh-fallback-review.md, all six original absolute-path scratch scripts in reproductions/ (Node/Vite aliases through repository vite.config.ts). Five confirmed defects; debrief closed at91c15c6 and plume heading closed on inspected dirty follow-up. Three remain open: P1free-body COM continuation, P2randomFailure-preference plan rejection, P2permanent required-centre Stage failure reporting. All findings accepted for fixes/REDs; no silently rejected items. This is not clean release approval.
+
+Plume follow-up: real core neutral heading at45degree hull exposed90degree inner plume while fixed outer45degree. RED1/new witness,3existing pass. Use world gimbal heading once for13 steerable booster mounts, hull angle for fixed mounts; original Ship branch unchanged. Independent literal20percent of frozen15degree gimbal gives42degree inner versus45degree fixed outer. Build/lint0 and12focused/2files pass; reviewer reproduced45/45 on corrected geometry. Source pins/raw retained; no core/golden edits, no new full browser release claim.

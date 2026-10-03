@@ -1,0 +1,12 @@
+import { createSession } from '/Users/stevewang/dev/StarShipSimulator-realism/src/ui/session/session.ts';
+import { DT } from '/Users/stevewang/dev/StarShipSimulator-realism/src/app/loop.ts';
+const session = createSession();
+session.store.setState({ hintSeen: true });
+session.loop.state.failures.crashed = true;
+session.advance(DT);
+console.log('before', session.store.getState().debrief?.outcome);
+session.dismissDebrief();
+console.log('dismissed', session.store.getState().debrief);
+session.togglePause();
+session.advance(0);
+console.log('after paused zero-time advance', session.store.getState().debrief?.outcome);
