@@ -1,0 +1,905 @@
+
+> starship-simulator-v2@0.1.0 test:e2e:full
+> playwright test
+
+[WebServer] (node:73416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 516 tests using 3 workers
+
+(node:73419) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:73421) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:73420) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    3 [chromium] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (1.5s)
+  ✓    4 [chromium] › tests/e2e/a11y.spec.ts:106:1 › engine state is drawn by shape, not by motion (663ms)
+  ✓    1 [chromium] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (2.2s)
+  ✓    2 [chromium] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (2.6s)
+  ✓    6 [chromium] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (783ms)
+  ✓    5 [chromium] › tests/e2e/a11y.spec.ts:123:1 › reduced motion makes every transition instant, and adds none (840ms)
+  ✓    7 [chromium] › tests/e2e/blackbox.spec.ts:19:1 › no chart code is loaded until the black box is opened (2.6s)
+  ✓    9 [chromium] › tests/e2e/blackbox.spec.ts:85:1 › it closes, and the keyboard is suppressed while it is open (2.8s)
+  ✓    8 [chromium] › tests/e2e/blackbox.spec.ts:55:1 › it draws the nine plots of the flight @smoke (3.3s)
+  ✓   10 [chromium] › tests/e2e/blackbox.spec.ts:147:1 › the shared cursor reads every channel at one moment (4.5s)
+  ✓   11 [chromium] › tests/e2e/blackbox.spec.ts:200:1 › the export hands over a CSV of the flight (4.4s)
+  ✓   14 [chromium] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (623ms)
+  ✓   15 [chromium] › tests/e2e/broadcast.spec.ts:24:1 › the primary cluster sits top-centre, clear of the vehicle (638ms)
+  ✓   16 [chromium] › tests/e2e/broadcast.spec.ts:39:1 › the gauge arcs move as the flight does (623ms)
+  ✓   17 [chromium] › tests/e2e/broadcast.spec.ts:56:1 › the engine dots follow the engines (634ms)
+  ✓   18 [chromium] › tests/e2e/broadcast.spec.ts:74:1 › the propellant bars drain (1.4s)
+  ✓   19 [chromium] › tests/e2e/broadcast.spec.ts:95:1 › the mission clock counts simulated seconds (1.4s)
+  ✓   20 [chromium] › tests/e2e/broadcast.spec.ts:106:1 › the attitude chevron rotates with the pitch readout (628ms)
+  ✓   21 [chromium] › tests/e2e/broadcast.spec.ts:129:1 › Q is labelled kPa, the unit it has always been (587ms)
+  ✓   22 [chromium] › tests/e2e/broadcast.spec.ts:138:1 › the engineering strip collapses without breaking the gauges (905ms)
+  ✓   13 [chromium] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (8.4s)
+  ✓   23 [chromium] › tests/e2e/broadcast.spec.ts:163:1 › the overlay does not intercept pointer events over the world (590ms)
+  ✓   24 [chromium] › tests/e2e/cinematic.spec.ts:19:1 › it defaults off — this is a cockpit first (654ms)
+  ✓   25 [chromium] › tests/e2e/cinematic.spec.ts:31:1 › it hides the controls layer and leaves the broadcast (860ms)
+  ✓   27 [chromium] › tests/e2e/cinematic.spec.ts:71:1 › a hidden control cannot be clicked, by keyboard or by pointer (880ms)
+  ✓   28 [chromium] › tests/e2e/cinematic.spec.ts:88:1 › the choice is remembered across a reload (1.0s)
+  ✓   26 [chromium] › tests/e2e/cinematic.spec.ts:48:1 › the hidden controls keep tracking the simulation (2.9s)
+  ✓   29 [chromium] › tests/e2e/cinematic.spec.ts:107:1 › it survives a browser that refuses site data (757ms)
+  ✓   30 [chromium] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (926ms)
+  ✓   32 [chromium] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (595ms)
+  ✓   33 [chromium] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (668ms)
+  ✓   12 [chromium] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (22.8s)
+  ✓   35 [chromium] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (414ms)
+  ✓   31 [chromium] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (13.2s)
+  ✓   37 [chromium] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (1.6s)
+  ✓   34 [chromium] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (13.1s)
+  ✓   36 [chromium] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (13.3s)
+  ✓   39 [chromium] › tests/e2e/debrief.spec.ts:137:1 › the card is dismissible, and both its buttons work (10.9s)
+  ✓   38 [chromium] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (11.6s)
+  ✓   42 [chromium] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.3s)
+  ✓   40 [chromium] › tests/e2e/debrief.spec.ts:180:1 › and Escape closes it, which a dialog-shaped thing owes the keyboard (10.5s)
+  ✓   44 [chromium] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile (825ms)
+  ✓   45 [chromium] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile (619ms)
+  ✓   46 [chromium] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (884ms)
+  ✓   47 [chromium] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (878ms)
+  ✓   48 [chromium] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (498ms)
+  ✓   49 [chromium] › tests/e2e/hud.spec.ts:15:1 › the readouts are rendered and filled in (495ms)
+  ✓   43 [chromium] › tests/e2e/emissive-bell.spec.ts:54:1 › one healthy landing engine renders gas without inventing failed mounts (4.7s)
+  ✓   50 [chromium] › tests/e2e/hud.spec.ts:43:1 › the readouts change as the intro flight runs (599ms)
+  ✓   41 [chromium] › tests/e2e/debrief.spec.ts:190:1 › and flying again clears it (10.5s)
+  ✓   52 [chromium] › tests/e2e/input.spec.ts:31:1 › keys toggle the same things the buttons do (706ms)
+  ✓   51 [chromium] › tests/e2e/hud.spec.ts:65:1 › nothing in the page reintroduces a per-frame lookup (1.3s)
+  ✓   53 [chromium] › tests/e2e/input.spec.ts:48:1 › space toggles the engines without scrolling the page (865ms)
+  ✓   55 [chromium] › tests/e2e/input.spec.ts:81:1 › the zoom keys and buttons change how much world is drawn (1.5s)
+  ✓   57 [chromium] › tests/e2e/intro.spec.ts:41:1 › it decelerates rather than arriving fast (6.7s)
+  ✓   56 [chromium] › tests/e2e/intro.spec.ts:14:1 › the intro plays end to end and lands @smoke (8.3s)
+  ✓   59 [chromium] › tests/e2e/menu.spec.ts:17:1 › the menu opens, offers every preset, and closes @smoke (932ms)
+  ✓   60 [chromium] › tests/e2e/menu.spec.ts:40:1 › a preset fills the form without flying it (1.4s)
+  ✓   61 [chromium] › tests/e2e/menu.spec.ts:58:1 › Configure starts the new flight and closes the menu @smoke (928ms)
+  ✓   58 [chromium] › tests/e2e/intro.spec.ts:62:1 › the vehicle is drawn throughout, not just at the end (4.5s)
+  ✓   62 [chromium] › tests/e2e/menu.spec.ts:77:1 › typing in the editor does not fire the engines (1.3s)
+  ✓   63 [chromium] › tests/e2e/menu.spec.ts:109:1 › time warp changes how fast the flight runs (869ms)
+  ✓   64 [chromium] › tests/e2e/menu.spec.ts:124:1 › the random-failure toggle lights and persists into a new flight (1.0s)
+  ✓   65 [chromium] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (1.2s)
+  ✓   54 [chromium] › tests/e2e/input.spec.ts:59:1 › the throttle keys cannot leave the engine limits (15.2s)
+  ✓   66 [chromium] › tests/e2e/menu.spec.ts:190:1 › the Launch Pad preset flies the flight the game starts you on (1.1s)
+  ✓   67 [chromium] › tests/e2e/menu.spec.ts:218:1 › a preset leaves wind and hour blank, and they survive a Clear (1.1s)
+  ✓   69 [chromium] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (890ms)
+  ✓   71 [chromium] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (2.7s)
+  ✓   72 [chromium] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (1.1s)
+  ✓   68 [chromium] › tests/e2e/menu.spec.ts:234:1 › the headwind flight is reachable from the menu, and the air knows (6.0s)
+  ✓   73 [chromium] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (787ms)
+  ✓   74 [chromium] › tests/e2e/parity.spec.ts:18:1 › every 2021 flight control is present @smoke (662ms)
+  ✓   75 [chromium] › tests/e2e/parity.spec.ts:47:1 › the panels and the HUD collapse, as they did in 2021 (1.1s)
+  ✓   76 [chromium] › tests/e2e/parity.spec.ts:74:1 › collapsing a panel does not stop the binder writing to it (1.0s)
+  ✓   78 [chromium] › tests/e2e/parity.spec.ts:131:1 › the guide and the about screen open from the menu (1.3s)
+  ✓   79 [chromium] › tests/e2e/parity.spec.ts:152:1 › the tilt-control switch is present and on by default (896ms)
+  ✓   80 [chromium] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (323ms)
+  ✓   77 [chromium] › tests/e2e/parity.spec.ts:94:1 › the restart button appears when the flight ends and starts it again (5.0s)
+  ✓   70 [chromium] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (12.1s)
+  ✓   81 [chromium] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (3.5s)
+  ✓   82 [chromium] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (3.4s)
+  ✓   83 [chromium] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (4.3s)
+  200 m: spread 13.57, 4 buckets, top 19%
+ 6000 m: spread 14.83, 5 buckets, top 31%
+40000 m: spread 12.68, 4 buckets, top 22%
+  ✓   86 [chromium] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (1.1s)
+  ✓   84 [chromium] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (4.7s)
+  ✓   88 [chromium] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (475ms)
+ground band: spread 14.89, 5 tone bucket(s), top colour #998866 at 31%
+  ✓   85 [chromium] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (4.7s)
+  ✓   87 [chromium] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.8s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓   91 [chromium] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (287ms)
+[post-sampling] [{"scale":0.4,"resolution":1,"phase":0,"source":"particles","directEnergy":139102,"directPixels":1048,"modes":[{"name":"configured","energy":164744,"lostPixels":0,"maxLoss":1,"bleedPixels":78,"detectorWidth":11},{"name":"current","energy":164971,"lostPixels":15,"maxLoss":28,"bleedPixels":80,"detectorWidth":11},{"name":"resolution","energy":164971,"lostPixels":15,"maxLoss":28,"bleedPixels":80,"detectorWidth":11},{"name":"antialias","energy":164744,"lostPixels":0,"maxLoss":1,"bleedPixels":78,"detectorWidth":11},{"name":"both","energy":164744,"lostPixels":0,"maxLoss":1,"bleedPixels":78,"detectorWidth":11}]},{"scale":0.4,"resolution":1,"phase":0.25,"source":"particles","directEnergy":139339,"directPixels":1035,"modes":[{"name":"configured","energy":165150,"lostPixels":0,"maxLoss":0,"bleedPixels":84,"detectorWidth":11},{"name":"current","energy":165278,"lostPixels":8,"maxLoss":21,"bleedPixels":83,"detectorWidth":11},{"name":"resolution","energy":165278,"lostPixels":8,"maxLoss":21,"bleedPixels":83,"detectorWidth":11},{"name":"antialias","energy":165150,"lostPixels":0,"maxLoss":0,"bleedPixels":84,"detectorWidth":11},{"name":"both","energy":165150,"lostPixels":0,"maxLoss":0,"bleedPixels":84,"detectorWidth":11}]},{"scale":0.4,"resolution":1,"phase":0.5,"source":"particles","directEnergy":138108,"directPixels":1047,"modes":[{"name":"configured","energy":163028,"lostPixels":0,"maxLoss":1,"bleedPixels":73,"detectorWidth":12},{"name":"current","energy":162878,"lostPixels":15,"maxLoss":22,"bleedPixels":78,"detectorWidth":12},{"name":"resolution","energy":162878,"lostPixels":15,"maxLoss":22,"bleedPixels":78,"detectorWidth":12},{"name":"antialias","energy":163028,"lostPixels":0,"maxLoss":1,"bleedPixels":73,"detectorWidth":12},{"name":"both","energy":163028,"lostPixels":0,"maxLoss":1,"bleedPixels":73,"detectorWidth":12}]},{"scale":0.4,"resolution":1,"phase":0.75,"source":"particles","directEnergy":139190,"directPixels":1055,"modes":[{"name":"configured","energy":166609,"lostPixels":0,"maxLoss":1,"bleedPixels":71,"detectorWidth":11},{"name":"current","energy":166288,"lostPixels":16,"maxLoss":15,"bleedPixels":75,"detectorWidth":12},{"name":"resolution","energy":166288,"lostPixels":16,"maxLoss":15,"bleedPixels":75,"detectorWidth":12},{"name":"antialias","energy":166609,"lostPixels":0,"maxLoss":1,"bleedPixels":71,"detectorWidth":11},{"name":"both","energy":166609,"lostPixels":0,"maxLoss":1,"bleedPixels":71,"detectorWidth":11}]},{"scale":0.4,"resolution":1,"phase":0,"source":"control","directEnergy":25812,"directPixels":42,"modes":[{"name":"configured","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"both","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6}]},{"scale":0.4,"resolution":1,"phase":0.25,"source":"control","directEnergy":25812,"directPixels":42,"modes":[{"name":"configured","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"both","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7}]},{"scale":0.4,"resolution":1,"phase":0.5,"source":"control","directEnergy":25797,"directPixels":48,"modes":[{"name":"configured","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.4,"resolution":1,"phase":0.75,"source":"control","directEnergy":25797,"directPixels":48,"modes":[{"name":"configured","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.4,"resolution":2,"phase":0,"source":"particles","directEnergy":554572,"directPixels":4137,"modes":[{"name":"configured","energy":673293,"lostPixels":0,"maxLoss":1,"bleedPixels":318,"detectorWidth":23},{"name":"current","energy":653111,"lostPixels":29,"maxLoss":169,"bleedPixels":911,"detectorWidth":23},{"name":"resolution","energy":673184,"lostPixels":9,"maxLoss":7,"bleedPixels":317,"detectorWidth":23},{"name":"antialias","energy":652118,"lostPixels":30,"maxLoss":170,"bleedPixels":938,"detectorWidth":22},{"name":"both","energy":673293,"lostPixels":0,"maxLoss":1,"bleedPixels":318,"detectorWidth":23}]},{"scale":0.4,"resolution":2,"phase":0.25,"source":"particles","directEnergy":554398,"directPixels":4140,"modes":[{"name":"configured","energy":670945,"lostPixels":0,"maxLoss":1,"bleedPixels":333,"detectorWidth":22},{"name":"current","energy":654918,"lostPixels":24,"maxLoss":201,"bleedPixels":881,"detectorWidth":22},{"name":"resolution","energy":670313,"lostPixels":6,"maxLoss":7,"bleedPixels":334,"detectorWidth":22},{"name":"antialias","energy":654372,"lostPixels":23,"maxLoss":201,"bleedPixels":895,"detectorWidth":22},{"name":"both","energy":670945,"lostPixels":0,"maxLoss":1,"bleedPixels":333,"detectorWidth":22}]},{"scale":0.4,"resolution":2,"phase":0.5,"source":"particles","directEnergy":554571,"directPixels":4137,"modes":[{"name":"configured","energy":673295,"lostPixels":0,"maxLoss":1,"bleedPixels":318,"detectorWidth":23},{"name":"current","energy":646491,"lostPixels":23,"maxLoss":204,"bleedPixels":875,"detectorWidth":22},{"name":"resolution","energy":673186,"lostPixels":9,"maxLoss":7,"bleedPixels":317,"detectorWidth":23},{"name":"antialias","energy":646901,"lostPixels":24,"maxLoss":204,"bleedPixels":921,"detectorWidth":22},{"name":"both","energy":673295,"lostPixels":0,"maxLoss":1,"bleedPixels":318,"detectorWidth":23}]},{"scale":0.4,"resolution":2,"phase":0.75,"source":"particles","directEnergy":554398,"directPixels":4140,"modes":[{"name":"configured","energy":670947,"lostPixels":0,"maxLoss":1,"bleedPixels":333,"detectorWidth":22},{"name":"current","energy":658811,"lostPixels":27,"maxLoss":178,"bleedPixels":899,"detectorWidth":23},{"name":"resolution","energy":670315,"lostPixels":6,"maxLoss":7,"bleedPixels":334,"detectorWidth":22},{"name":"antialias","energy":660130,"lostPixels":25,"maxLoss":178,"bleedPixels":932,"detectorWidth":23},{"name":"both","energy":670947,"lostPixels":0,"maxLoss":1,"bleedPixels":333,"detectorWidth":22}]},{"scale":0.4,"resolution":2,"phase":0,"source":"control","directEnergy":103212,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":40,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":196938,"lostPixels":0,"maxLoss":8,"bleedPixels":556,"detectorWidth":14},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12}]},{"scale":0.4,"resolution":2,"phase":0.25,"source":"control","directEnergy":103212,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":40,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":196938,"lostPixels":0,"maxLoss":8,"bleedPixels":556,"detectorWidth":13},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13}]},{"scale":0.4,"resolution":2,"phase":0.5,"source":"control","directEnergy":103212,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":160,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":188940,"lostPixels":0,"maxLoss":78,"bleedPixels":518,"detectorWidth":14},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12}]},{"scale":0.4,"resolution":2,"phase":0.75,"source":"control","directEnergy":103212,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":160,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":188940,"lostPixels":0,"maxLoss":78,"bleedPixels":518,"detectorWidth":13},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13}]},{"scale":0.543,"resolution":1,"phase":0,"source":"particles","directEnergy":256630,"directPixels":1915,"modes":[{"name":"configured","energy":301671,"lostPixels":1,"maxLoss":1,"bleedPixels":92,"detectorWidth":16},{"name":"current","energy":301469,"lostPixels":6,"maxLoss":14,"bleedPixels":93,"detectorWidth":16},{"name":"resolution","energy":301469,"lostPixels":6,"maxLoss":14,"bleedPixels":93,"detectorWidth":16},{"name":"antialias","energy":301671,"lostPixels":1,"maxLoss":1,"bleedPixels":92,"detectorWidth":16},{"name":"both","energy":301671,"lostPixels":1,"maxLoss":1,"bleedPixels":92,"detectorWidth":16}]},{"scale":0.543,"resolution":1,"phase":0.25,"source":"particles","directEnergy":255428,"directPixels":1904,"modes":[{"name":"configured","energy":297424,"lostPixels":0,"maxLoss":1,"bleedPixels":86,"detectorWidth":15},{"name":"current","energy":297126,"lostPixels":9,"maxLoss":16,"bleedPixels":86,"detectorWidth":15},{"name":"resolution","energy":297126,"lostPixels":9,"maxLoss":16,"bleedPixels":86,"detectorWidth":15},{"name":"antialias","energy":297424,"lostPixels":0,"maxLoss":1,"bleedPixels":86,"detectorWidth":15},{"name":"both","energy":297424,"lostPixels":0,"maxLoss":1,"bleedPixels":86,"detectorWidth":15}]},{"scale":0.543,"resolution":1,"phase":0.5,"source":"particles","directEnergy":255599,"directPixels":1917,"modes":[{"name":"configured","energy":297759,"lostPixels":0,"maxLoss":1,"bleedPixels":84,"detectorWidth":15},{"name":"current","energy":297248,"lostPixels":15,"maxLoss":9,"bleedPixels":84,"detectorWidth":15},{"name":"resolution","energy":297248,"lostPixels":15,"maxLoss":9,"bleedPixels":84,"detectorWidth":15},{"name":"antialias","energy":297759,"lostPixels":0,"maxLoss":1,"bleedPixels":84,"detectorWidth":15},{"name":"both","energy":297759,"lostPixels":0,"maxLoss":1,"bleedPixels":84,"detectorWidth":15}]},{"scale":0.543,"resolution":1,"phase":0.75,"source":"particles","directEnergy":255427,"directPixels":1914,"modes":[{"name":"configured","energy":299166,"lostPixels":0,"maxLoss":1,"bleedPixels":86,"detectorWidth":16},{"name":"current","energy":298985,"lostPixels":14,"maxLoss":11,"bleedPixels":86,"detectorWidth":16},{"name":"resolution","energy":298985,"lostPixels":14,"maxLoss":11,"bleedPixels":86,"detectorWidth":16},{"name":"antialias","energy":299166,"lostPixels":0,"maxLoss":1,"bleedPixels":86,"detectorWidth":16},{"name":"both","energy":299166,"lostPixels":0,"maxLoss":1,"bleedPixels":86,"detectorWidth":16}]},{"scale":0.543,"resolution":1,"phase":0,"source":"control","directEnergy":25812,"directPixels":42,"modes":[{"name":"configured","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"both","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6}]},{"scale":0.543,"resolution":1,"phase":0.25,"source":"control","directEnergy":25812,"directPixels":42,"modes":[{"name":"configured","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"both","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7}]},{"scale":0.543,"resolution":1,"phase":0.5,"source":"control","directEnergy":25797,"directPixels":48,"modes":[{"name":"configured","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.543,"resolution":1,"phase":0.75,"source":"control","directEnergy":25797,"directPixels":48,"modes":[{"name":"configured","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":1,"maxLoss":60,"bleedPixels":133,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":1,"maxLoss":60,"bleedPixels":133,"detectorWidth":6},{"name":"antialias","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.543,"resolution":2,"phase":0,"source":"particles","directEnergy":1021516,"directPixels":7612,"modes":[{"name":"configured","energy":1209233,"lostPixels":0,"maxLoss":0,"bleedPixels":372,"detectorWidth":31},{"name":"current","energy":1198439,"lostPixels":23,"maxLoss":158,"bleedPixels":1061,"detectorWidth":31},{"name":"resolution","energy":1208690,"lostPixels":6,"maxLoss":8,"bleedPixels":372,"detectorWidth":31},{"name":"antialias","energy":1199233,"lostPixels":23,"maxLoss":159,"bleedPixels":1079,"detectorWidth":31},{"name":"both","energy":1209233,"lostPixels":0,"maxLoss":0,"bleedPixels":372,"detectorWidth":31}]},{"scale":0.543,"resolution":2,"phase":0.25,"source":"particles","directEnergy":1022354,"directPixels":7616,"modes":[{"name":"configured","energy":1213546,"lostPixels":0,"maxLoss":0,"bleedPixels":405,"detectorWidth":31},{"name":"current","energy":1182127,"lostPixels":24,"maxLoss":151,"bleedPixels":1073,"detectorWidth":31},{"name":"resolution","energy":1213099,"lostPixels":5,"maxLoss":9,"bleedPixels":405,"detectorWidth":31},{"name":"antialias","energy":1183251,"lostPixels":24,"maxLoss":151,"bleedPixels":1099,"detectorWidth":30},{"name":"both","energy":1213546,"lostPixels":0,"maxLoss":0,"bleedPixels":405,"detectorWidth":31}]},{"scale":0.543,"resolution":2,"phase":0.5,"source":"particles","directEnergy":1021516,"directPixels":7612,"modes":[{"name":"configured","energy":1209238,"lostPixels":0,"maxLoss":0,"bleedPixels":372,"detectorWidth":31},{"name":"current","energy":1183375,"lostPixels":31,"maxLoss":148,"bleedPixels":1049,"detectorWidth":31},{"name":"resolution","energy":1208695,"lostPixels":6,"maxLoss":8,"bleedPixels":372,"detectorWidth":31},{"name":"antialias","energy":1185088,"lostPixels":30,"maxLoss":148,"bleedPixels":1077,"detectorWidth":31},{"name":"both","energy":1209238,"lostPixels":0,"maxLoss":0,"bleedPixels":372,"detectorWidth":31}]},{"scale":0.543,"resolution":2,"phase":0.75,"source":"particles","directEnergy":1022354,"directPixels":7616,"modes":[{"name":"configured","energy":1213546,"lostPixels":0,"maxLoss":0,"bleedPixels":405,"detectorWidth":31},{"name":"current","energy":1188807,"lostPixels":26,"maxLoss":142,"bleedPixels":1033,"detectorWidth":31},{"name":"resolution","energy":1213099,"lostPixels":5,"maxLoss":9,"bleedPixels":405,"detectorWidth":31},{"name":"antialias","energy":1189568,"lostPixels":24,"maxLoss":143,"bleedPixels":1065,"detectorWidth":31},{"name":"both","energy":1213546,"lostPixels":0,"maxLoss":0,"bleedPixels":405,"detectorWidth":31}]},{"scale":0.543,"resolution":2,"phase":0,"source":"control","directEnergy":103248,"directPixels":156,"modes":[{"name":"configured","energy":210630,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":34,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":196938,"lostPixels":0,"maxLoss":41,"bleedPixels":556,"detectorWidth":14},{"name":"both","energy":210630,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12}]},{"scale":0.543,"resolution":2,"phase":0.25,"source":"control","directEnergy":103215,"directPixels":168,"modes":[{"name":"configured","energy":206229,"lostPixels":1,"maxLoss":60,"bleedPixels":551,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":40,"bleedPixels":556,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":600,"detectorWidth":12},{"name":"antialias","energy":196938,"lostPixels":0,"maxLoss":24,"bleedPixels":544,"detectorWidth":13},{"name":"both","energy":206229,"lostPixels":1,"maxLoss":60,"bleedPixels":551,"detectorWidth":13}]},{"scale":0.543,"resolution":2,"phase":0.5,"source":"control","directEnergy":103248,"directPixels":156,"modes":[{"name":"configured","energy":210630,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":163,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":188940,"lostPixels":0,"maxLoss":126,"bleedPixels":518,"detectorWidth":14},{"name":"both","energy":210630,"lostPixels":0,"maxLoss":0,"bleedPixels":598,"detectorWidth":12}]},{"scale":0.543,"resolution":2,"phase":0.75,"source":"control","directEnergy":103215,"directPixels":168,"modes":[{"name":"configured","energy":206229,"lostPixels":1,"maxLoss":60,"bleedPixels":551,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":100,"bleedPixels":556,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":600,"detectorWidth":12},{"name":"antialias","energy":188940,"lostPixels":0,"maxLoss":78,"bleedPixels":506,"detectorWidth":13},{"name":"both","energy":206229,"lostPixels":1,"maxLoss":60,"bleedPixels":551,"detectorWidth":13}]},{"scale":0.72,"resolution":1,"phase":0,"source":"particles","directEnergy":449420,"directPixels":3351,"modes":[{"name":"configured","energy":513531,"lostPixels":0,"maxLoss":1,"bleedPixels":97,"detectorWidth":21},{"name":"current","energy":513131,"lostPixels":6,"maxLoss":7,"bleedPixels":97,"detectorWidth":21},{"name":"resolution","energy":513131,"lostPixels":6,"maxLoss":7,"bleedPixels":97,"detectorWidth":21},{"name":"antialias","energy":513531,"lostPixels":0,"maxLoss":1,"bleedPixels":97,"detectorWidth":21},{"name":"both","energy":513531,"lostPixels":0,"maxLoss":1,"bleedPixels":97,"detectorWidth":21}]},{"scale":0.72,"resolution":1,"phase":0.25,"source":"particles","directEnergy":449016,"directPixels":3335,"modes":[{"name":"configured","energy":514790,"lostPixels":0,"maxLoss":1,"bleedPixels":100,"detectorWidth":21},{"name":"current","energy":514555,"lostPixels":6,"maxLoss":9,"bleedPixels":99,"detectorWidth":21},{"name":"resolution","energy":514555,"lostPixels":6,"maxLoss":9,"bleedPixels":99,"detectorWidth":21},{"name":"antialias","energy":514790,"lostPixels":0,"maxLoss":1,"bleedPixels":100,"detectorWidth":21},{"name":"both","energy":514790,"lostPixels":0,"maxLoss":1,"bleedPixels":100,"detectorWidth":21}]},{"scale":0.72,"resolution":1,"phase":0.5,"source":"particles","directEnergy":449818,"directPixels":3365,"modes":[{"name":"configured","energy":514425,"lostPixels":0,"maxLoss":0,"bleedPixels":93,"detectorWidth":20},{"name":"current","energy":513819,"lostPixels":17,"maxLoss":8,"bleedPixels":93,"detectorWidth":20},{"name":"resolution","energy":513819,"lostPixels":17,"maxLoss":8,"bleedPixels":93,"detectorWidth":20},{"name":"antialias","energy":514425,"lostPixels":0,"maxLoss":0,"bleedPixels":93,"detectorWidth":20},{"name":"both","energy":514425,"lostPixels":0,"maxLoss":0,"bleedPixels":93,"detectorWidth":20}]},{"scale":0.72,"resolution":1,"phase":0.75,"source":"particles","directEnergy":449400,"directPixels":3351,"modes":[{"name":"configured","energy":513512,"lostPixels":0,"maxLoss":1,"bleedPixels":93,"detectorWidth":20},{"name":"current","energy":513121,"lostPixels":7,"maxLoss":14,"bleedPixels":93,"detectorWidth":20},{"name":"resolution","energy":513121,"lostPixels":7,"maxLoss":14,"bleedPixels":93,"detectorWidth":20},{"name":"antialias","energy":513512,"lostPixels":0,"maxLoss":1,"bleedPixels":93,"detectorWidth":20},{"name":"both","energy":513512,"lostPixels":0,"maxLoss":1,"bleedPixels":93,"detectorWidth":20}]},{"scale":0.72,"resolution":1,"phase":0,"source":"control","directEnergy":25812,"directPixels":42,"modes":[{"name":"configured","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"both","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6}]},{"scale":0.72,"resolution":1,"phase":0.25,"source":"control","directEnergy":25812,"directPixels":42,"modes":[{"name":"configured","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":6},{"name":"antialias","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7},{"name":"both","energy":48984,"lostPixels":0,"maxLoss":0,"bleedPixels":138,"detectorWidth":7}]},{"scale":0.72,"resolution":1,"phase":0.5,"source":"control","directEnergy":25797,"directPixels":48,"modes":[{"name":"configured","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.72,"resolution":1,"phase":0.75,"source":"control","directEnergy":25797,"directPixels":48,"modes":[{"name":"configured","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"current","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"resolution","energy":50364,"lostPixels":0,"maxLoss":0,"bleedPixels":132,"detectorWidth":6},{"name":"antialias","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7},{"name":"both","energy":47637,"lostPixels":1,"maxLoss":60,"bleedPixels":116,"detectorWidth":7}]},{"scale":0.72,"resolution":2,"phase":0,"source":"particles","directEnergy":1795769,"directPixels":13369,"modes":[{"name":"configured","energy":2083811,"lostPixels":0,"maxLoss":1,"bleedPixels":443,"detectorWidth":41},{"name":"current","energy":2043881,"lostPixels":29,"maxLoss":136,"bleedPixels":1185,"detectorWidth":41},{"name":"resolution","energy":2083561,"lostPixels":2,"maxLoss":4,"bleedPixels":443,"detectorWidth":41},{"name":"antialias","energy":2045557,"lostPixels":29,"maxLoss":136,"bleedPixels":1203,"detectorWidth":41},{"name":"both","energy":2083811,"lostPixels":0,"maxLoss":1,"bleedPixels":443,"detectorWidth":41}]},{"scale":0.72,"resolution":2,"phase":0.25,"source":"particles","directEnergy":1796346,"directPixels":13395,"modes":[{"name":"configured","energy":2083674,"lostPixels":0,"maxLoss":1,"bleedPixels":456,"detectorWidth":41},{"name":"current","energy":2048445,"lostPixels":24,"maxLoss":122,"bleedPixels":1106,"detectorWidth":41},{"name":"resolution","energy":2083504,"lostPixels":3,"maxLoss":4,"bleedPixels":456,"detectorWidth":41},{"name":"antialias","energy":2049362,"lostPixels":24,"maxLoss":122,"bleedPixels":1124,"detectorWidth":41},{"name":"both","energy":2083674,"lostPixels":0,"maxLoss":1,"bleedPixels":456,"detectorWidth":41}]},{"scale":0.72,"resolution":2,"phase":0.5,"source":"particles","directEnergy":1795771,"directPixels":13369,"modes":[{"name":"configured","energy":2083814,"lostPixels":0,"maxLoss":1,"bleedPixels":443,"detectorWidth":41},{"name":"current","energy":2046603,"lostPixels":31,"maxLoss":125,"bleedPixels":1155,"detectorWidth":41},{"name":"resolution","energy":2083564,"lostPixels":2,"maxLoss":4,"bleedPixels":443,"detectorWidth":41},{"name":"antialias","energy":2049048,"lostPixels":29,"maxLoss":125,"bleedPixels":1198,"detectorWidth":41},{"name":"both","energy":2083814,"lostPixels":0,"maxLoss":1,"bleedPixels":443,"detectorWidth":41}]},{"scale":0.72,"resolution":2,"phase":0.75,"source":"particles","directEnergy":1796349,"directPixels":13395,"modes":[{"name":"configured","energy":2083672,"lostPixels":0,"maxLoss":1,"bleedPixels":456,"detectorWidth":41},{"name":"current","energy":2045635,"lostPixels":23,"maxLoss":122,"bleedPixels":1133,"detectorWidth":40},{"name":"resolution","energy":2083502,"lostPixels":3,"maxLoss":4,"bleedPixels":456,"detectorWidth":41},{"name":"antialias","energy":2047313,"lostPixels":23,"maxLoss":122,"bleedPixels":1154,"detectorWidth":40},{"name":"both","energy":2083672,"lostPixels":0,"maxLoss":1,"bleedPixels":456,"detectorWidth":41}]},{"scale":0.72,"resolution":2,"phase":0,"source":"control","directEnergy":103212,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":40,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":196938,"lostPixels":0,"maxLoss":8,"bleedPixels":556,"detectorWidth":14},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12}]},{"scale":0.72,"resolution":2,"phase":0.25,"source":"control","directEnergy":103212,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":40,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":196938,"lostPixels":0,"maxLoss":8,"bleedPixels":556,"detectorWidth":13},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13}]},{"scale":0.72,"resolution":2,"phase":0.5,"source":"control","directEnergy":103212,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":160,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":188940,"lostPixels":0,"maxLoss":78,"bleedPixels":518,"detectorWidth":14},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":12}]},{"scale":0.72,"resolution":2,"phase":0.75,"source":"control","directEnergy":103212,"directPixels":156,"modes":[{"name":"configured","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13},{"name":"current","energy":202824,"lostPixels":0,"maxLoss":160,"bleedPixels":568,"detectorWidth":14},{"name":"resolution","energy":214560,"lostPixels":0,"maxLoss":0,"bleedPixels":612,"detectorWidth":12},{"name":"antialias","energy":188940,"lostPixels":0,"maxLoss":78,"bleedPixels":518,"detectorWidth":13},{"name":"both","energy":210102,"lostPixels":0,"maxLoss":0,"bleedPixels":574,"detectorWidth":13}]}]
+  ✓   92 [chromium] › tests/e2e/post-compositing.spec.ts:44:1 › bloom preserves production particle coverage on a high-density canvas (4.4s)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: -1,
+  directChanged: 3420
+}
+  ✓   93 [chromium] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (265ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -10,
+  bloomVsDirectMinimum: -3,
+  directChanged: 5597
+}
+  ✓   94 [chromium] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (299ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓   95 [chromium] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (264ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓   96 [chromium] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (236ms)
+[plume] chromium · the plume is longer than the ship at low altitude @mobile: 3.18 long, 0.54 across (spans 2.83/3.22/3.18/3.10, widths 0.54/0.57/0.49/0.53, steps 367/410/454/496; 0/4 anchored to the region edge; throttle 100/100/100/100; (612,387)-(666,610)n2411 (612,384)-(668,638)n2488 (617,380)-(669,631)n2554 (614,379)-(666,624)n2638)
+  ✓   89 [chromium] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (8.7s)
+  ✓   97 [chromium] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (302ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓   98 [chromium] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (338ms)
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 3.10 long, 0.54 across (spans 2.67/3.10/2.90/3.23, widths 0.54/0.54/0.50/0.57, steps 372/414/456/498; 0/4 anchored to the region edge; throttle 100/100/100/100; (615,384)-(670,595)n2608 (607,381)-(667,626)n2585 (615,381)-(669,610)n2589 (612,383)-(665,638)n2530)
+  ✓  100 [chromium] › tests/e2e/render.spec.ts:11:1 › every art asset loads @smoke (1.0s)
+  ✓  101 [chromium] › tests/e2e/render.spec.ts:39:1 › the webp images are actually fetched (538ms)
+  ✓   99 [chromium] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.5s)
+  ✓  102 [chromium] › tests/e2e/render.spec.ts:75:1 › the renderer draws frames without erroring (3.3s)
+  ✓  103 [chromium] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (565ms)
+  ✓  104 [chromium] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (790ms)
+  ✓  105 [chromium] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (871ms)
+  ✓  106 [chromium] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (740ms)
+  ✓  107 [chromium] › tests/e2e/responsive.spec.ts:117:1 › the renderer follows a window resize (818ms)
+  ✓  108 [chromium] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (638ms)
+  ✓  109 [chromium] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (1.5s)
+  ✓  110 [chromium] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (1.1s)
+[plume] chromium · and blooms wider than the ship in vacuum @mobile: 2.97 long, 0.78 across (spans 1.92/2.97/3.08/2.58, widths 0.75/0.78/0.72/0.83, steps 368/412/455/499; 0/4 anchored to the region edge; throttle 100/100/100/100; (625,373)-(655,441)n786 (628,370)-(659,476)n695 (623,368)-(656,478)n685 (623,370)-(660,462)n753)
+low: 3.10 long, 0.54 across · vacuum: 2.97 long, 0.78 across
+frame 1280x720 @1.00x  altitude 120000 m  vehicle 36 px
+  below      mean   49.4  spread  23.18  tones  4  bright 0.008  dark 0.941  warm 0.0037  top #332222:0.35 #222222:0.27 #333322:0.21 #111122:0.04 #222211:0.03
+  EXT plume    found true  span 93px (38x93)  band 30px  n 753  box (623,370)-(660,462)  = 2.58 vehicle heights
+  |      :   -                            -    |
+  |                                            |
+  |             +      -      = =    #         |
+  |        :     .       ==            --      |
+  |        =     +         -                   |
+  |              -     +-  : -      =    -     |
+  |            ==            .       +     -   |
+  |  +    -  =  =++            -    * ==       |
+  |    =                 +   - =      ==       |
+  |   -      -             -  - -      -       |
+  |.............-.......@%.....................|
+  |.....=-......-.-.....@@.....................|
+  |++*******************@@***@*******%*******++|
+  |******...........:...@@...............******|
+  |...:..:::::::........*%.:..:::::::..........|
+  |.:::::::::::::.......+*::::::::::::........:|
+  |.:::::::::::::.......==::::::::::::........:|
+  |....:::::::::.......::-..:::::::::.......:..|
+  |.....::::.........::::....:::::........::::.|
+  |:................::.::................::.::.|
+  |.........:::..................:::...........|
+  |.:::::::::::::........:::::::::::::.........|
+  aspect: 0.17 low, 0.26 vacuum
+  ✓   90 [chromium] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (16.5s)
+  -  113 [chromium] › tests/e2e/screenshot.spec.ts:62:1 › capture desktop @screenshot
+  -  114 [chromium] › tests/e2e/screenshot.spec.ts:121:3 › capture the distant earth at 1km @screenshot
+  -  115 [chromium] › tests/e2e/screenshot.spec.ts:121:3 › capture the distant earth at 20km @screenshot
+  -  116 [chromium] › tests/e2e/screenshot.spec.ts:121:3 › capture the distant earth at 100km @screenshot
+  -  117 [chromium] › tests/e2e/screenshot.spec.ts:150:1 › capture a re-entry @screenshot
+  ✓  112 [chromium] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (10.6s)
+  ✓  111 [chromium] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (13.6s)
+  ✓  120 [chromium] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (332ms)
+  ✓  121 [chromium] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (348ms)
+  ✓  122 [chromium] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (490ms)
+  ✓  123 [chromium] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (517ms)
+  ✓  124 [chromium] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (594ms)
+  ✓  125 [chromium] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (2.0s)
+  ✓  126 [chromium] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (1.0s)
+  ✓  127 [chromium] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (957ms)
+  ✓  128 [chromium] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (2.8s)
+  ✓  119 [chromium] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.2s)
+  ✓  129 [chromium] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (1.4s)
+  ✓  130 [chromium] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (2.8s)
+  ✓  131 [chromium] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.7s)
+  ✓  118 [chromium] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (29.2s)
+  ✓  134 [chromium] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (645ms)
+  ✓  135 [chromium] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (590ms)
+  ✓  136 [chromium] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (527ms)
+  ✓  137 [chromium] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (833ms)
+  ✓  138 [chromium] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (1.8s)
+  ✓  139 [chromium] › tests/e2e/timeline.spec.ts:25:1 › the intro track is drawn and reaches touchdown (10.5s)
+  ✓  132 [chromium] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.4s)
+  ✓  133 [chromium] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.5s)
+  ✓  140 [chromium] › tests/e2e/timeline.spec.ts:48:1 › the narration says where the flight is and what is next (10.3s)
+  ✓  143 [chromium] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (751ms)
+  ✓  144 [chromium] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (624ms)
+  ✓  142 [chromium] › tests/e2e/timeline.spec.ts:109:1 › a scenario that never reaches an event leaves it dark (4.4s)
+  ✓  146 [chromium] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (590ms)
+  ✓  147 [chromium] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (741ms)
+  ✓  148 [chromium] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.0s)
+  ✓  149 [chromium] › tests/e2e/trajectory.spec.ts:201:1 › the map starts open where there is room (458ms)
+  ✓  150 [chromium] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (451ms)
+  ✓  151 [chromium] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (1.3s)
+  ✓  152 [chromium] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (901ms)
+  ✓  153 [chromium] › tests/e2e/typography.spec.ts:43:1 › every face loads from the app itself, not from a CDN (476ms)
+  ✓  154 [chromium] › tests/e2e/typography.spec.ts:98:1 › 1111 and 0000 measure the same width in the shipped type (479ms)
+  ✓  155 [chromium] › tests/e2e/typography.spec.ts:165:1 › the readouts themselves are set in the tabular face (476ms)
+  ✓  141 [chromium] › tests/e2e/timeline.spec.ts:66:1 › configuring a new scenario redraws the track and rebinds it (15.1s)
+(node:73681) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  157 [pixel-portrait] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (975ms)
+[witness-plume] fire pixels below the ship: engines off 0, engines lit 500
+  ✓  156 [chromium] › tests/e2e/witness-plume.spec.ts:85:1 › engines lit draw fire below the ship, and engines off do not @smoke (5.1s)
+  ✓  158 [pixel-portrait] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (900ms)
+(node:73695) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  159 [pixel-portrait] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (810ms)
+  ✓  160 [pixel-portrait] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (1.5s)
+  ✓  145 [chromium] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (19.8s)
+(node:73713) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  163 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (1.2s)
+  ✓  164 [pixel-portrait] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (1.2s)
+  ✓  162 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (9.0s)
+  ✓  166 [pixel-portrait] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (794ms)
+  ✓  167 [pixel-portrait] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (798ms)
+  ✓  165 [pixel-portrait] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (13.3s)
+  ✓  169 [pixel-portrait] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (1.3s)
+  ✓  161 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (25.1s)
+  ✓  168 [pixel-portrait] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (13.2s)
+  ✓  171 [pixel-portrait] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (1.9s)
+  ✓  173 [pixel-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.6s)
+  ✓  174 [pixel-portrait] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile (917ms)
+  ✓  175 [pixel-portrait] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile (668ms)
+  ✓  170 [pixel-portrait] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (13.3s)
+  ✓  176 [pixel-portrait] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (991ms)
+  ✓  178 [pixel-portrait] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (669ms)
+  ✓  177 [pixel-portrait] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (1.1s)
+  ✓  180 [pixel-portrait] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (1.0s)
+  ✓  179 [pixel-portrait] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (1.3s)
+  ✓  172 [pixel-portrait] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (12.1s)
+  ✓  183 [pixel-portrait] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (1.4s)
+  ✓  182 [pixel-portrait] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (3.3s)
+  ✓  184 [pixel-portrait] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (1.0s)
+  ✓  185 [pixel-portrait] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (740ms)
+  ✓  186 [pixel-portrait] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (4.1s)
+  ✓  187 [pixel-portrait] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (4.0s)
+  ✓  181 [pixel-portrait] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (12.5s)
+  ✓  188 [pixel-portrait] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (4.6s)
+  ✓  189 [pixel-portrait] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (4.6s)
+  200 m: spread 10.69, 3 buckets, top 53%
+ 6000 m: spread 12.44, 4 buckets, top 37%
+40000 m: spread 10.83, 3 buckets, top 39%
+  ✓  191 [pixel-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (1.8s)
+  ✓  193 [pixel-portrait] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (486ms)
+  ✓  192 [pixel-portrait] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.9s)
+ground band: spread 12.53, 4 tone bucket(s), top colour #887755 at 37%
+  ✓  190 [pixel-portrait] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (4.7s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  196 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (329ms)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: -1,
+  directChanged: 3420
+}
+  ✓  197 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (262ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -10,
+  bloomVsDirectMinimum: -3,
+  directChanged: 5597
+}
+  ✓  198 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (301ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  199 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (261ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  200 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (252ms)
+  ✓  201 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (299ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  202 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (351ms)
+[plume] pixel-portrait · the plume is longer than the ship at low altitude @mobile: 3.35 long, 0.53 across (spans 3.35/3.26/3.62/3.06, widths 0.53/0.49/0.51/0.54, steps 368/410/452/494; 1/4 anchored to the region edge; throttle 100/100/100/100; (489,760)-(597,1285)n9514 (485,752)-(599,1262)n9798 (495,747)-(601,1314)n10078 (489,747)-(593,1226)n10177)
+  ✓  194 [pixel-portrait] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (8.3s)
+  ✓  204 [pixel-portrait] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (587ms)
+  ✓  205 [pixel-portrait] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (625ms)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 3.33 long, 0.52 across (spans 3.57/3.20/3.33/3.13, widths 0.52/0.50/0.52/0.55, steps 370/411/453/496; 2/4 anchored to the region edge; throttle 100/100/100/100; (489,759)-(598,1319)n9738 (485,752)-(599,1253)n9884 (496,747)-(601,1269)n10099 (488,748)-(593,1238)n10252)
+  ✓  203 [pixel-portrait] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (5.0s)
+  ✓  206 [pixel-portrait] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (1.1s)
+  ✓  207 [pixel-portrait] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (730ms)
+  ✓  208 [pixel-portrait] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (850ms)
+  ✓  209 [pixel-portrait] › tests/e2e/responsive.spec.ts:147:1 › the dials become digits and ticks on a phone @mobile @mobile-only @portrait-only (995ms)
+  ✓  210 [pixel-portrait] › tests/e2e/responsive.spec.ts:173:1 › the timeline collapses to now and next on a phone @mobile @mobile-only @portrait-only (640ms)
+  ✓  211 [pixel-portrait] › tests/e2e/responsive.spec.ts:188:1 › the panels are sheets, and only one opens at a time @mobile @mobile-only @portrait-only (878ms)
+  ✓  212 [pixel-portrait] › tests/e2e/responsive.spec.ts:213:1 › no sheet ever covers the primary strip @mobile @mobile-only @portrait-only (948ms)
+  ✓  213 [pixel-portrait] › tests/e2e/responsive.spec.ts:234:1 › a closed sheet cannot be tabbed into @mobile @mobile-only @portrait-only (745ms)
+  ✓  214 [pixel-portrait] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (1.3s)
+  ✓  215 [pixel-portrait] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (1.2s)
+[plume] pixel-portrait · and blooms wider than the ship in vacuum @mobile: 2.39 long, 0.81 across (spans 2.39/1.43/2.12/3.28, widths 0.72/0.74/0.81/0.81, steps 384/428/470/512; 0/4 anchored to the region edge; throttle 100/100/100/100; (512,729)-(573,898)n3098 (504,725)-(578,826)n3035 (499,728)-(570,878)n2905 (507,733)-(584,966)n2987)
+low: 3.33 long, 0.52 across · vacuum: 2.39 long, 0.81 across
+frame 1082x1425 @2.63x  altitude 120000 m  vehicle 71 px
+  below      mean   51.2  spread  30.47  tones  6  bright 0.020  dark 0.925  warm 0.0089  top #332222:0.35 #222222:0.29 #333322:0.18 #222211:0.05 #111122:0.03
+  EXT plume    found true  span 234px (78x234)  band 58px  n 2987  box (507,733)-(584,966)  = 3.28 vehicle heights
+  |                                            |
+  |                                            |
+  | ++              -                 =  =:    |
+  |    =                   =                   |
+  |   +=                      -                |
+  |   -              +-        -   --          |
+  |==                              ::          |
+  |  =  +                                -     |
+  |                     .+          -   =      |
+  |                           .-     -    -    |
+  |.-..................#@%*....................|
+  |--.....-............@@@@-...................|
+  |*********************@@@********@***********|
+  |..............:::....%*:..:.................|
+  |.....................%*.....................|
+  |.....................=+=............::::::::|
+  |::::................==-:........::::::::::::|
+  |:::.................::-:......::::::::::::::|
+  |:::.................:::...............::::::|
+  |....................:::::................:::|
+  |....................::::.::.................|
+  |..............:::::......:::................|
+  aspect: 0.16 low, 0.34 vacuum
+  ✓  195 [pixel-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (16.9s)
+  -  218 [pixel-portrait] › tests/e2e/screenshot.spec.ts:75:1 › capture phone @screenshot @mobile @mobile-only @portrait-only
+  ✓  217 [pixel-portrait] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (10.8s)
+  ✓  216 [pixel-portrait] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (13.4s)
+  ✓  221 [pixel-portrait] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (400ms)
+  ✓  222 [pixel-portrait] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (293ms)
+  ✓  223 [pixel-portrait] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (534ms)
+  ✓  224 [pixel-portrait] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (726ms)
+  ✓  225 [pixel-portrait] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (624ms)
+  ✓  226 [pixel-portrait] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (2.3s)
+  ✓  227 [pixel-portrait] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (945ms)
+  ✓  228 [pixel-portrait] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (950ms)
+  ✓  229 [pixel-portrait] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (2.8s)
+  ✓  220 [pixel-portrait] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.3s)
+  ✓  230 [pixel-portrait] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (1.8s)
+  ✓  231 [pixel-portrait] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (2.7s)
+  ✓  232 [pixel-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.3s)
+  ✓  219 [pixel-portrait] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (29.4s)
+  ✓  235 [pixel-portrait] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (1.3s)
+  ✓  236 [pixel-portrait] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (716ms)
+  ✓  237 [pixel-portrait] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (659ms)
+  ✓  238 [pixel-portrait] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (1.0s)
+  ✓  239 [pixel-portrait] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (1.9s)
+  ✓  240 [pixel-portrait] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (671ms)
+  ✓  241 [pixel-portrait] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (822ms)
+  ✓  233 [pixel-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.4s)
+  ✓  234 [pixel-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.4s)
+  ✓  243 [pixel-portrait] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (1.0s)
+  ✓  244 [pixel-portrait] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (1.1s)
+  ✓  246 [pixel-portrait] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (600ms)
+  ✓  245 [pixel-portrait] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.5s)
+  ✓  247 [pixel-portrait] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (755ms)
+  ✓  242 [pixel-portrait] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (20.5s)
+(node:73896) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  248 [pixel-portrait] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (1.9s)
+  ✓  249 [pixel-portrait] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (2.0s)
+(node:73902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:73903) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  250 [pixel-landscape] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (1.1s)
+  ✓  252 [pixel-landscape] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (993ms)
+  ✓  253 [pixel-landscape] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (1.6s)
+  ✓  251 [pixel-landscape] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (1.8s)
+  ✓  256 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (1.2s)
+  ✓  257 [pixel-landscape] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (1.1s)
+  ✓  255 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (10.6s)
+  ✓  259 [pixel-landscape] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (830ms)
+  ✓  260 [pixel-landscape] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (864ms)
+  ✓  258 [pixel-landscape] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (13.4s)
+  ✓  262 [pixel-landscape] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (1.2s)
+  ✓  254 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (24.9s)
+  ✓  261 [pixel-landscape] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (13.4s)
+  ✓  264 [pixel-landscape] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (1.7s)
+  ✓  266 [pixel-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.7s)
+  ✓  263 [pixel-landscape] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (13.3s)
+  -  268 [pixel-landscape] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile
+  -  267 [pixel-landscape] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile
+  ✓  270 [pixel-landscape] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (1.1s)
+  ✓  269 [pixel-landscape] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (1.2s)
+  ✓  271 [pixel-landscape] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (790ms)
+  ✓  272 [pixel-landscape] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (1.3s)
+  ✓  273 [pixel-landscape] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (898ms)
+  ✓  275 [pixel-landscape] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (2.9s)
+  ✓  265 [pixel-landscape] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (11.8s)
+  ✓  276 [pixel-landscape] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (1.4s)
+  ✓  277 [pixel-landscape] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (1.2s)
+  ✓  278 [pixel-landscape] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (456ms)
+  ✓  279 [pixel-landscape] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (4.1s)
+  ✓  280 [pixel-landscape] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (4.2s)
+  ✓  274 [pixel-landscape] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (12.3s)
+  ✓  281 [pixel-landscape] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (4.4s)
+  ✓  282 [pixel-landscape] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (4.4s)
+  200 m: spread 10.50, 5 buckets, top 48%
+ 6000 m: spread 17.62, 5 buckets, top 27%
+40000 m: spread 5.34, 2 buckets, top 41%
+  ✓  284 [pixel-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (1.2s)
+  ✓  286 [pixel-landscape] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (471ms)
+  ✓  285 [pixel-landscape] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.4s)
+ground band: spread 18.40, 6 tone bucket(s), top colour #998877 at 20%
+  ✓  283 [pixel-landscape] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (4.8s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  289 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (279ms)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: -1,
+  directChanged: 3420
+}
+  ✓  290 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (269ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -10,
+  bloomVsDirectMinimum: -3,
+  directChanged: 5597
+}
+  ✓  291 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (262ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  292 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (264ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  293 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (261ms)
+  ✓  294 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (297ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  295 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (343ms)
+[plume] pixel-landscape · the plume is longer than the ship at low altitude @mobile: 3.00 long, 0.57 across (spans 2.93/2.72/3.00/3.13, widths 0.56/0.57/0.55/0.61, steps 372/414/455/498; 2/4 anchored to the region edge; throttle 100/100/100/100; (1092,504)-(1173,842)n5479 (1087,500)-(1172,813)n5572 (1096,499)-(1173,845)n5688 (1094,501)-(1170,862)n5726)
+  ✓  287 [pixel-landscape] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (9.0s)
+  ✓  297 [pixel-landscape] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (640ms)
+  ✓  296 [pixel-landscape] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.8s)
+  ✓  298 [pixel-landscape] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (871ms)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 3.21 long, 0.55 across (spans 2.93/3.35/3.21/2.65, widths 0.55/0.55/0.55/0.58, steps 368/410/452/495; 3/4 anchored to the region edge; throttle 100/100/100/100; (1094,508)-(1175,846)n5413 (1091,503)-(1176,889)n5505 (1099,498)-(1177,868)n5576 (1094,497)-(1171,802)n5774)
+  ✓  299 [pixel-landscape] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (1.1s)
+  ✓  300 [pixel-landscape] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (998ms)
+  ✓  301 [pixel-landscape] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (1.3s)
+  ✓  302 [pixel-landscape] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (1.2s)
+  ✓  303 [pixel-landscape] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (1.1s)
+[plume] pixel-landscape · and blooms wider than the ship in vacuum @mobile: 2.44 long, 0.84 across (spans 2.15/1.77/2.51/2.44, widths 0.74/0.84/0.76/0.86, steps 375/417/459/502; 3/4 anchored to the region edge; throttle 100/100/100/100; (1107,485)-(1157,597)n1815 (1085,487)-(1156,579)n1826 (1106,487)-(1172,618)n1581 (1113,486)-(1167,613)n1760)
+low: 3.21 long, 0.55 across · vacuum: 2.44 long, 0.84 across
+frame 2265x945 @2.62x  altitude 120000 m  vehicle 53 px
+  below      mean   49.2  spread  23.39  tones  4  bright 0.009  dark 0.941  warm 0.0029  top #332222:0.37 #222222:0.25 #333322:0.21 #222211:0.04 #111122:0.04
+  EXT plume    found true  span 128px (55x128)  band 45px  n 1760  box (1113,486)-(1167,613)  = 2.44 vehicle heights
+  |          -  -                    --        |
+  |                                            |
+  |               +    - .   ==   #            |
+  |            =   =     =        # -          |
+  |            =   +      -                    |
+  |                -   ++  --    =   -         |
+  |               =.       .-     +   -        |
+  |       +   - = =+          -  * =           |
+  |         = .         -+  -==    =           |
+  |        -    -         -:---    -           |
+  |..........:....-.....@@.....................|
+  |.........==....-.-...@@............:........|
+  |-==++***##***********@@**@*****%*******++==-|
+  |********:......::...:#%............:********|
+  |.....................+#.....................|
+  |.....................-*.....................|
+  |:::::::::............=+........:::::::::....|
+  |:::::::::............--..:::::::::::::::....|
+  |:::::::::::..........::.::::::::::::::::::..|
+  |:::::::::::...........::::::::::::::::::::..|
+  |::::::::::..............:::::::::::::::::...|
+  |::::::::::................:::::::::::::::...|
+  aspect: 0.17 low, 0.34 vacuum
+  ✓  288 [pixel-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (18.0s)
+  ✓  305 [pixel-landscape] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (10.5s)
+  ✓  304 [pixel-landscape] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (13.5s)
+  ✓  308 [pixel-landscape] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (550ms)
+  ✓  309 [pixel-landscape] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (405ms)
+  ✓  310 [pixel-landscape] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (643ms)
+  ✓  311 [pixel-landscape] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (656ms)
+  ✓  312 [pixel-landscape] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (708ms)
+  ✓  313 [pixel-landscape] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (2.2s)
+  ✓  314 [pixel-landscape] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (1.0s)
+  ✓  315 [pixel-landscape] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (1.1s)
+  ✓  307 [pixel-landscape] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.4s)
+  ✓  316 [pixel-landscape] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (3.3s)
+  ✓  317 [pixel-landscape] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (1.4s)
+  ✓  319 [pixel-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.9s)
+  ✓  318 [pixel-landscape] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (3.0s)
+  ✓  306 [pixel-landscape] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (30.0s)
+  ✓  322 [pixel-landscape] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (845ms)
+  ✓  323 [pixel-landscape] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (577ms)
+  ✓  324 [pixel-landscape] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (542ms)
+  ✓  325 [pixel-landscape] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (916ms)
+  ✓  326 [pixel-landscape] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (2.2s)
+  ✓  327 [pixel-landscape] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (744ms)
+  ✓  328 [pixel-landscape] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (1.1s)
+  ✓  320 [pixel-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.3s)
+  ✓  321 [pixel-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.9s)
+  ✓  330 [pixel-landscape] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (1.3s)
+  ✓  331 [pixel-landscape] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (1.3s)
+  ✓  333 [pixel-landscape] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (632ms)
+  ✓  334 [pixel-landscape] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (608ms)
+  ✓  332 [pixel-landscape] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.3s)
+  ✓  335 [pixel-landscape] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (1.5s)
+  ✓  336 [pixel-landscape] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (1.0s)
+(node:74111) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:74112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  337 [iphone-portrait] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (872ms)
+  ✓  338 [iphone-portrait] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (1.2s)
+  ✓  339 [iphone-portrait] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (910ms)
+  ✓  329 [pixel-landscape] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (21.1s)
+  ✓  340 [iphone-portrait] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (894ms)
+  ✓  342 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (630ms)
+(node:74136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  343 [iphone-portrait] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (959ms)
+  ✓  344 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (9.2s)
+  ✓  346 [iphone-portrait] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (830ms)
+  ✓  347 [iphone-portrait] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (777ms)
+  ✓  345 [iphone-portrait] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (13.5s)
+  ✓  349 [iphone-portrait] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (630ms)
+  ✓  348 [iphone-portrait] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (13.1s)
+  ✓  341 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (26.3s)
+  ✓  351 [iphone-portrait] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (1.7s)
+  ✓  350 [iphone-portrait] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (13.3s)
+  ✓  354 [iphone-portrait] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile (823ms)
+  ✓  355 [iphone-portrait] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile (649ms)
+  ✓  353 [iphone-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.7s)
+  ✓  356 [iphone-portrait] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (981ms)
+  ✓  358 [iphone-portrait] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (669ms)
+  ✓  357 [iphone-portrait] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (1.1s)
+  ✓  359 [iphone-portrait] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (1.2s)
+  ✓  360 [iphone-portrait] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (956ms)
+  ✓  362 [iphone-portrait] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (3.2s)
+  ✓  352 [iphone-portrait] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (12.0s)
+  ✓  363 [iphone-portrait] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (1.8s)
+  ✓  364 [iphone-portrait] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (1.1s)
+  ✓  365 [iphone-portrait] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (537ms)
+  ✓  366 [iphone-portrait] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (3.8s)
+  ✓  367 [iphone-portrait] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (4.0s)
+  ✓  361 [iphone-portrait] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (12.1s)
+  ✓  368 [iphone-portrait] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (4.6s)
+  ✓  369 [iphone-portrait] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (4.5s)
+  200 m: spread 11.95, 4 buckets, top 33%
+ 6000 m: spread 12.85, 5 buckets, top 32%
+40000 m: spread 11.22, 4 buckets, top 28%
+  ✓  371 [iphone-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (2.0s)
+  ✓  373 [iphone-portrait] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (554ms)
+ground band: spread 13.50, 5 tone bucket(s), top colour #776655 at 32%
+  ✓  370 [iphone-portrait] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (4.7s)
+  ✓  372 [iphone-portrait] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (3.4s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  376 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (556ms)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: -1,
+  directChanged: 3420
+}
+  ✓  377 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (286ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -10,
+  bloomVsDirectMinimum: -3,
+  directChanged: 5597
+}
+  ✓  378 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (295ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  379 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (251ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  380 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (260ms)
+  ✓  381 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (311ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  382 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (321ms)
+[plume] iphone-portrait · the plume is longer than the ship at low altitude @mobile: 3.28 long, 0.59 across (spans 2.50/3.33/3.28/2.57, widths 0.59/0.59/0.54/0.56, steps 368/409/451/493; 3/4 anchored to the region edge; throttle 100/100/100/100; (540,590)-(631,920)n7177 (534,587)-(629,1026)n7228 (545,583)-(635,1015)n7226 (546,581)-(634,920)n7418)
+  ✓  374 [iphone-portrait] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (8.3s)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 3.28 long, 0.57 across (spans 3.34/3.26/3.28/2.57, widths 0.60/0.55/0.54/0.57, steps 372/414/456/498; 3/4 anchored to the region edge; throttle 100/100/100/100; (537,587)-(629,1028)n7096 (532,584)-(627,1014)n7192 (543,584)-(633,1017)n7334 (544,584)-(631,923)n7350)
+  ✓  384 [iphone-portrait] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (690ms)
+  ✓  383 [iphone-portrait] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.9s)
+  ✓  385 [iphone-portrait] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (712ms)
+  ✓  386 [iphone-portrait] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (964ms)
+  ✓  387 [iphone-portrait] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (747ms)
+  ✓  388 [iphone-portrait] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (864ms)
+  ✓  389 [iphone-portrait] › tests/e2e/responsive.spec.ts:147:1 › the dials become digits and ticks on a phone @mobile @mobile-only @portrait-only (878ms)
+  ✓  390 [iphone-portrait] › tests/e2e/responsive.spec.ts:173:1 › the timeline collapses to now and next on a phone @mobile @mobile-only @portrait-only (631ms)
+  ✓  391 [iphone-portrait] › tests/e2e/responsive.spec.ts:188:1 › the panels are sheets, and only one opens at a time @mobile @mobile-only @portrait-only (864ms)
+  ✓  392 [iphone-portrait] › tests/e2e/responsive.spec.ts:213:1 › no sheet ever covers the primary strip @mobile @mobile-only @portrait-only (1.0s)
+  ✓  393 [iphone-portrait] › tests/e2e/responsive.spec.ts:234:1 › a closed sheet cannot be tabbed into @mobile @mobile-only @portrait-only (778ms)
+  ✓  394 [iphone-portrait] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (1.6s)
+  ✓  395 [iphone-portrait] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (1.6s)
+[plume] iphone-portrait · and blooms wider than the ship in vacuum @mobile: 2.37 long, 0.78 across (spans 2.50/2.37/1.45/1.38, widths 0.72/0.78/0.75/0.85, steps 368/412/456/498; 3/4 anchored to the region edge; throttle 100/100/100/100; (550,568)-(615,717)n2302 (539,566)-(611,707)n2163 (559,568)-(620,654)n2310 (558,568)-(618,650)n2119)
+low: 3.28 long, 0.57 across · vacuum: 2.37 long, 0.78 across
+frame 1170x1104 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   48.8  spread  29.65  tones  4  bright 0.019  dark 0.929  warm 0.0072  top #222222:0.43 #332222:0.30 #222211:0.08 #333322:0.04 #111122:0.03
+  EXT plume    found true  span 83px (61x83)  band 51px  n 2119  box (558,568)-(618,650)  = 1.38 vehicle heights
+  |   -                                        |
+  |                                            |
+  |       +          -:   :       = ==        #|
+  |         =             =                   #|
+  |        ++               -.                 |
+  |        -          +-     -  -.         ==  |
+  |      ==                     -.           .+|
+  |  ==   == +                      -      *.  |
+  |                     -+      --  =          |
+  |  --                      -   :-  -         |
+  |.......-............#@%#....................|
+  |......--...-........*@@@....................|
+  |********************#@@@*****@*************#|
+  |=:................:::+*......:::..........-=|
+  |.....................=+.....................|
+  |.....................==.....................|
+  |::...................=+-.................::.|
+  |::::.................--:................::::|
+  |:::::::...............:.............::::::::|
+  |::::::.................:..........::::::::::|
+  |::::::................................::::::|
+  |:::::......................................:|
+  aspect: 0.17 low, 0.33 vacuum
+  ✓  375 [iphone-portrait] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (16.7s)
+  -  398 [iphone-portrait] › tests/e2e/screenshot.spec.ts:75:1 › capture phone @screenshot @mobile @mobile-only @portrait-only
+  ✓  397 [iphone-portrait] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (11.2s)
+  ✓  396 [iphone-portrait] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (14.1s)
+  ✓  401 [iphone-portrait] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (449ms)
+  ✓  402 [iphone-portrait] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (393ms)
+  ✓  403 [iphone-portrait] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (552ms)
+  ✓  404 [iphone-portrait] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (543ms)
+  ✓  405 [iphone-portrait] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (572ms)
+  ✓  406 [iphone-portrait] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (2.1s)
+  ✓  407 [iphone-portrait] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (867ms)
+  ✓  408 [iphone-portrait] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (906ms)
+  ✓  409 [iphone-portrait] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (2.8s)
+  ✓  400 [iphone-portrait] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.4s)
+  ✓  410 [iphone-portrait] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (1.6s)
+  ✓  411 [iphone-portrait] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (3.3s)
+  ✓  412 [iphone-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.3s)
+  ✓  399 [iphone-portrait] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (29.4s)
+  ✓  415 [iphone-portrait] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (1.2s)
+  ✓  416 [iphone-portrait] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (684ms)
+  ✓  417 [iphone-portrait] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (605ms)
+  ✓  418 [iphone-portrait] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (994ms)
+  ✓  419 [iphone-portrait] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (1.9s)
+  ✓  420 [iphone-portrait] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (657ms)
+  ✓  421 [iphone-portrait] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (742ms)
+  ✓  413 [iphone-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.4s)
+  ✓  414 [iphone-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.3s)
+  ✓  423 [iphone-portrait] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (875ms)
+  ✓  424 [iphone-portrait] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (965ms)
+  ✓  426 [iphone-portrait] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (586ms)
+  ✓  427 [iphone-portrait] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (581ms)
+  ✓  422 [iphone-portrait] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (20.9s)
+  ✓  425 [iphone-portrait] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.3s)
+  ✓  428 [iphone-portrait] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (1.5s)
+(node:74332) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:74333) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  429 [iphone-portrait] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (1.5s)
+(node:74340) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  430 [iphone-landscape] › tests/e2e/a11y.spec.ts:33:1 › every live number sits on the backing, not on the bare sky @mobile (971ms)
+  ✓  431 [iphone-landscape] › tests/e2e/a11y.spec.ts:60:1 › every control can be reached and seen by keyboard @mobile (1.2s)
+  ✓  432 [iphone-landscape] › tests/e2e/a11y.spec.ts:146:1 › the overlay announces itself sensibly to a screen reader @mobile (935ms)
+  ✓  433 [iphone-landscape] › tests/e2e/a11y.spec.ts:91:1 › a control operated by keyboard actually does something @mobile (1.2s)
+  ✓  436 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (661ms)
+  ✓  437 [iphone-landscape] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (947ms)
+  ✓  435 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (8.9s)
+  ✓  439 [iphone-landscape] › tests/e2e/controls.spec.ts:16:1 › the panels render with every control @mobile (819ms)
+  ✓  440 [iphone-landscape] › tests/e2e/controls.spec.ts:54:1 › a toggle lights its button and unlights it again @mobile (851ms)
+  ✓  438 [iphone-landscape] › tests/e2e/cinematic.spec.ts:181:1 › onboard looks twice as close as follow, and the choice survives a reload @mobile (13.4s)
+  ✓  442 [iphone-landscape] › tests/e2e/controls.spec.ts:101:1 › the throttle slider is bounded by the engine limits @mobile (731ms)
+  ✓  434 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (23.7s)
+  ✓  441 [iphone-landscape] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (13.2s)
+  ✓  444 [iphone-landscape] › tests/e2e/controls.spec.ts:152:1 › the controls add no per-frame document lookups @mobile (1.8s)
+  ✓  443 [iphone-landscape] › tests/e2e/controls.spec.ts:112:1 › the throttle slider commands the engines once the intro hands over @mobile (13.3s)
+  ✓  446 [iphone-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.6s)
+  -  447 [iphone-landscape] › tests/e2e/hint.spec.ts:29:1 › a fresh profile is told what to press, once @mobile
+  -  448 [iphone-landscape] › tests/e2e/hint.spec.ts:44:1 › and any input puts it away, without eating the input @mobile
+  ✓  449 [iphone-landscape] › tests/e2e/hint.spec.ts:85:1 › the guide lists every autopilot mode the rail has @mobile (1.1s)
+  ✓  451 [iphone-landscape] › tests/e2e/hint.spec.ts:120:1 › and a layout with no room for it says so rather than shipping a collision @mobile (561ms)
+  ✓  450 [iphone-landscape] › tests/e2e/hint.spec.ts:104:1 › and every flight the menu offers @mobile (1.5s)
+  ✓  452 [iphone-landscape] › tests/e2e/menu.spec.ts:141:1 › a hand-typed flight configures and flies @mobile (1.2s)
+  ✓  453 [iphone-landscape] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (1.2s)
+  ✓  445 [iphone-landscape] › tests/e2e/debrief.spec.ts:50:1 › the intro lands and says how it went @mobile (11.6s)
+  ✓  455 [iphone-landscape] › tests/e2e/offline.spec.ts:97:1 › the black box works offline, chunk and all @mobile (2.9s)
+  ✓  456 [iphone-landscape] › tests/e2e/offline.spec.ts:111:1 › the guide and menu work offline @mobile (1.3s)
+  ✓  457 [iphone-landscape] › tests/e2e/offline.spec.ts:121:1 › the app is installable: manifest and icon are served and cached @mobile (839ms)
+  ✓  458 [iphone-landscape] › tests/e2e/pixel-scale.spec.ts:5:1 › a known-size canvas subject measures one vehicle height @mobile (470ms)
+  ✓  459 [iphone-landscape] › tests/e2e/pixels.spec.ts:115:1 › the vehicle and its plume are in the frame @mobile (4.0s)
+  ✓  460 [iphone-landscape] › tests/e2e/pixels.spec.ts:144:1 › the plume has a measurable extent, in ship-lengths @mobile (4.1s)
+  ✓  461 [iphone-landscape] › tests/e2e/pixels.spec.ts:176:1 › the cloud deck is there, and is brighter than the sky behind it @mobile (4.3s)
+  ✓  454 [iphone-landscape] › tests/e2e/offline.spec.ts:58:1 › a full flight can be flown offline @mobile (12.3s)
+  ✓  462 [iphone-landscape] › tests/e2e/pixels.spec.ts:200:1 › the cloud deck is soft-edged, not a cutout @mobile (4.7s)
+  200 m: spread 16.27, 5 buckets, top 30%
+ 6000 m: spread 19.03, 6 buckets, top 15%
+40000 m: spread 5.33, 2 buckets, top 50%
+  ✓  464 [iphone-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (1.3s)
+  ✓  466 [iphone-landscape] › tests/e2e/plume-instrument.spec.ts:5:1 › the paired exhaust mask excludes stars, terrain, reticle and nose fire @mobile (495ms)
+  ✓  465 [iphone-landscape] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.4s)
+ground band: spread 21.28, 6 tone bucket(s), top colour #887755 at 15%
+  ✓  463 [iphone-landscape] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (4.4s)
+[bloom-footprint] { maxDifference: 0, directDifference: 0, changed: 432 }
+  ✓  469 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:33:1 › local bloom footprint is independent of canvas dimensions @mobile (255ms)
+[post-composite] fire {
+  directMinimum: 0,
+  bloomMinimum: 0,
+  bloomVsDirectMinimum: -1,
+  directChanged: 3420
+}
+  ✓  470 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:61:1 › bloom adds light without darkening additive exhaust @mobile (243ms)
+[post-composite] smoke {
+  directMinimum: -10,
+  bloomMinimum: -10,
+  bloomVsDirectMinimum: -3,
+  directChanged: 5597
+}
+  ✓  471 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:70:1 › bloom preserves normal smoke occlusion @mobile (262ms)
+[post-composite] fire-then-smoke {
+  directMinimum: -24,
+  bloomMinimum: -24,
+  bloomVsDirectMinimum: 0,
+  directChanged: 19200
+}
+  ✓  472 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed fire-then-smoke compositing @mobile (247ms)
+[post-composite] smoke-then-fire {
+  directMinimum: -16,
+  bloomMinimum: -16,
+  bloomVsDirectMinimum: 0,
+  directChanged: 12800
+}
+  ✓  473 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:79:3 › bloom retains mixed smoke-then-fire compositing @mobile (228ms)
+  ✓  474 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:87:1 › additive bloom survives a real WebGL context restoration @mobile (282ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  475 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (340ms)
+[plume] iphone-landscape · the plume is longer than the ship at low altitude @mobile: 2.78 long, 0.58 across (spans 2.99/2.77/2.65/2.78, widths 0.55/0.55/0.58/0.59, steps 372/414/456/498; 3/4 anchored to the region edge; throttle 100/100/100/100; (1081,546)-(1172,940)n7073 (1074,541)-(1170,906)n7214 (1085,540)-(1173,889)n7267 (1081,542)-(1167,908)n7217)
+  ✓  467 [iphone-landscape] › tests/e2e/plume.spec.ts:271:1 › the plume is longer than the ship at low altitude @mobile (9.5s)
+  ✓  476 [iphone-landscape] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.8s)
+  ✓  477 [iphone-landscape] › tests/e2e/responsive.spec.ts:18:1 › nothing overflows sideways, at any size @mobile (713ms)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 2.78 long, 0.58 across (spans 2.41/2.72/3.05/2.78, widths 0.51/0.54/0.58/0.61, steps 372/413/455/498; 2/4 anchored to the region edge; throttle 100/100/100/100; (1083,549)-(1173,866)n6985 (1078,543)-(1174,901)n7152 (1088,539)-(1176,941)n7192 (1081,539)-(1167,905)n7377)
+  ✓  478 [iphone-landscape] › tests/e2e/responsive.spec.ts:33:1 › the overlay stays inside the viewport @mobile (841ms)
+  ✓  479 [iphone-landscape] › tests/e2e/responsive.spec.ts:49:1 › every control is big enough for the pointer it has @mobile (1.2s)
+  ✓  480 [iphone-landscape] › tests/e2e/responsive.spec.ts:86:1 › the world fills the screen down to the controls @mobile (890ms)
+  ✓  481 [iphone-landscape] › tests/e2e/responsive.spec.ts:131:1 › both flight panels are reachable, whatever the layout @mobile (894ms)
+  ✓  482 [iphone-landscape] › tests/e2e/responsive.spec.ts:251:1 › the menu is usable on a phone @mobile (1.4s)
+  ✓  483 [iphone-landscape] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (1.1s)
+[plume] iphone-landscape · and blooms wider than the ship in vacuum @mobile: 1.58 long, 0.83 across (spans 1.58/1.32/3.27/1.13, widths 0.72/0.78/0.83/0.85, steps 384/426/468/510; 0/4 anchored to the region edge; throttle 100/100/100/100; (1094,526)-(1149,620)n2383 (1079,526)-(1157,593)n2378 (1095,525)-(1174,720)n2128 (1103,525)-(1166,592)n2349)
+low: 2.78 long, 0.58 across · vacuum: 1.58 long, 0.83 across
+frame 2250x1020 @3.00x  altitude 120000 m  vehicle 60 px
+  below      mean   48.5  spread  24.82  tones  4  bright 0.011  dark 0.939  warm 0.0036  top #222222:0.38 #332222:0.29 #333322:0.14 #222211:0.05 #111122:0.04
+  EXT plume    found true  span 68px (64x68)  band 51px  n 2349  box (1103,525)-(1166,592)  = 1.13 vehicle heights
+  |         -  --                      -       |
+  |                                            |
+  |              .+    - -   ==    #           |
+  |           =   ==     =         #.-         |
+  |           =   +=      -                    |
+  |               -    +-  --     =   -        |
+  |              =          -      +   -       |
+  |      +   - =  =+          -  ** =          |
+  |        = :          -+  - =     =          |
+  |       -    --       .= - -.-    -          |
+  |.........-....--.....%@...:.................|
+  |........=-....-..-...@@.............-.......|
+  |==+++**#*************@@**@******%******+++==|
+  |*******+.............=*::::...::....+*******|
+  |.....................##.....................|
+  |.....................*+.....................|
+  |..........::::::.....-+.....................|
+  |::...:::::::::::.....=-.............::...:::|
+  |::::::::::::::::::...::..........:::::::::::|
+  |:::::::::::::::::::..::...........::::::::::|
+  |::::::::::::::::::..............::::::::::::|
+  |::::::::::::::::::.................:::::::::|
+  aspect: 0.21 low, 0.53 vacuum
+  ✓  468 [iphone-landscape] › tests/e2e/plume.spec.ts:297:1 › and blooms wider than the ship in vacuum @mobile (17.4s)
+  ✓  485 [iphone-landscape] › tests/e2e/responsive.spec.ts:466:1 › and reduced motion silences them @mobile (10.5s)
+  ✓  484 [iphone-landscape] › tests/e2e/responsive.spec.ts:403:1 › mission events reach navigator.vibrate, one buzz per event @mobile (13.5s)
+  ✓  488 [iphone-landscape] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (298ms)
+  ✓  489 [iphone-landscape] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (391ms)
+  ✓  490 [iphone-landscape] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (578ms)
+  ✓  491 [iphone-landscape] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (595ms)
+  ✓  492 [iphone-landscape] › tests/e2e/sound.spec.ts:64:1 › the sound control is present and reports its state @mobile (573ms)
+  ✓  493 [iphone-landscape] › tests/e2e/sound.spec.ts:71:1 › nothing is constructed before the first gesture @mobile (2.1s)
+  ✓  494 [iphone-landscape] › tests/e2e/sound.spec.ts:104:1 › a gesture brings the context to running, and mute suspends it @mobile (893ms)
+  ✓  495 [iphone-landscape] › tests/e2e/sound.spec.ts:153:1 › the mute choice survives a reload @mobile (1.1s)
+  ✓  496 [iphone-landscape] › tests/e2e/sound.spec.ts:165:1 › the level reaches the master gain, and is remembered @mobile (2.8s)
+  ✓  487 [iphone-landscape] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.4s)
+  ✓  497 [iphone-landscape] › tests/e2e/sound.spec.ts:189:1 › the level is not a mute, and mute is not a level @mobile (1.3s)
+  ✓  498 [iphone-landscape] › tests/e2e/sound.spec.ts:216:1 › restore defaults puts back every remembered preference @mobile (2.9s)
+  ✓  499 [iphone-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.2s)
+  ✓  486 [iphone-landscape] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (29.2s)
+  ✓  502 [iphone-landscape] › tests/e2e/testids.spec.ts:43:1 › every flight control is present, exactly once @mobile (683ms)
+  ✓  503 [iphone-landscape] › tests/e2e/testids.spec.ts:52:1 › every readout renders its row, value and unit @mobile (693ms)
+  ✓  504 [iphone-landscape] › tests/e2e/testids.spec.ts:71:1 › every drawn readout has an element to be drawn into @mobile (583ms)
+  ✓  505 [iphone-landscape] › tests/e2e/testids.spec.ts:83:1 › every menu control is present once the menu is open @mobile (886ms)
+  ✓  506 [iphone-landscape] › tests/e2e/testids.spec.ts:94:1 › the black box and the info views carry their ids @mobile (1.8s)
+  ✓  507 [iphone-landscape] › tests/e2e/trajectory.spec.ts:40:1 › the canvas is real and has pixels @mobile (755ms)
+  ✓  508 [iphone-landscape] › tests/e2e/trajectory.spec.ts:58:1 › the marker moves as the vehicle flies @mobile (797ms)
+  ✓  500 [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.7s)
+  ✓  510 [iphone-landscape] › tests/e2e/trajectory.spec.ts:118:1 › the trail grows behind the vehicle @mobile (683ms)
+  ✓  501 [iphone-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.3s)
+  ✓  511 [iphone-landscape] › tests/e2e/trajectory.spec.ts:155:1 › the collapse is remembered across a reload @mobile (915ms)
+  ✓  513 [iphone-landscape] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (487ms)
+  ✓  514 [iphone-landscape] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (566ms)
+  ✓  512 [iphone-landscape] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.3s)
+  ✓  515 [iphone-landscape] › tests/e2e/trajectory.spec.ts:221:1 › the prediction tracks the flight rather than sitting still @mobile (1.5s)
+  ✓  516 [iphone-landscape] › tests/e2e/trajectory.spec.ts:235:1 › an orbit is told it is an orbit @mobile (1.5s)
+  ✓  509 [iphone-landscape] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (20.4s)
+
+  11 skipped
+  505 passed (11.5m)
