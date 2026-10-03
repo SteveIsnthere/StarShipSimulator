@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/vehicle-detail.test.ts (5 tests | 2 failed) 8ms
+   × keeps the two Ship fin pairs independently articulated at finite zoom while detail dims at night 2ms
+   × places Ship fin pairs at their existing physical stations above the engine plane 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/vehicle-detail.test.ts > keeps the two Ship fin pairs independently articulated at finite zoom while detail dims at night
+AssertionError: a deployed fin begins at the actual hull flank, not inside its centre: expected 391.45 to be less than 386.5
+ ❯ tests/view/vehicle-detail.test.ts:59:107
+     57|   pose.frontFinExtension = 100; body.update(camera, viewport, pose, su…
+     58|   expect(front.width).toBeGreaterThan(frontWidth); expect(aft.width).t…
+     59|   expect(front.getBounds().minX, 'a deployed fin begins at the actual …
+       |                                                                                                           ^
+     60|   const extendedFront = front.width;
+     61|   pose.aftFinExtension = 100; body.update(camera, viewport, pose, sun);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/view/vehicle-detail.test.ts > places Ship fin pairs at their existing physical stations above the engine plane
+AssertionError: expected 307.70171149144255 to be close to 239.7, received difference is 68.00171149144256, but expected 0.005
+ ❯ tests/view/vehicle-detail.test.ts:76:39
+     74|   for (const [id, station] of [['fin-front-left', SHIP.frontFinStation…
+     75|     const box = fins.getChildByLabel(id)!.getBounds();
+     76|     expect((box.minY + box.maxY) / 2).toBeCloseTo(body.container.y + (…
+       |                                       ^
+     77|   }
+     78|   body.container.destroy({ children: true });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed (5)
+   Start at  10:55:47
+   Duration  438ms (transform 71ms, setup 0ms, import 315ms, tests 8ms, environment 0ms)
+

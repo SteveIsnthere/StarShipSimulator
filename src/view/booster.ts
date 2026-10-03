@@ -1,6 +1,8 @@
 /** Functional Super Heavy geometry in metres, reading real actuator positions.
  * Four grid fins are projected as two edge plates and two face plates in 2D.
- * Detailed surface artwork belongs to the following visual phase. */
+ * Surface geometry is startup-owned and follows the same physical pose. */
+import { createVehicleDetail } from './vehicle-detail';
+import { lightInVehicleFrame } from './sun';
 import { Container, Graphics } from 'pixi.js';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import type { VehicleView } from './vehicle';
@@ -12,9 +14,6 @@ export function createBoosterVehicle(): VehicleView {
   const hull = new Graphics({ label: 'booster-hull' });
   hull.rect(-4.5, -35.5, 9, 71).fill(FIN_COLOR);
   hull.rect(-4.5, 32.5, 9, 3).fill(0x525b61);
-  // Tank welds and the open hot-stage rim make this visibly a booster.
-  for (let y = -33; y < 32; y += 6) hull.moveTo(-4.44, y).lineTo(4.44, y);
-  hull.stroke({ color: 0x78838b, width: 0.12 });
   const fins = Array.from({ length: 4 }, (_, i) => {
     const fin = new Graphics({ label: `grid-fin-${i + 1}` });
     fin.rect(0, -1.5, 4, 3).fill(FIN_COLOR);
@@ -24,7 +23,11 @@ export function createBoosterVehicle(): VehicleView {
     fin.y = SUPER_HEAVY.height / 2 - SUPER_HEAVY.gridFins!.station;
     return fin;
   });
-  container.addChild(fins[0]!, fins[2]!, hull, fins[1]!, fins[3]!);
+  const detail = createVehicleDetail(SUPER_HEAVY.height, SUPER_HEAVY.diameter, true);
+  const leftRim = detail.getChildByLabel('detail-rim-left')!;
+  const rightRim = detail.getChildByLabel('detail-rim-right')!;
+  const light = { x: 0, y: 1, z: 0 };
+  container.addChild(fins[0]!, fins[2]!, hull, detail, fins[1]!, fins[3]!);
   return {
     container,
     update(camera, viewport, state, sun) {
@@ -41,6 +44,13 @@ export function createBoosterVehicle(): VehicleView {
       }
       const shade = sun ? Math.round(255 * Math.min(1, flatLighting(sun.south, sun.daylight))) : 255;
       container.tint = (shade << 16) | (shade << 8) | shade;
+      if (sun) {
+        lightInVehicleFrame(sun, state.pitch, light);
+        // Relative face contrast; the parent already carries daylight/night.
+        const base = flatLighting(light.z, 1);
+        leftRim.tint = Math.round(255 * Math.min(1, flatLighting(-light.x, 1) / base)) * 0x010101;
+        rightRim.tint = Math.round(255 * Math.min(1, flatLighting(light.x, 1) / base)) * 0x010101;
+      }
     },
   };
 }

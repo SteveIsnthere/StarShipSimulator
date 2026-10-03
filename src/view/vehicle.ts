@@ -1,20 +1,23 @@
 /**
  * The vehicle: body sprite plus four articulated fins.
  *
- * Geometry ported from render/drawMethods/drawMethods.js:5-18, where every
+ * Chords ported from render/drawMethods/drawMethods.js:5-18, where every
  * dimension is expressed as a fraction of the drawn ship height — the ratios
  * come from the source artwork's own proportions (818 px tall) and hold at any
- * zoom.
+ * zoom. Roots sit at the actual hull flanks and the existing model stations,
+ * rather than hiding inside the centreline. This changes depiction only.
  *
  * The fins are drawn rather than sprited, because they articulate: extension
  * runs 0..100% and the drawn chord follows it. That is what makes a belly flop
  * readable at a glance.
  */
 import { Container, Graphics, Mesh, MeshGeometry, Sprite, type Shader, type Texture } from 'pixi.js';
+import { createVehicleDetail } from './vehicle-detail';
 import { STARSHIP_TEXTURE } from './assets';
 import { worldToScreen, type CameraState, type Viewport } from './camera';
 import { flatLighting, type VehicleLighting } from './lighting';
 import { lightInVehicleFrame, type SunLight } from './sun';
+import { SHIP } from '$core/vehicle';
 import { vehicleDiameter, vehicleHeight } from '$core/constants';
 
 /** Fin colour, matching the 2021 art's stainless. */
@@ -24,18 +27,21 @@ export const FIN_COLOR = 0xb9bec4;
 const FIN = {
   thickness: 12 / 818,
   front: {
-    start: 299 / 818,
+    station: SHIP.frontFinStation,
     length: 136 / 818,
     width: 0.057,
     shortSide: 23 / 56,
   },
   aft: {
-    start: 159 / 818,
+    station: SHIP.aftFinStation,
     length: 247 / 818,
     width: 0.087,
     shortSide: 51 / 100,
   },
 } as const;
+
+/** Conservative full-extension depiction bounds, shared with the camera. */
+export const SHIP_VISUAL_DIAMETER = vehicleDiameter + 2 * vehicleHeight * FIN.aft.width;
 
 export interface VehicleView {
   readonly container: Container;
@@ -68,7 +74,11 @@ export function createVehicle(
   const container = new Container({ label: 'starship' });
 
   // Fins go behind the body so the hull edge stays clean.
-  const finsBack = new Graphics();
+  const finsBack = new Container({ label: 'ship-fins' });
+  const fins = Array.from({ length: 4 }, (_, i) => new Graphics({
+    label: `fin-${i < 2 ? 'front' : 'aft'}-${i % 2 === 0 ? 'left' : 'right'}`,
+  }));
+  finsBack.addChild(...fins);
   const texture = textures.get(STARSHIP_TEXTURE);
   /*
     THE HULL IS A LIT MESH (M11.4). A unit quad, scaled to the drawn size each
@@ -92,6 +102,8 @@ export function createVehicle(
     sprite.anchor.set(0.5, 0.5);
     container.addChild(finsBack, sprite);
   }
+  const detail = createVehicleDetail(vehicleHeight, vehicleDiameter, false);
+  container.addChild(detail);
   const light = { x: 0, y: 1, z: 0 };
   let lastFinTint = -1;
 
@@ -133,18 +145,19 @@ export function createVehicle(
         mesh.scale.set(drawnWidth, drawnHeight);
       }
 
+      detail.scale.set(viewport.scale);
       // M11.4: the sun in the hull's own frame, and the fins lit as flat
       // plates facing the viewer. The fin tint is a grey and cannot brighten,
       // so the flat lighting is clamped at one; the hull's shader is not.
-      if (sun && lighting) {
+      if (sun) {
         lightInVehicleFrame(sun, state.pitch, light);
-        lighting.set(light.x, light.y, light.z, sun.daylight);
+        lighting?.set(light.x, light.y, light.z, sun.daylight);
         const lit = Math.min(1, flatLighting(sun.south, sun.daylight));
         const shade = Math.round(255 * lit);
         const tint = (shade << 16) | (shade << 8) | shade;
         if (tint !== lastFinTint) {
           lastFinTint = tint;
-          finsBack.tint = tint;
+          finsBack.tint = detail.tint = tint;
         }
       }
 
@@ -163,44 +176,51 @@ export function createVehicle(
       lastFront = state.frontFinExtension;
       lastAft = state.aftFinExtension;
 
-      finsBack.clear();
-      drawFinPair(finsBack, drawnHeight, FIN.front, state.frontFinExtension / 100);
-      drawFinPair(finsBack, drawnHeight, FIN.aft, state.aftFinExtension / 100);
-      finsBack.fill(FIN_COLOR);
+      for (let i = 0; i < fins.length; i++) {
+        const shape = fins[i]!;
+        shape.clear();
+        shape.x = (i % 2 === 0 ? -1 : 1) * drawnWidth / 2;
+        drawFin(shape, drawnHeight, i < 2 ? FIN.front : FIN.aft,
+          (i < 2 ? state.frontFinExtension : state.aftFinExtension) / 100, i % 2 === 0 ? -1 : 1);
+      }
     },
   };
 }
 
 /**
- * One pair of fins, mirrored about the centreline.
+ * One startup-owned fin; its pair shares the physical extension input.
  *
  * Each is a trapezoid: full chord at the root, `shortSide` of it at the tip,
  * scaled outward by how far the fin is extended. At zero extension it collapses
  * to the hull thickness rather than vanishing, because a retracted fin is still
  * a visible strake on the real vehicle.
  */
-function drawFinPair(
+function drawFin(
   g: Graphics,
   drawnHeight: number,
-  fin: { start: number; length: number; width: number; shortSide: number },
+  fin: { station: number; length: number; width: number; shortSide: number },
   extension: number,
+  side: number,
 ): void {
   const thickness = drawnHeight * FIN.thickness;
-  const top = -drawnHeight * 0.5 + drawnHeight * (1 - fin.start - fin.length);
   const length = drawnHeight * fin.length;
+  const top = drawnHeight * (0.5 - fin.station / vehicleHeight) - length / 2;
   const reach = thickness + (drawnHeight * fin.width - thickness) * extension;
   const tipInset = length * (1 - fin.shortSide);
 
-  for (const side of [-1, 1] as const) {
-    g.poly([
-      0,
-      top,
-      side * reach,
-      top + tipInset * 0.5,
-      side * reach,
-      top + length - tipInset * 0.5,
-      0,
-      top + length,
-    ]);
-  }
+  g.poly([
+    0,
+    top,
+    side * reach,
+    top + tipInset * 0.5,
+    side * reach,
+    top + length - tipInset * 0.5,
+    0,
+    top + length,
+  ]).fill(FIN_COLOR);
+  g.moveTo(side * thickness * 0.8, top + length * 0.25)
+    .lineTo(side * reach * 0.75, top + length * 0.4)
+    .moveTo(side * thickness * 0.8, top + length * 0.75)
+    .lineTo(side * reach * 0.75, top + length * 0.6)
+    .stroke({ color: 0x79858e, width: Math.max(0.1, drawnHeight * 0.001) });
 }

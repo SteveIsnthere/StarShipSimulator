@@ -1,0 +1,36 @@
+[WebServer] (node:2545) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:2546) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+
+
+  1) [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile 
+
+    Error: starship top edge
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   -1.485658040813398
+
+      27 |         expect(body.x - halfX, `${body.id} left edge`).toBeGreaterThan(0);
+      28 |         expect(body.x + halfX, `${body.id} right edge`).toBeLessThan(presentation.width);
+    > 29 |         expect(body.y - halfY, `${body.id} top edge`).toBeGreaterThan(0);
+         |                                                       ^
+      30 |         expect(body.y + halfY, `${body.id} bottom edge`).toBeLessThan(presentation.height);
+      31 |       }
+      32 |     }
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/visual-scenes.spec.ts:29:55
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    docs/research/2026-10-03-phase8-visuals/task5-detail/landing-bounds-red/visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-iphone-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: docs/research/2026-10-03-phase8-visuals/task5-detail/landing-bounds-red/visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-iphone-landscape/error-context.md
+
+  1 failed
+    [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile 

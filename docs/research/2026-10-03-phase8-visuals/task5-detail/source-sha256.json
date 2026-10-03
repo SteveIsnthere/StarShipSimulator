@@ -1,0 +1,11 @@
+{
+  "src/view/vehicle-detail.ts": "31010c2ab3e25cd972242b3d913103f0f4ab132c8f2d15206e64eda4afdfaa12",
+  "src/view/vehicle.ts": "69ce374e086e233c9fc22b724a05e7ea476167f72cc3e2c43cfd10cd79e043c0",
+  "src/view/booster.ts": "239471e8abb49eb7c672a9d4da0404919a92f1138dcb2741d65430516d587354",
+  "src/ui/session/camera-follow.ts": "c8c9fa5f5cd121fa968a0c84b60924dd3744ffd0d4356d4d6c864cfc766d38af",
+  "tests/view/vehicle-detail.test.ts": "1be024c8bc14c4bf2c930f2a188af0f52993a6cea603d78d7f0c044571379658",
+  "tests/ui/camera-follow.test.ts": "2e7734b4669390ab86e31f019f402339114fed7fc6dee93597a2469780a62a48",
+  "tests/e2e/visual-scenes.spec.ts": "3f1311619521e431e4c67b40c08e8113e07af767d553e50a9945fbc4343840cb",
+  "tests/e2e/visual-scene-setup.ts": "97d1713dd295ce84304eadaa6093f66b45e916fe2b9356c3dbaa4143e7e0bbda",
+  "playwright.config.ts": "754bfd106fb9e711e744b85aa95e5411b213f286c9ec2d4dcc9533f425e5994b"
+}

@@ -12,6 +12,7 @@ import { SHIP, type VehicleDefinition } from '$core/vehicle';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import type { ViewApp } from '$view/app';
 import { updateCamera, type CameraMode, type MutableViewport } from '$view/camera';
+import { SHIP_VISUAL_DIAMETER } from '$view/vehicle';
 
 export type CameraFollowView = Pick<ViewApp, 'viewport' | 'camera' | 'followAltitude'>;
 
@@ -64,10 +65,11 @@ export function createCameraFollow(): CameraFollow {
     out.left = pose.downRangeDistance - x; out.right = pose.downRangeDistance + x;
     out.bottom = pose.altitude - y; out.top = pose.altitude + y;
   }
-  function fit(view: CameraFollowView, groundSpan = 0) {
+  function fit(view: CameraFollowView, groundSpan = 0, nativeShare = 1) {
     const vp = view.viewport;
-    const height = Math.max(vp.physicalHeight, groundSpan, (bounds.top - bounds.bottom) / 0.7,
+    const required = Math.max(groundSpan, (bounds.top - bounds.bottom) / 0.7,
       (bounds.right - bounds.left) / 0.7 * vp.height / vp.width);
+    const height = required + (Math.max(vp.physicalHeight, required) - required) * nativeShare;
     fitted.width = vp.width; fitted.height = vp.height;
     fitted.physicalHeight = height; fitted.physicalWidth = height * vp.width / vp.height;
     fitted.scale = vp.height / height;
@@ -91,7 +93,9 @@ export function createCameraFollow(): CameraFollow {
   function framePair(view: CameraFollowView, mission: MissionState) {
     const a = mission.ship.kinematics, b = mission.booster.kinematics;
     // Spatial handoff, never a scripted timer or predicted separation.
-    if (Math.hypot(a.downRangeDistance - b.downRangeDistance, a.altitude - b.altitude) > SHIP.height + SUPER_HEAVY.height) {
+    const gap = Math.hypot(a.downRangeDistance - b.downRangeDistance, a.altitude - b.altitude);
+    const length = SHIP.height + SUPER_HEAVY.height;
+    if (gap > length) {
       pairFraming = false;
       return;
     }
@@ -101,11 +105,17 @@ export function createCameraFollow(): CameraFollow {
     bounds.right = Math.max(shipBounds.right, boosterBounds.right);
     bounds.bottom = Math.min(shipBounds.bottom, boosterBounds.bottom);
     bounds.top = Math.max(shipBounds.top, boosterBounds.top);
-    target.downRangeDistance = (bounds.left + bounds.right) / 2;
-    target.altitude = (bounds.bottom + bounds.top) / 2;
-    target.speedX = (a.speedX + b.speedX) / 2;
-    target.speedY = (a.speedY + b.speedY) / 2;
-    fit(view);
+    // Ease from readable hull-bounds framing to the native selected-body view
+    // as the real gap grows from attached centre spacing to spatial handoff.
+    const t = Math.max(0, Math.min(1, (gap - length / 2) / (length / 2)));
+    const share = t * t * (3 - 2 * t);
+    const centreX = (bounds.left + bounds.right) / 2;
+    const centreY = (bounds.bottom + bounds.top) / 2;
+    target.downRangeDistance = centreX + (target.downRangeDistance - centreX) * share;
+    target.altitude = centreY + (target.altitude - centreY) * share;
+    target.speedX = (a.speedX + b.speedX) / 2 + (target.speedX - (a.speedX + b.speedX) / 2) * share;
+    target.speedY = (a.speedY + b.speedY) / 2 + (target.speedY - (a.speedY + b.speedY) / 2) * share;
+    fit(view, 0, share);
   }
   function position(view: CameraFollowView) {
     const cam = view.camera;
@@ -115,6 +125,20 @@ export function createCameraFollow(): CameraFollow {
     cam.accX = 0; cam.accY = 0;
     cam.shakeX = 0; cam.shakeY = 0;
     cam.padHeld = false;
+  }
+  function keepHullInFrame(view: CameraFollowView, state: SimState) {
+    const vp = view.viewport, cam = view.camera;
+    writeBounds(bounds, state.kinematics, SHIP.height, SHIP_VISUAL_DIAMETER);
+    // The original law bounds shake around a point. At the native landscape
+    // minimum, that point can fit while the nose clips. Only constrain an edge
+    // crossing; preserve native FOV, velocity, lead and all interior motion.
+    const inset = 0.5 / vp.scale;
+    const left = bounds.right - vp.physicalWidth / 2 + inset - cam.shakeX;
+    const right = bounds.left + vp.physicalWidth / 2 - inset - cam.shakeX;
+    const bottom = bounds.top - vp.physicalHeight / 2 + inset - cam.shakeY;
+    const top = bounds.bottom + vp.physicalHeight / 2 - inset - cam.shakeY;
+    if (left <= right) cam.posX = Math.max(left, Math.min(right, cam.posX));
+    if (bottom <= top) cam.posY = Math.max(vp.physicalHeight / 2, bottom, Math.min(top, cam.posY));
   }
   return {
     reset(view, state, mission, model = SHIP) {
@@ -138,6 +162,10 @@ export function createCameraFollow(): CameraFollow {
       frameBooster(view, state, model);
       if (mission && pairFraming) framePair(view, mission);
       updateCamera(view.camera, target, view.viewport, DT, options);
+      if (!mission && model.id === SHIP.id && options.mode === 'follow'
+        && !state.autopilot.demoAutoLandOn && !state.failures.crashed) {
+        keepHullInFrame(view, state);
+      }
     },
     setMode(mode) {
       options.mode = mode;

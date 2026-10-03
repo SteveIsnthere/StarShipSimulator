@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/vehicle-detail.test.ts (4 tests | 1 failed) 18ms
+   × builds startup-owned model-scale detail and every actual projected engine mount for 'super-heavy' 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/vehicle-detail.test.ts > builds startup-owned model-scale detail and every actual projected engine mount for 'super-heavy'
+AssertionError: expected 18.15 to be less than or equal to 18
+ ❯ tests/view/vehicle-detail.test.ts:26:36
+     24|   detail.scale.set(2);
+     25|   expect(detail.children).toEqual(geometry);
+     26|   expect(detail.getBounds().width).toBeLessThanOrEqual(model.diameter …
+       |                                    ^
+     27|   detail.destroy({ children: true });
+     28| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 31 passed (32)
+      Tests  1 failed | 372 passed (373)
+   Start at  10:49:45
+   Duration  12.78s (transform 1.41s, setup 0ms, import 11.72s, tests 28.70s, environment 3ms)
+
