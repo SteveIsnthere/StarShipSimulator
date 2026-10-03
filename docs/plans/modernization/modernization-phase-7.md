@@ -361,3 +361,6 @@ Task6 P2 permanent-centre Stage reporting Bug-fix ruling before edits: release r
 
 
 Task6 final review defect checkpoint: P2 Stage flag RED3→GREEN, each requiredcentre permanentfailure staysattached with actualpaidShipthrust/twohealthycentres/unchangedignitionRNG; unused failedmounts stillrelease. Actualcontroller and fullsessionstore/restart tested. Build2/lint0,77focused/8files including alltenactualreplays,14truthIN before/after. Standalone33dependencyfiles/all10fixtures unchanged; source/audit/raw in2026-10-03-phase7-release/stage-failure. Original freshfallback reviewer closes finalpinnedsource; allfiveoriginalfindings nowhave scopedclosure. P2preference review alsoarchived. Next coveragefloor closure thenfullgate/fullbrowser/mutation/truthregistry/finalhighreview/main/main gate/deploy/live. No phase7tick/main/livechange.
+
+
+Task6 updated coverage at880185a:2211tests/185files allpass202.48s/exit1floors only. Globalstatements98.35/branches95.85, physicsbranches99.29, autopilotlines98.52/statements97.29/branches93.57. Raw/summary/exactmissinglocations in2026-10-03-phase7-release/coverage-after-review-fixes. Terminal14659completed; no reviewer/check running. Allfive originalfindings closed. Next genuinecontract coverage, requiredtruthregistry rows, thenfullrelease/main/live.70%,7/8/9remain.
