@@ -1,0 +1,24 @@
+preference false actual fine catch true actual failures {
+  crashed: false,
+  inFlightBreakUp: false,
+  coldGasRunOut: false,
+  fuelRunOut: false,
+  heatDamaged: false,
+  overPressure: false,
+  overGLoad: false,
+  flippedOver: false,
+  randomFailure: false
+}
+accepted plan true
+preference true actual fine catch true actual failures {
+  crashed: false,
+  inFlightBreakUp: false,
+  coldGasRunOut: false,
+  fuelRunOut: false,
+  heatDamaged: false,
+  overPressure: false,
+  overGLoad: false,
+  flippedOver: false,
+  randomFailure: true
+}
+accepted plan true

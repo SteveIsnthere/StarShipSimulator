@@ -123,8 +123,11 @@ function validateRetainedEndpoint(job:BoosterPrediction):boolean {
   return false;
 }
 function physicallyCaught(state:SimState):boolean {
+  // randomFailure is an ignition-risk preference; only realized faults veto
+  // a successful paid capture. Keep every actual failure field in the check.
   return state.status.landed && !state.status.onTheGround
-    && state.vehicle.propellantMass>0 && !Object.values(state.failures).some(Boolean);
+    && state.vehicle.propellantMass>0
+    && !Object.entries(state.failures).some(([key,failed])=>key!=='randomFailure' && failed);
 }
 function continueSearch(job:BoosterPrediction):void {
   if(job.iterations>=16){if(!validateRetainedEndpoint(job))job.done=true;return;}
