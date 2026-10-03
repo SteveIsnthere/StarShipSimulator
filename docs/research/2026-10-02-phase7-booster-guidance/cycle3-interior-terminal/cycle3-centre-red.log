@@ -1,0 +1,35 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-terminal-envelope.test.ts (9 tests | 2 failed) 153ms
+     × physically catches the recorded paid ready input booster-sep with upright, bounded point motion 64ms
+     × physically catches the recorded paid ready input rtls with upright, bounded point motion 51ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > physically catches the recorded paid ready input booster-sep with upright, bounded point motion
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > physically catches the recorded paid ready input rtls with upright, bounded point motion
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-terminal-envelope.test.ts:86:29
+     84|       previous=s;s=advanceMechanics(s,1/120,runBoosterPolicy,SUPER_HEA…
+     85|     }
+     86|     expect(s.status.landed).toBe(true);expect(s.status.onTheGround).to…
+       |                             ^
+     87|     expect(s.vehicle.propellantMass).toBeGreaterThan(0);
+     88|     expect(Object.values(s.failures).some(Boolean)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 7 passed (9)
+   Start at  19:44:33
+   Duration  376ms (transform 95ms, setup 0ms, import 117ms, tests 153ms, environment 0ms)
+

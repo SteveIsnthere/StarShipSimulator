@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-terminal-envelope.test.ts (7 tests | 1 failed) 50ms
+     × restores upright attitude before a slow near-box crossing instead of chasing zero lateral error with hull tilt 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > restores upright attitude before a slow near-box crossing instead of chasing zero lateral error with hull tilt
+AssertionError: expected 0 to be less than 0
+ ❯ tests/core/booster-terminal-envelope.test.ts:71:38
+     69|     s.atmosphere.airPressure=101.325;
+     70|     runBoosterPolicy(s,1/120,SUPER_HEAVY);
+     71|     expect(s.autopilot.pitchControl).toBeLessThan(0);
+       |                                      ^
+     72|     expect(s.autopilot.boosterTerminalMissed).not.toBe(true);
+     73|     expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  19:35:02
+   Duration  280ms (transform 98ms, setup 0ms, import 119ms, tests 50ms, environment 0ms)
+

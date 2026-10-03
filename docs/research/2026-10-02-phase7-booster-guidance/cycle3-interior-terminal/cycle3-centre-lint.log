@@ -1,0 +1,15 @@
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+/Users/stevewang/dev/StarShipSimulator-realism/.superpowers/sdd/modernization-phase-7/cycle3-lug-ready-capture.ts
+   7:9   error  'createBoosterArrival' is defined but never used        @typescript-eslint/no-unused-vars
+   7:30  error  'writeBoosterArrival' is defined but never used         @typescript-eslint/no-unused-vars
+   7:50  error  'createBoosterThrustRequest' is defined but never used  @typescript-eslint/no-unused-vars
+   7:77  error  'writeBoosterThrustRequest' is defined but never used   @typescript-eslint/no-unused-vars
+  15:6   error  's' is never reassigned. Use 'const' instead            prefer-const
+
+✖ 5 problems (5 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+

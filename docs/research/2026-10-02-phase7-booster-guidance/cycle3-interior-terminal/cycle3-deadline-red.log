@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-terminal-envelope.test.ts (6 tests | 1 failed) 47ms
+     × does not size the terminal deadline around deceleration that only atmospheric drag can supply 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > does not size the terminal deadline around deceleration that only atmospheric drag can supply
+AssertionError: expected 11.196878055198498 to be less than or equal to 10.027922749513056
+ ❯ tests/core/booster-terminal-envelope.test.ts:60:19
+     58|     const endThrust=getTotalMaxThrust([true,true,true],C.SEA_LEVEL_PRE…
+     59|     const endGravity=-verticalGravityAcceleration(C.planetRadius+CATCH…
+     60|     expect(endAY).toBeLessThanOrEqual(endThrust-endGravity+1e-10);
+       |                   ^
+     61|     expect(demand.time).toBeLessThanOrEqual(60);
+     62|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  19:30:51
+   Duration  264ms (transform 94ms, setup 0ms, import 115ms, tests 47ms, environment 0ms)
+

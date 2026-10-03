@@ -1,0 +1,40 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-terminal-envelope.test.ts (5 tests | 1 failed) 37ms
+     × keeps a finite terminal command through the recorded transient nominal cone rejection 4ms
+ ❯ |unit| tests/core/booster-prediction.test.ts (7 tests | 1 failed) 37ms
+     × uses a failed underburn only to probe a larger interior, never as a valid bracket 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > uses a failed underburn only to probe a larger interior, never as a valid bracket
+AssertionError: expected 2.734113712374582 to be greater than 5.468227424749164
+ ❯ tests/core/booster-prediction.test.ts:74:27
+     72|     advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy…
+     73|     const next=s.autopilot.boosterPrediction!;
+     74|     expect(next.duration).toBeGreaterThan(previousDuration);
+       |                           ^
+     75|     expect(next.duration).toBeLessThan(next.upperDuration);
+     76|     expect(next.low).toBeUndefined();expect(next.high).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > keeps a finite terminal command through the recorded transient nominal cone rejection
+AssertionError: expected true not to be true // Object.is equality
+ ❯ tests/core/booster-terminal-envelope.test.ts:40:51
+     38|     const deadline=s.autopilot.boosterArrivalTime!;
+     39|     runBoosterPolicy(s,admission.dt,SUPER_HEAVY);
+     40|     expect(s.autopilot.boosterTerminalMissed).not.toBe(true);
+       |                                                   ^
+     41|     expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
+     42|     expect(s.autopilot.boosterArrivalTime).toBeCloseTo(deadline-admiss…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 10 passed (12)
+   Start at  19:17:02
+   Duration  259ms (transform 173ms, setup 0ms, import 227ms, tests 74ms, environment 0ms)
+

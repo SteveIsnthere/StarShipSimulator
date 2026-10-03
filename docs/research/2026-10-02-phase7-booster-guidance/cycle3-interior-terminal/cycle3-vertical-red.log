@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (10 tests | 1 failed) 7ms
+     × allocates vertical throttle along the delivered direction while the hull is still slewing 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster feasible translational thrust > allocates vertical throttle along the delivered direction while the hull is still slewing
+AssertionError: expected 9.073058817823574 to be close to 11, received difference is 1.9269411821764262, but expected 5e-11
+ ❯ tests/core/booster-command.test.ts:127:21
+    125|     const max=3*C.thrustPerRaptorAt(s.atmosphere.airPressure)/s.vehicl…
+    126|     const actualY=environmentY+max*out.throttle*.01*Math.cos(s.vehicle…
+    127|     expect(actualY).toBeCloseTo(11,10);
+       |                     ^
+    128|   });
+    129|   it('subtracts measured aero/gravity and preserves vertical demand wh…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  19:27:17
+   Duration  225ms (transform 91ms, setup 0ms, import 112ms, tests 7ms, environment 0ms)
+
