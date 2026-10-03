@@ -400,3 +400,15 @@ Fresh read-only affected assessment closes source objections to implemented gest
 - Reentry cold witness retains original cold Ship: before-flip plus explicit original booster-sep numeric editor fields (70000m,45000m,1130/1130m/s,45deg,500t,hour9.55). Assert actual Ship and equal hot/cold canvas bounds before same region statistics; unchanged warmth/spread acceptance.
 - Far terrain: texture starts below bow maximum, outside tiny booster canvas while curved bare band visible. Mask textured ground and terminator to same unchanged curved band geometry, once-allocated/rebuilt on viewport/sagitta only. Start texture/terminator at line instead of maxdrop; no curvature/colour change. Preserve night shading across newly textured area and underlying fill; verify above-boundary absence/day/night and existing ground statistics unchanged.
 - Real-step deadline diagnosis and gate cost remain unresolved. No retry/timeout/floor/pixel/scenario change is authorized.
+
+
+### Browser cycle1 step-deadline diagnosis
+
+Bounded paired5s trace completed exit0 on idle Mac after35 focusedbrowser checks finished. Actual SwiftShader desktop/pixel-landscape67/65RAFs and522/542steps; native Apple A18 Pro Metal270/301RAFs and570/604steps. Visibility visible/debugpausefalse throughout; full per-RAF ms/steps and GPU driver metadata archived. Slow software renderer under six-worker full-suite load is the evidence-backed harness cause hypothesis; isolatedtrace is not fullsuite acceptance. Use Mac Metal by platform, retain Linux SwiftShader, no deadline/retry/assertion changes. Actual affected emissive and fivebrowser fullsuite still required. Official primary sources: Chromium headless_mode_switches.h (`enable-gpu`) and ANGLE doc/DebuggingTips.md (`use-angle=metal`).
+
+
+### Gate-cost cycle1 ledger
+
+Attempt1: risk-provenance2156 completegate361.633s, allchecks0; no budget acceptance. Attempt2: currentrender corrections/nativeGPU sharedfull+subpath policy, complete timedgate48043 all2270/193/floors/13smoke/5subpath0,324.06s; budget still24.06s over. Unit80.23/coverage210.64/smoke19/subpath3.1. Actualsingle resource observation6Vitestprocesses(parent+5workers),903MiB/482%CPU, completed zero swaps; no RAM-pressure proof. Freshphase reviewer no sourcefinding, release/budgetnotcertified.
+
+Proposed attempt3: isolated Vitest thread workers onlyDarwin, retain Linuxforks, same allfiles/assertions/floors/commands/timeouts/defaultfileisolation and worker count. Official Vitest pool/features docs support threads and warn native modules/process.chdir; inspect audio/process assumptions and get read-only assessment before trial. No disableisolation/no removedunitstage/no clippedcoverage/no physics/bounds change. If third measuredattempt fails, freshindependentreview/newevidence beforeanother boundedcycle.

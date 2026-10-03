@@ -1,0 +1,5 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/e2e/pixels.spec.ts(346,90): error TS2353: Object literal may only specify known properties, and 'launchHour' does not exist in type 'Partial<Pick<ScenarioPreset, "pitch" | "altitude" | "xPosition" | "speedX" | "speedY" | "propellant" | "wind">>'.

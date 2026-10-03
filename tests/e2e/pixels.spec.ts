@@ -332,3 +332,28 @@ test('and the ground has structure at every altitude it is visible from @mobile'
   }
   console.log(report.join('\n'));
 });
+
+
+test('curved distant ground keeps its night shading in short worlds @mobile', async ({ page }) => {
+  await page.goto('/?debug=1');
+  await ready(page);
+  for (const preset of ['before-flip', 'booster-sep']) {
+    const means: number[] = [];
+    for (const hour of [12, 0]) {
+      await page.evaluate(() => (window as unknown as { __simDebug: import('../../src/app/debug').SimDebug }).__simDebug.pause());
+      await page.locator(byTestId('open-menu')).click();
+      await page.locator(byTestId(`preset-${preset}`)).click();
+      for (const [field, value] of Object.entries({ altitude: '40000', xPosition: '0', speedX: '0', speedY: '0', launchHour: String(hour) })) {
+        await page.locator(byTestId(`field-${field}`)).fill(value);
+      }
+      await page.locator(byTestId('menu-configure')).click();
+      await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+      const frame = await readFrame(page, { regions: { ground: GROUND }, map: { cols: 48, rows: 14 } });
+      const ground = frame.regions['ground']!;
+      means.push(ground.meanLuma);
+      if (hour === 12) expect(ground.lumaSpread, `${preset} daytime texture`).toBeGreaterThan(2.5);
+      await test.info().attach(`${preset}-${hour}-terrain`, { body: JSON.stringify(frame), contentType: 'application/json' });
+    }
+    expect(means[1]!, `${preset}: midnight must darken the entire textured ground`).toBeLessThan(means[0]! * 0.5);
+  }
+});

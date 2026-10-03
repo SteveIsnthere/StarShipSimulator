@@ -24,3 +24,10 @@ Same-cycle independent reviewer `phase7_browser_cycle1_review` read the implemen
 Proposed short CameraModes bottom0 accepted using existing useLayoutMode and safe-area margin, ordinary click/nonoverlap verification required. Proposed cold Ship migration accepted with explicit original altitude70000/x45000/v1130+1130/pitch45/500t/hour9.55, visible Ship and equal hot/cold canvas bounds before reusing region; original thresholds preserved.
 
 Shared curved-band clipping for terrain accepted subject to preserving night darkness: current terminator begins below horizonDrop while bare band has local darkness. Extending texture alone would expose an undarkened sliver. Allocate mask once, share unchanged geometry/invalidation, retain underlying band draw, and verify no texture above boundary plus day/night positive controls.
+
+
+## Rendering corrections affected-source assessment
+
+Reviewer read implemented shared-context separate Graphics mask, full-band mottle and terminator, short-only camera bottom0, explicit cold Ship/equal canvas witness and Darwin Metal configuration. No source blocker. Installed Pixi supports shared Graphics contexts and separately excluded mask draw; visible fill remains. Both texture and terminator cover unchanged curved shape; no-terrain fallback unchanged.
+
+Evidence limit retained: isolated SwiftShader traces already exceed360steps; Metal trace demonstrates backend cost, not reproduced cause of loaded counts298/237/153. Native Mac backend selected; unchanged full matrix and Linux software coverage remain owed. Actual day/night/above-curve controls and ordinary folded/expanded map/camera clicks remain required.

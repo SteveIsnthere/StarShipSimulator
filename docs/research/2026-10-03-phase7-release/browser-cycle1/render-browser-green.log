@@ -1,0 +1,53 @@
+[WebServer] (node:70930) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 1 worker
+
+(node:70931) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.5s)
+  ✓   2 [chromium] › tests/e2e/emissive-bell.spec.ts:54:1 › one healthy landing engine renders gas without inventing failed mounts (4.5s)
+  200 m: spread 13.57, 4 buckets, top 19%
+ 6000 m: spread 14.83, 5 buckets, top 31%
+40000 m: spread 12.68, 4 buckets, top 22%
+  ✓   3 [chromium] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (890ms)
+  ✓   4 [chromium] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.2s)
+  ✓   5 [chromium] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (687ms)
+(node:70959) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [pixel-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.7s)
+  200 m: spread 10.69, 3 buckets, top 53%
+ 6000 m: spread 12.44, 4 buckets, top 37%
+40000 m: spread 10.83, 3 buckets, top 39%
+  ✓   7 [pixel-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (1.1s)
+  ✓   8 [pixel-portrait] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.5s)
+  ✓   9 [pixel-portrait] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (608ms)
+(node:70977) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [pixel-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.3s)
+  200 m: spread 10.50, 5 buckets, top 48%
+ 6000 m: spread 17.62, 5 buckets, top 27%
+40000 m: spread 5.34, 2 buckets, top 41%
+  ✓  11 [pixel-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (849ms)
+  ✓  12 [pixel-landscape] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.3s)
+  ✓  13 [pixel-landscape] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (701ms)
+(node:71006) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  14 [iphone-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.4s)
+  200 m: spread 11.95, 4 buckets, top 33%
+ 6000 m: spread 12.85, 5 buckets, top 32%
+40000 m: spread 11.22, 4 buckets, top 28%
+  ✓  15 [iphone-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (1.1s)
+  ✓  16 [iphone-portrait] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.4s)
+  ✓  17 [iphone-portrait] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (598ms)
+(node:71025) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [iphone-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.3s)
+  200 m: spread 16.27, 5 buckets, top 30%
+ 6000 m: spread 19.03, 6 buckets, top 15%
+40000 m: spread 5.33, 2 buckets, top 50%
+  ✓  19 [iphone-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (826ms)
+  ✓  20 [iphone-landscape] › tests/e2e/reentry.spec.ts:52:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.3s)
+  ✓  21 [iphone-landscape] › tests/e2e/responsive.spec.ts:317:1 › no two overlay elements sit on top of each other @mobile (614ms)
+
+  21 passed (1.0m)

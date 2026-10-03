@@ -11,6 +11,7 @@ import { Button } from '@ui/Button';
 import { Eyebrow } from '@ui/Eyebrow';
 import { cn } from '@ui/internal/utils';
 import { useSession, useSessionState } from '../session-context';
+import { useLayoutMode } from '../layout';
 
 type CameraMode = SessionState['cameraMode'];
 
@@ -29,6 +30,7 @@ const MODES = Object.keys(LABELS) as CameraMode[];
 
 export function CameraModes({ phone }: { phone: boolean }) {
   const session = useSession();
+  const short = useLayoutMode() === 'short';
   const current = useSessionState((s) => s.cameraMode);
 
   return (
@@ -41,7 +43,7 @@ export function CameraModes({ phone }: { phone: boolean }) {
         phone
           ? 'ui-safe-margin-bottom inset-x-0 bottom-0 grid h-14 grid-cols-4 items-center gap-1 border-t px-3'
           : // Cinematic hides the controls, so the bottom edge is free; the top holds the cluster.
-            'ui-safe-margin-bottom bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1 border p-1 pl-3',
+            cn('ui-safe-margin-bottom left-1/2 flex -translate-x-1/2 items-center gap-1 border p-1 pl-3', short ? 'bottom-0' : 'bottom-4'),
       )}
     >
       {!phone && (

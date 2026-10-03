@@ -33,3 +33,20 @@ export function preinstalledChromium(): string | undefined {
   }
   return undefined;
 }
+
+
+/** One tested GPU policy for full-suite, subpath and live browser checks. */
+export function chromiumLaunchOptions() {
+  const executablePath = preinstalledChromium();
+  return {
+    ...(executablePath ? { executablePath } : {}),
+    args: [
+      // Root containers require this; Mac uses its actual GPU instead of CPU rasterization.
+      '--no-sandbox',
+      '--use-gl=angle',
+      ...(process.platform === 'darwin'
+        ? ['--enable-gpu', '--use-angle=metal']
+        : ['--use-angle=swiftshader', '--enable-unsafe-swiftshader']),
+    ],
+  };
+}
