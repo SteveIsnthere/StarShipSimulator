@@ -94,3 +94,5 @@ Scenario integration follow-up: selected-model scenario/catch/analytic77pass, co
 ## Latest: Task3 actual booster fixtures, Task4 next
 
 Task3 final2128units/170files, build/lint0 and14truthIN. Both actual booster catches are represented by Linux22 fixtures; eight existing Ship files are byte-identical. Fresh independent fallback review found and verified the stale manual-input cutoff fix; Task5 generic autopilot and direct UI-event invalidation obligations remain. Hosted snapshot CI37100120187 fails coverage floors despite2122units passing. Record/fix all floor deficits before Phase7 release; do not lower them. Exact raw evidence/review/final source recovery is task3-goldens. Next shared-dynamics Refactor proof/checkpoint, physical hot staging, two-vehicle functional UI and complete release, then8/9. Main/live unchanged;70%byphasecount.
+
+Task4 extraction follow-up: shared paid-force/translation/rotation phases pass47focused checks, all ten goldens and independent1200+7680Ship observations at0ULP, build/lint0/14truthIN. Refactor checkpoint precedes physical staging. Next actual COM/inertia/two-body attached mission; release coverage deficits remain.

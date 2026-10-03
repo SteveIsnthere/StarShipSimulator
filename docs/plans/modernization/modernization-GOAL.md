@@ -24,7 +24,7 @@ Task3 runtime, selected-model scenario acceptance and two actual booster goldens
 
 ## First task
 
-Execute Phase7Task4: extract shared preparation/integration/completion in exact existing order under Refactor, with independent ≤1ULP Ship proof and all ten goldens. Commit/push that before physical stack forces. Then implement actual attached hot staging with aggregate COM/inertia, real engine fuel/ignition, no manufactured separation kick and the shared accumulator. Complete Task5 model-aware two-vehicle camera/HUD/controls, including fresh-review obligations, and Task6 complete release coverage/gates/high review/main merge/deploy. Continue8/9. Completed6/6b stay closed; no Task3 diagnosis rerun is needed. Runtime/fixtures/audit are the coherent Task3 checkpoint; historical recording/recovery patches must never be applied over current source.
+Phase7Task4 shared-dynamics Refactor passes47focused checks, all ten goldens and independent1200+7680Ship observations at0ULP; build/lint0/14truthIN. Evidence in2026-10-02-phase7-shared-dynamics. Implement actual attached hot staging with aggregate COM/inertia, real engine fuel/ignition, no manufactured separation kick and the shared accumulator. Complete Task5 model-aware two-vehicle camera/HUD/controls, including fresh-review obligations, and Task6 complete release coverage/gates/high review/main merge/deploy. Continue8/9. Completed6/6b stay closed; no Task3 diagnosis rerun is needed. Runtime/fixtures/audit are the coherent Task3 checkpoint; historical recording/recovery patches must never be applied over current source.
 
 ## Standing autonomy approval — Steve, 2026-10-02
 

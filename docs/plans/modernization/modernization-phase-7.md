@@ -172,8 +172,8 @@ Scheduling implementation (Fidelity under Task3): initial unpowered range/full13
 
 **Interfaces:** Consumes common model/step and booster guidance. Produces MissionState/createHotStageMission/stepMission and `createMissionLoop(initial)` / `advanceMission(loop, frameTime, options)` returning existing AdvanceResult. Separate extraction proof checkpoint from new staging Fidelity.
 
-- [ ] Write Ship extraction proof and a one-step two-force witness before changing the pipeline. Extract prepare forces/fuel, translation and rotation integration, and completion/control phases in exact existing order. `step` remains their Ship composition. Proof uses unchanged goldens plus independent before-extraction step observations at domain boundaries; do not duplicate a second production integrator.
-- [ ] Run build and `npx vitest run tests/proofs/step-dynamics.test.ts tests/golden`. Expected: unchanged Ship output ≤1 ULP, all goldens. Commit/push Refactor before stack forces.
+- [x] Write Ship extraction proof and a one-step two-force witness before changing the pipeline. Extract prepare forces/fuel, translation and rotation integration, and completion/control phases in exact existing order. `step` remains their Ship composition. Proof uses unchanged goldens plus independent before-extraction step observations at domain boundaries; do not duplicate a second production integrator.
+- [x] Run build and `npx vitest run tests/proofs/step-dynamics.test.ts tests/golden`. Expected: unchanged Ship output ≤1 ULP, all goldens. Commit/push Refactor before stack forces.
 - [ ] Write staging witnesses: attached hull gap fixed, combined mass equals both actual masses, aggregate inertia is `Iship + Ibooster + mship*dship² + mbooster*dbooster²`; preparation pays each tank's actual gas. At release, positions inherit the physical centres, velocities `vCOM + omega × offset`, and impulses balance; no manufactured separation kick.
 ```ts
 const mission = createHotStageMission(123);
@@ -287,3 +287,9 @@ Task3fresh review reproduced stale source authority after explicit manual pitch/
 ## Task3 coherent runtime/fixture checkpoint
 
 Actual selected-model catches and final2128units/170files pass; build/lint0 and14truthIN. Linux22 workflow37100120181/immutable213307f3 adds only two actual booster capture fixtures; eight Ship recordings byte-identical. Fresh fallback review closes the confirmed stale-cutoff manual-input defect with RED→GREEN tests and independent38-test recheck. No finding was silently rejected; generic booster autoMaxThrust/pitchHold/takeoff and direct player engine/pitch/throttle event provenance remain mandatory Task5 work. Hosted snapshot CI37100120187 fails unchanged coverage floors after2122units pass: aggregate statements98.26/branches95.92, physics branches99.53, autopilot statements97.17/lines98.45/branches94.1. Task6 must close every floor; no release approval inferred. Archive: task3-goldens final source pins/checked patch/raw/Linux audit/review. Task4 starts next;7/8/9 remain.
+
+### Task4 extraction decision before production edits
+
+Refactor first: shared prepareDynamics (collision/fuel/ignition/forces), integrateTranslation, finishTranslation (airspeed/Mach/gusts), integrateRotation and checkIfBreakUp retain exact operation order. A caller-owned StepDynamics workspace holds each body's paid impulse and mass/grid scratch; standalone step composes the same phases. Two bodies use separate workspaces, with an interleaved preparation witness. Controls/actuators/catch/bookkeeping remain the unchanged step completion after mechanics. Independent preserved Ship pipeline boundary observations and all ten goldens must pass before the Refactor checkpoint; no attached forces or staging behavior in it.
+
+Task4 Refactor checkpoint:47focused checks/8files including1200new independent boundary observations and retained7680Ship proof pass at0ULP; all ten goldens unchanged. Build/lint0/14truthIN. Exact evidence in2026-10-02-phase7-shared-dynamics. Physical attached mission is next and remains unbuilt.
