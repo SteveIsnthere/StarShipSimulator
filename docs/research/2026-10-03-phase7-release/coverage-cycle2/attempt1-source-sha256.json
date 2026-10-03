@@ -1,0 +1,7 @@
+{
+  "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+  "tests/core-coverage.test.ts": "b034efdc35fd0710d9d766817e61fe4cbafc0621470465b58354b79fc771e186",
+  "tests/core-coverage-exclusions.json": "703d52218fcf076d7f6e16047974806d0cebc95e8777d87d0c3638d34a620892",
+  "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+  "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9"
+}

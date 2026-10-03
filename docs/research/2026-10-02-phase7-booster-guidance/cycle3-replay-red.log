@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-terminal-envelope.test.ts (4 tests | 1 failed) 52ms
+     × does not reignite or spend propellant after a terminal miss has been declared 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > does not reignite or spend propellant after a terminal miss has been declared
+AssertionError: expected 60 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 60
+
+ ❯ tests/core/booster-terminal-envelope.test.ts:33:44
+     31|     const draws=s.rng.counters.ignitionFailure, fuel=s.vehicle.propell…
+     32|     for(let i=0;i<20;i++)s=step(s,1/120,{},SUPER_HEAVY);
+     33|     expect(s.rng.counters.ignitionFailure).toBe(draws);
+       |                                            ^
+     34|     expect(s.vehicle.propellantMass).toBe(fuel);
+     35|     expect(s.engines.running.some(Boolean)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 13 passed (14)
+   Start at  18:41:42
+   Duration  296ms (transform 254ms, setup 0ms, import 354ms, tests 140ms, environment 0ms)
+

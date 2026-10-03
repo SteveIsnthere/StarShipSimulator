@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-catch-preference.test.ts (10 tests | 1 failed) 275ms
+     × publishes a real fine capture when the preference is true 30ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-catch-preference.test.ts > capture publication with random failures enabled > publishes a real fine capture when the preference is true
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-catch-preference.test.ts:41:43
+     39|     const s = fineCapture(preference), before = cloneState(s);
+     40|     advanceBoosterPrediction(s, 1 / 120, advanceMechanics, runBoosterP…
+     41|     expect(s.autopilot.boosterReturnPlan).toBeDefined();
+       |                                           ^
+     42|     expect(s.autopilot.boosterPrediction!.published!.forecast.reached)…
+     43|     expect(s.vehicle).toEqual(before.vehicle); expect(s.rng).toEqual(b…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  01:42:29
+   Duration  487ms (transform 92ms, setup 0ms, import 113ms, tests 275ms, environment 0ms)
+

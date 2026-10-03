@@ -16,6 +16,7 @@
  */
 import { localGravity } from './guidance-physics';
 import * as C from '../constants';
+import { SHIP, type VehicleDefinition } from '../vehicle';
 import { getDrag, relativeAirspeed } from '../physics/aero';
 import { airVelocityX } from '../physics/wind';
 import {
@@ -57,12 +58,13 @@ export function getEffectiveVerticalMaxThrust(
   gimbalPointingDirection: Rad,
   ambientPressureKPa: number,
   pitch: Rad = gimbalPointingDirection,
+  model: VehicleDefinition = SHIP,
 ): number {
-  const maxThrust = getTotalMaxThrust(running, ambientPressureKPa);
+  const maxThrust = getTotalMaxThrust(running, ambientPressureKPa, model);
   // The RVacs are fixed and push along the hull at `pitch` (Phase 6's
   // independent review); with none lit the share is exactly 1 and this is the
   // 2021 expression's bits.
-  const share = gimballedShare(running, ambientPressureKPa);
+  const share = gimballedShare(running, ambientPressureKPa, model);
   if (share === 1) return maxThrust * Math.cos(gimbalPointingDirection);
   return maxThrust * share * Math.cos(gimbalPointingDirection) + maxThrust * (1 - share) * Math.cos(pitch);
 }
@@ -92,7 +94,7 @@ export function getMaxSpeedWithSafeDynamicPressure(airDensity: number): number {
  *
  * @param timeNeededToAlign seconds; smaller is more aggressive
  */
-export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign: number): void {
+export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign: number, model: VehicleDefinition = SHIP): void {
   const { kinematics, forces, status, vehicle, autopilot } = state;
 
   const pitchDifference = getPitchDifference(kinematics.pitch, goal);
@@ -106,7 +108,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   // M11.8: the arms the controllers divide by follow the propellant, as the
   // step's do — a controller that assumed the empty-tank arms would ask a
   // full ship for half the deflection it needs.
-  writeMassProperties(vehicle.propellantMass, arms);
+  writeMassProperties(vehicle.propellantMass, arms, model);
 
   /**
    * Initialised to 0, where 2021 declared it with no initialiser.
@@ -164,7 +166,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   // Only the sea-level engines gimbal (the RVacs are fixed): the authority is
   // their share of the thrust, which is all of it when no RVac is lit.
   const gimballedThrust =
-    forces.thrust * gimballedShare(state.engines.running, state.atmosphere.airPressure);
+    forces.thrust * gimballedShare(state.engines.running, state.atmosphere.airPressure, model);
 
   const controlByThrustVector = (): void => {
     const vectorForceRequired = torqueRequired / arms.engineArm;
@@ -207,7 +209,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
-          C.frontFinSurfaceArea,
+          model.frontFinArea,
           C.finDragCoefficient,
         ) *
           Math.sin(C.finActuationMaxAngle) *
@@ -215,7 +217,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
-          C.aftFinSurfaceArea,
+          model.aftFinArea,
           C.finDragCoefficient,
         ) *
           arms.aftFinArm;
@@ -226,7 +228,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
-          C.aftFinSurfaceArea,
+          model.aftFinArea,
           C.finDragCoefficient,
         ) *
           Math.sin(C.finActuationMaxAngle) *
@@ -234,7 +236,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
         getDrag(
           state.atmosphere.airDensity,
           finAirspeed,
-          C.frontFinSurfaceArea,
+          model.frontFinArea,
           C.finDragCoefficient,
         ) *
           arms.frontFinArm;
@@ -269,8 +271,8 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
  * Phase 5, Fidelity: with the flat g a commanded TWR of 1 climbed at
  * 0.08 m/s² on the pad and 0.32 m/s² at 80 km.
  */
-export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
-  controlEngineForAcceleration(state, goalTWR * localGravity(state));
+export function controlEnginebyTWR(state: SimState, goalTWR: number, model: VehicleDefinition = SHIP): void {
+  controlEngineForAcceleration(state, goalTWR * localGravity(state), model);
 }
 
 /**
@@ -278,11 +280,11 @@ export function controlEnginebyTWR(state: SimState, goalTWR: number): void {
  * counted the current throttle twice and overshot the requested acceleration. For targets that are accelerations already, such
  * as boost-back's horizontal deceleration, so no gravity enters them.
  */
-export function controlEngineForAcceleration(state: SimState, acceleration: number): void {
+export function controlEngineForAcceleration(state: SimState, acceleration: number, model: VehicleDefinition = SHIP): void {
   const { vehicle, engines } = state;
   let throttleGoalPercentage =
     ((acceleration * vehicle.vehicleMass) /
-      getTotalMaxThrust(engines.running, state.atmosphere.airPressure)) *
+      getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model)) *
     100;
 
   /**
@@ -453,15 +455,16 @@ export function speedAdjustment(
   targetSpeed: number,
   speedDifferenceThreshold: number,
   twrLimit: number,
+  model: VehicleDefinition = SHIP,
 ): void {
   const speedDifference = targetSpeed - state.kinematics.trueSpeed;
 
   if (speedDifference < 0) {
-    controlEnginebyTWR(state, 0);
+    controlEnginebyTWR(state, 0, model);
   } else {
-    controlEnginebyTWR(state, twrLimit);
+    controlEnginebyTWR(state, twrLimit, model);
     if (speedDifference < speedDifferenceThreshold) {
-      controlEnginebyTWR(state, 1 + speedDifference / speedDifferenceThreshold);
+      controlEnginebyTWR(state, 1 + speedDifference / speedDifferenceThreshold, model);
     }
   }
 }

@@ -1,0 +1,34 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/ui/session.test.ts (10 tests | 1 failed) 20ms
+     × restarts the requested hot-stage seed and applies the shared failure setting to both bodies 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/session.test.ts > flights > restarts the requested hot-stage seed and applies the shared failure setting to both bodies
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/ui/session.test.ts:59:61
+     57|     session.toggleRandomFailure();
+     58|     expect(session.mission!.ship.failures.randomFailure).toBe(true);
+     59|     expect(session.mission!.booster.failures.randomFailure).toBe(true);
+       |                                                             ^
+     60|     session.toggleRandomFailure();
+     61|     session.stage();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  23:49:57
+   Duration  911ms (transform 270ms, setup 0ms, import 544ms, tests 20ms, environment 246ms)
+

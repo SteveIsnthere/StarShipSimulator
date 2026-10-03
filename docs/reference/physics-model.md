@@ -255,11 +255,13 @@ when an engine is commanded to light; turbulence takes two a step, only in wind.
 | deorbit | 150 000 | −π·R | 7818.3, 0 | 90° | 300 |
 | intro | 199 | 0 | 0, −50 | 0° | 12 |
 
-`createScenarioState` (`scenarios.ts:279`) floors altitude at 25 m and caps propellant at 1200 t;
-the intro also locks the fins, arms the demo autoland and lights all engines. **Every scenario flies
-the Ship** (50 m, three sea-level Raptors and three RVacs): Booster Sep and RTLS place it at booster-like
-conditions, and there is no Super Heavy. Orbits sit at 150 km (`scenarios.ts:215`), where a lap
-loses ~100 m; at 100 km an orbit decays within a lap.
+`createScenarioState` retains the Ship compatibility API used by the original goldens.
+Player-facing `createScenarioVehicle` selects the 71 m, 33-engine Super Heavy for
+Booster Sep, RTLS and custom flights based on those presets; their historical
+initial conditions remain unchanged. Other presets fly the 50 m Ship with three
+sea-level Raptors and three fixed RVacs. The editor uses the selected vehicle's
+length and propellant capacity. The intro retains locked fins and its demo landing.
+Orbits sit at 150 km, where a lap loses about 100 m; at 100 km an orbit decays within a lap.
 
 ## Autopilot and guidance
 
@@ -328,7 +330,7 @@ input overwrites all.
   above 1,000 ft the turbulence intensity are held.
 - Body Cd depends on Mach only: attitude-blind, no transonic peak.
 - Aero and thrust forces are held at the incoming state for each step.
-- One vehicle: no Super Heavy, no staging.
+- The mission demonstrates physical hot staging; it does not certify a complete ascent-to-orbit mission.
 - Isp does not vary with throttle; engines reach thrust instantly after the ignition delay.
 - Fins, RCS and the gimbal's lateral component make torque only, never translation.
 - Heating is an instantaneous stagnation flux at radiative equilibrium: no soak, no ablation, one
@@ -340,3 +342,35 @@ input overwrites all.
 ## Phase 6b parked aerodynamics
 
 The shipped model remains the Phase 6 broadside force curve, legacy fin torque and800kN/25s torque-only RCS. NASA R474 body-axis/CoP forces, sourced paired hypersonic surfaces, the65° schedule/range trim, Earth rate and their22t reserve/aim are parked under Steve’s approved fallback. Fresh independent review confirmed the prescribed family exceeds existing attitude-control authority after identical-handoff convergence checks. This is a conclusion about that family/model, not universal optimal-control infeasibility. Evidence and complete source/scientific-test recovery are in `docs/research/2026-10-02-phase6b-body-moment/`. Task5 failure/support/throttle corrections, the independent final-descent braking envelope and first-loss debrief capture remain. No parked model is claimed as shipped.
+
+
+## Super Heavy model
+
+The shared integrator now accepts an immutable vehicle definition. Ship arithmetic is bit-exact under independent snapshots and existing goldens; its broadside model and parked aero remain unchanged. The player adapter's Booster Sep/RTLS/custom-based-on-booster states select the actual33-engine booster, preserving all six historical start values. The compatibility `createScenarioState` API remains Ship-default for original trajectories; player callers use `createScenarioVehicle`.
+
+This is the historical Raptor2/four-grid-fin cohort matching Block1 Ship: FAA https://www.faa.gov/media/94371 PDF108/printed41 gives71m x9m;PDF230 gives3400t, citing SpaceX accessed2025-02-07. The future4100t capacity is excluded. SpaceX https://www.spacex.com/updates/reusability corroborates33 engines,13 return-burn and three terminal engines. The symmetric2D mount table has3 centre/10 inner/20 outer mounts; only the13 centre/inner gimbal. Ring projections (.65/2/3.8m) are TierB approximations. Outer mounts provide axial thrust and actual offset torque, not a fictitious gimballed lateral force. Ignition delays/failure/RNG, pressure thrust and fuel payment use the existing Raptor2 model.
+
+Dry mass200t, dry COM35.5m, tank bottom3m, upper fin station66m and combined four-fin area24m² are declared engineering estimates.160/200/240t sensitivity proves positive finite inertia and13-engine thrust authority; it does not certify every uncertain variant's flight. LOX/methane columns use3.6 mixture ratio and1141/424kg/m³ densities; the full tanks fit beneath71m. Mass/COM/inertia use the existing filled-column and parallel-axis calculations at each actual load, including initial state.
+
+The grid fins use q=rho*v²/2,Cl=sin(2delta),Cd=1.2sin²delta, bounded±45°. Lift is perpendicular to relative airflow, drag opposes it, and torque uses the rotated66m station about moving COM. Deflection uses the existing120percentage-points/s fin actuator envelope with50 neutral. Inactive/locked controls slew to neutral. These are engineering laws, not the parked Ship fin family or validated booster coefficient data. Shared structural/thermal thresholds, including1533K, remain conservative; no unverified heat shield is invented.
+
+Catch bounds were frozen before booster flight testing: lug65m, arm plane120m, upright body-centre90.5m, lateral half-width2.25m, downward speed≤4.5m/s, |vx|≤1m/s, |pitch|≤5°. Original SpaceX Flight5 footage https://www.youtube.com/watch?v=hI9HQfCAw64 shows a slow upright airborne capture; these limits/layout are a conservative2D engineering approximation, not official telemetry/SpaceX tolerances. Capture uses the interpolated first descending lug crossing within all these bounds. Ground contact remains a crash for a descending booster; there is no capture pull, target snap or preset-id success override. Original Booster Sep and RTLS physical catches pass. Physical hot staging, selected-body controls and the two-vehicle interface are implemented; phase release status is recorded in the roadmap.
+
+Booster guidance pays alignment through actual torque,13-engine boostback startup/flow, coast grid/body/RCS motion, continuous13→3entry reduction when three centres can supply the measured demand, and three-engine terminal arrest. The shared mechanical predictor owns cloned states/RNG and makes at most four future advances per live1/120s frame,16paid numerical proposals and4000steps/900s per rollout. A cutoff is an executable whole live tick from an actual paid candidate; only a genuine1/120terminal capture can publish it before its future clock. Approximate range/cubic targets propose work, never command an interpolated or expired cutoff.
+
+Terminal translation uses the actual±15degree gimbal world direction while independently paid rotational RCS counteracts delivered torque and holds the hull upright. Engine/gimbal/throttle/fin slew and800kN/25sRCS reserve remain unchanged. The fixed cubic deadline does not reset when descent stalls. Cold ignition and current throttle-ramp debt reserve stopping distance concurrently. No translational RCS, extra force, free fuel or changed capture authority is supplied.
+
+Measured original default-seed catches (development source pinned in `docs/research/2026-10-02-phase7-booster-guidance/cycle4-terminal-allocation/attempt2-source-sha256.json`):
+
+| Preset | Catch time | Propellant spent | Remaining propellant | Remaining full-thrust-equivalent rotational RCS time |
+|---|---:|---:|---:|---:|
+| Booster Sep |339.392s|410.574t|89.426t|3.741s|
+| RTLS |120.792s|109.553t|90.447t|12.254s|
+
+Both use their unchanged500t/200t start loads,26independent ignition-delay/failure draws and no fuel dumping. These remaining loads are measured margins in the required scenarios, not a claimed minimum reserve or a certification of uncertain mass/wind variants. Planning is fuel-bounded and acceptance requires positive real remaining propellant; no reserve is added to a tank. Immediately before catch, lug vx/vy are−0.007/−1.698m/s (Sep) and−0.019/−1.551m/s (RTLS), within the frozen limits. All failures are false. Ship's18t landing reserve and its preserved physics remain separate.
+
+### Physical hot-stage mission on the development branch
+
+`core/mission.ts` composes the extracted paid-force and Verlet phases for a touching71m booster/50m Ship at the original Booster Sep pose,500t/1200t propellant. The aggregate mass COM/inertia follows both actual tanks, including parallel-axis contributions. Sum each real world force and its moment about the aggregate COM; intrinsic engine/aero/RCS torque comes from the same physical functions. Aggregate translation and angular motion each integrate once. Hull-centre positions are explicitly derived from the physical COM; body mass-COM velocities inherit aggregate velocity plus clockwise rotation at that offset. The independent Ship coordinate convention remains unchanged after release. Constraint/centripetal acceleration contributes to each body's reported felt load. No extra exhaust force or separation impulse is added.
+
+Stage commands three centre booster and six Ship engines once through real failure/delay draws. Separation requires centres actually running, positive actual Ship thrust and greater axial specific force; an all-Ship ignition failure stays attached and reports failure. The default-seed short demonstration releases at1.208333s, with1198.642t Ship and499.267t booster fuel; this is a staging witness, not a complete ascent/orbit/catch certification. Free vehicles then use the same model-selected step independently. One existing accumulator handles both trajectories, including pause, clamp, warp, slow motion and restart. The session routes selected-body commands, draws both physical bodies and preserves separate recorders, timelines and flight endings. Restart retains the mission seed and attachment. Physical staging evidence:2026-10-02-phase7-hot-staging; interface and browser evidence:2026-10-03-phase7-mission-interface and2026-10-03-phase7-release.

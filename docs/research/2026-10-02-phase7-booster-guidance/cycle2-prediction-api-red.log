@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-prediction.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts [ tests/core/booster-prediction.test.ts ]
+Error: Cannot find module '$core/control/booster-prediction' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/booster-prediction.test.ts
+ ❯ tests/core/booster-prediction.test.ts:4:1
+      2|  * wall-clock worker completion may never decide a flight's control co…
+      3| import { describe,expect,it } from 'vitest';
+      4| import { advanceBoosterPrediction } from '$core/control/booster-predic…
+       | ^
+      5| import { advanceMechanics } from '$core/step';
+      6| import { runBoosterPolicy } from '$core/autopilot/booster';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  17:38:26
+   Duration  125ms (transform 12ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

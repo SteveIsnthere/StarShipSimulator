@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/mission-session.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/mission-session.test.ts [ tests/ui/mission-session.test.ts ]
+Error: Cannot find module '$ui/session/mission-controller' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/ui/mission-session.test.ts
+ ❯ tests/ui/mission-session.test.ts:3:1
+      1| /** Framework-free routing contract before session/canvas composition.…
+      2| import { describe, expect, it } from 'vitest';
+      3| import { createMissionController } from '$ui/session/mission-controlle…
+       | ^
+      4| import { createIntroState, getScenario } from '$core/scenarios';
+      5| import { DT } from '$app/loop';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  23:25:56
+   Duration  128ms (transform 14ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

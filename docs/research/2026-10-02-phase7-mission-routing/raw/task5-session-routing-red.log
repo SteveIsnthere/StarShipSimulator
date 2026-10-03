@@ -1,0 +1,27 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/ui/session.test.ts (8 tests | 1 failed) 7ms
+     × uses the selected booster model in the actual session loop and operator controls 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/session.test.ts > flights > uses the selected booster model in the actual session loop and operator controls
+TypeError: Cannot read properties of undefined (reading 'id')
+ ❯ tests/ui/session.test.ts:20:26
+     18|     const session = createSession();
+     19|     session.startFlight(getScenario('rtls')!);
+     20|     expect(session.model.id).toBe('super-heavy');
+       |                          ^
+     21|     expect(session.loop.state.engines.running).toHaveLength(33);
+     22|     session.emit({ type: 'allRaptors' });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  23:42:32
+   Duration  749ms (transform 232ms, setup 0ms, import 386ms, tests 7ms, environment 247ms)
+

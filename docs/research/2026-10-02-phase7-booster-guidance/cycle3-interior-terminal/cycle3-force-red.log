@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (9 tests | 1 failed) 6ms
+     × corrects the actual high-pressure force response instead of steering against it 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster feasible translational thrust > corrects the actual high-pressure force response instead of steering against it
+AssertionError: expected -22.49202999120844 to be greater than 0
+ ❯ tests/core/booster-command.test.ts:108:48
+    106|     // The independent physical advance must correct right at this rec…
+    107|     // descending state. Positive hull pitch instead produces leftward…
+    108|     expect(delivered.kinematics.accelerationX).toBeGreaterThan(0);
+       |                                                ^
+    109|     expect(Math.abs(delivered.kinematics.accelerationX-targetX)).toBeL…
+    110|     expect(Math.abs(delivered.kinematics.accelerationY-targetY)).toBeL…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  19:21:17
+   Duration  219ms (transform 91ms, setup 0ms, import 111ms, tests 6ms, environment 0ms)
+

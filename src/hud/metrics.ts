@@ -25,6 +25,7 @@
 import type { RaptorIndex, SimState } from '$core/state';
 import * as C from '$core/constants';
 import { toDeg } from '$core/units';
+import type { VehicleDefinition } from '$core/vehicle';
 
 export interface Metric {
   /** Stable id; the element carries it as `data-metric`. */
@@ -235,3 +236,12 @@ export const METRICS: readonly Metric[] = [
   limit('heat-state', (s) => s.forces.thermalPower, C.heatLimit),
   limit('q-state', (s) => s.forces.dynamicPressure, C.dynamicPressureLimit),
 ];
+
+/** Ship's preserved scale is unchanged; booster uses its actual full tank. */
+export function metricsFor(model: VehicleDefinition): readonly Metric[] {
+  if (model.id === 'ship') return METRICS;
+  return METRICS.filter(metric => !metric.id.startsWith('engine-')).map(metric =>
+    metric.id.startsWith('propellant-') ? { ...metric,
+      quantum: (state: SimState) => Math.round(Math.min(1, Math.max(0, state.vehicle.propellantMass / model.propellantCapacity)) * 1000),
+    } : metric);
+}

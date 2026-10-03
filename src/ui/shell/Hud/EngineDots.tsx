@@ -8,6 +8,8 @@
  */
 import { Eyebrow } from '@ui/Eyebrow';
 import { RAPTORS } from '$core/constants';
+import { BoosterEngineGroups } from '../BoosterEngineGroups';
+import { useSessionState } from '../session-context';
 
 /** The two sets, each marked with the short label the controls use. */
 const ENGINE_SETS = [
@@ -20,6 +22,8 @@ const enginesOf = (kind: (typeof ENGINE_SETS)[number]['kind']): readonly number[
 
 /** On a phone the labels go to a screen reader only: the strip has no room for words beside the marks. */
 export function EngineDots({ compact }: { compact: boolean }) {
+  const booster = useSessionState(s => s.selectedVehicle === 'super-heavy');
+  if (booster) return <BoosterEngineGroups />;
   return (
     <div className="flex items-center gap-2">
       <Eyebrow size="sm" tone="muted" className={compact ? 'sr-only' : undefined}>

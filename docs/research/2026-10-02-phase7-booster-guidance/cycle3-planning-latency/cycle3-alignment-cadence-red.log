@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (11 tests | 2 failed) 1251ms
+     × uses the live mechanical cadence for the paid alignment endpoint of booster-sep 17ms
+     × uses the live mechanical cadence for the paid alignment endpoint of rtls 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > uses the live mechanical cadence for the paid alignment endpoint of booster-sep
+AssertionError: expected 9.600000000000001 to be 9.508333333333434 // Object.is equality
+
+- Expected
++ Received
+
+- 9.508333333333434
++ 9.600000000000001
+
+ ❯ tests/core/booster-forecast.test.ts:47:35
+     45|       expect(work.state.autopilot.boosterPhase).toBe('boostback');
+     46|     }
+     47|     expect(scheduled.result.time).toBe(liveCadence.result.time);
+       |                                   ^
+     48|     expect(scheduled.state).toEqual(liveCadence.state);
+     49|     expect(scheduled.result.steps).toBe(liveCadence.result.steps);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > uses the live mechanical cadence for the paid alignment endpoint of rtls
+AssertionError: expected 8.04999999999998 to be 7.950000000000185 // Object.is equality
+
+- Expected
++ Received
+
+- 7.950000000000185
++ 8.04999999999998
+
+ ❯ tests/core/booster-forecast.test.ts:47:35
+     45|       expect(work.state.autopilot.boosterPhase).toBe('boostback');
+     46|     }
+     47|     expect(scheduled.result.time).toBe(liveCadence.result.time);
+       |                                   ^
+     48|     expect(scheduled.state).toEqual(liveCadence.state);
+     49|     expect(scheduled.result.steps).toBe(liveCadence.result.steps);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 9 passed (11)
+   Start at  20:42:11
+   Duration  1.47s (transform 93ms, setup 0ms, import 117ms, tests 1.25s, environment 0ms)
+

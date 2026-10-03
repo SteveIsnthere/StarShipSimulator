@@ -11,30 +11,20 @@
  * From the information architecture (docs/design/ia.md): an open layer (menu,
  * black box, guide) pauses the flight.
  */
-import { advance, createLoopState, type LoopState } from '$app/loop';
+import { DT, type LoopState, type AdvanceResult } from '$app/loop';
 import { installSimDebug } from '$app/debug';
-import { applyControl, type ControlEvent } from '$app/controls';
-import { fieldsToPreset, toLoopOptions, type EditorFields, type TimeSetting } from '$app/menu';
-import {
-  CAMERA_KEY,
-  CINEMATIC_KEY,
-  HINT_KEY,
-  clearPreferences,
-  readFlag,
-  readItem,
-  writeItem,
-} from '$app/preferences';
+import { type ControlEvent } from '$app/controls';
+import { toLoopOptions, type EditorFields, type TimeSetting } from '$app/menu';
 import { vehicleHeight } from '$core/constants';
 import { toggleRandomFailure } from '$core/control/commands';
 import {
-  createIntroState,
-  createScenarioState,
   getScenario,
   type ScenarioPreset,
 } from '$core/scenarios';
 import type { SimState } from '$core/state';
+import type { VehicleDefinition } from '$core/vehicle';
 import { createView, type ViewApp } from '$view/app';
-import { CAMERA_MODES, modeZoom, type CameraMode } from '$view/camera';
+import { modeZoom, type CameraMode } from '$view/camera';
 import {
   createHudBinder,
   createIndicatorBinder,
@@ -49,7 +39,6 @@ import {
 import { createTimeline, type EventId } from '$hud/timeline';
 import { createTimelineBinder, type TimelineBinder } from '$hud/timeline-binder';
 import { browserHost, createHaptics } from '$hud/haptics';
-import { createFlightWatch, debrief } from '$hud/debrief';
 import { autopilotMode } from '$hud/autopilot-mode';
 import {
   createMapRenderer,
@@ -57,27 +46,38 @@ import {
   type MapRendererOptions,
   type MapSurface,
 } from '$hud/trajectory-draw';
-import { createRecorder, type Recorder } from '$app/recorder';
+import { type Recorder } from '$app/recorder';
 import {
   createAudioEngine,
-  DEFAULT_VOLUME,
-  readMuted,
-  readVolume,
   type AudioEngine,
 } from '$audio/engine';
 import { createScene } from './scene';
 import { createCameraFollow } from './camera-follow';
 import { createPresentationProbe } from './debug-presentation';
 import { wireDocument } from './document-wiring';
-import { createSessionStore, isHintOpen, isPaused, type Layer, type SessionStore } from './store';
+import { createSessionStore, isPaused, type Layer, type SessionStore } from './store';
 
-/** Below this height there is no room for the first-flight hint (measured; see the hint's history). */
-export const HINT_FITS = '(height >= 26rem)';
+import { HINT_FITS, createPreferenceCommands, readSessionPreferences } from './preferences';
+import { createMissionController } from './mission-controller';
+import { configuredFlight } from './configure-flight';
+import { createFlightHistories } from './flight-histories';
+import type { MissionState } from '$core/mission';
+import { createEngineGroupBinder, type EngineGroup, type EngineGroupBinder } from '$hud/engine-groups';
+import { indicatorsFor } from '$hud/indicators';
+import { metricsFor } from '$hud/metrics';
+export { HINT_FITS } from './preferences';
 
 export interface Session {
   readonly store: SessionStore;
   /** The live flight. Read it; change it only through the commands. */
   readonly loop: LoopState;
+  readonly model: VehicleDefinition;
+  readonly mission: MissionState | undefined;
+  startHotStage(seed?: number): void;
+  selectVehicle(id: VehicleDefinition['id']): void;
+  stage(): void;
+  /** Advance the canonical session clock; also works without a canvas. */
+  advance(frameTime: number): AdvanceResult;
   readonly timeline: ReturnType<typeof createTimeline>;
   readonly recorder: Recorder;
   /** The flight before this one, for the black box's ghost. */
@@ -92,6 +92,7 @@ export interface Session {
     resolveMetric: (id: string) => AttributeTarget | null,
   ): void;
   bindIndicators(resolve: (id: string) => ClassTarget | null): void;
+  bindEngineGroups(surface: 'controls' | 'hud', resolve: (group: EngineGroup) => TextTarget | null): void;
   bindTimeline(
     track: readonly EventId[],
     resolve: (id: string) => AttributeTarget | null,
@@ -122,37 +123,12 @@ export interface Session {
   readThrottle(): number;
 }
 
-function readCameraMode(): CameraMode {
-  const stored = readItem(CAMERA_KEY) ?? '';
-  return (CAMERA_MODES as readonly string[]).includes(stored) ? (stored as CameraMode) : 'follow';
-}
-
-function hasRoomForHint(): boolean {
-  try {
-    return window.matchMedia(HINT_FITS).matches;
-  } catch {
-    return true;
-  }
-}
-
 export function createSession(): Session {
-  const store = createSessionStore({
-    cinematic: readFlag(CINEMATIC_KEY),
-    cameraMode: readCameraMode(),
-    muted: readMuted(),
-    volume: readVolume(),
-    // Storage blocked reads as unseen: two sentences once per visit is the right side to err on.
-    hintSeen: readFlag(HINT_KEY),
-    hintFits: hasRoomForHint(),
-  });
+  const store = createSessionStore(readSessionPreferences());
   const set = store.setState;
   const get = store.getState;
 
-  const timeline = createTimeline();
   const haptics = createHaptics(browserHost());
-  const recorder = createRecorder();
-  const previousRecorder = createRecorder();
-  const watch = createFlightWatch();
   const audio: AudioEngine = createAudioEngine({
     host: {
       create: () => {
@@ -165,12 +141,17 @@ export function createSession(): Session {
   });
 
   // The flight exists from construction, so commands work before (and without) a canvas.
-  const loop: LoopState = createLoopState(createIntroState());
+  const controller = createMissionController();
+  let hotStageSeed: number | undefined;
+  const loop = controller.loop;
+  const histories = createFlightHistories(controller, event => haptics.event(event));
   let view: ViewApp | undefined;
   let resetSceneForFlight: (() => void) | undefined;
   let hud: HudBinder | undefined;
   let metrics: MetricBinder | undefined;
   let indicators: IndicatorBinder | undefined;
+  let controlGroups: EngineGroupBinder | undefined;
+  let hudGroups: EngineGroupBinder | undefined;
   let timelineBinder: TimelineBinder | undefined;
   // A browser without Web Audio still flies, silently: an unlock that cannot
   // build a context is not an error worth surfacing.
@@ -179,7 +160,6 @@ export function createSession(): Session {
   let mapRenderer: MapRenderer | undefined;
   let mapSurface: MapSurface | null = null;
   let mapOptions: MapRendererOptions | undefined;
-  let flightEnded = false;
   const presentationProbe = createPresentationProbe();
 
   const camera = createCameraFollow();
@@ -190,11 +170,9 @@ export function createSession(): Session {
    * occupied for its framing to be independent of the frame rate.
    */
   const onStep = (state: SimState) => {
-    recorder.sample(state);
-    watch.observe(state);
+    histories.observe(state);
     if (!view) return;
-    view.followAltitude(state.kinematics.altitude);
-    camera.step(view, state);
+    camera.step(view, state, controller.mission);
   };
 
   // Rebuilt only when the time setting or the pause changes, never per frame.
@@ -218,69 +196,75 @@ export function createSession(): Session {
     if (mode !== get().autopilot) set({ autopilot: mode });
   };
 
-  const startFlight = (preset: ScenarioPreset) => {
+  const beginFlight = (preset: ScenarioPreset) => {
     resetSceneForFlight?.();
-    timeline.reset();
-    const fresh = createScenarioState(preset);
+    histories.reset();
+    const fresh = loop.state;
     fresh.failures.randomFailure = get().randomFailure;
-    loop.state = fresh;
-    loop.previous = fresh;
-    loop.accumulator = 0;
-    // Put the camera where the new flight is, moving as the vehicle moves:
-    // from rest it can never catch a fast one.
-    if (view) {
-      view.followAltitude(fresh.kinematics.altitude);
-      const cam = view.camera;
-      cam.posX = fresh.kinematics.downRangeDistance;
-      cam.posY = Math.max(view.viewport.physicalHeight * 0.5, fresh.kinematics.altitude);
-      cam.speedX = fresh.kinematics.speedX;
-      cam.speedY = fresh.kinematics.speedY;
-      cam.accX = 0;
-      cam.accY = 0;
-    }
-    // Keep this flight as the ghost before the recorder empties; skip an empty one.
-    if (recorder.length > 0) previousRecorder.copyFrom(recorder);
-    recorder.clear();
+    if (view) camera.reset(view, fresh, controller.mission);
     audio.resetFlight();
     if (mapSurface) mapSurface.dirty = true;
-    watch.reset();
-    flightEnded = false;
-    set({ preset, flightOver: false, debrief: null });
+    set({ preset, selectedVehicle: controller.model.id, flightOver: false, debrief: null });
+    timelineBinder?.follow(histories.selected.timeline);
+    if (mapSurface) session.bindMap(mapSurface);
+    syncMission();
     syncAutopilot();
   };
 
-  const dismissHint = () => {
-    if (!isHintOpen(get())) return;
-    writeItem(HINT_KEY, '1');
-    set({ hintSeen: true });
+  const syncMission = () => {
+    const phase = controller.mission?.phase ?? null;
+    const stageRequested = controller.stagePending || (controller.mission?.stageRequested ?? false);
+    const stagingFailed = controller.mission?.stagingFailed ?? false;
+    if (phase !== get().missionPhase || stageRequested !== get().stageRequested || stagingFailed !== get().stagingFailed)
+      set({ missionPhase: phase, stageRequested, stagingFailed });
+    const state = loop.state;
+    const over = state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp || state.failures.fuelRunOut;
+    if (over !== get().flightOver) set({ flightOver: over });
+    if (histories.selected.debrief !== get().debrief) set({ debrief: histories.selected.debrief });
+    syncAutopilot();
+  };
+  const startFlight = (preset: ScenarioPreset) => { controller.startFlight(preset); beginFlight(preset); };
+  const startHotStage = (seed?: number) => {
+    hotStageSeed = seed;
+    controller.startHotStage(seed);
+    beginFlight({ ...getScenario('booster-sep')!, id: 'hot-stage', name: 'Hot staging',
+      description: 'Stage two physical vehicles, then select which one to fly.' });
+    if (controller.mission) controller.mission.booster.failures.randomFailure = get().randomFailure;
   };
 
-  const setVolume = (level: number, remember = true) => {
-    audio.setVolume(level, { remember });
-    // Read back: the engine clamps.
-    set({ volume: audio.volume });
-    if (remember && !get().muted) unlockAudio();
-  };
+  const preferences = createPreferenceCommands(store, audio, applyCameraMode, unlockAudio);
 
   const session: Session = {
     store,
     loop,
-    timeline,
-    recorder,
-    previousRecorder,
+    get model() { return controller.model; },
+    get mission() { return controller.mission; },
+    advance(frameTime) {
+      const result = controller.advance(frameTime, loopOptions);
+      syncMission();
+      return result;
+    },
+    get timeline() { return histories.selected.timeline; },
+    get recorder() { return histories.selected.recorder; },
+    get previousRecorder() { return histories.selected.previousRecorder; },
 
     bindHud(resolve, resolveMetric) {
       hud?.destroy();
       metrics?.destroy();
       hud = createHudBinder({ resolve });
-      metrics = createMetricBinder({ resolve: resolveMetric });
+      metrics = createMetricBinder({ resolve: resolveMetric, metrics: metricsFor(controller.model) });
     },
     bindIndicators(resolve) {
       indicators?.destroy();
-      indicators = createIndicatorBinder({ resolve });
+      indicators = createIndicatorBinder({ resolve, indicators: indicatorsFor(controller.model) });
+    },
+    bindEngineGroups(surface, resolve) {
+      if (surface === 'controls') { controlGroups?.destroy(); controlGroups = createEngineGroupBinder(resolve); }
+      else { hudGroups?.destroy(); hudGroups = createEngineGroupBinder(resolve); }
     },
     bindTimeline(track, resolve, text) {
-      timelineBinder ??= createTimelineBinder({ timeline, resolveText: text });
+      timelineBinder?.destroy();
+      timelineBinder = createTimelineBinder({ timeline: histories.selected.timeline, resolveText: text });
       timelineBinder.rebind(track, resolve);
     },
     bindMap(surface) {
@@ -288,7 +272,7 @@ export function createSession(): Session {
       if (!surface) return; // a refused 2D context: everything else still flies
       mapOptions = {
         context: surface.context,
-        trail: { downRange: recorder.series['downRange']!, altitude: recorder.series['altitude']! },
+        trail: { downRange: histories.selected.recorder.series['downRange']!, altitude: histories.selected.recorder.series['altitude']! },
         scale: surface.scale,
         status: surface.status,
       };
@@ -296,16 +280,29 @@ export function createSession(): Session {
     },
 
     emit(event) {
-      applyControl(loop.state, event);
+      controller.emit(event);
       syncAutopilot();
     },
     startFlight,
+    startHotStage,
+    stage() { controller.stage(); syncMission(); },
+    selectVehicle(id) {
+      if (!controller.mission || id === controller.model.id) return;
+      controller.selectVehicle(id);
+      if (view) camera.select(view, loop.state);
+      set({ selectedVehicle: controller.model.id });
+      timelineBinder?.follow(histories.selected.timeline);
+      timelineBinder?.update();
+      if (mapSurface) { mapSurface.dirty = true; session.bindMap(mapSurface); }
+      syncMission();
+    },
     configure(fields) {
-      startFlight(fieldsToPreset(fields, get().preset));
+      startFlight(configuredFlight(fields, get().preset, controller));
       set({ layer: null });
     },
     restart() {
-      startFlight(get().preset);
+      if (controller.mission) startHotStage(hotStageSeed);
+      else startFlight(get().preset);
     },
     openLayer(layer) {
       set({ layer });
@@ -316,48 +313,24 @@ export function createSession(): Session {
     togglePause() {
       set({ playerPaused: !get().playerPaused });
     },
-    toggleCinematic() {
-      const cinematic = !get().cinematic;
-      writeItem(CINEMATIC_KEY, cinematic ? '1' : '0');
-      set({ cinematic });
-      applyCameraMode();
-    },
-    selectCameraMode(mode) {
-      writeItem(CAMERA_KEY, mode);
-      set({ cameraMode: mode });
-      applyCameraMode();
-    },
-    toggleMuted() {
-      const muted = !get().muted;
-      void audio.setMuted(muted);
-      if (!muted) unlockAudio(); // unmuting is a gesture
-      set({ muted });
-    },
-    setVolume,
     setTime(time) {
       set({ time });
     },
     toggleRandomFailure() {
       toggleRandomFailure(loop.state);
+      const mission = controller.mission;
+      if (mission) {
+        const other = controller.model.id === 'ship' ? mission.booster : mission.ship;
+        if (other.failures.randomFailure !== loop.state.failures.randomFailure) toggleRandomFailure(other);
+      }
       set({ randomFailure: loop.state.failures.randomFailure });
     },
     toggleTiltControl() {
       set({ tiltControl: !get().tiltControl });
     },
-    /**
-     * Every remembered preference back to a fresh profile's, taking effect now.
-     * The hint returns too, so the menu closes: a hint nobody can see is not
-     * restored. The map's fold resets itself on clearPreferences' event.
-     */
-    restoreDefaults() {
-      void audio.setMuted(false);
-      setVolume(DEFAULT_VOLUME);
-      set({ muted: false, hintSeen: false, layer: null, cinematic: false, cameraMode: 'follow' });
-      applyCameraMode();
-      clearPreferences();
-    },
-    dismissHint,
+    ...preferences,
     dismissDebrief() {
+      histories.dismissDebrief();
       set({ debrief: null });
     },
     zoom(direction) {
@@ -372,15 +345,18 @@ export function createSession(): Session {
       let frame = 0;
       const live = loop;
       const initial = live.state;
+      const debugLoopOptions = { onStep };
       installSimDebug(window, import.meta.env.DEV, {
         loop: () => loop,
         startScenario: (id, overrides) => {
+          if (id === 'hot-stage') { startHotStage(); return; }
           const preset = getScenario(id);
           if (!preset) throw new Error(`no scenario '${id}'`);
           startFlight({ ...preset, ...overrides });
         },
         setPaused: (debugPaused) => set({ debugPaused }),
         onStep,
+        advanceStep: () => { controller.advance(DT, debugLoopOptions); syncMission(); },
         presentation: presentationProbe.presentation,
         setParticlesVisible: presentationProbe.setParticlesVisible,
       });
@@ -411,6 +387,7 @@ export function createSession(): Session {
       if (observer && box) observer.observe(box);
       else window.addEventListener('resize', onResize);
       onResize();
+      if (controller.mission) camera.reset(v, live.state, controller.mission);
 
       const room = window.matchMedia(HINT_FITS);
       const onRoomChange = () => set({ hintFits: room.matches });
@@ -421,12 +398,13 @@ export function createSession(): Session {
         onGesture: () => {
           if (!get().muted) unlockAudio();
           haptics.unlock();
-          dismissHint();
+          preferences.dismissHint();
         },
         onBackgrounded: (hidden) => void audio.setBackgrounded(hidden),
         emit: (e) => session.emit(e),
         zoom: (direction) => session.zoom(direction),
         readThrottle: () => live.state.vehicle.throttle,
+        dismissDebrief: () => session.dismissDebrief(),
         isManual: () => !get().tiltControl || live.state.autopilot.manualControlOn,
       });
 
@@ -437,21 +415,17 @@ export function createSession(): Session {
         last = now;
         // advance hands out whole DT steps under the warp and pause; simulatedDt
         // is how much world actually went past, and everything below runs on it.
-        const worldDt = advance(live, frameTime, loopOptions).simulatedDt;
+        const worldDt = session.advance(frameTime).simulatedDt;
         const s = live.state;
-        scene.draw(s, live.previous, worldDt, get().preset);
-
-        // The tracker first, so a dot and its narration agree within a frame;
-        // one buzz per event that fired, under warp too.
-        const before = timeline.events.length;
-        timeline.observe(s);
-        for (let i = before; i < timeline.events.length; i++) haptics.event(timeline.events[i]!.id);
+        scene.draw(s, live.previous, worldDt, get().preset, controller);
 
         audio.update(s);
         hud?.update(s);
         metrics?.update(s);
         timelineBinder?.update();
         indicators?.update(s);
+        controlGroups?.update(s);
+        hudGroups?.update(s);
 
         // The map is throttled rather than diffed; a folded map costs one read.
         if (mapSurface?.visible && mapRenderer && mapOptions) {
@@ -464,16 +438,6 @@ export function createSession(): Session {
           }
         }
 
-        // Store writes only on a change, so a steady flight writes nothing.
-        syncAutopilot();
-        const over = s.status.landed || s.failures.crashed || s.failures.inFlightBreakUp || s.failures.fuelRunOut;
-        if (over !== get().flightOver) set({ flightOver: over });
-        // The card waits for the ground or a break-up; running dry in the air is not an ending.
-        const ended = s.status.landed || s.failures.crashed || s.failures.inFlightBreakUp;
-        if (ended !== flightEnded) {
-          flightEnded = ended;
-          set({ debrief: ended ? debrief(s, timeline, watch.last) : null });
-        }
       };
       frame = requestAnimationFrame(tick);
 
@@ -491,6 +455,8 @@ export function createSession(): Session {
         metrics?.destroy();
         timelineBinder?.destroy();
         indicators?.destroy();
+        controlGroups?.destroy();
+        hudGroups?.destroy();
         v.destroy();
         void audio.destroy();
       };

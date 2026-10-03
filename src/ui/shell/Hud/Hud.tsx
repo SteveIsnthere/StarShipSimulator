@@ -22,6 +22,7 @@ import { Button } from '@ui/Button';
 import { cn } from '@ui/internal/utils';
 import { useSession, useSessionState } from '../session-context';
 import { useLayoutMode } from '../layout';
+import { RestartButton } from '../RestartButton';
 import { Attitude } from './Attitude';
 import { EngineDots } from './EngineDots';
 import { MissionTimeline } from './MissionTimeline';
@@ -50,6 +51,7 @@ export function Hud() {
   // A phone in either orientation: digits and ticks, short labels, no rail.
   const compact = mode !== 'wide';
   const debriefUp = useSessionState((s) => s.debrief !== null);
+  const selectedVehicle = useSessionState(s => s.selectedVehicle);
   // Open on a desktop, folded on a phone where every row costs the world. A
   // change of layout (a rotation) resets it to that layout's default, as the
   // control groups do; any other re-render keeps the pilot's choice.
@@ -88,7 +90,7 @@ export function Hud() {
   useEffect(() => {
     session.bindHud(readoutResolver(), metricResolver());
     return () => session.bindHud(detachedReadout, detachedMetric);
-  }, [session]);
+  }, [session, selectedVehicle]);
 
   return (
     <section
@@ -102,6 +104,7 @@ export function Hud() {
     >
       <div className="flex min-w-0 items-center gap-3">
         <MissionTimeline compact={compact} className="flex-1" />
+        <RestartButton inline />
         <Button
           variant="ghost"
           size="sm"
@@ -141,9 +144,10 @@ export function Hud() {
           <div className="min-w-0 flex-1">
             <Propellant compact={compact} />
           </div>
-          <EngineDots compact={compact} />
+          {selectedVehicle === 'ship' && <EngineDots compact={compact} />}
           <Attitude compact={compact} />
         </div>
+        {selectedVehicle === 'super-heavy' && <EngineDots compact={compact} />}
 
         <SecondaryReadouts id={secondaryId} hidden={!expanded} />
       </div>

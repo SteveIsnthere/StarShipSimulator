@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-burn-bound.test.ts (2 tests | 1 failed) 16ms
+     × contains the full physical burn predictor across descent and mass boundaries 14ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-burn-bound.test.ts > conservative booster burn trigger bound > contains the full physical burn predictor across descent and mass boundaries
+AssertionError: expected 20 to be greater than 20
+ ❯ tests/core/booster-burn-bound.test.ts:18:20
+     16|       }
+     17|     }
+     18|     expect(finite).toBeGreaterThan(20);expect(tooHeavy).toBeGreaterTha…
+       |                    ^
+     19|   });
+     20|   it('allows skipping far above a feasible burn but keeps the exact ca…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 6 passed (7)
+      Tests  1 failed | 32 passed (33)
+   Start at  17:31:52
+   Duration  611ms (transform 427ms, setup 0ms, import 732ms, tests 377ms, environment 1ms)
+

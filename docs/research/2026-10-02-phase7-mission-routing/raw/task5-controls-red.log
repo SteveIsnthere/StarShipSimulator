@@ -1,0 +1,77 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/booster-controls.test.ts (8 tests | 8 failed) 6ms
+     × lights the actual thirteen return engines through the all-engine command 4ms
+     × invalidates accepted return authority before raptor 1ms
+     × invalidates accepted return authority before throttle 0ms
+     × invalidates accepted return authority before pitch 0ms
+     × invalidates accepted return authority before rcs 0ms
+     × invalidates accepted return authority before dumpFuel 0ms
+     × invalidates accepted return authority before yokeGrab 0ms
+     × invalidates accepted return authority before boostBack 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/booster-controls.test.ts > manual booster controls > lights the actual thirteen return engines through the all-engine command
+AssertionError: expected [ 1.0148711036425084, …(2) ] to have a length of 13 but got 3
+
+- Expected
++ Received
+
+- 13
++ 3
+
+ ❯ tests/ui/booster-controls.test.ts:11:77
+      9|     const { state } = createScenarioVehicle(getScenario('rtls')!);
+     10|     applyControl(state, { type: 'allRaptors' }, SUPER_HEAVY);
+     11|     expect(state.engines.ignitionCountdown.filter(value => value !== n…
+       |                                                                             ^
+     12|   });
+     13|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  |unit| tests/ui/booster-controls.test.ts > manual booster controls > invalidates accepted return authority before raptor
+ FAIL  |unit| tests/ui/booster-controls.test.ts > manual booster controls > invalidates accepted return authority before throttle
+ FAIL  |unit| tests/ui/booster-controls.test.ts > manual booster controls > invalidates accepted return authority before pitch
+ FAIL  |unit| tests/ui/booster-controls.test.ts > manual booster controls > invalidates accepted return authority before rcs
+ FAIL  |unit| tests/ui/booster-controls.test.ts > manual booster controls > invalidates accepted return authority before dumpFuel
+ FAIL  |unit| tests/ui/booster-controls.test.ts > manual booster controls > invalidates accepted return authority before yokeGrab
+ FAIL  |unit| tests/ui/booster-controls.test.ts > manual booster controls > invalidates accepted return authority before boostBack
+AssertionError: expected { Object (originTime, shutdownAt, ...) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+{
+  "coastPitch": 0,
+  "handoff": {
+    "height": 100,
+    "lateralFeasible": true,
+    "time": 10,
+    "vx": 0,
+    "vy": -20,
+    "x": 0,
+  },
+  "originTime": 0,
+  "shutdownAt": 10,
+}
+
+ ❯ tests/ui/booster-controls.test.ts:24:49
+     22|         handoff: { x: 0, height: 100, vx: 0, vy: -20, time: 10, latera…
+     23|       applyControl(state, event, SUPER_HEAVY);
+     24|       expect(state.autopilot.boosterReturnPlan).toBeUndefined();
+       |                                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed (8)
+   Start at  23:31:14
+   Duration  197ms (transform 63ms, setup 0ms, import 79ms, tests 6ms, environment 0ms)
+

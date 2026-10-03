@@ -1,0 +1,9 @@
+# Physical booster checkpoint
+
+Physics tier: Fidelity, authorized modernization Phase7 Task2. This is development-branch physics, not a shipped/caught/staged booster yet. Ship compatibility APIs and goldens remain unchanged.
+
+Actual historical71m x9m/3400t booster with33 SL Raptors,3/10/20 groups and13 steerable mounts.13-engine return and3-engine terminal groups are explicit; outer engines have fixed axial thrust and physical offset torque. Engine status arrays are independently sized/seeded; emptying burns receive only their paid impulse. Fin forces apply to translation and rotation at the upper66m station, using actual airflow and moving COM. Neutral50 uses the unchanged120percentage-points/s actuator envelope. Ship branch numerical proofs remain bit-exact.
+
+API-introduction RED was missing modules as planned. Initial assertion RED included an incorrectly rounded thrust literal; correct230000kgf*9.80665=2255529.5N, not rounded2255530. Initial dry-inertia comparison only caught1ULP grouping; replace with independently calculated500t wet inertia267799076.4377306kg m², retaining dry scenario expression. Valid physical RED then catches six actual failures: allSL steering, unpaid-direction gimbal on a fixed engine, missing offset torque, wrong wet inertia, absent neutral and wrong inactive fin slew. GREEN23 focused tests includes the independent Ship step/engine proofs.
+
+Full build/lint exit0, complete unit158files/2030tests exit0 on Steve's Mac.14/14 truth rows IN, old8 unchanged; four new A geometry/capacity/count rows are ratcheted, dry mass and fin area stay declared B estimates. No golden changes/regeneration; all original scenarios still use the explicit Ship compatibility API until Task3/5 migrate acceptance/player adapters. Shared contact still uses Ship-style touchdown until Task3 replaces booster contact with actual catch detection. Raw logs preserve existing warnings/whitespace.

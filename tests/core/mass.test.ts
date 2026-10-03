@@ -89,7 +89,7 @@ describe('the centre of mass', () => {
     // while the tanks are shallow and the second wins once they are deep, so
     // the lowest the vehicle ever balances is around half full.
     const loads = [0, 20_000, 100_000, 350_000, 500_000, 700_000, 1_000_000, 1_200_000];
-    const coms = loads.map(centreOfMass);
+    const coms = loads.map((load) => centreOfMass(load));
     for (const com of coms) {
       expect(com).toBeGreaterThan(0);
       expect(com).toBeLessThan(C.vehicleHeight);

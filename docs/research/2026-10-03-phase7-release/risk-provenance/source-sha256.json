@@ -1,0 +1,6 @@
+{
+  "src/core/control/commands.ts": "9079a0297811e2fd3288ffe5515b0675ada126b467de68cf0538371c26603e40",
+  "tests/core/risk-policy-provenance.test.ts": "a680519db0ac2bb2309d432364cc39d606f5bbff1042df7f3ee7ca21c15aaf98",
+  "tests/ui/session.test.ts": "15d4ccd3b6683facc287d441b04f1c1bd577741b6dcda892af3b830af31332f4",
+  "tests/golden/unification.test.ts": "b43c2ae8be0dc1d456f8b18cefdedf2359b79faacfec3f2956b97ec65a7902b1"
+}

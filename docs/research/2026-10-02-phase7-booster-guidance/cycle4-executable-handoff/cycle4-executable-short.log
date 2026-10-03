@@ -1,0 +1,42 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-prediction.test.ts (14 tests | 1 failed) 75ms
+     × does not mutate a prediction shared by a cloned previous frame and deterministically publishes a completed result 52ms
+ ❯ |unit| tests/core/booster-planning-latency.test.ts (2 tests | 2 failed) 2362ms
+     × publishes a source-matched physically caught future cutoff for booster-sep 2177ms
+     × publishes a source-matched physically caught future cutoff for rtls 184ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-planning-latency.test.ts > paid return planning at production receipt/work timing > publishes a source-matched physically caught future cutoff for booster-sep
+ FAIL  |unit| tests/core/booster-planning-latency.test.ts > paid return planning at production receipt/work timing > publishes a source-matched physically caught future cutoff for rtls
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-planning-latency.test.ts:28:44
+     26|     expect(s.kinematics).toEqual(kinematics);expect(s.vehicle.propella…
+     27|     expect(s.rng.counters).toEqual(rng);
+     28|     expect(j.done).toBe(true);expect(plan).toBeDefined();
+       |                                            ^
+     29|     expect(plan!.originTime).toBe(j.origin.world.environmentTime);
+     30|     expect(plan!.shutdownAt).toBeGreaterThan(s.world.environmentTime);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > does not mutate a prediction shared by a cloned previous frame and deterministically publishes a completed result
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-prediction.test.ts:173:20
+    171|       advanceBoosterPrediction(b,1/120,advanceMechanics,runBoosterPoli…
+    172|     const result=b.autopilot.boosterPrediction?.published;
+    173|     expect(result).toBeDefined();expect(result!.forecast.reached).toBe…
+       |                    ^
+    174|     expect(result!.forecast.fuel).toBeLessThan(a.vehicle.propellantMas…
+    175|     expect(b.rng).toEqual(a.rng);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  3 failed | 35 passed (38)
+   Start at  21:22:53
+   Duration  3.72s (transform 245ms, setup 0ms, import 351ms, tests 5.90s, environment 0ms)
+

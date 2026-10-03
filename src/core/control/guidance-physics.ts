@@ -12,6 +12,7 @@
  * writes into a scratch object the caller owns (`createBurnScratch`).
  */
 import * as C from '../constants';
+import { SHIP, type VehicleDefinition } from '../vehicle';
 import type { Atmosphere } from '../physics/atmosphere';
 import { speedOfSoundAt } from '../physics/atmosphere';
 import {
@@ -27,7 +28,9 @@ import { tangentialAcceleration, verticalGravityAcceleration, verticalWeight } f
 import { isaAtmosphereInto } from '../physics/isa';
 import { meanWindAt } from '../physics/wind';
 import type { SimState } from '../state';
-import { rad } from '../units';
+import { rad, type Rad } from '../units';
+import { createMassProperties, writeMassProperties } from '../physics/mass';
+import { createGridFinForces, writeGridFinForces } from '../physics/grid-fins';
 
 /**
  * m/s² — the floor `localGravity` never goes below.
@@ -63,7 +66,7 @@ export function thrustFor(engines: number, airPressureKPa: number): number {
  * the current area: during the aero descent the vehicle is broadside, several
  * times this, and the burn is flown after the flip.
  */
-const TAIL_FIRST_AREA = getCrossSectionalArea(rad(0), C.vehicleInFlightMaxArea);
+// The same tail-first area is evaluated for the selected vehicle below.
 
 /**
  * Everything the predictors write while they work; one per caller, reused on
@@ -117,11 +120,12 @@ export function tailFirstDragDeceleration(
   speed: number,
   mass: number,
   scratch: BurnScratch,
+  model: VehicleDefinition = SHIP,
 ): number {
   const air = scratch.atmosphere;
   isaAtmosphereInto(altitude, air);
   const mach = speed / speedOfSoundAt(air.airTemperature);
-  return getDrag(air.airDensity, speed, TAIL_FIRST_AREA, getBodyDragCoefficient(mach)) / mass;
+  return getDrag(air.airDensity, speed, getCrossSectionalArea(rad(0), model.maxArea, model), getBodyDragCoefficient(mach)) / mass;
 }
 
 /** s — the predictor's integration step. */
@@ -144,6 +148,7 @@ function backwardPass(
   descentSpeed: number,
   touchdownHeight: number,
   scratch: BurnScratch,
+  model: VehicleDefinition,
 ): number {
   const flow = engines * C.maxFuelFlowPerRaptor;
   const half = BURN_STEP * 0.5;
@@ -155,9 +160,9 @@ function backwardPass(
     // Midpoint (second-order) step. Backward in time the mass grows and the
     // deceleration falls, so a first-order step evaluated at the later, lighter
     // end overstates it: 1.5% of an eleven-second burn, measured.
-    const a1 = burnDeceleration(engines, h, u, m, scratch);
+    const a1 = burnDeceleration(engines, h, u, m, scratch, model);
     const uMid = u + a1 * half;
-    const a2 = burnDeceleration(engines, h + (u + uMid) * 0.5 * half, uMid, m + flow * half, scratch);
+    const a2 = burnDeceleration(engines, h + (u + uMid) * 0.5 * half, uMid, m + flow * half, scratch, model);
     // One guard, on the deceleration the step actually uses. The midpoint is
     // heavier than the start, so if the start could not decelerate, neither can it.
     if (a2 <= 0) return Number.NaN;
@@ -181,14 +186,31 @@ function backwardPass(
  * speed and mass: thrust and drag (drag points up while descending, so it
  * HELPS the burn) against gravity at that altitude.
  */
-function burnDeceleration(engines: number, h: number, u: number, m: number, scratch: BurnScratch): number {
-  const drag = tailFirstDragDeceleration(h, u, m, scratch);
+function burnDeceleration(engines: number, h: number, u: number, m: number, scratch: BurnScratch, model: VehicleDefinition): number {
+  const drag = tailFirstDragDeceleration(h, u, m, scratch, model);
   return thrustFor(engines, scratch.atmosphere.airPressure) / m + drag - verticalWeight(C.planetRadius + h);
 }
 
 /** Most passes of the touchdown-mass iteration, and the residual it stops at (kg). */
 const MASS_PASSES = 24;
 const MASS_TOLERANCE = 1;
+
+/** Conservative upper bound for the existing SL-Raptor burn predictor's
+ * trigger, not an alternative burn solution. Through a forward stopping burn,
+ * thrust >= sea-level, mass <= initial mass, drag assists and gravity <= its
+ * catch-plane value. Thus deceleration >= thrustSL/mass - gravityMax, and
+ * distance <= u²/(2aMin). One full midpoint step's mass plus the existing root
+ * residual bounds the backward predictor's endpoint interpolation. Infinity
+ * means no positive lower acceleration bound; run the exact predictor then.
+ * This only saves work safely ABOVE the bound. It never commands an engine. */
+export function conservativeBurnStartAltitude(engines:number,mass:number,descentSpeed:number,touchdownHeight:number):number {
+  if(engines<=0 || mass<=0)return Infinity;
+  const upperMass=mass+engines*C.maxFuelFlowPerRaptor*BURN_STEP+MASS_TOLERANCE;
+  const minAcceleration=thrustFor(engines,C.SEA_LEVEL_PRESSURE_PA/1000)/upperMass
+    -verticalWeight(C.planetRadius+touchdownHeight);
+  if(minAcceleration<=0)return Infinity;
+  return touchdownHeight+Math.max(0,descentSpeed)**2/(2*minAcceleration);
+}
 
 
 /**
@@ -217,6 +239,7 @@ export function landingBurnStartAltitude(
   descentSpeed: number,
   touchdownHeight: number,
   scratch: BurnScratch,
+  model: VehicleDefinition = SHIP,
 ): number | null {
   if (engines <= 0 || mass <= 0) return null;
   if (descentSpeed <= 0) return touchdownHeight;
@@ -242,8 +265,8 @@ export function landingBurnStartAltitude(
   */
   const lowerBound = thrustFor(engines, C.SEA_LEVEL_PRESSURE_PA / 1000) / mass - verticalWeight(C.planetRadius);
   if (lowerBound <= 0) return null;
-  let light = Math.max(mass - flow * (descentSpeed / lowerBound), C.vehicleDryMass);
-  let start = backwardPass(engines, light, descentSpeed, touchdownHeight, scratch);
+  let light = Math.max(mass - flow * (descentSpeed / lowerBound), model.dryMass);
+  let start = backwardPass(engines, light, descentSpeed, touchdownHeight, scratch, model);
   if (Number.isNaN(start)) return null;
   let rLight = mass - flow * scratch.duration - light;
   // Not enough propellant for even the lightest burn: it cannot stop the vehicle.
@@ -258,7 +281,7 @@ export function landingBurnStartAltitude(
         ? heavy
         : (light + heavy) / 2
       : heavy - (rHeavy * (heavy - light)) / (rHeavy - rLight);
-    const s = backwardPass(engines, m, descentSpeed, touchdownHeight, scratch);
+    const s = backwardPass(engines, m, descentSpeed, touchdownHeight, scratch, model);
     // Longer than the predictor sizes: no answer, never a guess from the light
     // end (that answer was optimistic: 14.6 km for a burn the simulation needed
     // 20 km for, measured while fixing this).
@@ -322,17 +345,22 @@ function fallAcceleration(
   maxArea: number,
   referenceWind: number,
   scratch: BurnScratch,
+  model: VehicleDefinition,
+  gustX=0,
+  gustY=0,
 ): void {
   const { inputs, acc } = scratch;
   const r = C.planetRadius + altitude;
   const air = scratch.atmosphere;
   isaAtmosphereInto(Math.max(altitude, 0), air);
-  const rx = vx - meanWindAt(referenceWind, altitude);
-  const speed = Math.sqrt(rx * rx + vy * vy);
-  const motion = Math.atan2(rx, vy);
+  const meanRelativeX = vx - meanWindAt(referenceWind, altitude);
+  const rx = gustX===0?meanRelativeX:meanRelativeX-gustX;
+  const ry = gustY===0?vy:vy-gustY;
+  const speed = Math.sqrt(rx * rx + ry * ry);
+  const motion = Math.atan2(rx, ry);
   const attack = wrappedAttackAngle(pitch, motion);
   const intoWind = foldedIntoWind(attack);
-  const area = getCrossSectionalArea(rad(intoWind), maxArea);
+  const area = getCrossSectionalArea(rad(intoWind), maxArea, model);
   const mach = speed / speedOfSoundAt(air.airTemperature);
   inputs.angleOfMotion = rad(motion);
   inputs.angleOfAttack = rad(attack);
@@ -340,6 +368,24 @@ function fallAcceleration(
   inputs.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
   acc.x = getHorizontalAcceleration(inputs) + tangentialAcceleration(r, vx, vy);
   acc.y = getVerticalAcceleration(inputs, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);
+}
+
+const forceMass=createMassProperties(),forceGrid=createGridFinForces();
+/** The existing force law at a proposed hull attitude. No integration or
+ * actuator impulse: callers must still prove actual slew/contact mechanically.
+ * Includes current gusts and the delivered grid-fin deflection. */
+export function writeUnpoweredAcceleration(state:SimState,pitch:Rad,model:VehicleDefinition,scratch:BurnScratch):void {
+  const k=state.kinematics;
+  fallAcceleration(k.altitude,k.speedX,k.speedY,pitch,state.vehicle.vehicleMass,
+    state.vehicle.vehicleInFlightMaxArea,state.world.wind,scratch,model,state.world.gust,state.world.gustVertical);
+  if(model.gridFins){
+    writeMassProperties(state.vehicle.propellantMass,forceMass,model);
+    writeGridFinForces(scratch.atmosphere.airDensity,
+      k.speedX-meanWindAt(state.world.wind,k.altitude)-state.world.gust,k.speedY-state.world.gustVertical,
+      rad((state.vehicle.frontFinExtension-50)/50*model.gridFins.maxAngle),pitch,forceMass.centreOfMass,model,forceGrid);
+    scratch.acc.x+=forceGrid.forceX/state.vehicle.vehicleMass;
+    scratch.acc.y+=forceGrid.forceY/state.vehicle.vehicleMass;
+  }
 }
 
 /**
@@ -363,9 +409,11 @@ export function unpoweredFallInto(
   groundAltitude: number,
   scratch: BurnScratch,
   out: FallResult,
+  model: VehicleDefinition = SHIP,
+  pitchOverride = state.kinematics.pitch,
 ): void {
   const { kinematics, vehicle, world } = state;
-  const pitch = kinematics.pitch;
+  const pitch = pitchOverride;
   const mass = vehicle.vehicleMass;
   const maxArea = vehicle.vehicleInFlightMaxArea;
   // The air's downrange speed, as step() takes it, at each height of the fall:
@@ -379,10 +427,10 @@ export function unpoweredFallInto(
   let vy = kinematics.speedY;
   const half = FALL_STEP * 0.5;
   for (let i = 0; i < FALL_STEP_CAP; i++) {
-    fallAcceleration(h, vx, vy, pitch, mass, maxArea, referenceWind, scratch);
+    fallAcceleration(h, vx, vy, pitch, mass, maxArea, referenceWind, scratch, model);
     const mvx = vx + acc.x * half;
     const mvy = vy + acc.y * half;
-    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, referenceWind, scratch);
+    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, referenceWind, scratch, model);
     const nvx = vx + acc.x * FALL_STEP;
     const nvy = vy + acc.y * FALL_STEP;
     const nh = h + mvy * FALL_STEP;

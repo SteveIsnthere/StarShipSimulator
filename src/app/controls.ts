@@ -22,6 +22,9 @@
  */
 import type { RaptorIndex, SimState } from '$core/state';
 import * as cmd from '$core/control/commands';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
+import { invalidateBoosterReturn } from '$core/control/booster-return-plan';
+import { BOOSTER_ENGINE_GROUPS } from '$core/vehicles/super-heavy';
 
 /** Everything the UI can ask the simulation to do. */
 export type ControlEvent =
@@ -29,6 +32,8 @@ export type ControlEvent =
   | { readonly type: 'raptor'; readonly engine: RaptorIndex }
   /** All three at once, with 2021's asymmetry preserved. */
   | { readonly type: 'allRaptors' }
+  /** Super Heavy's centre and physical inner/outer rings. */
+  | { readonly type: 'engineGroup'; readonly group: keyof typeof BOOSTER_ENGINE_GROUPS }
   /** Commanded throttle, in percent. Clamped in core. */
   | { readonly type: 'throttle'; readonly percent: number }
   /** Yoke position, -100..100. Clamped in core. */
@@ -57,13 +62,26 @@ export type Emit = (event: ControlEvent) => void;
  * Exhaustive by construction: the `never` in the default branch means adding a
  * variant to ControlEvent without handling it here fails to compile.
  */
-export function applyControl(state: SimState, event: ControlEvent): void {
+export function applyControl(state: SimState, event: ControlEvent, model: VehicleDefinition = SHIP): void {
+  // Every operator command changes the forecast's future control history.
+  // Invalidate here, rather than in core commands also used by guidance itself.
+  if (model.id === 'super-heavy') invalidateBoosterReturn(state.autopilot);
   switch (event.type) {
+    case 'engineGroup': {
+      if (model.id !== 'super-heavy') return;
+      const group = BOOSTER_ENGINE_GROUPS[event.group];
+      const active = group.some(i => state.engines.running[i] || state.engines.ignitionCountdown[i] !== null);
+      for (const i of group) {
+        const engineActive = state.engines.running[i] || state.engines.ignitionCountdown[i] !== null;
+        if (active ? engineActive : !state.engines.failed[i]) cmd.toggleRaptor(state, i);
+      }
+      return;
+    }
     case 'raptor':
       cmd.toggleRaptor(state, event.engine);
       return;
     case 'allRaptors':
-      cmd.toggleAllRaptors(state);
+      cmd.toggleAllRaptors(state, model);
       return;
     case 'throttle':
       cmd.setThrottle(state, event.percent);

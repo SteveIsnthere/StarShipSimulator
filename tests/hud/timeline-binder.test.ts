@@ -67,6 +67,30 @@ function text(): TextTarget & { writes: number; text: string | null } {
 
 const TRACK: readonly EventId[] = ['LIFTOFF', 'MAX-Q', 'MECO', 'TOUCHDOWN'];
 
+it('switches between independent histories while retaining the same rendered targets', () => {
+  const first = createTimeline(), second = createTimeline();
+  const state = createScenarioState(getScenario('landing-burn')!);
+  state.status.landed = true;
+  first.observe(state);
+  const target = dot(), now = text(), next = text();
+  let resolves = 0;
+  const binder = createTimelineBinder({ timeline: first, resolveText: id => id === 'now' ? now : next });
+  binder.rebind(['TOUCHDOWN'], () => { resolves++; return target; });
+  binder.update();
+  expect(target.state).toBe('current');
+  expect(now.text).toBe('TOUCHDOWN');
+  binder.follow(second);
+  binder.update();
+  expect(target.state).toBe('pending');
+  expect(now.text).toBe(PRE_FLIGHT);
+  binder.follow(first);
+  binder.update();
+  expect(target.state).toBe('current');
+  expect(first.has('TOUCHDOWN')).toBe(true);
+  expect(second.has('TOUCHDOWN')).toBe(false);
+  expect(resolves).toBe(1);
+});
+
 function harness(track: readonly EventId[] = TRACK) {
   const timeline = createTimeline();
   const dots = new Map<string, ReturnType<typeof dot>>();

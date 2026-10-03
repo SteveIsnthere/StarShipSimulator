@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-prediction.test.ts (3 tests | 1 failed) 60ms
+     × does not mutate a prediction shared by a cloned previous frame and deterministically publishes a completed result 53ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > does not mutate a prediction shared by a cloned previous frame and deterministically publishes a completed result
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-prediction.test.ts:54:20
+     52|       advanceBoosterPrediction(b,1/120,advanceMechanics,runBoosterPoli…
+     53|     const result=b.autopilot.boosterPrediction?.published;
+     54|     expect(result).toBeDefined();expect(result!.forecast.reached).toBe…
+       |                    ^
+     55|     expect(result!.forecast.fuel).toBeLessThan(a.vehicle.propellantMas…
+     56|     expect(b.rng).toEqual(a.rng);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 43 passed (44)
+   Start at  18:30:45
+   Duration  769ms (transform 565ms, setup 0ms, import 967ms, tests 611ms, environment 0ms)
+

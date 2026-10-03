@@ -12,6 +12,8 @@
 import type { EditorFields } from '$app/menu';
 import { planetRadius } from '$core/constants';
 import { PROPELLANT_CAPACITY } from '$core/physics/mass';
+import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+import type { VehicleDefinition } from '$core/vehicle';
 
 export type FieldKey = Exclude<keyof EditorFields, 'basedOn'>;
 
@@ -91,6 +93,15 @@ export const FIELD_SPECS: readonly FieldSpec[] = [
   spec('launchHour', 'Time of day', 'h', 0, 24, 'Local solar time'),
 ];
 
+const BOOSTER_FIELDS: readonly FieldSpec[] = FIELD_SPECS.map(field => field.key === 'propellant'
+  ? spec('propellant', 'Propellant', 't', 0, SUPER_HEAVY.propellantCapacity / 1000) : field);
+
+/** A filled preset chooses its vehicle; blank setup retains the current one. */
+export function fieldsFor(fields: EditorFields, current: VehicleDefinition['id'] = 'ship'): readonly FieldSpec[] {
+  const booster = fields.basedOn ? fields.basedOn === 'booster-sep' || fields.basedOn === 'rtls' : current === 'super-heavy';
+  return booster ? BOOSTER_FIELDS : FIELD_SPECS;
+}
+
 /** The error for one typed value, or null. Blank is never an error: it keeps the current value. */
 export function fieldError(field: FieldSpec, raw: string): string | null {
   if (raw.trim() === '') return null;
@@ -100,9 +111,9 @@ export function fieldError(field: FieldSpec, raw: string): string | null {
 }
 
 /** Every field's error, keyed by field; empty when the form is flyable. */
-export function fieldErrors(fields: EditorFields): Partial<Record<FieldKey, string>> {
+export function fieldErrors(fields: EditorFields, current: VehicleDefinition['id'] = 'ship'): Partial<Record<FieldKey, string>> {
   const errors: Partial<Record<FieldKey, string>> = {};
-  for (const field of FIELD_SPECS) {
+  for (const field of fieldsFor(fields, current)) {
     const error = fieldError(field, fields[field.key]);
     if (error !== null) errors[field.key] = error;
   }

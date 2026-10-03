@@ -1,0 +1,53 @@
+{
+  "kind": "one instantaneous observation, not duration or causal proof",
+  "vitest": [
+    {
+      "pid": "71890",
+      "ppid": "71872",
+      "cpuPercent": "0.0",
+      "rssKiB": "89056",
+      "elapsed": "02:08",
+      "command": "node /Users/stevewang/dev/StarShipSimulator-realism/node_modules/.bin/vitest run --coverage --testTimeout=120000"
+    },
+    {
+      "pid": "71940",
+      "ppid": "71890",
+      "cpuPercent": "95.6",
+      "rssKiB": "122720",
+      "elapsed": "00:58",
+      "command": "/Users/stevewang/.homebrew/Cellar/node/25.8.1/bin/node --experimental-import-meta-resolve --require /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/suppress-warnings.cjs --conditions node --conditions development /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/dist/workers/forks.js"
+    },
+    {
+      "pid": "71943",
+      "ppid": "71890",
+      "cpuPercent": "94.6",
+      "rssKiB": "85600",
+      "elapsed": "00:35",
+      "command": "/Users/stevewang/.homebrew/Cellar/node/25.8.1/bin/node --experimental-import-meta-resolve --require /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/suppress-warnings.cjs --conditions node --conditions development /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/dist/workers/forks.js"
+    },
+    {
+      "pid": "71944",
+      "ppid": "71890",
+      "cpuPercent": "94.9",
+      "rssKiB": "195120",
+      "elapsed": "00:32",
+      "command": "/Users/stevewang/.homebrew/Cellar/node/25.8.1/bin/node --experimental-import-meta-resolve --require /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/suppress-warnings.cjs --conditions node --conditions development /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/dist/workers/forks.js"
+    },
+    {
+      "pid": "72062",
+      "ppid": "71890",
+      "cpuPercent": "94.5",
+      "rssKiB": "106672",
+      "elapsed": "00:18",
+      "command": "/Users/stevewang/.homebrew/Cellar/node/25.8.1/bin/node --experimental-import-meta-resolve --require /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/suppress-warnings.cjs --conditions node --conditions development /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/dist/workers/forks.js"
+    },
+    {
+      "pid": "72117",
+      "ppid": "71890",
+      "cpuPercent": "102.4",
+      "rssKiB": "325296",
+      "elapsed": "00:04",
+      "command": "/Users/stevewang/.homebrew/Cellar/node/25.8.1/bin/node --experimental-import-meta-resolve --require /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/suppress-warnings.cjs --conditions node --conditions development /Users/stevewang/dev/StarShipSimulator-realism/node_modules/vitest/dist/workers/forks.js"
+    }
+  ]
+}

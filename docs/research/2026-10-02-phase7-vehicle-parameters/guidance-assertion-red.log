@@ -1,0 +1,126 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/proofs/ship-guidance.test.ts (8 tests | 6 failed) 28ms
+     × sizes tail-first drag with the selected axial area 4ms
+     × rejects a burn that would spend fuel below the selected dry mass 5ms
+     × projects fall range with the selected nose-on drag 1ms
+     × aligns on the selected moving engine arm 1ms
+     × aligns on the selected fin area and stations when engines are off 0ms
+     × commands throttle and fixed-nozzle vertical authority from the selected mounts 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/ship-guidance.test.ts > guidance uses selected physical geometry > sizes tail-first drag with the selected axial area
+AssertionError: expected 0.5739622586112956 to be 2.2958490344451823 // Object.is equality
+
+- Expected
++ Received
+
+- 2.2958490344451823
++ 0.5739622586112956
+
+ ❯ tests/proofs/ship-guidance.test.ts:20:83
+     18|     const scratch = guidance.createBurnScratch();
+     19|     const original = guidance.tailFirstDragDeceleration(1000, 100, 350…
+     20|     expect(guidance.tailFirstDragDeceleration(1000, 100, 350_000, scra…
+       |                                                                                   ^
+     21|   });
+     22|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |unit| tests/proofs/ship-guidance.test.ts > guidance uses selected physical geometry > rejects a burn that would spend fuel below the selected dry mass
+AssertionError: expected 3744.7410058481314 to be null
+
+- Expected:
+null
+
++ Received:
+3744.7410058481314
+
+ ❯ tests/proofs/ship-guidance.test.ts:26:114
+     24|     const heavyStructure = { ...SHIP, dryMass: 490_000 };
+     25|     expect(guidance.landingBurnStartAltitude(3, 500_000, 200, 50, guid…
+     26|     expect(guidance.landingBurnStartAltitude(3, 500_000, 200, 50, guid…
+       |                                                                                                                  ^
+     27|   });
+     28|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |unit| tests/proofs/ship-guidance.test.ts > guidance uses selected physical geometry > projects fall range with the selected nose-on drag
+AssertionError: expected 1816.3727682104486 to be less than 1816.3727682104486
+ ❯ tests/proofs/ship-guidance.test.ts:40:25
+     38|     expect(a.reached).toBe(true);
+     39|     expect(b.reached).toBe(true);
+     40|     expect(b.downRange).toBeLessThan(a.downRange);
+       |                         ^
+     41|   });
+     42|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  |unit| tests/proofs/ship-guidance.test.ts > guidance uses selected physical geometry > aligns on the selected moving engine arm
+AssertionError: expected 0.26282469740435765 to be 0.14323945213988062 // Object.is equality
+
+- Expected
++ Received
+
+- 0.14323945213988062
++ 0.26282469740435765
+
+ ❯ tests/proofs/ship-guidance.test.ts:52:42
+     50|     state.status.finActive = false;
+     51|     primitive.precisionAlignment(state, rad(0.3), 2, actuator);
+     52|     expect(state.autopilot.pitchControl).toBe((Math.asin(75_000 / 40 /…
+       |                                          ^
+     53|   });
+     54|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  |unit| tests/proofs/ship-guidance.test.ts > guidance uses selected physical geometry > aligns on the selected fin area and stations when engines are off
+AssertionError: expected 1.44332485345553 to be 7.7412241510884545 // Object.is equality
+
+- Expected
++ Received
+
+- 7.7412241510884545
++ 1.44332485345553
+
+ ❯ tests/proofs/ship-guidance.test.ts:66:42
+     64|     const torque = (0.5 * 1 * 70 ** 2 * 10 * 2) * Math.sin(C.finActuat…
+     65|       + (0.5 * 1 * 70 ** 2 * 5 * 2) * (40 - SHIP.aftFinStation);
+     66|     expect(state.autopilot.pitchControl).toBe(75_000 / torque * 100);
+       |                                          ^
+     67|   });
+     68|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  |unit| tests/proofs/ship-guidance.test.ts > guidance uses selected physical geometry > commands throttle and fixed-nozzle vertical authority from the selected mounts
+AssertionError: expected 74.48361903490954 to be 79.65350650758499 // Object.is equality
+
+- Expected
++ Received
+
+- 79.65350650758499
++ 74.48361903490954
+
+ ❯ tests/proofs/ship-guidance.test.ts:76:36
+     74|     state.atmosphere.airPressure = 101.325;
+     75|     primitive.controlEngineForAcceleration(state, 6, vac);
+     76|     expect(state.vehicle.throttle).toBe((6 * 280_000 / C.thrustPerRVac…
+       |                                    ^
+     77|     expect(primitive.getEffectiveVerticalMaxThrust([true], rad(Math.PI…
+     78|       .toBe(C.thrustPerRVacAt(101.325));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 2 passed (8)
+   Start at  16:16:04
+   Duration  224ms (transform 67ms, setup 0ms, import 82ms, tests 28ms, environment 0ms)
+

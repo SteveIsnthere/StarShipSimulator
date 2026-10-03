@@ -21,6 +21,7 @@ const EVERY_EVENT: ControlEvent[] = [
   { type: 'raptor', engine: 1 },
   { type: 'raptor', engine: 2 },
   { type: 'allRaptors' },
+  { type: 'engineGroup', group: 'centre' },
   { type: 'throttle', percent: 70 },
   { type: 'pitch', percent: 20 },
   { type: 'yokeGrab' },

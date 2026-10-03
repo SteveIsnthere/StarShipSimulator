@@ -36,7 +36,7 @@ import { AERO_TRAIL_FULL_Q, AERO_TRAIL_MIN_Q, SONIC_BOOM_MIN_Q } from '$view/eff
 import { AERO_FULL_Q, aeroLevel } from '$audio/params';
 import { MAX_Q_FLOOR_KPA } from '$hud/timeline';
 import type { SimState } from '$core/state';
-import { createScenarioState, getScenario } from '$core/scenarios';
+import { createScenarioVehicle, getScenario } from '$core/scenarios';
 import { fieldsFromPreset, fieldsToPreset } from '$app/menu';
 import { DT } from '$app/loop';
 import {
@@ -287,7 +287,10 @@ describe('the state the shake spec flies', () => {
   /** Exactly what pressing the preset and typing the fields produces. */
   function subject(fields: Readonly<Record<string, string>>): SimState {
     const edited = { ...fieldsFromPreset(BOOSTER_SEP), ...fields };
-    return createScenarioState(fieldsToPreset(edited, BOOSTER_SEP), 1);
+    const flight = createScenarioVehicle(fieldsToPreset(edited, BOOSTER_SEP), 1);
+    expect(flight.vehicle.id, 'the editor and Node guard must fly the same Ship').toBe('ship');
+    expect(flight.state.engines.running).toHaveLength(6);
+    return flight.state;
   }
 
   /** Attitude in degrees and Q in kPa, every quarter second of the window. */

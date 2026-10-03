@@ -13,6 +13,7 @@
  *   subject region, where before M11.5 the only warmth was the trail's dots.
  */
 import { expect, test } from '@playwright/test';
+import type { SimDebug } from '../../src/app/debug';
 import { byTestId } from '../../src/ui/testids';
 import { insetLayout } from '../../src/view/reentry';
 import { ready } from './helpers';
@@ -20,9 +21,12 @@ import { describeFrame, metrePixels, readFrame, type Region } from './pixels';
 
 type Page = import('@playwright/test').Page;
 
-async function preset(page: Page, id: string, settleMs: number): Promise<void> {
+async function preset(page: Page, id: string, settleMs: number, fields: Record<string, string> = {}): Promise<void> {
   await page.locator(byTestId('open-menu')).click();
   await page.locator(byTestId(`preset-${id}`)).click();
+  for (const [name, value] of Object.entries(fields)) {
+    await page.locator(byTestId(`field-${name}`)).fill(value);
+  }
   await page.locator(byTestId('menu-configure')).click();
   await expect(page.locator(byTestId('menu'))).toBeHidden();
   await page.waitForTimeout(settleMs);
@@ -49,10 +53,12 @@ test('the onboard inset shows the vehicle in its sheath, and only while it is ho
   page,
 }) => {
   test.setTimeout(120_000);
-  await page.goto('/', { waitUntil: 'load' });
+  await page.goto('/?debug=1', { waitUntil: 'load' });
   await ready(page);
 
   await preset(page, 'reentry', 1_500);
+  const hotBox = await page.locator(byTestId('world-canvas')).boundingBox();
+  expect(await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.presentation().bodies?.map(body => body.id))).toEqual(['starship']);
   const inset = await insetRegion(page);
   const hot = await readFrame(page, { regions: { inset, subject: SUBJECT }, map: { cols: 60, rows: 20 } });
   const scale = await metrePixels(page);
@@ -69,7 +75,10 @@ test('the onboard inset shows the vehicle in its sheath, and only while it is ho
   );
 
   // A cold flight: the same square is sky — no warmth, and no vehicle.
-  await preset(page, 'booster-sep', 1_200);
+  // Retain the original cold Ship subject after booster-sep became Super Heavy.
+  await preset(page, 'before-flip', 1_200, { altitude: '70000', xPosition: '45000', speedX: '1130', speedY: '1130', pitch: '45', propellant: '500', launchHour: '9.55' });
+  expect(await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.presentation().bodies?.map(body => body.id))).toEqual(['starship']);
+  expect(await page.locator(byTestId('world-canvas')).boundingBox()).toEqual(hotBox);
   const cold = await readFrame(page, { regions: { inset }, map: { cols: 60, rows: 20 } });
   const sky = cold.regions['inset']!;
   const coldMessage = describeFrame(cold, await metrePixels(page));

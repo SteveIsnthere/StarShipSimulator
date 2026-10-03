@@ -1,0 +1,47 @@
+[WebServer] (node:71294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 30 tests using 1 worker
+
+(node:71295) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (1.1s)
+  ✓   2 [chromium] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.4s)
+  ✓   3 [chromium] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (20.2s)
+  ✓   4 [chromium] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.0s)
+  ✓   5 [chromium] › tests/e2e/trajectory.spec.ts:201:1 › the map starts open where there is room (326ms)
+  ✓   6 [chromium] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (347ms)
+(node:71326) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [pixel-portrait] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (707ms)
+  ✓   8 [pixel-portrait] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.7s)
+  ✓   9 [pixel-portrait] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (20.3s)
+  ✓  10 [pixel-portrait] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.1s)
+  ✓  11 [pixel-portrait] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (347ms)
+  ✓  12 [pixel-portrait] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (430ms)
+(node:71347) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [pixel-landscape] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (768ms)
+  ✓  14 [pixel-landscape] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.5s)
+  ✓  15 [pixel-landscape] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (20.3s)
+  ✓  16 [pixel-landscape] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.0s)
+  ✓  17 [pixel-landscape] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (366ms)
+  ✓  18 [pixel-landscape] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (429ms)
+(node:71378) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [iphone-portrait] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (690ms)
+  ✓  20 [iphone-portrait] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.6s)
+  ✓  21 [iphone-portrait] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (20.3s)
+  ✓  22 [iphone-portrait] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.1s)
+  ✓  23 [iphone-portrait] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (349ms)
+  ✓  24 [iphone-portrait] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (432ms)
+(node:71448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  25 [iphone-landscape] › tests/e2e/cinematic.spec.ts:157:1 › the camera selector exists only in cinematic mode, and every mode is a button @mobile (751ms)
+  ✓  26 [iphone-landscape] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.5s)
+  ✓  27 [iphone-landscape] › tests/e2e/trajectory.spec.ts:73:1 › the map re-ranges as the flight grows @mobile (20.2s)
+  ✓  28 [iphone-landscape] › tests/e2e/trajectory.spec.ts:175:1 › a collapsed map is not drawn into @mobile (2.0s)
+  ✓  29 [iphone-landscape] › tests/e2e/trajectory.spec.ts:193:1 › the map starts folded where there is no room for it @mobile-only (370ms)
+  ✓  30 [iphone-landscape] › tests/e2e/trajectory.spec.ts:209:1 › the map says where the flight is going, not only where it has been @mobile (445ms)
+
+  30 passed (2.3m)

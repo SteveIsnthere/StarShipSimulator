@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/proofs/ship-engines.test.ts (4 tests | 2 failed) 160ms
+     × counts nozzle kinds from the selected mounts, not the six Ship slots 3ms
+     × keeps the model dry mass when the last fuel pays only a partial impulse 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/ship-engines.test.ts > engine arithmetic uses the supplied model > counts nozzle kinds from the selected mounts, not the six Ship slots
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/proofs/ship-engines.test.ts:28:70
+     26| describe('engine arithmetic uses the supplied model', () => {
+     27|   it('counts nozzle kinds from the selected mounts, not the six Ship s…
+     28|     expect(engine.getWorkingSeaLevelCount([true, false], alternate)).t…
+       |                                                                      ^
+     29|     expect(engine.getHealthySeaLevelCount([false, true], alternate)).t…
+     30|     expect(engine.getTotalMaxThrust([true, false], 0, alternate)).toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/proofs/ship-engines.test.ts > engine arithmetic uses the supplied model > keeps the model dry mass when the last fuel pays only a partial impulse
+AssertionError: expected 0.0014217391304347825 to be 0.0014728682170542637 // Object.is equality
+
+- Expected
++ Received
+
+- 0.0014728682170542637
++ 0.0014217391304347825
+
+ ❯ tests/proofs/ship-engines.test.ts:44:18
+     42|     state.vehicle.throttleCurrent = 100;
+     43|     const paid = engine.updatePropellant(state, 1, alternate);
+     44|     expect(paid).toBe(1 / C.RVAC_MASS_FLOW);
+       |                  ^
+     45|     expect(state.vehicle.propellantMass).toBe(0);
+     46|     expect(state.vehicle.vehicleMass).toBe(240_000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  16:02:32
+   Duration  333ms (transform 47ms, setup 0ms, import 62ms, tests 160ms, environment 0ms)
+

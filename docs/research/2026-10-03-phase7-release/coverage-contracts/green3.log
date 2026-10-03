@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-scheduling-boundaries.test.ts (8 tests | 1 failed) 10ms
+     × pays for interior work after a unsupported zero-burn diagnostic 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-scheduling-boundaries.test.ts > retained physical scheduling boundaries > pays for interior work after a unsupported zero-burn diagnostic
+TypeError: Cannot read properties of undefined (reading 'forecast')
+ ❯ tests/core/booster-scheduling-boundaries.test.ts:93:27
+     91|     expect(next.iterations).toBe(j.iterations + 1);
+     92|     if (reason === 'failed') expect(next.low).toBeUndefined();
+     93|     else expect(next.low!.forecast.handoff!.lateralFeasible).toBe(fals…
+       |                           ^
+     94|     noAuthority(s, before);
+     95|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 12 passed (13)
+   Start at  02:19:26
+   Duration  265ms (transform 267ms, setup 0ms, import 366ms, tests 17ms, environment 0ms)
+

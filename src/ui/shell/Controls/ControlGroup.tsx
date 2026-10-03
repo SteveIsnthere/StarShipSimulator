@@ -75,7 +75,7 @@ export function ControlGroup({
       className={
         phone
           ? 'absolute inset-x-0 overflow-y-auto overscroll-contain border-t border-ui-line bg-ui-surface px-4 pt-3 pb-2'
-          : `flight-panel ui-safe-margins absolute bottom-4 p-3 ${placement}`
+          : `flight-panel ui-safe-margins absolute bottom-4 max-h-[calc(100dvh-72px-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px))] overflow-y-auto overscroll-contain p-3 ${placement}`
       }
       style={phone ? { bottom: aboveTabBar(TAB_BAR_HEIGHT), height: SHEET_HEIGHT } : undefined}
     >

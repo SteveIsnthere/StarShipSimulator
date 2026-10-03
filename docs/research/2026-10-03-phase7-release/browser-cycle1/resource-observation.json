@@ -1,0 +1,120 @@
+{
+  "observedUtc": "2026-10-03T10:07:45Z",
+  "logicalCpus": 6,
+  "suiteWorkers": 3,
+  "processes": [
+    {
+      "pid": 65211,
+      "ppid": 65198,
+      "cpuPercent": 0.1,
+      "elapsed": "13:37",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 65881,
+      "ppid": 65880,
+      "cpuPercent": 0.6,
+      "elapsed": "03:49",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 65882,
+      "ppid": 65881,
+      "cpuPercent": 169.0,
+      "elapsed": "03:48",
+      "kind": "gpu"
+    },
+    {
+      "pid": 65883,
+      "ppid": 65881,
+      "cpuPercent": 0.0,
+      "elapsed": "03:48",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 65900,
+      "ppid": 65881,
+      "cpuPercent": 0.0,
+      "elapsed": "03:36",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 65902,
+      "ppid": 65901,
+      "cpuPercent": 17.5,
+      "elapsed": "03:35",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 65903,
+      "ppid": 65902,
+      "cpuPercent": 203.6,
+      "elapsed": "03:35",
+      "kind": "gpu"
+    },
+    {
+      "pid": 65904,
+      "ppid": 65902,
+      "cpuPercent": 0.0,
+      "elapsed": "03:35",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 65923,
+      "ppid": 65902,
+      "cpuPercent": 0.0,
+      "elapsed": "03:19",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 65971,
+      "ppid": 65968,
+      "cpuPercent": 0.0,
+      "elapsed": "02:10",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 65972,
+      "ppid": 65971,
+      "cpuPercent": 71.7,
+      "elapsed": "02:10",
+      "kind": "gpu"
+    },
+    {
+      "pid": 65973,
+      "ppid": 65971,
+      "cpuPercent": 0.0,
+      "elapsed": "02:10",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 65977,
+      "ppid": 65971,
+      "cpuPercent": 0.0,
+      "elapsed": "02:02",
+      "kind": "browser-or-test"
+    },
+    {
+      "pid": 66012,
+      "ppid": 65881,
+      "cpuPercent": 4.0,
+      "elapsed": "00:47",
+      "kind": "renderer"
+    },
+    {
+      "pid": 66048,
+      "ppid": 65902,
+      "cpuPercent": 2.6,
+      "elapsed": "00:06",
+      "kind": "renderer"
+    },
+    {
+      "pid": 66049,
+      "ppid": 65971,
+      "cpuPercent": 1.2,
+      "elapsed": "00:05",
+      "kind": "renderer"
+    }
+  ],
+  "limitation": "One instantaneous CPU observation; not an idle performance benchmark or proof of a timeout cause."
+}

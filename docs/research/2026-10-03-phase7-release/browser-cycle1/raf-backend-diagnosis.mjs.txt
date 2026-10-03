@@ -1,0 +1,44 @@
+import { chromium, devices } from '/Users/stevewang/dev/StarShipSimulator-realism/node_modules/playwright/index.mjs';
+import { spawn } from 'node:child_process';
+import { writeFile } from 'node:fs/promises';
+const root='/Users/stevewang/dev/StarShipSimulator-realism';
+const server=spawn(root+'/node_modules/.bin/vite',['preview','--host','127.0.0.1','--port','4190','--strictPort'],{cwd:root,stdio:'ignore'});
+const results=[];
+try {
+  for(let n=0;n<100;n++){try{if((await fetch('http://127.0.0.1:4190')).ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
+  for(const backend of ['swiftshader','metal']) {
+    const args=['--no-sandbox','--use-gl=angle','--use-angle='+backend,...(backend==='metal'?['--enable-gpu']:['--enable-unsafe-swiftshader'])];
+    const browser=await chromium.launch({headless:true,args});
+    try {
+      const system=await (await browser.newBrowserCDPSession()).send('SystemInfo.getInfo');
+      for(const profile of ['desktop','pixel-landscape']) {
+        const context=await browser.newContext(profile==='desktop'?devices['Desktop Chrome']:devices['Pixel 7 landscape']);
+        const page=await context.newPage();
+        await page.goto('http://127.0.0.1:4190/?debug=1');
+        await page.waitForFunction(()=>window.__simDebug&&document.querySelector('[data-testid="readout-altitude-value"]')?.textContent,{},{timeout:20000}).catch(async()=>{await page.waitForFunction(()=>window.__simDebug,{},{timeout:20000});});
+        const sample=await page.evaluate(async()=>{
+          const d=window.__simDebug;
+          d.setScenario('landing-burn',{altitude:120000,xPosition:30000,speedX:0,speedY:0,propellant:200});
+          d.setState({'engines.running[0]':true,'engines.running[1]':true,'engines.running[2]':true,'vehicle.throttleCurrent':100,'vehicle.throttle':100});
+          const frames=[];const start=performance.now();let handle=0;
+          d.resume();
+          const read=()=>({steps:Number(d.telemetry()['world.updatedFrameCount']),paused:d.paused,visibility:document.visibilityState});
+          const initial=read();
+          const final=await new Promise(resolve=>{
+            const tick=t=>{frames.push({ms:t-start,...read()});handle=requestAnimationFrame(tick);};
+            handle=requestAnimationFrame(tick);
+            setTimeout(()=>{cancelAnimationFrame(handle);resolve({ms:performance.now()-start,...read()});},5000);
+          });
+          d.pause();
+          const canvas=document.querySelector('[data-testid="world-canvas"]');
+          const gl=canvas.getContext('webgl2')??canvas.getContext('webgl');
+          const ext=gl?.getExtension('WEBGL_debug_renderer_info');
+          return {initial,final,frames,canvas:{width:canvas.width,height:canvas.height,css:canvas.getBoundingClientRect().toJSON()},renderer:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):null};
+        });
+        results.push({backend,profile,gpu:system.gpu,...sample});
+        console.log(backend,profile,JSON.stringify({initial:sample.initial,final:sample.final,renderer:sample.renderer,raf:sample.frames.length}));
+        await context.close();
+      }
+    } finally {await browser.close();}
+  }
+} finally {server.kill();await writeFile('/tmp/starship-phase7-raf-diagnosis.json',JSON.stringify(results,null,2));}

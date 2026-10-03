@@ -1,0 +1,15 @@
+{
+  "seconds": 324.06,
+  "budgetSeconds": 300,
+  "budgetMet": false,
+  "method": "completed /usr/bin/time -lp npm run gate",
+  "exitCode": 0,
+  "unitTests": 2270,
+  "files": 193,
+  "smokePasses": 13,
+  "subpathPasses": 5,
+  "unitSeconds": 80.23,
+  "coverageSeconds": 210.64,
+  "smokeSeconds": 19.0,
+  "subpathSeconds": 3.1
+}

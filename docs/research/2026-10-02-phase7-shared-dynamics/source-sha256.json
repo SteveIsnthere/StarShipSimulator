@@ -1,0 +1,8 @@
+{
+  "base": "00dc8b4",
+  "files": {
+    "src/core/step.ts": "8f6609714c86a0398e1fa11c71669abf25b0292e869cd5042574ef0ceae8234a",
+    "src/core/physics/step-dynamics.ts": "d984cc15d774605d25457c9927d85b0eab287e2fc72ae3cc59853319dc609c79",
+    "tests/proofs/step-dynamics.test.ts": "1924fbe773535b5f4ef9fbd14358f0d40cc99ce8ab46ff7272432523b356b9b5"
+  }
+}

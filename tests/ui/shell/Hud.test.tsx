@@ -191,9 +191,9 @@ describe('Hud with StatusBar', () => {
 
     act(() => session.startFlight(getScenario('booster-sep')!));
     const [track, resolve] = last();
-    expect(track).toEqual(trackFor('booster-sep'));
-    expect(count(metricSelector(eventMetricId('ENTRY')))).toBe(1);
-    expect(resolve(eventMetricId('ENTRY'))).toBe(document.querySelector(metricSelector(eventMetricId('ENTRY'))));
+    expect(track).toEqual(trackFor('booster-sep', 'super-heavy'));
+    expect(count(metricSelector(eventMetricId('CAUGHT')))).toBe(1);
+    expect(resolve(eventMetricId('CAUGHT'))).toBe(document.querySelector(metricSelector(eventMetricId('CAUGHT'))));
   });
 
   it('announces nothing per frame: one quiet status region for the numbers', () => {

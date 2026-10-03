@@ -1,0 +1,1408 @@
+{
+  "core/mission-free-flight.ts": {
+    "branches": [
+      {
+        "line": 49,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 49,
+            "column": 2
+          },
+          "end": {
+            "line": 50,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 50,
+          "column": 4
+        },
+        "end": {
+          "line": 50,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 85,
+          "column": 2
+        },
+        "end": {
+          "line": 85,
+          "column": null
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "advanceMissionMechanics",
+        "decl": {
+          "start": {
+            "line": 84,
+            "column": 16
+          },
+          "end": {
+            "line": 84,
+            "column": 40
+          }
+        },
+        "loc": {
+          "start": {
+            "line": 84,
+            "column": 136
+          },
+          "end": {
+            "line": 86,
+            "column": null
+          }
+        },
+        "line": 84
+      }
+    ]
+  },
+  "core/mission.ts": {
+    "branches": [
+      {
+        "line": 161,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      }
+    ],
+    "statements": [],
+    "functions": []
+  },
+  "core/autopilot/booster-utilities.ts": {
+    "branches": [
+      {
+        "line": 21,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "line": 27,
+        "arm": 1,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 27,
+            "column": 6
+          },
+          "end": {
+            "line": 29,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 28,
+        "arm": 0,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 28,
+            "column": 8
+          },
+          "end": {
+            "line": 28,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 29,
+        "arm": 1,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 29,
+            "column": 8
+          },
+          "end": {
+            "line": 29,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [],
+    "functions": []
+  },
+  "core/autopilot/booster.ts": {
+    "branches": [
+      {
+        "line": 84,
+        "arm": 1,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 84,
+            "column": 82
+          },
+          "end": {
+            "line": 84,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 101,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "line": 114,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "line": 118,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 118,
+            "column": 2
+          },
+          "end": {
+            "line": 126,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 118,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 118,
+            "column": 36
+          },
+          "end": {
+            "line": 118,
+            "column": 50
+          }
+        }
+      },
+      {
+        "line": 125,
+        "arm": 0,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 125,
+            "column": 8
+          },
+          "end": {
+            "line": 125,
+            "column": 60
+          }
+        }
+      },
+      {
+        "line": 125,
+        "arm": 1,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 125,
+            "column": 60
+          },
+          "end": {
+            "line": 125,
+            "column": 61
+          }
+        }
+      },
+      {
+        "line": 125,
+        "arm": 0,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 125,
+            "column": 16
+          },
+          "end": {
+            "line": 125,
+            "column": 39
+          }
+        }
+      },
+      {
+        "line": 125,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 125,
+            "column": 39
+          },
+          "end": {
+            "line": 125,
+            "column": 44
+          }
+        }
+      },
+      {
+        "line": 127,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 127,
+            "column": 85
+          },
+          "end": {
+            "line": 127,
+            "column": 90
+          }
+        }
+      },
+      {
+        "line": 131,
+        "arm": 0,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 131,
+            "column": 68
+          },
+          "end": {
+            "line": 131,
+            "column": 73
+          }
+        }
+      },
+      {
+        "line": 131,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 131,
+            "column": 7
+          },
+          "end": {
+            "line": 131,
+            "column": 68
+          }
+        }
+      },
+      {
+        "line": 131,
+        "arm": 0,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 131,
+            "column": 16
+          },
+          "end": {
+            "line": 131,
+            "column": 39
+          }
+        }
+      },
+      {
+        "line": 131,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 131,
+            "column": 39
+          },
+          "end": {
+            "line": 131,
+            "column": 47
+          }
+        }
+      },
+      {
+        "line": 187,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 187,
+            "column": 2
+          },
+          "end": {
+            "line": 190,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 187,
+        "arm": 2,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 187,
+            "column": 45
+          },
+          "end": {
+            "line": 187,
+            "column": 66
+          }
+        }
+      },
+      {
+        "line": 191,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 191,
+            "column": 2
+          },
+          "end": {
+            "line": 191,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 195,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 195,
+            "column": 2
+          },
+          "end": {
+            "line": 195,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 222,
+        "arm": 2,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 222,
+            "column": 74
+          },
+          "end": {
+            "line": 222,
+            "column": 81
+          }
+        }
+      },
+      {
+        "line": 245,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 245,
+            "column": 9
+          },
+          "end": {
+            "line": 245,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 254,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 254,
+            "column": 6
+          },
+          "end": {
+            "line": 255,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 277,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 277,
+            "column": 4
+          },
+          "end": {
+            "line": 277,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 121,
+          "column": 4
+        },
+        "end": {
+          "line": 121,
+          "column": 79
+        }
+      },
+      {
+        "start": {
+          "line": 121,
+          "column": 90
+        },
+        "end": {
+          "line": 121,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 122,
+          "column": 4
+        },
+        "end": {
+          "line": 122,
+          "column": 80
+        }
+      },
+      {
+        "start": {
+          "line": 122,
+          "column": 92
+        },
+        "end": {
+          "line": 122,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 123,
+          "column": 10
+        },
+        "end": {
+          "line": 123,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 124,
+          "column": 4
+        },
+        "end": {
+          "line": 125,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 188,
+          "column": 4
+        },
+        "end": {
+          "line": 188,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 189,
+          "column": 4
+        },
+        "end": {
+          "line": 189,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 191,
+          "column": 87
+        },
+        "end": {
+          "line": 191,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 195,
+          "column": 23
+        },
+        "end": {
+          "line": 195,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 245,
+          "column": 26
+        },
+        "end": {
+          "line": 245,
+          "column": 47
+        }
+      },
+      {
+        "start": {
+          "line": 245,
+          "column": 47
+        },
+        "end": {
+          "line": 245,
+          "column": 70
+        }
+      },
+      {
+        "start": {
+          "line": 255,
+          "column": 8
+        },
+        "end": {
+          "line": 255,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 277,
+          "column": 93
+        },
+        "end": {
+          "line": 277,
+          "column": null
+        }
+      }
+    ],
+    "functions": []
+  },
+  "core/autopilot/index.ts": {
+    "branches": [
+      {
+        "line": 105,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 105,
+            "column": 4
+          },
+          "end": {
+            "line": 105,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 447,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 447,
+            "column": 52
+          },
+          "end": {
+            "line": 447,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 105,
+          "column": 26
+        },
+        "end": {
+          "line": 105,
+          "column": null
+        }
+      }
+    ],
+    "functions": []
+  },
+  "core/control/actuation.ts": {
+    "branches": [],
+    "statements": [
+      {
+        "start": {
+          "line": 200,
+          "column": 2
+        },
+        "end": {
+          "line": 200,
+          "column": null
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "throttleControl",
+        "decl": {
+          "start": {
+            "line": 199,
+            "column": 16
+          },
+          "end": {
+            "line": 199,
+            "column": 32
+          }
+        },
+        "loc": {
+          "start": {
+            "line": 199,
+            "column": 79
+          },
+          "end": {
+            "line": 201,
+            "column": null
+          }
+        },
+        "line": 199
+      }
+    ]
+  },
+  "core/control/booster-forecast.ts": {
+    "branches": [
+      {
+        "line": 182,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 182,
+            "column": 2
+          },
+          "end": {
+            "line": 182,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 183,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 183,
+            "column": 2
+          },
+          "end": {
+            "line": 187,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 182,
+          "column": 40
+        },
+        "end": {
+          "line": 182,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 184,
+          "column": 4
+        },
+        "end": {
+          "line": 184,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 185,
+          "column": 4
+        },
+        "end": {
+          "line": 185,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 185,
+          "column": 14
+        },
+        "end": {
+          "line": 185,
+          "column": 16
+        }
+      },
+      {
+        "start": {
+          "line": 185,
+          "column": 56
+        },
+        "end": {
+          "line": 185,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 186,
+          "column": 4
+        },
+        "end": {
+          "line": 186,
+          "column": null
+        }
+      }
+    ],
+    "functions": []
+  },
+  "core/control/booster-prediction.ts": {
+    "branches": [
+      {
+        "line": 51,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 51,
+            "column": 117
+          },
+          "end": {
+            "line": 51,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 79,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "line": 81,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "line": 119,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "line": 133,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 133,
+            "column": 2
+          },
+          "end": {
+            "line": 133,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 133,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 133,
+            "column": 25
+          },
+          "end": {
+            "line": 133,
+            "column": 73
+          }
+        }
+      },
+      {
+        "line": 133,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "line": 136,
+        "arm": 0,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 136,
+            "column": 7
+          },
+          "end": {
+            "line": 136,
+            "column": 90
+          }
+        }
+      },
+      {
+        "line": 135,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 135,
+            "column": 42
+          },
+          "end": {
+            "line": 135,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 138,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 138,
+            "column": 4
+          },
+          "end": {
+            "line": 138,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 148,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 148,
+            "column": 2
+          },
+          "end": {
+            "line": 151,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 150,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 150,
+            "column": 4
+          },
+          "end": {
+            "line": 150,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 150,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 150,
+            "column": 55
+          },
+          "end": {
+            "line": 150,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 150,
+        "arm": 0,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 150,
+            "column": 7
+          },
+          "end": {
+            "line": 150,
+            "column": 23
+          }
+        }
+      },
+      {
+        "line": 150,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 150,
+            "column": 23
+          },
+          "end": {
+            "line": 150,
+            "column": 36
+          }
+        }
+      },
+      {
+        "line": 164,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "line": 166,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 133,
+          "column": 25
+        },
+        "end": {
+          "line": 133,
+          "column": 73
+        }
+      },
+      {
+        "start": {
+          "line": 133,
+          "column": 59
+        },
+        "end": {
+          "line": 133,
+          "column": 73
+        }
+      },
+      {
+        "start": {
+          "line": 133,
+          "column": 73
+        },
+        "end": {
+          "line": 133,
+          "column": 80
+        }
+      },
+      {
+        "start": {
+          "line": 138,
+          "column": 28
+        },
+        "end": {
+          "line": 138,
+          "column": 47
+        }
+      },
+      {
+        "start": {
+          "line": 149,
+          "column": 10
+        },
+        "end": {
+          "line": 149,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 150,
+          "column": 4
+        },
+        "end": {
+          "line": 150,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 150,
+          "column": 36
+        },
+        "end": {
+          "line": 150,
+          "column": 55
+        }
+      },
+      {
+        "start": {
+          "line": 150,
+          "column": 55
+        },
+        "end": {
+          "line": 150,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 171,
+          "column": 4
+        },
+        "end": {
+          "line": 171,
+          "column": 44
+        }
+      },
+      {
+        "start": {
+          "line": 171,
+          "column": 44
+        },
+        "end": {
+          "line": 171,
+          "column": null
+        }
+      }
+    ],
+    "functions": []
+  },
+  "core/control/booster-return-plan.ts": {
+    "branches": [
+      {
+        "line": 42,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 42,
+            "column": 2
+          },
+          "end": {
+            "line": 44,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 47,
+        "arm": 1,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 47,
+            "column": 102
+          },
+          "end": {
+            "line": 47,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 44,
+          "column": 63
+        },
+        "end": {
+          "line": 44,
+          "column": null
+        }
+      }
+    ],
+    "functions": []
+  },
+  "core/control/commands.ts": {
+    "branches": [
+      {
+        "line": 53,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 132,
+          "column": 2
+        },
+        "end": {
+          "line": 132,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 133,
+          "column": 2
+        },
+        "end": {
+          "line": 133,
+          "column": null
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "resetControls",
+        "decl": {
+          "start": {
+            "line": 131,
+            "column": 16
+          },
+          "end": {
+            "line": 131,
+            "column": 30
+          }
+        },
+        "loc": {
+          "start": {
+            "line": 131,
+            "column": 53
+          },
+          "end": {
+            "line": 134,
+            "column": null
+          }
+        },
+        "line": 131
+      }
+    ]
+  },
+  "core/control/guidance-physics.ts": {
+    "branches": [
+      {
+        "line": 300,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 300,
+            "column": 6
+          },
+          "end": {
+            "line": 300,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 303,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 303,
+            "column": 4
+          },
+          "end": {
+            "line": 303,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 357,
+        "arm": 1,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 357,
+            "column": 37
+          },
+          "end": {
+            "line": 357,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 358,
+        "arm": 1,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 358,
+            "column": 26
+          },
+          "end": {
+            "line": 358,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 381,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 300,
+          "column": 23
+        },
+        "end": {
+          "line": 300,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 303,
+          "column": 40
+        },
+        "end": {
+          "line": 303,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 307,
+          "column": 2
+        },
+        "end": {
+          "line": 307,
+          "column": null
+        }
+      }
+    ],
+    "functions": []
+  },
+  "core/control/primitives.ts": {
+    "branches": [
+      {
+        "line": 245,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 245,
+            "column": 11
+          },
+          "end": {
+            "line": 247,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 246,
+          "column": 6
+        },
+        "end": {
+          "line": 246,
+          "column": null
+        }
+      }
+    ],
+    "functions": []
+  },
+  "core/physics/engines.ts": {
+    "branches": [
+      {
+        "line": 310,
+        "arm": 1,
+        "type": "cond-expr",
+        "location": {
+          "start": {
+            "line": 310,
+            "column": 72
+          },
+          "end": {
+            "line": 310,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [],
+    "functions": []
+  },
+  "core/physics/step-dynamics.ts": {
+    "branches": [
+      {
+        "line": 102,
+        "arm": 2,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 102,
+            "column": 67
+          },
+          "end": {
+            "line": 102,
+            "column": 91
+          }
+        }
+      }
+    ],
+    "statements": [],
+    "functions": []
+  }
+}

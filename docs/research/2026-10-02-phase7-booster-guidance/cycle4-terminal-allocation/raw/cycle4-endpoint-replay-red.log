@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-prediction.test.ts (17 tests | 1 failed | 16 skipped) 7ms
+     × fine-validates a retained physical bracket endpoint when no new live tick exists 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > fine-validates a retained physical bracket endpoint when no new live tick exists
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/booster-prediction.test.ts:76:23
+     74|     advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy…
+     75|     const next=s.autopilot.boosterPrediction!;
+     76|     expect(next.done).toBe(false);expect(next.stage).toBe('validate');
+       |                       ^
+     77|     expect(next.selected).toEqual(j.low);expect(next.rollout.state).to…
+     78|     expect(next.rollout.state).not.toBe(ready);expect(next.iterations)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 skipped (17)
+   Start at  21:45:20
+   Duration  242ms (transform 107ms, setup 0ms, import 132ms, tests 7ms, environment 0ms)
+

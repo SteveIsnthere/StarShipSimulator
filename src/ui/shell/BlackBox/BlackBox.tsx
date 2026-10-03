@@ -38,6 +38,7 @@ export function BlackBox() {
   const session = useSession();
   const open = useSessionState((s) => s.layer === 'blackBox');
   const preset = useSessionState((s) => s.preset);
+  const selectedVehicle = useSessionState(s => s.selectedVehicle);
 
   // The flight is paused while a layer is open, so a snapshot on open is the
   // flight as it stands; built once per open, never per frame.
@@ -50,7 +51,7 @@ export function BlackBox() {
       events: [...session.timeline.events],
       end: view.length > 0 ? view.time[view.length - 1]! : null,
     };
-  }, [open, session]);
+  }, [open, session, selectedVehicle]);
 
   const [host, setHost] = useState<HTMLDivElement | null>(null);
   const [drawn, setDrawn] = useState<{ flight: Flight; error?: string } | null>(null);
@@ -138,7 +139,7 @@ export function BlackBox() {
         <div className="min-w-0 flex-1">
           <DialogPrimitive.Title className="m-0 font-tight text-[16px] font-semibold text-ui-fg">Black box</DialogPrimitive.Title>
           <DialogPrimitive.Description className="m-0 mt-0.5 truncate text-[12px] text-ui-muted">
-            {preset.name}
+            {preset.name}{preset.id === 'hot-stage' ? ` · ${selectedVehicle === 'ship' ? 'Ship' : 'Super Heavy'}` : ''}
             {flight && flight.end !== null && (
               <>
                 {' · '}

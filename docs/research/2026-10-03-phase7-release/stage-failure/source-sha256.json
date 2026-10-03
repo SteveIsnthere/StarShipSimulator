@@ -1,0 +1,6 @@
+{
+  "src/core/mission.ts": "a6cbb167363b89295e05d06dadeac811f13340537374efc95fc027e349496ced",
+  "tests/core/hot-staging.test.ts": "28f8e0dfb633a10ce9dfb70fed564b9f11dd995a7a2e89bf683633f5e65aa5ae",
+  "tests/ui/mission-session.test.ts": "590c4fde9b391f4ef00187078b220125cd2c260cd936cecc8a895a7bfa29858e",
+  "tests/ui/session.test.ts": "025194a371cdeba96c0f0066b2985e7fd627cb909ce3fdd733943f40d36c7a0b"
+}

@@ -13,22 +13,25 @@
  * outcomes are the ones actually observed, written down.
  */
 import { describe, expect, it } from 'vitest';
-import { ALL_SCENARIOS, createIntroState, createScenarioState } from '$core/scenarios';
+import { ALL_SCENARIOS, createIntroState, createScenarioState, createScenarioVehicle } from '$core/scenarios';
 import { step } from '$core/step';
 import { DT } from '$app/loop';
 import { toggleAutoLand } from '$core/control/commands';
 import type { SimState } from '$core/state';
+import { SHIP,type VehicleDefinition } from '$core/vehicle';
+import { CATCH } from '$core/vehicles/super-heavy';
+import { createCatchPose,writeCatchPose } from '$core/physics/tower-catch';
 import * as C from '$core/constants';
 
 type Outcome = 'landed' | 'crashed' | 'brokeUp' | 'flying';
 
 /** Fly until something definite happens, or the clock runs out. */
-function fly(initial: SimState, maxSeconds: number): { outcome: Outcome; seconds: number; state: SimState } {
+function fly(initial: SimState, maxSeconds: number, model:VehicleDefinition=SHIP): { outcome: Outcome; seconds: number; state: SimState } {
   let s = initial;
   const steps = Math.round(maxSeconds / DT);
 
   for (let i = 0; i < steps; i++) {
-    s = step(s, DT);
+    s = step(s, DT,{},model);
     if (s.status.landed) return { outcome: 'landed', seconds: i * DT, state: s };
     if (s.failures.crashed) return { outcome: 'crashed', seconds: i * DT, state: s };
     if (s.failures.inFlightBreakUp) return { outcome: 'brokeUp', seconds: i * DT, state: s };
@@ -71,7 +74,8 @@ function assertFinite(state: SimState, label: string): void {
 describe('every scenario runs to a definite outcome', () => {
   for (const preset of ALL_SCENARIOS) {
     it(`${preset.id} flies`, () => {
-      const { outcome, seconds, state } = fly(createScenarioState(preset), 600);
+      const flight=createScenarioVehicle(preset);
+      const { outcome, seconds, state } = fly(flight.state, 600,flight.vehicle);
       assertFinite(state, preset.id);
 
       // Something happened: it moved, and it did not sit exactly where it began.
@@ -105,13 +109,24 @@ describe('the autopilot flies the ones it is meant to', () => {
   for (const { id, expected } of AUTO_LAND) {
     it(`${id}: auto-land ${expected}`, () => {
       const preset = ALL_SCENARIOS.find((p) => p.id === id)!;
-      const state = createScenarioState(preset);
+      const flight=createScenarioVehicle(preset),state=flight.state;
       toggleAutoLand(state);
 
-      const result = fly(state, 900);
+      const result = fly(state, 900,flight.vehicle);
       assertFinite(result.state, id);
 
       expect(result.outcome, `${id} after ${result.seconds.toFixed(1)} s`).toBe(expected);
+      if(flight.vehicle.id==='super-heavy') {
+        expect(result.state.status.onTheGround,id).toBe(false);
+        expect(Object.values(result.state.failures).some(Boolean),id).toBe(false);
+        expect(result.state.vehicle.propellantMass,id).toBeGreaterThan(0);
+        const lug=createCatchPose();writeCatchPose(result.state,flight.vehicle,lug);
+        expect(lug.altitude,id).toBe(CATCH.planeAltitude);
+        expect(Math.abs(lug.x-C.starBaseXPos),id).toBeLessThanOrEqual(CATCH.halfWidth);
+        expect(Math.abs(result.state.kinematics.pitch),id).toBeLessThanOrEqual(CATCH.maxPitch);
+        expect(result.state.kinematics.speedX,id).toBe(0);
+        expect(result.state.kinematics.speedY,id).toBe(0);
+      }
       if (expected === 'landed') {
         // Landed means landed, not "stopped moving": within the touchdown limits.
         expect(Math.abs(result.state.kinematics.speedY), id).toBeLessThan(10);

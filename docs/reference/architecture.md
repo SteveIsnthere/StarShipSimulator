@@ -183,3 +183,9 @@ visitors.
 ```bash
 gh api -X PUT repos/SteveIsnthere/StarShipSimulator/pages -f build_type=legacy -f 'source[branch]=classic' -f 'source[path]=/'
 ```
+
+## Shared mechanics and mission clock
+
+`core/physics/step-dynamics.ts` owns paid force preparation, shared translation/angular Verlet kernels and torque/failure evaluation. `core/control/mechanical.ts` owns the shared command/actuator/failure/catch/bookkeeping completion. `core/step.ts` composes these for standalone selected vehicles and nonrecursive booster forecasts; existing Ship arithmetic and every golden stay unchanged. `core/mission.ts` combines two real bodies at a physical aggregate COM while attached, releases without a kick when actual thrust permits, then delegates each free body to step. Workspaces belong to a body, preventing cross-body preparation overwrite.
+
+`app/loop.ts` retains one generic fixed-step accumulator policy; the existing single-vehicle API and `app/mission-loop.ts` adapt it with their state/command types. No second RAF, frame-scaled physics timestep or presentation model id enters SimState. The session owns selected-body commands and configuration, per-body histories and recorder watches, and one shared mission clock. Rendering consumes both actual body poses; selected-model HUD bindings reattach when selection changes. Each body owns its history-backed debrief. Escape/outside dismissal clears the selected ending through the same session command as the debrief button, so a later frame cannot restore it. The roadmap records release status.

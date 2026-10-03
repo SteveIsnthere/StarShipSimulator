@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (23 tests | 1 failed | 22 skipped) 5ms
+     × keeps every canonical live-tick duration idempotent at floating-point boundaries 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > keeps every canonical live-tick duration idempotent at floating-point boundaries
+AssertionError: 31: expected 0.26666666666666666 to be 0.25833333333333336 // Object.is equality
+
+- Expected
++ Received
+
+- 0.25833333333333336
++ 0.26666666666666666
+
+ ❯ tests/core/booster-forecast.test.ts:16:69
+     14|     for(let ticks=1;ticks<=10000;ticks++) {
+     15|       const duration=ticks/120;
+     16|       expect(executableBoosterBurnDuration(duration),String(ticks)).to…
+       |                                                                     ^
+     17|     }
+     18|     expect(executableBoosterBurnDuration(.013)).toBe(2/120);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 22 skipped (23)
+   Start at  21:28:18
+   Duration  235ms (transform 105ms, setup 0ms, import 128ms, tests 5ms, environment 0ms)
+

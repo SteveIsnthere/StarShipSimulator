@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest run",
-    "coverage": "vitest run --coverage --testTimeout=120000",
+    "coverage": "vitest run --coverage --testTimeout=120000 --reporter=default --reporter=json --outputFile.json=coverage/test-results.json",
     "gate": "npm run lint && npm run build && npm run test && npm run coverage && E2E_SKIP_BUILD=1 npm run test:e2e && E2E_SKIP_BUILD=1 npm run test:deploy",
     "test:watch": "vitest",
     "test:e2e": "playwright test --project=chromium --grep @smoke",

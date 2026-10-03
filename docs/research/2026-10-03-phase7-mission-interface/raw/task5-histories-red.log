@@ -1,0 +1,27 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/ui/session.test.ts (9 tests | 1 failed) 11ms
+     × keeps separate selected-body histories while both hot-stage bodies advance 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/session.test.ts > flights > keeps separate selected-body histories while both hot-stage bodies advance
+TypeError: session.startHotStage is not a function
+ ❯ tests/ui/session.test.ts:19:13
+     17|   it('keeps separate selected-body histories while both hot-stage bodi…
+     18|     const session = createSession();
+     19|     session.startHotStage();
+       |             ^
+     20|     const shipRecorder = session.recorder;
+     21|     const shipTimeline = session.timeline;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  23:47:03
+   Duration  1.19s (transform 255ms, setup 0ms, import 517ms, tests 11ms, environment 559ms)
+

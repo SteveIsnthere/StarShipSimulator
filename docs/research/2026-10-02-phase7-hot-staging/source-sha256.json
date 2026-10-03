@@ -1,0 +1,13 @@
+{
+  "base": "413b42c",
+  "files": {
+    "src/app/loop.ts": "51a362d3051620da175320041e782d313e4b6f1d965aaec600508cc77ae62c66",
+    "src/app/mission-loop.ts": "554494dfbf5d328b04166ef0ddd0dbb3aba6d7b774fef7764038682619b44907",
+    "src/core/control/mechanical.ts": "c78edb9cc969c2f4d2f69272381634683cf351fccccd05ba7a80393c43ff967f",
+    "src/core/mission.ts": "a89aea90d455f81559d23dae371afef86d917b819e11b54d98b9492009212aea",
+    "src/core/physics/step-dynamics.ts": "ad8bd90e6ba91250006624a4c6e772b3380c162b04a68fbae84233cbdbb08f37",
+    "src/core/step.ts": "9d0f637b2fb43682ecb5f03f499fb6de0fe56d69520b2ad8c93fe5e591a459c7",
+    "tests/app/mission-loop.test.ts": "96ed150783baee5a37b4fc6994e6eaaeb93a9a8c60f494cc4e42f6c062d33ae7",
+    "tests/core/hot-staging.test.ts": "b4ed3a7dbdef0678d43a231fe5719b22a1622ee2468a8bc0d41704b149bc4218"
+  }
+}

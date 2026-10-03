@@ -1,5 +1,12 @@
 import { configDefaults, defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
+import { availableParallelism } from 'node:os';
+// @ts-expect-error -- plain-JS gate helper, intentionally untyped
+import { kitCoverageExclusions } from './scripts/coverage-kit-exclusions.mjs';
+
+// Full unit execution is unchanged. Any changed kit/configuration input
+// restores every kit root to coverage; new roots are included by default.
+const coverageKitRoots: string[] = process.argv.includes('--coverage') ? kitCoverageExclusions() : [];
 
 export default defineConfig({
   resolve: {
@@ -14,6 +21,10 @@ export default defineConfig({
     },
   },
   test: {
+    // Bounded Mac batch runs can use the sixth core. Watch and Linux retain
+    // their defaults; forks and per-file isolation remain unchanged.
+    ...(process.platform === 'darwin' && process.argv.includes('run')
+      ? { maxWorkers: Math.min(6, availableParallelism()) } : {}),
     // core/ must run in plain Node with no browser. Keeping the default
     // environment enforces that: a DOM leak into core/ fails here, not in review.
     environment: 'node',
@@ -37,7 +48,7 @@ export default defineConfig({
           // tests through the global afterEach.
           globals: true,
           include: ['src/ui/kit/**/*.test.ts', 'src/ui/kit/**/*.test.tsx'],
-          exclude: [...configDefaults.exclude],
+          exclude: [...configDefaults.exclude, ...coverageKitRoots],
           setupFiles: ['tests/setup-dom.ts'],
         },
       },

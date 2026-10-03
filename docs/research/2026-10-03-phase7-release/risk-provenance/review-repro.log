@@ -1,0 +1,11 @@
+source 85a302db1237c9e71e3294fa3ba969c98edfc589
+pending preference change retains old source { live: true, origin: false }
+actual stale-source publication {"time":12.783333333333248,"live":true,"origin":false,"plan":{"originTime":0.008333333333333333,"shutdownAt":13.641666666666532,"coastPitch":0,"handoff":{"x":89.63081263750792,"height":3412.6336450803456,"vx":-4.229139731968314,"vy":-288.4184615163336,"time":24.473907995243632,"lateralFeasible":true}},"failedEngineIndices":[8]}
+accepted plan survives subsequent preference change true
+positive control: manual event clears authority and next origin matches live true
+positive control: explicit invalidation after toggle takes new policy source true
+negative control: unchanged policy safely retains origin true
+unselected mission booster also retains old policy source true
+(node:63611) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63611) Warning: `--localstorage-file` was provided without a valid path

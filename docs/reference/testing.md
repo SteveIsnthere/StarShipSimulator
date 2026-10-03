@@ -6,8 +6,8 @@ How the test harness in the repo root works. Commands run from the repo root.
 |---|---|
 | `npm run lint` | ESLint, including the seven walls |
 | `npm run build` | `tsc` (also type-checks `tests/`), the design/copy/entry-graph scanners, `vite build`, service worker, bundle budget |
-| `npm run test` | `vitest run`, every `tests/**/*.test.ts` in the `node` environment, 30 s per-test timeout |
-| `npm run coverage` | the same suite with v8 coverage and the floors below, 120 s per-test timeout |
+| `npm run test` | `vitest run`, complete Node and kit jsdom projects, 30 s per-test timeout |
+| `npm run coverage` | the complete suite with v8 coverage and the floors below, 120 s per-test timeout |
 | `npm run test:e2e` | Playwright smoke tier: `@smoke` specs on the desktop `chromium` project, against the production build |
 | `npm run test:e2e:full` | Playwright, all five projects, every spec |
 | `npm run test:deploy` | Playwright, subpath deploy config |
@@ -17,6 +17,17 @@ How the test harness in the repo root works. Commands run from the repo root.
 
 Build before test: `tests/offline.test.ts` reads `dist/` as its fixture, so on a clean
 checkout `npm run test` without a prior build fails on ENOENT.
+
+On Darwin, noninteractive Vitest batch runs use at most six available workers;
+watch mode and Linux keep Vitest's defaults. The default fork pool and per-file
+isolation remain intact. Coverage also writes per-test timing JSON to
+`coverage/test-results.json`. Its only additional omissions are the 29 audited
+core-free kit roots in `tests/coverage-kit.json`. The complete unit stage still
+runs them. `scripts/coverage-kit-exclusions.mjs` seals the entire kit tree,
+including added filenames, configuration, setup closure, package files and the
+helper itself. Any changed/missing input or symlink restores complete coverage.
+New roots stay included; renew the seal only after auditing the changed closure.
+This avoids a custom import resolver and never excludes a directory glob.
 
 ## Where the suite runs
 

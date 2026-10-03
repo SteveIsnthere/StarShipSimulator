@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/super-heavy.test.ts (6 tests | 2 failed) 9ms
+     × sums all33 engines and only the13 steerable engines supply gimbal authority 3ms
+     × pays for the last impulse and never lets an outer ring steer as a gimballed engine 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > sums all33 engines and only the13 steerable engines supply gimbal authority
+AssertionError: expected 74432473.5 to be 74432490 // Object.is equality
+
+- Expected
++ Received
+
+- 74432490
++ 74432473.5
+
+ ❯ tests/core/super-heavy.test.ts:50:56
+     48|   it('sums all33 engines and only the13 steerable engines supply gimba…
+     49|     const all=flags(Array.from({length:33},(_,i)=>i));
+     50|     expect(getTotalMaxThrust(all,101.325,SUPER_HEAVY)).toBe(33*2255530…
+       |                                                        ^
+     51|     expect(getFuelFlowRate(all,100,SUPER_HEAVY)).toBe(33*C.maxFuelFlow…
+     52|     expect(gimballedShare(all,0,SUPER_HEAVY)).toBe(13/33);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > pays for the last impulse and never lets an outer ring steer as a gimballed engine
+AssertionError: expected 100388.44710499444 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 100388.44710499444
+
+ ❯ tests/core/super-heavy.test.ts:83:43
+     81|     expect(next.vehicle.propellantMass).toBe(0);
+     82|     expect(next.forces.thrust).toBeCloseTo(C.thrustPerRaptorAt(next.at…
+     83|     expect(next.forces.thrustVectorForce).toBe(0);
+       |                                           ^
+     84|     expect(next.kinematics.speedX).toBe(0);
+     85|     expect(next.vehicle.vehicleMass).toBe(200000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 7 passed (9)
+   Start at  16:27:42
+   Duration  280ms (transform 122ms, setup 0ms, import 164ms, tests 11ms, environment 0ms)
+

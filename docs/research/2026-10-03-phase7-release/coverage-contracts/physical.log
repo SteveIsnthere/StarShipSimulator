@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/super-heavy.test.ts (10 tests | 1 failed) 12ms
+     × keeps a fixed RVac mount torque independent of gimbal at 101.325 kPa 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > keeps a fixed RVac mount torque independent of gimbal at 101.325 kPa
+AssertionError: expected 2530962.023383147 to be 2530962.0233831475 // Object.is equality
+
+- Expected
++ Received
+
+- 2530962.0233831475
++ 2530962.023383147
+
+ ❯ tests/core/super-heavy.test.ts:54:96
+     52|     const expected = 3 * C.thrustPerRVacAt(pressure) * .4;
+     53|     for (const gimbal of [-15, 0, 15])
+     54|       expect(getOffAxisThrustTorque(running, 40, pressure, rad(gimbal …
+       |                                                                                                ^
+     55|     running[3] = false;
+     56|     expect(getOffAxisThrustTorque(running, 40, pressure, rad(.1), SHIP…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 27 passed (28)
+   Start at  02:01:01
+   Duration  328ms (transform 292ms, setup 0ms, import 405ms, tests 84ms, environment 0ms)
+

@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/hot-staging.test.ts (9 tests | 1 failed) 25ms
+     × applies a real off-axis engine torque about the combined inertia, rather than each hull rotating alone 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > applies a real off-axis engine torque about the combined inertia, rather than each hull rotating alone
+AssertionError: expected 2.619089525097467e-176 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 2.619089525097467e-176
+
+ ❯ tests/core/hot-staging.test.ts:88:79
+     86|     expect(m.ship.kinematics.angularVelocity).toBe(m.booster.kinematic…
+     87|     initial.booster.engines.running[1] = false;
+     88|     expect(stepMission(initial, DT).aggregate.kinematics.angularAccele…
+       |                                                                               ^
+     89|   });
+     90|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  23:09:17
+   Duration  281ms (transform 123ms, setup 0ms, import 148ms, tests 25ms, environment 0ms)
+

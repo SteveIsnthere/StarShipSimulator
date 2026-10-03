@@ -15,10 +15,14 @@
  *   - No methods. State is data; behaviour lives in step.ts and physics/.
  */
 import * as C from './constants';
+import { SHIP, type VehicleDefinition } from './vehicle';
 import { updateVehicleInFlightMaxArea } from './physics/aero';
+import { momentOfInertia } from './physics/mass';
 import { circularOrbitalSpeed } from './physics/gravity';
 import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
+import type { BoosterPrediction } from './control/booster-prediction';
+import type { BoosterReturnPlan } from './control/booster-return-plan';
 
 /**
  * Which Raptor a field refers to: an index into `C.RAPTORS`, and into every
@@ -108,7 +112,7 @@ export interface KinematicsState {
    * gate device-dependent. M2.4 makes it dpitch/dt.
    */
   pitchRateOfChange: number;
-  /** rad — the last two pitch samples, newest last. Seeded with Infinity. */
+  /** rad — the last two pitch samples, newest last. Ship retains its legacy Infinity seed; booster starts at its actual pitch. */
   pitchRecord: [number, number];
 
   /** rad/s. */
@@ -346,6 +350,37 @@ export interface FailureState {
 }
 
 export interface AutopilotState {
+  /** Booster-only physical control state; absent on Ship to retain its shape. */
+  boosterPhase?: 'align-boost' | 'boostback' | 'coast' | 'entry' | 'terminal';
+  /** One-way descent handoff; retain the paid centre engines into terminal. */
+  boosterEntryCentreOnly?: boolean;
+  /** s — predictor cadence, advanced by simulated dt. */
+  boosterPredictorCountdown?: number;
+  /** m — predicted unpowered return error at the catch plane. */
+  boosterRangeError?: number;
+  /** s — predicted coast time to the catch plane. */
+  boosterFallTime?: number;
+  /** rad — coast correction derived from the shared range predictor. */
+  boosterCoastPitch?: Rad;
+  /** % — independent grid-fin deflection, -100..100. */
+  boosterFinControl?: number | undefined;
+  /** s — remaining finite terminal-arrival deadline; never reset by stopping. */
+  boosterArrivalTime?: number;
+  /** Whether the latest planned mechanical return reached the lug plane. */
+  boosterForecastReached?: boolean;
+  /** Deterministic in-progress mechanical prediction; absent on Ship. Inner
+   * snapshots contain no job and are immutable until resumed into owned state. */
+  boosterPrediction?: BoosterPrediction;
+  /** Source-pinned future shutdown/coast plan, accepted by physical replay. */
+  boosterReturnPlan?: BoosterReturnPlan;
+  /** An invalid/expired terminal attempt cannot become indefinite hover. */
+  boosterTerminalMissed?: boolean;
+  /** s — first physical central-engine ignition command in terminal approach. */
+  boosterTerminalIgnitionTime?: number;
+  /** Owned future-only stop before terminal guidance at paid engine readiness. */
+  boosterForecastHandoff?: boolean;
+  /** Forecast-only finite continuing-boost command, never set on live flight. */
+  boosterForecastBurn?: boolean;
   manualControlOn: boolean;
   /** % — pitch command, -100..100. In 2021 this was read from a DOM slider
    * every frame (updateBackEnd.js:201); in v2 it arrives through the input arg. */
@@ -491,9 +526,10 @@ export const DEFAULT_SEED = 0x5741_4c4b;
  * the HUD reads 1 g), so the spawn state starts there too rather than logging a
  * free-fall reading for one row.
  */
-export function createInitialState(seed = DEFAULT_SEED): SimState {
-  const altitude = C.vehicleHeight / 2;
+export function createInitialState(seed = DEFAULT_SEED, model: VehicleDefinition = SHIP): SimState {
+  const altitude = model.height / 2;
   const distanceToPlanetCenter = C.planetRadius + altitude;
+  const spawnMass = model.dryMass + model.initialPropellant;
 
   return {
     rng: createRng(seed),
@@ -534,7 +570,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
 
       pitch: rad(0),
       pitchRateOfChange: 0,
-      pitchRecord: [Infinity, Infinity],
+      pitchRecord: model.gridFins ? [0, 0] : [Infinity, Infinity],
 
       angularVelocity: 0,
       angularAcceleration: 0,
@@ -579,9 +615,9 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       // and sin(0) = 0, so both forms agreed and the defect was latent - it
       // only bites a state that starts with fins deployed, which is exactly
       // what the flight editor (M4.4) and any save/restore produce.
-      frontFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0)
+      frontFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0, model)
         .frontFinEffectiveAreaFraction,
-      aftFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0).aftFinEffectiveAreaFraction,
+      aftFinEffectiveAreaFraction: updateVehicleInFlightMaxArea(0, 0, model).aftFinEffectiveAreaFraction,
 
       thermalPower: 0,
       surfaceTemperature: 0,
@@ -593,10 +629,12 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
     },
 
     vehicle: {
-      vehicleMass: C.vehicleMass,
-      propellantMass: C.propellantMass,
-      vehicleMomentOfInertia: C.vehicleMomentOfInertia,
-      vehicleInFlightMaxArea: C.vehicleInFlightMaxArea,
+      vehicleMass: spawnMass,
+      propellantMass: model.initialPropellant,
+      vehicleMomentOfInertia:
+        model.gridFins ? momentOfInertia(model.initialPropellant, model) :
+          spawnMass * (model.diameter / 2) ** 2 * 0.25 + (spawnMass * model.height ** 2) / 12,
+      vehicleInFlightMaxArea: model.maxArea,
 
       throttle: 100,
       throttleCurrent: 100,
@@ -604,16 +642,16 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
       gimbalPosition: 0,
       gimbalPointingDirection: rad(0),
 
-      frontFinExtension: 0,
-      aftFinExtension: 0,
+      frontFinExtension: model.gridFins ? 50 : 0,
+      aftFinExtension: model.gridFins ? 50 : 0,
 
       rcsRunTimeRemaining: C.rcsRunTimeRemaining,
     },
 
     engines: {
-      running: C.RAPTORS.map(() => false),
-      failed: C.RAPTORS.map(() => false),
-      ignitionCountdown: C.RAPTORS.map(() => null),
+      running: model.engines.map(() => false),
+      failed: model.engines.map(() => false),
+      ignitionCountdown: model.engines.map(() => null),
     },
 
     status: {
@@ -755,10 +793,11 @@ export function cloneState(s: SimState): SimState {
  * Exists because M2.3 was precisely the failure of construction and simulation
  * to agree on what these fields mean.
  */
-export function syncDerivedFields(s: SimState): void {
+export function syncDerivedFields(s: SimState, model: VehicleDefinition = SHIP): void {
   const fins = updateVehicleInFlightMaxArea(
     s.vehicle.frontFinExtension,
     s.vehicle.aftFinExtension,
+    model,
   );
   s.forces.frontFinEffectiveAreaFraction = fins.frontFinEffectiveAreaFraction;
   s.forces.aftFinEffectiveAreaFraction = fins.aftFinEffectiveAreaFraction;

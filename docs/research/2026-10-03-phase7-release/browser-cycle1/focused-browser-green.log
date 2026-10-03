@@ -1,0 +1,52 @@
+[WebServer] (node:69871) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 35 tests using 1 worker
+
+(node:69878) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (20.6s)
+  ✓   2 [chromium] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (9.0s)
+  ✓   3 [chromium] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.3s)
+  ✓   4 [chromium] › tests/e2e/parity.spec.ts:18:1 › every 2021 flight control is present @smoke (2.5s)
+  ✓   5 [chromium] › tests/e2e/parity.spec.ts:47:1 › the panels and the HUD collapse, as they did in 2021 (4.5s)
+  ✓   6 [chromium] › tests/e2e/parity.spec.ts:74:1 › collapsing a panel does not stop the binder writing to it (3.4s)
+  ✓   7 [chromium] › tests/e2e/parity.spec.ts:94:1 › the restart button appears when the flight ends and starts it again (7.5s)
+  ✓   8 [chromium] › tests/e2e/parity.spec.ts:131:1 › the guide and the about screen open from the menu (4.3s)
+  ✓   9 [chromium] › tests/e2e/parity.spec.ts:152:1 › the tilt-control switch is present and on by default (3.5s)
+  ✓  10 [chromium] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (56.4s)
+  ✓  11 [chromium] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (18.2s)
+  ✓  12 [chromium] › tests/e2e/timeline.spec.ts:25:1 › the intro track is drawn and reaches touchdown (11.9s)
+  ✓  13 [chromium] › tests/e2e/timeline.spec.ts:48:1 › the narration says where the flight is and what is next (12.1s)
+  ✓  14 [chromium] › tests/e2e/timeline.spec.ts:66:1 › configuring a new scenario redraws the track and rebinds it (18.6s)
+  ✓  15 [chromium] › tests/e2e/timeline.spec.ts:109:1 › a scenario that never reaches an event leaves it dark (6.8s)
+(node:70090) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  16 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (23.9s)
+  ✓  17 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (10.1s)
+  ✓  18 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.1s)
+  ✓  19 [pixel-portrait] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (1.1m)
+  ✓  20 [pixel-portrait] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (20.4s)
+(node:70144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  21 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (25.2s)
+  ✓  22 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (10.8s)
+  ✓  23 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.7s)
+  ✓  24 [pixel-landscape] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (1.4m)
+  ✓  25 [pixel-landscape] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (26.4s)
+(node:70224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (23.0s)
+  ✓  27 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (9.4s)
+  ✓  28 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.3s)
+  ✓  29 [iphone-portrait] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (1.0m)
+  ✓  30 [iphone-portrait] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (18.5s)
+(node:70268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  31 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (27.3s)
+  ✓  32 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (10.7s)
+  ✓  33 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.4s)
+  ✓  34 [iphone-landscape] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (1.2m)
+  ✓  35 [iphone-landscape] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (23.5s)
+
+  35 passed (11.8m)

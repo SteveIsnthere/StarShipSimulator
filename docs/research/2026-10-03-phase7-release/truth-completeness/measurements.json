@@ -1,0 +1,14 @@
+{
+  "ascent": {
+    "peak": 26657.327763409605,
+    "altitude": 9950.032461085328,
+    "seconds": 90,
+    "outcome": "window-complete"
+  },
+  "reentry": {
+    "peak": 170866.92079195866,
+    "altitude": 62391.198096955064,
+    "seconds": 457.1666666666667,
+    "outcome": "landed"
+  }
+}

@@ -1,0 +1,11 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+ Test Files  3 passed (3)
+      Tests  27 passed (27)
+   Start at  01:11:42
+   Duration  1.98s (transform 1.22s, setup 0ms, import 2.18s, tests 234ms, environment 1.47s)
+

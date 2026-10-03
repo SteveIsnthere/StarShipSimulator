@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-return-plan.test.ts (5 tests | 1 failed) 4ms
+     × uses recent valid responses only for a proposal strictly inside the unchanged physical bracket 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-return-plan.test.ts > source-consistent paid booster return decisions > uses recent valid responses only for a proposal strictly inside the unchanged physical bracket
+AssertionError: expected undefined to be close to 2.6666666666666665, received difference is NaN, but expected 5e-15
+ ❯ tests/core/booster-return-plan.test.ts:21:62
+     19|     const low=candidate(2,1000),high=candidate(3,-100),previous=candid…
+     20|     const saved=JSON.stringify([low,high,previous]);
+     21|     expect(proposeBoosterRefinement(previous,high,low,high)).toBeClose…
+       |                                                              ^
+     22|     expect(proposeBoosterRefinement({...previous,originTime:11},high,l…
+     23|     expect(proposeBoosterRefinement(candidate(4,-101),high,low,high)).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  20:59:30
+   Duration  183ms (transform 64ms, setup 0ms, import 80ms, tests 4ms, environment 0ms)
+

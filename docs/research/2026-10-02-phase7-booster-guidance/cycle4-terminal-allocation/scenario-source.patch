@@ -1,0 +1,3476 @@
+diff --git a/src/core/autopilot/booster.ts b/src/core/autopilot/booster.ts
+new file mode 100644
+index 0000000..38a40c4
+--- /dev/null
++++ b/src/core/autopilot/booster.ts
+@@ -0,0 +1,275 @@
++/** Return guidance for the actual booster. All authority, drag, gravity and
++ * fuel come from the shared physical model; no preset-id or capture override. */
++import * as C from '../constants';
++import type { SimState } from '../state';
++import type { VehicleDefinition } from '../vehicle';
++import { rad, type Rad } from '../units';
++import { CENTRE_ENGINES, RETURN_ENGINES, CATCH } from '../vehicles/super-heavy';
++import { shutdownEngine, getTotalMaxThrust, gimballedShare, IGNITION_DELAY_MAX_S } from '../physics/engines';
++import { createMassProperties, writeMassProperties } from '../physics/mass';
++import { createGridFinForces, writeGridFinForces } from '../physics/grid-fins';
++import { airVelocityX } from '../physics/wind';
++import { createBurnScratch, createFallResult, unpoweredFallInto, landingBurnStartAltitude, conservativeBurnStartAltitude, localGravity } from '../control/guidance-physics';
++import { getMaxSpeedWithSafeDynamicPressure } from '../control/primitives';
++import { createBoosterThrustRequest,writeBoosterThrustRequest,writeBoosterForceRequest,boosterDeliveredThrottle,createBoosterArrival,writeBoosterArrival } from '../control/booster-arrival';
++import { toggleRaptor } from '../control/commands';
++import { isaAtmosphereInto } from '../physics/isa';
++import type { MechanicalAdvance } from '../control/mechanical';
++import { advanceBoosterPrediction } from '../control/booster-prediction';
++
++const arms = createMassProperties();
++const grid = createGridFinForces();
++const burn = createBurnScratch();
++const fall = createFallResult();
++const thrustRequest=createBoosterThrustRequest();
++const TERMINAL_ATTITUDE_TIME=.5;
++const arrival=createBoosterArrival();
++const clamp = (value: number, min: number, max: number): number => Math.max(min, Math.min(max, value));
++
++function setEngines(state: SimState, group: readonly number[]): void {
++  for (let i = 0; i < state.engines.running.length; i++) {
++    if (group.includes(i)) {
++      if (!state.engines.running[i] && state.engines.ignitionCountdown[i] === null
++        && !state.engines.failed[i] && !state.failures.fuelRunOut) toggleRaptor(state, i);
++    } else shutdownEngine(state, i);
++  }
++}
++
++/** Grid and gimbal/RCS are independent hardware: allocate the requested torque
++ * first to aerodynamic or engine authority, then to paid proportional RCS. */
++function align(state: SimState, goal: Rad, time: number, model: VehicleDefinition): void {
++  const k = state.kinematics, a = state.autopilot;
++  const error = Math.atan2(Math.sin(goal - k.pitch), Math.cos(goal - k.pitch));
++  writeMassProperties(state.vehicle.propellantMass, arms, model);
++  const torque = (error / time ** 2 - 2 * k.angularVelocity / time
++    - state.forces.offAxisThrustDifferenceAcceleration
++    - state.forces.angularDragAcceleration) * state.vehicle.vehicleMomentOfInertia;
++  const steerable = state.forces.thrust * gimballedShare(state.engines.running, state.atmosphere.airPressure, model);
++  const fins = model.gridFins!;
++  const vx = k.speedX - airVelocityX(state.world,k.altitude), vy = k.speedY - state.world.gustVertical;
++  writeGridFinForces(state.atmosphere.airDensity,vx,vy,
++    rad((state.vehicle.frontFinExtension-50)/50*fins.maxAngle),k.pitch,arms.centreOfMass,model,grid);
++  // Credit delivered positions, not the targets they are still slewing toward.
++  const deliveredGridTorque=grid.torque;
++  const supplied=deliveredGridTorque + steerable*arms.engineArm
++    *Math.sin(state.vehicle.gimbalPosition*.01*C.gimbalAngleLimit);
++  if (steerable > 0) {
++    const angle = Math.asin(clamp((torque-deliveredGridTorque) / (steerable * arms.engineArm), -Math.sin(C.gimbalAngleLimit), Math.sin(C.gimbalAngleLimit)));
++    a.pitchControl = angle / C.gimbalAngleLimit * 100;
++    a.boosterFinControl = 0;
++    state.status.finActive = false;
++  } else {
++    a.pitchControl = 0;
++    state.status.finActive = true;
++    writeGridFinForces(state.atmosphere.airDensity, vx, vy, rad(-fins.maxAngle), k.pitch, arms.centreOfMass, model, grid);
++    const lowTorque = grid.torque;
++    writeGridFinForces(state.atmosphere.airDensity, vx, vy, rad(fins.maxAngle), k.pitch, arms.centreOfMass, model, grid);
++    const highTorque = grid.torque;
++    let low = -fins.maxAngle, high = fins.maxAngle;
++    if (Math.abs(highTorque - lowTorque) > 1) {
++      for (let i = 0; i < 14; i++) {
++        const middle = (low + high) / 2;
++        writeGridFinForces(state.atmosphere.airDensity, vx, vy, rad(middle), k.pitch, arms.centreOfMass, model, grid);
++        if ((grid.torque < torque) === (highTorque > lowTorque)) low = middle;
++        else high = middle;
++      }
++      const delta = (low + high) / 2;
++      a.boosterFinControl = delta / fins.maxAngle * 100;
++      writeGridFinForces(state.atmosphere.airDensity, vx, vy, rad(delta), k.pitch, arms.centreOfMass, model, grid);
++    } else a.boosterFinControl = 0;
++  }
++  state.status.rcsActive = state.vehicle.rcsRunTimeRemaining > 0;
++  a.rcsThrustCommand = state.status.rcsActive
++    ? clamp((torque - supplied) / arms.rcsArm, -C.rcsMaxThrust, C.rcsMaxThrust) : 0;
++  // Booster automatic RCS remains proportional even at full gimbal; actuation
++  // pays the delivered command. Manual full-yoke retains its legacy behaviour.
++}
++
++function predictReturn(state: SimState, dt: number, model: VehicleDefinition, advance?:MechanicalAdvance): void {
++  const a = state.autopilot;
++  if(advance) {
++    if(a.boosterReturnPlan || a.boosterPhase==='entry' || a.boosterPhase==='terminal') {
++      a.boosterFallTime=Math.max(2,(a.boosterFallTime ?? 2)-dt);
++      return;
++    }
++    if(a.boosterRangeError===undefined) {
++      unpoweredFallInto(state,CATCH.bodyCentreAltitude,burn,fall,model,rad(0));
++      if(fall.reached) {
++        a.boosterRangeError=state.kinematics.downRangeDistance-C.starBaseXPos+fall.downRange;
++        a.boosterFallTime=fall.time;
++      }
++    }
++    advanceBoosterPrediction(state,dt,advance,runBoosterPolicy,model);
++    return;
++  }
++  a.boosterPredictorCountdown = (a.boosterPredictorCountdown ?? 0) - dt;
++  if (a.boosterPredictorCountdown > 0) return;
++  // Planned coast is upright; the shared force predictor retains its true
++  // pressure/gravity/drag model, and this explicit attitude is an assumption.
++  unpoweredFallInto(state, CATCH.bodyCentreAltitude, burn, fall, model, rad(0));
++  if (fall.reached) {
++    a.boosterRangeError = state.kinematics.downRangeDistance - C.starBaseXPos + fall.downRange;
++    a.boosterFallTime = fall.time;
++  }
++  if (a.boosterPhase === 'coast' && fall.reached) {
++    // Derive which attitude reduces error from the actual shared aero model,
++    // rather than assuming the sign of its retained broadside lift curve.
++    unpoweredFallInto(state,CATCH.bodyCentreAltitude,burn,fall,model,rad(.05));const plus=fall.downRange;
++    unpoweredFallInto(state,CATCH.bodyCentreAltitude,burn,fall,model,rad(-.05));const minus=fall.downRange;
++    const slope = (plus - minus) / .1;
++    a.boosterCoastPitch = rad(Math.abs(slope) > 1
++      ? clamp(-(a.boosterRangeError ?? 0) / slope,-.2,.2) : 0);
++  }
++  const rangeStep = Math.abs(state.kinematics.accelerationX) * (a.boosterFallTime ?? 0) * .25;
++  // Near burn cutoff, a250ms cache costs kilometres of range. Resolve the
++  // final crossing at the actual fixed physics step, without changing dt.
++  a.boosterPredictorCountdown = a.boosterPhase === 'boostback'
++    && Math.abs(a.boosterRangeError ?? Infinity) <= 2 * rangeStep ? dt : .25;
++
++}
++
++/** Existing35kPa guidance ceiling, forecast across worst-case ignition delay. */
++function pressureSpeedCeiling(state: SimState): number {
++  const k = state.kinematics;
++  const forecastAltitude = Math.max(CATCH.bodyCentreAltitude,
++    k.altitude + Math.min(0,k.speedY) * IGNITION_DELAY_MAX_S
++      - .5 * localGravity(state) * IGNITION_DELAY_MAX_S ** 2);
++  isaAtmosphereInto(forecastAltitude, burn.atmosphere);
++  return getMaxSpeedWithSafeDynamicPressure(burn.atmosphere.airDensity);
++}
++
++/** Same paid-ignition stopping trigger in coast and continuous entry. */
++function terminalBurnDue(state:SimState,model:VehicleDefinition):boolean {
++  const downSpeed=Math.max(0,-state.kinematics.speedY);
++  if(downSpeed===0)return false;
++  const gravity=localGravity(state);
++  const ignitionDelay=CENTRE_ENGINES.every(i=>state.engines.running[i])?0:IGNITION_DELAY_MAX_S;
++  // Running engines at entry throttle have not delivered full stopping thrust.
++  // Slew progresses alongside ignition; neither delay grants free impulse.
++  const throttleDelay=Math.max(0,(100-state.vehicle.throttleCurrent)/C.throttleSpeed);
++  const delay=Math.max(ignitionDelay,throttleDelay);
++  const delayDistance=downSpeed*delay+.5*gravity*delay**2;
++  const postIgnitionSpeed=downSpeed+gravity*delay;
++  const upper=conservativeBurnStartAltitude(3,state.vehicle.vehicleMass,postIgnitionSpeed,CATCH.bodyCentreAltitude);
++  const start=state.kinematics.altitude<=upper+delayDistance
++    ?landingBurnStartAltitude(3,state.vehicle.vehicleMass,postIgnitionSpeed,CATCH.bodyCentreAltitude,burn,model):null;
++  return start!==null && state.kinematics.altitude<=start+delayDistance;
++}
++
++export function runBoosterAutopilot(state: SimState, dt: number, model: VehicleDefinition, advance?:MechanicalAdvance): void {
++  const a=state.autopilot;
++  if(a.manualControlOn || (!a.autoLandOn && !a.autoBoostBackOn)) {
++    a.boosterFinControl=undefined;delete a.boosterPrediction;delete a.boosterReturnPlan;return;
++  }
++  if(state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp)return;
++  if(!a.boosterPhase)a.boosterPhase='align-boost';
++  if(!advance)predictReturn(state,dt,model);
++  runBoosterPolicy(state,dt,model);
++}
++
++/** Planning observes the fully returned live frame, after controls, actuator
++ * slew and clock bookkeeping. Future mechanics never calls this scheduler. */
++export function runBoosterPostStep(state:SimState,dt:number,model:VehicleDefinition,advance:MechanicalAdvance):void {
++  const a=state.autopilot;
++  if(a.manualControlOn || (!a.autoLandOn && !a.autoBoostBackOn)
++    || state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp)return;
++  predictReturn(state,dt,model,advance);
++}
++
++/** The planned control law is forecast-free, so a mechanical rollout cannot
++ * recurse into another forecast or dispatch the Ship controller. */
++export function runBoosterPolicy(state:SimState,dt:number,model:VehicleDefinition):void {
++  const a = state.autopilot, k = state.kinematics;
++  if (a.manualControlOn || (!a.autoLandOn && !a.autoBoostBackOn)) {
++    a.boosterFinControl = undefined;
++    return;
++  }
++  if (state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp) return;
++  state.status.translationModeOn = true;
++  state.status.finLocked = false;
++  state.status.dumpingFuel = false;
++  if (!a.boosterPhase) a.boosterPhase = 'align-boost';
++  const error = a.boosterRangeError ?? k.downRangeDistance - C.starBaseXPos;
++  const direction = error >= 0 ? -1 : 1;
++  if (a.boosterPhase === 'align-boost') {
++    setEngines(state, []);
++    state.vehicle.throttle = 100;
++    const goal = rad(direction * Math.PI / 2);
++    align(state, goal, 1.5, model);
++    if (Math.abs(Math.atan2(Math.sin(goal - k.pitch), Math.cos(goal - k.pitch))) < 5 * Math.PI / 180
++      && Math.abs(k.angularVelocity) < .1) a.boosterPhase = 'boostback';
++  } else if (a.boosterPhase === 'boostback') {
++    setEngines(state, RETURN_ENGINES);
++    state.vehicle.throttle = 100;
++    // Store the original burn direction, not the new sign after range crossing.
++    if (!a.boostBackInitCompleted) { a.boostBackDirection = direction; a.boostBackInitCompleted = true; }
++    align(state, rad(a.boostBackDirection * Math.PI / 2), 1.5, model);
++    // Controls run after this interval's paid physics but before its clock
++    // bookkeeping. The accepted forecast names the interval-end shutdown.
++    if (!a.boosterForecastBurn && a.boosterReturnPlan && state.world.environmentTime+dt>=a.boosterReturnPlan.shutdownAt) {
++      setEngines(state, []);
++      a.boosterPhase = 'coast';
++    }
++  } else if (a.boosterPhase === 'coast') {
++    setEngines(state, []);
++    state.vehicle.throttle = 100;
++    // Use range error to request a shallow correcting attitude through the
++    // physical grid torque/body forces, with RCS only for missing authority.
++    align(state,a.boosterReturnPlan?.coastPitch ?? a.boosterCoastPitch ?? rad(0),1.5,model);
++    if(terminalBurnDue(state,model))a.boosterPhase='terminal';
++    else if(Math.hypot(k.speedX-airVelocityX(state.world,k.altitude),k.speedY-state.world.gustVertical)
++      >pressureSpeedCeiling(state))a.boosterPhase='entry';
++  } else if (a.boosterPhase === 'entry') {
++    setEngines(state,a.boosterEntryCentreOnly?CENTRE_ENGINES:RETURN_ENGINES);
++    const ceiling = pressureSpeedCeiling(state);
++    const allowedDownSpeed = Math.sqrt(Math.max(0,ceiling ** 2 - k.speedX ** 2));
++    const ay = Math.max(0, -k.speedY - allowedDownSpeed) / 2;
++    const time=Math.max(2,2*Math.max(0,k.altitude-CATCH.bodyCentreAltitude)/(Math.max(0,-k.speedY)+2));
++    const ax=-6*(k.downRangeDistance-C.starBaseXPos)/time**2-4*k.speedX/time;
++    // When three paid centres can supply the requested force, hand off once.
++    // Keeping them lit avoids re-ignition cycles against a falling q ceiling.
++    writeBoosterThrustRequest(state,ax,ay,model,thrustRequest);
++    const centreThrust=getTotalMaxThrust([true,true,true],state.atmosphere.airPressure,model)/state.vehicle.vehicleMass;
++    if(CENTRE_ENGINES.every(i=>state.engines.running[i])
++      && Math.hypot(thrustRequest.requiredX,thrustRequest.requiredY)<=centreThrust) {
++      a.boosterEntryCentreOnly=true;setEngines(state,CENTRE_ENGINES);
++    }
++    writeBoosterForceRequest(state,ax,ay,model,thrustRequest);
++    align(state,thrustRequest.pitch,.5,model);
++    state.vehicle.throttle=boosterDeliveredThrottle(state,ay,model);
++    if(terminalBurnDue(state,model))a.boosterPhase='terminal';
++    else if(k.speedY>=0) {setEngines(state,[]);a.boosterPhase='coast';}
++  } else {
++    if(a.boosterTerminalMissed) {
++      setEngines(state,[]);align(state,rad(0),.5,model);return;
++    }
++    if(a.boosterTerminalIgnitionTime===undefined)a.boosterTerminalIgnitionTime=state.world.environmentTime;
++    setEngines(state,CENTRE_ENGINES);
++    if(CENTRE_ENGINES.some(i=>state.engines.failed[i]))a.boosterTerminalMissed=true;
++    if(!CENTRE_ENGINES.every(i=>state.engines.running[i])) {
++      if(state.world.environmentTime-a.boosterTerminalIgnitionTime>IGNITION_DELAY_MAX_S+2*dt)
++        a.boosterTerminalMissed=true;
++      if(!a.boosterTerminalMissed) {
++        state.vehicle.throttle=100;align(state,rad(0),.5,model);return;
++      }
++    }
++    writeBoosterArrival(state,dt,model,arrival);
++    // The nominal end demand holds today's atmosphere/attitude fixed across
++    // the horizon. A transient cone rejection cannot prove a terminal miss.
++    // Real bounded actuation and eligible contact decide the finite replay.
++    if(a.boosterArrivalTime===0)a.boosterTerminalMissed=true;
++    if(a.boosterTerminalMissed) {
++      setEngines(state,[]);align(state,rad(0),.5,model);return;
++    }
++    // Engine direction supplies translation while the independent paid torque
++    // residual holds the hull upright. Credit delivered gimbal torque only;
++    // actual slew, rotational RCS capacity and reserve still decide the replay.
++    writeBoosterThrustRequest(state,arrival.centreAX,arrival.centreAY,model,thrustRequest);
++    align(state,rad(0),TERMINAL_ATTITUDE_TIME,model);
++    const directionError=Math.atan2(Math.sin(thrustRequest.pitch-k.pitch),Math.cos(thrustRequest.pitch-k.pitch));
++    a.pitchControl=clamp(-directionError/C.gimbalAngleLimit*100,-100,100);
++    state.vehicle.throttle=boosterDeliveredThrottle(state,arrival.centreAY,model);
++    // Actual running flags, pressure and throttle still determine the force.
++    if (getTotalMaxThrust(state.engines.running, state.atmosphere.airPressure, model) === 0) state.vehicle.throttle = 100;
++  }
++}
+diff --git a/src/core/autopilot/index.ts b/src/core/autopilot/index.ts
+index 552416e..ce90c8b 100644
+--- a/src/core/autopilot/index.ts
++++ b/src/core/autopilot/index.ts
+@@ -22,6 +22,9 @@
+  * pause, respects warp exactly, and is deterministic under replay.
+  */
+ import * as C from '../constants';
++import { SHIP, type VehicleDefinition } from '../vehicle';
++import { runBoosterAutopilot } from './booster';
++import type { MechanicalAdvance } from '../control/mechanical';
+ import { localGravity } from '../control/guidance-physics';
+ import * as cmd from '../control/commands';
+ import * as prim from '../control/primitives';
+@@ -764,7 +767,11 @@ export function autoDeorbit(state: SimState): void {
+  * what any of the six do. It hands over by switching itself off and autoLand
+  * on, so the two are never both steering.
+  */
+-export function runAutopilot(state: SimState, dt: number): void {
++export function runAutopilot(state: SimState, dt: number, model: VehicleDefinition = SHIP, advance?:MechanicalAdvance): void {
++  if (model.id === 'super-heavy') {
++    runBoosterAutopilot(state, dt, model, advance);
++    return;
++  }
+   demoAutoLand(state, dt);
+   autoMaxThrust(state);
+   pitchHold(state);
+diff --git a/src/core/control/actuation.ts b/src/core/control/actuation.ts
+index c30393f..a9698b3 100644
+--- a/src/core/control/actuation.ts
++++ b/src/core/control/actuation.ts
+@@ -125,7 +125,7 @@ export function finsActuation(state: SimState, goalPercentage: number, dt: numbe
+  *
+  * @param goalPercentage -100 .. 100
+  */
+-export function rcsControl(state: SimState, goalPercentage: number, dt: number): void {
++export function rcsControl(state: SimState, goalPercentage: number, dt: number, proportionalOnly = false): void {
+   const { status, vehicle, forces, autopilot } = state;
+ 
+   // Consumed and cleared here, so a command cannot survive into a step where
+@@ -138,7 +138,9 @@ export function rcsControl(state: SimState, goalPercentage: number, dt: number):
+     return;
+   }
+ 
+-  if (goalPercentage > 99) {
++  if (proportionalOnly) {
++    forces.rcsThrust = Math.max(-C.rcsMaxThrust,Math.min(C.rcsMaxThrust,commanded));
++  } else if (goalPercentage > 99) {
+     forces.rcsThrust = C.rcsMaxThrust;
+   } else if (goalPercentage < -99) {
+     forces.rcsThrust = -C.rcsMaxThrust;
+@@ -177,15 +179,18 @@ export function throttleUpdate(state: SimState, dt: number): void {
+  * The fins get half the commanded authority; RCS and gimbal get all of it.
+  * @param pitchControl -100 .. 100
+  */
+-export function controlTranslation(state: SimState, pitchControl: number, dt: number, model: VehicleDefinition = SHIP): void {
++export function controlTranslation(state: SimState, pitchControl: number, dt: number, model: VehicleDefinition = SHIP, manualOverride = false): void {
+   if (!state.status.translationModeOn) return;
+   if (model.gridFins) {
+-    const command=state.status.finActive && !state.status.finLocked ? Math.max(-100,Math.min(100,pitchControl)) : 0;
++    const command=state.status.finActive && !state.status.finLocked ? Math.max(-100,Math.min(100,state.autopilot.boosterFinControl ?? pitchControl)) : 0;
+     frontFinActuation(state,50+command/2,dt);
+     // The four upper fins act together; the second legacy field is neutral.
+     aftFinActuation(state,50,dt);
+   } else finsActuation(state, pitchControl / 2, dt);
+-  rcsControl(state, pitchControl, dt);
++  const boosterAutomatic = !!model.gridFins && !manualOverride && !state.autopilot.manualControlOn
++    && (state.autopilot.autoLandOn || state.autopilot.autoBoostBackOn)
++    && state.autopilot.boosterFinControl !== undefined;
++  rcsControl(state, pitchControl, dt, boosterAutomatic);
+   thrustVectorControl(state, pitchControl, dt);
+ }
+ 
+diff --git a/src/core/control/booster-arrival.ts b/src/core/control/booster-arrival.ts
+new file mode 100644
+index 0000000..22d0a82
+--- /dev/null
++++ b/src/core/control/booster-arrival.ts
+@@ -0,0 +1,146 @@
++/** Booster command contracts. Targets are net inertial acceleration; delivered
++ * aero/gravity are removed before allocating real, bounded engine thrust. */
++import type { SimState } from '../state';
++import type { VehicleDefinition } from '../vehicle';
++import { rad,type Rad } from '../units';
++import { getTotalMaxThrust,gimballedShare } from '../physics/engines';
++import { writeCatchPose,createCatchPose } from '../physics/tower-catch';
++import * as C from '../constants';
++import { createBurnScratch, writeUnpoweredAcceleration } from './guidance-physics';
++import { verticalGravityAcceleration } from '../physics/gravity';
++import { CATCH } from '../vehicles/super-heavy';
++
++const THRUST_PITCH_LIMIT=.3;
++
++export interface BoosterThrustRequest { pitch:Rad;throttle:number;requiredX:number;requiredY:number;deliveredX:number;deliveredY:number }
++export function createBoosterThrustRequest():BoosterThrustRequest {
++  return {pitch:rad(0),throttle:100,requiredX:0,requiredY:0,deliveredX:0,deliveredY:0};
++}
++export function writeBoosterThrustRequest(state:SimState,ax:number,ay:number,model:VehicleDefinition,out:BoosterThrustRequest):void {
++  const k=state.kinematics, mass=state.vehicle.vehicleMass;
++  const share=gimballedShare(state.engines.running,state.atmosphere.airPressure,model);
++  const measured=state.forces.thrust/mass;
++  const measuredX=measured*(share*Math.sin(state.vehicle.gimbalPointingDirection)+(1-share)*Math.sin(k.pitch));
++  const measuredY=measured*(share*Math.cos(state.vehicle.gimbalPointingDirection)+(1-share)*Math.cos(k.pitch));
++  out.requiredX=ax-(k.accelerationX-measuredX);
++  out.requiredY=ay-(k.accelerationY-measuredY);
++  out.pitch=rad(Math.max(-THRUST_PITCH_LIMIT,Math.min(THRUST_PITCH_LIMIT,Math.atan2(out.requiredX,Math.max(0,out.requiredY)))));
++  // Vertical arrest has priority at steering saturation. The unconstrained
++  // vector's norm would produce a different vertical acceleration after clamp.
++  const acceleration=Math.max(0,out.requiredY)/Math.cos(out.pitch);
++  const max=getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/mass;
++  out.throttle=max>0?Math.max(C.throttleLowerLimit,Math.min(100,100*acceleration/max)):100;
++  out.deliveredX=max*out.throttle*.01*Math.sin(out.pitch);
++  out.deliveredY=max*out.throttle*.01*Math.cos(out.pitch);
++}
++
++const forceScratch=createBurnScratch();
++const forceTrial=createBoosterThrustRequest();
++/** Solve hull/throttle against the actual attitude-dependent aero law. The
++ * thrust-only atan2 allocator has the wrong response sign at high pressure.
++ * All candidates retain the existing pitch, minimum throttle and engine bounds.
++ * This is a steady command proposal, never a substitute for actuator replay. */
++function evaluateForce(state:SimState,ax:number,ay:number,model:VehicleDefinition,max:number,pitch:number):number {
++  writeUnpoweredAcceleration(state,rad(pitch),model,forceScratch);
++  forceTrial.requiredX=ax-forceScratch.acc.x;forceTrial.requiredY=ay-forceScratch.acc.y;
++  forceTrial.pitch=rad(pitch);
++  forceTrial.throttle=max>0?Math.max(C.throttleLowerLimit,Math.min(100,
++    100*Math.max(0,forceTrial.requiredY)/(max*Math.cos(pitch)))):100;
++  forceTrial.deliveredX=max*forceTrial.throttle*.01*Math.sin(pitch);
++  forceTrial.deliveredY=max*forceTrial.throttle*.01*Math.cos(pitch);
++  return forceTrial.deliveredX-forceTrial.requiredX;
++}
++function retainForce(out:BoosterThrustRequest,best:number):number {
++  const cost=(forceTrial.deliveredX-forceTrial.requiredX)**2+(forceTrial.deliveredY-forceTrial.requiredY)**2;
++  if(cost>=best)return best;
++  Object.assign(out,forceTrial);return cost;
++}
++export function writeBoosterForceRequest(state:SimState,ax:number,ay:number,model:VehicleDefinition,out:BoosterThrustRequest,pitchLimit=THRUST_PITCH_LIMIT):void {
++  const max=getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/state.vehicle.vehicleMass;
++  // Both thrust-dominated and aero-dominated branches are possible. Inspect
++  // the full unchanged cone, then refine each observed sign crossing.
++  const limit=Math.max(0,Math.min(THRUST_PITCH_LIMIT,pitchLimit));
++  let previous=-limit;
++  let previousError=evaluateForce(state,ax,ay,model,max,previous),best=retainForce(out,Infinity);
++  for(let i=1;i<=16;i++){
++    const pitch=-limit+2*limit*i/16;
++    const error=evaluateForce(state,ax,ay,model,max,pitch);best=retainForce(out,best);
++    if(previousError*error<0){
++      let lo=previous,hi=pitch,left=previousError;
++      for(let j=0;j<12;j++){
++        const mid=(lo+hi)/2,value=evaluateForce(state,ax,ay,model,max,mid);best=retainForce(out,best);
++        if(left*value<=0)hi=mid;else {lo=mid;left=value;}
++      }
++    }
++    previous=pitch;previousError=error;
++  }
++}
++
++/** Size vertical throttle against delivered engine direction/environment while
++ * attitude approaches the steady force proposal. Requested pitch is not yet
++ * actual thrust authority. Slew and minimum throttle remain in actuation. */
++export function boosterDeliveredThrottle(state:SimState,ay:number,model:VehicleDefinition):number {
++  const share=gimballedShare(state.engines.running,state.atmosphere.airPressure,model);
++  const directionY=share*Math.cos(state.vehicle.gimbalPointingDirection)+(1-share)*Math.cos(state.kinematics.pitch);
++  const environmentY=state.kinematics.accelerationY-state.forces.thrust/state.vehicle.vehicleMass*directionY;
++  const max=getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/state.vehicle.vehicleMass;
++  if(max<=0 || directionY<=0)return 100;
++  return Math.max(C.throttleLowerLimit,Math.min(100,100*Math.max(0,ay-environmentY)/(max*directionY)));
++}
++
++export interface BoosterArrival { x:number;height:number;vx:number;vy:number;time:number;ax:number;ay:number;bodyAX:number;bodyAY:number;centreAX:number;centreAY:number;lateralFeasible:boolean }
++export function createBoosterArrival():BoosterArrival {return {x:0,height:0,vx:0,vy:0,time:0,ax:0,ay:0,bodyAX:0,bodyAY:0,centreAX:0,centreAY:0,lateralFeasible:true};}
++const lug=createCatchPose();
++const terminalEngines:readonly boolean[]=Object.freeze([true,true,true]);
++const terminalDemand=createBoosterThrustRequest();
++/** Cubic boundary acceleration for the remaining *fixed* deadline, with
++ * final lug velocity(0,-2m/s). Never resets the horizon after an early stop.
++ * Actuator limits still decide what portion of this demand is feasible. */
++export function writeBoosterArrival(state:SimState,dt:number,model:VehicleDefinition,out:BoosterArrival):void {
++  writeCatchPose(state,model,lug);
++  out.x=lug.x-C.starBaseXPos;out.height=lug.altitude-CATCH.planeAltitude;
++  out.vx=lug.speedX;out.vy=lug.speedY;
++  const a=state.autopilot;
++  if(a.boosterArrivalTime===undefined) {
++    const height=Math.max(0,out.height),down=Math.max(0,-out.vy);
++    const balanced=2*height/(down+2);
++    // Atmospheric braking fades as descent slows. Bound the cubic's final
++    // vertical acceleration by full sea-level thrust at the current mass and
++    // catch-plane gravity; actual paid fuel loss can only increase authority.
++    const finalNet=getTotalMaxThrust(terminalEngines,C.SEA_LEVEL_PRESSURE_PA/1000,model)/state.vehicle.vehicleMass
++      +verticalGravityAcceleration(C.planetRadius+CATCH.bodyCentreAltitude,0);
++    const thrustTime=finalNet>0?6*height/(Math.sqrt((down+4)**2+6*finalNet*height)+down+4):60;
++    a.boosterArrivalTime=Math.max(.5,Math.min(60,Math.max(balanced,thrustTime)));
++  }
++  a.boosterArrivalTime=Math.max(0,a.boosterArrivalTime-dt);
++  out.time=Math.max(.25,a.boosterArrivalTime);
++  out.ax=-6*out.x/out.time**2-4*out.vx/out.time;
++  out.ay=-6*out.height/out.time**2-4*out.vy/out.time+4/out.time;
++  // The point target is not a hull-centre acceleration. Remove the delivered
++  // tangential/centripetal acceleration of the lug; no torque is invented.
++  const k=state.kinematics,arm=CATCH.lugStation-model.height/2;
++  out.bodyAX=out.ax-arm*(Math.cos(k.pitch)*k.angularAcceleration-Math.sin(k.pitch)*k.angularVelocity**2);
++  out.bodyAY=out.ay+arm*(Math.sin(k.pitch)*k.angularAcceleration+Math.cos(k.pitch)*k.angularVelocity**2);
++  // The controlled boundary includes upright attitude, so its hull centre
++  // ends at the lug's upright offset. Steer the body's translation and attitude
++  // together; feeding measured point-alpha into a steady hull-angle inversion
++  // couples the attitude loop back into itself (recorded failed experiment).
++  out.centreAX=-6*(k.downRangeDistance-C.starBaseXPos)/out.time**2-4*k.speedX/out.time;
++  out.centreAY=-6*(k.altitude-CATCH.bodyCentreAltitude)/out.time**2-4*k.speedY/out.time+4/out.time;
++  // Nominal frozen-environment command estimate, not an arrival proof.
++  // A cubic's acceleration is affine in time, so both endpoint demands must
++  // fit the nominal steady thrust cone under that approximation. This is
++  // only a search hint: environment/attitude evolve over the horizon. The
++  // shared mechanical replay must
++  // additionally prove ignition/slew, attitude, aero, minimum throttle/fuel
++  // and actual eligible contact before a handoff is admitted.
++  const maximum=getTotalMaxThrust(terminalEngines,state.atmosphere.airPressure,model)
++    /state.vehicle.vehicleMass*Math.sin(THRUST_PITCH_LIMIT);
++  writeBoosterThrustRequest(state,out.ax,out.ay,model,terminalDemand);
++  const first=terminalDemand.requiredX;
++  const endAX=6*out.x/out.time**2+2*out.vx/out.time;
++  const endAY=6*out.height/out.time**2+2*out.vy/out.time-8/out.time;
++  writeBoosterThrustRequest(state,endAX,endAY,model,terminalDemand);
++  out.lateralFeasible=Number.isFinite(first) && Number.isFinite(terminalDemand.requiredX)
++    && Math.abs(first)<=maximum && Math.abs(terminalDemand.requiredX)<=maximum;
++}
+diff --git a/src/core/control/booster-forecast.ts b/src/core/control/booster-forecast.ts
+new file mode 100644
+index 0000000..120f7ab
+--- /dev/null
++++ b/src/core/control/booster-forecast.ts
+@@ -0,0 +1,202 @@
++/** A forecast of the *commanded* return through the shared mechanical advance.
++ * Forecasts own cloned state/RNG. No recursive guidance, second integrator,
++ * separate force law, instantaneous attitude or borrowed engine impulse. */
++import { cloneState,type SimState } from '../state';
++import type { MechanicalAdvance,MechanicalControl } from './mechanical';
++import type { VehicleDefinition } from '../vehicle';
++import type { Rad } from '../units';
++import { shutdownEngine } from '../physics/engines';
++import { createCatchPose,writeCatchPose } from '../physics/tower-catch';
++import { CATCH,CENTRE_ENGINES,RETURN_ENGINES } from '../vehicles/super-heavy';
++import * as C from '../constants';
++import { createBoosterArrival,writeBoosterArrival } from './booster-arrival';
++
++export interface BoosterHandoff {
++  x:number;height:number;vx:number;vy:number;time:number;lateralFeasible:boolean;
++}
++export interface BoosterForecast {
++  handoff?:BoosterHandoff;
++  reached:boolean;rangeError:number;time:number;fuel:number;speedX:number;speedY:number;
++  pitch:number;steps:number;ignitionDraws:number;failed:boolean;
++}
++export function createBoosterForecast():BoosterForecast {
++  return {reached:false,rangeError:0,time:0,fuel:0,speedX:0,speedY:0,pitch:0,steps:0,ignitionDraws:0,failed:false};
++}
++const before=createCatchPose(),after=createCatchPose();
++const handoffArrival=createBoosterArrival();
++/** Immutable common endpoint, after alignment or paid ignition.
++ * Reuse pays no new impulse: it preserves the identical mechanical prefix. */
++export interface BoosterPrefix {
++  origin:SimState;state:SimState;time:number;steps:number;
++  advance:MechanicalAdvance;policy:MechanicalControl;model:VehicleDefinition;
++  coastPitch:Rad;initialTime:number;boostSteps:number;steadySteps:number;cutoffClock:number;
++}
++/** Proposals select whole executable live intervals before paying impulse. */
++export function boosterBurnTicks(duration:number):number {
++  const ticks=duration*120,nearest=Math.round(ticks);
++  // Canonical tick durations must be idempotent even when multiplication
++  // rounds just above an integer. A genuinely later float still rounds up.
++  return duration===nearest/120?nearest:Math.ceil(ticks);
++}
++export function executableBoosterBurnDuration(duration:number):number {
++  return boosterBurnTicks(duration)/120;
++}
++/** Count the same paid ticks as an uncached startup/full steady prefix. */
++export function boosterRemainingAfterPrefix(duration:number,prefix:BoosterPrefix):number {
++  return Math.max(0,boosterBurnTicks(duration)-prefix.boostSteps-6*prefix.steadySteps)/120;
++}
++export interface BoosterForecastWork {
++  origin?:SimState;prefix?:BoosterPrefix;startupPrefix?:BoosterPrefix;reusePrefix?:BoosterPrefix;boostSteps?:number;steadySteps?:number;
++  state:SimState;initialTime:number;initialDraws:number;burnRemaining:number;burnTicks:number;cutoffClock:number;done:boolean;result:BoosterForecast;
++  stopAtHandoff?:boolean;readyHandoff?:boolean;step?:number;shutdownAt?:number;
++}
++export function createBoosterForecastWork(initial:SimState,coastPitch:Rad,burnTime=0):BoosterForecastWork {
++  const state=cloneState(initial);
++  // A forecast contains mechanics/control state, never another forecast job.
++  delete state.autopilot.boosterPrediction;
++  delete state.autopilot.boosterForecastHandoff;
++  if(state.autopilot.boosterPhase==='align-boost' || (state.autopilot.boosterPhase==='boostback' && burnTime<=0) || !state.autopilot.boosterPhase) {
++    state.autopilot.boosterPhase='coast';
++    for(let i=0;i<state.engines.running.length;i++)shutdownEngine(state,i);
++  }
++  state.autopilot.boosterCoastPitch=coastPitch;
++  return {state,initialTime:state.autopilot.boosterFallTime ?? 900,
++    initialDraws:state.rng.counters.ignitionFailure,burnRemaining:executableBoosterBurnDuration(burnTime),
++    burnTicks:boosterBurnTicks(burnTime),cutoffClock:state.world.environmentTime,done:false,result:createBoosterForecast()};
++}
++
++/** Mutates an owned job. A scheduler must clone its previous job/state before
++ * resuming it; the synchronous API below already owns its new job. */
++export function advanceBoosterForecast(work:BoosterForecastWork,budget:number,advance:MechanicalAdvance,policy:MechanicalControl,model:VehicleDefinition):number {
++  const out=work.result;let state=work.state,used=0;
++  const prefix=work.reusePrefix;
++  let remaining=work.burnRemaining;
++  // Preserve the very same repeated subtraction as an uncached fine startup.
++  // A short candidate cannot borrow a longer prefix or its fuel/impulse.
++  if(prefix)remaining=boosterRemainingAfterPrefix(remaining,prefix);
++  if(prefix && prefix.origin===work.origin && prefix.advance===advance
++    && prefix.policy===policy && prefix.model===model && work.step===undefined
++    && work.initialTime===prefix.initialTime
++    && state.autopilot.boosterCoastPitch===prefix.coastPitch
++    && remaining>0 && out.steps===0) {
++    state=cloneState(prefix.state);state.autopilot.boosterForecastBurn=true;
++    out.time=prefix.time;out.steps=prefix.steps;work.prefix=prefix;
++    work.burnRemaining=remaining;work.burnTicks=Math.round(remaining*120);work.cutoffClock=prefix.cutoffClock;work.boostSteps=prefix.boostSteps;work.steadySteps=prefix.steadySteps;
++  }
++  delete work.reusePrefix;
++  for(let i=0;i<budget && !work.done;i++) {
++    writeCatchPose(state,model,before);
++    // The same Verlet/actuator implementation, with smaller steps in the short
++    // terminal burn. These are predictor steps, never a change to live dt.
++    const phase=state.autopilot.boosterPhase;
++    const powered=phase==='align-boost' || phase==='boostback' || phase==='entry' || phase==='terminal';
++    const starting=phase==='boostback' && !RETURN_ENGINES.every(i=>state.engines.running[i]);
++    // Discrete ignition/readiness is paid at the same cadence as live flight.
++    const ignition=starting || (phase==='entry' && !(state.autopilot.boosterEntryCentreOnly?CENTRE_ENGINES:RETURN_ENGINES).every(i=>state.engines.running[i]))
++      || (phase==='terminal' && !CENTRE_ENGINES.every(i=>state.engines.running[i]));
++    const nominal=phase==='align-boost' || ignition
++      || (phase==='terminal' && state.autopilot.boosterArrivalTime===undefined)?1/120
++      :work.step ?? (work.stopAtHandoff && powered ? .05 :(state.kinematics.altitude<2000?.05:.25));
++    const boosting=phase==='boostback' || (!work.stopAtHandoff && work.burnRemaining>0);
++    // Pay the final partial coarse interval as whole live steps. A fractional
++    // engine impulse cannot be executed by the fixed live clock.
++    const dt=boosting && work.burnTicks>0
++      ?(work.burnTicks<6?1/120:Math.min(nominal,.05)):nominal;
++    if(work.burnRemaining>0)state.autopilot.boosterForecastBurn=true;
++    state.autopilot.boosterFallTime=Math.max(2,work.initialTime-out.time);
++    state=advance(state,dt,policy,model);out.steps++;used++;
++    if(starting)work.boostSteps=(work.boostSteps ?? 0)+1;
++    if(phase==='boostback' && !starting && dt===.05)work.steadySteps=(work.steadySteps ?? 0)+1;
++    if(phase==='align-boost' || boosting) {
++      // Retain the exact source-relative live clock arithmetic, including
++      // floating-point accumulation, rather than rounding a timestamp later.
++      for(let tick=0;tick<Math.round(dt*120);tick++)work.cutoffClock+=1/120;
++    }
++    if(boosting && work.burnTicks>0) {
++      work.burnTicks=Math.max(0,work.burnTicks-Math.round(dt*120));
++      work.burnRemaining=work.burnTicks/120;
++    }
++    if(work.readyHandoff && work.step===undefined && work.origin
++      && ((phase==='align-boost' && state.autopilot.boosterPhase==='boostback')
++        || (starting && work.burnRemaining>0 && RETURN_ENGINES.every(i=>state.engines.running[i]))
++        || (phase==='boostback' && !starting && dt===.05))) {
++      work.prefix={origin:work.origin,state:cloneState(state),time:out.time+dt,steps:out.steps,
++        advance,policy,model,coastPitch:state.autopilot.boosterCoastPitch!,initialTime:work.initialTime,
++        boostSteps:work.boostSteps ?? 0,steadySteps:work.steadySteps ?? 0,cutoffClock:work.cutoffClock};
++      if(starting)work.startupPrefix=work.prefix;
++    }
++    if((boosting || (work.stopAtHandoff && state.autopilot.boosterPhase==='boostback')) && work.burnRemaining===0) {
++      delete state.autopilot.boosterForecastBurn;
++      state.autopilot.boosterPhase='coast';
++      for(let j=0;j<state.engines.running.length;j++)shutdownEngine(state,j);
++      work.shutdownAt=work.cutoffClock;
++    }
++    writeCatchPose(state,model,after);
++    const crossed=before.altitude>CATCH.planeAltitude && after.altitude<=CATCH.planeAltitude;
++    out.time+=dt;
++    if(work.stopAtHandoff && state.autopilot.boosterPhase==='terminal'
++      && (!work.readyHandoff || (phase==='terminal' && CENTRE_ENGINES.every(i=>state.engines.running[i])))) {
++      const oldDeadline=state.autopilot.boosterArrivalTime;
++      writeBoosterArrival(state,0,model,handoffArrival);
++      if(oldDeadline===undefined)delete state.autopilot.boosterArrivalTime;
++      else state.autopilot.boosterArrivalTime=oldDeadline;
++      out.handoff={x:handoffArrival.x,height:handoffArrival.height,
++        vx:handoffArrival.vx,vy:handoffArrival.vy,time:handoffArrival.time,
++        lateralFeasible:handoffArrival.lateralFeasible};
++      // The actual terminal cubic controls the centre and ends upright.
++      // Zero final centre acceleration is x+vx*T/3, not the old midpoint.
++      out.rangeError=state.kinematics.downRangeDistance-C.starBaseXPos
++        +state.kinematics.speedX*handoffArrival.time/3;
++      out.speedX=handoffArrival.vx;out.speedY=handoffArrival.vy;
++      out.reached=true;work.done=true;
++    } else if(crossed) {
++      const f=(before.altitude-CATCH.planeAltitude)/(before.altitude-after.altitude);
++      out.rangeError=before.x+(after.x-before.x)*f-C.starBaseXPos;
++      out.time-=dt*(1-f);
++      out.speedX=before.speedX+(after.speedX-before.speedX)*f;
++      out.speedY=before.speedY+(after.speedY-before.speedY)*f;
++      out.reached=true;
++      work.done=true;
++    }
++    if(state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp || out.time>=900 || out.steps>=4000)work.done=true;
++  }
++  if(!out.reached) {
++    out.rangeError=after.x-C.starBaseXPos;out.speedX=after.speedX;out.speedY=after.speedY;
++  }
++  out.fuel=state.vehicle.propellantMass;out.pitch=state.kinematics.pitch;
++  out.ignitionDraws=state.rng.counters.ignitionFailure-work.initialDraws;
++  out.failed=state.failures.crashed || state.failures.inFlightBreakUp || state.failures.fuelRunOut;
++  work.state=state;
++  return used;
++}
++export function forecastBoosterReturn(initial:SimState,coastPitch:Rad,advance:MechanicalAdvance,policy:MechanicalControl,model:VehicleDefinition,out:BoosterForecast):void {
++  const work=createBoosterForecastWork(initial,coastPitch);
++  advanceBoosterForecast(work,4000,advance,policy,model);
++  Object.assign(out,work.result);
++}
++
++/** Paid return candidate: preserve the alignment before timing its boost. */
++export function createBoosterHandoffWork(initial:SimState,coastPitch:Rad,burnTime:number,stepSize?:number):BoosterForecastWork {
++  const work=createBoosterForecastWork(initial,coastPitch,burnTime);
++  work.state=cloneState(initial);delete work.state.autopilot.boosterPrediction;
++  if(!work.state.autopilot.boosterPhase)work.state.autopilot.boosterPhase='align-boost';
++  if(work.state.autopilot.boosterPhase==='boostback' && burnTime<=0) {
++    work.state.autopilot.boosterPhase='coast';
++    for(let i=0;i<work.state.engines.running.length;i++)shutdownEngine(work.state,i);
++    work.shutdownAt=initial.world.environmentTime;
++  }
++  delete work.state.autopilot.boosterReturnPlan;
++  work.state.autopilot.boosterCoastPitch=coastPitch;
++  work.stopAtHandoff=true;
++  if(stepSize!==undefined)work.step=stepSize;
++  return work;
++}
++
++/** Upstream return target after paid ignition, before the terminal command.
++ * Unlike the diagnostic pre-ignition interface, this includes startup drift. */
++export function createBoosterReadyWork(initial:SimState,coastPitch:Rad,burnTime:number,stepSize?:number,prefix?:BoosterPrefix):BoosterForecastWork {
++  const work=createBoosterHandoffWork(initial,coastPitch,burnTime,stepSize);
++  work.readyHandoff=true;work.origin=initial;
++  if(prefix)work.reusePrefix=prefix;
++  return work;
++}
+diff --git a/src/core/control/booster-prediction.ts b/src/core/control/booster-prediction.ts
+new file mode 100644
+index 0000000..3b284ea
+--- /dev/null
++++ b/src/core/control/booster-prediction.ts
+@@ -0,0 +1,231 @@
++/** Flight-owned, deterministic work for paid future shutdown plans. A numeric
++ * proposal cannot command a cutoff until its terminal replay is accepted. */
++import { cloneState,type SimState } from '../state';
++import type { VehicleDefinition } from '../vehicle';
++import { rad } from '../units';
++import * as C from '../constants';
++import { getTotalMaxThrust } from '../physics/engines';
++import { verticalGravityAcceleration } from '../physics/gravity';
++import { CATCH, RETURN_ENGINES } from '../vehicles/super-heavy';
++import type { MechanicalAdvance,MechanicalControl } from './mechanical';
++import { advanceBoosterForecast,createBoosterForecastWork,createBoosterReadyWork,boosterRemainingAfterPrefix,
++  executableBoosterBurnDuration,boosterBurnTicks,type BoosterForecastWork,type BoosterForecast,type BoosterPrefix } from './booster-forecast';
++import { proposeBoosterBurn,proposeBoosterProbe,proposeBoosterRefinement,acceptBoosterReturnPlan,type BoosterBurnCandidate,type BoosterReturnPlan } from './booster-return-plan';
++
++interface PublishedPrediction {
++  originTime:number;originX:number;originVX:number;forecast:BoosterForecast;
++  decision?:BoosterReturnPlan;
++  /** Historical diagnostic only. Never engine cutoff or coast authority. */
++  slope?:number|undefined;burnRangeRate?:number|undefined;
++}
++export interface BoosterPrediction {
++  origin:SimState;
++  prefix?:BoosterPrefix;
++  startupPrefix?:BoosterPrefix;
++  rollout:BoosterForecastWork;
++  stage:'low'|'upper'|'root'|'validate';
++  duration:number;
++  firstDuration:number;
++  probeDuration?:number;
++  terminalOrigin?:SimState;
++  lowerDuration:number;
++  upperDuration:number;
++  low?:BoosterBurnCandidate;
++  high?:BoosterBurnCandidate;
++  lowReady?:SimState;
++  highReady?:SimState;
++  validatedTicks?:number[];
++  selected?:BoosterBurnCandidate;
++  lastCandidate?:BoosterBurnCandidate;
++  previousCandidate?:BoosterBurnCandidate;
++  iterations:number;
++  attemptedTicks:number[];
++  published?:PublishedPrediction|undefined;
++  done:boolean;
++}
++const returnMask:readonly boolean[]=Object.freeze(RETURN_ENGINES.map(()=>true));
++function begin(state:SimState,model:VehicleDefinition,published?:PublishedPrediction):BoosterPrediction {
++  const origin=cloneState(state);delete origin.autopilot.boosterPrediction;
++  const upperDuration=Math.floor(120*origin.vehicle.propellantMass/(RETURN_ENGINES.length*C.maxFuelFlowPerRaptor))/120;
++  const acceleration=getTotalMaxThrust(returnMask,origin.atmosphere.airPressure,model)/origin.vehicle.vehicleMass;
++  const initial=Math.abs(origin.autopilot.boosterRangeError ?? 0)/(acceleration*(origin.autopilot.boosterFallTime ?? 0));
++  const firstDuration=executableBoosterBurnDuration(Number.isFinite(initial) && initial>0 && initial<upperDuration
++    ?Math.max(upperDuration/4,initial):upperDuration/4);
++  const paid=origin.autopilot.boosterPhase==='align-boost' || origin.autopilot.boosterPhase==='boostback';
++  const duration=paid?firstDuration:0;
++  return {origin,rollout:createBoosterReadyWork(origin,rad(0),duration),stage:paid?'upper':'low',duration,lowerDuration:0,
++    upperDuration,firstDuration,
++    iterations:paid?1:0,attemptedTicks:paid?[Math.round(duration*120)]:[],published,done:false};
++}
++function candidate(job:BoosterPrediction):BoosterBurnCandidate {
++  return {originTime:job.origin.world.environmentTime,burnDuration:job.duration,
++    shutdownAt:job.rollout.shutdownAt ?? job.origin.world.environmentTime,
++    coastPitch:rad(0),forecast:{...job.rollout.result}};
++}
++function valid(c:BoosterBurnCandidate):boolean {
++  return c.forecast.reached && !c.forecast.failed && c.forecast.fuel>0
++    && c.forecast.handoff!==undefined && Number.isFinite(c.forecast.rangeError);
++}
++function schedule(job:BoosterPrediction,proposal:number,stage:'upper'|'root'):void {
++  const low=job.low?.burnDuration ?? job.lowerDuration;
++  const high=job.high?.burnDuration ?? job.upperDuration;
++  const first=boosterBurnTicks(low)+1,last=boosterBurnTicks(high)-1;
++  const requested=Math.max(first,Math.min(last,boosterBurnTicks(proposal)));
++  let chosen:number|undefined;
++  // At most16 retained trial endpoints. Inspect neighbours of the proposal,
++  // not every possible fuel interval; duplicate proposals pay no new trial.
++  for(let offset=0;offset<=job.attemptedTicks.length && first<=last;offset++) {
++    for(const tick of [requested-offset,requested+offset]) {
++      if(tick>=first && tick<=last && !job.attemptedTicks.includes(tick)){chosen=tick;break;}
++    }
++    if(chosen!==undefined)break;
++  }
++  if(chosen===undefined){if(!validateRetainedEndpoint(job))job.done=true;return;}
++  const duration=chosen/120;
++  job.attemptedTicks=[...job.attemptedTicks,chosen];
++  job.duration=duration;job.stage=stage;job.iterations++;
++  const prefix=job.prefix && boosterRemainingAfterPrefix(duration,job.prefix)>0?job.prefix:job.startupPrefix;
++  job.rollout=createBoosterReadyWork(job.origin,rad(0),duration,undefined,prefix);
++}
++function beginTerminal(job:BoosterPrediction):void {
++  job.stage='validate';
++  job.rollout=createBoosterForecastWork(job.terminalOrigin!,job.selected!.coastPitch);
++  // Fine validation always starts from the immutable paid ready input,
++  // retaining actual slew/fuel/RNG/contact. Coarse catches are not proof.
++  job.rollout.step=1/120;
++}
++function validate(job:BoosterPrediction,c:BoosterBurnCandidate,ready=job.rollout.state):void {
++  job.validatedTicks=[...(job.validatedTicks ?? []),boosterBurnTicks(c.burnDuration)];
++  job.selected=c;job.terminalOrigin=cloneState(ready);
++  beginTerminal(job);
++}
++function nominalFinalPitch(c:BoosterBurnCandidate):number {
++  const h=c.forecast.handoff!,t=h.time;
++  const ax=6*h.x/t**2+2*h.vx/t;
++  const ay=6*h.height/t**2+2*h.vy/t-8/t
++    -verticalGravityAcceleration(C.planetRadius+CATCH.bodyCentreAltitude,0);
++  return Math.atan2(ax,Math.max(0,ay));
++}
++function supportsTrial(c:BoosterBurnCandidate):boolean {
++  return c.forecast.handoff!.lateralFeasible && Math.abs(nominalFinalPitch(c))<=CATCH.maxPitch;
++}
++/** Quantization may exhaust interior ticks before a terminal trial. Retained
++ * physical endpoints remain eligible for actual fine proof, never interpolation. */
++function validateRetainedEndpoint(job:BoosterPrediction):boolean {
++  const endpoints=[{candidate:job.low,ready:job.lowReady},{candidate:job.high,ready:job.highReady}]
++    .filter((e):e is {candidate:BoosterBurnCandidate;ready:SimState}=>!!e.candidate && !!e.ready)
++    .sort((a,b)=>Math.abs(a.candidate.forecast.rangeError)-Math.abs(b.candidate.forecast.rangeError));
++  for(const e of endpoints) {
++    if(supportsTrial(e.candidate) && !(job.validatedTicks ?? []).includes(boosterBurnTicks(e.candidate.burnDuration))) {
++      validate(job,e.candidate,e.ready);return true;
++    }
++  }
++  return false;
++}
++function physicallyCaught(state:SimState):boolean {
++  return state.status.landed && !state.status.onTheGround
++    && state.vehicle.propellantMass>0 && !Object.values(state.failures).some(Boolean);
++}
++function continueSearch(job:BoosterPrediction):void {
++  if(job.iterations>=16){if(!validateRetainedEndpoint(job))job.done=true;return;}
++  if(job.low && job.high) {
++    const recent=job.previousCandidate && job.lastCandidate
++      ?proposeBoosterRefinement(job.previousCandidate,job.lastCandidate,job.low,job.high):undefined;
++    const proposal=recent ?? proposeBoosterBurn(job.low,job.high);
++    if(proposal===undefined)job.done=true;else schedule(job,proposal,'root');
++    return;
++  }
++  const lo=job.low?.burnDuration ?? job.lowerDuration;
++  const hi=job.high?.burnDuration ?? job.upperDuration;
++  // Start inside the physical interval, then expand a valid low endpoint.
++  // Do not spend a full forecast at the all-fuel limit when it cannot catch.
++  const proposed=job.probeDuration ?? (job.low && !job.high && lo===job.firstDuration
++    ?Math.min((boosterBurnTicks(lo)+1)/120,hi):(lo+hi)/2);
++  delete job.probeDuration;
++  if(proposed<=lo || proposed>=hi) {
++    const midpoint=(lo+hi)/2;
++    if(midpoint<=lo || midpoint>=hi)job.done=true;else schedule(job,midpoint,'upper');
++  } else schedule(job,proposed,'upper');
++}
++function completeCandidate(job:BoosterPrediction):void {
++  const c=candidate(job);
++  if(job.rollout.startupPrefix)job.startupPrefix=job.rollout.startupPrefix;
++  if(job.rollout.prefix && (!job.prefix || job.rollout.prefix.steadySteps<job.prefix.steadySteps))
++    job.prefix=job.rollout.prefix;
++  if(job.lastCandidate)job.previousCandidate=job.lastCandidate;
++  else delete job.previousCandidate;
++  job.lastCandidate=c;
++  const original=Math.sign(job.origin.autopilot.boosterRangeError
++    ?? job.origin.kinematics.downRangeDistance-C.starBaseXPos) || 1;
++  if(job.stage==='low') {
++    if(valid(c)) {
++      job.low=c;job.lowReady=cloneState(job.rollout.state);
++      if(job.origin.autopilot.boosterPhase==='coast' || supportsTrial(c)) {
++        validate(job,c);return;
++      }
++    }
++    // An invalid zero coast says nothing about paid interior candidates.
++    schedule(job,job.firstDuration,'upper');return;
++  }
++  if(valid(c)) {
++    if(c.forecast.rangeError*original>=0){
++      const probe=job.low?proposeBoosterProbe(job.low,c,job.upperDuration):undefined;
++      if(probe!==undefined)job.probeDuration=probe;
++      job.low=c;job.lowReady=cloneState(job.rollout.state);
++    } else {job.high=c;job.highReady=cloneState(job.rollout.state);}
++    // Balanced error is an optimization target, not a physical catch bound.
++    // The actual finite terminal replay is still required before publication.
++    // Prioritize each nominally supported paid endpoint once. A stage label
++    // or balanced-error neighbourhood is not physical catch acceptance.
++    if(supportsTrial(c)) {
++      validate(job,c);return;
++    }
++  } else {
++    // A failed trajectory is no bracket endpoint or cutoff authority. Its
++    // observed direction only chooses which paid interior to inspect next.
++    if(Number.isFinite(c.forecast.rangeError) && c.forecast.rangeError*original>0)
++      job.lowerDuration=job.duration;
++    else job.upperDuration=job.duration;
++  }
++  continueSearch(job);
++}
++
++/** Four shared mechanical advances per1/120s live step, independent of CPU or
++ * worker timing. Resume only into owned clones; older live frames stay pure. */
++export function advanceBoosterPrediction(state:SimState,dt:number,advance:MechanicalAdvance,policy:MechanicalControl,model:VehicleDefinition):number {
++  const a=state.autopilot,prior=a.boosterPrediction;
++  const next=!prior || prior.done?begin(state,model,prior?.published):{
++    ...prior,rollout:{...prior.rollout,state:cloneState(prior.rollout.state),result:{...prior.rollout.result}},
++  };
++  const used=advanceBoosterForecast(next.rollout,Math.max(1,Math.floor(480*dt)),advance,policy,model);
++  if(next.rollout.done) {
++    if(next.stage==='validate') {
++      const terminal=next.rollout.state;
++      const caught=physicallyCaught(terminal);
++      const decision=acceptBoosterReturnPlan(next.selected!,caught,state.world.environmentTime);
++      // A coast diagnostic has no future boost to command, but still requires
++      // genuine terminal validation before being advertised as reached.
++      if(decision || (caught && next.origin.autopilot.boosterPhase==='coast')) {
++        const forecast={...next.selected!.forecast,fuel:terminal.vehicle.propellantMass};
++        next.published={originTime:next.origin.world.environmentTime,
++          originX:next.origin.kinematics.downRangeDistance,originVX:next.origin.kinematics.speedX,
++          forecast,...(decision?{decision}:{})};
++        if(decision){a.boosterReturnPlan=decision;a.boosterCoastPitch=decision.coastPitch;}
++      }
++      if(decision || caught || next.origin.autopilot.boosterPhase==='coast')next.done=true;
++      else continueSearch(next);
++    } else completeCandidate(next);
++  }
++  a.boosterPrediction=next;
++  const p=next.published;
++  if(p) {
++    // Compatibility telemetry has a single interpretation in every phase.
++    // Production publications have no derivative. Neither this scalar nor a
++    // later telemetry replacement is allowed to command engines or fins.
++    const elapsed=Math.max(0,state.world.environmentTime-p.originTime);
++    a.boosterRangeError=p.forecast.rangeError+(p.burnRangeRate ?? 0)*elapsed;
++    a.boosterFallTime=Math.max(0,p.forecast.time-elapsed);
++    a.boosterForecastReached=p.forecast.reached;
++  }
++  return used;
++}
+diff --git a/src/core/control/booster-return-plan.ts b/src/core/control/booster-return-plan.ts
+new file mode 100644
+index 0000000..bf6e9ba
+--- /dev/null
++++ b/src/core/control/booster-return-plan.ts
+@@ -0,0 +1,61 @@
++/** Numeric root proposals are not flight commands. Only a source-matched,
++ * physically validated, still-future paid candidate can become a command. */
++import type { Rad } from '../units';
++import type { BoosterForecast } from './booster-forecast';
++
++export interface BoosterBurnCandidate {
++  originTime:number;
++  burnDuration:number;
++  shutdownAt:number;
++  coastPitch:Rad;
++  forecast:BoosterForecast;
++}
++export interface BoosterReturnPlan {
++  originTime:number;
++  shutdownAt:number;
++  coastPitch:Rad;
++  handoff:NonNullable<BoosterForecast['handoff']>;
++}
++function valid(candidate:BoosterBurnCandidate):boolean {
++  const f=candidate.forecast;
++  return f.reached && !f.failed && f.fuel>0 && f.handoff!==undefined
++    && Number.isFinite(f.rangeError) && Number.isFinite(candidate.shutdownAt)
++    && Number.isFinite(candidate.burnDuration) && candidate.burnDuration>=0;
++}
++export function proposeBoosterBurn(low:BoosterBurnCandidate,high:BoosterBurnCandidate):number|undefined {
++  if(!valid(low) || !valid(high) || low.originTime!==high.originTime
++    || low.coastPitch!==high.coastPitch || high.burnDuration<=low.burnDuration
++    || low.forecast.rangeError*high.forecast.rangeError>=0)return undefined;
++  const weight=low.forecast.rangeError/(low.forecast.rangeError-high.forecast.rangeError);
++  return low.burnDuration+(high.burnDuration-low.burnDuration)*weight;
++}
++/** A same-source response may propose a further paid interior before a bracket
++ * exists. It is never a bracket endpoint, transported slope or cutoff command. */
++export function proposeBoosterProbe(first:BoosterBurnCandidate,second:BoosterBurnCandidate,upperDuration:number):number|undefined {
++  if(!valid(first) || !valid(second) || first.originTime!==second.originTime
++    || first.coastPitch!==second.coastPitch || first.burnDuration>=second.burnDuration
++    || first.forecast.rangeError*second.forecast.rangeError<=0)return undefined;
++  const change=second.forecast.rangeError-first.forecast.rangeError;
++  const proposed=second.burnDuration-second.forecast.rangeError*(second.burnDuration-first.burnDuration)/change;
++  return Number.isFinite(proposed) && proposed>second.burnDuration && proposed<upperDuration?proposed:undefined;
++}
++export function acceptBoosterReturnPlan(candidate:BoosterBurnCandidate,terminalValidated:boolean,now:number):BoosterReturnPlan|undefined {
++  if(!valid(candidate) || !terminalValidated || !candidate.forecast.handoff!.lateralFeasible
++    || candidate.shutdownAt<=now)return undefined;
++  return {originTime:candidate.originTime,shutdownAt:candidate.shutdownAt,
++    coastPitch:candidate.coastPitch,handoff:{...candidate.forecast.handoff!}};
++}
++
++/** A local measured response proposes work only; the valid sign bracket remains
++ * the authority and bounds. */
++export function proposeBoosterRefinement(previous:BoosterBurnCandidate,current:BoosterBurnCandidate,low:BoosterBurnCandidate,high:BoosterBurnCandidate):number|undefined {
++  if(proposeBoosterBurn(low,high)===undefined || !valid(previous) || !valid(current)
++    || previous.originTime!==current.originTime || current.originTime!==low.originTime
++    || previous.coastPitch!==current.coastPitch || current.coastPitch!==low.coastPitch
++    || previous.burnDuration===current.burnDuration)return undefined;
++  const change=current.forecast.rangeError-previous.forecast.rangeError;
++  const proposed=current.burnDuration-current.forecast.rangeError
++    *(current.burnDuration-previous.burnDuration)/change;
++  return Number.isFinite(proposed) && proposed>low.burnDuration && proposed<high.burnDuration
++    ?proposed:undefined;
++}
+diff --git a/src/core/control/guidance-physics.ts b/src/core/control/guidance-physics.ts
+index 9e433f9..bb31685 100644
+--- a/src/core/control/guidance-physics.ts
++++ b/src/core/control/guidance-physics.ts
+@@ -28,7 +28,9 @@ import { tangentialAcceleration, verticalGravityAcceleration, verticalWeight } f
+ import { isaAtmosphereInto } from '../physics/isa';
+ import { meanWindAt } from '../physics/wind';
+ import type { SimState } from '../state';
+-import { rad } from '../units';
++import { rad, type Rad } from '../units';
++import { createMassProperties, writeMassProperties } from '../physics/mass';
++import { createGridFinForces, writeGridFinForces } from '../physics/grid-fins';
+ 
+ /**
+  * m/s² — the floor `localGravity` never goes below.
+@@ -193,6 +195,23 @@ function burnDeceleration(engines: number, h: number, u: number, m: number, scra
+ const MASS_PASSES = 24;
+ const MASS_TOLERANCE = 1;
+ 
++/** Conservative upper bound for the existing SL-Raptor burn predictor's
++ * trigger, not an alternative burn solution. Through a forward stopping burn,
++ * thrust >= sea-level, mass <= initial mass, drag assists and gravity <= its
++ * catch-plane value. Thus deceleration >= thrustSL/mass - gravityMax, and
++ * distance <= u²/(2aMin). One full midpoint step's mass plus the existing root
++ * residual bounds the backward predictor's endpoint interpolation. Infinity
++ * means no positive lower acceleration bound; run the exact predictor then.
++ * This only saves work safely ABOVE the bound. It never commands an engine. */
++export function conservativeBurnStartAltitude(engines:number,mass:number,descentSpeed:number,touchdownHeight:number):number {
++  if(engines<=0 || mass<=0)return Infinity;
++  const upperMass=mass+engines*C.maxFuelFlowPerRaptor*BURN_STEP+MASS_TOLERANCE;
++  const minAcceleration=thrustFor(engines,C.SEA_LEVEL_PRESSURE_PA/1000)/upperMass
++    -verticalWeight(C.planetRadius+touchdownHeight);
++  if(minAcceleration<=0)return Infinity;
++  return touchdownHeight+Math.max(0,descentSpeed)**2/(2*minAcceleration);
++}
++
+ 
+ /**
+  * m — the altitude at which a full-throttle burn on `engines` Raptors, flown
+@@ -327,14 +346,18 @@ function fallAcceleration(
+   referenceWind: number,
+   scratch: BurnScratch,
+   model: VehicleDefinition,
++  gustX=0,
++  gustY=0,
+ ): void {
+   const { inputs, acc } = scratch;
+   const r = C.planetRadius + altitude;
+   const air = scratch.atmosphere;
+   isaAtmosphereInto(Math.max(altitude, 0), air);
+-  const rx = vx - meanWindAt(referenceWind, altitude);
+-  const speed = Math.sqrt(rx * rx + vy * vy);
+-  const motion = Math.atan2(rx, vy);
++  const meanRelativeX = vx - meanWindAt(referenceWind, altitude);
++  const rx = gustX===0?meanRelativeX:meanRelativeX-gustX;
++  const ry = gustY===0?vy:vy-gustY;
++  const speed = Math.sqrt(rx * rx + ry * ry);
++  const motion = Math.atan2(rx, ry);
+   const attack = wrappedAttackAngle(pitch, motion);
+   const intoWind = foldedIntoWind(attack);
+   const area = getCrossSectionalArea(rad(intoWind), maxArea, model);
+@@ -347,6 +370,24 @@ function fallAcceleration(
+   acc.y = getVerticalAcceleration(inputs, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);
+ }
+ 
++const forceMass=createMassProperties(),forceGrid=createGridFinForces();
++/** The existing force law at a proposed hull attitude. No integration or
++ * actuator impulse: callers must still prove actual slew/contact mechanically.
++ * Includes current gusts and the delivered grid-fin deflection. */
++export function writeUnpoweredAcceleration(state:SimState,pitch:Rad,model:VehicleDefinition,scratch:BurnScratch):void {
++  const k=state.kinematics;
++  fallAcceleration(k.altitude,k.speedX,k.speedY,pitch,state.vehicle.vehicleMass,
++    state.vehicle.vehicleInFlightMaxArea,state.world.wind,scratch,model,state.world.gust,state.world.gustVertical);
++  if(model.gridFins){
++    writeMassProperties(state.vehicle.propellantMass,forceMass,model);
++    writeGridFinForces(scratch.atmosphere.airDensity,
++      k.speedX-meanWindAt(state.world.wind,k.altitude)-state.world.gust,k.speedY-state.world.gustVertical,
++      rad((state.vehicle.frontFinExtension-50)/50*model.gridFins.maxAngle),pitch,forceMass.centreOfMass,model,forceGrid);
++    scratch.acc.x+=forceGrid.forceX/state.vehicle.vehicleMass;
++    scratch.acc.y+=forceGrid.forceY/state.vehicle.vehicleMass;
++  }
++}
++
+ /**
+  * Where the vehicle comes down if nothing more is done: no thrust, its attitude
+  * held, integrated to `groundAltitude` with the forces `step()` applies to an
+@@ -369,9 +410,10 @@ export function unpoweredFallInto(
+   scratch: BurnScratch,
+   out: FallResult,
+   model: VehicleDefinition = SHIP,
++  pitchOverride = state.kinematics.pitch,
+ ): void {
+   const { kinematics, vehicle, world } = state;
+-  const pitch = kinematics.pitch;
++  const pitch = pitchOverride;
+   const mass = vehicle.vehicleMass;
+   const maxArea = vehicle.vehicleInFlightMaxArea;
+   // The air's downrange speed, as step() takes it, at each height of the fall:
+diff --git a/src/core/control/mechanical.ts b/src/core/control/mechanical.ts
+new file mode 100644
+index 0000000..ba80f38
+--- /dev/null
++++ b/src/core/control/mechanical.ts
+@@ -0,0 +1,6 @@
++/** A control law consumes the returned mechanics before real actuators slew.
++ * Forecasts supply their planned law instead of recursively running guidance. */
++import type { SimState } from '../state';
++import type { VehicleDefinition } from '../vehicle';
++export type MechanicalControl=(state:SimState,dt:number,model:VehicleDefinition)=>void;
++export type MechanicalAdvance=(previous:SimState,dt:number,control:MechanicalControl,model:VehicleDefinition)=>SimState;
+diff --git a/src/core/scenarios.ts b/src/core/scenarios.ts
+index 6f99d83..2c81fb7 100644
+--- a/src/core/scenarios.ts
++++ b/src/core/scenarios.ts
+@@ -319,6 +319,7 @@ function createStateForVehicle(preset: ScenarioPreset, seed: number | undefined,
+   s.kinematics.trueSpeed = Math.sqrt(preset.speedX ** 2 + preset.speedY ** 2);
+ 
+   s.kinematics.pitch = toRad(preset.pitch);
++  if (model.gridFins) s.kinematics.pitchRecord = [s.kinematics.pitch, s.kinematics.pitch];
+ 
+   let propellantMass = preset.propellant * 1000;
+   if (propellantMass > model.propellantCapacity) propellantMass = model.propellantCapacity;
+diff --git a/src/core/state.ts b/src/core/state.ts
+index 5374ba5..750b897 100644
+--- a/src/core/state.ts
++++ b/src/core/state.ts
+@@ -21,6 +21,8 @@ import { momentOfInertia } from './physics/mass';
+ import { circularOrbitalSpeed } from './physics/gravity';
+ import { createRng, type RngState } from './rng';
+ import { rad, type Rad } from './units';
++import type { BoosterPrediction } from './control/booster-prediction';
++import type { BoosterReturnPlan } from './control/booster-return-plan';
+ 
+ /**
+  * Which Raptor a field refers to: an index into `C.RAPTORS`, and into every
+@@ -110,7 +112,7 @@ export interface KinematicsState {
+    * gate device-dependent. M2.4 makes it dpitch/dt.
+    */
+   pitchRateOfChange: number;
+-  /** rad — the last two pitch samples, newest last. Seeded with Infinity. */
++  /** rad — the last two pitch samples, newest last. Ship retains its legacy Infinity seed; booster starts at its actual pitch. */
+   pitchRecord: [number, number];
+ 
+   /** rad/s. */
+@@ -348,6 +350,37 @@ export interface FailureState {
+ }
+ 
+ export interface AutopilotState {
++  /** Booster-only physical control state; absent on Ship to retain its shape. */
++  boosterPhase?: 'align-boost' | 'boostback' | 'coast' | 'entry' | 'terminal';
++  /** One-way descent handoff; retain the paid centre engines into terminal. */
++  boosterEntryCentreOnly?: boolean;
++  /** s — predictor cadence, advanced by simulated dt. */
++  boosterPredictorCountdown?: number;
++  /** m — predicted unpowered return error at the catch plane. */
++  boosterRangeError?: number;
++  /** s — predicted coast time to the catch plane. */
++  boosterFallTime?: number;
++  /** rad — coast correction derived from the shared range predictor. */
++  boosterCoastPitch?: Rad;
++  /** % — independent grid-fin deflection, -100..100. */
++  boosterFinControl?: number | undefined;
++  /** s — remaining finite terminal-arrival deadline; never reset by stopping. */
++  boosterArrivalTime?: number;
++  /** Whether the latest planned mechanical return reached the lug plane. */
++  boosterForecastReached?: boolean;
++  /** Deterministic in-progress mechanical prediction; absent on Ship. Inner
++   * snapshots contain no job and are immutable until resumed into owned state. */
++  boosterPrediction?: BoosterPrediction;
++  /** Source-pinned future shutdown/coast plan, accepted by physical replay. */
++  boosterReturnPlan?: BoosterReturnPlan;
++  /** An invalid/expired terminal attempt cannot become indefinite hover. */
++  boosterTerminalMissed?: boolean;
++  /** s — first physical central-engine ignition command in terminal approach. */
++  boosterTerminalIgnitionTime?: number;
++  /** Owned future-only stop before terminal guidance at paid engine readiness. */
++  boosterForecastHandoff?: boolean;
++  /** Forecast-only finite continuing-boost command, never set on live flight. */
++  boosterForecastBurn?: boolean;
+   manualControlOn: boolean;
+   /** % — pitch command, -100..100. In 2021 this was read from a DOM slider
+    * every frame (updateBackEnd.js:201); in v2 it arrives through the input arg. */
+@@ -537,7 +570,7 @@ export function createInitialState(seed = DEFAULT_SEED, model: VehicleDefinition
+ 
+       pitch: rad(0),
+       pitchRateOfChange: 0,
+-      pitchRecord: [Infinity, Infinity],
++      pitchRecord: model.gridFins ? [0, 0] : [Infinity, Infinity],
+ 
+       angularVelocity: 0,
+       angularAcceleration: 0,
+diff --git a/src/core/step.ts b/src/core/step.ts
+index 87d308b..ada082b 100644
+--- a/src/core/step.ts
++++ b/src/core/step.ts
+@@ -64,6 +64,8 @@ import * as wind from './physics/wind';
+ import { createMassProperties, writeMassProperties } from './physics/mass';
+ import * as act from './control/actuation';
+ import { runAutopilot } from './autopilot';
++import { runBoosterPostStep } from './autopilot/booster';
++import type { MechanicalControl } from './control/mechanical';
+ import { cloneState, type SimState } from './state';
+ import { rad } from './units';
+ 
+@@ -257,6 +259,22 @@ function updatePerceivedG(s: SimState, specificX: number, specificY: number): vo
+ const gridFinForces = createGridFinForces();
+ 
+ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT, model: VehicleDefinition = SHIP): SimState {
++  const next=advance(previous,dt,input,model,flightControls);
++  if(model.id==='super-heavy')runBoosterPostStep(next,dt,model,advanceMechanics);
++  return next;
++}
++
++function flightControls(state:SimState,dt:number,model:VehicleDefinition):void {
++  runAutopilot(state,dt,model,advanceMechanics);
++}
++
++/** The very same physics/engine/actuator advance, with a supplied planned
++ * control law. Input and all RNG are cloned just as in normal step(). */
++export function advanceMechanics(previous:SimState,dt:number,control:MechanicalControl,model:VehicleDefinition):SimState {
++  return advance(previous,dt,NO_INPUT,model,control);
++}
++
++function advance(previous:SimState,dt:number,input:StepInput,model:VehicleDefinition,control:MechanicalControl):SimState {
+   const s = cloneState(previous);
+   // Chopstick contact carries weight and torque until a scenario restart.
+   // A secured booster has no ground contact and cannot restart propulsion.
+@@ -632,12 +650,15 @@ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT
+   // That is 2021's order — readInputFromManualFlightControl() ran after
+   // autoPilotControlInput() and simply clobbered whatever the autopilot wrote,
+   // which is why any manual touch instantly takes over.
+-  runAutopilot(s, dt);
++  control(s, dt, model);
+ 
+   if (input.throttle !== undefined) s.vehicle.throttle = input.throttle;
+-  if (input.pitchControl !== undefined) s.autopilot.pitchControl = input.pitchControl;
++  if (input.pitchControl !== undefined) {
++    s.autopilot.pitchControl = input.pitchControl;
++    if (model.gridFins) s.autopilot.boosterFinControl = input.pitchControl;
++  }
+ 
+-  act.controlTranslation(s, s.autopilot.pitchControl, dt, model);
++  act.controlTranslation(s, s.autopilot.pitchControl, dt, model, input.pitchControl !== undefined);
+   act.throttleUpdate(s, dt);
+ 
+   // Judge current pressure, tile temperature and specific force. Shutdown is
+diff --git a/tests/core/booster-burn-bound.test.ts b/tests/core/booster-burn-bound.test.ts
+new file mode 100644
+index 0000000..97893ca
+--- /dev/null
++++ b/tests/core/booster-burn-bound.test.ts
+@@ -0,0 +1,26 @@
++/** The cheap bound may skip only an exact stopping-distance calculation that
++ * provably cannot trigger a burn. No substitute physical model. */
++import { describe,expect,it } from 'vitest';
++import { conservativeBurnStartAltitude,landingBurnStartAltitude,createBurnScratch } from '$core/control/guidance-physics';
++import { SUPER_HEAVY,CATCH } from '$core/vehicles/super-heavy';
++
++describe('conservative booster burn trigger bound',()=>{
++  it('contains the full physical burn predictor across descent and mass boundaries',()=>{
++    const scratch=createBurnScratch();let finite=0,tooHeavy=0;
++    for(const mass of [200000,250000,276000,300000,400000,450000,500000,700000]) {
++      for(const speed of [2,20,40,100,200,500,700,1000]) {
++        const bound=conservativeBurnStartAltitude(3,mass,speed,CATCH.bodyCentreAltitude);
++        const exact=landingBurnStartAltitude(3,mass,speed,CATCH.bodyCentreAltitude,scratch,SUPER_HEAVY);
++        if(exact!==null){expect(bound,JSON.stringify({mass,speed,exact})).toBeGreaterThanOrEqual(exact);finite++;}
++        if(bound===Infinity)tooHeavy++;
++      }
++    }
++    expect(finite).toBeGreaterThan(20);expect(tooHeavy).toBeGreaterThan(0);
++  });
++  it('allows skipping far above a feasible burn but keeps the exact calculation near the trigger',()=>{
++    const bound=conservativeBurnStartAltitude(3,300000,100,CATCH.bodyCentreAltitude);
++    expect(bound).toBeGreaterThan(450);expect(bound).toBeLessThan(500);
++    expect(10000>bound).toBe(true);expect(400>bound).toBe(false);
++    expect(conservativeBurnStartAltitude(0,300000,100,CATCH.bodyCentreAltitude)).toBe(Infinity);
++  });
++});
+diff --git a/tests/core/booster-command.test.ts b/tests/core/booster-command.test.ts
+new file mode 100644
+index 0000000..630e6be
+--- /dev/null
++++ b/tests/core/booster-command.test.ts
+@@ -0,0 +1,253 @@
++/** Short command witnesses, not additional full-flight diagnosis attempts. */
++import { describe,expect,it } from 'vitest';
++import { createScenarioVehicle,PRESETS } from '$core/scenarios';
++import { controlTranslation } from '$core/control/actuation';
++import { runBoosterAutopilot } from '$core/autopilot/booster';
++import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
++import * as C from '$core/constants';
++import admission from '../fixtures/booster-terminal-admission.json';
++import { cloneState,createInitialState, type SimState } from '$core/state';
++import { createCatchPose, writeCatchPose } from '$core/physics/tower-catch';
++import { getAttackAngles, getAngleOfMotion } from '$core/physics/aero';
++import { advanceMechanics,step } from '$core/step';
++import { rad } from '$core/units';
++import { landingBurnStartAltitude,createBurnScratch } from '$core/control/guidance-physics';
++import { IGNITION_DELAY_MAX_S } from '$core/physics/engines';
++import { verticalGravityAcceleration } from '$core/physics/gravity';
++import { createBoosterArrival,writeBoosterArrival,createBoosterThrustRequest,writeBoosterThrustRequest,writeBoosterForceRequest,boosterDeliveredThrottle } from '$core/control/booster-arrival';
++
++function booster(){return createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!,123).state;}
++
++describe('booster delivered attitude authority',()=>{
++  it('constructs finite actual pitch history before immutable first-source planning',()=>{
++    const spawn=createInitialState(123,SUPER_HEAVY);
++    expect(spawn.kinematics.pitchRecord).toEqual([spawn.kinematics.pitch,spawn.kinematics.pitch]);
++    for(const id of ['booster-sep','rtls']) {
++      const initial=createScenarioVehicle(PRESETS.find(p=>p.id===id)!,123).state;
++      expect(initial.kinematics.pitchRecord).toEqual([initial.kinematics.pitch,initial.kinematics.pitch]);
++      initial.autopilot.autoLandOn=true;
++      const returned=step(initial,1/120,{},SUPER_HEAVY);
++      for(const value of [returned,returned.autopilot.boosterPrediction!.origin]) {
++        expect(value.kinematics.pitchRecord.every(Number.isFinite)).toBe(true);
++        expect(Number.isFinite(value.kinematics.pitchRateOfChange)).toBe(true);
++      }
++    }
++  });
++  it('retains and pays bounded proportional RCS while the automatic gimbal saturates',()=>{
++    const s=booster();s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='entry';
++    s.autopilot.boosterFinControl=0;s.autopilot.rcsThrustCommand=200000;
++    s.status.rcsActive=true;s.status.translationModeOn=true;
++    const reserve=s.vehicle.rcsRunTimeRemaining;
++    controlTranslation(s,100,.01,SUPER_HEAVY);
++    expect(s.forces.rcsThrust).toBe(200000);
++    expect(s.vehicle.rcsRunTimeRemaining).toBeCloseTo(reserve-.0025,12);
++    expect(s.vehicle.gimbalPosition).toBe(6);
++    expect(s.autopilot.rcsThrustCommand).toBe(0);
++  });
++  it('retains the manual full-yoke RCS capability on the actual booster',()=>{
++    const s=booster();s.autopilot.manualControlOn=true;s.autopilot.boosterFinControl=100;
++    s.autopilot.rcsThrustCommand=200000;s.status.rcsActive=true;
++    const reserve=s.vehicle.rcsRunTimeRemaining;
++    controlTranslation(s,-100,.01,SUPER_HEAVY);
++    expect(s.forces.rcsThrust).toBe(-C.rcsMaxThrust);
++    expect(s.vehicle.rcsRunTimeRemaining).toBeCloseTo(reserve-.01,12);
++  });
++  it('lets an explicit manual input override automatic proportional RCS',()=>{
++    const s=booster();s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='entry';
++    s.autopilot.boosterFinControl=0;s.autopilot.rcsThrustCommand=200000;
++    s.status.rcsActive=true;
++    controlTranslation(s,-100,.01,SUPER_HEAVY,true);
++    expect(s.forces.rcsThrust).toBe(-C.rcsMaxThrust);
++  });
++  it('does not credit requested gimbal torque before the actuator reaches it',()=>{
++    const s=booster();s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='boostback';
++    s.autopilot.boostBackInitCompleted=true;s.autopilot.boostBackDirection=1;
++    s.autopilot.boosterPredictorCountdown=1;s.autopilot.boosterRangeError=-10000;
++    s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.vehicle.gimbalPosition=0;s.forces.thrust=1000000;
++    s.engines.running.fill(false);s.engines.running[0]=true;
++    runBoosterAutopilot(s,1/120,SUPER_HEAVY);
++    expect(s.autopilot.pitchControl).toBe(100);
++    expect(s.status.rcsActive).toBe(true);
++    expect(s.autopilot.rcsThrustCommand).toBe(C.rcsMaxThrust);
++  });
++});
++
++
++describe('booster continuous entry handoff',()=>{
++  it('reserves startup distance for cold centres but not already delivered landing thrust',()=>{
++    const s=booster();s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='entry';
++    s.autopilot.boosterEntryCentreOnly=true;s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.kinematics.speedX=0;s.kinematics.speedY=-250;s.kinematics.downRangeDistance=C.starBaseXPos;
++    s.vehicle.propellantMass=130000;s.vehicle.vehicleMass=330000;
++    s.engines.running.fill(false);for(let i=0;i<3;i++)s.engines.running[i]=true;
++    const scratch=createBurnScratch(),gravity=-verticalGravityAcceleration(C.planetRadius+8000,0);
++    const ready=landingBurnStartAltitude(3,330000,250,90.5,scratch,SUPER_HEAVY)!;
++    const cold=landingBurnStartAltitude(3,330000,250+gravity*IGNITION_DELAY_MAX_S,90.5,scratch,SUPER_HEAVY)!;
++    const delayed=cold+250*IGNITION_DELAY_MAX_S+.5*gravity*IGNITION_DELAY_MAX_S**2;
++    expect(delayed).toBeGreaterThan(ready);s.kinematics.altitude=(ready+delayed)/2;
++    const unlit=cloneState(s);unlit.engines.running.fill(false);
++    const throttled=cloneState(s);throttled.vehicle.throttleCurrent=40;
++    runBoosterAutopilot(s,1/120,SUPER_HEAVY);
++    runBoosterAutopilot(unlit,1/120,SUPER_HEAVY);
++    runBoosterAutopilot(throttled,1/120,SUPER_HEAVY);
++    expect(s.autopilot.boosterPhase).toBe('entry');
++    expect(unlit.autopilot.boosterPhase).toBe('terminal');
++    expect(throttled.autopilot.boosterPhase).toBe('terminal');
++    expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
++  });
++
++  it('reduces paid13-engine entry to three feasible centres without repeated shutdown/ignition',()=>{
++    const s=booster();s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='entry';
++    s.kinematics.altitude=8000;s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.kinematics.speedX=0;s.kinematics.speedY=-250;
++    s.kinematics.downRangeDistance=C.starBaseXPos;
++    s.kinematics.accelerationX=0;s.kinematics.accelerationY=-9.8;
++    s.vehicle.propellantMass=130000;s.vehicle.vehicleMass=330000;
++    s.vehicle.gimbalPointingDirection=rad(0);s.atmosphere.airPressure=101.325;s.forces.thrust=0;
++    s.engines.running.fill(false);for(let i=0;i<13;i++)s.engines.running[i]=true;
++    const draws=s.rng.counters.ignitionFailure;
++    runBoosterAutopilot(s,1/120,SUPER_HEAVY);
++    expect(s.autopilot.boosterPhase).toBe('entry');
++    expect(s.engines.running.filter(Boolean)).toHaveLength(3);
++    expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
++    expect(s.engines.ignitionCountdown.every(v=>v===null)).toBe(true);
++    expect(s.vehicle.throttle).toBeGreaterThan(40);expect(s.vehicle.throttle).toBeLessThan(100);
++    runBoosterAutopilot(s,1/120,SUPER_HEAVY);
++    expect(s.engines.running.filter(Boolean)).toHaveLength(3);
++    expect(s.rng.counters.ignitionFailure).toBe(draws);
++  });
++});
++
++describe('booster finite descending terminal command',()=>{
++  it('uses delivered gimbal for translation while paid torque control keeps the terminal hull upright',()=>{
++    let s=booster();s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='terminal';
++    s.autopilot.boosterArrivalTime=15;s.kinematics.altitude=1000;
++    s.kinematics.downRangeDistance=C.starBaseXPos-20;s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.kinematics.speedX=0;s.kinematics.speedY=-100;
++    s.vehicle.propellantMass=100000;s.vehicle.vehicleMass=300000;
++    s.engines.running.fill(false);for(let i=0;i<3;i++)s.engines.running[i]=true;
++    s.vehicle.throttle=s.vehicle.throttleCurrent=60;
++    const reserve=s.vehicle.rcsRunTimeRemaining;
++    for(let i=0;i<120;i++)s=advanceMechanics(s,1/120,(state,dt,model)=>runBoosterAutopilot(state,dt,model,advanceMechanics),SUPER_HEAVY);
++    expect(s.kinematics.speedX).toBeGreaterThan(0);
++    expect(Math.abs(s.kinematics.pitch)).toBeLessThan(.5*Math.PI/180);
++    expect(Math.abs(s.vehicle.gimbalPosition)).toBeGreaterThan(0);
++    expect(s.vehicle.rcsRunTimeRemaining).toBeLessThan(reserve);
++    expect(s.vehicle.rcsRunTimeRemaining).toBeGreaterThan(0);
++    expect(Object.values(s.failures).some(Boolean)).toBe(false);
++  });
++
++  it('keeps its deadline falling when vertical velocity stops or reverses',()=>{
++    const s=booster();s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.kinematics.altitude=200;s.kinematics.speedY=-20;
++    const out=createBoosterArrival();
++    writeBoosterArrival(s,.1,SUPER_HEAVY,out);const first=out.time;
++    s.kinematics.speedY=0;writeBoosterArrival(s,.1,SUPER_HEAVY,out);
++    expect(out.time).toBeCloseTo(first-.1,12);
++    s.kinematics.speedY=2;writeBoosterArrival(s,.1,SUPER_HEAVY,out);
++    expect(out.time).toBeCloseTo(first-.2,12);
++    expect(out.ay).toBeLessThan(0);
++  });
++  it('accounts for measured rotational point acceleration in the commanded body target',()=>{
++    const s=booster();s.kinematics.downRangeDistance=C.starBaseXPos;
++    s.kinematics.altitude=500;s.kinematics.pitch=rad(.12);
++    s.kinematics.angularVelocity=.05;s.kinematics.angularAcceleration=.1;
++    s.kinematics.speedX=-2;s.kinematics.speedY=-30;
++    const out=createBoosterArrival();writeBoosterArrival(s,0,SUPER_HEAVY,out);
++    const ax=out.bodyAX;
++    const ay=out.bodyAY;
++    const pose=createCatchPose();writeCatchPose(s,SUPER_HEAVY,pose);
++    const x0=pose.x,y0=pose.altitude,h=.01;
++    const points=[-h,h].map(t=>{
++      const p=cloneState(s),k=p.kinematics;
++      k.downRangeDistance+=k.speedX*t+.5*ax*t*t;
++      k.altitude+=k.speedY*t+.5*ay*t*t;
++      k.pitch=rad(k.pitch+k.angularVelocity*t+.5*k.angularAcceleration*t*t);
++      const lug=createCatchPose();writeCatchPose(p,SUPER_HEAVY,lug);return lug;
++    });
++    // Independent second difference of the actual rotated geometry. At10ms
++    // the Taylor/coordinate roundoff bound is below1e-3m/s² for this witness.
++    expect((points[0]!.x+points[1]!.x-2*x0)/h**2).toBeCloseTo(out.ax,3);
++    expect((points[0]!.altitude+points[1]!.altitude-2*y0)/h**2).toBeCloseTo(out.ay,3);
++  });
++  it('targets the rotating lug instead of the hull centre',()=>{
++    const s=booster();s.kinematics.downRangeDistance=C.starBaseXPos;
++    s.kinematics.pitch=rad(Math.PI/6);s.kinematics.angularVelocity=.1;
++    s.kinematics.altitude=200;s.kinematics.speedX=3;s.kinematics.speedY=-20;
++    const out=createBoosterArrival();writeBoosterArrival(s,0,SUPER_HEAVY,out);
++    expect(out.x).toBeCloseTo(14.75,8);
++    expect(out.height).toBeCloseTo(80+29.5*Math.cos(Math.PI/6),12);
++    expect(out.vx).toBeCloseTo(3+2.95*Math.cos(Math.PI/6),12);
++    expect(out.vy).toBeCloseTo(-21.475,12);
++  });
++  it('requests resumed descent instead of gravity cancellation after an early stop',()=>{
++    const s=booster();s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='terminal';
++    s.autopilot.boosterPredictorCountdown=1;
++    s.kinematics.altitude=200;s.kinematics.speedX=0;s.kinematics.speedY=0;
++    s.kinematics.downRangeDistance=C.starBaseXPos;
++    s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.vehicle.propellantMass=100000;s.vehicle.vehicleMass=300000;
++    s.engines.running.fill(false);s.engines.running[0]=s.engines.running[1]=s.engines.running[2]=true;
++    s.atmosphere.airPressure=101.325;s.forces.thrust=0;
++    s.kinematics.accelerationX=0;s.kinematics.accelerationY=-9.8;
++    runBoosterAutopilot(s,1/120,SUPER_HEAVY);
++    const hover=300000*9.8/(3*C.thrustPerRaptorAt(101.325))*100;
++    expect(s.vehicle.throttle).toBeLessThan(hover);
++    expect(s.vehicle.throttle).toBeGreaterThanOrEqual(40);
++  });
++});
++
++describe('booster feasible translational thrust',()=>{
++  it('corrects the actual high-pressure force response instead of steering against it',()=>{
++    const initial=cloneState(admission.state as unknown as SimState);
++    const targetX=1,targetY=11,out=createBoosterThrustRequest();
++    writeBoosterForceRequest(initial,targetX,targetY,SUPER_HEAVY,out);
++    const commanded=cloneState(initial);
++    commanded.kinematics.pitch=out.pitch;commanded.kinematics.angularVelocity=0;
++    // This is a steady force proposal, not an instantaneous physical slew.
++    // The incoming area uses the previous frame's attack angle in step().
++    const angles=getAttackAngles(out.pitch,getAngleOfMotion(commanded.kinematics.speedX,commanded.kinematics.speedY));
++    commanded.kinematics.angleOfAttack=angles.angleOfAttack;
++    commanded.kinematics.angleInToTheWind=angles.angleInToTheWind;
++    commanded.vehicle.gimbalPosition=0;
++    commanded.vehicle.throttle=commanded.vehicle.throttleCurrent=out.throttle;
++    const delivered=advanceMechanics(commanded,.001,()=>{},SUPER_HEAVY);
++    // The independent physical advance must correct right at this recorded
++    // descending state. Positive hull pitch instead produces leftward lift.
++    expect(delivered.kinematics.accelerationX).toBeGreaterThan(0);
++    expect(Math.abs(delivered.kinematics.accelerationX-targetX)).toBeLessThan(.1);
++    expect(Math.abs(delivered.kinematics.accelerationY-targetY)).toBeLessThan(.1);
++  });
++
++  it('allocates vertical throttle along the delivered direction while the hull is still slewing',()=>{
++    const s=cloneState(admission.state as unknown as SimState);
++    const out=createBoosterThrustRequest();
++    writeBoosterForceRequest(s,1,11,SUPER_HEAVY,out);
++    const measuredY=s.forces.thrust/s.vehicle.vehicleMass*Math.cos(s.vehicle.gimbalPointingDirection);
++    const environmentY=s.kinematics.accelerationY-measuredY;
++    const max=3*C.thrustPerRaptorAt(s.atmosphere.airPressure)/s.vehicle.vehicleMass;
++    const throttle=boosterDeliveredThrottle(s,11,SUPER_HEAVY);
++    const actualY=environmentY+max*throttle*.01*Math.cos(s.vehicle.gimbalPointingDirection);
++    expect(actualY).toBeCloseTo(11,10);
++  });
++  it('subtracts measured aero/gravity and preserves vertical demand when horizontal steering saturates',()=>{
++    const s=booster();s.vehicle.vehicleMass=300000;s.kinematics.pitch=rad(0);
++    s.vehicle.gimbalPointingDirection=rad(0);
++    s.engines.running.fill(false);for(let i=0;i<13;i++)s.engines.running[i]=true;
++    s.atmosphere.airPressure=101.325;s.forces.thrust=3000000;
++    // Previous paid engine acceleration10m/s²; environmental residual(+3,-8).
++    s.kinematics.accelerationX=3;s.kinematics.accelerationY=2;
++    const out=createBoosterThrustRequest();writeBoosterThrustRequest(s,-100,2,SUPER_HEAVY,out);
++    expect(out.requiredX).toBe(-103);expect(out.requiredY).toBe(10);
++    expect(out.pitch).toBe(-.3);
++    // Actual13-engine40% minimum exceeds this deliberately modest demand.
++    expect(out.throttle).toBe(40);
++    expect(out.deliveredY).toBeCloseTo(13*C.thrustPerRaptorAt(101.325)/300000*.4*Math.cos(.3),12);
++    // A feasible demand uses the clamped angle, not hypot(-103,50).
++    writeBoosterThrustRequest(s,-100,42,SUPER_HEAVY,out);
++    expect(out.requiredY).toBe(50);
++    expect(out.throttle).toBeLessThan(100);
++    expect(out.deliveredY).toBeCloseTo(50,12);
++  });
++});
+diff --git a/tests/core/booster-forecast.test.ts b/tests/core/booster-forecast.test.ts
+new file mode 100644
+index 0000000..941098e
+--- /dev/null
++++ b/tests/core/booster-forecast.test.ts
+@@ -0,0 +1,323 @@
++/** Short mechanical forecast witnesses; no prescribed preset-to-catch run. */
++import { describe,expect,it } from 'vitest';
++import { createScenarioVehicle,PRESETS } from '$core/scenarios';
++import { cloneState } from '$core/state';
++import { advanceMechanics,step } from '$core/step';
++import { createBoosterForecast,forecastBoosterReturn,createBoosterForecastWork,advanceBoosterForecast,createBoosterHandoffWork,createBoosterReadyWork,executableBoosterBurnDuration } from '$core/control/booster-forecast';
++import { runBoosterPolicy } from '$core/autopilot/booster';
++import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
++import { rad } from '$core/units';
++import * as C from '$core/constants';
++
++describe('planned booster forecast',()=>{
++  it('keeps every canonical live-tick duration idempotent at floating-point boundaries',()=>{
++    for(let ticks=1;ticks<=10000;ticks++) {
++      const duration=ticks/120;
++      expect(executableBoosterBurnDuration(duration),String(ticks)).toBe(duration);
++    }
++    expect(executableBoosterBurnDuration(.013)).toBe(2/120);
++  });
++
++  function localReady() {
++    const s=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123).state;
++    s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='terminal';s.autopilot.boosterFallTime=15;
++    s.autopilot.boosterCoastPitch=rad(0);
++    s.kinematics.altitude=500;s.kinematics.downRangeDistance=C.starBaseXPos+10;
++    s.kinematics.speedX=-1;s.kinematics.speedY=-50;s.kinematics.pitch=rad(.01);
++    s.kinematics.angularVelocity=0;s.engines.running.fill(false);
++    for(let i=0;i<3;i++){s.engines.running[i]=i<2;s.engines.ignitionCountdown[i]=i===2?1/240:null;}
++    s.vehicle.throttle=s.vehicle.throttleCurrent=100;return s;
++  }
++  it('waits for the actual terminal command after a running-centre entry handoff',()=>{
++    const s=localReady();s.autopilot.boosterPhase='entry';s.autopilot.boosterEntryCentreOnly=true;
++    s.kinematics.altitude=3000;s.kinematics.speedY=-270;
++    s.engines.running.fill(false);for(let i=0;i<3;i++)s.engines.running[i]=true;
++    s.engines.ignitionCountdown.fill(null);
++    const w=createBoosterReadyWork(s,rad(0),0,1/120);
++    advanceBoosterForecast(w,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(w.state.autopilot.boosterPhase).toBe('terminal');expect(w.done).toBe(false);
++    expect(w.state.autopilot.boosterArrivalTime).toBeUndefined();
++    advanceBoosterForecast(w,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    let live=advanceMechanics(s,1/120,runBoosterPolicy,SUPER_HEAVY);
++    live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
++    expect(w.done).toBe(true);expect(w.state.autopilot.boosterArrivalTime).toBeDefined();
++    expect(w.state.vehicle).toEqual(live.vehicle);expect(w.state.engines).toEqual(live.engines);
++    expect(w.state.forces).toEqual(live.forces);expect(w.state.kinematics).toEqual(live.kinematics);
++    expect(w.state.autopilot.boosterArrivalTime).toBe(live.autopilot.boosterArrivalTime);
++  });
++  it('targets zero final horizontal acceleration for the commanded upright cubic',()=>{
++    const s=localReady(),w=createBoosterReadyWork(s,rad(0),0,1/120);
++    advanceBoosterForecast(w,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const t=w.result.handoff!.time,k=w.state.kinematics,x=k.downRangeDistance-C.starBaseXPos;
++    // Cubic position/velocity endpoint constraints give x''(T)=6x/T²+2vx/T.
++    // Root telemetry must optimize that actual upright-centre boundary.
++    const endpointAcceleration=6*x/t**2+2*k.speedX/t;
++    expect(6*w.result.rangeError/t**2).toBeCloseTo(endpointAcceleration,12);
++  });
++  it('observes the complete returned readiness command, paid slew and deadline',()=>{
++    const s=localReady(),original=cloneState(s),work=createBoosterReadyWork(s,rad(0),0,1/120);
++    advanceBoosterForecast(work,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const live=advanceMechanics(s,1/120,runBoosterPolicy,SUPER_HEAVY);
++    expect(work.result.reached).toBe(true);
++    expect(work.state.kinematics).toEqual(live.kinematics);
++    expect(work.state.vehicle).toEqual(live.vehicle);
++    expect(work.state.forces).toEqual(live.forces);
++    expect(work.state.engines).toEqual(live.engines);
++    expect(work.state.status).toEqual(live.status);
++    expect(work.state.autopilot.boosterArrivalTime).toBe(live.autopilot.boosterArrivalTime);
++    expect(work.state.autopilot.pitchControl).toBe(live.autopilot.pitchControl);
++    expect(work.state.autopilot.boosterTerminalMissed).toBe(live.autopilot.boosterTerminalMissed);
++    expect(work.state.rng).toEqual(live.rng);expect(s).toEqual(original);
++  });
++  it('pays discrete terminal ignition at live cadence for arbitrary countdown phases',()=>{
++    const s=localReady();s.kinematics.altitude=3040;s.kinematics.downRangeDistance=C.starBaseXPos-8;
++    s.kinematics.speedX=-.53;s.kinematics.speedY=-278;s.kinematics.pitch=rad(.00057);
++    s.kinematics.angularVelocity=-.00075;s.engines.running.fill(false);
++    [.011,.06,.091].forEach((d,i)=>s.engines.ignitionCountdown[i]=d);
++    const defaultWork=createBoosterReadyWork(s,rad(0),0),fine=createBoosterReadyWork(s,rad(0),0,1/120);
++    for(const w of [defaultWork,fine])advanceBoosterForecast(w,16,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(defaultWork.result.reached).toBe(true);expect(fine.result.reached).toBe(true);
++    expect(defaultWork.result.time).toBe(fine.result.time);
++    expect(defaultWork.state).toEqual(fine.state);expect(defaultWork.result).toEqual(fine.result);
++    expect(defaultWork.result.ignitionDraws).toBe(0);
++  });
++  it.each([.013,.25,.250001])('pays the executable live cutoff for fractional proposal %s',duration=>{
++    const s=localReady();s.autopilot.boosterPhase='boostback';
++    s.autopilot.boostBackInitCompleted=true;s.autopilot.boostBackDirection=-1;
++    s.kinematics.altitude=100000;s.kinematics.pitch=rad(-Math.PI/2);
++    s.engines.ignitionCountdown.fill(null);s.engines.running.fill(false);
++    for(let i=0;i<13;i++)s.engines.running[i]=true;
++    const work=createBoosterReadyWork(s,rad(0),duration,1/120);
++    for(let i=0;i<100 && work.state.autopilot.boosterPhase==='boostback';i++)
++      advanceBoosterForecast(work,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    let live=cloneState(s);live.autopilot.boosterReturnPlan={originTime:s.world.environmentTime,
++      shutdownAt:work.shutdownAt!,coastPitch:rad(0),handoff:{x:0,height:1,vx:0,vy:-1,time:1,lateralFeasible:true}};
++    for(let i=0;i<100 && live.autopilot.boosterPhase==='boostback';i++)
++      live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
++    expect(live.autopilot.boosterPhase).toBe('coast');
++    expect(work.state.world.environmentTime).toBe(live.world.environmentTime);
++    expect(work.state.vehicle.propellantMass).toBe(live.vehicle.propellantMass);
++    expect(work.state.kinematics).toEqual(live.kinematics);
++    expect(work.state.engines).toEqual(live.engines);expect(work.state.rng).toEqual(live.rng);
++  });
++
++  it('replays the selected coast plan through live mechanics to paid terminal readiness bit-exactly',()=>{
++    const s=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123).state;
++    s.kinematics.altitude=500;s.kinematics.downRangeDistance=C.starBaseXPos;
++    s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.kinematics.speedX=0;s.kinematics.speedY=-50;
++    s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='coast';
++    s.autopilot.boosterCoastPitch=rad(0);
++    s.autopilot.boosterReturnPlan={originTime:-1,shutdownAt:-.5,coastPitch:rad(0),
++      handoff:{x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true}};
++    const original=cloneState(s);
++    const future=createBoosterReadyWork(s,rad(0),0,1/120);
++    advanceBoosterForecast(future,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    let live=s;
++    for(let i=0;i<4000 && !(live.autopilot.boosterPhase==='terminal' && live.engines.running.slice(0,3).every(Boolean));i++)
++      live=step(live,1/120,{},SUPER_HEAVY);
++    expect(future.result.reached).toBe(true);
++    expect(future.result.handoff).toBeDefined();
++    expect(future.state.kinematics).toEqual(live.kinematics);
++    expect(future.state.world).toEqual(live.world);
++    expect(future.state.vehicle.propellantMass).toBe(live.vehicle.propellantMass);
++    expect(future.state.rng).toEqual(live.rng);
++    expect(s).toEqual(original);
++  });
++  it.each(['booster-sep','rtls'])('uses the live mechanical cadence for the paid alignment endpoint of %s',id=>{
++    const initial=createScenarioVehicle(PRESETS.find(p=>p.id===id)!);
++    initial.state.autopilot.autoLandOn=true;
++    const origin=step(initial.state,1/120,{},SUPER_HEAVY).autopilot.boosterPrediction!.origin;
++    const scheduled=createBoosterReadyWork(origin,rad(0),.25);
++    const liveCadence=createBoosterReadyWork(origin,rad(0),.25,1/120);
++    for(const work of [scheduled,liveCadence]) {
++      for(let i=0;i<2000 && work.state.autopilot.boosterPhase==='align-boost';i++)
++        advanceBoosterForecast(work,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++      expect(work.state.autopilot.boosterPhase).toBe('boostback');
++    }
++    expect(scheduled.result.time).toBe(liveCadence.result.time);
++    expect(scheduled.state).toEqual(liveCadence.state);
++    expect(scheduled.result.steps).toBe(liveCadence.result.steps);
++  });
++  it.each(['booster-sep','rtls'])('matches the live paid thirteen-engine ignition endpoint of %s',id=>{
++    const initial=createScenarioVehicle(PRESETS.find(p=>p.id===id)!);
++    initial.state.autopilot.autoLandOn=true;
++    const origin=step(initial.state,1/120,{},SUPER_HEAVY).autopilot.boosterPrediction!.origin;
++    const scheduled=createBoosterReadyWork(origin,rad(0),2);
++    const liveCadence=createBoosterReadyWork(origin,rad(0),2,1/120);
++    for(const work of [scheduled,liveCadence]) {
++      for(let i=0;i<2000 && !work.state.engines.running.slice(0,13).every(Boolean);i++)
++        advanceBoosterForecast(work,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++      expect(work.state.engines.running.slice(0,13).every(Boolean)).toBe(true);
++      expect(work.state.vehicle.propellantMass).toBeLessThan(origin.vehicle.propellantMass);
++      expect(work.state.rng.counters.ignitionFailure-origin.rng.counters.ignitionFailure).toBe(13);
++    }
++    expect(scheduled.result.time).toBe(liveCadence.result.time);
++    expect(scheduled.state).toEqual(liveCadence.state);
++    expect(scheduled.result.steps).toBe(liveCadence.result.steps);
++  });
++  it.each(['booster-sep','rtls'])('reuses only the identical alignment prefix for %s, with bit-exact paid forecasts',id=>{
++    const origin=createScenarioVehicle(PRESETS.find(p=>p.id===id)!,123).state;
++    origin.autopilot.autoLandOn=true;origin.autopilot.boosterPhase='align-boost';
++    const before=cloneState(origin),zero=createBoosterReadyWork(origin,rad(0),0);
++    advanceBoosterForecast(zero,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const prefix=zero.prefix!;
++    expect(prefix).toBeDefined();expect(prefix.steps).toBeGreaterThan(0);
++    const preserved=JSON.stringify(prefix);
++    for(const duration of [.25,2.37,7.2]) {
++      const plain=createBoosterReadyWork(origin,rad(0),duration);
++      const reused=createBoosterReadyWork(origin,rad(0),duration,undefined,prefix);
++      const plainCalls=advanceBoosterForecast(plain,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++      const reusedCalls=advanceBoosterForecast(reused,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++      expect(reused.state).toEqual(plain.state);expect(reused.result).toEqual(plain.result);
++      expect(reused.shutdownAt).toBe(plain.shutdownAt);expect(reused.done).toBe(plain.done);
++      expect(plainCalls-reusedCalls).toBe(prefix.steps);
++      expect(reused.result.steps).toBe(plain.result.steps);
++      expect(JSON.stringify(prefix)).toBe(preserved);expect(origin).toEqual(before);
++    }
++  });
++  it.each(['booster-sep','rtls'])('reuses exact paid startup for %s without lending its impulse to shorter burns',id=>{
++    const origin=createScenarioVehicle(PRESETS.find(p=>p.id===id)!,123).state;
++    origin.autopilot.autoLandOn=true;origin.autopilot.boosterPhase='align-boost';
++    const original=cloneState(origin),seed=createBoosterReadyWork(origin,rad(0),2);
++    advanceBoosterForecast(seed,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const prefix=seed.prefix!;expect(prefix.boostSteps).toBeGreaterThan(0);
++    expect(prefix.steadySteps).toBeGreaterThan(0);
++    expect(prefix.state.engines.running.slice(0,13).every(Boolean)).toBe(true);
++    const saved=JSON.stringify(prefix);
++    for(const duration of [.25,2.37,7.2]) {
++      const plain=createBoosterReadyWork(origin,rad(0),duration);
++      const cached=createBoosterReadyWork(origin,rad(0),duration,undefined,prefix);
++      const plainCalls=advanceBoosterForecast(plain,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++      const cachedCalls=advanceBoosterForecast(cached,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++      expect(cached.state).toEqual(plain.state);expect(cached.result).toEqual(plain.result);
++      expect(cached.shutdownAt).toBe(plain.shutdownAt);expect(cached.done).toBe(plain.done);
++      expect(cached.burnRemaining).toBe(plain.burnRemaining);
++      expect(plainCalls-cachedCalls).toBe(duration>.25?prefix.steps:0);
++      expect(origin).toEqual(original);expect(JSON.stringify(prefix)).toBe(saved);
++    }
++  });
++  it.each(['booster-sep','rtls'])('pays the same final boost impulse when its forecast cutoff commands live mechanics for %s',id=>{
++    const initial=createScenarioVehicle(PRESETS.find(p=>p.id===id)!);initial.state.autopilot.autoLandOn=true;
++    const origin=step(initial.state,1/120,{},SUPER_HEAVY).autopilot.boosterPrediction!.origin;
++    const seed=createBoosterReadyWork(origin,rad(0),2);
++    for(let i=0;i<2000 && !seed.state.engines.running.slice(0,13).every(Boolean);i++)
++      advanceBoosterForecast(seed,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(seed.state.engines.running.slice(0,13).every(Boolean)).toBe(true);
++    const paid=cloneState(seed.state);delete paid.autopilot.boosterForecastBurn;
++    const forecast=createBoosterReadyWork(paid,rad(0),.25,1/120);
++    for(let i=0;i<100 && forecast.state.autopilot.boosterPhase==='boostback';i++)
++      advanceBoosterForecast(forecast,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(forecast.shutdownAt).toBeDefined();
++    let live=cloneState(paid);
++    live.autopilot.boosterReturnPlan={originTime:paid.world.environmentTime,shutdownAt:forecast.shutdownAt!,coastPitch:rad(0),
++      handoff:{x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true}};
++    for(let i=0;i<100 && live.autopilot.boosterPhase==='boostback';i++)
++      live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
++    expect(live.autopilot.boosterPhase).toBe('coast');
++    expect(live.world.environmentTime).toBeCloseTo(forecast.state.world.environmentTime,10);
++    expect(live.vehicle.propellantMass).toBeCloseTo(forecast.state.vehicle.propellantMass,8);
++    expect(live.kinematics.speedX).toBeCloseTo(forecast.state.kinematics.speedX,8);
++    expect(live.rng).toEqual(forecast.state.rng);expect(live.engines).toEqual(forecast.state.engines);
++  });
++  it('rejects alignment reuse after changing source, mechanics, policy, model, coast or timestep',()=>{
++    const origin=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123).state;
++    origin.autopilot.autoLandOn=true;origin.autopilot.boosterPhase='align-boost';
++    const zero=createBoosterReadyWork(origin,rad(0),0);
++    advanceBoosterForecast(zero,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const prefix=zero.prefix!;
++    const changedAdvance:typeof advanceMechanics=(...args)=>advanceMechanics(...args);
++    const changedPolicy:typeof runBoosterPolicy=(...args)=>runBoosterPolicy(...args);
++    const cases=[
++      {source:cloneState(origin),advance:advanceMechanics,policy:runBoosterPolicy,model:SUPER_HEAVY,pitch:rad(0)},
++      {source:origin,advance:changedAdvance,policy:runBoosterPolicy,model:SUPER_HEAVY,pitch:rad(0)},
++      {source:origin,advance:advanceMechanics,policy:changedPolicy,model:SUPER_HEAVY,pitch:rad(0)},
++      {source:origin,advance:advanceMechanics,policy:runBoosterPolicy,model:{...SUPER_HEAVY},pitch:rad(0)},
++      {source:origin,advance:advanceMechanics,policy:runBoosterPolicy,model:SUPER_HEAVY,pitch:rad(.1)},
++      {source:origin,advance:advanceMechanics,policy:runBoosterPolicy,model:SUPER_HEAVY,pitch:rad(0),step:.05},
++    ];
++    for(const c of cases) {
++      const plain=createBoosterReadyWork(c.source,c.pitch,2,c.step);
++      const reused=createBoosterReadyWork(c.source,c.pitch,2,c.step,prefix);
++      advanceBoosterForecast(plain,4,c.advance,c.policy,c.model);
++      const calls=advanceBoosterForecast(reused,4,c.advance,c.policy,c.model);
++      expect(calls).toBe(4);expect(reused.result.steps).toBe(4);
++      expect(reused.state).toEqual(plain.state);expect(reused.result).toEqual(plain.result);
++    }
++  });
++  it('bounds local predictor timestep disagreement by first-order drag convergence, separately from catch validity',()=>{
++    const s=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123).state;
++    s.kinematics.altitude=2000;s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.kinematics.speedX=100;s.kinematics.speedY=-50;
++    s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='coast';
++    const heights=[.25,.125,.0625].map(dt=>{
++      const w=createBoosterHandoffWork(s,rad(0),0,dt);
++      advanceBoosterForecast(w,Math.round(1/dt),advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++      expect(w.result.time).toBeCloseTo(1,12);expect(w.done).toBe(false);
++      return w.state.kinematics.altitude;
++    });
++    const coarse=Math.abs(heights[0]!-heights[1]!),fine=Math.abs(heights[1]!-heights[2]!);
++    expect(coarse).toBeGreaterThan(1e-8);
++    // Held incoming aerodynamic force is first-order: halving dt must shrink
++    // its local disagreement. No global/catch accuracy is inferred here.
++    expect(coarse/fine).toBeGreaterThan(1.5);
++    expect(coarse/fine).toBeLessThan(3);
++  });
++  it('stops at the physical terminal handoff before spending terminal fuel',()=>{
++    const s=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123).state;
++    s.kinematics.altitude=500;s.kinematics.downRangeDistance=C.starBaseXPos;
++    s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.kinematics.speedX=0;s.kinematics.speedY=-50;
++    s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='coast';
++    const original=cloneState(s);
++    const work=createBoosterHandoffWork(s,rad(0),0,1/120);
++    advanceBoosterForecast(work,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(work.done).toBe(true);expect(work.result.reached).toBe(true);
++    expect(work.state.autopilot.boosterPhase).toBe('terminal');
++    expect(work.result.handoff).toBeDefined();
++    expect(work.result.handoff!.lateralFeasible).toBe(true);
++    expect(work.state.engines.running.some(Boolean)).toBe(false);
++    expect(work.state.rng.counters.ignitionFailure).toBe(original.rng.counters.ignitionFailure);
++    expect(work.result.fuel).toBe(original.vehicle.propellantMass);
++    expect(s).toEqual(original);
++  });
++  it('pays actual13-engine fuel during a hypothetical boost continuation before coasting',()=>{
++    const s=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123).state;
++    s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='boostback';
++    s.kinematics.altitude=500;s.kinematics.pitch=rad(0);s.kinematics.speedX=0;s.kinematics.speedY=-50;
++    s.engines.running.fill(false);for(let i=0;i<13;i++)s.engines.running[i]=true;
++    s.vehicle.throttle=s.vehicle.throttleCurrent=100;
++    const initialFuel=s.vehicle.propellantMass;
++    const work=createBoosterForecastWork(s,rad(0),.25);
++    advanceBoosterForecast(work,4,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(work.state.vehicle.propellantMass).toBeCloseTo(initialFuel-13*C.maxFuelFlowPerRaptor*.2,8);
++    expect(s.vehicle.propellantMass).toBe(initialFuel);
++    expect(work.state.autopilot.boosterPhase).toBe('boostback');
++  });
++  it('advances real slew, ignition and paid fuel without changing flight state or RNG',()=>{
++    const s=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123).state;
++    s.kinematics.altitude=500;s.kinematics.downRangeDistance=C.starBaseXPos;
++    s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++    s.kinematics.speedX=0;s.kinematics.speedY=-50;
++    s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='terminal';
++    s.autopilot.boosterFallTime=12;
++    const before=cloneState(s),out=createBoosterForecast();
++    forecastBoosterReturn(s,rad(0),advanceMechanics,runBoosterPolicy,SUPER_HEAVY,out);
++    expect(s).toEqual(before);
++    expect(out.steps).toBeGreaterThan(1);expect(out.steps).toBeLessThanOrEqual(4000);
++    expect(out.ignitionDraws).toBe(3);
++    expect(out.fuel).toBeLessThan(s.vehicle.propellantMass);
++    expect(Number.isFinite(out.rangeError)).toBe(true);
++    const first={...out};forecastBoosterReturn(s,rad(0),advanceMechanics,runBoosterPolicy,SUPER_HEAVY,out);
++    expect(out).toEqual(first);
++  });
++  it('does not invent engine fuel use when every engine is failed',()=>{
++    const s=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123).state;
++    s.kinematics.altitude=500;s.kinematics.downRangeDistance=C.starBaseXPos;
++    s.kinematics.pitch=rad(0);s.kinematics.speedX=0;s.kinematics.speedY=-50;
++    s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='terminal';s.engines.failed.fill(true);
++    const out=createBoosterForecast();forecastBoosterReturn(s,rad(0),advanceMechanics,runBoosterPolicy,SUPER_HEAVY,out);
++    expect(out.fuel).toBe(s.vehicle.propellantMass);expect(out.ignitionDraws).toBe(0);
++    expect(out.reached).toBe(true);expect(out.speedY).toBeLessThan(-4.5);
++  });
++});
+diff --git a/tests/core/booster-guidance.test.ts b/tests/core/booster-guidance.test.ts
+new file mode 100644
+index 0000000..3004a08
+--- /dev/null
++++ b/tests/core/booster-guidance.test.ts
+@@ -0,0 +1,124 @@
++/** Missing booster dispatch, fictitious capture or borrowed/unpaid authority
++ * must fail real preset-to-catch trajectories; no scenario seed or start tuning. */
++import { describe,expect,it } from 'vitest';
++import { writeFileSync } from 'node:fs';
++import { PRESETS,createScenarioVehicle } from '$core/scenarios';
++import { cloneState,type SimState } from '$core/state';
++import { runBoosterAutopilot } from '$core/autopilot/booster';
++import { step } from '$core/step';
++import { SUPER_HEAVY,CATCH } from '$core/vehicles/super-heavy';
++import { createCatchPose,writeCatchPose } from '$core/physics/tower-catch';
++import * as C from '$core/constants';
++
++const DT=1/120;
++function fly(initial:SimState,seconds=900,traceName='failed-engines'){
++  const eventInputs:unknown[]=[];
++  const mechanicalInput=(value:SimState)=>{const copy=cloneState(value);delete copy.autopilot.boosterPrediction;return copy;};
++  let state=initial,previous=state;
++  const trace:unknown[]=[];
++  const lug=createCatchPose();
++  for(let i=0;i<seconds/DT;i++){
++    previous=state;state=step(state,DT,{},SUPER_HEAVY);
++    writeCatchPose(state,SUPER_HEAVY,lug);
++    const phaseChanged=previous.autopilot.boosterPhase!==state.autopilot.boosterPhase;
++    const ignitionChanged=state.engines.ignitionCountdown.some((value,index)=>(value===null)!==(previous.engines.ignitionCountdown[index]===null));
++    const enginesChanged=state.engines.running.some((value,index)=>value!==previous.engines.running[index]);
++    const prediction=state.autopilot.boosterPrediction?.published;
++    const forecastPublished=prediction?.originTime!==previous.autopilot.boosterPrediction?.published?.originTime
++      || prediction?.decision?.shutdownAt!==previous.autopilot.boosterPrediction?.published?.decision?.shutdownAt;
++    const candidateChanged=state.autopilot.boosterPrediction?.iterations!==previous.autopilot.boosterPrediction?.iterations
++      || state.autopilot.boosterPrediction?.stage!==previous.autopilot.boosterPrediction?.stage;
++    const pressureCrossed=[35000,50000].some(q=>(previous.forces.dynamicPressure>=q)!==(state.forces.dynamicPressure>=q));
++    const planeCrossed=previous.kinematics.altitude+29.5*Math.cos(previous.kinematics.pitch)>120 && lug.altitude<=120;
++    if(process.env.BOOSTER_EVENT_INPUTS && (phaseChanged || forecastPublished || planeCrossed || state.status.landed)) {
++      const job=state.autopilot.boosterPrediction;
++      eventInputs.push({tick:i+1,events:{phaseChanged,forecastPublished,planeCrossed},
++        previous:mechanicalInput(previous),returned:mechanicalInput(state),
++        prediction:job?{origin:mechanicalInput(job.origin),selected:job.selected,
++          terminalOrigin:job.terminalOrigin?mechanicalInput(job.terminalOrigin):undefined}:undefined});
++    }
++    if(i%1200===0 || phaseChanged || ignitionChanged || enginesChanged || forecastPublished || candidateChanged || pressureCrossed || planeCrossed
++      || (lug.altitude<500 && i%30===0) || state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp) {
++      trace.push({t:(i+1)*DT,h:state.kinematics.altitude,x:state.kinematics.downRangeDistance-C.starBaseXPos,
++        events:{phaseChanged,ignitionChanged,enginesChanged,forecastPublished,candidateChanged,pressureCrossed,planeCrossed},
++        vx:state.kinematics.speedX,vy:state.kinematics.speedY,pitch:state.kinematics.pitch,
++        omega:state.kinematics.angularVelocity,fuel:state.vehicle.propellantMass,
++        engines:state.engines.running.filter(Boolean).length,throttle:state.vehicle.throttleCurrent,
++        rcs:state.vehicle.rcsRunTimeRemaining,fin:state.vehicle.frontFinExtension,
++        control:state.autopilot.pitchControl,temperature:state.forces.surfaceTemperature,
++        phase:state.autopilot.boosterPhase,q:state.forces.dynamicPressure,g:state.forces.perceivedG,
++        returnPlan:state.autopilot.boosterReturnPlan,
++      planner:state.autopilot.boosterPrediction?{stage:state.autopilot.boosterPrediction.stage,
++        duration:state.autopilot.boosterPrediction.duration,iterations:state.autopilot.boosterPrediction.iterations,
++        result:state.autopilot.boosterPrediction.rollout.result}:undefined,
++      terminalMissed:state.autopilot.boosterTerminalMissed,
++      terminalIgnitionTime:state.autopilot.boosterTerminalIgnitionTime,
++      rangeError:state.autopilot.boosterRangeError,fallTime:state.autopilot.boosterFallTime,
++        deadline:state.autopilot.boosterArrivalTime,lug:{x:lug.x-C.starBaseXPos,h:lug.altitude,vx:lug.speedX,vy:lug.speedY},
++        prediction:prediction?{age:state.world.environmentTime-prediction.originTime,
++          sourceX:prediction.originX-C.starBaseXPos,sourceVX:prediction.originVX,
++          ...prediction.forecast,slope:prediction.slope,burnRangeRate:prediction.burnRangeRate}:undefined,
++        actual:{gimbal:state.vehicle.gimbalPosition,fin:state.vehicle.frontFinExtension,throttle:state.vehicle.throttleCurrent,rcs:state.forces.rcsThrust},
++        commanded:{gimbal:state.autopilot.pitchControl,fin:state.autopilot.boosterFinControl,throttle:state.vehicle.throttle},
++        forces:{thrust:state.forces.thrust,drag:state.forces.aerodynamicDrag,lift:state.forces.aerodynamicLift,
++          ax:state.kinematics.accelerationX,ay:state.kinematics.accelerationY,
++          gimbalAlpha:state.forces.thrustVectorAcceleration,gridAlpha:state.forces.frontFinDragAngularAcceleration,
++          rcsAlpha:state.forces.rcsThrustAngularAcceleration,angularDrag:state.forces.angularDragAcceleration,offAxis:state.forces.offAxisThrustDifferenceAcceleration},
++        failures:state.failures});
++    }
++    if(state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp)break;
++  }
++  if(process.env.BOOSTER_TRACE==='1') console.log(JSON.stringify(trace));
++  if(process.env.BOOSTER_EVENT_INPUTS)writeFileSync(`${process.env.BOOSTER_EVENT_INPUTS}-${traceName}.json`,JSON.stringify(eventInputs,null,2));
++  return {state,previous};
++}
++function assertFinite(value:unknown):void{
++  if(typeof value==='number') {expect(Number.isFinite(value)).toBe(true);return;}
++  if(Array.isArray(value))value.forEach(assertFinite);
++  else if(value && typeof value==='object')Object.values(value).forEach(assertFinite);
++}
++
++describe('actual booster scenarios are secured at the tower',()=>{
++  for(const id of ['booster-sep','rtls'])it(`${id}: autopilot catches the actual33-engine booster within900s`,()=>{
++    const preset=PRESETS.find(p=>p.id===id)!;
++    const {state:initial}=createScenarioVehicle(preset);
++    initial.autopilot.autoLandOn=true;
++    const {state,previous}=fly(initial,900,id);
++    expect(state.status.landed,JSON.stringify({id,h:state.kinematics.altitude,x:state.kinematics.downRangeDistance-C.starBaseXPos,fuel:state.vehicle.propellantMass,failures:state.failures})).toBe(true);
++    expect(state.status.onTheGround).toBe(false);
++    for(const [failure,flag]of Object.entries(state.failures))expect(flag,failure).toBe(false);
++    expect(state.vehicle.propellantMass).toBeGreaterThan(0);
++    const lug=createCatchPose();writeCatchPose(state,SUPER_HEAVY,lug);
++    expect(lug.altitude).toBe(120);expect(Math.abs(lug.x-C.starBaseXPos)).toBeLessThanOrEqual(2.25);
++    expect(state.kinematics.speedX).toBe(0);expect(state.kinematics.speedY).toBe(0);
++    expect(Math.abs(state.kinematics.pitch)).toBeLessThanOrEqual(CATCH.maxPitch);
++    expect(previous.status.landed).toBe(false);
++    assertFinite(state);
++    const held=step(cloneState(state),DT,{},SUPER_HEAVY);
++    expect(held.status.landed).toBe(true);expect(held.kinematics.altitude).toBe(state.kinematics.altitude);
++  });
++  it('cannot fabricate a catch when every engine is failed',()=>{
++    const {state}=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123);
++    state.engines.failed.fill(true);state.autopilot.autoLandOn=true;
++    const result=fly(state);
++    expect(result.state.status.landed).toBe(false);
++    expect(result.state.engines.running.some(Boolean)).toBe(false);
++    expect(result.state.failures.crashed || result.state.failures.inFlightBreakUp).toBe(true);
++    assertFinite(result.state);
++  });
++});
++
++
++describe('booster engine authority follows shared ignition contracts',()=>{
++  it('draws the ignition failure stream for each commanded return engine exactly once',()=>{
++    const {state}=createScenarioVehicle(PRESETS[0]!,123);
++    state.autopilot.autoLandOn=true;state.autopilot.boosterPhase='boostback';
++    state.autopilot.boosterPredictorCountdown=1;state.autopilot.boosterRangeError=100000;
++    runBoosterAutopilot(state,DT,SUPER_HEAVY);
++    expect(state.rng.counters.ignitionFailure).toBe(13);
++    expect(state.rng.counters.ignitionDelay).toBe(13);
++    runBoosterAutopilot(state,DT,SUPER_HEAVY);
++    expect(state.rng.counters.ignitionFailure).toBe(13);
++    expect(state.rng.counters.ignitionDelay).toBe(13);
++  });
++});
+diff --git a/tests/core/booster-planning-latency.test.ts b/tests/core/booster-planning-latency.test.ts
+new file mode 100644
+index 0000000..7c4ffd0
+--- /dev/null
++++ b/tests/core/booster-planning-latency.test.ts
+@@ -0,0 +1,38 @@
++/** First-job calculator witnesses, not additional complete preset flights.
++ * Actual kinematics/fuel freeze after one frame; receipt time/work follow the
++ * production scheduler, so a valid past cutoff cannot masquerade as a plan. */
++import { describe,expect,it } from 'vitest';
++import { createScenarioVehicle,PRESETS } from '$core/scenarios';
++import { step,advanceMechanics } from '$core/step';
++import { runBoosterPolicy } from '$core/autopilot/booster';
++import { advanceBoosterPrediction } from '$core/control/booster-prediction';
++import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
++
++describe('paid return planning at production receipt/work timing',()=>{
++  it.each(['booster-sep','rtls'])('publishes a source-matched physically caught future cutoff for %s',id=>{
++    const initial=createScenarioVehicle(PRESETS.find(p=>p.id===id)!);
++    initial.state.autopilot.autoLandOn=true;
++    const s=step(initial.state,1/120,{},SUPER_HEAVY);
++    const kinematics={...s.kinematics},fuel=s.vehicle.propellantMass,rng={...s.rng.counters};
++    let calls=0;
++    const advance:typeof advanceMechanics=(...args)=>{calls++;return advanceMechanics(...args);};
++    for(let i=0;i<10000 && !s.autopilot.boosterPrediction!.done;i++){
++      s.world.environmentTime+=1/120;
++      const before=calls;
++      advanceBoosterPrediction(s,1/120,advance,runBoosterPolicy,SUPER_HEAVY);
++      expect(calls-before).toBeLessThanOrEqual(4);
++    }
++    const j=s.autopilot.boosterPrediction!,plan=s.autopilot.boosterReturnPlan;
++    expect(s.kinematics).toEqual(kinematics);expect(s.vehicle.propellantMass).toBe(fuel);
++    expect(s.rng.counters).toEqual(rng);
++    expect(j.done).toBe(true);expect(plan).toBeDefined();
++    expect(plan!.originTime).toBe(j.origin.world.environmentTime);
++    expect(plan!.shutdownAt).toBeGreaterThan(s.world.environmentTime);
++    expect(j.rollout.state.status.landed).toBe(true);
++    expect(j.rollout.state.status.onTheGround).toBe(false);
++    expect(j.rollout.state.vehicle.propellantMass).toBeGreaterThan(0);
++    expect(Object.values(j.rollout.state.failures).some(Boolean)).toBe(false);
++    console.log(JSON.stringify({id,receipt:s.world.environmentTime,shutdown:plan!.shutdownAt,
++      iterations:j.iterations,paidFutureSteps:calls,remainingFuel:j.rollout.state.vehicle.propellantMass}));
++  });
++});
+diff --git a/tests/core/booster-prediction.test.ts b/tests/core/booster-prediction.test.ts
+new file mode 100644
+index 0000000..65842c5
+--- /dev/null
++++ b/tests/core/booster-prediction.test.ts
+@@ -0,0 +1,238 @@
++/** Forecast work is a deterministic, bounded physical guidance state machine;
++ * wall-clock worker completion may never decide a flight's control commands. */
++import { describe,expect,it } from 'vitest';
++import { advanceBoosterPrediction } from '$core/control/booster-prediction';
++import { advanceMechanics,step } from '$core/step';
++import { runBoosterPolicy } from '$core/autopilot/booster';
++import { createScenarioVehicle,PRESETS } from '$core/scenarios';
++import { cloneState } from '$core/state';
++import { createBoosterForecast } from '$core/control/booster-forecast';
++import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
++import { rad } from '$core/units';
++import * as C from '$core/constants';
++
++function sample(){
++  const s=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!,123).state;
++  s.kinematics.altitude=500;s.kinematics.downRangeDistance=C.starBaseXPos;
++  s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
++  s.kinematics.speedX=0;s.kinematics.speedY=-50;
++  s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='coast';s.autopilot.boosterFallTime=12;
++  return s;
++}
++describe('bounded deterministic booster prediction',()=>{
++  it('evaluates an executable duration before recording or forecasting the first paid candidate',()=>{
++    const initial=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!);initial.state.autopilot.autoLandOn=true;
++    const job=step(initial.state,1/120,{},SUPER_HEAVY).autopilot.boosterPrediction!;
++    expect(job.duration*120).toBe(Math.round(job.duration*120));
++    expect(job.duration).toBe(job.rollout.burnRemaining); // no burn is paid during first alignment work
++  });
++  it('does not repeat a mapped live endpoint when a bracket contains no new executable interval',()=>{
++    const s=sample();s.autopilot.boosterPhase='boostback';
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const j=s.autopilot.boosterPrediction!;
++    const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=1;
++    f.handoff={x:1,height:100,vx:0,vy:-20,time:10,lateralFeasible:false};
++    j.low={originTime:0,burnDuration:5,shutdownAt:5,coastPitch:rad(0),forecast:f};
++    j.high={...j.low,burnDuration:5+1/120,shutdownAt:6,forecast:{...f,rangeError:-1}};
++    j.stage='validate';j.selected=j.low;j.rollout.done=true;j.rollout.state.failures.crashed=true;
++    const count=j.iterations;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(s.autopilot.boosterPrediction!.done).toBe(true);
++    expect(s.autopilot.boosterPrediction!.iterations).toBe(count);
++    expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++
++  it.each(['booster-sep','rtls'])('captures the complete returned live frame as the first planning source for %s',id=>{
++    const initial=createScenarioVehicle(PRESETS.find(p=>p.id===id)!);
++    initial.state.autopilot.autoLandOn=true;
++    const first=step(initial.state,1/120,{},SUPER_HEAVY);
++    const origin=first.autopilot.boosterPrediction!.origin;
++    for(const key of ['world','vehicle','engines','rng','forces','kinematics','failures','status'] as const)
++      expect(origin[key],key).toEqual(first[key]);
++    expect(origin.autopilot.boosterPrediction).toBeUndefined();
++  });
++  it.each(['booster-sep','rtls'])('starts with a paid interior rather than spending the deadline on zero burn for %s',id=>{
++    const initial=createScenarioVehicle(PRESETS.find(p=>p.id===id)!);initial.state.autopilot.autoLandOn=true;
++    const first=step(initial.state,1/120,{},SUPER_HEAVY),job=first.autopilot.boosterPrediction!;
++    expect(job.duration).toBeGreaterThan(0);expect(job.duration).toBeLessThan(job.upperDuration);
++    expect(job.stage).toBe('upper');expect(job.low).toBeUndefined();expect(job.high).toBeUndefined();
++    expect(first.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++  it('fine-validates a retained physical bracket endpoint when no new live tick exists',()=>{
++    const s=sample();s.autopilot.boosterPhase='boostback';
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const j=s.autopilot.boosterPrediction!,ready=cloneState(sample());
++    ready.autopilot.boosterPhase='terminal';ready.autopilot.boosterCoastPitch=rad(0);
++    const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=3;
++    f.handoff={x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true};
++    j.low={originTime:0,burnDuration:5,shutdownAt:20,coastPitch:rad(0),forecast:f};
++    j.high={...j.low,burnDuration:5+1/120,forecast:{...f,rangeError:-4}};
++    j.lowReady=ready;j.highReady=cloneState(ready);
++    j.stage='validate';j.selected={...j.low,burnDuration:4};
++    j.rollout.done=true;j.rollout.state.failures.crashed=true;
++    const before=JSON.stringify(ready),count=j.iterations;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const next=s.autopilot.boosterPrediction!;
++    expect(next.done).toBe(false);expect(next.stage).toBe('validate');
++    expect(next.selected).toEqual(j.low);expect(next.rollout.state).toEqual(ready);
++    expect(next.rollout.state).not.toBe(ready);expect(next.iterations).toBe(count);
++    expect(JSON.stringify(ready)).toBe(before);expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++  it('transports a boost forecast with its measured paid-burn range rate, not ballistic fall time',()=>{
++    const s=sample();s.autopilot.boosterPhase='boostback';
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const f=createBoosterForecast();f.rangeError=1000;f.time=100;f.reached=true;
++    const published={originTime:s.world.environmentTime,originX:s.kinematics.downRangeDistance,
++      originVX:100,forecast:f,burnRangeRate:-200};
++    s.autopilot.boosterPrediction!.published=published;
++    s.world.environmentTime+=1;s.kinematics.downRangeDistance+=100;s.kinematics.speedX=90;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    // The measured mechanical response includes powered entry/terminal range
++    // feedback.100s of remainingfall is not its velocity sensitivity.
++    expect(s.autopilot.boosterRangeError).toBe(800);
++  });
++  it('keeps telemetry phase-invariant and cannot authorize a cutoff from an injected old derivative',()=>{
++    const s=sample();advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const f=createBoosterForecast();f.rangeError=1000;f.time=100;f.reached=true;
++    s.autopilot.boosterPrediction!.published={originTime:0,originX:s.kinematics.downRangeDistance,
++      originVX:100,forecast:f,burnRangeRate:-200};
++    s.world.environmentTime=1;s.autopilot.boosterPhase='boostback';
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const error=s.autopilot.boosterRangeError;
++    s.autopilot.boosterPhase='coast';
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(s.autopilot.boosterRangeError).toBe(error);
++    expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++  it('searches a paid interior when the zero-burn candidate is physically invalid',()=>{
++    const s=sample();s.autopilot.boosterPhase='align-boost';
++    const reject:typeof advanceMechanics=(previous,dt)=>{
++      const next=cloneState(previous);next.world.environmentTime+=dt;
++      next.failures.inFlightBreakUp=true;next.vehicle.propellantMass=0;return next;
++    };
++    advanceBoosterPrediction(s,1/120,reject,runBoosterPolicy,SUPER_HEAVY);
++    expect(s.autopilot.boosterPrediction!.done).toBe(false);
++    expect(s.autopilot.boosterPrediction!.duration).toBeGreaterThan(0);
++    expect(s.autopilot.boosterPrediction!.low).toBeUndefined();
++    expect(s.autopilot.boosterPrediction!.high).toBeUndefined();
++    expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++    expect(s.failures.inFlightBreakUp).toBe(false);
++  });
++  it('uses a failed underburn only to probe a larger interior, never as a valid bracket',()=>{
++    const s=sample();s.autopilot.boosterPhase='boostback';
++    s.kinematics.downRangeDistance=C.starBaseXPos+100;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const j=s.autopilot.boosterPrediction!;
++    j.stage='upper';j.duration=j.upperDuration/4;
++    j.rollout.done=true;j.rollout.result.failed=true;
++    j.rollout.result.reached=false;j.rollout.result.rangeError=1000;
++    const previousDuration=j.duration;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const next=s.autopilot.boosterPrediction!;
++    expect(next.duration).toBeGreaterThan(previousDuration);
++    expect(next.duration).toBeLessThan(next.upperDuration);
++    expect(next.low).toBeUndefined();expect(next.high).toBeUndefined();
++    expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++  it('measures the first paid response at the nearest executable live tick, not another ignition-delay burn',()=>{
++    const s=sample();s.autopilot.boosterPhase='boostback';
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const j=s.autopilot.boosterPrediction!;
++    const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=200;
++    f.handoff={x:1000,height:2000,vx:0,vy:-200,time:20,lateralFeasible:false};
++    j.stage='upper';j.duration=4;j.firstDuration=4;j.upperDuration=12;
++    j.rollout.done=true;j.rollout.result=f;j.rollout.shutdownAt=4;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(s.autopilot.boosterPrediction!.duration).toBe((4*120+1)/120);
++    expect(s.autopilot.boosterPrediction!.high).toBeUndefined();
++    expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++  it('proposes an interior from two valid same-source responses before spending a wide probe',()=>{
++    const s=sample();s.autopilot.boosterPhase='boostback';
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const j=s.autopilot.boosterPrediction!;
++    const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=1000;
++    f.handoff={x:1000,height:2000,vx:0,vy:-200,time:20,lateralFeasible:false};
++    j.low={originTime:j.origin.world.environmentTime,burnDuration:0,shutdownAt:0,coastPitch:rad(0),forecast:f};
++    j.stage='upper';j.duration=4;j.firstDuration=4;j.upperDuration=12;
++    j.rollout.done=true;j.rollout.result={...f,rangeError:200};j.rollout.shutdownAt=4;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(s.autopilot.boosterPrediction!.duration).toBe(5);
++    expect(s.autopilot.boosterPrediction!.high).toBeUndefined();
++    expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++  it('cannot publish a numerical candidate before fine validation of its original paid ready input',()=>{
++    const s=sample();advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const j=s.autopilot.boosterPrediction!,ready=cloneState(j.rollout.state);
++    delete ready.autopilot.boosterForecastHandoff;
++    const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=0;
++    f.handoff={x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true};
++    j.origin.autopilot.boosterPhase='boostback';
++    j.stage='upper';j.duration=5;j.rollout.done=true;
++    j.rollout.state=cloneState(ready);j.rollout.result=f;j.rollout.shutdownAt=5;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const next=s.autopilot.boosterPrediction!;
++    expect(next.stage).toBe('validate');expect(next.rollout.step).toBe(1/120);
++    expect(next.rollout.state).toEqual(ready);
++    expect(next.rollout.state).not.toBe(ready);
++    expect(next.rollout.state.status.landed).toBe(false);
++    expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++  it('retains fine validation of a supported nonzero candidate at the iteration cap',()=>{
++    const s=sample();advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const j=s.autopilot.boosterPrediction!;j.origin.autopilot.boosterPhase='boostback';
++    j.stage='upper';j.duration=5;j.iterations=16;j.rollout.done=true;
++    const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=100;
++    f.handoff={x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true};
++    j.rollout.result=f;j.rollout.shutdownAt=5;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(s.autopilot.boosterPrediction!.stage).toBe('validate');
++    expect(s.autopilot.boosterPrediction!.rollout.step).toBe(1/120);
++    expect(s.autopilot.boosterPrediction!.selected!.forecast.rangeError).toBe(100);
++    expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++  it('preserves a valid paid bracket when a proposed terminal replay fails',()=>{
++    const s=sample();s.autopilot.boosterPhase='boostback';
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const j=s.autopilot.boosterPrediction!;
++    const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=141;
++    f.handoff={x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true};
++    const low={originTime:0,burnDuration:5,shutdownAt:5,coastPitch:rad(0),forecast:f};
++    const high={...low,burnDuration:6,shutdownAt:6,forecast:{...f,rangeError:-600}};
++    j.stage='validate';j.low=low;j.high=high;j.selected=low;
++    j.rollout.done=true;j.rollout.state.failures.crashed=true;
++    advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const next=s.autopilot.boosterPrediction!;
++    expect(next.done).toBe(false);expect(next.stage).toBe('root');
++    expect(next.low).toEqual(low);expect(next.high).toEqual(high);
++    expect(s.autopilot.boosterReturnPlan).toBeUndefined();
++  });
++  it('limits each live step to four shared mechanical forecast advances, without spending real fuel or RNG',()=>{
++    const s=sample(),before=cloneState(s);let calls=0;
++    const advance:typeof advanceMechanics=(...args)=>{calls++;return advanceMechanics(...args);};
++    advanceBoosterPrediction(s,1/120,advance,runBoosterPolicy,SUPER_HEAVY);
++    expect(calls).toBe(4);
++    expect(s.vehicle).toEqual(before.vehicle);expect(s.engines).toEqual(before.engines);expect(s.rng).toEqual(before.rng);
++    expect(s.autopilot.boosterPrediction?.rollout.state.autopilot.boosterPrediction).toBeUndefined();
++  });
++  it('does not mutate a prediction shared by a cloned previous frame and deterministically publishes a completed result',()=>{
++    const a=sample();advanceBoosterPrediction(a,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    const old=JSON.stringify(a.autopilot.boosterPrediction);
++    const b=cloneState(a);advanceBoosterPrediction(b,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(JSON.stringify(a.autopilot.boosterPrediction)).toBe(old);
++    const c=cloneState(a);advanceBoosterPrediction(c,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
++    expect(c).toEqual(b);
++    let work=0;
++    const countedAdvance:typeof advanceMechanics=(...args)=>{work++;return advanceMechanics(...args);};
++    for(let i=0;i<4000 && work<4000 && !b.autopilot.boosterPrediction?.published;i++) {
++      const before=work;
++      advanceBoosterPrediction(b,1/120,countedAdvance,runBoosterPolicy,SUPER_HEAVY);
++      expect(work-before).toBeLessThanOrEqual(4);
++    }
++    expect(work).toBeLessThanOrEqual(4000);
++    const result=b.autopilot.boosterPrediction?.published;
++    expect(result).toBeDefined();expect(result!.forecast.reached).toBe(true);
++    expect(result!.forecast.fuel).toBeLessThan(a.vehicle.propellantMass);
++    expect(b.rng).toEqual(a.rng);
++  });
++});
+diff --git a/tests/core/booster-return-plan.test.ts b/tests/core/booster-return-plan.test.ts
+new file mode 100644
+index 0000000..fb9f261
+--- /dev/null
++++ b/tests/core/booster-return-plan.test.ts
+@@ -0,0 +1,59 @@
++/** Decision provenance/validity is separate from raw forecast telemetry. */
++import { describe, expect, it } from 'vitest';
++import { proposeBoosterBurn, proposeBoosterRefinement, acceptBoosterReturnPlan } from '$core/control/booster-return-plan';
++import { createBoosterForecast } from '$core/control/booster-forecast';
++import { rad } from '$core/units';
++
++function candidate(duration:number,error:number,origin=10) {
++  const forecast=createBoosterForecast();
++  forecast.reached=true; forecast.rangeError=error;forecast.fuel=100000;
++  forecast.handoff={x:error,height:109.5,vx:0,vy:-20,time:10,lateralFeasible:true};
++  return {originTime:origin,burnDuration:duration,shutdownAt:origin+duration,coastPitch:rad(0),forecast};
++}
++describe('source-consistent paid booster return decisions',()=>{
++  it('proposes a paid continuation strictly inside a mechanically observed sign bracket',()=>{
++    const low=candidate(2,800),high=candidate(6,-800);
++    expect(proposeBoosterBurn(low,high)).toBe(4);
++  });
++  it('uses recent valid responses only for a proposal strictly inside the unchanged physical bracket',()=>{
++    const low=candidate(2,1000),high=candidate(3,-100),previous=candidate(4,-400);
++    const saved=JSON.stringify([low,high,previous]);
++    expect(proposeBoosterRefinement(previous,high,low,high)).toBeCloseTo(8/3,14);
++    expect(proposeBoosterRefinement({...previous,originTime:11},high,low,high)).toBeUndefined();
++    expect(proposeBoosterRefinement(candidate(4,-101),high,low,high)).toBeUndefined();
++    expect(proposeBoosterRefinement(previous,high,low,candidate(3,100))).toBeUndefined();
++    expect(JSON.stringify([low,high,previous])).toBe(saved);
++    expect(acceptBoosterReturnPlan(high,false,0)).toBeUndefined();
++  });
++  it('rejects mixed origins, failed/non-reaching and unbracketed candidates',()=>{
++    const low=candidate(2,800),high=candidate(6,-800);
++    expect(proposeBoosterBurn(low,{...high,originTime:11})).toBeUndefined();
++    expect(proposeBoosterBurn(low,candidate(6,100))).toBeUndefined();
++    high.forecast.failed=true;expect(proposeBoosterBurn(low,high)).toBeUndefined();
++    high.forecast.failed=false;high.forecast.reached=false;
++    expect(proposeBoosterBurn(low,high)).toBeUndefined();
++  });
++  it('admits a supported nonzero handoff only after actual terminal validation',()=>{
++    const c=candidate(6,141.37314675606575);
++    c.forecast.handoff={x:-123.56940898299217,height:2485.8666152310698,
++      vx:26.058477937235978,vy:-242.4979069791646,time:20.33446131252901,lateralFeasible:true};
++    expect(acceptBoosterReturnPlan(c,false,12)).toBeUndefined();
++    expect(acceptBoosterReturnPlan(c,true,12)?.shutdownAt).toBe(16);
++  });
++  it('requires terminal validation, an in-envelope handoff and an unexpired actual shutdown before publication',()=>{
++    const c=candidate(6,0);
++    expect(acceptBoosterReturnPlan(c,false,12)).toBeUndefined();
++    c.forecast.handoff!.lateralFeasible=false;
++    expect(acceptBoosterReturnPlan(c,true,12)).toBeUndefined();
++    c.forecast.handoff!.lateralFeasible=true;
++    expect(acceptBoosterReturnPlan(c,true,16)).toBeUndefined();
++    c.forecast.failed=true;expect(acceptBoosterReturnPlan(c,true,12)).toBeUndefined();
++    c.forecast.failed=false;
++    const plan=acceptBoosterReturnPlan(c,true,12)!;
++    expect(plan.shutdownAt).toBe(16);expect(plan.originTime).toBe(10);
++    expect(plan.coastPitch).toBe(0);
++    // Phase/raw range/derivative changes cannot reinterpret a paid deadline.
++    c.forecast.rangeError=9000;
++    expect(plan.shutdownAt).toBe(16);
++  });
++});
+diff --git a/tests/core/booster-terminal-envelope.test.ts b/tests/core/booster-terminal-envelope.test.ts
+new file mode 100644
+index 0000000..e2c3d40
+--- /dev/null
++++ b/tests/core/booster-terminal-envelope.test.ts
+@@ -0,0 +1,160 @@
++/** Local terminal controls, never a prescribed preset return or catch override. */
++import { describe, expect, it } from 'vitest';
++import { createScenarioVehicle, PRESETS } from '$core/scenarios';
++import ready from '../fixtures/booster-terminal-ready.json';
++import { advanceMechanics } from '$core/step';
++import admission from '../fixtures/booster-terminal-admission.json';
++import { cloneState, type SimState } from '$core/state';
++import { runBoosterPolicy } from '$core/autopilot/booster';
++import { step } from '$core/step';
++import { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
++import { createCatchPose, writeCatchPose } from '$core/physics/tower-catch';
++import { getTotalMaxThrust } from '$core/physics/engines';
++import { verticalGravityAcceleration } from '$core/physics/gravity';
++import { rad } from '$core/units';
++import * as C from '$core/constants';
++import { createBoosterArrival, writeBoosterArrival } from '$core/control/booster-arrival';
++
++function nearTower() {
++  const s = createScenarioVehicle(PRESETS.find(p => p.id === 'rtls')!, 123).state;
++  s.autopilot.autoLandOn = true;
++  s.autopilot.boosterPhase = 'terminal';
++  s.kinematics.altitude = 200;
++  s.kinematics.downRangeDistance = C.starBaseXPos;
++  s.kinematics.speedX = 0;
++  s.kinematics.speedY = -20;
++  s.kinematics.pitch = rad(0);
++  s.kinematics.angularVelocity = 0;
++  s.vehicle.propellantMass = 100000;
++  s.engines.running.fill(false);
++  for (let i = 0; i < 3; i++) s.engines.running[i] = true;
++  s.vehicle.throttle = s.vehicle.throttleCurrent = 50;
++  return s;
++}
++
++describe('physical terminal catch envelope', () => {
++  it('keeps a finite terminal command through the recorded transient nominal cone rejection',()=>{
++    // Exact first-job mechanical input: the frozen-environment end demand
++    // exceeds the nominal cone while its current bounded command is feasible.
++    const s=cloneState(admission.state as unknown as SimState);
++    const demand=createBoosterArrival();writeBoosterArrival(s,0,SUPER_HEAVY,demand);
++    expect(demand.lateralFeasible).toBe(false);
++    const deadline=s.autopilot.boosterArrivalTime!;
++    runBoosterPolicy(s,admission.dt,SUPER_HEAVY);
++    expect(s.autopilot.boosterTerminalMissed).not.toBe(true);
++    expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
++    expect(s.autopilot.boosterArrivalTime).toBeCloseTo(deadline-admission.dt,10);
++    expect(s.vehicle.throttle).toBeGreaterThanOrEqual(C.throttleLowerLimit);
++    expect(s.vehicle.throttle).toBeLessThanOrEqual(100);
++    // Finite expiry remains irreversible; a nominal estimate never resets it.
++    s.autopilot.boosterArrivalTime=admission.dt/2;
++    runBoosterPolicy(s,admission.dt,SUPER_HEAVY);
++    expect(s.autopilot.boosterTerminalMissed).toBe(true);
++    expect(s.engines.running.some(Boolean)).toBe(false);
++  });
++
++  it('does not size the terminal deadline around deceleration that only atmospheric drag can supply',()=>{
++    const s=cloneState(admission.state as unknown as SimState);
++    const demand=createBoosterArrival();writeBoosterArrival(s,0,SUPER_HEAVY,demand);
++    const endAY=6*demand.height/demand.time**2+2*demand.vy/demand.time-8/demand.time;
++    const endThrust=getTotalMaxThrust([true,true,true],C.SEA_LEVEL_PRESSURE_PA/1000,SUPER_HEAVY)/s.vehicle.vehicleMass;
++    const endGravity=-verticalGravityAcceleration(C.planetRadius+CATCH.bodyCentreAltitude,0);
++    expect(endAY).toBeLessThanOrEqual(endThrust-endGravity+1e-10);
++    expect(demand.time).toBeLessThanOrEqual(60);
++  });
++  it('restores upright attitude before a slow near-box crossing instead of chasing zero lateral error with hull tilt',()=>{
++    const s=nearTower();s.autopilot.boosterArrivalTime=.5;
++    s.kinematics.altitude=CATCH.bodyCentreAltitude+1;
++    s.kinematics.pitch=rad(.12);s.kinematics.speedX=-.2;s.kinematics.speedY=-2;
++    s.kinematics.downRangeDistance=C.starBaseXPos-(CATCH.lugStation-SUPER_HEAVY.height/2)*Math.sin(.12)-.05;
++    s.vehicle.vehicleMass=300000;
++    s.forces.thrust=3*C.thrustPerRaptorAt(101.325)*.5;
++    s.vehicle.gimbalPointingDirection=s.kinematics.pitch;
++    s.kinematics.accelerationX=s.forces.thrust/300000*Math.sin(.12);
++    s.kinematics.accelerationY=s.forces.thrust/300000*Math.cos(.12)-9.8;
++    s.atmosphere.airPressure=101.325;
++    runBoosterPolicy(s,1/120,SUPER_HEAVY);
++    expect(s.autopilot.pitchControl).toBeLessThan(0);
++    expect(s.autopilot.boosterTerminalMissed).not.toBe(true);
++    expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
++  });
++  it.each(['booster-sep','rtls'] as const)('physically catches the recorded paid ready input %s with upright, bounded point motion',id=>{
++    let s=cloneState(ready[id] as unknown as SimState),previous=s;
++    for(let i=0;i<35*120 && !s.status.landed && !s.failures.crashed && !s.failures.inFlightBreakUp;i++){
++      previous=s;s=advanceMechanics(s,1/120,runBoosterPolicy,SUPER_HEAVY);
++    }
++    expect(s.status.landed).toBe(true);expect(s.status.onTheGround).toBe(false);
++    expect(s.vehicle.propellantMass).toBeGreaterThan(0);
++    expect(Object.values(s.failures).some(Boolean)).toBe(false);
++    expect(previous.status.landed).toBe(false);
++    const lug=createCatchPose();writeCatchPose(s,SUPER_HEAVY,lug);
++    expect(lug.altitude).toBeCloseTo(CATCH.planeAltitude,8);
++    expect(Math.abs(lug.x-C.starBaseXPos)).toBeLessThanOrEqual(CATCH.halfWidth);
++    expect(Math.abs(s.kinematics.pitch)).toBeLessThanOrEqual(CATCH.maxPitch);
++    writeCatchPose(previous,SUPER_HEAVY,lug);
++    expect(lug.speedY).toBeLessThan(0);expect(lug.speedY).toBeGreaterThanOrEqual(-CATCH.maxDownSpeed);
++    expect(Math.abs(lug.speedX)).toBeLessThanOrEqual(CATCH.maxLateralSpeed);
++  });
++  it('does not reignite or spend propellant after a terminal miss has been declared',()=>{
++    let s=nearTower();s.autopilot.boosterTerminalMissed=true;s.engines.running.fill(false);
++    const draws=s.rng.counters.ignitionFailure, fuel=s.vehicle.propellantMass;
++    for(let i=0;i<20;i++)s=step(s,1/120,{},SUPER_HEAVY);
++    expect(s.rng.counters.ignitionFailure).toBe(draws);
++    expect(s.vehicle.propellantMass).toBe(fuel);
++    expect(s.engines.running.some(Boolean)).toBe(false);
++    expect(s.status.landed).toBe(false);
++  });
++  it.each([
++    { x: -14248.216742988676, height: 3026.574151492912, vx: 4.034696781656502, vy: -261.23402783894994, fuel: 148287.9355148848 },
++    { x: -4955.058289054781, height: 2109.153738982121, vx: -12.565567938621179, vy: -228.0865254119449, fuel: 116025.38226299963 },
++  ])('rejects the recorded distant handoff $x m as outside terminal lateral authority', ({ x, height, vx, vy, fuel }) => {
++    const s = nearTower();
++    s.kinematics.downRangeDistance = C.starBaseXPos + x;
++    s.kinematics.altitude = CATCH.bodyCentreAltitude + height;
++    s.kinematics.speedX = vx; s.kinematics.speedY = vy;
++    s.vehicle.propellantMass = fuel; s.vehicle.vehicleMass = SUPER_HEAVY.dryMass + fuel;
++    s.atmosphere.airPressure = 101.325;
++    // Conservative sea-level no-drag case still has far less authority than
++    // the recorded demand. Exact lug coordinates above come from saved traces.
++    s.kinematics.accelerationX = 0;
++    const out = createBoosterArrival();
++    writeBoosterArrival(s, 0, SUPER_HEAVY, out);
++    expect(out.lateralFeasible).toBe(false);
++    // Also retain the historical >90m/s² demand assertion at its recorded
++    // balanced deadline. The new thrust-bounded initialization is longer.
++    s.autopilot.boosterArrivalTime=2*height/(-vy+2);
++    writeBoosterArrival(s,0,SUPER_HEAVY,out);
++    expect(out.ax).toBeGreaterThan(90);
++    expect(out.lateralFeasible).toBe(false);
++  });
++  it('catches a nearby descending lug on its first crossing with paid fuel and no failures', () => {
++    const initial = nearTower();
++    const demand = createBoosterArrival();
++    writeBoosterArrival(initial, 0, SUPER_HEAVY, demand);
++    expect(demand.lateralFeasible).toBe(true);
++    let state = initial, previous = initial;
++    const lug = createCatchPose();
++    for (let i = 0; i < 20 * 120 && !state.status.landed; i++) {
++      previous = state;
++      state = step(state, 1 / 120, {}, SUPER_HEAVY);
++      expect(Object.values(state.failures).some(Boolean)).toBe(false);
++    }
++    expect(state.status.landed).toBe(true);
++    expect(state.status.onTheGround).toBe(false);
++    expect(previous.status.landed).toBe(false);
++    writeCatchPose(previous, SUPER_HEAVY, lug);
++    expect(lug.altitude).toBeGreaterThan(CATCH.planeAltitude);
++    expect(lug.speedY).toBeLessThan(0);
++    expect(lug.speedY).toBeGreaterThan(-CATCH.maxDownSpeed);
++    expect(Math.abs(lug.speedX)).toBeLessThan(CATCH.maxLateralSpeed);
++    writeCatchPose(state, SUPER_HEAVY, lug);
++    expect(lug.altitude).toBeCloseTo(CATCH.planeAltitude, 8);
++    expect(Math.abs(lug.x - C.starBaseXPos)).toBeLessThanOrEqual(CATCH.halfWidth);
++    expect(state.vehicle.propellantMass).toBeGreaterThan(0);
++    expect(state.vehicle.propellantMass).toBeLessThan(initial.vehicle.propellantMass);
++    expect(state.engines.running.some(Boolean)).toBe(false);
++    console.log(JSON.stringify({ seconds: state.world.environmentTime, fuel: state.vehicle.propellantMass,
++      previousHeight: previous.kinematics.altitude, previousVX: previous.kinematics.speedX,
++      previousVY: previous.kinematics.speedY, pitch: state.kinematics.pitch }));
++  });
++});
+diff --git a/tests/core/mechanical-advance.test.ts b/tests/core/mechanical-advance.test.ts
+new file mode 100644
+index 0000000..8eeb8ad
+--- /dev/null
++++ b/tests/core/mechanical-advance.test.ts
+@@ -0,0 +1,27 @@
++/** The forecast seam uses the actual integrator, replacing only its control
++ * callback. These short witnesses are not prescribed scenario flights. */
++import { describe,expect,it } from 'vitest';
++import { advanceMechanics,step } from '$core/step';
++import { createInitialState,cloneState,type SimState } from '$core/state';
++import { SHIP } from '$core/vehicle';
++import { toggleAllRaptors } from '$core/control/commands';
++
++describe('shared mechanical advance',()=>{
++  it('uses exactly the same uncontrolled Ship mechanics',()=>{
++    const s=createInitialState(123);s.kinematics.altitude=10000;
++    s.kinematics.speedX=100;s.kinematics.speedY=-50;
++    const before=cloneState(s);
++    expect(advanceMechanics(s,1/120,()=>{},SHIP)).toEqual(step(s,1/120,{},SHIP));
++    expect(s).toEqual(before);
++  });
++  it('runs the supplied control law once after motion, without recursing into the real autopilot',()=>{
++    const s=createInitialState(123);s.autopilot.autoTakeOffOn=true;
++    const before=cloneState(s);let calls=0;
++    const control=(next:SimState)=>{calls++;next.vehicle.throttle=73;toggleAllRaptors(next);};
++    const next=advanceMechanics(s,1/120,control,SHIP);
++    expect(calls).toBe(1);expect(next.autopilot.autoTakeOffInitialised).toBe(false);
++    expect(next.vehicle.throttle).toBe(73);expect(next.rng.counters.ignitionFailure).toBe(3);
++    expect(s).toEqual(before);expect(s.rng.counters.ignitionFailure).toBe(0);
++    expect(next.world.updatedFrameCount).toBe(s.world.updatedFrameCount+1);
++  });
++});
+diff --git a/tests/fixtures/booster-terminal-admission.json b/tests/fixtures/booster-terminal-admission.json
+new file mode 100644
+index 0000000..d9551ac
+--- /dev/null
++++ b/tests/fixtures/booster-terminal-admission.json
+@@ -0,0 +1,284 @@
++{
++  "state": {
++    "rng": {
++      "seed": 1463897163,
++      "counters": {
++        "ignitionDelay": 55,
++        "ignitionFailure": 55,
++        "turbulence": 0
++      }
++    },
++    "world": {
++      "environmentTime": 102.08716676242706,
++      "timeSpent": 102.08716676242706,
++      "updatedFrameCount": 728,
++      "wind": 0,
++      "gust": 0,
++      "gustVertical": 0,
++      "turbulenceU": 0,
++      "turbulenceW1": 0,
++      "turbulenceW2": 0
++    },
++    "atmosphere": {
++      "airDensity": 0.9523075507618879,
++      "airPressure": 74.24411340201074,
++      "airTemperature": -1.5544139540461401
++    },
++    "kinematics": {
++      "altitude": 2545.897450376673,
++      "downRangeDistance": 20015084.37544518,
++      "downRangeDistanceNextFrame": 20015084.37544518,
++      "distanceToPlanetCenter": 6373545.897450376,
++      "orbitalVelocityAtCurrentAltitude": 7908.212471167938,
++      "trueSpeed": 236.1892817751386,
++      "speedX": 26.5906059906926,
++      "speedY": -234.6876999301488,
++      "machSpeed": 0.7149139457551791,
++      "accelerationX": -2.5894862337365976,
++      "accelerationY": 15.27062534886836,
++      "totalAcceleration": 15.488622840659925,
++      "pitch": -0.0703703383572044,
++      "pitchRateOfChange": 0.5829678655178272,
++      "pitchRecord": [
++        -0.07600674278353169,
++        -0.07114867723754979
++      ],
++      "angularVelocity": 0.09287020030996439,
++      "angularAcceleration": -0.1273116795558361,
++      "angleOfMotion": 3.028741591580451,
++      "angleOfAttack": -3.0998902688180006,
++      "angleInToTheWind": -0.041702384771792556
++    },
++    "forces": {
++      "thrust": 6893791.137347092,
++      "thrustAcceleration": 20.221007597942812,
++      "offAxisThrustDifferenceAcceleration": 0,
++      "twr": 2.0618953398534527,
++      "thrustVectorForce": -813048.4733251149,
++      "thrustVectorAcceleration": -0.1267882696798613,
++      "rcsThrust": 0,
++      "rcsThrustAngularAcceleration": 0,
++      "angularDragAcceleration": -0.0005234098759748289,
++      "crossSectionalArea": 53.8960115496956,
++      "aerodynamicDrag": 1790553.8228738187,
++      "aerodynamicLift": 1012290.4160985885,
++      "aerodynamicDragAcceleration": 5.252088689009853,
++      "aerodynamicLiftAcceleration": 2.9692707230946733,
++      "frontFinDrag": 0,
++      "aftFinDrag": 0,
++      "frontFinDragAngularAcceleration": 0,
++      "aftFinDragAngularAcceleration": 0,
++      "frontFinEffectiveAreaFraction": 0.49253484903610867,
++      "aftFinEffectiveAreaFraction": 0.49253484903610867,
++      "thermalPower": 1044.386820206787,
++      "surfaceTemperature": 405.7713298487062,
++      "dynamicPressure": 26.59141304550127,
++      "perceivedG": 2.571350344015768,
++      "perceivedG_X": -0.26415395238668293,
++      "perceivedG_Y": 2.557746133045362
++    },
++    "vehicle": {
++      "vehicleMass": 340922.2366371314,
++      "propellantMass": 140922.23663713143,
++      "vehicleMomentOfInertia": 164527754.36997196,
++      "vehicleInFlightMaxArea": 639,
++      "throttle": 100,
++      "throttleCurrent": 100,
++      "gimbalPosition": -45.15456682815842,
++      "gimbalPointingDirection": 0.04706570228192675,
++      "frontFinExtension": 50,
++      "aftFinExtension": 50,
++      "rcsRunTimeRemaining": 12.35502463094085
++    },
++    "engines": {
++      "running": [
++        true,
++        true,
++        true,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false
++      ],
++      "failed": [
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false
++      ],
++      "ignitionCountdown": [
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null
++      ]
++    },
++    "status": {
++      "onTheGround": false,
++      "landed": false,
++      "rcsActive": true,
++      "finActive": false,
++      "finLocked": false,
++      "gearDown": false,
++      "dumpingFuel": false,
++      "forceDump": false,
++      "translationModeOn": true
++    },
++    "warnings": {
++      "coldGasLow": false,
++      "fuelLow": false,
++      "heatDamagedWarning": false,
++      "overPressureWarning": false,
++      "overGLoadWarning": false
++    },
++    "failures": {
++      "crashed": false,
++      "inFlightBreakUp": false,
++      "coldGasRunOut": false,
++      "fuelRunOut": false,
++      "heatDamaged": false,
++      "overPressure": false,
++      "overGLoad": false,
++      "flippedOver": false,
++      "randomFailure": false
++    },
++    "autopilot": {
++      "manualControlOn": false,
++      "rcsThrustCommand": 0,
++      "pitchControl": -45.15456682815842,
++      "holdingPitch": 0,
++      "pitchHoldOn": false,
++      "autoBoostBackOn": false,
++      "boostBackInitCompleted": true,
++      "boostBackAeroDeceleration": true,
++      "boostBackDecelerationStageInitCompleted": false,
++      "boostBackDecelerationCheckCountdown": null,
++      "accelerationStageCompleted": false,
++      "boostBackDirection": -1,
++      "decelerationStageEstDuration": 0,
++      "autoDeorbitOn": false,
++      "deorbitInitCompleted": false,
++      "deorbitBurnStarted": false,
++      "deorbitBurnCompleted": false,
++      "autoLandOn": true,
++      "initVehicleConfigCompleted": false,
++      "landingSiteXPos": 20015086.79602057,
++      "aeroDescentCompleted": false,
++      "bellyFlopTriggerAltitude": 0,
++      "flipStageInitialised": false,
++      "flipCompleted": false,
++      "horizontalAdjustmentStageCompleted": false,
++      "horizontalAdjustmentStageInitialised": false,
++      "finalDescentStageInitialised": false,
++      "finalDescentStageCompleted": false,
++      "autoMaxThrustOn": false,
++      "autoTakeOffOn": false,
++      "autoTakeOffInitialised": false,
++      "horizontalAdjustmentVerticalSpeedLimit": -30,
++      "horizontalAdjustmentHorizontalSpeedLimit": 5,
++      "demoAutoLandOn": false,
++      "horizontalAccelerationByAeroBreakingCorrectionAngle": 0,
++      "boosterPhase": "terminal",
++      "boosterRangeError": 14400.871276782967,
++      "boosterFallTime": 2,
++      "boosterCoastPitch": 0,
++      "boosterFinControl": 0,
++      "boosterTerminalIgnitionTime": 101.08716676242712
++    }
++  },
++  "dt": 0.008333333333333333,
++  "out": {
++    "x": -4.494787473231554,
++    "height": 2455.324438741831,
++    "vx": 29.323496294683792,
++    "vy": -234.4950674387032,
++    "time": 20.755942770465094,
++    "ax": -5.5885035434830534,
++    "ay": 11.187649617834404,
++    "lateralFeasible": false
++  }
++}
+diff --git a/tests/fixtures/booster-terminal-ready.json b/tests/fixtures/booster-terminal-ready.json
+new file mode 100644
+index 0000000..8bbd3f3
+--- /dev/null
++++ b/tests/fixtures/booster-terminal-ready.json
+@@ -0,0 +1,544 @@
++{
++  "booster-sep": {
++    "rng": {
++      "seed": 1463897163,
++      "counters": {
++        "ignitionDelay": 81,
++        "ignitionFailure": 81,
++        "turbulence": 0
++      }
++    },
++    "world": {
++      "environmentTime": 319.2654673888365,
++      "timeSpent": 319.2654673888365,
++      "updatedFrameCount": 2343,
++      "wind": 0,
++      "gust": 0,
++      "gustVertical": 0,
++      "turbulenceU": 0,
++      "turbulenceW1": 0,
++      "turbulenceW2": 0
++    },
++    "atmosphere": {
++      "airDensity": 0.9188885863540919,
++      "airPressure": 71.03988600384217,
++      "airTemperature": -3.8246030013552854
++    },
++    "kinematics": {
++      "altitude": 2883.6443889133725,
++      "downRangeDistance": 20015148.054719403,
++      "downRangeDistanceNextFrame": 20015148.054719403,
++      "distanceToPlanetCenter": 6373883.644388913,
++      "orbitalVelocityAtCurrentAltitude": 7908.002943501245,
++      "trueSpeed": 275.01338393821237,
++      "speedX": -5.568809041119842,
++      "speedY": -274.95699611213774,
++      "machSpeed": 0.8359303872310189,
++      "accelerationX": 1.1769123136061077,
++      "accelerationY": 16.455430080279925,
++      "totalAcceleration": 16.497463493546487,
++      "pitch": 0.004742033040104347,
++      "pitchRateOfChange": -0.00771244481843807,
++      "pitchRecord": [
++        0.005483706337345112,
++        0.005098084096423209
++      ],
++      "angularVelocity": -0.006432726511300383,
++      "angularAcceleration": 0.027531784603074712,
++      "angleOfMotion": -3.121189149576315,
++      "angleOfAttack": 3.1262872336727385,
++      "angleInToTheWind": 0.015305419917054586
++    },
++    "forces": {
++      "thrust": 6908841.832760332,
++      "thrustAcceleration": 20.942741169552882,
++      "offAxisThrustDifferenceAcceleration": 0,
++      "twr": 2.1354890557308943,
++      "thrustVectorForce": 171262.12288160672,
++      "thrustVectorAcceleration": 0.027942154060128316,
++      "rcsThrust": 0,
++      "rcsThrustAngularAcceleration": -0.00041309536137389607,
++      "angularDragAcceleration": 2.7259043202890903e-06,
++      "crossSectionalArea": 39.95153947281834,
++      "aerodynamicDrag": 1768033.8579282502,
++      "aerodynamicLift": 488412.2471444046,
++      "aerodynamicDragAcceleration": 5.359433080378331,
++      "aerodynamicLiftAcceleration": 1.4805218477404667,
++      "frontFinDrag": 0,
++      "aftFinDrag": 0,
++      "frontFinDragAngularAcceleration": 0,
++      "aftFinDragAngularAcceleration": 0,
++      "frontFinEffectiveAreaFraction": 0.49253484903610867,
++      "aftFinEffectiveAreaFraction": 0.49253484903610867,
++      "thermalPower": 1644.204741256188,
++      "surfaceTemperature": 445.45609317728196,
++      "dynamicPressure": 34.95734800842323,
++      "perceivedG": 2.6811557461434963,
++      "perceivedG_X": 0.12003615314563242,
++      "perceivedG_Y": 2.678467370907528
++    },
++    "vehicle": {
++      "vehicleMass": 329891.9552519988,
++      "propellantMass": 129891.95525199878,
++      "vehicleMomentOfInertia": 159981827.2085673,
++      "vehicleInFlightMaxArea": 639,
++      "throttle": 100,
++      "throttleCurrent": 100,
++      "gimbalPosition": 9.46960653032427,
++      "gimbalPointingDirection": -0.019693287826954006,
++      "frontFinExtension": 50,
++      "aftFinExtension": 50,
++      "rcsRunTimeRemaining": 10.059785495414054
++    },
++    "engines": {
++      "running": [
++        true,
++        true,
++        true,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false
++      ],
++      "failed": [
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false
++      ],
++      "ignitionCountdown": [
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null
++      ]
++    },
++    "status": {
++      "onTheGround": false,
++      "landed": false,
++      "rcsActive": true,
++      "finActive": false,
++      "finLocked": false,
++      "gearDown": false,
++      "dumpingFuel": false,
++      "forceDump": false,
++      "translationModeOn": true
++    },
++    "warnings": {
++      "coldGasLow": false,
++      "fuelLow": false,
++      "heatDamagedWarning": false,
++      "overPressureWarning": false,
++      "overGLoadWarning": false
++    },
++    "failures": {
++      "crashed": false,
++      "inFlightBreakUp": false,
++      "coldGasRunOut": false,
++      "fuelRunOut": false,
++      "heatDamaged": false,
++      "overPressure": false,
++      "overGLoad": false,
++      "flippedOver": false,
++      "randomFailure": false
++    },
++    "autopilot": {
++      "manualControlOn": false,
++      "rcsThrustCommand": 0,
++      "pitchControl": 9.46960653032427,
++      "holdingPitch": 0,
++      "pitchHoldOn": false,
++      "autoBoostBackOn": false,
++      "boostBackInitCompleted": true,
++      "boostBackAeroDeceleration": true,
++      "boostBackDecelerationStageInitCompleted": false,
++      "boostBackDecelerationCheckCountdown": null,
++      "accelerationStageCompleted": false,
++      "boostBackDirection": -1,
++      "decelerationStageEstDuration": 0,
++      "autoDeorbitOn": false,
++      "deorbitInitCompleted": false,
++      "deorbitBurnStarted": false,
++      "deorbitBurnCompleted": false,
++      "autoLandOn": true,
++      "initVehicleConfigCompleted": false,
++      "landingSiteXPos": 20015086.79602057,
++      "aeroDescentCompleted": false,
++      "bellyFlopTriggerAltitude": 0,
++      "flipStageInitialised": false,
++      "flipCompleted": false,
++      "horizontalAdjustmentStageCompleted": false,
++      "horizontalAdjustmentStageInitialised": false,
++      "finalDescentStageInitialised": false,
++      "finalDescentStageCompleted": false,
++      "autoMaxThrustOn": false,
++      "autoTakeOffOn": false,
++      "autoTakeOffInitialised": false,
++      "horizontalAdjustmentVerticalSpeedLimit": -30,
++      "horizontalAdjustmentHorizontalSpeedLimit": 5,
++      "demoAutoLandOn": false,
++      "horizontalAccelerationByAeroBreakingCorrectionAngle": 0,
++      "boosterPhase": "terminal",
++      "boosterRangeError": 365502.2046343375,
++      "boosterFallTime": 2,
++      "boosterCoastPitch": 0,
++      "boosterFinControl": 0,
++      "boosterTerminalIgnitionTime": 318.0154673888362
++    }
++  },
++  "rtls": {
++    "rng": {
++      "seed": 1463897163,
++      "counters": {
++        "ignitionDelay": 68,
++        "ignitionFailure": 68,
++        "turbulence": 0
++      }
++    },
++    "world": {
++      "environmentTime": 100.01782289732039,
++      "timeSpent": 100.01782289732039,
++      "updatedFrameCount": 766,
++      "wind": 0,
++      "gust": 0,
++      "gustVertical": 0,
++      "turbulenceU": 0,
++      "turbulenceW1": 0,
++      "turbulenceW2": 0
++    },
++    "atmosphere": {
++      "airDensity": 0.9203525199489324,
++      "airPressure": 71.17968309658097,
++      "airTemperature": -3.723844378739045
++    },
++    "kinematics": {
++      "altitude": 2868.3459347273724,
++      "downRangeDistance": 20015093.39594684,
++      "downRangeDistanceNextFrame": 20015093.39594684,
++      "distanceToPlanetCenter": 6373868.345934727,
++      "orbitalVelocityAtCurrentAltitude": 7908.012433824983,
++      "trueSpeed": 270.65658343350776,
++      "speedX": -0.6169805740166662,
++      "speedY": -270.65588020745207,
++      "machSpeed": 0.8225336144636862,
++      "accelerationX": -0.10663511891386389,
++      "accelerationY": 14.925072599001174,
++      "totalAcceleration": 14.92545353193803,
++      "pitch": 0.0007716968798697345,
++      "pitchRateOfChange": -0.0006045524868760789,
++      "pitchRecord": [
++        0.0008596186527387756,
++        0.0008293910283949717
++      ],
++      "angularVelocity": -0.0007956676272581238,
++      "angularAcceleration": 0.014328613729864834,
++      "angleOfMotion": -3.1393389948752275,
++      "angleOfAttack": 3.1401683859036225,
++      "angleInToTheWind": 0.001424267686170655
++    },
++    "forces": {
++      "thrust": 6908185.186648488,
++      "thrustAcceleration": 20.72930532139366,
++      "offAxisThrustDifferenceAcceleration": 0,
++      "twr": 2.1137254329961923,
++      "thrustVectorForce": 88338.56425990698,
++      "thrustVectorAcceleration": 0.014211114569002026,
++      "rcsThrust": 0,
++      "rcsThrustAngularAcceleration": 0.00011737952870297538,
++      "angularDragAcceleration": 1.1963215983294138e-07,
++      "crossSectionalArea": 31.179656076003663,
++      "aerodynamicDrag": 1336017.6491249844,
++      "aerodynamicLift": 44070.43875094906,
++      "aerodynamicDragAcceleration": 4.008971533798518,
++      "aerodynamicLiftAcceleration": 0.13224161713004268,
++      "frontFinDrag": 0,
++      "aftFinDrag": 0,
++      "frontFinDragAngularAcceleration": 0,
++      "aftFinDragAngularAcceleration": 0,
++      "frontFinEffectiveAreaFraction": 0.49253484903610867,
++      "aftFinEffectiveAreaFraction": 0.49253484903610867,
++      "thermalPower": 1573.8241485625533,
++      "surfaceTemperature": 441.2903263857435,
++      "dynamicPressure": 33.896349969019944,
++      "perceivedG": 2.522443056008525,
++      "perceivedG_X": -0.010871084401354446,
++      "perceivedG_Y": 2.522419630103121
++    },
++    "vehicle": {
++      "vehicleMass": 333256.95577067416,
++      "propellantMass": 133256.95577067416,
++      "vehicleMomentOfInertia": 161386829.55722108,
++      "vehicleInFlightMaxArea": 639,
++      "throttle": 100,
++      "throttleCurrent": 100,
++      "gimbalPosition": 4.884606415024435,
++      "gimbalPointingDirection": -0.01195847866253698,
++      "frontFinExtension": 50,
++      "aftFinExtension": 50,
++      "rcsRunTimeRemaining": 15.528249105590692
++    },
++    "engines": {
++      "running": [
++        true,
++        true,
++        true,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false
++      ],
++      "failed": [
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false,
++        false
++      ],
++      "ignitionCountdown": [
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null,
++        null
++      ]
++    },
++    "status": {
++      "onTheGround": false,
++      "landed": false,
++      "rcsActive": true,
++      "finActive": false,
++      "finLocked": false,
++      "gearDown": false,
++      "dumpingFuel": false,
++      "forceDump": false,
++      "translationModeOn": true
++    },
++    "warnings": {
++      "coldGasLow": false,
++      "fuelLow": false,
++      "heatDamagedWarning": false,
++      "overPressureWarning": false,
++      "overGLoadWarning": false
++    },
++    "failures": {
++      "crashed": false,
++      "inFlightBreakUp": false,
++      "coldGasRunOut": false,
++      "fuelRunOut": false,
++      "heatDamaged": false,
++      "overPressure": false,
++      "overGLoad": false,
++      "flippedOver": false,
++      "randomFailure": false
++    },
++    "autopilot": {
++      "manualControlOn": false,
++      "rcsThrustCommand": 0,
++      "pitchControl": 4.884606415024435,
++      "holdingPitch": 0,
++      "pitchHoldOn": false,
++      "autoBoostBackOn": false,
++      "boostBackInitCompleted": true,
++      "boostBackAeroDeceleration": true,
++      "boostBackDecelerationStageInitCompleted": false,
++      "boostBackDecelerationCheckCountdown": null,
++      "accelerationStageCompleted": false,
++      "boostBackDirection": -1,
++      "decelerationStageEstDuration": 0,
++      "autoDeorbitOn": false,
++      "deorbitInitCompleted": false,
++      "deorbitBurnStarted": false,
++      "deorbitBurnCompleted": false,
++      "autoLandOn": true,
++      "initVehicleConfigCompleted": false,
++      "landingSiteXPos": 20015086.79602057,
++      "aeroDescentCompleted": false,
++      "bellyFlopTriggerAltitude": 0,
++      "flipStageInitialised": false,
++      "flipCompleted": false,
++      "horizontalAdjustmentStageCompleted": false,
++      "horizontalAdjustmentStageInitialised": false,
++      "finalDescentStageInitialised": false,
++      "finalDescentStageCompleted": false,
++      "autoMaxThrustOn": false,
++      "autoTakeOffOn": false,
++      "autoTakeOffInitialised": false,
++      "horizontalAdjustmentVerticalSpeedLimit": -30,
++      "horizontalAdjustmentHorizontalSpeedLimit": 5,
++      "demoAutoLandOn": false,
++      "horizontalAccelerationByAeroBreakingCorrectionAngle": 0,
++      "boosterPhase": "terminal",
++      "boosterRangeError": 14400.871276782967,
++      "boosterFallTime": 2,
++      "boosterCoastPitch": 0,
++      "boosterFinControl": 0,
++      "boosterTerminalIgnitionTime": 98.81782289732045
++    }
++  }
++}
+diff --git a/tests/flies-every-scenario.test.ts b/tests/flies-every-scenario.test.ts
+index 6662bf0..05456b9 100644
+--- a/tests/flies-every-scenario.test.ts
++++ b/tests/flies-every-scenario.test.ts
+@@ -13,22 +13,25 @@
+  * outcomes are the ones actually observed, written down.
+  */
+ import { describe, expect, it } from 'vitest';
+-import { ALL_SCENARIOS, createIntroState, createScenarioState } from '$core/scenarios';
++import { ALL_SCENARIOS, createIntroState, createScenarioState, createScenarioVehicle } from '$core/scenarios';
+ import { step } from '$core/step';
+ import { DT } from '$app/loop';
+ import { toggleAutoLand } from '$core/control/commands';
+ import type { SimState } from '$core/state';
++import { SHIP,type VehicleDefinition } from '$core/vehicle';
++import { CATCH } from '$core/vehicles/super-heavy';
++import { createCatchPose,writeCatchPose } from '$core/physics/tower-catch';
+ import * as C from '$core/constants';
+ 
+ type Outcome = 'landed' | 'crashed' | 'brokeUp' | 'flying';
+ 
+ /** Fly until something definite happens, or the clock runs out. */
+-function fly(initial: SimState, maxSeconds: number): { outcome: Outcome; seconds: number; state: SimState } {
++function fly(initial: SimState, maxSeconds: number, model:VehicleDefinition=SHIP): { outcome: Outcome; seconds: number; state: SimState } {
+   let s = initial;
+   const steps = Math.round(maxSeconds / DT);
+ 
+   for (let i = 0; i < steps; i++) {
+-    s = step(s, DT);
++    s = step(s, DT,{},model);
+     if (s.status.landed) return { outcome: 'landed', seconds: i * DT, state: s };
+     if (s.failures.crashed) return { outcome: 'crashed', seconds: i * DT, state: s };
+     if (s.failures.inFlightBreakUp) return { outcome: 'brokeUp', seconds: i * DT, state: s };
+@@ -71,7 +74,8 @@ function assertFinite(state: SimState, label: string): void {
+ describe('every scenario runs to a definite outcome', () => {
+   for (const preset of ALL_SCENARIOS) {
+     it(`${preset.id} flies`, () => {
+-      const { outcome, seconds, state } = fly(createScenarioState(preset), 600);
++      const flight=createScenarioVehicle(preset);
++      const { outcome, seconds, state } = fly(flight.state, 600,flight.vehicle);
+       assertFinite(state, preset.id);
+ 
+       // Something happened: it moved, and it did not sit exactly where it began.
+@@ -105,13 +109,24 @@ describe('the autopilot flies the ones it is meant to', () => {
+   for (const { id, expected } of AUTO_LAND) {
+     it(`${id}: auto-land ${expected}`, () => {
+       const preset = ALL_SCENARIOS.find((p) => p.id === id)!;
+-      const state = createScenarioState(preset);
++      const flight=createScenarioVehicle(preset),state=flight.state;
+       toggleAutoLand(state);
+ 
+-      const result = fly(state, 900);
++      const result = fly(state, 900,flight.vehicle);
+       assertFinite(result.state, id);
+ 
+       expect(result.outcome, `${id} after ${result.seconds.toFixed(1)} s`).toBe(expected);
++      if(flight.vehicle.id==='super-heavy') {
++        expect(result.state.status.onTheGround,id).toBe(false);
++        expect(Object.values(result.state.failures).some(Boolean),id).toBe(false);
++        expect(result.state.vehicle.propellantMass,id).toBeGreaterThan(0);
++        const lug=createCatchPose();writeCatchPose(result.state,flight.vehicle,lug);
++        expect(lug.altitude,id).toBe(CATCH.planeAltitude);
++        expect(Math.abs(lug.x-C.starBaseXPos),id).toBeLessThanOrEqual(CATCH.halfWidth);
++        expect(Math.abs(result.state.kinematics.pitch),id).toBeLessThanOrEqual(CATCH.maxPitch);
++        expect(result.state.kinematics.speedX,id).toBe(0);
++        expect(result.state.kinematics.speedY,id).toBe(0);
++      }
+       if (expected === 'landed') {
+         // Landed means landed, not "stopped moving": within the touchdown limits.
+         expect(Math.abs(result.state.kinematics.speedY), id).toBeLessThan(10);

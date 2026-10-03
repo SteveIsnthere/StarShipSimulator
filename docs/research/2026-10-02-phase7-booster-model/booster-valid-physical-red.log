@@ -1,0 +1,120 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/grid-fins.test.ts (5 tests | 2 failed) 7ms
+     × deflects from neutral with finite slew and produces real lateral acceleration/torque 3ms
+     × locked or inactive fins return to neutral rather than applying a permanent steering force 2ms
+ ❯ |unit| tests/core/super-heavy.test.ts (8 tests | 4 failed) 9ms
+     × sums all33 engines and only the13 steerable engines supply gimbal authority 3ms
+     × starts at the selected load COM/inertia rather than uniform-cylinder inertia 0ms
+     × produces the physical torque of an independently lit fixed outer engine 1ms
+     × pays for the last impulse and never lets an outer ring steer as a gimballed engine 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/grid-fins.test.ts > physical grid fins and actuator propagation > deflects from neutral with finite slew and produces real lateral acceleration/torque
+AssertionError: expected +0 to be 50 // Object.is equality
+
+- Expected
++ Received
+
+- 50
++ 0
+
+ ❯ tests/core/grid-fins.test.ts:46:41
+     44|   it('deflects from neutral with finite slew and produces real lateral…
+     45|     const s=createInitialState(123,SUPER_HEAVY);
+     46|     expect(s.vehicle.frontFinExtension).toBe(50);
+       |                                         ^
+     47|     s.kinematics.altitude=1000;s.kinematics.distanceToPlanetCenter=C.p…
+     48|     s.kinematics.speedY=-100;s.status.onTheGround=false;s.status.finAc…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |unit| tests/core/grid-fins.test.ts > physical grid fins and actuator propagation > locked or inactive fins return to neutral rather than applying a permanent steering force
+AssertionError: expected 61 to be 59 // Object.is equality
+
+- Expected
++ Received
+
+- 59
++ 61
+
+ ❯ tests/core/grid-fins.test.ts:63:86
+     61|       s.kinematics.altitude=1000;s.kinematics.distanceToPlanetCenter=C…
+     62|       s.vehicle.frontFinExtension=60;s.status.finActive=false;s.status…
+     63|       expect(step(s,1/120,{pitchControl:100},SUPER_HEAVY).vehicle.fron…
+       |                                                                                      ^
+     64|     }
+     65|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > sums all33 engines and only the13 steerable engines supply gimbal authority
+AssertionError: expected 1 to be 0.3939393939393939 // Object.is equality
+
+- Expected
++ Received
+
+- 0.3939393939393939
++ 1
+
+ ❯ tests/core/super-heavy.test.ts:52:47
+     50|     expect(getTotalMaxThrust(all,101.325,SUPER_HEAVY)).toBe(33*2255529…
+     51|     expect(getFuelFlowRate(all,100,SUPER_HEAVY)).toBe(33*C.maxFuelFlow…
+     52|     expect(gimballedShare(all,0,SUPER_HEAVY)).toBe(13/33);
+       |                                               ^
+     53|     expect(gimballedShare(flags([13]),0,SUPER_HEAVY)).toBe(0);
+     54|     expect(gimballedShare(flags(CENTRE_ENGINES),0,SUPER_HEAVY)).toBe(1…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > starts at the selected load COM/inertia rather than uniform-cylinder inertia
+AssertionError: expected 297602083.3333333 to be close to 267799076.4377306, received difference is 29803006.895602703, but expected 0.005
+ ❯ tests/core/super-heavy.test.ts:61:8
+     59|     // Independently hand-computed two filled columns, shared COM and …
+     60|     expect(createInitialState(123,SUPER_HEAVY).vehicle.vehicleMomentOf…
+     61|       .toBeCloseTo(267799076.4377306,2);
+       |        ^
+     62|     const flight=createScenarioVehicle({...PRESETS[0]!,propellant:0},1…
+     63|     expect(flight.state.vehicle.vehicleMomentOfInertia).toBe(200000*(4…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > produces the physical torque of an independently lit fixed outer engine
+AssertionError: expected +0 to be close to -0.1016019438207132, received difference is 0.1016019438207132, but expected 5e-13
+ ❯ tests/core/super-heavy.test.ts:74:8
+     72|     const next=step(s,1/120,{},SUPER_HEAVY);
+     73|     expect(next.forces.offAxisThrustDifferenceAcceleration)
+     74|       .toBeCloseTo(-3.8*next.forces.thrust/next.vehicle.vehicleMomentO…
+       |        ^
+     75|   });
+     76|   it('lights and shuts down each engine independently and replays its …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > pays for the last impulse and never lets an outer ring steer as a gimballed engine
+AssertionError: expected 100388.44710499444 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 100388.44710499444
+
+ ❯ tests/core/super-heavy.test.ts:101:43
+     99|     expect(next.vehicle.propellantMass).toBe(0);
+    100|     expect(next.forces.thrust).toBeCloseTo(C.thrustPerRaptorAt(next.at…
+    101|     expect(next.forces.thrustVectorForce).toBe(0);
+       |                                           ^
+    102|     expect(next.kinematics.speedX).toBe(0);
+    103|     expect(next.vehicle.vehicleMass).toBe(200000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  6 failed | 7 passed (13)
+   Start at  16:29:20
+   Duration  227ms (transform 153ms, setup 0ms, import 209ms, tests 16ms, environment 0ms)
+

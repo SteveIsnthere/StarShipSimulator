@@ -1,0 +1,11 @@
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+/Users/stevewang/dev/StarShipSimulator-realism/src/core/autopilot/booster.ts
+  117:80  error  'plus' is never reassigned. Use 'const' instead   prefer-const
+  118:81  error  'minus' is never reassigned. Use 'const' instead  prefer-const
+
+✖ 2 problems (2 errors, 0 warnings)
+

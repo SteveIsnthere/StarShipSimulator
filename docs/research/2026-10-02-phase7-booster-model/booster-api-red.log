@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/grid-fins.test.ts (0 test)
+ ❯ |unit| tests/core/super-heavy.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/grid-fins.test.ts [ tests/core/grid-fins.test.ts ]
+Error: Cannot find module '$core/physics/grid-fins' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/grid-fins.test.ts
+ ❯ tests/core/grid-fins.test.ts:4:1
+      2|  * positive aerodynamic work; real step/actuator tests follow the help…
+      3| import { describe, expect, it } from 'vitest';
+      4| import { createGridFinForces, writeGridFinForces } from '$core/physics…
+       | ^
+      5| import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+      6| import { rad } from '$core/units';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts [ tests/core/super-heavy.test.ts ]
+Error: Cannot find module '$core/vehicles/super-heavy' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/super-heavy.test.ts
+ ❯ tests/core/super-heavy.test.ts:4:1
+      2|  * synthetic tank geometry must fail these consumer-level physical wit…
+      3| import { describe, expect, it } from 'vitest';
+      4| import { SUPER_HEAVY, CENTRE_ENGINES, RETURN_ENGINES, CATCH } from '$c…
+       | ^
+      5| import { ALL_SCENARIOS, PRESETS, createScenarioState, createScenarioVe…
+      6| import { SHIP } from '$core/vehicle';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  no tests
+   Start at  16:26:31
+   Duration  143ms (transform 31ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

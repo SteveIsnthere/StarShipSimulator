@@ -8,37 +8,35 @@
  */
 import type { SimState } from '$core/state';
 import type { ScenarioPreset } from '$core/scenarios';
-import { heatLimit, vehicleHeight } from '$core/constants';
+import { heatLimit } from '$core/constants';
 import { getWorkingEngineCount } from '$core/physics/engines';
 import type { ViewApp } from '$view/app';
 import { worldToScreen } from '$view/camera';
-import { loadTextures, STARSHIP_TEXTURE } from '$view/assets';
+import { loadTextures } from '$view/assets';
 import { createWorld } from '$view/world';
+import { createCatchTower } from '$view/catch-tower';
 import { createTerrainTextures } from '$view/terrain';
 import { createDistantEarth } from '$view/distant-earth';
 import { createFlightPathMarker } from '$view/motion-cues';
 import { createCloudDeck } from '$view/clouds';
-import { createVehicle } from '$view/vehicle';
-import { createParticleSystem, createParticleTextures } from '$view/particles';
-import { createEffectDriver } from '$view/effects';
-import { createEmissiveBell } from '$view/emissive-bell';
+import { createParticleTextures } from '$view/particles';
 import { createSky } from '$view/sky';
 import { createSunLight, writeSun } from '$view/sun';
-import { createVehicleLighting } from '$view/lighting';
-import { createOnboardInset, createSheath, windwardInHull } from '$view/reentry';
-import { plasmaIntensity } from '$view/atmosphere-look';
 import { bloomIntensity, createPostPass, heatIntensity } from '$view/post';
+import { createSceneVehicles } from './scene-vehicles';
+import type { MissionController } from './mission-controller';
 
 export interface Scene {
   /** Draw one frame of `state`, `worldDt` simulated seconds after the last. */
-  draw(state: SimState, previous: SimState, worldDt: number, preset: ScenarioPreset): void;
+  draw(state: SimState, previous: SimState, worldDt: number, preset: ScenarioPreset, controller: MissionController): void;
   /** Match the viewport to the window. */
   resize(width: number, height: number): void;
   /** Discard effects and emitter history belonging to the preceding flight. */
   resetFlight(): void;
   /** Debug witnesses use the actual rendered nozzle, never a viewport guess. */
   presentation(): { nozzleX: number; nozzleY: number; width: number; height: number;
-    worldDt: number; bell: { visibleMounts: number }; particles: readonly Readonly<Record<string, number | string>>[] };
+    worldDt: number; bell: { visibleMounts: number }; particles: readonly Readonly<Record<string, number | string>>[];
+    bodies: readonly { id: string; x: number; y: number; rotation: number; width: number; height: number }[] };
   setParticlesVisible(visible: boolean): void;
   destroy(): void;
 }
@@ -59,33 +57,9 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
   // Shared by the near ground and the far earth so they are one material.
   const terrain = createTerrainTextures();
   const world = createWorld(textures, terrain);
+  const tower = createCatchTower();
   const sun = createSunLight();
   const worldLighting = { sun, downRangeDistance: 0, altitude: 0, pitch: 0 };
-  const hullTexture = textures.get(STARSHIP_TEXTURE);
-  const lighting = hullTexture ? createVehicleLighting(hullTexture) : undefined;
-  const vehicle = createVehicle(textures, lighting);
-
-  // Re-entry: the sheath on the hull and the onboard inset, from the same
-  // strength the plasma trail and the heat readout use.
-  const sheath = createSheath();
-  vehicle.container.addChild(sheath.mesh);
-  const inset = createOnboardInset(textures, lighting);
-  const windward = { x: 0, y: 1 };
-  const insetState = {
-    altitude: 0,
-    downRangeDistance: 0,
-    pitch: 0,
-    angleOfAttack: 0,
-    frontFinExtension: 0,
-    aftFinExtension: 0,
-  };
-  const vehicleState = {
-    altitude: 0,
-    downRangeDistance: 0,
-    pitch: 0,
-    frontFinExtension: 0,
-    aftFinExtension: 0,
-  };
   const noseUv = { x: 0, y: 0 };
 
   // One atlas for the particles and the cloud puffs.
@@ -96,22 +70,16 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
   view.layers.far.addChild(distantEarth.container);
   const clouds = createCloudDeck(particleTextures.wisp);
   view.layers.far.addChild(clouds.container);
-  view.layers.world.addChild(world.container);
-  view.layers.vehicle.addChild(vehicle.container);
+  view.layers.world.addChild(world.container, tower.container);
 
   const sky = createSky(view.app.renderer);
   view.layers.sky.addChild(sky.container);
 
-  const particles = createParticleSystem(particleTextures);
-  const effects = createEffectDriver();
-  const bell = createEmissiveBell();
-  view.layers.effectsBehind.addChild(bell.container);
-  view.layers.effectsBehind.addChild(particles.container);
+  const vehicles = createSceneVehicles(view, textures, particleTextures);
 
   // The flight-path marker is an instrument: in front of everything.
   const flightPath = createFlightPathMarker();
-  view.layers.effectsFront.addChild(flightPath.container);
-  view.layers.effectsFront.addChild(inset.container);
+  view.layers.effectsFront.addChildAt(flightPath.container, 0);
 
   const post = createPostPass(
     view.layers.effectsBehind,
@@ -123,7 +91,7 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
   let lastWorldDt = 0;
 
   return {
-    draw(s, previous, worldDt, preset) {
+    draw(s, previous, worldDt, preset, controller) {
       if (worldDt > 0) lastWorldDt = worldDt;
       // The sun from the scenario's hour, the clock and the longitude.
       writeSun(
@@ -142,27 +110,9 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
       clouds.update(view.viewport, s.kinematics.altitude, s.kinematics.speedX, worldDt, sun);
       world.update(view.camera, view.viewport, s.kinematics.speedX, s.kinematics.altitude, worldLighting);
 
-      vehicleState.altitude = s.kinematics.altitude;
-      vehicleState.downRangeDistance = s.kinematics.downRangeDistance;
-      vehicleState.pitch = s.kinematics.pitch;
-      vehicleState.frontFinExtension = s.vehicle.frontFinExtension;
-      vehicleState.aftFinExtension = s.vehicle.aftFinExtension;
-      vehicle.update(view.camera, view.viewport, vehicleState, sun);
-
-      effects.update(particles, view.camera, view.viewport, s, previous, worldDt);
-      bell.update(s, view.viewport.scale, effects.nozzle.x, effects.nozzle.y, worldDt);
-
-      const strength = plasmaIntensity(s.forces.thermalPower, heatLimit);
-      windwardInHull(s.kinematics.angleOfAttack, windward);
-      sheath.place(vehicleHeight * view.viewport.scale);
-      sheath.set(strength, windward.x, windward.y, elapsed);
-      insetState.altitude = s.kinematics.altitude;
-      insetState.downRangeDistance = s.kinematics.downRangeDistance;
-      insetState.pitch = s.kinematics.pitch;
-      insetState.angleOfAttack = s.kinematics.angleOfAttack;
-      insetState.frontFinExtension = s.vehicle.frontFinExtension;
-      insetState.aftFinExtension = s.vehicle.aftFinExtension;
-      inset.update(view.viewport, insetState, strength, sun, elapsed);
+      tower.update(view.camera, view.viewport, controller.mission?.booster
+        ?? (controller.model.id === 'super-heavy' ? s : undefined));
+      vehicles.draw(s, previous, worldDt, sun, elapsed, controller);
 
       // Where the vehicle is going, as against where its nose points.
       const at = worldToScreen(view.camera, view.viewport, s.kinematics.downRangeDistance, s.kinematics.altitude);
@@ -183,26 +133,18 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
       sky.resize(view.viewport);
     },
     presentation() {
-      return { nozzleX: effects.nozzle.x, nozzleY: effects.nozzle.y,
-        width: view.viewport.width, height: view.viewport.height,
-        worldDt: lastWorldDt, bell: { visibleMounts: bell.container.visible ? bell.container.children.filter(child => child.visible).length : 0 }, particles: particles.inspect() };
+      return { ...vehicles.presentation(), width: view.viewport.width,
+        height: view.viewport.height, worldDt: lastWorldDt };
     },
     setParticlesVisible(visible) {
-      particles.container.visible = visible;
-      bell.container.visible = visible;
+      vehicles.setParticlesVisible(visible);
     },
     resetFlight() {
       lastWorldDt = 0;
-      particles.clear();
-      bell.reset();
-      effects.reset();
+      vehicles.reset();
     },
     destroy() {
-      // Mesh.destroy releases neither the hull shader nor its generated normal map.
-      bell.destroy();
-      sheath.destroy();
-      inset.destroy();
-      lighting?.destroy();
+      vehicles.destroy();
     },
   };
 }

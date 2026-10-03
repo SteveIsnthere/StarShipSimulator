@@ -1,0 +1,24 @@
+
+> starship-simulator-v2@0.1.0 gate
+> npm run lint && npm run build && npm run test && npm run coverage && E2E_SKIP_BUILD=1 npm run test:e2e && E2E_SKIP_BUILD=1 npm run test:deploy
+
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+/Users/stevewang/dev/StarShipSimulator-realism/src/ui/shell/BlackBox/BlackBox.tsx
+  54:6  warning  React Hook useMemo has an unnecessary dependency: 'selectedVehicle'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+✖ 1 problem (0 errors, 1 warning)
+
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+vitest.config.ts(17,3): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Type '{ maxWorkers: number | undefined; environment: "node"; projects: ({ extends: true; test: { name: string; include: string[]; exclude: string[]; }; } | { extends: true; test: { name: string; environment: "jsdom"; globals: true; include: string[]; exclude: string[]; setupFiles: string[]; }; })[]; testTimeout: number; c...' is not assignable to type 'InlineConfig' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'maxWorkers' are incompatible.
+        Type 'number | undefined' is not assignable to type 'string | number'.
+          Type 'undefined' is not assignable to type 'string | number'.

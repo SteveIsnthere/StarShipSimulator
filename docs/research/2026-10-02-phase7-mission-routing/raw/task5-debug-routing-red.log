@@ -1,0 +1,30 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/mission-session.test.ts (8 tests | 1 failed) 22ms
+     × routes debug fixed steps through both actual mission bodies 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/mission-session.test.ts > actual selected-model mission routing > routes debug fixed steps through both actual mission bodies
+AssertionError: expected 'attached' to be 'separated' // Object.is equality
+
+Expected: "separated"
+Received: "attached"
+
+ ❯ tests/ui/mission-session.test.ts:21:35
+     19|       advanceStep: () => { flight.advance(DT); } });
+     20|     debug.step(180);
+     21|     expect(flight.mission!.phase).toBe('separated');
+       |                                   ^
+     22|     expect(flight.mission!.ship.world.environmentTime).toBe(flight.loo…
+     23|     expect(flight.mission!.booster.world.environmentTime).toBe(flight.…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  23:43:25
+   Duration  257ms (transform 108ms, setup 0ms, import 131ms, tests 22ms, environment 0ms)
+

@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-planning-latency.test.ts (2 tests | 1 failed) 1057ms
+     × publishes a source-matched physically caught future cutoff for rtls 174ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-planning-latency.test.ts > paid return planning at production receipt/work timing > publishes a source-matched physically caught future cutoff for rtls
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-planning-latency.test.ts:28:44
+     26|     expect(s.kinematics).toEqual(kinematics);expect(s.vehicle.propella…
+     27|     expect(s.rng.counters).toEqual(rng);
+     28|     expect(j.done).toBe(true);expect(plan).toBeDefined();
+       |                                            ^
+     29|     expect(plan!.originTime).toBe(j.origin.world.environmentTime);
+     30|     expect(plan!.shutdownAt).toBeGreaterThan(s.world.environmentTime);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 30 passed (31)
+   Start at  20:57:16
+   Duration  3.27s (transform 242ms, setup 0ms, import 334ms, tests 4.18s, environment 0ms)
+

@@ -31,11 +31,19 @@
  * sequence in gives the same events out, which is what lets the test replay all
  * golden fixtures through it — every one, eight since M11.1.
  */
+import type { MissionState } from '$core/mission';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
 import type { SimState } from '$core/state';
 import * as C from '$core/constants';
 
 /** Every event the timeline can show, in the order a full flight meets them. */
 export const EVENT_IDS = [
+  'ATTACHED',
+  'STAGING',
+  'SEPARATION',
+  'BOOSTBACK',
+  'ENTRY BURN',
+  'CAUGHT',
   'LIFTOFF',
   'MAX-Q',
   'MECO',
@@ -58,7 +66,7 @@ export interface TimelineEvent {
 
 export interface Timeline {
   /** Fire any events this state has reached. Call once per step. */
-  observe(state: SimState): void;
+  observe(state: SimState, mission?: MissionState): void;
   /** What has happened, in the order it happened. */
   readonly events: readonly TimelineEvent[];
   /** True once `id` has fired. */
@@ -98,7 +106,7 @@ export const MAX_Q_FLOOR_KPA = 5;
 /** Above 1 km, so a hop's landing does not read as an apogee. */
 export const APOGEE_FLOOR_ALTITUDE = 1_000;
 
-export function createTimeline(): Timeline {
+export function createTimeline(model: VehicleDefinition = SHIP): Timeline {
   const events: TimelineEvent[] = [];
   const fired = new Set<EventId>();
 
@@ -131,10 +139,20 @@ export function createTimeline(): Timeline {
 
     has: (id) => fired.has(id),
 
-    observe(state: SimState): void {
+    observe(state: SimState, mission?: MissionState): void {
       const now = state.world.timeSpent;
       const { altitude, speedY } = state.kinematics;
       const dt = previousTime === undefined ? 0 : Math.max(0, now - previousTime);
+
+      if (mission?.phase === 'attached') fire('ATTACHED', now);
+      if (mission?.stageRequested) fire('STAGING', now);
+      if (mission?.phase === 'separated') fire('SEPARATION', now);
+      if (model.id === 'super-heavy' && state.forces.thrust > 0
+        && state.engines.running.some(Boolean)) {
+        if (state.autopilot.boosterPhase === 'boostback') fire('BOOSTBACK', now);
+        if (state.autopilot.boosterPhase === 'entry') fire('ENTRY BURN', now);
+        if (state.autopilot.boosterPhase === 'terminal') fire('LANDING BURN', now);
+      }
 
       // --- LIFTOFF -------------------------------------------------------
       // The ground-to-air TRANSITION, climbing. Not "off the ground and going
@@ -213,7 +231,7 @@ export function createTimeline(): Timeline {
 
       // --- how it ended --------------------------------------------------
       if (state.failures.crashed || state.failures.inFlightBreakUp) fire('LOSS', now);
-      else if (state.status.landed) fire('TOUCHDOWN', now);
+      else if (state.status.landed) fire(model.id === 'super-heavy' && !state.status.onTheGround ? 'CAUGHT' : 'TOUCHDOWN', now);
 
       previousSpeedY = speedY;
       previousAltitude = altitude;
@@ -268,6 +286,13 @@ export const TRACKS: Readonly<Record<string, readonly EventId[]>> = {
 };
 
 /** The expected track for a scenario, falling back to the general shape. */
-export function trackFor(scenarioId: string): readonly EventId[] {
+const BOOSTER_TRACK: readonly EventId[] = ['BOOSTBACK', 'APOGEE', 'ENTRY BURN', 'LANDING BURN', 'CAUGHT'];
+const STACK_TRACK: readonly EventId[] = ['ATTACHED', 'STAGING', 'SEPARATION'];
+const MISSION_BOOSTER_TRACK: readonly EventId[] = [...STACK_TRACK, ...BOOSTER_TRACK];
+const MISSION_SHIP_TRACK: readonly EventId[] = [...STACK_TRACK, 'MECO', 'APOGEE', 'ENTRY', 'FLIP', 'LANDING BURN', 'TOUCHDOWN'];
+
+export function trackFor(scenarioId: string, vehicle: VehicleDefinition['id'] = 'ship', mission = false): readonly EventId[] {
+  if (mission) return vehicle === 'super-heavy' ? MISSION_BOOSTER_TRACK : MISSION_SHIP_TRACK;
+  if (vehicle === 'super-heavy') return BOOSTER_TRACK;
   return TRACKS[scenarioId] ?? DEFAULT_TRACK;
 }

@@ -13,12 +13,10 @@
  * Run with: npm run test:deploy
  */
 import { defineConfig, devices } from '@playwright/test';
-import { preinstalledChromium } from './tests/e2e/chromium';
+import { chromiumLaunchOptions } from './tests/e2e/chromium';
 
 const PORT = Number(process.env.E2E_SUBPATH_PORT ?? 4188);
 const SUBPATH = 'StarShipSimulator';
-
-const executablePath = preinstalledChromium();
 
 /**
  * E2E_BASE_URL points the same checks at a real deployment, such as the live
@@ -36,10 +34,7 @@ export default defineConfig({
     baseURL: LIVE ?? `http://127.0.0.1:${PORT}/${SUBPATH}/`,
     trace: 'off',
     ...devices['Desktop Chrome'],
-    launchOptions: {
-      ...(executablePath ? { executablePath } : {}),
-      args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--no-sandbox'],
-    },
+    launchOptions: chromiumLaunchOptions(),
   },
 
   ...(LIVE

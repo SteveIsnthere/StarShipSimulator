@@ -1,0 +1,34 @@
+{
+  "gateExit": 0,
+  "seconds": 292.92,
+  "budget": 300,
+  "unit": {
+    "files": 194,
+    "tests": 2285
+  },
+  "coverage": {
+    "files": 165,
+    "tests": 2170,
+    "omittedKitRoots": 29
+  },
+  "allFloorsPass": true,
+  "smoke": 13,
+  "subpath": 5,
+  "coreFiles": 35,
+  "coreMapsStatementFunctionCounters": "exact baseline match",
+  "gravityBranchVariations": [
+    {
+      "line": 161,
+      "baseline": [
+        44626830,
+        288196
+      ],
+      "current": [
+        44626827,
+        288199
+      ]
+    }
+  ],
+  "branchCoveredArmsAndTotalsPreserved": true,
+  "limitation": "unseeded omega property samples; causal independent review, not recorded-seed replay proof"
+}

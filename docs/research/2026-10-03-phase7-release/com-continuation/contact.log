@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/mission-continuation.test.ts (4 tests | 1 failed) 57ms
+     × rejects a missed lug and treats slow physical ground contact as a crash 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/mission-continuation.test.ts > physical COM continuation after real paid Stage > rejects a missed lug and treats slow physical ground contact as a crash
+AssertionError: expected 35.4 to be 35.5 // Object.is equality
+
+- Expected
++ Received
+
+- 35.5
++ 35.4
+
+ ❯ tests/core/mission-continuation.test.ts:109:42
+    107|       expect(next.failures.crashed).toBe(altitude === 35.4);
+    108|       if (altitude === 35.4) {
+    109|         expect(next.kinematics.altitude).toBe(35.5);
+       |                                          ^
+    110|         expect(next.kinematics.speedX).toBe(0); expect(next.kinematics…
+    111|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 21 passed (22)
+   Start at  01:36:42
+   Duration  320ms (transform 289ms, setup 0ms, import 403ms, tests 90ms, environment 0ms)
+

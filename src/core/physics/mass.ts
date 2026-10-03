@@ -33,81 +33,61 @@
  * of its filled height, each carried to the common centre by the parallel
  * axis theorem.
  */
-import * as C from '../constants';
+import { SHIP, OXIDISER_SHARE, type VehicleDefinition } from '../vehicle';
+export { OXIDISER_TO_FUEL, OXIDISER_SHARE, LOX_DENSITY, CH4_DENSITY } from '../vehicle';
 
-/** m — the tank bottom above the gimbal plane: the engine skirt. */
-export const TANK_BOTTOM = 5;
-/**
- * kg — the editor's cap on propellant, and so the size the tanks are built to
- * hold. `scenarios.ts` clamps to this rather than to a literal of its own:
- * raising one without the other would leave the tanks the wrong size and
- * every arm quietly wrong, with nothing to fail.
- */
-export const PROPELLANT_CAPACITY = 1_200_000;
-/** Raptor's oxidiser-to-fuel ratio, by mass. */
-export const OXIDISER_TO_FUEL = 3.6;
-/** Share of the propellant that is oxidiser. */
-export const OXIDISER_SHARE = OXIDISER_TO_FUEL / (1 + OXIDISER_TO_FUEL);
-/** kg/m^3 — liquid oxygen and liquid methane at their boiling points. */
-export const LOX_DENSITY = 1141;
-export const CH4_DENSITY = 424;
-
-const TANK_AREA = Math.PI * (C.vehicleDiameter / 2) ** 2;
-/** m — the LOX tank's height, full. */
-export const LOX_TANK_HEIGHT = (PROPELLANT_CAPACITY * OXIDISER_SHARE) / (LOX_DENSITY * TANK_AREA);
-/** m — the CH4 tank's height, full; it sits on top of the LOX tank. */
-export const CH4_TANK_HEIGHT =
-  (PROPELLANT_CAPACITY * (1 - OXIDISER_SHARE)) / (CH4_DENSITY * TANK_AREA);
-export const CH4_TANK_BOTTOM = TANK_BOTTOM + LOX_TANK_HEIGHT;
-
-/** m — where the dry vehicle balances: the 2021 engine arm, read as a station. */
-export const DRY_CENTRE_OF_MASS = C.engineDistanceFromCenterOfMass;
-/** m — the stations, from the 2021 arms about that centre. */
-export const AFT_FIN_STATION = DRY_CENTRE_OF_MASS - C.aftFinDistanceFromCenterOfMass;
-export const RCS_STATION = DRY_CENTRE_OF_MASS + C.rcsThrustDistanceFromCenterOfMass;
-export const FRONT_FIN_STATION = DRY_CENTRE_OF_MASS + C.frontFinDistanceFromCenterOfMass;
+/** Ship aliases retained for the existing public API and truth tests. */
+export const TANK_BOTTOM = SHIP.tankBottom;
+export const PROPELLANT_CAPACITY = SHIP.propellantCapacity;
+export const LOX_TANK_HEIGHT = SHIP.loxTankHeight;
+export const CH4_TANK_HEIGHT = SHIP.ch4TankHeight;
+export const CH4_TANK_BOTTOM = SHIP.ch4TankBottom;
+export const DRY_CENTRE_OF_MASS = SHIP.dryCentreOfMass;
+export const AFT_FIN_STATION = SHIP.aftFinStation;
+export const RCS_STATION = SHIP.rcsStation;
+export const FRONT_FIN_STATION = SHIP.frontFinStation;
 
 /** 0..1 — how full the tanks are. */
-export function fillFraction(propellantMass: number): number {
-  return Math.min(1, Math.max(0, propellantMass / PROPELLANT_CAPACITY));
+export function fillFraction(propellantMass: number, vehicle: VehicleDefinition = SHIP): number {
+  return Math.min(1, Math.max(0, propellantMass / vehicle.propellantCapacity));
 }
 
 /** m — where the propellant balances, above the gimbal plane. */
-export function propellantCentreOfMass(propellantMass: number): number {
-  const f = fillFraction(propellantMass);
-  const lox = TANK_BOTTOM + (f * LOX_TANK_HEIGHT) / 2;
-  const ch4 = CH4_TANK_BOTTOM + (f * CH4_TANK_HEIGHT) / 2;
+export function propellantCentreOfMass(propellantMass: number, vehicle: VehicleDefinition = SHIP): number {
+  const f = fillFraction(propellantMass, vehicle);
+  const lox = vehicle.tankBottom + (f * vehicle.loxTankHeight) / 2;
+  const ch4 = vehicle.ch4TankBottom + (f * vehicle.ch4TankHeight) / 2;
   return OXIDISER_SHARE * lox + (1 - OXIDISER_SHARE) * ch4;
 }
 
 /** m — where the whole vehicle balances, above the gimbal plane. */
-export function centreOfMass(propellantMass: number): number {
+export function centreOfMass(propellantMass: number, vehicle: VehicleDefinition = SHIP): number {
   const propellant = Math.max(0, propellantMass);
   return (
-    (C.vehicleDryMass * DRY_CENTRE_OF_MASS + propellant * propellantCentreOfMass(propellant)) /
-    (C.vehicleDryMass + propellant)
+    (vehicle.dryMass * vehicle.dryCentreOfMass + propellant * propellantCentreOfMass(propellant, vehicle)) /
+    (vehicle.dryMass + propellant)
   );
 }
 
 /** kg m^2 — a uniform cylinder of mass m, radius r and length L, about its centre, tumbling. */
-function cylinder(mass: number, length: number): number {
-  return mass * ((C.vehicleDiameter / 2) ** 2 / 4 + length ** 2 / 12);
+function cylinder(mass: number, length: number, vehicle: VehicleDefinition): number {
+  return mass * ((vehicle.diameter / 2) ** 2 / 4 + length ** 2 / 12);
 }
 
 /** kg m^2 — about the vehicle's centre of mass, tumbling end over end. */
-export function momentOfInertia(propellantMass: number): number {
+export function momentOfInertia(propellantMass: number, vehicle: VehicleDefinition = SHIP): number {
   const propellant = Math.max(0, propellantMass);
-  const com = centreOfMass(propellant);
-  const f = fillFraction(propellant);
-  const dry = cylinder(C.vehicleDryMass, C.vehicleHeight) + C.vehicleDryMass * (DRY_CENTRE_OF_MASS - com) ** 2;
+  const com = centreOfMass(propellant, vehicle);
+  const f = fillFraction(propellant, vehicle);
+  const dry = cylinder(vehicle.dryMass, vehicle.height, vehicle) + vehicle.dryMass * (vehicle.dryCentreOfMass - com) ** 2;
   const loxMass = propellant * OXIDISER_SHARE;
-  const loxHeight = f * LOX_TANK_HEIGHT;
-  const loxCom = TANK_BOTTOM + loxHeight / 2;
-  const lox = cylinder(loxMass, loxHeight) + loxMass * (loxCom - com) ** 2;
+  const loxHeight = f * vehicle.loxTankHeight;
+  const loxCom = vehicle.tankBottom + loxHeight / 2;
+  const lox = cylinder(loxMass, loxHeight, vehicle) + loxMass * (loxCom - com) ** 2;
   const ch4Mass = propellant * (1 - OXIDISER_SHARE);
-  const ch4Height = f * CH4_TANK_HEIGHT;
-  const ch4Com = CH4_TANK_BOTTOM + ch4Height / 2;
-  const ch4 = cylinder(ch4Mass, ch4Height) + ch4Mass * (ch4Com - com) ** 2;
+  const ch4Height = f * vehicle.ch4TankHeight;
+  const ch4Com = vehicle.ch4TankBottom + ch4Height / 2;
+  const ch4 = cylinder(ch4Mass, ch4Height, vehicle) + ch4Mass * (ch4Com - com) ** 2;
   return dry + lox + ch4;
 }
 
@@ -132,7 +112,7 @@ export function momentOfInertia(propellantMass: number): number {
  * estimated 1.1x and 2.5x; those numbers were wrong, and the measurement is in
  * `tests/core/mass.test.ts` rather than in a comment.
  */
-export function rCubedIntegral(com: number, length = C.vehicleHeight): number {
+export function rCubedIntegral(com: number, length = SHIP.height): number {
   return (com ** 4 + (length - com) ** 4) / 4;
 }
 
@@ -154,18 +134,18 @@ export interface MassProperties {
 }
 
 /** Fill `out` for a propellant load. Allocation-free; the step calls it once a step. */
-export function writeMassProperties(propellantMass: number, out: MassProperties): void {
-  const com = centreOfMass(propellantMass);
+export function writeMassProperties(propellantMass: number, out: MassProperties, vehicle: VehicleDefinition = SHIP): void {
+  const com = centreOfMass(propellantMass, vehicle);
   out.centreOfMass = com;
-  out.momentOfInertia = momentOfInertia(propellantMass);
+  out.momentOfInertia = momentOfInertia(propellantMass, vehicle);
   out.engineArm = com;
-  out.aftFinArm = com - AFT_FIN_STATION;
-  out.frontFinArm = FRONT_FIN_STATION - com;
-  out.rcsArm = RCS_STATION - com;
-  out.rCubedIntegral = rCubedIntegral(com);
+  out.aftFinArm = com - vehicle.aftFinStation;
+  out.frontFinArm = vehicle.frontFinStation - com;
+  out.rcsArm = vehicle.rcsStation - com;
+  out.rCubedIntegral = rCubedIntegral(com, vehicle.height);
 }
 
-export function createMassProperties(propellantMass = 0): MassProperties {
+export function createMassProperties(propellantMass = 0, vehicle: VehicleDefinition = SHIP): MassProperties {
   const out: MassProperties = {
     centreOfMass: 0,
     momentOfInertia: 0,
@@ -175,6 +155,6 @@ export function createMassProperties(propellantMass = 0): MassProperties {
     rcsArm: 0,
     rCubedIntegral: 0,
   };
-  writeMassProperties(propellantMass, out);
+  writeMassProperties(propellantMass, out, vehicle);
   return out;
 }

@@ -1,0 +1,7 @@
+# Successful capture with ignition-risk preference enabled
+
+Bug-fix tier, approved Phase7Task6. Base3047632. `randomFailure` controls ignition risk; it is not a realized fault. Exclude only that key from physical-capture publication rejection. Every realized failure flag still rejects. Real paid1/120 original fixed-seed RTLS terminal-ready replay must genuinely catch within unchanged4000 mechanical cap before publication is tested. Both preference values now publish; eight realized-failure controls reject; planner consumes no real fuel/RNG.
+
+RED1 enabled preference publication fails,9controls pass. After build0, final67checks/6files pass including actual allten golden replay and terminal/prediction contracts. Lint0 (existing BlackBox hook warning),14truthIN before/after, budget295.5/300kB. Raw logs retained.
+
+Allten scenario before/after sampled leaves compare bit-exact with0changed leaves/maxabsolute0. Separate baseline core copy at/tmp/starship-phase7-preference-baseline differs only by parent3047632 booster-prediction.ts; runnable audit golden-audit.ts expects that baseline. No golden regeneration/assertion/authority/seed change. Audit comment P7.6r added. Independent affected-conclusion review closesb5ac99a source; report retainedindependent-review.md, reviewer independently repeats originalactualfinecapture/publication bothpreferences and10/10newtests. Thisisexistingin-harnessfallback review, notcross-vendor; no full phase release claimed.

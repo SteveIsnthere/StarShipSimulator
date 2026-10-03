@@ -1,0 +1,674 @@
+
+> starship-simulator-v2@0.1.0 gate
+> npm run lint && npm run build && npm run test && npm run coverage && E2E_SKIP_BUILD=1 npm run test:e2e && E2E_SKIP_BUILD=1 npm run test:deploy
+
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+/Users/stevewang/dev/StarShipSimulator-realism/src/ui/shell/BlackBox/BlackBox.tsx
+  54:6  warning  React Hook useMemo has an unnecessary dependency: 'selectedVehicle'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+✖ 1 problem (0 errors, 1 warning)
+
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+design contract: ok (11 rules, self-test passed)
+copy contract: ok (9 rules, self-test passed)
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 2519 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     2.35 kB │ gzip:   0.95 kB
+dist/assets/InterTight-SemiBold-DJfiTN08.woff2     11.10 kB
+dist/assets/Inter-Regular-BVdEcXjD.woff2           12.00 kB
+dist/assets/Inter-SemiBold-DlULF7c_.woff2          12.46 kB
+dist/assets/JetBrainsMono-Medium-CMl9fZ9Q.woff2    16.54 kB
+dist/assets/charts-BBZhrHKM.css                     0.69 kB │ gzip:   0.35 kB
+dist/assets/plots-D2GbP0iN.css                      1.17 kB │ gzip:   0.46 kB
+dist/assets/uPlot-CnsZ1jie.css                      1.64 kB │ gzip:   0.69 kB
+dist/assets/index-BH3TJ3oC.css                     63.66 kB │ gzip:  11.61 kB
+dist/assets/webworkerAll-Cxc2QNpv.js                0.05 kB │ gzip:   0.06 kB
+dist/assets/getTextureBatchBindGroup-Bt6AC8uX.js    0.40 kB │ gzip:   0.31 kB │ map:     1.78 kB
+dist/assets/CanvasPool-ccaPBm8-.js                  0.80 kB │ gzip:   0.45 kB │ map:     3.51 kB
+dist/assets/Cache-DGqfkvRQ.js                       1.14 kB │ gzip:   0.59 kB │ map:     4.85 kB
+dist/assets/constants-B7VGlLR-.js                   1.59 kB │ gzip:   0.90 kB │ map:    35.45 kB
+dist/assets/plots-u0LUi821.js                       4.63 kB │ gzip:   2.28 kB │ map:    24.91 kB
+dist/assets/canvasUtils-BVPkC6ub.js                 6.06 kB │ gzip:   2.06 kB │ map:    21.91 kB
+dist/assets/Debrief-DanP_zQk.js                     6.44 kB │ gzip:   2.53 kB │ map:    19.41 kB
+dist/assets/BlackBox-KD6afmoJ.js                    9.98 kB │ gzip:   4.22 kB │ map:    37.57 kB
+dist/assets/BufferResource-CZg6dyUf.js             11.13 kB │ gzip:   2.89 kB │ map:    26.53 kB
+dist/assets/init-DnH_wx8r.js                       15.66 kB │ gzip:   4.92 kB │ map:    54.96 kB
+dist/assets/state-BM-IUJFh.js                      19.18 kB │ gzip:   7.23 kB │ map:   149.00 kB
+dist/assets/GCManagedHash-DqPcw2Gj.js              19.37 kB │ gzip:   6.32 kB │ map:    67.25 kB
+dist/assets/Menu-Cs3YHYeI.js                       23.02 kB │ gzip:   7.73 kB │ map:    72.88 kB
+dist/assets/Button-s_Cybpy_.js                     36.83 kB │ gzip:  12.30 kB │ map:   175.21 kB
+dist/assets/Filter-C-jCSOcL.js                     38.97 kB │ gzip:  11.18 kB │ map:   182.95 kB
+dist/assets/Dialog-BZ6DbFyE.js                     39.90 kB │ gzip:  13.65 kB │ map:   184.47 kB
+dist/assets/browserAll-DVjxBdmF.js                 42.72 kB │ gzip:  11.20 kB │ map:   156.94 kB
+dist/assets/uPlot.esm-C4ecZUO0.js                  51.04 kB │ gzip:  22.28 kB │ map:   252.56 kB
+dist/assets/RenderTargetSystem-CGVbkJQT.js         57.47 kB │ gzip:  16.21 kB │ map:   213.58 kB
+dist/assets/GraphicsContext-DLmAmwc0.js            61.32 kB │ gzip:  20.55 kB │ map:   346.25 kB
+dist/assets/Geometry-coEMng49.js                   65.52 kB │ gzip:  21.50 kB │ map:   326.26 kB
+dist/assets/index-DWsP6E1J.js                     655.08 kB │ gzip: 203.52 kB │ map: 3,035.14 kB
+
+✓ built in 818ms
+service worker: 44 assets precached, version 1d54d86aae7a
+  assets/index-DWsP6E1J.js                           196.6 kB gzip
+  assets/Geometry-coEMng49.js                         20.7 kB gzip
+  assets/Button-s_Cybpy_.js                           11.9 kB gzip
+  assets/constants-B7VGlLR-.js                         0.9 kB gzip
+  assets/state-BM-IUJFh.js                             7.0 kB gzip
+  assets/Filter-C-jCSOcL.js                           10.8 kB gzip
+  assets/canvasUtils-BVPkC6ub.js                       2.0 kB gzip
+  assets/Cache-DGqfkvRQ.js                             0.6 kB gzip
+  assets/GCManagedHash-DqPcw2Gj.js                     6.2 kB gzip
+  assets/RenderTargetSystem-CGVbkJQT.js               15.7 kB gzip
+  assets/getTextureBatchBindGroup-Bt6AC8uX.js          0.3 kB gzip
+  assets/GraphicsContext-DLmAmwc0.js                  19.9 kB gzip
+  assets/CanvasPool-ccaPBm8-.js                        0.4 kB gzip
+  assets/BufferResource-CZg6dyUf.js                    2.8 kB gzip
+  TOTAL first-load JS                                295.8 kB gzip
+  BUDGET                                             300.0 kB gzip
+  (lazy chunks, not counted: BlackBox-KD6afmoJ.js, Debrief-DanP_zQk.js, Dialog-BZ6DbFyE.js, Menu-Cs3YHYeI.js, browserAll-DVjxBdmF.js, init-DnH_wx8r.js, plots-u0LUi821.js, uPlot.esm-C4ecZUO0.js, webworkerAll-Cxc2QNpv.js)
+  assets/index-BH3TJ3oC.css                           11.2 kB gzip (css)
+  Inter-Regular-BVdEcXjD.woff2                        11.7 kB raw
+  Inter-SemiBold-DlULF7c_.woff2                       12.2 kB raw
+  InterTight-SemiBold-DJfiTN08.woff2                  10.8 kB raw
+  JetBrainsMono-Medium-CMl9fZ9Q.woff2                 16.2 kB raw
+  TOTAL fonts                                         50.9 kB raw
+  FONT BUDGET                                         80.0 kB raw
+  TOTAL audio                                          0.0 kB raw
+  AUDIO BUDGET                                       250.0 kB raw
+
+budget: OK — 295.8 kB of 300.0 kB JS
+budget: OK — 50.9 kB of 80.0 kB fonts
+budget: OK — 0.0 kB of 250.0 kB audio
+entry graph: ok (14 first-load files, no uPlot or GSAP)
+
+> starship-simulator-v2@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+
+ Test Files  194 passed (194)
+      Tests  2285 passed (2285)
+   Start at  05:34:06
+   Duration  75.79s (transform 8.46s, setup 2.11s, import 49.48s, tests 325.79s, environment 30.39s)
+
+
+> starship-simulator-v2@0.1.0 coverage
+> vitest run --coverage --testTimeout=120000 --reporter=default --reporter=json --outputFile.json=coverage/test-results.json
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+      Coverage enabled with v8
+
+ ✓ |unit| tests/golden/booster-replay.test.ts (3 tests) 67111ms
+     ✓ 'booster-sep-catch' replays all physical state/control leaves through an airborne catch  53274ms
+     ✓ 'rtls-catch' replays all physical state/control leaves through an airborne catch  13813ms
+ ✓ |unit| tests/flies-every-scenario.test.ts (17 tests) 68105ms
+     ✓ launch-pad flies  1058ms
+     ✓ booster-sep flies  827ms
+     ✓ rtls flies  425ms
+     ✓ circularize flies  865ms
+     ✓ deorbit flies  916ms
+     ✓ booster-sep: auto-land landed  45814ms
+     ✓ rtls: auto-land landed  8073ms
+     ✓ before-flip: auto-land landed  1140ms
+     ✓ reentry: auto-land landed  4338ms
+     ✓ reentry: survives the heat it now actually meets  4179ms
+stdout | tests/view/perf.test.ts > particle pool headroom, with the velocity streaks added > reports peak usage across all seven scenarios against the 576 baseline
+launch-pad-takeoff: peak 750 · booster-sep-boostback: peak 492 · rtls-boostback: peak 536 · reentry-autoland: peak 631 · before-flip-autoland: peak 639 · landing-burn-autoland: peak 644 · landing-burn-headwind: peak 648 · intro-demo: peak 651
+   worst 750 of 4000 (81% free), at launch-pad-takeoff; baseline before M7.5 was 576
+
+ ✓ |unit| tests/view/perf.test.ts (8 tests) 90922ms
+     ✓ the particle pool is fixed for the life of the system  6047ms
+     ✓ the M6.7 and M7.5 effects do not grow it either  18096ms
+     ✓ a long flight does not grow the heap without bound  302ms
+     ✓ reports peak usage across all seven scenarios against the 576 baseline  55060ms
+     ✓ the shock-banded core does not grow the pool either  11162ms
+ ✓ |unit| tests/app/view-clock.test.ts (56 tests) 93155ms
+     ✓ launch-pad-takeoff, with frames dropping  302ms
+     ✓ booster-sep-boostback, with frames dropping  317ms
+     ✓ rtls-boostback, with frames dropping  312ms
+     ✓ reentry-autoland, with frames dropping  4636ms
+     ✓ before-flip-autoland, with frames dropping  1100ms
+     ✓ reentry-autoland, at 9x warp  4293ms
+     ✓ before-flip-autoland, at 9x warp  1164ms
+     ✓ booster-sep-boostback, at 1/9 speed  305ms
+     ✓ reentry-autoland, at 1/9 speed  4637ms
+     ✓ before-flip-autoland, at 1/9 speed  1104ms
+     ✓ launch-pad-takeoff lands the camera on the same metre with a 400 ms stall every two seconds  378ms
+     ✓ launch-pad-takeoff lands the camera on the same metre with 9x time warp  387ms
+     ✓ launch-pad-takeoff lands the camera on the same metre with 1/9 slow motion  390ms
+     ✓ booster-sep-boostback lands the camera on the same metre with a 400 ms stall every two seconds  518ms
+     ✓ booster-sep-boostback lands the camera on the same metre with 9x time warp  515ms
+     ✓ booster-sep-boostback lands the camera on the same metre with 1/9 slow motion  540ms
+     ✓ rtls-boostback lands the camera on the same metre with a 400 ms stall every two seconds  496ms
+     ✓ rtls-boostback lands the camera on the same metre with 9x time warp  500ms
+     ✓ rtls-boostback lands the camera on the same metre with 1/9 slow motion  572ms
+     ✓ reentry-autoland lands the camera on the same metre with a 400 ms stall every two seconds  8759ms
+     ✓ reentry-autoland lands the camera on the same metre with 9x time warp  8839ms
+     ✓ reentry-autoland lands the camera on the same metre with 1/9 slow motion  9175ms
+     ✓ before-flip-autoland lands the camera on the same metre with a 400 ms stall every two seconds  2311ms
+     ✓ before-flip-autoland lands the camera on the same metre with 9x time warp  2237ms
+     ✓ before-flip-autoland lands the camera on the same metre with 1/9 slow motion  2222ms
+     ✓ the wall clock loses the vehicle when frames drop  6700ms
+     ✓ the wall clock loses it at 9x warp, failing the other way round  6541ms
+     ✓ and simulated time once per FRAME is better, but still not enough  6581ms
+     ✓ all three agree when nothing goes wrong, which is why this survived  13423ms
+ ✓ |unit| tests/core/booster-guidance.test.ts (4 tests) 97503ms
+     ✓ booster-sep: autopilot catches the actual33-engine booster within900s  48523ms
+     ✓ rtls: autopilot catches the actual33-engine booster within900s  8588ms
+     ✓ cannot fabricate a catch when every engine is failed  40388ms
+ ✓ |unit| tests/golden/replay.test.ts (17 tests) 16985ms
+     ✓ replays field for field, sample for sample  642ms
+     ✓ replays field for field, sample for sample  819ms
+     ✓ replays field for field, sample for sample  836ms
+     ✓ replays field for field, sample for sample  7481ms
+     ✓ replays field for field, sample for sample  1364ms
+     ✓ replays field for field, sample for sample  320ms
+     ✓ replays field for field, sample for sample  329ms
+     ✓ replays field for field, sample for sample  330ms
+     ✓ round-trip through the serialiser preserves every value exactly  4389ms
+ ✓ |unit| tests/core/orbit-demo.test.ts (31 tests) 86074ms
+     ✓ a 150 km orbit holds for a full 88-minute lap  7743ms
+     ✓ and 100 km still does not — which is why the presets are at 150  3126ms
+     ✓ is deterministic — the same flight twice  9804ms
+     ✓ from a different starting longitude — half a lap further round  16434ms
+     ✓ 100 tonnes lighter at ignition  10233ms
+     ✓ with an engine already failed, so the burn is a third longer  9917ms
+     ✓ from 120 km, below the presets  9895ms
+     ✓ from 300 km it still lands, but the envelope is showing  9766ms
+     ✓ spends the coast turning around, because RCS is slow  4586ms
+     ✓ does not fire until the ground track is right  4487ms
+ ✓ |unit| tests/core/orbit.test.ts (18 tests) 48859ms
+     ✓ altitude holds within a kilometre over a full lap  8106ms
+     ✓ speed holds within a metre per second over a full lap  8252ms
+     ✓ never dips into the atmosphere or climbs away  8098ms
+     ✓ completes a full revolution of downrange distance  8759ms
+     ✓ specific orbital energy drifts by less than one part in a thousand  905ms
+     ✓ specific angular momentum is conserved as the vehicle climbs  502ms
+     ✓ an elliptical orbit comes back down again  14021ms
+ ✓ |unit| tests/core/booster-forecast.test.ts (25 tests) 54256ms
+     ✓ reuses only the identical alignment prefix for booster-sep, with bit-exact paid forecasts  15671ms
+     ✓ reuses only the identical alignment prefix for rtls, with bit-exact paid forecasts  8364ms
+     ✓ reuses exact paid startup for booster-sep without lending its impulse to shorter burns  19538ms
+     ✓ reuses exact paid startup for rtls without lending its impulse to shorter burns  8528ms
+     ✓ rejects alignment reuse after changing source, mechanics, policy, model, coast or timestep  1264ms
+ ✓ |unit| tests/core/camera.test.ts (105 tests) 30896ms
+     ✓ booster-sep-boostback  302ms
+     ✓ rtls-boostback  343ms
+     ✓ reentry-autoland  4639ms
+     ✓ before-flip-autoland  1145ms
+     ✓ launch-pad-takeoff in pad  310ms
+     ✓ booster-sep-boostback in pad  372ms
+     ✓ booster-sep-boostback in chase  435ms
+     ✓ booster-sep-boostback in onboard  398ms
+     ✓ rtls-boostback in pad  374ms
+     ✓ rtls-boostback in chase  354ms
+     ✓ rtls-boostback in onboard  405ms
+     ✓ reentry-autoland in pad  5259ms
+     ✓ reentry-autoland in chase  5198ms
+     ✓ reentry-autoland in onboard  5111ms
+     ✓ before-flip-autoland in pad  1177ms
+     ✓ before-flip-autoland in chase  1151ms
+     ✓ before-flip-autoland in onboard  1225ms
+ ✓ |unit| tests/hud/trajectory.test.ts (39 tests) 12161ms
+     ✓ launch-pad-takeoff  648ms
+     ✓ booster-sep-boostback  708ms
+     ✓ rtls-boostback  940ms
+     ✓ reentry-autoland  7422ms
+     ✓ before-flip-autoland  1453ms
+stdout | tests/view/motion-cues.test.ts > at the speeds the seven scenarios actually reach > reports where the streaks are silent and where they blow
+launch-pad-takeoff: peak 646 m/s -> streak 0.18, silent 33% of the flight
+booster-sep-boostback: peak 1599 m/s -> streak 0.88, silent 0% of the flight
+rtls-boostback: peak 542 m/s -> streak 0.12, silent 45% of the flight
+reentry-autoland: peak 7300 m/s -> streak 1.00, silent 52% of the flight
+before-flip-autoland: peak 70 m/s -> streak 0.00, silent 100% of the flight
+landing-burn-autoland: peak 38 m/s -> streak 0.00, silent 100% of the flight
+landing-burn-headwind: peak 37 m/s -> streak 0.00, silent 100% of the flight
+intro-demo: peak 51 m/s -> streak 0.00, silent 100% of the flight
+
+stdout | tests/view/motion-cues.test.ts > the flight-path marker > launch-pad-takeoff: the marker never disagrees with the state vector
+launch-pad-takeoff: nose and flight path diverge by up to 4°
+
+ ✓ |unit| tests/core/angular-momentum.test.ts (8 tests) 26033ms
+     ✓ to better than a part in ten thousand over a hundred minutes  9621ms
+     ✓ and the orbit reaches the apogee the energy says it should  9800ms
+     ✓ the simulation agrees to within a kilometre in five thousand  987ms
+     ✓ and the guidance's conic predicts the ground arc the simulation flies  933ms
+     ✓ and CONVERGES — which is how a model error tells itself from an integrator one  4686ms
+stdout | tests/view/motion-cues.test.ts > the flight-path marker > booster-sep-boostback: the marker never disagrees with the state vector
+booster-sep-boostback: nose and flight path diverge by up to 134°
+
+ ✓ |unit| tests/hud/debrief.test.ts (52 tests) 46841ms
+     ✓ booster-sep-boostback  334ms
+     ✓ rtls-boostback  351ms
+     ✓ reentry-autoland  4678ms
+     ✓ before-flip-autoland  1233ms
+     ✓ reentry-autoland  4416ms
+     ✓ before-flip-autoland  1209ms
+     ✓ launch-pad-takeoff  530ms
+     ✓ booster-sep-boostback  546ms
+     ✓ rtls-boostback  527ms
+     ✓ reentry-autoland  8787ms
+     ✓ before-flip-autoland  2019ms
+     ✓ launch-pad-takeoff  427ms
+     ✓ booster-sep-boostback  577ms
+     ✓ rtls-boostback  577ms
+     ✓ reentry-autoland  8594ms
+     ✓ before-flip-autoland  2208ms
+     ✓ reentry-autoland  4672ms
+     ✓ before-flip-autoland  1124ms
+stdout | tests/view/motion-cues.test.ts > the flight-path marker > rtls-boostback: the marker never disagrees with the state vector
+rtls-boostback: nose and flight path diverge by up to 179°
+
+stdout | tests/core/booster-planning-latency.test.ts > paid return planning at production receipt/work timing > publishes a source-matched physically caught future cutoff for booster-sep
+{"id":"booster-sep","receipt":21.683333333332744,"shutdown":35.93333333333194,"iterations":3,"paidFutureSteps":10399,"remainingFuel":88943.63014687921}
+
+stdout | tests/view/motion-cues.test.ts > the flight-path marker > reentry-autoland: the marker never disagrees with the state vector
+reentry-autoland: nose and flight path diverge by up to 180°
+
+ ✓ |unit| tests/core/verlet.test.ts (8 tests) 21418ms
+     ✓ halving dt quarters the error — the ratio is 4, where Euler gave 2  2937ms
+     ✓ and is millimetres at 15 Hz, where Euler was 796 metres  3325ms
+     ✓ to a part in 10^10 or better at every rate the simulation runs at  6470ms
+     ✓ altitude drift is a centimetre, and does not depend on dt  7165ms
+     ✓ and in true vacuum, at 800 km, energy and altitude do not move at all  1500ms
+stdout | tests/view/motion-cues.test.ts > the flight-path marker > before-flip-autoland: the marker never disagrees with the state vector
+before-flip-autoland: nose and flight path diverge by up to 180°
+
+stdout | tests/view/motion-cues.test.ts > the flight-path marker > landing-burn-autoland: the marker never disagrees with the state vector
+landing-burn-autoland: nose and flight path diverge by up to 180°
+
+stdout | tests/view/motion-cues.test.ts > the flight-path marker > landing-burn-headwind: the marker never disagrees with the state vector
+landing-burn-headwind: nose and flight path diverge by up to 180°
+
+stdout | tests/view/motion-cues.test.ts > the flight-path marker > intro-demo: the marker never disagrees with the state vector
+intro-demo: nose and flight path diverge by up to 180°
+
+stdout | tests/core/booster-planning-latency.test.ts > paid return planning at production receipt/work timing > publishes a source-matched physically caught future cutoff for rtls
+{"id":"rtls","receipt":12.783333333333248,"shutdown":13.641666666666532,"iterations":3,"paidFutureSteps":6131,"remainingFuel":90846.3345830032}
+
+ ✓ |unit| tests/core/booster-planning-latency.test.ts (2 tests) 16846ms
+     ✓ publishes a source-matched physically caught future cutoff for booster-sep  12807ms
+     ✓ publishes a source-matched physically caught future cutoff for rtls  4038ms
+ ✓ |unit| tests/view/atmosphere-look.test.ts (22 tests) 3013ms
+     ✓ rises monotonically between the two  2944ms
+stdout | tests/hud/prediction.test.ts > the claim, tested against itself > a genuinely unpowered fall lands near where it was predicted to
+unpowered drop · fell 0.2 km · predicted -0.00 km in 3.4 s · actual 0.00 km in 3.4 s · error 0.00 km
+
+stdout | tests/hud/prediction.test.ts > the claim, tested against itself > reports how wrong it is from high altitude, where the model is weakest
+from 40 km unpowered · predicted 11.9 km in 95 s · actual 20.2 km in 101 s · error 8.3 km
+
+ ✓ |unit| tests/view/motion-cues.test.ts (19 tests) 18718ms
+     ✓ reports where the streaks are silent and where they blow  6938ms
+     ✓ rtls-boostback: the marker never disagrees with the state vector  303ms
+     ✓ reentry-autoland: the marker never disagrees with the state vector  4579ms
+     ✓ before-flip-autoland: the marker never disagrees with the state vector  1151ms
+     ✓ the divergence is real on at least one scenario, or this draws nothing  4746ms
+stdout | tests/hud/prediction.test.ts > the error against seven real flights > before-flip-autoland converges as the ground approaches
+before-flip-autoland: touchdown at 0.00 km · at 1.0 km up, error 0.10 km · at 28 m up, error 0 m
+
+stdout | tests/hud/prediction.test.ts > the error against seven real flights > landing-burn-autoland converges as the ground approaches
+landing-burn-autoland: touchdown at 0.00 km · at 0.2 km up, error 0.00 km · at 26 m up, error 0 m
+
+stdout | tests/audio/transients.test.ts > the latch fires once per event > launch-pad-takeoff
+launch-pad-takeoff: ignition x3
+
+stdout | tests/hud/prediction.test.ts > the error against seven real flights > intro-demo converges as the ground approaches
+intro-demo: touchdown at 0.00 km · at 0.2 km up, error 0.00 km · at 25 m up, error 0 m
+
+ ✓ |unit| tests/hud/prediction.test.ts (13 tests) 11251ms
+     ✓ never returns a non-finite number to a caller  9747ms
+     ✓ before-flip-autoland converges as the ground approaches  1223ms
+stdout | tests/audio/transients.test.ts > the latch fires once per event > booster-sep-boostback
+booster-sep-boostback: ignition x3
+
+stdout | tests/audio/transients.test.ts > the latch fires once per event > rtls-boostback
+rtls-boostback: ignition x6, shutdown x6
+
+ ✓ |unit| tests/hud/timeline.test.ts (29 tests) 12655ms
+     ✓ 'booster-sep-boostback' fires its events in order, flown live  383ms
+     ✓ 'rtls-boostback' fires its events in order, flown live  356ms
+     ✓ 'reentry-autoland' fires its events in order, flown live  4523ms
+     ✓ 'before-flip-autoland' fires its events in order, flown live  1098ms
+     ✓ 'reentry-autoland' derives the same events from the fixture bytes  362ms
+     ✓ a state exactly at the entry interface counts as crossing it  4602ms
+ ✓ |unit| tests/core/deorbit-range.test.ts (6 tests) 30823ms
+     ✓ engine 0 out  10432ms
+     ✓ engine 1 out  10055ms
+     ✓ engine 2 out  10330ms
+ ✓ |unit| tests/view/distant-earth.test.ts (26 tests) 7348ms
+     ✓ booster-sep-boostback stays readable  301ms
+     ✓ reentry-autoland stays readable  4868ms
+     ✓ before-flip-autoland stays readable  1241ms
+stdout | tests/audio/params.test.ts > at the throttles and engine counts the seven scenarios reach > reports the range each flight actually visits
+launch-pad-takeoff: engine level 0.00–1.00, up to 3 lit
+booster-sep-boostback: engine level 0.00–1.00, up to 3 lit
+rtls-boostback: engine level 0.00–1.00, up to 3 lit
+reentry-autoland: engine level 0.00–0.73, up to 3 lit
+before-flip-autoland: engine level 0.00–0.73, up to 3 lit
+landing-burn-autoland: engine level 0.00–0.74, up to 3 lit
+landing-burn-headwind: engine level 0.00–0.73, up to 3 lit
+intro-demo: engine level 0.00–0.86, up to 3 lit
+
+ ✓ |unit| tests/audio/params.test.ts (19 tests) 6887ms
+     ✓ reports the range each flight actually visits  6866ms
+stdout | tests/audio/transients.test.ts > the latch fires once per event > reentry-autoland
+reentry-autoland: ignition x3, shutdown x3, touchdown x1
+
+stdout | tests/audio/transients.test.ts > the latch fires once per event > before-flip-autoland
+before-flip-autoland: ignition x3, shutdown x3, touchdown x1
+
+stdout | tests/audio/transients.test.ts > the latch fires once per event > landing-burn-autoland
+landing-burn-autoland: ignition x3, shutdown x3, touchdown x1
+
+stdout | tests/audio/transients.test.ts > the latch fires once per event > landing-burn-headwind
+landing-burn-headwind: ignition x3, shutdown x3, touchdown x1
+
+stdout | tests/audio/transients.test.ts > the latch fires once per event > intro-demo
+intro-demo: ignition x3, shutdown x3, touchdown x1
+
+ ✓ |unit| tests/audio/transients.test.ts (16 tests) 7049ms
+     ✓ reentry-autoland  4688ms
+     ✓ before-flip-autoland  1166ms
+stdout | tests/audio/warnings.test.ts > ear and eye read the same thresholds > stays quiet through all seven, and reports how much margin they had
+launch-pad-takeoff: nominal (heat 0.02, Q 0.53 of limit)
+booster-sep-boostback: nominal (heat 0.01, Q 0.00 of limit)
+rtls-boostback: nominal (heat 0.02, Q 0.57 of limit)
+reentry-autoland: nominal (heat 0.64, Q 0.17 of limit)
+before-flip-autoland: nominal (heat 0.00, Q 0.06 of limit)
+landing-burn-autoland: nominal (heat 0.00, Q 0.02 of limit)
+landing-burn-headwind: nominal (heat 0.00, Q 0.02 of limit)
+intro-demo: nominal (heat 0.00, Q 0.03 of limit)
+
+ ✓ |unit| tests/audio/warnings.test.ts (11 tests) 7015ms
+     ✓ stays quiet through all seven, and reports how much margin they had  6983ms
+ ✓ |unit| tests/proofs/trig-collapse.test.ts (23 tests) 5454ms
+     ✓ 'horizontalDrag = -sin(x)'  542ms
+     ✓ 'verticalDrag = -cos(x)'  767ms
+     ✓ 'horizontalLift = -cos(x)'  745ms
+     ✓ 'verticalLift = sin(x)'  764ms
+     ✓ 'horizontalThrust = sin(x)'  852ms
+     ✓ 'verticalThrust = cos(x)'  739ms
+     ✓ records the measured maxima, so unblocking M1.9 starts from numbers  536ms
+ ✓ |unit| tests/core/invariants.test.ts (4 tests) 2826ms
+     ✓ every number stays finite, or is a sentinel it started as  855ms
+     ✓ mass never increases, and propellant never goes negative  1204ms
+     ✓ with the engines off and no wind, orbital energy never rises beyond integrator error  628ms
+ ✓ |unit| tests/view/plume.test.ts (13 tests) 7514ms
+     ✓ reports the range each flight puts the plume through  7467ms
+ ✓ |unit| tests/ui/shell/Menu.test.tsx (22 tests) 2162ms
+ ✓ |unit| tests/lint-walls/walls.test.ts (14 tests) 1361ms
+     ✓ wall 1: no view/ ui/ hud/ app/ PIXI or React imports  1188ms
+ ✓ |unit| tests/reference/bands.test.ts (6 tests) 5097ms
+     ✓ every probe returns a number  5087ms
+ ✓ |unit| tests/core/rotating-frame-step.test.ts (2 tests) 2596ms
+     ✓ a circular inertial orbit stays circular when flown at its ground-relative speed  1510ms
+     ✓ a body at the synchronous radius with no ground speed stays over the same point  1083ms
+ ✓ |unit| tests/view/particles.test.ts (50 tests) 12403ms
+     ✓ emitting does not add a single child  451ms
+     ✓ THE LEAK: ten thousand engine shutdowns add nothing  10502ms
+     ✓ a recycled slot can be used again, indefinitely  457ms
+ ✓ |unit| tests/core/autopilot.test.ts (13 tests) 3639ms
+     ✓ computes a belly-flop trigger altitude and ends the aero descent below it  3194ms
+ ✓ |unit| tests/reference/registry-completeness.test.ts (2 tests) 4870ms
+     ✓ retains every required quantity with its conditions and measurement  4866ms
+ ✓ |unit| tests/core/domain-edges.test.ts (28 tests) 817ms
+     ✓ and getAttackAngles really does wrap into [-pi, pi]  532ms
+ ✓ |unit| tests/core/random-failure-diff.test.ts (10 tests) 3268ms
+     ✓ before-flip is deterministic and identical across runs  1612ms
+ ✓ |unit| tests/core/engine-out-landings.test.ts (4 tests) 2423ms
+     ✓ before-flip-autoland/one-out: landed  1130ms
+     ✓ before-flip-autoland/two-out: landed  1216ms
+ ✓ |unit| tests/view/clouds.test.ts (18 tests) 2761ms
+     ✓ is continuous and monotonic through the crossing  813ms
+     ✓ builds its puffs once and transforms them thereafter  339ms
+     ✓ keeps its scroll offset bounded over a long flight  1528ms
+ ✓ |unit| tests/core/rng.test.ts (15 tests) 883ms
+     ✓ stays in [0, 1)  732ms
+ ✓ |unit| tests/core/guidance-physics.test.ts (26 tests) 2455ms
+     ✓ rises with descent speed and with mass on one engine, the ladder's usual plan (property)  741ms
+     ✓ belly-down from 10 km  308ms
+     ✓ re-entering from 70 km  474ms
+ ✓ |unit| tests/ui/shell/Controls.test.tsx (17 tests) 1123ms
+stdout | tests/audio/vacuum.test.ts > the two fades differ, and that IS the milestone > reaches the floor by 50 km, over the real atmosphere model
+above 50 km · at 70 km: aero 2.21e-3, engine air 0.2490
+
+ ✓ |unit| tests/hud/binder.test.ts (9 tests) 1989ms
+     ✓ a real flight writes a small fraction of what an undiffed binder would  1924ms
+stdout | tests/audio/vacuum.test.ts > the two fades differ, and that IS the milestone > the airflow is loud where the flight is fast and low
+launch: peak airflow 0.689 at 5.5 km
+
+ ✓ |unit| tests/core/booster-catch-preference.test.ts (10 tests) 1925ms
+ ✓ |unit| tests/core/rcs-dead-zone.test.ts (7 tests) 3003ms
+     ✓ and then HOLDS it, rather than carrying on rotating  1645ms
+     ✓ the thrusters fire below saturation, not only at the cap  870ms
+stdout | tests/audio/vacuum.test.ts > the re-entry golden, rendered as it climbs out > the level falls as the air does
+70 km -> RMS 0.00023 · 109 km -> RMS 0.02862 · 134 km -> RMS 0.02841
+
+stdout | tests/audio/vacuum.test.ts > the re-entry golden, rendered as it climbs out > the same vehicle is measurably louder in air than in vacuum
+same vehicle · in air RMS 0.13151 · in vacuum RMS 0.02820
+
+ ✓ |unit| tests/audio/vacuum.test.ts (11 tests) 1448ms
+     ✓ reaches the floor by 50 km, over the real atmosphere model  759ms
+     ✓ the level falls as the air does  383ms
+ ✓ |unit| tests/ui/shell/Hud.test.tsx (9 tests) 964ms
+ ✓ |unit| tests/proofs/ship-engines.test.ts (4 tests) 775ms
+     ✓ preserves fuel-paid fraction, dry mass and dump transitions across the domain  657ms
+ ✓ |unit| tests/budget.test.ts (11 tests) 639ms
+ ✓ |unit| tests/ui/blackbox.test.ts (22 tests) 635ms
+     ✓ round-trips every sample of a real flight, bit for bit  591ms
+ ✓ |unit| tests/proofs/ship-step.test.ts (6 tests) 1763ms
+     ✓ preserves every field across engine, atmosphere, attitude, fuel and dt boundaries  1750ms
+ ✓ |unit| tests/ui/shell/BlackBoxPlots.test.ts (4 tests) 703ms
+     ✓ draws one cell per plot, keyed by the recorder ids  333ms
+stdout | tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > catches a nearby descending lug on its first crossing with paid fuel and no failures
+{"seconds":9.983333333333407,"fuel":89340.2378404918,"previousHeight":90.50393921694004,"previousVX":-1.0404516640914383e-11,"previousVY":-1.70221081138702,"pitch":4.752267522091505e-14}
+
+ ✓ |unit| tests/core/booster-terminal-envelope.test.ts (9 tests) 615ms
+     ✓ physically catches the recorded paid ready input booster-sep with upright, bounded point motion  304ms
+ ✓ |unit| tests/core/loop.test.ts (24 tests) 1371ms
+     ✓ 60 fps and 30 fps reach the identical state after the same simulated time  1090ms
+ ✓ |unit| tests/core/scenarios.test.ts (51 tests) 1431ms
+ ✓ |unit| tests/ui/shell/BlackBox.test.tsx (12 tests) 789ms
+ ✓ |unit| tests/ui/shell/StatusBar.test.tsx (9 tests) 506ms
+ ✓ |unit| tests/ui/shell/Debrief.test.tsx (10 tests) 393ms
+ ✓ |unit| tests/ui/shell/TrajectoryCard.test.tsx (9 tests) 308ms
+ ✓ |unit| tests/ui/shell/RestartPlacement.test.tsx (4 tests) 385ms
+ ✓ |unit| tests/core/wind-profile.test.ts (20 tests) 531ms
+ ✓ |unit| tests/proofs/step-dynamics.test.ts (2 tests) 393ms
+     ✓ retains every Ship field bit-exactly across independent boundary observations  390ms
+ ✓ |unit| tests/ui/shell/MissionControls.test.tsx (1 test) 376ms
+     ✓ selects the actual body, stages once and shows separation from the shared clock  374ms
+ ✓ |unit| tests/view/terrain.test.ts (11 tests) 678ms
+     ✓ is deterministic, and scales without changing character  434ms
+ ✓ |unit| tests/core/control-contracts.test.ts (38 tests) 124ms
+ ✓ |unit| tests/view/emissive-bell.test.ts (8 tests) 230ms
+ ✓ |unit| tests/hud/timeline-binder.test.ts (9 tests) 434ms
+ ✓ |unit| tests/core/mission-continuation.test.ts (9 tests) 313ms
+ ✓ |unit| tests/core/step.test.ts (15 tests) 513ms
+ ✓ |unit| tests/proofs/dt-substitution.test.ts (4 tests) 181ms
+ ✓ |unit| tests/audio/engine.test.ts (31 tests) 258ms
+ ✓ |unit| tests/app/mission-loop.test.ts (4 tests) 201ms
+ ✓ |unit| tests/view/particle-textures.test.ts (11 tests) 256ms
+ ✓ |unit| tests/hud/metrics.test.ts (22 tests) 242ms
+ ✓ |unit| tests/core/hot-staging.test.ts (16 tests) 204ms
+ ✓ |unit| tests/core/atmosphere-strato.test.ts (12 tests) 83ms
+ ✓ |unit| tests/core/booster-prediction.test.ts (18 tests) 230ms
+ ✓ |unit| tests/core/collapsed-trig.test.ts (11 tests) 143ms
+ ✓ |unit| tests/proofs/ship-vehicle.test.ts (3 tests) 276ms
+ ✓ |unit| tests/coverage-kit.test.ts (15 tests) 122ms
+ ✓ |unit| tests/offline.test.ts (14 tests) 140ms
+ ✓ |unit| tests/ui/session.test.ts (17 tests) 174ms
+ ✓ |unit| tests/ui/menu.test.ts (25 tests) 111ms
+ ✓ |unit| tests/app/recorder.test.ts (12 tests) 178ms
+ ✓ |unit| tests/proofs/ship-guidance.test.ts (8 tests) 161ms
+ ✓ |unit| tests/ui/no-neumorphism.test.ts (5 tests) 90ms
+ ✓ |unit| tests/core/booster-command.test.ts (18 tests) 124ms
+ ✓ |unit| tests/ui/shell/BoosterEngineGroups.test.tsx (1 test) 138ms
+ ✓ |unit| tests/core/random-failure.test.ts (8 tests) 87ms
+ ✓ |unit| tests/core/guidance-truth.test.ts (4 tests) 64ms
+ ✓ |unit| tests/core/isa.test.ts (30 tests) 60ms
+ ✓ |unit| tests/ui/mission-session.test.ts (9 tests) 117ms
+ ✓ |unit| tests/golden/compare.test.ts (5 tests) 149ms
+ ✓ |unit| tests/ui/shell/FirstFlight.test.tsx (8 tests) 161ms
+ ✓ |unit| tests/core/booster-policy-boundaries.test.ts (12 tests) 111ms
+ ✓ |unit| tests/core/pitch-rate.test.ts (11 tests) 117ms
+ ✓ |unit| tests/core/rotating-frame.test.ts (13 tests) 149ms
+ ✓ |unit| tests/core/booster-burn-bound.test.ts (2 tests) 172ms
+ ✓ |unit| tests/hud/booster-presentation.test.ts (4 tests) 85ms
+ ✓ |unit| tests/core/fin-fraction.test.ts (11 tests) 47ms
+ ✓ |unit| tests/hud/indicators.test.ts (8 tests) 130ms
+ ✓ |unit| tests/core/mass.test.ts (20 tests) 91ms
+ ✓ |unit| tests/view/booster.test.ts (4 tests) 37ms
+ ✓ |unit| tests/core/speed-of-sound.test.ts (13 tests) 63ms
+stdout | tests/audio/render.test.ts > the engine is louder at 100% than at 40% — measured, not asserted > rises with throttle
+three engines: 40% RMS 0.09131 · 100% RMS 0.13051
+
+stdout | tests/audio/render.test.ts > the engine is louder at 100% than at 40% — measured, not asserted > rises with engine count
+at 100%: one engine RMS 0.07535 · three RMS 0.13051
+
+stdout | tests/audio/render.test.ts > the engine is louder at 100% than at 40% — measured, not asserted > distinguishes three engines at 40% from two at 100%
+three at 40% RMS 0.09131 · two at 100% RMS 0.10656
+
+stdout | tests/audio/render.test.ts > the air fade, rendered > falls toward its floor in vacuum without reaching silence
+sea level RMS 0.13051 · vacuum RMS 0.02871 · ratio 0.2200 against a floor of 0.22
+
+ ✓ |unit| tests/audio/render.test.ts (7 tests) 64ms
+ ✓ |unit| tests/proofs/ship-geometry.test.ts (3 tests) 37ms
+ ✓ |unit| tests/ui/controls.test.ts (20 tests) 41ms
+ ✓ |unit| tests/core/autopilot-stages.test.ts (40 tests) 36ms
+ ✓ |unit| tests/core/ignition.test.ts (14 tests) 33ms
+ ✓ |unit| tests/ui/preferences.test.ts (6 tests) 29ms
+ ✓ |unit| tests/view/sun.test.ts (33 tests) 22ms
+ ✓ |unit| tests/core/super-heavy.test.ts (10 tests) 24ms
+ ✓ |unit| tests/view/sky.test.ts (17 tests) 43ms
+ ✓ |unit| tests/ui/document-dismissal.test.ts (6 tests) 73ms
+ ✓ |unit| tests/core/booster-scheduling-boundaries.test.ts (8 tests) 21ms
+ ✓ |unit| tests/view/stars.test.ts (24 tests) 25ms
+ ✓ |unit| tests/core/named-branches.test.ts (17 tests) 39ms
+ ✓ |unit| tests/core/risk-policy-provenance.test.ts (3 tests) 39ms
+ ✓ |unit| tests/app/debug.test.ts (9 tests) 28ms
+ ✓ |unit| tests/proofs/isa-into.test.ts (1 test) 18ms
+ ✓ |unit| tests/core/wind.test.ts (10 tests) 18ms
+ ✓ |unit| tests/core/thrust-altitude.test.ts (15 tests) 13ms
+ ✓ |unit| tests/core/tower-catch.test.ts (9 tests) 17ms
+ ✓ |unit| tests/view/horizon.test.ts (12 tests) 47ms
+ ✓ |unit| tests/core/spawn-mach.test.ts (19 tests) 13ms
+ ✓ |unit| tests/core/failure-freshness.test.ts (7 tests) 11ms
+ ✓ |unit| tests/app/input.test.ts (32 tests) 16ms
+ ✓ |unit| tests/core/rvac.test.ts (13 tests) 16ms
+ ✓ |unit| tests/core/grid-fins.test.ts (5 tests) 12ms
+ ✓ |unit| tests/core/booster-utilities.test.ts (10 tests) 9ms
+ ✓ |unit| tests/view/catch-tower.test.ts (1 test) 16ms
+ ✓ |unit| tests/core/physical-scale.test.ts (20 tests) 11ms
+ ✓ |unit| tests/ui/mission-camera.test.ts (1 test) 17ms
+ ✓ |unit| tests/core/force-probe-contract.test.ts (2 tests) 10ms
+ ✓ |unit| tests/golden/unification.test.ts (10 tests) 18ms
+ ✓ |unit| tests/core/heat-argument.test.ts (9 tests) 12ms
+ ✓ |unit| tests/core/felt-g.test.ts (4 tests) 16ms
+ ✓ |unit| tests/core/tank-empty.test.ts (4 tests) 18ms
+ ✓ |unit| tests/ui/kit-boundary.test.ts (3 tests) 9ms
+ ✓ |unit| tests/core/mechanical-advance.test.ts (2 tests) 9ms
+ ✓ |unit| tests/core/ship-control-boundaries.test.ts (3 tests) 8ms
+ ✓ |unit| tests/ui/tabular-digits.test.ts (22 tests) 10ms
+ ✓ |unit| tests/core/landing-burn.test.ts (6 tests) 8ms
+ ✓ |unit| tests/ui/testids.test.ts (6 tests) 8ms
+ ✓ |unit| tests/golden/booster-record.test.ts (2 tests) 10ms
+ ✓ |unit| tests/view/lighting.test.ts (9 tests) 12ms
+ ✓ |unit| tests/ui/guide.test.ts (5 tests) 12ms
+ ✓ |unit| tests/hud/readouts.test.ts (9 tests) 10ms
+ ✓ |unit| tests/ui/booster-controls.test.ts (9 tests) 9ms
+ ✓ |unit| tests/offline-classic.test.ts (3 tests) 13ms
+ ✓ |unit| tests/hud/haptics.test.ts (8 tests) 10ms
+ ✓ |unit| tests/ui/contrast.test.ts (12 tests) 8ms
+ ✓ |unit| tests/core/booster-return-plan.test.ts (6 tests) 9ms
+ ✓ |unit| tests/reference/ratchet.test.ts (3 tests) 8ms
+ ✓ |unit| tests/view/zoom.test.ts (7 tests) 7ms
+ ✓ |unit| tests/core/final-descent-profile.test.ts (3 tests) 6ms
+ ✓ |unit| tests/hud/engine-groups.test.ts (2 tests) 5ms
+ ✓ |unit| tests/core/analytic-laws.test.ts (14 tests) 8ms
+ ✓ |unit| tests/view/emission-blending.test.ts (3 tests) 7ms
+ ✓ |unit| tests/ui/shell/fields-presets.test.ts (10 tests) 6ms
+ ✓ |unit| tests/core/thermosphere.test.ts (10 tests) 5ms
+ ✓ |unit| tests/core/propellant.test.ts (3 tests) 9ms
+ ✓ |unit| tests/proofs/rcs-reserve.test.ts (5 tests) 6ms
+ ✓ |unit| tests/view/post.test.ts (12 tests) 6ms
+ ✓ |unit| tests/view/reentry.test.ts (8 tests) 5ms
+ ✓ |unit| tests/view/dynamic-pressure.test.ts (20 tests) 32ms
+
+ Test Files  165 passed (165)
+      Tests  2170 passed (2170)
+   Start at  05:35:23
+   Duration  186.13s (transform 6.71s, setup 0ms, import 76.08s, tests 972.88s, environment 10.88s)
+
+JSON report written to /Users/stevewang/dev/StarShipSimulator-realism/coverage/test-results.json
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   99.63 |    99.03 |     100 |   99.86 |                   
+ core              |     100 |    98.98 |     100 |     100 |                   
+  mission.ts       |     100 |     97.5 |     100 |     100 | 161               
+ core/autopilot    |   99.81 |    99.31 |     100 |     100 |                   
+  booster.ts       |   99.51 |    98.67 |     100 |     100 | 125,277           
+  index.ts         |     100 |     99.6 |     100 |     100 | 447               
+ core/control      |   99.01 |    98.41 |     100 |   99.55 |                   
+  ...prediction.ts |    96.5 |    95.67 |     100 |   98.14 | 149-150           
+  commands.ts      |     100 |    95.23 |     100 |     100 | 54                
+  ...ce-physics.ts |   98.05 |    96.77 |     100 |   99.26 | 307               
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 99.63% ( 2484/2493 )
+Branches     : 99.03% ( 1434/1448 )
+Functions    : 100% ( 300/300 )
+Lines        : 99.86% ( 2174/2177 )
+================================================================================
+
+> starship-simulator-v2@0.1.0 test:e2e
+> playwright test --project=chromium --grep @smoke
+
+
+Running 13 tests using 3 workers
+
+  ✓   1 [chromium] › tests/e2e/blackbox.spec.ts:55:1 › it draws the nine plots of the flight @smoke (4.1s)
+  ✓   4 [chromium] › tests/e2e/menu.spec.ts:17:1 › the menu opens, offers every preset, and closes @smoke (980ms)
+  ✓   5 [chromium] › tests/e2e/menu.spec.ts:58:1 › Configure starts the new flight and closes the menu @smoke (1.0s)
+  ✓   6 [chromium] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (764ms)
+  ✓   7 [chromium] › tests/e2e/parity.spec.ts:18:1 › every 2021 flight control is present @smoke (530ms)
+  ✓   8 [chromium] › tests/e2e/render.spec.ts:11:1 › every art asset loads @smoke (860ms)
+  ✓   9 [chromium] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (287ms)
+  ✓   3 [chromium] › tests/e2e/intro.spec.ts:14:1 › the intro plays end to end and lands @smoke (8.9s)
+  ✓  10 [chromium] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (283ms)
+  ✓  12 [chromium] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (414ms)
+  ✓  11 [chromium] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (721ms)
+  ✓   2 [chromium] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (14.3s)
+[witness-plume] fire pixels below the ship: engines off 0, engines lit 471
+  ✓  13 [chromium] › tests/e2e/witness-plume.spec.ts:85:1 › engines lit draw fire below the ship, and engines off do not @smoke (5.1s)
+
+  13 passed (16.9s)
+
+> starship-simulator-v2@0.1.0 test:deploy
+> playwright test --config playwright.subpath.config.ts
+
+
+Running 5 tests using 1 worker
+
+  ✓  1 tests/deploy/subpath.spec.ts:11:1 › the app loads and flies from a subdirectory (497ms)
+  ✓  2 tests/deploy/subpath.spec.ts:36:1 › every asset is requested under the subpath (692ms)
+  ✓  3 tests/deploy/subpath.spec.ts:59:1 › the service worker registers at the subpath scope and precaches it (291ms)
+  ✓  4 tests/deploy/subpath.spec.ts:82:1 › the install manifest stays under the subpath, and its icon is served (158ms)
+  ✓  5 tests/deploy/subpath.spec.ts:100:1 › it still works offline from a subdirectory (485ms)
+
+  5 passed (3.0s)

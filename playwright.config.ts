@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import { preinstalledChromium } from './tests/e2e/chromium';
+import { chromiumLaunchOptions } from './tests/e2e/chromium';
 
 /**
  * Smoke tests run against the production build, not the dev server: dev-only
@@ -10,8 +10,6 @@ import { preinstalledChromium } from './tests/e2e/chromium';
  * testing the other's server.
  */
 const PORT = Number(process.env.E2E_PORT ?? 4174);
-
-const executablePath = preinstalledChromium();
 
 /**
  * What the phone projects run.
@@ -55,24 +53,7 @@ export default defineConfig({
     baseURL: `http://127.0.0.1:${PORT}`,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    launchOptions: {
-      ...(executablePath ? { executablePath } : {}),
-      // Headless containers have no GPU; PixiJS needs a working WebGL context
-      // from M3.1 on. SwiftShader provides one.
-      //
-      // `--no-sandbox` because this runs as root in a container, and Chromium
-      // refuses to start there without it: "Running as root without
-      // --no-sandbox is not supported". It did not bite until M6.6 added four
-      // more projects — one or two browsers at a time apparently got away with
-      // it, and five did not, which made 56 of 57 failures in that run a single
-      // environment message wearing 56 different test names.
-      args: [
-        '--no-sandbox',
-        '--use-gl=angle',
-        '--use-angle=swiftshader',
-        '--enable-unsafe-swiftshader',
-      ],
-    },
+    launchOptions: chromiumLaunchOptions(),
   },
 
   /*

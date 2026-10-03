@@ -43,11 +43,11 @@ export const MAX_FRAME_TIME = 0.25;
 /** Guard against a pathological warp factor demanding unbounded work. */
 export const MAX_STEPS_PER_FRAME = 2000;
 
-export interface LoopState {
+export interface LoopState<State = SimState> {
   /** The simulation as of the last completed step. */
-  state: SimState;
+  state: State;
   /** The state before that step, for interpolation. */
-  previous: SimState;
+  previous: State;
   /** Unconsumed simulated time, in seconds. Always < DT. */
   accumulator: number;
   /** Steps taken since the loop started. */
@@ -56,7 +56,7 @@ export interface LoopState {
   simulatedTime: number;
 }
 
-export function createLoopState(initial: SimState): LoopState {
+export function createFixedLoopState<State>(initial: State): LoopState<State> {
   return {
     state: initial,
     previous: initial,
@@ -66,7 +66,12 @@ export function createLoopState(initial: SimState): LoopState {
   };
 }
 
-export interface AdvanceOptions {
+/** Existing single-vehicle API, using the same accumulator state shape. */
+export function createLoopState(initial: SimState): LoopState {
+  return createFixedLoopState(initial);
+}
+
+export interface AdvanceOptions<State = SimState, Input = StepInput> {
   /** Steps to run per drained increment. 1 is real time, 4 is 4x warp. */
   readonly timeWarp?: number;
   /**
@@ -88,7 +93,7 @@ export interface AdvanceOptions {
    */
   readonly slowMotion?: number;
   /** Commands for this frame. Applied to every step within it. */
-  readonly input?: StepInput;
+  readonly input?: Input;
   /** When true, time still passes for the renderer but the sim does not step. */
   readonly paused?: boolean;
   /**
@@ -105,7 +110,7 @@ export interface AdvanceOptions {
    * Pass a stable function: this is the per-frame path and `sim-core-conventions` forbids
    * allocating in it.
    */
-  readonly onStep?: (state: SimState) => void;
+  readonly onStep?: (state: State) => void;
 }
 
 export interface AdvanceResult {
@@ -155,10 +160,21 @@ export function advance(
   frameTime: number,
   options: AdvanceOptions = {},
 ): AdvanceResult {
+  return advanceFixed(loop, frameTime, options, options.input ?? NO_INPUT, step);
+}
+
+/** One accumulator/warp/clamp policy for single vehicles and missions. The
+ * supplied fixed-step function changes state shape, never dt or RAF count. */
+export function advanceFixed<State, Input>(
+  loop: LoopState<State>,
+  frameTime: number,
+  options: AdvanceOptions<State, Input>,
+  input: Input,
+  stepState: (previous: State, dt: number, input: Input) => State,
+): AdvanceResult {
   const warp = options.timeWarp ?? 1;
   const slow = options.slowMotion ?? 1;
   const onStep = options.onStep;
-  const input = options.input ?? NO_INPUT;
 
   let clamped = false;
   let dtFrame = frameTime;
@@ -187,7 +203,7 @@ export function advance(
     // always mean the same thing, or goldens and warp cannot coexist.
     for (let i = 0; i < warp; i++) {
       loop.previous = loop.state;
-      loop.state = step(loop.state, DT, input);
+      loop.state = stepState(loop.state, DT, input);
       if (onStep) onStep(loop.state);
       steps += 1;
       loop.totalSteps += 1;

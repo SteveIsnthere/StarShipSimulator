@@ -1,0 +1,21 @@
+# Phase7 booster cycle1 independent diagnosis review
+
+Assessment only: read surrounding code and preserved traces, no edits, no flight executions, no nested reviewer. Three trajectory diagnoses exhausted this cycle. Do not run the failed flight test or full suite that contains it. Do not weaken starts, seeds, capture bounds, physical limits, throttle/gimbal/RCS authority, assertions/caps or coverage. Return evidence-backed causal findings and a concrete bounded next-cycle approach. This is diagnosis review, not final release acceptance.
+
+Repo /Users/stevewang/dev/StarShipSimulator-realism, branchclaude/super-heavy, committedHEADebb76c7 physical catch. Owned uncommitted controller/integration/test files are all pinned in cycle1-source-sha256.json; inspect actual dirty files. Lead will hold these bytes stable during review. Approved contract docs/plans/modernization/modernization-GOAL.md FIRST, phase7plan and roadmap Phase7; Task3 brief in this workspace. Physics tierFidelity approved. Ledger progress.md includes every ruling. Missing peers use prescribed fallback: launcherClaude--check exit2 CLI authentication failure, Chrome inventory contains onlyIAB/MCPApps, no logged-inChrome. Fresh native reviewer required before another trajectory attempt.
+
+Tasks1/2 implemented with bit-exactShip proofs, unchanged goldens,2030unit/14truth green. Physical catch checkpointebb76c7 unit2038green before new flighttests: descending physical lug,angularpointvelocity, interpolatedpose, fixedlimits2.25m/4.5mps/1mps/5deg, lug65m andplane120m, contact90.5m. Only actualdetector can secure; ground false-success fixed. Old createScenarioState/step defaults remainShip; createScenarioVehicle selects actual33-engineSH for booster-sep/rtls/custom basedOn. No player migration, missionstaging or finalPhase7review/gates yet.
+
+New src/core/autopilot/booster.ts plus modeldispatch/flat optionalphysicalcontrollerfields in state, independentgrid vs gimbal/RCS command, explicitpitchOverride in sharedfallpredictor. Sharedignition toggleRaptor used,13return/entry engines and3centralterminal, same40%min/throttle60pp/s/gimbal15deg/slew/800kNpaidRCS25s/50kPa structural/35kPa guidance/1533K/13g. Initial physical models71x9,200tdry B estimate,3400tcap, four24m² uppergridfins at66m from approved historicalcohort, symmetric3/10/20 mountgroups. No geometry/limit changes accepted as a solution.
+
+Evidence workspace:
+- booster-flight-dispatch-red.log: feature-missing baseline, wrongShipautopilot; not a diagnosis attempt.
+- booster-cycle1-attempt1.log: both structural failure atdense descent, no entryburn yet (sep276.04s/23.509km/1389mpsdown, RTLS85.175s/6.436km/395mpsdown); temperatures below1533K. Missing firsttrace q/g fields documented.
+- attempt2.log: actual13-engine pressure-limited entry fixes structural failure. Boostback250mscache produces~1.5kmsep cutoff error. Assumedcoastpitch/liftsign diverges; terminal arrives~5.2kmsep/~2.8kmRTLSshort, loiters on3engines40%min, then climbs/exhaustsfuel and crashes. Fulltrace q/g/range/phase included.
+- attempt3.log: near-cutoff prediction atfixedDT; coastgoal from shared±.05radfall sensitivity. Both still fail terminal and eventually exhaust fuel/crash (sep+820m,RTLS-803m final). Inspect earliercausal rows before these final fuel/ground consequences.
+- booster-ignition-red/green.log: actual0vs13 failure draws caught, sharedtogglefix passes, no seedchanges.
+- build3/lint pass283.7/300kB; this is not fullcurrentgreen. Both prescribedflightassertions remain RED, negativefailedengine and RNG tests PASS.
+
+Find first causal divergence for each failed final trajectory; challenge predictor coast assumption, entry steering, minimum-throttle terminal feasibility, attitude/force allocation and state/purity/contact mechanics. Determine whether this is algorithmic/numerical/control-contract error or independently established physical impossibility, with evidence. Do not assume infeasibility from a failedcontroller. No Phase6b aero fallback is available to waive actualSuperHeavy/catch; parkedShipmodels must not be reopened.
+
+Deliver conclusions first, exact code/trace references, prioritized findings, proposed next-cycle algorithm/positive-control tests and expected physical effects; avoid extra campaigns or changed acceptance. No edits/tests/flights. Fresh high-depth judgment, not self-review.

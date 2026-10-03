@@ -226,6 +226,8 @@ export type RaptorKind = 'sea-level' | 'vacuum';
 
 /** One engine position on the vehicle. */
 export interface RaptorMount {
+  /** Only explicitly steerable mounts gimbal; absent retains Ship nozzle semantics. */
+  readonly gimballed?: boolean;
   readonly kind: RaptorKind;
   /** m — lateral offset from the centreline. */
   readonly offAxis: number;

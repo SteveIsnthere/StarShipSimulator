@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/tower-catch.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/tower-catch.test.ts [ tests/core/tower-catch.test.ts ]
+Error: Cannot find module '$core/physics/tower-catch' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/tower-catch.test.ts
+ ❯ tests/core/tower-catch.test.ts:4:1
+      2|  * missed physical lug, overspeed, attitude or a failed vehicle. */
+      3| import { describe,expect,it } from 'vitest';
+      4| import { catchEligible, secureTowerCatch, writeCatchPose, createCatchP…
+       | ^
+      5| import { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
+      6| import { SHIP } from '$core/vehicle';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  16:36:50
+   Duration  128ms (transform 13ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

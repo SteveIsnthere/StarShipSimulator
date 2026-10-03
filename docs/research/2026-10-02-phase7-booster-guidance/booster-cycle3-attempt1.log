@@ -1,0 +1,43 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-guidance.test.ts (4 tests | 2 failed) 4081ms
+     × booster-sep: autopilot catches the actual33-engine booster within900s 1744ms
+     × rtls: autopilot catches the actual33-engine booster within900s 192ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-guidance.test.ts > actual booster scenarios are secured at the tower > booster-sep: autopilot catches the actual33-engine booster within900s
+AssertionError: {"id":"booster-sep","h":120947.57823320071,"x":38710.070799946785,"fuel":0,"failures":{"crashed":false,"inFlightBreakUp":true,"coldGasRunOut":false,"fuelRunOut":false,"heatDamaged":false,"overPressure":false,"overGLoad":false,"flippedOver":false,"randomFailure":false}}: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-guidance.test.ts:76:192
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-guidance.test.ts > actual booster scenarios are secured at the tower > rtls: autopilot catches the actual33-engine booster within900s
+AssertionError: {"id":"rtls","h":19427.075331635184,"x":1913.1018823347986,"fuel":0,"failures":{"crashed":false,"inFlightBreakUp":true,"coldGasRunOut":false,"fuelRunOut":false,"heatDamaged":false,"overPressure":false,"overGLoad":false,"flippedOver":false,"randomFailure":false}}: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-guidance.test.ts:76:192
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  18:46:26
+   Duration  4.33s (transform 117ms, setup 0ms, import 140ms, tests 4.08s, environment 0ms)
+

@@ -10,6 +10,7 @@
  * states. `previous` is the last frame's state, which the loop already keeps
  * for interpolation, so detecting "an engine just stopped" costs nothing.
  */
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
 import type { SimState } from '$core/state';
 import { worldToScreen, type CameraState, type Viewport } from './camera';
 import { streakIntensity, streakLength } from './motion-cues';
@@ -100,7 +101,7 @@ export interface EffectDriver {
   reset(): void;
 }
 
-export function createEffectDriver(): EffectDriver {
+export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = model.id === 'ship' ? engineDistanceFromCenterOfMass : model.height / 2): EffectDriver {
   // Edge detection state. Not in SimState: these are presentation facts, and
   // core/ must not know that a renderer exists.
   const nozzle = { x: 0, y: 0 };
@@ -127,21 +128,17 @@ export function createEffectDriver(): EffectDriver {
       const originY = viewport.height / 2 + (camera.posY + camera.shakeY) * scale;
       const hasPreviousFrame = previousScale > 0;
 
-      const shipScreen = worldToScreen(
-        camera,
-        viewport,
-        kinematics.downRangeDistance,
-        kinematics.altitude,
-      );
+      const shipX = originX + kinematics.downRangeDistance * scale;
+      const shipY = originY - kinematics.altitude * scale;
 
       // Screen-space direction the engines point: opposite the nose. Positive
       // pitch is nose-right and Pixi's angles are clockwise, so the tail axis
       // is pitch past straight down — unflipped (M11.5; see vehicle.ts).
       const pitch = kinematics.pitch;
       const downAxis = pitch + Math.PI / 2;
-      const nozzleDistance = engineDistanceFromCenterOfMass * scale;
-      const nozzleX = shipScreen.x + Math.cos(downAxis) * nozzleDistance;
-      const nozzleY = shipScreen.y + Math.sin(downAxis) * nozzleDistance;
+      const nozzleDistance = nozzleArm * scale;
+      const nozzleX = shipX + Math.cos(downAxis) * nozzleDistance;
+      const nozzleY = shipY + Math.sin(downAxis) * nozzleDistance;
       nozzle.x = nozzleX;
       nozzle.y = nozzleY;
       // The last rendered nozzle, projected by today's camera. `previous` is
@@ -155,8 +152,8 @@ export function createEffectDriver(): EffectDriver {
       previousScale = scale;
       previousOriginX = originX;
       previousOriginY = originY;
-      previousNozzleWorldX = kinematics.downRangeDistance + Math.cos(downAxis) * engineDistanceFromCenterOfMass;
-      previousNozzleWorldY = kinematics.altitude - Math.sin(downAxis) * engineDistanceFromCenterOfMass;
+      previousNozzleWorldX = kinematics.downRangeDistance + Math.cos(downAxis) * nozzleArm;
+      previousNozzleWorldY = kinematics.altitude - Math.sin(downAxis) * nozzleArm;
 
       // --- engine plume ----------------------------------------------------
       /*
@@ -172,7 +169,8 @@ export function createEffectDriver(): EffectDriver {
         ever drawn with it. The curves are in view/atmosphere-look.ts so they
         can be pinned by a test rather than eyeballed.
       */
-      const running = engines.running.filter(Boolean).length;
+      let running = 0;
+      for (let i = 0; i < engines.running.length; i++) if (engines.running[i] && !engines.failed[i]) running++;
       if (running > 0 && forces.thrust > 0) {
         const throttleFraction = vehicle.throttleCurrent / 100;
         const ambient = state.atmosphere.airPressure;
@@ -194,7 +192,7 @@ export function createEffectDriver(): EffectDriver {
           not do is make the plume TRANSPARENT, because a throttled engine is
           not a faint engine — it is a smaller one.
         */
-        const power = (running / 3) * throttleFraction;
+        const power = (running / (model.id === 'ship' ? 3 : model.ignitionGroup.length)) * throttleFraction;
         const density = PLUME_DENSITY_FLOOR + (1 - PLUME_DENSITY_FLOOR) * power;
         const reach = PLUME_REACH_FLOOR + (1 - PLUME_REACH_FLOOR) * power;
 
@@ -270,8 +268,8 @@ export function createEffectDriver(): EffectDriver {
       */
       if (forces.dynamicPressure > AERO_TRAIL_MIN_Q) {
         const intensity = Math.min(Math.sqrt(forces.dynamicPressure / AERO_TRAIL_FULL_Q), 1);
-        const finX = shipScreen.x - Math.cos(downAxis) * vehicleHeight * 0.25 * scale;
-        const finY = shipScreen.y - Math.sin(downAxis) * vehicleHeight * 0.25 * scale;
+        const finX = shipX - Math.cos(downAxis) * (model.id === 'ship' ? vehicleHeight * 0.25 : model.gridFins!.station - model.height / 2) * scale;
+        const finY = shipY - Math.sin(downAxis) * (model.id === 'ship' ? vehicleHeight * 0.25 : model.gridFins!.station - model.height / 2) * scale;
         particles.emit('aeroTrail', finX, finY, downAxis, intensity, dt, scale * 0.7);
       }
 
@@ -297,8 +295,8 @@ export function createEffectDriver(): EffectDriver {
         const intensity = 1 - Math.abs(kinematics.machSpeed - 1.1) / 0.2;
         particles.emit(
           'sonicBoom',
-          shipScreen.x,
-          shipScreen.y,
+          shipX,
+          shipY,
           downAxis + Math.PI,
           Math.max(intensity, 0),
           dt,
@@ -311,8 +309,8 @@ export function createEffectDriver(): EffectDriver {
         // Ramps in over the first tenth of the structural limit and saturates
         // well before it, so the vehicle looks in trouble before it is.
         const intensity = Math.min(forces.thermalPower / 20, 1);
-        const noseX = shipScreen.x - Math.cos(downAxis) * vehicleHeight * 0.5 * scale;
-        const noseY = shipScreen.y - Math.sin(downAxis) * vehicleHeight * 0.5 * scale;
+        const noseX = shipX - Math.cos(downAxis) * model.height * 0.5 * scale;
+        const noseY = shipY - Math.sin(downAxis) * model.height * 0.5 * scale;
         particles.emit(
           'aeroHeat',
           noseX,
@@ -336,8 +334,8 @@ export function createEffectDriver(): EffectDriver {
       */
       const plasma = plasmaIntensity(forces.thermalPower, heatLimit);
       if (plasma > 0) {
-        const noseX = shipScreen.x - Math.cos(downAxis) * vehicleHeight * 0.5 * scale;
-        const noseY = shipScreen.y - Math.sin(downAxis) * vehicleHeight * 0.5 * scale;
+        const noseX = shipX - Math.cos(downAxis) * model.height * 0.5 * scale;
+        const noseY = shipY - Math.sin(downAxis) * model.height * 0.5 * scale;
         particles.emit('plasmaTrail', noseX, noseY, downAxis, plasma, dt, scale * 0.9);
       }
 
@@ -364,8 +362,8 @@ export function createEffectDriver(): EffectDriver {
           const back = Math.atan2(-motionY, -motionX);
           particles.emit(
             'velocityStreak',
-            shipScreen.x + (motionX / motion) * ahead,
-            shipScreen.y + (motionY / motion) * ahead,
+            shipX + (motionX / motion) * ahead,
+            shipY + (motionY / motion) * ahead,
             back,
             streak,
             dt,
@@ -379,11 +377,11 @@ export function createEffectDriver(): EffectDriver {
 
       // --- catastrophe ------------------------------------------------------
       if (failures.crashed && !showedCrash) {
-        particles.burst('explosion', shipScreen.x, shipScreen.y, 600, scale);
+        particles.burst('explosion', shipX, shipY, 600, scale);
         showedCrash = true;
       }
       if (failures.inFlightBreakUp && !showedBreakUp) {
-        particles.burst('explosion', shipScreen.x, shipScreen.y, 800, scale);
+        particles.burst('explosion', shipX, shipY, 800, scale);
         showedBreakUp = true;
       }
       if (!failures.crashed && !failures.inFlightBreakUp && (showedCrash || showedBreakUp)) {

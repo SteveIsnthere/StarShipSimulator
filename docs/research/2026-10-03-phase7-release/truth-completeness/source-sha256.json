@@ -1,0 +1,6 @@
+{
+  "tests/reference/anchors.ts": "592fe6bee4ea8c0071439c34329c55aba711d0d8eb71c7f29ee282c2f452fe08",
+  "tests/reference/in-band.json": "ca43b73fbf7a38ced9498fef19d2ff3591d989561cbf5872ed8d0034871721de",
+  "tests/reference/flight-probes.ts": "8bcf788eb194fd0cb4d547eec08360114c1894867f568eb1916f0eba591bd060",
+  "tests/reference/registry-completeness.test.ts": "0a49b31af261fe03f4cd17ac74243c2fcb7544a83447cc9633cf8ac8f1ec9b6b"
+}

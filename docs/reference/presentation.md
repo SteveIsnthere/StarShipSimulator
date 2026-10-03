@@ -262,3 +262,23 @@ runs the gate, copies `index.html` to `404.html` (deep links land in the app), a
 scenario), extent (plume length in vehicle-heights), tone and colour separation — never golden
 images. Whether it looks or sounds good is a human decision no test covers. CI runs the desktop
 Playwright project only; `@mobile-only` specs run under `npm run gate`.
+
+
+## Super Heavy and hot staging
+
+Booster Sep and RTLS render the actual 71 m booster with 33 engine mounts and four
+grid fins. The tower and chopsticks depict the core's bounded catch event; contact
+with the ground is still a crash. The mission renders both independently moving
+bodies after physical separation, each with its own exhaust.
+
+Selected-body HUD bindings show the booster centre/inner/outer groups, actual
+engine state/count and 3,400 t tank capacity; Ship retains six individual engines.
+Mission selection rebinds the timeline, recorder and debrief history. On short
+landscape viewports, the single restart action sits in the HUD header, and the
+cinematic camera controls clear the trajectory map.
+
+Curved distant ground uses a separate shared-geometry mask for texture and the
+night terminator; masking does not hide the terrain fill. Browser witnesses use
+explicit original Ship inputs when they compare Ship plume or shake behavior.
+Mac browser tests use native Metal; Linux uses ANGLE SwiftShader through the
+shared Chromium launch policy in `tests/e2e/chromium.ts`.

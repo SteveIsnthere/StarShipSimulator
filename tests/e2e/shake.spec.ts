@@ -53,6 +53,7 @@
  *    this test.
  */
 import { expect, test } from '@playwright/test';
+import type { SimDebug } from '../../src/app/debug';
 import { byTestId, readoutValueTestId } from '../../src/ui/testids';
 import { ready } from './helpers';
 import { HULL_SILHOUETTE, describeFrame, readFrame, type Region } from './pixels';
@@ -266,6 +267,9 @@ async function nearMaxQ(page: Page): Promise<void> {
   // — the camera gets the frames it needs to converge, the airframe barely
   // moves. The old two seconds at full rate cost three times as much flight.
   await preset(page, MAX_Q_PRESET, MAX_Q_FIELDS, { slow: true, settleMs: 6_000 });
+  expect(await page.evaluate(() =>
+    (window as unknown as { __simDebug: SimDebug }).__simDebug.presentation().bodies?.map(body => body.id),
+  ), 'the picture and Node guard must both measure Ship').toEqual(['starship']);
   await expect
     .poll(
       async () =>
@@ -301,14 +305,14 @@ test('the frame shakes near max-Q, and holds still when asked not to @mobile', a
    */
   test.setTimeout(420_000);
 
-  await page.goto('/', { waitUntil: 'load' });
+  await page.goto('/?debug=1', { waitUntil: 'load' });
   await ready(page);
   await nearMaxQ(page);
   const shaking = await verticalWander(page);
   const shakingClock = await missionSeconds(page);
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/', { waitUntil: 'load' });
+  await page.goto('/?debug=1', { waitUntil: 'load' });
   await ready(page);
   await nearMaxQ(page);
   const still = await verticalWander(page);
@@ -390,7 +394,7 @@ test('the frame shakes near max-Q, and holds still when asked not to @mobile', a
 
 test('and does not shake a vehicle standing on the ground @mobile', async ({ page }) => {
   test.setTimeout(180_000);
-  await page.goto('/', { waitUntil: 'load' });
+  await page.goto('/?debug=1', { waitUntil: 'load' });
   await ready(page);
 
   // Both sources of shake are zero here: no air load and no thrust. If the

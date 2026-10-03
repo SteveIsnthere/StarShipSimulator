@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/proofs/ship-geometry.test.ts (3 tests | 2 failed) 19ms
+     × uses its own nose area and diameter for axial and angular drag 3ms
+     × uses its own fin reference areas with the existing sign conventions 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/ship-geometry.test.ts > selected vehicle hull and fins > uses its own nose area and diameter for axial and angular drag
+AssertionError: expected 30.29392915961586 to be 121.17571663846344 // Object.is equality
+
+- Expected
++ Received
+
+- 121.17571663846344
++ 30.29392915961586
+
+ ❯ tests/proofs/ship-geometry.test.ts:17:64
+     15| describe('selected vehicle hull and fins', () => {
+     16|   it('uses its own nose area and diameter for axial and angular drag',…
+     17|     expect(aero.getCrossSectionalArea(rad(0), 900, alternate)).toBe(Ma…
+       |                                                                ^
+     18|     expect(aero.getAngularDragAcceleration(1, 2, 1_000_000, 100_000, a…
+     19|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/proofs/ship-geometry.test.ts > selected vehicle hull and fins > uses its own fin reference areas with the existing sign conventions
+AssertionError: expected -93540.40818691273 to be -38653.061234261455 // Object.is equality
+
+- Expected
++ Received
+
+- -38653.061234261455
++ -93540.40818691273
+
+ ❯ tests/proofs/ship-geometry.test.ts:26:19
+     24|     const aft = aero.getAftFinDrag(1, 100, rad(-0.3), rad(0.7), 0.6, a…
+     25|     // Match the original multiplication order while deriving area ind…
+     26|     expect(front).toBe(-((0.5 * 1 * 100 ** 2 * Math.abs(Math.sin(0.7))…
+       |                   ^
+     27|     expect(aft / front).toBe(-0.5);
+     28|     expect(Math.abs(front)).toBeCloseTo(Math.abs(Math.sin(0.7)) * 10 *…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  16:04:07
+   Duration  174ms (transform 34ms, setup 0ms, import 46ms, tests 19ms, environment 0ms)
+

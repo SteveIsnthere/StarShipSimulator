@@ -1,0 +1,10 @@
+{
+  "captureTime": 230.84166666666667,
+  "steps": 1000,
+  "meanMilliseconds": 0.7874174180000008,
+  "medianMilliseconds": 0.3627920000000131,
+  "p99Milliseconds": 3.1655419999999594,
+  "maxMilliseconds": 6.133417000000009,
+  "finalPhase": "coast",
+  "finalHeight": 71062.52239621783
+}

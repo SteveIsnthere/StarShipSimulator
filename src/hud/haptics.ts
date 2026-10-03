@@ -28,7 +28,7 @@ export const END_MS = 90;
 
 /** How long an event should buzz for, or 0 for not at all. */
 export function durationFor(id: EventId): number {
-  return id === 'TOUCHDOWN' || id === 'LOSS' ? END_MS : EVENT_MS;
+  return id === 'TOUCHDOWN' || id === 'CAUGHT' || id === 'LOSS' ? END_MS : EVENT_MS;
 }
 
 /** What this module needs from the platform, so a test can be the platform. */

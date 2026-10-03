@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/proofs/step-dynamics.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/step-dynamics.test.ts [ tests/proofs/step-dynamics.test.ts ]
+Error: Cannot find module '$core/physics/step-dynamics' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/proofs/step-dynamics.test.ts
+ ❯ tests/proofs/step-dynamics.test.ts:11:1
+      9| import { createInitialState as shippedInitial } from './fixtures/ship-…
+     10| import { step as shippedStep } from './fixtures/ship-step';
+     11| import { createStepDynamics, prepareDynamics, integrateTranslation } f…
+       | ^
+     12|
+     13| const DT = 1 / 120;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  22:47:44
+   Duration  234ms (transform 104ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

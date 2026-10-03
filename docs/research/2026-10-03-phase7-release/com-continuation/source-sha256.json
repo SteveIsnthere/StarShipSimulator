@@ -1,0 +1,6 @@
+{
+  "src/core/mission.ts": "d23c6b6970696232ce378b9954d3ed4611b438a5c8359fc4a733ce8c0ae12865",
+  "src/core/mission-free-flight.ts": "fd1a408a70ca9879f32291a43f30f6b86295c68716bb0112de5f406b37e700e0",
+  "tests/core/hot-staging.test.ts": "20ec8bc067edbf111e77b0bf9f7a9941b53a2018151570a8d00752ed74bf17c1",
+  "tests/core/mission-continuation.test.ts": "687733f2d2d9d3e4baed2e3ef37bc9cf849919cf2535fe9f18c8582795298e83"
+}

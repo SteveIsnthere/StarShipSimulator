@@ -1,0 +1,7 @@
+# Physical tower contact checkpoint
+
+Physics tier: Fidelity, approved Phase7 Task3. Catch geometry/bounds remain frozen exactly as the plan. Contact requires an actual descending rotated lug crossing; lug velocity includes angular motion, position/attitude is interpolated at the crossing, missed/failed/ground contacts reject. Secure contact stops propulsion and holds the airborne crossing pose without fuel restoration. A slow booster ground touchdown is now a crash, never a catch.
+
+Missing-detector API RED matched expected. Five predicate/boundary laws passed after helper implementation; three real integration assertions then failed: no airborne capture, slow ground falsely reported landed, secured contact lost next step. Implemented model-specific integration;27 focused assertions including bit-exact Ship step proof pass. Lint/build pass,282.5/300kB. Complete unit159files/2038tests passed before adding the next full-flight acceptance file.14/14 truth rows remain IN. Goldens do not move because compatibility constructor/default integrator remain Ship.
+
+Subsequent real-flight acceptance is intentionally RED: booster-sep and rtls still dispatch to the Ship autopilot and crash; all-engine-failed negative control passes. These failed flights are preserved in booster-flight-dispatch-red.log; this checkpoint does not claim booster guidance or the current expanded suite complete. Task3 remains active, actual controller next. No catch bounds, preset, seed, tile limit, assertion or test cap changes.

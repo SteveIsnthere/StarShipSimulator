@@ -1,0 +1,65 @@
+{
+  "base": "3047632",
+  "results": [
+    {
+      "scenario": "launch-pad-takeoff",
+      "comparedLeaves": 28417,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    },
+    {
+      "scenario": "booster-sep-boostback",
+      "comparedLeaves": 37837,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    },
+    {
+      "scenario": "rtls-boostback",
+      "comparedLeaves": 37837,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    },
+    {
+      "scenario": "reentry-autoland",
+      "comparedLeaves": 188557,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    },
+    {
+      "scenario": "before-flip-autoland",
+      "comparedLeaves": 18997,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    },
+    {
+      "scenario": "landing-burn-autoland",
+      "comparedLeaves": 14287,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    },
+    {
+      "scenario": "landing-burn-headwind",
+      "comparedLeaves": 14287,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    },
+    {
+      "scenario": "intro-demo",
+      "comparedLeaves": 14287,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    },
+    {
+      "scenario": "booster-sep-catch",
+      "comparedLeaves": 459846,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    },
+    {
+      "scenario": "rtls-catch",
+      "comparedLeaves": 461778,
+      "changedLeaves": 0,
+      "maxAbsoluteDifference": 0
+    }
+  ]
+}

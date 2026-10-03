@@ -21,6 +21,8 @@ export interface DocumentWiringDeps {
   emit(event: ControlEvent): void;
   zoom(direction: 1 | -1): void;
   readThrottle(): number;
+  /** Dismiss the selected flight's report as well as its visible card. */
+  dismissDebrief(): void;
   /** The pilot has the yoke (or tilt is off): tilt yields. */
   isManual(): boolean;
 }
@@ -45,7 +47,7 @@ export function wireDocument(deps: DocumentWiringDeps): () => void {
     if (s.debrief === null || s.layer !== null) return;
     const target = event.target as Element | null;
     if (target?.closest?.('[data-debrief]')) return;
-    set({ debrief: null });
+    deps.dismissDebrief();
   };
   document.addEventListener('pointerdown', onPointerAway, { capture: true });
 
@@ -58,7 +60,7 @@ export function wireDocument(deps: DocumentWiringDeps): () => void {
     const s = get();
     if (event.key === 'Escape') {
       if (s.layer !== null) set({ layer: null });
-      else if (s.debrief !== null) set({ debrief: null });
+      else if (s.debrief !== null) deps.dismissDebrief();
       else set({ layer: 'menu' });
       event.preventDefault();
     } else if ((event.key === 'p' || event.key === 'P') && !typing && s.layer === null) {

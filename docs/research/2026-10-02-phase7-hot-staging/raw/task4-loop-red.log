@@ -1,0 +1,24 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/app/mission-loop.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/app/mission-loop.test.ts [ tests/app/mission-loop.test.ts ]
+Error: Cannot find module '$app/mission-loop' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/app/mission-loop.test.ts
+ ❯ tests/app/mission-loop.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import { createMissionLoop, advanceMission } from '$app/mission-loop';
+       | ^
+      3| import { createHotStageMission, stepMission } from '$core/mission';
+      4| import { createInitialState } from '$core/state';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  22:59:17
+   Duration  130ms (transform 13ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

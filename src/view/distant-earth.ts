@@ -299,6 +299,10 @@ export function createDistantEarth(terrain?: {
   const band = new Graphics();
   container.addChild(band);
 
+  // A separate mask shares the band geometry without suppressing its visible fill.
+  const groundMask = terrain ? new Graphics({ context: band.context }) : undefined;
+  if (groundMask) container.addChild(groundMask);
+
   /*
     The same mottle the near ground uses, one layer out and at a coarser tile
     scale (M9.8) — because this band had the identical problem: a flat fill with
@@ -308,7 +312,10 @@ export function createDistantEarth(terrain?: {
   const mottle = terrain
     ? new TilingSprite({ texture: terrain.mottle, width: 1, height: 1 })
     : undefined;
-  if (mottle) container.addChild(mottle);
+  if (mottle) {
+    container.addChild(mottle);
+    mottle.mask = groundMask!;
+  }
 
   /*
     The air in front of the ground, drawn last so it lies over everything this
@@ -338,6 +345,7 @@ export function createDistantEarth(terrain?: {
   */
   const terminator = new Graphics();
   container.addChild(terminator);
+  if (groundMask) terminator.mask = groundMask;
   let terminatorKey = -1;
 
   const limb = new Graphics();
@@ -430,15 +438,8 @@ export function createDistantEarth(terrain?: {
         groundTint(GROUND_COLOR, lightness),
         groundColourShare(altitude),
       );
-      /*
-        THE FLAT FILL IS SET TO WHAT THE MOTTLE AVERAGES TO, not to the tint.
-        The mottle is a rectangle and the band's top edge is a curve, so there
-        is always a sliver of bare band above it — a hundred and thirteen pixels
-        from 100 km. At the full tint that sliver is brighter than the textured
-        ground below it and reads as a stripe across the frame, which is what
-        the 100 km capture showed the moment the bow got small enough for the
-        sliver to sit inside the picture.
-      */
+      // The fallback fill matches the texture's mean brightness. Both keep
+      // the same atmosphere tint; the terminator shades the full textured bow.
       const groundShown = scaleColour(tint, MOTTLE_MEAN);
       // M11.4: the bare sliver between the bow and the terminator strips is
       // darkened to the vehicle's own longitude, so it matches the strip
@@ -446,6 +447,7 @@ export function createDistantEarth(terrain?: {
       band.tint = sun ? scaleColour(groundShown, 1 - groundDarkness(sun.elevation)) : groundShown;
       band.x = 0;
       band.y = lineY;
+      if (groundMask) groundMask.position.set(0, lineY);
       band.alpha = 1;
 
       /*
@@ -471,15 +473,9 @@ export function createDistantEarth(terrain?: {
       */
       if (mottle) {
         mottle.x = -viewport.width;
-        /*
-          BELOW THE BOW'S LOWEST POINT, which is the rule `world.ts` follows and
-          for the same reason: this is a rectangle and the band's top edge is a
-          curve, so a rectangle starting at `lineY` sticks up above the curve at
-          the frame's edges and puts the straight line back. That is exactly
-          what happened when the bow was first drawn — the horizon stayed
-          ruler-flat and the curve was hiding behind this sprite.
-        */
-        mottle.y = lineY + horizonDrop(sagitta);
+        // Cover the entire curved band, even when its maximum drop is below a
+        // short canvas. The shared mask keeps texture out of the sky.
+        mottle.y = lineY;
         mottle.width = viewport.width * 3;
         mottle.height = Math.max(1, viewport.height * 2 - mottle.y);
         mottle.tileScale.set(2.4, 2.4 * GROUND_FORESHORTENING);
@@ -652,11 +648,9 @@ export function createDistantEarth(terrain?: {
               // read as bars across the night side.
               const x0 = Math.round(left + (i * span) / TERMINATOR_STRIPS);
               const x1 = Math.round(left + ((i + 1) * span) / TERMINATOR_STRIPS);
-              // Below the bow's lowest point, the rule every rectangle over
-              // this band follows (see the mottle): a strip from the line
-              // itself would stand proud of the curve at the frame's edges
-              // and black out the sky above it.
-              terminator.rect(x0, horizonDrop(sagitta), x1 - x0, viewport.height * 2);
+              // The same mask clips night shading to the full textured bow.
+              // Without textures preserve the existing bare-band treatment.
+              terminator.rect(x0, groundMask ? 0 : horizonDrop(sagitta), x1 - x0, viewport.height * 2);
               terminator.fill({ color: 0x000000, alpha: dark });
             }
           }

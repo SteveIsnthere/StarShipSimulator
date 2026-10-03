@@ -8,7 +8,8 @@
 import type { Ref } from 'react';
 import { Button } from '@ui/Button';
 import type { EditorFields } from '$app/menu';
-import { FIELD_SPECS, fieldErrors } from './fields';
+import { fieldsFor, fieldErrors } from './fields';
+import { useSessionState } from '../session-context';
 import { SetupField } from './SetupField';
 
 export interface SetupSectionProps {
@@ -20,12 +21,13 @@ export interface SetupSectionProps {
 }
 
 export function SetupSection({ fields, onFieldsChange, onClear, onStart, startRef }: SetupSectionProps) {
-  const errors = fieldErrors(fields);
+  const current = useSessionState(s => s.selectedVehicle);
+  const errors = fieldErrors(fields, current);
   const invalid = Object.keys(errors).length;
   return (
     <div className="flex flex-col gap-5">
       <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
-        {FIELD_SPECS.map((field) => (
+        {fieldsFor(fields, current).map((field) => (
           <SetupField
             key={field.key}
             field={field}

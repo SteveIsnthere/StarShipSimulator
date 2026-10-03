@@ -1,0 +1,294 @@
+[
+  {
+    "id": "booster-sep",
+    "traceRows": 200,
+    "events": [
+      {
+        "label": "publication",
+        "t": 29.3,
+        "h": 99119.94860726871,
+        "x": 69154.30795626342,
+        "vx": 145.8726717663053,
+        "vy": 856.5266511838307,
+        "pitch": -1.5707957864983717,
+        "omega": -3.4109780642706616e-07,
+        "fuel": 326222.2222221624,
+        "engines": 13,
+        "deadline": null,
+        "lug": {
+          "x": 69124.80795626342,
+          "h": 99119.94862320746,
+          "vx": 145.87267176629987,
+          "vy": 856.5266411214454
+        },
+        "failures": {
+          "crashed": false,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": false,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      },
+      {
+        "label": "first-terminal",
+        "t": 319.575,
+        "h": 2833.295152501481,
+        "x": 79.90254769474268,
+        "vx": -5.927896154936777,
+        "vy": -252.09034644376592,
+        "pitch": 0.027505927285524305,
+        "omega": -0.002239918188350901,
+        "fuel": 123761.30361539256,
+        "engines": 0,
+        "deadline": null,
+        "lug": {
+          "x": 80.71387023478746,
+          "h": 2862.7839937085187,
+          "vx": -5.993948746709812,
+          "vy": -252.0885291476489
+        },
+        "failures": {
+          "crashed": false,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": false,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      },
+      {
+        "label": "paid-ready-observation",
+        "t": 320.68333333333334,
+        "h": 2551.0098213166643,
+        "x": 73.29858958721161,
+        "vx": -5.632025676394469,
+        "vy": -254.54406393619962,
+        "pitch": 0.00941297464783582,
+        "omega": -0.012949882174554256,
+        "fuel": 123386.17619439345,
+        "engines": 3,
+        "deadline": 19.970596771516057,
+        "lug": {
+          "x": 73.57626823708415,
+          "h": 2580.508514415961,
+          "vx": -6.014030276333701,
+          "vy": -254.54046803038042
+        },
+        "failures": {
+          "crashed": false,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": false,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      },
+      {
+        "label": "first-plane-crossing",
+        "t": 340.64166666666665,
+        "h": 90.55805809861727,
+        "x": -6.597274515777826,
+        "vx": -1.3469391790818321,
+        "vy": -1.742105818028791,
+        "pitch": 0.06415053260943918,
+        "omega": -0.04735062354086907,
+        "fuel": 84323.49509031617,
+        "engines": 3,
+        "deadline": 0.012263438183216483,
+        "lug": {
+          "x": -4.706131529062986,
+          "h": 119.99737837265724,
+          "vx": -2.7409093506769735,
+          "vy": -1.6525590183240522
+        },
+        "failures": {
+          "crashed": false,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": false,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      },
+      {
+        "label": "final",
+        "t": 343.875,
+        "h": 35.33900621271718,
+        "x": -10.599932733923197,
+        "vx": 0,
+        "vy": 0,
+        "fuel": 0,
+        "failures": {
+          "crashed": true,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": true,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      }
+    ]
+  },
+  {
+    "id": "rtls",
+    "traceRows": 148,
+    "events": [
+      {
+        "label": "publication",
+        "t": 12.983333333333333,
+        "h": 18629.401489861386,
+        "x": 7280.402119789273,
+        "vx": -152.49083447302402,
+        "vy": 161.95951657525308,
+        "pitch": -1.565966105947457,
+        "omega": -0.0028634996261955583,
+        "fuel": 161168.45056065347,
+        "engines": 13,
+        "deadline": null,
+        "lug": {
+          "x": 7250.902463920414,
+          "h": 18629.543980822305,
+          "vx": -152.49124249583735,
+          "vy": 161.87504432170238
+        },
+        "failures": {
+          "crashed": false,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": false,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      },
+      {
+        "label": "first-terminal",
+        "t": 98.1,
+        "h": 3361.963559774336,
+        "x": -7.223970293998718,
+        "vx": -0.5455443934916689,
+        "vy": -275.2836605575222,
+        "pitch": 0.001861891266327456,
+        "omega": -0.00041192695921711347,
+        "fuel": 133124.9796126428,
+        "engines": 0,
+        "deadline": null,
+        "lug": {
+          "x": -7.169044531881809,
+          "h": 3391.463508641424,
+          "vx": -0.5576962177255489,
+          "vy": -275.28363793212066
+        },
+        "failures": {
+          "crashed": false,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": false,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      },
+      {
+        "label": "paid-ready-observation",
+        "t": 99.25,
+        "h": 3041.937220319186,
+        "x": -7.835307955741882,
+        "vx": -0.5294077264197578,
+        "vy": -278.8136211848471,
+        "pitch": 0.0005714386102079119,
+        "omega": -0.0007484294059570319,
+        "fuel": 132826.04994903415,
+        "engines": 3,
+        "deadline": 22.164136806450482,
+        "lug": {
+          "x": -7.818450517952442,
+          "h": 3071.4372155026904,
+          "vx": -0.5514863902906832,
+          "vy": -278.8136085682447
+        },
+        "failures": {
+          "crashed": false,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": false,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      },
+      {
+        "label": "first-plane-crossing",
+        "t": 121.44166666666666,
+        "h": 90.49359406419885,
+        "x": -4.8510095700621605,
+        "vx": -2.8338044946209373,
+        "vy": -1.7668908061217996,
+        "pitch": 0.02235844506282066,
+        "omega": 0.008626303117372235,
+        "fuel": 88390.32396736469,
+        "engines": 0,
+        "deadline": 0,
+        "lug": {
+          "x": -4.191490393131971,
+          "h": 119.98622084539457,
+          "vx": -2.579392156278813,
+          "vy": -1.7725800184560612
+        },
+        "failures": {
+          "crashed": false,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": false,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      },
+      {
+        "label": "final",
+        "t": 124.63333333333333,
+        "h": 35.40205796608656,
+        "x": -13.462226506322622,
+        "vx": 0,
+        "vy": 0,
+        "fuel": 0,
+        "failures": {
+          "crashed": true,
+          "inFlightBreakUp": false,
+          "coldGasRunOut": false,
+          "fuelRunOut": true,
+          "heatDamaged": false,
+          "overPressure": false,
+          "overGLoad": false,
+          "flippedOver": false,
+          "randomFailure": false
+        }
+      }
+    ]
+  }
+]

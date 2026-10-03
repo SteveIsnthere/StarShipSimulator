@@ -1,0 +1,126 @@
+[WebServer] (node:55021) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:55025) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/staging.spec.ts:13:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (5.6s)
+(node:55033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [pixel-portrait] › tests/e2e/staging.spec.ts:13:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (7.3s)
+(node:55042) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [pixel-landscape] › tests/e2e/staging.spec.ts:13:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.0m)
+(node:55071) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [iphone-portrait] › tests/e2e/staging.spec.ts:13:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (6.7s)
+(node:55084) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 [iphone-landscape] › tests/e2e/staging.spec.ts:13:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.0m)
+
+
+  1) [pixel-landscape] › tests/e2e/staging.spec.ts:13:1 › both real staging bodies render and selection preserves the shared paused clock @mobile 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('[data-testid="stage"]')
+        - locator resolved to <button type="button" data-testid="stage" data-variant="secondary" class="ui-target inline-flex items-center justify-center rounded-ui-control depress transition-colors duration-100 select-none px-3.5 text-[12px] gap-2 border border-ui-line bg-ui-bg text-ui-fg hover:bg-ui-fg hover:text-ui-on-selected">Stage</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <button data-variant="ghost" aria-expanded="false" aria-controls="_r_1_" data-testid="map-toggle" class="ui-target inline-flex items-center rounded-ui-control depress transition-colors duration-100 select-none px-2.5 text-[11px] border-transparent bg-transparent hover:border-ui-line hover:text-ui-fg justify-between gap-3 border-0 font-tight font-semibold uppercase tracking-[0.14em] text-ui-muted">…</button> from <section aria-label="Trajectory map" data-testid="trajectory-map" class="ui-safe-margins absolute z-10 flex flex-col border border-flight-backing-line bg-flight-backing right-4 top-14">…</section> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <button data-variant="ghost" aria-expanded="false" aria-controls="_r_1_" data-testid="map-toggle" class="ui-target inline-flex items-center rounded-ui-control depress transition-colors duration-100 select-none px-2.5 text-[11px] border-transparent bg-transparent hover:border-ui-line hover:text-ui-fg justify-between gap-3 border-0 font-tight font-semibold uppercase tracking-[0.14em] text-ui-muted">…</button> from <section aria-label="Trajectory map" data-testid="trajectory-map" class="ui-safe-margins absolute z-10 flex flex-col border border-flight-backing-line bg-flight-backing right-4 top-14">…</section> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        93 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <button data-variant="ghost" aria-expanded="false" aria-controls="_r_1_" data-testid="map-toggle" class="ui-target inline-flex items-center rounded-ui-control depress transition-colors duration-100 select-none px-2.5 text-[11px] border-transparent bg-transparent hover:border-ui-line hover:text-ui-fg justify-between gap-3 border-0 font-tight font-semibold uppercase tracking-[0.14em] text-ui-muted">…</button> from <section aria-label="Trajectory map" data-testid="trajectory-map" class="ui-safe-margins absolute z-10 flex flex-col border border-flight-backing-line bg-flight-backing right-4 top-14">…</section> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+       at helpers.ts:91
+
+      89 | export async function tap(page: Page, id: string): Promise<void> {
+      90 |   await reveal(page, id);
+    > 91 |   await page.locator(byTestId(id)).click();
+         |                                    ^
+      92 | }
+      93 |
+      94 | /** True when the layout is the phone one — sheets rather than rails. */
+        at tap (/Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/helpers.ts:91:36)
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/staging.spec.ts:28:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/staging-both-real-staging--00867--shared-paused-clock-mobile-pixel-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/staging-both-real-staging--00867--shared-paused-clock-mobile-pixel-landscape/error-context.md
+
+  2) [iphone-landscape] › tests/e2e/staging.spec.ts:13:1 › both real staging bodies render and selection preserves the shared paused clock @mobile 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('[data-testid="select-super-heavy"]')
+        - locator resolved to <button role="tab" type="button" aria-selected="false" data-testid="select-super-heavy" class="ui-target relative flex items-center justify-center text-[12px] font-medium transition-colors duration-100 px-3 py-1.5 rounded-ui-control border border-transparent text-ui-muted hover:border-ui-line hover:text-ui-fg">Super Heavy</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <button aria-label="Menu" data-testid="open-menu" aria-keyshortcuts="Esc" data-variant="secondary" class="ui-target inline-flex items-center justify-center rounded-ui-control depress transition-colors duration-100 select-none px-3.5 text-[12px] gap-2 border border-ui-line bg-ui-bg hover:bg-ui-fg hover:text-ui-on-selected shrink-0 text-ui-fg aria-pressed:border-ui-line aria-pressed:bg-ui-selected aria-pressed:text-ui-on-selected">…</button> from <header class="absolute inset-x-0 top-0 z-20 box-content grid items-center border-b border-flight-backing-line bg-flight-backing pt-[env(safe-area-inset-top,0px)] text-ui-fg h-11 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-x-4 px-4">…</header> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <button aria-label="Menu" data-testid="open-menu" aria-keyshortcuts="Esc" data-variant="secondary" class="ui-target inline-flex items-center justify-center rounded-ui-control depress transition-colors duration-100 select-none px-3.5 text-[12px] gap-2 border border-ui-line bg-ui-bg hover:bg-ui-fg hover:text-ui-on-selected shrink-0 text-ui-fg aria-pressed:border-ui-line aria-pressed:bg-ui-selected aria-pressed:text-ui-on-selected">…</button> from <header class="absolute inset-x-0 top-0 z-20 box-content grid items-center border-b border-flight-backing-line bg-flight-backing pt-[env(safe-area-inset-top,0px)] text-ui-fg h-11 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-x-4 px-4">…</header> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        93 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <button aria-label="Menu" data-testid="open-menu" aria-keyshortcuts="Esc" data-variant="secondary" class="ui-target inline-flex items-center justify-center rounded-ui-control depress transition-colors duration-100 select-none px-3.5 text-[12px] gap-2 border border-ui-line bg-ui-bg hover:bg-ui-fg hover:text-ui-on-selected shrink-0 text-ui-fg aria-pressed:border-ui-line aria-pressed:bg-ui-selected aria-pressed:text-ui-on-selected">…</button> from <header class="absolute inset-x-0 top-0 z-20 box-content grid items-center border-b border-flight-backing-line bg-flight-backing pt-[env(safe-area-inset-top,0px)] text-ui-fg h-11 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-x-4 px-4">…</header> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+       at helpers.ts:91
+
+      89 | export async function tap(page: Page, id: string): Promise<void> {
+      90 |   await reveal(page, id);
+    > 91 |   await page.locator(byTestId(id)).click();
+         |                                    ^
+      92 | }
+      93 |
+      94 | /** True when the layout is the phone one — sheets rather than rails. */
+        at tap (/Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/helpers.ts:91:36)
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/staging.spec.ts:34:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/staging-both-real-staging--00867--shared-paused-clock-mobile-iphone-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/staging-both-real-staging--00867--shared-paused-clock-mobile-iphone-landscape/error-context.md
+
+  2 failed
+    [pixel-landscape] › tests/e2e/staging.spec.ts:13:1 › both real staging bodies render and selection preserves the shared paused clock @mobile 
+    [iphone-landscape] › tests/e2e/staging.spec.ts:13:1 › both real staging bodies render and selection preserves the shared paused clock @mobile 
+  3 passed (2.4m)

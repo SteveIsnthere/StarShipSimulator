@@ -13,6 +13,7 @@ import { Hud } from './Hud/Hud';
 import { TrajectoryCard } from './TrajectoryCard/TrajectoryCard';
 import { Controls } from './Controls/Controls';
 import { FirstFlight } from './FirstFlight/FirstFlight';
+import { FlightWorld } from './FlightWorld';
 import { useSessionState } from './session-context';
 
 /*
@@ -82,9 +83,7 @@ export function App() {
         sheet while one is open) so the ground and the vehicle on it are never
         under them: the camera reframes into the smaller box instead.
       */}
-      <div className="fixed inset-x-0 top-0 bottom-[var(--controls-bottom,0px)]">
-        <canvas ref={canvas} data-testid="world-canvas" className="block h-full w-full" />
-      </div>
+      <FlightWorld canvas={canvas} />
       <div className="pointer-events-none fixed inset-0 select-none [&>*]:pointer-events-auto">
         <StatusBar />
         <Hud />

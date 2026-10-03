@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (3 tests | 2 failed) 5ms
+     × retains and pays bounded proportional RCS while the automatic gimbal saturates 4ms
+     × does not credit requested gimbal torque before the actuator reaches it 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster delivered attitude authority > retains and pays bounded proportional RCS while the automatic gimbal saturates
+AssertionError: expected 800000 to be 200000 // Object.is equality
+
+- Expected
++ Received
+
+- 200000
++ 800000
+
+ ❯ tests/core/booster-command.test.ts:19:32
+     17|     const reserve=s.vehicle.rcsRunTimeRemaining;
+     18|     controlTranslation(s,100,.01,SUPER_HEAVY);
+     19|     expect(s.forces.rcsThrust).toBe(200000);
+       |                                ^
+     20|     expect(s.vehicle.rcsRunTimeRemaining).toBeCloseTo(reserve-.0025,12…
+     21|     expect(s.vehicle.gimbalPosition).toBe(6);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster delivered attitude authority > does not credit requested gimbal torque before the actuator reaches it
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-command.test.ts:41:32
+     39|     runBoosterAutopilot(s,1/120,SUPER_HEAVY);
+     40|     expect(s.autopilot.pitchControl).toBe(100);
+     41|     expect(s.status.rcsActive).toBe(true);
+       |                                ^
+     42|     expect(s.autopilot.rcsThrustCommand).toBe(C.rcsMaxThrust);
+     43|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  17:06:38
+   Duration  215ms (transform 77ms, setup 0ms, import 94ms, tests 5ms, environment 0ms)
+

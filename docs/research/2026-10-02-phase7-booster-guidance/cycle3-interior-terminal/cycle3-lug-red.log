@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (11 tests | 1 failed) 7ms
+     × accounts for measured rotational point acceleration in the commanded body target 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster finite descending terminal command > accounts for measured rotational point acceleration in the commanded body target
+AssertionError: expected 2.949759364128113 to be close to 0.029821300616586815, received difference is 2.919938063511526, but expected 0.0005
+ ❯ tests/core/booster-command.test.ts:90:51
+     88|     // Independent second difference of the actual rotated geometry. A…
+     89|     // the Taylor/coordinate roundoff bound is below1e-3m/s² for this …
+     90|     expect((points[0]!.x+points[1]!.x-2*x0)/h**2).toBeCloseTo(out.ax,3…
+       |                                                   ^
+     91|     expect((points[0]!.altitude+points[1]!.altitude-2*y0)/h**2).toBeCl…
+     92|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 passed (11)
+   Start at  19:40:58
+   Duration  225ms (transform 94ms, setup 0ms, import 115ms, tests 7ms, environment 0ms)
+

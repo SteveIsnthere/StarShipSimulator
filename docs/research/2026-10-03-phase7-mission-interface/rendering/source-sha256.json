@@ -1,0 +1,21 @@
+{
+  "src/app/debug.ts": "ad5734385b18d2928f753a29bcabd5f05eb1363737f123a94803453ca69632bf",
+  "src/ui/session/camera-follow.ts": "a17935cf11cc1bc8c77b8f8e2cef2a9365ec9f8625ae29ebedcb4099725e2fd5",
+  "src/ui/session/configure-flight.ts": "cc4bc541975fe8cdb39d4e9043769ef4e15e6fcc760aff345cb4dd88b2fbff09",
+  "src/ui/session/mission-controller.ts": "61426efaeabdade189e6169938fb04cf1d86452d34ca99e598c109e5a346897a",
+  "src/ui/session/scene.ts": "0d453b11635be8e8909fc178616557e637f03132de1171cbca449a99cfbb469f",
+  "src/ui/session/scene-vehicles.ts": "1390afc9247d564490392a8697c23462ed2b8727fa8179545315ec4edcb03f3f",
+  "src/ui/session/session.ts": "d11ec18b6c04566fb58ba529206fd2e90edcb2ba8bacfd35ecee8e9f4348ba59",
+  "src/ui/shell/App.tsx": "ac108521e05269f175aa4f7de7b43a5dc486cc0428c1c48bdc6ab59a7f8b4e96",
+  "src/ui/shell/FlightWorld.tsx": "fc173946d27d1e65fc0d0bd2db10269e4149428d8ba3a23b38de8cb085fe0797",
+  "src/ui/shell/BoosterEngineGroups.tsx": "f4d082f519dfdd53841180e4d07bfc8161b7f3d7c3f7986f1f8482b873ae7a12",
+  "src/ui/shell/Controls/ControlGroup.tsx": "ff95ca7c5d951dc2d6a84107598ea5d0eafeee2811469ce1327be23b5fd7890f",
+  "src/ui/shell/Hud/Hud.tsx": "54f9bee734132b510fef9a43568fd69c4fb9a6a4ee54b56d543bc96950b0a987",
+  "src/ui/shell/TrajectoryCard/TrajectoryCard.tsx": "c3faf64d3b0d0c196ba975a245e47090432e665cccb55298194fb448e25319af",
+  "src/view/booster.ts": "f3987dbb248db195263276b8cb227551fae87bf0cdfaedf99a0bdbab18ec93de",
+  "src/view/effects.ts": "65a28e18886c702a3217229346c99a4d7092c37ff8747867362cfac9773a495c",
+  "src/view/emissive-bell.ts": "dfd20f752dc9c7ea9a6988acb2c75ccc12d19de401774b63894c26afe747b0ca",
+  "tests/e2e/staging.spec.ts": "875eab799ae58754ae0c9b4f34380f27e46437f3aeb6d5fb757b659f5e8dafc3",
+  "tests/ui/mission-camera.test.ts": "b48ab44e827087e9d29b58d74eb7105ea18e0c04bd86ead4acd666fed76b903f",
+  "tests/view/booster.test.ts": "14cb94096fc830040ed6f7d75c65125c1421fac693ea84f655875e89ca190e7e"
+}

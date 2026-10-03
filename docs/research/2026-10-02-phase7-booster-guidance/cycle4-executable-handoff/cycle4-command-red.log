@@ -1,0 +1,128 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (22 tests | 5 failed) 2710ms
+     × observes the complete returned readiness command, paid slew and deadline 7ms
+     × pays discrete terminal ignition at live cadence for arbitrary countdown phases 1ms
+     × pays the executable live cutoff for fractional proposal 0.013 1ms
+     × pays the executable live cutoff for fractional proposal 0.25 2ms
+     × pays the executable live cutoff for fractional proposal 0.250001 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > observes the complete returned readiness command, paid slew and deadline
+AssertionError: expected { …(11) } to deeply equal { …(11) }
+
+- Expected
++ Received
+
+  {
+    "aftFinExtension": 50,
+    "frontFinExtension": 50,
+    "gimbalPointingDirection": 0.01,
+-   "gimbalPosition": -5,
++   "gimbalPosition": 0,
+    "propellantMass": 199988.27726809378,
+-   "rcsRunTimeRemaining": 24.997007029058157,
+-   "throttle": 74.79657994965588,
+-   "throttleCurrent": 99.5,
++   "rcsRunTimeRemaining": 25,
++   "throttle": 100,
++   "throttleCurrent": 100,
+    "vehicleInFlightMaxArea": 639,
+    "vehicleMass": 399988.2772680938,
+    "vehicleMomentOfInertia": 186436371.22292316,
+  }
+
+ ❯ tests/core/booster-forecast.test.ts:29:32
+     27|     expect(work.result.reached).toBe(true);
+     28|     expect(work.state.kinematics).toEqual(live.kinematics);
+     29|     expect(work.state.vehicle).toEqual(live.vehicle);
+       |                                ^
+     30|     expect(work.state.forces).toEqual(live.forces);
+     31|     expect(work.state.engines).toEqual(live.engines);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > pays discrete terminal ignition at live cadence for arbitrary countdown phases
+AssertionError: expected 0.1 to be 0.09166666666666666 // Object.is equality
+
+- Expected
++ Received
+
+- 0.09166666666666666
++ 0.1
+
+ ❯ tests/core/booster-forecast.test.ts:46:37
+     44|     for(const w of [defaultWork,fine])advanceBoosterForecast(w,16,adva…
+     45|     expect(defaultWork.result.reached).toBe(true);expect(fine.result.r…
+     46|     expect(defaultWork.result.time).toBe(fine.result.time);
+       |                                     ^
+     47|     expect(defaultWork.state).toEqual(fine.state);expect(defaultWork.r…
+     48|     expect(defaultWork.result.ignitionDraws).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > pays the executable live cutoff for fractional proposal 0.013
+AssertionError: expected 0.013 to be 0.016666666666666666 // Object.is equality
+
+- Expected
++ Received
+
+- 0.016666666666666666
++ 0.013
+
+ ❯ tests/core/booster-forecast.test.ts:64:46
+     62|       live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
+     63|     expect(live.autopilot.boosterPhase).toBe('coast');
+     64|     expect(work.state.world.environmentTime).toBe(live.world.environme…
+       |                                              ^
+     65|     expect(work.state.vehicle.propellantMass).toBe(live.vehicle.propel…
+     66|     expect(work.state.kinematics).toEqual(live.kinematics);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > pays the executable live cutoff for fractional proposal 0.25
+AssertionError: expected 0.25 to be 0.2583333333333333 // Object.is equality
+
+- Expected
++ Received
+
+- 0.2583333333333333
++ 0.25
+
+ ❯ tests/core/booster-forecast.test.ts:64:46
+     62|       live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
+     63|     expect(live.autopilot.boosterPhase).toBe('coast');
+     64|     expect(work.state.world.environmentTime).toBe(live.world.environme…
+       |                                              ^
+     65|     expect(work.state.vehicle.propellantMass).toBe(live.vehicle.propel…
+     66|     expect(work.state.kinematics).toEqual(live.kinematics);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > pays the executable live cutoff for fractional proposal 0.250001
+AssertionError: expected 0.250001 to be 0.2583333333333333 // Object.is equality
+
+- Expected
++ Received
+
+- 0.2583333333333333
++ 0.250001
+
+ ❯ tests/core/booster-forecast.test.ts:64:46
+     62|       live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
+     63|     expect(live.autopilot.boosterPhase).toBe('coast');
+     64|     expect(work.state.world.environmentTime).toBe(live.world.environme…
+       |                                              ^
+     65|     expect(work.state.vehicle.propellantMass).toBe(live.vehicle.propel…
+     66|     expect(work.state.kinematics).toEqual(live.kinematics);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 17 passed (22)
+   Start at  21:20:54
+   Duration  2.93s (transform 96ms, setup 0ms, import 119ms, tests 2.71s, environment 0ms)
+

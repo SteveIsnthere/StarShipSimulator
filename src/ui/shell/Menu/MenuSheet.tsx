@@ -129,7 +129,11 @@ export function MenuSheet({ fields, onFieldsChange, onShowInfo, onClose, returnF
             title="Fly"
             intro="Choose where the flight starts. It fills Flight setup; nothing flies until you press Start flight."
           >
-            <FlySection selectedId={fields.basedOn} onPick={pick} />
+            <FlySection selectedId={fields.basedOn} onPick={pick} onStartHotStage={() => {
+              onFieldsChange({ ...EMPTY_FIELDS });
+              session.startHotStage();
+              onClose();
+            }} />
           </MenuSection>
           <MenuSection
             id="setup"

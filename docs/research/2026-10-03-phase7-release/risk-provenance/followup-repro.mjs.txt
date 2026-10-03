@@ -1,0 +1,79 @@
+import {registerHooks, stripTypeScriptTypes} from 'node:module';
+import {readFileSync,existsSync} from 'node:fs';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+const root='/Users/stevewang/dev/StarShipSimulator-realism';
+registerHooks({resolve(specifier,context,next){
+ let s=specifier;
+ const alias=s.match(/^\$(core|app|ui|view|hud|audio)\/(.*)/);
+ if(alias)s=pathToFileURL(`${root}/src/${alias[1]}/${alias[2]}`).href;
+ if(s.startsWith('file:') || s.startsWith('.')){
+ const u=new URL(s,context.parentURL);
+ const p=fileURLToPath(u);
+ if(!existsSync(p) && existsSync(p+'.ts'))s=u.href+'.ts';
+ if(existsSync(p+'/index.ts'))s=u.href+'/index.ts';
+ }
+ return next(s,context);
+},load(url,context,next){
+ if(url.startsWith('file:') && url.endsWith('.ts'))return {format:'module',source:stripTypeScriptTypes(readFileSync(fileURLToPath(url),'utf8').replaceAll('import.meta.env.DEV','false')),shortCircuit:true};
+ return next(url,context);
+}});
+globalThis.window={matchMedia:()=>({matches:true}),localStorage:{getItem:()=>null}};
+const {createSession}=await import(`${root}/src/ui/session/session.ts`);
+const {getScenario}=await import(`${root}/src/core/scenarios.ts`);
+const {execFileSync}=await import('node:child_process');
+const {default:assert}=await import('node:assert/strict');
+const target='d843b187acd1b982968dc226145f321dc24052be';
+assert.equal(execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),target);
+console.log('source',target);
+const DT=1/120;
+const {toggleRandomFailure}=await import(`${root}/src/core/control/commands.ts`);
+const {step}=await import(`${root}/src/core/step.ts`);
+const {createScenarioVehicle}=await import(`${root}/src/core/scenarios.ts`);
+const snapshot=s=>structuredClone({rng:s.rng,world:s.world,engines:s.engines,vehicle:s.vehicle,kinematics:s.kinematics,forces:s.forces,status:s.status,failures:{...s.failures,randomFailure:undefined}});
+const cutoff={originTime:0,shutdownAt:20,coastPitch:0,handoff:{x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true}};
+for(const initial of [false,true]){
+ const f=createScenarioVehicle(getScenario('rtls'),123);f.state.failures.randomFailure=initial;f.state.autopilot.autoLandOn=true;
+ const s=step(f.state,DT,{},f.vehicle),oldJob=s.autopilot.boosterPrediction,oldOrigin=structuredClone(oldJob.origin);
+ // Ensure realized failure and pending engine state remain intact at the command boundary.
+ s.engines.failed[32]=true;s.engines.ignitionCountdown[31]=0.7;
+ s.autopilot.boosterReturnPlan=structuredClone(cutoff);
+ const before=snapshot(s);toggleRandomFailure(s);
+ assert.equal(s.failures.randomFailure,!initial);assert.equal(s.autopilot.boosterPrediction,undefined);assert.equal(s.autopilot.boosterReturnPlan,undefined);
+ assert.deepEqual(snapshot(s),before);assert.deepEqual(oldJob.origin,oldOrigin);
+ const next=step(s,DT,{},f.vehicle);assert.equal(next.autopilot.boosterPrediction.origin.failures.randomFailure,!initial);
+ console.log('direct direction',initial,'clears pending+cutoff; physical/RNG/realized-failure unchanged; next origin matches');
+}
+for(const mode of ['standalone','selected-booster','selected-ship']){
+ const session=createSession();
+ if(mode==='standalone')session.startFlight(getScenario('rtls'));
+ else {session.startHotStage(123);session.stage();for(let i=0;i<240 && session.mission.phase==='attached';i++)session.advance(DT);assert.equal(session.mission.phase,'separated');session.selectVehicle('super-heavy');}
+ session.emit({type:'autoLand'});session.advance(DT);if(mode==='selected-ship')session.selectVehicle('ship');
+ for(const initial of [false,true]){
+  const booster=session.mission?.booster ?? session.loop.state,old=booster.autopilot.boosterPrediction,oldOrigin=structuredClone(old.origin);
+  assert.equal(old.origin.failures.randomFailure,initial);
+  booster.autopilot.boosterReturnPlan=structuredClone(cutoff);
+  const before=snapshot(booster),shipBefore=session.mission?snapshot(session.mission.ship):undefined;
+  session.toggleRandomFailure();
+  assert.equal(booster.failures.randomFailure,!initial);assert.equal(booster.autopilot.boosterPrediction,undefined);assert.equal(booster.autopilot.boosterReturnPlan,undefined);
+  assert.deepEqual(snapshot(booster),before);assert.deepEqual(old.origin,oldOrigin);
+  if(session.mission){assert.equal(session.mission.ship.failures.randomFailure,!initial);assert.deepEqual(snapshot(session.mission.ship),shipBefore);}
+  session.advance(DT);const next=session.mission?.booster ?? session.loop.state;assert.equal(next.autopilot.boosterPrediction.origin.failures.randomFailure,!initial);
+  console.log('actual session',mode,'direction',initial,'pending+cutoff clear; physical/RNG unchanged; next origin matches');
+ }
+}
+// Independently obtain an actual accepted plan, without injecting candidate, clock or flight state.
+const accepted=createSession();accepted.startFlight(getScenario('rtls'));accepted.emit({type:'autoLand'});
+for(let i=0;i<3000 && !accepted.loop.state.autopilot.boosterReturnPlan;i++)accepted.advance(DT);
+assert.ok(accepted.loop.state.autopilot.boosterReturnPlan);
+const plan=structuredClone(accepted.loop.state.autopilot.boosterReturnPlan),before=snapshot(accepted.loop.state);
+accepted.toggleRandomFailure();assert.equal(accepted.loop.state.autopilot.boosterReturnPlan,undefined);assert.equal(accepted.loop.state.autopilot.boosterPrediction,undefined);assert.deepEqual(snapshot(accepted.loop.state),before);
+accepted.advance(DT);assert.equal(accepted.loop.state.autopilot.boosterPrediction.origin.failures.randomFailure,true);
+console.log('actual accepted cutoff cleared',JSON.stringify(plan));
+// Retention is correct while the source policy is unchanged.
+const unchanged=createSession();unchanged.startFlight(getScenario('rtls'));unchanged.emit({type:'autoLand'});unchanged.advance(DT);
+const oldOrigin=unchanged.loop.state.autopilot.boosterPrediction.origin;unchanged.advance(DT);
+assert.equal(unchanged.loop.state.autopilot.boosterPrediction.origin,oldOrigin);assert.equal(oldOrigin.failures.randomFailure,unchanged.loop.state.failures.randomFailure);
+console.log('unchanged-policy retention control passes');
+// Ship command state gains no optional planner keys or resource changes.
+const ship=createSession(),shipBefore=snapshot(ship.loop.state);ship.toggleRandomFailure();assert.deepEqual(snapshot(ship.loop.state),shipBefore);assert.equal(Object.hasOwn(ship.loop.state.autopilot,'boosterPrediction'),false);assert.equal(Object.hasOwn(ship.loop.state.autopilot,'boosterReturnPlan'),false);
+console.log('protected Ship command shape/resource control passes');

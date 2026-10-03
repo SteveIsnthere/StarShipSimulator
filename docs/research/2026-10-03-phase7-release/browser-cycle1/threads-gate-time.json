@@ -1,0 +1,15 @@
+{
+  "exitCode": 0,
+  "seconds": 324.11,
+  "budgetSeconds": 300,
+  "budgetMet": false,
+  "unitTests": 2270,
+  "files": 193,
+  "unitSeconds": 73.56,
+  "coverageSeconds": 219.22,
+  "smokePasses": 13,
+  "smokeSeconds": 17.5,
+  "subpathPasses": 5,
+  "subpathSeconds": 2.9,
+  "decision": "reject threads: equivalent full assertion/floor outcome, no budget improvement"
+}

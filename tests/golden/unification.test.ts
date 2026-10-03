@@ -43,6 +43,13 @@
  *     P6b.1b  Earth rotation and common aim      ALL EIGHT: turning-ground dynamics
  *     P6b.5   current forces and throttle demand ALL EIGHT: freshness; isolated RTLS motion
  *     P6b.F   approved broadside fallback        ALL EIGHT: restores model, retains Task5
+ *     P7.3    actual booster capture guidance    eight Ship unchanged; two actual booster fixtures added
+ *     P7.5    model-aware operator utility modes all ten unchanged; return law retains priority
+ *     P7.5s   Stage cancels non-centre engines    all ten unchanged; only the two-body mission requests Stage
+ *     P7.6c   separated mission COM continuation all ten unchanged; standalone runtime closure byte-identical
+ *     P7.6r   ignition-risk preference veto      all ten unchanged; no recorded preference enabled
+ *     P7.6s   permanent centre Stage failure     all ten unchanged; only attached mission status changes
+ *     P7.6p   risk-toggle forecast provenance    all ten unchanged; recorded flights never toggle risk
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle

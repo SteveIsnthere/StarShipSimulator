@@ -1,0 +1,10 @@
+{
+  rotating120ticksMaxPositionError: 1.1920928955078125e-7,
+  maxVelocityError: 0
+}
+live/replay physical fields exact true
+interleaved replay deterministic true
+rotating tilted catch 0.017453292519943295 true false 120
+rotating tilted catch -0.017453292519943295 true false 120
+resting ground ship 25 0 true
+resting ground super-heavy 35.5 0 true

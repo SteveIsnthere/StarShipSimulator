@@ -1,0 +1,92 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (14 tests | 1 failed) 42ms
+     × uses delivered gimbal for translation while paid torque control keeps the terminal hull upright 11ms
+ ❯ |unit| tests/core/booster-prediction.test.ts (18 tests | 1 failed) 162ms
+     × does not mutate a prediction shared by a cloned previous frame and deterministically publishes a completed result 112ms
+ ❯ |unit| tests/core/booster-terminal-envelope.test.ts (9 tests | 3 failed) 159ms
+     × restores upright attitude before a slow near-box crossing instead of chasing zero lateral error with hull tilt 2ms
+     × physically catches the recorded paid ready input booster-sep with upright, bounded point motion 68ms
+     × physically catches the recorded paid ready input rtls with upright, bounded point motion 34ms
+ ❯ |unit| tests/core/booster-planning-latency.test.ts (2 tests | 2 failed) 3931ms
+     × publishes a source-matched physically caught future cutoff for booster-sep 3000ms
+     × publishes a source-matched physically caught future cutoff for rtls 930ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster finite descending terminal command > uses delivered gimbal for translation while paid torque control keeps the terminal hull upright
+AssertionError: expected -0.5505642729111494 to be greater than 0
+ ❯ tests/core/booster-command.test.ts:119:33
+    117|     const reserve=s.vehicle.rcsRunTimeRemaining;
+    118|     for(let i=0;i<120;i++)s=advanceMechanics(s,1/120,(state,dt,model)=…
+    119|     expect(s.kinematics.speedX).toBeGreaterThan(0);
+       |                                 ^
+    120|     expect(Math.abs(s.kinematics.pitch)).toBeLessThan(.5*Math.PI/180);
+    121|     expect(Math.abs(s.vehicle.gimbalPosition)).toBeGreaterThan(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  |unit| tests/core/booster-planning-latency.test.ts > paid return planning at production receipt/work timing > publishes a source-matched physically caught future cutoff for booster-sep
+ FAIL  |unit| tests/core/booster-planning-latency.test.ts > paid return planning at production receipt/work timing > publishes a source-matched physically caught future cutoff for rtls
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-planning-latency.test.ts:28:44
+     26|     expect(s.kinematics).toEqual(kinematics);expect(s.vehicle.propella…
+     27|     expect(s.rng.counters).toEqual(rng);
+     28|     expect(j.done).toBe(true);expect(plan).toBeDefined();
+       |                                            ^
+     29|     expect(plan!.originTime).toBe(j.origin.world.environmentTime);
+     30|     expect(plan!.shutdownAt).toBeGreaterThan(s.world.environmentTime);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > does not mutate a prediction shared by a cloned previous frame and deterministically publishes a completed result
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-prediction.test.ts:234:20
+    232|     expect(work).toBeLessThanOrEqual(4000);
+    233|     const result=b.autopilot.boosterPrediction?.published;
+    234|     expect(result).toBeDefined();expect(result!.forecast.reached).toBe…
+       |                    ^
+    235|     expect(result!.forecast.fuel).toBeLessThan(a.vehicle.propellantMas…
+    236|     expect(b.rng).toEqual(a.rng);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > restores upright attitude before a slow near-box crossing instead of chasing zero lateral error with hull tilt
+AssertionError: expected 68.7549354156988 to be less than 0
+ ❯ tests/core/booster-terminal-envelope.test.ts:77:38
+     75|     s.atmosphere.airPressure=101.325;
+     76|     runBoosterPolicy(s,1/120,SUPER_HEAVY);
+     77|     expect(s.autopilot.pitchControl).toBeLessThan(0);
+       |                                      ^
+     78|     expect(s.autopilot.boosterTerminalMissed).not.toBe(true);
+     79|     expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > physically catches the recorded paid ready input booster-sep with upright, bounded point motion
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > physically catches the recorded paid ready input rtls with upright, bounded point motion
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-terminal-envelope.test.ts:86:29
+     84|       previous=s;s=advanceMechanics(s,1/120,runBoosterPolicy,SUPER_HEA…
+     85|     }
+     86|     expect(s.status.landed).toBe(true);expect(s.status.onTheGround).to…
+       |                             ^
+     87|     expect(s.vehicle.propellantMass).toBeGreaterThan(0);
+     88|     expect(Object.values(s.failures).some(Boolean)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+
+ Test Files  4 failed | 1 passed (5)
+      Tests  7 failed | 61 passed (68)
+   Start at  22:15:44
+   Duration  7.37s (transform 469ms, setup 0ms, import 720ms, tests 11.37s, environment 0ms)
+

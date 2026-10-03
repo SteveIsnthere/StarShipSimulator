@@ -1,7 +1,7 @@
 /** Continuous, authored nozzle-frame exhaust; geometry never writes simulation state. */
 import { BufferImageSource, Container, Mesh, MeshGeometry, Texture } from 'pixi.js';
 import type { SimState } from '$core/state';
-import { RAPTORS } from '$core/constants';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
 import { EFFECTS, softParticleProfile } from './particles';
 import { lerpColourFast } from './colour';
 import { plumeScaleFactor, plumeSpreadFactor } from './atmosphere-look';
@@ -70,11 +70,11 @@ function createBellTexture(): Texture {
     format: 'rgba8unorm', alphaMode: 'premultiplied-alpha', scaleMode: 'linear' }) });
 }
 
-export function createEmissiveBell(): EmissiveBell {
+export function createEmissiveBell(model: VehicleDefinition = SHIP): EmissiveBell {
   const container = new Container();
   const texture = createBellTexture();
-  const ages = new Float64Array(RAPTORS.length);
-  const meshes = RAPTORS.map(() => {
+  const ages = new Float64Array(model.engines.length);
+  const meshes = model.engines.map(() => {
     const indices = new Uint32Array((BELL_ROWS - 1) * (COLUMNS - 1) * 6);
     let offset = 0;
     for (let row = 0; row < BELL_ROWS - 1; row++) {
@@ -96,10 +96,10 @@ export function createEmissiveBell(): EmissiveBell {
     container,
     update(state, scale, nozzleX, nozzleY, worldDt) {
       let running = 0;
-      for (let i = 0; i < RAPTORS.length; i++) {
+      for (let i = 0; i < model.engines.length; i++) {
         if (state.engines.running[i] && !state.engines.failed[i]) running++;
       }
-      const power = running / 3 * state.vehicle.throttleCurrent / 100;
+      const power = running / (model.id === 'ship' ? 3 : model.ignitionGroup.length) * state.vehicle.throttleCurrent / 100;
       const reach = PLUME_REACH_FLOOR + (1 - PLUME_REACH_FLOOR) * power;
       const expansion = plumeScaleFactor(state.atmosphere.airPressure);
       const spread = plumeSpreadFactor(state.atmosphere.airPressure);
@@ -112,9 +112,10 @@ export function createEmissiveBell(): EmissiveBell {
         writeBellGeometry(mesh.geometry.positions, mesh.geometry.uvs, expansion, spread, reach, ages[i]!);
         mesh.geometry.getBuffer('aPosition').update();
         mesh.geometry.getBuffer('aUV').update();
-        const mount = RAPTORS[i]!.offAxis * scale;
+        const mount = model.engines[i]!.offAxis * scale;
         mesh.position.set(nozzleX + Math.cos(pitch) * mount, nozzleY + Math.sin(pitch) * mount);
-        mesh.rotation = pitch;
+        mesh.rotation = model.id === 'super-heavy' && model.engines[i]!.gimballed
+          ? state.vehicle.gimbalPointingDirection : pitch;
         mesh.scale.set(scale);
       }
     },

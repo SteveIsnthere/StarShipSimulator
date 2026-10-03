@@ -1,0 +1,5 @@
+# Stage engine ownership Bug fix
+
+Base514af44. New RED mission witness commands all33actual booster engines and reaches a mix of running and pending non-centre engines. Stage previously left both kinds active despite its specified3-centre command. The fix invokes existing shutdown on non-centre engines once when Stage is first accepted, preserving earlier paid impulse/fuel, real centre/Ship delays, failure/RNG and physical release. The witness also asserts incoming purity and subsequent3booster/6Ship actual separation.
+
+Build/lint exit0, before/after truth14/14IN.70focused checks across mission/core/session, all ten golden replays, audit and independent Ship pipeline proofs pass. Prediction confirmed: every existing Ship/booster golden unchanged because none runs a two-body Stage request. No fixture/digest/tolerance or physical authority changed. Audit rowP7.5s. Fresh independent whole-phase release review remains required before merge; this checkpoint is not release approval. Next both actual rendered bodies/camera, catch presentation, editor capacity and real browser witnesses.

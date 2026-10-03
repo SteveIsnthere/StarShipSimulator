@@ -1,0 +1,63 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-prediction.test.ts (9 tests | 2 failed) 45ms
+     × proposes an interior from two valid same-source responses before spending a wide probe 3ms
+     × cannot publish a coarse caught state and restarts fine validation from its original ready input 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > proposes an interior from two valid same-source responses before spending a wide probe
+AssertionError: expected 5.2 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 5.2
+
+ ❯ tests/core/booster-prediction.test.ts:89:53
+     87|     j.rollout.done=true;j.rollout.result={...f,rangeError:200};j.rollo…
+     88|     advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy…
+     89|     expect(s.autopilot.boosterPrediction!.duration).toBe(5);
+       |                                                     ^
+     90|     expect(s.autopilot.boosterPrediction!.high).toBeUndefined();
+     91|     expect(s.autopilot.boosterReturnPlan).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > cannot publish a coarse caught state and restarts fine validation from its original ready input
+AssertionError: expected { rng: { seed: 123, …(1) }, …(10) } to deeply equal { rng: { seed: 123, …(1) }, …(10) }
+
+- Expected
++ Received
+
+@@ -20,11 +20,10 @@
+      "boostBackDirection": 0,
+      "boostBackInitCompleted": false,
+      "boosterCoastPitch": 0,
+      "boosterFallTime": 11.85,
+      "boosterFinControl": -0.006103515625,
+-     "boosterForecastHandoff": true,
+      "boosterPhase": "coast",
+      "decelerationStageEstDuration": 0,
+      "demoAutoLandOn": false,
+      "deorbitBurnCompleted": false,
+      "deorbitBurnStarted": false,
+
+ ❯ tests/core/booster-prediction.test.ts:105:32
+    103|     const next=s.autopilot.boosterPrediction!;
+    104|     expect(next.stage).toBe('validate');expect(next.rollout.step).toBe…
+    105|     expect(next.rollout.state).toEqual(ready);
+       |                                ^
+    106|     expect(next.rollout.state).not.toBe(ready);
+    107|     expect(next.rollout.state.status.landed).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 7 passed (9)
+   Start at  20:14:04
+   Duration  278ms (transform 106ms, setup 0ms, import 127ms, tests 45ms, environment 0ms)
+

@@ -18,6 +18,7 @@
  */
 import type { SimState } from '$core/state';
 import { step } from '$core/step';
+import { SHIP,type VehicleDefinition } from '$core/vehicle';
 
 /**
  * How often a state is sampled, in steps. 60 at 120 Hz is 2 Hz.
@@ -33,7 +34,7 @@ export const SAMPLE_EVERY = 60;
 export const GOLDEN_DT = 1 / 120;
 
 /** One sampled instant, flattened to `path -> value` for diffable output. */
-export type Sample = Record<string, number | boolean | null | undefined>;
+export type Sample = Record<string, number | boolean | string | null | undefined>;
 
 /**
  * A recorded flight.
@@ -66,7 +67,7 @@ export interface Golden {
   /** Names of the fields that vary, in sample-column order. */
   readonly keys: readonly string[];
   /** One row per sample, values in `keys` order. */
-  readonly rows: ReadonlyArray<ReadonlyArray<number | boolean | null | undefined>>;
+  readonly rows: ReadonlyArray<ReadonlyArray<number | boolean | string | null | undefined>>;
 }
 
 /** Rebuild the full per-sample view a comparison needs. */
@@ -108,15 +109,19 @@ export function record(
   initial: SimState,
   steps: number,
   setup: string,
+  options: {model?:VehicleDefinition;sample?:(state:SimState)=>Sample;unionKeys?:boolean} = {},
 ): Golden {
-  const samples: Sample[] = [flattenState(initial)];
+  const sample=options.sample ?? flattenState;
+  const samples: Sample[] = [sample(initial)];
   let s = initial;
   for (let i = 1; i <= steps; i++) {
-    s = step(s, GOLDEN_DT);
-    if (i % SAMPLE_EVERY === 0) samples.push(flattenState(s));
+    s = step(s, GOLDEN_DT,{},options.model ?? SHIP);
+    if (i % SAMPLE_EVERY === 0) samples.push(sample(s));
   }
 
-  const allKeys = Object.keys(samples[0]!).sort();
+  const allKeys = options.unionKeys
+    ? [...new Set(samples.flatMap(value=>Object.keys(value)))].sort()
+    : Object.keys(samples[0]!).sort();
   const constant: Sample = {};
   const keys: string[] = [];
   for (const key of allKeys) {

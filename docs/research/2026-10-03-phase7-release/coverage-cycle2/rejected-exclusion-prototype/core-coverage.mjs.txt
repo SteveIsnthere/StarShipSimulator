@@ -1,0 +1,102 @@
+/** Coverage repeats only tests that can measure core; the full unit stage stays intact. */
+import { readFileSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { builtinModules } from 'node:module';
+import { relative, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
+import ts from 'typescript';
+
+const ROOT = resolve(import.meta.dirname, '..');
+const CONFIGS = ['vitest.config.ts', 'tsconfig.json', 'tests/setup-dom.ts', 'package.json', 'package-lock.json'];
+const hash = (file) => createHash('sha256').update(readFileSync(file)).digest('hex');
+const builtins = new Set(builtinModules.map(name => name.replace(/^node:/, '')));
+
+/** Conservative closure: type imports count; unresolved/computed imports retain the test. */
+export function inspectCoverageRoot(root, file, extras = []) {
+  const configPath = resolve(root, 'tsconfig.json');
+  const config = ts.readConfigFile(configPath, ts.sys.readFile);
+  const options = ts.parseJsonConfigFileContent(config.config ?? {}, ts.sys, root).options;
+  // Vitest executes kit source, whereas the application's tsc reads its declaration build.
+  options.paths = { ...options.paths, '@ui': ['src/ui/kit/index.ts'], '@ui/*': ['src/ui/kit/*'] };
+  const dependencies = {};
+  let unsafe = Boolean(config.error);
+  const visit = (path) => {
+    const name = relative(root, path).replaceAll('\\', '/');
+    if (name.startsWith('../') || name === '..') { unsafe = true; return; }
+    if (name.startsWith('src/core/')) unsafe = true;
+    if (dependencies[name] !== undefined) return;
+    if (!existsSync(path)) { unsafe = true; return; }
+    dependencies[name] = hash(path);
+    if (path.endsWith('.json')) return;
+    const source = ts.createSourceFile(path, readFileSync(path, 'utf8'), ts.ScriptTarget.Latest, true);
+    const imports = new Set();
+    const add = (value) => {
+      if (value && ts.isStringLiteralLike(value)) imports.add(value.text);
+      else unsafe = true;
+    };
+    const walk = (node) => {
+      if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) {
+        if (node.moduleSpecifier) add(node.moduleSpecifier);
+      }
+      if (ts.isImportEqualsDeclaration(node) && ts.isExternalModuleReference(node.moduleReference)) {
+        add(node.moduleReference.expression);
+      }
+      if (ts.isCallExpression(node) && (node.expression.kind === ts.SyntaxKind.ImportKeyword ||
+        (ts.isIdentifier(node.expression) && node.expression.text === 'require'))) add(node.arguments[0]);
+      if (ts.isCallExpression(node) && node.expression.getText(source).startsWith('import.meta.glob')) unsafe = true;
+      ts.forEachChild(node, walk);
+    };
+    walk(source);
+    for (const specifier of imports) {
+      if (specifier.startsWith('node:') || builtins.has(specifier)) continue;
+      // Assets are data, never executable TypeScript/JavaScript modules.
+      if (/\.(css|png|svg|jpg|webp|woff2?|frag|vert)(\?.*)?$/.test(specifier)) continue;
+      const found = ts.resolveModuleName(specifier, path, options, ts.sys).resolvedModule;
+      if (!found) { unsafe = true; continue; }
+      if (found.resolvedFileName.includes('/node_modules/')) continue;
+      let target = resolve(found.resolvedFileName);
+      // TypeScript may substitute build-sw.d.mts for the executable .mjs.
+      // Seal the runtime module, never just its declaration.
+      if (/\.d\.(ts|mts|cts)$/.test(target)) {
+        const extension = target.endsWith('.d.mts') ? '.mjs' : target.endsWith('.d.cts') ? '.cjs' : '.js';
+        const runtime = target.replace(/\.d\.(ts|mts|cts)$/, extension);
+        if (!existsSync(runtime)) { unsafe = true; continue; }
+        visit(target);
+        target = runtime;
+      }
+      if (relative(root, target).startsWith('..')) { unsafe = true; continue; }
+      visit(target);
+    }
+  };
+  visit(resolve(root, file));
+  for (const extra of [...CONFIGS, ...extras]) visit(resolve(root, extra));
+  return { unsafe, dependencies };
+}
+
+/** An audited exclusion expires on any dependency/configuration change, including new imports. */
+export function coverageExclusions(root, certificates) {
+  return certificates.filter(certificate => {
+    const current = inspectCoverageRoot(root, certificate.file, certificate.extras);
+    if (current.unsafe) return false;
+    const names = Object.keys(current.dependencies).sort();
+    const before = Object.keys(certificate.dependencies).sort();
+    return JSON.stringify(names) === JSON.stringify(before) &&
+      names.every(name => current.dependencies[name] === certificate.dependencies[name]);
+  }).map(certificate => certificate.file);
+}
+
+export function auditedCoverageExclusions(root = ROOT) {
+  const certificates = JSON.parse(readFileSync(resolve(root, 'tests/core-coverage-exclusions.json'), 'utf8'));
+  return coverageExclusions(root, certificates);
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const exclusions = auditedCoverageExclusions();
+  console.log(`coverage: ${exclusions.length} audited core-free roots stay in the complete unit stage only`);
+  const result = spawnSync(process.execPath, [resolve(ROOT, 'node_modules/vitest/vitest.mjs'),
+    'run', '--coverage', '--testTimeout=120000', '--reporter=default', '--reporter=json',
+    '--outputFile.json=coverage/test-results.json',
+  ], { cwd: ROOT, stdio: 'inherit', env: { ...process.env, STARSHIP_CORE_COVERAGE: '1' } });
+  process.exit(result.status ?? 1);
+}

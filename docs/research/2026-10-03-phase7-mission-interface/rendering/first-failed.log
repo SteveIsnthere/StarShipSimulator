@@ -1,0 +1,34 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/booster.test.ts (3 tests | 1 failed) 25ms
+     × draws its 71m hull and four real upper fins at the physical pose 7ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/booster.test.ts > the actual booster body and engine plane > draws its 71m hull and four real upper fins at the physical pose
+AssertionError: expected 9.12 to be 9 // Object.is equality
+
+- Expected
++ Received
+
+- 9
++ 9.12
+
+ ❯ tests/view/booster.test.ts:22:24
+     20|     const hull = body.container.getChildByLabel('booster-hull')!;
+     21|     expect(hull.height).toBe(71);
+     22|     expect(hull.width).toBe(9);
+       |                        ^
+     23|     expect(body.container.x).toBeCloseTo(400 + 20 * viewport.scale);
+     24|     expect(body.container.rotation).toBe(0.2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 87 passed (88)
+   Start at  00:28:44
+   Duration  1.98s (transform 1.03s, setup 0ms, import 2.59s, tests 1.69s, environment 663ms)
+

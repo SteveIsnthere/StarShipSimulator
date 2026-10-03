@@ -30,6 +30,8 @@ export interface DebugPresentation {
   worldDt?: number;
   /** On-demand count of actual visible continuous-engine meshes. */
   bell?: { visibleMounts: number };
+  /** Actual rendered body bounds, available only on demand. */
+  bodies?: readonly { id: string; x: number; y: number; rotation: number; width: number; height: number }[];
   /** On-demand particle statistics, produced by the presentation layer. */
   particles?: readonly Readonly<Record<string, number | string>>[];
 }
@@ -70,6 +72,8 @@ export interface SimDebugDeps {
   setPaused(paused: boolean): void;
   /** Run per step, as the app's frame loop would (camera, recorder). */
   onStep?(state: SimState): void;
+  /** Canonical selected-model/shared-mission step, including its observers. */
+  advanceStep?(): void;
   presentation?(): DebugPresentation;
   setParticlesVisible?(visible: boolean): void;
 }
@@ -137,6 +141,10 @@ export function createSimDebug(deps: SimDebugDeps): SimDebug {
     step(n) {
       const loop = live();
       for (let i = 0; i < n; i++) {
+        if (deps.advanceStep) {
+          deps.advanceStep();
+          continue;
+        }
         loop.previous = loop.state;
         loop.state = stepCore(loop.state, DT);
         loop.totalSteps += 1;

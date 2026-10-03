@@ -1,0 +1,6 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/ui/mission-camera.test.ts(10,16): error TS2352: Conversion of type '{ viewport: Viewport; camera: CameraState; followAltitude(): void; }' to type 'ViewApp' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ viewport: Viewport; camera: CameraState; followAltitude(): void; }' is missing the following properties from type 'ViewApp': app, layers, resize, zoom, and 2 more.

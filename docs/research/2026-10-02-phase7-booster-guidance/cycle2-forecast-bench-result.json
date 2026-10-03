@@ -1,0 +1,44 @@
+{
+  "capturedLiveTime": 230.84166666666667,
+  "rows": [
+    {
+      "pitch": -0.30000000000000565,
+      "milliseconds": 89.17029200000002,
+      "reached": true,
+      "rangeError": 2610.812788721174,
+      "time": 111.04435099334206,
+      "fuel": 124910.55097748945,
+      "speedX": -21.2078569347683,
+      "speedY": -11.725767730830823,
+      "steps": 725,
+      "ignitionDraws": 55,
+      "failed": false
+    },
+    {
+      "pitch": -0.2999999999999985,
+      "milliseconds": 73.82279100000005,
+      "reached": true,
+      "rangeError": 1345.8987923003733,
+      "time": 112.53332861427076,
+      "fuel": 122378.24776219144,
+      "speedX": -26.709897605001583,
+      "speedY": -1.9775004538549643,
+      "steps": 747,
+      "ignitionDraws": 55,
+      "failed": false
+    },
+    {
+      "pitch": -0.2999999999999993,
+      "milliseconds": 81.98350000000005,
+      "reached": true,
+      "rangeError": 2865.3680678009987,
+      "time": 112.02011036892345,
+      "fuel": 121826.1151836764,
+      "speedX": -26.266333304858996,
+      "speedY": -1.939992686316891,
+      "steps": 741,
+      "ignitionDraws": 68,
+      "failed": false
+    }
+  ]
+}

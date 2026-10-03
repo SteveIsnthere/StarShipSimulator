@@ -23,6 +23,10 @@
  * is the difference between a curve that works and one that works on paper.
  */
 import { describe, expect, it } from 'vitest';
+import { Graphics, Texture, TilingSprite } from 'pixi.js';
+import { createDistantEarth } from '$view/distant-earth';
+import { horizonSagittaFraction } from '$view/atmosphere-look';
+import { horizonCurve } from '$view/horizon';
 import {
   compressedScrollSpeed,
   COMPRESSED_SPAN,
@@ -293,5 +297,27 @@ describe('the ground band is a plane, not a wall', () => {
   it('foreshortens', () => {
     expect(GROUND_FORESHORTENING).toBeLessThan(1);
     expect(GROUND_FORESHORTENING).toBeGreaterThan(0);
+  });
+});
+
+
+describe('textured curved ground clipping', () => {
+  it.each([47, 120, 720])('keeps texture below the actual curve with a %spx world', height => {
+    const earth = createDistantEarth({ mottle: Texture.WHITE, haze: Texture.WHITE, limb: Texture.WHITE });
+    const viewport = computeViewport(750, height, vehicleHeight, 1, 40000);
+    earth.update(viewport, 40000, 0, 0);
+    const texture = earth.container.children.find(child => child instanceof TilingSprite) as TilingSprite;
+    const mask = texture.mask as Graphics;
+    expect(mask).toBeInstanceOf(Graphics);
+    const bow = Math.round(horizonSagittaFraction(40000) * viewport.width);
+    for (const u of [0.35, 0.5, 0.65]) {
+      const x = -viewport.width + viewport.width * 3 * u;
+      const boundary = horizonCurve(u, bow);
+      expect(mask.containsPoint({ x, y: boundary - 2 }), 'texture must not flatten the sky above the bow').toBe(false);
+      expect(mask.containsPoint({ x, y: boundary + 2 }), 'visible ground must remain textured even in a short world').toBe(true);
+    }
+    const fill = earth.container.children.find(child => child instanceof Graphics && child !== mask && child.context === mask.context) as Graphics;
+    expect(fill.includeInBuild, 'the visible fallback band must not itself become the mask').toBe(true);
+    earth.container.destroy({ children: true });
   });
 });

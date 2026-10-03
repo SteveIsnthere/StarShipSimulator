@@ -1,0 +1,59 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/hot-staging.test.ts (10 tests | 3 failed) 55ms
+     × manufactures no release impulse: COM momentum and angular momentum match the paid aggregate 9ms
+     × keeps a no-thrust stack attached with fixed hull gap and zero rotational impulse 2ms
+     × reports rotational constraint load at each physical body rather than copying aggregate g 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > manufactures no release impulse: COM momentum and angular momentum match the paid aggregate
+AssertionError: expected 1133.3786495563254 to be close to 1132.625426098072, received difference is 0.7532234582533874, but expected 5e-11
+ ❯ tests/core/hot-staging.test.ts:152:65
+    150|     const mb = released.booster.vehicle.vehicleMass, ms = released.shi…
+    151|     const bk = released.booster.kinematics, sk = released.ship.kinemat…
+    152|     expect((mb * bk.speedX + ms * sk.speedX) / properties.mass).toBeCl…
+       |                                                                 ^
+    153|     expect((mb * bk.speedY + ms * sk.speedY) / properties.mass).toBeCl…
+    154|     const b = bodyMassPose(released.booster, SUPER_HEAVY), s = bodyMas…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > keeps a no-thrust stack attached with fixed hull gap and zero rotational impulse
+AssertionError: expected 1131.2028924206184 to be close to 1129.9880039353914, received difference is 1.214888485226993, but expected 5e-11
+ ❯ tests/core/hot-staging.test.ts:181:8
+    179|     expect((m.booster.vehicle.vehicleMass * m.booster.kinematics.speedX
+    180|       + m.ship.vehicle.vehicleMass * m.ship.kinematics.speedX) / prope…
+    181|       .toBeCloseTo(m.aggregate.kinematics.speedX, 10);
+       |        ^
+    182|     expect(m.aggregate.kinematics.speedY).toBeLessThan(before.kinemati…
+    183|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > reports rotational constraint load at each physical body rather than copying aggregate g
+AssertionError: expected 0.0306396699054274 to be 0.01930793252302458 // Object.is equality
+
+- Expected
++ Received
+
+- 0.01930793252302458
++ 0.0306396699054274
+
+ ❯ tests/core/hot-staging.test.ts:193:40
+    191|       const gx = (k.accelerationX - tangentialAcceleration(k.distanceT…
+    192|       const gy = (k.accelerationY - verticalGravityAcceleration(k.dist…
+    193|       expect(body.forces.perceivedG_X).toBe(gx);
+       |                                        ^
+    194|       expect(body.forces.perceivedG_Y).toBe(gy);
+    195|       expect(body.forces.perceivedG).toBe(Math.sqrt(gx ** 2 + gy ** 2)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  3 failed | 21 passed (24)
+   Start at  01:27:55
+   Duration  382ms (transform 403ms, setup 0ms, import 606ms, tests 274ms, environment 0ms)
+

@@ -1,0 +1,74 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-return-plan.test.ts (4 tests | 1 failed) 4ms
+     × admits a supported nonzero handoff only after actual terminal validation 2ms
+ ❯ |unit| tests/core/booster-prediction.test.ts (6 tests | 2 failed) 28ms
+     × searches a paid interior when the zero-burn candidate is physically invalid 3ms
+     × preserves a valid paid bracket when a proposed terminal replay fails 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > searches a paid interior when the zero-burn candidate is physically invalid
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/booster-prediction.test.ts:56:49
+     54|     };
+     55|     advanceBoosterPrediction(s,1/120,reject,runBoosterPolicy,SUPER_HEA…
+     56|     expect(s.autopilot.boosterPrediction!.done).toBe(false);
+       |                                                 ^
+     57|     expect(s.autopilot.boosterPrediction!.duration).toBeGreaterThan(0);
+     58|     expect(s.autopilot.boosterPrediction!.low).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > preserves a valid paid bracket when a proposed terminal replay fails
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/booster-prediction.test.ts:75:23
+     73|     advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy…
+     74|     const next=s.autopilot.boosterPrediction!;
+     75|     expect(next.done).toBe(false);expect(next.stage).toBe('root');
+       |                       ^
+     76|     expect(next.low).toEqual(low);expect(next.high).toEqual(high);
+     77|     expect(s.autopilot.boosterReturnPlan).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/core/booster-return-plan.test.ts > source-consistent paid booster return decisions > admits a supported nonzero handoff only after actual terminal validation
+AssertionError: expected undefined to be 16 // Object.is equality
+
+- Expected:
+16
+
++ Received:
+undefined
+
+ ❯ tests/core/booster-return-plan.test.ts:31:60
+     29|       vx:26.058477937235978,vy:-242.4979069791646,time:20.334461312529…
+     30|     expect(acceptBoosterReturnPlan(c,false,12)).toBeUndefined();
+     31|     expect(acceptBoosterReturnPlan(c,true,12)?.shutdownAt).toBe(16);
+       |                                                            ^
+     32|   });
+     33|   it('requires terminal validation, an in-envelope handoff and an unex…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 7 passed (10)
+   Start at  19:01:31
+   Duration  248ms (transform 139ms, setup 0ms, import 184ms, tests 32ms, environment 0ms)
+

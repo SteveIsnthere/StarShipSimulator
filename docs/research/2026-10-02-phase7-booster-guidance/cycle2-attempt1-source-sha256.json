@@ -1,0 +1,18 @@
+{
+  "base": "6a288401b61dca9d92e325addb0694ab64491dd3",
+  "files": {
+    "src/core/autopilot/index.ts": "3b3a86989807b7809194d17f377bb4335c4f9201df9fd38cd55dae9bc091d297",
+    "src/core/control/actuation.ts": "6bf6ed8771b885118d698d33c0fe49ccd428ae10d75962a2c86802f2c310fe76",
+    "src/core/control/guidance-physics.ts": "d4103e030bbfa870f8122311745625d91dc36c75da53c2ce68ea9033702c29a9",
+    "src/core/state.ts": "c21e9fa07c346ae1337db78636394375e1f5a6ccb3c6f41bc9528772531e87a5",
+    "src/core/step.ts": "d38036d738a5009c30c7a666cf8a19d6eba46838afc7388b639d49c304d37dda",
+    "src/core/autopilot/booster.ts": "6fa4e7849a3a9cfe55dbdaae9d01c123e790ec116d8f4a914f772e5956a28b30",
+    "src/core/control/booster-arrival.ts": "9bd9b46875bc216efbee7b97551b421d9b4f91db23bda3ed51dfbb51e87e0d55",
+    "src/core/control/booster-forecast.ts": "a799bdf441ee36f2d5a94de02c0a6e0a2220f9eae9c3f6438da1fefa02f1bdf2",
+    "src/core/control/mechanical.ts": "cf2edaebb854af17b6d37fd0ef9c0bbfe04d258fbbfa9ce7ea177b70f2c2e624",
+    "tests/core/booster-guidance.test.ts": "9dc08001d77ca738e18bd6e34f3e0c4f1b001bcb1667dc883700c3482c0a768c",
+    "tests/core/booster-command.test.ts": "3d687115e0fa0b8b6ca343e96748ee868c0530c5e68ce0714d5bd08255b8a091",
+    "tests/core/booster-forecast.test.ts": "705b7312d559e43a401ba2cdc0478776ca6b390ac8ac2b1594e512db68bb3823",
+    "tests/core/mechanical-advance.test.ts": "c0086618cebe9eaa161bcbaf5288cf5fbbb3449e5c152a2b589fb7516b1687db"
+  }
+}

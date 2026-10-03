@@ -1,0 +1,32 @@
+import { expect, it } from 'vitest';
+import { createCatchTower } from '$view/catch-tower';
+import { computeViewport, createCamera } from '$view/camera';
+import { createInitialState } from '$core/state';
+import { step } from '$core/step';
+import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+import * as C from '$core/constants';
+
+it('draws the physical120m target and only shows secured after actual capture, never a nearby missed lug', () => {
+  const tower = createCatchTower(), viewport = computeViewport(800, 600, 50);
+  const camera = createCamera(viewport, C.starBaseXPos, 0, 0);
+  camera.posY = 100;
+  const state = createInitialState(123, SUPER_HEAVY);
+  state.kinematics.altitude = 90.501;
+  state.kinematics.distanceToPlanetCenter = C.planetRadius + 90.501;
+  state.kinematics.downRangeDistance = C.starBaseXPos;
+  state.kinematics.speedY = -1; state.status.onTheGround = false;
+  tower.update(camera, viewport, state);
+  const arms = tower.container.getChildByLabel('catch-arms')!;
+  expect(arms.getBounds().minY).toBeCloseTo(300 - 20 * viewport.scale);
+  const indicator = tower.container.getChildByLabel('tower-secured')!;
+  expect(indicator.visible).toBe(false);
+  state.kinematics.downRangeDistance += 3;
+  tower.update(camera, viewport, step(state, 1 / 120, {}, SUPER_HEAVY));
+  expect(indicator.visible).toBe(false);
+  state.kinematics.downRangeDistance -= 3;
+  tower.update(camera, viewport, step(state, 1 / 120, {}, SUPER_HEAVY));
+  expect(indicator.visible).toBe(true);
+  tower.update(camera, viewport, undefined);
+  expect(tower.container.visible).toBe(false);
+  tower.container.destroy({ children: true });
+});

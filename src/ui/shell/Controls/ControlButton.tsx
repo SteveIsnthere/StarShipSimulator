@@ -24,6 +24,7 @@ export interface ControlButtonProps {
   /** When the visible content is not a name (an engine's dot). */
   'aria-label'?: string;
   title?: string;
+  disabled?: boolean;
   'aria-describedby'?: string;
   children: ReactNode;
 }

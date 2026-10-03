@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (4 tests | 1 failed) 25ms
+     × stops at the physical terminal handoff before spending terminal fuel 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > stops at the physical terminal handoff before spending terminal fuel
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-forecast.test.ts:24:33
+     22|     expect(work.done).toBe(true);expect(work.result.reached).toBe(true…
+     23|     expect(work.state.autopilot.boosterPhase).toBe('terminal');
+     24|     expect(work.result.handoff).toBeDefined();
+       |                                 ^
+     25|     expect(work.result.handoff!.lateralFeasible).toBe(true);
+     26|     expect(work.state.engines.running.some(Boolean)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  18:25:49
+   Duration  235ms (transform 89ms, setup 0ms, import 108ms, tests 25ms, environment 0ms)
+
