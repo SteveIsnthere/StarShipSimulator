@@ -9,10 +9,12 @@ import { PROPELLANT_CAPACITY } from '$core/physics/mass';
 import { getFuelFlowRate, getTotalMaxThrust } from '$core/physics/engines';
 import { circularOrbitalSpeed } from '$core/physics/gravity';
 import { around, type Band } from './bands';
+import { ascentMaxQ, reentryPeakHeating } from './flight-probes';
 
 const G0 = 9.80665;
 const ONE_ENGINE = [true, false, false] as const;
 const SEA_LEVEL_KPA = 101.325;
+const ONE_RVAC = [false, false, false, true, false, false] as const;
 
 /** Specific impulse of one engine at an ambient pressure, from thrust and flow. */
 function ispAt(pressureKPa: number): number {
@@ -60,6 +62,58 @@ export const BANDS: readonly Band[] = [
     source: 'en.wikipedia.org/wiki/SpaceX_Starship_(spacecraft), retrieved 2026-10-01: SL 327 s',
     conditions: 'sea-level ambient pressure',
     probe: () => ispAt(SEA_LEVEL_KPA),
+  },
+  {
+    id: 'raptor2.vac.thrust',
+    quantity: 'vacuum thrust of one sea-level-nozzle Raptor 2, N',
+    // Propagate existing SL thrust (5%) / SL Isp (3%) / vacuum Isp (3%)
+    // source intervals; this is a derived estimate, not a new official anchor.
+    min: 230_000 * G0 * .95 * (347 * .97) / (327 * 1.03),
+    max: 230_000 * G0 * 1.05 * (347 * 1.03) / (327 * .97),
+    unit: 'N', tier: 'B',
+    source: 'Derived T_vac=T_sl*Isp_vac/Isp_sl from the existing raptor2.sl.thrust, raptor2.sl.isp and raptor2.vac.isp references, with their source bands propagated',
+    conditions: 'same sea-level nozzle and constant full-throttle mass flow, vacuum',
+    probe: () => getTotalMaxThrust(ONE_ENGINE, 0),
+  },
+  {
+    id: 'rvac2.vac.thrust',
+    quantity: 'vacuum thrust of one Raptor 2 Vacuum, N',
+    ...around(258_000 * G0, .05), unit: 'N', tier: 'A',
+    source: 'SpaceX https://www.spacex.com/updates/reusability, retrieved2026-10-03: vacuum engine thrust275tf up from258tf in historical Raptor2 comparison',
+    conditions: 'historical Raptor2 Vacuum, excluding Raptor3, full throttle in vacuum',
+    probe: () => getTotalMaxThrust(ONE_RVAC, 0),
+  },
+  {
+    id: 'rvac2.vac.isp',
+    quantity: 'specific impulse of one Raptor 2 Vacuum, s',
+    ...around(380, .03), unit: 's', tier: 'B',
+    source: 'Phase6 approved RVac engineering estimate380s, docs/reference/physics-model.md; no newly verified primary cohort-specific Isp declaration',
+    conditions: 'vacuum-optimised nozzle, full throttle in vacuum',
+    probe: () => getTotalMaxThrust(ONE_RVAC, 0) / (getFuelFlowRate(ONE_RVAC, 100) * G0),
+  },
+  {
+    id: 'ascent.max-q.value',
+    quantity: 'peak dynamic pressure on the protected Ship pad ascent, Pa',
+    min: 20_000, max: 50_000, unit: 'Pa', tier: 'B',
+    source: 'Existing engineering envelope20–50kPa in tests/view/dynamic-pressure.test.ts (2026-08-26); q=0.5*rho*v²: https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/dynamic-pressure-2/',
+    conditions: 'protected launch-pad, autoTakeOff, default seed/calm wind, 120Hz, first90s; single Ship demonstration, not full-stack certification',
+    probe: () => ascentMaxQ().peak,
+  },
+  {
+    id: 'ascent.max-q.altitude',
+    quantity: 'incoming altitude at ascent peak dynamic pressure, m',
+    min: 10_000, max: 15_000, unit: 'm', tier: 'B',
+    source: 'Ware etal2019, Launch Weather Decision Support System: typical MaxQ weather region10–15km, https://ams.confex.com/ams/2019Annual/webprogram/Paper352871.html',
+    conditions: 'same protected single-Ship90s ascent; comparison to generic launch weather region, not measured Starship flight data',
+    probe: () => ascentMaxQ().altitude,
+  },
+  {
+    id: 'reentry.peak.heating',
+    quantity: 'peak heat flux on the protected Ship reentry, W/m²',
+    ...around(170_900, .05), unit: 'W/m²', tier: 'B',
+    source: 'Phase6 measured characterization retained by approved Phase6b broadside fallback, tests/flies-every-scenario.test.ts:170900W/m²±5%; not flight instrumentation',
+    conditions: 'protected reentry, autoLand, default seed/calm wind, 120Hz, original900s cap and real failures/contact',
+    probe: () => reentryPeakHeating().peak,
   },
   {
     id: 'ship.propellant.capacity',

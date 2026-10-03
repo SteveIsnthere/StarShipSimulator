@@ -30,6 +30,7 @@ Deferred work with no phase yet. This repo has no Jira board, so this file is th
 - **Shareable flights.** Seed + scenario + input log, encoded in a URL and replayed deterministically. The determinism model already supports it.
 - **Licensed audio recordings** in place of the synthesised transients. Only `src/audio/transients.ts` would change; needs a licence trail Steve accepts.
 - **A sixth preset.** The 2021 About text says six presets; `index.html` shipped five. Ask Steve whether one was cut.
+- **Cohort-specific ascent reference data.** Defer replacing the generic10–15km launch weather comparison with independently sourced Ship/stack flight instrumentation. Phase7's protected single-Ship90s ascent peaks at9950m and reports tierB OUTx1.005; alltierA rows remain IN. Preserve that comparison and its report without tuning physics/bands. This is not a full-stack certification claim. Evidence: `docs/research/2026-10-03-phase7-release/truth-completeness/`.
 - **Max-Q shake test cost** is structural (two flights per test); the only lever left is the worker count.
 
 ## Parked by Steve’s Phase 6b fallback
