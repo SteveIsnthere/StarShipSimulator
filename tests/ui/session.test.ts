@@ -10,10 +10,28 @@ import { getScenario, INTRO } from '$core/scenarios';
 import { HINT_KEY } from '$app/preferences';
 import { installMemoryStorage } from '../memory-storage';
 import { DT } from '$app/loop';
+import { EMPTY_FIELDS } from '$app/menu';
 
 beforeEach(() => void installMemoryStorage());
 
 describe('flights', () => {
+  it('configures the selected mission body as its real standalone vehicle', () => {
+    const session = createSession();
+    session.startHotStage(123);
+    session.selectVehicle('super-heavy');
+    const initialAltitude = session.loop.state.kinematics.altitude;
+    session.configure({ ...EMPTY_FIELDS, propellant: '3000' });
+    expect(session.model.id).toBe('super-heavy');
+    expect(session.mission).toBeUndefined();
+    expect(session.loop.state.vehicle.propellantMass).toBe(3_000_000);
+    expect(session.loop.state.kinematics.altitude).toBe(initialAltitude);
+    session.startHotStage(123);
+    const shipFuel = session.loop.state.vehicle.propellantMass;
+    session.configure({ ...EMPTY_FIELDS });
+    expect(session.model.id).toBe('ship');
+    expect(session.loop.state.vehicle.propellantMass).toBe(shipFuel);
+  });
+
   it('keeps separate selected-body histories while both hot-stage bodies advance', () => {
     const session = createSession();
     session.startHotStage();

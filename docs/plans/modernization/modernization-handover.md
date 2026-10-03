@@ -112,3 +112,5 @@ Task5 interface checkpoint: actual hot-stage commands/selection, separate per-bo
 
 
 Task5 Stage ownership fixed: real RED running/pending non-centre witness now cancels through normal shutdown on first request; actual3booster/6Ship release and purity pass.70focused mission/session/golden/independent Ship checks, build/lint0 and14truthIN before/after. All ten goldens unchanged; auditP7.5s, Bug-fix tier, fresh independent release review still owed. Evidence2026-10-03-phase7-mission-interface/stage-controls. Do not reopen this diagnosis; next both real rendered bodies/camera/catch/editor/browser.
+
+Task5 editor checkpoint: actual booster3400t capacity and selected mission-body standalone configuration pass68focused checks, build/lint0, JS292.9/300kB. Initial capacity/routing and first unsuccessful correction logs are preserved in2026-10-03-phase7-mission-interface/editor. No core physics changed. Next actual two-body rendering/camera/catch/browser; full release coverage/review/main/live remain owed.

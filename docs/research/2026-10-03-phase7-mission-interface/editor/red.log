@@ -1,0 +1,35 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/shell/fields-presets.test.ts (10 tests | 1 failed) 5ms
+     × accepts the actual booster tank capacity and keeps the Ship limit 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/shell/fields-presets.test.ts > the flight setup ranges > accepts the actual booster tank capacity and keeps the Ship limit
+AssertionError: expected { Object (propellant) } to deeply equal {}
+
+- Expected
++ Received
+
+- {}
++ {
++   "propellant": "Propellant must be 0 to 1 200 t.",
++ }
+
+ ❯ tests/ui/shell/fields-presets.test.ts:13:34
+     11|   it('accepts the actual booster tank capacity and keeps the Ship limi…
+     12|     const booster = { ...fieldsFromPreset(getScenario('rtls')!), prope…
+     13|     expect(fieldErrors(booster)).toEqual({});
+       |                                  ^
+     14|     expect(fieldsFor(booster).find(field => field.key === 'propellant'…
+     15|     expect(fieldErrors({ ...booster, propellant: '3400.001' }).propell…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  00:10:46
+   Duration  225ms (transform 66ms, setup 0ms, import 113ms, tests 5ms, environment 0ms)
+

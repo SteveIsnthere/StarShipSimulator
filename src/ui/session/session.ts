@@ -15,7 +15,8 @@ import { DT, type LoopState, type AdvanceResult } from '$app/loop';
 import { installSimDebug } from '$app/debug';
 import { type ControlEvent } from '$app/controls';
 import { fieldsToPreset, toLoopOptions, type EditorFields, type TimeSetting } from '$app/menu';
-import { vehicleHeight } from '$core/constants';
+import { vehicleHeight, starBaseXPos } from '$core/constants';
+import { toDeg } from '$core/units';
 import { toggleRandomFailure } from '$core/control/commands';
 import {
   getScenario,
@@ -307,7 +308,20 @@ export function createSession(): Session {
       syncMission();
     },
     configure(fields) {
-      startFlight(fieldsToPreset(fields, get().preset));
+      const state = loop.state;
+      const base = controller.mission ? { ...get().preset, id: 'custom',
+        basedOn: controller.model.id === 'super-heavy' ? 'booster-sep' : 'hot-stage',
+        altitude: state.kinematics.altitude,
+        xPosition: state.kinematics.downRangeDistance - starBaseXPos,
+        speedX: state.kinematics.speedX, speedY: state.kinematics.speedY,
+        pitch: toDeg(state.kinematics.pitch), propellant: state.vehicle.propellantMass / 1000,
+        wind: state.world.wind,
+      } : get().preset;
+      const preset = fieldsToPreset(fields, base);
+      // Clearing the form may clear its presentation origin, but must retain
+      // the physical booster identity when no different preset was chosen.
+      startFlight(!fields.basedOn && controller.model.id === 'super-heavy'
+        ? { ...preset, basedOn: base.basedOn ?? base.id } : preset);
       set({ layer: null });
     },
     restart() {

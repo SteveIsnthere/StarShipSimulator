@@ -1,0 +1,32 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/ui/session.test.ts (11 tests | 1 failed) 42ms
+     × configures the selected mission body as its real standalone vehicle 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/session.test.ts > flights > configures the selected mission body as its real standalone vehicle
+AssertionError: expected 'ship' to be 'super-heavy' // Object.is equality
+
+Expected: "super-heavy"
+Received: "ship"
+
+ ❯ tests/ui/session.test.ts:24:30
+     22|     const initialAltitude = session.loop.state.kinematics.altitude;
+     23|     session.configure({ ...EMPTY_FIELDS, propellant: '3000' });
+     24|     expect(session.model.id).toBe('super-heavy');
+       |                              ^
+     25|     expect(session.mission).toBeUndefined();
+     26|     expect(session.loop.state.vehicle.propellantMass).toBe(3_000_000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 67 passed (68)
+   Start at  00:14:48
+   Duration  2.48s (transform 1.21s, setup 0ms, import 2.36s, tests 769ms, environment 1.42s)
+
