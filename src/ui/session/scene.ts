@@ -38,6 +38,7 @@ export interface Scene {
     worldDt: number; bell: { visibleMounts: number }; particles: readonly Readonly<Record<string, number | string>>[];
     bodies: readonly { id: string; x: number; y: number; rotation: number; width: number; height: number }[] };
   setParticlesVisible(visible: boolean): void;
+  setVehiclesVisible(visible: boolean): void;
   destroy(): void;
 }
 
@@ -135,6 +136,9 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
     presentation() {
       return { ...vehicles.presentation(), width: view.viewport.width,
         height: view.viewport.height, worldDt: lastWorldDt };
+    },
+    setVehiclesVisible(visible) {
+      vehicles.setVehiclesVisible(visible);
     },
     setParticlesVisible(visible) {
       vehicles.setParticlesVisible(visible);

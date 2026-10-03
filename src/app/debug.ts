@@ -61,6 +61,8 @@ export interface SimDebug {
   presentation(): DebugPresentation;
   /** Hide particles for an otherwise identical background control render. */
   setParticlesVisible(visible: boolean): void;
+  /** Hide only rendered bodies/inset for a same-state vehicle absence control. */
+  setVehiclesVisible(visible: boolean): void;
 }
 
 export interface SimDebugDeps {
@@ -76,6 +78,7 @@ export interface SimDebugDeps {
   advanceStep?(): void;
   presentation?(): DebugPresentation;
   setParticlesVisible?(visible: boolean): void;
+  setVehiclesVisible?(visible: boolean): void;
 }
 
 /** Whether this page should expose the debug surface. */
@@ -156,6 +159,10 @@ export function createSimDebug(deps: SimDebugDeps): SimDebug {
     presentation() {
       if (!deps.presentation) throw new Error("presentation is not mounted");
       return deps.presentation();
+    },
+    setVehiclesVisible(visible) {
+      if (!deps.setVehiclesVisible) throw new Error("presentation is not mounted");
+      deps.setVehiclesVisible(visible);
     },
     setParticlesVisible(visible) {
       if (!deps.setParticlesVisible) throw new Error("presentation is not mounted");

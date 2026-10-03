@@ -1,0 +1,12 @@
+{
+  "src/app/debug.ts": "e534c4d9de67dbf03e307495ae265b077f94c4d0520886e30e3c420dd26575d4",
+  "src/ui/session/camera-follow.ts": "6459107d193fe0aa3ef78cc6c7d15829af71ab69be91487126eaadbfb2107c23",
+  "src/ui/session/debug-presentation.ts": "9cc2a1d57b68de0dee5a7a4cc53c61658f4e2aab0812e347145d5bcbe154bff3",
+  "src/ui/session/scene-vehicles.ts": "a8c0ed3e12de99ab9c74f3da788d3e21d7e9d6613059d4283c73468d5ba86f94",
+  "src/ui/session/scene.ts": "d1836a8b7d0a4dcf3a36c178998e5ec9898fd5569c53833625432c7d755665a0",
+  "src/ui/session/session.ts": "65ecb878a988fa4725d5c5d0b7a56b500f3797e3ec7fbc8006d5bd23ccec524c",
+  "tests/app/debug.test.ts": "be6e90555ca236134967234db35b2591dd5d1eb2ff795d3050b192fc0af4cb2d",
+  "tests/ui/camera-follow.test.ts": "1b093c66fd90e74e21eee926a0bc6372b7152b4c4710f8e2e2a17f3218311d61",
+  "tests/e2e/visual-scene-setup.ts": "97d1713dd295ce84304eadaa6093f66b45e916fe2b9356c3dbaa4143e7e0bbda",
+  "tests/e2e/visual-scenes.spec.ts": "de1d6d25711ef17566f68abb0a476f7cf1760c41304cce7df37226487209f5b9"
+}

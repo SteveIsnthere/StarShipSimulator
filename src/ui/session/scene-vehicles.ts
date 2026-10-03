@@ -49,6 +49,7 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
   let selectedBooster = false;
   let missionActive = false;
   let effectsVisible = true;
+  let vehiclesVisible = true;
 
   function writePose(s: SimState) {
     pose.altitude = s.kinematics.altitude;
@@ -66,8 +67,8 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
       missionActive = !!mission;
       const showShip = !!mission || !selectedBooster;
       const showBooster = !!mission || selectedBooster;
-      ship.container.visible = showShip;
-      booster.container.visible = showBooster;
+      ship.container.visible = showShip && vehiclesVisible;
+      booster.container.visible = showBooster && vehiclesVisible;
       shipParticles.container.visible = shipBell.container.visible = showShip && effectsVisible;
       boosterParticles.container.visible = boosterBell.container.visible = showBooster && effectsVisible;
       shipGlare.container.visible = showShip && effectsVisible;
@@ -90,7 +91,7 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
         sheath.set(strength, windward.x, windward.y, elapsed, surfaceGlow);
         if (!selectedBooster) inset.update(view.viewport, pose, strength, sun, elapsed, surfaceGlow);
       }
-      inset.container.visible = !selectedBooster && inset.container.visible;
+      inset.container.visible = vehiclesVisible && !selectedBooster && inset.container.visible;
       if (showBooster) {
         const state = mission?.booster ?? s;
         writePose(state);
@@ -114,6 +115,9 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
         })),
       };
     },
+    setVehiclesVisible(visible: boolean) {
+      vehiclesVisible = visible;
+    },
     setParticlesVisible(visible: boolean) {
       effectsVisible = visible;
       shipParticles.container.visible = shipBell.container.visible = ship.container.visible && visible;
@@ -122,6 +126,7 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
       boosterGlare.container.visible = booster.container.visible && visible;
     },
     reset() {
+      vehiclesVisible = true;
       shipParticles.clear(); boosterParticles.clear();
       shipBell.reset(); boosterBell.reset();
       shipGlare.reset(); boosterGlare.reset();

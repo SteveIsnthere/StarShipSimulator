@@ -101,3 +101,15 @@ describe('on-demand presentation controls', () => {
     expect(debug.telemetry()).toEqual(before);
   });
 });
+
+
+it('delegates vehicle visibility without advancing or modifying the flight', () => {
+  const loop = harness().loop;
+  const visibility: boolean[] = [];
+  const debug = createSimDebug({ loop: () => loop, startScenario: () => {}, setPaused: () => {},
+    setVehiclesVisible: (visible) => visibility.push(visible) });
+  const before = debug.telemetry();
+  debug.setVehiclesVisible(false); debug.setVehiclesVisible(true);
+  expect(visibility).toEqual([false, true]);
+  expect(debug.telemetry()).toEqual(before);
+});

@@ -1,0 +1,111 @@
+[WebServer] (node:96760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 30 tests using 3 workers
+
+(node:96762) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96763) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96764) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (2.3s)
+  ✓   2 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (2.5s)
+  ✓   1 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (2.6s)
+  ✓   4 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.6s)
+  ✓   5 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (2.0s)
+(node:96785) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96786) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (2.5s)
+  ✓   8 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (2.5s)
+  ✓   9 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (2.4s)
+  ✓  10 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.9s)
+  ✓   6 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (8.8s)
+(node:96802) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (2.3s)
+(node:96806) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (2.8s)
+  ✓  14 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (2.3s)
+  ✓  16 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.9s)
+  ✓  15 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (2.5s)
+  ✓  12 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (10.0s)
+  ✓  17 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (3.1s)
+(node:96827) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (2.8s)
+  ✓  20 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (2.5s)
+  ✓  22 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (2.0s)
+  ✓  21 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (2.4s)
+  ✘  18 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (10.3s)
+  ✓  23 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (2.4s)
+(node:96847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (2.0s)
+  ✓  25 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (3.1s)
+  ✓  27 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (2.5s)
+  ✓  28 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (2.0s)
+  ✓  24 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (9.9s)
+  ✓  29 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (2.8s)
+  ✘  30 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (7.5s)
+
+
+  1) [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile 
+
+    Error: removing actual bodies must remove measurable image structure
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      31 |     await painted(page);
+      32 |     const visible = await readFrame(page, probe, absent);
+    > 33 |     expect(visible.extents['vehicle']!.count, 'removing actual bodies must remove measurable image structure').toBeGreaterThan(0);
+         |                                                                                                                ^
+      34 |     expect(await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.telemetry())).toEqual(state);
+      35 |     await info.attach(`${scene}-evidence`, { body: JSON.stringify({ state, presentation, pixels: visible.extents }), contentType: 'application/json' });
+      36 |   });
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/visual-scenes.spec.ts:33:112
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-pixel-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-pixel-landscape/error-context.md
+
+  2) [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile 
+
+    Error: removing actual bodies must remove measurable image structure
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      31 |     await painted(page);
+      32 |     const visible = await readFrame(page, probe, absent);
+    > 33 |     expect(visible.extents['vehicle']!.count, 'removing actual bodies must remove measurable image structure').toBeGreaterThan(0);
+         |                                                                                                                ^
+      34 |     expect(await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.telemetry())).toEqual(state);
+      35 |     await info.attach(`${scene}-evidence`, { body: JSON.stringify({ state, presentation, pixels: visible.extents }), contentType: 'application/json' });
+      36 |   });
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/visual-scenes.spec.ts:33:112
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-iphone-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-iphone-landscape/error-context.md
+
+  2 failed
+    [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile 
+    [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile 
+  28 passed (43.2s)

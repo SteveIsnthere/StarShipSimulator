@@ -172,7 +172,7 @@ export function createSession(): Session {
   const onStep = (state: SimState) => {
     histories.observe(state);
     if (!view) return;
-    camera.step(view, state, controller.mission);
+    camera.step(view, state, controller.mission, controller.model);
   };
 
   // Rebuilt only when the time setting or the pause changes, never per frame.
@@ -201,7 +201,7 @@ export function createSession(): Session {
     histories.reset();
     const fresh = loop.state;
     fresh.failures.randomFailure = get().randomFailure;
-    if (view) camera.reset(view, fresh, controller.mission);
+    if (view) camera.reset(view, fresh, controller.mission, controller.model);
     audio.resetFlight();
     if (mapSurface) mapSurface.dirty = true;
     set({ preset, selectedVehicle: controller.model.id, flightOver: false, debrief: null });
@@ -289,7 +289,7 @@ export function createSession(): Session {
     selectVehicle(id) {
       if (!controller.mission || id === controller.model.id) return;
       controller.selectVehicle(id);
-      if (view) camera.select(view, loop.state);
+      if (view) camera.select(view, loop.state, controller.model);
       set({ selectedVehicle: controller.model.id });
       timelineBinder?.follow(histories.selected.timeline);
       timelineBinder?.update();
@@ -359,6 +359,7 @@ export function createSession(): Session {
         advanceStep: () => { controller.advance(DT, debugLoopOptions); syncMission(); },
         presentation: presentationProbe.presentation,
         setParticlesVisible: presentationProbe.setParticlesVisible,
+        setVehiclesVisible: presentationProbe.setVehiclesVisible,
       });
 
       const v = await createView({
@@ -387,7 +388,7 @@ export function createSession(): Session {
       if (observer && box) observer.observe(box);
       else window.addEventListener('resize', onResize);
       onResize();
-      if (controller.mission) camera.reset(v, live.state, controller.mission);
+      if (controller.mission) camera.reset(v, live.state, controller.mission, controller.model);
 
       const room = window.matchMedia(HINT_FITS);
       const onRoomChange = () => set({ hintFits: room.matches });

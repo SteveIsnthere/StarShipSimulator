@@ -1,0 +1,58 @@
+[WebServer] (node:96393) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 3 workers
+
+(node:96395) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96394) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (2.6s)
+  ✓  2 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (2.6s)
+  ✓  5 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.6s)
+  ✓  4 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.8s)
+  ✘  1 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (6.8s)
+  ✓  6 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (6.4s)
+
+
+  1) [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile 
+
+    Error: auto-lift-off should be reachable in one tap
+
+    expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-testid="auto-lift-off"]')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - auto-lift-off should be reachable in one tap with timeout 5000ms
+      - waiting for locator('[data-testid="auto-lift-off"]')
+
+
+       at helpers.ts:85
+
+      83 |     .locator(byTestId(ENGINE_PANEL.has(id) ? 'engine-panel-toggle' : 'yoke-panel-toggle'))
+      84 |     .click();
+    > 85 |   await expect(control, `${id} should be reachable in one tap`).toBeVisible();
+         |                                                                 ^
+      86 | }
+      87 |
+      88 | /** Reveal a control and click it. */
+        at reveal (/Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/helpers.ts:85:65)
+        at tap (/Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/helpers.ts:90:3)
+        at visualScene (/Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/visual-scene-setup.ts:17:27)
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/visual-scenes.spec.ts:11:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile 
+  5 passed (12.3s)
