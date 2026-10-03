@@ -148,7 +148,7 @@ describe('physical attached hot staging', () => {
     expect(released.phase).toBe('separated');
     const properties = stackMassProperties(released.booster, released.ship);
     const mb = released.booster.vehicle.vehicleMass, ms = released.ship.vehicle.vehicleMass;
-    const bk = released.booster.kinematics, sk = released.ship.kinematics, ak = released.aggregate.kinematics;
+    const bk = bodyMassPose(released.booster, SUPER_HEAVY), sk = bodyMassPose(released.ship, SHIP), ak = released.aggregate.kinematics;
     expect((mb * bk.speedX + ms * sk.speedX) / properties.mass).toBeCloseTo(ak.speedX, 10);
     expect((mb * bk.speedY + ms * sk.speedY) / properties.mass).toBeCloseTo(ak.speedY, 10);
     const b = bodyMassPose(released.booster, SUPER_HEAVY), s = bodyMassPose(released.ship, SHIP);
@@ -176,8 +176,8 @@ describe('physical attached hot staging', () => {
     expect(m.booster.vehicle.propellantMass).toBe(before.vehicle.propellantMass);
     expect(m.aggregate.kinematics.angularVelocity).toBe(0.1);
     const properties = stackMassProperties(m.booster, m.ship);
-    expect((m.booster.vehicle.vehicleMass * m.booster.kinematics.speedX
-      + m.ship.vehicle.vehicleMass * m.ship.kinematics.speedX) / properties.mass)
+    expect((m.booster.vehicle.vehicleMass * bodyMassPose(m.booster, SUPER_HEAVY).speedX
+      + m.ship.vehicle.vehicleMass * bodyMassPose(m.ship, SHIP).speedX) / properties.mass)
       .toBeCloseTo(m.aggregate.kinematics.speedX, 10);
     expect(m.aggregate.kinematics.speedY).toBeLessThan(before.kinematics.speedY);
   });
@@ -186,10 +186,17 @@ describe('physical attached hot staging', () => {
     const initial = createHotStageMission(123);
     initial.aggregate.kinematics.angularVelocity = 0.1;
     const m = stepMission(initial, DT);
-    for (const body of [m.booster, m.ship]) {
-      const k = body.kinematics;
-      const gx = (k.accelerationX - tangentialAcceleration(k.distanceToPlanetCenter, k.speedX, k.speedY)) / standardGravity;
-      const gy = (k.accelerationY - verticalGravityAcceleration(k.distanceToPlanetCenter, k.speedX)) / standardGravity;
+    const properties = stackMassProperties(m.booster, m.ship), a = m.aggregate.kinematics;
+    for (const [body, station] of [[m.booster, properties.boosterStation], [m.ship, properties.shipStation]] as const) {
+      // Structural specific force belongs to each mass centre, not the hull
+      // point whose translational velocity the interface/catch now publishes.
+      const d = station - properties.centreStation, sin = Math.sin(a.pitch), cos = Math.cos(a.pitch);
+      const radius = planetRadius + a.altitude + d * cos;
+      const vx = a.speedX + a.angularVelocity * d * cos, vy = a.speedY - a.angularVelocity * d * sin;
+      const ax = a.accelerationX + a.angularAcceleration * d * cos - a.angularVelocity ** 2 * d * sin;
+      const ay = a.accelerationY - a.angularAcceleration * d * sin - a.angularVelocity ** 2 * d * cos;
+      const gx = (ax - tangentialAcceleration(radius, vx, vy)) / standardGravity;
+      const gy = (ay - verticalGravityAcceleration(radius, vx)) / standardGravity;
       expect(body.forces.perceivedG_X).toBe(gx);
       expect(body.forces.perceivedG_Y).toBe(gy);
       expect(body.forces.perceivedG).toBe(Math.sqrt(gx ** 2 + gy ** 2));

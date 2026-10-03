@@ -1,0 +1,41 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/mission-continuation.test.ts (2 tests | 2 failed) 14ms
+     × keeps both unequal mass offsets on force-only trajectories through120 rotating free steps 10ms
+     × uses remaining-mass station and actual paid thrust without making rotation a translation impulse 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/mission-continuation.test.ts > physical COM continuation after real paid Stage > keeps both unequal mass offsets on force-only trajectories through120 rotating free steps
+AssertionError: expected 0.00532739982008934 to be less than or equal to 7.127276434973422e-8
+ ❯ roundoff tests/core/mission-continuation.test.ts:28:39
+     26|   //16 floating operations of point transforms: a roundoff bound, not …
+     27|   //selected from a flight outcome or relaxed catch tolerance.
+     28|   expect(Math.abs(actual - expected)).toBeLessThanOrEqual(16 * Number.…
+       |                                       ^
+     29| }
+     30| function integrate(x: number, y: number, vx: number, vy: number, fx: n…
+ ❯ tests/core/mission-continuation.test.ts:48:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/mission-continuation.test.ts > physical COM continuation after real paid Stage > uses remaining-mass station and actual paid thrust without making rotation a translation impulse
+AssertionError: expected 0.008070100098848343 to be less than or equal to 7.12725800932588e-8
+ ❯ roundoff tests/core/mission-continuation.test.ts:28:39
+     26|   //16 floating operations of point transforms: a roundoff bound, not …
+     27|   //selected from a flight outcome or relaxed catch tolerance.
+     28|   expect(Math.abs(actual - expected)).toBeLessThanOrEqual(16 * Number.…
+       |                                       ^
+     29| }
+     30| function integrate(x: number, y: number, vx: number, vy: number, fx: n…
+ ❯ tests/core/mission-continuation.test.ts:76:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  01:25:16
+   Duration  245ms (transform 105ms, setup 0ms, import 129ms, tests 14ms, environment 0ms)
+

@@ -1,6 +1,6 @@
 /** Physical, bounded hot-stage demonstration. Geometric hull centres remain
- * the existing renderer/contact positions. Velocities belong to each mass
- * COM, explicitly converted at release rather than adding a separation kick.
+ * the existing renderer/contact positions. Velocities and accelerations share that hull reference point; mass-COM
+ * quantities are explicitly converted without a separation kick.
  * Standalone Ship's established position convention is unchanged. */
 import * as C from './constants';
 import { SHIP, type VehicleDefinition } from './vehicle';
@@ -17,7 +17,8 @@ import { createStepDynamics, prepareDynamics, integrateTranslation, finishTransl
 import { finishMechanicalStep } from './control/mechanical';
 import { toggleRaptor } from './control/commands';
 import { shutdownEngine } from './physics/engines';
-import { step, NO_INPUT, type StepInput } from './step';
+import { NO_INPUT, type StepInput } from './step';
+import { stepMissionBody } from './mission-free-flight';
 
 export interface StackMassProperties {
   /** kg — actual combined wet mass. */
@@ -63,12 +64,14 @@ export function stackMassProperties(booster: SimState, ship: SimState): StackMas
   return { mass, centreStation, inertia, boosterStation, shipStation };
 }
 
-/** Convert only position; mission body speeds already describe its mass COM. */
+/** Convert canonical hull-point position and velocity into actual mass COM. */
 export function bodyMassPose(state: SimState, model: VehicleDefinition): { x: number; altitude: number; speedX: number; speedY: number } {
   const k = state.kinematics;
   const offset = centreOfMass(state.vehicle.propellantMass, model) - model.height / 2;
   return { x: k.downRangeDistance + offset * Math.sin(k.pitch),
-    altitude: k.altitude + offset * Math.cos(k.pitch), speedX: k.speedX, speedY: k.speedY };
+    altitude: k.altitude + offset * Math.cos(k.pitch),
+    speedX: k.speedX + offset * k.angularVelocity * Math.cos(k.pitch),
+    speedY: k.speedY - offset * k.angularVelocity * Math.sin(k.pitch) };
 }
 
 export function createHotStageMission(seed = DEFAULT_SEED): MissionState {
@@ -118,12 +121,12 @@ function deriveBody(body: SimState, model: VehicleDefinition, aggregate: Transla
   k.angularVelocity = a.angularVelocity;
   k.angularAcceleration = a.angularAcceleration;
   // Pitch is clockwise: omega × (x,y) = (omega*y, -omega*x).
-  k.speedX = a.speedX + a.angularVelocity * massOffset * uy;
-  k.speedY = a.speedY - a.angularVelocity * massOffset * ux;
-  k.accelerationX = a.accelerationX + a.angularAcceleration * massOffset * uy
-    - a.angularVelocity ** 2 * massOffset * ux;
-  k.accelerationY = a.accelerationY - a.angularAcceleration * massOffset * ux
-    - a.angularVelocity ** 2 * massOffset * uy;
+  k.speedX = a.speedX + a.angularVelocity * hullOffset * uy;
+  k.speedY = a.speedY - a.angularVelocity * hullOffset * ux;
+  k.accelerationX = a.accelerationX + a.angularAcceleration * hullOffset * uy
+    - a.angularVelocity ** 2 * hullOffset * ux;
+  k.accelerationY = a.accelerationY - a.angularAcceleration * hullOffset * ux
+    - a.angularVelocity ** 2 * hullOffset * uy;
   k.totalAcceleration = Math.hypot(k.accelerationX, k.accelerationY);
   k.trueSpeed = Math.hypot(k.speedX, k.speedY);
   k.machSpeed = relativeAirspeed(k.speedX, k.speedY, airVelocityX(body.world, k.altitude), body.world.gustVertical)
@@ -131,8 +134,13 @@ function deriveBody(body: SimState, model: VehicleDefinition, aggregate: Transla
   body.vehicle.vehicleMomentOfInertia = momentOfInertia(body.vehicle.propellantMass, model);
   // The rigid constraint carries both translation and rotational acceleration.
   // Remove local gravity/polar terms to report the load borne by this body.
-  const gx = (k.accelerationX - tangentialAcceleration(k.distanceToPlanetCenter, k.speedX, k.speedY)) / C.standardGravity;
-  const gy = (k.accelerationY - verticalGravityAcceleration(k.distanceToPlanetCenter, k.speedX)) / C.standardGravity;
+  const massRadius = C.planetRadius + a.altitude + massOffset * uy;
+  const massVx = a.speedX + a.angularVelocity * massOffset * uy;
+  const massVy = a.speedY - a.angularVelocity * massOffset * ux;
+  const massAx = a.accelerationX + a.angularAcceleration * massOffset * uy - a.angularVelocity ** 2 * massOffset * ux;
+  const massAy = a.accelerationY - a.angularAcceleration * massOffset * ux - a.angularVelocity ** 2 * massOffset * uy;
+  const gx = (massAx - tangentialAcceleration(massRadius, massVx, massVy)) / C.standardGravity;
+  const gy = (massAy - verticalGravityAcceleration(massRadius, massVx)) / C.standardGravity;
   body.forces.perceivedG_X = gx;
   body.forces.perceivedG_Y = gy;
   body.forces.perceivedG = Math.sqrt(gx ** 2 + gy ** 2);
@@ -156,8 +164,8 @@ function requestStage(m: MissionState): void {
 
 export function stepMission(previous: MissionState, dt: number, input: MissionInput = NO_MISSION_INPUT): MissionState {
   if (previous.phase === 'separated') return { ...previous,
-    ship: step(previous.ship, dt, input.ship ?? NO_INPUT, SHIP),
-    booster: step(previous.booster, dt, input.booster ?? NO_INPUT, SUPER_HEAVY),
+    ship: stepMissionBody(previous.ship, dt, input.ship ?? NO_INPUT, SHIP),
+    booster: stepMissionBody(previous.booster, dt, input.booster ?? NO_INPUT, SUPER_HEAVY),
     elapsedTime: previous.elapsedTime + dt };
   const m: MissionState = { ...previous, ship: cloneState(previous.ship), booster: cloneState(previous.booster),
     aggregate: { kinematics: { ...previous.aggregate.kinematics, pitchRecord: [...previous.aggregate.kinematics.pitchRecord] },

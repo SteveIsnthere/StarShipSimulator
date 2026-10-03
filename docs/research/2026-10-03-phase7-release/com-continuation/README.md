@@ -1,0 +1,13 @@
+# Separated mission mass-centre continuation
+
+Bug-fix tier, approved Phase 7 Task 6; base `9a290f6`. Original P1 independent reproduction identified a hull position advanced with COM velocity after real paid release. Mission bodies now publish hull kinematics and integrate their mass centres with the same shared force, translation, angular and actuator kernels. Planner replay uses that mission advance. Standalone `step()` remains unchanged.
+
+The new first two tests failed before the fix: free-rotation COM displacement error 0.00532739982 m against the predeclared floating-point bound 7.127e-8 m; paid thrust/torque/fuel case 0.0080701001 m. `red.log` retains both. Their bound is 16 floating operations of roundoff, not a tuned flight tolerance. Real Stage release, 120 rotating free steps, remaining-mass station, paid gimbal torque and incoming-state purity pass after the fix. Existing momentum and specific-load checks now compare the actual COM point, retaining their original bounds and assertions.
+
+Accepted checks: build2, build3 and build4 exit 0; build4 precedes contact-final. Focused2: 47 checks / 6 files. Preservation: 32 checks / 4 files, including actual all-ten replay and the independent 1,200-case bit-exact Ship extraction proof. Contact-final: 22 checks / 3 files, including new real mission catch/held-fuel, missed lug and crash checks. Lint exits 0 with the existing BlackBox hook dependency warning. Build JS 295.5 / 300 kB. Before/after truth: all 14 current rows IN. The final release must still extend the registry's required ascent/heating witnesses.
+
+Nonacceptance: focused1 retained three failed older tests whose targets conflated hull and COM velocity/load; those targets were corrected to independent mass-point equations without relaxing bounds. contact.log retains a failed new assertion that assumed a crash snaps upward to the ground plane; existing collision freezes the penetrated hull pose, so the correct exact target is the incoming 35.4 m. No runtime change was made for that test correction.
+
+Golden prediction: no scenario moves because these ten recordings use standalone `step()`. `golden-audit.json` confirms all 33 dependency files reachable from standalone step/scenarios are byte-identical to the parent and all ten fixture files remain byte-identical. Therefore each before/after sampled trajectory is identical; the actual replay and independent dynamics proof also pass. No golden regeneration or tolerance change.
+
+Independent affected-conclusion review is required and will be retained here before this checkpoint is considered closed. This is not full Phase 7 gate, merge or live acceptance.
