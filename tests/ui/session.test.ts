@@ -117,6 +117,34 @@ describe('flights', () => {
     expect(session.loop.totalSteps).toBe(0);
   });
 
+  it.each(['standalone', 'selected-booster', 'selected-ship'] as const)('invalidates booster risk work through the actual %s toggle', mode => {
+    const session = createSession();
+    if (mode === 'standalone') session.startFlight(getScenario('rtls')!);
+    else {
+      session.startHotStage(123); session.stage();
+      for (let i = 0; i < 240 && session.mission!.phase === 'attached'; i++) session.advance(DT);
+      expect(session.mission!.phase).toBe('separated');
+      session.selectVehicle('super-heavy');
+    }
+    session.emit({ type: 'autoLand' }); session.advance(DT);
+    if (mode === 'selected-ship') session.selectVehicle('ship');
+    for (const initial of [false, true]) {
+      const booster = session.mission?.booster ?? session.loop.state;
+      const job = booster.autopilot.boosterPrediction!;
+      expect(job.origin.failures.randomFailure).toBe(initial);
+      const physical = structuredClone({ engines: booster.engines, fuel: booster.vehicle.propellantMass, rng: booster.rng });
+      session.toggleRandomFailure();
+      expect(booster.failures.randomFailure).toBe(!initial);
+      expect(booster.autopilot.boosterPrediction).toBeUndefined();
+      expect(booster.autopilot.boosterReturnPlan).toBeUndefined();
+      expect({ engines: booster.engines, fuel: booster.vehicle.propellantMass, rng: booster.rng }).toEqual(physical);
+      if (session.mission) expect(session.mission.ship.failures.randomFailure).toBe(!initial);
+      session.advance(DT);
+      const next = session.mission?.booster ?? session.loop.state;
+      expect(next.autopilot.boosterPrediction!.origin.failures.randomFailure).toBe(!initial);
+    }
+  });
+
   it('restarts the requested hot-stage seed and applies the shared failure setting to both bodies', () => {
     const session = createSession();
     session.startHotStage(123);

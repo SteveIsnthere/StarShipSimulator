@@ -13,6 +13,7 @@ import { commandIgnition, getWorkingEngineCount, rollIgnitionFailure, shutdownEn
 import * as C from '../constants';
 import { SHIP, type VehicleDefinition } from '../vehicle';
 import type { RaptorIndex, SimState } from '../state';
+import { invalidateBoosterReturn } from './booster-return-plan';
 
 /**
  * switches.js:16 — toggle one Raptor.
@@ -72,6 +73,8 @@ export function toggleDumpFuel(state: SimState): void {
 /** switches.js:247 — the menu's RandomFailure toggle. */
 export function toggleRandomFailure(state: SimState): void {
   state.failures.randomFailure = !state.failures.randomFailure;
+  // A future ignition policy is part of the forecast's immutable source.
+  invalidateBoosterReturn(state.autopilot);
 }
 
 /** tools.js:10 */
