@@ -1,0 +1,12 @@
+{
+  "base": "ebb76c7367eb2636137f05893876d4c7c5211d30",
+  "files": {
+    "src/core/autopilot/index.ts": "7c8e9738e2d94cd28bf4d3091ba4ecfceab2859a8278a84a4d10d536603d3ee2",
+    "src/core/control/actuation.ts": "b74426801e0033981079e2f67d7c8d394ccc6ec8e0cad117d59559287f375897",
+    "src/core/control/guidance-physics.ts": "d4103e030bbfa870f8122311745625d91dc36c75da53c2ce68ea9033702c29a9",
+    "src/core/state.ts": "f9cd3659c276721a950adb9f4e65efebd8d5f05282abc3bcc7bfe27b1a5495b3",
+    "src/core/step.ts": "7d3de72726aef72c4d79207b66d055033d63ff87c02bfaadb14c1b84334d305c",
+    "src/core/autopilot/booster.ts": "451f005a7e19c0b553a6a8e2656a339b40274b054fdd71f7e6aa390c16f6cdf6",
+    "tests/core/booster-guidance.test.ts": "6b8fc2b631dc425352e74f654e9a87187ac9eb5f1bb1c518b042cd6175ed7532"
+  }
+}
