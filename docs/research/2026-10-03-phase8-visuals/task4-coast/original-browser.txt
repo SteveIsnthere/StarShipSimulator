@@ -1,0 +1,81 @@
+[WebServer] (node:99616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 30 tests using 3 workers
+
+(node:99618) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99619) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (1.4s)
+  200 m: spread 26.09, 5 buckets, top 23%
+ 6000 m: spread 23.70, 5 buckets, top 40%
+40000 m: spread 13.96, 4 buckets, top 34%
+  ✓   2 [chromium] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (2.3s)
+  ✓   4 [chromium] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.9s)
+ground band: spread 23.56, 5 tone bucket(s), top colour #335566 at 40%
+  ✓   3 [chromium] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (5.6s)
+(node:99640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (660ms)
+ground band: spread 20.26, 5 tone bucket(s), top colour #335566 at 39%
+  ✓   8 [pixel-portrait] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (4.7s)
+  200 m: spread 20.67, 6 buckets, top 31%
+ 6000 m: spread 20.14, 5 buckets, top 39%
+40000 m: spread 13.64, 4 buckets, top 39%
+  ✓   9 [pixel-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (1.5s)
+  ✓  10 [pixel-portrait] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.7s)
+  ✓   5 [chromium] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.9s)
+(node:99673) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [chromium] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.8s)
+(node:99689) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (1.0s)
+ground band: spread 20.88, 7 tone bucket(s), top colour #887766 at 12%
+  ✓  14 [pixel-landscape] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (5.0s)
+  200 m: spread 22.11, 6 buckets, top 27%
+ 6000 m: spread 19.76, 7 buckets, top 19%
+40000 m: spread 8.33, 2 buckets, top 25%
+  ✓  15 [pixel-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (1.5s)
+  ✓  16 [pixel-landscape] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.8s)
+  ✓  11 [pixel-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.0s)
+(node:99723) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [pixel-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (32.0s)
+(node:99753) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (1.0s)
+ground band: spread 21.57, 6 tone bucket(s), top colour #335566 at 39%
+  ✓  20 [iphone-portrait] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (5.4s)
+  200 m: spread 22.90, 6 buckets, top 23%
+ 6000 m: spread 19.89, 6 buckets, top 39%
+40000 m: spread 13.63, 5 buckets, top 39%
+  ✓  21 [iphone-portrait] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (2.5s)
+  ✓  17 [pixel-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.4s)
+(node:99788) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [pixel-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.6s)
+(node:99797) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  22 [iphone-portrait] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (4.2s)
+(node:99809) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  25 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (955ms)
+ground band: spread 23.83, 7 tone bucket(s), top colour #998877 at 11%
+  ✓  26 [iphone-landscape] › tests/e2e/pixels.spec.ts:251:1 › the ground band is ground @mobile (5.2s)
+  200 m: spread 21.89, 7 buckets, top 21%
+ 6000 m: spread 25.31, 7 buckets, top 10%
+40000 m: spread 8.97, 2 buckets, top 37%
+  ✓  27 [iphone-landscape] › tests/e2e/pixels.spec.ts:294:1 › and the ground has structure at every altitude it is visible from @mobile (1.5s)
+  ✓  28 [iphone-landscape] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.7s)
+  ✓  23 [iphone-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.6s)
+(node:99853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  24 [iphone-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.5s)
+  ✓  29 [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.0s)
+  ✓  30 [iphone-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.0s)
+
+  30 passed (2.4m)

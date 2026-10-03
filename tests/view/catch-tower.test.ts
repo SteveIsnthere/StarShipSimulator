@@ -30,3 +30,23 @@ it('draws the physical120m target and only shows secured after actual capture, n
   expect(tower.container.visible).toBe(false);
   tower.container.destroy({ children: true });
 });
+
+it('uses the shared sun for mechanical detail and night lamps without inventing secured status', async () => {
+  const { createSunLight, writeSun, DEFAULT_LAUNCH_HOUR } = await import('$view/sun');
+  const sun = createSunLight(), tower = createCatchTower();
+  const viewport = computeViewport(800, 600, 50), camera = createCamera(viewport, 0, 0, 0);
+  const state = createInitialState(123, SUPER_HEAVY);
+  writeSun(sun, 'custom', (12 - DEFAULT_LAUNCH_HOUR) * 3600, C.starBaseXPos);
+  tower.update(camera, viewport, state, sun);
+  const mast = tower.container.getChildByLabel('tower-mast') as import('pixi.js').Graphics;
+  const day = mast.tint;
+  const lamps = tower.container.getChildByLabel('tower-lights')!;
+  expect(lamps.alpha).toBe(0);
+  writeSun(sun, 'custom', -DEFAULT_LAUNCH_HOUR * 3600, C.starBaseXPos);
+  tower.update(camera, viewport, state, sun);
+  expect(mast.tint).toBeLessThan(day);
+  expect(lamps.alpha).toBeGreaterThan(0.5);
+  expect(tower.container.getChildByLabel('tower-secured')!.visible).toBe(false);
+  expect(tower.container.getChildByLabel('tower-carriage')).not.toBeNull();
+  tower.container.destroy({ children: true });
+});

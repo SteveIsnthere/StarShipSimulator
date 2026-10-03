@@ -16,10 +16,11 @@ import {
   padLightIntensity,
 } from './atmosphere-look';
 import { skyLightness, skyTint, skyTintLit } from './sky';
-import { groundDaylight, groundShadow, type GroundShadow, type SunLight } from './sun';
+import { groundDaylight, groundShadow, createSunLight, type GroundShadow, type SunLight } from './sun';
 import { vehicleDiameter, vehicleHeight } from '$core/constants';
 import { scaleColour } from './colour';
 import { horizonCurve, horizonDrop, HORIZON_SEGMENTS } from './horizon';
+import { createCoast } from './coast';
 import { MOTTLE_MEAN, MOTTLE_TILE, type TerrainTextures } from './terrain';
 
 /**
@@ -122,6 +123,13 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
   */
   const horizonHaze = terrain ? new Sprite(terrain.haze) : undefined;
   if (horizonHaze) container.addChild(horizonHaze);
+
+  const coast = createCoast();
+  const coastMask = new Graphics({ context: ground.context });
+  coastMask.label = 'coast-ground-mask';
+  container.addChild(coast.container, coastMask);
+  coast.container.mask = coastMask;
+  const defaultSun = createSunLight();
 
   /*
     THE VEHICLE'S SHADOW (M11.4), on the ground and under the scenery. Its
@@ -229,10 +237,14 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
         of this did, left the near ground's stripe in place AND made the two
         layers disagree with each other where they meet.
       */
-      ground.tint = scaleColour(groundTint(GROUND_COLOR, lightness), MOTTLE_MEAN);
+      ground.tint = scaleColour(groundTint(GROUND_COLOR, skyLightness(altitude)),
+        MOTTLE_MEAN * (sun ? groundDaylight(sun) : 1));
       // Hidden when the camera is high enough that the ground is off screen,
       // which saves a full-screen fill on every frame of an ascent.
       ground.visible = horizon.y < viewport.height;
+      coastMask.position.set(ground.x, ground.y);
+      coast.update(camera, viewport, sun ?? defaultSun);
+      coast.container.visible = ground.visible;
 
       if (mottle && ramp) {
         mottle.visible = ground.visible;
@@ -401,7 +413,8 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
         item.sprite.width = item.object.width * viewport.scale;
         item.sprite.height = item.object.height * viewport.scale;
         // Scenery dims with the ground it stands on, for the same reason.
-        item.sprite.tint = groundTint(0xffffff, lightness);
+        item.sprite.tint = scaleColour(groundTint(0xffffff, skyLightness(altitude)),
+          sun ? groundDaylight(sun) : 1);
 
         // Cull off-screen sprites rather than asking the GPU to reject them.
         const halfPx = item.sprite.width * 0.5;

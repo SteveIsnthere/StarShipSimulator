@@ -101,9 +101,9 @@ Run `npm run build` then `npx vitest run tests/view/heat-look.test.ts tests/view
 **Consumes:** world camera/viewport, existing sun/groundTint/horizon geometry, actual tower verdict; no geographic data fetch.
 **Produces:** `createCoast():{container:Container,update(camera:CameraState,viewport:Viewport,sun:SunLight):void}`; startup-owned ocean/coast/pad assets at authored fixed world coordinates.
 
-- [ ] Write RED graph/look tests for coast tied to world coordinates through pan/zoom, night/day tint, objects culled offscreen, shared curved ground clip and unchanged pig/pad positions. Add render positive controls isolating ocean vs land and night lighting.
-- [ ] Build/test RED; add restrained ocean band, coast boundary, concrete pad/roads, tower truss/mechanical detail and night lights. Reuse horizon mask and shared sunlight; keep secured indicator exclusively tied to physical catch. Preserve existing generated ground texture and clouds/sky/night behavior.
-- [ ] Drive actual near-pad launch/landing/catch plus20/100km daylight/night scenes. Inspect silhouettes, coast readability and ground/sky seams on every viewport. Keep existing terrain/tower assertions unchanged; commit/push `feat(view): place Starbase on a coherent coastline`.
+- [x] Write RED graph/look tests for coast tied to world coordinates through pan/zoom, night/day tint, objects culled offscreen, shared curved ground clip and unchanged pig/pad positions. Add render positive controls isolating ocean vs land and night lighting.
+- [x] Build/test RED; add restrained ocean band, coast boundary, concrete pad/roads, tower truss/mechanical detail and night lights. Reuse horizon mask and shared sunlight; keep secured indicator exclusively tied to physical catch. Preserve existing generated ground texture and clouds/sky/night behavior.
+- [x] Drive actual near-pad launch/landing/catch plus20/100km daylight/night scenes. Inspect silhouettes, coast readability and ground/sky seams on every viewport. Keep existing terrain/tower assertions unchanged; commit/push `feat(view): place Starbase on a coherent coastline`.
 
 Use the actual container/world transform as the graph witness, keeping GPU image proof separate:
 

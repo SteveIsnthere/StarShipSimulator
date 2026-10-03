@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/coast.test.ts (3 tests | 1 failed) 15ms
+   × dims coastal surfaces and raises only the authored pad lamps at night 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/coast.test.ts > dims coastal surfaces and raises only the authored pad lamps at night
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/view/coast.test.ts:43:48
+     41|   const lights = coast.container.getChildByLabel('coast-lights')!;
+     42|   coast.update(camera, viewport, sunAt(12));
+     43|   const day = ocean.tint; expect(lights.alpha).toBe(0);
+       |                                                ^
+     44|   coast.update(camera, viewport, sunAt(0));
+     45|   expect(ocean.tint).toBeLessThan(day); expect(lights.alpha).toBeGreat…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 29 passed (30)
+      Tests  1 failed | 361 passed (362)
+   Start at  10:21:10
+   Duration  12.82s (transform 1.65s, setup 0ms, import 11.54s, tests 28.49s, environment 3ms)
+

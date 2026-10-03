@@ -1,0 +1,11 @@
+{
+  "src/view/coast.ts": "5a9540076c86a21ffae24e76f78869e6020140434114b10bfea0065c00847b28",
+  "src/view/world.ts": "81e34d27570ea2fd67704ddf12d4c10f700acb15ccfc760906c319f3454f4fd8",
+  "src/view/distant-earth.ts": "437f7c6f60a48af9e4ebde68410ef5b24ebfc43ff8974892503644f02da432ca",
+  "src/view/catch-tower.ts": "080ab932d24d19ed4f844ab185da2e3a1858335c87320b744f5f7c3e5a2325cb",
+  "src/ui/session/scene.ts": "057c1ad904176cf0c1e4a49f8884444c68f2fa25e83e01b3f6c5f531d7d4f6cb",
+  "tests/view/coast.test.ts": "16200ff8960cbb3975dd062f0b414fc44769de2a9b4afd11588385284766c2e5",
+  "tests/view/catch-tower.test.ts": "fbb24f26531b774830cfb5566367eef6f8097f305ddf797fea9e553cb1aea2a2",
+  "tests/e2e/coast.spec.ts": "993feb4034bec64a112c1004e634e48f71573014d3d21d470d2010c9628c5467",
+  "tests/e2e/renderer/coast-witness.ts": "56582213a2861e2535f7c7f073e6b78c54286aba90bd97d64f253825a79139bf"
+}

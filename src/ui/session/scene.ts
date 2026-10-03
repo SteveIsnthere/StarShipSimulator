@@ -112,7 +112,7 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
       world.update(view.camera, view.viewport, s.kinematics.speedX, s.kinematics.altitude, worldLighting);
 
       tower.update(view.camera, view.viewport, controller.mission?.booster
-        ?? (controller.model.id === 'super-heavy' ? s : undefined));
+        ?? (controller.model.id === 'super-heavy' ? s : undefined), sun);
       vehicles.draw(s, previous, worldDt, sun, elapsed, controller);
 
       // Where the vehicle is going, as against where its nose points.
