@@ -1,0 +1,46 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-prediction.test.ts (12 tests | 2 failed) 46ms
+     × captures the complete returned live frame as the first planning source for booster-sep 9ms
+     × captures the complete returned live frame as the first planning source for rtls 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > captures the complete returned live frame as the first planning source for booster-sep
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > captures the complete returned live frame as the first planning source for rtls
+AssertionError: world: expected { environmentTime: +0, …(8) } to deeply equal { …(9) }
+
+- Expected
++ Received
+
+@@ -1,10 +1,10 @@
+  {
+-   "environmentTime": 0.008333333333333333,
++   "environmentTime": 0,
+    "gust": 0,
+    "gustVertical": 0,
+-   "timeSpent": 0.008333333333333333,
++   "timeSpent": 0,
+    "turbulenceU": 0,
+    "turbulenceW1": 0,
+    "turbulenceW2": 0,
+    "updatedFrameCount": 1,
+    "wind": 0,
+
+ ❯ tests/core/booster-prediction.test.ts:29:31
+     27|     const origin=first.autopilot.boosterPrediction!.origin;
+     28|     for(const key of ['world','vehicle','engines','rng','forces','kine…
+     29|       expect(origin[key],key).toEqual(first[key]);
+       |                               ^
+     30|     expect(origin.autopilot.boosterPrediction).toBeUndefined();
+     31|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 10 passed (12)
+   Start at  20:54:12
+   Duration  267ms (transform 94ms, setup 0ms, import 117ms, tests 46ms, environment 0ms)
+

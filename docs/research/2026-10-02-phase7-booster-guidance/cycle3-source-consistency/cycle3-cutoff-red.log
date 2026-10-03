@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (17 tests | 2 failed) 2916ms
+     × pays the same final boost impulse when its forecast cutoff commands live mechanics for booster-sep 12ms
+     × pays the same final boost impulse when its forecast cutoff commands live mechanics for rtls 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > pays the same final boost impulse when its forecast cutoff commands live mechanics for booster-sep
+AssertionError: expected 10.966666666666685 to be close to 10.958333333333352, received difference is 0.00833333333333286, but expected 5e-11
+ ❯ tests/core/booster-forecast.test.ts:127:40
+    125|       live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
+    126|     expect(live.autopilot.boosterPhase).toBe('coast');
+    127|     expect(live.world.environmentTime).toBeCloseTo(forecast.state.worl…
+       |                                        ^
+    128|     expect(live.vehicle.propellantMass).toBeCloseTo(forecast.state.veh…
+    129|     expect(live.kinematics.speedX).toBeCloseTo(forecast.state.kinemati…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > pays the same final boost impulse when its forecast cutoff commands live mechanics for rtls
+AssertionError: expected 9.40833333333344 to be close to 9.400000000000107, received difference is 0.00833333333333286, but expected 5e-11
+ ❯ tests/core/booster-forecast.test.ts:127:40
+    125|       live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
+    126|     expect(live.autopilot.boosterPhase).toBe('coast');
+    127|     expect(live.world.environmentTime).toBeCloseTo(forecast.state.worl…
+       |                                        ^
+    128|     expect(live.vehicle.propellantMass).toBeCloseTo(forecast.state.veh…
+    129|     expect(live.kinematics.speedX).toBeCloseTo(forecast.state.kinemati…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 15 passed (17)
+   Start at  21:04:55
+   Duration  3.13s (transform 93ms, setup 0ms, import 114ms, tests 2.92s, environment 0ms)
+

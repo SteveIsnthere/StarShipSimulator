@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (13 tests | 2 failed) 1321ms
+     × matches the live paid thirteen-engine ignition endpoint of booster-sep 19ms
+     × matches the live paid thirteen-engine ignition endpoint of rtls 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > matches the live paid thirteen-engine ignition endpoint of booster-sep
+AssertionError: expected 10.758333333333452 to be 10.708333333333366 // Object.is equality
+
+- Expected
++ Received
+
+- 10.708333333333366
++ 10.758333333333452
+
+ ❯ tests/core/booster-forecast.test.ts:64:35
+     62|       expect(work.state.rng.counters.ignitionFailure-origin.rng.counte…
+     63|     }
+     64|     expect(scheduled.result.time).toBe(liveCadence.result.time);
+       |                                   ^
+     65|     expect(scheduled.state).toEqual(liveCadence.state);
+     66|     expect(scheduled.result.steps).toBe(liveCadence.result.steps);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > matches the live paid thirteen-engine ignition endpoint of rtls
+AssertionError: expected 9.200000000000202 to be 9.150000000000121 // Object.is equality
+
+- Expected
++ Received
+
+- 9.150000000000121
++ 9.200000000000202
+
+ ❯ tests/core/booster-forecast.test.ts:64:35
+     62|       expect(work.state.rng.counters.ignitionFailure-origin.rng.counte…
+     63|     }
+     64|     expect(scheduled.result.time).toBe(liveCadence.result.time);
+       |                                   ^
+     65|     expect(scheduled.state).toEqual(liveCadence.state);
+     66|     expect(scheduled.result.steps).toBe(liveCadence.result.steps);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 11 passed (13)
+   Start at  20:49:39
+   Duration  1.54s (transform 99ms, setup 0ms, import 122ms, tests 1.32s, environment 0ms)
+
