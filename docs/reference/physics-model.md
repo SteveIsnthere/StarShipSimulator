@@ -369,7 +369,7 @@ Measured original default-seed catches (development source pinned in `docs/resea
 
 Both use their unchanged500t/200t start loads,26independent ignition-delay/failure draws and no fuel dumping. These remaining loads are measured margins in the required scenarios, not a claimed minimum reserve or a certification of uncertain mass/wind variants. Planning is fuel-bounded and acceptance requires positive real remaining propellant; no reserve is added to a tank. Immediately before catch, lug vx/vy are−0.007/−1.698m/s (Sep) and−0.019/−1.551m/s (RTLS), within the frozen limits. All failures are false. Ship's18t landing reserve and its preserved physics remain separate.
 
-### Physical hot-stage mission on the development branch
+### Shipped physical hot-stage mission
 
 `core/mission.ts` composes the extracted paid-force and Verlet phases for a touching71m booster/50m Ship at the original Booster Sep pose,500t/1200t propellant. The aggregate mass COM/inertia follows both actual tanks, including parallel-axis contributions. Sum each real world force and its moment about the aggregate COM; intrinsic engine/aero/RCS torque comes from the same physical functions. Aggregate translation and angular motion each integrate once. Hull-centre positions are explicitly derived from the physical COM; body mass-COM velocities inherit aggregate velocity plus clockwise rotation at that offset. The independent Ship coordinate convention remains unchanged after release. Constraint/centripetal acceleration contributes to each body's reported felt load. No extra exhaust force or separation impulse is added.
 
