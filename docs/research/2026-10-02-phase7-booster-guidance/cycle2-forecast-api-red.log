@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts [ tests/core/booster-forecast.test.ts ]
+Error: Cannot find module '$core/control/booster-forecast' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/booster-forecast.test.ts
+ ❯ tests/core/booster-forecast.test.ts:6:1
+      4| import { cloneState } from '$core/state';
+      5| import { advanceMechanics } from '$core/step';
+      6| import { createBoosterForecast,forecastBoosterReturn } from '$core/con…
+       | ^
+      7| import { runBoosterPolicy } from '$core/autopilot/booster';
+      8| import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  17:15:05
+   Duration  221ms (transform 92ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/mechanical-advance.test.ts (2 tests | 2 failed) 3ms
+     × uses exactly the same uncontrolled Ship mechanics 3ms
+     × runs the supplied control law once after motion, without recursing into the real autopilot 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/mechanical-advance.test.ts > shared mechanical advance > uses exactly the same uncontrolled Ship mechanics
+TypeError: advanceMechanics is not a function
+ ❯ tests/core/mechanical-advance.test.ts:14:12
+     12|     s.kinematics.speedX=100;s.kinematics.speedY=-50;
+     13|     const before=cloneState(s);
+     14|     expect(advanceMechanics(s,1/120,()=>{},SHIP)).toEqual(step(s,1/120…
+       |            ^
+     15|     expect(s).toEqual(before);
+     16|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/mechanical-advance.test.ts > shared mechanical advance > runs the supplied control law once after motion, without recursing into the real autopilot
+TypeError: advanceMechanics is not a function
+ ❯ tests/core/mechanical-advance.test.ts:21:16
+     19|     const before=cloneState(s);let calls=0;
+     20|     const control=(next:SimState)=>{calls++;next.vehicle.throttle=73;t…
+     21|     const next=advanceMechanics(s,1/120,control,SHIP);
+       |                ^
+     22|     expect(calls).toBe(1);expect(next.autopilot.autoTakeOffInitialised…
+     23|     expect(next.vehicle.throttle).toBe(73);expect(next.rng.counters.ig…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  17:11:57
+   Duration  195ms (transform 80ms, setup 0ms, import 98ms, tests 3ms, environment 0ms)
+

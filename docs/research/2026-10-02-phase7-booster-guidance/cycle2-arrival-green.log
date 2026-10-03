@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-command.test.ts (5 tests | 1 failed) 7ms
+     × requests resumed descent instead of gravity cancellation after an early stop 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-command.test.ts > booster finite descending terminal command > requests resumed descent instead of gravity cancellation after an early stop
+AssertionError: expected NaN to be less than 43.4487777703639
+ ❯ tests/core/booster-command.test.ts:65:32
+     63|     runBoosterAutopilot(s,1/120,SUPER_HEAVY);
+     64|     const hover=300000*9.8/(3*C.thrustPerRaptorAt(101.325))*100;
+     65|     expect(s.vehicle.throttle).toBeLessThan(hover);
+       |                                ^
+     66|     expect(s.vehicle.throttle).toBeGreaterThanOrEqual(40);
+     67|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 23 passed (24)
+   Start at  17:10:35
+   Duration  752ms (transform 269ms, setup 0ms, import 461ms, tests 503ms, environment 0ms)
+
