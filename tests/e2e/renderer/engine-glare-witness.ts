@@ -67,9 +67,14 @@ export async function engineGlareWitness() {
   for (let i = 0; i < lit.length; i++) if (i % 4 !== 3) {
     bloomMinimum = Math.min(bloomMinimum, bloomed[i]! - lit[i]!);
   }
+  // WebGL's default non-preserved drawing buffer may be cleared while the
+  // asynchronous pixel reader decodes its image. Capture immediately after
+  // a fresh render, before any await yields to the browser compositor.
+  app.render();
+  const capture = app.canvas.toDataURL();
   const result = { offEnergy, engineEnergy: energy(lit) - energy(lit, true), groundEnergy: energy(lit, true),
     farGroundEnergy, failedEnergy, shutdownEnergy, pausedDifference, bloomMinimum,
-    capture: app.canvas.toDataURL() };
+    capture };
   post.destroy(); glare.destroy(); uninstall();
   app.destroy(true, { children: true });
   atlas.soft.source.destroy();

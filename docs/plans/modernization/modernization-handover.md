@@ -217,3 +217,5 @@ Phase 8 Task 2 checkpoint: actual SL/RVac look, per-mount mesh/particle origins,
 
 
 Task2 complete: state-driven per-body engine/ground glare, independent hidden-source absence detector and actual GPU captures retained in task2-glare research. 350 view tests, 57 original-plus-glare browser checks, 15 staging/bell/glare checks and five strengthened absence checks all pass, zero retries. Build296.6kB, lint zero errors/existing BlackBox warning. Task3 is next; no owner question. Main/live remain Phase7, roadmap80%. No Phase8 gate, frame budget, review or release is yet claimed.
+
+Task2 capture provenance: use task2-glare/synchronous-captures/ only. Earlier page and asynchronous buffer captures were blank and are invalidated in result.md. Actual fresh-render capture inspected; all five GPU controls pass. Task2 ledger complete; Task3 next. No heavy check or question pending.
