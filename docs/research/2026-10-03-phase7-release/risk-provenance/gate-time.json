@@ -1,0 +1,8 @@
+{
+  "source": "2156c7c (runtime/tests d843b18)",
+  "basis": "log file birth to final output timestamp on Steve arm64 Mac; approximate end-to-end duration, separately observed process elapsed325s while still running",
+  "seconds": 361.6329629421234,
+  "observedRunningLowerBoundSeconds": 325,
+  "budgetSeconds": 300,
+  "budgetMet": false
+}

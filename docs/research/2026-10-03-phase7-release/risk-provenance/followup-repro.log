@@ -1,0 +1,15 @@
+source d843b187acd1b982968dc226145f321dc24052be
+direct direction false clears pending+cutoff; physical/RNG/realized-failure unchanged; next origin matches
+direct direction true clears pending+cutoff; physical/RNG/realized-failure unchanged; next origin matches
+actual session standalone direction false pending+cutoff clear; physical/RNG unchanged; next origin matches
+actual session standalone direction true pending+cutoff clear; physical/RNG unchanged; next origin matches
+actual session selected-booster direction false pending+cutoff clear; physical/RNG unchanged; next origin matches
+actual session selected-booster direction true pending+cutoff clear; physical/RNG unchanged; next origin matches
+actual session selected-ship direction false pending+cutoff clear; physical/RNG unchanged; next origin matches
+actual session selected-ship direction true pending+cutoff clear; physical/RNG unchanged; next origin matches
+actual accepted cutoff cleared {"originTime":0.008333333333333333,"shutdownAt":13.641666666666532,"coastPitch":0,"handoff":{"x":89.63081263750792,"height":3412.6336450803456,"vx":-4.229139731968314,"vy":-288.4184615163336,"time":24.473907995243632,"lateralFeasible":true}}
+unchanged-policy retention control passes
+protected Ship command shape/resource control passes
+(node:64265) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:64265) Warning: `--localstorage-file` was provided without a valid path
