@@ -3,6 +3,23 @@ import { build } from 'esbuild';
 import type { CompositeReport, WitnessKind } from './renderer/post-witness';
 import type { SamplingRow } from './renderer/post-sampling';
 
+test('engine and ground glare follow firing with absence and paused controls @mobile', async ({ page }) => {
+  await openWitness(page);
+  const report = await page.evaluate(() => (window as unknown as {
+    engineGlareWitness: typeof import('./renderer/engine-glare-witness').engineGlareWitness;
+  }).engineGlareWitness());
+  console.log('[engine-glare]', report);
+  expect(report.offEnergy).toBe(0);
+  expect(report.engineEnergy).toBeGreaterThan(0);
+  expect(report.groundEnergy).toBeGreaterThan(0);
+  expect(report.farGroundEnergy).toBe(0);
+  expect(report.failedEnergy).toBe(0);
+  expect(report.shutdownEnergy).toBe(0);
+  expect(report.pausedDifference).toBe(0);
+  expect(report.bloomMinimum).toBeGreaterThanOrEqual(-1);
+  await page.screenshot({ path: test.info().outputPath('engine-and-ground-glare.png') });
+});
+
 let source: string;
 test.beforeAll(async () => {
   const result = await build({ entryPoints: ['tests/e2e/renderer/post-witness.ts'],

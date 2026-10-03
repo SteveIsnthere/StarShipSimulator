@@ -4,7 +4,7 @@ import type { Texture } from 'pixi.js';
 import type { SimState } from '$core/state';
 import { SHIP } from '$core/vehicle';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
-import { heatLimit, vehicleHeight } from '$core/constants';
+import { engineDistanceFromCenterOfMass, heatLimit, vehicleHeight } from '$core/constants';
 import type { ViewApp } from '$view/app';
 import { STARSHIP_TEXTURE } from '$view/assets';
 import { createVehicle } from '$view/vehicle';
@@ -14,6 +14,7 @@ import { createOnboardInset, createSheath, windwardInHull } from '$view/reentry'
 import { createParticleSystem, type createParticleTextures } from '$view/particles';
 import { createEffectDriver } from '$view/effects';
 import { createEmissiveBell } from '$view/emissive-bell';
+import { createEngineGlare } from '$view/engine-glare';
 import { plasmaIntensity } from '$view/atmosphere-look';
 import type { SunLight } from '$view/sun';
 import type { MissionController } from './mission-controller';
@@ -37,8 +38,10 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
   const boosterEffects = createEffectDriver(SUPER_HEAVY);
   const shipBell = createEmissiveBell();
   const boosterBell = createEmissiveBell(SUPER_HEAVY);
-  view.layers.effectsBehind.addChild(shipBell.container, shipParticles.container,
-    boosterBell.container, boosterParticles.container);
+  const shipGlare = createEngineGlare(atlas.soft);
+  const boosterGlare = createEngineGlare(atlas.soft, SUPER_HEAVY);
+  view.layers.effectsBehind.addChild(shipGlare.container, shipBell.container, shipParticles.container,
+    boosterGlare.container, boosterBell.container, boosterParticles.container);
   const pose = { altitude: 0, downRangeDistance: 0, pitch: 0,
     frontFinExtension: 0, aftFinExtension: 0, angleOfAttack: 0 };
   const windward = { x: 0, y: 1 };
@@ -66,6 +69,9 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
       booster.container.visible = showBooster;
       shipParticles.container.visible = shipBell.container.visible = showShip && effectsVisible;
       boosterParticles.container.visible = boosterBell.container.visible = showBooster && effectsVisible;
+      shipGlare.container.visible = showShip && effectsVisible;
+      boosterGlare.container.visible = showBooster && effectsVisible;
+      const groundY = view.viewport.height / 2 + (view.camera.posY + view.camera.shakeY) * view.viewport.scale;
       if (showShip) {
         const state = mission?.ship ?? s;
         writePose(state);
@@ -73,6 +79,9 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
         const effects = mission ? missionShipEffects : legacyShipEffects;
         effects.update(shipParticles, view.camera, view.viewport, state, oldMission?.ship ?? previous, dt);
         shipBell.update(state, view.viewport.scale, effects.nozzle.x, effects.nozzle.y, dt);
+        shipGlare.update(state, view.viewport.scale, effects.nozzle.x, effects.nozzle.y, groundY,
+          state.kinematics.altitude - Math.cos(state.kinematics.pitch)
+            * (mission ? SHIP.height / 2 : engineDistanceFromCenterOfMass));
         const strength = plasmaIntensity(state.forces.thermalPower, heatLimit);
         windwardInHull(state.kinematics.angleOfAttack, windward);
         sheath.place(vehicleHeight * view.viewport.scale);
@@ -86,6 +95,8 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
         booster.update(view.camera, view.viewport, pose, sun);
         boosterEffects.update(boosterParticles, view.camera, view.viewport, state, oldMission?.booster ?? previous, dt);
         boosterBell.update(state, view.viewport.scale, boosterEffects.nozzle.x, boosterEffects.nozzle.y, dt);
+        boosterGlare.update(state, view.viewport.scale, boosterEffects.nozzle.x, boosterEffects.nozzle.y, groundY,
+          state.kinematics.altitude - Math.cos(state.kinematics.pitch) * SUPER_HEAVY.height / 2);
       }
     },
     presentation() {
@@ -105,14 +116,18 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
       effectsVisible = visible;
       shipParticles.container.visible = shipBell.container.visible = ship.container.visible && visible;
       boosterParticles.container.visible = boosterBell.container.visible = booster.container.visible && visible;
+      shipGlare.container.visible = ship.container.visible && visible;
+      boosterGlare.container.visible = booster.container.visible && visible;
     },
     reset() {
       shipParticles.clear(); boosterParticles.clear();
       shipBell.reset(); boosterBell.reset();
+      shipGlare.reset(); boosterGlare.reset();
       legacyShipEffects.reset(); missionShipEffects.reset(); boosterEffects.reset();
     },
     destroy() {
       shipBell.destroy(); boosterBell.destroy();
+      shipGlare.destroy(); boosterGlare.destroy();
       sheath.destroy(); inset.destroy(); lighting?.destroy();
     },
   };

@@ -1,0 +1,72 @@
+[WebServer] (node:91907) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 3 workers
+
+(node:91908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91909) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91910) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 12608,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 12608,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 12608,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+  ✓  1 [chromium] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (629ms)
+  ✓  3 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (701ms)
+  ✓  2 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (723ms)
+(node:91926) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91927) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 12608,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 12608,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+  ✓  4 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (409ms)
+  ✓  5 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (370ms)
+
+  5 passed (3.1s)

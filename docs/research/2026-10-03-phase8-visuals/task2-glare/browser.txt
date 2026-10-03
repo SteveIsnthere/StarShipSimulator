@@ -1,0 +1,144 @@
+[WebServer] (node:91434) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 15 tests using 3 workers
+
+(node:91437) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91439) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91438) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 30348,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓   1 [chromium] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (761ms)
+  ✓   3 [chromium] › tests/e2e/post-compositing.spec.ts:109:1 › continuous bell follows actual engine lifecycle and pressure @mobile (836ms)
+(node:91467) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 30348,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓   5 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (564ms)
+  ✓   2 [chromium] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.6s)
+  ✓   4 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:109:1 › continuous bell follows actual engine lifecycle and pressure @mobile (637ms)
+(node:91481) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 30348,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+  ✓   7 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:109:1 › continuous bell follows actual engine lifecycle and pressure @mobile (721ms)
+  ✓   8 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (670ms)
+  ✓   6 [pixel-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.5s)
+(node:91495) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 30348,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+  ✓  10 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (567ms)
+  ✓   9 [pixel-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.3s)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  11 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:109:1 › continuous bell follows actual engine lifecycle and pressure @mobile (683ms)
+(node:91509) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91510) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[engine-glare] {
+  offEnergy: 0,
+  engineEnergy: 30348,
+  groundEnergy: 17740,
+  farGroundEnergy: 0,
+  failedEnergy: 0,
+  shutdownEnergy: 0,
+  pausedDifference: 0,
+  bloomMinimum: 0
+}
+  ✓  13 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:6:1 › engine and ground glare follow firing with absence and paused controls @mobile (590ms)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  14 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:109:1 › continuous bell follows actual engine lifecycle and pressure @mobile (619ms)
+  ✓  12 [iphone-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.6s)
+  ✓  15 [iphone-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.8s)
+
+  15 passed (12.0s)
