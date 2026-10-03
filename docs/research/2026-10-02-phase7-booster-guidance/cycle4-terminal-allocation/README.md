@@ -20,3 +20,7 @@ Final admission110focused/Ship/booster checks, build/lint0 and14truthIN; fullatt
 - Minimum5degree hull-steering experiment regressed saved catches and was rejected; exact policy/logs retained. First separated-gimbal implementation had a sign error; raw failure retained and corrected from the existing engine equation before acceptance.
 
 Historical root-ready conditional inputs/traces are source-specific calculator evidence, not full actual flight inputs. Their source is the intermediate policies described in the phase plan, superseded by pinned attempts1/2. Do not use them as current flight acceptance. Raw logs are unmodified, including failures.
+
+## Scenario-suite integration checkpoint
+
+Both selected-model booster catches now pass in every-scenario acceptance, with all retained Ship/intro checks. Scenario/catch/analytic group77pass; complete unit baseline2120pass/168files,67.06s, including the unchanged eight Ship golden regressions.24current runtime/test pins and checked recovery patch against65e7641 are scenario-source-sha256.json/scenario-source.patch. No runtime is committed yet: complete the new actual booster golden fixture coverage and Linux audit before the coherent Task3code/fixture commit. Raw scenario/build/unit logs retained. Hot staging/two-vehicle UI/release/8/9 remain.
