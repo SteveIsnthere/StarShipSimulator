@@ -1,0 +1,155 @@
+<section id="starship-visual-direction" aria-label="Starship visual direction">
+  <header class="direction-heading">
+    <strong>Starship Simulator</strong>
+    <span>Visual direction</span>
+  </header>
+  <nav class="scene-picker" aria-label="Flight scene">
+    <button type="button" data-scene="launch" aria-pressed="true">Launch</button>
+    <button type="button" data-scene="staging" aria-pressed="false">Staging</button>
+    <button type="button" data-scene="belly" aria-pressed="false">Belly flop</button>
+    <button type="button" data-scene="entry" aria-pressed="false">Entry</button>
+    <button type="button" data-scene="landing" aria-pressed="false">Landing</button>
+    <button type="button" data-scene="catch" aria-pressed="false">Catch</button>
+  </nav>
+  <div class="preview-controls">
+    <label>Preview <select name="viewport"><option value="desktop">Desktop</option><option value="phone">Phone</option></select></label>
+    <label>Graphics <select name="quality"><option value="full">Full</option><option value="reduced">Reduced</option></select></label>
+  </div>
+  <figure class="preview">
+    <svg class="flight-picture" role="img" aria-labelledby="direction-scene-title direction-scene-description"></svg>
+    <figcaption aria-live="polite"></figcaption>
+  </figure>
+  <p class="concept-label">Concept preview: authored illustration, not live simulation.</p>
+</section>
+<style>
+  #starship-visual-direction { font-family: Inter, system-ui, sans-serif; color: #f5f5f5; background: transparent; width: 100%; }
+  #starship-visual-direction .direction-heading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; padding: 16px; background: #101010; }
+  #starship-visual-direction .direction-heading strong { font-weight: 500; letter-spacing: .025em; }
+  #starship-visual-direction .direction-heading span { color: #c3c3c3; }
+  #starship-visual-direction .scene-picker { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 16px; background: #101010; }
+  #starship-visual-direction button { font: inherit; color: #f5f5f5; background: #181818; border: 1px solid #767676; border-radius: 0; min-height: 44px; padding: 8px 14px; }
+  #starship-visual-direction button[aria-pressed="true"] { background: #f5f5f5; color: #101010; }
+  #starship-visual-direction .preview-controls { display: flex; flex-wrap: wrap; gap: 16px; padding: 0 16px 14px; background: #101010; }
+  #starship-visual-direction label { display: flex; gap: 8px; align-items: center; }
+  #starship-visual-direction select { font: inherit; font-size: 16px; color: #f5f5f5; background: #181818; border: 1px solid #767676; border-radius: 0; min-height: 44px; padding: 6px; }
+  #starship-visual-direction .preview { margin: 0; background: #080b12; }
+  #starship-visual-direction .flight-picture { display: block; width: 100%; }
+  #starship-visual-direction .preview.phone { max-width: 390px; margin-inline: auto; }
+  #starship-visual-direction figcaption { padding: 14px 16px; color: #e4e4e4; background: #101010; min-height: 44px; }
+  #starship-visual-direction .concept-label { margin: 0; padding: 12px 16px; color: #c3c3c3; background: #101010; }
+  #starship-visual-direction .body-detail { opacity: .65; }
+  #starship-visual-direction .reduced .extra-detail { display: none; }
+  @media (max-width: 440px) {
+    #starship-visual-direction .scene-picker { gap: 6px; padding-inline: 10px; }
+    #starship-visual-direction button { flex: 1 0 28%; padding-inline: 8px; }
+    #starship-visual-direction .preview-controls { gap: 8px; padding-inline: 10px; }
+    #starship-visual-direction label { flex: 1; justify-content: space-between; }
+  }
+</style>
+<script>
+(() => {
+  const root = document.getElementById('starship-visual-direction');
+  const picture = root.querySelector('.flight-picture');
+  const preview = root.querySelector('.preview');
+  const viewport = root.querySelector('[name="viewport"]');
+  const quality = root.querySelector('[name="quality"]');
+  const caption = root.querySelector('figcaption');
+  const scenes = {
+    launch: ['Launch', 'Steel stack, individual sea-level exhaust, daylight coast and pad.'],
+    staging: ['Staging', 'Two distinct bodies and exhaust families against the upper atmosphere.'],
+    belly: ['Belly flop', 'Dark tile face, articulated fins and soft sunlight through coastal clouds.'],
+    entry: ['Entry', 'Windward plasma and separate red surface glow over the curved night horizon.'],
+    landing: ['Landing', 'A short three-engine plume, pad glare and dusk coastline.'],
+    catch: ['Catch', 'Grid-fin structure, tower mechanics and a secured airborne booster at night.'],
+  };
+  let selected = 'launch';
+  let width = 0;
+
+  function hull(booster, glow = false) {
+    const h = booster ? 71 : 50;
+    let rings = '';
+    for (let y = -h / 2 + 6; y < h / 2 - 3; y += 5) rings += `<path d="M-4.4 ${y}H4.4"/>`;
+    const grid = '<path d="M-1.8 -1.5V1.5M-.9 -1.5V1.5M0 -1.5V1.5M.9 -1.5V1.5M1.8 -1.5V1.5M-2.5 0H2.5" stroke="#78858d" stroke-width=".15"/>';
+    const fins = booster
+      ? [-8, 8].map(x => `<g transform="translate(${x} -29)"><rect x="-2.5" y="-1.5" width="5" height="3" fill="#abb4ba"/>${grid}</g>`).join('')
+      : '<path d="M-4 -14L-9 -9L-8 -3L-4 -5M4 -14L9 -9L8 -3L4 -5M-4 12L-9 18L-8 23L-4 22M4 12L9 18L8 23L4 22" fill="#737b80" stroke="#b2bac1" stroke-width=".3"/>';
+    const body = booster ? '<rect x="-4.5" y="-35.5" width="9" height="71" fill="url(#direction-steel)"/>'
+      : '<path d="M-4.5 25V-13Q-4.5 -21 0 -25Q4.5 -21 4.5 -13V25Z" fill="url(#direction-steel)"/>';
+    const tiles = booster ? '' : '<path d="M0 -24Q4.5 -20 4.5 -13V23H0Z" fill="#292b2f"/>';
+    const tileLines = booster ? '' : '<path class="extra-detail" d="M0 -12H4M0 -8H4M0 -4H4M0 0H4M0 4H4M0 8H4M0 12H4M0 16H4M0 20H4M2 -14V22" stroke="#525354" stroke-width=".12"/>';
+    const heat = glow ? '<path d="M1 -19Q4 -15 4 -10V22H1Z" fill="url(#direction-tile-heat)"/>' : '';
+    return `${fins}${body}${tiles}${tileLines}<g class="body-detail extra-detail" stroke="#596970" stroke-width=".14">${rings}</g>${heat}<rect x="-4.5" y="${h/2-3}" width="9" height="3" fill="#333a40"/><path d="M-3 ${h/2}L-3.8 ${h/2+1.7}H-1.8L-2.5 ${h/2}M-.5 ${h/2}L-1 ${h/2+1.7}H1L.5 ${h/2}M2.5 ${h/2}L1.8 ${h/2+1.7}H3.8L3 ${h/2}" fill="#9ca5ac"/>`;
+  }
+  function exhaust(x, y, scale, vacuum, length, reduced) {
+    const spread = vacuum ? 11 : 4;
+    const offsets = vacuum ? [-3, 0, 3] : [-2.5, 0, 2.5];
+    return `<g class="engine-exhaust" transform="translate(${x} ${y}) scale(${scale})">` + offsets.map((off, i) => {
+      let cells = '';
+      if (!vacuum) for (let n = 0; n < (reduced ? 3 : 5); n++) cells += `<path d="M${off} ${5+n*5}l1.1 2.5l-1.1 2.5l-1.1 -2.5Z" fill="#ffe3b0" opacity="${.65-n*.1}"/>`;
+      return `<path d="M${off-.65} 0Q${off-spread} ${length*.5} ${off-spread} ${length}Q${off} ${length*.86} ${off+spread} ${length}Q${off+spread} ${length*.5} ${off+.65} 0Z" fill="url(#direction-plume)" opacity="${vacuum ? .45 : .75}"/><path d="M${off-.35} 0L${off-1} ${length*.8}H${off+1}L${off+.35} 0Z" fill="url(#direction-core)"/>${cells}${i === 1 && !reduced ? '<ellipse class="extra-detail" cy="1" rx="3.5" ry="2.5" fill="#ffc882" opacity=".2"/>' : ''}`;
+    }).join('') + '</g>';
+  }
+  function tower(x, ground, s, caught = false) {
+    let cross = '';
+    for (let y = -150; y < -8; y += 12) cross += `<path d="M-5 ${y}L5 ${y+12}M5 ${y}L-5 ${y+12}"/>`;
+    return `<g class="catch-tower" transform="translate(${x} ${ground}) scale(${s})"><rect x="-5" y="-150" width="10" height="150" fill="#42484c"/><g stroke="#899396" stroke-width=".5">${cross}</g><path d="M0 -120H${caught ? 19 : 30}M0 -116H${caught ? 19 : 30}" stroke="#bac0c0" stroke-width="1.8"/><path d="M-8 0H${caught ? 30 : 50}" stroke="#bcc1c2" stroke-width="3"/><g class="extra-detail" fill="#ffd693"><circle cy="-145" r=".8"/><circle cy="-105" r=".8"/><circle cy="-60" r=".8"/></g></g>`;
+  }
+  function paint() {
+    const phone = viewport.value === 'phone' || root.clientWidth < 500;
+    const reduced = quality.value === 'reduced';
+    preview.classList.toggle('phone', viewport.value === 'phone');
+    preview.classList.toggle('reduced', reduced);
+    const w = Math.max(280, Math.round(preview.clientWidth));
+    const h = phone ? 480 : Math.min(540, Math.round(w * .48));
+    const s = phone ? 2.2 : 3.1;
+    const cx = w * .5;
+    const ground = h * .84;
+    const night = selected === 'entry' || selected === 'catch';
+    const dusk = selected === 'landing';
+    const high = selected === 'staging' || selected === 'entry';
+    const sky = night ? ['#040811','#1c2d44'] : high ? ['#050b19','#24435d'] : dusk ? ['#2c3145','#b77555'] : ['#355f88','#bdd7e3'];
+    let world = `<rect width="${w}" height="${h}" fill="url(#direction-sky)"/>`;
+    if (night || high) for (let i = 0; i < (reduced ? 16 : 45); i++) world += `<circle class="extra-detail" cx="${(i*137+43)%w}" cy="${(i*73+29)%(h*.66)}" r="${i%4 === 0 ? 1 : .6}" fill="#dee7ef" opacity=".6"/>`;
+    if (!night && !high) world += `<circle cx="${w*.8}" cy="${h*.18}" r="${dusk ? 22 : 17}" fill="${dusk ? '#ffd4a1' : '#f6edd2'}" opacity=".8"/>`;
+    if (high) world += `<path d="M-10 ${h*.82}Q${cx} ${h*.61} ${w+10} ${h*.82}V${h}H-10Z" fill="#233c52"/><path d="M-10 ${h*.81}Q${cx} ${h*.60} ${w+10} ${h*.81}" stroke="#709aaa" stroke-width="3" fill="none" opacity=".55"/>`;
+    else world += `<path d="M0 ${ground}Q${cx} ${ground-8} ${w} ${ground}V${h}H0Z" fill="${night ? '#17212b' : dusk ? '#565047' : '#8b8667'}"/><path class="ocean" d="M${w*.68} ${ground-1}Q${w*.57} ${ground+14} ${w*.65} ${h}H${w}V${ground}Z" fill="${night ? '#122d3a' : '#3e758b'}"/><path d="M${w*.68} ${ground-1}Q${w*.57} ${ground+14} ${w*.65} ${h}" fill="none" stroke="#b5c3b4" stroke-width="2" opacity=".65"/><path d="M0 ${ground+10}H${w*.61}" stroke="#a5a69a" stroke-width="4"/><path d="M${cx-45} ${ground}H${cx+35}" stroke="#c0beb3" stroke-width="8"/>`;
+    if (!night && !high) world += `<g class="coastal-clouds" fill="#e4e8e7" opacity=".32"><ellipse cx="${w*.18}" cy="${h*.29}" rx="${w*.2}" ry="10"/><ellipse cx="${w*.82}" cy="${h*.41}" rx="${w*.25}" ry="12"/></g>`;
+    if (!high && selected !== 'belly' && selected !== 'catch') world += tower(cx-60*s, ground, s*.65);
+    let bodies = '';
+    if (selected === 'launch') {
+      const by = ground-35.5*s-18;
+      bodies = exhaust(cx, ground-18, s, false, 18, reduced) + `<g class="vehicle booster" transform="translate(${cx} ${by}) scale(${s})">${hull(true)}</g><g class="vehicle ship" transform="translate(${cx} ${by-60.5*s}) scale(${s})">${hull(false)}</g>`;
+    } else if (selected === 'staging') {
+      const bx = cx-36*s, by = h*.65, sx = cx+23*s, sy = h*.28;
+      bodies = exhaust(bx, by+35.5*s, s*.75, false, 10, reduced) + exhaust(sx, sy+25*s, s, true, 44, reduced) + `<g class="vehicle booster" transform="translate(${bx} ${by}) scale(${s})">${hull(true)}</g><g class="vehicle ship" transform="translate(${sx} ${sy}) scale(${s})">${hull(false)}</g>`;
+    } else if (selected === 'belly' || selected === 'entry') {
+      const hot = selected === 'entry';
+      const tilt = hot ? 63 : 86;
+      bodies = `<g class="vehicle ship" transform="translate(${cx} ${h*.46}) rotate(${tilt}) scale(${s*1.3})">${hot ? '<path class="plasma" d="M4 -25Q18 -18 15 10L9 40Q5 15 4 -25Z" fill="url(#direction-plasma)"/>' : ''}${hull(false, hot)}</g>`;
+    } else if (selected === 'landing') {
+      const sy = ground-25*s-35;
+      bodies = `<ellipse cx="${cx}" cy="${ground}" rx="${35*s}" ry="9" fill="#ffc584" opacity=".24"/>` + exhaust(cx, sy+25*s, s, false, 16, reduced) + `<g class="vehicle ship" transform="translate(${cx} ${sy}) scale(${s})">${hull(false)}</g>`;
+    } else {
+      const tx = cx-35*s;
+      world += tower(tx, ground, s*.8, true);
+      bodies = `<g class="vehicle booster" transform="translate(${tx+19*s*.8} ${ground-90.5*s*.8}) scale(${s*.8})">${hull(true)}</g>`;
+    }
+    picture.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    picture.setAttribute('height', String(h));
+    picture.dataset.scene = selected;
+    picture.dataset.quality = quality.value;
+    picture.innerHTML = `<title id="direction-scene-title">${scenes[selected][0]} visual direction</title><desc id="direction-scene-description">${scenes[selected][1]} Authored concept illustration, not simulation output.</desc><defs><linearGradient id="direction-sky" x2="0" y2="1"><stop stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient><linearGradient id="direction-steel"><stop stop-color="#505b64"/><stop offset=".34" stop-color="#cbd1d2"/><stop offset=".6" stop-color="#818e95"/><stop offset="1" stop-color="#39444f"/></linearGradient><linearGradient id="direction-plume" x2="0" y2="1"><stop stop-color="#ffc18a" stop-opacity=".75"/><stop offset=".6" stop-color="#c3758c" stop-opacity=".4"/><stop offset="1" stop-color="#6681bf" stop-opacity="0"/></linearGradient><linearGradient id="direction-core" x2="0" y2="1"><stop stop-color="#fff0d1" stop-opacity=".9"/><stop offset="1" stop-color="#ffe0b5" stop-opacity="0"/></linearGradient><linearGradient id="direction-plasma"><stop stop-color="#ffb069" stop-opacity=".12"/><stop offset=".55" stop-color="#ff753e" stop-opacity=".85"/><stop offset="1" stop-color="#e13619" stop-opacity="0"/></linearGradient><linearGradient id="direction-tile-heat"><stop stop-color="#a34124" stop-opacity=".3"/><stop offset="1" stop-color="#ff6030" stop-opacity=".7"/></linearGradient></defs>${world}${bodies}`;
+    caption.textContent = scenes[selected][1];
+    width = root.clientWidth;
+  }
+  root.querySelectorAll('[data-scene]').forEach(button => button.addEventListener('click', () => {
+    selected = button.dataset.scene;
+    root.querySelectorAll('[data-scene]').forEach(other => other.setAttribute('aria-pressed', String(other === button)));
+    paint();
+  }));
+  viewport.addEventListener('change', paint);
+  quality.addEventListener('change', paint);
+  new ResizeObserver(() => { if (width !== root.clientWidth) paint(); }).observe(root);
+  paint();
+})();
+</script>

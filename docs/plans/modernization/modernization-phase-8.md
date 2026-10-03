@@ -46,10 +46,10 @@ The existing image already has atmospheric depth, coherent sunlight, a readable 
 
 ### Task 1: Publish the visual direction
 
-- [ ] Create `docs/design/visual-direction.html` with accessible scene buttons for Launch, Staging, Belly flop, Entry, Landing, Catch; desktop/phone previews; full/reduced toggle; all four areas visible. Use inline SVG/CSS/JS, no remote dependencies, no claim that prototype is actual simulation output.
-- [ ] Verify the HTML in a real browser at1280×720 and390×844, inspect screenshots, ordinary controls and reduced-motion behavior. Revise before publication if vehicle/controls clip or the six scenes are indistinguishable.
-- [ ] Publish privately using an available Artifact/review-page capability. If literal Artifact is unavailable, use private Pages HTML visualization; inspect receipts/readback and document the capability fallback. Do not make the page public or await owner acceptance. Link the actual page URL from roadmap and handover.
-- [ ] Commit/push `docs(design): establish the six-scene visual direction` with the page receipt and prototype. Publication is required acceptance, not a local-file substitute.
+- [x] Create `docs/design/visual-direction.html` with accessible scene buttons for Launch, Staging, Belly flop, Entry, Landing, Catch; desktop/phone previews; full/reduced toggle; all four areas visible. Use inline SVG/CSS/JS, no remote dependencies, no claim that prototype is actual simulation output.
+- [x] Verify the HTML in a real browser at1280×720 and390×844, inspect screenshots, ordinary controls and reduced-motion behavior. Revise before publication if vehicle/controls clip or the six scenes are indistinguishable.
+- [x] Publish privately using an available Artifact/review-page capability. If literal Artifact is unavailable, use private Pages HTML visualization; inspect receipts/readback and document the capability fallback. Do not make the page public or await owner acceptance. Link the actual page URL from roadmap and handover.
+- [x] Commit/push `docs(design): establish the six-scene visual direction` with the page receipt and prototype. Publication is required acceptance, not a local-file substitute.
 
 ### Task 2: Distinct per-engine exhaust and glare
 
@@ -169,3 +169,5 @@ Retain current4000 capacity ceiling and original occupancy/coverage witnesses. A
 ## Execution ledger
 
 Phase7 main/live closure is complete and its documentation is merged at e8a06ff. Branch claude/visuals is created from that main. Task1 is in progress; no runtime implementation has started. Native execution and the full Phase8 scope are already approved. Skill handoff confirmation and default plan directory are overridden by the standing goal. Ruling: persist the next phase plan while the last Phase7 hosted follow-up finishes; implementation remains blocked on truthful Phase7 closure. This preserves the plan without skipping the dependency.
+
+Task1 publication: private Pages fallback at https://chatgpt.com/space/page_86fcf9be7d708191ad082fb932b96ef0; successful visualization receipt and readback confirm the embed. Identical local source inspected in the real in-app browser at1280×720/390×844, all six scenes/full+reduced, 24 saved JPEGs. Reduced DOM checks show no horizontal overflow, 44px scene targets, one pressed scene and zero visible extra-detail elements; Tab/Enter selects Staging and preserves native focus. Prototype is entirely static between user interactions/resize, with no animation, timer or RAF: reduced-motion needs no moving-effect override. Corrected duplicate Catch tower and CSS transform-box misalignment before publication. Private Page browser viewer requires login, so host embed rendering is explicitly unverified; connector publication itself is verified and does not block approved runtime work. No owner question or runtime change.
