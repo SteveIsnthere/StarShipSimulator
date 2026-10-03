@@ -13,7 +13,7 @@
   },
   {
     "id": "position-dt-doubled",
-    "file": "src/core/step.ts",
+    "file": "src/core/physics/step-dynamics.ts",
     "find": "  s.kinematics.altitude += vy0 * dt + ay0 * halfDtSquared;",
     "replace": "  s.kinematics.altitude += vy0 * 2 * dt + ay0 * halfDtSquared;"
   },
@@ -68,12 +68,12 @@
   {
     "id": "guidance-drag-dropped",
     "file": "src/core/control/guidance-physics.ts",
-    "find": "  return getDrag(air.airDensity, speed, TAIL_FIRST_AREA, getBodyDragCoefficient(mach)) / mass;",
-    "replace": "  return 0 * getDrag(air.airDensity, speed, TAIL_FIRST_AREA, getBodyDragCoefficient(mach)) / mass;"
+    "find": "  return getDrag(air.airDensity, speed, getCrossSectionalArea(rad(0), model.maxArea, model), getBodyDragCoefficient(mach)) / mass;",
+    "replace": "  return 0 * getDrag(air.airDensity, speed, getCrossSectionalArea(rad(0), model.maxArea, model), getBodyDragCoefficient(mach)) / mass;"
   },
   {
     "id": "felt-g-flat",
-    "file": "src/core/step.ts",
+    "file": "src/core/physics/step-dynamics.ts",
     "find": "  forces.perceivedG_Y = specificY / C.standardGravity;",
     "replace": "  forces.perceivedG_Y = (specificY + C.gravity) / C.gravity;"
   },
@@ -98,26 +98,26 @@
   {
     "id": "rvac-gimballed",
     "file": "src/core/physics/engines.ts",
-    "find": "  if (countOfKind(running, 'vacuum', true) === 0) return 1;",
+    "find": "  if (countOfKind(running, 'vacuum', true, model) === 0) return 1;",
     "replace": "  return 1;"
   },
   {
     "id": "tile-sink-dropped",
-    "file": "src/core/step.ts",
+    "file": "src/core/physics/step-dynamics.ts",
     "find": "    radiativeSinkKelvin(s.kinematics.altitude, s.atmosphere.airTemperature),",
     "replace": "    0,"
   },
   {
     "id": "breakup-current-check-removed",
-    "file": "src/core/step.ts",
-    "find": "  checkIfBreakUp(s);",
+    "file": "src/core/control/mechanical.ts",
+    "find": "  checkIfBreakUp(s, model, work);",
     "replace": "  // Fault: current force failure is never checked."
   },
   {
     "id": "throttle-current-denominator",
     "file": "src/core/control/primitives.ts",
-    "find": "      getTotalMaxThrust(engines.running, state.atmosphere.airPressure)) *",
-    "replace": "      (getTotalMaxThrust(engines.running, state.atmosphere.airPressure) * vehicle.throttleCurrent * 0.01)) *"
+    "find": "      getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model)) *",
+    "replace": "      (getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model) * vehicle.throttleCurrent * 0.01)) *"
   },
   {
     "id": "final-descent-braking-removed",

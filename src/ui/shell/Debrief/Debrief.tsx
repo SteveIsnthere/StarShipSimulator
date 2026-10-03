@@ -5,7 +5,7 @@
  */
 import { useSessionState } from '../session-context';
 import { DebriefCard } from './DebriefCard';
-import { RestartButton } from './RestartButton';
+import { RestartButton } from '../RestartButton';
 
 export { RestartButton };
 

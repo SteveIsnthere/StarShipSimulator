@@ -34,7 +34,7 @@
  */
 
 /** The preset the editor starts from. */
-export const MAX_Q_PRESET = 'booster-sep';
+export const MAX_Q_PRESET = 'before-flip';
 
 /**
  * Simulated seconds the browser test is allowed to spend in this state.
@@ -71,6 +71,9 @@ export const MAX_Q_FIELDS: Readonly<Record<string, string>> = {
   speedY: '0',
   pitch: '90',
   propellant: '0',
+  // Retain the original Ship witness's downrange position and morning light.
+  xPosition: '45000',
+  launchHour: '9.55',
 };
 
 /**
@@ -86,4 +89,6 @@ export const OLD_MAX_Q_FIELDS: Readonly<Record<string, string>> = {
   speedY: '0',
   pitch: '45',
   propellant: '500',
+  xPosition: '45000',
+  launchHour: '9.55',
 };

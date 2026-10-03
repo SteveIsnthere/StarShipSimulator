@@ -68,19 +68,22 @@ test('configuring a new scenario redraws the track and rebinds it', async ({ pag
   await ready(page);
 
   // The intro's track is two dots — it starts already in the final descent.
-  // Booster Sep's is six, and includes an ENTRY the intro has no idea about.
+  // The actual booster's return track has events the Ship intro never uses.
   await expect(dot(page, 'ENTRY')).toHaveCount(0);
 
   await page.locator(byTestId('open-menu')).click();
   await page.locator(byTestId('preset-booster-sep')).click();
   await page.locator(byTestId('menu-configure')).click();
 
-  await expect(dot(page, 'ENTRY')).toHaveCount(1);
-  await expect(dot(page, 'MECO')).toHaveCount(1);
+  await expect(dot(page, 'BOOSTBACK')).toHaveCount(1);
+  await expect(dot(page, 'ENTRY BURN')).toHaveCount(1);
+  await expect(dot(page, 'ENTRY')).toHaveCount(0);
+  await expect(dot(page, 'MECO')).toHaveCount(0);
 
   // A fresh flight is a fresh story: the new dots start pending rather than
   // carrying the previous flight's states over.
-  await expect(dot(page, 'ENTRY')).toHaveAttribute('data-state', 'pending');
+  await expect(dot(page, 'BOOSTBACK')).toHaveAttribute('data-state', 'pending');
+  await expect(dot(page, 'ENTRY BURN')).toHaveAttribute('data-state', 'pending');
   await expect(page.locator(byTestId('event-now'))).toHaveText('PRE-FLIGHT');
 
   // Now the half that actually needs the rebind to have worked. Configure a

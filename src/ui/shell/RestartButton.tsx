@@ -6,24 +6,25 @@
  *
  * Just under the primary cluster (`--hud-bottom`, published by the Hud): where
  * the eye already is, and clear of the vehicle, which comes to rest at the
- * bottom of the world. On a phone, at the left, beside the folded map card.
+ * bottom of the world. On a portrait phone, at the left beside the map.
+ * Short landscape uses the HUD header, where it cannot cover the map toggle.
  */
 import { Button } from '@ui/Button';
 import { cn } from '@ui/internal/utils';
-import { useSession, useSessionState } from '../session-context';
-import { usePhoneLayout } from '../layout';
+import { useSession, useSessionState } from './session-context';
+import { useLayoutMode } from './layout';
 
-export function RestartButton() {
+export function RestartButton({ inline = false }: { inline?: boolean }) {
   const session = useSession();
   const shown = useSessionState((s) => s.flightOver && s.debrief === null);
-  const phone = usePhoneLayout();
-  if (!shown) return null;
+  const mode = useLayoutMode();
+  if (!shown || inline !== (mode === 'short')) return null;
   return (
     <Button
       variant="primary"
       data-control="restart"
       data-testid="restart"
-      className={cn('absolute top-[calc(var(--hud-bottom,220px)+12px)]', phone ? 'left-3' : 'left-1/2 -translate-x-1/2')}
+      className={inline ? 'shrink-0' : cn('absolute top-[calc(var(--hud-bottom,220px)+12px)]', mode === 'phone' ? 'left-3' : 'left-1/2 -translate-x-1/2')}
       onClick={() => session.restart()}
     >
       Fly again

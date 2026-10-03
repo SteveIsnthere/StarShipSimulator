@@ -404,6 +404,7 @@ export function createSession(): Session {
         emit: (e) => session.emit(e),
         zoom: (direction) => session.zoom(direction),
         readThrottle: () => live.state.vehicle.throttle,
+        dismissDebrief: () => session.dismissDebrief(),
         isManual: () => !get().tiltControl || live.state.autopilot.manualControlOn,
       });
 

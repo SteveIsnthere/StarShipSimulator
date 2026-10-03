@@ -22,6 +22,7 @@ import { Button } from '@ui/Button';
 import { cn } from '@ui/internal/utils';
 import { useSession, useSessionState } from '../session-context';
 import { useLayoutMode } from '../layout';
+import { RestartButton } from '../RestartButton';
 import { Attitude } from './Attitude';
 import { EngineDots } from './EngineDots';
 import { MissionTimeline } from './MissionTimeline';
@@ -103,6 +104,7 @@ export function Hud() {
     >
       <div className="flex min-w-0 items-center gap-3">
         <MissionTimeline compact={compact} className="flex-1" />
+        <RestartButton inline />
         <Button
           variant="ghost"
           size="sm"
