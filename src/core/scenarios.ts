@@ -319,6 +319,7 @@ function createStateForVehicle(preset: ScenarioPreset, seed: number | undefined,
   s.kinematics.trueSpeed = Math.sqrt(preset.speedX ** 2 + preset.speedY ** 2);
 
   s.kinematics.pitch = toRad(preset.pitch);
+  if (model.gridFins) s.kinematics.pitchRecord = [s.kinematics.pitch, s.kinematics.pitch];
 
   let propellantMass = preset.propellant * 1000;
   if (propellantMass > model.propellantCapacity) propellantMass = model.propellantCapacity;

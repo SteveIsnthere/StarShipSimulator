@@ -22,6 +22,9 @@
  * pause, respects warp exactly, and is deterministic under replay.
  */
 import * as C from '../constants';
+import { SHIP, type VehicleDefinition } from '../vehicle';
+import { runBoosterAutopilot } from './booster';
+import type { MechanicalAdvance } from '../control/mechanical';
 import { localGravity } from '../control/guidance-physics';
 import * as cmd from '../control/commands';
 import * as prim from '../control/primitives';
@@ -764,7 +767,11 @@ export function autoDeorbit(state: SimState): void {
  * what any of the six do. It hands over by switching itself off and autoLand
  * on, so the two are never both steering.
  */
-export function runAutopilot(state: SimState, dt: number): void {
+export function runAutopilot(state: SimState, dt: number, model: VehicleDefinition = SHIP, advance?:MechanicalAdvance): void {
+  if (model.id === 'super-heavy') {
+    runBoosterAutopilot(state, dt, model, advance);
+    return;
+  }
   demoAutoLand(state, dt);
   autoMaxThrust(state);
   pitchHold(state);

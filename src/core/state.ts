@@ -21,6 +21,8 @@ import { momentOfInertia } from './physics/mass';
 import { circularOrbitalSpeed } from './physics/gravity';
 import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
+import type { BoosterPrediction } from './control/booster-prediction';
+import type { BoosterReturnPlan } from './control/booster-return-plan';
 
 /**
  * Which Raptor a field refers to: an index into `C.RAPTORS`, and into every
@@ -110,7 +112,7 @@ export interface KinematicsState {
    * gate device-dependent. M2.4 makes it dpitch/dt.
    */
   pitchRateOfChange: number;
-  /** rad — the last two pitch samples, newest last. Seeded with Infinity. */
+  /** rad — the last two pitch samples, newest last. Ship retains its legacy Infinity seed; booster starts at its actual pitch. */
   pitchRecord: [number, number];
 
   /** rad/s. */
@@ -348,6 +350,37 @@ export interface FailureState {
 }
 
 export interface AutopilotState {
+  /** Booster-only physical control state; absent on Ship to retain its shape. */
+  boosterPhase?: 'align-boost' | 'boostback' | 'coast' | 'entry' | 'terminal';
+  /** One-way descent handoff; retain the paid centre engines into terminal. */
+  boosterEntryCentreOnly?: boolean;
+  /** s — predictor cadence, advanced by simulated dt. */
+  boosterPredictorCountdown?: number;
+  /** m — predicted unpowered return error at the catch plane. */
+  boosterRangeError?: number;
+  /** s — predicted coast time to the catch plane. */
+  boosterFallTime?: number;
+  /** rad — coast correction derived from the shared range predictor. */
+  boosterCoastPitch?: Rad;
+  /** % — independent grid-fin deflection, -100..100. */
+  boosterFinControl?: number | undefined;
+  /** s — remaining finite terminal-arrival deadline; never reset by stopping. */
+  boosterArrivalTime?: number;
+  /** Whether the latest planned mechanical return reached the lug plane. */
+  boosterForecastReached?: boolean;
+  /** Deterministic in-progress mechanical prediction; absent on Ship. Inner
+   * snapshots contain no job and are immutable until resumed into owned state. */
+  boosterPrediction?: BoosterPrediction;
+  /** Source-pinned future shutdown/coast plan, accepted by physical replay. */
+  boosterReturnPlan?: BoosterReturnPlan;
+  /** An invalid/expired terminal attempt cannot become indefinite hover. */
+  boosterTerminalMissed?: boolean;
+  /** s — first physical central-engine ignition command in terminal approach. */
+  boosterTerminalIgnitionTime?: number;
+  /** Owned future-only stop before terminal guidance at paid engine readiness. */
+  boosterForecastHandoff?: boolean;
+  /** Forecast-only finite continuing-boost command, never set on live flight. */
+  boosterForecastBurn?: boolean;
   manualControlOn: boolean;
   /** % — pitch command, -100..100. In 2021 this was read from a DOM slider
    * every frame (updateBackEnd.js:201); in v2 it arrives through the input arg. */
@@ -537,7 +570,7 @@ export function createInitialState(seed = DEFAULT_SEED, model: VehicleDefinition
 
       pitch: rad(0),
       pitchRateOfChange: 0,
-      pitchRecord: [Infinity, Infinity],
+      pitchRecord: model.gridFins ? [0, 0] : [Infinity, Infinity],
 
       angularVelocity: 0,
       angularAcceleration: 0,

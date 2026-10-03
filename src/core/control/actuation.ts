@@ -125,7 +125,7 @@ export function finsActuation(state: SimState, goalPercentage: number, dt: numbe
  *
  * @param goalPercentage -100 .. 100
  */
-export function rcsControl(state: SimState, goalPercentage: number, dt: number): void {
+export function rcsControl(state: SimState, goalPercentage: number, dt: number, proportionalOnly = false): void {
   const { status, vehicle, forces, autopilot } = state;
 
   // Consumed and cleared here, so a command cannot survive into a step where
@@ -138,7 +138,9 @@ export function rcsControl(state: SimState, goalPercentage: number, dt: number):
     return;
   }
 
-  if (goalPercentage > 99) {
+  if (proportionalOnly) {
+    forces.rcsThrust = Math.max(-C.rcsMaxThrust,Math.min(C.rcsMaxThrust,commanded));
+  } else if (goalPercentage > 99) {
     forces.rcsThrust = C.rcsMaxThrust;
   } else if (goalPercentage < -99) {
     forces.rcsThrust = -C.rcsMaxThrust;
@@ -177,15 +179,18 @@ export function throttleUpdate(state: SimState, dt: number): void {
  * The fins get half the commanded authority; RCS and gimbal get all of it.
  * @param pitchControl -100 .. 100
  */
-export function controlTranslation(state: SimState, pitchControl: number, dt: number, model: VehicleDefinition = SHIP): void {
+export function controlTranslation(state: SimState, pitchControl: number, dt: number, model: VehicleDefinition = SHIP, manualOverride = false): void {
   if (!state.status.translationModeOn) return;
   if (model.gridFins) {
-    const command=state.status.finActive && !state.status.finLocked ? Math.max(-100,Math.min(100,pitchControl)) : 0;
+    const command=state.status.finActive && !state.status.finLocked ? Math.max(-100,Math.min(100,state.autopilot.boosterFinControl ?? pitchControl)) : 0;
     frontFinActuation(state,50+command/2,dt);
     // The four upper fins act together; the second legacy field is neutral.
     aftFinActuation(state,50,dt);
   } else finsActuation(state, pitchControl / 2, dt);
-  rcsControl(state, pitchControl, dt);
+  const boosterAutomatic = !!model.gridFins && !manualOverride && !state.autopilot.manualControlOn
+    && (state.autopilot.autoLandOn || state.autopilot.autoBoostBackOn)
+    && state.autopilot.boosterFinControl !== undefined;
+  rcsControl(state, pitchControl, dt, boosterAutomatic);
   thrustVectorControl(state, pitchControl, dt);
 }
 
