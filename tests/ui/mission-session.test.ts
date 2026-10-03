@@ -11,6 +11,17 @@ const stage = (controller: ReturnType<typeof createMissionController>) => {
 };
 
 describe('actual selected-model mission routing', () => {
+  it('reports an impossible required-centre Stage and restores a healthy attachment on restart', () => {
+    const flight = createMissionController(); flight.startHotStage(123);
+    flight.mission!.booster.engines.failed[0] = true;
+    flight.stage(); flight.advance(DT);
+    expect(flight.mission!.stagingFailed).toBe(true);
+    expect(flight.mission!.phase).toBe('attached');
+    flight.startHotStage(123);
+    expect(flight.mission!.stagingFailed).toBe(false);
+    stage(flight);
+    expect(flight.mission!.phase).toBe('separated');
+  });
   it('routes debug fixed steps through both actual mission bodies', () => {
     const flight = createMissionController();
     flight.startHotStage(123);

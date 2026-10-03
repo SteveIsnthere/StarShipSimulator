@@ -1,0 +1,7 @@
+{
+  phase: 'attached',
+  stagingFailed: true,
+  shipThrust: 14832820.139095278,
+  centralFailure: [ true, false, false ],
+  centralRunning: [ false, true, true ]
+}

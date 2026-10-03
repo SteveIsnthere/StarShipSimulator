@@ -1,0 +1,58 @@
+{
+  "base": "b5ac99a",
+  "standalone_dependency_files": 33,
+  "changed_dependencies": [],
+  "fixtures": [
+    {
+      "path": "tests/golden/fixtures/before-flip-autoland.json",
+      "sha256": "cbfb87a0930a42720942f6ebac435c5f7431a3b92a341b4f1fb4251cf79630ac",
+      "before_after_changed_sampled_leaves": 0
+    },
+    {
+      "path": "tests/golden/fixtures/booster/booster-sep-catch.json",
+      "sha256": "5c754d0217301aeec35c9850a8ac71b31abae86635898e2724abdb1e08dbbd98",
+      "before_after_changed_sampled_leaves": 0
+    },
+    {
+      "path": "tests/golden/fixtures/booster/rtls-catch.json",
+      "sha256": "8b10c24c1d68136477226b0728420870046d456f198dcedf64aaf4ba9113fb33",
+      "before_after_changed_sampled_leaves": 0
+    },
+    {
+      "path": "tests/golden/fixtures/booster-sep-boostback.json",
+      "sha256": "042c5e74039a92a4c85ef176b0190ef2e6d9b82944e81c483c4d87531a1c1d54",
+      "before_after_changed_sampled_leaves": 0
+    },
+    {
+      "path": "tests/golden/fixtures/intro-demo.json",
+      "sha256": "5936807264fccd93933de09b1bf292c48d0a7dc22e487ea074f2515538b9f1c7",
+      "before_after_changed_sampled_leaves": 0
+    },
+    {
+      "path": "tests/golden/fixtures/landing-burn-autoland.json",
+      "sha256": "a17089cba6dbb0d3aa79ff2f2ae058cbbb469640f2ad733e258323a9f4b87796",
+      "before_after_changed_sampled_leaves": 0
+    },
+    {
+      "path": "tests/golden/fixtures/landing-burn-headwind.json",
+      "sha256": "422c4ad6e6940f5afea8c0df2b055c597689dd3b2382c4a1c8bbc46a6b9867ec",
+      "before_after_changed_sampled_leaves": 0
+    },
+    {
+      "path": "tests/golden/fixtures/launch-pad-takeoff.json",
+      "sha256": "4b12b151bcd85352b7c3326bcc797bfd4fd70d639bb2ed2872428719a724ac18",
+      "before_after_changed_sampled_leaves": 0
+    },
+    {
+      "path": "tests/golden/fixtures/reentry-autoland.json",
+      "sha256": "02a070d010b97a8c666bf92fa72aa59c8f839e7e13d176033f832f2c8c99cf9b",
+      "before_after_changed_sampled_leaves": 0
+    },
+    {
+      "path": "tests/golden/fixtures/rtls-boostback.json",
+      "sha256": "f7b8f3aca74fe88ceb3e558061e47119ea1474a80cef129117f8698ff1d0d4df",
+      "before_after_changed_sampled_leaves": 0
+    }
+  ],
+  "proof": "all standalone dependency bytes unchanged; all ten actual replay checks pass; mission Stage status alone changes"
+}

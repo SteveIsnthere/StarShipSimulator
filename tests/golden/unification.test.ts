@@ -48,6 +48,7 @@
  *     P7.5s   Stage cancels non-centre engines    all ten unchanged; only the two-body mission requests Stage
  *     P7.6c   separated mission COM continuation all ten unchanged; standalone runtime closure byte-identical
  *     P7.6r   ignition-risk preference veto      all ten unchanged; no recorded preference enabled
+ *     P7.6s   permanent centre Stage failure     all ten unchanged; only attached mission status changes
  *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle

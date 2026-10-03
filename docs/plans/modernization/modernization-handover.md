@@ -125,3 +125,6 @@ Task6 fresh fallback review completed:5confirmed findings, all accepted. Debrief
 
 
 2026-10-03 Phase7Task6 P1 COM continuation: mission-only hull/COM integration implemented, real release RED2→GREEN and paid torque/fuel/contact checks pass. Standalone alltenreplays and1200case proof pass,33dependency files/allfixtures unchanged; build/lint0/14truthIN. Evidence2026-10-03-phase7-release/com-continuation. Affected-conclusion reviewer phase7_release_fresh_review pending; collect before merge. Next randomFailure-preference rejection, then permanent centre-engine Stage reporting; coverage/final release unchanged obligations. Main/live remain7a757d7;70%,7/8/9remain.
+
+
+2026-10-03 Phase7Task6 allfiveoriginalreviewfindings nowfixed and independentlyclosed: COM continuation3047632, preferenceb5ac99a, finalrequiredcentreStageflag checkpoint nextcommit. COMreview/catchpreference/stagefailure evidence retained2026-10-03-phase7-release. Final77focused/8files/alltenreplay/build/lint0/14truthIN; no bounds/constants/golden changes. Freshin-harness fallback only, peer/Pro unavailable alreadyrecorded. Coveragefirst snapshot remainsred at87e3f28; next measurecurrentcoverage and closeunchangedfloors, registry ascent/heating, finalrelease/highreview/main/deploy/live.70%,7/8/9remain.

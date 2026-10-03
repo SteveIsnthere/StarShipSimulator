@@ -218,4 +218,28 @@ describe('physical attached hot staging', () => {
     expect(gap(m)).toBeCloseTo(0, 7);
     expect(initial.ship.rng.counters.ignitionDelay).toBe(0);
   });
+  it.each(CENTRE_ENGINES)('reports permanent required centre engine %i failure without releasing or stopping real paid mechanics', engine => {
+    let m = createHotStageMission(123);
+    m.booster.engines.failed[engine] = true;
+    m = stepMission(m, DT);
+    expect(m.stageRequested).toBe(false); expect(m.stagingFailed).toBe(false);
+    const previous = structuredClone(m);
+    let requested = stepMission(m, DT, { stage: true });
+    expect(requested.stagingFailed).toBe(true);
+    expect(m).toEqual(previous);
+    for (let tick = 0; tick < 360; tick++) requested = stepMission(requested, DT, { stage: true });
+    expect(requested.phase).toBe('attached'); expect(requested.stagingFailed).toBe(true);
+    expect(requested.ship.forces.thrust).toBeGreaterThan(0);
+    expect(requested.booster.engines.running.filter(Boolean)).toHaveLength(2);
+    expect(requested.booster.rng.counters.ignitionDelay).toBe(2);
+    expect(requested.ship.rng.counters.ignitionDelay).toBe(6);
+    expect(requested.elapsedTime).toBeGreaterThan(m.elapsedTime);
+    expect(gap(requested)).toBeCloseTo(0, 7);
+  });
+  it.each([3, 13, 32])('releases with all required centres ready despite failed unused engine %i', engine => {
+    const m = createHotStageMission(123); m.booster.engines.failed[engine] = true;
+    const released = untilRelease(m);
+    expect(released.phase).toBe('separated'); expect(released.stagingFailed).toBe(false);
+    expect(CENTRE_ENGINES.every(i => released.booster.engines.running[i])).toBe(true);
+  });
 });

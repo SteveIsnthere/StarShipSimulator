@@ -15,6 +15,18 @@ import { EMPTY_FIELDS } from '$app/menu';
 beforeEach(() => void installMemoryStorage());
 
 describe('flights', () => {
+  it('publishes failed Stage status from the actual required engine and clears it on restart', () => {
+    const session = createSession(); session.startHotStage(123);
+    session.mission!.booster.engines.failed[0] = true;
+    session.stage(); session.advance(DT);
+    expect(session.store.getState().stagingFailed).toBe(true);
+    expect(session.store.getState().missionPhase).toBe('attached');
+    session.restart(); session.advance(0);
+    expect(session.store.getState().stagingFailed).toBe(false);
+    session.stage();
+    for (let i = 0; i < 180; i++) session.advance(DT);
+    expect(session.store.getState().missionPhase).toBe('separated');
+  });
   it('keeps a dismissed debrief closed through paused frames and creates a new report after restart', () => {
     const session = createSession();
     session.store.setState({ hintSeen: true });

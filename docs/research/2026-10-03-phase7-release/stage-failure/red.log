@@ -1,0 +1,37 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/hot-staging.test.ts (16 tests | 3 failed) 34ms
+     × reports permanent required centre engine 0 failure without releasing or stopping real paid mechanics 3ms
+     × reports permanent required centre engine 1 failure without releasing or stopping real paid mechanics 0ms
+     × reports permanent required centre engine 2 failure without releasing or stopping real paid mechanics 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > reports permanent required centre engine 0 failure without releasing or stopping real paid mechanics
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > reports permanent required centre engine 1 failure without releasing or stopping real paid mechanics
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > reports permanent required centre engine 2 failure without releasing or stopping real paid mechanics
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/hot-staging.test.ts:228:37
+    226|     const previous = structuredClone(m);
+    227|     let requested = stepMission(m, DT, { stage: true });
+    228|     expect(requested.stagingFailed).toBe(true);
+       |                                     ^
+    229|     expect(m).toEqual(previous);
+    230|     for (let tick = 0; tick < 360; tick++) requested = stepMission(req…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 13 passed (16)
+   Start at  01:46:46
+   Duration  262ms (transform 102ms, setup 0ms, import 125ms, tests 34ms, environment 0ms)
+

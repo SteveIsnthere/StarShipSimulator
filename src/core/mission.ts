@@ -205,7 +205,8 @@ export function stepMission(previous: MissionState, dt: number, input: MissionIn
   finishMechanicalStep(previous.ship, m.ship, dt, input.ship ?? NO_INPUT, SHIP, noControls, shipWork, false);
   if (input.stage && !m.stageRequested) requestStage(m);
   if (m.stageRequested) {
-    if (m.ship.engines.failed.every(Boolean) || m.ship.failures.inFlightBreakUp || m.booster.failures.inFlightBreakUp)
+    if (m.ship.engines.failed.every(Boolean) || CENTRE_ENGINES.some(i => m.booster.engines.failed[i])
+      || m.ship.failures.inFlightBreakUp || m.booster.failures.inFlightBreakUp)
       m.stagingFailed = true;
     // Actual paid world forces determine whether the upper stage can pull away.
     const shipAxial = (nx * fxS + ny * fyS) / ms;
