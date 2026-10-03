@@ -30,6 +30,8 @@ export interface DebugPresentation {
   worldDt?: number;
   /** On-demand count of actual visible continuous-engine meshes. */
   bell?: { visibleMounts: number };
+  /** Actual rendered body bounds, available only on demand. */
+  bodies?: readonly { id: string; x: number; y: number; rotation: number; width: number; height: number }[];
   /** On-demand particle statistics, produced by the presentation layer. */
   particles?: readonly Readonly<Record<string, number | string>>[];
 }

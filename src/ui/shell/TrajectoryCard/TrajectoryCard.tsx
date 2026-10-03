@@ -19,14 +19,15 @@ import type { MapContext, MapSurface } from '$hud/trajectory-draw';
 import { Button } from '@ui/Button';
 import { cn } from '@ui/internal/utils';
 import { useSession, useSessionState } from '../session-context';
-import { useLayoutMode, usePhoneLayout } from '../layout';
+import { useLayoutMode } from '../layout';
 import { readMapOpen, writeMapOpen } from './map-fold';
 
 export function TrajectoryCard() {
   const session = useSession();
-  const phone = usePhoneLayout();
+  const mode = useLayoutMode();
+  const phone = mode === 'phone';
   // Without the room of a desktop, the debrief takes the top of the screen, map included.
-  const compact = useLayoutMode() !== 'wide';
+  const compact = mode !== 'wide';
   const yielded = useSessionState((s) => compact && s.debrief !== null);
   const [open, setOpen] = useState(readMapOpen);
   const frameId = useId();
@@ -122,9 +123,12 @@ export function TrajectoryCard() {
       data-testid="trajectory-map"
       className={cn(
         'ui-safe-margins absolute z-10 flex flex-col border border-flight-backing-line bg-flight-backing',
-        phone ? 'right-3 top-[calc(var(--hud-bottom,220px)+8px)]' : 'right-4 top-14',
+        phone ? 'right-3 top-[calc(var(--hud-bottom,220px)+8px)]'
+          : mode === 'short' ? 'left-1/2 -translate-x-1/2 top-[calc(var(--hud-bottom,220px)+8px)]'
+            : 'right-4 top-14',
         // Beside the cluster's 560 px column, never under it.
-        open && (phone ? 'left-3' : 'w-[clamp(160px,calc(50vw-312px),280px)]'),
+        open && (phone ? 'left-3' : mode === 'short' ? 'w-[min(280px,calc(var(--ui-safe-width)-480px))]'
+          : 'w-[clamp(160px,calc(50vw-312px),280px)]'),
       )}
     >
       <Button

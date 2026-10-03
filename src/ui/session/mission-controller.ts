@@ -56,6 +56,7 @@ export function createMissionController() {
     loop,
     get model() { return model; },
     get mission() { return missionLoop?.state; },
+    get previousMission() { return missionLoop?.previous; },
     get stagePending() { return stagePending; },
     startFlight(preset: ScenarioPreset) {
       const flight = createScenarioVehicle(preset);

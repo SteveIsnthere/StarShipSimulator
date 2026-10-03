@@ -13,7 +13,7 @@ The default screen is the flight. Four zones, each with one job:
 | **Controls** (bottom-left: *Engines*; bottom-right: *Flight*) | grouped by use, below | collapse to a tab each on a phone, opening one sheet at a time; held sideways, narrower rails that start folded and open one at a time |
 | **Situational** (beside the primary cluster) | the landing cue, heating, max-Q, warnings, toasts | appear only when they matter; never stack more than two |
 
-The secondary readouts (horizontal speed, mach, Q, g, TWR, range) live in an expandable row beneath the primary cluster, collapsed on a phone. The trajectory map is a top-right card, folded by default on a phone in either orientation.
+The secondary readouts (horizontal speed, mach, Q, g, TWR, range) live in an expandable row beneath the primary cluster, collapsed on a phone. The trajectory map is a top-right card, folded by default on a phone in either orientation. In the short landscape layout it sits beneath the central HUD column, leaving both control rails clear. Rails scroll within the available height when a staged mission adds selection and Stage controls. Super Heavy's three engine-group readouts occupy their own full-width HUD row, clear of fuel and attitude.
 
 **Why the cluster is at the top** (changed 2026-10-01, from bottom-centre): the camera brings the vehicle to rest at the bottom of the world, so a bottom cluster covered it on the pad and at touchdown, the two moments a pilot most needs to see it. The sky above is empty in every phase. On a phone the world ends above the controls (the tab bar, and a sheet while one is open), so the camera reframes rather than being covered.
 

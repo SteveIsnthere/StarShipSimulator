@@ -14,16 +14,16 @@ export function BoosterEngineGroups({ interactive = false }: { interactive?: boo
     return () => session.bindEngineGroups(surface, () => null);
   }, [session, surface]);
   return (
-    <div ref={root} className={interactive ? 'grid w-full gap-1' : 'grid grid-cols-3 gap-2'}>
+    <div ref={root} className={interactive ? 'grid w-full gap-1' : 'grid min-w-0 grid-cols-3 gap-2'}>
       {ENGINE_GROUP_NAMES.map(group => {
         const content = <>
           <span className="text-[11px]">{ENGINE_GROUP_LABELS[group]} · {BOOSTER_ENGINE_GROUPS[group].length}</span>
-          <span data-engine-group={group} className="whitespace-nowrap font-mono text-[10px] text-ui-muted">0 lit · 0 start · 0 fail</span>
+          <span data-engine-group={group} className={`${interactive ? 'whitespace-nowrap' : 'whitespace-normal'} font-mono text-[10px] text-ui-muted`}>0 lit · 0 start · 0 fail</span>
         </>;
         return interactive
           ? <Button key={group} type="button" data-testid={`engine-group-${group}`} data-indicator={`group-${group}`} aria-pressed={false}
               className="flex w-full items-center justify-between gap-2 aria-pressed:bg-ui-selected aria-pressed:text-ui-on-selected" onClick={() => session.emit({ type: 'engineGroup', group })}>{content}</Button>
-          : <div key={group} className="grid gap-1">{content}</div>;
+          : <div key={group} className="grid min-w-0 gap-1">{content}</div>;
       })}
     </div>
   );

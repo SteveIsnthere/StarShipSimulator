@@ -14,9 +14,8 @@
 import { DT, type LoopState, type AdvanceResult } from '$app/loop';
 import { installSimDebug } from '$app/debug';
 import { type ControlEvent } from '$app/controls';
-import { fieldsToPreset, toLoopOptions, type EditorFields, type TimeSetting } from '$app/menu';
-import { vehicleHeight, starBaseXPos } from '$core/constants';
-import { toDeg } from '$core/units';
+import { toLoopOptions, type EditorFields, type TimeSetting } from '$app/menu';
+import { vehicleHeight } from '$core/constants';
 import { toggleRandomFailure } from '$core/control/commands';
 import {
   getScenario,
@@ -60,6 +59,7 @@ import { createSessionStore, isPaused, type Layer, type SessionStore } from './s
 
 import { HINT_FITS, createPreferenceCommands, readSessionPreferences } from './preferences';
 import { createMissionController } from './mission-controller';
+import { configuredFlight } from './configure-flight';
 import { createFlightHistories } from './flight-histories';
 import type { MissionState } from '$core/mission';
 import { createEngineGroupBinder, type EngineGroup, type EngineGroupBinder } from '$hud/engine-groups';
@@ -172,8 +172,7 @@ export function createSession(): Session {
   const onStep = (state: SimState) => {
     histories.observe(state);
     if (!view) return;
-    view.followAltitude(state.kinematics.altitude);
-    camera.step(view, state);
+    camera.step(view, state, controller.mission);
   };
 
   // Rebuilt only when the time setting or the pause changes, never per frame.
@@ -202,18 +201,7 @@ export function createSession(): Session {
     histories.reset();
     const fresh = loop.state;
     fresh.failures.randomFailure = get().randomFailure;
-    // Put the camera where the new flight is, moving as the vehicle moves:
-    // from rest it can never catch a fast one.
-    if (view) {
-      view.followAltitude(fresh.kinematics.altitude);
-      const cam = view.camera;
-      cam.posX = fresh.kinematics.downRangeDistance;
-      cam.posY = Math.max(view.viewport.physicalHeight * 0.5, fresh.kinematics.altitude);
-      cam.speedX = fresh.kinematics.speedX;
-      cam.speedY = fresh.kinematics.speedY;
-      cam.accX = 0;
-      cam.accY = 0;
-    }
+    if (view) camera.reset(view, fresh, controller.mission);
     audio.resetFlight();
     if (mapSurface) mapSurface.dirty = true;
     set({ preset, selectedVehicle: controller.model.id, flightOver: false, debrief: null });
@@ -301,6 +289,7 @@ export function createSession(): Session {
     selectVehicle(id) {
       if (!controller.mission || id === controller.model.id) return;
       controller.selectVehicle(id);
+      if (view) camera.select(view, loop.state);
       set({ selectedVehicle: controller.model.id });
       timelineBinder?.follow(histories.selected.timeline);
       timelineBinder?.update();
@@ -308,20 +297,7 @@ export function createSession(): Session {
       syncMission();
     },
     configure(fields) {
-      const state = loop.state;
-      const base = controller.mission ? { ...get().preset, id: 'custom',
-        basedOn: controller.model.id === 'super-heavy' ? 'booster-sep' : 'hot-stage',
-        altitude: state.kinematics.altitude,
-        xPosition: state.kinematics.downRangeDistance - starBaseXPos,
-        speedX: state.kinematics.speedX, speedY: state.kinematics.speedY,
-        pitch: toDeg(state.kinematics.pitch), propellant: state.vehicle.propellantMass / 1000,
-        wind: state.world.wind,
-      } : get().preset;
-      const preset = fieldsToPreset(fields, base);
-      // Clearing the form may clear its presentation origin, but must retain
-      // the physical booster identity when no different preset was chosen.
-      startFlight(!fields.basedOn && controller.model.id === 'super-heavy'
-        ? { ...preset, basedOn: base.basedOn ?? base.id } : preset);
+      startFlight(configuredFlight(fields, get().preset, controller));
       set({ layer: null });
     },
     restart() {
@@ -410,6 +386,7 @@ export function createSession(): Session {
       if (observer && box) observer.observe(box);
       else window.addEventListener('resize', onResize);
       onResize();
+      if (controller.mission) camera.reset(v, live.state, controller.mission);
 
       const room = window.matchMedia(HINT_FITS);
       const onRoomChange = () => set({ hintFits: room.matches });
@@ -438,7 +415,7 @@ export function createSession(): Session {
         // is how much world actually went past, and everything below runs on it.
         const worldDt = session.advance(frameTime).simulatedDt;
         const s = live.state;
-        scene.draw(s, live.previous, worldDt, get().preset);
+        scene.draw(s, live.previous, worldDt, get().preset, controller);
 
         audio.update(s);
         hud?.update(s);

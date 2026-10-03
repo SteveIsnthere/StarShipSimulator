@@ -142,9 +142,10 @@ export function Hud() {
           <div className="min-w-0 flex-1">
             <Propellant compact={compact} />
           </div>
-          <EngineDots compact={compact} />
+          {selectedVehicle === 'ship' && <EngineDots compact={compact} />}
           <Attitude compact={compact} />
         </div>
+        {selectedVehicle === 'super-heavy' && <EngineDots compact={compact} />}
 
         <SecondaryReadouts id={secondaryId} hidden={!expanded} />
       </div>

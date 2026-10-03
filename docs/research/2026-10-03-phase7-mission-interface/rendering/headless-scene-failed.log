@@ -1,0 +1,34 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/scene-vehicles.test.ts (1 test | 1 failed) 8ms
+   × renders both real mission bodies, keeps unselected mounts, and hides the absent standalone body 7ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/scene-vehicles.test.ts > renders both real mission bodies, keeps unselected mounts, and hides the absent standalone body
+ReferenceError: document is not defined
+ ❯ Object.createCanvas node_modules/pixi.js/src/environment-browser/BrowserAdapter.ts:24:23
+ ❯ getTestContext node_modules/pixi.js/src/rendering/renderers/gl/shader/program/getTestContext.ts:16:40
+ ❯ getMaxFragmentPrecision node_modules/pixi.js/src/rendering/renderers/gl/shader/program/getMaxFragmentPrecision.ts:13:19
+ ❯ new _GlProgram node_modules/pixi.js/src/rendering/renderers/gl/shader/GlProgram.ts:157:47
+ ❯ _GlProgram.from node_modules/pixi.js/src/rendering/renderers/gl/shader/GlProgram.ts:213:32
+ ❯ createSheath src/view/reentry.ts:208:31
+    206|
+    207| export function createSheath(): Sheath {
+    208|   sharedProgram ??= GlProgram.from({ vertex: VERTEX, fragment: FRAGMEN…
+       |                               ^
+    209|   const shader = new Shader({
+    210|     glProgram: sharedProgram,
+ ❯ createSceneVehicles src/ui/session/scene-vehicles.ts:27:18
+ ❯ tests/ui/scene-vehicles.test.ts:16:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  1 failed | 89 passed (90)
+   Start at  00:32:05
+   Duration  2.02s (transform 1.17s, setup 0ms, import 3.20s, tests 1.76s, environment 827ms)
+
