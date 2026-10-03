@@ -109,3 +109,6 @@ Task5 session follow-up: preference helper split reduces session to432lines; act
 
 
 Task5 interface checkpoint: actual hot-stage commands/selection, separate per-body recorder/ghost/timeline/watch/endings, seed-preserving restart and shared failures are connected. Menu mission entry, Stage/status/selection and physical booster groups/counts/indicators/full-tank bars are rendered; Ship controls and presets remain.170focused checks plus9timeline-selection checks, build/lint0, JS292.8/300kB, session473lines. Evidence2026-10-03-phase7-mission-interface. Next both actual rendered bodies/camera/catch presentation, editor booster capacity and real browser witnesses; inspect/correct Stage cancelling non-centre engines via RED first. No physics source changed in this checkpoint, no full gate/coverage/main/live approval.
+
+
+Task5 Stage ownership fixed: real RED running/pending non-centre witness now cancels through normal shutdown on first request; actual3booster/6Ship release and purity pass.70focused mission/session/golden/independent Ship checks, build/lint0 and14truthIN before/after. All ten goldens unchanged; auditP7.5s, Bug-fix tier, fresh independent release review still owed. Evidence2026-10-03-phase7-mission-interface/stage-controls. Do not reopen this diagnosis; next both real rendered bodies/camera/catch/editor/browser.

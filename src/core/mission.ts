@@ -16,6 +16,7 @@ import { createStepDynamics, prepareDynamics, integrateTranslation, finishTransl
   predictRotation, writeRotationForces, finishRotation, type TranslationBody } from './physics/step-dynamics';
 import { finishMechanicalStep } from './control/mechanical';
 import { toggleRaptor } from './control/commands';
+import { shutdownEngine } from './physics/engines';
 import { step, NO_INPUT, type StepInput } from './step';
 
 export interface StackMassProperties {
@@ -145,6 +146,8 @@ function deriveBodies(m: MissionState, properties: StackMassProperties): void {
 function requestStage(m: MissionState): void {
   m.stageRequested = true;
   m.booster.vehicle.throttle = m.ship.vehicle.throttle = 100;
+  for (let i = 0; i < SUPER_HEAVY.engines.length; i++)
+    if (!CENTRE_ENGINES.includes(i)) shutdownEngine(m.booster, i);
   for (const i of CENTRE_ENGINES) if (!m.booster.engines.running[i] && m.booster.engines.ignitionCountdown[i] === null)
     toggleRaptor(m.booster, i);
   for (let i = 0; i < SHIP.engines.length; i++) if (!m.ship.engines.running[i] && m.ship.engines.ignitionCountdown[i] === null)

@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/hot-staging.test.ts (10 tests | 1 failed) 27ms
+     × Stage cancels all non-centre propulsion, including manually pending ignitions 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > Stage cancels all non-centre propulsion, including manually pending ignitions
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/hot-staging.test.ts:41:79
+     39|     const requested = stepMission(mission, DT, { stage: true });
+     40|     expect(requested.stageRequested).toBe(true);
+     41|     expect(requested.booster.engines.running.slice(3).every(value => !…
+       |                                                                               ^
+     42|     expect(requested.booster.engines.ignitionCountdown.slice(3).every(…
+     43|     expect(CENTRE_ENGINES.every(i => requested.booster.engines.running…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  00:05:19
+   Duration  276ms (transform 119ms, setup 0ms, import 146ms, tests 27ms, environment 0ms)
+

@@ -9,6 +9,7 @@ import { rad } from '$core/units';
 import { planetRadius, standardGravity, thrustPerRaptorAt } from '$core/constants';
 import { tangentialAcceleration, verticalGravityAcceleration } from '$core/physics/gravity';
 import { prepareDynamics, createStepDynamics } from '$core/physics/step-dynamics';
+import { toggleRaptor } from '$core/control/commands';
 
 const DT = 1 / 120;
 
@@ -24,6 +25,29 @@ function untilRelease(m = createHotStageMission(123)) {
 }
 
 describe('physical attached hot staging', () => {
+  it('Stage cancels all non-centre propulsion, including manually pending ignitions', () => {
+    let mission = createHotStageMission(123);
+    for (let i = 0; i < 33; i++) toggleRaptor(mission.booster, i);
+    for (let i = 0; i < 240; i++) {
+      if (mission.booster.engines.running.slice(3).some(Boolean)
+        && mission.booster.engines.ignitionCountdown.slice(3).some(value => value !== null)) break;
+      mission = stepMission(mission, DT);
+    }
+    expect(mission.booster.engines.running.slice(3).some(Boolean)).toBe(true);
+    expect(mission.booster.engines.ignitionCountdown.slice(3).some(value => value !== null)).toBe(true);
+    const before = structuredClone(mission);
+    const requested = stepMission(mission, DT, { stage: true });
+    expect(requested.stageRequested).toBe(true);
+    expect(requested.booster.engines.running.slice(3).every(value => !value)).toBe(true);
+    expect(requested.booster.engines.ignitionCountdown.slice(3).every(value => value === null)).toBe(true);
+    expect(CENTRE_ENGINES.every(i => requested.booster.engines.running[i] || requested.booster.engines.ignitionCountdown[i] !== null)).toBe(true);
+    expect(mission).toEqual(before);
+    const released = untilRelease(requested);
+    expect(released.phase).toBe('separated');
+    expect(released.booster.engines.running.filter(Boolean)).toHaveLength(3);
+    expect(released.ship.engines.running.filter(Boolean)).toHaveLength(6);
+  });
+
   it('retains the original booster pose/load and places a full Ship above its touching hull', () => {
     const m = createHotStageMission(123);
     const p = PRESETS.find(p => p.id === 'booster-sep')!;
