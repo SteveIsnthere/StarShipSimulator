@@ -1,0 +1,13 @@
+# Phase 7 selected-model mission routing checkpoint
+
+Base: `edd2974`, on `claude/super-heavy`. Task5 remains in progress; nothing in this checkpoint is merged to main or visible on the live site.
+
+The framework-free mission controller owns an actual selected model and either the standalone fixed loop or the shared two-body mission loop. Its stable selected loop serves existing binders/recorders. Selection never steps either body; both bodies continue after separation; Stage persists through a pause; the recorder callback sees the current physical mission and selected state on every fixed step. The original intro is unchanged. Custom booster loads retain the physical3400t capacity.
+
+Direct player commands invalidate pending/accepted booster return authority before application. The all-engine route uses actual13-engine return ignition. Centre3/inner10/outer20 group commands operate on real engine states, cancel pending ignition and preserve failed engines. Attached automatic flight modes remain unavailable because the physical demonstration is manually staged until release.
+
+Fidelity tier, approved Phase7Task5: free-flight booster guard/hold/ascent use actual thrust, grid/gimbal/moving-COM allocation and paid proportional RCS. The shared speed guard previously discarded its model at the thrust helper; the optional model now reaches the existing helper, with the default Ship path unchanged. Return guidance retains exact exclusive priority so live and forecast laws remain equivalent. Utility ascent preserves the existing altitude programme and fuel threshold without using Ship flap locks.
+
+RED evidence: controller module absent; eight routing/provenance defects; missing grouped route and attached mode incorrectly enabled; three utility modes bypassed. GREEN evidence:52focused checks before three additional priority/manual/fuel controls, then70checks across routing, utility, independent Ship proofs and all ten golden replays. Build/lint exit0, truth14/14IN before and after. The RCS witness captures the command before actuation because the existing actuator consumes it; no assertion was weakened. No golden file, digest, tolerance, physical authority, scenario start or work limit changed.
+
+Next: split the500-line session before integration, connect the canonical controller/debug route, retain independent body flight histories, then expose model-aware controls/HUD and both real rendered bodies. Task6 still owes full coverage, gate, browser/mutation/truth and fresh release review. Hosted snapshot coverage deficits remain mandatory; these focused results are not release approval.

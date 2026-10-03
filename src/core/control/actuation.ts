@@ -188,7 +188,8 @@ export function controlTranslation(state: SimState, pitchControl: number, dt: nu
     aftFinActuation(state,50,dt);
   } else finsActuation(state, pitchControl / 2, dt);
   const boosterAutomatic = !!model.gridFins && !manualOverride && !state.autopilot.manualControlOn
-    && (state.autopilot.autoLandOn || state.autopilot.autoBoostBackOn)
+    && (state.autopilot.autoLandOn || state.autopilot.autoBoostBackOn
+      || state.autopilot.pitchHoldOn || state.autopilot.autoTakeOffOn)
     && state.autopilot.boosterFinControl !== undefined;
   rcsControl(state, pitchControl, dt, boosterAutomatic);
   thrustVectorControl(state, pitchControl, dt);

@@ -1,0 +1,48 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/booster-controls.test.ts (9 tests | 1 failed) 4ms
+     × toggles a whole physical ring, cancels pending ignition, and leaves other rings alone 2ms
+ ❯ |unit| tests/ui/mission-session.test.ts (7 tests | 1 failed) 19ms
+     × does not advertise an automatic flight mode on the attached demonstration 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/booster-controls.test.ts > manual booster controls > toggles a whole physical ring, cancels pending ignition, and leaves other rings alone
+Error: unhandled control event: {"type":"engineGroup","group":"outer"}
+ ❯ applyControl src/app/controls.ts:114:13
+    112|     default: {
+    113|       const unhandled: never = event;
+    114|       throw new Error(`unhandled control event: ${JSON.stringify(unhan…
+       |             ^
+    115|     }
+    116|   }
+ ❯ tests/ui/booster-controls.test.ts:11:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/ui/mission-session.test.ts > actual selected-model mission routing > does not advertise an automatic flight mode on the attached demonstration
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/ui/mission-session.test.ts:33:52
+     31|     flight.startHotStage(123);
+     32|     flight.emit({ type: 'autoLand' });
+     33|     expect(flight.loop.state.autopilot.autoLandOn).toBe(false);
+       |                                                    ^
+     34|     stage(flight);
+     35|     flight.emit({ type: 'autoLand' });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 14 passed (16)
+   Start at  23:33:28
+   Duration  263ms (transform 177ms, setup 0ms, import 226ms, tests 23ms, environment 0ms)
+

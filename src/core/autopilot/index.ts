@@ -24,6 +24,7 @@
 import * as C from '../constants';
 import { SHIP, type VehicleDefinition } from '../vehicle';
 import { runBoosterAutopilot } from './booster';
+import { runBoosterUtilities } from './booster-utilities';
 import type { MechanicalAdvance } from '../control/mechanical';
 import { localGravity } from '../control/guidance-physics';
 import * as cmd from '../control/commands';
@@ -64,13 +65,14 @@ export function pitchHold(state: SimState): void {
 }
 
 /** autoPilotModes.js:420 — fly at the dynamic-pressure speed ceiling. */
-export function autoMaxThrust(state: SimState): void {
+export function autoMaxThrust(state: SimState, model: VehicleDefinition = SHIP): void {
   if (!state.autopilot.autoMaxThrustOn) return;
   prim.speedAdjustment(
     state,
     prim.getMaxSpeedWithSafeDynamicPressure(state.atmosphere.airDensity),
     10,
     4,
+    model,
   );
 }
 
@@ -769,7 +771,12 @@ export function autoDeorbit(state: SimState): void {
  */
 export function runAutopilot(state: SimState, dt: number, model: VehicleDefinition = SHIP, advance?:MechanicalAdvance): void {
   if (model.id === 'super-heavy') {
+    const returning = state.autopilot.autoLandOn || state.autopilot.autoBoostBackOn;
     runBoosterAutopilot(state, dt, model, advance);
+    if (!returning) {
+      autoMaxThrust(state, model);
+      runBoosterUtilities(state, model);
+    }
     return;
   }
   demoAutoLand(state, dt);

@@ -1,0 +1,66 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-utilities.test.ts (3 tests | 3 failed) 6ms
+     × sets the pressure guard throttle using actual thirteen-engine thrust 4ms
+     × holds attitude through physical fin and proportional paid RCS authority 0ms
+     × initialises ascent with the actual return engine group and no Ship flap lock 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-utilities.test.ts > booster utility autopilot modes > sets the pressure guard throttle using actual thirteen-engine thrust
+AssertionError: expected 100 to be 49.742705417972246 // Object.is equality
+
+- Expected
++ Received
+
+- 49.742705417972246
++ 100
+
+ ❯ tests/core/booster-utilities.test.ts:25:36
+     23|     expect(goal).toBeLessThan(100);
+     24|     runAutopilot(state, 1 / 120, SUPER_HEAVY);
+     25|     expect(state.vehicle.throttle).toBe(goal);
+       |                                    ^
+     26|     const standalone = booster();
+     27|     standalone.engines.running = [...state.engines.running];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/core/booster-utilities.test.ts > booster utility autopilot modes > holds attitude through physical fin and proportional paid RCS authority
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-utilities.test.ts:41:47
+     39|     state.kinematics.pitchRateOfChange = 1;
+     40|     runAutopilot(state, 1 / 120, SUPER_HEAVY);
+     41|     expect(state.autopilot.boosterFinControl).toBeDefined();
+       |                                               ^
+     42|     expect(state.autopilot.rcsThrustCommand).not.toBe(0);
+     43|     controlTranslation(state, state.autopilot.pitchControl, 1 / 120, S…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/core/booster-utilities.test.ts > booster utility autopilot modes > initialises ascent with the actual return engine group and no Ship flap lock
+AssertionError: expected [] to have a length of 13 but got +0
+
+- Expected
++ Received
+
+- 13
++ 0
+
+ ❯ tests/core/booster-utilities.test.ts:52:77
+     50|     state.autopilot.autoTakeOffOn = true;
+     51|     runAutopilot(state, 1 / 120, SUPER_HEAVY);
+     52|     expect(state.engines.ignitionCountdown.filter(value => value !== n…
+       |                                                                             ^
+     53|     expect(state.autopilot.autoTakeOffInitialised).toBe(true);
+     54|     expect(state.autopilot.autoMaxThrustOn).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  23:35:37
+   Duration  236ms (transform 101ms, setup 0ms, import 124ms, tests 6ms, environment 0ms)
+

@@ -8,6 +8,12 @@ import { LOX_DENSITY, CH4_DENSITY, OXIDISER_SHARE, type VehicleDefinition } from
 
 export const CENTRE_ENGINES: readonly number[] = Object.freeze([0,1,2]);
 export const RETURN_ENGINES: readonly number[] = Object.freeze(Array.from({length:13},(_,i)=>i));
+/** Operator groups follow the physical centre and the two engine rings. */
+export const BOOSTER_ENGINE_GROUPS = Object.freeze({
+  centre: CENTRE_ENGINES,
+  inner: Object.freeze(Array.from({ length: 10 }, (_, i) => i + 3)),
+  outer: Object.freeze(Array.from({ length: 20 }, (_, i) => i + 13)),
+});
 const HEIGHT=71, DIAMETER=9, CAPACITY=3_400_000, TANK_BOTTOM=3;
 const area=Math.PI*(DIAMETER/2)**2;
 const loxHeight=CAPACITY*OXIDISER_SHARE/(LOX_DENSITY*area);

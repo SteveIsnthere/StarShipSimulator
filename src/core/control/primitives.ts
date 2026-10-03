@@ -455,15 +455,16 @@ export function speedAdjustment(
   targetSpeed: number,
   speedDifferenceThreshold: number,
   twrLimit: number,
+  model: VehicleDefinition = SHIP,
 ): void {
   const speedDifference = targetSpeed - state.kinematics.trueSpeed;
 
   if (speedDifference < 0) {
-    controlEnginebyTWR(state, 0);
+    controlEnginebyTWR(state, 0, model);
   } else {
-    controlEnginebyTWR(state, twrLimit);
+    controlEnginebyTWR(state, twrLimit, model);
     if (speedDifference < speedDifferenceThreshold) {
-      controlEnginebyTWR(state, 1 + speedDifference / speedDifferenceThreshold);
+      controlEnginebyTWR(state, 1 + speedDifference / speedDifferenceThreshold, model);
     }
   }
 }

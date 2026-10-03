@@ -86,6 +86,9 @@ function align(state: SimState, goal: Rad, time: number, model: VehicleDefinitio
   // pays the delivered command. Manual full-yoke retains its legacy behaviour.
 }
 
+/** Utility modes share the return controller's actual hardware allocation. */
+export { align as alignBooster };
+
 function predictReturn(state: SimState, dt: number, model: VehicleDefinition, advance?:MechanicalAdvance): void {
   const a = state.autopilot;
   if(advance) {
