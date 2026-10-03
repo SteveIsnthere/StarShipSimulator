@@ -14,6 +14,7 @@ import type { ViewApp } from '$view/app';
 import { worldToScreen } from '$view/camera';
 import { loadTextures } from '$view/assets';
 import { createWorld } from '$view/world';
+import { createCatchTower } from '$view/catch-tower';
 import { createTerrainTextures } from '$view/terrain';
 import { createDistantEarth } from '$view/distant-earth';
 import { createFlightPathMarker } from '$view/motion-cues';
@@ -56,6 +57,7 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
   // Shared by the near ground and the far earth so they are one material.
   const terrain = createTerrainTextures();
   const world = createWorld(textures, terrain);
+  const tower = createCatchTower();
   const sun = createSunLight();
   const worldLighting = { sun, downRangeDistance: 0, altitude: 0, pitch: 0 };
   const noseUv = { x: 0, y: 0 };
@@ -68,7 +70,7 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
   view.layers.far.addChild(distantEarth.container);
   const clouds = createCloudDeck(particleTextures.wisp);
   view.layers.far.addChild(clouds.container);
-  view.layers.world.addChild(world.container);
+  view.layers.world.addChild(world.container, tower.container);
 
   const sky = createSky(view.app.renderer);
   view.layers.sky.addChild(sky.container);
@@ -108,6 +110,8 @@ export async function createScene(view: ViewApp, isDisposed: () => boolean): Pro
       clouds.update(view.viewport, s.kinematics.altitude, s.kinematics.speedX, worldDt, sun);
       world.update(view.camera, view.viewport, s.kinematics.speedX, s.kinematics.altitude, worldLighting);
 
+      tower.update(view.camera, view.viewport, controller.mission?.booster
+        ?? (controller.model.id === 'super-heavy' ? s : undefined));
       vehicles.draw(s, previous, worldDt, sun, elapsed, controller);
 
       // Where the vehicle is going, as against where its nose points.

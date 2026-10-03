@@ -19,10 +19,10 @@ import { useSession, useSessionState } from '../session-context';
 
 export function MissionTimeline({ compact, className }: { compact: boolean; className?: string }) {
   const session = useSession();
-  // The track follows the preset the flight was built from; a flight set up in
-  // the editor is `custom` and gets the general shape, as it always has.
-  const scenarioId = useSessionState((s) => s.preset.id);
-  const track = useMemo(() => trackFor(scenarioId), [scenarioId]);
+  const scenarioId = useSessionState((s) => s.preset.basedOn ?? s.preset.id);
+  const vehicle = useSessionState((s) => s.selectedVehicle);
+  const mission = useSessionState((s) => s.missionPhase !== null);
+  const track = useMemo(() => trackFor(scenarioId, vehicle, mission), [scenarioId, vehicle, mission]);
 
   const rail = useRef<HTMLOListElement>(null);
   const now = useRef<HTMLSpanElement>(null);

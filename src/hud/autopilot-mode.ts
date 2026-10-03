@@ -45,3 +45,8 @@ export function scenarioLabel(preset: ScenarioPreset): string {
   const base = getScenario(preset.basedOn);
   return base ? `${base.name}, edited` : preset.name;
 }
+
+/** The mode enum remains shared; its purpose follows the selected body. */
+export function autopilotLabel(mode: AutopilotMode, vehicle: 'ship' | 'super-heavy'): string {
+  return mode === 'land' && vehicle === 'super-heavy' ? 'Catch' : AUTOPILOT_LABELS[mode];
+}

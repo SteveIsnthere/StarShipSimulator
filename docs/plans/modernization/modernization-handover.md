@@ -13,7 +13,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
 | 6 Ship realism | done, live; gate and live deployment smoke verified | `080f108` |
 | 6b Entry on lift | closed under approved broadside fallback, live and verified | `c2ae5e4` |
-| 7 Super Heavy | Tasks1–4 core/mission clock implemented; UI/release remain | — |
+| 7 Super Heavy | Tasks1–5 core/mission/interface implemented; release remains | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
 | 9 UX to flight_sim level | not started | — |
 
@@ -116,3 +116,5 @@ Task5 Stage ownership fixed: real RED running/pending non-centre witness now can
 Task5 editor checkpoint: actual booster3400t capacity and selected mission-body standalone configuration pass68focused checks, build/lint0, JS292.9/300kB. Initial capacity/routing and first unsuccessful correction logs are preserved in2026-10-03-phase7-mission-interface/editor. No core physics changed. Next actual two-body rendering/camera/catch/browser; full release coverage/review/main/live remain owed.
 
 Task5 rendering checkpoint: actual Ship+Super Heavy poses, real fins/mounts/independent exhaust and selection-aware camera now render. Two real landscape pointer collisions and portrait group/vehicle occlusion are fixed; final staging5/5 on all projects,125focused checks and Ship startup4/4 pass, build/lint0/JS294.3kB. Evidence2026-10-03-phase7-mission-interface/rendering. Next genuine tower/catch presentation/debrief/observed timeline and Booster Sep+RTLS browser catches, then Task6 release and8/9. No main/live change or phase completion.
+
+Task5 catch checkpoint: actual model-aware Caught debrief/fuel, real mission/burn events, Catch status and physical120m tower target are implemented without core/golden changes.130focused/9files plus15mission regressions pass, build/lint0/JS294.9kB. Actual original Sep+RTLS catches, missed-position control and real Fly again attachment restart pass20/20 across all five projects,0fail/skip/retry. Initial obsolete expectations and nonexistent-R harness failure remain recorded. Captures/source pins preserved in2026-10-03-phase7-mission-interface/catch. Portrait debrief/control occlusion and landscape header-clock clipping remain explicit planned Phase8/9 UX work. Next Task6 coverage/fullgate/browser/mutation/truth/fresh high independent review/main/live, then8/9.70%byphase count; main/live unchanged.

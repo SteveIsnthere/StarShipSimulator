@@ -39,7 +39,7 @@
  * of it — an independent measurement rather than the same one twice.
  */
 import * as C from '$core/constants';
-import { PROPELLANT_CAPACITY } from '$core/physics/mass';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
 import { DT } from '$app/loop';
 import type { SimState } from '$core/state';
 import type { Timeline, TimelineEvent } from './timeline';
@@ -51,7 +51,7 @@ import type { Timeline, TimelineEvent } from './timeline';
  * shown, and a caller that renders it anyway gets a truthful card about a
  * flight in progress rather than a special case to handle.
  */
-export const OUTCOMES = ['FLYING', 'TOUCHDOWN', 'CRASH', 'LOSS'] as const;
+export const OUTCOMES = ['FLYING', 'TOUCHDOWN', 'CAUGHT', 'CRASH', 'LOSS'] as const;
 export type Outcome = (typeof OUTCOMES)[number];
 
 /** One line of the card: a measured value against the limit it was judged by. */
@@ -283,6 +283,7 @@ export function debrief(
   state: SimState,
   timeline: Timeline,
   witness: Witness | undefined,
+  model: VehicleDefinition = SHIP,
 ): Debrief {
   const { status, failures } = state;
 
@@ -291,7 +292,7 @@ export function debrief(
     : failures.crashed
       ? 'CRASH'
       : status.landed
-        ? 'TOUCHDOWN'
+        ? model.id === 'super-heavy' && !status.onTheGround ? 'CAUGHT' : 'TOUCHDOWN'
         : 'FLYING';
 
   const speedY = witness?.speedY ?? 0;
@@ -317,7 +318,9 @@ export function debrief(
   const overQ = (witness?.dynamicPressure ?? 0) > C.dynamicPressureLimit;
 
   const reasons: string[] = [];
-  if (outcome === 'CRASH') {
+  if (outcome === 'CRASH' && model.id === 'super-heavy') {
+    reasons.push('tower catch missed');
+  } else if (outcome === 'CRASH') {
     if (tooFast) reasons.push('descending too fast');
     if (tooSideways) reasons.push('drifting sideways');
     if (tooTilted) reasons.push('not upright');
@@ -334,7 +337,7 @@ export function debrief(
 
   return {
     outcome,
-    touchedDown: outcome === 'TOUCHDOWN' || outcome === 'CRASH',
+    touchedDown: model.id === 'ship' && (outcome === 'TOUCHDOWN' || outcome === 'CRASH'),
     reasons,
     elapsed: state.world.timeSpent,
     vertical: judged(speedY, C.touchDownSpeedLimit, outcome === 'CRASH' && tooFast),
@@ -349,7 +352,7 @@ export function debrief(
     */
     miss: judged(
       witness?.miss ?? state.kinematics.downRangeDistance - C.starBaseXPos,
-      C.vehicleHeight,
+      model.height,
     ),
     peakQ: judged(witness?.peakDynamicPressure ?? 0, C.dynamicPressureLimit, overQ),
     peakHeat: judged(witness?.peakSurfaceTemperature ?? 0, C.TILE_LIMIT_KELVIN, overHeat),
@@ -358,8 +361,8 @@ export function debrief(
     // and the editor field are both in tonnes and three units for one quantity
     // is how a readout starts lying.
     propellant: judged(
-      (witness?.propellantMass ?? state.vehicle.propellantMass) / 1000,
-      PROPELLANT_CAPACITY / 1000,
+      (outcome === 'CAUGHT' ? state.vehicle.propellantMass : witness?.propellantMass ?? state.vehicle.propellantMass) / 1000,
+      model.propellantCapacity / 1000,
     ),
     events: timeline.events,
   };

@@ -1,5 +1,4 @@
-/** Actual production scene and canonical two-body clock, on all five viewports.
- * Catch witnesses are added separately once the catch presentation is wired. */
+/** Actual production scene and canonical two-body clock, on all five viewports. */
 import { expect, test, type Page } from '@playwright/test';
 import type { SimDebug } from '../../src/app/debug';
 import { byTestId } from '../../src/ui/testids';
@@ -60,6 +59,20 @@ test('both real staging bodies render and selection preserves the shared paused 
   expect(await telemetry(page)).toEqual(booster);
   await tap(page, 'select-ship');
   expect(await telemetry(page)).toEqual(ship);
+  await expect(page.locator(byTestId('event-now'))).toHaveText('SEPARATION');
+  // Inject a terminal failure solely to expose the actual Fly again command.
+  // This is a restart-routing witness, not an autonomous mission loss claim.
+  await page.evaluate(() => {
+    const debug = (window as unknown as { __simDebug: SimDebug }).__simDebug;
+    debug.setState({ 'failures.inFlightBreakUp': true }); debug.step(1);
+  });
+  await expect(page.locator(byTestId('debrief'))).toHaveAttribute('data-outcome', 'LOSS');
+  await page.locator(byTestId('debrief-restart')).click();
+  await expect(page.getByRole('status').filter({ hasText: /^Attached$/ })).toBeVisible();
+  await expect.poll(async () => (await presentation(page)).bell?.visibleMounts).toBe(0);
+  const restarted = await telemetry(page);
+  expect(restarted['world.environmentTime']).toBe(0);
+  expect(restarted['engines.running[0]']).toBe(false);
   await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.setScenario('rtls'));
   await expect.poll(async () => (await presentation(page)).bodies?.map(body => body.id)).toEqual(['super-heavy']);
   await expect(page.locator(byTestId('select-ship'))).toHaveCount(0);

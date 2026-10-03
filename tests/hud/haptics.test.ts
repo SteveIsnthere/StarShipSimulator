@@ -40,9 +40,10 @@ describe('when it buzzes', () => {
     // to learn and nobody is going to learn one for a landing.
     expect(durationFor('TOUCHDOWN')).toBe(END_MS);
     expect(durationFor('LOSS')).toBe(END_MS);
+    expect(durationFor('CAUGHT')).toBe(END_MS);
     expect(END_MS).toBeGreaterThan(EVENT_MS);
     for (const id of EVENT_IDS) {
-      if (id === 'TOUCHDOWN' || id === 'LOSS') continue;
+      if (id === 'TOUCHDOWN' || id === 'CAUGHT' || id === 'LOSS') continue;
       expect(durationFor(id), id).toBe(EVENT_MS);
     }
   });

@@ -20,7 +20,7 @@ import { usePhoneLayout } from '../layout';
 import { CameraModes } from './CameraModes';
 import { ChromeButton } from './ChromeButton';
 import { MissionClock } from './MissionClock';
-import { AUTOPILOT_LABELS, scenarioLabel } from '$hud/autopilot-mode';
+import { autopilotLabel, scenarioLabel } from '$hud/autopilot-mode';
 
 const ICON = 'size-4';
 
@@ -32,6 +32,7 @@ export function StatusBar() {
   const cinematic = useSessionState((s) => s.cinematic);
   const muted = useSessionState((s) => s.muted);
   const mode = useSessionState((s) => s.autopilot);
+  const vehicle = useSessionState((s) => s.selectedVehicle);
 
   return (
     <>
@@ -68,7 +69,7 @@ export function StatusBar() {
                 Autopilot<span aria-hidden="true"> · </span>
               </span>
             )}
-            {AUTOPILOT_LABELS[mode]}
+            {autopilotLabel(mode, vehicle)}
           </span>
         </div>
 

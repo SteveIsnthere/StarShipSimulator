@@ -44,6 +44,7 @@ export function levelWord(j: Judged): string | null {
 /** The heading: what happened, in one or two words. */
 export const OUTCOME_HEADING: Readonly<Record<Outcome, string>> = {
   TOUCHDOWN: 'Landed',
+  CAUGHT: 'Caught',
   CRASH: 'Crashed',
   LOSS: 'Broke up',
   FLYING: 'Still flying',
@@ -51,6 +52,12 @@ export const OUTCOME_HEADING: Readonly<Record<Outcome, string>> = {
 
 /** The timeline's ids, as a player would say them. */
 export const EVENT_LABEL: Readonly<Record<EventId, string>> = {
+  ATTACHED: 'Attached stack',
+  STAGING: 'Staging',
+  SEPARATION: 'Separated',
+  BOOSTBACK: 'Boostback burn',
+  'ENTRY BURN': 'Entry burn',
+  CAUGHT: 'Tower catch',
   LIFTOFF: 'Liftoff',
   'MAX-Q': 'Max Q',
   MECO: 'Engine cutoff',

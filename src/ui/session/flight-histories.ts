@@ -3,30 +3,31 @@ import { createRecorder } from '$app/recorder';
 import { createTimeline, type EventId } from '$hud/timeline';
 import { createFlightWatch, debrief, type Debrief } from '$hud/debrief';
 import type { SimState } from '$core/state';
-import type { VehicleDefinition } from '$core/vehicle';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
+import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import type { MissionController } from './mission-controller';
 
-function createHistory() {
+function createHistory(model: VehicleDefinition) {
   return { recorder: createRecorder(), previousRecorder: createRecorder(),
-    timeline: createTimeline(), watch: createFlightWatch(), ended: false,
+    model, timeline: createTimeline(model), watch: createFlightWatch(), ended: false,
     debrief: null as Debrief | null };
 }
 type History = ReturnType<typeof createHistory>;
 
 export function createFlightHistories(controller: MissionController, notify: (event: EventId) => void) {
-  const ship = createHistory(), booster = createHistory();
+  const ship = createHistory(SHIP), booster = createHistory(SUPER_HEAVY);
   const selected = () => controller.model.id === 'ship' ? ship : booster;
 
   function observe(history: History, state: SimState, audible: boolean) {
     history.recorder.sample(state);
     history.watch.observe(state);
     const before = history.timeline.events.length;
-    history.timeline.observe(state);
+    history.timeline.observe(state, controller.mission);
     if (audible) for (let i = before; i < history.timeline.events.length; i++) notify(history.timeline.events[i]!.id);
     const ended = state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp;
     if (ended !== history.ended) {
       history.ended = ended;
-      history.debrief = ended ? debrief(state, history.timeline, history.watch.last) : null;
+      history.debrief = ended ? debrief(state, history.timeline, history.watch.last, history.model) : null;
     }
   }
   function reset(history: History) {

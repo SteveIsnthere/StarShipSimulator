@@ -1,0 +1,18 @@
+{
+  "src/hud/autopilot-mode.ts": "8b08a433f693920fa61edebb4f3698b8fc84bff9a6b06338d5a45f6af59e37d2",
+  "src/hud/debrief.ts": "cf12269ec444b72dd990b96aa1c0dab00576a9e1a0d44cd9b140250c94ba33e0",
+  "src/hud/haptics.ts": "37c490304f5570bcda5eb38b78f3b35bec0ccc1bd5a2f60e066ca17426b7641b",
+  "src/hud/timeline.ts": "3a0fee9351e5c8491176563b083c17cb42b3f9b008aab0c55051fde3b6732d1d",
+  "src/ui/session/flight-histories.ts": "9b8a176816a40c4353cbe1963cfee2a432be278934badcc697d59d418ef6a235",
+  "src/ui/session/scene.ts": "84a3515c32ad372df0742ea149fbc70565a99975b5ebfbfcd5cd8c914c56d055",
+  "src/ui/shell/Debrief/figures.ts": "a53db4661b119eb5c16828807673b4da0d72b73d15a4ecd96ad35962990537c6",
+  "src/ui/shell/Hud/MissionTimeline.tsx": "b95d3b2b0c2c1324af4a71e0386a73fa4cb5ab32e600a1c87800eaba13fffdbe",
+  "src/ui/shell/StatusBar/StatusBar.tsx": "2ce223e9d75cb9f116b1758103c2cb91074650a039f33ba8057de97770b3ddb5",
+  "src/view/catch-tower.ts": "d6f5ea63f50c0cadde8311451d1fad2e0650dd3149135ac656e51e0c2da54c1b",
+  "tests/e2e/booster-catch.spec.ts": "5839129f4aae0942bf7dc1523b6345d0e579f6cb184e702aea1369caa389392c",
+  "tests/e2e/staging.spec.ts": "ebabcd55053356ee499402490368c429cd389e0447747a6ff3af63a4abd38927",
+  "tests/hud/booster-presentation.test.ts": "229765eb5ab0eaac844cfe2437454281289d2596acb3d4078fbb8dce97e3e99d",
+  "tests/view/catch-tower.test.ts": "41c3cf15a015d57df9e3ed239c7c8063b853a1ae6b9dc57d3c9706948cc0a172",
+  "tests/hud/haptics.test.ts": "a1cca3acae1fb9f60c44e03dfd1b538e6e556b212e95171c2a89b320a15319bb",
+  "tests/ui/shell/Hud.test.tsx": "ab90520ba7243414155532f56b17f94fc030653c52ac048b72975bbc0ac4eb28"
+}
