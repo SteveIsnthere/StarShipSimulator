@@ -4,6 +4,43 @@ import { writeFile } from 'node:fs/promises';
 import type { CompositeReport, WitnessKind } from './renderer/post-witness';
 import type { SamplingRow } from './renderer/post-sampling';
 
+test('belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile', async ({ page }) => {
+  await openWitness(page);
+  const rows = await page.evaluate(() => (window as unknown as {
+    heatShieldWitness: typeof import('./renderer/heat-shield-witness').heatShieldWitness;
+  }).heatShieldWitness());
+  console.log('[heat-shield]', { day: { left: rows.day.left, right: rows.day.right },
+    reversed: { left: rows.reversed.left, right: rows.reversed.right },
+    night: { left: rows.night.left, right: rows.night.right },
+    unshielded: { left: rows.unshielded.left, right: rows.unshielded.right } });
+  expect(rows.day.left).toBeGreaterThan(0);
+  expect(rows.day.right).toBeGreaterThan(0);
+  expect(rows.day.right, 'tile albedo is darker than stainless under identical illumination').toBeLessThan(rows.unshielded.right);
+  expect(rows.day.left, 'the visible belly remains a dark material on both sides').toBeLessThan(rows.unshielded.left);
+  expect(rows.reversed.left).toBeGreaterThan(rows.day.left);
+  expect(rows.reversed.right).toBeLessThan(rows.day.right);
+  expect(rows.night.left).toBeLessThan(rows.day.left);
+  expect(rows.night.right).toBeLessThan(rows.day.right);
+  for (const [name, row] of Object.entries(rows)) {
+    await writeFile(test.info().outputPath(`heat-shield-${name}.png`), Buffer.from(row.capture.split(',')[1]!, 'base64'));
+  }
+});
+
+test('real asset tile faces follow mirrored sunlight without retaining photographed shading @mobile', async ({ page }, info) => {
+  await openWitness(page);
+  const rows = await page.evaluate(() => (window as unknown as {
+    heatShieldWitness: typeof import('./renderer/heat-shield-witness').heatShieldWitness;
+  }).heatShieldWitness(true));
+  console.log('[real-tile-albedo]', { morning: [rows.day.left, rows.day.right], afternoon: [rows.reversed.left, rows.reversed.right] });
+  expect(rows.day.right / rows.day.left, 'production asset morning sun must light the right tile face').toBeGreaterThan(1.25);
+  expect(rows.reversed.left / rows.reversed.right, 'production asset afternoon sun must light the left tile face').toBeGreaterThan(1.25);
+  expect(rows.night.left).toBeLessThan(rows.day.left);
+  expect(rows.night.right).toBeLessThan(rows.day.right);
+  for (const [name, row] of Object.entries(rows)) {
+    await writeFile(info.outputPath(`real-tiles-${name}.png`), Buffer.from(row.capture.split(',')[1]!, 'base64'));
+  }
+});
+
 test('engine and ground glare follow firing with absence and paused controls @mobile', async ({ page }) => {
   await openWitness(page);
   const { capture, ...report } = await page.evaluate(() => (window as unknown as {

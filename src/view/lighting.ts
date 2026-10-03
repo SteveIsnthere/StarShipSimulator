@@ -28,6 +28,7 @@
  * resources.
  */
 import { BufferImageSource, GlProgram, Shader, Texture } from 'pixi.js';
+import { applyHeatShieldGain, TILE_START, TILE_END, writeHeatShieldAlbedo } from './heat-shield';
 
 /** Alpha at or above which a pixel is hull. */
 export const HULL_ALPHA = 40;
@@ -224,6 +225,9 @@ void main(void) {
   float diffuse = max(0.0, dot(n, l));
   vec3 h = normalize(l + vec3(0.0, 0.0, 1.0));
   float spec = pow(max(0.0, dot(n, h)), ${SHININESS.toFixed(1)}) * ${SPECULAR.toFixed(2)};
+  // The viewer-facing belly is matte tile, not polished stainless. It still
+  // takes the same physical sun direction and daylight as the rest of the hull.
+  spec *= 1.0 - 0.9 * smoothstep(${TILE_START.toFixed(2)}, ${TILE_END.toFixed(2)}, n.z);
   float gain = map.a * 2.0;
   float lit = (${AMBIENT.toFixed(2)} + ${DIFFUSE.toFixed(2)} * diffuse) * gain;
   lit *= ${NIGHT_HULL.toFixed(2)} + ${(1 - NIGHT_HULL).toFixed(2)} * uDaylight;
@@ -269,6 +273,12 @@ export function createVehicleLighting(texture: Texture): VehicleLighting | undef
 
   const lighting = new Uint8ClampedArray(width * height * 4);
   writeHullLighting(pixels, width, height, lighting);
+  const material = new Uint8Array(pixels.length);
+  writeHeatShieldAlbedo(pixels, lighting, width, height, material);
+  applyHeatShieldGain(pixels, lighting);
+  const albedo = new Texture({ source: new BufferImageSource({
+    resource: material, width, height, alphaMode: 'premultiplied-alpha',
+  }) });
   // Uploaded as the bytes they are. The alpha channel carries the gain, not
   // coverage, so it must not premultiply — and a 2D canvas on the way would
   // have: putImageData premultiplies and the upload divides back, which
@@ -285,8 +295,8 @@ export function createVehicleLighting(texture: Texture): VehicleLighting | undef
   const shader = new Shader({
     glProgram: GlProgram.from({ vertex: VERTEX, fragment: FRAGMENT, name: 'hull-lighting' }),
     resources: {
-      uTexture: texture.source,
-      uSampler: texture.source.style,
+      uTexture: albedo.source,
+      uSampler: albedo.source.style,
       uNormal: normal.source,
       uNormalSampler: normal.source.style,
       lightUniforms: {
@@ -310,6 +320,7 @@ export function createVehicleLighting(texture: Texture): VehicleLighting | undef
     destroy() {
       shader.destroy();
       normal.destroy(true);
+      albedo.destroy(true);
     },
   };
 }

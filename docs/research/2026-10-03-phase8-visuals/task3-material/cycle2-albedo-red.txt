@@ -1,0 +1,40 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/heat-shield.test.ts (4 tests | 1 failed) 151ms
+     × authors a neutral tile base instead of retaining photographed belly illumination 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/heat-shield.test.ts > startup-owned belly material > authors a neutral tile base instead of retaining photographed belly illumination
+AssertionError: expected [ 79, 79, 79, 255 ] to deeply equal [ 13, 13, 13, 255 ]
+
+- Expected
++ Received
+
+  [
+-   13,
+-   13,
+-   13,
++   79,
++   79,
++   79,
+    255,
+  ]
+
+ ❯ tests/view/heat-shield.test.ts:38:53
+     36|     writeHeatShieldAlbedo(dark.pixels, dark.normals, dark.width, dark.…
+     37|     const belly = (99 * bright.width + 28) * 4;
+     38|     expect([...bright.out.slice(belly, belly + 4)]).toEqual([...dark.o…
+       |                                                     ^
+     39|     // The steel rim retains original art, so the projection remains d…
+     40|     expect(bright.out[0]).not.toBe(dark.out[0]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  09:28:57
+   Duration  290ms (transform 18ms, setup 0ms, import 27ms, tests 151ms, environment 0ms)
+

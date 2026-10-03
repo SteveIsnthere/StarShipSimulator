@@ -1,0 +1,47 @@
+[WebServer] (node:93317) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 3 workers
+
+(node:93319) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93318) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 99, right: 74.372265625 },
+  reversed: { left: 255, right: 31.85390625 },
+  night: { left: 22, right: 14.0265625 }
+}
+[heat-shield] {
+  day: { left: 99, right: 74.372265625 },
+  reversed: { left: 255, right: 31.85390625 },
+  night: { left: 22, right: 14.0265625 }
+}
+[heat-shield] {
+  day: { left: 99, right: 74.372265625 },
+  reversed: { left: 255, right: 31.85390625 },
+  night: { left: 22, right: 14.0265625 }
+}
+  ✓  1 [chromium] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (1.3s)
+  ✓  3 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (1.3s)
+  ✓  2 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (1.3s)
+(node:93339) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93340) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 99, right: 74.372265625 },
+  reversed: { left: 255, right: 31.85390625 },
+  night: { left: 22, right: 14.0265625 }
+}
+[heat-shield] {
+  day: { left: 99, right: 74.372265625 },
+  reversed: { left: 255, right: 31.85390625 },
+  night: { left: 22, right: 14.0265625 }
+}
+  ✓  5 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (365ms)
+  ✓  4 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (374ms)
+
+  5 passed (4.8s)

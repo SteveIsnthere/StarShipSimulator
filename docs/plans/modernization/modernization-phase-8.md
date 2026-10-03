@@ -79,9 +79,9 @@ expect(sl.diamonds).toBe(0);
 **Consumes:** `SimState.forces.surfaceTemperature`(K), existing thermal flux, angle of attack, pitch and shared sun. This is an equilibrium-temperature model, not a stored thermal-inertia model; do not invent residual heat history or add a core field.
 **Produces:** `tileGlow(temperature:number):number` bounded0..1; independent surface glow uniform in existing sheath/inset, with plasma still driven by current heat input.
 
-- [ ] Write RED tests for tileGlow(300)=0, tileGlow(1533)>tileGlow(900)>0, finite handling and monotonicity; scene witnesses for independently injected hot/cold surface temperatures at equal flux, opposite windward sides, selected booster and pause/restart.
-- [ ] Build/test RED; implement smooth authored incandescence onset at800K, full by1533K with no physical threshold change. Separate skin color/emission from atmospheric shell strength. Keep actual flux-driven plasma/windward direction; preserve inset thresholds and original cold visibility witnesses.
-- [ ] Add belly heat-shield material shading/detail driven by hull orientation and shared sun. Geometry is startup-owned; redraw only on geometry/quality changes.
+- [x] Write RED tests for tileGlow(300)=0, tileGlow(1533)>tileGlow(900)>0, finite handling and monotonicity; scene witnesses for independently injected hot/cold surface temperatures at equal flux, opposite windward sides, selected booster and pause/restart.
+- [x] Build/test RED; implement smooth authored incandescence onset at800K, full by1533K with no physical threshold change. Separate skin color/emission from atmospheric shell strength. Keep actual flux-driven plasma/windward direction; preserve inset thresholds and original cold visibility witnesses.
+- [x] Add belly heat-shield material shading/detail driven by hull orientation and shared sun. Geometry is startup-owned; redraw only on geometry/quality changes.
 - [ ] Run pure/graph tests and existing reentry/hot/cold pixel witnesses, record actual six-scene captures; commit/push `feat(view): show surface temperature separately from plasma`.
 
 Start the meaningful curve witness with:
@@ -179,3 +179,7 @@ Task2 complete: actual state-driven nozzle/ground glare integrated per physical 
 
 
 Task3 temperature checkpoint: actual equilibrium-temperature curve independent of plasma; main/inset preallocated uniform. Focused12/fullview354 tests pass, allfive equal-flux actual pixel controls and allfive original hot/cold reentry witnesses pass; isolated PNGs retained, desktop inspected. Build296.9kB/lint0 errors/existing warning. Task3 is still open for belly material, opposite-windward/selected-booster/restart witnesses and final capture/integration scope. Evidence: task3-temperature-checkpoint research. No core/golden/preset/legacy change.
+
+Task3 material cycle1 exhausted: attempt1 +x flank failed5sun checks; attempt2 normal.z belly passed29/30 with one iPhone landscape ratio failure; attempt3 display range .38/.44 passed29/30 with one Pixel landscape failure. Original sun limits/detectors unchanged.357view/build297.2kB green. Fresh independent reviewer tile_cycle2_fresh_review is assessing frozen source after peer CLI subscription authentication preflight failed; no next cycle before terminal review/new evidence approach. Temperature/windward/restart/booster controls pass allfive. Task3 material and six-scene captures remain open; researchtask3-material/result.md.
+
+Task3 material corrected in cycle2attempt1 after fresh independent source-asset review: neutral authored tile RGB and same-mask unitgain remove retained photographic bias; steelalpha/gain/rims/normals/sun/matte preserved.359view/build297.2kB/lint0errors and35browser tests allfive pass zero retries, original sun limits unchanged. Task3 six-scene captures/final integration and allTasks4–6/all9 remain owed; noTask3done line yet. Researchtask3-material/result.md.

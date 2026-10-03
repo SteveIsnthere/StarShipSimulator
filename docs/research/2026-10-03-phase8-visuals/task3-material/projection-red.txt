@@ -1,0 +1,46 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/heat-shield.test.ts (3 tests | 2 failed) 118ms
+     × keeps stainless at the silhouette rim and puts restrained dark tiles on the viewer-facing belly 6ms
+     × can omit tile seams at reduced detail without turning the belly back into stainless 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/heat-shield.test.ts > startup-owned belly material > keeps stainless at the silhouette rim and puts restrained dark tiles on the viewer-facing belly
+AssertionError: expected 50 to be 180 // Object.is equality
+
+- Expected
++ Received
+
+- 180
++ 50
+
+ ❯ tests/view/heat-shield.test.ts:21:22
+     19|     const original = f.pixels.slice();
+     20|     writeHeatShieldAlbedo(f.pixels, f.normals, f.width, f.height, f.ou…
+     21|     expect(f.out[0]).toBe(180);
+       |                      ^
+     22|     const belly = (100 * f.width + 28) * 4;
+     23|     expect(f.out[belly]).toBeLessThan(180 * 0.5);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/view/heat-shield.test.ts > startup-owned belly material > can omit tile seams at reduced detail without turning the belly back into stainless
+AssertionError: expected 180 to be less than 90
+ ❯ tests/view/heat-shield.test.ts:52:27
+     50|     for (let y = 0; y < f.height; y++) tones.add(f.out[(y * f.width + …
+     51|     expect(tones.size).toBe(1);
+     52|     expect([...tones][0]).toBeLessThan(90);
+       |                           ^
+     53|   });
+     54| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  08:52:40
+   Duration  261ms (transform 16ms, setup 0ms, import 22ms, tests 118ms, environment 0ms)
+

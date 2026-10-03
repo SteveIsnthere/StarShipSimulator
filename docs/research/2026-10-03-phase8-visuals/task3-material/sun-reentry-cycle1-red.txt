@@ -1,0 +1,551 @@
+[WebServer] (node:93419) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 20 tests using 3 workers
+
+(node:93423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93422) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 21316,
+      meanLuma: 38.514738130984725,
+      lumaSpread: 23.312737500501445,
+      toneBuckets: 3,
+      brightFraction: 0.013933195721523737,
+      darkFraction: 0.9587633702383186,
+      warmFraction: 0.010367798836554701,
+      greyFraction: 0.10377181459936198,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 221184,
+      meanLuma: 37.38508547633179,
+      lumaSpread: 19.25685641986964,
+      toneBuckets: 3,
+      brightFraction: 0.001003689236111111,
+      darkFraction: 0.9633201316550926,
+      warmFraction: 0.00013111255787037038,
+      greyFraction: 0.36881058304398145,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 21316,
+      meanLuma: 39.237553246390675,
+      lumaSpread: 24.988859537582588,
+      toneBuckets: 3,
+      brightFraction: 0.015575154813285795,
+      darkFraction: 0.9551510602364421,
+      warmFraction: 0.01458997935822856,
+      greyFraction: 0.0885250516044286,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 221184,
+      meanLuma: 37.41361161746323,
+      lumaSpread: 19.341170999215603,
+      toneBuckets: 3,
+      brightFraction: 0.001076027199074074,
+      darkFraction: 0.9631935402199074,
+      warmFraction: 0.00029839409722222225,
+      greyFraction: 0.36824996383101855,
+      topColours: [Array]
+    }
+  }
+}
+  ✓   2 [chromium] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (2.5s)
+  ✓   3 [chromium] › tests/e2e/reentry.spec.ts:88:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (5.5s)
+(node:93442) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 38.74139043210271,
+      lumaSpread: 23.332808673658853,
+      toneBuckets: 3,
+      brightFraction: 0.01441358024691358,
+      darkFraction: 0.956141975308642,
+      warmFraction: 0.010895061728395062,
+      greyFraction: 0.11333333333333333,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 535122,
+      meanLuma: 36.077812267079935,
+      lumaSpread: 19.4171502617653,
+      toneBuckets: 3,
+      brightFraction: 0.0019135823232832886,
+      darkFraction: 0.9620142696431842,
+      warmFraction: 0.0004727893826080782,
+      greyFraction: 0.3594582170047204,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 39.49184398148479,
+      lumaSpread: 25.065000526418505,
+      toneBuckets: 3,
+      brightFraction: 0.01601851851851852,
+      darkFraction: 0.951820987654321,
+      warmFraction: 0.015216049382716049,
+      greyFraction: 0.0962962962962963,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 535122,
+      meanLuma: 36.11364845209941,
+      lumaSpread: 19.542854323481944,
+      toneBuckets: 3,
+      brightFraction: 0.0019902003655241237,
+      darkFraction: 0.9617376971980222,
+      warmFraction: 0.0017977208935532458,
+      greyFraction: 0.35882284787394275,
+      topColours: [Array]
+    }
+  }
+}
+  ✓   5 [pixel-portrait] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.9s)
+  ✓   6 [pixel-portrait] › tests/e2e/reentry.spec.ts:88:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.6s)
+  ✘   1 [chromium] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.7s)
+(node:93466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 [chromium] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.6s)
+(node:93471) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 38.74555219136205,
+      lumaSpread: 23.34346708050507,
+      toneBuckets: 3,
+      brightFraction: 0.014382716049382717,
+      darkFraction: 0.9560802469135803,
+      warmFraction: 0.010771604938271605,
+      greyFraction: 0.11308641975308642,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 514269,
+      meanLuma: 37.2060530383224,
+      lumaSpread: 19.292294714052957,
+      toneBuckets: 3,
+      brightFraction: 0.0016392199413147593,
+      darkFraction: 0.9589650552531847,
+      warmFraction: 0.0008011371480684234,
+      greyFraction: 0.37254821892822626,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 39.49588157407737,
+      lumaSpread: 25.073701054031893,
+      toneBuckets: 3,
+      brightFraction: 0.01580246913580247,
+      darkFraction: 0.9517592592592593,
+      warmFraction: 0.015061728395061728,
+      greyFraction: 0.09641975308641976,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 514269,
+      meanLuma: 37.263231343839635,
+      lumaSpread: 19.471030295757135,
+      toneBuckets: 3,
+      brightFraction: 0.0017714464608988682,
+      darkFraction: 0.9586247664160197,
+      warmFraction: 0.0015186604675763073,
+      greyFraction: 0.3712979005151001,
+      topColours: [Array]
+    }
+  }
+}
+  ✓   9 [pixel-landscape] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (2.0s)
+  ✓  10 [pixel-landscape] › tests/e2e/reentry.spec.ts:88:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.7s)
+  ✘   7 [pixel-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.7s)
+(node:93482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [pixel-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.1s)
+(node:93490) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 38.843015474821904,
+      lumaSpread: 23.515583437546095,
+      toneBuckets: 3,
+      brightFraction: 0.014393502499038832,
+      darkFraction: 0.9548731257208766,
+      warmFraction: 0.010933294886582083,
+      greyFraction: 0.11548442906574395,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 512928,
+      meanLuma: 35.80998681101737,
+      lumaSpread: 18.694197925700077,
+      toneBuckets: 3,
+      brightFraction: 0.001347167633663984,
+      darkFraction: 0.9612343252854202,
+      warmFraction: 0.00040551500405515005,
+      greyFraction: 0.36103117786511946,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 39.60630360919257,
+      lumaSpread: 25.25535521393893,
+      toneBuckets: 3,
+      brightFraction: 0.016219723183391002,
+      darkFraction: 0.9507160707420222,
+      warmFraction: 0.015498846597462514,
+      greyFraction: 0.09815936178392926,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 512928,
+      meanLuma: 35.839495847373094,
+      lumaSpread: 18.786708550224393,
+      toneBuckets: 3,
+      brightFraction: 0.0014154033314617257,
+      darkFraction: 0.9610842067502652,
+      warmFraction: 0.0005985245492544762,
+      greyFraction: 0.3606802514193025,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  13 [iphone-portrait] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.9s)
+  ✓  14 [iphone-portrait] › tests/e2e/reentry.spec.ts:88:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.7s)
+  ✘  11 [pixel-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.6s)
+(node:93501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [pixel-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.9s)
+(node:93506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 38.84012014610214,
+      lumaSpread: 23.500837936307406,
+      toneBuckets: 3,
+      brightFraction: 0.014393502499038832,
+      darkFraction: 0.9548010380622838,
+      warmFraction: 0.010909265667051134,
+      greyFraction: 0.11541234140715109,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 550800,
+      meanLuma: 37.37219889608827,
+      lumaSpread: 19.467046138082065,
+      toneBuckets: 4,
+      brightFraction: 0.0020152505446623093,
+      darkFraction: 0.9562182280319536,
+      warmFraction: 0.0009676833696441539,
+      greyFraction: 0.37706608569353667,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 39.60347904652432,
+      lumaSpread: 25.2447803120218,
+      toneBuckets: 3,
+      brightFraction: 0.016195693963860055,
+      darkFraction: 0.9505478662053056,
+      warmFraction: 0.015450788158400616,
+      greyFraction: 0.09830353710111496,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 550800,
+      meanLuma: 37.44243176464359,
+      lumaSpread: 19.681710146057107,
+      toneBuckets: 4,
+      brightFraction: 0.002184095860566449,
+      darkFraction: 0.9557933914306463,
+      warmFraction: 0.0018772694262890342,
+      greyFraction: 0.3754720406681191,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  17 [iphone-landscape] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (2.0s)
+  ✓  18 [iphone-landscape] › tests/e2e/reentry.spec.ts:88:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (6.1s)
+  ✘  15 [iphone-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (33.7s)
+(node:93635) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  16 [iphone-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (36.9s)
+  ✘  19 [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (34.9s)
+  ✓  20 [iphone-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.3s)
+
+
+  1) [chromium] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+
+    Error: morning L 64.6 R 43.6 · afternoon L 149.5 R 24.7
+    frame 1280x720 @1.00x  altitude 25 m  vehicle 180 px
+      left       mean   64.6  spread  39.76  tones  8  bright 0.064  dark 0.636  warm 0.0000  top #333333:0.32 #555555:0.16 #222222:0.12 #444444:0.11 #111111:0.08
+      right      mean   43.6  spread  42.47  tones  6  bright 0.064  dark 0.838  warm 0.0000  top #111111:0.55 #222222:0.16 #333333:0.08 #444444:0.06 #aaccdd:0.06
+      bottomLeft mean  113.2  spread  47.57  tones 12  bright 0.142  dark 0.168  warm 0.0125  top #777788:0.45 #ccddee:0.10 #444444:0.04 #222222:0.03 #333333:0.03
+      bottomRight mean  132.7  spread  64.46  tones  6  bright 0.411  dark 0.197  warm 0.0028  top #ccddee:0.40 #333344:0.08 #667788:0.06 #444455:0.05 #334444:0.04
+      |***#####******##*****##*######****++++++++*********###*+++*#|
+      |########************####*****########*****##*****+++++++====|
+      |*##***+++*******+++****+++***#####***+++++*+++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |*************%%*********************************************|
+      |#####%#######%%#############################################|
+      |#####@#######%%%%###########################################|
+      |#####@#######@%%############################################|
+      |#####%#######@%%%##@########################################|
+      |#####%#######@#%%#%@######################%#################|
+      |#####%*@#####@#%%@%%##########################%####%%##%####|
+      |%%%%%%%%@%%@@@%%@@***%%%%%%%%%%%%%%%%%%-%#*%%%%%%%*+%%%%=%%%|
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 1.25
+    Received:   0.674969242266463
+
+      138 |   const note = `morning L ${morning.left.toFixed(1)} R ${morning.right.toFixed(1)} · afternoon L ${afternoon.left.toFixed(1)} R ${afternoon.right.toFixed(1)}`;
+      139 |   // Morning: sun in the east, the right flank lit.
+    > 140 |   expect(morning.right / morning.left, `${note}\n${morning.message}`).toBeGreaterThan(FLANK_RATIO);
+          |                                                                       ^
+      141 |   // Afternoon: sun in the west, the LEFT flank lit — the art alone cannot do this.
+      142 |   expect(afternoon.left / afternoon.right, `${note}\n${afternoon.message}`).toBeGreaterThan(
+      143 |     FLANK_RATIO,
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/sun.spec.ts:140:71
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-chromium/error-context.md
+
+  2) [pixel-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+
+    Error: morning L 62.4 R 40.4 · afternoon L 148.9 R 23.0
+    frame 1082x2055 @2.63x  altitude 25 m  vehicle 514 px
+      left       mean   62.4  spread  37.54  tones  8  bright 0.053  dark 0.671  warm 0.0000  top #333333:0.34 #555555:0.13 #444444:0.12 #222222:0.11 #111111:0.11
+      right      mean   40.4  spread  40.76  tones  5  bright 0.057  dark 0.886  warm 0.0000  top #111111:0.61 #222222:0.15 #333333:0.08 #aaccdd:0.05 #444444:0.03
+      bottomLeft mean  135.6  spread  34.92  tones  5  bright 0.190  dark 0.012  warm 0.0000  top #777788:0.73 #ccddee:0.15 #bbccdd:0.02 #888899:0.01 #778888:0.01
+      bottomRight mean  158.3  spread  65.67  tones  6  bright 0.636  dark 0.148  warm 0.0022  top #ccddee:0.62 #333344:0.08 #334444:0.06 #444455:0.03 #444444:0.02
+      |++++++++++++***######***++++++==++++*++++****##***++++++++++|
+      |***#####***+++*********+++++++++*********+++++++++++++++++++|
+      |++*******+++++++++++++++++++++++*********+++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |############################################################|
+      |############################################################|
+      |############################################################|
+      |############################-=-.############################|
+      |############################-+-.############################|
+      |############################-+-.############################|
+      |%%%%%%%%%%%%%%%%%%%%%%%%%%%%===-%%%%%%%%%%%%%%%%%%%%%%%%%%%%|
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 1.25
+    Received:   0.6472134108694493
+
+      138 |   const note = `morning L ${morning.left.toFixed(1)} R ${morning.right.toFixed(1)} · afternoon L ${afternoon.left.toFixed(1)} R ${afternoon.right.toFixed(1)}`;
+      139 |   // Morning: sun in the east, the right flank lit.
+    > 140 |   expect(morning.right / morning.left, `${note}\n${morning.message}`).toBeGreaterThan(FLANK_RATIO);
+          |                                                                       ^
+      141 |   // Afternoon: sun in the west, the LEFT flank lit — the art alone cannot do this.
+      142 |   expect(afternoon.left / afternoon.right, `${note}\n${afternoon.message}`).toBeGreaterThan(
+      143 |     FLANK_RATIO,
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/sun.spec.ts:140:71
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-pixel-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-pixel-portrait/error-context.md
+
+  3) [pixel-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+
+    Error: morning L 62.9 R 40.3 · afternoon L 149.9 R 22.3
+    frame 2265x945 @2.62x  altitude 25 m  vehicle 263 px
+      left       mean   62.9  spread  35.98  tones  8  bright 0.047  dark 0.651  warm 0.0000  top #333333:0.34 #555555:0.13 #444444:0.13 #222222:0.12 #111111:0.11
+      right      mean   40.3  spread  38.55  tones  6  bright 0.048  dark 0.868  warm 0.0000  top #111111:0.60 #222222:0.16 #333333:0.08 #444444:0.05 #aaccdd:0.04
+      bottomLeft mean  123.0  spread  56.84  tones 13  bright 0.263  dark 0.179  warm 0.0081  top #777788:0.29 #ccddee:0.19 #333333:0.04 #444444:0.04 #222222:0.03
+      bottomRight mean  143.6  spread  62.75  tones  7  bright 0.479  dark 0.137  warm 0.0001  top #ccddee:0.46 #667788:0.10 #333344:0.07 #444455:0.06 #334444:0.03
+      |+++++**####*+++++****##**+++++*****+****++++++++++++========|
+      |+*******##**+++++++++***+++****###**+++++++++**********+++++|
+      |*####**++++++++*****+++++++*********++++++**####****#***++++|
+      |*###***+++++++*******++++++++++++++++++++***####****++++++++|
+      |+++++++++++++++*****++++++++++++++++++++++********++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |****************%*******************************************|
+      |**********#*****%%******************************************|
+      |#########@@#####%%##########################################|
+      |#########%%#####@%##########################################|
+      |#########%%#####@%%##%######################################|
+      |#########%%#####@%%#%%######################################|
+      |#########%#%####@#%#%%#################=####################|
+      |#@@######%#%###@@#%%%##################%#####%##%#%#########|
+      |%%%%%%%%%%%%%%%@@%%%%+%%%%%%%%%%%%%%%%%#%%%%%%#+%%%*%%%%%%%%|
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 1.25
+    Received:   0.6404277829174231
+
+      138 |   const note = `morning L ${morning.left.toFixed(1)} R ${morning.right.toFixed(1)} · afternoon L ${afternoon.left.toFixed(1)} R ${afternoon.right.toFixed(1)}`;
+      139 |   // Morning: sun in the east, the right flank lit.
+    > 140 |   expect(morning.right / morning.left, `${note}\n${morning.message}`).toBeGreaterThan(FLANK_RATIO);
+          |                                                                       ^
+      141 |   // Afternoon: sun in the west, the LEFT flank lit — the art alone cannot do this.
+      142 |   expect(afternoon.left / afternoon.right, `${note}\n${afternoon.message}`).toBeGreaterThan(
+      143 |     FLANK_RATIO,
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/sun.spec.ts:140:71
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-pixel-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-pixel-landscape/error-context.md
+
+  4) [iphone-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+
+    Error: morning L 62.5 R 38.6 · afternoon L 150.1 R 22.4
+    frame 1170x1824 @3.00x  altitude 25 m  vehicle 456 px
+      left       mean   62.5  spread  38.44  tones  8  bright 0.059  dark 0.684  warm 0.0000  top #333333:0.35 #444444:0.12 #222222:0.11 #111111:0.11 #555555:0.10
+      right      mean   38.6  spread  37.27  tones  5  bright 0.046  dark 0.891  warm 0.0000  top #111111:0.63 #222222:0.13 #333333:0.08 #444444:0.04 #aaccdd:0.04
+      bottomLeft mean  123.5  spread  46.99  tones 13  bright 0.185  dark 0.115  warm 0.0000  top #777788:0.51 #ccddee:0.13 #444444:0.03 #333333:0.02 #222222:0.02
+      bottomRight mean  143.7  spread  69.06  tones  6  bright 0.535  dark 0.209  warm 0.0020  top #ccddee:0.52 #333344:0.09 #444455:0.06 #334444:0.05 #223333:0.04
+      |+++===+++++++****#####***++++++===++++**++++****#****+++++++|
+      |***#####****++**********++++++++++++++++++++++++++++++++++++|
+      |***#####****++++++++++++++++++++++*********+++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |############################################################|
+      |############################################################|
+      |############################################################|
+      |%%###########################=-#############################|
+      |%%##########################++-:############################|
+      |#%##########################++-:############################|
+      |++=+=%%%%%%%%%%%%%%%%%%%%%%%+==-%%%%%%%%%%%%%%%%%%%%%%--::%#|
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 1.25
+    Received:   0.6185220085441974
+
+      138 |   const note = `morning L ${morning.left.toFixed(1)} R ${morning.right.toFixed(1)} · afternoon L ${afternoon.left.toFixed(1)} R ${afternoon.right.toFixed(1)}`;
+      139 |   // Morning: sun in the east, the right flank lit.
+    > 140 |   expect(morning.right / morning.left, `${note}\n${morning.message}`).toBeGreaterThan(FLANK_RATIO);
+          |                                                                       ^
+      141 |   // Afternoon: sun in the west, the LEFT flank lit — the art alone cannot do this.
+      142 |   expect(afternoon.left / afternoon.right, `${note}\n${afternoon.message}`).toBeGreaterThan(
+      143 |     FLANK_RATIO,
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/sun.spec.ts:140:71
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-iphone-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-iphone-portrait/error-context.md
+
+  5) [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+
+    Error: morning L 63.3 R 40.9 · afternoon L 149.9 R 23.5
+    frame 2250x1020 @3.00x  altitude 25 m  vehicle 300 px
+      left       mean   63.3  spread  37.61  tones  8  bright 0.058  dark 0.671  warm 0.0000  top #333333:0.34 #444444:0.12 #222222:0.12 #111111:0.12 #555555:0.11
+      right      mean   40.9  spread  40.33  tones  6  bright 0.059  dark 0.888  warm 0.0000  top #111111:0.60 #222222:0.16 #333333:0.08 #aaccdd:0.04 #111122:0.03
+      bottomLeft mean  122.8  spread  56.75  tones 13  bright 0.262  dark 0.176  warm 0.0078  top #777788:0.29 #ccddee:0.19 #444444:0.04 #333333:0.03 #222222:0.03
+      bottomRight mean  143.4  spread  62.75  tones  7  bright 0.480  dark 0.141  warm 0.0002  top #ccddee:0.45 #667788:0.10 #333344:0.07 #444455:0.06 #334444:0.03
+      |==+++++**###**+++=+**++**#**++++++++***+++++++++++++=++++++=|
+      |++***++**##***+++++++++++++++++++***###**++++++++++++*******|
+      |*####**++++++++++++***+++++++++++********++++++++***********|
+      |*####**++++++++++*******++++++++++++++++++++++++***####***++|
+      |+++++++++++++++++******+++++++++++++++++++++++++*********+++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |**************%%********************************************|
+      |******%%******%%#*******************************************|
+      |######@@#######%############################################|
+      |######%%######@%%###########################################|
+      |######%%######%%%###%#######################################|
+      |######%#######@#%##%%#################################%#####|
+      |######%#%#####@#%%%%####################==##################|
+      |######%#%%###%@#%%%#####################-#######%%#%##%#####|
+      |%%%%%%%%%%%%%%@%%%%=+%%%%%%%%%%%%%%%%%%#=####%#%#++%%%%-%%%%|
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 1.25
+    Received:   0.6462670322397924
+
+      138 |   const note = `morning L ${morning.left.toFixed(1)} R ${morning.right.toFixed(1)} · afternoon L ${afternoon.left.toFixed(1)} R ${afternoon.right.toFixed(1)}`;
+      139 |   // Morning: sun in the east, the right flank lit.
+    > 140 |   expect(morning.right / morning.left, `${note}\n${morning.message}`).toBeGreaterThan(FLANK_RATIO);
+          |                                                                       ^
+      141 |   // Afternoon: sun in the west, the LEFT flank lit — the art alone cannot do this.
+      142 |   expect(afternoon.left / afternoon.right, `${note}\n${afternoon.message}`).toBeGreaterThan(
+      143 |     FLANK_RATIO,
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/sun.spec.ts:140:71
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-iphone-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-iphone-landscape/error-context.md
+
+  5 failed
+    [chromium] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+    [pixel-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+    [pixel-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+    [iphone-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+    [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+  15 passed (2.3m)

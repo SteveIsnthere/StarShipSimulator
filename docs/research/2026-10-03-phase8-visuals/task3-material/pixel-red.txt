@@ -1,0 +1,173 @@
+[WebServer] (node:93156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 3 workers
+
+(node:93159) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93157) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93158) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 99, right: 255 },
+  reversed: { left: 255, right: 99 },
+  night: { left: 22, right: 43.975 }
+}
+[heat-shield] {
+  day: { left: 99, right: 255 },
+  reversed: { left: 255, right: 99 },
+  night: { left: 22, right: 43.975 }
+}
+[heat-shield] {
+  day: { left: 99, right: 255 },
+  reversed: { left: 255, right: 99 },
+  night: { left: 22, right: 43.975 }
+}
+  ✘  1 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (821ms)
+  ✘  3 [chromium] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (809ms)
+  ✘  2 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (819ms)
+(node:93179) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 99, right: 255 },
+  reversed: { left: 255, right: 99 },
+  night: { left: 22, right: 43.975 }
+}
+[heat-shield] {
+  day: { left: 99, right: 255 },
+  reversed: { left: 255, right: 99 },
+  night: { left: 22, right: 43.975 }
+}
+  ✘  5 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (349ms)
+  ✘  4 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (347ms)
+
+
+  1) [chromium] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
+
+    Error: sun-facing belly is a dark material, not shiny stainless
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 99
+    Received:   255
+
+      15 |   expect(rows.day.left).toBeGreaterThan(0);
+      16 |   expect(rows.day.right).toBeGreaterThan(0);
+    > 17 |   expect(rows.day.right, 'sun-facing belly is a dark material, not shiny stainless').toBeLessThan(rows.day.left);
+         |                                                                                      ^
+      18 |   expect(rows.reversed.left).toBeGreaterThan(rows.day.left);
+      19 |   expect(rows.reversed.right).toBeLessThan(rows.day.right);
+      20 |   expect(rows.night.left).toBeLessThan(rows.day.left);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:17:86
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-chromium/error-context.md
+
+  2) [pixel-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
+
+    Error: sun-facing belly is a dark material, not shiny stainless
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 99
+    Received:   255
+
+      15 |   expect(rows.day.left).toBeGreaterThan(0);
+      16 |   expect(rows.day.right).toBeGreaterThan(0);
+    > 17 |   expect(rows.day.right, 'sun-facing belly is a dark material, not shiny stainless').toBeLessThan(rows.day.left);
+         |                                                                                      ^
+      18 |   expect(rows.reversed.left).toBeGreaterThan(rows.day.left);
+      19 |   expect(rows.reversed.right).toBeLessThan(rows.day.right);
+      20 |   expect(rows.night.left).toBeLessThan(rows.day.left);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:17:86
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-pixel-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-pixel-portrait/error-context.md
+
+  3) [pixel-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
+
+    Error: sun-facing belly is a dark material, not shiny stainless
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 99
+    Received:   255
+
+      15 |   expect(rows.day.left).toBeGreaterThan(0);
+      16 |   expect(rows.day.right).toBeGreaterThan(0);
+    > 17 |   expect(rows.day.right, 'sun-facing belly is a dark material, not shiny stainless').toBeLessThan(rows.day.left);
+         |                                                                                      ^
+      18 |   expect(rows.reversed.left).toBeGreaterThan(rows.day.left);
+      19 |   expect(rows.reversed.right).toBeLessThan(rows.day.right);
+      20 |   expect(rows.night.left).toBeLessThan(rows.day.left);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:17:86
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-pixel-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-pixel-landscape/error-context.md
+
+  4) [iphone-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
+
+    Error: sun-facing belly is a dark material, not shiny stainless
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 99
+    Received:   255
+
+      15 |   expect(rows.day.left).toBeGreaterThan(0);
+      16 |   expect(rows.day.right).toBeGreaterThan(0);
+    > 17 |   expect(rows.day.right, 'sun-facing belly is a dark material, not shiny stainless').toBeLessThan(rows.day.left);
+         |                                                                                      ^
+      18 |   expect(rows.reversed.left).toBeGreaterThan(rows.day.left);
+      19 |   expect(rows.reversed.right).toBeLessThan(rows.day.right);
+      20 |   expect(rows.night.left).toBeLessThan(rows.day.left);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:17:86
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-iphone-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-iphone-portrait/error-context.md
+
+  5) [iphone-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
+
+    Error: sun-facing belly is a dark material, not shiny stainless
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 99
+    Received:   255
+
+      15 |   expect(rows.day.left).toBeGreaterThan(0);
+      16 |   expect(rows.day.right).toBeGreaterThan(0);
+    > 17 |   expect(rows.day.right, 'sun-facing belly is a dark material, not shiny stainless').toBeLessThan(rows.day.left);
+         |                                                                                      ^
+      18 |   expect(rows.reversed.left).toBeGreaterThan(rows.day.left);
+      19 |   expect(rows.reversed.right).toBeLessThan(rows.day.right);
+      20 |   expect(rows.night.left).toBeLessThan(rows.day.left);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/post-compositing.spec.ts:17:86
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-iphone-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/post-compositing-belly-til-5d214-rection-still-matter-mobile-iphone-landscape/error-context.md
+
+  5 failed
+    [chromium] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
+    [pixel-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
+    [pixel-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
+    [iphone-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
+    [iphone-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile 
