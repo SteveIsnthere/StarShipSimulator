@@ -2,11 +2,11 @@ import { configDefaults, defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
 import { availableParallelism } from 'node:os';
 // @ts-expect-error -- plain-JS gate helper, intentionally untyped
-import { kitCoverageExclusions } from './scripts/coverage-kit-exclusions.mjs';
+import { coverageExclusions } from './scripts/coverage-exclusions.mjs';
 
-// Full unit execution is unchanged. Any changed kit/configuration input
-// restores every kit root to coverage; new roots are included by default.
-const coverageKitRoots: string[] = process.argv.includes('--coverage') ? kitCoverageExclusions() : [];
+// Full unit execution is unchanged. Any changed audited/configuration input
+// restores every omitted root to coverage; new roots are included by default.
+const coverageFreeRoots: string[] = process.argv.includes('--coverage') ? coverageExclusions() : [];
 
 export default defineConfig({
   resolve: {
@@ -36,7 +36,7 @@ export default defineConfig({
           include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx', 'src/**/*.test.ts'],
           // Wall-clock budgets run on demand (`npm run bench`); the vendored
           // kit's own tests run in the jsdom project below.
-          exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts', 'src/ui/kit/**'],
+          exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts', 'src/ui/kit/**', ...coverageFreeRoots],
         },
       },
       {
@@ -48,7 +48,7 @@ export default defineConfig({
           // tests through the global afterEach.
           globals: true,
           include: ['src/ui/kit/**/*.test.ts', 'src/ui/kit/**/*.test.tsx'],
-          exclude: [...configDefaults.exclude, ...coverageKitRoots],
+          exclude: [...configDefaults.exclude, ...coverageFreeRoots],
           setupFiles: ['tests/setup-dom.ts'],
         },
       },
