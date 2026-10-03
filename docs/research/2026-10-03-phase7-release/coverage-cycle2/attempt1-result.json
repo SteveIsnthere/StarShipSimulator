@@ -1,0 +1,30 @@
+{
+  "gateExit": 0,
+  "seconds": 321.59,
+  "budgetSeconds": 300,
+  "budgetMet": false,
+  "unitTests": 2285,
+  "unitFiles": 194,
+  "coverageTests": 2054,
+  "coverageFiles": 152,
+  "unchangedFloors": true,
+  "browserSmoke": 13,
+  "subpath": 5,
+  "coreMapsIdentical": true,
+  "statementAndFunctionCountersIdentical": true,
+  "gravityBranchArmDelta": {
+    "109": [
+      [
+        -1,
+        1
+      ]
+    ],
+    "161": [
+      [
+        -2,
+        2
+      ]
+    ]
+  },
+  "counterEquivalence": "pending randomized property provenance review"
+}

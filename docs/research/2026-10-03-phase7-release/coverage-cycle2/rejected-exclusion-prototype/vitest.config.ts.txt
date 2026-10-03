@@ -1,12 +1,12 @@
 import { configDefaults, defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
-import { availableParallelism } from 'node:os';
-// @ts-expect-error -- plain-JS gate helper, intentionally untyped
-import { kitCoverageExclusions } from './scripts/coverage-kit-exclusions.mjs';
+// @ts-expect-error -- plain-JS gate script, intentionally untyped
+import { auditedCoverageExclusions } from './scripts/core-coverage.mjs';
 
-// Full unit execution is unchanged. Any changed kit/configuration input
-// restores every kit root to coverage; new roots are included by default.
-const coverageKitRoots: string[] = process.argv.includes('--coverage') ? kitCoverageExclusions() : [];
+// The complete unit stage is unchanged. Only coverage omits unchanged audited
+// roots that cannot execute core; expired certificates default to inclusion.
+const coverageOnlyExclusions: string[] = process.env.STARSHIP_CORE_COVERAGE === '1'
+  ? auditedCoverageExclusions() : [];
 
 export default defineConfig({
   resolve: {
@@ -21,10 +21,6 @@ export default defineConfig({
     },
   },
   test: {
-    // Bounded Mac batch runs can use the sixth core. Watch and Linux retain
-    // their defaults; forks and per-file isolation remain unchanged.
-    ...(process.platform === 'darwin' && process.argv.includes('run')
-      ? { maxWorkers: Math.min(6, availableParallelism()) } : {}),
     // core/ must run in plain Node with no browser. Keeping the default
     // environment enforces that: a DOM leak into core/ fails here, not in review.
     environment: 'node',
@@ -36,7 +32,7 @@ export default defineConfig({
           include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx', 'src/**/*.test.ts'],
           // Wall-clock budgets run on demand (`npm run bench`); the vendored
           // kit's own tests run in the jsdom project below.
-          exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts', 'src/ui/kit/**'],
+          exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts', 'src/ui/kit/**', ...coverageOnlyExclusions],
         },
       },
       {
@@ -48,7 +44,7 @@ export default defineConfig({
           // tests through the global afterEach.
           globals: true,
           include: ['src/ui/kit/**/*.test.ts', 'src/ui/kit/**/*.test.tsx'],
-          exclude: [...configDefaults.exclude, ...coverageKitRoots],
+          exclude: [...configDefaults.exclude, ...coverageOnlyExclusions],
           setupFiles: ['tests/setup-dom.ts'],
         },
       },

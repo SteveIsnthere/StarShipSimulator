@@ -1,0 +1,103 @@
+/** Exclusions expire before a new import can silently remove core coverage. */
+import { afterEach, describe, expect, it } from 'vitest';
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+// @ts-expect-error -- plain-JS gate script, intentionally untyped
+import { coverageExclusions, inspectCoverageRoot } from '../scripts/core-coverage.mjs';
+
+const roots: string[] = [];
+function project() {
+  const root = mkdtempSync(join(tmpdir(), 'core-coverage-'));
+  roots.push(root);
+  const put = (name: string, contents: string) => {
+    const path = join(root, name);
+    mkdirSync(join(path, '..'), { recursive: true });
+    writeFileSync(path, contents);
+  };
+  put('tsconfig.json', JSON.stringify({ compilerOptions: {
+    moduleResolution: 'bundler', module: 'ESNext', baseUrl: '.', paths: { '$core/*': ['src/core/*'] },
+  } }));
+  put('vitest.config.ts', 'export default {};');
+  put('tests/setup-dom.ts', 'export {};');
+  put('package.json', '{}');
+  put('package-lock.json', '{}');
+  put('tests/root.test.ts', 'import { value } from "../src/view/value"; void value;');
+  put('src/view/value.ts', 'export const value = 1;');
+  put('src/core/state.ts', 'export const value = 2;');
+  const file = 'tests/root.test.ts';
+  const certificate = { file, ...inspectCoverageRoot(root, file) };
+  return { root, put, file, certificate };
+}
+afterEach(() => { for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true }); });
+
+describe('coverage-only dependency certificates', () => {
+  it('excludes an unchanged audited closure and leaves unmanifested tests included', () => {
+    const { root, put, file, certificate } = project();
+    put('tests/new.test.ts', 'import { value } from "$core/state"; void value;');
+    expect(certificate.unsafe).toBe(false);
+    expect(coverageExclusions(root, [certificate])).toEqual([file]);
+    expect(coverageExclusions(root, [])).toEqual([]);
+  });
+
+  it.each([
+    'import { value } from "../core/state"; export { value };',
+    'export { value } from "$core/state";',
+    'export const load = () => import("../core/state");',
+    'const path = "../core/state"; export const load = () => import(path);',
+    'export { value } from "./missing";',
+    'export const load = import.meta.glob("../core/*.ts");',
+  ])('retains a changed transitive dependency: %s', (source) => {
+    const { root, put, certificate } = project();
+    put('src/view/value.ts', source);
+    expect(inspectCoverageRoot(root, certificate.file).unsafe).toBe(true);
+    expect(coverageExclusions(root, [certificate])).toEqual([]);
+  });
+
+  it('cannot certify a root that directly imports core', () => {
+    const { root, put, file } = project();
+    put(file, 'export { value } from "$core/state";');
+    const certificate = { file, ...inspectCoverageRoot(root, file) };
+    expect(certificate.unsafe).toBe(true);
+    expect(coverageExclusions(root, [certificate])).toEqual([]);
+  });
+
+  it.each(['src/view/value.ts', 'vitest.config.ts', 'tests/setup-dom.ts', 'package-lock.json'])(
+    'expires even a core-free edit to %s', (name) => {
+      const { root, put, certificate } = project();
+      put(name, name.endsWith('.json') ? '{"changed":true}' : 'export const changed = true;');
+      expect(coverageExclusions(root, [certificate])).toEqual([]);
+    });
+
+  it('retains a test after alias resolution changes to core', () => {
+    const { root, put, certificate } = project();
+    put('tsconfig.json', JSON.stringify({ compilerOptions: {
+      moduleResolution: 'bundler', module: 'ESNext', baseUrl: '.', paths: { '../src/view/value': ['src/core/state.ts'] },
+    } }));
+    expect(coverageExclusions(root, [certificate])).toEqual([]);
+  });
+
+  it('seals an implicit dependency such as the ESLint configuration', () => {
+    const { root, put, file } = project();
+    put('eslint.config.js', 'export default [];');
+    const extras = ['eslint.config.js'];
+    const certificate = { file, extras, ...inspectCoverageRoot(root, file, extras) };
+    expect(coverageExclusions(root, [certificate])).toEqual([file]);
+    put('eslint.config.js', 'export default [{ rules: {} }];');
+    expect(coverageExclusions(root, [certificate])).toEqual([]);
+  });
+
+  it('seals executable JS when TypeScript resolves its adjacent declaration', () => {
+    const { root, put, file } = project();
+    put(file, 'import { value } from "../scripts/value.mjs"; void value;');
+    put('scripts/value.d.mts', 'export declare const value: number;');
+    put('scripts/value.mjs', 'export const value = 1;');
+    const certificate = { file, ...inspectCoverageRoot(root, file) };
+    expect(certificate.unsafe).toBe(false);
+    expect(certificate.dependencies).toHaveProperty('scripts/value.mjs');
+    expect(coverageExclusions(root, [certificate])).toEqual([file]);
+    put('scripts/value.mjs', 'export { value } from "../src/core/state.ts";');
+    expect(inspectCoverageRoot(root, file).unsafe).toBe(true);
+    expect(coverageExclusions(root, [certificate])).toEqual([]);
+  });
+});

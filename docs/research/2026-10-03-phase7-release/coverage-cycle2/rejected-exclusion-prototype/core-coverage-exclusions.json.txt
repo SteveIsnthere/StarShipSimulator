@@ -1,0 +1,833 @@
+[
+  {
+    "file": "src/ui/kit/BrickField/BrickField.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/BrickField/BrickField.test.tsx": "0596960d58078344c6217d29e9992b178d446329a4968481d197b92c9b19d17d",
+      "src/ui/kit/BrickField/BrickField.tsx": "ec09002088ef05f645bdf0c55fe7fc70488665c8a6840fbf121a7c9c2c4c5e7b",
+      "src/ui/kit/motion/index.ts": "86e3c90206047a017b7efbb81991aaab13ccb6f3441afce65ed1280cc4e7c6a2",
+      "src/ui/kit/motion/tokens.ts": "3f5dcbee1d5cf18ea33bd8ec35558a2a62d56ab99e48da5d6d648e6ad00d37a8",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "src/ui/kit/motion/pageTransitionParts.ts": "3430d3cf71642cf1248c377f12efeef5ab7ae77342e4cac64184e2643ddec60e",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "src/ui/kit/BrickField/brickClock.ts": "5cfb0bb93dedb0f71d8bfe14fc11b534a3fb5432dac05be713824173fea4bd2a",
+      "src/ui/kit/BrickField/brickMotion.ts": "5021a40e1aa2777840da571f497a9bfd92e2ad12b4db3e1bae570a6c013824c7",
+      "src/ui/kit/BrickField/renderer.ts": "45b6c1f85e5b88226337f3d7c84b638290bc1151dc1d7fb9e5d68ba1ed4454d5",
+      "src/ui/kit/BrickField/gpuTimer.ts": "314b86249fe46465629d2d7f4351094b4047837fe2ec22f466bfbddd0896e90a",
+      "src/ui/kit/BrickField/shader.ts": "35662a1c91dc8a5fdbf4ff3cae90652cd2f04f83a813e23131ee200acff1e0f8",
+      "src/ui/kit/BrickField/staticBricks.ts": "672411a21c530b72847d0c128a97f764bb0b80d909cbc77300734abbc5543d9f",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/BrickField/brickMotion.test.ts",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/BrickField/brickMotion.test.ts": "74f7684341e68cd8fd583b558261429c61d848e3dd304398d177365059686803",
+      "src/ui/kit/motion/index.ts": "86e3c90206047a017b7efbb81991aaab13ccb6f3441afce65ed1280cc4e7c6a2",
+      "src/ui/kit/motion/tokens.ts": "3f5dcbee1d5cf18ea33bd8ec35558a2a62d56ab99e48da5d6d648e6ad00d37a8",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "src/ui/kit/motion/pageTransitionParts.ts": "3430d3cf71642cf1248c377f12efeef5ab7ae77342e4cac64184e2643ddec60e",
+      "src/ui/kit/BrickField/brickMotion.ts": "5021a40e1aa2777840da571f497a9bfd92e2ad12b4db3e1bae570a6c013824c7",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/BrickField/gpuTimer.test.ts",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/BrickField/gpuTimer.test.ts": "6600770b3309ba35440b1931608a0edc0db6a6d914b1a7e93f643b43582bd448",
+      "src/ui/kit/BrickField/gpuTimer.ts": "314b86249fe46465629d2d7f4351094b4047837fe2ec22f466bfbddd0896e90a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/BrickField/renderer.test.ts",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/BrickField/renderer.test.ts": "a7128d5eceeb3975e3e3c687427b0f07950cda9db4b9e1c2e1c0b9f97933830b",
+      "src/ui/kit/BrickField/renderer.ts": "45b6c1f85e5b88226337f3d7c84b638290bc1151dc1d7fb9e5d68ba1ed4454d5",
+      "src/ui/kit/BrickField/brickMotion.ts": "5021a40e1aa2777840da571f497a9bfd92e2ad12b4db3e1bae570a6c013824c7",
+      "src/ui/kit/BrickField/gpuTimer.ts": "314b86249fe46465629d2d7f4351094b4047837fe2ec22f466bfbddd0896e90a",
+      "src/ui/kit/BrickField/shader.ts": "35662a1c91dc8a5fdbf4ff3cae90652cd2f04f83a813e23131ee200acff1e0f8",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/Button/Button.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/Button/Button.test.tsx": "cc5d394ac0d53744bab1287d9622f61f2c9aad05c48b1630722de4529d57ca77",
+      "src/ui/kit/Button/Button.tsx": "2f231060725d1391e5a1a61467abcfe57bd3030a3f68b661de36d6b49a56cff7",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/ConfirmDialog/ConfirmDialog.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/ConfirmDialog/ConfirmDialog.test.tsx": "b399291bf6a6823ec4d4e8359020af87deecc0f4e614b43652a18edfffdea524",
+      "src/ui/kit/input/index.ts": "23a6315c5738c2e4a3f660c2f41fa4f0a06af9899ed108b42c10578c040af009",
+      "src/ui/kit/input/GamepadScope.tsx": "f99cf662e75a8b6472fd86ae537a09021fcfc7b07e140928462c077e56c573cc",
+      "src/ui/kit/input/types.ts": "15af3c183a7559172b6f5f044ea23cebc6fd30078cdc2b5ffbd5a090c5c365b4",
+      "src/ui/kit/input/useInputContext.ts": "9e3b2d5db079f35daff3f408e0d50ea0ee75b09ee1d41e89ae429eb650bff285",
+      "src/ui/kit/input/GamepadNavProvider.tsx": "85c5267556420a402f2893fcd7319e5721db594f35f6d523b9ee53f778b53357",
+      "src/ui/kit/input/context.ts": "9bfdd60045d2e008a616e5f8d3ac307c95de829329a0253ca75d04aea169b2d5",
+      "src/ui/kit/input/spatialNavigation.ts": "c167796238c46f6845922a894a6542f1cb6b7ed0dc33280e30b8e0be54fb8ee4",
+      "src/ui/kit/input/InputOwnershipProvider.tsx": "cf7eed7a5cd38e32084a5e8a66051fb30ac4c5b788c6cfef5c9eca7fc3f86f55",
+      "src/ui/kit/input/ownership.ts": "343444a1ea43a834c0780f7d9b0108338eb90d515ed5b6f8e4e9bc06e9a84616",
+      "src/ui/kit/input/ownershipContext.ts": "777523d967b31f60f1e6563c33719c5cd0d7b2ad946a26465d9ed1c5124fe6d7",
+      "src/ui/kit/ConfirmDialog/index.ts": "c00230dcbd32f43f944111600a14776d99c039743002b55aa1218a997096a7be",
+      "src/ui/kit/ConfirmDialog/ConfirmDialog.tsx": "63f95393b28c534d1f253baca1bbb52dab3ef4be118de041e5b9d45647ae128f",
+      "src/ui/kit/Button/index.ts": "1a21ad2c3bcaad6b41146f642fa96741f9d732643c7a33c8d21b0d596e7bdbd9",
+      "src/ui/kit/Button/Button.tsx": "2f231060725d1391e5a1a61467abcfe57bd3030a3f68b661de36d6b49a56cff7",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "src/ui/kit/ConfirmDialog/requests.ts": "0ee8ef94cb09cd8a82cf8421b059c004733908ef153dfee09f36970f368e757c",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/ConnectedMedia/ConnectedMedia.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/ConnectedMedia/ConnectedMedia.test.tsx": "f2b667d6c914448706352279e556fcf4856e06d55e0f4c3062b6856304935a4d",
+      "src/ui/kit/ConnectedMedia/index.ts": "fcdec3eeecb30f43ebcd8e17024d981bc0cd036ecec602fcba8f76728141294f",
+      "src/ui/kit/ConnectedMedia/ConnectedMedia.tsx": "2ea6af88856e1bad3564d8eae580747d6d7d2aaaaa0f9302b2c03b20a436273b",
+      "src/ui/kit/motion/index.ts": "86e3c90206047a017b7efbb81991aaab13ccb6f3441afce65ed1280cc4e7c6a2",
+      "src/ui/kit/motion/tokens.ts": "3f5dcbee1d5cf18ea33bd8ec35558a2a62d56ab99e48da5d6d648e6ad00d37a8",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "src/ui/kit/motion/pageTransitionParts.ts": "3430d3cf71642cf1248c377f12efeef5ab7ae77342e4cac64184e2643ddec60e",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "src/ui/kit/ConnectedMedia/transitionName.ts": "40a32beef2990244bfefaca87818957a957e95a6f3326a847f5f3c465f24a681",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/Dialog/Dialog.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/Dialog/Dialog.test.tsx": "9fe6dffb9709e60be726849f02d1d59dd7ad44d20c59c58b94f9346275205c87",
+      "src/ui/kit/Dialog/Dialog.tsx": "4ca0efc611bb0136cdfde1f92de483faed408db366a8440f290f312ceb384965",
+      "src/ui/kit/Button/index.ts": "1a21ad2c3bcaad6b41146f642fa96741f9d732643c7a33c8d21b0d596e7bdbd9",
+      "src/ui/kit/Button/Button.tsx": "2f231060725d1391e5a1a61467abcfe57bd3030a3f68b661de36d6b49a56cff7",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/FieldStatus/FieldStatus.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/FieldStatus/FieldStatus.test.tsx": "050355e77b37f52791c121081488ffbfaed91c57b30de8414bcdd732c5ff81d5",
+      "src/ui/kit/FieldStatus/FieldStatus.tsx": "96a86c3e61e716e7919ca85462baa6f1131801a292bdeb8dd2c5d3ef442a5e2e",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/FormRow/FormRow.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/FormRow/FormRow.test.tsx": "b42d911dc6f373d7ac870cea1735696a9ad3fbcbf2d34a2487c95e11691279f0",
+      "src/ui/kit/FormRow/FormRow.tsx": "c401536d8cdc39b955a714d3e8f50b78395e11b9daab651a52f961c0f40f8d62",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/InputLegend/InputLegend.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/InputLegend/InputLegend.test.tsx": "c7373dfed606c2c115474139b04aa1ab27e6499a869599fcb97b079e0c6762ec",
+      "src/ui/kit/InputLegend/InputLegend.tsx": "10adee05e23a837235401f5c9b303a90499ee269ab6614839444d7c2ad7b916c",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "src/ui/kit/InputLegend/types.ts": "041af3b79e89095fa34fcbc5eb80e3df635071778f5892bbcec6c8c7187edfd5",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/LoadingState/LoadingState.accessibility.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/LoadingState/LoadingState.accessibility.test.tsx": "014b5a8f28453c7c92d24bdccfb4fc7c071c71f2990adfab8b83ec473c22e45c",
+      "src/ui/kit/LoadingState/LoadingState.tsx": "3550a84d9bcbfa102e580ce8d903a32385f0cdab032dee7f743b5c814c64cbe6",
+      "src/ui/kit/Button/index.ts": "1a21ad2c3bcaad6b41146f642fa96741f9d732643c7a33c8d21b0d596e7bdbd9",
+      "src/ui/kit/Button/Button.tsx": "2f231060725d1391e5a1a61467abcfe57bd3030a3f68b661de36d6b49a56cff7",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "src/ui/kit/BrickField/index.ts": "4bd22af1a668cf7edfa9474bc2da5eaafaf9ce8246a2975649d9edbe426a2fc6",
+      "src/ui/kit/BrickField/BrickField.tsx": "ec09002088ef05f645bdf0c55fe7fc70488665c8a6840fbf121a7c9c2c4c5e7b",
+      "src/ui/kit/motion/index.ts": "86e3c90206047a017b7efbb81991aaab13ccb6f3441afce65ed1280cc4e7c6a2",
+      "src/ui/kit/motion/tokens.ts": "3f5dcbee1d5cf18ea33bd8ec35558a2a62d56ab99e48da5d6d648e6ad00d37a8",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "src/ui/kit/motion/pageTransitionParts.ts": "3430d3cf71642cf1248c377f12efeef5ab7ae77342e4cac64184e2643ddec60e",
+      "src/ui/kit/BrickField/brickClock.ts": "5cfb0bb93dedb0f71d8bfe14fc11b534a3fb5432dac05be713824173fea4bd2a",
+      "src/ui/kit/BrickField/brickMotion.ts": "5021a40e1aa2777840da571f497a9bfd92e2ad12b4db3e1bae570a6c013824c7",
+      "src/ui/kit/BrickField/renderer.ts": "45b6c1f85e5b88226337f3d7c84b638290bc1151dc1d7fb9e5d68ba1ed4454d5",
+      "src/ui/kit/BrickField/gpuTimer.ts": "314b86249fe46465629d2d7f4351094b4047837fe2ec22f466bfbddd0896e90a",
+      "src/ui/kit/BrickField/shader.ts": "35662a1c91dc8a5fdbf4ff3cae90652cd2f04f83a813e23131ee200acff1e0f8",
+      "src/ui/kit/BrickField/staticBricks.ts": "672411a21c530b72847d0c128a97f764bb0b80d909cbc77300734abbc5543d9f",
+      "src/ui/kit/TransitionView/index.ts": "f46666c18b252c4e3ba7e77f8df6942eae18392e9b179d90e68d5b60f6c00717",
+      "src/ui/kit/TransitionView/TransitionView.tsx": "a7614bb1fdf669409eacf2fe4e3d431009e75781a0a8cf75aa264b141b6352b0",
+      "src/ui/kit/LoadingState/types.ts": "9a8d65383717a4c644638cb58ce8063c230d0c5fc6056f8ad376004ecb456a32",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/LoadingState/LoadingState.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/LoadingState/LoadingState.test.tsx": "4d76e363b9b081c9bf0a7bb74bfd8c6f98c97d2b2fb2dd834e17821ac72891cc",
+      "src/ui/kit/LoadingState/LoadingState.tsx": "3550a84d9bcbfa102e580ce8d903a32385f0cdab032dee7f743b5c814c64cbe6",
+      "src/ui/kit/Button/index.ts": "1a21ad2c3bcaad6b41146f642fa96741f9d732643c7a33c8d21b0d596e7bdbd9",
+      "src/ui/kit/Button/Button.tsx": "2f231060725d1391e5a1a61467abcfe57bd3030a3f68b661de36d6b49a56cff7",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "src/ui/kit/BrickField/index.ts": "4bd22af1a668cf7edfa9474bc2da5eaafaf9ce8246a2975649d9edbe426a2fc6",
+      "src/ui/kit/BrickField/BrickField.tsx": "ec09002088ef05f645bdf0c55fe7fc70488665c8a6840fbf121a7c9c2c4c5e7b",
+      "src/ui/kit/motion/index.ts": "86e3c90206047a017b7efbb81991aaab13ccb6f3441afce65ed1280cc4e7c6a2",
+      "src/ui/kit/motion/tokens.ts": "3f5dcbee1d5cf18ea33bd8ec35558a2a62d56ab99e48da5d6d648e6ad00d37a8",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "src/ui/kit/motion/pageTransitionParts.ts": "3430d3cf71642cf1248c377f12efeef5ab7ae77342e4cac64184e2643ddec60e",
+      "src/ui/kit/BrickField/brickClock.ts": "5cfb0bb93dedb0f71d8bfe14fc11b534a3fb5432dac05be713824173fea4bd2a",
+      "src/ui/kit/BrickField/brickMotion.ts": "5021a40e1aa2777840da571f497a9bfd92e2ad12b4db3e1bae570a6c013824c7",
+      "src/ui/kit/BrickField/renderer.ts": "45b6c1f85e5b88226337f3d7c84b638290bc1151dc1d7fb9e5d68ba1ed4454d5",
+      "src/ui/kit/BrickField/gpuTimer.ts": "314b86249fe46465629d2d7f4351094b4047837fe2ec22f466bfbddd0896e90a",
+      "src/ui/kit/BrickField/shader.ts": "35662a1c91dc8a5fdbf4ff3cae90652cd2f04f83a813e23131ee200acff1e0f8",
+      "src/ui/kit/BrickField/staticBricks.ts": "672411a21c530b72847d0c128a97f764bb0b80d909cbc77300734abbc5543d9f",
+      "src/ui/kit/TransitionView/index.ts": "f46666c18b252c4e3ba7e77f8df6942eae18392e9b179d90e68d5b60f6c00717",
+      "src/ui/kit/TransitionView/TransitionView.tsx": "a7614bb1fdf669409eacf2fe4e3d431009e75781a0a8cf75aa264b141b6352b0",
+      "src/ui/kit/LoadingState/types.ts": "9a8d65383717a4c644638cb58ce8063c230d0c5fc6056f8ad376004ecb456a32",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/NumberField/NumberField.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/NumberField/NumberField.test.tsx": "f8e0420021cce78fc9bcc6d881b6c569f90849347eef53b2b1b0f6bec06ca785",
+      "src/ui/kit/NumberField/NumberField.tsx": "b0fb973f6d79993db95b3a10c7b6c6d6b23792e7a6762e96ff0d70101be619ca",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "src/ui/kit/FieldStatus/FieldStatus.tsx": "96a86c3e61e716e7919ca85462baa6f1131801a292bdeb8dd2c5d3ef442a5e2e",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/SliderRow/SliderRow.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/SliderRow/SliderRow.test.tsx": "2a445af12ed15defaf097dd73eb318336c4e3071ba503101676fff87ae5dc8f6",
+      "src/ui/kit/SliderRow/SliderRow.tsx": "d46af4fdfbe33a8cda780d0d8d106ce438af34c331940dc2f7a05b6057c40c31",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/TabStrip/TabStrip.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/TabStrip/TabStrip.test.tsx": "b1d445b069216cca248461fcbfc40cad6bfe5b434cb4fa616c80ef89a77b5196",
+      "src/ui/kit/TabStrip/TabStrip.tsx": "6779b8ec6ebe25379385c73183e0610e562a62cc1c8b5588382f96a02713ab7e",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/Tile/Tile.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/Tile/Tile.test.tsx": "5da4883c3deeff6e37247baf1f9b865aaaf2c46a6454d44eaac89515080d7e9a",
+      "src/ui/kit/Tile/Tile.tsx": "72018f35777522d9dfaa803d7215b0024670345cd23797c6ca6b7d68b45fbebe",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/Toggle/Toggle.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/Toggle/Toggle.test.tsx": "3e1f6a89af214380c0d8f235c9f1ca032df592277d175e0edfbd7a9e8be873bf",
+      "src/ui/kit/Toggle/Toggle.tsx": "aa8399063e65b17df7609c2a629e1b80ec62f5990b8809d59aa17b5e79414ad3",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/TransitionView/TransitionView.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/TransitionView/TransitionView.test.tsx": "1427fcba37cb0a6cf5f7ecd12a498158bc8d932d362ba4fc2d974320826f2e0d",
+      "src/ui/kit/TransitionView/TransitionView.tsx": "a7614bb1fdf669409eacf2fe4e3d431009e75781a0a8cf75aa264b141b6352b0",
+      "src/ui/kit/motion/index.ts": "86e3c90206047a017b7efbb81991aaab13ccb6f3441afce65ed1280cc4e7c6a2",
+      "src/ui/kit/motion/tokens.ts": "3f5dcbee1d5cf18ea33bd8ec35558a2a62d56ab99e48da5d6d648e6ad00d37a8",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "src/ui/kit/motion/pageTransitionParts.ts": "3430d3cf71642cf1248c377f12efeef5ab7ae77342e4cac64184e2643ddec60e",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/input/GamepadNavProvider.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/input/GamepadNavProvider.test.tsx": "4023449ae7f126093bf7b550534a6dbec7b20b830e3e5dc7849b25f4e60cbf75",
+      "src/ui/kit/input/GamepadScope.tsx": "f99cf662e75a8b6472fd86ae537a09021fcfc7b07e140928462c077e56c573cc",
+      "src/ui/kit/input/types.ts": "15af3c183a7559172b6f5f044ea23cebc6fd30078cdc2b5ffbd5a090c5c365b4",
+      "src/ui/kit/input/useInputContext.ts": "9e3b2d5db079f35daff3f408e0d50ea0ee75b09ee1d41e89ae429eb650bff285",
+      "src/ui/kit/input/GamepadNavProvider.tsx": "85c5267556420a402f2893fcd7319e5721db594f35f6d523b9ee53f778b53357",
+      "src/ui/kit/input/context.ts": "9bfdd60045d2e008a616e5f8d3ac307c95de829329a0253ca75d04aea169b2d5",
+      "src/ui/kit/input/spatialNavigation.ts": "c167796238c46f6845922a894a6542f1cb6b7ed0dc33280e30b8e0be54fb8ee4",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/input/InputOwnershipProvider.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/input/InputOwnershipProvider.test.tsx": "103d74a4ef9ef2a3bd01026a991fa4762e3dc997194ee78488071b2ca7d0e2c9",
+      "src/ui/kit/input/InputOwnershipProvider.tsx": "cf7eed7a5cd38e32084a5e8a66051fb30ac4c5b788c6cfef5c9eca7fc3f86f55",
+      "src/ui/kit/input/ownership.ts": "343444a1ea43a834c0780f7d9b0108338eb90d515ed5b6f8e4e9bc06e9a84616",
+      "src/ui/kit/input/ownershipContext.ts": "777523d967b31f60f1e6563c33719c5cd0d7b2ad946a26465d9ed1c5124fe6d7",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/input/ownership.test.ts",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/input/ownership.test.ts": "cd89b771f4b8b4322cf33608eba2722f1414ad729a01b912c86f12a2f747b658",
+      "src/ui/kit/input/ownership.ts": "343444a1ea43a834c0780f7d9b0108338eb90d515ed5b6f8e4e9bc06e9a84616",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/internal/utils.test.ts",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/internal/utils.test.ts": "2b220bda0700312664ee607264fd7c8f040e3b90dc66af020f8523db95217498",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/motion/effects.test.ts",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/motion/effects.test.ts": "546705fcda8ac30327a49f4ec19aa4d87101fa5373adb937148b040bd82c4b2e",
+      "src/ui/kit/motion/timeline.ts": "d6bbede0ace55d960e9512537088210567f8afd45d902d854c5a0837f87cd4ff",
+      "src/ui/kit/motion/effects.ts": "5eb0285bebbfa6caa7cb2c6432ffc8b1dcff959c82e8f29f89c8b8d6f88f5d8d",
+      "src/ui/kit/motion/tokens.ts": "3f5dcbee1d5cf18ea33bd8ec35558a2a62d56ab99e48da5d6d648e6ad00d37a8",
+      "src/ui/kit/motion/useMotionTimeline.ts": "d30200a2f77274e417330c7b73b33cd78cd2a737af2c4b187d475a16ee37cfa2",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "src/ui/kit/motion/useChipPanelMorph.ts": "0a6a8fdb29eae0f2544b7649d274e3494cb5421eeaa08dd5e9543e136d58193b",
+      "src/ui/kit/motion/outlineMorph.ts": "969cfc50e3ca3e15df6b28f7feeac2192d6c8799aa16a9c3786dcd8ec7a0e9a4",
+      "src/ui/kit/motion/pageTransition.ts": "846b135c2eaad02f38277d2464f523853c002a407b5c36b12b9c3613dd8fd89c",
+      "src/ui/kit/motion/pageTransitionParts.ts": "3430d3cf71642cf1248c377f12efeef5ab7ae77342e4cac64184e2643ddec60e",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/motion/useChipPanelMorph.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/motion/useChipPanelMorph.test.tsx": "fb1ccf7226a33b90657282af88b3ee3b856cd61634ad81c00d65db51db310b65",
+      "src/ui/kit/motion/useChipPanelMorph.ts": "0a6a8fdb29eae0f2544b7649d274e3494cb5421eeaa08dd5e9543e136d58193b",
+      "src/ui/kit/motion/tokens.ts": "3f5dcbee1d5cf18ea33bd8ec35558a2a62d56ab99e48da5d6d648e6ad00d37a8",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "src/ui/kit/motion/outlineMorph.ts": "969cfc50e3ca3e15df6b28f7feeac2192d6c8799aa16a9c3786dcd8ec7a0e9a4",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/motion/useMotionTimeline.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/motion/useMotionTimeline.test.tsx": "89431672606612a210018bdaad0139ce89e3c5eb22068fa226d51f9e412646f1",
+      "src/ui/kit/motion/useMotionTimeline.ts": "d30200a2f77274e417330c7b73b33cd78cd2a737af2c4b187d475a16ee37cfa2",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/motion/useReducedMotion.test.tsx",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/motion/useReducedMotion.test.tsx": "d6853f367aad0eba3cc75a77d2c540d427f3046dd6bf36542aca31b7d09f5a16",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/public-api.test.ts",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/public-api.test.ts": "7d505fd50b5f0188889ac4334c2f5145bffa51d572987a38fbf8696d5780e534",
+      "src/ui/kit/index.ts": "973e2c3b6bfe2580603a1c4735d9451881e2d4bf54ebb2c43440766b43e7f52f",
+      "src/ui/kit/InputLegend/index.ts": "0888e17d8922a04eef8ecc3bd6c787be1819497928ba006a86d0b574e77f88b6",
+      "src/ui/kit/InputLegend/InputLegend.tsx": "10adee05e23a837235401f5c9b303a90499ee269ab6614839444d7c2ad7b916c",
+      "src/ui/kit/internal/utils.ts": "d2dadd496e77a9e474d06f8061260d1c802d337971d9c65a6e1b8484f8baeb5a",
+      "src/ui/kit/InputLegend/types.ts": "041af3b79e89095fa34fcbc5eb80e3df635071778f5892bbcec6c8c7187edfd5",
+      "src/ui/kit/Badge/index.ts": "36c7e1d9da83aff588013b021eeeec499b7f0eb988422daf9bad56ac4f1b4e22",
+      "src/ui/kit/Badge/Badge.tsx": "a332756370bfa7bfc9935379f6f3dfdaf120599ab41fe706dea4d5795af200db",
+      "src/ui/kit/Button/index.ts": "1a21ad2c3bcaad6b41146f642fa96741f9d732643c7a33c8d21b0d596e7bdbd9",
+      "src/ui/kit/Button/Button.tsx": "2f231060725d1391e5a1a61467abcfe57bd3030a3f68b661de36d6b49a56cff7",
+      "src/ui/kit/CardGroup/index.ts": "bad4dd22bb4b23598df10f49d9d54821db9d00f8bf4a51505d8929b113c87a39",
+      "src/ui/kit/CardGroup/CardGroup.tsx": "1031c84d9e79a95fa2f6acf17613da44f0ef5ab8daff6ce43b374cc93a6e0890",
+      "src/ui/kit/EmptyState/index.ts": "f84e21d6abdcf03d63ba507a4104e1462351363906920543f5e2aac2f5e3a703",
+      "src/ui/kit/EmptyState/EmptyState.tsx": "ffe713b7579f0469bc91e85476ba07794a0148b40eb8b89d04ba4c074a2d9533",
+      "src/ui/kit/Surface/index.ts": "3523e5c421fee76535ef844168faf581cc95f11b92f2398c6b5c9976afefa762",
+      "src/ui/kit/Surface/Surface.tsx": "621ddbcc1dcf03ea1132a8ca12549093a2116b0a24ebb34f0e7e25ccffc27550",
+      "src/ui/kit/Eyebrow/index.ts": "022c2332d88028a1497aaefc7add8be9b9f7cc328ae322b184f99d8c0e1437a4",
+      "src/ui/kit/Eyebrow/Eyebrow.tsx": "7d9f98e200021080cb65cbc957256e937fe02000a7344919056a6a529384f8b8",
+      "src/ui/kit/LabeledValue/index.ts": "4659cf08279742de82f32f357f76b6ed75cea94e29d8637f63510f1154c48c22",
+      "src/ui/kit/LabeledValue/LabeledValue.tsx": "a4ddd0cfa2a0629239667082387822a23fc665985d684500b921cf27098eadea",
+      "src/ui/kit/MetaList/index.ts": "4d30a41f075de1e92abbf6fa716975de28418a785502bce7b73b86a7efb0fa34",
+      "src/ui/kit/MetaList/MetaList.tsx": "58acd72f5e7fdc20043d83af53336886b4613558cd87e9aee4f6b0e682f78296",
+      "src/ui/kit/MetricStrip/index.ts": "50f28b323b9c3a1d102b4abec660c79b48a3d515a468af151c329c67037cd15f",
+      "src/ui/kit/MetricStrip/MetricStrip.tsx": "783e2a6875a86523bd8fb8fa152e5a190b9b52270a79f690723d7992d1fdae0a",
+      "src/ui/kit/PageBackground/index.ts": "7468ed963c332a192c30a580e478b1d8f74a8cd5af90cbb9199cb048d60eb0e9",
+      "src/ui/kit/PageBackground/PageBackground.tsx": "bd781d58c65f6456b8d533e6beca7117ca6ca4d462367e36e257348a02628d39",
+      "src/ui/kit/PageHeader/index.ts": "442a54d5c75bc0447421ae65bf5c48d81b0d4db6732379c1d21fd94e33c8f6ec",
+      "src/ui/kit/PageHeader/PageHeader.tsx": "2c7a8c313dcd58b01b2cd0ac5bacce37889c08d9e0601b19e0c824d3a75fbfe5",
+      "src/ui/kit/Rail/index.ts": "c45bcb4890bc6bc465938199097041401d87cd0b6f3f33993cbb8665095ade3d",
+      "src/ui/kit/Rail/Rail.tsx": "140f3584b7ba4aa62d48980da41ac22696ea18c246c20c143b47e952706209da",
+      "src/ui/kit/TabStrip/index.ts": "71cb457de6918dd7b1d65e54c74eb1e99fb05fa3a26d465f8a69e8d740e8bade",
+      "src/ui/kit/TabStrip/TabStrip.tsx": "6779b8ec6ebe25379385c73183e0610e562a62cc1c8b5588382f96a02713ab7e",
+      "src/ui/kit/Tile/index.ts": "5d7c32de04791b194b3b8e1813f9fd9d372eeb547776040219b005d4782d7cb0",
+      "src/ui/kit/Tile/Tile.tsx": "72018f35777522d9dfaa803d7215b0024670345cd23797c6ca6b7d68b45fbebe",
+      "src/ui/kit/FormRow/index.ts": "939c362cfb9b443a0dd7440ae6e081c2bef091c673da47e0484820d15bdb24d2",
+      "src/ui/kit/FormRow/FormRow.tsx": "c401536d8cdc39b955a714d3e8f50b78395e11b9daab651a52f961c0f40f8d62",
+      "src/ui/kit/FieldStatus/index.ts": "af9d0909d01f1a44918cf7dfb3c9fe7b133d6d46453007d0d49170a11945a466",
+      "src/ui/kit/FieldStatus/FieldStatus.tsx": "96a86c3e61e716e7919ca85462baa6f1131801a292bdeb8dd2c5d3ef442a5e2e",
+      "src/ui/kit/NumberField/index.ts": "170fdc6ef3b1dcefdd46868652de62ea3f6f02a06eda38556c48d4f5d30b2058",
+      "src/ui/kit/NumberField/NumberField.tsx": "b0fb973f6d79993db95b3a10c7b6c6d6b23792e7a6762e96ff0d70101be619ca",
+      "src/ui/kit/SliderRow/index.ts": "30369619700a95b896c0eb66f4ac9c53df38c98a9ae5cb008dacaf4e53601d19",
+      "src/ui/kit/SliderRow/SliderRow.tsx": "d46af4fdfbe33a8cda780d0d8d106ce438af34c331940dc2f7a05b6057c40c31",
+      "src/ui/kit/Toggle/index.ts": "c69429348ba9b2349c417a7f5b3b2dfe9c28672a8345a6adc75add01ec90c22a",
+      "src/ui/kit/Toggle/Toggle.tsx": "aa8399063e65b17df7609c2a629e1b80ec62f5990b8809d59aa17b5e79414ad3",
+      "src/ui/kit/KeyCap/index.ts": "41c9ae59f587e9c9175f5dacfe0c12ef36d312c7d4adfde2da2629efc280b46e",
+      "src/ui/kit/KeyCap/KeyCap.tsx": "4ef7c0453184d82cd224b8151f19a078578309ff5d915c540e0e8bf6c6e2fda7",
+      "src/ui/kit/input/index.ts": "23a6315c5738c2e4a3f660c2f41fa4f0a06af9899ed108b42c10578c040af009",
+      "src/ui/kit/input/GamepadScope.tsx": "f99cf662e75a8b6472fd86ae537a09021fcfc7b07e140928462c077e56c573cc",
+      "src/ui/kit/input/types.ts": "15af3c183a7559172b6f5f044ea23cebc6fd30078cdc2b5ffbd5a090c5c365b4",
+      "src/ui/kit/input/useInputContext.ts": "9e3b2d5db079f35daff3f408e0d50ea0ee75b09ee1d41e89ae429eb650bff285",
+      "src/ui/kit/input/GamepadNavProvider.tsx": "85c5267556420a402f2893fcd7319e5721db594f35f6d523b9ee53f778b53357",
+      "src/ui/kit/input/context.ts": "9bfdd60045d2e008a616e5f8d3ac307c95de829329a0253ca75d04aea169b2d5",
+      "src/ui/kit/input/spatialNavigation.ts": "c167796238c46f6845922a894a6542f1cb6b7ed0dc33280e30b8e0be54fb8ee4",
+      "src/ui/kit/input/InputOwnershipProvider.tsx": "cf7eed7a5cd38e32084a5e8a66051fb30ac4c5b788c6cfef5c9eca7fc3f86f55",
+      "src/ui/kit/input/ownership.ts": "343444a1ea43a834c0780f7d9b0108338eb90d515ed5b6f8e4e9bc06e9a84616",
+      "src/ui/kit/input/ownershipContext.ts": "777523d967b31f60f1e6563c33719c5cd0d7b2ad946a26465d9ed1c5124fe6d7",
+      "src/ui/kit/Dialog/index.ts": "9f3f812f233e2613a880d57d9820c5b5bbd21aee6b1324d8a9833ae494b6085a",
+      "src/ui/kit/Dialog/Dialog.tsx": "4ca0efc611bb0136cdfde1f92de483faed408db366a8440f290f312ceb384965",
+      "src/ui/kit/Popover/index.ts": "06a9dd228b4909bfb1536c64d717a431db4d66f4fcf10594cb11cbe094b84afe",
+      "src/ui/kit/Popover/Popover.tsx": "14f50f4dcf89b8bc3072630602c6b38f54fa5602bbf746b32b67423d82dd71b5",
+      "src/ui/kit/OverlaySelect/index.ts": "91a6b495c5ae85a75d6308f75c13a61ddd1fd5be4348519a723f7559c27ec77c",
+      "src/ui/kit/OverlaySelect/OverlaySelect.tsx": "af9a3d40ad757a94da68cf2bc627cf9ca5684a8546c657044b915f9aa2a9eff3",
+      "src/ui/kit/ConfirmDialog/index.ts": "c00230dcbd32f43f944111600a14776d99c039743002b55aa1218a997096a7be",
+      "src/ui/kit/ConfirmDialog/ConfirmDialog.tsx": "63f95393b28c534d1f253baca1bbb52dab3ef4be118de041e5b9d45647ae128f",
+      "src/ui/kit/ConfirmDialog/requests.ts": "0ee8ef94cb09cd8a82cf8421b059c004733908ef153dfee09f36970f368e757c",
+      "src/ui/kit/motion/index.ts": "86e3c90206047a017b7efbb81991aaab13ccb6f3441afce65ed1280cc4e7c6a2",
+      "src/ui/kit/motion/tokens.ts": "3f5dcbee1d5cf18ea33bd8ec35558a2a62d56ab99e48da5d6d648e6ad00d37a8",
+      "src/ui/kit/motion/useReducedMotion.ts": "aec222e7793e9fc5d0156b24934bf77c368a6f4ec21a040719fbfa63ae83843d",
+      "src/ui/kit/motion/pageTransitionParts.ts": "3430d3cf71642cf1248c377f12efeef5ab7ae77342e4cac64184e2643ddec60e",
+      "src/ui/kit/TransitionView/index.ts": "f46666c18b252c4e3ba7e77f8df6942eae18392e9b179d90e68d5b60f6c00717",
+      "src/ui/kit/TransitionView/TransitionView.tsx": "a7614bb1fdf669409eacf2fe4e3d431009e75781a0a8cf75aa264b141b6352b0",
+      "src/ui/kit/ConnectedMedia/index.ts": "fcdec3eeecb30f43ebcd8e17024d981bc0cd036ecec602fcba8f76728141294f",
+      "src/ui/kit/ConnectedMedia/ConnectedMedia.tsx": "2ea6af88856e1bad3564d8eae580747d6d7d2aaaaa0f9302b2c03b20a436273b",
+      "src/ui/kit/ConnectedMedia/transitionName.ts": "40a32beef2990244bfefaca87818957a957e95a6f3326a847f5f3c465f24a681",
+      "src/ui/kit/BrickField/index.ts": "4bd22af1a668cf7edfa9474bc2da5eaafaf9ce8246a2975649d9edbe426a2fc6",
+      "src/ui/kit/BrickField/BrickField.tsx": "ec09002088ef05f645bdf0c55fe7fc70488665c8a6840fbf121a7c9c2c4c5e7b",
+      "src/ui/kit/BrickField/brickClock.ts": "5cfb0bb93dedb0f71d8bfe14fc11b534a3fb5432dac05be713824173fea4bd2a",
+      "src/ui/kit/BrickField/brickMotion.ts": "5021a40e1aa2777840da571f497a9bfd92e2ad12b4db3e1bae570a6c013824c7",
+      "src/ui/kit/BrickField/renderer.ts": "45b6c1f85e5b88226337f3d7c84b638290bc1151dc1d7fb9e5d68ba1ed4454d5",
+      "src/ui/kit/BrickField/gpuTimer.ts": "314b86249fe46465629d2d7f4351094b4047837fe2ec22f466bfbddd0896e90a",
+      "src/ui/kit/BrickField/shader.ts": "35662a1c91dc8a5fdbf4ff3cae90652cd2f04f83a813e23131ee200acff1e0f8",
+      "src/ui/kit/BrickField/staticBricks.ts": "672411a21c530b72847d0c128a97f764bb0b80d909cbc77300734abbc5543d9f",
+      "src/ui/kit/LoadingState/index.ts": "5e88dcf4fa1924bbaa17db94759878eb62ca5839159e404c4a88d4131a962d6f",
+      "src/ui/kit/LoadingState/LoadingState.tsx": "3550a84d9bcbfa102e580ce8d903a32385f0cdab032dee7f743b5c814c64cbe6",
+      "src/ui/kit/LoadingState/types.ts": "9a8d65383717a4c644638cb58ce8063c230d0c5fc6056f8ad376004ecb456a32",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "src/ui/kit/styles/motion.test.ts",
+    "extras": [],
+    "dependencies": {
+      "src/ui/kit/styles/motion.test.ts": "f050b2a4cd8b641c4dd709d67968e80a841c6970b1e4a11836c11bcd73f43de0",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/budget.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/budget.test.ts": "74b4cef6ea47163302058eb27117419bcd45afdbead77cc388f25bcb1d1cf1e0",
+      "scripts/check-budget.mjs": "8be0108215e16dab39ba8eed8c8254323924d3c350ac321fb4f55b524299f217",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/lint-walls/walls.test.ts",
+    "extras": [
+      "eslint.config.js"
+    ],
+    "dependencies": {
+      "tests/lint-walls/walls.test.ts": "ee58dde8658f7093301f459957ed7dbe0d83233ff4473e670f75d54492e2ca8e",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9",
+      "eslint.config.js": "4a21583cf45cf8a64d948f33da9e3370e69020d7baeb410907d56fc2956502e6"
+    }
+  },
+  {
+    "file": "tests/offline-classic.test.ts",
+    "extras": [
+      "public/serviceworker.js"
+    ],
+    "dependencies": {
+      "tests/offline-classic.test.ts": "72fd1e64e601e4b6fe9358ca840a797a59788bb798f6caae6c6861bf7f965196",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9",
+      "public/serviceworker.js": "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9"
+    }
+  },
+  {
+    "file": "tests/offline.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/offline.test.ts": "9cb1f2af727b2d8da03e5da23bb4a771b228a2a0164eda7b946bd1cc053c0d53",
+      "scripts/build-sw.d.mts": "5ce5e3c04aad3966ae8963cb3e071badcc687428ea3ad9e782b272f7d901c3b2",
+      "scripts/build-sw.mjs": "e6d290aaab998b66daeafa29002ff3762daf42dd784e5c973dd6c795944e699c",
+      "src/app/offline.ts": "44ccf5e55fdae7d9dabebe4ea7d96cfc9d791a60e523192bc04b451914571cd9",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/proofs/dt-substitution.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/proofs/dt-substitution.test.ts": "2208e9cc65a93ec445281d14d88f71e2b84f88e4e102c13d0de9e955e994248f",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/proofs/rcs-reserve.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/proofs/rcs-reserve.test.ts": "f2e206ab576741877a1f46aae7d4c13452c1f78b28b324b224d9bb706e3ddebd",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/ui/kit-boundary.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/ui/kit-boundary.test.ts": "7a60614b4ccd347f91257ce826e0f659c44dde3b81c1350f8b895376d9915ebf",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/ui/no-neumorphism.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/ui/no-neumorphism.test.ts": "47a281f0a6cb5e50cb2796d72ee4b0b6534b294030cb77515435a399927fdc5f",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/ui/tabular-digits.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/ui/tabular-digits.test.ts": "d2031e18d8744fcef49b752ed16971701a2a4d457e595ba21ab3557378e5da90",
+      "src/ui/shell/fonts/metrics.ts": "34644285ff3073b6056c65ef187f30e9e888cbe21e2542c0811b3165abd43b2f",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/view/emission-blending.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/view/emission-blending.test.ts": "ef984a7b7748eb6e741d09b128063f996e7d85c3ca267aa1ea86368ac8e9e41e",
+      "src/view/emission-blending.ts": "ad269fb71a7ea62f65fd9013928eca0297ffd69a25eace04e2669432b289bfc1",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/view/horizon.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/view/horizon.test.ts": "1b46a14f9ee64ce556759be70f74f9957a07927634ff2d7bd18db3e85623f3ac",
+      "src/view/horizon.ts": "22e6423058841a37fb9b0e696467f2c5e854694a4bc75a4e16180c04012c06e0",
+      "src/view/particles.ts": "5e8aee62fb357e74e96bf9fb235b23a234e4c5462564337456f34b4b9d1fe83f",
+      "src/view/colour.ts": "5d7dc6aef29b97ac78d3c6db5b0fefe7b0198348afbf9cefaaa7d103992cc9ec",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/view/lighting.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/view/lighting.test.ts": "6eba52bcb0a4c63b1c9d2353cda90963b3f5085a7373892090439c8a64d90e32",
+      "src/view/lighting.ts": "3fdecac8c26967c9ac9821f94a90b90104b252ad3aa4f2772cf487070f04e8b8",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  },
+  {
+    "file": "tests/view/particle-textures.test.ts",
+    "extras": [],
+    "dependencies": {
+      "tests/view/particle-textures.test.ts": "a5772a6b3919eb2fac17e4fca4243e79b6d3e323188fdb9b7c9901d4eacd5522",
+      "src/view/particles.ts": "5e8aee62fb357e74e96bf9fb235b23a234e4c5462564337456f34b4b9d1fe83f",
+      "src/view/colour.ts": "5d7dc6aef29b97ac78d3c6db5b0fefe7b0198348afbf9cefaaa7d103992cc9ec",
+      "vitest.config.ts": "064debf7209d2ce484ebf654ad0be64f059884e06c5f183f1b01fb3eee062fc9",
+      "scripts/core-coverage.mjs": "3558c4a51a7ecd4009ee2b9940691252197425e77dd32e71b1d3d986285d176b",
+      "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+      "tests/setup-dom.ts": "f9dd4bc49fa242e13392b89081906251e48e35687c32a4e12fe7a2b32a863598",
+      "tests/memory-storage.ts": "632b817e1e1baa2203a067fa0a1a6486da01af5217332080eb6e606f820407f5",
+      "package.json": "f707ca5e74befb3c4d92ae87fc07f945ac5b2928c250f011b671c7d261e6b35a",
+      "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  }
+]
