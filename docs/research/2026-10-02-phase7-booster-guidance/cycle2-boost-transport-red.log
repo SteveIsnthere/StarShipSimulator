@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-prediction.test.ts (3 tests | 1 failed) 12ms
+     × transports a boost forecast with its measured paid-burn range rate, not ballistic fall time 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > transports a boost forecast with its measured paid-burn range rate, not ballistic fall time
+AssertionError: expected 10 to be 800 // Object.is equality
+
+- Expected
++ Received
+
+- 800
++ 10
+
+ ❯ tests/core/booster-prediction.test.ts:34:43
+     32|     // The measured mechanical response includes powered entry/termina…
+     33|     // feedback.100s of remainingfall is not its velocity sensitivity.
+     34|     expect(s.autopilot.boosterRangeError).toBe(800);
+       |                                           ^
+     35|   });
+     36|   it('limits each live step to four shared mechanical forecast advance…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  17:47:22
+   Duration  245ms (transform 101ms, setup 0ms, import 123ms, tests 12ms, environment 0ms)
+

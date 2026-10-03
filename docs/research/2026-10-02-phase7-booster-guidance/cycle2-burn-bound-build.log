@@ -1,0 +1,9 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/core/booster-burn-bound.test.ts(14,39): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(actual: number, message?: string | undefined): Assertion<number>', gave the following error.
+    Argument of type '{ mass: number; speed: number; exact: number; }' is not assignable to parameter of type 'string'.
+  Overload 2 of 2, '(val: any, message?: string | undefined): Assertion', gave the following error.
+    Argument of type '{ mass: number; speed: number; exact: number; }' is not assignable to parameter of type 'string'.

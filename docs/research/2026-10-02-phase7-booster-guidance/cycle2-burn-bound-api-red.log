@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-burn-bound.test.ts (2 tests | 2 failed) 3ms
+     × contains the full physical burn predictor across descent and mass boundaries 2ms
+     × allows skipping far above a feasible burn but keeps the exact calculation near the trigger 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-burn-bound.test.ts > conservative booster burn trigger bound > contains the full physical burn predictor across descent and mass boundaries
+TypeError: conservativeBurnStartAltitude is not a function
+ ❯ tests/core/booster-burn-bound.test.ts:12:21
+     10|     for(const mass of [200000,250000,300000,400000,500000,700000]) {
+     11|       for(const speed of [2,20,100,200,500,1000]) {
+     12|         const bound=conservativeBurnStartAltitude(3,mass,speed,CATCH.b…
+       |                     ^
+     13|         const exact=landingBurnStartAltitude(3,mass,speed,CATCH.bodyCe…
+     14|         if(exact!==null){expect(bound,{mass,speed,exact}).toBeGreaterT…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-burn-bound.test.ts > conservative booster burn trigger bound > allows skipping far above a feasible burn but keeps the exact calculation near the trigger
+TypeError: conservativeBurnStartAltitude is not a function
+ ❯ tests/core/booster-burn-bound.test.ts:21:17
+     19|   });
+     20|   it('allows skipping far above a feasible burn but keeps the exact ca…
+     21|     const bound=conservativeBurnStartAltitude(3,300000,100,CATCH.bodyC…
+       |                 ^
+     22|     expect(bound).toBeGreaterThan(500);expect(bound).toBeLessThan(600);
+     23|     expect(10000>bound).toBe(true);expect(500>bound).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  17:30:09
+   Duration  170ms (transform 48ms, setup 0ms, import 61ms, tests 3ms, environment 0ms)
+

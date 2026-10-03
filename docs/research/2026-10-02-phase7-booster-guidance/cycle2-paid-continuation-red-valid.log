@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-forecast.test.ts (3 tests | 1 failed) 17ms
+     × pays actual13-engine fuel during a hypothetical boost continuation before coasting 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-forecast.test.ts > planned booster forecast > pays actual13-engine fuel during a hypothetical boost continuation before coasting
+AssertionError: expected 200000 to be close to 198171.25382262998, received difference is 1828.7461773700197, but expected 5e-9
+ ❯ tests/core/booster-forecast.test.ts:22:47
+     20|     const work=createBoosterForecastWork(s,rad(0),.25);
+     21|     advanceBoosterForecast(work,4,advanceMechanics,runBoosterPolicy,SU…
+     22|     expect(work.state.vehicle.propellantMass).toBeCloseTo(initialFuel-…
+       |                                               ^
+     23|     expect(s.vehicle.propellantMass).toBe(initialFuel);
+     24|     expect(work.state.autopilot.boosterPhase).toBe('boostback');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  17:50:26
+   Duration  231ms (transform 90ms, setup 0ms, import 111ms, tests 17ms, environment 0ms)
+
