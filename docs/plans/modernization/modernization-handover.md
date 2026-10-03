@@ -13,8 +13,8 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
 | 6 Ship realism | done, live; gate and live deployment smoke verified | `080f108` |
 | 6b Entry on lift | closed under approved broadside fallback, live and verified | `c2ae5e4` |
-| 7 Super Heavy | Tasks1–5 core/mission/interface implemented; release remains | — |
-| 8 Visuals | not started (added 2026-10-01) | — |
+| 7 Super Heavy | done, live | `e8a06ff` |
+| 8 Visuals | underway; owner rejected vehicle realism, research/rebuild pending | — |
 | 9 UX to flight_sim level | not started | — |
 
 ## Shipped
@@ -241,3 +241,18 @@ Task5 in progress at9e4a4d1: task-start5 consumed. Startup shared model-scale we
 
 
 LatestTask5: correctedfullbrowser64788 RUNNING88/allfive/sourcefrozen, permanentcycle1-attempt2/rawlog. Build299.2/480affectedunits/lint0existingwarning GREEN55915 COMPLETE0. Original88browser and strengthened30staging/catchbounds GREEN; all30initialscenePNGinspected. Newfullbodyallscene RED catches1pxiPhone landscape landingnoseclip; standaloneShip edgeguard preservesnativeFOV/velocity. Initialguardchangedintro, exactREDcaughtit; corrected excludesdemo and originalintro1800realsteps×fivecanvasmatchesexactly. No core/golden/preset/legacychange. Task5completion/task-done pendingfinal64788 andactualcaptureinspection; do notrestartorclaimcomplete. Task6/whole8release/all9remainmain/live80%. Temporarygallerytab5/server49092 currentlyactive; closeatinspectionend.
+
+
+## Latest owner steering — 2026-10-03 vehicle realism
+
+Steve requests deep online/image research, a faithful simplified real Ship and Super Heavy, possible disintegration, and ChatGPT Pro external expert review. Phase8 vehicle visual acceptance is reopened; earlier green checks do not prove realism. Corrected Task5 terminal64788 is COMPLETE0:88/88 in13.3minutes,zero retries. Source8c9a0c5 unchanged. Two choices pending: Flight5 versus V3, and post-failure breakup versus flight-affecting component damage; recommendations Flight5/post-failure. Deep Research submitted in Edge tab1811494143 around18:36UTC; Pro document/submission next. Current code bursts particles but leaves intact bodies; core resets impact velocities/pitch and breakup angular velocity, requiring honest pre-failure capture for debris. No damage implementation or new physics acceptance yet. Whole8/9 release and final goal remain.
+
+
+### Research checkpoint
+
+Deep Research complete, fullreport saved in `docs/research/2026-10-03-vehicle-realism/deep-research-report.md`; four photographs inspected. Reference ledger qualifies unsourced dimension estimates and rejects invented thermal precursors. Real-core two-step diagnostics confirm loss of impact motion at render time; lint clean. Pro review stillThinking at18:54UTC, Edge tab1811494250, conversation https://chatgpt.com/c/6ac14e3e-3958-83e8-ac88-e8d0948cdf02 . Use DOM snapshot if screenshot capture still fails. Owner generation/damage choices pending; dependent implementation not started. Conditional candidate is now in Phase8 plan. No runtime source changed from8c9a0c5.
+
+
+### Current: research and expert review complete; choices pending
+
+Deep Research and one Pro review finished; both tabs closed. Saved source/measurement/review ledger in `docs/research/2026-10-03-vehicle-realism/`; externalbrief revision2 at its original path. Pro supports boundedprototype only. Corrected timing to lastintactdiscretesample ratherthanexactfracturetelemetry; verified continuingclock/localbodyfailures/two4000particlepools. Rejected replacementoforiginalsixscenes andnewmandatoryphysicalhandsetgate; addedfailurechecks. Pendingchoices remainFlight5vsV3 andvisualterminalbreakupvsprogressiveflightdamage. RecommendationsFlight5/terminalbreakup. No runtime edits duringresearch; no newphysics/goldens. Nextdependentimplementationwaitsforanswers, not for anotherreview or rerun. Fullroadmap remains80%phasecount, Phase8/9open.

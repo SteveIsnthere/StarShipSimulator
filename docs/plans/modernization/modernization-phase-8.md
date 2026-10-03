@@ -10,6 +10,32 @@
 
 **Spec:** `modernization-roadmap.md` Phase 8, `modernization-GOAL.md`, `docs/design/design-system.md`, `docs/reference/presentation.md`.
 
+## Owner realism amendment — 2026-10-03
+
+Steve rejects current Ship and Super Heavy appearance as unrealistic and requests deep online/image research, faithful simplification of real hardware, possible structural disintegration, and an external ChatGPT Pro review. This supersedes Task5 visual acceptance; existing passing framing/control checks remain regression evidence only. Do not close Task5 or merge Phase8 on those checks alone.
+
+- [ ] Inspect original photographs/footage and record generation-specific silhouette, appendages, steel/tiles, hot-stage ring and engine-bay references, distinguishing sourced measurements from image estimates and authored simplifications.
+- [ ] Resolve pending owner choices: Flight5-era geometry matching existing physical model (recommended) versus V3 with model changes; visible breakup from existing failures (recommended) versus progressive component damage affecting flight.
+- [x] Write a scrubbed self-contained external review document, cold-read it, deliver it to Steve, and attempt one ChatGPT Pro review. Collect the parallel Deep Research report; verify recommendations against sources/code before adopting them. Completed2026-10-03; Pro supports conditionalprototype, notvisualsignoff. Findings and rejections in `docs/research/2026-10-03-vehicle-realism/pro-review.md`; same externalbrief revised tov2.
+- [ ] Amend the concrete implementation and visual acceptance here after the choices/reference audit. Reuse shared authored geometry/material definitions for intact and broken bodies; avoid more decorative patches to the legacy photo/flat booster.
+- [ ] Validate real failure transitions, inherited motion, loss of intact-body visibility, independent two-body state, pause/restart and reduced-quality behavior. A particle explosion alone does not satisfy disintegration.
+- [ ] Inspect real native-session captures at relevant scales against the reference checklist; retain all original regression, physical and release gates.
+
+Current evidence: corrected Task5 campaign64788 COMPLETE0,88/88 browser checks in13.3minutes,zero retries. No claim of realism acceptance or damage implementation. Source snapshot8c9a0c5 remains unchanged. Existing no-core-change constraint applies until a chosen model/damage scope explicitly amends it under physics policy.
+
+### Reference-driven implementation candidate (scope choices pending)
+
+This is a reviewable proposal, not permission to assume either pending answer. If Steve selects Flight5 and post-failure visuals:
+
+1. Replace the legacy hull photograph and rectangular booster with one authored vehicle component system. Fix projection/azimuth, dimensional frame and component depth order first. Build nose/barrel silhouette, generation-correct flap shapes, tile boundary, cylinder shading, raceways, grid frames, vented ring and engine-bay occlusion from the reference ledger. Keep albedo/normal/light separate. At50px hull height, omit unresolved tile/lattice detail rather than enlarging the hardware.
+2. Add a session-owned first-failure observer, called at every fixed step for both physical identities. Preserve reset generation, body id, first event step/time, last-intact snapshot time and state, articulation, residual fuel and current failure predicate evidence. Last-intact state is up to1/120s earlier than the internal verdict; do not describe it as exact fracture telemetry. Do not change core step order or numerical state to improve animation.
+3. Reuse component geometry for bounded world-space rigid fragments. The first failure atomically replaces the intact hull/appendages and hides healthy engine emitters. Inherit translation and rotational contribution at each fragment centroid, with bounded documented artistic impulses. Distinguish impact, dynamic-pressure, thermal and mixed/unknown reasons; felt-g overload alone is not an aerodynamic cause. Do not invent progressive tile/fin loss before the terminal verdict under this scope.
+4. Drive event consumption and fragment age by simulated time, including multiple steps per frame, pause, deliberate debug stepping and restart. New events age only from their event timestamp; never replay the whole frame dt on an event at its end. Keep selection independent of physical history. Staging failure is not a second body's catastrophe. Use continued session time after failure; no separate wallclock.
+5. Inspect reference/current/candidate at50px,200px and close-up under matched lighting, then sweep sun direction, pitch, articulation, zoom and camera translation. Verify replacement with smoke/fire disabled, recognizable structural pieces, no duplicated intact hull and correct near/far occlusion. Include actual animated failure captures, not paused debug screenshots.
+6. Task6 retains launch, staging, belly flop, entry, landing and catch as its six base scenes. Add simultaneous breakup and onset-spike checks; do not replace any base scene to fit a count. Audit two existing4000-particle pools, choose explicit combined fragment/trail limits and preallocate. Retain300kBJS cap; deleting a separately loaded image is not JS savings. Measure full-session/GPU timing, pool exhaustion and repeated reset memory behavior before claiming affordable quality.
+
+If Steve chooses V3 or progressive damage, revise the model/physics tier and source-backed acceptance first. Existing aircraft control authority, scenario thresholds and golden fixtures remain unchanged until a specific approved Fidelity/Bug-fix plan requires otherwise.
+
 ## Global constraints
 
 - Ship every approved area: engines/plumes; re-entry/heat; environment; vehicle/camera. Phase 9 retains UX ownership.
