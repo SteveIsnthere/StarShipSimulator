@@ -18,11 +18,8 @@ import { EFFECTS, type ParticleSystem } from './particles';
 import { engineDistanceFromCenterOfMass, heatLimit, vehicleHeight } from '$core/constants';
 import {
   plasmaIntensity,
-  plumeScaleFactor,
-  plumeSpreadFactor,
-  shockCellLength,
-  shockDiamondStrength,
 } from './atmosphere-look';
+import { enginePlumeLook } from './engine-look';
 
 /**
  * kPa — below this there is not enough air for the fins to shed anything.
@@ -105,6 +102,7 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
   // Edge detection state. Not in SimState: these are presentation facts, and
   // core/ must not know that a renderer exists.
   const nozzle = { x: 0, y: 0 };
+  const looks = model.engines.map(() => ({ spread: 0, scale: 0, diamonds: 0, cellLength: 0 }));
   let showedCrash = false;
   let showedBreakUp = false;
   let previousScale = 0;
@@ -174,8 +172,6 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
       if (running > 0 && forces.thrust > 0) {
         const throttleFraction = vehicle.throttleCurrent / 100;
         const ambient = state.atmosphere.airPressure;
-        const spread = plumeSpreadFactor(ambient);
-        const size = plumeScaleFactor(ambient);
 
         /*
           DENSITY IS NOT POWER, and conflating them is why the intro landing —
@@ -194,7 +190,6 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
         */
         const power = (running / (model.id === 'ship' ? 3 : model.ignitionGroup.length)) * throttleFraction;
         const density = PLUME_DENSITY_FLOOR + (1 - PLUME_DENSITY_FLOOR) * power;
-        const reach = PLUME_REACH_FLOOR + (1 - PLUME_REACH_FLOOR) * power;
 
         /*
           THE PLUME IS THREE THINGS AT ONE POINT (M9.6), and the point is the
@@ -213,28 +208,24 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
           reason it is the core: it is the part the surrounding flow is still
           holding together.
         */
-        particles.emit(
-          'raptorPlumeCore',
-          nozzleX,
-          nozzleY,
-          downAxis,
-          density,
-          dt,
-          scale * 0.9 * size * reach,
-          1 + (spread - 1) * 0.55,
-          shockCellLength(ambient) * scale,
-          shockDiamondStrength(ambient) * SHOCK_BAND_DEPTH,
-        );
-        particles.emit(
-          'raptorPlume',
-          nozzleX,
-          nozzleY,
-          downAxis,
-          density,
-          dt,
-          scale * 0.9 * size * reach,
-          spread,
-        );
+        // Split the bounded aggregate rate across actual healthy mounts. Each
+        // slot keeps its own birth debt/RNG, so render batching and a neighbour
+        // switching off cannot borrow another engine's gas history.
+        for (let i = 0; i < model.engines.length; i++) {
+          if (!engines.running[i] || engines.failed[i]) continue;
+          const mount = model.engines[i]!;
+          const look = looks[i]!;
+          enginePlumeLook(ambient, vehicle.throttleCurrent, mount.kind === 'vacuum', look);
+          const x = nozzleX + Math.cos(pitch) * mount.offAxis * scale;
+          const y = nozzleY + Math.sin(pitch) * mount.offAxis * scale;
+          const steerable = mount.gimballed ?? mount.kind === 'sea-level';
+          const direction = (steerable ? vehicle.gimbalPointingDirection : pitch) + Math.PI / 2;
+          particles.emit('raptorPlumeCore', x, y, direction, density / running, dt,
+            scale * 0.9 * look.scale, 1 + (look.spread - 1) * 0.55,
+            look.cellLength * scale, look.diamonds * SHOCK_BAND_DEPTH, i + 1);
+          particles.emit('raptorPlume', x, y, direction, density / running, dt,
+            scale * 0.9 * look.scale, look.spread, 0, 0, i + 1);
+        }
       }
 
       // --- engine shutdown: the effect that used to leak -------------------

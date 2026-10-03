@@ -26,7 +26,7 @@ All implementation, diagnosis, reviewed findings, rejected approaches, raw check
 
 ## First task
 
-**NEXT ACTION:** Execute Task 1 of `modernization-phase-8.md` on existing `claude/visuals`: build the accessible six-scene visual-direction HTML, verify desktop/phone and full/reduced modes in a real browser, and publish its private review page. Phase7 closure is reviewed and merged at `e8a06ff`; do not recreate its branch or repeat successful runtime checks.
+**NEXT ACTION:** Continue Task 2 of `modernization-phase-8.md` on existing `claude/visuals`: add explicit staging/landing glare driven by actual firing engines and physical body state, then finish its integration acceptance. Task 1 is complete and published privately at https://chatgpt.com/space/page_86fcf9be7d708191ad082fb932b96ef0, pushed at `a99df5e`. The per-engine exhaust checkpoint passes 347 view tests; all five affected original additive-light controls pass after the diagnosed reach-floor correction, and all five real staging witnesses pass. Evidence is in `docs/research/2026-10-03-phase8-visuals/task2-browser-cycle1/`. Do not redo Task 1, the birth-cadence diagnosis or the reach-floor repair. Tasks 3–6 and all of Phase 9 remain required. Phase 7 closure is merged at `e8a06ff`.
 
 All four visual areas, full-frame budgets of 16.67 ms desktop / 33.33 ms phone, cadence of at least 59 / 29.5 fps, and all six scene screenshots remain required. Phase 7's gate, CI, Pages and live handles are complete; do not resume or restart them. No owner question or local heavy check is active. Phase 9's exact per-id root-file landing/catch audit and the final last-three-main-CI requirement remain unchanged.
 

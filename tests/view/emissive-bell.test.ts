@@ -3,6 +3,7 @@ import { createEmissiveBell, writeBellGeometry } from '$view/emissive-bell';
 import { plumeScaleFactor, plumeSpreadFactor } from '$view/atmosphere-look';
 
 import { createScenarioState, getScenario } from '$core/scenarios';
+import { rad } from '$core/units';
 import { Mesh } from 'pixi.js';
 
 const buffers = () => ({ positions: new Float32Array(32 * 5 * 2), uvs: new Float32Array(32 * 5 * 2) });
@@ -49,6 +50,31 @@ describe('continuous nozzle-frame gas', () => {
 });
 
 describe('actual mount lifecycle', () => {
+  it('steers sea-level gas with the gimbal while the larger RVac stays fixed to the hull', () => {
+    const bell = createEmissiveBell();
+    const state = createScenarioState(getScenario('landing-burn')!);
+    state.engines.running.fill(true);
+    state.forces.thrust = 1;
+    state.vehicle.throttleCurrent = 100;
+    state.kinematics.pitch = rad(0.4);
+    state.vehicle.gimbalPointingDirection = rad(0.2);
+    state.atmosphere.airPressure = 101.325;
+    bell.update(state, 1, 100, 200, 0.42);
+    const sl = bell.container.children[0] as Mesh;
+    const vacuum = bell.container.children[3] as Mesh;
+    expect(sl.rotation).toBeCloseTo(0.2);
+    expect(vacuum.rotation).toBeCloseTo(0.4);
+    const slWidth = sl.geometry.positions.at(-2)! - sl.geometry.positions.at(-10)!;
+    const vacuumWidth = vacuum.geometry.positions.at(-2)! - vacuum.geometry.positions.at(-10)!;
+    expect(vacuumWidth).toBeGreaterThan(slWidth);
+    state.engines.running[3] = false;
+    state.engines.failed[0] = true;
+    bell.update(state, 1, 100, 200, 0);
+    expect(vacuum.visible).toBe(false);
+    expect(sl.visible).toBe(false);
+    bell.destroy();
+  });
+
   it('shows only firing, healthy mounts and keeps capture visibility while updating', () => {
     const bell = createEmissiveBell();
     const state = createScenarioState(getScenario('landing-burn')!);
