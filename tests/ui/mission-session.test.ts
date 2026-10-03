@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { createMissionController } from '$ui/session/mission-controller';
 import { createIntroState, getScenario } from '$core/scenarios';
 import { DT } from '$app/loop';
+import { createSimDebug } from '$app/debug';
 
 const stage = (controller: ReturnType<typeof createMissionController>) => {
   controller.stage();
@@ -10,6 +11,19 @@ const stage = (controller: ReturnType<typeof createMissionController>) => {
 };
 
 describe('actual selected-model mission routing', () => {
+  it('routes debug fixed steps through both actual mission bodies', () => {
+    const flight = createMissionController();
+    flight.startHotStage(123);
+    flight.stage();
+    const debug = createSimDebug({ loop: () => flight.loop, startScenario: () => {}, setPaused: () => {},
+      advanceStep: () => { flight.advance(DT); } });
+    debug.step(180);
+    expect(flight.mission!.phase).toBe('separated');
+    expect(flight.mission!.ship.world.environmentTime).toBe(flight.loop.simulatedTime);
+    expect(flight.mission!.booster.world.environmentTime).toBe(flight.loop.simulatedTime);
+    expect(flight.loop.totalSteps).toBe(180);
+  });
+
   it('keeps Stage pending through a pause and advances the unselected body after release', () => {
     const flight = createMissionController();
     flight.startHotStage(123);

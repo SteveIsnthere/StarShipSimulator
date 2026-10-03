@@ -11,30 +11,20 @@
  * From the information architecture (docs/design/ia.md): an open layer (menu,
  * black box, guide) pauses the flight.
  */
-import { advance, createLoopState, type LoopState } from '$app/loop';
+import { DT, type LoopState, type AdvanceResult } from '$app/loop';
 import { installSimDebug } from '$app/debug';
-import { applyControl, type ControlEvent } from '$app/controls';
+import { type ControlEvent } from '$app/controls';
 import { fieldsToPreset, toLoopOptions, type EditorFields, type TimeSetting } from '$app/menu';
-import {
-  CAMERA_KEY,
-  CINEMATIC_KEY,
-  HINT_KEY,
-  clearPreferences,
-  readFlag,
-  readItem,
-  writeItem,
-} from '$app/preferences';
 import { vehicleHeight } from '$core/constants';
 import { toggleRandomFailure } from '$core/control/commands';
 import {
-  createIntroState,
-  createScenarioState,
   getScenario,
   type ScenarioPreset,
 } from '$core/scenarios';
 import type { SimState } from '$core/state';
+import type { VehicleDefinition } from '$core/vehicle';
 import { createView, type ViewApp } from '$view/app';
-import { CAMERA_MODES, modeZoom, type CameraMode } from '$view/camera';
+import { modeZoom, type CameraMode } from '$view/camera';
 import {
   createHudBinder,
   createIndicatorBinder,
@@ -60,24 +50,25 @@ import {
 import { createRecorder, type Recorder } from '$app/recorder';
 import {
   createAudioEngine,
-  DEFAULT_VOLUME,
-  readMuted,
-  readVolume,
   type AudioEngine,
 } from '$audio/engine';
 import { createScene } from './scene';
 import { createCameraFollow } from './camera-follow';
 import { createPresentationProbe } from './debug-presentation';
 import { wireDocument } from './document-wiring';
-import { createSessionStore, isHintOpen, isPaused, type Layer, type SessionStore } from './store';
+import { createSessionStore, isPaused, type Layer, type SessionStore } from './store';
 
-/** Below this height there is no room for the first-flight hint (measured; see the hint's history). */
-export const HINT_FITS = '(height >= 26rem)';
+import { HINT_FITS, createPreferenceCommands, readSessionPreferences } from './preferences';
+import { createMissionController } from './mission-controller';
+export { HINT_FITS } from './preferences';
 
 export interface Session {
   readonly store: SessionStore;
   /** The live flight. Read it; change it only through the commands. */
   readonly loop: LoopState;
+  readonly model: VehicleDefinition;
+  /** Advance the canonical session clock; also works without a canvas. */
+  advance(frameTime: number): AdvanceResult;
   readonly timeline: ReturnType<typeof createTimeline>;
   readonly recorder: Recorder;
   /** The flight before this one, for the black box's ghost. */
@@ -122,29 +113,8 @@ export interface Session {
   readThrottle(): number;
 }
 
-function readCameraMode(): CameraMode {
-  const stored = readItem(CAMERA_KEY) ?? '';
-  return (CAMERA_MODES as readonly string[]).includes(stored) ? (stored as CameraMode) : 'follow';
-}
-
-function hasRoomForHint(): boolean {
-  try {
-    return window.matchMedia(HINT_FITS).matches;
-  } catch {
-    return true;
-  }
-}
-
 export function createSession(): Session {
-  const store = createSessionStore({
-    cinematic: readFlag(CINEMATIC_KEY),
-    cameraMode: readCameraMode(),
-    muted: readMuted(),
-    volume: readVolume(),
-    // Storage blocked reads as unseen: two sentences once per visit is the right side to err on.
-    hintSeen: readFlag(HINT_KEY),
-    hintFits: hasRoomForHint(),
-  });
+  const store = createSessionStore(readSessionPreferences());
   const set = store.setState;
   const get = store.getState;
 
@@ -165,7 +135,8 @@ export function createSession(): Session {
   });
 
   // The flight exists from construction, so commands work before (and without) a canvas.
-  const loop: LoopState = createLoopState(createIntroState());
+  const controller = createMissionController();
+  const loop = controller.loop;
   let view: ViewApp | undefined;
   let resetSceneForFlight: (() => void) | undefined;
   let hud: HudBinder | undefined;
@@ -221,11 +192,9 @@ export function createSession(): Session {
   const startFlight = (preset: ScenarioPreset) => {
     resetSceneForFlight?.();
     timeline.reset();
-    const fresh = createScenarioState(preset);
+    controller.startFlight(preset);
+    const fresh = loop.state;
     fresh.failures.randomFailure = get().randomFailure;
-    loop.state = fresh;
-    loop.previous = fresh;
-    loop.accumulator = 0;
     // Put the camera where the new flight is, moving as the vehicle moves:
     // from rest it can never catch a fast one.
     if (view) {
@@ -249,22 +218,13 @@ export function createSession(): Session {
     syncAutopilot();
   };
 
-  const dismissHint = () => {
-    if (!isHintOpen(get())) return;
-    writeItem(HINT_KEY, '1');
-    set({ hintSeen: true });
-  };
-
-  const setVolume = (level: number, remember = true) => {
-    audio.setVolume(level, { remember });
-    // Read back: the engine clamps.
-    set({ volume: audio.volume });
-    if (remember && !get().muted) unlockAudio();
-  };
+  const preferences = createPreferenceCommands(store, audio, applyCameraMode, unlockAudio);
 
   const session: Session = {
     store,
     loop,
+    get model() { return controller.model; },
+    advance(frameTime) { return controller.advance(frameTime, loopOptions); },
     timeline,
     recorder,
     previousRecorder,
@@ -296,7 +256,7 @@ export function createSession(): Session {
     },
 
     emit(event) {
-      applyControl(loop.state, event);
+      controller.emit(event);
       syncAutopilot();
     },
     startFlight,
@@ -316,24 +276,6 @@ export function createSession(): Session {
     togglePause() {
       set({ playerPaused: !get().playerPaused });
     },
-    toggleCinematic() {
-      const cinematic = !get().cinematic;
-      writeItem(CINEMATIC_KEY, cinematic ? '1' : '0');
-      set({ cinematic });
-      applyCameraMode();
-    },
-    selectCameraMode(mode) {
-      writeItem(CAMERA_KEY, mode);
-      set({ cameraMode: mode });
-      applyCameraMode();
-    },
-    toggleMuted() {
-      const muted = !get().muted;
-      void audio.setMuted(muted);
-      if (!muted) unlockAudio(); // unmuting is a gesture
-      set({ muted });
-    },
-    setVolume,
     setTime(time) {
       set({ time });
     },
@@ -344,19 +286,7 @@ export function createSession(): Session {
     toggleTiltControl() {
       set({ tiltControl: !get().tiltControl });
     },
-    /**
-     * Every remembered preference back to a fresh profile's, taking effect now.
-     * The hint returns too, so the menu closes: a hint nobody can see is not
-     * restored. The map's fold resets itself on clearPreferences' event.
-     */
-    restoreDefaults() {
-      void audio.setMuted(false);
-      setVolume(DEFAULT_VOLUME);
-      set({ muted: false, hintSeen: false, layer: null, cinematic: false, cameraMode: 'follow' });
-      applyCameraMode();
-      clearPreferences();
-    },
-    dismissHint,
+    ...preferences,
     dismissDebrief() {
       set({ debrief: null });
     },
@@ -372,6 +302,7 @@ export function createSession(): Session {
       let frame = 0;
       const live = loop;
       const initial = live.state;
+      const debugLoopOptions = { onStep };
       installSimDebug(window, import.meta.env.DEV, {
         loop: () => loop,
         startScenario: (id, overrides) => {
@@ -381,6 +312,7 @@ export function createSession(): Session {
         },
         setPaused: (debugPaused) => set({ debugPaused }),
         onStep,
+        advanceStep: () => { controller.advance(DT, debugLoopOptions); },
         presentation: presentationProbe.presentation,
         setParticlesVisible: presentationProbe.setParticlesVisible,
       });
@@ -421,7 +353,7 @@ export function createSession(): Session {
         onGesture: () => {
           if (!get().muted) unlockAudio();
           haptics.unlock();
-          dismissHint();
+          preferences.dismissHint();
         },
         onBackgrounded: (hidden) => void audio.setBackgrounded(hidden),
         emit: (e) => session.emit(e),
@@ -437,7 +369,7 @@ export function createSession(): Session {
         last = now;
         // advance hands out whole DT steps under the warp and pause; simulatedDt
         // is how much world actually went past, and everything below runs on it.
-        const worldDt = advance(live, frameTime, loopOptions).simulatedDt;
+        const worldDt = session.advance(frameTime).simulatedDt;
         const s = live.state;
         scene.draw(s, live.previous, worldDt, get().preset);
 

@@ -9,10 +9,26 @@ import { isHintOpen, isPaused } from '$ui/session/store';
 import { getScenario, INTRO } from '$core/scenarios';
 import { HINT_KEY } from '$app/preferences';
 import { installMemoryStorage } from '../memory-storage';
+import { DT } from '$app/loop';
 
 beforeEach(() => void installMemoryStorage());
 
 describe('flights', () => {
+  it('uses the selected booster model in the actual session loop and operator controls', () => {
+    const session = createSession();
+    session.startFlight(getScenario('rtls')!);
+    expect(session.model.id).toBe('super-heavy');
+    expect(session.loop.state.engines.running).toHaveLength(33);
+    session.emit({ type: 'allRaptors' });
+    for (let i = 0; i < 180; i++) session.advance(DT);
+    expect(session.loop.state.engines.running.filter(Boolean)).toHaveLength(13);
+    expect(session.loop.totalSteps).toBe(180);
+    expect(session.recorder.length).toBeGreaterThan(0);
+    session.restart();
+    expect(session.loop.totalSteps).toBe(0);
+    expect(session.loop.state.vehicle.propellantMass).toBe(200_000);
+  });
+
   it('starts on the intro, and starts a chosen scenario fresh', () => {
     const session = createSession();
     expect(session.store.getState().preset.id).toBe(INTRO.id);

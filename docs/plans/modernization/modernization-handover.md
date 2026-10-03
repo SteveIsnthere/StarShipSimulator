@@ -103,3 +103,6 @@ Task4 final2143units/173files, build/lint0/14truthIN; all ten goldens and indepe
 
 
 Task5 routing checkpoint: actual-model standalone/shared mission controller, manual source invalidation, physical booster engine groups and model-aware guard/hold/ascent are implemented. Focused70checks include all ten unchanged goldens and independent Ship proofs; build/lint0/14truthIN before/after. Exact RED/GREEN logs in2026-10-02-phase7-mission-routing. Visible session/canvas/HUD integration remains unbuilt; next split session before connecting the controller and preserve per-body histories/canonical debug stepping. Main/live unchanged; coverage/full phase release still owed.
+
+
+Task5 session follow-up: preference helper split reduces session to432lines; actual preset session now calls selected-model controller for operator events and frame/headless advances. Canonical debug callback steps actual shared mission; compatibility API retained. Final134headless session/shell/controller/debug checks pass, build/lint0, JS290.9/300kB. Exact RED/GREEN evidence in2026-10-02-phase7-mission-routing. Next hot-stage selection commands, separate body histories and cached binding reattachment, model-aware HUD/controls, two physical rendered bodies/camera and real browser witnesses. No phase gate/main/live change.
