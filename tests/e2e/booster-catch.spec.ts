@@ -1,5 +1,6 @@
 /** Original scenario flights use real selected-model fixed steps, without overrides. */
 import { expect, test } from '@playwright/test';
+import type { Deg } from '../../src/core/units';
 import type { SimDebug } from '../../src/app/debug';
 import { byTestId } from '../../src/ui/testids';
 import { ready, tap } from './helpers';
@@ -37,7 +38,13 @@ for (const id of ['booster-sep', 'rtls']) {
     await expect(page.locator(byTestId('event-now'))).toHaveText('CAUGHT');
     await page.screenshot({ path: info.outputPath(`${id}-caught.png`) });
     await info.attach('real-catch-telemetry', { body: JSON.stringify(result), contentType: 'application/json' });
-    await page.locator(byTestId('debrief-restart')).click();
+    await page.locator(byTestId('debrief-close')).click();
+    await expect(page.locator(byTestId('debrief'))).toHaveCount(0);
+    // Wait for a real RAF: the dismissed report must remain closed.
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+    await expect(page.locator(byTestId('debrief'))).toHaveCount(0);
+    await page.screenshot({ path: info.outputPath(`${id}-caught-dismissed.png`) });
+    await page.locator(byTestId('restart')).click();
     const restarted = await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.telemetry());
     expect(restarted['status.landed']).toBe(false);
     expect(restarted['engines.running[32]']).toBe(false);
@@ -51,7 +58,7 @@ test('a lug beyond the catch box cannot announce a caught booster @mobile', asyn
   const values = await page.evaluate(() => {
     const debug = (window as unknown as { __simDebug: SimDebug }).__simDebug;
     debug.pause();
-    debug.setScenario('rtls', { altitude: 90.501, xPosition: 3, speedX: 0, speedY: -1, pitch: 0 });
+    debug.setScenario('rtls', { altitude: 90.501, xPosition: 3, speedX: 0, speedY: -1, pitch: 0 as Deg });
     debug.step(1);
     return debug.telemetry();
   });

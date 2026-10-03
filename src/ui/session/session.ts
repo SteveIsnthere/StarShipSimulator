@@ -330,6 +330,7 @@ export function createSession(): Session {
     },
     ...preferences,
     dismissDebrief() {
+      histories.dismissDebrief();
       set({ debrief: null });
     },
     zoom(direction) {

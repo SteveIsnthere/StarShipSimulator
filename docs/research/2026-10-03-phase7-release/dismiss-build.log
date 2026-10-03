@@ -1,0 +1,6 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/e2e/booster-catch.spec.ts(60,88): error TS2322: Type 'number' is not assignable to type 'Deg'.
+  Type 'number' is not assignable to type '{ readonly [DEG]: true; }'.

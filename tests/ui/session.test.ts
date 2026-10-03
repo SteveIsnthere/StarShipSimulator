@@ -15,6 +15,43 @@ import { EMPTY_FIELDS } from '$app/menu';
 beforeEach(() => void installMemoryStorage());
 
 describe('flights', () => {
+  it('keeps a dismissed debrief closed through paused frames and creates a new report after restart', () => {
+    const session = createSession();
+    session.store.setState({ hintSeen: true });
+    session.loop.state.failures.crashed = true;
+    session.advance(DT);
+    expect(session.store.getState().debrief?.outcome).toBe('CRASH');
+    session.dismissDebrief();
+    session.togglePause();
+    session.advance(0);
+    expect(session.store.getState().debrief).toBeNull();
+    session.advance(DT);
+    expect(session.store.getState().debrief).toBeNull();
+    session.restart();
+    session.togglePause();
+    session.loop.state.failures.crashed = true;
+    session.advance(DT);
+    expect(session.store.getState().debrief?.outcome).toBe('CRASH');
+  });
+
+  it('dismisses only the selected body report and remembers that dismissal when selection returns', () => {
+    const session = createSession();
+    session.startHotStage(123); session.stage();
+    for (let i = 0; i < 180; i++) session.advance(DT);
+    session.mission!.ship.failures.inFlightBreakUp = true;
+    session.mission!.booster.failures.inFlightBreakUp = true;
+    session.advance(DT);
+    const shipCard = session.store.getState().debrief;
+    expect(shipCard?.outcome).toBe('LOSS');
+    session.dismissDebrief(); session.advance(0);
+    expect(session.store.getState().debrief).toBeNull();
+    session.selectVehicle('super-heavy');
+    expect(session.store.getState().debrief?.outcome).toBe('LOSS');
+    expect(session.store.getState().debrief).not.toBe(shipCard);
+    session.selectVehicle('ship'); session.advance(0);
+    expect(session.store.getState().debrief).toBeNull();
+  });
+
   it('configures the selected mission body as its real standalone vehicle', () => {
     const session = createSession();
     session.startHotStage(123);

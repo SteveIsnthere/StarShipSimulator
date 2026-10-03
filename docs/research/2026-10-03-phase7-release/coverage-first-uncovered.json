@@ -1,0 +1,344 @@
+{
+  "core/mission.ts": {
+    "branches": [
+      {
+        "line": 153,
+        "arm": 1
+      }
+    ],
+    "statements": []
+  },
+  "core/autopilot/booster-utilities.ts": {
+    "branches": [
+      {
+        "line": 21,
+        "arm": 1
+      },
+      {
+        "line": 25,
+        "arm": 1
+      },
+      {
+        "line": 27,
+        "arm": 0
+      },
+      {
+        "line": 27,
+        "arm": 1
+      }
+    ],
+    "statements": []
+  },
+  "core/autopilot/booster.ts": {
+    "branches": [
+      {
+        "line": 83,
+        "arm": 1
+      },
+      {
+        "line": 101,
+        "arm": 1
+      },
+      {
+        "line": 114,
+        "arm": 1
+      },
+      {
+        "line": 118,
+        "arm": 0
+      },
+      {
+        "line": 118,
+        "arm": 1
+      },
+      {
+        "line": 124,
+        "arm": 0
+      },
+      {
+        "line": 124,
+        "arm": 1
+      },
+      {
+        "line": 125,
+        "arm": 0
+      },
+      {
+        "line": 125,
+        "arm": 1
+      },
+      {
+        "line": 127,
+        "arm": 1
+      },
+      {
+        "line": 130,
+        "arm": 0
+      },
+      {
+        "line": 130,
+        "arm": 1
+      },
+      {
+        "line": 131,
+        "arm": 0
+      },
+      {
+        "line": 131,
+        "arm": 1
+      },
+      {
+        "line": 187,
+        "arm": 0
+      },
+      {
+        "line": 187,
+        "arm": 2
+      },
+      {
+        "line": 191,
+        "arm": 0
+      },
+      {
+        "line": 195,
+        "arm": 0
+      },
+      {
+        "line": 222,
+        "arm": 2
+      },
+      {
+        "line": 245,
+        "arm": 0
+      },
+      {
+        "line": 254,
+        "arm": 0
+      },
+      {
+        "line": 277,
+        "arm": 0
+      }
+    ],
+    "statements": [
+      121,
+      122,
+      123,
+      124,
+      188,
+      189,
+      191,
+      195,
+      245,
+      255,
+      277
+    ]
+  },
+  "core/autopilot/index.ts": {
+    "branches": [
+      {
+        "line": 105,
+        "arm": 0
+      },
+      {
+        "line": 447,
+        "arm": 1
+      }
+    ],
+    "statements": [
+      105
+    ]
+  },
+  "core/control/actuation.ts": {
+    "branches": [],
+    "statements": [
+      200
+    ]
+  },
+  "core/control/booster-forecast.ts": {
+    "branches": [
+      {
+        "line": 182,
+        "arm": 0
+      },
+      {
+        "line": 183,
+        "arm": 0
+      }
+    ],
+    "statements": [
+      182,
+      184,
+      185,
+      186
+    ]
+  },
+  "core/control/booster-prediction.ts": {
+    "branches": [
+      {
+        "line": 51,
+        "arm": 1
+      },
+      {
+        "line": 79,
+        "arm": 1
+      },
+      {
+        "line": 81,
+        "arm": 1
+      },
+      {
+        "line": 119,
+        "arm": 1
+      },
+      {
+        "line": 130,
+        "arm": 0
+      },
+      {
+        "line": 130,
+        "arm": 0
+      },
+      {
+        "line": 130,
+        "arm": 1
+      },
+      {
+        "line": 132,
+        "arm": 0
+      },
+      {
+        "line": 132,
+        "arm": 1
+      },
+      {
+        "line": 135,
+        "arm": 0
+      },
+      {
+        "line": 145,
+        "arm": 0
+      },
+      {
+        "line": 147,
+        "arm": 0
+      },
+      {
+        "line": 147,
+        "arm": 1
+      },
+      {
+        "line": 147,
+        "arm": 0
+      },
+      {
+        "line": 147,
+        "arm": 1
+      },
+      {
+        "line": 161,
+        "arm": 1
+      },
+      {
+        "line": 163,
+        "arm": 1
+      },
+      {
+        "line": 163,
+        "arm": 1
+      }
+    ],
+    "statements": [
+      130,
+      135,
+      146,
+      147,
+      168
+    ]
+  },
+  "core/control/booster-return-plan.ts": {
+    "branches": [
+      {
+        "line": 42,
+        "arm": 0
+      },
+      {
+        "line": 47,
+        "arm": 1
+      }
+    ],
+    "statements": [
+      44
+    ]
+  },
+  "core/control/commands.ts": {
+    "branches": [
+      {
+        "line": 53,
+        "arm": 1
+      }
+    ],
+    "statements": [
+      132,
+      133
+    ]
+  },
+  "core/control/guidance-physics.ts": {
+    "branches": [
+      {
+        "line": 300,
+        "arm": 0
+      },
+      {
+        "line": 303,
+        "arm": 0
+      },
+      {
+        "line": 357,
+        "arm": 1
+      },
+      {
+        "line": 358,
+        "arm": 1
+      },
+      {
+        "line": 381,
+        "arm": 1
+      }
+    ],
+    "statements": [
+      300,
+      303,
+      307
+    ]
+  },
+  "core/control/primitives.ts": {
+    "branches": [
+      {
+        "line": 226,
+        "arm": 1
+      }
+    ],
+    "statements": [
+      246
+    ]
+  },
+  "core/physics/engines.ts": {
+    "branches": [
+      {
+        "line": 310,
+        "arm": 1
+      }
+    ],
+    "statements": []
+  },
+  "core/physics/step-dynamics.ts": {
+    "branches": [
+      {
+        "line": 102,
+        "arm": 2
+      }
+    ],
+    "statements": []
+  }
+}

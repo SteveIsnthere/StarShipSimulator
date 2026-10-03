@@ -1,0 +1,13 @@
+# Phase7 release work in progress
+
+At87e3f28: complete Mac coverage run2186tests/183files pass in206.28s, exit1 solely for unchanged coverage floors. Aggregate statements98.39/branches95.8%; physicsbranches99.29%; autopilotlines98.52/statements97.29/branches93.57%. Exact raw/summary/uncovered statement and branch locations retained. No full gate or release acceptance.
+
+Fresh high-depth protected review: Claude subscription launcher preflight exited2 with `CLI authentication check failed; inspect native login status. No model was started and no credentials were changed by this helper.` Connected browser inventory onlyIAB/MCPApps; createBrowserTab chrome failed `Browser is not available: chrome`. Fresh in-harness fallback reviewer phase7_release_fresh_review is assessing immutable87e3f28 versus main7a757d7; final report pending. This is not a cross-vendor review.
+
+First reproduced issue: closing a debrief clears store only; per-frame sync restores the per-body historical card, including on paused zero-time advance. RED2new session assertions fail while11existing pass. Fix clears selected history's displayed card while retaining ended state, recorder, timeline and watch; restart resets normal history. No core/golden edits. After build0/lint0,27focused/3files and3actual original-catch desktop browser checks pass; close survives2realRAFs and actual Fly again works. Cleared-card screenshots are retained and RTLS inspected: physical body/tower exposed. All-five updated close checks remain for required full release suite.
+
+A new negative browser fixture had raw numeric pitch0 where brandedDeg is required, detected by the next build. Build-first violation: lead launched focused checks before inspecting that exit2; those initial green results are not acceptance. Correct fixture explicitly brands zero; next build0 precedes final focused/browser acceptance. Both failed build and superseded focused log retained. The earlier functional all-five browser proof remains real, but its full-source type-check claim is superseded by this corrected successful build.
+
+Review also reproduced two unresolved physical defects: booster prediction treats randomFailure preference as realized failure and rejects valid fine catches; separated mission mass-COM velocities are advanced as geometric hull velocities, producing rotational COM drift. Independent repro scripts/report remain pending reviewer completion. Fix each serially under a recorded Bug-fix tier with RED/unchanged golden audit and fresh follow-up; no authority, seed, bounds or floor changes.
+
+Main/live unchanged;70%byphase count,7/8/9 unmerged.

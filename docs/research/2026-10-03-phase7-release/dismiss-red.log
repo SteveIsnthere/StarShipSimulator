@@ -1,0 +1,192 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/ui/session.test.ts (13 tests | 2 failed) 27ms
+     × keeps a dismissed debrief closed through paused frames and creates a new report after restart 7ms
+     × dismisses only the selected body report and remembers that dismissal when selection returns 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/session.test.ts > flights > keeps a dismissed debrief closed through paused frames and creates a new report after restart
+AssertionError: expected { outcome: 'CRASH', …(12) } to be null
+
+- Expected:
+null
+
++ Received:
+{
+  "attitude": {
+    "exceeded": false,
+    "fraction": 0,
+    "limit": 0.09,
+    "value": 0,
+  },
+  "elapsed": 0,
+  "events": [
+    {
+      "at": 0,
+      "id": "LANDING BURN",
+    },
+    {
+      "at": 0,
+      "id": "LOSS",
+    },
+  ],
+  "horizontal": {
+    "exceeded": false,
+    "fraction": 0,
+    "limit": 2,
+    "value": 0,
+  },
+  "miss": {
+    "exceeded": false,
+    "fraction": 0,
+    "limit": 50,
+    "value": 0,
+  },
+  "outcome": "CRASH",
+  "peakG": {
+    "exceeded": false,
+    "fraction": 0,
+    "limit": 13,
+    "value": 0,
+  },
+  "peakHeat": {
+    "exceeded": false,
+    "fraction": 0,
+    "limit": 1533,
+    "value": 0,
+  },
+  "peakQ": {
+    "exceeded": false,
+    "fraction": 0,
+    "limit": 50,
+    "value": 0,
+  },
+  "propellant": {
+    "exceeded": false,
+    "fraction": 0.01,
+    "limit": 1200,
+    "value": 12,
+  },
+  "reasons": [
+    "outside the landing envelope",
+  ],
+  "touchedDown": true,
+  "vertical": {
+    "exceeded": false,
+    "fraction": 0,
+    "limit": 10,
+    "value": 0,
+  },
+}
+
+ ❯ tests/ui/session.test.ts:27:46
+     25|     session.togglePause();
+     26|     session.advance(0);
+     27|     expect(session.store.getState().debrief).toBeNull();
+       |                                              ^
+     28|     session.advance(DT);
+     29|     expect(session.store.getState().debrief).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/ui/session.test.ts > flights > dismisses only the selected body report and remembers that dismissal when selection returns
+AssertionError: expected { outcome: 'LOSS', …(12) } to be null
+
+- Expected:
+null
+
++ Received:
+{
+  "attitude": {
+    "exceeded": false,
+    "fraction": 8.728234819211604,
+    "limit": 0.09,
+    "value": 0.7855411337290443,
+  },
+  "elapsed": 1.4999999999999971,
+  "events": [
+    {
+      "at": 0.008333333333333333,
+      "id": "ATTACHED",
+    },
+    {
+      "at": 0.008333333333333333,
+      "id": "STAGING",
+    },
+    {
+      "at": 1.2083333333333315,
+      "id": "SEPARATION",
+    },
+    {
+      "at": 1.4999999999999971,
+      "id": "LOSS",
+    },
+  ],
+  "horizontal": {
+    "exceeded": false,
+    "fraction": 567.3598609067872,
+    "limit": 2,
+    "value": 1134.7197218135743,
+  },
+  "miss": {
+    "exceeded": false,
+    "fraction": 934.9761318071932,
+    "limit": 50,
+    "value": 46748.80659035966,
+  },
+  "outcome": "LOSS",
+  "peakG": {
+    "exceeded": false,
+    "fraction": 0.0882854608985796,
+    "limit": 13,
+    "value": 1.1477109916815347,
+  },
+  "peakHeat": {
+    "exceeded": false,
+    "fraction": 0.32987102527116713,
+    "limit": 1533,
+    "value": 505.69228174069923,
+  },
+  "peakQ": {
+    "exceeded": false,
+    "fraction": 0.002102662882664688,
+    "limit": 50,
+    "value": 0.10513314413323438,
+  },
+  "propellant": {
+    "exceeded": false,
+    "fraction": 0.9978318629620715,
+    "limit": 1200,
+    "value": 1197.3982355544858,
+  },
+  "reasons": [
+    "structural limits exceeded",
+  ],
+  "touchedDown": false,
+  "vertical": {
+    "exceeded": false,
+    "fraction": 112.08250675589201,
+    "limit": 10,
+    "value": 1120.8250675589202,
+  },
+}
+
+ ❯ tests/ui/session.test.ts:47:46
+     45|     expect(shipCard?.outcome).toBe('LOSS');
+     46|     session.dismissDebrief(); session.advance(0);
+     47|     expect(session.store.getState().debrief).toBeNull();
+       |                                              ^
+     48|     session.selectVehicle('super-heavy');
+     49|     expect(session.store.getState().debrief?.outcome).toBe('LOSS');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 11 passed (13)
+   Start at  01:09:12
+   Duration  1.23s (transform 274ms, setup 0ms, import 542ms, tests 27ms, environment 548ms)
+

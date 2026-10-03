@@ -49,6 +49,7 @@ export function createFlightHistories(controller: MissionController, notify: (ev
         observe(booster, mission.booster, controller.model.id === 'super-heavy');
       }
     },
+    dismissDebrief() { selected().debrief = null; },
     reset() { reset(ship); reset(booster); },
   };
 }
