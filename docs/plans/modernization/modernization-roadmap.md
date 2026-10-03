@@ -76,7 +76,7 @@ Finished phase plans are closed out (`repo-docs-layout`): their record is the me
 - [x] Phase 5 — Guidance on real physics (merged `b84b746`; goldens on the recording platform `3429ea1`)
 - [x] Phase 6 — Ship realism (merged `080f108`, live 2026-10-01 Vancouver time). Complete gate green on main; branch full e2e 438 passed / 0 failed / 11 configured skips. CI `36956332929` and Pages `36956332944` succeeded at the merge SHA. Live deployment smoke 5/5 passed; served service worker matches the verified build byte for byte, cache version `b72a7b0bad39`. Hosted menu smoke needed existing retries on two checks; retained as Phase 9 debt. [Close evidence](../../research/2026-10-01-phase6-close.md). Earth's rate and the parked aero moved to 6b.
 - [x] Phase 6b — Closed under the approved broadside fallback (merged `c2ae5e4`, live 2026-10-02). Task 5/braking/debrief and continuous exhaust fixes ship; body-axis/fin/RCS/Earth-rate remain explicitly parked. Complete main gate, independent high review, final full browser 480 passes / zero failures / 11 configured skips / zero retries, all 21 mutation faults, main CI37071475434/Pages37071475425 and live smoke5/5 pass. All 44 served assets match version3da4ee45585e. Two existing hosted menu flakes remain Phase 9. [Closure evidence](../../research/2026-10-02-phase6b-close.md).
-- [ ] Phase 7 — Super Heavy
+- [x] Phase 7 — Super Heavy (runtime merge `17657d1`, verified harness merge `b3263a9`, live 2026-10-03). Actual main gate289.26s, main CI37128220108/Pages37128220122, post-deploy live13/13 and all44assets+worker pass. Five-project full browser505passes/zero failures/zero retries; all21mutations; all11TierA IN. Pages has two existing menu retry1 flakes, retained Phase9 debt. [Closure evidence](../../research/2026-10-03-phase7-close.md).
 - [ ] Phase 8 — Visuals
 - [ ] Phase 9 — UX to flight_sim level
 
@@ -85,8 +85,6 @@ Phases 7–9 get their phase plan when the phase before them lands, written by t
 
 ## Current checkpoint
 
-Seven of ten phases are complete (70%). Phase 6b is merged and live at `c2ae5e4` under the approved fallback. Current-force/braking/debrief and continuous exhaust fixes ship; the independently reviewed aero family remains parked in the backlog.
+Eight of ten phases are closed (80%). Super Heavy is merged, verified and live. The player can stage and select two physical bodies, fly 33 independent booster engines and four grid fins, and watch a bounded airborne tower catch. Exact main `b3263a9` has a complete green local gate, successful hosted CI/Pages and post-deploy live smoke/served-build verification. See [Phase 7 closure](../../research/2026-10-03-phase7-close.md).
 
-Complete main gate, final full browser, mutation, independent review, hosted CI/Pages and live verification pass. Hosted CI and deploy each have two existing menu visibility flakes passing retry 1; Phase 9 owns the readiness repair. Exact evidence and limits: [Phase 6b closure](../../research/2026-10-02-phase6b-close.md).
-
-Phase 7 Super Heavy is next, followed by Phase 8 Visuals and Phase 9 UX. Its plan is written from the shipped code before implementation. No owner question is pending. The active [goal contract](modernization-GOAL.md) is authoritative; completed diagnosis history remains in research and Git at `3f003ec`.
+[Phase 8 Visuals](modernization-phase-8.md) is next with its full approved scope, followed by Phase 9 UX. Two hosted menu readiness flakes and the [per-scenario final audit](../../research/2026-10-03-phase7-release/scenario-completion-audit.md) remain explicit Phase 9 obligations. Approved Phase 6b parked aero stays named in the backlog. No owner question is pending.

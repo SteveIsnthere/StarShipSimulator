@@ -194,3 +194,15 @@ Finalscenarioaudit: ALL_SCENARIOS9ids; rootauto-land assertions5ids, introhandov
 
 
 Hosted coverage repair CI37126601784 COMPLETE success on01b7c2f: job1,143s≤1,200s,194/2293unit152/2062coverage/originalfloors, prior booster timeout now48.675s<120s. Two existing menu visibility flakes retry1 remain Phase9 debt; deploy5pass. Independent final affected acceptance clean. Commit evidence/merge then actual timed main gate+CI/Pages/live before tick7; Phase8 still not started. Raw/result in hosted-timeout/ci-cap-success.txt and hosted-acceptance.md.
+
+
+Reviewed repair merged locally to mainb3263a9. Actual timed main gate terminal53681 running; logs /tmp/starship-phase7-cap-main-gate.txt and /tmp/starship-phase7-cap-main-time.txt. Do not restart or edit tested main source. Gate→push→actualmainCI/Pages/live→tick7/deleteplan→claude/visuals. Repo-docs-maid check COMPLETE0/zero warnings. No Phase8 implementation.
+
+
+Mainb3263a9 pushed. Actualgate53681 COMPLETE0/289.26s≤300, all1942293unit1522062coverage/originalfloors/13smoke5subpath/zero retries.35coremaps/s/f exact; known gravity118/161 randomzero arms conserved. All44liveassets+sw1d54d86aae7a TLS verified. Live13smoke91391 COMPLETE0/13passes/zero retries. MainCI37128220108/read-onlywatch59175 and Pages37128220122/watch80519 running; do not restart/supersede. Terminalactualacceptance stillrequired before tick7/Phase8implementation. Evidencehosted-timeout/main/.
+
+
+MainCI37128220108 COMPLETEsuccess/577s≤1,200/all1942293unit1522062coverage/originalfloors/13smoke5subpath/zero retries; watch59175 COMPLETE0. Rawhosted-timeout/main/ci-success.txt. Pages37128220122 still running (existingwatch80519); its gate remains the only Phase7closurewait. No localheavycheck or Phase8implementation.
+
+
+Phase7 CLOSED atverifiedmainb3263a9: actualmainCI37128220108 success577s≤1,200/zero retries; Pages37128220122 success876sbuild+actualpublication14:16:49UTC; postdeploy live24438 COMPLETE0/13passes16.2s/zero retries; all44assets+worker1d54d86aae7a match/TLS. Localmain289.26s; all505browser/21mutations/11TierA IN/freshhighreviews retained. Pages2existingmenu retry1flakes remain Phase9. Closure research2026-10-03-phase7-close.md.80%roadmap; deletecompleted7plan, reviewedclosuremerge, createclaude/visuals frommain and execute saved8Task1 thenall8/9. Noownerquestion/localcheck/watch active.
