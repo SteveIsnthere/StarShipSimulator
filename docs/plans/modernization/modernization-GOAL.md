@@ -3,7 +3,7 @@
 Continue independently through ONLY this roadmap:
 /Users/stevewang/dev/StarShipSimulator-realism/docs/plans/modernization/modernization-roadmap.md
 
-Run from `/Users/stevewang/dev/StarShipSimulator-realism`. Each phase uses its own `claude/<slug>` branch from `main` and merges back into `main`. Phases 6 and 6b are merged and live at `080f108` and `c2ae5e4`. Documentation closure is merged/pushed at `7a757d7`; its complete main gate passes. This worktree now runs `claude/super-heavy` from updated main. Do not recreate completed phase branches.
+Run from `/Users/stevewang/dev/StarShipSimulator-realism`. Each phase uses its own `claude/<slug>` branch from `main` and merges back into `main`. Phases 6 and 6b are merged and live at `080f108` and `c2ae5e4`. Documentation closure is merged/pushed at `7a757d7`; its complete main gate passes. Phase7 documentation closure is merged/pushed at `e8a06ff`. This worktree now runs `claude/visuals`, created from that updated main. Do not recreate completed phase branches.
 
 There is no Jira board. The roadmap, phase plans, handover and `docs/plans/backlog/README.md` are the system of record.
 
@@ -26,7 +26,7 @@ All implementation, diagnosis, reviewed findings, rejected approaches, raw check
 
 ## First task
 
-**NEXT ACTION:** Commit and merge the reviewed Phase 7 documentation closure to main. Do not repeat its successful runtime release checks. Create `claude/visuals` from updated main in this worktree, then execute Task 1 of `modernization-phase-8.md`: build the accessible six-scene visual-direction HTML, verify desktop/phone and full/reduced modes in a real browser, and publish its private review page.
+**NEXT ACTION:** Execute Task 1 of `modernization-phase-8.md` on existing `claude/visuals`: build the accessible six-scene visual-direction HTML, verify desktop/phone and full/reduced modes in a real browser, and publish its private review page. Phase7 closure is reviewed and merged at `e8a06ff`; do not recreate its branch or repeat successful runtime checks.
 
 All four visual areas, full-frame budgets of 16.67 ms desktop / 33.33 ms phone, cadence of at least 59 / 29.5 fps, and all six scene screenshots remain required. Phase 7's gate, CI, Pages and live handles are complete; do not resume or restart them. No owner question or local heavy check is active. Phase 9's exact per-id root-file landing/catch audit and the final last-three-main-CI requirement remain unchanged.
 

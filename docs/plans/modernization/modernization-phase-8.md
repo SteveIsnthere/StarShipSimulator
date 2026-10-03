@@ -168,4 +168,4 @@ Retain current4000 capacity ceiling and original occupancy/coverage witnesses. A
 
 ## Execution ledger
 
-No implementation started. Phase7 main/live closure must finish first. Native execution and the full Phase8 scope are already approved. Skill handoff confirmation and default plan directory are overridden by the standing goal. Ruling: persist the next phase plan while the last Phase7 hosted follow-up finishes; implementation remains blocked on truthful Phase7 closure. This preserves the plan without skipping the dependency.
+Phase7 main/live closure is complete and its documentation is merged at e8a06ff. Branch claude/visuals is created from that main. Task1 is in progress; no runtime implementation has started. Native execution and the full Phase8 scope are already approved. Skill handoff confirmation and default plan directory are overridden by the standing goal. Ruling: persist the next phase plan while the last Phase7 hosted follow-up finishes; implementation remains blocked on truthful Phase7 closure. This preserves the plan without skipping the dependency.
