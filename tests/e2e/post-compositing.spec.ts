@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test';
 import { build } from 'esbuild';
+import { writeFile } from 'node:fs/promises';
 import type { CompositeReport, WitnessKind } from './renderer/post-witness';
 import type { SamplingRow } from './renderer/post-sampling';
 
 test('engine and ground glare follow firing with absence and paused controls @mobile', async ({ page }) => {
   await openWitness(page);
-  const report = await page.evaluate(() => (window as unknown as {
+  const { capture, ...report } = await page.evaluate(() => (window as unknown as {
     engineGlareWitness: typeof import('./renderer/engine-glare-witness').engineGlareWitness;
   }).engineGlareWitness());
   console.log('[engine-glare]', report);
@@ -17,7 +18,9 @@ test('engine and ground glare follow firing with absence and paused controls @mo
   expect(report.shutdownEnergy).toBe(0);
   expect(report.pausedDifference).toBe(0);
   expect(report.bloomMinimum).toBeGreaterThanOrEqual(-1);
-  await page.screenshot({ path: test.info().outputPath('engine-and-ground-glare.png') });
+  // The witness releases its renderer before returning. Save its actual
+  // canvas capture taken before teardown, rather than the now-empty page.
+  await writeFile(test.info().outputPath('engine-and-ground-glare.png'), Buffer.from(capture.split(',')[1]!, 'base64'));
 });
 
 let source: string;

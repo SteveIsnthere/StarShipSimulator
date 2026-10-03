@@ -68,7 +68,8 @@ export async function engineGlareWitness() {
     bloomMinimum = Math.min(bloomMinimum, bloomed[i]! - lit[i]!);
   }
   const result = { offEnergy, engineEnergy: energy(lit) - energy(lit, true), groundEnergy: energy(lit, true),
-    farGroundEnergy, failedEnergy, shutdownEnergy, pausedDifference, bloomMinimum };
+    farGroundEnergy, failedEnergy, shutdownEnergy, pausedDifference, bloomMinimum,
+    capture: app.canvas.toDataURL() };
   post.destroy(); glare.destroy(); uninstall();
   app.destroy(true, { children: true });
   atlas.soft.source.destroy();

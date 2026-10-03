@@ -4,9 +4,9 @@
     "src/view/engine-glare.ts": "475b9030b11690f13c9dfdcff2014d4992fc3fcb6e874b70acc8953f83098a67",
     "src/ui/session/scene-vehicles.ts": "635902437e80b2f556eb45d9cab070c7b5dcd728d7f26acc82d93f48fce7859e",
     "tests/view/engine-glare.test.ts": "09a75ca76e639b17b93b481ae1aa876ed3844fc243e278ffb50ba6a0d4e0f3b7",
-    "tests/e2e/renderer/engine-glare-witness.ts": "4e4f0914478d572f5ce5288057eb5faaa4ec4514f7bd837b459a7b5a100cc7dc",
+    "tests/e2e/renderer/engine-glare-witness.ts": "79e1163c9984e2e23d383ffe323b7a5a3681b63393454776e620055280c0df05",
     "tests/e2e/renderer/post-witness.ts": "39fb1ca77c048ef088de638e47c50e61576e153a9ded24b6ee4cf25126c3ef8b",
-    "tests/e2e/post-compositing.spec.ts": "c2f483974b45fe0f3c5d0182f06e2dfa952c02a8c13744f56f764600582a9694"
+    "tests/e2e/post-compositing.spec.ts": "1c2f04c95428dd9adc2f5efc89dcd445fac3115deae44fb065f7920baacdfbdc"
   },
   "protectedDiff": ""
 }
