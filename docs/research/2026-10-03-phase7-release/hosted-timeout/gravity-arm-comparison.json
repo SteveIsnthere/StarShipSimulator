@@ -1,0 +1,38 @@
+[
+  {
+    "line": 109,
+    "baseline": [
+      676470165,
+      288209
+    ],
+    "current": [
+      676470168,
+      288206
+    ],
+    "sameTotalAndCoveredArms": true
+  },
+  {
+    "line": 118,
+    "baseline": [
+      137,
+      206
+    ],
+    "current": [
+      139,
+      204
+    ],
+    "sameTotalAndCoveredArms": true
+  },
+  {
+    "line": 161,
+    "baseline": [
+      44626830,
+      288196
+    ],
+    "current": [
+      44626829,
+      288197
+    ],
+    "sameTotalAndCoveredArms": true
+  }
+]

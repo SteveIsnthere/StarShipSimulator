@@ -1,0 +1,5 @@
+# Fresh independent diagnosis review
+
+Reviewer /root/gate_cycle3_fresh_review, same-harness independent fallback. Observed broad covered-suite slowdown and testCPU-sum1403.87/wall517.92 establish at leastthree simultaneoustestworkers. Recommend Linuxbatchcoverage capmin(2,max(1,availableParallelism−1)); this does notincrease2coredefault1. Mac6/Linuxunit/watch/forks/isolation/provider/timeouts/flights/assertions/floors unchanged. Smallerworker count addressesconcurrentV8work, notprovedbeforemeasurement. Reject projectserialization: moremachinery withoutstrongerevidence. Refresh onlyreviewedconfig sealinput; all42closuresunchanged. Actuallocal+branchhost acceptancebeforemainmerge. Docs3findings areclosed(camera4args/full-framebudget+cadence/stalestatus).
+
+Final appliedsourceassessment: exact Linuxcoverage condition/smaller-machine formula preserved; Mac/Linuxunit/watch/forks/isolation/timeouts/assertions intact, currentseal42roots. No affected-source blocker; docs3findingsclosed. ActualtimedMacgate and changed-harness hostedbranchtrial stillrequired.

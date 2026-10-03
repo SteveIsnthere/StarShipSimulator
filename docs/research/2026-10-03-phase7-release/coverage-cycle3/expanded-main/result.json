@@ -1,0 +1,17 @@
+{
+  "mainSha": "282f141d6a573f069cb89f907a6d08a1becff909",
+  "session": 50829,
+  "exitCode": 0,
+  "wallSeconds": 294.66,
+  "budgetSeconds": 300,
+  "unitFiles": 194,
+  "unitTests": 2293,
+  "coverageFiles": 152,
+  "coverageTests": 2062,
+  "smoke": 13,
+  "subpath": 5,
+  "coverageFloors": "all original floors pass",
+  "hostedCI": 37125079180,
+  "pages": 37125079092,
+  "hostedStatus": "pending"
+}

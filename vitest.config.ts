@@ -21,10 +21,12 @@ export default defineConfig({
     },
   },
   test: {
-    // Bounded Mac batch runs can use the sixth core. Watch and Linux retain
-    // their defaults; forks and per-file isolation remain unchanged.
+    // Mac batches use six cores; Linux coverage caps competing V8 work at two.
+    // Linux unit/watch and smaller-machine defaults remain unchanged.
     ...(process.platform === 'darwin' && process.argv.includes('run')
       ? { maxWorkers: Math.min(6, availableParallelism()) } : {}),
+    ...(process.platform === 'linux' && process.argv.includes('run') && process.argv.includes('--coverage')
+      ? { maxWorkers: Math.min(2, Math.max(1, availableParallelism() - 1)) } : {}),
     // core/ must run in plain Node with no browser. Keeping the default
     // environment enforces that: a DOM leak into core/ fails here, not in review.
     environment: 'node',

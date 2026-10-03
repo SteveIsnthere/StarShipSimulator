@@ -1,0 +1,6 @@
+{
+  "vitest.config.ts": "4debcf42809334dfc4fefcc4f8d7274fbdcfdc429d7fc99b06310eea588061b0",
+  "tests/coverage-exclusions.json": "b48eb2f2348b72e57f20847b54e52f3ed1fb99ed7051d89561345cc994deac52",
+  "scripts/coverage-exclusions.mjs": "e3cdb55da04d0a6b7cc68adb17d8de062093a1c71f165907ed199f646f40ebad",
+  "tests/coverage-exclusions.test.ts": "d6570d5aafca616bd7cf0b2ab34423359d0d6f3778bc39adc73fcbbf8810be72"
+}

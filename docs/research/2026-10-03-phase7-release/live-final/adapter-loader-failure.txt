@@ -1,0 +1,4 @@
+(node:84185) Warning: Failed to load the ES module: /private/tmp/starship-phase7-live-smoke/tests/e2e/screenshot.spec.ts. Make sure to set "type": "module" in the nearest package.json file or use the .mjs extension.
+(Use `node --trace-warnings ...` to show where the warning was created)
+SyntaxError: Cannot use 'import.meta' outside a module
+
