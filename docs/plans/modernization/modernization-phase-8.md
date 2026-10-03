@@ -82,7 +82,7 @@ expect(sl.diamonds).toBe(0);
 - [x] Write RED tests for tileGlow(300)=0, tileGlow(1533)>tileGlow(900)>0, finite handling and monotonicity; scene witnesses for independently injected hot/cold surface temperatures at equal flux, opposite windward sides, selected booster and pause/restart.
 - [x] Build/test RED; implement smooth authored incandescence onset at800K, full by1533K with no physical threshold change. Separate skin color/emission from atmospheric shell strength. Keep actual flux-driven plasma/windward direction; preserve inset thresholds and original cold visibility witnesses.
 - [x] Add belly heat-shield material shading/detail driven by hull orientation and shared sun. Geometry is startup-owned; redraw only on geometry/quality changes.
-- [ ] Run pure/graph tests and existing reentry/hot/cold pixel witnesses, record actual six-scene captures; commit/push `feat(view): show surface temperature separately from plasma`.
+- [x] Run pure/graph tests and existing reentry/hot/cold pixel witnesses, record actual six-scene captures; commit/push `feat(view): show surface temperature separately from plasma`.
 
 Start the meaningful curve witness with:
 
