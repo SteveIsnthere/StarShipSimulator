@@ -7,6 +7,10 @@ import { tangentialAcceleration, verticalGravityAcceleration } from '$core/physi
 import { SHIP } from '$core/vehicle';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import * as C from '$core/constants';
+import { cloneState } from '$core/state';
+import { rad } from '$core/units';
+import { advanceMissionMechanics, stepMissionBody } from '$core/mission-free-flight';
+import { runBoosterPolicy } from '$core/autopilot/booster';
 const DT = 1 / 120;
 
 function release() {
@@ -37,6 +41,49 @@ function integrate(x: number, y: number, vx: number, vy: number, fx: number, fy:
 }
 
 describe('physical COM continuation after real paid Stage', () => {
+  it('replays paid mission mechanics and wind exactly without consuming the source or shared scratch', () => {
+    const m = release(), s = m.booster;
+    s.kinematics.altitude = 1000; s.kinematics.distanceToPlanetCenter = C.planetRadius + 1000;
+    s.kinematics.speedX = 20; s.kinematics.speedY = -20;
+    s.world.wind = 10; s.world.gust = 2; s.world.gustVertical = -1;
+    s.autopilot.autoLandOn = true; s.autopilot.boosterPhase = 'entry';
+    s.engines.running[0] = true;
+    const before = cloneState(s);
+    const live = stepMissionBody(s, DT, {}, SUPER_HEAVY);
+    const replay = advanceMissionMechanics(s, DT, runBoosterPolicy, SUPER_HEAVY);
+    for (const key of ['world', 'kinematics', 'engines', 'vehicle', 'rng', 'forces', 'failures', 'status'] as const)
+      expect(replay[key], key).toEqual(live[key]);
+    expect(replay.forces.thrust).toBeGreaterThan(0);
+    expect(replay.vehicle.propellantMass).toBeLessThan(s.vehicle.propellantMass);
+    expect(replay.rng.counters.turbulence).toBeGreaterThan(s.rng.counters.turbulence);
+    stepMissionBody(m.ship, DT, {}, SHIP);
+    expect(advanceMissionMechanics(s, DT, runBoosterPolicy, SUPER_HEAVY)).toEqual(replay);
+    expect(s).toEqual(before);
+  });
+  it.each([{ pitchControl: 30 }, { throttle: 60 }])('invalidates an obsolete mission cutoff before manual input %j', input => {
+    const s = release().booster;
+    s.autopilot.autoLandOn = true; s.autopilot.boosterPhase = 'boostback';
+    s.autopilot.boosterReturnPlan = { originTime: 0, shutdownAt: 0, coastPitch: rad(0),
+      handoff: { x: 0, height: 100, vx: 0, vy: -20, time: 10, lateralFeasible: true } };
+    const before = cloneState(s), next = stepMissionBody(s, DT, input, SUPER_HEAVY);
+    expect(next.autopilot.boosterReturnPlan).toBeUndefined();
+    expect(next.autopilot.boosterPhase).toBe('boostback');
+    const origin = next.autopilot.boosterPrediction!.origin;
+    expect(origin.vehicle).toEqual(next.vehicle);
+    expect(origin.kinematics).toEqual(next.kinematics);
+    expect(s).toEqual(before);
+  });
+  it.each([SHIP, SUPER_HEAVY])('supports the %s hull on the ground without sinking, creeping or rotating', model => {
+    const m = release(), s = model.id === 'ship' ? m.ship : m.booster, k = s.kinematics;
+    k.altitude = model.height / 2; k.distanceToPlanetCenter = C.planetRadius + k.altitude;
+    k.pitch = rad(0); k.angularVelocity = k.angularAcceleration = k.speedX = k.speedY = 0;
+    s.status.onTheGround = true; s.status.landed = false;
+    const next = stepMissionBody(s, DT, {}, model);
+    expect(next.kinematics.altitude).toBe(model.height / 2);
+    expect(next.kinematics.speedX).toBe(0); expect(next.kinematics.speedY).toBe(0);
+    expect(next.kinematics.angularVelocity).toBe(0); expect(next.status.onTheGround).toBe(true);
+    expect(next.status.landed).toBe(false); expect(next.failures.crashed).toBe(false);
+  });
   it('keeps both unequal mass offsets on force-only trajectories through120 rotating free steps', () => {
     let m = release();
     for (let tick = 0; tick < 120; tick++) {

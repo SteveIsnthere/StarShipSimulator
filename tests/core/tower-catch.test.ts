@@ -67,6 +67,23 @@ describe('physical catch eligibility',()=>{
 });
 
 describe('secured tower contact',()=>{
+  it('rejects even a quarter-metre-per-second booster ground descent, while zero-speed support remains safe',()=>{
+    for (const model of [SHIP, SUPER_HEAVY]) {
+      const s=createInitialState(123,model);
+      s.kinematics.altitude=model.height/2;
+      s.kinematics.distanceToPlanetCenter=C.planetRadius+s.kinematics.altitude;
+      s.status.onTheGround=false;s.kinematics.speedY=-.25;
+      const grounded=step(s,1/120,{},model);
+      expect(grounded.failures.crashed).toBe(model.id==='super-heavy');
+      expect(grounded.status.landed).toBe(false);
+      expect(grounded.kinematics.speedY).toBe(0);
+      s.kinematics.speedY=0;
+      const supported=step(s,1/120,{},model);
+      expect(supported.failures.crashed).toBe(false);
+      expect(supported.status.landed).toBe(false);expect(supported.status.onTheGround).toBe(true);
+      expect(supported.kinematics.altitude).toBe(model.height/2);
+    }
+  });
   it('secures the actual interpolated crossing pose, cancels all engines and preserves remaining fuel',()=>{
     const {previous,current}=crossing();
     previous.kinematics.downRangeDistance=C.starBaseXPos-1;

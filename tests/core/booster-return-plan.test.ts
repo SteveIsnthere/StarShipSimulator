@@ -1,6 +1,6 @@
 /** Decision provenance/validity is separate from raw forecast telemetry. */
 import { describe, expect, it } from 'vitest';
-import { proposeBoosterBurn, proposeBoosterRefinement, acceptBoosterReturnPlan } from '$core/control/booster-return-plan';
+import { proposeBoosterBurn, proposeBoosterProbe, proposeBoosterRefinement, acceptBoosterReturnPlan } from '$core/control/booster-return-plan';
 import { createBoosterForecast } from '$core/control/booster-forecast';
 import { rad } from '$core/units';
 
@@ -11,6 +11,18 @@ function candidate(duration:number,error:number,origin=10) {
   return {originTime:origin,burnDuration:duration,shutdownAt:origin+duration,coastPitch:rad(0),forecast};
 }
 describe('source-consistent paid booster return decisions',()=>{
+  it('uses a same-source paid response only to propose a future probe inside the fuel interval',()=>{
+    const first=candidate(2,1000),second=candidate(4,500),snapshot=structuredClone([first,second]);
+    expect(proposeBoosterProbe(first,second,10)).toBe(6);
+    expect(proposeBoosterProbe(first,second,5)).toBeUndefined();
+    expect(proposeBoosterProbe(first,candidate(4,1000),10)).toBeUndefined();
+    expect(proposeBoosterProbe(first,candidate(4,-500),10)).toBeUndefined();
+    expect(proposeBoosterProbe(first,{...second,originTime:11},10)).toBeUndefined();
+    expect(proposeBoosterProbe(first,{...second,coastPitch:rad(.1)},10)).toBeUndefined();
+    expect(proposeBoosterProbe(second,first,10)).toBeUndefined();
+    expect(acceptBoosterReturnPlan(second,false,10)).toBeUndefined();
+    expect([first,second]).toEqual(snapshot);
+  });
   it('proposes a paid continuation strictly inside a mechanically observed sign bracket',()=>{
     const low=candidate(2,800),high=candidate(6,-800);
     expect(proposeBoosterBurn(low,high)).toBe(4);

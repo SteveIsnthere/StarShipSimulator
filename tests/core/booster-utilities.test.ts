@@ -8,10 +8,30 @@ import { getTotalMaxThrust } from '$core/physics/engines';
 import { localGravity } from '$core/control/guidance-physics';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import { rad } from '$core/units';
+import * as C from '$core/constants';
+import { centreOfMass } from '$core/physics/mass';
 
 const booster = () => createScenarioVehicle(getScenario('rtls')!).state;
 
 describe('booster utility autopilot modes', () => {
+  it.each([25_000, 52_500, 80_000, 100_000])('continues an already lit ascent through the pitch programme at %s metres', altitude => {
+    const state = booster();
+    state.kinematics.altitude = altitude; state.kinematics.pitch = rad(0);
+    state.kinematics.speedX = state.kinematics.speedY = state.kinematics.angularVelocity = 0;
+    state.atmosphere.airDensity = 0; state.forces.thrust = 0;
+    state.engines.running[0] = true; state.autopilot.autoTakeOffOn = true;
+    const draws = structuredClone(state.rng);
+    const goal = altitude === 25_000 ? C.aomAt_25km
+      : altitude === 52_500 ? (C.aomAt_25km + C.aomAt_80km) / 2 : C.aomAt_80km;
+    const demand = goal / 9 * state.vehicle.vehicleMomentOfInertia
+      / (SUPER_HEAVY.rcsStation - centreOfMass(state.vehicle.propellantMass, SUPER_HEAVY));
+    runAutopilot(state, 1 / 120, SUPER_HEAVY);
+    expect(state.engines.running.filter(Boolean)).toHaveLength(1);
+    expect(state.engines.ignitionCountdown.every(value => value === null)).toBe(true);
+    expect(state.rng).toEqual(draws);
+    expect(state.autopilot.rcsThrustCommand).toBe(Math.min(C.rcsMaxThrust, demand));
+    expect(state.autopilot.autoTakeOffInitialised).toBe(true);
+  });
   it('sets the pressure guard throttle using actual thirteen-engine thrust', () => {
     const state = booster();
     state.engines.running.fill(false);

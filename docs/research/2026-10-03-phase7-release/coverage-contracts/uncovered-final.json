@@ -1,0 +1,317 @@
+{
+  "core/mission.ts": {
+    "branches": [
+      {
+        "line": 161,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      }
+    ],
+    "statements": []
+  },
+  "core/autopilot/booster.ts": {
+    "branches": [
+      {
+        "line": 125,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 125,
+            "column": 39
+          },
+          "end": {
+            "line": 125,
+            "column": 44
+          }
+        }
+      },
+      {
+        "line": 277,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 277,
+            "column": 4
+          },
+          "end": {
+            "line": 277,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 277,
+          "column": 93
+        },
+        "end": {
+          "line": 277,
+          "column": null
+        }
+      }
+    ]
+  },
+  "core/autopilot/index.ts": {
+    "branches": [
+      {
+        "line": 447,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 447,
+            "column": 52
+          },
+          "end": {
+            "line": 447,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": []
+  },
+  "core/control/booster-prediction.ts": {
+    "branches": [
+      {
+        "line": 133,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "line": 138,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 138,
+            "column": 4
+          },
+          "end": {
+            "line": 138,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 148,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 148,
+            "column": 2
+          },
+          "end": {
+            "line": 151,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 150,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 150,
+            "column": 4
+          },
+          "end": {
+            "line": 150,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 150,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 150,
+            "column": 55
+          },
+          "end": {
+            "line": 150,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 150,
+        "arm": 0,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 150,
+            "column": 7
+          },
+          "end": {
+            "line": 150,
+            "column": 23
+          }
+        }
+      },
+      {
+        "line": 150,
+        "arm": 1,
+        "type": "binary-expr",
+        "location": {
+          "start": {
+            "line": 150,
+            "column": 23
+          },
+          "end": {
+            "line": 150,
+            "column": 36
+          }
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 138,
+          "column": 28
+        },
+        "end": {
+          "line": 138,
+          "column": 47
+        }
+      },
+      {
+        "start": {
+          "line": 149,
+          "column": 10
+        },
+        "end": {
+          "line": 149,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 150,
+          "column": 4
+        },
+        "end": {
+          "line": 150,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 150,
+          "column": 36
+        },
+        "end": {
+          "line": 150,
+          "column": 55
+        }
+      },
+      {
+        "start": {
+          "line": 150,
+          "column": 55
+        },
+        "end": {
+          "line": 150,
+          "column": null
+        }
+      }
+    ]
+  },
+  "core/control/commands.ts": {
+    "branches": [
+      {
+        "line": 53,
+        "arm": 1,
+        "type": "if",
+        "location": {
+          "start": {},
+          "end": {}
+        }
+      }
+    ],
+    "statements": []
+  },
+  "core/control/guidance-physics.ts": {
+    "branches": [
+      {
+        "line": 300,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 300,
+            "column": 6
+          },
+          "end": {
+            "line": 300,
+            "column": null
+          }
+        }
+      },
+      {
+        "line": 303,
+        "arm": 0,
+        "type": "if",
+        "location": {
+          "start": {
+            "line": 303,
+            "column": 4
+          },
+          "end": {
+            "line": 303,
+            "column": null
+          }
+        }
+      }
+    ],
+    "statements": [
+      {
+        "start": {
+          "line": 300,
+          "column": 23
+        },
+        "end": {
+          "line": 300,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 303,
+          "column": 40
+        },
+        "end": {
+          "line": 303,
+          "column": null
+        }
+      },
+      {
+        "start": {
+          "line": 307,
+          "column": 2
+        },
+        "end": {
+          "line": 307,
+          "column": null
+        }
+      }
+    ]
+  }
+}

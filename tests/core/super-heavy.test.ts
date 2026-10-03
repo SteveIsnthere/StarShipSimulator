@@ -5,7 +5,7 @@ import { SUPER_HEAVY, CENTRE_ENGINES, RETURN_ENGINES, CATCH } from '$core/vehicl
 import { ALL_SCENARIOS, PRESETS, createScenarioState, createScenarioVehicle } from '$core/scenarios';
 import { SHIP } from '$core/vehicle';
 import { createInitialState, cloneState } from '$core/state';
-import { commandIgnition, tickIgnition, shutdownEngine, getTotalMaxThrust, getFuelFlowRate, gimballedShare } from '$core/physics/engines';
+import { commandIgnition, tickIgnition, shutdownEngine, getTotalMaxThrust, getFuelFlowRate, gimballedShare, getOffAxisThrustTorque } from '$core/physics/engines';
 import { centreOfMass, momentOfInertia } from '$core/physics/mass';
 import { step } from '$core/step';
 import { rad } from '$core/units';
@@ -45,6 +45,16 @@ describe('actual booster preset identity', () => {
 });
 
 describe('booster paid propulsion and moving mass', () => {
+  it.each([0, 101.325])('keeps a fixed RVac mount torque independent of gimbal at %s kPa', pressure => {
+    const running = [false, false, false, true, false, false];
+    // Ship RVac3 is physically at -3m; its fixed axis must never follow a
+    // commanded gimbal. This general mount helper accepts either vehicle.
+    const expected = 3 * C.thrustPerRVacAt(pressure) * 40 * .01;
+    for (const gimbal of [-15, 0, 15])
+      expect(getOffAxisThrustTorque(running, 40, pressure, rad(gimbal * Math.PI / 180), SHIP)).toBe(expected);
+    running[3] = false;
+    expect(getOffAxisThrustTorque(running, 40, pressure, rad(.1), SHIP)).toBe(0);
+  });
   it('sums all33 engines and only the13 steerable engines supply gimbal authority', () => {
     const all=flags(Array.from({length:33},(_,i)=>i));
     expect(getTotalMaxThrust(all,101.325,SUPER_HEAVY)).toBe(33*2255529.5);

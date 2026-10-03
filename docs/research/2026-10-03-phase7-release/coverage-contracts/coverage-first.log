@@ -1,0 +1,125 @@
+
+> starship-simulator-v2@0.1.0 coverage
+> vitest run --coverage --testTimeout=120000
+
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+      Coverage enabled with v8
+
+(node:61105) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61107) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:61104) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:61106) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:61108) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61113) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61114) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61116) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61115) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61117) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61118) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61119) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61120) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61121) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61122) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61123) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61124) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61125) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61126) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61127) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61129) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61128) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61130) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61131) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61132) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61133) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61134) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61135) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61136) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:61297) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+(node:61319) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  187 passed (187)
+      Tests  2242 passed (2242)
+   Start at  02:13:46
+   Duration  198.20s (transform 5.88s, setup 2.12s, import 66.34s, tests 843.75s, environment 24.35s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   99.35 |    98.68 |   99.33 |   99.63 |                   
+ core              |     100 |    98.98 |     100 |     100 |                   
+  mission.ts       |     100 |     97.5 |     100 |     100 | 161               
+ core/autopilot    |   99.63 |    99.08 |     100 |     100 |                   
+  booster.ts       |   99.51 |    98.67 |     100 |     100 | 125,277           
+  index.ts         |   99.67 |     99.2 |     100 |     100 | 105,447           
+ core/control      |   98.27 |    97.78 |   97.97 |   98.82 |                   
+  actuation.ts     |   97.95 |      100 |   88.88 |   97.82 | 200               
+  ...prediction.ts |    95.1 |    94.44 |     100 |   97.22 | 149-150,171       
+  commands.ts      |   95.23 |    95.23 |   94.73 |   94.28 | 132-133           
+  ...ce-physics.ts |   98.05 |    95.16 |     100 |   99.26 | 307               
+  primitives.ts    |   99.33 |    99.05 |     100 |   99.31 | 246               
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 99.35% ( 2476/2492 )
+Branches     : 98.68% ( 1429/1448 )
+Functions    : 99.33% ( 298/300 )
+Lines        : 99.63% ( 2168/2176 )
+================================================================================
+ERROR: Coverage for branches (98.68%) does not meet global threshold (99%)
