@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-prediction.test.ts (16 tests | 2 failed | 14 skipped) 9ms
+     × evaluates an executable duration before recording or forecasting the first paid candidate 8ms
+     × does not repeat a mapped live endpoint when a bracket contains no new executable interval 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > evaluates an executable duration before recording or forecasting the first paid candidate
+AssertionError: expected 656.1872909698997 to be 656 // Object.is equality
+
+- Expected
++ Received
+
+- 656
++ 656.1872909698997
+
+ ❯ tests/core/booster-prediction.test.ts:26:30
+     24|     const initial=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')…
+     25|     const job=step(initial.state,1/120,{},SUPER_HEAVY).autopilot.boost…
+     26|     expect(job.duration*120).toBe(Math.round(job.duration*120));
+       |                              ^
+     27|     expect(job.duration).toBe(job.rollout.burnRemaining); // no burn i…
+     28|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-prediction.test.ts > bounded deterministic booster prediction > does not repeat a mapped live endpoint when a bracket contains no new executable interval
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-prediction.test.ts:40:49
+     38|     const count=j.iterations;
+     39|     advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy…
+     40|     expect(s.autopilot.boosterPrediction!.done).toBe(true);
+       |                                                 ^
+     41|     expect(s.autopilot.boosterPrediction!.iterations).toBe(count);
+     42|     expect(s.autopilot.boosterReturnPlan).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 14 skipped (16)
+   Start at  21:25:50
+   Duration  229ms (transform 98ms, setup 0ms, import 119ms, tests 9ms, environment 0ms)
+
