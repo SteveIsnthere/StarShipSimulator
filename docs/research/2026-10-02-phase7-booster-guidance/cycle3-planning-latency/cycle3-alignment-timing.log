@@ -1,0 +1,46 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-planning-latency.test.ts (2 tests | 2 failed) 2025ms
+     × publishes a source-matched physically caught future cutoff for booster-sep 1857ms
+     × publishes a source-matched physically caught future cutoff for rtls 167ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-planning-latency.test.ts > paid return planning at production receipt/work timing > publishes a source-matched physically caught future cutoff for booster-sep
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-planning-latency.test.ts:28:20
+     26|     expect(s.kinematics).toEqual(kinematics);expect(s.vehicle.propella…
+     27|     expect(s.rng.counters).toEqual(rng);
+     28|     expect(j.done).toBe(true);expect(plan).toBeDefined();
+       |                    ^
+     29|     expect(plan!.originTime).toBe(j.origin.world.environmentTime);
+     30|     expect(plan!.shutdownAt).toBeGreaterThan(s.world.environmentTime);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/booster-planning-latency.test.ts > paid return planning at production receipt/work timing > publishes a source-matched physically caught future cutoff for rtls
+AssertionError: expected undefined to be defined
+ ❯ tests/core/booster-planning-latency.test.ts:28:44
+     26|     expect(s.kinematics).toEqual(kinematics);expect(s.vehicle.propella…
+     27|     expect(s.rng.counters).toEqual(rng);
+     28|     expect(j.done).toBe(true);expect(plan).toBeDefined();
+       |                                            ^
+     29|     expect(plan!.originTime).toBe(j.origin.world.environmentTime);
+     30|     expect(plan!.shutdownAt).toBeGreaterThan(s.world.environmentTime);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 9 passed (11)
+   Start at  20:32:41
+   Duration  2.24s (transform 166ms, setup 0ms, import 223ms, tests 2.07s, environment 0ms)
+
