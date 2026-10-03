@@ -1,0 +1,25 @@
+
+Running 13 tests using 3 workers
+
+(node:88099) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:88097) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:88098) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › tests/e2e/blackbox.spec.ts:55:1 › it draws the nine plots of the flight @smoke (6.3s)
+  ✓   4 [chromium] › tests/e2e/menu.spec.ts:17:1 › the menu opens, offers every preset, and closes @smoke (945ms)
+  ✓   5 [chromium] › tests/e2e/menu.spec.ts:58:1 › Configure starts the new flight and closes the menu @smoke (999ms)
+  ✓   6 [chromium] › tests/e2e/offline.spec.ts:45:1 › the whole app loads with the network off @mobile @smoke (1.0s)
+  ✓   7 [chromium] › tests/e2e/parity.spec.ts:18:1 › every 2021 flight control is present @smoke (514ms)
+  ✓   1 [chromium] › tests/e2e/intro.spec.ts:14:1 › the intro plays end to end and lands @smoke (10.4s)
+  ✓   8 [chromium] › tests/e2e/render.spec.ts:11:1 › every art asset loads @smoke (898ms)
+  ✓   9 [chromium] › tests/e2e/smoke.spec.ts:13:1 › page loads with no console errors and no failed requests @mobile @smoke (315ms)
+  ✓  11 [chromium] › tests/e2e/smoke.spec.ts:45:1 › loads no third-party origins @mobile @smoke (508ms)
+  ✓  10 [chromium] › tests/e2e/smoke.spec.ts:61:1 › canvas mounts @mobile @smoke (592ms)
+  ✓  12 [chromium] › tests/e2e/smoke.spec.ts:85:1 › the simulation runs behind the canvas @mobile @smoke (617ms)
+  ✓   3 [chromium] › tests/e2e/controls.spec.ts:68:1 › lighting the Raptors changes the flight @mobile @smoke (16.0s)
+[witness-plume] fire pixels below the ship: engines off 0, engines lit 598
+  ✓  13 [chromium] › tests/e2e/witness-plume.spec.ts:85:1 › engines lit draw fire below the ship, and engines off do not @smoke (5.3s)
+
+  13 passed (17.7s)
