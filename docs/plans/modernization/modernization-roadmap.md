@@ -85,8 +85,10 @@ Phases 7–9 get their phase plan when the phase before them lands, written by t
 
 ## Current checkpoint
 
-Seven of ten phases are complete (70%). Phase 6b is merged and live at `c2ae5e4` under the approved fallback. Current-force/braking/debrief and continuous exhaust fixes ship; the independently reviewed aero family remains parked in the backlog.
+Seven of ten phases are closed (70%). Phases 6 and 6b remain complete; the approved broadside fallback and every parked aerodynamic task remain named in the backlog.
 
-Complete main gate, final full browser, mutation, independent review, hosted CI/Pages and live verification pass. Hosted CI and deploy each have two existing menu visibility flakes passing retry 1; Phase 9 owns the readiness repair. Exact evidence and limits: [Phase 6b closure](../../research/2026-10-02-phase6b-close.md).
+Phase 7's Super Heavy is merged and live: 33 independent engines, moving grid fins, physical hot staging, separate Ship/booster histories, body selection, two-body camera/HUD and tower catch. The runtime merge is `17657d1`; the latest reviewed coverage repair is `b3263a9`. Complete actual main gate passes in 289.26 seconds, within five minutes. Current live smoke passes 13/13 without retries; all 44 served assets and the service worker match version `1d54d86aae7a`.
 
-Phase 7 Super Heavy is next, followed by Phase 8 Visuals and Phase 9 UX. Its plan is written from the shipped code before implementation. No owner question is pending. The active [goal contract](modernization-GOAL.md) is authoritative; completed diagnosis history remains in research and Git at `3f003ec`.
+Phase 7 remains open while actual main CI `37128220108` and Pages `37128220122` finish. The changed-harness branch CI succeeds within 20 minutes. Two existing hosted menu visibility flakes remain explicit Phase 9 debt, with no retry or timeout increase. Evidence: [main acceptance](../../research/2026-10-03-phase7-release/hosted-timeout/main/result.md) and [hosted repair](../../research/2026-10-03-phase7-release/hosted-timeout/hosted-acceptance.md).
+
+[Phase 8's complete plan](modernization-phase-8.md) is saved; implementation starts after Phase 7 closure. Phase 9 also owns the final per-scenario landing/catch inventory obligation recorded in the [scenario audit](../../research/2026-10-03-phase7-release/scenario-completion-audit.md). No owner question is pending. The active [goal contract](modernization-GOAL.md) is authoritative.
