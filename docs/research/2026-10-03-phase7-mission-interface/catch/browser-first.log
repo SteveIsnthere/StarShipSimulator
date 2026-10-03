@@ -1,0 +1,45 @@
+[WebServer] (node:56247) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:56248) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/booster-catch.spec.ts:8:3 › booster-sep actually returns to an airborne tower catch @mobile (18.8s)
+  ✓  2 [chromium] › tests/e2e/booster-catch.spec.ts:8:3 › rtls actually returns to an airborne tower catch @mobile (7.5s)
+  ✓  3 [chromium] › tests/e2e/booster-catch.spec.ts:49:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.0s)
+  ✘  4 [chromium] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (9.4s)
+
+
+  1) [chromium] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('status').filter({ hasText: /^Attached$/ })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('status').filter({ hasText: /^Attached$/ })
+
+
+      62 |   await expect(page.locator(byTestId('event-now'))).toHaveText('SEPARATION');
+      63 |   await page.keyboard.press('R');
+    > 64 |   await expect(page.getByRole('status').filter({ hasText: /^Attached$/ })).toBeVisible();
+         |                                                                            ^
+      65 |   await expect.poll(async () => (await presentation(page)).bell?.visibleMounts).toBe(0);
+      66 |   const restarted = await telemetry(page);
+      67 |   expect(restarted['world.environmentTime']).toBe(0);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/staging.spec.ts:64:76
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/staging-both-real-staging--00867--shared-paused-clock-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/staging-both-real-staging--00867--shared-paused-clock-mobile-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile 
+  3 passed (38.7s)

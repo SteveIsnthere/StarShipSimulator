@@ -1,0 +1,66 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/ui/shell/Hud.test.tsx (9 tests | 1 failed) 415ms
+     × binds the timeline to the scenario track and rebinds when a different scenario starts 37ms
+ ❯ |unit| tests/hud/haptics.test.ts (8 tests | 1 failed) 7ms
+     × and longer at the end of the flight than during it 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/hud/haptics.test.ts > when it buzzes > and longer at the end of the flight than during it
+AssertionError: CAUGHT: expected 90 to be 18 // Object.is equality
+
+- Expected
++ Received
+
+- 18
++ 90
+
+ ❯ tests/hud/haptics.test.ts:46:35
+     44|     for (const id of EVENT_IDS) {
+     45|       if (id === 'TOUCHDOWN' || id === 'LOSS') continue;
+     46|       expect(durationFor(id), id).toBe(EVENT_MS);
+       |                                   ^
+     47|     }
+     48|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/ui/shell/Hud.test.tsx > Hud with StatusBar > binds the timeline to the scenario track and rebinds when a different scenario starts
+AssertionError: expected [ 'BOOSTBACK', 'APOGEE', …(3) ] to deeply equal [ 'MECO', 'APOGEE', 'ENTRY', …(3) ]
+
+- Expected
++ Received
+
+  [
+-   "MECO",
++   "BOOSTBACK",
+    "APOGEE",
+-   "ENTRY",
+-   "FLIP",
++   "ENTRY BURN",
+    "LANDING BURN",
+-   "TOUCHDOWN",
++   "CAUGHT",
+  ]
+
+ ❯ tests/ui/shell/Hud.test.tsx:194:19
+    192|     act(() => session.startFlight(getScenario('booster-sep')!));
+    193|     const [track, resolve] = last();
+    194|     expect(track).toEqual(trackFor('booster-sep'));
+       |                   ^
+    195|     expect(count(metricSelector(eventMetricId('ENTRY')))).toBe(1);
+    196|     expect(resolve(eventMetricId('ENTRY'))).toBe(document.querySelecto…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 6 passed (8)
+      Tests  2 failed | 127 passed (129)
+   Start at  00:54:16
+   Duration  6.97s (transform 2.15s, setup 0ms, import 4.20s, tests 10.13s, environment 2.10s)
+

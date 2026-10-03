@@ -1,0 +1,37 @@
+[WebServer] (node:56344) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 20 tests using 1 worker
+
+(node:56346) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/booster-catch.spec.ts:8:3 › booster-sep actually returns to an airborne tower catch @mobile (19.7s)
+  ✓   2 [chromium] › tests/e2e/booster-catch.spec.ts:8:3 › rtls actually returns to an airborne tower catch @mobile (7.8s)
+  ✓   3 [chromium] › tests/e2e/booster-catch.spec.ts:49:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.2s)
+  ✓   4 [chromium] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (5.4s)
+(node:56368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:8:3 › booster-sep actually returns to an airborne tower catch @mobile (21.3s)
+  ✓   6 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:8:3 › rtls actually returns to an airborne tower catch @mobile (8.3s)
+  ✓   7 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:49:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.0s)
+  ✓   8 [pixel-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (5.1s)
+(node:56387) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:8:3 › booster-sep actually returns to an airborne tower catch @mobile (21.9s)
+  ✓  10 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:8:3 › rtls actually returns to an airborne tower catch @mobile (8.8s)
+  ✓  11 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:49:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.5s)
+  ✓  12 [pixel-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (6.3s)
+(node:56416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:8:3 › booster-sep actually returns to an airborne tower catch @mobile (21.2s)
+  ✓  14 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:8:3 › rtls actually returns to an airborne tower catch @mobile (8.1s)
+  ✓  15 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:49:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.2s)
+  ✓  16 [iphone-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (5.1s)
+(node:56453) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  17 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:8:3 › booster-sep actually returns to an airborne tower catch @mobile (21.7s)
+  ✓  18 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:8:3 › rtls actually returns to an airborne tower catch @mobile (8.1s)
+  ✓  19 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:49:1 › a lug beyond the catch box cannot announce a caught booster @mobile (2.1s)
+  ✓  20 [iphone-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (5.5s)
+
+  20 passed (3.1m)
