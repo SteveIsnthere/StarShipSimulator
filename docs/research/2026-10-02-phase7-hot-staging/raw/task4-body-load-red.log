@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/hot-staging.test.ts (7 tests | 2 failed) 25ms
+     × retains the original booster pose/load and places a full Ship above its touching hull 4ms
+     × reports rotational constraint load at each physical body rather than copying aggregate g 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > retains the original booster pose/load and places a full Ship above its touching hull
+AssertionError: expected 6441000 to be 6441019.3215302 // Object.is equality
+
+- Expected
++ Received
+
+- 6441019.3215302
++ 6441000
+
+ ❯ tests/core/hot-staging.test.ts:38:59
+     36|     expect(gap(m)).toBeCloseTo(0, 8);
+     37|     expect(m.phase).toBe('attached');
+     38|     expect(m.aggregate.kinematics.distanceToPlanetCenter).toBe(planetR…
+       |                                                           ^
+     39|   });
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > reports rotational constraint load at each physical body rather than copying aggregate g
+AssertionError: expected -0.0004111146260734566 to be 0.030639635088607592 // Object.is equality
+
+- Expected
++ Received
+
+- 0.030639635088607592
++ -0.0004111146260734566
+
+ ❯ tests/core/hot-staging.test.ts:132:40
+    130|       const gx = (k.accelerationX - tangentialAcceleration(k.distanceT…
+    131|       const gy = (k.accelerationY - verticalGravityAcceleration(k.dist…
+    132|       expect(body.forces.perceivedG_X).toBe(gx);
+       |                                        ^
+    133|       expect(body.forces.perceivedG_Y).toBe(gy);
+    134|       expect(body.forces.perceivedG).toBe(Math.sqrt(gx ** 2 + gy ** 2)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 5 passed (7)
+   Start at  23:03:52
+   Duration  271ms (transform 116ms, setup 0ms, import 141ms, tests 25ms, environment 0ms)
+

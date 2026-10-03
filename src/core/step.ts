@@ -51,12 +51,10 @@
  * frame. `X / renderTimeInterval` is therefore exactly `X * dt`.
  */
 import { SHIP, type VehicleDefinition } from './vehicle';
-import { secureTowerCatch } from './physics/tower-catch';
-import { createStepDynamics, prepareDynamics, integrateTranslation, finishTranslation, integrateRotation, checkIfBreakUp } from './physics/step-dynamics';
-import * as act from './control/actuation';
+import { createStepDynamics, prepareDynamics, integrateTranslation, finishTranslation, integrateRotation } from './physics/step-dynamics';
 import { runAutopilot } from './autopilot';
 import { runBoosterPostStep } from './autopilot/booster';
-import type { MechanicalControl } from './control/mechanical';
+import { finishMechanicalStep, type MechanicalControl } from './control/mechanical';
 import { invalidateBoosterReturn } from './control/booster-return-plan';
 import { cloneState, type SimState } from './state';
 
@@ -117,38 +115,5 @@ function advance(previous:SimState,dt:number,input:StepInput,model:VehicleDefini
   finishTranslation(s, dt, dynamics);
   integrateRotation(s, dt, model, dynamics, held);
 
-  // --- 4. controlsUpdate ---------------------------------------------------
-  // highLevelInput(): autopilot first, then manual input, which overrides it.
-  // That is 2021's order — readInputFromManualFlightControl() ran after
-  // autoPilotControlInput() and simply clobbered whatever the autopilot wrote,
-  // which is why any manual touch instantly takes over.
-  control(s, dt, model);
-
-  if (input.throttle !== undefined) s.vehicle.throttle = input.throttle;
-  if (input.pitchControl !== undefined) {
-    s.autopilot.pitchControl = input.pitchControl;
-    if (model.gridFins) s.autopilot.boosterFinControl = input.pitchControl;
-  }
-
-  act.controlTranslation(s, s.autopilot.pitchControl, dt, model, input.pitchControl !== undefined);
-  act.throttleUpdate(s, dt);
-
-  // Judge current pressure, tile temperature and specific force. Shutdown is
-  // last, cancelling even an ignition just requested by controls. Motion
-  // retains this step's paid impulse; no engine can fire on the next step.
-  checkIfBreakUp(s, model, dynamics);
-  if (model.id === 'super-heavy') secureTowerCatch(previous, s, model);
-
-  // --- bookkeeping ---------------------------------------------------------
-  s.world.environmentTime += dt;
-  if (
-    !s.failures.crashed &&
-    !s.failures.inFlightBreakUp &&
-    !s.status.onTheGround &&
-    !s.status.landed
-  ) {
-    s.world.timeSpent += dt;
-  }
-
-  return s;
+  return finishMechanicalStep(previous, s, dt, input, model, control, dynamics);
 }

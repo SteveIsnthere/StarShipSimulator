@@ -16,8 +16,17 @@ import { createMassProperties, writeMassProperties } from './mass';
 import type { SimState } from '../state';
 import { rad } from '../units';
 
+export type TranslationBody = Pick<SimState, 'kinematics' | 'forces' | 'status' | 'failures'>;
+
 /** Owned by one body/advance. No prepared force survives into another body. */
-export interface StepDynamics {
+export interface AngularStep {
+  /** rad/s — incoming angular velocity. */
+  omega0: number;
+  /** rad/s² — incoming angular acceleration, cancelled while held. */
+  alpha0: number;
+}
+
+export interface StepDynamics extends AngularStep {
   /** m/s² — paid non-gravitational world acceleration. */
   bodyAccelerationX: number;
   bodyAccelerationY: number;
@@ -32,7 +41,7 @@ export interface StepDynamics {
 }
 
 export function createStepDynamics(): StepDynamics {
-  return { bodyAccelerationX: 0, bodyAccelerationY: 0, burnedFraction: 0,
+  return { omega0: 0, alpha0: 0, bodyAccelerationX: 0, bodyAccelerationY: 0, burnedFraction: 0,
     gimballedThrust: 0, airspeed: 0, massProperties: createMassProperties(),
     gridFinForces: createGridFinForces() };
 }
@@ -74,7 +83,7 @@ function updatePitchRateOfChange(s: SimState, dt: number): void {
  * and never again — because the HUD reads it and there is no reason to leave a
  * stale number lying there.
  */
-function updateOrbitalGeometry(s: SimState): void {
+function updateOrbitalGeometry(s: Pick<SimState, 'kinematics'>): void {
   const { kinematics } = s;
   kinematics.distanceToPlanetCenter = C.planetRadius + kinematics.altitude;
   kinematics.orbitalVelocityAtCurrentAltitude = gravity.circularOrbitalSpeed(
@@ -122,7 +131,7 @@ function checkIfCrash(s: SimState, model: VehicleDefinition): void {
 }
 
 /** Ground support uses the current vertical force, including gimbal direction. */
-function updateGroundContact(s: SimState, verticalSpecificForce: number, model: VehicleDefinition): void {
+function updateGroundContact(s: TranslationBody, verticalSpecificForce: number, model: VehicleDefinition): void {
   const { kinematics, status } = s;
   const contactHeight = model.height * Math.abs(Math.cos(kinematics.pitch)) * 0.5;
   if (kinematics.altitude > contactHeight || kinematics.speedY < -0.5) return;
@@ -179,7 +188,7 @@ function checkIfOutOfFuel(s: SimState): void {
  * gravity on the pad. Phase 6, Bug fix: this added back a flat 9.807 m/s², so a
  * free fall read 0.03 g at 150 km and the pad read 1.008 g.
  */
-function updatePerceivedG(s: SimState, specificX: number, specificY: number): void {
+function updatePerceivedG(s: Pick<SimState, 'forces'>, specificX: number, specificY: number): void {
   // The current force decomposition already excludes gravity/polar terms.
   // Ground support supplies their opposite when held. Reading it directly
   // avoids both the previous acceleration and a mismatched Verlet velocity.
@@ -365,7 +374,7 @@ export function prepareDynamics(s: SimState, dt: number, model: VehicleDefinitio
 }
 
 /** Returns whether ground support cancels motion and torque this interval. */
-export function integrateTranslation(s: SimState, dt: number, bodyAccelerationX: number, bodyAccelerationY: number, model: VehicleDefinition): boolean {
+export function integrateTranslation(s: TranslationBody, dt: number, bodyAccelerationX: number, bodyAccelerationY: number, model: VehicleDefinition): boolean {
   updateGroundContact(s, bodyAccelerationY, model);
 
   // a_n: at the incoming position and velocity.
@@ -459,19 +468,9 @@ export function finishTranslation(s: SimState, dt: number, work: StepDynamics): 
 
 }
 
-export function integrateRotation(s: SimState, dt: number, model: VehicleDefinition, work: StepDynamics, held: boolean): void {
-  const { massProperties, gridFinForces, gimballedThrust, burnedFraction, airspeed } = work;
+/** Predict the shared angular Verlet position and velocity. */
+export function predictRotation(s: Pick<SimState, 'kinematics'>, dt: number, held: boolean, out: AngularStep): void {
   const halfDtSquared = 0.5 * dt * dt;
-  // 3c. updateRotationalMotion — the same Verlet form, with alpha_n the
-  // angular acceleration STORED by the previous step (the torques below need
-  // the airspeed just integrated, so they cannot be evaluated first).
-  //
-  // M11.8: the moment arms and the inertia follow the propellant. The centre
-  // of mass moves as the tanks drain (physics/mass.ts), so the gimbal's arm,
-  // the fins' arms and the RCS arm are all functions of the load this step.
-  writeMassProperties(s.vehicle.propellantMass, massProperties, model);
-  s.vehicle.vehicleMomentOfInertia = massProperties.momentOfInertia;
-
   // Wrap BEFORE integrating, exactly as 2021 does, so a step can leave pitch
   // slightly outside (-pi, pi] until the next one folds it back.
   if (s.kinematics.pitch > Math.PI) {
@@ -489,6 +488,13 @@ export function integrateRotation(s: SimState, dt: number, model: VehicleDefinit
   // once alpha_{n+1} is known.
   s.kinematics.angularVelocity = omega0 + alpha0 * dt;
 
+  out.omega0 = omega0;
+  out.alpha0 = alpha0;
+}
+
+/** Evaluate actual body torques at its translated/predicted pose. */
+export function writeRotationForces(s: SimState, model: VehicleDefinition, work: StepDynamics): number {
+  const { massProperties, gridFinForces, gimballedThrust, burnedFraction, airspeed } = work;
   s.forces.thrustVectorForce = eng.getThrustVectorForce(gimballedThrust, s.vehicle.gimbalPosition);
   s.forces.frontFinDrag = aero.getFrontFinDrag(
     s.atmosphere.airDensity,
@@ -559,18 +565,28 @@ export function integrateRotation(s: SimState, dt: number, model: VehicleDefinit
       rad(s.vehicle.gimbalPosition*.01*C.gimbalAngleLimit),model)*burnedFraction/I;
   }
 
-  const alpha1 =
-    s.forces.thrustVectorAcceleration +
+  return s.forces.thrustVectorAcceleration +
     s.forces.angularDragAcceleration +
     s.forces.frontFinDragAngularAcceleration +
     s.forces.aftFinDragAngularAcceleration +
     s.forces.rcsThrustAngularAcceleration +
     s.forces.offAxisThrustDifferenceAcceleration;
+}
+
+/** Complete the same angular Verlet kernel for a vehicle or rigid aggregate. */
+export function finishRotation(s: Pick<SimState, 'kinematics'>, dt: number, held: boolean, omega0: number, alpha0: number, alpha1: number): void {
   // omega_{n+1} = omega_n + (alpha_n + alpha_{n+1}) dt / 2 — unless held, in
   // which case the pad takes the torque and the stored acceleration is zero,
   // as the translational one is.
   s.kinematics.angularVelocity = held ? 0 : omega0 + 0.5 * (alpha0 + alpha1) * dt;
   s.kinematics.angularAcceleration = held ? 0 : alpha1;
 
+}
 
+export function integrateRotation(s: SimState, dt: number, model: VehicleDefinition, work: StepDynamics, held: boolean): void {
+  writeMassProperties(s.vehicle.propellantMass, work.massProperties, model);
+  s.vehicle.vehicleMomentOfInertia = work.massProperties.momentOfInertia;
+  predictRotation(s, dt, held, work);
+  const alpha1 = writeRotationForces(s, model, work);
+  finishRotation(s, dt, held, work.omega0, work.alpha0, alpha1);
 }

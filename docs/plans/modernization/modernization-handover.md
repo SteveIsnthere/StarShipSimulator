@@ -13,7 +13,7 @@ The unattended run's report. Updated as phases land; the last section is always 
 | 5 Guidance on real physics | done, live | `b84b746`, fixed `3429ea1` |
 | 6 Ship realism | done, live; gate and live deployment smoke verified | `080f108` |
 | 6b Entry on lift | closed under approved broadside fallback, live and verified | `c2ae5e4` |
-| 7 Super Heavy | Tasks1–3 core implemented; hot staging/UI/release remain | — |
+| 7 Super Heavy | Tasks1–4 core/mission clock implemented; UI/release remain | — |
 | 8 Visuals | not started (added 2026-10-01) | — |
 | 9 UX to flight_sim level | not started | — |
 
@@ -96,3 +96,7 @@ Scenario integration follow-up: selected-model scenario/catch/analytic77pass, co
 Task3 final2128units/170files, build/lint0 and14truthIN. Both actual booster catches are represented by Linux22 fixtures; eight existing Ship files are byte-identical. Fresh independent fallback review found and verified the stale manual-input cutoff fix; Task5 generic autopilot and direct UI-event invalidation obligations remain. Hosted snapshot CI37100120187 fails coverage floors despite2122units passing. Record/fix all floor deficits before Phase7 release; do not lower them. Exact raw evidence/review/final source recovery is task3-goldens. Next shared-dynamics Refactor proof/checkpoint, physical hot staging, two-vehicle functional UI and complete release, then8/9. Main/live unchanged;70%byphasecount.
 
 Task4 extraction follow-up: shared paid-force/translation/rotation phases pass47focused checks, all ten goldens and independent1200+7680Ship observations at0ULP, build/lint0/14truthIN. Refactor checkpoint precedes physical staging. Next actual COM/inertia/two-body attached mission; release coverage deficits remain.
+
+## Latest: physical staging core and shared clock complete, Task5 next
+
+Task4 final2143units/173files, build/lint0/14truthIN; all ten goldens and independent Ship proofs unchanged. Real engine delays/fuel, aggregate physical mass/COM/inertia/force/torque, no-kick release, all-Ship failure remaining attached and exact30/60/144Hz/warp/slow/pause/restart witnesses pass. Short default stage releases at1.208333s with6Ship/3booster engines. New mission radius/constraint-load defects were caught RED and fixed; zero-torque test keeps its assertion and uses actual underflow vacuum at300Mm. Source/raw evidence2026-10-02-phase7-hot-staging. No UI/main/live change yet. Next Task5 model-aware session, two-body camera/rendering/HUD/controls, including Task3 generic mode/direct event provenance obligations; then coverage/full release/high review/merge/deploy and8/9.70%byphase count remains.

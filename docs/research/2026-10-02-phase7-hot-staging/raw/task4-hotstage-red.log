@@ -1,0 +1,24 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/hot-staging.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts [ tests/core/hot-staging.test.ts ]
+Error: Cannot find module '$core/mission' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/hot-staging.test.ts
+ ❯ tests/core/hot-staging.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import { createHotStageMission, stepMission, stackMassProperties, body…
+       | ^
+      3| import { cloneState } from '$core/state';
+      4| import { centreOfMass, momentOfInertia } from '$core/physics/mass';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  22:53:32
+   Duration  126ms (transform 15ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

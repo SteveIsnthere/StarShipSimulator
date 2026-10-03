@@ -183,3 +183,9 @@ visitors.
 ```bash
 gh api -X PUT repos/SteveIsnthere/StarShipSimulator/pages -f build_type=legacy -f 'source[branch]=classic' -f 'source[path]=/'
 ```
+
+## Phase7 development: shared mechanics and mission clock
+
+`core/physics/step-dynamics.ts` owns paid force preparation, shared translation/angular Verlet kernels and torque/failure evaluation. `core/control/mechanical.ts` owns the shared command/actuator/failure/catch/bookkeeping completion. `core/step.ts` composes these for standalone selected vehicles and nonrecursive booster forecasts; existing Ship arithmetic and every golden stay unchanged. `core/mission.ts` combines two real bodies at a physical aggregate COM while attached, releases without a kick when actual thrust permits, then delegates each free body to step. Workspaces belong to a body, preventing cross-body preparation overwrite.
+
+`app/loop.ts` retains one generic fixed-step accumulator policy; the existing single-vehicle API and `app/mission-loop.ts` adapt it with their state/command types. No second RAF, frame-scaled physics timestep or presentation model id enters SimState. Session/render integration is still Phase7Task5; none of this phase is merged/live yet.

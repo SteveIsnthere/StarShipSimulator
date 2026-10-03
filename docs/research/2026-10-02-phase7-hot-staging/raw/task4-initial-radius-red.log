@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/hot-staging.test.ts (6 tests | 1 failed) 24ms
+     × retains the original booster pose/load and places a full Ship above its touching hull 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > retains the original booster pose/load and places a full Ship above its touching hull
+AssertionError: expected 6441000 to be 6441019.3215302 // Object.is equality
+
+- Expected
++ Received
+
+- 6441019.3215302
++ 6441000
+
+ ❯ tests/core/hot-staging.test.ts:37:59
+     35|     expect(gap(m)).toBeCloseTo(0, 8);
+     36|     expect(m.phase).toBe('attached');
+     37|     expect(m.aggregate.kinematics.distanceToPlanetCenter).toBe(planetR…
+       |                                                           ^
+     38|   });
+     39|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  23:03:28
+   Duration  274ms (transform 117ms, setup 0ms, import 143ms, tests 24ms, environment 0ms)
+

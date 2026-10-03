@@ -1,0 +1,6 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+src/core/mission.ts(73,48): error TS2339: Property 'defaultSeed' does not exist on type 'typeof import("/Users/stevewang/dev/StarShipSimulator-realism/src/core/constants")'.
+src/core/physics/step-dynamics.ts(560,3): error TS2322: Type 'undefined' is not assignable to type 'number'.

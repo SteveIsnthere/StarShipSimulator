@@ -1,0 +1,64 @@
+{
+  "tick": 145,
+  "phase": "separated",
+  "elapsed": 1.2083333333333315,
+  "properties": {
+    "mass": 2017909.644964859,
+    "centreStation": 62.822770216974185,
+    "inertia": 2327783279.724837,
+    "boosterStation": 19.801403542127055,
+    "shipStation": 85.6367174240926
+  },
+  "ship": {
+    "fuel": 1198642.315708998,
+    "thrust": 14832800.665986832,
+    "engines": 6,
+    "rng": {
+      "seed": 1397246251,
+      "counters": {
+        "ignitionDelay": 6,
+        "ignitionFailure": 6,
+        "turbulence": 0
+      }
+    }
+  },
+  "booster": {
+    "fuel": 499267.3292558611,
+    "thrust": 7242505.983033214,
+    "engines": 3,
+    "rng": {
+      "seed": 123,
+      "counters": {
+        "ignitionDelay": 3,
+        "ignitionFailure": 3,
+        "turbulence": 0
+      }
+    }
+  },
+  "previousPhase": "attached",
+  "aggregate": {
+    "altitude": 71378.55300405124,
+    "downRangeDistance": 20061472.073063627,
+    "downRangeDistanceNextFrame": 20061472.073063627,
+    "distanceToPlanetCenter": 6442378.553004052,
+    "orbitalVelocityAtCurrentAltitude": 7865.851946293621,
+    "trueSpeed": 1593.5921459288086,
+    "speedX": 1132.390550340603,
+    "speedY": 1121.2615970705904,
+    "machSpeed": 5.379565748384979,
+    "accelerationX": 7.535364520536789,
+    "accelerationY": -1.6737721159269325,
+    "totalAcceleration": 7.719017525140045,
+    "pitch": 0.7855250990187931,
+    "pitchRateOfChange": 0,
+    "pitchRecord": [
+      0.7853981633974483,
+      0.7853981633974483
+    ],
+    "angularVelocity": 0.00009908961933559744,
+    "angularAcceleration": -0.000006684863440819448,
+    "angleOfMotion": 0,
+    "angleOfAttack": 0,
+    "angleInToTheWind": 0
+  }
+}
