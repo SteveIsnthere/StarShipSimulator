@@ -1,0 +1,35 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-terminal-envelope.test.ts (3 tests | 2 failed) 27ms
+     × rejects the recorded distant handoff -14248.216742988676 m as outside terminal lateral authority 4ms
+     × rejects the recorded distant handoff -4955.058289054781 m as outside terminal lateral authority 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > rejects the recorded distant handoff -14248.216742988676 m as outside terminal lateral authority
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > rejects the recorded distant handoff -4955.058289054781 m as outside terminal lateral authority
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/booster-terminal-envelope.test.ts:45:33
+     43|     writeBoosterArrival(s, 0, SUPER_HEAVY, out);
+     44|     expect(out.ax).toBeGreaterThan(90);
+     45|     expect(out.lateralFeasible).toBe(false);
+       |                                 ^
+     46|   });
+     47|   it('catches a nearby descending lug on its first crossing with paid …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  18:14:01
+   Duration  246ms (transform 87ms, setup 0ms, import 107ms, tests 27ms, environment 0ms)
+

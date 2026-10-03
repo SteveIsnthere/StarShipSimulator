@@ -1,0 +1,22 @@
+{
+  "base": "9b9844bf129956328b570f2cc7e712c96ab1e044",
+  "files": {
+    "src/core/autopilot/index.ts": "3b3a86989807b7809194d17f377bb4335c4f9201df9fd38cd55dae9bc091d297",
+    "src/core/control/actuation.ts": "6bf6ed8771b885118d698d33c0fe49ccd428ae10d75962a2c86802f2c310fe76",
+    "src/core/control/guidance-physics.ts": "6e702368a02b2d6339441e47ed4e93ba3036cf058afc374873531e9798dd3626",
+    "src/core/state.ts": "5f3841f679701963aa15a1ab8377cd4da894dad01e76e858ed79afba39062d55",
+    "src/core/step.ts": "d38036d738a5009c30c7a666cf8a19d6eba46838afc7388b639d49c304d37dda",
+    "src/core/autopilot/booster.ts": "153042cf83f59345427936fa6578a5cbf487bc572df9859073d98ded480a6262",
+    "src/core/control/booster-arrival.ts": "0fbb0b32a6e9e9f196c52a59160c0e04c3620d2ec09882e0f2b735cb1c15bc49",
+    "src/core/control/booster-forecast.ts": "e166b5f4f199da7242c8ff2ae605eb35b8d491b7521dadefda91a84d900d62ef",
+    "src/core/control/booster-prediction.ts": "f396aed1e10a3c0e4203163ada16266737f2879661a6e8f901b4b8da7300b8df",
+    "src/core/control/mechanical.ts": "cf2edaebb854af17b6d37fd0ef9c0bbfe04d258fbbfa9ce7ea177b70f2c2e624",
+    "tests/core/booster-burn-bound.test.ts": "3d9a2f77c96c4147642ef6534184f9264f971968b91f9d726138a179a5850e6b",
+    "tests/core/booster-command.test.ts": "3d687115e0fa0b8b6ca343e96748ee868c0530c5e68ce0714d5bd08255b8a091",
+    "tests/core/booster-forecast.test.ts": "8d5586d5f79ccf8c3ef3515c3b713b6fd763eb886af8238ad91daa05dfab49e8",
+    "tests/core/booster-guidance.test.ts": "5869a89b641ffe22588393317d5993ccddb4c4d8cc81fd8b4082d58a48689211",
+    "tests/core/booster-prediction.test.ts": "d67a99c942ebb66c562bc0fc11c9f3b0a2a0ac9300e35f708fdcf67717e9735e",
+    "tests/core/booster-terminal-envelope.test.ts": "1ffe87c24e403f802250a35b4b2a33552bab63dee3a3863a741ff07bb2bf229d",
+    "tests/core/mechanical-advance.test.ts": "c0086618cebe9eaa161bcbaf5288cf5fbbb3449e5c152a2b589fb7516b1687db"
+  }
+}
