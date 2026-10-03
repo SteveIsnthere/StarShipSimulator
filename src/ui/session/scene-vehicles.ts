@@ -16,6 +16,7 @@ import { createEffectDriver } from '$view/effects';
 import { createEmissiveBell } from '$view/emissive-bell';
 import { createEngineGlare } from '$view/engine-glare';
 import { plasmaIntensity } from '$view/atmosphere-look';
+import { tileGlow } from '$view/heat-look';
 import type { SunLight } from '$view/sun';
 import type { MissionController } from './mission-controller';
 
@@ -83,10 +84,11 @@ export function createSceneVehicles(view: ViewApp, textures: Map<string, Texture
           state.kinematics.altitude - Math.cos(state.kinematics.pitch)
             * (mission ? SHIP.height / 2 : engineDistanceFromCenterOfMass));
         const strength = plasmaIntensity(state.forces.thermalPower, heatLimit);
+        const surfaceGlow = tileGlow(state.forces.surfaceTemperature);
         windwardInHull(state.kinematics.angleOfAttack, windward);
         sheath.place(vehicleHeight * view.viewport.scale);
-        sheath.set(strength, windward.x, windward.y, elapsed);
-        if (!selectedBooster) inset.update(view.viewport, pose, strength, sun, elapsed);
+        sheath.set(strength, windward.x, windward.y, elapsed, surfaceGlow);
+        if (!selectedBooster) inset.update(view.viewport, pose, strength, sun, elapsed, surfaceGlow);
       }
       inset.container.visible = !selectedBooster && inset.container.visible;
       if (showBooster) {

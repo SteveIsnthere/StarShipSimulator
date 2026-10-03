@@ -176,3 +176,6 @@ Task2 per-engine checkpoint: look helper drives actual mesh geometry and per-mou
 
 
 Task2 complete: actual state-driven nozzle/ground glare integrated per physical body; 350 view tests, 57 plume/emissive/compositing browser tests, 15 staging/bell/glare integration tests and five strengthened absence-detector tests pass without retries. Build296.6kB/lint0 errors. Evidence: docs/research/2026-10-03-phase8-visuals/task2-glare/. Task3 surface-temperature heat is next. Whole-phase gate/review/merge/budgets remain owed.
+
+
+Task3 temperature checkpoint: actual equilibrium-temperature curve independent of plasma; main/inset preallocated uniform. Focused12/fullview354 tests pass, allfive equal-flux actual pixel controls and allfive original hot/cold reentry witnesses pass; isolated PNGs retained, desktop inspected. Build296.9kB/lint0 errors/existing warning. Task3 is still open for belly material, opposite-windward/selected-booster/restart witnesses and final capture/integration scope. Evidence: task3-temperature-checkpoint research. No core/golden/preset/legacy change.

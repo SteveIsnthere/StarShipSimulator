@@ -1,0 +1,22 @@
+[WebServer] (node:92737) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 3 workers
+
+(node:92742) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:92740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:92741) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/reentry.spec.ts:87:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (5.8s)
+  ✓  2 [pixel-landscape] › tests/e2e/reentry.spec.ts:87:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (6.0s)
+  ✓  3 [pixel-portrait] › tests/e2e/reentry.spec.ts:87:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (6.1s)
+(node:92760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:92761) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [iphone-portrait] › tests/e2e/reentry.spec.ts:87:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.9s)
+  ✓  4 [iphone-landscape] › tests/e2e/reentry.spec.ts:87:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.9s)
+
+  5 passed (13.6s)

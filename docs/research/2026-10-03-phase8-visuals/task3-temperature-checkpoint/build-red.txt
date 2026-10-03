@@ -1,0 +1,5 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/view/heat-look.test.ts(2,26): error TS2307: Cannot find module '$view/heat-look' or its corresponding type declarations.

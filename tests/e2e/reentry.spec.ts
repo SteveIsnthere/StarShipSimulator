@@ -13,11 +13,13 @@
  *   subject region, where before M11.5 the only warmth was the trail's dots.
  */
 import { expect, test } from '@playwright/test';
+import { writeFile } from 'node:fs/promises';
 import type { SimDebug } from '../../src/app/debug';
 import { byTestId } from '../../src/ui/testids';
 import { insetLayout } from '../../src/view/reentry';
 import { ready } from './helpers';
-import { describeFrame, metrePixels, readFrame, type Region } from './pixels';
+import { captureCanvas, describeFrame, metrePixels, readFrame, type Region } from './pixels';
+import { heatLimit } from '../../src/core/constants';
 
 type Page = import('@playwright/test').Page;
 
@@ -48,6 +50,40 @@ async function insetRegion(page: Page): Promise<Region> {
 }
 
 const SUBJECT: Region = { x: 0.3, y: 0.2, width: 0.4, height: 0.6 };
+
+test('skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile', async ({ page }, info) => {
+  await page.goto('/?debug=1');
+  await ready(page);
+  await page.evaluate(() => {
+    const debug = (window as unknown as { __simDebug: SimDebug }).__simDebug;
+    debug.pause(); debug.setScenario('reentry'); debug.pause();
+  });
+  const inject = async (temperature: number) => {
+    await page.evaluate(({ temperature, flux }) => {
+      (window as unknown as { __simDebug: SimDebug }).__simDebug.setState({
+        'forces.surfaceTemperature': temperature, 'forces.thermalPower': flux,
+      });
+    }, { temperature, flux: heatLimit * 0.32 });
+    // Wait for rendering, never advance the physical state to manufacture heat.
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+  };
+  const inset = await insetRegion(page);
+  await inject(300);
+  const cold = await readFrame(page, { regions: { inset, subject: SUBJECT } });
+  await inject(1533);
+  const hot = await readFrame(page, { regions: { inset, subject: SUBJECT } });
+  expect(hot.regions['inset']!.meanLuma, 'hot skin adds emission at identical flux').toBeGreaterThan(cold.regions['inset']!.meanLuma);
+  expect(hot.regions['subject']!.meanLuma, 'main view consumes the same independent temperature').toBeGreaterThan(cold.regions['subject']!.meanLuma);
+  const paused = await readFrame(page, { regions: { inset, subject: SUBJECT } });
+  expect(paused.regions).toEqual(hot.regions);
+  await inject(300);
+  const restored = await readFrame(page, { regions: { inset, subject: SUBJECT } });
+  expect(restored.regions).toEqual(cold.regions);
+  console.log('[skin-temperature]', { cold: cold.regions, hot: hot.regions });
+  await writeFile(info.outputPath('skin-cold-equal-flux.png'), await captureCanvas(page));
+  await inject(1533);
+  await writeFile(info.outputPath('skin-hot-equal-flux.png'), await captureCanvas(page));
+});
 
 test('the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile', async ({
   page,

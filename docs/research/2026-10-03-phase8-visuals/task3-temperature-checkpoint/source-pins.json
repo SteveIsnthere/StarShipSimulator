@@ -1,0 +1,12 @@
+{
+  "base": "f30bff42da83b22bf1fdce9aec39162c724e97f4",
+  "sha256": {
+    "src/view/heat-look.ts": "7e48448afd847b71ee5db87cd5131e369022e62ff0a1072941702a9056b7099e",
+    "src/view/reentry.ts": "ce9798c550b69162b43c153fa6a3d06c45ee15986d1fc753e7042782e1a012ca",
+    "src/ui/session/scene-vehicles.ts": "8798d83b5f07444007c25112cd21bb2fb545ffe14708bd9783316804dd1b0b4f",
+    "tests/view/heat-look.test.ts": "ab2091aa398091846f43566e568983d5b730ce9659699924c2a1a1a98858f526",
+    "tests/view/skin-glow.test.ts": "b2a3501939ff35d03088712bd54fd8d4887523dc88ec9c6b1ff22f1b54e4bf5a",
+    "tests/e2e/reentry.spec.ts": "3da813c620af3e0f71df34c63c0f560ad90bdcbd7e2cd408dc9813a954b7ffd5"
+  },
+  "protectedDiff": ""
+}

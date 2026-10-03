@@ -149,6 +149,7 @@ in vec2 vUV;
 out vec4 finalColor;
 
 uniform float uStrength;
+uniform float uSurfaceGlow;
 uniform vec2 uWind;
 uniform float uAspect;
 uniform float uTime;
@@ -185,10 +186,15 @@ void main(void) {
   vec3 far = vec3(1.0, 0.22, 0.04);
   vec3 colour = mix(near, far, sqrt(t));
   // The sheath is drawn OVER the hull, additively. Inside the silhouette the
-  // shell is 1, and a quarter of it is left on as a wash over the windward
-  // skin: the skin heats, and the picture should say so, a little.
+  // shell is 1, and a quarter remains as overlapping plasma light on the
+  // windward hull. Skin emission below has its own temperature authority.
   float inside = d < 0.0 ? 0.25 : 1.0;
-  finalColor = vec4(colour * glow * inside, glow * inside);
+  // Plasma remains flux-driven. Independent equilibrium-temperature emission
+  // is confined to windward skin, with no atmosphere glow or invented inertia.
+  float plasma = uStrength > 0.001 ? glow * inside : 0.0;
+  float skin = (1.0 - smoothstep(-0.006, 0.0, d)) * facing * uSurfaceGlow * 0.55;
+  vec3 emission = colour * plasma + vec3(1.0, 0.18, 0.035) * skin;
+  finalColor = vec4(emission, min(1.0, plasma + skin));
 }
 `;
 
@@ -196,8 +202,8 @@ export interface Sheath {
   readonly mesh: Mesh<MeshGeometry, Shader>;
   /** Size it to the hull it wraps: the drawn hull height, in pixels. */
   place(drawnHeight: number): void;
-  /** Strength 0..1, the windward direction in the hull's frame, and a clock. */
-  set(strength: number, windX: number, windY: number, time: number): void;
+  /** Flux strength 0..1, windward direction, simulation clock, independent skin glow 0..1. */
+  set(strength: number, windX: number, windY: number, time: number, surfaceGlow?: number): void;
   destroy(): void;
 }
 
@@ -211,6 +217,7 @@ export function createSheath(): Sheath {
     resources: {
       sheathUniforms: {
         uStrength: { value: 0, type: 'f32' },
+        uSurfaceGlow: { value: 0, type: 'f32' },
         uWind: { value: new Float32Array([0, -1]), type: 'vec2<f32>' },
         uAspect: { value: vehicleDiameter / vehicleHeight, type: 'f32' },
         uTime: { value: 0, type: 'f32' },
@@ -218,7 +225,7 @@ export function createSheath(): Sheath {
     },
   });
   const uniforms = shader.resources['sheathUniforms'] as {
-    uniforms: { uStrength: number; uWind: Float32Array; uAspect: number; uTime: number };
+    uniforms: { uStrength: number; uSurfaceGlow: number; uWind: Float32Array; uAspect: number; uTime: number };
   };
   const geometry = new MeshGeometry({
     positions: new Float32Array([-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5]),
@@ -237,9 +244,10 @@ export function createSheath(): Sheath {
       // hull's aspect is the shader's constant.
       mesh.scale.set(drawnHeight * SHEATH_SPAN, drawnHeight * SHEATH_SPAN);
     },
-    set(strength, windX, windY, time) {
-      mesh.visible = strength > 0.001;
+    set(strength, windX, windY, time, surfaceGlow = 0) {
+      mesh.visible = strength > 0.001 || surfaceGlow > 0;
       uniforms.uniforms.uStrength = strength;
+      uniforms.uniforms.uSurfaceGlow = surfaceGlow;
       // Image y runs down; the hull's y runs up the nose.
       uniforms.uniforms.uWind[0] = windX;
       uniforms.uniforms.uWind[1] = -windY;
@@ -269,6 +277,7 @@ export interface OnboardInset {
     strength: number,
     sun: SunLight | undefined,
     time: number,
+    surfaceGlow?: number,
   ): void;
   destroy(): void;
 }
@@ -327,7 +336,7 @@ export function createOnboardInset(
       return shown;
     },
 
-    update(outer, state, strength, sun, time) {
+    update(outer, state, strength, sun, time, surfaceGlow = 0) {
       shown = insetShouldShow(strength, shown);
       container.visible = shown;
       if (!shown) return;
@@ -362,7 +371,7 @@ export function createOnboardInset(
       vehicle.update(camera, viewport, state, sun);
       windwardInHull(state.angleOfAttack, wind);
       sheath.place(vehicleHeight * viewport.scale);
-      sheath.set(strength, wind.x, wind.y, time);
+      sheath.set(strength, wind.x, wind.y, time, surfaceGlow);
     },
 
     destroy() {

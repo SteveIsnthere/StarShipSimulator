@@ -1,0 +1,9 @@
+# Phase 8 Task 3 — temperature checkpoint, task still open
+
+The authored tileGlow curve reads actual equilibrium skin temperature: zero through800K, smooth monotonic onset, full1533K; invalid inputs yield zero. No thermal inertia, changed core threshold or stored heat was introduced. Main and inset receive an independent preallocated surface uniform; original plasma remains flux-driven and original inset hysteresis is unchanged.
+
+Missing API build/test RED observed. Initial graph run exposed Pixi browser precision-probe dependency; headless test now stubs only that probe, and actual missing visibility/uniform assertions were observed RED before production implementation. Shader execution is proved separately by real production browser pixels. Build caught nullable shader access in the test; fixed before successful build. Focused12 tests pass, full view354 tests in28 files passes. Lint exits0 with the existing BlackBox dependency warning. Build296.9kB/300, scanners pass.
+
+Production equal-flux hot1533K/cold300K pixel comparisons pass all5 viewports: independent emission increases main/inset brightness, exact paused repeat and return-to-cold images match. Original genuine-reentry hot/cold inset witnesses pass all5 with existing bounds. Final isolated equal-flux capture run passes all5, no retries; actual desktop PNG inspected. Initial full-HUD captures remain contextual; isolated-equal-flux-captures hides overlays with the existing capture helper and is the visual evidence. No concurrent heavy check during these Task3 runs.
+
+Still owed in Task3: authored belly heat-shield material using shared sun/orientation; opposite-windward pixel, selected booster and restart witnesses; final integration and required scene capture scope. Tasks4–6 and entirePhase9 remain open. No Phase8 gate/frame-budget/review/merge/live release claimed. No core, golden, preset, legacy, physics bounds or retry change.
