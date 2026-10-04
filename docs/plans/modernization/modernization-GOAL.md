@@ -1,6 +1,6 @@
 # Modernization — goal contract
 
-**Paused at Steve’s request, 2026-10-03.** Finish the already assigned work and documentation checkpoint, then stop. Do not start further implementation until Steve explicitly resumes or issues the refreshed `/goal`; that instruction clears this pause without changing the approved scope.
+**Resumed by Steve’s refreshed `/goal` on 2026-10-03 (Vancouver).** The pause is cleared without changing the approved scope. Supported implementation and CPU checks run in the freshly reconciled cloud checkout `/workspace/StarShipSimulator`. Live gameplay, photographic rendering, GPU/frame/performance acceptance and the final main gate remain on Steve’s Mac. Cloud results never substitute for those checks.
 
 Continue independently through ONLY this roadmap:
 /Users/stevewang/dev/StarShipSimulator-realism/docs/plans/modernization/modernization-roadmap.md

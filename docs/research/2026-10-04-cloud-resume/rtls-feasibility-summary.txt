@@ -1,0 +1,53 @@
+{
+  "node": "v22.23.3",
+  "historicalDeltas": [
+    {
+      "duration": 5.033333333333333,
+      "deltas": []
+    },
+    {
+      "duration": 5.2,
+      "deltas": []
+    },
+    {
+      "duration": 5.325,
+      "deltas": [
+        {
+          "path": "forecast.rangeError",
+          "current": 16.44419894936604,
+          "historical": 16.44419894936603
+        },
+        {
+          "path": "forecast.speedX",
+          "current": -2.3738938076952145,
+          "historical": -2.3738938076952163
+        },
+        {
+          "path": "forecast.handoff.vx",
+          "current": -2.3738938076952145,
+          "historical": -2.3738938076952163
+        }
+      ]
+    }
+  ],
+  "original": {
+    "ticks": 1957,
+    "calls": 5865,
+    "forceIterations": 700,
+    "forceOnlyTicks": 0,
+    "doneAt": 16.30833333333305,
+    "cutoff": 13.28333333333322,
+    "fineSteps": 2540
+  },
+  "normalization": {
+    "matches": 1098,
+    "mismatches": {
+      "autopilot.boosterCoastPitch": 1098,
+      "autopilot.boosterForecastBurn": 1098,
+      "autopilot.boosterFallTime": 1097
+    },
+    "serializedReceiptBytes": 25214632,
+    "maxReceiptBytes": 23976,
+    "completeTreeEquality": true
+  }
+}

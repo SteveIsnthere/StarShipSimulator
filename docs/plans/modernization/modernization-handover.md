@@ -1,6 +1,15 @@
 # Modernization — current handover
 
-**Paused by Steve, 2026-10-03.** Current assigned work is closed; implementation resumes only on explicit instruction or the refreshed `/goal`. No autonomous job is being left running. The complete earlier narrative is preserved as [historical evidence](../../research/2026-10-03-vehicle-realism/handover-history.md), not current instructions.
+**Resumed by Steve’s refreshed `/goal`, 2026-10-03 (Vancouver).** Fresh cloud startup and source recovery passed; Phase8/9 acceptance remains open. The complete earlier narrative is preserved as [historical evidence](../../research/2026-10-03-vehicle-realism/handover-history.md), not current instructions.
+
+## Current cloud checkpoint
+
+- Existing isolated checkout `/workspace/StarShipSimulator`, branch `claude/visuals`, fetched exact documentation checkpoint `dd72908e9e5e277f63af27fbdb64d560bc9af355`. No worktree was created.
+- Fallback task-start discovery loaded AGENTS and all four checked-in skills; reconciliation, 23 runtime libraries, fonts and functional Chromium1234 launch passed on Node22.23.3. Native Start delivery and separate warm-task qualification are not established by this run. Network enforcement telemetry remains unknown; managed proxy/CA and strict TLS were preserved.
+- Recovery patch size915781 and SHA2567848a871dff6e9e54a08a8d3710144956d9f5560a04ea04b5e3afe35db7c3b80 matched. All189 implementation paths matched runtime base32e5bb3 before application; forward-check, one application, every restored hash and reverse-check passed.
+- Cloud build/lint pass;297.4kB essential JS. Truth remains17TierA IN; historical TierB max-Q altitude limitation remains named OUT. These are CPU checks, not a current whole gate or release.
+- Bounded scheduling research reproduced5865paid search calls,700hint iterations and2540-step genuine fine catch on Node22. All1098 normalized prefix transitions match independently paid original/source full inputs and pre/returned outputs exactly. Integer carry/availability ledger publishes at13.25s before13.283333s cutoff, with peak823receipts. Production implementation still requires independent storage/design review and failing tests. Evidence: [cloud resume](../../research/2026-10-04-cloud-resume/rtls-feasibility-declaration.md).
+- Final local photographic/gameplay/GPU/frame/performance acceptance and main gate must use an exact source-pinned Mac handoff; no such local pass is claimed.
 
 ## State and recovery
 

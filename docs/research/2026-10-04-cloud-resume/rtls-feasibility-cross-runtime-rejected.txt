@@ -1,0 +1,82 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: original forecast
++ actual - expected
+
+  {
+    failed: false,
+    fuel: 134260.87596304677,
+    handoff: {
+      height: 2917.068240672182,
+      lateralFeasible: true,
+      time: 21.139567067491438,
++     vx: -2.3738938076952145,
+-     vx: -2.3738938076952163,
+      vy: -280.9791369052613,
+      x: 33.49250454455614
+    },
+    ignitionDraws: 26,
+    pitch: 0.009710842741160046,
++   rangeError: 16.44419894936604,
+-   rangeError: 16.44419894936603,
+    reached: true,
++   speedX: -2.3738938076952145,
+-   speedX: -2.3738938076952163,
+    speedY: -280.9791369052613,
+    steps: 1893,
+    time: 97.85833333333314
+  }
+
+    at file:///tmp/starship-rtls-feasibility.mjs:5996:5
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: {
+    reached: true,
+    rangeError: 16.44419894936604,
+    time: 97.85833333333314,
+    fuel: 134260.87596304677,
+    speedX: -2.3738938076952145,
+    speedY: -280.9791369052613,
+    pitch: 0.009710842741160046,
+    steps: 1893,
+    ignitionDraws: 26,
+    failed: false,
+    handoff: {
+      x: 33.49250454455614,
+      height: 2917.068240672182,
+      vx: -2.3738938076952145,
+      vy: -280.9791369052613,
+      time: 21.139567067491438,
+      lateralFeasible: true
+    }
+  },
+  expected: {
+    reached: true,
+    rangeError: 16.44419894936603,
+    time: 97.85833333333314,
+    fuel: 134260.87596304677,
+    speedX: -2.3738938076952163,
+    speedY: -280.9791369052613,
+    pitch: 0.009710842741160046,
+    steps: 1893,
+    ignitionDraws: 26,
+    failed: false,
+    handoff: {
+      x: 33.49250454455614,
+      height: 2917.068240672182,
+      vx: -2.3738938076952163,
+      vy: -280.9791369052613,
+      time: 21.139567067491438,
+      lateralFeasible: true
+    }
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

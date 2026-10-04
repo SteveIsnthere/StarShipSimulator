@@ -67,7 +67,7 @@ Recorded, not built: [docs/plans/backlog/README.md](../backlog/README.md).
 
 ## Status
 
-**Paused at Steve’s request on2026-10-03.** Resume only on explicit instruction or the refreshed `/goal`. Eight of ten phases are complete by phase count; Phase8 integration and Phase9 remain. The [current handover](modernization-handover.md) is the authoritative checkpoint; historical receipts are indexed under research.
+**Resumed by Steve’s refreshed `/goal` on2026-10-03 (Vancouver).** Cloud startup/recovery is verified; required local acceptance remains pending. Eight of ten phases are complete by phase count; Phase8 integration and Phase9 remain. The [current handover](modernization-handover.md) is the authoritative checkpoint; historical receipts are indexed under research.
 
 Finished phase plans are closed out (`repo-docs-layout`): their record is the merge commit, and their decisions live in `docs/reference/`.
 

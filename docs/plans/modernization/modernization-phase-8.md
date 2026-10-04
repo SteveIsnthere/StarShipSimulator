@@ -1,6 +1,6 @@
 # Visuals Implementation Plan
 
-**Paused at Steve’s request, 2026-10-03.** The implementation directions below apply only after explicit resume or the refreshed `/goal`. This documentation checkpoint does not authorize starting another task now.
+**Resumed by Steve’s refreshed `/goal`, 2026-10-03 (Vancouver).** Cloud startup/recovery is verified. Supported CPU implementation continues here; required live gameplay, photographic rendering, GPU/frame/performance acceptance remains on Steve’s Mac.
 
 > **For agentic workers:** Use superpowers:executing-plans to implement this plan inline, task by task. Steps use checkbox (`- [ ]`) syntax for tracking. The approved goal authorizes implementation, publication, independent review and clean merges without another owner checkpoint.
 
