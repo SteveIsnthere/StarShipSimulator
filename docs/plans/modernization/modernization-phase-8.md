@@ -1,6 +1,8 @@
 # Visuals Implementation Plan
 
-**Resumed by Steve’s refreshed `/goal`, 2026-10-03 (Vancouver).** Cloud startup/recovery is verified. Supported CPU implementation continues here; required live gameplay, photographic rendering, GPU/frame/performance acceptance remains on Steve’s Mac.
+**Current acceptance platform (Steve’s follow-up, 2026-10-04 UTC):** “it shouldnt be mac exclusive, everything should beable to run in this env, if not fix it”. Run the implementation, complete gate, timing, browser/rendering and full-frame checks in this reconciled cloud environment. Preserve all numerical budgets, warm-up/sample counts, assertions and review requirements. Record the actual CPU/browser/renderer; cloud viewport emulation and software rendering do not establish physical handset or hardware-GPU results. Earlier Mac-only requirements below are historical and superseded by this explicit instruction.
+
+**Resumed by Steve’s refreshed `/goal`, 2026-10-03 (Vancouver).** Cloud startup/recovery is verified. Supported CPU implementation continues here; acceptance runs in cloud under the current platform instruction above.
 
 > **For agentic workers:** Use superpowers:executing-plans to implement this plan inline, task by task. Steps use checkbox (`- [ ]`) syntax for tracking. The approved goal authorizes implementation, publication, independent review and clean merges without another owner checkpoint.
 
@@ -42,7 +44,7 @@ If Steve chooses V3 or progressive damage, revise the model/physics tier and sou
 
 - Ship every approved area: engines/plumes; re-entry/heat; environment; vehicle/camera. Phase 9 retains UX ownership.
 - V3 and progressive damage are approved Fidelity changes under the implementation amendment. Physics remains serial; goldens require the recording platform and all truth/flight checks. Preserve preset intent, intro sequence, pig, physical limits and parity. View code only reads core state.
-- First-load JavaScript ≤300 kB gzip; six-command gate ≤300 seconds on Steve’s Mac; hosted CI ≤20 minutes. Floors remain unchanged.
+- First-load JavaScript ≤300 kB gzip; six-command gate ≤300 seconds in the current cloud acceptance environment; hosted CI ≤20 minutes. Floors remain unchanged.
 - Render curves are authored visualization, not quantitative exhaust photometry, geographic surveying or temperature imaging. Label compression in source and reference docs.
 - Desktop full-frame work p95 ≤16.67 ms and measured steady cadence ≥59 frames/s (60 fps target); phone reduced-quality full-frame work p95 ≤33.33 ms and measured cadence ≥29.5 frames/s (30 fps target). Full-frame work includes the actual session tick, simulation, HUD, scene and GPU completion, not rendering alone. Viewport emulation is not an actual handset claim.
 - Build before tests; no concurrent heavy checks. All existing bounds, positive controls and zero local retries remain. Renew coverage seals only after auditing all affected closures; otherwise retain conservative full coverage.
@@ -321,12 +323,15 @@ The earlier execution ledger is preserved in [implementation history](../../rese
 
 **Input:** the unchanged default RTLS trace,1893-step initial coarse candidate, two subsequent coarse candidates,2540-step successful fine proof, four total search-plus-observer advances per call,13.283333s cutoff. **Output:** one independently reviewed integer-work ledger with exact source/metadata matching and measured bounded storage, or a recorded rejection. This is a feasibility task, not permission to build the proposed large cache blindly.
 
-- [ ] Read the cycle2 attempt1/2 outcomes and rejected hint-first review. The first exact fine replay misses all four catch gates; do not repeat it or remove its veto.
-- [ ] Reconstruct scheduling from existing receipts. Count stage-boundary unused slots, source-observer work, force-hint slices, receipt availability and any deferred publication. Exact cached transitions count as already paid work; every newly evaluated transition still counts against four.
-- [ ] Before implementation, prove any shared prefix has full input equality and original physical/control/RNG/material outputs, with immutable ownership. Current forecast flags/countdown/coast metadata differ, and0.05s steady forecasts cannot supply120Hz observer endpoints. A theoretical1098-credit estimate is not sufficient.
-- [ ] If evidence is insufficient, declare at most one unchanged existing-candidate/source-prefix diagnostic replay to obtain the missing ledger. Freeze source hashes first. No new candidate, live flight or source change is hidden inside that measurement.
-- [ ] Obtain fresh independent assessment. Reject a design that lacks strict deadline slack or acceptable storage/copy cost; record a new bounded approach under the standing diagnosis-cycle rule instead of rerunning for luck.
-- [ ] Only after a reviewed feasible approach, write failing budget/provenance/ownership tests, implement the smallest fix, and execute the declared physical acceptance. Preserve original catch, fuel, source, total trial/candidate caps and all scenario limits.
+- [x] Read the cycle2 attempt1/2 outcomes and rejected hint-first review. The first exact fine replay misses all four catch gates; do not repeat it or remove its veto.
+- [x] Reconstruct scheduling from existing receipts. Count stage-boundary unused slots, source-observer work, force-hint slices, receipt availability and any deferred publication. Exact cached transitions count as already paid work; every newly evaluated transition still counts against four.
+- [x] Before implementation, prove any shared prefix has full input equality and original physical/control/RNG/material outputs, with immutable ownership. Current forecast flags/countdown/coast metadata differ, and0.05s steady forecasts cannot supply120Hz observer endpoints. A theoretical1098-credit estimate is not sufficient.
+- [x] If evidence is insufficient, declare at most one unchanged existing-candidate/source-prefix diagnostic replay to obtain the missing ledger. Freeze source hashes first. No new candidate, live flight or source change is hidden inside that measurement.
+- [x] Obtain fresh independent assessment. Reject a design that lacks strict deadline slack or acceptable storage/copy cost; record a new bounded approach under the standing diagnosis-cycle rule instead of rerunning for luck.
+- [x] Only after a reviewed feasible approach, write failing budget/provenance/ownership tests, implement the smallest fix, and execute the declared physical acceptance. Preserve original catch, fuel, source, total trial/candidate caps and all scenario limits.
+
+
+Cloud Node22 feasibility closes the read-only prerequisite:1098 exact independently compared normalized transitions;5865new search calls;700hint-force iterations;2540-step actual fine catch. Carry/availability ledger completes1590ticks13.25s before13.283333s with823peak receipts;11extra misses retainfuture slack,12exhaustit. The [fresh independent review](../../research/2026-10-04-cloud-resume/rtls-independent-review.md) approves only the bounded1024immutable receipt implementation with required negative/publication/ownership tests. Cloud storage characterization is not a Mac performance pass.
 
 ### Remaining integration sequence
 
@@ -338,3 +343,5 @@ The earlier execution ledger is preserved in [implementation history](../../rese
 6. Complete R4: whole ordered gate, full five-project browser suite with zero added retries, truth, all21mutation faults with green control, fresh protected independent high review, main merge/gate/CI/Pages/exact live assets and smoke. Then close Phase8 and write the full Phase9 plan before implementation.
 
 Phase9 still owns the complete UX scope in the roadmap, every2021 capability, keyboard/gamepad/rebinding/onboarding, menu readiness flakes, phone debrief obstruction, elapsed-clock clipping and trajectory-card placement, literal per-id landing/catch audit in `tests/flies-every-scenario.test.ts`, motion review publication and final last-three-main-CI condition. The narrow landscape repair brought forward does not complete Phase9.
+
+Current cloud RTLS cycle2attempt3: physical catch119.216667s,90,809.2kg fuel,no failures,source valid. Publication13.25s strictly precedes13.283333s cutoff;max4mechanics/tick,700hint iterations total,peak823receipts. Fresh independent review and source-pinned one-flight evidence are under `docs/research/2026-10-04-cloud-resume/rtls-cycle2-attempt3-*`. Default separation and full acceptance remain open.

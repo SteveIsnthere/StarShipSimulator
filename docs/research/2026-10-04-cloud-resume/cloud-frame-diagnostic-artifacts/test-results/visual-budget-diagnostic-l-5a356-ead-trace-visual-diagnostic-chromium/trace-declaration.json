@@ -1,0 +1,10 @@
+{
+  "categories": "toplevel,devtools.timeline,disabled-by-default-devtools.timeline,blink,blink.user_timing,cc,gpu,viz,renderer.scheduler,v8,disabled-by-default-devtools.timeline.frame,disabled-by-default-v8.cpu_profiler,disabled-by-default-v8.cpu_profiler.hires",
+  "transferMode": "ReturnAsStream",
+  "bufferKiB": 32768,
+  "exportedStreamByteCap": 67108864,
+  "stopTimeoutMs": 10000,
+  "detachTimeoutMs": 1000,
+  "scope": "browser CDP tracing across browser/renderer/compositor/GPU threads",
+  "limitations": "CPU profiling and tracing add overhead; this is diagnosis, never a frame-budget acceptance result"
+}

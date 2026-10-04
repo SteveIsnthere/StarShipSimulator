@@ -1,0 +1,4 @@
+--trace-opt
+--trace-deopt
+--trace-turbo-inlining
+--trace-file-names

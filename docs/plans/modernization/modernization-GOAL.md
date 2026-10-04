@@ -1,6 +1,8 @@
 # Modernization — goal contract
 
-**Resumed by Steve’s refreshed `/goal` on 2026-10-03 (Vancouver).** The pause is cleared without changing the approved scope. Supported implementation and CPU checks run in the freshly reconciled cloud checkout `/workspace/StarShipSimulator`. Live gameplay, photographic rendering, GPU/frame/performance acceptance and the final main gate remain on Steve’s Mac. Cloud results never substitute for those checks.
+**Current acceptance platform (Steve’s follow-up, 2026-10-04 UTC):** “it shouldnt be mac exclusive, everything should beable to run in this env, if not fix it”. Run the implementation, complete gate, timing, browser/rendering and full-frame checks in this reconciled cloud environment. Preserve all numerical budgets, warm-up/sample counts, assertions and review requirements. Record the actual CPU/browser/renderer; cloud viewport emulation and software rendering do not establish physical handset or hardware-GPU results. Earlier Mac-only requirements below are historical and superseded by this explicit instruction.
+
+**Resumed by Steve’s refreshed `/goal` on 2026-10-03 (Vancouver).** The pause is cleared without changing the approved scope. Supported implementation and CPU checks run in the freshly reconciled cloud checkout `/workspace/StarShipSimulator`. Acceptance now runs in the cloud under the current platform instruction above; record the actual execution backend.
 
 Continue independently through ONLY this roadmap:
 /Users/stevewang/dev/StarShipSimulator-realism/docs/plans/modernization/modernization-roadmap.md
@@ -28,11 +30,11 @@ All implementation, diagnosis, reviewed findings, rejected approaches, raw check
 
 ## First task after explicit resume
 
-Read the [current handover](modernization-handover.md) and [research index](../../research/2026-10-03-vehicle-realism/README.md), then execute only the next bounded RTLS scheduling-feasibility task in the [Phase8 plan](modernization-phase-8.md#next-bounded-work-after-resume-establish-a-feasible-rtls-work-schedule). The exact source prefix must match the independent observer, every new mechanical advance stays inside the four-call budget, and the integer ledger must leave strict future-cutoff slack before a cache is implemented. Do not repeat rejected hint-first or first-candidate fine replays.
+Read the [current handover](modernization-handover.md) and [research index](../../research/2026-10-03-vehicle-realism/README.md), then preserve the completed bounded RTLS scheduling-feasibility task in the [Phase8 plan](modernization-phase-8.md#next-bounded-work-after-resume-establish-a-feasible-rtls-work-schedule). The exact source prefix must match the independent observer, every new mechanical advance stays inside the four-call budget, and the integer ledger must leave strict future-cutoff slack before a cache is implemented. Do not repeat rejected hint-first or first-candidate fine replays.
 
 Continue in `/Users/stevewang/dev/StarShipSimulator-realism` on existing `claude/visuals`. Its runtime baseline is32e5bb3; the newer documentation checkpoint preserves the uncommitted runtime/tests in a verified recovery patch, not a released physics commit. On the existing dirty worktree do not reapply it. A fresh checkout must follow the recovery manifest before running current acceptance. Main/live remaine8a06ff; Phases8 and9 are not closed.
 
-Seed123 now actually catches337.975s with88.54t fuel. Default RTLS still misses publication (fine proof16.308333s, cutoff13.283333s) and breaks up under pressure21.275s. Default separation separately crashes341.6s and needs its own declared trace. Final predictor timing and focused verification are recorded in the handover. Current full gate, coverage, Linux goldens, final browser/frame acceptance, release review, merge and live deployment remain outstanding.
+Seed123 now actually catches337.975s with88.54t fuel. The reviewed bounded cloud RTLS fix now physically catches119.216667s with90.809t fuel, no failures and valid source; publication13.25s strictly precedes13.283333s cutoff. Original failure remains preserved as history. The separate source-pinned default separation trace reproduces crash341.65s after RCS depletion, with89.683t retained fuel. A reviewed finite-grid/RCS shadow ledger supports the next bounded terminal allocation candidate; it is no catch proof. Final predictor timing and focused verification are recorded in the handover. Current full gate, coverage, Linux goldens, final browser/frame acceptance, release review, merge and live deployment remain outstanding.
 
 Use the repository’s Node22 runtime; login Node25 evidence is historical. Original Pro review completed. CLI authentication and connected-browser failures during this documentation pass use the documented fresh-review fallback; no owner access task is pending. Completed physics/render/browser work and rejected paths are indexed, so a cold agent must continue from the preserved state rather than reconstruct it.
 
@@ -57,7 +59,7 @@ Earlier Phase6/6b experiment approvals, characterized predictors, source convent
 - **Capability parity:** every 2021 control keeps a working equivalent (`tests/e2e/parity.spec.ts`). Labels, layout and keys may change.
 - **The seven walls** and a pure, deterministic `step()` (`sim-core-conventions`). The one sanctioned global is `window.__simDebug` in `src/app/debug.ts` (Phase 2 Task 5).
 - **Physics changes only under a tier** from `physics-change-policy`. This roadmap approves the Fidelity changes Phases 5–7 name and the explicitly approved Phase 8 V3/progressive-damage amendment. Truth tests are never re-blessed; no tuning constant moves to pass one.
-- **Budgets:** first-load JS ≤ 300 kB gzip (250 until the React shell, whose React DOM costs about 45 kB; re-baselined in Phase 4 and recorded in the handover); the light gate ≤ 5 minutes on Steve's Mac; hosted CI ≤ 20 minutes.
+- **Budgets:** first-load JS ≤ 300 kB gzip (250 until the React shell, whose React DOM costs about 45 kB; re-baselined in Phase 4 and recorded in the handover); the light gate ≤ 5 minutes in the current cloud acceptance environment; hosted CI ≤ 20 minutes.
 - **`tests/fixtures/legacy/`** (the archived 2021 game) is never modified.
 - **flight_sim is read-only.** Copy from `/Users/stevewang/dev/flight_sim/web/src/ui/`; never edit that repo.
 - **Stay JavaScript/TypeScript.** No Rust, no WASM, no new language runtime.
@@ -124,7 +126,7 @@ Report phases done vs remaining, product changes shipped (what a player can now 
 
 Stop when all of these are objectively true:
 - [ ] every phase in the roadmap's Status list is checked off
-- [ ] on `main`, `npm run gate` exits 0 on Steve's Mac, and the last three hosted CI runs on `main` are green (or the billing exception above is recorded)
+- [ ] on `main`, `npm run gate` exits 0 in the reconciled cloud acceptance environment, and the last three hosted CI runs on `main` are green (or the billing exception above is recorded)
 - [ ] https://steveisnthere.github.io/StarShipSimulator/ serves the React build, and the smoke tier passes against that URL
 - [ ] `npm run truth:report` shows every tier-A row IN, and the registry covers at least: Raptor sea-level and vacuum Isp and thrust, RVac Isp, Ship and Super Heavy propellant and dry mass, engine counts, planet radius, max-Q altitude and value on an ascent, and re-entry peak heating — a row may not be deleted to make this true
 - [ ] `npm run mutation` shows every mutation CAUGHT by a named assertion failure, with the unmodified control run passing first

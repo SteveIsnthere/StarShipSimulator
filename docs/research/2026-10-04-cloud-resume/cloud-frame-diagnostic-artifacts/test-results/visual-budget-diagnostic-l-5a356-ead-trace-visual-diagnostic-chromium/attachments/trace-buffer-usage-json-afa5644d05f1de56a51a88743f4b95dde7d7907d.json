@@ -1,0 +1,127 @@
+{
+  "bufferUsage": [
+    {
+      "percentFull": 0.014534860849380493,
+      "eventCount": 0,
+      "value": 0.014534860849380493
+    },
+    {
+      "percentFull": 0.028706371784210205,
+      "eventCount": 0,
+      "value": 0.028706371784210205
+    },
+    {
+      "percentFull": 0.04517924785614014,
+      "eventCount": 0,
+      "value": 0.04517924785614014
+    },
+    {
+      "percentFull": 0.05947187542915344,
+      "eventCount": 0,
+      "value": 0.05947187542915344
+    },
+    {
+      "percentFull": 0.07231104373931885,
+      "eventCount": 0,
+      "value": 0.07231104373931885
+    },
+    {
+      "percentFull": 0.08515018224716187,
+      "eventCount": 0,
+      "value": 0.08515018224716187
+    },
+    {
+      "percentFull": 0.09011626243591309,
+      "eventCount": 0,
+      "value": 0.09011626243591309
+    },
+    {
+      "percentFull": 0.09992730617523193,
+      "eventCount": 0,
+      "value": 0.09992730617523193
+    },
+    {
+      "percentFull": 0.11107072234153748,
+      "eventCount": 0,
+      "value": 0.11107072234153748
+    },
+    {
+      "percentFull": 0.12160852551460266,
+      "eventCount": 0,
+      "value": 0.12160852551460266
+    },
+    {
+      "percentFull": 0.1328730583190918,
+      "eventCount": 0,
+      "value": 0.1328730583190918
+    },
+    {
+      "percentFull": 0.14510658383369446,
+      "eventCount": 0,
+      "value": 0.14510658383369446
+    },
+    {
+      "percentFull": 0.15709784626960754,
+      "eventCount": 0,
+      "value": 0.15709784626960754
+    },
+    {
+      "percentFull": 0.16896802186965942,
+      "eventCount": 0,
+      "value": 0.16896802186965942
+    },
+    {
+      "percentFull": 0.1798691749572754,
+      "eventCount": 0,
+      "value": 0.1798691749572754
+    },
+    {
+      "percentFull": 0.18955910205841064,
+      "eventCount": 0,
+      "value": 0.18955910205841064
+    },
+    {
+      "percentFull": 0.20021802186965942,
+      "eventCount": 0,
+      "value": 0.20021802186965942
+    },
+    {
+      "percentFull": 0.2123304307460785,
+      "eventCount": 0,
+      "value": 0.2123304307460785
+    },
+    {
+      "percentFull": 0.22298932075500488,
+      "eventCount": 0,
+      "value": 0.22298932075500488
+    },
+    {
+      "percentFull": 0.23473834991455078,
+      "eventCount": 0,
+      "value": 0.23473834991455078
+    },
+    {
+      "percentFull": 0.24527615308761597,
+      "eventCount": 0,
+      "value": 0.24527615308761597
+    },
+    {
+      "percentFull": 0.25738856196403503,
+      "eventCount": 0,
+      "value": 0.25738856196403503
+    },
+    {
+      "percentFull": 0.2679263651371002,
+      "eventCount": 0,
+      "value": 0.2679263651371002
+    }
+  ],
+  "bufferKiB": 32768,
+  "exportedStreamByteCap": 67108864,
+  "receivedBytes": 23670394,
+  "streamComplete": true,
+  "exceededByteCap": false,
+  "error": null,
+  "cleanupErrors": [],
+  "limitation": "a full buffer or partial stream is truncated diagnostic evidence, never a complete trace claim"
+}

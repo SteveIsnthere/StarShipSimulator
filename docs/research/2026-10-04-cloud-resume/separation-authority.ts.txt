@@ -1,0 +1,69 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {strictEqual,ok} from 'node:assert';
+import {createScenarioVehicle,PRESETS} from '../../../src/core/scenarios';
+import {SUPER_HEAVY} from '../../../src/core/vehicles/super-heavy';
+import {createMassProperties} from '../../../src/core/physics/mass';
+import {createDamageMassProperties} from '../../../src/core/physics/damage-mass';
+import {writeFlightMassQuery} from '../../../src/core/physics/flight-mass-query';
+import {writeFlightGridForces} from '../../../src/core/physics/damage-flight';
+import {createGridFinForces} from '../../../src/core/physics/grid-fins';
+import {gimballedShare} from '../../../src/core/physics/engines';
+import {rad} from '../../../src/core/units';
+import {slewToward} from '../../../src/core/control/actuation';
+import * as C from '../../../src/core/constants';
+import type {SimState} from '../../../src/core/state';
+const dir='docs/research/2026-10-04-cloud-resume/';
+const pins=JSON.parse(readFileSync(dir+'separation-authority-source-hashes.json','utf8'));
+const sha=(data:string|Buffer)=>createHash('sha256').update(data).digest('hex');
+function check(){for(const [path,hash] of Object.entries(pins))strictEqual(sha(readFileSync(path)),hash,path);}
+check();const selected=JSON.parse(readFileSync(dir+'separation-authority-selected-states.json','utf8'));
+const initial=createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!).state;
+for(const key of ['wind','gust','gustVertical','turbulenceU','turbulenceW1','turbulenceW2'] as const)strictEqual(initial.world[key],0,key);
+const dt=1/120,arms=createMassProperties(),mass=createDamageMassProperties(),grid=createGridFinForces();
+const limit=SUPER_HEAVY.gridFins!.maxAngle;
+const rows=selected.frames.map(({requestedTime,snapshot:r}:any)=>{
+ strictEqual(r.rng.counters.turbulence,0);const original=JSON.stringify(r);
+ const s={...initial,...r,world:{...initial.world,environmentTime:r.time}} as SimState;
+ writeFlightMassQuery(s,SUPER_HEAVY,mass,arms);ok(mass.engineSupportAvailable && mass.hasMass);
+ const k=s.kinematics,error=Math.atan2(Math.sin(-k.pitch),Math.cos(-k.pitch));
+ const desiredAlpha=error/.5**2-2*k.angularVelocity/.5;
+ const alignTorque=(desiredAlpha-s.forces.offAxisThrustDifferenceAcceleration-s.forces.angularDragAcceleration)*mass.momentOfInertia;
+ const steerable=s.forces.thrust*gimballedShare(s.engines.running,s.atmosphere.airPressure,SUPER_HEAVY);
+ const gimbalTorque=steerable*arms.engineArm*Math.sin(s.vehicle.gimbalPosition*.01*C.gimbalAngleLimit);
+ function torque(angle:number){writeFlightGridForces(s,s.atmosphere.airDensity,k.speedX,k.speedY,k.pitch,arms,SUPER_HEAVY,grid,rad(angle));return grid.torque;}
+ const deliveredAngle=(s.vehicle.frontFinExtension-50)/50*limit;
+ const current=torque(deliveredAngle),low=torque(-limit),high=torque(limit),target=alignTorque-gimbalTorque;
+ const nextLowPercent=slewToward(s.vehicle.frontFinExtension,0,C.finActuationSpeed*dt);
+ const nextHighPercent=slewToward(s.vehicle.frontFinExtension,100,C.finActuationSpeed*dt);
+ const nextLowAngle=(nextLowPercent-50)/50*limit,nextHighAngle=(nextHighPercent-50)/50*limit;
+ const nextLow=torque(nextLowAngle),nextHigh=torque(nextHighAngle);
+ let lo=-limit,hi=limit;
+ if(Math.abs(high-low)>1){for(let i=0;i<14;i++){const mid=(lo+hi)/2;if((torque(mid)<target)===(high>low))lo=mid;else hi=mid;}}
+ else lo=hi=0;
+ const requestedAngle=(lo+hi)/2,requestedPercent=50+requestedAngle/limit*50;
+ const nextPercent=slewToward(s.vehicle.frontFinExtension,requestedPercent,C.finActuationSpeed*dt);
+ const candidateNextAngle=(nextPercent-50)/50*limit,candidateNext=torque(candidateNextAngle);
+ function rcs(t:number){const demanded=(alignTorque-gimbalTorque-t)/arms.rcsArm;
+  const bounded=Math.max(-C.rcsMaxThrust,Math.min(C.rcsMaxThrust,demanded));
+  const fraction=Math.abs(bounded)/C.rcsMaxThrust,available=s.vehicle.rcsRunTimeRemaining/dt;
+  const paid=available<fraction?Math.sign(bounded)*C.rcsMaxThrust*available:bounded;
+  return {demanded,bounded,finitePaid:paid,reserveCost:Math.min(s.vehicle.rcsRunTimeRemaining,fraction*dt),
+   uncompensatedTorque:alignTorque-gimbalTorque-t-paid*arms.rcsArm};}
+ const out={requestedTime,time:r.time,lug:r.lug,pitch:k.pitch,omega:k.angularVelocity,fuel:s.vehicle.propellantMass,
+  rcsReserve:s.vehicle.rcsRunTimeRemaining,rawDeliveredRCS:s.forces.rcsThrust,rawGimbal:s.vehicle.gimbalPosition,
+  finActive:s.status.finActive,finCommand:s.autopilot.boosterFinControl,finDelivered:s.vehicle.frontFinExtension,
+  mass:mass.totalMass,inertia:mass.momentOfInertia,engineArm:arms.engineArm,rcsArm:arms.rcsArm,
+  desiredAlpha,alignTorque,gimbalTorque,gridCurrent:current,gridTarget:target,requiredGridChange:target-current,
+  fullEnvelope:{low,high,targetWithin:target>=Math.min(low,high) && target<=Math.max(low,high)},
+  oneStepEnvelope:{low:nextLow,high:nextHigh,angles:[nextLowAngle,nextHighAngle],targetWithin:target>=Math.min(nextLow,nextHigh) && target<=Math.max(nextLow,nextHigh)},
+  finProposal:{requestedAngle,requestedPercent,requestedTorque:torque(requestedAngle),nextAngle:candidateNextAngle,nextTorque:candidateNext,
+   minimumSlewSeconds:Math.abs(requestedPercent-s.vehicle.frontFinExtension)/C.finActuationSpeed},
+  currentRCS:rcs(current),candidateNextRCS:rcs(candidateNext),endpointRCS:rcs(torque(requestedAngle))};
+ strictEqual(JSON.stringify(r),original,'raw state mutated');return out;
+});
+check();const output={node:process.version,rawSha256:selected.rawSha256,worldReconstruction:['initial calm world with recorded environmentTime'],
+ authorityOnly:true,newFlight:false,rows};writeFileSync(dir+'separation-authority-results.json',JSON.stringify(output,null,2)+'\n');
+console.log(JSON.stringify(rows.map((r:any)=>({time:r.time,reserve:r.rcsReserve,full:r.fullEnvelope.targetWithin,next:r.oneStepEnvelope.targetWithin,
+ requiredGrid:r.gridTarget,fullGrid:[r.fullEnvelope.low,r.fullEnvelope.high],nextGrid:[r.oneStepEnvelope.low,r.oneStepEnvelope.high],
+ oldRCS:r.currentRCS.demanded,nextRCS:r.candidateNextRCS.demanded,endpointRCS:r.endpointRCS.demanded,slew:r.finProposal.minimumSlewSeconds})),null,2));

@@ -1,0 +1,237 @@
+ M docs/plans/modernization/modernization-GOAL.md
+ M docs/plans/modernization/modernization-handover.md
+ M docs/plans/modernization/modernization-phase-8.md
+ M src/app/debug.ts
+ M src/audio/params.ts
+ M src/core/autopilot/booster.ts
+ M src/core/autopilot/index.ts
+ M src/core/autopilot/landing-burn.ts
+ M src/core/control/actuation.ts
+ M src/core/control/booster-arrival.ts
+ M src/core/control/booster-forecast.ts
+ M src/core/control/booster-prediction.ts
+ M src/core/control/booster-return-plan.ts
+ M src/core/control/guidance-physics.ts
+ M src/core/control/mechanical.ts
+ M src/core/control/primitives.ts
+ M src/core/mission-free-flight.ts
+ M src/core/mission.ts
+ M src/core/physics/components.ts
+ M src/core/physics/engines.ts
+ M src/core/physics/mass.ts
+ M src/core/physics/step-dynamics.ts
+ M src/core/scenarios.ts
+ M src/core/state.ts
+ M src/core/step.ts
+ M src/core/vehicle.ts
+ M src/core/vehicles/super-heavy.ts
+ M src/hud/debrief.ts
+ M src/hud/prediction.ts
+ M src/hud/trajectory-draw.ts
+ M src/ui/session/camera-follow.ts
+ M src/ui/session/debug-presentation.ts
+ M src/ui/session/scene-vehicles.ts
+ M src/ui/session/scene.ts
+ M src/ui/session/session.ts
+ M src/ui/shell/BoosterEngineGroups.tsx
+ M src/ui/shell/Controls/ControlGroup.tsx
+ M src/ui/shell/Controls/Controls.tsx
+ M src/ui/shell/Hud/EngineDots.tsx
+ M src/ui/shell/Hud/Hud.tsx
+ M src/view/assets.ts
+ M src/view/booster.ts
+ M src/view/effects.ts
+ D src/view/heat-shield.ts
+ D src/view/lighting.ts
+ M src/view/post.ts
+ M src/view/reentry.ts
+ D src/view/vehicle-detail.ts
+ M src/view/vehicle.ts
+ M src/view/world.ts
+ M tests/core/angular-momentum.test.ts
+ M tests/core/autopilot-stages.test.ts
+ M tests/core/autopilot.test.ts
+ M tests/core/booster-burn-bound.test.ts
+ M tests/core/booster-command.test.ts
+ M tests/core/booster-forecast.test.ts
+ M tests/core/booster-planning-latency.test.ts
+ M tests/core/booster-policy-boundaries.test.ts
+ M tests/core/booster-prediction.test.ts
+ M tests/core/booster-scheduling-boundaries.test.ts
+ M tests/core/booster-terminal-envelope.test.ts
+ M tests/core/collapsed-trig.test.ts
+ M tests/core/control-contracts.test.ts
+ M tests/core/domain-edges.test.ts
+ M tests/core/failure-freshness.test.ts
+ M tests/core/felt-g.test.ts
+ M tests/core/final-descent-profile.test.ts
+ M tests/core/grid-fins.test.ts
+ M tests/core/guidance-physics.test.ts
+ M tests/core/guidance-truth.test.ts
+ M tests/core/hot-staging.test.ts
+ M tests/core/invariants.test.ts
+ M tests/core/landing-burn.test.ts
+ M tests/core/mass.test.ts
+ M tests/core/mission-continuation.test.ts
+ M tests/core/orbit-demo.test.ts
+ M tests/core/orbit.test.ts
+ M tests/core/rcs-dead-zone.test.ts
+ M tests/core/rvac.test.ts
+ M tests/core/scenarios.test.ts
+ M tests/core/ship-control-boundaries.test.ts
+ M tests/core/step.test.ts
+ M tests/core/super-heavy.test.ts
+ M tests/core/thrust-altitude.test.ts
+ M tests/core/tower-catch.test.ts
+ M tests/core/wind.test.ts
+ M tests/e2e/chromium.ts
+ M tests/e2e/post-compositing.spec.ts
+ M tests/e2e/renderer/heat-shield-witness.ts
+ M tests/e2e/shake.spec.ts
+ M tests/e2e/staging.spec.ts
+ M tests/e2e/visual-scenes.spec.ts
+ M tests/golden/booster-record.test.ts
+ M tests/golden/booster-record.ts
+ M tests/hud/booster-presentation.test.ts
+ M tests/hud/debrief.test.ts
+ M tests/hud/engine-groups.test.ts
+ M tests/hud/prediction.test.ts
+ M tests/proofs/fixtures/legacy-ladders.ts
+ M tests/proofs/fixtures/ship-guidance.ts
+ M tests/proofs/fixtures/ship-initial.ts
+ M tests/proofs/fixtures/ship-primitives.ts
+ M tests/proofs/fixtures/ship-step.ts
+ M tests/proofs/ship-engines.test.ts
+ M tests/proofs/ship-geometry.test.ts
+ M tests/proofs/ship-guidance.test.ts
+ M tests/proofs/ship-step.test.ts
+ M tests/proofs/ship-vehicle.test.ts
+ M tests/proofs/step-dynamics.test.ts
+ M tests/reference/anchors.ts
+ M tests/reference/in-band.json
+ M tests/ui/camera-follow.test.ts
+ M tests/ui/menu.test.ts
+ M tests/ui/shell/Debrief.test.tsx
+ M tests/ui/shell/fields-presets.test.ts
+ M tests/view/booster.test.ts
+ M tests/view/catch-tower.test.ts
+ M tests/view/dynamic-pressure.test.ts
+ M tests/view/heat-shield.test.ts
+ M tests/view/lighting.test.ts
+ M tests/view/vehicle-detail.test.ts
+ M vite.config.ts
+ M vitest.timing.config.ts
+?? docs/research/2026-10-04-cloud-resume/cloud-visual-portability.md
+?? docs/research/2026-10-04-cloud-resume/fall-cloud-baseline-receipt/
+?? docs/research/2026-10-04-cloud-resume/fall-cloud-diagnostic-declaration.md
+?? docs/research/2026-10-04-cloud-resume/fall-cloud-profile-receipt/
+?? docs/research/2026-10-04-cloud-resume/fall-cloud-profile.ts.txt
+?? docs/research/2026-10-04-cloud-resume/fall-cost-assessment.md
+?? docs/research/2026-10-04-cloud-resume/rtls-code-review-and-separation-assessment.md
+?? docs/research/2026-10-04-cloud-resume/rtls-cycle2-attempt3-declaration.md
+?? docs/research/2026-10-04-cloud-resume/rtls-cycle2-attempt3-harness-hashes.txt
+?? docs/research/2026-10-04-cloud-resume/rtls-cycle2-attempt3-output.txt
+?? docs/research/2026-10-04-cloud-resume/rtls-cycle2-attempt3-source-hashes.json
+?? docs/research/2026-10-04-cloud-resume/rtls-cycle2-attempt3-summary.json
+?? docs/research/2026-10-04-cloud-resume/rtls-cycle2-attempt3.jsonl
+?? docs/research/2026-10-04-cloud-resume/rtls-cycle2-attempt3.ts.txt
+?? docs/research/2026-10-04-cloud-resume/run-fall-cloud-diagnostic.sh
+?? docs/research/2026-10-04-cloud-resume/separation-authority-bundle-hash.txt
+?? docs/research/2026-10-04-cloud-resume/separation-authority-declaration.md
+?? docs/research/2026-10-04-cloud-resume/separation-authority-output.txt
+?? docs/research/2026-10-04-cloud-resume/separation-authority-results.json
+?? docs/research/2026-10-04-cloud-resume/separation-authority-selected-states.json
+?? docs/research/2026-10-04-cloud-resume/separation-authority-source-hashes.json
+?? docs/research/2026-10-04-cloud-resume/separation-authority.ts.txt
+?? docs/research/2026-10-04-cloud-resume/separation-core-hashes.json
+?? docs/research/2026-10-04-cloud-resume/separation-declaration.md
+?? docs/research/2026-10-04-cloud-resume/separation-evidence-hashes.json
+?? docs/research/2026-10-04-cloud-resume/separation-exit-status.txt
+?? docs/research/2026-10-04-cloud-resume/separation-full-trace.jsonl.gz
+?? docs/research/2026-10-04-cloud-resume/separation-outcome.md
+?? docs/research/2026-10-04-cloud-resume/separation-receipt.jsonl
+?? docs/research/2026-10-04-cloud-resume/separation-stderr.txt
+?? docs/research/2026-10-04-cloud-resume/separation-stdout.txt
+?? docs/research/2026-10-04-cloud-resume/separation-trace.ts.txt
+?? playwright.visual-budget.config.ts
+?? playwright.visual-motion.config.ts
+?? src/app/debug-request.ts
+?? src/core/control/booster-cutoff-hint.ts
+?? src/core/control/booster-receipts.ts
+?? src/core/control/booster-source.ts
+?? src/core/damage-state.ts
+?? src/core/physics/body-reference.ts
+?? src/core/physics/damage-controls.ts
+?? src/core/physics/damage-debris.ts
+?? src/core/physics/damage-detachment.ts
+?? src/core/physics/damage-flight.ts
+?? src/core/physics/damage-mass.ts
+?? src/core/physics/damage-material.ts
+?? src/core/physics/damage-model.ts
+?? src/core/physics/damage-root.ts
+?? src/core/physics/damage-terminal.ts
+?? src/core/physics/damage-thermal.ts
+?? src/core/physics/flight-mass-query.ts
+?? src/core/physics/heat-transfer.ts
+?? src/core/physics/propulsion.ts
+?? src/core/physics/tps-material.ts
+?? src/core/physics/vehicle-components.ts
+?? src/core/vehicles/v3.ts
+?? src/view/component-vehicle.ts
+?? src/view/vehicle-geometry.ts
+?? src/view/vehicle-material.ts
+?? tests/core/body-reference.test.ts
+?? tests/core/booster-bracket-priority.test.ts
+?? tests/core/booster-cutoff-hint.test.ts
+?? tests/core/booster-negative-probe.test.ts
+?? tests/core/booster-paid-receipts.test.ts
+?? tests/core/booster-source.test.ts
+?? tests/core/damage-controls.test.ts
+?? tests/core/damage-debris.test.ts
+?? tests/core/damage-detachment.test.ts
+?? tests/core/damage-endpoint.test.ts
+?? tests/core/damage-exposure.test.ts
+?? tests/core/damage-flight.test.ts
+?? tests/core/damage-forecast.test.ts
+?? tests/core/damage-guidance.test.ts
+?? tests/core/damage-lifecycle.test.ts
+?? tests/core/damage-mass.test.ts
+?? tests/core/damage-material-inversion.test.ts
+?? tests/core/damage-material.test.ts
+?? tests/core/damage-mission.test.ts
+?? tests/core/damage-natural-flight.test.ts
+?? tests/core/damage-root-solver.test.ts
+?? tests/core/damage-root.test.ts
+?? tests/core/damage-state.test.ts
+?? tests/core/damage-terminal.test.ts
+?? tests/core/damage-thermal.test.ts
+?? tests/core/fall-continuation.test.ts
+?? tests/core/guidance-retained-hardware.test.ts
+?? tests/core/heat-transfer.test.ts
+?? tests/core/paid-force-epoch.test.ts
+?? tests/core/rcs-payment.test.ts
+?? tests/core/tps-material.test.ts
+?? tests/core/v3-flight.test.ts
+?? tests/core/v3.test.ts
+?? tests/core/vehicle-components.test.ts
+?? tests/e2e/short-landscape-hud.spec.ts
+?? tests/e2e/vehicle-damage.spec.ts
+?? tests/e2e/visual-budget-probe.ts
+?? tests/e2e/visual-budget.spec.ts
+?? tests/e2e/visual-evidence-fixture.ts
+?? tests/e2e/visual-runtime-receipt.ts
+?? tests/hud/v3-prediction.test.ts
+?? tests/proofs/acceleration-components.test.ts
+?? tests/proofs/fixtures/historical-runtime.ts
+?? tests/proofs/fixtures/unpowered-fall-before-preparation.json
+?? tests/proofs/fixtures/unpowered-fall-original.ts
+?? tests/proofs/unpowered-fall-preparation.test.ts
+?? tests/proofs/v3-default-dispatch.test.ts
+?? tests/reference/historical-vehicles.ts
+?? tests/ui/damage-scene.test.ts
+?? tests/ui/session-debug-loading.test.ts
+?? tests/view/assets.test.ts
+?? tests/view/component-vehicle.test.ts
+?? tests/view/fixtures/
+?? tests/view/post-metadata.test.ts
+?? tests/view/vehicle-geometry.test.ts

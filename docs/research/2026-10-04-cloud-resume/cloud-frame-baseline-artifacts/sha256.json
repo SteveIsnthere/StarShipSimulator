@@ -1,0 +1,142 @@
+[
+  {
+    "path": "completed-segments-summary.json",
+    "sha256": "d718f6c37035090dcacd2cc9591daff8fac8d0687896a143b26d06c618d165b3"
+  },
+  {
+    "path": "extracted/f29ce2611276eafd719e.json",
+    "sha256": "5fe83791d3b11e37cc16007654cef69b900a811f80f03e88a2100ed4fbb5a07b"
+  },
+  {
+    "path": "extracted/report.json",
+    "sha256": "1eb8cb88a20f0be2c80ff6fe6f265d2dbf9dd58b6f6db1cc9ee9069350e28fa8"
+  },
+  {
+    "path": "html-report/data/0f24f5c87ed860cdafcd2a0536af866a3372df99.md",
+    "sha256": "cd47ff551320f65b99ee4242dd6e1c07020f87629a0874d472f56ebe8bed6dc6"
+  },
+  {
+    "path": "html-report/data/152c712fdee249dc7bcd626c382e516a08a0d08d.png",
+    "sha256": "a612b3b65d367312668bea55ada03ef551edb7b5fdf29e308899c91de447ac9c"
+  },
+  {
+    "path": "html-report/data/18a40a6a715b4335bce7e93a4ed7f8dbed3e53fa.png",
+    "sha256": "fde7dbc3dae063b4d2363a4aef492b50b99bc3f57c477059dc975ef95ef6e3a3"
+  },
+  {
+    "path": "html-report/data/54a7d1f57abf654257f2795e07c3dbcbd443a1d6.md",
+    "sha256": "ad099fed45f06745e90c09d724558b11cf77c15d55a50a1d5bdb0bbaf544a204"
+  },
+  {
+    "path": "html-report/data/7a6abd848dad565ae9f723608441f5ee0e7bc135.md",
+    "sha256": "cd4c98ab876c4578c45854aaf576fdd897d50140f0c3879b2ce4eef475433e26"
+  },
+  {
+    "path": "html-report/data/ab4a3c384a3840b9ecd9faedc53eab26fab788b3.png",
+    "sha256": "cce4e7685b7b8b850fbca044d255325c2c03187d643b6dd656068fb1b438e339"
+  },
+  {
+    "path": "html-report/data/bd2e4427afa82fb4e76c021ef297b44cd6bd9a0f.png",
+    "sha256": "14422de8cd07bca480181dca1a3abff5efef348419311e7b9a4cf19eee9475ce"
+  },
+  {
+    "path": "html-report/data/d640a85d0f4cd25604250807375c30e1f570523e.md",
+    "sha256": "987615e775f229737ed2028077dc114c17bcf64dbdb81aed75bd13255bcaaca4"
+  },
+  {
+    "path": "html-report/data/e4e9878e2dfd9ce546300496a2d7c11789a9677c.png",
+    "sha256": "0e45d3517ed904be94aa36fd8c32091d4aa61b63f55e941ca76b09807f313513"
+  },
+  {
+    "path": "html-report/data/ee6966a875ed0f1a3bca280a5aee7b6c89c57153.md",
+    "sha256": "e5576351feb8f775f81bc1c9a8d1f0038148bda9d183854d4a3acf5ad6076f09"
+  },
+  {
+    "path": "html-report/data/fa0dd668c808af98d52334d1cc7943c431a2f3f7.md",
+    "sha256": "6980249f38ec4e5e7e928eddaf7cffe9e07e53ba2f3c0dd94af30d5371e6d3fc"
+  },
+  {
+    "path": "html-report/index.html",
+    "sha256": "5b5ceb8d9f21ff77f21d5ae590933ead74ca39a1f1d67fb7df6f158f8ee0f0d4"
+  },
+  {
+    "path": "receipts/belly-flop/before-runtime.json",
+    "sha256": "a548365fee2f4c43dbcac700774c11bcf2c64b6ce33e627c31aa3b3a847f13ff"
+  },
+  {
+    "path": "receipts/belly-flop/segment-0.json",
+    "sha256": "fa6e0b1e465e966e1257e826b7278ad66c2d3c7087c677c48ef9325df9f956bc"
+  },
+  {
+    "path": "receipts/catch/before-runtime.json",
+    "sha256": "bd3af07c7e1badf61548282927a3e8da4a585f5a8d7a2fd044c2df78d03ef526"
+  },
+  {
+    "path": "receipts/entry/before-runtime.json",
+    "sha256": "0b344848ad2c0577d1a80bb0480707b5dfc65555a1e57120412a175be2e67ccd"
+  },
+  {
+    "path": "receipts/landing/before-runtime.json",
+    "sha256": "7cb92258fbf8c47111d077df28fbfdc51d46a9e0c2b0eab45f1430a39082c0d4"
+  },
+  {
+    "path": "receipts/landing/segment-0.json",
+    "sha256": "2172c08c7721621123f5fcb98f5427d963cf52e365bf981206513ce722b7f342"
+  },
+  {
+    "path": "receipts/launch/before-runtime.json",
+    "sha256": "1d53f15b2fd8ab11087f6a36b2968e9fa3d131d9beecfb3171039fbe913bcfab"
+  },
+  {
+    "path": "receipts/staging/before-runtime.json",
+    "sha256": "1f32016348f7d372abbd0abf10fce02beadfa888b8663f31ef89a717495c8953"
+  },
+  {
+    "path": "test-results/.last-run.json",
+    "sha256": "f044712899262dbce929770350188d55bc382d6cc00bf47093a2b1c2ddbfcecc"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-25263-adence-mobile-visual-budget-chromium/error-context.md",
+    "sha256": "987615e775f229737ed2028077dc114c17bcf64dbdb81aed75bd13255bcaaca4"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-25263-adence-mobile-visual-budget-chromium/test-failed-1.png",
+    "sha256": "cce4e7685b7b8b850fbca044d255325c2c03187d643b6dd656068fb1b438e339"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-31093-adence-mobile-visual-budget-chromium/error-context.md",
+    "sha256": "cd4c98ab876c4578c45854aaf576fdd897d50140f0c3879b2ce4eef475433e26"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-31093-adence-mobile-visual-budget-chromium/test-failed-1.png",
+    "sha256": "fde7dbc3dae063b4d2363a4aef492b50b99bc3f57c477059dc975ef95ef6e3a3"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-47315-adence-mobile-visual-budget-chromium/error-context.md",
+    "sha256": "ad099fed45f06745e90c09d724558b11cf77c15d55a50a1d5bdb0bbaf544a204"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-47315-adence-mobile-visual-budget-chromium/test-failed-1.png",
+    "sha256": "a612b3b65d367312668bea55ada03ef551edb7b5fdf29e308899c91de447ac9c"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-b26d7-adence-mobile-visual-budget-chromium/error-context.md",
+    "sha256": "cd47ff551320f65b99ee4242dd6e1c07020f87629a0874d472f56ebe8bed6dc6"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-b26d7-adence-mobile-visual-budget-chromium/test-failed-1.png",
+    "sha256": "0e45d3517ed904be94aa36fd8c32091d4aa61b63f55e941ca76b09807f313513"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-b3ef2-adence-mobile-visual-budget-chromium/error-context.md",
+    "sha256": "6980249f38ec4e5e7e928eddaf7cffe9e07e53ba2f3c0dd94af30d5371e6d3fc"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-eb057-adence-mobile-visual-budget-chromium/error-context.md",
+    "sha256": "e5576351feb8f775f81bc1c9a8d1f0038148bda9d183854d4a3acf5ad6076f09"
+  },
+  {
+    "path": "test-results/visual-budget-full-frame-v-eb057-adence-mobile-visual-budget-chromium/test-failed-1.png",
+    "sha256": "14422de8cd07bca480181dca1a3abff5efef348419311e7b9a4cf19eee9475ce"
+  }
+]

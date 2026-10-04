@@ -1,0 +1,27 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/docs/RuntimeConfiguration.md",
+    "file": "docs__RuntimeConfiguration.md",
+    "sha256": "b4cd5d8c3f9def50dc21cdce90a95897cb965842a147ddccbd63e3ad6bb88e00"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/System/SwiftConfig.cpp",
+    "file": "src__System__SwiftConfig.cpp",
+    "sha256": "cb3c9d010f955e7165578f024b903f11a670b1aec97518a8464a27da53c7acc1"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/System/SwiftConfig.hpp",
+    "file": "src__System__SwiftConfig.hpp",
+    "sha256": "4c58daa74cd3f1393c617c1551bb72310590d58b1a004367db89e7e523579e82"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/third_party/marl/src/thread.cpp",
+    "file": "third_party__marl__src__thread.cpp",
+    "sha256": "a7822e575d36b168afbdc36a4a8c1e75a3a99cace4debd44e3b6c8b9c3125ac8"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/Vulkan/libVulkan.cpp",
+    "file": "src__Vulkan__libVulkan.cpp",
+    "sha256": "1019c39d2820b3bee933a3aefdf28c800087055d6194c74eb9787d45c0cf1e45"
+  }
+]

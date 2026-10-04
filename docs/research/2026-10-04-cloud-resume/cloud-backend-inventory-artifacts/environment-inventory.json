@@ -1,0 +1,18 @@
+{
+  "chromiumRevision": "1234",
+  "chromiumVersion": "151.0.7922.34",
+  "swiftshaderSourceRevision": "5b0479bd2d15058aaa9eb490e364f920ff824a8c",
+  "cpuMax": "400000 100000",
+  "cpusetEffective": "0-4",
+  "inventoryProcessAffinity": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "sysconfProcessorsOnline": 5,
+  "devDriExists": false,
+  "vulkanIcdManifests": [],
+  "note": "Read-only inventory; no browser launched, no driver config changed. sysconf is current inventory process, not proof of browser GPU worker topology."
+}

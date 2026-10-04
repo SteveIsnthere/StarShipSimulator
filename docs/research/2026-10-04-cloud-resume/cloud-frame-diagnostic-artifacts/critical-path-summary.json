@@ -1,0 +1,515 @@
+{
+  "traceSha256": "1bc1edd31ca940487ad3fe4813219c4bc7d02056575fcbf353768e25f9733c67",
+  "traceBytes": 23670394,
+  "eventCount": 113735,
+  "phaseMarkersMicroseconds": {
+    "visual-budget-warm-start": 4726730035,
+    "visual-budget-warm-complete": 4740410845,
+    "visual-budget-measured-complete": 4750094585
+  },
+  "measuredPhaseWallMs": 9683.74,
+  "probeMeasured": {
+    "count": 30,
+    "cpuMs": {
+      "mean": 6.72000000004967,
+      "median": 5.799999998882413,
+      "p95": 12.799999999813735,
+      "max": 13.699999999254942
+    },
+    "gpuCompletionWaitMs": {
+      "mean": 0.046666666648040214,
+      "median": 0,
+      "p95": 0.20000000018626451,
+      "max": 0.40000000037252903
+    },
+    "fullRAFWorkMs": {
+      "mean": 6.766666666697711,
+      "median": 5.799999998882413,
+      "p95": 12.799999999813735,
+      "max": 13.699999999254942
+    },
+    "intervalsMs": {
+      "mean": 320.0999999999999,
+      "median": 300,
+      "p95": 566.6000000000022,
+      "max": 583.2999999999993
+    },
+    "cadenceFps": 3.1240237425804445
+  },
+  "probeWarm": {
+    "count": 60,
+    "cpuMs": {
+      "mean": 8.49666666672565,
+      "median": 5.599999999627471,
+      "p95": 24.90000000037253,
+      "max": 30.299999999813735
+    },
+    "gpuCompletionWaitMs": {
+      "mean": 0.2583333333488554,
+      "median": 0,
+      "p95": 2,
+      "max": 4.2999999998137355
+    },
+    "fullRAFWorkMs": {
+      "mean": 8.755000000074507,
+      "median": 5.800000000745058,
+      "p95": 25,
+      "max": 30.299999999813735
+    },
+    "intervalsMs": {
+      "mean": 223.71864406779656,
+      "median": 200,
+      "p95": 466.60000000000036,
+      "max": 583.2999999999993
+    },
+    "cadenceFps": 4.469900146976379
+  },
+  "probeNoDraw": {
+    "count": 0,
+    "cpuMs": null,
+    "gpuCompletionWaitMs": null,
+    "fullRAFWorkMs": null,
+    "intervalsMs": null,
+    "cadenceFps": null
+  },
+  "progress": {
+    "armed": false,
+    "warmRequested": 60,
+    "warmRemaining": 0,
+    "target": 30,
+    "drawnFrames": 90,
+    "noDrawFrames": 0,
+    "elapsedMs": 23364.599999999627,
+    "inProgressFrame": null
+  },
+  "rootContext": [
+    {
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvasId": 3,
+      "canvasTestId": "world-canvas",
+      "contextType": "webgl2",
+      "offscreen": false,
+      "creationWidth": 1280,
+      "creationHeight": 720
+    }
+  ],
+  "threadEvents": [
+    {
+      "pid": 14206,
+      "tid": 14206,
+      "thread": "CrRendererMain",
+      "event": "RunTask",
+      "count": 746,
+      "clippedInclusiveWallMs": 363.49,
+      "unionWallMs": 363.49,
+      "unclippedThreadCpuMs": 218.022
+    },
+    {
+      "pid": 14206,
+      "tid": 14206,
+      "thread": "CrRendererMain",
+      "event": "FireAnimationFrame",
+      "count": 91,
+      "clippedInclusiveWallMs": 207.013,
+      "unionWallMs": 207.013,
+      "unclippedThreadCpuMs": 132.988
+    },
+    {
+      "pid": 14206,
+      "tid": 14212,
+      "thread": "Compositor",
+      "event": "RunTask",
+      "count": 561,
+      "clippedInclusiveWallMs": 72.677,
+      "unionWallMs": 72.677,
+      "unclippedThreadCpuMs": 21.006
+    },
+    {
+      "pid": 14161,
+      "tid": 14161,
+      "thread": "CrBrowserMain",
+      "event": "RunTask",
+      "count": 90,
+      "clippedInclusiveWallMs": 2.877,
+      "unionWallMs": 2.877,
+      "unclippedThreadCpuMs": 2.088
+    },
+    {
+      "pid": 14161,
+      "tid": 14165,
+      "thread": "PerfettoTrace",
+      "event": "RunTask",
+      "count": 77,
+      "clippedInclusiveWallMs": 3.7,
+      "unionWallMs": 3.7,
+      "unclippedThreadCpuMs": 3.111
+    },
+    {
+      "pid": 14206,
+      "tid": 14233,
+      "thread": "ServiceWorker thread",
+      "event": "RunTask",
+      "count": 21,
+      "clippedInclusiveWallMs": 1.529,
+      "unionWallMs": 1.529,
+      "unclippedThreadCpuMs": 0.396
+    },
+    {
+      "pid": 14206,
+      "tid": 14207,
+      "thread": "PerfettoTrace",
+      "event": "RunTask",
+      "count": 46,
+      "clippedInclusiveWallMs": 3.064,
+      "unionWallMs": 3.064,
+      "unclippedThreadCpuMs": 2.673
+    },
+    {
+      "pid": 14244,
+      "tid": 14244,
+      "thread": "tracing.CrUtilityMain",
+      "event": "RunTask",
+      "count": 216,
+      "clippedInclusiveWallMs": 22.111,
+      "unionWallMs": 22.111,
+      "unclippedThreadCpuMs": 9.789
+    },
+    {
+      "pid": 14244,
+      "tid": 14245,
+      "thread": "PerfettoTrace",
+      "event": "RunTask",
+      "count": 43,
+      "clippedInclusiveWallMs": 1.745,
+      "unionWallMs": 1.745,
+      "unclippedThreadCpuMs": 1.522
+    },
+    {
+      "pid": 14179,
+      "tid": 14179,
+      "thread": "CrGpuMain",
+      "event": "RunTask",
+      "count": 339,
+      "clippedInclusiveWallMs": 9683.054,
+      "unionWallMs": 9683.054,
+      "unclippedThreadCpuMs": 118.236
+    },
+    {
+      "pid": 14179,
+      "tid": 14179,
+      "thread": "CrGpuMain",
+      "event": "Scheduler::RunTask",
+      "count": 330,
+      "clippedInclusiveWallMs": 9680.336,
+      "unionWallMs": 9680.336,
+      "unclippedThreadCpuMs": 116.397
+    },
+    {
+      "pid": 14179,
+      "tid": 14179,
+      "thread": "CrGpuMain",
+      "event": "GLContextEGL::MakeCurrent",
+      "count": 129,
+      "clippedInclusiveWallMs": 7258.797,
+      "unionWallMs": 7258.797,
+      "unclippedThreadCpuMs": 16.722
+    },
+    {
+      "pid": 14179,
+      "tid": 14179,
+      "thread": "CrGpuMain",
+      "event": "WebGL",
+      "count": 108,
+      "clippedInclusiveWallMs": 2359.225,
+      "unionWallMs": 2359.225,
+      "unclippedThreadCpuMs": 44.23
+    },
+    {
+      "pid": 14179,
+      "tid": 14179,
+      "thread": "CrGpuMain",
+      "event": "GPUTask",
+      "count": 258,
+      "clippedInclusiveWallMs": 9048.511,
+      "unionWallMs": 9048.511,
+      "unclippedThreadCpuMs": 108.326
+    },
+    {
+      "pid": 14179,
+      "tid": 14179,
+      "thread": "CrGpuMain",
+      "event": "SkiaOutputSurfaceImplOnGpu::FinishPaintCurrentFrame",
+      "count": 30,
+      "clippedInclusiveWallMs": 3.377,
+      "unionWallMs": 3.377,
+      "unclippedThreadCpuMs": 3.152
+    },
+    {
+      "pid": 14235,
+      "tid": 14235,
+      "thread": "audio.CrUtilityMain",
+      "event": "RunTask",
+      "count": 148,
+      "clippedInclusiveWallMs": 2.517,
+      "unionWallMs": 2.517,
+      "unclippedThreadCpuMs": 1.669
+    },
+    {
+      "pid": 14235,
+      "tid": 14236,
+      "thread": "PerfettoTrace",
+      "event": "RunTask",
+      "count": 42,
+      "clippedInclusiveWallMs": 1.811,
+      "unionWallMs": 1.811,
+      "unclippedThreadCpuMs": 1.79
+    },
+    {
+      "pid": 14235,
+      "tid": 14242,
+      "thread": "AudioWorkerThread",
+      "event": "RunTask",
+      "count": 914,
+      "clippedInclusiveWallMs": 284.96,
+      "unionWallMs": 284.96,
+      "unclippedThreadCpuMs": 21.635
+    },
+    {
+      "pid": 14187,
+      "tid": 14198,
+      "thread": "PerfettoTrace",
+      "event": "RunTask",
+      "count": 41,
+      "clippedInclusiveWallMs": 1.728,
+      "unionWallMs": 1.728,
+      "unclippedThreadCpuMs": 1.621
+    },
+    {
+      "pid": 14187,
+      "tid": 14201,
+      "thread": "Chrome_ChildIOThread",
+      "event": "RunTask",
+      "count": 20,
+      "clippedInclusiveWallMs": 0.303,
+      "unionWallMs": 0.303,
+      "unclippedThreadCpuMs": 0.126
+    },
+    {
+      "pid": 14206,
+      "tid": 14210,
+      "thread": "Chrome_ChildIOThread",
+      "event": "RunTask",
+      "count": 176,
+      "clippedInclusiveWallMs": 10.224,
+      "unionWallMs": 10.224,
+      "unclippedThreadCpuMs": 3.726
+    },
+    {
+      "pid": 14179,
+      "tid": 14191,
+      "thread": "PerfettoTrace",
+      "event": "RunTask",
+      "count": 42,
+      "clippedInclusiveWallMs": 2.222,
+      "unionWallMs": 2.222,
+      "unclippedThreadCpuMs": 2.027
+    },
+    {
+      "pid": 14161,
+      "tid": 14197,
+      "thread": "DevToolsPipeHandlerWriteThread",
+      "event": "RunTask",
+      "count": 10,
+      "clippedInclusiveWallMs": 10.14,
+      "unionWallMs": 10.14,
+      "unclippedThreadCpuMs": 0.301
+    },
+    {
+      "pid": 14179,
+      "tid": 14195,
+      "thread": "VizCompositorThread",
+      "event": "RunTask",
+      "count": 764,
+      "clippedInclusiveWallMs": 30.261,
+      "unionWallMs": 30.261,
+      "unclippedThreadCpuMs": 17.324
+    },
+    {
+      "pid": 14179,
+      "tid": 14195,
+      "thread": "VizCompositorThread",
+      "event": "DirectRenderer::DrawFrame",
+      "count": 30,
+      "clippedInclusiveWallMs": 5.061,
+      "unionWallMs": 5.061,
+      "unclippedThreadCpuMs": 3.692
+    },
+    {
+      "pid": 14206,
+      "tid": 14208,
+      "thread": "ThreadPoolServiceThread",
+      "event": "RunTask",
+      "count": 10,
+      "clippedInclusiveWallMs": 0.46,
+      "unionWallMs": 0.46,
+      "unclippedThreadCpuMs": 0.208
+    },
+    {
+      "pid": 14161,
+      "tid": 14166,
+      "thread": "ThreadPoolServiceThread",
+      "event": "RunTask",
+      "count": 2,
+      "clippedInclusiveWallMs": 0.265,
+      "unionWallMs": 0.265,
+      "unclippedThreadCpuMs": 0.191
+    }
+  ],
+  "cgroupCpuQuota": "400000 100000",
+  "cgroupCpuStatBeforeAfterDelta": {
+    "usage_usec": 118854284,
+    "user_usec": 112973892,
+    "system_usec": 5880392,
+    "nice_usec": 0,
+    "nr_periods": 305,
+    "nr_throttled": 277,
+    "throttled_usec": 18453315,
+    "nr_bursts": 0,
+    "burst_usec": 0
+  },
+  "bufferReceipt": {
+    "bufferUsage": [
+      {
+        "percentFull": 0.014534860849380493,
+        "eventCount": 0,
+        "value": 0.014534860849380493
+      },
+      {
+        "percentFull": 0.028706371784210205,
+        "eventCount": 0,
+        "value": 0.028706371784210205
+      },
+      {
+        "percentFull": 0.04517924785614014,
+        "eventCount": 0,
+        "value": 0.04517924785614014
+      },
+      {
+        "percentFull": 0.05947187542915344,
+        "eventCount": 0,
+        "value": 0.05947187542915344
+      },
+      {
+        "percentFull": 0.07231104373931885,
+        "eventCount": 0,
+        "value": 0.07231104373931885
+      },
+      {
+        "percentFull": 0.08515018224716187,
+        "eventCount": 0,
+        "value": 0.08515018224716187
+      },
+      {
+        "percentFull": 0.09011626243591309,
+        "eventCount": 0,
+        "value": 0.09011626243591309
+      },
+      {
+        "percentFull": 0.09992730617523193,
+        "eventCount": 0,
+        "value": 0.09992730617523193
+      },
+      {
+        "percentFull": 0.11107072234153748,
+        "eventCount": 0,
+        "value": 0.11107072234153748
+      },
+      {
+        "percentFull": 0.12160852551460266,
+        "eventCount": 0,
+        "value": 0.12160852551460266
+      },
+      {
+        "percentFull": 0.1328730583190918,
+        "eventCount": 0,
+        "value": 0.1328730583190918
+      },
+      {
+        "percentFull": 0.14510658383369446,
+        "eventCount": 0,
+        "value": 0.14510658383369446
+      },
+      {
+        "percentFull": 0.15709784626960754,
+        "eventCount": 0,
+        "value": 0.15709784626960754
+      },
+      {
+        "percentFull": 0.16896802186965942,
+        "eventCount": 0,
+        "value": 0.16896802186965942
+      },
+      {
+        "percentFull": 0.1798691749572754,
+        "eventCount": 0,
+        "value": 0.1798691749572754
+      },
+      {
+        "percentFull": 0.18955910205841064,
+        "eventCount": 0,
+        "value": 0.18955910205841064
+      },
+      {
+        "percentFull": 0.20021802186965942,
+        "eventCount": 0,
+        "value": 0.20021802186965942
+      },
+      {
+        "percentFull": 0.2123304307460785,
+        "eventCount": 0,
+        "value": 0.2123304307460785
+      },
+      {
+        "percentFull": 0.22298932075500488,
+        "eventCount": 0,
+        "value": 0.22298932075500488
+      },
+      {
+        "percentFull": 0.23473834991455078,
+        "eventCount": 0,
+        "value": 0.23473834991455078
+      },
+      {
+        "percentFull": 0.24527615308761597,
+        "eventCount": 0,
+        "value": 0.24527615308761597
+      },
+      {
+        "percentFull": 0.25738856196403503,
+        "eventCount": 0,
+        "value": 0.25738856196403503
+      },
+      {
+        "percentFull": 0.2679263651371002,
+        "eventCount": 0,
+        "value": 0.2679263651371002
+      }
+    ],
+    "bufferKiB": 32768,
+    "exportedStreamByteCap": 67108864,
+    "receivedBytes": 23670394,
+    "streamComplete": true,
+    "exceededByteCap": false,
+    "error": null,
+    "cleanupErrors": [],
+    "limitation": "a full buffer or partial stream is truncated diagnostic evidence, never a complete trace claim"
+  },
+  "limitations": [
+    "Diagnostic profiling overhead means30frames are not acceptance.",
+    "Inclusive nestedevent totals must not be added across eventnames; use unionWallMs for each namedgroup.",
+    "ThreadCPU values are unclipped while wallvalues are clipped to measuredphase.",
+    "Cgroup resource snapshots span the whole before/after interval, not just the measuredphase.",
+    "Native SwiftShader workerinternals are not traced; two EGLcontextIDs are not conclusively mapped to rootcanvas/compositor."
+  ]
+}

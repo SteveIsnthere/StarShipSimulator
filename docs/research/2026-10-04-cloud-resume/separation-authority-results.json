@@ -1,0 +1,947 @@
+{
+  "node": "v22.23.3",
+  "rawSha256": "0c9209f4d937797e2b41f96f0505968957616588f9a7c6828f7a56f9c8400911",
+  "worldReconstruction": [
+    "initial calm world with recorded environmentTime"
+  ],
+  "authorityOnly": true,
+  "newFlight": false,
+  "rows": [
+    {
+      "requestedTime": 317.35,
+      "time": 317.3499999998757,
+      "lug": {
+        "x": 20015375.441400904,
+        "altitude": 2927.736824876224,
+        "speedX": -32.53022182300979,
+        "speedY": -277.0005017375266
+      },
+      "pitch": 0.11476055212766971,
+      "omega": -0.0048818084679158645,
+      "fuel": 128862.11154454363,
+      "rcsReserve": 11.97790223550745,
+      "rawDeliveredRCS": 528.2097295177924,
+      "rawGimbal": 0.8480804093682065,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 328862.11154454364,
+      "inertia": 166081741.48395225,
+      "engineArm": 26.67866725716067,
+      "rcsArm": 40.25091020762807,
+      "desiredAlpha": -0.4395149746390154,
+      "alignTorque": -72995645.22085646,
+      "gimbalTorque": 184122.12050999643,
+      "gridCurrent": 0,
+      "gridTarget": -73179767.34136645,
+      "requiredGridChange": -73179767.34136645,
+      "fullEnvelope": {
+        "low": -36738517.004892506,
+        "high": 36809853.27445887,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -1154330.0425876952,
+        "high": 1154365.2234893912,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": -0.7853502264978268,
+        "requestedPercent": 0.0030517578125,
+        "requestedTorque": -36738517.558315314,
+        "nextAngle": -0.015707963267948967,
+        "nextTorque": -1154330.0425876952,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": -1818089.7516076032,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -40979039.175264
+      },
+      "candidateNextRCS": {
+        "demanded": -1789411.3928665644,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -39824709.1326763
+      },
+      "endpointRCS": {
+        "demanded": -905352.1919150304,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -4240521.616948687
+      }
+    },
+    {
+      "requestedTime": 317.35833333333335,
+      "time": 317.35833333320903,
+      "lug": {
+        "x": 20015375.170377042,
+        "altitude": 2925.4286207455393,
+        "speedX": -32.515484752006486,
+        "speedY": -276.9684919561318
+      },
+      "pitch": 0.11471990909235741,
+      "omega": -0.004872006469094562,
+      "fuel": 128854.2017080399,
+      "rcsReserve": 11.969568902174116,
+      "rawDeliveredRCS": -800000,
+      "rawGimbal": 5.848080409368206,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 328854.2017080399,
+      "inertia": 166078145.66790214,
+      "engineArm": 26.678999440588118,
+      "rcsArm": 40.25057802420062,
+      "desiredAlpha": -0.43939161049305137,
+      "alignTorque": -72973575.83166578,
+      "gimbalTorque": 1269371.6867260588,
+      "gridCurrent": 0,
+      "gridTarget": -74242947.51839185,
+      "requiredGridChange": -74242947.51839185,
+      "fullEnvelope": {
+        "low": -36738016.21581696,
+        "high": 36809463.38580997,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -1154316.0385487122,
+        "high": 1154351.274143227,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": -0.7853502264978268,
+        "requestedPercent": 0.0030517578125,
+        "requestedTorque": -36738016.77460285,
+        "nextAngle": -0.015707963267948967,
+        "nextTorque": -1154316.0385487122,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": -1844518.791102909,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -42042485.09903135
+      },
+      "candidateNextRCS": {
+        "demanded": -1815840.5436040862,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -40888169.06048264
+      },
+      "endpointRCS": {
+        "demanded": -931786.1403441012,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -5304468.324428499
+      }
+    },
+    {
+      "requestedTime": 318,
+      "time": 317.9999999998751,
+      "lug": {
+        "x": 20015353.50804941,
+        "altitude": 2749.351435455096,
+        "speedX": -33.750101972713686,
+        "speedY": -270.7669678333821
+      },
+      "pitch": 0.07626382101164718,
+      "omega": -0.08212834943025517,
+      "fuel": 127958.48804837879,
+      "rcsReserve": 11.437696463574587,
+      "rawDeliveredRCS": -730597.1794902426,
+      "rawGimbal": 82.53421576730196,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 327958.4880483788,
+      "inertia": 165670354.14486393,
+      "engineArm": 26.716732269428668,
+      "rcsArm": 40.21284519536007,
+      "desiredAlpha": 0.023458113674431957,
+      "alignTorque": 3819370.638369833,
+      "gimbalTorque": 33815787.33030879,
+      "gridCurrent": 0,
+      "gridTarget": -29996416.691938955,
+      "requiredGridChange": -29996416.691938955,
+      "fullEnvelope": {
+        "low": -34926230.85684075,
+        "high": 36588336.307493456,
+        "targetWithin": true
+      },
+      "oneStepEnvelope": {
+        "low": -1122036.1644374314,
+        "high": 1122855.8764533862,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": -0.5081790728867401,
+        "requestedPercent": 17.648315429687493,
+        "requestedTorque": -29996504.64346567,
+        "nextAngle": -0.015707963267948967,
+        "nextTorque": -1122036.1644374314,
+        "minimumSlewSeconds": 0.26959737141927087
+      },
+      "currentRCS": {
+        "demanded": -745941.1674605922,
+        "bounded": -745941.1674605922,
+        "finitePaid": -745941.1674605922,
+        "reserveCost": 0.007770220494381169,
+        "uncompensatedTorque": 0
+      },
+      "candidateNextRCS": {
+        "demanded": -718038.7358125352,
+        "bounded": -718038.7358125352,
+        "finitePaid": -718038.7358125352,
+        "reserveCost": 0.007479570164713907,
+        "uncompensatedTorque": -3.725290298461914e-9
+      },
+      "endpointRCS": {
+        "demanded": 2.1871500583723864,
+        "bounded": 2.1871500583723864,
+        "finitePaid": 2.1871500583723864,
+        "reserveCost": 2.2782813108045693e-8,
+        "uncompensatedTorque": 0
+      }
+    },
+    {
+      "requestedTime": 320,
+      "time": 319.9999999998733,
+      "lug": {
+        "x": 20015297.563085977,
+        "altitude": 2237.0042840691262,
+        "speedX": -22.160931532545433,
+        "speedY": -241.58307817443725
+      },
+      "pitch": 0.004341262167853081,
+      "omega": -0.004180326519932373,
+      "fuel": 124780.3059131493,
+      "rcsReserve": 9.606425014565064,
+      "rawDeliveredRCS": -800000,
+      "rawGimbal": 100,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 324780.3059131493,
+      "inertia": 164213712.19096056,
+      "engineArm": 26.852498846030453,
+      "rcsArm": 40.07707861875828,
+      "desiredAlpha": -0.0006437425916828304,
+      "alignTorque": -105892.55792080646,
+      "gimbalTorque": 35931360.38358079,
+      "gridCurrent": 0,
+      "gridTarget": -36037252.941501595,
+      "requiredGridChange": -36037252.941501595,
+      "fullEnvelope": {
+        "low": -28059832.3935483,
+        "high": 31142546.91197618,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -928540.6311428961,
+        "high": 930061.0896092635,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": -0.7853502264978268,
+        "requestedPercent": 0.0030517578125,
+        "requestedTorque": -28059978.337173387,
+        "nextAngle": -0.015707963267948967,
+        "nextTorque": -928540.6311428961,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": -899198.5988877487,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -3975590.046494972
+      },
+      "candidateNextRCS": {
+        "demanded": -876029.7287219404,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -3047049.4153520726
+      },
+      "endpointRCS": {
+        "demanded": -199048.30589608903,
+        "bounded": -199048.30589608903,
+        "finitePaid": -199048.30589608903,
+        "reserveCost": 0.0020734198530842607,
+        "uncompensatedTorque": 0
+      }
+    },
+    {
+      "requestedTime": 325,
+      "time": 324.99999999986875,
+      "lug": {
+        "x": 20015207.624180976,
+        "altitude": 1208.1702280517447,
+        "speedX": -15.816427237427497,
+        "speedY": -170.4783358043933
+      },
+      "pitch": 0.03012736096079826,
+      "omega": 0.017509282290398966,
+      "fuel": 115458.42388946707,
+      "rcsReserve": 4.704230099960571,
+      "rawDeliveredRCS": -800000,
+      "rawGimbal": 59.6501042176508,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 315458.4238894671,
+      "inertia": 159850181.0062263,
+      "engineArm": 27.26837517595223,
+      "rcsArm": 39.661202288836506,
+      "desiredAlpha": -0.1905465730047889,
+      "alignTorque": -30455470.076934427,
+      "gimbalTorque": 26319722.787564754,
+      "gridCurrent": 0,
+      "gridTarget": -56775192.86449918,
+      "requiredGridChange": -56775192.86449918,
+      "fullEnvelope": {
+        "low": -15556433.40335748,
+        "high": 16829359.966173567,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -508167.61715052323,
+        "high": 508795.5755688377,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": -0.7853502264978268,
+        "requestedPercent": 0.0030517578125,
+        "requestedTorque": -15556493.83166068,
+        "nextAngle": -0.015707963267948967,
+        "nextTorque": -508167.61715052323,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": -1431504.58352292,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -25046231.033429977
+      },
+      "candidateNextRCS": {
+        "demanded": -1418691.870145001,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -24538063.416279454
+      },
+      "endpointRCS": {
+        "demanded": -1039270.0335370415,
+        "bounded": -800000,
+        "finitePaid": -800000,
+        "reserveCost": 0.008333333333333333,
+        "uncompensatedTorque": -9489737.201769296
+      }
+    },
+    {
+      "requestedTime": 330,
+      "time": 329.9999999998642,
+      "lug": {
+        "x": 20015135.96411654,
+        "altitude": 527.0034418147113,
+        "speedX": -11.62691396448027,
+        "speedY": -102.55015720098913
+      },
+      "pitch": -0.00002704058311465999,
+      "omega": -0.00007145983024016805,
+      "fuel": 105768.16251865597,
+      "rcsReserve": 1.2507126133878395,
+      "rawDeliveredRCS": -268882.7719452656,
+      "rawGimbal": 22.811224484819572,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 305768.162518656,
+      "inertia": 155159859.9472861,
+      "engineArm": 27.73063613996729,
+      "rcsArm": 39.19894132482145,
+      "desiredAlpha": 0.00039400165341931214,
+      "alignTorque": 61133.181923472446,
+      "gimbalTorque": 10558062.667960472,
+      "gridCurrent": 0,
+      "gridTarget": -10496929.486037,
+      "requiredGridChange": -10496929.486037,
+      "fullEnvelope": {
+        "low": -5763120.590639417,
+        "high": 6604377.001502302,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -194006.52243847208,
+        "high": 194421.59216179518,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": -0.7853502264978268,
+        "requestedPercent": 0.0030517578125,
+        "requestedTorque": -5763160.814379621,
+        "nextAngle": -0.015707963267948967,
+        "nextTorque": -194006.52243847208,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": -267786.0455223611,
+        "bounded": -267786.0455223611,
+        "finitePaid": -267786.0455223611,
+        "reserveCost": 0.0027894379741912616,
+        "uncompensatedTorque": 0
+      },
+      "candidateNextRCS": {
+        "demanded": -262836.7658764942,
+        "bounded": -262836.7658764942,
+        "finitePaid": -262836.7658764942,
+        "reserveCost": 0.0027378829778801476,
+        "uncompensatedTorque": 0
+      },
+      "endpointRCS": {
+        "demanded": -120762.66632894684,
+        "bounded": -120762.66632894684,
+        "finitePaid": -120762.66632894684,
+        "reserveCost": 0.0012579444409265294,
+        "uncompensatedTorque": 0
+      }
+    },
+    {
+      "requestedTime": 335,
+      "time": 334.99999999985965,
+      "lug": {
+        "x": 20015093.937584683,
+        "altitude": 177.30180325290732,
+        "speedX": -4.840060311753864,
+        "speedY": -37.86979391461716
+      },
+      "pitch": -0.0000466726950369544,
+      "omega": 0.000007316104392073951,
+      "fuel": 95669.769571514,
+      "rcsReserve": 0.4205045518736835,
+      "rawDeliveredRCS": 251978.64757077215,
+      "rawGimbal": -20.162094385768384,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 295669.769571514,
+      "inertia": 150088227.3981298,
+      "engineArm": 28.248051321576728,
+      "rcsArm": 38.68152614321201,
+      "desiredAlpha": 0.00015742636257952175,
+      "alignTorque": 23627.844330872987,
+      "gimbalTorque": -9746346.303542642,
+      "gridCurrent": 0,
+      "gridTarget": 9769974.147873515,
+      "requiredGridChange": 9769974.147873515,
+      "fullEnvelope": {
+        "low": -795517.11078719,
+        "high": 927715.3077306631,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -27030.966035326932,
+        "high": 27096.196985750263,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": 0.7853502264978268,
+        "requestedPercent": 99.9969482421875,
+        "requestedTorque": 927708.9649526309,
+        "nextAngle": 0.015707963267948967,
+        "nextTorque": 27096.196985750263,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": 252574.68155992054,
+        "bounded": 252574.68155992054,
+        "finitePaid": 252574.68155992054,
+        "reserveCost": 0.002630986266249172,
+        "uncompensatedTorque": 0
+      },
+      "candidateNextRCS": {
+        "demanded": 251874.18704257833,
+        "bounded": 251874.18704257833,
+        "finitePaid": 251874.18704257833,
+        "reserveCost": 0.002623689448360191,
+        "uncompensatedTorque": 0
+      },
+      "endpointRCS": {
+        "demanded": 228591.42501730274,
+        "bounded": 228591.42501730274,
+        "finitePaid": 228591.42501730274,
+        "reserveCost": 0.00238116067726357,
+        "uncompensatedTorque": 0
+      }
+    },
+    {
+      "requestedTime": 336,
+      "time": 335.99999999985874,
+      "lug": {
+        "x": 20015089.892322324,
+        "altitude": 145.7159361585428,
+        "speedX": -3.237121197849276,
+        "speedY": -25.32381741192054
+      },
+      "pitch": -0.00003874666179795746,
+      "omega": 0.00000853724773385965,
+      "fuel": 93635.67770898218,
+      "rcsReserve": 0.06326982653435824,
+      "rawDeliveredRCS": 316182.1921531562,
+      "rawGimbal": -25.226355947265027,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 293635.6777089822,
+      "inertia": 149042295.05561286,
+      "engineArm": 28.357007299623465,
+      "rcsArm": 38.572570165165274,
+      "desiredAlpha": 0.00012083765625639122,
+      "alignTorque": 18009.92246677328,
+      "gimbalTorque": -12195624.07963493,
+      "gridCurrent": 0,
+      "gridTarget": 12213634.002101703,
+      "requiredGridChange": 12213634.002101703,
+      "fullEnvelope": {
+        "low": -355751.8737972377,
+        "high": 414879.73994122463,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -12088.386260865707,
+        "high": 12117.562117059842,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": 0.7853502264978268,
+        "requestedPercent": 99.9969482421875,
+        "requestedTorque": 414876.90343352465,
+        "nextAngle": 0.015707963267948967,
+        "nextTorque": 12117.562117059842,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": 316640.39885866316,
+        "bounded": 316640.39885866316,
+        "finitePaid": 316640.39885866316,
+        "reserveCost": 0.0032983374881110743,
+        "uncompensatedTorque": 0
+      },
+      "candidateNextRCS": {
+        "demanded": 316326.2491386633,
+        "bounded": 316326.2491386633,
+        "finitePaid": 316326.2491386633,
+        "reserveCost": 0.003295065095194409,
+        "uncompensatedTorque": 0
+      },
+      "endpointRCS": {
+        "demanded": 305884.64932843874,
+        "bounded": 305884.64932843874,
+        "finitePaid": 305884.64932843874,
+        "reserveCost": 0.00318629843050457,
+        "uncompensatedTorque": 0
+      }
+    },
+    {
+      "requestedTime": 336.15,
+      "time": 336.1499999998586,
+      "lug": {
+        "x": 20015089.42528028,
+        "altitude": 142.05769213705702,
+        "speedX": -2.989811340094888,
+        "speedY": -23.45326259578004
+      },
+      "pitch": -0.00003745221926297255,
+      "omega": 0.000008722154664980368,
+      "fuel": 93331.26425525434,
+      "rcsReserve": 0.0031776621239289356,
+      "rawDeliveredRCS": 324281.6069526078,
+      "rawGimbal": -25.86877848113668,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 293331.26425525435,
+      "inertia": 148885032.85360095,
+      "engineArm": 28.37345554237213,
+      "rcsArm": 38.55612192241661,
+      "desiredAlpha": 0.00011492025839196873,
+      "alignTorque": 17109.907332085975,
+      "gimbalTorque": -12502754.792369405,
+      "gridCurrent": 0,
+      "gridTarget": 12519864.69970149,
+      "requiredGridChange": 12519864.69970149,
+      "fullEnvelope": {
+        "low": -305163.53196938464,
+        "high": 355733.1561960142,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -10367.09226572885,
+        "high": 10392.04519313719,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": 0.7853502264978268,
+        "requestedPercent": 99.9969482421875,
+        "requestedTorque": 355730.73028331983,
+        "nextAngle": 0.015707963267948967,
+        "nextTorque": 10392.04519313719,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": 324717.94556761207,
+        "bounded": 324717.94556761207,
+        "finitePaid": 305055.5638971778,
+        "reserveCost": 0.0031776621239289356,
+        "uncompensatedTorque": 758105.1849703528
+      },
+      "candidateNextRCS": {
+        "demanded": 324448.41521354666,
+        "bounded": 324448.41521354666,
+        "finitePaid": 305055.5638971778,
+        "reserveCost": 0.0031776621239289356,
+        "uncompensatedTorque": 747713.1397772152
+      },
+      "endpointRCS": {
+        "demanded": 315491.63564466056,
+        "bounded": 315491.63564466056,
+        "finitePaid": 305055.5638971778,
+        "reserveCost": 0.0031776621239289356,
+        "uncompensatedTorque": 402374.45468703285
+      }
+    },
+    {
+      "requestedTime": 336.1583333333333,
+      "time": 336.15833333319193,
+      "lug": {
+        "x": 20015089.400422655,
+        "altitude": 141.8626809182757,
+        "speedX": -2.976019920100572,
+        "speedY": -23.349429914299463
+      },
+      "pitch": -0.0000373794917082657,
+      "omega": 0.000008732459126420915,
+      "fuel": 93314.35958163695,
+      "rcsReserve": 0,
+      "rawDeliveredRCS": 305055.5638971778,
+      "rawGimbal": -25.90354244467895,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 293314.35958163696,
+      "inertia": 148876294.14298615,
+      "engineArm": 28.37437004037575,
+      "rcsArm": 38.555207424412984,
+      "desiredAlpha": 0.00011458813032737912,
+      "alignTorque": 17059.457083832487,
+      "gimbalTorque": -12519336.43471128,
+      "gridCurrent": 0,
+      "gridTarget": 12536395.891795112,
+      "requiredGridChange": 12536395.891795112,
+      "fullEnvelope": {
+        "low": -302469.3457905946,
+        "high": 352582.3926036144,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -10275.408892807493,
+        "high": 10300.136529124746,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": 0.7853502264978268,
+        "requestedPercent": 99.9969482421875,
+        "requestedTorque": 352579.9885955473,
+        "nextAngle": 0.015707963267948967,
+        "nextTorque": 10300.136529124746,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": 325154.41439065174,
+        "bounded": 325154.41439065174,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 12536395.891795112
+      },
+      "candidateNextRCS": {
+        "demanded": 324887.261463273,
+        "bounded": 324887.261463273,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 12526095.755265987
+      },
+      "endpointRCS": {
+        "demanded": 316009.6058900938,
+        "bounded": 316009.6058900938,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 12183815.903199565
+      }
+    },
+    {
+      "requestedTime": 337,
+      "time": 336.99999999985783,
+      "lug": {
+        "x": 20015085.76435699,
+        "altitude": 126.56005296326934,
+        "speedX": -6.263718061145685,
+        "speedY": -13.18211466908939
+      },
+      "pitch": -0.057649383694689575,
+      "omega": -0.1576711977040834,
+      "fuel": 91594.70266323959,
+      "rcsReserve": 0,
+      "rawDeliveredRCS": 0,
+      "rawGimbal": -85.27601204797864,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 291594.70266323956,
+      "inertia": 147984215.16642347,
+      "engineArm": 28.468005120255558,
+      "rcsArm": 38.46157234453318,
+      "desiredAlpha": 0.8612823255950919,
+      "alignTorque": 127167852.75545374,
+      "gimbalTorque": -41767844.501723096,
+      "gridCurrent": 0,
+      "gridTarget": 168935697.25717682,
+      "requiredGridChange": 168935697.25717682,
+      "fullEnvelope": {
+        "low": -88412.54785244846,
+        "high": 109740.00039397561,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -3106.7932126971064,
+        "high": 3117.31700653629,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": 0.7853502264978268,
+        "requestedPercent": 99.9969482421875,
+        "requestedTorque": 109738.97754413329,
+        "nextAngle": 0.015707963267948967,
+        "nextTorque": 3117.31700653629,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": 4392324.259234006,
+        "bounded": 800000,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 168935697.25717682
+      },
+      "candidateNextRCS": {
+        "demanded": 4392243.2090632375,
+        "bounded": 800000,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 168932579.9401703
+      },
+      "endpointRCS": {
+        "demanded": 4389471.048331417,
+        "bounded": 800000,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 168825958.2796327
+      }
+    },
+    {
+      "requestedTime": 337.65,
+      "time": 337.64999999985724,
+      "lug": {
+        "x": 20015079.976501204,
+        "altitude": 120.04914627791527,
+        "speedX": -11.89195512206651,
+        "speedY": -7.401615079088044
+      },
+      "pitch": -0.22767303315705806,
+      "omega": -0.3690600547991664,
+      "fuel": 90230.1222503282,
+      "rcsReserve": 0,
+      "rawDeliveredRCS": 0,
+      "rawGimbal": -100,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 290230.1222503282,
+      "inertia": 147271891.72225836,
+      "engineArm": 28.543169805515248,
+      "rcsArm": 38.38640765927349,
+      "desiredAlpha": 2.386932351824898,
+      "alignTorque": 349953849.29411465,
+      "gimbalTorque": -50885122.60074342,
+      "gridCurrent": 0,
+      "gridTarget": 400838971.89485806,
+      "requiredGridChange": 400838971.89485806,
+      "fullEnvelope": {
+        "low": -9577.241355373168,
+        "high": 17539.09518862015,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -423.90788982178844,
+        "high": 427.83658313734315,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": 0.7853502264978268,
+        "requestedPercent": 99.9969482421875,
+        "requestedTorque": 17538.71345919418,
+        "nextAngle": 0.015707963267948967,
+        "nextTorque": 427.83658313734315,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": 10442211.09338483,
+        "bounded": 800000,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 400838971.89485806
+      },
+      "candidateNextRCS": {
+        "demanded": 10442199.947861996,
+        "bounded": 800000,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 400838544.0582749
+      },
+      "endpointRCS": {
+        "demanded": 10441754.194327882,
+        "bounded": 800000,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 400821433.18139887
+      }
+    },
+    {
+      "requestedTime": 337.6583333333333,
+      "time": 337.65833333319057,
+      "lug": {
+        "x": 20015079.87704779,
+        "altitude": 119.98768218781993,
+        "speedX": -11.977067400532718,
+        "speedY": -7.349979461656494
+      },
+      "pitch": -0.23076015962745122,
+      "omega": -0.3718574544312204,
+      "fuel": 90212.14061541532,
+      "rcsReserve": 0,
+      "rawDeliveredRCS": 0,
+      "rawGimbal": -100,
+      "finActive": false,
+      "finCommand": 0,
+      "finDelivered": 50,
+      "mass": 290212.1406154153,
+      "inertia": 147262478.62821722,
+      "engineArm": 28.544165436402,
+      "rcsArm": 38.38541202838674,
+      "desiredAlpha": 2.4104704562346866,
+      "alignTorque": 353373787.4947355,
+      "gimbalTorque": -51158770.14781789,
+      "gridCurrent": 0,
+      "gridTarget": 404532557.6425534,
+      "requiredGridChange": 404532557.6425534,
+      "fullEnvelope": {
+        "low": -9062.37142834899,
+        "high": 16872.737693134186,
+        "targetWithin": false
+      },
+      "oneStepEnvelope": {
+        "low": -405.39364951489756,
+        "high": 409.247592913005,
+        "angles": [
+          -0.015707963267948967,
+          0.015707963267948967
+        ],
+        "targetWithin": false
+      },
+      "finProposal": {
+        "requestedAngle": 0.7853502264978268,
+        "requestedPercent": 99.9969482421875,
+        "requestedTorque": 16872.36322831076,
+        "nextAngle": 0.015707963267948967,
+        "nextTorque": 409.247592913005,
+        "minimumSlewSeconds": 0.4166412353515625
+      },
+      "currentRCS": {
+        "demanded": 10538705.62450636,
+        "bounded": 800000,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 404532557.6425534
+      },
+      "candidateNextRCS": {
+        "demanded": 10538694.962966694,
+        "bounded": 800000,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 404532148.39496046
+      },
+      "endpointRCS": {
+        "demanded": 10538266.073063852,
+        "bounded": 800000,
+        "finitePaid": 0,
+        "reserveCost": 0,
+        "uncompensatedTorque": 404515685.27932507
+      }
+    }
+  ]
+}

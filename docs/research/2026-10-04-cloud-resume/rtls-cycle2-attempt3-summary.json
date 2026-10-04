@@ -1,0 +1,97 @@
+{
+  "tick": 14306,
+  "time": 119.21666666670761,
+  "publication": {
+    "tick": 1590,
+    "receipt": 13.249999999999888,
+    "plan": {
+      "originTime": 0.008333333333333333,
+      "shutdownAt": 13.28333333333322,
+      "damageRevision": 0,
+      "sourceLineage": 1,
+      "coastPitch": 0,
+      "handoff": {
+        "x": 33.49250454455614,
+        "height": 2917.068240672182,
+        "vx": -2.3738938076952145,
+        "vy": -280.9791369052613,
+        "time": 21.139567067491438,
+        "lateralFeasible": true
+      }
+    },
+    "proof": {
+      "landed": true,
+      "onTheGround": false,
+      "fuel": 90961.5018682111,
+      "failures": {
+        "crashed": false,
+        "inFlightBreakUp": false,
+        "coldGasRunOut": false,
+        "fuelRunOut": false,
+        "heatDamaged": false,
+        "overPressure": false,
+        "overGLoad": false,
+        "flippedOver": false,
+        "randomFailure": false
+      },
+      "steps": 2540,
+      "sourceLineage": 1
+    }
+  },
+  "maxCalls": 4,
+  "totalCalls": 19073,
+  "totalForce": 700,
+  "maxForce": 350,
+  "peakQueue": 823,
+  "status": {
+    "onTheGround": false,
+    "landed": true,
+    "rcsActive": true,
+    "finActive": true,
+    "finLocked": false,
+    "gearDown": false,
+    "dumpingFuel": false,
+    "forceDump": false,
+    "translationModeOn": true
+  },
+  "failures": {
+    "crashed": false,
+    "inFlightBreakUp": false,
+    "coldGasRunOut": false,
+    "fuelRunOut": false,
+    "heatDamaged": false,
+    "overPressure": false,
+    "overGLoad": false,
+    "flippedOver": false,
+    "randomFailure": false
+  },
+  "terminal": {
+    "active": false,
+    "reason": 0,
+    "time": 0,
+    "x": 0,
+    "altitude": 0,
+    "pitch": 0,
+    "speedX": 0,
+    "speedY": 0,
+    "angularVelocity": 0,
+    "retainedDryMass": 0,
+    "retainedPropellant": 0,
+    "releasedEnergy": 0,
+    "releasedMomentumX": 0,
+    "releasedMomentumY": 0,
+    "releasedAngularMomentum": 0,
+    "releasedKineticEnergy": 0
+  },
+  "revision": 0,
+  "fuel": 90809.20096148725,
+  "pose": {
+    "x": 20015086.795044735,
+    "altitude": 120,
+    "speedX": 0,
+    "speedY": 0
+  },
+  "sourceValid": true,
+  "jobStage": "validate",
+  "jobDone": true
+}

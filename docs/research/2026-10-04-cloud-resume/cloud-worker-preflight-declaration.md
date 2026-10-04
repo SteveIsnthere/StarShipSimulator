@@ -1,0 +1,29 @@
+# Proposed single worker topology preflight — not yet authorized to run
+
+Research-only preparation for ONE functional/topology preflight. Await fresh independent review and root CPU/run grant. No browser, performance sampling, acceptance or retries are authorized by this file.
+
+## Declared change and rationale
+
+Use the SAME original managed Chromium headless shell revision 1234/version 151.0.7922.34 and existing flags `--no-sandbox --use-gl=angle --use-angle=swiftshader --enable-unsafe-swiftshader`. Preserve all inherited Playwright default arguments. Do not apply the separate full-Chrome layout correction, an affinity mask, vsync/frame-cap changes, or graphics changes.
+
+Select `[Processor] ThreadCount=3` before execution. The existing four-core cgroup quota is shared by software GPU, renderer-main and compositor/browser work. The previous trace shows large GPU wall waits, small GPU thread CPU and quota throttling; three software workers reduce nominal parallel demand relative to five exposed CPUs while allowing other browser work. This is a principled scheduling hypothesis, not a literal reserved CPU, proven optimum, or a promise of performance. Do not tune to another count after a failed trial under this declaration.
+
+Pinned Vulkan applicability is verified: SwiftShader `5b0479bd2d15058aaa9eb490e364f920ff824a8c` `src/Vulkan/libVulkan.cpp` vkCreateDevice1302 calls the scheduler factory; lines130–131 use `sw::getConfiguration()` and `getSchedulerConfiguration()`. SwiftConfig reads working-directory `SwiftShader.ini`. Bundled libvk_swiftshader.so contains the same keys. Static provenance is archived in `cloud-backend-inventory-artifacts`.
+
+## Supported launch construction
+
+Playwright public browser launch has no cwd parameter. Installed Playwright core `_launchProcess` passes no cwd to its spawn helper, so the browser inherits runner cwd. Do not invent a Chromium cwd flag or change the runner cwd (the project source/server require it).
+
+Preparation script `prepare-swiftshader-worker-preflight.sh` creates a private unique `/tmp/starship-worker-preflight.*` directory containing only a two-line SwiftShader.ini, an executable wrapper, and a setup receipt. The wrapper changes only browser cwd and execs the exact original headless-shell with `"$@"`, preserving all incoming flags and file descriptors. Using that wrapper as the explicit supported Playwright executablePath is the construction proposed for later review. Record both wrapper path/digest and actual /proc browser executable; never label the wrapper a different Chromium build. No global configuration is changed. Existing no-sandbox policy is retained without additional sandbox changes.
+
+Preparation only, after activation: `timeout --signal=TERM --kill-after=2s 30s bash docs/research/2026-10-04-cloud-resume/prepare-swiftshader-worker-preflight.sh`. Do not execute that command before the parent releases the slot. It does not launch anything. Existing files are protected with noclobber and unique mktemp; no dirty work is overwritten. Do not delete the directory on failure: preserve partial receipts. After its final receipt is archived, remove only the exact created directory after ensuring no browser descendant remains. No global restoration is necessary.
+
+## Functional and topology contract for later reviewed implementation
+
+The future standalone preflight must opt in explicitly, run one worker/zero retries/desktop1280×720 DPR1, use a source-pinned already-built dist, and retain unchanged production loop/render settings. Its absolute deadline is 90s (browser launch30s, startup/draw observations60s); cleanup must finish or terminate descendants within an additional5s. It must save receipts on failure and never start a second run automatically. Its functional observation is20 actual production world draws with no probe/context error; no cadence/p95 budget verdict or acceptance claim follows from those draws.
+
+Before drawing, record actual browser version, argv implementation, source/build hashes, wrapper/config/binary digest, world-canvas backend/renderer and context identity. Identify the GPU process through browser CDP process information and verify the actual PID/ancestry/executable, `/proc/<pid>/cwd`, and the intended config path/content visibility. Capture `/proc/<pid>/task/*/comm`, per-thread Cpus_allowed_list, task starttimes and selective loaded libvk_swiftshader path from maps at boundaries. Do not dump environment/credentials or unrelated command lines. Required evidence is exactly three uniquely identified marl worker threads named Thread<xx> while drawing, with unchanged quota/cpuset. Affinity and total GPU threads include queue/service threads and are not the scheduler count.
+
+Cwd/config visibility alone cannot prove read; three live scheduler workers plus pinned config-backed creation path establish that the setting took effect. If named workers are hidden/truncated, multiple schedulers prevent unique attribution, process inspection is denied, config is not visible, or worker count differs, stop and report unsupported/unverified configuration rather than claim success. If browser sandbox cwd differs from wrapper cwd, do not guess another flag or loosen sandboxing: return the actual limitation for review.
+
+Capture source/build/config identity again after observation, browser console/errors and partial progress. Source/build must match boundaries. This preflight has no trace CPU-profiler overhead, no performance target and no graphics acceptance claim. The normal300 measured/60warm acceptance bounds remain untouched. A later performance diagnostic requires its own declaration and authorization after topology results are independently reviewed.

@@ -1,0 +1,55 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {strictEqual,ok} from 'node:assert';
+import {createScenarioVehicle,PRESETS} from '../../../src/core/scenarios';
+import {advanceMechanics} from '../../../src/core/step';
+import {runAutopilot} from '../../../src/core/autopilot';
+import {runBoosterPostStep} from '../../../src/core/autopilot/booster';
+import {createCatchPose,writeCatchPose} from '../../../src/core/physics/tower-catch';
+import {SUPER_HEAVY} from '../../../src/core/vehicles/super-heavy';
+import type {MechanicalAdvance} from '../../../src/core/control/mechanical';
+const dir='docs/research/2026-10-04-cloud-resume/';
+const pins=JSON.parse(readFileSync(dir+'rtls-cycle2-attempt3-source-hashes.json','utf8'));
+function checkPins(){for(const [path,hash] of Object.entries(pins))strictEqual(createHash('sha256').update(readFileSync(path)).digest('hex'),hash,path);}
+checkPins();const dt=1/120;let state=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!).state;
+state.autopilot.autoLandOn=true;
+let calls=0,maxCalls=0,totalCalls=0,totalForce=0,maxForce=0,peakQueue=0,tick=0;
+let publication:any;const records:any[]=[];
+const counted:MechanicalAdvance=(...args)=>{calls++;return advanceMechanics(...args);};
+records.push({event:'initial',node:process.version,state});
+try {
+ for(tick=1;tick<=900*120;tick++) {
+  state=advanceMechanics(state,dt,(s,t,m)=>runAutopilot(s,t,m,counted),SUPER_HEAVY);
+  const prior=state.autopilot.boosterPrediction,forceBefore=prior?.hintForceIterations ?? 0;
+  calls=0;if(!state.damage?.terminal.active)runBoosterPostStep(state,dt,SUPER_HEAVY,counted);
+  const job=state.autopilot.boosterPrediction,source=state.autopilot.boosterSource;
+  const force=Math.max(0,(job?.hintForceIterations ?? 0)-forceBefore);
+  maxCalls=Math.max(maxCalls,calls);totalCalls+=calls;maxForce=Math.max(maxForce,force);totalForce+=force;
+  peakQueue=Math.max(peakQueue,source?.receipts?.size ?? 0);
+  ok(calls<=4,'four mechanical cap tick'+tick);ok(force<=512,'shared hint force cap tick'+tick);
+  ok((job?.iterations ?? 0)<=16,'trial cap');ok((job?.rollout.result.steps ?? 0)<=4000,'rollout cap');
+  ok((source?.receipts?.size ?? 0)<=1024,'receipt cap');ok((source?.receipts?.chunks.length ?? 0)<=32,'chunk cap');
+  records.push({event:'tick',tick,time:state.world.environmentTime,calls,force,stage:job?.stage,
+    duration:job?.duration,steps:job?.rollout.result.steps,iterations:job?.iterations,done:job?.done,
+    queue:source?.receipts?.size ?? 0,sourceValid:source?.valid,sourceChecked:source?.checked,
+    lineage:source?.lineageId,revision:state.damage?.revision,phase:state.autopilot.boosterPhase,
+    fuel:state.vehicle.propellantMass,altitude:state.kinematics.altitude});
+  const plan=state.autopilot.boosterReturnPlan;
+  if(plan && !publication){
+    publication={tick,receipt:state.world.environmentTime,plan,proof:{landed:job!.rollout.state.status.landed,
+      onTheGround:job!.rollout.state.status.onTheGround,fuel:job!.rollout.state.vehicle.propellantMass,
+      failures:job!.rollout.state.failures,steps:job!.rollout.result.steps,sourceLineage:job!.sourceLineage}};
+    records.push({event:'publication',...publication});ok(plan.shutdownAt>state.world.environmentTime,'strict future publication');
+  }
+  if(state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp || state.damage?.terminal.active)break;
+ }
+ checkPins();
+ const pose=createCatchPose();writeCatchPose(state,SUPER_HEAVY,pose);
+ const summary={tick,time:state.world.environmentTime,publication,maxCalls,totalCalls,totalForce,maxForce,peakQueue,
+   status:state.status,failures:state.failures,terminal:state.damage?.terminal,revision:state.damage?.revision,
+   fuel:state.vehicle.propellantMass,pose,sourceValid:state.autopilot.boosterSource?.valid,
+   jobStage:state.autopilot.boosterPrediction?.stage,jobDone:state.autopilot.boosterPrediction?.done};
+ records.push({event:'outcome',...summary});writeFileSync(dir+'rtls-cycle2-attempt3-summary.json',JSON.stringify(summary,null,2)+'\n');
+ console.log(JSON.stringify(summary,null,2));
+} catch(error){records.push({event:'error',tick,message:String(error)});throw error;}
+finally {writeFileSync(dir+'rtls-cycle2-attempt3.jsonl',records.map(r=>JSON.stringify(r)).join('\n')+'\n');}

@@ -1,0 +1,24 @@
+{
+  "rawDirectory": "/tmp/terminal-grid-separation-eazWoQ",
+  "head": "7b25b631b54e9f6405b866c9869d19a52ee338ec",
+  "dirtyDiffSha256": "a1bfd6e4d043139e50417d506dcb4c8824cb2897298a81bea3a0d18607763534",
+  "node": "v22.23.3",
+  "harnessSha256": "2fab6a386fcb8959a601a4c5a4f1268d3d7037c1c53a62014782589081f3308c",
+  "bundleSha256": "d79a2d7fa65c974bf33a89bea7eae914b4dded73e5fe2f0c619b1ef89bdbbc7f",
+  "rawTraceSha256": "3259235f39791a719d33f9c2149d1ea01d7d82ade0489c2f7350ecf4ba9ed2ad",
+  "rawBytes": 73334407,
+  "rows": 2854,
+  "exitStatus": "0",
+  "sourceUnchanged": true,
+  "durableFiles": {
+    "terminal-grid-separation-core-hashes.json": "9ec67bd8675f14bf5e77570bb160c3ed516aa025f7cd17c0b566fffb6bc5be14",
+    "terminal-grid-separation-declaration.md": "5be088f6f1376b9b37067005ed4ea0ea54725b67db94dafbd053c28e1c4f3e22",
+    "terminal-grid-separation-exit-status.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "terminal-grid-separation-full-trace.jsonl.gz": "999508c001eb033ef1a02baf864cdfcc8845f6ce81af4adb34dce6be6951f6dc",
+    "terminal-grid-separation-outcome.md": "777576fd0d9b6f5c70e657cd27d7af2ed828d43bc3ce8d66ae32a62d5964eb76",
+    "terminal-grid-separation-receipt.jsonl": "f73f320b287ce960437eb44cece0967ee732e50316f6f163d7eeba0bee7c8314",
+    "terminal-grid-separation-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "terminal-grid-separation-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "terminal-grid-separation-trace.ts.txt": "2fab6a386fcb8959a601a4c5a4f1268d3d7037c1c53a62014782589081f3308c"
+  }
+}
