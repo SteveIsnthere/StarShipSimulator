@@ -1,0 +1,11 @@
+# Independent corrected public display-witness proof approval
+
+Approve exactly one separately supervised pure actual locked-SDK public-class proof. Parent30s owned-child bound, separate original exit/stdout/stderr, bounded output and before/after candidate/Node/package-lock/Pixi/loaded SDK source lineage plus independent PID/starttime nonexecution are required. Setup/library build/browser remain held for fresh actual proof review; no workload executed by reviewer.
+
+Actual helper now rejects every null Mesh texture through the same strict Texture classifier; no permissive shader test remains. Locked source constructor/setter fallback limitation is documented. Real Graphics known drawing method is classified without invoking it; actual Sprite/TilingSprite/Mesh Texture/TextureSource/Rectangle and public anchors are validated. Unknown texture/anchor-bearing nodes fail with class/label/value-kind metadata.
+
+Actual controls cover five real public class positives and unknown/malformed Texture/TextureSource/method negatives, replaced Graphics method, unknown anchor, nonfinite source dimensions/Rectangle/anchor, malformed Rectangle and null Mesh under null/undefined/arbitrary shader. Deliberately malformed objects are failure controls, not claimed production states. Source width/frame mutations are restored before teardown; synthetic TextureSource carries dimensions only and no decoded resource/renderer. No further negative control is required for this bounded cause proof.
+
+Nine current candidate pins are frozen; six derived harness bytes remain exactly as reviewed earlier. Original eight failed-source bytes independently still match parent failed-episode tuple, including unchanged query hook/runner. Recorded root syntax/strip/Python-parse/lint checks exit0 and claim no runtime proof. Declaration now distinguishes the source-supported Graphics failure route from unobserved actual node identity. Exact pins are in the companion approval JSON; earlier HOLD/failure receipts/reviews remain untouched.
+
+This proof certifies witness classification only. It establishes no GPU performance, physical trajectory, renderer kernel quality, batching adoption, context restoration/mixed-cache readiness or gameplay/HUD/phone/frame acceptance. The original full247-unit failure and original performance/cue/sample criteria stay recorded.

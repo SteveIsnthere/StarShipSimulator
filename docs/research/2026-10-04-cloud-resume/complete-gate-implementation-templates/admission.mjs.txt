@@ -1,0 +1,19 @@
+import assert from 'node:assert/strict';
+export function assertTaskOptions(options){
+ assert(options&&typeof options==='object');assert(options.retry===undefined||options.retry===0,'Configured retries denied');assert(options.repeats===undefined||options.repeats===0,'Configured repeats denied');assert(options.fails===undefined||options.fails===false,'Expected failure conversion denied');
+ assert(options.mode==='run'||options.mode==='skip','Only/todo/pending task mode denied');
+}
+export function assertFinalTask(task,declaredSkip){
+ assertTaskOptions(task.options);assert.equal(task.errors.length,0,'Task runner error');
+ if(task.key===declaredSkip){assert.equal(task.state,'skipped');assert.equal(task.options.mode,'skip');return;}
+ assert.equal(task.options.mode,'run','Unexpected configured skip');assert.equal(task.state,'passed','Task did not pass once');
+ assert(task.diagnostic,'Missing authoritative completed task diagnostic');
+ assert.equal(task.diagnostic.retryCount,0,'Actual retry denied');assert.equal(task.diagnostic.repeatCount,0,'Actual repeat denied');assert.equal(task.diagnostic.flaky,false,'Flaky retry admission denied');
+}
+
+export function assertRunClean(inventory){
+ assert.equal(inventory.reason,'passed');assert.equal(inventory.unhandledErrors.length,0,'Unhandled/load error');
+ assert(inventory.modules.length>0,'Missing run modules');
+ assert.equal(new Set(inventory.modules.map(row=>row.file)).size,inventory.modules.length,'Duplicate module');
+ for(const module of inventory.modules)assert(module.ok,'Module/hook error');
+}

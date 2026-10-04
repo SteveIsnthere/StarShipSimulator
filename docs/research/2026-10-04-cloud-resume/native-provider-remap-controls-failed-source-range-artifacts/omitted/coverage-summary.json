@@ -1,0 +1,4 @@
+{"total": {"lines":{"total":9,"covered":0,"skipped":0,"pct":0},"statements":{"total":13,"covered":0,"skipped":0,"pct":0},"functions":{"total":5,"covered":0,"skipped":0,"pct":0},"branches":{"total":10,"covered":0,"skipped":0,"pct":0},"branchesTrue":{"total":0,"covered":0,"skipped":0,"pct":"Unknown"}}
+,"/tmp/starship-native-provider-control.L8vbAO/src/core/coverage-control.ts": {"lines":{"total":8,"covered":0,"skipped":0,"pct":0},"functions":{"total":4,"covered":0,"skipped":0,"pct":0},"statements":{"total":12,"covered":0,"skipped":0,"pct":0},"branches":{"total":8,"covered":0,"skipped":0,"pct":0}}
+,"/tmp/starship-native-provider-control.L8vbAO/src/core/unimported-control.ts": {"lines":{"total":1,"covered":0,"skipped":0,"pct":0},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":1,"covered":0,"skipped":0,"pct":0},"branches":{"total":2,"covered":0,"skipped":0,"pct":0}}
+}

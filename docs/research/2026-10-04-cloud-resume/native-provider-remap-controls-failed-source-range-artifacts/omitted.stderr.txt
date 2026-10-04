@@ -1,0 +1,6 @@
+(node:52735) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ERROR: Coverage for lines (0%) does not meet global threshold (20%)
+ERROR: Coverage for functions (0%) does not meet global threshold (50%)
+ERROR: Coverage for statements (0%) does not meet global threshold (20%)
+ERROR: Coverage for branches (0%) does not meet global threshold (20%)

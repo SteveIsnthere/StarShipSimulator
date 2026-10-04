@@ -1,0 +1,361 @@
+{
+  "original": "/tmp/starship-native-provider-control.L8vbAO",
+  "outcome": "FAILED strict source-range validation after four actual recipes; no original contract pass",
+  "files": [
+    {
+      "original": "artifact/control.mjs",
+      "retained": "artifact/control.mjs.txt",
+      "sha256": "e3c19a4455bff2a3c0f75ae345f795c376dc8c80694eb3fbe7e6e64af0c78254"
+    },
+    {
+      "original": "artifact/control.mjs.map",
+      "retained": "artifact/control.mjs.map",
+      "sha256": "296533ec2ced913db26632a724ffdbdca49b495f77b11bbd8035a8c5de28a908"
+    },
+    {
+      "original": "children.json",
+      "retained": "children.json",
+      "sha256": "2e75ac7784e2b2e2b94fe6683891dc32ae694a14820d21673cb60b6ba3b8d587"
+    },
+    {
+      "original": "cohort-outcome.json",
+      "retained": "cohort-outcome.json",
+      "sha256": "aeec7f6eb506b880d14b91f3a98cb568f85a0c0908138222f93646f569f22539"
+    },
+    {
+      "original": "cohort.mjs",
+      "retained": "cohort.mjs.txt",
+      "sha256": "6f4e98fc77f93d67c9df522b3984651cbaa88c047e89690b61b6f7062db864b6"
+    },
+    {
+      "original": "compile-origin.json",
+      "retained": "compile-origin.json",
+      "sha256": "4d7590a1c2f9929a21f874dbeea2f32d480f8da187a8301063f61dc0e23a77f3"
+    },
+    {
+      "original": "compiled-lineage.json",
+      "retained": "compiled-lineage.json",
+      "sha256": "bba6844acd4a3ed003d674fdc2c420af56506b3229af8da2045ee3c172b79c31"
+    },
+    {
+      "original": "config.mjs.template",
+      "retained": "config.mjs.template",
+      "sha256": "a1d61ac0ccede796077437e8842a040f37982b857179127c30c1c2ede3a438fa"
+    },
+    {
+      "original": "entry.ts",
+      "retained": "entry.ts.txt",
+      "sha256": "d61a668ea5fe72d90ad1e6cbad66c8c766672dd54363b5524e2588a7dcbe6d49"
+    },
+    {
+      "original": "external-map-route.mjs",
+      "retained": "external-map-route.mjs.txt",
+      "sha256": "8a575a9dc444c93628daf0e264b762b0604304c687bf0ecf39489c2b2123898b"
+    },
+    {
+      "original": "finalize.mjs",
+      "retained": "finalize.mjs.txt",
+      "sha256": "183542f6c3a3bf4a3f2f7ba2691ced2154e0b84839a5910d7ac3e2fc52e4e6c0"
+    },
+    {
+      "original": "inputs-after.json",
+      "retained": "inputs-after.json",
+      "sha256": "69c684944cba0a00874d3a507b3648a9b53a40591c919ca7f66c31370d04dcf7"
+    },
+    {
+      "original": "inputs-before.json",
+      "retained": "inputs-before.json",
+      "sha256": "69c684944cba0a00874d3a507b3648a9b53a40591c919ca7f66c31370d04dcf7"
+    },
+    {
+      "original": "installed-tools-after.json",
+      "retained": "installed-tools-after.json",
+      "sha256": "0211c67feb3ca70cc84c98b5edcfd529bd3f80d362d1dbf00193fc652a089b7d"
+    },
+    {
+      "original": "installed-tools-before.json",
+      "retained": "installed-tools-before.json",
+      "sha256": "0211c67feb3ca70cc84c98b5edcfd529bd3f80d362d1dbf00193fc652a089b7d"
+    },
+    {
+      "original": "mixed/coverage-final.json",
+      "retained": "mixed/coverage-final.json",
+      "sha256": "75c53093b6aa21074bcbe9e3b28b873338a443bf9b897a301729f13ae21bd385"
+    },
+    {
+      "original": "mixed/coverage-summary.json",
+      "retained": "mixed/coverage-summary.json",
+      "sha256": "6395ffbfcc8a4d686ca16811fb859b5ff3b0b46492ef691978c6e6087eaee835"
+    },
+    {
+      "original": "mixed/public-run-lifecycle.json",
+      "retained": "mixed/public-run-lifecycle.json",
+      "sha256": "da9eb29de2cc41d95d7090921bc4eea37e722b4f890542cdee8690f5c65cb786"
+    },
+    {
+      "original": "mixed.config.mjs",
+      "retained": "mixed.config.mjs.txt",
+      "sha256": "a933bc001a1e00c17876a47ae0ef3ea8a85919258009e10105938f142a8c92c8"
+    },
+    {
+      "original": "mixed.reporter.mjs",
+      "retained": "mixed.reporter.mjs.txt",
+      "sha256": "bc245792192164c73a516ccc0ef66fa165100f3a4315df68beb266e49266ad13"
+    },
+    {
+      "original": "mixed.stderr.txt",
+      "retained": "mixed.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "mixed.stdout.txt",
+      "retained": "mixed.stdout.txt",
+      "sha256": "1d455a99cde5be8320be92606d2ec6cad6c2eb376aee1c608e75befbd181fa6f"
+    },
+    {
+      "original": "mixed.tests.json",
+      "retained": "mixed.tests.json",
+      "sha256": "47b47cc60709979c612d29193fab509fc1c0448775bd8f08db7589c503935b37"
+    },
+    {
+      "original": "native/coverage-final.json",
+      "retained": "native/coverage-final.json",
+      "sha256": "2a7f37adf6e9af2698fe0db83882d218c8f3f6531254efd01c078b0ef3008f9b"
+    },
+    {
+      "original": "native/coverage-summary.json",
+      "retained": "native/coverage-summary.json",
+      "sha256": "a3e95c8bc9b9deab3f6191176dfcb7034802da1c1e9ae30c4fda3c425a16085d"
+    },
+    {
+      "original": "native/public-run-lifecycle.json",
+      "retained": "native/public-run-lifecycle.json",
+      "sha256": "9aa4621c7f1d7dc0ac8f78eb8d9aaf4d7e9bbfe76d8f94023cda493c85a8e719"
+    },
+    {
+      "original": "native.config.mjs",
+      "retained": "native.config.mjs.txt",
+      "sha256": "c8e5f551cdae7ce2de07a96b4fbe36b16a7546327915b192b1de4e67718693c8"
+    },
+    {
+      "original": "native.reporter.mjs",
+      "retained": "native.reporter.mjs.txt",
+      "sha256": "5720db8f59052319aa18cabd2d53083cba38ca3eb9d7ab94d258776a0f3bfcde"
+    },
+    {
+      "original": "native.stderr.txt",
+      "retained": "native.stderr.txt",
+      "sha256": "15848894ba4e89c41959d7be49bd77caf299ad49ad0f803dc6376fb2522db605"
+    },
+    {
+      "original": "native.stdout.txt",
+      "retained": "native.stdout.txt",
+      "sha256": "1e0928ff58a26324ddb5e2e8b801edd8a78e954d62e72e5786b15fd6278ca35c"
+    },
+    {
+      "original": "native.tests.json",
+      "retained": "native.tests.json",
+      "sha256": "9f79721862702f9a53fc7d658928056eea733f2d1060e865d63bf0fc0f6eabbe"
+    },
+    {
+      "original": "node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json",
+      "retained": "node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json",
+      "sha256": "e7c59340b9ab8f9d40ffcb05704bc658e1deba11575d8a1f7be755317f21c4f5"
+    },
+    {
+      "original": "omitted/coverage-final.json",
+      "retained": "omitted/coverage-final.json",
+      "sha256": "ac2ae53f50195bfd51433f0bb3f509e10d7b853ea1dde3f7f976c74d5d85ebaf"
+    },
+    {
+      "original": "omitted/coverage-summary.json",
+      "retained": "omitted/coverage-summary.json",
+      "sha256": "1efe2aca9a13b142d72c3e028da81e47ef0e1ad7eb3b63f7afd9491626371842"
+    },
+    {
+      "original": "omitted/public-run-lifecycle.json",
+      "retained": "omitted/public-run-lifecycle.json",
+      "sha256": "9aa4621c7f1d7dc0ac8f78eb8d9aaf4d7e9bbfe76d8f94023cda493c85a8e719"
+    },
+    {
+      "original": "omitted.config.mjs",
+      "retained": "omitted.config.mjs.txt",
+      "sha256": "b6e02b83687780d9117b7ca608fa1ec90172a5a458802b5d367a993b7a44d351"
+    },
+    {
+      "original": "omitted.reporter.mjs",
+      "retained": "omitted.reporter.mjs.txt",
+      "sha256": "2e3b53db513e3eebd0c93fd5b4fb7ac6e70f459e8f15e1f14f1cae0975263d7c"
+    },
+    {
+      "original": "omitted.stderr.txt",
+      "retained": "omitted.stderr.txt",
+      "sha256": "82556bc9d82c383c8f69e97ff6c8a931b2ff332958abd15ae9ea8c3aafafa50c"
+    },
+    {
+      "original": "omitted.stdout.txt",
+      "retained": "omitted.stdout.txt",
+      "sha256": "987ca83053a07f275c352e9ce7ab17c5cf59c30bc54ec541530ebb1ad198825d"
+    },
+    {
+      "original": "omitted.tests.json",
+      "retained": "omitted.tests.json",
+      "sha256": "5922b8085a78b8eefce2741a5c3a4073ee545897d125fa9e91e64cee37319cae"
+    },
+    {
+      "original": "original-inputs-after.json",
+      "retained": "original-inputs-after.json",
+      "sha256": "19c5fafede0e4ef18c7edd431e78a3c2678536e900ce77655dd2950a9968252b"
+    },
+    {
+      "original": "original-inputs.json",
+      "retained": "original-inputs.json",
+      "sha256": "19c5fafede0e4ef18c7edd431e78a3c2678536e900ce77655dd2950a9968252b"
+    },
+    {
+      "original": "owner-result.json",
+      "retained": "owner-result.json",
+      "sha256": "e72d2860517d222c4eab3389d29da9fb635701a06cb810148eb93a4c482d44c8"
+    },
+    {
+      "original": "preparation-created.json",
+      "retained": "preparation-created.json",
+      "sha256": "646725abc4b265d3f529507e7c08d09c0b421c9ad878a7f3e5c4901743ce6ed5"
+    },
+    {
+      "original": "provider-cohort.process.json",
+      "retained": "provider-cohort.process.json",
+      "sha256": "118082dbad74f5a637d6a4d53be1bdbfca758418ade5a016ef8e71e3e1968b00"
+    },
+    {
+      "original": "provider-cohort.stderr.txt",
+      "retained": "provider-cohort.stderr.txt",
+      "sha256": "6de8356efceae8ad9ccfe7b43260c8b716314094c13234a9ab8d04c03efff0b0"
+    },
+    {
+      "original": "provider-cohort.stdout.txt",
+      "retained": "provider-cohort.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "raw-reporter.mjs.template",
+      "retained": "raw-reporter.mjs.template",
+      "sha256": "0df391783e9ff8309289a106439f8d2aab4ad50bb941396fed44b6cf4a45af2a"
+    },
+    {
+      "original": "raw-v8-mixed/0.json",
+      "retained": "raw-v8-mixed/0.json",
+      "sha256": "354f8262e53b33c67974425c77292d69f731a43b6956aabf26187a20c5ad3acc"
+    },
+    {
+      "original": "raw-v8-mixed/1.json",
+      "retained": "raw-v8-mixed/1.json",
+      "sha256": "04ef8f486760d2b70890281ff67aed59f081e74c958c99962125f13a6049c30a"
+    },
+    {
+      "original": "raw-v8-mixed/copy-receipt.json",
+      "retained": "raw-v8-mixed/copy-receipt.json",
+      "sha256": "aa8da4e4ca7935b4d2cde69137ce6114a40aa8c5537857e34ab9da2e81a6b5e6"
+    },
+    {
+      "original": "raw-v8-native/0.json",
+      "retained": "raw-v8-native/0.json",
+      "sha256": "74653727d6f55436420ce0bfddeea4abdf7d1266907199658ff8e978832f5257"
+    },
+    {
+      "original": "raw-v8-native/copy-receipt.json",
+      "retained": "raw-v8-native/copy-receipt.json",
+      "sha256": "71d6de3f6c62ddc779087079bf51ba0b743dad71f90202eb1eed717882609407"
+    },
+    {
+      "original": "raw-v8-omitted/0.json",
+      "retained": "raw-v8-omitted/0.json",
+      "sha256": "9ee79dbbbfbf65850e35254c11140774d5d95c0d0d84cbb6589fc90172d03025"
+    },
+    {
+      "original": "raw-v8-omitted/copy-receipt.json",
+      "retained": "raw-v8-omitted/copy-receipt.json",
+      "sha256": "71d6de3f6c62ddc779087079bf51ba0b743dad71f90202eb1eed717882609407"
+    },
+    {
+      "original": "raw-v8-ssr/0.json",
+      "retained": "raw-v8-ssr/0.json",
+      "sha256": "04ef8f486760d2b70890281ff67aed59f081e74c958c99962125f13a6049c30a"
+    },
+    {
+      "original": "raw-v8-ssr/copy-receipt.json",
+      "retained": "raw-v8-ssr/copy-receipt.json",
+      "sha256": "1b892b4ab07aa920525c3d0e8eee864e97cda194169d1c83f97405901ebd06a4"
+    },
+    {
+      "original": "src/core/coverage-control.ts",
+      "retained": "src/core/coverage-control.ts.txt",
+      "sha256": "00012cd0b25ee89ab7a704ad9597f8b8cc6a5f0bf6fbf8bfd6714f9fdca87787"
+    },
+    {
+      "original": "src/core/unimported-control.ts",
+      "retained": "src/core/unimported-control.ts.txt",
+      "sha256": "0441cd13b7f5547d07656899f59d27e2cbd9c2f4a55cd2c071e64dfc77ced72c"
+    },
+    {
+      "original": "src/outside-control.ts",
+      "retained": "src/outside-control.ts.txt",
+      "sha256": "ce895c8167b1c13321c7d659ef98bbea80ba26b23c0f009ad2c8e4ac756bbc92"
+    },
+    {
+      "original": "ssr/coverage-final.json",
+      "retained": "ssr/coverage-final.json",
+      "sha256": "e2dc7ae5448a96651cb3ae66e039c58f22adc1da7fd3752fff7b1b82af0c98ed"
+    },
+    {
+      "original": "ssr/coverage-summary.json",
+      "retained": "ssr/coverage-summary.json",
+      "sha256": "a3e95c8bc9b9deab3f6191176dfcb7034802da1c1e9ae30c4fda3c425a16085d"
+    },
+    {
+      "original": "ssr/public-run-lifecycle.json",
+      "retained": "ssr/public-run-lifecycle.json",
+      "sha256": "9aa4621c7f1d7dc0ac8f78eb8d9aaf4d7e9bbfe76d8f94023cda493c85a8e719"
+    },
+    {
+      "original": "ssr.config.mjs",
+      "retained": "ssr.config.mjs.txt",
+      "sha256": "d3b4b2f6ffd23fa851d40de12b2f73f7803d61c9f421840daae066662a2029b2"
+    },
+    {
+      "original": "ssr.reporter.mjs",
+      "retained": "ssr.reporter.mjs.txt",
+      "sha256": "2163409ce9dbd0b8a9046ebcf47bf04f5954b0cda2fbf1b73a3c08442fe7073c"
+    },
+    {
+      "original": "ssr.stderr.txt",
+      "retained": "ssr.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "ssr.stdout.txt",
+      "retained": "ssr.stdout.txt",
+      "sha256": "453176e367d3fda008ebfcc3901ab6bcc158a70019b1dd2a17c342034fb12599"
+    },
+    {
+      "original": "ssr.tests.json",
+      "retained": "ssr.tests.json",
+      "sha256": "8dadb963d7091aa994860f5af505a75494b5ec843b304bd07c3977eec281ad3a"
+    },
+    {
+      "original": "tests/native-opposite.test.mjs",
+      "retained": "tests/native-opposite.test.mjs.txt",
+      "sha256": "7d704cc9d6822d02f07183b53d5cb585f7b52f40d02b4d77ea47aaef899e9f45"
+    },
+    {
+      "original": "tests/native-positive.test.mjs",
+      "retained": "tests/native-positive.test.mjs.txt",
+      "sha256": "b483c190763962b4b397034c49c50205ca85ff56f14f9ec5d89548fb53ab24e5"
+    },
+    {
+      "original": "tests/ssr.test.mjs",
+      "retained": "tests/ssr.test.mjs.txt",
+      "sha256": "0b2c613584ea2c38a7b8c5261444be69426e4d411636f3bb6f85907296148c9f"
+    }
+  ]
+}

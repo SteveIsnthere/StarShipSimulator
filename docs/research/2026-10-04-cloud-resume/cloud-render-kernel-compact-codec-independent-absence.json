@@ -1,0 +1,26 @@
+{
+  "verifiedOwnedAbsence": true,
+  "authority": "Reviewer completeness check of actual root independent raw PID/start observations; no new process execution",
+  "rawIndependentPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/codec-parent/independent-postexit.json",
+  "rawIndependentSha256": "a47bd63fd122e63c9ce6ef3dce5a174da6c64ab675b37cdee57ea0ea83ccad50",
+  "parentResultSha256": "a23c8b612bd6b3d0d7630cbc99263fe250f535b49e51227da52c03d3f5eb77c9",
+  "actualProcessPath": "/tmp/starship-codec-proof.LYtiTQ/codec.process.json",
+  "actualProcessSha256": "f7436fdfa4022ad867b26c7cf184deba69a8abca337a55a20ac7ac2bf656f6b6",
+  "trackedAndOwnerRows": [
+    {
+      "pid": 50598,
+      "start": "2797065",
+      "executing": false
+    },
+    {
+      "pid": 50605,
+      "state": "R",
+      "parent": 50598,
+      "group": 50605,
+      "session": 50605,
+      "start": "2797102",
+      "executing": false
+    }
+  ],
+  "allActualCleanupTrackedCovered": true
+}

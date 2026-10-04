@@ -1,0 +1,69 @@
+import ts from 'typescript';
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { createHash } from 'node:crypto';
+const [root, research, output] = process.argv.slice(2);
+assert([root,research,output].every(x=>x && path.isAbsolute(x)));
+assert.equal(process.version,'v22.23.3'); assert.equal(ts.version,'5.9.3');
+const hash = x => createHash('sha256').update(x).digest('hex');
+const pins=JSON.parse(readFileSync(path.join(research,'original-source-pins.json'),'utf8'));
+const specs=[['src/core/damage-state.ts','ComponentFailure',[['None',0],['ProofExceeded',1],['MaterialDomain',2],['Terminal',3]]],
+ ['src/core/physics/damage-terminal.ts','DamageTerminalReason',[['Impact',1],['Pressure',2],['Temperature',4],['Acceleration',8],['MaterialDomain',16]]]];
+const originals=new Map(),drafts=new Map();
+for(const [relative] of specs){const f=path.join(root,relative),b=readFileSync(f,'utf8');assert.equal(hash(b),pins[relative]);
+ assert.equal(b,readFileSync(path.join(research,path.basename(f)+'.before.txt'),'utf8'));originals.set(f,b);
+ drafts.set(f,readFileSync(path.join(research,path.basename(f)+'.candidate.txt'),'utf8'));}
+const config=ts.readConfigFile(path.join(root,'tsconfig.json'),ts.sys.readFile); assert.equal(config.error,undefined);
+const parsed=ts.parseJsonConfigFileContent(config.config,ts.sys,root);assert.equal(parsed.errors.length,0);
+// Research-only variants: each must earn checker and strip qualification. None is assumed legal.
+function variant(mode){if(mode==='original')return originals;if(mode==='union-draft')return drafts;
+ const out=new Map();for(const [relative,name,members] of specs){const f=path.join(root,relative);let text=drafts.get(f);
+ const declaration=`enum ${mode==='same-name-ambient'?name:'__'+name} { ${members.map(([k,v])=>`${k} = ${v}`).join(', ')} }`;
+ const prefix=mode==='same-name-ambient'?`export declare ${declaration}`:
+ `declare ${declaration}\nexport type ${name} = __${name};`+
+ (mode==='private-ambient-namespace'?`\nexport declare namespace ${name} { ${members.map(([k])=>`export type ${k} = __${name}.${k};`).join(' ')} }`:'');
+ text=text.replace(new RegExp(`export type ${name} = [^;]+;`),prefix);
+ text=text.replace(/return out as \{[\s\S]*?\n  \};/,`return out as typeof ${mode==='same-name-ambient'?name:'__'+name};`);
+ assert(!text.includes('return out as {'));out.set(f,text);}return out;}
+const imports=`import { ComponentFailure as F } from '${path.join(root,'src/core/damage-state')}';\nimport { DamageTerminalReason as R } from '${path.join(root,'src/core/physics/damage-terminal')}';\n`;
+const cases=[
+ ['known-member','let x: F = F.None; let y: R = R.Impact;'],
+ ['number-variable','let n = Number(37); let x: F = n; let y: R = n;'],
+ ['out-of-domain-literal','let x: F = 37; let y: R = 37;'],
+ ['member-namespace','let x: F.None = F.None; let y: R.Pressure = R.Pressure;'],
+ ['member-other-value','let x: F.None = F.Terminal; let y: R.Pressure = R.Impact;'],
+ ['cross-enum','let x: F = R.Impact; let y: R = F.None;'],
+ ['cross-enum-same-values','enum Other { None = 0, ProofExceeded = 1, MaterialDomain = 2, Terminal = 3 }; let x: F = Other.None;'],
+ ['forward-write','F.None = F.None; R.Pressure = R.Pressure;'],
+ ['reverse-read','const x: string | undefined = F[0]; const y: string | undefined = R[2];'],
+ ['reverse-write','F[0] = "other"; R[2] = "other";'],
+ ['keyof','let x: keyof typeof F = "None"; let y: keyof typeof R = "Pressure";'],
+ ['keyof-negative','let x: keyof typeof F = "missing"; let y: keyof typeof R = "missing";'],
+ ['mask-number','const x: number = R.Pressure | R.Temperature;'],
+ ['mask-enum','let x: R = R.Pressure | R.Temperature;'],
+ ['member-number-variable','let n = Number(37); let x: F.None = n; let y: R.Impact = n;'],
+ ['number-usage','const x: number = F.None; const y: number = R.Impact;'],
+];
+const probeFiles=new Map(cases.map(([name,body])=>[path.join(root,'.enum-type-controls-research',name+'.ts'),imports+body+'\nexport {};\n']));
+const results=[];
+for(const mode of ['original','union-draft','same-name-ambient','private-ambient-alias','private-ambient-namespace']){
+ const overrides=new Map([...variant(mode),...probeFiles]);const host=ts.createCompilerHost(parsed.options);
+ const read=host.readFile.bind(host),exists=host.fileExists.bind(host);
+ host.readFile=f=>overrides.has(f)?overrides.get(f):read(f);host.fileExists=f=>overrides.has(f)||exists(f);
+ const program=ts.createProgram({rootNames:[...probeFiles.keys()],options:{...parsed.options,noEmit:true,incremental:false},host});
+ const diagnostics=ts.getPreEmitDiagnostics(program).map(d=>({file:d.file?.fileName??null,start:d.start??null,length:d.length??null,
+ code:d.code,category:d.category,message:ts.flattenDiagnosticMessageText(d.messageText,'\n')}));
+ const matrix=cases.map(([name])=>({name,diagnostics:diagnostics.filter(d=>d.file===path.join(root,'.enum-type-controls-research',name+'.ts'))}));
+ const externalErrors=diagnostics.filter(d=>!d.file||!probeFiles.has(d.file));
+ results.push({mode,sourceHashes:[...variant(mode)].map(([file,text])=>({file,sha256:hash(text),source:text})),matrix,externalErrors});
+}
+const baseline=results[0];assert.equal(baseline.externalErrors.length,0,'Original graph checker failure: qualification invalid');
+for(const name of ['known-member','number-variable','member-namespace','reverse-read','mask-number','number-usage'])
+ assert.equal(baseline.matrix.find(x=>x.name===name).diagnostics.length,0,`Unexpected original positive failure ${name}`);
+for(const name of ['out-of-domain-literal','member-other-value','cross-enum','forward-write','keyof-negative'])
+ assert(baseline.matrix.find(x=>x.name===name).diagnostics.length>0,`Unexpected original negative accepted ${name}`);
+const signature=x=>JSON.stringify(x.matrix.map(c=>({name:c.name,codes:c.diagnostics.map(d=>[d.code,d.category,d.start,d.length])})));
+for(const row of results.slice(1))row.compatibleOnTheseControls=row.externalErrors.length===0&&signature(row)===signature(baseline);
+writeFileSync(output,JSON.stringify({kind:'enum-type-contract-capture-v1',node:process.version,typescript:ts.version,
+ projectOptions:parsed.options,sourcePins:pins,results,applicationApproved:false},null,2)+'\n',{flag:'wx'});

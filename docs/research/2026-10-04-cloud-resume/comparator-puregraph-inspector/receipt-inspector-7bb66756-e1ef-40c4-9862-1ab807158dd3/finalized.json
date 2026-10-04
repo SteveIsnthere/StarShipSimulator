@@ -1,0 +1,9 @@
+{
+  "finalized": true,
+  "status": "pass",
+  "stage": "completed",
+  "failure": null,
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3",
+  "node": "v22.23.3",
+  "acceptance": "unchanged SSR comparator puregraph CPU samples only; no flight/cost acceptance"
+}

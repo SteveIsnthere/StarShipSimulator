@@ -1,0 +1,52 @@
+{
+  "kind": "compact-codec-owner-result-v1",
+  "setup": "/tmp/starship-codec-proof.LYtiTQ",
+  "childCode": 0,
+  "failure": null,
+  "before": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/run-owned-codec.mjs.txt": "0b74ad547892dd738eb3fac56dde4c2fcbe44dc76a901f36c6bc67f0b3ca49d9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/compact-codec-controls.mjs.txt": "ebcfd6c2619519dd6f56f22874418aa809c061ded14f768fa58faf1281f902c4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/run-render-kernel-compact-json.mjs.txt": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/runner.diff.txt": "4cf967a0ccc15803c0a62da37f691357e4c28f5e326411c0272f778f7e7bad2d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/declaration.md": "42c218d263a00de8f0ab2c61734fd7b4ac037c3f83a9d6de0d0e217ee62b7c41",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/owned-launch-and-reuse-declaration.md": "0dee5701222065bebf37fdde3df1bf9a6e1d6870cbc430ab1bbcb508dddc76fd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/run-render-kernel-texture-repair.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-render-kernel-compact-code-independent-approval.json": "00790eb8dc040c545e5b8710066fe34a2695ab05ec9de307ff145ae1c6c1a9c3",
+    "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+    "/tmp/starship-codec-owner.6no7s8pi/run-owned-codec.mjs": "0b74ad547892dd738eb3fac56dde4c2fcbe44dc76a901f36c6bc67f0b3ca49d9"
+  },
+  "after": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/run-owned-codec.mjs.txt": "0b74ad547892dd738eb3fac56dde4c2fcbe44dc76a901f36c6bc67f0b3ca49d9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/compact-codec-controls.mjs.txt": "ebcfd6c2619519dd6f56f22874418aa809c061ded14f768fa58faf1281f902c4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/run-render-kernel-compact-json.mjs.txt": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/runner.diff.txt": "4cf967a0ccc15803c0a62da37f691357e4c28f5e326411c0272f778f7e7bad2d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/declaration.md": "42c218d263a00de8f0ab2c61734fd7b4ac037c3f83a9d6de0d0e217ee62b7c41",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/owned-launch-and-reuse-declaration.md": "0dee5701222065bebf37fdde3df1bf9a6e1d6870cbc430ab1bbcb508dddc76fd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/run-render-kernel-texture-repair.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-render-kernel-compact-code-independent-approval.json": "00790eb8dc040c545e5b8710066fe34a2695ab05ec9de307ff145ae1c6c1a9c3",
+    "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+    "/tmp/starship-codec-owner.6no7s8pi/run-owned-codec.mjs": "0b74ad547892dd738eb3fac56dde4c2fcbe44dc76a901f36c6bc67f0b3ca49d9"
+  },
+  "executed": {
+    "compact-codec-controls.mjs": "ebcfd6c2619519dd6f56f22874418aa809c061ded14f768fa58faf1281f902c4",
+    "run-render-kernel-compact-json.mjs": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907"
+  },
+  "absence": [
+    {
+      "pid": 50605,
+      "start": "2797102",
+      "group": 50605,
+      "executing": []
+    }
+  ],
+  "proofResultSha256": "de1ef5d5d382df444f7aa9023c9f11398bf29ec72edc6f6376c20a836f7cb282",
+  "sourceExact": true,
+  "independentParentAbsenceRequired": true,
+  "browserLaunches": 0,
+  "finalized": true
+}

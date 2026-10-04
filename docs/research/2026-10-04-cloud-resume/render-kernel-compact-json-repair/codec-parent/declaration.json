@@ -1,0 +1,13 @@
+{
+  "approvalSha256": "744eea901a45bdf175547b8ef47cabcf1e8062f2294ed6f9e662dedbde875136",
+  "command": [
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "/tmp/starship-codec-owner.6no7s8pi/run-owned-codec.mjs"
+  ],
+  "nodeSha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+  "ownerSha256": "0b74ad547892dd738eb3fac56dde4c2fcbe44dc76a901f36c6bc67f0b3ca49d9",
+  "parentSourceSha256": "880d6ba5b743b19a5bd1481cd0157ad7fefc4654743a12baee50a2a7d1cf73af",
+  "childSeconds": 5,
+  "externalSeconds": 20,
+  "cpuExclusive": true
+}

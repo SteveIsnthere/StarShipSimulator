@@ -1,0 +1,44 @@
+{
+  "decision": "ONE distinct cause-repair paired32/1 kernel browser diagnostic approved under parent exclusive grant",
+  "setup": "/tmp/starship-render-kernel.m9xok0x9",
+  "compiledManifestSha256": "00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f",
+  "candidateFiles": {
+    "kernel-display-witness.ts": "fd3504595c61a44935aa88a7cd8859338fd5027337587f738c61270fd199f039",
+    "kernel-display-witness-controls.mjs": "74df5ba1cc3aafca65be61cbbcaf97cda11649f06d3f905f5cfcb20753729f30",
+    "render-kernel-texture-repair-entry.ts": "8d5ddb05c1dabf9b1794a163e64d34ff53a22895874380aba206575e4a346337",
+    "render-kernel-texture-repair-build.config.mjs": "3c7130ef80bb15d242f7275ef0ad9084f8c91696e8d71c1ce281d49ece3a77b0",
+    "prepare-render-kernel-texture-repair.py": "9e3256b7402e0d53c5f434f7ab456ed700b3ba8677322e653153257c26be60c0",
+    "build-render-kernel-texture-repair.mjs": "5bdc2b760d79bbc2d0edac85f2a70d6c3435d8a435a8ae4aae9ebb9411443b8a",
+    "qualify-render-kernel-texture-repair.mjs": "e143e5ac3ba8a8a66325199c9c153db2a7077dc591f88e221540467ea2d25fb0",
+    "run-render-kernel-texture-repair.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "cloud-render-kernel-display-witness-repair-declaration.md": "431551398ddc1a36ade688965e95c70032487671fefed73d658259e32a0ce39d"
+  },
+  "unchangedHookSha256": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+  "acceptedPureProof": {
+    "approvalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-render-kernel-display-witness-pure-result-independent-approval.json",
+    "sha256": "4cb76dd783d58c7232d0c84281d22f185984c50b2e2183f52d580ea25f459df5",
+    "receipts": {
+      "before.json": "52041bac6fa3614d886069617fbd05b43934d71e5d2ac353031f3303c5118631",
+      "result.json": "18709fbc3e8033a0dab3e40f84af5fa4eb969484f34a20cc30c3bf6e70eafa91",
+      "stdout.txt": "0747688932a043040390fe36ec121109d1a45832a1c57d625e2d7ee7b6ac21ec",
+      "after.json": "52041bac6fa3614d886069617fbd05b43934d71e5d2ac353031f3303c5118631",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "episode": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/display-witness-pure-9324e658-ef2a-400e-924f-0f0d297f37dc"
+  },
+  "verification": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-render-kernel-texture-repair-independent-build-verification.json",
+    "sha256": "80063e8a59e7e6166680bf0e01bd84bde4783a39ba0c9aea4d35f2f0569d882b"
+  },
+  "conditions": [
+    "One invocation of run-render-kernel-texture-repair.mjs with RUN_RENDER_KERNEL=1 and compiled pin",
+    "Preserve old failed episode; no unchanged retry/fallback",
+    "Exact reviewed deterministic inputs, AA/DPR/backing, full lossless public state, linked width/generator and positive pixel gates",
+    "Supported nonnested complete timer queries or STOP; original full-session floors/budgets untouched",
+    "90s work plus5s cleanup and parent independent PID/start nonexecution",
+    "Fresh actual result review; no product batching/context restoration/full frame adoption"
+  ],
+  "performanceAcceptance": false,
+  "productSourceChangeApproved": false,
+  "completeUnitAcceptance": "FAILED: two original 30-second separation timeouts; never waived"
+}

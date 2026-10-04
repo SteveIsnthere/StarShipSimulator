@@ -1,0 +1,32 @@
+--- duplicate-flight-registration-template.ts.txt
++++ duplicate-flight-registration-candidate2.ts.txt
+@@ -118,13 +118,18 @@
+ 
+ const observations=createDefaultFlightObservations<ReturnType<typeof fly>>([SUPER_HEAVY]);
+ function recipe(id:'booster-sep'|'rtls',initial:SimState,model:VehicleDefinition=SUPER_HEAVY,dt=DT):FlightRecipe{
+- return{id,initial,model,modelTree:ownedGraph(model,new Set()),dt,steps:108000,input:'fresh-empty-object',stop:'first-landed-crashed-breakup',operations:[step,createScenarioVehicle,toggleAutoLand],trace:process.env.BOOSTER_TRACE,eventInputs:process.env.BOOSTER_EVENT_INPUTS};
++ return{id,initial,model,modelTree:{vehicle:ownedGraph(model,new Set()),catch:ownedGraph(CATCH,new Set()),trace:{starBaseXPos:C.starBaseXPos}},dt,steps:108000,input:'fresh-empty-object',stop:'first-landed-crashed-breakup',operations:[step,createScenarioVehicle,toggleAutoLand,cloneState,createCatchPose,writeCatchPose,Math.sin,Math.cos,Array.prototype.some,Array.prototype.filter],trace:process.env.BOOSTER_TRACE,eventInputs:process.env.BOOSTER_EVENT_INPUTS};
++}
++function observe(task:Parameters<typeof observations.get>[0],id:'booster-sep'|'rtls',initial:SimState,run:()=>ReturnType<typeof fly>,model:VehicleDefinition=SUPER_HEAVY,dt=DT):ReturnType<typeof fly>{
++ let request:FlightRecipe;
++ try{request=recipe(id,initial,model,dt);}catch{return run();} // unsupported recipe ownership pays original path
++ return observations.get(task,request,run); // original flight exceptions are not caught
+ }
+ describe('actual booster scenarios are secured at the tower',()=>{
+  for(const id of ['booster-sep','rtls'] as const)it(`${id}: autopilot catches the actual33-engine booster within900s`,ctx=>{
+   const preset=PRESETS.find(p=>p.id===id)!;
+   const {state:initial}=createScenarioVehicle(preset);initial.autopilot.autoLandOn=true;
+-  const {state,previous,trace,eventInputs}=observations.get(ctx.task,recipe(id,initial),()=>fly(initial,900,id));
++  const {state,previous,trace,eventInputs}=observe(ctx.task,id,initial,()=>fly(initial,900,id));
+   emitGuidanceObservation(id,{trace,eventInputs},{trace:process.env.BOOSTER_TRACE,eventInputs:process.env.BOOSTER_EVENT_INPUTS},line=>console.log(line),(file,text)=>writeFileSync(file,text));
+     expect(state.status.landed,JSON.stringify({id,h:state.kinematics.altitude,x:state.kinematics.downRangeDistance-C.starBaseXPos,fuel:state.vehicle.propellantMass,failures:state.failures})).toBe(true);
+     expect(state.status.onTheGround).toBe(false);
+@@ -149,7 +154,7 @@
+   const result=flight.vehicle!==SUPER_HEAVY||SCENARIO_DT!==DT
+     ? flyScenario(state,900,flight.vehicle)
+     : (()=>{
+-      const observed=observations.get(ctx.task,recipe(id,state,flight.vehicle,SCENARIO_DT),()=>fly(state,900,id));
++      const observed=observe(ctx.task,id,state,()=>fly(state,900,id),flight.vehicle,SCENARIO_DT);
+       const final=observed.state;
+       const outcome=final.status.landed?'landed':final.failures.crashed?'crashed':final.failures.inFlightBreakUp?'brokeUp':'flying';
+       return{state:final,outcome,seconds:outcome==='flying'?900:observed.stopIndex*SCENARIO_DT};

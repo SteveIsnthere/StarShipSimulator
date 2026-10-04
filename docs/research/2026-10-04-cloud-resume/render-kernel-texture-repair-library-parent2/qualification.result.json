@@ -1,0 +1,16 @@
+{
+  "name": "qualification",
+  "command": [
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/qualify-render-kernel-texture-repair.mjs",
+    "/tmp/starship-render-kernel.m9xok0x9"
+  ],
+  "childExit": 0,
+  "timeout": false,
+  "elapsedSeconds": 0.2645900649986288,
+  "owned": {
+    "pid": 48153,
+    "starttime": "2495163"
+  },
+  "nonexecuting": true
+}

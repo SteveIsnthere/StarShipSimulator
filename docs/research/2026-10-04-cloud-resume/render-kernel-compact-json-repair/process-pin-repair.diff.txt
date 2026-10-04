@@ -1,0 +1,36 @@
+--- /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/prepare-reused-library.py.txt
++++ /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/prepare-reused-library-process-pin-repair.py.txt
+@@ -20,10 +20,10 @@
+     with pathlib.Path(file).open('xb') as f:f.write(b)
+ def dump(file,value):put(file,(json.dumps(value,indent=2)+'\n').encode())
+ if len(sys.argv)!=3:raise SystemExit('Actual accepted codec approval + independent approval SHA required')
+-pin_bytes=regular(owned/'reuse-input-pins.json')
++pin_bytes=regular(owned/'reuse-process-pin-repair-input-pins.json')
+ if sha(pin_bytes)!=os.environ.get('COMPACT_REUSE_INPUT_PINS_SHA256'):raise RuntimeError('Frozen reuse input map required')
+ for file,pin in json.loads(pin_bytes).items():checked(file,pin)
+-checked(__file__,sha(regular(owned/'prepare-reused-library.py.txt')))
++checked(__file__,sha(regular(owned/'prepare-reused-library-process-pin-repair.py.txt')))
+ codec_path=pathlib.Path(sys.argv[1]);codec_sha=sys.argv[2]
+ codec= json.loads(checked(codec_path,codec_sha))
+ if codec.get('decision')!='ONE compact codec actual proof accepted; reused setup preparation only':raise RuntimeError('Fresh codec result approval required')
+@@ -40,7 +40,11 @@
+ # Independent parent all-owned absence and actual process signal are separately pinned in codec inputs.
+ parent_absence=load(codec['independentAbsencePath'])
+ if parent_absence.get('verifiedOwnedAbsence') is not True:raise RuntimeError('Independent codec absence required')
+-process=load(pathlib.Path(codec_result['setup'])/'codec.process.json')
++process_key=codec['actualProcessPath']
++process_path=pathlib.Path(process_key)
++if process_path!=pathlib.Path(codec_result['setup'])/'codec.process.json':raise RuntimeError('Actual codec process path outside accepted setup')
++if process_key not in codec['inputs']:raise RuntimeError('Actual codec process receipt missing mandatory digest input')
++process=json.loads(checked(process_path,codec['inputs'][process_key]))
+ if process['exit']!={'code':0,'signal':None} or process['failure'] is not None or process['cleanup']['executing']:raise RuntimeError('Actual process termination invalid')
+ raw_manifest=checked(old/'kernel-compiled-manifest.json','00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f');manifest=json.loads(raw_manifest)
+ if len(manifest['files'])!=21 or len(manifest['sourceContents'])!=492 or manifest['unresolvedSources']:raise RuntimeError('Accepted library inventory differs')
+@@ -148,6 +152,7 @@
+      'oldAcceptedLibraryApprovalPath':str(research/'cloud-render-kernel-texture-repair-actual-build-browser-approval.json'),
+      'oldAcceptedLibraryApprovalSha256':sha(regular(research/'cloud-render-kernel-texture-repair-actual-build-browser-approval.json')),
+      'codecActualApprovalPath':str(codec_path),'codecActualApprovalSha256':codec_sha,'codecResultSha256':codec_result['proofResultSha256'],
++     'actualCodecProcessPath':process_key,'actualCodecProcessSha256':codec['inputs'][process_key],
+      'sourceManifest':receipt['sourceManifest'],'buildFiles':receipt['buildFiles'],'mapFiles':receipt['mapFiles'],
+      'toolPins':{receipt['nodeExecutable']:receipt['nodeExecutableSha256'],receipt['actualBrowser']:receipt['actualBrowserSha256']},
+      'newSetupReceiptSha256':sha(regular(setup/'setup-receipt.json')),'wrapperSha256':sha(regular(wrapper)),

@@ -1,0 +1,44 @@
+import pathlib,json,subprocess,os,time,signal,hashlib
+base=pathlib.Path('docs/research/2026-10-04-cloud-resume').resolve()
+parent=base/'native-provider-remap-route-pure-parent';parent.mkdir()
+manifest=base/'native-provider-remap-map-route-independent-review-pins.json'
+sha=lambda b:hashlib.sha256(b).hexdigest()
+assert sha(manifest.read_bytes())=='c378f94dde0f8df29509bd63b238908dcd9e0f6bb6f1afb806d49891fedf658d'
+pins=json.loads(manifest.read_text())['files'];before={f:sha(pathlib.Path(f).read_bytes()) for f in pins};assert before==pins
+env={**os.environ}
+
+def identity(pid):
+ try:
+  raw=pathlib.Path(f'/proc/{pid}/stat').read_text();f=raw[raw.rfind(')')+2:].split();return {'pid':pid,'start':f[19],'ppid':int(f[1]),'group':int(f[2]),'state':f[0]}
+ except (FileNotFoundError,ProcessLookupError):return None
+seen={};started=time.monotonic();expired=False
+with (parent/'stdout.txt').open('xb') as out,(parent/'stderr.txt').open('xb') as err:
+ child=subprocess.Popen(['node',str(base/'native-provider-remap-controls-map-route-repair/route-control-proof.mjs')],stdout=out,stderr=err,env=env,start_new_session=True)
+ while child.poll() is None:
+  rows=[identity(int(p.name)) for p in pathlib.Path('/proc').iterdir() if p.name.isdigit()];rows=[r for r in rows if r]
+  parents={child.pid};changed=True
+  while changed:
+   changed=False
+   for r in rows:
+    if r['ppid'] in parents and r['pid'] not in parents:parents.add(r['pid']);changed=True
+  for r in rows:
+   if r['pid'] in parents or r['group']==child.pid:seen[(r['pid'],r['start'])]=r
+  if time.monotonic()-started>5:
+   expired=True;os.killpg(child.pid,signal.SIGTERM)
+   try:child.wait(timeout=2)
+   except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=2)
+   break
+  time.sleep(.1)
+ code=child.wait()
+receipt=parent;rows=list(seen.values())
+post=[]
+for r in rows:
+ actual=identity(r['pid']);post.append({**r,'executing':bool(actual and actual['start']==str(r['start']) and actual['state'] not in ['Z','X'])})
+after={f:sha(pathlib.Path(f).read_bytes()) for f in pins}
+proof=json.loads((parent/'stdout.txt').read_text()) if code==0 else None
+result={'before':before,'after':after,'sourceExact':before==after,'proof':proof,'childExit':code,'timeout':expired,'elapsedSeconds':time.monotonic()-started,'receipt':str(receipt),'allOwnedNonexecuting':not any(r['executing'] for r in post)}
+(parent/'observed-identities.json').write_text(json.dumps(list(seen.values()),indent=2)+'\n')
+(parent/'independent-all-owned-postexit.json').write_text(json.dumps(post,indent=2)+'\n')
+(parent/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2));print((parent/'stderr.txt').read_text())
+if code or expired or not result['sourceExact'] or not result['allOwnedNonexecuting'] or proof.get('passed') is not True:raise SystemExit(1)

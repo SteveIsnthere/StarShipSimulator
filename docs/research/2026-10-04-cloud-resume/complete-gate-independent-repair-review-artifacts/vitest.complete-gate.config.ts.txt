@@ -1,0 +1,18 @@
+import {defineConfig,configDefaults} from 'vitest/config';
+import base from './vitest.config';
+import assert from 'node:assert/strict';
+// @ts-expect-error -- plain-JS preserved floor contract
+import {preservedFloors} from './scripts/gate/integrity.mjs';
+// @ts-expect-error -- plain-JS script contract
+import {requestCapability} from './scripts/gate/capability.mjs';
+export default defineConfig(async()=>{
+ const live=await requestCapability('config');
+ assert.deepEqual(base.test?.coverage?.thresholds,preservedFloors,'All original floors required');
+ return {...base,test:{...base.test,testTimeout:30_000,
+  // Explicit full domain: audited coverageExclusions are never selected here.
+  projects:[
+   {extends:true,test:{name:'unit',include:['tests/**/*.test.ts','tests/**/*.test.tsx','src/**/*.test.ts'],exclude:[...configDefaults.exclude,'tests/**/*.timing.test.ts','src/ui/kit/**']}},
+   {extends:true,test:{name:'kit',environment:'jsdom',globals:true,include:['src/ui/kit/**/*.test.ts','src/ui/kit/**/*.test.tsx'],exclude:[...configDefaults.exclude],setupFiles:['tests/setup-dom.ts']}},
+  ],coverage:{...base.test?.coverage,enabled:true,reportsDirectory:live.reports},
+ }};
+});

@@ -1,0 +1,34 @@
+import pathlib,json,hashlib,subprocess,os,time,signal,tempfile
+base=pathlib.Path('docs/research/2026-10-04-cloud-resume').resolve();draft=base/'render-kernel-compact-json-repair'
+parent=draft/'codec-parent';parent.mkdir()
+sha=lambda b:hashlib.sha256(b).hexdigest()
+approvalPath=base/'cloud-render-kernel-compact-owner-independent-approval.json';approval=json.loads(approvalPath.read_text())
+pin=draft/'owned-input-pins.json';assert sha(pin.read_bytes())==approval['ownedInputPinsSha256']
+node=subprocess.check_output(['which','node'],text=True).strip();nodePin=json.loads(pin.read_text())[node];assert sha(pathlib.Path(node).read_bytes())==nodePin
+ownerDir=pathlib.Path(tempfile.mkdtemp(prefix='starship-codec-owner.',dir='/tmp'));owner=ownerDir/'run-owned-codec.mjs';owner.write_bytes((draft/'run-owned-codec.mjs.txt').read_bytes())
+assert sha(owner.read_bytes())==approval['sourcePins'][str(draft/'run-owned-codec.mjs.txt')]
+(parent/'executed-owner.mjs.txt').write_bytes(owner.read_bytes())
+command=[node,str(owner)];env={**os.environ,'RUN_COMPACT_CODEC':'1','COMPACT_CODEC_INPUT_PINS_SHA256':approval['ownedInputPinsSha256'],'COMPACT_CODEC_NODE_SHA256':nodePin}
+(parent/'declaration.json').write_text(json.dumps({'approvalSha256':sha(approvalPath.read_bytes()),'command':command,'nodeSha256':nodePin,'ownerSha256':sha(owner.read_bytes()),'parentSourceSha256':sha(pathlib.Path(__file__).read_bytes()),'childSeconds':5,'externalSeconds':20,'cpuExclusive':True},indent=2)+'\n')
+started=time.monotonic();expired=False
+with (parent/'stdout.txt').open('xb') as out,(parent/'stderr.txt').open('xb') as err:
+ child=subprocess.Popen(command,stdout=out,stderr=err,env=env,start_new_session=True)
+ raw=pathlib.Path(f'/proc/{child.pid}/stat').read_text();root={'pid':child.pid,'start':raw[raw.rfind(')')+2:].split()[19]}
+ try:code=child.wait(timeout=20)
+ except subprocess.TimeoutExpired:
+  expired=True;os.killpg(child.pid,signal.SIGTERM)
+  try:code=child.wait(timeout=9)
+  except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);code=child.wait(timeout=2)
+lines=(parent/'stdout.txt').read_text().splitlines();setup=pathlib.Path(lines[0]) if lines else None
+rows=[root]
+if setup and (setup/'codec.process.json').exists():rows+=json.loads((setup/'codec.process.json').read_text())['cleanup']['tracked']
+post=[]
+for row in rows:
+ p=pathlib.Path(f"/proc/{row['pid']}/stat");executing=False
+ if p.exists():
+  raw=p.read_text();fields=raw[raw.rfind(')')+2:].split();executing=fields[19]==str(row['start']) and fields[0] not in ['Z','X']
+ post.append({**row,'executing':executing})
+(parent/'independent-postexit.json').write_text(json.dumps(post,indent=2)+'\n')
+result={'childExit':code,'timeout':expired,'elapsedSeconds':time.monotonic()-started,'setup':str(setup) if setup else None,'owned':post,'allOwnedNonexecuting':not any(row['executing'] for row in post),'executedOwnerExact':sha(owner.read_bytes())==approval['sourcePins'][str(draft/'run-owned-codec.mjs.txt')]}
+(parent/'result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2));print((parent/'stderr.txt').read_text())
+if code or expired or not result['allOwnedNonexecuting'] or not result['executedOwnerExact']:raise SystemExit(1)

@@ -1,0 +1,8 @@
+import { expect, test } from __VITEST__;
+import { choose, nested } from '../src/core/coverage-control';
+import { outsideCore } from '../src/outside-control';
+test('SSR source positive calls only', () => {
+  expect(choose(1)).toBe(1);
+  expect(nested(1)).toBe(1);
+  expect(outsideCore()).toBe(5);
+});

@@ -1,0 +1,131 @@
+{
+  "origin": "/tmp/starship-native-provider-control.FWIPCK",
+  "outcome": "FAILED before any Vitest provider run",
+  "files": [
+    {
+      "original": "artifact/control.mjs",
+      "retained": "artifact/control.mjs.txt",
+      "sha256": "e3c19a4455bff2a3c0f75ae345f795c376dc8c80694eb3fbe7e6e64af0c78254"
+    },
+    {
+      "original": "artifact/control.mjs.map",
+      "retained": "artifact/control.mjs.map",
+      "sha256": "296533ec2ced913db26632a724ffdbdca49b495f77b11bbd8035a8c5de28a908"
+    },
+    {
+      "original": "cohort-outcome.json",
+      "retained": "cohort-outcome.json",
+      "sha256": "30c819f25d5aeb0f3a50914084ab6caa14c7425aebae611a52536498faa32d3c"
+    },
+    {
+      "original": "cohort.mjs",
+      "retained": "cohort.mjs.txt",
+      "sha256": "48709452497a6951815d768deef3e25180c009ad65cfd21a42f09dfb948c2792"
+    },
+    {
+      "original": "config.mjs.template",
+      "retained": "config.mjs.template",
+      "sha256": "a1d61ac0ccede796077437e8842a040f37982b857179127c30c1c2ede3a438fa"
+    },
+    {
+      "original": "entry.ts",
+      "retained": "entry.ts.txt",
+      "sha256": "d61a668ea5fe72d90ad1e6cbad66c8c766672dd54363b5524e2588a7dcbe6d49"
+    },
+    {
+      "original": "finalize.mjs",
+      "retained": "finalize.mjs.txt",
+      "sha256": "183542f6c3a3bf4a3f2f7ba2691ced2154e0b84839a5910d7ac3e2fc52e4e6c0"
+    },
+    {
+      "original": "inputs-after.json",
+      "retained": "inputs-after.json",
+      "sha256": "4b93198e70b679d02f851be635cd18668745f74cfd5f7e4688e0c07ca61d8c10"
+    },
+    {
+      "original": "inputs-before.json",
+      "retained": "inputs-before.json",
+      "sha256": "4b93198e70b679d02f851be635cd18668745f74cfd5f7e4688e0c07ca61d8c10"
+    },
+    {
+      "original": "installed-tools-after.json",
+      "retained": "installed-tools-after.json",
+      "sha256": "0211c67feb3ca70cc84c98b5edcfd529bd3f80d362d1dbf00193fc652a089b7d"
+    },
+    {
+      "original": "installed-tools-before.json",
+      "retained": "installed-tools-before.json",
+      "sha256": "0211c67feb3ca70cc84c98b5edcfd529bd3f80d362d1dbf00193fc652a089b7d"
+    },
+    {
+      "original": "original-inputs-after.json",
+      "retained": "original-inputs-after.json",
+      "sha256": "c1c2d436949e7dab51af83e444940a4441ae49acda12536f4e5044a72824622f"
+    },
+    {
+      "original": "original-inputs.json",
+      "retained": "original-inputs.json",
+      "sha256": "c1c2d436949e7dab51af83e444940a4441ae49acda12536f4e5044a72824622f"
+    },
+    {
+      "original": "owner-result.json",
+      "retained": "owner-result.json",
+      "sha256": "03b0c4d656f934ed2a9a877f047e5c00c8ff0a2e2ddb2552442e1d6375faf389"
+    },
+    {
+      "original": "preparation-created.json",
+      "retained": "preparation-created.json",
+      "sha256": "22670893e86b3457c262696a1deb95cfc16a9ae841a8cc98c1bfb8fc1f84e86d"
+    },
+    {
+      "original": "provider-cohort.process.json",
+      "retained": "provider-cohort.process.json",
+      "sha256": "347dcb56736a09a074377ae241adc3e8176bb45f3897d9eb0e1a5ecbade646c1"
+    },
+    {
+      "original": "provider-cohort.stderr.txt",
+      "retained": "provider-cohort.stderr.txt",
+      "sha256": "15c13156b9de1230d946fd9247079cdab8f96f0b2fa069eb12e9fe39d6b365de"
+    },
+    {
+      "original": "provider-cohort.stdout.txt",
+      "retained": "provider-cohort.stdout.txt",
+      "sha256": "b43e49eac4047a7d953a0006e4aff324f72c1aecc9d8793b1199cc1998e70805"
+    },
+    {
+      "original": "raw-reporter.mjs.template",
+      "retained": "raw-reporter.mjs.template",
+      "sha256": "0df391783e9ff8309289a106439f8d2aab4ad50bb941396fed44b6cf4a45af2a"
+    },
+    {
+      "original": "src/core/coverage-control.ts",
+      "retained": "src/core/coverage-control.ts.txt",
+      "sha256": "00012cd0b25ee89ab7a704ad9597f8b8cc6a5f0bf6fbf8bfd6714f9fdca87787"
+    },
+    {
+      "original": "src/core/unimported-control.ts",
+      "retained": "src/core/unimported-control.ts.txt",
+      "sha256": "0441cd13b7f5547d07656899f59d27e2cbd9c2f4a55cd2c071e64dfc77ced72c"
+    },
+    {
+      "original": "src/outside-control.ts",
+      "retained": "src/outside-control.ts.txt",
+      "sha256": "ce895c8167b1c13321c7d659ef98bbea80ba26b23c0f009ad2c8e4ac756bbc92"
+    },
+    {
+      "original": "tests/native-opposite.test.mjs",
+      "retained": "tests/native-opposite.test.mjs.txt",
+      "sha256": "7d704cc9d6822d02f07183b53d5cb585f7b52f40d02b4d77ea47aaef899e9f45"
+    },
+    {
+      "original": "tests/native-positive.test.mjs",
+      "retained": "tests/native-positive.test.mjs.txt",
+      "sha256": "b483c190763962b4b397034c49c50205ca85ff56f14f9ec5d89548fb53ab24e5"
+    },
+    {
+      "original": "tests/ssr.test.mjs",
+      "retained": "tests/ssr.test.mjs.txt",
+      "sha256": "0b2c613584ea2c38a7b8c5261444be69426e4d411636f3bb6f85907296148c9f"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+import {readFileSync,readdirSync,readlinkSync,realpathSync,lstatSync} from 'node:fs';
+import {resolve,dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+const digest=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
+export function processIdentity(pid){
+ const raw=readFileSync(`/proc/${pid}/stat`,'utf8'),fields=raw.slice(raw.lastIndexOf(')')+2).trim().split(/\s+/);
+ return {pid:Number(pid),parent:Number(fields[1]),group:Number(fields[2]),session:Number(fields[3]),start:fields[19],state:fields[0]};
+}
+// Trusted script path/digest come from the installed caller, never capability response/environment.
+export function assertOwner({pid,start,scriptPath,scriptDigest,socketPath,ancestor=process.pid}){
+ assert(Number.isSafeInteger(pid)&&pid>1);const owner=processIdentity(pid);assert.equal(owner.start,start);assert(!['Z','X'].includes(owner.state));
+ const seen=new Set();let row=processIdentity(ancestor),found=false;
+ while(row.pid>1&&!seen.has(row.pid)){seen.add(row.pid);if(row.pid===pid){found=true;break;}row=processIdentity(row.parent);}
+ assert(found,'Gate owner is not a live ancestor');
+ assert.equal(realpathSync(`/proc/${pid}/exe`),realpathSync(process.execPath),'Gate owner executable differs');
+ const args=readFileSync(`/proc/${pid}/cmdline`).toString().split('\0').filter(Boolean);
+ assert.equal(args.length,2,'Trusted gate must execute its exact entry without alternate arguments');
+ assert.equal(realpathSync(resolve(realpathSync(`/proc/${pid}/cwd`),args[1])),realpathSync(scriptPath),'Ancestor is not trusted gate script');
+ assert.equal(digest(scriptPath),scriptDigest,'Trusted gate source changed');
+ assert(lstatSync(socketPath).isSocket(),'Capability endpoint is not a Unix socket');
+ assert.equal(lstatSync(socketPath).uid,process.getuid(),'Gate socket UID differs');
+ const unix=readFileSync('/proc/net/unix','utf8').trim().split('\n').slice(1).map(line=>line.trim().split(/\s+/));
+ const entries=unix.filter(fields=>fields[7]===socketPath&&fields[5]==='01'&&fields[3]==='00010000');assert.equal(entries.length,1,'Unique live listening socket required');
+ const inode=entries[0][6];let owns=false;
+ for(const fd of readdirSync(`/proc/${pid}/fd`))try{if(readlinkSync(`/proc/${pid}/fd/${fd}`)===`socket:[${inode}]`)owns=true;}catch(error){if(error.code!=='ENOENT')throw error;}
+ assert(owns,'Trusted live gate does not own endpoint');
+ const after=processIdentity(pid);for(const key of ['pid','start','parent','group','session'])assert.equal(after[key],owner[key],'Gate process identity changed during owner verification');assert(!['Z','X'].includes(after.state));
+ return {pid,start,group:owner.group,session:owner.session,scriptPath:realpathSync(scriptPath),scriptDigest,socketInode:inode};
+}
+export function assertTrustedGateOwner(){
+ const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..'),scriptPath=resolve(root,'scripts/gate.mjs');
+ return assertOwner({pid:Number(process.env.STARSHIP_GATE_PID),start:process.env.STARSHIP_GATE_START,scriptPath,scriptDigest:digest(scriptPath),socketPath:process.env.STARSHIP_GATE_SOCKET});
+}

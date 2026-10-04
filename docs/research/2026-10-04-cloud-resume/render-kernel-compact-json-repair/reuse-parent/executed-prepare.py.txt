@@ -1,0 +1,164 @@
+"""Preparation only after actual codec approval; no build/import/browser."""
+import hashlib,json,os,pathlib,shlex,stat,sys,tempfile,re,subprocess
+repo=pathlib.Path('/workspace/StarShipSimulator')
+research=repo/'docs/research/2026-10-04-cloud-resume'
+owned=research/'render-kernel-compact-json-repair'
+old=pathlib.Path('/tmp/starship-render-kernel.m9xok0x9')
+sha=lambda b:hashlib.sha256(b).hexdigest()
+checked_inputs={}
+def regular(file):
+    file=pathlib.Path(file)
+    if not stat.S_ISREG(file.lstat().st_mode):raise RuntimeError('Symlink/special input '+str(file))
+    return file.read_bytes()
+def checked(file,pin):
+    b=regular(file)
+    if sha(b)!=pin:raise RuntimeError('Input drift '+str(file))
+    checked_inputs[str(pathlib.Path(file))]=pin
+    return b
+def load(file):return json.loads(regular(file))
+def put(file,b):
+    with pathlib.Path(file).open('xb') as f:f.write(b)
+def dump(file,value):put(file,(json.dumps(value,indent=2)+'\n').encode())
+if len(sys.argv)!=3:raise SystemExit('Actual accepted codec approval + independent approval SHA required')
+pin_bytes=regular(owned/'reuse-process-pin-repair-input-pins.json')
+if sha(pin_bytes)!=os.environ.get('COMPACT_REUSE_INPUT_PINS_SHA256'):raise RuntimeError('Frozen reuse input map required')
+for file,pin in json.loads(pin_bytes).items():checked(file,pin)
+checked(__file__,sha(regular(owned/'prepare-reused-library-process-pin-repair.py.txt')))
+codec_path=pathlib.Path(sys.argv[1]);codec_sha=sys.argv[2]
+codec= json.loads(checked(codec_path,codec_sha))
+if codec.get('decision')!='ONE compact codec actual proof accepted; reused setup preparation only':raise RuntimeError('Fresh codec result approval required')
+for file,pin in codec['inputs'].items():checked(file,pin)
+for required in [codec['ownerResultPath'],codec['independentAbsencePath']]:
+    if required not in codec['inputs']:raise RuntimeError('Unpinned codec authority '+required)
+codec_result=load(codec['ownerResultPath'])
+if not codec_result['finalized'] or codec_result['childCode']!=0 or codec_result['failure'] is not None or not codec_result['sourceExact']:raise RuntimeError('Actual codec proof failed')
+if codec_result['before']!=codec_result['after']:raise RuntimeError('Codec inputs drift')
+if not codec_result['absence'] or any(row['executing'] for row in codec_result['absence']):raise RuntimeError('Codec local absence failed')
+proof_path=pathlib.Path(codec_result['setup'])/'proof-result.json'
+proof_bytes=checked(proof_path,codec_result['proofResultSha256']);proof=json.loads(proof_bytes)
+if not proof['finalized'] or len(proof['results'])!=6 or not all(row['passed'] for row in proof['results']) or proof['negativeControls']!=4:raise RuntimeError('Incomplete actual codec proof')
+# Independent parent all-owned absence and actual process signal are separately pinned in codec inputs.
+parent_absence=load(codec['independentAbsencePath'])
+if parent_absence.get('verifiedOwnedAbsence') is not True:raise RuntimeError('Independent codec absence required')
+process_key=codec['actualProcessPath']
+process_path=pathlib.Path(process_key)
+if process_path!=pathlib.Path(codec_result['setup'])/'codec.process.json':raise RuntimeError('Actual codec process path outside accepted setup')
+if process_key not in codec['inputs']:raise RuntimeError('Actual codec process receipt missing mandatory digest input')
+process=json.loads(checked(process_path,codec['inputs'][process_key]))
+if process['exit']!={'code':0,'signal':None} or process['failure'] is not None or process['cleanup']['executing']:raise RuntimeError('Actual process termination invalid')
+raw_manifest=checked(old/'kernel-compiled-manifest.json','00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f');manifest=json.loads(raw_manifest)
+if len(manifest['files'])!=21 or len(manifest['sourceContents'])!=492 or manifest['unresolvedSources']:raise RuntimeError('Accepted library inventory differs')
+for relative,pin in manifest['ownedSources']:checked(repo/relative,pin)
+for item in manifest['sourceContents']:checked(repo/item['repositoryPath'],item['sha256'])
+receipt=load(old/'setup-receipt.json')
+# Full current source/CI/dist/proof tuple; no stale build qualification accepted by inference.
+listed=subprocess.check_output(['git','ls-files','-z','--cached','--others','--exclude-standard'],cwd=repo,timeout=5).decode().split('\0')
+listed=sorted(p for p in listed if re.match(r'^(src/|tests/|scripts/|public/|\.agents/|\.nvmrc$|package[^/]*\.json$|[^/]*config\.[^/]+$)',p))
+if listed!=[p for p,h in receipt['sourceManifest']]:raise RuntimeError('Current source inventory differs')
+for relative,pin in receipt['sourceManifest']:
+    file=repo/relative
+    if pin is None:
+        if file.exists() or file.is_symlink():raise RuntimeError('Recorded deleted source exists '+relative)
+    else:checked(file,pin)
+for relative,pin in receipt.get('additionalGithubFiles',[]):checked(repo/relative,pin)
+for group in ['buildFiles','mapFiles']:
+    for relative,pin in receipt[group]:checked(repo/'dist'/relative,pin)
+actual_files=[]
+for directory,dirs,files in os.walk(repo/'dist',followlinks=False):
+    for name in dirs:
+        if pathlib.Path(directory,name).is_symlink():raise RuntimeError('Dist symlink directory')
+    for name in files:
+        f=pathlib.Path(directory,name);regular(f);actual_files.append(str(f.relative_to(repo/'dist')))
+actual_files.sort()
+if actual_files!=sorted(p for g in ['buildFiles','mapFiles'] for p,h in receipt[g]):raise RuntimeError('Current dist inventory differs')
+for item in receipt.get('physicsProofs',[]):
+    if item['outcome']!='passed':raise RuntimeError('Old approved physics receipt failed')
+    checked(repo/item['path'],item['sha256'])
+for field,pin in [('nodeExecutable','nodeExecutableSha256'),('actualBrowser','actualBrowserSha256'),('originalBrowser','originalBrowserSha256'),('config','configSha256')]:checked(receipt[field],receipt[pin])
+checked(old/'bundle-copy-manifest.json',receipt['bundleManifestSha256'])
+# Preserve old failure and independent all10-owned supplemental absence as separate authorities.
+failure_pins=load(research/'cloud-render-kernel-texture-repair-cap-failure-independent-pins.json')['rawReceiptPinsSmall']
+for file,pin in failure_pins.items():checked(file,pin)
+old_parent=load(research/'render-kernel-texture-repair-browser-parent/parent-result.json')
+if old_parent['childExit']!=1 or old_parent['timeout'] or not old_parent['sourceExact']:raise RuntimeError('Old failure provenance differs')
+if not load(old/'collection-status.json')['truncated']:raise RuntimeError('Old cap failure must remain red')
+accepted=load(research/'cloud-render-kernel-texture-repair-actual-build-browser-approval.json')
+if accepted['compiledManifestSha256']!=sha(raw_manifest) or accepted['setup']!=str(old):raise RuntimeError('Old accepted library binding differs')
+# Current research new runner, controls, hook, setup template and existing owner are independently pinned.
+runner=regular(owned/'run-render-kernel-compact-json.mjs.txt')
+if sha(runner)!=proof['candidateSha256']:raise RuntimeError('New runner does not match accepted codec proof')
+old_runner=checked(research/'run-render-kernel-texture-repair.mjs',proof['originalSha256'])
+if runner!=old_runner.replace(b"JSON.stringify(value,null,2)",b"JSON.stringify(value)",1):raise RuntimeError('Non-formatting runner delta')
+setup=pathlib.Path(tempfile.mkdtemp(prefix='starship-render-kernel.',dir='/tmp'));setup.chmod(0o700)
+print(str(setup),flush=True)
+try:
+    (setup/'compiled').mkdir(mode=0o700)
+    if len(setup.parts)!=len(old.parts):raise RuntimeError('Source map depth changed')
+    expected=sorted(manifest['files']);found=[]
+    for file in (old/'compiled').rglob('*'):
+        if file.is_dir():
+            if file.is_symlink():raise RuntimeError('Old compiled symlink directory')
+        else:found.append([str(file.relative_to(old/'compiled')),sha(regular(file))])
+    if sorted(found)!=expected:raise RuntimeError('Old compiled bytes/set drift')
+    for relative,pin in expected:
+        src=old/'compiled'/relative;dst=setup/'compiled'/relative
+        if '..' in pathlib.PurePosixPath(relative).parts or pathlib.PurePosixPath(relative).is_absolute():raise RuntimeError('Unsafe compiled path')
+        dst.parent.mkdir(parents=True,exist_ok=True);put(dst,checked(src,pin));checked(dst,pin)
+    maps=[relative for relative,pin in expected if relative.endswith('.map')]
+    if len(maps)!=10:raise RuntimeError('Expected ten maps')
+    source_rows=[]
+    for relative in maps:
+        map_file=setup/'compiled'/relative;mapping=load(map_file)
+        if mapping.get('sourceRoot') not in [None,'']:raise RuntimeError('Unreviewed map sourceRoot')
+        if len(mapping['sources'])!=len(mapping['sourcesContent']):raise RuntimeError('Incomplete sourceContent')
+        for source,content in zip(mapping['sources'],mapping['sourcesContent']):
+            if not isinstance(content,str) or '://' in source:raise RuntimeError('External/missing map source')
+            resolved=(map_file.parent/source).resolve();expected_source=(old/'compiled'/pathlib.Path(relative).parent/source).resolve()
+            if resolved!=expected_source or not resolved.is_relative_to(repo):raise RuntimeError('Copied map resolves elsewhere')
+            digest=sha(content.encode());checked(resolved,digest)
+            source_rows.append({'map':'compiled/'+relative,'source':source,'repositoryPath':str(resolved.relative_to(repo)),'sha256':digest})
+    order=lambda row:(row['map'],row['source'],row['repositoryPath'],row['sha256'])
+    if sorted(source_rows,key=order)!=sorted(manifest['sourceContents'],key=order):raise RuntimeError('Full492 map/source lineage differs')
+    for relative,pin in expected:
+        if relative.endswith('.js'):
+            text=regular(setup/'compiled'/relative).decode()
+            for target in re.findall(r'[#@]\s*sourceMappingURL=([^\s]+)',text):
+                if '://' in target or target.startswith('data:'):raise RuntimeError('Unexpected external/inline map')
+                resolved=(setup/'compiled'/pathlib.Path(relative).parent/target).resolve()
+                if not resolved.is_relative_to(setup/'compiled') or not resolved.is_file():raise RuntimeError('Copied map URL broken')
+    # Exact accepted manifest and receipts are copies, NEVER rewritten as a new build.
+    put(setup/'kernel-compiled-manifest.json',raw_manifest)
+    for name,pin in manifest['supervisedBuildReceipts']:put(setup/name,checked(old/name,pin))
+    for name in ['bundle-copy-manifest.json','qualified-browser-receipt.json','current-build-qualification.json']:put(setup/name,regular(old/name))
+    put(setup/'run-render-kernel-compact-json.mjs',runner)
+    put(setup/'kernel-program-attribution-hook.mjs',regular(research/'kernel-program-attribution-hook.mjs'))
+    owner="import pathlib,sys,json,os\npid=int(sys.argv[1]);s=pathlib.Path(f'/proc/{pid}/stat').read_text();fields=s[s.rfind(')')+2:].split()\nwith pathlib.Path('wrapper-owner.pending.json').open('x') as f:json.dump({'pid':pid,'starttime':fields[19],'ppid':int(fields[1]),'pgrp':int(fields[2])},f)\nos.link('wrapper-owner.pending.json','wrapper-owner.json');os.unlink('wrapper-owner.pending.json')\n"
+    wrapper=setup/'browser-wrapper.sh'
+    text='#!/usr/bin/env bash\nset -euo pipefail\ncd -- '+shlex.quote(str(setup))+"\npython3 - \"$$\" <<'PYOWNER'\n"+owner+"PYOWNER\nfor ((i=0;i<600;i++)); do\n [[ ! -e STOP ]] || exit 70\n if [[ -e GO ]]; then break; fi\n sleep 0.05\ndone\n[[ -e GO && ! -e STOP ]] || exit 70\ncd -- "+shlex.quote(receipt['browserOnlyCwd'])+'\nexec '+shlex.quote(receipt['actualBrowser'])+' "$@"\n'
+    put(wrapper,text.encode());wrapper.chmod(0o700)
+    old_receipt_sha=sha(regular(old/'setup-receipt.json'))
+    receipt.update({'purpose':'ONE compact-JSON-only repair after preserved aggregate-cap failure; unchanged reused kernel library',
+                    'wrapper':str(wrapper),'wrapperSha256':sha(regular(wrapper)),
+                    'reusedCompiledManifestSha256':sha(raw_manifest),'serializationRunnerSha256':sha(runner),
+                    'codecActualApprovalSha256':codec_sha,'priorFailedEpisode':str(old)})
+    dump(setup/'setup-receipt.json',receipt)
+    for file,pin in list(checked_inputs.items()):checked(file,pin)
+    for relative,pin in receipt['sourceManifest']:
+        if pin is None and ((repo/relative).exists() or (repo/relative).is_symlink()):raise RuntimeError('Deleted source reappeared during preparation')
+    composite={'inputBeforeAfterPins':checked_inputs,'kind':'compact-json-unchanged-library-reuse-v1','setup':str(setup),'oldSetup':str(old),
+     'oldReceiptSha256':old_receipt_sha,'oldCompiledManifestSha256':sha(raw_manifest),'copiedFiles':expected,
+     'maps':maps,'mapSourceContents':source_rows,'newRunnerSha256':sha(runner),
+     'oldBrowserStatus':'FAILED aggregate32MiB export before candidate measurement','oldFailurePins':failure_pins,
+     'oldAcceptedLibraryApprovalPath':str(research/'cloud-render-kernel-texture-repair-actual-build-browser-approval.json'),
+     'oldAcceptedLibraryApprovalSha256':sha(regular(research/'cloud-render-kernel-texture-repair-actual-build-browser-approval.json')),
+     'codecActualApprovalPath':str(codec_path),'codecActualApprovalSha256':codec_sha,'codecResultSha256':codec_result['proofResultSha256'],
+     'actualCodecProcessPath':process_key,'actualCodecProcessSha256':codec['inputs'][process_key],
+     'sourceManifest':receipt['sourceManifest'],'buildFiles':receipt['buildFiles'],'mapFiles':receipt['mapFiles'],
+     'toolPins':{receipt['nodeExecutable']:receipt['nodeExecutableSha256'],receipt['actualBrowser']:receipt['actualBrowserSha256']},
+     'newSetupReceiptSha256':sha(regular(setup/'setup-receipt.json')),'wrapperSha256':sha(regular(wrapper)),
+     'buildExecuted':False,'physicsProofExecuted':False,'browserLaunched':False,'oldManifestRewritten':False,
+     'validated':True,'browserInvocationRequiresIndependentReview':True}
+    dump(setup/'library-reuse-composite.json',composite)
+except BaseException as error:
+    dump(setup/'reuse-preparation-failure.json',{'setup':str(setup),'error':str(error),'browserLaunched':False})
+    raise

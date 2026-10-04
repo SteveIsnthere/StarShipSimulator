@@ -1,0 +1,42 @@
+{
+  "exitCode": 0,
+  "results": [
+    {
+      "source": "compact-codec-controls.mjs.txt",
+      "kind": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "compact-codec-controls.mjs.txt",
+      "kind": "eslint",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "run-owned-codec.mjs.txt",
+      "kind": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "run-owned-codec.mjs.txt",
+      "kind": "eslint",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "run-render-kernel-compact-json.mjs.txt",
+      "kind": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "run-render-kernel-compact-json.mjs.txt",
+      "kind": "eslint",
+      "exitCode": 0,
+      "output": ""
+    }
+  ],
+  "scope": "syntax/lint only; no module imports or runtime proof"
+}

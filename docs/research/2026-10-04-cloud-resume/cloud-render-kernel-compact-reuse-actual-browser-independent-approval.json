@@ -1,0 +1,26 @@
+{
+  "decision": "ONE parent-exclusive compact paired32/1 kernel browser episode approved on exact reused setup; no other execution/adoption",
+  "setup": "/tmp/starship-render-kernel.vlntmfw7",
+  "compiledManifestSha256": "00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f",
+  "compositeSha256": "5e9a5426c68101f3de6440ce82c6c62643aa1626c8bb64233df3f44dab100c80",
+  "setupReceiptSha256": "37d73d9405d6dff48281f53668cff12830d946ca4f4036c4772dae5a6b027ef0",
+  "wrapperSha256": "fe3850849b93cfbe7aadf53bd3ff5affe44fc59b3c35af168c62c4404477d350",
+  "compactRunnerSha256": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26",
+  "actualVerificationPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-render-kernel-compact-reuse-actual-independent-verification.json",
+  "actualVerificationSha256": "3a2f6717803d7205b0ac225ca723d311681ac1a7ef30584ac3946b50913a9306",
+  "codecApprovalSha256": "2e9d1a2adaa78a11852234a24dfe31e3b969f22c77518f72172bd9abf26d5e58",
+  "conditions": [
+    "Exact fresh setup and unchanged compiled manifest; RUN_RENDER_KERNEL=1 with manifest pin",
+    "Parent checks new composite/setup/private compact runner+adjacent hook+wrapper hashes before AND after every outcome; old manifest alone binds historical runner only",
+    "One90s work+5s cleanup runner, external120s owned parent bound; no concurrent workload",
+    "Actual source/build/map/browser/INI3/threeworker/cpuset/quota identities and complete original state/pixel/AA/shader/query checks mandatory",
+    "Every originalartifact/field/tag retained;16MiB/32MiB/reserve caps unchanged; unsupported/disjoint/truncation/incomplete equality means STOP no fallback/retry",
+    "Parent independently verifies ALL actual cleanup.json.ownedIdentities plus own root PID/starttimes, including private Crashpad; never use wrong filename or root-only claim",
+    "Preserve original FAILED episodes and new partials; fresh actualresult review before product/acceptance decision"
+  ],
+  "libraryBuildApproved": false,
+  "productPolicyApproved": false,
+  "contextRestorationQualified": false,
+  "fullSessionAcceptance": false,
+  "futureCapCompletionClaimed": false
+}

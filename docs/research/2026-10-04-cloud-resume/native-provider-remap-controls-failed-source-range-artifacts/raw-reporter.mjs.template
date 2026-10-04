@@ -1,0 +1,28 @@
+/** Public Vitest reporter hook: copy actual provider files before cleanup. */
+import fs from 'node:fs';
+import path from 'node:path';
+export default class RawProviderReporter {
+  onTestRunEnd(testModules, unhandledErrors, reason) {
+    fs.writeFileSync(path.join(__REPORT__, 'public-run-lifecycle.json'), JSON.stringify({
+      testModules: testModules.length, unhandledErrors, reason,
+    }), { flag: 'wx' });
+  }
+  onCoverage() {
+    const report = __REPORT__, output = __RAW__;
+    fs.mkdirSync(output, { recursive: false });
+    let copied = 0, bytes = 0;
+    for (const directory of fs.readdirSync(report, { withFileTypes: true })) {
+      if (!directory.isDirectory() || !directory.name.startsWith('.tmp')) continue;
+      const input = path.join(report, directory.name);
+      for (const entry of fs.readdirSync(input, { withFileTypes: true })) {
+        if (!entry.isFile() || !/^coverage-[0-9]+\.json$/.test(entry.name)) throw Error('Unexpected provider temporary artifact');
+        const data = fs.readFileSync(path.join(input, entry.name));
+        bytes += data.length;
+        if (data.length > 8 * 1024 * 1024 || bytes > 16 * 1024 * 1024 || copied >= 8) throw Error('Raw provider receipt cap exceeded');
+        fs.writeFileSync(path.join(output, `${copied++}.json`), data, { flag: 'wx' });
+      }
+    }
+    if (!copied) throw Error('No actual pre-cleanup provider data retained');
+    fs.writeFileSync(path.join(output, 'copy-receipt.json'), JSON.stringify({ copied, bytes, providerDataUnchanged: true }));
+  }
+}

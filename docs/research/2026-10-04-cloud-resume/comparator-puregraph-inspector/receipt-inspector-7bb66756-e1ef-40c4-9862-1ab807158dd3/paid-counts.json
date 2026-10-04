@@ -1,0 +1,32 @@
+{
+  "recipe": {
+    "warmIterations": 50,
+    "measuredIterations": 500,
+    "cells": 64,
+    "samplingIntervalUs": 100,
+    "softDiagnosticBoundMs": 25000
+  },
+  "before": {
+    "totalNodes": 3450,
+    "totalEdges": 54705,
+    "immutableProbeVisits": 217,
+    "immutableTrueHits": 100,
+    "immutableFalseHits": 0
+  },
+  "after": {
+    "totalNodes": 37950,
+    "totalEdges": 601705,
+    "immutableProbeVisits": 1717,
+    "immutableTrueHits": 1100,
+    "immutableFalseHits": 0
+  },
+  "delta": {
+    "totalNodes": 34500,
+    "totalEdges": 547000,
+    "immutableProbeVisits": 1500,
+    "immutableTrueHits": 1000,
+    "immutableFalseHits": 0
+  },
+  "completed": 500,
+  "physicalTicks": 0
+}

@@ -1,0 +1,16 @@
+{
+  "kind": "static HIGH APPROVED derivative and15pure controls; owned launcher/exclusive grant still required",
+  "inputManifest": "9a08249dcb4f83f677197898101402310db1bfc6636739a2d9c90810d8d711d8",
+  "review": "0b883c18eec6ed14b8e456e0e80b6f8eb0714a24c73ee0182b120a496645dbc2",
+  "actualInputPins": {
+    "docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/candidate.diff": "d2eda00c6259381a39169b3297edd33028b58cdf9645876dce34c98874609bb7",
+    "docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/controls.mjs.txt": "081ac027df0774cfb105162db59b5ff384f615b83a30c3abe7060d34181ee41e",
+    "docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/declaration.md": "0969e290a9d522ad931c1f5b269687f9ad32e01b3f6f50597a83c6a30dfe3ced",
+    "docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/graph-oracle-before.ts.txt": "b465ad8f4992ccc374a80834f88f39dc32c48b7a19bbe0017458b6d0fa75f24f",
+    "docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/graph-oracle.ts.txt": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+    "docs/research/2026-10-04-cloud-resume/current-native-composite-paired/graph-oracle.ts.txt": "b465ad8f4992ccc374a80834f88f39dc32c48b7a19bbe0017458b6d0fa75f24f",
+    "docs/research/2026-10-04-cloud-resume/current-native-composite-paired/independent-paired-timeout-assessment.md": "fc5f683adc88ff26abd38d2d8a36b23c2f719fd4c7a698faa4c1adbe6f79a9a3",
+    "docs/research/2026-10-04-cloud-resume/current-native-composite-paired/receipt-paired-be927172-3623-42de-8670-8a68993445c5/paired-first-failure.json": "e4e969e524d8e95dc3ba27a205cefcc85b1e4e92caf61d909112df9e53979559"
+  },
+  "initialStaticFinding": "false descendant expected2 contradicted left&&right short-circuit; corrected1 before execution"
+}

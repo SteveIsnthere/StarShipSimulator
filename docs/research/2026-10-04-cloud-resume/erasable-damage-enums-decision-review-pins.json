@@ -1,0 +1,11 @@
+{
+  "docs/research/2026-10-04-cloud-resume/erasable-damage-enums-decision-review.md": "9bdac8f1336bb3608e018e791bf777ceca5efa3f978a69e441a93afa41ba2601",
+  "src/core/damage-state.ts": "2bddfc853d43eda68761f3be23a99bcaae8bf04567eac80648fa134afe9a3a87",
+  "src/core/physics/damage-terminal.ts": "a0ee5083eaf2fc285a987ad680e13b9e79c90b8db40d318e016de42cc50e5d89",
+  "src/core/physics/damage-detachment.ts": "331812e54ff912c70c908a4e2ebe796cce40d8e5523db78d7e6c061f689504fd",
+  "src/core/physics/step-dynamics.ts": "936a5183df249b6e3b1921b51b4d5a1d2ff29fe2d27988c00a753e25f61cd0e0",
+  "tsconfig.json": "e7dce0810f1a2f1286de76dda8dc231f58189ea9e951312900da6a85db543899",
+  "node_modules/@vitest/coverage-v8/dist/provider.js": "e8e1c964f317bfacd48d7e24275cdc7dd29e10e6ccab064194df27bfe48065f8",
+  "node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js": "e509f3cc1bd81ae6426265253fa926cbde02be5cebfe35b1df422017bffdca31",
+  "docs/research/2026-10-04-cloud-resume/native-v8-remap-and-official-runner-feasibility.md": "ae909762c42c04e826a97dd9f14e9f917b91ea80a7549483999e49fc49e32d54"
+}

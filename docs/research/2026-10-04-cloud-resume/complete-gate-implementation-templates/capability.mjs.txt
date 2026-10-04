@@ -1,0 +1,23 @@
+import {connect} from 'node:net';
+import assert from 'node:assert/strict';
+import {assertTrustedGateOwner} from './owner.mjs';
+export function hasCapability(env=process.env){
+ const keys=['STARSHIP_GATE_SOCKET','STARSHIP_GATE_SECRET','STARSHIP_GATE_NONCE','STARSHIP_GATE_PID','STARSHIP_GATE_START'];
+ const present=keys.filter(key=>env[key]!==undefined);
+ assert(present.length===0||present.length===keys.length,'Partial explicit gate capability');return present.length>0;
+}
+export async function requestCapability(action){
+ assert(hasCapability(),'Live gate capability required');
+ const owner=assertTrustedGateOwner();
+ return new Promise((resolve,reject)=>{
+  const socket=connect(process.env.STARSHIP_GATE_SOCKET);let text='',settled=false;
+  const finish=(error,value)=>{if(settled)return;settled=true;clearTimeout(timer);socket.destroy();error?reject(error):resolve(value);};
+  const timer=setTimeout(()=>finish(new Error('Live gate capability deadline')),2000);
+  socket.on('error',error=>finish(error));socket.on('end',()=>{if(!settled)finish(new Error('Truncated capability response'));});
+  socket.on('connect',()=>socket.write(JSON.stringify({action,secret:process.env.STARSHIP_GATE_SECRET,nonce:process.env.STARSHIP_GATE_NONCE})+'\n'));
+  socket.on('data',data=>{text+=data;if(Buffer.byteLength(text)>32768)return finish(new Error('Capability response overflow'));
+   const newline=text.indexOf('\n');if(newline<0)return;
+   try{const response=JSON.parse(text.slice(0,newline));assert.equal(response.ok,true,response.error);assert.deepEqual(assertTrustedGateOwner(),owner,'Gate ownership changed during claim');finish(null,response.value);}catch(error){finish(error);}
+  });
+ });
+}

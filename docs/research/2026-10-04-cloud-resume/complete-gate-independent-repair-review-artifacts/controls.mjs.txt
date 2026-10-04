@@ -1,0 +1,76 @@
+/** Explicit bounded proof command, never an implicit additional gate unit suite. */
+import assert from 'node:assert/strict';
+import {mkdirSync,mkdtempSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
+import {resolve,dirname} from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {performance} from 'node:perf_hooks';
+import {runOwnedCommand,verifyNoOwnedProcesses} from '../bench/owned-command.mjs';
+import {assertOwner,processIdentity} from './owner.mjs';
+import {requestCapability,hasCapability} from './capability.mjs';
+import {assertBoundary,validateMap,readSealed,digestFile,pins,preservedFloors} from './integrity.mjs';
+import {serverDecision} from './server-decision.mjs';
+import {finalizeNativeDecision} from './decision.mjs';
+import {assertTaskOptions,assertFinalTask,assertRunClean} from './admission.mjs';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');process.chdir(root);
+const self=fileURLToPath(import.meta.url);
+if(process.argv[2]==='owner-child'){
+ const directory=process.argv[3],known=JSON.parse(readFileSync(resolve(directory,'owner-input.json'),'utf8'));
+ const proof=assertOwner(known);await assert.rejects(()=>requestCapability(),/Ancestor is not trusted gate script/);
+ writeFileSync(resolve(directory,'owner-child.json'),JSON.stringify({helperOwner:proof,productionClient:'denied fake ancestor before connect',historicalEnvelope:'not consumed'},null,2),{flag:'wx'});
+}else{
+ assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'complete-gate-controls','Exclusive parent CPU grant required');
+ const cache=resolve(root,'node_modules/.cache/starship-gate-controls');mkdirSync(cache,{recursive:true});const directory=mkdtempSync(resolve(cache,'invocation-'));
+ const declaration=resolve(root,'docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates');
+ const researchBefore=Object.fromEntries((await import('node:fs')).readdirSync(declaration).map(name=>[name,digestFile(resolve(declaration,name))]));
+ const before=pins(root),cases=['clean','retry','repeat','fails','only','skip','todo','dynamic-skip','before-hook','after-hook','timeout','unhandled'];const results=[];
+ const save=(name,value)=>writeFileSync(resolve(directory,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+ const remaining=()=>{const value=300000-performance.now()-8000;assert(value>0,'Whole control cohort300s cleanup reserve exhausted');return value;};
+ const command=async(name,args,env=process.env)=>{assert.equal(await runOwnedCommand({name,args,env,root,receipt:directory,deadlineMs:Math.min(30000,remaining())}),0,name);};
+ let status=0;
+ try{
+  save('source-tools-before.json',before);assert(process.env.npm_execpath);
+  // Ordered build required before actual runner fixtures; this is not a full unit-suite execution.
+  assert.equal(await runOwnedCommand({name:'build',args:[process.env.npm_execpath,'run','build'],env:process.env,root,receipt:directory,deadlineMs:remaining()}),0);
+  save('research-before.json',researchBefore);
+  writeFileSync(resolve(directory,'controls.test.mjs'),readFileSync(resolve(declaration,'controls-fixture.test.mjs.txt')));
+  writeFileSync(resolve(directory,'controls.config.mjs'),`export default {test:{environment:'node',include:[${JSON.stringify(resolve(directory,'controls.test.mjs'))}],exclude:[],testTimeout:30000,maxWorkers:1,fileParallelism:false,coverage:{enabled:false}}};\n`);
+  for(const kind of cases){await command(kind,[resolve(root,'scripts/gate/controls-child.mjs'),directory,kind],{...process.env,STARSHIP_GATE_CONTROL_CASE:kind});const receipt=JSON.parse(readFileSync(resolve(directory,`${kind}.finalized.json`),'utf8'));assert.equal(receipt.closed,true);results.push({kind,decision:receipt.decision,denial:receipt.denial});}
+  // Pure admission guards also deny altered collected metadata, actual retry counters and interrupted/unhandled receipts.
+  const task={key:'clean',options:{mode:'run',retry:0,repeats:0,fails:false},state:'passed',errors:[],diagnostic:{retryCount:0,repeatCount:0,flaky:false}};
+  assertFinalTask(task,null);assert.throws(()=>assertFinalTask({...task,state:'pending'},null));for(const key of ['retryCount','repeatCount','flaky'])assert.throws(()=>assertFinalTask({...task,diagnostic:{...task.diagnostic,[key]:key==='flaky'?true:1}},null));
+  assert.throws(()=>assertTaskOptions({...task.options,mode:'only'}));assert.throws(()=>assertRunClean({reason:'interrupted',unhandledErrors:[],modules:[{ok:true,file:'a'}]}));assert.throws(()=>assertRunClean({reason:'passed',unhandledErrors:[{message:'fault'}],modules:[{ok:true,file:'a'}]}));
+  const shape={pins:{source:{a:'source'},tools:{b:'tool'},node:{binary:'node'}},build:{app:'build'},files:['unit\0a','kit\0b']};assertBoundary(shape,shape);
+  for(const type of ['source','tools','node','build','files']){const changed=structuredClone(shape);if(type==='build')changed.build.app='changed';else if(type==='files')changed.files.pop();else changed.pins[type][Object.keys(changed.pins[type])[0]]='changed';assert.throws(()=>assertBoundary(changed,shape));}
+  const report=resolve(directory,'sealed.json');writeFileSync(report,'{}');const reportDigest=digestFile(report);readSealed(report,reportDigest);writeFileSync(report,'{"changed":true}');assert.throws(()=>readSealed(report,reportDigest));assert.throws(()=>readSealed(resolve(directory,'missing.json'),reportDigest));
+  const core=resolve(directory,'map-root/src/core');mkdirSync(core,{recursive:true});for(const [file,text] of [['entry.ts','export const value=1;\n'],['unimported.ts','export const unimported=1;\n'],['types.ts','export interface TypeOnly { value:number }\n']])writeFileSync(resolve(core,file),text);
+  const loc={start:{line:1,column:0},end:{line:1,column:1}};
+  const empty=path=>({path,statementMap:{},fnMap:{},branchMap:{},s:{},f:{},b:{}});
+  const data=Object.fromEntries(['entry.ts','unimported.ts','types.ts'].map(file=>{const path=resolve(core,file),row=empty(path);if(file!=='types.ts'){row.statementMap={0:loc};row.s={0:0};}return [path,row];}));
+  const mapRoot=resolve(directory,'map-root');validateMap(mapRoot,data,[]);
+  const missing=structuredClone(data);delete missing[resolve(core,'unimported.ts')];assert.throws(()=>validateMap(mapRoot,missing,[]));
+  for(const fault of ['counter','branch-length','line','outside']){const bad=structuredClone(data),row=bad[resolve(core,'entry.ts')];if(fault==='counter')row.s={};if(fault==='branch-length'){row.branchMap={0:{loc,locations:[loc]}};row.b={0:[]};}if(fault==='line')row.statementMap[0].end.line=999;if(fault==='outside')bad[report]=empty(report);assert.throws(()=>validateMap(mapRoot,bad,[]));}
+  const state={secret:'current-secret',nonce:'current-nonce',stage:'coverage',reports:directory,sealed:{path:report,digest:digestFile(report)},finalized:true,unitExit:0,consumed:false};const request={secret:state.secret,nonce:state.nonce,action:'consume-coverage'};
+  for(const change of [{nonce:'old'},{secret:'forged'}])assert.throws(()=>serverDecision({...state},{...request,...change},()=>{}));
+  for(const change of [{stage:'unit'},{sealed:null},{finalized:false},{unitExit:1},{consumed:true}])assert.throws(()=>serverDecision({...state,...change},request,()=>{}));
+  const current={...state};assert.deepEqual(serverDecision(current,request,()=>{}),state.sealed);assert.throws(()=>serverDecision(current,request,()=>{}));assert.throws(()=>serverDecision({...state},request,()=>{throw new Error('report/source/tool/build substitution');}));
+  const capabilityKeys=['STARSHIP_GATE_SOCKET','STARSHIP_GATE_SECRET','STARSHIP_GATE_NONCE','STARSHIP_GATE_PID','STARSHIP_GATE_START'],saved=Object.fromEntries(capabilityKeys.map(key=>[key,process.env[key]]));try{for(const key of capabilityKeys)delete process.env[key];assert.equal(hasCapability(),false);process.env.STARSHIP_GATE_SOCKET='/tmp/forged';assert.throws(()=>hasCapability());}finally{for(const key of capabilityKeys)if(saved[key]===undefined)delete process.env[key];else process.env[key]=saved[key];}
+  // Actual fake server has a live ancestor and genuine owned socket, but a different trusted entry.
+  const ownerScript=resolve(directory,'fake-owner.mjs'),socketPath=resolve(directory,'owner.sock');
+  writeFileSync(ownerScript,`import {createServer} from 'node:net';import {spawn} from 'node:child_process';import {writeFileSync,readFileSync} from 'node:fs';import {processIdentity} from ${JSON.stringify(pathToFileURL(resolve(root,'scripts/gate/owner.mjs')).href)};let requests=0;const socket=${JSON.stringify(socketPath)};const server=createServer(client=>{requests++;client.end(JSON.stringify({ok:true,value:{finalized:true,nonce:'historical',unitExit:0}})+'\\n');});server.listen(socket,()=>{writeFileSync(${JSON.stringify(resolve(directory,'owner-input.json'))},JSON.stringify({pid:process.pid,start:processIdentity(process.pid).start,scriptPath:${JSON.stringify(ownerScript)},scriptDigest:${JSON.stringify('REPLACE_DIGEST')},socketPath:socket}));const child=spawn(process.execPath,[${JSON.stringify(self)},'owner-child',${JSON.stringify(directory)}],{stdio:'inherit',env:{...process.env,STARSHIP_GATE_PID:String(process.pid),STARSHIP_GATE_START:processIdentity(process.pid).start,STARSHIP_GATE_SOCKET:socket,STARSHIP_GATE_SECRET:'forged',STARSHIP_GATE_NONCE:'historical'}});child.on('exit',code=>{writeFileSync(${JSON.stringify(resolve(directory,'fake-owner-result.json'))},JSON.stringify({code,requests,pid:process.pid,start:processIdentity(process.pid).start}));server.close(()=>{process.exitCode=code??2;});});});\n`);
+  // Owner fixture source pin is computed inside the trusted child from its installed bytes, not embedded recursively.
+  let ownerText=readFileSync(ownerScript,'utf8');ownerText=ownerText.replace(`scriptDigest:"REPLACE_DIGEST"`,`scriptDigest:null`);ownerText=ownerText.replace("import {createServer}","import {createHash} from 'node:crypto';import {createServer}").replace('scriptDigest:null',`scriptDigest:createHash('sha256').update(readFileSync(${JSON.stringify(ownerScript)})).digest('hex')`);writeFileSync(ownerScript,ownerText);
+  await command('fake-owner',[ownerScript]);const fake=JSON.parse(readFileSync(resolve(directory,'fake-owner-result.json'),'utf8'));assert.equal(fake.requests,0,'Production client connected to forged owner');assert.equal(fake.code,0);
+  const expired=JSON.parse(readFileSync(resolve(directory,'owner-input.json'),'utf8'));assert.throws(()=>assertOwner(expired));
+  // One public provider red decision, never real-source coverage acceptance.
+  const {createVitest}=await import('vitest/node'),{default:coverageModule}=await import('@vitest/coverage-v8');
+  const ctx=await createVitest('test',{root,config:false,watch:false,run:false,testTimeout:30000,coverage:{enabled:true,provider:'v8',thresholds:preservedFloors}});const nativeErrors=[];const log=ctx.logger.error.bind(ctx.logger);ctx.logger.error=(...args)=>{nativeErrors.push(args.map(String).join(' '));log(...args);};
+  let closed=false;
+  try{const provider=await coverageModule.getProvider();await provider.initialize(ctx);const map=provider.createCoverageMap();const path=resolve(root,'src/core/__synthetic_gate_decision_only__.ts');map.addFileCoverage({...empty(path),statementMap:{0:loc},s:{0:0}});await provider.reportThresholds(map,true);const native=process.exitCode??0;assert.equal(native,1);let published=false;
+   const final=await finalizeNativeDecision({code:native,errors:nativeErrors,close:async()=>{await ctx.close();closed=true;},verify:()=>assert.equal(ctx.state.getFiles().length,0),write:()=>{published=true;}});assert.equal(final,1);assert(published);
+   for(const fault of ['close','verify']){let written=false;await assert.rejects(()=>finalizeNativeDecision({code:1,errors:nativeErrors,close:async()=>{if(fault==='close')throw new Error('late close');},verify:()=>{if(fault==='verify')throw new Error('late pins');},write:()=>{written=true;}}));assert.equal(written,false);}
+   save('provider-decision.json',{nativeExit:final,nativeErrors,closed,collectedFiles:ctx.state.getFiles().length,lateFailure:'rejects before publication; production catch exits2'});process.exitCode=0;
+  }finally{if(!closed)await ctx.close();}
+  assert.deepEqual(pins(root),before);save('source-tools-after.json',pins(root));save('owned-process-final.json',verifyNoOwnedProcesses());save('proof-final.json',{status:0,results,sourceTools:'exact',classification:'Bounded controls only; no real full-unit coverage or gate acceptance'});
+ }catch(error){status=2;save('proof-failure.json',{message:error.message,stack:error.stack});console.error(error);}
+ finally{try{verifyNoOwnedProcesses();assert.deepEqual(pins(root),before);assert.deepEqual(Object.fromEntries((await import('node:fs')).readdirSync(declaration).map(name=>[name,digestFile(resolve(declaration,name))])),researchBefore);}catch(error){status=70;save('proof-integrity-failure.json',{message:error.message});}rmSync(resolve(directory,'owner.sock'),{force:true});if(performance.now()>300000)status=124;save('exit.json',{status,wholeProcessElapsedMs:performance.now(),ceilingMs:300000});process.exitCode=status;}
+}

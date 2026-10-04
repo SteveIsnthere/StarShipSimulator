@@ -1,0 +1,50 @@
+--- reviewed/owned-command.mjs
++++ control/owned-command.mjs
+@@ -57,13 +57,13 @@
+  assert(inspections.every(row=>row.executing.length===0),'Executing owned process remains');return inspections;}
+ export async function runOwnedCommand({name,args,env,root,receipt,deadlineMs=300000}){
+  assert(Number.isFinite(deadlineMs)&&deadlineMs>0&&deadlineMs<=900000);
+- const cap=8*1024*1024;const chunks={stdout:[],stderr:[]};const bytes={stdout:0,stderr:0};
++ const cap=2*1024*1024;const chunks={stdout:[],stderr:[]};const bytes={stdout:0,stderr:0};
+  let child=null,owner=null,failure=null,exit=null,closed=false,timeout=null,monitor=null;
+- let cleanup=null;
++ let cleanup=null,firstFailure=null;
+  let wake;const boundary=new Promise(done=>{wake=done;});
+- const fail=(kind,error)=>{if(!failure)failure={kind,message:error?.message??kind};wake();};
+- const capture=(stream,data)=>{const room=cap-bytes[stream];if(room>0){const kept=data.subarray(0,room);chunks[stream].push(kept);bytes[stream]+=kept.length;}
+-  if(data.length>room)fail('output-overflow',new Error(`${stream} exceeded ${cap} bytes; raw prefix retained`));};
++ const fail=(kind,error)=>{if(!failure)failure={kind,message:error?.message??kind};firstFailure??=failure;wake();};
++ const capture=(stream,data)=>{const room=cap-bytes.stdout-bytes.stderr;if(room>0){const kept=data.subarray(0,room);chunks[stream].push(kept);bytes[stream]+=kept.length;}
++  if(data.length>room)fail('output-overflow',new Error(`combined output exceeded ${cap} bytes; raw prefix retained`));};
+  const handlers={};
+  try{
+   child=spawn(process.execPath,args,{cwd:root,env,detached:true,stdio:['ignore','pipe','pipe']});
+@@ -74,6 +74,7 @@
+   if(child.pid){
+    const row=processes().find(row=>row.pid===child.pid);assert(row,'Could not establish child PID/start identity');assert.equal(row.group,child.pid);assert.equal(row.session,child.pid);
+    owner={pid:row.pid,start:row.start,group:row.group,session:row.session,groupCleared:false,known:new Map([[identity(row),row]])};owners.push(owner);observe(owner);
++   writeFileSync(resolve(receipt,`${name}.owner-ready.json`),JSON.stringify({pid:owner.pid,start:owner.start,group:owner.group,session:owner.session})+'\n',{flag:'wx'});
+    monitor=setInterval(()=>{try{observe(owner);}catch(error){fail('process-observation-error',error);}},100);
+   }
+   timeout=setTimeout(()=>fail('process-timeout',new Error(`${deadlineMs}ms process bound exceeded`)),deadlineMs);
+@@ -84,15 +85,15 @@
+   clearTimeout(timeout);clearInterval(monitor);
+   try{if(owner)cleanup=await teardown(owner);else if(child?.pid){
+     // No start identity means absence cannot be established: fail closed, never next lane.
+-    failure??={kind:'owner-identity-unavailable',message:'No verified PID/start identity'};}
+-   if(cleanup?.executing.length)failure={kind:'owned-cleanup-failure',message:'Executing owned processes remain'};
+-  }catch(error){failure={kind:'owned-cleanup-error',message:error.message};}
++    failure??={kind:'owner-identity-unavailable',message:'No verified PID/start identity'};firstFailure??=failure;}
++   if(cleanup?.executing.length){failure={kind:'owned-cleanup-failure',message:'Executing owned processes remain'};firstFailure??=failure;}
++  }catch(error){failure={kind:'owned-cleanup-error',message:error.message};firstFailure??=failure;}
+   // Descendant pipe holders must not prevent completion; bounded drainage after teardown.
+   const until=Date.now()+1000;while(!closed&&Date.now()<until)await sleep(20);
+-  if(!closed&&child){failure??={kind:'pipe-close-bound',message:'Inherited output pipes did not close within one second'};child.stdout?.destroy();child.stderr?.destroy();}
++  if(!closed&&child){failure??={kind:'pipe-close-bound',message:'Inherited output pipes did not close within one second'};firstFailure??=failure;child.stdout?.destroy();child.stderr?.destroy();}
+   for(const [signal,handler] of Object.entries(handlers))process.removeListener(signal,handler);
+   for(const stream of ['stdout','stderr'])writeFileSync(resolve(receipt,`${name}.${stream}.txt`),Buffer.concat(chunks[stream]));
+-  writeFileSync(resolve(receipt,`${name}.process.json`),JSON.stringify({exit,failure,bytes,cap,finished:true,closed,cleanup},null,2)+'\n');
++  writeFileSync(resolve(receipt,`${name}.process.json`),JSON.stringify({exit,failure,firstFailure,bytes,cap,finished:true,closed,cleanup},null,2)+'\n');
+  }
+  if(failure)throw new Error(`${name}: ${failure.kind}: ${failure.message}`);
+  assert(exit&&cleanup&&cleanup.executing.length===0,'Command termination/cleanup unverified');

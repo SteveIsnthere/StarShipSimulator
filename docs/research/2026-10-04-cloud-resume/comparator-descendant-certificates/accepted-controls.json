@@ -1,0 +1,22 @@
+{
+  "kind": "accepted-descendant-certificates-controls-v1",
+  "accepted": true,
+  "scope": "pure15control semantics/mechanism; repaired paired preparation only",
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/receipt-controls-9a62a009-5818-402e-a3f1-4494cdddcc86",
+  "finalizedDigest": "99f21e18caad45ceb9b17702c4e07e962f440b1c94b3a918901f2ab4963ad8ea",
+  "evidenceDigest": "81133c0398b67c56371c4b00d9bf483974f0c801e1226136b850c73d267b2b79",
+  "controlResultDigest": "c962314b26eb756e71d93b4faaabad43d47b32bc3e0148b763d5c4fc168394fd",
+  "beforePinsDigest": "877001865043e61127b3bbdecce00b5901ec6f22287617d4486ce8ba28999a67",
+  "afterPinsDigest": "877001865043e61127b3bbdecce00b5901ec6f22287617d4486ce8ba28999a67",
+  "candidateDigest": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+  "originalDigest": "b465ad8f4992ccc374a80834f88f39dc32c48b7a19bbe0017458b6d0fa75f24f",
+  "controlsDigest": "081ac027df0774cfb105162db59b5ff384f615b83a30c3abe7060d34181ee41e",
+  "candidateInputManifestDigest": "9a08249dcb4f83f677197898101402310db1bfc6636739a2d9c90810d8d711d8",
+  "launchInputManifestDigest": "f6834a46ce96d758f58de6e220af869a9b9020a7b312073e4480b1944cb57ee8",
+  "supplementalOwnershipDigest": "6bd8011df6fdce022a1a8bd8ab2fa5761857276b74729dd731b3824a7939bb4f",
+  "independentResultReview": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/independent-control-result-review.md",
+  "independentResultReviewDigest": "9a69b0ddff8216c8ca5a46b975ff9023e0f91e9087f7f70c6b06fcc976544466",
+  "independentResultReviewPins": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/independent-control-result-review-pins.json",
+  "independentResultReviewPinsDigest": "caa68f9be5cbfdfd5b18144cf200f598959ab50109f60490891c6b65937c3754",
+  "nextStage": "separate exact paired consumer code review and exclusive CPU grant; no cost/flight authorization"
+}

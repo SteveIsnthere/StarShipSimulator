@@ -1,0 +1,130 @@
+{
+  "32": {
+    "firstFrameOperations": 46,
+    "firstFrameBatchDraws": 10,
+    "totalRecords": 920,
+    "captureDone": true,
+    "availableRecords": 920,
+    "sourceRuns": [
+      {
+        "sourceTextureId": 2,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 3,
+        "draws": 1,
+        "indices": 744
+      },
+      {
+        "sourceTextureId": 3,
+        "draws": 1,
+        "indices": 24
+      },
+      {
+        "sourceTextureId": 3,
+        "draws": 6,
+        "indices": 2664
+      },
+      {
+        "sourceTextureId": 4,
+        "draws": 1,
+        "indices": 288
+      }
+    ]
+  },
+  "1": {
+    "firstFrameOperations": 462,
+    "firstFrameBatchDraws": 426,
+    "totalRecords": 4096,
+    "captureDone": false,
+    "availableRecords": 0,
+    "sourceRuns": [
+      {
+        "sourceTextureId": 2,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 3,
+        "draws": 1,
+        "indices": 360
+      },
+      {
+        "sourceTextureId": 4,
+        "draws": 1,
+        "indices": 288
+      },
+      {
+        "sourceTextureId": 5,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 6,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 7,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 8,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 9,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 10,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 11,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 14,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 10,
+        "draws": 3,
+        "indices": 18
+      },
+      {
+        "sourceTextureId": 11,
+        "draws": 4,
+        "indices": 24
+      },
+      {
+        "sourceTextureId": 10,
+        "draws": 1,
+        "indices": 6
+      },
+      {
+        "sourceTextureId": 3,
+        "draws": 1,
+        "indices": 24
+      },
+      {
+        "sourceTextureId": 3,
+        "draws": 405,
+        "indices": 2664
+      },
+      {
+        "sourceTextureId": 4,
+        "draws": 1,
+        "indices": 288
+      }
+    ]
+  }
+}

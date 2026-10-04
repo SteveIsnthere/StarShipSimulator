@@ -1,0 +1,29 @@
+//#region src/core/coverage-control.ts
+var ControlReason = /* @__PURE__ */ function(ControlReason) {
+	ControlReason[ControlReason["No"] = 0] = "No";
+	ControlReason[ControlReason["Yes"] = 1] = "Yes";
+	return ControlReason;
+}({});
+function choose(value) {
+	if (value > 0) return ControlReason.Yes;
+	return ControlReason.No;
+}
+function nested(value) {
+	if (value > 0) {
+		if (value > 10) return 10;
+		return 1;
+	}
+	return 0;
+}
+function neverCalled(value) {
+	return value > 0 ? 3 : 4;
+}
+//#endregion
+//#region src/outside-control.ts
+function outsideCore() {
+	return 5;
+}
+//#endregion
+export { ControlReason, choose, nested, neverCalled, outsideCore };
+
+//# sourceMappingURL=control.mjs.map

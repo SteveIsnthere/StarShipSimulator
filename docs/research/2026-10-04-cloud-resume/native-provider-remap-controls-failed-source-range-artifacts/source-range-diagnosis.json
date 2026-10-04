@@ -1,0 +1,174 @@
+{
+  "firstFailingRange": {
+    "start": {
+      "line": 1,
+      "column": 7
+    },
+    "end": {
+      "line": 1,
+      "column": null
+    }
+  },
+  "finiteReversalObserved": false,
+  "openEndColumnSource": "ast-v8-to-istanbul getLoc assigns Infinity; JSON serializes Infinity as null",
+  "mainSchemasEqual": {
+    "native": true,
+    "mixed": true
+  },
+  "dormantBranchSchemas": {
+    "ssr": {
+      "0": {
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 9
+          },
+          "end": {
+            "line": 2,
+            "column": null
+          }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 2,
+              "column": 21
+            },
+            "end": {
+              "line": 2,
+              "column": 25
+            }
+          },
+          {
+            "start": {
+              "line": 2,
+              "column": 25
+            },
+            "end": {
+              "line": 2,
+              "column": null
+            }
+          }
+        ],
+        "line": 2
+      }
+    },
+    "native": {
+      "0": {
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 9
+          },
+          "end": {
+            "line": 2,
+            "column": 26
+          }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 2,
+              "column": 21
+            },
+            "end": {
+              "line": 2,
+              "column": 22
+            }
+          },
+          {
+            "start": {
+              "line": 2,
+              "column": 25
+            },
+            "end": {
+              "line": 2,
+              "column": 26
+            }
+          }
+        ],
+        "line": 2
+      }
+    },
+    "mixed": {
+      "0": {
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 9
+          },
+          "end": {
+            "line": 2,
+            "column": null
+          }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 2,
+              "column": 21
+            },
+            "end": {
+              "line": 2,
+              "column": 25
+            }
+          },
+          {
+            "start": {
+              "line": 2,
+              "column": 25
+            },
+            "end": {
+              "line": 2,
+              "column": null
+            }
+          }
+        ],
+        "line": 2
+      }
+    },
+    "omitted": {
+      "0": {
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 9
+          },
+          "end": {
+            "line": 2,
+            "column": 26
+          }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 2,
+              "column": 21
+            },
+            "end": {
+              "line": 2,
+              "column": 22
+            }
+          },
+          {
+            "start": {
+              "line": 2,
+              "column": 25
+            },
+            "end": {
+              "line": 2,
+              "column": 26
+            }
+          }
+        ],
+        "line": 2
+      }
+    }
+  },
+  "originalContractPassed": false,
+  "providerRepeat": false
+}

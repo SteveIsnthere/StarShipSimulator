@@ -1,0 +1,27 @@
+# Complete gate: research-only concrete implementation templates
+
+Not applied or executed. Portion B only; the separate portion A lifecycle/state-ownership implementation does not belong to this change. Native benchmark templates are independently reviewed separately. This implementation reuses `scripts/bench/owned-command.mjs` (reviewed owned process group, PID/start identity, bounded pipes/output, verified absence) and the pure integrity exports in `scripts/bench/native-loader.mjs`. Attribution: the native-bench implementation's fresh independent high review and its separately reviewed lint-only helper repair. Their exact applied bytes must be pinned before any gate qualification.
+
+Apply only after independent actual-code review and parent source grant:
+
+| Template | Proposed target |
+|---|---|
+| gate.mjs.txt | scripts/gate.mjs |
+| coverage.mjs.txt | scripts/coverage.mjs |
+| capability.mjs.txt | scripts/gate/capability.mjs |
+| integrity.mjs.txt | scripts/gate/integrity.mjs |
+| complete-reporter.mjs.txt | scripts/gate/complete-reporter.mjs |
+| validate-coverage.mjs.txt | scripts/gate/validate-coverage.mjs |
+| vitest.complete-gate.config.ts.txt | vitest.complete-gate.config.ts |
+
+Only package commands `gate: node scripts/gate.mjs`, `coverage: node scripts/coverage.mjs` change. `test`, timing tests, ordinary unit config, audited coverage exclusion seal, build and browser commands stay unchanged. Standalone coverage without a capability still executes the original Vitest coverage command and its 120000ms diagnostic timeout. Partial or invalid explicit capability fails; there is no stale-report fallback. This complete mode overrides both project exclusion lists with the original normal full-unit lists, so the imported ordinary config's audited optimization never omits any unit or kit test. Full golden and proof cohorts remain included. No floors, source scope, 30000ms test timeout or 300000ms whole-gate ceiling change.
+
+Six ordered stages remain lint → build → unit → coverage → smoke → subpath deploy. Unit instruments the single complete run with all floors active; public reporter captures `onTestRunStart` specifications, `onTestModuleCollected` named task IDs and final `onTestRunEnd` outcomes/unhandled errors. Its receipt is tentative until real exit0 plus owned-process absence. Complete source-derived project/file inventory and independent JSON task report must match. The sole unchanged declared skip is `certified steel enthalpy inversion > reports warmed cost without a wall-time assertion`; no pending/todo/extra skipped task is admitted.
+
+The orchestrator owns exclusive fresh reports/nonce and a live Unix socket. Only after finalized unit exit0 and report/source/tool/build verification does it publish a sealed manifest. Coverage consumes it exactly once during the coverage stage; config requests are allowed only during active unit/coverage stages. Every request needs current secret/nonce, and source/tool/Node/dist boundaries must still match. A historical manifest/receipt/socket path is not a capability. Socket limits are 32KiB and 2 seconds; close destroys owned connections. No secrets are written into receipts.
+
+Coverage validates exact protected source paths, map/counter completeness (including unimported source), and finalized report digests; it then uses installed `@vitest/coverage-v8` default `getProvider`, public initialize/createCoverageMap/reportThresholds(map,true). Exact original floor table is checked before collection and again in validation. Actual resolved provider exclusions are used for a second real-source completeness check; no private provider API or recreated glob/percentage threshold algorithm is used. No collect/start/execute call occurs during floor validation. Native logger errors/process.exitCode remain authoritative. Closure and post-source checks precede finalized floor receipt; late failure exits2 rather than impersonating accepted red/green semantics. Browser stages cannot start if any previous stage/report/integrity/floor check fails.
+
+Fresh input manifests include all src/tests/scripts/root config/package/lock/nvmrc, public assets, complete immutable installed node_modules/global npm implementations and native bytes, exact Node binary, current full dist inventory, exact test and core inventories, and every finalized JSON report. Generated tool-cache directories remain the independently reviewed exclusions. Build precedes tests. Same whole-gate wall clock includes directory/socket setup, hashing, reports, subprocess drainage and teardown; an 8s owned-process cleanup reserve never increases 300s. A timing miss remains red and may require a fresh reviewed diagnosis; neither this code nor the provider API's synthetic17-map result is real gate acceptance.
+
+After reviewed application: sequential scoped lint/build and bounded capability/invalid-map/inventory/floor controls must precede ONE source-pinned complete gate, with parent exclusive CPU grant. Controls must prove absent/partial/forged/expired/reused capability denial, report digest/path/source/tool/dist mismatch denial, missing real-core map and unimported module denial, load/unhandled/pending/extra skip denial, actual provider below-floor red and close/post-validation failure distinction, zero test execution in floor stage and owned-child cleanup. No unsupported run is authorized by this document; standalone commands must be checked separately without consuming a gate receipt. No performance or full coverage acceptance is asserted.

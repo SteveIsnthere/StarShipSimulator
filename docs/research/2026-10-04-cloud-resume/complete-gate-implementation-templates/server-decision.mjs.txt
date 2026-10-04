@@ -1,0 +1,7 @@
+import assert from 'node:assert/strict';
+export function serverDecision(state,request,verify){
+ assert.equal(request.secret,state.secret);assert.equal(request.nonce,state.nonce);verify();
+ if(request.action==='config'){assert(state.stage==='unit'||state.stage==='coverage','Config outside active gate unit/floor stage');return {reports:state.reports,nonce:state.nonce};}
+ assert.equal(request.action,'consume-coverage');assert.equal(state.stage,'coverage');assert(state.sealed&&!state.consumed,'Coverage capability missing/not-finalized/already-consumed');
+ assert.equal(state.finalized,true,'Unit receipt not finalized');assert.equal(state.unitExit,0,'Unit did not exit0');state.consumed=true;return state.sealed;
+}

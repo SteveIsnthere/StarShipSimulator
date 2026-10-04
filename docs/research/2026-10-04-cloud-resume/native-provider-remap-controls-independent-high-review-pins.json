@@ -1,0 +1,17 @@
+{
+  "classification": "Static HIGH code review, proof execution HOLD; no workload or production physics bodies read",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/cohort.mjs.txt": "7520ba1eb1790bc91181e4aa6b4bd8f2c8352bf78ced777f9a69e9335ab4b99c",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/config.mjs.txt": "3f5853bb06fb5e98ede18c4dc2deec3d8d3a5ed55eac77db3f78ad91a4f85eb3",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/coverage-control.ts.txt": "00012cd0b25ee89ab7a704ad9597f8b8cc6a5f0bf6fbf8bfd6714f9fdca87787",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/declaration.md": "8ed804f88e5ebc00ec1f5babe9bfefa711e08198454199ecef6c292f4b0fcfbb",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/entry.ts.txt": "d61a668ea5fe72d90ad1e6cbad66c8c766672dd54363b5524e2588a7dcbe6d49",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/finalize.mjs.txt": "ebf0a16f2eabe99a822774faf2204dfc5ae900f2b82ee89f2de64bede20a8e73",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/native.test.mjs.txt": "4d488631d28b0e963677bdbbdc86f640c2227750c12f6b37980aee874e9821ed",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/outside-control.ts.txt": "ce895c8167b1c13321c7d659ef98bbea80ba26b23c0f009ad2c8e4ac756bbc92",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/raw-reporter.mjs.txt": "bf593af09b39ab327063c12556c84b4b69ac3792d11c10359c17f5ef3de76634",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/run-owned.mjs": "5cc41bf105153055038ac9ba581a4fd560bec3ed8b79cb24454dd4a43f0c5cd0",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/ssr.test.mjs.txt": "2b1f4228c18ad31dfbe56435f60c50a88de9779150a9c51be80c7907afaef40a",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/unimported-control.ts.txt": "0441cd13b7f5547d07656899f59d27e2cbd9c2f4a55cd2c071e64dfc77ced72c"
+  }
+}

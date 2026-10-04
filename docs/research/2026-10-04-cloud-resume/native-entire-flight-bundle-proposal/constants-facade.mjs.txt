@@ -1,0 +1,2 @@
+// Exact two original consumers use only these constant roles.
+export { starBaseXPos, heatLimit } from './entry.mjs';

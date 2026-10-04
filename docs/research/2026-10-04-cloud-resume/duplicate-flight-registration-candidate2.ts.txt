@@ -1,0 +1,183 @@
+/** Research registration TEMPLATE only; original other registrations stay put.
+ * Copy fly collection logic preserves original trace fields; emission is only
+ * in guidance's named contract, even when scenario paid the first flight. */
+import {describe,expect,it} from 'vitest';
+import {writeFileSync} from 'node:fs';
+import {PRESETS,ALL_SCENARIOS,createScenarioVehicle} from '$core/scenarios';
+import {cloneState,type SimState} from '$core/state';
+import {DT as SCENARIO_DT} from '$app/loop';
+import {SHIP,type VehicleDefinition} from '$core/vehicle';
+import {step} from '$core/step';
+import {toggleAutoLand} from '$core/control/commands';
+import {SUPER_HEAVY,CATCH} from '$core/vehicles/super-heavy';
+import {createCatchPose,writeCatchPose} from '$core/physics/tower-catch';
+import * as C from '$core/constants';
+import {createDefaultFlightObservations,ownedGraph,emitGuidanceObservation,type FlightRecipe} from './duplicate-flight-observations';
+const DT=1/120;
+function fly(initial:SimState,seconds=900,traceName='failed-engines'){
+  const eventInputs:unknown[]=[];
+  const mechanicalInput=(value:SimState)=>{const copy=cloneState(value);delete copy.autopilot.boosterPrediction;return copy;};
+  let state=initial,previous=state,stopIndex=-1;
+  const trace:unknown[]=[];
+  const lug=createCatchPose();
+  for(let i=0;i<seconds/DT;i++){
+    stopIndex=i;previous=state;state=step(state,DT,{},SUPER_HEAVY);
+    writeCatchPose(state,SUPER_HEAVY,lug);
+    const phaseChanged=previous.autopilot.boosterPhase!==state.autopilot.boosterPhase;
+    const ignitionChanged=state.engines.ignitionCountdown.some((value,index)=>(value===null)!==(previous.engines.ignitionCountdown[index]===null));
+    const enginesChanged=state.engines.running.some((value,index)=>value!==previous.engines.running[index]);
+    const prediction=state.autopilot.boosterPrediction?.published;
+    const forecastPublished=prediction?.originTime!==previous.autopilot.boosterPrediction?.published?.originTime
+      || prediction?.decision?.shutdownAt!==previous.autopilot.boosterPrediction?.published?.decision?.shutdownAt;
+    const candidateChanged=state.autopilot.boosterPrediction?.iterations!==previous.autopilot.boosterPrediction?.iterations
+      || state.autopilot.boosterPrediction?.stage!==previous.autopilot.boosterPrediction?.stage;
+    const pressureCrossed=[35000,50000].some(q=>(previous.forces.dynamicPressure>=q)!==(state.forces.dynamicPressure>=q));
+    const planeCrossed=previous.kinematics.altitude+29.5*Math.cos(previous.kinematics.pitch)>120 && lug.altitude<=120;
+    if(process.env.BOOSTER_EVENT_INPUTS && (phaseChanged || forecastPublished || planeCrossed || state.status.landed)) {
+      const job=state.autopilot.boosterPrediction;
+      eventInputs.push({tick:i+1,events:{phaseChanged,forecastPublished,planeCrossed},
+        previous:mechanicalInput(previous),returned:mechanicalInput(state),
+        prediction:job?{origin:mechanicalInput(job.origin),selected:job.selected,
+          terminalOrigin:job.terminalOrigin?mechanicalInput(job.terminalOrigin):undefined}:undefined});
+    }
+    if(i%1200===0 || phaseChanged || ignitionChanged || enginesChanged || forecastPublished || candidateChanged || pressureCrossed || planeCrossed
+      || (lug.altitude<500 && i%30===0) || state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp) {
+      trace.push({t:(i+1)*DT,h:state.kinematics.altitude,x:state.kinematics.downRangeDistance-C.starBaseXPos,
+        events:{phaseChanged,ignitionChanged,enginesChanged,forecastPublished,candidateChanged,pressureCrossed,planeCrossed},
+        vx:state.kinematics.speedX,vy:state.kinematics.speedY,pitch:state.kinematics.pitch,
+        omega:state.kinematics.angularVelocity,fuel:state.vehicle.propellantMass,
+        engines:state.engines.running.filter(Boolean).length,throttle:state.vehicle.throttleCurrent,
+        rcs:state.vehicle.rcsRunTimeRemaining,fin:state.vehicle.frontFinExtension,
+        control:state.autopilot.pitchControl,temperature:state.forces.surfaceTemperature,
+        phase:state.autopilot.boosterPhase,q:state.forces.dynamicPressure,g:state.forces.perceivedG,
+        returnPlan:state.autopilot.boosterReturnPlan,
+      planner:state.autopilot.boosterPrediction?{stage:state.autopilot.boosterPrediction.stage,
+        duration:state.autopilot.boosterPrediction.duration,iterations:state.autopilot.boosterPrediction.iterations,
+        result:state.autopilot.boosterPrediction.rollout.result}:undefined,
+      terminalMissed:state.autopilot.boosterTerminalMissed,
+      terminalIgnitionTime:state.autopilot.boosterTerminalIgnitionTime,
+      rangeError:state.autopilot.boosterRangeError,fallTime:state.autopilot.boosterFallTime,
+        deadline:state.autopilot.boosterArrivalTime,lug:{x:lug.x-C.starBaseXPos,h:lug.altitude,vx:lug.speedX,vy:lug.speedY},
+        prediction:prediction?{age:state.world.environmentTime-prediction.originTime,
+          sourceX:prediction.originX-C.starBaseXPos,sourceVX:prediction.originVX,
+          ...prediction.forecast,slope:prediction.slope,burnRangeRate:prediction.burnRangeRate}:undefined,
+        actual:{gimbal:state.vehicle.gimbalPosition,fin:state.vehicle.frontFinExtension,throttle:state.vehicle.throttleCurrent,rcs:state.forces.rcsThrust},
+        commanded:{gimbal:state.autopilot.pitchControl,fin:state.autopilot.boosterFinControl,throttle:state.vehicle.throttle},
+        forces:{thrust:state.forces.thrust,drag:state.forces.aerodynamicDrag,lift:state.forces.aerodynamicLift,
+          ax:state.kinematics.accelerationX,ay:state.kinematics.accelerationY,
+          gimbalAlpha:state.forces.thrustVectorAcceleration,gridAlpha:state.forces.frontFinDragAngularAcceleration,
+          rcsAlpha:state.forces.rcsThrustAngularAcceleration,angularDrag:state.forces.angularDragAcceleration,offAxis:state.forces.offAxisThrustDifferenceAcceleration},
+        failures:state.failures});
+    }
+    if(state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp)break;
+  }
+  return {state,previous,trace,eventInputs,stopIndex};
+}
+function flyScenario(initial: SimState, maxSeconds: number, model:VehicleDefinition=SHIP): { outcome: Outcome; seconds: number; state: SimState } {
+  let s = initial;
+  const steps = Math.round(maxSeconds / SCENARIO_DT);
+
+  for (let i = 0; i < steps; i++) {
+    s = step(s, SCENARIO_DT,{},model);
+    if (s.status.landed) return { outcome: 'landed', seconds: i * SCENARIO_DT, state: s };
+    if (s.failures.crashed) return { outcome: 'crashed', seconds: i * SCENARIO_DT, state: s };
+    if (s.failures.inFlightBreakUp) return { outcome: 'brokeUp', seconds: i * SCENARIO_DT, state: s };
+  }
+  return { outcome: 'flying', seconds: maxSeconds, state: s };
+}
+
+function assertGuidanceFinite(value:unknown):void{
+  if(typeof value==='number') {expect(Number.isFinite(value)).toBe(true);return;}
+  if(Array.isArray(value))value.forEach(assertGuidanceFinite);
+  else if(value && typeof value==='object')Object.values(value).forEach(assertGuidanceFinite);
+}
+
+function assertScenarioFinite(state: SimState, label: string): void {
+  const bad: string[] = [];
+  const walk = (value: unknown, path: string) => {
+    if (typeof value === 'number') {
+      if (Number.isNaN(value)) {
+        bad.push(`${path} = NaN`);
+      } else if (!Number.isFinite(value)) {
+        bad.push(`${path} = ${value}`);
+      }
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach((v, i) => walk(v, `${path}[${i}]`));
+      return;
+    }
+    if (value && typeof value === 'object') {
+      for (const [k, v] of Object.entries(value)) walk(v, `${path}.${k}`);
+    }
+  };
+  walk(state, label);
+  expect(bad, `${label}: NaN or unexpected Infinity`).toEqual([]);
+}
+
+
+const observations=createDefaultFlightObservations<ReturnType<typeof fly>>([SUPER_HEAVY]);
+function recipe(id:'booster-sep'|'rtls',initial:SimState,model:VehicleDefinition=SUPER_HEAVY,dt=DT):FlightRecipe{
+ return{id,initial,model,modelTree:{vehicle:ownedGraph(model,new Set()),catch:ownedGraph(CATCH,new Set()),trace:{starBaseXPos:C.starBaseXPos}},dt,steps:108000,input:'fresh-empty-object',stop:'first-landed-crashed-breakup',operations:[step,createScenarioVehicle,toggleAutoLand,cloneState,createCatchPose,writeCatchPose,Math.sin,Math.cos,Array.prototype.some,Array.prototype.filter],trace:process.env.BOOSTER_TRACE,eventInputs:process.env.BOOSTER_EVENT_INPUTS};
+}
+function observe(task:Parameters<typeof observations.get>[0],id:'booster-sep'|'rtls',initial:SimState,run:()=>ReturnType<typeof fly>,model:VehicleDefinition=SUPER_HEAVY,dt=DT):ReturnType<typeof fly>{
+ let request:FlightRecipe;
+ try{request=recipe(id,initial,model,dt);}catch{return run();} // unsupported recipe ownership pays original path
+ return observations.get(task,request,run); // original flight exceptions are not caught
+}
+describe('actual booster scenarios are secured at the tower',()=>{
+ for(const id of ['booster-sep','rtls'] as const)it(`${id}: autopilot catches the actual33-engine booster within900s`,ctx=>{
+  const preset=PRESETS.find(p=>p.id===id)!;
+  const {state:initial}=createScenarioVehicle(preset);initial.autopilot.autoLandOn=true;
+  const {state,previous,trace,eventInputs}=observe(ctx.task,id,initial,()=>fly(initial,900,id));
+  emitGuidanceObservation(id,{trace,eventInputs},{trace:process.env.BOOSTER_TRACE,eventInputs:process.env.BOOSTER_EVENT_INPUTS},line=>console.log(line),(file,text)=>writeFileSync(file,text));
+    expect(state.status.landed,JSON.stringify({id,h:state.kinematics.altitude,x:state.kinematics.downRangeDistance-C.starBaseXPos,fuel:state.vehicle.propellantMass,failures:state.failures})).toBe(true);
+    expect(state.status.onTheGround).toBe(false);
+    for(const [failure,flag]of Object.entries(state.failures))expect(flag,failure).toBe(false);
+    expect(state.vehicle.propellantMass).toBeGreaterThan(0);
+    const lug=createCatchPose();writeCatchPose(state,SUPER_HEAVY,lug);
+    expect(lug.altitude).toBe(120);expect(Math.abs(lug.x-C.starBaseXPos)).toBeLessThanOrEqual(2.25);
+    expect(state.kinematics.speedX).toBe(0);expect(state.kinematics.speedY).toBe(0);
+    expect(Math.abs(state.kinematics.pitch)).toBeLessThanOrEqual(CATCH.maxPitch);
+    expect(previous.status.landed).toBe(false);
+    assertGuidanceFinite(state);
+    const held=step(cloneState(state),DT,{},SUPER_HEAVY);
+    expect(held.status.landed).toBe(true);expect(held.kinematics.altitude).toBe(state.kinematics.altitude);
+
+ });
+});
+describe('the autopilot flies the ones it is meant to',()=>{
+ for(const id of ['booster-sep','rtls'] as const)it(`${id}: auto-land landed`,ctx=>{
+  const expected='landed';
+  const preset=ALL_SCENARIOS.find(p=>p.id===id)!;
+  const flight=createScenarioVehicle(preset),state=flight.state;toggleAutoLand(state);
+  const result=flight.vehicle!==SUPER_HEAVY||SCENARIO_DT!==DT
+    ? flyScenario(state,900,flight.vehicle)
+    : (()=>{
+      const observed=observe(ctx.task,id,state,()=>fly(state,900,id),flight.vehicle,SCENARIO_DT);
+      const final=observed.state;
+      const outcome=final.status.landed?'landed':final.failures.crashed?'crashed':final.failures.inFlightBreakUp?'brokeUp':'flying';
+      return{state:final,outcome,seconds:outcome==='flying'?900:observed.stopIndex*SCENARIO_DT};
+    })();
+      assertScenarioFinite(result.state, id);
+
+      expect(result.outcome, `${id} after ${result.seconds.toFixed(1)} s`).toBe(expected);
+      if(flight.vehicle.id==='super-heavy') {
+        expect(result.state.status.onTheGround,id).toBe(false);
+        expect(Object.values(result.state.failures).some(Boolean),id).toBe(false);
+        expect(result.state.vehicle.propellantMass,id).toBeGreaterThan(0);
+        const lug=createCatchPose();writeCatchPose(result.state,flight.vehicle,lug);
+        expect(lug.altitude,id).toBe(CATCH.planeAltitude);
+        expect(Math.abs(lug.x-C.starBaseXPos),id).toBeLessThanOrEqual(CATCH.halfWidth);
+        expect(Math.abs(result.state.kinematics.pitch),id).toBeLessThanOrEqual(CATCH.maxPitch);
+        expect(result.state.kinematics.speedX,id).toBe(0);
+        expect(result.state.kinematics.speedY,id).toBe(0);
+      }
+      if (expected === 'landed') {
+        // Landed means landed, not "stopped moving": within the touchdown limits.
+        expect(Math.abs(result.state.kinematics.speedY), id).toBeLessThan(10);
+        expect(result.state.kinematics.altitude, id).toBeGreaterThan(0);
+      }
+
+ });
+});

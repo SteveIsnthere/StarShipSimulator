@@ -1,0 +1,75 @@
+{
+  "scope": "Offline retained JSON-only size diagnostic; preserves every parsed field; no rendering/timing or future cap-completion proof",
+  "rows": [
+    {
+      "name": "width1-conditioning.json",
+      "originalBytes": 6053233,
+      "compactBytes": 1796427,
+      "sha256": "e9404c1972996ffaa8fdfc2f7fe828885b5352fd76b55290626686f6e1bb3afb"
+    },
+    {
+      "name": "width1-timer-capability.json",
+      "originalBytes": 1344,
+      "compactBytes": 1115,
+      "sha256": "9fbad83b34f4c00f929b607eb264deea55b10929eca3073a5f9ec8006b4d8490"
+    },
+    {
+      "name": "width32-actual-program-operations.json",
+      "originalBytes": 3089216,
+      "compactBytes": 1487966,
+      "sha256": "d14e2dc648efde33d58ea1153cb5a81149f6191a2e7a47cbf76a9e59bc2e75fd"
+    },
+    {
+      "name": "width32-after-topology.json",
+      "originalBytes": 27407,
+      "compactBytes": 23434,
+      "sha256": "2f4fd0a3043da7aee71b99c2b034816afd648df47cad92bfe7843b7b293dd7a8"
+    },
+    {
+      "name": "width32-before-topology.json",
+      "originalBytes": 27399,
+      "compactBytes": 23426,
+      "sha256": "e6b19caed778c19adbdc3a575221e9cea75c78c843383a2a08035ec8d44e5ef1"
+    },
+    {
+      "name": "width32-conditioning-lossless.json",
+      "originalBytes": 11415508,
+      "compactBytes": 2869533,
+      "sha256": "4962c34db6a10f13c28c64bffeaba57b2c2ab3e97418930aa2ba7b664f79f70a"
+    },
+    {
+      "name": "width32-conditioning.json",
+      "originalBytes": 6053237,
+      "compactBytes": 1796431,
+      "sha256": "3504368454a1bb8b6d35f95cbe92928a89bb644747bbe86efd1774066d951ae1"
+    },
+    {
+      "name": "width32-draws.json",
+      "originalBytes": 1539949,
+      "compactBytes": 497339,
+      "sha256": "98ad1e4959076a84e936bce360148081e44f982b4b437221782b60fb83af16de"
+    },
+    {
+      "name": "width32-snapshot-lossless.json",
+      "originalBytes": 2715344,
+      "compactBytes": 789691,
+      "sha256": "e9d6304460ef8ccd73227567e64dd5f0e7452377ce59bee1a20b15e9b49aa933"
+    },
+    {
+      "name": "width32-summary.json",
+      "originalBytes": 18529,
+      "compactBytes": 17192,
+      "sha256": "33d0b9ba1dcfc598f39fd7e96de42af2c8d83bc62138120eb002b9d5c8be46ef"
+    },
+    {
+      "name": "width32-timer-capability.json",
+      "originalBytes": 1344,
+      "compactBytes": 1115,
+      "sha256": "9fbad83b34f4c00f929b607eb264deea55b10929eca3073a5f9ec8006b4d8490"
+    }
+  ],
+  "originalBytes": 30942510,
+  "compactBytes": 9303669,
+  "allParsedFieldsEqual": true,
+  "missingCandidateLosslessAndTiming": true
+}

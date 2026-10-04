@@ -1,0 +1,18 @@
+import {startVitest} from 'vitest/node';
+import {writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import assert from 'node:assert/strict';
+import {assertTaskOptions,assertFinalTask,assertRunClean} from './admission.mjs';
+const [directory,kind]=process.argv.slice(2),collected=[],modules=[];let run=null,ctx=null;
+const reporter={onTestModuleCollected(module){for(const test of module.children.allTests())collected.push({id:test.id,name:test.fullName,options:test.options});},
+ onTestRunEnd(values,errors,reason){run={reason,unhandledErrors:errors,modules:values.map(module=>({file:module.moduleId,ok:module.ok(),tasks:[...module.children.allTests()].map(test=>({key:test.fullName,id:test.id,options:test.options,state:test.result().state,errors:test.result().errors??[],diagnostic:test.diagnostic()??null}))}))};}};
+let decision='admitted',denial=null;
+try{
+ ctx=await startVitest('test',[],{root:process.cwd(),config:resolve(directory,'controls.config.mjs'),watch:false,run:true,reporters:[reporter]});assert(ctx&&run,'Missing actual runner result');assert.equal(ctx.config.testTimeout,30000);
+ for(const row of collected)assertTaskOptions(row.options);assertRunClean(run);for(const module of run.modules)for(const task of module.tasks)assertFinalTask(task,null);
+}catch(error){decision='denied';denial=error.message;}
+// Actual framework result may be red; close/error is a separate proof failure, never expected admission denial.
+try{if(ctx)await ctx.close();assert(run&&collected.length===1,'Actual fixture was not collected exactly once');
+ const expected=kind==='clean'?'admitted':'denied';assert.equal(decision,expected,kind);
+ writeFileSync(resolve(directory,`${kind}.finalized.json`),JSON.stringify({kind,decision,denial,collected,run,closed:true,actualRunnerExit:process.exitCode??0},null,2),{flag:'wx'});process.exitCode=0;
+}catch(error){console.error(error);process.exitCode=2;}

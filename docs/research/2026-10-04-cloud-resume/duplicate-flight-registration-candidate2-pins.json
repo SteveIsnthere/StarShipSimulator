@@ -1,0 +1,25 @@
+{
+  "duplicate-flight-observations.ts.txt": "8c9b9605644f84e9684708f40481bc14f7fa93ab7e194f6d273d45ee06e2b313",
+  "duplicate-flight-registration-template.ts.txt": "4b556182a5e0cedcc97d6c9cb7e6f14e0319ebc098a1dd319c793195d8fb81b5",
+  "duplicate-flight-registration-candidate2.ts.txt": "6fb0b4000af351a5e2924b03c0d8f10e1a5655b4ea3b9551c68583e91fc43003",
+  "duplicate-flight-registration-candidate2.diff.txt": "3ab0ef0721986ac8fa41ec14aa6355e332304022d375cb0a427489347a63d84f",
+  "duplicate-flight-registration-source-audit.json": "ac4bf982c49bc55a32f9404d2797d79fe3c752205dac91b3bc454df77b9421c7",
+  "productInputs": {
+    "tests/core/booster-guidance.test.ts": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+    "tests/flies-every-scenario.test.ts": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9",
+    "src/core/step.ts": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986",
+    "src/core/control/guidance-physics.ts": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1",
+    "src/core/scenarios.ts": "d88f1d64122134491106fe540aee4152ab15e8c444a6731d0dc0f3adb0a7fd3e",
+    "src/core/state.ts": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d",
+    "src/core/control/commands.ts": "9079a0297811e2fd3288ffe5515b0675ada126b467de68cf0538371c26603e40",
+    "src/core/physics/tower-catch.ts": "9785719c2cfa84859fc8e981fbaf61f3316c8e71f6f8ee44e7c542fc8f97acb3",
+    "src/core/constants.ts": "ffb3c5074d24fd847ed9da84e0e54c026f9aef72c0253e0cbabee05201b4bdb6",
+    "src/core/vehicles/super-heavy.ts": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0",
+    "scripts/bench/native-guidance-entry.ts": "b725fe1cbedc14aefe9c18d98f34662dd2ce9a856c33ca8c473d2ef5655234cc",
+    "scripts/bench/native-loader.mjs": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+    "scripts/bench/build-native-guidance.mjs": "5f2b66b655615473f358c08cd9a95af26bbedd6621d05107072d93b5c1d3aac7",
+    "scripts/bench/qualification.json": "09ac0f90d87e60a7c235040bf92136d21ef2be0db68f129e04535c46ee56ccab",
+    "vitest.config.ts": "4debcf42809334dfc4fefcc4f8d7274fbdcfdc429d7fc99b06310eea588061b0"
+  },
+  "duplicate-flight-registration-candidate2-review-request.md": "47014d9f1a058d2928a32dba165405445cf4d411b006de41d8bc6d78582a123a"
+}

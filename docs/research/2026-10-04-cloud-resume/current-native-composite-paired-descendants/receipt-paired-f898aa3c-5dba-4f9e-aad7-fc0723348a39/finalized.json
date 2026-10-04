@@ -1,0 +1,22 @@
+{
+  "finalized": true,
+  "status": "failed",
+  "mode": "composite-paired",
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants/receipt-paired-f898aa3c-5dba-4f9e-aad7-fc0723348a39",
+  "stage": "paired-flight",
+  "failure": "Error: paired-flight: process-timeout: 900000ms process bound exceeded\n    at runOwnedCommand (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants/owned-launch-qEmDOnAe/owned-command.mjs:97:19)\n    at async file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants/owned-launch-qEmDOnAe/launcher.mjs:131:13",
+  "prior": {
+    "acceptedReceipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/receipt-burn-218a5089-4c17-418e-a74c-ff0bbe6dcfa4",
+    "approvalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/accepted-kernel-composite.json",
+    "approvalDigest": "d69370a313010f0555f3a149b79259f92386e3c56d7d8a3f1862989fcb0c6642",
+    "compositeDigest": "8794af28c5d82ac17ec0252101a5b9d49d8c7f56fd8ab824049cec5df841a4ae",
+    "originalCompiledOwner": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e",
+    "originalStatus": "failed",
+    "controlAcceptance": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/accepted-controls.json",
+    "controlAcceptanceDigest": "557e74811919e5438a0dc18c4419bf4fa621e1812b9b4ceac11d47936a606a3f",
+    "failedPair": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired/receipt-paired-be927172-3623-42de-8670-8a68993445c5",
+    "failedPairStatus": "failed",
+    "oracleDigest": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e"
+  },
+  "acceptance": "semantic research only; no mocks/coverage/time/gate claim"
+}

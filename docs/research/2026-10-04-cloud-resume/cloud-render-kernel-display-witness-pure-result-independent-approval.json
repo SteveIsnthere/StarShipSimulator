@@ -1,0 +1,43 @@
+{
+  "decision": "Actual pure proof accepted; ONE distinct private cause-repair preparation/owned library build/map qualification approved; browser held",
+  "pureEpisode": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/display-witness-pure-9324e658-ef2a-400e-924f-0f0d297f37dc",
+  "pureReceipts": {
+    "before.json": "52041bac6fa3614d886069617fbd05b43934d71e5d2ac353031f3303c5118631",
+    "result.json": "18709fbc3e8033a0dab3e40f84af5fa4eb969484f34a20cc30c3bf6e70eafa91",
+    "stdout.txt": "0747688932a043040390fe36ec121109d1a45832a1c57d625e2d7ee7b6ac21ec",
+    "after.json": "52041bac6fa3614d886069617fbd05b43934d71e5d2ac353031f3303c5118631",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "candidateFiles": {
+    "kernel-display-witness.ts": "fd3504595c61a44935aa88a7cd8859338fd5027337587f738c61270fd199f039",
+    "kernel-display-witness-controls.mjs": "74df5ba1cc3aafca65be61cbbcaf97cda11649f06d3f905f5cfcb20753729f30",
+    "render-kernel-texture-repair-entry.ts": "8d5ddb05c1dabf9b1794a163e64d34ff53a22895874380aba206575e4a346337",
+    "render-kernel-texture-repair-build.config.mjs": "3c7130ef80bb15d242f7275ef0ad9084f8c91696e8d71c1ce281d49ece3a77b0",
+    "prepare-render-kernel-texture-repair.py": "9e3256b7402e0d53c5f434f7ab456ed700b3ba8677322e653153257c26be60c0",
+    "build-render-kernel-texture-repair.mjs": "5bdc2b760d79bbc2d0edac85f2a70d6c3435d8a435a8ae4aae9ebb9411443b8a",
+    "qualify-render-kernel-texture-repair.mjs": "e143e5ac3ba8a8a66325199c9c153db2a7077dc591f88e221540467ea2d25fb0",
+    "run-render-kernel-texture-repair.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "cloud-render-kernel-display-witness-repair-declaration.md": "431551398ddc1a36ade688965e95c70032487671fefed73d658259e32a0ce39d"
+  },
+  "originalEightFilesUnchanged": {
+    "render-kernel-entry.ts": "26ac76fa74c8ecae0cdfe8550b284e99b9fc84c5f9c57df2bc9c981fbd0d5d18",
+    "render-kernel-build.config.mjs": "e27e5eb77df9d6c10643e950e996c4d0c63513df2a2f38e878ad9f643717071f",
+    "prepare-render-kernel.py": "e548d40520a60505764fa35c3688e07ca70ab672597a743defdaf9f8e98d8083",
+    "build-render-kernel.mjs": "a43ccf78abbc8b90f621fa978c41c62569d527a04dd6e14e9b47b11796aca10b",
+    "qualify-render-kernel.mjs": "2aec59703ab9adf30be5e46a5d5d023eed571532b65ebf0697beca16ca3afb70",
+    "run-render-kernel.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "cloud-render-kernel-declaration.md": "bd4e2817a24cb61d63bc3683908d90bdb0e4b2529ef023b50bcbb5186b326629"
+  },
+  "currentApplicationQualificationSha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2",
+  "verifiedCurrentSourceEntries": 3726,
+  "conditions": [
+    "One unique new setup; preserve failed cwc74xyx and compiled/source/reviews",
+    "Exact reviewed nine files+unchanged hook; actual current qualification pinned",
+    "Owned180s supervisor plus5s cleanup/external bound; actual raw output/owner/source/tools/CI/dist/maps/proofs beforeafter immutable",
+    "Fresh actual maps sourceContent+helper/code/pure proof receipt review before browser grant",
+    "No fallback/unchanged rerun/product/frame acceptance"
+  ],
+  "browserApproved": false,
+  "productSourceApproved": false
+}

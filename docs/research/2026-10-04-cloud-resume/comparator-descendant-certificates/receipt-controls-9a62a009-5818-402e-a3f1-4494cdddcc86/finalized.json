@@ -1,0 +1,9 @@
+{
+  "finalized": true,
+  "status": "pass",
+  "stage": "completed",
+  "failure": null,
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/receipt-controls-9a62a009-5818-402e-a3f1-4494cdddcc86",
+  "node": "v22.23.3",
+  "acceptance": "pure comparator controls only; no paired/flight/cost acceptance"
+}

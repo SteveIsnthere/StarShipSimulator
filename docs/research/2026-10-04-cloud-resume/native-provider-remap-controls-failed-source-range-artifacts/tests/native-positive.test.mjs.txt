@@ -1,0 +1,7 @@
+import { expect, test } from "file:///workspace/StarShipSimulator/node_modules/vitest/dist/index.js";
+import { choose, nested, outsideCore } from '../artifact/control.mjs';
+test('native compiled exact calls only', () => {
+  expect(choose(1)).toBe(1);
+  expect(nested(1)).toBe(1);
+  expect(outsideCore()).toBe(5);
+});

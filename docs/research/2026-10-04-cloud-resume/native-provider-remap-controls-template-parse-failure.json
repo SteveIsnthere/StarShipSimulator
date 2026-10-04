@@ -1,0 +1,12 @@
+{
+  "exitCode": 1,
+  "results": [
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/cohort.mjs.txt",
+      "check": "node-syntax",
+      "exitCode": 1,
+      "output": "[stdin]:7\nimport { build } from __VITE__;\n                      ^^^^^^^^\n\nSyntaxError: Unexpected identifier '__VITE__'\n    at checkSyntax (node:internal/main/check_syntax:74:5)\n    at node:internal/main/check_syntax:45:5\n    at Socket.<anonymous> (node:internal/process/execution:201:5)\n    at Socket.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)\n\nNode.js v22.23.3\n"
+    }
+  ],
+  "elapsedSeconds": 0.02940291300183162
+}

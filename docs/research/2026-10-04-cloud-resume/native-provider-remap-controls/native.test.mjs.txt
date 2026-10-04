@@ -1,0 +1,7 @@
+import { expect, test } from __VITEST__;
+import { choose, nested, outsideCore } from '../artifact/control.mjs';
+test('native compiled exact calls only', () => {
+  expect(choose(__CHOOSE__)).toBe(__CHOOSE_RESULT__);
+  expect(nested(__NESTED__)).toBe(__NESTED_RESULT__);
+  expect(outsideCore()).toBe(5);
+});

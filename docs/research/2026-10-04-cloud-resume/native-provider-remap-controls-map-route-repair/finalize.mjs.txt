@@ -1,0 +1,159 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+import { stripVTControlCharacters } from 'node:util';
+
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+const stable = value => JSON.stringify(value);
+function canonicalRows(map, kind) {
+  const rows = Object.entries(map).map(([id, value]) => ({ id, key: stable(value), value }));
+  assert.equal(new Set(rows.map(row => row.key)).size, rows.length, `Duplicate ${kind} schema`);
+  if (kind === 'branch') {
+    // Istanbul merges branches by first location; distinct containers sharing
+    // that identity are ambiguous, so this fixture rejects them explicitly.
+    const starts = rows.map(row => stable(row.value.locations[0].start));
+    assert.equal(new Set(starts).size, starts.length, 'Colliding branch first locations');
+  }
+  return rows.sort((a, b) => a.key.localeCompare(b.key));
+}
+function validateLocations(value, lines) {
+  if (Array.isArray(value)) { for (const item of value) validateLocations(item, lines); return; }
+  if (!value || typeof value !== 'object') return;
+  if ('line' in value) {
+    assert(Number.isInteger(value.line) && value.line > 0 && value.line <= lines.length, 'Dropped/out-of-source line');
+    assert(Number.isInteger(value.column) && value.column >= 0 && value.column <= lines[value.line - 1].length, 'Invalid source column');
+  }
+  if (value.start && value.end) assert(value.start.line < value.end.line || value.start.line === value.end.line && value.start.column <= value.end.column, 'Reversed source range');
+  for (const item of Object.values(value)) validateLocations(item, lines);
+}
+function schema(file, source) {
+  assert.equal(file.path, source, 'Coverage path/key disagreement');
+  const lines = fs.readFileSync(source, 'utf8').split('\n');
+  for (const map of [file.statementMap, file.fnMap, file.branchMap]) validateLocations(map, lines);
+  const statements = canonicalRows(file.statementMap, 'statement'), functions = canonicalRows(file.fnMap, 'function'), branches = canonicalRows(file.branchMap, 'branch');
+  assert.deepEqual(Object.keys(file.s).sort(), Object.keys(file.statementMap).sort(), 'Statement counter/schema discrepancy');
+  assert.deepEqual(Object.keys(file.f).sort(), Object.keys(file.fnMap).sort(), 'Function counter/schema discrepancy');
+  assert.deepEqual(Object.keys(file.b).sort(), Object.keys(file.branchMap).sort(), 'Branch counter/schema discrepancy');
+  for (const count of [...Object.values(file.s), ...Object.values(file.f), ...Object.values(file.b).flat()]) assert(Number.isSafeInteger(count) && count >= 0, 'Invalid hit counter');
+  for (const row of branches) assert.equal(file.b[row.id].length, row.value.locations.length, 'Branch container/vector length mismatch');
+  return { statements, functions, branches };
+}
+function compareSchemas(reference, actual) {
+  for (const kind of ['statements', 'functions', 'branches']) assert.deepEqual(actual[kind].map(row => row.key), reference[kind].map(row => row.key), `Full ${kind} denominator changed`);
+}
+function counters(file, description) {
+  return { statements: description.statements.map(row => file.s[row.id]), functions: description.functions.map(row => file.f[row.id]), branches: description.branches.map(row => file.b[row.id]) };
+}
+function functionCalls(file, description, mixed) {
+  for (const row of description.functions) {
+    const { name, loc } = row.value;
+    if (name === 'choose' || name === 'nested') assert.equal(file.f[row.id], mixed ? 2 : 1, `Lost/doubled ${name} credit`);
+    else if (name === 'neverCalled') assert.equal(file.f[row.id], 0, 'Dormant function credited');
+    else assert.equal(loc.start.line, 1, 'Unknown mapped function; no offset salvage');
+  }
+  for (const name of ['choose', 'nested', 'neverCalled']) assert(description.functions.some(row => row.value.name === name), `Missing ${name} denominator`);
+}
+function expectedMixed(referenceFile, mixedFile, reference, mixed, source) {
+  const lines = fs.readFileSync(source, 'utf8').split('\n');
+  for (let i = 0; i < reference.functions.length; i++) {
+    const row = reference.functions[i], actual = mixed.functions[i];
+    if (!['choose', 'nested', 'neverCalled'].includes(row.value.name)) {
+      assert.equal(row.value.loc.start.line, 1, 'Unknown enum initializer mapping');
+      assert.equal(mixedFile.f[actual.id], referenceFile.f[row.id] * 2, 'Enum initializer merge lost/doubled credit');
+    }
+  }
+  for (let i = 0; i < reference.statements.length; i++) {
+    const row = reference.statements[i], actual = mixed.statements[i], loc = row.value;
+    const line = loc.start.line, text = lines[line - 1].slice(loc.start.column);
+    let expected;
+    if (line === 1 || [2, 6, 13].includes(line)) expected = referenceFile.s[row.id] * 2;
+    else if (line === 3) expected = text.startsWith('return') ? 1 : 2;
+    else if (line === 4 || line === 9) expected = 1;
+    else if (line === 7) expected = 2;
+    else if (line === 8) expected = text.startsWith('return') ? 1 : 2;
+    else if (line === 11 || line === 14) expected = 0;
+    else throw Error(`Unknown statement mapping at line ${line}; no permissive offset fallback`);
+    assert.equal(mixedFile.s[actual.id], expected, 'Mixed statement credit differs from declared calls');
+  }
+  for (let i = 0; i < reference.branches.length; i++) {
+    const row = reference.branches[i], actual = mixed.branches[i], line = row.value.loc.start.line;
+    let expected;
+    if (line === 1) expected = referenceFile.b[row.id].map(count => count * 2);
+    else if (line === 3 || line === 8) expected = [1, 1];
+    else if (line === 7) expected = [2, 0];
+    else if (line === 14) expected = [0, 0];
+    else throw Error(`Unknown branch mapping at line ${line}`);
+    assert.deepEqual(mixedFile.b[actual.id], expected, 'Mixed branch credit differs from declared calls');
+  }
+}
+export function finalize(root, runs, lineage) {
+  for (const item of lineage.mappedSources) assert.equal(sha(fs.readFileSync(item.path)), item.sha256, 'Mapped source bytes drift');
+  assert.equal(sha(fs.readFileSync(lineage.map.path)), lineage.map.sha256, 'External map bytes drift');
+  assert.deepEqual(fs.readdirSync(path.join(root, 'artifact')).sort(), ['control.mjs', 'control.mjs.map'], 'Compiled artifact set drift');
+  for (const run of runs) {
+    assert.equal(sha(fs.readFileSync(path.join(root, `${run.name}.config.mjs`))), run.configSha256, 'Executed public config drift');
+    assert.equal(sha(fs.readFileSync(path.join(root, `${run.name}.reporter.mjs`))), run.reporterSha256, 'Executed raw-copy reporter drift');
+  }
+  const protectedSources = ['coverage-control.ts', 'unimported-control.ts'].map(name => path.join(root, 'src/core', name));
+  const reports = {};
+  for (const run of runs) {
+    const report = JSON.parse(fs.readFileSync(path.join(root, run.name, 'coverage-final.json')));
+    assert.deepEqual(Object.keys(report).sort(), [...protectedSources].sort(), 'Unknown/remapped-noncore/missing protected coverage key');
+    reports[run.name] = report;
+  }
+  const main = protectedSources[0], dormant = protectedSources[1];
+  const descriptions = {}, dormantDescriptions = {};
+  for (const name of ['ssr', 'native', 'mixed']) {
+    const report = reports[name];
+    descriptions[name] = schema(report[main], main);
+    const unused = schema(report[dormant], dormant);
+    dormantDescriptions[name] = unused;
+    assert(unused.functions.length > 0 && unused.branches.length > 0, 'Unimported source denominator dropped');
+    assert([...Object.values(report[dormant].s), ...Object.values(report[dormant].f), ...Object.values(report[dormant].b).flat()].every(count => count === 0), 'Unimported source credited');
+    functionCalls(report[main], descriptions[name], name === 'mixed');
+    if (name !== 'ssr') { compareSchemas(descriptions.ssr, descriptions[name]); compareSchemas(dormantDescriptions.ssr, unused); }
+  }
+  assert.deepEqual(counters(reports.ssr[main], descriptions.ssr), counters(reports.native[main], descriptions.native), 'Same calls changed native hit vectors');
+  expectedMixed(reports.ssr[main], reports.mixed[main], descriptions.ssr, descriptions.mixed, main);
+  const omittedSchema = schema(reports.omitted[main], main);
+  compareSchemas(descriptions.ssr, omittedSchema);
+  compareSchemas(dormantDescriptions.ssr, schema(reports.omitted[dormant], dormant));
+  for (const file of Object.values(reports.omitted)) assert([...Object.values(file.s), ...Object.values(file.f), ...Object.values(file.b).flat()].every(count => count === 0), 'Omitted artifact unexpectedly supplied real native credit');
+  const lostNativeCredit = Object.fromEntries(['choose', 'nested'].map(name => {
+    const functions = omittedSchema.functions.filter(row => row.value.name === name);
+    assert.equal(functions.length, 1, 'Missing/ambiguous native-credit denominator');
+    assert.equal(reports.omitted[main].f[functions[0].id], 0, 'Expected native credit was not lost');
+    return [name, { expectedActualCalls: 1, providerCredit: 0 }];
+  }));
+  const omittedStderr = stripVTControlCharacters(fs.readFileSync(path.join(root, 'omitted.stderr.txt'), 'utf8')).split('\n').map(line => line.trim()).filter(Boolean);
+  const expectedFloorDecisions = Object.entries({ branches: 20, lines: 20, functions: 50, statements: 20 })
+    .map(([name, threshold]) => `ERROR: Coverage for ${name} (0%) does not meet global threshold (${threshold}%)`).sort();
+  assert.deepEqual(omittedStderr.sort(), expectedFloorDecisions, 'Unknown/provider/reporter/close error or missing exact private floor decision');
+  const omittedSummary = JSON.parse(fs.readFileSync(path.join(root, 'omitted/coverage-summary.json')));
+  for (const name of ['branches', 'lines', 'functions', 'statements']) assert.equal(omittedSummary.total[name].pct, 0, 'Omission floor failure was not genuine zero credit');
+  assert(runs.slice(0, 3).every(run => run.status === 0 && run.signal === null), 'Positive provider/floor child failed');
+  assert(runs[3].status === 1 && runs[3].signal === null && runs[3].error === null, 'Omitted-artifact floor negative must exit exactly 1 normally');
+  const artifact = path.join(root, 'artifact/control.mjs'), code = fs.readFileSync(artifact, 'utf8');
+  assert.equal(sha(code), lineage.artifact.sha256, 'Native executed artifact bytes drift');
+  assert.equal(code.length, lineage.artifact.utf16Length, 'Runtime UTF16 length drift');
+  for (const name of ['native', 'mixed', 'omitted']) {
+    let seen = false;
+    for (const entry of fs.readdirSync(path.join(root, `raw-v8-${name}`))) {
+      if (!/^[0-9]+\.json$/.test(entry)) continue;
+      const data = JSON.parse(fs.readFileSync(path.join(root, `raw-v8-${name}`, entry)));
+      for (const script of data.result) if (script.url.startsWith('file:') && fileURLToPath(script.url) === artifact) {
+        seen = true;
+        assert(script.functions.some(fn => fn.functionName === 'choose' && fn.ranges.some(range => range.count > 0)), 'Native executed URL lacks real choose hit');
+        for (const fn of script.functions) for (const range of fn.ranges) assert(Number.isSafeInteger(range.startOffset) && Number.isSafeInteger(range.endOffset) && range.startOffset >= 0 && range.endOffset <= code.length && range.startOffset <= range.endOffset, 'Native offset outside actual runtime bytes');
+      }
+    }
+    assert(seen, 'Actual native artifact URL/offsets absent');
+  }
+  return { passed: true, privateFixtureOnly: true, productFloorsChanged: false, omittedRejected: true,
+    omission: { lostNativeCredit, expectedFloorDecisions, normalExit: 1, arbitraryExceptionsAccepted: false }, lineage,
+    reportDigests: runs.map(run => [run.name, sha(fs.readFileSync(path.join(root, run.name, 'coverage-final.json')))]),
+    denominators: Object.fromEntries(Object.entries(descriptions).map(([name, value]) => [name, { statements: value.statements.length, functions: value.functions.length, branches: value.branches.length }])),
+    fullSchemasAndHitVectors: Object.fromEntries(Object.entries(descriptions).map(([name, description]) => [name, { description, counters: counters(reports[name][main], description) }])) };
+}

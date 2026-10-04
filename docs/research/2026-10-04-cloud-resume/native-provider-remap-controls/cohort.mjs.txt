@@ -1,0 +1,113 @@
+/** ONE private real-provider cohort; executed only inside reviewed owner. */
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { build } from __VITE__;
+import { finalize } from './finalize.mjs';
+
+const root = __ROOT__, cli = __VITEST_CLI__, source = path.join(root, 'src/core/coverage-control.ts');
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+const start = Date.now(), deadline = Number(process.env.NATIVE_PROVIDER_DEADLINE_MS);
+assert(Number.isSafeInteger(deadline) && deadline > start && deadline <= start + 28000, 'Exact remaining shared 30-second work deadline required');
+const remaining = () => { const ms = deadline - Date.now(); if (ms <= 0) throw Error('Cohort absolute work deadline'); return ms; };
+const runs = [], files = () => {
+  const result = [];
+  function walk(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const file = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(file);
+      else if (entry.isFile()) result.push([path.relative(root, file), sha(fs.readFileSync(file))]);
+      else throw Error('Private input symlink/special file');
+    }
+  }
+  for (const name of ['src', 'tests']) walk(path.join(root, name));
+  for (const name of ['entry.ts', 'cohort.mjs', 'finalize.mjs', 'config.mjs.template', 'raw-reporter.mjs.template']) result.push([name, sha(fs.readFileSync(path.join(root, name)))]);
+  return result.sort((a, b) => a[0].localeCompare(b[0]));
+};
+const before = files();
+fs.writeFileSync(path.join(root, 'inputs-before.json'), JSON.stringify(before));
+let failure;
+try {
+  remaining();
+  await build({ configFile: false, root, publicDir: false,
+    build: { target: 'es2022', minify: false, sourcemap: true, outDir: path.join(root, 'artifact'), emptyOutDir: false,
+      lib: { entry: path.join(root, 'entry.ts'), formats: ['es'], fileName: () => 'control.mjs' } } });
+  remaining();
+  const artifacts = fs.readdirSync(path.join(root, 'artifact')).sort();
+  assert.deepEqual(artifacts, ['control.mjs', 'control.mjs.map']);
+  const artifact = path.join(root, 'artifact/control.mjs'), code = fs.readFileSync(artifact, 'utf8');
+  assert(code.endsWith('//# sourceMappingURL=control.mjs.map\n'), 'Native external map route missing');
+  const mapBytes = fs.readFileSync(`${artifact}.map`), map = JSON.parse(mapBytes);
+  assert.equal(map.version, 3); assert.equal(map.sources.length, map.sourcesContent.length);
+  assert.equal(map.file, 'control.mjs');
+  const mappedSources = map.sources.map((name, index) => {
+    const file = path.resolve(path.dirname(artifact), map.sourceRoot || '', name);
+    assert(file.startsWith(`${root}/`), 'External/unknown mapped source');
+    const bytes = fs.readFileSync(file);
+    assert.equal(bytes.toString(), map.sourcesContent[index], 'Compiler sourceContents mismatch');
+    return { path: file, sha256: sha(bytes), bytes: bytes.length };
+  });
+  assert(mappedSources.some(item => item.path === source));
+  assert(mappedSources.some(item => item.path === path.join(root, 'src/outside-control.ts')));
+  const lineage = { sourceSha256: sha(fs.readFileSync(source)), artifact: { path: artifact, sha256: sha(code), utf16Length: code.length },
+    map: { path: `${artifact}.map`, sha256: sha(mapBytes) }, mappedSources,
+    originalSourceDenominator: fs.readdirSync(path.join(root, 'src/core')).sort(),
+    compiler: { configFile: false, target: 'es2022', minify: false, sourcemap: true, formats: ['es'] } };
+  fs.writeFileSync(path.join(root, 'compiled-lineage.json'), JSON.stringify(lineage));
+  const nativeProject = testFile => ({ extends: true, test: { name: 'native', include: [testFile], pool: 'forks', isolate: true, experimental: { viteModuleRunner: false } } });
+  const ssrProject = { extends: true, test: { name: 'ssr', include: ['tests/ssr.test.mjs'], pool: 'forks', isolate: true, experimental: { viteModuleRunner: true } } };
+  for (const name of ['ssr', 'native', 'mixed', 'omitted']) {
+    remaining();
+    const report = path.join(root, name), raw = path.join(root, `raw-v8-${name}`);
+    const reporter = path.join(root, `${name}.reporter.mjs`);
+    fs.writeFileSync(reporter, fs.readFileSync(path.join(root, 'raw-reporter.mjs.template'), 'utf8')
+      .replaceAll('__REPORT__', JSON.stringify(report)).replaceAll('__RAW__', JSON.stringify(raw)), { flag: 'wx' });
+    const projects = name === 'ssr' ? [ssrProject] : name === 'mixed' ? [ssrProject, nativeProject('tests/native-opposite.test.mjs')] : [nativeProject('tests/native-positive.test.mjs')];
+    const include = name === 'omitted' ? ['src/core/**'] : ['src/core/**', artifact];
+    let config = fs.readFileSync(path.join(root, 'config.mjs.template'), 'utf8');
+    for (const [key, value] of Object.entries({ ROOT: root, PROJECTS: projects, INCLUDE: include, REPORT: report })) config = config.replaceAll(`__${key}__`, JSON.stringify(value));
+    config = config.replace('projects:', `reporters: [['json', { outputFile: ${JSON.stringify(path.join(root, `${name}.tests.json`))} }], ${JSON.stringify(reporter)}],\n    projects:`);
+    const configFile = path.join(root, `${name}.config.mjs`);
+    fs.writeFileSync(configFile, config, { flag: 'wx' });
+    const result = spawnSync(process.execPath, [cli, 'run', '--config', configFile, '--coverage'],
+      { cwd: root, env: process.env, encoding: 'utf8', timeout: remaining(), killSignal: 'SIGKILL', maxBuffer: 4 * 1024 * 1024 });
+    fs.writeFileSync(path.join(root, `${name}.stdout.txt`), result.stdout || '');
+    fs.writeFileSync(path.join(root, `${name}.stderr.txt`), result.stderr || '');
+    const record = { name, status: result.status, signal: result.signal, error: result.error ? String(result.error) : null,
+      configSha256: sha(config), reporterSha256: sha(fs.readFileSync(reporter)), actualArgv: [process.execPath, cli, 'run', '--config', configFile, '--coverage'] };
+    runs.push(record); fs.writeFileSync(path.join(root, 'children.json'), JSON.stringify(runs));
+    assert.equal(record.error, null, 'Provider child error/deadline/output cap');
+    assert.equal(record.signal, null, 'Provider child interrupted');
+    const tests = JSON.parse(fs.readFileSync(path.join(root, `${name}.tests.json`)));
+    assert.equal(tests.numFailedTests, 0, 'Calls/assertions failed independently of coverage');
+    assert.equal(tests.numFailedTestSuites, 0, 'Suite/runtime failure');
+    assert.equal(tests.success, true, 'Test reporter did not finish successfully');
+    const lifecycle = JSON.parse(fs.readFileSync(path.join(report, 'public-run-lifecycle.json')));
+    assert.deepEqual(lifecycle.unhandledErrors, [], 'Unhandled/reporter/runtime error');
+    assert.equal(lifecycle.reason, 'passed', 'Interrupted/failed public test-run boundary');
+    assert.equal(tests.numPassedTests, name === 'mixed' ? 2 : 1, 'Wrong/missing test cohort');
+    if (name !== 'omitted') assert.equal(record.status, 0, 'Positive real-provider process/floor failure');
+  }
+  remaining();
+  const result = finalize(root, runs, lineage);
+  fs.writeFileSync(path.join(root, 'final-validation.json'), JSON.stringify(result));
+} catch (error) { failure = error; }
+finally {
+  const after = files(); fs.writeFileSync(path.join(root, 'inputs-after.json'), JSON.stringify(after));
+  if (JSON.stringify(before) !== JSON.stringify(after)) failure ||= Error('Private source/config/runtime input drift');
+  let total = 0;
+  function inventory(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const file = path.join(dir, entry.name);
+      if (entry.isDirectory()) inventory(file);
+      else if (entry.isFile()) { total += fs.statSync(file).size; if (total > 64 * 1024 * 1024) failure ||= Error('Complete private receipt 64MiB cap exceeded'); }
+      else failure ||= Error('Receipt symlink/special file');
+    }
+  }
+  inventory(root);
+  fs.writeFileSync(path.join(root, 'cohort-outcome.json'), JSON.stringify({ passed: !failure, error: failure ? String(failure) : null, runs,
+    elapsedMs: Date.now() - start, bytes: total, childBoundMs: 28000, ownerBoundMs: 30000, productAcceptance: false }));
+}
+if (failure) throw failure;

@@ -1,0 +1,93 @@
+{
+  "source": "actual cleanup.json ownedIdentities; supplemental to immutable parent root-only check",
+  "owned": [
+    {
+      "pid": 48491,
+      "starttime": "2516650",
+      "ppid": 48477,
+      "pgrp": 48491,
+      "state": "Z",
+      "executing": false
+    },
+    {
+      "pid": 48523,
+      "starttime": "2516664",
+      "ppid": 48498,
+      "pgrp": 48491,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+      "executing": false
+    },
+    {
+      "pid": 48495,
+      "starttime": "2516660",
+      "ppid": 1,
+      "pgrp": 48494,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler",
+      "executing": false
+    },
+    {
+      "pid": 48498,
+      "starttime": "2516661",
+      "ppid": 1,
+      "pgrp": 48491,
+      "state": "Z",
+      "executing": false
+    },
+    {
+      "pid": 48499,
+      "starttime": "2516661",
+      "ppid": 1,
+      "pgrp": 48497,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler",
+      "executing": false
+    },
+    {
+      "pid": 48500,
+      "starttime": "2516661",
+      "ppid": 1,
+      "pgrp": 48491,
+      "state": "Z",
+      "executing": false
+    },
+    {
+      "pid": 48527,
+      "starttime": "2516665",
+      "ppid": 48491,
+      "pgrp": 48491,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+      "executing": false
+    },
+    {
+      "pid": 48539,
+      "starttime": "2516669",
+      "ppid": 48500,
+      "pgrp": 48491,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+      "executing": false
+    },
+    {
+      "pid": 48600,
+      "starttime": "2517381",
+      "ppid": 48500,
+      "pgrp": 48491,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+      "executing": false
+    },
+    {
+      "pid": 48601,
+      "starttime": "2517381",
+      "ppid": 48500,
+      "pgrp": 48491,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+      "executing": false
+    }
+  ],
+  "allNonexecuting": true
+}

@@ -1,0 +1,2311 @@
+[
+  {
+    "id": 1,
+    "callFrame": {
+      "functionName": "(root)",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 0,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 2,
+    "callFrame": {
+      "functionName": "",
+      "scriptId": "394",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/diagnostic.ts",
+      "lineNumber": 0,
+      "columnNumber": -196
+    },
+    "hitCount": 13,
+    "executingSourceDigest": "04a8ed8b21b69c787fac367c1c8f88df15a1a16d0daaed100bc001b280de9575",
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [
+      {
+        "line": 177,
+        "ticks": 1
+      },
+      {
+        "line": 174,
+        "ticks": 1
+      },
+      {
+        "line": 175,
+        "ticks": 7
+      },
+      {
+        "line": 176,
+        "ticks": 4
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 177,
+        "ticks": 1,
+        "code": "\t\tcompleted++;"
+      },
+      {
+        "line": 174,
+        "ticks": 1,
+        "code": "\tfor (let i = 0; i < recipe.measuredIterations; i++) {"
+      },
+      {
+        "line": 175,
+        "ticks": 7,
+        "code": "\t\t(0,__vite_ssr_import_0__.default)(performance.now() - started <= recipe.softDiagnosticBoundMs, \"Puregraph25ssoftbound\");"
+      },
+      {
+        "line": 176,
+        "ticks": 4,
+        "code": "\t\ttick(oracle, data, i + recipe.warmIterations);"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 3,
+    "callFrame": {
+      "functionName": "request",
+      "scriptId": "394",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/diagnostic.ts",
+      "lineNumber": 19,
+      "columnNumber": 16
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "04a8ed8b21b69c787fac367c1c8f88df15a1a16d0daaed100bc001b280de9575",
+    "definitionOffset": 1407,
+    "definitionLine": "const request = (method, params = {}) => new Promise((done, reject) => session.post(method, params, (error, result) => error ? reject(error) : done(result)));",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 4,
+    "callFrame": {
+      "functionName": "",
+      "scriptId": "394",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/diagnostic.ts",
+      "lineNumber": 19,
+      "columnNumber": 53
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "04a8ed8b21b69c787fac367c1c8f88df15a1a16d0daaed100bc001b280de9575",
+    "definitionOffset": 1444,
+    "definitionLine": "const request = (method, params = {}) => new Promise((done, reject) => session.post(method, params, (error, result) => error ? reject(error) : done(result)));",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 5,
+    "callFrame": {
+      "functionName": "post",
+      "scriptId": "395",
+      "url": "node:inspector",
+      "lineNumber": 117,
+      "columnNumber": 6
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "bbfc9765720aac5d2e67b673bc09671268dc77b67ad99d58c82ffc62a2e5381d",
+    "definitionOffset": 2833,
+    "definitionLine": "  post(method, params, callback) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 6,
+    "callFrame": {
+      "functionName": "tick",
+      "scriptId": "394",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/diagnostic.ts",
+      "lineNumber": 64,
+      "columnNumber": 13
+    },
+    "hitCount": 3,
+    "executingSourceDigest": "04a8ed8b21b69c787fac367c1c8f88df15a1a16d0daaed100bc001b280de9575",
+    "definitionOffset": 2820,
+    "definitionLine": "function tick(oracle, data, i) {",
+    "positionTicks": [
+      {
+        "line": 68,
+        "ticks": 1
+      },
+      {
+        "line": 70,
+        "ticks": 1
+      },
+      {
+        "line": 73,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 68,
+        "ticks": 1,
+        "code": "\t\tdata.right[j].n = i + j;"
+      },
+      {
+        "line": 70,
+        "ticks": 1,
+        "code": "\treturn oracle.compare({"
+      },
+      {
+        "line": 73,
+        "ticks": 1,
+        "code": "\t\tfrozen: Object.freeze({ shared: data.sharedLeft })"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 7,
+    "callFrame": {
+      "functionName": "compare",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 68,
+      "columnNumber": 17
+    },
+    "hitCount": 1,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 2824,
+    "definitionLine": "\tfunction compare(a, b, label = \"root\") {",
+    "positionTicks": [
+      {
+        "line": 109,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 109,
+        "ticks": 1,
+        "code": "\t\twalk(a, b, label);"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 8,
+    "callFrame": {
+      "functionName": "walk",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 71,
+      "columnNumber": 15
+    },
+    "hitCount": 48,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 2922,
+    "definitionLine": "\t\tfunction walk(x, y, path) {",
+    "positionTicks": [
+      {
+        "line": 90,
+        "ticks": 1
+      },
+      {
+        "line": 73,
+        "ticks": 1
+      },
+      {
+        "line": 99,
+        "ticks": 2
+      },
+      {
+        "line": 91,
+        "ticks": 1
+      },
+      {
+        "line": 104,
+        "ticks": 3
+      },
+      {
+        "line": 87,
+        "ticks": 1
+      },
+      {
+        "line": 93,
+        "ticks": 3
+      },
+      {
+        "line": 94,
+        "ticks": 2
+      },
+      {
+        "line": 107,
+        "ticks": 3
+      },
+      {
+        "line": 92,
+        "ticks": 2
+      },
+      {
+        "line": 105,
+        "ticks": 29
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 90,
+        "ticks": 1,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(xp === null === (yp === null), `${path} null prototype`);"
+      },
+      {
+        "line": 73,
+        "ticks": 1,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(++edges <= 2e7 && ++totalEdges <= 2e10, \"oracle edge budget\");"
+      },
+      {
+        "line": 99,
+        "ticks": 2,
+        "code": "\t\t\t\t(0,__vite_ssr_import_0__.default)(\"value\" in xd && \"value\" in yd, `${path}.${String(key)} accessor unsupported`);"
+      },
+      {
+        "line": 91,
+        "ticks": 1,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(xp === null || xp === Object.prototype || xp === Array.prototype, `${path} unsupported prototype`);"
+      },
+      {
+        "line": 104,
+        "ticks": 3,
+        "code": "\t\t\t\t]) __vite_ssr_import_0__.default.equal(xd[flag], yd[flag], `${path}.${String(key)}.${flag}`);"
+      },
+      {
+        "line": 87,
+        "ticks": 1,
+        "code": "\t\t\tif (proven.get(x) === y) return;"
+      },
+      {
+        "line": 93,
+        "ticks": 3,
+        "code": "\t\t\tconst keys = Reflect.ownKeys(x);"
+      },
+      {
+        "line": 94,
+        "ticks": 2,
+        "code": "\t\t\t__vite_ssr_import_0__.default.deepEqual(keys, Reflect.ownKeys(y), `${path} own keys`);"
+      },
+      {
+        "line": 107,
+        "ticks": 3,
+        "code": "\t\t\tif (deeplyFrozen(x) && deeplyFrozen(y)) proven.set(x, y);"
+      },
+      {
+        "line": 92,
+        "ticks": 2,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(yp === null || yp === Object.prototype || yp === Array.prototype, `${path} unsupported prototype`);"
+      },
+      {
+        "line": 105,
+        "ticks": 29,
+        "code": "\t\t\t\twalk(xd.value, yd.value, `${path}.${String(key)}`);"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 9,
+    "callFrame": {
+      "functionName": "walk",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 71,
+      "columnNumber": 15
+    },
+    "hitCount": 554,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 2922,
+    "definitionLine": "\t\tfunction walk(x, y, path) {",
+    "positionTicks": [
+      {
+        "line": 95,
+        "ticks": 1
+      },
+      {
+        "line": 105,
+        "ticks": 337
+      },
+      {
+        "line": 104,
+        "ticks": 93
+      },
+      {
+        "line": 94,
+        "ticks": 10
+      },
+      {
+        "line": 107,
+        "ticks": 1
+      },
+      {
+        "line": 99,
+        "ticks": 30
+      },
+      {
+        "line": 73,
+        "ticks": 1
+      },
+      {
+        "line": 388,
+        "ticks": 1
+      },
+      {
+        "line": 98,
+        "ticks": 38
+      },
+      {
+        "line": 97,
+        "ticks": 22
+      },
+      {
+        "line": 93,
+        "ticks": 12
+      },
+      {
+        "line": 88,
+        "ticks": 2
+      },
+      {
+        "line": 83,
+        "ticks": 2
+      },
+      {
+        "line": 100,
+        "ticks": 4
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 95,
+        "ticks": 1,
+        "code": "\t\t\t__vite_ssr_import_0__.default.equal(Object.isFrozen(x), Object.isFrozen(y), `${path} frozen`);"
+      },
+      {
+        "line": 105,
+        "ticks": 337,
+        "code": "\t\t\t\twalk(xd.value, yd.value, `${path}.${String(key)}`);"
+      },
+      {
+        "line": 104,
+        "ticks": 93,
+        "code": "\t\t\t\t]) __vite_ssr_import_0__.default.equal(xd[flag], yd[flag], `${path}.${String(key)}.${flag}`);"
+      },
+      {
+        "line": 94,
+        "ticks": 10,
+        "code": "\t\t\t__vite_ssr_import_0__.default.deepEqual(keys, Reflect.ownKeys(y), `${path} own keys`);"
+      },
+      {
+        "line": 107,
+        "ticks": 1,
+        "code": "\t\t\tif (deeplyFrozen(x) && deeplyFrozen(y)) proven.set(x, y);"
+      },
+      {
+        "line": 99,
+        "ticks": 30,
+        "code": "\t\t\t\t(0,__vite_ssr_import_0__.default)(\"value\" in xd && \"value\" in yd, `${path}.${String(key)} accessor unsupported`);"
+      },
+      {
+        "line": 73,
+        "ticks": 1,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(++edges <= 2e7 && ++totalEdges <= 2e10, \"oracle edge budget\");"
+      },
+      {
+        "line": 388,
+        "ticks": 1,
+        "code": null
+      },
+      {
+        "line": 98,
+        "ticks": 38,
+        "code": "\t\t\t\tconst xd = Object.getOwnPropertyDescriptor(x, key), yd = Object.getOwnPropertyDescriptor(y, key);"
+      },
+      {
+        "line": 97,
+        "ticks": 22,
+        "code": "\t\t\t\t__vite_ssr_import_0__.default.equal(typeof key, \"string\", `${path} unsupported symbol`);"
+      },
+      {
+        "line": 93,
+        "ticks": 12,
+        "code": "\t\t\tconst keys = Reflect.ownKeys(x);"
+      },
+      {
+        "line": 88,
+        "ticks": 2,
+        "code": "\t\t\t__vite_ssr_import_0__.default.equal(Array.isArray(x), Array.isArray(y), `${path} array`);"
+      },
+      {
+        "line": 83,
+        "ticks": 2,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(++nodes <= 2e6 && ++totalNodes <= 2e9, \"oracle node budget\");"
+      },
+      {
+        "line": 100,
+        "ticks": 4,
+        "code": "\t\t\t\tfor (const flag of ["
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 10,
+    "callFrame": {
+      "functionName": "walk",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 71,
+      "columnNumber": 15
+    },
+    "hitCount": 2875,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 2922,
+    "definitionLine": "\t\tfunction walk(x, y, path) {",
+    "positionTicks": [
+      {
+        "line": 74,
+        "ticks": 3
+      },
+      {
+        "line": 107,
+        "ticks": 8
+      },
+      {
+        "line": 89,
+        "ticks": 7
+      },
+      {
+        "line": 87,
+        "ticks": 9
+      },
+      {
+        "line": 96,
+        "ticks": 4
+      },
+      {
+        "line": 100,
+        "ticks": 14
+      },
+      {
+        "line": 72,
+        "ticks": 12
+      },
+      {
+        "line": 86,
+        "ticks": 16
+      },
+      {
+        "line": 95,
+        "ticks": 37
+      },
+      {
+        "line": 92,
+        "ticks": 23
+      },
+      {
+        "line": 73,
+        "ticks": 27
+      },
+      {
+        "line": 105,
+        "ticks": 79
+      },
+      {
+        "line": 104,
+        "ticks": 1275
+      },
+      {
+        "line": 91,
+        "ticks": 24
+      },
+      {
+        "line": 97,
+        "ticks": 373
+      },
+      {
+        "line": 99,
+        "ticks": 370
+      },
+      {
+        "line": 83,
+        "ticks": 22
+      },
+      {
+        "line": 85,
+        "ticks": 9
+      },
+      {
+        "line": 93,
+        "ticks": 119
+      },
+      {
+        "line": 94,
+        "ticks": 135
+      },
+      {
+        "line": 90,
+        "ticks": 34
+      },
+      {
+        "line": 88,
+        "ticks": 30
+      },
+      {
+        "line": 98,
+        "ticks": 241
+      },
+      {
+        "line": 388,
+        "ticks": 1
+      },
+      {
+        "line": 79,
+        "ticks": 3
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 74,
+        "ticks": 3,
+        "code": "\t\t\tif (typeof x === \"function\" || typeof y === \"function\") {"
+      },
+      {
+        "line": 107,
+        "ticks": 8,
+        "code": "\t\t\tif (deeplyFrozen(x) && deeplyFrozen(y)) proven.set(x, y);"
+      },
+      {
+        "line": 89,
+        "ticks": 7,
+        "code": "\t\t\tconst xp = Object.getPrototypeOf(x), yp = Object.getPrototypeOf(y);"
+      },
+      {
+        "line": 87,
+        "ticks": 9,
+        "code": "\t\t\tif (proven.get(x) === y) return;"
+      },
+      {
+        "line": 96,
+        "ticks": 4,
+        "code": "\t\t\tfor (const key of keys) {"
+      },
+      {
+        "line": 100,
+        "ticks": 14,
+        "code": "\t\t\t\tfor (const flag of ["
+      },
+      {
+        "line": 72,
+        "ticks": 12,
+        "code": "\t\tfunction walk(x, y, path) {"
+      },
+      {
+        "line": 86,
+        "ticks": 16,
+        "code": "\t\t\tseen.add(x);"
+      },
+      {
+        "line": 95,
+        "ticks": 37,
+        "code": "\t\t\t__vite_ssr_import_0__.default.equal(Object.isFrozen(x), Object.isFrozen(y), `${path} frozen`);"
+      },
+      {
+        "line": 92,
+        "ticks": 23,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(yp === null || yp === Object.prototype || yp === Array.prototype, `${path} unsupported prototype`);"
+      },
+      {
+        "line": 73,
+        "ticks": 27,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(++edges <= 2e7 && ++totalEdges <= 2e10, \"oracle edge budget\");"
+      },
+      {
+        "line": 105,
+        "ticks": 79,
+        "code": "\t\t\t\twalk(xd.value, yd.value, `${path}.${String(key)}`);"
+      },
+      {
+        "line": 104,
+        "ticks": 1275,
+        "code": "\t\t\t\t]) __vite_ssr_import_0__.default.equal(xd[flag], yd[flag], `${path}.${String(key)}.${flag}`);"
+      },
+      {
+        "line": 91,
+        "ticks": 24,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(xp === null || xp === Object.prototype || xp === Array.prototype, `${path} unsupported prototype`);"
+      },
+      {
+        "line": 97,
+        "ticks": 373,
+        "code": "\t\t\t\t__vite_ssr_import_0__.default.equal(typeof key, \"string\", `${path} unsupported symbol`);"
+      },
+      {
+        "line": 99,
+        "ticks": 370,
+        "code": "\t\t\t\t(0,__vite_ssr_import_0__.default)(\"value\" in xd && \"value\" in yd, `${path}.${String(key)} accessor unsupported`);"
+      },
+      {
+        "line": 83,
+        "ticks": 22,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(++nodes <= 2e6 && ++totalNodes <= 2e9, \"oracle node budget\");"
+      },
+      {
+        "line": 85,
+        "ticks": 9,
+        "code": "\t\t\tif (seen.has(x)) return;"
+      },
+      {
+        "line": 93,
+        "ticks": 119,
+        "code": "\t\t\tconst keys = Reflect.ownKeys(x);"
+      },
+      {
+        "line": 94,
+        "ticks": 135,
+        "code": "\t\t\t__vite_ssr_import_0__.default.deepEqual(keys, Reflect.ownKeys(y), `${path} own keys`);"
+      },
+      {
+        "line": 90,
+        "ticks": 34,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(xp === null === (yp === null), `${path} null prototype`);"
+      },
+      {
+        "line": 88,
+        "ticks": 30,
+        "code": "\t\t\t__vite_ssr_import_0__.default.equal(Array.isArray(x), Array.isArray(y), `${path} array`);"
+      },
+      {
+        "line": 98,
+        "ticks": 241,
+        "code": "\t\t\t\tconst xd = Object.getOwnPropertyDescriptor(x, key), yd = Object.getOwnPropertyDescriptor(y, key);"
+      },
+      {
+        "line": 388,
+        "ticks": 1,
+        "code": null
+      },
+      {
+        "line": 79,
+        "ticks": 3,
+        "code": "\t\t\tif (!x || typeof x !== \"object\" || !y || typeof y !== \"object\") {"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 11,
+    "callFrame": {
+      "functionName": "deepStrictEqual",
+      "scriptId": "131",
+      "url": "node:assert",
+      "lineNumber": 333,
+      "columnNumber": 59
+    },
+    "hitCount": 1,
+    "executingSourceDigest": "fced6e2d8263a79e76887a95766bf7fcf7fcc5097aa608e7f672893e6bd2c2c4",
+    "definitionOffset": 9651,
+    "definitionLine": "Assert.prototype.deepStrictEqual = function deepStrictEqual(actual, expected, message) {",
+    "positionTicks": [
+      {
+        "line": 264,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 264,
+        "ticks": 1,
+        "code": "  }"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 12,
+    "callFrame": {
+      "functionName": "isDeepStrictEqual",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 1026,
+      "columnNumber": 19
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 28967,
+    "definitionLine": "  isDeepStrictEqual(val1, val2) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 13,
+    "callFrame": {
+      "functionName": "detectCycles",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 1013,
+      "columnNumber": 27
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 28660,
+    "definitionLine": "let detectCycles = function(val1, val2, mode) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 14,
+    "callFrame": {
+      "functionName": "innerDeepEqual",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 233,
+      "columnNumber": 23
+    },
+    "hitCount": 9,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 5277,
+    "definitionLine": "function innerDeepEqual(val1, val2, mode, memos) {",
+    "positionTicks": [
+      {
+        "line": 264,
+        "ticks": 9
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 264,
+        "ticks": 9,
+        "code": "  return objectComparisonStart(val1, val2, mode, memos);"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 15,
+    "callFrame": {
+      "functionName": "objectComparisonStart",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 266,
+      "columnNumber": 30
+    },
+    "hitCount": 45,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 6311,
+    "definitionLine": "function objectComparisonStart(val1, val2, mode, memos) {",
+    "positionTicks": [
+      {
+        "line": 286,
+        "ticks": 1
+      },
+      {
+        "line": 298,
+        "ticks": 12
+      },
+      {
+        "line": 279,
+        "ticks": 2
+      },
+      {
+        "line": 295,
+        "ticks": 11
+      },
+      {
+        "line": 269,
+        "ticks": 8
+      },
+      {
+        "line": 280,
+        "ticks": 1
+      },
+      {
+        "line": 293,
+        "ticks": 10
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 286,
+        "ticks": 1,
+        "code": "  if (ArrayIsArray(val1)) {"
+      },
+      {
+        "line": 298,
+        "ticks": 12,
+        "code": "    return keyCheck(val1, val2, mode, memos, kIsArray, keys2);"
+      },
+      {
+        "line": 279,
+        "ticks": 2,
+        "code": "  const val1Tag = ObjectPrototypeToString(val1);"
+      },
+      {
+        "line": 295,
+        "ticks": 11,
+        "code": "        keys2.length !== getOwnNonIndexProperties(val1, filter).length) {"
+      },
+      {
+        "line": 269,
+        "ticks": 8,
+        "code": "    if (wellKnownConstructors.has(val1.constructor) ||"
+      },
+      {
+        "line": 280,
+        "ticks": 1,
+        "code": "  const val2Tag = ObjectPrototypeToString(val2);"
+      },
+      {
+        "line": 293,
+        "ticks": 10,
+        "code": "    const keys2 = getOwnNonIndexProperties(val2, filter);"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 32,
+    "callFrame": {
+      "functionName": "getOwnNonIndexProperties",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 15,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [
+      {
+        "line": 295,
+        "ticks": 5
+      },
+      {
+        "line": 293,
+        "ticks": 8
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 295,
+        "ticks": 5,
+        "code": null
+      },
+      {
+        "line": 293,
+        "ticks": 8,
+        "code": null
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 36,
+    "callFrame": {
+      "functionName": "keyCheck",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 432,
+      "columnNumber": 17
+    },
+    "hitCount": 25,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 12002,
+    "definitionLine": "function keyCheck(val1, val2, mode, memos, iterationType, keys2) {",
+    "positionTicks": [
+      {
+        "line": 486,
+        "ticks": 1
+      },
+      {
+        "line": 455,
+        "ticks": 2
+      },
+      {
+        "line": 494,
+        "ticks": 2
+      },
+      {
+        "line": 237,
+        "ticks": 4
+      },
+      {
+        "line": 989,
+        "ticks": 7
+      },
+      {
+        "line": 990,
+        "ticks": 6
+      },
+      {
+        "line": 488,
+        "ticks": 1
+      },
+      {
+        "line": 995,
+        "ticks": 2
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 486,
+        "ticks": 1,
+        "code": "  if (keys2.length === 0 &&"
+      },
+      {
+        "line": 455,
+        "ticks": 2,
+        "code": "      return false;"
+      },
+      {
+        "line": 494,
+        "ticks": 2,
+        "code": "    return objEquiv(val1, val2, mode, keys1, keys2, memos, iterationType);"
+      },
+      {
+        "line": 237,
+        "ticks": 4,
+        "code": "    return val1 !== 0 || ObjectIs(val1, val2) || mode === kLoose;"
+      },
+      {
+        "line": 989,
+        "ticks": 7,
+        "code": "    for (let i = 0; i < a.length; i++) {"
+      },
+      {
+        "line": 990,
+        "ticks": 6,
+        "code": "      if (b[i] === undefined) {"
+      },
+      {
+        "line": 488,
+        "ticks": 1,
+        "code": "        (iterationType === kIsArray && val2.length === 0) ||"
+      },
+      {
+        "line": 995,
+        "ticks": 2,
+        "code": "      } else if (a[i] === undefined || !innerDeepEqual(a[i], b[i], mode, memos)) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 46,
+    "callFrame": {
+      "functionName": "keyCheck",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 432,
+      "columnNumber": 17
+    },
+    "hitCount": 2,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 12002,
+    "definitionLine": "function keyCheck(val1, val2, mode, memos, iterationType, keys2) {",
+    "positionTicks": [
+      {
+        "line": 433,
+        "ticks": 2
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 433,
+        "ticks": 2,
+        "code": "function keyCheck(val1, val2, mode, memos, iterationType, keys2) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 16,
+    "callFrame": {
+      "functionName": "get parse",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 377,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [
+      {
+        "line": 92,
+        "ticks": 4
+      },
+      {
+        "line": 83,
+        "ticks": 5
+      },
+      {
+        "line": 88,
+        "ticks": 5
+      },
+      {
+        "line": 97,
+        "ticks": 74
+      },
+      {
+        "line": 73,
+        "ticks": 6
+      },
+      {
+        "line": 99,
+        "ticks": 64
+      },
+      {
+        "line": 90,
+        "ticks": 2
+      },
+      {
+        "line": 91,
+        "ticks": 2
+      },
+      {
+        "line": 104,
+        "ticks": 215
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 92,
+        "ticks": 4,
+        "code": null
+      },
+      {
+        "line": 83,
+        "ticks": 5,
+        "code": null
+      },
+      {
+        "line": 88,
+        "ticks": 5,
+        "code": null
+      },
+      {
+        "line": 97,
+        "ticks": 74,
+        "code": null
+      },
+      {
+        "line": 73,
+        "ticks": 6,
+        "code": null
+      },
+      {
+        "line": 99,
+        "ticks": 64,
+        "code": null
+      },
+      {
+        "line": 90,
+        "ticks": 2,
+        "code": null
+      },
+      {
+        "line": 91,
+        "ticks": 2,
+        "code": null
+      },
+      {
+        "line": 104,
+        "ticks": 215,
+        "code": null
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 23,
+    "callFrame": {
+      "functionName": "walk",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 71,
+      "columnNumber": 15
+    },
+    "hitCount": 731,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 2922,
+    "definitionLine": "\t\tfunction walk(x, y, path) {",
+    "positionTicks": [
+      {
+        "line": 74,
+        "ticks": 3
+      },
+      {
+        "line": 72,
+        "ticks": 1
+      },
+      {
+        "line": 75,
+        "ticks": 1
+      },
+      {
+        "line": 68,
+        "ticks": 16
+      },
+      {
+        "line": 108,
+        "ticks": 2
+      },
+      {
+        "line": 56,
+        "ticks": 10
+      },
+      {
+        "line": 79,
+        "ticks": 7
+      },
+      {
+        "line": 73,
+        "ticks": 356
+      },
+      {
+        "line": 80,
+        "ticks": 335
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 74,
+        "ticks": 3,
+        "code": "\t\t\tif (typeof x === \"function\" || typeof y === \"function\") {"
+      },
+      {
+        "line": 72,
+        "ticks": 1,
+        "code": "\t\tfunction walk(x, y, path) {"
+      },
+      {
+        "line": 75,
+        "ticks": 1,
+        "code": "\t\t\t\t(0,__vite_ssr_import_0__.default)(typeof x === \"function\" && typeof y === \"function\" && functions.get(x) === y, `unmapped function ${path}`);"
+      },
+      {
+        "line": 68,
+        "ticks": 16,
+        "code": "\tconst scalar = (value) => typeof value === \"number\" ? Object.is(value, -0) ? \"-0\" : String(value) : String(value).slice(0, 128);"
+      },
+      {
+        "line": 108,
+        "ticks": 2,
+        "code": "\t\t}"
+      },
+      {
+        "line": 56,
+        "ticks": 10,
+        "code": "\t\t\t\t};"
+      },
+      {
+        "line": 79,
+        "ticks": 7,
+        "code": "\t\t\tif (!x || typeof x !== \"object\" || !y || typeof y !== \"object\") {"
+      },
+      {
+        "line": 73,
+        "ticks": 356,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(++edges <= 2e7 && ++totalEdges <= 2e10, \"oracle edge budget\");"
+      },
+      {
+        "line": 80,
+        "ticks": 335,
+        "code": "\t\t\t\t(0,__vite_ssr_import_0__.default)(Object.is(x, y), `${path}: ${scalar(x)} !== ${scalar(y)}`);"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 24,
+    "callFrame": {
+      "functionName": "get parse",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 132,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [
+      {
+        "line": 80,
+        "ticks": 75
+      },
+      {
+        "line": 73,
+        "ticks": 57
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 80,
+        "ticks": 75,
+        "code": null
+      },
+      {
+        "line": 73,
+        "ticks": 57,
+        "code": null
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 39,
+    "callFrame": {
+      "functionName": "scalar",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 67,
+      "columnNumber": 16
+    },
+    "hitCount": 65,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 2693,
+    "definitionLine": "\tconst scalar = (value) => typeof value === \"number\" ? Object.is(value, -0) ? \"-0\" : String(value) : String(value).slice(0, 128);",
+    "positionTicks": [
+      {
+        "line": 68,
+        "ticks": 65
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 68,
+        "ticks": 65,
+        "code": "\tconst scalar = (value) => typeof value === \"number\" ? Object.is(value, -0) ? \"-0\" : String(value) : String(value).slice(0, 128);"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 40,
+    "callFrame": {
+      "functionName": "get",
+      "scriptId": "92",
+      "url": "file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs",
+      "lineNumber": 452,
+      "columnNumber": 6
+    },
+    "hitCount": 21,
+    "executingSourceDigest": "7fca45ad5e2e620ca75acf0ab0e7275585fb62f391a5e6fb79b9fde401b67a5e",
+    "definitionOffset": 15022,
+    "definitionLine": "\t\t\tget(mod, prop) {",
+    "positionTicks": [
+      {
+        "line": 454,
+        "ticks": 3
+      },
+      {
+        "line": 453,
+        "ticks": 17
+      },
+      {
+        "line": 455,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 454,
+        "ticks": 3,
+        "code": "\t\t\t\tif (prop === \"default\") return defaultExport;"
+      },
+      {
+        "line": 453,
+        "ticks": 17,
+        "code": "\t\t\tget(mod, prop) {"
+      },
+      {
+        "line": 455,
+        "ticks": 1,
+        "code": "\t\t\t\treturn mod[prop] ?? defaultExport?.[prop];"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 25,
+    "callFrame": {
+      "functionName": "bind",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 11,
+      "columnNumber": 14
+    },
+    "hitCount": 63,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 838,
+    "definitionLine": "\tconst bind = (a, b, path) => {",
+    "positionTicks": [
+      {
+        "line": 16,
+        "ticks": 1
+      },
+      {
+        "line": 15,
+        "ticks": 2
+      },
+      {
+        "line": 13,
+        "ticks": 34
+      },
+      {
+        "line": 14,
+        "ticks": 26
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 16,
+        "ticks": 1,
+        "code": "\t\treverse.set(b, a);"
+      },
+      {
+        "line": 15,
+        "ticks": 2,
+        "code": "\t\tforward.set(a, b);"
+      },
+      {
+        "line": 13,
+        "ticks": 34,
+        "code": "\t\t(0,__vite_ssr_import_0__.default)(!forward.has(a) || forward.get(a) === b, `forward alias mismatch ${path}`);"
+      },
+      {
+        "line": 14,
+        "ticks": 26,
+        "code": "\t\t(0,__vite_ssr_import_0__.default)(!reverse.has(b) || reverse.get(b) === a, `reverse alias mismatch ${path}`);"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 26,
+    "callFrame": {
+      "functionName": "get parse",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 7,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [
+      {
+        "line": 13,
+        "ticks": 3
+      },
+      {
+        "line": 14,
+        "ticks": 4
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 13,
+        "ticks": 3,
+        "code": null
+      },
+      {
+        "line": 14,
+        "ticks": 4,
+        "code": null
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 55,
+    "callFrame": {
+      "functionName": "get",
+      "scriptId": "92",
+      "url": "file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs",
+      "lineNumber": 452,
+      "columnNumber": 6
+    },
+    "hitCount": 1,
+    "executingSourceDigest": "7fca45ad5e2e620ca75acf0ab0e7275585fb62f391a5e6fb79b9fde401b67a5e",
+    "definitionOffset": 15022,
+    "definitionLine": "\t\t\tget(mod, prop) {",
+    "positionTicks": [
+      {
+        "line": 453,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 453,
+        "ticks": 1,
+        "code": "\t\t\tget(mod, prop) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 41,
+    "callFrame": {
+      "functionName": "strictEqual",
+      "scriptId": "131",
+      "url": "node:assert",
+      "lineNumber": 383,
+      "columnNumber": 51
+    },
+    "hitCount": 4,
+    "executingSourceDigest": "fced6e2d8263a79e76887a95766bf7fcf7fcc5097aa608e7f672893e6bd2c2c4",
+    "definitionOffset": 10979,
+    "definitionLine": "Assert.prototype.strictEqual = function strictEqual(actual, expected, message) {",
+    "positionTicks": [
+      {
+        "line": 388,
+        "ticks": 4
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 388,
+        "ticks": 4,
+        "code": "  if (!ObjectIs(actual, expected)) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 42,
+    "callFrame": {
+      "functionName": "deeplyFrozen",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 25,
+      "columnNumber": 22
+    },
+    "hitCount": 9,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 1541,
+    "definitionLine": "\tfunction deeplyFrozen(a) {",
+    "positionTicks": [
+      {
+        "line": 27,
+        "ticks": 9
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 27,
+        "ticks": 9,
+        "code": "\t\tconst cached = immutable.get(a);"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 43,
+    "callFrame": {
+      "functionName": "get",
+      "scriptId": "92",
+      "url": "file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs",
+      "lineNumber": 452,
+      "columnNumber": 6
+    },
+    "hitCount": 53,
+    "executingSourceDigest": "7fca45ad5e2e620ca75acf0ab0e7275585fb62f391a5e6fb79b9fde401b67a5e",
+    "definitionOffset": 15022,
+    "definitionLine": "\t\t\tget(mod, prop) {",
+    "positionTicks": [
+      {
+        "line": 455,
+        "ticks": 4
+      },
+      {
+        "line": 454,
+        "ticks": 11
+      },
+      {
+        "line": 453,
+        "ticks": 38
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 455,
+        "ticks": 4,
+        "code": "\t\t\t\treturn mod[prop] ?? defaultExport?.[prop];"
+      },
+      {
+        "line": 454,
+        "ticks": 11,
+        "code": "\t\t\t\tif (prop === \"default\") return defaultExport;"
+      },
+      {
+        "line": 453,
+        "ticks": 38,
+        "code": "\t\t\tget(mod, prop) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 44,
+    "callFrame": {
+      "functionName": "strict",
+      "scriptId": "131",
+      "url": "node:assert",
+      "lineNumber": 915,
+      "columnNumber": 15
+    },
+    "hitCount": 4,
+    "executingSourceDigest": "fced6e2d8263a79e76887a95766bf7fcf7fcc5097aa608e7f672893e6bd2c2c4",
+    "definitionOffset": 26467,
+    "definitionLine": "function strict(...args) {",
+    "positionTicks": [
+      {
+        "line": 917,
+        "ticks": 1
+      },
+      {
+        "line": 916,
+        "ticks": 3
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 917,
+        "ticks": 1,
+        "code": "  innerOk(strict, args.length, ...args);"
+      },
+      {
+        "line": 916,
+        "ticks": 3,
+        "code": "function strict(...args) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 48,
+    "callFrame": {
+      "functionName": "innerOk",
+      "scriptId": "135",
+      "url": "node:internal/assert/utils",
+      "lineNumber": 54,
+      "columnNumber": 16
+    },
+    "hitCount": 3,
+    "executingSourceDigest": "ea5b811f58b5d6ee922bd8aaa9f2bec0826b0ba04d1f929eddbfe0ba1224f596",
+    "definitionOffset": 1804,
+    "definitionLine": "function innerOk(fn, argLen, value, message) {",
+    "positionTicks": [
+      {
+        "line": 55,
+        "ticks": 3
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 55,
+        "ticks": 3,
+        "code": "function innerOk(fn, argLen, value, message) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 22,
+    "callFrame": {
+      "functionName": "get parse",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 20,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [
+      {
+        "line": 92,
+        "ticks": 2
+      },
+      {
+        "line": 99,
+        "ticks": 5
+      },
+      {
+        "line": 104,
+        "ticks": 10
+      },
+      {
+        "line": 97,
+        "ticks": 3
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 92,
+        "ticks": 2,
+        "code": null
+      },
+      {
+        "line": 99,
+        "ticks": 5,
+        "code": null
+      },
+      {
+        "line": 104,
+        "ticks": 10,
+        "code": null
+      },
+      {
+        "line": 97,
+        "ticks": 3,
+        "code": null
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 27,
+    "callFrame": {
+      "functionName": "deepStrictEqual",
+      "scriptId": "131",
+      "url": "node:assert",
+      "lineNumber": 333,
+      "columnNumber": 59
+    },
+    "hitCount": 3,
+    "executingSourceDigest": "fced6e2d8263a79e76887a95766bf7fcf7fcc5097aa608e7f672893e6bd2c2c4",
+    "definitionOffset": 9651,
+    "definitionLine": "Assert.prototype.deepStrictEqual = function deepStrictEqual(actual, expected, message) {",
+    "positionTicks": [
+      {
+        "line": 334,
+        "ticks": 3
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 334,
+        "ticks": 3,
+        "code": "Assert.prototype.deepStrictEqual = function deepStrictEqual(actual, expected, message) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 28,
+    "callFrame": {
+      "functionName": "isDeepStrictEqual",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 1026,
+      "columnNumber": 19
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 28967,
+    "definitionLine": "  isDeepStrictEqual(val1, val2) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 29,
+    "callFrame": {
+      "functionName": "detectCycles",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 1013,
+      "columnNumber": 27
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 28660,
+    "definitionLine": "let detectCycles = function(val1, val2, mode) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 30,
+    "callFrame": {
+      "functionName": "innerDeepEqual",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 233,
+      "columnNumber": 23
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 5277,
+    "definitionLine": "function innerDeepEqual(val1, val2, mode, memos) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 31,
+    "callFrame": {
+      "functionName": "objectComparisonStart",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 266,
+      "columnNumber": 30
+    },
+    "hitCount": 2,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 6311,
+    "definitionLine": "function objectComparisonStart(val1, val2, mode, memos) {",
+    "positionTicks": [
+      {
+        "line": 269,
+        "ticks": 1
+      },
+      {
+        "line": 298,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 269,
+        "ticks": 1,
+        "code": "    if (wellKnownConstructors.has(val1.constructor) ||"
+      },
+      {
+        "line": 298,
+        "ticks": 1,
+        "code": "    return keyCheck(val1, val2, mode, memos, kIsArray, keys2);"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 37,
+    "callFrame": {
+      "functionName": "strict",
+      "scriptId": "131",
+      "url": "node:assert",
+      "lineNumber": 915,
+      "columnNumber": 15
+    },
+    "hitCount": 3,
+    "executingSourceDigest": "fced6e2d8263a79e76887a95766bf7fcf7fcc5097aa608e7f672893e6bd2c2c4",
+    "definitionOffset": 26467,
+    "definitionLine": "function strict(...args) {",
+    "positionTicks": [
+      {
+        "line": 916,
+        "ticks": 3
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 916,
+        "ticks": 3,
+        "code": "function strict(...args) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 38,
+    "callFrame": {
+      "functionName": "bind",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 11,
+      "columnNumber": 14
+    },
+    "hitCount": 14,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 838,
+    "definitionLine": "\tconst bind = (a, b, path) => {",
+    "positionTicks": [
+      {
+        "line": 14,
+        "ticks": 2
+      },
+      {
+        "line": 16,
+        "ticks": 1
+      },
+      {
+        "line": 13,
+        "ticks": 1
+      },
+      {
+        "line": 12,
+        "ticks": 2
+      },
+      {
+        "line": 15,
+        "ticks": 8
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 14,
+        "ticks": 2,
+        "code": "\t\t(0,__vite_ssr_import_0__.default)(!reverse.has(b) || reverse.get(b) === a, `reverse alias mismatch ${path}`);"
+      },
+      {
+        "line": 16,
+        "ticks": 1,
+        "code": "\t\treverse.set(b, a);"
+      },
+      {
+        "line": 13,
+        "ticks": 1,
+        "code": "\t\t(0,__vite_ssr_import_0__.default)(!forward.has(a) || forward.get(a) === b, `forward alias mismatch ${path}`);"
+      },
+      {
+        "line": 12,
+        "ticks": 2,
+        "code": "\tconst bind = (a, b, path) => {"
+      },
+      {
+        "line": 15,
+        "ticks": 8,
+        "code": "\t\tforward.set(a, b);"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 45,
+    "callFrame": {
+      "functionName": "get",
+      "scriptId": "92",
+      "url": "file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs",
+      "lineNumber": 452,
+      "columnNumber": 6
+    },
+    "hitCount": 4,
+    "executingSourceDigest": "7fca45ad5e2e620ca75acf0ab0e7275585fb62f391a5e6fb79b9fde401b67a5e",
+    "definitionOffset": 15022,
+    "definitionLine": "\t\t\tget(mod, prop) {",
+    "positionTicks": [
+      {
+        "line": 454,
+        "ticks": 2
+      },
+      {
+        "line": 453,
+        "ticks": 2
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 454,
+        "ticks": 2,
+        "code": "\t\t\t\tif (prop === \"default\") return defaultExport;"
+      },
+      {
+        "line": 453,
+        "ticks": 2,
+        "code": "\t\t\tget(mod, prop) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 49,
+    "callFrame": {
+      "functionName": "strictEqual",
+      "scriptId": "131",
+      "url": "node:assert",
+      "lineNumber": 383,
+      "columnNumber": 51
+    },
+    "hitCount": 2,
+    "executingSourceDigest": "fced6e2d8263a79e76887a95766bf7fcf7fcc5097aa608e7f672893e6bd2c2c4",
+    "definitionOffset": 10979,
+    "definitionLine": "Assert.prototype.strictEqual = function strictEqual(actual, expected, message) {",
+    "positionTicks": [
+      {
+        "line": 384,
+        "ticks": 2
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 384,
+        "ticks": 2,
+        "code": "Assert.prototype.strictEqual = function strictEqual(actual, expected, message) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 17,
+    "callFrame": {
+      "functionName": "deepStrictEqual",
+      "scriptId": "131",
+      "url": "node:assert",
+      "lineNumber": 333,
+      "columnNumber": 59
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "fced6e2d8263a79e76887a95766bf7fcf7fcc5097aa608e7f672893e6bd2c2c4",
+    "definitionOffset": 9651,
+    "definitionLine": "Assert.prototype.deepStrictEqual = function deepStrictEqual(actual, expected, message) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 18,
+    "callFrame": {
+      "functionName": "isDeepStrictEqual",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 1026,
+      "columnNumber": 19
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 28967,
+    "definitionLine": "  isDeepStrictEqual(val1, val2) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 19,
+    "callFrame": {
+      "functionName": "detectCycles",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 1013,
+      "columnNumber": 27
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 28660,
+    "definitionLine": "let detectCycles = function(val1, val2, mode) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 20,
+    "callFrame": {
+      "functionName": "innerDeepEqual",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 233,
+      "columnNumber": 23
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 5277,
+    "definitionLine": "function innerDeepEqual(val1, val2, mode, memos) {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 21,
+    "callFrame": {
+      "functionName": "objectComparisonStart",
+      "scriptId": "385",
+      "url": "node:internal/util/comparisons",
+      "lineNumber": 266,
+      "columnNumber": 30
+    },
+    "hitCount": 1,
+    "executingSourceDigest": "41a2c9547c4560197542ff97f3f9a9b36bd3804ba114c100435a2d7ad95a89c6",
+    "definitionOffset": 6311,
+    "definitionLine": "function objectComparisonStart(val1, val2, mode, memos) {",
+    "positionTicks": [
+      {
+        "line": 295,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 295,
+        "ticks": 1,
+        "code": "        keys2.length !== getOwnNonIndexProperties(val1, filter).length) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 33,
+    "callFrame": {
+      "functionName": "get parse",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 2,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [
+      {
+        "line": 104,
+        "ticks": 1
+      },
+      {
+        "line": 88,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 104,
+        "ticks": 1,
+        "code": null
+      },
+      {
+        "line": 88,
+        "ticks": 1,
+        "code": null
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 47,
+    "callFrame": {
+      "functionName": "deeplyFrozen",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 25,
+      "columnNumber": 22
+    },
+    "hitCount": 2,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 1541,
+    "definitionLine": "\tfunction deeplyFrozen(a) {",
+    "positionTicks": [
+      {
+        "line": 48,
+        "ticks": 1
+      },
+      {
+        "line": 35,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 48,
+        "ticks": 1,
+        "code": "\t\t\t\timmutable.set(a, false);"
+      },
+      {
+        "line": 35,
+        "ticks": 1,
+        "code": "\t\t\t(0,__vite_ssr_import_0__.default)(++paid <= 2e6, \"deep immutable proof node budget\");"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 50,
+    "callFrame": {
+      "functionName": "bind",
+      "scriptId": "398",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/materialized/graph-oracle.ts",
+      "lineNumber": 11,
+      "columnNumber": 14
+    },
+    "hitCount": 5,
+    "executingSourceDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+    "definitionOffset": 838,
+    "definitionLine": "\tconst bind = (a, b, path) => {",
+    "positionTicks": [
+      {
+        "line": 13,
+        "ticks": 1
+      },
+      {
+        "line": 15,
+        "ticks": 3
+      },
+      {
+        "line": 16,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 13,
+        "ticks": 1,
+        "code": "\t\t(0,__vite_ssr_import_0__.default)(!forward.has(a) || forward.get(a) === b, `forward alias mismatch ${path}`);"
+      },
+      {
+        "line": 15,
+        "ticks": 3,
+        "code": "\t\tforward.set(a, b);"
+      },
+      {
+        "line": 16,
+        "ticks": 1,
+        "code": "\t\treverse.set(b, a);"
+      }
+    ],
+    "exactOracleScript": true
+  },
+  {
+    "id": 54,
+    "callFrame": {
+      "functionName": "strict",
+      "scriptId": "131",
+      "url": "node:assert",
+      "lineNumber": 915,
+      "columnNumber": 15
+    },
+    "hitCount": 1,
+    "executingSourceDigest": "fced6e2d8263a79e76887a95766bf7fcf7fcc5097aa608e7f672893e6bd2c2c4",
+    "definitionOffset": 26467,
+    "definitionLine": "function strict(...args) {",
+    "positionTicks": [
+      {
+        "line": 916,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 916,
+        "ticks": 1,
+        "code": "function strict(...args) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 51,
+    "callFrame": {
+      "functionName": "wrappedFn",
+      "scriptId": "7",
+      "url": "node:internal/errors",
+      "lineNumber": 534,
+      "columnNumber": 20
+    },
+    "hitCount": 1,
+    "executingSourceDigest": "a03b0a92d4b62655d1fe8f05b039251ff63a1d826743c6354ca5a2920b7c1751",
+    "definitionOffset": 14729,
+    "definitionLine": "  function wrappedFn(...args) {",
+    "positionTicks": [
+      {
+        "line": 535,
+        "ticks": 1
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 535,
+        "ticks": 1,
+        "code": "  function wrappedFn(...args) {"
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 52,
+    "callFrame": {
+      "functionName": "now",
+      "scriptId": "142",
+      "url": "node:internal/perf/performance",
+      "lineNumber": 136,
+      "columnNumber": 5
+    },
+    "hitCount": 0,
+    "executingSourceDigest": "fea8e9fafd2f580d9b6553487484e5b7c0070a86f6b62f0a1df429d5803f48e2",
+    "definitionOffset": 3603,
+    "definitionLine": "  now() {",
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 53,
+    "callFrame": {
+      "functionName": "now",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 2,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [
+      {
+        "line": 139,
+        "ticks": 2
+      }
+    ],
+    "positionLines": [
+      {
+        "line": 139,
+        "ticks": 2,
+        "code": null
+      }
+    ],
+    "exactOracleScript": false
+  },
+  {
+    "id": 34,
+    "callFrame": {
+      "functionName": "(program)",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 60,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  },
+  {
+    "id": 35,
+    "callFrame": {
+      "functionName": "(garbage collector)",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1
+    },
+    "hitCount": 74,
+    "executingSourceDigest": null,
+    "definitionOffset": null,
+    "definitionLine": null,
+    "positionTicks": [],
+    "positionLines": [],
+    "exactOracleScript": false
+  }
+]
