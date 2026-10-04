@@ -1,0 +1,44 @@
+/** Read-only source-call instrumentation. Its added cost is NOT a timing
+ * measurement. Delegates every result to the unchanged canonical function. */
+import {it,vi} from 'vitest';
+import {writeFileSync} from 'node:fs';
+const counts=vi.hoisted(()=>({calls:0,duplicates:0,fast:0,fallback:0,zero:0,last:[] as unknown[]}));
+vi.mock('../../../src/core/physics/damage-root',async(importOriginal)=>{
+ const actual=await importOriginal<typeof import('../../../src/core/physics/damage-root')>();
+ const {steelElasticModulus}=await import('../../../src/core/physics/damage-material');
+ return {...actual,loadedRootAngle:(command:number,forceScale:number,loadLever:number,temperature:number,section:import('../../../src/core/physics/damage-root').RootSection,law:import('../../../src/core/physics/damage-root').RootLoadLaw)=>{
+  const args=[command,forceScale,loadLever,temperature,section,law];counts.calls++;
+  if(args.every((a,i)=>a===counts.last[i]))counts.duplicates++;counts.last=args;
+  const magnitude=Math.abs(command),modulus=steelElasticModulus(temperature);
+  if(modulus===0 || magnitude===0 || forceScale===0 || loadLever===0)counts.zero++;
+  else {
+   const compliance=forceScale*loadLever*section.length/(modulus*section.inertia);let estimate=magnitude;
+   for(let i=0;i<2;i++){
+    const coefficient=actual.rootLoadCoefficient(estimate,law),sine=Math.sin(estimate),cosine=Math.cos(estimate);
+    const derivative=law==='plate'?cosine:coefficient===0?2:(2*Math.sin(2*estimate)*Math.cos(2*estimate)+2.88*sine**3*cosine)/coefficient;
+    estimate-=(estimate+compliance*coefficient-magnitude)/(1+compliance*derivative);
+    if(!(estimate>0&&estimate<=magnitude))break;
+   }
+   let certified=false;
+   if(estimate>0&&estimate<=magnitude){let lower=0,upper=magnitude;for(let i=0;i<40;i++){const middle=(lower+upper)/2;if(middle<estimate)lower=middle;else upper=middle;}
+    certified=lower+compliance*actual.rootLoadCoefficient(lower,law)<magnitude && upper+compliance*actual.rootLoadCoefficient(upper,law)>=magnitude;
+   }
+   if(certified)counts.fast++;else counts.fallback++;
+  }
+  return actual.loadedRootAngle(command,forceScale,loadLever,temperature,section,law);
+ }};
+ writeFileSync('docs/research/2026-10-03-vehicle-realism/fall-root-counts.json',JSON.stringify(rows,null,2)+'\n');
+});
+import {createScenarioState,ALL_SCENARIOS} from '../../../src/core/scenarios';
+import {createBurnScratch,createFallResult,unpoweredFallInto} from '../../../src/core/control/guidance-physics';
+import * as C from '../../../src/core/constants';
+it('reports exact existing normal/capped query call distribution',()=>{
+ const rows:unknown[]=[];
+ for(const [h,vx,vy] of [[79000,2000,-50],[60000,0,7000]]){
+  counts.calls=counts.duplicates=counts.fast=counts.fallback=counts.zero=0;counts.last=[];
+  const s=createScenarioState(ALL_SCENARIOS.find(p=>p.id==='reentry')!);s.kinematics.altitude=h!;s.kinematics.speedX=vx!;s.kinematics.speedY=vy!;
+  const out=createFallResult();unpoweredFallInto(s,C.vehicleHeight/2,createBurnScratch(),out);
+  rows.push({h,vx,vy,...counts,last:undefined,out});
+ }
+ writeFileSync('docs/research/2026-10-03-vehicle-realism/fall-root-counts.json',JSON.stringify(rows,null,2)+'\n');
+});

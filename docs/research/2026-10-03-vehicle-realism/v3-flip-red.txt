@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/v3-flight.test.ts (7 tests | 1 failed) 7ms
+     × sizes the flip using the active V3 minimum-throttle thrust 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/v3-flight.test.ts > active V3 flight model > sizes the flip using the active V3 minimum-throttle thrust
+AssertionError: expected 1201.248136488097 to be close to 1187.261322308118, received difference is 13.986814179979092, but expected 5e-9
+ ❯ tests/core/v3-flight.test.ts:81:54
+     79|     const expected=state.autopilot.finalStagePessimisticAltitude+100*(…
+     80|       -C.horizontalAdjustmentVerticalSpeedLimit*C.horizontalAdjustment…
+     81|     expect(state.autopilot.bellyFlopTriggerAltitude).toBeCloseTo(expec…
+       |                                                      ^
+     82|   });
+     83|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  13:25:45
+   Duration  265ms (transform 124ms, setup 0ms, import 148ms, tests 7ms, environment 0ms)
+

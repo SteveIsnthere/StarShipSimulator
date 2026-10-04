@@ -67,6 +67,8 @@ Recorded, not built: [docs/plans/backlog/README.md](../backlog/README.md).
 
 ## Status
 
+**Paused at Steve’s request on2026-10-03.** Resume only on explicit instruction or the refreshed `/goal`. Eight of ten phases are complete by phase count; Phase8 integration and Phase9 remain. The [current handover](modernization-handover.md) is the authoritative checkpoint; historical receipts are indexed under research.
+
 Finished phase plans are closed out (`repo-docs-layout`): their record is the merge commit, and their decisions live in `docs/reference/`.
 
 - [x] Phase 1 — Green gate and cut-over (merged `f14aadb`, live 2026-10-01)
@@ -87,6 +89,11 @@ Phases 7–9 get their phase plan when the phase before them lands, written by t
 
 Eight of ten phases are closed (80%). Super Heavy is merged, verified and live. The player can stage and select two physical bodies, fly 33 independent booster engines and four grid fins, and watch a bounded airborne tower catch. Exact main `b3263a9` has a complete green local gate, successful hosted CI/Pages and post-deploy live smoke/served-build verification. See [Phase 7 closure](../../research/2026-10-03-phase7-close.md).
 
-[Phase 8 Visuals](modernization-phase-8.md) is next with its full approved scope, followed by Phase 9 UX. Two hosted menu readiness flakes and the [per-scenario final audit](../../research/2026-10-03-phase7-release/scenario-completion-audit.md) remain explicit Phase 9 obligations. Approved Phase 6b parked aero stays named in the backlog. No owner question is pending.
+[Phase 8 Visuals](modernization-phase-8.md) is implemented in part but not accepted: V3/progressive damage and the component renderer are in the worktree; default booster outcomes, predictor timing and release gates remain open. Phase9 follows the Phase8 release, with only its narrow landscape dependency brought forward. Two hosted menu readiness flakes and the [per-scenario final audit](../../research/2026-10-03-phase7-release/scenario-completion-audit.md) remain explicit Phase 9 obligations. Approved Phase 6b parked aero stays named in the backlog. No owner question is pending.
 
 Phase 8 visual direction is published privately: [six flight scenes](https://chatgpt.com/space/page_86fcf9be7d708191ad082fb932b96ef0). The authored concept covers engines, heat, environment and vehicle detail at desktop/phone sizes with full/reduced graphics. It is not simulation output or performance proof. Publication receipt/readback and 24 browser captures are in `docs/design/visual-direction/`. The browser Page viewer requires login; host embed rendering remains unverified, while the identical local source is inspected. No owner verdict is required before implementation.
+
+
+### Owner V3/progressive decision — 2026-10-03
+
+Steve selected **V3 with physics updates** and **progressive damage affecting flight**, and instructed **make proper plan then implement** with subagent help permitted. These choices supersede all earlier pending-choice and Flight5/view-only recommendation language. Phase8 remains open; update its implementation plan before production changes. The current V3 source, damage-code and renderer audits are in `docs/research/2026-10-03-vehicle-realism/`. Earlier Pro feedback is useful conditional design critique, not certification of this new scope. Existing limits, truth, protected scenarios, independent review, budgets and release requirements remain binding. Main/live remain Phase7; eight of ten phases complete.

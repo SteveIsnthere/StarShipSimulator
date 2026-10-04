@@ -1,0 +1,77 @@
+[WebServer] (node:22053) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:22054) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 13.106796875, right: 66.731875 },
+  reversed: { left: 67.2334375, right: 13.105390625 },
+  night: { left: 2, right: 4.54859375 },
+  unshielded: { left: 54.670859375, right: 218.992890625 }
+}
+  ✓   1 [chromium] › tests/e2e/post-compositing.spec.ts:7:1 › authored V3 belly tiles stay dark under the production material lighting while day and sun direction still matter @mobile (1.2s)
+[authored-v3-tiles] {
+  morning: [ 13.106796875, 66.731875 ],
+  afternoon: [ 67.2334375, 13.105390625 ]
+}
+  ✓   2 [chromium] › tests/e2e/post-compositing.spec.ts:29:1 › authored V3 vehicle tile faces follow mirrored sunlight @mobile (325ms)
+(node:22064) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 13.106796875, right: 66.731875 },
+  reversed: { left: 67.2334375, right: 13.105390625 },
+  night: { left: 2, right: 4.54859375 },
+  unshielded: { left: 54.670859375, right: 218.992890625 }
+}
+  ✓   3 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › authored V3 belly tiles stay dark under the production material lighting while day and sun direction still matter @mobile (456ms)
+[authored-v3-tiles] {
+  morning: [ 13.106796875, 66.731875 ],
+  afternoon: [ 67.2334375, 13.105390625 ]
+}
+  ✓   4 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:29:1 › authored V3 vehicle tile faces follow mirrored sunlight @mobile (337ms)
+(node:22075) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 13.106796875, right: 66.731875 },
+  reversed: { left: 67.2334375, right: 13.105390625 },
+  night: { left: 2, right: 4.54859375 },
+  unshielded: { left: 54.670859375, right: 218.992890625 }
+}
+  ✓   5 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › authored V3 belly tiles stay dark under the production material lighting while day and sun direction still matter @mobile (389ms)
+[authored-v3-tiles] {
+  morning: [ 13.106796875, 66.731875 ],
+  afternoon: [ 67.2334375, 13.105390625 ]
+}
+  ✓   6 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:29:1 › authored V3 vehicle tile faces follow mirrored sunlight @mobile (315ms)
+(node:22082) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 13.106796875, right: 66.731875 },
+  reversed: { left: 67.2334375, right: 13.105390625 },
+  night: { left: 2, right: 4.54859375 },
+  unshielded: { left: 54.670859375, right: 218.992890625 }
+}
+  ✓   7 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › authored V3 belly tiles stay dark under the production material lighting while day and sun direction still matter @mobile (422ms)
+[authored-v3-tiles] {
+  morning: [ 13.106796875, 66.731875 ],
+  afternoon: [ 67.2334375, 13.105390625 ]
+}
+  ✓   8 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:29:1 › authored V3 vehicle tile faces follow mirrored sunlight @mobile (335ms)
+(node:22089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 13.106796875, right: 66.731875 },
+  reversed: { left: 67.2334375, right: 13.105390625 },
+  night: { left: 2, right: 4.54859375 },
+  unshielded: { left: 54.670859375, right: 218.992890625 }
+}
+  ✓   9 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › authored V3 belly tiles stay dark under the production material lighting while day and sun direction still matter @mobile (425ms)
+[authored-v3-tiles] {
+  morning: [ 13.106796875, 66.731875 ],
+  afternoon: [ 67.2334375, 13.105390625 ]
+}
+  ✓  10 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:29:1 › authored V3 vehicle tile faces follow mirrored sunlight @mobile (328ms)
+
+  10 passed (9.7s)

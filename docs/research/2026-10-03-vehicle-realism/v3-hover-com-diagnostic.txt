@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/guidance-truth.test.ts (4 tests | 1 failed) 157ms
+     × is not vacuous: TWR 1.1 climbs at a tenth of local gravity 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/guidance-truth.test.ts > the vertical TWR law holds a hover at TWR 1 > is not vacuous: TWR 1.1 climbs at a tenth of local gravity
+AssertionError: expected 0.9590837186950427 to be greater than 0.9620250487063928
+ ❯ tests/core/guidance-truth.test.ts:84:26
+     82|     expect(throttle).toBeLessThan(100);
+     83|     const padGravity = gravityAt(C.planetRadius);
+     84|     expect(acceleration).toBeGreaterThan(0.1 * padGravity - 0.02);
+       |                          ^
+     85|     expect(acceleration).toBeLessThan(0.1 * padGravity + 0.02);
+     86|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  15:53:41
+   Duration  1.45s (transform 778ms, setup 0ms, import 942ms, tests 157ms, environment 0ms)
+

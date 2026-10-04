@@ -1,0 +1,32 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-mission.test.ts (4 tests | 2 failed) 13ms
+     × dissolves the stack on ship terminal loss without resetting the survivor 8ms
+     × dissolves the stack on booster terminal loss without resetting the survivor 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-mission.test.ts > damaged mission mass and reference > dissolves the stack on ship terminal loss without resetting the survivor
+ FAIL  |unit| tests/core/damage-mission.test.ts > damaged mission mass and reference > dissolves the stack on booster terminal loss without resetting the survivor
+AssertionError: expected 'attached' to be 'separated' // Object.is equality
+
+Expected: "separated"
+Received: "attached"
+
+ ❯ tests/core/damage-mission.test.ts:48:26
+     46|     const reference = stepMission(m, 1 / 120);
+     47|     const result = stepMission(failedMission, 1 / 120);
+     48|     expect(result.phase).toBe('separated');
+       |                          ^
+     49|     expect(result[failed].damage!.terminal.active).toBe(true);
+     50|     expect(result[healthy].damage!.terminal.active).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  15:10:37
+   Duration  395ms (transform 198ms, setup 0ms, import 247ms, tests 13ms, environment 0ms)
+

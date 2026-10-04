@@ -1,0 +1,280 @@
+[
+  {
+    "event": "origin",
+    "time": 0.008333333333333333,
+    "phase": "align-boost",
+    "range": 365430.8848920978,
+    "fallTime": 309.5771243314906,
+    "retainedMass": 700000,
+    "plannedAcceleration": 48.73318743526547,
+    "rawHint": 24.222087581176112,
+    "upper": 50.3,
+    "upperQuarter": 12.575,
+    "first": 24.225,
+    "engineMassFlow": 764.5259938837921,
+    "beforeHash": {
+      "src/core/control/booster-prediction.ts": "76f9e5abed80ba26908c0e0510ee79d8e99c7a76b733a841325b454975ff1364",
+      "src/core/control/booster-forecast.ts": "67f3a01515b21a3adead7e7247166cd3789c540b8dd5841c9109e13bde00ef25",
+      "src/core/control/booster-arrival.ts": "5dccec0dec9b21b68a8a4bae346d27182e14e5b440de1f11314a321ff99d5023",
+      "src/core/state.ts": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d",
+      "src/core/step.ts": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986",
+      "src/core/physics/step-dynamics.ts": "0eaa43344db7a44bb7aae4682caafdb483a09f8660caab7fba80c5cea42ad5ba"
+    }
+  },
+  {
+    "event": "candidate",
+    "duration": 24.225,
+    "ticks": 2907,
+    "charged": 3728,
+    "phaseCounts": {
+      "align-boost": 1155,
+      "startup": 142,
+      "steady-boost": 460,
+      "boost-tail": 5,
+      "coast": 958,
+      "entry": 1007,
+      "terminal": 1
+    },
+    "phaseElapsed": {
+      "align-boost": 9.625000000000094,
+      "startup": 1.1833333333333316,
+      "steady-boost": 23.000000000000192,
+      "boost-tail": 0.041666666666666664,
+      "coast": 239.5,
+      "entry": 44.47499999999961,
+      "terminal": 0.008333333333333333
+    },
+    "reusedCounts": {},
+    "reusedSteps": 0,
+    "reusedBoostTicks": 0,
+    "totalSteps": 3728,
+    "coarseRange": -553.2757823965792,
+    "shutdownAt": 33.858333333332055,
+    "finalPrefix": {
+      "steps": 1757,
+      "steadySteps": 460,
+      "boostSteps": 142
+    }
+  },
+  {
+    "event": "candidate",
+    "duration": 24.216666666666665,
+    "ticks": 2906,
+    "charged": 1971,
+    "phaseCounts": {
+      "boost-tail": 4,
+      "coast": 958,
+      "entry": 1008,
+      "terminal": 1
+    },
+    "phaseElapsed": {
+      "boost-tail": 0.03333333333333333,
+      "coast": 239.5,
+      "entry": 44.52499999999961,
+      "terminal": 0.008333333333333333
+    },
+    "reusedCounts": {
+      "align-boost": 1155,
+      "startup": 142,
+      "steady-boost": 460
+    },
+    "reusedSteps": 1757,
+    "reusedBoostTicks": 2902,
+    "totalSteps": 3728,
+    "coarseRange": -509.8076626123472,
+    "shutdownAt": 33.84999999999872,
+    "selectedPrefix": {
+      "time": 33.80833333333356,
+      "steadySteps": 460,
+      "boostSteps": 142
+    },
+    "finalPrefix": {
+      "steps": 1757,
+      "steadySteps": 460,
+      "boostSteps": 142
+    },
+    "bestEarlierCommonPrefix": {
+      "sourceDuration": 24.225,
+      "steps": 1757,
+      "boostTicks": 2902,
+      "boostSteps": 142,
+      "steadySteps": 460,
+      "time": 33.80833333333356,
+      "cutoffClock": 33.81666666666539,
+      "phaseCounts": {
+        "align-boost": 1155,
+        "startup": 142,
+        "steady-boost": 460
+      }
+    }
+  },
+  {
+    "event": "candidate",
+    "duration": 24.125,
+    "ticks": 2895,
+    "charged": 2415,
+    "phaseCounts": {
+      "steady-boost": 458,
+      "boost-tail": 5,
+      "coast": 959,
+      "entry": 992,
+      "terminal": 1
+    },
+    "phaseElapsed": {
+      "steady-boost": 22.90000000000019,
+      "boost-tail": 0.041666666666666664,
+      "coast": 239.75,
+      "entry": 43.72499999999965,
+      "terminal": 0.008333333333333333
+    },
+    "reusedCounts": {
+      "align-boost": 1155,
+      "startup": 142
+    },
+    "reusedSteps": 1297,
+    "reusedBoostTicks": 142,
+    "totalSteps": 3712,
+    "coarseRange": -140.92945360223888,
+    "shutdownAt": 33.75833333333206,
+    "selectedPrefix": {
+      "time": 10.80833333333336,
+      "steadySteps": 0,
+      "boostSteps": 142
+    },
+    "finalPrefix": {
+      "steps": 1755,
+      "steadySteps": 458,
+      "boostSteps": 142
+    },
+    "bestEarlierCommonPrefix": {
+      "sourceDuration": 24.225,
+      "steps": 1755,
+      "boostTicks": 2890,
+      "boostSteps": 142,
+      "steadySteps": 458,
+      "time": 33.70833333333356,
+      "cutoffClock": 33.7166666666654,
+      "phaseCounts": {
+        "align-boost": 1155,
+        "startup": 142,
+        "steady-boost": 458
+      }
+    }
+  },
+  {
+    "event": "candidate",
+    "duration": 24.091666666666665,
+    "ticks": 2891,
+    "charged": 1957,
+    "phaseCounts": {
+      "boost-tail": 1,
+      "coast": 959,
+      "entry": 996,
+      "terminal": 1
+    },
+    "phaseElapsed": {
+      "boost-tail": 0.008333333333333333,
+      "coast": 239.75,
+      "entry": 43.92499999999964,
+      "terminal": 0.008333333333333333
+    },
+    "reusedCounts": {
+      "align-boost": 1155,
+      "startup": 142,
+      "steady-boost": 458
+    },
+    "reusedSteps": 1755,
+    "reusedBoostTicks": 2890,
+    "totalSteps": 3712,
+    "coarseRange": 43.28250419060737,
+    "shutdownAt": 33.72499999999873,
+    "selectedPrefix": {
+      "time": 33.70833333333356,
+      "steadySteps": 458,
+      "boostSteps": 142
+    },
+    "finalPrefix": {
+      "steps": 1755,
+      "steadySteps": 458,
+      "boostSteps": 142
+    },
+    "bestEarlierCommonPrefix": {
+      "sourceDuration": 24.225,
+      "steps": 1755,
+      "boostTicks": 2890,
+      "boostSteps": 142,
+      "steadySteps": 458,
+      "time": 33.70833333333356,
+      "cutoffClock": 33.7166666666654,
+      "phaseCounts": {
+        "align-boost": 1155,
+        "startup": 142,
+        "steady-boost": 458
+      }
+    }
+  },
+  {
+    "event": "candidate",
+    "duration": 24.1,
+    "ticks": 2892,
+    "charged": 1956,
+    "phaseCounts": {
+      "boost-tail": 2,
+      "coast": 959,
+      "entry": 994,
+      "terminal": 1
+    },
+    "phaseElapsed": {
+      "boost-tail": 0.016666666666666666,
+      "coast": 239.75,
+      "entry": 43.82499999999965,
+      "terminal": 0.008333333333333333
+    },
+    "reusedCounts": {
+      "align-boost": 1155,
+      "startup": 142,
+      "steady-boost": 458
+    },
+    "reusedSteps": 1755,
+    "reusedBoostTicks": 2890,
+    "totalSteps": 3711,
+    "coarseRange": -2.3877542056970924,
+    "shutdownAt": 33.73333333333206,
+    "selectedPrefix": {
+      "time": 33.70833333333356,
+      "steadySteps": 458,
+      "boostSteps": 142
+    },
+    "finalPrefix": {
+      "steps": 1755,
+      "steadySteps": 458,
+      "boostSteps": 142
+    },
+    "bestEarlierCommonPrefix": {
+      "sourceDuration": 24.225,
+      "steps": 1755,
+      "boostTicks": 2890,
+      "boostSteps": 142,
+      "steadySteps": 458,
+      "time": 33.70833333333356,
+      "cutoffClock": 33.7166666666654,
+      "phaseCounts": {
+        "align-boost": 1155,
+        "startup": 142,
+        "steady-boost": 458
+      }
+    }
+  },
+  {
+    "event": "source-stability",
+    "afterHash": {
+      "src/core/control/booster-prediction.ts": "76f9e5abed80ba26908c0e0510ee79d8e99c7a76b733a841325b454975ff1364",
+      "src/core/control/booster-forecast.ts": "67f3a01515b21a3adead7e7247166cd3789c540b8dd5841c9109e13bde00ef25",
+      "src/core/control/booster-arrival.ts": "5dccec0dec9b21b68a8a4bae346d27182e14e5b440de1f11314a321ff99d5023",
+      "src/core/state.ts": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d",
+      "src/core/step.ts": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986",
+      "src/core/physics/step-dynamics.ts": "0eaa43344db7a44bb7aae4682caafdb483a09f8660caab7fba80c5cea42ad5ba"
+    },
+    "unchanged": true
+  }
+]

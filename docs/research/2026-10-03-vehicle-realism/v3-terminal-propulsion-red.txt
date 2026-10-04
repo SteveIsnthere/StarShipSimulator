@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-terminal.test.ts (5 tests | 1 failed) 16ms
+     × preserves the last paid thrust only on the failure interval 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-terminal.test.ts > terminal release before legacy shutdown > preserves the last paid thrust only on the failure interval
+AssertionError: expected 15497197.880583987 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 15497197.880583987
+
+ ❯ tests/core/damage-terminal.test.ts:21:32
+     19|     expect(failed.forces.thrust).toBeGreaterThan(0);
+     20|     const next = step(failed, 1 / 120);
+     21|     expect(next.forces.thrust).toBe(0);
+       |                                ^
+     22|     expect(next.forces.thrustAcceleration).toBe(0);
+     23|     expect(next.forces.thrustVectorAcceleration).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  15:45:30
+   Duration  504ms (transform 282ms, setup 0ms, import 339ms, tests 16ms, environment 0ms)
+

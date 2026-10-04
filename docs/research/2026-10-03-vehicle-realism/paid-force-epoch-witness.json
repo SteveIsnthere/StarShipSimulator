@@ -1,0 +1,89 @@
+[
+  {
+    "label": "injected-root supplemental one canonical endpoint, not natural proof",
+    "hashes": {
+      "src/core/control/booster-arrival.ts": "05c76fa404c450219f20d8c5af816c8837cea8265a44c5b71d21e756bfc386e1",
+      "src/core/physics/step-dynamics.ts": "1501560dbbf6dc25dae83588bce5054e6ccdd8015073a6e08135b441580599e5",
+      "src/core/physics/damage-flight.ts": "727d66df66399eb182f82f1d80a7a4a8c88e62ebc0c934ad52bfe6293303f300",
+      "src/core/control/mechanical.ts": "2b3351540043f038af5a184a88c9cc193b64681f891c4ae1bcb113bfefb09a5f",
+      "src/core/mission-free-flight.ts": "63bf8d648e1210e3c33e6f11c957ed397bc7a1520ad038739a6d6fd47dbc1cc0"
+    }
+  },
+  {
+    "warm": false,
+    "revision": 0,
+    "terminal": false,
+    "attached": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "q_kPa": 16.003777050921137,
+    "skin_K": 573.3437115155767,
+    "felt_g": 1.9199975161191598,
+    "paidMass_kg": 1199950.3058103975,
+    "retainedMass_kg": 1199950.3058103975,
+    "paidThrust_N": 20394609.131339714,
+    "storedPaidAcceleration_m_s2": 16.99621145357851,
+    "incomingGimbalDirection_rad": 0.06764012244017012,
+    "endpointPitch_rad": 0.12333333333333332,
+    "expectedRequiredX": -0.0773874245242352,
+    "expectedRequiredY": 20.6411613338323,
+    "actualRequiredX": -0.0773874245242352,
+    "actualRequiredY": 20.6411613338323,
+    "actualThrottle": 73.0344058735909,
+    "expectedThrottle": 73.0344058735909,
+    "error": {
+      "x": 0,
+      "y": 0,
+      "throttle": 0
+    }
+  },
+  {
+    "label": "same paid interval, next requested all33 inventory (supplemental endpoint mask probe)",
+    "oldPaidShare": 1,
+    "currentShare": 0.3939393939393939,
+    "requiredError_m_s2": [
+      0.5709938183882308,
+      -0.05468864430860876
+    ]
+  },
+  {
+    "warm": true,
+    "revision": 1,
+    "terminal": false,
+    "attached": [
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true
+    ],
+    "q_kPa": 16.003777050921137,
+    "skin_K": 573.3437115155767,
+    "felt_g": 1.8982744512503658,
+    "paidMass_kg": 1199950.3058103975,
+    "retainedMass_kg": 1198903.1740983976,
+    "paidThrust_N": 20394609.131339714,
+    "storedPaidAcceleration_m_s2": 16.99621145357851,
+    "incomingGimbalDirection_rad": 0.06764012244017012,
+    "endpointPitch_rad": 0.12333333333333332,
+    "expectedRequiredX": 0.979693220282962,
+    "expectedRequiredY": 20.768385959710074,
+    "actualRequiredX": 0.9806965472827645,
+    "actualRequiredY": 20.78319664249438,
+    "actualThrottle": 73.47279619149327,
+    "expectedThrottle": 73.42043743762171,
+    "error": {
+      "x": 0.0010033269998024341,
+      "y": 0.014810682784307971,
+      "throttle": 0.05235875387155886
+    }
+  }
+]

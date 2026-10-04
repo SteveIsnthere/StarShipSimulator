@@ -1,0 +1,24 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-root.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-root.test.ts [ tests/core/damage-root.test.ts ]
+Error: Cannot find module '$core/physics/damage-root' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/damage-root.test.ts
+ ❯ tests/core/damage-root.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import { createRootSection, loadedRootAngle, rootUtilization } from '$…
+       | ^
+      3| import { steelElasticModulus, steelProofStrength } from '$core/physics…
+      4|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  13:39:00
+   Duration  168ms (transform 25ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

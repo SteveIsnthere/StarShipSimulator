@@ -1,0 +1,68 @@
+[WebServer] (node:23055) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:23056) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+  ✘  1 [chromium] › tests/e2e/vehicle-damage.spec.ts:46:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (8.7s)
+(node:23084) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+  ✘  2 [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:46:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (11.8s)
+
+
+  1) [chromium] › tests/e2e/vehicle-damage.spec.ts:46:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+
+    Error: loaded terminated prematurely
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      38 |     ticks += result.ticks;
+      39 |     if (result.done) return result.t as Telemetry;
+    > 40 |     expect(result.t['damage.terminal.active'], `${phase} terminated prematurely`).toBe(false);
+         |                                                                                   ^
+      41 |     expect(result.t['status.onTheGround']).toBe(false);
+      42 |   }
+      43 |   throw new Error(`${phase} exceeded declared physical phase cap ${cap} ticks`);
+        at until (/Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:40:83)
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:76:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-chromium/error-context.md
+
+  2) [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:46:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+
+    Error: loaded terminated prematurely
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      38 |     ticks += result.ticks;
+      39 |     if (result.done) return result.t as Telemetry;
+    > 40 |     expect(result.t['damage.terminal.active'], `${phase} terminated prematurely`).toBe(false);
+         |                                                                                   ^
+      41 |     expect(result.t['status.onTheGround']).toBe(false);
+      42 |   }
+      43 |   throw new Error(`${phase} exceeded declared physical phase cap ${cap} ticks`);
+        at until (/Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:40:83)
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:76:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-pixel-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-pixel-portrait/error-context.md
+
+  2 failed
+    [chromium] › tests/e2e/vehicle-damage.spec.ts:46:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+    [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:46:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 

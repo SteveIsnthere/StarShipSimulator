@@ -1,0 +1,29 @@
+{
+  "status": "rejected: no demonstrated performance gain; prior 2.22362084 ms, attempted 2.321600000000001 ms; limit 2 ms",
+  "head": "32e5bb386cadee9098d703c67ebdfc9444eb46a6",
+  "baseNote": "Base is the uncommitted cycle 2 attempt 1 working state, not HEAD alone. Exact file hashes below pin that state.",
+  "patch": "rejected-fall-thrust-preparation.patch",
+  "patchSha256": "e873e05dc32e5dc7d06ab698a7fdbeaf96996304e385aff758335da0bde3db2e",
+  "files": {
+    "src/core/physics/components.ts": {
+      "restoredSha256": "8e2b3351beb67380842bd7d7b28a6b97b4ba0ad2847c134c002a62397991ffc4",
+      "rejectedAttemptSha256": "292adf3be754fef68c5ec20302bffe9e8114dcd964933ecc106e53b994365ec7"
+    },
+    "src/core/control/guidance-physics.ts": {
+      "restoredSha256": "5698a8f7ad0da8927613a8cdd6efc2cfde88efd79563cc9d8f7bfd5c28f7ab77",
+      "rejectedAttemptSha256": "bf97f3c0dc60831bbe20122cba852f7a03c13424c0c91af9fc64ecd296966a72"
+    },
+    "tests/proofs/acceleration-components.test.ts": {
+      "restoredSha256": "ffeea3dd9483cdf834d27318ddb1ec47f45f2187f13983132daa69a360044257",
+      "rejectedAttemptSha256": "63aab691e615202977b17a46e07e0909fc000f8345914374370b122fd79af510"
+    },
+    "tests/proofs/unpowered-fall-preparation.test.ts": {
+      "restoredSha256": "b191804ba6975bedcb0bb4ef481a0b66bae517d39b26d1bbc544145dd0abac8b",
+      "rejectedAttemptSha256": "ed45b2f875d44f9a5145ab03d8531de9e2b2f326996fa9d473ad9935cbc0361b"
+    },
+    "tests/proofs/fixtures/unpowered-fall-original.ts": {
+      "restoredSha256": "28166badb87c6f5eed3ddab75a02e738e19035ec3557557a21c3328279b1cdf8",
+      "rejectedAttemptSha256": "588fdaa09fd970c402fa2d81539b534196bfc49d1d8a406338d5a481d482b3ce"
+    }
+  }
+}

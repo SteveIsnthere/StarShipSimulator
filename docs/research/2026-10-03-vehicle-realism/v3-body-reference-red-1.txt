@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/body-reference.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/body-reference.test.ts [ tests/core/body-reference.test.ts ]
+Error: Cannot find module '$core/physics/body-reference' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/body-reference.test.ts
+ ❯ tests/core/body-reference.test.ts:4:1
+      2| import { createInitialState } from '$core/state';
+      3| import { rad } from '$core/units';
+      4| import { writeReferenceShift } from '$core/physics/body-reference';
+       | ^
+      5|
+      6| describe('rigid body reference translation', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  15:00:39
+   Duration  267ms (transform 92ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

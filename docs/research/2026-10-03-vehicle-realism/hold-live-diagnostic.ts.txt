@@ -1,0 +1,120 @@
+/** Authorized third diagnostic: existing hold only, prior inputs/caps frozen. */
+import { writeFileSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { createScenarioVehicle, PRESETS } from '../../../src/core/scenarios';
+import { DEFAULT_SEED } from '../../../src/core/state';
+import { deg } from '../../../src/core/units';
+import { step } from '../../../src/core/step';
+import { toggleRaptor, togglePitchHold, recordHoldingPitchResumeAuto, setManualControl, toggleFin } from '../../../src/core/control/commands';
+import { shutdownEngine, IGNITION_DELAY_MAX_S } from '../../../src/core/physics/engines';
+import { cloneDamageState } from '../../../src/core/damage-state';
+import { damageModelFor } from '../../../src/core/physics/damage-model';
+import { createDamageControlForces, writeDamageControls } from '../../../src/core/physics/damage-controls';
+import { relativeAirspeed } from '../../../src/core/physics/aero';
+import { airVelocityX } from '../../../src/core/physics/wind';
+import { engineMassFlow } from '../../../src/core/physics/propulsion';
+import { circularOrbitalSpeed, groundTangentialSpeed } from '../../../src/core/physics/gravity';
+import { planetRadius } from '../../../src/core/constants';
+
+const dt = 1 / 120, height = 80000, radius = planetRadius + height;
+const initialSpeed = groundTangentialSpeed(radius, circularOrbitalSpeed(radius));
+const base = PRESETS.find(p => p.id === 'booster-sep')!;
+const { state: initial, vehicle } = createScenarioVehicle({ ...base, id: 'custom', basedOn: base.id,
+  altitude: height, xPosition: 0, speedX: initialSpeed, speedY: 0, pitch: deg(-90), propellant: 3650, wind: 0 }, DEFAULT_SEED);
+initial.status.finActive = true; initial.status.translationModeOn = true;
+initial.autopilot.manualControlOn = true;
+const model = damageModelFor(vehicle), cold = cloneDamageState(initial.damage!);
+const live = createDamageControlForces(model.partition.components.length);
+const coldOut = createDamageControlForces(model.partition.components.length);
+const probeLive = createDamageControlForces(model.partition.components.length);
+const probeCold = createDamageControlForces(model.partition.components.length);
+const indices = model.partition.components.flatMap((c, i) => c.kind === 'grid-fin' ? [i] : []);
+const first = indices[0]!;
+const coastCap = 718.8414509444451;
+const burnCap = vehicle.propellantCapacity / (vehicle.engines.length * engineMassFlow(vehicle.propulsion, 'sea-level')) + IGNITION_DELAY_MAX_S;
+const entryCap = 2 * Math.PI * radius / circularOrbitalSpeed(radius);
+const totalCap = coastCap + burnCap + entryCap;
+const sourceFiles = ['src/core/step.ts', 'src/core/mission-free-flight.ts', 'src/core/control/mechanical.ts',
+  'src/core/physics/step-dynamics.ts', 'src/core/physics/damage-flight.ts', 'src/core/physics/damage-controls.ts',
+  'src/core/physics/damage-thermal.ts', 'src/core/physics/damage-material.ts', 'src/core/physics/engines.ts',
+  'src/core/control/commands.ts', 'src/core/vehicles/super-heavy.ts'];
+const hashes = Object.fromEntries(sourceFiles.map(path => [path, createHash('sha256').update(readFileSync(path)).digest('hex')]));
+const rows: unknown[] = [{ declaration: { initialSpeed, fuel_kg: initial.vehicle.propellantMass,
+  ambientRoot_K: initial.damage!.components[first]!.root.temperature, seed: DEFAULT_SEED,
+  dt_s: dt, coastCap_s: coastCap, burnCap_s: burnCap, entryCap_s: entryCap, totalCap_s: totalCap,
+  attitudeHold: 'existing utility during burn only', label: 'off-nominal editor exposure, not a plausible SH orbital mission', hashes } }];
+let state = initial, phase: 'coast' | 'burn' | 'entry' = 'coast', phaseStart = 0;
+let stop = 'overall-cap', steps = 0, maxRoot = 0, maxActualAngleReduction = 0;
+let burnStart: number | null = null, entryStart: number | null = null;
+const command = () => phase === 'entry' ? 100 : 0;
+const speed = () => relativeAirspeed(state.kinematics.speedX, state.kinematics.speedY,
+  airVelocityX(state.world, state.kinematics.altitude), state.world.gustVertical);
+for (; steps < Math.ceil(totalCap / dt); steps++) {
+  const previous = state;
+  state = step(state, dt, phase === 'burn' ? { throttle: 100 } : { pitchControl: command(), throttle: 100 }, vehicle);
+  const time = (steps + 1) * dt;
+  const q = state.forces.dynamicPressure * 1000, incidence = Math.abs(Math.sin(state.kinematics.angleInToTheWind));
+  const actualCommand = (previous.vehicle.frontFinExtension - 50) / 50 * vehicle.gridFins!.maxAngle;
+  writeDamageControls(state.damage!, model.controls, q, incidence, actualCommand, 0, live);
+  writeDamageControls(cold, model.controls, q, incidence, actualCommand, 0, coldOut);
+  writeDamageControls(state.damage!, model.controls, q, incidence, Math.PI / 4, 0, probeLive);
+  writeDamageControls(cold, model.controls, q, incidence, Math.PI / 4, 0, probeCold);
+  const root = state.damage!.components[first]!.root;
+  maxRoot = Math.max(maxRoot, ...indices.map(i => state.damage!.components[i]!.root.temperature));
+  const healthy = !state.damage!.terminal.active && state.damage!.components[first]!.attached;
+  const actualAngleReduction = healthy ? coldOut.loadedAngles[first]! - live.loadedAngles[first]! : null;
+  if (actualAngleReduction !== null) maxActualAngleReduction = Math.max(maxActualAngleReduction, actualAngleReduction);
+  let event: string | null = null;
+  if (state.damage!.terminal.active) { event = stop = 'global-terminal'; }
+  else if (state.damage!.revision > 0) { event = stop = 'progressive-loss'; }
+  else if (state.status.onTheGround || state.status.landed || state.failures.crashed) { event = stop = 'ground'; }
+  else if (phase === 'coast' && Math.min(...indices.map(i => state.damage!.components[i]!.root.temperature)) >= 1073.15) {
+    event = 'request-all33-ignitions';
+    togglePitchHold(state); recordHoldingPitchResumeAuto(state);
+    for (let i = 0; i < vehicle.engines.length; i++) toggleRaptor(state, i);
+    phase = 'burn'; phaseStart = time; burnStart = time;
+  } else if (phase === 'burn' && speed() <= 4000) {
+    event = 'paid-speed-cutoff-command-grid45';
+    togglePitchHold(state); setManualControl(state, true);
+    if (!state.status.finActive) toggleFin(state);
+    for (let i = 0; i < vehicle.engines.length; i++) shutdownEngine(state, i);
+    phase = 'entry'; phaseStart = time; entryStart = time;
+  } else if ((phase === 'coast' && time > coastCap) || (phase === 'burn' && time - phaseStart > burnCap)
+    || (phase === 'entry' && time - phaseStart > entryCap)) { event = stop = `${phase}-cap`; }
+  const stopped = event !== null && ['global-terminal', 'progressive-loss', 'ground', 'coast-cap', 'burn-cap', 'entry-cap'].includes(event);
+  const cadence = phase === 'coast' ? 600 : phase === 'burn' ? 120 : 12;
+  if (steps % cadence === 0 || event !== null) rows.push({ time_s: time, phase, event,
+    altitude_m: state.kinematics.altitude, velocity_m_s: [state.kinematics.speedX, state.kinematics.speedY],
+    airspeed_m_s: speed(), pitch_rad: state.kinematics.pitch, omega_rad_s: state.kinematics.angularVelocity,
+    fuel_kg: state.vehicle.propellantMass, runningEngines: state.engines.running.filter(Boolean).length,
+    ignitionCountdown_s: event === 'request-all33-ignitions' ? state.engines.ignitionCountdown : undefined,
+    holdOn: state.autopilot.pitchHoldOn, holdingPitch_rad: state.autopilot.holdingPitch,
+    pitchRate_rad_s: state.kinematics.pitchRateOfChange, gimbal_percent: state.vehicle.gimbalPosition,
+    boosterFinCommand_percent: state.autopilot.boosterFinControl, rcsThrust_N: state.forces.rcsThrust,
+    rcsReserve_s: state.vehicle.rcsRunTimeRemaining, thrust_N: state.forces.thrust,
+    offAxisAngularAcceleration_rad_s2: state.forces.offAxisThrustDifferenceAcceleration,
+    throttleCurrent_percent: state.vehicle.throttleCurrent, gridExtension_percent: state.vehicle.frontFinExtension,
+    intervalGridCommand_rad: actualCommand, q_Pa: q, flux_W_m2: state.forces.thermalPower,
+    skin_K: state.forces.surfaceTemperature, felt_g: state.forces.perceivedG,
+    root_K: indices.map(i => state.damage!.components[i]!.root.temperature), rootEnergy_J: root.energy,
+    actualLoaded_rad: live.loadedAngles[first], coldActualLoaded_rad: coldOut.loadedAngles[first],
+    actualThermalAngleReduction_rad: actualAngleReduction,
+    actualThermalLiftReduction_N: healthy ? q * (coldOut.gridLiftArea - live.gridLiftArea) : null,
+    actualThermalDragReduction_N: healthy ? q * (coldOut.gridDragArea - live.gridDragArea) : null,
+    hypothetical45Live_rad: probeLive.loadedAngles[first], hypothetical45Cold_rad: probeCold.loadedAngles[first],
+    actualProofMask: live.proofMask, actualDomainMask: live.domainMask,
+    hypotheticalProofMask: probeLive.proofMask, hypotheticalDomainMask: probeLive.domainMask,
+    gridAttached: indices.map(i => state.damage!.components[i]!.attached),
+    permanentFailure: indices.map(i => state.damage!.components[i]!.permanentFailure),
+    revision: state.damage!.revision, terminal: state.damage!.terminal.active ? state.damage!.terminal : null });
+  if (steps % 14400 === 0) console.log(JSON.stringify({ progress_s: time, phase, altitude_m: state.kinematics.altitude, root_K: root.temperature }));
+  if (stopped) { steps++; break; }
+}
+const summary = { stop, steps, elapsed_s: steps * dt, burnStart_s: burnStart, entryStart_s: entryStart,
+  maxRoot_K: maxRoot, maxActualThermalAngleReduction_rad: maxActualAngleReduction,
+  terminalReason: state.damage!.terminal.reason, gridAttached: indices.map(i => state.damage!.components[i]!.attached),
+  permanentFailure: indices.map(i => state.damage!.components[i]!.permanentFailure),
+  coldReferenceUnchanged: JSON.stringify(cold) === JSON.stringify(initial.damage) };
+rows.push({ summary });
+writeFileSync(new URL('./hold-live-diagnostic.jsonl', import.meta.url), rows.map(row => JSON.stringify(row)).join('\n') + '\n');
+console.log(JSON.stringify(summary, null, 2));

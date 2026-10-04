@@ -1,0 +1,127 @@
+{"progress_s":0.004166666666666667,"phase":"coast","altitude_m":80000,"root_K":198.64947077047395}
+{"progress_s":120.00416666666666,"phase":"coast","altitude_m":79992.1389488824,"root_K":465.14732701188314}
+{"progress_s":240.00416666666666,"phase":"coast","altitude_m":79937.32213007295,"root_K":693.7175843126819}
+{"progress_s":360.00416666666666,"phase":"coast","altitude_m":79789.43198266411,"root_K":891.6047221702651}
+{"progress_s":480.00416666666666,"phase":"coast","altitude_m":79503.59949507912,"root_K":1054.947657976902}
+{"progress_s":600.0041666666666,"phase":"entry","altitude_m":67619.83406373244,"root_K":1117.4451525599925}
+{
+  "summary": {
+    "stop": "progressive-loss",
+    "steps": 154996,
+    "elapsed_s": 645.8166666666666,
+    "burnStart_s": 495.3125,
+    "entryStart_s": 599.3875,
+    "maxRoot_K": 1126.5627881990504,
+    "maxActualThermalAngleReduction_rad": 0.00019746071431736567,
+    "terminalReason": 0,
+    "gridAttached": [
+      false,
+      false,
+      false
+    ],
+    "permanentFailure": [
+      1,
+      1,
+      1
+    ],
+    "firstEndpoint": {
+      "time_s": 645.8166666666666,
+      "q_Pa": 15813.470973580663,
+      "skin_K": 1432.55589113498,
+      "felt_g": 0.7256021405460635,
+      "altitude_m": 44519.518121133835,
+      "fuel_kg": 1044511.3404695023,
+      "root_K": [
+        1126.5627881990504,
+        1126.5627881990504,
+        1126.5627881990504
+      ],
+      "actualCommand_rad": 0.7853981633974483
+    },
+    "proof": [
+      {
+        "id": "booster-grid-0",
+        "hot": {
+          "temperature_K": 1126.5627881990504,
+          "angle_rad": 0.7850311139480083,
+          "proof_Pa": 47578547.18625642,
+          "demand_Pa": 47587115.222403556,
+          "utilization": 1.0001800819203999
+        },
+        "cold": {
+          "temperature_K": 198.63857625086882,
+          "angle_rad": 0.7852286849183466,
+          "proof_Pa": 223000000,
+          "demand_Pa": 47592099.08733838,
+          "utilization": 0.21341748469658467
+        }
+      },
+      {
+        "id": "booster-grid-1",
+        "hot": {
+          "temperature_K": 1126.5627881990504,
+          "angle_rad": 0.7850311139480083,
+          "proof_Pa": 47578547.18625642,
+          "demand_Pa": 47587115.222403556,
+          "utilization": 1.0001800819203999
+        },
+        "cold": {
+          "temperature_K": 198.63857625086882,
+          "angle_rad": 0.7852286849183466,
+          "proof_Pa": 223000000,
+          "demand_Pa": 47592099.08733838,
+          "utilization": 0.21341748469658467
+        }
+      },
+      {
+        "id": "booster-grid-2",
+        "hot": {
+          "temperature_K": 1126.5627881990504,
+          "angle_rad": 0.7850311139480083,
+          "proof_Pa": 47578547.18625642,
+          "demand_Pa": 47587115.222403556,
+          "utilization": 1.0001800819203999
+        },
+        "cold": {
+          "temperature_K": 198.63857625086882,
+          "angle_rad": 0.7852286849183466,
+          "proof_Pa": 223000000,
+          "demand_Pa": 47592099.08733838,
+          "utilization": 0.21341748469658467
+        }
+      }
+    ],
+    "massAudit": {
+      "massResidual_kg": -2.3283064365386963e-10,
+      "linearMomentumResidual_kg_m_s": [
+        0,
+        2.384185791015625e-7
+      ],
+      "angularMomentumResidual_kg_m2_s": 1.1920928955078125e-7,
+      "maxRigidVelocityError_m_s": 1.1368683772161603e-13,
+      "label": "same-endpoint hull rigid-field reconstruction; not external-force-free time evolution"
+    },
+    "lastHealthy": {
+      "time_s": 645.8125,
+      "q_Pa": 15805.372939630397,
+      "root_K": 1126.5574921755,
+      "actualCommand_rad": 0.7853981633974483,
+      "liveLoaded_rad": 0.7850313109855013,
+      "coldLoaded_rad": 0.7852287716998186,
+      "angleReduction_rad": 0.00019746071431736567,
+      "liftReduction_N": 0.09037362911676684,
+      "dragReduction_N": 101.11844827924507
+    },
+    "minimumRcs_s": 0,
+    "paidRcs_s": 24.999999999999083,
+    "maxRcsPaymentError_s": 5.092304078264747e-15,
+    "coldReferenceUnchanged": true
+  },
+  "completion": {
+    "completion": {
+      "hz": 240,
+      "wall_s": 2.889058625,
+      "sourceUnchanged": true
+    }
+  }
+}

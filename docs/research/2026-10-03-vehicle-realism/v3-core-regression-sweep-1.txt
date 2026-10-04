@@ -1,0 +1,1160 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-guidance.test.ts (4 tests | 2 failed) 103013ms
+     × booster-sep: autopilot catches the actual33-engine booster within900s 37868ms
+     × cannot fabricate a catch when every engine is failed 59031ms
+ ❯ |unit| tests/flies-every-scenario.test.ts (17 tests | 1 failed) 61844ms
+     × booster-sep: auto-land landed 31362ms
+ ❯ |unit| tests/core/autopilot.test.ts (13 tests | 1 failed) 3946ms
+     × lands, and hands the vehicle back ready to fly 95ms
+ ❯ |unit| tests/core/angular-momentum.test.ts (8 tests | 2 failed) 129340ms
+     × to better than a part in ten thousand over a hundred minutes 51593ms
+     × and the orbit reaches the apogee the energy says it should 44604ms
+ ❯ |unit| tests/core/invariants.test.ts (4 tests | 2 failed) 19178ms
+     × every number stays finite, or is a sentinel it started as 8356ms
+     × with the engines off and no wind, orbital energy never rises beyond integrator error 7993ms
+ ❯ |unit| tests/core/domain-edges.test.ts (28 tests | 1 failed) 1817ms
+     × is the lower throttle limit applied to every running engine 22ms
+ ❯ |unit| tests/core/guidance-physics.test.ts (26 tests | 3 failed) 9019ms
+     × from 3 km at 150 m/s on 1 engine(s): within 0.1% of the burn or 2 m 214ms
+     × a vertical drop from 40 km 1449ms
+     × upright from 40 km, moving downrange 1984ms
+ ❯ |unit| tests/core/step.test.ts (15 tests | 1 failed) 1049ms
+     × spawns resting on the pad, not falling 18ms
+ ❯ |unit| tests/core/booster-terminal-envelope.test.ts (9 tests | 1 failed) 677ms
+     × keeps a finite terminal command through the recorded transient nominal cone rejection 18ms
+ ❯ |unit| tests/core/hot-staging.test.ts (16 tests | 2 failed) 668ms
+     × uses both actual masses and the parallel-axis inertia about the aggregate COM 10ms
+     × applies a real off-axis engine torque about the combined inertia, rather than each hull rotating alone 1ms
+ ❯ |unit| tests/core/control-contracts.test.ts (38 tests | 4 failed) 474ms
+     × is full thrust straight up, zero sideways, and negative upside down 15ms
+     × reaches the commanded TWR from 60% actual throttle without counting it twice 5ms
+     × reaches the commanded TWR when it is achievable 1ms
+     × horizontal: inside the threshold it eases rather than saturating 1ms
+ ❯ |unit| tests/core/booster-policy-boundaries.test.ts (12 tests | 2 failed) 234ms
+     × proposes a bounded coast correction from two actual force forecasts and caches only telemetry 23ms
+     × keeps a zero-range plane diagnostic neutral and resolves a near-cutoff diagnostic at the actual dt 2ms
+ ❯ |unit| tests/core/collapsed-trig.test.ts (11 tests | 1 failed) 374ms
+     × the seventh ladder, inlined in primitives, is collapsed too 11ms
+ ❯ |unit| tests/core/guidance-truth.test.ts (4 tests | 1 failed) 699ms
+     × is not vacuous: TWR 1.1 climbs at a tenth of local gravity 159ms
+ ❯ |unit| tests/core/fin-fraction.test.ts (11 tests | 1 failed) 883ms
+     × the initialiser and the per-step update agree 85ms
+ ❯ |unit| tests/core/autopilot-stages.test.ts (40 tests | 3 failed) 117ms
+     × steers the OPPOSITE way for the two mirrored engine configurations 33ms
+     × and the two single-outboard cases are treated alike, and lean the same way as both 2ms
+     × holds attitude rather than steering once it is very low 4ms
+ ❯ |unit| tests/core/wind.test.ts (10 tests | 2 failed) 114ms
+     × is q, drag and heating from the same one airspeed 32ms
+     × Mach is relative to the air 3ms
+ ❯ |unit| tests/core/super-heavy.test.ts (10 tests | 6 failed) 97ms
+     × retains the basedOn model and clamps to its own fuel capacity and pad height 7ms
+     × keeps a fixed RVac mount torque independent of gimbal at 0 kPa 2ms
+     × keeps a fixed RVac mount torque independent of gimbal at 101.325 kPa 1ms
+     × sums all33 engines and only the13 steerable engines supply gimbal authority 1ms
+     × starts at the selected load COM/inertia rather than uniform-cylinder inertia 1ms
+     × fits both tanks and retains positive inertia and physical thrust authority across the stated dry-mass uncertainty 1ms
+ ❯ |unit| tests/core/tower-catch.test.ts (9 tests | 4 failed) 122ms
+     × requires a descending airborne lug crossing, and accepts the frozen speed/position boundaries 15ms
+     × checks the actual rotated lug and terminal angular motion rather than body altitude alone 2ms
+     × secures the actual interpolated crossing pose, cancels all engines and preserves remaining fuel 1ms
+     × captures through the real integrator and remains airborne on following steps 1ms
+ ❯ |unit| tests/core/rvac.test.ts (13 tests | 5 failed) 92ms
+     × makes 258 tf in vacuum at 380 s 68ms
+     × flows at its own rate, and six engines add up 1ms
+     × with a sea-level engine lit too, only its thrust steers 1ms
+     × RVacs alone at pitch 60° with the gimbal deflected: cos(pitch), not cos(gimbal direction) 1ms
+     × mixed: each kind along its own direction; sea-level only: the old expression to the bit 0ms
+ ❯ |unit| tests/core/grid-fins.test.ts (5 tests | 2 failed) 30ms
+     × applies the bounded flat-plate lift and drag at the physical upper station 6ms
+     × never adds kinetic energy and rotates the station torque with the body 2ms
+ ❯ |unit| tests/core/thrust-altitude.test.ts (15 tests | 2 failed) 73ms
+     × but mass flow does NOT — it is set by the pumps, not the altitude 9ms
+     × the launch-pad scenario at full throttle makes 7% more thrust at 30 km than on the pad 54ms
+ ❯ |unit| tests/core/ship-control-boundaries.test.ts (3 tests | 1 failed) 53ms
+     × clears a stale fin command at zero attitude error, with both correction signs as controls 30ms
+ ❯ |unit| tests/core/failure-freshness.test.ts (7 tests | 3 failed) 144ms
+     × cancels engines and pending ignition when current pressure breaks the vehicle 11ms
+     × a crash shuts down before fuel use and cannot apply the incoming engine thrust 45ms
+     × breaks on current thrust and drag while pressure and temperature stay below their limits 2ms
+ ❯ |unit| tests/core/felt-g.test.ts (4 tests | 2 failed) 96ms
+     × is the local gravity, in g0, standing on the pad 16ms
+     × breaks the airframe at the felt limit, not at the net acceleration 3ms
+ ❯ |unit| tests/core/landing-burn.test.ts (6 tests | 1 failed) 17ms
+     × the final descent starts above the predicted burn by its one-second margin 5ms
+ ❯ |unit| tests/core/final-descent-profile.test.ts (3 tests | 2 failed) 18ms
+   × brakes immediately when the distance-over-three target exceeds the one-engine stopping envelope 14ms
+   × refreshes the braking demand when two engines are lost during final descent 1ms
+ ❯ |unit| tests/core/verlet.test.ts (8 tests | 2 failed) 116014ms
+     × to a part in 10^10 or better at every rate the simulation runs at 32488ms
+     × altitude drift is a centimetre, and does not depend on dt 46215ms
+ ❯ |unit| tests/core/orbit.test.ts (18 tests | 5 failed) 267208ms
+     × altitude holds within a kilometre over a full lap 44862ms
+     × speed holds within a metre per second over a full lap 39589ms
+     × never dips into the atmosphere or climbs away 42342ms
+     × completes a full revolution of downrange distance 44182ms
+     × an elliptical orbit comes back down again 84924ms
+ ❯ |unit| tests/core/orbit-demo.test.ts (31 tests | 5 failed) 238649ms
+     × and 100 km still does not — which is why the presets are at 150 11947ms
+     × flies the sequence it is supposed to: coast, burn, hand over, descend 3ms
+     × and the entry is managed, not merely survived 1ms
+     × from a different starting longitude — half a lap further round 41225ms
+     × 100 tonnes lighter at ignition 31723ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 70 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/flies-every-scenario.test.ts > the autopilot flies the ones it is meant to > booster-sep: auto-land landed
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/flies-every-scenario.test.ts:110:5
+    108|
+    109|   for (const { id, expected } of AUTO_LAND) {
+    110|     it(`${id}: auto-land ${expected}`, () => {
+       |     ^
+    111|       const preset = ALL_SCENARIOS.find((p) => p.id === id)!;
+    112|       const flight=createScenarioVehicle(preset),state=flight.state;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/70]⎯
+
+ FAIL  |unit| tests/core/angular-momentum.test.ts > angular momentum is conserved on an eccentric orbit > to better than a part in ten thousand over a hundred minutes
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/angular-momentum.test.ts:137:3
+    135|   const v0 = circularOrbitalSpeed(r0) * 1.1;
+    136|
+    137|   it('to better than a part in ten thousand over a hundred minutes', (…
+       |   ^
+    138|     let s = inVacuum(altitude, v0);
+    139|     const h0 = r0 * v0;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/70]⎯
+
+ FAIL  |unit| tests/core/angular-momentum.test.ts > angular momentum is conserved on an eccentric orbit > and the orbit reaches the apogee the energy says it should
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/angular-momentum.test.ts:152:3
+    150|   });
+    151|
+    152|   it('and the orbit reaches the apogee the energy says it should', () …
+       |   ^
+    153|     // Vis-viva: a = 1 / (2/r - v^2/mu), apogee = 2a - r for a burn at…
+    154|     const a = 1 / (2 / r0 - (v0 * v0) / MU);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/70]⎯
+
+ FAIL  |unit| tests/core/autopilot-stages.test.ts > the final descent compensates for which engines are lit > steers the OPPOSITE way for the two mirrored engine configurations
+AssertionError: expected +0 to be -1 // Object.is equality
+
+- Expected
++ Received
+
+- -1
++ 0
+
+ ❯ tests/core/autopilot-stages.test.ts:324:35
+    322|     const bothOutboard = steeringFor([false, true, true]);
+    323|
+    324|     expect(Math.sign(centreOnly)).toBe(-1);
+       |                                   ^
+    325|     expect(Math.sign(bothOutboard)).toBe(1);
+    326|     expect(Math.sign(centreOnly)).not.toBe(Math.sign(bothOutboard));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/70]⎯
+
+ FAIL  |unit| tests/core/autopilot-stages.test.ts > the final descent compensates for which engines are lit > and the two single-outboard cases are treated alike, and lean the same way as both
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/core/autopilot-stages.test.ts:337:31
+    335|     const third = steeringFor([false, false, true]);
+    336|     expect(second).toBe(third);
+    337|     expect(Math.sign(second)).toBe(1);
+       |                               ^
+    338|     expect(Math.sign(second)).toBe(Math.sign(steeringFor([false, true,…
+    339|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/70]⎯
+
+ FAIL  |unit| tests/core/autopilot-stages.test.ts > the final descent compensates for which engines are lit > holds attitude rather than steering once it is very low
+AssertionError: expected 0 to be less than 0
+ ❯ tests/core/autopilot-stages.test.ts:409:50
+    407|     // Upright and on target, the low case commands essentially nothin…
+    408|     // the high case is still trying to close 500 m of downrange error.
+    409|     expect(Math.abs(low.autopilot.pitchControl)).toBeLessThan(
+       |                                                  ^
+    410|       Math.abs(high.autopilot.pitchControl),
+    411|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/70]⎯
+
+ FAIL  |unit| tests/core/autopilot.test.ts > the intro demo — AGENTS.md lists this under "what must never change" > lands, and hands the vehicle back ready to fly
+AssertionError: expected 26.015351572403354 to be less than 26
+ ❯ tests/core/autopilot.test.ts:148:37
+    146|     expect(end.failures.crashed, 'the intro must not crash').toBe(fals…
+    147|     expect(end.failures.inFlightBreakUp).toBe(false);
+    148|     expect(end.kinematics.altitude).toBeLessThan(26);
+       |                                     ^
+    149|
+    150|     // welcome.js's checkIfTD hands control back to the player.
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/70]⎯
+
+ FAIL  |unit| tests/core/booster-guidance.test.ts > actual booster scenarios are secured at the tower > booster-sep: autopilot catches the actual33-engine booster within900s
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/booster-guidance.test.ts:82:42
+     80|
+     81| describe('actual booster scenarios are secured at the tower',()=>{
+     82|   for(const id of ['booster-sep','rtls'])it(`${id}: autopilot catches …
+       |                                          ^
+     83|     const preset=PRESETS.find(p=>p.id===id)!;
+     84|     const {state:initial}=createScenarioVehicle(preset);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/70]⎯
+
+ FAIL  |unit| tests/core/booster-guidance.test.ts > actual booster scenarios are secured at the tower > cannot fabricate a catch when every engine is failed
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/booster-guidance.test.ts:100:3
+     98|     expect(held.status.landed).toBe(true);expect(held.kinematics.altit…
+     99|   });
+    100|   it('cannot fabricate a catch when every engine is failed',()=>{
+       |   ^
+    101|     const {state}=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')…
+    102|     state.engines.failed.fill(true);state.autopilot.autoLandOn=true;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/70]⎯
+
+ FAIL  |unit| tests/core/booster-policy-boundaries.test.ts > force-only return diagnostics > proposes a bounded coast correction from two actual force forecasts and caches only telemetry
+AssertionError: expected 0.011084814468239702 to be 0.011085290247371302 // Object.is equality
+
+- Expected
++ Received
+
+- 0.011085290247371302
++ 0.011084814468239702
+
+ ❯ tests/core/booster-policy-boundaries.test.ts:88:43
+     86|     expect(Math.abs(slope)).toBeGreaterThan(1);
+     87|     runBoosterAutopilot(s, DT, SUPER_HEAVY);
+     88|     expect(s.autopilot.boosterCoastPitch).toBe(Math.max(-.2, Math.min(…
+       |                                           ^
+     89|     expect(s.autopilot.boosterReturnPlan).toBeUndefined();
+     90|     const correction = s.autopilot.boosterCoastPitch;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/70]⎯
+
+ FAIL  |unit| tests/core/booster-policy-boundaries.test.ts > force-only return diagnostics > keeps a zero-range plane diagnostic neutral and resolves a near-cutoff diagnostic at the actual dt
+AssertionError: expected 0.25 to be 0.008333333333333333 // Object.is equality
+
+- Expected
++ Received
+
+- 0.008333333333333333
++ 0.25
+
+ ❯ tests/core/booster-policy-boundaries.test.ts:102:51
+    100|     s.autopilot.boosterPredictorCountdown = 0; s.autopilot.boosterPhas…
+    101|     runBoosterAutopilot(s, DT, SUPER_HEAVY);
+    102|     expect(s.autopilot.boosterPredictorCountdown).toBe(DT);
+       |                                                   ^
+    103|     expect(s.autopilot.boosterPhase).toBe('boostback');
+    104|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/70]⎯
+
+ FAIL  |unit| tests/core/booster-terminal-envelope.test.ts > physical terminal catch envelope > keeps a finite terminal command through the recorded transient nominal cone rejection
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/core/booster-terminal-envelope.test.ts:41:36
+     39|     const s=cloneState(admission.state as unknown as SimState);
+     40|     const demand=createBoosterArrival();writeBoosterArrival(s,0,SUPER_…
+     41|     expect(demand.lateralFeasible).toBe(false);
+       |                                    ^
+     42|     const deadline=s.autopilot.boosterArrivalTime!;
+     43|     runBoosterPolicy(s,admission.dt,SUPER_HEAVY);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/70]⎯
+
+ FAIL  |unit| tests/core/collapsed-trig.test.ts > the shipped coefficient is the single expression > the seventh ladder, inlined in primitives, is collapsed too
+AssertionError: expected -7872310.779816514 to be -7242525.9174311925 // Object.is equality
+
+- Expected
++ Received
+
+- -7242525.9174311925
++ -7872310.779816514
+
+ ❯ tests/core/collapsed-trig.test.ts:94:64
+     92|     const running = [true, true, true];
+     93|     for (const angle of ANGLES) {
+     94|       expect(getEffectiveVerticalMaxThrust(running, angle, 0)).toBe(
+       |                                                                ^
+     95|         3 * RAPTOR_THRUST_VACUUM * Math.cos(angle),
+     96|       );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/70]⎯
+
+ FAIL  |unit| tests/core/control-contracts.test.ts > the vertical thrust projection > is full thrust straight up, zero sideways, and negative upside down
+AssertionError: expected 7354987.5 to be close to 6766588.5, received difference is 588399, but expected 5e-7
+ ❯ tests/core/control-contracts.test.ts:112:75
+    110|     // M11.2: sea-level pressure, so `full` is the sea-level anchor.
+    111|     const full = 3 * C.maxThrustPerRaptor;
+    112|     expect(getEffectiveVerticalMaxThrust(running, rad(0), SEA_LEVEL_KP…
+       |                                                                           ^
+    113|     expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI / 2), SE…
+    114|     expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI), SEA_LE…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/70]⎯
+
+ FAIL  |unit| tests/core/control-contracts.test.ts > controlEnginebyTWR keeps the throttle inside the engine limits > reaches the commanded TWR from 60% actual throttle without counting it twice
+AssertionError: expected 3.445250066591121 to be close to 2, received difference is 1.4452500665911212, but expected 5e-7
+ ❯ tests/core/control-contracts.test.ts:131:22
+    129|       localGravity(s),
+    130|     );
+    131|     expect(achieved).toBeCloseTo(goalTWR, 6);
+       |                      ^
+    132|   });
+    133|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/70]⎯
+
+ FAIL  |unit| tests/core/control-contracts.test.ts > controlEnginebyTWR keeps the throttle inside the engine limits > reaches the commanded TWR when it is achievable
+AssertionError: expected 1.104 to be close to 1.2, received difference is 0.09599999999999986, but expected 5e-7
+ ❯ tests/core/control-contracts.test.ts:145:22
+    143|       localGravity(s),
+    144|     );
+    145|     expect(achieved).toBeCloseTo(goalTWR, 6);
+       |                      ^
+    146|   });
+    147|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/70]⎯
+
+ FAIL  |unit| tests/core/control-contracts.test.ts > the speed adjustments choose a side and commit to it > horizontal: inside the threshold it eases rather than saturating
+AssertionError: expected 100 to be less than 100
+ ❯ tests/core/control-contracts.test.ts:315:34
+    313|
+    314|     expect(near.vehicle.throttle).toBeGreaterThan(C.throttleLowerLimit…
+    315|     expect(far.vehicle.throttle).toBeLessThan(C.throttleUpperLimit);
+       |                                  ^
+    316|     expect(near.vehicle.throttle).toBeLessThan(far.vehicle.throttle);
+    317|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/70]⎯
+
+ FAIL  |unit| tests/core/domain-edges.test.ts > minimum thrust is what the shutdown logic reasons about > is the lower throttle limit applied to every running engine
+AssertionError: 1 lit: expected 1049641.4373088686 to be close to 965670.122324159, received difference is 83971.3149847096, but expected 5e-7
+ ❯ tests/core/domain-edges.test.ts:378:61
+    376|       const running = [false, false, false].map((_, i) => i < count);
+    377|       const expected = count * C.RAPTOR_THRUST_VACUUM * C.throttleLowe…
+    378|       expect(getTotalMinThrust(running, 0), `${count} lit`).toBeCloseT…
+       |                                                             ^
+    379|     }
+    380|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/70]⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > breakup reads current forces > cancels engines and pending ignition when current pressure breaks the vehicle
+AssertionError: expected +0 to be 120000 // Object.is equality
+
+- Expected
++ Received
+
+- 120000
++ 0
+
+ ❯ tests/core/failure-freshness.test.ts:47:38
+     45|     expect(next.engines.ignitionCountdown.every((remaining) => remaini…
+     46|     expect(next.vehicle.propellantMass).toBe(0);
+     47|     expect(next.vehicle.vehicleMass).toBe(C.vehicleDryMass);
+       |                                      ^
+     48|     const dry = createMassProperties();
+     49|     writeMassProperties(0, dry);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/70]⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > ground contact reads current thrust > a crash shuts down before fuel use and cannot apply the incoming engine thrust
+AssertionError: expected +0 to be 120000 // Object.is equality
+
+- Expected
++ Received
+
+- 120000
++ 0
+
+ ❯ tests/core/failure-freshness.test.ts:66:38
+     64|     expect(next.forces.thrust).toBe(0);
+     65|     expect(next.vehicle.propellantMass).toBe(0);
+     66|     expect(next.vehicle.vehicleMass).toBe(C.vehicleDryMass);
+       |                                      ^
+     67|     expect(next.engines.ignitionCountdown.every((remaining) => remaini…
+     68|     expect(next.kinematics.altitude).toBe(s.kinematics.altitude);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/70]⎯
+
+ FAIL  |unit| tests/core/failure-freshness.test.ts > felt g reads current forces > breaks on current thrust and drag while pressure and temperature stay below their limits
+AssertionError: expected 13.33673303641847 to be less than 13
+ ❯ tests/core/failure-freshness.test.ts:117:67
+    115|     expect(next.forces.dynamicPressure).toBeLessThan(C.dynamicPressure…
+    116|     expect(next.forces.surfaceTemperature).toBeLessThan(C.TILE_LIMIT_K…
+    117|     expect(next.kinematics.totalAcceleration / C.standardGravity).toBe…
+       |                                                                   ^
+    118|     expect(next.forces.perceivedG).toBeGreaterThan(C.gLimit);
+    119|     expect(next.failures.inFlightBreakUp).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/70]⎯
+
+ FAIL  |unit| tests/core/felt-g.test.ts > felt g > is the local gravity, in g0, standing on the pad
+AssertionError: expected 1.001382578221966 to be close to 1.0013786904628317, received difference is 0.000003887759134402202, but expected 5e-13
+ ❯ tests/core/felt-g.test.ts:42:33
+     40|     // until the frame turns, Phase 6 Task 9).
+     41|     const r = C.planetRadius + s.kinematics.altitude;
+     42|     expect(s.forces.perceivedG).toBeCloseTo((gravityAt(r) - C.frameRot…
+       |                                 ^
+     43|   });
+     44|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/70]⎯
+
+ FAIL  |unit| tests/core/felt-g.test.ts > felt g > breaks the airframe at the felt limit, not at the net acceleration
+AssertionError: expected 13.33673303641847 to be less than 13
+ ❯ tests/core/felt-g.test.ts:56:64
+     54|     s0.engines.running.fill(true);
+     55|     const s = step(s0, DT);
+     56|     expect(s.kinematics.totalAcceleration / C.standardGravity).toBeLes…
+       |                                                                ^
+     57|     expect(s.forces.perceivedG).toBeGreaterThan(C.gLimit);
+     58|     expect(s.forces.dynamicPressure).toBeLessThan(C.dynamicPressureLim…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/70]⎯
+
+ FAIL  |unit| tests/core/fin-fraction.test.ts > the field holds a fraction at every point in its life > the initialiser and the per-step update agree
+AssertionError: front at 75%: expected 0.6979278380103381 to be 0.697927838010338 // Object.is equality
+
+- Expected
++ Received
+
+- 0.697927838010338
++ 0.6979278380103381
+
+ ❯ tests/core/fin-fraction.test.ts:73:86
+     71|       const stepped = step(s, 1 / 120);
+     72|
+     73|       expect(stepped.forces.frontFinEffectiveAreaFraction, `front at $…
+       |                                                                                      ^
+     74|         initialised.frontFinEffectiveAreaFraction,
+     75|       );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/70]⎯
+
+ FAIL  |unit| tests/core/final-descent-profile.test.ts > brakes immediately when the distance-over-three target exceeds the one-engine stopping envelope
+AssertionError: expected 44.594605070200025 to be greater than 95
+ ❯ tests/core/final-descent-profile.test.ts:27:29
+     25|  const s = singleEngineDescent();
+     26|  finalDescentStageController(s, 1/120);
+     27|  expect(s.vehicle.throttle).toBeGreaterThan(95);
+       |                             ^
+     28| });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/70]⎯
+
+ FAIL  |unit| tests/core/final-descent-profile.test.ts > refreshes the braking demand when two engines are lost during final descent
+AssertionError: expected 44.594605070200025 to be greater than 95
+ ❯ tests/core/final-descent-profile.test.ts:45:29
+     43|  s.engines.failed[1] = s.engines.failed[2] = true;
+     44|  finalDescentStageController(s, 1/120);
+     45|  expect(s.vehicle.throttle).toBeGreaterThan(95);
+       |                             ^
+     46| });
+     47|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/70]⎯
+
+ FAIL  |unit| tests/core/grid-fins.test.ts > four grid-fin force laws > applies the bounded flat-plate lift and drag at the physical upper station
+AssertionError: expected 135000 to be close to 120000, received difference is 15000, but expected 5e-9
+ ❯ tests/core/grid-fins.test.ts:24:22
+     22|   it('applies the bounded flat-plate lift and drag at the physical upp…
+     23|     const f=evaluate(1,0,-100,Math.PI/4);
+     24|     expect(f.forceX).toBeCloseTo(120000,8);
+       |                      ^
+     25|     expect(f.forceY).toBeCloseTo(72000,8);
+     26|     expect(f.torque).toBeCloseTo(3660000,6);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/70]⎯
+
+ FAIL  |unit| tests/core/grid-fins.test.ts > four grid-fin force laws > never adds kinetic energy and rotates the station torque with the body
+AssertionError: expected -9600797.097437765 to be close to -9316838.94891395, received difference is 283958.148523815, but expected 5e-7
+ ❯ tests/core/grid-fins.test.ts:38:24
+     36|       const f=evaluate(1,vx,vy,delta,Math.PI/2);
+     37|       expect(f.forceX*vx+f.forceY*vy).toBeLessThanOrEqual(1e-8);
+     38|       expect(f.torque).toBeCloseTo(-30.5*f.forceY,6);
+       |                        ^
+     39|     }
+     40|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/70]⎯
+
+ FAIL  |unit| tests/core/guidance-physics.test.ts > landingBurnStartAltitude against the simulation > from 3 km at 150 m/s on 1 engine(s): within 0.1% of the burn or 2 m
+AssertionError: predicted 3003.3 m, actual 3000 m, burn 2289 m: expected 3.300004208972041 to be less than or equal to 2.2886864213740634
+ ❯ tests/core/guidance-physics.test.ts:142:112
+    140|       const burn = c.altitude - stop;
+    141|       const error = Math.abs(predicted! - c.altitude);
+    142|       expect(error, `predicted ${predicted!.toFixed(1)} m, actual ${c.…
+       |                                                                                                                ^
+    143|         // Measured: 0.03-0.5 m on burns of 176 m to 11.8 km. The boun…
+    144|         // with room, and tight enough that dropping drag fails every …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/70]⎯
+
+ FAIL  |unit| tests/core/guidance-physics.test.ts > unpoweredFallInto against the simulation, attitude held > a vertical drop from 40 km
+AssertionError: time 104.6 vs 1500.0 s: expected 0.9302395578285734 to be less than 0.03
+ ❯ tests/core/guidance-physics.test.ts:301:115
+    299|       unpoweredFallInto(ref.start, SHIP.height / 2, createBurnScratch(…
+    300|       expect(out.reached).toBe(true);
+    301|       expect(Math.abs(out.time - ref.time) / ref.time, `time ${out.tim…
+       |                                                                                                                   ^
+    302|       expect(Math.abs(out.downRange - ref.downRange), `downrange ${out…
+    303|         Math.max(0.1 * Math.abs(ref.downRange), 50),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/70]⎯
+
+ FAIL  |unit| tests/core/guidance-physics.test.ts > unpoweredFallInto against the simulation, attitude held > upright from 40 km, moving downrange
+AssertionError: time 105.5 vs 1500.0 s: expected 0.9296966403415482 to be less than 0.05
+ ❯ tests/core/guidance-physics.test.ts:301:115
+    299|       unpoweredFallInto(ref.start, SHIP.height / 2, createBurnScratch(…
+    300|       expect(out.reached).toBe(true);
+    301|       expect(Math.abs(out.time - ref.time) / ref.time, `time ${out.tim…
+       |                                                                                                                   ^
+    302|       expect(Math.abs(out.downRange - ref.downRange), `downrange ${out…
+    303|         Math.max(0.1 * Math.abs(ref.downRange), 50),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/70]⎯
+
+ FAIL  |unit| tests/core/guidance-truth.test.ts > the vertical TWR law holds a hover at TWR 1 > is not vacuous: TWR 1.1 climbs at a tenth of local gravity
+AssertionError: expected 0.9590837187250516 to be greater than 0.9620250487063928
+ ❯ tests/core/guidance-truth.test.ts:77:26
+     75|     expect(throttle).toBeLessThan(100);
+     76|     const padGravity = gravityAt(C.planetRadius);
+     77|     expect(acceleration).toBeGreaterThan(0.1 * padGravity - 0.02);
+       |                          ^
+     78|     expect(acceleration).toBeLessThan(0.1 * padGravity + 0.02);
+     79|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/70]⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > uses both actual masses and the parallel-axis inertia about the aggregate COM
+AssertionError: expected 64.281531316345 to be 63.628065969810336 // Object.is equality
+
+- Expected
++ Received
+
+- 63.628065969810336
++ 64.281531316345
+
+ ❯ tests/core/hot-staging.test.ts:72:38
+     70|     const c = (mb * cb + ms * cs) / (mb + ms);
+     71|     expect(properties.mass).toBe(mb + ms);
+     72|     expect(properties.centreStation).toBe(c);
+       |                                      ^
+     73|     expect(properties.inertia).toBe(momentOfInertia(500_000, SUPER_HEA…
+     74|       + momentOfInertia(1_200_000, SHIP) + mb * (cb - c) ** 2 + ms * (…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/70]⎯
+
+ FAIL  |unit| tests/core/hot-staging.test.ts > physical attached hot staging > applies a real off-axis engine torque about the combined inertia, rather than each hull rotating alone
+AssertionError: expected 0.0006937483541064869 to be close to 0.0006382484857779718, received difference is 0.00005549986832851508, but expected 5e-13
+ ❯ tests/core/hot-staging.test.ts:108:56
+    106|     const torque = 0.65 * thrustPerRaptorAt(0) * initial.booster.vehic…
+    107|     const expectedAlpha = torque / stackMassProperties(m.booster, m.sh…
+    108|     expect(m.aggregate.kinematics.angularAcceleration).toBeCloseTo(exp…
+       |                                                        ^
+    109|     expect(m.aggregate.kinematics.angularAcceleration).toBeGreaterThan…
+    110|     expect(m.ship.kinematics.angularVelocity).toBe(m.booster.kinematic…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/70]⎯
+
+ FAIL  |unit| tests/core/invariants.test.ts > invariants over any configurable flight > every number stays finite, or is a sentinel it started as
+Error: Property failed after 30 tests
+{ seed: 42, path: "29:0:0:8:2:0:3:0:0:0:1:2:1:2:1:2:0:2:0:0:2:2:0:0:0:0:0:0:4:0:1:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2", endOnFailure: true }
+Counterexample: [{"preset":{"id":"custom","name":"Custom","description":"generated","altitude":0,"xPosition":0,"speedX":286.0712560432027,"speedY":0,"pitch":0,"propellant":0,"wind":0},"enginesOn":false,"dumping":false,"throttles":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"pitchCommands":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}]
+Shrunk 275 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ buildError node_modules/fast-check/lib/fast-check.js:2469:16
+ ❯ throwIfFailed node_modules/fast-check/lib/fast-check.js:2476:8
+ ❯ reportRunDetails node_modules/fast-check/lib/fast-check.js:2492:14
+ ❯ Module.assert node_modules/fast-check/lib/fast-check.js:2662:7
+ ❯ tests/core/invariants.test.ts:31:8
+     29| describe('invariants over any configurable flight', () => {
+     30|   it('every number stays finite, or is a sentinel it started as', () =…
+     31|     fc.assert(
+       |        ^
+     32|       fc.property(arbitraryFlight(STEPS), (f) => {
+     33|         const states = fly(startOf(f), f.throttles, f.pitchCommands);
+
+Caused by: AssertionError: kinematics.pitchRateOfChange became -Infinity: expected +0 to be -Infinity // Object.is equality
+
+- Expected
++ Received
+
+- -Infinity
++ 0
+
+ ❯ tests/core/invariants.test.ts:42:58
+ ❯ Property.predicate node_modules/fast-check/lib/fast-check.js:1355:99
+ ❯ Property.run node_modules/fast-check/lib/fast-check.js:1324:24
+ ❯ propertyExecution node_modules/fast-check/lib/fast-check.js:2549:23
+ ❯ run node_modules/fast-check/lib/fast-check.js:2639:91
+ ❯ runIt node_modules/fast-check/lib/fast-check.js:2542:15
+ ❯ check node_modules/fast-check/lib/fast-check.js:2655:14
+ ❯ Module.assert node_modules/fast-check/lib/fast-check.js:2660:14
+ ❯ tests/core/invariants.test.ts:31:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/70]⎯
+
+ FAIL  |unit| tests/core/invariants.test.ts > invariants over any configurable flight > with the engines off and no wind, orbital energy never rises beyond integrator error
+Error: Property failed after 12 tests
+{ seed: 42, path: "11:14:0:0:4:0:2:1:0:0:0:0:0:1:2:5:2:0:4:2:1:5:5:0:0:0:0:0:0:0:10:1:2:0:2:1:1:0:0:0:2:0:3:4:0:1:0:0:0:1:0:0:1:3:17:0:0:0:0:0:0:0:0:0:13:3:1:1:2:1:1:1:0:1:1:1:1:4:3:14:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:16:0:2:0:1:1:4:0:3:1:2:1:8:1:0:1:0:2:0:31:0:0:26:1:0:1:0:1:2:1:15:2:3:1:0:25:6:5:0:10:4:3:1:0:1:0:42:13:1:0:2:1:0:42:13:1:3:1:0:45:10:2:0:4:1:2:4:2:4:1:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2:2", endOnFailure: true }
+Counterexample: [{"preset":{"id":"custom","name":"Custom","description":"generated","altitude":126434.02403956541,"xPosition":0,"speedX":0,"speedY":-998.1513669529763,"pitch":0,"propellant":0,"wind":0},"enginesOn":false,"dumping":false,"throttles":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"pitchCommands":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}]
+Shrunk 409 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ buildError node_modules/fast-check/lib/fast-check.js:2469:16
+ ❯ throwIfFailed node_modules/fast-check/lib/fast-check.js:2476:8
+ ❯ reportRunDetails node_modules/fast-check/lib/fast-check.js:2492:14
+ ❯ Module.assert node_modules/fast-check/lib/fast-check.js:2662:7
+ ❯ tests/core/invariants.test.ts:66:8
+     64|
+     65|   it('with the engines off and no wind, orbital energy never rises bey…
+     66|     fc.assert(
+       |        ^
+     67|       fc.property(arbitraryFlight(STEPS), (f) => {
+     68|         const flight = { ...f, enginesOn: false, dumping: false, prese…
+
+Caused by: AssertionError: step 1: expected -60849209.64087389 to be less than or equal to -60849209.640873894
+ ❯ tests/core/invariants.test.ts:85:46
+ ❯ Property.predicate node_modules/fast-check/lib/fast-check.js:1355:99
+ ❯ Property.run node_modules/fast-check/lib/fast-check.js:1324:24
+ ❯ propertyExecution node_modules/fast-check/lib/fast-check.js:2549:23
+ ❯ run node_modules/fast-check/lib/fast-check.js:2639:91
+ ❯ runIt node_modules/fast-check/lib/fast-check.js:2542:15
+ ❯ check node_modules/fast-check/lib/fast-check.js:2655:14
+ ❯ Module.assert node_modules/fast-check/lib/fast-check.js:2660:14
+ ❯ tests/core/invariants.test.ts:66:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/70]⎯
+
+ FAIL  |unit| tests/core/landing-burn.test.ts > the sizings > the final descent starts above the predicted burn by its one-second margin
+AssertionError: expected 58.54130249127019 to be close to 57.54169211954374, received difference is 0.9996103717264475, but expected 5e-10
+ ❯ tests/core/landing-burn.test.ts:58:42
+     56|     s.engines.running = [true, false, false, false, false, false];
+     57|     const burn = landingBurnStartAltitude(1, s.vehicle.vehicleMass, 20…
+     58|     expect(finalDescentStartAltitude(s)).toBeCloseTo(burn + 20 * 0.5, …
+       |                                          ^
+     59|   });
+     60| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/70]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > step 2 — coast a full lap > and 100 km still does not — which is why the presets are at 150
+AssertionError: should have decayed: expected 71681.36225748413 to be less than 1000
+ ❯ tests/core/orbit-demo.test.ts:242:58
+    240|       if (s.kinematics.altitude < 1_000) break;
+    241|     }
+    242|     expect(s.kinematics.altitude, 'should have decayed').toBeLessThan(…
+       |                                                          ^
+    243|   });
+    244|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/70]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > step 3 — deorbit and land at StarBase > flies the sequence it is supposed to: coast, burn, hand over, descend
+AssertionError: still short of the firing point: expected -5359.574168546125 to be greater than 0
+ ❯ tests/core/orbit-demo.test.ts:301:76
+    299|     // is the step's own root bracket, not a fitted number of seconds/…
+    300|     expect(flight.burnStartedAt, 'coasted before firing').toBeGreaterT…
+    301|     expect(flight.firingResidualBefore, 'still short of the firing poi…
+       |                                                                            ^
+    302|     expect(flight.firingResidualAt, 'crossed the firing point').toBeLe…
+    303|     expect(flight.handedOverAt, 'handed over shortly after the burn').…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/70]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > step 3 — deorbit and land at StarBase > and the entry is managed, not merely survived
+AssertionError: peak skin temperature, K: expected 1452.3138293553613 to be close to 1459, received difference is 6.686170644638651, but expected 5
+ ❯ tests/core/orbit-demo.test.ts:321:77
+    319|     // fallback. Keep the absolute tile limit and original ±5 K width.
+    320|     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
+    321|     expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature…
+       |                                                                             ^
+    322|   });
+    323|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/70]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > from a different starting longitude — half a lap further round
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/orbit-demo.test.ts:427:3
+    425|   };
+    426|
+    427|   it('from a different starting longitude — half a lap further round',…
+       |   ^
+    428|     const f = from((s) => {
+    429|       s.kinematics.downRangeDistance = C.starBaseXPos;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/70]⎯
+
+ FAIL  |unit| tests/core/orbit-demo.test.ts > the guidance works from orbits it was never calibrated on > 100 tonnes lighter at ignition
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/orbit-demo.test.ts:436:3
+    434|   });
+    435|
+    436|   it('100 tonnes lighter at ignition', () => {
+       |   ^
+    437|     const f = from((s) => {
+    438|       s.vehicle.propellantMass = 100_000;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/70]⎯
+
+ FAIL  |unit| tests/core/orbit.test.ts > a circular orbit stays circular over one lap > altitude holds within a kilometre over a full lap
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/orbit.test.ts:120:3
+    118|   });
+    119|
+    120|   it('altitude holds within a kilometre over a full lap', () => {
+       |   ^
+    121|     const end = run(inOrbit(altitude, v), lapSteps);
+    122|     const drift = Math.abs(end.kinematics.altitude - altitude);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/70]⎯
+
+ FAIL  |unit| tests/core/orbit.test.ts > a circular orbit stays circular over one lap > speed holds within a metre per second over a full lap
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/orbit.test.ts:126:3
+    124|   });
+    125|
+    126|   it('speed holds within a metre per second over a full lap', () => {
+       |   ^
+    127|     const end = run(inOrbit(altitude, v), lapSteps);
+    128|     expect(Math.abs(inertialX(end) - v)).toBeLessThan(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/70]⎯
+
+ FAIL  |unit| tests/core/orbit.test.ts > a circular orbit stays circular over one lap > never dips into the atmosphere or climbs away
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/orbit.test.ts:131:3
+    129|   });
+    130|
+    131|   it('never dips into the atmosphere or climbs away', () => {
+       |   ^
+    132|     let s = inOrbit(altitude, v);
+    133|     let min = Infinity;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/70]⎯
+
+ FAIL  |unit| tests/core/orbit.test.ts > a circular orbit stays circular over one lap > completes a full revolution of downrange distance
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/orbit.test.ts:144:3
+    142|   });
+    143|
+    144|   it('completes a full revolution of downrange distance', () => {
+       |   ^
+    145|     const end = run(inOrbit(altitude, v), lapSteps);
+    146|     // downRangeDistance wraps at the circumference, so it returns nea…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/70]⎯
+
+ FAIL  |unit| tests/core/orbit.test.ts > conserved quantities stay conserved > an elliptical orbit comes back down again
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/orbit.test.ts:196:3
+    194|   });
+    195|
+    196|   it('an elliptical orbit comes back down again', () => {
+       |   ^
+    197|     // The clearest sign it is real orbital motion and not a fudge: go…
+    198|     // back. The 2021 relief term could never produce this.
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[47/70]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > an RVac is its own engine > makes 258 tf in vacuum at 380 s
+AssertionError: expected 2696828.75 to be 2530115.6999999997 // Object.is equality
+
+- Expected
++ Received
+
+- 2530115.6999999997
++ 2696828.75
+
+ ❯ tests/core/rvac.test.ts:38:77
+     36| describe('an RVac is its own engine', () => {
+     37|   it('makes 258 tf in vacuum at 380 s', () => {
+     38|     expect(getTotalMaxThrust([false, false, false, true, false, false]…
+       |                                                                             ^
+     39|     expect(C.RVAC_THRUST_VACUUM / (C.RVAC_MASS_FLOW * C.standardGravit…
+     40|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[48/70]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > an RVac is its own engine > flows at its own rate, and six engines add up
+AssertionError: expected 2171.0526315789475 to be close to 2036.842105263158, received difference is 134.2105263157896, but expected 5e-10
+ ❯ tests/core/rvac.test.ts:57:46
+     55|
+     56|   it('flows at its own rate, and six engines add up', () => {
+     57|     expect(getFuelFlowRate(ONLY_RVACS, 100)).toBeCloseTo(3 * C.RVAC_MA…
+       |                                              ^
+     58|     expect(getFuelFlowRate([true, true, true, true, true, true], 100))…
+     59|       3 * C.RVAC_MASS_FLOW + 3 * C.maxFuelFlowPerRaptor,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[49/70]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > the RVacs are fixed: they push along the hull and do not steer > with a sea-level engine lit too, only its thrust steers
+AssertionError: expected 545581.8140649808 to be close to 501935.2689397823, received difference is 43646.54512519855, but expected 0.0005
+ ❯ tests/core/rvac.test.ts:119:40
+    117|     const s = step(vacuumOnly(80, true), 1 / 120);
+    118|     const seaLevel = C.thrustPerRaptorAt(s.atmosphere.airPressure);
+    119|     expect(s.forces.thrustVectorForce).toBeCloseTo(
+       |                                        ^
+    120|       seaLevel * Math.sin(0.8 * C.gimbalAngleLimit),
+    121|       3,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[50/70]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > the vertical throttle law projects the RVacs along the hull > RVacs alone at pitch 60° with the gimbal deflected: cos(pitch), not cos(gimbal direction)
+AssertionError: expected 4045243.125000001 to be close to 3795173.55, received difference is 250069.57500000112, but expected 0.0005
+ ❯ tests/core/rvac.test.ts:133:79
+    131|     const pitch = rad(Math.PI / 3);
+    132|     const gimbalDirection = rad(Math.PI / 3 - (15 * Math.PI) / 180);
+    133|     expect(getEffectiveVerticalMaxThrust(running, gimbalDirection, p, …
+       |                                                                               ^
+    134|   });
+    135|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[51/70]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > the vertical throttle law projects the RVacs along the hull > mixed: each kind along its own direction; sea-level only: the old expression to the bit
+AssertionError: expected 4990845.683029082 to be close to 4636740.642370947, received difference is 354105.04065813497, but expected 0.0005
+ ❯ tests/core/rvac.test.ts:142:63
+    140|     const g = rad(0.3);
+    141|     const expected = C.thrustPerRaptorAt(p) * Math.cos(0.3) + C.thrust…
+    142|     expect(getEffectiveVerticalMaxThrust(mixed, g, p, pitch)).toBeClos…
+       |                                                               ^
+    143|     const seaLevel = [true, true, true, false, false, false];
+    144|     expect(getEffectiveVerticalMaxThrust(seaLevel, g, p, pitch)).toBe(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[52/70]⎯
+
+ FAIL  |unit| tests/core/ship-control-boundaries.test.ts > Ship physical control boundaries > clears a stale fin command at zero attitude error, with both correction signs as controls
+AssertionError: expected 0 to be greater than 0
+ ❯ tests/core/ship-control-boundaries.test.ts:26:45
+     24|     const positive = cloneState(before), negative = cloneState(before);
+     25|     precisionAlignment(positive, rad(.2), 3); precisionAlignment(negat…
+     26|     expect(positive.autopilot.pitchControl).toBeGreaterThan(0);
+       |                                             ^
+     27|     expect(negative.autopilot.pitchControl).toBeLessThan(0);
+     28|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[53/70]⎯
+
+ FAIL  |unit| tests/core/step.test.ts > it actually simulates something > spawns resting on the pad, not falling
+AssertionError: expected 26 to be 25 // Object.is equality
+
+- Expected
++ Received
+
+- 25
++ 26
+
+ ❯ tests/core/step.test.ts:144:35
+    142|     const s = run(createInitialState(), 240);
+    143|     expect(s.status.onTheGround).toBe(true);
+    144|     expect(s.kinematics.altitude).toBe(25);
+       |                                   ^
+    145|
+    146|     // The pad HOLDS it — M11.3. Up to M11.3 the 2021 phase order zero…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[54/70]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > actual booster preset identity > retains the basedOn model and clamps to its own fuel capacity and pad height
+AssertionError: expected 3650000 to be 3400000 // Object.is equality
+
+- Expected
++ Received
+
+- 3400000
++ 3650000
+
+ ❯ tests/core/super-heavy.test.ts:37:49
+     35|     const flight=createScenarioVehicle({...preset,id:'custom',basedOn:…
+     36|     expect(flight.vehicle).toBe(SUPER_HEAVY);
+     37|     expect(flight.state.vehicle.propellantMass).toBe(3400000);
+       |                                                 ^
+     38|     expect(flight.state.kinematics.altitude).toBe(35.5);
+     39|     expect(createScenarioVehicle({...preset,id:'custom',basedOn:'rtls'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[55/70]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > keeps a fixed RVac mount torque independent of gimbal at 0 kPa
+AssertionError: expected 3236194.5 to be 3036138.84 // Object.is equality
+
+- Expected
++ Received
+
+- 3036138.84
++ 3236194.5
+
+ ❯ tests/core/super-heavy.test.ts:54:96
+     52|     const expected = 3 * C.thrustPerRVacAt(pressure) * 40 * .01;
+     53|     for (const gimbal of [-15, 0, 15])
+     54|       expect(getOffAxisThrustTorque(running, 40, pressure, rad(gimbal …
+       |                                                                                                ^
+     55|     running[3] = false;
+     56|     expect(getOffAxisThrustTorque(running, 40, pressure, rad(.1), SHIP…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[56/70]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > keeps a fixed RVac mount torque independent of gimbal at 101.325 kPa
+AssertionError: expected 2731017.6833831477 to be 2530962.023383147 // Object.is equality
+
+- Expected
++ Received
+
+- 2530962.023383147
++ 2731017.6833831477
+
+ ❯ tests/core/super-heavy.test.ts:54:96
+     52|     const expected = 3 * C.thrustPerRVacAt(pressure) * 40 * .01;
+     53|     for (const gimbal of [-15, 0, 15])
+     54|       expect(getOffAxisThrustTorque(running, 40, pressure, rad(gimbal …
+       |                                                                                                ^
+     55|     running[3] = false;
+     56|     expect(getOffAxisThrustTorque(running, 40, pressure, rad(.1), SHIP…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[57/70]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > sums all33 engines and only the13 steerable engines supply gimbal authority
+AssertionError: expected 80904862.5 to be 74432473.5 // Object.is equality
+
+- Expected
++ Received
+
+- 74432473.5
++ 80904862.5
+
+ ❯ tests/core/super-heavy.test.ts:60:56
+     58|   it('sums all33 engines and only the13 steerable engines supply gimba…
+     59|     const all=flags(Array.from({length:33},(_,i)=>i));
+     60|     expect(getTotalMaxThrust(all,101.325,SUPER_HEAVY)).toBe(33*2255529…
+       |                                                        ^
+     61|     expect(getFuelFlowRate(all,100,SUPER_HEAVY)).toBe(33*C.maxFuelFlow…
+     62|     expect(gimballedShare(all,0,SUPER_HEAVY)).toBe(13/33);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[58/70]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > starts at the selected load COM/inertia rather than uniform-cylinder inertia
+AssertionError: expected 286759742.73394215 to be close to 267799076.4377306, received difference is 18960666.29621154, but expected 0.005
+ ❯ tests/core/super-heavy.test.ts:71:8
+     69|     // Independently hand-computed two filled columns, shared COM and …
+     70|     expect(createInitialState(123,SUPER_HEAVY).vehicle.vehicleMomentOf…
+     71|       .toBeCloseTo(267799076.4377306,2);
+       |        ^
+     72|     const flight=createScenarioVehicle({...PRESETS[0]!,propellant:0},1…
+     73|     expect(flight.state.vehicle.vehicleMomentOfInertia).toBe(200000*(4…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[59/70]⎯
+
+ FAIL  |unit| tests/core/super-heavy.test.ts > booster paid propulsion and moving mass > fits both tanks and retains positive inertia and physical thrust authority across the stated dry-mass uncertainty
+AssertionError: expected 71.76964435165135 to be less than 71
+ ❯ tests/core/super-heavy.test.ts:117:65
+    115|   });
+    116|   it('fits both tanks and retains positive inertia and physical thrust…
+    117|     expect(SUPER_HEAVY.ch4TankBottom+SUPER_HEAVY.ch4TankHeight).toBeLe…
+       |                                                                 ^
+    118|     expect(CATCH.bodyCentreAltitude).toBe(90.5);
+    119|     for(const dryMass of [160000,200000,240000]) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[60/70]⎯
+
+ FAIL  |unit| tests/core/thrust-altitude.test.ts > the engine model threads the pressure through > but mass flow does NOT — it is set by the pumps, not the altitude
+AssertionError: expected 2293.5779816513764 to be 2110.091743119266 // Object.is equality
+
+- Expected
++ Received
+
+- 2110.091743119266
++ 2293.5779816513764
+
+ ❯ tests/core/thrust-altitude.test.ts:157:39
+    155|     // altitude, buying more thrust as the air thins. getFuelFlowRate …
+    156|     // pressure and there is no version that does.
+    157|     expect(getFuelFlowRate(ALL, 100)).toBe(3 * C.RAPTOR_MASS_FLOW);
+       |                                       ^
+    158|     expect(getFuelFlowRate.length).toBe(2);
+    159|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[61/70]⎯
+
+ FAIL  |unit| tests/core/thrust-altitude.test.ts > flown: an ascent gains thrust it did not have before > the launch-pad scenario at full throttle makes 7% more thrust at 30 km than on the pad
+AssertionError: expected 7356580.191085866 to be close to 6768053.775798996, received difference is 588526.4152868697, but expected 5e-7
+ ❯ tests/core/thrust-altitude.test.ts:186:23
+    184|     // pressure a hair under 101.325 kPa: the thrust is what the curve…
+    185|     // THAT pressure exactly, and within 0.1% of the sea-level anchor.
+    186|     expect(padThrust).toBeCloseTo(3 * C.thrustPerRaptorAt(onPad.atmosp…
+       |                       ^
+    187|     expect(padThrust / (3 * C.RAPTOR_THRUST_SEA_LEVEL)).toBeCloseTo(1,…
+    188|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[62/70]⎯
+
+ FAIL  |unit| tests/core/tower-catch.test.ts > physical catch eligibility > requires a descending airborne lug crossing, and accepts the frozen speed/position boundaries
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/tower-catch.test.ts:32:57
+     30|     previous.kinematics.speedY=current.kinematics.speedY=-4.5;
+     31|     previous.kinematics.downRangeDistance=current.kinematics.downRange…
+     32|     expect(catchEligible(previous,current,SUPER_HEAVY)).toBe(true);
+       |                                                         ^
+     33|     expect(catchEligible(previous,current,SHIP)).toBe(false);
+     34|     expect(catchEligible(current,previous,SUPER_HEAVY)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[63/70]⎯
+
+ FAIL  |unit| tests/core/tower-catch.test.ts > physical catch eligibility > checks the actual rotated lug and terminal angular motion rather than body altitude alone
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/tower-catch.test.ts:52:57
+     50|     previous.kinematics.altitude=120-29.5*Math.cos(CATCH.maxPitch)+.1;
+     51|     current.kinematics.altitude=previous.kinematics.altitude-.2;
+     52|     expect(catchEligible(previous,current,SUPER_HEAVY)).toBe(true);
+       |                                                         ^
+     53|     previous.kinematics.pitch=current.kinematics.pitch=rad(nextUp(CATC…
+     54|     expect(catchEligible(previous,current,SUPER_HEAVY)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[64/70]⎯
+
+ FAIL  |unit| tests/core/tower-catch.test.ts > secured tower contact > secures the actual interpolated crossing pose, cancels all engines and preserves remaining fuel
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/tower-catch.test.ts:93:60
+     91|     current.engines.running.fill(true);current.engines.ignitionCountdo…
+     92|     const fuel=current.vehicle.propellantMass;
+     93|     expect(secureTowerCatch(previous,current,SUPER_HEAVY)).toBe(true);
+       |                                                            ^
+     94|     const pose=createCatchPose();writeCatchPose(current,SUPER_HEAVY,po…
+     95|     expect(pose.altitude).toBe(120);expect(pose.x).toBe(C.starBaseXPos…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[65/70]⎯
+
+ FAIL  |unit| tests/core/tower-catch.test.ts > secured tower contact > captures through the real integrator and remains airborne on following steps
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/tower-catch.test.ts:127:34
+    125|     s.kinematics.downRangeDistance=C.starBaseXPos;s.kinematics.speedY=…
+    126|     const caught=step(s,1/120,{},SUPER_HEAVY);
+    127|     expect(caught.status.landed).toBe(true);expect(caught.status.onThe…
+       |                                  ^
+    128|     expect(caught.kinematics.altitude).toBe(90.5);
+    129|     expect(step(caught,1/120,{},SUPER_HEAVY).status.landed).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[66/70]⎯
+
+ FAIL  |unit| tests/core/verlet.test.ts > energy is conserved on an eccentric orbit > to a part in 10^10 or better at every rate the simulation runs at
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/verlet.test.ts:156:3
+    154|
+    155| describe('energy is conserved on an eccentric orbit', () => {
+    156|   it('to a part in 10^10 or better at every rate the simulation runs a…
+       |   ^
+    157|     // The plan's bound. At 1/120 — the rate the loop steps — it is 7e…
+    158|     // Euler was 2e-6 at that rate, and 1.6e-5 at 1/15.
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[67/70]⎯
+
+ FAIL  |unit| tests/core/verlet.test.ts > the M11 survey coast table, repeated: 600 s at 300 km circular > altitude drift is a centimetre, and does not depend on dt
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/core/verlet.test.ts:184:3
+    182|   const RATES = [60, 120, 240, 480];
+    183|
+    184|   it('altitude drift is a centimetre, and does not depend on dt', () =…
+       |   ^
+    185|     const drifts = RATES.map((hz) => coast(inOrbit(ALT, V), hz, 600).s…
+    186|     for (const [i, drift] of drifts.entries()) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[68/70]⎯
+
+ FAIL  |unit| tests/core/wind.test.ts > airspeed is the speed through the air, not over the ground > is q, drag and heating from the same one airspeed
+AssertionError: expected 1.6436930053048626 to be close to 1.5846761895622565, received difference is 0.05901681574260609, but expected 5e-10
+ ❯ tests/core/wind.test.ts:112:65
+    110|     const v = relativeAirspeed(200, -100, meanWindAt(-60, 2_000), 0) /…
+    111|     expect(b.forces.dynamicPressure / a.forces.dynamicPressure).toBeCl…
+    112|     expect(b.forces.aerodynamicDrag / a.forces.aerodynamicDrag).toBeCl…
+       |                                                                 ^
+    113|     // Heating also reads the attitude to the air (Phase 6: a cylinder…
+    114|     // stagnation line takes 1/sqrt(2) of a sphere's flux), and the wi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[69/70]⎯
+
+ FAIL  |unit| tests/core/wind.test.ts > airspeed is the speed through the air, not over the ground > Mach is relative to the air
+AssertionError: expected 1.3484635382790187 to be close to 1.34439481549875, received difference is 0.004068722780268708, but expected 5e-10
+ ❯ tests/core/wind.test.ts:135:68
+    133|     );
+    134|     expect(head.kinematics.machSpeed).toBeGreaterThan(still.kinematics…
+    135|     expect(head.kinematics.machSpeed / still.kinematics.machSpeed).toB…
+       |                                                                    ^
+    136|   });
+    137| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[70/70]⎯
+
+
+ Test Files  30 failed | 75 passed (105)
+      Tests  70 failed | 1136 passed (1206)
+   Start at  15:27:54
+   Duration  302.12s (transform 5.49s, setup 0ms, import 105.69s, tests 1203.17s, environment 25ms)
+

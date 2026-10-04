@@ -1,0 +1,24 @@
+[
+  {
+    "duration": 24.175,
+    "runs": 200,
+    "perCallMs": 1.5307775000000003,
+    "reached": true,
+    "fallTime": 262.831931106331,
+    "range": 1186.9062181510526,
+    "midpointStepsUpper": 1052,
+    "cutoffAt": 33.80833333333206,
+    "note": "Exact already evaluated cutoff; existing fall numerical assumptions unchanged; no new flight/root/capture claim."
+  },
+  {
+    "duration": 24.275,
+    "runs": 200,
+    "perCallMs": 1.5996825000000001,
+    "reached": true,
+    "fallTime": 262.8217387733773,
+    "range": -599.6232137299521,
+    "midpointStepsUpper": 1052,
+    "cutoffAt": 33.90833333333205,
+    "note": "Exact already evaluated cutoff; existing fall numerical assumptions unchanged; no new flight/root/capture claim."
+  }
+]

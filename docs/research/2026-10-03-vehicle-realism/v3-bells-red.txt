@@ -1,0 +1,74 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/vehicle-geometry.test.ts (12 tests | 2 failed) 19ms
+     × keeps every engine bell on the single support component for 'ship' 4ms
+     × keeps every engine bell on the single support component for 'super-heavy' 1ms
+ ❯ |unit| tests/view/component-vehicle.test.ts (6 tests | 1 failed) 13ms
+     × orders overlapping engine bells by real authored depth and the rim last, without moving their support identity 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/component-vehicle.test.ts > startup V3 component renderer > orders overlapping engine bells by real authored depth and the rim last, without moving their support identity
+AssertionError: expected undefined to be 'engine-rim' // Object.is equality
+
+- Expected:
+"engine-rim"
+
++ Received:
+undefined
+
+ ❯ tests/view/component-vehicle.test.ts:94:41
+     92|     const ordered = part.meshes.map(m => part.component.polygons.find(…
+     93|     expect(ordered.map(p => p.depth)).toEqual(ordered.map(p => p.depth…
+     94|     expect(ordered.at(-1)!.surfaceRole).toBe('engine-rim');
+       |                                         ^
+     95|     expect(ordered.filter(p => p.surfaceRole === 'bell-mouth')).toHave…
+     96|     expect(part.meshes.find(m => m.label.includes('bell-mouth'))!.tint…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/view/vehicle-geometry.test.ts > original V3 component geometry in metres > keeps every engine bell on the single support component for 'ship'
+AssertionError: expected [] to have a length of 6 but got +0
+
+- Expected
++ Received
+
+- 6
++ 0
+
+ ❯ tests/view/vehicle-geometry.test.ts:70:20
+     68|     const support = g.components.find(c => c.kind === 'engine-support'…
+     69|     const shells = support.polygons.filter(p => p.surfaceRole === 'bel…
+     70|     expect(shells).toHaveLength(input.id === 'ship' ? 6 : 33);
+       |                    ^
+     71|     expect(new Set(shells.map(p => p.engineIndex)).size).toBe(shells.l…
+     72|     expect(new Set(shells.map(p => p.depth)).size).toBeGreaterThan(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/view/vehicle-geometry.test.ts > original V3 component geometry in metres > keeps every engine bell on the single support component for 'super-heavy'
+AssertionError: expected [] to have a length of 33 but got +0
+
+- Expected
++ Received
+
+- 33
++ 0
+
+ ❯ tests/view/vehicle-geometry.test.ts:70:20
+     68|     const support = g.components.find(c => c.kind === 'engine-support'…
+     69|     const shells = support.polygons.filter(p => p.surfaceRole === 'bel…
+     70|     expect(shells).toHaveLength(input.id === 'ship' ? 6 : 33);
+       |                    ^
+     71|     expect(new Set(shells.map(p => p.engineIndex)).size).toBe(shells.l…
+     72|     expect(new Set(shells.map(p => p.depth)).size).toBeGreaterThan(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 15 passed (18)
+   Start at  13:43:52
+   Duration  540ms (transform 121ms, setup 0ms, import 399ms, tests 32ms, environment 0ms)
+

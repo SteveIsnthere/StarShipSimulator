@@ -1,0 +1,15 @@
+/** Saved endpoint constitutive reconstruction, not another flight. */
+import { readFileSync } from 'node:fs';
+import { SUPER_HEAVY } from '../../../src/core/vehicles/super-heavy';
+import { createRootSection, loadedRootAngle, rootLoadCoefficient, rootUtilization } from '../../../src/core/physics/damage-root';
+import { steelProofStrength } from '../../../src/core/physics/damage-material';
+const rows = readFileSync(new URL('./hold-live-diagnostic.jsonl', import.meta.url), 'utf8').trim().split('\n').map(JSON.parse);
+const last = rows.find(row => row.event === 'progressive-loss');
+const root = createRootSection(SUPER_HEAVY.diameter), lever = .46 * SUPER_HEAVY.diameter / 2;
+for (const temperature of [rows[0].declaration.ambientRoot_K, last.root_K[0]]) {
+  const angle = loadedRootAngle(Math.PI / 4, last.q_Pa * 9, lever, temperature, root, 'grid');
+  const moment = last.q_Pa * 9 * lever * rootLoadCoefficient(angle, 'grid');
+  console.log(JSON.stringify({ temperature_K: temperature, loadedAngle_rad: angle,
+    proofStress_Pa: steelProofStrength(temperature), demandStress_Pa: moment / root.modulus,
+    utilization: rootUtilization(moment, temperature, root) }));
+}

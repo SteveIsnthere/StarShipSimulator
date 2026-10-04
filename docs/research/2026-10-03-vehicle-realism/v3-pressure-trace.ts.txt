@@ -1,0 +1,15 @@
+import { step } from '../../../src/core/step';
+import { GOLDEN_DT } from '../../../tests/golden/record';
+import { GOLDEN_SPECS } from '../../../tests/golden/scenarios';
+for (const spec of GOLDEN_SPECS) {
+  let state = spec.build();
+  let peak = 0, above30 = 0, above50 = 0;
+  for (let i = 0; i < spec.steps; i++) {
+    state = step(state, GOLDEN_DT);
+    peak = Math.max(peak, state.forces.dynamicPressure);
+    above30 += Number(state.forces.dynamicPressure >= 30);
+    above50 += Number(state.forces.dynamicPressure >= 50);
+  }
+  console.log(JSON.stringify({ id: spec.id, peakKPa: peak, samples: spec.steps,
+    fractionAtLeast30KPa: above30 / spec.steps, fractionAtLeast50KPa: above50 / spec.steps }));
+}

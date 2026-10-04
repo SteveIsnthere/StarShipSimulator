@@ -1,0 +1,55 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/menu.test.ts (25 tests | 1 failed) 211ms
+     × applies the 2021 conversions and clamps 8ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/hud/debrief.test.ts (53 tests | 1 failed) 21325ms
+     × recovers a first-step rotating impact at the hull point judged by contact 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/hud/debrief.test.ts > a crash says which gate it failed > recovers a first-step rotating impact at the hull point judged by contact
+AssertionError: expected 8.881784197001252e-16 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 8.881784197001252e-16
+
+ ❯ tests/hud/debrief.test.ts:349:35
+    347|     const card = debrief(state, timeline, watch.last);
+    348|     expect(card.reasons).toEqual(['not upright']);
+    349|     expect(card.horizontal.value).toBe(initial.kinematics.speedX);
+       |                                   ^
+    350|     expect(card.vertical.value).toBe(initial.kinematics.speedY);
+    351|     expect(card.attitude.value).toBe(initial.kinematics.pitch);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/ui/menu.test.ts > what the editor produces is flyable > applies the 2021 conversions and clamps
+AssertionError: expected 1600000 to be 1200000 // Object.is equality
+
+- Expected
++ Received
+
+- 1200000
++ 1600000
+
+ ❯ tests/ui/menu.test.ts:242:42
+    240|     expect(toDeg(state.kinematics.pitch)).toBeCloseTo(45, 10);
+    241|     // Propellant is tonnes, capped at 1200 t.
+    242|     expect(state.vehicle.propellantMass).toBe(1_200_000);
+       |                                          ^
+    243|   });
+    244|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 4 passed (6)
+      Tests  2 failed | 113 passed (115)
+   Start at  17:17:59
+   Duration  22.09s (transform 2.40s, setup 0ms, import 3.82s, tests 29.57s, environment 961ms)
+

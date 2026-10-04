@@ -23,6 +23,10 @@ point with one rotational degree of freedom, in a local frame:
 | `pitch` | rad from local vertical: 0 nose up, +π/2 prograde, −π/2 retrograde; wrapped to (−π, π] |
 | `angleOfMotion` | `atan2(speedX, speedY)`, measured from vertical (`physics/aero.ts:113`) |
 
+Active V3 kinematics describe the hull reference point. Translation integrates the physical
+centre of mass; rigid-body transforms supply hull position, velocity and acceleration.
+After asymmetric loss the COM can move laterally as well as axially.
+
 Angle of attack is pitch minus the relative-wind angle, wrapped; `angleInToTheWind` folds the
 rear half onto the front (`aero.ts:157`). Pressure is in kPa, temperature in °C, controls in %.
 Angles are branded `Rad`/`Deg` types (`units.ts`).
@@ -53,6 +57,7 @@ Order is a contract; several phases read what the previous one wrote.
 | 3a | params | fin fractions, max area, cross-section (previous `angleInToTheWind`), angles, gimbal direction, heat, q, pitch rate, TWR, drag (Cd from previous Mach), lift, thrust at ambient pressure |
 | 3b | translation | current vertical support and felt g from specific force; Verlet; radius refreshed after position; `trueSpeed`, Mach |
 | 3c | rotation | mass properties for this load; Verlet rotation with all torques |
+| 3d | damage | finite thermal update and irreversible component ownership changes after paid motion; refresh retained capability |
 | 4 | controls | autopilot, then manual input (overrides), then fins/RCS/gimbal, then throttle slew |
 | 4b | failure | current pressure, skin temperature and felt g; shutdown cancels pending ignition |
 | 5 | clocks | `environmentTime`; `timeSpent` only while flying |
@@ -111,23 +116,30 @@ Density: 1.225 kg/m³ at 0, 1.0e-3 at 50 km, 5.3e-7 at 100 km, 2.1e-9 at 150 km,
 
 ## Propulsion
 
-Six Raptor 2s in `C.RAPTORS`: three sea-level engines (indices 0–2) and three RVacs (3–5). A
-sea-level engine's full-throttle thrust is `max(0, T_vac − p·A_eff)` (`thrustPerRaptorAt`); an RVac's
-is 258 tf in vacuum less `p·A_e` through a 2.3 m exit (`thrustPerRVacAt`, tier B, the diameter a
-named assumption), 380 s, 2.11 MN on the pad. *Engines* (all) lights the sea-level three only and
-shuts down every running engine; the autopilot never lights an RVac, and its landing logic counts
-sea-level engines.
+The active V3 catalogue (`vehicles/v3.ts`) supplies model-specific propulsion to
+`engineThrust` and `engineMassFlow`. Ship has three sea-level engines and three fixed
+RVacs; Super Heavy has 33 sea-level engines, of which 13 gimbal. The historical Raptor 2
+constants remain explicit test/reference inputs, not the active V3 profile.
 
-| constant | value | where | source |
-|---|---|---|---|
-| sea-level thrust | 230 tf = 2.2555 MN | `C:230` | public Raptor 2 figure |
-| Isp sea level / vacuum | 327 / 350 s, same nozzle | `C:232`, `:234` | public figures (380 s is RVac, a different engine) |
-| mass flow | 703.4 kg/s, constant with altitude | `C:243` | derived, T_sl/(Isp_sl·g₀) |
-| vacuum thrust | 2.4142 MN (+7.0 %) | `C:246` | derived |
-| effective exit area | 1.566 m² (geometric ≈ 1.33) | `C:251` | derived, (T_vac − T_sl)/p_sl |
-| throttle | 40–100 %, slew 60 %/s | `C:166–170` | tuned, no source |
-| gimbal | ±15°, slew 600 %/s | `C:190–192` | tuned, no source |
-| engine offsets | N1 −1 m, N2/N3 +0.5 m | `C:173–176` | tuned, no source |
+A sea-level engine uses `max(0, T_vac − p·A_eff)`, with mass flow derived from nominal
+sea-level thrust and Isp. RVac uses its nominal vacuum thrust less pressure times the
+assumed 2.3 m exit area. Thrust and mass flow use the same selected profile everywhere.
+*Engines* (all) lights Ship's sea-level three and shuts down all running engines; the
+Ship autopilot never lights an RVac.
+
+| Active input | Value | Provenance |
+|---|---|---|
+| sea-level nominal thrust | 250 tf = 2.4516625 MN | SpaceX Raptor 3 nominal figure |
+| RVac nominal vacuum thrust | 275 tf = 2.69682875 MN | SpaceX nominal figure |
+| SL Isp at sea level / vacuum | 327 / 350 s | inherited uncertain efficiency assumption |
+| RVac Isp | 380 s | inherited uncertain efficiency assumption |
+| SL mass flow | 250000 / 327 kg/s | derived from thrust and efficiency |
+| throttle | 40–100%, slew 60 percentage points/s | retained control envelope |
+| gimbal | ±15°, slew 600 percentage points/s | retained control envelope |
+
+The [source audit](../research/2026-10-03-vehicle-realism/v3-source-audit.md) separates
+manufacturer data, rounded aggregate figures and engineering assumptions. Published
+V3 Isp is not claimed. Historical truth bands probe an explicit Raptor 2 profile.
 
 Thrust and fuel flow scale with working engines × throttle % (`physics/engines.ts`). The
 sea-level engines' thrust acts along `pitch − gimbal% × 15°`; the RVacs are fixed and push along
@@ -143,19 +155,19 @@ Random Failure on (`C:153`, `:163`); the roll is drawn either way.
 
 ## Mass, centre of mass, inertia
 
-Dry 120 t (`C:102`), default load 350 t (`C:104`), capacity 1200 t (`physics/mass.ts:46`).
-Stations above the gimbal plane: tank bottom 5.0, aft fins 9.2, dry CoM 21.8, RCS 41.8, front fins
-45.1, nose 50 m — the 2021 arms read about the dry CoM, so empty-tank arms equal them. LOX (12.94 m
-full) sits under CH₄ (9.67 m), O/F 3.6, densities 1141 / 424 kg/m³; both fill from the bottom and
-drain in ratio. Inertia: dry hull as a 9 × 50 m cylinder plus each propellant column, by parallel
-axes (`mass.ts:98`). Arms: engine = CoM, aft fin = CoM − 9.2, front fin = 45.1 − CoM,
-RCS = 41.8 − CoM.
+The active Ship is 52 × 9 m, with inherited assumed dry mass 120 t, default load
+350 t and capacity 1600 t. Its dry COM and control stations retain the original ratios
+scaled by 52/50; tank bottom remains 5 m. LOX and methane have O/F 3.6 and densities
+1141 / 424 kg/m³. Both columns fill from the bottom and drain together. Capacity sizes
+the columns; it does not change a preset's selected fuel load.
 
-| load | CoM | I (kg·m²) | ∫\|r\|³ (m⁴) |
-|---|---|---|---|
-| dry | 21.8 m | 2.56e7 | 2.15e5 |
-| 350 t | 12.7 m | 5.03e7 | 4.90e5 |
-| 1200 t | 14.6 m | 7.97e7 | 4.02e5 |
+Intact inertia uses the selected dry cylinder and filled columns with parallel-axis
+terms. A positive component partition reproduces that mass, COM and inertia before
+loss. After loss, canonical properties come from retained components and actual fuel,
+including transverse COM displacement. See [progressive damage](progressive-damage.md).
+
+The older 50 m / 1200 t Ship cohort is retained explicitly in test-owned profiles for
+historical bands and numerical proofs. It is not a second player-selectable physics mode.
 
 ## Aerodynamics
 
@@ -195,7 +207,7 @@ Phase 6, Task 8 (`physics/thermal.ts`).
   anything, tier B), so an unheated tile reads its surroundings, 288 K on the pad. No soak, no
   ablation.
 - **Limit:** 1,533 K, the Shuttle HRSI reuse limit (1,260 °C, tier B), judged on the temperature;
-  `heatLimit` = εσT⁴ = 266 kW/m² is the flux scale the plasma, audio and warnings use. Peaks: the Re-entry preset 1,372 K (171 kW/m²), the deorbit 1,459 K.
+  `heatLimit` = εσT⁴ = 266 kW/m² is the flux scale the plasma, audio and warnings use. The historical Phase 6 deorbit flux-derived equilibrium-temperature characterization is 1,459±5 K; the V3 characterization is separately measured at 1,452.314±5 K. Neither is the temperature of the new finite TPS nodes.
 
 ## Limits and failure
 
@@ -204,14 +216,18 @@ Phase 6, Task 8 (`physics/thermal.ts`).
 | g | `perceivedG > 13`: felt g, (acceleration − gravity) / g₀, what the structure carries | `step.ts:193`, `C:298` |
 | heat | `surfaceTemperature > 1,533 K` (`TILE_LIMIT_KELVIN`): the tile itself; `heatLimit` is the matching flux scale for the cues | `step.ts` |
 | q | `> 50` kPa (goldens peak at 28.6) | `C:461` |
-| contact zone | `altitude ≤ 25·\|cos pitch\|` | `step.ts:139` |
+| contact zone | `altitude ≤ model.height/2·\|cos pitch\|` | `step.ts:139` |
 | landed | in zone, `speedY < −0.5`, `\|speedX\| < 2`, `\|speedY\| < 10`, `\|pitch\| < 0.09` rad | `step.ts:143`, `C:463–465` |
 | crashed | in zone, `speedY < −0.5`, any landing criterion missed | `step.ts:155` |
 | resting | in zone, not falling, current vertical specific force ≤ local weight | `updateGroundContact` |
 | fuel out | `propellantMass ≤ 0` | `step.ts:199` |
 
-Break-up empties propellant and RCS, restores dry mass/inertia, stops engines and pending ignition, and zeroes rotation; the vehicle then falls with this step’s already paid impulse. A crash
-also zeroes speeds and pitch.
+Terminal failure captures the first incoming or paid-interval motion before legacy
+shutdown fields can erase it. Remaining dry hardware becomes physical debris; released
+propellant retains a separate mass/momentum/energy ledger. The removed parent owns no
+mass or authority. The failure interval preserves paid impulse, while subsequent
+terminal steps clear propulsion and advance pieces. Progressive control-surface loss
+can precede terminal failure. See [the damage contract](progressive-damage.md).
 
 ## Wind
 
@@ -256,9 +272,9 @@ when an engine is commanded to light; turbulence takes two a step, only in wind.
 | intro | 199 | 0 | 0, −50 | 0° | 12 |
 
 `createScenarioState` retains the Ship compatibility API used by the original goldens.
-Player-facing `createScenarioVehicle` selects the 71 m, 33-engine Super Heavy for
+Player-facing `createScenarioVehicle` selects the 72 m, 33-engine Super Heavy for
 Booster Sep, RTLS and custom flights based on those presets; their historical
-initial conditions remain unchanged. Other presets fly the 50 m Ship with three
+initial conditions remain unchanged. Other presets fly the 52 m Ship with three
 sea-level Raptors and three fixed RVacs. The editor uses the selected vehicle's
 length and propellant capacity. The intro retains locked fins and its demo landing.
 Orbits sit at 150 km, where a lap loses about 100 m; at 100 km an orbit decays within a lap.
@@ -346,21 +362,38 @@ The shipped model remains the Phase 6 broadside force curve, legacy fin torque a
 
 ## Super Heavy model
 
-The shared integrator now accepts an immutable vehicle definition. Ship arithmetic is bit-exact under independent snapshots and existing goldens; its broadside model and parked aero remain unchanged. The player adapter's Booster Sep/RTLS/custom-based-on-booster states select the actual33-engine booster, preserving all six historical start values. The compatibility `createScenarioState` API remains Ship-default for original trajectories; player callers use `createScenarioVehicle`.
+The shared integrator accepts an immutable vehicle definition. Player Booster Sep,
+RTLS and custom states based on either use the active V3 booster. The compatibility
+`createScenarioState` API remains Ship-default; player callers use `createScenarioVehicle`.
+The approved broadside body aero remains in place, and Phase 6b's parked model stays parked.
 
-This is the historical Raptor2/four-grid-fin cohort matching Block1 Ship: FAA https://www.faa.gov/media/94371 PDF108/printed41 gives71m x9m;PDF230 gives3400t, citing SpaceX accessed2025-02-07. The future4100t capacity is excluded. SpaceX https://www.spacex.com/updates/reusability corroborates33 engines,13 return-burn and three terminal engines. The symmetric2D mount table has3 centre/10 inner/20 outer mounts; only the13 centre/inner gimbal. Ring projections (.65/2/3.8m) are TierB approximations. Outer mounts provide axial thrust and actual offset torque, not a fictitious gimballed lateral force. Ignition delays/failure/RNG, pressure thrust and fuel payment use the existing Raptor2 model.
+The active booster is 72 × 9 m with 3650 t capacity, 33 Raptor 3 engines and three grid
+fins. Dry mass 200 t, dry COM at half height and tank bottom 3 m are engineering
+assumptions. The 3 centre / 10 inner / 20 outer projected engine mounts retain assumed
+radii .65 / 2 / 3.8 m; only the centre and inner engines gimbal. Ignition, fuel flow and
+pressure-dependent thrust use the selected profile.
 
-Dry mass200t, dry COM35.5m, tank bottom3m, upper fin station66m and combined four-fin area24m² are declared engineering estimates.160/200/240t sensitivity proves positive finite inertia and13-engine thrust authority; it does not certify every uncertain variant's flight. LOX/methane columns use3.6 mixture ratio and1141/424kg/m³ densities; the full tanks fit beneath71m. Mass/COM/inertia use the existing filled-column and parallel-axis calculations at each actual load, including initial state.
+The grids have an assumed aggregate reference area 27 m² (the inherited 24 m² times
+3/4 fins times 1.5 area per fin) and a photo-supported authored hinge at 64.8 m.
+Their cold laws remain q=rho*v²/2, Cl=sin(2delta), Cd=1.2sin²delta, bounded ±45°.
+Lift is perpendicular to airflow, drag opposes it, and torque uses the actual station
+about retained COM. The existing 120 percentage-points/s actuator has 50% neutral.
+Finite root heating changes delivered deflection and surviving area through the damage
+model; these are engineering laws, not validated booster coefficients.
 
-The grid fins use q=rho*v²/2,Cl=sin(2delta),Cd=1.2sin²delta, bounded±45°. Lift is perpendicular to relative airflow, drag opposes it, and torque uses the rotated66m station about moving COM. Deflection uses the existing120percentage-points/s fin actuator envelope with50 neutral. Inactive/locked controls slew to neutral. These are engineering laws, not the parked Ship fin family or validated booster coefficient data. Shared structural/thermal thresholds, including1533K, remain conservative; no unverified heat shield is invented.
-
-Catch bounds were frozen before booster flight testing: lug65m, arm plane120m, upright body-centre90.5m, lateral half-width2.25m, downward speed≤4.5m/s, |vx|≤1m/s, |pitch|≤5°. Original SpaceX Flight5 footage https://www.youtube.com/watch?v=hI9HQfCAw64 shows a slow upright airborne capture; these limits/layout are a conservative2D engineering approximation, not official telemetry/SpaceX tolerances. Capture uses the interpolated first descending lug crossing within all these bounds. Ground contact remains a crash for a descending booster; there is no capture pull, target snap or preset-id success override. Original Booster Sep and RTLS physical catches pass. Physical hot staging, selected-body controls and the two-vehicle interface are implemented; phase release status is recorded in the roadmap.
+Catch geometry retains its distinct inherited lug ratio, 65/71 times 72 m above the
+engine plane. The arm plane stays 120 m; upright hull-centre target derives from that
+lug and the current height. Limits remain lateral half-width 2.25 m, downward speed
+at most 4.5 m/s, lateral speed at most 1 m/s and pitch at most 5°. These are the frozen
+conservative 2D approximations drawn from Flight 5 footage, not official tolerances.
+The first descending lug crossing must meet every bound. No pull, snap or preset-id
+success override is provided. Ground contact remains a booster crash.
 
 Booster guidance pays alignment through actual torque,13-engine boostback startup/flow, coast grid/body/RCS motion, continuous13→3entry reduction when three centres can supply the measured demand, and three-engine terminal arrest. The shared mechanical predictor owns cloned states/RNG and makes at most four future advances per live1/120s frame,16paid numerical proposals and4000steps/900s per rollout. A cutoff is an executable whole live tick from an actual paid candidate; only a genuine1/120terminal capture can publish it before its future clock. Approximate range/cubic targets propose work, never command an interpolated or expired cutoff.
 
 Terminal translation uses the actual±15degree gimbal world direction while independently paid rotational RCS counteracts delivered torque and holds the hull upright. Engine/gimbal/throttle/fin slew and800kN/25sRCS reserve remain unchanged. The fixed cubic deadline does not reset when descent stalls. Cold ignition and current throttle-ramp debt reserve stopping distance concurrently. No translational RCS, extra force, free fuel or changed capture authority is supplied.
 
-Measured original default-seed catches (development source pinned in `docs/research/2026-10-02-phase7-booster-guidance/cycle4-terminal-allocation/attempt2-source-sha256.json`):
+Historical Phase 7 Raptor 2/four-grid default-seed catches (not V3 acceptance; development source pinned in `docs/research/2026-10-02-phase7-booster-guidance/cycle4-terminal-allocation/attempt2-source-sha256.json`):
 
 | Preset | Catch time | Propellant spent | Remaining propellant | Remaining full-thrust-equivalent rotational RCS time |
 |---|---:|---:|---:|---:|
@@ -371,6 +404,6 @@ Both use their unchanged500t/200t start loads,26independent ignition-delay/failu
 
 ### Shipped physical hot-stage mission
 
-`core/mission.ts` composes the extracted paid-force and Verlet phases for a touching71m booster/50m Ship at the original Booster Sep pose,500t/1200t propellant. The aggregate mass COM/inertia follows both actual tanks, including parallel-axis contributions. Sum each real world force and its moment about the aggregate COM; intrinsic engine/aero/RCS torque comes from the same physical functions. Aggregate translation and angular motion each integrate once. Hull-centre positions are explicitly derived from the physical COM; body mass-COM velocities inherit aggregate velocity plus clockwise rotation at that offset. The independent Ship coordinate convention remains unchanged after release. Constraint/centripetal acceleration contributes to each body's reported felt load. No extra exhaust force or separation impulse is added.
+`core/mission.ts` composes the extracted paid-force and Verlet phases for a touching 72 m booster / 52 m Ship at the original Booster Sep pose,500t/1200t propellant. The aggregate mass COM/inertia follows both actual tanks, including parallel-axis contributions. Sum each real world force and its moment about the aggregate COM; intrinsic engine/aero/RCS torque comes from the same physical functions. Aggregate translation and angular motion each integrate once. Hull-centre positions are explicitly derived from the physical COM; body mass-COM velocities inherit aggregate velocity plus clockwise rotation at that offset. Both active free bodies publish hull-reference kinematics while translating their physical mass centre, including transverse offsets after loss. Constraint/centripetal acceleration contributes to each body's reported felt load. No extra exhaust force or separation impulse is added.
 
-Stage commands three centre booster and six Ship engines once through real failure/delay draws. Separation requires centres actually running, positive actual Ship thrust and greater axial specific force; an all-Ship ignition failure stays attached and reports failure. The default-seed short demonstration releases at1.208333s, with1198.642t Ship and499.267t booster fuel; this is a staging witness, not a complete ascent/orbit/catch certification. Free vehicles then use the same model-selected step independently. One existing accumulator handles both trajectories, including pause, clamp, warp, slow motion and restart. The session routes selected-body commands, draws both physical bodies and preserves separate recorders, timelines and flight endings. Restart retains the mission seed and attachment. Physical staging evidence:2026-10-02-phase7-hot-staging; interface and browser evidence:2026-10-03-phase7-mission-interface and2026-10-03-phase7-release.
+Stage commands three centre booster and six Ship engines once through real failure/delay draws. Separation requires centres actually running, positive actual Ship thrust and greater axial specific force; an all-Ship ignition failure stays attached and reports failure. The historical Phase 7 default-seed short demonstration released at 1.208333s, with 1198.642t Ship and 499.267t booster fuel; this is a staging witness, not a complete ascent/orbit/catch certification. Free vehicles then use the same model-selected step independently. One existing accumulator handles both trajectories, including pause, clamp, warp, slow motion and restart. The session routes selected-body commands, draws both physical bodies and preserves separate recorders, timelines and flight endings. Restart retains the mission seed and attachment. Physical staging evidence:2026-10-02-phase7-hot-staging; interface and browser evidence:2026-10-03-phase7-mission-interface and2026-10-03-phase7-release.

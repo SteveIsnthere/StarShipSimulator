@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-flight.test.ts (4 tests | 1 failed) 13ms
+     × takes engine moments about the actual transverse mass centre after asymmetric loss 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-flight.test.ts > actual flight respects remaining hardware > takes engine moments about the actual transverse mass centre after asymmetric loss
+AssertionError: expected 0.08385194017776523 to be close to 0.001053408922195011, received difference is 0.08279853125557023, but expected 5e-13
+ ❯ tests/core/damage-flight.test.ts:68:49
+     66|         - (engine.offAxis - mass.centreOfMassX) * thrust * Math.cos(an…
+     67|     }
+     68|     expect(next.kinematics.angularAcceleration).toBeCloseTo(torque / m…
+       |                                                 ^
+     69|   });
+     70|   it('one detached grid removes its force contribution from the real s…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 7 passed (8)
+   Start at  15:16:03
+   Duration  974ms (transform 457ms, setup 0ms, import 621ms, tests 498ms, environment 0ms)
+

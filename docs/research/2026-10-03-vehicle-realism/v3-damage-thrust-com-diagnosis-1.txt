@@ -1,0 +1,21 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-flight.test.ts (4 tests | 1 failed) 10ms
+     × takes engine moments about the actual transverse mass centre after asymmetric loss 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-flight.test.ts > actual flight respects remaining hardware > takes engine moments about the actual transverse mass centre after asymmetric loss
+AssertionError: {"forces":{"thrust":11173957.920871561,"thrustAcceleration":23.79841885244883,"offAxisThrustDifferenceAcceleration":0.001052296620832113,"twr":2.426676746451395,"thrustVectorForce":360411.6314905315,"thrustVectorAcceleration":0.08279964355693312,"rcsThrust":0,"rcsThrustAngularAcceleration":0,"angularDragAcceleration":0,"crossSectionalArea":30.29392915961586,"aerodynamicDrag":0,"aerodynamicLift":0,"aerodynamicDragAcceleration":0,"aerodynamicLiftAcceleration":0,"frontFinDrag":0,"aftFinDrag":0,"frontFinDragAngularAcceleration":0,"aftFinDragAngularAcceleration":0,"frontFinEffectiveAreaFraction":0,"aftFinEffectiveAreaFraction":0,"thermalPower":0,"surfaceTemperature":186.94599999999997,"dynamicPressure":0,"perceivedG":2.425464278003533,"perceivedG_X":-0.07827430048560487,"perceivedG_Y":2.42420091942782},"mass":{"hasMass":true,"retainedDryMass":119551.266768,"propellantMass":349973.9563214228,"totalMass":469525.2230894228,"dryCentreOfMassX":0.021919529855633647,"dryCentreOfMass":22.581045684150503,"dryMomentOfInertia":27366759.489799753,"centreOfMassX":0.005581185913628571,"centreOfMass":13.600854584860562,"momentOfInertia":59202020.44377782,"frontFinCount":1,"aftFinCount":2,"gridFinCount":0,"frontFinArea":12.1,"aftFinArea":45.8,"gridFinArea":0,"engineSupportAvailable":true},"engines":[true,true,true,true,true,true],"throttle":70,"gimbal":25}: expected 0.08385194017776523 to be close to 0.001053408922195011, received difference is 0.08279853125557023, but expected 5e-13
+ ❯ tests/core/damage-flight.test.ts:68:188
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  15:16:58
+   Duration  423ms (transform 223ms, setup 0ms, import 274ms, tests 10ms, environment 0ms)
+

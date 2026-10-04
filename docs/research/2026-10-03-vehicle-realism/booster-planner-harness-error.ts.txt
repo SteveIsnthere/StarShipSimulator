@@ -1,0 +1,76 @@
+/** INVALID HARNESS: wrong seed and missing-observer verifier. Preserved for audit; not acceptance. */
+/** One declared no-observer baseline diagnostic. Read-only production imports.
+ * Frozen booster-sep preset/default seed; four mechanical advances/live tick,
+ * sixteen-trial search, unmodified physics/deadlines/guards/catch geometry.
+ * Stops at first live terminal/catch or60s. No parameter sweep/retry. */
+import { writeFileSync } from 'node:fs';
+import { createScenarioVehicle, PRESETS } from '../../../src/core/scenarios';
+import { advanceMechanics } from '../../../src/core/step';
+import { runBoosterAutopilot, runBoosterPolicy } from '../../../src/core/autopilot/booster';
+import { advanceBoosterPrediction } from '../../../src/core/control/booster-prediction';
+import { createBurnScratch, createFallResult, unpoweredFallInto } from '../../../src/core/control/guidance-physics';
+import { SUPER_HEAVY, CATCH } from '../../../src/core/vehicles/super-heavy';
+import * as C from '../../../src/core/constants';
+import { rad } from '../../../src/core/units';
+import type { MechanicalAdvance } from '../../../src/core/control/mechanical';
+import type { SimState } from '../../../src/core/state';
+const dt=1/120,rows:unknown[]=[];
+let s=createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!).state;
+s.autopilot.autoLandOn=true;
+const scratch=createBurnScratch(),fall=createFallResult();
+let calls=0,lastFuture:SimState|undefined;
+const forecastAdvance:MechanicalAdvance=(previous,delta,control,model)=>{
+ calls++;lastFuture=advanceMechanics(previous,delta,control,model);return lastFuture;
+};
+const livePolicy=(state:SimState,delta:number)=>runBoosterAutopilot(state,delta,SUPER_HEAVY,advanceMechanics);
+const summary=(state:SimState)=>({time:state.world.environmentTime,phase:state.autopilot.boosterPhase,
+ h:state.kinematics.altitude,x:state.kinematics.downRangeDistance-C.starBaseXPos,
+ vx:state.kinematics.speedX,vy:state.kinematics.speedY,pitch:state.kinematics.pitch,
+ omega:state.kinematics.angularVelocity,fuel:state.vehicle.propellantMass,
+ g:state.forces.perceivedG,q:state.forces.dynamicPressure,tile:state.forces.surfaceTemperature,
+ landed:state.status.landed,failures:state.failures,terminal:state.damage?.terminal});
+let candidateKey='',validationKey='',oldPhase:string|undefined;
+for(let tick=0;tick<7200;tick++){
+ s=advanceMechanics(s,dt,livePolicy,SUPER_HEAVY);
+ if(s.autopilot.boosterPhase!==oldPhase){rows.push({event:'live-phase',...summary(s)});oldPhase=s.autopilot.boosterPhase;}
+ if(s.damage?.terminal.active || s.status.landed){rows.push({event:'live-stop',...summary(s)});break;}
+ if(s.autopilot.boosterRangeError===undefined){
+  unpoweredFallInto(s,CATCH.bodyCentreAltitude,scratch,fall,SUPER_HEAVY,rad(0));
+  if(fall.reached){s.autopilot.boosterRangeError=s.kinematics.downRangeDistance-C.starBaseXPos+fall.downRange;s.autopilot.boosterFallTime=fall.time;}
+ }
+ const prev=s.autopilot.boosterPrediction,oldCalls=calls;
+ advanceBoosterPrediction(s,dt,forecastAdvance,runBoosterPolicy,SUPER_HEAVY);
+ const job=s.autopilot.boosterPrediction!;
+ if(prev?.stage==='validate' && (job.stage!=='validate' || job.done || job.selected?.burnDuration!==prev.selected?.burnDuration)){
+  rows.push({event:'validation-end',liveTime:s.world.environmentTime,candidate:prev.selected,
+   end:lastFuture && summary(lastFuture),fineSteps:prev.rollout.result.steps+calls-oldCalls,
+   fineElapsed:lastFuture && lastFuture.world.environmentTime-prev.terminalOrigin!.world.environmentTime,
+   plan:s.autopilot.boosterReturnPlan,done:job.done,nextStage:job.stage,nextDuration:job.duration});
+ }
+ const c=job.lastCandidate,key=c?`${c.originTime}/${c.burnDuration}`:'';
+ if(c && key!==candidateKey){candidateKey=key;
+  const h=c.forecast.handoff,t=h?.time;
+  const ax=h&&t?6*h.x/t**2+2*h.vx/t:NaN;
+  const ay=h&&t?6*h.height/t**2+2*h.vy/t-8/t
+    +(C.planetGravitationalParameter/(C.planetRadius+CATCH.bodyCentreAltitude)**2
+      -C.frameRotationRate**2*(C.planetRadius+CATCH.bodyCentreAltitude)):NaN;
+  rows.push({event:'candidate-complete',liveTime:s.world.environmentTime,candidate:c,
+   nominalFinalPitch:Math.atan2(ax,Math.max(0,ay)),iterations:job.iterations,stage:job.stage,
+   low:job.low?.burnDuration,high:job.high?.burnDuration,nextDuration:job.duration,
+   cutoffSlack:c.shutdownAt-s.world.environmentTime,futureEnd:lastFuture && summary(lastFuture)});
+ }
+ const vk=job.stage==='validate'?`${job.selected?.originTime}/${job.selected?.burnDuration}`:'';
+ if(vk && vk!==validationKey){validationKey=vk;rows.push({event:'validation-start',liveTime:s.world.environmentTime,
+  selected:job.selected,terminalOrigin:job.terminalOrigin && summary(job.terminalOrigin),calls});}
+ if(tick%120===0)rows.push({event:'progress',...summary(s),calls,stage:job.stage,iterations:job.iterations,
+  duration:job.duration,originTime:job.origin.world.environmentTime,forecastTime:job.rollout.result.time,
+  forecastSteps:job.rollout.result.steps,forecastPhase:job.rollout.state.autopilot.boosterPhase,
+  low:job.low?.forecast.rangeError,high:job.high?.forecast.rangeError,plan:s.autopilot.boosterReturnPlan});
+}
+rows.push({event:'final',...summary(s),calls,job:s.autopilot.boosterPrediction && {
+ stage:s.autopilot.boosterPrediction.stage,iterations:s.autopilot.boosterPrediction.iterations,
+ duration:s.autopilot.boosterPrediction.duration,done:s.autopilot.boosterPrediction.done,
+ attemptedTicks:s.autopilot.boosterPrediction.attemptedTicks,low:s.autopilot.boosterPrediction.low,
+ high:s.autopilot.boosterPrediction.high,validatedTicks:s.autopilot.boosterPrediction.validatedTicks}});
+writeFileSync('docs/research/2026-10-03-vehicle-realism/booster-planner-causal-trace.jsonl',rows.map(r=>JSON.stringify(r)).join('\n')+'\n');
+console.log(JSON.stringify(rows.filter((r:any)=>!['progress'].includes(r.event)),null,2));

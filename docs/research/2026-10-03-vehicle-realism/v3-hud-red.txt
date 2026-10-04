@@ -1,0 +1,111 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/hud/v3-prediction.test.ts (6 tests | 6 failed) 7ms
+     × recognises the physical pad before a first step ('ship') 4ms
+     × recognises the physical pad before a first step ('super-heavy') 0ms
+     × uses selected geometry throughout the fall ('ship') 1ms
+     × uses selected geometry throughout the fall ('super-heavy') 0ms
+     × defaults to the active Ship physical ground height 0ms
+     × reads the selected vehicle again when the map redraws 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/hud/v3-prediction.test.ts > selected vehicle impact prediction > recognises the physical pad before a first step ('ship')
+ FAIL  |unit| tests/hud/v3-prediction.test.ts > selected vehicle impact prediction > recognises the physical pad before a first step ('super-heavy')
+AssertionError: expected 'touchdown' to be 'none' // Object.is equality
+
+Expected: "none"
+Received: "touchdown"
+
+ ❯ tests/hud/v3-prediction.test.ts:14:22
+     12|     const out = createPrediction();
+     13|     predict(createInitialState(123, model), out, model);
+     14|     expect(out.kind).toBe('none');
+       |                      ^
+     15|     expect(out.reason).toBe('on-ground');
+     16|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |unit| tests/hud/v3-prediction.test.ts > selected vehicle impact prediction > uses selected geometry throughout the fall ('ship')
+AssertionError: expected 25 to be 26 // Object.is equality
+
+- Expected
++ Received
+
+- 26
++ 25
+
+ ❯ tests/hud/v3-prediction.test.ts:30:26
+     28|     predict(state, out, model);
+     29|     expect(out.kind).toBe('touchdown');
+     30|     expect(out.altitude).toBe(model.height / 2);
+       |                          ^
+     31|     expect(out.time).toBe(expected.time);
+     32|     expect(out.downRange).toBe(expected.downRange);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |unit| tests/hud/v3-prediction.test.ts > selected vehicle impact prediction > uses selected geometry throughout the fall ('super-heavy')
+AssertionError: expected 25 to be 36 // Object.is equality
+
+- Expected
++ Received
+
+- 36
++ 25
+
+ ❯ tests/hud/v3-prediction.test.ts:30:26
+     28|     predict(state, out, model);
+     29|     expect(out.kind).toBe('touchdown');
+     30|     expect(out.altitude).toBe(model.height / 2);
+       |                          ^
+     31|     expect(out.time).toBe(expected.time);
+     32|     expect(out.downRange).toBe(expected.downRange);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  |unit| tests/hud/v3-prediction.test.ts > selected vehicle impact prediction > defaults to the active Ship physical ground height
+AssertionError: expected '' to be 'on-ground' // Object.is equality
+
+- Expected
++ Received
+
+- on-ground
+
+ ❯ tests/hud/v3-prediction.test.ts:38:24
+     36|     const out = createPrediction();
+     37|     predict(createInitialState(), out);
+     38|     expect(out.reason).toBe('on-ground');
+       |                        ^
+     39|   });
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  |unit| tests/hud/v3-prediction.test.ts > selected vehicle impact prediction > reads the selected vehicle again when the map redraws
+AssertionError: expected 25 to be 26 // Object.is equality
+
+- Expected
++ Received
+
+- 26
++ 25
+
+ ❯ tests/hud/v3-prediction.test.ts:60:42
+     58|     renderer.redraw(state);
+     59|     expect(renderer.prediction.kind).toBe('touchdown');
+     60|     expect(renderer.prediction.altitude).toBe(26);
+       |                                          ^
+     61|     model = SUPER_HEAVY;
+     62|     renderer.redraw(state);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  13:26:17
+   Duration  203ms (transform 69ms, setup 0ms, import 89ms, tests 7ms, environment 0ms)
+

@@ -1,5 +1,7 @@
 # Visuals Implementation Plan
 
+**Paused at Steve’s request, 2026-10-03.** The implementation directions below apply only after explicit resume or the refreshed `/goal`. This documentation checkpoint does not authorize starting another task now.
+
 > **For agentic workers:** Use superpowers:executing-plans to implement this plan inline, task by task. Steps use checkbox (`- [ ]`) syntax for tracking. The approved goal authorizes implementation, publication, independent review and clean merges without another owner checkpoint.
 
 **Goal:** Make launch, staging, belly flop, entry, landing and tower catch visually distinct, physically driven and affordable on desktop and phone.
@@ -14,18 +16,18 @@
 
 Steve rejects current Ship and Super Heavy appearance as unrealistic and requests deep online/image research, faithful simplification of real hardware, possible structural disintegration, and an external ChatGPT Pro review. This supersedes Task5 visual acceptance; existing passing framing/control checks remain regression evidence only. Do not close Task5 or merge Phase8 on those checks alone.
 
-- [ ] Inspect original photographs/footage and record generation-specific silhouette, appendages, steel/tiles, hot-stage ring and engine-bay references, distinguishing sourced measurements from image estimates and authored simplifications.
-- [ ] Resolve pending owner choices: Flight5-era geometry matching existing physical model (recommended) versus V3 with model changes; visible breakup from existing failures (recommended) versus progressive component damage affecting flight.
+- [x] Inspect original photographs/footage and record generation-specific silhouette, appendages, steel/tiles, hot-stage ring and engine-bay references, distinguishing sourced measurements from image estimates and authored simplifications.
+- [x] Owner selected V3 with physics updates and progressive damage affecting flight, then instructed plan and implementation with subagents (2026-10-03).
 - [x] Write a scrubbed self-contained external review document, cold-read it, deliver it to Steve, and attempt one ChatGPT Pro review. Collect the parallel Deep Research report; verify recommendations against sources/code before adopting them. Completed2026-10-03; Pro supports conditionalprototype, notvisualsignoff. Findings and rejections in `docs/research/2026-10-03-vehicle-realism/pro-review.md`; same externalbrief revised tov2.
-- [ ] Amend the concrete implementation and visual acceptance here after the choices/reference audit. Reuse shared authored geometry/material definitions for intact and broken bodies; avoid more decorative patches to the legacy photo/flat booster.
+- [x] Amend the concrete implementation and visual acceptance here after the choices/reference audit. Reuse shared authored geometry/material definitions for intact and broken bodies; avoid more decorative patches to the legacy photo/flat booster.
 - [ ] Validate real failure transitions, inherited motion, loss of intact-body visibility, independent two-body state, pause/restart and reduced-quality behavior. A particle explosion alone does not satisfy disintegration.
 - [ ] Inspect real native-session captures at relevant scales against the reference checklist; retain all original regression, physical and release gates.
 
-Current evidence: corrected Task5 campaign64788 COMPLETE0,88/88 browser checks in13.3minutes,zero retries. No claim of realism acceptance or damage implementation. Source snapshot8c9a0c5 remains unchanged. Existing no-core-change constraint applies until a chosen model/damage scope explicitly amends it under physics policy.
+Historical pre-amendment evidence: Task5 campaign64788 passed88/88 with zero retries at8c9a0c5. The source has since changed substantially; that campaign is regression history, not current realism or release acceptance. The owner explicitly amends the no-core-change constraint for V3/progressive damage under the Fidelity tier; the concrete amendment below governs implementation.
 
-### Reference-driven implementation candidate (scope choices pending)
+### Historical reference-driven candidate (superseded by V3/progressive scope)
 
-This is a reviewable proposal, not permission to assume either pending answer. If Steve selects Flight5 and post-failure visuals:
+Historical alternative only. Steve selected V3 physics and progressive damage; do not implement this Flight5/post-failure alternative:
 
 1. Replace the legacy hull photograph and rectangular booster with one authored vehicle component system. Fix projection/azimuth, dimensional frame and component depth order first. Build nose/barrel silhouette, generation-correct flap shapes, tile boundary, cylinder shading, raceways, grid frames, vented ring and engine-bay occlusion from the reference ledger. Keep albedo/normal/light separate. At50px hull height, omit unresolved tile/lattice detail rather than enlarging the hardware.
 2. Add a session-owned first-failure observer, called at every fixed step for both physical identities. Preserve reset generation, body id, first event step/time, last-intact snapshot time and state, articulation, residual fuel and current failure predicate evidence. Last-intact state is up to1/120s earlier than the internal verdict; do not describe it as exact fracture telemetry. Do not change core step order or numerical state to improve animation.
@@ -39,12 +41,12 @@ If Steve chooses V3 or progressive damage, revise the model/physics tier and sou
 ## Global constraints
 
 - Ship every approved area: engines/plumes; re-entry/heat; environment; vehicle/camera. Phase 9 retains UX ownership.
-- No numerical core changes, golden regeneration, preset changes, intro sequence edits or pig movement. State is read-only; all physical limits and parity assertions remain.
+- V3 and progressive damage are approved Fidelity changes under the implementation amendment. Physics remains serial; goldens require the recording platform and all truth/flight checks. Preserve preset intent, intro sequence, pig, physical limits and parity. View code only reads core state.
 - First-load JavaScript ≤300 kB gzip; six-command gate ≤300 seconds on Steve’s Mac; hosted CI ≤20 minutes. Floors remain unchanged.
 - Render curves are authored visualization, not quantitative exhaust photometry, geographic surveying or temperature imaging. Label compression in source and reference docs.
 - Desktop full-frame work p95 ≤16.67 ms and measured steady cadence ≥59 frames/s (60 fps target); phone reduced-quality full-frame work p95 ≤33.33 ms and measured cadence ≥29.5 frames/s (30 fps target). Full-frame work includes the actual session tick, simulation, HUD, scene and GPU completion, not rendering alone. Viewport emulation is not an actual handset claim.
 - Build before tests; no concurrent heavy checks. All existing bounds, positive controls and zero local retries remain. Renew coverage seals only after auditing all affected closures; otherwise retain conservative full coverage.
-- Existing worktree and native inline execution stay in use. Independent reviewers are for review; do not dispatch implementation tasks.
+- Existing worktree stays in use. Steve authorizes subagents: give disjoint file ownership; physics/goldens remain serial. Independent release review must be fresh.
 
 ## Design critique and direction
 
@@ -192,22 +194,147 @@ expect(renderQuality(1280, 720, 1, false).mode).toBe('full');
 
 Retain current4000 capacity ceiling and original occupancy/coverage witnesses. A lower-quality path may bound visual cost, not remove flight instruments or change simulator dt. The browser benchmark uses actual renderer timing, not this pure policy test, as frame-budget evidence.
 
-## Execution ledger
+## V3 and progressive damage implementation amendment — approved 2026-10-03
 
-Phase7 main/live closure is complete and its documentation is merged at e8a06ff. Branch claude/visuals is created from that main. Task1 is in progress; no runtime implementation has started. Native execution and the full Phase8 scope are already approved. Skill handoff confirmation and default plan directory are overridden by the standing goal. Ruling: persist the next phase plan while the last Phase7 hosted follow-up finishes; implementation remains blocked on truthful Phase7 closure. This preserves the plan without skipping the dependency.
+**This section supersedes the historical conditional candidate, Task5's four-grid/photo-detail implementation and the former no-core-change restriction.** Steve selected V3 with physics updates and progressive damage affecting flight, and instructed planning followed by implementation. No second owner checkpoint is required. Tasks1–4 retain their completed evidence; update their integrations where the new vehicle requires it. Task6 and Phase9 remain required.
 
-Task1 publication: private Pages fallback at https://chatgpt.com/space/page_86fcf9be7d708191ad082fb932b96ef0; successful visualization receipt and readback confirm the embed. Identical local source inspected in the real in-app browser at1280×720/390×844, all six scenes/full+reduced, 24 saved JPEGs. Reduced DOM checks show no horizontal overflow, 44px scene targets, one pressed scene and zero visible extra-detail elements; Tab/Enter selects Staging and preserves native focus. Prototype is entirely static between user interactions/resize, with no animation, timer or RAF: reduced-motion needs no moving-effect override. Corrected duplicate Catch tower and CSS transform-box misalignment before publication. Private Page browser viewer requires login, so host embed rendering is explicitly unverified; connector publication itself is verified and does not block approved runtime work. No owner question or runtime change.
+**Goal:** Fly a coherently modeled current V3 Ship and Super Heavy, see their recognizable steel/TPS/appendage geometry, and experience progressively impaired control followed by physical component loss and disintegration.
 
-Task2 per-engine checkpoint: look helper drives actual mesh geometry and per-mount particle origins; SL follows actual gimbal and RVac stays fixed. All engine birth debt/RNG slots are startup-owned; aggregate rate and4000-particle pool are retained. Existing cadence regression diagnosed by arithmetic:80/s at120Hz emitted159 over2s vs160 at4Hz because fractional modulo lost integer boundaries. Compensated cumulative births fix it; original assertions unchanged. Browser cycle1:47pass/5fail, all failures the original positive-thrust/zero-throttle unsaturated gas control; restored existing mesh reach floor, then all5 affected controls pass. Original vacuum/length/bloom/smoke/restore/production-lifecycle controls passed; all5 real staging/selection/pause/restart witnesses pass. Full view suite25files/347tests passes; build296.2kB. No core/golden/preset/legacy change. Task2 remains open for explicit staging/landing glare and final integration acceptance; Tasks3–6 and Phase9 remain owed. Staging screenshot establishes tiny high-altitude vehicle framing to assess in Task5, not an excuse to weaken any test.
+**Architecture:** One generation-specific physical catalogue supplies dimensions, propulsion, control geometry and component identity. Shared deterministic mechanics owns thermal state, remaining capability, detachment and substantial debris. The renderer shares authored geometry between attached components and detached pieces; it never invents flight damage. Retain the existing broadside body aero and flight-control policy, adapting their inputs to V3 and surviving hardware.
+
+**Tech stack:** Existing TypeScript/PixiJS8/Vitest/Playwright, fixed120Hz; no dependencies, language or renderer engine added.
+
+**Specification/evidence:** owner decision in GOAL; `docs/research/2026-10-03-vehicle-realism/{v3-source-audit,damage-code-audit,v3-render-audit,reference-ledger,pro-review}.md`. The earlier Pro review did not inspect this new physics proposal. Primary-source/material audits are part of this specification, and every assumed geometry/material parameter is labeled separately from manufacturer data.
+
+### Model decisions fixed before flight testing
+
+- Current flown V3: Ship52m, Super Heavy72m, diameter9m, capacities1600000/3650000kg; six engines (3SL+3RVac) and33 respectively; SL250tf, RVac275tf. Use exact standard gravity9.80665 for conversion. Three booster grid fins, integrated retained hot stage, no old external engine skirt/shrouds. The124.4m prospectus stack figure is rounded differently from the124m component sum: do not manufacture a0.4m separate ring.
+- Keep inherited dry mass120000/200000kg and efficiency327/350/380s as explicit uncertain engineering inputs, not verified V3 specifications. Do not use the283t aggregate residual as a stage mass. Thrust and fuel flow change together (`mdot=T/(g0*Isp)`); ambient-pressure slope is derived consistently. Manufacturer aggregate thrust is a cross-check with rounding/condition uncertainty, never a tuning target.
+- Preserve each scenario's selected propellant load and launch/entry intent. Capacity increases do not fill every preset. Model-dependent surface contact, tanks, camera and catch offsets derive from the current geometry. Preserve exact intro choreography and framing intent; inspect its actual resulting flight under V3. Do not silently run a V2 intro and label it V3.
+- Declare V3 control stations/areas as authored estimates where unavailable, using inspected V3 image proportions. For grids, inherited aggregate24m² ×3/4 ×1.5 =27m² is the explicit relative approximation. Never apply1.5 to both dimensions or use36m² aggregate. Publish uncertainty; retain gimbal, throttle, catch and original acceptance bounds.
+- Preserve all historical truth rows and numerical bands. Historical Raptor2/Block1 quantities must probe an explicit historical profile through the same propulsion/mass functions, while new V3 rows probe the active profile and its actual forces. Never relabel a Raptor2 band as V3, substitute literals for probes, or delete a row to pass. Generation tests must prove both profile dispatch and the live default. Avoid importing the historical profile into production entry merely for the test registry.
+- Progressive damage is a **declared reduced-order engineering surrogate**, not a prediction of proprietary V3 fracture. Implement finite heat capacity/conduction and temperature-dependent stiffness/strength using named published surrogate material data. Keep current equilibrium1533K,50kPa and13g terminal checks unchanged as independent conservative stops. No arbitrary damage-per-second, random neighbour failures, animated countdowns, invented ablation or unsourced fatigue law.
+- Start with thermally weakened control-surface attachments and engine-support availability. Continuous thermal/stiffness evolution changes delivered control capability; a capacity breach irreversibly removes a component or shuts down its supported engine. A conservative connection-loss criterion must be identified as such; material proof stress is not measured fracture stress. Hot-but-unbroken stiffness may recover with cooling; lost hardware never heals. A natural deterministic exposure witness below the global limits is mandatory; initial damage injection alone does not satisfy progression.
+- Do not add tank-pressure simulation or unequal LOX/CH4 leaks without the necessary inventories/constitutive data. Terminal breakup partitions retained propellant into released material; it must not vanish from the mass ledger. This is a bounded scope choice within progressive damage, not a claim to model every accident mechanism.
+- Component masses and centroid inertias form one positive partition of the inherited dry mass. Match intact mass/COM/inertia analytically before any detachment; reserve hull residuals explicitly. Substantial detached pieces inherit the parent's rigid velocity field and gravity/drag. No artistic impulse is added to the physical momentum account. Sparks/flame/smoke are separate bounded cosmetics.
+
+### Frozen initial material surrogate
+
+Use the exact NIST304 enthalpy/cp/conductivity and Monash304 modulus/proof table in `damage-code-audit.md` (primary URLs, units and rows preserved there). The Monash coupon ramp was10°C/min and includes creep: this is a conservative surrogate, not flight-rate fracture data. Hold100°C stiffness/proof values below100°C; at temperatures above900°C declare attachment capability unavailable with an explicit out-of-domain reason, rather than extrapolate. No nominal flight may depend on claiming that disposition is validated V3 failure. For cold flight, use NIST's4–300K304 cryogenic fit, a declared continuous273.15–293.15K bridge (the two fits differ approximately1.95% at293.15K), and the exact hot-fit primitive above293.15K. Startup0.25K piecewise-linear cold cp has an independently tested<0.1% interpolation bound and<0.5J/kg enthalpy quadrature error; H and cp match at every bridge. The hot thermal domain ends1200°C; do not discard energy at its boundary. Above its domain use a reported terminal model-domain event and preserve released energy/mass accounting, never pretend a clamped value is measured temperature.
+
+The initial exposed attachment is the audit's hollow rectangular beam: B=.10D,h=.15D,L=.05D,t=.004m; all four are authored geometric assumptions. Section area/inertia/modulus and7920kg/m³ mass derive analytically. Receive current heat flux on B×L, use authored0.8 damage-patch emissivity as a blackened-surface assumption and conduct to a finite hull node with k×As/L. Derive elastic load rotation M×L/(E×Is), solve force/compliance with a bounded deterministic residual, and latch conservative loss when M/Z exceeds tabulated proof stress. This is not a fracture-energy or plastic-wear law. Do not add this root mass on top of dry mass. Ship protected hinges require the separately source-verified TPS conductance before integration; exposed booster roots can exercise the foundational law first. Unsupported tank leaks, plastic strain, ablation and cascades are explicitly excluded from this implementation.
+
+### Contracts and ownership
+
+| File | Responsibility |
+|---|---|
+| `src/core/vehicles/v3.ts` | Immutable sourced V3 inputs, propulsion profile and declared assumptions; no state or renderer imports |
+| `src/core/vehicle.ts`, `vehicles/super-heavy.ts` | Active V3 definitions and shared type; retained historical test profile lives outside production entry |
+| `src/core/physics/propulsion.ts`, `engines.ts` | Pressure-dependent per-kind thrust/flow shared by actual mechanics and guidance |
+| `src/core/control/guidance-physics.ts`, `booster-prediction.ts`, `autopilot/{index,landing-burn,booster}.ts` | Consume actual vehicle propulsion/capability; preserve policy, authority and deadlines |
+| `src/core/physics/damage-material.ts` | Pure finite thermal/strength equations with verified domains, SI units and source citations |
+| `src/core/physics/damage.ts`, `vehicle-components.ts` | Bounded component state, thermal evolution, capability calculation, connection loss and mass partition |
+| `src/core/physics/fragments.ts` | Physical detached rigid pieces and exact discrete first-terminal payload before legacy resets |
+| `src/core/state.ts`, `physics/step-dynamics.ts`, `control/mechanical.ts`, `mission.ts` | Initialize/deep-clone and advance the same damage mechanics in all live/forecast paths |
+| `src/view/vehicle-geometry.ts`, `component-vehicle.ts`, `vehicle-material.ts` | Shared startup component geometry, source-defined projection, cylinder/steel/TPS lighting and LOD |
+| `src/view/{vehicle,booster,effects,reentry,emissive-bell}.ts` | Thin vehicle adapters, surviving exhaust, local glow/plasma and bounded secondary cosmetics |
+| `src/ui/session/{scene-vehicles,scene,session,camera-follow}.ts` | Both-body routing, reset and model-derived bounds, no renderer-side damage verdict |
+| `tests/core/{v3,damage-material,damage,fragments}.test.ts` | Physical invariants, source anchors, evolution, degradation and accounting |
+| `tests/reference/{anchors,registry-completeness}.ts`, `tests/golden/` | Generation-specific truth and recording-platform trajectory audit |
+| `tests/view/{vehicle-geometry,component-vehicle,damage-effects}.test.ts` | Representation, attachment, articulation, independence and bounded allocation |
+| `tests/e2e/vehicle-damage.spec.ts`, existing visual specs | Actual progressive degraded flights and replacement/disintegration in a running session |
+
+`PropulsionProfile` carries full-throttle SL/vacuum thrust and mass flow per engine kind; `engineThrust(profile,kind,pressureKPa)` and `engineMassFlow(profile,kind)` serve all consumers. No caller can accidentally use Raptor2 performance for a V3 predictor.
+
+`DamageState` contains fixed-length component arrays (temperature K, attached boolean, permanent failure state), detached-body slots and monotonically increasing transition sequence. `writeCapabilities(state,model,out)` writes surviving areas/authority/engine availability and mass properties into reusable scratch. State cloning owns every mutable array; forecast evolution cannot mutate live state. No separate random stream is needed for deterministic physical damage.
+
+`TerminalEvent` stores reason bitset, discrete time, pose, velocity-reference convention, angular rate, retained masses and articulation before mutation. At clockwise angular rate `omega`, local offset transformed to world `(rx,ry)` inherits `vx+omega*ry, vy-omega*rx`. Capture both body identities independently, including culled/unselected bodies. A mission staging failure is not automatically both bodies' destruction.
+
+### Review focus
+
+1. Historical reference probes can remain green while live guidance accidentally uses old engine inputs: test actual V3 force, flow and predictor together.
+2. Hot weakened controls can have stale healthy forecast commands: invalidate capability-dependent plans and test an in-progress rollout across damage.
+3. Component removal changes mass/COM and velocity reference: test zero-impulse momentum and remaining-body conversion for standalone and attached/separated missions.
+4. Batched steps can erase the first impact motion or duplicate fragments: preserve core transition payload and exact post-event age, including simultaneous failures and restart.
+5. A detailed close-up can conceal wrong small-scale silhouette or exceeded mobile cost: inspect50px,200px and close-up at matched light, all six scenes, plus two-body failure spikes.
+
+### R1 — V3 catalogue and generation-aware propulsion
+
+- [ ] Save the pre-change `npm run truth:report` output in the research directory. Predict all powered/atmospheric scenario trajectories can move; empty/static helpers should retain their analytic invariants. New thermal/debris state also changes recorder shape even where motion is unchanged; distinguish these.
+- [ ] Write RED tests in `tests/core/v3.test.ts` for published dimensions/capacities/counts, exact thrust-unit conversion, pressure endpoints, constant flow, no unsupported efficiency credit, three-fin aggregate area, and deep immutability. Run build then focused tests; record RED.
+- [ ] Implement the immutable V3 catalogue and pure propulsion functions first. Unit-test the new model before selecting it as live default. This temporary unselected checkpoint is explicitly not a shipped V3 vehicle.
+- [ ] Thread the profile through force, flow, torque, burn sizing and return predictor. Move geometry consumers from historical constants to their selected definition. Make active Ship/booster V3; retain a test-owned historical profile for old truth rows. Add V3 reference rows and inventory checks without changing old bands.
+- [ ] Run build, focused engine/mass/guidance/mission/reference tests, then nominal per-scenario flight witnesses with original limits. Diagnose actual regressions under the standing three-attempt/review rule. Do not increase reserve or alter aim without measurement/health tests; do not change preset starts to conceal insufficient authority.
+- [ ] Coherent Fidelity checkpoint only after truth/unit acceptance, full Linux golden generation and all-scenario audit; source, fixtures and audit row together. No Mac fixtures and no partial filtered recording.
+
+Example independent source witness: `expect(engineThrust(V3_PROPULSION,'sea-level',101.325)).toBeCloseTo(250000*9.80665,6)`; verify vacuum thrust/flow divided by9.80665 equals the explicitly assumed350s, not a second hardcoded force. A real V3 `step` must pay the same flow and impulse.
+
+### R2 — Progressive physical capability and component loss
+
+- [ ] Freeze the material supplement's source tables, temperature domain, thermal geometry and conservative connection criterion before evaluating successful flight scenarios. Document uncertain component geometry; source evidence may refine it, successful landings may not.
+- [ ] RED tests: thermal equilibrium/no-input cooling, energy transfer balance, material table knots/interpolation/domain bounds, unchanged cold capability, continuous loss under finite exposure, irreversible detached state, no phantom thrust/area, deep cloning/determinism and dt convergence at1/120 versus1/240s.
+- [ ] Implement the smallest two-node TPS/substrate thermal model and temperature-dependent attachment capability. Reject invalid numerical inputs at construction; bound temperature integration physically without clipping away incident energy. Keep the existing equilibrium hard stop and expose finite component temperatures separately.
+- [ ] Apply surviving fin area/stiffness to all actual drag/torque/actuation and guidance authority queries. Apply engine support failure through existing failed/running/countdown masks, preserving thrust/fuel consistency. Cancel stale pending ignition and invalidate damage-dependent forecasts.
+- [ ] Implement positive component mass partition and detached rigid-body slots (maximum12 per vehicle,24 combined). Define remaining-body mass/COM/inertia once and use it everywhere fuel bookkeeping previously overwrote dry mass. Check no double counting/negative residuals. Retained ratio propellant remains on parent until terminal release.
+- [ ] Capture first terminal event before crash/breakup clears state. On terminal failure partition surviving structure/retained mixture into bounded pieces/released material with exact ledger. Integrate substantial pieces at fixed dt; terrain stops cannot add kinetic energy. No physics dependence on visibility.
+- [ ] Run real exposure-to-degradation-to-loss flight test while global limits are still below terminal, then actual impact/thermal/q breakup, stacked/separated-body independence, forecast/live parity, pause/debug/reset integration. Injected-damage unit cases supplement this witness; they do not replace it.
+- [ ] Repeat required truth report; run full units and regenerate full Linux goldens only after genuine acceptance. Commit the coherent Fidelity source/fixtures/audit. Do not treat material surrogate acceptance as real-world flight certification.
+
+### R3 — Reference-based V3 rendering and actual disintegration
+
+- [ ] Directly inspect V3 reference photographs, record original URLs and image-estimated stations/outline uncertainty. Freeze one consistent2.5D azimuth/projection, near/far order, hull profile, tile boundary and three-grid projection. Preserve images as research references, not unlicensed production textures.
+- [ ] RED geometry/graph tests for physical model dimensions, three grids/four flaps, correct nozzle depth occlusion, component identity, independent body articulation/heat, and missing components absent from intact render. Shared attached/detached geometry must meet at the same transformed vertices.
+- [ ] Replace the legacy photo hull/normal reconstruction, generic booster rectangle and additive `vehicle-detail.ts` overlays with original shared geometry/material code. Keep steel diffuse/specular response separate from TPS albedo/glow; use the shared sun. Integrated hot stage remains with booster after staging. No all33bells exposed in side view.
+- [ ] Startup-generate resolved surface detail; fade tile/lattice/weld detail below pixel resolution rather than enlarging it. Main and inset consume the same physical configuration. Remove superseded assets/code from the production entry, not merely hide them behind flags.
+- [ ] Render physical component temperatures/detachment, suppress failed/missing engine emitters, and replace terminal hull atomically with the core pieces. Existing8000combinedparticle allocation is the ceiling; reuse it for cosmetics, no per-piece pools. No intact ghost behind a fireball.
+- [ ] Native-browser material comparisons at50px/200px/close-up and sun sweep; inspect launch/staging/bellyflop/entry/landing/catch. Actual animated failure with fire/smoke disabled verifies recognizable structural pieces and inherited motion. Real progressive damage must visibly match loss of flight authority.
+- [ ] Retain original camera/sun/plume/reentry/pause/restart/parity tests and bounds. Add local hot/cold independence, hidden body failure, simultaneous breakup, terrain contact and repeated reset memory checks. Reduce cosmetic cost if bundle/frame budgets fail; never weaken the budgets.
+- [ ] Commit/push only after focused build/lint/behavior/browser acceptance and source-pinned evidence; no realism claim from graph tests alone.
+
+### R4 — Complete Phase8 release and continue Phase9
+
+- [ ] Finish original Task6 at300 warmed measured frames for each of six scenes on desktop and both phone orientations; full-session CPU/GPU/cadence budgets unchanged. Add simultaneous damage onset/frame spike checks and pool exhaustion. Record actual backend/device; viewport emulation is not handset testing.
+- [ ] Fresh independent high review of the completed protected physics/render integration; resolve real findings and document rejected suggestions. The other-agent CLI authentication preflight failed on2026-10-03 before inference; use the documented Pro/fresh-review fallback for required release independence if unavailable again.
+- [ ] Run the whole ordered gate, full five-project browser suite, truth and mutation acceptance, with no concurrent heavy checks or retries. Inspect actual final motion/reference captures; update published review page and durable reference docs.
+- [ ] Merge Phase8 to main, run required main gate, push and verify Pages/live exact final assets and smoke before checking Status. Delete completed Phase8 plan only after closure; preserve decisions/evidence in reference/research/Git.
+- [ ] Write and execute Phase9's full plan, including per-id scenario completion audit and last-three-main-CI requirement. Whole-roadmap completion remains GOAL's full conjunction; neither this amendment nor successful damage demo closes it early.
 
 
-Task2 complete: actual state-driven nozzle/ground glare integrated per physical body; 350 view tests, 57 plume/emissive/compositing browser tests, 15 staging/bell/glare integration tests and five strengthened absence-detector tests pass without retries. Build296.6kB/lint0 errors. Evidence: docs/research/2026-10-03-phase8-visuals/task2-glare/. Task3 surface-temperature heat is next. Whole-phase gate/review/merge/budgets remain owed.
+## Current pause checkpoint — 2026-10-03
 
+Steve requested completion of the work already underway, then documentation reconciliation and a pause. Do not begin the next implementation task until an explicit resume or the refreshed `/goal`. Full approved scope remains Phases8 and9; no acceptance criterion is waived.
 
-Task3 temperature checkpoint: actual equilibrium-temperature curve independent of plasma; main/inset preallocated uniform. Focused12/fullview354 tests pass, allfive equal-flux actual pixel controls and allfive original hot/cold reentry witnesses pass; isolated PNGs retained, desktop inspected. Build296.9kB/lint0 errors/existing warning. Task3 is still open for belly material, opposite-windward/selected-booster/restart witnesses and final capture/integration scope. Evidence: task3-temperature-checkpoint research. No core/golden/preset/legacy change.
+The earlier execution ledger is preserved in [implementation history](../../research/2026-10-03-vehicle-realism/implementation-history.md). The amendment checkboxes above remain open wherever integrated acceptance is incomplete; implemented primitives are not a released vehicle.
 
-Task3 material cycle1 exhausted: attempt1 +x flank failed5sun checks; attempt2 normal.z belly passed29/30 with one iPhone landscape ratio failure; attempt3 display range .38/.44 passed29/30 with one Pixel landscape failure. Original sun limits/detectors unchanged.357view/build297.2kB green. Fresh independent reviewer tile_cycle2_fresh_review is assessing frozen source after peer CLI subscription authentication preflight failed; no next cycle before terminal review/new evidence approach. Temperature/windward/restart/booster controls pass allfive. Task3 material and six-scene captures remain open; researchtask3-material/result.md.
+| Deliverable | Current evidence | Remaining acceptance |
+|---|---|---|
+| V3 model and progressive damage | Source audit, active model, thermal/control/mass/debris tests;17TierA rows IN | Default booster flights, full units/coverage, Linux goldens |
+| Reference-based component renderer | Shared intact/debris geometry; current GPU material checks10/10; natural loss5/5 browser profiles | Final six-scene motion/reference inspection and cost |
+| HUD and landscape integration | HUD/resource cohort120/120; landscape guards2/2;50 reset cycles | Full browser suite; Phase9 polish debt remains |
+| Flight cost | Exact material inverse; orbit cohort66/66 | Current fall timing and whole gate budget; see handover |
+| Full-frame cost | Probe/spec implemented, not run | Actual quality metadata, full baseline, reduced path, six scenes and failure onset |
+| Release | No current V3 golden generation, runtime commit, merge or deploy | All R4 gates and main/live verification |
 
-Task3 material corrected in cycle2attempt1 after fresh independent source-asset review: neutral authored tile RGB and same-mask unitgain remove retained photographic bias; steelalpha/gain/rims/normals/sun/matte preserved.359view/build297.2kB/lint0errors and35browser tests allfive pass zero retries, original sun limits unchanged. Task3 six-scene captures/final integration and allTasks4–6/all9 remain owed; noTask3done line yet. Researchtask3-material/result.md.
+### Next bounded work after resume: establish a feasible RTLS work schedule
 
-Execution-order ruling: Task3 actualcaptures exposed a real offscreenlandscapecatch (pairedpixels0). After exhaustedcycle1/freshcatch_image_cycle2_review and explicitgroundpoint followup, bring onlyTask5 selectedbooster/airbornecatchcamera composition slice forward to unblockTask3. Task5 detail/allremainingcamera acceptance staysopen. Genericcamera/Shipintro/physicalstate/limits unchanged; sessionground-stop adapter and sharedexisting0.7boundsfit, fullbody+physicalpad onfirstactualcatchverdictframe. No syntheticsettle/detectorweakening/ownerdecision. Researchtask3-scenes/cycle2-review.md.
+**Files:** read `src/core/control/{booster-prediction,booster-forecast,booster-source,booster-cutoff-hint}.ts`, `src/core/autopilot/booster.ts`, and the exact cycle2 receipts in the research index. Any implementation remains inside these control responsibilities; do not change presets, catch limits or physics coefficients to cover a scheduling failure.
+
+**Input:** the unchanged default RTLS trace,1893-step initial coarse candidate, two subsequent coarse candidates,2540-step successful fine proof, four total search-plus-observer advances per call,13.283333s cutoff. **Output:** one independently reviewed integer-work ledger with exact source/metadata matching and measured bounded storage, or a recorded rejection. This is a feasibility task, not permission to build the proposed large cache blindly.
+
+- [ ] Read the cycle2 attempt1/2 outcomes and rejected hint-first review. The first exact fine replay misses all four catch gates; do not repeat it or remove its veto.
+- [ ] Reconstruct scheduling from existing receipts. Count stage-boundary unused slots, source-observer work, force-hint slices, receipt availability and any deferred publication. Exact cached transitions count as already paid work; every newly evaluated transition still counts against four.
+- [ ] Before implementation, prove any shared prefix has full input equality and original physical/control/RNG/material outputs, with immutable ownership. Current forecast flags/countdown/coast metadata differ, and0.05s steady forecasts cannot supply120Hz observer endpoints. A theoretical1098-credit estimate is not sufficient.
+- [ ] If evidence is insufficient, declare at most one unchanged existing-candidate/source-prefix diagnostic replay to obtain the missing ledger. Freeze source hashes first. No new candidate, live flight or source change is hidden inside that measurement.
+- [ ] Obtain fresh independent assessment. Reject a design that lacks strict deadline slack or acceptable storage/copy cost; record a new bounded approach under the standing diagnosis-cycle rule instead of rerunning for luck.
+- [ ] Only after a reviewed feasible approach, write failing budget/provenance/ownership tests, implement the smallest fix, and execute the declared physical acceptance. Preserve original catch, fuel, source, total trial/candidate caps and all scenario limits.
+
+### Remaining integration sequence
+
+1. Close the outstanding exact fall-predictor timing result in the handover; never repeat an unchanged failed benchmark for luck. Physics ownership stays serial.
+2. Resolve RTLS scheduling above. Separately declare and capture the default booster-separation first catch-plane/terminal failure; its341.6s crash is not explained by the RTLS pressure failure. Seed123 catches but does not replace default-seed acceptance.
+3. Use Node22 for build/lint and all remaining acceptance. Run truth and the complete non-golden unit inventory using explicit file selection (project `--exclude` previously failed). Fix remaining failures and coverage gaps. Only then record the full unfiltered Linux x86 Node22 golden set and commit source, fixtures and trajectory audit together.
+4. Add on-demand actual renderer/filter metadata to `src/app/debug.ts`, `src/view/post.ts`, `src/ui/session/scene.ts`, and `tests/e2e/visual-budget.spec.ts`. Record actual resolution/backing size, antialiasing, filter attachment/enabled/resolution at segment boundaries. No core state or guessed device-DPR quality claim.
+5. Run Task6 baseline serially on an idle machine, then implement and measure an explicit reduced graphics path if needed. Preserve DPR2 thin-plume controls; optional heat-post removal is only a candidate until measured. Genuine catch setup depends on restored default RTLS. Include300 warmed frames per scene, desktop and both phone orientations, actual cadence, GPU completion and simultaneous damage onset.
+6. Complete R4: whole ordered gate, full five-project browser suite with zero added retries, truth, all21mutation faults with green control, fresh protected independent high review, main merge/gate/CI/Pages/exact live assets and smoke. Then close Phase8 and write the full Phase9 plan before implementation.
+
+Phase9 still owns the complete UX scope in the roadmap, every2021 capability, keyboard/gamepad/rebinding/onboarding, menu readiness flakes, phone debrief obstruction, elapsed-clock clipping and trajectory-card placement, literal per-id landing/catch audit in `tests/flies-every-scenario.test.ts`, motion review publication and final last-three-main-CI condition. The narrow landscape repair brought forward does not complete Phase9.

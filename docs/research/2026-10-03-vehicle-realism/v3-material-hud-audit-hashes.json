@@ -1,0 +1,11 @@
+{
+  "src/core/physics/damage-material.ts": "b13040799017fc0bf59fd0309f3ec08766a135d128798f5246a92f342f32de84",
+  "tests/core/damage-material-inversion.test.ts": "2e8a86b5e66efa3f955a44ada1b254034dd97130a9126f1ffc207a1921decfb4",
+  "src/hud/debrief.ts": "f6a127d2e1538a9c7b9677d9387cc67c02e7e916a060b9447e5d609f12ef7fb3",
+  "tests/hud/debrief.test.ts": "d26b03387d56e787bdb7d62ebbde5583a4816c8dba4f9b62a24d5082ce0ea322",
+  "tests/hud/prediction.test.ts": "45226651526f854b04d314f8725a3f80892529cdcaf5fbd7091adccf70471acd",
+  "tests/hud/engine-groups.test.ts": "f47791656c09e5f90439265fbed83425aa25f86306dc8fbe7152e9934d0f20ce",
+  "tests/ui/menu.test.ts": "d43ff6f638bf2f4ddf57132f8bf3627597c0502f9182582e5d0f412824e04c43",
+  "tests/ui/shell/Debrief.test.tsx": "b432fe7bd3f180f0031911d1e4d8d95f3f13d131ca4016865eb1b36a53e56c5c",
+  "tests/ui/shell/fields-presets.test.ts": "fd17816b3b13ea8a9f6821982434fdb966a9593b920dc0363fcdbb0d5c4d9980"
+}

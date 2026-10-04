@@ -1,0 +1,14 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/core/damage-material.test.ts(3,18): error TS2724: '"$core/physics/damage-material"' has no exported member named 'MATERIAL_MIN_K'. Did you mean 'MATERIAL_MAX_K'?
+tests/core/mass.test.ts(273,45): error TS2554: Expected 0 arguments, but got 1.
+tests/view/component-vehicle.test.ts(4,40): error TS2307: Cannot find module '$view/component-vehicle' or its corresponding type declarations.
+tests/view/component-vehicle.test.ts(80,47): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+tests/view/component-vehicle.test.ts(80,52): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/component-vehicle.test.ts(80,55): error TS7006: Parameter 'i' implicitly has an 'any' type.
+tests/view/component-vehicle.test.ts(94,53): error TS7006: Parameter 'm' implicitly has an 'any' type.
+tests/view/component-vehicle.test.ts(95,55): error TS7006: Parameter 'm' implicitly has an 'any' type.
+tests/view/component-vehicle.test.ts(107,44): error TS7006: Parameter 'm' implicitly has an 'any' type.
+tests/view/component-vehicle.test.ts(108,47): error TS7006: Parameter 'm' implicitly has an 'any' type.

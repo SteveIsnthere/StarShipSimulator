@@ -1,0 +1,7 @@
+# Booster reviewed cycle 2, attempt 1 — unchanged default RTLS
+
+2026-10-03. Fresh independent review established that previous source/publication tests use seed123 while default full-flight acceptance uses DEFAULT_SEED. Terminal live fuel/failed-engine values are disposition outputs and cannot identify cause. Lead authorized exactly this one default RTLS receipt through first terminal or30 simulated seconds. No additional seeds, flights, injected state/cutoff, core edits, physical-limit changes or cap changes belong to this attempt.
+
+Harness constructs unchanged RTLS without an explicit seed, enables autoLandOn and runs production120Hz step. It records original ignition draws/completions, planner stage/trial/publication, source lineage/validity, damage transitions, complete before/after mechanics at physical/publication boundaries, and independent observer predictions. Hashes cover every core source. An esbuild bundle freezes those sources before the lead may begin an unrelated proven Refactor; bundle SHA256 is retained. No timing acceptance is claimed.
+
+Falsifiable discrimination: late/nonexistent plan versus invalid source versus correctly predicted physical terminal, with material-domain loss distinguished from global pressure/heat/g limits and live fuel release distinguished from starvation. Original observer/search/trial/mechanical caps and catch authority remain mandatory. Outcome is evidence for selecting a defect, never permission to tune presets/seeds or assert release acceptance.

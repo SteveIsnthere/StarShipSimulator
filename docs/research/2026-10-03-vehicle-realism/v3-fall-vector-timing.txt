@@ -1,0 +1,29 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./vitest.config" without a file extension (vitest.timing.config.ts:7:18). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ tests/core/guidance-physics.timing.test.ts (3 tests | 1 failed) 384ms
+     × stays inside the 2 ms HUD budget when a climb runs it to its cap 134ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/core/guidance-physics.timing.test.ts > unpoweredFallInto worst case > stays inside the 2 ms HUD budget when a climb runs it to its cap
+AssertionError: 2.288 ms per call at the cap: expected 2.288118340000001 to be less than 2
+ ❯ tests/core/guidance-physics.timing.test.ts:67:69
+     65|     const perCall = (performance.now() - t0) / runs;
+     66|     expect(out.reached).toBe(false);
+     67|     expect(perCall, `${perCall.toFixed(3)} ms per call at the cap`).to…
+       |                                                                     ^
+     68|   });
+     69| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  18:14:39
+   Duration  630ms (transform 157ms, setup 0ms, import 164ms, tests 384ms, environment 0ms)
+

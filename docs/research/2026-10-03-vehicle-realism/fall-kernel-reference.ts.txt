@@ -1,0 +1,8 @@
+/** Frozen pre-refactor pure-predictor scalar references; no flight run. */
+import {createScenarioState,ALL_SCENARIOS} from '../../../src/core/scenarios';
+import {createBurnScratch,createFallResult,unpoweredFallInto} from '../../../src/core/control/guidance-physics';
+import {SHIP} from '../../../src/core/vehicle';import {rad} from '../../../src/core/units';
+for(const [h,vx,vy] of [[79000,2000,-50],[60000,0,7000],[1000,0,-10]]){
+ const s=createScenarioState(ALL_SCENARIOS.find(p=>p.id==='reentry')!);s.kinematics.altitude=h!;s.kinematics.speedX=vx!;s.kinematics.speedY=vy!;
+ const out=createFallResult();unpoweredFallInto(s,SHIP.height/2,createBurnScratch(),out,SHIP,rad(0));console.log(JSON.stringify({h,vx,vy,out}));
+}

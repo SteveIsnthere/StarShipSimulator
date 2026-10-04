@@ -1,0 +1,29 @@
+/** Lead authorized continuation of the frozen seed123 attempt3.
+ * Replays its exact ordinary prefix (receipt did not serialize state), then
+ * continues the actual live simulation. No parameter/candidate search. */
+import {writeFileSync} from 'node:fs';
+import {createScenarioVehicle,PRESETS} from '../../../src/core/scenarios';
+import {step} from '../../../src/core/step';
+import {SUPER_HEAVY} from '../../../src/core/vehicles/super-heavy';
+import * as C from '../../../src/core/constants';
+let s=createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!,123).state;s.autopilot.autoLandOn=true;
+const rows:unknown[]=[];let phase='',plan=0;let publicationCount=0;
+for(let tick=0;tick<72000;tick++){
+ s=step(s,1/120,{},SUPER_HEAVY);
+ const next=s.autopilot.boosterReturnPlan?.shutdownAt??0;
+ if(s.autopilot.boosterPhase!==phase || next!==plan || tick%1200===0){
+  if(next && next!==plan)publicationCount++;
+  phase=s.autopilot.boosterPhase;plan=next;
+  rows.push({event:'progress',tick,time:s.world.environmentTime,phase,plan:s.autopilot.boosterReturnPlan,
+   sourceLineage:s.autopilot.boosterSource?.lineageId,sourceValid:s.autopilot.boosterSource?.valid,
+   x:s.kinematics.downRangeDistance-C.starBaseXPos,h:s.kinematics.altitude,vx:s.kinematics.speedX,vy:s.kinematics.speedY,pitch:s.kinematics.pitch,
+   fuel:s.vehicle.propellantMass,failures:s.failures});
+ }
+ if(s.status.landed || s.status.onTheGround || s.damage?.terminal.active || s.failures.crashed || s.failures.inFlightBreakUp || tick===71999){
+  rows.push({event:'outcome',node:process.version,tick,time:s.world.environmentTime,publicationCount,phase,
+   x:s.kinematics.downRangeDistance-C.starBaseXPos,h:s.kinematics.altitude,vx:s.kinematics.speedX,vy:s.kinematics.speedY,
+   pitch:s.kinematics.pitch,omega:s.kinematics.angularVelocity,fuel:s.vehicle.propellantMass,
+   status:s.status,failures:s.failures,terminal:s.damage?.terminal,source:s.autopilot.boosterSource && {valid:s.autopilot.boosterSource.valid,lineageId:s.autopilot.boosterSource.lineageId,checked:s.autopilot.boosterSource.checked},plan:s.autopilot.boosterReturnPlan});break;
+ }
+}
+writeFileSync('docs/research/2026-10-03-vehicle-realism/booster-planner-attempt3-continuation.jsonl',rows.map(r=>JSON.stringify(r)).join('\n')+'\n');console.log(JSON.stringify(rows,null,2));

@@ -1,0 +1,51 @@
+import { DT } from '../../../src/app/loop';
+import { controlEnginebyEffectiveVerticalTWR } from '../../../src/core/control/primitives';
+import { ALL_SCENARIOS, createScenarioState } from '../../../src/core/scenarios';
+import { step } from '../../../src/core/step';
+import type { SimState } from '../../../src/core/state';
+import { rad } from '../../../src/core/units';
+import { SHIP } from '../../../src/core/vehicle';
+import { centreOfMass } from '../../../src/core/physics/mass';
+function hovering(altitude: number): SimState {
+  const s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'landing-burn')!);
+  const a = s.autopilot;
+  a.autoLandOn = false;
+  a.demoAutoLandOn = false;
+  a.pitchHoldOn = false;
+  a.autoMaxThrustOn = false;
+  s.kinematics.altitude = altitude;
+  s.kinematics.speedX = 0;
+  s.kinematics.speedY = 0;
+  s.kinematics.pitch = rad(0);
+  s.kinematics.angularVelocity = 0;
+  s.engines.running = [true, false, false, false, false, false];
+  s.engines.ignitionCountdown = [null, null, null];
+  return s;
+}
+
+/**
+ * Fly the law the way the autopilot does (re-commanded every step) until the
+ * throttle has settled, then measure the vertical acceleration over a second.
+ */
+function hoverAcceleration(altitude: number, twr = 1): { acceleration: number; throttle: number } {
+  let s = hovering(altitude);
+  const settle = Math.round(4 / DT);
+  const measure = Math.round(1 / DT);
+  let v0 = 0;
+  // The published hull point can accelerate as the body rotates. The thrust
+  // law promises acceleration of its mass centre, measured independently.
+  const verticalMassSpeed = (state: SimState) => state.kinematics.speedY
+    - state.kinematics.angularVelocity * Math.sin(state.kinematics.pitch)
+      * (centreOfMass(state.vehicle.propellantMass, SHIP) - SHIP.height / 2);
+  for (let i = 0; i < settle + measure; i++) {
+    if (i === settle) v0 = verticalMassSpeed(s);
+    controlEnginebyEffectiveVerticalTWR(s, twr);
+    s.kinematics.pitch = rad(0);
+    s.kinematics.angularVelocity = 0;
+    s = step(s, DT);
+    if (i >= settle && i % 30 === 0) console.log(JSON.stringify({i,k:s.kinematics,f:s.forces,v:s.vehicle}));
+  }
+  return { acceleration: (verticalMassSpeed(s) - v0) / (measure * DT), throttle: s.vehicle.throttle };
+}
+
+console.log(hoverAcceleration(0,1.1));

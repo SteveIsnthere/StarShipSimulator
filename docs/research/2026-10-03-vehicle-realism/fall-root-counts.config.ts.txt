@@ -1,0 +1,3 @@
+import {defineConfig} from 'vitest/config';
+import base from '../../../vitest.config';
+export default defineConfig({resolve:base.resolve,test:{environment:'node',include:['docs/research/2026-10-03-vehicle-realism/fall-root-counts.test.ts']}});

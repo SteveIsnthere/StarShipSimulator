@@ -1,0 +1,75 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/assets.test.ts (4 tests | 4 failed) 45ms
+   × loads every unique scenery source once across concurrent and later scene creation 38ms
+   × propagates load failure and allows the same asset to retry 3ms
+   × propagates decode failure and allows the same asset to retry 1ms
+   × evicts a destroyed shared texture and reloads only that asset for the next scene 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/assets.test.ts > loads every unique scenery source once across concurrent and later scene creation
+ReferenceError: document is not defined
+ ❯ Object.getBaseUrl node_modules/pixi.js/src/environment-browser/BrowserAdapter.ts:35:43
+ ❯ Object.toAbsolute node_modules/pixi.js/src/utils/path.ts:392:87
+ ❯ node_modules/pixi.js/src/assets/loader/Loader.ts:329:29
+ ❯ _Loader.load node_modules/pixi.js/src/assets/loader/Loader.ts:327:55
+ ❯ AssetsClass._mapLoadToResolve node_modules/pixi.js/src/assets/Assets.ts:1035:47
+ ❯ AssetsClass.load node_modules/pixi.js/src/assets/Assets.ts:618:50
+ ❯ loadTextures src/view/assets.ts:158:31
+    156| export async function loadTextures(): Promise<Map<string, Texture>> {
+    157|   const sources = GROUND_OBJECTS.map((o) => o.src);
+    158|   const loaded = await Assets.load(sources);
+       |                               ^
+    159|   const map = new Map<string, Texture>();
+    160|   for (const src of sources) map.set(src, loaded[src] as Texture);
+ ❯ tests/view/assets.test.ts:36:53
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/view/assets.test.ts > propagates load failure and allows the same asset to retry
+ FAIL  |unit| tests/view/assets.test.ts > propagates decode failure and allows the same asset to retry
+ReferenceError: document is not defined
+ ❯ Object.getBaseUrl node_modules/pixi.js/src/environment-browser/BrowserAdapter.ts:35:43
+ ❯ Object.toAbsolute node_modules/pixi.js/src/utils/path.ts:392:87
+ ❯ node_modules/pixi.js/src/assets/loader/Loader.ts:329:29
+ ❯ _Loader.load node_modules/pixi.js/src/assets/loader/Loader.ts:327:55
+ ❯ AssetsClass._mapLoadToResolve node_modules/pixi.js/src/assets/Assets.ts:1035:47
+ ❯ AssetsClass.load node_modules/pixi.js/src/assets/Assets.ts:618:50
+ ❯ loadTextures src/view/assets.ts:158:31
+    156| export async function loadTextures(): Promise<Map<string, Texture>> {
+    157|   const sources = GROUND_OBJECTS.map((o) => o.src);
+    158|   const loaded = await Assets.load(sources);
+       |                               ^
+    159|   const map = new Map<string, Texture>();
+    160|   for (const src of sources) map.set(src, loaded[src] as Texture);
+ ❯ tests/view/assets.test.ts:50:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/view/assets.test.ts > evicts a destroyed shared texture and reloads only that asset for the next scene
+ReferenceError: document is not defined
+ ❯ Object.getBaseUrl node_modules/pixi.js/src/environment-browser/BrowserAdapter.ts:35:43
+ ❯ Object.toAbsolute node_modules/pixi.js/src/utils/path.ts:392:87
+ ❯ node_modules/pixi.js/src/assets/loader/Loader.ts:329:29
+ ❯ _Loader.load node_modules/pixi.js/src/assets/loader/Loader.ts:327:55
+ ❯ AssetsClass._mapLoadToResolve node_modules/pixi.js/src/assets/Assets.ts:1035:47
+ ❯ AssetsClass.load node_modules/pixi.js/src/assets/Assets.ts:618:50
+ ❯ loadTextures src/view/assets.ts:158:31
+    156| export async function loadTextures(): Promise<Map<string, Texture>> {
+    157|   const sources = GROUND_OBJECTS.map((o) => o.src);
+    158|   const loaded = await Assets.load(sources);
+       |                               ^
+    159|   const map = new Map<string, Texture>();
+    160|   for (const src of sources) map.set(src, loaded[src] as Texture);
+ ❯ tests/view/assets.test.ts:58:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  14:44:51
+   Duration  502ms (transform 40ms, setup 0ms, import 288ms, tests 45ms, environment 0ms)
+

@@ -1,0 +1,20 @@
+# Planner diagnosis cycle attempt 3 frozen declaration
+
+2026-10-03. Lead explicitly authorized this one production seed123 receipt after fresh independent conditional review, focused contracts and isolated slice timing. No further live attempt belongs to this cycle if it fails. Whole core source hashes are saved in `booster-planner-attempt3-source-hashes.txt`, including the parent's independently proven bitexact material refactor.
+
+The source remains the pristine booster-sep preset, seed123, autoLandOn, actual120Hzstep, zero injected cutoff/pose/velocity/fuel/damage and unchanged catch/engine/global limits. Stop first still-future published plan, source invalid/predicted terminal, actual catch/terminal, or60s. Observer1 plus search3 mechanical advances per tick, original16 combined hint/full trial slots, original4000 cumulative forecast steps and900s cap remain. Every reused prefix retains its paid cumulative step count.
+
+Changes from the recorded failed attempt2 are generic:
+
+1. A supported unbracketed actual ready endpoint receives immediate actual fine proof before hint work. This preserves the existing contract; no preset-specific branch.
+2. The first actual same-source opposite-sign bracket gets exactly one new strictly interior executable root trial before spending fine proof on its establishing endpoint. Already attempted ticks, no-interior brackets and cap exhaustion preserve actual retained endpoint proof/fallback. No fitted residual threshold or calibrated hint gain; no IQI needed.
+3. Retain at most eight highest compatible exact common steady endpoints alongside sparse checkpoints. Startup-aware lattice is startupPaidTicks+6n; partial tails are never cached as steady states. Merge shorter trials without erasing longer compatible common history. State/material/control/RNG/fuel/cutoff history is immutable and exact; all replayed suffix mechanics still consume the original budget.
+4. The same force-only midpoint predictor now resumes at most512 iterations per hint tick. The first slice runs on cutoff completion; the finishing slice schedules its successor without extra mechanics in that call. At most two stencil endpoints/job, 4000 iterations each (eight worst-case slices). Synchronous HUD/guidance callers reuse a persistent caller-owned kernel record, with identical arithmetic/results and no new per-call allocation. Resumed owned numeric state/result is cloned before modifying a previous frame; held source references remain immutable.
+
+Measured source-cohort work: removing the failed2005-step fine trial plus407 exact cache savings projects33.658333s publication. The actual1052-iteration scores each need three slices, adding four live ticks/.033333s, projecting **33.691667s**, only **.05s** before recorded33.741667s cutoff. This is a narrow falsifiable projection, not guaranteed convergence or acceptance. Quantization and unused mechanical slots remain observable.
+
+Verification before this receipt: new bracket/cache tests initially RED3/7; continuation tests initially RED; final99 focused tests across eight files PASS, typecheck and targeted lint PASS. Frozen pre-refactor pure fall outputs match exactly under1/37/512/4000 slices; original cap and invalid mass behavior preserved. Isolated200-run slice means below.788ms for both actual recorded cutoffs;1052 iterations, six slices total, unchanged range values. Numerical simulation never uses those external wallclock measurements.
+
+Existing synchronous fall timing remains RED in a two-file timing run (normal2.295ms>1ms, capped10.534ms>2ms), with isolated guidance-only reproduction/profile queued separately. View median-step timing passes. This receipt tests numerical publication only and cannot erase that performance debt. Natural browser tests may run concurrently by explicit lead authorization; no timing acceptance is claimed from the receipt.
+
+After the receipt, report actual publication time/slack, full paid candidate sequence, physical fine state and source lineage; existing RTLS/default-preset tests remain separate acceptance cases. Do not tune to seed123 or claim release acceptance from one receipt.

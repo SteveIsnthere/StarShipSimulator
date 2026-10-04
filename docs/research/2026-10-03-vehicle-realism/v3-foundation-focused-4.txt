@@ -1,0 +1,27 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-material.test.ts (23 tests | 1 failed) 123ms
+     × keeps source cold knots and bounds interpolation below source fit uncertainty 73ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-material.test.ts > matched cryogenic finite energy > keeps source cold knots and bounds interpolation below source fit uncertainty
+AssertionError: expected 0.0034734759700019158 to be less than 0.001
+ ❯ tests/core/damage-material.test.ts:102:69
+    100|       const source = publishedColdCp(temperature);
+    101|       expect(steelSpecificHeat(temperature)).toBeGreaterThan(0);
+    102|       expect(Math.abs(steelSpecificHeat(temperature) / source - 1)).to…
+       |                                                                     ^
+    103|     }
+    104|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  1 failed | 70 passed (71)
+   Start at  13:51:43
+   Duration  2.60s (transform 2.32s, setup 0ms, import 4.05s, tests 355ms, environment 1.31s)
+

@@ -1,0 +1,160 @@
+{
+  "purpose": "Byte-identical frozen diagnostic source receipts, not maintained executable project tools. Original source hash records use recordedName. No production code/test/lint policy is excluded or changed.",
+  "files": [
+    {
+      "recordedName": "booster-cycle2-attempt1-rtls.ts",
+      "snapshot": "booster-cycle2-attempt1-rtls.ts.txt",
+      "sha256": "5cdf40498166d0305c47384b2e0e38e267238825740332fedbdeb4e18c1d00b9"
+    },
+    {
+      "recordedName": "booster-cycle2-attempt2-replay-harness.mjs",
+      "snapshot": "booster-cycle2-attempt2-replay-harness.mjs.txt",
+      "sha256": "67a5a383aa768cfdda20456c8733fae7c8c6fcd9324d184351a2aa9a367e3930"
+    },
+    {
+      "recordedName": "booster-hint-isolated-cost.ts",
+      "snapshot": "booster-hint-isolated-cost.ts.txt",
+      "sha256": "3234e6826513a90e26e2ae3d0f821bea6e7a6541ecbc8b6c8c8da2f1d0843a60"
+    },
+    {
+      "recordedName": "booster-hint-slice-cost.ts",
+      "snapshot": "booster-hint-slice-cost.ts.txt",
+      "sha256": "ebb30c46a652f55fccca6e50a754157f74073176e9157bb2c972a8fd0d76398f"
+    },
+    {
+      "recordedName": "booster-planner-advance-ledger.ts",
+      "snapshot": "booster-planner-advance-ledger.ts.txt",
+      "sha256": "c91c1e6b53042aaee440c53b2e42ffb47b62d960d8b03087bb1dddb8c0a2a4db"
+    },
+    {
+      "recordedName": "booster-planner-attempt1-fine-replay.ts",
+      "snapshot": "booster-planner-attempt1-fine-replay.ts.txt",
+      "sha256": "1eb2e82a4008f95dc3f2cb68fe6ee0569d94b66a32df8e370b11ed219b0f54fc"
+    },
+    {
+      "recordedName": "booster-planner-attempt1-live.ts",
+      "snapshot": "booster-planner-attempt1-live.ts.txt",
+      "sha256": "419a0cf8b4eb845a07c11cd1fa66e8398454bb48dcf68aaffc2b1f6e22a54b48"
+    },
+    {
+      "recordedName": "booster-planner-attempt2-fine-replay.ts",
+      "snapshot": "booster-planner-attempt2-fine-replay.ts.txt",
+      "sha256": "5d7d2e12c838179facb17b83dbb50365b6e2f32bcc6c952de255faf83b798341"
+    },
+    {
+      "recordedName": "booster-planner-attempt2-live.ts",
+      "snapshot": "booster-planner-attempt2-live.ts.txt",
+      "sha256": "ce2bb383512b0dde5934bba6059964afc37da9478be0d5e5326a1c8b7362a329"
+    },
+    {
+      "recordedName": "booster-planner-attempt3-continuation.ts",
+      "snapshot": "booster-planner-attempt3-continuation.ts.txt",
+      "sha256": "f988254c3d3fad13d5643956c0545a624268ab6ba902baef9e0a1fbdeaca6cbf"
+    },
+    {
+      "recordedName": "booster-planner-attempt3-live.ts",
+      "snapshot": "booster-planner-attempt3-live.ts.txt",
+      "sha256": "b5689e6a164dca09d4a81ce7ad0abff1cd90c038055d36fa8bc76bf62e1a6270"
+    },
+    {
+      "recordedName": "booster-planner-causal-trace.ts",
+      "snapshot": "booster-planner-causal-trace.ts.txt",
+      "sha256": "b1ce1dac3fd484e790a3e3cf580f36e48c0e7630b565bea529a6165b85197772"
+    },
+    {
+      "recordedName": "booster-planner-harness-error.ts",
+      "snapshot": "booster-planner-harness-error.ts.txt",
+      "sha256": "b51f2b91fc912735b9e81fcec4f9036a97850f96bb69efbe5f6107b6986c4961"
+    },
+    {
+      "recordedName": "existing-hold-bounds.ts",
+      "snapshot": "existing-hold-bounds.ts.txt",
+      "sha256": "a199dd19fd180359c4c7a2beaf61f330a7091e423c405aae0e3ae7183f480fcb"
+    },
+    {
+      "recordedName": "failure-observation.ts",
+      "snapshot": "failure-observation.ts.txt",
+      "sha256": "0cf638e3ee9ac0a68dfdb49870720c630430a5920f755cc68a33da2a3248c4df"
+    },
+    {
+      "recordedName": "fall-idle-profile.ts",
+      "snapshot": "fall-idle-profile.ts.txt",
+      "sha256": "88166e066ed77eea03d5227701a792d4caa27283231cb046b15f7cea3364a141"
+    },
+    {
+      "recordedName": "fall-kernel-reference.ts",
+      "snapshot": "fall-kernel-reference.ts.txt",
+      "sha256": "a1937272c8d9c799bccfdc9402d35d7e7b1a1ad699aa17303b2c2a7277844014"
+    },
+    {
+      "recordedName": "fall-root-counts.config.ts",
+      "snapshot": "fall-root-counts.config.ts.txt",
+      "sha256": "d89ab377c88547a8edaec9b1f9f343bde93812c86ec351a65afbfd3b76facc2e"
+    },
+    {
+      "recordedName": "fall-root-counts.test.ts",
+      "snapshot": "fall-root-counts.test.ts.txt",
+      "sha256": "c5a8a4a18a5ea448841ac9434990047860b46701aab082269c054b4656ddd095"
+    },
+    {
+      "recordedName": "finite-state-diagnostic.ts",
+      "snapshot": "finite-state-diagnostic.ts.txt",
+      "sha256": "2a79445270ce435efb1820274387821f34323cf16b24b04493329af3e7db2bdc"
+    },
+    {
+      "recordedName": "freeze-fall-controls.ts",
+      "snapshot": "freeze-fall-controls.ts.txt",
+      "sha256": "98512fbb010dfe92064cc4c25510b8ab99d5d4fa259685cc67620547d2255f40"
+    },
+    {
+      "recordedName": "full-tank-exposure-bounds.ts",
+      "snapshot": "full-tank-exposure-bounds.ts.txt",
+      "sha256": "db9ffde3cc1cc3607f9ef2ea22eef8592da6f0bcc803cc2e25b6e2ec752ddf22"
+    },
+    {
+      "recordedName": "full-tank-live-diagnostic.ts",
+      "snapshot": "full-tank-live-diagnostic.ts.txt",
+      "sha256": "40f2777cf67508884f715273af85737071d36c15554b550d8272bf91442d3982"
+    },
+    {
+      "recordedName": "hold-live-diagnostic.ts",
+      "snapshot": "hold-live-diagnostic.ts.txt",
+      "sha256": "679358d61cebce170ad9cc1ba968b3fc83ed2a8dea3fb34cb3316d6658e7d399"
+    },
+    {
+      "recordedName": "hold-proof-reconstruction.ts",
+      "snapshot": "hold-proof-reconstruction.ts.txt",
+      "sha256": "d27e1de70f19705b0080e354d9fdfdefd34fe27811022a43ca107bd5c0337929"
+    },
+    {
+      "recordedName": "hold-refinement.ts",
+      "snapshot": "hold-refinement.ts.txt",
+      "sha256": "d9693e834b9958c390c7a7d9b35cfd816cc9bbcc525704b26099026f2b52500c"
+    },
+    {
+      "recordedName": "hover-diagnostic.ts",
+      "snapshot": "hover-diagnostic.ts.txt",
+      "sha256": "c7f34ab1a602aab03088b8e86b88dac376b4508885069c34802d16f15cd103bf"
+    },
+    {
+      "recordedName": "live-exposure-diagnostic.ts",
+      "snapshot": "live-exposure-diagnostic.ts.txt",
+      "sha256": "72c34e346e7bcbc27103b47e38dbab9e58b629b13e793e657e15c63030b5c8e4"
+    },
+    {
+      "recordedName": "low-orbit-exposure-bounds.ts",
+      "snapshot": "low-orbit-exposure-bounds.ts.txt",
+      "sha256": "b9123b050bfc2c0cb28eaf85c4c97824f07e850b6b05a60aa4d2c25809a7339c"
+    },
+    {
+      "recordedName": "paid-force-epoch-witness.ts",
+      "snapshot": "paid-force-epoch-witness.ts.txt",
+      "sha256": "375e8a836fad21e16ebce3434e516cea2c88c046a9225f95c2655176ce7e7919"
+    },
+    {
+      "recordedName": "v3-pressure-trace.ts",
+      "snapshot": "v3-pressure-trace.ts.txt",
+      "sha256": "312a72f26fa1f6fc596ecd76ead875bd67f61d7b0cb3d626d403a38fb2bf8dcd"
+    }
+  ]
+}

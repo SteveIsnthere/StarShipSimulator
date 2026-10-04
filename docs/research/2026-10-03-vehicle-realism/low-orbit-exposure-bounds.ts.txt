@@ -1,0 +1,46 @@
+/** Static source-equation bounds only: no step(), trajectories or sweep. */
+import { SUPER_HEAVY as v } from '../../../src/core/vehicles/super-heavy';
+import { isaAtmosphere } from '../../../src/core/physics/isa';
+import { circularOrbitalSpeed, groundTangentialSpeed } from '../../../src/core/physics/gravity';
+import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from '../../../src/core/physics/thermal';
+import { createRootSection, rootLoadCoefficient, loadedRootAngle } from '../../../src/core/physics/damage-root';
+import { steelSpecificEnthalpy, steelConductivity, steelProofStrength } from '../../../src/core/physics/damage-material';
+import { engineMassFlow, engineThrust } from '../../../src/core/physics/propulsion';
+import { planetRadius, STEFAN_BOLTZMANN, TILE_LIMIT_KELVIN } from '../../../src/core/constants';
+const root = createRootSection(v.diameter), radiation = .8 * STEFAN_BOLTZMANN;
+const gmax = steelConductivity(1473.15) * root.area / (root.length / 2);
+for (const altitude of [80000, 90000, 100000]) {
+  const air = isaAtmosphere(altitude), sink = radiativeSinkKelvin(altitude, air.airTemperature);
+  const speed = groundTangentialSpeed(planetRadius + altitude, circularOrbitalSpeed(planetRadius + altitude));
+  const q = .5 * air.airDensity * speed ** 2, flux = getReentryHeatPower(speed, air.airDensity, v.diameter / 2, 0);
+  const temperatures = [373.15, 873.15, 973.15, 1073.15].map(target => {
+    const energy = root.mass * (steelSpecificEnthalpy(target) - steelSpecificEnthalpy(sink));
+    const netMin = root.heatArea * (flux - radiation * (target ** 4 - sink ** 4)) - gmax * (target - sink);
+    return { target_K: target, requiredEnergy_J: energy, maxAbsorptionTimeLowerBound_s: energy / (root.heatArea * flux),
+      fixedFlowHeatingTimeUpperBound_s: netMin > 0 ? energy / netMin : null,
+      minimumNetPower_W: netMin };
+  });
+  console.log(JSON.stringify({ altitude_m: altitude, speed_m_s: speed, rho: air.airDensity, q_Pa: q,
+    flux_W_m2: flux, legacyTile_K: surfaceTemperature(flux, sink),
+    damageRadiativeEquilibrium_K: (flux / radiation + sink ** 4) ** .25, temperatures }));
+}
+for (const temperature of [873.15, 973.15, 1073.15]) {
+  const area = v.gridFins!.area / v.gridFins!.count, lever = v.diameter * .46 / 2;
+  let lo = 0, hi = 50000;
+  for (let n = 0; n < 48; n++) {
+    const q = (lo + hi) / 2;
+    const angle = loadedRootAngle(Math.PI / 4, q * area, lever, temperature, root, 'grid');
+    if (q * area * lever * rootLoadCoefficient(angle, 'grid') > steelProofStrength(temperature) * root.modulus) hi = q;
+    else lo = q;
+  }
+  const q = (lo + hi) / 2;
+  const maxFlux = .85 * STEFAN_BOLTZMANN * (TILE_LIMIT_KELVIN ** 4 - 186.95 ** 4);
+  const maxSpeed = Math.sqrt(maxFlux / (1.7415e-4 * Math.sqrt(2 * q / (v.diameter / 2))));
+  console.log(JSON.stringify({ proofRoot_K: temperature, thresholdQ_Pa: q, maxNoseOnEntrySpeedBelowTile_m_s: maxSpeed }));
+}
+const mdot = 3 * engineMassFlow(v.propulsion, 'sea-level'), thrust = 3 * engineThrust(v.propulsion, 'sea-level', 0);
+const ve = thrust / mdot, startMass = v.dryMass + 500000;
+const deltaV = 7860.594025145344 - 3000, finalMass = startMass * Math.exp(-deltaV / ve);
+console.log(JSON.stringify({ threeCentreThrust_N: thrust, massFlow_kg_s: mdot, effectiveExhaust_m_s: ve,
+  exampleDeltaV_m_s: deltaV, finalMass_kg: finalMass, availableDryMass_kg: v.dryMass,
+  idealBurnDuration_s: (startMass - finalMass) / mdot, availableDeltaV_m_s: ve * Math.log(startMass / v.dryMass) }));

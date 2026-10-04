@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-thermal.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-thermal.test.ts [ tests/core/damage-thermal.test.ts ]
+Error: Cannot find module '$core/physics/damage-thermal' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/damage-thermal.test.ts
+ ❯ tests/core/damage-thermal.test.ts:6:1
+      4| import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+      5| import { createVehicleComponents } from '$core/physics/vehicle-compone…
+      6| import { createDamageThermalModel, advanceDamageHeat, HULL_THERMAL_DOM…
+       | ^
+      7|   from '$core/physics/damage-thermal';
+      8| import { steelSpecificEnthalpy, steelConductivity } from '$core/physic…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  14:21:56
+   Duration  209ms (transform 60ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

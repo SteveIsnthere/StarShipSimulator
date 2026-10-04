@@ -1,0 +1,45 @@
+// Diagnostic tail appended to unchanged attempt1 frozen core bundle.
+import { readFileSync as replayRead, writeFileSync as replayWrite } from 'node:fs';
+import { deepStrictEqual as replayEqual } from 'node:assert';
+const replayBase='docs/research/2026-10-03-vehicle-realism/';
+const replayReceipt=replayRead(replayBase+'booster-cycle2-attempt1-rtls.jsonl','utf8').trim().split('\n').map(JSON.parse);
+const replayRow=replayReceipt.find(r=>r.event==='step' && r.after.job?.lastCandidate?.burnDuration===604/120);
+const replayCandidate=replayRow.after.job.lastCandidate;
+let replayInitial=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')).state;
+replayInitial.autopilot.autoLandOn=true;
+replayInitial=step(replayInitial,1/120,{},SUPER_HEAVY);
+const replayOrigin=cloneBoosterMechanics(replayInitial.autopilot.boosterPrediction.origin);
+const replayCoarse=createBoosterReadyWork(replayOrigin,rad(0),604/120);
+advanceBoosterForecast(replayCoarse,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
+replayEqual(replayCoarse.result,replayCandidate.forecast);
+replayEqual(replayCoarse.shutdownAt,replayCandidate.shutdownAt);
+const replayFine=createBoosterForecastWork(replayCoarse.state,rad(0));replayFine.step=1/120;
+let replayPrevious=replayCoarse.state;
+while(!replayFine.done && replayFine.result.steps<4000) {
+ replayPrevious=replayFine.state;
+ advanceBoosterForecast(replayFine,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
+}
+const replayBefore=createCatchPose(),replayAfter=createCatchPose();
+writeCatchPose(replayPrevious,SUPER_HEAVY,replayBefore);
+writeCatchPose(replayFine.state,SUPER_HEAVY,replayAfter);
+const replayCrossed=replayBefore.altitude>CATCH.planeAltitude && replayAfter.altitude<=CATCH.planeAltitude;
+const replayFraction=(replayBefore.altitude-CATCH.planeAltitude)/(replayBefore.altitude-replayAfter.altitude);
+const replayK=replayFine.state.kinematics,replayP=replayPrevious.kinematics;
+const replayPitch=replayP.pitch+Math.atan2(Math.sin(replayK.pitch-replayP.pitch),Math.cos(replayK.pitch-replayP.pitch))*replayFraction;
+const replayX=replayP.downRangeDistance+(replayK.downRangeDistance-replayP.downRangeDistance)*replayFraction+(CATCH.lugStation-SUPER_HEAVY.height/2)*Math.sin(replayPitch)-starBaseXPos;
+const replayVX=replayBefore.speedX+(replayAfter.speedX-replayBefore.speedX)*replayFraction;
+const replayVY=replayBefore.speedY+(replayAfter.speedY-replayBefore.speedY)*replayFraction;
+const replayPaidTicks=Math.ceil(replayFine.result.steps/3);
+const replayEarliest=replayRow.after.time+replayPaidTicks/120;
+const replayOutcome={node:process.version,coarseExact:true,candidate:replayCandidate,readyLiveTime:replayRow.after.time,
+ coarseResult:replayCoarse.result,fineResult:replayFine.result,caught:physicallyCaught(replayFine.state),
+ budget:{fineAdvances:replayFine.result.steps,searchAdvancesPerTick:3,liveTicks:replayPaidTicks,earliestPublication:replayEarliest,
+ shutdownAt:replayCandidate.shutdownAt,slack:replayCandidate.shutdownAt-replayEarliest,strictFuture:replayEarliest<replayCandidate.shutdownAt},
+ crossed:replayCrossed,contact:replayCrossed && !replayFine.state.status.landed?{fraction:replayFraction,x:replayX,vx:replayVX,vy:replayVY,pitch:replayPitch,
+ withinX:Math.abs(replayX)<=CATCH.halfWidth,withinVx:Math.abs(replayVX)<=CATCH.maxLateralSpeed,
+ withinVy:replayVY<0&&replayVY>=-CATCH.maxDownSpeed,withinPitch:Math.abs(replayPitch)<=CATCH.maxPitch}:null,
+ beforeLug:replayBefore,afterLug:replayAfter,limits:CATCH,
+ coarseState:cloneBoosterMechanics(replayCoarse.state),before:cloneBoosterMechanics(replayPrevious),after:cloneBoosterMechanics(replayFine.state)};
+replayWrite(replayBase+'booster-cycle2-attempt2-replay.json',JSON.stringify(replayOutcome,null,2)+'\n');
+const {coarseState:replayIgnored1,before:replayIgnored2,after:replayIgnored3,...replaySmall}=replayOutcome;
+console.log(JSON.stringify(replaySmall,null,2));

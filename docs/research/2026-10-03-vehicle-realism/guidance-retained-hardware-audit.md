@@ -1,0 +1,42 @@
+# Retained-hardware guidance audit — 2026-10-03
+
+Read-only production audit of the current dirty worktree. No source edits, flights, or checks were run. This is a caller/ordering assessment, not release acceptance.
+
+## Main finding
+
+Cached `vehicleMass` is **not demonstrably stale in normal live guidance**. `prepareDynamics` pays fuel and refreshes retained mass (`physics/step-dynamics.ts:378`); `advanceFreeBody` refreshes again before translation and rotation (`mission-free-flight.ts:81,100`). Endpoint `finishMechanicalStep` calls `advanceFlightDamage` before guidance (`control/mechanical.ts:23`). A committed detachment refreshes mass and enforces engine support (`physics/damage-flight.ts:166`). Terminal states bypass guidance. Attached mission bodies use no guidance callback and derive retained body mass before and after endpoint loss (`mission.ts:134,220,231`). Thus replacing every cached read solely because its name says “cache” would misdiagnose the live phase contract.
+
+Direct controller calls can still disagree with canonical throttle/force queries when callers mutate fuel or attachment ownership without refreshing the cache. Prefer nonmutating queries at exported estimator boundaries; do not preserve tests that inject only a synthetic cached mass.
+
+## Actual remaining ownership mismatches
+
+1. **Flip estimate mixes intact arm with retained inertia.** `autopilot/index.ts:305` calls intact `writeMassProperties(propellantMass, flipArms)`, while line310 reads retained cached inertia. Natural asymmetric flap loss changes the actual COM/engine arm. The estimate can err in either direction; it does not become correct because live inertia is fresh. Minimal fix: use `writeFlightMassQuery(state, SHIP, scratch, flipArms)` for the arm and inertia together, gate engine torque on support availability, and respect the working/healthy engine count rather than granting the configured one engine (`C.flipStageEngineCount=1`) after a failure. Preserve the existing ignition and horizontal-adjustment margins. Independent witness: one detached aft flap, manually compute retained centroid and parallel-axis inertia from catalogue slices, compare flip duration/trigger; intact control must retain its old result.
+
+2. **Landing predictor retains the intact dry-mass floor.** `control/guidance-physics.ts:275` brackets touchdown mass with `model.dryMass`. After an appendage departs, the actual floor is retained dry mass. If initial retained mass or the mathematically valid touchdown mass is below the intact floor, `rLight < 0` can return null for a physically fuel-feasible stopping burn. This is a conservative false rejection/start-now command, not optimistic credit of detached mass. Minimal fix: add a retained dry-mass input/context to `landingBurnStartAltitude`; keep its default intact floor for explicit historical/intact numeric callers. Pass canonical total mass and retained dry mass from Ship sizing and booster stopping triggers. No fictitious fuel: the difference between these two masses is available propellant. Independent witness: detached component with small positive fuel, a hand-checked positive deceleration/fuel budget, and forward paid stopping replay; contrast a genuinely insufficient-fuel case. Keep predictor error bounds unchanged.
+
+3. **Planned engines can exceed surviving capability.** Ship flip estimate uses `flipStageEngineCount` rather than available engines. Booster `terminalBurnDue` always sizes three engines (`autopilot/booster.ts:161,163`), and arrival hints use an always-true three-engine mask (`control/booster-arrival.ts:110,137`). The booster terminal phase explicitly rejects any failed centre (`booster.ts:257`), so these hints do not prove a successful catch or bypass the frozen three-central-engine requirement. Still avoid reporting a feasible stopping envelope for absent support/failed centres. Minimal fix: gate the nominal three-centre estimate on canonical support and all required healthy centres; report unavailable rather than silently substitute engines or increase authority. Test detached support, one failed centre, and intact controls through live guidance and forecast entry points. Preserve the three-centre policy and existing missed-terminal behavior.
+
+## Inventory of cached/default-model reads
+
+| Location | Live status | Minimal treatment |
+|---|---|---|
+| `autopilot/index.ts:504` final braking envelope | Fresh mass on normal live path; mask counts active engines. Detached support is enforced before guidance. Direct stale-cache calls disagree with canonical throttle. | Query retained mass/support locally; zero capability when support is absent. Preserve distance/3, braking feed-forward, limits and demo callback law. |
+| `control/primitives.ts:591` minimum-TWR shutdown | All three production callers (`autopilot/index.ts:202,440,499`) are Ship-only. Default SHIP is currently correct. Fresh live cache. | Add explicit model parameter and retained mass/support query. Missing support must never toggle an absent engine on. Keep shutdown order; test canonical physical fuel and zero support. |
+| `autopilot/landing-burn.ts:64,79,96` engine ladder and sizing | Fresh live cache; public direct-call boundary fragile. Ship-only defaults are deliberate. | Shared read-only retained query; pass retained floor to predictor, gate support. Keep pessimistic ladder unchanged. |
+| `autopilot/index.ts:623` deorbit impulse time | Fresh live mass; healthy mask reflects enforced support. Ship-only thrust model is deliberate. | Query mass/support at boundary; no burn solution with absent support. Do not redesign its documented impulse-time approximation. |
+| `control/booster-prediction.ts:51` initial search hint | Origin clones fresh live state; explicit selected model. Mechanical replay validates actual hardware before accepting cutoff. | Canonical query avoids inconsistent direct input; support gate avoids meaningless initial hint. Search hint is not cutoff authority. |
+| `control/booster-arrival.ts:20,59,85,86,110,138`; `autopilot/booster.ts:241` | Fresh mass on normal live/post-step paths; explicit booster model. Arrival/force estimates are hints, replay is acceptance. | Query mass/support once per exported boundary. Keep measured paid force distinct from hypothetical endpoint authority; see below. |
+
+`precisionAlignment`, the acceleration/TWR throttle writers, `writeUnpoweredAcceleration`, and `unpoweredFallInto` already query retained mass. Canonical force writers respect attached components. Explicit-model booster alignment also uses retained COM/inertia. These are reusable mechanisms, not reasons to add another ownership representation.
+
+## Limits and independent follow-up
+
+The booster measured-force subtraction (`booster-arrival.ts:22,85`) combines the step's paid thrust/acceleration with endpoint mass. A component loss makes these quantities refer to different mass epochs. This is a **force-epoch consistency risk**, not proof that the mass cache is stale. Parent-owned force-freshness work should decide the contract: preserve the paid measurement with its mass epoch, or compute canonical current unpowered environment explicitly. Test a loss endpoint with an independently computed decomposition; do not merely overwrite a force cache until a golden passes.
+
+The unpowered fall estimator freezes attitude/root state and does not evolve progressive thermal damage; its loop also lacks the separate grid lift/drag addition present in `writeUnpoweredAcceleration`. This is a named estimator approximation requiring no extrapolated catch acceptance. Full mechanical rollouts are the appropriate witness. It is separate from detached-hardware over-credit and should not be “fixed” by changing terminal limits or predictor authority.
+
+Recommended sequence: (1) retained flip query and available torque; (2) retained predictor fuel floor; (3) query/gate exported shutdown/sizing/force boundaries with explicit model forwarding; (4) independent intact/detached/failed-support tests, then existing guidance truth tests. No scenario or numerical acceptance bound needs to move for these ownership fixes.
+
+## Implementation checkpoint
+
+Retained-hardware guidance fixes completed with100/100 focused tests and owned-source lint green (`/tmp/retained-guidance-focused-final-3.txt`). Explicit-model shutdown also now shuts actual boosterengine5 instead of inadvertently igniting nominalShipengine2. The measured-force epoch risk above remains a separate pending audit; this checkpoint does not assert it fixed.

@@ -1,0 +1,48 @@
+/** Lead-authorized read-only replay of ONLY the two already evaluated immutable
+ * attempt2 candidates. No new durations/search/physics/live attempts. */
+import {writeFileSync} from 'node:fs';
+import {createScenarioVehicle,PRESETS} from '../../../src/core/scenarios';
+import {step,advanceMechanics} from '../../../src/core/step';
+import {runBoosterPolicy} from '../../../src/core/autopilot/booster';
+import {createBoosterReadyWork,createBoosterForecastWork,advanceBoosterForecast} from '../../../src/core/control/booster-forecast';
+import {cloneBoosterMechanics} from '../../../src/core/control/booster-source';
+import {createCatchPose,writeCatchPose} from '../../../src/core/physics/tower-catch';
+import {SUPER_HEAVY,CATCH} from '../../../src/core/vehicles/super-heavy';
+import {rad} from '../../../src/core/units';
+import * as C from '../../../src/core/constants';
+let s=createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!,123).state;
+s.autopilot.autoLandOn=true;
+s=step(s,1/120,{},SUPER_HEAVY);
+const origin=cloneBoosterMechanics(s.autopilot.boosterPrediction!.origin);
+const rows:unknown[]=[];
+for(const duration of [2889/120,2893/120]){
+ const coarse=createBoosterReadyWork(origin,rad(0),duration);
+ advanceBoosterForecast(coarse,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
+ const fine=createBoosterForecastWork(coarse.state,rad(0));fine.step=1/120;
+ let before=coarse.state,oldPhase=before.autopilot.boosterPhase;
+ rows.push({event:'coarse',duration,shutdownAt:coarse.shutdownAt,result:coarse.result,endpoint:summary(coarse.state)});
+ while(!fine.done && fine.result.steps<4000){
+  before=fine.state;
+  advanceBoosterForecast(fine,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
+  if(oldPhase!==fine.state.autopilot.boosterPhase){oldPhase=fine.state.autopilot.boosterPhase;rows.push({event:'fine-phase',duration,steps:fine.result.steps,state:summary(fine.state)});}
+ }
+ const a=createCatchPose(),b=createCatchPose();writeCatchPose(before,SUPER_HEAVY,a);writeCatchPose(fine.state,SUPER_HEAVY,b);
+ const fraction=(a.altitude-CATCH.planeAltitude)/(a.altitude-b.altitude);
+ const crossing=a.altitude>CATCH.planeAltitude && b.altitude<=CATCH.planeAltitude;
+ const p=before.kinematics,k=fine.state.kinematics;
+ const pitch=p.pitch+Math.atan2(Math.sin(k.pitch-p.pitch),Math.cos(k.pitch-p.pitch))*fraction;
+ const x=p.downRangeDistance+(k.downRangeDistance-p.downRangeDistance)*fraction+(CATCH.lugStation-SUPER_HEAVY.height/2)*Math.sin(pitch)-C.starBaseXPos;
+ const vx=a.speedX+(b.speedX-a.speedX)*fraction,vy=a.speedY+(b.speedY-a.speedY)*fraction;
+ rows.push({event:'fine-end',duration,result:fine.result,state:summary(fine.state),before:summary(before),
+  elapsed:fine.state.world.environmentTime-coarse.state.world.environmentTime,crossing,
+  contact:crossing && !fine.state.status.landed?{fraction,x,vx,vy,pitch,withinX:Math.abs(x)<=CATCH.halfWidth,withinVx:Math.abs(vx)<=CATCH.maxLateralSpeed,
+   withinVy:vy<0&&vy>=-CATCH.maxDownSpeed,withinPitch:Math.abs(pitch)<=CATCH.maxPitch}:undefined,
+  securedContact:fine.state.status.landed?{x:b.x-C.starBaseXPos,altitude:b.altitude,pitch:k.pitch,note:'Canonical secureTowerCatch accepted incoming contact; endpoint velocities are secured zero, not incoming velocities.'}:undefined,
+  reason:fine.state.status.landed?'caught':fine.state.damage?.terminal.active?'terminal':crossing?'missed-plane':fine.result.steps>=4000?'step-cap':fine.result.time>=900?'time-cap':'other'});
+}
+function summary(t:typeof s){return{time:t.world.environmentTime,phase:t.autopilot.boosterPhase,x:t.kinematics.downRangeDistance-C.starBaseXPos,
+ h:t.kinematics.altitude,vx:t.kinematics.speedX,vy:t.kinematics.speedY,pitch:t.kinematics.pitch,omega:t.kinematics.angularVelocity,
+ fuel:t.vehicle.propellantMass,g:t.forces.perceivedG,q:t.forces.dynamicPressure,tile:t.forces.surfaceTemperature,
+ landed:t.status.landed,onGround:t.status.onTheGround,terminal:t.damage?.terminal,failures:t.failures};}
+writeFileSync('docs/research/2026-10-03-vehicle-realism/booster-planner-attempt2-fine-replay.jsonl',rows.map(r=>JSON.stringify(r)).join('\n')+'\n');
+console.log(JSON.stringify(rows,null,2));

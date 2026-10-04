@@ -1,0 +1,91 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-mission.test.ts (5 tests | 1 failed) 20ms
+     × releases a ground-impact connection before either body can divide by a vanished mass 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-mission.test.ts > damaged mission mass and reference > releases a ground-impact connection before either body can divide by a vanished mass
+AssertionError: expected { damage: { …(6) }, …(11) } to deeply equal { damage: { …(6) }, …(11) }
+
+- Expected
++ Received
+
+@@ -393,13 +393,13 @@
+      "dynamicPressure": 0.10511755513737134,
+      "frontFinDrag": 0,
+      "frontFinDragAngularAcceleration": 0,
+      "frontFinEffectiveAreaFraction": 0,
+      "offAxisThrustDifferenceAcceleration": 0,
+-     "perceivedG": 0.0004434662889838686,
+-     "perceivedG_X": -0.0003135780201681644,
+-     "perceivedG_Y": -0.00031357802016808884,
++     "perceivedG": NaN,
++     "perceivedG_X": NaN,
++     "perceivedG_Y": NaN,
+      "rcsThrust": 0,
+      "rcsThrustAngularAcceleration": 0,
+      "surfaceTemperature": 505.6830032492498,
+      "thermalPower": 3039.8820157312584,
+      "thrust": 0,
+@@ -407,33 +407,33 @@
+      "thrustVectorAcceleration": 0,
+      "thrustVectorForce": 0,
+      "twr": 0,
+    },
+    "kinematics": {
+-     "accelerationX": -0.2013052962327498,
+-     "accelerationY": -9.412654450001295,
++     "accelerationX": NaN,
++     "accelerationY": NaN,
+      "altitude": 70053.256960271,
+      "angleInToTheWind": 0,
+      "angleOfAttack": 0,
+      "angleOfMotion": 0.7853981633974483,
+-     "angularAcceleration": 0,
+-     "angularVelocity": 0,
++     "angularAcceleration": NaN,
++     "angularVelocity": NaN,
+      "distanceToPlanetCenter": 6441053.256960271,
+      "downRangeDistance": 20060140.053300686,
+      "downRangeDistanceNextFrame": 20060140.053300686,
+-     "machSpeed": 5.380846671297666,
++     "machSpeed": NaN,
+      "orbitalVelocityAtCurrentAltitude": 7866.661134315383,
+      "pitch": 0.7853981633974483,
+      "pitchRateOfChange": 0,
+      "pitchRecord": [
+        0.7853981633974483,
+        0.7853981633974483,
+      ],
+-     "speedX": 1129.9983223960928,
+-     "speedY": 1129.9215610995273,
+-     "totalAcceleration": 9.414806828470807,
+-     "trueSpeed": 1598.0046754798861,
++     "speedX": NaN,
++     "speedY": NaN,
++     "totalAcceleration": NaN,
++     "trueSpeed": NaN,
+    },
+    "rng": {
+      "counters": {
+        "ignitionDelay": 0,
+        "ignitionFailure": 0,
+
+ ❯ tests/core/damage-mission.test.ts:48:25
+     46|     expect(result.booster.failures.crashed).toBe(true);
+     47|     expect(result.booster.damage!.terminal.angularVelocity).toBe(.2);
+     48|     expect(result.ship).toEqual(healthy);
+       |                         ^
+     49|     expect(result.booster.damage!.debris.every(p => Number.isFinite(p.…
+     50|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  15:26:56
+   Duration  434ms (transform 213ms, setup 0ms, import 273ms, tests 20ms, environment 0ms)
+

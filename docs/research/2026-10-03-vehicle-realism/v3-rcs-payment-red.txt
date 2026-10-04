@@ -1,0 +1,79 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/rcs-payment.test.ts (6 tests | 6 failed) 11ms
+     × 120 Hz, sign -1: delivered impulse cannot exceed available reserve 7ms
+     × 120 Hz, sign 1: delivered impulse cannot exceed available reserve 1ms
+     × 240 Hz, sign -1: delivered impulse cannot exceed available reserve 0ms
+     × 240 Hz, sign 1: delivered impulse cannot exceed available reserve 0ms
+     × 480 Hz, sign -1: delivered impulse cannot exceed available reserve 0ms
+     × 480 Hz, sign 1: delivered impulse cannot exceed available reserve 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/rcs-payment.test.ts > finite RCS reserve pays the final partial interval > 120 Hz, sign -1: delivered impulse cannot exceed available reserve
+ FAIL  |unit| tests/core/rcs-payment.test.ts > finite RCS reserve pays the final partial interval > 120 Hz, sign 1: delivered impulse cannot exceed available reserve
+AssertionError: expected -0.00625 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ -0.00625
+
+ ❯ tests/core/rcs-payment.test.ts:14:49
+     12|       state.vehicle.rcsRunTimeRemaining = reserve;
+     13|       rcsControl(state, sign * 100, dt);
+     14|       expect(state.vehicle.rcsRunTimeRemaining).toBe(0);
+       |                                                 ^
+     15|       expect(state.forces.rcsThrust * dt).toBe(sign * rcsMaxThrust * r…
+     16|       rcsControl(state, sign * 100, dt);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |unit| tests/core/rcs-payment.test.ts > finite RCS reserve pays the final partial interval > 240 Hz, sign -1: delivered impulse cannot exceed available reserve
+ FAIL  |unit| tests/core/rcs-payment.test.ts > finite RCS reserve pays the final partial interval > 240 Hz, sign 1: delivered impulse cannot exceed available reserve
+AssertionError: expected -0.003125 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ -0.003125
+
+ ❯ tests/core/rcs-payment.test.ts:14:49
+     12|       state.vehicle.rcsRunTimeRemaining = reserve;
+     13|       rcsControl(state, sign * 100, dt);
+     14|       expect(state.vehicle.rcsRunTimeRemaining).toBe(0);
+       |                                                 ^
+     15|       expect(state.forces.rcsThrust * dt).toBe(sign * rcsMaxThrust * r…
+     16|       rcsControl(state, sign * 100, dt);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |unit| tests/core/rcs-payment.test.ts > finite RCS reserve pays the final partial interval > 480 Hz, sign -1: delivered impulse cannot exceed available reserve
+ FAIL  |unit| tests/core/rcs-payment.test.ts > finite RCS reserve pays the final partial interval > 480 Hz, sign 1: delivered impulse cannot exceed available reserve
+AssertionError: expected -0.0015625 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ -0.0015625
+
+ ❯ tests/core/rcs-payment.test.ts:14:49
+     12|       state.vehicle.rcsRunTimeRemaining = reserve;
+     13|       rcsControl(state, sign * 100, dt);
+     14|       expect(state.vehicle.rcsRunTimeRemaining).toBe(0);
+       |                                                 ^
+     15|       expect(state.forces.rcsThrust * dt).toBe(sign * rcsMaxThrust * r…
+     16|       rcsControl(state, sign * 100, dt);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  15:50:15
+   Duration  380ms (transform 139ms, setup 0ms, import 177ms, tests 11ms, environment 0ms)
+

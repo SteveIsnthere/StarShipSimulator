@@ -1,0 +1,388 @@
+{
+  "hashes_match": true,
+  "all_source_unchanged": true,
+  "series": {
+    "ignition_s": {
+      "values": [
+        495.31666666666666,
+        495.3125,
+        495.3125
+      ],
+      "signed_adjacent": [
+        -0.004166666666662877,
+        0.0
+      ],
+      "absolute_adjacent": [
+        0.004166666666662877,
+        0.0
+      ],
+      "contraction": true,
+      "same_sign": false,
+      "empirical_order": null,
+      "finest_Richardson_error_estimate": null
+    },
+    "cutoff_s": {
+      "values": [
+        599.3916666666667,
+        599.3875,
+        599.3854166666666
+      ],
+      "signed_adjacent": [
+        -0.004166666666606034,
+        -0.0020833333334167037
+      ],
+      "absolute_adjacent": [
+        0.004166666666606034,
+        0.0020833333334167037
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 0.9999999999212726,
+      "finest_Richardson_error_estimate": 0.0020833333336440774
+    },
+    "loss_s": {
+      "values": [
+        645.8333333333334,
+        645.8166666666666,
+        645.8125
+      ],
+      "signed_adjacent": [
+        -0.016666666666765195,
+        -0.004166666666606034
+      ],
+      "absolute_adjacent": [
+        0.016666666666765195,
+        0.004166666666606034
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 2.0000000000295226,
+      "finest_Richardson_error_estimate": 0.0013888888888307822
+    },
+    "loss_root_K": {
+      "values": [
+        1126.5796102593138,
+        1126.5627881990504,
+        1126.5632637828494
+      ],
+      "signed_adjacent": [
+        -0.016822060263393723,
+        0.00047558379901602166
+      ],
+      "absolute_adjacent": [
+        0.016822060263393723,
+        0.00047558379901602166
+      ],
+      "contraction": true,
+      "same_sign": false,
+      "empirical_order": null,
+      "finest_Richardson_error_estimate": null
+    },
+    "loss_q_Pa": {
+      "values": [
+        15820.517982788977,
+        15813.470973580663,
+        15814.661931580249
+      ],
+      "signed_adjacent": [
+        -7.0470092083141935,
+        1.1909579995863169
+      ],
+      "absolute_adjacent": [
+        7.0470092083141935,
+        1.1909579995863169
+      ],
+      "contraction": true,
+      "same_sign": false,
+      "empirical_order": null,
+      "finest_Richardson_error_estimate": null
+    },
+    "loss_skin_K": {
+      "values": [
+        1434.691855219011,
+        1432.55589113498,
+        1431.0772446553522
+      ],
+      "signed_adjacent": [
+        -2.135964084031002,
+        -1.4786464796277414
+      ],
+      "absolute_adjacent": [
+        2.135964084031002,
+        1.4786464796277414
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 0.5306102197961172,
+      "finest_Richardson_error_estimate": 3.3262389400028476
+    },
+    "loss_g": {
+      "values": [
+        0.6787423181428595,
+        0.7256021405460635,
+        0.7601291047014133
+      ],
+      "signed_adjacent": [
+        0.04685982240320408,
+        0.034526964155349726
+      ],
+      "absolute_adjacent": [
+        0.04685982240320408,
+        0.034526964155349726
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 0.4406279982128496,
+      "finest_Richardson_error_estimate": 0.09666139266558149
+    },
+    "loss_altitude_m": {
+      "values": [
+        44510.4893759106,
+        44519.518121133835,
+        44523.004128387845
+      ],
+      "signed_adjacent": [
+        9.02874522323691,
+        3.486007254010474
+      ],
+      "absolute_adjacent": [
+        9.02874522323691,
+        3.486007254010474
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 1.3729499304302561,
+      "finest_Richardson_error_estimate": 2.1924627580238387
+    },
+    "max_angle_reduction_rad": {
+      "values": [
+        0.00019746643312679169,
+        0.00019746071431736567,
+        0.00019753171013170423
+      ],
+      "signed_adjacent": [
+        -5.718809426014104e-09,
+        7.099581433855917e-08
+      ],
+      "absolute_adjacent": [
+        5.718809426014104e-09,
+        7.099581433855917e-08
+      ],
+      "contraction": false,
+      "same_sign": false,
+      "empirical_order": null,
+      "finest_Richardson_error_estimate": null
+    },
+    "common_400s_root_K": {
+      "values": [
+        950.0730883792188,
+        950.0724036759733,
+        950.07206132321
+      ],
+      "signed_adjacent": [
+        -0.0006847032454970758,
+        -0.00034235276325489394
+      ],
+      "absolute_adjacent": [
+        0.0006847032454970758,
+        0.00034235276325489394
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 0.9999951938299284
+    },
+    "common_400s_q_Pa": {
+      "values": [
+        596.139470658533,
+        596.1403066983104,
+        596.1407247209668
+      ],
+      "signed_adjacent": [
+        0.000836039777368569,
+        0.00041802265639034886
+      ],
+      "absolute_adjacent": [
+        0.000836039777368569,
+        0.00041802265639034886
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 0.999990447960245
+    },
+    "common_400s_angle_reduction_rad": {
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "signed_adjacent": [
+        0,
+        0
+      ],
+      "absolute_adjacent": [
+        0,
+        0
+      ],
+      "contraction": false,
+      "same_sign": false,
+      "empirical_order": null
+    },
+    "common_550s_root_K": {
+      "values": [
+        1113.2222105144424,
+        1113.2176378219424,
+        1113.2169491033696
+      ],
+      "signed_adjacent": [
+        -0.00457269250000536,
+        -0.0006887185727464384
+      ],
+      "absolute_adjacent": [
+        0.00457269250000536,
+        0.0006887185727464384
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 2.7310574174721554
+    },
+    "common_550s_q_Pa": {
+      "values": [
+        531.4056570792869,
+        531.4101958036761,
+        531.4111309036463
+      ],
+      "signed_adjacent": [
+        0.004538724389135496,
+        0.0009350999702064655
+      ],
+      "absolute_adjacent": [
+        0.004538724389135496,
+        0.0009350999702064655
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 2.2790943694572903
+    },
+    "common_550s_angle_reduction_rad": {
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "signed_adjacent": [
+        0,
+        0
+      ],
+      "absolute_adjacent": [
+        0,
+        0
+      ],
+      "contraction": false,
+      "same_sign": false,
+      "empirical_order": null
+    },
+    "common_600s_root_K": {
+      "values": [
+        1117.4534480002799,
+        1117.4459527331774,
+        1117.4448896709046
+      ],
+      "signed_adjacent": [
+        -0.007495267102513026,
+        -0.001063062272805837
+      ],
+      "absolute_adjacent": [
+        0.007495267102513026,
+        0.001063062272805837
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 2.817753780651562
+    },
+    "common_600s_q_Pa": {
+      "values": [
+        919.1472765634364,
+        919.4583197297313,
+        919.5927419442712
+      ],
+      "signed_adjacent": [
+        0.31104316629489404,
+        0.13442221453988168
+      ],
+      "absolute_adjacent": [
+        0.31104316629489404,
+        0.13442221453988168
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 1.21034323339525
+    },
+    "common_600s_angle_reduction_rad": {
+      "values": [
+        1.0612614200766757e-05,
+        1.0615515750211912e-05,
+        1.0616969382315489e-05
+      ],
+      "signed_adjacent": [
+        2.901549445155638e-09,
+        1.4536321035762967e-09
+      ],
+      "absolute_adjacent": [
+        2.901549445155638e-09,
+        1.4536321035762967e-09
+      ],
+      "contraction": true,
+      "same_sign": true,
+      "empirical_order": 0.9971613269261823
+    }
+  },
+  "wall_s": [
+    1.480680334,
+    2.889058625,
+    5.574080124999999
+  ],
+  "detection_brackets": {
+    "120": {
+      "ignition_s": [
+        495.30833333333334,
+        495.31666666666666
+      ],
+      "cutoff_s": [
+        599.3833333333333,
+        599.3916666666667
+      ],
+      "loss_s": [
+        645.825,
+        645.8333333333334
+      ]
+    },
+    "240": {
+      "ignition_s": [
+        495.30833333333334,
+        495.3125
+      ],
+      "cutoff_s": [
+        599.3833333333333,
+        599.3875
+      ],
+      "loss_s": [
+        645.8124999999999,
+        645.8166666666666
+      ]
+    },
+    "480": {
+      "ignition_s": [
+        495.31041666666664,
+        495.3125
+      ],
+      "cutoff_s": [
+        599.3833333333333,
+        599.3854166666666
+      ],
+      "loss_s": [
+        645.8104166666667,
+        645.8125
+      ]
+    }
+  }
+}

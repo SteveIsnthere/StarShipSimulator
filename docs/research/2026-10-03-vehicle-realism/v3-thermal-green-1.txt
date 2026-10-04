@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-thermal.test.ts (11 tests | 2 failed) 16ms
+     × derives the frozen bound from the whole simultaneous network 4ms
+     × conserves summed energy minus independently calculated radiation plus absorbed energy 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-thermal.test.ts > finite thermal network numerical contract > derives the frozen bound from the whole simultaneous network
+AssertionError: expected 0.38044624133127863 to be close to 0.40351634762469524, received difference is 0.023070106293416603, but expected 5e-11
+ ❯ tests/core/damage-thermal.test.ts:41:33
+     39|     const ship = fixture();
+     40|     const booster = fixture(false);
+     41|     expect(ship.model.safeStep).toBeCloseTo(.40351634762469524, 10);
+       |                                 ^
+     42|     expect(booster.model.safeStep).toBeCloseTo(.5590747567697841, 10);
+     43|     expect(ship.model.safeStep).toBeGreaterThan(48 / 120);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/damage-thermal.test.ts > finite thermal network numerical contract > conserves summed energy minus independently calculated radiation plus absorbed energy
+AssertionError: expected 29.64453887939453 to be close to 29.644539971592014, received difference is 0.000001092197482677193, but expected 5e-7
+ ❯ tests/core/damage-thermal.test.ts:68:44
+     66|       * (flux - TILE_EMISSIVITY * STEFAN_BOLTZMANN * (700 ** 4 - sink …
+     67|     expect(advanceDamageHeat(f.state, f.model, dt, flux, sink, 1000)).…
+     68|     expect(totalEnergy(f.state) - initial).toBeCloseTo(expected, 6);
+       |                                            ^
+     69|     for (const node of [component.root, ...component.tps, f.state.hull…
+     70|       expect(node.temperature).toBeGreaterThanOrEqual(293.15);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 9 passed (11)
+   Start at  14:25:27
+   Duration  372ms (transform 106ms, setup 0ms, import 130ms, tests 16ms, environment 0ms)
+

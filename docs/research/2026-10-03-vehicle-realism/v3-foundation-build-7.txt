@@ -1,0 +1,16 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/view/component-vehicle.test.ts(141,24): error TS2339: Property 'debrisContainer' does not exist on type 'ComponentVehicle'.
+tests/view/component-vehicle.test.ts(143,24): error TS7006: Parameter 'slot' implicitly has an 'any' type.
+tests/view/component-vehicle.test.ts(144,10): error TS2339: Property 'setDetachedPose' does not exist on type 'ComponentVehicle'.
+tests/view/component-vehicle.test.ts(146,53): error TS2339: Property 'debrisContainer' does not exist on type 'ComponentVehicle'.
+tests/view/component-vehicle.test.ts(158,17): error TS2339: Property 'debrisContainer' does not exist on type 'ComponentVehicle'.
+tests/view/component-vehicle.test.ts(169,10): error TS2339: Property 'setDetachedPose' does not exist on type 'ComponentVehicle'.
+tests/view/component-vehicle.test.ts(170,10): error TS2339: Property 'setDetachedPose' does not exist on type 'ComponentVehicle'.
+tests/view/component-vehicle.test.ts(174,10): error TS2339: Property 'setDetachedPose' does not exist on type 'ComponentVehicle'.
+tests/view/component-vehicle.test.ts(176,10): error TS2339: Property 'reset' does not exist on type 'ComponentVehicle'.
+tests/view/component-vehicle.test.ts(179,17): error TS2339: Property 'debrisContainer' does not exist on type 'ComponentVehicle'.
+tests/view/component-vehicle.test.ts(179,48): error TS7006: Parameter 'slot' implicitly has an 'any' type.
+tests/view/component-vehicle.test.ts(181,10): error TS2339: Property 'setDetachedPose' does not exist on type 'ComponentVehicle'.

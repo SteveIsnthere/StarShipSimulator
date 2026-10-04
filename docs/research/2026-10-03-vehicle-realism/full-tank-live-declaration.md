@@ -1,0 +1,13 @@
+# Frozen full-capacity diagnostic declaration — 2026-10-03
+
+Authorized once by the lead before execution. This is an off-nominal, flight-editor pristine natural-exposure demonstration, **not a plausible Super Heavy orbital operational mission**. No launch history is claimed.
+
+- Physical editor inputs: Super Heavy, geometric80000m, local circular airspeed from current constants, speedY0, pitch−π/2, angular velocity0, official capacity3650000kg propellant, zero wind, DEFAULT_SEED. Pristine hardware initialized by the normal scenario constructor at actual ambient/sink temperature. Engines off, grids neutral50%, translation/fin actuators enabled. No injected temperature/damage/velocity or orientation constraint after initialization.
+- Actual `step()` at1/120s. Autopilot modes remain disabled. **No attitude hold**, RCS reserve change or custom controller. Fixed manual pitch command0 during coast/burn and100 after cutoff; engines/actuators evolve normally. Default100% throttle with engines off during coast has no paid impulse; burn command remains100%.
+- Coast until minimum exposed grid-root temperature reaches source800°C knot1073.15K. Coast cap718.8414509444451s comes from the previously recorded frozen initial-flux energy bound; it is a diagnostic cap, not a claimed coupled heating guarantee.
+- Request all33engines through existing `toggleRaptor` commands; real deterministic ignition delays and failures apply. Burn until actual relative airspeed≤4000m/s, then shut down every engine through the existing shutdown command.4000 is a frozen candidate, not a guaranteed safe proof envelope at exactly800°C.
+- Paid burn cap is full-fuel emptying time3650000/(33×source engine mass flow), plus maximum existing ignition delay. Entry observation cap is one circular orbital period at80000m. Overall cap is the sum of coast/burn/period caps, fixed before execution.
+- Issue45°grid command through actual slew after cutoff; no extension reset. Stop on first progressive component ownership loss, first global terminal, ground, a phase cap or overall cap. No second run/retry or parameter search.
+- Log controls, orientation/spin, airspeed, fuel, root temperature/energy, q/flux/skin/feltg, loss reasons and same-flow live/cold canonical control results. A separate45°hypothetical authority probe during neutral coast is labeled distinctly; it is not actual delivered control. Terminal transfer is excluded from progressive authority reductions.
+
+The script saves one raw outcome and source fingerprints. Negative outcomes are preserved; all original1533K/50kPa/13g limits and source constants remain unchanged.

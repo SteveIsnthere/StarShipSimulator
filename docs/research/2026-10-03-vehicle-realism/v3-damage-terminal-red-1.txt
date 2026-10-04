@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-terminal.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-terminal.test.ts [ tests/core/damage-terminal.test.ts ]
+Error: Cannot find module '$core/physics/damage-terminal' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/damage-terminal.test.ts
+ ❯ tests/core/damage-terminal.test.ts:7:1
+      5| import { damageModelFor } from '$core/physics/damage-model';
+      6| import { createDamageMassProperties, writeDamageMass } from '$core/phy…
+      7| import { captureDamageTerminal, DamageTerminalReason } from '$core/phy…
+       | ^
+      8|
+      9| describe('terminal release before legacy shutdown', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  15:06:48
+   Duration  246ms (transform 93ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

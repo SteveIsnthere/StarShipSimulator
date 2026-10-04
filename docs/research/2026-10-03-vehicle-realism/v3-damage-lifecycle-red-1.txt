@@ -1,0 +1,52 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-lifecycle.test.ts (3 tests | 3 failed) 6ms
+     × constructs the selected physical inventory at the actual ambient sink 3ms
+     × initializes each scenario at its altitude instead of inheriting pad heat 1ms
+     × deep clones every mutable damage branch and restarts pristine 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-lifecycle.test.ts > live damage state ownership and restart > constructs the selected physical inventory at the actual ambient sink
+AssertionError: expected undefined to be defined
+ ❯ tests/core/damage-lifecycle.test.ts:15:24
+     13|       const ambient = radiativeSinkKelvin(s.kinematics.altitude,
+     14|         isaAtmosphere(s.kinematics.altitude).airTemperature);
+     15|       expect(s.damage).toBeDefined();
+       |                        ^
+     16|       expect(s.damage!.components).toHaveLength(model.id === 'ship' ? …
+     17|       expect(s.damage!.hull.temperature).toBe(ambient);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/core/damage-lifecycle.test.ts > live damage state ownership and restart > initializes each scenario at its altitude instead of inheriting pad heat
+TypeError: Cannot read properties of undefined (reading 'hull')
+ ❯ tests/core/damage-lifecycle.test.ts:28:24
+     26|       const sink = radiativeSinkKelvin(s.kinematics.altitude,
+     27|         isaAtmosphere(s.kinematics.altitude).airTemperature);
+     28|       expect(s.damage!.hull.temperature, preset.id).toBe(sink);
+       |                        ^
+     29|       for (const c of s.damage!.components) if (c.root.temperature !==…
+     30|         expect(c.root.temperature, preset.id).toBe(sink);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/core/damage-lifecycle.test.ts > live damage state ownership and restart > deep clones every mutable damage branch and restarts pristine
+AssertionError: expected undefined not to be undefined // Object.is equality
+ ❯ tests/core/damage-lifecycle.test.ts:39:29
+     37|     const copy = cloneState(s);
+     38|     expect(copy.damage).toEqual(s.damage);
+     39|     expect(copy.damage).not.toBe(s.damage);
+       |                             ^
+     40|     copy.damage!.components[2]!.attached = false;
+     41|     copy.damage!.components[2]!.root.energy += 100;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  14:43:17
+   Duration  308ms (transform 98ms, setup 0ms, import 123ms, tests 6ms, environment 0ms)
+

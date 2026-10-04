@@ -1,0 +1,23 @@
+/** Source capability calculation only; no flight/control loop. */
+import { SUPER_HEAVY as vehicle } from '../../../src/core/vehicles/super-heavy';
+import { createVehicleComponents } from '../../../src/core/physics/vehicle-components';
+import { createDamageState } from '../../../src/core/damage-state';
+import { createDamageMassProperties, writeDamageMass } from '../../../src/core/physics/damage-mass';
+import { rcsMaxThrust, rcsRunTimeRemaining, gimbalAngleLimit } from '../../../src/core/constants';
+import { engineThrust } from '../../../src/core/physics/propulsion';
+const p = createVehicleComponents(vehicle), state = createDamageState(p, 198.63857625086882);
+const mass = createDamageMassProperties();
+for (const fuel of [3650000, 1050194.040160062]) {
+  writeDamageMass(state, p, fuel, vehicle, mass);
+  const rcsArm = vehicle.rcsStation - mass.centreOfMass;
+  const maxRcsTorque = rcsMaxThrust * Math.abs(rcsArm);
+  const gimbalTorque = 13 * engineThrust(vehicle.propulsion, 'sea-level', 0)
+    * mass.centreOfMass * Math.sin(gimbalAngleLimit);
+  const observedSpin = .009508575538680205;
+  console.log(JSON.stringify({ fuel_kg: fuel, inertia_kg_m2: mass.momentOfInertia,
+    com_m: mass.centreOfMass, rcsArm_m: rcsArm, maxRcsTorque_Nm: maxRcsTorque,
+    angularMomentumToArrest_Nms: mass.momentOfInertia * observedSpin,
+    fullRcsEquivalentImpulse_s: mass.momentOfInertia * observedSpin / maxRcsTorque,
+    unchangedReserve_s: rcsRunTimeRemaining, all13GimbalTorque_Nm: gimbalTorque,
+    dampingDemandAtObservedSpin_Nm: 4 * observedSpin * mass.momentOfInertia }));
+}

@@ -42,7 +42,7 @@ The complete report is saved as `deep-research-report.md` (21,775characters), ex
 
 ## Real-core event observation — completed
 
-Command `npx vite-node docs/research/2026-10-03-vehicle-realism/failure-observation.ts`, exit0. Outputs `failure-observation.jsonl`, two diagnostic states, two fixed steps each; production unchanged. These are deliberately constructed failure inputs, not successful scenario flights.
+Command `npx vite-node docs/research/2026-10-03-vehicle-realism/failure-observation.ts.txt`, exit0. Outputs `failure-observation.jsonl`, two diagnostic states, two fixed steps each; production unchanged. These are deliberately constructed failure inputs, not successful scenario flights.
 
 Impact: incoming velocity(40,-100)m/s, pitch0.2rad, omega0.4rad/s, fuel350000kg. First returned state and both render-visible finalstates contain zero velocity/pitch/omega/fuel. Per-step callback retained exactly one transition and its incoming state.
 

@@ -1,0 +1,81 @@
+/** One predeclared actual-step diagnostic, never a flight acceptance test.
+ *35km,3000m/s descending nose-first,45°grids, unchanged booster-sep fuel/seed.
+ * No temperature/damage injection or sweep; stop at first ownership loss,
+ * terminal, ground, or60s. Comparison evaluates cold hardware at identical
+ * live forcing using the nonmutating canonical control writer.
+ */
+import { writeFileSync } from 'node:fs';
+import { createScenarioVehicle, PRESETS } from '../../../src/core/scenarios';
+import { DEFAULT_SEED } from '../../../src/core/state';
+import { deg } from '../../../src/core/units';
+import { step } from '../../../src/core/step';
+import { cloneDamageState } from '../../../src/core/damage-state';
+import { damageModelFor } from '../../../src/core/physics/damage-model';
+import { createDamageControlForces, writeDamageControls } from '../../../src/core/physics/damage-controls';
+import { dynamicPressureLimit, TILE_LIMIT_KELVIN, gLimit } from '../../../src/core/constants';
+const DT = 1 / 120, CAP_SECONDS = 60;
+const base = PRESETS.find(p => p.id === 'booster-sep')!;
+const created = createScenarioVehicle({ ...base, id: 'custom', basedOn: base.id,
+  altitude: 35000, xPosition: 0, speedX: 0, speedY: -3000, pitch: deg(180), wind: 0 }, DEFAULT_SEED);
+let state = created.state;
+const vehicle = created.vehicle, model = damageModelFor(vehicle);
+state.status.finActive = true; state.status.finLocked = false;
+state.status.translationModeOn = true;
+state.vehicle.frontFinExtension = 100; state.vehicle.aftFinExtension = 50;
+state.autopilot.manualControlOn = true;
+const cold = cloneDamageState(state.damage!);
+const liveForces = createDamageControlForces(model.partition.components.length);
+const coldForces = createDamageControlForces(model.partition.components.length);
+const gridIndices = model.partition.components.flatMap((c, i) => c.kind === 'grid-fin' ? [i] : []);
+const index = gridIndices[0]!;
+const rows: unknown[] = [];
+let maxRoot = state.damage!.components[index]!.root.temperature;
+let maxAngleDelta = 0, maxLiftDelta = 0, maxDragDelta = 0;
+let steps = 0, stop = 'cap';
+rows.push({ declaration: { altitude_m: 35000, velocity_m_s: [0, -3000], pitch_deg: 180,
+  gridCommand_deg: 45, propellant_kg: state.vehicle.propellantMass, seed: DEFAULT_SEED,
+  dt_s: DT, cap_s: CAP_SECONDS, coldRoot_K: maxRoot,
+  limits: { dynamicPressure_kPa: dynamicPressureLimit, tile_K: TILE_LIMIT_KELVIN, felt_g: gLimit } } });
+for (; steps < CAP_SECONDS / DT; steps++) {
+  const previous = state;
+  state = step(state, DT, { pitchControl: 100, throttle: 0 }, vehicle);
+  const q = state.forces.dynamicPressure * 1000;
+  const incidence = Math.abs(Math.sin(state.kinematics.angleInToTheWind));
+  const command = (previous.vehicle.frontFinExtension - 50) / 50 * vehicle.gridFins!.maxAngle;
+  writeDamageControls(state.damage!, model.controls, q, incidence, command, 0, liveForces);
+  writeDamageControls(cold, model.controls, q, incidence, command, 0, coldForces);
+  const thermalMask = state.damage!.components.reduce((mask, c, i) => mask | (!c.root.valid && c.root.energy !== 0 ? 1 << i : 0), 0);
+  const root = state.damage!.components[index]!.root;
+  maxRoot = Math.max(maxRoot, root.temperature);
+  // Terminal removes all ownership; that zero authority is not thermal softening.
+  const healthy = !state.damage!.terminal.active && state.damage!.components[index]!.attached;
+  const angleDelta = healthy ? coldForces.loadedAngles[index]! - liveForces.loadedAngles[index]! : null;
+  const liftDelta = healthy ? q * (coldForces.gridLiftArea - liveForces.gridLiftArea) : null;
+  const dragDelta = healthy ? q * (coldForces.gridDragArea - liveForces.gridDragArea) : null;
+  if (angleDelta !== null) maxAngleDelta = Math.max(maxAngleDelta, angleDelta);
+  if (liftDelta !== null) maxLiftDelta = Math.max(maxLiftDelta, liftDelta);
+  if (dragDelta !== null) maxDragDelta = Math.max(maxDragDelta, dragDelta);
+  const done = state.damage!.terminal.active || state.damage!.revision > 0 || state.failures.crashed || state.status.onTheGround;
+  if (steps % 12 === 0 || done) rows.push({ time_s: (steps + 1) * DT,
+    altitude_m: state.kinematics.altitude, velocity_m_s: [state.kinematics.speedX, state.kinematics.speedY],
+    pitch_rad: state.kinematics.pitch, omega_rad_s: state.kinematics.angularVelocity,
+    incidence, q_Pa: q, flux_W_m2: state.forces.thermalPower,
+    tile_K: state.forces.surfaceTemperature, felt_g: state.forces.perceivedG,
+    root_K: root.temperature, rootEnergy_J: root.energy,
+    liveAngle_rad: liveForces.loadedAngles[index], coldAngle_rad: coldForces.loadedAngles[index],
+    thermalAngleReduction_rad: angleDelta, thermalLiftReduction_N: liftDelta, thermalDragReduction_N: dragDelta,
+    proofMask: liveForces.proofMask, domainMask: liveForces.domainMask, thermalMask,
+    revision: state.damage!.revision, gridAttached: gridIndices.map(i => state.damage!.components[i]!.attached),
+    terminal: state.damage!.terminal.active ? state.damage!.terminal : null });
+  if (done) { steps++; stop = state.damage!.terminal.active ? 'terminal' : 'component-or-ground'; break; }
+}
+const summary = { stop, steps, elapsed_s: steps * DT, maxRoot_K: maxRoot,
+  maxPreTerminalThermalAngleReduction_rad: maxAngleDelta,
+  maxPreTerminalThermalLiftReduction_N: maxLiftDelta,
+  maxPreTerminalThermalDragReduction_N: maxDragDelta,
+  terminalReason: state.damage!.terminal.reason, terminal: state.damage!.terminal.active,
+  coldReferenceUnchanged: JSON.stringify(cold) === JSON.stringify(cloneDamageState(created.state.damage!)),
+  inputStateThermalRoot_K: created.state.damage!.components[index]!.root.temperature };
+rows.push({ summary });
+writeFileSync(new URL('./live-exposure-diagnostic.jsonl', import.meta.url), rows.map(row => JSON.stringify(row)).join('\n') + '\n');
+console.log(JSON.stringify(summary, null, 2));

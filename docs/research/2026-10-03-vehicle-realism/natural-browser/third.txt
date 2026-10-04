@@ -1,0 +1,60 @@
+[WebServer] (node:23610) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:23611) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+  ✘  1 [chromium] › tests/e2e/vehicle-damage.spec.ts:47:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (7.8s)
+(node:23625) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+  ✘  2 [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:47:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (8.6s)
+
+
+  1) [chromium] › tests/e2e/vehicle-damage.spec.ts:47:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+
+    Error: page.evaluate: Error: no scenario 'flip'
+        at Object.startScenario (http://127.0.0.1:4378/assets/index-BuLuY5uZ.js:599:34254)
+        at Object.setScenario (http://127.0.0.1:4378/assets/debug-C99ULUMb.js:1:730)
+        at eval (eval at evaluate (:311:30), <anonymous>:1:25)
+        at UtilityScript.evaluate (<anonymous>:313:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at Object.startScenario (http://127.0.0.1:4378/assets/index-BuLuY5uZ.js:599:34254)
+        at Object.setScenario (http://127.0.0.1:4378/assets/debug-C99ULUMb.js:1:730)
+        at eval (eval at evaluate (:311:30), <anonymous>:1:25)
+        at UtilityScript.evaluate (<anonymous>:313:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:113:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-chromium/error-context.md
+
+  2) [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:47:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+
+    Error: page.evaluate: Error: no scenario 'flip'
+        at Object.startScenario (http://127.0.0.1:4378/assets/index-BuLuY5uZ.js:599:34254)
+        at Object.setScenario (http://127.0.0.1:4378/assets/debug-C99ULUMb.js:1:730)
+        at eval (eval at evaluate (:311:30), <anonymous>:1:25)
+        at UtilityScript.evaluate (<anonymous>:313:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at Object.startScenario (http://127.0.0.1:4378/assets/index-BuLuY5uZ.js:599:34254)
+        at Object.setScenario (http://127.0.0.1:4378/assets/debug-C99ULUMb.js:1:730)
+        at eval (eval at evaluate (:311:30), <anonymous>:1:25)
+        at UtilityScript.evaluate (<anonymous>:313:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:113:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-pixel-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-pixel-portrait/error-context.md
+
+  2 failed
+    [chromium] › tests/e2e/vehicle-damage.spec.ts:47:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+    [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:47:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 

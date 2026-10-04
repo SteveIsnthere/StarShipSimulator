@@ -1,0 +1,207 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/control-contracts.test.ts (38 tests | 4 failed) 106ms
+     × is full thrust straight up, zero sideways, and negative upside down 4ms
+     × reaches the commanded TWR from 60% actual throttle without counting it twice 4ms
+     × reaches the commanded TWR when it is achievable 1ms
+     × horizontal: inside the threshold it eases rather than saturating 0ms
+ ❯ |unit| tests/core/thrust-altitude.test.ts (15 tests | 2 failed) 19ms
+     × but mass flow does NOT — it is set by the pumps, not the altitude 6ms
+     × the launch-pad scenario at full throttle makes 7% more thrust at 30 km than on the pad 6ms
+ ❯ |unit| tests/core/rvac.test.ts (13 tests | 5 failed) 22ms
+     × makes 258 tf in vacuum at 380 s 5ms
+     × flows at its own rate, and six engines add up 1ms
+     × with a sea-level engine lit too, only its thrust steers 1ms
+     × RVacs alone at pitch 60° with the gimbal deflected: cos(pitch), not cos(gimbal direction) 0ms
+     × mixed: each kind along its own direction; sea-level only: the old expression to the bit 0ms
+ ❯ |unit| tests/core/collapsed-trig.test.ts (11 tests | 1 failed) 87ms
+     × the seventh ladder, inlined in primitives, is collapsed too 5ms
+ ❯ |unit| tests/core/domain-edges.test.ts (28 tests | 1 failed) 485ms
+     × is the lower throttle limit applied to every running engine 3ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/collapsed-trig.test.ts > the shipped coefficient is the single expression > the seventh ladder, inlined in primitives, is collapsed too
+AssertionError: expected -7872310.779816514 to be -7242525.9174311925 // Object.is equality
+
+- Expected
++ Received
+
+- -7242525.9174311925
++ -7872310.779816514
+
+ ❯ tests/core/collapsed-trig.test.ts:94:64
+     92|     const running = [true, true, true];
+     93|     for (const angle of ANGLES) {
+     94|       expect(getEffectiveVerticalMaxThrust(running, angle, 0)).toBe(
+       |                                                                ^
+     95|         3 * RAPTOR_THRUST_VACUUM * Math.cos(angle),
+     96|       );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/13]⎯
+
+ FAIL  |unit| tests/core/control-contracts.test.ts > the vertical thrust projection > is full thrust straight up, zero sideways, and negative upside down
+AssertionError: expected 7354987.5 to be close to 6766588.5, received difference is 588399, but expected 5e-7
+ ❯ tests/core/control-contracts.test.ts:112:75
+    110|     // M11.2: sea-level pressure, so `full` is the sea-level anchor.
+    111|     const full = 3 * C.maxThrustPerRaptor;
+    112|     expect(getEffectiveVerticalMaxThrust(running, rad(0), SEA_LEVEL_KP…
+       |                                                                           ^
+    113|     expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI / 2), SE…
+    114|     expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI), SEA_LE…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/13]⎯
+
+ FAIL  |unit| tests/core/control-contracts.test.ts > controlEnginebyTWR keeps the throttle inside the engine limits > reaches the commanded TWR from 60% actual throttle without counting it twice
+AssertionError: expected 3.445250066591121 to be close to 2, received difference is 1.4452500665911212, but expected 5e-7
+ ❯ tests/core/control-contracts.test.ts:131:22
+    129|       localGravity(s),
+    130|     );
+    131|     expect(achieved).toBeCloseTo(goalTWR, 6);
+       |                      ^
+    132|   });
+    133|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/13]⎯
+
+ FAIL  |unit| tests/core/control-contracts.test.ts > controlEnginebyTWR keeps the throttle inside the engine limits > reaches the commanded TWR when it is achievable
+AssertionError: expected 1.104 to be close to 1.2, received difference is 0.09599999999999986, but expected 5e-7
+ ❯ tests/core/control-contracts.test.ts:145:22
+    143|       localGravity(s),
+    144|     );
+    145|     expect(achieved).toBeCloseTo(goalTWR, 6);
+       |                      ^
+    146|   });
+    147|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/13]⎯
+
+ FAIL  |unit| tests/core/control-contracts.test.ts > the speed adjustments choose a side and commit to it > horizontal: inside the threshold it eases rather than saturating
+AssertionError: expected 100 to be less than 100
+ ❯ tests/core/control-contracts.test.ts:315:34
+    313|
+    314|     expect(near.vehicle.throttle).toBeGreaterThan(C.throttleLowerLimit…
+    315|     expect(far.vehicle.throttle).toBeLessThan(C.throttleUpperLimit);
+       |                                  ^
+    316|     expect(near.vehicle.throttle).toBeLessThan(far.vehicle.throttle);
+    317|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/13]⎯
+
+ FAIL  |unit| tests/core/domain-edges.test.ts > minimum thrust is what the shutdown logic reasons about > is the lower throttle limit applied to every running engine
+AssertionError: 1 lit: expected 1049641.4373088686 to be close to 965670.122324159, received difference is 83971.3149847096, but expected 5e-7
+ ❯ tests/core/domain-edges.test.ts:378:61
+    376|       const running = [false, false, false].map((_, i) => i < count);
+    377|       const expected = count * C.RAPTOR_THRUST_VACUUM * C.throttleLowe…
+    378|       expect(getTotalMinThrust(running, 0), `${count} lit`).toBeCloseT…
+       |                                                             ^
+    379|     }
+    380|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/13]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > an RVac is its own engine > makes 258 tf in vacuum at 380 s
+AssertionError: expected 2696828.75 to be 2530115.6999999997 // Object.is equality
+
+- Expected
++ Received
+
+- 2530115.6999999997
++ 2696828.75
+
+ ❯ tests/core/rvac.test.ts:38:77
+     36| describe('an RVac is its own engine', () => {
+     37|   it('makes 258 tf in vacuum at 380 s', () => {
+     38|     expect(getTotalMaxThrust([false, false, false, true, false, false]…
+       |                                                                             ^
+     39|     expect(C.RVAC_THRUST_VACUUM / (C.RVAC_MASS_FLOW * C.standardGravit…
+     40|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/13]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > an RVac is its own engine > flows at its own rate, and six engines add up
+AssertionError: expected 2171.0526315789475 to be close to 2036.842105263158, received difference is 134.2105263157896, but expected 5e-10
+ ❯ tests/core/rvac.test.ts:57:46
+     55|
+     56|   it('flows at its own rate, and six engines add up', () => {
+     57|     expect(getFuelFlowRate(ONLY_RVACS, 100)).toBeCloseTo(3 * C.RVAC_MA…
+       |                                              ^
+     58|     expect(getFuelFlowRate([true, true, true, true, true, true], 100))…
+     59|       3 * C.RVAC_MASS_FLOW + 3 * C.maxFuelFlowPerRaptor,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/13]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > the RVacs are fixed: they push along the hull and do not steer > with a sea-level engine lit too, only its thrust steers
+AssertionError: expected 545581.8140649808 to be close to 501935.2689397823, received difference is 43646.54512519855, but expected 0.0005
+ ❯ tests/core/rvac.test.ts:119:40
+    117|     const s = step(vacuumOnly(80, true), 1 / 120);
+    118|     const seaLevel = C.thrustPerRaptorAt(s.atmosphere.airPressure);
+    119|     expect(s.forces.thrustVectorForce).toBeCloseTo(
+       |                                        ^
+    120|       seaLevel * Math.sin(0.8 * C.gimbalAngleLimit),
+    121|       3,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/13]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > the vertical throttle law projects the RVacs along the hull > RVacs alone at pitch 60° with the gimbal deflected: cos(pitch), not cos(gimbal direction)
+AssertionError: expected 4045243.125000001 to be close to 3795173.55, received difference is 250069.57500000112, but expected 0.0005
+ ❯ tests/core/rvac.test.ts:133:79
+    131|     const pitch = rad(Math.PI / 3);
+    132|     const gimbalDirection = rad(Math.PI / 3 - (15 * Math.PI) / 180);
+    133|     expect(getEffectiveVerticalMaxThrust(running, gimbalDirection, p, …
+       |                                                                               ^
+    134|   });
+    135|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/13]⎯
+
+ FAIL  |unit| tests/core/rvac.test.ts > the vertical throttle law projects the RVacs along the hull > mixed: each kind along its own direction; sea-level only: the old expression to the bit
+AssertionError: expected 4990845.683029082 to be close to 4636740.642370947, received difference is 354105.04065813497, but expected 0.0005
+ ❯ tests/core/rvac.test.ts:142:63
+    140|     const g = rad(0.3);
+    141|     const expected = C.thrustPerRaptorAt(p) * Math.cos(0.3) + C.thrust…
+    142|     expect(getEffectiveVerticalMaxThrust(mixed, g, p, pitch)).toBeClos…
+       |                                                               ^
+    143|     const seaLevel = [true, true, true, false, false, false];
+    144|     expect(getEffectiveVerticalMaxThrust(seaLevel, g, p, pitch)).toBe(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/13]⎯
+
+ FAIL  |unit| tests/core/thrust-altitude.test.ts > the engine model threads the pressure through > but mass flow does NOT — it is set by the pumps, not the altitude
+AssertionError: expected 2293.5779816513764 to be 2110.091743119266 // Object.is equality
+
+- Expected
++ Received
+
+- 2110.091743119266
++ 2293.5779816513764
+
+ ❯ tests/core/thrust-altitude.test.ts:157:39
+    155|     // altitude, buying more thrust as the air thins. getFuelFlowRate …
+    156|     // pressure and there is no version that does.
+    157|     expect(getFuelFlowRate(ALL, 100)).toBe(3 * C.RAPTOR_MASS_FLOW);
+       |                                       ^
+    158|     expect(getFuelFlowRate.length).toBe(2);
+    159|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/13]⎯
+
+ FAIL  |unit| tests/core/thrust-altitude.test.ts > flown: an ascent gains thrust it did not have before > the launch-pad scenario at full throttle makes 7% more thrust at 30 km than on the pad
+AssertionError: expected 7356580.191085866 to be close to 6768053.775798996, received difference is 588526.4152868697, but expected 5e-7
+ ❯ tests/core/thrust-altitude.test.ts:186:23
+    184|     // pressure a hair under 101.325 kPa: the thrust is what the curve…
+    185|     // THAT pressure exactly, and within 0.1% of the sea-level anchor.
+    186|     expect(padThrust).toBeCloseTo(3 * C.thrustPerRaptorAt(onPad.atmosp…
+       |                       ^
+    187|     expect(padThrust / (3 * C.RAPTOR_THRUST_SEA_LEVEL)).toBeCloseTo(1,…
+    188|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/13]⎯
+
+
+ Test Files  5 failed (5)
+      Tests  13 failed | 92 passed (105)
+   Start at  15:50:41
+   Duration  1.18s (transform 1.37s, setup 0ms, import 1.96s, tests 719ms, environment 0ms)
+

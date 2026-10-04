@@ -1,0 +1,69 @@
+/** Supplemental one-tick endpoint witness, injected root heat; no flight tuning. */
+import { writeFileSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import assert from 'node:assert/strict';
+import { createInitialState } from '../../../src/core/state';
+import { SUPER_HEAVY } from '../../../src/core/vehicles/super-heavy';
+import { rad } from '../../../src/core/units';
+import { advanceFreeBody } from '../../../src/core/mission-free-flight';
+import { damageModelFor } from '../../../src/core/physics/damage-model';
+import { steelSpecificEnthalpy } from '../../../src/core/physics/damage-material';
+import { createDamageMassProperties } from '../../../src/core/physics/damage-mass';
+import { writeFlightMassQuery } from '../../../src/core/physics/flight-mass-query';
+import { createBoosterThrustRequest, writeBoosterThrustRequest, boosterDeliveredThrottle } from '../../../src/core/control/booster-arrival';
+import { getTotalMaxThrust, gimballedShare } from '../../../src/core/physics/engines';
+
+const model = SUPER_HEAVY, catalogue = damageModelFor(model), rows: unknown[] = [];
+for (const warm of [false, true]) {
+  const initial = createInitialState(123, model);
+  initial.kinematics.altitude = 20000; initial.kinematics.speedY = -600;
+  initial.kinematics.pitch = rad(.12); initial.kinematics.angularVelocity = .4;
+  initial.vehicle.propellantMass = 1000000;
+  initial.vehicle.throttle = initial.vehicle.throttleCurrent = 60;
+  initial.vehicle.gimbalPosition = 20;
+  initial.vehicle.frontFinExtension = initial.vehicle.aftFinExtension = 100;
+  initial.status.finActive = true;
+  initial.engines.running.fill(false); for (let i=0;i<13;i++) initial.engines.running[i]=true;
+  if (warm) for (const [index,part] of catalogue.partition.components.entries()) if (part.kind==='grid-fin') {
+    const root=initial.damage!.components[index]!.root;
+    root.temperature=1160; root.energy=part.rootMass*steelSpecificEnthalpy(1160);
+  }
+  let observed=false;
+  advanceFreeBody(initial, 1/120, {}, model, state=>{
+    observed=true;
+    const retained=createDamageMassProperties();writeFlightMassQuery(state,model,retained);
+    const paidMass=model.dryMass+state.vehicle.propellantMass;
+    const paidAcceleration=state.forces.thrust/paidMass;
+    assert.equal(state.forces.thrustAcceleration,paidAcceleration);
+    assert.equal(gimballedShare(state.engines.running,state.atmosphere.airPressure,model),1);
+    assert.equal(state.damage!.terminal.active,false);
+    const ax=0, ay=10, direction=state.vehicle.gimbalPointingDirection;
+    const expectedRequiredX=ax-(state.kinematics.accelerationX-paidAcceleration*Math.sin(direction));
+    const expectedRequiredY=ay-(state.kinematics.accelerationY-paidAcceleration*Math.cos(direction));
+    const actual=createBoosterThrustRequest();writeBoosterThrustRequest(state,ax,ay,model,actual);
+    const max=getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/retained.totalMass;
+    const expectedThrottle=Math.max(40,Math.min(100,100*Math.max(0,expectedRequiredY)/(max*Math.cos(direction))));
+    const actualThrottle=boosterDeliveredThrottle(state,ay,model);
+    const error={x:actual.requiredX-expectedRequiredX,y:actual.requiredY-expectedRequiredY,throttle:actualThrottle-expectedThrottle};
+    if(warm){assert.ok(state.damage!.revision>0);assert.ok(error.y>0);}else assert.equal(error.y,0);
+    rows.push({warm,revision:state.damage!.revision,terminal:state.damage!.terminal.active,attached:state.damage!.components.map(c=>c.attached),
+      q_kPa:state.forces.dynamicPressure,skin_K:state.forces.surfaceTemperature,felt_g:state.forces.perceivedG,
+      paidMass_kg:paidMass,retainedMass_kg:retained.totalMass,paidThrust_N:state.forces.thrust,
+      storedPaidAcceleration_m_s2:state.forces.thrustAcceleration,incomingGimbalDirection_rad:direction,endpointPitch_rad:state.kinematics.pitch,
+      expectedRequiredX,expectedRequiredY,actualRequiredX:actual.requiredX,actualRequiredY:actual.requiredY,
+      actualThrottle,expectedThrottle,error});
+    // Read-only inventory-change probe on a clone is unnecessary: restore only
+    // the local test state's current engine mask after its paid observation.
+    if(!warm){
+      const original=state.engines.running.slice();state.engines.running.fill(true);
+      const maskChange=createBoosterThrustRequest();writeBoosterThrustRequest(state,ax,ay,model,maskChange);
+      rows.push({label:'same paid interval, next requested all33 inventory (supplemental endpoint mask probe)',
+        oldPaidShare:1,currentShare:gimballedShare(state.engines.running,state.atmosphere.airPressure,model),
+        requiredError_m_s2:[maskChange.requiredX-expectedRequiredX,maskChange.requiredY-expectedRequiredY]});
+      state.engines.running.splice(0,state.engines.running.length,...original);
+    }
+  });assert.ok(observed);
+}
+const paths=['src/core/control/booster-arrival.ts','src/core/physics/step-dynamics.ts','src/core/physics/damage-flight.ts','src/core/control/mechanical.ts','src/core/mission-free-flight.ts'];
+rows.unshift({label:'injected-root supplemental one canonical endpoint, not natural proof',hashes:Object.fromEntries(paths.map(p=>[p,createHash('sha256').update(readFileSync(p)).digest('hex')]))});
+writeFileSync(new URL('./paid-force-epoch-witness.json',import.meta.url),JSON.stringify(rows,null,2)+'\n');console.log(JSON.stringify(rows,null,2));
