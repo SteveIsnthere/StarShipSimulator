@@ -1,0 +1,133 @@
+/* Concrete DRAFT additions to tests/proofs/burn-preparation.test.ts.
+ * Uncollected and unexecuted; parent review/source grant required to install.
+ * Reuses exact(), seededScratch(factory), before/current and old/current modules.
+ * All expected scratches are built by the frozen factory. No wall-clock asserts. */
+
+it('public helpers keep IEEE pressure edges independently of the scalar candidate', () => {
+  for (const pressure of [-Infinity, -101.325, -0, 0, Number.MIN_VALUE, 1, 101.325, 1000, Infinity, NaN]) {
+    for (const kind of ['sea-level', 'vacuum'] as const)
+      exact(propulsion.engineThrust(V3_PROPULSION, kind, pressure), oldPropulsion.engineThrust(V3_PROPULSION, kind, pressure));
+  }
+  for (const angle of [-Infinity, -0, 0, .01, Math.PI / 2, Infinity, NaN]) {
+    for (const area of [-0, 0, 10, Infinity, NaN])
+      exact(aero.getCrossSectionalArea(angle as never, area, SUPER_HEAVY), oldAero.getCrossSectionalArea(angle as never, area, SUPER_HEAVY));
+  }
+});
+
+it('before-call helper wrappers keep original call logs and source-oracle outputs', () => {
+  const run = (old: boolean, changed: 'flow' | 'thrust' | 'area') => {
+    const physics = old ? oldPropulsion : propulsion, shapes = old ? oldAero : aero;
+    const solver = old ? before : current, scratch = seededScratch(solver.createBurnScratch);
+    const log: unknown[] = [];
+    let restore: (() => void) | undefined;
+    if (changed === 'flow') {
+      const original = physics.engineMassFlow;
+      const spy = vi.spyOn(physics, 'engineMassFlow').mockImplementation((...args) => { log.push(['flow', args[1]]); return original(...args) * .99; });
+      restore = () => spy.mockRestore();
+    } else if (changed === 'thrust') {
+      const original = physics.engineThrust;
+      const spy = vi.spyOn(physics, 'engineThrust').mockImplementation((...args) => { log.push(['thrust', args[1], args[2]]); return original(...args) * .99; });
+      restore = () => spy.mockRestore();
+    } else {
+      const original = shapes.getCrossSectionalArea;
+      const spy = vi.spyOn(shapes, 'getCrossSectionalArea').mockImplementation((...args) => { log.push(['area', args[0], args[1]]); return original(...args) * 1.01; });
+      restore = () => spy.mockRestore();
+    }
+    try { return { result: solver.landingBurnStartAltitude(3, 330000, 30, 90.5, scratch, SUPER_HEAVY), scratch, log }; }
+    finally { restore?.(); }
+  };
+  for (const changed of ['flow', 'thrust', 'area'] as const) exact(run(false, changed), run(true, changed));
+});
+
+it('mid-call flow and thrust replacement stays at original dependency-read sites', () => {
+  const error = new Error('late helper failure');
+  const run = (old: boolean, mode: 'thrust-at-ISA' | 'thrust-at-pressure' | 'flow-at-ISA', throwing: boolean) => {
+    const physics = old ? oldPropulsion : propulsion, solver = old ? before : current;
+    const scratch = seededScratch(solver.createBurnScratch), log: unknown[] = [];
+    let installed = false, helperCalls = 0, restore: (() => void) | undefined;
+    const install = () => {
+      if (installed) return; installed = true;
+      if (mode === 'flow-at-ISA') {
+        const original = physics.engineMassFlow;
+        const spy = vi.spyOn(physics, 'engineMassFlow').mockImplementation((...args) => {
+          log.push(['flow', args[1]]); if (throwing && ++helperCalls === 2) throw error;
+          return original(...args) * .99;
+        });
+        restore = () => spy.mockRestore();
+      } else {
+        const original = physics.engineThrust;
+        const spy = vi.spyOn(physics, 'engineThrust').mockImplementation((...args) => {
+          log.push(['thrust', args[1], args[2]]); if (throwing && ++helperCalls === 2) throw error;
+          return original(...args) * .99;
+        });
+        restore = () => spy.mockRestore();
+      }
+    };
+    const key = mode === 'thrust-at-pressure' ? 'airPressure' : 'airTemperature';
+    let value = scratch.atmosphere[key];
+    Object.defineProperty(scratch.atmosphere, key, { enumerable: true, configurable: true,
+      get: () => { if (mode === 'thrust-at-pressure') install(); return value; },
+      set: (next: number) => { value = next; if (mode !== 'thrust-at-pressure') install(); },
+    });
+    let result: number | null | undefined, caught: unknown;
+    try { result = solver.landingBurnStartAltitude(3, 330000, 30, 90.5, scratch, SUPER_HEAVY); } catch (e) { caught = e; }
+    finally { restore?.(); }
+    return { result, caught, scratch, log };
+  };
+  for (const mode of ['thrust-at-ISA', 'thrust-at-pressure', 'flow-at-ISA'] as const) for (const throwing of [false, true]) {
+    const expected = run(true, mode, throwing), actual = run(false, mode, throwing);
+    exact(actual.result, expected.result); exact(actual.scratch, expected.scratch); exact(actual.log, expected.log);
+    expect(actual.caught).toBe(expected.caught);
+    if (throwing) expect(actual.caught).toBe(error);
+  }
+});
+
+it('density/area side effects retain getDrag callee-before-arguments order and throws', () => {
+  const error = new Error('replacement drag failure');
+  const run = (old: boolean, throwing: boolean) => {
+    const shapes = old ? oldAero : aero, solver = old ? before : current;
+    const scratch = seededScratch(solver.createBurnScratch), log: unknown[] = [];
+    const originalArea = shapes.getCrossSectionalArea, originalDrag = shapes.getDrag;
+    const restores: Array<() => void> = [];
+    let density = scratch.atmosphere.airDensity, installed = false, dragInstalled = false, dragCalls = 0;
+    Object.defineProperty(scratch.atmosphere, 'airDensity', { enumerable: true, configurable: true,
+      get: () => {
+        log.push('density');
+        if (!installed) {
+          installed = true;
+          const spy = vi.spyOn(shapes, 'getCrossSectionalArea').mockImplementation((...args) => {
+            log.push('area');
+            if (!dragInstalled) {
+              dragInstalled = true;
+              const drag = vi.spyOn(shapes, 'getDrag').mockImplementation((...dragArgs) => {
+                log.push('new-drag'); if (throwing && ++dragCalls === 2) throw error;
+                return originalDrag(...dragArgs) * 1.01;
+              });
+              restores.push(() => drag.mockRestore());
+            }
+            return originalArea(...args);
+          });
+          restores.push(() => spy.mockRestore());
+        }
+        return density;
+      },
+      set: (next: number) => { density = next; },
+    });
+    let result: number | null | undefined, caught: unknown;
+    try { result = solver.landingBurnStartAltitude(3, 330000, 30, 90.5, scratch, SUPER_HEAVY); } catch (e) { caught = e; }
+    finally { for (const restore of restores.reverse()) restore(); }
+    return { result, caught, scratch, log };
+  };
+  for (const throwing of [false, true]) {
+    const expected = run(true, throwing), actual = run(false, throwing);
+    exact(actual.result, expected.result); exact(actual.scratch, expected.scratch); exact(actual.log, expected.log);
+    expect(actual.caught).toBe(expected.caught);
+    if (throwing) expect(actual.caught).toBe(error);
+  }
+});
+
+// Additional separate full/partial mock collection is the concrete dynamic-import
+// example in burn-preparation-additional-proofs.ts.txt. Add analogous aero absence
+// and partial importActual engine/area cases, with exact independent scratch and
+// mirrored logs. Predicate spy self-validation must be tested before AND midcall.
+// These snippets need independent review before source installation; no green claim.

@@ -1,0 +1,26 @@
+/** Outer validator only AFTER declared child exit and before/after pin checks. */
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const dir=process.argv[2];if(!dir)throw Error('Exact receipt required');
+const read=n=>JSON.parse(fs.readFileSync(`${dir}/${n}`,'utf8'));
+assert.deepEqual(read('before-pins.json'),read('after-pins.json'));
+assert.deepEqual(read('runner-closed.json'),{closed:true,unhandledErrors:0,fileErrors:0,nativeExitCode:1});
+assert.equal(fs.existsSync(`${dir}/runner-failure.json`),false);
+assert.equal(fs.readFileSync(`${dir}/exit-status.txt`,'utf8').trim(),'1');
+const report=read('test-results.json'),raw=read('raw-observations.json');
+const fail=new Set(['body-fail','afterEach-fail','finished-fail','aroundEach-fail','fixture-fail','timeout']);
+const names=['pass','body-fail','afterEach-fail','finished-fail','aroundEach-fail','fixture-fail','timeout','dynamic-skip','expected-failure','retry','repeat','concurrent'];
+assert.equal(report.numTotalTests,24);assert.equal(report.numFailedTests,6);assert.equal(report.numPendingTests,1);assert.equal(report.numPassedTests,17);
+assert.equal(report.testResults.length,1);
+const tests=report.testResults.flatMap(f=>f.assertionResults);
+assert.equal(tests.length,24);
+assert.deepEqual([...tests.map(t=>t.fullName)].sort(),names.flatMap(n=>[`${n} producer`,`${n} consumer`]).sort());
+for(const kind of names){
+ const producer=tests.find(t=>t.fullName===`${kind} producer`),consumer=tests.find(t=>t.fullName===`${kind} consumer`);
+ assert.equal(consumer.status,'passed');assert.equal(producer.status,fail.has(kind)?'failed':kind==='dynamic-skip'?'pending':'passed');
+ const row=raw.find(r=>r.kind===kind);assert.ok(row);assert.equal(row.runs,kind==='pass'?1:kind==='retry'||kind==='repeat'?3:2);
+ assert.equal(row.producer.result.state,fail.has(kind)?'fail':kind==='dynamic-skip'?'skip':'pass');
+}
+assert.equal(raw.length,12);
+// Intentional exit1 alone is never proof. This wx receipt exists only after ALL
+// child/report/lifecycle/counter/pin checks have completed in the outer process.
+fs.writeFileSync(`${dir}/finalized-proof.json`,JSON.stringify({publicRunnerLifecycleValidated:true,childExit:1,tests:24,consumers:12,productFlightAcceptance:false},null,2)+'\n',{flag:'wx'});

@@ -1,0 +1,12 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ tests/core/guidance-physics.timing.test.ts (3 tests) 598ms
+     ✓ stays under 1 ms a call on a long descending arc under the entry interface  408ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  09:08:55
+   Duration  1.91s (transform 240ms, setup 0ms, import 1.18s, tests 598ms, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance.report.json

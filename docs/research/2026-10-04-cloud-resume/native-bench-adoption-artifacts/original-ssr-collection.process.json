@@ -1,0 +1,55 @@
+{
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "failure": null,
+  "bytes": {
+    "stdout": 0,
+    "stderr": 0
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 31578,
+    "start": "1395596",
+    "group": 31578,
+    "session": 31578,
+    "tracked": [
+      {
+        "pid": 31578,
+        "state": "R",
+        "parent": 31332,
+        "group": 31578,
+        "session": 31578,
+        "start": "1395596"
+      },
+      {
+        "pid": 31602,
+        "state": "S",
+        "parent": 31578,
+        "group": 31578,
+        "session": 31578,
+        "start": "1395627"
+      },
+      {
+        "pid": 31621,
+        "state": "R",
+        "parent": 31578,
+        "group": 31578,
+        "session": 31578,
+        "start": "1395688"
+      },
+      {
+        "pid": 31628,
+        "state": "R",
+        "parent": 31578,
+        "group": 31578,
+        "session": 31578,
+        "start": "1395735"
+      }
+    ],
+    "executing": []
+  }
+}

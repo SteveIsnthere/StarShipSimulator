@@ -1,0 +1,63 @@
+{
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "failure": null,
+  "bytes": {
+    "stdout": 0,
+    "stderr": 0
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 31339,
+    "start": "1393360",
+    "group": 31339,
+    "session": 31339,
+    "tracked": [
+      {
+        "pid": 31339,
+        "state": "S",
+        "parent": 31332,
+        "group": 31339,
+        "session": 31339,
+        "start": "1393360"
+      },
+      {
+        "pid": 31346,
+        "state": "S",
+        "parent": 31339,
+        "group": 31346,
+        "session": 31346,
+        "start": "1393363"
+      },
+      {
+        "pid": 31353,
+        "state": "S",
+        "parent": 31346,
+        "group": 31346,
+        "session": 31346,
+        "start": "1393366"
+      },
+      {
+        "pid": 31360,
+        "state": "S",
+        "parent": 31339,
+        "group": 31360,
+        "session": 31360,
+        "start": "1393384"
+      },
+      {
+        "pid": 31367,
+        "state": "S",
+        "parent": 31360,
+        "group": 31360,
+        "session": 31360,
+        "start": "1393387"
+      }
+    ],
+    "executing": []
+  }
+}

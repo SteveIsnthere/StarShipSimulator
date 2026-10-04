@@ -1,0 +1,76 @@
+/** Proposed unit-only helper. Not installed or executed. */
+import {isDeepStrictEqual} from 'node:util';
+import type {RunnerTestCase} from 'vitest';
+
+export interface FlightRecipe {
+ id:'booster-sep'|'rtls'; initial:unknown; model:object; modelTree:unknown;
+ dt:number; steps:108000; input:'fresh-empty-object'; stop:'first-landed-crashed-breakup';
+ operations:readonly Function[]; trace:string|undefined; eventInputs:string|undefined;
+}
+export function emitGuidanceObservation(id:string,value:{trace:unknown;eventInputs:unknown},flags:{trace?:string;eventInputs?:string},log:(line:string)=>void,write:(file:string,text:string)=>void):void{
+ if(flags.trace==='1')log(JSON.stringify(value.trace));
+ if(flags.eventInputs)write(`${flags.eventInputs}-${id}.json`,JSON.stringify(value.eventInputs,null,2));
+}
+function ordinary(task:RunnerTestCase):boolean{
+ return task.mode==='run'&&!task.concurrent&&!task.fails&&!task.shuffle
+  &&(task.retry===undefined||task.retry===0)&&(task.repeats===undefined||task.repeats===0);
+}
+function finalizedPass(task:RunnerTestCase):boolean{
+ const r=task.result;
+ return ordinary(task)&&r?.state==='pass'&&!r.errors?.length
+  &&!(r.retryCount??0)&&!(r.repeatCount??0)
+  &&Object.values(r.hooks??{}).every(s=>s==='pass');
+}
+function same(a:FlightRecipe,b:FlightRecipe):boolean{
+ return a.id===b.id&&a.model===b.model&&Object.is(a.dt,b.dt)&&a.steps===b.steps
+  &&a.input===b.input&&a.stop===b.stop&&a.trace===b.trace&&a.eventInputs===b.eventInputs
+  &&a.operations.length===b.operations.length&&a.operations.every((f,i)=>f===b.operations[i])
+  &&isDeepStrictEqual(a.initial,b.initial)&&isDeepStrictEqual(a.modelTree,b.modelTree);
+}
+/** Plain data only; cycles/shared graph links and exact primitive values survive.
+ * External model/function references retain identity and are never frozen. */
+export function ownedGraph<T>(value:T,external:ReadonlySet<object>,freeze=false):T{
+ const seen=new WeakMap<object,object>();
+ function copy(v:any):any{
+  if(v===null||typeof v!=='object')return v;
+  if(external.has(v))return v;
+  const prior=seen.get(v);if(prior)return prior;
+  const proto=Object.getPrototypeOf(v);
+  if(!Array.isArray(v)&&proto!==Object.prototype&&proto!==null)throw Error('Unsupported mutable observation type');
+  const out:any=Array.isArray(v)?[]:Object.create(proto);seen.set(v,out);
+  for(const key of Reflect.ownKeys(v)){
+   if(Array.isArray(v)&&key==='length')continue;
+   const d=Object.getOwnPropertyDescriptor(v,key)!;
+   if(!('value' in d))throw Error('Observation accessor cannot be shared');
+   Object.defineProperty(out,key,{value:copy(d.value),enumerable:d.enumerable,writable:true,configurable:true});
+  }
+  if(Array.isArray(v))out.length=v.length;
+  if(freeze)Object.freeze(out);return out;
+ }
+ return copy(value);
+}
+/** Exactly two invocation-local slots, never cross-file/process/source caching.
+ * A stored result is TENTATIVE. Only a later sequential public task may admit it. */
+export function createDefaultFlightObservations<T>(externalModels:readonly object[]){
+ const external=new Set(externalModels);
+ const slots=new Map<FlightRecipe['id'],{recipe:FlightRecipe;producer:RunnerTestCase;observation:T}>();
+ return{
+  get(task:RunnerTestCase,recipe:FlightRecipe,run:()=>T):T{
+   const prior=slots.get(recipe.id);
+   if(prior&&prior.producer!==task&&ordinary(task)&&finalizedPass(prior.producer)&&same(prior.recipe,recipe)){
+    return ownedGraph(prior.observation,external);
+   }
+   // Invalid/failed/mismatched producers are never retried here. This named
+   // contract pays its own original run, as it did before sharing was proposed.
+   slots.delete(recipe.id);
+   let admittedRecipe:FlightRecipe|undefined;
+   if(ordinary(task)){try{admittedRecipe=ownedGraph(recipe,external,true);}catch{}}
+   const result=run();
+   if(admittedRecipe){
+    try{slots.set(recipe.id,{recipe:admittedRecipe,producer:task,observation:ownedGraph(result,external,true)});}
+    catch{slots.delete(recipe.id);} // unsupported ownership declines sharing
+   }
+   return result;
+  },
+ };
+}

@@ -1,0 +1,175 @@
+{
+  "schema": 1,
+  "classification": "Lossless immutable historical harness/source snapshots, original receipts retain original episode paths",
+  "lintReportSha256": "601db86123d28c66430d1c0ec5f152a63ea1ebd504897c7758a729a231a6facc",
+  "files": [
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-fullchrome-functional-artifacts/run-fullchrome-swiftshader-worker.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-fullchrome-functional-artifacts/run-fullchrome-swiftshader-worker.mjs.txt",
+      "sha256": "c164ecd77f62b3aa437ab00b775beca64e230d4399373d7723ace2eda4ab9eb0",
+      "bytes": 32884,
+      "mode": "0o600",
+      "lintErrors": 11
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-budget-collection-failure-artifacts/isolated-budget-boundary.ts",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-budget-collection-failure-artifacts/isolated-budget-boundary.ts.txt",
+      "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7",
+      "bytes": 7726,
+      "mode": "0o600",
+      "lintErrors": 5
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-budget-collection-failure-artifacts/isolated-budget-cleanup.ts",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-budget-collection-failure-artifacts/isolated-budget-cleanup.ts.txt",
+      "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f",
+      "bytes": 3758,
+      "mode": "0o600",
+      "lintErrors": 5
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-artifacts/isolated-budget-boundary.ts",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-artifacts/isolated-budget-boundary.ts.txt",
+      "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7",
+      "bytes": 7726,
+      "mode": "0o600",
+      "lintErrors": 5
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-artifacts/isolated-budget-cleanup.ts",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-artifacts/isolated-budget-cleanup.ts.txt",
+      "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f",
+      "bytes": 3758,
+      "mode": "0o600",
+      "lintErrors": 5
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-independent-review-artifacts/isolated-budget-boundary.ts",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-independent-review-artifacts/isolated-budget-boundary.ts.txt",
+      "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7",
+      "bytes": 7726,
+      "mode": "0o600",
+      "lintErrors": 5
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-independent-review-final/isolated-budget-boundary.ts",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-independent-review-final/isolated-budget-boundary.ts.txt",
+      "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7",
+      "bytes": 7726,
+      "mode": "0o600",
+      "lintErrors": 5
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-independent-review-final/isolated-budget-cleanup.ts",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-independent-review-final/isolated-budget-cleanup.ts.txt",
+      "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f",
+      "bytes": 3758,
+      "mode": "0o600",
+      "lintErrors": 5
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-worker-artifacts/reviewed-run-isolated-swiftshader-worker.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-worker-artifacts/reviewed-run-isolated-swiftshader-worker.mjs.txt",
+      "sha256": "60eb166f014b3afc3cc7be2ca9dfad6ffe395861a1a7e979b5913bb4ffb11503",
+      "bytes": 25424,
+      "mode": "0o600",
+      "lintErrors": 2
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-worker-independent-review-artifacts/run-isolated-swiftshader-worker.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-isolated-worker-independent-review-artifacts/run-isolated-swiftshader-worker.mjs.txt",
+      "sha256": "60eb166f014b3afc3cc7be2ca9dfad6ffe395861a1a7e979b5913bb4ffb11503",
+      "bytes": 25424,
+      "mode": "0o600",
+      "lintErrors": 2
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-startup-open-diagnostic-artifacts/reviewed-run-swiftshader-open-diagnostic.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-startup-open-diagnostic-artifacts/reviewed-run-swiftshader-open-diagnostic.mjs.txt",
+      "sha256": "95ec8c439a5e0366239c50e64f7879ed0e8c39d484a00a0fc83d13b03a54fc13",
+      "bytes": 23003,
+      "mode": "0o600",
+      "lintErrors": 2
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-startup-open-independent-review-artifacts/run-swiftshader-open-diagnostic.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-startup-open-independent-review-artifacts/run-swiftshader-open-diagnostic.mjs.txt",
+      "sha256": "95ec8c439a5e0366239c50e64f7879ed0e8c39d484a00a0fc83d13b03a54fc13",
+      "bytes": 23003,
+      "mode": "0o600",
+      "lintErrors": 2
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-worker-harness-repair-artifacts/reviewed-run-swiftshader-worker-preflight.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-worker-harness-repair-artifacts/reviewed-run-swiftshader-worker-preflight.mjs.txt",
+      "sha256": "7e6f3ebe661f75449dce2ac15c9e0e319b1f1716662b0dca440110a3c461c1a6",
+      "bytes": 21566,
+      "mode": "0o600",
+      "lintErrors": 2
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/cloud-worker-preflight-artifacts/reviewed-run-swiftshader-worker-preflight.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/cloud-worker-preflight-artifacts/reviewed-run-swiftshader-worker-preflight.mjs.txt",
+      "sha256": "3052db2fed01215403536b9bb2dc7338d4c00a9267e554d78ce7e0a8f563577a",
+      "bytes": 20734,
+      "mode": "0o600",
+      "lintErrors": 2
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/fall-bundle-builder.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/fall-bundle-builder.mjs.txt",
+      "sha256": "30f7f85e1aae4656f6b4fa197efe13b8ed3d16efff0b4c4f9fea3bf111814557",
+      "bytes": 5133,
+      "mode": "0o600",
+      "lintErrors": 2
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/isolated-budget-boundary.ts",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/isolated-budget-boundary.ts.txt",
+      "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7",
+      "bytes": 7726,
+      "mode": "0o600",
+      "lintErrors": 5
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/isolated-budget-cleanup.ts",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/isolated-budget-cleanup.ts.txt",
+      "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f",
+      "bytes": 3758,
+      "mode": "0o600",
+      "lintErrors": 5
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/run-fullchrome-swiftshader-worker.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/run-fullchrome-swiftshader-worker.mjs.txt",
+      "sha256": "c164ecd77f62b3aa437ab00b775beca64e230d4399373d7723ace2eda4ab9eb0",
+      "bytes": 32884,
+      "mode": "0o600",
+      "lintErrors": 11
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/run-isolated-swiftshader-worker.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/run-isolated-swiftshader-worker.mjs.txt",
+      "sha256": "60eb166f014b3afc3cc7be2ca9dfad6ffe395861a1a7e979b5913bb4ffb11503",
+      "bytes": 25424,
+      "mode": "0o600",
+      "lintErrors": 2
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/run-swiftshader-open-diagnostic.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/run-swiftshader-open-diagnostic.mjs.txt",
+      "sha256": "95ec8c439a5e0366239c50e64f7879ed0e8c39d484a00a0fc83d13b03a54fc13",
+      "bytes": 23003,
+      "mode": "0o600",
+      "lintErrors": 2
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/run-swiftshader-worker-preflight.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/run-swiftshader-worker-preflight.mjs.txt",
+      "sha256": "7e6f3ebe661f75449dce2ac15c9e0e319b1f1716662b0dca440110a3c461c1a6",
+      "bytes": 21566,
+      "mode": "0o600",
+      "lintErrors": 2
+    }
+  ]
+}

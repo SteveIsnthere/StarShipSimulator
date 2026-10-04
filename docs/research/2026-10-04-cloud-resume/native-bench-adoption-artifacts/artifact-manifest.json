@@ -1,0 +1,708 @@
+{
+  "episode": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu",
+  "files": [
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/app-build.exit.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/app-build.exit.json",
+      "originalBytes": 39,
+      "originalSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "archiveSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/app-build.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/app-build.process.json",
+      "originalBytes": 1636,
+      "originalSha256": "48e0d9255464fbf4c85660d0aea59c4333a2e3b35c29529391863d0edad09c59",
+      "archiveSha256": "48e0d9255464fbf4c85660d0aea59c4333a2e3b35c29529391863d0edad09c59",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/app-build.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/app-build.stderr.txt",
+      "originalBytes": 968,
+      "originalSha256": "0eab4ecd13393889ebcff44933cd38f57816284f1ba527d8ef0ab1215272a646",
+      "archiveSha256": "0eab4ecd13393889ebcff44933cd38f57816284f1ba527d8ef0ab1215272a646",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/app-build.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/app-build.stdout.txt",
+      "originalBytes": 4912,
+      "originalSha256": "1e448ae923b57cbe157ca53792dd437586d3b822995853b2f67b0917c4d44325",
+      "archiveSha256": "1e448ae923b57cbe157ca53792dd437586d3b822995853b2f67b0917c4d44325",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/bridge-collection-native-guidance-31553.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/bridge-collection-native-guidance-31553.json",
+      "originalBytes": 571,
+      "originalSha256": "e859f5db39ee027edd237efbf7b916c43c7d5b550b2e87c0f5a99acdc493f229",
+      "archiveSha256": "e859f5db39ee027edd237efbf7b916c43c7d5b550b2e87c0f5a99acdc493f229",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/bridge-run-native-guidance-31659.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/bridge-run-native-guidance-31659.json",
+      "originalBytes": 564,
+      "originalSha256": "4ea7248486ca8d58c2471b631df7cc7e26c1d265c8b31e999282a714fe3fae58",
+      "archiveSha256": "4ea7248486ca8d58c2471b631df7cc7e26c1d265c8b31e999282a714fe3fae58",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/collection-inventory.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/collection-inventory.json",
+      "originalBytes": 1746,
+      "originalSha256": "81b6b3076b348015728f10aa6b6df59f3a6dd74ba15c1502af15b6f398b77cb0",
+      "archiveSha256": "81b6b3076b348015728f10aa6b6df59f3a6dd74ba15c1502af15b6f398b77cb0",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/final.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/final.json",
+      "originalBytes": 171,
+      "originalSha256": "ec6c1bbd274f535fb3a62d09c1a89a5927f2c8f59702faaa7801915681f975b4",
+      "archiveSha256": "ec6c1bbd274f535fb3a62d09c1a89a5927f2c8f59702faaa7801915681f975b4",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/installed-tools-after.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/installed-tools-after.json",
+      "originalBytes": 2661798,
+      "originalSha256": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+      "archiveSha256": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/installed-tools-before.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/installed-tools-before.json",
+      "originalBytes": 2661798,
+      "originalSha256": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+      "archiveSha256": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/integrity.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/integrity.json",
+      "originalBytes": 66,
+      "originalSha256": "988936becdd9d05b63ba4e982461a33bc7507c22f9cda3645a922ad6e3edfaaa",
+      "archiveSha256": "988936becdd9d05b63ba4e982461a33bc7507c22f9cda3645a922ad6e3edfaaa",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/missing-artifact-manifest.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/missing-artifact-manifest.json",
+      "originalBytes": 2787816,
+      "originalSha256": "b32fcfd18ec27b40cd1bb0e3f3c8ed8e083dcc21db7ad532d3f78c83539efcc4",
+      "archiveSha256": "b32fcfd18ec27b40cd1bb0e3f3c8ed8e083dcc21db7ad532d3f78c83539efcc4",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/Starship.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/Starship.webp",
+      "originalBytes": 41250,
+      "originalSha256": "c9d25bc1b496b4d27ee26ff039d0ff7bfa68d6a5936e199c7af2308c4c4adf8d",
+      "archiveSha256": "c9d25bc1b496b4d27ee26ff039d0ff7bfa68d6a5936e199c7af2308c4c4adf8d",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/lunchpad_Light1.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/lunchpad_Light1.webp",
+      "originalBytes": 33342,
+      "originalSha256": "2b979fadd6ea8076f9c6340989efe723e5c02e7ffe8ae6a0e84b8f67da3a9286",
+      "archiveSha256": "2b979fadd6ea8076f9c6340989efe723e5c02e7ffe8ae6a0e84b8f67da3a9286",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/lunchpad_Light2.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/lunchpad_Light2.webp",
+      "originalBytes": 33178,
+      "originalSha256": "0ecfcb920be8e0eb3ce7ce82345b8f707d8ab93a4f2442aa3303042eb5c8cf18",
+      "archiveSha256": "0ecfcb920be8e0eb3ce7ce82345b8f707d8ab93a4f2442aa3303042eb5c8cf18",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/pig.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/pig.webp",
+      "originalBytes": 12954,
+      "originalSha256": "932ef01e3241c1ddcb0eaa27b21ea9ffda034c8185cdc271f335559d46a7ec7a",
+      "archiveSha256": "932ef01e3241c1ddcb0eaa27b21ea9ffda034c8185cdc271f335559d46a7ec7a",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/sn15.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/sn15.webp",
+      "originalBytes": 74652,
+      "originalSha256": "0dca7f7a4300aacc726e67bbd8df84ec44e87b7f894786d779fda657b70b52a8",
+      "archiveSha256": "0dca7f7a4300aacc726e67bbd8df84ec44e87b7f894786d779fda657b70b52a8",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/starBaseBackGround.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/starBaseBackGround.webp",
+      "originalBytes": 118016,
+      "originalSha256": "a6ba3be4e9886ecddc8fcb87b63ee8790b30f4260339dd9379e46e43604dbd75",
+      "archiveSha256": "a6ba3be4e9886ecddc8fcb87b63ee8790b30f4260339dd9379e46e43604dbd75",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/starBaseBackGround2.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/starBaseBackGround2.webp",
+      "originalBytes": 374330,
+      "originalSha256": "de17f7cd0c339e33012f6bb9cf09831b0772989f4933ed8528b94da91cd30094",
+      "archiveSha256": "de17f7cd0c339e33012f6bb9cf09831b0772989f4933ed8528b94da91cd30094",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/starhopper.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/starhopper.webp",
+      "originalBytes": 107494,
+      "originalSha256": "18d787ffa3c8a335496a716e10dd1e3b1928216eeb949d67b20f70030069cf73",
+      "archiveSha256": "18d787ffa3c8a335496a716e10dd1e3b1928216eeb949d67b20f70030069cf73",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/tree1.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/tree1.webp",
+      "originalBytes": 54646,
+      "originalSha256": "a619ac2b77ce81c18c3df23141ecf2197b91fcfb2ea17129b8e336746a88663a",
+      "archiveSha256": "a619ac2b77ce81c18c3df23141ecf2197b91fcfb2ea17129b8e336746a88663a",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/assets/tree2.webp",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/assets/tree2.webp",
+      "originalBytes": 32514,
+      "originalSha256": "a363d125f4e2d5bce0d67bee389e051cc84bcfbba7aef75d86f10f9a69b80ce3",
+      "archiveSha256": "a363d125f4e2d5bce0d67bee389e051cc84bcfbba7aef75d86f10f9a69b80ce3",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/entry.mjs",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/entry.mjs.txt",
+      "originalBytes": 3108,
+      "originalSha256": "1b6a884e5e8ebc3fc402f6a2cf38d5de1a1c23883a7208f141be317d49eb6a27",
+      "archiveSha256": "1b6a884e5e8ebc3fc402f6a2cf38d5de1a1c23883a7208f141be317d49eb6a27",
+      "losslessGzip": false,
+      "textualExecutableArchive": true
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/entry.mjs.map",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/entry.mjs.map",
+      "originalBytes": 6718,
+      "originalSha256": "27d11d305aeff190a05cdb69080192532feaf6c2cff29127e92c2db9005596d9",
+      "archiveSha256": "27d11d305aeff190a05cdb69080192532feaf6c2cff29127e92c2db9005596d9",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/icon.svg",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/icon.svg",
+      "originalBytes": 343,
+      "originalSha256": "8fca8bf870cbaac0c5a22ce6c61891f04536f59d8955b8b1e62fd57992e39493",
+      "archiveSha256": "8fca8bf870cbaac0c5a22ce6c61891f04536f59d8955b8b1e62fd57992e39493",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/manifest.webmanifest",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/manifest.webmanifest",
+      "originalBytes": 419,
+      "originalSha256": "967f4db3dab163c63f9ff81b9f842a82bebabb10ef20f12578bfc4773781f50c",
+      "archiveSha256": "967f4db3dab163c63f9ff81b9f842a82bebabb10ef20f12578bfc4773781f50c",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/serviceworker.js",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/serviceworker.js.txt",
+      "originalBytes": 1144,
+      "originalSha256": "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9",
+      "archiveSha256": "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9",
+      "losslessGzip": false,
+      "textualExecutableArchive": true
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/simulation-C1HMHBVP.js",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/simulation-C1HMHBVP.js.txt",
+      "originalBytes": 157712,
+      "originalSha256": "2d6fb3383c82fbf3771495b72f9f0df7892ea0ff6a6b4df2c48cc745e2b815df",
+      "archiveSha256": "2d6fb3383c82fbf3771495b72f9f0df7892ea0ff6a6b4df2c48cc745e2b815df",
+      "losslessGzip": false,
+      "textualExecutableArchive": true
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native/simulation-C1HMHBVP.js.map",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native/simulation-C1HMHBVP.js.map",
+      "originalBytes": 693126,
+      "originalSha256": "16eacf79408268912ab5269177e394b3f2e2967b0018518f4ea90a2c57ee4486",
+      "archiveSha256": "16eacf79408268912ab5269177e394b3f2e2967b0018518f4ea90a2c57ee4486",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-build-result.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-build-result.json",
+      "originalBytes": 319,
+      "originalSha256": "9bd969d9342a1ba5b41b0c6f82e86b958dad4e4131e0565c31bfc91dc092cf53",
+      "archiveSha256": "9bd969d9342a1ba5b41b0c6f82e86b958dad4e4131e0565c31bfc91dc092cf53",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-build.exit.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-build.exit.json",
+      "originalBytes": 39,
+      "originalSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "archiveSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-build.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-build.process.json",
+      "originalBytes": 492,
+      "originalSha256": "66e0e44d8618fca266872bdba5fd4924cec048724b3cb96fb78bfbf61f1fcee1",
+      "archiveSha256": "66e0e44d8618fca266872bdba5fd4924cec048724b3cb96fb78bfbf61f1fcee1",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-build.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-build.stderr.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-build.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-build.stdout.txt",
+      "originalBytes": 428,
+      "originalSha256": "d3000859c2c2a5b89ad76f20e47a6c527d9f0b93929a6e3d66736078e0152b77",
+      "archiveSha256": "d3000859c2c2a5b89ad76f20e47a6c527d9f0b93929a6e3d66736078e0152b77",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance-collection.exit.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance-collection.exit.json",
+      "originalBytes": 39,
+      "originalSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "archiveSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance-collection.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance-collection.process.json",
+      "originalBytes": 655,
+      "originalSha256": "d29e3001853e5d039b3585cf53315872c0a574096d8042b55f95285d39c2968f",
+      "archiveSha256": "d29e3001853e5d039b3585cf53315872c0a574096d8042b55f95285d39c2968f",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance-collection.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance-collection.stderr.txt",
+      "originalBytes": 197,
+      "originalSha256": "0df05c69848295af315eb7bedc6db9eb5465418bee94e1a9314a7851a7c887b9",
+      "archiveSha256": "0df05c69848295af315eb7bedc6db9eb5465418bee94e1a9314a7851a7c887b9",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance-collection.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance-collection.stdout.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance.collection.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance.collection.json",
+      "originalBytes": 606,
+      "originalSha256": "6fe893c538e9b2ba3023670f0b328348e0df52bfe26897db69a9ea1eafca8e52",
+      "archiveSha256": "6fe893c538e9b2ba3023670f0b328348e0df52bfe26897db69a9ea1eafca8e52",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance.exit.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance.exit.json",
+      "originalBytes": 39,
+      "originalSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "archiveSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance.process.json",
+      "originalBytes": 657,
+      "originalSha256": "3b89c705cc21b55146e1839997653f81cd1ff7cf7cf1309aad4e6e3edc84fb72",
+      "archiveSha256": "3b89c705cc21b55146e1839997653f81cd1ff7cf7cf1309aad4e6e3edc84fb72",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance.report.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance.report.json",
+      "originalBytes": 1610,
+      "originalSha256": "5522e3a300ce9e565806c70bdc1b1595785c0b56937ff61eb9627b59e17b47f6",
+      "archiveSha256": "5522e3a300ce9e565806c70bdc1b1595785c0b56937ff61eb9627b59e17b47f6",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance.stderr.txt",
+      "originalBytes": 197,
+      "originalSha256": "ae13118aff1e56d25f853cb984b9cfb03cc062cdd276bbd977adb4725913d887",
+      "archiveSha256": "ae13118aff1e56d25f853cb984b9cfb03cc062cdd276bbd977adb4725913d887",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-guidance.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-guidance.stdout.txt",
+      "originalBytes": 501,
+      "originalSha256": "72e15abba154bad975f3ab7ec259711d484d499f5ea6659baf4d11aea4752c91",
+      "archiveSha256": "72e15abba154bad975f3ab7ec259711d484d499f5ea6659baf4d11aea4752c91",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-manifest.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-manifest.json",
+      "originalBytes": 2787807,
+      "originalSha256": "a45038d04a9be0898ffc789cba02f4419b371d77ecaef7f29abac1610845cccc",
+      "archiveSha256": "a45038d04a9be0898ffc789cba02f4419b371d77ecaef7f29abac1610845cccc",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/npm.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/npm.json",
+      "originalBytes": 176,
+      "originalSha256": "cdba9d5729774e3154921097784ee77537c744ba5e0e91a6135f6f3e235f16ab",
+      "archiveSha256": "cdba9d5729774e3154921097784ee77537c744ba5e0e91a6135f6f3e235f16ab",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr-collection.exit.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr-collection.exit.json",
+      "originalBytes": 39,
+      "originalSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "archiveSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr-collection.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr-collection.process.json",
+      "originalBytes": 979,
+      "originalSha256": "4ea5351b77f2f76c72234aa36d6e4cf46790a68046bf348659771d5546a845ae",
+      "archiveSha256": "4ea5351b77f2f76c72234aa36d6e4cf46790a68046bf348659771d5546a845ae",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr-collection.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr-collection.stderr.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr-collection.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr-collection.stdout.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr.collection.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr.collection.json",
+      "originalBytes": 1660,
+      "originalSha256": "10ca83260b4f128e8d1b235b94cc3f39b3716f2d5b3b6b614c0e43461aec6b2f",
+      "archiveSha256": "10ca83260b4f128e8d1b235b94cc3f39b3716f2d5b3b6b614c0e43461aec6b2f",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr.exit.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr.exit.json",
+      "originalBytes": 39,
+      "originalSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "archiveSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr.process.json",
+      "originalBytes": 982,
+      "originalSha256": "77e08b377772e5c290c68087ce6cea3b3cbf8937ead8313faa99fbfeab2f04a7",
+      "archiveSha256": "77e08b377772e5c290c68087ce6cea3b3cbf8937ead8313faa99fbfeab2f04a7",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr.report.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr.report.json",
+      "originalBytes": 3725,
+      "originalSha256": "fd1663b0197babd68c3b91f6e6266454b6d02f1965af09fc2efbd6f8b0312f26",
+      "archiveSha256": "fd1663b0197babd68c3b91f6e6266454b6d02f1965af09fc2efbd6f8b0312f26",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr.stderr.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/original-ssr.stdout.txt",
+      "originalBytes": 1657,
+      "originalSha256": "6646ff6ce8b5ff1b24e7b1c7cb3a4da77f43e6d589db0711ea7dbfe6e48eeb4b",
+      "archiveSha256": "6646ff6ce8b5ff1b24e7b1c7cb3a4da77f43e6d589db0711ea7dbfe6e48eeb4b",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owned-command-controls.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owned-command-controls.json",
+      "originalBytes": 481,
+      "originalSha256": "1fc028f223607dd57ebf13af2e755eedc0e7a6a4280384c260f6085eecffa463",
+      "archiveSha256": "1fc028f223607dd57ebf13af2e755eedc0e7a6a4280384c260f6085eecffa463",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owned-process-final.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owned-process-final.json",
+      "originalBytes": 640,
+      "originalSha256": "dad53d2951fc363b6559b7c12d58d3cb35f62c669a8bfd5dbd3666848a549519",
+      "archiveSha256": "dad53d2951fc363b6559b7c12d58d3cb35f62c669a8bfd5dbd3666848a549519",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-control-inherited-pipe.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-control-inherited-pipe.process.json",
+      "originalBytes": 649,
+      "originalSha256": "4e74762e2399547493bb164e424de77ed9a61625bed0784b41022313952a0d19",
+      "archiveSha256": "4e74762e2399547493bb164e424de77ed9a61625bed0784b41022313952a0d19",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-control-inherited-pipe.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-control-inherited-pipe.stderr.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-control-inherited-pipe.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-control-inherited-pipe.stdout.txt",
+      "originalBytes": 6,
+      "originalSha256": "b139cbb012035c83276a45a1afcd0d1bf37d99300d5d78b836b0b283611633ad",
+      "archiveSha256": "b139cbb012035c83276a45a1afcd0d1bf37d99300d5d78b836b0b283611633ad",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-control-output-overflow.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-control-output-overflow.process.json",
+      "originalBytes": 604,
+      "originalSha256": "3eb51cfe22588f71fbefdb4ac68d4e6d15bec19b58b86442e66a02572bf35596",
+      "archiveSha256": "3eb51cfe22588f71fbefdb4ac68d4e6d15bec19b58b86442e66a02572bf35596",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-control-output-overflow.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-control-output-overflow.stderr.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-control-output-overflow.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-control-output-overflow.stdout.txt.gz",
+      "originalBytes": 8388608,
+      "originalSha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74",
+      "archiveSha256": "482c0903a7b6b7140debadeae71436a54e6d88e24f508b087875af9c1185fcf9",
+      "losslessGzip": true,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-control-timeout.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-control-timeout.process.json",
+      "originalBytes": 735,
+      "originalSha256": "c4934822b6e80be3bd097eed8a3beba3d6c9a6feef9a542c2ccc281f830440b3",
+      "archiveSha256": "c4934822b6e80be3bd097eed8a3beba3d6c9a6feef9a542c2ccc281f830440b3",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-control-timeout.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-control-timeout.stderr.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-control-timeout.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-control-timeout.stdout.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-controls.exit.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-controls.exit.json",
+      "originalBytes": 39,
+      "originalSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "archiveSha256": "94912b4c228c4b5696731d842a4f182f3ab432c789df0445533a994d8ea53925",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-controls.process.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-controls.process.json",
+      "originalBytes": 1142,
+      "originalSha256": "b7c64862c984ec8281311bcd6e5d7066e91df5427afee7257a51a813054c30a7",
+      "archiveSha256": "b7c64862c984ec8281311bcd6e5d7066e91df5427afee7257a51a813054c30a7",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-controls.stderr.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-controls.stderr.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/owner-controls.stdout.txt",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/owner-controls.stdout.txt",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/positive-controls.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/positive-controls.json",
+      "originalBytes": 183,
+      "originalSha256": "14c96a3785f220ddb5afcb1ed7cfd4d562991b7541ca40f24a4f9d4c79065ebe",
+      "archiveSha256": "14c96a3785f220ddb5afcb1ed7cfd4d562991b7541ca40f24a4f9d4c79065ebe",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/runtime.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/runtime.json",
+      "originalBytes": 858,
+      "originalSha256": "3d18f58660b7dec75442cf5f5636aec029c0a0b79b471acaca3504b6a3c5740e",
+      "archiveSha256": "3d18f58660b7dec75442cf5f5636aec029c0a0b79b471acaca3504b6a3c5740e",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/source-after.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/source-after.json",
+      "originalBytes": 80491,
+      "originalSha256": "aa2d819b5c939e040d1a718a8d2b1b05c8164c7fc6b98bf9c23f8ccca7cae81d",
+      "archiveSha256": "aa2d819b5c939e040d1a718a8d2b1b05c8164c7fc6b98bf9c23f8ccca7cae81d",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/source-before.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/source-before.json",
+      "originalBytes": 80491,
+      "originalSha256": "aa2d819b5c939e040d1a718a8d2b1b05c8164c7fc6b98bf9c23f8ccca7cae81d",
+      "archiveSha256": "aa2d819b5c939e040d1a718a8d2b1b05c8164c7fc6b98bf9c23f8ccca7cae81d",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/test-inventory.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/test-inventory.json",
+      "originalBytes": 2418,
+      "originalSha256": "3dca510e9cc9152274b046fc8ecf562ee425d5f8d93339975239b95b2a28e77e",
+      "archiveSha256": "3dca510e9cc9152274b046fc8ecf562ee425d5f8d93339975239b95b2a28e77e",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/wrong-artifact-manifest.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/wrong-artifact-manifest.json",
+      "originalBytes": 2787807,
+      "originalSha256": "21fc4c18b2fd4a585a3f82d57f847ef46df129d7dc6f8e39f37aa627470d4012",
+      "archiveSha256": "21fc4c18b2fd4a585a3f82d57f847ef46df129d7dc6f8e39f37aa627470d4012",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    },
+    {
+      "originalEpisodePath": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/wrong-source-manifest.json",
+      "archivedPath": "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/wrong-source-manifest.json",
+      "originalBytes": 2787807,
+      "originalSha256": "00605fd0febd08167763fad5d9afc5b2865bc655ec3c04e37ef2a4d85db285ab",
+      "archiveSha256": "00605fd0febd08167763fad5d9afc5b2865bc655ec3c04e37ef2a4d85db285ab",
+      "losslessGzip": false,
+      "textualExecutableArchive": false
+    }
+  ],
+  "classification": "Exact sole official bench receipt; code copied textually, raw overflow gzip losslessly retained"
+}

@@ -1,0 +1,42 @@
+{
+  "exit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "failure": {
+    "kind": "process-timeout",
+    "message": "250ms process bound exceeded"
+  },
+  "bytes": {
+    "stdout": 0,
+    "stderr": 0
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 31360,
+    "start": "1393384",
+    "group": 31360,
+    "session": 31360,
+    "tracked": [
+      {
+        "pid": 31360,
+        "state": "Z",
+        "parent": 31339,
+        "group": 31360,
+        "session": 31360,
+        "start": "1393384"
+      },
+      {
+        "pid": 31367,
+        "state": "Z",
+        "parent": 1,
+        "group": 31360,
+        "session": 31360,
+        "start": "1393387"
+      }
+    ],
+    "executing": []
+  }
+}

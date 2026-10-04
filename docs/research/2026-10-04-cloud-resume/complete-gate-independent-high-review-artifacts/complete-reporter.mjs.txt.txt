@@ -1,0 +1,17 @@
+import {writeFileSync} from 'node:fs';
+import {resolve,relative} from 'node:path';
+import assert from 'node:assert/strict';
+import {expectedFiles} from './integrity.mjs';
+const root=process.cwd();
+function file(module){return `${module.project.name}\0${relative(root,module.moduleId)}`;}
+function tasks(module){return [...module.children.allTests()].map(test=>({id:test.id,name:test.fullName,options:test.options,state:test.result().state,errors:test.result().errors??[]}));}
+export default class CompleteReporter{
+ collected=new Map();specifications=[];
+ onTestRunStart(specs){this.specifications=specs.map(spec=>`${spec.project.name}\0${relative(root,spec.moduleId)}`).sort();assert.deepEqual(this.specifications,expectedFiles(root),'Full unit/kit file inventory');}
+ onTestModuleCollected(module){const key=file(module);assert(!this.collected.has(key),'Duplicate module collection');this.collected.set(key,tasks(module).map(({id,name})=>({id,name})));}
+ onTestRunEnd(modules,errors,reason){
+  const rows=modules.map(module=>({file:file(module),ok:module.ok(),state:module.state(),tasks:tasks(module)}));
+  // Tentative until orchestrator observes child exit + verified worker cleanup.
+  writeFileSync(resolve(process.env.STARSHIP_GATE_REPORTS,'complete-inventory.json'),JSON.stringify({nonce:process.env.STARSHIP_GATE_NONCE,reason,unhandledErrors:errors,specifications:this.specifications,collected:[...this.collected],modules:rows},null,2),{flag:'wx'});
+ }
+}

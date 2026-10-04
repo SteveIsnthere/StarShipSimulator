@@ -14,7 +14,7 @@ temporary=()
 stage=receipt-created
 snapshot() {
  python3 - "$1" <<'PY'
-import pathlib,hashlib,json,sys
+import pathlib,hashlib,json,sys,shutil
 paths=[]
 for root in ('src','tests','scripts'):
  paths.extend(p for p in pathlib.Path(root).rglob('*') if p.is_file())
@@ -25,6 +25,12 @@ for name in ('fall-bundle-entry.ts.txt','fall-bundle-builder.mjs','fall-bundle-a
  paths.append(r/name)
 for name in ('vite/package.json','rolldown/package.json','vitest/package.json','vitest/vitest.mjs','vite-node/package.json','vite-node/dist/cli.mjs'):
  paths.append(pathlib.Path('node_modules')/name)
+paths.append(pathlib.Path(shutil.which('node')))
+fall=r/'fall-bundle-proof-receipt';burn=r/'burn-bundle-proof-cause-repair1-receipt'
+for folder in ('plain','counted'):
+ paths.extend(p for p in (fall/folder).rglob('*') if p.is_file())
+for receipt,names in ((fall,('source-before.json','source-after.json','bundle-hashes.json','plain-source-map-manifest.json','virtual-source-manifest.json','exit-code.txt','proof-exit-code.txt','app-build-exit-code.txt','bundle-build-exit-code.txt','source-integrity.txt')),(burn,('source-before.json','source-after.json','burn-proof-result.json','exit-code.txt','proof-exit-code.txt','source-integrity.txt'))):
+ paths.extend(receipt/name for name in names)
 pathlib.Path(sys.argv[1]).write_text(json.dumps({str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths))},indent=2)+'\n')
 PY
 }

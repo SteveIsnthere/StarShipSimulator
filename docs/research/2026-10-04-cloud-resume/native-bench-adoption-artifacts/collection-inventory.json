@@ -1,0 +1,24 @@
+[
+  {
+    "lane": "native-guidance",
+    "tests": [
+      "tests/core/guidance-physics.timing.test.ts\u0000landingBurnStartAltitude cost > stays under 0.2 ms a call at the flip trigger",
+      "tests/core/guidance-physics.timing.test.ts\u0000unpoweredFallInto cost > stays under 1 ms a call on a long descending arc under the entry interface",
+      "tests/core/guidance-physics.timing.test.ts\u0000unpoweredFallInto worst case > stays inside the 2 ms HUD budget when a climb runs it to its cap"
+    ]
+  },
+  {
+    "lane": "original-ssr",
+    "tests": [
+      "tests/hud/binder.timing.test.ts\u0000the 2 ms budget > an update costs a small fraction of 2 ms, even when every readout changes",
+      "tests/hud/binder.timing.test.ts\u0000the 2 ms budget > all FOUR binders together still fit it, on the finished overlay",
+      "tests/view/perf.timing.test.ts\u0000simulation step budget > a step costs well under 1 ms, the 240 Hz budget",
+      "tests/view/perf.timing.test.ts\u0000simulation step budget > 240 Hz of simulation fits in well under a second of wall clock",
+      "tests/view/perf.timing.test.ts\u0000simulation step budget > the autopilot does not dominate the step",
+      "tests/view/perf.timing.test.ts\u0000time warp stays affordable > warp 16 costs about sixteen steps, not more",
+      "tests/view/perf.timing.test.ts\u0000M9 emitters and textures, timed > costs a measurable and small fraction of the frame, banded or not",
+      "tests/view/perf.timing.test.ts\u0000M9 emitters and textures, timed > generating every texture M9 added is a mount cost, not a frame cost",
+      "tests/app/recorder.timing.test.ts\u0000the recorder stays out of the simulation, timed > a long recording does not slow the step down"
+    ]
+  }
+]

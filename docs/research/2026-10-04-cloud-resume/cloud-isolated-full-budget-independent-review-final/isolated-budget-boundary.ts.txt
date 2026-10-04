@@ -19,6 +19,7 @@ export async function isolatedBudgetBoundary(browser:Browser,info:TestInfo,label
  const bundleBytes=await readFile(join(setup,'bundle-copy-manifest.json'));if(sha(bundleBytes)!==receipt.bundleManifestSha256)throw Error('Bundle manifest changed');
  const bundle=JSON.parse(bundleBytes);if(receipt.bundleManifestSha256!=='07ef404bb5667e951f53099c703ccd06567c8c65e76341d8fc6729b9f200fd49'||bundle.files.length!==287||bundle.directories.length!==3||receipt.threadCount!==3||receipt.affinitySetting!==null)throw Error('Approved functional bundle identity required');
  const episode=process.env['ISOLATED_BUDGET_EPISODE']!;const episodeDeclaration=JSON.parse(await readFile(join(episode,'episode-declaration.json'),'utf8'));if(sha(await readFile(join(setup,'setup-receipt.json')))!==episodeDeclaration.setupReceiptSha256)throw Error('Episode setup receipt changed');
+ for(const file of episodeDeclaration.harness)if(sha(await readFile(file.path))!==file.sha256)throw Error('Reviewed research harness changed');
  const cdp=await browser.newBrowserCDPSession();
  let records:any[]=[];
  try{
@@ -33,7 +34,7 @@ export async function isolatedBudgetBoundary(browser:Browser,info:TestInfo,label
   }
  }catch(error){await writeVisualJSON(info,`isolated-${label}-topology.json`,{label,records,reference:receipt.originalBrowser,actual:receipt.actualBrowser,requestedWorkers:3,error:String(error)});throw error;}finally{await cdp.detach();}
  // Save ownership immediately before any large identity reads/assertions fail.
- await writeVisualJSON(info,`isolated-${label}-topology.json`,{label,records,reference:receipt.originalBrowser,actual:receipt.actualBrowser,requestedWorkers:3});
+ await writeVisualJSON(info,`isolated-${label}-topology.json`,{label,records,reference:receipt.originalBrowser,actual:receipt.actualBrowser,requestedWorkers:3,harness:episodeDeclaration.harness});
  const root=records.find(p=>p.type==='browser');if(!root||root.identity.pgrp!==root.identity.pid)throw Error('Dedicated owned browser group required');
  const quota=(await readFile('/sys/fs/cgroup/cpu.max','utf8')).trim(),cpuset=(await readFile('/sys/fs/cgroup/cpuset.cpus.effective','utf8')).trim();if(quota!==receipt.cpuMax||cpuset!==receipt.cpuset)throw Error('CPU contract changed');
  if(requireWorkers){const gpu=records.filter(p=>p.type==='GPU');if(gpu.length!==1||gpu[0].workers.length!==3||new Set(gpu[0].workers.map((t:any)=>t.comm)).size!==3)throw Error('Exactly3 observed software workers required');if(!gpu[0].swiftshaderMappings.length||gpu[0].swiftshaderMappings.some((l:string)=>!l.endsWith(join(setup,'browser/libvk_swiftshader.so'))))throw Error('Actual copied driver required');}
@@ -46,5 +47,5 @@ export async function isolatedBudgetBoundary(browser:Browser,info:TestInfo,label
   if(sha(await readFile(receipt.actualBrowser))!==pinnedBrowser||sha(await readFile(receipt.originalBrowser))!==pinnedBrowser||sha(await readFile(receipt.config))!==receipt.configSha256||sha(await readFile(join(setup,'browser/libvk_swiftshader.so')))!==receipt.swiftshaderLibrarySha256)throw Error('Binary/config/driver identity changed');
   if(process.execPath!==receipt.nodeExecutable||process.version!==receipt.nodeVersion||sha(await readFile(process.execPath))!==receipt.nodeExecutableSha256)throw Error('Managed Node identity changed');
  }
- await writeVisualJSON(info,`isolated-${label}-identity.json`,{label,bundleManifestSha256:receipt.bundleManifestSha256,files:bundle.files.length,directories:bundle.directories.length,configSha256:receipt.configSha256,librarySha256:receipt.swiftshaderLibrarySha256,browserSha256:pinnedBrowser,node:process.version,nodeExecutable:process.execPath,quota,cpuset,cpuStat:await readFile('/sys/fs/cgroup/cpu.stat','utf8'),scope:verifyCompleteBundle?'complete original/copy identity before any flight/control initialization or after pause':'lightweight GPU/ownership boundary outside measured RAF window'});
+ await writeVisualJSON(info,`isolated-${label}-identity.json`,{label,bundleManifestSha256:receipt.bundleManifestSha256,files:bundle.files.length,directories:bundle.directories.length,harness:episodeDeclaration.harness,configSha256:receipt.configSha256,librarySha256:receipt.swiftshaderLibrarySha256,browserSha256:pinnedBrowser,node:process.version,nodeExecutable:process.execPath,quota,cpuset,cpuStat:await readFile('/sys/fs/cgroup/cpu.stat','utf8'),scope:verifyCompleteBundle?'complete original/copy identity before any flight/control initialization or after pause':'lightweight GPU/ownership boundary outside measured RAF window'});
 }

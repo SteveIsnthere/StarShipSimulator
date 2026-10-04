@@ -1,0 +1,17 @@
+{
+  "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/capability.mjs.txt": "5333045ce0d12ab79a8efc1a4b22a482727bb55494646f1bf38a4cf53d9f4c1a",
+  "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/complete-reporter.mjs.txt": "e8fa068fd822b7decaf06529d87b7768049a92919a078ed5fd1a1c02e874bab4",
+  "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/coverage.mjs.txt": "44a1753ea97a327bd2acb5b1162a558342fd0629440eca663a5fa81558e6e54b",
+  "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/gate.mjs.txt": "2bfbbbd315bee2479f84bf24e24e237ebf935b4db78d204a4cd7647d0339501e",
+  "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/implementation-plan.md": "a14786149dd355aa93d4fb7503f4e88b169bdfb9f452e9bead072ac90c7b786b",
+  "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/integrity.mjs.txt": "8b0d9c55b8e19a48a5f34747f0f9d908c79d82ea461da8df1757ba954149761e",
+  "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/validate-coverage.mjs.txt": "c5d1bcba6e789967b32a5be3cf4bb255b70e484f24e5967ef3e651ff5334ad30",
+  "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/vitest.complete-gate.config.ts.txt": "1d5f15e4599326b0f7b1399faf12cb99d4094aaf9fbd96c47623e86a37324ff2",
+  "node_modules/vitest/dist/chunks/cli-api.CnMVyzaz.js": "a236001d048380e2c67d05423fc9ea3f26b07ee019ba8d6e622082f29d49102e",
+  "node_modules/@vitest/runner/dist/chunk-artifact.js": "bf6af6d2f4469911879a67e83b8f9e7b20332cf42795032c53457b10ccc1c617",
+  "node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js": "e509f3cc1bd81ae6426265253fa926cbde02be5cebfe35b1df422017bffdca31",
+  "scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+  "scripts/bench/native-loader.mjs": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+  "vitest.config.ts": "4debcf42809334dfc4fefcc4f8d7274fbdcfdc429d7fc99b06310eea588061b0",
+  "package.json": "67f1e817568094c60b2453190c4633d13aafe501a3cee51d0e43e14b5fc28be6"
+}

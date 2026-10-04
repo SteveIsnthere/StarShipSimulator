@@ -1,0 +1,26 @@
+{
+  "status": "pass",
+  "inheritedPipe": "owned descendant stopped",
+  "timeout": "bounded group stopped",
+  "overflow": "failed with retained prefix",
+  "absence": [
+    {
+      "pid": 31346,
+      "start": "1393363",
+      "group": 31346,
+      "executing": []
+    },
+    {
+      "pid": 31360,
+      "start": "1393384",
+      "group": 31360,
+      "executing": []
+    },
+    {
+      "pid": 31374,
+      "start": "1393415",
+      "group": 31374,
+      "executing": []
+    }
+  ]
+}

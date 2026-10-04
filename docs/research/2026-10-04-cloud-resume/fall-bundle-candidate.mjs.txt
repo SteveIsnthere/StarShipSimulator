@@ -2,11 +2,12 @@
 import {readFileSync,writeFileSync,readdirSync} from 'node:fs';
 import {pathToFileURL} from 'node:url';
 import {strictEqual,ok} from 'node:assert';
+import {isDeepStrictEqual} from 'node:util';
 const receipt=process.env.STARSHIP_CANDIDATE_RECEIPT;
 if(!receipt||process.env.STARSHIP_CANDIDATE_REVIEW_APPROVED!=='cycle3-attempt2')throw new Error('Reviewed receipt and candidate approval required');
 const api=await import(pathToFileURL('PLAIN_ENTRY_PLACEHOLDER').href);
 const {createBurnScratch,createFallResult,landingBurnStartAltitude,unpoweredFallInto,ALL_SCENARIOS,createScenarioState,SHIP}=api;
-strictEqual(SHIP.height,50);strictEqual(api.FALL_STEP_CAP,4000);strictEqual(api.BURN_STEP_CAP,1200);
+strictEqual(readFileSync('src/core/constants.ts','utf8').match(/export const vehicleHeight = 50;/g)?.length,1);strictEqual(SHIP.height,52);strictEqual(api.FALL_STEP_CAP,4000);strictEqual(api.BURN_STEP_CAP,1200);
 const sections=[];
 function cgroup(){return Object.fromEntries(readFileSync('/sys/fs/cgroup/cpu.stat','utf8').trim().split('\n').map(line=>{const [k,v]=line.trim().split(/\s+/);return [k,Number(v)];}));}
 function delta(after,before){return Object.fromEntries(Object.keys(after).map(k=>[k,after[k]-before[k]]));}
@@ -14,35 +15,43 @@ function census(){const rows=[];for(const id of readdirSync('/proc'))if(/^\d+$/.
  const text=readFileSync(`/proc/${id}/stat`,'utf8'),end=text.lastIndexOf(')'),f=text.slice(end+2).trim().split(/\s+/);
  rows.push({pid:Number(id),name:text.slice(text.indexOf('(')+1,end),state:f[0],parent:Number(f[1]),userTicks:Number(f[11]),systemTicks:Number(f[12])});
 }catch{/* process lifetime race */}}return rows;}
-function phase(name,count,run){const processesBefore=census(),quotaBefore=cgroup(),cpuBefore=process.cpuUsage();
- const start=performance.now();run();const wallMs=performance.now()-start;
+function pair(name,warmCount,count,warm,measure){const processesBefore=census(),quotaBefore=cgroup(),cpuBefore=process.cpuUsage();
+ const warmStart=performance.now();warm();const start=performance.now();measure();const end=performance.now();
  const cpu=process.cpuUsage(cpuBefore),quotaAfter=cgroup(),processesAfter=census();
- const row={name,count,wallMs,processCpuUs:cpu,cgroupBefore:quotaBefore,cgroupAfter:quotaAfter,cgroupDelta:delta(quotaAfter,quotaBefore),processesBefore,processesAfter};
+ const row={name,warmCount,count,wallMs:end-start,warmWallMs:start-warmStart,
+ accounting:'CPU/cgroup surround combined warm+measure pair, not measured loop alone; wallMs is measured loop only',
+ processCpuUs:cpu,cgroupBefore:quotaBefore,cgroupAfter:quotaAfter,cgroupDelta:delta(quotaAfter,quotaBefore),processesBefore,processesAfter};
  sections.push(row);writeFileSync(`${receipt}/${name}.json`,JSON.stringify(row,null,2)+'\n');return row;
 }
-const burnScratch=createBurnScratch();let burnResult;
-phase('burn-warm',200,()=>{for(let i=0;i<200;i++)burnResult=landingBurnStartAltitude(3,140000,61,25,burnScratch);});
-const burn=phase('burn-measured',2000,()=>{for(let i=0;i<2000;i++)burnResult=landingBurnStartAltitude(3,140000,61+(i%10)*.1,25,burnScratch);});
+const shipBefore=structuredClone(SHIP);
+const burnScratch=createBurnScratch(),burnRetained=structuredClone({fallWork:burnScratch.fallWork,inputs:burnScratch.inputs,acc:burnScratch.acc});let burnResult;
+const burn=pair('burn-pair',200,2000,
+ ()=>{for(let i=0;i<200;i++)burnResult=landingBurnStartAltitude(3,140000,61,25,burnScratch);},
+ ()=>{for(let i=0;i<2000;i++)burnResult=landingBurnStartAltitude(3,140000,61+(i%10)*.1,25,burnScratch);});
 const normalState=createScenarioState(ALL_SCENARIOS.find(p=>p.id==='reentry'));
 Object.assign(normalState.kinematics,{altitude:79000,speedX:2000,speedY:-50});
-const normalScratch=createBurnScratch(),normalOut=createFallResult();
-phase('normal-warm',20,()=>{for(let i=0;i<20;i++)unpoweredFallInto(normalState,25,normalScratch,normalOut);});
-const normal=phase('normal-measured',200,()=>{for(let i=0;i<200;i++)unpoweredFallInto(normalState,25,normalScratch,normalOut);});
+const normalBefore=structuredClone(normalState),normalScratch=createBurnScratch(),normalOut=createFallResult();
+const normal=pair('normal-pair',20,200,
+ ()=>{for(let i=0;i<20;i++)unpoweredFallInto(normalState,25,normalScratch,normalOut);},
+ ()=>{for(let i=0;i<200;i++)unpoweredFallInto(normalState,25,normalScratch,normalOut);});
 const capState=createScenarioState(ALL_SCENARIOS.find(p=>p.id==='reentry'));
 Object.assign(capState.kinematics,{altitude:60000,speedX:0,speedY:7000});
-const capScratch=createBurnScratch(),capOut=createFallResult();
-phase('cap-warm',5,()=>{for(let i=0;i<5;i++)unpoweredFallInto(capState,25,capScratch,capOut);});
-const cap=phase('cap-measured',50,()=>{for(let i=0;i<50;i++)unpoweredFallInto(capState,25,capScratch,capOut);});
+const capBefore=structuredClone(capState),capScratch=createBurnScratch(),capOut=createFallResult();
+const cap=pair('cap-pair',5,50,
+ ()=>{for(let i=0;i<5;i++)unpoweredFallInto(capState,25,capScratch,capOut);},
+ ()=>{for(let i=0;i<50;i++)unpoweredFallInto(capState,25,capScratch,capOut);});
+function unpoweredRetained(s){return s.fallWork.state===null&&s.fallWork.model===SHIP&&s.duration===0&&s.capped===false
+ &&Object.is(s.inputs.gimbalPointingDirection,0)&&Object.is(s.inputs.pitch,0)&&Object.is(s.inputs.thrustAcceleration,0)&&Object.is(s.inputs.fixedThrustAcceleration,0);}
 const perCall={burn:burn.wallMs/2000,normal:normal.wallMs/200,cap:cap.wallMs/50};
 const budgets={burn:.2,normal:1,cap:2};
-const checks={burn:perCall.burn<budgets.burn,normal:perCall.normal<budgets.normal,cap:perCall.cap<budgets.cap,
+const checks={modelUnchanged:isDeepStrictEqual(SHIP,shipBefore),normalSourceUnchanged:isDeepStrictEqual(normalState,normalBefore),capSourceUnchanged:isDeepStrictEqual(capState,capBefore),burnRetained:isDeepStrictEqual({fallWork:burnScratch.fallWork,inputs:burnScratch.inputs,acc:burnScratch.acc},burnRetained),normalRetained:unpoweredRetained(normalScratch),capRetained:unpoweredRetained(capScratch),burnEndpoint:Object.is(burnResult,69.09474954728736),burnDuration:Object.is(burnScratch.duration,1.421244144191255),burnUncapped:burnScratch.capped===false,normalTime:Object.is(normalOut.time,227.276593764986),normalDownRange:Object.is(normalOut.downRange,207713.16688728545),normalSteps:normalScratch.fallWork.steps===910,capTime:Number.isNaN(capOut.time),capDownRange:Object.is(capOut.downRange,3246.2139561608574),burnFinite:typeof burnResult==='number'&&Number.isFinite(burnResult),burn:perCall.burn<budgets.burn,normal:perCall.normal<budgets.normal,cap:perCall.cap<budgets.cap,
  normalReached:normalOut.reached===true,capUnreached:capOut.reached===false,capSteps:capScratch.fallWork.steps===4000};
 const result={classification:'cycle3attempt2 one different-backend diagnostic; not production acceptance-loader adoption',
  backend:'Plain source-pinned native ESM Vite production-option research library bundle; no counter/profiler/SSR in timed kernel',
- perCallMs:perCall,boundsMs:budgets,checks,
+ perCallMs:perCall,boundsMs:budgets,checks,fullScratchEvidence:{kind:'Actual final snapshots, not newly compared original reference snapshots; existing green76fall/2300burn fullscratch differential proofs qualify backend',burn:burnScratch,normal:normalScratch,cap:capScratch},
  final:{burn:burnResult,burnDuration:burnScratch.duration,burnCapped:burnScratch.capped,
  normal:{...normalOut,steps:normalScratch.fallWork.steps},cap:{...capOut,steps:capScratch.fallWork.steps}},
  forceQueries:{kind:'Derived from proven exact two-query topology; no timed instrumentation',normalMeasured:200*normalScratch.fallWork.steps*2,capMeasured:50*4000*2},sections};
-writeFileSync(`${receipt}/result.json`,JSON.stringify(result,(_key,value)=>typeof value==='number'&&!Number.isFinite(value)?String(value):value,2)+'\n');
+writeFileSync(`${receipt}/result.json`,JSON.stringify(result,(_key,value)=>typeof value==='number'?(Object.is(value,-0)?'-0':!Number.isFinite(value)?String(value):value):value,2)+'\n');
 console.log(JSON.stringify({perCallMs:perCall,checks,normalSteps:normalScratch.fallWork.steps,capSteps:capScratch.fallWork.steps}));
 for(const [name,passed] of Object.entries(checks))ok(passed,`${name} failed; actual full result retained`);

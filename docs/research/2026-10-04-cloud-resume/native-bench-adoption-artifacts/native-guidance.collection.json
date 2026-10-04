@@ -1,0 +1,14 @@
+[
+  {
+    "name": "landingBurnStartAltitude cost > stays under 0.2 ms a call at the flip trigger",
+    "file": "/workspace/StarShipSimulator/tests/core/guidance-physics.timing.test.ts"
+  },
+  {
+    "name": "unpoweredFallInto cost > stays under 1 ms a call on a long descending arc under the entry interface",
+    "file": "/workspace/StarShipSimulator/tests/core/guidance-physics.timing.test.ts"
+  },
+  {
+    "name": "unpoweredFallInto worst case > stays inside the 2 ms HUD budget when a climb runs it to its cap",
+    "file": "/workspace/StarShipSimulator/tests/core/guidance-physics.timing.test.ts"
+  }
+]

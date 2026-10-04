@@ -1,0 +1,14 @@
+{
+  "invocation": "f3bb6fc8-f948-457f-83df-79283d5c9967",
+  "stage": "collection-native-guidance",
+  "pid": 31553,
+  "manifest": "/workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/native-manifest.json",
+  "digest": "a45038d04a9be0898ffc789cba02f4419b371d77ecaef7f29abac1610845cccc",
+  "provenance": "Verified native graph; all four public values are direct function references",
+  "referenceIdentity": {
+    "createBurnScratch": true,
+    "createFallResult": true,
+    "landingBurnStartAltitude": true,
+    "unpoweredFallInto": true
+  }
+}

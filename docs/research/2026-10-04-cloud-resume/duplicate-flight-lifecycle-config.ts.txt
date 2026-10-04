@@ -1,0 +1,2 @@
+import {defineConfig} from 'vitest/config';
+export default defineConfig({test:{include:[process.env.DUPLICATE_FLIGHT_PROOF_FILE!],environment:'node',maxWorkers:1,maxConcurrency:1,isolate:true,fileParallelism:false,testTimeout:30000,retry:0,sequence:{shuffle:false},reporters:['default','json'],outputFile:{json:`${process.env.DUPLICATE_FLIGHT_PROOF_RECEIPT}/test-results.json`}}});
