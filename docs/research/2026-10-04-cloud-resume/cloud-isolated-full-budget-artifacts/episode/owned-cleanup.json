@@ -1,0 +1,45 @@
+{
+  "owned": [
+    {
+      "pid": 26145,
+      "starttime": "1087412",
+      "ppid": 26133,
+      "pgrp": 26145,
+      "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+    },
+    {
+      "pid": 26189,
+      "starttime": "1087423",
+      "ppid": 26148,
+      "pgrp": 26145,
+      "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+    },
+    {
+      "pid": 26163,
+      "starttime": "1087419",
+      "ppid": 26147,
+      "pgrp": 26145,
+      "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+    },
+    {
+      "pid": 26165,
+      "starttime": "1087419",
+      "ppid": 26145,
+      "pgrp": 26145,
+      "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+    },
+    {
+      "pid": 26220,
+      "starttime": "1087894",
+      "ppid": 26145,
+      "pgrp": 26145,
+      "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+    }
+  ],
+  "remaining": [],
+  "errors": [],
+  "fallbackOrphanedGroups": [],
+  "verifiedNonexecutingDescendants": true,
+  "cleanupMs": 3,
+  "limitation": "stateZ remains possible underPID1; not a reaping claim"
+}

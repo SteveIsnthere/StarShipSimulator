@@ -1,0 +1,67 @@
+[WebServer] (node:26108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:26133) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts:117:5 › full-frame visual budgets › launch: CPU + GPU completion and actual cadence @mobile @visual-budget (1.2m)
+
+
+  1) [chromium] › docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts:117:5 › full-frame visual budgets › launch: CPU + GPU completion and actual cadence @mobile @visual-budget 
+
+    TimeoutError: page.waitForFunction: Timeout 60000ms exceeded.
+
+      168 |         }, count);
+      169 |         // Timer polling avoids adding benchmark-owned RAF callbacks to the CPU sum.
+    > 170 |         await page.waitForFunction(() => {
+          |                    ^
+      171 |           const result = (window as unknown as WindowDebug).__visualBudget.result();
+      172 |           return result.done || result.errors.length > 0;
+      173 |         },
+        at /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts:170:20
+
+    attachment #1: before-runtime.json (application/json) ──────────────────────────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/before-runtime-json-0b4a5b530dbd9b3ba84baf678ad9bc846f88beeb.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: isolated-pre-controls-topology.json (application/json) ──────────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-pre-controls-topology-json-ec2a672d1620480d2a199406288de61cda46c566.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: isolated-pre-controls-identity.json (application/json) ──────────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-pre-controls-identity-json-a936af394900b1f99ee7d1ef2d17db1b814d4ba3.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: segment-0-before.json (application/json) ────────────────────────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/segment-0-before-json-12621b5dec22694bd356a03bb6f801cca83021f5.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: isolated-before-measured-topology.json (application/json) ───────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-before-measured-topology-json-c8fcc0c7b24166f4b448905d844b3725d6f39814.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: isolated-before-measured-identity.json (application/json) ───────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-before-measured-identity-json-a14e8c2e6b9ad2287aef549f740042ccfcdb1ab2.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: failure-probe.json (application/json) ───────────────────────────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/failure-probe-json-38644292cd9399daf2802191e69442cc5c008624.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: failure-runtime.json (application/json) ─────────────────────────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/failure-runtime-json-d094d4e5df0e000f2d763f525e0a30b3e9a561dc.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: isolated-failure-topology.json (application/json) ───────────────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-failure-topology-json-00ee104f91eff4b4965d47b411354510a5ccfb9e.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: isolated-failure-identity.json (application/json) ──────────────────────────────
+    ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-failure-identity-json-27530e468999b68a81b927c1fd52c8462b70032b.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/starship-isolated-budget.yacBDVOu/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/error-context.md
+
+  1 failed
+    [chromium] › docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts:117:5 › full-frame visual budgets › launch: CPU + GPU completion and actual cadence @mobile @visual-budget 

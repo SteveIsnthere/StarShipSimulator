@@ -1,0 +1,17 @@
+{
+  "resultPins": {
+    "docs/research/2026-10-04-cloud-resume/ssr-profile-retained-analysis-v2.json": "65f6bfd571b42c9cfaebf12b42ffc974ded33dd0c1a99b78f1491214925e1180",
+    "docs/research/2026-10-04-cloud-resume/ssr-profile-retained-analysis-outcome.md": "9acdd2f1c508ac378bb2357beac2ba1e88763e5e1082370e165bc5de67eb22a3"
+  },
+  "all13InputPinsMatch": true,
+  "samples": 31437,
+  "rawSignedDeltaUs": 35597717,
+  "negativeNativeDeltas": [
+    {
+      "sampleIndex": 22346,
+      "nativeDeltaUs": -3
+    }
+  ],
+  "originalDiagnosticExitStatus": 1,
+  "bitExactWitnessClaim": false
+}

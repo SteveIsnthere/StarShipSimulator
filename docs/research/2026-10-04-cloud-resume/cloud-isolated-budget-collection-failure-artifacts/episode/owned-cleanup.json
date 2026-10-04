@@ -1,0 +1,9 @@
+{
+  "owned": [],
+  "remaining": [],
+  "errors": [],
+  "fallbackOrphanedGroups": [],
+  "verifiedNonexecutingDescendants": true,
+  "cleanupMs": 2,
+  "limitation": "stateZ remains possible underPID1; not a reaping claim"
+}

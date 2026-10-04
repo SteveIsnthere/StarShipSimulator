@@ -1,0 +1,9 @@
+# Independent high review: synthetic public provider proof
+
+Research only, no context instantiation or test execution by reviewer. Exact driver d21229aeb8a879d00cfdf52d6ef5d9c0439d228b814f2e0c130ee6fefaddc8e9 and declaration e47f294eb733d585e6e8d207b5ade997d0f955479f0f8a1143166e653a812a94 were read in full; adjacent JSON pins actual source.
+
+The public default module getProvider loader, native threshold decisions and seventeen independently known positive/below-floor maps are suitable for a bounded API feasibility experiment. This proves neither real source coverage completeness nor live-gate report provenance. Finalized receipts now follow context closure and after-pin checks, use exclusive creation, and any late error exits distinct2. Parent rejects missing or nonfinalized receipts and mismatched pins. These repairs close the expected-native-red exit1 masking bug. Exact original threshold objects,30s framework timeout and no collected files are checked. No elapsed assertion was added.
+
+Approve exactly one bounded synthetic API attempt with these frozen driver/declaration hashes after parent exclusive CPU grant. Each child hard SIGKILL and4MiB buffer limit rejects timeout/signal/buffer failure; finalized context closure remains required for normal evidence. Parent must independently verify no executing owned processes before releasing CPU, including any failure. No test pool is started or collected.
+
+A preliminary reviewer concern incorrectly inferred that installed esbuild.spawn must be reached by config loading. Deeper actual Vite8 bundleConfigFile uses rolldown (node.js:37032), not esbuild. The mere presence of esbuild in node_modules does not justify imposing an additional helper harness; that blocker is withdrawn. These source files remain pinned to make the correction reviewable. Review does not approve source/config orchestration implementation or imply actual coverage acceptance.

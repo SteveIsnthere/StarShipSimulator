@@ -1,0 +1,276 @@
+{
+  "label": "pre-controls",
+  "records": [
+    {
+      "type": "browser",
+      "identity": {
+        "pid": 26145,
+        "starttime": "1087412",
+        "ppid": 26133,
+        "pgrp": 26145
+      },
+      "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell",
+      "cwd": "/workspace/StarShipSimulator",
+      "actualArgv": [
+        "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell",
+        "--disable-field-trial-config",
+        "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-back-forward-cache",
+        "--disable-breakpad",
+        "--disable-client-side-phishing-detection",
+        "--disable-component-extensions-with-background-pages",
+        "--disable-component-update",
+        "--no-default-browser-check",
+        "--disable-default-apps",
+        "--disable-dev-shm-usage",
+        "--disable-edgeupdater",
+        "--disable-extensions",
+        "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion",
+        "--enable-features=CDPScreenshotNewSurface",
+        "--allow-pre-commit-input",
+        "--disable-hang-monitor",
+        "--disable-ipc-flooding-protection",
+        "--disable-popup-blocking",
+        "--disable-prompt-on-repost",
+        "--disable-renderer-backgrounding",
+        "--disable-updater-scheduler",
+        "--force-color-profile=srgb",
+        "--metrics-recording-only",
+        "--no-first-run",
+        "--password-store=basic",
+        "--use-mock-keychain",
+        "--no-service-autorun",
+        "--export-tagged-pdf",
+        "--disable-search-engine-choice-screen",
+        "--unsafely-disable-devtools-self-xss-warnings",
+        "--edge-skip-compat-layer-relaunch",
+        "--disable-infobars",
+        "--disable-search-engine-choice-screen",
+        "--disable-sync",
+        "--enable-unsafe-swiftshader",
+        "--headless",
+        "--hide-scrollbars",
+        "--mute-audio",
+        "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+        "--no-sandbox",
+        "--no-sandbox",
+        "--use-gl=angle",
+        "--use-angle=swiftshader",
+        "--enable-unsafe-swiftshader",
+        "--user-data-dir=/tmp/playwright_chromiumdev_profile-jzkwyh",
+        "--remote-debugging-pipe",
+        "--no-startup-window"
+      ],
+      "safeStatus": {
+        "Uid": "1000\t1000\t1000\t1000",
+        "Gid": "1000\t1000\t1000\t1000",
+        "NoNewPrivs": "0",
+        "Seccomp": "0",
+        "Seccomp_filters": "0"
+      },
+      "workers": [],
+      "threads": [],
+      "swiftshaderMappings": []
+    },
+    {
+      "type": "renderer",
+      "identity": {
+        "pid": 26189,
+        "starttime": "1087423",
+        "ppid": 26148,
+        "pgrp": 26145
+      },
+      "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell",
+      "cwd": "/workspace/StarShipSimulator",
+      "actualArgv": [
+        "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell --type=renderer --headless=old --no-sandbox --disable-dev-shm-usage --disable-back-forward-cache --disable-background-timer-throttling --disable-breakpad --force-color-profile=srgb --remote-debugging-pipe --allow-pre-commit-input --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --ozone-platform=headless --lang=en-US --num-raster-threads=2 --enable-main-frame-before-activation --renderer-client-id=4 --time-ticks-at-unix-epoch=-1791090977313215 --launch-time-ticks=10874237577 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,8565661258674581559,6230974926298464943,262144 --enable-features=CDPScreenshotNewSurface --disable-features=AutoDeElevate,AvoidUnnecessaryBeforeUnloadCheckSync,BlockOriginHeaderModificationOnRedirect,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,OptimizationHints,PaintHolding,ThirdPartyStoragePartitioning,Translate,msEdgeUpdateLaunchServicesPreferredVersion,msForceBrowserSignIn --variations-seed-version --pseudonymization-salt-handle=7,i,1704868288794582714,2007093288999830509,4 --trace-process-track-uuid=3190708990060038890"
+      ],
+      "safeStatus": {
+        "Uid": "1000\t1000\t1000\t1000",
+        "Gid": "1000\t1000\t1000\t1000",
+        "NoNewPrivs": "1",
+        "Seccomp": "0",
+        "Seccomp_filters": "0"
+      },
+      "workers": [],
+      "threads": [],
+      "swiftshaderMappings": []
+    },
+    {
+      "type": "GPU",
+      "identity": {
+        "pid": 26163,
+        "starttime": "1087419",
+        "ppid": 26147,
+        "pgrp": 26145
+      },
+      "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell",
+      "cwd": "/workspace/StarShipSimulator",
+      "actualArgv": [
+        "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell --type=gpu-process --no-sandbox --disable-dev-shm-usage --disable-breakpad --headless --ozone-platform=headless --use-angle=swiftshader --enable-unsafe-swiftshader --gpu-preferences=YAAAAAAAAAAgAAAEAAAAAAAAAAAAAGAASAAAAAAAAAABAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAMAAAAAQAAAAAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --use-gl=angle --shared-files --field-trial-handle=3,i,8565661258674581559,6230974926298464943,262144 --enable-features=CDPScreenshotNewSurface --disable-features=AutoDeElevate,AvoidUnnecessaryBeforeUnloadCheckSync,BlockOriginHeaderModificationOnRedirect,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,OptimizationHints,PaintHolding,ThirdPartyStoragePartitioning,Translate,msEdgeUpdateLaunchServicesPreferredVersion,msForceBrowserSignIn --variations-seed-version --pseudonymization-salt-handle=7,i,1704868288794582714,2007093288999830509,4 --trace-process-track-uuid=3190708988185955192"
+      ],
+      "safeStatus": {
+        "Uid": "1000\t1000\t1000\t1000",
+        "Gid": "1000\t1000\t1000\t1000",
+        "NoNewPrivs": "1",
+        "Seccomp": "0",
+        "Seccomp_filters": "0"
+      },
+      "workers": [
+        {
+          "tid": 26169,
+          "comm": "Thread<00>",
+          "affinity": "0-4",
+          "stat": "26169 (Thread<00>) S 26147 26145 26145 0 -1 4194368 3 0 0 0 0 0 0 0 20 0 12 0 1087420 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 3 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26170,
+          "comm": "Thread<01>",
+          "affinity": "0-4",
+          "stat": "26170 (Thread<01>) S 26147 26145 26145 0 -1 4194368 4 0 0 0 0 0 0 0 20 0 12 0 1087420 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 2 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26171,
+          "comm": "Thread<02>",
+          "affinity": "0-4",
+          "stat": "26171 (Thread<02>) S 26147 26145 26145 0 -1 4194368 3 0 0 0 0 0 0 0 20 0 12 0 1087420 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 4 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        }
+      ],
+      "threads": [
+        {
+          "tid": 26163,
+          "comm": "chrome-headless",
+          "affinity": "0-4",
+          "stat": "26163 (chrome-headless) S 26147 26145 26145 0 -1 4194624 3619 0 0 0 0 2 0 0 20 0 12 0 1087419 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 17 1 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26169,
+          "comm": "Thread<00>",
+          "affinity": "0-4",
+          "stat": "26169 (Thread<00>) S 26147 26145 26145 0 -1 4194368 3 0 0 0 0 0 0 0 20 0 12 0 1087420 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 3 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26170,
+          "comm": "Thread<01>",
+          "affinity": "0-4",
+          "stat": "26170 (Thread<01>) S 26147 26145 26145 0 -1 4194368 4 0 0 0 0 0 0 0 20 0 12 0 1087420 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 2 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26171,
+          "comm": "Thread<02>",
+          "affinity": "0-4",
+          "stat": "26171 (Thread<02>) S 26147 26145 26145 0 -1 4194368 3 0 0 0 0 0 0 0 20 0 12 0 1087420 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 4 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26174,
+          "comm": "chrome-headless",
+          "affinity": "0-4",
+          "stat": "26174 (chrome-headless) S 26147 26145 26145 0 -1 4194368 2 0 0 0 0 0 0 0 20 0 12 0 1087420 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 3 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26175,
+          "comm": "ANGLE-GC",
+          "affinity": "0-4",
+          "stat": "26175 (ANGLE-GC) S 26147 26145 26145 0 -1 4194368 2 0 0 0 0 0 0 0 20 0 12 0 1087420 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 2 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26176,
+          "comm": "PerfettoTrace",
+          "affinity": "0-4",
+          "stat": "26176 (PerfettoTrace) S 26147 26145 26145 0 -1 4194368 1 0 0 0 0 0 0 0 20 0 12 0 1087421 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 3 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26177,
+          "comm": "ThreadPoolServi",
+          "affinity": "0-4",
+          "stat": "26177 (ThreadPoolServi) S 26147 26145 26145 0 -1 4194368 6 0 0 0 0 0 0 0 20 0 12 0 1087421 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 3 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26178,
+          "comm": "ThreadPoolForeg",
+          "affinity": "0-4",
+          "stat": "26178 (ThreadPoolForeg) S 26147 26145 26145 0 -1 4194368 5 0 0 0 0 0 0 0 20 0 12 0 1087421 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 4 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26179,
+          "comm": "Chrome_ChildIOT",
+          "affinity": "0-4",
+          "stat": "26179 (Chrome_ChildIOT) S 26147 26145 26145 0 -1 4194368 109 0 0 0 0 0 0 0 20 0 12 0 1087421 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 2 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26180,
+          "comm": "VizCompositorTh",
+          "affinity": "0-4",
+          "stat": "26180 (VizCompositorTh) S 26147 26145 26145 0 -1 4194368 106 0 0 0 0 0 0 0 20 0 12 0 1087421 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 4 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        },
+        {
+          "tid": 26197,
+          "comm": "ThreadPoolSingl",
+          "affinity": "0-4",
+          "stat": "26197 (ThreadPoolSingl) S 26147 26145 26145 0 -1 4194368 26 0 0 0 0 0 0 0 20 0 12 0 1087426 56175263744 15886 18446744073709551615 94281186844672 94281348771440 140725408403328 0 0 0 0 4098 66792 1 0 0 -1 0 0 0 0 0 0 94281354866688 94281355751425 94281855909888 140725408406627 140725408406754 140725408406754 140725408411571 0\n"
+        }
+      ],
+      "swiftshaderMappings": [
+        "7f5c308d8000-7f5c30999000 r--p 00000000 00:21 8959                       /tmp/starship-isolated-worker.yaw4OkY0/browser/libvk_swiftshader.so",
+        "7f5c30999000-7f5c30c9b000 r-xp 000c0000 00:21 8959                       /tmp/starship-isolated-worker.yaw4OkY0/browser/libvk_swiftshader.so",
+        "7f5c30c9b000-7f5c30cb4000 r--p 003c1000 00:21 8959                       /tmp/starship-isolated-worker.yaw4OkY0/browser/libvk_swiftshader.so",
+        "7f5c30cb4000-7f5c30cb5000 rw-p 003d9000 00:21 8959                       /tmp/starship-isolated-worker.yaw4OkY0/browser/libvk_swiftshader.so"
+      ]
+    },
+    {
+      "type": "network.mojom.NetworkService",
+      "identity": {
+        "pid": 26165,
+        "starttime": "1087419",
+        "ppid": 26145,
+        "pgrp": 26145
+      },
+      "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell",
+      "cwd": "/workspace/StarShipSimulator",
+      "actualArgv": [
+        "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --no-sandbox --disable-dev-shm-usage --use-angle=swiftshader --use-gl=angle --mute-audio --headless=old --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,8565661258674581559,6230974926298464943,262144 --enable-features=CDPScreenshotNewSurface --disable-features=AutoDeElevate,AvoidUnnecessaryBeforeUnloadCheckSync,BlockOriginHeaderModificationOnRedirect,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,OptimizationHints,PaintHolding,ThirdPartyStoragePartitioning,Translate,msEdgeUpdateLaunchServicesPreferredVersion,msForceBrowserSignIn --variations-seed-version --pseudonymization-salt-handle=7,i,1704868288794582714,2007093288999830509,4 --trace-process-track-uuid=3190708989122997041"
+      ],
+      "safeStatus": {
+        "Uid": "1000\t1000\t1000\t1000",
+        "Gid": "1000\t1000\t1000\t1000",
+        "NoNewPrivs": "1",
+        "Seccomp": "0",
+        "Seccomp_filters": "0"
+      },
+      "workers": [],
+      "threads": [],
+      "swiftshaderMappings": []
+    }
+  ],
+  "reference": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell",
+  "actual": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell",
+  "requestedWorkers": 3,
+  "harness": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts",
+      "sha256": "b3ee9e89567f0692d6abbd1bfae7779434917be3766eeec2ee037d135e11051b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.config.ts",
+      "sha256": "de7e33101ecd080b556bbcd7255fdfa8115e848b7762306b278a9e0512175526"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-boundary.ts",
+      "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-cleanup.ts",
+      "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-isolated-budget-episode.sh",
+      "sha256": "c95b3b268a58b7f172dfb4b933ff48fa2dcb16ac09b57c2ec53665376485dd49"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-declaration.md",
+      "sha256": "759eab653e3aaeffac2d9964614fd8fa2f903c44faa767643cbaa7d3f9e20c4d"
+    }
+  ]
+}

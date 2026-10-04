@@ -1,0 +1,5 @@
+[WebServer] (node:25301) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+Error: Cannot find module '/workspace/StarShipSimulator/docs/src/ui/testids' imported from /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-independent-review-artifacts/isolated-launch-budget.spec.ts
+Error: Cannot find module '/workspace/StarShipSimulator/docs/src/ui/testids' imported from /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-independent-review-final/isolated-launch-budget.spec.ts
+

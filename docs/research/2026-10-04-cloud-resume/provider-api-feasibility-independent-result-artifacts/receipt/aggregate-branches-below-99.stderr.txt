@@ -1,0 +1,2 @@
+ERROR: Coverage for branches (98%) does not meet global threshold (99%)
+ERROR: Coverage for branches (98%) does not meet "src/core/physics/**" threshold (100%)

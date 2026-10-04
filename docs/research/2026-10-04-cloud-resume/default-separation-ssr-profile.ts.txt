@@ -1,0 +1,70 @@
+/** Research-only SSR flight profile; never an acceptance timing harness. */
+import {Session} from 'node:inspector';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {deepStrictEqual} from 'node:assert';
+import {PRESETS,ALL_SCENARIOS,createScenarioVehicle} from '../../../src/core/scenarios';
+import {toggleAutoLand} from '../../../src/core/control/commands';
+import {step} from '../../../src/core/step';
+import {SUPER_HEAVY} from '../../../src/core/vehicles/super-heavy';
+import {createCatchPose,writeCatchPose} from '../../../src/core/physics/tower-catch';
+
+const out=process.env.SEP_PROFILE_RECEIPT;
+if(!out||process.env.STARSHIP_CPU_SLOT_GRANTED!=='separation-ssr-profile')throw Error('Explicit profile receipt and exclusive parent CPU grant required');
+const root=process.cwd(),research=`${root}/docs/research/2026-10-04-cloud-resume`;
+const save=(name:string,value:unknown)=>writeFileSync(`${out}/${name}`,JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const digest=(file:string)=>createHash('sha256').update(readFileSync(file)).digest('hex');
+const pins=JSON.parse(readFileSync(`${research}/terminal-grid-separation-core-hashes.json`,'utf8'));
+function verify(){for(const [file,hash] of Object.entries(pins))if(digest(`${root}/${file}`)!==hash)throw Error(`Catch witness core mismatch:${file}`);}
+verify();
+const preset=PRESETS.find(p=>p.id==='booster-sep')!;
+const flight=createScenarioVehicle(preset),other=createScenarioVehicle(ALL_SCENARIOS.find(p=>p.id==='booster-sep')!);
+flight.state.autopilot.autoLandOn=true;toggleAutoLand(other.state);
+deepStrictEqual(flight.state,other.state);deepStrictEqual(flight.vehicle,other.vehicle);
+if(flight.vehicle!==SUPER_HEAVY||other.vehicle!==SUPER_HEAVY)throw Error('Original model identity mismatch');
+const DT=1/120,limit=108000;
+save('recipe.json',{backend:'vite-node SSR',seed:'original omitted DEFAULT_SEED',initial:flight.state,model:flight.vehicle,dt:DT,limit,stop:'first landed/crashed/inFlightBreakUp',corePins:pins,acceptance:false});
+const session=new Session();session.connect();
+const post=(method:string,params:object={})=>new Promise<any>((resolve,reject)=>session.post(method,params,(e,r)=>e?reject(e):resolve(r)));
+const now=()=>Number(process.hrtime.bigint()/1000n);
+let state=flight.state,previous=state,ticks=0,error:unknown;
+const phases:Array<{phase:string,startUs:number,endUs:number,ticks:number}> = [];
+let profile:any,started=false,startBefore=0,startAfter=0;
+const workStart=now(),deadlineUs=workStart+120e6;
+try{
+ await post('Profiler.enable');await post('Profiler.setSamplingInterval',{interval:1000});
+ startBefore=now();await post('Profiler.start');started=true;startAfter=now();
+ save('profiler-clock-start.json',{startBefore,startAfter,clock:'process.hrtime CLOCK_MONOTONIC microseconds; verify against exported profile.startTime'});
+ for(let i=0;i<limit;i++){
+  if(now()>deadlineUs)throw Error('Declared120s profile work deadline');
+  const phase=state.autopilot.boosterPhase??'unset',startUs=now();
+  previous=state;state=step(state,DT,{},SUPER_HEAVY);ticks=i+1;
+  const endUs=now(),last=phases.at(-1);
+  if(last?.phase===phase){last.endUs=endUs;last.ticks++;}else phases.push({phase,startUs,endUs,ticks:1});
+  if(state.status.landed||state.failures.crashed||state.failures.inFlightBreakUp)break;
+ }
+}catch(e){error=e;}
+finally{
+ const stopStart=now();
+ let stopTimer:ReturnType<typeof setTimeout>|undefined;
+ try{if(started)profile=(await Promise.race([post('Profiler.stop'),new Promise((_,reject)=>{stopTimer=setTimeout(()=>reject(Error('Profiler stop5s deadline')),5000);})])).profile;}
+ catch(e){error??=e;}
+ finally{if(stopTimer)clearTimeout(stopTimer);}
+ session.disconnect();
+ save('phases.json',{phases,stopStartUs:stopStart,clock:'hrtime microseconds',profileStartUs:profile?.startTime,clockCompatible:!!profile&&profile.startTime>=startBefore-100000&&profile.startTime<=startAfter+100000,samplingIsNotCallCounting:true,includesSSRDispatch:true});
+ if(profile){const json=JSON.stringify(profile);if(Buffer.byteLength(json)>16*1024*1024){save('profile-truncated.json',{bytes:Buffer.byteLength(json),limit:16*1024*1024});error??=Error('CPU profile16MiB export cap');}else writeFileSync(`${out}/flight.cpuprofile`,json,{flag:'wx'});}
+ const lug=createCatchPose();writeCatchPose(state,SUPER_HEAVY,lug);
+ const physical=(s:typeof state)=>({time:s.world.environmentTime,kinematics:s.kinematics,vehicle:s.vehicle,forces:s.forces,atmosphere:s.atmosphere,engines:s.engines,status:s.status,failures:s.failures});
+ save('endpoint.json',{ticks,current:physical(state),previous:physical(previous),lug,damageRevision:state.damage?.revision,phase:state.autopilot.boosterPhase,reason:state.status.landed?'caught':state.failures.crashed?'crashed':state.failures.inFlightBreakUp?'brokeUp':'flying',acceptance:false});
+ try{
+  verify();
+  const rows=readFileSync(`${research}/terminal-grid-separation-receipt.jsonl`,'utf8').trim().split('\n').map(l=>JSON.parse(l));
+  const witness=rows.find(r=>r.event==='outcome')?.data;if(!witness)throw Error('Missing pinned physical catch witness');
+  deepStrictEqual(ticks,witness.ticks);
+  for(const key of ['kinematics','vehicle','forces','atmosphere','engines','status','failures']){deepStrictEqual((state as any)[key],witness.current[key]);deepStrictEqual((previous as any)[key],witness.previous[key]);}
+  deepStrictEqual(state.world.environmentTime,witness.time);
+  save('witness-comparison.json',{exactSelectedPhysicalTrees:true,witnessSha256:digest(`${research}/terminal-grid-separation-receipt.jsonl`),newAcceptance:false});
+ }catch(e){error??=e;}
+ if(error)save('failure.json',{error:String(error),ticks});
+}
+if(error)throw error;

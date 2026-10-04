@@ -1,0 +1,71 @@
+{
+  "id": "all-protected-metrics-100-positive",
+  "nativeExitCode": 0,
+  "providerClass": "V8CoverageProvider",
+  "providerName": "v8",
+  "providerVersion": "4.1.11",
+  "testTimeout": 30000,
+  "thresholds": {
+    "branches": 99,
+    "lines": 99,
+    "functions": 98,
+    "statements": 99,
+    "src/core/physics/**": {
+      "branches": 100,
+      "lines": 100,
+      "functions": 100,
+      "statements": 98
+    },
+    "src/core/control/**": {
+      "branches": 95,
+      "lines": 95,
+      "functions": 95,
+      "statements": 95
+    },
+    "src/core/autopilot/**": {
+      "branches": 95,
+      "lines": 99,
+      "functions": 100,
+      "statements": 99
+    }
+  },
+  "collectedTestFiles": 0,
+  "fixturePaths": [
+    "/workspace/StarShipSimulator/src/core/physics/__synthetic_provider_probe__.ts",
+    "/workspace/StarShipSimulator/src/core/control/__synthetic_provider_probe__.ts",
+    "/workspace/StarShipSimulator/src/core/autopilot/__synthetic_provider_probe__.ts",
+    "/workspace/StarShipSimulator/src/core/__synthetic_provider_probe__.ts"
+  ],
+  "fixtureSha256": "c7c725ab6177337fbfdf21b5d076b3f0c0cb7cd5b7de77ac5662dfd5307f7bd2",
+  "nativeErrors": [],
+  "expectedFailures": [],
+  "sourcePins": {
+    "vitest.config.ts": "4debcf42809334dfc4fefcc4f8d7274fbdcfdc429d7fc99b06310eea588061b0",
+    "package.json": "a5eaca6986392da131d45c5c646204c2a58a2e9b1dc16af8a934175b9e2196f5",
+    "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9",
+    "node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js": "e509f3cc1bd81ae6426265253fa926cbde02be5cebfe35b1df422017bffdca31",
+    "node_modules/@vitest/coverage-v8/dist/provider.js": "e8e1c964f317bfacd48d7e24275cdc7dd29e10e6ccab064194df27bfe48065f8",
+    "node_modules/@vitest/coverage-v8/dist/index.js": "be14126e3dc6e83461555879c53945dd8adbce254d6ffba32e4e83ee04e270e7",
+    "node_modules/@vitest/coverage-v8/dist/load-provider-CdgAx3rL.js": "abbdb4bd0d65b5c4d624d45c3e3cd4360bb4759948a3ec4f6935e777902eb571",
+    "node_modules/vitest/dist/node.js": "34be25dbabf478136f6ea1b1f7b9a075ab833a14df3da9fc69d39b671dc19551",
+    "node_modules/vitest/package.json": "a28126d97bcaf567da5bed69443b7f3bcd9a7a8c38c8b66e554686b6bb2c10e0",
+    "node_modules/@vitest/coverage-v8/package.json": "2fda0ef9aa32bb1c64ae42c04652c9b3221d4881db6fb227d82535a6b6665c28",
+    "docs/research/2026-10-04-cloud-resume/provider-api-feasibility-v1.mjs": "d21229aeb8a879d00cfdf52d6ef5d9c0439d228b814f2e0c130ee6fefaddc8e9",
+    "docs/research/2026-10-04-cloud-resume/provider-api-feasibility-v1-declaration.md": "e47f294eb733d585e6e8d207b5ade997d0f955479f0f8a1143166e653a812a94"
+  },
+  "afterPins": {
+    "vitest.config.ts": "4debcf42809334dfc4fefcc4f8d7274fbdcfdc429d7fc99b06310eea588061b0",
+    "package.json": "a5eaca6986392da131d45c5c646204c2a58a2e9b1dc16af8a934175b9e2196f5",
+    "package-lock.json": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9",
+    "node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js": "e509f3cc1bd81ae6426265253fa926cbde02be5cebfe35b1df422017bffdca31",
+    "node_modules/@vitest/coverage-v8/dist/provider.js": "e8e1c964f317bfacd48d7e24275cdc7dd29e10e6ccab064194df27bfe48065f8",
+    "node_modules/@vitest/coverage-v8/dist/index.js": "be14126e3dc6e83461555879c53945dd8adbce254d6ffba32e4e83ee04e270e7",
+    "node_modules/@vitest/coverage-v8/dist/load-provider-CdgAx3rL.js": "abbdb4bd0d65b5c4d624d45c3e3cd4360bb4759948a3ec4f6935e777902eb571",
+    "node_modules/vitest/dist/node.js": "34be25dbabf478136f6ea1b1f7b9a075ab833a14df3da9fc69d39b671dc19551",
+    "node_modules/vitest/package.json": "a28126d97bcaf567da5bed69443b7f3bcd9a7a8c38c8b66e554686b6bb2c10e0",
+    "node_modules/@vitest/coverage-v8/package.json": "2fda0ef9aa32bb1c64ae42c04652c9b3221d4881db6fb227d82535a6b6665c28",
+    "docs/research/2026-10-04-cloud-resume/provider-api-feasibility-v1.mjs": "d21229aeb8a879d00cfdf52d6ef5d9c0439d228b814f2e0c130ee6fefaddc8e9",
+    "docs/research/2026-10-04-cloud-resume/provider-api-feasibility-v1-declaration.md": "e47f294eb733d585e6e8d207b5ade997d0f955479f0f8a1143166e653a812a94"
+  },
+  "finalized": true
+}

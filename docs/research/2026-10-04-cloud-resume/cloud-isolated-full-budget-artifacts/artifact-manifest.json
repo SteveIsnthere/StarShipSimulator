@@ -1,0 +1,237 @@
+[
+  {
+    "path": "cloud-isolated-full-budget-declaration.md",
+    "bytes": 5729,
+    "sha256": "759eab653e3aaeffac2d9964614fd8fa2f903c44faa767643cbaa7d3f9e20c4d"
+  },
+  {
+    "path": "episode/episode-declaration.json",
+    "bytes": 1804,
+    "sha256": "a755f0c9ab98c03169bda669ddedd7ce53ae63ee648a7a0936c4f5b8498a7a5c"
+  },
+  {
+    "path": "episode/exit-code.txt",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+  },
+  {
+    "path": "episode/html-report/data/04648ffbecba59658ef9ec880c1718ffbd54fbd0.json",
+    "bytes": 125270,
+    "sha256": "ec32bb125926ae2efa7c38223c704007524c5ceaaff3fd3a043ad10898d5ff68"
+  },
+  {
+    "path": "episode/html-report/data/125860e132a1c34d0e4e97c25d793978a99dd330.json",
+    "bytes": 17284,
+    "sha256": "0408568ad0aa2413406f38ceefa0d7dceb858080a0a381fdb741c1741113c67d"
+  },
+  {
+    "path": "episode/html-report/data/24c25d49998e3732baf0fabc547e632c7d75006b.json",
+    "bytes": 19857,
+    "sha256": "05198a55c6f07a499a260a62a62a2fc08aa24c2ed9c45c74c93a07612fab3228"
+  },
+  {
+    "path": "episode/html-report/data/4fa9b4d7fffa8d0e7cc3bae0e1e61df1ee0ee5d9.json",
+    "bytes": 63637,
+    "sha256": "451d2735f8028e5e89971eebe4b05b484b4778497a0c604f05af0cbc0611f74f"
+  },
+  {
+    "path": "episode/html-report/data/6a404307431585a861827c0d07ae593dc89c2e69.json",
+    "bytes": 30294,
+    "sha256": "a77461a88da264a41b8d186f95a0695c94ccd353904e8f51db641afed2f1ba5d"
+  },
+  {
+    "path": "episode/html-report/data/87738fe3d4e30412d4287fe1db0f11ac5269e96b.md",
+    "bytes": 19858,
+    "sha256": "7449db2823a7054a5b510301ee2efda6e8c6c03058f3541fc6763bb7c809f705"
+  },
+  {
+    "path": "episode/html-report/data/87f60031c704cf752d7b0123c3a12b0415f03109.json",
+    "bytes": 19851,
+    "sha256": "25f64b2f19d648c77bbd08c7620cc28d13cb85a53201d4ff77bb122975ec53af"
+  },
+  {
+    "path": "episode/html-report/data/8cf5b71b7448926ff78658ccff7edcb764000171.json",
+    "bytes": 2145,
+    "sha256": "cf29e53743c5ba9be16c5ba9be29cb9a16876ed5cad968a15de0f988a8747175"
+  },
+  {
+    "path": "episode/html-report/data/965cfe0fec6aa1d70ba6b69a52e7f483222a4371.json",
+    "bytes": 125270,
+    "sha256": "da510a814bd650277c2c5810b1f8b8ddc8e4e9677a94c7a1cadf3bc512e80739"
+  },
+  {
+    "path": "episode/html-report/data/cd7ea8560e6ed30caa3b43da9a868adac8ebb1cb.json",
+    "bytes": 2150,
+    "sha256": "80c65f4a5ebed73f1d3816048c122b38331a0c0abf5c4a9e810dc8896f514c94"
+  },
+  {
+    "path": "episode/html-report/data/d5ffc224b793240c357a82ddaa69471f7769e021.json",
+    "bytes": 2128,
+    "sha256": "1a889dd452369258fc09a41a2b4d2f267b595e47774af7743e56d5838f1a51b1"
+  },
+  {
+    "path": "episode/html-report/index.html",
+    "bytes": 526587,
+    "sha256": "b407b740a940a513b1c130648709e02e7dffc05357d24c5817e381b002c7ccbb"
+  },
+  {
+    "path": "episode/owned-cleanup.json",
+    "bytes": 1167,
+    "sha256": "7bcee450a01256e5c0ef037d8ec53cb6d603a555a155cee7d3ec969e2137aef0"
+  },
+  {
+    "path": "episode/post-exit-process-verification.json",
+    "bytes": 552,
+    "sha256": "9da8db59630da9d75c69795ee6ff078bcc2ea3e35802ce75209ccfee527cdc66"
+  },
+  {
+    "path": "episode/runner-output.txt",
+    "bytes": 8548,
+    "sha256": "db09fc5d43f30049c6ea9bac00e56cc64b3320f98410064e18d88928de39d54c"
+  },
+  {
+    "path": "episode/test-results/.last-run.json",
+    "bytes": 96,
+    "sha256": "94be0e99144f0b9f053b56eb469541bbaa2a6d250b41c7b546d6a10a8e5567f0"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/before-runtime-json-0b4a5b530dbd9b3ba84baf678ad9bc846f88beeb.json",
+    "bytes": 125270,
+    "sha256": "da510a814bd650277c2c5810b1f8b8ddc8e4e9677a94c7a1cadf3bc512e80739"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/failure-probe-json-38644292cd9399daf2802191e69442cc5c008624.json",
+    "bytes": 63637,
+    "sha256": "451d2735f8028e5e89971eebe4b05b484b4778497a0c604f05af0cbc0611f74f"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/failure-runtime-json-d094d4e5df0e000f2d763f525e0a30b3e9a561dc.json",
+    "bytes": 125270,
+    "sha256": "ec32bb125926ae2efa7c38223c704007524c5ceaaff3fd3a043ad10898d5ff68"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-before-measured-identity-json-a14e8c2e6b9ad2287aef549f740042ccfcdb1ab2.json",
+    "bytes": 2128,
+    "sha256": "1a889dd452369258fc09a41a2b4d2f267b595e47774af7743e56d5838f1a51b1"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-before-measured-topology-json-c8fcc0c7b24166f4b448905d844b3725d6f39814.json",
+    "bytes": 19851,
+    "sha256": "25f64b2f19d648c77bbd08c7620cc28d13cb85a53201d4ff77bb122975ec53af"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-failure-identity-json-27530e468999b68a81b927c1fd52c8462b70032b.json",
+    "bytes": 2145,
+    "sha256": "cf29e53743c5ba9be16c5ba9be29cb9a16876ed5cad968a15de0f988a8747175"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-failure-topology-json-00ee104f91eff4b4965d47b411354510a5ccfb9e.json",
+    "bytes": 19857,
+    "sha256": "05198a55c6f07a499a260a62a62a2fc08aa24c2ed9c45c74c93a07612fab3228"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-pre-controls-identity-json-a936af394900b1f99ee7d1ef2d17db1b814d4ba3.json",
+    "bytes": 2150,
+    "sha256": "80c65f4a5ebed73f1d3816048c122b38331a0c0abf5c4a9e810dc8896f514c94"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/isolated-pre-controls-topology-json-ec2a672d1620480d2a199406288de61cda46c566.json",
+    "bytes": 17284,
+    "sha256": "0408568ad0aa2413406f38ceefa0d7dceb858080a0a381fdb741c1741113c67d"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/attachments/segment-0-before-json-12621b5dec22694bd356a03bb6f801cca83021f5.json",
+    "bytes": 30294,
+    "sha256": "a77461a88da264a41b8d186f95a0695c94ccd353904e8f51db641afed2f1ba5d"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/before-runtime.json",
+    "bytes": 125270,
+    "sha256": "da510a814bd650277c2c5810b1f8b8ddc8e4e9677a94c7a1cadf3bc512e80739"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/error-context.md",
+    "bytes": 19858,
+    "sha256": "7449db2823a7054a5b510301ee2efda6e8c6c03058f3541fc6763bb7c809f705"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/failure-probe.json",
+    "bytes": 63637,
+    "sha256": "451d2735f8028e5e89971eebe4b05b484b4778497a0c604f05af0cbc0611f74f"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/failure-runtime.json",
+    "bytes": 125270,
+    "sha256": "ec32bb125926ae2efa7c38223c704007524c5ceaaff3fd3a043ad10898d5ff68"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/isolated-before-measured-identity.json",
+    "bytes": 2128,
+    "sha256": "1a889dd452369258fc09a41a2b4d2f267b595e47774af7743e56d5838f1a51b1"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/isolated-before-measured-topology.json",
+    "bytes": 19851,
+    "sha256": "25f64b2f19d648c77bbd08c7620cc28d13cb85a53201d4ff77bb122975ec53af"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/isolated-failure-identity.json",
+    "bytes": 2145,
+    "sha256": "cf29e53743c5ba9be16c5ba9be29cb9a16876ed5cad968a15de0f988a8747175"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/isolated-failure-topology.json",
+    "bytes": 19857,
+    "sha256": "05198a55c6f07a499a260a62a62a2fc08aa24c2ed9c45c74c93a07612fab3228"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/isolated-pre-controls-identity.json",
+    "bytes": 2150,
+    "sha256": "80c65f4a5ebed73f1d3816048c122b38331a0c0abf5c4a9e810dc8896f514c94"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/isolated-pre-controls-topology.json",
+    "bytes": 17284,
+    "sha256": "0408568ad0aa2413406f38ceefa0d7dceb858080a0a381fdb741c1741113c67d"
+  },
+  {
+    "path": "episode/test-results/isolated-launch-budget-ful-3c4a7-adence-mobile-visual-budget-chromium/segment-0-before.json",
+    "bytes": 30294,
+    "sha256": "a77461a88da264a41b8d186f95a0695c94ccd353904e8f51db641afed2f1ba5d"
+  },
+  {
+    "path": "isolated-budget-boundary.ts",
+    "bytes": 7726,
+    "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7"
+  },
+  {
+    "path": "isolated-budget-cleanup.ts",
+    "bytes": 3758,
+    "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f"
+  },
+  {
+    "path": "isolated-launch-budget.config.ts",
+    "bytes": 1858,
+    "sha256": "de7e33101ecd080b556bbcd7255fdfa8115e848b7762306b278a9e0512175526"
+  },
+  {
+    "path": "isolated-launch-budget.spec.ts",
+    "bytes": 14682,
+    "sha256": "b3ee9e89567f0692d6abbd1bfae7779434917be3766eeec2ee037d135e11051b"
+  },
+  {
+    "path": "outcome-summary.json",
+    "bytes": 14726,
+    "sha256": "1713479d6537f4a2743ec3c19bf00de47ffc6609e9f7107fc1f63c397983b6fe"
+  },
+  {
+    "path": "prepare-isolated-budget-episode.sh",
+    "bytes": 1973,
+    "sha256": "c95b3b268a58b7f172dfb4b933ff48fa2dcb16ac09b57c2ec53665376485dd49"
+  },
+  {
+    "path": "setup-receipt.json",
+    "bytes": 104463,
+    "sha256": "048950a830698688c2ab17b28cf8981e6ff0a31bcf3e0aabbddcc5b2c82ccd6d"
+  }
+]

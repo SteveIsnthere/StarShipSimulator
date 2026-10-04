@@ -1,0 +1,7 @@
+# Offline arithmetic attempt1 failure — preserved
+
+The parent-authorized sole offline arithmetic run of `ssr-profile-retained-analysis-v1.py` exited1 at its `delta >= 0` assertion. No analysis output was created. It did not execute a flight, source import, test or profiler. Before that assertion, the exhaustive JSON-storage comparison of all fourteen selected current/previous physical trees plus ticks/current time found no differences. This does not recover signed-zero identity and does not repair the original SSR profile's raw witness failure.
+
+Diagnosis: the existing native Inspector profile has31437samples/time deltas and exactly one negative delta, at sample index22346, value-3microseconds. Raw signed delta sum35597717microseconds. The original data remain unchanged. The arithmetic driver assumed monotonic nonnegative deltas; that assumption is contradicted by actual retained data.
+
+Proposed diagnosed research-only correction, pending fresh independent review: report actual native sample counts as the primary inclusive/exclusive/phase attribution; retain literal signed time deltas as a labelled diagnostic weighting proxy; explicitly list the negative timestamp jitter and deny exact CPU-time attribution. Do not clamp, replace or normalize any delta, change native profile contents, rerun the physical diagnostic or declare its exit1 green. Any second arithmetic invocation must use the reviewed changed analysis source and preserve this first failure. No unchanged rerun is authorized.

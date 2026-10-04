@@ -1,0 +1,5 @@
+# Independent actual result review: retained SSR arithmetic v2
+
+Output65f6bfd571b42c9cfaebf12b42ffc974ded33dd0c1a99b78f1491214925e1180 is consistent with the reviewed repair. Independently checked raw retained31437sample/delta cardinality, raw signed sum35597717microseconds, sole negative index22346:-3, phase counts sum31437, all13 current input hashes, empty selected fourteen-tree/ticks/time storage differences and original exit1/bitExactfalse. The outcome correctly limits its hotspot interpretations: inclusive rows overlap, URL/name merging, grid-name heuristic, live span versus forecast policy, jitter/boundary ambiguity and anonymous SSR binding uncertainty. No further parser/flight/profile run occurred; this was read-only receipt validation.
+
+V2 arithmetic completed successfully; original standalone SSR diagnostic and v1 parser remain failed. It proves retained JSON-storage comparison and coarse sample attribution only, not whole-state/ signed-zero identity, exact CPU time,30s/300s acceptance, removed SSR overhead or predicted optimization gain. Prepared-burn context implementation remains separate unapproved work.

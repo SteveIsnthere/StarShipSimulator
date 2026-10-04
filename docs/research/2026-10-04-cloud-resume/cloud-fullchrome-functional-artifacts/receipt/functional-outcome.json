@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "draws": 20,
+  "performanceAcceptance": false,
+  "limitation": "FULL CHROME functional topology only;20frame cadence diagnosis requires fresh actual-result review before any300trial; no hardwareGPU or performance acceptance"
+}

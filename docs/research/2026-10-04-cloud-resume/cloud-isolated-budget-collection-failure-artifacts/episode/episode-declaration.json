@@ -1,0 +1,39 @@
+{
+  "purpose": "ONE original full desktop launch budget,60warm300measured,no30trace/noqualitychanges",
+  "setup": "/tmp/starship-isolated-worker.yaw4OkY0",
+  "episode": "/tmp/starship-isolated-budget.B9APnDot",
+  "setupReceiptSha256": "048950a830698688c2ab17b28cf8981e6ff0a31bcf3e0aabbddcc5b2c82ccd6d",
+  "harness": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts",
+      "sha256": "b3ee9e89567f0692d6abbd1bfae7779434917be3766eeec2ee037d135e11051b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.config.ts",
+      "sha256": "00372b714e085e6184ab7ba6343a552d56fd8ab303f47b2ca5a2c2af5f2a5929"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-boundary.ts",
+      "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-cleanup.ts",
+      "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-isolated-budget-episode.sh",
+      "sha256": "c95b3b268a58b7f172dfb4b933ff48fa2dcb16ac09b57c2ec53665376485dd49"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-declaration.md",
+      "sha256": "db8a10ac5eea4551f276b8697257a502e54d05228ce157915b403242336d717d"
+    }
+  ],
+  "requestedWorkers": 3,
+  "retryCount": 0,
+  "cadenceFloorFps": 59,
+  "p95CeilingMs": 16.67,
+  "clockTicksPerSecond": 100,
+  "createdBootSeconds": 10501.39,
+  "createdUTCUnixSeconds": 1791101478.707378
+}

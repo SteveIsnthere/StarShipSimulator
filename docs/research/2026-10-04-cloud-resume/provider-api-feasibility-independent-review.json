@@ -1,0 +1,9 @@
+{
+  "disposition": "APPROVE one bounded synthetic API attempt only after exclusive parent CPU grant and independent process cleanup verification",
+  "pins": {
+    "docs/research/2026-10-04-cloud-resume/provider-api-feasibility-v1.mjs": "d21229aeb8a879d00cfdf52d6ef5d9c0439d228b814f2e0c130ee6fefaddc8e9",
+    "docs/research/2026-10-04-cloud-resume/provider-api-feasibility-v1-declaration.md": "e47f294eb733d585e6e8d207b5ade997d0f955479f0f8a1143166e653a812a94",
+    "node_modules/vite/dist/node/chunks/node.js": "f64038f08022030b77efee87b6baa81933a7b77d820aaa64bc3262fda44d80b0",
+    "node_modules/esbuild/lib/main.js": "61ec0ba144ff93f4bf0e96ad6fab6f430ede0aa13e27ace8063ed63ba416b3cd"
+  }
+}

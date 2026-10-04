@@ -1,0 +1,5 @@
+{
+  "reason": "Concurrent narrow cleanup guard changed hash during snapshot; no approval was issued at prior pins",
+  "expectedCleanup": "2bc4df3f6c6d1ed55b5fff1cfc4bcdfe58d6acc46c00be9c9615fcf796719805",
+  "actualCleanup": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f"
+}

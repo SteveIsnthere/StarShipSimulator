@@ -1,0 +1,172 @@
+{
+  "disposition": "valid finalized synthetic public threshold API evidence; outer wrapper status anomaly unresolved",
+  "savedNodeStatus": 0,
+  "outerToolWrapperStatus": 1,
+  "caseCount": 17,
+  "allCurrentSourcePinsMatch": true,
+  "cases": [
+    {
+      "id": "all-protected-metrics-100-positive",
+      "finalized": true,
+      "nativeStatus": 0,
+      "errors": 0
+    },
+    {
+      "id": "aggregate-branches-below-99",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 2
+    },
+    {
+      "id": "aggregate-lines-below-99",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 3
+    },
+    {
+      "id": "aggregate-functions-below-98",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 3
+    },
+    {
+      "id": "aggregate-statements-below-99",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 2
+    },
+    {
+      "id": "physics-branches-below-100",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "physics-lines-below-100",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "physics-functions-below-100",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "physics-statements-below-98",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "control-branches-below-95",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "control-lines-below-95",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "control-functions-below-95",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "control-statements-below-95",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "autopilot-branches-below-95",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "autopilot-lines-below-99",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "autopilot-functions-below-100",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    },
+    {
+      "id": "autopilot-statements-below-99",
+      "finalized": true,
+      "nativeStatus": 1,
+      "errors": 1
+    }
+  ],
+  "artifactSHA256": {
+    "exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "output.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "post-exit-process-verification.json": "97be2b755850a8a3d4b5cfcacc5e410147274beaf48b246a78d416b4350a3e82",
+    "receipt/aggregate-branches-below-99.json": "b282db23157d0db30ff2a93ed97e54c5fd7f4a1a6e72b6dcdb9e48c0903ad9fd",
+    "receipt/aggregate-branches-below-99.stderr.txt": "d0bf96ba3966ef97146a3f4e3750e299c27e3b2348c24e07a7f848f69e7fdb48",
+    "receipt/aggregate-branches-below-99.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/aggregate-functions-below-98.json": "6920ace50118ced4f4777917866c3fb9b3767df3a6253b58159303fccccb2c6f",
+    "receipt/aggregate-functions-below-98.stderr.txt": "935257173adc74d5f0ddde78ab1ca7f935ad0b39ff9af1b99cd07ffc0767ce29",
+    "receipt/aggregate-functions-below-98.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/aggregate-lines-below-99.json": "08244e8f3e961efbce9b3493afdbf6b1e0bb0fb4f31147e3883372a84d4028b6",
+    "receipt/aggregate-lines-below-99.stderr.txt": "b0bf1edf2e553ad350dc9be5a463b397d143813fbe377ed462ed5a2387014a05",
+    "receipt/aggregate-lines-below-99.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/aggregate-statements-below-99.json": "0cf53f9bb543d46fd966a5fd7a1108a0301e7c3af47c7002ba6bdf1d9c8f0fd3",
+    "receipt/aggregate-statements-below-99.stderr.txt": "d81f7e910a7c54ac07355ac06d1a9a81f8bd564958dd0c19c3d3ef819986b4cc",
+    "receipt/aggregate-statements-below-99.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/all-protected-metrics-100-positive.json": "62a756eba044007443db1c6e5f218a4ea94128205602189d03c1dccfb3045ff5",
+    "receipt/all-protected-metrics-100-positive.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/all-protected-metrics-100-positive.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/autopilot-branches-below-95.json": "7181a42d95ae935b1b49ccea32319b5a8c01e3bce5ac8c93b1740850a179e54a",
+    "receipt/autopilot-branches-below-95.stderr.txt": "cfa8ce641eb34befe699e6b26d6bc68191465424e247d6a161fbae43c076f349",
+    "receipt/autopilot-branches-below-95.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/autopilot-functions-below-100.json": "e29153cd4c9cc229c8bad733d29d4e8a22fb42ba51e59f8ee1c8df2858b991f3",
+    "receipt/autopilot-functions-below-100.stderr.txt": "babb4568b69847c8e2d61b003606623ecb7dcfd21a355059baaa660ecfa920c5",
+    "receipt/autopilot-functions-below-100.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/autopilot-lines-below-99.json": "ac41e33eadd4272e954f682c9c029318c8f42d4f6ab2a5edd9a23c00c8366062",
+    "receipt/autopilot-lines-below-99.stderr.txt": "48e9e51fe533eaef960acc55cb9c9bc5bd3709b7c86120d5c7e0c7e71d8084e8",
+    "receipt/autopilot-lines-below-99.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/autopilot-statements-below-99.json": "50a2a4ad1bb1dc126a2d1a4cda71a4db3cd1c9b3374737ab271adc6629a03ef3",
+    "receipt/autopilot-statements-below-99.stderr.txt": "09b240f9638892d08d462614d29c6de1783168cc99c5da63b930f24d9a116932",
+    "receipt/autopilot-statements-below-99.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/cases.json": "15fde959f8a25cb6282d79c5f2b99a08352b1b9823efc785ad6275db4a52ede6",
+    "receipt/control-branches-below-95.json": "b7bcfe6c51ae7752f4a4938847e130321967031f4bf098a26a3021367d1527fd",
+    "receipt/control-branches-below-95.stderr.txt": "6671027c8d87b26c3c6c40b6600032fa020c3a3975f0d59b037bd298a3239c7e",
+    "receipt/control-branches-below-95.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/control-functions-below-95.json": "3914975d70761106900fd7a0c18f0386444552f3b925fe8c59b1be923c659039",
+    "receipt/control-functions-below-95.stderr.txt": "a503bf77585d5afd1f00d5e1280af380aba3d1d4ad7d458b44ab06e4e7b1fa65",
+    "receipt/control-functions-below-95.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/control-lines-below-95.json": "82e6caf071cf7bfb11e720f9398c9b59b05ec792a9b3c08280b8c7a8fec8553b",
+    "receipt/control-lines-below-95.stderr.txt": "38ff4792931a1c8be0de9ca68719dd3fb985aff24d95bcd8bf492227f124aed1",
+    "receipt/control-lines-below-95.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/control-statements-below-95.json": "dcb35fdee3b0b273e3d138238a21880c3745ce818ceed680f2807bce1a81a043",
+    "receipt/control-statements-below-95.stderr.txt": "c1c79e94e2bf0b804e9b0d745626ff3c40dfba41ce7994466a409a5a5d48e8e7",
+    "receipt/control-statements-below-95.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/physics-branches-below-100.json": "870b9b9cbd20c935b1678e2f88fc42e0fdf750dd12f39a26955de0d7be562458",
+    "receipt/physics-branches-below-100.stderr.txt": "e746dd5d04e37e0fd5cc5040caa84fb4d99a04aaba96c02e95398e6228efa254",
+    "receipt/physics-branches-below-100.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/physics-functions-below-100.json": "dd1a3bec869da4d47c9f168e33ca52ccd1cf5924dbaab67cd0b05a1b71ee1591",
+    "receipt/physics-functions-below-100.stderr.txt": "aa74ca020e032b85fecf9f8ebeb6111c2a216295c4ba28f0f39dcd2194ef4c32",
+    "receipt/physics-functions-below-100.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/physics-lines-below-100.json": "0bbe5753e49ae2fa94d7ee50160b295087d4c4ea81d9d2da4f9851cf17a0c9f0",
+    "receipt/physics-lines-below-100.stderr.txt": "ddb5a5f339c2539b02444f9728ee3d3342df6ecf16b7fa244f882de4a07bb725",
+    "receipt/physics-lines-below-100.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/physics-statements-below-98.json": "c905035b7db6f4fea16bb6d4745d92f3b88efa5a1a8f3e29c8e802058dd75cc9",
+    "receipt/physics-statements-below-98.stderr.txt": "1488ec2cb9cbe52ea8adbc823c446f2c93f817844b07a441ba5301f168b550c0",
+    "receipt/physics-statements-below-98.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt/source-after.json": "fd8cf11b9a4e48e7aacd82339212a122f89b1cdc7ba7f3eb4c5cc8b986fd918b",
+    "receipt/source-before.json": "fd8cf11b9a4e48e7aacd82339212a122f89b1cdc7ba7f3eb4c5cc8b986fd918b",
+    "receipt/summary.json": "6007a82dd2c6fa979942553605958b23a173a8746239739b03ad9fdda2ac09e8",
+    "tool-wrapper-exit-code.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+  }
+}

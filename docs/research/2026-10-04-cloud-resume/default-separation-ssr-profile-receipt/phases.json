@@ -1,0 +1,46 @@
+{
+  "phases": [
+    {
+      "phase": "unset",
+      "startUs": 11134775660,
+      "endUs": 11134813170,
+      "ticks": 1
+    },
+    {
+      "phase": "align-boost",
+      "startUs": 11134813187,
+      "endUs": 11137341824,
+      "ticks": 1155
+    },
+    {
+      "phase": "boostback",
+      "startUs": 11137341826,
+      "endUs": 11140706619,
+      "ticks": 2914
+    },
+    {
+      "phase": "coast",
+      "startUs": 11140706621,
+      "endUs": 11159994896,
+      "ticks": 28712
+    },
+    {
+      "phase": "entry",
+      "startUs": 11159994898,
+      "endUs": 11169454181,
+      "ticks": 5300
+    },
+    {
+      "phase": "terminal",
+      "startUs": 11169454183,
+      "endUs": 11170302787,
+      "ticks": 2468
+    }
+  ],
+  "stopStartUs": 11170302788,
+  "clock": "hrtime microseconds",
+  "profileStartUs": 11134704860,
+  "clockCompatible": true,
+  "samplingIsNotCallCounting": true,
+  "includesSSRDispatch": true
+}
