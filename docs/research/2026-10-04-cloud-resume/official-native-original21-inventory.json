@@ -1,0 +1,96 @@
+{
+  "kind": "source-backed-original-native21-inventory-v1",
+  "executed": false,
+  "source": {
+    "tests/core/booster-guidance.test.ts": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+    "tests/flies-every-scenario.test.ts": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9",
+    "src/core/scenarios.ts": "d88f1d64122134491106fe540aee4152ab15e8c444a6731d0dc0f3adb0a7fd3e"
+  },
+  "fullNameApi": "locked Vitest TestCase.fullName uses parent.fullName + space > space + name; root module path omitted",
+  "expectedNativeInventory": [
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-guidance.test.ts",
+      "fullName": "actual booster scenarios are secured at the tower > booster-sep: autopilot catches the actual33-engine booster within900s"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-guidance.test.ts",
+      "fullName": "actual booster scenarios are secured at the tower > cannot fabricate a catch when every engine is failed"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-guidance.test.ts",
+      "fullName": "actual booster scenarios are secured at the tower > rtls: autopilot catches the actual33-engine booster within900s"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-guidance.test.ts",
+      "fullName": "booster engine authority follows shared ignition contracts > draws the ignition failure stream for each commanded return engine exactly once"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "every scenario runs to a definite outcome > before-flip flies"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "every scenario runs to a definite outcome > booster-sep flies"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "every scenario runs to a definite outcome > circularize flies"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "every scenario runs to a definite outcome > deorbit flies"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "every scenario runs to a definite outcome > intro flies"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "every scenario runs to a definite outcome > landing-burn flies"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "every scenario runs to a definite outcome > launch-pad flies"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "every scenario runs to a definite outcome > reentry flies"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "every scenario runs to a definite outcome > rtls flies"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the autopilot flies the ones it is meant to > before-flip: auto-land landed"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the autopilot flies the ones it is meant to > booster-sep: auto-land landed"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the autopilot flies the ones it is meant to > landing-burn: auto-land landed"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the autopilot flies the ones it is meant to > reentry: auto-land landed"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the autopilot flies the ones it is meant to > reentry: survives the heat it now actually meets"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the autopilot flies the ones it is meant to > rtls: auto-land landed"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the intro, which AGENTS.md says must never change > is deterministic: the same seed gives the same landing, every time"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the intro, which AGENTS.md says must never change > lands itself and hands the vehicle over with full tanks"
+    }
+  ]
+}

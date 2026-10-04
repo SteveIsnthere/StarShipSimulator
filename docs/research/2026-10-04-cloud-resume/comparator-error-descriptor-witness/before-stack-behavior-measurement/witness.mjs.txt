@@ -1,0 +1,70 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {createHash} from 'node:crypto';
+import {graphOracle as beforeOracle} from './graph-oracle.ts';
+const [receipt,failedControls]=process.argv.slice(2);assert(receipt&&failedControls);assert.equal(process.version,'v22.23.3');
+const sha=x=>createHash('sha256').update(x).digest('hex');
+const source=readFileSync(failedControls,'utf8');assert.equal(sha(source),'787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace');
+const snippet="parityCase('full error parity signed-zero scalar',()=>({run:o=>o.compare({n:-0},{n:0})}),'root.n: -0 !== 0');";
+assert.equal(source.split(snippet).length,2,'Exact original first negative recipe');
+const start=source.indexOf('function errorSnapshot(error){'),end=source.indexOf('\nfunction parityCase',start);assert(start>=0&&end>start);
+const helperSource=source.slice(start,end);
+const helper=new Function('assert','return ('+helperSource+');')(assert);
+const apis=()=>[{SHIP:0,SUPER_HEAVY:0,CATCH:0},{SHIP:0,SUPER_HEAVY:0,CATCH:0}];
+let original;try{beforeOracle(...apis()).compare({n:-0},{n:0});}catch(error){original=error;}
+assert(original instanceof assert.AssertionError);assert.equal(original.message,'root.n: -0 !== 0');
+const canonical=new assert.AssertionError({message:'canonical sentinel',actual:false,expected:true,operator:'=='});
+const ordinary=new Error('ordinary sentinel');
+// This capture reads descriptor data only: no Error.stack/property getter invocation.
+function functionMetadata(fn){
+ if(fn===undefined)return{type:'undefined'};
+ assert.equal(typeof fn,'function');const own=Object.getOwnPropertyDescriptors(fn);
+ return{type:'function',name:own.name&&'value'in own.name?own.name.value:null,
+  length:own.length&&'value'in own.length?own.length.value:null,
+  source:Function.prototype.toString.call(fn),ownDescriptors:Object.fromEntries(Reflect.ownKeys(own).map(key=>{
+   const d=own[key];return[String(key),{kind:'value'in d?'data':'accessor',enumerable:d.enumerable,configurable:d.configurable,
+    writable:'writable'in d?d.writable:null,valueType:'value'in d?typeof d.value:null}];}))};
+}
+function capture(error){
+ const descriptors=Object.getOwnPropertyDescriptors(error),keys=Reflect.ownKeys(error);assert(keys.every(key=>typeof key==='string'));
+ return{descriptors,encoded:{keys,descriptors:Object.fromEntries(keys.map(key=>{const d=descriptors[key];return[key,
+  'value'in d?{kind:'data',enumerable:d.enumerable,configurable:d.configurable,writable:d.writable,
+   valueType:typeof d.value,value:d.value===undefined?{type:'undefined'}:d.value}:
+   {kind:'accessor',enumerable:d.enumerable,configurable:d.configurable,get:functionMetadata(d.get),set:functionMetadata(d.set)}];}))}};
+}
+const primary=capture(original),freshAssertion=capture(canonical),freshError=capture(ordinary);
+const stackIdentity={};for(const[name,entry]of [['assertion',freshAssertion],['ordinary',freshError]]){
+ const a=primary.descriptors.stack,b=entry.descriptors.stack;
+ stackIdentity[name]={bothOwn:Boolean(a&&b),sameKind:a&&b?('value'in a)===('value'in b):false,
+  sameGetter:a&&b?Object.is(a.get,b.get):null,sameSetter:a&&b?Object.is(a.set,b.set):null,
+  sameEnumerable:a&&b?Object.is(a.enumerable,b.enumerable):null,sameConfigurable:a&&b?Object.is(a.configurable,b.configurable):null};
+}
+// Capture actual rejecting key using exact old helper; proxy only observes its
+// descriptor requests, and never wraps/executes a getter.
+const descriptorOrder=[];let replayFailure;
+const observed=new Proxy(original,{getOwnPropertyDescriptor(target,key){descriptorOrder.push(String(key));return Reflect.getOwnPropertyDescriptor(target,key);}});
+try{helper(observed);}catch(error){replayFailure=error;}
+assert(replayFailure instanceof Error);assert.equal(replayFailure.message,'Error accessor unsupported');
+const rejectingKey=descriptorOrder.at(-1);assert(rejectingKey&&primary.descriptors[rejectingKey]);assert(!('value'in primary.descriptors[rejectingKey]));
+let unknownGetterCalls=0;const replaced={name:'Unknown',message:'unknown sentinel'};
+Object.defineProperty(replaced,'stack',{get(){unknownGetterCalls++;return'forbidden';},set(_value){unknownGetterCalls++;},enumerable:false,configurable:true});
+const unknown=capture(replaced);let unknownFailure;try{helper(replaced);}catch(error){unknownFailure=error;}
+assert(unknownFailure instanceof Error);assert.equal(unknownFailure.message,'Error accessor unsupported');assert.equal(unknownGetterCalls,0);
+const unknownIdentity={sameGetter:Object.is(unknown.descriptors.stack.get,primary.descriptors.stack.get),sameSetter:Object.is(unknown.descriptors.stack.set,primary.descriptors.stack.set)};
+assert.equal(unknownIdentity.sameGetter,false);assert.equal(unknownIdentity.sameSetter,false);
+// Persist raw pre-read descriptor witness before deliberately exercising public stack API.
+const before={original:primary.encoded,canonicalAssertion:freshAssertion.encoded,ordinaryError:freshError.encoded,
+ stackIdentity,originalClass:{isPublicAssertionError:original instanceof assert.AssertionError,samePublicPrototype:Object.getPrototypeOf(original)===assert.AssertionError.prototype},rejectingKey,descriptorOrder,helperSourceDigest:sha(helperSource),recipeDigest:sha(snippet),
+ originalControlSourceDigest:sha(source),unknown:unknown.encoded,unknownIdentity,unknownGetterCalls};
+writeFileSync(resolve(receipt,'descriptor-before-stack-read.json'),JSON.stringify(before,null,2)+'\n',{flag:'wx'});
+const behavior=[];
+for(const[name,error]of [['original',original],['canonicalAssertion',canonical],['ordinaryError',ordinary]]){
+ const first=error.stack;assert.equal(typeof first,'string');const afterRead=capture(error);
+ const assigned='public assigned stack '+name;error.stack=assigned;assert.equal(error.stack,assigned);const afterSet=capture(error);
+ behavior.push({name,readType:typeof first,readStartsWith:first.split('\n')[0],afterRead:afterRead.encoded,assigned,afterSet:afterSet.encoded});
+}
+writeFileSync(resolve(receipt,'descriptor-after-public-stack.json'),JSON.stringify(behavior,null,2)+'\n',{flag:'wx'});
+writeFileSync(resolve(receipt,'witness-finalized.json'),JSON.stringify({finalized:true,status:'pass',rejectingKey,
+ originalRecipeCalls:1,fullControlCohorts:0,physicalImports:0,physicalTicks:0,node:process.version,
+ acceptance:'descriptor/source evidence only; canonical accessor recognition/cause fix remains separately reviewed'},null,2)+'\n',{flag:'wx'});

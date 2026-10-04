@@ -1,0 +1,31 @@
+{
+  "decision": "Actual Native descriptor witness accepted; snapshot-only repair preparation supported; no repaired cohort execution",
+  "inputs": {
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/parent-identity.json": "1177a1512ba6f3fa8f18cbf8cfcb3ba190e09b3f22766133691f6e0635c74cbd",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/after-pins.json": "934cd3942e0501be32ffca7d7cefd6937d60c31d5adc37fdea7c6871460b9444",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/finalized.json": "612209b00f79d17dbd65dcf3e78f1fca1e2e8402d3265bc0fa3eba080818cd50",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/descriptor-after-public-stack.json": "f9a736e4b3849f4e5bcf084fb0e80db7308bc33446c0979e62b6190caa811253",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/before-pins.json": "934cd3942e0501be32ffca7d7cefd6937d60c31d5adc37fdea7c6871460b9444",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/evidence-manifest.json": "79192b986b58c8789ffa59a687b8945090fa96300b331cfd277f47f43b545be1",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/descriptor-before-stack-read.json": "7a1ebfc081e582b35c83df2d9c2dc51040ec7493a8511e4979eaf6f670586ecd",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/witness-finalized.json": "9dbfc946c2cb51a150fb18f18ecf322e776887e2a5142de4f8daaa50d008f0aa",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/owned-cleanup.json": "da1cd21013fff2936f733d1eb594f303ed3ff62aa9d9c729124c077d423c430c",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/witness.process.json": "834b8911c87253555e2113ce1e0f153fe67c2d42aea010bde282768d39f20e1e",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/witness.exit.json": "3c428e5243c0204d43e459c60941a1f70059b39087ec6e0a385bb6780caa0c8a",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/witness.owner-ready.json": "71018adaa6cb9aa637647f730b8e08ae09734eb64a7c9e6753c9c87a7f199e04",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/witness.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/witness.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/root-parent/result.json": "176ea39612c6a899250f5d3e53bd17075b091cf24d371ae72cb426107bdfc54f",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/root-parent/independent-all-owned-postexit.json": "dd265ec8a4ae00b92e81752ecfcacf74e8602f47a1c83fde627c3a07d00ab004",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/root-parent.py.txt": "68038650319f8558be0d249388f51b722a08b4b32c0c7b37c40252eaee774fec",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/launch-input-pins.json": "7d1bbeb205619a56f84904a2f86d65b35355ff80aa577e7f2ce7a9f6ab7dc30c",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/launcher-independent-review.md": "d738222e102fef4225e6799fe9bee62746dacf5b6779eae30076eec260f8da5c",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/launcher-independent-review-pins.json": "1387adfcb0a571885773681a983231e9ba8ce4a4d8fef1d3993ec9e267e180be",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/witness.mjs": "c3f74a4a97c1e3385b1169d7dd8a6915b07e842be06d6c5fe2f8f9d72f1f7390",
+    "docs/research/2026-10-04-cloud-resume/error-descriptor-witness-scoped-checks.json": "d8423d5e8150bc7493279d8372784681af30d9d6d9ecfb37ce5309ebeb436a16"
+  },
+  "reviewSha256": "41ab67f0e19077532349081e51c771ae42eff56788c8bcc6b57e22f436240eb9",
+  "rejectingKey": "stack",
+  "requiresFreshRepairAndDualBackendReview": true,
+  "workloadExecutedByReviewer": false
+}

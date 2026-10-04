@@ -1,3 +1,9 @@
+# Independent HIGH neutral control const repair
+
+ACCEPT exact control787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace and source input0a3f05e2fc8137a7cf3f6227614ab9185622abcf62828f81b61b311655d91896. The only control diff is let scaled -> const scaled at the original assignment; this variable is never reassigned. Expression evaluation, replacement order, imports, assertions, 39 names, 23 error evidence, counts, loops, result writes and thrown behavior are unchanged. No rule suppression or runtime invocation occurred. Changed-control scoped syntax/lint checks remain required. Every new input manifest digest matches retained bytes.
+
+Original5fe6405e control/eac46166 input/14bba681 source review/7cd5f85f pins and current9f0199e9 launcher review/972c37ea pins/4ea09ea7 launch manifest are byte-exact in controls-before-scoped-lint-fix. This current source qualification updates actual control and input digests; the exact candidate700bc1c0 and all graph/oracle/scaled modules remain unchanged. Earlier failures/HOLD remain preserved. Launcher manifest is intentionally not yet qualified for this control and must be rebound/reviewed before any pure execution. No physics/performance/paired flight is approved. All prior supported scope and launcher/actual-result review conditions below remain.
+
 # Independent HIGH primitive success-guard code review
 
 Disposition: ACCEPT this exact research-only candidate and 39-case control design for preparation of the separately reviewed owned launcher. No control execution, new physical paired run, performance conclusion, product change, or acceptance is authorized by this code review. The actual launcher and its SSR/native materialization, installed dependencies, bounds and cleanup must receive fresh review before root grants execution.

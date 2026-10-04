@@ -1,0 +1,6 @@
+{
+  "test": {"before":"vitest run","after":"node scripts/test/run.mjs run"},
+  "coverage": {"before":"vitest run --coverage --testTimeout=120000 --reporter=default --reporter=json --outputFile.json=coverage/test-results.json","after":"node scripts/test/run.mjs run --coverage --testTimeout=120000 --reporter=default --reporter=json --outputFile.json=coverage/test-results.json"},
+  "test:watch": {"before":"vitest","after":"vitest"},
+  "gate":"unchanged; existing ordered lint/build/unit/coverage/smoke/subpath command"
+}

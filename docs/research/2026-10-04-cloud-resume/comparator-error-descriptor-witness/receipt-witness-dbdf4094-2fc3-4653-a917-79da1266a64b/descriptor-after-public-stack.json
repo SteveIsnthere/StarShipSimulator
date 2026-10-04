@@ -1,0 +1,704 @@
+[
+  {
+    "name": "original",
+    "read": {
+      "status": "returned",
+      "valueType": "string",
+      "value": "AssertionError [ERR_ASSERTION]: root.n: -0 !== 0\n    at walk (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/graph-oracle.ts:46:5)\n    at walk (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/graph-oracle.ts:63:5)\n    at Object.compare (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/graph-oracle.ts:67:3)\n    at file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/witness.mjs:15:42\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/bootstrap.mjs:14:63",
+      "header": "AssertionError [ERR_ASSERTION]: root.n: -0 !== 0"
+    },
+    "afterRead": {
+      "keys": [
+        "stack",
+        "message",
+        "generatedMessage",
+        "name",
+        "code",
+        "actual",
+        "expected",
+        "operator",
+        "diff"
+      ],
+      "descriptors": {
+        "stack": {
+          "kind": "accessor",
+          "enumerable": false,
+          "configurable": true,
+          "get": {
+            "type": "function",
+            "name": "",
+            "length": 0,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          },
+          "set": {
+            "type": "function",
+            "name": "",
+            "length": 1,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          }
+        },
+        "message": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "root.n: -0 !== 0"
+        },
+        "generatedMessage": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": false
+        },
+        "name": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "AssertionError"
+        },
+        "code": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "ERR_ASSERTION"
+        },
+        "actual": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": false
+        },
+        "expected": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": true
+        },
+        "operator": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "=="
+        },
+        "diff": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "simple"
+        }
+      }
+    },
+    "assigned": "public assigned stack original",
+    "set": {
+      "status": "returned",
+      "valueType": "undefined"
+    },
+    "readAfterSet": {
+      "status": "returned",
+      "valueType": "string",
+      "value": "public assigned stack original",
+      "header": "public assigned stack original"
+    },
+    "afterSet": {
+      "keys": [
+        "stack",
+        "message",
+        "generatedMessage",
+        "name",
+        "code",
+        "actual",
+        "expected",
+        "operator",
+        "diff"
+      ],
+      "descriptors": {
+        "stack": {
+          "kind": "accessor",
+          "enumerable": false,
+          "configurable": true,
+          "get": {
+            "type": "function",
+            "name": "",
+            "length": 0,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          },
+          "set": {
+            "type": "function",
+            "name": "",
+            "length": 1,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          }
+        },
+        "message": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "root.n: -0 !== 0"
+        },
+        "generatedMessage": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": false
+        },
+        "name": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "AssertionError"
+        },
+        "code": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "ERR_ASSERTION"
+        },
+        "actual": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": false
+        },
+        "expected": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": true
+        },
+        "operator": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "=="
+        },
+        "diff": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "simple"
+        }
+      }
+    }
+  },
+  {
+    "name": "canonicalAssertion",
+    "read": {
+      "status": "returned",
+      "valueType": "string",
+      "value": "AssertionError [ERR_ASSERTION]: canonical sentinel\n    at new AssertionError (node:internal/assert/assertion_error:380:5)\n    at file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/witness.mjs:17:17\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/bootstrap.mjs:14:63",
+      "header": "AssertionError [ERR_ASSERTION]: canonical sentinel"
+    },
+    "afterRead": {
+      "keys": [
+        "stack",
+        "message",
+        "generatedMessage",
+        "name",
+        "code",
+        "actual",
+        "expected",
+        "operator",
+        "diff"
+      ],
+      "descriptors": {
+        "stack": {
+          "kind": "accessor",
+          "enumerable": false,
+          "configurable": true,
+          "get": {
+            "type": "function",
+            "name": "",
+            "length": 0,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          },
+          "set": {
+            "type": "function",
+            "name": "",
+            "length": 1,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          }
+        },
+        "message": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "canonical sentinel"
+        },
+        "generatedMessage": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": false
+        },
+        "name": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "AssertionError"
+        },
+        "code": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "ERR_ASSERTION"
+        },
+        "actual": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": false
+        },
+        "expected": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": true
+        },
+        "operator": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "=="
+        },
+        "diff": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "simple"
+        }
+      }
+    },
+    "assigned": "public assigned stack canonicalAssertion",
+    "set": {
+      "status": "returned",
+      "valueType": "undefined"
+    },
+    "readAfterSet": {
+      "status": "returned",
+      "valueType": "string",
+      "value": "public assigned stack canonicalAssertion",
+      "header": "public assigned stack canonicalAssertion"
+    },
+    "afterSet": {
+      "keys": [
+        "stack",
+        "message",
+        "generatedMessage",
+        "name",
+        "code",
+        "actual",
+        "expected",
+        "operator",
+        "diff"
+      ],
+      "descriptors": {
+        "stack": {
+          "kind": "accessor",
+          "enumerable": false,
+          "configurable": true,
+          "get": {
+            "type": "function",
+            "name": "",
+            "length": 0,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          },
+          "set": {
+            "type": "function",
+            "name": "",
+            "length": 1,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          }
+        },
+        "message": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "canonical sentinel"
+        },
+        "generatedMessage": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": false
+        },
+        "name": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "AssertionError"
+        },
+        "code": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "ERR_ASSERTION"
+        },
+        "actual": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": false
+        },
+        "expected": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "boolean",
+          "value": true
+        },
+        "operator": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "=="
+        },
+        "diff": {
+          "kind": "data",
+          "enumerable": true,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "simple"
+        }
+      }
+    }
+  },
+  {
+    "name": "ordinaryError",
+    "read": {
+      "status": "returned",
+      "valueType": "string",
+      "value": "Error: ordinary sentinel\n    at file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/witness.mjs:18:16\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/bootstrap.mjs:14:63",
+      "header": "Error: ordinary sentinel"
+    },
+    "afterRead": {
+      "keys": [
+        "stack",
+        "message"
+      ],
+      "descriptors": {
+        "stack": {
+          "kind": "accessor",
+          "enumerable": false,
+          "configurable": true,
+          "get": {
+            "type": "function",
+            "name": "",
+            "length": 0,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          },
+          "set": {
+            "type": "function",
+            "name": "",
+            "length": 1,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          }
+        },
+        "message": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "ordinary sentinel"
+        }
+      }
+    },
+    "assigned": "public assigned stack ordinaryError",
+    "set": {
+      "status": "returned",
+      "valueType": "undefined"
+    },
+    "readAfterSet": {
+      "status": "returned",
+      "valueType": "string",
+      "value": "public assigned stack ordinaryError",
+      "header": "public assigned stack ordinaryError"
+    },
+    "afterSet": {
+      "keys": [
+        "stack",
+        "message"
+      ],
+      "descriptors": {
+        "stack": {
+          "kind": "accessor",
+          "enumerable": false,
+          "configurable": true,
+          "get": {
+            "type": "function",
+            "name": "",
+            "length": 0,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          },
+          "set": {
+            "type": "function",
+            "name": "",
+            "length": 1,
+            "source": "function () { [native code] }",
+            "ownDescriptors": {
+              "length": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "number"
+              },
+              "name": {
+                "kind": "data",
+                "enumerable": false,
+                "configurable": true,
+                "writable": false,
+                "valueType": "string"
+              }
+            }
+          }
+        },
+        "message": {
+          "kind": "data",
+          "enumerable": false,
+          "configurable": true,
+          "writable": true,
+          "valueType": "string",
+          "value": "ordinary sentinel"
+        }
+      }
+    }
+  }
+]

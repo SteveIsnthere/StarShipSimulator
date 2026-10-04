@@ -1,0 +1,11 @@
+{
+  "finalized": true,
+  "status": "pass",
+  "rejectingKey": "stack",
+  "originalRecipeCalls": 1,
+  "fullControlCohorts": 0,
+  "physicalImports": 0,
+  "physicalTicks": 0,
+  "node": "v22.23.3",
+  "acceptance": "descriptor/source evidence only; canonical accessor recognition/cause fix remains separately reviewed"
+}

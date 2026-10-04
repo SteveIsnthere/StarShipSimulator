@@ -1,0 +1,41 @@
+/** One fresh public Vite library build, no application build/browser. */
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';import {createRequire} from 'node:module';import {execFileSync} from 'node:child_process';import {pathToFileURL,fileURLToPath} from 'node:url';
+const repo='/workspace/StarShipSimulator',setup=process.argv[2],require=createRequire(repo+'/package.json');
+assert(setup&&/^\/tmp\/starship-render-kernel\.[A-Za-z0-9]+$/.test(setup));assert.equal(process.env.RUN_WIDTH2_LIBRARY_BUILD,'1');assert(!process.env.NODE_OPTIONS);
+const receipt=JSON.parse(fs.readFileSync(setup+'/setup-receipt.json')),prep=JSON.parse(fs.readFileSync(setup+'/width2-preparation.json'));
+const sha=bytes=>createHash('sha256').update(bytes).digest('hex'),started=Date.now();
+function check(){assert(Date.now()-started<115000,'Shared115s build owner checkpoint');}
+const vitePackage=require.resolve('vite/package.json'),viteCli=path.join(path.dirname(vitePackage),'bin/vite.js');
+const config=repo+'/docs/research/2026-10-04-cloud-resume/render-kernel-width2-build.config.mjs';
+const ownNames=['render-kernel-width2-entry.ts','render-kernel-width2-build.config.mjs','kernel-display-witness.ts','kernel-program-attribution-hook.mjs'];
+function sourcePins(){check();for(const [file,pin]of Object.entries(prep.inputs))assert.equal(sha(fs.readFileSync(file)),pin,'Prep authority drift '+file);
+ for(const [file,pin]of prep.materializedRoles)assert.equal(sha(fs.readFileSync(file)),pin);
+ assert.equal(sha(fs.readFileSync(setup+'/setup-receipt.json')),prep.setupReceiptSha256);
+ const owner=fileURLToPath(import.meta.url),template=repo+'/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-width2.mjs.txt';assert.equal(sha(fs.readFileSync(owner)),sha(fs.readFileSync(template)));}
+function boundary(){check();const listed=execFileSync('git',['ls-files','-z','--cached','--others','--exclude-standard'],{cwd:repo,encoding:'utf8'}).split('\0').filter(file=>/^(src\/|tests\/|scripts\/|public\/|\.agents\/|\.nvmrc$|package[^/]*\.json$|[^/]*config\.[^/]+$)/.test(file)).sort();
+  if(process.execPath!==receipt.nodeExecutable||process.version!==receipt.nodeVersion||sha(fs.readFileSync(process.execPath))!==receipt.nodeExecutableSha256)throw Error('Exact managed Node required');
+  const source=listed.map(file=>{check();return[file,fs.existsSync(`${repo}/${file}`)?sha(fs.readFileSync(`${repo}/${file}`)):null];});if(JSON.stringify(source)!==JSON.stringify(receipt.sourceManifest))throw Error('Current approved source tuple drift');
+  const approvedGithubFiles=(receipt.additionalGithubFiles??[]).map(([file,expected])=>{check();const actual=sha(fs.readFileSync(`${repo}/${file}`));if(actual!==expected)throw Error('Approved CI tuple drift');return[file,actual];});
+  const installed=[];let dependencyBytes=0;function walk(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){check();if(installed.length>=50000)throw Error('Declared installed entry cap exceeded');const file=path.join(dir,entry.name),relative=path.relative(`${repo}/node_modules`,file),info=fs.lstatSync(file);if(entry.isSymbolicLink()){const target=fs.readlinkSync(file);if(!path.resolve(path.dirname(file),target).startsWith(`${repo}/node_modules/`))throw Error('Installed dependency link outside owned tree');installed.push({path:relative,kind:'symlink',target,mode:info.mode&0o7777});}else if(entry.isDirectory()){installed.push({path:relative,kind:'directory',mode:info.mode&0o7777});walk(file);}else if(entry.isFile()){dependencyBytes+=info.size;if(dependencyBytes>512*1024*1024)throw Error('Declared installed-dependency byte cap exceeded');installed.push({path:relative,kind:'file',mode:info.mode&0o7777,bytes:info.size,sha256:sha(fs.readFileSync(file))});}else throw Error('Installed special entry');}}
+  walk(`${repo}/node_modules`);installed.sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
+  const own=ownNames.map(name=>{check();const file=`docs/research/2026-10-04-cloud-resume/${name}`;return[file,sha(fs.readFileSync(`${repo}/${file}`))];});
+  const application=[];function appWalk(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){check();const file=path.join(dir,entry.name);if(entry.isDirectory())appWalk(file);else if(entry.isFile())application.push([path.relative(`${repo}/dist`,file),sha(fs.readFileSync(file))]);else throw Error('Application dist special/symlink');}}appWalk(`${repo}/dist`);application.sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0);
+  const expected=[...receipt.buildFiles,...receipt.mapFiles].sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0);if(JSON.stringify(application)!==JSON.stringify(expected))throw Error('Current qualified application dist/map drift');
+  for(const proof of receipt.physicsProofs){check();if(sha(fs.readFileSync(`${repo}/${proof.path}`))!==proof.sha256)throw Error('Approved focused physics proof drift');}
+  return{sourceSha256:sha(JSON.stringify(source)),source,approvedGithubFiles,ownedResearchSources:own,installed,installedSha256:sha(JSON.stringify(installed)),dependencyBytes,application,physicsProofs:receipt.physicsProofs,node:{path:process.execPath,version:process.version,sha256:sha(fs.readFileSync(process.execPath))},vite:{packagePath:vitePackage,packageSha256:sha(fs.readFileSync(vitePackage)),cli:viteCli,cliSha256:sha(fs.readFileSync(viteCli))},actualArgv:[process.execPath,viteCli,'build','--config',config,'--configLoader','native'],effectiveConfigSha256:sha(fs.readFileSync(config)),environmentOverrides:{RENDER_KERNEL_OUTPUT:`${setup}/compiled`}};}
+const save=(name,value)=>{const data=JSON.stringify(value,null,2)+'\n';assert(Buffer.byteLength(data)<=16*1024*1024);fs.writeFileSync(setup+'/'+name,data,{flag:'wx'});};
+sourcePins();assert.equal(fs.readdirSync(setup+'/compiled').length,0);const before=boundary();save('kernel-build-before.json',before);
+fs.writeFileSync(setup+'/executed-build-owner.mjs.txt',fs.readFileSync(fileURLToPath(import.meta.url)),{flag:'wx'});
+const {runOwnedCommand,verifyNoOwnedProcesses}=await import(pathToFileURL(repo+'/scripts/bench/owned-command.mjs').href);
+let failure,code,after,absence;try{code=await runOwnedCommand({name:'vite-build',args:[viteCli,'build','--config',config,'--configLoader','native'],root:repo,
+ env:{...process.env,RENDER_KERNEL_OUTPUT:setup+'/compiled'},receipt:setup,deadlineMs:60000});assert.equal(code,0);
+ const actual=JSON.parse(fs.readFileSync(setup+'/vite-build.process.json'));assert.deepStrictEqual(actual.exit,{code:0,signal:null});assert.equal(actual.failure,null);assert.equal(actual.closed,true);assert.equal(actual.cleanup.executing.length,0);assert(actual.cleanup.tracked.length);
+}catch(error){failure=error;}finally{
+ try{absence=verifyNoOwnedProcesses();sourcePins();after=boundary();assert.deepStrictEqual(after,before);}catch(error){failure??=error;}
+ save('kernel-build-after.json',after??null);save('kernel-build-result.json',{passed:!failure,error:failure?.message??null,childExit:code??null,
+ beforeAfterExact:!!after&&!failure,localAbsence:absence??null,actualProcessPath:'vite-build.process.json',
+ processSha256:fs.existsSync(setup+'/vite-build.process.json')?sha(fs.readFileSync(setup+'/vite-build.process.json')):null,
+ childDeadlineMs:60000,externalOwnerDeadlineMs:120000,independentParentAllTrackedAbsenceRequired:true,browserLaunched:false,applicationBuildExecuted:false});
+}
+if(failure)throw failure;

@@ -1,0 +1,39 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-root-observer.py.txt",
+      "sha256": "6b8180c192d279cef4297cbf50047092e435da4f89ed4bf5f83e7a84a7ccf198",
+      "kind": "Python AST syntax",
+      "status": 0
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-stage.mjs.txt",
+      "sha256": "c05bfc931e30c2b79b13c92d6b3a41ce5ae530ae52f2771d1e8c5bf8b0dfc238",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-mixed-stage-scope.468n4r8o/stage.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-stage.mjs.txt",
+      "sha256": "c05bfc931e30c2b79b13c92d6b3a41ce5ae530ae52f2771d1e8c5bf8b0dfc238",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-stage.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 0.9315849370032083,
+  "runtimeExecuted": false
+}

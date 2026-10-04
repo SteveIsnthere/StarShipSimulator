@@ -1,0 +1,109 @@
+[
+  {
+    "name": "artifact-validation.mjs.syntax",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "--check",
+      "--input-type=module"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.02791759400133742,
+    "sourceSha256": "be32fe0ef8da8b302b48ce39b010596135cf4f04e175ab2687dc09b23c2f8de1"
+  },
+  {
+    "name": "artifact-validation.mjs.lint",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "node_modules/eslint/bin/eslint.js",
+      "--stdin",
+      "--stdin-filename",
+      "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/artifact-validation.mjs"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.8538799290035968,
+    "sourceSha256": "be32fe0ef8da8b302b48ce39b010596135cf4f04e175ab2687dc09b23c2f8de1"
+  },
+  {
+    "name": "classify-closure.mjs.syntax",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "--check",
+      "--input-type=module"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.028714910993585363,
+    "sourceSha256": "9c41894af497c4d4930fb45f0c542cf02941fbcb87e546453e6afab86c0484aa"
+  },
+  {
+    "name": "classify-closure.mjs.lint",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "node_modules/eslint/bin/eslint.js",
+      "--stdin",
+      "--stdin-filename",
+      "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/classify-closure.mjs"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.8747800860001007,
+    "sourceSha256": "9c41894af497c4d4930fb45f0c542cf02941fbcb87e546453e6afab86c0484aa"
+  },
+  {
+    "name": "qualify-retained.mjs.syntax",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "--check",
+      "--input-type=module"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.028509114003099967,
+    "sourceSha256": "ec030dd5a3433af82be9230854779834e5507793be9f6ee164baa87108167a2f"
+  },
+  {
+    "name": "qualify-retained.mjs.lint",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "node_modules/eslint/bin/eslint.js",
+      "--stdin",
+      "--stdin-filename",
+      "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/qualify-retained.mjs"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.9405733039966435,
+    "sourceSha256": "ec030dd5a3433af82be9230854779834e5507793be9f6ee164baa87108167a2f"
+  },
+  {
+    "name": "run-owned.mjs.syntax",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "--check",
+      "--input-type=module"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.029660963999049272,
+    "sourceSha256": "55b77d4e186c963c7172f1ccf48a9ce3aa3d9aec1b6be04f65d22550b7db2c6b"
+  },
+  {
+    "name": "run-owned.mjs.lint",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "node_modules/eslint/bin/eslint.js",
+      "--stdin",
+      "--stdin-filename",
+      "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/run-owned.mjs"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.8779105619978509,
+    "sourceSha256": "55b77d4e186c963c7172f1ccf48a9ce3aa3d9aec1b6be04f65d22550b7db2c6b"
+  },
+  {
+    "name": "root-ast",
+    "args": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-c",
+      "import ast,sys; ast.parse(sys.stdin.read())"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.025835872002062388,
+    "sourceSha256": "66dcdb8c123ecc4643df4fb09c75b69c734a9f4779e992402cce15a6c2ef6c24"
+  }
+]

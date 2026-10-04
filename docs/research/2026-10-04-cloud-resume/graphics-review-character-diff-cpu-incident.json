@@ -1,0 +1,39 @@
+{
+  "scope": "reviewer-owned emitted-text comparison CPU exclusivity incident; no compiler/test/qualifier invocation",
+  "pythonPid": 63171,
+  "bashParentPid": 63159,
+  "sessionId": 35809,
+  "observedElapsedAtProcessInspection": "00:30",
+  "exactTotalElapsedRetained": false,
+  "observedOriginalOperation": "difflib.SequenceMatcher(None, oldKernelText, newKernelText, autojunk=False).get_opcodes()",
+  "inputs": [
+    "/tmp/starship-render-kernel.m9xok0x9/compiled/kernel.js",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/kernel.js"
+  ],
+  "registrationEvidence": "ps showed Python63171 PPID63159 elapsed00:30; bash63159 command contained exact SequenceMatcher script",
+  "signalEvidence": "Immediately before SIGTERM, read /proc/63171/stat and required PPID63159; required parent /proc/63159/cmdline contained SequenceMatcher; os.kill(63171,SIGTERM) returned successfully",
+  "startIdentityLimit": "Pre-signal stat was read but its starttime was not retained or printed. Do not invent an exact saved starttime. Subsequent absent state is recorded.",
+  "terminationEvidence": {
+    "execSessionId": 35809,
+    "actualExitCode": 143,
+    "actualOutput": "Terminated"
+  },
+  "postTerminationIdentities": [
+    {
+      "pid": 63171,
+      "parentObserved": 63159,
+      "starttimeBeforeSignalRetained": false,
+      "absent": true,
+      "currentlyExecuting": false
+    },
+    {
+      "pid": 63159,
+      "parentObserved": 517,
+      "starttimeBeforeSignalRetained": false,
+      "absent": true,
+      "currentlyExecuting": false
+    }
+  ],
+  "pairedEvidenceLimit": "Contemporaneous900s paired lane was not CPU-exclusive for this interval; no cost/performance acceptance may claim exclusivity. Semantic exactness may remain independently provable. Retain confounding if paired fails; no automatic unchanged retry.",
+  "nextAction": "Pause emitted-delta diagnosis until paired lane ends; thereafter bounded linear source inspection only."
+}

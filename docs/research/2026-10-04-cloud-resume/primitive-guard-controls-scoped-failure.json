@@ -1,0 +1,32 @@
+{
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/launcher.mjs.txt",
+      "sourceSha256": "3e67c544c44fe6ffc2bdc6b056ad04bc45990c2e3ad44dde5ab7d54ae0f0062b",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.t259fbj_/check.mjs"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/launcher.mjs.txt",
+      "sourceSha256": "3e67c544c44fe6ffc2bdc6b056ad04bc45990c2e3ad44dde5ab7d54ae0f0062b",
+      "status": 1,
+      "stdout": "\n/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/launcher.mjs\n  12:31  error  The value assigned to 'after' is not used in subsequent statements    no-useless-assignment\n  12:88  error  The value assigned to 'cleanup' is not used in subsequent statements  no-useless-assignment\n\n\u2716 2 problems (2 errors, 0 warnings)\n\n",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/launcher.mjs"
+      ]
+    }
+  ],
+  "elapsedSeconds": 0.9528923069992743,
+  "runtimeExecuted": false
+}

@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { admitRun, originalTests } from './admission.mjs';
+export async function nativeFlightProject() {
+  if (!process.env.NATIVE_FLIGHT_RUN) {
+    if (process.env.NATIVE_FLIGHT_RUN_SHA) throw Error('Incomplete native flight admission');
+    return null;
+  }
+  const { qualification: q, manifest: m } = await admitRun(process.env.NATIVE_FLIGHT_RUN, process.env.NATIVE_FLIGHT_RUN_SHA);
+  assert.equal(process.env.NATIVE_FLIGHT_MAPPED_CODE, resolve(m.directory, q.mappedCode));
+  return { extends: true, test: { name: 'native-flight', environment: 'node',
+    include: originalTests, pool: 'forks', isolate: true, retry: 0,
+    experimental: { viteModuleRunner: false },
+    execArgv: ['--import', resolve(q.root, 'scripts/test/loader.mjs')] } };
+}

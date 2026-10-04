@@ -1,0 +1,98 @@
+{
+  "status": "failed",
+  "source": "/tmp/starship-width2-sdk.l2wYbX",
+  "files": [
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/after.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/after.json",
+      "bytes": 919924,
+      "mode": "0o600",
+      "sha256": "0af0c4822913ccb33de0a1aae5bb145d44cc2b1bb75382fd2c7bbae49f3d7869"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/before.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/before.json",
+      "bytes": 919924,
+      "mode": "0o600",
+      "sha256": "0af0c4822913ccb33de0a1aae5bb145d44cc2b1bb75382fd2c7bbae49f3d7869"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/controls.mjs",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/controls.mjs.txt",
+      "bytes": 11730,
+      "mode": "0o600",
+      "sha256": "6130fbcc6af22fa23c8a12443fae95f60a55e8a419a8e9347b609ca2b0a61022"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/declaration.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/declaration.json",
+      "bytes": 442,
+      "mode": "0o600",
+      "sha256": "f74857f868e275f7a06cf63a701be8ecf97697d1147ebbe1180a308862429d14"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/entry.ts.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/entry.ts.txt",
+      "bytes": 7765,
+      "mode": "0o600",
+      "sha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/executed-controls.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/executed-controls.mjs.txt",
+      "bytes": 11730,
+      "mode": "0o600",
+      "sha256": "6130fbcc6af22fa23c8a12443fae95f60a55e8a419a8e9347b609ca2b0a61022"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/executed-entry.ts.txt.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/executed-entry.ts.txt.txt",
+      "bytes": 7765,
+      "mode": "0o600",
+      "sha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/executed-owned-command.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/executed-owned-command.mjs.txt",
+      "bytes": 7424,
+      "mode": "0o600",
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/executed-owner.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/executed-owner.mjs.txt",
+      "bytes": 7353,
+      "mode": "0o600",
+      "sha256": "e0c430b62aae1c15368a831bc12f89e29add511b4c8c60564e745bc92d7e1bb6"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/owner-result.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/owner-result.json",
+      "bytes": 1918708,
+      "mode": "0o600",
+      "sha256": "ace90d2833558869695bd8352df1a9d961094af098897365f2b1f395f6305464"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/sdk.process.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/sdk.process.json",
+      "bytes": 492,
+      "mode": "0o600",
+      "sha256": "e9eabc67531e04c5d782531bdc1c9d1f8cc4abed981d120c101ae03d1f3cc6e7"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/sdk.stderr.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/sdk.stderr.txt",
+      "bytes": 485,
+      "mode": "0o600",
+      "sha256": "4d7867e59e3ddabd7e9c8efef832e8e70bbee243b1b0b669e548ca0c9c1eddb3"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk.l2wYbX/sdk.stdout.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/sdk.stdout.txt",
+      "bytes": 0,
+      "mode": "0o600",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "acceptance": "Original SDK extraction failed; no finalized 30-case proof."
+}

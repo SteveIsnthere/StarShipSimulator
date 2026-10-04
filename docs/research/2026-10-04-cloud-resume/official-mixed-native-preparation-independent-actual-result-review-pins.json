@@ -1,0 +1,57 @@
+{
+  "receiptPins": {
+    "/tmp/starship-official-native.0eAlnB/external-build-input.json": "02420ef966ce52cfbe849afb64cf6f778b9dc9bdb52c99a96b1193ec1d4517fb",
+    "/tmp/starship-official-native.0eAlnB/preparation-result.json": "dbb75e60259282ef39ff130ba0cbe1d65599c27bc9cd9e785b052ea58000c167",
+    "/tmp/starship-official-native-stage.tMtfkX/stage-result.json": "7aab5ebb1472bd947518734f1f4ef2ff6b5c59ebd078089436e057b9cd5efa87",
+    "/tmp/starship-official-native-stage.tMtfkX/actual-child-exit.json": "7838cb187ea6e8b67784306203232aec9c8d2212131f2ab08b29c586cdfc2491",
+    "/tmp/starship-official-native-stage.tMtfkX/preparation.process.json": "f44f864a0fe5d0e7e6c55938943b2e90957101330ed79c23cb1d0ceadf297757",
+    "/tmp/starship-official-native-stage.tMtfkX/preparation.stdout.txt": "77be4b2773747998c770ed532fbd705bf0385ef28bed7ac36de9d90de3f2027f",
+    "/tmp/starship-official-native-stage.tMtfkX/preparation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-official-native-root.r3yv6mzs/root-outcome.json": "5e18747ea5a9b812be54b35a61ea363f0770ee8aa74a22e8906040056774aacd",
+    "/tmp/starship-official-native-root.r3yv6mzs/actual-outer-exit.json": "f65e17ed8423ef59ebbfb7fbf4db99dfab59fddd154fd47f1319b1b4cbcd1e6e",
+    "/tmp/starship-official-native-root.r3yv6mzs/actual-outer-exit-final.json": "5dafccd1181d86d226e99ee4791ff0641624cd194ee631506b7df28359b7fd31",
+    "/tmp/starship-official-native-root.r3yv6mzs/identities.jsonl": "6a1d58c3fd88f1507ffa4c5283cc8b20ace80d4e547982fa063168c569e77675",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-parent/frozen-owner-input.json": "9449b4d4c9cc98783aea46c10c98ca85f63b5b154ae9e397f9f3b96d29adbfb6",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-parent/observer-os-exit.json": "9ec318385afc34e438f4ec3162eb12ecfefd1689dd049703ca964ed7d778c8ab",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-parent/invocation.json": "1eb5ea036318a10a5fef251d1ab6bc873bf8952196e4c5d887347a4b2397f848",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-parent/stdout.txt": "bcf52367d59847504151b80d84c59c7b277befe5ef43d4965475f86b318e705f",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-parent/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "materializedInputs": {
+    "/tmp/starship-official-native.0eAlnB/admission.mjs": "7b472e15b45e725ee3f112256d9e0ca0081344e484a0607314d2c22a818eb0ab",
+    "/tmp/starship-official-native.0eAlnB/build.mjs": "45fd3900becdfdd9ff3bb324859f8c715058439ef4d7792ffdbd2ceedfae713c",
+    "/tmp/starship-official-native.0eAlnB/constants.mjs": "7492ed19d62c4313b2c84ba67d731f74d12d128dc9ec139b6372eec90a3625b3",
+    "/tmp/starship-official-native.0eAlnB/control-config.mjs": "f341f2e39e335da209d5989501fb50231817ff5215b89283ed46d87dff7862cd",
+    "/tmp/starship-official-native.0eAlnB/declaration.md": "b6fe4afcc12253116317aff742198ecf4b148d686961f4329d6ace931b858c21",
+    "/tmp/starship-official-native.0eAlnB/entry.ts": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8",
+    "/tmp/starship-official-native.0eAlnB/fixture.mjs": "03e1b5c8e79a92de8b8dee0c06a1f6f3b9045de7d07cbdcf3d4ed242e4112191",
+    "/tmp/starship-official-native.0eAlnB/foreign-parent.mjs": "175858e4893ed38f563a45dc06e40140141f5653929fc3a65119196d9f1d8882",
+    "/tmp/starship-official-native.0eAlnB/input-contract.json": "c63a06fcdbf6255d13894d2346d3fc2fa4c19c456bfca040b158546064d01c47",
+    "/tmp/starship-official-native.0eAlnB/integrity.mjs": "8544e7ba55aca24c8ef11815a40754dd05f1e0ac64492f3e1849085e6fc68220",
+    "/tmp/starship-official-native.0eAlnB/lifecycle-reporter.mjs": "22071535833d17256ca7daee9b7309c3c078d28dc3dff3e267e9f5e5907261c1",
+    "/tmp/starship-official-native.0eAlnB/loader.mjs": "ed890ad1dd6f51b972517f516af6ea2cfdfe46df1cbb82dd00a89c5d5be51232",
+    "/tmp/starship-official-native.0eAlnB/native-a.test.mjs": "5f2e4d2d37b09a94919a3039e2b91bbd6e127affa134b85e8ba2de6a07a3f799",
+    "/tmp/starship-official-native.0eAlnB/native-b.test.mjs": "1d4c9e727cff5506deb787270d50cb038f5dff6a7f28bb1640634b0922da6972",
+    "/tmp/starship-official-native.0eAlnB/run-build.mjs": "bc59961c322ffe3950edb9aa918d7997dc93dc2bcfd441f8679890bb0c4dddaa",
+    "/tmp/starship-official-native.0eAlnB/run-controls.mjs": "3364227023cec1117f730353c8a94fffd26f26a3ef99f7f9628b2557df417360",
+    "/tmp/starship-official-native.0eAlnB/ssr.test.mjs": "b101d1c2a034c38f7f31703816815dbe985284fdd40ebf48f882f1167f1a94f2",
+    "/workspace/StarShipSimulator/tests/core/booster-guidance.test.ts": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+    "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9"
+  },
+  "sourceCount": 759,
+  "installedToolCount": 20355,
+  "independentOwnedAbsence": [
+    {
+      "pid": 61006,
+      "start": "3665625",
+      "absent": true
+    },
+    {
+      "pid": 61013,
+      "start": "3665651",
+      "absent": true
+    }
+  ],
+  "reviewSha256": "bd06698e5056df1c0c70e092e262db4453c0572149dab7d385653179e269651d",
+  "workloadExecutedByReviewer": false
+}

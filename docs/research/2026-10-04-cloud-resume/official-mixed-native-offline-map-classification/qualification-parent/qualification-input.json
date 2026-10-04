@@ -1,0 +1,54 @@
+{
+  "kind": "retained-mixed-native-map-qualification-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "nodeSha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+  "ownedSha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+  "executedInputs": {
+    "/tmp/starship-mixed-map-input.gmpt60un/artifact-validation.mjs": "be32fe0ef8da8b302b48ce39b010596135cf4f04e175ab2687dc09b23c2f8de1",
+    "/tmp/starship-mixed-map-input.gmpt60un/classify-closure.mjs": "9c41894af497c4d4930fb45f0c542cf02941fbcb87e546453e6afab86c0484aa",
+    "/tmp/starship-mixed-map-input.gmpt60un/qualify-retained.mjs": "ec030dd5a3433af82be9230854779834e5507793be9f6ee164baa87108167a2f",
+    "/tmp/starship-mixed-map-input.gmpt60un/run-owned.mjs": "55b77d4e186c963c7172f1ccf48a9ce3aa3d9aec1b6be04f65d22550b7db2c6b"
+  },
+  "buildInput": {
+    "path": "/tmp/starship-official-native.0eAlnB/external-build-input.json",
+    "sha": "02420ef966ce52cfbe849afb64cf6f778b9dc9bdb52c99a96b1193ec1d4517fb"
+  },
+  "archiveOrigin": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-failed-map-inventory-artifacts/origin-manifest.json",
+    "sha": "6d06ce01c4e9df812612db8ea8ea501e34167d9461d70a4cddc5df80c0d5861a"
+  },
+  "privateDirectory": "/tmp/starship-official-native.0eAlnB/native",
+  "outputFiles": {
+    "assets/Starship.webp": "c9d25bc1b496b4d27ee26ff039d0ff7bfa68d6a5936e199c7af2308c4c4adf8d",
+    "assets/lunchpad_Light1.webp": "2b979fadd6ea8076f9c6340989efe723e5c02e7ffe8ae6a0e84b8f67da3a9286",
+    "assets/lunchpad_Light2.webp": "0ecfcb920be8e0eb3ce7ce82345b8f707d8ab93a4f2442aa3303042eb5c8cf18",
+    "assets/pig.webp": "932ef01e3241c1ddcb0eaa27b21ea9ffda034c8185cdc271f335559d46a7ec7a",
+    "assets/sn15.webp": "0dca7f7a4300aacc726e67bbd8df84ec44e87b7f894786d779fda657b70b52a8",
+    "assets/starBaseBackGround.webp": "a6ba3be4e9886ecddc8fcb87b63ee8790b30f4260339dd9379e46e43604dbd75",
+    "assets/starBaseBackGround2.webp": "de17f7cd0c339e33012f6bb9cf09831b0772989f4933ed8528b94da91cd30094",
+    "assets/starhopper.webp": "18d787ffa3c8a335496a716e10dd1e3b1928216eeb949d67b20f70030069cf73",
+    "assets/tree1.webp": "a619ac2b77ce81c18c3df23141ecf2197b91fcfb2ea17129b8e336746a88663a",
+    "assets/tree2.webp": "a363d125f4e2d5bce0d67bee389e051cc84bcfbba7aef75d86f10f9a69b80ce3",
+    "entry.mjs": "5ca80a74e48343232f0c43583f213bb4c52cbc0464675bee91199f750a80cb15",
+    "icon.svg": "8fca8bf870cbaac0c5a22ce6c61891f04536f59d8955b8b1e62fd57992e39493",
+    "manifest.webmanifest": "967f4db3dab163c63f9ff81b9f842a82bebabb10ef20f12578bfc4773781f50c",
+    "serviceworker.js": "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9",
+    "simulation-CN0-W409.js": "cc9a18ebeaf3c83df8527cfc97cdeaa2c0ebee63053ba0a850cc9b06c944901f",
+    "simulation-CN0-W409.js.map": "f13c37f1b69ed8a4694e4ac06e18f67e9071ce35cb5bd5eb2ec2a333f42a51f5"
+  },
+  "publicInputs": {
+    "assets/Starship.webp": "c9d25bc1b496b4d27ee26ff039d0ff7bfa68d6a5936e199c7af2308c4c4adf8d",
+    "assets/lunchpad_Light1.webp": "2b979fadd6ea8076f9c6340989efe723e5c02e7ffe8ae6a0e84b8f67da3a9286",
+    "assets/lunchpad_Light2.webp": "0ecfcb920be8e0eb3ce7ce82345b8f707d8ab93a4f2442aa3303042eb5c8cf18",
+    "assets/pig.webp": "932ef01e3241c1ddcb0eaa27b21ea9ffda034c8185cdc271f335559d46a7ec7a",
+    "assets/sn15.webp": "0dca7f7a4300aacc726e67bbd8df84ec44e87b7f894786d779fda657b70b52a8",
+    "assets/starBaseBackGround.webp": "a6ba3be4e9886ecddc8fcb87b63ee8790b30f4260339dd9379e46e43604dbd75",
+    "assets/starBaseBackGround2.webp": "de17f7cd0c339e33012f6bb9cf09831b0772989f4933ed8528b94da91cd30094",
+    "assets/starhopper.webp": "18d787ffa3c8a335496a716e10dd1e3b1928216eeb949d67b20f70030069cf73",
+    "assets/tree1.webp": "a619ac2b77ce81c18c3df23141ecf2197b91fcfb2ea17129b8e336746a88663a",
+    "assets/tree2.webp": "a363d125f4e2d5bce0d67bee389e051cc84bcfbba7aef75d86f10f9a69b80ce3",
+    "icon.svg": "8fca8bf870cbaac0c5a22ce6c61891f04536f59d8955b8b1e62fd57992e39493",
+    "manifest.webmanifest": "967f4db3dab163c63f9ff81b9f842a82bebabb10ef20f12578bfc4773781f50c",
+    "serviceworker.js": "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9"
+  }
+}

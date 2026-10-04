@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "decision": "hold-before-product-application",
+  "review": "2003045e7704661e65fef00e5d5e4421657628de1fef919a64cd77766b02036e",
+  "inputManifest": "40c943b931d6db81c6421178a984c3953ce88b3649128c2596ff1f619555bf18",
+  "inputs": {
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/admission.mjs.txt": "e3cedb0a90854025dbd4359ea13cbe8fdf320507cd8feca2071e40bc11dd66d6",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/build.mjs.txt": "2d7b8b007546697faab96d7ca0bddc7d5239e0d51cada4de0f824e9cb3c1018f",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/constants.mjs.txt": "7492ed19d62c4313b2c84ba67d731f74d12d128dc9ec139b6372eec90a3625b3",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/contract.md": "32004c6021c3fb569fbb3f13415cf8c291f144bf05e85b43c503690fdd8fbbc3",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/entry.ts.txt": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/integrity.mjs.txt": "8544e7ba55aca24c8ef11815a40754dd05f1e0ac64492f3e1849085e6fc68220",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/lifecycle-reporter.mjs.txt": "8ce40d446508dba42901b48c5f577ba9aa817fae3aa3de9c19113c31b2d48c81",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/loader.mjs.txt": "69d3f115f10b9c17d245b92caa341ddcbb8a45fe778bafaeffcba0065fbf825a",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/package-script-diff.json": "25ae7e9c23ed44743927917b442c48452854d45b3b1946dc911658cbda91732e",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/prepare-run.mjs.txt": "972de609021190bf236825ccfa2554a012078ef22191a5ee86e9df8c1a722b1c",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/projects.mjs.txt": "f678b25fba3d6f27aaa09f7fac323d25e82283eda6261e03b48f394bc90f0664",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/run.mjs.txt": "07e2c9d2afe8c17b9cca553303d4892c74332dd5529f84ab09e68cdaccd263b5",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/vitest.config.ts.txt": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029"
+  },
+  "blockingFindings": [
+    "constants-adjacent-import-route",
+    "durable-independent-postaudit-outcomes",
+    "aggregate-artifact-byte-cap"
+  ],
+  "compositeFreezePending": true,
+  "workloadExecutedByReviewer": false,
+  "sourceApplied": false,
+  "executionApproved": false
+}

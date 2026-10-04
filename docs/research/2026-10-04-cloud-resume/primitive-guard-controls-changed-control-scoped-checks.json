@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls.mjs.txt",
+      "sourceSha256": "787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace",
+      "status": 0,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guard-control-syntax.4y9w1l5h/check.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls.mjs.txt",
+      "sourceSha256": "787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace",
+      "status": 0,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 1.0240815340002882,
+  "runtimeExecuted": false
+}

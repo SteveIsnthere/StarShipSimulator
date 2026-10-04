@@ -1,0 +1,105 @@
+{
+  "runtimeStatus": "pass",
+  "source": "/tmp/starship-width2-sdk-repaired.8loOrr",
+  "files": [
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/after.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/after.json",
+      "bytes": 931775,
+      "mode": "0o600",
+      "sha256": "d2ca53e497984c31f9919c39ff7fcc9b969d64a8f116171f5a4c15a181816280"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/before.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/before.json",
+      "bytes": 931775,
+      "mode": "0o600",
+      "sha256": "d2ca53e497984c31f9919c39ff7fcc9b969d64a8f116171f5a4c15a181816280"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/controls.mjs",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/controls.mjs.txt",
+      "bytes": 11818,
+      "mode": "0o600",
+      "sha256": "c13ead93410531b62c49f77b8ad644e3d701d80923e5c631ddeb8a8b4eb7ce64"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/declaration.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/declaration.json",
+      "bytes": 451,
+      "mode": "0o600",
+      "sha256": "70ea39332968415f7f6797347d38c7d5259d81eb142216c30de431c117e03ca1"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/entry.ts.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/entry.ts.txt",
+      "bytes": 7765,
+      "mode": "0o600",
+      "sha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/executed-controls.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/executed-controls.mjs.txt",
+      "bytes": 11818,
+      "mode": "0o600",
+      "sha256": "c13ead93410531b62c49f77b8ad644e3d701d80923e5c631ddeb8a8b4eb7ce64"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/executed-entry.ts.txt.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/executed-entry.ts.txt.txt",
+      "bytes": 7765,
+      "mode": "0o600",
+      "sha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/executed-owned-command.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/executed-owned-command.mjs.txt",
+      "bytes": 7424,
+      "mode": "0o600",
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/executed-owner.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/executed-owner.mjs.txt",
+      "bytes": 8721,
+      "mode": "0o600",
+      "sha256": "2ca9fe8deac9a1c0f49b8bdc493f7c2a1da176a73dea1bc5f84e32923dc3442a"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/owner-result.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/owner-result.json",
+      "bytes": 1943351,
+      "mode": "0o600",
+      "sha256": "c75a2314b07ba8eb3367160c0959ab078b04088ae7126f5e5ab4786685c3aeb7"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/proof-result.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/proof-result.json",
+      "bytes": 584739,
+      "mode": "0o600",
+      "sha256": "7a0eee03d53cc718ec30875a11247eb7ad4bf1b8d193088f832f37d74138f12c"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/sdk.process.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/sdk.process.json",
+      "bytes": 492,
+      "mode": "0o600",
+      "sha256": "64b7caaafb0424ce3a10c2fa4d9bcc149af6f96bac65075b193d020f6d093630"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/sdk.stderr.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/sdk.stderr.txt",
+      "bytes": 183,
+      "mode": "0o600",
+      "sha256": "7312c266e987296faed65ff2b6a2768ef27bc24c77d178fb99e748fbf487cce9"
+    },
+    {
+      "original": "/tmp/starship-width2-sdk-repaired.8loOrr/sdk.stdout.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/sdk.stdout.txt",
+      "bytes": 0,
+      "mode": "0o600",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "acceptance": "30 SDK controls only; fresh actual-result review pending, no compiled/browser acceptance."
+}

@@ -1,0 +1,1 @@
+Exact previous source approval and witness remained unexecuted. Superseded before anygrant by a narrow change from assumed public stack read/set assertions to typed measured outcomes. Raw source/manifest/review/pins preserved; no workload repeat.

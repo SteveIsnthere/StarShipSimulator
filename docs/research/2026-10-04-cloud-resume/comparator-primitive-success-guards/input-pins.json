@@ -1,6 +1,6 @@
 {
   "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/candidate.diff": "2462af1064f197e0fa812f6f960b79347ae3690fd02468dd77ca7eece6aa734c",
-  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls.mjs.txt": "5fe6405e08d3dc23829dd3487618b58f306b28d3986f24695c10a91322c6a732",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls.mjs.txt": "787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace",
   "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/declaration.md": "0723a11b3afe0b599a6c8aec275bae66035314ce42df5a4f45063dafd7d152a6",
   "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before-scaled.ts.txt": "d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023",
   "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before.ts.txt": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
@@ -9,5 +9,14 @@
   "docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/independent-inspector-result-review.md": "c5ef3ecbe0b67f43285c9fafd992cacb0ea8a39156ac11e140e1675670950d4f",
   "docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/independent-inspector-result-review-pins.json": "450ba4c0d4161cdd5fd2400c79142f5e10f581367cf2f4fb4f6433959f1fa873",
   "docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/graph-oracle.ts.txt": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
-  "docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/controls.mjs.txt": "081ac027df0774cfb105162db59b5ff384f615b83a30c3abe7060d34181ee41e"
+  "docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/controls.mjs.txt": "081ac027df0774cfb105162db59b5ff384f615b83a30c3abe7060d34181ee41e",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls-before-scoped-lint-fix/cloud-comparator-primitive-success-guards-independent-code-review.md": "14bba6815345d0f74dc9ac6b471a72045f996f80ce8639228291b69de0969265",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls-before-scoped-lint-fix/launcher-independent-review-pins.json": "972c37eaa84a45c18f69d0fa6b2e8be3006a461a264ef5d06451afa3a3555e16",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls-before-scoped-lint-fix/launch-input-pins.json": "4ea09ea7f3cb90b03ffdf3b2116e3d5951f8d07671a48422bb69d97139b53df1",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls-before-scoped-lint-fix/launcher-independent-review.md": "9f0199e908f6af4f4f0240fdc23f69a03a36752ddff2bb0ca8e79c978c34bc6b",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls-before-scoped-lint-fix/cloud-comparator-primitive-success-guards-independent-code-review-pins.json": "7cd5f85fc0f472819ed3636f3ee337f7526734be0d0952f6050c388bf2343ece",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls-before-scoped-lint-fix/input-pins.json": "eac461668c2b9c9b33e75d085defa1e91ba82c62b84686f247843f0a08dafa24",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls-before-scoped-lint-fix/controls.mjs.txt": "5fe6405e08d3dc23829dd3487618b58f306b28d3986f24695c10a91322c6a732",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls-neutral-lint-repair.md": "c599f44df6b9bdd8cfe0ecdf3daf874934f429e621425b9e61a0f33890c0109f",
+  "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls-neutral-lint-repair.diff": "951132e50bd48320ff7dd81cad7e7c24b046a7810c5440264d5a5cbb857e78aa"
 }

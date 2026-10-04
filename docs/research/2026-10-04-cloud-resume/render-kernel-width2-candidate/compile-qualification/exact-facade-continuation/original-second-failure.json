@@ -1,0 +1,3498 @@
+{
+  "compiledSetup": "/tmp/starship-render-kernel.2co6w1rl",
+  "qualificationReceipt": "/tmp/starship-width2-qualified.6ycto9y5",
+  "lineageBridgeSha256": "611084e6955c2757546357ea3cdacace20264d2acb748a5b457ab6aac04b7e5c",
+  "originalFailureStatusPreserved": true,
+  "passed": false,
+  "error": "Expected values to be strictly equal:\n\n0 !== 1\n",
+  "files": [
+    [
+      "BufferResource-uMLrSSVl.js",
+      "de43598e26f9e06fdeae989884ad26e6f39aa2ddb8042d64100adfbba362cb24"
+    ],
+    [
+      "BufferResource-uMLrSSVl.js.map",
+      "f1d0cd390aeb736e34c884abf81f4b1c877633d73d7627bea14aa60b93766cd2"
+    ],
+    [
+      "CanvasPool-4lFBuryO.js",
+      "10004bbc1155ceff5436e75df7a3310e2bf2b8a73ea644d562833a35bce06a55"
+    ],
+    [
+      "CanvasPool-4lFBuryO.js.map",
+      "af082e25ccae084209201f91347ab6596ecea45d4991b90f04b3f869f7e9a22d"
+    ],
+    [
+      "Geometry-CYPxRocb.js",
+      "833a670586c0f9aa9516658bafb70fbe80d371b6dbf8f884afbc7dffcffc7db8"
+    ],
+    [
+      "Geometry-CYPxRocb.js.map",
+      "876c7516550347c7d1cd8d0f90c4cb1fe141d68b95555e5d51180b6b5e472a58"
+    ],
+    [
+      "RenderTargetSystem-Bs_X-W5p.js",
+      "9c45e9a5b1c07ea4f650986b7d51d9d7335f5f45e1ed4e86301adde257b4e845"
+    ],
+    [
+      "RenderTargetSystem-Bs_X-W5p.js.map",
+      "b47dbf2c63d76d48d08cfc297a51459029e91c2ed9b5012bcc17a9ccd2ea58b8"
+    ],
+    [
+      "browserAll-D5DBqH_a.js",
+      "e91cd987a327554cca795168e1dbdbb27e6b9826b8089dd031811e6f5a14d370"
+    ],
+    [
+      "browserAll-D5DBqH_a.js.map",
+      "c2fbd1cf960f004b29617b980b76610b621e0cc08e88522402f5b8981e35ed85"
+    ],
+    [
+      "canvasUtils-B52VJkLn.js",
+      "66d90c2c3daba06c01628737d57e3e61ee9e9337f6a3e5f010f07dee0e240988"
+    ],
+    [
+      "canvasUtils-B52VJkLn.js.map",
+      "6ba8f801ee1a8b6490b58cba84c2c6aa877c4d6973ce8babb289e6ffd59d0d81"
+    ],
+    [
+      "getTextureBatchBindGroup-9HBchnv9.js",
+      "fe328c00565ca1c7af21f45332411c7684e7a2b62401ec67e8bcc0f96f2d4260"
+    ],
+    [
+      "getTextureBatchBindGroup-9HBchnv9.js.map",
+      "a4d631b2fc5912b68a265c656cfa3fc36ec742d514057e9ea88a8a0b82c2f1d1"
+    ],
+    [
+      "init--pTYeZJt.js",
+      "56e5ef5af8b86e6d1198a383fc146ca8201a6458d1f3dcbbda3ff03aea9f8b77"
+    ],
+    [
+      "init--pTYeZJt.js.map",
+      "d00b3193032cf65166efbef2f6a6d8f18d6f8f672727eeb4863c1e2e3ec873a7"
+    ],
+    [
+      "init-Dz7_hNy6.js",
+      "5f9bfeaed42dc8c00f1d29b0a35e9bff20d7cadcfd6ad886944fcfe98e718303"
+    ],
+    [
+      "init-Dz7_hNy6.js.map",
+      "508087364169718fdf731ce6970bd2e70ab4aa43c58317d549c981e53e237bd6"
+    ],
+    [
+      "kernel.js",
+      "6422a541cace2003317dbee2f7f92c11ca0d33b9b57a418d4a20d6d6409619fe"
+    ],
+    [
+      "kernel.js.map",
+      "0e5eb77f02654babc69cf8a9dcb5adb217d2bd256a78b4320b259f86a5ebb82d"
+    ],
+    [
+      "webworkerAll-DXoAr3HC.js",
+      "8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8"
+    ]
+  ],
+  "sources": [
+    {
+      "map": "compiled/BufferResource-uMLrSSVl.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/shader-bits/localUniformBit.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/shader-bits/localUniformBit.mjs",
+      "sha256": "e8cba4c0b841fa9b2ecfb9edd986eff35167db71820c56b6523b4edb362c3e42"
+    },
+    {
+      "map": "compiled/BufferResource-uMLrSSVl.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/shader-bits/textureBit.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/shader-bits/textureBit.mjs",
+      "sha256": "23f03e4d44ddc8f31a571ecd80fb864cd163f4d0238aa5cc4cef2d3609cc5604"
+    },
+    {
+      "map": "compiled/BufferResource-uMLrSSVl.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.mjs",
+      "sha256": "833b6797240d72c4c7b8090c66823ba9b03a154a773cc3257a19e5b23cf597b0"
+    },
+    {
+      "map": "compiled/BufferResource-uMLrSSVl.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/state/GpuStencilModesToPixi.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/state/GpuStencilModesToPixi.mjs",
+      "sha256": "afb255084ebe5a3a23c6839a5d7520916a9f98fae8fbdad46cb1a42879ae9a43"
+    },
+    {
+      "map": "compiled/BufferResource-uMLrSSVl.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/UboSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/UboSystem.mjs",
+      "sha256": "8875812de2e3e49c3817dbad8b35aa472b686643059964e084d09d3c6245c3c3"
+    },
+    {
+      "map": "compiled/BufferResource-uMLrSSVl.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/utils/uniformParsers.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/utils/uniformParsers.mjs",
+      "sha256": "beabde311800079bf24145277fd68fc939166ad508e48f55086e2874d7071755"
+    },
+    {
+      "map": "compiled/BufferResource-uMLrSSVl.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/utils/compileBufferSync.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/utils/compileBufferSync.mjs",
+      "sha256": "0c7370c6b7112417d2a76f3d4f2643891641c78915f00005953ec2991710ff88"
+    },
+    {
+      "map": "compiled/BufferResource-uMLrSSVl.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/utils/uboSyncFunctions.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/utils/uboSyncFunctions.mjs",
+      "sha256": "12d4edbed38ec49cc89a561755a24ca8b9f6c1babe1de851e5d7e69adcb3823f"
+    },
+    {
+      "map": "compiled/BufferResource-uMLrSSVl.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/buffer/BufferResource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/BufferResource.mjs",
+      "sha256": "0744d885e91e6ec8a4acbbbaf7e7897e0fb90e0ff2843283a9fd362d8d512f47"
+    },
+    {
+      "map": "compiled/CanvasPool-4lFBuryO.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/CanvasPool.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/CanvasPool.mjs",
+      "sha256": "1acc5ad13c491396dba76631f07da7b9b72a6adae41ccbfe092c8e9d60f6f687"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/extensions/Extensions.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/extensions/Extensions.mjs",
+      "sha256": "141ec5f5c9d69a144a206214cc0cb473ae2ff6e1effcb36228e415f1d217dff0"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/point/ObservablePoint.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/point/ObservablePoint.mjs",
+      "sha256": "6c09831fabab38946c2a5f8540e0e7fef7a481522b9635fe2adf8412e165cc69"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/eventemitter3/index.js",
+      "repositoryPath": "node_modules/eventemitter3/index.js",
+      "sha256": "1560f251de5d28d2c15ff070215d2c5c0fa06f1a92e8d6522bbee37e06d2a6b5"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/eventemitter3/index.mjs",
+      "repositoryPath": "node_modules/eventemitter3/index.mjs",
+      "sha256": "82d15c8c0058e5795a5c19540d0713416ff65edd4fd6aa8f79ee1fb5ade78cd5"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/misc/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/misc/const.mjs",
+      "sha256": "442ad63d4c09213a2fc7498ea7dfa89d70136158bdf8dbbd055dbd3876bb9047"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/point/Point.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/point/Point.mjs",
+      "sha256": "1a2a281c40b0b5382ede51219021b19365a22370c8105aaaca94c0c82f97f9e1"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/matrix/Matrix.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/matrix/Matrix.mjs",
+      "sha256": "dc223587e4d3fcfc11bb7647666b678d419358842603bbd60ec8763edb9ff490"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/matrix/groupD8.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/matrix/groupD8.mjs",
+      "sha256": "280ae59b8f5ae7e5083d042ef622e2ce11ac40c3a1c1be2ff761fb67ee64166e"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/shapes/Rectangle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/shapes/Rectangle.mjs",
+      "sha256": "bb94ac79e69bff0913fb8683b1108b0f7f6822a845ce531033aef07035bb15f8"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/data/uid.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/data/uid.mjs",
+      "sha256": "c89cb0657df79d565f1e0936ea6eb2f694ee2da1b353e669ab45d74bf913a49e"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/logging/deprecation.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/logging/deprecation.mjs",
+      "sha256": "b1c57e30ab05bdf8ba9864743ed4a661e48cbbde7727af6c94d2b6128a4ef5ab"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/misc/NOOP.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/misc/NOOP.mjs",
+      "sha256": "33208281d21f1576177f777887436d2945d4383f96f0c5edd1c57a54a6bee136"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/misc/pow2.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/misc/pow2.mjs",
+      "sha256": "f678585c56d16534a9d1df70057bb09ad9d12e64077ca60130c5e4557ee75205"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/utils/definedProps.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/utils/definedProps.mjs",
+      "sha256": "eebd25c13d31f10de7a040978684fdcb902e31831fb0504320289cd5bea85195"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/TextureStyle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TextureStyle.mjs",
+      "sha256": "2459b3f414d1d896f1aaa34d71efc2f3e1030c78fe1f54660536f2eb50cdead4"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/TextureSource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/TextureSource.mjs",
+      "sha256": "d0db4210151102c737d57af08a8402ca504f01d418bf2045c270e236f3115135"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/BufferImageSource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/BufferImageSource.mjs",
+      "sha256": "ffa8152570167203292e27a995dc5156555e8f0b720be50d4274b6025da4c790"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/TextureMatrix.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TextureMatrix.mjs",
+      "sha256": "0033f45066d5a5eea210c8dfb921955422d81eafe3f7d162f99f353f1fdd4796"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/Texture.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/Texture.mjs",
+      "sha256": "f1c8f2a7160b46f2de0993ac1bbc4ee17b4396f93d6c004b9765d5165c03b080"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/data/updateQuadBounds.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/data/updateQuadBounds.mjs",
+      "sha256": "b9449ae36134c2ac51a0916f3ee7efa4db0ad7dc11eefcc62dacdbc6402a1c98"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/bounds/Bounds.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/bounds/Bounds.mjs",
+      "sha256": "cb0e07cfc6a02a2c7a3fd688317c55c9fa161d46f255d904f63c5477879c8567"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/@pixi/colord/index.mjs",
+      "repositoryPath": "node_modules/@pixi/colord/index.mjs",
+      "sha256": "e83f97abe065db9490ba5abfffded254f0cac0b83a3a04f68bc1c0e9997c1168"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/@pixi/colord/plugins/names.mjs",
+      "repositoryPath": "node_modules/@pixi/colord/plugins/names.mjs",
+      "sha256": "6f60e71eb2c32fecf62d173509946241aa9e4017159d51d9630245cefa158cf7"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/color/Color.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/color/Color.mjs",
+      "sha256": "6e9c6d1d083af95fbe3c3a302594c24c351474dc426ae168a83f1c9bcaa05267"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/culling/cullingMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/culling/cullingMixin.mjs",
+      "sha256": "87258f5a430c03a73f04cc2c6ae09603495ac6c559a9f30028cbdbc925c2f5d5"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/logging/warn.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/logging/warn.mjs",
+      "sha256": "637dfea10c6b43fcf866042fd02124dc836d7646e50f2c4b179d4b3ae2303892"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/pool/GlobalResourceRegistry.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/pool/GlobalResourceRegistry.mjs",
+      "sha256": "b28974b011498229f5096b6fdf0fff950eab11844673827699aeebe03a4ed907"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/pool/Pool.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/pool/Pool.mjs",
+      "sha256": "8f284d71d518e004f5cafb1ea609dc8fc5dca2a53d46e0b2a45fbdf5e6ae7cb3"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/pool/PoolGroup.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/pool/PoolGroup.mjs",
+      "sha256": "9c9ccba3facdc65111f19b16a601536e8442cf977b9af8ee4a3db23c914e4b19"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/cacheAsTextureMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/cacheAsTextureMixin.mjs",
+      "sha256": "fab8b5726565768a882f96b56511ede7e9509eeb0e51fd7cc103f99af8eae49c"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/data/removeItems.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/data/removeItems.mjs",
+      "sha256": "1b3eaaaafbc6bd076b840c2bf951c623beae7eca0e61be890e42c4339e4bd351"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/childrenHelperMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/childrenHelperMixin.mjs",
+      "sha256": "d0c13b03c2c2105b7f227e18bb6417e4d6e7cf9daf66f182402497eca794c543"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/collectRenderablesMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/collectRenderablesMixin.mjs",
+      "sha256": "5f969175b698094b7b35535832bef0a7c3406bf4c882b17dbd7299b73ffd6b6e"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/FilterEffect.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/FilterEffect.mjs",
+      "sha256": "08262b661d2029b16335ae7a396d53c421538dee97c51bc1086ef6b59cc190b7"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/MaskEffectManager.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/MaskEffectManager.mjs",
+      "sha256": "acdf6a1001394d239a009790e0528e542fad8420ecc40eef68e7872c3b2b744b"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/effectsMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/effectsMixin.mjs",
+      "sha256": "b296d9a3eb5607416b00e186e370457c966828e21a05f717d4c567b5cd075b2e"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/findMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/findMixin.mjs",
+      "sha256": "07db58cdd6e0777471b1785c2cdfcf2f9e4130d5d34cf7fcd08335c421448b6c"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/bounds/utils/matrixAndBoundsPool.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/bounds/utils/matrixAndBoundsPool.mjs",
+      "sha256": "8d033e79b42a5a63e7166652ed8ce22c867b38587fbe2d43dc831e7c60d93491"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/getFastGlobalBoundsMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/getFastGlobalBoundsMixin.mjs",
+      "sha256": "221716c2d54a35ef6cf6daee08bc638b054182657a5fbf0661ad1bbddc837c92"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/bounds/getGlobalBounds.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/bounds/getGlobalBounds.mjs",
+      "sha256": "c3b22c3c5ab199c2f0ab35b8881d27282c97530394c65c3198d10121d269fc7b"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/utils/multiplyHexColors.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/utils/multiplyHexColors.mjs",
+      "sha256": "948ed92c064a7dbafd7858ad00fc40209b2cc15c5a31fa0eea53f4c0105ed4bd"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/utils/multiplyColors.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/utils/multiplyColors.mjs",
+      "sha256": "6ef7340397a2319f95ceb51542af41cd0b2d897d871d2906e091c95ed6f66a78"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/getGlobalMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/getGlobalMixin.mjs",
+      "sha256": "4b3b344f6a4ca2a8123204a2b342a402a84d740f65d02160772412c720808c45"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/bounds/getLocalBounds.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/bounds/getLocalBounds.mjs",
+      "sha256": "e2abb40fcc4e5c5a28b4c437cf361d2543f1d123912db52159d0bef26d9395c7"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/utils/checkChildrenDidChange.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/utils/checkChildrenDidChange.mjs",
+      "sha256": "557916a4b186b6ffde4965abc8ab2a2c9c764b7a2b24a99415600f42e2e5bf11"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/measureMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/measureMixin.mjs",
+      "sha256": "620b30e80cb6998dad41c810c865f13a1b74f77e615f13757b3224d02cece7bd"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/onRenderMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/onRenderMixin.mjs",
+      "sha256": "dcfc4a95af203c0dfb92b8d25b0473d46108a3f6ab1aaa5898dc985fa7d08023"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/sortMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/sortMixin.mjs",
+      "sha256": "1be252f2751b941304825ebd1ce21b5949ddc035b5c70fcace14793eed6f8e84"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/container-mixins/toLocalGlobalMixin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/container-mixins/toLocalGlobalMixin.mjs",
+      "sha256": "46bd20fbe48953b5a6678cbbee4badf48a7389b3874cb77a1ebd03d2deb7c852"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/instructions/InstructionSet.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/instructions/InstructionSet.mjs",
+      "sha256": "17eff0185be1756c979a5f033fc650e97ed04558df06066552309102d1fee8a8"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/TexturePool.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TexturePool.mjs",
+      "sha256": "c44ec9279b0f32c5e55d737b1ab5c72a2a3c7c6ac553fd1d646388a535541d4c"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/RenderGroup.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/RenderGroup.mjs",
+      "sha256": "ae5ed2858bafee724580dd07c518ea41e70c11b94d102d5945de1e3ea92de0e4"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/utils/assignWithIgnore.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/utils/assignWithIgnore.mjs",
+      "sha256": "0a263786d038720de6bc8522e19187b78207c45482e8c8eaf2b15c4e52aebfd7"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/Container.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/Container.mjs",
+      "sha256": "a475c1f5fb2c941bd8b3fdaed4a8e4a5b1485e634d0b21c6ed998e86baefc822"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/view/ViewContainer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/view/ViewContainer.mjs",
+      "sha256": "f5bfadb02be1735b8318460261d965f92fad2563c3ac06774d9b66bf2ecc9d18"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite/Sprite.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite/Sprite.mjs",
+      "sha256": "4ba49186e0fc267775959ce5b949823fab0d3228f4453e9e87c47a87b3bb6497"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/environment-browser/BrowserAdapter.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/environment-browser/BrowserAdapter.mjs",
+      "sha256": "8189834e2098390293e040d2ad05163cbef12505c80632393888d88542d21849"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/environment/adapter.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/environment/adapter.mjs",
+      "sha256": "6676c9aee29d909119be5943010622894001ddf8edb83fd27d7a7b72b5675a63"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/CanvasSource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/CanvasSource.mjs",
+      "sha256": "0a0eba7a95d4ae4679136b4024f87678a42267956da0eaca1e56a10a31e3edf9"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/ticker/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/ticker/const.mjs",
+      "sha256": "5f4dcf4bd89d7fc33e4c5c08d7ae6c70463ecb820cf0c9602feab3d9c5dbe02a"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/ticker/TickerListener.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/ticker/TickerListener.mjs",
+      "sha256": "956b672713c70376febd7fbd4f7576f076997991abfc609631854193c48cc8e9"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/ticker/Ticker.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/ticker/Ticker.mjs",
+      "sha256": "596910a4265c92fbf2d37a9a66001ba6b0c2585dfb74256a05f9069b1c4a3ce7"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/utils/createIdFromString.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/utils/createIdFromString.mjs",
+      "sha256": "a4cc848c31d7d54b2f3d8bd2ff8f9792cc7352b6f1272f5c09ba9f84c44e6207"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getTestContext.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getTestContext.mjs",
+      "sha256": "7b04d25151c3d89f01f5844b74d5650353bcb0e79848c4c4a35c45288aaa3a9d"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getMaxFragmentPrecision.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getMaxFragmentPrecision.mjs",
+      "sha256": "9b1f63abe7ebc267130ab4adae6dbd06c7181e79184660c8f19fc8d117b8e2d2"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/addProgramDefines.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/addProgramDefines.mjs",
+      "sha256": "bd1113a58b1ab07d79613c6d785975059b8dbacc7bcc10ca522a7d56adc86c7e"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/ensurePrecision.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/ensurePrecision.mjs",
+      "sha256": "4d1cde718eb116a40eb65d27525f24d4b2be054aae1f1781076fcfbfda13aebb"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/insertVersion.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/insertVersion.mjs",
+      "sha256": "dc8b91a1e3e1e5ba169d27a77f1ac69ca15a04265c7ccae4537c67d686448ef1"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/setProgramName.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/setProgramName.mjs",
+      "sha256": "dccffed7092fff7353339bb7b9fa990851633435ea0035780fedd8d4986cd661"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/stripVersion.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/stripVersion.mjs",
+      "sha256": "e268e3a83320574f78542ba8d13cb174bda05feb99b00d6001e4de6611546375"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlProgram.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlProgram.mjs",
+      "sha256": "6cd38d2da8e6e73f913a1f8451359c190f973aef4f79e96abafc45d3b881d08c"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/getAttributeInfoFromFormat.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/getAttributeInfoFromFormat.mjs",
+      "sha256": "1522035b1ff74f7a506e299e0335aa4e4d9a4b216d064caead8ae4059c517645"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/extractAttributesFromGpuProgram.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/extractAttributesFromGpuProgram.mjs",
+      "sha256": "b7f40b9280b1af0898f86d3bcdb1a48eb7e3b8a0cc2a49ebb89d052cd9b2427f"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/extractStructAndGroups.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/extractStructAndGroups.mjs",
+      "sha256": "7e17473074404f2967c3d52733097a95782397631f3930643cca7d5586c63831"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/const.mjs",
+      "sha256": "5ae32f004893a3ec8a2b1d0933e2932c306a1f8632ecec7c63255af1641d416c"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/generateGpuLayoutGroups.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/generateGpuLayoutGroups.mjs",
+      "sha256": "c471ab55c0289eecc51a710dacfe699635cbb3561d0984aad53ad4b4292e8a0b"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/generateLayoutHash.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/generateLayoutHash.mjs",
+      "sha256": "bf83a9a4cb851a08922c0ae803b580ee5f81f4bb6e3f7e4764d3d11bf73d1b47"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/removeStructAndGroupDuplicates.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/removeStructAndGroupDuplicates.mjs",
+      "sha256": "4584497e2e124e4217c878a64cbbfa54280b43515e1dafe6846783bd8f3ffe1a"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/GpuProgram.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/GpuProgram.mjs",
+      "sha256": "af7198c5710d9d65ecf0c7f68f9e61eb249747d48da3411138a93e26ed83a81a"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/types.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/types.mjs",
+      "sha256": "a9253bdebb5e68b5a1e8ea5bd86d0a98920a649c1dba66c5d856eaec556dc014"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/utils/getDefaultUniformValue.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/utils/getDefaultUniformValue.mjs",
+      "sha256": "d32a7dbd626d4ec474e9c2928d33a050624cd04de8e0a764814956745e192d2e"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/UniformGroup.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/UniformGroup.mjs",
+      "sha256": "7741a1e3dd04f19b33a2b07ce1170b988c48e29f805bc9327506be8e6094333c"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/BindGroup.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/BindGroup.mjs",
+      "sha256": "dfa1905b4dd6dd66aac2fd3f250b0b0126e67556a7104d0d2b84311e8d679f00"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/types.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/types.mjs",
+      "sha256": "2e5616ed8deab93d2d71b16924a4dce082f5e9c14d26c7ec5b5598bcf8da6a5f"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/ShaderOverrides.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/ShaderOverrides.mjs",
+      "sha256": "bd1f386b232b1bc245bbc4d8f4bae4b27e3ef31e162eb3125cc7224d38194ae0"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/shader/Shader.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/Shader.mjs",
+      "sha256": "9624771725b55b5090899cc6b7725bd9158b2cceb9fe780bcf7b0fb44b5a96d9"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/state/State.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/state/State.mjs",
+      "sha256": "4299ee9e9107eb0b91d88ad89cf1ba7abfcca446932072e5a1703d78249e15d8"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/Filter.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/Filter.mjs",
+      "sha256": "8e1316408e2f85f13fb97877ffa54025d94c71db8d5014c364a19fb98309a803"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/buffer/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/const.mjs",
+      "sha256": "1ff5104ec1b8c5bc7ae963a3d6679f11063d627106f461581181559e7e19e010"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/buffer/Buffer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/Buffer.mjs",
+      "sha256": "1c4de01adc162cc42ec634bba696b1e26ba92ec23c6264f23d8d08f6ef8367a7"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/ensureIsBuffer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/ensureIsBuffer.mjs",
+      "sha256": "2972725b281ed850066be145a5978243d9cfaed3ac9b60dc6cbf5769fc15bcd5"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/getGeometryBounds.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/getGeometryBounds.mjs",
+      "sha256": "26097cc5ebed6352c91b6c97b3a8c78dd10032f06e548c763dfa7e1f33f51d2c"
+    },
+    {
+      "map": "compiled/Geometry-CYPxRocb.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/geometry/Geometry.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/geometry/Geometry.mjs",
+      "sha256": "4dd4a6e2b77fb7999de4833fc079ce595ee4bde9c65cc2ba41068cd7ab665730"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/environment/autoDetectEnvironment.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/environment/autoDetectEnvironment.mjs",
+      "sha256": "8ad97680860f0ad88865558ca18cc1825aa310a10a5fa39b284c53e77a7c0398"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/browser/unsafeEvalSupported.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/browser/unsafeEvalSupported.mjs",
+      "sha256": "43e8761e70d5a1dbfaf4ddc0c4857ac9a860a7b1ddb86935d361c09729fac16a"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/const.mjs",
+      "sha256": "d39e4950fd279fd05dfcb94db8099c53f228911443782e56bc4481a75cce5bbd"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/system/SystemRunner.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/system/SystemRunner.mjs",
+      "sha256": "644de895da3638362d5e5820ae8cdbb1601c21c4b9845f680693b863bd6f46e7"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+      "sha256": "64d24a58b4acfd957deab121b44bea9ccfa2c4fdf22e6cfd7e726fad68dd1787"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/const.mjs",
+      "sha256": "fa0acc2ac0d90e1ce221ae16b7262d77cb4f045e371c1f4d0e6461e63418b5fe"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/global/globalHooks.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/global/globalHooks.mjs",
+      "sha256": "9f447c3b0a507b6c8b97b9396150f4f5bf0a2053660410b0fead12a5b596432e"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/data/ViewableBuffer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/data/ViewableBuffer.mjs",
+      "sha256": "39a4e6d26ba2abf6d9fc69d4edcd702cf88645737dadbe9b385ad8c13dcac179"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/buffer/utils/fastCopy.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/utils/fastCopy.mjs",
+      "sha256": "7bd95431ab5b41f39f2a3efe5505e4a9eceb63f800d9e3103540881691475850"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/state/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/state/const.mjs",
+      "sha256": "ff91c748637f9a9b93e1dae7c3185db43028639a4cf8f380d9c36a72579b6993"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/state/getAdjustedBlendModeBlend.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/state/getAdjustedBlendModeBlend.mjs",
+      "sha256": "6f07a836e70ee56554a678f1519d61c5dc08384efa7b3f08354132362c2dad47"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/gl/utils/checkMaxIfStatementsInShader.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/gl/utils/checkMaxIfStatementsInShader.mjs",
+      "sha256": "09dbdf49c1ae89f402f2acf371f008af8ac7bbc07f0e52d180daddaa18a29461"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/gl/utils/maxRecommendedTextures.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/gl/utils/maxRecommendedTextures.mjs",
+      "sha256": "60986dca1619927428902ce545577b1ed05d081341a69520452a4a1754f0d9ca"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/shared/BatchTextureArray.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/shared/BatchTextureArray.mjs",
+      "sha256": "c80a652e9e3c9e12034547a365348b1b9235aaa00c2a273adba1d4ef9d8f508b"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+      "sha256": "aaf2400fc4ecfd0ff17adcb82f842a4f201307e392e56730937e0b0cbc9f96d1"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/shared/BatchGeometry.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/shared/BatchGeometry.mjs",
+      "sha256": "31807130e128ea0f672c0e5538e94afbf52ec0e3471b6bb3d6797ad7584aeb02"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/addBits.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/addBits.mjs",
+      "sha256": "afa86b7524273e7ea23080d6813b4189857b4a1dddf4fc45d52e1249b512a2c3"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/compileHooks.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/compileHooks.mjs",
+      "sha256": "919b77a05c51177a01f65f51e9af36150061f8b08ceaf33439eb6933e2d0869c"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/compileInputs.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/compileInputs.mjs",
+      "sha256": "81aa6064bafde0df9f140649e988773dce51071ea02382c71c831401e25e6c85"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/compileOutputs.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/compileOutputs.mjs",
+      "sha256": "7fb232cda7cba9a724119503be4925113d4d4a89276e0aa83e2b87a7ce3bbf42"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/injectBits.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/compiler/utils/injectBits.mjs",
+      "sha256": "510917ebbe39714845f0da960e0cfe4aeda49bb6dd559b4d33e48f19fc5ee7fc"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/compiler/compileHighShader.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/compiler/compileHighShader.mjs",
+      "sha256": "df7dd8415db65ad6792e9c0ffab5f1caf75156a0b81f7e7202b1a321fe6c64f4"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/defaultProgramTemplate.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/defaultProgramTemplate.mjs",
+      "sha256": "ecbd7e729c04565420dacf06be05fa9bfd13d56a65b729f583be22f7aff6a531"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/shader-bits/globalUniformsBit.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/shader-bits/globalUniformsBit.mjs",
+      "sha256": "1dc6db22d9a07f939f1caf67d77e52d7fd6677c59111e5c6f64e0bcf1070ad4e"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/compileHighShaderToProgram.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/compileHighShaderToProgram.mjs",
+      "sha256": "c5a3bc1ad44d77348678fdfca88437ea46babef05072e3e718ffb6df0c5919a2"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/shader-bits/colorBit.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/shader-bits/colorBit.mjs",
+      "sha256": "6f2d6d0bd62be27b62c81f6edc51e662bb1fb7fa4933fc5d163cd725c0dce14f"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/shader-bits/generateTextureBatchBit.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/shader-bits/generateTextureBatchBit.mjs",
+      "sha256": "e583f181713c997c68cc01a0deb9842dfe3c10162ed95ea0745bd8abfa0402d5"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/shader-bits/roundPixelsBit.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/high-shader/shader-bits/roundPixelsBit.mjs",
+      "sha256": "968aca459b8cc068e4465f2528c27d88e71c830c8e349791ad521f93540ec721"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/getBatchSamplersUniformGroup.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/getBatchSamplersUniformGroup.mjs",
+      "sha256": "34c648bd4bb329f4959f949a7215f7fe9dc3a605fd77a15069f8c487b0e95740"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/shared/DefaultShader.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/shared/DefaultShader.mjs",
+      "sha256": "26a0b890aaccfc755a69d736c3c3fa4e2f1114a811230eff5326cab235ad5aaf"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/shared/DefaultBatcher.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/shared/DefaultBatcher.mjs",
+      "sha256": "b22a9a471384f82ebae5312edca6d731f096a02d879cb6d3f62d672c3fb30654"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "sha256": "5763eeb3aec5708ebb5c344c98046673d7b8dc986fdb000179de4a6a8d2a54ce"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/mask/mask.frag.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/mask/mask.frag.mjs",
+      "sha256": "3a65c1b34d8b5cd39a221bb8bc1012d4e5fd51c9ea5386be683a3e18183ef9b6"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/mask/mask.vert.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/mask/mask.vert.mjs",
+      "sha256": "3c352c7ac69097bd2e22edd90e57b42388e08537003b2b7dbaf92f2e2efb68eb"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/mask/mask.wgsl.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/mask/mask.wgsl.mjs",
+      "sha256": "05816a96a6a3ff7f71e8cef7a3f889780878846afd9a786b6b8269410b0db63e"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/mask/MaskFilter.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/mask/MaskFilter.mjs",
+      "sha256": "06142ce99b74b5b9687f1962500693e7a687de973808d57e83914061d3e9cb0f"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/gpu/colorToUniform.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/gpu/colorToUniform.mjs",
+      "sha256": "cd1a8c16e431a75a70833078ee092ed376df761d40f073e0e98c2936ba921903"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite/BatchableSprite.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite/BatchableSprite.mjs",
+      "sha256": "ebd9375de8efc6e43bc0ef980f7c0a8bca5e00a9924b3f6c640ba06ac98193f8"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs",
+      "sha256": "0bda64725a3b84d85dd685e2584b70d7c7e136a2ab01cf0c889223ad00dbe42f"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/alpha/AlphaMaskPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/alpha/AlphaMaskPipe.mjs",
+      "sha256": "ee3b7f2c7d178c030d31de9523d418f70a0d2a63e95da0109bc509a728f83147"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/color/ColorMaskPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/color/ColorMaskPipe.mjs",
+      "sha256": "7e5f217edc01b1656382e8a63b1c02d7e52d9d3f6e03f3e873f3f4528ced40f2"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/stencil/StencilMaskPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/stencil/StencilMaskPipe.mjs",
+      "sha256": "c273eac86756c349b92747fcb5689c6e198635f041ebce3dfca23822be357676"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/CustomRenderPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/CustomRenderPipe.mjs",
+      "sha256": "750e8ea823831d7e86661e180bdfe00452bfdbd6608ddce86c384595be994f0f"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/utils/executeInstructions.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/utils/executeInstructions.mjs",
+      "sha256": "fdb1fafa08b617c4bbeb08e77b3939f39c96a456ef709169620248cbd2d60014"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/RenderGroupPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/RenderGroupPipe.mjs",
+      "sha256": "0f4d91445d176fb9406bb05f55bc8748fb97f2d91cfa6d708f56223dfd4c7a49"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite/SpritePipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite/SpritePipe.mjs",
+      "sha256": "79dbc42b0aded4ba44940bb85b1f4c0b33622faa6ee24cc23d0450ac4aa6ef6d"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/blendModes/BlendModePipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/blendModes/BlendModePipe.mjs",
+      "sha256": "38f4938527fabd5bcb524965e43006036de0c118d0f1c94c6fa8536e1db36347"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/utils/clearList.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/utils/clearList.mjs",
+      "sha256": "8fb4923cfb5f6e2f2bbdc8ce59bd67875c3bc654aa0cce2922ed4eb95c6560ae"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/utils/updateRenderGroupTransforms.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/utils/updateRenderGroupTransforms.mjs",
+      "sha256": "c73beac8640b7cde8e0ddae11d8bfebb6f441d4945e3233835dd487e3df8a778"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/utils/validateRenderables.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/utils/validateRenderables.mjs",
+      "sha256": "3a9652495b4f5bfbf80462cff37c38e4beafc8dd0cb90f8327e6066c1c54fc82"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/RenderGroupSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/RenderGroupSystem.mjs",
+      "sha256": "ba508bcbaa9b35662af065a6ae4b074e5e6104d4d3c3eab7b709b307c2b302a1"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/background/BackgroundSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/background/BackgroundSystem.mjs",
+      "sha256": "88e50624b5faae465af2a4f24a0d2b1930c9529271289134dafb19933a45200e"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/extract/ExtractSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/extract/ExtractSystem.mjs",
+      "sha256": "ceb3a8f6cfffa60f1bcbac1971a915c60bd00524221367e95f26fa047a23473c"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/RenderTexture.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/RenderTexture.mjs",
+      "sha256": "bd541f0f3df3594841c9ca38c0392ed78610e2590c80e78ce63ac0f7cd88ac31"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/extract/GenerateTextureSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/extract/GenerateTextureSystem.mjs",
+      "sha256": "e3eabab497845b654db6479ee71bd3b548c3eef72e813489e2766196966be08e"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/data/clean.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/data/clean.mjs",
+      "sha256": "bd44274582ca2116b1a4f0af56da1cbae561898574df0305d47351b3530ba5f5"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/GCSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/GCSystem.mjs",
+      "sha256": "636a8a563ccefac9216e3e500edd12815102c5a1226d74402ffb3258de88cb58"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/GlobalUniformSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/GlobalUniformSystem.mjs",
+      "sha256": "b3803ce707e922e55ffbdcee8fc0974b93ab6bacacedaa246d9a5756b8956c79"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/SchedulerSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/SchedulerSystem.mjs",
+      "sha256": "702316ae2acaad4a3765112a8f3a7230c3190f03a617b5de6a7cfad6148aac25"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/sayHello.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/sayHello.mjs",
+      "sha256": "d356228b530d6741fdec657e538810e31cdc1e71d67203d42f7abb429ad9e6cc"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/startup/HelloSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/startup/HelloSystem.mjs",
+      "sha256": "94688fb448447bde86198ecf9a2a1a14c160866fae2c2146193779c7a8ee061c"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/RenderableGCSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/RenderableGCSystem.mjs",
+      "sha256": "8dd7235f1b7041b34b824a659978a6497f649e885241c0b541c95668b344dd2c"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/TextureGCSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TextureGCSystem.mjs",
+      "sha256": "a49ff50b6f5ea0587424b290cec2e2a0a4099164a69a69c2e0bc3de32ea0f15a"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTarget.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTarget.mjs",
+      "sha256": "e38b0a01badce852690d6149274a7eb9289b39583e5e0daa8b5b3663308c4ce0"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/utils/getCanvasTexture.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/utils/getCanvasTexture.mjs",
+      "sha256": "514c269a9d5e39b0f0cd7ac68ad984728672f1855202d236314edb3cff5dedd3"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/view/ViewSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/view/ViewSystem.mjs",
+      "sha256": "0f4ab4ec4845cb0bee6c4353e29bcaa1ef24e91594ebab44a5e58cb17b2f001b"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/system/SharedSystems.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/system/SharedSystems.mjs",
+      "sha256": "e93a5ff863e0df5ddc8badb6f322ad728ce51f73541efdb7cb9ca6acee3e5fae"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/renderTarget/calculateProjection.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/renderTarget/calculateProjection.mjs",
+      "sha256": "3e6d7169840f065d27c7d302f025f5261989b32d17d65a50b967eb812a5e6243"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/isRenderingToScreen.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/isRenderingToScreen.mjs",
+      "sha256": "5097e9ac95e44a56497c33fbf30ca968c9fa052ee8b223ed63c067019a1f7b4c"
+    },
+    {
+      "map": "compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.mjs",
+      "sha256": "39d3eb134fc3e82f8f16e796afb9dcb6141b1d9c1a5c2a559c78bc80aa880c1c"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/dom/CanvasObserver.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/dom/CanvasObserver.mjs",
+      "sha256": "14dafcf0abf79f9cd373ffcb1db19b1f6fa709dc199d24dbafc97481c5a48aeb"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/events/FederatedEvent.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/events/FederatedEvent.mjs",
+      "sha256": "69dcf0102dcb7646affdad326e7e2d2edcb0ecbd88fb36dc16ba14c0e07e72a8"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/ismobilejs/esm/isMobile.js",
+      "repositoryPath": "node_modules/ismobilejs/esm/isMobile.js",
+      "sha256": "82768e2da59d07d7da7403ba1b368b6ca0cbf863750b42e1ee973f2e620db773"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/browser/isMobile.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/browser/isMobile.mjs",
+      "sha256": "2dc3bb2a325856fb42322f3b7bce8a75544acfce1f806126156503e88493834d"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/accessibility/AccessibilitySystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/accessibility/AccessibilitySystem.mjs",
+      "sha256": "b21e2d220e89dc5bf3472a032dc32b918c7363a23897e6257bef5494b3a2afb0"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/accessibility/accessibilityTarget.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/accessibility/accessibilityTarget.mjs",
+      "sha256": "a8b6b6152813e0fe04b244765621ca133412a6a345d82f5545d574dcee646bd3"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/dom/DOMPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/dom/DOMPipe.mjs",
+      "sha256": "d30c7b85f0e4e3568fc52ee5b3d9c0716d0886a294b709ae48e2f4bd7e54cd53"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/events/EventTicker.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/events/EventTicker.mjs",
+      "sha256": "2c7e5694c769d24dd49de2bcecf0e51afa26e0747e5761ee7d9b4855c441a2f7"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/events/FederatedMouseEvent.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/events/FederatedMouseEvent.mjs",
+      "sha256": "92a264594c6a3a39d651777b88ed35bb1381abb9623d308401c485fb53fcbc1c"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/events/FederatedPointerEvent.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/events/FederatedPointerEvent.mjs",
+      "sha256": "bb35ed12e47786fb25fce764661f006ee841478eb742fa148e59b834329a982a"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/events/FederatedWheelEvent.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/events/FederatedWheelEvent.mjs",
+      "sha256": "36fea4666d0c66b06b92bae3103131f062d6c4a41dbe730c72ab2a94dfb45514"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/events/EventBoundary.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/events/EventBoundary.mjs",
+      "sha256": "2ba283b9d2286e04528afc2c0d0e02be0f501080d30bf7369b8ffa102bdeba44"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/events/EventSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/events/EventSystem.mjs",
+      "sha256": "3d3eb9b73fe2599a71e52098236ed36309878b4f66a852231272279d949dce07"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/events/FederatedEventTarget.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/events/FederatedEventTarget.mjs",
+      "sha256": "d2d61346dc13f5d879a269ec02ddefb1cb2855b0003d02c72688a1920083ea6b"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/accessibility/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/accessibility/init.mjs",
+      "sha256": "cd476ce149a2592839a661f15cf7bb39f26dc5180f6b853d29bfe0d083f648f9"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/dom/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/dom/init.mjs",
+      "sha256": "2b04325c086d7339be06bf98a66a3923d5e9d42541e487e62ebe867cad2f6a78"
+    },
+    {
+      "map": "compiled/browserAll-D5DBqH_a.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/events/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/events/init.mjs",
+      "sha256": "84bdb9de3a59c508d197a8ce58a145fd34fc7e3904a8ef75b54adf15c0007258"
+    },
+    {
+      "map": "compiled/canvasUtils-B52VJkLn.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ImageSource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ImageSource.mjs",
+      "sha256": "403aa7f0412e23480a2a866add1014a80a898324ac1ac0f6479ef506c327eefa"
+    },
+    {
+      "map": "compiled/canvasUtils-B52VJkLn.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.mjs",
+      "sha256": "ac3de8aff9b376dc04c6bc2f6b03f6605db5ca26355deff360f667ca7813889f"
+    },
+    {
+      "map": "compiled/canvasUtils-B52VJkLn.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/canvas/utils/canvasUtils.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/canvas/utils/canvasUtils.mjs",
+      "sha256": "98d6e18094b39b578ddce6ffed3f7981f0ecd54f798f3d76ec5cec34ddbd8a8e"
+    },
+    {
+      "map": "compiled/getTextureBatchBindGroup-9HBchnv9.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/gpu/getTextureBatchBindGroup.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/gpu/getTextureBatchBindGroup.mjs",
+      "sha256": "3429ffe1db24f0987db955ca75926cd12b9d038ec077cdbc786ebdcd5de6d3b0"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/container/bounds/getRenderableBounds.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/container/bounds/getRenderableBounds.mjs",
+      "sha256": "98ea4db9cb4ccb3554429bbabffdf81ec4e6206d42514a3fd26201376f5a4f61"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/text/utils/getPo2TextureFromSource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/text/utils/getPo2TextureFromSource.mjs",
+      "sha256": "c149215c448de7b695f26a13ea64d20fa32b9c208fc76b9aff0d185bfd6c3026"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/CanvasFilterSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/CanvasFilterSystem.mjs",
+      "sha256": "addb5d96503b700adc33cfbf483c608a98b4420eaa5fc4c0f0dba9a098a359a1"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/defaults/defaultFilter.vert.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/defaults/defaultFilter.vert.mjs",
+      "sha256": "f0afce4bb797d82f661f1d9869d9d646a0fe23a6396ecf2f55e3a42cb4778d39"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/defaults/passthrough/passthrough.frag.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/defaults/passthrough/passthrough.frag.mjs",
+      "sha256": "a7737f3a20c4329af32224f70a77ca1dac09db6ba32e8561d39722aa70e7ddbe"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/defaults/passthrough/passthrough.wgsl.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/defaults/passthrough/passthrough.wgsl.mjs",
+      "sha256": "916dc18dc43e09cdeceac46ef324297ee25bb5a6b4b4b77917336dbe7452920a"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/defaults/passthrough/PassthroughFilter.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/defaults/passthrough/PassthroughFilter.mjs",
+      "sha256": "75ee7d1ae250ce34c129607dcde82fa987491e982d983caf1d34df0729aa4cae"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/FilterPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/FilterPipe.mjs",
+      "sha256": "99d80462b0b6f88cccd284f5d8693f325de1096520feb7019a87ceb46662a151"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/FilterSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/FilterSystem.mjs",
+      "sha256": "ea645e9e8a0f5249bfa80fd6c27a6c887dd288937fb5dac428ab91053ecbf767"
+    },
+    {
+      "map": "compiled/init--pTYeZJt.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/filters/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/filters/init.mjs",
+      "sha256": "d0bf500281b437ca77176b6a12e302a5a1af4d03031b7e0c45076f1a59a2a570"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/utils/addMaskBounds.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/utils/addMaskBounds.mjs",
+      "sha256": "5f9d497c53e96064738bc03f67ddac51194450d7ae62b68c9417f2801c86112e"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/utils/addMaskLocalBounds.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/utils/addMaskLocalBounds.mjs",
+      "sha256": "4cd066ee710468f59242151e040d7520cf36c7d761a26a58c7a8c7b14578df85"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/alpha/AlphaMask.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/alpha/AlphaMask.mjs",
+      "sha256": "0f3a092d7213c0e8894e28dfba4606671203c77d88377ba43665cff77f75ed25"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/color/ColorMask.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/color/ColorMask.mjs",
+      "sha256": "c6469e9cb1d4675c49e57450cf219179f5d653ee00cf281e83f5427f8f050847"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/stencil/StencilMask.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/stencil/StencilMask.mjs",
+      "sha256": "c173ba8472a054dd16c93aac95ee780037ee75a00b20f996659b5b1a05e35069"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/browser/detectVideoAlphaMode.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/browser/detectVideoAlphaMode.mjs",
+      "sha256": "bf6505b1c124f380356e6fff1c513d0acdaf3119f37d1bc6dd0a827d206f2ad4"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/VideoSource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/VideoSource.mjs",
+      "sha256": "c208801e1781a5da393889cc0a86d29bb1302e26ff2c5523cf020ff35104ebda"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/assets/utils/convertToList.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/assets/utils/convertToList.mjs",
+      "sha256": "bc3a1c56fabe2b59e2a97db35573979914b9c6bdc8de96eb2ef198c8826b51be"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/assets/cache/Cache.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/assets/cache/Cache.mjs",
+      "sha256": "dd521792c151a24ea8e720c5b4fcd9f85f7022b37ce2db2938ee03b06b0b7337"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/utils/textureFrom.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/utils/textureFrom.mjs",
+      "sha256": "1c491e2a4fca523f929cfb452b66d696d8561696aad4654117feb0f72667dea7"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/init.mjs",
+      "sha256": "7e2d650b16c696acf6682104a18615168d810c9ae4380ba19660cbd64945b904"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/assets/loader/parsers/LoaderParser.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/assets/loader/parsers/LoaderParser.mjs",
+      "sha256": "198aa19846a67f29e8fe0a271ea98e7b45fcb92086147b5e29e5444251c065b4"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/path.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/path.mjs",
+      "sha256": "16169fd3cf466112ffae7d9c5baf04090e5d0b23f69449bbcf2b7e582a7410e9"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/assets/utils/createStringVariations.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/assets/utils/createStringVariations.mjs",
+      "sha256": "710335bd255774fa93200c88405f343f37edeb178a96ca3bde63a4b28c196188"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/assets/utils/isSingleItem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/assets/utils/isSingleItem.mjs",
+      "sha256": "c920ebe88a868a8d531b211c3fc1d05af6c56ffcd9337382e0cb4abf42cdfef1"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/assets/resolver/Resolver.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/assets/resolver/Resolver.mjs",
+      "sha256": "daeb5a7778eeaa4ca660d652540fc5143389e8897c0fb7d874f2d67ea871fd3c"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/assets/utils/copySearchParams.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/assets/utils/copySearchParams.mjs",
+      "sha256": "53029339e7b8589312d68bc329f69d743c0860f4ea7cd66d370d165ecc76ff5b"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/spritesheet/Spritesheet.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/spritesheet/Spritesheet.mjs",
+      "sha256": "8a61bfb1016407fd976cce3b11f4cfbf4c224e5a491c4e38be99027c024878ab"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/spritesheet/spritesheetAsset.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/spritesheet/spritesheetAsset.mjs",
+      "sha256": "00280641ea1a230a555724f4ef40ce967e42df257280c2ba9b6d57f150735cec"
+    },
+    {
+      "map": "compiled/init-Dz7_hNy6.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/spritesheet/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/spritesheet/init.mjs",
+      "sha256": "7471ccb5a58b22f15c928f46ab84d1962d33b4197916b6d20e6c383867161cd1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/environment-browser/browserExt.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/environment-browser/browserExt.mjs",
+      "sha256": "80268632767ebd090a9cd3fa594812f58d7b576dcfd8e49c6bab23de8c8689f9"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/environment-webworker/webworkerExt.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/environment-webworker/webworkerExt.mjs",
+      "sha256": "fabbe2b53de9dc9314284bec69343fb864995092bbbbc0ccb2494c099dd020f1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/earcut/src/earcut.js",
+      "repositoryPath": "node_modules/earcut/src/earcut.js",
+      "sha256": "1b27d3d4a33f13425b10c446aede03b4e834355eacd8afd012758137f4563013"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/utils.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/utils.mjs",
+      "sha256": "ddeac15b472f94537790bd5c12cd4fe879a20e55ed6a6ba1bb03ba81ceb5e33c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/browser/isWebGLSupported.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/browser/isWebGLSupported.mjs",
+      "sha256": "112c9bc37578ebf6e22b3dca0144e3bec512f65fe3f84f2904eac79cb447ebf9"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/browser/isWebGPUSupported.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/browser/isWebGPUSupported.mjs",
+      "sha256": "6441f3dc40cec4d490b282290cb104bf038a27de9b750dc1ab05c92c954eda2a"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/autoDetectRenderer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/autoDetectRenderer.mjs",
+      "sha256": "24f624db8145eb1407cbed5c385bca718fb4533d53504d4ed3877a3098ee2b0c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/app/ResizePlugin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/app/ResizePlugin.mjs",
+      "sha256": "6614bbc4190c41c788b88e08c012afdcf00cfce1b9758b78477b96da318a7002"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/app/TickerPlugin.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/app/TickerPlugin.mjs",
+      "sha256": "bb1c1e6c1cee827336f6344602273b555cab8a9a5d7a7d131a2d96ad26aaa49d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/app/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/app/init.mjs",
+      "sha256": "5fc9a7fa0da36862c42007c1c9a2322700dc171d5b551db8eead0d18e115398d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/app/Application.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/app/Application.mjs",
+      "sha256": "8b4ad57b5b4ea1aa0ee104c4405c25716c5f7de6c8df71c71b6c2f2b3e4bb9ed"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/parse-svg-path/dist/index.mjs",
+      "repositoryPath": "node_modules/parse-svg-path/dist/index.mjs",
+      "sha256": "14ae8d2e82e786a7bf7b6a31043bd4c31a774520ed1ce17f9b166584a8672a5f"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/svg/parseSVGPath.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/svg/parseSVGPath.mjs",
+      "sha256": "b3fd1bb375f4005907f71f97e700d768deb6643698537c4a4fb4985f43e66e89"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/shapes/Circle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/shapes/Circle.mjs",
+      "sha256": "e811c63f30db672b580a64a5befba5f161a3f0ed17d748df429aa13a7c00bb0e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/shapes/Ellipse.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/shapes/Ellipse.mjs",
+      "sha256": "72c6692d44c5d2530b04fd2046ab7ec2c8da2a942983a2f8eb8b3496b866abe7"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/misc/getOrientationOfPoints.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/misc/getOrientationOfPoints.mjs",
+      "sha256": "df7ce1e9edc5cd9ab148bbbf55b418c86bdc92736eaa532a6adcca5dfcd65312"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/misc/squaredDistanceToLineSegment.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/misc/squaredDistanceToLineSegment.mjs",
+      "sha256": "edc95bae0c4a23ef858078782e671cb56797fb7512bb0c6712fb432aa4f4a856"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/shapes/Polygon.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/shapes/Polygon.mjs",
+      "sha256": "cf47adba89d7e9d994c845f9d4908350dfcee46ed4b42186aceb02c2627ae6e2"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/shapes/RoundedRectangle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/shapes/RoundedRectangle.mjs",
+      "sha256": "5eb06d3755da17e80a98a865110140a2b66d5f1f9cc14cf0ecde401d3ecb8249"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/buildUvs.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/buildUvs.mjs",
+      "sha256": "708d07a8cadf6efa84e2ff2f7246fc08eb8fc5d43d2ee2ab48c4a5f7f424c1e1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/transformVertices.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/geometry/utils/transformVertices.mjs",
+      "sha256": "c1ab98b56f6ba99a96242d1c62b66068dbec860efece82fcf9a8eda4b252c5d9"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/BatchableGraphics.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/BatchableGraphics.mjs",
+      "sha256": "344bf17c1a85721aac545460c8269466aaa6bc04ae7b6968b5c6a5f7d7f0949b"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildCircle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildCircle.mjs",
+      "sha256": "25b4321948b3fb90bc4be83ddaece79cb471d08f3f61296ce4ce932d4a73b2fe"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/const.mjs",
+      "sha256": "54474015f2c4e450e19a6bed992e3253e7ffff31f31a3d367ac35b8fdfe85ae0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildLine.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildLine.mjs",
+      "sha256": "421ec3c70d66c1f33291770752c29fc9a00e85d450af4807db6a9a0cc56f7649"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildPixelLine.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildPixelLine.mjs",
+      "sha256": "2f3ef436f419b70fa308edb0e273c4d3dbe25e7eef95cd2b64d2d43c42363010"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/utils/triangulateWithHoles.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/utils/triangulateWithHoles.mjs",
+      "sha256": "579559ab7cfc4501ef4ab227c69ac6bb69686ebe8368c921226489a920d9e0e5"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildPolygon.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildPolygon.mjs",
+      "sha256": "7e8a83b6d6f2d97d63c91e103f400b5a26a75507536993419816b6ec65c7f271"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildRectangle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildRectangle.mjs",
+      "sha256": "83826ab88df7d61f86bf1831b9dc83202e9efda42a740ef29b6e3c94a4652b27"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildTriangle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildTriangle.mjs",
+      "sha256": "d798d071f6fcda800968716fc1472f4eb331ba5d66b6b409244321cd8e5de3da"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/fill/FillGradient.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillGradient.mjs",
+      "sha256": "b0e3ee3fcea5c9454427be1cbffbdb8a782d9fbac2981354f5dc6fe4fa120ae0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/utils/generateTextureFillMatrix.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/utils/generateTextureFillMatrix.mjs",
+      "sha256": "e20f30b0e353ef11f0eba38ce2863b45c62dec48e379db764f19ce84fad4cfb6"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/utils/buildContextBatches.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/utils/buildContextBatches.mjs",
+      "sha256": "1bd79f565f83bf2b350a30910d7f720370753a4591a7b37c816ed8f33e900d23"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "sha256": "4bb896795e190daf33d49866d2dcb25d13edddb2d1bd323dd365b90b8e4c9a92"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildAdaptiveBezier.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildAdaptiveBezier.mjs",
+      "sha256": "0fa9e772dd7201033901d6a48078642fe429cab9a70136ae3a2000d290c966ae"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildAdaptiveQuadratic.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildAdaptiveQuadratic.mjs",
+      "sha256": "112ecdfc4766ea1326350fe0bd3c048d554f78f816c906fd3e0480f664c59a2c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildArc.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildArc.mjs",
+      "sha256": "791a17de95868dcb4e4ea5637cc55f4c0a0a835902ffb6044025ad78b59682b3"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildArcTo.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildArcTo.mjs",
+      "sha256": "74e84b525dd3c82f8aa54f8944b000e8800ff01d7317dbff0479fab45ce3ba8d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildArcToSvg.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildArcToSvg.mjs",
+      "sha256": "bc4bb9b3b683c59057e9286175aa41701a529959052288bca9aa605fb54e28f6"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/path/roundShape.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/path/roundShape.mjs",
+      "sha256": "806507a60547fa07260106111976822486a4408a4a1a5e2a5466df43f1daa07d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/path/ShapePath.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/path/ShapePath.mjs",
+      "sha256": "f8f42337d91c2d1b7241b4448da820ddb5669370eef7ecddae2a2ec4a020f9e1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/path/GraphicsPath.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/path/GraphicsPath.mjs",
+      "sha256": "e07003a9fd9131966e080adba654ba1be0691942e64d5d74fd532a9477e2837e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/svg/parseSVGFloatAttribute.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/svg/parseSVGFloatAttribute.mjs",
+      "sha256": "0d2ddbfb2e8bebb529161449677c2e27bb239a747257783ab24981283d27a741"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/svg/parseSVGDefinitions.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/svg/parseSVGDefinitions.mjs",
+      "sha256": "5604a96431de50930f2e073fa57edcb367229fa273ba14acd1031b73c6d96247"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/svg/utils/extractSvgUrlId.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/svg/utils/extractSvgUrlId.mjs",
+      "sha256": "fda2b4d2f16ef7eeb664a145b2047fa1c3ef78ca211a78d121ac2f7252d374c4"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/svg/parseSVGStyle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/svg/parseSVGStyle.mjs",
+      "sha256": "c07188b65273e55f50e7d9b0e5a6265dd11eb9ece22eee910561333db77ce628"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/svg/utils/fillOperations.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/svg/utils/fillOperations.mjs",
+      "sha256": "2318bff370bbbf68023b865da158feaa54a42054749ffc566db2ee7cba18ccc0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/svg/utils/pathOperations.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/svg/utils/pathOperations.mjs",
+      "sha256": "d08b4e8ee7646a13121c831774360cd351b99a93deee4f8898023e267819f8de"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/svg/SVGParser.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/svg/SVGParser.mjs",
+      "sha256": "2f61e11c2f0b20f1c1120fc86477a55e0df9bec963fa6c77cd9155b2e0a5312c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/fill/FillPattern.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillPattern.mjs",
+      "sha256": "9e789ddead1f05e2a9e2f9bc9143235b46144df98afe41e425046b45d4c4214a"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/utils/convertFillInputToFillStyle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/utils/convertFillInputToFillStyle.mjs",
+      "sha256": "05a28c943348b950044fa45307349e6c759180e52cceafd70da2879bb9928740"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/utils/getMaxMiterRatio.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/utils/getMaxMiterRatio.mjs",
+      "sha256": "adb36c18229a20b7c96694638e30706818d394d2a25869a0fe0290c73434862e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContext.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContext.mjs",
+      "sha256": "3bdb002575342bae4207fd2523f75685cd1d7f5487af7d512438ee54d6b65dd7"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/maths/point/pointInTriangle.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/maths/point/pointInTriangle.mjs",
+      "sha256": "c7304004c8d7bf0f30e2fce1f0b513ee8fb86d73830adac0bffc0da88b744038"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "sha256": "83877d681ae40580e91ca730ace71a659d4bc806445a6327b440d754756a794e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsPipe.mjs",
+      "sha256": "38e0656711fd1777c1332e95a2de01f279b8bbc946ada5038358d9fbda268cf3"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs",
+      "sha256": "2df1d0ece9d8ef08b49ae054c3f94a936a263328b1a2d02a30a7c058f22b1be3"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/init.mjs",
+      "sha256": "0d3adcddb5908297107c50f7802ae19b591b56b3d2080f214933bdeaf08854f3"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/shared/Graphics.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/shared/Graphics.mjs",
+      "sha256": "6fafe977f43378083eaa75211db6b26ec36c5e28ca765221a77a0a874dad6456"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/mesh/shared/MeshGeometry.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/mesh/shared/MeshGeometry.mjs",
+      "sha256": "7e874f590152e042c47753c2c0be81d79dcabf3c9197d900ed1e02f941ecadf1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/mesh/shared/BatchableMesh.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/mesh/shared/BatchableMesh.mjs",
+      "sha256": "1723a1be7677c5f20f495bad82de6645f74f84348c5b9906b698be95b1f2e316"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "sha256": "b900d422dc7b9f9cd60f66e6a48e5560e39838b196c9cb27bfb5f2f38ed7836b"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/mesh/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/mesh/init.mjs",
+      "sha256": "61e9edf703dfe9fe42f2c0bea30235d7ee41a91b6550a0a69158faeb645b4b9e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/mesh/shared/Mesh.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/mesh/shared/Mesh.mjs",
+      "sha256": "c8fec8fe04763ed1529f70a13bdd194270e68bb456b68032162ad1a6ca6cb6ea"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/misc/Transform.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/misc/Transform.mjs",
+      "sha256": "b27610b131652692451ec5fbf5399b0f25763f352fe2e2c11c4b1105f0e545b1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/canvas/CanvasTilingSpritePipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/canvas/CanvasTilingSpritePipe.mjs",
+      "sha256": "816ed265eb80232615ff85b6e54ca701fa2e4d13bb2d6ff77661f9f5a3788d1c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/shader/tilingBit.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/shader/tilingBit.mjs",
+      "sha256": "fd3306ed3c4292955f4924aff8e653e2b4c2b90dbf2f42747e3a942f4785fc04"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/shader/TilingSpriteShader.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/shader/TilingSpriteShader.mjs",
+      "sha256": "9d4287f207e692a0c646210de8ebf9e066801c117133c5f0c322473248b527a9"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/utils/QuadGeometry.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/utils/QuadGeometry.mjs",
+      "sha256": "e21e2346061c5362c333701326557a5ddb3a69939de0cf47ce94afa3e5b69d14"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/utils/setPositions.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/utils/setPositions.mjs",
+      "sha256": "30d18e6695e7d6a053a8d47836dc946ec7cc7216942e9eb54eddd476b88bd1bd"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/utils/applyMatrix.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/utils/applyMatrix.mjs",
+      "sha256": "843e66673d6a26a715f6df89658b0f6941f22cb5d41f5b82d286c4a7bd8042a4"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/utils/setUvs.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/utils/setUvs.mjs",
+      "sha256": "5dc215b5809c62e8ac434d75a280e0c13966918d238ce0da252471ee4c15d958"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.mjs",
+      "sha256": "1a1e24614d918664739a108a086797234c77ac04c395567546fff64d1bc853af"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/init.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/init.mjs",
+      "sha256": "8bf93eac4e60d2ac97e348151092abdd271cea7c0927368048a8d58c854b66c9"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/sprite-tiling/TilingSprite.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSprite.mjs",
+      "sha256": "fbd7b9153132755fd9fb70f4af18e4fadd3be9010282a6e7f36375ad4b5ab479"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/utils/browser/isSafari.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/utils/browser/isSafari.mjs",
+      "sha256": "37dc9a0bab1e7222b19ea7f9771066d8ae3913e10d7a584c1e60057a801bf9a7"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/canvas/CanvasBatchAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/canvas/CanvasBatchAdaptor.mjs",
+      "sha256": "42b693855aa1070c85c213364f2abc478fac5277cc9307ee44323de6d37b0bf6"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/gl/GlBatchAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/gl/GlBatchAdaptor.mjs",
+      "sha256": "a708cdfcc79ec4e3887ec7a72264b3eab8e9ad5de97384f593f3083410e724e4"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/gpu/GpuBatchAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/batcher/gpu/GpuBatchAdaptor.mjs",
+      "sha256": "46a51d09e81d7596de6e003d11a633841cdd5f69f253e698baa3e02ca3ddc9fd"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/color/CanvasColorMaskPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/color/CanvasColorMaskPipe.mjs",
+      "sha256": "e68e24b3da51a34c1ac39f6334f2cd60a968c12bab245a1e2aec38761989b1f1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/mask/stencil/CanvasStencilMaskPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/mask/stencil/CanvasStencilMaskPipe.mjs",
+      "sha256": "1f5134c29c7ce66d924a5b4e0f7cb69a1bcfadfd762b723b6edad927c0fc0e02"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/canvas/utils/mapCanvasBlendModesToPixi.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/canvas/utils/mapCanvasBlendModesToPixi.mjs",
+      "sha256": "6d55e9cec3881d57773c0ecce713ff4d4717f2076e3e6fe2236760cb186d91a5"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/canvas/CanvasContextSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/canvas/CanvasContextSystem.mjs",
+      "sha256": "989b0e78cf2137ea96111d2eae614db5cff63d385d2378abb126da36c2595cbc"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/canvas/CanvasLimitsSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/canvas/CanvasLimitsSystem.mjs",
+      "sha256": "d2abcbb706e03cb2f6b5ac67a07f908ffc71e7bda5d0ec617b33a9afe6cbdb06"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsAdaptor.mjs",
+      "sha256": "d29b2599a04ba3ee9a4de00ce61698428c715f4dde9a7f5d18dd1c360efe784d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/canvas/renderTarget/CanvasRenderTargetAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/canvas/renderTarget/CanvasRenderTargetAdaptor.mjs",
+      "sha256": "9b69d4226d3fffa75e8c29a97e1a4d7f779a2eff52acfdb9346264637e36d53f"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/canvas/renderTarget/CanvasRenderTargetSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/canvas/renderTarget/CanvasRenderTargetSystem.mjs",
+      "sha256": "1831188c8557a66f47640f0ea83fd1d192e989d578a8889e8f1f9cb15ed2e2d6"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/canvas/texture/CanvasTextureSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/canvas/texture/CanvasTextureSystem.mjs",
+      "sha256": "dd6aca5fda8ad4d9ad8d0ba8afe972c70cf83a1df56c3656df8b83e46a229012"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/canvas/CanvasRenderer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/canvas/CanvasRenderer.mjs",
+      "sha256": "00eecaf88694744c5e2b93d2df604aed3dc782dc464a7a787bb7c042b5181dd8"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/buffer/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/const.mjs",
+      "sha256": "164cd12cc3fe9d6815390808df4b599f446f44b0122a196cce72afc0a3b72e8d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBuffer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBuffer.mjs",
+      "sha256": "d3f7021a4eb9e1f203e94a8c90f404828054a361c83e57ea13e79fe85ef75939"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.mjs",
+      "sha256": "0b344fbe931d42f06d770e46c0b456a7fe282292cef737c84344e56172954765"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/context/GlContextSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/context/GlContextSystem.mjs",
+      "sha256": "7ff85229c7a47b1fbb2d4c29bcc2f3ab1304902ee704f9ce3e3f14431fa64945"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/const.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/const.mjs",
+      "sha256": "3bd31c08a2e4d47efd9665c23e9ca60c957bb6729bfa457765677f6823062c30"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/geometry/utils/getGlTypeFromFormat.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/utils/getGlTypeFromFormat.mjs",
+      "sha256": "4b15fc356031639a7ec4b1982a00e22c172b5a38a19b5dcc8c01fd93ffa8b1f2"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "sha256": "fa7b45443897ad6f52a509ac7a11c12414daf71bb16e725886fdd4c7e5dcae27"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/GlBackBufferSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/GlBackBufferSystem.mjs",
+      "sha256": "e7569585e7dcbe6bc0ee82af98603e7c4534364db612df0ef4aa00c7425ebbc4"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/GlColorMaskSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/GlColorMaskSystem.mjs",
+      "sha256": "c847552e7e53a8df3651bd21b13788963beb62abd9de1e1594d6b1af8c10585c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/GlEncoderSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/GlEncoderSystem.mjs",
+      "sha256": "5a7febf4a832b1821a234a9ff580da9af4e5516f0e2d29d6c26836abb441da61"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/GlLimitsSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/GlLimitsSystem.mjs",
+      "sha256": "e2e9b34822386740b9ae19078c234efda821c5573de63ae2f51f715a1765adb1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/GlRenderTarget.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/GlRenderTarget.mjs",
+      "sha256": "c72dc34ee8fe52977d69ce5cf38e4efbc57c83e3e364a295a30325753930c5e1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/GlStencilSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/GlStencilSystem.mjs",
+      "sha256": "3435a3ec83c8a677a49c7f23eedce0d9c0b06db22390f62c4a58fda1c6bdb84c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/createUboElementsSTD40.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/createUboElementsSTD40.mjs",
+      "sha256": "ca7c3c56cf68446a5e45423eda141d32a62b234062735589dd46a2228cd77a78"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/generateArraySyncSTD40.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/generateArraySyncSTD40.mjs",
+      "sha256": "0ceb44e53edc8207820561e89cb5e9aab987070e732b9b49547c640af6bb5cd2"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/createUboSyncSTD40.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/createUboSyncSTD40.mjs",
+      "sha256": "3627eb6debc3598572ee07476fdc445aa1ccb15bd3a9558edf43dcaa6a4e4766"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/GlUboSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/GlUboSystem.mjs",
+      "sha256": "42161361403df0fae763327781881b23abf94c95b6fad68c391e45a5b1b19931"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/renderTarget/GlRenderTargetAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/renderTarget/GlRenderTargetAdaptor.mjs",
+      "sha256": "7d6a884ac1555bcccfe93e2c13ee96d99e99f3fba592ea3390aca0fe29bc2524"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/renderTarget/GlRenderTargetSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/renderTarget/GlRenderTargetSystem.mjs",
+      "sha256": "3c314d5b99e6d269c1de1e83883937de375080223b6d6944288c4e1b3165885a"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/shared/texture/TextureView.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TextureView.mjs",
+      "sha256": "d603b79b81e96f66e92b0903bf533ef951193f93c3a8e8b5e7b8093f25ad4010"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/GenerateShaderSyncCode.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GenerateShaderSyncCode.mjs",
+      "sha256": "ac1cd9fb442f3a688cdf0d514bda97b06fff2dad42b49d19974c42dc76cd5b75"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlProgramData.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlProgramData.mjs",
+      "sha256": "36dd8aca215e03c1ae8d1af2849281990e3b262f80f27557cf39a76bfe078753"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/compileShader.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/compileShader.mjs",
+      "sha256": "cec6be5270947a2f532dd01c216d2a465b18bb39cc0682af3ebf3fcf157f88c2"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/defaultValue.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/defaultValue.mjs",
+      "sha256": "7d0157c899f5a97fd076dac5d10804737c549a93a63be866b842d29a4d74ac05"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/mapType.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/mapType.mjs",
+      "sha256": "98a75fcb8e350ca7aee605b5673f80d6c91942fd25a3f4b9903f0ac86803e2f0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/extractAttributesFromGlProgram.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/extractAttributesFromGlProgram.mjs",
+      "sha256": "0f9a8b30abbf326dbaea0f5b07718f7b0257b4741f4095d71a5877ac28b62f0b"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getUboData.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getUboData.mjs",
+      "sha256": "c1efcb22dc85add988ed865f60ea8104ffa1705e53bf472ac8e4abe55f9f8c7b"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getUniformData.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getUniformData.mjs",
+      "sha256": "d2488a53ba2b9e9c8b8e1fddd47a38a821a8965d09a02989cd079550c4af1611"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/logProgramError.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/logProgramError.mjs",
+      "sha256": "9b3bf5fbf6f855d5a8ea0c1ffa478dee563c3600d5629454b40fba1677867267"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/generateProgram.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/generateProgram.mjs",
+      "sha256": "c44a504494a23b29f9577fb2c3e43c6c05ca3ebfc8e3c1b39e75bdaca2639f81"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlShaderSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlShaderSystem.mjs",
+      "sha256": "09748b4c9929e246041ebb240f2b51233a1dfb64829c4d6cab4f6b8673f64231"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/generateUniformsSyncTypes.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/generateUniformsSyncTypes.mjs",
+      "sha256": "25bf60ea47772235d75c9a26a5849a0f4596fd4c27e4bcb1b057e27a02f0fc16"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/generateUniformsSync.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/utils/generateUniformsSync.mjs",
+      "sha256": "d1ab2052eb16d6a40bc9f5876388946d5fe0a0fe56a7cd1cd255fa483c8a1c9d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlUniformGroupSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlUniformGroupSystem.mjs",
+      "sha256": "31b08ea8e377c79a1d098e66076db689aba822abf043b373d15c5bc1034344f9"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/state/mapWebGLBlendModesToPixi.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/state/mapWebGLBlendModesToPixi.mjs",
+      "sha256": "614033f0cf1244d118d20343f07bef9126f136b85017555fcac4dc50d548fc24"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/state/GlStateSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/state/GlStateSystem.mjs",
+      "sha256": "54485b6bbce8b1030c9248bc0f5b4a614c74d7e75437e02ed85ee2ebb97df588"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTexture.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTexture.mjs",
+      "sha256": "8e5f67e8ca9539fba62276712baa42df53634d3ed0e593edef2d7745b78e025f"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadBufferImageResource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadBufferImageResource.mjs",
+      "sha256": "9e1b5cb7c0e9913e0ccbfb10ece8550e92d9f9772da9e6f318a013b286239a6c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadCompressedTextureResource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadCompressedTextureResource.mjs",
+      "sha256": "74d50988c02b90d22085d4c33582d53b6148e3f404956fc67e3897f95678dbe9"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadCubeTextureResource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadCubeTextureResource.mjs",
+      "sha256": "1fb8f67c26ee434e2dbb66673300dde40e2cca98fb57c13d5b0961bfa99130bd"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadImageResource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadImageResource.mjs",
+      "sha256": "1f666d41a6970a7a960999650b73d175177f901414a7c45f277771145fd5ddc7"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadVideoResource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/uploaders/glUploadVideoResource.mjs",
+      "sha256": "9ad7332d58dc8dadceaba606bbec8f49f76a7a05f07931456f02949c255a4acf"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/pixiToGlMaps.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/pixiToGlMaps.mjs",
+      "sha256": "33b3e05a8e33b56e2a4af51a5714c84eca7b5ffe443cd4902c02e08da08ffb3e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/applyStyleParams.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/applyStyleParams.mjs",
+      "sha256": "2430df0390c11da585809ebbc54356397aa41009170804272848358d6651e8dd"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/mapFormatToGlFormat.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/mapFormatToGlFormat.mjs",
+      "sha256": "cd2994f315fe34dddaf70860d243b091c0c12b881872cf1985fd442f5b4028a1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/mapFormatToGlInternalFormat.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/mapFormatToGlInternalFormat.mjs",
+      "sha256": "7fdfb21d3d086c9978a34989798d677512c444808e027d7d8c8743665455109f"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/mapFormatToGlType.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/mapFormatToGlType.mjs",
+      "sha256": "15ac8f56d37c8bb7edd44cb6f31cc9ed6b87b27bbabe5de846ff2dd8b3f3afe7"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/mapViewDimensionToGlTarget.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/utils/mapViewDimensionToGlTarget.mjs",
+      "sha256": "b214f2ce121aaf067a82285a320e9b45c7f26885b9c32762d88c190d2298bd93"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.mjs",
+      "sha256": "1d4de600d4fca98e71acbab116e088390471f939d43249eb5226f5792bb2a7b7"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/gl/GlGraphicsAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/gl/GlGraphicsAdaptor.mjs",
+      "sha256": "ce88402e505f19d137d92c0fd05c456b832c737084a34c062ec89775de80f5dd"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/mesh/gl/GlMeshAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/mesh/gl/GlMeshAdaptor.mjs",
+      "sha256": "ec6b23110f2b9ce37a2ac621ce307f7d1c3df8cd3a8712937012398d7657fda1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/WebGLRenderer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gl/WebGLRenderer.mjs",
+      "sha256": "f176d8c560ac8901a0fd8eaf84c748cec1517d3961ec03f9e1b1ae9f3b294240"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/BindGroupSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/BindGroupSystem.mjs",
+      "sha256": "6f6c107897aa58c77b0a375728688dc3b07f73dc74c785633481b0893040855a"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.mjs",
+      "sha256": "dbe05c7e6e36da7d663c9e709a86deaf41af8e09339e738b817b1ed3f87b8699"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/UboBatch.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/UboBatch.mjs",
+      "sha256": "3413a0752a80f0d70d616c4f76db7eb830d4eb0dbba1bf199ee9b27f6e75507b"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/GpuColorMaskSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuColorMaskSystem.mjs",
+      "sha256": "15d35d664fa4dfdf4fb5ee2b4b938b53f3b31c40660a60eccef6b534364ce3ba"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/GpuDeviceSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuDeviceSystem.mjs",
+      "sha256": "3696eda1ab15b066d86c4793f54cf526d8548f8dd5aa70e10896a7efeab22227"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/GpuEncoderSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuEncoderSystem.mjs",
+      "sha256": "7955eaa1a7c862b9b56e99502983e5f1176a54a3a6aabe4551e7bf2d91976a18"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/GpuLimitsSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuLimitsSystem.mjs",
+      "sha256": "44ac02613a465dde85817fec756ab031ebd2d1091afd08c36a1a7bb94fb81990"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/GpuStencilSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuStencilSystem.mjs",
+      "sha256": "e7f44a669dbc6b28a9afe6d3dfea9f4c145277ae1b4b1fd75e50263870932a45"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/createUboElementsWGSL.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/createUboElementsWGSL.mjs",
+      "sha256": "24be4ed746c4a2215097c69d2640b9ff92fdb39d87a9b12e0233b778f6866c27"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/generateArraySyncWGSL.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/generateArraySyncWGSL.mjs",
+      "sha256": "9421d4706e1aa16767d799956cad48c3704bf9e3db42b7f2f0ab20c0fd1afd55"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/createUboSyncFunctionWGSL.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/utils/createUboSyncFunctionWGSL.mjs",
+      "sha256": "b1d3d60e9c2e76022e52177a155325f1b3430417c0a0645448006873d010f9ec"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUboSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUboSystem.mjs",
+      "sha256": "bc392a52183b1ffbea4bf5e881a38478339d4ab0f59533d5ff7d26d79060b2ff"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.mjs",
+      "sha256": "ecefb2c44651a025f295bd9247cc268746237390a7b014c5717f7c8975683a85"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/pipeline/PipelineSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/pipeline/PipelineSystem.mjs",
+      "sha256": "6168bb51b7ff522291654fa874b09025d01014f730eee2f4458ba769004f0939"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/renderTarget/GpuRenderTarget.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/renderTarget/GpuRenderTarget.mjs",
+      "sha256": "395bb98856a63811c629503f5044a32b938b81c420fe0bd528625f5d02f3eb42"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/renderTarget/GpuRenderTargetAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/renderTarget/GpuRenderTargetAdaptor.mjs",
+      "sha256": "cbbdcc8a9d405256b0d1a80332bf121327941ff39b2ffdc429bc612fd2f9dd3c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/renderTarget/GpuRenderTargetSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/renderTarget/GpuRenderTargetSystem.mjs",
+      "sha256": "3a8dc70179da75fd9a752687e59fef465f7cf471df5da9dc68ecde12712d8fb8"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/shader/GpuShaderSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/shader/GpuShaderSystem.mjs",
+      "sha256": "39af51ef5a6d28fb4479c088192238dd3845678883ff92d297c06fdc73b87b1f"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/state/GpuBlendModesToPixi.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/state/GpuBlendModesToPixi.mjs",
+      "sha256": "ca1250d5bcc20ad46762f1cd057299d6a484e7cbf1239de879938a825fbf6e6b"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/state/GpuStateSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/state/GpuStateSystem.mjs",
+      "sha256": "76d7181ad20690fcf40974c61793ab20450b634466d9e610d1ef3f358ecaabfa"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadBufferImageResource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadBufferImageResource.mjs",
+      "sha256": "b3e5fc77e58b8054fc179c81f00964235ca9d82fbcc344c86fbe8af2d01ad88c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadCompressedTextureResource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadCompressedTextureResource.mjs",
+      "sha256": "f65cde89297f7538531fcebdbe803c6205ebc1f032bcdc9cf4db31ca927a4a10"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadCubeTextureResource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadCubeTextureResource.mjs",
+      "sha256": "da6b3950ef6c00a4c0584fe08bf94f47a9665bf27a87d559f39653ba362ceb98"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadImageSource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadImageSource.mjs",
+      "sha256": "3522c313c2acdcb1c66152f4a24fb537dbdbf43e12a5a4d8d51e49dc69b75ffa"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadVideoSource.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/uploaders/gpuUploadVideoSource.mjs",
+      "sha256": "6f9949562cb5ee4bf7a1e46e6ccb7e741dc068ad738ab6ef1f0d74b5440c0ab2"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/texture/utils/GpuMipmapGenerator.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/utils/GpuMipmapGenerator.mjs",
+      "sha256": "e7857074405e931a0c2c59a3ac0469f2788b3bf43ac63eb912ca31f4b7208f4b"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "sha256": "a5caa01f420e13088961b5a84e3fc913a720f86d7dc1763983feb24b645b63dc"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/graphics/gpu/GpuGraphicsAdaptor.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/graphics/gpu/GpuGraphicsAdaptor.mjs",
+      "sha256": "6a40cc4e7026188fd285db44e4968284f29127dd21df17f3ac9655ad8128ebf0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/scene/mesh/gpu/GpuMeshAdapter.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/scene/mesh/gpu/GpuMeshAdapter.mjs",
+      "sha256": "a40c80e83338c45c36bce8e15544b2850ad8f613ca21f062d651ef51bda9c803"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gpu/WebGPURenderer.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/rendering/renderers/gpu/WebGPURenderer.mjs",
+      "sha256": "ed4e21b712a135247cda03c0fa3da152c744618ae77f26af14344b2996b437ff"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/node_modules/pixi.js/lib/index.mjs",
+      "repositoryPath": "node_modules/pixi.js/lib/index.mjs",
+      "sha256": "90465d0f931a226177c86abe70c35b5ad4cd982b1999b0475973ddc935ee66c2"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/kernel-display-witness.ts",
+      "repositoryPath": "docs/research/2026-10-04-cloud-resume/kernel-display-witness.ts",
+      "sha256": "fd3504595c61a44935aa88a7cd8859338fd5027337587f738c61270fd199f039"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/emission-blending.ts",
+      "repositoryPath": "src/view/emission-blending.ts",
+      "sha256": "ad269fb71a7ea62f65fd9013928eca0297ffd69a25eace04e2669432b289bfc1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/units.ts",
+      "repositoryPath": "src/core/units.ts",
+      "sha256": "73f40f19c2e50b268c31427a85bf018034e54efc106a42a4db4aabe03b905d98"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/constants.ts",
+      "repositoryPath": "src/core/constants.ts",
+      "sha256": "ffb3c5074d24fd847ed9da84e0e54c026f9aef72c0253e0cbabee05201b4bdb6"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/camera.ts",
+      "repositoryPath": "src/view/camera.ts",
+      "sha256": "7507060493e20aae2e9d8568d23b2775f3bfc26d28d8fd37c6b7eec1f373507a"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/app.ts",
+      "repositoryPath": "src/view/app.ts",
+      "sha256": "2f9dbd760d61e4edfb722f6521c77fb9e9880f3fe125dba5713af9627863e4bb"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/vehicles/v3.ts",
+      "repositoryPath": "src/core/vehicles/v3.ts",
+      "sha256": "785468bd3e6dba95ec0c11ba56d4d6540ffd348e92c41bee6d216d8e63cb29ad"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/vehicle.ts",
+      "repositoryPath": "src/core/vehicle.ts",
+      "sha256": "570eb84ce57ad1baa434760ce0c609832add9ae2844ae6dd3caf09a1a1e48717"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/vehicles/super-heavy.ts",
+      "repositoryPath": "src/core/vehicles/super-heavy.ts",
+      "sha256": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+      "repositoryPath": "src/core/physics/damage-material.ts",
+      "sha256": "b13040799017fc0bf59fd0309f3ec08766a135d128798f5246a92f342f32de84"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+      "repositoryPath": "src/core/physics/damage-root.ts",
+      "sha256": "9ee949e1bc1c6c0f277a1258763c01a6a7149d570da5fac57b903484e601649e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/vehicle-components.ts",
+      "repositoryPath": "src/core/physics/vehicle-components.ts",
+      "sha256": "a23086f8c4aacd101d0df155f4e90f6bbfbd44c580bdc99cc498725609f7c320"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/tps-material.ts",
+      "repositoryPath": "src/core/physics/tps-material.ts",
+      "sha256": "379e1e78e638efd2bd80a1c3aec658289bcbb95a7d1474b9530798ff22c2c138"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/damage-state.ts",
+      "repositoryPath": "src/core/damage-state.ts",
+      "sha256": "2bddfc853d43eda68761f3be23a99bcaae8bf04567eac80648fa134afe9a3a87"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+      "repositoryPath": "src/core/physics/damage-thermal.ts",
+      "sha256": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+      "repositoryPath": "src/core/physics/damage-controls.ts",
+      "sha256": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "repositoryPath": "src/core/physics/isa.ts",
+      "sha256": "bd83423a16ae1362073dc9f2a3e733a16125bfdb51cb03ca081c079da52a804e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/atmosphere.ts",
+      "repositoryPath": "src/core/physics/atmosphere.ts",
+      "sha256": "803413066381e746f50183061cf26307c81a983991f0f4b51cffb8794ff52c70"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/aero.ts",
+      "repositoryPath": "src/core/physics/aero.ts",
+      "sha256": "535c23fa889c2014a58a89e196acf386b8ff4ea79ced32ee6555f195f3306713"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/gravity.ts",
+      "repositoryPath": "src/core/physics/gravity.ts",
+      "sha256": "2eee855b40527750bbc3706c2c538ef79fa2ee442598c8be32c9b20ef98cf60d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-debris.ts",
+      "repositoryPath": "src/core/physics/damage-debris.ts",
+      "sha256": "980368dd3ecbf4d96723a41b2cad85e133b1570a2d255b71907fc57052e17bd8"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-model.ts",
+      "repositoryPath": "src/core/physics/damage-model.ts",
+      "sha256": "7e0e8d6c12bf72c28d8080f56155fb418f74cfb1ecc18b86eb86602cd17eab39"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/assets.ts",
+      "repositoryPath": "src/view/assets.ts",
+      "sha256": "b3fbe0ae7bafb4ebce9c8e537c3af9cfe2cf3ecd2afe74b4158106b008781564"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/colour.ts",
+      "repositoryPath": "src/view/colour.ts",
+      "sha256": "5d7dc6aef29b97ac78d3c6db5b0fefe7b0198348afbf9cefaaa7d103992cc9ec"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/atmosphere-look.ts",
+      "repositoryPath": "src/view/atmosphere-look.ts",
+      "sha256": "3827e97bf868556c6840dd00b1fe5b218739bffce63ac99b71e10a81ab7bcd8f"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/sun.ts",
+      "repositoryPath": "src/view/sun.ts",
+      "sha256": "73e1a00aba49b836c2b1a6286104fba60baeae619f8df8d2e152e843380546b4"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/stars-data.ts",
+      "repositoryPath": "src/view/stars-data.ts",
+      "sha256": "52d0232dd622fcee72d2913e85ada3b5b5df851d39b3e088b14221d0159b5bfb"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/stars.ts",
+      "repositoryPath": "src/view/stars.ts",
+      "sha256": "4d14cbabc64a2078f292f95676f812f483ff6efbc818c4b5cff18fd2a95f54f7"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/sky.ts",
+      "repositoryPath": "src/view/sky.ts",
+      "sha256": "bf9b39013dc0fd4bcce8198f7aa4581dafe5aa0785e24e9ea1b9ce78022e53c1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/particles.ts",
+      "repositoryPath": "src/view/particles.ts",
+      "sha256": "e4b526fcb9e2df5d8315309903bafaa6329b26dc69b14d53c10c10e66b5fa624"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/horizon.ts",
+      "repositoryPath": "src/view/horizon.ts",
+      "sha256": "22e6423058841a37fb9b0e696467f2c5e854694a4bc75a4e16180c04012c06e0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/terrain.ts",
+      "repositoryPath": "src/view/terrain.ts",
+      "sha256": "ad58b49104aa0b0d62166afeed61ff01edc371e3f5e478e0d1ff70e175aa3912"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/coast.ts",
+      "repositoryPath": "src/view/coast.ts",
+      "sha256": "5a9540076c86a21ffae24e76f78869e6020140434114b10bfea0065c00847b28"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/world.ts",
+      "repositoryPath": "src/view/world.ts",
+      "sha256": "aab1eb141c38a9ad5ceaa6b1e72c5d43b1e376964809fde783f36df91187f874"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/catch-tower.ts",
+      "repositoryPath": "src/view/catch-tower.ts",
+      "sha256": "080ab932d24d19ed4f844ab185da2e3a1858335c87320b744f5f7c3e5a2325cb"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/distant-earth.ts",
+      "repositoryPath": "src/view/distant-earth.ts",
+      "sha256": "437f7c6f60a48af9e4ebde68410ef5b24ebfc43ff8974892503644f02da432ca"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/motion-cues.ts",
+      "repositoryPath": "src/view/motion-cues.ts",
+      "sha256": "1b8a133fe5392b9d21999d5b6a2ac650ea458ac8c53722469989c1330f20b2d0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/clouds.ts",
+      "repositoryPath": "src/view/clouds.ts",
+      "sha256": "6fc209fa3084f85011e48b5b1398a444b464632f45726da719735c2abe23cd77"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/post.ts",
+      "repositoryPath": "src/view/post.ts",
+      "sha256": "3869d0edab64fdc29642d4d250c57e783e8fcce4320c2a2ffd8c2140bc1c4016"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/vehicle-geometry.ts",
+      "repositoryPath": "src/view/vehicle-geometry.ts",
+      "sha256": "3b100e16f1ec538b3bdee1c9a00bf9f0990d29c5481e3b5ec5542f8f277ae69a"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/heat-look.ts",
+      "repositoryPath": "src/view/heat-look.ts",
+      "sha256": "7e48448afd847b71ee5db87cd5131e369022e62ff0a1072941702a9056b7099e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/vehicle-material.ts",
+      "repositoryPath": "src/view/vehicle-material.ts",
+      "sha256": "b66b901f2e5b638fda6c922c03deef05a9c26313919638df3633ab40134e3aca"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/component-vehicle.ts",
+      "repositoryPath": "src/view/component-vehicle.ts",
+      "sha256": "9e02f8b764173f087370d4d81dc94b3c5a7e6d727c148519eb06d4bdd33ae1d1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/vehicle.ts",
+      "repositoryPath": "src/view/vehicle.ts",
+      "sha256": "500bb393b4539002635eb52eb1887be19c9ded594d3a346851713bb611056c02"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/booster.ts",
+      "repositoryPath": "src/view/booster.ts",
+      "sha256": "94ca0b9c0a1f9b724ef15bb4c5ab46541d26cdaf8e48184a2b6f8b5a89476b86"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/reentry.ts",
+      "repositoryPath": "src/view/reentry.ts",
+      "sha256": "8edfac9737f0729c6dc48d96b4f18b707fbedb86090fa2dfa7394743efdf9ef9"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/engine-look.ts",
+      "repositoryPath": "src/view/engine-look.ts",
+      "sha256": "becad6ca93ff77e6c39b39ec0858507db2b6358a60ef71daf17a8ba52ee4e28c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/effects.ts",
+      "repositoryPath": "src/view/effects.ts",
+      "sha256": "5a4cd1168651ea63ff2bd839e2e921931651979d08cd9eeecfb824457b4ddb34"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/emissive-bell.ts",
+      "repositoryPath": "src/view/emissive-bell.ts",
+      "sha256": "6b2c0572dadb398f99084acbdca25de379f7e80249ef95dc09e614ccb29fdb8f"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/view/engine-glare.ts",
+      "repositoryPath": "src/view/engine-glare.ts",
+      "sha256": "475b9030b11690f13c9dfdcff2014d4992fc3fcb6e874b70acc8953f83098a67"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/ui/session/scene-vehicles.ts",
+      "repositoryPath": "src/ui/session/scene-vehicles.ts",
+      "sha256": "1d4edad88bd196572c1ecb67d0d8d702026a6125b2e788a2b0b9eb1b8518afd0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/ui/session/scene.ts",
+      "repositoryPath": "src/ui/session/scene.ts",
+      "sha256": "f174d32f047f52c82269df7b111d15be5fff98c4b37f7994bfb42d207f452dc0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/grid-fins.ts",
+      "repositoryPath": "src/core/physics/grid-fins.ts",
+      "sha256": "6758fc0680886406fc64a23f313aa8d5f33be6818aa20bd44c40fcdf198a50f5"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/thermal.ts",
+      "repositoryPath": "src/core/physics/thermal.ts",
+      "sha256": "cc1a21ea8970b898ba20c6d44569b31a934e5d0ed95cd08f27b22509438c3b5d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/components.ts",
+      "repositoryPath": "src/core/physics/components.ts",
+      "sha256": "8e2b3351beb67380842bd7d7b28a6b97b4ba0ad2847c134c002a62397991ffc4"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+      "repositoryPath": "src/core/physics/propulsion.ts",
+      "sha256": "972087e8c71b8a92694bcbc6e97da1a370027c34baf2a177e82da86d22d7e90a"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/rng.ts",
+      "repositoryPath": "src/core/rng.ts",
+      "sha256": "aa493ec3f7046883081ea9c03e4680413d2ae9819d84851ccca82899c2346789"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/mass.ts",
+      "repositoryPath": "src/core/physics/mass.ts",
+      "sha256": "db86b01b6d305a56b9c20fbf677c4d6cac8febb5a094ed85e93dae014aa5d652"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-mass.ts",
+      "repositoryPath": "src/core/physics/damage-mass.ts",
+      "sha256": "26e5e56b01b6e412bdc0592818b3746b4c7ea2b1e38674c54f2895c20ae9c065"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/flight-mass-query.ts",
+      "repositoryPath": "src/core/physics/flight-mass-query.ts",
+      "sha256": "86537858393a04efea04ea2c451fbe1522ad089d48f4daf215fbc7f58261022f"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-detachment.ts",
+      "repositoryPath": "src/core/physics/damage-detachment.ts",
+      "sha256": "331812e54ff912c70c908a4e2ebe796cce40d8e5523db78d7e6c061f689504fd"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-terminal.ts",
+      "repositoryPath": "src/core/physics/damage-terminal.ts",
+      "sha256": "a0ee5083eaf2fc285a987ad680e13b9e79c90b8db40d318e016de42cc50e5d89"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+      "repositoryPath": "src/core/physics/damage-flight.ts",
+      "sha256": "727d66df66399eb182f82f1d80a7a4a8c88e62ebc0c934ad52bfe6293303f300"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/engines.ts",
+      "repositoryPath": "src/core/physics/engines.ts",
+      "sha256": "4dc7a1dfbf1a5f67f1218f8315a6a6525c6dee394fc7d1fa4e2422c6a4bc7718"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/wind.ts",
+      "repositoryPath": "src/core/physics/wind.ts",
+      "sha256": "0aeb98eb36b169f2bc68ac0c2773a18a9bef82c2be9453a583b2bd5feef34518"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+      "repositoryPath": "src/core/physics/step-dynamics.ts",
+      "sha256": "936a5183df249b6e3b1921b51b4d5a1d2ff29fe2d27988c00a753e25f61cd0e0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "repositoryPath": "src/core/control/guidance-physics.ts",
+      "sha256": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/primitives.ts",
+      "repositoryPath": "src/core/control/primitives.ts",
+      "sha256": "858bb32724b6c83b9426f817914ecee00eccf4c77b8ca834e382642cc9db6800"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+      "repositoryPath": "src/core/physics/tower-catch.ts",
+      "sha256": "9785719c2cfa84859fc8e981fbaf61f3316c8e71f6f8ee44e7c542fc8f97acb3"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+      "repositoryPath": "src/core/control/booster-arrival.ts",
+      "sha256": "5dccec0dec9b21b68a8a4bae346d27182e14e5b440de1f11314a321ff99d5023"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/booster-return-plan.ts",
+      "repositoryPath": "src/core/control/booster-return-plan.ts",
+      "sha256": "1ca778f31a41344c74d3915e3df6f2a712bcc04f0d1b85fb551d663ca54b7eae"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/commands.ts",
+      "repositoryPath": "src/core/control/commands.ts",
+      "sha256": "9079a0297811e2fd3288ffe5515b0675ada126b467de68cf0538371c26603e40"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/state.ts",
+      "repositoryPath": "src/core/state.ts",
+      "sha256": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/booster-receipts.ts",
+      "repositoryPath": "src/core/control/booster-receipts.ts",
+      "sha256": "d51af933744125797c5e7f3106af728e64ba00c111fc4e8574c2cdd77289a9bf"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/booster-source.ts",
+      "repositoryPath": "src/core/control/booster-source.ts",
+      "sha256": "1e78f56f61c68023e25444d86b13b997b4a7fe196b146b290662d1905184fe93"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+      "repositoryPath": "src/core/control/booster-forecast.ts",
+      "sha256": "5b1d9e6b1bfd549eda94f4ec445b21b23cc28a698b62348b04e81d51875a03be"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/booster-cutoff-hint.ts",
+      "repositoryPath": "src/core/control/booster-cutoff-hint.ts",
+      "sha256": "04308df7710c17595cef00fcefeca2ea10f37a90c41037c6dbe8f68dd11d8302"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+      "repositoryPath": "src/core/control/booster-prediction.ts",
+      "sha256": "d959ed6ff3d7fc2fbb54a3927ecc497ace98148c2c0514a30037e2cde038eb2b"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+      "repositoryPath": "src/core/autopilot/booster.ts",
+      "sha256": "c5a7a17e93999173ca160dc83d26e6f390010332c1b56cd57999bfde4395597d"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/autopilot/booster-utilities.ts",
+      "repositoryPath": "src/core/autopilot/booster-utilities.ts",
+      "sha256": "3cfe99bcf904b74f284fc597ad187c66ecb43f272c7779b791cd6b339676f9e7"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/autopilot/landing-burn.ts",
+      "repositoryPath": "src/core/autopilot/landing-burn.ts",
+      "sha256": "6999067395a72d49d014f6f55dd0287f1abd6ce4578dcd92dd97ab8749e11eca"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/autopilot/index.ts",
+      "repositoryPath": "src/core/autopilot/index.ts",
+      "sha256": "22c67138557dd204b77081b1753d65084bbd4dcfb43a36edc883095c496ace69"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/actuation.ts",
+      "repositoryPath": "src/core/control/actuation.ts",
+      "sha256": "50c22bb6cbfed3ce61b3eb14b8393afa32782c102891fe18fa93371cbf78a2c8"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/control/mechanical.ts",
+      "repositoryPath": "src/core/control/mechanical.ts",
+      "sha256": "2b3351540043f038af5a184a88c9cc193b64681f891c4ae1bcb113bfefb09a5f"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/physics/body-reference.ts",
+      "repositoryPath": "src/core/physics/body-reference.ts",
+      "sha256": "37fd59a93f226270b3eb663e2345ba26c39de5db683487fe515b7502f24aef63"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+      "repositoryPath": "src/core/mission-free-flight.ts",
+      "sha256": "63bf8d648e1210e3c33e6f11c957ed397bc7a1520ad038739a6d6fd47dbc1cc0"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/step.ts",
+      "repositoryPath": "src/core/step.ts",
+      "sha256": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/app/loop.ts",
+      "repositoryPath": "src/app/loop.ts",
+      "sha256": "51a362d3051620da175320041e782d313e4b6f1d965aaec600508cc77ae62c66"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/scenarios.ts",
+      "repositoryPath": "src/core/scenarios.ts",
+      "sha256": "d88f1d64122134491106fe540aee4152ab15e8c444a6731d0dc0f3adb0a7fd3e"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/core/mission.ts",
+      "repositoryPath": "src/core/mission.ts",
+      "sha256": "e261b687ea9c15c25bfdd4d1b38180866b4c2e9ac08957438ea46f490cf3ad63"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/app/mission-loop.ts",
+      "repositoryPath": "src/app/mission-loop.ts",
+      "sha256": "554494dfbf5d328b04166ef0ddd0dbb3aba6d7b774fef7764038682619b44907"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/app/controls.ts",
+      "repositoryPath": "src/app/controls.ts",
+      "sha256": "9a0982750b1d1af73afcbce4ee0bfaf1f4e5a111e16e9538ebbae92edee59c7c"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/ui/session/mission-controller.ts",
+      "repositoryPath": "src/ui/session/mission-controller.ts",
+      "sha256": "61426efaeabdade189e6169938fb04cf1d86452d34ca99e598c109e5a346897a"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/ui/session/camera-follow.ts",
+      "repositoryPath": "src/ui/session/camera-follow.ts",
+      "sha256": "1b93f606f1014e748c2bd52678f6f1bff1e4bfdcf2baaa42f4927ae374c691d5"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/src/app/debug.ts",
+      "repositoryPath": "src/app/debug.ts",
+      "sha256": "9212e92d17bb252fade51bd636d30f4ec09946f0c01c877d9612589a65b329a9"
+    },
+    {
+      "map": "compiled/kernel.js.map",
+      "source": "../../../workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-entry.ts",
+      "repositoryPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-entry.ts",
+      "sha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+    }
+  ],
+  "transferred": [
+    {
+      "file": "BufferResource-uMLrSSVl.js",
+      "sha256": "de43598e26f9e06fdeae989884ad26e6f39aa2ddb8042d64100adfbba362cb24",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "BufferResource-uMLrSSVl.js.map",
+      "sha256": "f1d0cd390aeb736e34c884abf81f4b1c877633d73d7627bea14aa60b93766cd2",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "CanvasPool-4lFBuryO.js",
+      "sha256": "10004bbc1155ceff5436e75df7a3310e2bf2b8a73ea644d562833a35bce06a55",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "CanvasPool-4lFBuryO.js.map",
+      "sha256": "af082e25ccae084209201f91347ab6596ecea45d4991b90f04b3f869f7e9a22d",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "Geometry-CYPxRocb.js",
+      "sha256": "833a670586c0f9aa9516658bafb70fbe80d371b6dbf8f884afbc7dffcffc7db8",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "Geometry-CYPxRocb.js.map",
+      "sha256": "876c7516550347c7d1cd8d0f90c4cb1fe141d68b95555e5d51180b6b5e472a58",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "RenderTargetSystem-Bs_X-W5p.js",
+      "sha256": "9c45e9a5b1c07ea4f650986b7d51d9d7335f5f45e1ed4e86301adde257b4e845",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "RenderTargetSystem-Bs_X-W5p.js.map",
+      "sha256": "b47dbf2c63d76d48d08cfc297a51459029e91c2ed9b5012bcc17a9ccd2ea58b8",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "browserAll-D5DBqH_a.js",
+      "sha256": "e91cd987a327554cca795168e1dbdbb27e6b9826b8089dd031811e6f5a14d370",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "browserAll-D5DBqH_a.js.map",
+      "sha256": "c2fbd1cf960f004b29617b980b76610b621e0cc08e88522402f5b8981e35ed85",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "canvasUtils-B52VJkLn.js",
+      "sha256": "66d90c2c3daba06c01628737d57e3e61ee9e9337f6a3e5f010f07dee0e240988",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "canvasUtils-B52VJkLn.js.map",
+      "sha256": "6ba8f801ee1a8b6490b58cba84c2c6aa877c4d6973ce8babb289e6ffd59d0d81",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "getTextureBatchBindGroup-9HBchnv9.js",
+      "sha256": "fe328c00565ca1c7af21f45332411c7684e7a2b62401ec67e8bcc0f96f2d4260",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "getTextureBatchBindGroup-9HBchnv9.js.map",
+      "sha256": "a4d631b2fc5912b68a265c656cfa3fc36ec742d514057e9ea88a8a0b82c2f1d1",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "init--pTYeZJt.js",
+      "sha256": "56e5ef5af8b86e6d1198a383fc146ca8201a6458d1f3dcbbda3ff03aea9f8b77",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "init--pTYeZJt.js.map",
+      "sha256": "d00b3193032cf65166efbef2f6a6d8f18d6f8f672727eeb4863c1e2e3ec873a7",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "init-Dz7_hNy6.js",
+      "sha256": "5f9bfeaed42dc8c00f1d29b0a35e9bff20d7cadcfd6ad886944fcfe98e718303",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "init-Dz7_hNy6.js.map",
+      "sha256": "508087364169718fdf731ce6970bd2e70ab4aa43c58317d549c981e53e237bd6",
+      "authority": "00a byte-identical emitted artifact"
+    },
+    {
+      "file": "webworkerAll-DXoAr3HC.js",
+      "sha256": "8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8",
+      "authority": "00a byte-identical emitted artifact"
+    }
+  ],
+  "changed": [
+    {
+      "file": "kernel.js",
+      "beforeSha256": "b8c97c6569bd2db7d30482448a73132ff61354422baf3a6b2f18570be70179c8",
+      "afterSha256": "6422a541cace2003317dbee2f7f92c11ca0d33b9b57a418d4a20d6d6409619fe"
+    },
+    {
+      "file": "kernel.js.map",
+      "beforeSha256": "f8b765e4c6e0e469f19d05378954e9cbb6c386446b3536c3604bd144acdcea1b",
+      "afterSha256": "0e5eb77f02654babc69cf8a9dcb5adb217d2bd256a78b4320b259f86a5ebb82d"
+    }
+  ],
+  "imports": [
+    {
+      "from": "BufferResource-uMLrSSVl.js",
+      "target": "Geometry-CYPxRocb.js",
+      "dynamic": false
+    },
+    {
+      "from": "BufferResource-uMLrSSVl.js",
+      "target": "RenderTargetSystem-Bs_X-W5p.js",
+      "dynamic": false
+    },
+    {
+      "from": "CanvasPool-4lFBuryO.js",
+      "target": "Geometry-CYPxRocb.js",
+      "dynamic": false
+    },
+    {
+      "from": "RenderTargetSystem-Bs_X-W5p.js",
+      "target": "Geometry-CYPxRocb.js",
+      "dynamic": false
+    },
+    {
+      "from": "browserAll-D5DBqH_a.js",
+      "target": "Geometry-CYPxRocb.js",
+      "dynamic": false
+    },
+    {
+      "from": "browserAll-D5DBqH_a.js",
+      "target": "init-Dz7_hNy6.js",
+      "dynamic": false
+    },
+    {
+      "from": "browserAll-D5DBqH_a.js",
+      "target": "init--pTYeZJt.js",
+      "dynamic": false
+    },
+    {
+      "from": "canvasUtils-B52VJkLn.js",
+      "target": "Geometry-CYPxRocb.js",
+      "dynamic": false
+    },
+    {
+      "from": "getTextureBatchBindGroup-9HBchnv9.js",
+      "target": "Geometry-CYPxRocb.js",
+      "dynamic": false
+    },
+    {
+      "from": "init--pTYeZJt.js",
+      "target": "Geometry-CYPxRocb.js",
+      "dynamic": false
+    },
+    {
+      "from": "init--pTYeZJt.js",
+      "target": "canvasUtils-B52VJkLn.js",
+      "dynamic": false
+    },
+    {
+      "from": "init--pTYeZJt.js",
+      "target": "CanvasPool-4lFBuryO.js",
+      "dynamic": false
+    },
+    {
+      "from": "init-Dz7_hNy6.js",
+      "target": "Geometry-CYPxRocb.js",
+      "dynamic": false
+    },
+    {
+      "from": "init-Dz7_hNy6.js",
+      "target": "canvasUtils-B52VJkLn.js",
+      "dynamic": false
+    },
+    {
+      "from": "kernel.js",
+      "target": "Geometry-CYPxRocb.js",
+      "dynamic": false
+    },
+    {
+      "from": "kernel.js",
+      "target": "init-Dz7_hNy6.js",
+      "dynamic": false
+    },
+    {
+      "from": "kernel.js",
+      "target": "canvasUtils-B52VJkLn.js",
+      "dynamic": false
+    },
+    {
+      "from": "kernel.js",
+      "target": "RenderTargetSystem-Bs_X-W5p.js",
+      "dynamic": false
+    },
+    {
+      "from": "kernel.js",
+      "target": "getTextureBatchBindGroup-9HBchnv9.js",
+      "dynamic": false
+    },
+    {
+      "from": "kernel.js",
+      "target": "CanvasPool-4lFBuryO.js",
+      "dynamic": false
+    },
+    {
+      "from": "kernel.js",
+      "target": "BufferResource-uMLrSSVl.js",
+      "dynamic": false
+    },
+    {
+      "from": "kernel.js",
+      "target": "browserAll-D5DBqH_a.js",
+      "dynamic": true
+    },
+    {
+      "from": "kernel.js",
+      "target": "webworkerAll-DXoAr3HC.js",
+      "dynamic": true
+    },
+    {
+      "from": "webworkerAll-DXoAr3HC.js",
+      "target": "init-Dz7_hNy6.js",
+      "dynamic": false
+    },
+    {
+      "from": "webworkerAll-DXoAr3HC.js",
+      "target": "init--pTYeZJt.js",
+      "dynamic": false
+    }
+  ],
+  "exports": [
+    {
+      "file": "BufferResource-uMLrSSVl.js",
+      "names": [
+        "a",
+        "c",
+        "d",
+        "f",
+        "i",
+        "l",
+        "n",
+        "o",
+        "p",
+        "r",
+        "s",
+        "t",
+        "u"
+      ]
+    },
+    {
+      "file": "CanvasPool-4lFBuryO.js",
+      "names": [
+        "t"
+      ]
+    },
+    {
+      "file": "Geometry-CYPxRocb.js",
+      "names": [
+        "$",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        "_",
+        "a",
+        "at",
+        "b",
+        "c",
+        "d",
+        "et",
+        "f",
+        "g",
+        "h",
+        "i",
+        "it",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "nt",
+        "o",
+        "ot",
+        "p",
+        "q",
+        "r",
+        "rt",
+        "s",
+        "t",
+        "tt",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    {
+      "file": "RenderTargetSystem-Bs_X-W5p.js",
+      "names": [
+        "C",
+        "D",
+        "E",
+        "O",
+        "S",
+        "T",
+        "_",
+        "a",
+        "b",
+        "c",
+        "d",
+        "f",
+        "g",
+        "h",
+        "i",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y"
+      ]
+    },
+    {
+      "file": "browserAll-D5DBqH_a.js",
+      "names": []
+    },
+    {
+      "file": "canvasUtils-B52VJkLn.js",
+      "names": [
+        "n",
+        "r",
+        "t"
+      ]
+    },
+    {
+      "file": "getTextureBatchBindGroup-9HBchnv9.js",
+      "names": [
+        "t"
+      ]
+    },
+    {
+      "file": "init--pTYeZJt.js",
+      "names": []
+    },
+    {
+      "file": "init-Dz7_hNy6.js",
+      "names": [
+        "t"
+      ]
+    },
+    {
+      "file": "kernel.js",
+      "names": [
+        "DT",
+        "createCameraFollow",
+        "createKernel",
+        "createMissionController",
+        "createScene",
+        "createView"
+      ]
+    },
+    {
+      "file": "webworkerAll-DXoAr3HC.js",
+      "names": []
+    }
+  ],
+  "programs": [
+    {
+      "file": "BufferResource-uMLrSSVl.js",
+      "map": "BufferResource-uMLrSSVl.js.map"
+    },
+    {
+      "file": "CanvasPool-4lFBuryO.js",
+      "map": "CanvasPool-4lFBuryO.js.map"
+    },
+    {
+      "file": "Geometry-CYPxRocb.js",
+      "map": "Geometry-CYPxRocb.js.map"
+    },
+    {
+      "file": "RenderTargetSystem-Bs_X-W5p.js",
+      "map": "RenderTargetSystem-Bs_X-W5p.js.map"
+    },
+    {
+      "file": "browserAll-D5DBqH_a.js",
+      "map": "browserAll-D5DBqH_a.js.map"
+    },
+    {
+      "file": "canvasUtils-B52VJkLn.js",
+      "map": "canvasUtils-B52VJkLn.js.map"
+    },
+    {
+      "file": "getTextureBatchBindGroup-9HBchnv9.js",
+      "map": "getTextureBatchBindGroup-9HBchnv9.js.map"
+    },
+    {
+      "file": "init--pTYeZJt.js",
+      "map": "init--pTYeZJt.js.map"
+    },
+    {
+      "file": "init-Dz7_hNy6.js",
+      "map": "init-Dz7_hNy6.js.map"
+    },
+    {
+      "file": "kernel.js",
+      "map": "kernel.js.map"
+    }
+  ],
+  "byteCount": 4437086,
+  "browserLaunched": false,
+  "sourcePhysicsReviewScope": "unchanged source identities only",
+  "independentParentAllOwnedAbsenceRequired": true
+}

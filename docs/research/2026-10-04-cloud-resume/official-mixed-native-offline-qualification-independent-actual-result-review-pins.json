@@ -1,0 +1,41 @@
+{
+  "receiptPins": {
+    "/tmp/starship-mixed-map-input.gmpt60un/qualification-input.json": "40ca0181557e4145529a56c38d9b9ea3ce476009502ddc39aa9fee8cf9bd6356",
+    "/tmp/starship-mixed-map-input.gmpt60un/root-owner-input.json": "3ccd867654b935b7fa498d22ef03080d4279da3d1a7539e016f9824a6af43d8a",
+    "/tmp/starship-mixed-map-input.gmpt60un/observer.py": "66dcdb8c123ecc4643df4fb09c75b69c734a9f4779e992402cce15a6c2ef6c24",
+    "/tmp/starship-mixed-map-root.d6eh25bk/root-outcome.json": "af2308a19683adcd88a09d50ff759cfff3a823228d1b7c4e7eed0a0ebaadd22e",
+    "/tmp/starship-mixed-map-root.d6eh25bk/actual-outer-exit.json": "743f46b3f8c8c59112e936e97e4dff6f16be96c8b628b2e73940f7e3d28ca156",
+    "/tmp/starship-mixed-map-root.d6eh25bk/actual-outer-exit-final.json": "c05f689d72a6a265dc66f35697669c77813c2cb9d56b4c1772a2d544ec0fb8e5",
+    "/tmp/starship-mixed-map-root.d6eh25bk/identities.jsonl": "c7c7df4adc8629ee0268cadd98793725c47f6a8be3f008f40271778e48b29ab1",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/owner-result.json": "6446293a7041eef2498cc3cdd46b1c59cb66f66b00f2f4d62c249836beda88ad",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-child-exit.json": "606a8c44b19bb7fdb33d3c8ba584236b08b5719986a1fabdcc33eecd14711a84",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/offline-qualification.process.json": "60e46d71c1ca46e508040469e33ffce3a0478143b647cca1086c103d95eb9813",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/offline-qualification.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/offline-qualification.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/qualification-result.json": "6b3759933ce030bc18d31642527f47b5334a1c2e102709e1666f78ee5e119af2",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/pure-controls.json": "fb118227bfbcde92e5e8f9bbf2c73ac8ac47b2ff1c11a14500ceff7b032e19db",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-source-before.json": "9b7df81f77f8aa56f743cc77be4655d73cc684c30dcbcbeadeb2a91a1aa50d57",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-source-after.json": "9b7df81f77f8aa56f743cc77be4655d73cc684c30dcbcbeadeb2a91a1aa50d57",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-tools-before.json": "f30a71947b0b20813d9e66432fa8e3e50a82eb0367ba42544c86edf82e8902ab",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-tools-after.json": "f30a71947b0b20813d9e66432fa8e3e50a82eb0367ba42544c86edf82e8902ab",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-map.json": "3b45e9b011a8ce2b7bceecffc9d319fda52a0b3695d6b3ed22476800c1c1af91",
+    "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-output-inventory.json": "32d5e668ccc0dfa0961279efa61b0da7ead9be417f777ca9080c2a76a0ae6e56"
+  },
+  "controlCount": 30,
+  "accepted": 6,
+  "rejected": 24,
+  "independentOwnedAbsence": [
+    {
+      "pid": 64045,
+      "start": "4016431",
+      "absent": true
+    },
+    {
+      "pid": 64052,
+      "start": "4016455",
+      "absent": true
+    }
+  ],
+  "reviewSha256": "eb2ce74af3b53cd11cf1430fafa950b958f86b346dad17632a1f85dad4984813",
+  "workloadExecutedByReviewer": false
+}

@@ -1,0 +1,9 @@
+{
+  "failure": "mapsMatch line48 assumes every emitted .js/.mjs owns a map",
+  "actualMap": "simulation-CN0-W409.js.map",
+  "actualMappedSources": 55,
+  "actualMappedChunkRoute": "//# sourceMappingURL=simulation-CN0-W409.js.map; valid terminal no LF",
+  "unmappedFacade": "entry.mjs504B; actual17import/re-export roles only",
+  "copiedPublic": "serviceworker.js1144B; outside declared native executingclosure; requires copied-source provenance",
+  "reuse": "HOLD pending independent precise offline classification contract and actual full source/tool after equality; no recompile"
+}

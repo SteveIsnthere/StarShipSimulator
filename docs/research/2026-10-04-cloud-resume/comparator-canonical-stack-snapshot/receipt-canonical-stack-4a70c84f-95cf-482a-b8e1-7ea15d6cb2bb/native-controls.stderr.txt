@@ -1,0 +1,24 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ "f\n+ actual - expected\n\n+ 'number'\n- 'function'\n"
+- 'f'
+
+    at execute (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/controls.mjs:140:42)
+    at file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/controls.mjs:142:16
+    at test (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/controls.mjs:14:24)
+    at parityCase (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/controls.mjs:136:2)
+    at file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/controls.mjs:151:1 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: "f\n+ actual - expected\n\n+ 'number'\n- 'function'\n",
+  expected: 'f',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

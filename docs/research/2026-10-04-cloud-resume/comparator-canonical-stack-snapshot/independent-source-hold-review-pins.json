@@ -1,0 +1,22 @@
+{
+  "decision": "HOLD __proto__ descriptor-map preservation and inherited accessor controls",
+  "inputs": {
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/control-repair.diff": "c92ad1ffd83033a1eb6eecd3f42c74cb38417817c58f5e038f1d73752359f9e1",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/declaration.md": "f92611c59cdb2cd840d3ba63b2fdde6b81f6e146932e45b49ee6949b4a3110f9",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/graph-oracle-scaled.ts.txt": "3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/graph-oracle-before.ts.txt": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/graph-oracle-before-scaled.ts.txt": "d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/graph-oracle.ts.txt": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/controls.mjs.txt": "157e33feca6590c0f5afbd1246aa1e8418b1fa5bdd2b3ea656f7114803376426",
+    "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls.mjs.txt": "787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace",
+    "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/input-pins.json": "0a3f05e2fc8137a7cf3f6227614ab9185622abcf62828f81b61b311655d91896",
+    "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/launch-input-pins.json": "d5e78393c9c51705c9f2d1faaa034847e937728cda29e8c461fb0af07eefec7f",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/actual-result-independent-review.md": "41ab67f0e19077532349081e51c771ae42eff56788c8bcc6b57e22f436240eb9",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/actual-result-independent-pins.json": "773c526f73b0670df87e8ff88005db30a9997538837a6dc49628f1712296a03b",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/descriptor-before-stack-read.json": "7a1ebfc081e582b35c83df2d9c2dc51040ec7493a8511e4979eaf6f670586ecd",
+    "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/descriptor-after-public-stack.json": "f9a736e4b3849f4e5bcf084fb0e80db7308bc33446c0979e62b6190caa811253"
+  },
+  "inputManifest": "e82c9053a1097a4b0f14b083cc35b04c22471fd9f11947d35babca4a893da129",
+  "review": "2e68a5b386af88018e808b5adcad8d930fc6ec0196e3c2eaddc8b4a64a1d737b",
+  "executionApproved": false
+}

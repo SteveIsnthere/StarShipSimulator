@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "decision": "hold-self-referential-default-qualification",
+  "review": "630698c289bfdd3da8c3e50a0803484e3eaae052cb543b99db622468a643017f",
+  "inputManifest": "1d253edd2e38b34b33cc710db3c603dfe0f828a5a4a51b953c5ae53145c1062d",
+  "inputs": {
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/admission.mjs.txt": "9a9db70e3b257d2d728742f0d28d15d32841ae5e2c7ef39ae397ed8c74551efd",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/build.mjs.txt": "ad1fade84731714978d1378ad21b3dc6e7aad7184760727b346b66351d186a06",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/constants.mjs.txt": "08cc84cdeb98fe9b9108d998af2dad468b5d3f6f176bc8005161b9c45c4712e6",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/contract.md": "fe5b37a9c438bc6f60c9dd72242a0fbf3f10bbc60136829f761801009e0001bb",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/entry.ts.txt": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/integrity.mjs.txt": "8544e7ba55aca24c8ef11815a40754dd05f1e0ac64492f3e1849085e6fc68220",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/lifecycle-reporter.mjs.txt": "5b05f504211f4571bee7452996c6613632e6f06384e9386bb9b555ab0417a2ae",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/loader.mjs.txt": "f480380ee9dd6d7ca6ee3963e001beb70752c39d6a41bc7620f48ccff8da83fe",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/package-script-diff.json": "25ae7e9c23ed44743927917b442c48452854d45b3b1946dc911658cbda91732e",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/prepare-run.mjs.txt": "972de609021190bf236825ccfa2554a012078ef22191a5ee86e9df8c1a722b1c",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/projects.mjs.txt": "c66962822c99bbc0f810afe57fd8ce6e00828c66b5c758024a42bba40b5d88da",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/run.mjs.txt": "8dab819657d8ce3779b641e9db40266a3db8d95bcf3e3e9576036fafe441b105",
+    "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/vitest.config.ts.txt": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029"
+  },
+  "utilitySourceSnapshotDigest": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+  "compositeFreezePending": true,
+  "productApplicationApproved": false,
+  "executionApproved": false,
+  "workloadExecutedByReviewer": false
+}

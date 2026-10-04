@@ -1,0 +1,31 @@
+{
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "failure": null,
+  "bytes": {
+    "stdout": 0,
+    "stderr": 485
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 56457,
+    "start": "3284162",
+    "group": 56457,
+    "session": 56457,
+    "tracked": [
+      {
+        "pid": 56457,
+        "state": "R",
+        "parent": 56450,
+        "group": 56457,
+        "session": 56457,
+        "start": "3284162"
+      }
+    ],
+    "executing": []
+  }
+}

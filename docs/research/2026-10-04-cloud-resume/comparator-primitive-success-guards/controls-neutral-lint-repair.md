@@ -1,0 +1,7 @@
+# Single prefer-const repair after scoped checks
+
+The second distinct scoped episode executed syntax/lint checks only. ControlsNodecheck passed; ESLint rejected line87 `let scaled` because this local is assigned once and never reassigned. No controls runtime invoked. Root independently completed remaining4oracle TS8commands, allpass, and retains earlier4module8passing checks. Only this changed control's2checks require fresh execution; unchanged accepted hashes remain composite check evidence, not rerun candidates.
+
+Preserved old5fe6405e control/eac46166 sourceinput/4ea09ea7 full launch manifest/code review+pins/currentlaunch review+pins byte-exact under controls-before-scoped-lint-fix/. Change exactly one keyword `let` to `const` at the original scaled-source initializer. Initializer expression, replacement order/literal cap values, module import, case order/39inventory/error/count/read assertions and outputs remain exact. No initial-value/failure schema/closure/lifetime/dependency change, no suppression/rule/budget modification. Candidate700bc/original34fd/four other comparator bytes remain unchanged.
+
+New source-control/input qualification review must precede refreshed launch-manifest+launcher review, because the current typed source-review inputs deliberately deny changed control bytes until independently approved. No stale original source-review digest is treated as approval for new bytes. No workload or checks executed by this repair.

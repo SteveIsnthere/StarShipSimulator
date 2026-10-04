@@ -1,0 +1,44 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 64045,
+      "state": "R",
+      "parent": 64044,
+      "group": 64045,
+      "session": 64045,
+      "start": "4016431"
+    },
+    {
+      "pid": 64052,
+      "state": "R",
+      "parent": 64045,
+      "group": 64052,
+      "session": 64052,
+      "start": "4016455"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 64045,
+      "session": 64045,
+      "start": "4016431",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 64052,
+      "session": 64052,
+      "start": "4016455",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-mixed-map-qualification.FzWtEZ",
+  "manifestSha": "3ccd867654b935b7fa498d22ef03080d4279da3d1a7539e016f9824a6af43d8a",
+  "elapsedSeconds": 3.304518938064575,
+  "acceptance": "Read-only retained-output classification only; old buildFAILED/body/composite admission holds"
+}

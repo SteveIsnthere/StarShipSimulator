@@ -1,0 +1,2110 @@
+{
+  "scope": "Documentation-only canonical lossless COPY; all original active consumer paths preserved",
+  "outcomes": {
+    "paired": "Independent actual-result semantic acceptance only; no idle nativecost/performance claim; CPU overlap disclosed",
+    "width2": "preparation0/build0/qualification1; no browser/pixel/GPU/performance/product pass",
+    "offline": "actualroot0/3.304518938s; independent actual review PENDING at archive time; old compilerbuild remainsFAILED"
+  },
+  "excluded": [
+    "Prior23.67MB rawHTML trace; existing canonicalgzip+origin authoritative",
+    "Browser407MB bundle bytes; existing bundle identities authoritative",
+    "Older preserved archive contents already canonical; original references unchanged",
+    "No src/tests/scripts/config/package/recovery05 mutation"
+  ],
+  "fileCount": 209,
+  "expandedBytes": 27024481,
+  "canonicalBytes": 10003562,
+  "elapsedSeconds": 0.8035156600017217,
+  "files": [
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/actual-receipt.json",
+      "canonical": "paired/parent/actual-receipt.json",
+      "originalMode": 384,
+      "expandedBytes": 177,
+      "expandedSha256": "ebb7715500e67bd445886a2c72399ead2ec692d24922648fe9dc09972f0370a4",
+      "compression": "none",
+      "canonicalBytes": 177,
+      "canonicalSha256": "ebb7715500e67bd445886a2c72399ead2ec692d24922648fe9dc09972f0370a4"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/child-raw-status.json",
+      "canonical": "paired/parent/child-raw-status.json",
+      "originalMode": 384,
+      "expandedBytes": 73,
+      "expandedSha256": "cf954f93a5f441caa6cff6fdec2190a017e5fe02e8f5442c729802d3d86d8cdd",
+      "compression": "none",
+      "canonicalBytes": 73,
+      "canonicalSha256": "cf954f93a5f441caa6cff6fdec2190a017e5fe02e8f5442c729802d3d86d8cdd"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/command-identity.json",
+      "canonical": "paired/parent/command-identity.json",
+      "originalMode": 384,
+      "expandedBytes": 114,
+      "expandedSha256": "8c5ecf63c1ebc2e0ebf759ad0f471b9e30b1a1a6dbdcbcb7ecb56eba91fa96f5",
+      "compression": "none",
+      "canonicalBytes": 114,
+      "canonicalSha256": "8c5ecf63c1ebc2e0ebf759ad0f471b9e30b1a1a6dbdcbcb7ecb56eba91fa96f5"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/declaration.json",
+      "canonical": "paired/parent/declaration.json",
+      "originalMode": 384,
+      "expandedBytes": 723,
+      "expandedSha256": "64dc5247e4f3729a8ca3f4024192c2b8fb68d0001dd3e60f64155650663e5f55",
+      "compression": "none",
+      "canonicalBytes": 723,
+      "canonicalSha256": "64dc5247e4f3729a8ca3f4024192c2b8fb68d0001dd3e60f64155650663e5f55"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/independent-all-owned-postexit.json",
+      "canonical": "paired/parent/independent-all-owned-postexit.json",
+      "originalMode": 384,
+      "expandedBytes": 711,
+      "expandedSha256": "970e4e4ac85c09e19930238ca14a7561ba29a43e1bc4fb3372607fa33c1a4936",
+      "compression": "none",
+      "canonicalBytes": 711,
+      "canonicalSha256": "970e4e4ac85c09e19930238ca14a7561ba29a43e1bc4fb3372607fa33c1a4936"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/observed-identities.jsonl",
+      "canonical": "paired/parent/observed-identities.jsonl",
+      "originalMode": 384,
+      "expandedBytes": 565,
+      "expandedSha256": "a56679cb16e3ce5249fb4016d5a689680f8b4b8c35b33aeda3d3a6e501168378",
+      "compression": "none",
+      "canonicalBytes": 565,
+      "canonicalSha256": "a56679cb16e3ce5249fb4016d5a689680f8b4b8c35b33aeda3d3a6e501168378"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/observer-identity.json",
+      "canonical": "paired/parent/observer-identity.json",
+      "originalMode": 384,
+      "expandedBytes": 112,
+      "expandedSha256": "dc5523596ab2b06091802b2b034d9f4438330dbff1b9b58ce2ce101bc6f21e4d",
+      "compression": "none",
+      "canonicalBytes": 112,
+      "canonicalSha256": "dc5523596ab2b06091802b2b034d9f4438330dbff1b9b58ce2ce101bc6f21e4d"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/output.txt",
+      "canonical": "paired/parent/output.txt",
+      "originalMode": 384,
+      "expandedBytes": 99,
+      "expandedSha256": "f3ef689b899b446539039e136162499447e9d01de2fdb6cb62e33fba0169c2a9",
+      "compression": "none",
+      "canonicalBytes": 99,
+      "canonicalSha256": "f3ef689b899b446539039e136162499447e9d01de2fdb6cb62e33fba0169c2a9"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/result.json",
+      "canonical": "paired/parent/result.json",
+      "originalMode": 384,
+      "expandedBytes": 492,
+      "expandedSha256": "17a2095cb2bde181e578f68ccfc51ea0e6714fe0a3f21c997a2d342325d9e648",
+      "compression": "none",
+      "canonicalBytes": 492,
+      "canonicalSha256": "17a2095cb2bde181e578f68ccfc51ea0e6714fe0a3f21c997a2d342325d9e648"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/artifact-pins.json",
+      "canonical": "paired/receipt/artifact-pins.json",
+      "originalMode": 384,
+      "expandedBytes": 8767,
+      "expandedSha256": "14746d72c8378eb6eb40c08f56141623fad6e606d37e98cbc58f3d49216e0a02",
+      "compression": "none",
+      "canonicalBytes": 8767,
+      "canonicalSha256": "14746d72c8378eb6eb40c08f56141623fad6e606d37e98cbc58f3d49216e0a02"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/evidence-manifest.json",
+      "canonical": "paired/receipt/evidence-manifest.json",
+      "originalMode": 384,
+      "expandedBytes": 185878,
+      "expandedSha256": "c394cf401d42bde4f2e7d3bde65749b93e61e309c2e8ed89927afaf8889cfbbb",
+      "compression": "none",
+      "canonicalBytes": 185878,
+      "canonicalSha256": "c394cf401d42bde4f2e7d3bde65749b93e61e309c2e8ed89927afaf8889cfbbb"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/finalized.json",
+      "canonical": "paired/receipt/finalized.json",
+      "originalMode": 384,
+      "expandedBytes": 2325,
+      "expandedSha256": "9a12d3bf4e571997fc18a6bb9779a1a5643d6a59a7bdb50fe75c27ce179a5660",
+      "compression": "none",
+      "canonicalBytes": 2325,
+      "canonicalSha256": "9a12d3bf4e571997fc18a6bb9779a1a5643d6a59a7bdb50fe75c27ce179a5660"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/guard-predecessors-and-limitation.json",
+      "canonical": "paired/receipt/guard-predecessors-and-limitation.json",
+      "originalMode": 384,
+      "expandedBytes": 1901,
+      "expandedSha256": "21496b58b003738d4a5f5b1be095100348f038c9765c14c93cfdf2d8a2fc6a9d",
+      "compression": "none",
+      "canonicalBytes": 1901,
+      "canonicalSha256": "21496b58b003738d4a5f5b1be095100348f038c9765c14c93cfdf2d8a2fc6a9d"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/launcher-identity.json",
+      "canonical": "paired/receipt/launcher-identity.json",
+      "originalMode": 384,
+      "expandedBytes": 114,
+      "expandedSha256": "45be4840d48cd0693b80fad5e0e34b5f2b98ed9e305d708cb76ec686fe121baa",
+      "compression": "none",
+      "canonicalBytes": 114,
+      "canonicalSha256": "45be4840d48cd0693b80fad5e0e34b5f2b98ed9e305d708cb76ec686fe121baa"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/materialized/entry.ts",
+      "canonical": "paired/receipt/materialized/entry.ts.txt",
+      "originalMode": 384,
+      "expandedBytes": 637,
+      "expandedSha256": "99493daa335a65424cd10f3ae15cab0754881b1fd89e4281e5ae3042c67edeca",
+      "compression": "none",
+      "canonicalBytes": 637,
+      "canonicalSha256": "99493daa335a65424cd10f3ae15cab0754881b1fd89e4281e5ae3042c67edeca"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/materialized/full-flight.ts",
+      "canonical": "paired/receipt/materialized/full-flight.ts.txt",
+      "originalMode": 384,
+      "expandedBytes": 6729,
+      "expandedSha256": "899a07040d8fdad605fae59bedfcc4d2379ab54af45ab75ce9f5d90961336edb",
+      "compression": "none",
+      "canonicalBytes": 6729,
+      "canonicalSha256": "899a07040d8fdad605fae59bedfcc4d2379ab54af45ab75ce9f5d90961336edb"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/materialized/graph-oracle.ts",
+      "canonical": "paired/receipt/materialized/graph-oracle.ts.txt",
+      "originalMode": 384,
+      "expandedBytes": 5294,
+      "expandedSha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c",
+      "compression": "none",
+      "canonicalBytes": 5294,
+      "canonicalSha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/materialized-before.json",
+      "canonical": "paired/receipt/materialized-before.json",
+      "originalMode": 384,
+      "expandedBytes": 1425,
+      "expandedSha256": "57efb53d4096a2d01c45e4917cb6baefbb8dbefb659fecd4a7c35473651c5d17",
+      "compression": "none",
+      "canonicalBytes": 1425,
+      "canonicalSha256": "57efb53d4096a2d01c45e4917cb6baefbb8dbefb659fecd4a7c35473651c5d17"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/owned-cleanup.json",
+      "canonical": "paired/receipt/owned-cleanup.json",
+      "originalMode": 384,
+      "expandedBytes": 94,
+      "expandedSha256": "baed0a5ce80aa78736b24ae9810784d23737ade586c1121ddd8a878bb05a2653",
+      "compression": "none",
+      "canonicalBytes": 94,
+      "canonicalSha256": "baed0a5ce80aa78736b24ae9810784d23737ade586c1121ddd8a878bb05a2653"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/paired-flight.exit.json",
+      "canonical": "paired/receipt/paired-flight.exit.json",
+      "originalMode": 384,
+      "expandedBytes": 51,
+      "expandedSha256": "bf5a2ce99d6f941ceee810fa9fa5daa831eb853d007223992f080f05d25822c2",
+      "compression": "none",
+      "canonicalBytes": 51,
+      "canonicalSha256": "bf5a2ce99d6f941ceee810fa9fa5daa831eb853d007223992f080f05d25822c2"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/paired-flight.json",
+      "canonical": "paired/receipt/paired-flight.json",
+      "originalMode": 384,
+      "expandedBytes": 3281,
+      "expandedSha256": "cad476973f36e5790d3089db33649002802e87f8174573e3f61a7f1798a11c24",
+      "compression": "none",
+      "canonicalBytes": 3281,
+      "canonicalSha256": "cad476973f36e5790d3089db33649002802e87f8174573e3f61a7f1798a11c24"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/paired-flight.process.json",
+      "canonical": "paired/receipt/paired-flight.process.json",
+      "originalMode": 384,
+      "expandedBytes": 492,
+      "expandedSha256": "738ff202ee6c737ed8c47161904f9ecd3cb2d90cafc41c4b95150149e5753df1",
+      "compression": "none",
+      "canonicalBytes": 492,
+      "canonicalSha256": "738ff202ee6c737ed8c47161904f9ecd3cb2d90cafc41c4b95150149e5753df1"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/paired-flight.stderr.txt",
+      "canonical": "paired/receipt/paired-flight.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 197,
+      "expandedSha256": "6106564969dc3b219e6d8a72b479009c269907797cc8c2cc638dea03b2a4bd58",
+      "compression": "none",
+      "canonicalBytes": 197,
+      "canonicalSha256": "6106564969dc3b219e6d8a72b479009c269907797cc8c2cc638dea03b2a4bd58"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/paired-flight.stdout.txt",
+      "canonical": "paired/receipt/paired-flight.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/paired-predecessors.json",
+      "canonical": "paired/receipt/paired-predecessors.json",
+      "originalMode": 384,
+      "expandedBytes": 1259,
+      "expandedSha256": "dc5d06d807dce95c37b6a418c4730dbce24c988e0fb3b4a773dfefd69381dd3c",
+      "compression": "none",
+      "canonicalBytes": 1259,
+      "canonicalSha256": "dc5d06d807dce95c37b6a418c4730dbce24c988e0fb3b4a773dfefd69381dd3c"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/prior-composite.json",
+      "canonical": "paired/receipt/prior-composite.json",
+      "originalMode": 384,
+      "expandedBytes": 723,
+      "expandedSha256": "239c31d25dcc07021743c36ff47cf5a193349f19a17a51c0d2ea9de0dbf8702a",
+      "compression": "none",
+      "canonicalBytes": 723,
+      "canonicalSha256": "239c31d25dcc07021743c36ff47cf5a193349f19a17a51c0d2ea9de0dbf8702a"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/source-after.json",
+      "canonical": "paired/receipt/source-after.json.gz",
+      "originalMode": 384,
+      "expandedBytes": 2815849,
+      "expandedSha256": "c2f8ec9935e7afc86c138b61a5d27cd01e84235db3e8065379ffb9a205c9f93e",
+      "compression": "gzip",
+      "canonicalBytes": 970325,
+      "canonicalSha256": "e31f5f24ef4dac1b2889e466048b1a45a8c6b4d17b06803ad1775d71b6865f54"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/source-before.json",
+      "canonical": "paired/receipt/source-before.json.gz",
+      "originalMode": 384,
+      "expandedBytes": 2815849,
+      "expandedSha256": "c2f8ec9935e7afc86c138b61a5d27cd01e84235db3e8065379ffb9a205c9f93e",
+      "compression": "gzip",
+      "canonicalBytes": 970325,
+      "canonicalSha256": "e31f5f24ef4dac1b2889e466048b1a45a8c6b4d17b06803ad1775d71b6865f54"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/executed-after.json",
+      "canonical": "paired/owned-launch/executed-after.json",
+      "originalMode": 384,
+      "expandedBytes": 566,
+      "expandedSha256": "6d40ba6e1057a9c9c3bf0af0f5045bd84d209a59266abbf985937967af578db3",
+      "compression": "none",
+      "canonicalBytes": 566,
+      "canonicalSha256": "6d40ba6e1057a9c9c3bf0af0f5045bd84d209a59266abbf985937967af578db3"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/executed-before.json",
+      "canonical": "paired/owned-launch/executed-before.json",
+      "originalMode": 384,
+      "expandedBytes": 566,
+      "expandedSha256": "6d40ba6e1057a9c9c3bf0af0f5045bd84d209a59266abbf985937967af578db3",
+      "compression": "none",
+      "canonicalBytes": 566,
+      "canonicalSha256": "6d40ba6e1057a9c9c3bf0af0f5045bd84d209a59266abbf985937967af578db3"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/label-audit.mjs",
+      "canonical": "paired/owned-launch/label-audit.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 2449,
+      "expandedSha256": "93f11a797a93a0a6c00b51d375bc5186d816270b4036b523707b0ca029c3069c",
+      "compression": "none",
+      "canonicalBytes": 2449,
+      "canonicalSha256": "93f11a797a93a0a6c00b51d375bc5186d816270b4036b523707b0ca029c3069c"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/launcher.mjs",
+      "canonical": "paired/owned-launch/launcher.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 25748,
+      "expandedSha256": "6087a1535ab289dd037e8c7ba9f80c7ee29c5cc6b59974f7547aa49b3b054c85",
+      "compression": "none",
+      "canonicalBytes": 25748,
+      "canonicalSha256": "6087a1535ab289dd037e8c7ba9f80c7ee29c5cc6b59974f7547aa49b3b054c85"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/node-status.txt",
+      "canonical": "paired/owned-launch/node-status.txt",
+      "originalMode": 384,
+      "expandedBytes": 2,
+      "expandedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "compression": "none",
+      "canonicalBytes": 2,
+      "canonicalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/owned-command.mjs",
+      "canonical": "paired/owned-launch/owned-command.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 7424,
+      "expandedSha256": "2fd4c0c87ed9b5f34cdd147ff226f1a15246a573b01613c35d2ea544e60cdf30",
+      "compression": "none",
+      "canonicalBytes": 7424,
+      "canonicalSha256": "2fd4c0c87ed9b5f34cdd147ff226f1a15246a573b01613c35d2ea544e60cdf30"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/stderr.txt",
+      "canonical": "paired/owned-launch/stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/stdout.txt",
+      "canonical": "paired/owned-launch/stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 158,
+      "expandedSha256": "d2287a9ce305e3de1ac797bf42fdf0c61fb2ed7acdddde0e08d7524fd4459362",
+      "compression": "none",
+      "canonicalBytes": 158,
+      "canonicalSha256": "d2287a9ce305e3de1ac797bf42fdf0c61fb2ed7acdddde0e08d7524fd4459362"
+    },
+    {
+      "original": "/tmp/starship-width2-root.nsta6_vk/actual-outer-exit-final.json",
+      "canonical": "width2/prepare-root/actual-outer-exit-final.json",
+      "originalMode": 384,
+      "expandedBytes": 62,
+      "expandedSha256": "905e1bd4b88dbe4ac0023842ec2466b3d89ad0cb035492b4cfce398ce2a33260",
+      "compression": "none",
+      "canonicalBytes": 62,
+      "canonicalSha256": "905e1bd4b88dbe4ac0023842ec2466b3d89ad0cb035492b4cfce398ce2a33260"
+    },
+    {
+      "original": "/tmp/starship-width2-root.nsta6_vk/actual-outer-exit.json",
+      "canonical": "width2/prepare-root/actual-outer-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 62,
+      "expandedSha256": "c262302a558f4ef43e254fbc70ea0c19bf46d9a69f1eb11c3cbf512e1726bdae",
+      "compression": "none",
+      "canonicalBytes": 62,
+      "canonicalSha256": "c262302a558f4ef43e254fbc70ea0c19bf46d9a69f1eb11c3cbf512e1726bdae"
+    },
+    {
+      "original": "/tmp/starship-width2-root.nsta6_vk/identities.jsonl",
+      "canonical": "width2/prepare-root/identities.jsonl",
+      "originalMode": 384,
+      "expandedBytes": 592,
+      "expandedSha256": "bd19111ab20f7479ae1a6dd2e8891ab08bfbd9c08723dd9095e6867f6bdbf285",
+      "compression": "none",
+      "canonicalBytes": 592,
+      "canonicalSha256": "bd19111ab20f7479ae1a6dd2e8891ab08bfbd9c08723dd9095e6867f6bdbf285"
+    },
+    {
+      "original": "/tmp/starship-width2-root.nsta6_vk/outer-registration.json",
+      "canonical": "width2/prepare-root/outer-registration.json",
+      "originalMode": 384,
+      "expandedBytes": 114,
+      "expandedSha256": "d20fd0d091e1f90fc3da9e4c83910854f9ac2ec8a5f5ff6b2ddaec89c1d0b5c4",
+      "compression": "none",
+      "canonicalBytes": 114,
+      "canonicalSha256": "d20fd0d091e1f90fc3da9e4c83910854f9ac2ec8a5f5ff6b2ddaec89c1d0b5c4"
+    },
+    {
+      "original": "/tmp/starship-width2-root.nsta6_vk/outer.stderr.txt",
+      "canonical": "width2/prepare-root/outer.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-width2-root.nsta6_vk/outer.stdout.txt",
+      "canonical": "width2/prepare-root/outer.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 259,
+      "expandedSha256": "c9245e147ceaad76756c69997d81594cecfffa6242b2763c2493b889d976cbc2",
+      "compression": "none",
+      "canonicalBytes": 259,
+      "canonicalSha256": "c9245e147ceaad76756c69997d81594cecfffa6242b2763c2493b889d976cbc2"
+    },
+    {
+      "original": "/tmp/starship-width2-root.nsta6_vk/root-outcome.json",
+      "canonical": "width2/prepare-root/root-outcome.json",
+      "originalMode": 384,
+      "expandedBytes": 1307,
+      "expandedSha256": "cabadaf3e0fdf0dd1b56a2fea20c20286e5f9913f864e83a16ecf48aa17352a1",
+      "compression": "none",
+      "canonicalBytes": 1307,
+      "canonicalSha256": "cabadaf3e0fdf0dd1b56a2fea20c20286e5f9913f864e83a16ecf48aa17352a1"
+    },
+    {
+      "original": "/tmp/starship-width2-root.nsta6_vk/stage.mjs",
+      "canonical": "width2/prepare-root/stage.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 5098,
+      "expandedSha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e",
+      "compression": "none",
+      "canonicalBytes": 5098,
+      "canonicalSha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/actual-child-exit.json",
+      "canonical": "width2/prepare-stage/actual-child-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 187,
+      "expandedSha256": "174f1eb66ca60838d031760a37508f30acb186b3cfb0c84d1cee39db8ad80119",
+      "compression": "none",
+      "canonicalBytes": 187,
+      "canonicalSha256": "174f1eb66ca60838d031760a37508f30acb186b3cfb0c84d1cee39db8ad80119"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/preparation.process.json",
+      "canonical": "width2/prepare-stage/preparation.process.json",
+      "originalMode": 384,
+      "expandedBytes": 654,
+      "expandedSha256": "c9f220848970964d461027664a28674378d667c8d2df80884b90f919dd493afe",
+      "compression": "none",
+      "canonicalBytes": 654,
+      "canonicalSha256": "c9f220848970964d461027664a28674378d667c8d2df80884b90f919dd493afe"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/preparation.stderr.txt",
+      "canonical": "width2/prepare-stage/preparation.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/preparation.stdout.txt",
+      "canonical": "width2/prepare-stage/preparation.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 37,
+      "expandedSha256": "5387b217a606c62fb9493d6820ab409f01c8cb6ba770d6758a06aa400fb5680b",
+      "compression": "none",
+      "canonicalBytes": 37,
+      "canonicalSha256": "5387b217a606c62fb9493d6820ab409f01c8cb6ba770d6758a06aa400fb5680b"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/prepare.py",
+      "canonical": "width2/prepare-stage/prepare.py.txt",
+      "originalMode": 384,
+      "expandedBytes": 15501,
+      "expandedSha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f",
+      "compression": "none",
+      "canonicalBytes": 15501,
+      "canonicalSha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/prepare.py.after.txt",
+      "canonical": "width2/prepare-stage/prepare.py.after.txt",
+      "originalMode": 384,
+      "expandedBytes": 15501,
+      "expandedSha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f",
+      "compression": "none",
+      "canonicalBytes": 15501,
+      "canonicalSha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/prepare.py.txt",
+      "canonical": "width2/prepare-stage/prepare.py.txt",
+      "originalMode": 384,
+      "expandedBytes": 15501,
+      "expandedSha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f",
+      "compression": "none",
+      "canonicalBytes": 15501,
+      "canonicalSha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/python-bridge.mjs",
+      "canonical": "width2/prepare-stage/python-bridge.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 975,
+      "expandedSha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+      "compression": "none",
+      "canonicalBytes": 975,
+      "canonicalSha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/python-bridge.mjs.after.txt",
+      "canonical": "width2/prepare-stage/python-bridge.mjs.after.txt",
+      "originalMode": 384,
+      "expandedBytes": 975,
+      "expandedSha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+      "compression": "none",
+      "canonicalBytes": 975,
+      "canonicalSha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/python-bridge.mjs.txt",
+      "canonical": "width2/prepare-stage/python-bridge.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 975,
+      "expandedSha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+      "compression": "none",
+      "canonicalBytes": 975,
+      "canonicalSha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.5l4HdQ/stage-result.json",
+      "canonical": "width2/prepare-stage/stage-result.json",
+      "originalMode": 384,
+      "expandedBytes": 499,
+      "expandedSha256": "47ddf96a19b3c2e258e847060340bea68d334796ed5ec8f685062bb22fe62f01",
+      "compression": "none",
+      "canonicalBytes": 499,
+      "canonicalSha256": "47ddf96a19b3c2e258e847060340bea68d334796ed5ec8f685062bb22fe62f01"
+    },
+    {
+      "original": "/tmp/starship-width2-root.rcwfikl2/actual-outer-exit-final.json",
+      "canonical": "width2/build-root/actual-outer-exit-final.json",
+      "originalMode": 384,
+      "expandedBytes": 61,
+      "expandedSha256": "b1db7bd4761cef9713a1c4f11f55d31c66a49a97d7069c0b3a21a8049a5e7ef4",
+      "compression": "none",
+      "canonicalBytes": 61,
+      "canonicalSha256": "b1db7bd4761cef9713a1c4f11f55d31c66a49a97d7069c0b3a21a8049a5e7ef4"
+    },
+    {
+      "original": "/tmp/starship-width2-root.rcwfikl2/actual-outer-exit.json",
+      "canonical": "width2/build-root/actual-outer-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 61,
+      "expandedSha256": "3bfc4b0229724e5bed1fb34f4d00c67f8ff6dc3736c5d03d79665afa5f88cad3",
+      "compression": "none",
+      "canonicalBytes": 61,
+      "canonicalSha256": "3bfc4b0229724e5bed1fb34f4d00c67f8ff6dc3736c5d03d79665afa5f88cad3"
+    },
+    {
+      "original": "/tmp/starship-width2-root.rcwfikl2/identities.jsonl",
+      "canonical": "width2/build-root/identities.jsonl",
+      "originalMode": 384,
+      "expandedBytes": 589,
+      "expandedSha256": "ab0266b6d070d7fb1d34607c01750d52197b4a09b07ceabec74155d9823611f4",
+      "compression": "none",
+      "canonicalBytes": 589,
+      "canonicalSha256": "ab0266b6d070d7fb1d34607c01750d52197b4a09b07ceabec74155d9823611f4"
+    },
+    {
+      "original": "/tmp/starship-width2-root.rcwfikl2/outer-registration.json",
+      "canonical": "width2/build-root/outer-registration.json",
+      "originalMode": 384,
+      "expandedBytes": 114,
+      "expandedSha256": "a57bd26fd9909c2c8150bb2a58248ae0b175c3f86d2504ee7f0419ddeb2589c5",
+      "compression": "none",
+      "canonicalBytes": 114,
+      "canonicalSha256": "a57bd26fd9909c2c8150bb2a58248ae0b175c3f86d2504ee7f0419ddeb2589c5"
+    },
+    {
+      "original": "/tmp/starship-width2-root.rcwfikl2/outer.stderr.txt",
+      "canonical": "width2/build-root/outer.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-width2-root.rcwfikl2/outer.stdout.txt",
+      "canonical": "width2/build-root/outer.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 259,
+      "expandedSha256": "cc655a28d6ec72b370fa7dd20dbfc8ff6bed5bfcc75b97cd4bccdeb88d2be030",
+      "compression": "none",
+      "canonicalBytes": 259,
+      "canonicalSha256": "cc655a28d6ec72b370fa7dd20dbfc8ff6bed5bfcc75b97cd4bccdeb88d2be030"
+    },
+    {
+      "original": "/tmp/starship-width2-root.rcwfikl2/root-outcome.json",
+      "canonical": "width2/build-root/root-outcome.json",
+      "originalMode": 384,
+      "expandedBytes": 1440,
+      "expandedSha256": "e077dcb342552a99f6ead4e3eda9ae48297051929c6519a1cdd26907b437c29b",
+      "compression": "none",
+      "canonicalBytes": 1440,
+      "canonicalSha256": "e077dcb342552a99f6ead4e3eda9ae48297051929c6519a1cdd26907b437c29b"
+    },
+    {
+      "original": "/tmp/starship-width2-root.rcwfikl2/stage.mjs",
+      "canonical": "width2/build-root/stage.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 5098,
+      "expandedSha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e",
+      "compression": "none",
+      "canonicalBytes": 5098,
+      "canonicalSha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.q28VdJ/actual-child-exit.json",
+      "canonical": "width2/build-stage/actual-child-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 185,
+      "expandedSha256": "a005eb73b6319999818ef215045039b3a3b249db026f49499e5539606e13b346",
+      "compression": "none",
+      "canonicalBytes": 185,
+      "canonicalSha256": "a005eb73b6319999818ef215045039b3a3b249db026f49499e5539606e13b346"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.q28VdJ/build.mjs",
+      "canonical": "width2/build-stage/build.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 7468,
+      "expandedSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+      "compression": "none",
+      "canonicalBytes": 7468,
+      "canonicalSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.q28VdJ/build.mjs.after.txt",
+      "canonical": "width2/build-stage/build.mjs.after.txt",
+      "originalMode": 384,
+      "expandedBytes": 7468,
+      "expandedSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+      "compression": "none",
+      "canonicalBytes": 7468,
+      "canonicalSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.q28VdJ/build.mjs.txt",
+      "canonical": "width2/build-stage/build.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 7468,
+      "expandedSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+      "compression": "none",
+      "canonicalBytes": 7468,
+      "canonicalSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.q28VdJ/preparation.process.json",
+      "canonical": "width2/build-stage/preparation.process.json",
+      "originalMode": 384,
+      "expandedBytes": 816,
+      "expandedSha256": "a78d711ed374c824850dd9c5ac3ca02466d9798f67f474de13522dae3327c58b",
+      "compression": "none",
+      "canonicalBytes": 816,
+      "canonicalSha256": "a78d711ed374c824850dd9c5ac3ca02466d9798f67f474de13522dae3327c58b"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.q28VdJ/preparation.stderr.txt",
+      "canonical": "width2/build-stage/preparation.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.q28VdJ/preparation.stdout.txt",
+      "canonical": "width2/build-stage/preparation.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.q28VdJ/stage-result.json",
+      "canonical": "width2/build-stage/stage-result.json",
+      "originalMode": 384,
+      "expandedBytes": 497,
+      "expandedSha256": "1116359b3b47663bcfe216115223efb2202effb1e5fe966d50698783e3c3467d",
+      "compression": "none",
+      "canonicalBytes": 497,
+      "canonicalSha256": "1116359b3b47663bcfe216115223efb2202effb1e5fe966d50698783e3c3467d"
+    },
+    {
+      "original": "/tmp/starship-width2-root.75nncpcy/actual-outer-exit-final.json",
+      "canonical": "width2/qualification-root/actual-outer-exit-final.json",
+      "originalMode": 384,
+      "expandedBytes": 61,
+      "expandedSha256": "abe1355bf382f1304adb0026e883938db0ae5d5717325743cfba348a4cc39d6b",
+      "compression": "none",
+      "canonicalBytes": 61,
+      "canonicalSha256": "abe1355bf382f1304adb0026e883938db0ae5d5717325743cfba348a4cc39d6b"
+    },
+    {
+      "original": "/tmp/starship-width2-root.75nncpcy/actual-outer-exit.json",
+      "canonical": "width2/qualification-root/actual-outer-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 62,
+      "expandedSha256": "a99f1c3a7b820ea0ca4c936c0048178e266a13712fa767228b1fb59e2a239766",
+      "compression": "none",
+      "canonicalBytes": 62,
+      "canonicalSha256": "a99f1c3a7b820ea0ca4c936c0048178e266a13712fa767228b1fb59e2a239766"
+    },
+    {
+      "original": "/tmp/starship-width2-root.75nncpcy/identities.jsonl",
+      "canonical": "width2/qualification-root/identities.jsonl",
+      "originalMode": 384,
+      "expandedBytes": 296,
+      "expandedSha256": "9f9ce8ae4828318e6f72a07cf6ce85c64ba4f6ec6e5a0afdba527415c1800f5e",
+      "compression": "none",
+      "canonicalBytes": 296,
+      "canonicalSha256": "9f9ce8ae4828318e6f72a07cf6ce85c64ba4f6ec6e5a0afdba527415c1800f5e"
+    },
+    {
+      "original": "/tmp/starship-width2-root.75nncpcy/outer-registration.json",
+      "canonical": "width2/qualification-root/outer-registration.json",
+      "originalMode": 384,
+      "expandedBytes": 114,
+      "expandedSha256": "0761ad0c920a3f0e33e3c0c18eaf6a7db99bfe5ddc62b5b08b46d34b2bc41917",
+      "compression": "none",
+      "canonicalBytes": 114,
+      "canonicalSha256": "0761ad0c920a3f0e33e3c0c18eaf6a7db99bfe5ddc62b5b08b46d34b2bc41917"
+    },
+    {
+      "original": "/tmp/starship-width2-root.75nncpcy/outer.stderr.txt",
+      "canonical": "width2/qualification-root/outer.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 444,
+      "expandedSha256": "dbc8d4e47a27575c5460495aa6e55cedcdc105cb9f08b2d5531b2d1bb1e32183",
+      "compression": "none",
+      "canonicalBytes": 444,
+      "canonicalSha256": "dbc8d4e47a27575c5460495aa6e55cedcdc105cb9f08b2d5531b2d1bb1e32183"
+    },
+    {
+      "original": "/tmp/starship-width2-root.75nncpcy/outer.stdout.txt",
+      "canonical": "width2/qualification-root/outer.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 260,
+      "expandedSha256": "caf703e3eb20f1e98b8f4e2894c985a4ed7b19412a3dd305e6f525f081653be0",
+      "compression": "none",
+      "canonicalBytes": 260,
+      "canonicalSha256": "caf703e3eb20f1e98b8f4e2894c985a4ed7b19412a3dd305e6f525f081653be0"
+    },
+    {
+      "original": "/tmp/starship-width2-root.75nncpcy/root-outcome.json",
+      "canonical": "width2/qualification-root/root-outcome.json",
+      "originalMode": 384,
+      "expandedBytes": 1042,
+      "expandedSha256": "3f7806c725369385f6e29a3837334292cb44afee0487d2f9ab34382f4300ed67",
+      "compression": "none",
+      "canonicalBytes": 1042,
+      "canonicalSha256": "3f7806c725369385f6e29a3837334292cb44afee0487d2f9ab34382f4300ed67"
+    },
+    {
+      "original": "/tmp/starship-width2-root.75nncpcy/stage.mjs",
+      "canonical": "width2/qualification-root/stage.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 5098,
+      "expandedSha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e",
+      "compression": "none",
+      "canonicalBytes": 5098,
+      "canonicalSha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.3wUEl8/actual-child-exit.json",
+      "canonical": "width2/qualification-stage/actual-child-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 187,
+      "expandedSha256": "94a54066981e806a455cd4724cd76f914394ed25cfe849594016d7a83bdee45d",
+      "compression": "none",
+      "canonicalBytes": 187,
+      "canonicalSha256": "94a54066981e806a455cd4724cd76f914394ed25cfe849594016d7a83bdee45d"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.3wUEl8/preparation.process.json",
+      "canonical": "width2/qualification-stage/preparation.process.json",
+      "originalMode": 384,
+      "expandedBytes": 494,
+      "expandedSha256": "e802e5d7eb289e863fbb1a0f82eb1239adc2f0e71cf826968cda89ef0505a4d7",
+      "compression": "none",
+      "canonicalBytes": 494,
+      "canonicalSha256": "e802e5d7eb289e863fbb1a0f82eb1239adc2f0e71cf826968cda89ef0505a4d7"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.3wUEl8/preparation.stderr.txt",
+      "canonical": "width2/qualification-stage/preparation.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 27815,
+      "expandedSha256": "28a9cc87a887bb827ab607b959155b23d92ada3c8a8312a18c6b362c9e142e6f",
+      "compression": "none",
+      "canonicalBytes": 27815,
+      "canonicalSha256": "28a9cc87a887bb827ab607b959155b23d92ada3c8a8312a18c6b362c9e142e6f"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.3wUEl8/preparation.stdout.txt",
+      "canonical": "width2/qualification-stage/preparation.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.3wUEl8/qualify.mjs",
+      "canonical": "width2/qualification-stage/qualify.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 12453,
+      "expandedSha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+      "compression": "none",
+      "canonicalBytes": 12453,
+      "canonicalSha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.3wUEl8/qualify.mjs.txt",
+      "canonical": "width2/qualification-stage/qualify.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 12453,
+      "expandedSha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+      "compression": "none",
+      "canonicalBytes": 12453,
+      "canonicalSha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb"
+    },
+    {
+      "original": "/tmp/starship-width2-stage.3wUEl8/stage-result.json",
+      "canonical": "width2/qualification-stage/stage-result.json",
+      "originalMode": 384,
+      "expandedBytes": 729,
+      "expandedSha256": "d04a7c6a49b2ab1c0f43578154d18012e91edd9904081062de04c089b7ccd22e",
+      "compression": "none",
+      "canonicalBytes": 729,
+      "canonicalSha256": "d04a7c6a49b2ab1c0f43578154d18012e91edd9904081062de04c089b7ccd22e"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/browser-wrapper.sh",
+      "canonical": "width2/private/browser-wrapper.sh.txt",
+      "originalMode": 448,
+      "expandedBytes": 760,
+      "expandedSha256": "85b05eb67dff5bfd845b373b05713138195231848d2fe5d2cd45b551cbec2970",
+      "compression": "none",
+      "canonicalBytes": 760,
+      "canonicalSha256": "85b05eb67dff5bfd845b373b05713138195231848d2fe5d2cd45b551cbec2970"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/bundle-copy-manifest.json",
+      "canonical": "width2/private/bundle-copy-manifest.json",
+      "originalMode": 384,
+      "expandedBytes": 54403,
+      "expandedSha256": "bfefd1a1d378e5234086d8a84469705c4b04ba29a7564eb71f2bf4dd21703dff",
+      "compression": "none",
+      "canonicalBytes": 54403,
+      "canonicalSha256": "bfefd1a1d378e5234086d8a84469705c4b04ba29a7564eb71f2bf4dd21703dff"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/BufferResource-uMLrSSVl.js",
+      "canonical": "width2/private/compiled/BufferResource-uMLrSSVl.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 13106,
+      "expandedSha256": "de43598e26f9e06fdeae989884ad26e6f39aa2ddb8042d64100adfbba362cb24",
+      "compression": "none",
+      "canonicalBytes": 13106,
+      "canonicalSha256": "de43598e26f9e06fdeae989884ad26e6f39aa2ddb8042d64100adfbba362cb24"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/BufferResource-uMLrSSVl.js.map",
+      "canonical": "width2/private/compiled/BufferResource-uMLrSSVl.js.map",
+      "originalMode": 384,
+      "expandedBytes": 26721,
+      "expandedSha256": "f1d0cd390aeb736e34c884abf81f4b1c877633d73d7627bea14aa60b93766cd2",
+      "compression": "none",
+      "canonicalBytes": 26721,
+      "canonicalSha256": "f1d0cd390aeb736e34c884abf81f4b1c877633d73d7627bea14aa60b93766cd2"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/CanvasPool-4lFBuryO.js",
+      "canonical": "width2/private/compiled/CanvasPool-4lFBuryO.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 1013,
+      "expandedSha256": "10004bbc1155ceff5436e75df7a3310e2bf2b8a73ea644d562833a35bce06a55",
+      "compression": "none",
+      "canonicalBytes": 1013,
+      "canonicalSha256": "10004bbc1155ceff5436e75df7a3310e2bf2b8a73ea644d562833a35bce06a55"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/CanvasPool-4lFBuryO.js.map",
+      "canonical": "width2/private/compiled/CanvasPool-4lFBuryO.js.map",
+      "originalMode": 384,
+      "expandedBytes": 3577,
+      "expandedSha256": "af082e25ccae084209201f91347ab6596ecea45d4991b90f04b3f869f7e9a22d",
+      "compression": "none",
+      "canonicalBytes": 3577,
+      "canonicalSha256": "af082e25ccae084209201f91347ab6596ecea45d4991b90f04b3f869f7e9a22d"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/Geometry-CYPxRocb.js",
+      "canonical": "width2/private/compiled/Geometry-CYPxRocb.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 135017,
+      "expandedSha256": "833a670586c0f9aa9516658bafb70fbe80d371b6dbf8f884afbc7dffcffc7db8",
+      "compression": "none",
+      "canonicalBytes": 135017,
+      "canonicalSha256": "833a670586c0f9aa9516658bafb70fbe80d371b6dbf8f884afbc7dffcffc7db8"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/Geometry-CYPxRocb.js.map",
+      "canonical": "width2/private/compiled/Geometry-CYPxRocb.js.map",
+      "originalMode": 384,
+      "expandedBytes": 513925,
+      "expandedSha256": "876c7516550347c7d1cd8d0f90c4cb1fe141d68b95555e5d51180b6b5e472a58",
+      "compression": "none",
+      "canonicalBytes": 513925,
+      "canonicalSha256": "876c7516550347c7d1cd8d0f90c4cb1fe141d68b95555e5d51180b6b5e472a58"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/RenderTargetSystem-Bs_X-W5p.js",
+      "canonical": "width2/private/compiled/RenderTargetSystem-Bs_X-W5p.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 96078,
+      "expandedSha256": "9c45e9a5b1c07ea4f650986b7d51d9d7335f5f45e1ed4e86301adde257b4e845",
+      "compression": "none",
+      "canonicalBytes": 96078,
+      "canonicalSha256": "9c45e9a5b1c07ea4f650986b7d51d9d7335f5f45e1ed4e86301adde257b4e845"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "canonical": "width2/private/compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "originalMode": 384,
+      "expandedBytes": 283982,
+      "expandedSha256": "b47dbf2c63d76d48d08cfc297a51459029e91c2ed9b5012bcc17a9ccd2ea58b8",
+      "compression": "none",
+      "canonicalBytes": 283982,
+      "canonicalSha256": "b47dbf2c63d76d48d08cfc297a51459029e91c2ed9b5012bcc17a9ccd2ea58b8"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/browserAll-D5DBqH_a.js",
+      "canonical": "width2/private/compiled/browserAll-D5DBqH_a.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 50020,
+      "expandedSha256": "e91cd987a327554cca795168e1dbdbb27e6b9826b8089dd031811e6f5a14d370",
+      "compression": "none",
+      "canonicalBytes": 50020,
+      "canonicalSha256": "e91cd987a327554cca795168e1dbdbb27e6b9826b8089dd031811e6f5a14d370"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/browserAll-D5DBqH_a.js.map",
+      "canonical": "width2/private/compiled/browserAll-D5DBqH_a.js.map",
+      "originalMode": 384,
+      "expandedBytes": 158163,
+      "expandedSha256": "c2fbd1cf960f004b29617b980b76610b621e0cc08e88522402f5b8981e35ed85",
+      "compression": "none",
+      "canonicalBytes": 158163,
+      "canonicalSha256": "c2fbd1cf960f004b29617b980b76610b621e0cc08e88522402f5b8981e35ed85"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/canvasUtils-B52VJkLn.js",
+      "canonical": "width2/private/compiled/canvasUtils-B52VJkLn.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 7814,
+      "expandedSha256": "66d90c2c3daba06c01628737d57e3e61ee9e9337f6a3e5f010f07dee0e240988",
+      "compression": "none",
+      "canonicalBytes": 7814,
+      "canonicalSha256": "66d90c2c3daba06c01628737d57e3e61ee9e9337f6a3e5f010f07dee0e240988"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/canvasUtils-B52VJkLn.js.map",
+      "canonical": "width2/private/compiled/canvasUtils-B52VJkLn.js.map",
+      "originalMode": 384,
+      "expandedBytes": 22115,
+      "expandedSha256": "6ba8f801ee1a8b6490b58cba84c2c6aa877c4d6973ce8babb289e6ffd59d0d81",
+      "compression": "none",
+      "canonicalBytes": 22115,
+      "canonicalSha256": "6ba8f801ee1a8b6490b58cba84c2c6aa877c4d6973ce8babb289e6ffd59d0d81"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/getTextureBatchBindGroup-9HBchnv9.js",
+      "canonical": "width2/private/compiled/getTextureBatchBindGroup-9HBchnv9.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 608,
+      "expandedSha256": "fe328c00565ca1c7af21f45332411c7684e7a2b62401ec67e8bcc0f96f2d4260",
+      "compression": "none",
+      "canonicalBytes": 608,
+      "canonicalSha256": "fe328c00565ca1c7af21f45332411c7684e7a2b62401ec67e8bcc0f96f2d4260"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/getTextureBatchBindGroup-9HBchnv9.js.map",
+      "canonical": "width2/private/compiled/getTextureBatchBindGroup-9HBchnv9.js.map",
+      "originalMode": 384,
+      "expandedBytes": 1828,
+      "expandedSha256": "a4d631b2fc5912b68a265c656cfa3fc36ec742d514057e9ea88a8a0b82c2f1d1",
+      "compression": "none",
+      "canonicalBytes": 1828,
+      "canonicalSha256": "a4d631b2fc5912b68a265c656cfa3fc36ec742d514057e9ea88a8a0b82c2f1d1"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/init--pTYeZJt.js",
+      "canonical": "width2/private/compiled/init--pTYeZJt.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 19206,
+      "expandedSha256": "56e5ef5af8b86e6d1198a383fc146ca8201a6458d1f3dcbbda3ff03aea9f8b77",
+      "compression": "none",
+      "canonicalBytes": 19206,
+      "canonicalSha256": "56e5ef5af8b86e6d1198a383fc146ca8201a6458d1f3dcbbda3ff03aea9f8b77"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/init--pTYeZJt.js.map",
+      "canonical": "width2/private/compiled/init--pTYeZJt.js.map",
+      "originalMode": 384,
+      "expandedBytes": 55449,
+      "expandedSha256": "d00b3193032cf65166efbef2f6a6d8f18d6f8f672727eeb4863c1e2e3ec873a7",
+      "compression": "none",
+      "canonicalBytes": 55449,
+      "canonicalSha256": "d00b3193032cf65166efbef2f6a6d8f18d6f8f672727eeb4863c1e2e3ec873a7"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/init-Dz7_hNy6.js",
+      "canonical": "width2/private/compiled/init-Dz7_hNy6.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 31894,
+      "expandedSha256": "5f9bfeaed42dc8c00f1d29b0a35e9bff20d7cadcfd6ad886944fcfe98e718303",
+      "compression": "none",
+      "canonicalBytes": 31894,
+      "canonicalSha256": "5f9bfeaed42dc8c00f1d29b0a35e9bff20d7cadcfd6ad886944fcfe98e718303"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/init-Dz7_hNy6.js.map",
+      "canonical": "width2/private/compiled/init-Dz7_hNy6.js.map",
+      "originalMode": 384,
+      "expandedBytes": 106915,
+      "expandedSha256": "508087364169718fdf731ce6970bd2e70ab4aa43c58317d549c981e53e237bd6",
+      "compression": "none",
+      "canonicalBytes": 106915,
+      "canonicalSha256": "508087364169718fdf731ce6970bd2e70ab4aa43c58317d549c981e53e237bd6"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/kernel.js",
+      "canonical": "width2/private/compiled/kernel.js.txt.gz",
+      "originalMode": 384,
+      "expandedBytes": 602742,
+      "expandedSha256": "6422a541cace2003317dbee2f7f92c11ca0d33b9b57a418d4a20d6d6409619fe",
+      "compression": "gzip",
+      "canonicalBytes": 161077,
+      "canonicalSha256": "deec6a5bce1579331187eea4dc0caa7816716b081e2648c7fcef5ebbc39f597a"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/kernel.js.map",
+      "canonical": "width2/private/compiled/kernel.js.map.gz",
+      "originalMode": 384,
+      "expandedBytes": 2306855,
+      "expandedSha256": "0e5eb77f02654babc69cf8a9dcb5adb217d2bd256a78b4320b259f86a5ebb82d",
+      "compression": "gzip",
+      "canonicalBytes": 579489,
+      "canonicalSha256": "9b2844c4f7d218a0a61f4ead851c151ae3bc500dc66cbdabf6522d40576492f8"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/compiled/webworkerAll-DXoAr3HC.js",
+      "canonical": "width2/private/compiled/webworkerAll-DXoAr3HC.js.txt",
+      "originalMode": 384,
+      "expandedBytes": 58,
+      "expandedSha256": "8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8",
+      "compression": "none",
+      "canonicalBytes": 58,
+      "canonicalSha256": "8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/current-build-qualification.json",
+      "canonical": "width2/private/current-build-qualification.json",
+      "originalMode": 384,
+      "expandedBytes": 114295,
+      "expandedSha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2",
+      "compression": "none",
+      "canonicalBytes": 114295,
+      "canonicalSha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/executed-build-owner.mjs.txt",
+      "canonical": "width2/private/executed-build-owner.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 7468,
+      "expandedSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+      "compression": "none",
+      "canonicalBytes": 7468,
+      "canonicalSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/kernel-build-after.json",
+      "canonical": "width2/private/kernel-build-after.json.gz",
+      "originalMode": 384,
+      "expandedBytes": 4354141,
+      "expandedSha256": "384c839ad0fbe875eaa03aac9f0263922dfb8561f0e591d840298f940b7f2d65",
+      "compression": "gzip",
+      "canonicalBytes": 975810,
+      "canonicalSha256": "97dfb395b1aec3c7b3d95b2c9c95f885ffd2a36969637be9974b8752ee06c99f"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/kernel-build-before.json",
+      "canonical": "width2/private/kernel-build-before.json.gz",
+      "originalMode": 384,
+      "expandedBytes": 4354141,
+      "expandedSha256": "384c839ad0fbe875eaa03aac9f0263922dfb8561f0e591d840298f940b7f2d65",
+      "compression": "gzip",
+      "canonicalBytes": 975810,
+      "canonicalSha256": "97dfb395b1aec3c7b3d95b2c9c95f885ffd2a36969637be9974b8752ee06c99f"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/kernel-build-result.json",
+      "canonical": "width2/private/kernel-build-result.json",
+      "originalMode": 384,
+      "expandedBytes": 532,
+      "expandedSha256": "563ddca8f4b87df0b31b868022f289e67c45a8f4cd0ff966439c5ee62417a4d7",
+      "compression": "none",
+      "canonicalBytes": 532,
+      "canonicalSha256": "563ddca8f4b87df0b31b868022f289e67c45a8f4cd0ff966439c5ee62417a4d7"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/kernel-program-attribution-hook.mjs",
+      "canonical": "width2/private/kernel-program-attribution-hook.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 13574,
+      "expandedSha256": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+      "compression": "none",
+      "canonicalBytes": 13574,
+      "canonicalSha256": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/qualified-browser-receipt.json",
+      "canonical": "width2/private/qualified-browser-receipt.json",
+      "originalMode": 384,
+      "expandedBytes": 104714,
+      "expandedSha256": "9a0d1d12414b0c251db98ef5bca3fd996b2a5c327600f2abfcef847be5a37e1f",
+      "compression": "none",
+      "canonicalBytes": 104714,
+      "canonicalSha256": "9a0d1d12414b0c251db98ef5bca3fd996b2a5c327600f2abfcef847be5a37e1f"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/run-render-kernel-width2.mjs",
+      "canonical": "width2/private/run-render-kernel-width2.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 46051,
+      "expandedSha256": "086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c",
+      "compression": "none",
+      "canonicalBytes": 46051,
+      "canonicalSha256": "086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/setup-receipt.json",
+      "canonical": "width2/private/setup-receipt.json",
+      "originalMode": 384,
+      "expandedBytes": 111627,
+      "expandedSha256": "8e130fbf80ac7d752f5d0c5bbfa8db553bde743d9cb515ac1d29b1b579791e6f",
+      "compression": "none",
+      "canonicalBytes": 111627,
+      "canonicalSha256": "8e130fbf80ac7d752f5d0c5bbfa8db553bde743d9cb515ac1d29b1b579791e6f"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/vite-build.process.json",
+      "canonical": "width2/private/vite-build.process.json",
+      "originalMode": 384,
+      "expandedBytes": 493,
+      "expandedSha256": "ecdd284584759d837e7e2e871ac30cf0c414fefa5087f15b2f12e30498f17e9d",
+      "compression": "none",
+      "canonicalBytes": 493,
+      "canonicalSha256": "ecdd284584759d837e7e2e871ac30cf0c414fefa5087f15b2f12e30498f17e9d"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/vite-build.stderr.txt",
+      "canonical": "width2/private/vite-build.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/vite-build.stdout.txt",
+      "canonical": "width2/private/vite-build.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 1685,
+      "expandedSha256": "bdead4db0a39ec521acfedbf69aae2e45dbc2af79dd4c7a11a58191f9b62d862",
+      "compression": "none",
+      "canonicalBytes": 1685,
+      "canonicalSha256": "bdead4db0a39ec521acfedbf69aae2e45dbc2af79dd4c7a11a58191f9b62d862"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/width2-preparation.json",
+      "canonical": "width2/private/width2-preparation.json.gz",
+      "originalMode": 384,
+      "expandedBytes": 805848,
+      "expandedSha256": "3b7724e6d7651a7693ffb5126d5fb6e0ef2a5879005567fa7c73da671bfccf76",
+      "compression": "gzip",
+      "canonicalBytes": 230900,
+      "canonicalSha256": "eee03091eba23b67af284cff0c1ed8422d891ef3245e8401d80cdff72753ad7b"
+    },
+    {
+      "original": "/tmp/starship-render-kernel.2co6w1rl/width2-qualification-outcome.json",
+      "canonical": "width2/private/width2-qualification-outcome.json",
+      "originalMode": 384,
+      "expandedBytes": 94604,
+      "expandedSha256": "815d67aa5a3c71b7eec42a5917653d2defa3e4cd700a0c9039bace61a8f426e6",
+      "compression": "none",
+      "canonicalBytes": 94604,
+      "canonicalSha256": "815d67aa5a3c71b7eec42a5917653d2defa3e4cd700a0c9039bace61a8f426e6"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/frozen-owner-input.json",
+      "canonical": "width2/prepare-parent/frozen-owner-input.json",
+      "originalMode": 384,
+      "expandedBytes": 3014,
+      "expandedSha256": "fee57b70ecbcfe1543e4d3d9f31bed28a776d0faf0e546612dac3ba5c1e55652",
+      "compression": "none",
+      "canonicalBytes": 3014,
+      "canonicalSha256": "fee57b70ecbcfe1543e4d3d9f31bed28a776d0faf0e546612dac3ba5c1e55652"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/invocation.json",
+      "canonical": "width2/prepare-parent/invocation.json",
+      "originalMode": 384,
+      "expandedBytes": 446,
+      "expandedSha256": "eb52260faebf5a36e6c7c81d66fc982306fa12e16f8ab5474388bcf0fe4cd04f",
+      "compression": "none",
+      "canonicalBytes": 446,
+      "canonicalSha256": "eb52260faebf5a36e6c7c81d66fc982306fa12e16f8ab5474388bcf0fe4cd04f"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/observer-os-exit.json",
+      "canonical": "width2/prepare-parent/observer-os-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 289,
+      "expandedSha256": "42df12a441fc236230533953141cbe931daf5420fa9f00f14d8f26f3a29796df",
+      "compression": "none",
+      "canonicalBytes": 289,
+      "canonicalSha256": "42df12a441fc236230533953141cbe931daf5420fa9f00f14d8f26f3a29796df"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/stderr.txt",
+      "canonical": "width2/prepare-parent/stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/stdout.txt",
+      "canonical": "width2/prepare-parent/stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 54,
+      "expandedSha256": "a6989531c5f0e69d957b0caa004b2516ecf74032a27bdc5ddef856cdf48a5386",
+      "compression": "none",
+      "canonicalBytes": 54,
+      "canonicalSha256": "a6989531c5f0e69d957b0caa004b2516ecf74032a27bdc5ddef856cdf48a5386"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/invocation.json",
+      "canonical": "width2/build-parent/invocation.json",
+      "originalMode": 384,
+      "expandedBytes": 443,
+      "expandedSha256": "e8f3b3bdf4d76b6eb6c2f3d6ae9aecd790f34419b072b17128a18289dd404a84",
+      "compression": "none",
+      "canonicalBytes": 443,
+      "canonicalSha256": "e8f3b3bdf4d76b6eb6c2f3d6ae9aecd790f34419b072b17128a18289dd404a84"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/observer-os-exit.json",
+      "canonical": "width2/build-parent/observer-os-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 101,
+      "expandedSha256": "915a2fb7cb5886d8720b4db07856d5c7a5877ef47c8fbaf346415dbc389ba204",
+      "compression": "none",
+      "canonicalBytes": 101,
+      "canonicalSha256": "915a2fb7cb5886d8720b4db07856d5c7a5877ef47c8fbaf346415dbc389ba204"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/owner-input.json",
+      "canonical": "width2/build-parent/owner-input.json",
+      "originalMode": 384,
+      "expandedBytes": 3064,
+      "expandedSha256": "d3d207a14cf140dc964b5138607f32e0c1216fa141e74be8a781ac2fce0cafb0",
+      "compression": "none",
+      "canonicalBytes": 3064,
+      "canonicalSha256": "d3d207a14cf140dc964b5138607f32e0c1216fa141e74be8a781ac2fce0cafb0"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/stderr.txt",
+      "canonical": "width2/build-parent/stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/stdout.txt",
+      "canonical": "width2/build-parent/stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 54,
+      "expandedSha256": "a83d8ebd97426245f31b0a58d7bbedc2fcf10026f4400f6f10afe120da4d0957",
+      "compression": "none",
+      "canonicalBytes": 54,
+      "canonicalSha256": "a83d8ebd97426245f31b0a58d7bbedc2fcf10026f4400f6f10afe120da4d0957"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualification-parent/invocation.json",
+      "canonical": "width2/qualification-parent/invocation.json",
+      "originalMode": 384,
+      "expandedBytes": 441,
+      "expandedSha256": "573d72cfdc75661df6f4131fd53aec5d0a546a2aa952ee587c3d9aaf567bf7b1",
+      "compression": "none",
+      "canonicalBytes": 441,
+      "canonicalSha256": "573d72cfdc75661df6f4131fd53aec5d0a546a2aa952ee587c3d9aaf567bf7b1"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualification-parent/observer-os-exit.json",
+      "canonical": "width2/qualification-parent/observer-os-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 101,
+      "expandedSha256": "2db7da925c1eba656f6652e49e7c065bce78113e01446252aa96a6e0df7afc0f",
+      "compression": "none",
+      "canonicalBytes": 101,
+      "canonicalSha256": "2db7da925c1eba656f6652e49e7c065bce78113e01446252aa96a6e0df7afc0f"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualification-parent/owner-input.json",
+      "canonical": "width2/qualification-parent/owner-input.json",
+      "originalMode": 384,
+      "expandedBytes": 3065,
+      "expandedSha256": "b0257076154257cd7bfc50d5d7603ecec1ef6aa371799ae04a70c673ad74a429",
+      "compression": "none",
+      "canonicalBytes": 3065,
+      "canonicalSha256": "b0257076154257cd7bfc50d5d7603ecec1ef6aa371799ae04a70c673ad74a429"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualification-parent/stderr.txt",
+      "canonical": "width2/qualification-parent/stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualification-parent/stdout.txt",
+      "canonical": "width2/qualification-parent/stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 54,
+      "expandedSha256": "61bf8d5bbc50c5fa4658d2a4d513e3518a5091dc9f98cf570adb6e1255e72d8c",
+      "compression": "none",
+      "canonicalBytes": 54,
+      "canonicalSha256": "61bf8d5bbc50c5fa4658d2a4d513e3518a5091dc9f98cf570adb6e1255e72d8c"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-root.d6eh25bk/actual-outer-exit-final.json",
+      "canonical": "offline-pending/root/actual-outer-exit-final.json",
+      "originalMode": 384,
+      "expandedBytes": 61,
+      "expandedSha256": "c05f689d72a6a265dc66f35697669c77813c2cb9d56b4c1772a2d544ec0fb8e5",
+      "compression": "none",
+      "canonicalBytes": 61,
+      "canonicalSha256": "c05f689d72a6a265dc66f35697669c77813c2cb9d56b4c1772a2d544ec0fb8e5"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-root.d6eh25bk/actual-outer-exit.json",
+      "canonical": "offline-pending/root/actual-outer-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 61,
+      "expandedSha256": "743f46b3f8c8c59112e936e97e4dff6f16be96c8b628b2e73940f7e3d28ca156",
+      "compression": "none",
+      "canonicalBytes": 61,
+      "canonicalSha256": "743f46b3f8c8c59112e936e97e4dff6f16be96c8b628b2e73940f7e3d28ca156"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-root.d6eh25bk/identities.jsonl",
+      "canonical": "offline-pending/root/identities.jsonl",
+      "originalMode": 384,
+      "expandedBytes": 296,
+      "expandedSha256": "c7c7df4adc8629ee0268cadd98793725c47f6a8be3f008f40271778e48b29ab1",
+      "compression": "none",
+      "canonicalBytes": 296,
+      "canonicalSha256": "c7c7df4adc8629ee0268cadd98793725c47f6a8be3f008f40271778e48b29ab1"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-root.d6eh25bk/outer-registration.json",
+      "canonical": "offline-pending/root/outer-registration.json",
+      "originalMode": 384,
+      "expandedBytes": 114,
+      "expandedSha256": "18391766df8f459c31ab76346492eb210927c66a24517ab83506203c29c27659",
+      "compression": "none",
+      "canonicalBytes": 114,
+      "canonicalSha256": "18391766df8f459c31ab76346492eb210927c66a24517ab83506203c29c27659"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-root.d6eh25bk/outer.stderr.txt",
+      "canonical": "offline-pending/root/outer.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-root.d6eh25bk/outer.stdout.txt",
+      "canonical": "offline-pending/root/outer.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 59,
+      "expandedSha256": "617fa58a1efda311bbee2a5237e91cac9c5d06fbf66d7eb1ef757a25740fcf2b",
+      "compression": "none",
+      "canonicalBytes": 59,
+      "canonicalSha256": "617fa58a1efda311bbee2a5237e91cac9c5d06fbf66d7eb1ef757a25740fcf2b"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-root.d6eh25bk/root-outcome.json",
+      "canonical": "offline-pending/root/root-outcome.json",
+      "originalMode": 384,
+      "expandedBytes": 991,
+      "expandedSha256": "af2308a19683adcd88a09d50ff759cfff3a823228d1b7c4e7eed0a0ebaadd22e",
+      "compression": "none",
+      "canonicalBytes": 991,
+      "canonicalSha256": "af2308a19683adcd88a09d50ff759cfff3a823228d1b7c4e7eed0a0ebaadd22e"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-child-exit.json",
+      "canonical": "offline-pending/receipt/actual-child-exit.json",
+      "originalMode": 384,
+      "expandedBytes": 155,
+      "expandedSha256": "606a8c44b19bb7fdb33d3c8ba584236b08b5719986a1fabdcc33eecd14711a84",
+      "compression": "none",
+      "canonicalBytes": 155,
+      "canonicalSha256": "606a8c44b19bb7fdb33d3c8ba584236b08b5719986a1fabdcc33eecd14711a84"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-map.json",
+      "canonical": "offline-pending/receipt/actual-map.json.gz",
+      "originalMode": 384,
+      "expandedBytes": 711848,
+      "expandedSha256": "3b45e9b011a8ce2b7bceecffc9d319fda52a0b3695d6b3ed22476800c1c1af91",
+      "compression": "gzip",
+      "canonicalBytes": 200362,
+      "canonicalSha256": "47f893c6374ba649c91066198c581cd9679f2eac088cc3bbd0b8d086641da636"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-output-inventory.json",
+      "canonical": "offline-pending/receipt/actual-output-inventory.json",
+      "originalMode": 384,
+      "expandedBytes": 1445,
+      "expandedSha256": "32d5e668ccc0dfa0961279efa61b0da7ead9be417f777ca9080c2a76a0ae6e56",
+      "compression": "none",
+      "canonicalBytes": 1445,
+      "canonicalSha256": "32d5e668ccc0dfa0961279efa61b0da7ead9be417f777ca9080c2a76a0ae6e56"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-source-after.json",
+      "canonical": "offline-pending/receipt/actual-source-after.json",
+      "originalMode": 384,
+      "expandedBytes": 77577,
+      "expandedSha256": "9b7df81f77f8aa56f743cc77be4655d73cc684c30dcbcbeadeb2a91a1aa50d57",
+      "compression": "none",
+      "canonicalBytes": 77577,
+      "canonicalSha256": "9b7df81f77f8aa56f743cc77be4655d73cc684c30dcbcbeadeb2a91a1aa50d57"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-source-before.json",
+      "canonical": "offline-pending/receipt/actual-source-before.json",
+      "originalMode": 384,
+      "expandedBytes": 77577,
+      "expandedSha256": "9b7df81f77f8aa56f743cc77be4655d73cc684c30dcbcbeadeb2a91a1aa50d57",
+      "compression": "none",
+      "canonicalBytes": 77577,
+      "canonicalSha256": "9b7df81f77f8aa56f743cc77be4655d73cc684c30dcbcbeadeb2a91a1aa50d57"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-tools-after.json",
+      "canonical": "offline-pending/receipt/actual-tools-after.json.gz",
+      "originalMode": 384,
+      "expandedBytes": 2580377,
+      "expandedSha256": "f30a71947b0b20813d9e66432fa8e3e50a82eb0367ba42544c86edf82e8902ab",
+      "compression": "gzip",
+      "canonicalBytes": 921505,
+      "canonicalSha256": "e524b680376703314e9e5f027e54c2e4b3d1446d32c1b5c80cc7b2db7b1e75e4"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/actual-tools-before.json",
+      "canonical": "offline-pending/receipt/actual-tools-before.json.gz",
+      "originalMode": 384,
+      "expandedBytes": 2580377,
+      "expandedSha256": "f30a71947b0b20813d9e66432fa8e3e50a82eb0367ba42544c86edf82e8902ab",
+      "compression": "gzip",
+      "canonicalBytes": 921505,
+      "canonicalSha256": "e524b680376703314e9e5f027e54c2e4b3d1446d32c1b5c80cc7b2db7b1e75e4"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/offline-qualification.process.json",
+      "canonical": "offline-pending/receipt/offline-qualification.process.json",
+      "originalMode": 384,
+      "expandedBytes": 490,
+      "expandedSha256": "60e46d71c1ca46e508040469e33ffce3a0478143b647cca1086c103d95eb9813",
+      "compression": "none",
+      "canonicalBytes": 490,
+      "canonicalSha256": "60e46d71c1ca46e508040469e33ffce3a0478143b647cca1086c103d95eb9813"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/offline-qualification.stderr.txt",
+      "canonical": "offline-pending/receipt/offline-qualification.stderr.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/offline-qualification.stdout.txt",
+      "canonical": "offline-pending/receipt/offline-qualification.stdout.txt",
+      "originalMode": 384,
+      "expandedBytes": 0,
+      "expandedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compression": "none",
+      "canonicalBytes": 0,
+      "canonicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/owner-result.json",
+      "canonical": "offline-pending/receipt/owner-result.json",
+      "originalMode": 384,
+      "expandedBytes": 259,
+      "expandedSha256": "6446293a7041eef2498cc3cdd46b1c59cb66f66b00f2f4d62c249836beda88ad",
+      "compression": "none",
+      "canonicalBytes": 259,
+      "canonicalSha256": "6446293a7041eef2498cc3cdd46b1c59cb66f66b00f2f4d62c249836beda88ad"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/pure-controls.json",
+      "canonical": "offline-pending/receipt/pure-controls.json",
+      "originalMode": 384,
+      "expandedBytes": 1429,
+      "expandedSha256": "fb118227bfbcde92e5e8f9bbf2c73ac8ac47b2ff1c11a14500ceff7b032e19db",
+      "compression": "none",
+      "canonicalBytes": 1429,
+      "canonicalSha256": "fb118227bfbcde92e5e8f9bbf2c73ac8ac47b2ff1c11a14500ceff7b032e19db"
+    },
+    {
+      "original": "/tmp/starship-mixed-map-qualification.FzWtEZ/qualification-result.json",
+      "canonical": "offline-pending/receipt/qualification-result.json",
+      "originalMode": 384,
+      "expandedBytes": 7731,
+      "expandedSha256": "6b3759933ce030bc18d31642527f47b5334a1c2e102709e1666f78ee5e119af2",
+      "compression": "none",
+      "canonicalBytes": 7731,
+      "canonicalSha256": "6b3759933ce030bc18d31642527f47b5334a1c2e102709e1666f78ee5e119af2"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/actual-result-independent-pins.json",
+      "canonical": "paired/source/actual-result-independent-pins.json",
+      "originalMode": 384,
+      "expandedBytes": 9490,
+      "expandedSha256": "77edce5dfd5c4289ea6b3ab3c47f1d258e66ce6a89970839433a65a4d90cf50a",
+      "compression": "none",
+      "canonicalBytes": 9490,
+      "canonicalSha256": "77edce5dfd5c4289ea6b3ab3c47f1d258e66ce6a89970839433a65a4d90cf50a"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/actual-result-independent-review.md",
+      "canonical": "paired/source/actual-result-independent-review.md",
+      "originalMode": 384,
+      "expandedBytes": 3934,
+      "expandedSha256": "05087fffd303f34ce8f67359cc983d5b4482a5e0623b6b4614672aab4555ee4f",
+      "compression": "none",
+      "canonicalBytes": 3934,
+      "canonicalSha256": "05087fffd303f34ce8f67359cc983d5b4482a5e0623b6b4614672aab4555ee4f"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/declaration.md",
+      "canonical": "paired/source/declaration.md",
+      "originalMode": 384,
+      "expandedBytes": 4646,
+      "expandedSha256": "e257ec89af670464007c7477eea2cfe05a2292666b787058b5f98ca55c87ca9b",
+      "compression": "none",
+      "canonicalBytes": 4646,
+      "canonicalSha256": "e257ec89af670464007c7477eea2cfe05a2292666b787058b5f98ca55c87ca9b"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/early-popen-fallback.diff",
+      "canonical": "paired/source/early-popen-fallback.diff",
+      "originalMode": 384,
+      "expandedBytes": 1651,
+      "expandedSha256": "2ec4cbc1d823761b39fa5b337d0881bdc72d6c781f568657508db9c28b958309",
+      "compression": "none",
+      "canonicalBytes": 1651,
+      "canonicalSha256": "2ec4cbc1d823761b39fa5b337d0881bdc72d6c781f568657508db9c28b958309"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/entry.ts.txt",
+      "canonical": "paired/source/entry.ts.txt",
+      "originalMode": 384,
+      "expandedBytes": 587,
+      "expandedSha256": "3248a9f1674e0eb1aac6379b3b25db28e2113e37150286061c59ba9b5b1425cb",
+      "compression": "none",
+      "canonicalBytes": 587,
+      "canonicalSha256": "3248a9f1674e0eb1aac6379b3b25db28e2113e37150286061c59ba9b5b1425cb"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/full-flight.ts.txt",
+      "canonical": "paired/source/full-flight.ts.txt",
+      "originalMode": 384,
+      "expandedBytes": 6751,
+      "expandedSha256": "dd4faa519229705e7530a9a04575dea861020653c9b07ecee38964332e7abc14",
+      "compression": "none",
+      "canonicalBytes": 6751,
+      "canonicalSha256": "dd4faa519229705e7530a9a04575dea861020653c9b07ecee38964332e7abc14"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/graph-oracle.ts.txt",
+      "canonical": "paired/source/graph-oracle.ts.txt",
+      "originalMode": 384,
+      "expandedBytes": 5294,
+      "expandedSha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c",
+      "compression": "none",
+      "canonicalBytes": 5294,
+      "canonicalSha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-ownership-hold-review-pins.json",
+      "canonical": "paired/source/independent-ownership-hold-review-pins.json",
+      "originalMode": 384,
+      "expandedBytes": 27668,
+      "expandedSha256": "56209fdeef735fc76e602683c1ae634dd3af86ff2f75a00924440d478365b3ae",
+      "compression": "none",
+      "canonicalBytes": 27668,
+      "canonicalSha256": "56209fdeef735fc76e602683c1ae634dd3af86ff2f75a00924440d478365b3ae"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-ownership-hold-review.md",
+      "canonical": "paired/source/independent-ownership-hold-review.md",
+      "originalMode": 384,
+      "expandedBytes": 3695,
+      "expandedSha256": "9c00972fdf2369c1e7b17450b0d598716d0fc911ed1a407180a915ba189a685c",
+      "compression": "none",
+      "canonicalBytes": 3695,
+      "canonicalSha256": "9c00972fdf2369c1e7b17450b0d598716d0fc911ed1a407180a915ba189a685c"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-ownership-repair-followup-hold-pins.json",
+      "canonical": "paired/source/independent-ownership-repair-followup-hold-pins.json",
+      "originalMode": 384,
+      "expandedBytes": 28830,
+      "expandedSha256": "4822f8a80a87390a8e6873744cfebebff15cf382e596bde6a2ab5e1cb3464ea0",
+      "compression": "none",
+      "canonicalBytes": 28830,
+      "canonicalSha256": "4822f8a80a87390a8e6873744cfebebff15cf382e596bde6a2ab5e1cb3464ea0"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-ownership-repair-followup-hold.md",
+      "canonical": "paired/source/independent-ownership-repair-followup-hold.md",
+      "originalMode": 384,
+      "expandedBytes": 1830,
+      "expandedSha256": "239768a0f3a866d512a244a72f6267e953ee7577a011533ae47a1987a57e565f",
+      "compression": "none",
+      "canonicalBytes": 1830,
+      "canonicalSha256": "239768a0f3a866d512a244a72f6267e953ee7577a011533ae47a1987a57e565f"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-review-pins.json",
+      "canonical": "paired/source/independent-review-pins.json",
+      "originalMode": 384,
+      "expandedBytes": 31762,
+      "expandedSha256": "2882c5d9e931fffdacd39ff4e38e111874178b2b5a52da9d4b76f11e86ca9058",
+      "compression": "none",
+      "canonicalBytes": 31762,
+      "canonicalSha256": "2882c5d9e931fffdacd39ff4e38e111874178b2b5a52da9d4b76f11e86ca9058"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-review.md",
+      "canonical": "paired/source/independent-review.md",
+      "originalMode": 384,
+      "expandedBytes": 5971,
+      "expandedSha256": "fa80fb7812d4e2b01f56965257e2d5dbf106cb2fd0ffc7d8d8a3d1f07e0b6f48",
+      "compression": "none",
+      "canonicalBytes": 5971,
+      "canonicalSha256": "fa80fb7812d4e2b01f56965257e2d5dbf106cb2fd0ffc7d8d8a3d1f07e0b6f48"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/input-pins.json",
+      "canonical": "paired/source/input-pins.json",
+      "originalMode": 384,
+      "expandedBytes": 30475,
+      "expandedSha256": "0a24b76f6907b5326d8ad3a1aeaeb3d69fa0cfa68f12bda203ca9944ec777d45",
+      "compression": "none",
+      "canonicalBytes": 30475,
+      "canonicalSha256": "0a24b76f6907b5326d8ad3a1aeaeb3d69fa0cfa68f12bda203ca9944ec777d45"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/label-audit.mjs.txt",
+      "canonical": "paired/source/label-audit.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 2449,
+      "expandedSha256": "93f11a797a93a0a6c00b51d375bc5186d816270b4036b523707b0ca029c3069c",
+      "compression": "none",
+      "canonicalBytes": 2449,
+      "canonicalSha256": "93f11a797a93a0a6c00b51d375bc5186d816270b4036b523707b0ca029c3069c"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/launcher.diff",
+      "canonical": "paired/source/launcher.diff",
+      "originalMode": 384,
+      "expandedBytes": 10319,
+      "expandedSha256": "81df70503bed45a62a3fda5fea34f0baaa5ff25eb30561c26d675fc5ff55487f",
+      "compression": "none",
+      "canonicalBytes": 10319,
+      "canonicalSha256": "81df70503bed45a62a3fda5fea34f0baaa5ff25eb30561c26d675fc5ff55487f"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/launcher.mjs.txt",
+      "canonical": "paired/source/launcher.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 25473,
+      "expandedSha256": "a97f418210a4e0a050713ddf410ac05cfe829c4fed666d280c944ad4aada1ba3",
+      "compression": "none",
+      "canonicalBytes": 25473,
+      "canonicalSha256": "a97f418210a4e0a050713ddf410ac05cfe829c4fed666d280c944ad4aada1ba3"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/neutral-launcher-lint-fix.diff",
+      "canonical": "paired/source/neutral-launcher-lint-fix.diff",
+      "originalMode": 384,
+      "expandedBytes": 1226,
+      "expandedSha256": "916e495bbad33b1a76421a385bbf43baa25af4bad687bc1f8d906368b1327c73",
+      "compression": "none",
+      "canonicalBytes": 1226,
+      "canonicalSha256": "916e495bbad33b1a76421a385bbf43baa25af4bad687bc1f8d906368b1327c73"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/neutral-launcher-lint-fix.md",
+      "canonical": "paired/source/neutral-launcher-lint-fix.md",
+      "originalMode": 384,
+      "expandedBytes": 682,
+      "expandedSha256": "9eadec9fde42a41e01c643bd7370ad954ce4d9032c5bfab0bf35e3e0923d05e0",
+      "compression": "none",
+      "canonicalBytes": 682,
+      "canonicalSha256": "9eadec9fde42a41e01c643bd7370ad954ce4d9032c5bfab0bf35e3e0923d05e0"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/neutral-launcher-lint-independent-review-pins.json",
+      "canonical": "paired/source/neutral-launcher-lint-independent-review-pins.json",
+      "originalMode": 384,
+      "expandedBytes": 31762,
+      "expandedSha256": "2882c5d9e931fffdacd39ff4e38e111874178b2b5a52da9d4b76f11e86ca9058",
+      "compression": "none",
+      "canonicalBytes": 31762,
+      "canonicalSha256": "2882c5d9e931fffdacd39ff4e38e111874178b2b5a52da9d4b76f11e86ca9058"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/neutral-launcher-lint-independent-review.md",
+      "canonical": "paired/source/neutral-launcher-lint-independent-review.md",
+      "originalMode": 384,
+      "expandedBytes": 1177,
+      "expandedSha256": "6bbb27c7d2fb748dc18d62f541018a2d702be8ae2be5d2e298baf42acc972659",
+      "compression": "none",
+      "canonicalBytes": 1177,
+      "canonicalSha256": "6bbb27c7d2fb748dc18d62f541018a2d702be8ae2be5d2e298baf42acc972659"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-command.mjs.txt",
+      "canonical": "paired/source/owned-command.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 7424,
+      "expandedSha256": "2fd4c0c87ed9b5f34cdd147ff226f1a15246a573b01613c35d2ea544e60cdf30",
+      "compression": "none",
+      "canonicalBytes": 7424,
+      "canonicalSha256": "2fd4c0c87ed9b5f34cdd147ff226f1a15246a573b01613c35d2ea544e60cdf30"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/ownership-repair.diff",
+      "canonical": "paired/source/ownership-repair.diff",
+      "originalMode": 384,
+      "expandedBytes": 11385,
+      "expandedSha256": "6f133077dc46f0771b879542ba71e99ef7a20ff2713093deedb1a063ff6ba399",
+      "compression": "none",
+      "canonicalBytes": 11385,
+      "canonicalSha256": "6f133077dc46f0771b879542ba71e99ef7a20ff2713093deedb1a063ff6ba399"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/root-parent.py.txt",
+      "canonical": "paired/source/root-parent.py.txt",
+      "originalMode": 384,
+      "expandedBytes": 14440,
+      "expandedSha256": "49a9a2941a079d31e564ed23d3c8a6a62c6a07307cda8f29a9f0fbc80e44e9e3",
+      "compression": "none",
+      "canonicalBytes": 14440,
+      "canonicalSha256": "49a9a2941a079d31e564ed23d3c8a6a62c6a07307cda8f29a9f0fbc80e44e9e3"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/run.sh.txt",
+      "canonical": "paired/source/run.sh.txt",
+      "originalMode": 384,
+      "expandedBytes": 1979,
+      "expandedSha256": "77a46f162f5bb5e6093cb1d68aa42ba86b0d64cf51ff288038c2c52ad2da8973",
+      "compression": "none",
+      "canonicalBytes": 1979,
+      "canonicalSha256": "77a46f162f5bb5e6093cb1d68aa42ba86b0d64cf51ff288038c2c52ad2da8973"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-width2.mjs.txt",
+      "canonical": "width2/source/build-width2.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 7468,
+      "expandedSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+      "compression": "none",
+      "canonicalBytes": 7468,
+      "canonicalSha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/compile-input-pins.json",
+      "canonical": "width2/source/compile-input-pins.json",
+      "originalMode": 384,
+      "expandedBytes": 3849,
+      "expandedSha256": "66b5ec87f1c4b25411a4bbc0643beea31706b44a969635e0930e01ce7b23119e",
+      "compression": "none",
+      "canonicalBytes": 3849,
+      "canonicalSha256": "66b5ec87f1c4b25411a4bbc0643beea31706b44a969635e0930e01ce7b23119e"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/declaration.md",
+      "canonical": "width2/source/declaration.md",
+      "originalMode": 384,
+      "expandedBytes": 5578,
+      "expandedSha256": "49a353cf18b22940dade6c99af91ac15916eab84928e6e91412cb540df9d7358",
+      "compression": "none",
+      "canonicalBytes": 5578,
+      "canonicalSha256": "49a353cf18b22940dade6c99af91ac15916eab84928e6e91412cb540df9d7358"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/declaration.md.high-boundary.diff.txt",
+      "canonical": "width2/source/declaration.md.high-boundary.diff.txt",
+      "originalMode": 384,
+      "expandedBytes": 3097,
+      "expandedSha256": "a080d7ef5ec41a2fbeb38483165e081b87e0b12e3efbec8667bda1c24c585714",
+      "compression": "none",
+      "canonicalBytes": 3097,
+      "canonicalSha256": "a080d7ef5ec41a2fbeb38483165e081b87e0b12e3efbec8667bda1c24c585714"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2-stage-input.py.txt",
+      "canonical": "width2/source/prepare-width2-stage-input.py.txt",
+      "originalMode": 384,
+      "expandedBytes": 2640,
+      "expandedSha256": "4ff2b9ac83f1e4702f9c96defdb6e9666fa9ae7fa40e43614bc8e2a8ad8bf4b2",
+      "compression": "none",
+      "canonicalBytes": 2640,
+      "canonicalSha256": "4ff2b9ac83f1e4702f9c96defdb6e9666fa9ae7fa40e43614bc8e2a8ad8bf4b2"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2-stage-input.py.txt.style.diff.txt",
+      "canonical": "width2/source/prepare-width2-stage-input.py.txt.style.diff.txt",
+      "originalMode": 384,
+      "expandedBytes": 886,
+      "expandedSha256": "62a3a7023b4c97e2fee63fe8ea22731016ca4b0875ae83fed30c3b1bb834eb92",
+      "compression": "none",
+      "canonicalBytes": 886,
+      "canonicalSha256": "62a3a7023b4c97e2fee63fe8ea22731016ca4b0875ae83fed30c3b1bb834eb92"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2.py.txt",
+      "canonical": "width2/source/prepare-width2.py.txt",
+      "originalMode": 384,
+      "expandedBytes": 15501,
+      "expandedSha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f",
+      "compression": "none",
+      "canonicalBytes": 15501,
+      "canonicalSha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2.py.txt.high-boundary.diff.txt",
+      "canonical": "width2/source/prepare-width2.py.txt.high-boundary.diff.txt",
+      "originalMode": 384,
+      "expandedBytes": 2130,
+      "expandedSha256": "974f2d35a07ebe2639bf9a9955f2a1ed8aed73bc74c6b78bf2e9d4a0f6e5b199",
+      "compression": "none",
+      "canonicalBytes": 2130,
+      "canonicalSha256": "974f2d35a07ebe2639bf9a9955f2a1ed8aed73bc74c6b78bf2e9d4a0f6e5b199"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt",
+      "canonical": "width2/source/qualify-width2.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 12453,
+      "expandedSha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+      "compression": "none",
+      "canonicalBytes": 12453,
+      "canonicalSha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt.high-boundary.diff.txt",
+      "canonical": "width2/source/qualify-width2.mjs.txt.high-boundary.diff.txt",
+      "originalMode": 384,
+      "expandedBytes": 7950,
+      "expandedSha256": "8f57566f4f076519ec59935b80450922c52db19f8c7fa4bd458a2d03abb84eb3",
+      "compression": "none",
+      "canonicalBytes": 7950,
+      "canonicalSha256": "8f57566f4f076519ec59935b80450922c52db19f8c7fa4bd458a2d03abb84eb3"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/root-stage-declaration.md",
+      "canonical": "width2/source/root-stage-declaration.md",
+      "originalMode": 384,
+      "expandedBytes": 3488,
+      "expandedSha256": "bfc5ba59151812309d5e693172b4084ecc5def1d0e3db47e229a4845b6277643",
+      "compression": "none",
+      "canonicalBytes": 3488,
+      "canonicalSha256": "bfc5ba59151812309d5e693172b4084ecc5def1d0e3db47e229a4845b6277643"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/root-stage-input-pins.json",
+      "canonical": "width2/source/root-stage-input-pins.json",
+      "originalMode": 384,
+      "expandedBytes": 2146,
+      "expandedSha256": "feae43052b3e2d59302819b148f852195da0991aa16970a86dd4d03bcdff27f6",
+      "compression": "none",
+      "canonicalBytes": 2146,
+      "canonicalSha256": "feae43052b3e2d59302819b148f852195da0991aa16970a86dd4d03bcdff27f6"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt",
+      "canonical": "width2/source/width2-business-stage.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 5098,
+      "expandedSha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e",
+      "compression": "none",
+      "canonicalBytes": 5098,
+      "canonicalSha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt.diff.txt",
+      "canonical": "width2/source/width2-business-stage.mjs.txt.diff.txt",
+      "originalMode": 384,
+      "expandedBytes": 9894,
+      "expandedSha256": "e5809d04ed24e23774c2e0126040b2831ba418e6c4d205b905cbdac555b698d6",
+      "compression": "none",
+      "canonicalBytes": 9894,
+      "canonicalSha256": "e5809d04ed24e23774c2e0126040b2831ba418e6c4d205b905cbdac555b698d6"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt.style.diff.txt",
+      "canonical": "width2/source/width2-business-stage.mjs.txt.style.diff.txt",
+      "originalMode": 384,
+      "expandedBytes": 1117,
+      "expandedSha256": "a48c97f41cfc77781b0192906837ac0101eabd1a0a82c7775fa7ea280c1b783a",
+      "compression": "none",
+      "canonicalBytes": 1117,
+      "canonicalSha256": "a48c97f41cfc77781b0192906837ac0101eabd1a0a82c7775fa7ea280c1b783a"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt",
+      "canonical": "width2/source/width2-python-preparation-bridge.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 975,
+      "expandedSha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+      "compression": "none",
+      "canonicalBytes": 975,
+      "canonicalSha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt",
+      "canonical": "width2/source/width2-root-observer.py.txt",
+      "originalMode": 384,
+      "expandedBytes": 14163,
+      "expandedSha256": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+      "compression": "none",
+      "canonicalBytes": 14163,
+      "canonicalSha256": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt.diff.txt",
+      "canonical": "width2/source/width2-root-observer.py.txt.diff.txt",
+      "originalMode": 384,
+      "expandedBytes": 6923,
+      "expandedSha256": "5d1b8c9c177ffcda9b7e7c273f15ce2c9e87f23a99b86a4383d9c9763c5cc1c6",
+      "compression": "none",
+      "canonicalBytes": 6923,
+      "canonicalSha256": "5d1b8c9c177ffcda9b7e7c273f15ce2c9e87f23a99b86a4383d9c9763c5cc1c6"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/artifact-validation.mjs.txt",
+      "canonical": "offline-pending/source/artifact-validation.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 3550,
+      "expandedSha256": "be32fe0ef8da8b302b48ce39b010596135cf4f04e175ab2687dc09b23c2f8de1",
+      "compression": "none",
+      "canonicalBytes": 3550,
+      "canonicalSha256": "be32fe0ef8da8b302b48ce39b010596135cf4f04e175ab2687dc09b23c2f8de1"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/classify-closure.mjs.txt",
+      "canonical": "offline-pending/source/classify-closure.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 6959,
+      "expandedSha256": "9c41894af497c4d4930fb45f0c542cf02941fbcb87e546453e6afab86c0484aa",
+      "compression": "none",
+      "canonicalBytes": 6959,
+      "canonicalSha256": "9c41894af497c4d4930fb45f0c542cf02941fbcb87e546453e6afab86c0484aa"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/contract.md",
+      "canonical": "offline-pending/source/contract.md",
+      "originalMode": 384,
+      "expandedBytes": 8470,
+      "expandedSha256": "f2e3cf11abef2281783b93156365dce61615c0c93c260dd08d2ce555023e1205",
+      "compression": "none",
+      "canonicalBytes": 8470,
+      "canonicalSha256": "f2e3cf11abef2281783b93156365dce61615c0c93c260dd08d2ce555023e1205"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/qualify-retained.mjs.txt",
+      "canonical": "offline-pending/source/qualify-retained.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 9207,
+      "expandedSha256": "ec030dd5a3433af82be9230854779834e5507793be9f6ee164baa87108167a2f",
+      "compression": "none",
+      "canonicalBytes": 9207,
+      "canonicalSha256": "ec030dd5a3433af82be9230854779834e5507793be9f6ee164baa87108167a2f"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/root-invocation.md",
+      "canonical": "offline-pending/source/root-invocation.md",
+      "originalMode": 384,
+      "expandedBytes": 5816,
+      "expandedSha256": "f769d975aa7b376e67beafa15867d3813c9b4b32f01d75da487917b203df43aa",
+      "compression": "none",
+      "canonicalBytes": 5816,
+      "canonicalSha256": "f769d975aa7b376e67beafa15867d3813c9b4b32f01d75da487917b203df43aa"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/root-observer.py.txt",
+      "canonical": "offline-pending/source/root-observer.py.txt",
+      "originalMode": 384,
+      "expandedBytes": 13612,
+      "expandedSha256": "66dcdb8c123ecc4643df4fb09c75b69c734a9f4779e992402cce15a6c2ef6c24",
+      "compression": "none",
+      "canonicalBytes": 13612,
+      "canonicalSha256": "66dcdb8c123ecc4643df4fb09c75b69c734a9f4779e992402cce15a6c2ef6c24"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/root-owner-input-contract.json",
+      "canonical": "offline-pending/source/root-owner-input-contract.json",
+      "originalMode": 384,
+      "expandedBytes": 1656,
+      "expandedSha256": "962124c5281da6c89252b5a63a79f53135e7476965b93aff27d29206e138f768",
+      "compression": "none",
+      "canonicalBytes": 1656,
+      "canonicalSha256": "962124c5281da6c89252b5a63a79f53135e7476965b93aff27d29206e138f768"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/run-owned.mjs.txt",
+      "canonical": "offline-pending/source/run-owned.mjs.txt",
+      "originalMode": 384,
+      "expandedBytes": 3385,
+      "expandedSha256": "55b77d4e186c963c7172f1ccf48a9ce3aa3d9aec1b6be04f65d22550b7db2c6b",
+      "compression": "none",
+      "canonicalBytes": 3385,
+      "canonicalSha256": "55b77d4e186c963c7172f1ccf48a9ce3aa3d9aec1b6be04f65d22550b7db2c6b"
+    }
+  ]
+}

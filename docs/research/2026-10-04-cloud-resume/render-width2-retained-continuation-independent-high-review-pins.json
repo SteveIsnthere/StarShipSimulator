@@ -1,0 +1,22 @@
+{
+  "kind": "independent-high-static-review",
+  "disposition": "conditional-one-offline-consumer-only",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/qualify-retained-width2.mjs.txt": "a0b68dacc9b60a5ddfc4b562547efb71eb460a74ea6f5dcba700b7059c5c646c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/business-stage.mjs.txt": "8802bea7ae25383a7cbae50c8691324a69698c95c3acd307340cc2c84e0d6604",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/prepare-stage-input.py.txt": "d72e7446d31832af87dbe6a0f580e8adfb3629680d490907e98d42785e8e2fbd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/declaration.md": "6e0d41564d820d30bb056c2bc4b6291612129b50ac2c45ff2440ab8cd575e02d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/consumer.diff.txt": "56fde465e23a0ddefba287327b6ed1de739213d6fe94854b0cdd3c17f1ac1d77",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/stage.diff.txt": "b32823ca9116b482854a3dcd487682609ec6133379b7d32d67447f3df1fbac48",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/lineage-bridge.json": "611084e6955c2757546357ea3cdacace20264d2acb748a5b457ab6aac04b7e5c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/original-qualifier.mjs.txt": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/original-failed-outcome.json": "815d67aa5a3c71b7eec42a5917653d2defa3e4cd700a0c9039bace61a8f426e6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/original-compile-input-pins.json": "66b5ec87f1c4b25411a4bbc0643beea31706b44a969635e0930e01ce7b23119e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/compile-input-pins.json": "66b5ec87f1c4b25411a4bbc0643beea31706b44a969635e0930e01ce7b23119e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+    "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/input-pins.json": "da23178fdb3a2881b82cb563dc0fcd7e1e282a1231e2b849ff388d5e7a000ee7"
+  }
+}

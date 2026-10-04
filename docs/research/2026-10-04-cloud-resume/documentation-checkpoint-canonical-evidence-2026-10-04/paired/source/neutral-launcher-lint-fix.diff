@@ -1,0 +1,14 @@
+--- unexecuted7fe-launcher
++++ neutral-lint-fixed-launcher
+@@ -11,8 +11,9 @@
+ const originalDraft=resolve('docs/research/2026-10-04-cloud-resume/current-native-qualification-harness');
+ const original=resolve(originalDraft,'receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e');
+ const receipt=resolve(draft,`receipt-paired-${randomUUID()}`);mkdirSync(receipt);const task=resolve(receipt,'materialized');
+-let status=1,stage='receipt-created',failure=null,before=null,inputs=null,prior=null,acceptedReceipt=null,artifactPins={};
+-let previousPins={},ownPins={};const storageCap=512*1024*1024;
++let status=1,stage='receipt-created',failure=null,before=null,inputs=null,prior=null,artifactPins={};
++let acceptedReceipt;
++let previousPins={};const ownPins={};const storageCap=512*1024*1024;
+ function files(path){return readdirSync(path,{withFileTypes:true}).flatMap(entry=>{assert(entry.isDirectory()||entry.isFile());return entry.isDirectory()?files(resolve(path,entry.name)):[resolve(path,entry.name)];}).sort();}
+ function register(path){assert(!Object.hasOwn(ownPins,path));ownPins[path]=digestFile(path);}
+ function verify(){for(const [p,h]of Object.entries({...previousPins,...ownPins}))assert.equal(digestFile(p),h,p);}

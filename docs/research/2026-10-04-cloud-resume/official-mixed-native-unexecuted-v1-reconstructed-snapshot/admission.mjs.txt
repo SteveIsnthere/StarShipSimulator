@@ -1,0 +1,45 @@
+import assert from 'node:assert/strict';
+import { realpathSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { digest, parse, inputsEqual, utilities, mapsMatch } from './integrity.mjs';
+export async function admit(approvalPath, approvalSha) {
+  assert.match(approvalSha, /^[a-f0-9]{64}$/); assert.equal(digest(approvalPath), approvalSha);
+  const approval = parse(approvalPath);
+  assert.equal(approval.kind, 'mixed-native-independent-admission-v1');
+  assert.equal(approval.semanticApproved, true); assert.equal(approval.scope, 'small-controls-only');
+  assert.equal(digest(approval.manifestPath), approval.manifestSha);
+  assert.equal(digest(approval.independentReviewPath), approval.independentReviewSha);
+  const m = parse(approval.manifestPath);
+  assert.equal(m.kind, 'mixed-native-build-candidate-v1'); assert.equal(m.buildCompleted, true);
+  assert.equal(m.root, realpathSync(process.cwd()));
+  assert.equal(m.nodeVersion, process.version); assert.equal(m.nodeBinary, digest(process.execPath));
+  assert.equal(digest(m.inputPath), m.inputSha); inputsEqual(m.materializedInputs);
+  assert.equal(digest(resolve(m.receipt, 'build-boundary.json')), approval.boundarySha);
+  assert.equal(parse(resolve(m.receipt, 'build-boundary.json')).completed, true);
+  assert.equal(digest(approval.buildProcessPath), approval.buildProcessSha);
+  const buildProcess = parse(approval.buildProcessPath);
+  assert.equal(buildProcess.exit.code, 0); assert.equal(buildProcess.exit.signal, null);
+  assert.equal(buildProcess.failure, null); assert.equal(buildProcess.finished, true);
+  assert.equal(buildProcess.closed, true); assert.equal(buildProcess.cleanup.executing.length, 0);
+  const u = await utilities(m.root, m.utilityDigest);
+  assert.deepEqual(u.sourceSnapshot(m.root), m.source);
+  assert.deepEqual(u.installedToolSnapshot(m.root, m.npmCli), m.installedTools);
+  assert.deepEqual(Object.fromEntries(u.filesUnder(m.directory).map(file => [relative(m.directory, file), digest(file)])), m.files);
+  assert.deepEqual(mapsMatch(m.root, m.directory, m.files, u.filesUnder), m.graph);
+  assert.deepEqual(approval.graph, m.graph); assert.deepEqual(approval.options, m.options);
+  assert.equal(m.entry, resolve(m.directory, 'entry.mjs'));
+  const expected = ['$core/scenarios', '$core/state', '$core/autopilot/booster', '$core/step',
+    '$core/vehicles/super-heavy', '$core/physics/tower-catch', '$core/constants',
+    '$core/control/commands', '$core/vehicle', '$app/loop'];
+  assert.deepEqual(Object.keys(approval.aliases).sort(), expected.sort());
+  for (const [name, target] of Object.entries(approval.aliases)) {
+    assert.equal(target, name === '$core/constants' ? resolve(m.receipt, 'constants.mjs') : m.entry);
+    if (target !== m.entry) assert.equal(m.materializedInputs[target], digest(target));
+  }
+  assert.deepEqual(approval.nativeParents, [resolve(m.receipt, 'native-a.test.mjs'), resolve(m.receipt, 'native-b.test.mjs')]);
+  assert.equal(approval.originalTests.length, 2);
+  assert.deepEqual(approval.originalTests.map(row => row.file), [
+    resolve(m.root, 'tests/core/booster-guidance.test.ts'), resolve(m.root, 'tests/flies-every-scenario.test.ts')]);
+  for (const row of approval.originalTests) assert.equal(digest(row.file), row.sha);
+  return { approval, manifest: m };
+}

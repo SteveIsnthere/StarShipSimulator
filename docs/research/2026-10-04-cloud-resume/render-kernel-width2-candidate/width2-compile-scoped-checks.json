@@ -1,0 +1,65 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2.py.txt",
+      "sha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f",
+      "kind": "Python AST syntax",
+      "status": 0
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-width2.mjs.txt",
+      "sha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-compile-scope.85goj0ge/build-width2.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-width2.mjs.txt",
+      "sha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-width2.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt",
+      "sha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-compile-scope.85goj0ge/qualify-width2.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt",
+      "sha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 1.9401514140045037,
+  "runtimeExecuted": false
+}

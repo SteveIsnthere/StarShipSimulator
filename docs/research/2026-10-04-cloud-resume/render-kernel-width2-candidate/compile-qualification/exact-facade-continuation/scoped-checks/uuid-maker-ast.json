@@ -1,0 +1,1 @@
+{"code": 0, "args": ["/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3", "-c", "import ast,sys;ast.parse(sys.stdin.read())"], "sha256": "7793753c06784bc85dc1ddbf946c6445c81196e1c1761d3e7186eb46a1654dc1", "unchangedConsumerChecksReused": true}

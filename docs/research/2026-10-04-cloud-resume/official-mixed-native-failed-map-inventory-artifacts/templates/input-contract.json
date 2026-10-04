@@ -1,0 +1,25 @@
+{
+  "kind": "mixed-native-build-input-v1",
+  "parentMustFreezeBeforeExecution": [
+    "nodeVersion",
+    "nodeBinary",
+    "npmCli",
+    "source (complete reviewed sourceSnapshot)",
+    "installedTools (complete reviewed installedToolSnapshot)",
+    "utilityDigest (scripts/bench/native-loader.mjs)",
+    "ownedCommandDigest (scripts/bench/owned-command.mjs)",
+    "materializedInputs (every15 executable template after .txt materialization plus exact original2test files; no generated output)",
+    "options (actual production resolved target/minify/sourcemap/cssMinify/mode/base and literal library adaptation)"
+  ],
+  "buildCommand": [
+    "managed-node",
+    "<private>/run-build.mjs",
+    "/workspace/StarShipSimulator",
+    "<private>",
+    "<external input JSON>",
+    "<parent-frozen input SHA>"
+  ],
+  "workBoundMs": 90000,
+  "cleanup": "existing owned-command TERM5s/KILL2s/drain1s; outer parent enforces whole synchronous workload bound",
+  "postBuild": "actual owner0/process0/no failure/current maps/body/role review; no candidate marker authorizes controls"
+}

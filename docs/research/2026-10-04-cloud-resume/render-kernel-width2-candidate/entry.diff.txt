@@ -1,0 +1,13 @@
+--- docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-entry.ts
++++ docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-entry.ts.txt
+@@ -11,8 +11,8 @@
+ import { flatten } from '../../../src/app/debug';
+ export { createView, createScene, createMissionController, createCameraFollow, DT };
+ 
+-export async function createKernel(width: 32 | 1) {
+-  if (width !== 32 && width !== 1) throw Error('Exactly declared baseline32 or candidate1');
++export async function createKernel(width: 32 | 2) {
++  if (width !== 32 && width !== 2) throw Error('Exactly declared baseline32 or candidate2');
+   const canvas = document.querySelector('[data-testid="world-canvas"]');
+   if (!(canvas instanceof HTMLCanvasElement)) throw Error('Owned actual world canvas required');
+   const controller = createMissionController(), preset = getScenario('launch-pad');

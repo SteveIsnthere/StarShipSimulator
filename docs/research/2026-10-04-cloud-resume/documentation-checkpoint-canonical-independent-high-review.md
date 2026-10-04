@@ -1,0 +1,7 @@
+# Independent HIGH canonical checkpoint preservation review
+
+Accepted for documentation preservation with a count clarification: 209 origin mappings bind 205 distinct canonical payload files. Four original executable/live .txt aliases share one exact payload each. Reported 27,024,481 expanded / 10,003,562 canonical bytes sum origin rows, rather than unique storage. Preserve immutable selection/origin; describe these as record totals in the checkpoint or add this review/verification as a sidecar.
+
+Independently verified every mapping: canonical digest/size, decompressed digest/size, and exact original bytes/mode. All pass; 10 gzip payloads remain lossless. Selection942e9590 binds origin878c927c exactly. No original path was edited or deleted. Initial verification demanded unique canonical paths and stopped on an intentional alias; subsequent explicit alias reconciliation found four identical pairs, no conflicting overwrite or lost evidence.
+
+Truth labels remain appropriately narrow: paired semantic acceptance with CPU overlap and no cost claim; width2 prepare0/build0/qualification1, no browser; offline root0 marked PENDING at archive creation. The later independent offline actual-result review is a separate accepted classification disposition and must not rewrite the historical pending label. Original build/qualification failures remain red. This verification grants no production, coverage, native/backend, performance, gate, merge or deployment acceptance.

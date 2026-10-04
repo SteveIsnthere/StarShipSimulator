@@ -1,0 +1,11 @@
+--- before-style/width2-business-stage.mjs.txt
++++ after-style/width2-business-stage.mjs.txt
+@@ -9,7 +9,7 @@
+ const stage=mkdtempSync('/tmp/starship-width2-stage.');chmodSync(stage,0o700);process.stdout.write(JSON.stringify({stageReceipt:stage,manifestSha})+'\n');
+ const save=(name,value)=>writeFileSync(resolve(stage,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+ const materialized=new Map();const put=(name,role)=>{const file=resolve(stage,name);copyFileSync(m[role].path,file);assert.equal(sha(file),m[role].sha);copyFileSync(file,file+'.txt');materialized.set(file,m[role].sha);return file;};
+-let args,env={...process.env},actualReceipt=null;
++let args,actualReceipt=null;const env={...process.env};
+ if(m.mode==='prepare'){const preparer=put('prepare.py','preparer'),bridge=put('python-bridge.mjs','bridge');args=[bridge,manifestPath,manifestSha,preparer];}
+ else{assert.match(m.setup,/^\/tmp\/starship-render-kernel\.[A-Za-z0-9]+$/);assert.equal(realpathSync(m.setup),m.setup);actualReceipt=m.setup;
+  if(m.mode==='build'){args=[put('build.mjs','builder'),m.setup];env.RUN_WIDTH2_LIBRARY_BUILD='1';}

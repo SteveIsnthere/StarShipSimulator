@@ -1,0 +1,383 @@
+{
+  "kind": "lossless-copy-originals-unmodified",
+  "files": [
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/owned-launch-5zgl7caU/launcher.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/962e94b2ec2d6d34020efe53a0b1726ae738c6a85836987f97602bde37264f08.mjs.txt",
+      "bytes": 8861,
+      "sha256": "962e94b2ec2d6d34020efe53a0b1726ae738c6a85836987f97602bde37264f08"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/owned-launch-5zgl7caU/owned-command.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/81efb21f596c0eb818cb7e625b54d69c2acc011d4215fdd1ae611f779ae2b987.mjs.txt",
+      "bytes": 7880,
+      "sha256": "81efb21f596c0eb818cb7e625b54d69c2acc011d4215fdd1ae611f779ae2b987"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/bootstrap.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa.mjs.txt",
+      "bytes": 914,
+      "sha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/bootstrap.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa.ts.txt",
+      "bytes": 914,
+      "sha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/controls.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/ea1c4bc841c710782e03eded92a30c2aba0cb040656df1f0a1b9d109fd13220a.mjs.txt",
+      "bytes": 18450,
+      "sha256": "ea1c4bc841c710782e03eded92a30c2aba0cb040656df1f0a1b9d109fd13220a"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/graph-oracle-before-scaled.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023.ts.txt",
+      "bytes": 4351,
+      "sha256": "d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/graph-oracle-before.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e.ts.txt",
+      "bytes": 4400,
+      "sha256": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/graph-oracle-scaled.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3.ts.txt",
+      "bytes": 5245,
+      "sha256": "3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/graph-oracle.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c.ts.txt",
+      "bytes": 5294,
+      "sha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/run-controls.sh",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/6118d15a46af1a4cee69a75c4aafe360a6de60c3e605040941d4e9e9fa6d9115.sh.txt",
+      "bytes": 1045,
+      "sha256": "6118d15a46af1a4cee69a75c4aafe360a6de60c3e605040941d4e9e9fa6d9115"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/owned-launch-ZffwxiZF/launcher.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/6316eeda5d43985f35acde002d7043ad8c6bb0f6648633154abba05536573b77.mjs.txt",
+      "bytes": 6673,
+      "sha256": "6316eeda5d43985f35acde002d7043ad8c6bb0f6648633154abba05536573b77"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/owned-launch-ZffwxiZF/owned-command.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/050a3667fe492d7d56cecac7cb44902654d5ad6a9552052f4ae1bcd1a30a4d09.mjs.txt",
+      "bytes": 7760,
+      "sha256": "050a3667fe492d7d56cecac7cb44902654d5ad6a9552052f4ae1bcd1a30a4d09"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/bootstrap.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/66a7406328c0f44760881c14445ad2725f9acd054a57e4129b27e7bec3556c7c.mjs.txt",
+      "bytes": 943,
+      "sha256": "66a7406328c0f44760881c14445ad2725f9acd054a57e4129b27e7bec3556c7c"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/graph-oracle.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e.ts.txt",
+      "bytes": 4400,
+      "sha256": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/witness.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/c3f74a4a97c1e3385b1169d7dd8a6915b07e842be06d6c5fe2f8f9d72f1f7390.mjs.txt",
+      "bytes": 7809,
+      "sha256": "c3f74a4a97c1e3385b1169d7dd8a6915b07e842be06d6c5fe2f8f9d72f1f7390"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/run-witness.sh",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/9ae2fe099c367ad4e6deb08b07fbdaf12b05a945302a5ccd244932efc54083dd.sh.txt",
+      "bytes": 1045,
+      "sha256": "9ae2fe099c367ad4e6deb08b07fbdaf12b05a945302a5ccd244932efc54083dd"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/owned-launch-BXBucfBX/launcher.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/27b2faf37924603e669b0d3182d40447ffdec9ab3c1f8e3e96f4fa71b2ad3e76.mjs.txt",
+      "bytes": 8986,
+      "sha256": "27b2faf37924603e669b0d3182d40447ffdec9ab3c1f8e3e96f4fa71b2ad3e76"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/owned-launch-BXBucfBX/owned-command.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/81efb21f596c0eb818cb7e625b54d69c2acc011d4215fdd1ae611f779ae2b987.mjs.txt",
+      "bytes": 7880,
+      "sha256": "81efb21f596c0eb818cb7e625b54d69c2acc011d4215fdd1ae611f779ae2b987"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/bootstrap.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa.mjs.txt",
+      "bytes": 914,
+      "sha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/bootstrap.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa.ts.txt",
+      "bytes": 914,
+      "sha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/controls.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace.mjs.txt",
+      "bytes": 12553,
+      "sha256": "787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/graph-oracle-before-scaled.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023.ts.txt",
+      "bytes": 4351,
+      "sha256": "d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/graph-oracle-before.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e.ts.txt",
+      "bytes": 4400,
+      "sha256": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/graph-oracle-scaled.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3.ts.txt",
+      "bytes": 5245,
+      "sha256": "3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/graph-oracle.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c.ts.txt",
+      "bytes": 5294,
+      "sha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/run-controls.sh",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/624329258529f0a63da4735b02cfe213cc17b736261ed311f1ddf8d308afb9be.sh.txt",
+      "bytes": 1045,
+      "sha256": "624329258529f0a63da4735b02cfe213cc17b736261ed311f1ddf8d308afb9be"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/owned-launch-7mZp3W6l/launcher.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/f0a17646ee25cd8edad909c216ee10c47eb82c72e26c03cd34b1665d29ef5412.mjs.txt",
+      "bytes": 8861,
+      "sha256": "f0a17646ee25cd8edad909c216ee10c47eb82c72e26c03cd34b1665d29ef5412"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/owned-launch-7mZp3W6l/owned-command.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/81efb21f596c0eb818cb7e625b54d69c2acc011d4215fdd1ae611f779ae2b987.mjs.txt",
+      "bytes": 7880,
+      "sha256": "81efb21f596c0eb818cb7e625b54d69c2acc011d4215fdd1ae611f779ae2b987"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/materialized/bootstrap.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa.mjs.txt",
+      "bytes": 914,
+      "sha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/materialized/bootstrap.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa.ts.txt",
+      "bytes": 914,
+      "sha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/materialized/controls.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/02b83edf7f484a369a9908484aed94f7c04f4d28413883f3686d3dd47f60bedb.mjs.txt",
+      "bytes": 19471,
+      "sha256": "02b83edf7f484a369a9908484aed94f7c04f4d28413883f3686d3dd47f60bedb"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/materialized/graph-oracle-before-scaled.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023.ts.txt",
+      "bytes": 4351,
+      "sha256": "d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/materialized/graph-oracle-before.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e.ts.txt",
+      "bytes": 4400,
+      "sha256": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/materialized/graph-oracle-scaled.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3.ts.txt",
+      "bytes": 5245,
+      "sha256": "3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/materialized/graph-oracle.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c.ts.txt",
+      "bytes": 5294,
+      "sha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/run-controls.sh",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/f71729434f62159f2e225806e29ff283536204b5aa59c2d64de3eb735bcc8cef.sh.txt",
+      "bytes": 1042,
+      "sha256": "f71729434f62159f2e225806e29ff283536204b5aa59c2d64de3eb735bcc8cef"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-cost/owned-launch-rQYsPTDD/label-audit.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/93f11a797a93a0a6c00b51d375bc5186d816270b4036b523707b0ca029c3069c.mjs.txt",
+      "bytes": 2449,
+      "sha256": "93f11a797a93a0a6c00b51d375bc5186d816270b4036b523707b0ca029c3069c"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-cost/owned-launch-rQYsPTDD/launcher.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/95bdb9b5501a76aaf311e2168c04dee34a634451abb297314f38a636e3189fcf.mjs.txt",
+      "bytes": 31440,
+      "sha256": "95bdb9b5501a76aaf311e2168c04dee34a634451abb297314f38a636e3189fcf"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-cost/owned-launch-rQYsPTDD/owned-command.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/2fd4c0c87ed9b5f34cdd147ff226f1a15246a573b01613c35d2ea544e60cdf30.mjs.txt",
+      "bytes": 7424,
+      "sha256": "2fd4c0c87ed9b5f34cdd147ff226f1a15246a573b01613c35d2ea544e60cdf30"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-cost/receipt-cost-fdef3b1c-793a-4134-be20-7f8af4857352/materialized/entry.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/99493daa335a65424cd10f3ae15cab0754881b1fd89e4281e5ae3042c67edeca.ts.txt",
+      "bytes": 637,
+      "sha256": "99493daa335a65424cd10f3ae15cab0754881b1fd89e4281e5ae3042c67edeca"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-cost/receipt-cost-fdef3b1c-793a-4134-be20-7f8af4857352/materialized/full-flight.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/899a07040d8fdad605fae59bedfcc4d2379ab54af45ab75ce9f5d90961336edb.ts.txt",
+      "bytes": 6729,
+      "sha256": "899a07040d8fdad605fae59bedfcc4d2379ab54af45ab75ce9f5d90961336edb"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-cost/receipt-cost-fdef3b1c-793a-4134-be20-7f8af4857352/materialized/graph-oracle.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c.ts.txt",
+      "bytes": 5294,
+      "sha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/label-audit.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/93f11a797a93a0a6c00b51d375bc5186d816270b4036b523707b0ca029c3069c.mjs.txt",
+      "bytes": 2449,
+      "sha256": "93f11a797a93a0a6c00b51d375bc5186d816270b4036b523707b0ca029c3069c"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/launcher.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/6087a1535ab289dd037e8c7ba9f80c7ee29c5cc6b59974f7547aa49b3b054c85.mjs.txt",
+      "bytes": 25748,
+      "sha256": "6087a1535ab289dd037e8c7ba9f80c7ee29c5cc6b59974f7547aa49b3b054c85"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/owned-command.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/2fd4c0c87ed9b5f34cdd147ff226f1a15246a573b01613c35d2ea544e60cdf30.mjs.txt",
+      "bytes": 7424,
+      "sha256": "2fd4c0c87ed9b5f34cdd147ff226f1a15246a573b01613c35d2ea544e60cdf30"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/materialized/entry.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/99493daa335a65424cd10f3ae15cab0754881b1fd89e4281e5ae3042c67edeca.ts.txt",
+      "bytes": 637,
+      "sha256": "99493daa335a65424cd10f3ae15cab0754881b1fd89e4281e5ae3042c67edeca"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/materialized/full-flight.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/899a07040d8fdad605fae59bedfcc4d2379ab54af45ab75ce9f5d90961336edb.ts.txt",
+      "bytes": 6729,
+      "sha256": "899a07040d8fdad605fae59bedfcc4d2379ab54af45ab75ce9f5d90961336edb"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/materialized/graph-oracle.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c.ts.txt",
+      "bytes": 5294,
+      "sha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/classify.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/cd9592d32b253128f5a2e1285bbfe967e9280104a302c96851624d6645dd8dbc.mjs.txt",
+      "bytes": 13478,
+      "sha256": "cd9592d32b253128f5a2e1285bbfe967e9280104a302c96851624d6645dd8dbc"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/fixture-validation.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/3e692bcaf04b117c2ccad097a1927066bc512b51c99541959b2e6ca2e3b19ad6.mjs.txt",
+      "bytes": 9566,
+      "sha256": "3e692bcaf04b117c2ccad097a1927066bc512b51c99541959b2e6ca2e3b19ad6"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/run-owned.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/7a234b280ca93bfea847cee18d17cda34f2c23939c090c538d75470e50296044.mjs.txt",
+      "bytes": 3328,
+      "sha256": "7a234b280ca93bfea847cee18d17cda34f2c23939c090c538d75470e50296044"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/owned-command.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db.mjs.txt",
+      "bytes": 7424,
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/lexer.d.ts",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/a4bc676f3e73a1119af7c40dc94bc596fb9545748bba193670207e2d7f6cfa70.ts.txt",
+      "bytes": 6466,
+      "sha256": "a4bc676f3e73a1119af7c40dc94bc596fb9545748bba193670207e2d7f6cfa70"
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/owned-command.mjs",
+      "originalMode": 384,
+      "canonicalPath": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-additional-executable-origins-2026-10-04/0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db.mjs.txt",
+      "bytes": 7424,
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+    }
+  ]
+}

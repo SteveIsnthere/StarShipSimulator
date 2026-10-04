@@ -1,0 +1,15 @@
+{
+  "kind": "independent-actual-input-review",
+  "inputPath": "/tmp/starship-width2-stage-input._lpm6tyb/owner-input.json",
+  "inputSha256": "23d79b0d3825ac7eba23656909a294cfecbdde726fa2bc6be2d07b112039f3c5",
+  "reviewedMode": "qualify",
+  "outerMs": 30000,
+  "helperMs": 14000,
+  "compiledSetup": "/tmp/starship-render-kernel.2co6w1rl",
+  "newEmptyReceipt": "/tmp/starship-width2-qualified.6ycto9y5",
+  "sourceManifestSha256": "da23178fdb3a2881b82cb563dc0fcd7e1e282a1231e2b849ff388d5e7a000ee7",
+  "consumerSha256": "a0b68dacc9b60a5ddfc4b562547efb71eb460a74ea6f5dcba700b7059c5c646c",
+  "lineageSha256": "611084e6955c2757546357ea3cdacace20264d2acb748a5b457ab6aac04b7e5c",
+  "observerSha256": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+  "disposition": "one-owned-offline-continuation-only; fresh actual result and all-owned absence required"
+}

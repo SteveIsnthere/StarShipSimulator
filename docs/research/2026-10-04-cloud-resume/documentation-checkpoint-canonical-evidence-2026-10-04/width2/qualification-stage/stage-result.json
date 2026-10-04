@@ -1,0 +1,11 @@
+{
+  "completed": false,
+  "code": 1,
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 0\n\n    at file:///tmp/starship-width2-root.75nncpcy/stage.mjs:23:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)",
+  "manifestSha": "b0257076154257cd7bfc50d5d7603ecec1ef6aa371799ae04a70c673ad74a429",
+  "mode": "qualify",
+  "actualReceipt": "/tmp/starship-render-kernel.2co6w1rl",
+  "processReceipt": "/tmp/starship-width2-stage.3wUEl8/preparation.process.json",
+  "actualStdoutPath": "/tmp/starship-width2-stage.3wUEl8/preparation.stdout.txt",
+  "acceptance": "This stage only; rootALLobserved/nestedactualabsence and freshHIGH actualresult before nextstage"
+}

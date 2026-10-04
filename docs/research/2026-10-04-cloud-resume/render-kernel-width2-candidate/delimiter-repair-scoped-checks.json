@@ -1,0 +1,85 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/run-owned-focused-delimiter.mjs.txt",
+      "sha256": "757b3190fc0cbea35ef1ec3afc58f53aaad3194aa04a9012b42cec3ffa4aa867",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-delimiter-scope.1exg1mwi/run-owned-focused-delimiter.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/run-owned-focused-delimiter.mjs.txt",
+      "sha256": "757b3190fc0cbea35ef1ec3afc58f53aaad3194aa04a9012b42cec3ffa4aa867",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/run-owned-focused-delimiter.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/strip-sourceurl-controls.mjs.txt",
+      "sha256": "f25e3a1e55690e6aed428df35b1a08b8a99af665d87390829bc2fab0ec643717",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-delimiter-scope.1exg1mwi/strip-sourceurl-controls.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/strip-sourceurl-controls.mjs.txt",
+      "sha256": "f25e3a1e55690e6aed428df35b1a08b8a99af665d87390829bc2fab0ec643717",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/strip-sourceurl-controls.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/locked-batcher-controls.mjs.txt",
+      "sha256": "c13ead93410531b62c49f77b8ad644e3d701d80923e5c631ddeb8a8b4eb7ce64",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-delimiter-scope.1exg1mwi/locked-batcher-controls.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/locked-batcher-controls.mjs.txt",
+      "sha256": "c13ead93410531b62c49f77b8ad644e3d701d80923e5c631ddeb8a8b4eb7ce64",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/locked-batcher-controls.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 2.745853244996397,
+  "runtimeExecuted": false
+}

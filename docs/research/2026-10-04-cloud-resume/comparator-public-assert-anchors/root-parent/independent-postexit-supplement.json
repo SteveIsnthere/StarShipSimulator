@@ -1,0 +1,39 @@
+{
+  "kind": "independent-postexit-supplement",
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40",
+  "originalParentWrapperExit": 1,
+  "originalParentFailure": "Receipt glob guessed receipt-public-anchors-* instead of actual receipt-public-assert-*; stopped after actual command wait, before observation persistence. Original script/stdout/stderr retained; no command rerun.",
+  "actualLauncherStatus": 0,
+  "outerPidGroupSession": 59660,
+  "outerStartNotRetained": true,
+  "outerGroupSessionExecuting": [],
+  "tracked": [
+    {
+      "pid": 59675,
+      "start": "3501740",
+      "group": 59660,
+      "session": 59660,
+      "executing": false
+    },
+    {
+      "pid": 59701,
+      "state": "Z",
+      "parent": 59675,
+      "group": 59701,
+      "session": 59701,
+      "start": "3501875",
+      "executing": false
+    },
+    {
+      "pid": 59708,
+      "state": "R",
+      "parent": 59675,
+      "group": 59708,
+      "session": 59708,
+      "start": "3501889",
+      "executing": false
+    }
+  ],
+  "allActualTrackedAndOuterGroupNonexecuting": true,
+  "rootElapsedNotRetained": true
+}

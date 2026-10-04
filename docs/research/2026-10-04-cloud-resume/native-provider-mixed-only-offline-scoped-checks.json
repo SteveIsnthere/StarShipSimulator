@@ -1,0 +1,79 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/classify.mjs",
+      "sourceSha256": "cd9592d32b253128f5a2e1285bbfe967e9280104a302c96851624d6645dd8dbc",
+      "args": [
+        "node",
+        "--check",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/classify.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/classify.mjs",
+      "sourceSha256": "cd9592d32b253128f5a2e1285bbfe967e9280104a302c96851624d6645dd8dbc",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/classify.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/fixture-validation.mjs",
+      "sourceSha256": "3e692bcaf04b117c2ccad097a1927066bc512b51c99541959b2e6ca2e3b19ad6",
+      "args": [
+        "node",
+        "--check",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/fixture-validation.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/fixture-validation.mjs",
+      "sourceSha256": "3e692bcaf04b117c2ccad097a1927066bc512b51c99541959b2e6ca2e3b19ad6",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/fixture-validation.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/run-owned.mjs",
+      "sourceSha256": "7a234b280ca93bfea847cee18d17cda34f2c23939c090c538d75470e50296044",
+      "args": [
+        "node",
+        "--check",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/run-owned.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/run-owned.mjs",
+      "sourceSha256": "7a234b280ca93bfea847cee18d17cda34f2c23939c090c538d75470e50296044",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/run-owned.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 2.831600368001091,
+  "runtimeExecuted": false
+}

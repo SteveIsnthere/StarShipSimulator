@@ -1,0 +1,11 @@
+--- original-failed/locked-batcher-controls.mjs.txt
++++ delimiter-repaired/locked-batcher-controls.mjs.txt
+@@ -89,7 +89,7 @@
+  // Execute the actual candidate function's entry guard only; no product imports or valid canvas access.
+  const source=readFileSync(entry,'utf8'),at=source.indexOf('export async function createKernel(');assert(at>=0);
+  const fn=stripTypeScriptTypes(source.slice(at).replace(/^export /,''),{mode:'strip',sourceUrl:entry});
+- const createKernel=new Function(fn+'; return createKernel;')();const descriptor=Object.getOwnPropertyDescriptor(globalThis,'document');let reads=0;
++ const createKernel=new Function(fn+'\n; return createKernel;\n')();assert.equal(typeof createKernel,'function','Extracted candidate must be callable');const descriptor=Object.getOwnPropertyDescriptor(globalThis,'document');let reads=0;
+  const sentinel=new Error('owned-document-boundary');Object.defineProperty(globalThis,'document',{configurable:true,get(){reads++;throw sentinel;}});
+  try{for(const value of [1,0,3,NaN,Infinity,'2',undefined,null]){const prior=reads;await assert.rejects(createKernel(value),/Exactly declared baseline32 or candidate2/);assert.equal(reads,prior);}
+   for(const value of [2,32]){const prior=reads;await assert.rejects(createKernel(value),e=>e===sentinel);assert.equal(reads,prior+1);}}

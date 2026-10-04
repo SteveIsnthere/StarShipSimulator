@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/controls.mjs.txt",
+      "sha256": "157e33feca6590c0f5afbd1246aa1e8418b1fa5bdd2b3ea656f7114803376426",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-stack-scope.es9l6zc_/controls.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/controls.mjs.txt",
+      "sha256": "157e33feca6590c0f5afbd1246aa1e8418b1fa5bdd2b3ea656f7114803376426",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/controls.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 1.0300137840022217,
+  "runtimeExecuted": false
+}

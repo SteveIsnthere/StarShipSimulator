@@ -1,0 +1,63 @@
+{
+  "receiptPins": {
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/frozen-owner-input.json": "fee57b70ecbcfe1543e4d3d9f31bed28a776d0faf0e546612dac3ba5c1e55652",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/observer-os-exit.json": "42df12a441fc236230533953141cbe931daf5420fa9f00f14d8f26f3a29796df",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/invocation.json": "eb52260faebf5a36e6c7c81d66fc982306fa12e16f8ab5474388bcf0fe4cd04f",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/stdout.txt": "a6989531c5f0e69d957b0caa004b2516ecf74032a27bdc5ddef856cdf48a5386",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-width2-root.nsta6_vk/root-outcome.json": "cabadaf3e0fdf0dd1b56a2fea20c20286e5f9913f864e83a16ecf48aa17352a1",
+    "/tmp/starship-width2-root.nsta6_vk/identities.jsonl": "bd19111ab20f7479ae1a6dd2e8891ab08bfbd9c08723dd9095e6867f6bdbf285",
+    "/tmp/starship-width2-root.nsta6_vk/actual-outer-exit.json": "c262302a558f4ef43e254fbc70ea0c19bf46d9a69f1eb11c3cbf512e1726bdae",
+    "/tmp/starship-width2-root.nsta6_vk/actual-outer-exit-final.json": "905e1bd4b88dbe4ac0023842ec2466b3d89ad0cb035492b4cfce398ce2a33260",
+    "/tmp/starship-width2-stage.5l4HdQ/stage-result.json": "47ddf96a19b3c2e258e847060340bea68d334796ed5ec8f685062bb22fe62f01",
+    "/tmp/starship-width2-stage.5l4HdQ/actual-child-exit.json": "174f1eb66ca60838d031760a37508f30acb186b3cfb0c84d1cee39db8ad80119",
+    "/tmp/starship-width2-stage.5l4HdQ/preparation.process.json": "c9f220848970964d461027664a28674378d667c8d2df80884b90f919dd493afe",
+    "/tmp/starship-width2-stage.5l4HdQ/preparation.stdout.txt": "5387b217a606c62fb9493d6820ab409f01c8cb6ba770d6758a06aa400fb5680b",
+    "/tmp/starship-width2-stage.5l4HdQ/preparation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-width2-stage.5l4HdQ/prepare.py.txt": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f",
+    "/tmp/starship-width2-stage.5l4HdQ/prepare.py.after.txt": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f",
+    "/tmp/starship-width2-stage.5l4HdQ/python-bridge.mjs.txt": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+    "/tmp/starship-width2-stage.5l4HdQ/python-bridge.mjs.after.txt": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+    "/tmp/starship-render-kernel.2co6w1rl/width2-preparation.json": "3b7724e6d7651a7693ffb5126d5fb6e0ef2a5879005567fa7c73da671bfccf76",
+    "/tmp/starship-render-kernel.2co6w1rl/setup-receipt.json": "8e130fbf80ac7d752f5d0c5bbfa8db553bde743d9cb515ac1d29b1b579791e6f",
+    "/tmp/starship-render-kernel.2co6w1rl/browser-wrapper.sh": "85b05eb67dff5bfd845b373b05713138195231848d2fe5d2cd45b551cbec2970",
+    "/tmp/starship-render-kernel.2co6w1rl/run-render-kernel-width2.mjs": "086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c",
+    "/tmp/starship-render-kernel.2co6w1rl/kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907"
+  },
+  "actualInputPinCount": 4846,
+  "materializedRoles": [
+    [
+      "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-entry.ts",
+      "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+    ],
+    [
+      "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-build.config.mjs",
+      "546e0aa2b55ab0dd46f1f6a8480b8efd938e0edcd9d3e1d085357001fa26fc69"
+    ]
+  ],
+  "independentOwnedAbsence": [
+    {
+      "pid": 62112,
+      "start": "3817593",
+      "absent": true
+    },
+    {
+      "pid": 62119,
+      "start": "3817622",
+      "absent": true
+    },
+    {
+      "pid": 62126,
+      "start": "3817630",
+      "absent": true
+    },
+    {
+      "pid": 62127,
+      "start": "3817650",
+      "absent": true
+    }
+  ],
+  "compiledEmpty": true,
+  "reviewSha256": "33db4c00a2efa8cf221a769a9e0f11088f0f465cbc38a748205cc60952c8e00d",
+  "workloadExecutedByReviewer": false
+}

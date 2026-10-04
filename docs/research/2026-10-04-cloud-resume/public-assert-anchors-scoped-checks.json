@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/controls.mjs.txt",
+      "sha256": "02b83edf7f484a369a9908484aed94f7c04f4d28413883f3686d3dd47f60bedb",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-anchors-scope.7q7sgbeq/controls.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/controls.mjs.txt",
+      "sha256": "02b83edf7f484a369a9908484aed94f7c04f4d28413883f3686d3dd47f60bedb",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/controls.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 1.100024747000134,
+  "runtimeExecuted": false
+}

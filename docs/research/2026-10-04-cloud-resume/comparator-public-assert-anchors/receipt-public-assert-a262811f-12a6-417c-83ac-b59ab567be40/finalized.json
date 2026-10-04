@@ -1,0 +1,9 @@
+{
+  "finalized": true,
+  "status": "pass",
+  "stage": "completed",
+  "failure": null,
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40",
+  "node": "v22.23.3",
+  "acceptance": "primitive-guard Native and same-SSR purecontrols only; no flight/cost acceptance"
+}

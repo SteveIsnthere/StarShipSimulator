@@ -1,0 +1,34 @@
+--- before/locked-batcher-controls.mjs.txt
++++ after/locked-batcher-controls.mjs.txt
+@@ -63,6 +63,7 @@
+  if(name.startsWith('long-')){assert(rows.find(r=>r.width===1).batches>400,'Witness actual width1 repeated flush');assert(rows.find(r=>r.width===2).batches<=4,'Width2 recovery');}
+  results.push(...rows);
+ }
++let completedResult,primaryError;const cleanupErrors=[];
+ try{
+  const run=(source,count,blend='normal',topology='triangle-list')=>Array.from({length:count},()=>[source,blend,topology]);
+  await checkRecipe('long-capacity-forward',[['A'],['B'],...run('C',405)]);
+@@ -93,8 +94,20 @@
+  try{for(const value of [1,0,3,NaN,Infinity,'2',undefined,null]){const prior=reads;await assert.rejects(createKernel(value),/Exactly declared baseline32 or candidate2/);assert.equal(reads,prior);}
+   for(const value of [2,32]){const prior=reads;await assert.rejects(createKernel(value),e=>e===sentinel);assert.equal(reads,prior+1);}}
+  finally{if(descriptor)Object.defineProperty(globalThis,'document',descriptor);else delete globalThis.document;}
+- assert(nullContextRequests>0);writeFileSync(output,JSON.stringify({kind:'locked-sdk-width2-controls-v1',node:process.version,
++ assert(nullContextRequests>0);completedResult={kind:'locked-sdk-width2-controls-v1',node:process.version,
+  recipeCount:10,widthCases:30,elementWork,elementCap:12000,results,cacheNegative:true,latePublicLimitNegative:true,
+  actualEntryGuardNegatives:8,actualEntryGuardAcceptedBoundaries:2,inertNullTestContext:true,nullContextRequests,
+- rendererInstances:0,browserLaunches:0,physicsImports:0,actualSceneQueryBoundProven:false,finalized:true},null,2)+'\n',{flag:'wx'});
+-}finally{DOMAdapter.set(adapter);assert.equal(DOMAdapter.get(),adapter);for(const t of ownedTextures)t.destroy(false);for(const s of ownedSources)s.destroy();}
++ rendererInstances:0,browserLaunches:0,physicsImports:0,actualSceneQueryBoundProven:false};
++}catch(error){primaryError=error;}finally{
++ const cleanup=action=>{try{action();}catch(error){cleanupErrors.push(error);}};
++ cleanup(()=>{DOMAdapter.set(adapter);assert.equal(DOMAdapter.get(),adapter);});
++ for(const texture of ownedTextures)cleanup(()=>{texture.destroy(false);assert.equal(texture.destroyed,true);});
++ for(const source of ownedSources)cleanup(()=>{source.destroy();assert.equal(source.destroyed,true);});
++}
++// A primary assertion stays authoritative; every owned cleanup is attempted before any success receipt.
++if(primaryError)throw primaryError;
++if(cleanupErrors.length)throw new AggregateError(cleanupErrors,'Owned SDK teardown failed');
++assert(completedResult);
++writeFileSync(output,JSON.stringify({...completedResult,teardown:{adapterRestored:true,texturesDestroyed:ownedTextures.length,
++ sourcesDestroyed:ownedSources.length,errors:0},finalized:true},null,2)+'\n',{flag:'wx'});
++

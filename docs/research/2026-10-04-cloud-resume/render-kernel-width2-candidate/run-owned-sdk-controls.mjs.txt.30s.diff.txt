@@ -1,0 +1,29 @@
+--- before30s/run-owned-sdk-controls.mjs.txt
++++ after30s/run-owned-sdk-controls.mjs.txt
+@@ -11,14 +11,14 @@
+ assert.equal(hash(pinBytes),process.env.WIDTH2_SDK_INPUT_PINS_SHA256);const pins=JSON.parse(pinBytes);
+ const owner=fileURLToPath(import.meta.url),started=Date.now();
+ function snapshot(){
+- const result={files:{},packages:[],limits:{maxFiles:20000,maxBytes:256*1024*1024,maxPreparationMs:20000}};let bytes=0,count=0;
+- const add=file=>{assert(Date.now()-started<45000,'Total owner preparation/verification bound');const st=lstatSync(file);assert(st.isFile(),'Nonregular input '+file);
++ const result={files:{},packages:[],limits:{maxFiles:20000,maxBytes:256*1024*1024,maxPreparationMs:6000}};let bytes=0,count=0;
++ const add=file=>{assert(Date.now()-started<25000,'Total owner preparation/verification bound');const st=lstatSync(file);assert(st.isFile(),'Nonregular input '+file);
+   const data=readFileSync(file);result.files[file]={sha256:hash(data),bytes:data.length,mode:st.mode&511};};
+  for(const [relative,sha] of Object.entries(pins)){const file=path.resolve(root,relative);add(file);assert.equal(result.files[file].sha256,sha,'Frozen input drift '+file);}
+  add(pinFile);add(owner);assert.equal(result.files[owner].sha256,pins[path.relative(root,path.join(directory,'run-owned-sdk-controls.mjs.txt'))]);
+  add(process.execPath);assert.equal(result.files[process.execPath].sha256,process.env.WIDTH2_SDK_NODE_SHA256,'Independent Node pin');
+  const seen=new Set();const begun=Date.now();const lock=JSON.parse(readFileSync(path.join(root,'package-lock.json'),'utf8'));
+- const check=()=>{assert(Date.now()-begun<20000,'SDK snapshot exceeded20s');assert(count<=20000&&bytes<=256*1024*1024,'SDK inventory cap');};
++ const check=()=>{assert(Date.now()-begun<6000,'SDK snapshot exceeded6s');assert(count<=20000&&bytes<=256*1024*1024,'SDK inventory cap');};
+  function resolvePackage(name,from){let base=from;for(;;){const candidate=path.join(base,'node_modules',name,'package.json');
+    try{if(lstatSync(candidate).isFile())return realpathSync(path.dirname(candidate));}catch(error){if(error.code!=='ENOENT')throw error;}
+    const up=path.dirname(base);assert(up!==base,'Required SDK dependency unavailable '+name);base=up;}}
+@@ -40,7 +40,7 @@
+  const data=readFileSync(path.join(directory,template));put(name,data);executed[name]=hash(readFileSync(path.join(setup,name)));assert.equal(executed[name],hash(data));}
+ put('executed-owner.mjs.txt',readFileSync(owner));put('executed-owned-command.mjs.txt',readFileSync(path.join(root,'scripts/bench/owned-command.mjs')));
+ json('before.json',before);json('declaration.json',{kind:'width2-sdk-owned-v1',setup,childDeadlineMs:5000,
+- externalOwnerDeadlineMs:60000,cleanupMs:8000,outputCapPerStream:8388608,executed,browserLaunches:0,physicsImports:0});
++ externalOwnerDeadlineMs:30000,cleanupMs:8000,outputCapPerStream:8388608,executed,browserLaunches:0,physicsImports:0});
+ process.stdout.write(setup+'\n');
+ const {runOwnedCommand,verifyNoOwnedProcesses}=await import(pathToFileURL(path.join(root,'scripts/bench/owned-command.mjs')).href);
+ let failure,after,absence,code,proofSha256;try{

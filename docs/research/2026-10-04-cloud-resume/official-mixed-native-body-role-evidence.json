@@ -1,0 +1,179 @@
+{
+  "kind": "static-body-role-correspondence-v1",
+  "closedRoles": {
+    "ALL_SCENARIOS": {
+      "chunkExport": "o",
+      "local": "wo"
+    },
+    "CATCH": {
+      "chunkExport": "p",
+      "local": "M"
+    },
+    "DT": {
+      "chunkExport": "t",
+      "local": "ou"
+    },
+    "PRESETS": {
+      "chunkExport": "s",
+      "local": "_o"
+    },
+    "SHIP": {
+      "chunkExport": "h",
+      "local": "E"
+    },
+    "SUPER_HEAVY": {
+      "chunkExport": "m",
+      "local": "bi"
+    },
+    "cloneState": {
+      "chunkExport": "d",
+      "local": "eo"
+    },
+    "createCatchPose": {
+      "chunkExport": "i",
+      "local": "Ys"
+    },
+    "createIntroState": {
+      "chunkExport": "c",
+      "local": "Oo"
+    },
+    "createScenarioState": {
+      "chunkExport": "l",
+      "local": "To"
+    },
+    "createScenarioVehicle": {
+      "chunkExport": "u",
+      "local": "Eo"
+    },
+    "heatLimit": {
+      "chunkExport": "g",
+      "local": "pe"
+    },
+    "runBoosterAutopilot": {
+      "chunkExport": "r",
+      "local": "cl"
+    },
+    "starBaseXPos": {
+      "chunkExport": "_",
+      "local": "d"
+    },
+    "step": {
+      "chunkExport": "n",
+      "local": "nu"
+    },
+    "toggleAutoLand": {
+      "chunkExport": "f",
+      "local": "Aa"
+    },
+    "writeCatchPose": {
+      "chunkExport": "a",
+      "local": "Xs"
+    }
+  },
+  "functionSourcePositions": [
+    {
+      "role": "createIntroState",
+      "local": "Oo",
+      "chunkExport": "c",
+      "generatedLine": 2381,
+      "source": "core/scenarios.ts",
+      "originalLine": 362,
+      "originalColumn": 0,
+      "originalDeclaration": "export function createIntroState(seed?: number): SimState {"
+    },
+    {
+      "role": "createScenarioState",
+      "local": "To",
+      "chunkExport": "l",
+      "generatedLine": 2365,
+      "source": "core/scenarios.ts",
+      "originalLine": 298,
+      "originalColumn": 0,
+      "originalDeclaration": "export function createScenarioState(preset: ScenarioPreset, seed?: number): SimState {"
+    },
+    {
+      "role": "createScenarioVehicle",
+      "local": "Eo",
+      "chunkExport": "u",
+      "generatedLine": 2368,
+      "source": "core/scenarios.ts",
+      "originalLine": 303,
+      "originalColumn": 0,
+      "originalDeclaration": "export function createScenarioVehicle(preset: ScenarioPreset, seed?: number): { state: SimState; vehicle: VehicleDefinition } {"
+    },
+    {
+      "role": "cloneState",
+      "local": "eo",
+      "chunkExport": "d",
+      "generatedLine": 2196,
+      "source": "core/state.ts",
+      "originalLine": 781,
+      "originalColumn": 0,
+      "originalDeclaration": "export function cloneState(s: SimState): SimState {"
+    },
+    {
+      "role": "createCatchPose",
+      "local": "Ys",
+      "chunkExport": "i",
+      "generatedLine": 2862,
+      "source": "core/physics/tower-catch.ts",
+      "originalLine": 14,
+      "originalColumn": 0,
+      "originalDeclaration": "export function createCatchPose(): CatchPose {"
+    },
+    {
+      "role": "writeCatchPose",
+      "local": "Xs",
+      "chunkExport": "a",
+      "generatedLine": 2870,
+      "source": "core/physics/tower-catch.ts",
+      "originalLine": 19,
+      "originalColumn": 0,
+      "originalDeclaration": "export function writeCatchPose(state: SimState, model: VehicleDefinition, out: CatchPose): void {"
+    },
+    {
+      "role": "step",
+      "local": "nu",
+      "chunkExport": "n",
+      "generatedLine": 3711,
+      "source": "core/step.ts",
+      "originalLine": 81,
+      "originalColumn": 0,
+      "originalDeclaration": "export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT, model: VehicleDefinition = SHIP): SimState {"
+    },
+    {
+      "role": "runBoosterAutopilot",
+      "local": "cl",
+      "chunkExport": "r",
+      "generatedLine": 3413,
+      "source": "core/autopilot/booster.ts",
+      "originalLine": 185,
+      "originalColumn": 0,
+      "originalDeclaration": "export function runBoosterAutopilot(state: SimState, dt: number, model: VehicleDefinition, advance?:MechanicalAdvance): void {"
+    },
+    {
+      "role": "toggleAutoLand",
+      "local": "Aa",
+      "chunkExport": "f",
+      "generatedLine": 1807,
+      "source": "core/control/commands.ts",
+      "originalLine": 160,
+      "originalColumn": 0,
+      "originalDeclaration": "export function toggleAutoLand(state: SimState): void {"
+    }
+  ],
+  "mapDecodedPositions": 28481,
+  "coreMappedSourcesEqualPrevious": 54,
+  "newMappedSource": "src/app/loop.ts",
+  "newSourceBody": "var ou = 1 / 120;",
+  "originalTestHashes": {
+    "tests/core/booster-guidance.test.ts": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+    "tests/flies-every-scenario.test.ts": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9"
+  },
+  "constantsNamespaceObservedProperties": [
+    "starBaseXPos",
+    "heatLimit"
+  ],
+  "nativeExecutedByReviewer": false,
+  "parserUsedByReviewer": false
+}

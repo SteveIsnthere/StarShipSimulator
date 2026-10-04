@@ -1,0 +1,40 @@
+{
+  "kind": "official-mixed-native-preparation-owner-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "utility": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/native-loader.mjs",
+    "sha": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb"
+  },
+  "preparer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-official-mixed-native-candidate.mjs.txt",
+    "sha": "820353501e5e6039f92cfb8ac1f50f658aa8170225f142b274a6d9f81256a0cc"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidate-pins.json",
+    "sha": "b8fdbed8600a6322ac8dbee609771f9f9b8a9e7bb6c2ae43f2778c35c37c1104"
+  },
+  "npmCli": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+    "sha": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-stage.mjs.txt",
+    "sha": "c05bfc931e30c2b79b13c92d6b3a41ce5ae530ae52f2771d1e8c5bf8b0dfc238"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-root-observer.py.txt",
+    "sha": "6b8180c192d279cef4297cbf50047092e435da4f89ed4bf5f83e7a84a7ccf198"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  }
+}

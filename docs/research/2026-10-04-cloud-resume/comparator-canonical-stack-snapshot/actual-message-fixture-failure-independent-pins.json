@@ -1,0 +1,26 @@
+{
+  "decision": "FAILED Native literal message fixture before candidate; SSR not admitted; no new execution grant",
+  "inputs": {
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/parent-identity.json": "83657e671dbb4a724fe2147b6e9171e067e3ae3d283ca5bf90d4e0d0216944b4",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/native-controls.process.json": "925b4dfa3dd3f840b25ad50477689cee96bb41f39b61b27d26dcfd3647de6c5b",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/after-pins.json": "66192f5168fc53307b3b2e7fc87a3d45833c4fbfd97af252f34f5849108d457d",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/finalized.json": "9718f37e305f89b2ba0f14869625bc8dd6e8611ecfd007a231b732c92cd14657",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/native-controls.owner-ready.json": "8b67ecbc3ddbb73aee99708573ac72b66458d43919a75acb8f3c0f3b15c3266a",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/before-pins.json": "66192f5168fc53307b3b2e7fc87a3d45833c4fbfd97af252f34f5849108d457d",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/evidence-manifest.json": "d2fa08295f22e5687aa9dc53d893b68dbf73a879db7611f685bb36d6537a3504",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/owned-cleanup.json": "530cc78108c38bf56e52bf02b10696d2be68a3b2aeff2d8a0373ff524b495ad5",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/native.exit.json": "6959a4b2e01a413aad4268dca1845b63840196689c0a25e99fef5a3895e7dccb",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/native-controls.stderr.txt": "5e72ac98256df74aef1d76d89edc21c435911b2cb72d9d7cdbb8643be13cf4cc",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/native-controls.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/controls.mjs": "ea1c4bc841c710782e03eded92a30c2aba0cb040656df1f0a1b9d109fd13220a",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/graph-oracle-before.ts": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/root-parent/result.json": "90c708e5ea1c1fdc380452c82b40b679fe52a792a5db482b472abe28b2f7eca7",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/root-parent/independent-all-owned-postexit.json": "af77748213fae76c9263452f1331414f9667fa7ba6eb8114e7e4590592c63316",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/input-pins.json": "543ebdd99b8e23de05cfb184c1b6b5fe956c01aed13019e39cdf0460a0ca2bb8",
+    "docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/launch-input-pins.json": "d3043e0fe8220cf4359746e2e7e8a9945ce4325ea0b96b6ca0a0b55c0b841893",
+    "docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/receipt-inspector-7bb66756-e1ef-40c4-9862-1ab807158dd3/sampled-script-sources.json": "c8d830522cc2d6b7ae2f7cdd353e833a9224691438acaae3a0cdbc1059e614aa"
+  },
+  "reviewSha256": "c1d65f8c5a291182b9214402bb0ece1cb9d323095ff0f36746f75cf296c6a5a0",
+  "workloadExecutedByReviewer": false,
+  "supersededDraftReview": "actual-message-fixture-failure-before-array-operand-correction.md"
+}

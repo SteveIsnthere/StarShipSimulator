@@ -1,0 +1,19 @@
+{
+  "kind": "independent-actual-input-review",
+  "inputPath": "/tmp/starship-width2-stage-input.24jwafum/owner-input.json",
+  "inputSha256": "fefd55bd28eb3ae93cc09364d72f064ffaec2a39d98680d3dd0f134e0c2b8274",
+  "mode": "qualify",
+  "outerMs": 30000,
+  "helperMs": 14000,
+  "compiledSetup": "/tmp/starship-render-kernel.2co6w1rl",
+  "newEmpty0700RealpathReceipt": "/tmp/starship-width2-qualified.9aaf62497cd6496794bcf975f0e8538f",
+  "sourceManifestSha256": "ec72cf5698c6b8a2192843fa533f78dd16e200ddbb54c149d78062d0185c8b84",
+  "consumerSha256": "6ab522f5283f6aa89defbe243236da55dbaa857b152d6edd369a7df0e3d3ce29",
+  "lineageSha256": "29b33bc127e3487b301d171134eb7bf92628a5c4253b37475e09eef198c07dd7",
+  "observerSha256": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+  "independentFreshSourceReviewRead": true,
+  "smallInputsIndependentlyByteExact": true,
+  "parentRuntimeHashesRequired": true,
+  "retainedAdhocFreezeWarning": "Python invalid escape SyntaxWarning; guard assertions passed; distinct maker source AST0 reported",
+  "disposition": "one-owned-offline-exact-facade-consumer-only; actual result and all-owned absence review required"
+}

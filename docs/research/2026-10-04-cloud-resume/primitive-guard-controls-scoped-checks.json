@@ -1,0 +1,244 @@
+{
+  "status": "pass",
+  "acceptedCurrentChecks": 18,
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/launcher.mjs.txt",
+      "sourceSha256": "27b2faf37924603e669b0d3182d40447ffdec9ab3c1f8e3e96f4fa71b2ad3e76",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.y9mkox8i/check.mjs"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/launcher.mjs.txt",
+      "sourceSha256": "27b2faf37924603e669b0d3182d40447ffdec9ab3c1f8e3e96f4fa71b2ad3e76",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/launcher.mjs"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/owned-command.mjs.txt",
+      "sourceSha256": "81efb21f596c0eb818cb7e625b54d69c2acc011d4215fdd1ae611f779ae2b987",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.u1ad_5cu/check.mjs"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/owned-command.mjs.txt",
+      "sourceSha256": "81efb21f596c0eb818cb7e625b54d69c2acc011d4215fdd1ae611f779ae2b987",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/owned-command.mjs"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/bootstrap.mjs.txt",
+      "sourceSha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.8k_m6mu3/check.mjs"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/bootstrap.mjs.txt",
+      "sourceSha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/bootstrap.mjs"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/bootstrap.ts.txt",
+      "sourceSha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.s5_yo6uh/check.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/bootstrap.ts.txt",
+      "sourceSha256": "af12c76575a15d24bb87599c3ec192d8636e7b1b2e5507a1b325361136f17ffa",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/bootstrap.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle.ts.txt",
+      "sourceSha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.6n_18mgs/check.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle.ts.txt",
+      "sourceSha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before.ts.txt",
+      "sourceSha256": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.9zat35g1/check.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before.ts.txt",
+      "sourceSha256": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-scaled.ts.txt",
+      "sourceSha256": "3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.vtg8jhdw/check.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-scaled.ts.txt",
+      "sourceSha256": "3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-scaled.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before-scaled.ts.txt",
+      "sourceSha256": "d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.nhj6gvlf/check.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before-scaled.ts.txt",
+      "sourceSha256": "d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before-scaled.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls.mjs.txt",
+      "sourceSha256": "787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace",
+      "status": 0,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guard-control-syntax.4y9w1l5h/check.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls.mjs.txt",
+      "sourceSha256": "787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace",
+      "status": 0,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/controls.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "changedControlReceipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/primitive-guard-controls-changed-control-scoped-checks.json",
+  "previousFailurePreserved": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/primitive-guard-controls-scoped-failure-02.json",
+  "noUnchangedChecksRepeated": true,
+  "runtimeExecuted": false
+}

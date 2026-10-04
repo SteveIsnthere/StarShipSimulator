@@ -1,0 +1,31 @@
+{
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "failure": null,
+  "bytes": {
+    "stdout": 0,
+    "stderr": 183
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 58120,
+    "start": "3415772",
+    "group": 58120,
+    "session": 58120,
+    "tracked": [
+      {
+        "pid": 58120,
+        "state": "R",
+        "parent": 58113,
+        "group": 58120,
+        "session": 58120,
+        "start": "3415772"
+      }
+    ],
+    "executing": []
+  }
+}

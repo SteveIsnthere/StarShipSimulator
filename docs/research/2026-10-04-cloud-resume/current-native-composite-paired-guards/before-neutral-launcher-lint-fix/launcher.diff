@@ -1,0 +1,91 @@
+--- failed-descendant-paired-consumer
++++ guard-paired-consumer
+@@ -6,7 +6,7 @@
+ import {sourceSnapshot,installedToolSnapshot,digestFile} from 'NATIVE_LOADER_PLACEHOLDER';
+ import {runOwnedCommand,verifyNoOwnedProcesses} from 'OWNED_COMMAND_PLACEHOLDER';
+ import {auditCompletedFall} from 'LABEL_AUDIT_PLACEHOLDER';
+-const root=process.cwd(),draft=resolve('docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants');
++const root=process.cwd(),draft=resolve('docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards');
+ const continuationDraft=resolve('docs/research/2026-10-04-cloud-resume/current-native-burn-continuation');
+ const originalDraft=resolve('docs/research/2026-10-04-cloud-resume/current-native-qualification-harness');
+ const original=resolve(originalDraft,'receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e');
+@@ -43,8 +43,11 @@
+  assert(!/[A-Z_]+_PLACEHOLDER/.test(text));const path=resolve(task,name);writeFileSync(path,text);register(path);return path;
+ }
+ try{
+- stage='preflight';mkdirSync(task);assert.equal(process.version,'v22.23.3');assert.equal(process.platform,'linux');
+- assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'current-native-composite-paired-descendants');
++ stage='preflight';
++ const stat=readFileSync(`/proc/${process.pid}/stat`,'utf8');const identityFields=stat.slice(stat.lastIndexOf(')')+2).trim().split(/\s+/);
++writeFileSync(resolve(receipt,'launcher-identity.json'),JSON.stringify({pid:process.pid,start:identityFields[19],parent:Number(identityFields[1]),group:Number(identityFields[2]),session:Number(identityFields[3]),state:identityFields[0]},null,2)+'\n',{flag:'wx'});
++ mkdirSync(task);assert.equal(process.version,'v22.23.3');assert.equal(process.platform,'linux');
++ assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'current-native-composite-paired-guards');
+  const review=resolve(draft,'independent-review.md'),reviewPinsPath=resolve(draft,'independent-review-pins.json');
+  assert.equal(digestFile(review),process.env.STARSHIP_CURRENT_NATIVE_REVIEW_SHA);assert.equal(digestFile(reviewPinsPath),process.env.STARSHIP_CURRENT_NATIVE_REVIEW_PINS_SHA);
+  const reviewPins=JSON.parse(readFileSync(reviewPinsPath,'utf8'));assert.equal(reviewPins.review,digestFile(review));assert.equal(reviewPins.inputManifest,digestFile(resolve(draft,'input-pins.json')));
+@@ -107,7 +110,7 @@
+  const controlResult=JSON.parse(readFileSync(resolve(control.receipt,'control-result.json'),'utf8'));assert(controlResult.finalized&&controlResult.kind==='descendant-certificates-controls-v1'&&controlResult.passed===15&&controlResult.failed===0&&controlResult.physicalSteps===0&&controlResult.productionImports===0);
+  assert.equal(controlResult.cases.length,15);assert.equal(new Set(controlResult.cases.map(row=>row.name)).size,15);assert(controlResult.cases.every(row=>row.status==='passed'));
+  for(const [file,field]of [['graph-oracle.ts.txt','candidateDigest'],['graph-oracle-before.ts.txt','originalDigest'],['controls.mjs.txt','controlsDigest'],['input-pins.json','candidateInputManifestDigest'],['launch-input-pins.json','launchInputManifestDigest']])assert.equal(digestFile(resolve(controlDraft,file)),control[field]);
+- assert.equal(digestFile(resolve(draft,'graph-oracle.ts.txt')),control.candidateDigest);
++ assert.equal(digestFile(resolve(root,'docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants/graph-oracle.ts.txt')),control.candidateDigest);
+  assert.equal(digestFile(resolve(root,'docs/research/2026-10-04-cloud-resume/current-native-composite-paired/graph-oracle.ts.txt')),control.originalDigest);
+  assert.equal(digestFile(control.independentResultReview),control.independentResultReviewDigest);assert.equal(digestFile(control.independentResultReviewPins),control.independentResultReviewPinsDigest);
+  const supplemental=resolve(controlDraft,'parent/independent-all-owned-postexit.json');assert.equal(digestFile(supplemental),control.supplementalOwnershipDigest);
+@@ -123,6 +126,56 @@
+  previousPins={...previousPins,...evidence(failedPair,inputs[relative(root,resolve(failedPair,'evidence-manifest.json'))])};verifyCoreLineage(failedPair);
+  prior={...prior,controlAcceptance:controlPath,controlAcceptanceDigest:digestFile(controlPath),failedPair,failedPairStatus:'failed',oracleDigest:control.candidateDigest};
+  writeFileSync(resolve(receipt,'paired-predecessors.json'),JSON.stringify(prior,null,2)+'\n');
++ stage='accepted-guard-controls-and-second-failed-pair';
++ const guardPath=resolve(root,'docs/research/2026-10-04-cloud-resume/cloud-comparator-public-assert-anchors-actual-independent-acceptance.json');
++ assert.equal(digestFile(guardPath),'c1ad9456c0997c08eceb6cf2a4433b91bd66140fc0aac1ba26ae59fdfa9b9925');
++ const guard=JSON.parse(readFileSync(guardPath,'utf8'));
++ assert.equal(guard.schema,1);assert.equal(guard.status,'accepted-pure-semantics-with-parent-finalization-limitation');
++ assert.equal(guard.pureSemanticsAccepted,true);assert.equal(guard.physicalExecutionApproved,false);assert.equal(guard.performanceAccepted,false);
++ assert.equal(guard.casesEach,52);assert.equal(guard.errorEvidenceEach,23);assert.equal(guard.fullBackendResultParity,true);
++ assert.equal(guard.launcherExit,0);assert.equal(guard.parentWrapperExit,1);assert.equal(guard.rootElapsedSeconds,null);
++ assert.equal(guard.outerStartRetained,false);assert.equal(guard.fullObservedOuterRowsRetained,false);
++ assert.equal(guard.cleanup.allActualTrackedChildrenAndLauncherNonexecuting,true);
++ assert.equal(guard.cleanup.completeObservedOuterIdentityLineage,false);assert.deepEqual(guard.cleanup.outerGroupSessionExecuting,[]);
++ assert.equal(guard.requiresFreshConsumerAndCorrectedOuterPersistenceReview,true);
++ for(const backend of ['native','ssr'])assert.deepEqual(guard[backend+'Exit'],{code:0,signal:null,failure:null});
++ assert.equal(guard.receipt,resolve(root,'docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40'));
++ assert(!guardPath.startsWith(guard.receipt+'/'));
++ assert.equal(digestFile(guard.reviewPath),guard.reviewSha256);
++ for(const[p,h]of Object.entries(guard.inputs)){assert(isAbsolute(p));assert.equal(digestFile(p),h,p);previousPins[p]=h;}
++ const guardFinal=JSON.parse(readFileSync(resolve(guard.receipt,'finalized.json'),'utf8'));
++ assert(guardFinal.finalized&&guardFinal.status==='pass'&&guardFinal.stage==='completed'&&guardFinal.failure===null);
++ const guardBefore=JSON.parse(readFileSync(resolve(guard.receipt,'before-pins.json'),'utf8'));
++ const guardAfter=JSON.parse(readFileSync(resolve(guard.receipt,'after-pins.json'),'utf8'));assert.deepEqual(guardBefore,guardAfter);
++ assert.deepEqual(before.installed,guardBefore.installed);
++ for(const[p,h]of Object.entries(guardBefore.pins)){assert.equal(digestFile(p),h,p);previousPins[p]=h;}
++ const guardResults={};const guardInventory=JSON.parse(readFileSync(resolve(root,'docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/case-inventory.json'),'utf8'));
++ assert.equal(guardInventory.length,52);assert.equal(new Set(guardInventory).size,52);
++ for(const backend of ['native','ssr']){
++  const processResult=JSON.parse(readFileSync(resolve(guard.receipt,backend+'-controls.process.json'),'utf8'));
++  assert.deepEqual(processResult.exit,{code:0,signal:null});assert.equal(processResult.failure,null);assert.equal(processResult.firstFailure,null);
++  assert(processResult.finished&&processResult.closed);assert.deepEqual(processResult.cleanup.executing,[]);
++  assert.deepEqual(JSON.parse(readFileSync(resolve(guard.receipt,backend+'.exit.json'),'utf8')),{code:0});
++  const result=JSON.parse(readFileSync(resolve(guard.receipt,backend+'-result.json'),'utf8'));
++  assert(result.finalized&&result.kind==='primitive-success-guard-canonical-stack-controls-v1'&&result.passed===52&&result.failed===0&&result.physicalSteps===0&&result.productionImports===0);
++  assert.equal(result.cases.length,52);assert.deepEqual(result.cases.map(row=>row.name),guardInventory);assert(result.cases.every(row=>row.status==='passed'));
++  assert.equal(result.errorEvidence.length,23);guardResults[backend]=result;
++ }
++ assert.deepEqual(guardResults.native,guardResults.ssr);
++ assert.equal(digestFile(resolve(draft,'graph-oracle.ts.txt')),guard.candidateDigest);
++ assert.equal(guard.originalDigest,control.candidateDigest);
++ previousPins={...previousPins,...evidence(guard.receipt,guard.inputs[resolve(guard.receipt,'evidence-manifest.json')]),[guardPath]:digestFile(guardPath),[guard.reviewPath]:guard.reviewSha256};
++ const secondFailedPair=resolve(root,'docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants/receipt-paired-f898aa3c-5dba-4f9e-aad7-fc0723348a39');
++ const secondFinal=JSON.parse(readFileSync(resolve(secondFailedPair,'finalized.json'),'utf8'));
++ assert(secondFinal.finalized&&secondFinal.status==='failed'&&secondFinal.mode==='composite-paired'&&secondFinal.stage==='paired-flight');
++ const secondPrefix=JSON.parse(readFileSync(resolve(secondFailedPair,'paired-first-failure.json'),'utf8'));
++ assert.equal(secondPrefix.status,'failed');assert.equal(secondPrefix.ticks,13669);assert.match(secondPrefix.text,/research flight supervision bound/);
++ assert.equal(secondPrefix.counts.totalNodes,45509133);assert.equal(secondPrefix.counts.totalEdges,340928320);
++ previousPins={...previousPins,...evidence(secondFailedPair,inputs[relative(root,resolve(secondFailedPair,'evidence-manifest.json'))])};verifyCoreLineage(secondFailedPair);
++ prior={...prior,guardAcceptance:guardPath,guardAcceptanceDigest:digestFile(guardPath),guardParentWrapperExit:1,
++  guardRootElapsedSeconds:null,guardOuterStartRetained:false,guardCompleteObservedOuterIdentityLineage:false,
++  secondFailedPair,secondFailedPairStatus:'failed',oracleDigest:guard.candidateDigest};
++ writeFileSync(resolve(receipt,'guard-predecessors-and-limitation.json'),JSON.stringify(prior,null,2)+'\n');
+  stage='materialize-paired';
+  const entry=render('entry.ts',{ORIGINAL_ORACLE_PLACEHOLDER:resolve('tests/proofs/fixtures/unpowered-fall-original.ts')});
+  const helper=render('graph-oracle.ts');const driver=render('full-flight.ts',{GRAPH_ORACLE_PLACEHOLDER:relative(task,helper),SSR_ENTRY_PLACEHOLDER:relative(task,entry)});

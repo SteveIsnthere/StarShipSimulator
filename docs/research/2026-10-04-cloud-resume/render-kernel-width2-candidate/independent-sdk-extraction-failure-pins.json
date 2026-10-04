@@ -1,0 +1,66 @@
+{
+  "kind": "independent-failed-sdk-extraction-assessment-v1",
+  "decision": "FAILED retained; source-supported delimiter repair preparation only",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/independent-sdk-extraction-failure-assessment.md",
+      "sha256": "f0e2cd49b0ddfbd8d16340a803f268922efc77780f54925ccf60ae66b86366e2",
+      "bytes": 3892
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/@types/node/module.d.ts",
+      "sha256": "97234c5303866576f913d0ccae7d58d6322d9e803c7bf1228a3fda46ab8087b2",
+      "bytes": 32983
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/owned-sdk-input-pins.json",
+      "sha256": "bf2ec8c22b08c65f8303f52c57a9f093bd7f61f697b4f798deda132a3d9b30cb",
+      "bytes": 4356
+    },
+    {
+      "path": "/tmp/starship-width2-sdk.l2wYbX/controls.mjs",
+      "sha256": "6130fbcc6af22fa23c8a12443fae95f60a55e8a419a8e9347b609ca2b0a61022",
+      "bytes": 11730
+    },
+    {
+      "path": "/tmp/starship-width2-sdk.l2wYbX/entry.ts.txt",
+      "sha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8",
+      "bytes": 7765
+    },
+    {
+      "path": "/tmp/starship-width2-sdk.l2wYbX/sdk.process.json",
+      "sha256": "e9eabc67531e04c5d782531bdc1c9d1f8cc4abed981d120c101ae03d1f3cc6e7",
+      "bytes": 492
+    },
+    {
+      "path": "/tmp/starship-width2-sdk.l2wYbX/sdk.stderr.txt",
+      "sha256": "4d7867e59e3ddabd7e9c8efef832e8e70bbee243b1b0b669e548ca0c9c1eddb3",
+      "bytes": 485
+    },
+    {
+      "path": "/tmp/starship-width2-sdk.l2wYbX/before.json",
+      "sha256": "0af0c4822913ccb33de0a1aae5bb145d44cc2b1bb75382fd2c7bbae49f3d7869",
+      "bytes": 919924
+    },
+    {
+      "path": "/tmp/starship-width2-sdk.l2wYbX/after.json",
+      "sha256": "0af0c4822913ccb33de0a1aae5bb145d44cc2b1bb75382fd2c7bbae49f3d7869",
+      "bytes": 919924
+    },
+    {
+      "path": "/tmp/starship-width2-sdk.l2wYbX/owner-result.json",
+      "sha256": "ace90d2833558869695bd8352df1a9d961094af098897365f2b1f395f6305464",
+      "bytes": 1918708
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/sdk-parent/result.json",
+      "sha256": "368802524fd43f57495dd7b634592bdc1dee0445f8874745e18411f47993e92f",
+      "bytes": 372
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/sdk-parent/independent-all-owned-postexit.json",
+      "sha256": "a6b0385aa29c2289f565f273a93dd61d2450bc85793d457a8878a9b134325348",
+      "bytes": 420
+    }
+  ]
+}

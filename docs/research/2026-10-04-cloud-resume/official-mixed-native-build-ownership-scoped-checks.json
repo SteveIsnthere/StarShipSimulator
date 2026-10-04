@@ -1,0 +1,39 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-build-stage.mjs.txt",
+      "sha256": "ca4f90a4f0267303a41f363069b8f5ea3bb250b075509dd3857052611340c93d",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-stage-final-scope.almxbwap/official-mixed-native-build-stage.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-build-stage.mjs.txt",
+      "sha256": "ca4f90a4f0267303a41f363069b8f5ea3bb250b075509dd3857052611340c93d",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-build-stage.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-build-root-observer.py.txt",
+      "sha256": "1929e92cff49d401891164c02a4107abcf65fb186cf0aac5bf3ffbbf1335030f",
+      "kind": "Python AST syntax",
+      "status": 0
+    }
+  ],
+  "elapsedSeconds": 0.9385566470009508,
+  "runtimeExecuted": false
+}

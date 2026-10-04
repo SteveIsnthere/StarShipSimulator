@@ -1,0 +1,89 @@
+import assert from 'node:assert/strict';
+import { readdirSync, lstatSync, realpathSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { digest, parse, utilities } from './integrity.mjs';
+export const originalTests = ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts'];
+const aliases = ['$core/scenarios', '$core/state', '$core/autopilot/booster', '$core/step',
+  '$core/vehicles/super-heavy', '$core/physics/tower-catch', '$core/constants',
+  '$core/control/commands', '$core/vehicle', '$app/loop'];
+export function strictFiles(directory) {
+  const result = {}; let bytes = 0;
+  function walk(path, depth) {
+    assert(depth <= 16);
+    for (const name of readdirSync(path).sort()) {
+      const file = resolve(path, name), stat = lstatSync(file);
+      assert(!stat.isSymbolicLink());
+      if (stat.isDirectory()) walk(file, depth + 1);
+      else { assert(stat.isFile()); bytes += stat.size; assert(bytes <= 16 * 1024 * 1024);
+        result[relative(directory, file)] = digest(file); }
+      assert(Object.keys(result).length <= 2048);
+    }
+  }
+  walk(directory, 0); return result;
+}
+export async function admitComposite(file, expectedSha) {
+  assert.match(expectedSha, /^[a-f0-9]{64}$/); assert.equal(digest(file), expectedSha);
+  const q = parse(file), root = realpathSync(process.cwd());
+  assert.equal(process.platform, 'linux');
+  assert.equal(q.kind, 'retained-failed-compiler-reviewed-flight-composite-v1');
+  assert.equal(q.originalCompilerPipelineCode, 1); assert.equal(q.originalBuildContract, 'FAILED');
+  assert.equal(q.scope, 'exact-two-original-flight-files');
+  assert.equal(q.root, root); assert.equal(q.nodeVersion, process.version);
+  assert.equal(q.nodeBinary, digest(process.execPath));
+  // Every historical receipt stays byte-identical; acceptance is a new composite.
+  for (const row of q.evidence) assert.equal(digest(row.path), row.sha256, row.role);
+  assert.deepEqual(q.evidence.map(row => row.role).sort(), [
+    'failed-build-boundary', 'failed-build-owner', 'failed-build-process', 'failed-build-root',
+    'fresh-integrity-result', 'fresh-integrity-review', 'body-role-evidence',
+    'body-role-review', 'paired-semantic-review', 'standalone-cost-review'].sort());
+  const old = parse(q.evidence.find(row => row.role === 'failed-build-process').path);
+  assert.equal(old.exit.code, 1); assert.equal(old.exit.signal, null);
+  const fresh = parse(q.evidence.find(row => row.role === 'fresh-integrity-result').path);
+  assert.equal(fresh.completed, true); assert.equal(fresh.error, null);
+  assert.deepEqual(fresh.afterErrors, []);
+  assert.equal(fresh.classification.originalBuildContract, 'FAILED');
+  assert.equal(fresh.classification.compilerPipelineCode, 1);
+  assert.equal(fresh.classification.productionAcceptance, false);
+  assert.deepEqual(fresh.classification.mapped, q.graph);
+  assert.deepEqual(fresh.classification.completeClosure, q.closure);
+  assert.deepEqual(fresh.classification.options, q.options);
+  assert.deepEqual(Object.keys(q.originalTests), originalTests);
+  for (const [name, sha] of Object.entries(q.originalTests)) assert.equal(digest(resolve(root, name)), sha);
+  for (const [name, sha] of Object.entries(q.graph)) assert.equal(digest(resolve(root, name)), sha);
+  const u = await utilities(root, q.utilityDigest);
+  assert.deepEqual(u.installedToolSnapshot(root, q.npmCli), q.installedTools);
+  // Exact finite integration bridge, separately reviewed. No historical resealing.
+  const current = u.sourceSnapshot(root), before = q.source;
+  const changed = [...new Set([...Object.keys(before), ...Object.keys(current)])]
+    .filter(name => before[name] !== current[name]).sort();
+  assert.deepEqual(changed, Object.keys(q.integrationBridge).sort());
+  for (const name of changed) {
+    assert(!name.startsWith('src/') && !name.startsWith('tests/'));
+    assert.deepEqual(q.integrationBridge[name], { before: before[name] ?? null, after: current[name] ?? null });
+  }
+  assert.equal(digest(q.baselineMapPath), q.retainedFiles[q.mappedCode + '.map']);
+  assert.equal(digest(q.retainedOriginPath), q.retainedOriginSha);
+  assert.deepEqual(q.closure, ['entry.mjs', 'simulation-CN0-W409.js']);
+  assert.deepEqual(q.aliases, aliases);
+  assert.equal(q.mappedCode, q.closure[1]);
+  assert.equal(q.retainedEntryBytes, 504);
+  return q;
+}
+export async function admitRun(file, expectedSha) {
+  assert.equal(digest(file), expectedSha); const m = parse(file);
+  assert.equal(m.kind, 'official-native-flight-run-v1');
+  const q = await admitComposite(m.compositePath, m.compositeSha);
+  assert.equal(m.root, q.root); assert.deepEqual(m.source, (await utilities(q.root, q.utilityDigest)).sourceSnapshot(q.root));
+  assert.deepEqual(strictFiles(m.directory), m.files);
+  assert.equal(m.freshBuildCompleted, true);
+  assert.equal(m.mapTranslation, 'relative-original-source-routes-only');
+  for (const name of q.closure) assert.equal(m.files[name], q.retainedFiles[name]);
+  const boundary = parse(m.directory + '.boundary.json');
+  assert.equal(boundary.completed, true); assert.equal(boundary.error, null); assert.deepEqual(boundary.afterErrors, []);
+  const owner = parse(m.directory + '.receipts/native-build.process.json');
+  assert.equal(owner.exit.code, 0); assert.equal(owner.exit.signal, null);
+  assert.equal(owner.failure, null); assert.equal(owner.closed, true);
+  assert.equal(owner.cleanup.executing.length, 0);
+  assert.equal(m.files['constants.mjs'], digest(resolve(q.root, 'scripts/test/constants.mjs')));
+  return { manifest: m, qualification: q };
+}

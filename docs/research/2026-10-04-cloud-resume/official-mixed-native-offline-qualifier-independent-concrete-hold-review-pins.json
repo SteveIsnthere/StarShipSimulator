@@ -1,0 +1,12 @@
+{
+  "manifestSha256": "64bdeca6e7a7c28463e30eaca6b39d817cfc3358d2334133e003054a384ab9a5",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/artifact-validation.mjs.txt": "647a3e7cadab048628c97675804407bf50ed1f27fa70d2d13a580fbb99f9911d",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/classify-closure.mjs.txt": "9c41894af497c4d4930fb45f0c542cf02941fbcb87e546453e6afab86c0484aa",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/contract.md": "18e45a205eb1b0c9899de2243e16d01da7c95d3662d7ed994509f8660bddb6ed",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/qualify-retained.mjs.txt": "43f7e68b984209e4c921ac4bf8404ea7db1270bc10c0164ac2b5f947a1055a44",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/run-owned.mjs.txt": "87c7087bc3a151664cb6c79e5d3ca72b71bb93b88cd842dac5fb2e0bb4d3ac51"
+  },
+  "reviewSha256": "77f93fe05dedd9771f8246ddfe04251eaa446900065f6820e230fd34d3cce661",
+  "executionPerformed": false
+}

@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import { registerHooks } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { admit } from './admission.mjs';
+const { approval } = await admit(process.env.NATIVE_FLIGHT_APPROVAL, process.env.NATIVE_FLIGHT_APPROVAL_SHA);
+const parents = new Set(approval.nativeParents.map(file => pathToFileURL(file).href));
+registerHooks({ resolve(specifier, context, nextResolve) {
+  if (Object.hasOwn(approval.aliases, specifier)) {
+    assert(parents.has(context.parentURL), 'Native application alias requested by foreign parent');
+    return { url: pathToFileURL(approval.aliases[specifier]).href, shortCircuit: true };
+  }
+  if (/^\$(core|app|view|hud|ui|audio)\//.test(specifier)) throw Error('Unknown native application alias: ' + specifier);
+  return nextResolve(specifier, context);
+} });

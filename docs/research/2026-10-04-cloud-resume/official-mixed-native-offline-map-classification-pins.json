@@ -1,0 +1,10 @@
+{
+  "scope": "Unexecuted bounded offline retained-output classification; old build remains FAILED; 4500ms child+strict collector repairs",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/artifact-validation.mjs.txt": "be32fe0ef8da8b302b48ce39b010596135cf4f04e175ab2687dc09b23c2f8de1",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/classify-closure.mjs.txt": "9c41894af497c4d4930fb45f0c542cf02941fbcb87e546453e6afab86c0484aa",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/contract.md": "f2e3cf11abef2281783b93156365dce61615c0c93c260dd08d2ce555023e1205",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/qualify-retained.mjs.txt": "ec030dd5a3433af82be9230854779834e5507793be9f6ee164baa87108167a2f",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/run-owned.mjs.txt": "55b77d4e186c963c7172f1ccf48a9ce3aa3d9aec1b6be04f65d22550b7db2c6b"
+  }
+}

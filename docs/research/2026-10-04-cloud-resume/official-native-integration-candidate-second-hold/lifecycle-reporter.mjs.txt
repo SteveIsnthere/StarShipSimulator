@@ -1,0 +1,11 @@
+import { writeFileSync } from 'node:fs';
+export default class OfficialLifecycleReporter {
+  onTestRunEnd(modules, unhandledErrors, reason) {
+    const inventory = modules.flatMap(module => [...module.children.allTests()].map(test => ({
+      file: module.moduleId, project: module.project.name,
+      fullName: test.fullName, state: test.result().state,
+    })));
+    writeFileSync(process.env.NATIVE_FLIGHT_LIFECYCLE,
+      JSON.stringify({ reason, unhandledErrors, inventory }) + '\n', { flag: 'wx' });
+  }
+}

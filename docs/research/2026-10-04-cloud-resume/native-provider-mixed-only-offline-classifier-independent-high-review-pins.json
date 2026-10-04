@@ -1,0 +1,10 @@
+{
+  "classification": "Static HIGH code approval for one bounded offline evidence classification, not production acceptance",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/classify.mjs": "cd9592d32b253128f5a2e1285bbfe967e9280104a302c96851624d6645dd8dbc",
+    "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/declaration.md": "5e6abb3347f6f3deb89776894bf69057c1c9d2b779aa867790eb878373846766",
+    "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/fixture-contexts.json": "760313b9a966343d0207c4cfebd9c54d1f748a90b35b8c14d1f02f06ec7811e6",
+    "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/fixture-validation.mjs": "3e692bcaf04b117c2ccad097a1927066bc512b51c99541959b2e6ca2e3b19ad6",
+    "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/run-owned.mjs": "7a234b280ca93bfea847cee18d17cda34f2c23939c090c538d75470e50296044"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "receiptPins": {
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/owner-input.json": "d3d207a14cf140dc964b5138607f32e0c1216fa141e74be8a781ac2fce0cafb0",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/observer-os-exit.json": "915a2fb7cb5886d8720b4db07856d5c7a5877ef47c8fbaf346415dbc389ba204",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/invocation.json": "e8f3b3bdf4d76b6eb6c2f3d6ae9aecd790f34419b072b17128a18289dd404a84",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/stdout.txt": "a83d8ebd97426245f31b0a58d7bbedc2fcf10026f4400f6f10afe120da4d0957",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-width2-root.rcwfikl2/root-outcome.json": "e077dcb342552a99f6ead4e3eda9ae48297051929c6519a1cdd26907b437c29b",
+    "/tmp/starship-width2-root.rcwfikl2/actual-outer-exit.json": "3bfc4b0229724e5bed1fb34f4d00c67f8ff6dc3736c5d03d79665afa5f88cad3",
+    "/tmp/starship-width2-root.rcwfikl2/actual-outer-exit-final.json": "b1db7bd4761cef9713a1c4f11f55d31c66a49a97d7069c0b3a21a8049a5e7ef4",
+    "/tmp/starship-width2-root.rcwfikl2/identities.jsonl": "ab0266b6d070d7fb1d34607c01750d52197b4a09b07ceabec74155d9823611f4",
+    "/tmp/starship-width2-stage.q28VdJ/stage-result.json": "1116359b3b47663bcfe216115223efb2202effb1e5fe966d50698783e3c3467d",
+    "/tmp/starship-width2-stage.q28VdJ/actual-child-exit.json": "a005eb73b6319999818ef215045039b3a3b249db026f49499e5539606e13b346",
+    "/tmp/starship-width2-stage.q28VdJ/preparation.process.json": "a78d711ed374c824850dd9c5ac3ca02466d9798f67f474de13522dae3327c58b",
+    "/tmp/starship-render-kernel.2co6w1rl/kernel-build-before.json": "384c839ad0fbe875eaa03aac9f0263922dfb8561f0e591d840298f940b7f2d65",
+    "/tmp/starship-render-kernel.2co6w1rl/kernel-build-after.json": "384c839ad0fbe875eaa03aac9f0263922dfb8561f0e591d840298f940b7f2d65",
+    "/tmp/starship-render-kernel.2co6w1rl/kernel-build-result.json": "563ddca8f4b87df0b31b868022f289e67c45a8f4cd0ff966439c5ee62417a4d7",
+    "/tmp/starship-render-kernel.2co6w1rl/vite-build.process.json": "ecdd284584759d837e7e2e871ac30cf0c414fefa5087f15b2f12e30498f17e9d",
+    "/tmp/starship-render-kernel.2co6w1rl/vite-build.stdout.txt": "bdead4db0a39ec521acfedbf69aae2e45dbc2af79dd4c7a11a58191f9b62d862",
+    "/tmp/starship-render-kernel.2co6w1rl/vite-build.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-render-kernel.2co6w1rl/executed-build-owner.mjs.txt": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180"
+  },
+  "independentOwnedAbsence": [
+    {
+      "pid": 62569,
+      "start": "3885245",
+      "absent": true
+    },
+    {
+      "pid": 62576,
+      "start": "3885275",
+      "absent": true
+    },
+    {
+      "pid": 62584,
+      "start": "3885542",
+      "absent": true
+    },
+    {
+      "pid": 62583,
+      "start": "3885414",
+      "absent": true
+    }
+  ],
+  "reviewSha256": "dd65a73d91e9cb6291134bd030871efd2bbad4c72d4e9fb977d3f1d7bb320689",
+  "workloadExecutedByReviewer": false
+}

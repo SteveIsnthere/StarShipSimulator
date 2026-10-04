@@ -1,0 +1,26 @@
+--- before-high/prepare-width2.py.txt
++++ repaired/prepare-width2.py.txt
+@@ -104,6 +104,23 @@
+ if sdk_process['exit']!={'code':0,'signal':None} or sdk_process['failure'] is not None or not sdk_process['closed'] or sdk_process['cleanup']['executing']:raise RuntimeError('SDK termination not exact')
+ # Revalidate every actual installed SDK/dependency file against the accepted full inventory, no proxy fixture.
+ sdk_files=0;sdk_bytes=0
++recorded_sdk={file for file in sdk_owner['before']['files'] if file.startswith(str(repo/'node_modules')+'/') and any(file.startswith(package['root']+'/') for package in sdk_owner['before']['packages'])}
++actual_sdk=set();actual_sdk_bytes=0
++def enumerate_sdk(directory):
++    global actual_sdk_bytes
++    for item in sorted(os.scandir(directory),key=lambda row:row.name):
++        if item.name=='node_modules':continue  # exact accepted package-walk exclusion, dependencies enumerated separately
++        file=pathlib.Path(item.path);info=file.lstat()
++        if stat.S_ISDIR(info.st_mode):enumerate_sdk(file)
++        elif stat.S_ISREG(info.st_mode):
++            actual_sdk.add(str(file));actual_sdk_bytes+=info.st_size
++            if len(actual_sdk)>20000 or actual_sdk_bytes>256*1024*1024 or info.st_size>32*1024*1024:raise RuntimeError('Current SDK inventory cap')
++        else:raise RuntimeError('SDK internal symlink/special entry '+str(file))
++for package in sdk_owner['before']['packages']:
++    directory=pathlib.Path(package['root'])
++    if not stat.S_ISDIR(directory.lstat().st_mode) or directory.resolve()!=directory or not directory.is_relative_to(repo/'node_modules'):raise RuntimeError('SDK root identity differs')
++    enumerate_sdk(directory)
++if actual_sdk!=recorded_sdk:raise RuntimeError('Current SDK exact file-set differs: missing='+repr(sorted(recorded_sdk-actual_sdk))+' extra='+repr(sorted(actual_sdk-recorded_sdk)))
+ for file,row in sdk_owner['before']['files'].items():
+     if file.startswith(str(repo/'node_modules')+'/') and any(file.startswith(package['root']+'/') for package in sdk_owner['before']['packages']):
+         actual=checked(file,row['sha256'])

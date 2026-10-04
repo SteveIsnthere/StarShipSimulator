@@ -1,0 +1,94 @@
+{
+  "kind": "independent-high-width2-draft-review-v1",
+  "scope": "static; owned-launcher preparation only",
+  "inputManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/research-file-pins.json",
+    "sha256": "d474f71d3db025a96225035810b751881dccca1bdaec52940de16fb2aef856eb"
+  },
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/independent-high-draft-review.md",
+    "sha256": "995eba4db93ded0cf84dd22f50ece1ec436afe6b6dc7459b0af7636a6c363830"
+  },
+  "verifiedInputs": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/runner.diff.txt",
+      "sha256": "d0d350f3491ec073abef9c2e131c59e79cd50f475ee5539d25bbace2c52a02c7"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/declaration.md",
+      "sha256": "00afdced4f3ab67998eab1bcfa598e6e045e835cc323493831e360c51336e12b"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-entry.ts.txt",
+      "sha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/entry.diff.txt",
+      "sha256": "1e46c3f1f489aafef1a26fd66d2ab0fb9f5d868732e5899d76c8cfa963090600"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-render-kernel-width2.mjs.txt",
+      "sha256": "805665fa1b30b03dc7971cabcbef1f5aafb11ab1b4df5aa15eaa722992f385b4"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-build.config.mjs.txt",
+      "sha256": "546e0aa2b55ab0dd46f1f6a8480b8efd938e0edcd9d3e1d085357001fa26fc69"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/locked-batcher-controls.mjs.txt",
+      "sha256": "4485f6859c8db49a591bc0e9c800d33bf753765e729f9d9e2b29bc4f3c00e0d3"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+      "sha256": "aaf2400fc4ecfd0ff17adcb82f842a4f201307e392e56730937e0b0cbc9f96d1"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/DefaultBatcher.mjs",
+      "sha256": "b22a9a471384f82ebae5312edca6d731f096a02d879cb6d3f62d672c3fb30654"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs",
+      "sha256": "0bda64725a3b84d85dd685e2584b70d7c7e136a2ab01cf0c889223ad00dbe42f"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatchTextureArray.mjs",
+      "sha256": "c80a652e9e3c9e12034547a365348b1b9235aaa00c2a273adba1d4ef9d8f508b"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/state/getAdjustedBlendModeBlend.mjs",
+      "sha256": "6f07a836e70ee56554a678f1519d61c5dc08384efa7b3f08354132362c2dad47"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/environment/adapter.mjs",
+      "sha256": "6676c9aee29d909119be5943010622894001ddf8edb83fd27d7a7b72b5675a63"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getMaxFragmentPrecision.mjs",
+      "sha256": "9b1f63abe7ebc267130ab4adae6dbd06c7181e79184660c8f19fc8d117b8e2d2"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/getTestContext.mjs",
+      "sha256": "7b04d25151c3d89f01f5844b74d5650353bcb0e79848c4c4a35c45288aaa3a9d"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/independent-render-width2-source-assessment.md",
+      "sha256": "f3cc8a51f98e54f60906a82a51651d7b902bdf61180a8f29573be85e1549a937"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/independent-render-width2-source-assessment-pins.json",
+      "sha256": "52cb672be1c7af52a8b7365b7d9df999559bac06593645ea315bcba22f10a15a"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-entry.ts",
+      "sha256": "8d5ddb05c1dabf9b1794a163e64d34ff53a22895874380aba206575e4a346337"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-build.config.mjs",
+      "sha256": "3c7130ef80bb15d242f7275ef0ad9084f8c91696e8d71c1ce281d49ece3a77b0"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/run-render-kernel-compact-json.mjs.txt",
+      "sha256": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import { writeFileSync, mkdirSync, realpathSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { digest, parse, inputsEqual, utilities, mapsMatch } from './integrity.mjs';
+// Parent owns a bounded build invocation and freezes this input record before launch.
+const [rootArg, receiptArg, inputPath, inputSha] = process.argv.slice(2);
+const root = realpathSync(rootArg), receipt = realpathSync(receiptArg);
+assert.equal(process.cwd(), root); assert.match(inputSha, /^[a-f0-9]{64}$/);
+assert.equal(digest(inputPath), inputSha);
+const input = parse(inputPath);
+assert.equal(input.kind, 'mixed-native-build-input-v1');
+assert.equal(input.nodeVersion, process.version); assert.equal(input.nodeBinary, digest(process.execPath));
+inputsEqual(input.materializedInputs);
+assert.equal(input.materializedInputs[resolve(receipt, 'entry.ts')], digest(resolve(receipt, 'entry.ts')));
+const utility = await utilities(root, input.utilityDigest);
+const before = utility.sourceSnapshot(root);
+const tools = utility.installedToolSnapshot(root, input.npmCli);
+assert.deepEqual(before, input.source); assert.deepEqual(tools, input.installedTools);
+const { build, resolveConfig } = await import(pathToFileURL(resolve(root, 'node_modules/vite/dist/node/index.js')).href);
+const configFile = resolve(root, 'vite.config.ts');
+const resolved = await resolveConfig({ configFile }, 'build', 'production');
+const options = { target: resolved.build.target, minify: resolved.build.minify,
+  sourcemap: resolved.build.sourcemap, cssMinify: resolved.build.cssMinify,
+  mode: resolved.mode, base: resolved.base,
+  adaptation: 'ESM library; production plugins/aliases/manualChunks retained; Vite library whitespace/annotation policy' };
+assert.deepEqual(options, input.options); assert.equal(options.sourcemap, true);
+const directory = resolve(receipt, 'native'); mkdirSync(directory, { recursive: false });
+let failure;
+try {
+  await build({ configFile, build: { target: options.target, minify: options.minify,
+    sourcemap: true, cssMinify: options.cssMinify, outDir: directory, emptyOutDir: true,
+    lib: { entry: resolve(receipt, 'entry.ts'), formats: ['es'], fileName: () => 'entry.mjs' } } });
+  const files = Object.fromEntries(utility.filesUnder(directory).map(file => [relative(directory, file), digest(file)]));
+  const graph = mapsMatch(root, directory, files, utility.filesUnder);
+  const manifest = { kind: 'mixed-native-build-candidate-v1', root, receipt, directory,
+    entry: resolve(directory, 'entry.mjs'), inputPath, inputSha, utilityDigest: input.utilityDigest,
+    nodeVersion: process.version, nodeBinary: digest(process.execPath), npmCli: input.npmCli,
+    source: before, installedTools: tools, materializedInputs: input.materializedInputs,
+    options, files, graph, buildCompleted: true, qualified: false };
+  writeFileSync(resolve(receipt, 'candidate-manifest.json'), JSON.stringify(manifest) + '\n', { flag: 'wx' });
+} catch (error) { failure = error; }
+try {
+  assert.deepEqual(utility.sourceSnapshot(root), before);
+  assert.deepEqual(utility.installedToolSnapshot(root, input.npmCli), tools);
+  inputsEqual(input.materializedInputs); assert.equal(digest(inputPath), inputSha);
+} catch (error) { failure ??= error; }
+writeFileSync(resolve(receipt, 'build-boundary.json'), JSON.stringify({
+  completed: !failure, error: failure ? String(failure.stack ?? failure) : null,
+  inputSha, nodeBinary: digest(process.execPath) }) + '\n', { flag: 'wx' });
+if (failure) throw failure;

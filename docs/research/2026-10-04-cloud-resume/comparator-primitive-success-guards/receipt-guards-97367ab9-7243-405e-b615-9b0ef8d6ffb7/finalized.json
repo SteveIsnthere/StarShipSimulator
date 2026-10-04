@@ -1,0 +1,9 @@
+{
+  "finalized": true,
+  "status": "failed",
+  "stage": "native-controls",
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 0\n\n    at file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/owned-launch-BXBucfBX/launcher.mjs:61:44\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)",
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7",
+  "node": "v22.23.3",
+  "acceptance": "primitive-guard Native and same-SSR purecontrols only; no flight/cost acceptance"
+}

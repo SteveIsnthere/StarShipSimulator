@@ -1,0 +1,11 @@
+{
+  "args": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "/tmp/starship-width2-stage-input.55i8zt84/observer.py",
+    "/tmp/starship-width2-stage-input.55i8zt84/owner-input.json",
+    "d3d207a14cf140dc964b5138607f32e0c1216fa141e74be8a781ac2fce0cafb0"
+  ],
+  "frozenInputSha256": "d3d207a14cf140dc964b5138607f32e0c1216fa141e74be8a781ac2fce0cafb0",
+  "wholeBoundMs": 120000,
+  "oneBuildOnly": true
+}

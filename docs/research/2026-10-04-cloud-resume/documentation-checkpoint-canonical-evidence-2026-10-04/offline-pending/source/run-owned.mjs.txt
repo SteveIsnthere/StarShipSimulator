@@ -1,0 +1,47 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, mkdtempSync, chmodSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+const started = Date.now(), deadline = started + 5000;
+const sha = file => createHash('sha256').update(readFileSync(file)).digest('hex');
+const [externalPath, externalSha] = process.argv.slice(2);
+assert.equal(sha(externalPath), externalSha);
+const e = JSON.parse(readFileSync(externalPath, 'utf8'));
+assert.equal(e.kind, 'retained-mixed-native-map-qualification-input-v1');
+assert.equal(e.root, process.cwd()); assert.equal(sha(process.execPath), e.nodeSha);
+for (const [file, expected] of Object.entries(e.executedInputs)) assert.equal(sha(file), expected);
+const ownerPath = resolve(e.root, 'scripts/bench/owned-command.mjs');
+assert.equal(sha(ownerPath), e.ownedSha);
+const { runOwnedCommand, verifyNoOwnedProcesses } = await import(pathToFileURL(ownerPath).href);
+const output = mkdtempSync('/tmp/starship-mixed-map-qualification.'); chmodSync(output, 0o700);
+process.stdout.write(JSON.stringify({ receipt: output }) + '\n');
+let code = null, failure;
+try {
+  const remaining = Math.min(4500, deadline - Date.now() - 100); assert(remaining > 0);
+  code = await runOwnedCommand({ name: 'offline-qualification',
+    args: [resolve(dirname(fileURLToPath(import.meta.url)), 'qualify-retained.mjs'), externalPath, externalSha, output],
+    root: e.root, receipt: output, env: { ...process.env }, deadlineMs: remaining });
+} catch (error) { failure = error; }
+let actualExit = null;
+try { actualExit = JSON.parse(readFileSync(resolve(output, 'offline-qualification.process.json'), 'utf8')).exit; }
+catch (error) { failure ??= error; }
+writeFileSync(resolve(output, 'actual-child-exit.json'), JSON.stringify({ code, exit: actualExit,
+  error: failure ? String(failure.stack ?? failure) : null, processReceipt: resolve(output, 'offline-qualification.process.json') }) + '\n', { flag: 'wx' });
+try {
+  const result = JSON.parse(readFileSync(resolve(output, 'qualification-result.json'), 'utf8'));
+  assert.equal(code, 0); assert.equal(result.completed, true); assert.deepEqual(result.afterErrors, []);
+  const child = JSON.parse(readFileSync(resolve(output, 'offline-qualification.process.json'), 'utf8'));
+  assert.equal(child.exit.code, 0); assert.equal(child.exit.signal, null); assert.equal(child.failure, null);
+  assert.equal(child.closed, true); assert.equal(child.cleanup.executing.length, 0);
+  assert(verifyNoOwnedProcesses().every(row => row.executing.length === 0));
+  assert.equal(sha(externalPath), externalSha);
+  for (const [file, expected] of Object.entries(e.executedInputs)) assert.equal(sha(file), expected);
+  assert.equal(sha(ownerPath), e.ownedSha); assert.equal(sha(process.execPath), e.nodeSha);
+  assert(Date.now() <= deadline, 'Whole read-only qualification5s bound exceeded');
+} catch (error) { failure ??= error; }
+writeFileSync(resolve(output, 'owner-result.json'), JSON.stringify({ completed: !failure, code,
+  error: failure ? String(failure.stack ?? failure) : null, elapsedMs: Date.now() - started,
+  externalSha, originalBuildContract: 'FAILED', acceptance: 'Private reuse evidence only; independent actual result/absence required',
+}) + '\n', { flag: 'wx' });
+if (failure) throw failure;

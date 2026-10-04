@@ -1,0 +1,13 @@
+{
+  "kind": "official-mixed-native-build-owner-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "privateReceipt": "/tmp/starship-official-native.0eAlnB",
+  "buildInput": {"path": "/tmp/starship-official-native.0eAlnB/external-build-input.json", "sha": "02420ef966ce52cfbe849afb64cf6f778b9dc9bdb52c99a96b1193ec1d4517fb"},
+  "requiredPinnedObjects": ["node", "helper", "utility", "pins", "npmCli", "stage", "observer", "python", "buildInput"],
+  "objectSchema": {"path": "absolute exact root-reviewed path", "sha": "actual root-frozen SHA256"},
+  "invocation": ["pinned-python3", "materialized-build-root-observer.py", "absolute-root-frozen-build-owner-input.json", "actual-owner-input-SHA256"],
+  "bytePreservation": "No new preparation, no existing17/input edits; root copies reviewed build stage/observer only into their own unique receipt. Actual input's19materialized hashes checked before/after.",
+  "budget": "ONE90s whole root workload from before observer hashes; stage owner actual child cutoff equals root deadline minus startup. Frozen run-build still has its own90s ceiling; stage/root stricter residual deadline, not an invented inner-clock consumption. Existing TERM5/KILL2/close1 cleanup unchanged.",
+  "ownership": "Same reviewed observer captured identity witnesses/sticky uncertainty/bounded repeated signals; final reconcile BOTH actual stage owned-build.process.json and private native-flight-build.process.json ALL cleanup.tracked plus outer audit.",
+  "result": "actual outer and child exit preserved BEFORE assertions; raw two layers/compiled/maps/input retained. Build stays unqualified; fresh actual maps/body/role/closure review before separate small controls. No production/full21/coverage/gate claim."
+}

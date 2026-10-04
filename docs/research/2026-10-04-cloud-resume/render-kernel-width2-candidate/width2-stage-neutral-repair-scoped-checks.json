@@ -1,0 +1,39 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2-stage-input.py.txt",
+      "sha256": "4ff2b9ac83f1e4702f9c96defdb6e9666fa9ae7fa40e43614bc8e2a8ad8bf4b2",
+      "kind": "Python AST syntax",
+      "status": 0
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt",
+      "sha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-owner-repair-scope.z5220_sl/stage.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt",
+      "sha256": "9a5fb21dc80b34ea5e2a9d210f23db74c4953463240f47b2841f4c2e57870d7e",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 0.9237556130028679,
+  "runtimeExecuted": false
+}

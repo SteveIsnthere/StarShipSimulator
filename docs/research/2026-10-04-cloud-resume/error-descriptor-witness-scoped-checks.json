@@ -1,0 +1,125 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/launcher.mjs.txt",
+      "sha256": "6316eeda5d43985f35acde002d7043ad8c6bb0f6648633154abba05536573b77",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-witness-scope.r8vz8wkj/launcher.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/launcher.mjs.txt",
+      "sha256": "6316eeda5d43985f35acde002d7043ad8c6bb0f6648633154abba05536573b77",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/launcher.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/owned-command.mjs.txt",
+      "sha256": "050a3667fe492d7d56cecac7cb44902654d5ad6a9552052f4ae1bcd1a30a4d09",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-witness-scope.r8vz8wkj/owned-command.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/owned-command.mjs.txt",
+      "sha256": "050a3667fe492d7d56cecac7cb44902654d5ad6a9552052f4ae1bcd1a30a4d09",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/owned-command.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/bootstrap.mjs.txt",
+      "sha256": "66a7406328c0f44760881c14445ad2725f9acd054a57e4129b27e7bec3556c7c",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-witness-scope.r8vz8wkj/bootstrap.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/bootstrap.mjs.txt",
+      "sha256": "66a7406328c0f44760881c14445ad2725f9acd054a57e4129b27e7bec3556c7c",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/bootstrap.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/witness.mjs.txt",
+      "sha256": "c3f74a4a97c1e3385b1169d7dd8a6915b07e842be06d6c5fe2f8f9d72f1f7390",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-witness-scope.r8vz8wkj/witness.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/witness.mjs.txt",
+      "sha256": "c3f74a4a97c1e3385b1169d7dd8a6915b07e842be06d6c5fe2f8f9d72f1f7390",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/witness.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/graph-oracle.ts.txt",
+      "sha256": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/graph-oracle.ts"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 4.743564914002491,
+  "runtimeExecuted": false
+}

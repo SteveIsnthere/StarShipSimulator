@@ -1,0 +1,61 @@
+{
+  "completed": false,
+  "failures": [
+    "Outer stage failed"
+  ],
+  "actualReturncode": 1,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 61610,
+      "state": "R",
+      "parent": 61609,
+      "group": 61610,
+      "session": 61610,
+      "start": "3738705"
+    },
+    {
+      "pid": 61617,
+      "state": "R",
+      "parent": 61610,
+      "group": 61617,
+      "session": 61617,
+      "start": "3738733"
+    },
+    {
+      "pid": 61624,
+      "state": "R",
+      "parent": 61617,
+      "group": 61624,
+      "session": 61624,
+      "start": "3738757"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 61610,
+      "session": 61610,
+      "start": "3738705",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 61617,
+      "session": 61617,
+      "start": "3738733",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 61624,
+      "session": 61624,
+      "start": "3738757",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-official-native-build-stage.G30isv",
+  "manifestSha": "ffc70967d15d170ae0f55ace71d216d2e61d91d911af8dee73219ce9b63ef012",
+  "elapsedSeconds": 4.495728492736816,
+  "acceptance": "Unqualified private build only; actual maps/body/role/closure review before controls"
+}

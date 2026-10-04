@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/launcher.mjs.txt",
+      "sha256": "a97f418210a4e0a050713ddf410ac05cfe829c4fed666d280c944ad4aada1ba3",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-stage-final-scope.almxbwap/launcher.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/launcher.mjs.txt",
+      "sha256": "a97f418210a4e0a050713ddf410ac05cfe829c4fed666d280c944ad4aada1ba3",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/launcher.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 1.040136662995792,
+  "runtimeExecuted": false
+}

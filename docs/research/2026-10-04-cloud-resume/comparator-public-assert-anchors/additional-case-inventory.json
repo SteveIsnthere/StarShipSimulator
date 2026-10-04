@@ -1,0 +1,15 @@
+[
+  "canonical snapshot public AssertionError reference identity",
+  "canonical snapshot ordinary Error reference identity",
+  "canonical snapshot explicit string data stack preserves flags",
+  "canonical snapshot rejects unknown-nonstack without getter or setter payment",
+  "canonical snapshot rejects replaced-get without getter or setter payment",
+  "canonical snapshot rejects replaced-set without getter or setter payment",
+  "canonical snapshot rejects enumerable without getter or setter payment",
+  "canonical snapshot rejects configurable without getter or setter payment",
+  "canonical snapshot rejects missing-set without getter or setter payment",
+  "canonical snapshot rejects nonstring-data without getter or setter payment",
+  "canonical snapshot own __proto__ data entry retains keys flags and value",
+  "canonical snapshot own __proto__ accessor rejects without payment",
+  "canonical snapshot inherited selected field accessor rejects without payment"
+]

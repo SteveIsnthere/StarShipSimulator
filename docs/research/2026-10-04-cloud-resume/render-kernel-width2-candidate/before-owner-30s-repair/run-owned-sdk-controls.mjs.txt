@@ -1,0 +1,66 @@
+/** Research-only owner: no SDK imports in this process; one actual SDK child. */
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,readdirSync,lstatSync,realpathSync,mkdtempSync,chmodSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import path from 'node:path';
+const root='/workspace/StarShipSimulator',directory=path.join(root,'docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate');
+const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+assert.equal(process.version,'v22.23.3');assert(!process.env.NODE_OPTIONS,'No unqualified owner preload');assert.equal(process.env.RUN_WIDTH2_SDK_CONTROLS,'1','Exclusive parent grant required');
+const pinFile=path.join(directory,'owned-sdk-input-pins.json'),pinBytes=readFileSync(pinFile);
+assert.equal(hash(pinBytes),process.env.WIDTH2_SDK_INPUT_PINS_SHA256);const pins=JSON.parse(pinBytes);
+const owner=fileURLToPath(import.meta.url),started=Date.now();
+function snapshot(){
+ const result={files:{},packages:[],limits:{maxFiles:20000,maxBytes:256*1024*1024,maxPreparationMs:20000}};let bytes=0,count=0;
+ const add=file=>{assert(Date.now()-started<45000,'Total owner preparation/verification bound');const st=lstatSync(file);assert(st.isFile(),'Nonregular input '+file);
+  const data=readFileSync(file);result.files[file]={sha256:hash(data),bytes:data.length,mode:st.mode&511};};
+ for(const [relative,sha] of Object.entries(pins)){const file=path.resolve(root,relative);add(file);assert.equal(result.files[file].sha256,sha,'Frozen input drift '+file);}
+ add(pinFile);add(owner);assert.equal(result.files[owner].sha256,pins[path.relative(root,path.join(directory,'run-owned-sdk-controls.mjs.txt'))]);
+ add(process.execPath);assert.equal(result.files[process.execPath].sha256,process.env.WIDTH2_SDK_NODE_SHA256,'Independent Node pin');
+ const seen=new Set();const begun=Date.now();const lock=JSON.parse(readFileSync(path.join(root,'package-lock.json'),'utf8'));
+ const check=()=>{assert(Date.now()-begun<20000,'SDK snapshot exceeded20s');assert(count<=20000&&bytes<=256*1024*1024,'SDK inventory cap');};
+ function resolvePackage(name,from){let base=from;for(;;){const candidate=path.join(base,'node_modules',name,'package.json');
+   try{if(lstatSync(candidate).isFile())return realpathSync(path.dirname(candidate));}catch(error){if(error.code!=='ENOENT')throw error;}
+   const up=path.dirname(base);assert(up!==base,'Required SDK dependency unavailable '+name);base=up;}}
+ function packageTree(dir,expectedName){const canonical=realpathSync(dir);assert(canonical.startsWith(root+'/node_modules/'),'External SDK package');if(seen.has(canonical))return;seen.add(canonical);
+  const meta=JSON.parse(readFileSync(path.join(canonical,'package.json'),'utf8'));assert.equal(meta.name,expectedName);
+  assert.equal(lock.packages[path.relative(root,canonical)]?.version,meta.version,'SDK lock version mismatch');
+  result.packages.push({name:meta.name,version:meta.version,root:canonical});
+  function walk(base){check();for(const name of readdirSync(base).sort()){if(name==='node_modules')continue;const file=path.join(base,name),st=lstatSync(file);
+    assert(!st.isSymbolicLink(),'SDK internal symlink unsupported '+file);if(st.isDirectory())walk(file);else{assert(st.isFile(),'SDK special file');count++;bytes+=st.size;assert(st.size<=32*1024*1024,'SDK single-file cap');check();add(file);}}}
+  walk(canonical);for(const dep of Object.keys({...meta.dependencies,...meta.optionalDependencies}).sort())packageTree(resolvePackage(dep,canonical),dep);
+ }
+ packageTree(path.join(root,'node_modules/pixi.js'),'pixi.js');assert(result.packages.some(p=>p.name==='pixi.js'&&p.version==='8.20.0'));
+ result.packages.sort((a,b)=>a.root.localeCompare(b.root));result.inventory={count,bytes};return result;
+}
+const before=snapshot();const setup=mkdtempSync('/tmp/starship-width2-sdk.');chmodSync(setup,0o700);
+const put=(name,data)=>writeFileSync(path.join(setup,name),data,{flag:'wx',mode:0o600});
+const json=(name,value)=>put(name,JSON.stringify(value,null,2)+'\n');
+const executed={};for(const [name,template]of [['controls.mjs','locked-batcher-controls.mjs.txt'],['entry.ts.txt','render-kernel-width2-entry.ts.txt']]){
+ const data=readFileSync(path.join(directory,template));put(name,data);executed[name]=hash(readFileSync(path.join(setup,name)));assert.equal(executed[name],hash(data));}
+put('executed-owner.mjs.txt',readFileSync(owner));put('executed-owned-command.mjs.txt',readFileSync(path.join(root,'scripts/bench/owned-command.mjs')));
+json('before.json',before);json('declaration.json',{kind:'width2-sdk-owned-v1',setup,childDeadlineMs:5000,
+ externalOwnerDeadlineMs:60000,cleanupMs:8000,outputCapPerStream:8388608,executed,browserLaunches:0,physicsImports:0});
+process.stdout.write(setup+'\n');
+const {runOwnedCommand,verifyNoOwnedProcesses}=await import(pathToFileURL(path.join(root,'scripts/bench/owned-command.mjs')).href);
+let failure,after,absence,code,proofSha256;try{
+ code=await runOwnedCommand({name:'sdk',args:[path.join(setup,'controls.mjs'),root,path.join(setup,'entry.ts.txt'),path.join(setup,'proof-result.json')],
+  env:{...process.env,NODE_OPTIONS:''},root,receipt:setup,deadlineMs:5000});assert.equal(code,0);
+ const actual=JSON.parse(readFileSync(path.join(setup,'sdk.process.json')));assert.equal(actual.exit.code,0);assert.equal(actual.exit.signal,null);assert.equal(actual.failure,null);
+ assert.equal(actual.closed,true);assert(actual.cleanup.tracked.length>0);assert.equal(actual.cleanup.executing.length,0);
+ const proofBytes=readFileSync(path.join(setup,'proof-result.json'));assert(proofBytes.length<=8*1024*1024,'Proof cap');proofSha256=hash(proofBytes);const proof=JSON.parse(proofBytes);
+ assert.equal(proof.kind,'locked-sdk-width2-controls-v1');assert.equal(proof.finalized,true);assert.equal(proof.recipeCount,10);assert.equal(proof.widthCases,30);
+ assert.equal(proof.results.length,30);assert.equal(proof.elementWork,5874);assert.equal(proof.elementCap,12000);
+ assert.equal(proof.cacheNegative,true);assert.equal(proof.latePublicLimitNegative,true);assert.equal(proof.actualEntryGuardNegatives,8);
+ assert.equal(proof.actualEntryGuardAcceptedBoundaries,2);assert.equal(proof.teardown.adapterRestored,true);assert.equal(proof.teardown.errors,0);
+ assert(proof.teardown.texturesDestroyed>0&&proof.teardown.sourcesDestroyed>0);assert.equal(proof.actualSceneQueryBoundProven,false);
+ for(const key of ['rendererInstances','browserLaunches','physicsImports'])assert.equal(proof[key],0);
+}catch(error){failure=error;}finally{
+ try{absence=verifyNoOwnedProcesses();}catch(error){failure??=error;}
+ try{after=snapshot();assert.deepStrictEqual(after,before);}catch(error){failure??=error;}
+ for(const [name,sha]of Object.entries(executed))try{const bytes=readFileSync(path.join(setup,name));assert.equal(hash(bytes),sha);put('executed-'+name+'.txt',bytes);}catch(error){failure??=error;}
+ json('after.json',after??null);json('owner-result.json',{kind:'width2-sdk-owned-result-v1',setup,childCode:code??null,
+ failure:failure?.message??null,sourceExact:!!after&&!failure,before,after:after??null,executed,proofSha256:proofSha256??null,
+ absence:absence??null,independentParentAllTrackedAbsenceRequired:true,browserLaunches:0,finalized:!failure});
+}
+if(failure)throw failure;

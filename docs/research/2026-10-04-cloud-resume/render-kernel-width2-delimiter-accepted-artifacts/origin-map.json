@@ -1,0 +1,105 @@
+{
+  "runtimeStatus": "pass",
+  "source": "/tmp/starship-width2-delimiter.Vd8rEw",
+  "files": [
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/after.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/after.json",
+      "bytes": 4546,
+      "mode": "0o600",
+      "sha256": "cad47733df553b5f513c6f7591bdeba514b896a994933b4cc17a3dc57242aa93"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/before.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/before.json",
+      "bytes": 4546,
+      "mode": "0o600",
+      "sha256": "cad47733df553b5f513c6f7591bdeba514b896a994933b4cc17a3dc57242aa93"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/controls.mjs",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/controls.mjs.txt",
+      "bytes": 3901,
+      "mode": "0o600",
+      "sha256": "f25e3a1e55690e6aed428df35b1a08b8a99af665d87390829bc2fab0ec643717"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/declaration.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/declaration.json",
+      "bytes": 775,
+      "mode": "0o600",
+      "sha256": "8a312d82f6162a7c225628cc82241c323a7b1eb9e6658bb8c25b23b1aa038cf3"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/delimiter.process.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/delimiter.process.json",
+      "bytes": 492,
+      "mode": "0o600",
+      "sha256": "c6ae5af9076052c85b7149655c2cf3c3faf9a7e5c66b3b49e30586a7fedc7e63"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/delimiter.stderr.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/delimiter.stderr.txt",
+      "bytes": 183,
+      "mode": "0o600",
+      "sha256": "4de2f41a7a7299c744df56bdfd461f64c0ba4197b49579015da05fdaaa4ee63f"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/delimiter.stdout.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/delimiter.stdout.txt",
+      "bytes": 0,
+      "mode": "0o600",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/entry.ts.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/entry.ts.txt",
+      "bytes": 7765,
+      "mode": "0o600",
+      "sha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/executed-controls.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/executed-controls.mjs.txt",
+      "bytes": 3901,
+      "mode": "0o600",
+      "sha256": "f25e3a1e55690e6aed428df35b1a08b8a99af665d87390829bc2fab0ec643717"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/executed-entry.ts.txt.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/executed-entry.ts.txt.txt",
+      "bytes": 7765,
+      "mode": "0o600",
+      "sha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/executed-owner.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/executed-owner.mjs.txt",
+      "bytes": 5451,
+      "mode": "0o600",
+      "sha256": "757b3190fc0cbea35ef1ec3afc58f53aaad3194aa04a9012b42cec3ffa4aa867"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/executed-watchdog.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/executed-watchdog.mjs.txt",
+      "bytes": 7424,
+      "mode": "0o600",
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/owner-result.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/owner-result.json",
+      "bytes": 10168,
+      "mode": "0o600",
+      "sha256": "2b657dbbcc6c0dc9c0b4a94dd9ba8f1f7c380f8cee8236723b3ff9fb08330f22"
+    },
+    {
+      "original": "/tmp/starship-width2-delimiter.Vd8rEw/proof-result.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-delimiter-accepted-artifacts/proof-result.json",
+      "bytes": 17176,
+      "mode": "0o600",
+      "sha256": "e9b7c42f65af1bccb962d827ae228546c888a3ececb70679e316cc77c4ad732b"
+    }
+  ],
+  "acceptance": "Focused Node API control only; fresh actual-result review pending, no SDK/browser acceptance."
+}

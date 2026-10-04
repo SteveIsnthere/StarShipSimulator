@@ -1,0 +1,10 @@
+source /workspace/cloud-bootstrap/starship-v1/activate.sh
+cd /workspace/StarShipSimulator
+python3 - <<'PY'
+from pathlib import Path
+import json,difflib
+s=Path('/tmp/starship-render-kernel.2co6w1rl');r=Path('/tmp/starship-width2-root.75nncpcy');q=json.loads((s/'width2-qualification-outcome.json').read_text());print('outcome',{k:q.get(k) for k in ['passed','error','byteCount','browserLaunched']});print('fileCount',len(q['files']),'sourceCount',len(q['sources']),'transferredCount',len(q['transferred']),'changed',q['changed']);root=json.loads((r/'root-outcome.json').read_text());print('rootFields',{k:root[k] for k in ['completed','failures','actualReturncode','remaining','elapsedSeconds']});print('rootIdentities',root['tracked']);print('groups',root['ownedGroups'])
+a=Path('/tmp/starship-render-kernel.m9xok0x9/compiled/kernel.js').read_text();b=(s/'compiled/kernel.js').read_text();print('oldLength',len(a),'newLength',len(b))
+for tag,i,j,k,l in difflib.SequenceMatcher(None,a,b,autojunk=False).get_opcodes():
+ if tag!='equal':print('delta',tag,{'oldStart':i,'oldEnd':j,'newStart':k,'newEnd':l},repr(a[max(0,i-90):min(len(a),j+90)]),repr(b[max(0,k-90):min(len(b),l+90)]))
+PY

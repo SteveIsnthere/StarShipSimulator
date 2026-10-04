@@ -1,0 +1,340 @@
+"""ONE reviewed native cost episode; durable ownership survives receipt/assertion errors."""
+import hashlib
+import json
+import os
+import pathlib
+import re
+import signal
+import subprocess
+import tempfile
+import time
+
+draft = pathlib.Path('docs/research/2026-10-04-cloud-resume/current-native-composite-cost').resolve()
+parent = pathlib.Path(tempfile.mkdtemp(prefix='parent-', dir=draft))
+print(str(parent), flush=True)
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+source_path = pathlib.Path(__file__).resolve()
+source_sha = None
+owned = {}
+failures = []
+child = None
+raw_exit = None
+receipt = None
+prefix = None
+before_receipts = set()
+output_bytes = 0
+output_retained = 0
+pipe_eof = False
+pipe_nonblocking = False
+interrupt_signal = None
+start = time.monotonic()
+output_cap = 2 * 1024 * 1024
+external_bound = 150
+
+
+def save(name, value):
+    path = parent / name
+    with path.open('x') as stream:
+        stream.write(json.dumps(value, indent=2) + '\n')
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
+def failure(error):
+    failures.append(str(error)[:32768])
+
+
+def identity(pid):
+    try:
+        raw = pathlib.Path(f'/proc/{pid}/stat').read_text()
+        fields = raw[raw.rfind(')') + 2:].split()
+        return {'pid': pid, 'start': fields[19], 'parent': int(fields[1]),
+                'group': int(fields[2]), 'session': int(fields[3]), 'state': fields[0]}
+    except (FileNotFoundError, ProcessLookupError):
+        return None
+
+
+def live(row):
+    now = identity(row['pid'])
+    return bool(now and now['start'] == row['start'] and now['state'] not in ['Z', 'X'])
+
+
+def remember(row, origin):
+    key = (row['pid'], row['start'])
+    if key not in owned:
+        assert row['pid'] != os.getpid()
+        assert len(owned) < 4096, 'Owned identity storage bound'
+        owned[key] = row
+        with (parent / 'observed-identities.jsonl').open('a') as stream:
+            stream.write(json.dumps({'origin': origin, 'identity': row}) + '\n')
+            stream.flush()
+            os.fsync(stream.fileno())
+
+
+def on_interrupt(number, _frame):
+    # Nonthrowing handler: no exception can interrupt cleanup/finalization.
+    global interrupt_signal
+    if interrupt_signal is None:
+        interrupt_signal = number
+
+
+signal.signal(signal.SIGTERM, on_interrupt)
+signal.signal(signal.SIGINT, on_interrupt)
+
+
+def ensure_outer_identity():
+    # Popen.poll(None) establishes that this unreaped direct child PID remains
+    # reserved. Verify its actual parent/session/start before admitting it;
+    # inability is failure, never raw-PID signaling or fabricated ownership.
+    if child is not None and child.poll() is None:
+        row = identity(child.pid)
+        assert row, 'Outer identity unavailable in finalizer'
+        assert row['parent'] == os.getpid(), 'Outer direct-child parent mismatch'
+        assert row['group'] == child.pid and row['session'] == child.pid, 'Outer dedicated session required'
+        remember(row, 'independent-outer-identity-finalizer')
+
+
+def observe():
+    rows = [identity(int(path.name)) for path in pathlib.Path('/proc').iterdir() if path.name.isdigit()]
+    current = {row['pid']: row for row in rows if row}
+    # SAME snapshot PID/start witnesses certify parent/group/session ownership.
+    # A reused numeric PID or extinct group never seeds ownership by itself.
+    verified = {row['pid']: row['start'] for row in owned.values()
+                if row['pid'] in current and current[row['pid']]['start'] == row['start']
+                and current[row['pid']]['state'] not in ['Z', 'X']}
+    changed = True
+    while changed:
+        changed = False
+        witnesses = [current[pid] for pid, start_id in verified.items()
+                     if current[pid]['start'] == start_id and current[pid]['state'] not in ['Z', 'X']]
+        groups = {row['group'] for row in witnesses}
+        sessions = {row['session'] for row in witnesses}
+        for row in current.values():
+            if row['pid'] == os.getpid():
+                continue
+            parent_row = current.get(row['parent'])
+            parent_valid = bool(parent_row and verified.get(parent_row['pid']) == parent_row['start'])
+            if parent_valid or row['group'] in groups or row['session'] in sessions:
+                key = (row['pid'], row['start'])
+                if key not in owned:
+                    remember(row, 'outer-poll')
+                    verified[row['pid']] = row['start']
+                    changed = True
+
+
+def drain(output):
+    global output_bytes, output_retained, pipe_eof
+    if child is None or pipe_eof or not pipe_nonblocking:
+        return
+    while True:
+        try:
+            block = os.read(child.stdout.fileno(), 65536)
+        except BlockingIOError:
+            return
+        if not block:
+            pipe_eof = True
+            return
+        output_bytes += len(block)
+        keep = block[:max(0, output_cap - output_retained)]
+        output.write(keep)
+        output_retained += len(keep)
+        output.flush()
+        if output_bytes > output_cap:
+            raise RuntimeError('Outer combined output bound2MiB')
+
+
+def terminate_owned():
+    # Identity validation precedes every signal; never signal this observer.
+    for sig, seconds in [(signal.SIGTERM, 5), (signal.SIGKILL, 2)]:
+        for row in list(owned.values()):
+            if live(row):
+                try:
+                    os.kill(row['pid'], sig)
+                except ProcessLookupError:
+                    pass
+        deadline = time.monotonic() + seconds
+        while time.monotonic() < deadline:
+            observe()
+            if not any(live(row) for row in owned.values()):
+                return
+            time.sleep(.05)
+
+
+try:
+    source_sha = sha(source_path)
+    save('observer-identity.json', identity(os.getpid()))
+    assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED') == 'current-native-composite-cost'
+    review = os.environ['STARSHIP_CURRENT_NATIVE_REVIEW_SHA']
+    review_pins = os.environ['STARSHIP_CURRENT_NATIVE_REVIEW_PINS_SHA']
+    assert sha(draft / 'independent-review.md') == review
+    assert sha(draft / 'independent-review-pins.json') == review_pins
+    pins = json.loads((draft / 'independent-review-pins.json').read_text())
+    assert pins['review'] == review and pins['inputManifest'] == sha(draft / 'input-pins.json')
+    assert sha(draft / 'root-parent.py.txt') == source_sha
+    # Derive the exact supported receipt prefix from the pinned launcher rather
+    # than maintaining a second guessed literal spelling.
+    match = re.search(r'const receipt=resolve\(draft,`([^`]+)-\$\{randomUUID\(\)\}`\)', (draft / 'launcher.mjs.txt').read_text())
+    assert match, 'Pinned launcher receipt declaration required'
+    prefix = match.group(1) + '-'
+    before_receipts = set(draft.glob(prefix + '*'))
+    command = ['bash', str(draft / 'run.sh.txt')]
+    save('declaration.json', {'command': command, 'review': review, 'reviewPins': review_pins,
+         'inputManifest': pins['inputManifest'], 'parentSourceSha256': source_sha,
+         'receiptPrefixFromLauncher': prefix, 'childBoundSeconds': 120,
+         'externalBoundSeconds': external_bound, 'outputCapBytes': output_cap,
+         'observationIntervalSeconds': .1, 'identityCap': 4096, 'cpuExclusive': True})
+    assert interrupt_signal is None, 'Observer interrupted before launch'
+    with (parent / 'output.txt').open('xb') as output:
+        try:
+            child = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                     env=os.environ.copy(), start_new_session=True)
+            os.set_blocking(child.stdout.fileno(), False)
+            pipe_nonblocking = True
+            row = identity(child.pid)
+            assert row, 'Immediate outer command identity required'
+            remember(row, 'immediate-outer-command')
+            save('command-identity.json', row)
+            while child.poll() is None:
+                assert interrupt_signal is None, 'Observer interrupted during command'
+                observe()
+                drain(output)
+                if time.monotonic() - start > external_bound:
+                    raise RuntimeError('Outer supervision bound150s')
+                time.sleep(.1)
+        except BaseException as error:
+            failure(error)
+        finally:
+            # Each independent operation runs despite earlier observation,
+            # termination, status-write or pipe-drain failure.
+            try:
+                ensure_outer_identity()
+            except BaseException as error:
+                failure(error)
+            try:
+                observe()
+            except BaseException as error:
+                failure(error)
+            if child is not None:
+                try:
+                    if child.poll() is None:
+                        terminate_owned()
+                except BaseException as error:
+                    failure(error)
+                try:
+                    raw_exit = child.wait(timeout=2)
+                    save('child-raw-status.json', {'code': raw_exit,
+                         'signal': -raw_exit if raw_exit < 0 else None,
+                         'elapsedSeconds': time.monotonic() - start})
+                except BaseException as error:
+                    failure(error)
+                try:
+                    deadline = time.monotonic() + 1
+                    while not pipe_eof and pipe_nonblocking and time.monotonic() < deadline:
+                        try:
+                            drain(output)
+                        except BaseException as error:
+                            failure(error)
+                        if not pipe_eof:
+                            time.sleep(.05)
+                    if not pipe_eof:
+                        failure('Outer output pipe unavailable or not closed within1s drain')
+                except BaseException as error:
+                    failure(error)
+                finally:
+                    try:
+                        child.stdout.close()
+                    except BaseException as error:
+                        failure(error)
+    assert not failures, 'Owned command or pipe finalization failure'
+    assert raw_exit == 0, f'Raw child exit {raw_exit}'
+    receipts = set(draft.glob(prefix + '*')) - before_receipts
+    assert len(receipts) == 1, 'Exactly one newly created supported receipt required'
+    receipt = receipts.pop()
+    save('actual-receipt.json', {'receipt': str(receipt)})
+    result = json.loads((receipt / 'finalized.json').read_text())
+    assert result['finalized'] and result['status'] == 'pass' and result['stage'] == 'cost-flight'
+except BaseException as error:
+    failure(error)
+finally:
+    # Discovery, every receipt parse, termination and audit are independent;
+    # one partial file never suppresses remaining cleanup/postexit truth.
+    fresh_receipts = []
+    try:
+        ensure_outer_identity()
+    except BaseException as error:
+        failure(error)
+    try:
+        if prefix is not None:
+            fresh_receipts = sorted(set(draft.glob(prefix + '*')) - before_receipts)
+            for path in fresh_receipts:
+                assert path.is_dir() and path.resolve().parent == draft, 'Owned receipt path required'
+            if receipt is None and len(fresh_receipts) == 1:
+                receipt = fresh_receipts[0]
+                save('actual-receipt.json', {'receipt': str(receipt)})
+            elif receipt is None:
+                failure('Receipt discovery unavailable or nonunique in finalizer')
+    except BaseException as error:
+        failure(error)
+    for path in fresh_receipts:
+        try:
+            process_files = sorted(path.glob('*.process.json'))
+        except BaseException as error:
+            failure(error)
+            process_files = []
+        for process_file in process_files:
+            try:
+                record = json.loads(process_file.read_text())
+                for row in record.get('cleanup', {}).get('tracked', []):
+                    remember(row, 'actual-child-owner-finalizer')
+            except BaseException as error:
+                failure(error)
+        try:
+            remember(json.loads((path / 'launcher-identity.json').read_text()), 'actual-launcher-identity')
+        except BaseException as error:
+            failure(error)
+    try:
+        observe()
+    except BaseException as error:
+        failure(error)
+    try:
+        if any(live(row) for row in owned.values()):
+            failure('Owned process survived command exit')
+            terminate_owned()
+    except BaseException as error:
+        failure(error)
+    # A previous reap/status-save error also gets an independent final attempt.
+    if child is not None and raw_exit is None:
+        try:
+            raw_exit = child.wait(timeout=2)
+            save('child-raw-status-finalizer.json', {'code': raw_exit,
+                 'signal': -raw_exit if raw_exit < 0 else None,
+                 'elapsedSeconds': time.monotonic() - start})
+        except BaseException as error:
+            failure(error)
+    post = []
+    for row in owned.values():
+        try:
+            post.append({**row, 'executing': live(row), 'verified': True})
+        except BaseException as error:
+            post.append({**row, 'executing': None, 'verified': False})
+            failure(error)
+    try:
+        save('independent-all-owned-postexit.json', post)
+        assert all(row['verified'] and not row['executing'] for row in post), 'Owned cleanup failed or unavailable'
+    except BaseException as error:
+        failure(error)
+    try:
+        assert sha(source_path) == source_sha, 'Executing observer source changed'
+    except BaseException as error:
+        failure(error)
+    if interrupt_signal is not None:
+        failure('Observer interrupted signal' + str(interrupt_signal))
+    result = {'rawChildExit': raw_exit, 'elapsedSeconds': time.monotonic() - start,
+              'receipt': str(receipt) if receipt else None, 'firstFailure': failures[0] if failures else None,
+              'failures': failures, 'interruptSignal': interrupt_signal,
+              'outputBytes': output_bytes, 'outputRetainedBytes': output_retained,
+              'outputPipeEOF': pipe_eof, 'ownedCount': len(owned), 'parentSourceSha256': source_sha}
+    save('result.json', result)
+    print(json.dumps(result, indent=2), flush=True)
+    if failures:
+        raise SystemExit(1)
