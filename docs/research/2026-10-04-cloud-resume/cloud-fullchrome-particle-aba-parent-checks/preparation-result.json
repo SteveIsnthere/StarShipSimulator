@@ -1,0 +1,14 @@
+{
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "30s",
+    "python3",
+    "docs/research/2026-10-04-cloud-resume/prepare-fullchrome-particle-aba.py",
+    "docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-source-bridge.json"
+  ],
+  "actualChildReturnCode": 0,
+  "elapsedSeconds": 0.08893231000001833,
+  "oneInvocation": true
+}

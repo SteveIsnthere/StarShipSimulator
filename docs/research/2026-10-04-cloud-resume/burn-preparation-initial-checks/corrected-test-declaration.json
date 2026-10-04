@@ -1,0 +1,13 @@
+{
+  "files": [
+    "tests/proofs/burn-preparation.test.ts",
+    "tests/proofs/burn-preparation-module-mock.test.ts",
+    "tests/core/guidance-physics.test.ts",
+    "tests/core/v3.test.ts",
+    "tests/core/domain-edges.test.ts",
+    "tests/core/speed-of-sound.test.ts"
+  ],
+  "priorTestsExecuted": false,
+  "newBuildNeeded": false,
+  "reason": "Same current source and successful14.07s qualifying build; corrected only parent file selection before first invocation"
+}

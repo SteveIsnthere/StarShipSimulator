@@ -1,0 +1,31 @@
+# Actual frozen-state particle A/B/A result — independent review
+
+The sole episode `/tmp/starship-fullchrome-aba.vp2xqyr1` is valid GREEN attribution evidence, not performance/visual acceptance. It rejects engine-visibility removal as a sufficient solution. Do not run unchanged300 or implement a particle/quality reduction from this result. Selected raw receipt pins are in `cloud-fullchrome-particle-aba-independent-result-sources.json`. This review used small raw/source reads and arithmetic only.
+
+All declared conditioning3 and phase20/20/20 root draws, frozen telemetry/projection/particle inspection, backend/three-worker identity, source bridge/build/original-copy integrity and errors/cleanup requirements passed. Root independently checked11 owned identities, absent or matching zombies only. No executing owned-process/reaping contradiction or automatic retry is implied. Captured visible and restored controls both differ from hidden by7477 pixels at the declared>6-channel threshold, and restored/visible disagreement is0. This reviewer independently viewed retained visible/hidden PNGs: the actual plume/glare disappears while the same black vehicle, sky/clouds and photographic Starbase remain. Root viewed all three controls; no photographic quality acceptance follows just from a pixel count.
+
+| Phase | Cadence fps | Worker ticks100Hz | Cgroup CPU seconds | New throttled periods/time |
+|---|---:|---:|---:|---:|
+| A-visible |7.6514175|777|8.394562|0 /0ms|
+| B-hidden |8.6367562|716|7.667865|1 /26.953ms|
+| A-restored |8.0283952|777|8.231226|0 /0ms|
+
+The interval counter spans include topology/readback overhead, so worker/cgroup deltas are not exact shader or per-frame timings. B additionally experienced a small throttle; this does not explain its lower CPU use. A/restored worker CPU is identical, while cadence differs4.93%, explicitly retaining order/pacing uncertainty. Hidden saves61/777=7.85% worker CPU and yields1.129x relative to first A or1.076x relative to restored A, not the roughly7.35–7.71x desktop59fps gap. Even the hidden negative remains6.83x below59fps. No statistical stability prediction comes from20 frozen draws.
+
+## Important target limit
+
+Actual frame draw counters are48/33/48. All three phases still report bloom attached/enabled/compatible, resolution inherit1 and antialias inherittrue; heat remains unattached. `setParticlesVisible` hides particles/bells/glare, while `post.update` continues to attach bloom from engine/throttle state. Metadata describes declared filter state, not proof that the filter's WebGL draw ran or skipped. Therefore this result measures the existing engine visibility control; it does NOT prove disabling the bloom pass costs only7.85%, and it cannot exclude a still-running post pass from the remaining716ticks. Never infer a shader saving solely from an attached-filter flag.
+
+Source inspection found no sanctioned sky/cloud/distant-earth visibility control. `setComponentVisible` addresses body components, not environment layers. Sky is one full-frame gradient sprite plus stars, clouds60 textured puffs, world/distant-earth use tiling sprites, masks, terminator geometry and blended bands. These are real remaining targets but no measured pass attribution chooses among them. Bloom's source currently has17 brightPass samples plus the base texture sample; that18-sample kernel is a concrete inspectable candidate, not established as the dominant cost. Do not blindly reduce sky/cloud sampling, whole-render resolution, AA, flags or worker counts.
+
+## One concrete next diagnostic
+
+Prepare one bounded frozen-positive-state actual WebGL per-program/framebuffer completion attribution episode on the exact qualified fullChrome/source/build/INI3. Keep physics/projection/particles and all meaningful visuals unchanged; preserve the current real probe20-frame sample count and all first-frame observations. Record shader sources/program identity and source hash, framebuffer/viewport/texture dimensions, draw type/count and actual invocation per root frame, so the bloom program can be proven to execute or be absent rather than inferred from metadata. Program identification must match retained actual shader source against the pinned bloom source/ordinary Pixi prefix, not a guess by draw index.
+
+Prefer supported `EXT_disjoint_timer_query_webgl2` completion queries if actually available, collecting asynchronously after the window with disjoint/availability checks and without CPU spin/waits in render callbacks. No browser flags or capability fabrication. If unsupported, a separately explicit reviewed alternative is per-draw original `gl.finish()` completion isolation with worker/cgroup boundary accounting and flush-baseline overhead recorded; it serializes GPU work and is diagnostic only, never an original throughput measurement or unchanged acceptance run. Do not silently choose a favorable profiling method or execute a second fallback launch. The exact one-method capability/termination contract must be reviewed before any grant.
+
+Retain same frozen-state positive screenshots before/after all measured attribution, prove visual equality and state/worker invariants, and cap records/time/storage/cleanup as before. Attribute nested GPU/context/queue costs carefully; a program's completion wall wait is not automatically shader CPU. Use actual dominant measured pass share to justify an expected saving against the roughly86–87% desktop work gap, then choose one bounded implementation with positive original scene/phone/thin-plume controls. If no pass approaches the required saving, say so rather than claiming a small effect closes59fps.
+
+This is a proposed next harness task only. No new profiling/launch/quality edit or product decision is approved here. All original60warm/300sample,60s timeout,59/29.5fps,16.67/33.33ms, exact physical outputs, six scenes/phone/onset and retained cues remain unchanged. After cycle3's next actual diagnostic, review the evidence before deciding whether another bounded cycle is justified.
+
+Durable outcome summary SHA256 `e55577a9348e92de6629b4fa31a8fb493fbc71db5366814ef47a98a4bf697b59`; retained artifact manifest SHA256 `3f965bc948618d9032a8ab952e2e74aa35dc1fa90c5e1f79b9991ac6df1a0f1f`. Selected durable receipt bytes independently match the original episode receipts reviewed above.

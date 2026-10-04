@@ -1,0 +1,30 @@
+# Fresh frozen-state A/B/A actual harness approval
+
+Approve one bounded ownership-only preparation with the exact source bridge below, followed by at most one A/B/A diagnostic launch after root verifies green setup and grants exclusive browser CPU. No browser/preparation/build/test/copy or source edit was performed by this reviewer. This is attribution approval, not visual/performance acceptance, quality adoption or an automatic300-frame trial.
+
+- `run-fullchrome-particle-aba.mjs`: `40f2b844c28ce8553e6395ac60207f051d947af128b873f4333784a0eb12e617`
+- `prepare-fullchrome-particle-aba.py`: `62f9007d568a8f7e52eeda682cb30968614cbaee09274c43566ece283bc3f9ce`
+- `cloud-fullchrome-particle-aba-declaration.md`: `c3ab5e89f3634a5407b93375c0baa533cb844904c7b207bf0da6ca161feb5c41`
+- `cloud-fullchrome-particle-aba-source-bridge.json`: `71c431171cf50aa5ebafa9708d31b3ad40c5c33b1feb17172bae3f8d0a4fb856`
+
+## Source/build bridge
+
+The bridge enumerates exactly16 changes: ESLint generated-evidence scope, the supported Linux64 helper and focused tests, native benchmark tooling/bridge, CPU proof fixtures and package.json's bench command. All16 current changed-file digests independently matched the bridge. The qualified source tuple contains347 src/public paths; none is changed in the bridge. The preparation recomputes the complete current tuple and compares its exact union/delta to the approved bridge, prohibiting any src/public/dependency or undeclared source change. This is a new explicit current-source lineage, not reuse of the old whole-source digest.
+
+The retained exact package bytes have matching declared before/after hashes; parsed objects are identical after replacing only scripts.bench from original `vitest run --config vitest.timing.config.ts` to `node scripts/bench.mjs`. The three CI file pins and the empty diff against the qualifier's HEAD are explicit; an independent `git diff <qualified-head> -- .github` was empty. CI was absent from the historical tuple, so no retroactive CI verification is claimed. Current tuple/CI pins are verified before/after/final. Root's separate native benchmark/helper approvals remain their implementation authority; this GPU review does not extend them.
+
+Most importantly, the42 qualified dist-file hashes and exact file inventory are retained from the old receipt and verified unchanged, with no fresh-build adoption. Original/full-copy303file identities, mode/directory sets, mapped library/INI3, Node executable and locked registry/version remain qualified separately. The new directory contains only new ownership/small receipt files; the407MB prior copy and prior ownership records are untouched. A source drift or old dist mismatch fails before browser launch.
+
+## Conditioning and frozen comparison
+
+Exactly3 real zero-warm probe draws establish positive production particles/bells/bloom after the original360 raw setup steps. The root witness RAF wrapper wraps the original probe wrapper: probe.finishFrame sets done before the outer callback, which pauses before invoking the next actual app callback. Thus the first callback after the third completed frame sees sanctioned pause, without replacing the clock or manually populating particles. The positive condition, full physical health and actual paused status are required; no retry/search fills an absent subject.
+
+The source chain is concrete: paused advance returns simulatedDt0 before onStep; session's ticker passes that dt to scene.draw; camera.step lives in onStep; elapsed only adds worldDt. Scene's lastWorldDt updates only for positive dt, so the debug remembered value must remain unchanged rather than be asserted0. Particle rendering/control uses existing setParticlesVisible, changing particles/bells/glare visibility only. This is a source-backed frozen-input and observable-projection comparison, not raw camera or per-particle-array snapshots.
+
+Each of A-visible/B-hidden/A-restored must retain exact full telemetry, nozzle/body/component projections, viewport/backing, particle inspection rows, renderer/filter metadata and remembered worldDt. The varying bell count is explicit. Each phase has exactly20 probe frames, independent root draw witness, original>=2 callbacks/>=1draw/>=1GPU completion floors, original observed SwiftShader/backend and the same three actual worker TIDs/affinity. Worker ticks/cgroup/frame cadence are recorded for all three phases, without discarded first samples or fastest-phase selection. Boundary CPU spans include readback/topology overhead; they cannot be called shader timings.
+
+All screenshots/HUD masking/PNG decoding follow all three timed phases. Two declared untimed draws precede each same-frozen-state capture. Actual1280x720 PNGs, visible/hidden and restored/hidden positive pixel differences, plus A/restored disagreement are retained. This rejects a missing visibility subject, not poor photographic quality. Human image review and restoration agreement still matter. Hidden controls are causal negatives, never acceptable rendering modes. The control isolates combined rendered engine visuals/particles/glare/filter cost, not bloom alone.
+
+The source/identity/ownership/deadline/storage logic retains the previously reviewed GO/STOP, PID/starttime/group, uniquely private copied Crashpad cleanup and final byte/inventory verification. No declared retry or fallback occurs.90s work and shared5s cleanup/integrity remain fail-closed; synchronous hashing cannot be preempted solely by JS timer, so root retains bounded supervision and independent owned-process recovery. Require retained stdout/stderr/status and new-directory path for the30s+5s preparation invocation as declared.
+
+Approve only these exact pins with source bridge SHA256 `71c431171cf50aa5ebafa9708d31b3ad40c5c33b1feb17172bae3f8d0a4fb856`; any drift requires fresh review. Actual full A/B/A outcome must be reviewed before choosing further work. Every original60warm/300sample, capture timeout, graphics floor, real physics, six scenes/phone/onset and positive thin-plume requirement stays unchanged.

@@ -126,8 +126,8 @@ it('density/area side effects retain getDrag callee-before-arguments order and t
   }
 });
 
-// Additional separate full/partial mock collection is the concrete dynamic-import
-// example in burn-preparation-additional-proofs.ts.txt. Add analogous aero absence
-// and partial importActual engine/area cases, with exact independent scratch and
-// mirrored logs. Predicate spy self-validation must be tested before AND midcall.
-// These snippets need independent review before source installation; no green claim.
+// Separate complete full/partial mock and aero/propulsion absence collection:
+// burn-preparation-module-mock-proofs.ts.txt (fullscratch/identity/helper+ISA logs).
+// Complete before/mid predicate and admitted pressure-getter IEEE proof:
+// burn-preparation-predicate-pressure-proofs.ts.txt.
+// All are concrete research drafts requiring independent review before installation.

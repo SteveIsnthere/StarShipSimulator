@@ -1,0 +1,116 @@
+{
+  "purpose": "Proposed exact qualified\u2192current tooling/helper source bridge; fresh review required before preparation",
+  "qualifiedHead": "6eff85137570af0ebbb958e2dac3c5c526d37462",
+  "qualifiedSetupReceiptSha256": "9a0d1d12414b0c251db98ef5bca3fd996b2a5c327600f2abfcef847be5a37e1f",
+  "qualifiedSourceSha256": "7f3e6dd84a1ce3595acd996e51127c308e6f8b0d296b78fe46ebb70abcf36dfd",
+  "currentSourceSha256": "a90e2e33b7c874bd0809cbfb3a2ca4f9315d594a4daf2e5cfd25a5bc76c26618",
+  "changes": [
+    {
+      "path": "eslint.config.js",
+      "before": "4a21583cf45cf8a64d948f33da9e3370e69020d7baeb410907d56fc2956502e6",
+      "after": "1a5508bc2ef2ad5e6f437708de64f0f88101cfb01f8eff21aa1ea0ac490d9f99"
+    },
+    {
+      "path": "package.json",
+      "before": "a5eaca6986392da131d45c5c646204c2a58a2e9b1dc16af8a934175b9e2196f5",
+      "after": "67f1e817568094c60b2453190c4633d13aafe501a3cee51d0e43e14b5fc28be6"
+    },
+    {
+      "path": "scripts/bench.mjs",
+      "before": null,
+      "after": "21fdc2ab89e36de730e0bd3f72c4afc4cfd7cb41726e162cfd817a13706c53e3"
+    },
+    {
+      "path": "scripts/bench/build-native-guidance.mjs",
+      "before": null,
+      "after": "5f2b66b655615473f358c08cd9a95af26bbedd6621d05107072d93b5c1d3aac7"
+    },
+    {
+      "path": "scripts/bench/native-guidance-entry.ts",
+      "before": null,
+      "after": "b725fe1cbedc14aefe9c18d98f34662dd2ce9a856c33ca8c473d2ef5655234cc"
+    },
+    {
+      "path": "scripts/bench/native-loader.mjs",
+      "before": null,
+      "after": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb"
+    },
+    {
+      "path": "scripts/bench/owned-command-controls.mjs",
+      "before": null,
+      "after": "1c4141b6bfac219c11ab51b945ac03227d34ea025745cc6ec89c22bbcc8b04b1"
+    },
+    {
+      "path": "scripts/bench/owned-command.mjs",
+      "before": null,
+      "after": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+    },
+    {
+      "path": "scripts/bench/qualification.json",
+      "before": null,
+      "after": "09ac0f90d87e60a7c235040bf92136d21ef2be0db68f129e04535c46ee56ccab"
+    },
+    {
+      "path": "tests/e2e/chromium.ts",
+      "before": "b65e613f21fbc9e5d4b95d6e314609dd4a484463db1b99f3cfcc2685723cab14",
+      "after": "e32107c386cfd11dd8f01c9cc5384adf7222b1f48a24ab7de9687e6dbb3f601b"
+    },
+    {
+      "path": "tests/proofs/burn-preparation.test.ts",
+      "before": null,
+      "after": "fc5bb4c8d265ac4f82a41d37781394e45d53b3056702a9ced48deb4f88624596"
+    },
+    {
+      "path": "tests/proofs/fixtures/burn-before-preparation/aero.ts",
+      "before": null,
+      "after": "633ace6ce04b842b6a02272bbbadbeefc5d34b57355052820857d63aa00aa543"
+    },
+    {
+      "path": "tests/proofs/fixtures/burn-before-preparation/guidance-physics.ts",
+      "before": null,
+      "after": "1390d31bf04456f4885af5fd71c61de2647ff8013e9077d70bf29ecfb26985bd"
+    },
+    {
+      "path": "tests/proofs/fixtures/burn-before-preparation/propulsion.ts",
+      "before": null,
+      "after": "14d242fdcbbd8507152fdd5bac868597e120afb4d9434ab3445815f25bb7f694"
+    },
+    {
+      "path": "tests/support/chromium-layout.test.ts",
+      "before": null,
+      "after": "cc8dc25ad5fc068eef117cd6cacb9f3e7cffbfacd6b9f0ac97b747be405bd695"
+    },
+    {
+      "path": "tests/support/native-guidance-benchmark.ts",
+      "before": null,
+      "after": "a9de71bb3b45929bc0ec6d057102c5766298919802a052ec6788868af6d6d422"
+    }
+  ],
+  "srcPublicExactUnchanged": true,
+  "unchangedSrcPublicFiles": 347,
+  "qualifiedApplicationAssetsSubsetSha256": "8fbca2d4480dcb8e8625e3413ce83d7b255d1a35c7578b00abd6ee81d25d5102",
+  "packageBenchDiff": {
+    "beforeBench": "vitest run --config vitest.timing.config.ts",
+    "afterBench": "node scripts/bench.mjs",
+    "beforePackage": "{\n  \"name\": \"starship-simulator-v2\",\n  \"private\": true,\n  \"version\": \"0.1.0\",\n  \"type\": \"module\",\n  \"engines\": {\n    \"node\": \">=22\"\n  },\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist\",\n    \"preview\": \"vite preview\",\n    \"lint\": \"eslint .\",\n    \"test\": \"vitest run\",\n    \"coverage\": \"vitest run --coverage --testTimeout=120000 --reporter=default --reporter=json --outputFile.json=coverage/test-results.json\",\n    \"gate\": \"npm run lint && npm run build && npm run test && npm run coverage && E2E_SKIP_BUILD=1 npm run test:e2e && E2E_SKIP_BUILD=1 npm run test:deploy\",\n    \"test:watch\": \"vitest\",\n    \"test:e2e\": \"playwright test --project=chromium --grep @smoke\",\n    \"test:deploy\": \"playwright test --config playwright.subpath.config.ts\",\n    \"golden:regenerate\": \"vite-node tests/golden/regenerate.ts\",\n    \"bench\": \"vitest run --config vitest.timing.config.ts\",\n    \"test:e2e:full\": \"playwright test\",\n    \"truth:report\": \"vite-node scripts/truth-report.ts\",\n    \"margins\": \"vite-node scripts/landing-margins.ts\",\n    \"deorbit:range\": \"vite-node scripts/deorbit-range.ts\",\n    \"mutation\": \"node scripts/mutation-check.mjs\",\n    \"kit:drift\": \"node scripts/kit-drift.mjs\"\n  },\n  \"devDependencies\": {\n    \"@eslint/js\": \"10.0.1\",\n    \"@playwright/test\": \"^1.62.1\",\n    \"@tailwindcss/vite\": \"4.2.2\",\n    \"@testing-library/jest-dom\": \"6.9.1\",\n    \"@testing-library/react\": \"16.3.2\",\n    \"@testing-library/user-event\": \"14.6.1\",\n    \"@types/node\": \"26.3.0\",\n    \"@types/react\": \"19.2.14\",\n    \"@types/react-dom\": \"19.2.3\",\n    \"@vitejs/plugin-react\": \"6.1.1\",\n    \"@vitest/coverage-v8\": \"4.1.11\",\n    \"esbuild\": \"0.28.2\",\n    \"eslint\": \"10.9.1\",\n    \"eslint-plugin-react-hooks\": \"7.1.1\",\n    \"fast-check\": \"4.10.2\",\n    \"globals\": \"17.11.0\",\n    \"jsdom\": \"29.1.0\",\n    \"node-web-audio-api\": \"^2.2.0\",\n    \"tailwindcss\": \"4.2.2\",\n    \"typescript\": \"5.9.3\",\n    \"typescript-eslint\": \"8.68.0\",\n    \"vite\": \"8.2.2\",\n    \"vite-node\": \"6.0.0\",\n    \"vitest\": \"4.1.11\"\n  },\n  \"dependencies\": {\n    \"@radix-ui/react-dialog\": \"1.1.23\",\n    \"@radix-ui/react-popover\": \"1.1.23\",\n    \"@radix-ui/react-select\": \"2.3.7\",\n    \"clsx\": \"2.1.1\",\n    \"gsap\": \"3.15.0\",\n    \"lucide-react\": \"0.468.0\",\n    \"pixi.js\": \"8.20.0\",\n    \"react\": \"19.2.4\",\n    \"react-dom\": \"19.2.4\",\n    \"tailwind-merge\": \"3.5.0\",\n    \"uplot\": \"1.6.32\",\n    \"zustand\": \"5.0.12\"\n  }\n}\n",
+    "afterPackage": "{\n  \"name\": \"starship-simulator-v2\",\n  \"private\": true,\n  \"version\": \"0.1.0\",\n  \"type\": \"module\",\n  \"engines\": {\n    \"node\": \">=22\"\n  },\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist\",\n    \"preview\": \"vite preview\",\n    \"lint\": \"eslint .\",\n    \"test\": \"vitest run\",\n    \"coverage\": \"vitest run --coverage --testTimeout=120000 --reporter=default --reporter=json --outputFile.json=coverage/test-results.json\",\n    \"gate\": \"npm run lint && npm run build && npm run test && npm run coverage && E2E_SKIP_BUILD=1 npm run test:e2e && E2E_SKIP_BUILD=1 npm run test:deploy\",\n    \"test:watch\": \"vitest\",\n    \"test:e2e\": \"playwright test --project=chromium --grep @smoke\",\n    \"test:deploy\": \"playwright test --config playwright.subpath.config.ts\",\n    \"golden:regenerate\": \"vite-node tests/golden/regenerate.ts\",\n    \"bench\": \"node scripts/bench.mjs\",\n    \"test:e2e:full\": \"playwright test\",\n    \"truth:report\": \"vite-node scripts/truth-report.ts\",\n    \"margins\": \"vite-node scripts/landing-margins.ts\",\n    \"deorbit:range\": \"vite-node scripts/deorbit-range.ts\",\n    \"mutation\": \"node scripts/mutation-check.mjs\",\n    \"kit:drift\": \"node scripts/kit-drift.mjs\"\n  },\n  \"devDependencies\": {\n    \"@eslint/js\": \"10.0.1\",\n    \"@playwright/test\": \"^1.62.1\",\n    \"@tailwindcss/vite\": \"4.2.2\",\n    \"@testing-library/jest-dom\": \"6.9.1\",\n    \"@testing-library/react\": \"16.3.2\",\n    \"@testing-library/user-event\": \"14.6.1\",\n    \"@types/node\": \"26.3.0\",\n    \"@types/react\": \"19.2.14\",\n    \"@types/react-dom\": \"19.2.3\",\n    \"@vitejs/plugin-react\": \"6.1.1\",\n    \"@vitest/coverage-v8\": \"4.1.11\",\n    \"esbuild\": \"0.28.2\",\n    \"eslint\": \"10.9.1\",\n    \"eslint-plugin-react-hooks\": \"7.1.1\",\n    \"fast-check\": \"4.10.2\",\n    \"globals\": \"17.11.0\",\n    \"jsdom\": \"29.1.0\",\n    \"node-web-audio-api\": \"^2.2.0\",\n    \"tailwindcss\": \"4.2.2\",\n    \"typescript\": \"5.9.3\",\n    \"typescript-eslint\": \"8.68.0\",\n    \"vite\": \"8.2.2\",\n    \"vite-node\": \"6.0.0\",\n    \"vitest\": \"4.1.11\"\n  },\n  \"dependencies\": {\n    \"@radix-ui/react-dialog\": \"1.1.23\",\n    \"@radix-ui/react-popover\": \"1.1.23\",\n    \"@radix-ui/react-select\": \"2.3.7\",\n    \"clsx\": \"2.1.1\",\n    \"gsap\": \"3.15.0\",\n    \"lucide-react\": \"0.468.0\",\n    \"pixi.js\": \"8.20.0\",\n    \"react\": \"19.2.4\",\n    \"react-dom\": \"19.2.4\",\n    \"tailwind-merge\": \"3.5.0\",\n    \"uplot\": \"1.6.32\",\n    \"zustand\": \"5.0.12\"\n  }\n}\n",
+    "otherParsedFieldsEqual": true
+  },
+  "githubCommitDiff": [],
+  "githubFiles": [
+    [
+      ".github/workflows/ci.yml",
+      "6596ec806fd5639de606fa581ae4ceead03873d465fb5f7f7b6ff731c7b283a6"
+    ],
+    [
+      ".github/workflows/deploy.yml",
+      "9d9926b3fc5e5bb20277ddd60f30ee94ac9483cd508db8c3e829e7af48b88f9c"
+    ],
+    [
+      ".github/workflows/golden-regenerate.yml",
+      "70b1e0a6629a0320e5dce7a2220d86c2c56860bbbaa8abdbdeac29bbf25f70f6"
+    ]
+  ],
+  "githubScopeLimit": "CI matched qualified HEAD; prior qualifier tuple manifest did not hash CI dirty state. No CI drift vscommit is observed.",
+  "approval": "UNAPPROVED proposal; root and independent exactdiff review required"
+}

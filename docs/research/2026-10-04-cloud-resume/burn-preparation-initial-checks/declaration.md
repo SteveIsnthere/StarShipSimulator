@@ -1,0 +1,1 @@
+One initial qualifying build then complete17 bounded prepared-burn proofs plus existing guidance/propulsion/aero public helper contracts. No flight/timing/golden recording or retry. All source/oracle/work/IEEE/scratch/mock conditions retained; unexpected errors stop progression for cause-based repair.

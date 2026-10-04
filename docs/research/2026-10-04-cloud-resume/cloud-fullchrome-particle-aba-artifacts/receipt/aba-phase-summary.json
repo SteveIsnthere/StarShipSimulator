@@ -1,0 +1,83 @@
+{
+  "phases": [
+    {
+      "name": "A-visible",
+      "visible": true,
+      "count": 20,
+      "cadenceFps": 7.651417525773196,
+      "workerCpuTicks": [
+        {
+          "tid": 34216,
+          "cpuTicks": 261
+        },
+        {
+          "tid": 34217,
+          "cpuTicks": 257
+        },
+        {
+          "tid": 34218,
+          "cpuTicks": 259
+        }
+      ],
+      "workerClockTicksPerSecond": 100,
+      "cgroupBefore": "usage_usec 4577204078\nuser_usec 4348959018\nsystem_usec 228245060\nnice_usec 0\nnr_periods 41853\nnr_throttled 3645\nthrottled_usec 238105911\nnr_bursts 0\nburst_usec 0\n",
+      "cgroupAfter": "usage_usec 4585598640\nuser_usec 4357147163\nsystem_usec 228451477\nnice_usec 0\nnr_periods 41881\nnr_throttled 3645\nthrottled_usec 238105911\nnr_bursts 0\nburst_usec 0\n",
+      "firstFrameIncluded": true,
+      "acceptance": false
+    },
+    {
+      "name": "B-hidden",
+      "visible": false,
+      "count": 20,
+      "cadenceFps": 8.636756216191646,
+      "workerCpuTicks": [
+        {
+          "tid": 34216,
+          "cpuTicks": 238
+        },
+        {
+          "tid": 34217,
+          "cpuTicks": 239
+        },
+        {
+          "tid": 34218,
+          "cpuTicks": 239
+        }
+      ],
+      "workerClockTicksPerSecond": 100,
+      "cgroupBefore": "usage_usec 4586019791\nuser_usec 4357543512\nsystem_usec 228476279\nnice_usec 0\nnr_periods 41882\nnr_throttled 3645\nthrottled_usec 238105911\nnr_bursts 0\nburst_usec 0\n",
+      "cgroupAfter": "usage_usec 4593687656\nuser_usec 4365105652\nsystem_usec 228582004\nnice_usec 0\nnr_periods 41907\nnr_throttled 3646\nthrottled_usec 238132864\nnr_bursts 0\nburst_usec 0\n",
+      "firstFrameIncluded": true,
+      "acceptance": false
+    },
+    {
+      "name": "A-restored",
+      "visible": true,
+      "count": 20,
+      "cadenceFps": 8.028395166061015,
+      "workerCpuTicks": [
+        {
+          "tid": 34216,
+          "cpuTicks": 259
+        },
+        {
+          "tid": 34217,
+          "cpuTicks": 260
+        },
+        {
+          "tid": 34218,
+          "cpuTicks": 258
+        }
+      ],
+      "workerClockTicksPerSecond": 100,
+      "cgroupBefore": "usage_usec 4594058034\nuser_usec 4365451351\nsystem_usec 228606682\nnice_usec 0\nnr_periods 41908\nnr_throttled 3647\nthrottled_usec 238152139\nnr_bursts 0\nburst_usec 0\n",
+      "cgroupAfter": "usage_usec 4602289260\nuser_usec 4373583344\nsystem_usec 228705916\nnice_usec 0\nnr_periods 41935\nnr_throttled 3647\nthrottled_usec 238152139\nnr_bursts 0\nburst_usec 0\n",
+      "firstFrameIncluded": true,
+      "acceptance": false
+    }
+  ],
+  "sourceBackedCurrentDt": 0,
+  "rememberedLastPositiveWorldDt": 0.008333333333333333,
+  "noRawCameraClaim": true,
+  "noAutomatic300Trial": true
+}

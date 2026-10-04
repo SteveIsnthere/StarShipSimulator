@@ -1,6 +1,6 @@
 # V3 vehicle realism — evidence index, 2026-10-03
 
-Current execution instructions live in [GOAL](../../plans/modernization/modernization-GOAL.md), [Phase8](../../plans/modernization/modernization-phase-8.md) and the [handover](../../plans/modernization/modernization-handover.md). Steve requested a pause after current tasks. Historical “pending” statements in the files below do not override that checkpoint.
+Current execution instructions live in [GOAL](../../plans/modernization/modernization-GOAL.md), [Phase8](../../plans/modernization/modernization-phase-8.md) and the [handover](../../plans/modernization/modernization-handover.md). Steve explicitly cleared the pause and moved acceptance to the cloud. Current replacement recovery and fresh measured outcomes are in the [cloud-resume index](../2026-10-04-cloud-resume/README.md). The original pause recovery below is historical; never apply it to the current dirty checkout or chain it with later snapshots. Historical “pending” statements do not override the current GOAL/handover.
 
 | Area | Read first | Establishes |
 |---|---|---|

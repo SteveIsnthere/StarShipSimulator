@@ -1,0 +1,95 @@
+{
+  "actions": [],
+  "ownedIdentities": [
+    {
+      "pid": 34182,
+      "starttime": "1491635",
+      "ppid": 34168,
+      "pgrp": 34182,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+    },
+    {
+      "pid": 34213,
+      "starttime": "1491645",
+      "ppid": 34189,
+      "pgrp": 34182,
+      "state": "Z"
+    },
+    {
+      "pid": 34185,
+      "starttime": "1491640",
+      "ppid": 1,
+      "pgrp": 34184,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+    },
+    {
+      "pid": 34188,
+      "starttime": "1491640",
+      "ppid": 1,
+      "pgrp": 34187,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+    },
+    {
+      "pid": 34189,
+      "starttime": "1491640",
+      "ppid": 1,
+      "pgrp": 34182,
+      "state": "Z"
+    },
+    {
+      "pid": 34191,
+      "starttime": "1491640",
+      "ppid": 1,
+      "pgrp": 34182,
+      "state": "Z"
+    },
+    {
+      "pid": 34220,
+      "starttime": "1491646",
+      "ppid": 34182,
+      "pgrp": 34182,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+    },
+    {
+      "pid": 34227,
+      "starttime": "1491649",
+      "ppid": 34191,
+      "pgrp": 34182,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+    },
+    {
+      "pid": 34250,
+      "starttime": "1491656",
+      "ppid": 34191,
+      "pgrp": 34182,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+    },
+    {
+      "pid": 34251,
+      "starttime": "1491656",
+      "ppid": 1,
+      "pgrp": 34182,
+      "state": "Z"
+    },
+    {
+      "pid": 34276,
+      "starttime": "1491938",
+      "ppid": 34182,
+      "pgrp": 34182,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+    }
+  ],
+  "remaining": [],
+  "inaccessibleOwned": [],
+  "verifiedDescendantAbsence": true,
+  "cleanupMs": 1406,
+  "launchSettled": true,
+  "elapsedMs": 24511
+}

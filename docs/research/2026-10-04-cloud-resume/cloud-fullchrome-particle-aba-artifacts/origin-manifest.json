@@ -1,0 +1,262 @@
+[
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/A-restored-after-topology.json",
+    "preserved": "receipt/A-restored-after-topology.json",
+    "sha256": "4a6c1314973ddacd9708a8dc537f48649b029b4a2e08eb4d98534215cc09b316"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/A-restored-before-topology.json",
+    "preserved": "receipt/A-restored-before-topology.json",
+    "sha256": "929de5e99120b7252596305f21c57977bd9a0c15a92b736e10d70e94f00ac0ad"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/A-restored-draws.json",
+    "preserved": "receipt/A-restored-draws.json",
+    "sha256": "8f817c9a69a59ef4975d30701b2a7c87d38539904afda5e7da32a27f0ef317c1"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/A-visible-after-topology.json",
+    "preserved": "receipt/A-visible-after-topology.json",
+    "sha256": "4ac5cb6d0840e14e23eaba4a4c6f6aa18f0285852a46e0e7b69eb8536a48e79a"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/A-visible-before-topology.json",
+    "preserved": "receipt/A-visible-before-topology.json",
+    "sha256": "4db9ff604a32c74b395d98fa0b53bf48596ea0dc594448aa83fc07007f20d2cc"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/A-visible-draws.json",
+    "preserved": "receipt/A-visible-draws.json",
+    "sha256": "d1da8f7984d2e7004a755c137fd417a9690204272cc44b042f1d5b43cb1db58d"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/B-hidden-after-topology.json",
+    "preserved": "receipt/B-hidden-after-topology.json",
+    "sha256": "e7ba86240489f0ad1c210b90d1040d8f482aa3fe3b7a073359f600440dcb23bb"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/B-hidden-before-topology.json",
+    "preserved": "receipt/B-hidden-before-topology.json",
+    "sha256": "6bfe539dc048d1e2de081fc0894b770547bd00bd41dd87df2c41fccc439d17cd"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/B-hidden-draws.json",
+    "preserved": "receipt/B-hidden-draws.json",
+    "sha256": "ae165faa41c52b8a02961f08fa65a32a491cebddf60eb87c63ccf7f9629d204f"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/GO",
+    "preserved": "receipt/GO",
+    "sha256": "784f51f761bf6289a097980d4e804c6e7ff40ee8b2558850660e8d94590da0df"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/STOP",
+    "preserved": "receipt/STOP",
+    "sha256": "a11c3d917a2149a4b548217038bc8f2dd2130a1966e0c7af5c4225d81f25a8c3"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/aba-phase-summary.json",
+    "preserved": "receipt/aba-phase-summary.json",
+    "sha256": "fc9d7821b53352b05fcfc85641a60cd6398777c3689e8f0b2d2d041952a3d608"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/after-bundle-identity.json",
+    "preserved": "receipt/after-bundle-identity.json",
+    "sha256": "20f24b1845d4710a44abcd0c0552aa4d0578227f538ae4cbe9db1abede4432d7"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/after-identity.json",
+    "preserved": "receipt/after-identity.json",
+    "sha256": "f70661d36f70e155ca60acfb164564d37a5a3fb56aeb0cc788b53fd28b6eb7d7"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/before-bundle-identity.json",
+    "preserved": "receipt/before-bundle-identity.json",
+    "sha256": "20f24b1845d4710a44abcd0c0552aa4d0578227f538ae4cbe9db1abede4432d7"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/before-identity.json",
+    "preserved": "receipt/before-identity.json",
+    "sha256": "f70661d36f70e155ca60acfb164564d37a5a3fb56aeb0cc788b53fd28b6eb7d7"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/browser-identity.json",
+    "preserved": "receipt/browser-identity.json",
+    "sha256": "12f4b00d37fc30fc78dfeab757c3b4df456af56105c84114d6d60f616a15a83e"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/browser-wrapper.sh",
+    "preserved": "receipt/browser-wrapper.sh",
+    "sha256": "a8884937da3cbe8169ab61676a870b94c71436f24ed37af38ff7bad07f39155c"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/bundle-copy-manifest.json",
+    "preserved": "receipt/bundle-copy-manifest.json",
+    "sha256": "bfefd1a1d378e5234086d8a84469705c4b04ba29a7564eb71f2bf4dd21703dff"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/cleanup.json",
+    "preserved": "receipt/cleanup.json",
+    "sha256": "49e043a3fdba2be65c5574e63a08adf19d58effb33012e09f16a384fafb50fd7"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/collection-status.json",
+    "preserved": "receipt/collection-status.json",
+    "sha256": "f4f4c297a9851684264fa22dcbb32a38592aa78f8cfe796116ee30230de0dc21"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/conditioning.json",
+    "preserved": "receipt/conditioning.json",
+    "sha256": "4162d01b309001d034f2fa649e676b13fc515340e4afbab573c556f4ab0f1f34"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/console.json",
+    "preserved": "receipt/console.json",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/final-integrity.json",
+    "preserved": "receipt/final-integrity.json",
+    "sha256": "ac9d64fb75e888a05214a626e6d0f04fd3fc50d1d4baa6a4bd199ee39e8e73d7"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/functional-outcome.json",
+    "preserved": "receipt/functional-outcome.json",
+    "sha256": "a72287f2676da92897d50af72bb7e694b0ce991228238e80686811d1ef9c6c6d"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/hidden-negative-control-state.json",
+    "preserved": "receipt/hidden-negative-control-state.json",
+    "sha256": "183a118a6eddb05dec2ed3d957bd30f6c824c502de39050d2eb9913f07942e99"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/hidden-negative-control.png",
+    "preserved": "receipt/hidden-negative-control.png",
+    "sha256": "7e5e5b56f7c4eb024bd4a11e383f6a4a3751cc3fb61be394c1b74fa8af55191e"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/initial-topology.json",
+    "preserved": "receipt/initial-topology.json",
+    "sha256": "b1df69b355af2cff1a16d7502c2d91d3ac5f5969e12a6449e28b1b8d88ec47e4"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/positive-control-pixels.json",
+    "preserved": "receipt/positive-control-pixels.json",
+    "sha256": "1a0500e9cfa65a13acb36b166addf9c9fd3408a85fd06c137a1b8a56ac1a32b2"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/preparation-created.json",
+    "preserved": "receipt/preparation-created.json",
+    "sha256": "33f52e9441612a03688dd2568b126ec392334758afb43a1d3df504426d7f8535"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/qualification-outcome.json",
+    "preserved": "receipt/qualification-outcome.json",
+    "sha256": "0072e71a3797835255409996838ea9d9a53ddf4c95cf92b189bb318255c419ab"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/qualified-setup-receipt.json",
+    "preserved": "receipt/qualified-setup-receipt.json",
+    "sha256": "9a0d1d12414b0c251db98ef5bca3fd996b2a5c327600f2abfcef847be5a37e1f"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/restored-control-state.json",
+    "preserved": "receipt/restored-control-state.json",
+    "sha256": "c714cf4d8bc27b95a610dedda5b301afde01aa05c136e617488f48e51d8a9749"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/restored-control.png",
+    "preserved": "receipt/restored-control.png",
+    "sha256": "f844611469aaef6daf814f449d9d9b8b05f0d57429c1ab644eeff93baccdb21e"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/setup-receipt.json",
+    "preserved": "receipt/setup-receipt.json",
+    "sha256": "eb54dddb2ca0acc954cea161d3f73528d7c046d1540f9db561ab7b744b273da0"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/source-bridge.json",
+    "preserved": "receipt/source-bridge.json",
+    "sha256": "71c431171cf50aa5ebafa9708d31b3ad40c5c33b1feb17172bae3f8d0a4fb856"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/visible-control-state.json",
+    "preserved": "receipt/visible-control-state.json",
+    "sha256": "c714cf4d8bc27b95a610dedda5b301afde01aa05c136e617488f48e51d8a9749"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/visible-control.png",
+    "preserved": "receipt/visible-control.png",
+    "sha256": "f844611469aaef6daf814f449d9d9b8b05f0d57429c1ab644eeff93baccdb21e"
+  },
+  {
+    "original": "/tmp/starship-fullchrome-aba.vp2xqyr1/wrapper-owner.json",
+    "preserved": "receipt/wrapper-owner.json",
+    "sha256": "d01fed76b04d217df2d3d9bf7d3ef34ac8b2c45918e582da58bdc31b375bbad3"
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-parent-checks/launch-output.txt",
+    "preserved": "parent-checks/launch-output.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-parent-checks/launch-result.json",
+    "preserved": "parent-checks/launch-result.json",
+    "sha256": "435c66d35842e239b5c98292064a43bc47ce84edfc6858c2619bd02f666da085"
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-parent-checks/parent-setup-verification.json",
+    "preserved": "parent-checks/parent-setup-verification.json",
+    "sha256": "109234b83fdec326b8ba604d3d04cb497afbc54b2db99024dcc74ef647ad272a"
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-parent-checks/postexit-owned-identities.json",
+    "preserved": "parent-checks/postexit-owned-identities.json",
+    "sha256": "75186448941769c0f17663ed502d421e9964fde0fa3b86121ae073f987657ff5"
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-parent-checks/preparation-output.txt",
+    "preserved": "parent-checks/preparation-output.txt",
+    "sha256": "f2825a69461377f91e79d470f5bd38fd0e74beef4d621a567f350fd2f8557a9e"
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-parent-checks/preparation-result.json",
+    "preserved": "parent-checks/preparation-result.json",
+    "sha256": "b85591786eea3de9ca18a1a7a2b01aac293093bd545b587ff09d4783e583dd3e"
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-parent-checks/reviewed-harness-pins.json",
+    "preserved": "parent-checks/reviewed-harness-pins.json",
+    "sha256": "7fbdbfa5941752e8bb4370b951861158cbb556452475ad0a6e3bcd009aeef4b1"
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/run-fullchrome-particle-aba.mjs",
+    "preserved": "run-fullchrome-particle-aba.mjs.txt",
+    "sha256": "40f2b844c28ce8553e6395ac60207f051d947af128b873f4333784a0eb12e617",
+    "executableSourceArchive": true
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-fullchrome-particle-aba.py",
+    "preserved": "prepare-fullchrome-particle-aba.py.txt",
+    "sha256": "62f9007d568a8f7e52eeda682cb30968614cbaee09274c43566ece283bc3f9ce",
+    "executableSourceArchive": true
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-declaration.md",
+    "preserved": "cloud-fullchrome-particle-aba-declaration.md",
+    "sha256": "c3ab5e89f3634a5407b93375c0baa533cb844904c7b207bf0da6ca161feb5c41",
+    "executableSourceArchive": false
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-source-bridge.json",
+    "preserved": "cloud-fullchrome-particle-aba-source-bridge.json",
+    "sha256": "71c431171cf50aa5ebafa9708d31b3ad40c5c33b1feb17172bae3f8d0a4fb856",
+    "executableSourceArchive": false
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-independent-harness-approval.md",
+    "preserved": "cloud-fullchrome-particle-aba-independent-harness-approval.md",
+    "sha256": "a9646ef141e13b9a7f9a54fc06f9210f3bc0bde9848807b20342bd45634d0a14",
+    "executableSourceArchive": false
+  }
+]
