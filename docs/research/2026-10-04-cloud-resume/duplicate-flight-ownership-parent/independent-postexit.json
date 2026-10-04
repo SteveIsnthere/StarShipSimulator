@@ -1,0 +1,38 @@
+{
+  "checked": [
+    {
+      "recorded": {
+        "pid": 43749,
+        "state": "R",
+        "parent": 43740,
+        "group": 43749,
+        "session": 43749,
+        "start": "2033781"
+      },
+      "executing": false
+    },
+    {
+      "recorded": {
+        "pid": 43773,
+        "state": "S",
+        "parent": 43749,
+        "group": 43749,
+        "session": 43749,
+        "start": "2033817"
+      },
+      "executing": false
+    },
+    {
+      "recorded": {
+        "pid": 43782,
+        "state": "R",
+        "parent": 43740,
+        "group": 43782,
+        "session": 43782,
+        "start": "2033866"
+      },
+      "executing": false
+    }
+  ],
+  "allNonexecuting": true
+}

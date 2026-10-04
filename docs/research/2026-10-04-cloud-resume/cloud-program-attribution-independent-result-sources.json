@@ -1,0 +1,86 @@
+[
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/actual-program-operations.json",
+    "sha256": "44b316503ba48df2777a2eb021bb071f9f9ace9337d160cd276f0532928b958d"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/program-attribution-summary.json",
+    "sha256": "3ab1d358e0244ecc14491b8cba1388d7e201589fbe57b42d75ba8642109fb160"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/program-draws.json",
+    "sha256": "061fe84de19d48f14db05ae77856d8f1dfa97b49064f7fae713ee977e4665046"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/timer-capability.json",
+    "sha256": "9fbad83b34f4c00f929b607eb264deea55b10929eca3073a5f9ec8006b4d8490"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/qualification-outcome.json",
+    "sha256": "0072e71a3797835255409996838ea9d9a53ddf4c95cf92b189bb318255c419ab"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/final-integrity.json",
+    "sha256": "ac9d64fb75e888a05214a626e6d0f04fd3fc50d1d4baa6a4bd199ee39e8e73d7"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/positive-control-pixels.json",
+    "sha256": "0c41b7fa91eaf10c053fad39f3c45325868ed5997f3c020f11c5a3246c236a93"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/before-identity.json",
+    "sha256": "f01cf3191616c5b670b89fc4c0a0a3a6c3134ba74ee4a2d5869bac36b6e18748"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/after-identity.json",
+    "sha256": "f01cf3191616c5b670b89fc4c0a0a3a6c3134ba74ee4a2d5869bac36b6e18748"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/receipt/cleanup.json",
+    "sha256": "b5d3e20ad36345c453d51cae9cf25ff4641f9e9813a1bcec0f30450c840924ca"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-artifacts/origin-manifest.json",
+    "sha256": "7f980501d30389659813b6776f586e81051cc07fa1dfe7d20d6a3d10d99be5aa"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/src/view/post.ts",
+    "sha256": "3869d0edab64fdc29642d4d250c57e783e8fcce4320c2a2ffd8c2140bc1c4016"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/stripVersion.mjs",
+    "sha256": "e268e3a83320574f78542ba8d13cb174bda05feb99b00d6001e4de6611546375"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/ensurePrecision.mjs",
+    "sha256": "4d1cde718eb116a40eb65d27525f24d4b2be054aae1f1781076fcfbfda13aebb"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/addProgramDefines.mjs",
+    "sha256": "bd1113a58b1ab07d79613c6d785975059b8dbacc7bcc10ca522a7d56adc86c7e"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/setProgramName.mjs",
+    "sha256": "dccffed7092fff7353339bb7b9fa990851633435ea0035780fedd8d4986cd661"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/preprocessors/insertVersion.mjs",
+    "sha256": "dc8b91a1e3e1e5ba169d27a77f1ac69ca15a04265c7ccae4537c67d686448ef1"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlProgram.mjs",
+    "sha256": "6cd38d2da8e6e73f913a1f8451359c190f973aef4f79e96abafc45d3b881d08c"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/renderers/gl/GlLimitsSystem.mjs",
+    "sha256": "e2e9b34822386740b9ae19078c234efda821c5573de63ae2f51f715a1765adb1"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs",
+    "sha256": "0bda64725a3b84d85dd685e2584b70d7c7e136a2ab01cf0c889223ad00dbe42f"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/high-shader/shader-bits/generateTextureBatchBit.mjs",
+    "sha256": "e583f181713c997c68cc01a0deb9842dfe3c10162ed95ea0745bd8abfa0402d5"
+  }
+]

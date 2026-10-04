@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+    "originalHash": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1",
+    "transformedHash": "b2025f7825532651ee18428398ea677cbf3c78161130844e72752db7057b7272",
+    "insertions": 2
+  },
+  {
+    "path": "/workspace/StarShipSimulator/src/core/physics/isa.ts",
+    "originalHash": "bd83423a16ae1362073dc9f2a3e733a16125bfdb51cb03ca081c079da52a804e",
+    "transformedHash": "9c65c33b7446890553764d425c2452efc80f132f2aa4b214caf01b539aa5e7c5",
+    "insertions": 1
+  },
+  {
+    "path": "/workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+    "originalHash": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e",
+    "transformedHash": "bcbdb1dc5ae5ce4513ff243f5d55a0a3c770407fc6eef822587e09d5145f7c65",
+    "insertions": 1
+  }
+]

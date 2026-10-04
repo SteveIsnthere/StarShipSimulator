@@ -1,0 +1,23 @@
+{
+  "scripts/bench/native-guidance-entry.ts": "b725fe1cbedc14aefe9c18d98f34662dd2ce9a856c33ca8c473d2ef5655234cc",
+  "scripts/bench/build-native-guidance.mjs": "5f2b66b655615473f358c08cd9a95af26bbedd6621d05107072d93b5c1d3aac7",
+  "scripts/bench/native-loader.mjs": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+  "scripts/bench/qualification.json": "09ac0f90d87e60a7c235040bf92136d21ef2be0db68f129e04535c46ee56ccab",
+  "tests/core/booster-guidance.test.ts": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+  "tests/flies-every-scenario.test.ts": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9",
+  "src/core/control/guidance-physics.ts": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1",
+  "src/core/physics/propulsion.ts": "972087e8c71b8a92694bcbc6e97da1a370027c34baf2a177e82da86d22d7e90a",
+  "src/core/physics/aero.ts": "535c23fa889c2014a58a89e196acf386b8ff4ea79ced32ee6555f195f3306713",
+  "tests/proofs/burn-preparation.test.ts": "c77ac2f8ae41bb7c48d61e07647d144ecddb0df3bf7b0a2a90f3cefd7f567bca",
+  "tests/proofs/burn-preparation-module-mock.test.ts": "b53c63b5d2b21ba9d504ceaa0ed67681136365519426b8365bec1ce9a66d5007",
+  "tests/proofs/fixtures/burn-before-preparation/guidance-physics.ts": "1390d31bf04456f4885af5fd71c61de2647ff8013e9077d70bf29ecfb26985bd",
+  "tests/proofs/fixtures/burn-before-preparation/aero.ts": "633ace6ce04b842b6a02272bbbadbeefc5d34b57355052820857d63aa00aa543",
+  "tests/proofs/fixtures/burn-before-preparation/propulsion.ts": "14d242fdcbbd8507152fdd5bac868597e120afb4d9434ab3445815f25bb7f694",
+  "tests/proofs/fixtures/unpowered-fall-original.ts": "28166badb87c6f5eed3ddab75a02e738e19035ec3557557a21c3328279b1cdf8",
+  "docs/research/2026-10-04-cloud-resume/burn-bundle-proof.ts.txt": "6f16d79ef98504c3ac4b1fbcf7e17eab86acc0efb57ba40d7a6b5406c120ee93",
+  "docs/research/2026-10-04-cloud-resume/fall-bundle-adapter.ts.txt": "01593cb7c39eb64b6bccc49eaa02ee86b200a689cc7afebf69a2dcb91ca378a2",
+  "docs/research/2026-10-04-cloud-resume/fall-bundle-entry.ts.txt": "c6868ae824dbc0b546a3c5f11d79d41273d87374df027a509fd7c8f9b7c08c09",
+  "docs/research/2026-10-04-cloud-resume/compiled-burn-proof-cause-repair1-result.md": "3c46f6cb74b1df25469d18a8693b66e5e1991d094759800e2d56b18684a70400",
+  "docs/research/2026-10-04-cloud-resume/compiled-fall-proof-result.md": "a1161b900cc9ea4f7b60e2bfaf2814d2276360c250e4f4cd540bc1dc266b0cf7",
+  "docs/research/2026-10-04-cloud-resume/current-native-full-flight-qualification-proposal.md": "d81ca139fef1f92b9c3da69220b61448fd5cc9ebfbf296b496072b069b27e328"
+}

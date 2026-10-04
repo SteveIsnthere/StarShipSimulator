@@ -1,0 +1,11 @@
+{
+  "finalized": true,
+  "status": "pass",
+  "mode": "burn-continuation",
+  "nonce": "218a5089-4c17-418e-a74c-ff0bbe6dcfa4",
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/receipt-burn-218a5089-4c17-418e-a74c-ff0bbe6dcfa4",
+  "oldReceipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e",
+  "stage": "composite-result",
+  "failure": null,
+  "acceptance": "research scoped/composite only"
+}

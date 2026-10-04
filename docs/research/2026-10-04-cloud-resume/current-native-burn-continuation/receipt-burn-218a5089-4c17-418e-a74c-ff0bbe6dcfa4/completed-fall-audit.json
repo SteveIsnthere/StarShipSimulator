@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "domain": "offline exact title-only mapping audit",
+  "originalKernelStatus": "failed",
+  "completedFallTests": 76,
+  "originalFailurePreserved": true,
+  "execution": "No build/test collection/76 rerun"
+}

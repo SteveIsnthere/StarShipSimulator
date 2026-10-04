@@ -1,0 +1,15 @@
+(node:45579) ExperimentalWarning: vm.USE_MAIN_CONTEXT_DEFAULT_LOADER is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+Error: research flight supervision bound
+    at /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired/receipt-paired-be927172-3623-42de-8670-8a68993445c5/materialized/full-flight.ts:55:50
+    at ViteNodeRunner.runModule (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:368:4)
+    at ViteNodeRunner.directRequest (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:348:3)
+    at ViteNodeRunner.cachedRequest (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:181:11)
+    at ViteNodeRunner.executeFile (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:156:10)
+    at CAC.run (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/cli.mjs:92:28)
+
+Node.js v22.23.3

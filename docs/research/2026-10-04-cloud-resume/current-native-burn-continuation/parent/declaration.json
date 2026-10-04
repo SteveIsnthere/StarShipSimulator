@@ -1,0 +1,11 @@
+{
+  "review": "d9a2b984083c41e57d0017f25351ff9cba8541f59c098287280d91bedcf8f991",
+  "reviewPins": "b814cea64c33072122c844a13cb7d3479c276e089012dd7386e458fa90304c65",
+  "outerTimeoutSeconds": 330,
+  "command": [
+    "bash",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/run.sh.txt"
+  ],
+  "runSha256": "d90a13e1b40c7b37faf5a68cf111f81907110d6822c89bc1a6fe85db74729712",
+  "cpuExclusive": true
+}

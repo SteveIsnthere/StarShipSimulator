@@ -1,0 +1,35 @@
+/** Bounded actual public-runner proof template. Tiny fake flights only. */
+import {describe,it,expect,afterEach,aroundEach,afterAll} from 'vitest';
+import {writeFileSync} from 'node:fs';
+import {createDefaultFlightObservations,type FlightRecipe} from './observations';
+const evidence:any[]=[];
+const cases=['pass','body-fail','afterEach-fail','finished-fail','aroundEach-fail','fixture-fail','timeout','dynamic-skip','expected-failure','retry','repeat','concurrent'] as const;
+for(const kind of cases)describe(kind,()=>{
+ const model=Object.freeze({mass:1}),cache=createDefaultFlightObservations<any>([model]);
+ let runs=0;
+ const operation=()=>{};
+ const recipe=():FlightRecipe=>({id:'booster-sep',initial:{rng:1,damage:0},model,modelTree:{mass:1},dt:1/120,steps:108000,input:'fresh-empty-object',stop:'first-landed-crashed-breakup',operations:[operation],trace:undefined,eventInputs:undefined});
+ const run=()=>({state:{prediction:{receipts:[{time:1}],rng:[1],damage:[0]}},previous:{landed:false},run:++runs});
+ let producerTask:any;
+ afterEach(ctx=>{if(kind==='afterEach-fail'&&ctx.task.name==='producer')throw Error('declared hook failure');});
+ aroundEach(async(runTest,ctx)=>{await runTest();if(kind==='aroundEach-fail'&&ctx.task.name==='producer')throw Error('declared around completion failure');});
+ const fixtureTest=it.extend<{token:number}>({token:async({},use)=>{await use(1);throw Error('declared fixture teardown failure');}});
+ const options={...(kind==='retry'?{retry:1}:{}),...(kind==='repeat'?{repeats:1}:{}),...(kind==='concurrent'?{concurrent:true}:{}),...(kind==='timeout'?{timeout:5}:{})};
+ const producer=async(ctx:any)=>{
+  producerTask=ctx.task;
+  cache.get(ctx.task,recipe(),run);
+  if(kind==='finished-fail')ctx.onTestFinished(()=>{throw Error('declared finished failure');});
+  if(kind==='dynamic-skip')ctx.skip();
+  if(kind==='timeout')await new Promise(r=>setTimeout(r,25));
+  if(kind==='body-fail'||kind==='expected-failure'||(kind==='retry'&&runs===1))throw Error('declared body failure');
+ };
+ if(kind==='fixture-fail')fixtureTest('producer',options,async({token,...ctx})=>{expect(token).toBe(1);await producer(ctx);});
+ else (kind==='expected-failure'?it.fails:it)('producer',options,producer);
+ it('consumer',ctx=>{
+  const value=cache.get(ctx.task,recipe(),run);
+  const expected=kind==='pass'?1:kind==='retry'||kind==='repeat'?3:2;
+  expect(runs).toBe(expected);expect(value.run).toBe(expected);
+  evidence.push({kind,runs,producer:{mode:producerTask?.mode,concurrent:producerTask?.concurrent,fails:producerTask?.fails,retry:producerTask?.retry,repeats:producerTask?.repeats,result:producerTask?.result},consumer:ctx.task.name});
+ });
+});
+afterAll(()=>writeFileSync(`${process.env.DUPLICATE_FLIGHT_PROOF_RECEIPT}/raw-observations.json`,JSON.stringify(evidence,null,2)+'\n',{flag:'wx'}));

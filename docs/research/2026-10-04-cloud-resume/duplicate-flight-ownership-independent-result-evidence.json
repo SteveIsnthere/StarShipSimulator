@@ -1,0 +1,130 @@
+{
+  "classification": "Actual sole six-case tiny proof; original paths before lossless archive; no product acceptance",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/after-pins.json": {
+      "sha256": "07f61790f11a70e8c24f8813162519c73e3681ec19a45a72b66b11741920717d",
+      "bytes": 126022,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/before-pins.json": {
+      "sha256": "07f61790f11a70e8c24f8813162519c73e3681ec19a45a72b66b11741920717d",
+      "bytes": 126022,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/config.ts": {
+      "sha256": "e4fe1bc4f18a1a0657c46e952893f30c9ce6b8567f50a0d56d67eb1fa5b2a122",
+      "bytes": 382,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/finalize.mjs": {
+      "sha256": "9017df609394ab15f1e011d20ccf330d12fff5646ef89072cb51c95c8469fb57",
+      "bytes": 1959,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/finalized-ownership-proof.json": {
+      "sha256": "c10085db3973766d6c1fa8a6d841887e192013d92de17bb847a957a26c157e8b",
+      "bytes": 126,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/independent-owned-absence.json": {
+      "sha256": "b7e9dc4e851622868d88138742d0c4c34b8fb692d35c82338a758911d54f4faa",
+      "bytes": 94,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/observations.ts": {
+      "sha256": "8c9b9605644f84e9684708f40481bc14f7fa93ab7e194f6d273d45ee06e2b313",
+      "bytes": 4924,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/owner-completed.json": {
+      "sha256": "3f543948b14243f13f136ec5ad661114907803e3235637519baf07ead5ba11ba",
+      "bytes": 74,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership-finalize.process.json": {
+      "sha256": "a177eeb53274aad5c928f623e1cfc34ddb1f8c0b18193f270d737b10cc09fc2c",
+      "bytes": 490,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership-finalize.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership-finalize.stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership.process.json": {
+      "sha256": "b6decd0985ae1bd5a06632f2294e81ff85bbeadebf874def33c21b7fe5dc99c7",
+      "bytes": 655,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership.stdout.txt": {
+      "sha256": "a615e62b5c833add20d5164558783316c828cf2e3ed3eaf4de2cbd79b10a5b6a",
+      "bytes": 476,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership.test.ts": {
+      "sha256": "50b20c727f6e728f94e1937882a53a95113e4d688dd71c6dd0dfb079d47cdd93",
+      "bytes": 4900,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/post-finalize-owned-absence.json": {
+      "sha256": "0c20addd5c2fc1a2fc83d4a80ee49cc287d18f1698427a557c38d25534088b50",
+      "bytes": 185,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/post-finalize-pins.json": {
+      "sha256": "07f61790f11a70e8c24f8813162519c73e3681ec19a45a72b66b11741920717d",
+      "bytes": 126022,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/runner-closed.json": {
+      "sha256": "fb54192bccd95f7cb84d5a68a240f9d5cad56f5989e6bd639df17871e4bcfc2b",
+      "bytes": 70,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/runner.mjs": {
+      "sha256": "a4a31198a64886189a309ccdb6257914b6cfac7f627cad3737a290bd95cbaf78",
+      "bytes": 1512,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/test-results.json": {
+      "sha256": "77cee80caa37b147d0485ae1494151691ae1bd019395adb6f77e79f6a74cb37b",
+      "bytes": 2362,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-ownership-parent/declaration.json": {
+      "sha256": "7b863feaefb8b33ff739a6d7cc7b70b12de35bde52b9f93406b7591557f8a575",
+      "bytes": 264,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-ownership-parent/executed-owner.mjs": {
+      "sha256": "be6ef5e5262ed3cf2bfa96dbcb6d4746fb769f1a1375389376b485bb36c7088c",
+      "bytes": 4320,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-ownership-parent/independent-postexit.json": {
+      "sha256": "bf9143c7880613fa5bca69f652c341618b1cbc34afb3923d1cf2cdc720211f5c",
+      "bytes": 688,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-ownership-parent/output.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": "0o600"
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-ownership-parent/result.json": {
+      "sha256": "94bf0566f1f29ff28f5dde001343d38cbc8c5229236b758487a868031a3c0f58",
+      "bytes": 151,
+      "mode": "0o600"
+    }
+  }
+}

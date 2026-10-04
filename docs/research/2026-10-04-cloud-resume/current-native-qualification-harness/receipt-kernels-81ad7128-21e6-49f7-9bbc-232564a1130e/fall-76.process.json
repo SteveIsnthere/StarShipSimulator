@@ -1,0 +1,79 @@
+{
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "failure": null,
+  "bytes": {
+    "stdout": 3109,
+    "stderr": 591
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 43071,
+    "start": "1978651",
+    "group": 43071,
+    "session": 43071,
+    "tracked": [
+      {
+        "pid": 43071,
+        "state": "S",
+        "parent": 42895,
+        "group": 43071,
+        "session": 43071,
+        "start": "1978651"
+      },
+      {
+        "pid": 43095,
+        "state": "R",
+        "parent": 43071,
+        "group": 43071,
+        "session": 43071,
+        "start": "1978685"
+      },
+      {
+        "pid": 43121,
+        "state": "R",
+        "parent": 43071,
+        "group": 43071,
+        "session": 43071,
+        "start": "1979617"
+      },
+      {
+        "pid": 43169,
+        "state": "R",
+        "parent": 43071,
+        "group": 43071,
+        "session": 43071,
+        "start": "1982454"
+      },
+      {
+        "pid": 43176,
+        "state": "R",
+        "parent": 43071,
+        "group": 43071,
+        "session": 43071,
+        "start": "1982538"
+      },
+      {
+        "pid": 43183,
+        "state": "R",
+        "parent": 43071,
+        "group": 43071,
+        "session": 43071,
+        "start": "1982619"
+      },
+      {
+        "pid": 43190,
+        "state": "R",
+        "parent": 43071,
+        "group": 43071,
+        "session": 43071,
+        "start": "1982759"
+      }
+    ],
+    "executing": []
+  }
+}

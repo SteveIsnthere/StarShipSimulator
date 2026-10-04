@@ -1,0 +1,12 @@
+{
+  "docs/research/2026-10-04-cloud-resume/current-native-full-flight-qualification-proposal.md": "e965e6625b95882135a910f40c6fa7147088b57973968e3e0b5193514a3a21e4",
+  "docs/research/2026-10-04-cloud-resume/current-native-full-flight-qualification-proposal-pins.json": "e1a303852880ae209226ccb2775030e3d9efe70981af3d6c3f5484453a2c7822",
+  "src/core/control/booster-receipts.ts": "d51af933744125797c5e7f3106af728e64ba00c111fc4e8574c2cdd77289a9bf",
+  "src/core/control/booster-forecast.ts": "5b1d9e6b1bfd549eda94f4ec445b21b23cc28a698b62348b04e81d51875a03be",
+  "src/core/autopilot/booster.ts": "c5a7a17e93999173ca160dc83d26e6f390010332c1b56cd57999bfde4395597d",
+  "src/core/step.ts": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986",
+  "src/core/control/commands.ts": "9079a0297811e2fd3288ffe5515b0675ada126b467de68cf0538371c26603e40",
+  "src/app/loop.ts": "51a362d3051620da175320041e782d313e4b6f1d965aaec600508cc77ae62c66",
+  "tests/core/booster-guidance.test.ts": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+  "tests/flies-every-scenario.test.ts": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9"
+}

@@ -1,0 +1,95 @@
+{
+  "before": {
+    "render-kernel-build.config.mjs": "e27e5eb77df9d6c10643e950e996c4d0c63513df2a2f38e878ad9f643717071f",
+    "build-render-kernel.mjs": "2d64ee5f2e271b8f59665af036232976d33a8522ef0b56856368b31c3fab1552",
+    "qualify-render-kernel.mjs": "d05dcdc015f941dc920216f19373627fa72e82e0dae98c3026fb431b37ec0965",
+    "run-render-kernel.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "render-kernel-entry.ts": "26ac76fa74c8ecae0cdfe8550b284e99b9fc84c5f9c57df2bc9c981fbd0d5d18",
+    "prepare-render-kernel.py": "e548d40520a60505764fa35c3688e07ca70ab672597a743defdaf9f8e98d8083",
+    "cloud-render-kernel-declaration.md": "bd4e2817a24cb61d63bc3683908d90bdb0e4b2529ef023b50bcbb5186b326629"
+  },
+  "after": {
+    "render-kernel-build.config.mjs": "e27e5eb77df9d6c10643e950e996c4d0c63513df2a2f38e878ad9f643717071f",
+    "build-render-kernel.mjs": "2d64ee5f2e271b8f59665af036232976d33a8522ef0b56856368b31c3fab1552",
+    "qualify-render-kernel.mjs": "d05dcdc015f941dc920216f19373627fa72e82e0dae98c3026fb431b37ec0965",
+    "run-render-kernel.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "render-kernel-entry.ts": "26ac76fa74c8ecae0cdfe8550b284e99b9fc84c5f9c57df2bc9c981fbd0d5d18",
+    "prepare-render-kernel.py": "e548d40520a60505764fa35c3688e07ca70ab672597a743defdaf9f8e98d8083",
+    "cloud-render-kernel-declaration.md": "bd4e2817a24cb61d63bc3683908d90bdb0e4b2529ef023b50bcbb5186b326629"
+  },
+  "results": [
+    {
+      "command": [
+        "node",
+        "--check",
+        "docs/research/2026-10-04-cloud-resume/render-kernel-build.config.mjs"
+      ],
+      "exit": 0,
+      "seconds": 0.02381230399987544,
+      "output": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "docs/research/2026-10-04-cloud-resume/build-render-kernel.mjs"
+      ],
+      "exit": 0,
+      "seconds": 0.025874415998259792,
+      "output": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "docs/research/2026-10-04-cloud-resume/qualify-render-kernel.mjs"
+      ],
+      "exit": 0,
+      "seconds": 0.025339039002574282,
+      "output": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "docs/research/2026-10-04-cloud-resume/run-render-kernel.mjs"
+      ],
+      "exit": 0,
+      "seconds": 0.024850869001966203,
+      "output": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "docs/research/2026-10-04-cloud-resume/kernel-program-attribution-hook.mjs"
+      ],
+      "exit": 0,
+      "seconds": 0.02718862500114483,
+      "output": ""
+    },
+    {
+      "command": "python ast.parse prepare-render-kernel.py",
+      "exit": 0
+    },
+    {
+      "command": [
+        "npx",
+        "eslint",
+        "docs/research/2026-10-04-cloud-resume/render-kernel-build.config.mjs",
+        "docs/research/2026-10-04-cloud-resume/build-render-kernel.mjs",
+        "docs/research/2026-10-04-cloud-resume/qualify-render-kernel.mjs",
+        "docs/research/2026-10-04-cloud-resume/run-render-kernel.mjs",
+        "docs/research/2026-10-04-cloud-resume/kernel-program-attribution-hook.mjs",
+        "docs/research/2026-10-04-cloud-resume/render-kernel-entry.ts"
+      ],
+      "exit": 0,
+      "seconds": 1.6708178039989434,
+      "output": ""
+    }
+  ],
+  "buildExecuted": false,
+  "browserExecuted": false
+}

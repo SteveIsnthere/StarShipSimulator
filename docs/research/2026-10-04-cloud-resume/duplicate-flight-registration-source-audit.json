@@ -1,0 +1,45 @@
+{
+  "scope": "static source audit, not collection/mutation execution or product permission",
+  "fullNames": [
+    "actual booster scenarios are secured at the tower booster-sep: autopilot catches the actual33-engine booster within900s",
+    "actual booster scenarios are secured at the tower rtls: autopilot catches the actual33-engine booster within900s",
+    "the autopilot flies the ones it is meant to booster-sep: auto-land landed",
+    "the autopilot flies the ones it is meant to rtls: auto-land landed"
+  ],
+  "sourcePins": {
+    "tests/core/booster-guidance.test.ts": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+    "tests/flies-every-scenario.test.ts": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9",
+    "src/core/scenarios.ts": "d88f1d64122134491106fe540aee4152ab15e8c444a6731d0dc0f3adb0a7fd3e",
+    "src/core/control/commands.ts": "9079a0297811e2fd3288ffe5515b0675ada126b467de68cf0538371c26603e40",
+    "src/core/state.ts": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d",
+    "src/core/physics/tower-catch.ts": "9785719c2cfa84859fc8e981fbaf61f3316c8e71f6f8ee44e7c542fc8f97acb3",
+    "src/app/loop.ts": "51a362d3051620da175320041e782d313e4b6f1d965aaec600508cc77ae62c66",
+    "vitest.config.ts": "4debcf42809334dfc4fefcc4f8d7274fbdcfdc429d7fc99b06310eea588061b0",
+    "scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "registrationTemplate": "4b556182a5e0cedcc97d6c9cb7e6f14e0319ebc098a1dd319c793195d8fb81b5",
+  "exactOriginalAssertionBodiesAfterHelperRename": {
+    "guidance": true,
+    "scenario": true
+  },
+  "selection": "Move only scenario AUTO_LAND id booster-sep/rtls entries; retain before-flip,landing-burn,reentry and independent reentry surviving-heat, every600s scenario, intro, ignition, all-engine-failure, determinism. Co-located describe prefixes and4names remain exact; no beforeAll producer.",
+  "mutationMap": [
+    "landed false: both guidance and scenario outcome contracts fail",
+    "onTheGround true: both catch contracts fail",
+    "any failure true: both fail",
+    "fuel<=0: both fail",
+    "lug x outside halfwidth,altitude!=120,pitch above max: both fail",
+    "nonzero secured vx/vy: both fail",
+    "previous landed true: guidance fails",
+    "held nextstep loseslanded/movesaltitude: guidance fails",
+    "nonfinite numerical state: both finite walkers fail",
+    "scenario outcome flying/crashed/brokeUp: scenario fails"
+  ],
+  "traceAudit": "Original guidance fly collects identical fields/triggers and emits JSON console only BOOSTER_TRACE===1, event file only BOOSTER_EVENT_INPUTS. Moved emission remains only guidance named body including when scenario pays first; fake reversed proof checks exact file/JSON. Physical trace query work must remain eligible and paid.",
+  "productHolds": [
+    "Actual four-name collection and mutant selector/body proof beforeproduct application, no execution performed here.",
+    "Current recipe operations list lacks cloneState/createCatchPose/writeCatchPose although trace and assertions use them. Add these live identities and active-mock guards beforeproduct application; changed/swapped helper same input must decline sharing.",
+    "Transitive core spies not named by recipe remain outside this sixfake proof. Product must explicitly establish supported unmocked default four-case isolation or failclosed complete relevant live-operation certification; never claim arbitrary mock transparency from threefunction list.",
+    "30s paying named task remains framework authority; finalized public pass admission only. Current physical payingsep stillfails30s."
+  ]
+}

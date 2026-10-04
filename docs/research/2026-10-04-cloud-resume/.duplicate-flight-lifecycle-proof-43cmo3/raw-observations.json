@@ -1,0 +1,263 @@
+[
+  {
+    "kind": "pass",
+    "runs": 1,
+    "producer": {
+      "mode": "run",
+      "retry": 0,
+      "result": {
+        "state": "pass",
+        "startTime": 1791108826295,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "hooks": {
+          "afterEach": "pass"
+        },
+        "duration": 2.5380389999999977
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "body-fail",
+    "runs": 2,
+    "producer": {
+      "mode": "run",
+      "retry": 0,
+      "result": {
+        "state": "fail",
+        "startTime": 1791108826300,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "errors": [
+          {
+            "stack": "Error: declared body failure\n    at producer (/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-43cmo3/lifecycle.test.ts:24:86)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2956:64",
+            "message": "declared body failure",
+            "constructor": "Function<Error>",
+            "name": "Error",
+            "toString": "Function<toString>"
+          }
+        ],
+        "hooks": {
+          "afterEach": "pass"
+        },
+        "duration": 3.368347
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "afterEach-fail",
+    "runs": 2,
+    "producer": {
+      "mode": "run",
+      "retry": 0,
+      "result": {
+        "state": "fail",
+        "startTime": 1791108826304,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "hooks": {
+          "afterEach": "run"
+        },
+        "errors": [
+          {
+            "stack": "Error: declared hook failure\n    at /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-43cmo3/lifecycle.test.ts:14:79\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at wrapper (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:750:10)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2622:52\n    at run (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1150:20)\n    at limiterFn (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1162:59)\n    at runHook (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2621:10)",
+            "message": "declared hook failure",
+            "constructor": "Function<Error>",
+            "name": "Error",
+            "toString": "Function<toString>"
+          }
+        ],
+        "duration": 0.7983069999999941
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "finished-fail",
+    "runs": 2,
+    "producer": {
+      "mode": "run",
+      "retry": 0,
+      "result": {
+        "state": "fail",
+        "startTime": 1791108826305,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "hooks": {
+          "afterEach": "pass"
+        },
+        "errors": [
+          {
+            "stack": "Error: declared finished failure\n    at /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-43cmo3/lifecycle.test.ts:21:59\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2599:37\n    at run (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1150:20)\n    at limiterFn (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1162:59)\n    at callTestHooks (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2599:11)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2985:39\n    at Traces.$ (file:///workspace/StarShipSimulator/node_modules/vitest/dist/chunks/traces.DT5aQ62U.js:142:27)",
+            "message": "declared finished failure",
+            "constructor": "Function<Error>",
+            "name": "Error",
+            "toString": "Function<toString>"
+          }
+        ],
+        "duration": 1.2335190000000011
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "aroundEach-fail",
+    "runs": 2,
+    "producer": {
+      "mode": "run",
+      "retry": 0,
+      "result": {
+        "state": "fail",
+        "startTime": 1791108826307,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "hooks": {
+          "afterEach": "pass"
+        },
+        "errors": [
+          {
+            "stack": "Error: declared around completion failure\n    at /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-43cmo3/lifecycle.test.ts:15:112\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2752:5",
+            "message": "declared around completion failure",
+            "constructor": "Function<Error>",
+            "name": "Error",
+            "toString": "Function<toString>"
+          }
+        ],
+        "duration": 1.258043999999984
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "timeout",
+    "runs": 2,
+    "producer": {
+      "mode": "run",
+      "retry": 0,
+      "result": {
+        "state": "fail",
+        "startTime": 1791108826314,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "errors": [
+          {
+            "stack": "Error: STACK_TRACE_ERROR\n    at task (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1784:27)\n    at Object.<anonymous> (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1817:16)\n    at Object.<anonymous> (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1563:28)\n    at chain (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:599:14)\n    at /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-43cmo3/lifecycle.test.ts:27:45\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1889:40\n    at runWithSuite (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2258:8)\n    at Object.collect (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1889:10)\n    at Object.collect (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:54)\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)",
+            "message": "Test timed out in 5ms.\nIf this is a long-running test, pass a timeout value as the last argument or configure it globally with \"testTimeout\".",
+            "constructor": "Function<Error>",
+            "name": "Error",
+            "toString": "Function<toString>"
+          }
+        ],
+        "hooks": {
+          "afterEach": "pass"
+        },
+        "duration": 6.301170999999982
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "dynamic-skip",
+    "runs": 2,
+    "producer": {
+      "mode": "skip",
+      "retry": 0,
+      "result": {
+        "state": "skip",
+        "pending": true,
+        "duration": 0.35715600000000336
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "expected-failure",
+    "runs": 2,
+    "producer": {
+      "mode": "run",
+      "fails": true,
+      "retry": 0,
+      "result": {
+        "state": "pass",
+        "startTime": 1791108826321,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "hooks": {
+          "afterEach": "pass"
+        },
+        "duration": 0.2867740000000083
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "retry",
+    "runs": 3,
+    "producer": {
+      "mode": "run",
+      "retry": 1,
+      "result": {
+        "state": "pass",
+        "startTime": 1791108826322,
+        "retryCount": 1,
+        "repeatCount": 0,
+        "errors": [
+          {
+            "stack": "Error: declared body failure\n    at producer (/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-43cmo3/lifecycle.test.ts:24:86)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2956:64",
+            "message": "declared body failure",
+            "constructor": "Function<Error>",
+            "name": "Error",
+            "toString": "Function<toString>"
+          }
+        ],
+        "hooks": {
+          "afterEach": "pass"
+        },
+        "duration": 0.608713999999992
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "repeat",
+    "runs": 3,
+    "producer": {
+      "mode": "run",
+      "retry": 0,
+      "repeats": 1,
+      "result": {
+        "state": "pass",
+        "startTime": 1791108826323,
+        "retryCount": 0,
+        "repeatCount": 1,
+        "hooks": {
+          "afterEach": "pass"
+        },
+        "duration": 0.17618800000002466
+      }
+    },
+    "consumer": "consumer"
+  },
+  {
+    "kind": "concurrent",
+    "runs": 2,
+    "producer": {
+      "mode": "run",
+      "concurrent": true,
+      "retry": 0,
+      "result": {
+        "state": "pass",
+        "startTime": 1791108826323,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "hooks": {
+          "afterEach": "pass"
+        },
+        "duration": 0.1962259999999958
+      }
+    },
+    "consumer": "consumer"
+  }
+]

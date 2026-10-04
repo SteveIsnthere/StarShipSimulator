@@ -1,0 +1,8 @@
+{
+  "node": "v22.23.3",
+  "nodePath": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+  "nodeSha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+  "npmCli": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+  "npmSha256": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7",
+  "harnessSha256": "56a09e0e6894ee73f260544582917576f9e3a19817f918df13d8ea295f9811f1"
+}

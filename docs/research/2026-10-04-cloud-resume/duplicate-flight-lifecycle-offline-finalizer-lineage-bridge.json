@@ -1,0 +1,42 @@
+{
+  "episode": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL",
+  "originalFailure": "parent child/tool1 finalizer pending versus actual JSON reporter skipped; no test rerun",
+  "originalFinalizer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/finalize.mjs.txt",
+    "sha256": "7b85ffdaab910270ed84531a0076899462bd4790fcd9179b5de598a6b768af3d"
+  },
+  "replacement": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-offline-finalize-repair.mjs.txt",
+    "sha256": "a3de2e792ae855bb6b61ee768b34302156d98a17e421b27286e85dc64735a165"
+  },
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/exit-status.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/executed-source-archive-map.json": "94189136ad7e637dff785a602194670629562fddbc6d309d45b402473d10f249",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/output.txt": "64472d841bdf4077c2b22e49705867a94da45d7791f60161b6119c3425c9dd43",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/after-pins.json": "d816f7b81dafca8a828c262a55ba93adbdc82efa56db3f0a39b63dc2b8d1f24c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/config.ts.txt": "e4fe1bc4f18a1a0657c46e952893f30c9ce6b8567f50a0d56d67eb1fa5b2a122",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts.txt": "27d477be86787fa055d73b822f2a346a7f475d3aa538f226e35bc6d510f04c19",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/runner.mjs.txt": "eb89201ad3ddc5b61806cfd729882329b284c57d44ad3cc0627c977141d5d00c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/test-results.json": "a951463f55d7052fcd54449ebdcc280c77ab0b3b81dac8bcffeff82c7a6b5312",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/before-pins.json": "d816f7b81dafca8a828c262a55ba93adbdc82efa56db3f0a39b63dc2b8d1f24c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/termination.json": "d47e326050e47aae2a1d1930423dfea9447136fdbdae3132092ae542e29f2367",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/finalize.mjs.txt": "7b85ffdaab910270ed84531a0076899462bd4790fcd9179b5de598a6b768af3d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/runner-closed.json": "8105a5d27e6b0822bb06ae89ebf12574c4040fb44a88da9658173aa4769dbc97",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/observations.ts.txt": "8c9b9605644f84e9684708f40481bc14f7fa93ab7e194f6d273d45ee06e2b313",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/raw-observations.json": "798b2729583b81c0117c55f85e4b11f3dbcde7e59ea7fd970c04ca4e9bcc71f2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-outer.mjs.txt": "dd4514f04a21516c09c0ca1d69eaa14c87bfb977553b8f41b6d479e3185fa85f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-repair1-parent/declaration.json": "1d74e687b73c335f0bca18cb46d83c25ca318bd322a3520bc54a397363210a2b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-repair1-parent/result.json": "ccc9ee84d026386a0230d992a8996084bdf36da921a3095d389ab2fab5f2aac8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-repair1-parent/independent-postexit.json": "51037917d35754716f20c998698235b0c48b2dffa48ab8e422c83b3eaaa791be"
+  },
+  "semanticChange": "JSON reporter dynamic-skip producer status pending -> skipped only; public task result.state remains skip; expected counts unchanged24/17/6/1; no assertion removed",
+  "output": "new private offline output dir only; original episode remains immutable",
+  "retiredMaterialization": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-duplicate-flight-repair1-owner.mjs",
+    "sha256": "dd4514f04a21516c09c0ca1d69eaa14c87bfb977553b8f41b6d479e3185fa85f",
+    "reviewedTemplate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-outer.mjs.txt",
+    "declaration": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-repair1-parent/declaration.json",
+    "result": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-repair1-parent/result.json"
+  },
+  "sourceResolution": "Recorded null entries require actual lstat ENOENT absence. Exactly one retired owner is supported by its original SHA, pinned reviewed identical template and pinned parent oneInvocation/executedBytesStillExact receipts; all other missing non-null hashes fail."
+}

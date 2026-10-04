@@ -1,0 +1,15 @@
+{
+  "allExecutingAbsent": true,
+  "observations": [
+    {
+      "pid": 40345,
+      "savedStart": "1784849",
+      "status": "absent"
+    },
+    {
+      "pid": 40369,
+      "savedStart": "1784880",
+      "status": "absent"
+    }
+  ]
+}

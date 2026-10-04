@@ -1,0 +1,45 @@
+{
+  "before": {
+    "build-render-kernel.mjs": "a43ccf78abbc8b90f621fa978c41c62569d527a04dd6e14e9b47b11796aca10b",
+    "qualify-render-kernel.mjs": "2aec59703ab9adf30be5e46a5d5d023eed571532b65ebf0697beca16ca3afb70"
+  },
+  "after": {
+    "build-render-kernel.mjs": "a43ccf78abbc8b90f621fa978c41c62569d527a04dd6e14e9b47b11796aca10b",
+    "qualify-render-kernel.mjs": "2aec59703ab9adf30be5e46a5d5d023eed571532b65ebf0697beca16ca3afb70"
+  },
+  "results": [
+    {
+      "command": [
+        "node",
+        "--check",
+        "docs/research/2026-10-04-cloud-resume/build-render-kernel.mjs"
+      ],
+      "exit": 0,
+      "seconds": 0.026643717999832006,
+      "output": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "docs/research/2026-10-04-cloud-resume/qualify-render-kernel.mjs"
+      ],
+      "exit": 0,
+      "seconds": 0.024860059002094204,
+      "output": ""
+    },
+    {
+      "command": [
+        "npx",
+        "eslint",
+        "docs/research/2026-10-04-cloud-resume/build-render-kernel.mjs",
+        "docs/research/2026-10-04-cloud-resume/qualify-render-kernel.mjs"
+      ],
+      "exit": 0,
+      "seconds": 1.2621659229989746,
+      "output": ""
+    }
+  ],
+  "buildExecuted": false,
+  "browserExecuted": false
+}

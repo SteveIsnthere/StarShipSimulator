@@ -1,0 +1,10 @@
+{
+  "name": "qualification",
+  "command": [
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/qualify-render-kernel.mjs",
+    "/tmp/starship-render-kernel.cwc74xyx"
+  ],
+  "childExit": 0,
+  "elapsedSeconds": 0.31463488199733547
+}

@@ -1,0 +1,87 @@
+{
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "failure": null,
+  "bytes": {
+    "stdout": 5060,
+    "stderr": 934
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 39984,
+    "start": "1769639",
+    "group": 39984,
+    "session": 39984,
+    "tracked": [
+      {
+        "pid": 39984,
+        "state": "S",
+        "parent": 39958,
+        "group": 39984,
+        "session": 39984,
+        "start": "1769639"
+      },
+      {
+        "pid": 39995,
+        "state": "S",
+        "parent": 39984,
+        "group": 39984,
+        "session": 39984,
+        "start": "1769649"
+      },
+      {
+        "pid": 39996,
+        "state": "R",
+        "parent": 39995,
+        "group": 39984,
+        "session": 39984,
+        "start": "1769650"
+      },
+      {
+        "pid": 40003,
+        "state": "R",
+        "parent": 39995,
+        "group": 39984,
+        "session": 39984,
+        "start": "1769657"
+      },
+      {
+        "pid": 40026,
+        "state": "R",
+        "parent": 39995,
+        "group": 39984,
+        "session": 39984,
+        "start": "1770513"
+      },
+      {
+        "pid": 40040,
+        "state": "R",
+        "parent": 39995,
+        "group": 39984,
+        "session": 39984,
+        "start": "1770521"
+      },
+      {
+        "pid": 40072,
+        "state": "R",
+        "parent": 39995,
+        "group": 39984,
+        "session": 39984,
+        "start": "1770992"
+      },
+      {
+        "pid": 40094,
+        "state": "S",
+        "parent": 39995,
+        "group": 39984,
+        "session": 39984,
+        "start": "1771005"
+      }
+    ],
+    "executing": []
+  }
+}

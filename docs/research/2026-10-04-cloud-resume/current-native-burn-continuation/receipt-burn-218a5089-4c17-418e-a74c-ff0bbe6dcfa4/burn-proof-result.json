@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "backendCallsEach": 2300,
+  "benchmarkInputCallsEach": 2200,
+  "domainCallsEach": 100,
+  "exceptionsEach": 2,
+  "cappedOrRetainedCapEach": 66,
+  "comparison": "Exact outcomes/errors and full BurnScratch via deepStrictEqual; trusted SSR/plain/passive-counter native ESM; source unchanged",
+  "timing": "No timers or performance acceptance"
+}

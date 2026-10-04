@@ -1,0 +1,34 @@
+{
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "failure": {
+    "kind": "process-timeout",
+    "message": "900000ms process bound exceeded"
+  },
+  "bytes": {
+    "stdout": 0,
+    "stderr": 1116
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 45579,
+    "start": "2150191",
+    "group": 45579,
+    "session": 45579,
+    "tracked": [
+      {
+        "pid": 45579,
+        "state": "R",
+        "parent": 45572,
+        "group": 45579,
+        "session": 45579,
+        "start": "2150191"
+      }
+    ],
+    "executing": []
+  }
+}

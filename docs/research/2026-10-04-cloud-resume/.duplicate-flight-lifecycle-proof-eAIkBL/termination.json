@@ -1,0 +1,28 @@
+{
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "timedOut": false,
+  "owned": [
+    {
+      "pid": 41337,
+      "starttime": "1831582",
+      "ppid": 41328,
+      "pgrp": 41337,
+      "state": "R"
+    },
+    {
+      "pid": 41361,
+      "starttime": "1831613",
+      "ppid": 41337,
+      "pgrp": 41337,
+      "state": "S"
+    }
+  ],
+  "remaining": [],
+  "errors": [],
+  "verifiedOwnedAbsence": true,
+  "cleanupMs": 2,
+  "totalMs": 561
+}

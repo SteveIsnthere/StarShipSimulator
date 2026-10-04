@@ -1,0 +1,25 @@
+{
+  "kind": "current-native-kernels-composite-v1",
+  "status": "pass",
+  "scope": "oldcompleted76+offlineexactlabelaudit+freshunexecuted2300+3branchwitnesses",
+  "completedOld": {
+    "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e",
+    "originalFinalizedStatus": "failed",
+    "finalizedDigest": "6b441b8bff570b5b4c564f1f5b319fc8d2a673fa1a564eaee9618ab973c789f5",
+    "evidenceDigest": "ef81bbf12ebac1d141d30634d6ea38ff50d0d26bffcffce671bc9e82aea6cd01",
+    "fallReportDigest": "34052c35a17ad46d42731d1a9bbd89570b4668b38cdc42fcbe0cfcbe3f934255",
+    "independentResultReviewDigest": "5fd93da68c1aad812fa0c0421bc916f505c6386c15b213b2f83c038607701cdf"
+  },
+  "labelCorrectionDigest": "1460edde217753cdaee531ec1814d0027508e2730c260ccdd29ba5d8d73462d6",
+  "labelAuditDigest": "9283bfa8bcaef28141bcc137e7001ff434c161eb8f2723c3ad16178d042b27b6",
+  "freshBurn": {
+    "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/receipt-burn-218a5089-4c17-418e-a74c-ff0bbe6dcfa4",
+    "resultDigest": "d3bebed85d89b7d5836054b10da315f2d4ffa8fd131695e52a3bbbb8d12eeddf",
+    "paidCasesDigest": "38a064c8c5e7951df5ce8f0e761ee7fb926ea81db4e08449dacf1dbbc167a30f",
+    "admissionDigest": "25ac7c5fd3c631acf5fe42c60ad79c4cf4d66358bf7c530390e2dc8978a58693"
+  },
+  "compiledOrigin": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e",
+  "artifactInventoryDigest": "14746d72c8378eb6eb40c08f56141623fad6e606d37e98cbc58f3d49216e0a02",
+  "sourceLineage": "50c2d919243a3a6568f4d04c2ab24ec8cffdf7672df0d83b759272afe60cc608",
+  "acceptance": "originalkernelparent/toolFAILED remains; not originalfinalized green; independent actual composite review required before separately reviewed paired consumer"
+}

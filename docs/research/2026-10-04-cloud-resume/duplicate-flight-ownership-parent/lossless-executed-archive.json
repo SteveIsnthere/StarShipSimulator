@@ -1,0 +1,47 @@
+{
+  "files": [
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/runner.mjs",
+      "storedPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/runner.mjs.txt",
+      "sha256": "a4a31198a64886189a309ccdb6257914b6cfac7f627cad3737a290bd95cbaf78",
+      "mode": 384,
+      "bytes": 1512
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/observations.ts",
+      "storedPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/observations.ts.txt",
+      "sha256": "8c9b9605644f84e9684708f40481bc14f7fa93ab7e194f6d273d45ee06e2b313",
+      "mode": 384,
+      "bytes": 4924
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/config.ts",
+      "storedPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/config.ts.txt",
+      "sha256": "e4fe1bc4f18a1a0657c46e952893f30c9ce6b8567f50a0d56d67eb1fa5b2a122",
+      "mode": 384,
+      "bytes": 382
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/finalize.mjs",
+      "storedPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/finalize.mjs.txt",
+      "sha256": "9017df609394ab15f1e011d20ccf330d12fff5646ef89072cb51c95c8469fb57",
+      "mode": 384,
+      "bytes": 1959
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership.test.ts",
+      "storedPath": "docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership.test.ts.txt",
+      "sha256": "50b20c727f6e728f94e1937882a53a95113e4d688dd71c6dd0dfb079d47cdd93",
+      "mode": 384,
+      "bytes": 4900
+    },
+    {
+      "originalPath": "docs/research/2026-10-04-cloud-resume/duplicate-flight-ownership-parent/executed-owner.mjs",
+      "storedPath": "docs/research/2026-10-04-cloud-resume/duplicate-flight-ownership-parent/executed-owner.mjs.txt",
+      "sha256": "be6ef5e5262ed3cf2bfa96dbcb6d4746fb769f1a1375389376b485bb36c7088c",
+      "mode": 384,
+      "bytes": 4320
+    }
+  ],
+  "testReexecution": false
+}

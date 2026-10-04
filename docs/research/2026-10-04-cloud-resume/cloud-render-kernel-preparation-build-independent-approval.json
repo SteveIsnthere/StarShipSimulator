@@ -1,0 +1,34 @@
+{
+  "decision": "ONE bounded private preparation, owned research Vite library build and map qualification approved; browser held",
+  "reviewMode": "independent high read-only concrete code review",
+  "researchFiles": {
+    "render-kernel-entry.ts": "26ac76fa74c8ecae0cdfe8550b284e99b9fc84c5f9c57df2bc9c981fbd0d5d18",
+    "render-kernel-build.config.mjs": "e27e5eb77df9d6c10643e950e996c4d0c63513df2a2f38e878ad9f643717071f",
+    "prepare-render-kernel.py": "e548d40520a60505764fa35c3688e07ca70ab672597a743defdaf9f8e98d8083",
+    "build-render-kernel.mjs": "a43ccf78abbc8b90f621fa978c41c62569d527a04dd6e14e9b47b11796aca10b",
+    "qualify-render-kernel.mjs": "2aec59703ab9adf30be5e46a5d5d023eed571532b65ebf0697beca16ca3afb70",
+    "run-render-kernel.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "cloud-render-kernel-declaration.md": "bd4e2817a24cb61d63bc3683908d90bdb0e4b2529ef023b50bcbb5186b326629"
+  },
+  "scopedReceipts": {
+    "cloud-render-kernel-scoped-checks.json": "780b1fc74a1876977f711c3c0ea77ce5b6205869230ab72fd56ecd85452bc23d",
+    "cloud-render-kernel-build-repair-scoped-checks.json": "edb488f3290d40e688b0cc00759aef56254881f3e52881b60b41491867e37354"
+  },
+  "approvedCurrentApplicationQualification": {
+    "path": "docs/research/2026-10-04-cloud-resume/current-render-build-qualification/qualification.json",
+    "sha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2"
+  },
+  "conditions": [
+    "Exact eight reviewed file bytes",
+    "Unique private setup; approved qualification digest",
+    "One supervisor build180s work plus5s cleanup; parent external supervision and owned identity verification",
+    "No application dist/source changes or repeat for luck",
+    "Fresh actual compiled/maps/source/build receipt review before browser grant"
+  ],
+  "browserApproved": false,
+  "productBatchingApproved": false,
+  "contextRestorationQualified": false,
+  "fullSessionFrameAcceptance": false,
+  "originalFull247UnitFailureRetained": true
+}

@@ -1,0 +1,27 @@
+# Independent concrete render-kernel review
+
+Read-only high review of the seven files pinned below, plus actual production createView, scene, camera-follow, controller/loop, particles/effects, asset loader and original visual-budget probe. No syntax, lint, compilation, preparation or browser execution was performed. Product source remains unchanged.
+
+Decision: block preparation/build/launch approval pending the four concrete repairs below. Separately supervised scoped syntax/lint checks are reasonable. This is a new renderer fixture, never full-session or phone/frame acceptance; original budgets and sample counts remain intact. Context restoration remains unqualified.
+
+1. Build provenance is incomplete. The declaration gives a bare npx vite build invocation and says the parent supervises it, but the actual qualifier records only compiled hashes and post-build on-disk source contents. It has no executable deadline/owned child receipt, actual build status/logs, complete source/tool/Node/npm/effective-config before-and-after comparison, or linkage to an immutable source-before-build manifest. A changed source during compilation that is restored before qualification cannot be excluded. Supply a concrete independently reviewed bounded build supervisor and pin its actual child exit, logs, source/tool boundaries, exact entry/config and output inventory in the qualification manifest. No need to rebuild application dist; preserve its prior qualified tuple.
+
+2. Full-state comparison is numerically lossy. Runner comparable/assertFrozen and cross-variant equality use JSON.stringify; ordinary JSON also writes the saved state snapshots. Signed zeros collapse, and NaN/infinities serialize to null. Use a lossless tagged-number snapshot or recursive Object.is-based equality plus lossless receipt serialization for the full core/previous/mission/camera/display witnesses. Do not claim complete private particle arrays: their omission is already honest. Identical deterministic producer paths plus strictly frozen public state/pixels can support this bounded render-kernel experiment without pretending private inspection exists.
+
+3. Rendering invariants are declared but not enforced. comparable deletes the entire rendererPolicy, and the positive-fixture gate does not assert antialias true, resolution 1, viewport/backing/drawing buffer 1280x720, hardware bound 32 or stable actual renderer identity across variants. Some fields survive in public presentation and are compared for equality, but equality would allow both variants to violate the declared quality floor. Require all declared invariants, preserve rendererPolicy in comparison except selectedBatchBound, and retain renderCount as the other explicit changing field.
+
+4. Batch shader efficacy witness is existential. batchLinks requires only some executed program with the selected uTextures width. Another executed batch generation could retain width 32 in candidate1 and still pass if an ancillary width1 program exists. Enumerate every executed linked batch generation, require all widths equal the selected bound, preserve nonbatch shaders, and match the width1 linked source to the locked generator/preprocessor transformation. The single literal `if(vTextureId <` absence check is whitespace-sensitive and insufficient as the direct-generator proof.
+
+The structural direction is sound: unchanged production imports, immediately stopped application ticker, no root draw/linked batch before policy assignment, actual SwiftShader/MAX32, public owned bound, fresh sequential page realms, original camera on each controller step, explicitly declared 360 fixed advances and three positive production draws, then exactly20 ordinary RAF zero-dt draws. Existing probe floor1 is correctly labeled kernel-only; full-session floor2 is not replaced. Source particle emit rejects dt<=0; original update(0) and same deterministic emitter/camera paths justify a frozen presentation witness, subject to actual pre/post equality. All clear/draw query counts are checked against every probe frame, nonnested timer query/disjoint/availability checks are retained, and screenshots/query drain are outside timed intervals.
+
+The qualifier correctly refuses missing kernel entry/map, compares all resolvable map sourcesContent to disk, records unresolved sources for independent actual-build review, refuses output symlinks/special entries and requires fresh-manifest approval before launch. The browser runner retains original managed-copy ownership/cleanup and final source/build/bundle integrity controls. The new output cannot imply gate green: retained full247 unit failure and focused92 proof scope remain explicit.
+
+## Reviewed file pins
+
+- `render-kernel-entry.ts`: `96d04d3712be0861c549ef3dfb9c7cd7c9421a0738f64d540efeafd814f68906`
+- `render-kernel-build.config.mjs`: `e27e5eb77df9d6c10643e950e996c4d0c63513df2a2f38e878ad9f643717071f`
+- `prepare-render-kernel.py`: `e548d40520a60505764fa35c3688e07ca70ab672597a743defdaf9f8e98d8083`
+- `qualify-render-kernel.mjs`: `d656d12142c2dcc5627c45e09748552a57d7dd34a65f89f7729be69d1869274f`
+- `run-render-kernel.mjs`: `58d93f223e854286e2c4ed236e2a3f7fc4725d7e37a09cd1928bea6dfc22f0b8`
+- `kernel-program-attribution-hook.mjs`: `b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907`
+- `cloud-render-kernel-declaration.md`: `e6f89b68d696bcf45b69b9d9bbe33e303cd8bf98b264ca12e9663eb4a136a382`

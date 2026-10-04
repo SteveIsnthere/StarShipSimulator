@@ -1,0 +1,57 @@
+{
+  "results": [
+    {
+      "name": "preparation",
+      "command": [
+        "python3",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-render-kernel.py",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-render-build-qualification/qualification.json"
+      ],
+      "childExit": 0,
+      "elapsedSeconds": 0.06411643799947342
+    },
+    {
+      "name": "library-build",
+      "command": [
+        "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/build-render-kernel.mjs",
+        "/tmp/starship-render-kernel.cwc74xyx"
+      ],
+      "childExit": 0,
+      "elapsedSeconds": 2.9810283690021606
+    },
+    {
+      "name": "qualification",
+      "command": [
+        "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/qualify-render-kernel.mjs",
+        "/tmp/starship-render-kernel.cwc74xyx"
+      ],
+      "childExit": 0,
+      "elapsedSeconds": 0.31463488199733547
+    }
+  ],
+  "elapsedSeconds": 3.361925824996433,
+  "before": {
+    "render-kernel-entry.ts": "26ac76fa74c8ecae0cdfe8550b284e99b9fc84c5f9c57df2bc9c981fbd0d5d18",
+    "render-kernel-build.config.mjs": "e27e5eb77df9d6c10643e950e996c4d0c63513df2a2f38e878ad9f643717071f",
+    "prepare-render-kernel.py": "e548d40520a60505764fa35c3688e07ca70ab672597a743defdaf9f8e98d8083",
+    "build-render-kernel.mjs": "a43ccf78abbc8b90f621fa978c41c62569d527a04dd6e14e9b47b11796aca10b",
+    "qualify-render-kernel.mjs": "2aec59703ab9adf30be5e46a5d5d023eed571532b65ebf0697beca16ca3afb70",
+    "run-render-kernel.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "cloud-render-kernel-declaration.md": "bd4e2817a24cb61d63bc3683908d90bdb0e4b2529ef023b50bcbb5186b326629"
+  },
+  "after": {
+    "render-kernel-entry.ts": "26ac76fa74c8ecae0cdfe8550b284e99b9fc84c5f9c57df2bc9c981fbd0d5d18",
+    "render-kernel-build.config.mjs": "e27e5eb77df9d6c10643e950e996c4d0c63513df2a2f38e878ad9f643717071f",
+    "prepare-render-kernel.py": "e548d40520a60505764fa35c3688e07ca70ab672597a743defdaf9f8e98d8083",
+    "build-render-kernel.mjs": "a43ccf78abbc8b90f621fa978c41c62569d527a04dd6e14e9b47b11796aca10b",
+    "qualify-render-kernel.mjs": "2aec59703ab9adf30be5e46a5d5d023eed571532b65ebf0697beca16ca3afb70",
+    "run-render-kernel.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "cloud-render-kernel-declaration.md": "bd4e2817a24cb61d63bc3683908d90bdb0e4b2529ef023b50bcbb5186b326629"
+  },
+  "sourcesExact": true,
+  "browserExecuted": false
+}

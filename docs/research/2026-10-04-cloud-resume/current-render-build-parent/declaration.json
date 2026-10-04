@@ -1,0 +1,7 @@
+{
+  "harnessSha256": "56a09e0e6894ee73f260544582917576f9e3a19817f918df13d8ea295f9811f1",
+  "oneInvocation": true,
+  "purpose": "Reviewed current-source artifact provenance only",
+  "nativeChildDeadlineMs": 120000,
+  "completeUnitCohortRemainsFailed": true
+}

@@ -1,0 +1,128 @@
+{
+  "checked": [
+    {
+      "recorded": {
+        "pid": 46273,
+        "starttime": "2277614",
+        "ppid": 46259,
+        "pgrp": 46273,
+        "state": "Z"
+      },
+      "executing": false
+    },
+    {
+      "recorded": {
+        "pid": 46304,
+        "starttime": "2277628",
+        "ppid": 46280,
+        "pgrp": 46273,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      "executing": false
+    },
+    {
+      "recorded": {
+        "pid": 46277,
+        "starttime": "2277624",
+        "ppid": 1,
+        "pgrp": 46276,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+      },
+      "executing": false,
+      "observed": {
+        "state": "Z",
+        "start": "2277624"
+      }
+    },
+    {
+      "recorded": {
+        "pid": 46280,
+        "starttime": "2277624",
+        "ppid": 1,
+        "pgrp": 46273,
+        "state": "Z"
+      },
+      "executing": false,
+      "observed": {
+        "state": "Z",
+        "start": "2277624"
+      }
+    },
+    {
+      "recorded": {
+        "pid": 46281,
+        "starttime": "2277624",
+        "ppid": 1,
+        "pgrp": 46279,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+      },
+      "executing": false,
+      "observed": {
+        "state": "Z",
+        "start": "2277624"
+      }
+    },
+    {
+      "recorded": {
+        "pid": 46283,
+        "starttime": "2277624",
+        "ppid": 1,
+        "pgrp": 46273,
+        "state": "Z"
+      },
+      "executing": false,
+      "observed": {
+        "state": "Z",
+        "start": "2277624"
+      }
+    },
+    {
+      "recorded": {
+        "pid": 46307,
+        "starttime": "2277629",
+        "ppid": 46273,
+        "pgrp": 46273,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      "executing": false
+    },
+    {
+      "recorded": {
+        "pid": 46327,
+        "starttime": "2277631",
+        "ppid": 46283,
+        "pgrp": 46273,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      "executing": false
+    },
+    {
+      "recorded": {
+        "pid": 46345,
+        "starttime": "2277647",
+        "ppid": 46283,
+        "pgrp": 46273,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      "executing": false
+    },
+    {
+      "recorded": {
+        "pid": 46347,
+        "starttime": "2277647",
+        "ppid": 46283,
+        "pgrp": 46273,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      "executing": false
+    }
+  ],
+  "allNonexecuting": true
+}

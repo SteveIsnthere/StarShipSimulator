@@ -1,0 +1,1 @@
+let isa=0,controls=0,prepared=0,fallback=0;export function countIsa(){isa++;}export function countControls(){controls++;}export function countPrepared(){prepared++;}export function countFallback(){fallback++;}export function resetCounts(){isa=0;controls=0;prepared=0;fallback=0;}export function readCounts(){return {isa,controls,prepared,fallback};}

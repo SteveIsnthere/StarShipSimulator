@@ -1,0 +1,11 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/ownership.test.ts (6 tests) 11ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  10:55:15
+   Duration  210ms (transform 57ms, setup 0ms, import 69ms, tests 11ms, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-ownership-proof-IVrrXi/test-results.json

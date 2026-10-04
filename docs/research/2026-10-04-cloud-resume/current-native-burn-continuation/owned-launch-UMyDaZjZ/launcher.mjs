@@ -1,0 +1,101 @@
+/** Exactly one unexecuted burn proof continuation. No build/test/flight command exists here. */
+import assert from 'node:assert/strict';
+import {mkdirSync,readFileSync,writeFileSync,readdirSync,existsSync} from 'node:fs';
+import {resolve,relative,dirname,isAbsolute} from 'node:path';
+import {randomUUID} from 'node:crypto';
+import {sourceSnapshot,installedToolSnapshot,digestFile} from '/workspace/StarShipSimulator/scripts/bench/native-loader.mjs';
+import {runOwnedCommand,verifyNoOwnedProcesses} from '/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/owned-launch-UMyDaZjZ/owned-command.mjs';
+import {auditCompletedFall} from '/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/owned-launch-UMyDaZjZ/label-audit.mjs';
+const root=process.cwd(),draft=resolve('docs/research/2026-10-04-cloud-resume/current-native-burn-continuation');
+const old=resolve('docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e');
+const oldDraft=dirname(old),nonce=randomUUID(),receipt=resolve(draft,`receipt-burn-${nonce}`);mkdirSync(receipt);
+const task=resolve(receipt,'materialized');let stage='receipt-created',status=1,failure=null,before=null,inputs=null;
+let previousPins={},ownPins={},artifactPins={};
+const cap=512*1024*1024;
+function files(path){return readdirSync(path,{withFileTypes:true}).flatMap(entry=>{assert(entry.isDirectory()||entry.isFile());return entry.isDirectory()?files(resolve(path,entry.name)):[resolve(path,entry.name)];}).sort();}
+function register(path){assert(!Object.hasOwn(ownPins,path));ownPins[path]=digestFile(path);}
+function verify(){for(const [p,h]of Object.entries({...previousPins,...ownPins}))assert.equal(digestFile(p),h,p);}
+function verifyGraph(){
+ assert.deepEqual(Object.keys(artifactPins).sort(),['plain','counted'].flatMap(kind=>files(resolve(old,kind))).sort());
+ for(const name of ['plain/entry.mjs','counted/entry.mjs'])assert(Object.hasOwn(artifactPins,resolve(old,name)));
+ for(const [p,h]of Object.entries(artifactPins))assert.equal(digestFile(p),h,p);
+}
+function snapshot(){
+ for(const [p,h]of Object.entries(inputs))assert.equal(digestFile(resolve(root,p)),h,p);
+ return {source:sourceSnapshot(root),installed:installedToolSnapshot(root),node:digestFile(process.execPath),inputs,
+  inputManifest:digestFile(resolve(draft,'input-pins.json')),review:digestFile(resolve(draft,'independent-review.md')),reviewPins:digestFile(resolve(draft,'independent-review-pins.json'))};
+}
+function verifyOld(){
+ verify();verifyGraph();
+ const evidence=JSON.parse(readFileSync(resolve(old,'evidence-manifest.json'),'utf8'));
+ assert.equal(evidence.receipt,old);
+ assert.deepEqual(Object.keys(evidence.files).filter(p=>p.startsWith(old+'/')).sort(),files(old).filter(p=>p!==resolve(old,'evidence-manifest.json')));
+ for(const [p,h]of Object.entries(evidence.files))assert.equal(digestFile(p),h,p);
+ const oldBefore=JSON.parse(readFileSync(resolve(old,'source-before.json'),'utf8')),oldAfter=JSON.parse(readFileSync(resolve(old,'source-after.json'),'utf8'));
+ assert.deepEqual(oldBefore,oldAfter,'original source/tool integrity');
+ for(const key of ['source','installed','node'])assert.deepEqual(before[key],oldAfter[key],`exact continued${key}`);
+}
+function storage(){let bytes=0;for(const p of files(receipt)){bytes+=readFileSync(p).length;assert(bytes<=cap,'512MiB continuation storage cap');}return bytes;}
+try{
+ stage='preflight';mkdirSync(task);
+ assert.equal(process.version,'v22.23.3');assert.equal(process.platform,'linux');
+ assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'current-native-burn-continuation');
+ const reviewPath=resolve(draft,'independent-review.md'),reviewPinsPath=resolve(draft,'independent-review-pins.json');
+ assert.equal(digestFile(reviewPath),process.env.STARSHIP_CURRENT_NATIVE_REVIEW_SHA);
+ assert.equal(digestFile(reviewPinsPath),process.env.STARSHIP_CURRENT_NATIVE_REVIEW_PINS_SHA);
+ const reviewPins=JSON.parse(readFileSync(reviewPinsPath,'utf8'));assert.equal(reviewPins.review,digestFile(reviewPath));assert.equal(reviewPins.inputManifest,digestFile(resolve(draft,'input-pins.json')));
+ const npm=process.env.npm_execpath;assert(npm&&isAbsolute(npm)&&existsSync(npm),'activation npm required');
+ const outer=readFileSync(resolve(draft,'launcher.mjs.txt'),'utf8')
+  .split(['NATIVE','LOADER','PLACEHOLDER'].join('_')).join(resolve(root,'scripts/bench/native-loader.mjs'))
+  .split(['OWNED','COMMAND','PLACEHOLDER'].join('_')).join(resolve(dirname(process.argv[1]),'owned-command.mjs'))
+  .split(['LABEL','AUDIT','PLACEHOLDER'].join('_')).join(resolve(dirname(process.argv[1]),'label-audit.mjs'));
+ assert.equal(readFileSync(process.argv[1],'utf8'),outer);
+ for(const name of ['owned-command.mjs','label-audit.mjs'])assert.equal(digestFile(resolve(dirname(process.argv[1]),name)),digestFile(resolve(draft,`${name}.txt`)));
+ for(const p of [process.argv[1],resolve(dirname(process.argv[1]),'owned-command.mjs'),resolve(dirname(process.argv[1]),'label-audit.mjs')])register(resolve(p));
+ inputs=JSON.parse(readFileSync(resolve(draft,'input-pins.json'),'utf8'));
+ previousPins=JSON.parse(readFileSync(resolve(draft,'completed-old-evidence-pins.json'),'utf8'));
+ artifactPins=JSON.parse(readFileSync(resolve(old,'artifact-pins.json'),'utf8'));
+ before=snapshot();writeFileSync(resolve(receipt,'source-before.json'),JSON.stringify(before,null,2)+'\n');verifyOld();
+ stage='offline76-label-audit';
+ const corrected=JSON.parse(readFileSync(resolve(draft,'fall-76-corrected-inventory.json'),'utf8'));
+ const audit=auditCompletedFall(old,corrected);writeFileSync(resolve(receipt,'completed-fall-audit.json'),JSON.stringify(audit,null,2)+'\n');
+ stage='materialize-unexecuted-burn';
+ const entry=resolve(task,'entry.ts');writeFileSync(entry,readFileSync(resolve(old,'materialized/entry.ts')));register(entry);
+ assert.equal(digestFile(entry),digestFile(resolve(old,'materialized/entry.ts')));
+ const template=resolve(oldDraft,'burn.ts.txt');let text=readFileSync(template,'utf8');
+ for(const [token,value]of Object.entries({SSR_ENTRY_PLACEHOLDER:'entry.ts',PLAIN_ENTRY_PLACEHOLDER:resolve(old,'plain/entry.mjs'),COUNTED_ENTRY_PLACEHOLDER:resolve(old,'counted/entry.mjs'),RECEIPT_PLACEHOLDER:receipt,BURN_INVENTORY_PLACEHOLDER:resolve(oldDraft,'burn-2300-inventory.json')})){
+  assert(text.includes(token));text=text.split(token).join(value);
+ }
+ assert(!/[A-Z_]+_PLACEHOLDER/.test(text));const burn=resolve(task,'burn.ts');writeFileSync(burn,text);register(burn);
+ writeFileSync(resolve(receipt,'materialized-before.json'),JSON.stringify(ownPins,null,2)+'\n');
+ writeFileSync(resolve(receipt,'artifact-pins.json'),JSON.stringify(artifactPins,null,2)+'\n');
+ verifyOld();stage='unexecuted-burn-2300';
+ const commandStarted=performance.now();const code=await runOwnedCommand({name:'burn-2300',args:[resolve('node_modules/vite-node/dist/cli.mjs'),'--script',burn],root,receipt,env:{...process.env},deadlineMs:300000});
+ writeFileSync(resolve(receipt,'burn-2300.exit.json'),JSON.stringify({code,wholeOwnedCommandWallMs:performance.now()-commandStarted})+'\n');assert.equal(code,0);verifyOld();storage();
+ const burnResult=JSON.parse(readFileSync(resolve(receipt,'burn-proof-result.json'),'utf8'));
+ assert.equal(burnResult.status,'pass');assert.equal(burnResult.backendCallsEach,2300);assert.equal(burnResult.benchmarkInputCallsEach,2200);assert.equal(burnResult.domainCallsEach,100);
+ const paid=readFileSync(resolve(receipt,'burn-paid-cases.ndjson'),'utf8').trim().split('\n').map(line=>JSON.parse(line));
+ const recipes=JSON.parse(readFileSync(resolve(oldDraft,'burn-2300-inventory.json'),'utf8'));assert.equal(paid.length,2300);
+ assert.deepEqual(paid,recipes.map(row=>({id:row.id,exactArgumentLiterals:row.exactArgumentLiterals,exactModelRole:row.exactModelRole})));
+ const witnesses=readFileSync(resolve(receipt,'admission.ndjson'),'utf8').trim().split('\n').map(line=>JSON.parse(line));
+ assert.deepEqual(witnesses.map(row=>row.kind),['prepared-super','ship-fallback','custom-fallback']);
+ for(const row of witnesses)if(row.kind==='prepared-super'){assert(row.counts.prepared>0);assert.equal(row.counts.fallback,0);}else{assert.equal(row.counts.prepared,0);assert(row.counts.fallback>0);}
+ stage='composite-result';
+ const composite={kind:'current-native-kernels-composite-v1',status:'pass',scope:'oldcompleted76+offlineexactlabelaudit+freshunexecuted2300+3branchwitnesses',
+  completedOld:{receipt:old,originalFinalizedStatus:'failed',finalizedDigest:digestFile(resolve(old,'finalized.json')),evidenceDigest:digestFile(resolve(old,'evidence-manifest.json')),fallReportDigest:digestFile(resolve(old,'fall-report.json')),independentResultReviewDigest:digestFile(resolve(oldDraft,'kernel76-label-mismatch-independent-result-review.md'))},
+  labelCorrectionDigest:digestFile(resolve(draft,'fall-76-corrected-inventory.json')),labelAuditDigest:digestFile(resolve(receipt,'completed-fall-audit.json')),
+  freshBurn:{receipt,resultDigest:digestFile(resolve(receipt,'burn-proof-result.json')),paidCasesDigest:digestFile(resolve(receipt,'burn-paid-cases.ndjson')),admissionDigest:digestFile(resolve(receipt,'admission.ndjson'))},
+  compiledOrigin:old,artifactInventoryDigest:digestFile(resolve(old,'artifact-pins.json')),sourceLineage:digestFile(resolve(old,'source-after.json')),
+  acceptance:'originalkernelparent/toolFAILED remains; not originalfinalized green; independent actual composite review required before separately reviewed paired consumer'};
+ writeFileSync(resolve(receipt,'composite-kernel.json'),JSON.stringify(composite,null,2)+'\n');
+ assert.deepEqual(snapshot(),before);verifyOld();status=0;
+}catch(error){failure=String(error.stack??error).slice(0,32768);}
+finally{
+ let cleanup;try{cleanup=verifyNoOwnedProcesses();}catch(error){status=1;failure??=String(error.stack??error).slice(0,32768);}
+ try{assert(before&&inputs,'source verification unavailable after incomplete preflight');const after=snapshot();writeFileSync(resolve(receipt,'source-after.json'),JSON.stringify(after,null,2)+'\n');assert.deepEqual(after,before);verifyOld();storage();}catch(error){status=1;failure??=String(error.stack??error).slice(0,32768);writeFileSync(resolve(receipt,'source-verification.json'),JSON.stringify({status:'failed-or-unavailable',beforeAvailable:Boolean(before),message:String(error.message).slice(0,8192)})+'\n');}
+ writeFileSync(resolve(receipt,'owned-cleanup.json'),JSON.stringify(cleanup??{unverified:true},null,2)+'\n');
+ writeFileSync(resolve(receipt,'finalized.json'),JSON.stringify({finalized:true,status:status===0?'pass':'failed',mode:'burn-continuation',nonce,receipt,oldReceipt:old,stage,failure,acceptance:'research scoped/composite only'},null,2)+'\n');
+ const evidence={...previousPins,...ownPins,...Object.fromEntries(files(receipt).map(p=>[p,digestFile(p)]))};
+ writeFileSync(resolve(receipt,'evidence-manifest.json'),JSON.stringify({receipt,mode:'burn-continuation',files:evidence},null,2)+'\n');
+ console.log(receipt);process.exitCode=status;
+}

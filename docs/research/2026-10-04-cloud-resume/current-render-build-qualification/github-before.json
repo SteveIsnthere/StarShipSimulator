@@ -1,0 +1,14 @@
+[
+  [
+    ".github/workflows/ci.yml",
+    "6596ec806fd5639de606fa581ae4ceead03873d465fb5f7f7b6ff731c7b283a6"
+  ],
+  [
+    ".github/workflows/deploy.yml",
+    "9d9926b3fc5e5bb20277ddd60f30ee94ac9483cd508db8c3e829e7af48b88f9c"
+  ],
+  [
+    ".github/workflows/golden-regenerate.yml",
+    "70b1e0a6629a0320e5dce7a2220d86c2c56860bbbaa8abdbdeac29bbf25f70f6"
+  ]
+]
