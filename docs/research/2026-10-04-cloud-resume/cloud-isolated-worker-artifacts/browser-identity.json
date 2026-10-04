@@ -1,0 +1,107 @@
+{
+  "version": "151.0.7922.34",
+  "browserPid": 22988,
+  "originalManagedBrowser": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell",
+  "actualCopiedBrowser": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell",
+  "actualArgv": [
+    "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell",
+    "--disable-field-trial-config",
+    "--disable-background-networking",
+    "--disable-background-timer-throttling",
+    "--disable-backgrounding-occluded-windows",
+    "--disable-back-forward-cache",
+    "--disable-breakpad",
+    "--disable-client-side-phishing-detection",
+    "--disable-component-extensions-with-background-pages",
+    "--disable-component-update",
+    "--no-default-browser-check",
+    "--disable-default-apps",
+    "--disable-dev-shm-usage",
+    "--disable-edgeupdater",
+    "--disable-extensions",
+    "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion",
+    "--enable-features=CDPScreenshotNewSurface",
+    "--allow-pre-commit-input",
+    "--disable-hang-monitor",
+    "--disable-ipc-flooding-protection",
+    "--disable-popup-blocking",
+    "--disable-prompt-on-repost",
+    "--disable-renderer-backgrounding",
+    "--disable-updater-scheduler",
+    "--force-color-profile=srgb",
+    "--metrics-recording-only",
+    "--no-first-run",
+    "--password-store=basic",
+    "--use-mock-keychain",
+    "--no-service-autorun",
+    "--export-tagged-pdf",
+    "--disable-search-engine-choice-screen",
+    "--unsafely-disable-devtools-self-xss-warnings",
+    "--edge-skip-compat-layer-relaunch",
+    "--disable-infobars",
+    "--disable-search-engine-choice-screen",
+    "--disable-sync",
+    "--enable-unsafe-swiftshader",
+    "--headless",
+    "--hide-scrollbars",
+    "--mute-audio",
+    "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+    "--no-sandbox",
+    "--no-sandbox",
+    "--use-gl=angle",
+    "--use-angle=swiftshader",
+    "--enable-unsafe-swiftshader",
+    "--user-data-dir=/tmp/playwright_chromiumdev_profile-yoIIU4",
+    "--remote-debugging-pipe",
+    "--no-startup-window"
+  ],
+  "wrapper": "/tmp/starship-isolated-worker.yaw4OkY0/browser-wrapper.sh",
+  "flags": [
+    "--no-sandbox",
+    "--use-gl=angle",
+    "--use-angle=swiftshader",
+    "--enable-unsafe-swiftshader"
+  ],
+  "renderer": {
+    "backend": "webgl",
+    "backendType": 1,
+    "resolution": 1,
+    "screen": {
+      "width": 1280,
+      "height": 720
+    },
+    "backing": {
+      "width": 1280,
+      "height": 720
+    },
+    "antialias": true,
+    "webgl": {
+      "drawingBufferWidth": 1280,
+      "drawingBufferHeight": 720,
+      "antialias": true,
+      "contextLost": false
+    },
+    "filters": [
+      {
+        "id": "bloom",
+        "attached": true,
+        "enabled": true,
+        "compatible": true,
+        "resolution": "inherit",
+        "antialias": "inherit",
+        "inputResolution": 1,
+        "inputAntialias": true
+      },
+      {
+        "id": "heat",
+        "attached": false,
+        "enabled": true,
+        "compatible": true,
+        "resolution": 1,
+        "antialias": "off",
+        "inputResolution": null,
+        "inputAntialias": null
+      }
+    ]
+  }
+}

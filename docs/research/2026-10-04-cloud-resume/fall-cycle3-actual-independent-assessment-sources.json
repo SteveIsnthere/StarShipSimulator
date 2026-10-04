@@ -1,0 +1,502 @@
+{
+  "normal-measured": {
+    "samples": 172,
+    "sampleDeltaMs": 248.909,
+    "topSelf": [
+      {
+        "ms": 123.596,
+        "frame": {
+          "functionName": "fallAcceleration",
+          "scriptId": "405",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "lineNumber": 301,
+          "columnNumber": 25
+        }
+      },
+      {
+        "ms": 50.998,
+        "frame": {
+          "functionName": "post",
+          "scriptId": "385",
+          "url": "node:inspector",
+          "lineNumber": 117,
+          "columnNumber": 6
+        }
+      },
+      {
+        "ms": 18.632,
+        "frame": {
+          "functionName": "advanceUnpoweredFall",
+          "scriptId": "405",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "lineNumber": 418,
+          "columnNumber": 29
+        }
+      },
+      {
+        "ms": 15.345,
+        "frame": {
+          "functionName": "pressureInLayer",
+          "scriptId": "417",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "lineNumber": 95,
+          "columnNumber": 24
+        }
+      },
+      {
+        "ms": 8.72,
+        "frame": {
+          "functionName": "getCrossSectionalArea",
+          "scriptId": "420",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "lineNumber": 54,
+          "columnNumber": 30
+        }
+      },
+      {
+        "ms": 6.489,
+        "frame": {
+          "functionName": "writeAccelerationComponents",
+          "scriptId": "421",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "lineNumber": 84,
+          "columnNumber": 36
+        }
+      },
+      {
+        "ms": 4.409,
+        "frame": {
+          "functionName": "(garbage collector)",
+          "scriptId": "0",
+          "url": "",
+          "lineNumber": -1,
+          "columnNumber": -1
+        }
+      },
+      {
+        "ms": 4.358,
+        "frame": {
+          "functionName": "isaAtmosphereInto",
+          "scriptId": "417",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "lineNumber": 308,
+          "columnNumber": 26
+        }
+      },
+      {
+        "ms": 2.199,
+        "frame": {
+          "functionName": "validateDamageControlForcing",
+          "scriptId": "458",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "lineNumber": 59,
+          "columnNumber": 37
+        }
+      },
+      {
+        "ms": 2.182,
+        "frame": {
+          "functionName": "",
+          "scriptId": "422",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "lineNumber": 7,
+          "columnNumber": 50
+        }
+      },
+      {
+        "ms": 2.176,
+        "frame": {
+          "functionName": "",
+          "scriptId": "420",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "lineNumber": 13,
+          "columnNumber": 42
+        }
+      },
+      {
+        "ms": 2.169,
+        "frame": {
+          "functionName": "verticalGravityAcceleration",
+          "scriptId": "422",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "lineNumber": 76,
+          "columnNumber": 36
+        }
+      },
+      {
+        "ms": 1.099,
+        "frame": {
+          "functionName": "tangentialAcceleration",
+          "scriptId": "422",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "lineNumber": 145,
+          "columnNumber": 31
+        }
+      },
+      {
+        "ms": 1.093,
+        "frame": {
+          "functionName": "writeFlightMassQuery",
+          "scriptId": "469",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/flight-mass-query.ts",
+          "lineNumber": 7,
+          "columnNumber": 29
+        }
+      },
+      {
+        "ms": 1.091,
+        "frame": {
+          "functionName": "",
+          "scriptId": "458",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "lineNumber": 2,
+          "columnNumber": 56
+        }
+      },
+      {
+        "ms": 1.09,
+        "frame": {
+          "functionName": "writeDamageMass",
+          "scriptId": "465",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-mass.ts",
+          "lineNumber": 40,
+          "columnNumber": 24
+        }
+      },
+      {
+        "ms": 1.088,
+        "frame": {
+          "functionName": "",
+          "scriptId": "417",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "lineNumber": 9,
+          "columnNumber": 45
+        }
+      },
+      {
+        "ms": 1.088,
+        "frame": {
+          "functionName": "",
+          "scriptId": "407",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "lineNumber": 0,
+          "columnNumber": 40
+        }
+      },
+      {
+        "ms": 1.087,
+        "frame": {
+          "functionName": "",
+          "scriptId": "408",
+          "url": "file:///workspace/StarShipSimulator/src/core/units.ts",
+          "lineNumber": 0,
+          "columnNumber": 31
+        }
+      }
+    ]
+  },
+  "cap-measured": {
+    "samples": 172,
+    "sampleDeltaMs": 241.426,
+    "topSelf": [
+      {
+        "ms": 96.959,
+        "frame": {
+          "functionName": "fallAcceleration",
+          "scriptId": "405",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "lineNumber": 301,
+          "columnNumber": 25
+        }
+      },
+      {
+        "ms": 45.327,
+        "frame": {
+          "functionName": "post",
+          "scriptId": "385",
+          "url": "node:inspector",
+          "lineNumber": 117,
+          "columnNumber": 6
+        }
+      },
+      {
+        "ms": 31.704,
+        "frame": {
+          "functionName": "isaAtmosphereInto",
+          "scriptId": "417",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "lineNumber": 308,
+          "columnNumber": 26
+        }
+      },
+      {
+        "ms": 19.687,
+        "frame": {
+          "functionName": "advanceUnpoweredFall",
+          "scriptId": "405",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "lineNumber": 418,
+          "columnNumber": 29
+        }
+      },
+      {
+        "ms": 9.8,
+        "frame": {
+          "functionName": "thermosphereKelvin",
+          "scriptId": "417",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "lineNumber": 288,
+          "columnNumber": 27
+        }
+      },
+      {
+        "ms": 3.33,
+        "frame": {
+          "functionName": "",
+          "scriptId": "420",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "lineNumber": 1,
+          "columnNumber": 49
+        }
+      },
+      {
+        "ms": 3.261,
+        "frame": {
+          "functionName": "",
+          "scriptId": "408",
+          "url": "file:///workspace/StarShipSimulator/src/core/units.ts",
+          "lineNumber": 0,
+          "columnNumber": 31
+        }
+      },
+      {
+        "ms": 3.258,
+        "frame": {
+          "functionName": "",
+          "scriptId": "458",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "lineNumber": 2,
+          "columnNumber": 56
+        }
+      },
+      {
+        "ms": 2.254,
+        "frame": {
+          "functionName": "meanWindAt",
+          "scriptId": "424",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "lineNumber": 101,
+          "columnNumber": 19
+        }
+      },
+      {
+        "ms": 2.194,
+        "frame": {
+          "functionName": "(garbage collector)",
+          "scriptId": "0",
+          "url": "",
+          "lineNumber": -1,
+          "columnNumber": -1
+        }
+      },
+      {
+        "ms": 2.183,
+        "frame": {
+          "functionName": "",
+          "scriptId": "420",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "lineNumber": 4,
+          "columnNumber": 35
+        }
+      },
+      {
+        "ms": 2.175,
+        "frame": {
+          "functionName": "",
+          "scriptId": "420",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "lineNumber": 5,
+          "columnNumber": 50
+        }
+      },
+      {
+        "ms": 2.174,
+        "frame": {
+          "functionName": "validateDamageControlForcing",
+          "scriptId": "458",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "lineNumber": 59,
+          "columnNumber": 37
+        }
+      },
+      {
+        "ms": 2.17,
+        "frame": {
+          "functionName": "",
+          "scriptId": "422",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "lineNumber": 3,
+          "columnNumber": 55
+        }
+      },
+      {
+        "ms": 1.891,
+        "frame": {
+          "functionName": "meanWindAt",
+          "scriptId": "424",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "lineNumber": 101,
+          "columnNumber": 19
+        }
+      },
+      {
+        "ms": 1.105,
+        "frame": {
+          "functionName": "verticalGravityAcceleration",
+          "scriptId": "422",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "lineNumber": 76,
+          "columnNumber": 36
+        }
+      },
+      {
+        "ms": 1.092,
+        "frame": {
+          "functionName": "unpoweredFallInto",
+          "scriptId": "405",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "lineNumber": 462,
+          "columnNumber": 26
+        }
+      },
+      {
+        "ms": 1.09,
+        "frame": {
+          "functionName": "writeAccelerationComponents",
+          "scriptId": "421",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "lineNumber": 84,
+          "columnNumber": 36
+        }
+      },
+      {
+        "ms": 1.087,
+        "frame": {
+          "functionName": "",
+          "scriptId": "407",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "lineNumber": 8,
+          "columnNumber": 45
+        }
+      },
+      {
+        "ms": 1.087,
+        "frame": {
+          "functionName": "",
+          "scriptId": "417",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "lineNumber": 9,
+          "columnNumber": 45
+        }
+      },
+      {
+        "ms": 1.087,
+        "frame": {
+          "functionName": "",
+          "scriptId": "420",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "lineNumber": 13,
+          "columnNumber": 42
+        }
+      },
+      {
+        "ms": 1.086,
+        "frame": {
+          "functionName": "thermosphereKelvin",
+          "scriptId": "417",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "lineNumber": 288,
+          "columnNumber": 27
+        }
+      },
+      {
+        "ms": 1.086,
+        "frame": {
+          "functionName": "",
+          "scriptId": "422",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "lineNumber": 7,
+          "columnNumber": 50
+        }
+      },
+      {
+        "ms": 1.085,
+        "frame": {
+          "functionName": "getLiftCoefficient",
+          "scriptId": "420",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "lineNumber": 72,
+          "columnNumber": 27
+        }
+      },
+      {
+        "ms": 1.085,
+        "frame": {
+          "functionName": "writeDamageControls",
+          "scriptId": "458",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "lineNumber": 66,
+          "columnNumber": 28
+        }
+      }
+    ]
+  },
+  "existingBundle": {
+    "map": "dist/assets/simulation-3KOKl7kS.js.map",
+    "guidanceSourceContentEqualsDisk": true,
+    "hasSSRImports": false
+  },
+  "sha256": {
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/cli-path.txt": "c6087ac1e437e1967b57e8983989d0a62385fd0d99ad7ed3a4dc7e81edd03d60",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/generated-code-sites.json": "f6411620c4f246c512febe4480f923a5896b7872ceea8048294742572425c226",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/normal-measured.cpuprofile": "164ae958c11831877d1238a60cea4b36117db32200c6489db7c35df113f40202",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/normal-measured.attribution.json": "ca4ac7a38668f9bf0461c7b616e0ff8b5ef80d47550f4847218a1cd116f871c3",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/output.txt": "092e49d875b8d9696937ee52b03a9a969878137e5fd3ab69e28c32c54b7c2261",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/materialized-driver-hash.txt": "881f39c6432e03b8fd72e7e4779e3c5e342105ab8205475626e5ffa87e4c9e25",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/v8-options.txt": "07aefd2c5a98a5759a1b253ff2eaa10ec208da3ef379ecd62fd5dee559bfab0d",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/cpu-stat-preflight.txt": "57ec78c7beb2f30567db1421cfd798286e6f7e229fb659fee9e900f002ed67f1",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/node-flags.txt": "334e341e49f0ce29ea7b41c2f0cf935d1bc6183a0ff2b0d10fd6049ed1bc590f",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/cap-warm.cpuprofile": "9628aba28f32371b89f26505111cd65fd127e76a361904cf08a4e1ea967d160a",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/cap-measured.cpuprofile": "99c50be39310369a6a316b0de4ad0d4960806b1ebb544c09a33d8fdf2bf5f9f2",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/preflight.txt": "a5bcc9941b7c369db9d3308dab6b965c304f3bbc0441e0e1ffec7f7f148d0028",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/source-before.json": "fc7a0814eb23092db0140980fce9c92ae622bed9ce1627bfd5f261f65cb65037",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/clock-ticks-per-second.txt": "eea8254c7500ba3de996aa8ad6af399183f04e17d4a8102fde539dbc93a90012",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/cgroup.txt": "e57fd7b21104f091de366ace1464596378a498b0a5e63f1b21147a8998c20107",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/cpu-max.txt": "bd8ea316d63ccab47af9329b4b4b427cb510d04fe500195f5aa332d211d9fd3f",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/environment.json": "d896f177b62a1ac170d5e46df73c05a7c4acf76f622aef3d6ab5c1727d1b9bb7",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/normal-warm.section.json": "7eef918aac157a7624c07d2ab413f8ce0fb6b61a8526b510fac6e55193a1125a",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/runner-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/runtime.json": "8278be297fe553a11f1b352603146fdf99163cf7092a60015f02ada8c9e5d8fb",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/burn-warm.cpuprofile": "e7bd6ea58d6d9d0eaacf6f03a9e343bf160af09a3df89631e258233988606f80",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/source-after.json": "fc7a0814eb23092db0140980fce9c92ae622bed9ce1627bfd5f261f65cb65037",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/workload-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/source-integrity.txt": "0b3f53e176bf10a080ad373b00ba71b74a21d181b2ad6e9280007e0073def12a",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/status-before.txt": "52f54834502b31ed69ab3feb7a9a9bca87ea56d2f170c6c64b971b5db5073d89",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/burn-measured.section.json": "683e86bf5d3fa7d13e2b24afaac5cf832225306fd7b0e31726988f327757cd2d",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/normal-measured.section.json": "9954a5392aa044e6d55267400092eb91cdb81e16db6492216fc017552a32859a",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/normal-warm.cpuprofile": "9873dc96daa8ad3678eca9b570266adcc7bbc05bca067acc094b499dc60e2702",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/node.txt": "33e26f35db6e57ce0c486ddc815fe966867e4f649e418eaf323f75f4720eb8e9",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/burn-measured.cpuprofile": "e685ab6a35eb15dd482fc0dec6be2687744901302ccb6d7178722b76c0a21aee",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/sections.json": "a26b40ebab4bad1c9104afb90f35599029b8032f64d75a62d78d7e4965e16a8e",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/cap-measured.section.json": "51cecede05a0568c8ff2c591266f9d487545a1293ec7da255d7273ed38e1dacc",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/cap-measured.attribution.json": "a2ac1c1d720f4788b326a7a8f884df033967781beb1c66ee715575ebe78c1403",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/cap-warm.section.json": "0bb88af83c631b61eb42020d42929037701fe2bd9e963de4bfdae0da81e9e1cd",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/head.txt": "89ce8174125bfac14c4df4a21a8abae859780b5e0da919f3822f4905774d2a9b",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/burn-warm.section.json": "ee73e734a8d224556865928f296b2a2d06c60d58d7146170ae3fee464b3c5c1e",
+    "docs/research/2026-10-04-cloud-resume/fall-cycle3-phases-receipt/launch-status.txt": "0ab9993d0c8defbec02d7fb6c0d6c680be1f0a7ab62eeb2477e14023c1a5081e",
+    "node_modules/vite-node/dist/client.mjs": "7fca45ad5e2e620ca75acf0ab0e7275585fb62f391a5e6fb79b9fde401b67a5e",
+    "dist/assets/simulation-3KOKl7kS.js": "c379ef7ec913f7baa982b1bc7d7cdf7b02d4b3723bd687cc05c6fd0ae151c013",
+    "dist/assets/simulation-3KOKl7kS.js.map": "7b71dcb5a178a0457cc2c53f26246b55571157cad7fcfac09e86a72138926840"
+  }
+}

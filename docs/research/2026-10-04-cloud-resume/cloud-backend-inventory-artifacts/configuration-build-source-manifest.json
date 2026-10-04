@@ -1,0 +1,22 @@
+[
+  {
+    "file": "swiftshader-src__Vulkan__BUILD.gn",
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/Vulkan/BUILD.gn",
+    "sha256": "038d43ff3fcbdb9a78486266d8654fb1d694faa2be70bcf24f7cfb013ad09cfe"
+  },
+  {
+    "file": "swiftshader-src__System__BUILD.gn",
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/System/BUILD.gn",
+    "sha256": "afff088b9d51a550aa5f6689beaecd4327dd63f539ce841c161a1bec40fff6a0"
+  },
+  {
+    "file": "swiftshader-src__Device__BUILD.gn",
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/Device/BUILD.gn",
+    "sha256": "104e2e8fed85a410f6cc6c35ce151be7c79a7bb8acb01d5685300d6caf3fbd55"
+  },
+  {
+    "file": "swiftshader-src__Reactor__reactor.gni",
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/Reactor/reactor.gni",
+    "sha256": "25f06bb6f08e0f018f33ed970f24c913f6a696d886714d499a0cab91f76a27cb"
+  }
+]

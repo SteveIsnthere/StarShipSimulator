@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ❯ docs/research/2026-10-04-cloud-resume/held-interface-25v1sy.test.ts (3 tests | 2 failed) 677ms
+     × stays under 1 ms a call on a long descending arc under the entry interface 301ms
+     × stays inside the 2 ms HUD budget when a climb runs it to its cap 241ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  docs/research/2026-10-04-cloud-resume/held-interface-25v1sy.test.ts > unpoweredFallInto cost > stays under 1 ms a call on a long descending arc under the entry interface
+AssertionError: 1.008 ms per call, 227 s of fall: expected 1.0078518050000003 to be less than 1
+ ❯ docs/research/2026-10-04-cloud-resume/held-interface-25v1sy.test.ts:44:92
+     42|     const perCall = (performance.now() - t0) / runs;
+     43|     expect(out.reached).toBe(true);
+     44|     expect(perCall, `${perCall.toFixed(3)} ms per call, ${out.time.toF…
+       |                                                                                            ^
+     45|   });
+     46| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  docs/research/2026-10-04-cloud-resume/held-interface-25v1sy.test.ts > unpoweredFallInto worst case > stays inside the 2 ms HUD budget when a climb runs it to its cap
+AssertionError: 4.195 ms per call at the cap: expected 4.1946757800000025 to be less than 2
+ ❯ docs/research/2026-10-04-cloud-resume/held-interface-25v1sy.test.ts:69:69
+     67|     const perCall = (performance.now() - t0) / runs;
+     68|     expect(out.reached).toBe(false);
+     69|     expect(perCall, `${perCall.toFixed(3)} ms per call at the cap`).to…
+       |                                                                     ^
+     70|   });
+     71| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  06:58:10
+   Duration  1.08s (transform 269ms, setup 0ms, import 275ms, tests 677ms, environment 0ms)
+

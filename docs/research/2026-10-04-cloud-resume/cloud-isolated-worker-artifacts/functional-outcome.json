@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "draws": 20,
+  "performanceAcceptance": false,
+  "limitation": "Functional topology only; not cadence or GPU hardware acceptance"
+}

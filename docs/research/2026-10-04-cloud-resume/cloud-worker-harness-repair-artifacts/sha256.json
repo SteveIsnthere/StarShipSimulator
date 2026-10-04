@@ -1,0 +1,67 @@
+[
+  {
+    "file": "GO",
+    "sha256": "784f51f761bf6289a097980d4e804c6e7ff40ee8b2558850660e8d94590da0df",
+    "bytes": 24
+  },
+  {
+    "file": "STOP",
+    "sha256": "a11c3d917a2149a4b548217038bc8f2dd2130a1966e0c7af5c4225d81f25a8c3",
+    "bytes": 5
+  },
+  {
+    "file": "SwiftShader.ini",
+    "sha256": "e43ffe92a9336b19c2d6ffa8d9b0287bbfe9eeb37819924f037b54985ae42260",
+    "bytes": 26
+  },
+  {
+    "file": "before-identity.json",
+    "sha256": "15dc21639061660bc5e22ef41ac0204548d5f791bd0ed37bd907fc8b571b6e6e",
+    "bytes": 103188
+  },
+  {
+    "file": "before-topology.json",
+    "sha256": "8fa16d2d4e3142a24f2eac7debe5ccb4508ed2aa9e6e4219c97491f84707b210",
+    "bytes": 21612
+  },
+  {
+    "file": "browser-identity.json",
+    "sha256": "cfcca9f77899665c96b14d2aa1ff345af1ab2d08fe52cc0812772f97cb4a21e9",
+    "bytes": 3410
+  },
+  {
+    "file": "browser-wrapper.sh",
+    "sha256": "08416c333bb91b7719aa8fde2b45d66a9df0f3010e5b6606740d7b2b0755bfbe",
+    "bytes": 790
+  },
+  {
+    "file": "cleanup.json",
+    "sha256": "72523d2b1850277f8c9342ce7aae01d3b1de4de0eeae6e7614fae514ac630dff",
+    "bytes": 1485
+  },
+  {
+    "file": "console.json",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "bytes": 3
+  },
+  {
+    "file": "failure.json",
+    "sha256": "51c99a923846d3fdda37e8898a8631d3971d2d983e902fda3617496aaebfab28",
+    "bytes": 100
+  },
+  {
+    "file": "partial-progress.json",
+    "sha256": "077f13757d7ea5adde471b94afa6357273620f553a4ac75ba7a20bb02377e6c0",
+    "bytes": 2372
+  },
+  {
+    "file": "setup-receipt.json",
+    "sha256": "50ba29d12451abaf0aec2dc83f20b55790ec5ea8cdca984d1e8408df315a729d",
+    "bytes": 103978
+  },
+  {
+    "file": "wrapper-owner.json",
+    "sha256": "3d36255dde3c4838804c839fd2aa031f5a8fcb35fc751534a94cc2fbf7607bc7",
+    "bytes": 67
+  }
+]

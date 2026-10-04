@@ -1,0 +1,127 @@
+[
+  {
+    "file": "GO",
+    "sha256": "784f51f761bf6289a097980d4e804c6e7ff40ee8b2558850660e8d94590da0df",
+    "bytes": 24
+  },
+  {
+    "file": "STOP",
+    "sha256": "a11c3d917a2149a4b548217038bc8f2dd2130a1966e0c7af5c4225d81f25a8c3",
+    "bytes": 5
+  },
+  {
+    "file": "SwiftShader.ini",
+    "sha256": "e43ffe92a9336b19c2d6ffa8d9b0287bbfe9eeb37819924f037b54985ae42260",
+    "bytes": 26
+  },
+  {
+    "file": "before-identity.json",
+    "sha256": "c9777690ac030059ca4df7595a05e15440821970fa97df2c1beea996100fef7b",
+    "bytes": 103188
+  },
+  {
+    "file": "browser-identity.json",
+    "sha256": "4bcf4f5ed465e37d174c9ec8f52101b95078e08f89a1ad145a11fe7a0dd32801",
+    "bytes": 3413
+  },
+  {
+    "file": "browser-wrapper.sh",
+    "sha256": "9d2de4d830e07f65f693277edae6765a9e2fdba44e5be5c085669f6950370fc0",
+    "bytes": 916
+  },
+  {
+    "file": "cleanup.json",
+    "sha256": "c52720b5f27b61f4a011849a5a246b93952c9aa588792e242811b0ce40a76fb7",
+    "bytes": 1392
+  },
+  {
+    "file": "console.json",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "bytes": 3
+  },
+  {
+    "file": "failure.json",
+    "sha256": "b433160276c8a969a6014cfc7483cdd29c40be0dcfc5fff9b4cb2af7b2b583cf",
+    "bytes": 123
+  },
+  {
+    "file": "partial-progress.json",
+    "sha256": "077f13757d7ea5adde471b94afa6357273620f553a4ac75ba7a20bb02377e6c0",
+    "bytes": 2372
+  },
+  {
+    "file": "post-exit-pin-verification.json",
+    "sha256": "1e20eca42a8f2a7ba0647a3edfa28cc9bbb8bf67fae374d8abd6f65505bfa60b",
+    "bytes": 202
+  },
+  {
+    "file": "post-exit-process-verification.json",
+    "sha256": "ca039f1cdae5a6c64813e6e00e2541b0fdb8ea48d4a9e4c73337eb62f5728760",
+    "bytes": 475
+  },
+  {
+    "file": "reviewed-cloud-startup-open-diagnostic-declaration.md",
+    "sha256": "22570c80d537a0e3eb40d32100b555f073daeda9dc390069ab0b928d4bb2846b",
+    "bytes": 3666
+  },
+  {
+    "file": "reviewed-prepare-swiftshader-open-diagnostic.sh",
+    "sha256": "252038d61cc82b2675380b04de35d05f8024f30566e6ed4b44b8cb0fb96cc312",
+    "bytes": 4315
+  },
+  {
+    "file": "reviewed-run-swiftshader-open-diagnostic.mjs",
+    "sha256": "95ec8c439a5e0366239c50e64f7879ed0e8c39d484a00a0fc83d13b03a54fc13",
+    "bytes": 23003
+  },
+  {
+    "file": "setup-receipt.json",
+    "sha256": "2a92876819e5cfe8b7987c24a0134585e636bc8ba0f9d9176ab9a06cb95e6954",
+    "bytes": 104253
+  },
+  {
+    "file": "sha256.json",
+    "sha256": "4512c1b081c83c33805645183934bacd2f3407417d10e68f10ec729a0df50838",
+    "bytes": 2692
+  },
+  {
+    "file": "startup-open.export.log",
+    "sha256": "f9cbc32322879e827da20a1f2279adddeb60b52328c1bcffbc56260ee58a37f9",
+    "bytes": 1048576
+  },
+  {
+    "file": "startup-open.filtered.log",
+    "sha256": "cfc8e75458b9c4cd9e0fb3d9c191cfbd9b2a25c59d6c6e5ca5253ba3f034857d",
+    "bytes": 330
+  },
+  {
+    "file": "startup-open.log",
+    "sha256": "72da7f1dc606a36259582ee044c4effa0f8b0608edb9a0173a95db724f5fd3e2",
+    "bytes": 1923280
+  },
+  {
+    "file": "startup-topology.json",
+    "sha256": "af5b5ae2561ccfac2f2f706d7f42ffe401a0a656276ed9c223c1ac29e445e5ca",
+    "bytes": 25180
+  },
+  {
+    "file": "trace-export-failure.json",
+    "sha256": "2db6f061859e9b349fc83f20b1175ae3cba9bc4dec14adf22a3d8a5289f052c0",
+    "bytes": 102
+  },
+  {
+    "file": "trace-status.json",
+    "sha256": "f6e5f6c2ef3de260ba80824c315f8ba89e6fac5f48d1f1e69ca94b61d2fa7317",
+    "bytes": 557
+  },
+  {
+    "file": "tracer-identity.json",
+    "sha256": "376f760ffb7387244d095c49dabadf9a5493033e7e78ae66a0dd09876bb6265f",
+    "bytes": 2665
+  },
+  {
+    "file": "wrapper-owner.json",
+    "sha256": "c1b69173fe00f1cfa549244ff8a281f7a5016bc9347673277aee1b242a022158",
+    "bytes": 67
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "probe": {
+    "done": false,
+    "frames": [],
+    "warmFrames": [],
+    "noDrawFrames": [],
+    "errors": [],
+    "contexts": [
+      {
+        "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvasId": 1,
+        "canvasTestId": null,
+        "contextType": "webgl",
+        "offscreen": false,
+        "creationWidth": 0,
+        "creationHeight": 0
+      },
+      {
+        "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvasId": 2,
+        "canvasTestId": null,
+        "contextType": "webgl",
+        "offscreen": false,
+        "creationWidth": 0,
+        "creationHeight": 0
+      },
+      {
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "canvasId": 3,
+        "canvasTestId": "world-canvas",
+        "contextType": "webgl2",
+        "offscreen": false,
+        "creationWidth": 1280,
+        "creationHeight": 720
+      }
+    ],
+    "dpr": 1,
+    "progress": {
+      "armed": false,
+      "warmRequested": 0,
+      "warmRemaining": 0,
+      "target": 0,
+      "drawnFrames": 0,
+      "noDrawFrames": 0,
+      "elapsedMs": 0,
+      "inProgressFrame": null
+    }
+  },
+  "renderer": {
+    "backend": "webgl",
+    "backendType": 1,
+    "resolution": 1,
+    "screen": {
+      "width": 1280,
+      "height": 720
+    },
+    "backing": {
+      "width": 1280,
+      "height": 720
+    },
+    "antialias": true,
+    "webgl": {
+      "drawingBufferWidth": 1280,
+      "drawingBufferHeight": 720,
+      "antialias": true,
+      "contextLost": false
+    },
+    "filters": [
+      {
+        "id": "bloom",
+        "attached": true,
+        "enabled": true,
+        "compatible": true,
+        "resolution": "inherit",
+        "antialias": "inherit",
+        "inputResolution": 1,
+        "inputAntialias": true
+      },
+      {
+        "id": "heat",
+        "attached": false,
+        "enabled": true,
+        "compatible": true,
+        "resolution": 1,
+        "antialias": "off",
+        "inputResolution": null,
+        "inputAntialias": null
+      }
+    ]
+  },
+  "errors": []
+}

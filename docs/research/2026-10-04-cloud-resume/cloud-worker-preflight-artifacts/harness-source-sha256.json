@@ -1,0 +1,14 @@
+[
+  {
+    "file": "reviewed-run-swiftshader-worker-preflight.mjs",
+    "sha256": "3052db2fed01215403536b9bb2dc7338d4c00a9267e554d78ce7e0a8f563577a"
+  },
+  {
+    "file": "reviewed-prepare-swiftshader-worker-preflight.sh",
+    "sha256": "6a2a78d13a0c135707d06aff5e2a848e6ec3b1c8bdf84b61409238662d41c4f2"
+  },
+  {
+    "file": "reviewed-cloud-worker-preflight-declaration.md",
+    "sha256": "daed36cb88d4d9b6e3c9ff04f3e9081220559a882c0667ecf29b8bb273091144"
+  }
+]

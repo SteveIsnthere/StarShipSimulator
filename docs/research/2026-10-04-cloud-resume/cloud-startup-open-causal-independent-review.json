@@ -1,0 +1,27 @@
+{
+  "exportedPrefixSha256": "f9cbc32322879e827da20a1f2279adddeb60b52328c1bcffbc56260ee58a37f9",
+  "exportedBytes": 1048576,
+  "localRawBytes": 1923280,
+  "exactLocalPrefixVerified": true,
+  "traceComplete": false,
+  "completeObservedGpuLines": [
+    {
+      "line": 489,
+      "text": "21991 1791099131.521488 chdir(\"/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/\") = 0"
+    },
+    {
+      "line": 526,
+      "text": "21991 1791099131.523419 openat(AT_FDCWD, \"/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/././libvk_swiftshader.so\", O_RDONLY|O_CLOEXEC) = 13"
+    },
+    {
+      "line": 586,
+      "text": "21991 1791099131.530748 openat(AT_FDCWD, \"SwiftShader.ini\", O_RDONLY) = -1 ENOENT (No such file or directory)"
+    },
+    {
+      "line": 595,
+      "text": "21991 1791099131.535781 chdir(\"/tmp/starship-open-diagnostic.kfwD0HQf\") = 0"
+    }
+  ],
+  "approvedPreparationOnly": true,
+  "executionApproved": false
+}

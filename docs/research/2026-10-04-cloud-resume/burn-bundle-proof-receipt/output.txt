@@ -1,0 +1,25 @@
+(node:23192) ExperimentalWarning: vm.USE_MAIN_CONTEXT_DEFAULT_LOADER is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+false !== true
+
+    at /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/burn-proof-JNLVy8.ts:44:69
+    at ViteNodeRunner.runModule (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:368:4)
+    at ViteNodeRunner.directRequest (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:348:3)
+    at ViteNodeRunner.cachedRequest (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:181:11)
+    at ViteNodeRunner.executeFile (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:156:10)
+    at CAC.run (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/cli.mjs:92:28) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

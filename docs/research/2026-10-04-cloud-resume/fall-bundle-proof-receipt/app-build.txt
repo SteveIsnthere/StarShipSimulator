@@ -1,0 +1,73 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+design contract: ok (11 rules, self-test passed)
+copy contract: ok (9 rules, self-test passed)
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 2546 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     1.95 kB │ gzip:   0.86 kB
+dist/assets/InterTight-SemiBold-DJfiTN08.woff2     11.10 kB
+dist/assets/Inter-Regular-BVdEcXjD.woff2           12.00 kB
+dist/assets/Inter-SemiBold-DlULF7c_.woff2          12.46 kB
+dist/assets/JetBrainsMono-Medium-CMl9fZ9Q.woff2    16.54 kB
+dist/assets/charts-BBZhrHKM.css                     0.69 kB │ gzip:   0.35 kB
+dist/assets/plots-D2GbP0iN.css                      1.17 kB │ gzip:   0.46 kB
+dist/assets/uPlot-CnsZ1jie.css                      1.64 kB │ gzip:   0.69 kB
+dist/assets/index-C8QoiIb3.css                     64.14 kB │ gzip:  11.67 kB
+dist/assets/webworkerAll-Coehgybw.js                0.05 kB │ gzip:   0.06 kB
+dist/assets/getTextureBatchBindGroup-CYxtrFJy.js    0.40 kB │ gzip:   0.31 kB │ map:     1.78 kB
+dist/assets/CanvasPool-CgNn9tJV.js                  0.80 kB │ gzip:   0.46 kB │ map:     3.51 kB
+dist/assets/debug-DzyHVcm0.js                       1.79 kB │ gzip:   0.86 kB │ map:    11.07 kB
+dist/assets/plots-BUTA8V1b.js                       4.63 kB │ gzip:   2.28 kB │ map:    24.91 kB
+dist/assets/canvasUtils-DwnslBKm.js                 6.07 kB │ gzip:   2.06 kB │ map:    21.91 kB
+dist/assets/Debrief-BNmgfWh2.js                     6.45 kB │ gzip:   2.53 kB │ map:    19.41 kB
+dist/assets/BlackBox-DDBdSGYH.js                    9.85 kB │ gzip:   4.13 kB │ map:    37.57 kB
+dist/assets/BufferResource-DIXC9Vqz.js             11.08 kB │ gzip:   2.86 kB │ map:    26.53 kB
+dist/assets/init-CdSLmVWr.js                       15.63 kB │ gzip:   4.94 kB │ map:    54.96 kB
+dist/assets/Menu-rWvzgiwv.js                       22.99 kB │ gzip:   7.70 kB │ map:    72.88 kB
+dist/assets/Button-Civldi24.js                     36.83 kB │ gzip:  12.30 kB │ map:   175.21 kB
+dist/assets/Dialog-DhJwMb4K.js                     39.90 kB │ gzip:  13.64 kB │ map:   184.47 kB
+dist/assets/browserAll-Bsb9fUbG.js                 42.70 kB │ gzip:  11.17 kB │ map:   156.94 kB
+dist/assets/uPlot.esm-C4ecZUO0.js                  51.04 kB │ gzip:  22.28 kB │ map:   252.56 kB
+dist/assets/RenderTargetSystem-BDKxo-Jp.js         76.74 kB │ gzip:  21.84 kB │ map:   280.72 kB
+dist/assets/Geometry-nMMUZGZP.js                  104.34 kB │ gzip:  31.85 kB │ map:   509.10 kB
+dist/assets/simulation-3KOKl7kS.js                132.19 kB │ gzip:  40.90 kB │ map:   723.50 kB
+dist/assets/index-DaXepgy_.js                     626.56 kB │ gzip: 196.14 kB │ map: 2,899.48 kB
+
+✓ built in 1.56s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+service worker: 40 assets precached, version 114ebd77cc56
+  assets/index-DaXepgy_.js                           189.8 kB gzip
+  assets/Geometry-nMMUZGZP.js                         30.8 kB gzip
+  assets/Button-Civldi24.js                           11.9 kB gzip
+  assets/simulation-3KOKl7kS.js                       39.7 kB gzip
+  assets/canvasUtils-DwnslBKm.js                       2.0 kB gzip
+  assets/RenderTargetSystem-BDKxo-Jp.js               21.2 kB gzip
+  assets/getTextureBatchBindGroup-CYxtrFJy.js          0.3 kB gzip
+  assets/CanvasPool-CgNn9tJV.js                        0.5 kB gzip
+  assets/BufferResource-DIXC9Vqz.js                    2.8 kB gzip
+  TOTAL first-load JS                                298.9 kB gzip
+  BUDGET                                             300.0 kB gzip
+  (lazy chunks, not counted: BlackBox-DDBdSGYH.js, Debrief-BNmgfWh2.js, Dialog-DhJwMb4K.js, Menu-rWvzgiwv.js, browserAll-Bsb9fUbG.js, debug-DzyHVcm0.js, init-CdSLmVWr.js, plots-BUTA8V1b.js, uPlot.esm-C4ecZUO0.js, webworkerAll-Coehgybw.js)
+  assets/index-C8QoiIb3.css                           11.3 kB gzip (css)
+  Inter-Regular-BVdEcXjD.woff2                        11.7 kB raw
+  Inter-SemiBold-DlULF7c_.woff2                       12.2 kB raw
+  InterTight-SemiBold-DJfiTN08.woff2                  10.8 kB raw
+  JetBrainsMono-Medium-CMl9fZ9Q.woff2                 16.2 kB raw
+  TOTAL fonts                                         50.9 kB raw
+  FONT BUDGET                                         80.0 kB raw
+  TOTAL audio                                          0.0 kB raw
+  AUDIO BUDGET                                       250.0 kB raw
+
+budget: OK — 298.9 kB of 300.0 kB JS
+budget: OK — 50.9 kB of 80.0 kB fonts
+budget: OK — 0.0 kB of 250.0 kB audio
+entry graph: ok (9 first-load files, no uPlot or GSAP)

@@ -1,0 +1,479 @@
+{
+  "nodes": [
+    {
+      "id": 1,
+      "callFrame": {
+        "functionName": "(root)",
+        "scriptId": "0",
+        "url": "",
+        "lineNumber": -1,
+        "columnNumber": -1
+      },
+      "hitCount": 0,
+      "children": [
+        2,
+        7,
+        19
+      ]
+    },
+    {
+      "id": 2,
+      "callFrame": {
+        "functionName": "",
+        "scriptId": "384",
+        "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+        "lineNumber": 0,
+        "columnNumber": -196
+      },
+      "hitCount": 0,
+      "children": [
+        3
+      ]
+    },
+    {
+      "id": 3,
+      "callFrame": {
+        "functionName": "phase",
+        "scriptId": "384",
+        "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+        "lineNumber": 64,
+        "columnNumber": 20
+      },
+      "hitCount": 0,
+      "children": [
+        4
+      ]
+    },
+    {
+      "id": 4,
+      "callFrame": {
+        "functionName": "post",
+        "scriptId": "384",
+        "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+        "lineNumber": 17,
+        "columnNumber": 13
+      },
+      "hitCount": 0,
+      "children": [
+        5
+      ]
+    },
+    {
+      "id": 5,
+      "callFrame": {
+        "functionName": "",
+        "scriptId": "384",
+        "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+        "lineNumber": 18,
+        "columnNumber": 20
+      },
+      "hitCount": 0,
+      "children": [
+        6
+      ]
+    },
+    {
+      "id": 6,
+      "callFrame": {
+        "functionName": "post",
+        "scriptId": "385",
+        "url": "node:inspector",
+        "lineNumber": 117,
+        "columnNumber": 6
+      },
+      "hitCount": 0
+    },
+    {
+      "id": 7,
+      "callFrame": {
+        "functionName": "phase",
+        "scriptId": "384",
+        "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+        "lineNumber": 64,
+        "columnNumber": 20
+      },
+      "hitCount": 0,
+      "children": [
+        8
+      ]
+    },
+    {
+      "id": 8,
+      "callFrame": {
+        "functionName": "",
+        "scriptId": "384",
+        "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+        "lineNumber": 170,
+        "columnNumber": 73
+      },
+      "hitCount": 0,
+      "children": [
+        9
+      ]
+    },
+    {
+      "id": 9,
+      "callFrame": {
+        "functionName": "unpoweredFallInto",
+        "scriptId": "405",
+        "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+        "lineNumber": 462,
+        "columnNumber": 26
+      },
+      "hitCount": 0,
+      "children": [
+        10
+      ]
+    },
+    {
+      "id": 10,
+      "callFrame": {
+        "functionName": "advanceUnpoweredFall",
+        "scriptId": "405",
+        "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+        "lineNumber": 418,
+        "columnNumber": 29
+      },
+      "hitCount": 4,
+      "children": [
+        11
+      ],
+      "positionTicks": [
+        {
+          "line": 426,
+          "ticks": 2
+        },
+        {
+          "line": 429,
+          "ticks": 2
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "callFrame": {
+        "functionName": "fallAcceleration",
+        "scriptId": "405",
+        "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+        "lineNumber": 301,
+        "columnNumber": 25
+      },
+      "hitCount": 15,
+      "children": [
+        12,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "positionTicks": [
+        {
+          "line": 94,
+          "ticks": 1
+        },
+        {
+          "line": 340,
+          "ticks": 1
+        },
+        {
+          "line": 56,
+          "ticks": 1
+        },
+        {
+          "line": 342,
+          "ticks": 2
+        },
+        {
+          "line": 100,
+          "ticks": 1
+        },
+        {
+          "line": 307,
+          "ticks": 1
+        },
+        {
+          "line": 320,
+          "ticks": 1
+        },
+        {
+          "line": 338,
+          "ticks": 1
+        },
+        {
+          "line": 312,
+          "ticks": 1
+        },
+        {
+          "line": 306,
+          "ticks": 4
+        },
+        {
+          "line": 343,
+          "ticks": 1
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "callFrame": {
+        "functionName": "writeAccelerationComponents",
+        "scriptId": "421",
+        "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+        "lineNumber": 84,
+        "columnNumber": 36
+      },
+      "hitCount": 0,
+      "children": [
+        13
+      ]
+    },
+    {
+      "id": 13,
+      "callFrame": {
+        "functionName": "liftSignIsInverted",
+        "scriptId": "421",
+        "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+        "lineNumber": 42,
+        "columnNumber": 27
+      },
+      "hitCount": 0
+    },
+    {
+      "id": 14,
+      "callFrame": {
+        "functionName": "isaAtmosphereInto",
+        "scriptId": "417",
+        "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+        "lineNumber": 308,
+        "columnNumber": 26
+      },
+      "hitCount": 2,
+      "children": [
+        20
+      ],
+      "positionTicks": [
+        {
+          "line": 319,
+          "ticks": 2
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "callFrame": {
+        "functionName": "thermosphereKelvin",
+        "scriptId": "417",
+        "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+        "lineNumber": 288,
+        "columnNumber": 27
+      },
+      "hitCount": 1,
+      "positionTicks": [
+        {
+          "line": 295,
+          "ticks": 1
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "callFrame": {
+        "functionName": "tangentialAcceleration",
+        "scriptId": "422",
+        "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+        "lineNumber": 145,
+        "columnNumber": 31
+      },
+      "hitCount": 1,
+      "positionTicks": [
+        {
+          "line": 148,
+          "ticks": 1
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "callFrame": {
+        "functionName": "",
+        "scriptId": "408",
+        "url": "file:///workspace/StarShipSimulator/src/core/units.ts",
+        "lineNumber": 0,
+        "columnNumber": 31
+      },
+      "hitCount": 26,
+      "positionTicks": [
+        {
+          "line": 1,
+          "ticks": 26
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "callFrame": {
+        "functionName": "verticalGravityAcceleration",
+        "scriptId": "422",
+        "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+        "lineNumber": 76,
+        "columnNumber": 36
+      },
+      "hitCount": 1,
+      "positionTicks": [
+        {
+          "line": 77,
+          "ticks": 1
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "callFrame": {
+        "functionName": "getCrossSectionalArea",
+        "scriptId": "420",
+        "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+        "lineNumber": 54,
+        "columnNumber": 30
+      },
+      "hitCount": 1,
+      "positionTicks": [
+        {
+          "line": 56,
+          "ticks": 1
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "callFrame": {
+        "functionName": "(garbage collector)",
+        "scriptId": "0",
+        "url": "",
+        "lineNumber": -1,
+        "columnNumber": -1
+      },
+      "hitCount": 1
+    }
+  ],
+  "startTime": 6905552499,
+  "endTime": 6905660350,
+  "samples": [
+    6,
+    12,
+    13,
+    14,
+    11,
+    11,
+    11,
+    11,
+    10,
+    14,
+    11,
+    15,
+    10,
+    11,
+    10,
+    10,
+    10,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    11,
+    17,
+    11,
+    18,
+    11,
+    14,
+    19,
+    11,
+    11,
+    20,
+    11,
+    11,
+    11,
+    11
+  ],
+  "timeDeltas": [
+    48121,
+    506,
+    40,
+    53,
+    669,
+    1081,
+    1254,
+    916,
+    1091,
+    1091,
+    1771,
+    1065,
+    1089,
+    1097,
+    1087,
+    488,
+    602,
+    1093,
+    1095,
+    1086,
+    1079,
+    1085,
+    1099,
+    1079,
+    1088,
+    1093,
+    1086,
+    1084,
+    1087,
+    1101,
+    1090,
+    1085,
+    1087,
+    1095,
+    1083,
+    1093,
+    1093,
+    1082,
+    1090,
+    1086,
+    1091,
+    1086,
+    1085,
+    1088,
+    1092,
+    1114,
+    1086,
+    1095,
+    1085,
+    2702,
+    1093,
+    1096,
+    1090,
+    1099,
+    1083,
+    1085,
+    1087
+  ]
+}

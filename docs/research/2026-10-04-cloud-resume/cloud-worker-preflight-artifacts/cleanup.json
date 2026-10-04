@@ -1,0 +1,58 @@
+{
+  "actions": [
+    "Error: page.evaluate: Error: presentation is not mounted\n    at t (http://127.0.0.1:38461/assets/index-DaXepgy_.js:599:19964)\n    at Object.presentation (http://127.0.0.1:38461/assets/index-DaXepgy_.js:599:20077)\n    at Object.presentation (http://127.0.0.1:38461/assets/debug-DzyHVcm0.js:1:1215)\n    at eval (eval at evaluate (:311:30), <anonymous>:1:73)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+  ],
+  "ownedIdentities": [
+    {
+      "pid": 20676,
+      "starttime": "714600",
+      "ppid": 20651,
+      "pgrp": 20676,
+      "state": "S",
+      "exe": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell"
+    },
+    {
+      "pid": 20680,
+      "starttime": "714609",
+      "ppid": 1,
+      "pgrp": 20676,
+      "state": "Z"
+    },
+    {
+      "pid": 20681,
+      "starttime": "714610",
+      "ppid": 1,
+      "pgrp": 20676,
+      "state": "Z"
+    },
+    {
+      "pid": 20696,
+      "starttime": "714612",
+      "ppid": 20680,
+      "pgrp": 20676,
+      "state": "S",
+      "exe": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell"
+    },
+    {
+      "pid": 20699,
+      "starttime": "714613",
+      "ppid": 20676,
+      "pgrp": 20676,
+      "state": "S",
+      "exe": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell"
+    },
+    {
+      "pid": 20723,
+      "starttime": "714616",
+      "ppid": 20681,
+      "pgrp": 20676,
+      "state": "Z"
+    }
+  ],
+  "remaining": [],
+  "inaccessibleOwned": [],
+  "verifiedDescendantAbsence": true,
+  "cleanupMs": 65,
+  "launchSettled": true,
+  "elapsedMs": 1660
+}

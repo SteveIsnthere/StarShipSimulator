@@ -1,0 +1,236 @@
+
+/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/libvk_swiftshader.so:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+000000000025b3f8 <vkGetInstanceProcAddr@@Base+0x1710c1>:
+  25b3f8:	55                   	push   %rbp
+  25b3f9:	48 89 e5             	mov    %rsp,%rbp
+  25b3fc:	41 57                	push   %r15
+  25b3fe:	41 56                	push   %r14
+  25b400:	41 55                	push   %r13
+  25b402:	41 54                	push   %r12
+  25b404:	53                   	push   %rbx
+  25b405:	48 81 ec b8 00 00 00 	sub    $0xb8,%rsp
+  25b40c:	48 89 7d 80          	mov    %rdi,-0x80(%rbp)
+  25b410:	48 bb ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rbx
+  25b417:	ff ff 7f 
+  25b41a:	0f 57 c0             	xorps  %xmm0,%xmm0
+  25b41d:	4c 8d bd 20 ff ff ff 	lea    -0xe0(%rbp),%r15
+  25b424:	41 0f 29 47 10       	movaps %xmm0,0x10(%r15)
+  25b429:	41 0f 29 07          	movaps %xmm0,(%r15)
+  25b42d:	49 c7 47 20 00 00 00 	movq   $0x0,0x20(%r15)
+  25b434:	00 
+  25b435:	48 8d 35 78 a2 de ff 	lea    -0x215d88(%rip),%rsi        # 456b4 <vk_icdGetInstanceProcAddr@@Base-0xa2f9d>
+  25b43c:	4c 8d 65 a0          	lea    -0x60(%rbp),%r12
+  25b440:	4c 89 e7             	mov    %r12,%rdi
+  25b443:	e8 22 ee e6 ff       	call   ca26a <vk_icdGetInstanceProcAddr@@Base-0x1e3e7>
+  25b448:	4c 89 ff             	mov    %r15,%rdi
+  25b44b:	4c 89 e6             	mov    %r12,%rsi
+  25b44e:	e8 5b e3 ff ff       	call   2597ae <vkGetInstanceProcAddr@@Base+0x16f477>
+  25b453:	41 80 7c 24 17 00    	cmpb   $0x0,0x17(%r12)
+  25b459:	79 10                	jns    25b46b <vkGetInstanceProcAddr@@Base+0x171134>
+  25b45b:	48 8b 7d a0          	mov    -0x60(%rbp),%rdi
+  25b45f:	48 8b 75 b0          	mov    -0x50(%rbp),%rsi
+  25b463:	48 21 de             	and    %rbx,%rsi
+  25b466:	e8 95 b4 e6 ff       	call   c6900 <vk_icdGetInstanceProcAddr@@Base-0x21d51>
+  25b46b:	48 8b 5d 80          	mov    -0x80(%rbp),%rbx
+  25b46f:	0f 57 c0             	xorps  %xmm0,%xmm0
+  25b472:	0f 11 03             	movups %xmm0,(%rbx)
+  25b475:	0f 11 43 10          	movups %xmm0,0x10(%rbx)
+  25b479:	0f 11 43 20          	movups %xmm0,0x20(%rbx)
+  25b47d:	48 c7 43 30 00 00 00 	movq   $0x0,0x30(%rbx)
+  25b484:	00 
+  25b485:	48 8d 7b 20          	lea    0x20(%rbx),%rdi
+  25b489:	48 c7 43 08 ff ff ff 	movq   $0xffffffffffffffff,0x8(%rbx)
+  25b490:	ff 
+  25b491:	c6 43 14 00          	movb   $0x0,0x14(%rbx)
+  25b495:	48 c7 43 18 e8 03 00 	movq   $0x3e8,0x18(%rbx)
+  25b49c:	00 
+  25b49d:	48 8d 35 e6 0d e1 ff 	lea    -0x1ef21a(%rip),%rsi        # 6c28a <vk_icdGetInstanceProcAddr@@Base-0x7c3c7>
+  25b4a4:	48 89 bd 48 ff ff ff 	mov    %rdi,-0xb8(%rbp)
+  25b4ab:	e8 ba ed e6 ff       	call   ca26a <vk_icdGetInstanceProcAddr@@Base-0x1e3e7>
+  25b4b0:	48 8d 35 9b 51 de ff 	lea    -0x21ae65(%rip),%rsi        # 40652 <vk_icdGetInstanceProcAddr@@Base-0xa7fff>
+  25b4b7:	4c 89 e7             	mov    %r12,%rdi
+  25b4ba:	e8 ab ed e6 ff       	call   ca26a <vk_icdGetInstanceProcAddr@@Base-0x1e3e7>
+  25b4bf:	48 8d 35 b8 0c de ff 	lea    -0x21f348(%rip),%rsi        # 3c17e <vk_icdGetInstanceProcAddr@@Base-0xac4d3>
+  25b4c6:	4c 8d 6d c0          	lea    -0x40(%rbp),%r13
+  25b4ca:	4c 89 ef             	mov    %r13,%rdi
+  25b4cd:	e8 98 ed e6 ff       	call   ca26a <vk_icdGetInstanceProcAddr@@Base-0x1e3e7>
+  25b4d2:	48 8d bd 20 ff ff ff 	lea    -0xe0(%rbp),%rdi
+  25b4d9:	4c 89 e6             	mov    %r12,%rsi
+  25b4dc:	4c 89 ea             	mov    %r13,%rdx
+  25b4df:	31 c9                	xor    %ecx,%ecx
+  25b4e1:	e8 14 04 00 00       	call   25b8fa <vkGetInstanceProcAddr@@Base+0x1715c3>
+  25b4e6:	89 03                	mov    %eax,(%rbx)
+
+
+/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/libvk_swiftshader.so:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000002597ae <vkGetInstanceProcAddr@@Base+0x16f477>:
+  2597ae:	55                   	push   %rbp
+  2597af:	48 89 e5             	mov    %rsp,%rbp
+  2597b2:	41 57                	push   %r15
+  2597b4:	41 56                	push   %r14
+  2597b6:	53                   	push   %rbx
+  2597b7:	48 81 ec 68 01 00 00 	sub    $0x168,%rsp
+  2597be:	49 89 f6             	mov    %rsi,%r14
+  2597c1:	48 89 fb             	mov    %rdi,%rbx
+  2597c4:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+  2597cb:	00 00 
+  2597cd:	48 89 45 e0          	mov    %rax,-0x20(%rbp)
+  2597d1:	0f 57 c0             	xorps  %xmm0,%xmm0
+  2597d4:	0f 11 47 10          	movups %xmm0,0x10(%rdi)
+  2597d8:	0f 11 07             	movups %xmm0,(%rdi)
+  2597db:	c7 47 20 00 00 80 3f 	movl   $0x3f800000,0x20(%rdi)
+  2597e2:	4c 8d bd 88 fe ff ff 	lea    -0x178(%rbp),%r15
+  2597e9:	ba 58 01 00 00       	mov    $0x158,%edx
+  2597ee:	4c 89 ff             	mov    %r15,%rdi
+  2597f1:	31 f6                	xor    %esi,%esi
+  2597f3:	e8 e8 87 16 00       	call   3c1fe0 <memset@plt>
+  2597f8:	4c 89 ff             	mov    %r15,%rdi
+  2597fb:	4c 89 f6             	mov    %r14,%rsi
+  2597fe:	ba 08 00 00 00       	mov    $0x8,%edx
+  259803:	e8 d2 00 00 00       	call   2598da <vkGetInstanceProcAddr@@Base+0x16f5a3>
+  259808:	49 8b 07             	mov    (%r15),%rax
+  25980b:	48 8b 40 e8          	mov    -0x18(%rax),%rax
+  25980f:	f6 84 05 a8 fe ff ff 	testb  $0x5,-0x158(%rbp,%rax,1)
+  259816:	05 
+  259817:	74 71                	je     25988a <vkGetInstanceProcAddr@@Base+0x16f553>
+  259819:	48 8d 05 68 9c 16 00 	lea    0x169c68(%rip),%rax        # 3c3488 <__tls_get_addr@plt+0x1488>
+  259820:	48 8d 9d 48 ff ff ff 	lea    -0xb8(%rbp),%rbx
+  259827:	48 89 83 40 ff ff ff 	mov    %rax,-0xc0(%rbx)
+  25982e:	48 8d 05 a3 9c 16 00 	lea    0x169ca3(%rip),%rax        # 3c34d8 <__tls_get_addr@plt+0x14d8>
+  259835:	48 89 03             	mov    %rax,(%rbx)
+  259838:	48 8d 05 71 9c 16 00 	lea    0x169c71(%rip),%rax        # 3c34b0 <__tls_get_addr@plt+0x14b0>
+  25983f:	48 89 83 50 ff ff ff 	mov    %rax,-0xb0(%rbx)
+  259846:	48 8d bd a0 fe ff ff 	lea    -0x160(%rbp),%rdi
+  25984d:	e8 0e c6 e6 ff       	call   c5e60 <vk_icdGetInstanceProcAddr@@Base-0x227f1>
+  259852:	48 8d 35 6f ed 17 00 	lea    0x17ed6f(%rip),%rsi        # 3d85c8 <__tls_get_addr@plt+0x165c8>
+  259859:	48 8d bd 88 fe ff ff 	lea    -0x178(%rbp),%rdi
+  259860:	e8 73 54 16 00       	call   3becd8 <vkGetInstanceProcAddr@@Base+0x2d49a1>
+  259865:	48 89 df             	mov    %rbx,%rdi
+  259868:	e8 c3 8c e6 ff       	call   c2530 <vk_icdGetInstanceProcAddr@@Base-0x26121>
+  25986d:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+  259874:	00 00 
+  259876:	48 3b 45 e0          	cmp    -0x20(%rbp),%rax
+  25987a:	75 58                	jne    2598d4 <vkGetInstanceProcAddr@@Base+0x16f59d>
+  25987c:	48 81 c4 68 01 00 00 	add    $0x168,%rsp
+  259883:	5b                   	pop    %rbx
+  259884:	41 5e                	pop    %r14
+  259886:	41 5f                	pop    %r15
+  259888:	5d                   	pop    %rbp
+  259889:	c3                   	ret
+  25988a:	48 8d b5 88 fe ff ff 	lea    -0x178(%rbp),%rsi
+  259891:	48 89 df             	mov    %rbx,%rdi
+  259894:	e8 29 01 00 00       	call   2599c2 <vkGetInstanceProcAddr@@Base+0x16f68b>
+  259899:	48 8d bd a0 fe ff ff 	lea    -0x160(%rbp),%rdi
+  2598a0:	e8 8b c6 e6 ff       	call   c5f30 <vk_icdGetInstanceProcAddr@@Base-0x22721>
+  2598a5:	48 85 c0             	test   %rax,%rax
+  2598a8:	0f 85 6b ff ff ff    	jne    259819 <vkGetInstanceProcAddr@@Base+0x16f4e2>
+  2598ae:	48 8b 85 88 fe ff ff 	mov    -0x178(%rbp),%rax
+  2598b5:	48 8b 40 e8          	mov    -0x18(%rax),%rax
+  2598b9:	48 8d 3c 28          	lea    (%rax,%rbp,1),%rdi
+  2598bd:	48 81 c7 88 fe ff ff 	add    $0xfffffffffffffe88,%rdi
+  2598c4:	8b 77 20             	mov    0x20(%rdi),%esi
+  2598c7:	83 ce 04             	or     $0x4,%esi
+  2598ca:	e8 01 11 14 00       	call   39a9d0 <vkGetInstanceProcAddr@@Base+0x2b0699>
+  2598cf:	e9 45 ff ff ff       	jmp    259819 <vkGetInstanceProcAddr@@Base+0x16f4e2>
+  2598d4:	e8 b7 86 16 00       	call   3c1f90 <__stack_chk_fail@plt>
+  2598d9:	cc                   	int3
+  2598da:	55                   	push   %rbp
+  2598db:	48 89 e5             	mov    %rsp,%rbp
+  2598de:	41 57                	push   %r15
+  2598e0:	41 56                	push   %r14
+  2598e2:	41 55                	push   %r13
+  2598e4:	41 54                	push   %r12
+  2598e6:	53                   	push   %rbx
+  2598e7:	50                   	push   %rax
+  2598e8:	89 55 d4             	mov    %edx,-0x2c(%rbp)
+  2598eb:	49 89 f7             	mov    %rsi,%r15
+  2598ee:	48 89 fb             	mov    %rdi,%rbx
+  2598f1:	48 81 c7 c0 00 00 00 	add    $0xc0,%rdi
+  2598f8:	45 31 ed             	xor    %r13d,%r13d
+  2598fb:	4c 89 ab f0 00 00 00 	mov    %r13,0xf0(%rbx)
+  259902:	4c 8d 35 a7 9b 16 00 	lea    0x169ba7(%rip),%r14        # 3c34b0 <__tls_get_addr@plt+0x14b0>
+  259909:	4c 89 73 10          	mov    %r14,0x10(%rbx)
+  25990d:	4c 8d 63 18          	lea    0x18(%rbx),%r12
+  259911:	48 8d 05 60 9c 16 00 	lea    0x169c60(%rip),%rax        # 3c3578 <__tls_get_addr@plt+0x1578>
+  259918:	48 89 03             	mov    %rax,(%rbx)
+  25991b:	48 8d 05 7e 9c 16 00 	lea    0x169c7e(%rip),%rax        # 3c35a0 <__tls_get_addr@plt+0x15a0>
+  259922:	48 89 83 c0 00 00 00 	mov    %rax,0xc0(%rbx)
+  259929:	4c 89 6b 08          	mov    %r13,0x8(%rbx)
+  25992d:	4c 89 e6             	mov    %r12,%rsi
+  259930:	e8 6b 11 14 00       	call   39aaa0 <vkGetInstanceProcAddr@@Base+0x2b0769>
+  259935:	4c 89 ab 48 01 00 00 	mov    %r13,0x148(%rbx)
+  25993c:	c6 83 54 01 00 00 00 	movb   $0x0,0x154(%rbx)
+  259943:	c7 83 50 01 00 00 ff 	movl   $0xffffffff,0x150(%rbx)
+  25994a:	ff ff ff 
+  25994d:	48 8d 05 34 9b 16 00 	lea    0x169b34(%rip),%rax        # 3c3488 <__tls_get_addr@plt+0x1488>
+  259954:	48 89 03             	mov    %rax,(%rbx)
+  259957:	48 8d 05 7a 9b 16 00 	lea    0x169b7a(%rip),%rax        # 3c34d8 <__tls_get_addr@plt+0x14d8>
+  25995e:	48 89 83 c0 00 00 00 	mov    %rax,0xc0(%rbx)
+  259965:	4c 89 73 10          	mov    %r14,0x10(%rbx)
+  259969:	4c 89 e7             	mov    %r12,%rdi
+  25996c:	e8 9f b7 e6 ff       	call   c5110 <vk_icdGetInstanceProcAddr@@Base-0x23541>
+  259971:	41 80 7f 17 00       	cmpb   $0x0,0x17(%r15)
+  259976:	79 03                	jns    25997b <vkGetInstanceProcAddr@@Base+0x16f644>
+  259978:	4d 8b 3f             	mov    (%r15),%r15
+  25997b:	4c 89 e7             	mov    %r12,%rdi
+  25997e:	4c 89 fe             	mov    %r15,%rsi
+  259981:	8b 55 d4             	mov    -0x2c(%rbp),%edx
+  259984:	e8 c7 b5 e6 ff       	call   c4f50 <vk_icdGetInstanceProcAddr@@Base-0x23701>
+  259989:	48 85 c0             	test   %rax,%rax
+  25998c:	74 0f                	je     25999d <vkGetInstanceProcAddr@@Base+0x16f666>
+  25998e:	48 83 c4 08          	add    $0x8,%rsp
+  259992:	5b                   	pop    %rbx
+  259993:	41 5c                	pop    %r12
+  259995:	41 5d                	pop    %r13
+  259997:	41 5e                	pop    %r14
+  259999:	41 5f                	pop    %r15
+  25999b:	5d                   	pop    %rbp
+  25999c:	c3                   	ret
+  25999d:	48 8b 03             	mov    (%rbx),%rax
+  2599a0:	48 8b 40 e8          	mov    -0x18(%rax),%rax
+  2599a4:	48 8d 3c 03          	lea    (%rbx,%rax,1),%rdi
+  2599a8:	8b 74 03 20          	mov    0x20(%rbx,%rax,1),%esi
+  2599ac:	83 ce 04             	or     $0x4,%esi
+  2599af:	48 83 c4 08          	add    $0x8,%rsp
+  2599b3:	5b                   	pop    %rbx
+  2599b4:	41 5c                	pop    %r12
+  2599b6:	41 5d                	pop    %r13
+  2599b8:	41 5e                	pop    %r14
+  2599ba:	41 5f                	pop    %r15
+  2599bc:	5d                   	pop    %rbp
+  2599bd:	e9 0e 10 14 00       	jmp    39a9d0 <vkGetInstanceProcAddr@@Base+0x2b0699>
+
+
+/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/libvk_swiftshader.so:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000000c4f50 <vk_icdGetInstanceProcAddr@@Base-0x23701>:
+   c4f50:	55                   	push   %rbp
+   c4f51:	48 89 e5             	mov    %rsp,%rbp
+   c4f54:	41 56                	push   %r14
+   c4f56:	53                   	push   %rbx
+   c4f57:	48 83 7f 78 00       	cmpq   $0x0,0x78(%rdi)
+   c4f5c:	75 7a                	jne    c4fd8 <vk_icdGetInstanceProcAddr@@Base-0x23679>
+   c4f5e:	41 89 d6             	mov    %edx,%r14d
+   c4f61:	48 89 f1             	mov    %rsi,%rcx
+   c4f64:	48 89 fb             	mov    %rdi,%rbx
+   c4f67:	83 e2 fd             	and    $0xfffffffd,%edx
+   c4f6a:	83 fa 08             	cmp    $0x8,%edx
+   c4f6d:	0f 85 a1 00 00 00    	jne    c5014 <vk_icdGetInstanceProcAddr@@Base-0x2363d>
+   c4f73:	48 8d 35 79 cf f7 ff 	lea    -0x83087(%rip),%rsi        # 41ef3 <vk_icdGetInstanceProcAddr@@Base-0xa675e>
+   c4f7a:	48 89 cf             	mov    %rcx,%rdi
+   c4f7d:	e8 6e cd 2f 00       	call   3c1cf0 <fopen64@plt>
+   c4f82:	48 89 43 78          	mov    %rax,0x78(%rbx)
+   c4f86:	48 85 c0             	test   %rax,%rax
+   c4f89:	74 4d                	je     c4fd8 <vk_icdGetInstanceProcAddr@@Base-0x23679>
+   c4f8b:	44 89 b3 98 00 00 00 	mov    %r14d,0x98(%rbx)

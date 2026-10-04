@@ -1,0 +1,9 @@
+{
+  "bundleManifestSha256": "07ef404bb5667e951f53099c703ccd06567c8c65e76341d8fc6729b9f200fd49",
+  "files": 287,
+  "originalBrowser": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell",
+  "actualBrowser": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell",
+  "nodeVersion": "v22.23.3",
+  "nodeExecutable": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+  "nodeSha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+}

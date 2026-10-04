@@ -1,0 +1,50 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/System/Configurator.cpp",
+    "revision": "5b0479bd2d15058aaa9eb490e364f920ff824a8c",
+    "file": "docs/research/2026-10-04-cloud-resume/cloud-graphics-cycle2-review-sources/src__System__Configurator.cpp",
+    "sha256": "3161694f6538817b39029f27847e22ff8f80ccda8bca0f2d62655a0d92117e73"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/System/Configurator.hpp",
+    "revision": "5b0479bd2d15058aaa9eb490e364f920ff824a8c",
+    "file": "docs/research/2026-10-04-cloud-resume/cloud-graphics-cycle2-review-sources/src__System__Configurator.hpp",
+    "sha256": "5a85e3f8dd47c980fe151c82f0732c203bda4f972d4e90720744f0637eebd853"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/System/SwiftConfig.cpp",
+    "revision": "5b0479bd2d15058aaa9eb490e364f920ff824a8c",
+    "file": "docs/research/2026-10-04-cloud-resume/cloud-graphics-cycle2-review-sources/src__System__SwiftConfig.cpp",
+    "sha256": "cb3c9d010f955e7165578f024b903f11a670b1aec97518a8464a27da53c7acc1"
+  },
+  {
+    "url": "https://chromium.googlesource.com/chromium/src/+/151.0.7922.34/content/common/gpu_pre_sandbox_hook_linux.cc?format=TEXT",
+    "revision": "151.0.7922.34",
+    "file": "docs/research/2026-10-04-cloud-resume/cloud-graphics-cycle2-review-sources/chromium__content__common__gpu_pre_sandbox_hook_linux.cc",
+    "sha256": "6484df28cc337258695fdcb99b44f4c28e741e2bb229adde75fefc6fd5612f05"
+  },
+  {
+    "url": "https://chromium.googlesource.com/chromium/src/+/151.0.7922.34/content/gpu/gpu_main.cc?format=TEXT",
+    "revision": "151.0.7922.34",
+    "file": "docs/research/2026-10-04-cloud-resume/cloud-graphics-cycle2-review-sources/chromium__content__gpu__gpu_main.cc",
+    "sha256": "92069dde535c687534758fca6013ac15da9f19629ef1c71315cf64aa82254fd3"
+  },
+  {
+    "url": "https://chromium.googlesource.com/chromium/src/+/151.0.7922.34/gpu/ipc/service/gpu_init.cc?format=TEXT",
+    "revision": "151.0.7922.34",
+    "file": "docs/research/2026-10-04-cloud-resume/cloud-graphics-cycle2-review-sources/chromium__gpu__ipc__service__gpu_init.cc",
+    "sha256": "b9e0b15ad38d6193782c7e94d22b0513028880d9bb806ac0ee53491755286ff2"
+  },
+  {
+    "url": "https://chromium.googlesource.com/chromium/src/+/151.0.7922.34/sandbox/policy/linux/bpf_gpu_policy_linux.cc?format=TEXT",
+    "revision": "151.0.7922.34",
+    "file": "docs/research/2026-10-04-cloud-resume/cloud-graphics-cycle2-review-sources/chromium__sandbox__policy__linux__bpf_gpu_policy_linux.cc",
+    "sha256": "0c9c7cc1aae9e2ae16e939f6693608efd7072b0598e93d4bbbe560d863df92c9"
+  },
+  {
+    "url": "https://chromium.googlesource.com/chromium/src/+/151.0.7922.34/sandbox/policy/linux/sandbox_linux.cc?format=TEXT",
+    "revision": "151.0.7922.34",
+    "file": "docs/research/2026-10-04-cloud-resume/cloud-graphics-cycle2-review-sources/chromium__sandbox__policy__linux__sandbox_linux.cc",
+    "sha256": "35c62d065e2f2f8eab5cfe9d75c83c6285581ffac9d3f23be710652eb7736567"
+  }
+]

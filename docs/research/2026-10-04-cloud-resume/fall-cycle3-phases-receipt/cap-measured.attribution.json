@@ -1,0 +1,252 @@
+{
+  "label": "cap-measured",
+  "sampleCount": 172,
+  "sampledMs": 241.426,
+  "rows": [
+    {
+      "id": 11,
+      "function": "fallAcceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "self_ms": 96.959,
+      "inclusive_ms": 170.15
+    },
+    {
+      "id": 6,
+      "function": "post",
+      "url": "node:inspector",
+      "self_ms": 45.327,
+      "inclusive_ms": 45.327
+    },
+    {
+      "id": 12,
+      "function": "isaAtmosphereInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "self_ms": 31.704,
+      "inclusive_ms": 41.504
+    },
+    {
+      "id": 10,
+      "function": "advanceUnpoweredFall",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "self_ms": 19.687,
+      "inclusive_ms": 192.813
+    },
+    {
+      "id": 20,
+      "function": "thermosphereKelvin",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "self_ms": 9.8,
+      "inclusive_ms": 9.8
+    },
+    {
+      "id": 27,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+      "self_ms": 3.33,
+      "inclusive_ms": 3.33
+    },
+    {
+      "id": 33,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/units.ts",
+      "self_ms": 3.261,
+      "inclusive_ms": 3.261
+    },
+    {
+      "id": 30,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+      "self_ms": 3.258,
+      "inclusive_ms": 3.258
+    },
+    {
+      "id": 29,
+      "function": "meanWindAt",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+      "self_ms": 2.254,
+      "inclusive_ms": 2.254
+    },
+    {
+      "id": 24,
+      "function": "(garbage collector)",
+      "url": "",
+      "self_ms": 2.194,
+      "inclusive_ms": 2.194
+    },
+    {
+      "id": 19,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+      "self_ms": 2.183,
+      "inclusive_ms": 2.183
+    },
+    {
+      "id": 22,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+      "self_ms": 2.175,
+      "inclusive_ms": 2.175
+    },
+    {
+      "id": 28,
+      "function": "validateDamageControlForcing",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+      "self_ms": 2.174,
+      "inclusive_ms": 2.174
+    },
+    {
+      "id": 16,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+      "self_ms": 2.17,
+      "inclusive_ms": 2.17
+    },
+    {
+      "id": 34,
+      "function": "meanWindAt",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+      "self_ms": 1.891,
+      "inclusive_ms": 1.891
+    },
+    {
+      "id": 13,
+      "function": "verticalGravityAcceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+      "self_ms": 1.105,
+      "inclusive_ms": 2.192
+    },
+    {
+      "id": 9,
+      "function": "unpoweredFallInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "self_ms": 1.092,
+      "inclusive_ms": 193.905
+    },
+    {
+      "id": 32,
+      "function": "writeAccelerationComponents",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+      "self_ms": 1.09,
+      "inclusive_ms": 1.09
+    },
+    {
+      "id": 14,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+      "self_ms": 1.087,
+      "inclusive_ms": 1.087
+    },
+    {
+      "id": 23,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "self_ms": 1.087,
+      "inclusive_ms": 1.087
+    },
+    {
+      "id": 25,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+      "self_ms": 1.087,
+      "inclusive_ms": 1.087
+    },
+    {
+      "id": 17,
+      "function": "thermosphereKelvin",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "self_ms": 1.086,
+      "inclusive_ms": 1.086
+    },
+    {
+      "id": 35,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+      "self_ms": 1.086,
+      "inclusive_ms": 1.086
+    },
+    {
+      "id": 26,
+      "function": "writeDamageControls",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+      "self_ms": 1.085,
+      "inclusive_ms": 1.085
+    },
+    {
+      "id": 31,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+      "self_ms": 1.085,
+      "inclusive_ms": 1.085
+    },
+    {
+      "id": 21,
+      "function": "getLiftCoefficient",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+      "self_ms": 1.085,
+      "inclusive_ms": 1.085
+    },
+    {
+      "id": 18,
+      "function": "tangentialAcceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+      "self_ms": 1.084,
+      "inclusive_ms": 1.084
+    },
+    {
+      "id": 1,
+      "function": "(root)",
+      "url": "",
+      "self_ms": 0.0,
+      "inclusive_ms": 241.426
+    },
+    {
+      "id": 2,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+      "self_ms": 0.0,
+      "inclusive_ms": 45.327
+    },
+    {
+      "id": 3,
+      "function": "phase",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+      "self_ms": 0.0,
+      "inclusive_ms": 45.327
+    },
+    {
+      "id": 4,
+      "function": "post",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+      "self_ms": 0.0,
+      "inclusive_ms": 45.327
+    },
+    {
+      "id": 5,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+      "self_ms": 0.0,
+      "inclusive_ms": 45.327
+    },
+    {
+      "id": 7,
+      "function": "phase",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+      "self_ms": 0.0,
+      "inclusive_ms": 193.905
+    },
+    {
+      "id": 8,
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cycle3-phases-ocDcmi.ts",
+      "self_ms": 0.0,
+      "inclusive_ms": 193.905
+    },
+    {
+      "id": 15,
+      "function": "(program)",
+      "url": "",
+      "self_ms": 0.0,
+      "inclusive_ms": 0.0
+    }
+  ]
+}
