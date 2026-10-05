@@ -17,7 +17,7 @@ import {
 } from './atmosphere-look';
 import { skyLightness, skyTint, skyTintLit } from './sky';
 import { groundDaylight, groundShadow, createSunLight, type GroundShadow, type SunLight } from './sun';
-import { vehicleDiameter, vehicleHeight } from '$core/constants';
+import { SHIP } from '$core/vehicle';
 import { scaleColour } from './colour';
 import { horizonCurve, horizonDrop, HORIZON_SEGMENTS } from './horizon';
 import { createCoast } from './coast';
@@ -42,6 +42,8 @@ interface Placed {
 
 /** M11.4 — what the ground needs to know about the light and the caster. */
 export interface WorldLighting {
+  readonly vehicleHeight?: number;
+  readonly vehicleDiameter?: number;
   readonly sun: SunLight;
   /** m — the vehicle, for its shadow. */
   readonly downRangeDistance: number;
@@ -334,8 +336,8 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
         groundShadow(
           lighting.altitude,
           lighting.pitch,
-          vehicleHeight,
-          vehicleDiameter,
+          lighting.vehicleHeight ?? SHIP.height,
+          lighting.vehicleDiameter ?? SHIP.diameter,
           lighting.sun,
           shadowGeometry,
         );

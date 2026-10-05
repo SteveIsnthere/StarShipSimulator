@@ -11,6 +11,14 @@ export const boosterSpecs=['booster-sep','rtls'].map(id=>({
 }));
 export function boosterSample(state:SimState):Sample {
   const autopilot={...state.autopilot};delete autopilot.boosterPrediction;
+  if (autopilot.boosterSource) {
+    // Keep lineage, validity and issued policy events. Owned future snapshots
+    // and paid receipt queues are checked by exact source-provenance tests; like
+    // the search job, they are not another live trajectory to record here.
+    const source:Record<string,unknown>={...autopilot.boosterSource};
+    delete source.returned;delete source.expected;delete source.receipts;
+    return flattenState({...state,autopilot:{...autopilot,boosterSource:source}});
+  }
   return flattenState({...state,autopilot});
 }
 export function recordBooster(spec:typeof boosterSpecs[number]):Golden {

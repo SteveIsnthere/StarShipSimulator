@@ -9,6 +9,7 @@ import { describe, expect, it } from 'vitest';
 import { createInitialState, type SimState } from '$core/state';
 import { step } from '$core/step';
 import * as cmd from '$core/control/commands';
+import { SHIP } from '$core/vehicle';
 
 const DT = 1 / 120;
 
@@ -145,7 +146,9 @@ describe('the intro demo — AGENTS.md lists this under "what must never change"
     expect(end.autopilot.demoAutoLandOn, 'demo should have completed').toBe(false);
     expect(end.failures.crashed, 'the intro must not crash').toBe(false);
     expect(end.failures.inFlightBreakUp).toBe(false);
-    expect(end.kinematics.altitude).toBeLessThan(26);
+    // Keep the original one-metre ground-clearance bound (26 m minus the
+    // old 50 m hull's half-height). V3's hull is 52 m; altitude is its centre.
+    expect(end.kinematics.altitude - SHIP.height / 2).toBeLessThan(1);
 
     // welcome.js's checkIfTD hands control back to the player.
     expect(end.status.finLocked).toBe(false);

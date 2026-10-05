@@ -122,10 +122,8 @@ describe('what the fix must not break', () => {
     // Drain it by hand, then command a turn.
     s.vehicle.rcsRunTimeRemaining = 0.001;
     for (let i = 0; i < 120 * 10; i++) s = step(s, DT);
-    // 2021's drain does not clamp — it steps straight past zero and the `> 0`
-    // gate then stops the thrusters. Ported verbatim, and asserted as it is
-    // rather than tidied: tests/proofs/rcs-reserve.test.ts is why that
-    // expression is left alone.
+    // Full intervals retain the proved drain expression. The final partial
+    // interval now delivers only its paid impulse, leaving exactly zero.
     expect(s.vehicle.rcsRunTimeRemaining).toBeLessThanOrEqual(0);
     expect(s.forces.rcsThrust).toBe(0);
   });

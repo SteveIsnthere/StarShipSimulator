@@ -90,7 +90,7 @@ describe('planned booster forecast',()=>{
     const work=createBoosterReadyWork(s,rad(0),duration,1/120);
     for(let i=0;i<100 && work.state.autopilot.boosterPhase==='boostback';i++)
       advanceBoosterForecast(work,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
-    let live=cloneState(s);live.autopilot.boosterReturnPlan={originTime:s.world.environmentTime,
+    let live=cloneState(s);live.autopilot.boosterReturnPlan={...(s.damage?{damageRevision:s.damage.revision}:{}),originTime:s.world.environmentTime,
       shutdownAt:work.shutdownAt!,coastPitch:rad(0),handoff:{x:0,height:1,vx:0,vy:-1,time:1,lateralFeasible:true}};
     for(let i=0;i<100 && live.autopilot.boosterPhase==='boostback';i++)
       live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
@@ -108,7 +108,7 @@ describe('planned booster forecast',()=>{
     s.kinematics.speedX=0;s.kinematics.speedY=-50;
     s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='coast';
     s.autopilot.boosterCoastPitch=rad(0);
-    s.autopilot.boosterReturnPlan={originTime:-1,shutdownAt:-.5,coastPitch:rad(0),
+    s.autopilot.boosterReturnPlan={...(s.damage?{damageRevision:s.damage.revision}:{}),originTime:-1,shutdownAt:-.5,coastPitch:rad(0),
       handoff:{x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true}};
     const original=cloneState(s);
     const future=createBoosterReadyWork(s,rad(0),0,1/120);
@@ -210,7 +210,7 @@ describe('planned booster forecast',()=>{
       advanceBoosterForecast(forecast,1,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
     expect(forecast.shutdownAt).toBeDefined();
     let live=cloneState(paid);
-    live.autopilot.boosterReturnPlan={originTime:paid.world.environmentTime,shutdownAt:forecast.shutdownAt!,coastPitch:rad(0),
+    live.autopilot.boosterReturnPlan={...(paid.damage?{damageRevision:paid.damage.revision}:{}),originTime:paid.world.environmentTime,shutdownAt:forecast.shutdownAt!,coastPitch:rad(0),
       handoff:{x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true}};
     for(let i=0;i<100 && live.autopilot.boosterPhase==='boostback';i++)
       live=advanceMechanics(live,1/120,runBoosterPolicy,SUPER_HEAVY);
@@ -290,7 +290,9 @@ describe('planned booster forecast',()=>{
     const initialFuel=s.vehicle.propellantMass;
     const work=createBoosterForecastWork(s,rad(0),.25);
     advanceBoosterForecast(work,4,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
-    expect(work.state.vehicle.propellantMass).toBeCloseTo(initialFuel-13*C.maxFuelFlowPerRaptor*.2,8);
+    const p=SUPER_HEAVY.propulsion;
+    const fullEngineFlow=p.seaLevel.thrustSeaLevel/(p.standardGravity*p.seaLevel.ispSeaLevel);
+    expect(work.state.vehicle.propellantMass).toBeCloseTo(initialFuel-13*fullEngineFlow*.2,8);
     expect(s.vehicle.propellantMass).toBe(initialFuel);
     expect(work.state.autopilot.boosterPhase).toBe('boostback');
   });

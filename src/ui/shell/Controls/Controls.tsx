@@ -56,6 +56,7 @@ export function Controls() {
   const mode = useLayoutMode();
   const phone = mode === 'phone';
   const cinematic = useSessionState((s) => s.cinematic);
+  const structuredFlight = useSessionState(s => s.selectedVehicle === 'super-heavy' || s.missionPhase !== null);
   // The session already ignores keys while a layer is open; the sliders follow.
   const blocked = useSessionState((s) => s.layer !== null);
   const selectedVehicle = useSessionState(s => s.selectedVehicle);
@@ -110,6 +111,7 @@ export function Controls() {
         bodyId={enginesBody}
         open={open.engines}
         phone={phone}
+        short={mode === 'short' && structuredFlight}
         onToggle={() => toggle('engines')}
         toggleTestId="engine-panel-toggle"
         placement={RAILS[mode].engines}
@@ -121,6 +123,7 @@ export function Controls() {
         bodyId={flightBody}
         open={open.flight}
         phone={phone}
+        short={mode === 'short' && structuredFlight}
         onToggle={() => toggle('flight')}
         toggleTestId="yoke-panel-toggle"
         placement={RAILS[mode].flight}

@@ -62,8 +62,8 @@
   {
     "id": "guidance-flat-g",
     "file": "src/core/control/primitives.ts",
-    "find": "    ((goalTWR * vehicle.vehicleMass * localGravity(state)) /",
-    "replace": "    ((goalTWR * vehicle.vehicleMass * C.gravity) /"
+    "find": "    ((goalTWR * (state.damage ? queriedMass.totalMass : vehicle.vehicleMass) * localGravity(state)) /",
+    "replace": "    ((goalTWR * (state.damage ? queriedMass.totalMass : vehicle.vehicleMass) * C.gravity) /"
   },
   {
     "id": "guidance-drag-dropped",
@@ -110,14 +110,14 @@
   {
     "id": "breakup-current-check-removed",
     "file": "src/core/control/mechanical.ts",
-    "find": "  checkIfBreakUp(s, model, work);",
-    "replace": "  // Fault: current force failure is never checked."
+    "find": "  checkIfBreakUp(s, model, work);\n  if (catchEnabled && model.id === 'super-heavy') secureTowerCatch(previous, s, model);",
+    "replace": "  // Fault: current force failure is never checked.\n  if (catchEnabled && model.id === 'super-heavy') secureTowerCatch(previous, s, model);"
   },
   {
     "id": "throttle-current-denominator",
     "file": "src/core/control/primitives.ts",
-    "find": "      getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model)) *",
-    "replace": "      (getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model) * vehicle.throttleCurrent * 0.01)) *"
+    "find": "      (available ? getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model) : 0)) *",
+    "replace": "      (available ? getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model) * vehicle.throttleCurrent * 0.01 : 0)) *"
   },
   {
     "id": "final-descent-braking-removed",

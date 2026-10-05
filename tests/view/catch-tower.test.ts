@@ -3,7 +3,7 @@ import { createCatchTower } from '$view/catch-tower';
 import { computeViewport, createCamera } from '$view/camera';
 import { createInitialState } from '$core/state';
 import { step } from '$core/step';
-import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+import { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
 import * as C from '$core/constants';
 
 it('draws the physical120m target and only shows secured after actual capture, never a nearby missed lug', () => {
@@ -11,8 +11,8 @@ it('draws the physical120m target and only shows secured after actual capture, n
   const camera = createCamera(viewport, C.starBaseXPos, 0, 0);
   camera.posY = 100;
   const state = createInitialState(123, SUPER_HEAVY);
-  state.kinematics.altitude = 90.501;
-  state.kinematics.distanceToPlanetCenter = C.planetRadius + 90.501;
+  state.kinematics.altitude = CATCH.bodyCentreAltitude + .001;
+  state.kinematics.distanceToPlanetCenter = C.planetRadius + state.kinematics.altitude;
   state.kinematics.downRangeDistance = C.starBaseXPos;
   state.kinematics.speedY = -1; state.status.onTheGround = false;
   tower.update(camera, viewport, state);

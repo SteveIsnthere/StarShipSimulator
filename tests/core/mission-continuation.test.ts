@@ -5,7 +5,7 @@ import { createHotStageMission, stepMission, bodyMassPose } from '$core/mission'
 import { centreOfMass } from '$core/physics/mass';
 import { tangentialAcceleration, verticalGravityAcceleration } from '$core/physics/gravity';
 import { SHIP } from '$core/vehicle';
-import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+import { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
 import * as C from '$core/constants';
 import { cloneState } from '$core/state';
 import { rad } from '$core/units';
@@ -114,7 +114,7 @@ describe('physical COM continuation after real paid Stage', () => {
     expect(n.vehicle.propellantMass).toBeLessThan(b.vehicle.propellantMass);
     const shift = centreOfMass(n.vehicle.propellantMass, model) - centreOfMass(b.vehicle.propellantMass, model);
     const before = bodyMassPose(b, model), after = bodyMassPose(n, model);
-    const thrust = C.thrustPerRaptorAt(0) * 0.4;
+    const thrust = (250000 * C.standardGravity / 327) * 350 * 0.4;
     roundoff(n.forces.thrust, thrust);
     const direction = k.pitch - 3 * Math.PI / 180;
     const expected = integrate(before.x + shift * Math.sin(k.pitch), before.altitude + shift * Math.cos(k.pitch),
@@ -128,13 +128,13 @@ describe('physical COM continuation after real paid Stage', () => {
     let m = release();
     const k = m.booster.kinematics;
     k.pitch = 0 as typeof k.pitch; k.angularVelocity = k.angularAcceleration = 0;
-    k.altitude = 90.501; k.distanceToPlanetCenter = C.planetRadius + k.altitude;
+    k.altitude = CATCH.bodyCentreAltitude + .001; k.distanceToPlanetCenter = C.planetRadius + k.altitude;
     k.downRangeDistance = C.starBaseXPos; k.speedX = 0; k.speedY = -1;
     m.booster.status.onTheGround = false;
     m = stepMission(m, DT);
     expect(m.booster.status.landed).toBe(true);
     expect(m.booster.status.onTheGround).toBe(false);
-    expect(m.booster.kinematics.altitude).toBe(90.5);
+    expect(m.booster.kinematics.altitude).toBe(CATCH.bodyCentreAltitude);
     const captured = structuredClone(m.booster);
     m.booster.engines.running.fill(true);
     for (let tick = 0; tick < 10; tick++) m = stepMission(m, DT);
@@ -143,7 +143,7 @@ describe('physical COM continuation after real paid Stage', () => {
     expect(m.booster.engines.running.some(Boolean)).toBe(false);
   });
   it('rejects a missed lug and treats slow physical ground contact as a crash', () => {
-    for (const altitude of [90.501, 35.4]) {
+    for (const altitude of [CATCH.bodyCentreAltitude + .001, SUPER_HEAVY.height / 2 - .1]) {
       const m = release(), k = m.booster.kinematics;
       k.pitch = 0 as typeof k.pitch; k.angularVelocity = k.angularAcceleration = 0;
       k.altitude = altitude; k.distanceToPlanetCenter = C.planetRadius + altitude;
@@ -151,8 +151,8 @@ describe('physical COM continuation after real paid Stage', () => {
       m.booster.status.onTheGround = false;
       const next = stepMission(m, DT).booster;
       expect(next.status.landed).toBe(false);
-      expect(next.failures.crashed).toBe(altitude === 35.4);
-      if (altitude === 35.4) {
+      expect(next.failures.crashed).toBe(altitude === SUPER_HEAVY.height / 2 - .1);
+      if (altitude === SUPER_HEAVY.height / 2 - .1) {
         // Existing collision freezes the penetrated pose; it does not snap
         // a crashed hull upwards onto the ground plane.
         expect(next.kinematics.altitude).toBe(altitude);

@@ -3,13 +3,32 @@
 import { describe, expect, it } from 'vitest';
 import { SUPER_HEAVY, CENTRE_ENGINES, RETURN_ENGINES, CATCH } from '$core/vehicles/super-heavy';
 import { ALL_SCENARIOS, PRESETS, createScenarioState, createScenarioVehicle } from '$core/scenarios';
-import { SHIP } from '$core/vehicle';
+import { SHIP, LOX_DENSITY, CH4_DENSITY, OXIDISER_SHARE } from '$core/vehicle';
 import { createInitialState, cloneState } from '$core/state';
 import { commandIgnition, tickIgnition, shutdownEngine, getTotalMaxThrust, getFuelFlowRate, gimballedShare, getOffAxisThrustTorque } from '$core/physics/engines';
 import { centreOfMass, momentOfInertia } from '$core/physics/mass';
 import { step } from '$core/step';
 import { rad } from '$core/units';
 import * as C from '$core/constants';
+
+// Approved V3 anchors, evaluated independently of production propulsion helpers.
+const V3_FLOW = (250000 * C.standardGravity) / (327 * C.standardGravity);
+const V3_SL_THRUST = (pressure: number) => V3_FLOW * C.standardGravity * 350
+  - Math.max(0, pressure) / 101.325 * (V3_FLOW * C.standardGravity * 350 - 250000 * C.standardGravity);
+const V3_RVAC_THRUST = (pressure: number) => 275000 * C.standardGravity
+  - Math.max(0, pressure) * 1000 * Math.PI * (2.3 / 2) ** 2;
+function independentBoosterInertia(load: number): number {
+  const radius = 4.5, dryMass = 200000, dryStation = 36, bottom = 3, capacity = 3650000;
+  const area = Math.PI * radius ** 2, fill = load / capacity;
+  const loxFull = capacity * OXIDISER_SHARE / (LOX_DENSITY * area);
+  const methaneFull = capacity * (1 - OXIDISER_SHARE) / (CH4_DENSITY * area);
+  const masses = [dryMass, load * OXIDISER_SHARE, load * (1 - OXIDISER_SHARE)];
+  const heights = [72, loxFull * fill, methaneFull * fill];
+  const stations = [dryStation, bottom + heights[1]! / 2, bottom + loxFull + heights[2]! / 2];
+  const com = masses.reduce((sum, mass, i) => sum + mass * stations[i]!, 0) / (dryMass + load);
+  return masses.reduce((sum, mass, i) => sum + mass * (radius ** 2 / 4 + heights[i]! ** 2 / 12
+    + (stations[i]! - com) ** 2), 0);
+}
 
 const flags = (indices: readonly number[]) => Array.from({length:33}, (_,i) => indices.includes(i));
 
@@ -34,8 +53,8 @@ describe('actual booster preset identity', () => {
     const preset=PRESETS[0]!;
     const flight=createScenarioVehicle({...preset,id:'custom',basedOn:'booster-sep',altitude:0,propellant:4000},123);
     expect(flight.vehicle).toBe(SUPER_HEAVY);
-    expect(flight.state.vehicle.propellantMass).toBe(3400000);
-    expect(flight.state.kinematics.altitude).toBe(35.5);
+    expect(flight.state.vehicle.propellantMass).toBe(3650000);
+    expect(flight.state.kinematics.altitude).toBe(72 / 2);
     expect(createScenarioVehicle({...preset,id:'custom',basedOn:'rtls',propellant:-1},123).state.vehicle.propellantMass).toBe(0);
     for(const ship of ALL_SCENARIOS.filter(p=>!['booster-sep','rtls'].includes(p.id))) {
       expect(createScenarioVehicle(ship,123).vehicle).toBe(SHIP);
@@ -49,7 +68,7 @@ describe('booster paid propulsion and moving mass', () => {
     const running = [false, false, false, true, false, false];
     // Ship RVac3 is physically at -3m; its fixed axis must never follow a
     // commanded gimbal. This general mount helper accepts either vehicle.
-    const expected = 3 * C.thrustPerRVacAt(pressure) * 40 * .01;
+    const expected = 3 * V3_RVAC_THRUST(pressure) * 40 * .01;
     for (const gimbal of [-15, 0, 15])
       expect(getOffAxisThrustTorque(running, 40, pressure, rad(gimbal * Math.PI / 180), SHIP)).toBe(expected);
     running[3] = false;
@@ -57,8 +76,8 @@ describe('booster paid propulsion and moving mass', () => {
   });
   it('sums all33 engines and only the13 steerable engines supply gimbal authority', () => {
     const all=flags(Array.from({length:33},(_,i)=>i));
-    expect(getTotalMaxThrust(all,101.325,SUPER_HEAVY)).toBe(33*2255529.5);
-    expect(getFuelFlowRate(all,100,SUPER_HEAVY)).toBe(33*C.maxFuelFlowPerRaptor);
+    expect(getTotalMaxThrust(all,101.325,SUPER_HEAVY)).toBe(33 * 250000 * C.standardGravity);
+    expect(getFuelFlowRate(all,100,SUPER_HEAVY)).toBe(33 * V3_FLOW);
     expect(gimballedShare(all,0,SUPER_HEAVY)).toBe(13/33);
     expect(gimballedShare(flags([13]),0,SUPER_HEAVY)).toBe(0);
     expect(gimballedShare(flags(CENTRE_ENGINES),0,SUPER_HEAVY)).toBe(1);
@@ -68,16 +87,16 @@ describe('booster paid propulsion and moving mass', () => {
   it('starts at the selected load COM/inertia rather than uniform-cylinder inertia', () => {
     // Independently hand-computed two filled columns, shared COM and parallel axes.
     expect(createInitialState(123,SUPER_HEAVY).vehicle.vehicleMomentOfInertia)
-      .toBeCloseTo(267799076.4377306,2);
+      .toBeCloseTo(independentBoosterInertia(500000),2);
     const flight=createScenarioVehicle({...PRESETS[0]!,propellant:0},123);
-    expect(flight.state.vehicle.vehicleMomentOfInertia).toBe(200000*(4.5**2/4+71**2/12));
+    expect(flight.state.vehicle.vehicleMomentOfInertia).toBe(200000*(4.5**2/4+72**2/12));
   });
   it('produces the physical torque of an independently lit fixed outer engine', () => {
     const s=createInitialState(123,SUPER_HEAVY);
     s.kinematics.altitude=1000;s.kinematics.distanceToPlanetCenter=C.planetRadius+1000;
     s.status.onTheGround=false;s.vehicle.propellantMass=0;
     // Fuel sufficient for one step, then evaluate the torque at the resulting dry COM.
-    s.vehicle.propellantMass=C.maxFuelFlowPerRaptor/120;
+    s.vehicle.propellantMass=V3_FLOW/120;
     s.engines.running[13]=true;
     const next=step(s,1/120,{},SUPER_HEAVY);
     expect(next.forces.offAxisThrustDifferenceAcceleration)
@@ -107,22 +126,22 @@ describe('booster paid propulsion and moving mass', () => {
     s.engines.running[13]=true;
     const next=step(s,1/120,{},SUPER_HEAVY);
     expect(next.vehicle.propellantMass).toBe(0);
-    expect(next.forces.thrust).toBeCloseTo(C.thrustPerRaptorAt(next.atmosphere.airPressure)/(C.maxFuelFlowPerRaptor/120),7);
+    expect(next.forces.thrust).toBeCloseTo(V3_SL_THRUST(next.atmosphere.airPressure)/(V3_FLOW/120),7);
     expect(next.forces.thrustVectorForce).toBe(0);
     expect(next.kinematics.speedX).toBe(0);
     expect(next.vehicle.vehicleMass).toBe(200000);
     expect(step(cloneState(s),1/120,{},SUPER_HEAVY)).toEqual(next);
   });
   it('fits both tanks and retains positive inertia and physical thrust authority across the stated dry-mass uncertainty', () => {
-    expect(SUPER_HEAVY.ch4TankBottom+SUPER_HEAVY.ch4TankHeight).toBeLessThan(71);
-    expect(CATCH.bodyCentreAltitude).toBe(90.5);
+    expect(SUPER_HEAVY.ch4TankBottom+SUPER_HEAVY.ch4TankHeight).toBeLessThan(72);
+    expect(CATCH.bodyCentreAltitude).toBe(120 - (65 / 71 * 72 - 36));
     for(const dryMass of [160000,200000,240000]) {
       const model={...SUPER_HEAVY,dryMass};
-      for(const load of [0,200000,500000,3400000]) {
+      for(const load of [0,200000,500000,3400000,3650000]) {
         const com=centreOfMass(load,model), inertia=momentOfInertia(load,model);
-        expect(com).toBeGreaterThan(0);expect(com).toBeLessThan(71);
+        expect(com).toBeGreaterThan(0);expect(com).toBeLessThan(72);
         expect(inertia).toBeGreaterThan(0);expect(Number.isFinite(inertia)).toBe(true);
-        if(load===0) expect(inertia).toBe(dryMass*(4.5**2/4+71**2/12));
+        if(load===0) expect(inertia).toBe(dryMass*(4.5**2/4+72**2/12));
       }
       expect(getTotalMaxThrust(flags(RETURN_ENGINES),101.325,model)/(dryMass+500000)).toBeGreaterThan(9.80665);
     }

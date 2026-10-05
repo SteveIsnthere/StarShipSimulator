@@ -30,12 +30,14 @@
 import { describe, expect, it } from 'vitest';
 import { step } from '$core/step';
 import { dynamicPressureLimit, frontFinSurfaceArea, aftFinSurfaceArea } from '$core/constants';
-import { centreOfMass, FRONT_FIN_STATION, AFT_FIN_STATION } from '$core/physics/mass';
+import { centreOfMass, momentOfInertia, FRONT_FIN_STATION, AFT_FIN_STATION } from '$core/physics/mass';
 import { SHAKE_FULL_Q, shakeAmplitude, SHAKE_FRACTION } from '$view/camera';
 import { AERO_TRAIL_FULL_Q, AERO_TRAIL_MIN_Q, SONIC_BOOM_MIN_Q } from '$view/effects';
 import { AERO_FULL_Q, aeroLevel } from '$audio/params';
 import { MAX_Q_FLOOR_KPA } from '$hud/timeline';
-import type { SimState } from '$core/state';
+import { syncDerivedFields, type SimState } from '$core/state';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
+import { HISTORICAL_SHIP } from '../reference/historical-vehicles';
 import { createScenarioVehicle, getScenario } from '$core/scenarios';
 import { fieldsFromPreset, fieldsToPreset } from '$app/menu';
 import { DT } from '$app/loop';
@@ -242,7 +244,7 @@ describe('the fin vortices carry information again', () => {
   });
 
   it('and reads the same scale the audio does, because it is the same air', () => {
-    // Both are `sqrt(q / 30)`. Not a coincidence to be tidied away later: the
+    // Both are `sqrt(q / 50)` after the measured V3 ascent change. Not a coincidence to be tidied away later: the
     // fins shedding vortices and the airframe roaring are one phenomenon, and
     // a player who sees more and hears less would be being told two things.
     for (const q of [0.5, 2, 7.55, 23.63, 28.61]) {
@@ -294,8 +296,13 @@ describe('the state the shake spec flies', () => {
   }
 
   /** Attitude in degrees and Q in kPa, every quarter second of the window. */
-  function profile(fields: Readonly<Record<string, string>>) {
+  function profile(fields: Readonly<Record<string, string>>, model: VehicleDefinition = SHIP) {
     let s = subject(fields);
+    // Historical negative control retains its original physical cohort. The
+    // live browser subject and every active stability bound still use V3.
+    s.vehicle.vehicleMass = model.dryMass + s.vehicle.propellantMass;
+    s.vehicle.vehicleMomentOfInertia = momentOfInertia(s.vehicle.propellantMass, model);
+    syncDerivedFields(s, model);
     const rows: { t: number; pitch: number; q: number }[] = [];
     const perSecond = Math.round(1 / DT);
     for (let i = 0; i <= WINDOW_SECONDS * perSecond; i++) {
@@ -307,7 +314,7 @@ describe('the state the shake spec flies', () => {
         });
       // The browser's step, not the golden recorder's: this is a claim about
       // what the running app does under the spec's fingers.
-      s = step(s, DT);
+      s = step(s, DT, {}, model);
     }
     // The first row is the state before any step has run, so Q has not been
     // computed yet. Everything below asks about the flight, not the seed.
@@ -353,8 +360,8 @@ describe('the state the shake spec flies', () => {
     expect(fastest, `up to ${fastest.toFixed(2)} deg/s`).toBeLessThan(6);
   });
 
-  it('and the subject it replaced does not, which is why it was replaced', () => {
-    const old = profile(OLD_MAX_Q_FIELDS);
+  it('and the original historical subject retains its measured departure', () => {
+    const old = profile(OLD_MAX_Q_FIELDS, HISTORICAL_SHIP);
     const turned = Math.max(...old.map((r) => Math.abs(r.pitch - 45)));
     const fastest = Math.max(
       ...old.slice(1).map((r, i) => Math.abs(r.pitch - old[i]!.pitch) / 0.25),
@@ -369,5 +376,9 @@ describe('the state the shake spec flies', () => {
     // on its own (10 px) than the lens ever moved it (2 to 3).
     expect(turned, `turns ${turned.toFixed(1)} degrees`).toBeGreaterThan(150);
     expect(fastest, `up to ${fastest.toFixed(1)} deg/s`).toBeGreaterThan(100);
+    const activeOld = profile(OLD_MAX_Q_FIELDS);
+    const activeRate = Math.max(...activeOld.slice(1).map((r, i) =>
+      Math.abs(r.pitch - activeOld[i]!.pitch) / .25));
+    expect(activeRate, 'the old subject still violates the live6deg/s stability bound').toBeGreaterThan(6);
   });
 });

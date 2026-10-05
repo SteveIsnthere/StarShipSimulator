@@ -21,9 +21,9 @@ const enginesOf = (kind: (typeof ENGINE_SETS)[number]['kind']): readonly number[
   RAPTORS.flatMap((m, i) => (m.kind === kind ? [i] : []));
 
 /** On a phone the labels go to a screen reader only: the strip has no room for words beside the marks. */
-export function EngineDots({ compact }: { compact: boolean }) {
+export function EngineDots({ compact, inline = false }: { compact: boolean; inline?: boolean }) {
   const booster = useSessionState(s => s.selectedVehicle === 'super-heavy');
-  if (booster) return <BoosterEngineGroups />;
+  if (booster) return <BoosterEngineGroups inline={inline} />;
   return (
     <div className="flex items-center gap-2">
       <Eyebrow size="sm" tone="muted" className={compact ? 'sr-only' : undefined}>

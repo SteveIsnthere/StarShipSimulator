@@ -1,226 +1,101 @@
-/**
- * The vehicle: body sprite plus four articulated fins.
- *
- * Chords ported from render/drawMethods/drawMethods.js:5-18, where every
- * dimension is expressed as a fraction of the drawn ship height — the ratios
- * come from the source artwork's own proportions (818 px tall) and hold at any
- * zoom. Roots sit at the actual hull flanks and the existing model stations,
- * rather than hiding inside the centreline. This changes depiction only.
- *
- * The fins are drawn rather than sprited, because they articulate: extension
- * runs 0..100% and the drawn chord follows it. That is what makes a belly flop
- * readable at a glance.
- */
-import { Container, Graphics, Mesh, MeshGeometry, Sprite, type Shader, type Texture } from 'pixi.js';
-import { createVehicleDetail } from './vehicle-detail';
-import { STARSHIP_TEXTURE } from './assets';
-import { worldToScreen, type CameraState, type Viewport } from './camera';
-import { flatLighting, type VehicleLighting } from './lighting';
-import { lightInVehicleFrame, type SunLight } from './sun';
-import { SHIP } from '$core/vehicle';
-import { vehicleDiameter, vehicleHeight } from '$core/constants';
+/** V3 Ship adapter. Original component geometry replaces the photographed hull;
+ * the same immutable parts serve the main view, inset and physical fragments. */
+import type { Container } from 'pixi.js';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
+import type { DamageState } from '$core/damage-state';
+import { damageModelFor } from '$core/physics/damage-model';
+import { finActuationMaxAngle } from '$core/constants';
+import { createVehicleGeometry } from './vehicle-geometry';
+import { createComponentVehicle, type ComponentVehicle } from './component-vehicle';
+import type { CameraState, Viewport } from './camera';
+import type { SunLight } from './sun';
 
-/** Fin colour, matching the 2021 art's stainless. */
 export const FIN_COLOR = 0xb9bec4;
-
-/** drawMethods.js:5-18 — fin geometry as fractions of drawn ship height. */
-const FIN = {
-  thickness: 12 / 818,
-  front: {
-    station: SHIP.frontFinStation,
-    length: 136 / 818,
-    width: 0.057,
-    shortSide: 23 / 56,
-  },
-  aft: {
-    station: SHIP.aftFinStation,
-    length: 247 / 818,
-    width: 0.087,
-    shortSide: 51 / 100,
-  },
-} as const;
-
-/** Conservative full-extension depiction bounds, shared with the camera. */
-export const SHIP_VISUAL_DIAMETER = vehicleDiameter + 2 * vehicleHeight * FIN.aft.width;
-
-export interface VehicleView {
-  readonly container: Container;
-  update(
-    camera: CameraState,
-    viewport: Viewport,
-    state: {
-      readonly altitude: number;
-      readonly downRangeDistance: number;
-      /** rad */
-      readonly pitch: number;
-      /** % 0..100 */
-      readonly frontFinExtension: number;
-      readonly aftFinExtension: number;
-    },
-    /** M11.4: the sun, for the hull's shading. Without it the sprite is drawn flat. */
-    sun?: SunLight,
-  ): void;
+export const SHIP_VISUAL_DIAMETER = SHIP.diameter * (1 + 2 * .46);
+export interface VehiclePose {
+  readonly altitude: number;
+  readonly downRangeDistance: number;
+  /** rad, clockwise from vertical. */
+  readonly pitch: number;
+  /** % physical control-group articulation. */
+  readonly frontFinExtension: number;
+  readonly aftFinExtension: number;
+  /** K; finite component temperatures override this once damage is connected. */
+  readonly surfaceTemperature?: number;
+  readonly damage?: DamageState | null;
 }
 
-/**
- * @param lighting M11.4 — the hull's normal map and shader. With it the body
- *   is a mesh lit by the sun; without it (tests, or a sprite that could not
- *   be read back) it is the plain sprite it always was.
- */
-export function createVehicle(
-  textures: Map<string, Texture>,
-  lighting?: VehicleLighting,
-): VehicleView {
-  const container = new Container({ label: 'starship' });
-
-  // Fins go behind the body so the hull edge stays clean.
-  const finsBack = new Container({ label: 'ship-fins' });
-  const fins = Array.from({ length: 4 }, (_, i) => new Graphics({
-    label: `fin-${i < 2 ? 'front' : 'aft'}-${i % 2 === 0 ? 'left' : 'right'}`,
-  }));
-  finsBack.addChild(...fins);
-  const texture = textures.get(STARSHIP_TEXTURE);
-  /*
-    THE HULL IS A LIT MESH (M11.4). A unit quad, scaled to the drawn size each
-    frame, drawn by the lighting shader with the sprite and its normal map.
-    The plain sprite path is kept because it costs nothing and is what every
-    test that builds a vehicle without a GPU sees.
-  */
-  let sprite: Sprite | undefined;
-  let mesh: Mesh<MeshGeometry, Shader> | undefined;
-  if (lighting && texture) {
-    const geometry = new MeshGeometry({
-      positions: new Float32Array([-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5]),
-      uvs: new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]),
-      indices: new Uint32Array([0, 1, 2, 0, 2, 3]),
-    });
-    mesh = new Mesh<MeshGeometry, Shader>({ geometry, shader: lighting.shader, texture });
-    mesh.label = 'hull';
-    container.addChild(finsBack, mesh);
-  } else {
-    sprite = new Sprite(texture);
-    sprite.anchor.set(0.5, 0.5);
-    container.addChild(finsBack, sprite);
-  }
-  const detail = createVehicleDetail(vehicleHeight, vehicleDiameter, false);
-  container.addChild(detail);
-  const light = { x: 0, y: 1, z: 0 };
-  let lastFinTint = -1;
-
-  let lastHeight = -1;
-  let lastFront = -1;
-  let lastAft = -1;
-
-  return {
-    container,
-
-    update(camera, viewport, state, sun): void {
-      const screen = worldToScreen(
-        camera,
-        viewport,
-        state.downRangeDistance,
-        state.altitude,
-      );
-      container.x = screen.x;
-      container.y = screen.y;
-      /*
-        World pitch is measured from vertical, positive nose toward +x, which
-        is screen-right — and Pixi's rotation is positive CLOCKWISE on screen,
-        so a positive pitch is a positive rotation, unflipped. The port wrote
-        `-state.pitch`, reasoning that the sign "flips with the y axis"; it
-        does not, because the world's pitch was already defined as a
-        visually clockwise angle. Every hull was drawn leaning the wrong way
-        for ten milestones while the HUD's attitude chevron leaned the right
-        way, and nothing measured which. M11.5 found it, because the plasma
-        sheath is the first asymmetric thing the hull's frame has carried.
-      */
-      container.rotation = state.pitch;
-
-      const drawnHeight = vehicleHeight * viewport.scale;
-      const drawnWidth = vehicleDiameter * viewport.scale;
-      if (sprite) {
-        sprite.width = drawnWidth;
-        sprite.height = drawnHeight;
-      } else if (mesh) {
-        mesh.scale.set(drawnWidth, drawnHeight);
+/** Startup join by physical identity: partition order is not draw order.
+ * Physical centroid coordinates remain the frozen core surrogate even when
+ * the projected panel articulates. Never infer mass from a polygon's centre. */
+export function createVehicleDamageBinding(model: VehicleDefinition, renderer: ComponentVehicle) {
+  const bindings = damageModelFor(model).partition.components.map((physical, index) => {
+    const part = renderer.partsById.get(physical.id);
+    if (!part) throw new Error(`Missing original vehicle component: ${physical.id}`);
+    return { physical, index, part };
+  });
+  const detached = { altitude: 0, downRangeDistance: 0, pitch: 0, pivotToCentroidX: 0, pivotToCentroidY: 0 };
+  return (damage: DamageState, surfaceTemperature: number) => {
+    for (const { physical, index, part } of bindings) {
+      const condition = damage.components[index]!, debris = damage.debris[index]!;
+      if (!debris.active) renderer.setDetachedPose(physical.id, null);
+      if (physical.kind === 'flap') {
+        const span = .04 + .96 * Math.sin(Math.max(0, Math.min(finActuationMaxAngle, condition.loadedAngle))) / Math.sin(finActuationMaxAngle);
+        renderer.setArticulation(physical.id, 0, span);
+      } else if (physical.kind === 'grid-fin') {
+        renderer.setArticulation(physical.id, condition.loadedAngle);
       }
-
-      detail.scale.set(viewport.scale);
-      // M11.4: the sun in the hull's own frame, and the fins lit as flat
-      // plates facing the viewer. The fin tint is a grey and cannot brighten,
-      // so the flat lighting is clamped at one; the hull's shader is not.
-      if (sun) {
-        lightInVehicleFrame(sun, state.pitch, light);
-        lighting?.set(light.x, light.y, light.z, sun.daylight);
-        const lit = Math.min(1, flatLighting(sun.south, sun.daylight));
-        const shade = Math.round(255 * lit);
-        const tint = (shade << 16) | (shade << 8) | shade;
-        if (tint !== lastFinTint) {
-          lastFinTint = tint;
-          finsBack.tint = detail.tint = tint;
-        }
+      renderer.setComponentState(physical.id, condition.attached && !damage.terminal.active, surfaceTemperature);
+      // The finite hull node represents residual steel, not exterior TPS.
+      // Root nodes heat tiny subparts; omit their visual glow until a bounded
+      // root patch exists instead of lighting the entire flap from that node.
+      if (physical.kind === 'hull') {
+        for (let i = 0; i < part.materials.length; i++)
+          if (part.component.polygons[i]!.material === 'steel') part.materials[i]!.setTemperature(damage.hull.temperature);
       }
-
-      // Fins are redrawn only when something about them actually changed —
-      // zoom, or an extension. Redrawing four polygons every frame at 120 Hz
-      // for a stationary configuration is exactly the kind of waste the
-      // performance budget exists to prevent.
-      if (
-        drawnHeight === lastHeight &&
-        state.frontFinExtension === lastFront &&
-        state.aftFinExtension === lastAft
-      ) {
-        return;
-      }
-      lastHeight = drawnHeight;
-      lastFront = state.frontFinExtension;
-      lastAft = state.aftFinExtension;
-
-      for (let i = 0; i < fins.length; i++) {
-        const shape = fins[i]!;
-        shape.clear();
-        shape.x = (i % 2 === 0 ? -1 : 1) * drawnWidth / 2;
-        drawFin(shape, drawnHeight, i < 2 ? FIN.front : FIN.aft,
-          (i < 2 ? state.frontFinExtension : state.aftFinExtension) / 100, i % 2 === 0 ? -1 : 1);
-      }
-    },
+      if (!debris.active) continue;
+      const dx = physical.x - part.component.x, dy = part.component.station - physical.station;
+      detached.altitude = debris.altitude; detached.downRangeDistance = debris.x;
+      // Radial grid articulation is retained inside the existing mesh buffers;
+      // its hinge does not rotate in the drawing plane or alter body orientation.
+      detached.pitch = debris.pitch;
+      detached.pivotToCentroidX = dx;
+      detached.pivotToCentroidY = dy;
+      renderer.setDetachedPose(physical.id, detached);
+    }
   };
 }
+export interface VehicleView {
+  readonly container: Container;
+  readonly components: ComponentVehicle;
+  update(camera: CameraState, viewport: Viewport, state: VehiclePose, sun?: SunLight): void;
+  destroy(): void;
+}
 
-/**
- * One startup-owned fin; its pair shares the physical extension input.
- *
- * Each is a trapezoid: full chord at the root, `shortSide` of it at the tip,
- * scaled outward by how far the fin is extended. At zero extension it collapses
- * to the hull thickness rather than vanishing, because a retracted fin is still
- * a visible strake on the real vehicle.
- */
-function drawFin(
-  g: Graphics,
-  drawnHeight: number,
-  fin: { station: number; length: number; width: number; shortSide: number },
-  extension: number,
-  side: number,
-): void {
-  const thickness = drawnHeight * FIN.thickness;
-  const length = drawnHeight * fin.length;
-  const top = drawnHeight * (0.5 - fin.station / vehicleHeight) - length / 2;
-  const reach = thickness + (drawnHeight * fin.width - thickness) * extension;
-  const tipInset = length * (1 - fin.shortSide);
-
-  g.poly([
-    0,
-    top,
-    side * reach,
-    top + tipInset * 0.5,
-    side * reach,
-    top + length - tipInset * 0.5,
-    0,
-    top + length,
-  ]).fill(FIN_COLOR);
-  g.moveTo(side * thickness * 0.8, top + length * 0.25)
-    .lineTo(side * reach * 0.75, top + length * 0.4)
-    .moveTo(side * thickness * 0.8, top + length * 0.75)
-    .lineTo(side * reach * 0.75, top + length * 0.6)
-    .stroke({ color: 0x79858e, width: Math.max(0.1, drawnHeight * 0.001) });
+/** Original geometry and analytic materials; no external hull art is sampled. */
+export function createVehicle(): VehicleView {
+  const geometry = createVehicleGeometry({id: 'ship', height: SHIP.height, diameter: SHIP.diameter,
+    frontFinStation: SHIP.frontFinStation, aftFinStation: SHIP.aftFinStation, engines: SHIP.engines});
+  const components = createComponentVehicle(geometry);
+  const writeDamage = createVehicleDamageBinding(SHIP, components);
+  return {
+    container: components.container, components,
+    update(camera, viewport, state, sun) {
+      components.updatePose(camera, viewport, state, sun);
+      if (state.damage) {
+        writeDamage(state.damage, state.surfaceTemperature ?? 293.15);
+        return;
+      }
+      for (const component of geometry.components) {
+        const part = components.partsById.get(component.id)!;
+        components.setComponentState(component.id, part.container.visible, state.surfaceTemperature ?? 293.15);
+        if (component.kind !== 'flap') continue;
+        const extension = component.id.includes('-front-') ? state.frontFinExtension : state.aftFinExtension;
+        // Project the folded panel to an edge, without resizing the root chord.
+        const span = .04 + .96 * Math.max(0, Math.min(100, extension)) / 100;
+        components.setArticulation(component.id, 0, span);
+      }
+    },
+    destroy() { components.destroy(); },
+  };
 }

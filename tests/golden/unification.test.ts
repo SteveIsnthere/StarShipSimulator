@@ -51,6 +51,20 @@
  *     P7.6s   permanent centre Stage failure     all ten unchanged; only attached mission status changes
  *     P7.6p   risk-toggle forecast provenance    all ten unchanged; recorded flights never toggle risk
  *
+ * P8.R1/R2 (Fidelity, approved V3 catalogue/progressive capability): the full
+ * eight Ship and two actual Super Heavy recordings were regenerated together
+ * on Linux x86-64 / Node22.23.3 after full247 non-golden acceptance and truth.
+ * Frozen pre-look predictions cover allten; observed records change allten
+ * rows blocks and constant/key schemas, preserving IDs/setup/seed/dt/cadence,
+ * original sample counts and physical recording windows. The two actual
+ * boosters physically catch airborne with positive propellant. Changed rows
+ * digests alone do not distinguish motion from schema; the field/outcome audit
+ * and exact replay remain required before coherent Fidelity acceptance.
+ * Analytic references are not reblessed: all17TierA rows are IN, while the
+ * existing tierB max-Q altitude report remains OUT at9528m. Recording receipts,
+ * frozen predictions and observed digests are retained under docs/research/
+ * 2026-10-04-cloud-resume/full-golden-owned-route/.
+ *
  * Each row is a shape, and the shape is the check. M2.12 moving all seven is
  * not a surprise to be explained away: the term it corrects acts on any vehicle
  * both climbing or falling and moving downrange, which is every scenario except
@@ -411,16 +425,16 @@ function rowsDigest(id: string): string {
 
 /** Current digests, with the tier that last moved each — see the table above. */
 const DIGESTS: Readonly<Record<string, string>> = {
-  // P6b.F (all eight): see the declared fallback and dual-baseline audit above. Recorded
-  // on x86-64 Linux / Node 22 by .github/workflows/golden-regenerate.yml.
-  'launch-pad-takeoff': '3ed135d0884f75d124d6702d151808ee7b6975024c14f752ae59c3ca0576e094',
-  'booster-sep-boostback': 'ad8a6ab21505d5b5bce5e06f80cf19c57df2bb8228828e9f60fa6398d817133e',
-  'rtls-boostback': '9a8ac13183448b334904bde2f3e9f048e7cd23a76d4b8e8bdbb1093d32ab7b01',
-  'reentry-autoland': '4ee303f827fa9e619e18e8eb3f52f9fb1f04e3295eed85a1582accbbbdf9cd1a',
-  'before-flip-autoland': 'a0a7e543c00e4ec36456d2739b0b6e31d112548f34fcb356f06d13812c23cda4',
-  'landing-burn-autoland': '9364e5240df63b403aa9b1f29b1f39aaaab966534cd7c21a1de93e5dd5a01690',
-  'landing-burn-headwind': '7a4a5f8bd3d41f9203e602e739fc878db9b2229c282477892f9f4afb07638673',
-  'intro-demo': '788986778965daa73070e0db782d8b98e3bafc6c40c6da501e7895be80640a98',
+  // P8.R1/R2 Fidelity: full unfiltered local Linux x86-64 / Node22 recording.
+  // Eight Ship rows digests; historical P6b.F audit above is retained.
+  'launch-pad-takeoff': '916a5b147289a85298740e9bc5f14275628e669c9daf26fc9d7996a26b7a20c6',
+  'booster-sep-boostback': '6b08750b2a1e0e4821f93c5f5c8735a8025e3498606490d61beaa0ef5963c95c',
+  'rtls-boostback': '439df56193035d258aee641bfdd0c09a1f90bbf3b9c2eb3b4b1c0e6efdbf8ed8',
+  'reentry-autoland': '3fb0076c5ac5dc5b29a461079ebf93c379da8c5ff0aa23a10da42eb55f3f5f29',
+  'before-flip-autoland': '11df739d7201f3bb971bb63e15c06fca87c5f3940a4fa81d5aeeceb37a7aac4b',
+  'landing-burn-autoland': '1454b4f2a9997e12dcc0b1d506884696e5f0322185089731b2ff6dbff10f7964',
+  'landing-burn-headwind': '27faabb7f4541fa6f630f768c8dfcc063520885d9c5b8a48538768e07c65d887',
+  'intro-demo': '21c17914fefc1e679a56bd5a97e5ff8d904c31709d57ac016bb90cd9bec7d5f8',
 };
 
 describe('every fixture is where the declared tiers left it', () => {

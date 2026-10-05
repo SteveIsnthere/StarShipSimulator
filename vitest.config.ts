@@ -1,6 +1,11 @@
 import { configDefaults, defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
 import { availableParallelism } from 'node:os';
+// @ts-expect-error -- plain-JS native admission helper
+import { nativeFlightProject } from './scripts/test/projects.mjs';
+const nativeProject = await nativeFlightProject();
+const nativeRoots = nativeProject ? ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts', 'tests/golden/booster-replay.test.ts'] : [];
+
 // @ts-expect-error -- plain-JS gate helper, intentionally untyped
 import { coverageExclusions } from './scripts/coverage-exclusions.mjs';
 
@@ -31,6 +36,7 @@ export default defineConfig({
     // environment enforces that: a DOM leak into core/ fails here, not in review.
     environment: 'node',
     projects: [
+      ...(nativeProject ? [nativeProject] : []),
       {
         extends: true,
         test: {
@@ -38,7 +44,7 @@ export default defineConfig({
           include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx', 'src/**/*.test.ts'],
           // Wall-clock budgets run on demand (`npm run bench`); the vendored
           // kit's own tests run in the jsdom project below.
-          exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts', 'src/ui/kit/**', ...coverageFreeRoots],
+          exclude: [...configDefaults.exclude, 'tests/**/*.timing.test.ts', 'src/ui/kit/**', ...coverageFreeRoots, ...nativeRoots],
         },
       },
       {
@@ -68,7 +74,8 @@ export default defineConfig({
       // `version.ts`, which no test imported and which duly reported 0% line.
       // That file is gone as of M10.11; add an unimported module here and it
       // will still be counted.
-      include: ['src/core/**'],
+      include: ['src/core/**', ...(process.env.NATIVE_FLIGHT_MAPPED_CODE ? [process.env.NATIVE_FLIGHT_MAPPED_CODE] : [])],
+      excludeAfterRemap: true,
       // `json` as well as the summary: the text table TRUNCATES its uncovered
       // line column (primitives.ts prints as `...2,416,453,457-465`), and
       // json-summary carries totals only. M10.5 and M10.6 have to target

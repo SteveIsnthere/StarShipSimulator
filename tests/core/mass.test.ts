@@ -14,25 +14,21 @@
 import { describe, expect, it } from 'vitest';
 import * as C from '$core/constants';
 import { integralOfRCubedTimesDx, vehicleHeight } from '$core/constants';
-import {
-  AFT_FIN_STATION,
-  CH4_TANK_BOTTOM,
-  CH4_TANK_HEIGHT,
-  DRY_CENTRE_OF_MASS,
-  FRONT_FIN_STATION,
-  LOX_TANK_HEIGHT,
-  OXIDISER_SHARE,
-  PROPELLANT_CAPACITY,
-  RCS_STATION,
-  TANK_BOTTOM,
-  centreOfMass,
-  createMassProperties,
-  fillFraction,
-  momentOfInertia,
-  propellantCentreOfMass,
-  rCubedIntegral,
-  writeMassProperties,
-} from '$core/physics/mass';
+import * as mass from '$core/physics/mass';
+import { HISTORICAL_SHIP as historical } from '../reference/historical-vehicles';
+// Preserve this historical calibration/proof suite without re-blessing any
+// closed-form value. Active V3 geometry has its own physical-input witnesses.
+const {aftFinStation:AFT_FIN_STATION,ch4TankBottom:CH4_TANK_BOTTOM,ch4TankHeight:CH4_TANK_HEIGHT,
+  dryCentreOfMass:DRY_CENTRE_OF_MASS,frontFinStation:FRONT_FIN_STATION,loxTankHeight:LOX_TANK_HEIGHT,
+  propellantCapacity:PROPELLANT_CAPACITY,rcsStation:RCS_STATION,tankBottom:TANK_BOTTOM}=historical;
+const OXIDISER_SHARE=mass.OXIDISER_SHARE;
+const centreOfMass=(fuel:number)=>mass.centreOfMass(fuel,historical);
+const createMassProperties=(fuel=0)=>mass.createMassProperties(fuel,historical);
+const fillFraction=(fuel:number)=>mass.fillFraction(fuel,historical);
+const momentOfInertia=(fuel:number)=>mass.momentOfInertia(fuel,historical);
+const propellantCentreOfMass=(fuel:number)=>mass.propellantCentreOfMass(fuel,historical);
+const rCubedIntegral=(com:number)=>mass.rCubedIntegral(com,historical.height);
+const writeMassProperties=(fuel:number,out:mass.MassProperties)=>mass.writeMassProperties(fuel,out,historical);
 
 describe('the stated tank layout', () => {
   it('fits inside the hull, above the engine skirt', () => {

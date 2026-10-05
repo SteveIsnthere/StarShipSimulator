@@ -1,8 +1,9 @@
 /** Refactor witness for constructor/step model propagation. Old pipeline and
  * old helpers are preserved separately; existing goldens defend whole flights. */
 import { describe, expect, it } from 'vitest';
-import { SHIP } from '$core/vehicle';
-import { createInitialState, syncDerivedFields } from '$core/state';
+import { HISTORICAL_SHIP as SHIP } from '../reference/historical-vehicles';
+import { createInitialState as currentInitial, syncDerivedFields } from '$core/state';
+import { createInitialState } from './fixtures/historical-runtime';
 import { step } from '$core/step';
 import { rad } from '$core/units';
 import { toggleAllRaptors } from '$core/control/commands';
@@ -18,7 +19,7 @@ const alternate = {
 
 describe('model propagation through state, commands and the integrator', () => {
   it('creates engine arrays, mass and contact height for the supplied vehicle', () => {
-    const s = createInitialState(123, alternate);
+    const s = currentInitial(123, alternate);s.damage=null;
     expect(s.kinematics.altitude).toBe(50);
     expect(s.vehicle.propellantMass).toBe(40_000);
     expect(s.vehicle.vehicleMass).toBe(280_000);
@@ -62,8 +63,9 @@ describe('model propagation through state, commands and the integrator', () => {
 describe('Ship constructor and pipeline numerical equivalence', () => {
   it('preserves constructor shape and every numeric field at several seeds', () => {
     for (const seed of [0, 123, 0x5741_4c4b, 0xffff_ffff]) {
-      expect(createInitialState(seed, SHIP)).toEqual(shippedInitial(seed));
       expect(createInitialState(seed)).toEqual(shippedInitial(seed));
+      const explicit=currentInitial(seed,SHIP);explicit.damage=null;
+      expect(explicit).toEqual(shippedInitial(seed));
     }
   });
 

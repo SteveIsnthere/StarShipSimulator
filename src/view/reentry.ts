@@ -29,7 +29,7 @@
  * — are exported and tested in node. Everything per frame is a uniform write
  * or a transform; nothing allocates.
  */
-import { Container, GlProgram, Graphics, Mesh, MeshGeometry, Shader, type Texture } from 'pixi.js';
+import { Container, GlProgram, Graphics, Mesh, MeshGeometry, Shader } from 'pixi.js';
 import {
   BASE_VERTICAL_PROPORTION,
   MAX_VEHICLE_DRAW_HEIGHT,
@@ -38,11 +38,11 @@ import {
   type MutableViewport,
   type Viewport,
 } from './camera';
-import type { VehicleLighting } from './lighting';
 import { skyTintLit } from './sky';
 import type { SunLight } from './sun';
 import { createVehicle, type VehicleView } from './vehicle';
-import { vehicleDiameter, vehicleHeight } from '$core/constants';
+import { SHIP } from '$core/vehicle';
+const vehicleDiameter = SHIP.diameter, vehicleHeight = SHIP.height;
 
 
 /**
@@ -286,22 +286,19 @@ export interface OnboardInset {
  * The onboard view: the vehicle, large, in a framed square at the top-left.
  *
  * Built from the same parts as the main view — `createVehicle` with the same
- * lighting, a sheath of its own — and driven through the same `update`, with
+ * analytic materials, a sheath of its own — and driven through the same `update`, with
  * a camera of its own that is always centred on the vehicle. That is the
  * whole trick: no second render, no render texture, one more mesh and one
  * more Graphics, positioned by an ordinary camera that never moves.
  */
-export function createOnboardInset(
-  textures: Map<string, Texture>,
-  lighting: VehicleLighting | undefined,
-): OnboardInset {
+export function createOnboardInset(): OnboardInset {
   const container = new Container({ label: 'onboard-inset' });
   container.visible = false;
 
   const backdrop = new Graphics();
   const mask = new Graphics();
   const frame = new Graphics();
-  const vehicle: VehicleView = createVehicle(textures, lighting);
+  const vehicle: VehicleView = createVehicle();
   const sheath = createSheath();
   const scene = new Container({ label: 'onboard-scene' });
   scene.addChild(vehicle.container);
@@ -376,6 +373,7 @@ export function createOnboardInset(
 
     destroy() {
       sheath.destroy();
+      vehicle.destroy();
       container.destroy({ children: true });
     },
   };

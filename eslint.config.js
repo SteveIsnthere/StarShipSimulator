@@ -120,6 +120,34 @@ export default ts.config(
   {
     ignores: [
       'dist/**',
+      // Immutable generated Vite evidence, not source; exact bytes are pinned
+      // by fall-bundle-proof-receipt/bundle-hashes.json.
+      'docs/research/2026-10-04-cloud-resume/fall-bundle-proof-receipt/counted/entry.mjs',
+      'docs/research/2026-10-04-cloud-resume/fall-bundle-proof-receipt/counted/serviceworker.js',
+      'docs/research/2026-10-04-cloud-resume/fall-bundle-proof-receipt/counted/simulation-DqUEjDAx.js',
+      'docs/research/2026-10-04-cloud-resume/fall-bundle-proof-receipt/plain/entry.mjs',
+      'docs/research/2026-10-04-cloud-resume/fall-bundle-proof-receipt/plain/serviceworker.js',
+      'docs/research/2026-10-04-cloud-resume/fall-bundle-proof-receipt/plain/simulation-C1HMHBVP.js',
+      // Exact immutable historical launch/materialization/control receipts;
+      // artifact SHA/roles are pinned by the independently reviewed archive inventory.
+      'docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/ansi-string-controls.mjs',
+      'docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/owned-launch-gnJQ764p/launcher.mjs',
+      'docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/receipt-controls-9a62a009-5818-402e-a3f1-4494cdddcc86/materialized/controls.mjs',
+      'docs/research/2026-10-04-cloud-resume/comparator-puregraph-inspector/owned-launch-VjKEzG1y/launcher.mjs',
+      'docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/owned-launch-UMyDaZjZ/launcher.mjs',
+      'docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/receipt-burn-218a5089-4c17-418e-a74c-ff0bbe6dcfa4/materialized/burn.ts',
+      'docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants/owned-launch-qEmDOnAe/launcher.mjs',
+      'docs/research/2026-10-04-cloud-resume/current-native-composite-paired/owned-launch-zVLutZ3O/launcher.mjs',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/owned-launch-YzmAG0dg/launcher.mjs',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/counted/entry.mjs',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/counted/simulation-Yh007HZ3.js',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/materialized/boundary.test.ts',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/materialized/builder.mjs',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/materialized/burn.ts',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/materialized/fall-adapter.ts',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/materialized/preparation.test.ts',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain/entry.mjs',
+      'docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain/simulation-Cnsem1hb.js',
       // flight_sim's kit, vendored byte-for-byte; flight_sim lints it.
       'src/ui/kit/**',
       // The staged copy of dist/ that the subpath deploy test serves (M5.3).

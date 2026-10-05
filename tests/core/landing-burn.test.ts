@@ -5,14 +5,14 @@
 import { describe, expect, it } from 'vitest';
 import { finalDescentStartAltitude, plannedEngineCount, triggerBurnAltitude } from '$core/autopilot/landing-burn';
 import { createBurnScratch, landingBurnStartAltitude } from '$core/control/guidance-physics';
-import * as C from '$core/constants';
 import { ALL_SCENARIOS, createScenarioState } from '$core/scenarios';
 import type { SimState } from '$core/state';
+import { SHIP } from '$core/vehicle';
 
 function descending(propellant: number, speed: number, altitude = 700): SimState {
   const s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'landing-burn')!);
   s.vehicle.propellantMass = propellant;
-  s.vehicle.vehicleMass = C.vehicleDryMass + propellant;
+  s.vehicle.vehicleMass = SHIP.dryMass + propellant;
   s.kinematics.altitude = altitude;
   s.kinematics.speedY = -speed;
   return s;
@@ -54,7 +54,7 @@ describe('the sizings', () => {
   it('the final descent starts above the predicted burn by its one-second margin', () => {
     const s = descending(12_000, 20, 300);
     s.engines.running = [true, false, false, false, false, false];
-    const burn = landingBurnStartAltitude(1, s.vehicle.vehicleMass, 20, C.vehicleHeight * 0.5, createBurnScratch())!;
+    const burn = landingBurnStartAltitude(1, s.vehicle.vehicleMass, 20, 52 * 0.5, createBurnScratch())!;
     expect(finalDescentStartAltitude(s)).toBeCloseTo(burn + 20 * 0.5, 9);
   });
 });

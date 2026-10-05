@@ -8,8 +8,8 @@ import { createInitialState, cloneState } from '$core/state';
 import { step } from '$core/step';
 import * as C from '$core/constants';
 
-describe('four grid-fin force laws',()=>{
-  const evaluate=(rho:number,vx:number,vy:number,delta:number,pitch=0,com=35.5)=>{
+describe('three V3 grid-fin force laws',()=>{
+  const evaluate=(rho:number,vx:number,vy:number,delta:number,pitch=0,com=72 / 2)=>{
     const out=createGridFinForces();
     writeGridFinForces(rho,vx,vy,rad(delta),rad(pitch),com,SUPER_HEAVY,out);
     return out;
@@ -21,10 +21,13 @@ describe('four grid-fin force laws',()=>{
   });
   it('applies the bounded flat-plate lift and drag at the physical upper station',()=>{
     const f=evaluate(1,0,-100,Math.PI/4);
-    expect(f.forceX).toBeCloseTo(120000,8);
-    expect(f.forceY).toBeCloseTo(72000,8);
-    expect(f.torque).toBeCloseTo(3660000,6);
-    expect(f.drag).toBeCloseTo(72000,8);
+    const lift = .5 * 100 ** 2 * 27;
+    const drag = lift * 1.2 * Math.sin(Math.PI / 4) ** 2;
+    const arm = 0.90 * 72 - 36;
+    expect(f.forceX).toBeCloseTo(lift,8);
+    expect(f.forceY).toBeCloseTo(drag,8);
+    expect(f.torque).toBeCloseTo(arm * lift,6);
+    expect(f.drag).toBeCloseTo(drag,8);
     const mirror=evaluate(1,0,-100,-Math.PI/4);
     expect(mirror.forceX).toBe(-f.forceX);expect(mirror.forceY).toBe(f.forceY);
     expect(mirror.torque).toBe(-f.torque);
@@ -35,7 +38,7 @@ describe('four grid-fin force laws',()=>{
     for(const vx of [-100,0,100]) for(const vy of [-100,0,100]) for(const delta of [-1,-.2,0,.2,1]) {
       const f=evaluate(1,vx,vy,delta,Math.PI/2);
       expect(f.forceX*vx+f.forceY*vy).toBeLessThanOrEqual(1e-8);
-      expect(f.torque).toBeCloseTo(-30.5*f.forceY,6);
+      expect(f.torque).toBeCloseTo(-(0.90 * 72 - 36) * f.forceY,6);
     }
   });
 });

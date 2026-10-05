@@ -12,5 +12,8 @@ export default defineConfig({
     environment: 'node',
     include: ['tests/**/*.timing.test.ts'],
     testTimeout: 30_000,
+    // Timing files must not compete with each other on any host.
+    maxWorkers: 1,
+    fileParallelism: false,
   },
 });

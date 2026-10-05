@@ -2,10 +2,11 @@
  * Ship engine result against an independent shipped implementation. */
 import { describe, expect, it } from 'vitest';
 import * as C from '$core/constants';
-import { SHIP } from '$core/vehicle';
+import { HISTORICAL_SHIP as SHIP } from '../reference/historical-vehicles';
 import * as engine from '$core/physics/engines';
 import * as shipped from './fixtures/ship-engines';
-import { createInitialState, cloneState } from '$core/state';
+import { cloneState } from '$core/state';
+import { createInitialState } from './fixtures/historical-runtime';
 
 const PRESSURES = [0, 0.001, 1, 25, 101.325];
 const THROTTLES = [0, 40, 73, 100];

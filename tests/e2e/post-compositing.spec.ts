@@ -4,7 +4,7 @@ import { writeFile } from 'node:fs/promises';
 import type { CompositeReport, WitnessKind } from './renderer/post-witness';
 import type { SamplingRow } from './renderer/post-sampling';
 
-test('belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile', async ({ page }) => {
+test('authored V3 belly tiles stay dark under the production material lighting while day and sun direction still matter @mobile', async ({ page }) => {
   await openWitness(page);
   const rows = await page.evaluate(() => (window as unknown as {
     heatShieldWitness: typeof import('./renderer/heat-shield-witness').heatShieldWitness;
@@ -15,7 +15,7 @@ test('belly tiles stay dark under the real hull lighting while day and sun direc
     unshielded: { left: rows.unshielded.left, right: rows.unshielded.right } });
   expect(rows.day.left).toBeGreaterThan(0);
   expect(rows.day.right).toBeGreaterThan(0);
-  expect(rows.day.right, 'tile albedo is darker than stainless under identical illumination').toBeLessThan(rows.unshielded.right);
+  expect(rows.day.right, 'TPS response is darker than steel with the same geometry and illumination').toBeLessThan(rows.unshielded.right);
   expect(rows.day.left, 'the visible belly remains a dark material on both sides').toBeLessThan(rows.unshielded.left);
   expect(rows.reversed.left).toBeGreaterThan(rows.day.left);
   expect(rows.reversed.right).toBeLessThan(rows.day.right);
@@ -26,18 +26,18 @@ test('belly tiles stay dark under the real hull lighting while day and sun direc
   }
 });
 
-test('real asset tile faces follow mirrored sunlight without retaining photographed shading @mobile', async ({ page }, info) => {
+test('authored V3 vehicle tile faces follow mirrored sunlight @mobile', async ({ page }, info) => {
   await openWitness(page);
   const rows = await page.evaluate(() => (window as unknown as {
     heatShieldWitness: typeof import('./renderer/heat-shield-witness').heatShieldWitness;
-  }).heatShieldWitness(true));
-  console.log('[real-tile-albedo]', { morning: [rows.day.left, rows.day.right], afternoon: [rows.reversed.left, rows.reversed.right] });
-  expect(rows.day.right / rows.day.left, 'production asset morning sun must light the right tile face').toBeGreaterThan(1.25);
-  expect(rows.reversed.left / rows.reversed.right, 'production asset afternoon sun must light the left tile face').toBeGreaterThan(1.25);
+  }).heatShieldWitness('vehicle'));
+  console.log('[authored-v3-tiles]', { morning: [rows.day.left, rows.day.right], afternoon: [rows.reversed.left, rows.reversed.right] });
+  expect(rows.day.right / rows.day.left, 'authored vehicle morning sun must light the right tile face').toBeGreaterThan(1.25);
+  expect(rows.reversed.left / rows.reversed.right, 'authored vehicle afternoon sun must light the left tile face').toBeGreaterThan(1.25);
   expect(rows.night.left).toBeLessThan(rows.day.left);
   expect(rows.night.right).toBeLessThan(rows.day.right);
   for (const [name, row] of Object.entries(rows)) {
-    await writeFile(info.outputPath(`real-tiles-${name}.png`), Buffer.from(row.capture.split(',')[1]!, 'base64'));
+    await writeFile(info.outputPath(`v3-tiles-${name}.png`), Buffer.from(row.capture.split(',')[1]!, 'base64'));
   }
 });
 

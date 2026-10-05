@@ -111,6 +111,23 @@ describe('a circular orbit stays circular over one lap', () => {
   const v = circularOrbitalSpeed(r);
   /** One full lap, in steps. */
   const lapSteps = Math.round(((2 * Math.PI * r) / v) / DT);
+  // One identical deterministic flight supplies all four independent checks.
+  // Retain every step and envelope sample; cache scalar observations only so
+  // no test can mutate a shared simulation state.
+  let measuredLap: Readonly<{ altitude: number; speed: number; downRange: number; min: number; max: number }> | undefined;
+  function measureLap() {
+    if (measuredLap) return measuredLap;
+    let state = inOrbit(altitude, v), min = Infinity, max = -Infinity;
+    for (let i = 0; i < lapSteps; i++) {
+      state = step(state, DT);
+      min = Math.min(min, state.kinematics.altitude);
+      max = Math.max(max, state.kinematics.altitude);
+    }
+    measuredLap = Object.freeze({ altitude: state.kinematics.altitude, speed: inertialX(state),
+      downRange: state.kinematics.downRangeDistance, min, max });
+    return measuredLap;
+  }
+
 
   it('takes Kepler\'s period, about 88 minutes, which is what low orbit takes', () => {
     // A fixed figure, not the formula again: Earth's period at 200 km.
@@ -118,36 +135,27 @@ describe('a circular orbit stays circular over one lap', () => {
   });
 
   it('altitude holds within a kilometre over a full lap', () => {
-    const end = run(inOrbit(altitude, v), lapSteps);
-    const drift = Math.abs(end.kinematics.altitude - altitude);
+    const drift = Math.abs(measureLap().altitude - altitude);
     expect(drift, `drifted ${drift.toFixed(1)} m over one lap`).toBeLessThan(1_000);
   });
 
   it('speed holds within a metre per second over a full lap', () => {
-    const end = run(inOrbit(altitude, v), lapSteps);
-    expect(Math.abs(inertialX(end) - v)).toBeLessThan(1);
+    expect(Math.abs(measureLap().speed - v)).toBeLessThan(1);
   });
 
   it('never dips into the atmosphere or climbs away', () => {
-    let s = inOrbit(altitude, v);
-    let min = Infinity;
-    let max = -Infinity;
-    for (let i = 0; i < lapSteps; i++) {
-      s = step(s, DT);
-      min = Math.min(min, s.kinematics.altitude);
-      max = Math.max(max, s.kinematics.altitude);
-    }
+    const { min, max } = measureLap();
     expect(min).toBeGreaterThan(altitude - 1_000);
     expect(max).toBeLessThan(altitude + 1_000);
   });
 
   it('completes a full revolution of downrange distance', () => {
-    const end = run(inOrbit(altitude, v), lapSteps);
+    const end = measureLap();
     // downRangeDistance wraps at the circumference, so it returns near its start
     // — in the inertial frame: the ground has turned omega*r*T under the lap,
     // which is added back.
     const start = inOrbit(altitude, v).kinematics.downRangeDistance;
-    const inertialEnd = end.kinematics.downRangeDistance + C.frameRotationRate * r * lapSteps * DT;
+    const inertialEnd = end.downRange + C.frameRotationRate * r * lapSteps * DT;
     const travelled = Math.abs((inertialEnd % C.planetCircumference) - start);
     // Within 5% of a full circumference. Not tighter: the lap count is derived
     // from the orbital period rounded to whole steps, and the vehicle orbits at

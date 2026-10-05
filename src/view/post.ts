@@ -13,6 +13,7 @@
  * and in cruise the post pass costs nothing at all.
  */
 import { Container, Filter, GlProgram } from 'pixi.js';
+import type { DebugFilterMetadata } from '$app/debug';
 
 const VERTEX = `
 in vec2 aPosition;
@@ -131,8 +132,12 @@ export interface PostPass {
    * @param nose screen-space nose position, normalised 0..1
    */
   update(bloom: number, heat: number, nose: { x: number; y: number }, elapsed: number): void;
+  /** Explicit optional heat-post policy; disabling detaches its owned filter immediately. */
+  setHeatPostEnabled(enabled: boolean): void;
   /** Whether either filter is currently attached. */
   readonly active: boolean;
+  /** Snapshot live objects on demand; not a per-frame cache or quality guess. */
+  metadata(root: { resolution: number; antialias: boolean; backendType: number }): readonly DebugFilterMetadata[];
   destroy(): void;
 }
 
@@ -173,6 +178,7 @@ export function createPostPass(
 
   let bloomAttached = false;
   let heatAttached = false;
+  let heatPostEnabled = true;
 
   const bloomUniforms = bloomFilter.resources['bloomUniforms'] as {
     uniforms: { uStrength: number };
@@ -184,6 +190,32 @@ export function createPostPass(
   return {
     get active() {
       return bloomAttached || heatAttached;
+    },
+
+    metadata(root) {
+      // These layers are root siblings with one owned filter each. Resolve
+      // inheritance from the actual root texture, as Pixi's FilterSystem does.
+      // This reports input policy, not a claim about cropped texture dimensions
+      // or successful GPU execution (which the separate budget probe measures).
+      return ([['bloom', bloomFilter, plumeLayer], ['heat', heatFilter, vehicleLayer]] as const)
+        .map(([id, filter, layer]) => {
+          const attached = layer.filters?.includes(filter) ?? false;
+          const compatible = !!(filter.compatibleRenderers & root.backendType);
+          const runs = attached && filter.enabled && compatible;
+          return { id, attached, enabled: filter.enabled, compatible,
+            resolution: filter.resolution, antialias: filter.antialias,
+            inputResolution: runs ? (filter.resolution === 'inherit' ? root.resolution : filter.resolution) : null,
+            inputAntialias: runs ? (filter.antialias === 'inherit' ? root.antialias : filter.antialias === 'on') : null };
+        });
+    },
+
+    setHeatPostEnabled(enabled) {
+      if (typeof enabled !== 'boolean') throw new RangeError('Heat-post policy requires a boolean');
+      heatPostEnabled = enabled;
+      if (!enabled) {
+        vehicleLayer.filters = vehicleLayer.filters?.filter(filter => filter !== heatFilter) ?? [];
+        heatAttached = false;
+      }
     },
 
     update(bloom, heat, nose, elapsed) {
@@ -200,7 +232,7 @@ export function createPostPass(
         bloomAttached = false;
       }
 
-      if (heat > POST_THRESHOLD) {
+      if (heatPostEnabled && heat > POST_THRESHOLD) {
         heatUniforms.uniforms.uIntensity = Math.min(heat, 1);
         heatUniforms.uniforms.uTime = elapsed;
         heatUniforms.uniforms.uCenter[0] = nose.x;

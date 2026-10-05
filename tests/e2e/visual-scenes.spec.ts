@@ -1,6 +1,7 @@
 /** Six actual production scenes; the identical state without bodies is the
  * pixel detector's negative control. No image-golden or fabricated flight. */
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from './visual-evidence-fixture';
 import { writeFile } from 'node:fs/promises';
 import type { SimDebug } from '../../src/app/debug';
 import { starBaseXPos } from '../../src/core/constants';

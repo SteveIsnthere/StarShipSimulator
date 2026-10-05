@@ -1,4 +1,5 @@
 /** Additional actual Super Heavy regressions; all eight Ship tests stay intact. */
+import assert from 'node:assert/strict';
 import { readFileSync,readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
@@ -11,16 +12,19 @@ import { deserialise,samplesOf,GOLDEN_DT,SAMPLE_EVERY,type Sample } from './reco
 import { matches } from './compare';
 
 const DIR=fileURLToPath(new URL('./fixtures/booster/',import.meta.url));
+// P8.R1/R2 Fidelity: both actual V3 booster captures recorded with all eight
+// Ship fixtures on Linux x86-64 / Node22. Whole-file digests, not rows hashes.
+// Recording success is separate from the unchanged full replay assertions below.
 const DIGESTS:Readonly<Record<string,string>>={
-  'booster-sep-catch':'5c754d0217301aeec35c9850a8ac71b31abae86635898e2724abdb1e08dbbd98',
-  'rtls-catch':'8b10c24c1d68136477226b0728420870046d456f198dcedf64aaf4ba9113fb33',
+  'booster-sep-catch':'845da274d0e59758fabebf57e734c28ce1f8276ccc33fa33452f59bc3e912e33',
+  'rtls-catch':'a20123bb78d3fdf77affd26e2140e142247d07d13319786f2673e1a5a62d9bb9',
 };
 function compare(actual:Sample,expected:Sample,label:string):void {
   // Absent optional phase/decision leaves are explicitly undefined in the
   // union columns. Any newly introduced live field must still fail the shape.
   expect(Object.keys(actual).filter(key=>!(key in expected)),label).toEqual([]);
   for(const [key,value] of Object.entries(expected))
-    expect(matches(actual[key],value),`${label}: ${key}=${String(actual[key])}, expected ${String(value)}`).toBe(true);
+    assert.strictEqual(matches(actual[key],value),true,`${label}: ${key}=${String(actual[key])}, expected ${String(value)}`);
 }
 describe('actual booster capture golden regressions',()=>{
   it('has exactly the two declared recordings and discriminating immutable digests',()=>{

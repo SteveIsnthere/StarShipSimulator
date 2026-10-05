@@ -1,56 +1,29 @@
-/** Functional Super Heavy geometry in metres, reading real actuator positions.
- * Four grid fins are projected as two edge plates and two face plates in 2D.
- * Surface geometry is startup-owned and follows the same physical pose. */
-import { createVehicleDetail } from './vehicle-detail';
-import { lightInVehicleFrame } from './sun';
-import { Container, Graphics } from 'pixi.js';
+/** V3 Super Heavy: three projected lattice fins and retained open hot stage. */
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
-import type { VehicleView } from './vehicle';
-import { FIN_COLOR } from './vehicle';
-import { flatLighting } from './lighting';
+import { createVehicleGeometry } from './vehicle-geometry';
+import { createComponentVehicle } from './component-vehicle';
+import { createVehicleDamageBinding, type VehicleView } from './vehicle';
 
 export function createBoosterVehicle(): VehicleView {
-  const container = new Container({ label: 'super-heavy' });
-  const hull = new Graphics({ label: 'booster-hull' });
-  hull.rect(-4.5, -35.5, 9, 71).fill(FIN_COLOR);
-  hull.rect(-4.5, 32.5, 9, 3).fill(0x525b61);
-  const fins = Array.from({ length: 4 }, (_, i) => {
-    const fin = new Graphics({ label: `grid-fin-${i + 1}` });
-    fin.rect(0, -1.5, 4, 3).fill(FIN_COLOR);
-    for (let x = 0.5; x < 4; x += 0.75) fin.moveTo(x, -1.5).lineTo(x, 1.5);
-    fin.moveTo(0, 0).lineTo(4, 0).stroke({ color: 0x525b61, width: 0.16 });
-    fin.x = i < 2 ? -4.5 : 4.5;
-    fin.y = SUPER_HEAVY.height / 2 - SUPER_HEAVY.gridFins!.station;
-    return fin;
-  });
-  const detail = createVehicleDetail(SUPER_HEAVY.height, SUPER_HEAVY.diameter, true);
-  const leftRim = detail.getChildByLabel('detail-rim-left')!;
-  const rightRim = detail.getChildByLabel('detail-rim-right')!;
-  const light = { x: 0, y: 1, z: 0 };
-  container.addChild(fins[0]!, fins[2]!, hull, detail, fins[1]!, fins[3]!);
+  const geometry = createVehicleGeometry({id: 'super-heavy',height: SUPER_HEAVY.height,
+    diameter: SUPER_HEAVY.diameter,gridFinStation: SUPER_HEAVY.gridFins!.station, engines: SUPER_HEAVY.engines});
+  const components = createComponentVehicle(geometry);
+  const writeDamage = createVehicleDamageBinding(SUPER_HEAVY, components);
   return {
-    container,
+    container: components.container, components,
     update(camera, viewport, state, sun) {
-      container.position.set(viewport.width / 2 + (state.downRangeDistance - camera.posX - camera.shakeX) * viewport.scale,
-        viewport.height / 2 - (state.altitude - camera.posY - camera.shakeY) * viewport.scale);
-      container.rotation = state.pitch;
-      container.scale.set(viewport.scale);
-      const angle = (state.frontFinExtension - 50) / 50 * SUPER_HEAVY.gridFins!.maxAngle;
-      for (let i = 0; i < fins.length; i++) {
-        const fin = fins[i]!;
-        fin.rotation = i < 2 ? Math.PI + angle : -angle;
-        // Face plates remain present at neutral; all four articulate together.
-        fin.scale.x = i % 2 === 0 ? 1 : 0.45;
+      components.updatePose(camera, viewport, state, sun);
+      if (state.damage) {
+        writeDamage(state.damage, state.surfaceTemperature ?? 293.15);
+        return;
       }
-      const shade = sun ? Math.round(255 * Math.min(1, flatLighting(sun.south, sun.daylight))) : 255;
-      container.tint = (shade << 16) | (shade << 8) | shade;
-      if (sun) {
-        lightInVehicleFrame(sun, state.pitch, light);
-        // Relative face contrast; the parent already carries daylight/night.
-        const base = flatLighting(light.z, 1);
-        leftRim.tint = Math.round(255 * Math.min(1, flatLighting(-light.x, 1) / base)) * 0x010101;
-        rightRim.tint = Math.round(255 * Math.min(1, flatLighting(light.x, 1) / base)) * 0x010101;
+      const angle = Math.max(-1, Math.min(1, (state.frontFinExtension - 50) / 50)) * SUPER_HEAVY.gridFins!.maxAngle;
+      for (const component of geometry.components) {
+        const part = components.partsById.get(component.id)!;
+        components.setComponentState(component.id, part.container.visible, state.surfaceTemperature ?? 293.15);
+        if (component.kind === 'grid-fin') components.setArticulation(component.id, angle);
       }
     },
+    destroy() { components.destroy(); },
   };
 }

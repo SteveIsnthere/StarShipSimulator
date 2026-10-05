@@ -1,3 +1,4 @@
+/** Phase8: import-only historical dependency routing; preserved numerical body unchanged. */
 /** Shipped src/core/control/guidance-physics.ts from934d3cd.
  * Original SHA256: a9150432c44111c83ff066a05b93079d9e145e90aa0868fa42c4afe712b63d34
  * Imports adjusted only; dependent Ship helpers have separate equivalence proofs. */
@@ -24,7 +25,7 @@ import {
   getDrag,
   getLift,
   wrappedAttackAngle,
-} from '$core/physics/aero';
+} from './ship-aero';
 import { getHorizontalAcceleration, getVerticalAcceleration, type AccelerationInputs } from '$core/physics/components';
 import { tangentialAcceleration, verticalGravityAcceleration, verticalWeight } from '$core/physics/gravity';
 import { isaAtmosphereInto } from '$core/physics/isa';

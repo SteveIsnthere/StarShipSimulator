@@ -8,6 +8,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const LAYOUTS = [
+  ['chrome-linux64', 'chrome'],
   ['chrome-linux', 'chrome'],
   [
     'chrome-mac-arm64',
@@ -35,18 +36,29 @@ export function preinstalledChromium(): string | undefined {
 }
 
 
-/** One tested GPU policy for full-suite, subpath and live browser checks. */
+/** Explicit policy; selection never claims what GPU Chromium actually obtained. */
+export function chromiumGpuPolicy(): 'swiftshader' | 'metal' | 'default' {
+  const selected = process.env['E2E_GPU_POLICY'] ?? (process.platform === 'darwin' ? 'metal' : 'swiftshader');
+  if (selected !== 'swiftshader' && selected !== 'metal' && selected !== 'default')
+    throw new Error('E2E_GPU_POLICY must be swiftshader, metal, or default');
+  if (selected === 'metal' && process.platform !== 'darwin')
+    throw new Error('Metal requires macOS; choose swiftshader or default on this host');
+  return selected;
+}
+
+/** One GPU launch policy for full-suite, subpath and live browser checks. */
 export function chromiumLaunchOptions() {
   const executablePath = preinstalledChromium();
+  const policy = chromiumGpuPolicy();
   return {
     ...(executablePath ? { executablePath } : {}),
     args: [
-      // Root containers require this; Mac uses its actual GPU instead of CPU rasterization.
+      // Existing container launch contract; renderer receipts report the observed backend.
       '--no-sandbox',
       '--use-gl=angle',
-      ...(process.platform === 'darwin'
+      ...(policy === 'metal'
         ? ['--enable-gpu', '--use-angle=metal']
-        : ['--use-angle=swiftshader', '--enable-unsafe-swiftshader']),
+        : policy === 'swiftshader' ? ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] : ['--enable-gpu']),
     ],
   };
 }

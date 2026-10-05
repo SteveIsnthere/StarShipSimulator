@@ -21,5 +21,15 @@ export default defineConfig({
   build: {
     target: 'es2022',
     sourcemap: true,
+    rolldownOptions: {
+      output: {
+        // The live app and optional diagnostics share the simulation. Keep its
+        // static dependency graph together instead of compressing state and
+        // stepping separately; it remains in the measured first load.
+        manualChunks(id) {
+          if (id.includes('/src/core/') || id.endsWith('/src/app/loop.ts')) return 'simulation';
+        },
+      },
+    },
   },
 });

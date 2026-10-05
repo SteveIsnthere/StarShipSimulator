@@ -32,6 +32,16 @@ function noAuthority(s: SimState, before: SimState) {
   expect(s.vehicle).toEqual(before.vehicle); expect(s.engines).toEqual(before.engines);
   expect(s.rng).toEqual(before.rng);
 }
+/** Independent four paid advances from the retained ready input. Forecast
+ * fall-time bookkeeping is explicit; no scheduler or candidate is consulted. */
+function paidFineOracle(initial: SimState): SimState {
+  let next = cloneState(initial);
+  for (let i=0;i<4;i++) {
+    next.autopilot.boosterFallTime = Math.max(2,(initial.autopilot.boosterFallTime ?? 900)-i*DT);
+    next = advanceMechanics(next,DT,runBoosterPolicy,SUPER_HEAVY);
+  }
+  return next;
+}
 describe('retained physical scheduling boundaries', () => {
   it('ends a failed validation at the sixteen-trial cap without another trial or authority', () => {
     const s = job(), j = s.autopilot.boosterPrediction!;
@@ -48,12 +58,14 @@ describe('retained physical scheduling boundaries', () => {
     j.low = candidate(2, 10); j.high = candidate(2 + 2 * DT, -10); j.selected = j.low;
     j.lowReady = cloneState(ready.rtls as unknown as SimState);
     j.highReady = cloneState(j.lowReady); j.attemptedTicks = [241];
-    const before = cloneState(s), paidReady = cloneState(j.lowReady);
-    advance(s);
+    const before = cloneState(s), paidReady = cloneState(j.lowReady), oldJob = JSON.stringify(j);
+    expect(advance(s)).toBe(4);
     const next = s.autopilot.boosterPrediction!;
     expect(next.stage).toBe('validate'); expect(next.done).toBe(false);
     expect(next.selected).toEqual(j.low); expect(next.rollout.step).toBe(DT);
-    expect(next.rollout.state).toEqual(paidReady); expect(next.rollout.state).not.toBe(j.lowReady);
+    expect(next.terminalOrigin).toEqual(paidReady); expect(next.terminalOrigin).not.toBe(j.lowReady);
+    expect(next.rollout.result.steps).toBe(4); expect(next.rollout.state).toEqual(paidFineOracle(paidReady));
+    expect(next.rollout.state).not.toBe(j.lowReady); expect(JSON.stringify(j)).toBe(oldJob);
     expect(next.iterations).toBe(j.iterations); noAuthority(s, before);
   });
   it('does not validate either retained endpoint twice when interior ticks and endpoints are exhausted', () => {
@@ -101,10 +113,13 @@ describe('retained physical scheduling boundaries', () => {
     j.origin.autopilot.boosterPhase = 'coast'; j.stage = 'low'; j.duration = 0;
     j.rollout.result = candidate(0, 10).forecast;
     j.rollout.state = cloneState(ready.rtls as unknown as SimState);
-    const before = cloneState(s); advance(s);
+    const before = cloneState(s), paidReady = cloneState(j.rollout.state), oldJob = JSON.stringify(j);
+    expect(advance(s)).toBe(4);
     const next = s.autopilot.boosterPrediction!;
     expect(next.stage).toBe('validate'); expect(next.selected!.burnDuration).toBe(0);
-    expect(next.rollout.step).toBe(DT); expect(next.rollout.state).toEqual(j.rollout.state);
+    expect(next.rollout.step).toBe(DT); expect(next.terminalOrigin).toEqual(paidReady);
+    expect(next.terminalOrigin).not.toBe(j.rollout.state); expect(next.rollout.result.steps).toBe(4);
+    expect(next.rollout.state).toEqual(paidFineOracle(paidReady)); expect(JSON.stringify(j)).toBe(oldJob);
     noAuthority(s, before);
   });
 });

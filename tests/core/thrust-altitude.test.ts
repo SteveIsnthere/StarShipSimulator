@@ -25,6 +25,12 @@ import { G0, P0_PASCAL } from '$core/physics/isa';
 import { createScenarioState, ALL_SCENARIOS } from '$core/scenarios';
 import { step } from '$core/step';
 
+// Independent approved V3 anchors; do not derive expectations from engine helpers.
+const V3_SL_FLOW = (250_000 * 9.80665) / (327 * 9.80665);
+const V3_SL_VACUUM = V3_SL_FLOW * 9.80665 * 350;
+const v3SeaLevelThrust = (p: number) => Math.max(0,
+  V3_SL_VACUUM - Math.max(0, p) * 1000 * ((V3_SL_VACUUM - 250_000 * 9.80665) / 101_325));
+
 const ALL = [true, true, true] as const;
 const SEA_LEVEL_KPA = C.SEA_LEVEL_PRESSURE_PA / 1000;
 const TONNE_FORCE = 1000 * C.standardGravity;
@@ -154,7 +160,7 @@ describe('the engine model threads the pressure through', () => {
     // The whole model rests on this: the same kilograms per second at every
     // altitude, buying more thrust as the air thins. getFuelFlowRate takes no
     // pressure and there is no version that does.
-    expect(getFuelFlowRate(ALL, 100)).toBe(3 * C.RAPTOR_MASS_FLOW);
+    expect(getFuelFlowRate(ALL, 100)).toBe(3 * V3_SL_FLOW);
     expect(getFuelFlowRate.length).toBe(2);
   });
 
@@ -183,8 +189,8 @@ describe('flown: an ascent gains thrust it did not have before', () => {
     // The pad is the vehicle's half-height above sea level, so the step saw a
     // pressure a hair under 101.325 kPa: the thrust is what the curve gives at
     // THAT pressure exactly, and within 0.1% of the sea-level anchor.
-    expect(padThrust).toBeCloseTo(3 * C.thrustPerRaptorAt(onPad.atmosphere.airPressure), 6);
-    expect(padThrust / (3 * C.RAPTOR_THRUST_SEA_LEVEL)).toBeCloseTo(1, 3);
+    expect(padThrust).toBeCloseTo(3 * v3SeaLevelThrust(onPad.atmosphere.airPressure), 6);
+    expect(padThrust / (3 * 250_000 * 9.80665)).toBeCloseTo(1, 3);
 
     // Teleport the same state to 30 km and take one step: the only thing that
     // changed is the air.

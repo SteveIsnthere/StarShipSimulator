@@ -32,9 +32,9 @@ import { SecondaryReadouts } from './SecondaryReadouts';
 import { detachedMetric, detachedReadout, metricResolver, readoutResolver } from './readout-registry';
 
 /**
- * Wide: a card at the top centre. Short (a phone held sideways): the compact
- * cluster, centred between the two 216 px control rails. Phone: a full-width
- * strip under the status bar.
+ * Wide: a card at the top centre. Phone: a full-width strip under the status
+ * bar. The standalone Ship keeps the original short card; structured flights
+ * use the full safe-width instrument strip above their control rails.
  */
 const PLACEMENT = {
   wide: 'ui-safe-margin-top inset-x-0 top-14 mx-auto w-[min(560px,calc(var(--ui-safe-width)-32px))] gap-3 border px-[18px] py-3',
@@ -44,12 +44,15 @@ const PLACEMENT = {
 
 /** Where the cluster ends; read by the surfaces that sit under it. */
 const HUD_BOTTOM = '--hud-bottom';
+const SHORT_INSTRUMENT_STRIP = 'ui-safe-margin-top inset-x-0 top-[52px] mx-auto w-[calc(var(--ui-safe-width)-24px)] gap-1 border px-3 py-2';
 
 export function Hud() {
   const session = useSession();
   const mode = useLayoutMode();
   // A phone in either orientation: digits and ticks, short labels, no rail.
   const compact = mode !== 'wide';
+  const structuredFlight = useSessionState(s => s.selectedVehicle === 'super-heavy' || s.missionPhase !== null);
+  const short = mode === 'short' && structuredFlight;
   const debriefUp = useSessionState((s) => s.debrief !== null);
   const selectedVehicle = useSessionState(s => s.selectedVehicle);
   // Open on a desktop, folded on a phone where every row costs the world. A
@@ -99,7 +102,7 @@ export function Hud() {
       hidden={debriefUp}
       className={cn(
         'absolute z-10 grid border-flight-backing-line bg-flight-backing text-ui-fg',
-        PLACEMENT[mode],
+        short ? SHORT_INSTRUMENT_STRIP : PLACEMENT[mode],
       )}
     >
       <div className="flex min-w-0 items-center gap-3">
@@ -123,7 +126,7 @@ export function Hud() {
       </div>
 
       {/* Live numbers, never announced: a HUD that spoke every change would be unusable. */}
-      <div role="status" aria-live="off" className={cn('grid', compact ? 'gap-2' : 'gap-3')}>
+      <div role="status" aria-live="off" className={cn('grid', short ? 'gap-1' : compact ? 'gap-2' : 'gap-3', short && 'grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-center')}>
         <div className={cn('grid grid-cols-3', compact ? 'gap-2' : 'gap-3')}>
           <PrimaryReadout
             id="altitude"
@@ -147,9 +150,12 @@ export function Hud() {
           {selectedVehicle === 'ship' && <EngineDots compact={compact} />}
           <Attitude compact={compact} />
         </div>
-        {selectedVehicle === 'super-heavy' && <EngineDots compact={compact} />}
+        {selectedVehicle === 'super-heavy' && (short
+          ? <div className="col-span-full"><EngineDots compact={compact} inline /></div>
+          : <EngineDots compact={compact} />)}
 
-        <SecondaryReadouts id={secondaryId} hidden={!expanded} />
+        {short ? <div className="col-span-full" hidden={!expanded}><SecondaryReadouts id={secondaryId} hidden={!expanded} /></div>
+          : <SecondaryReadouts id={secondaryId} hidden={!expanded} />}
       </div>
     </section>
   );

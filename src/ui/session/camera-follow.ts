@@ -10,6 +10,7 @@ import type { SimState } from '$core/state';
 import type { MissionState } from '$core/mission';
 import { SHIP, type VehicleDefinition } from '$core/vehicle';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+import { damageModelFor } from '$core/physics/damage-model';
 import type { ViewApp } from '$view/app';
 import { updateCamera, type CameraMode, type MutableViewport } from '$view/camera';
 import { SHIP_VISUAL_DIAMETER } from '$view/vehicle';
@@ -27,6 +28,7 @@ export interface CameraFollow {
 
 export function createCameraFollow(): CameraFollow {
   let pairFraming = true;
+  let terminalPieces = false;
   const fitted: MutableViewport = { width: 0, height: 0, physicalWidth: 0, physicalHeight: 0, scale: 0 };
   const shipBounds = { left: 0, right: 0, bottom: 0, top: 0 };
   const boosterBounds = { ...shipBounds };
@@ -47,7 +49,7 @@ export function createCameraFollow(): CameraFollow {
     mode: 'follow',
     padX: starBaseXPos,
   };
-  function read(state: SimState) {
+  function read(state: SimState, model: VehicleDefinition) {
     target.downRangeDistance = state.kinematics.downRangeDistance;
     target.altitude = state.kinematics.altitude;
     target.speedX = state.kinematics.speedX;
@@ -58,6 +60,55 @@ export function createCameraFollow(): CameraFollow {
     target.crashed = state.failures.crashed;
     target.dynamicPressure = state.forces.dynamicPressure;
     target.thrustAcceleration = state.forces.thrustAcceleration;
+    terminalPieces = false;
+    const damage = state.damage;
+    if (!damage?.terminal.active) return;
+    // Catalogue already exists when the physical state is constructed. Follow
+    // actual dry-piece centroids, never the terminal snapshot/frozen hull or
+    // the released propellant ledger. No simulation field is written here.
+    const source = damageModelFor(model);
+    let mass = 0, x = 0, y = 0, vx = 0, vy = 0, grounded = true;
+    bounds.left = bounds.bottom = Infinity; bounds.right = bounds.top = -Infinity;
+    for (let i = 0; i < damage.debris.length; i++) {
+      const piece = damage.debris[i]!;
+      if (!piece.active) continue;
+      const m = source.partition.components[i]!.mass, radius = source.debris.pieces[i]!.supportRadius;
+      mass += m; x += m * piece.x; y += m * piece.altitude;
+      vx += m * piece.speedX; vy += m * piece.speedY;
+      bounds.left = Math.min(bounds.left, piece.x - radius); bounds.right = Math.max(bounds.right, piece.x + radius);
+      bounds.bottom = Math.min(bounds.bottom, piece.altitude - radius); bounds.top = Math.max(bounds.top, piece.altitude + radius);
+      grounded = grounded && piece.altitude <= radius && piece.speedX === 0 && piece.speedY === 0;
+    }
+    if (!(mass > 0)) return;
+    terminalPieces = true;
+    target.downRangeDistance = x / mass; target.altitude = y / mass;
+    target.speedX = vx / mass; target.speedY = vy / mass;
+    target.landed = target.onTheGround = grounded;
+    target.crashed = false;
+    target.dynamicPressure = target.thrustAcceleration = 0;
+  }
+  function frameTerminalPieces(view: CameraFollowView) {
+    if (options.mode !== 'follow') return;
+    // Existing enclosing source envelopes are conservative display bounds,
+    // not new fragment mechanics. Centre them on the tracked dry-mass centroid
+    // so lighter pieces remain framed without moving the camera target.
+    const halfX = Math.max(target.downRangeDistance - bounds.left, bounds.right - target.downRangeDistance);
+    const halfY = Math.max(target.altitude - bounds.bottom, bounds.top - target.altitude);
+    bounds.left = target.downRangeDistance - halfX; bounds.right = target.downRangeDistance + halfX;
+    bounds.bottom = target.altitude - halfY; bounds.top = target.altitude + halfY;
+    // Only widen the existing/manual FOV; a breakup must not cause a zoom-in.
+    fit(view, 0, 1);
+  }
+  function keepTerminalPiecesInFrame(view: CameraFollowView) {
+    const vp = view.viewport, cam = view.camera;
+    // Inherited velocity can vastly exceed the rapidly decelerating pieces.
+    // Preserve the follow law inside the current envelope's available margin;
+    // constrain only an edge crossing, just as the intact Ship framing does.
+    const halfX = vp.physicalWidth * 0.45, halfY = vp.physicalHeight * 0.45;
+    const left = bounds.right - halfX, right = bounds.left + halfX;
+    const bottom = bounds.top - halfY, top = bounds.bottom + halfY;
+    if (left <= right) cam.posX = Math.max(left, Math.min(right, cam.posX));
+    if (bottom <= top) cam.posY = Math.max(vp.physicalHeight / 2, bottom, Math.min(top, cam.posY));
   }
   function writeBounds(out: typeof bounds, pose: SimState['kinematics'], height: number, diameter: number) {
     const x = (Math.abs(Math.sin(pose.pitch)) * height + Math.abs(Math.cos(pose.pitch)) * diameter) / 2;
@@ -143,26 +194,36 @@ export function createCameraFollow(): CameraFollow {
   return {
     reset(view, state, mission, model = SHIP) {
       pairFraming = true;
-      read(state);
-      view.followAltitude(state.kinematics.altitude);
-      frameBooster(view, state, model);
-      if (mission) framePair(view, mission);
+      read(state, model);
+      view.followAltitude(target.altitude);
+      if (terminalPieces) frameTerminalPieces(view);
+      else {
+        frameBooster(view, state, model);
+        if (mission) framePair(view, mission);
+      }
       position(view);
     },
     select(view, state, model = SHIP) {
       pairFraming = false;
-      read(state);
-      view.followAltitude(state.kinematics.altitude);
-      frameBooster(view, state, model);
+      read(state, model);
+      view.followAltitude(target.altitude);
+      if (terminalPieces) frameTerminalPieces(view);
+      else frameBooster(view, state, model);
       position(view);
     },
     step(view, state, mission, model = SHIP) {
-      read(state);
-      view.followAltitude(state.kinematics.altitude);
-      frameBooster(view, state, model);
-      if (mission && pairFraming) framePair(view, mission);
+      read(state, model);
+      view.followAltitude(target.altitude);
+      if (terminalPieces) {
+        pairFraming = false;
+        frameTerminalPieces(view);
+      } else {
+        frameBooster(view, state, model);
+        if (mission && pairFraming) framePair(view, mission);
+      }
       updateCamera(view.camera, target, view.viewport, DT, options);
-      if (!mission && model.id === SHIP.id && options.mode === 'follow'
+      if (terminalPieces && options.mode === 'follow') keepTerminalPiecesInFrame(view);
+      if (!terminalPieces && !mission && model.id === SHIP.id && options.mode === 'follow'
         && !state.autopilot.demoAutoLandOn && !state.failures.crashed) {
         keepHullInFrame(view, state);
       }

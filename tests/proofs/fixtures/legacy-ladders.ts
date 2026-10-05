@@ -6,6 +6,7 @@
  * Moved out of shipped code in Phase 6; never edit them, they are the "before".
  */
 import { getTotalMaxThrust } from '$core/physics/engines';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
 import type { Rad } from '$core/units';
 
 const HALF_PI = Math.PI / 2;
@@ -94,10 +95,11 @@ export function legacyEffectiveVerticalMaxThrust(
   running: readonly boolean[],
   gimbalPointingDirection: Rad,
   ambientPressureKPa: number,
+  model: VehicleDefinition = SHIP,
 ): number {
   // M11.2: the same pressure-dependent thrust as the collapsed form, so the
   // two still differ ONLY in the trig — which is what collapsed-trig proves.
-  const maxThrust = getTotalMaxThrust(running, ambientPressureKPa);
+  const maxThrust = getTotalMaxThrust(running, ambientPressureKPa, model);
 
   let coefficient: number;
   if (0 <= gimbalPointingDirection && gimbalPointingDirection <= Math.PI / 2) {

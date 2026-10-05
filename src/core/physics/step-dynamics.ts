@@ -4,7 +4,7 @@
  * these kernels rather than inventing a second force or time integrator. */
 import * as C from '../constants';
 import type { VehicleDefinition } from '../vehicle';
-import { createGridFinForces, writeGridFinForces } from './grid-fins';
+import { createGridFinForces } from './grid-fins';
 import { speedOfSoundAt, updateAtmosphere } from './atmosphere';
 import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from './thermal';
 import * as aero from './aero';
@@ -13,6 +13,8 @@ import * as gravity from './gravity';
 import * as eng from './engines';
 import * as wind from './wind';
 import { createMassProperties, writeMassProperties } from './mass';
+import { writeFlightMass, writeFlightFinAreas, writeFlightGridForces } from './damage-flight';
+import { captureDamageTerminal, clearTerminalPropulsion, DamageTerminalReason, damageTerminalReason } from './damage-terminal';
 import type { SimState } from '../state';
 import { rad } from '../units';
 
@@ -62,7 +64,11 @@ function updatePitchRateOfChange(s: SimState, dt: number): void {
   // depending on the player's display.
   //
   // A rate of change is dPitch / dt.
-  kinematics.pitchRateOfChange = (kinematics.pitch - lastPitch) / dt;
+  // A fresh Ship has two absent-history sentinels. A first-tick terminal
+  // event now freezes the body, so its rate must not freeze an infinity too.
+  // Until a real sample exists, use the supplied physical angular velocity.
+  kinematics.pitchRateOfChange = s.damage && !Number.isFinite(lastPitch)
+    ? kinematics.angularVelocity : (kinematics.pitch - lastPitch) / dt;
 }
 
 /**
@@ -92,7 +98,7 @@ function updateOrbitalGeometry(s: Pick<SimState, 'kinematics'>): void {
 }
 
 /** physics.js:365 — ground contact: land, crash, or rest. */
-function checkIfCrash(s: SimState, model: VehicleDefinition): void {
+export function checkIncomingContact(s: SimState, model: VehicleDefinition): void {
   const { kinematics, status, failures, vehicle, engines } = s;
 
   if (
@@ -113,6 +119,8 @@ function checkIfCrash(s: SimState, model: VehicleDefinition): void {
         kinematics.speedY = 0;
         kinematics.angularVelocity = 0;
       } else {
+        // Capture paid incoming motion before legacy crash resets it.
+        captureDamageTerminal(s, model, DamageTerminalReason.Impact, s.world.environmentTime);
         // configCrashed()
         failures.crashed = true;
         kinematics.speedX = 0;
@@ -131,9 +139,8 @@ function checkIfCrash(s: SimState, model: VehicleDefinition): void {
 }
 
 /** Ground support uses the current vertical force, including gimbal direction. */
-function updateGroundContact(s: TranslationBody, verticalSpecificForce: number, model: VehicleDefinition): void {
+function updateGroundContact(s: TranslationBody, verticalSpecificForce: number, model: VehicleDefinition, contactHeight = model.height * Math.abs(Math.cos(s.kinematics.pitch)) * 0.5): void {
   const { kinematics, status } = s;
-  const contactHeight = model.height * Math.abs(Math.cos(kinematics.pitch)) * 0.5;
   if (kinematics.altitude > contactHeight || kinematics.speedY < -0.5) return;
   if (s.failures.crashed || status.landed) return;
   status.onTheGround = verticalSpecificForce <= gravity.verticalWeight(kinematics.distanceToPlanetCenter);
@@ -160,14 +167,18 @@ export function checkIfBreakUp(s: SimState, model: VehicleDefinition, work: Step
     // surroundings, so the reading and the verdict cannot disagree (Phase 6's
     // independent review: judging the flux let a tile read 1,533.04 K whole).
     forces.surfaceTemperature > C.TILE_LIMIT_KELVIN ||
-    forces.dynamicPressure > C.dynamicPressureLimit
+    forces.dynamicPressure > C.dynamicPressureLimit ||
+    (s.damage !== null && (s.damage.terminal.active || !s.damage.hull.valid))
   ) {
+    captureDamageTerminal(s, model, damageTerminalReason(s), s.world.environmentTime);
     failures.inFlightBreakUp = true;
     kinematics.angularVelocity = 0;
     vehicle.propellantMass = 0;
-    vehicle.vehicleMass = model.dryMass;
-    writeMassProperties(0, work.massProperties, model);
-    vehicle.vehicleMomentOfInertia = work.massProperties.momentOfInertia;
+    if (!s.damage) {
+      vehicle.vehicleMass = model.dryMass;
+      writeMassProperties(0, work.massProperties, model);
+      vehicle.vehicleMomentOfInertia = work.massProperties.momentOfInertia;
+    }
     engines.running.fill(false);
     engines.ignitionCountdown.fill(null);
     vehicle.rcsRunTimeRemaining = 0;
@@ -226,7 +237,12 @@ export function prepareDynamics(s: SimState, dt: number, model: VehicleDefinitio
   s.atmosphere.airDensity = atmosphere.airDensity;
 
   // --- 2. vehicleStatusUpDate ----------------------------------------------
-  checkIfCrash(s, model);
+  checkIncomingContact(s, model);
+  if (s.damage?.terminal.active) {
+    clearTerminalPropulsion(s);
+    work.bodyAccelerationX = work.bodyAccelerationY = work.burnedFraction = work.gimballedThrust = 0;
+    return;
+  }
   checkIfOutOfFuel(s);
 
   const burnedFraction = eng.updatePropellant(s, dt, model);
@@ -297,6 +313,13 @@ export function prepareDynamics(s: SimState, dt: number, model: VehicleDefinitio
     incomingAirspeed,
   );
 
+  if (s.damage) {
+    writeFlightFinAreas(s, model, s.forces.dynamicPressure * 1000,
+      Math.abs(Math.sin(s.kinematics.angleInToTheWind)));
+    s.forces.crossSectionalArea = aero.getCrossSectionalArea(
+      s.kinematics.angleInToTheWind, s.vehicle.vehicleInFlightMaxArea, model);
+  }
+
   updatePitchRateOfChange(s, dt);
 
   s.forces.aerodynamicDrag = aero.getDrag(
@@ -334,8 +357,18 @@ export function prepareDynamics(s: SimState, dt: number, model: VehicleDefinitio
   s.forces.twr = s.forces.thrustAcceleration / C.gravity;
   // The sea-level engines gimbal; the RVacs push along the hull. With no RVac
   // lit the share is exactly 1 and the fixed part an exact +0.
-  const gimballedThrust =
-    s.forces.thrust * eng.gimballedShare(s.engines.running, s.atmosphere.airPressure, model);
+  const paidShare = eng.gimballedShare(s.engines.running, s.atmosphere.airPressure, model);
+  const gimballedThrust = s.forces.thrust * paidShare;
+  // Guidance consumes endpoint kinematics after ownership and engine commands
+  // change. Preserve this interval's measured vector with its paid mass/pose.
+  // Null-damage historical mechanics never consumed this observation; keep its
+  // schema-only zero fields unchanged for the preserved numerical proofs.
+  if (s.damage) {
+    s.forces.paidThrustAccelerationX = s.forces.thrustAcceleration *
+      (paidShare * Math.sin(s.vehicle.gimbalPointingDirection) + (1 - paidShare) * Math.sin(s.kinematics.pitch));
+    s.forces.paidThrustAccelerationY = s.forces.thrustAcceleration *
+      (paidShare * Math.cos(s.vehicle.gimbalPointingDirection) + (1 - paidShare) * Math.cos(s.kinematics.pitch));
+  }
   const fixedThrust = s.forces.thrust - gimballedThrust;
 
   const accelInputs: comp.AccelerationInputs = {
@@ -352,12 +385,11 @@ export function prepareDynamics(s: SimState, dt: number, model: VehicleDefinitio
     pitch: s.kinematics.pitch,
   };
   if (model.gridFins) {
-    writeMassProperties(s.vehicle.propellantMass,massProperties,model);
-    writeGridFinForces(s.atmosphere.airDensity,
+    writeFlightMass(s, model, massProperties);
+    writeFlightGridForces(s, s.atmosphere.airDensity,
       s.kinematics.speedX - wind.airVelocityX(s.world,s.kinematics.altitude),
       s.kinematics.speedY - s.world.gustVertical,
-      rad((s.vehicle.frontFinExtension-50)/50*model.gridFins.maxAngle),
-      s.kinematics.pitch,massProperties.centreOfMass,model,gridFinForces);
+      s.kinematics.pitch,massProperties,model,gridFinForces);
   }
   const bodyAccelerationX = model.gridFins ? comp.getHorizontalAcceleration(accelInputs) + gridFinForces.forceX/s.vehicle.vehicleMass : comp.getHorizontalAcceleration(accelInputs);
   // M2.6, Fidelity. getVerticalAcceleration applies a constant -gravity;
@@ -374,8 +406,8 @@ export function prepareDynamics(s: SimState, dt: number, model: VehicleDefinitio
 }
 
 /** Returns whether ground support cancels motion and torque this interval. */
-export function integrateTranslation(s: TranslationBody, dt: number, bodyAccelerationX: number, bodyAccelerationY: number, model: VehicleDefinition): boolean {
-  updateGroundContact(s, bodyAccelerationY, model);
+export function integrateTranslation(s: TranslationBody, dt: number, bodyAccelerationX: number, bodyAccelerationY: number, model: VehicleDefinition, contactHeight?: number): boolean {
+  updateGroundContact(s, bodyAccelerationY, model, contactHeight);
 
   // a_n: at the incoming position and velocity.
   const r0 = s.kinematics.distanceToPlanetCenter;
@@ -553,16 +585,26 @@ export function writeRotationForces(s: SimState, model: VehicleDefinition, work:
   );
 
   if (model.gridFins) {
-    writeGridFinForces(s.atmosphere.airDensity,
+    writeFlightGridForces(s, s.atmosphere.airDensity,
       s.kinematics.speedX - wind.airVelocityX(s.world,s.kinematics.altitude),
       s.kinematics.speedY - s.world.gustVertical,
-      rad((s.vehicle.frontFinExtension-50)/50*model.gridFins.maxAngle),
-      s.kinematics.pitch,massProperties.centreOfMass,model,gridFinForces);
+      s.kinematics.pitch,massProperties,model,gridFinForces);
     s.forces.frontFinDrag = gridFinForces.lift;
     s.forces.frontFinDragAngularAcceleration = gridFinForces.torque/I;
     s.forces.offAxisThrustDifferenceAcceleration = eng.getOffAxisThrustTorque(
       s.engines.running,s.vehicle.throttleCurrent,s.atmosphere.airPressure,
       rad(s.vehicle.gimbalPosition*.01*C.gimbalAngleLimit),model)*burnedFraction/I;
+  }
+
+  if (s.damage) {
+    // Fbody=(-Tg sinδ, Tg cosδ+Tfixed), engine plane z=0.
+    // Keep the existing axial gimbal moment above; this is the remaining
+    // mount/transverse-COM moment, not a second copy of the gimbal torque.
+    const delta = s.vehicle.gimbalPosition * .01 * C.gimbalAngleLimit;
+    const axialThrust = gimballedThrust * Math.cos(delta) + s.forces.thrust - gimballedThrust;
+    s.forces.offAxisThrustDifferenceAcceleration = (eng.getOffAxisThrustTorque(
+      s.engines.running, s.vehicle.throttleCurrent, s.atmosphere.airPressure,
+      rad(delta), model) * burnedFraction + massProperties.centreOfMassX * axialThrust) / I;
   }
 
   return s.forces.thrustVectorAcceleration +
@@ -584,7 +626,7 @@ export function finishRotation(s: Pick<SimState, 'kinematics'>, dt: number, held
 }
 
 export function integrateRotation(s: SimState, dt: number, model: VehicleDefinition, work: StepDynamics, held: boolean): void {
-  writeMassProperties(s.vehicle.propellantMass, work.massProperties, model);
+  writeFlightMass(s, model, work.massProperties);
   s.vehicle.vehicleMomentOfInertia = work.massProperties.momentOfInertia;
   predictRotation(s, dt, held, work);
   const alpha1 = writeRotationForces(s, model, work);

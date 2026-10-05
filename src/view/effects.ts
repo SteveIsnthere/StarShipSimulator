@@ -15,7 +15,7 @@ import type { SimState } from '$core/state';
 import { worldToScreen, type CameraState, type Viewport } from './camera';
 import { streakIntensity, streakLength } from './motion-cues';
 import { EFFECTS, type ParticleSystem } from './particles';
-import { engineDistanceFromCenterOfMass, heatLimit, vehicleHeight } from '$core/constants';
+import { heatLimit } from '$core/constants';
 import {
   plasmaIntensity,
 } from './atmosphere-look';
@@ -35,14 +35,13 @@ export const AERO_TRAIL_MIN_Q = 0.2;
 /**
  * kPa — where the fin vortices reach full intensity.
  *
- * Thirty, the same number `view/camera.ts` shakes at full amplitude at and
- * `audio/params.ts` roars at full strength at, because all three are the same
- * physical claim: this is as hard as the air ever tears at this vehicle. The
- * seven goldens peak at 28.6 kPa on the RTLS and 23.6 on the launch.
- *
- * It was 2, which is 4% of the structural limit and 7% of this — see the ramp.
+ * Full intensity at the existing structural50kPa boundary. V3's higher
+ * thrust raises the measured launch peak to30.533kPa, saturating the old30kPa
+ * ramp for9.9% of that flight. Keeping headroom to the structural boundary
+ * preserves pressure information without tuning the cutoff to one trajectory.
+ * Audio uses the same scale; camera shake retains its separately chosen range.
  */
-export const AERO_TRAIL_FULL_Q = 30;
+export const AERO_TRAIL_FULL_Q = 50;
 
 /**
  * kPa — the air needed for a transonic shock cone to be visible at all.
@@ -98,7 +97,7 @@ export interface EffectDriver {
   reset(): void;
 }
 
-export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = model.id === 'ship' ? engineDistanceFromCenterOfMass : model.height / 2): EffectDriver {
+export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = model.height / 2): EffectDriver {
   // Edge detection state. Not in SimState: these are presentation facts, and
   // core/ must not know that a renderer exists.
   const nozzle = { x: 0, y: 0 };
@@ -259,8 +258,8 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
       */
       if (forces.dynamicPressure > AERO_TRAIL_MIN_Q) {
         const intensity = Math.min(Math.sqrt(forces.dynamicPressure / AERO_TRAIL_FULL_Q), 1);
-        const finX = shipX - Math.cos(downAxis) * (model.id === 'ship' ? vehicleHeight * 0.25 : model.gridFins!.station - model.height / 2) * scale;
-        const finY = shipY - Math.sin(downAxis) * (model.id === 'ship' ? vehicleHeight * 0.25 : model.gridFins!.station - model.height / 2) * scale;
+        const finX = shipX - Math.cos(downAxis) * (model.id === 'ship' ? model.height * 0.25 : model.gridFins!.station - model.height / 2) * scale;
+        const finY = shipY - Math.sin(downAxis) * (model.id === 'ship' ? model.height * 0.25 : model.gridFins!.station - model.height / 2) * scale;
         particles.emit('aeroTrail', finX, finY, downAxis, intensity, dt, scale * 0.7);
       }
 

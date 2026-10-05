@@ -1,3 +1,4 @@
+/** Historical photo albedo/gain reference; not the active V3 material. */
 /** Startup-only authored belly albedo. The normal map locates the fixed
  * viewer-facing hemisphere; stainless rims retain the silhouette. Attitude
  * and sunlight shade both materials through the existing hull shader.

@@ -1,7 +1,10 @@
+/** Phase8: import-only historical dependency routing; preserved numerical body unchanged. */
 /** Shipped constructor from934d3cd. Original state.ts SHA256: 5eff1cd10eb3623899d7dd9aa94112e4a9ea9b34c214c1fc2c7dc02ba200d749
- * Constructor copied unchanged; imports adjusted, interfaces supplied by current state.ts. */
+ * Constructor physics copied unchanged; imports adjusted, interfaces supplied
+ * by current state.ts. Phase8 adds damage:null solely as an explicit historical
+ * schema adapter; no original numeric field is changed. */
 import * as C from '$core/constants';
-import { updateVehicleInFlightMaxArea } from '$core/physics/aero';
+import { updateVehicleInFlightMaxArea } from './ship-aero';
 import { circularOrbitalSpeed } from '$core/physics/gravity';
 import { createRng } from '$core/rng';
 import { rad } from '$core/units';
@@ -11,6 +14,7 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
   const distanceToPlanetCenter = C.planetRadius + altitude;
 
   return {
+    damage: null,
     rng: createRng(seed),
 
     world: {
@@ -62,6 +66,9 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
     forces: {
       thrust: 0,
       thrustAcceleration: 0,
+      // Schema-only paid-observation adapter; damage:null retains historical math.
+      paidThrustAccelerationX: 0,
+      paidThrustAccelerationY: 0,
       offAxisThrustDifferenceAcceleration: 0,
       twr: 0,
 
@@ -221,4 +228,3 @@ export function createInitialState(seed = DEFAULT_SEED): SimState {
     },
   };
 }
-

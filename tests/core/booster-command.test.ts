@@ -3,6 +3,8 @@ import { describe,expect,it } from 'vitest';
 import { createScenarioVehicle,PRESETS } from '$core/scenarios';
 import { controlTranslation } from '$core/control/actuation';
 import { runBoosterAutopilot } from '$core/autopilot/booster';
+import { HISTORICAL_SUPER_HEAVY } from '../reference/historical-vehicles';
+import type { VehicleDefinition } from '$core/vehicle';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import * as C from '$core/constants';
 import admission from '../fixtures/booster-terminal-admission.json';
@@ -16,6 +18,13 @@ import { IGNITION_DELAY_MAX_S } from '$core/physics/engines';
 import { verticalGravityAcceleration } from '$core/physics/gravity';
 import { createBoosterArrival,writeBoosterArrival,createBoosterThrustRequest,writeBoosterThrustRequest,writeBoosterForceRequest,boosterDeliveredThrottle } from '$core/control/booster-arrival';
 
+/** Independent pressure-loss equation from the selected profile anchors. */
+function sourceSeaLevelThrust(pressureKPa:number,model:VehicleDefinition=SUPER_HEAVY):number {
+  const p=model.propulsion;
+  const vacuum=p.seaLevel.thrustSeaLevel*p.seaLevel.ispVacuum/p.seaLevel.ispSeaLevel;
+  const exitArea=(vacuum-p.seaLevel.thrustSeaLevel)/p.referencePressurePa;
+  return vacuum-Math.max(0,pressureKPa)*1000*exitArea;
+}
 function booster(){return createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!,123).state;}
 
 describe('booster delivered attitude authority',()=>{
@@ -176,13 +185,16 @@ describe('booster finite descending terminal command',()=>{
     s.kinematics.pitch=rad(Math.PI/6);s.kinematics.angularVelocity=.1;
     s.kinematics.altitude=200;s.kinematics.speedX=3;s.kinematics.speedY=-20;
     const out=createBoosterArrival();writeBoosterArrival(s,0,SUPER_HEAVY,out);
-    expect(out.x).toBeCloseTo(14.75,8);
-    expect(out.height).toBeCloseTo(80+29.5*Math.cos(Math.PI/6),12);
-    expect(out.vx).toBeCloseTo(3+2.95*Math.cos(Math.PI/6),12);
-    expect(out.vy).toBeCloseTo(-21.475,12);
+    // Frozen catch lug station ratio65/71 applied to the selected72m body.
+    const arm=(65/71-.5)*SUPER_HEAVY.height;
+    expect(out.x).toBeCloseTo(arm*Math.sin(Math.PI/6),8);
+    expect(out.height).toBeCloseTo(80+arm*Math.cos(Math.PI/6),12);
+    expect(out.vx).toBeCloseTo(3+.1*arm*Math.cos(Math.PI/6),12);
+    expect(out.vy).toBeCloseTo(-20-.1*arm*Math.sin(Math.PI/6),12);
   });
-  it('requests resumed descent instead of gravity cancellation after an early stop',()=>{
-    const s=booster();s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='terminal';
+  it('requests resumed descent instead of gravity cancellation after an early stop in the historical cohort',()=>{
+    const model=HISTORICAL_SUPER_HEAVY;
+    const s=createInitialState(123,model);s.damage=null;s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='terminal';
     s.autopilot.boosterPredictorCountdown=1;
     s.kinematics.altitude=200;s.kinematics.speedX=0;s.kinematics.speedY=0;
     s.kinematics.downRangeDistance=C.starBaseXPos;
@@ -191,10 +203,24 @@ describe('booster finite descending terminal command',()=>{
     s.engines.running.fill(false);s.engines.running[0]=s.engines.running[1]=s.engines.running[2]=true;
     s.atmosphere.airPressure=101.325;s.forces.thrust=0;
     s.kinematics.accelerationX=0;s.kinematics.accelerationY=-9.8;
-    runBoosterAutopilot(s,1/120,SUPER_HEAVY);
-    const hover=300000*9.8/(3*C.thrustPerRaptorAt(101.325))*100;
+    runBoosterAutopilot(s,1/120,model);
+    const hover=300000*9.8/(3*sourceSeaLevelThrust(101.325,model))*100;
     expect(s.vehicle.throttle).toBeLessThan(hover);
     expect(s.vehicle.throttle).toBeGreaterThanOrEqual(40);
+  });
+  it('retains the actual V3 throttle minimum when three engines exceed hover at that minimum',()=>{
+    const s=booster();s.autopilot.autoLandOn=true;s.autopilot.boosterPhase='terminal';
+    s.autopilot.boosterPredictorCountdown=1;
+    s.kinematics.altitude=200;s.kinematics.speedX=0;s.kinematics.speedY=0;
+    s.kinematics.downRangeDistance=C.starBaseXPos;s.kinematics.pitch=rad(0);s.kinematics.angularVelocity=0;
+    s.vehicle.propellantMass=100000;s.vehicle.vehicleMass=300000;
+    s.engines.running.fill(false);for(let i=0;i<3;i++)s.engines.running[i]=true;
+    s.atmosphere.airPressure=101.325;s.forces.thrust=0;
+    s.kinematics.accelerationX=0;s.kinematics.accelerationY=-9.8;
+    const minimumAcceleration=3*sourceSeaLevelThrust(101.325)*.4/300000;
+    expect(minimumAcceleration).toBeGreaterThan(9.8);
+    runBoosterAutopilot(s,1/120,SUPER_HEAVY);
+    expect(s.vehicle.throttle).toBe(40);
   });
 });
 
@@ -226,24 +252,25 @@ describe('booster feasible translational thrust',()=>{
     writeBoosterForceRequest(s,1,11,SUPER_HEAVY,out);
     const measuredY=s.forces.thrust/s.vehicle.vehicleMass*Math.cos(s.vehicle.gimbalPointingDirection);
     const environmentY=s.kinematics.accelerationY-measuredY;
-    const max=3*C.thrustPerRaptorAt(s.atmosphere.airPressure)/s.vehicle.vehicleMass;
+    const max=3*sourceSeaLevelThrust(s.atmosphere.airPressure)/s.vehicle.vehicleMass;
     const throttle=boosterDeliveredThrottle(s,11,SUPER_HEAVY);
     const actualY=environmentY+max*throttle*.01*Math.cos(s.vehicle.gimbalPointingDirection);
     expect(actualY).toBeCloseTo(11,10);
   });
   it('subtracts measured aero/gravity and preserves vertical demand when horizontal steering saturates',()=>{
-    const s=booster();s.vehicle.vehicleMass=300000;s.kinematics.pitch=rad(0);
+    const s=booster();s.vehicle.vehicleMass=300000;s.vehicle.propellantMass=300000-SUPER_HEAVY.dryMass;s.kinematics.pitch=rad(0);
     s.vehicle.gimbalPointingDirection=rad(0);
     s.engines.running.fill(false);for(let i=0;i<13;i++)s.engines.running[i]=true;
     s.atmosphere.airPressure=101.325;s.forces.thrust=3000000;
     // Previous paid engine acceleration10m/s²; environmental residual(+3,-8).
+    s.forces.paidThrustAccelerationX=0;s.forces.paidThrustAccelerationY=10;
     s.kinematics.accelerationX=3;s.kinematics.accelerationY=2;
     const out=createBoosterThrustRequest();writeBoosterThrustRequest(s,-100,2,SUPER_HEAVY,out);
     expect(out.requiredX).toBe(-103);expect(out.requiredY).toBe(10);
     expect(out.pitch).toBe(-.3);
     // Actual13-engine40% minimum exceeds this deliberately modest demand.
     expect(out.throttle).toBe(40);
-    expect(out.deliveredY).toBeCloseTo(13*C.thrustPerRaptorAt(101.325)/300000*.4*Math.cos(.3),12);
+    expect(out.deliveredY).toBeCloseTo(13*sourceSeaLevelThrust(101.325)/300000*.4*Math.cos(.3),12);
     // A feasible demand uses the clamped angle, not hypot(-103,50).
     writeBoosterThrustRequest(s,-100,42,SUPER_HEAVY,out);
     expect(out.requiredY).toBe(50);
@@ -267,7 +294,7 @@ describe('booster manual input invalidates source-pinned future authority',()=>{
   it('removes an accepted old cutoff before automatic controls can execute it on a manual override',()=>{
     const initial=booster();initial.autopilot.autoLandOn=true;initial.autopilot.boosterPhase='boostback';
     initial.autopilot.boostBackInitCompleted=true;initial.autopilot.boostBackDirection=-1;
-    initial.autopilot.boosterReturnPlan={originTime:0,shutdownAt:1/120,coastPitch:rad(0),handoff:{x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true}};
+    initial.autopilot.boosterReturnPlan={...(initial.damage?{damageRevision:initial.damage.revision}:{}),originTime:0,shutdownAt:1/120,coastPitch:rad(0),handoff:{x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true}};
     const next=step(initial,1/120,{pitchControl:100,throttle:40},SUPER_HEAVY);
     expect(next.autopilot.boosterPhase).toBe('boostback');
     expect(next.autopilot.boosterReturnPlan).toBeUndefined();
@@ -277,7 +304,7 @@ describe('booster manual input invalidates source-pinned future authority',()=>{
   it('drops the old job and cutoff when manual control is active, without forecasting a manual future',()=>{
     const initial=booster();initial.autopilot.autoLandOn=true;
     const first=step(initial,1/120,{},SUPER_HEAVY);first.autopilot.manualControlOn=true;
-    first.autopilot.boosterReturnPlan={originTime:0,shutdownAt:10,coastPitch:rad(0),handoff:{x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true}};
+    first.autopilot.boosterReturnPlan={...(first.damage?{damageRevision:first.damage.revision}:{}),originTime:0,shutdownAt:10,coastPitch:rad(0),handoff:{x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true}};
     const next=step(first,1/120,{},SUPER_HEAVY);
     expect(next.autopilot.boosterPrediction).toBeUndefined();
     expect(next.autopilot.boosterReturnPlan).toBeUndefined();

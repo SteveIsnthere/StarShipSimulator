@@ -14,6 +14,9 @@
  * those need a trajectory, and stating them directly reaches the branches a
  * nominal flight never visits.
  */
+import { HISTORICAL_SHIP } from '../reference/historical-vehicles';
+import { SHIP } from '$core/vehicle';
+import { groundTangentialSpeed } from '$core/physics/gravity';
 import * as legacy from '../proofs/fixtures/legacy-ladders';
 import { localGravity } from '$core/control/guidance-physics';
 import { describe, expect, it } from 'vitest';
@@ -65,7 +68,27 @@ function lit(): SimState {
  * primitives see vacuum thrust; expectations read the same pressure back
  * rather than assuming an altitude.
  */
-const perRaptor = (s: SimState) => C.thrustPerRaptorAt(s.atmosphere.airPressure);
+// Independent approved V3 anchors; do not derive expectations from engine helpers.
+const V3_SL_FLOW = (250_000 * 9.80665) / (327 * 9.80665);
+const V3_SL_VACUUM = V3_SL_FLOW * 9.80665 * 350;
+const v3SeaLevelThrust = (p: number) => Math.max(0,
+  V3_SL_VACUUM - Math.max(0, p) * 1000 * ((V3_SL_VACUUM - 250_000 * 9.80665) / 101_325));
+const perRaptor = (s: SimState) => v3SeaLevelThrust(s.atmosphere.airPressure);
+function setMass(s: SimState, mass: number): void {
+  if (mass < SHIP.dryMass || mass > SHIP.dryMass + SHIP.propellantCapacity) throw new Error('unrealizable intact Ship mass');
+  s.vehicle.vehicleMass = mass;
+  s.vehicle.propellantMass = mass - SHIP.dryMass;
+}
+// A realizable high-altitude orbital state with 4 m/s² effective vertical gravity
+// lets even one 40%-throttle engine exceed weight without inventing a light hull.
+function reducedGravity(s: SimState): void {
+  const r = C.planetRadius + 200_000;
+  s.kinematics.altitude = 200_000;
+  s.kinematics.distanceToPlanetCenter = r;
+  s.kinematics.speedX = groundTangentialSpeed(r,
+    Math.sqrt((C.planetGravitationalParameter / r ** 2 - 4) * r));
+}
+
 const SEA_LEVEL_KPA = C.SEA_LEVEL_PRESSURE_PA / 1000;
 
 describe('getPitchDifference wraps to (-pi, pi]', () => {
@@ -99,16 +122,16 @@ describe('the vertical thrust projection', () => {
     // code: it is the independent second implementation.
     const running = [true, true, true] as const;
     for (let a = -Math.PI; a <= Math.PI; a += Math.PI / 500) {
-      const collapsed = getEffectiveVerticalMaxThrust(running, rad(a), SEA_LEVEL_KPA);
-      const ladder = legacy.legacyEffectiveVerticalMaxThrust(running, rad(a), SEA_LEVEL_KPA);
+      const collapsed = getEffectiveVerticalMaxThrust(running, rad(a), SEA_LEVEL_KPA, rad(0), HISTORICAL_SHIP);
+      const ladder = legacy.legacyEffectiveVerticalMaxThrust(running, rad(a), SEA_LEVEL_KPA, HISTORICAL_SHIP);
       expect(Math.abs(collapsed - ladder), `gimbal ${a}`).toBeLessThan(1e-6);
     }
   });
 
   it('is full thrust straight up, zero sideways, and negative upside down', () => {
     const running = [true, true, true] as const;
-    // M11.2: sea-level pressure, so `full` is the sea-level anchor.
-    const full = 3 * C.maxThrustPerRaptor;
+    // Active V3 at sea-level pressure: the approved 250 tf anchor.
+    const full = 3 * 250_000 * 9.80665;
     expect(getEffectiveVerticalMaxThrust(running, rad(0), SEA_LEVEL_KPA)).toBeCloseTo(full, 6);
     expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI / 2), SEA_LEVEL_KPA)).toBeCloseTo(0, 6);
     expect(getEffectiveVerticalMaxThrust(running, rad(Math.PI), SEA_LEVEL_KPA)).toBeCloseTo(-full, 6);
@@ -118,7 +141,7 @@ describe('the vertical thrust projection', () => {
 describe('controlEnginebyTWR keeps the throttle inside the engine limits', () => {
   it('reaches the commanded TWR from 60% actual throttle without counting it twice', () => {
     const s = lit();
-    s.vehicle.vehicleMass = 200_000;
+    setMass(s, 200_000);
     s.vehicle.throttleCurrent = 60;
     s.atmosphere.airPressure = SEA_LEVEL_KPA;
     const goalTWR = 2;
@@ -302,12 +325,12 @@ describe('the speed adjustments choose a side and commit to it', () => {
     const near = lit();
     const mass = (3 * perRaptor(near)) / (maxAchievableTWR * C.gravity);
 
-    near.vehicle.vehicleMass = mass;
+    setMass(near, mass);
     near.kinematics.speedX = 95;
     horizontalSpeedAdjustment(near, 100, 10, 3);
 
     const far = lit();
-    far.vehicle.vehicleMass = mass;
+    setMass(far, mass);
     far.kinematics.speedX = 0;
     horizontalSpeedAdjustment(far, 100, 10, 3);
 
@@ -418,7 +441,7 @@ describe('raptorAutoShutDown fires exactly when minimum thrust would lift the ve
   it('does nothing while minimum thrust cannot hold the vehicle up', () => {
     // A heavy vehicle: min TWR below 1, so no shutdown is warranted.
     const s = lit();
-    s.vehicle.vehicleMass = (minThrust(3) / localGravity(s)) * 2;
+    setMass(s, (minThrust(3) / localGravity(s)) * 2);
     expect(getTWR(minThrust(3), s.vehicle.vehicleMass, localGravity(s))).toBeLessThan(1);
     const before = [...s.engines.running];
     raptorAutoShutDown_KeepMinTWRBelow1(s, toggleRaptor);
@@ -427,7 +450,7 @@ describe('raptorAutoShutDown fires exactly when minimum thrust would lift the ve
 
   it('shuts one down as soon as it would', () => {
     const s = lit();
-    s.vehicle.vehicleMass = minThrust(3) / localGravity(s) / 2; // min TWR = 2
+    setMass(s, minThrust(3) / localGravity(s) / 2); // min TWR = 2
     expect(getTWR(minThrust(3), s.vehicle.vehicleMass, localGravity(s))).toBeGreaterThan(1);
     raptorAutoShutDown_KeepMinTWRBelow1(s, toggleRaptor);
     expect(s.engines.running.filter(Boolean).length).toBe(2);
@@ -445,7 +468,8 @@ describe('raptorAutoShutDown fires exactly when minimum thrust would lift the ve
     for (const [running, expected] of cases) {
       const s = createInitialState();
       for (const i of [0, 1, 2] as const) if (running[i]) s.engines.running[i] = true;
-      s.vehicle.vehicleMass = minThrust(2) / C.gravity / 2;
+      reducedGravity(s);
+      setMass(s, minThrust(2) / localGravity(s) / 2);
       raptorAutoShutDown_KeepMinTWRBelow1(s, toggleRaptor);
       expect(s.engines.running[expected], `from ${JSON.stringify(running)}`).toBe(false);
     }
@@ -455,7 +479,8 @@ describe('raptorAutoShutDown fires exactly when minimum thrust would lift the ve
     for (const only of [0, 1, 2] as const) {
       const s = createInitialState();
       s.engines.running[only] = true;
-      s.vehicle.vehicleMass = minThrust(1) / C.gravity / 2;
+      reducedGravity(s);
+      setMass(s, minThrust(1) / localGravity(s) / 2);
       raptorAutoShutDown_KeepMinTWRBelow1(s, toggleRaptor);
       expect(s.engines.running[only], `only ${only}`).toBe(false);
     }
@@ -465,7 +490,7 @@ describe('raptorAutoShutDown fires exactly when minimum thrust would lift the ve
     // Minimum thrust is zero, so TWR is zero, so there is nothing to shut down
     // — and nothing to index past the end of the array either.
     const s = createInitialState();
-    s.vehicle.vehicleMass = 1;
+    setMass(s, SHIP.dryMass);
     expect(() => raptorAutoShutDown_KeepMinTWRBelow1(s, toggleRaptor)).not.toThrow();
     expect(s.engines.running.some(Boolean)).toBe(false);
   });

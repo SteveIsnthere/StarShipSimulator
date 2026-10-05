@@ -49,6 +49,7 @@ import {
 } from '$hud/debrief';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import type { SimState } from '$core/state';
+import { SHIP } from '$core/vehicle';
 import { GOLDEN_SPECS } from '../golden/scenarios';
 
 /** Fly a state the way the app does, and hand back everything the card needs. */
@@ -267,8 +268,8 @@ describe('a crash says which gate it failed', () => {
    * lit, so whatever they are dropped from they arrive at `sqrt(v0^2 + 2gh)`:
    * the first version of this helper started them at 40 m and every one of them
    * crashed at 17 m/s, including the one meant to test a gentle landing.
-   * Contact is at `vehicleHeight/2` for an upright vehicle, so 25.5 m is half a
-   * metre of fall and the arrival speed is the one that was asked for.
+   * Contact is at half the active hull height; half a metre above it keeps
+   * the arrival speed close to the one that was asked for.
    */
   function land(overrides: {
     speedX?: number;
@@ -280,7 +281,7 @@ describe('a crash says which gate it failed', () => {
     const watch = createFlightWatch();
     let s = createScenarioState({
       ...getScenario('landing-burn')!,
-      altitude: C.vehicleHeight / 2 + 0.5,
+      altitude: SHIP.height / 2 + 0.5,
       xPosition: 0,
       speedX: overrides.speedX ?? 0,
       speedY: overrides.speedY ?? -1,
@@ -330,6 +331,27 @@ describe('a crash says which gate it failed', () => {
     expect(card.outcome).toBe('CRASH');
     expect(card.reasons).toContain('descending too fast');
     expect(card.reasons).toContain('drifting sideways');
+  });
+
+  it('recovers a first-step rotating impact at the hull point judged by contact', () => {
+    const initial = createScenarioState({ ...getScenario('landing-burn')!,
+      speedX: 0, speedY: -1, pitch: 10 as never, propellant: 20 });
+    initial.kinematics.altitude = SHIP.height * Math.cos(initial.kinematics.pitch) / 2;
+    initial.kinematics.angularVelocity = 1;
+    const state = step(initial, DT);
+    expect(state.failures.crashed).toBe(true);
+    expect(state.kinematics.speedX).toBe(0);
+    expect(Math.abs(state.damage!.terminal.speedX)).toBeGreaterThan(TOUCHDOWN_DRIFT_LIMIT);
+    const watch = createFlightWatch(), timeline = createTimeline();
+    watch.observe(state); timeline.observe(state);
+    const card = debrief(state, timeline, watch.last);
+    expect(card.reasons).toEqual(['not upright']);
+    // Recovering a metre-scale offset from planet-scale coordinates loses
+    // a few nanometres; retain sub-1e-8m/s agreement and the exact verdict.
+    expect(card.horizontal.value).toBeCloseTo(initial.kinematics.speedX, 8);
+    expect(card.vertical.value).toBeCloseTo(initial.kinematics.speedY, 8);
+    expect(card.attitude.value).toBe(initial.kinematics.pitch);
+    expect(card.propellant.value).toBe(20);
   });
 });
 
@@ -395,7 +417,12 @@ describe('a break-up is not a landing, and the card does not pretend otherwise',
       watch.observe(debris);
       timeline.observe(debris);
     }
-    expect(debris.kinematics.altitude).not.toBe(state.kinematics.altitude);
+    // V3 freezes the terminal parent; its independent physical pieces fall.
+    expect(debris.kinematics.altitude).toBe(state.kinematics.altitude);
+    expect(state.damage!.debris.some(piece => piece.active)).toBe(true);
+    expect(debris.damage!.debris.some((piece, i) => piece.active
+      && piece.altitude !== state.damage!.debris[i]!.altitude)).toBe(true);
+    expect(debris.damage!.terminal).toEqual(state.damage!.terminal);
     expect(watch.last).toEqual(loss);
     expect(debrief(debris, timeline, watch.last).peakQ.value).toBe(loss.dynamicPressure);
 

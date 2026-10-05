@@ -33,15 +33,17 @@ import * as C from '$core/constants';
 import { step } from '$core/step';
 import * as cmd from '$core/control/commands';
 import { createScenarioState, getScenario } from '$core/scenarios';
-import type { SimState } from '$core/state';
+import { createInitialState, type SimState } from '$core/state';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
+import { HISTORICAL_SHIP } from '../reference/historical-vehicles';
 import { GOLDEN_DT } from '../golden/record';
 import { GOLDEN_SPECS } from '../golden/scenarios';
 
 const scenario = (id: string) => createScenarioState(getScenario(id)!);
 
-function predictionOf(state: SimState): Prediction {
+function predictionOf(state: SimState, model: VehicleDefinition = SHIP): Prediction {
   const out = createPrediction();
-  predict(state, out);
+  predict(state, out, model);
   return out;
 }
 
@@ -102,18 +104,25 @@ describe('the domain, stated rather than papered over', () => {
     }
   });
 
-  it('catches the fall model overflowing instead of printing NaN', () => {
-    // The closed form raises e to (altitude * k / mass). Above roughly 280 km
-    // for a light vehicle that is past a double's range. Reached here by
-    // putting a light vehicle just under the interface with a huge altitude —
-    // impossible in flight, which is the point: the guard is not reachable by
-    // a normal trajectory and so would never be found by playing.
+  it('rejects the historical force-only impossible-mass fall instead of printing NaN', () => {
+    // An impossible 20kg hull drives the midpoint force model out of domain.
+    // This legacy cached-mass premise applies only to the no-damage cohort.
     const state = scenario('landing-burn');
     state.kinematics.altitude = C.ENTRY_INTERFACE_ALTITUDE - 1;
     state.vehicle.vehicleMass = 20;
-    const p = predictionOf(state);
+    state.damage = null;
+    const p = predictionOf(state, HISTORICAL_SHIP);
     expect(p.kind).toBe('none');
     expect(p.reason).toBe('out-of-domain');
+  });
+
+  it('uses retained V3 hardware mass instead of a stale legacy mass cache', () => {
+    const state = scenario('landing-burn');
+    state.kinematics.altitude = C.ENTRY_INTERFACE_ALTITUDE - 1;
+    const before = predictionOf(state);
+    expect(before.kind).toBe('touchdown');
+    state.vehicle.vehicleMass = 20;
+    expect(predictionOf(state)).toEqual(before);
   });
 
   it('never returns a non-finite number to a caller', () => {
@@ -184,7 +193,7 @@ describe('the claim, tested against itself', () => {
    * fall through 40 km of real atmosphere is the wrong model, and saying so
    * with a number is more use than a comment claiming it.
    */
-  it('reports how wrong it is from high altitude, where the model is weakest', () => {
+  it('preserves the historical high-altitude force-only error and time bounds', () => {
     /*
       Built from a FUELLED scenario, which took two attempts to get right. The
       first version raised the re-entry preset to 40 km — and that preset flies
@@ -195,6 +204,13 @@ describe('the claim, tested against itself', () => {
       arrived before anything is printed.
     */
     const state = scenario('landing-burn');
+    // The old simulator continued translating after breakup. Preserve that
+    // numerical characterization explicitly; active V3 terminal behavior is
+    // independently required below, with every failure guard still enabled.
+    const fuel = state.vehicle.propellantMass;
+    state.damage = null;
+    state.vehicle = { ...createInitialState(123, HISTORICAL_SHIP).vehicle,
+      propellantMass: fuel, vehicleMass: HISTORICAL_SHIP.dryMass + fuel };
     state.kinematics.altitude = 40_000;
     state.kinematics.distanceToPlanetCenter = C.planetRadius + 40_000;
     state.kinematics.speedX = 300;
@@ -202,13 +218,13 @@ describe('the claim, tested against itself', () => {
     for (const i of [0, 1, 2] as const) if (state.engines.running[i]) cmd.toggleRaptor(state, i);
     state.autopilot.autoLandOn = false;
 
-    const predicted = predictionOf(state);
+    const predicted = predictionOf(state, HISTORICAL_SHIP);
     expect(predicted.kind).toBe('touchdown');
 
     let s = state;
     let steps = 0;
     while (!s.status.landed && !s.status.onTheGround && !s.failures.crashed && steps < 120 * 900) {
-      s = step(s, GOLDEN_DT);
+      s = step(s, GOLDEN_DT, {}, HISTORICAL_SHIP);
       steps += 1;
     }
     // The run has to have ENDED ON THE GROUND for the comparison to mean
@@ -244,6 +260,24 @@ describe('the claim, tested against itself', () => {
     expect(Math.abs(predicted.time - steps * GOLDEN_DT) / (steps * GOLDEN_DT), 'fall time').toBeLessThan(0.15);
     const fell = 40_000;
     expect(error, `error ${(error / 1000).toFixed(1)} km`).toBeLessThan(fell / 4);
+  });
+
+  it('stops predicting a touchdown when the active V3 high drop breaks up', () => {
+    let state = scenario('landing-burn');
+    state.kinematics.altitude = 40_000;
+    state.kinematics.distanceToPlanetCenter = C.planetRadius + 40_000;
+    state.kinematics.speedX = 300;
+    state.kinematics.speedY = -200;
+    state.engines.running.fill(false);
+    state.autopilot.autoLandOn = false;
+    expect(predictionOf(state).kind).toBe('touchdown');
+    for (let i = 0; i < 120 * 900 && !state.damage!.terminal.active; i++) state = step(state, GOLDEN_DT);
+    expect(state.damage!.terminal.active).toBe(true);
+    expect(state.failures.inFlightBreakUp).toBe(true);
+    expect(state.status.landed).toBe(false);
+    expect(state.status.onTheGround).toBe(false);
+    expect(state.failures.crashed).toBe(false);
+    expect(predictionOf(state).kind).toBe('none');
   });
 });
 

@@ -9,7 +9,7 @@
  * The images are the 2021 ones, copied into public/assets. They are the
  * game's look and there is no reason to redraw them.
  */
-import { Assets, type Texture } from 'pixi.js';
+import { DOMAdapter, Texture, type ImageLike } from 'pixi.js';
 import { starBaseXPos } from '$core/constants';
 
 export interface GroundObject {
@@ -150,13 +150,43 @@ export const GROUND_OBJECTS: readonly GroundObject[] = [
   { id: 'sn15B', src: `${BASE}sn15.webp`, height: (30 / 52) * 44, width: ((30 / 52) * 44 * 137) / 600, x: starBaseXPos - 2_200, roams: false },
 ];
 
-export const STARSHIP_TEXTURE = `${BASE}Starship.webp`;
+// Only the finite scenery catalogue enters this cache. Like the previous
+// Assets cache, decoded textures survive scene disposal and are shared by
+// subsequent scenes; destroying a texture releases its cache entry.
+const scenerySources = [...new Set(GROUND_OBJECTS.map(o => o.src))];
+const sceneryTextures = new Map<string, Promise<Texture>>();
 
-/** Every texture the world needs, loaded once. */
+function loadSceneryTexture(src: string): Promise<Texture> {
+  const cached = sceneryTextures.get(src);
+  if (cached) return cached;
+  const pending: Promise<Texture> = new Promise<ImageLike>((resolve, reject) => {
+    const image = DOMAdapter.get().createImage();
+    image.crossOrigin = 'anonymous';
+    const clearHandlers = () => { image.onload = null; image.onerror = null; };
+    image.onload = () => { clearHandlers(); resolve(image); };
+    image.onerror = () => { clearHandlers(); reject(new Error(`Failed to load scenery image: ${src}`)); };
+    image.src = src;
+  }).then(async image => {
+    // Texture.from accepts a decoded resource; a string is only a Pixi cache
+    // lookup. Explicit decode propagates invalid image data before GPU upload.
+    if (typeof image.decode === 'function') await image.decode();
+    const texture = Texture.from(image);
+    texture.once('destroy', () => {
+      if (sceneryTextures.get(src) === pending) sceneryTextures.delete(src);
+    });
+    return texture;
+  }).catch((error: unknown) => {
+    if (sceneryTextures.get(src) === pending) sceneryTextures.delete(src);
+    throw error;
+  });
+  sceneryTextures.set(src, pending);
+  return pending;
+}
+
+/** Every scenery texture, with shared loading and independently owned maps. */
 export async function loadTextures(): Promise<Map<string, Texture>> {
-  const sources = [...GROUND_OBJECTS.map((o) => o.src), STARSHIP_TEXTURE];
-  const loaded = await Assets.load(sources);
+  const loaded = await Promise.all(scenerySources.map(loadSceneryTexture));
   const map = new Map<string, Texture>();
-  for (const src of sources) map.set(src, loaded[src] as Texture);
+  for (let i = 0; i < scenerySources.length; i++) map.set(scenerySources[i]!, loaded[i]!);
   return map;
 }

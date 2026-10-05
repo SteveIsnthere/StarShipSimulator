@@ -15,10 +15,13 @@
  *      and `angularVelocity` to zero, `pitch` to zero and `propellantMass` to
  *      zero — so by the time anything can ask "how fast was it going?", the
  *      answer has been erased by the code that used it.
- *   2. `checkIfBreakUp` does not stop the simulation. The wreckage keeps
- *      falling, and the forces that broke it are recomputed away within a step.
+ *   2. Historical breakup continues translating the wreckage and recomputing
+ *      its forces. V3 instead freezes the terminal parent and advances debris.
  *
- * So the flight is WITNESSED, per step, exactly as `hud/timeline.ts` witnesses
+ * V3 preserves terminal motion before those resets, at physical COM. The
+ * watch converts that snapshot back to the hull point contact actually judged;
+ * historical no-damage states still use the last airborne observation.
+ * The flight is WITNESSED, per step, exactly as `hud/timeline.ts` witnesses
  * its events — `observe(state)` from the same loop, keeping one small record.
  * The event times come from the timeline; `debrief()` itself is pure over the
  * three.
@@ -136,7 +139,7 @@ export interface FlightWatch {
   reset(): void;
 }
 
-/** Contact has erased its kinematics; a first breakup state still carries its verdict. */
+/** Historical contact has erased its kinematics; V3 keeps a terminal snapshot. */
 function airborne(s: SimState): boolean {
   return (
     !s.failures.crashed &&
@@ -174,19 +177,27 @@ export function createFlightWatch(): FlightWatch {
     },
 
     observe(s: SimState): void {
-      if (lossSeen || !airborne(s)) return;
+      const terminal = s.damage?.terminal;
+      if (lossSeen || (!terminal?.active && !airborne(s))) return;
       // Current-force failures occur in this returned step. Capture its actual
       // loads once, then keep the loss record while the debris continues falling.
-      lossSeen = s.failures.inFlightBreakUp;
+      lossSeen = !!terminal?.active || s.failures.inFlightBreakUp;
       const { kinematics, forces, vehicle } = s;
       seen = true;
       record.at = s.world.timeSpent;
-      record.speedX = kinematics.speedX;
-      record.speedY = kinematics.speedY;
-      record.pitch = kinematics.pitch as number;
+      // Terminal motion is preserved at physical COM. Contact judges the hull
+      // reference point, whose position remains frozen after breakup/impact.
+      // Undo omega cross the COM offset before comparing those same gates.
+      record.speedX = terminal?.active
+        ? terminal.speedX - terminal.angularVelocity * (terminal.altitude - kinematics.altitude)
+        : kinematics.speedX;
+      record.speedY = terminal?.active
+        ? terminal.speedY + terminal.angularVelocity * (terminal.x - kinematics.downRangeDistance)
+        : kinematics.speedY;
+      record.pitch = terminal?.active ? terminal.pitch : kinematics.pitch;
       record.altitude = kinematics.altitude;
       record.miss = kinematics.downRangeDistance - C.starBaseXPos;
-      record.propellantMass = vehicle.propellantMass;
+      record.propellantMass = terminal?.active ? terminal.retainedPropellant : vehicle.propellantMass;
       record.totalAcceleration = kinematics.totalAcceleration;
       record.thermalPower = forces.thermalPower;
       record.surfaceTemperature = forces.surfaceTemperature;

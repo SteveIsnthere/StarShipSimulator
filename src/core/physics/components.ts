@@ -147,3 +147,28 @@ export function getVerticalAcceleration(i: AccelerationInputs, gravity: number):
 
   return -gravity + dragComponent + thrustComponent + liftComponent;
 }
+
+/** Both canonical compositions, sharing their identical trig/sign queries.
+ * Keep each scalar expression's order, including zero thrust products and the
+ * conditional fixed-engine addition: signed zero and nonfinite inputs matter.
+ */
+export function writeAccelerationComponents(i: AccelerationInputs, gravity: number,
+  out: { x: number; y: number }): void {
+  const sine = Math.sin(i.angleOfMotion), cosine = Math.cos(i.angleOfMotion);
+  const inverted = liftSignIsInverted(i.angleOfAttack);
+  const dragX = -sine * i.aerodynamicDragAcceleration;
+  const dragY = -cosine * i.aerodynamicDragAcceleration;
+  const liftXCoefficient = -cosine, liftYCoefficient = sine;
+  const liftX = inverted ? -liftXCoefficient * i.aerodynamicLiftAcceleration
+    : liftXCoefficient * i.aerodynamicLiftAcceleration;
+  const liftY = inverted ? -liftYCoefficient * i.aerodynamicLiftAcceleration
+    : liftYCoefficient * i.aerodynamicLiftAcceleration;
+  let thrustX = Math.sin(i.gimbalPointingDirection) * i.thrustAcceleration;
+  let thrustY = Math.cos(i.gimbalPointingDirection) * i.thrustAcceleration;
+  if (i.fixedThrustAcceleration !== 0) {
+    thrustX = thrustX + Math.sin(i.pitch) * i.fixedThrustAcceleration;
+    thrustY = thrustY + Math.cos(i.pitch) * i.fixedThrustAcceleration;
+  }
+  out.x = dragX + thrustX + liftX;
+  out.y = -gravity + dragY + thrustY + liftY;
+}

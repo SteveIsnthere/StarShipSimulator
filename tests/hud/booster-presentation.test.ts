@@ -12,10 +12,15 @@ import { autopilotLabel } from '$hud/autopilot-mode';
 import { figures, OUTCOME_HEADING } from '$ui/shell/Debrief/figures';
 import { durationFor, END_MS } from '$hud/haptics';
 
+// The original90.501m initializer put an upright71m hull's65m lug
+// 1mm above the frozen120m plane. Keep that crossing clearance with the
+// approved72m V3 hull and scaled65/71 lug station. Altitude is the hull
+// centre, not the fuel-dependent COM; pitch and spin initially remain zero.
+const BODY_CATCH_ALTITUDE = 120 - (65 / 71 * 72 - 72 / 2);
 function approaching(offset = 0) {
   const state = createInitialState(123, SUPER_HEAVY);
-  state.kinematics.altitude = 90.501;
-  state.kinematics.distanceToPlanetCenter = C.planetRadius + 90.501;
+  state.kinematics.altitude = BODY_CATCH_ALTITUDE + .001;
+  state.kinematics.distanceToPlanetCenter = C.planetRadius + state.kinematics.altitude;
   state.kinematics.downRangeDistance = C.starBaseXPos + offset;
   state.kinematics.speedY = -1;
   state.status.onTheGround = false;
@@ -36,7 +41,7 @@ describe('actual booster outcome presentation', () => {
     expect(card.touchedDown).toBe(false);
     expect(figures(card).map(f => f.key)).not.toContain('vertical');
     expect(card.propellant.value).toBe(caught.vehicle.propellantMass / 1000);
-    expect(card.propellant.limit).toBe(3400);
+    expect(card.propellant.limit).toBe(3650); // Published V3 capacity, tonnes.
     expect(timeline.has('CAUGHT')).toBe(true);
     expect(timeline.has('TOUCHDOWN')).toBe(false);
     expect(durationFor('CAUGHT')).toBe(END_MS);

@@ -12,6 +12,9 @@ import { step } from '$core/step';
 import { MU, specificOrbitalEnergy } from '$core/physics/gravity';
 import { flattenState, GOLDEN_DT } from '../golden/record';
 import { arbitraryFlight, startOf } from './arbitraries';
+import { SHIP } from '$core/vehicle';
+import { createDamageMassProperties } from '$core/physics/damage-mass';
+import { writeFlightMassQuery } from '$core/physics/flight-mass-query';
 
 const STEPS = 120;
 const PARAMS = { numRuns: 200, seed: Number(process.env.FC_SEED ?? 42) };
@@ -71,9 +74,22 @@ describe('invariants over any configurable flight', () => {
         // the Jacobi integral, the energy less the centrifugal potential
         // omega^2 r^2 / 2; air at rest over the ground only ever takes from it.
         // At omega = 0 it is the orbital energy (Phase 6 Task 9).
-        const energy = (x: typeof s) =>
-          specificOrbitalEnergy(x.kinematics.distanceToPlanetCenter, x.kinematics.trueSpeed) -
-          0.5 * C.frameRotationRate ** 2 * x.kinematics.distanceToPlanetCenter ** 2;
+        const mass = createDamageMassProperties();
+        const energy = (x: typeof s) => {
+          // V3 publishes the geometric hull point. Orbital energy belongs to
+          // the physical mass centre, whose velocity includes omega cross r.
+          // Compute that point independently of the production transform.
+          const k = x.kinematics, event = x.damage?.terminal;
+          writeFlightMassQuery(x, SHIP, mass);
+          const dx = mass.centreOfMassX, dz = mass.centreOfMass - SHIP.height / 2;
+          const rx = dx * Math.cos(k.pitch) + dz * Math.sin(k.pitch);
+          const ry = -dx * Math.sin(k.pitch) + dz * Math.cos(k.pitch);
+          const radius = C.planetRadius + (event?.active ? event.altitude : k.altitude + ry);
+          const vx = event?.active ? event.speedX : k.speedX + k.angularVelocity * ry;
+          const vy = event?.active ? event.speedY : k.speedY - k.angularVelocity * rx;
+          return specificOrbitalEnergy(radius, Math.hypot(vx, vy))
+            - 0.5 * C.frameRotationRate ** 2 * radius ** 2;
+        };
         for (let i = 0; i < STEPS; i++) {
           const before = energy(s);
           s = step(s, GOLDEN_DT, { throttle: 0 });

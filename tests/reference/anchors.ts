@@ -5,7 +5,8 @@
 import * as C from '$core/constants';
 import { createInitialState } from '$core/state';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
-import { PROPELLANT_CAPACITY } from '$core/physics/mass';
+import { SHIP } from '$core/vehicle';
+import { HISTORICAL_SHIP, HISTORICAL_SUPER_HEAVY } from './historical-vehicles';
 import { getFuelFlowRate, getTotalMaxThrust } from '$core/physics/engines';
 import { circularOrbitalSpeed } from '$core/physics/gravity';
 import { around, type Band } from './bands';
@@ -18,8 +19,8 @@ const ONE_RVAC = [false, false, false, true, false, false] as const;
 
 /** Specific impulse of one engine at an ambient pressure, from thrust and flow. */
 function ispAt(pressureKPa: number): number {
-  const thrust = getTotalMaxThrust(ONE_ENGINE, pressureKPa);
-  const flow = getFuelFlowRate(ONE_ENGINE, 100);
+  const thrust = getTotalMaxThrust(ONE_ENGINE, pressureKPa, HISTORICAL_SHIP);
+  const flow = getFuelFlowRate(ONE_ENGINE, 100, HISTORICAL_SHIP);
   return thrust / (flow * G0);
 }
 
@@ -40,7 +41,7 @@ export const BANDS: readonly Band[] = [
     source:
       'SpaceX, x.com/SpaceX/status/1819795288116330594 (2024-08-03): Raptor 2 sea-level variant, 230 tf',
     conditions: 'sea-level ambient pressure, 100% throttle',
-    probe: () => getTotalMaxThrust(ONE_ENGINE, SEA_LEVEL_KPA),
+    probe: () => getTotalMaxThrust(ONE_ENGINE, SEA_LEVEL_KPA, HISTORICAL_SHIP),
   },
   {
     id: 'raptor2.vac.isp',
@@ -73,7 +74,7 @@ export const BANDS: readonly Band[] = [
     unit: 'N', tier: 'B',
     source: 'Derived T_vac=T_sl*Isp_vac/Isp_sl from the existing raptor2.sl.thrust, raptor2.sl.isp and raptor2.vac.isp references, with their source bands propagated',
     conditions: 'same sea-level nozzle and constant full-throttle mass flow, vacuum',
-    probe: () => getTotalMaxThrust(ONE_ENGINE, 0),
+    probe: () => getTotalMaxThrust(ONE_ENGINE, 0, HISTORICAL_SHIP),
   },
   {
     id: 'rvac2.vac.thrust',
@@ -81,7 +82,7 @@ export const BANDS: readonly Band[] = [
     ...around(258_000 * G0, .05), unit: 'N', tier: 'A',
     source: 'SpaceX https://www.spacex.com/updates/reusability, retrieved2026-10-03: vacuum engine thrust275tf up from258tf in historical Raptor2 comparison',
     conditions: 'historical Raptor2 Vacuum, excluding Raptor3, full throttle in vacuum',
-    probe: () => getTotalMaxThrust(ONE_RVAC, 0),
+    probe: () => getTotalMaxThrust(ONE_RVAC, 0, HISTORICAL_SHIP),
   },
   {
     id: 'rvac2.vac.isp',
@@ -89,7 +90,7 @@ export const BANDS: readonly Band[] = [
     ...around(380, .03), unit: 's', tier: 'B',
     source: 'Phase6 approved RVac engineering estimate380s, docs/reference/physics-model.md; no newly verified primary cohort-specific Isp declaration',
     conditions: 'vacuum-optimised nozzle, full throttle in vacuum',
-    probe: () => getTotalMaxThrust(ONE_RVAC, 0) / (getFuelFlowRate(ONE_RVAC, 100) * G0),
+    probe: () => getTotalMaxThrust(ONE_RVAC, 0, HISTORICAL_SHIP) / (getFuelFlowRate(ONE_RVAC, 100, HISTORICAL_SHIP) * G0),
   },
   {
     id: 'ascent.max-q.value',
@@ -123,7 +124,7 @@ export const BANDS: readonly Band[] = [
     tier: 'A',
     source: 'SpaceX Starship user guide, Block 1 Ship: 1,200 t',
     conditions: 'Block 1 Ship (Block 2 is 1,500 t)',
-    probe: () => PROPELLANT_CAPACITY,
+    probe: () => HISTORICAL_SHIP.propellantCapacity,
   },
   {
     id: 'ship.dry.mass',
@@ -134,7 +135,7 @@ export const BANDS: readonly Band[] = [
     source:
       'Elon Musk, 2021, via en.wikipedia.org/wiki/SpaceX_Starship_(spacecraft): roughly 100 t (Block 1)',
     conditions: 'Block 1 Ship, empty',
-    probe: () => C.vehicleDryMass,
+    probe: () => HISTORICAL_SHIP.dryMass,
   },
   {
     id: 'ship.engine.count',
@@ -172,19 +173,19 @@ export const BANDS: readonly Band[] = [
     id:'super-heavy.height',quantity:'historical booster hull height, m',
     ...around(71,.01),unit:'m',tier:'A',
     source:'FAA https://www.faa.gov/media/94371 PDF108/printed41, historical71m x9m cohort',
-    conditions:'Raptor2 historical booster, excluding future V3 expansion',probe:()=>SUPER_HEAVY.height,
+    conditions:'Raptor2 historical booster, excluding future V3 expansion',probe:()=>HISTORICAL_SUPER_HEAVY.height,
   },
   {
     id:'super-heavy.diameter',quantity:'historical booster hull diameter, m',
     ...around(9,.01),unit:'m',tier:'A',
     source:'FAA https://www.faa.gov/media/94371 PDF108/printed41',
-    conditions:'Raptor2 historical booster',probe:()=>SUPER_HEAVY.diameter,
+    conditions:'Raptor2 historical booster',probe:()=>HISTORICAL_SUPER_HEAVY.diameter,
   },
   {
     id:'super-heavy.propellant.capacity',quantity:'historical booster full propellant load, kg',
     ...around(3400000,.05),unit:'kg',tier:'A',
     source:'FAA https://www.faa.gov/media/94371 PDF230, SpaceX page accessed2025-02-07',
-    conditions:'historical3400t cohort; future4100t cap excluded',probe:()=>SUPER_HEAVY.propellantCapacity,
+    conditions:'historical3400t cohort; future4100t cap excluded',probe:()=>HISTORICAL_SUPER_HEAVY.propellantCapacity,
   },
   {
     id:'super-heavy.engine.count',quantity:'booster Raptor engine count',
@@ -202,7 +203,19 @@ export const BANDS: readonly Band[] = [
     id:'super-heavy.grid-fin.area',quantity:'estimated combined four-fin reference area, m²',
     ...around(24,.25),unit:'m²',tier:'B',
     source:'Phase7 declared flat-plate engineering approximation, not measured coefficient data',
-    conditions:'four coupled upper grid fins',probe:()=>SUPER_HEAVY.gridFins!.area,
+    conditions:'four coupled upper grid fins',probe:()=>HISTORICAL_SUPER_HEAVY.gridFins!.area,
   },
+
+  // V3 anchors measure the selected profile through actual physics functions.
+  ...[
+    {id:'raptor3.sl.thrust',quantity:'Raptor3 sea-level thrust',unit:'N',value:250000*G0,probe:()=>getTotalMaxThrust(ONE_ENGINE,SEA_LEVEL_KPA,SHIP)},
+    {id:'rvac3.vac.thrust',quantity:'Raptor3 Vacuum thrust',unit:'N',value:275000*G0,probe:()=>getTotalMaxThrust(ONE_RVAC,0,SHIP)},
+    {id:'ship.v3.height',quantity:'V3 Ship hull height',unit:'m',value:52,probe:()=>SHIP.height},
+    {id:'ship.v3.propellant.capacity',quantity:'V3 Ship full propellant capacity',unit:'kg',value:1600000,probe:()=>SHIP.propellantCapacity},
+    {id:'super-heavy.v3.height',quantity:'V3 booster hull height',unit:'m',value:72,probe:()=>SUPER_HEAVY.height},
+    {id:'super-heavy.v3.propellant.capacity',quantity:'V3 booster full propellant capacity',unit:'kg',value:3650000,probe:()=>SUPER_HEAVY.propellantCapacity},
+  ].map(({value,...row}):Band=>({...row,...around(value,.01),tier:'A',
+    source:'SpaceX https://www.spacex.com/vehicles/starship and https://www.spacex.com/updates/reusability, retrieved2026-10-03; primary audit docs/research/2026-10-03-vehicle-realism/v3-source-audit.md',
+    conditions:'current flown V3; manufacturer rounded specification, full throttle at named ambient condition'})),
 
 ];

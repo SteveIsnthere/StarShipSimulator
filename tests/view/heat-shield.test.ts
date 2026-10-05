@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { applyHeatShieldGain, writeHeatShieldAlbedo } from '$view/heat-shield';
+import { applyHeatShieldGain, writeHeatShieldAlbedo } from './fixtures/legacy-heat-shield';
 
 function fixture() {
   const width = 36, height = 200;
@@ -13,7 +13,7 @@ function fixture() {
   return { width, height, pixels, normals, out: new Uint8Array(pixels.length) };
 }
 
-describe('startup-owned belly material', () => {
+describe('historical photo-derived belly material', () => {
   it('keeps stainless at the silhouette rim and puts restrained dark tiles on the viewer-facing belly', () => {
     const f = fixture();
     const original = f.pixels.slice();

@@ -18,6 +18,7 @@
  * what keeps a full canvas repaint off the per-frame path.
  */
 import type { SimState } from '$core/state';
+import type { VehicleDefinition } from '$core/vehicle';
 import * as C from '$core/constants';
 import type { AttributeTarget } from './binder';
 import {
@@ -126,6 +127,8 @@ export interface MapRenderer {
 
 export interface MapRendererOptions {
   context: MapContext;
+  /** Read on every draw so selection changes use the actual physical body. */
+  readonly selectedVehicle?: VehicleDefinition;
   /** The flown path. Read, never written. */
   trail: { readonly downRange: readonly number[]; readonly altitude: readonly number[] };
   /**
@@ -229,7 +232,7 @@ export function createMapRenderer(options: MapRendererOptions): MapRenderer {
       predicted touchdown off its own edge exactly when it matters — on a long
       boostback the answer is a hundred kilometres from anything already drawn.
     */
-    predict(state, prediction);
+    predict(state, prediction, options.selectedVehicle);
     const hasPrediction = prediction.kind !== 'none';
     computeExtent(
       vehicleX,

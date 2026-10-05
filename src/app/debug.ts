@@ -7,10 +7,13 @@
  * in the repo (`sim-core-conventions`); it is defined, not assigned, and it
  * reaches the simulation only through the loop the app already owns.
  */
+import type { RenderQualityMode, RenderQuality } from '$view/render-quality';
 import type { SimState } from '$core/state';
 import type { ScenarioPreset } from '$core/scenarios';
 import { step as stepCore } from '$core/step';
 import { DT, type LoopState } from './loop';
+import { wantsSimDebug } from './debug-request';
+export { wantsSimDebug } from './debug-request';
 
 /** Where a flight starts, as the flight editor sets it. */
 export type FlightOverrides = Partial<
@@ -19,6 +22,33 @@ export type FlightOverrides = Partial<
     'altitude' | 'xPosition' | 'speedX' | 'speedY' | 'pitch' | 'propellant' | 'wind'
   >
 >;
+
+export interface DebugFilterMetadata {
+  readonly id: 'bloom' | 'heat';
+  readonly attached: boolean;
+  readonly enabled: boolean;
+  readonly compatible: boolean;
+  /** Live filter settings; inherit is preserved rather than called device DPR. */
+  readonly resolution: number | 'inherit';
+  readonly antialias: 'on' | 'off' | 'inherit';
+  /** Root-resolved input policy; null when detached/disabled/incompatible. */
+  readonly inputResolution: number | null;
+  readonly inputAntialias: boolean | null;
+}
+
+export interface DebugRendererMetadata {
+  readonly backend: 'webgl' | 'webgpu' | 'canvas' | 'unknown';
+  readonly backendType: number;
+  readonly resolution: number;
+  readonly screen: { readonly width: number; readonly height: number };
+  readonly backing: { readonly width: number; readonly height: number };
+  /** Root texture antialias policy, independent of browser context attributes. */
+  readonly antialias: boolean;
+  /** Null for non-WebGL backends; reports the existing context, never creates one. */
+  readonly webgl: { readonly drawingBufferWidth: number; readonly drawingBufferHeight: number;
+    readonly antialias: boolean | null; readonly contextLost: boolean } | null;
+  readonly filters: readonly DebugFilterMetadata[];
+}
 
 export interface DebugPresentation {
   /** Canvas CSS pixels from the last rendered frame. */
@@ -32,8 +62,14 @@ export interface DebugPresentation {
   bell?: { visibleMounts: number };
   /** Actual rendered body bounds, available only on demand. */
   bodies?: readonly { id: string; x: number; y: number; rotation: number; width: number; height: number }[];
+  /** Actual renderer ownership/visibility, not simulation attachment flags. */
+  components?: readonly { id: string; vehicle: string; detached: boolean; visible: boolean;
+    meshes: number; meshIds: readonly number[]; x: number; y: number; left: number; top: number; width: number; height: number }[];
   /** On-demand particle statistics, produced by the presentation layer. */
   particles?: readonly Readonly<Record<string, number | string>>[];
+  quality?: { readonly requested: RenderQuality; readonly actualBodies: readonly { readonly id: string; readonly particleCapacity: number; readonly particleAlive: number; readonly materials: readonly { readonly componentId: string; readonly materialIndex: number; readonly detail: number; readonly glow: number }[] }[] };
+  /** Actual renderer/filter state, sampled only when this surface is requested. */
+  renderer?: DebugRendererMetadata;
 }
 
 export interface SimDebug {
@@ -63,6 +99,9 @@ export interface SimDebug {
   setParticlesVisible(visible: boolean): void;
   /** Hide only rendered bodies/inset for a same-state vehicle absence control. */
   setVehiclesVisible(visible: boolean): void;
+  /** Renderer-only causal component control; unknown IDs are harmless. */
+  setComponentVisible(id: string, visible: boolean): void;
+  setRenderQuality(mode: RenderQualityMode): void;
 }
 
 export interface SimDebugDeps {
@@ -79,11 +118,8 @@ export interface SimDebugDeps {
   presentation?(): DebugPresentation;
   setParticlesVisible?(visible: boolean): void;
   setVehiclesVisible?(visible: boolean): void;
-}
-
-/** Whether this page should expose the debug surface. */
-export function wantsSimDebug(dev: boolean, search: string): boolean {
-  return dev || new URLSearchParams(search).get('debug') === '1';
+  setComponentVisible?(id: string, visible: boolean): void;
+  setRenderQuality?(mode: RenderQualityMode): void;
 }
 
 export function flatten(
@@ -164,6 +200,14 @@ export function createSimDebug(deps: SimDebugDeps): SimDebug {
       if (!deps.setVehiclesVisible) throw new Error("presentation is not mounted");
       deps.setVehiclesVisible(visible);
     },
+    setRenderQuality(mode) {
+      if (!deps.setRenderQuality) throw new Error('presentation is not mounted');
+      deps.setRenderQuality(mode);
+    },
+    setComponentVisible(id, visible) {
+      if (!deps.setComponentVisible) throw new Error("presentation is not mounted");
+      deps.setComponentVisible(id, visible);
+    },
     setParticlesVisible(visible) {
       if (!deps.setParticlesVisible) throw new Error("presentation is not mounted");
       deps.setParticlesVisible(visible);
@@ -181,3 +225,6 @@ export function installSimDebug(target: Window, dev: boolean, deps: SimDebugDeps
   });
   return true;
 }
+
+// Loaded only through the existing awaited optional diagnostics installation.
+export { attachSceneWitness } from '$ui/session/scene-witness';

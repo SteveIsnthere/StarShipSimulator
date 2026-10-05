@@ -155,7 +155,9 @@ export function engineAirGain(airPressure: number): number {
  * there is that the vehicle is going too fast too low, and Q is a number in a
  * strip most players never expand (§ 1).
  */
-export const AERO_FULL_Q = 30;
+// V3: preserve audible load headroom up to the unchanged structural50kPa
+// boundary, matching the fin-vortex ramp rather than clipping at nominal ascent.
+export const AERO_FULL_Q = 50;
 
 /**
  * 0..1 — how hard the air is tearing at the vehicle.
