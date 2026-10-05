@@ -1,0 +1,26 @@
+{
+  "kind": "mesa-app-structural-wrapper-source-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper.py.txt",
+      "sha256": "4db12bdbfb692763013de052f3c65056d50195bb10c509d53a107e2668cd0e9b",
+      "bytes": 16297
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper-contract.md",
+      "sha256": "5d79c33212cff02d3b5e8e5d87778efe95a8703280478a4dcb23bd0744e98781",
+      "bytes": 3531
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-wrapper-ownership-transfer.json",
+      "sha256": "20ad1b0c50d97bd695e56fc01bb5e583c940ae67576fcac2fa857b345d0cfb35",
+      "bytes": 559
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-observer.py.txt",
+      "sha256": "3d9bc7f8d85276385191982d724736583126a3210c92b67ccfe4bc04fba82b30",
+      "bytes": 17880
+    }
+  ],
+  "status": "UNEXECUTED SOURCE ONLY; no source/tool/native scans or materialization by author"
+}

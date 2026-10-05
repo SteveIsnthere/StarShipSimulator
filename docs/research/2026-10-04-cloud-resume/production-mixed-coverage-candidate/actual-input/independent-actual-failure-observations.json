@@ -1,0 +1,400 @@
+{
+  "rootCode": 1,
+  "elapsedSeconds": 304.74813866615295,
+  "rootObserved": 37,
+  "rootOriginalAbsent": 35,
+  "rootOriginalSameStartZombies": 2,
+  "actualHelperIdentities": 36,
+  "allHelperSubsetObserved": true,
+  "currentKnownIdentities": [
+    {
+      "pid": 82921,
+      "start": "5327379",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 82928,
+      "start": "5327511",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 82935,
+      "start": "5327616",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 82963,
+      "start": "5328033",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 82988,
+      "start": "5328494",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 82989,
+      "start": "5328494",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83004,
+      "start": "5328674",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83012,
+      "start": "5328855",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83019,
+      "start": "5328858",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83028,
+      "start": "5329019",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83035,
+      "start": "5329027",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83044,
+      "start": "5329155",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83052,
+      "start": "5329175",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83060,
+      "start": "5329276",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83068,
+      "start": "5329321",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83076,
+      "start": "5329401",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83084,
+      "start": "5329445",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83092,
+      "start": "5329526",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83100,
+      "start": "5329574",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83108,
+      "start": "5329653",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83116,
+      "start": "5329700",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83124,
+      "start": "5329786",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83132,
+      "start": "5329822",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83140,
+      "start": "5329913",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83148,
+      "start": "5329944",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83156,
+      "start": "5330028",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83164,
+      "start": "5330065",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83172,
+      "start": "5330144",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83180,
+      "start": "5330168",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83188,
+      "start": "5330237",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83196,
+      "start": "5330264",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83217,
+      "start": "5330333",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83225,
+      "start": "5330362",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83233,
+      "start": "5330462",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83240,
+      "start": "5330465",
+      "current": null,
+      "executing": false
+    },
+    {
+      "pid": 83496,
+      "start": "5343747",
+      "current": {
+        "start": "5343747",
+        "state": "Z"
+      },
+      "executing": false
+    },
+    {
+      "pid": 83521,
+      "start": "5344921",
+      "current": {
+        "start": "5344921",
+        "state": "Z"
+      },
+      "executing": false
+    }
+  ],
+  "provisionalStdoutModuleResults": [
+    {
+      "project": "kit",
+      "file": "src/ui/kit/input/GamepadNavProvider.test.tsx",
+      "reportedTests": 7
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/motion/useChipPanelMorph.test.tsx",
+      "reportedTests": 7
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/ConfirmDialog/ConfirmDialog.test.tsx",
+      "reportedTests": 7
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/LoadingState/LoadingState.test.tsx",
+      "reportedTests": 4
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/BrickField/BrickField.test.tsx",
+      "reportedTests": 15
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/NumberField/NumberField.test.tsx",
+      "reportedTests": 6
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/Dialog/Dialog.test.tsx",
+      "reportedTests": 2
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/BrickField/brickMotion.test.ts",
+      "reportedTests": 8
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/LoadingState/LoadingState.accessibility.test.tsx",
+      "reportedTests": 1
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/FormRow/FormRow.test.tsx",
+      "reportedTests": 2
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/Tile/Tile.test.tsx",
+      "reportedTests": 1
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/SliderRow/SliderRow.test.tsx",
+      "reportedTests": 2
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/FieldStatus/FieldStatus.test.tsx",
+      "reportedTests": 2
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/motion/effects.test.ts",
+      "reportedTests": 7
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/Toggle/Toggle.test.tsx",
+      "reportedTests": 1
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/ConnectedMedia/ConnectedMedia.test.tsx",
+      "reportedTests": 3
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/Button/Button.test.tsx",
+      "reportedTests": 1
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/TabStrip/TabStrip.test.tsx",
+      "reportedTests": 1
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/input/InputOwnershipProvider.test.tsx",
+      "reportedTests": 3
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/TransitionView/TransitionView.test.tsx",
+      "reportedTests": 4
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/InputLegend/InputLegend.test.tsx",
+      "reportedTests": 2
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/motion/useMotionTimeline.test.tsx",
+      "reportedTests": 3
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/motion/useReducedMotion.test.tsx",
+      "reportedTests": 1
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/input/ownership.test.ts",
+      "reportedTests": 16
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/BrickField/renderer.test.ts",
+      "reportedTests": 3
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/internal/utils.test.ts",
+      "reportedTests": 1
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/BrickField/gpuTimer.test.ts",
+      "reportedTests": 3
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/styles/motion.test.ts",
+      "reportedTests": 1
+    },
+    {
+      "project": "kit",
+      "file": "src/ui/kit/public-api.test.ts",
+      "reportedTests": 1
+    },
+    {
+      "project": "native-flight",
+      "file": "tests/flies-every-scenario.test.ts",
+      "reportedTests": 17
+    },
+    {
+      "project": "native-flight",
+      "file": "tests/core/booster-guidance.test.ts",
+      "reportedTests": 4
+    }
+  ],
+  "rawCoverageFiles": 31,
+  "rawCoverageBytes": 509366,
+  "completedCaseInventory": null,
+  "coverageMapFinalized": false
+}

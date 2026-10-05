@@ -1,0 +1,44 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 119879,
+      "state": "R",
+      "parent": 119878,
+      "group": 119879,
+      "session": 119879,
+      "start": "7622951"
+    },
+    {
+      "pid": 119886,
+      "state": "R",
+      "parent": 119879,
+      "group": 119886,
+      "session": 119886,
+      "start": "7622982"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 119879,
+      "session": 119879,
+      "start": "7622951",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 119886,
+      "session": 119886,
+      "start": "7622982",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-reporting-2e4e3287b3014e7382317a96a035611a",
+  "manifestSha": "961b9ddc0d44c2473f84ffbab10c699d6cafb0e6dae0f311d7378f065f407e78",
+  "elapsedSeconds": 0.9484624862670898,
+  "acceptance": "Twelve inert source-coupled reporting controls only; no actual Vitest lifecycle, physics, golden, coverage, profile or performance acceptance"
+}

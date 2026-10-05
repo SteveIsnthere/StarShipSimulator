@@ -1,0 +1,16 @@
+{
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-managed-python-binary-exception-source-HIGH-review.md",
+  "reviewSha256": "b7df703cf4da58e2bf57f0dd511fecd190ea184c4a9a18f2848eb1058ced2c02",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-observer.py.txt": "5b1d7c59b0cb488e88ce36fb2ac6d1e48c9571c04c33caf29a2113e04fd387e3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-managed-python-observer.py.txt": "5a76214ab6e39ccb4a0209cdfb0fe21e62d10cddbe9d5dcff951e8e594649a89",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-managed-python-contract.md": "53abc8fda9291d224194210d5f2e2823eac4e77b5dc3488654f568715c50344e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-source-pins.json": "197070e630e017e153e85fc91e009c5671d334df484d177cd9b6549e7def4290",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-managed-python-source-pins.json": "e42ae5350cd7716981ed61e700ff77590000e190f81ace24e48792b908c06105",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-diagnostic.py.txt": "311fd9b4a2f2e390cb1a5dd193f6b4fb08b37326076663ca4aabb896bb60f30c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-diagnostic.managed-python.py.txt": "8635a21f3dca22ab9f5f547a41e619ecc410b7958af982f997ce5e7f256f6261",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-concrete-managed-python-source-pins.json": "277339c5e56340d7f1c827cfb9c89297a4dd86f9354a9cb8ce8b36466c138082",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-managed-python-exception-contract.md": "885e87b11e6b28132ff42203265cbf1c8b0b149925cf4b40641ed1c618d50ef6"
+  },
+  "disposition": "source scopes and distinct input preparation only"
+}

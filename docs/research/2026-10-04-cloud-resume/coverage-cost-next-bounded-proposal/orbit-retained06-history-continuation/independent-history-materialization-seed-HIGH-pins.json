@@ -1,0 +1,18 @@
+{
+  "kind": "independent-retained06-history-seed-review-v1",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/independent-retained06-history-continuation-source-HIGH-review.md": "163621ab959680c43c98d18f9c8042f9c27c24c18a832b4ff9967f7c8a4a8f9e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/independent-retained06-history-continuation-source-HIGH-pins.json": "8f3850f63b75ff7149d3be26ba0d886453837255531ff8d681401dbc6a318244",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/input-pins.json": "ba70c58c95c43973e953bccb4443f6515d53c414f1eb4448272ba94cfff167e3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/root-scoped-hash-and-python-checks.json": "8c0b52778928ba84557fd920b8bd32f4f087b59cefeb70d29d4c72ac31a154f2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/root-eslint-checks.json": "ee900a7c497cbe9d90c626e7e2f3aecca36299b75846cd5a0eb58319f01f7102",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/root-materialization-seed.json": "7bb9c1c9d3eb37e3ba15f813902fedfbddad1fa36a8548b571aca0571d46bbaf",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/make-input.py.txt": "295045a1b66bec3c4dbc16e456cb7f928fb82e9caf2e09dfc4cbc756c68c2e0c",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-517cfec6f83b46028ec25ec4dcd817e4/root-input.json": "2a5b8cf22421a97dff089b9363838ad5aa7a55e09b18a3817eda790331e4fa3c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/independent-history-materialization-seed-HIGH-review.md": "5c9adefc80222f158a762ffded1e4e78610365ae5a7462e9a32f052aa3e9176c"
+  },
+  "sourceRowsComparedToReviewedManifest": 257,
+  "seedTotalRows": 262,
+  "scope": "one-metadata-maker-only",
+  "historyExecutionGrant": false
+}

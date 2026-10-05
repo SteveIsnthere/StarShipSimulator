@@ -1,0 +1,42 @@
+{
+  "identities": [
+    {
+      "pid": 112756,
+      "start": "7161158",
+      "status": "ABSENT"
+    },
+    {
+      "pid": 112763,
+      "start": "7161284",
+      "status": "ABSENT"
+    },
+    {
+      "pid": 112791,
+      "start": "7161501",
+      "status": "ABSENT"
+    }
+  ],
+  "groups": [
+    {
+      "group": 112756,
+      "session": 112756,
+      "start": "7161158",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 112763,
+      "session": 112763,
+      "start": "7161284",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 112791,
+      "session": 112791,
+      "start": "7161501",
+      "cleared": true,
+      "uncertain": false
+    }
+  ]
+}

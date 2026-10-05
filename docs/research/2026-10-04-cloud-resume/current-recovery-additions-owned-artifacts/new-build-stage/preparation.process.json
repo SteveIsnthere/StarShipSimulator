@@ -1,0 +1,87 @@
+{
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "failure": null,
+  "bytes": {
+    "stdout": 5060,
+    "stderr": 968
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 115097,
+    "start": "7343056",
+    "group": 115097,
+    "session": 115097,
+    "tracked": [
+      {
+        "pid": 115097,
+        "state": "S",
+        "parent": 115090,
+        "group": 115097,
+        "session": 115097,
+        "start": "7343056"
+      },
+      {
+        "pid": 115108,
+        "state": "S",
+        "parent": 115097,
+        "group": 115097,
+        "session": 115097,
+        "start": "7343066"
+      },
+      {
+        "pid": 115109,
+        "state": "R",
+        "parent": 115108,
+        "group": 115097,
+        "session": 115097,
+        "start": "7343067"
+      },
+      {
+        "pid": 115116,
+        "state": "R",
+        "parent": 115108,
+        "group": 115097,
+        "session": 115097,
+        "start": "7343076"
+      },
+      {
+        "pid": 115123,
+        "state": "R",
+        "parent": 115108,
+        "group": 115097,
+        "session": 115097,
+        "start": "7343983"
+      },
+      {
+        "pid": 115137,
+        "state": "R",
+        "parent": 115108,
+        "group": 115097,
+        "session": 115097,
+        "start": "7343992"
+      },
+      {
+        "pid": 115180,
+        "state": "R",
+        "parent": 115108,
+        "group": 115097,
+        "session": 115097,
+        "start": "7344510"
+      },
+      {
+        "pid": 115191,
+        "state": "R",
+        "parent": 115108,
+        "group": 115097,
+        "session": 115097,
+        "start": "7344518"
+      }
+    ],
+    "executing": []
+  }
+}

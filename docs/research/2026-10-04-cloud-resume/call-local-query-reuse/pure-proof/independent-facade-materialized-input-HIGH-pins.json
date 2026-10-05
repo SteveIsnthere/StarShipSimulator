@@ -1,0 +1,25 @@
+{
+  "kind": "independent-facade-materialized-input-review-v1",
+  "verdict": "READY root grant one exact120s semantic proof",
+  "executed": false,
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-facade-materialized-input-HIGH.md": "75d2b9bfff2bff83a663a48a889e9b5e4d50a38a591c920d786aeaba23abe22a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/input-pins.json": "c73ca4673e448182c082befadc7dee52ea091ceebe064966e1179cfc06d27ff5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-facade-repair-scoped-checks.json": "a8fc9c8069fa8436bc9c0fac63e034e690ad7ecc1192f37e69d21093c77a58dc",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-facade-repair-maker-process.json": "2968cbcfcd0fba2062b80b6a05cc15b366fdd10ff618b9dbd760fe5a9fcbf6eb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-facade-repair-maker.stdout.txt": "4320c69f8fa8aa8fc67cfb9828cdaef871f438fc016dc4838cab6e6efab5a093",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-facade-repair-maker.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/input.json": "1685a6a6cb8daf301eb616e27a4cd50bb7c2ab9c52c76fcf8c4da1f99aa1d0e5",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/root-input.json": "e74ad5bae900b5c9490de17bd50682303394020cd90cf9458dd3bc42e5ea9535",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/root-inventory.json": "a2d2025e80ee0751d79ebb9fd0093e5492f76bd3d2b0f2aa5996c768ea5ae5a4",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/owner.mjs": "7b77d1475b48efa77660545eb3221308f86af1d92d80a920fdefd0ae51b66985",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/builder.mjs": "9489c1df8c82620c1f4ee8e2a56a5811df4fc86c4f1df78d42b41c8ae442ab10",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/driver.mjs": "d2277d57eb260938033eaaa7085865932e47cccef1ad722b022d4a9ce75939b2",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/entry.ts": "f870865020e5aa24191e336792275b353236ddd6b5119c7f7fa8976a45ae2c90",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/canonical-equivalence-driver.mjs": "679ff675b6bab99b68d4e99941e07c77843410ce81fa0b2f54b3aca61f039e55",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/damage-controls.original.ts.txt": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/damage-controls.candidate.ts.txt": "11d754b1078efbf8bd5afe35815524d15f8a48bfe15b624a9813b630b6db094a",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/damage-thermal.original.ts.txt": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395/damage-thermal.candidate.ts.txt": "0e91f95f2c2a4e63e428f574fb046bd080cd5ef314afff4d2c23aa72fc9c2a9a"
+  }
+}

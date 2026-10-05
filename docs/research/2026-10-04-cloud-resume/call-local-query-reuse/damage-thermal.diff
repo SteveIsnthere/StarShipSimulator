@@ -1,0 +1,76 @@
+--- damage-thermal.original
++++ damage-thermal.candidate
+@@ -200,6 +200,8 @@
+   const step = dt / substeps;
+   const sinkFourthPower = sinkK ** 4;
+   for (let substep = 0; substep < substeps; substep++) {
++    // No heap memo, cross-substep state, node reference or caller retention.
++    let steelReusePresent = false, steelReuseInput = 0, steelReuseTemperature = 0;
+     const oldHullTemperature = state.hull.temperature;
+     const oldHullK = steelConductivity(oldHullTemperature);
+     let hullEnergyDelta = 0;
+@@ -237,12 +239,60 @@
+         rootEnergyDelta += step * column.heatArea
+           * (fluxWm2 - RADIATION_FACTOR * (rootTemperature ** 4 - sinkFourthPower));
+       }
+-      if (!applyEnergy(component.root, rootEnergyDelta, column.rootMass,
+-        column.rootMinEnergy, column.rootMaxEnergy, false)) componentValid = false;
++      // Capture original call arguments in order before any node update.
++      const steelNode = component.root, steelDelta = rootEnergyDelta, steelMass = column.rootMass;
++      const steelMinimum = column.rootMinEnergy, steelMaximum = column.rootMaxEnergy;
++      steelNode.energy += steelDelta;
++      if (!Number.isFinite(steelNode.energy) || steelNode.energy < steelMinimum
++        || steelNode.energy > steelMaximum) {
++        steelNode.valid = false;
++        componentValid = false;
++      } else if (steelDelta !== 0) {
++        if (steelNode.energy === steelMinimum) steelNode.temperature = MATERIAL_MIN_K;
++        else if (steelNode.energy === steelMaximum) steelNode.temperature = MATERIAL_MAX_K;
++        else {
++          const query = steelTemperatureFromEnthalpy;
++          const input = steelNode.energy / steelMass;
++          let temperature: number;
++          if (steelReusePresent && Object.is(input, steelReuseInput)) {
++            temperature = steelReuseTemperature;
++          } else {
++            temperature = query(input);
++            steelReusePresent = Number.isFinite(temperature);
++            if (steelReusePresent) { steelReuseInput = input; steelReuseTemperature = temperature; }
++          }
++          steelNode.temperature = temperature;
++        }
++      }
+       if (!componentValid) domainMask |= 1 << column.componentIndex;
+     }
+-    if (!applyEnergy(state.hull, hullEnergyDelta, model.hullMass,
+-      model.hullMinEnergy, model.hullMaxEnergy, false)) domainMask |= HULL_THERMAL_DOMAIN_BIT;
++    {
++      // Capture original call arguments in order before any node update.
++      const steelNode = state.hull, steelDelta = hullEnergyDelta, steelMass = model.hullMass;
++      const steelMinimum = model.hullMinEnergy, steelMaximum = model.hullMaxEnergy;
++      steelNode.energy += steelDelta;
++      if (!Number.isFinite(steelNode.energy) || steelNode.energy < steelMinimum
++        || steelNode.energy > steelMaximum) {
++        steelNode.valid = false;
++        domainMask |= HULL_THERMAL_DOMAIN_BIT;
++      } else if (steelDelta !== 0) {
++        if (steelNode.energy === steelMinimum) steelNode.temperature = MATERIAL_MIN_K;
++        else if (steelNode.energy === steelMaximum) steelNode.temperature = MATERIAL_MAX_K;
++        else {
++          const query = steelTemperatureFromEnthalpy;
++          const input = steelNode.energy / steelMass;
++          let temperature: number;
++          if (steelReusePresent && Object.is(input, steelReuseInput)) {
++            temperature = steelReuseTemperature;
++          } else {
++            temperature = query(input);
++            steelReusePresent = Number.isFinite(temperature);
++            if (steelReusePresent) { steelReuseInput = input; steelReuseTemperature = temperature; }
++          }
++          steelNode.temperature = temperature;
++        }
++      }
++    }
+     if (domainMask !== 0) return domainMask;
+   }
+   return 0;

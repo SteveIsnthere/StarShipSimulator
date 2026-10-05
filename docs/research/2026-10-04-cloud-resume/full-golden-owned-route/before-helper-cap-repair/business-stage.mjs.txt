@@ -1,0 +1,93 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,mkdtempSync,lstatSync,mkdirSync,openSync,writeSync,fsyncSync,closeSync,fchmodSync,realpathSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {tmpdir} from 'node:os';
+import {pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
+const digest=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+const parse=p=>JSON.parse(readFileSync(p,'utf8'));
+const [inputPath,inputSha]=process.argv.slice(2);
+assert.equal(digest(inputPath),inputSha);
+const m=parse(inputPath);
+assert.equal(m.kind,'official-original21-owner-input-v1');assert.equal(m.mode,'golden-record');
+assert.equal(m.outerMs,900000);assert.equal(realpathSync(process.cwd()),realpathSync(m.root));
+assert.equal(process.platform,'linux');assert.equal(process.arch,'x64');assert.equal(process.version,'v22.23.3');
+assert.equal(process.env.NODE_OPTIONS??'','');assert.equal(process.env.GOLDEN_PREVIEW,undefined);
+// Public npm command uses its original SSR recorder. No native alias environment is forwarded.
+for(const key of ['NATIVE_FLIGHT_COMPOSITE','NATIVE_FLIGHT_COMPOSITE_SHA'])assert.equal(process.env[key],undefined);
+const deadline=Number(process.env.ORIGINAL21_ROOT_DEADLINE);
+assert(Number.isFinite(deadline)&&deadline>Date.now()&&deadline<=Date.now()+892000);
+const receipt=mkdtempSync(resolve(tmpdir(),'starship-original21-stage.'));
+process.stdout.write(JSON.stringify({stageReceipt:receipt,inputSha})+'\n');
+const put=(name,v)=>writeFileSync(resolve(receipt,name),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
+const roles=['node','helper','npmCli','qualification','pins','stage','observer','python','snapshotHelper','prediction','predictionReview','truthEvidence','unitEvidence'];
+let before=null,after=null,tools=null,owned=null,raw=null,code=null,failure=null;
+const afterErrors=[];const describe=e=>String(e.stack??e);
+const inventory=parse(m.pins.path);
+const prediction=parse(m.prediction.path);
+assert.equal(prediction.kind,'pre-look-full-ten-Fidelity-golden-prediction');
+assert.equal(prediction.scenarios.length,10);assert.equal(prediction.GOLDEN_PREVIEWAllowed,false);
+const fixtureFiles=prediction.scenarios.map(s=>'tests/golden/fixtures/'+(s.model==='Super Heavy'?'booster/':'')+s.id+'.json').sort();
+assert.equal(new Set(fixtureFiles).size,10);
+assert.deepEqual(m.fixturePaths,fixtureFiles.map(f=>resolve(m.root,f)));
+const checkPins=(afterRecording=false)=>{
+ assert.equal(digest(inputPath),inputSha);
+ for(const key of roles)assert.equal(digest(m[key].path),m[key].sha,'Role '+key);
+ assert.equal(digest(process.execPath),m.node.sha);
+ assert.equal(m.node.sha,'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48');
+ assert.equal(inventory.kind,'official-original21-external-inventory-v1');
+ assert.equal(inventory.qualificationSha,m.qualification.sha);
+ for(const [p,sha]of Object.entries(inventory.files))if(!afterRecording||!m.fixturePaths.includes(p))assert.equal(digest(p),sha,'Input '+p);
+ for(const p of m.fixturePaths)assert.equal(inventory.files[p],inventory.expectedCurrentSourceSnapshot[p.slice(m.root.length+1)]);
+};
+const immutableSource=(a,b)=>{
+ assert.deepEqual(Object.keys(a),Object.keys(b),'Complete source path inventory');
+ assert.equal(Object.keys(a).length,769);
+ for(const [file,sha]of Object.entries(a))if(!fixtureFiles.includes(file))assert.equal(b[file],sha,'Non-golden source '+file);
+};
+try{
+ checkPins();
+ const snapshots=await import(pathToFileURL(m.snapshotHelper.path).href);
+ before=snapshots.sourceSnapshot(m.root);assert.deepEqual(before,inventory.expectedCurrentSourceSnapshot);
+ tools=snapshots.installedToolSnapshot(m.root,m.npmCli.path);assert.deepEqual(tools,inventory.expectedInstalledToolSnapshot);
+ put('platform-and-before-source.json',{platform:process.platform,arch:process.arch,node:process.version,nodeSha:digest(process.execPath),GOLDEN_PREVIEWAbsent:true,source:before,tools});
+ const old=resolve(receipt,'before-fixtures');mkdirSync(old,{mode:0o700});
+ let bytes=0;const oldRows=[];
+ for(const file of fixtureFiles){
+  const p=resolve(m.root,file),stat=lstatSync(p);assert(stat.isFile()&&!stat.isSymbolicLink());
+  assert(stat.size<=64*1024*1024);bytes+=stat.size;assert(bytes<=256*1024*1024);
+  const data=readFileSync(p);assert.equal(data.length,stat.size);assert.equal(digest(p),before[file]);
+  const dest=resolve(old,file.replaceAll('/','__'));const fd=openSync(dest,'wx',stat.mode&0o7777);
+  try{writeSync(fd,data);fchmodSync(fd,stat.mode&0o7777);fsyncSync(fd);}finally{closeSync(fd);}
+  assert.equal(digest(dest),before[file]);oldRows.push({file,path:p,copy:dest,sha:before[file],bytes:data.length,mode:stat.mode&0o7777});
+ }
+ put('before-fixture-manifest.json',{predictionSha:m.prediction.sha,rows:oldRows,bytes});
+ owned=await import(pathToFileURL(m.helper.path).href);
+ code=await owned.runOwnedCommand({name:'preparation',root:m.root,receipt,args:[m.npmCli.path,'run','golden:regenerate'],deadlineMs:Math.min(880000,deadline-Date.now()-8000),env:{...process.env}});
+}catch(e){failure=describe(e);}
+// Always retain raw command status before output assertions; failed partial files stay in place.
+try{raw=parse(resolve(receipt,'preparation.process.json'));put('actual-child-exit.json',{exit:raw.exit,code,primaryFailure:failure});}catch(e){afterErrors.push({stage:'raw-status',error:describe(e)});}
+try{assert(raw&&raw.exit);assert.equal(raw.exit.code,0);assert.equal(raw.exit.signal,null);assert.equal(raw.failure,null);assert.equal(raw.finished,true);assert.equal(raw.closed,true);assert.equal(raw.cleanup.executing.length,0);}catch(e){afterErrors.push({stage:'command-outcome',error:describe(e)});}
+try{
+ const snapshots=await import(pathToFileURL(m.snapshotHelper.path).href);
+ after=snapshots.sourceSnapshot(m.root);put('after-source.json',after);assert(before);immutableSource(before,after);
+ assert.deepEqual(snapshots.installedToolSnapshot(m.root,m.npmCli.path),tools,'Complete installed tool boundary');
+}catch(e){afterErrors.push({stage:'complete-source-tool-boundary',error:describe(e)});}
+try{
+ const rows=[];let bytes=0;
+ for(const spec of prediction.scenarios){
+  const file='tests/golden/fixtures/'+(spec.model==='Super Heavy'?'booster/':'')+spec.id+'.json';const p=resolve(m.root,file);
+  const stat=lstatSync(p);assert(stat.isFile()&&!stat.isSymbolicLink());assert(stat.size<=64*1024*1024);bytes+=stat.size;assert(bytes<=256*1024*1024);
+  const g=parse(p);assert.equal(g.scenario,spec.id);assert.equal(g.steps,spec.steps);assert.equal(g.dt,1/120);assert.equal(g.sampleEvery,60);assert.equal(g.seed,0x57414c4b);assert.equal(g.setup,spec.setup);
+  assert(g.constant&&typeof g.constant==='object'&&!Array.isArray(g.constant));assert(Array.isArray(g.keys)&&Array.isArray(g.rows));assert.equal(new Set(g.keys).size,g.keys.length);assert(g.keys.every(k=>typeof k==='string'));assert.equal(g.rows.length,spec.expectedSamples);assert(g.rows.every(row=>Array.isArray(row)&&row.length===g.keys.length));
+  const last=g.rows.at(-1);const value=key=>Object.hasOwn(g.constant,key)?g.constant[key]:last[g.keys.indexOf(key)];
+  let catchOutcome=null;if(spec.model==='Super Heavy'){catchOutcome={landed:value('status.landed'),onTheGround:value('status.onTheGround'),propellant:value('vehicle.propellantMass')};assert.equal(catchOutcome.landed,true);assert.equal(catchOutcome.onTheGround,false);assert.equal(typeof catchOutcome.propellant,'number');assert(catchOutcome.propellant>0);}
+  rows.push({file,sha:digest(p),beforeSha:before?.[file]??null,bytes:stat.size,samples:g.rows.length,catchOutcome});
+ }
+ put('recorded-fixture-metadata.json',{rows,bytes,notReplayOrPhysicsAcceptance:true});
+}catch(e){afterErrors.push({stage:'ten-output-metadata',error:describe(e)});}
+try{checkPins(true);}catch(e){afterErrors.push({stage:'immutable-input-postpins',error:describe(e)});}
+try{if(owned)assert(owned.verifyNoOwnedProcesses().every(row=>row.executing.length===0));}catch(e){afterErrors.push({stage:'owned-live-audit',error:describe(e)});}
+const completed=code===0&&failure===null&&afterErrors.length===0;
+put('stage-result.json',{completed,mode:m.mode,code,error:failure??(afterErrors.length?JSON.stringify(afterErrors):null),afterErrors,processReceipt:resolve(receipt,'preparation.process.json'),acceptance:'Recording only; all new fixtures require independent prediction/artifact audit, exact replay and coherent Fidelity audit commit. Existing source qualification is stale after data changes.'});
+process.stdout.write(JSON.stringify({stageReceipt:receipt,completed,code})+'\n');process.exitCode=completed?0:1;

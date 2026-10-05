@@ -1,0 +1,35 @@
+{
+  "identities": [
+    {
+      "pid": 110429,
+      "start": "6966117",
+      "status": "ABSENT"
+    },
+    {
+      "pid": 110436,
+      "start": "6966245",
+      "status": "ABSENT"
+    },
+    {
+      "pid": 110462,
+      "start": "6966306",
+      "status": "ABSENT"
+    }
+  ],
+  "groups": [
+    {
+      "group": 110429,
+      "session": 110429,
+      "start": "6966117",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 110436,
+      "session": 110436,
+      "start": "6966245",
+      "cleared": true,
+      "uncertain": false
+    }
+  ]
+}

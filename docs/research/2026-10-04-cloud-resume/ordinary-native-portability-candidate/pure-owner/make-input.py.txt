@@ -1,0 +1,28 @@
+# Source-only proposed maker. Root executes once after review; no Node import/workload here.
+import os,json,hashlib,uuid
+from pathlib import Path
+root=Path('/workspace/StarShipSimulator')
+base=root/'docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate'
+pins_path=base/'pure-owner/input-pins.json'
+digest=lambda file:hashlib.sha256(Path(file).read_bytes()).hexdigest()
+pins=json.loads(pins_path.read_text())
+for file,sha in pins.items():assert digest(file)==sha,file
+assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='portable-native-pure-controls'
+setup=Path('/tmp')/('starship-portable-native-pure.'+uuid.uuid4().hex);setup.mkdir(mode=0o700)
+pairs=[(base/'portable-fixture-controls.mjs.txt',setup/'controls.mjs'),(base/'admission.mjs.txt',setup/'admission.mjs'),(base/'pure-owner/owner.mjs.txt',setup/'owner.mjs')]
+executed={}
+for source,target in pairs:
+ with target.open('xb')as stream:stream.write(source.read_bytes())
+ assert digest(source)==digest(target)
+ executed[str(target)]={'template':str(source),'sha256':digest(target)}
+node=Path('/workspace/cloud-bootstrap/starship-v1/node/bin/node')
+helper=root/'scripts/bench/owned-command.mjs'
+manifest={'kind':'portable-native-pure-owner-input-v1','root':str(root),'setup':str(setup),
+ 'inputs':{**pins,str(pins_path):digest(pins_path)},'executed':executed,
+ 'node':{'path':str(node),'sha256':digest(node)},'helper':{'path':str(helper),'sha256':digest(helper)},
+ 'expectedNames':json.loads((base/'pure-owner/expected-names.json').read_text()),
+ 'childMs':5000,'rootWholeMs':30000,'rootWorkMs':22000,'rootCleanupMs':8000,
+ 'reviewScope':'27 inert fixtures only; extraction stops BEFORE admitRun'}
+for file,sha in pins.items():assert digest(file)==sha,file
+with(setup/'input.json').open('x')as stream:json.dump(manifest,stream,indent=2);stream.write('\n')
+print(json.dumps({'setup':str(setup),'input':str(setup/'input.json'),'inputSha256':digest(setup/'input.json'),'argv':[str(node),str(setup/'owner.mjs'),str(setup/'input.json')]}))

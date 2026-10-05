@@ -1,0 +1,63 @@
+{
+  "kind": "mesa-retained-prefix-root-seed-v1",
+  "roles": {
+    "diagnostic": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/run_assessment.py.txt",
+      "sha": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09"
+    },
+    "parser": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/prefix_reader.header-bound.py.txt",
+      "sha": "b5353c330965eb449f9148387989d2290e7fdcca37c336a889ebb4e17638c523"
+    },
+    "controls": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/controls.header-bound.py.txt",
+      "sha": "c991dfaeb5862a64b5dbc9f98608db174ec114f3564994c1a2292ea2948b5c04"
+    },
+    "observer": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root_observer.header-bound.py.txt",
+      "sha": "f0a4bc7349ccdd7c47acc8e5e9f1743f233e1f8ec1dfbbf866861256ac1aa32d"
+    },
+    "python": {
+      "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+    },
+    "maker": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/make_input.py.txt",
+      "sha": "d5b0b5856f37f67abf3df98dbfb8c2b485b504d130feeb62189f53cec728a2aa"
+    },
+    "sourcePins": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/source-pins-header-bound.json",
+      "sha": "559c87da39cdd413ee4736ca0b03f535e88ae3a2922b286f4e889d71262b11dc"
+    },
+    "sourceReview": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/independent-header-bound-source-HIGH-review.md",
+      "sha": "bfb8419f57b636563e1c4a7ef328a28bfb47c36e0ecbaa69b5b16b7eb283bde9"
+    },
+    "actualFailureReview": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-review.md",
+      "sha": "c07534a6fdd6333624ed4b881fd0107561b7e3a603f30f5bb8a359e81842fe9b"
+    },
+    "actualFailurePins": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-pins.json",
+      "sha": "3bb434e84a4f05b01a712aad3703c9c4a125e9e794eff282a7e596c183adb211"
+    },
+    "originProof": {
+      "path": "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/trace-buffer-usage.json",
+      "sha": "c96382f5ed4e6943ef7b1839a97faebf62038d46a549b8a629adc5cd596e3aee"
+    },
+    "proposal": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/bounded-partial-trace-offline-assessment-proposal.md",
+      "sha": "306a94deb084d2d5a3551f680a866b4bc7244b60c3e03aadba9efce0bbad7c64"
+    }
+  },
+  "trace": {
+    "path": "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/browser-all-threads-trace.partial.json",
+    "sha256": "e396261671efa367a0c9d86eaf862632718f0718475c0a99c041e69327fc73da",
+    "bytes": 67108864,
+    "mode": 384,
+    "device": 33,
+    "inode": 30337,
+    "mtimeNs": 1791168492221868000,
+    "ctimeNs": 1791168492221868000
+  }
+}

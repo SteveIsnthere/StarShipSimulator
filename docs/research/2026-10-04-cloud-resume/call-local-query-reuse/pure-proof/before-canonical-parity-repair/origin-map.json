@@ -1,0 +1,62 @@
+[
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/builder.mjs.txt",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/builder.mjs.txt",
+    "sha256": "435a2f7958c12315ea38e193b59ae4b39d86d444fa661c2568dbc15f76d4e2a5"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/closed-three-recipe-ledger.json",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/closed-three-recipe-ledger.json",
+    "sha256": "cf6154f0ed4ccef343d41ed18d996fe4f01e8a267ca3bb010bc46b25050575ee"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/declaration.md",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/declaration.md",
+    "sha256": "96f8c08cdaaa2e6bf52a3638dd3d2aac277932ae3cab03a9f3194e79746a48f9"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/driver.mjs.txt",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/driver.mjs.txt",
+    "sha256": "9bda9be67242574eaa467cab3b9c88ad47ad92ab0cc54e850fd0c8b0a3a440fe"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/entry.ts.txt",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/entry.ts.txt",
+    "sha256": "85f61109b3211a6abe1c193cda364aa5dfd5b9dc19291c73b384ac8a39a8aff9"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v1-pins.json",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/independent-source-HIGH-v1-pins.json",
+    "sha256": "4b8b1bd0445aad465e38524bfdb3d74bff348519fd7ed76fc4bc38d61388fbad"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v1.md",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/independent-source-HIGH-v1.md",
+    "sha256": "2d7a801bf773dc021df1aec34f3a15163bb8a8ec5cb8cee70a19b62c042f82d3"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/input-pins.json",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/input-pins.json",
+    "sha256": "0a3dc4954abc7eb99cb43d651ce7bd05fcdf90fb094e836958cd3a90039354eb"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/make-input.py.txt",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/make-input.py.txt",
+    "sha256": "67c79053f5a1e110e1f9d983ae58f55df314ebd39c7b40c4d5d4a3bf56d8c858"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/owner.mjs.txt",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/owner.mjs.txt",
+    "sha256": "88fef7412e333fce6cd9325de65c939d95cf8225fb3800ed376ec0ccc97dbde5"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-observer.diff",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/root-observer.diff",
+    "sha256": "6bc61e18443372771c8b9c369fbde6a20a7c73ef19ad4808048cb2c3902c720f"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-observer.py.txt",
+    "archive": "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-canonical-parity-repair/root-observer.py.txt",
+    "sha256": "6f790e6efdb8f2e8a5285cddf40d0b7b9188077b007c05e3579954d64d899652"
+  }
+]

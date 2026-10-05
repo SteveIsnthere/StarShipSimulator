@@ -1,0 +1,26 @@
+{
+  "completed": true,
+  "applied": true,
+  "error": null,
+  "receipt": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59",
+  "oldAuthority": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/root-exact-once-application/after-snapshot.json",
+    "sha": "2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c"
+  },
+  "changed": {
+    "path": "/workspace/StarShipSimulator/tests/e2e/visual-runtime-receipt.ts",
+    "oldSha": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+    "newSha": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e"
+  },
+  "sourceCount": 770,
+  "toolCount": 20355,
+  "afterSnapshot": {
+    "path": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/after-snapshot.json",
+    "sha": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60"
+  },
+  "historicalInputsUnmodified": true,
+  "noBuildOrBrowserOrTest": true,
+  "elapsedMs": 2313,
+  "independentActualApplicationReviewRequired": true,
+  "automaticInverse": false
+}

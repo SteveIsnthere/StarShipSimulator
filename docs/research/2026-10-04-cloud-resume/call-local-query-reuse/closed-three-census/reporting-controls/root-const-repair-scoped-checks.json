@@ -1,0 +1,9 @@
+{
+  "source34Hashes": "PASS",
+  "changedDriverNodeParse": "PASS",
+  "changedDriverEslintErrors": 0,
+  "changedDriverEslintWarnings": 0,
+  "unchangedOwnerRootMakerPriorScopesRetained": true,
+  "cpuSlotContract": "query-census-reporting in root, owner and driver",
+  "noRuntime": true
+}

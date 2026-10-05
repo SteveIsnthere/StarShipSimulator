@@ -1,0 +1,17 @@
+--- tests/golden/booster-replay.test.ts
++++ candidate/tests/golden/booster-replay.test.ts
+@@ -11,9 +11,12 @@
+ import { matches } from './compare';
+ 
+ const DIR=fileURLToPath(new URL('./fixtures/booster/',import.meta.url));
++// P8.R1/R2 Fidelity: both actual V3 booster captures recorded with all eight
++// Ship fixtures on Linux x86-64 / Node22. Whole-file digests, not rows hashes.
++// Recording success is separate from the unchanged full replay assertions below.
+ const DIGESTS:Readonly<Record<string,string>>={
+-  'booster-sep-catch':'5c754d0217301aeec35c9850a8ac71b31abae86635898e2724abdb1e08dbbd98',
+-  'rtls-catch':'8b10c24c1d68136477226b0728420870046d456f198dcedf64aaf4ba9113fb33',
++  'booster-sep-catch':'845da274d0e59758fabebf57e734c28ce1f8276ccc33fa33452f59bc3e912e33',
++  'rtls-catch':'a20123bb78d3fdf77affd26e2140e142247d07d13319786f2673e1a5a62d9bb9',
+ };
+ function compare(actual:Sample,expected:Sample,label:string):void {
+   // Absent optional phase/decision leaves are explicitly undefined in the

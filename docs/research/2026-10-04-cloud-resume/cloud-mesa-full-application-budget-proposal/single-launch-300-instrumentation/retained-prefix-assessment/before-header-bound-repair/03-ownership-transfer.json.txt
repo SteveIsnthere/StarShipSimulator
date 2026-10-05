@@ -1,0 +1,30 @@
+{
+  "originalObserver": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-managed-python-observer.py.txt",
+    "sha256": "5a76214ab6e39ccb4a0209cdfb0fe21e62d10cddbe9d5dcff951e8e594649a89"
+  },
+  "sourceFunctionsByteIdentical": [
+    {
+      "function": "stat_row",
+      "sha256": "b6fa27a5e35a2639a30ce17f652cb1ca222ecd26d4aefab0b2ef2b31a4a8d41c"
+    },
+    {
+      "function": "admit",
+      "sha256": "a635d98e9b959333f286d8b44676ba9b4189a46c9c04ed72686cce76bc644c45"
+    },
+    {
+      "function": "scan",
+      "sha256": "9de24f5aac89ae1489c2960de86b66ae293ca55fcfd0661e6ed72fe6cbf5f4d5"
+    },
+    {
+      "function": "safe_scan",
+      "sha256": "46271e1cfe474114ec1947f013bde7c0de0b89def7e7c3864aaeaf3f303990ea"
+    },
+    {
+      "function": "signal_rows",
+      "sha256": "767823b116e233e130dbc1607dfd87e2ece2b60f1ef4016324fd500bdd982c19"
+    }
+  ],
+  "businessOnly": true,
+  "sourceOnly": true
+}

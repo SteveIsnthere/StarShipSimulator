@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "decision": "supported-new-template-scopes-and-one-root-owned60-preparation-input",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/independent-source-and-actual-input-HIGH-review.md",
+    "sha256": "a46e684f4c8127247c8cd7d0afecfd126d13e0b84b2096e7bbd59c5060561f32"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/root-observer.py.txt",
+      "sha256": "418bbe5db80540728caba30c9521bca710ec8dba37551664f029475d48138e24"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/python-bridge.mjs.txt",
+      "sha256": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/business-stage.mjs.txt",
+      "sha256": "96090e6a434661ba1f50a54bf9a3a1b08f7b8edecd80e2baa4ce06952dbc3948"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/external-preparation-spec.json",
+      "sha256": "2459777574530a459715cec557a9817007eef8837c117cb517ae0983a0fdeefc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+      "sha256": "edd2a32f81e67a4ff5806a2c80547d2a89afeeb9d1522593e161619c2bcc6733"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-browser-size-preparation-ast-scope/result.json",
+      "sha256": "f5eecf3b758441275dcd9357dedf804a600a96c8b96dc6922754a1b3117850d4"
+    },
+    {
+      "path": "/tmp/starship-mesa-preparation-owner.7c9e23a339df48da8beec24637889f8a/owner-input.json",
+      "sha256": "ce0488d9e99b28c57c6d7ee1369219725854537096513668e5b534a006049db5"
+    },
+    {
+      "path": "/tmp/starship-mesa-preparation-owner.7c9e23a339df48da8beec24637889f8a/python-bridge.mjs",
+      "sha256": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/source-pins.json",
+      "sha256": "a98dc74f268a8484320faf5432e14cff8b95f5837c64ba43dadfec919be54a24"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/input-freeze.json",
+      "sha256": "92666a6c30a170086154f5515d6556336e637d71c9a401be8545270d9676b3a3"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/contract.md",
+      "sha256": "372a350937b91d7f09f75756236ea7d2f849ca138a74301352ccd83ad1df215d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/owner-input.json",
+      "sha256": "ce0488d9e99b28c57c6d7ee1369219725854537096513668e5b534a006049db5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-browser-size-and-preparation-spec-HIGH-review.md",
+      "sha256": "6fd6d09c390c2a24bd6a5b8f4e9a560f659e4706c87e06facc63d940bd41b7f5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-browser-size-and-preparation-spec-HIGH-pins.json",
+      "sha256": "12152226a6293cbdc9e9a177830d9fff9ef055daa139a786d6d2a274db04c9de"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-observer.py.txt",
+      "sha256": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa"
+    }
+  ],
+  "executionPerformed": false,
+  "functionalBrowserExecutionApproved": false
+}

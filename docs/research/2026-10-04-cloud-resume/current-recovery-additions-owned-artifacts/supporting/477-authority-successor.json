@@ -1,0 +1,32 @@
+{
+  "kind": "query-census-source-authority-successor-v1",
+  "executionApproved": false,
+  "historical": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/root-exact-once-application/after-snapshot.json",
+    "sha256": "2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c"
+  },
+  "current": {
+    "path": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/after-snapshot.json",
+    "sha256": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60"
+  },
+  "application": {
+    "path": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/application-result.json",
+    "sha256": "ccc5d249f8d0f42eb559bfd54b9ac0cc4d6b8f210f7265efd2f7099b12c0dd4d"
+  },
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-owned60-actual-application-HIGH-review.md",
+    "sha256": "f75c1aafbdb2c2884cc4500166446fc158527494599fca31a52b422bf8a07d74"
+  },
+  "reviewPins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-owned60-actual-application-HIGH-pins.json",
+    "sha256": "09437315cc9cf321df46d13b275b3497a40f066bec1677a142100e52012ea412"
+  },
+  "soleDelta": {
+    "path": "tests/e2e/visual-runtime-receipt.ts",
+    "before": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+    "after": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e"
+  },
+  "sourceCount": 770,
+  "toolCount": 20355,
+  "noPhysicsBodyDelta": true
+}

@@ -1,0 +1,54 @@
+# Research preparation only. ONE maker after review; no Node imports/builds/tests or source writes.
+import os,json,hashlib,uuid
+from pathlib import Path
+root=Path('/workspace/StarShipSimulator');base=root/'docs/research/2026-10-04-cloud-resume/current-original12-owned-proof';candidate=root/'docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate'
+sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+pins_path=base/'input-pins.json';pins=json.loads(pins_path.read_text())
+for p,h in pins['files'].items():assert sha(p)==h,p
+assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='original12-owned-proof'
+setup=root/'node_modules/.cache'/('starship-original12-proof-'+uuid.uuid4().hex);setup.mkdir(mode=0o700,parents=False)
+materialized={};transforms=[]
+def emit(source,target,changes=()):
+ text=source.read_text()
+ for old,new,count in changes:
+  assert text.count(old)==count,(source,old,text.count(old),count)
+  text=text.replace(old,new);transforms.append({'source':str(source),'old':old,'new':new,'count':count})
+ path=setup/target
+ with path.open('x') as stream:stream.write(text)
+ materialized[str(path)]={'source':str(source),'sourceSha256':sha(source),'sha256':sha(path)}
+qexpr="resolve(root,process.env.STARSHIP_NATIVE_BENCH_QUALIFICATION??'scripts/bench/qualification.json')"
+emit(candidate/'qualification.json.txt','qualification.json')
+emit(candidate/'native-guidance-entry.ts.txt','native-guidance-entry.ts')
+emit(candidate/'native-loader.mjs.txt','native-loader.mjs',[("resolve(m.root,'scripts/bench/qualification.json')","resolve(m.root,process.env.STARSHIP_NATIVE_BENCH_QUALIFICATION??'scripts/bench/qualification.json')",2),("resolve(manifest.root,'scripts/bench/qualification.json')","resolve(manifest.root,process.env.STARSHIP_NATIVE_BENCH_QUALIFICATION??'scripts/bench/qualification.json')",1)])
+emit(candidate/'build-native-guidance.mjs.txt','build-native-guidance.mjs',[("resolve(root,'scripts/bench/qualification.json')",qexpr,2),("resolve(root,'scripts/bench/native-guidance-entry.ts')",json.dumps(str(setup/'native-guidance-entry.ts')),1)])
+emit(root/'tests/support/native-guidance-benchmark.ts','native-guidance-benchmark.ts',[("'../../scripts/bench/native-loader.mjs'",json.dumps(str(setup/'native-loader.mjs')),1),("'../../src/core/control/guidance-physics'",json.dumps(str(root/'src/core/control/guidance-physics')),1)])
+emit(candidate/'native-scenarios-benchmark.ts.txt','native-scenarios-benchmark.ts',[("'../../src/core/scenarios'",json.dumps(str(root/'src/core/scenarios')),1)])
+emit(candidate/'consumer-graph-oracle.ts.txt','consumer-graph-oracle.ts')
+text=(candidate/'consumer-controls.test.ts.txt').read_text();changes=[]
+import re
+for path in sorted(set(re.findall("'((?:../../src/|../../tests/)[^']+)'",text))):changes.append(("'"+path+"'",json.dumps(str((root/'scripts/bench'/path).resolve())),text.count("'"+path+"'")))
+emit(candidate/'consumer-controls.test.ts.txt','consumer-controls.test.ts',changes)
+emit(base/'realm-controls.ts.txt','realm-controls.ts')
+emit(base/'owner.mjs.txt','owner.mjs')
+config="import {defineConfig} from 'vitest/config';\nimport base from "+json.dumps(str(root/'vitest.config.ts'))+";\nconst aliases=Object.entries(base.resolve?.alias??{}).map(([find,replacement])=>({find,replacement}));\nexport default defineConfig({resolve:{...base.resolve,alias:[{find:/^\\$core\\/control\\/guidance-physics$/,replacement:"+json.dumps(str(setup/'native-guidance-benchmark.ts'))+"},{find:/^\\$core\\/scenarios$/,replacement:"+json.dumps(str(setup/'native-scenarios-benchmark.ts'))+"},...aliases]},test:{environment:'node',include:["+json.dumps(str(setup/'consumer-controls.test.ts'))+"],exclude:[],testTimeout:30000,maxWorkers:1,fileParallelism:false}});\n"
+with(setup/'consumer.config.mts').open('x')as stream:stream.write(config)
+materialized[str(setup/'consumer.config.mts')]={'source':str(Path(__file__).resolve()),'sourceSha256':sha(__file__),'sha256':sha(setup/'consumer.config.mts'),'generator':'exact literal public config generator in maker'}
+qualification=json.loads((root/'docs/verification/native-flight-qualification-v7.json').read_text())
+manifest={'kind':'current-original12-owned-proof-input-v1','root':str(root),'setup':str(setup),'inputs':pins['files'],'inputPins':{'path':str(pins_path),'sha256':sha(pins_path)},'materialized':materialized,'transforms':transforms,
+ 'node':{'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha256':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'},'npmCli':qualification['npmCli'],'qualification':str(setup/'qualification.json'),
+ 'helper':{'path':str(root/'scripts/bench/owned-command.mjs'),'sha256':'0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db'},'steps':['realm-controls','app-build','native-build','consumer'],
+ 'rootWholeMs':300000,'rootWorkMs':292000,'rootCleanupMs':8000,'application':False,'timing':False,'expectedRealmNames':json.loads((base/'expected-realm-names.json').read_text())}
+for p,h in pins['files'].items():assert sha(p)==h,p
+with(setup/'input.json').open('x')as stream:json.dump(manifest,stream,indent=2);stream.write('\n')
+root_inventory=setup/'root-inventory.json'
+rows={**pins['files'],str(pins_path):sha(pins_path),str(setup/'input.json'):sha(setup/'input.json')}
+for path in materialized:rows[path]=sha(path)
+with root_inventory.open('x')as stream:json.dump({'kind':'current-original12-proof-root-inventory-v1','files':rows},stream,indent=2);stream.write('\n')
+observer=base/'root-observer.py.txt'
+root_input={'kind':'current-original12-proof-root-input-v1','root':str(root),'mode':'original12-proof','outerMs':300000,'setup':str(setup),'steps':manifest['steps'],
+ 'node':{'path':manifest['node']['path'],'sha':manifest['node']['sha256']},'helper':{'path':manifest['helper']['path'],'sha':manifest['helper']['sha256']},
+ 'pureInput':{'path':str(setup/'input.json'),'sha':sha(setup/'input.json')},'pins':{'path':str(root_inventory),'sha':sha(root_inventory)},'stage':{'path':str(setup/'owner.mjs'),'sha':sha(setup/'owner.mjs')},'observer':{'path':str(observer),'sha':sha(observer)},
+ 'python':{'path':'/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12','sha':'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'}}
+with(setup/'root-input.json').open('x')as stream:json.dump(root_input,stream,indent=2);stream.write('\n')
+print(json.dumps({'setup':str(setup),'input':str(setup/'input.json'),'inputSha256':sha(setup/'input.json'),'rootInput':str(setup/'root-input.json'),'rootInputSha256':sha(setup/'root-input.json'),
+ 'argv':[root_input['python']['path'],str(observer),str(setup/'root-input.json'),sha(setup/'root-input.json')],'rootWholeMs':300000}))

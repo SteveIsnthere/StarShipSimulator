@@ -1,0 +1,27 @@
+{
+  "kind": "source-only-current-original-orbit-case-inventory-v1",
+  "source": "tests/core/orbit.test.ts",
+  "caseCount": 18,
+  "names": [
+    "the gravity field itself > is GM/R^2 at the surface \u2014 0.14% ABOVE standard gravity",
+    "the gravity field itself > falls off as one over r squared",
+    "the gravity field itself > is measurably weaker at altitude, which the constant model missed",
+    "the gravity field itself > circular speed is sqrt(GM/r), about 7.9 km/s in low orbit",
+    "a circular orbit stays circular over one lap > takes Kepler's period, about 88 minutes, which is what low orbit takes",
+    "a circular orbit stays circular over one lap > altitude holds within a kilometre over a full lap",
+    "a circular orbit stays circular over one lap > speed holds within a metre per second over a full lap",
+    "a circular orbit stays circular over one lap > never dips into the atmosphere or climbs away",
+    "a circular orbit stays circular over one lap > completes a full revolution of downrange distance",
+    "conserved quantities stay conserved > specific orbital energy drifts by less than one part in a thousand",
+    "conserved quantities stay conserved > specific angular momentum is conserved as the vehicle climbs",
+    "conserved quantities stay conserved > an elliptical orbit comes back down again",
+    "the 2021 model could not do this, and here is why > its relief term is clamped at g, so orbit is impossible",
+    "the 2021 model could not do this, and here is why > and at circular speed it still fell",
+    "the 2021 model could not do this, and here is why > a vehicle at orbital speed holds altitude now, and could not have then",
+    "the relief hack is gone from the state, not merely bypassed \u2014 M2.10 > SimState has no orbitGravityAccCompensation field at all",
+    "the relief hack is gone from the state, not merely bypassed \u2014 M2.10 > and the stale orbital-velocity field is kept honest",
+    "the relief hack is gone from the state, not merely bypassed \u2014 M2.10 > the 2021 expression survives only as documentation"
+  ],
+  "frameworkResultAccepted": false,
+  "prior32CountUnsupported": true
+}

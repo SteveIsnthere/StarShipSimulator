@@ -1,0 +1,42 @@
+{
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/driver.mjs.txt": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/driver.mjs.txt",
+    "sha256": "2c82f66ecc000ae6fd159938862125a0f4c08d20b71f9beda22e2434c33dd4a0"
+  },
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/make-input.py.txt": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/make-input.py.txt",
+    "sha256": "69e5272e47c09271239cd4e1dd5303ded181647a5555bdc0a8b28c2ef421662e"
+  },
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/root-business.diff.txt": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/root-business.diff.txt",
+    "sha256": "7ed3a81639a5e761281e21fa458f0d50b092bb63f926ecc06f5ce54dd7ae42be"
+  },
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/owner.mjs.txt": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/owner.mjs.txt",
+    "sha256": "a2b03df3b484c1bcaee4dc4e15172395ef9fcc900a3e575eacf818cbcc3b67d8"
+  },
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/root-observer.py.txt": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/root-observer.py.txt",
+    "sha256": "3403e816076d3fae5cfdd46007b7445ffd2cc2591b4b59cbcb785285b6a643ed"
+  },
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/expected-collected-inventory.json": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/expected-collected-inventory.json",
+    "sha256": "e010584b656e3b2c7b7255446577280ae25f542d0b21d6b2d9f36ef1b5e2f542"
+  },
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/declaration.md": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/declaration.md",
+    "sha256": "0813bd719cf2a9b12517c70d7be3852138cfdd4b36ceb99800640503a399285c"
+  },
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/input-pins.json": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/input-pins.json",
+    "sha256": "d165870f60bf8b3ff60f1f12dd2f8d3ac626c17cfc2764744f04e3e04f68ef25"
+  },
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/independent-source-HIGH-HOLD-review.md": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/independent-source-HIGH-HOLD-review.md",
+    "sha256": "1096449222e1c3622ee38adac848f8125fbc6b42288ab4a4af4c5afad9ced0e1"
+  },
+  "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/before-all-node-cycle-repair/independent-source-HIGH-HOLD-pins.json": {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/independent-source-HIGH-HOLD-pins.json",
+    "sha256": "cea88b8e97d40fadf69ea794eb78bdd4bd54c2bba28abf6bf72e4c30dda9a364"
+  }
+}

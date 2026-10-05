@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,readdirSync,readlinkSync,lstatSync,realpathSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {resolve,relative} from 'node:path';
+const started=Date.now(),deadline=started+90000;
+const [inputPath,inputSha]=process.argv.slice(2);
+const sha=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
+assert.match(inputSha,/^[a-f0-9]{64}$/);assert.equal(sha(inputPath),inputSha);
+const m=JSON.parse(readFileSync(inputPath,'utf8'));
+assert.equal(m.kind,'mesa-functional-webgl2-input-v1');assert.equal(process.version,'v22.23.3');assert.equal(sha(process.execPath),m.nodeSha);
+assert.equal(process.cwd(),m.root);assert(!process.env.NODE_OPTIONS);assert.equal(process.env.EGL_PLATFORM,'surfaceless');
+for(const key of ['LD_LIBRARY_PATH','LIBGL_ALWAYS_SOFTWARE','GALLIUM_DRIVER','LP_NUM_THREADS','__EGL_VENDOR_LIBRARY_FILENAMES','__EGL_VENDOR_LIBRARY_DIRS'])assert(!process.env[key],`Unqualified environment ${key}`);
+assert.match(m.receipt,/^\/tmp\/starship-mesa-functional\.[a-f0-9]{32}$/);assert.equal(realpathSync(m.receipt),m.receipt);assert.equal(lstatSync(m.receipt).mode&0o777,0o700);
+assert.equal(readdirSync(m.receipt).length,0);assert.equal(m.expectedVersion,'151.0.7922.34');
+assert.match(m.browserSha,/^[a-f0-9]{64}$/);assert.equal(sha(m.browser),m.browserSha);
+const save=(name,value)=>{const text=JSON.stringify(value,null,2)+'\n';assert(Buffer.byteLength(text)<=1024*1024,'Artifact cap');writeFileSync(resolve(m.receipt,name),text,{flag:'wx'});};
+function snapshot(){
+ const result=[];for(const [file,pin]of Object.entries(m.filePins)){assert.equal(sha(file),pin,file);result.push([file,pin]);}
+ const actualFiles=[],actualDirs=[];
+ function walk(dir){const st=lstatSync(dir);assert(st.isDirectory()&&!st.isSymbolicLink());actualDirs.push([relative(m.browserRoot,dir),st.mode&0o7777]);for(const name of readdirSync(dir).sort()){const file=resolve(dir,name),s=lstatSync(file);assert(!s.isSymbolicLink(),'Browser symlink');if(s.isDirectory())walk(file);else{assert(s.isFile(),'Browser special file');actualFiles.push([relative(m.browserRoot,file),sha(file),s.mode&0o7777]);}}}
+ walk(m.browserRoot);actualFiles.sort((a,b)=>a[0].localeCompare(b[0]));actualDirs.sort((a,b)=>a[0].localeCompare(b[0]));assert.deepStrictEqual(actualFiles,m.browserFiles);assert.deepStrictEqual(actualDirs,m.browserDirectories);assert.equal(actualFiles.length,304);assert.equal(actualDirs.length,12);
+ const ini=actualFiles.find(row=>row[0]==='SwiftShader.ini');assert(ini);assert.equal(ini[2],0o600);assert.equal(sha(inputPath),inputSha);assert.equal(sha(process.execPath),m.nodeSha);return{filePins:result,browserFiles:actualFiles,browserDirectories:actualDirs};
+}
+function stat(pid){try{const raw=readFileSync(`/proc/${pid}/stat`,'utf8'),f=raw.slice(raw.lastIndexOf(')')+2).split(' ');return{pid,starttime:f[19],ppid:Number(f[1]),pgrp:Number(f[2]),state:f[0]};}catch(error){if(['ENOENT','ESRCH'].includes(error.code))return null;throw error;}}
+const known=new Map();let identityError=null;
+function scan(){try{const rows=readdirSync('/proc').filter(x=>/^\d+$/.test(x)).map(x=>{try{return stat(Number(x));}catch(error){if(error.code==='EACCES'&&!known.has(Number(x)))return null;throw error;}}).filter(Boolean);let changed=true;while(changed){changed=false;for(const row of rows)if(row.ppid===process.pid||known.has(row.ppid)){const old=known.get(row.pid);if(old)assert.equal(old.starttime,row.starttime,'Owned PID reused');else{known.set(row.pid,row);changed=true;}}}}catch(error){identityError??=error;}}
+const require=createRequire(resolve(m.root,'package.json'));
+let browser,error=null,result=null,before=null,after=null,stopped=false;const errors=[];let consoleBytes=0;
+const watch=setInterval(scan,25);let timeout;
+async function run(){
+ assert(Date.now()<deadline,'90s deadline before preflight');before=snapshot();assert(Date.now()<deadline,'90s deadline after preflight');save('before.json',before);const {chromium}=require('playwright');assert(Date.now()<deadline,'90s deadline after Playwright load');
+ browser=await chromium.launch({executablePath:m.browser,headless:true,timeout:30000,args:['--no-sandbox','--use-gl=angle','--use-angle=gl-egl'],env:{...process.env,EGL_PLATFORM:'surfaceless'}});
+ if(stopped){await browser.close();throw Error('Late browser launch after deadline');}assert.equal(browser.version(),m.expectedVersion);const cdp=await browser.newBrowserCDPSession();
+ const page=await browser.newPage({viewport:{width:4,height:4},deviceScaleFactor:1});page.on('pageerror',e=>errors.push(String(e)));page.on('console',e=>{consoleBytes+=Buffer.byteLength(e.text());if(consoleBytes>65536)identityError??=Error('Console cap');errors.push(`console:${e.type()}:${e.text()}`);});
+ result=await page.evaluate(()=>{
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=4;document.body.append(canvas);
+  const gl=canvas.getContext('webgl2',{antialias:true,alpha:true,premultipliedAlpha:true,preserveDrawingBuffer:false});if(!gl)throw Error('WebGL2 unavailable');
+  const checkpoints=[];function clean(label){const values=[];for(let i=0;i<16;i++){const e=gl.getError();if(e===gl.NO_ERROR)break;values.push(e);}checkpoints.push({label,errors:values});if(values.length||gl.isContextLost())throw Error(`GL/context error:${label}:${values}`);}
+  const debug=gl.getExtension('WEBGL_debug_renderer_info');if(!debug)throw Error('Unmasked identity unavailable');
+  const vendor=gl.getParameter(debug.UNMASKED_VENDOR_WEBGL),renderer=gl.getParameter(debug.UNMASKED_RENDERER_WEBGL);
+  if(!/Mesa/i.test(`${vendor} ${renderer}`)||!/llvmpipe/i.test(renderer)||/SwiftShader|softpipe|lavapipe/i.test(renderer))throw Error(`Unexpected provider:${vendor}:${renderer}`);
+  function shader(type,source){const s=gl.createShader(type);if(!s)throw Error('Shader allocation');gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
+  const vs=shader(gl.VERTEX_SHADER,'#version 300 es\nprecision highp float;out vec2 uv;void main(){vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);uv=p;gl_Position=vec4(p*2.0-1.0,0,1);}');
+  const fs=shader(gl.FRAGMENT_SHADER,'#version 300 es\nprecision highp float;in vec2 uv;uniform sampler2D tex;out vec4 color;void main(){color=texture(tex,uv);}');
+  const program=gl.createProgram();if(!program)throw Error('Program allocation');gl.attachShader(program,vs);gl.attachShader(program,fs);gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
+  const texture=gl.createTexture(),vao=gl.createVertexArray();if(!texture||!vao)throw Error('Resource allocation');gl.bindVertexArray(vao);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  const pixels=new Uint8Array(64);for(let i=0;i<64;i+=4)pixels.set([17,83,149,255],i);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,4,4,0,gl.RGBA,gl.UNSIGNED_BYTE,pixels);gl.uniform1i(gl.getUniformLocation(program,'tex'),0);gl.viewport(0,0,4,4);gl.disable(gl.BLEND);gl.disable(gl.DITHER);clean('setup');
+  const draws=[];for(let frame=0;frame<20;frame++){gl.drawArrays(gl.TRIANGLES,0,3);const actual=new Uint8Array(64);gl.readPixels(0,0,4,4,gl.RGBA,gl.UNSIGNED_BYTE,actual);if(actual.some((v,i)=>v!==pixels[i]))throw Error(`Readback mismatch:${frame}`);clean(`draw:${frame}`);draws.push({frame,rgba:Array.from(actual)});}
+  const timer=gl.getExtension('EXT_disjoint_timer_query_webgl2');const fence=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);if(!fence)throw Error('Fence unavailable');gl.flush();gl.finish();const fenceStatus=gl.clientWaitSync(fence,0,0);if(![gl.ALREADY_SIGNALED,gl.CONDITION_SATISFIED].includes(fenceStatus))throw Error(`Fence unsignaled:${fenceStatus}`);gl.deleteSync(fence);clean('fence');
+  const attrs=gl.getContextAttributes();gl.deleteTexture(texture);gl.deleteVertexArray(vao);gl.deleteProgram(program);gl.deleteShader(vs);gl.deleteShader(fs);clean('destroy');
+  return{vendor,renderer,version:gl.getParameter(gl.VERSION),shadingLanguage:gl.getParameter(gl.SHADING_LANGUAGE_VERSION),attributes:attrs,dpr:devicePixelRatio,backing:[canvas.width,canvas.height],draws,checkpoints,timerExtension:!!timer,fenceStatus,performanceAcceptance:false};
+ });
+ const sys=await cdp.send('SystemInfo.getInfo');const processes=(await cdp.send('SystemInfo.getProcessInfo')).processInfo;scan();
+ const gpu=processes.filter(p=>p.type==='GPU');assert.equal(gpu.length,1);const gpuPid=gpu[0].id;const row=stat(gpuPid);assert(row);assert.equal(readlinkSync(`/proc/${gpuPid}/exe`),m.browser);assert(known.has(gpuPid),'GPU must be discovered through owned ancestry');
+ const maps=readFileSync(`/proc/${gpuPid}/maps`,'utf8');assert(Buffer.byteLength(maps)<=1024*1024);const loaded=[...new Set(maps.split('\n').map(line=>line.match(/\s(\/[^\n]+)$/)?.[1]).filter(Boolean))].sort();
+ for(const category of ['eglMesa','gallium','llvm']){const allowed=m.providerLibraries[category];assert(Array.isArray(allowed)&&allowed.length>0);assert(allowed.some(path=>loaded.includes(path)),`Missing loaded provider ${category}`);for(const path of allowed)assert(Object.hasOwn(m.filePins,path),'Library must be externally pinned');}
+ const threads=readdirSync(`/proc/${gpuPid}/task`).map(tid=>({tid:Number(tid),name:readFileSync(`/proc/${gpuPid}/task/${tid}/comm`,'utf8').trim(),status:readFileSync(`/proc/${gpuPid}/task/${tid}/status`,'utf8').split('\n').filter(x=>/^(Cpus_allowed_list|Threads):/.test(x))}));
+ save('provider.json',{gpu:row,cmdline:readFileSync(`/proc/${gpuPid}/cmdline`,'utf8').split('\0'),loaded,threads,systemInfo:sys,processes});save('functional.json',result);assert(Date.now()<=deadline,'90s deadline after functional receipt');assert.equal(errors.length,0,'Unexpected console/page errors');assert(!identityError);
+}
+try{await Promise.race([run(),new Promise((_,reject)=>{timeout=setTimeout(()=>reject(Error('90s functional deadline')),Math.max(0,deadline-Date.now()));})]);}catch(e){error=e;}
+finally{
+ stopped=true;clearTimeout(timeout);let closeTimer;try{if(browser)await Promise.race([browser.close(),new Promise((_,reject)=>{closeTimer=setTimeout(()=>reject(Error('Browser close bound')),5000);})]);}catch(e){error??=e;}finally{clearTimeout(closeTimer);}
+ scan();clearInterval(watch);error??=identityError;try{after=snapshot();save('after.json',after);assert.deepStrictEqual(after,before);}catch(e){error??=e;}
+ const remaining=[];for(const saved of known.values()){try{const now=stat(saved.pid);if(now&&now.starttime===saved.starttime&&!['Z','X'].includes(now.state))remaining.push(now);}catch(e){remaining.push({...saved,inaccessible:true});error??=e;}}
+ save('cleanup.json',{ownedIdentities:[...known.values()],remaining,inaccessibleOwned:remaining.filter(r=>r.inaccessible),verifiedDescendantAbsence:remaining.length===0});save('outcome.json',{completed:!error&&remaining.length===0,error:error?String(error.stack??error):null,draws:result?.draws.length??0,errors,performanceAcceptance:false,inputSha});
+ if(error||remaining.length)process.exitCode=1;
+}

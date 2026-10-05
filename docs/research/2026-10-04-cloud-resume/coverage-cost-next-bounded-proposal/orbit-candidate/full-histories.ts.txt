@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {Script,constants} from 'node:vm';
+import {createHash} from 'node:crypto';
+import {graphOracle} from 'GRAPH_ORACLE_PLACEHOLDER';
+import * as left from 'SSR_ENTRY_PLACEHOLDER';
+const[input,expected]=process.argv.slice(2);const m=JSON.parse(readFileSync(input,'utf8'));
+// Input digest/source/tool pre/post verification is owned by the outer pinned owner.
+assert.equal(m.kind,'original-orbit18-qualification-input-v1');assert.equal(createHash('sha256').update(readFileSync(input)).digest('hex'),expected);
+const nativeImport=new Script('url => import(url)',{importModuleDynamically:constants.USE_MAIN_CONTEXT_DEFAULT_LOADER}).runInThisContext();
+const right=await nativeImport(pathToFileURL(resolve(m.receipt,'plain/entry.mjs')).href);
+const oracle=graphOracle(left as never,right),DT=1/120,started=performance.now(),histories=[];
+const same=(a:unknown,b:unknown,label:string)=>assert(Object.is(a,b),label);
+const constantKeys=Object.keys(left.orbitConstants).sort();assert.deepEqual(Object.keys(right.orbitConstants).sort(),constantKeys);
+for(const key of constantKeys)same(left.orbitConstants[key],right.orbitConstants[key],'constant:'+key);
+function initial(api:typeof left,altitude:number,speed:number){const s=api.createInitialState(),C=api.orbitConstants;s.kinematics.altitude=altitude;s.kinematics.distanceToPlanetCenter=C.planetRadius+altitude;s.kinematics.speedX=api.groundTangentialSpeed(C.planetRadius+altitude,speed);s.kinematics.speedY=0;s.kinematics.trueSpeed=Math.abs(s.kinematics.speedX);s.kinematics.pitch=Math.PI/2 as never;return s;}
+function inertial(api:typeof left,s:ReturnType<typeof initial>){return api.inertialTangentialSpeed(s.kinematics.distanceToPlanetCenter,s.kinematics.speedX);}
+function history(name:string,altitude:number,speed:number,steps:number){let a=initial(left,altitude,speed),b=initial(right,altitude,speed),minA=Infinity,minB=Infinity,maxA=-Infinity,maxB=-Infinity,peakStepA=0,peakStepB=0;oracle.compare(a,b,name+':initial');for(let i=0;i<steps;i++){assert(performance.now()-started<=850000,'Research850s supervision; original physical history unchanged');const previousA=a,previousB=b;a=left.step(a,DT);b=right.step(b,DT);oracle.compare(previousA,previousB,name+':previous:'+i);oracle.compare(a,b,name+':returned:'+i);if(a.kinematics.altitude>maxA){maxA=a.kinematics.altitude;peakStepA=i;}if(b.kinematics.altitude>maxB){maxB=b.kinematics.altitude;peakStepB=i;}minA=Math.min(minA,a.kinematics.altitude);minB=Math.min(minB,b.kinematics.altitude);same(minA,minB,name+':min');same(maxA,maxB,name+':max');same(peakStepA,peakStepB,name+':peakStep');same(inertial(left,a),inertial(right,b),name+':inertial');}histories.push({name,steps,min:minA,max:maxA,peakStep:peakStepA});return{a,b,min:minA,max:maxA,peakStep:peakStepA};}
+try{const C=left.orbitConstants,r200=C.planetRadius+200000,r300=C.planetRadius+300000;
+for(const r of [C.planetRadius,C.planetRadius*2,C.planetRadius+100000,r200,r300])for(const name of ['gravityAt','circularOrbitalSpeed'])same(left[name](r),right[name](r),name+':'+r);
+for(const r of [C.planetRadius+25,r200,r300])for(const speed of [0,1000,7000,7900,20000,left.circularOrbitalSpeed(r),left.circularOrbitalSpeed(r)*1.2])for(const name of ['specificAngularMomentum','specificOrbitalEnergy','verticalGravityAcceleration','groundTangentialSpeed','inertialTangentialSpeed'])same(left[name](r,speed),right[name](r,speed),name+':'+r+':'+speed);
+for(const speed of [1000,20000,left.circularOrbitalSpeed(r200),left.circularOrbitalSpeed(r200)*1.2])for(const denominator of [7900,left.circularOrbitalSpeed(C.planetRadius+25),left.circularOrbitalSpeed(r200)])same(left.legacyOrbitRelief(speed,denominator),right.legacyOrbitRelief(speed,denominator),'legacy');
+const v200=left.circularOrbitalSpeed(r200),v300=left.circularOrbitalSpeed(r300),lapSteps=Math.round((2*Math.PI*r200/v200)/DT);same(lapSteps,Math.round((2*Math.PI*r200/right.circularOrbitalSpeed(r200))/DT),'lap steps');const lap=history('full rounded Kepler lap',200000,v200,lapSteps);assert(Math.abs(lap.a.kinematics.altitude-200000)<1000);assert(Math.abs(inertial(left,lap.a)-v200)<1);assert(lap.min>199000&&lap.max<201000);const start=initial(left,200000,v200).kinematics.downRangeDistance;const distance=Math.abs((lap.a.kinematics.downRangeDistance+C.frameRotationRate*r200*lapSteps*DT)%C.planetCircumference-start);assert(Math.min(distance,C.planetCircumference-distance)<C.planetCircumference*.05);
+const energy=history('original ten minute energy',300000,v300,72000);const e0=left.specificOrbitalEnergy(r300,v300);const e1=left.specificOrbitalEnergy(energy.a.kinematics.distanceToPlanetCenter,Math.hypot(inertial(left,energy.a),energy.a.kinematics.speedY));same(e1,right.specificOrbitalEnergy(energy.b.kinematics.distanceToPlanetCenter,Math.hypot(inertial(right,energy.b),energy.b.kinematics.speedY)),'energy outcome');assert(Math.abs((e1-e0)/e0)<1e-3);
+const momentum=history('original five minute momentum',200000,v300*1.05,36000),h0=left.specificAngularMomentum(r200,v300*1.05),h1=left.specificAngularMomentum(momentum.a.kinematics.distanceToPlanetCenter,inertial(left,momentum.a));assert(momentum.a.kinematics.altitude>210000);assert(Math.abs((h1-h0)/h0)<1e-5);
+const ellipse=history('original9000second ellipse',200000,v300*1.1,1080000);assert(ellipse.max>250000);assert(ellipse.peakStep>0&&ellipse.peakStep<1080000-1);assert(ellipse.a.kinematics.altitude<ellipse.max);
+const round=history('original two minute round model',200000,v200,14400);assert(Math.abs(round.a.kinematics.altitude-200000)<100);
+for(const name of ['removed relief field','orbital velocity remains honest']){const end=history(name,200000,7000,10);assert(!('orbitGravityAccCompensation'in end.a.kinematics));same(end.a.kinematics.orbitalVelocityAtCurrentAltitude,end.b.kinematics.orbitalVelocityAtCurrentAltitude,name);}
+writeFileSync(resolve(m.receipt,'orbit-semantic-result.json'),JSON.stringify({status:'pass',histories,counts:oracle.counts(),elapsedMs:performance.now()-started,originalSource:m.originalTest,originalCaseCount:18,acceptance:'Research full histories only; no unit30/coverage120/gate300/timing/adoption claim'},null,2)+'\n',{flag:'wx'});
+}catch(error){writeFileSync(resolve(m.receipt,'orbit-first-failure.json'),JSON.stringify({status:'failed',histories,counts:oracle.counts(),error:String((error as Error).stack??error)},null,2)+'\n',{flag:'wx'});throw error;}

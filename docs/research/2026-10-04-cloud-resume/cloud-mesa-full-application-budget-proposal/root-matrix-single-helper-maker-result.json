@@ -1,0 +1,20 @@
+{
+  "identity": {
+    "pid": 115516,
+    "start": "7376422",
+    "group": 115516,
+    "session": 115516
+  },
+  "status": 0,
+  "reaped": true,
+  "elapsedSeconds": 0.11423624500457663,
+  "seed": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-matrix-single-helper-fresh-build-seed.json",
+    "sha": "e7a2ef1785fe363356f152fb992f796f1999f88df6d94337b80914551a9c396a"
+  },
+  "distApproval": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-single-helper-NEW-fresh-dist-approval.json",
+    "sha": "0758bb5c1173843bb9cca4a4eb7cd4a22427feace39192c46a3afc15bc56e0b2"
+  },
+  "noBrowserOrBuild": true
+}

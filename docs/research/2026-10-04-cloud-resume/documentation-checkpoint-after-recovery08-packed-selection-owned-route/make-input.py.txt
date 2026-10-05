@@ -1,0 +1,88 @@
+"""ROOT-only finite source copies and metadata input; never Git or source/runtime mutation."""
+from pathlib import Path
+import hashlib,json,os,stat,sys,uuid
+root=Path('/workspace/StarShipSimulator');base=root/'docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-packed-selection-owned-route'
+original_source=root/'docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route'
+sha=lambda b:hashlib.sha256(b).hexdigest()
+pins_path=Path(sys.argv[1]);assert sha(pins_path.read_bytes())==sys.argv[2]
+pins=json.loads(pins_path.read_text());assert pins['kind']=='after08-packed-doc-selection-source-pins-v3'
+for row in pins['files']:assert sha(Path(row['path']).read_bytes())==row['sha256']
+assert Path(sys.executable).resolve()==Path(pins['python']['path']).resolve() and sha(Path(sys.executable).read_bytes())==pins['python']['sha']
+plan=json.loads((base/'selected-paths.json').read_text())
+assert plan['kind']=='finite-after08-packed-docs-path-selection-v3'
+assert sha(Path(plan['candidateNamesAuthority']['path']).read_bytes())==plan['candidateNamesAuthority']['sha256']
+assert len(plan['selectedPaths'])==plan['selectedCount'] and len(set(plan['selectedPaths']))==plan['selectedCount']
+authority=plan['packingAuthority']
+for key in ('manifest','result','review','observations','originalSelection'):
+    row=authority[key];assert sha(Path(row['path']).read_bytes())==row['sha256']
+packed=json.loads(Path(authority['manifest']['path']).read_text());outcome=json.loads(Path(authority['result']['path']).read_text())
+assert outcome['completed'] is True and outcome['primaryFailure'] is None and outcome['posterrorCount']==0 and not outcome['posterrors']
+original=json.loads(Path(authority['originalSelection']['path']).read_text())
+assert len(packed['rows'])==12319 and {v['path'] for v in packed['rows']}==set(original['selectedPaths'])
+removed={v['path'] for v in packed['rows'] if v['encoding']=='gzip'}
+assert removed==set(authority['removedOriginalPaths']) and len(removed)==277
+assert len(packed['uniqueGzipPayloads'])==150
+expected_files={v['canonical']['path']:v['canonical'] for v in packed['rows']}
+assert len(expected_files)==12192
+base_paths=[v for v in original['selectedPaths'] if v not in removed]+[v['path'] for v in packed['uniqueGzipPayloads']]+[str(Path(authority[key]['path']).relative_to(root)) for key in ('manifest','result')]
+assert len(base_paths)==len(set(base_paths))==12194
+assert set(plan['selectedPaths'])==set(base_paths)|set(plan['finiteAddendumPaths'])
+assert all(v not in plan['selectedPaths'] for v in removed)
+assert sha(Path(plan['priorCopyOrigins']['path']).read_bytes())==plan['priorCopyOrigins']['sha256']
+prior_origins=json.loads(Path(plan['priorCopyOrigins']['path']).read_text());assert len(prior_origins)==58
+setup=Path('/tmp')/('starship-doc-selection-input.'+uuid.uuid4().hex);setup.mkdir(mode=0o700)
+
+def durable(p,b):
+    with p.open('xb') as f:f.write(b);f.flush();os.fsync(f.fileno())
+    p.chmod(0o600)
+    fd=os.open(p.parent,os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(fd)
+    finally:os.close(fd)
+
+def read(p):
+    assert p.is_absolute()
+    for a in [p,*p.parents]:assert not a.is_symlink()
+    st=p.lstat();assert stat.S_ISREG(st.st_mode)
+    cap=16777216
+    if str(p.relative_to(root))==plan['exactPlainPatchException']['path']:
+        cap=18837675;assert st.st_size==cap
+    assert st.st_size<=cap
+    b=p.read_bytes();assert len(b)==st.st_size
+    if cap==18837675:assert sha(b)==plan['exactPlainPatchException']['sha256']
+    return b,stat.S_IMODE(st.st_mode)
+
+copyrows=[]
+for row,prior in zip(plan['losslessCopies'],prior_origins,strict=True):
+    assert row['original']==prior['original'] and row['canonical']==prior['canonical']
+    original_path=root/row['original'];target=root/row['canonical']
+    assert target.parent==original_path.parent and target.name==original_path.name+'.txt'
+    original_bytes,original_mode=read(original_path);canonical_bytes,canonical_mode=read(target)
+    assert original_bytes==canonical_bytes and sha(original_bytes)==prior['sha256'] and len(original_bytes)==prior['bytes']
+    assert original_mode==prior['originalMode'] and canonical_mode==prior['canonicalMode']
+    copyrows.append({**prior,'created':False,'existingAcceptedCopyPreserved':True})
+durable(setup/'lossless-copy-origins.json',(json.dumps(copyrows,indent=2)+'\n').encode())
+# No broad directory walk. Exactly the frozen names-only classified list.
+rows=[];total=0
+for rel in plan['selectedPaths']:
+    b,mode=read(root/rel);total+=len(b);assert total<=268435456
+    row={'path':rel,'sha256':sha(b),'bytes':len(b),'mode':mode}
+    if rel in expected_files:
+        expected_row=expected_files[rel];assert (row['sha256'],row['bytes'],row['mode'])==(expected_row['sha256'],expected_row['bytes'],expected_row['mode'])
+    rows.append(row)
+for row in copyrows:assert read(root/row['original'])==(read(root/row['canonical'])[0],row['originalMode'])
+for row in pins['files']:assert sha(Path(row['path']).read_bytes())==row['sha256']
+assert sha(pins_path.read_bytes())==sys.argv[2]
+# Materialize only approved Python sources into private input namespace.
+roles={}
+for role,name in [('script','capture-selection.py.txt'),('observer','root-observer.py.txt')]:
+    target=setup/(role+'.py');durable(target,(original_source/name).read_bytes());roles[role]={'path':str(target),'sha':sha(target.read_bytes())}
+receipt=Path('/tmp')/('starship-doc-selection.'+uuid.uuid4().hex)
+assert not os.path.lexists(receipt)
+actual={'kind':'docs-after08-reviewed-selection-input-v2','captureSourcePath':str(original_source/'capture-selection.py.txt'),'captureSha256':roles['script']['sha'],'receipt':str(receipt),'git':{'path':'/usr/local/bin/git','bytes':19295504,'sha256':'37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e'},'baseHead':plan['baseHead'],'files':rows,'selectedPaths':plan['selectedPaths'],'selectedCount':plan['selectedCount'],'excludedPaths':plan['excludedPaths'],'excludedPrefixes':plan['excludedPrefixes'],'sourcePlanSha256':sha((base/'selected-paths.json').read_bytes()),'losslessCopyOrigins':{'path':str(setup/'lossless-copy-origins.json'),'sha256':sha((setup/'lossless-copy-origins.json').read_bytes())}}
+proposal=setup/'capture-input.json';durable(proposal,(json.dumps(actual,indent=2)+'\n').encode());roles['proposal']={'path':str(proposal),'sha':sha(proposal.read_bytes())};roles['python']=pins['python']
+files={row['path']:row['sha256'] for row in pins['files']}
+for role in roles.values():files[role['path']]=role['sha']
+inventory=setup/'inventory.json';durable(inventory,(json.dumps({'kind':'documentation-checkpoint-after-recovery08-selection-external-inputs-v1','files':files},indent=2)+'\n').encode());roles['pins']={'path':str(inventory),'sha':sha(inventory.read_bytes())}
+owner={'kind':'documentation-checkpoint-after-recovery08-selection-owner-input-v1','mode':'documentation-checkpoint-after-recovery08-selection','root':str(root),'outerMs':60000,'archiveOutput':str(receipt),**roles}
+owner_path=setup/'owner-input.json';durable(owner_path,(json.dumps(owner,indent=2)+'\n').encode())
+print(json.dumps({'preparedOnly':True,'captureExecuted':False,'setup':str(setup),'proposal':roles['proposal'],'owner':{'path':str(owner_path),'sha':sha(owner_path.read_bytes())},'selected':len(rows),'bytes':total,'copies':len(copyrows),'copyOrigins':actual['losslessCopyOrigins'],'argv':[roles['python']['path'],roles['observer']['path'],str(owner_path),sha(owner_path.read_bytes())],'requiredExternalReviewEnv':['STARSHIP_DOC_SELECTION_REVIEW','STARSHIP_DOC_SELECTION_REVIEW_SHA256']}))

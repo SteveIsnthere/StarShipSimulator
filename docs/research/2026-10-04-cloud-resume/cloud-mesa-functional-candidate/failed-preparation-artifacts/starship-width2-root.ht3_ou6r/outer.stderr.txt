@@ -1,0 +1,11 @@
+<anonymous_script>:1
+
+
+SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at file:///tmp/starship-width2-root.ht3_ou6r/stage.mjs:21:122
+    at Array.map (<anonymous>)
+    at file:///tmp/starship-width2-root.ht3_ou6r/stage.mjs:21:107
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+Node.js v22.23.3

@@ -1,0 +1,73 @@
+{
+  "decision": "SUPPORTED scopes/input preparation only",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/webgl2-spec.html.txt",
+      "sha256": "05da9e8c2110e7cf57a25944c96484fe139ab1225216adc2b4a778eea78499cd",
+      "bytes": 279941
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/primary-spec-pin.json",
+      "sha256": "d0e4fc08f92d96db6cf56071e172b1bb1ae3e47735c3739a85eb67fe21fc9e43",
+      "bytes": 339
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/run-functional-event-loop-fence.mjs.txt",
+      "sha256": "a3e99eed2791dc44619f505f941510eb29bbe36806395a4b84398c3c57d31f56",
+      "bytes": 14237
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/minimal-source-delta.json",
+      "sha256": "dceaba6942213556ccdbdbded3cf10850a3d2a7ed7333d27a6a585b0e941dfee",
+      "bytes": 2331
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/source-assessment-and-contract.md",
+      "sha256": "132bbf03be7d84af10df8cce52a04b04ae755c371a2cf6ed92ad9b4932b9f743",
+      "bytes": 4236
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/run-functional-single-blocklist-override.mjs.txt",
+      "sha256": "a6d2508a922f7664f01e361cbeda408858b34cae3bd2d191811fcda146af8ebd",
+      "bytes": 13857
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-functional-input.json",
+      "sha256": "a9d4fc7a005711dfa36d673543a2b1302455b39ccaf5f1b0eaa635b804746fbd",
+      "bytes": 85242
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-owner-input.json",
+      "sha256": "f7dfa5e5935c13231b405f8803b667358689cbbafb952576ec78c09bdcb47582",
+      "bytes": 2409
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-input-freeze.json",
+      "sha256": "4b91dd6677caea5a37d39c75ca23d989c7cabd07fb69852fc1a0dc1cf873061c",
+      "bytes": 2755
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889/context-failure.json",
+      "sha256": "26f52261b525715be67a90718b3e6a5764e3a5396885677729ea431631be9b59",
+      "bytes": 528
+    },
+    {
+      "path": "/tmp/starship-width2-root.6a7cxjb5/root-outcome.json",
+      "sha256": "5fd3d87d9ac3c6e520f60bb03e9b741f2c8a3372d00d47514495ad6e8a6bb08e",
+      "bytes": 3427
+    },
+    {
+      "path": "/tmp/starship-width2-root.6a7cxjb5/root-independent-postexit.json",
+      "sha256": "9b31e05d17b0bbbd9a053bd963b6a014fa414a667e574211bed6105d1fd5adeb",
+      "bytes": 1507
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/candidate-source-pins.json",
+      "sha256": "4b17604c07334313bffb803b43c3da70b0f2330eb8f58551273c69c71b409979"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-source-HIGH-review.md",
+      "sha256": "74927a5c34060803c2da882538c6e52840e0cebd5bd9b7748d0e91851883427e"
+    }
+  ]
+}

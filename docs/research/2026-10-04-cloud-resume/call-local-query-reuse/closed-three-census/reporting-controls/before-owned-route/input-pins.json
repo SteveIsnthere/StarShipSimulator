@@ -1,0 +1,14 @@
+{
+  "kind": "query-census-reporting-controls-static-inputs-v1",
+  "executionApproved": false,
+  "physicalImports": false,
+  "publicVitestLifecycleExercised": false,
+  "ownerPrepared": false,
+  "nodeSha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/driver.mjs.txt": "2a5e078815770ac9749c277b9f5a31a5f1b63cc4779822bfd2141e2f81fa1f4e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/declaration.md": "1864400a19d368eb016298da57110b5a28ddc21f405a584cccd9dbdab823633b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/entry.ts.txt": "64b889f24977dc9bf5cc986b4ef2a28e8ef5f5996c73aed3f6b19a2dcf804abe",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/case-observer.mjs.txt": "f0c2febd05e8666a29b321830492efe614e87dce4359031e38ff0b3ba5364a57"
+  }
+}

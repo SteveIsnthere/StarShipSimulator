@@ -1,0 +1,16 @@
+{
+  "owner": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "driver": {
+    "errors": 1,
+    "warnings": 0,
+    "line": 32,
+    "rule": "prefer-const",
+    "variable": "reentrant"
+  },
+  "cpuSlotLiterals": "matching query-census-reporting",
+  "noMakerOrRuntime": true,
+  "distinctSuccessorRequired": true
+}

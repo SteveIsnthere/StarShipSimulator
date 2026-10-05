@@ -1,0 +1,6 @@
+
+/workspace/StarShipSimulator/scripts/test/portable-fixture-controls.mjs
+  38:83  error  'vmPlain' is never reassigned. Use 'const' instead  prefer-const
+
+✖ 1 problem (1 error, 0 warnings)
+

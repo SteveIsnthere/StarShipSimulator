@@ -1,0 +1,299 @@
+/**
+ * M2.6, Fidelity tier: planet-centered gravity.
+ *
+ * Acceptance: flat-model goldens untouched; orbit maths unit-tested — a circular
+ * orbit stays circular over one lap, energy drift bounded.
+ *
+ * THE THING THIS FIXES. The 2021 model has a constant 9.807 m/s^2 downward and
+ * an ad-hoc "relief" term for going fast. That term is linear where the truth
+ * is quadratic, divides by an orbital velocity fixed at spawn, and is clamped
+ * at exactly g — so net vertical acceleration can never be positive from
+ * orbital motion. A vehicle at 1.2x circular velocity still falls. Orbit is not
+ * approximated badly in that model; it is impossible.
+ *
+ * With the flag on there is no orbital special case at all. Gravity is
+ * -GM/r^2, tangential motion contributes v_t^2/r outward, and at
+ * v_t^2 = GM/r they cancel. An orbit is what happens when you go fast enough.
+ */
+import { describe, expect, it } from 'vitest';
+import {
+  circularOrbitalSpeed,
+  gravityAt,
+  MU,
+  specificAngularMomentum,
+  specificOrbitalEnergy,
+  verticalGravityAcceleration,
+  groundTangentialSpeed,
+  inertialTangentialSpeed,
+} from '$core/physics/gravity';
+// The 2021 relief term this file measures v2's departure from. It lives in the
+// test tree since M10.9: nothing in the simulation calls it, and leaving dead
+// code in `core/` counted it as covered production code.
+import { legacyOrbitRelief } from './legacy-models';
+import * as C from '$core/constants';
+import { createInitialState, type SimState } from '$core/state';
+import { step } from '$core/step';
+
+const DT = 1 / 120;
+
+/**
+ * A vehicle in vacuum at `altitude`, moving downrange at the INERTIAL `speed`.
+ *
+ * The orbit is a fact of the inertial frame and the simulation's speeds are
+ * over the ground, which turns (Phase 6 Task 9). So every orbit here is set up
+ * at its ground-relative speed and read back through `inertialX`: the truth
+ * tests stay the inertial ones, transformed, never re-blessed.
+ */
+function inOrbit(altitude: number, speed: number) {
+  const s = createInitialState();
+  s.kinematics.altitude = altitude;
+  s.kinematics.distanceToPlanetCenter = C.planetRadius + altitude;
+  s.kinematics.speedX = groundTangentialSpeed(C.planetRadius + altitude, speed);
+  s.kinematics.speedY = 0;
+  s.kinematics.trueSpeed = Math.abs(s.kinematics.speedX);
+  // Nose-first and inert, so aerodynamics cannot muddy an orbital-mechanics test.
+  s.kinematics.pitch = (Math.PI / 2) as never;
+  return s;
+}
+
+/** m/s — the inertial tangential speed of a state. */
+const inertialX = (s: SimState) => inertialTangentialSpeed(s.kinematics.distanceToPlanetCenter, s.kinematics.speedX);
+
+function run(s: SimState, steps: number): SimState {
+  let cur = s;
+  for (let i = 0; i < steps; i++) cur = step(cur, DT);
+  return cur;
+}
+
+describe('the gravity field itself', () => {
+  it('is GM/R^2 at the surface — 0.14% ABOVE standard gravity', () => {
+    // Worth stating precisely, because it is a feel change on its own. Since
+    // Phase 6 the planet is Earth: GM 3.986004418e14, mean radius 6371 km,
+    // so the pull at the surface is 9.820 m/s^2. Standard gravity, 9.80665, is
+    // smaller because it is what a scale reads on a ROTATING Earth; this planet
+    // does not rotate yet (Task 9). (Before Phase 6 the radius was 6400 km and
+    // the pull 0.78% below the constant.)
+    const pull = 3.986004418e14 / 6_371_000 ** 2;
+    expect(gravityAt(C.planetRadius)).toBe(pull);
+    expect(pull).toBeCloseTo(9.820, 3);
+    expect(gravityAt(C.planetRadius) / C.gravity - 1).toBeCloseTo(0.0014, 4);
+  });
+
+  it('falls off as one over r squared', () => {
+    const surface = gravityAt(C.planetRadius);
+    const doubled = gravityAt(C.planetRadius * 2);
+    expect(surface / doubled).toBeCloseTo(4, 6);
+  });
+
+  it('is measurably weaker at altitude, which the constant model missed', () => {
+    // 3.1% at 100 km, 6.2% at 200 km.
+    expect(1 - gravityAt(C.planetRadius + 100_000) / gravityAt(C.planetRadius)).toBeCloseTo(
+      0.031,
+      2,
+    );
+    expect(1 - gravityAt(C.planetRadius + 200_000) / gravityAt(C.planetRadius)).toBeCloseTo(
+      0.062,
+      2,
+    );
+  });
+
+  it('circular speed is sqrt(GM/r), about 7.9 km/s in low orbit', () => {
+    const r = C.planetRadius + 200_000;
+    expect(circularOrbitalSpeed(r)).toBeCloseTo(Math.sqrt(MU / r), 9);
+    expect(circularOrbitalSpeed(r)).toBeGreaterThan(7_700);
+    expect(circularOrbitalSpeed(r)).toBeLessThan(8_000);
+  });
+});
+
+describe('a circular orbit stays circular over one lap', () => {
+  const altitude = 200_000;
+  const r = C.planetRadius + altitude;
+  const v = circularOrbitalSpeed(r);
+  /** One full lap, in steps. */
+  const lapSteps = Math.round(((2 * Math.PI * r) / v) / DT);
+  // One identical deterministic flight supplies all four independent checks.
+  // Retain every step and envelope sample; cache scalar observations only so
+  // no test can mutate a shared simulation state.
+  let measuredLap: Readonly<{ altitude: number; speed: number; downRange: number; min: number; max: number }> | undefined;
+  function measureLap() {
+    if (measuredLap) return measuredLap;
+    let state = inOrbit(altitude, v), min = Infinity, max = -Infinity;
+    for (let i = 0; i < lapSteps; i++) {
+      state = step(state, DT);
+      min = Math.min(min, state.kinematics.altitude);
+      max = Math.max(max, state.kinematics.altitude);
+    }
+    measuredLap = Object.freeze({ altitude: state.kinematics.altitude, speed: inertialX(state),
+      downRange: state.kinematics.downRangeDistance, min, max });
+    return measuredLap;
+  }
+
+
+  it('takes Kepler\'s period, about 88 minutes, which is what low orbit takes', () => {
+    // A fixed figure, not the formula again: Earth's period at 200 km.
+    expect((lapSteps * DT) / 60).toBeCloseTo(88.35, 2);
+  });
+
+  it('altitude holds within a kilometre over a full lap', () => {
+    const drift = Math.abs(measureLap().altitude - altitude);
+    expect(drift, `drifted ${drift.toFixed(1)} m over one lap`).toBeLessThan(1_000);
+  });
+
+  it('speed holds within a metre per second over a full lap', () => {
+    expect(Math.abs(measureLap().speed - v)).toBeLessThan(1);
+  });
+
+  it('never dips into the atmosphere or climbs away', () => {
+    const { min, max } = measureLap();
+    expect(min).toBeGreaterThan(altitude - 1_000);
+    expect(max).toBeLessThan(altitude + 1_000);
+  });
+
+  it('completes a full revolution of downrange distance', () => {
+    const end = measureLap();
+    // downRangeDistance wraps at the circumference, so it returns near its start
+    // — in the inertial frame: the ground has turned omega*r*T under the lap,
+    // which is added back.
+    const start = inOrbit(altitude, v).kinematics.downRangeDistance;
+    const inertialEnd = end.downRange + C.frameRotationRate * r * lapSteps * DT;
+    const travelled = Math.abs((inertialEnd % C.planetCircumference) - start);
+    // Within 5% of a full circumference. Not tighter: the lap count is derived
+    // from the orbital period rounded to whole steps, and the vehicle orbits at
+    // radius r while downRangeDistance measures ground track at radius
+    // planetRadius, so the two differ by r/planetRadius - about 3% at 200 km.
+    expect(Math.min(travelled, C.planetCircumference - travelled)).toBeLessThan(
+      C.planetCircumference * 0.05,
+    );
+  });
+});
+
+describe('conserved quantities stay conserved', () => {
+  const altitude = 300_000;
+  const r = C.planetRadius + altitude;
+  const v = circularOrbitalSpeed(r);
+
+  it('specific orbital energy drifts by less than one part in a thousand', () => {
+    const start = inOrbit(altitude, v);
+    const e0 = specificOrbitalEnergy(start.kinematics.distanceToPlanetCenter, v);
+    const end = run(start, 120 * 600); // ten simulated minutes
+    const e1 = specificOrbitalEnergy(
+      end.kinematics.distanceToPlanetCenter,
+      Math.hypot(inertialX(end), end.kinematics.speedY),
+    );
+    expect(Math.abs((e1 - e0) / e0)).toBeLessThan(1e-3);
+  });
+
+  it('specific angular momentum is conserved as the vehicle climbs', () => {
+    // The property the tangential-acceleration term exists to preserve. Launch
+    // on an ellipse so the altitude genuinely changes.
+    const start = inOrbit(200_000, v * 1.05);
+    const h0 = specificAngularMomentum(start.kinematics.distanceToPlanetCenter, v * 1.05);
+    const end = run(start, 120 * 300);
+    const h1 = specificAngularMomentum(end.kinematics.distanceToPlanetCenter, inertialX(end));
+    expect(end.kinematics.altitude).toBeGreaterThan(210_000);
+    // Tightened by four orders of magnitude at M2.12. This bound used to be 1%,
+    // with a comment blaming the first-order integrator for a measured ~0.5%
+    // drift. It was not the integrator: `tangentialAcceleration` carried a
+    // factor of two it should not have, and destroyed angular momentum in
+    // proportion to vertical speed. The residual now really is integration
+    // error — measured 2e-7 over these five minutes — and it converges with dt,
+    // which the old one did not. See tests/core/angular-momentum.test.ts.
+    expect(Math.abs((h1 - h0) / h0)).toBeLessThan(1e-5);
+  });
+
+  it('an elliptical orbit comes back down again', () => {
+    // The clearest sign it is real orbital motion and not a fudge: go up, come
+    // back. The 2021 relief term could never produce this.
+    //
+    // The window is 9000 s since M2.12. It used to be 3000 s, which was enough
+    // only because the doubled tangential term was eating angular momentum on
+    // the way up and pulling the apogee down to a third of where it belongs.
+    // With the orbit the right size, a lap takes longer.
+    let s = inOrbit(200_000, v * 1.1);
+    let peak = 0;
+    let peakStep = 0;
+    for (let i = 0; i < 120 * 9000; i++) {
+      s = step(s, DT);
+      if (s.kinematics.altitude > peak) {
+        peak = s.kinematics.altitude;
+        peakStep = i;
+      }
+    }
+    expect(peak).toBeGreaterThan(250_000);
+    expect(peakStep).toBeGreaterThan(0);
+    expect(peakStep).toBeLessThan(120 * 9000 - 1);
+    expect(s.kinematics.altitude).toBeLessThan(peak);
+  });
+});
+
+describe('the 2021 model could not do this, and here is why', () => {
+  it('its relief term is clamped at g, so orbit is impossible', () => {
+    // At any speed above circular, the true vertical acceleration is positive.
+    // The 2021 term is capped at exactly g, so the net is at best zero.
+    const r = C.planetRadius + 200_000;
+    const v = circularOrbitalSpeed(r);
+
+    const truth = verticalGravityAcceleration(r, v * 1.2);
+    expect(truth, 'above circular speed the vehicle should be pushed outward').toBeGreaterThan(0);
+
+    const legacy = -C.gravity + legacyOrbitRelief(v * 1.2, v);
+    expect(legacy, '2021 could at best cancel gravity, never exceed it').toBe(0);
+  });
+
+  it('and at circular speed it still fell', () => {
+    const r = C.planetRadius + 200_000;
+    const v = circularOrbitalSpeed(r);
+    expect(verticalGravityAcceleration(r, groundTangentialSpeed(r, v))).toBeCloseTo(0, 9);
+    // The 2021 model, using its spawn-time denominator, relieved only a fraction.
+    const spawnOrbital = circularOrbitalSpeed(C.planetRadius + 25);
+    const legacy = -C.gravity + legacyOrbitRelief(v, spawnOrbital);
+    expect(legacy).toBeLessThan(-0.1);
+  });
+
+  it('a vehicle at orbital speed holds altitude now, and could not have then', () => {
+    const altitude = 200_000;
+    const v = circularOrbitalSpeed(C.planetRadius + altitude);
+
+    // What ships: two simulated minutes at circular speed, altitude unmoved.
+    const round = run(inOrbit(altitude, v), 120 * 120);
+    expect(Math.abs(round.kinematics.altitude - altitude), 'round model: holds').toBeLessThan(100);
+
+    // What 2021 would have done with the same state, integrated by hand from
+    // its own two terms. There is no flag to flip any more, so the comparison
+    // is arithmetic rather than a second simulation: constant -g relieved by a
+    // term clamped at g, over the same 120 s.
+    let flatAltitude = altitude;
+    let flatSpeedY = 0;
+    const spawnOrbital = circularOrbitalSpeed(C.planetRadius + 25);
+    for (let i = 0; i < 120 * 120; i++) {
+      flatAltitude += flatSpeedY * DT;
+      flatSpeedY += (-C.gravity + legacyOrbitRelief(v, spawnOrbital)) * DT;
+    }
+    expect(flatAltitude, 'flat model: falls').toBeLessThan(altitude - 1_000);
+  });
+});
+
+describe('the relief hack is gone from the state, not merely bypassed — M2.10', () => {
+  it('SimState has no orbitGravityAccCompensation field at all', () => {
+    const end = run(inOrbit(200_000, 7_000), 10);
+    expect('orbitGravityAccCompensation' in end.kinematics).toBe(false);
+  });
+
+  it('and the stale orbital-velocity field is kept honest', () => {
+    // 2021 wrote it once at spawn, because the only thing reading it was the
+    // relief term's denominator. It tracks altitude now: the HUD reads it, and
+    // there is no reason to leave a stale number lying there.
+    const end = run(inOrbit(200_000, 7_000), 10);
+    expect(end.kinematics.orbitalVelocityAtCurrentAltitude).toBeCloseTo(
+      circularOrbitalSpeed(end.kinematics.distanceToPlanetCenter),
+      6,
+    );
+  });
+
+  it('the 2021 expression survives only as documentation', () => {
+    // legacyOrbitRelief is still exported and still exactly what 2021 computed
+    // — nothing calls it but the tests that describe the departure.
+    expect(legacyOrbitRelief(1_000, 7_900)).toBeCloseTo((C.gravity * 1_000) / 7_900, 12);
+    expect(legacyOrbitRelief(20_000, 7_900), 'clamped at g').toBe(C.gravity);
+  });
+});

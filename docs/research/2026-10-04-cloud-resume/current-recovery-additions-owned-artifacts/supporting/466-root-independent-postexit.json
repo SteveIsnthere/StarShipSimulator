@@ -1,0 +1,62 @@
+{
+  "identities": [
+    {
+      "pid": 117723,
+      "state": "R",
+      "parent": 117722,
+      "group": 117723,
+      "session": 117723,
+      "start": "7472286",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 117730,
+      "state": "R",
+      "parent": 117723,
+      "group": 117730,
+      "session": 117730,
+      "start": "7472404",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 117758,
+      "state": "R",
+      "parent": 117723,
+      "group": 117758,
+      "session": 117758,
+      "start": "7472619",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 117722,
+      "start": "7472266",
+      "group": 117722,
+      "session": 117722,
+      "postState": "ABSENT"
+    }
+  ],
+  "allAbsent": true,
+  "ownedGroups": [
+    {
+      "group": 117723,
+      "session": 117723,
+      "start": "7472286",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 117730,
+      "session": 117730,
+      "start": "7472404",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 117758,
+      "session": 117758,
+      "start": "7472619",
+      "cleared": true,
+      "uncertain": false
+    }
+  ]
+}

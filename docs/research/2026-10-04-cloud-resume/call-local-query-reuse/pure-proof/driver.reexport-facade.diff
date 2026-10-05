@@ -1,0 +1,17 @@
+--- failed-c3be-driver
++++ reexport-facade-driver
+@@ -18,6 +18,14 @@
+  const expectedSources=['src/core/vehicle.ts','src/core/vehicles/super-heavy.ts','src/core/vehicles/v3.ts','src/core/constants.ts','src/core/units.ts','src/core/physics/vehicle-components.ts','src/core/damage-state.ts','src/core/physics/damage-controls.ts','src/core/physics/damage-thermal.ts','src/core/physics/damage-root.ts','src/core/physics/damage-material.ts','src/core/physics/tps-material.ts'].map(path=>resolve(m.root,path));
+  expectedSources.push(resolve(m.setup,role.endsWith('counted')?'entry-'+role+'.ts':'entry.ts'));
+  assert.deepEqual(certificate.expectedSources.slice().sort(),expectedSources.sort());
++ const baseEntry=resolve(m.setup,'entry.ts'),authority=certificate.entryAuthority;
++ const witnessSuffix="export {resetWitnessloadedRootAngle,readWitnessloadedRootAngle} from '$core/physics/damage-root';\nexport {resetWitnesssteelTemperatureFromEnthalpy,readWitnesssteelTemperatureFromEnthalpy} from '$core/physics/damage-material';\n";
++ const counted=role.endsWith('counted'),roleEntry=resolve(m.setup,counted?'entry-'+role+'.ts':'entry.ts');
++ assert.equal(authority.path,roleEntry);assert.equal(authority.plainPath,baseEntry);assert.equal(authority.counted,counted);
++ assert.equal(authority.plainSha256,m.materialized[baseEntry].sha256);assert.equal(sha(baseEntry),authority.plainSha256);
++ assert.equal(authority.witnessSuffix,counted?witnessSuffix:'');
++ assert.equal(readFileSync(roleEntry,'utf8'),readFileSync(baseEntry,'utf8')+(counted?witnessSuffix:''));assert.equal(sha(roleEntry),authority.sha256);
++ const entryChunk=certificate.edges.find(edge=>edge.fileName==='entry.mjs');assert.ok(entryChunk);assert.equal(entryChunk.isEntry,true);assert.equal(entryChunk.facadeModuleId,roleEntry);
+  assert.ok(certificate.edges.length>0&&certificate.edges.length<=16);const ownedChunks=new Set(certificate.edges.map(edge=>edge.fileName));assert.equal(ownedChunks.size,certificate.edges.length);assert.ok(ownedChunks.has('entry.mjs'));
+  const ids=new Set();for(const edge of certificate.edges){
+   assert.equal(edge.artifactSha256,graph.files[edge.fileName]);assert.deepEqual(edge.dynamicImports,[]);

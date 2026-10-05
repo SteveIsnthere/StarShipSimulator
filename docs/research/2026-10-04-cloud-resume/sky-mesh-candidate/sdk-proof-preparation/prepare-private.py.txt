@@ -1,0 +1,31 @@
+# Research-only preparation; root grants execution separately. No compiler/import/test.
+import os,json,hashlib,uuid
+from pathlib import Path
+root=Path('/workspace/StarShipSimulator')
+base=root/'docs/research/2026-10-04-cloud-resume/sky-mesh-candidate'
+pins=json.loads((base/'sdk-proof-preparation/input-pins.json').read_text())
+def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+for path,sha in pins.items():assert digest(path)==sha,path
+assert digest(root/'src/view/sky.ts')==digest(base/'sky-before.ts.txt')
+directory=Path('/tmp')/('starship-sky-sdk.'+uuid.uuid4().hex)
+directory.mkdir(mode=0o700) # exclusive, no retry/no random-alphabet incompatibility
+(directory/'candidate').mkdir(mode=0o700)
+pairs=[(base/'sky-candidate.ts.txt',directory/'candidate/sky.ts'),
+ (base/'sky-mesh-public-controls.test.ts.txt',directory/'sky-mesh-public-controls.test.ts'),
+ (base/'sdk-proof-preparation/config.ts.txt',directory/'config.ts'),
+ (base/'sdk-proof-preparation/runner.mjs.txt',directory/'runner.mjs')]
+for source,target in pairs:
+ with target.open('xb') as stream:stream.write(source.read_bytes())
+ assert digest(source)==digest(target)
+for name in ['stars.ts','camera.ts','sun.ts']:
+ (directory/'candidate'/name).symlink_to(root/'src/view'/name)
+(directory/'node_modules').symlink_to(root/'node_modules',target_is_directory=True)
+names=json.loads((base/'sdk-proof-preparation/expected-names.json').read_text())
+with (directory/'expected-names.json').open('x') as stream:json.dump(names,stream);stream.write('\n')
+for path,sha in pins.items():assert digest(path)==sha,path
+receipt={'kind':'private-sky-sdk-preparation-v1','setup':str(directory),'inputs':pins,
+ 'executed':{str(target):{'template':str(source),'sha256':digest(target)} for source,target in pairs},
+ 'links':{str(link):os.readlink(link) for link in [directory/'node_modules',*[directory/'candidate'/n for n in ['stars.ts','camera.ts','sun.ts']]]},
+ 'tests':8,'compiles':0,'applicationEdits':0,'workloads':0}
+with (directory/'preparation.json').open('x') as stream:json.dump(receipt,stream,indent=2);stream.write('\n')
+print(directory)

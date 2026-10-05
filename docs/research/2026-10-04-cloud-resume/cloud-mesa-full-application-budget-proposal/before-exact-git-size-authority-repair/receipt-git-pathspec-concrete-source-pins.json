@@ -1,0 +1,36 @@
+{
+  "kind": "mesa-receipt-pathspec-concrete-source-pins-v1",
+  "status": "UNEXECUTED SOURCE ONLY; no production application",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/visual-runtime-receipt.pathspec-candidate.ts.txt",
+      "sha256": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e",
+      "bytes": 4182
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-diagnostic.py.txt",
+      "sha256": "dc43e187297d110d09e2fdad668f64afe3f339305e87b91220c658d36d82d7c5",
+      "bytes": 8106
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-repair-proposal.md",
+      "sha256": "6b1674ac09caccf8da967445938070aca4198f976e8014c93c178bd3bed00080",
+      "bytes": 4005
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-source/source-manifest.json",
+      "sha256": "70c5d96c6c936b89ded6fd056320831b7383af67a692af8847dc701475d43530",
+      "bytes": 1126
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-source/git-ls-files.txt",
+      "sha256": "68121e25c1f77931530d6c35605f37d42c9a4175c363d009abf27e6df4c6ab73",
+      "bytes": 12116
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-source/glossary-content.txt",
+      "sha256": "52ae249795c4eeb8b16c4677bfc28930e2a37a70a35d493ef9bfaec26b09e04a",
+      "bytes": 32908
+    }
+  ]
+}

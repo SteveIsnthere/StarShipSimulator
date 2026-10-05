@@ -1,0 +1,9 @@
+// Research-only materialization at scripts/bench/consumer.config.mts.
+import {defineConfig} from 'vitest/config';
+import {fileURLToPath} from 'node:url';
+import base from '../../vitest.config';
+const aliases=Object.entries(base.resolve?.alias??{}).map(([find,replacement])=>({find,replacement}));
+export default defineConfig({resolve:{...base.resolve,alias:[
+ {find:/^\$core\/control\/guidance-physics$/,replacement:fileURLToPath(new URL('../../tests/support/native-guidance-benchmark.ts',import.meta.url))},
+ {find:/^\$core\/scenarios$/,replacement:fileURLToPath(new URL('./native-scenarios-benchmark.ts',import.meta.url))},...aliases]},
+ test:{environment:'node',include:['scripts/bench/consumer-controls.test.ts'],testTimeout:30000,maxWorkers:1,fileParallelism:false}});

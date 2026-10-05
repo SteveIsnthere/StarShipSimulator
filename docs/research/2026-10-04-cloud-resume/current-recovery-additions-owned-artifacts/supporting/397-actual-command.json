@@ -1,0 +1,9 @@
+{
+  "args": [
+    "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "build"
+  ],
+  "deadlineMs": 90000,
+  "mode": "app-build"
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "after08-doc-selection-source-pins-v2",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/capture-selection.py.txt",
+      "sha256": "ead5c86acfe418291bf733ad72d680d0a1923cbb81ece118af3ad9a5b6380ec1"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/make-input.py.txt",
+      "sha256": "9af007035969f0012a86375d68daf7f262addaf6728d0b59aec95f39c33b78ff"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/root-observer.py.txt",
+      "sha256": "411a1eff51cc208bf9cfbf5ecc8cf76350ae376ccd750e86360162f96e423f09"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/selected-paths.json",
+      "sha256": "e9134077d170f4032fd5b1d9414b278a8c9e9194236b701e459f561a9bea7695"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/selection-plan.md",
+      "sha256": "f822f1df3986b1c9d54985c4b44dec74939f3bfd59029e0d44285866e7777144"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/root-candidate-doc-names.json",
+      "sha256": "a9b6be1dd0edb60498d594f95bed33e94c51170548589a621f6b91db3722ea551"
+    }
+  ],
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "captureExecuted": false,
+  "runtimeOrGitWriteApproved": false,
+  "sourceReadinessOnly": true
+}

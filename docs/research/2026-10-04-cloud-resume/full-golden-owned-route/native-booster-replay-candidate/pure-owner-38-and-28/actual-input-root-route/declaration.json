@@ -1,0 +1,18 @@
+{
+  "scope": "ONE38 public helper+ONE28 exact inert callback controls; no actual hook installation, physical imports, qualification, replay or source application",
+  "privateInput": {
+    "path": "/tmp/starship-native-golden-policy-pure.fc5c4c0fd5d3473d8151ba30c12ccb2c/input.json",
+    "sha256": "5241dcec4c6f5058ff88dee79857c44d2c0238746a1988da78c0c050265f53f5"
+  },
+  "rootObserverMaterializedByRoot": {
+    "path": "/tmp/starship-native-golden-policy-pure.fc5c4c0fd5d3473d8151ba30c12ccb2c/root-observer.py",
+    "sha256": "ebdf5b8d2add376173578c619b40ffba0453ae4508496be7f9063263f739ceda",
+    "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/pure-owner-38-and-28/root-observer-materialization.json"
+  },
+  "rootWholeMs": 30000,
+  "rootWorkMs": 22000,
+  "rootCleanupMs": 8000,
+  "eachChildMs": 5000,
+  "parentMustIndependentlyVerifyEveryObservedAndTrackedPIDStartAbsent": true,
+  "noInvocationPerformedByAuthor": true
+}

@@ -1,0 +1,134 @@
+/** Supplemental controls/identity only, outside the untouched application's capture windows. */
+import { test, expect, type Browser, type Page, type TestInfo } from '@playwright/test';
+import { readFileSync, readlinkSync, writeFileSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const inputPath = process.env['STARSHIP_MESA_APP_INPUT'];
+if (!inputPath) throw new Error('Frozen application input required');
+const inputBytes = readFileSync(inputPath);
+if (createHash('sha256').update(inputBytes).digest('hex') !== process.env['STARSHIP_MESA_APP_INPUT_SHA']) {
+  throw new Error('Application input changed');
+}
+const m = JSON.parse(inputBytes.toString('utf8'));
+const runtime = JSON.parse(readFileSync(m.runtimeInput.path, 'utf8'));
+const consoleRecords = new WeakMap<Page, { errors: string[]; warnings: string[]; bytes: number; truncated: boolean }>();
+async function save(info: TestInfo, name: string, value: unknown) {
+  const text = JSON.stringify(value, null, 2) + '\n';
+  if (Buffer.byteLength(text) > 1024 * 1024) throw new Error('Boundary artifact exceeds unchanged 1MiB cap');
+  const path = info.outputPath(name);
+  writeFileSync(path, text, { flag: 'wx' });
+  await info.attach(name, { path, contentType: 'application/json' });
+}
+function identity(pid: number) {
+  if (!Number.isInteger(pid) || pid <= 1) throw new Error('Invalid CDP process id');
+  const text = readFileSync(`/proc/${pid}/stat`, 'utf8');
+  const f = text.slice(text.lastIndexOf(')') + 2).split(/\s+/);
+  return { pid, state: f[0], parent: Number(f[1]), group: Number(f[2]), session: Number(f[3]), start: f[19] };
+}
+async function provider(browser: Browser, info: TestInfo, label: string) {
+  const records: unknown[] = [];
+  const cdp = await browser.newBrowserCDPSession();
+  let observation: unknown;
+  try {
+    const system = await cdp.send('SystemInfo.getInfo');
+    const processes = (await cdp.send('SystemInfo.getProcessInfo')).processInfo;
+    const gpus = processes.filter((p: { type: string }) => p.type === 'GPU');
+    expect(gpus).toHaveLength(1);
+    for (const p of processes.filter((p: { type: string }) => p.type === 'GPU' || p.type === 'browser')) {
+      const row = identity(p.id);
+      const executable = readlinkSync(`/proc/${p.id}/exe`);
+      const argv = readFileSync(`/proc/${p.id}/cmdline`, 'utf8').split('\0').filter(Boolean);
+      const record: Record<string, unknown> = { type: p.type, identity: row, executable, argv };
+      records.push(record);
+      expect(executable).toBe(m.browser);
+      if (p.type === 'browser') {
+        for (const arg of ['--no-sandbox', '--use-gl=angle', '--use-angle=gl-egl', '--ignore-gpu-blocklist']) {
+          expect(argv.filter((value: string) => value === arg)).toHaveLength(1);
+        }
+      } else {
+        const maps = readFileSync(`/proc/${p.id}/maps`, 'utf8');
+        if (Buffer.byteLength(maps) > 1024 * 1024) throw new Error('GPU maps cap');
+        const loaded = [...new Set(maps.split('\n').map(line => line.match(/\s(\/[^\n]+)$/)?.[1]).filter(Boolean))];
+        record['loaded'] = loaded;
+        const tids = readdirSync(`/proc/${p.id}/task`);
+        expect(tids.length).toBeLessThanOrEqual(128);
+        record['threads'] = tids.map(tid => ({ tid: Number(tid),
+          name: readFileSync(`/proc/${p.id}/task/${tid}/comm`, 'utf8').trim(),
+          affinity: /^Cpus_allowed_list:\s*(.*)$/m.exec(readFileSync(`/proc/${p.id}/task/${tid}/status`, 'utf8'))?.[1] ?? null }));
+        for (const category of ['eglMesa', 'gallium', 'llvm']) {
+          const allowed = runtime.providerLibraries[category] as string[];
+          expect(allowed.length).toBeGreaterThan(0);
+          expect(allowed.some(path => loaded.includes(path))).toBe(true);
+        }
+      }
+    }
+    const cpuMax = readFileSync('/sys/fs/cgroup/cpu.max', 'utf8').trim();
+    const cpuset = readFileSync('/sys/fs/cgroup/cpuset.cpus.effective', 'utf8').trim();
+    observation = { records, system, processes, browserVersion: browser.version(), cpuMax, cpuset,
+      cpuStat: readFileSync('/sys/fs/cgroup/cpu.stat', 'utf8') };
+    expect(cpuMax).toBe(m.cpuMax); expect(cpuset).toBe(m.cpuset);
+    expect(browser.version()).toBe('151.0.7922.34');
+    const driver = JSON.stringify(system.gpu.devices);
+    expect(driver).toMatch(/Mesa/i); expect(driver).toMatch(/llvmpipe/i);
+    expect(driver).not.toMatch(/SwiftShader|softpipe|lavapipe/i);
+    expect(system.gpu.auxAttributes.glImplementationParts).toBe('(gl=egl-angle,angle=opengl)');
+  } catch (error) {
+    await save(info, `mesa-${label}-provider.json`, { records, observation, error: String(error) });
+    throw error;
+  } finally { await cdp.detach(); }
+  await save(info, `mesa-${label}-provider.json`, { ...observation as object, error: null });
+}
+
+test.beforeEach(async ({ page, browser }, info) => {
+  const log = { errors: [] as string[], warnings: [] as string[], bytes: 0, truncated: false };
+  consoleRecords.set(page, log);
+  function record(kind: 'errors' | 'warnings', text: string) {
+    log.bytes += Buffer.byteLength(text);
+    if (log.bytes > 65536) { log.truncated = true; return; }
+    log[kind].push(text);
+  }
+  page.on('pageerror', error => record('errors', String(error)));
+  page.on('console', message => {
+    if (message.type() === 'error') record('errors', message.text());
+    else if (message.type() === 'warning') record('warnings', message.text());
+  });
+  const positive = await page.evaluate(() => {
+    const canvas = document.createElement('canvas'); canvas.width = canvas.height = 4;
+    document.body.append(canvas);
+    const gl = canvas.getContext('webgl2', { antialias: true, alpha: true, premultipliedAlpha: true });
+    if (!gl) throw new Error('Positive pixel WebGL2 unavailable');
+    const debug = gl.getExtension('WEBGL_debug_renderer_info');
+    if (!debug) throw new Error('Positive pixel unmasked identity unavailable');
+    const vendor = gl.getParameter(debug.UNMASKED_VENDOR_WEBGL);
+    const renderer = gl.getParameter(debug.UNMASKED_RENDERER_WEBGL);
+    gl.disable(gl.DITHER); gl.disable(gl.BLEND);
+    gl.clearColor(17 / 255, 83 / 255, 149 / 255, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    const actual = new Uint8Array(64);
+    gl.readPixels(0, 0, 4, 4, gl.RGBA, gl.UNSIGNED_BYTE, actual);
+    const errors: number[] = [];
+    for (let i = 0; i < 16; i++) { const error = gl.getError(); if (error === gl.NO_ERROR) break; errors.push(error); }
+    const result = { actual: Array.from(actual), errors, lost: gl.isContextLost(), vendor, renderer,
+      control: 'actual clear + full4x4 RGBA readPixels; setup only', timerExtension: !!gl.getExtension('EXT_disjoint_timer_query_webgl2') };
+    canvas.remove();
+    return result;
+  });
+  await save(info, 'mesa-positive-pixels.json', positive);
+  expect(positive.actual).toEqual(Array.from({ length: 16 }, () => [17, 83, 149, 255]).flat());
+  expect(positive.errors).toEqual([]); expect(positive.lost).toBe(false);
+  expect(`${positive.vendor} ${positive.renderer}`).toMatch(/Mesa/i);
+  expect(positive.renderer).toMatch(/llvmpipe/i);
+  expect(positive.renderer).not.toMatch(/SwiftShader|softpipe|lavapipe/i);
+  await provider(browser, info, 'before');
+});
+
+test.afterEach(async ({ page, browser }, info) => {
+  await provider(browser, info, 'after');
+  const app = await page.evaluate(() => {
+    const w = window as unknown as { __simDebug?: { presentation(): { renderer: unknown } }; __visualBudget?: { result(): unknown } };
+    return { renderer: w.__simDebug?.presentation().renderer ?? null, probe: w.__visualBudget?.result() ?? null };
+  });
+  const log = consoleRecords.get(page);
+  await save(info, 'mesa-application-boundary.json', { app, console: log,
+    independentPrivateWidth2Capture: false, isolatedTimerQueryCostClaim: false });
+  expect((app.renderer as { backend?: string } | null)?.backend).toBe('webgl');
+  expect(log).toBeDefined(); expect(log?.truncated).toBe(false); expect(log?.errors).toEqual([]);
+});

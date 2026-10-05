@@ -1,0 +1,15 @@
+/tmp/starship-v7-pure-controls.6tsksjky/loader.mjs:exact-hook-suffix:63
+    assert.equal(digest(new URL(original.canonicalParentURL)), sourceSha);
+                            ^
+
+ReferenceError: URL is not defined
+    at Object.load (/tmp/starship-v7-pure-controls.6tsksjky/loader.mjs:exact-hook-suffix:63:29)
+    at Object.load (file:///tmp/starship-v7-pure-controls.6tsksjky/load-certificate-controls.mjs:39:89)
+    at file:///tmp/starship-v7-pure-controls.6tsksjky/load-certificate-controls.mjs:58:26
+    at test (file:///tmp/starship-v7-pure-controls.6tsksjky/load-certificate-controls.mjs:44:29)
+    at file:///tmp/starship-v7-pure-controls.6tsksjky/load-certificate-controls.mjs:57:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.23.3

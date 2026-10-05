@@ -1,0 +1,45 @@
+{
+  "status": "SOURCE ONLY frozen repair; actual cache/alias input PENDING root evidence; no execution grant",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+      "sha256": "0f784f7e175efedd30390f92072a6bbbd30db74380bc6de1efc0aae93fc8a51e",
+      "bytes": 16934
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/business-stage.mjs.txt",
+      "sha256": "989b348a740527ff808e04e9ceebd89e7fb96e613f430b5431a097654cf90a97",
+      "bytes": 5148
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/runpath-journal-repair-contract.md",
+      "sha256": "8ff62f2ba76221454ce62ef7825e2047fd8640b82473890f6af303d2a5da33cc",
+      "bytes": 4540
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/glibc-loader-source/source-manifest.json",
+      "sha256": "5fbc1445b7d047ada4ebc6e88c8c56dbc704fb516a23395517ee8b12287826ed",
+      "bytes": 1367
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/glibc-loader-source/elf-dl-load.c.txt",
+      "sha256": "85f6eb3f2ca4bb18f50853782f41b1fd71ed0530f785312ce2707d1472a0f8d8",
+      "bytes": 67986
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/glibc-loader-source/elf-dl-object.c.txt",
+      "sha256": "4caa416489b0db5103f2a1e88e0eabf7e433f92e7d4fcf231ff6567062fd0f66",
+      "bytes": 7929
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/glibc-loader-source/sysdeps-generic-ldconfig.h.txt",
+      "sha256": "4ee2811a992946513752bcd7e111b30a1bcdad5b08a22eda9888ffef8e0a2a65",
+      "bytes": 3910
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-six-seed-elf-diagnosis/result.json",
+      "sha256": "6438afd08281d600b143189985aa523a915ee35db4e32678a805f02c9eb02c77",
+      "bytes": 4834
+    }
+  ]
+}

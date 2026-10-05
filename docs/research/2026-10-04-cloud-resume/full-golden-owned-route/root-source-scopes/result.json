@@ -1,0 +1,24 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "name": "root-observer-ast",
+      "code": 0,
+      "elapsedSeconds": 0.003975977000663988
+    },
+    {
+      "name": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.024322242999915034
+    },
+    {
+      "name": "eslint",
+      "code": 1,
+      "elapsedSeconds": 0.907755978005298
+    }
+  ],
+  "allInputPinsBeforeAfterMatched": true,
+  "inputPaths": 27,
+  "fixturesRead": false,
+  "goldensRecorded": false
+}

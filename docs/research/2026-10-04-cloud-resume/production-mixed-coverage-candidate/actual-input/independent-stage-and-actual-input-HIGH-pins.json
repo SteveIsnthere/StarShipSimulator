@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "decision": "supported-changed-stage-scopes-and-single-root-granted-mixed247-readiness",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/independent-stage-and-actual-input-HIGH-review.md",
+    "sha256": "e9b371429d2cf3d4f4e71addaef8b96d38b76014c7fb8e0a06d95e8ff982e439"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/declaration.md",
+      "sha256": "4650db611d4973c0a149e4962f48760e23a6fd9d70a9569423871f107452e2b6"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/owner-input.json",
+      "sha256": "390d65a233e6cc498ca496b9e402a54298c251f94b6779fa5cb49f9d6732c3d8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/inventory.json",
+      "sha256": "f30c9ee5e37e01875c70b333e46d704cdbac30d2c02b62b8583d7ec644e560c0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/business-stage-coverage247.mjs.txt",
+      "sha256": "88d01077c548e23c7b033cbe25f19889b5785bab7a475852fa2c70c53c36be7f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/before-business-stage.mjs.txt",
+      "sha256": "0b6acf83a32eec09dd3be36cadf6ccb59e535ad672b1d991be713e5e09177827"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/business-stage-coverage247.diff",
+      "sha256": "b63f581eb8b491d90161965f0b2bfd5e1b518fd70969fa6cc13bbd37e0ee13b8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/capture-reporter.mjs.txt",
+      "sha256": "437bc855ec8f4fafbc2ff081c987efe2d341a077a14005298ac5d34c7a5a864d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/source-input.json",
+      "sha256": "31225b40b2bc6ab99ef28c5f668c8e03d2a3c7c71617a7075c5ca532999f4e66"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/plan.md",
+      "sha256": "94dce5ec183559f2138759c0c6c637099866a2dfcd64d267a779ab01095085b5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+      "sha256": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/capture-reporter.mjs",
+      "sha256": "437bc855ec8f4fafbc2ff081c987efe2d341a077a14005298ac5d34c7a5a864d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/root-reporter-scopes/result.json",
+      "sha256": "20394c16fbc6e28aa475c54e0aa27d83e215ab68e76e685d073d94e767180390"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/independent-public-reporter-source-HIGH-review.md",
+      "sha256": "90c0bc013222610be2faeef2f02883d56fead8359fb6590c364d7a50b699912a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/independent-public-reporter-source-HIGH-pins.json",
+      "sha256": "aa0c52d8ee90030290215c61c2f5d326af772ad83e6cd84c2ced3002932bfb04"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/review-input-pins.json",
+      "sha256": "ae235369f4fea9c195ee09658f887575ffa4bcacfd45c81715cac6289f5a6c4f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/actual-input/inventory.json",
+      "sha256": "06bcd4fd1c4005911c78150686fd264fc76a32cfe2fabae2f759a1956c3107f8"
+    }
+  ],
+  "inheritedFilePairs": 21440,
+  "newFilePairs": 9,
+  "executionPerformed": false,
+  "coverageAccepted": false
+}

@@ -1,0 +1,12 @@
+{
+  "classification": "source-only proposal, no supportedflags/workload execution yet",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/proposal.md": "0fb2272b50a787b2be7f9998802075e6b83ae887b34c9059052a2a49968e674a",
+    "/workspace/StarShipSimulator/tests/app/view-clock.test.ts": "7026d3779d51783c5d2e0f69a6f2e7dd58e26293d53562332d7648e123cad895",
+    "/workspace/StarShipSimulator/vitest.config.ts": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029",
+    "/workspace/StarShipSimulator/node_modules/vitest/dist/chunks/cli-api.CnMVyzaz.js": "a236001d048380e2c67d05423fc9ea3f26b07ee019ba8d6e622082f29d49102e",
+    "/workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js": "bf6af6d2f4469911879a67e83b8f9e7b20332cf42795032c53457b10ccc1c617",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json": "0d8aa697f5255d26ccd1da9e3135de5e4a49ee67ba4ac00222f5c21ca6313d4b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-diagnostic-failure/report.md": "f506c7460a47365555933c845ca2f19928a6fc2eb29d4f135adf8110f360c325"
+  }
+}

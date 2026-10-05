@@ -1,0 +1,45 @@
+{
+  "decision": "SUPPORTED conditional one root120 functional probe",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-functional-input.json",
+      "sha256": "675f45a3e847c44ef941c9add7ca5873131d7729b2c3efdb5da1a25b6cb1ed4f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-owner-input.json",
+      "sha256": "7b36c85652ce88957b8fad3cf1b5cded670d5e894fb288446ca756f4b9816e3d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-parent-closure.json",
+      "sha256": "90ea0e1e4c117fb6856ba9045e694c6e730260f5174ec1841dcf9d381287dfde"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-input-freeze.json",
+      "sha256": "a1ac55d34cc0b56cf7e5809cbcb32dea6ea4250d3af62294ac810ac0e5f53725"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/parent-closure.json",
+      "sha256": "90ea0e1e4c117fb6856ba9045e694c6e730260f5174ec1841dcf9d381287dfde"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-runner-materialization.json",
+      "sha256": "1fe08ffe90416dc945f9b103fd5bf07be857476f36805a3fea543da8c403bbb0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-source-scopes/result.json",
+      "sha256": "671bac0c189ac2f0f89f6188962fcc128d07add46081698d43e07dc5a1528820"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-source-HIGH-review.md",
+      "sha256": "74927a5c34060803c2da882538c6e52840e0cebd5bd9b7748d0e91851883427e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/candidate-source-pins.json",
+      "sha256": "4b17604c07334313bffb803b43c3da70b0f2330eb8f58551273c69c71b409979"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-actual-input-HIGH-review.md",
+      "sha256": "734b8aa8fb7b223372bbbc0bb89e2fce995efb18cc1fb142f36d177a29d870c9"
+    }
+  ]
+}

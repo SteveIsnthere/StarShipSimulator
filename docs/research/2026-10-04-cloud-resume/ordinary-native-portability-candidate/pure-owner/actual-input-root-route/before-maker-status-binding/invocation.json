@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/actual-input-root-route/root-observer.py.txt",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/actual-input-root-route/root-input.json",
+    "17944cd20fe59733b76b0dcd8098613cf0b54c1ba046ca557b6e03220c03f5a9"
+  ],
+  "externalDeadlineMs": 30000,
+  "alreadyCreatedPureInputSha256": "7c52d1cf01e934f57c515e3d3e55ebf5104a027c035499e1f80477b7d311a902",
+  "noInvocationPerformed": true,
+  "makerActualStatusReceiptPendingExactPath": true
+}

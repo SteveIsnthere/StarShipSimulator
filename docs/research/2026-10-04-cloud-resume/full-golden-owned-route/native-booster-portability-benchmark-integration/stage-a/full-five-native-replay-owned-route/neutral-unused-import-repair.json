@@ -1,0 +1,15 @@
+{
+  "beforeStage": "43b91f6d187bfadb51891aa9c4d9a02421c57d8f123ac0ff4c9a3e28b914ec42",
+  "afterStage": "420ad01041841981e9132f9620b9b9707550935d113d69f59b9e9fe776c68105",
+  "onlyUnusedExistsSyncImportRemoved": true,
+  "noScopesOrRuntimeHere": true,
+  "preRuntimeRootLintFailurePreserved": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/before-unused-import-lint-repair/authoring-read-note.json": "f2ee782598aaa72ee0916a70ad460555cf1fc77c4810aeb97f796bc4a747ef4d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/before-unused-import-lint-repair/declaration.md": "f3f20f92d98d0decca0df8b86df520deda5125151e8a3f8aa05d0dd8da23204f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/before-unused-import-lint-repair/manifest-property-authoring-correction.json": "3847cbac6ae4add9e0e9ec250dcf6299e830db6b804a45480ebb45d7747d8277",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/before-unused-import-lint-repair/business-stage.mjs.txt": "43b91f6d187bfadb51891aa9c4d9a02421c57d8f123ac0ff4c9a3e28b914ec42",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/before-unused-import-lint-repair/input-pins.json": "3903da2b491741410ac0c131a4875364e1c24b66ee392884146117d8d3b0bc15",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/before-unused-import-lint-repair/root-scoped-lint-failure.json": "91627a6e0e569bd58a2eac27d4eb98b67782e24bfce24a6f93f2f1ef5ad5e52e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/before-unused-import-lint-repair/root-observer.py.txt": "40bc9b65f3d5fe651606b835b804dd48a9c331c4a5e271ea6ea6b8d1cd778e57"
+  }
+}

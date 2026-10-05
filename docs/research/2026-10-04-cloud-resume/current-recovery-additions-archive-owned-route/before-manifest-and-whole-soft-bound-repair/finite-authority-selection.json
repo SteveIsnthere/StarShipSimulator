@@ -1,0 +1,16 @@
+{
+  "kind": "finite-recovery-additions-selection-v1",
+  "historicalSelection": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-plan/selected-existing-authority.json",
+  "sourcePinManifests": [
+    "call-local-query-reuse/pure-proof/independent-actual-failure-HIGH-pins.json",
+    "view-clock-covered-cpu-profile/collector-validation/independent-collector-actual-FAIL-HIGH-pins.json",
+    "view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/collector-integration/independent-prototype-witness-actual-FAIL-HIGH-pins.json",
+    "cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-owned60-actual-application-HIGH-pins.json",
+    "cloud-mesa-full-application-budget-proposal/independent-single-helper-fresh-public-build-actual-HIGH-pins.json",
+    "call-local-query-reuse/closed-three-census/inert-proof/independent-actual-pass-HIGH-pins.json"
+  ],
+  "references": 482,
+  "trees": 14,
+  "externalReferences": 3,
+  "treeInventoryAndArtifactHashingPerformed": false
+}

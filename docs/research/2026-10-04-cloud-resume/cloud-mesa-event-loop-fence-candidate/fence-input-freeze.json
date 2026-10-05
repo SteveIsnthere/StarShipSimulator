@@ -1,0 +1,55 @@
+{
+  "inner": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-functional-input.json",
+    "sha": "675f45a3e847c44ef941c9add7ca5873131d7729b2c3efdb5da1a25b6cb1ed4f"
+  },
+  "outer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-owner-input.json",
+    "sha": "7b36c85652ce88957b8fad3cf1b5cded670d5e894fb288446ca756f4b9816e3d"
+  },
+  "parentClosure": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-parent-closure.json",
+    "sha": "90ea0e1e4c117fb6856ba9045e694c6e730260f5174ec1841dcf9d381287dfde"
+  },
+  "exclusiveStructuralCheckerAlias": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/parent-closure.json",
+    "sha": "90ea0e1e4c117fb6856ba9045e694c6e730260f5174ec1841dcf9d381287dfde"
+  },
+  "structuralChecker": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/root-structural-check.py.txt",
+    "sha": "e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13"
+  },
+  "sources": {
+    "builder": {
+      "path": "/tmp/starship-mesa-fence-source.agvpm8gt/run-functional-event-loop-fence.mjs",
+      "sha": "a3e99eed2791dc44619f505f941510eb29bbe36806395a4b84398c3c57d31f56"
+    },
+    "stage": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/business-stage.mjs.txt",
+      "sha": "c09f4c1d19a69f367f4f79d0018976680c60620374f89d3e99fdf2cd4656d590"
+    },
+    "observer": {
+      "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/root-observer.py",
+      "sha": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa"
+    }
+  },
+  "receipt": "/tmp/starship-mesa-functional.d7f9a0837ecf49e692860251218b4a7f",
+  "original285PinsPreserved": true,
+  "filePinCount": 304,
+  "addedFilePinCount": 19,
+  "browserFileCount": 304,
+  "browserDirectoryCount": 12,
+  "nativeLibraryCount": 42,
+  "symlinkCount": 73,
+  "nodeSha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+  "ownerBoundMs": 120000,
+  "functionalBoundMs": 90000,
+  "fenceWaitBoundMs": 5000,
+  "fenceDeadlineNoLaterThanOverall": true,
+  "backendArgsAndEnvironmentUnchanged": true,
+  "blocklistPolicyOverride": "ignore-gpu-blocklist",
+  "utilsBundleSha": "580f571bf063e2256b51b3946a035bc452fc0e22808d5547b198baea39923a32",
+  "codeCopiedByAuthor": false,
+  "nativeBytesHashedByAuthor": 0,
+  "status": "UNEXECUTED; freshOther actualinput HIGH plus ROOTstructuralbefore/finallyafter and ONE120 grant required; functionalonly no frame/performance acceptance"
+}

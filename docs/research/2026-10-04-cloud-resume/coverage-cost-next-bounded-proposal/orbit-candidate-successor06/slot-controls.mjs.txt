@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {verifySlotBindings} from './slot-bindings.mjs';
+const contract=JSON.parse(readFileSync(process.argv[2]));const names=[];
+const make=mode=>{const role=contract.modes[mode],ref={path:'/inert/slot-contract.json',sha:'inert'};return{inner:{kind:contract.innerKind,resultKind:contract.resultKind,mode,executionSlot:contract.executionSlot,slotContract:ref},outer:{kind:contract.outerKind,resultKind:contract.resultKind,mode:role.outerMode,outerMs:role.outerMs,steps:role.steps,executionSlot:contract.executionSlot,slotContract:ref}};};
+for(const mode of ['compile','histories']){const{inner,outer}=make(mode);assert.equal(verifySlotBindings(contract,inner,outer,contract.executionSlot).mode,mode);names.push(mode+' shared binding');}
+const deny=(name,edit)=>{const fixture=structuredClone(make('compile'));const local=structuredClone(contract);const env={value:contract.executionSlot};edit(fixture,local,env);assert.throws(()=>verifySlotBindings(local,fixture.inner,fixture.outer,env.value),error=>error instanceof assert.AssertionError&&error.code==='ERR_ASSERTION');names.push(name);};
+deny('old root slot denied',f=>{f.outer.executionSlot='orbit18-qualification';});
+deny('foreign owner slot denied',f=>{f.inner.executionSlot='foreign';});
+deny('foreign environment denied',(f,c,e)=>{e.value='foreign';});
+deny('missing owner slot denied',f=>{delete f.inner.executionSlot;});
+deny('different contract role denied',f=>{f.outer.slotContract={...f.outer.slotContract,sha:'other'};});
+deny('wrong outer mode denied',f=>{f.outer.mode='orbit18-histories';});
+deny('wrong outer bound denied',f=>{f.outer.outerMs=60001;});
+deny('wrong step order denied',f=>{f.outer.steps=[...f.outer.steps].reverse();});
+deny('unknown inner mode denied',f=>{f.inner.mode='unknown';});
+deny('wrong canonical slot denied',(f,c)=>{c.executionSlot='orbit18-qualification';});
+deny('wrong preparation slot denied',(f,c)=>{c.preparationSlot='foreign';});
+deny('old consumer result kind denied',f=>{f.outer.resultKind='orbit18-qualification-result-v1';});
+console.log(JSON.stringify({kind:'original-orbit18-inert-slot-controls-v1',completed:true,physicalImports:0,actualHooksInstalled:false,cases:names}));

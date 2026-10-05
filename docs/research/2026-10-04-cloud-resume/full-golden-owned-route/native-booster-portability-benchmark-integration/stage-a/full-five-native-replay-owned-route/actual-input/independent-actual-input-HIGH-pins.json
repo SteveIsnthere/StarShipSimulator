@@ -1,0 +1,39 @@
+{
+  "kind": "original-full38-native-actual-input-high-v1",
+  "reviewSha256": "6301d81585d77912f20b6273f244982d4aa45be926457b33bc28c538867b7cf0",
+  "scope": "ONE supervised original38 replay readiness only",
+  "selectedInputs": {
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+    "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/native-flight-and-golden-composite.stage-a.json": "e600e058b9cfaf11a0b72989e3319017a650ee260ab48e648f01954fdcef4bf7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input/inventory.json": "d0ef76cf0c4a3fddf03d813825746a7a46d11dfd6cfce8e70bec09e625245db1",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/business-stage.mjs.txt": "420ad01041841981e9132f9620b9b9707550935d113d69f59b9e9fe776c68105",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/root-observer.py.txt": "40bc9b65f3d5fe651606b835b804dd48a9c331c4a5e271ea6ea6b8d1cd778e57",
+    "/workspace/StarShipSimulator/scripts/bench/native-loader.mjs": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/predictions.json": "ec68e8ab990cf833140bd3e94859425da1a409d326ad71125346d8a8235adf25",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/independent-policy-truth-and-prelook-review.md": "f0d0e375db42ae19672dbaaa7187f986f6e9e5da7d5cc45f4b397353b21a8c3e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-truth-after-full247/actual-status.json": "a73c0d02fa4567e4d4918740f0cddd2feeec40465e41418f2698e03c7cb849a4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/actual-input/independent-actual-result-HIGH-pins.json": "9effdc2f941efc605b274f9c56d93f7a1e6201c32efadbb7fb6cac8ff2060475",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/five-file-replay-route/case-inventory.json": "a01e150a33ac9b13bc267922b6653aa8654c4a272d8a652e06728c46780fa611",
+    "/workspace/StarShipSimulator/node_modules/vitest/vitest.mjs": "39db22f579acf5639bbb17a261408debbde03f4692c0c439e77e7f13aeba74d6",
+    "/workspace/StarShipSimulator/scripts/test/lifecycle-reporter.mjs": "5b05f504211f4571bee7452996c6613632e6f06384e9386bb9b555ab0417a2ae",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/public-qualification-owned-route/actual-input-root-route/independent-actual-stage-a-qualification-HIGH-review.md": "6b583bf54b25d2335d9b0094f24ceea5a89ceb5ef866e85818ee9ed54014cbd3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input/owner-input.json": "6877f5f0272a9f26785dfa1b1e61efce2de012eec1cbd3823624717afbc326ec",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/root-scoped-checks.json": "258e1b53599511ebf65410dc0489b3eba919f77abdb239731cfb3f6e94edecc6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/independent-full38-source-HIGH-review.md": "c44ecb7779f18da9826d7657fa76e6e63880882bab9eaaa6aea5db74e3792f07",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/independent-full38-source-HIGH-pins.json": "dac01931c5d112d5e3a3e29dd58624c899b2cf5d06757c2f01cbe9d43ed716ba",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input-maker/root-maker-process.json": "69a2b441957cd176a542b25da99fd0355af4cfd3f55e5a102a3bfe1211c420a5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input-maker/root-maker.stdout.txt": "346f92a595918a74a2a20ce7285474e9b96dbbd276fe4b82e2030ce13b6e53cd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input-maker/root-maker.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input-maker/input-pins.json": "c2cc632bfdf42dbf9b5939c43e76f24a6b1d01602acca638dc009532c20903b7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input-maker/independent-maker-source-HIGH-review.md": "14193f72df8e5dcd7b678b987f8ba7e5cc963e3b61eb22e7d9291740118d7a2a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input-maker/independent-maker-source-HIGH-pins.json": "0951dc797aba6717f86cc0cad13ee3263d8024a03c8cc4d1cbb97f1027a8d128",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/root-exact-once-application/after-snapshot.json": "2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c"
+  },
+  "completeInventoryRole": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input/inventory.json",
+    "sha": "d0ef76cf0c4a3fddf03d813825746a7a46d11dfd6cfce8e70bec09e625245db1"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "appliedOnce": true,
+  "fullPacketDigestGuarded": true,
+  "packetSha256": "9e9e735c38daf80f79b2dafc617127089a2c10cb6e78b651cc581810fd620e13",
+  "scope": "Four exact documentation pointer/status replacements only; raw manifest and old patches unchanged",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "before": "4b092ba7de33f8a8659ad03cba877bd166f1538f63237eeb6177f7f344fedee4",
+      "after": "6522c7e964a0ebbe07bdc758fdb8445d41f7a4fb351836e1094568b4a8b90e73",
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md",
+      "before": "ca24dd1507ff88b18d00bea5b140a6b43c49f4c5ac008421e9ec943b7f3b77f2",
+      "after": "e6b59c5da621bc56f0088101ca99d9de187e20b97ab295a2c424d37baf300e62",
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "before": "20f4107f02e81b2aec733f1393e41064c452561ed5cc0f1a149008edb2d169a0",
+      "after": "cd2c1650e8c5cf4994475447c451d091137a6a649273ee87b314d23821ce4128",
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md",
+      "before": "d2b0706d418da802ab4a997a3624d6dcf29e02a9d493341118e2dafb17a67f7d",
+      "after": "8a6b4046a6fe828b2453c589562cad0554f4a3a09c53fd43807047ebe0574dbf",
+      "mode": 384
+    }
+  ]
+}

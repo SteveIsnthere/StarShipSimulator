@@ -1,0 +1,71 @@
+--- scripts/test/loader.mjs
++++ candidate
+@@ -6,6 +6,7 @@
+ import { pathToFileURL } from 'node:url';
+ import { digest } from './integrity.mjs';
+ import { admitRun, originalTests, runtimeAliases } from './admission.mjs';
++import { goldenAliases, supportFileForURL, assertSupportAdmission, relativeTarget } from './golden-support-policy.mjs';
+ const { manifest: m, qualification: q } = await admitRun(process.env.NATIVE_FLIGHT_RUN, process.env.NATIVE_FLIGHT_RUN_SHA);
+ assert.equal(process.platform, 'linux');
+ const stat = readFileSync('/proc/self/stat', 'utf8');
+@@ -26,6 +27,7 @@
+   entryURL, chunkURL, constantsURL, code: m.files });
+ const parents = new Map(originalTests.map(file => [pathToFileURL(resolve(q.root, file)).href, runtimeAliases[file]]));
+ const originalLoads = new Map();
++const certificates = new Map();
+ const cacheTokenDigits = String(Date.now()).length;
+ // BEGIN exact original-parent validator
+ function identifyOriginalParent(url, originals, tokenDigits) {
+@@ -58,9 +60,9 @@
+ 
+ registerHooks({ resolve(specifier, context, nextResolve) {
+   if (q.aliases.includes(specifier)) {
+-    const certificate = originalLoads.get(context.parentURL);
++    const certificate = certificates.get(context.parentURL);
+     if (!certificate) denyAlias(specifier, context.parentURL, 'Native application alias requested by foreign or uncertified parent');
+-    if (!parents.get(certificate.canonicalParentURL).includes(specifier)) {
++    if (!(runtimeAliases[certificate.file] ?? goldenAliases[certificate.file])?.includes(specifier)) {
+       denyAlias(specifier, context.parentURL, 'Alias outside exact original runtime import inventory');
+     }
+     const url = specifier === '$core/constants' ? constantsURL : entryURL;
+@@ -70,6 +72,12 @@
+     return { url, shortCircuit: true };
+   }
+   if (/^\$(core|app|view|hud|ui|audio)\//.test(specifier)) denyAlias(specifier, context.parentURL, 'Unknown native application alias: ' + specifier);
++  const relative = relativeTarget(q.root, specifier, context.parentURL, certificates);
++  if (relative) {
++    record({ kind: 'golden-relative', specifier, parentURL: context.parentURL,
++      parentSourceSha: relative.certificate.sourceSha, file: relative.file, url: relative.url });
++    return { url: relative.url, shortCircuit: true };
++  }
+   const result = nextResolve(specifier, context);
+   if (context.parentURL === entryURL || context.parentURL === constantsURL) {
+     assert.equal(result.url, context.parentURL === entryURL ? chunkURL : entryURL);
+@@ -77,6 +85,7 @@
+   }
+   return result;
+ }, load(url, context, nextLoad) {
++  const support = supportFileForURL(q.root, url); // Reject exact known support variants BEFORE delegation.
+   const result = nextLoad(url, context);
+   const original = identifyOriginalParent(url, parents, cacheTokenDigits);
+   if (original) {
+@@ -92,6 +101,19 @@
+       tokenDigits: cacheTokenDigits, sourceBytes: source.length, sourceSha };
+     record(certificate);
+     originalLoads.set(url, certificate);
++    certificates.set(url, certificate);
++  }
++  if (support) {
++    assertSupportAdmission(q.root, support, url, originalLoads);
++    assert(['module', 'module-typescript'].includes(result.format));
++    const source = sourceBytes(result);
++    const sourceSha = createHash('sha256').update(source).digest('hex');
++    assert.equal(sourceSha, q.goldenSourceFiles[support]);
++    assert.equal(digest(new URL(url)), sourceSha);
++    assert(!certificates.has(url), 'Duplicate support load');
++    const certificate = { kind: 'support-load', file: support, url, canonicalParentURL: url,
++      cacheToken: null, format: result.format, sourceBytes: source.length, sourceSha };
++    record(certificate); certificates.set(url, certificate);
+   }
+   const expected = new Map([[entryURL, m.files['entry.mjs']], [constantsURL, m.files['constants.mjs']],
+     [chunkURL, m.files[q.mappedCode]]]);

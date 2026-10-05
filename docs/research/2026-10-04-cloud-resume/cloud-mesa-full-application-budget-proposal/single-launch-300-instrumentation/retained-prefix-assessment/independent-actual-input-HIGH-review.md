@@ -1,0 +1,9 @@
+# Independent actual retained-prefix input HIGH
+
+Owner7f71d7130c3370288711501156a3b5a7216546799adf2b44ee3e49e0018d0657 and assessment9630f28473c9bc34280725ca3991f4075eb2344aa7c3d8c47cc83ea3e1cc9f74 match their actual immutable JSON bytes. All finite nonbinary/nontrace inventory rows were independently hashed. Child inventory is exactly owner inventory minus managed Python, whole trace and child input itself. Reviewed header-bound parser/control/root roles, source packet559c, source HIGH bfb, seed09401 and historical failed trace lineage remain exact. Assembly origin identifies these exact inputs and seed.
+
+The private input directory is0700 and contains exactly three regular nonsymlink JSONs0600. Its separately named0700 receipt is empty. Root30/work22/cleanup8 and child5/two-MiB/10000-complete-event bounds are exact. Root f0a4 requires26 controls. Current whole trace lstat agrees with both input metadata and seed; whole e396 digest and managed Python fa674 remain explicit root-verified content authorities, not reviewer recomputed hashes. Maker actual receipt retains raw0/0.032269288 seconds/caller126975 reaped.
+
+Disposition supports ONE separately root-granted retained-prefix assessment using these exact inputs and reviewed sources. Root must enforce exact Python and original whole trace before/finally-after hashes, raw actual exits, bounded cleanup and independent all-owned PID/start nonexecution. Incomplete trace and original cadence/export failures stay red. Any result establishes prefix statistics only, not critical path, full trace, browser performance or product acceptance. Actual26 controls/parse results require fresh independent review; no category changes or retrace follows automatically.
+
+No trace content or managed binary was read/hashed here, and no candidate import/control/parser/maker/workload ran. Review used finite metadata/source hashes, modes, path sets and current lstat only.

@@ -1,0 +1,59 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 112756,
+      "state": "R",
+      "parent": 112744,
+      "group": 112756,
+      "session": 112756,
+      "start": "7161158"
+    },
+    {
+      "pid": 112763,
+      "state": "R",
+      "parent": 112756,
+      "group": 112763,
+      "session": 112763,
+      "start": "7161284"
+    },
+    {
+      "pid": 112791,
+      "state": "R",
+      "parent": 112756,
+      "group": 112791,
+      "session": 112791,
+      "start": "7161501"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 112756,
+      "session": 112756,
+      "start": "7161158",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 112763,
+      "session": 112763,
+      "start": "7161284",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 112791,
+      "session": 112791,
+      "start": "7161501",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-30c8562b98e542ac8b225c72d13c9395",
+  "manifestSha": "e74ad5bae900b5c9490de17bd50682303394020cd90cf9458dd3bc42e5ea9535",
+  "elapsedSeconds": 5.146279573440552,
+  "acceptance": "This ONE closed native query-reuse pure proof only; no replay/timing/public/application/gate acceptance; independent actual-result/ALL-owned review required"
+}

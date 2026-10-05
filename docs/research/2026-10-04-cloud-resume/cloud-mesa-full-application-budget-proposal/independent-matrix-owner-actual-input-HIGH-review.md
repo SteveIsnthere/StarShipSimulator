@@ -1,0 +1,13 @@
+# Independent actual retained-dist matrix owner input HIGH
+
+Disposition: SUPPORTED for separate structural-wrapper actual input preparation/review. A final outer input and explicit root grant are still required before the one canonical21 matrix. No test selection/execution or frame acceptance occurred here.
+
+Actual owner940906a22246646f4048c4f52497a1406d856bd4f2ab43add430d5fe0b833047 is matrix mode with the exact accepted inherited app-build roles/extra trees/browser/original spec and probe authority. Inventory358 preserves all337 original entries unchanged and adds21 finite source/evidence/materialization roles independently verified against actual bytes. Dist approval3f244, actual build receipt040f3d7 and fresh build review7383 bind retained61-file/18-map dist and source770/tools20355; no new build/certificate is invented.
+
+Materialization/material/input namespaces are nonsymlink0700 UUIDhex32 directories. Material contains exactly four reviewed regular0600 files. Config/hooks are the distinct explicit public-SDK-entry derivatives, byte-identical to their reviewed templates; spec and reporter retain original sources. The matrix receipt is empty0700. Explicit installed index.js loads the same canonical SDK without bare/tmp resolution or fallback. Actual source37 and SDK/loader identity were reviewed; owned stage must verify full live tool/runtime/source/dist identity before and after rather than infer it from these selected metadata hashes.
+
+Maker returned0 in0.067050081 seconds, PID103603/start6653055 retained/reaped; root SDK TS lint/parse and maker scopes are retained. Frozen seed records actual quota400000/100000 and cpuset0-4, with no GPU worker or clock change. Setup controls/provider metadata remain outside original measured windows. Canonical21 bodies, viewports,60warm/300 samples, onset/landing/catch segments and numerical assertions are untouched. Incomplete/failed matrix remainsFAILED, not a prefix pass.
+
+The preliminary outer wrapper pointing at historical build-only actualInputReview is not approved by this review. Root must bind this new owner review in a fresh final outer input and obtain its separate HIGH before execution, using exact repaired wrapper/checker/closure and structural before/finally-after plus all actual PID/start audits. Whole338/work330/cleanup8, child<=300 and existing capture/case limits remain unchanged; no app/performance or hardware acceptance follows from input preparation.
+
+Method: finite owner/seed/inventory/code/evidence reads, inherited337-map comparison,21 selected added hashes and private mode/emptiness checks only. No imports, checks, tests, workload, source/tool/native scan, copies or product edits by reviewer.

@@ -1,0 +1,282 @@
+/** Startup-owned component meshes. Geometry stays in metres; pose, physical
+ * articulation/availability and temperature are inputs, never damage decisions.
+ * Detached rendering can reuse these exact parts/vertices through partsById. */
+import { Container, earcut, Mesh, MeshGeometry, type Shader } from 'pixi.js';
+import { createComponentMaterial, type ComponentMaterial } from './vehicle-material';
+import type { VehicleGeometry, VehicleGeometryComponent } from './vehicle-geometry';
+import type { CameraState, Viewport } from './camera';
+import { lightInVehicleFrame, type SunLight } from './sun';
+
+export interface ComponentPart {
+  readonly component: VehicleGeometryComponent;
+  readonly container: Container;
+  readonly meshes: readonly Mesh<MeshGeometry, Shader>[];
+  readonly materials: readonly ComponentMaterial[];
+}
+export interface ComponentVehicle {
+  readonly container: Container;
+  /** Mount alongside container in the same screen-space scene layer. */
+  readonly debrisContainer: Container;
+  /** Built once. No list/object creation in updatePose or component setters. */
+  readonly partsById: ReadonlyMap<string, ComponentPart>;
+  updatePose(camera: CameraState, viewport: Viewport,
+    pose: { readonly altitude: number; readonly downRangeDistance: number; readonly pitch: number }, sun?: SunLight): void;
+  setComponentState(id: string, attached: boolean, temperatureKelvin: number): void;
+  /** Actual actuator angle: radial projection for grids; in-plane angle and
+   * optional projected span fraction for flaps. Detached parts retain delivery. */
+  setArticulation(id: string, angle: number, spanFraction?: number): void;
+  setDetachedPose(id: string, pose: DetachedPartPose | null): void;
+  reset(): void;
+  setDetail(resolvedDetail: boolean): void;
+  destroy(): void;
+}
+
+export interface DetachedPartPose {
+  readonly altitude: number;
+  readonly downRangeDistance: number;
+  /** Final piece orientation, including any delivered in-plane articulation. */
+  readonly pitch: number;
+  /** Metres from renderer pivot to physical mass centroid in the piece frame.
+   * +y faces the engine plane; offsets include retained projected span scaling.
+   * Caller supplies physical ownership data, never the polygon's visual centre. */
+  readonly pivotToCentroidX: number;
+  readonly pivotToCentroidY: number;
+}
+
+interface PartBinding {
+  part: ComponentPart;
+  slot: Container;
+  detached: boolean;
+  attachedVisible: boolean;
+  attachedRotation: number;
+  gridAngle: number;
+  altitude: number;
+  downRangeDistance: number;
+  pitch: number;
+  offsetX: number;
+  offsetY: number;
+}
+
+export function createComponentVehicle(geometry: VehicleGeometry): ComponentVehicle {
+  const container = new Container({ label: geometry.id === 'ship' ? 'starship' : 'super-heavy' });
+  if (geometry.components.length > 12) throw new RangeError('Component rendering supports at most twelve debris slots');
+  const debrisContainer = new Container({ label: `${geometry.id}-debris` });
+  const partsById = new Map<string, ComponentPart>();
+  const bindings: PartBinding[] = [], bindingsById = new Map<string, PartBinding>();
+  for (const c of geometry.components) {
+    const partContainer = new Container({ label: c.id });
+    partContainer.position.set(c.x, geometry.height / 2 - c.station);
+    const meshes: Mesh<MeshGeometry, Shader>[] = [], materials: ComponentMaterial[] = [];
+    // Each grid is a physical face with its own authored clock/depth. Its back
+    // face remains visible; no invented changing azimuth or fourth-grid symmetry.
+    const normal: readonly [number, number, number] = c.kind === 'grid-fin'
+      ? [c.x / (geometry.diameter / 2), 0, Math.max(0.1, Math.abs(c.depth) / (geometry.diameter / 2))] : [0, 0, 1];
+    const polygons = [...c.polygons].sort((a, b) => a.depth - b.depth);
+    for (const polygon of polygons) {
+      const positions: number[] = [], coordinates: number[] = [];
+      for (const point of polygon.points) {
+        // Root-space vertices rotate/scale around the physical attachment pivot.
+        positions.push(point.x - c.x, c.station - point.station);
+        // Untransformed metre coordinates for local normal/material evaluation.
+        coordinates.push(point.x, point.station);
+      }
+      const meshGeometry = new MeshGeometry({ positions: new Float32Array(positions),
+        uvs: new Float32Array(coordinates), indices: new Uint32Array(earcut(positions, undefined, 2)) });
+      const faceNormal: readonly [number, number, number] = c.kind === 'hot-stage' && polygon.normalMode === 'flat'
+        ? [(Math.min(...polygon.points.map(p => p.x)) + Math.max(...polygon.points.map(p => p.x))) / geometry.diameter,
+          0, Math.max(.1, polygon.depth / (geometry.diameter / 2))] : normal;
+      const material = createComponentMaterial(polygon, geometry.height, geometry.diameter, faceNormal);
+      const mesh = new Mesh({ geometry: meshGeometry, shader: material.shader, label: polygon.id });
+      // The bell interior is soot-dark metal, not another bright steel plate.
+      // These original material tints do not add emission or conceal the rim.
+      if (polygon.surfaceRole === 'bell-mouth') mesh.tint = 0x273039;
+      else if (polygon.surfaceRole === 'bell-shell') mesh.tint = 0xcbd0d4;
+      else if (polygon.surfaceRole === 'bell-lip') mesh.tint = 0xd7dce0;
+      partContainer.addChild(mesh);
+      meshes.push(mesh); materials.push(material);
+    }
+    const part: ComponentPart = Object.freeze({ component: c, container: partContainer,
+      meshes: Object.freeze(meshes), materials: Object.freeze(materials) });
+    const slot = new Container({ label: `${c.id}-debris-pose` });
+    slot.visible = false; debrisContainer.addChild(slot);
+    const binding: PartBinding = { part, slot, detached: false, attachedVisible: true,
+      attachedRotation: 0, gridAngle: NaN, altitude: 0, downRangeDistance: 0, pitch: 0, offsetX: 0, offsetY: 0 };
+    partsById.set(c.id, part); bindings.push(binding); bindingsById.set(c.id, binding);
+    container.addChild(partContainer);
+  }
+  const light = { x: 0.6, y: 0.7, z: 0.3 };
+  let lastSun: SunLight | undefined;
+  let pitch = 0, pixelsPerMetre = 1, detail = true;
+  let width = 0, height = 0, cameraX = 0, cameraY = 0, shakeX = 0, shakeY = 0, destroyed = false;
+  const detachedLight = { x: 0.6, y: 0.7, z: 0.3 };
+  function projectGrid(binding: PartBinding, angle: number) {
+    if (binding.gridAngle === angle) return;
+    binding.gridAngle = angle;
+    const { part } = binding, root = part.component;
+    const radial = root.x / (geometry.diameter / 2), tangent = root.depth / (geometry.diameter / 2);
+    const sine = Math.sin(angle), cosine = Math.cos(angle);
+    for (let j = 0; j < part.meshes.length; j++) {
+      const mesh = part.meshes[j]!, face = mesh.label.endsWith('-face'), edge = mesh.label.endsWith('-edge');
+      if (!face && !edge) continue;
+      const positions = mesh.geometry.positions, authored = mesh.geometry.uvs;
+      for (let i = 0; i < positions.length; i += 2) {
+        const chord = face ? authored[i + 1]! - root.station : -geometry.diameter * .18;
+        positions[i] = authored[i]! - root.x + chord * tangent * cosine;
+        positions[i + 1] = -chord * sine - (edge ? authored[i + 1]! - root.station - chord : 0);
+      }
+      mesh.geometry.getBuffer('aPosition').update();
+      if (face) {
+        const normal = part.materials[j]!.uniforms.uFlatNormal, facing = radial * sine < 0 ? -1 : 1;
+        normal[0] = -tangent * sine * facing; normal[1] = -cosine * facing; normal[2] = radial * sine * facing;
+      }
+    }
+  }
+  // Neutral incidence is physically edge-on in this fixed orthographic view.
+  // Finite original perimeter meshes preserve the silhouette without enlarging
+  // lattice cells. Retained buffers are changed only when actuator angle changes.
+  for (const binding of bindings) if (binding.part.component.kind === 'grid-fin') projectGrid(binding, 0);
+  function writePartScale(binding: PartBinding) {
+    const { part } = binding;
+    for (let i = 0; i < part.materials.length; i++) {
+      // Conservative footprint under radial projection/shear; unresolved dense
+      // lattice keeps area coverage instead of aliasing into enlarged cells.
+      const projection = part.meshes[i]!.label.endsWith('-face') && part.component.kind === 'grid-fin'
+        ? Math.max(.001, Math.abs(Math.sin(binding.gridAngle)))
+          / (1 + Math.abs(part.component.depth / (geometry.diameter / 2) * Math.cos(binding.gridAngle))) : 1;
+      part.materials[i]!.setScale(pixelsPerMetre * Math.abs(part.container.scale.x) * projection, detail);
+    }
+  }
+  function writePartLight(binding: PartBinding) {
+    const { part } = binding;
+    const source = binding.detached ? detachedLight : light;
+    if (binding.detached && lastSun) lightInVehicleFrame(lastSun, binding.pitch, detachedLight);
+    // A part rotated around its hinge/attachment has its own local light frame.
+    const angle = part.container.rotation, c = Math.cos(angle), s = Math.sin(angle);
+    const x = c * source.x - s * source.y, y = s * source.x + c * source.y;
+    for (const material of part.materials) {
+      material.setLight(x, y, source.z, lastSun?.daylight ?? 1);
+      material.setEnvironment((binding.detached ? binding.pitch : pitch) + angle,
+        lastSun?.skyR ?? 1, lastSun?.skyG ?? 1, lastSun?.skyB ?? 1);
+    }
+  }
+  function placeDetached(binding: PartBinding) {
+    const c = Math.cos(binding.pitch), s = Math.sin(binding.pitch);
+    binding.slot.position.set(width / 2 + (binding.downRangeDistance - cameraX - shakeX
+      - c * binding.offsetX + s * binding.offsetY) * pixelsPerMetre,
+    height / 2 - (binding.altitude - cameraY - shakeY) * pixelsPerMetre
+      - (s * binding.offsetX + c * binding.offsetY) * pixelsPerMetre);
+    binding.slot.rotation = binding.pitch; binding.slot.scale.set(pixelsPerMetre);
+  }
+  function reattach(binding: PartBinding) {
+    const part = binding.part;
+    binding.detached = false; binding.slot.visible = false;
+    // Insert before the next attached catalogue part, preserving depth order
+    // and leaving external attachments (e.g. sheath) after the vehicle pieces.
+    let next: Container | undefined;
+    const index = bindings.indexOf(binding);
+    for (let i = index + 1; i < bindings.length; i++) {
+      const candidate = bindings[i]!.part.container;
+      if (candidate.parent === container) { next = candidate; break; }
+    }
+    if (next) container.addChildAt(part.container, container.getChildIndex(next));
+    else {
+      let insert = 0;
+      for (let i = 0; i < index; i++) {
+        const prior = bindings[i]!.part.container;
+        if (prior.parent === container) insert = container.getChildIndex(prior) + 1;
+      }
+      container.addChildAt(part.container, insert);
+    }
+    part.container.position.set(part.component.x, geometry.height / 2 - part.component.station);
+    part.container.rotation = binding.attachedRotation;
+    part.container.visible = binding.attachedVisible;
+  }
+  return {
+    container, debrisContainer, partsById,
+    updatePose(camera, viewport, pose, sun) {
+      container.position.set(viewport.width / 2 + (pose.downRangeDistance - camera.posX - camera.shakeX) * viewport.scale,
+        viewport.height / 2 - (pose.altitude - camera.posY - camera.shakeY) * viewport.scale);
+      container.rotation = pose.pitch; container.scale.set(viewport.scale);
+      pitch = pose.pitch; pixelsPerMetre = viewport.scale; lastSun = sun;
+      width = viewport.width; height = viewport.height;
+      cameraX = camera.posX; cameraY = camera.posY; shakeX = camera.shakeX; shakeY = camera.shakeY;
+      if (sun) lightInVehicleFrame(sun, pitch, light);
+      for (const binding of bindings) {
+        if (binding.detached) placeDetached(binding);
+        writePartLight(binding);
+        writePartScale(binding);
+      }
+    },
+    setComponentState(id, attached, temperatureKelvin) {
+      const binding = bindingsById.get(id);
+      if (!binding) return;
+      const { part } = binding;
+      binding.attachedVisible = attached;
+      part.container.visible = binding.detached || attached;
+      for (const material of part.materials) material.setTemperature(temperatureKelvin);
+    },
+    setArticulation(id, angle, spanFraction = 1) {
+      const binding = bindingsById.get(id);
+      if (!binding || binding.detached) return;
+      const { part } = binding;
+      const finiteAngle = Number.isFinite(angle) ? angle : 0;
+      if (part.component.kind === 'grid-fin') {
+        projectGrid(binding, finiteAngle);
+        part.container.rotation = 0; part.container.scale.x = 1;
+      } else {
+        part.container.rotation = finiteAngle;
+        part.container.scale.x = Number.isFinite(spanFraction) ? Math.max(0, Math.min(1, spanFraction)) : 1;
+      }
+      binding.attachedRotation = part.container.rotation;
+      writePartLight(binding);
+      writePartScale(binding);
+    },
+    setDetachedPose(id, pose) {
+      const binding = bindingsById.get(id);
+      if (!binding) return;
+      if (!pose) {
+        if (binding.detached) reattach(binding);
+        writePartLight(binding);
+        return;
+      }
+      if (!Number.isFinite(pose.altitude) || !Number.isFinite(pose.downRangeDistance)
+        || !Number.isFinite(pose.pitch) || !Number.isFinite(pose.pivotToCentroidX) || !Number.isFinite(pose.pivotToCentroidY))
+        throw new RangeError('Detached rendering requires finite physical pose and centroid offset');
+      binding.altitude = pose.altitude; binding.downRangeDistance = pose.downRangeDistance;
+      binding.pitch = pose.pitch; binding.offsetX = pose.pivotToCentroidX; binding.offsetY = pose.pivotToCentroidY;
+      if (!binding.detached) {
+        binding.attachedRotation = binding.part.container.rotation;
+        binding.slot.addChild(binding.part.container);
+        binding.part.container.position.set(0, 0); binding.part.container.rotation = 0;
+        binding.detached = true;
+      }
+      binding.slot.visible = true; binding.part.container.visible = true;
+      placeDetached(binding); writePartLight(binding);
+    },
+    reset() {
+      for (const binding of bindings) {
+        if (binding.detached) reattach(binding);
+        binding.attachedVisible = true; binding.attachedRotation = 0;
+        binding.part.container.visible = true; binding.part.container.rotation = 0;
+        binding.part.container.scale.set(1);
+        if (binding.part.component.kind === 'grid-fin') projectGrid(binding, 0);
+        for (const material of binding.part.materials) material.setTemperature(293.15);
+        writePartLight(binding);
+      }
+    },
+    setDetail(resolvedDetail) {
+      detail = resolvedDetail;
+      for (const binding of bindings) writePartScale(binding);
+    },
+    destroy() {
+      if (destroyed) return;
+      destroyed = true;
+      for (const { part } of bindings) {
+        for (const mesh of part.meshes) mesh.geometry.destroy(true);
+        for (const material of part.materials) material.destroy();
+      }
+      container.destroy({ children: true });
+      debrisContainer.destroy({ children: true });
+    },
+  };
+}

@@ -1,0 +1,25 @@
+{
+  "kind": "independent-recovery08-four-doc-actual-application-review-v1",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/replacement-packet.json": "9e9e735c38daf80f79b2dafc617127089a2c10cb6e78b651cc581810fd620e13",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/source-pins.json": "d23b6bae77369e05471b2c5791f3b8c501cdb1cbe4e7b228e835f34f17b96422",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/independent-recovery08-pointer-trace-packet-source-HIGH-review.md": "20ac7755d9ae82a1c682147b90505000388086bc498f7a2692578f1da11a6304",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/independent-recovery08-pointer-trace-packet-source-HIGH-pins.json": "ffd8d7fe355157c0142d9dd5ce00161e5830c9a72be9c0fa04bee5c33d81d97f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/root-exact-application/application-result.json": "612bd81ff4732fe6cd6cbc32b4da04cdbdde0eb7a29128adae72b9b029befb8e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08.json": "c34b4ef9c02bb102c25721953fb55d6fd383cb29709905c907170bb9ab75b72e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/accepted-complete-replacement-envelope.json": "7fcd5788da4572aace313a498ad2c680a566fb764e00f1dc64561712f2bd2379",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-roadmap.md": "1dd4844e102f721e8f60568d3baebe7522a7f75d8f14df5f639141b91147327e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/root-exact-application/independent-actual-four-doc-application-HIGH-review.md": "ae423c28a6938895f86da3d48d030a2db321141602a23f93fbeb43be7bbb2a4c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/root-exact-application/0-before.md": "4b092ba7de33f8a8659ad03cba877bd166f1538f63237eeb6177f7f344fedee4",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md": "6522c7e964a0ebbe07bdc758fdb8445d41f7a4fb351836e1094568b4a8b90e73",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/root-exact-application/1-before.md": "ca24dd1507ff88b18d00bea5b140a6b43c49f4c5ac008421e9ec943b7f3b77f2",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md": "e6b59c5da621bc56f0088101ca99d9de187e20b97ab295a2c424d37baf300e62",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/root-exact-application/2-before.md": "20f4107f02e81b2aec733f1393e41064c452561ed5cc0f1a149008edb2d169a0",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md": "cd2c1650e8c5cf4994475447c451d091137a6a649273ee87b314d23821ce4128",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/root-exact-application/3-before.md": "d2b0706d418da802ab4a997a3624d6dcf29e02a9d493341118e2dafb17a67f7d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md": "8a6b4046a6fe828b2453c589562cad0554f4a3a09c53fd43807047ebe0574dbf"
+  },
+  "scope": "docs-only",
+  "largeHistoricalPayloadsRevalidated": false,
+  "runtimeAcceptance": false
+}

@@ -1,0 +1,48 @@
+{
+  "kind": "mesa-preparation-stage-owner-input-v1",
+  "purpose": "mesa-input-preparation",
+  "mode": "prepare",
+  "outerMs": 60000,
+  "root": "/workspace/StarShipSimulator",
+  "setup": "/tmp/starship-mesa-preparation-owned.730f7bf99c1242368bab5ec7fb3da14b",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "preparer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+    "sha": "edd2a32f81e67a4ff5806a2c80547d2a89afeeb9d1522593e161619c2bcc6733"
+  },
+  "builder": {
+    "path": "/tmp/starship-mesa-preparation-owner.7c9e23a339df48da8beec24637889f8a/python-bridge.mjs",
+    "sha": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a"
+  },
+  "bridge": {
+    "path": "/tmp/starship-mesa-preparation-owner.7c9e23a339df48da8beec24637889f8a/python-bridge.mjs",
+    "sha": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a"
+  },
+  "qualifier": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/external-preparation-spec.json",
+    "sha": "2459777574530a459715cec557a9817007eef8837c117cb517ae0983a0fdeefc"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/source-pins.json",
+    "sha": "a98dc74f268a8484320faf5432e14cff8b95f5837c64ba43dadfec919be54a24"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/business-stage.mjs.txt",
+    "sha": "96090e6a434661ba1f50a54bf9a3a1b08f7b8edecd80e2baa4ce06952dbc3948"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/root-observer.py.txt",
+    "sha": "418bbe5db80540728caba30c9521bca710ec8dba37551664f029475d48138e24"
+  }
+}

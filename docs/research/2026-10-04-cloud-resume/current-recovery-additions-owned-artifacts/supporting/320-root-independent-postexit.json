@@ -1,0 +1,32 @@
+{
+  "allTrackedPlusRoot": [
+    {
+      "pid": 114330,
+      "state": "R",
+      "parent": 114329,
+      "group": 114330,
+      "session": 114330,
+      "start": "7292576",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 114329,
+      "start": "7292540",
+      "group": 114329,
+      "session": 114329,
+      "postState": "ABSENT"
+    }
+  ],
+  "allAbsent": true,
+  "ownedGroups": [
+    {
+      "group": 114330,
+      "session": 114330,
+      "start": "7292576",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "ownerCompleted": true,
+  "helperSha": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e"
+}

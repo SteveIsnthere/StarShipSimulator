@@ -1,0 +1,38 @@
+# ONE private materialization after source review. No Node/build/test/profile/source inventory.
+import json,hashlib,uuid,os
+from pathlib import Path
+root=Path('/workspace/StarShipSimulator');base=root/'docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile'
+sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();pins_path=base/'input-pins.json';pins=json.loads(pins_path.read_text())
+assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='view-clock-profile-preparation'
+for p,h in pins['files'].items():assert sha(p)==h,p
+setup=root/'node_modules/.cache'/('starship-view-clock-profile-'+uuid.uuid4().hex);setup.mkdir(mode=0o700)
+coverage=Path('/tmp')/('starship-mixed-coverage.'+uuid.uuid4().hex);coverage.mkdir(mode=0o700);(coverage/'capture').mkdir(mode=0o700);(coverage/'reports').mkdir(mode=0o700)
+progress=Path('/tmp')/('starship-coverage-progress.'+uuid.uuid4().hex);progress.mkdir(mode=0o700)
+profile=Path('/tmp')/('starship-view-clock-cpu.'+uuid.uuid4().hex);profile.mkdir(mode=0o700);(profile/'profiles').mkdir(mode=0o700)
+materials={}
+for source,name in [(base/'owner.mjs.txt','owner.mjs'),(base/'worker-source-recorder.mjs.txt','worker-source-recorder.mjs'),(base/'progress-reporter.mjs.txt','progress-reporter.mjs'),(base/'capture-reporter.mjs.txt','capture-reporter.mjs')]:
+ p=setup/name
+ with p.open('xb')as f:f.write(source.read_bytes())
+ materials[str(p)]={'source':str(source),'sha256':sha(p)};assert sha(p)==sha(source)
+config="import {defineConfig} from 'vitest/config';\nimport base from "+json.dumps(str(root/'vitest.config.ts'))+";\nexport default defineConfig({...base,test:{...base.test,execArgv:[...(base.test?.execArgv??[]),'--cpu-prof',"+json.dumps('--cpu-prof-dir='+str(profile/'profiles'))+",'--cpu-prof-interval=1000','--import',"+json.dumps(str(setup/'worker-source-recorder.mjs'))+"]}});\n"
+with(setup/'profile.config.mts').open('x')as f:f.write(config)
+materials[str(setup/'profile.config.mts')]={'source':str(Path(__file__).resolve()),'sha256':sha(setup/'profile.config.mts'),'generator':'exact public defineConfig generator in pinned maker'}
+node={'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'}
+helper={'path':str(root/'scripts/bench/owned-command.mjs'),'sha':'0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db'}
+q=json.loads((root/'docs/verification/native-flight-qualification-v7.json').read_text())
+manifest={'kind':'covered-view-clock-profile-input-v1','root':str(root),'setup':str(setup),'profileReceipt':str(profile),'coverageReceipt':str(coverage),'progressReceipt':str(progress),'materials':materials,'inputs':pins['files'],'inputPins':{'path':str(pins_path),'sha':sha(pins_path)},
+ 'node':node,'helper':helper,'npmCli':q['npmCli'],'preload':{'path':str(setup/'worker-source-recorder.mjs'),'sha':sha(setup/'worker-source-recorder.mjs')},
+ 'currentAuthority':{'path':str(root/'docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json'),'sha':'0d8aa697f5255d26ccd1da9e3135de5e4a49ee67ba4ac00222f5c21ca6313d4b'},
+ 'acceptedBuildPins':{'path':str(root/'docs/research/2026-10-04-cloud-resume/current-original12-owned-proof/independent-actual-four-step-result-HIGH-pins.json'),'sha':pins['files'][str(root/'docs/research/2026-10-04-cloud-resume/current-original12-owned-proof/independent-actual-four-step-result-HIGH-pins.json')]},
+ 'rootWholeMs':180000,'rootWorkMs':172000,'rootCleanupMs':8000,'selectedFile':'tests/app/view-clock.test.ts','selectedName':'and the two clocks that do not work > all three agree when nothing goes wrong, which is why this survived',
+ 'pattern':'(?:^| )and the two clocks that do not work all three agree when nothing goes wrong, which is why this survived$','application':False,'coverageAcceptance':False,'performanceAcceptance':False}
+for p,h in pins['files'].items():assert sha(p)==h,p
+with(setup/'input.json').open('x')as f:json.dump(manifest,f,indent=2);f.write('\n')
+rows={**pins['files'],str(pins_path):sha(pins_path),str(setup/'input.json'):sha(setup/'input.json')}
+for p in materials:rows[p]=sha(p)
+with(setup/'root-inventory.json').open('x')as f:json.dump({'kind':'covered-view-clock-profile-root-inventory-v1','files':rows},f,indent=2);f.write('\n')
+r={'kind':'covered-view-clock-profile-root-input-v1','root':str(root),'mode':'view-clock-profile','outerMs':180000,'setup':str(setup),'steps':['profile'],
+ 'node':node,'helper':helper,'pureInput':{'path':str(setup/'input.json'),'sha':sha(setup/'input.json')},'pins':{'path':str(setup/'root-inventory.json'),'sha':sha(setup/'root-inventory.json')},'stage':{'path':str(setup/'owner.mjs'),'sha':sha(setup/'owner.mjs')},'observer':{'path':str(base/'root-observer.py.txt'),'sha':sha(base/'root-observer.py.txt')},
+ 'python':{'path':'/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12','sha':'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'}}
+with(setup/'root-input.json').open('x')as f:json.dump(r,f,indent=2);f.write('\n')
+print(json.dumps({'setup':str(setup),'input':str(setup/'input.json'),'inputSha':sha(setup/'input.json'),'rootInput':str(setup/'root-input.json'),'rootInputSha':sha(setup/'root-input.json'),'argv':[r['python']['path'],r['observer']['path'],str(setup/'root-input.json'),sha(setup/'root-input.json')]}))

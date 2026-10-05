@@ -1,0 +1,33 @@
+{
+  "kind": "preview-cwd-matrix-outer-actual-input-high-pins-v1",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-matrix-preview-cwd-reviewed-owner-structural-input.json": "e782392021a67d77c7e5c956ee15a5df0e62c82244c5e0ab9473f2bc64b9d584",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-matrix-reviewed-owner-structural-input.json": "fad1ec069a09b46a1133e9cd82f3ed1b2eb0daa5ec6c51142b7304b1d29aa60b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-budget.config.sdk-entry.preview-cwd.ts.txt": "64c56f22bed7cd210839242f3718f57eb0d23002097e2b9592a34b86c49a5d0f",
+    "/tmp/starship-mesa-app-material.c4a6d59b937144ff999dbc05dad0c34b/mesa-budget.config.ts": "64c56f22bed7cd210839242f3718f57eb0d23002097e2b9592a34b86c49a5d0f",
+    "/tmp/starship-mesa-app-material.c4a6d59b937144ff999dbc05dad0c34b/mesa-budget.spec.ts": "df69f110cc846c556a84326db41f90bc56562e7d0ec2ec73d1a0f439a3da8142",
+    "/tmp/starship-mesa-app-material.c4a6d59b937144ff999dbc05dad0c34b/mesa-boundary-hooks.ts": "bad7ef1d48aabc928304e005a008572a38266d8142876e6d7c45b1ffb1f33b05",
+    "/tmp/starship-mesa-app-material.c4a6d59b937144ff999dbc05dad0c34b/mesa-reporter.mjs": "a05e81ea62956ebb433576072074d4e249440021b509b3b23747a7fcd1516e20",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-preview-cwd-candidate-source-pins.json": "6a199f1b82d0e35cb5074161adbf5b4c6ed0018f62b95e270ae23ea2fa1513dc",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-matrix-preview-cwd-input.py.txt": "b267478aa730a39e60cabab48ff2fa8d9f8d3c9fbdae4955796d98aa6dbbecf2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-matrix-preview-cwd-seed.json": "ef8e13de89b7a3493f77862b3658f9dabe1534083c0bbf27558dfd2613129dd3",
+    "/tmp/starship-mesa-app-matrix-input.479593f671694cbcbf1a7155be9a12aa/owner-input.json": "703036bfb3da1ec148ce996eed67b2a39034ae7ddc0d3efdb371edb325b4cd41",
+    "/tmp/starship-mesa-app-matrix-input.479593f671694cbcbf1a7155be9a12aa/external-inventory.json": "adb0cc0ec54ce3d718095ee3b6693bbf5f570413b7cea7ef754955db8dbc6ff5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-preview-cwd-matrix-owner-actual-input-HIGH-review.md": "1f194882b6a06202b13513d0e3869122e5fc6f48874d08387f1fbe1104fec5c7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-preview-cwd-matrix-owner-actual-input-HIGH-pins.json": "fbb73777f16b60c787bc71d82d465e0d86940e3cee249a295ebd2d0dbcf293aa",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper.py.txt": "0901f67f239f17c3fe8c5f88a70de71c6727f6ee14155a604f39b1b6da907f26",
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-observer.py.txt": "3d9bc7f8d85276385191982d724736583126a3210c92b67ccfe4bc04fba82b30",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/root-structural-check.py.txt": "e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-parent-closure.json": "90ea0e1e4c117fb6856ba9045e694c6e730260f5174ec1841dcf9d381287dfde",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/root-exact-once-application/after-snapshot.json": "2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper-source-pins.json": "e787eda11736ce064c8c4f029263ab2ee4093fa2fa8ead748638b0a65e4fc410",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-structural-wrapper-repaired-source-HIGH-review.md": "44822413ba865f51e993dc21870b812ee7d3be1125cdfc895662bd5e9d056b9c",
+    "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "historicalOuterEntries": 372,
+  "ownerEntries": 359,
+  "outerEntries": 384,
+  "reviewSha256": "5e6bb29c43d93023c85eac077a2580c021c7541ecf0921a86cfcd4dc0ba6040f"
+}

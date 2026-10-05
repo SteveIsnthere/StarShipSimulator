@@ -1,0 +1,76 @@
+{
+  "checks": [
+    {
+      "name": "bench.mjs.txt.parse",
+      "code": 0,
+      "elapsedSeconds": 0.029939986001409125
+    },
+    {
+      "name": "bench.mjs.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9023135469979024
+    },
+    {
+      "name": "build-native-guidance.mjs.txt.parse",
+      "code": 0,
+      "elapsedSeconds": 0.02711145499779377
+    },
+    {
+      "name": "build-native-guidance.mjs.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.841308475995902
+    },
+    {
+      "name": "native-loader.mjs.txt.parse",
+      "code": 0,
+      "elapsedSeconds": 0.028462697999202646
+    },
+    {
+      "name": "native-loader.mjs.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9172890769987134
+    },
+    {
+      "name": "native-guidance-entry.ts.txt.parse",
+      "code": 0,
+      "elapsedSeconds": 0.3885563500007265
+    },
+    {
+      "name": "native-guidance-entry.ts.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8183772370030056
+    },
+    {
+      "name": "native-scenarios-benchmark.ts.txt.parse",
+      "code": 0,
+      "elapsedSeconds": 0.4107659479996073
+    },
+    {
+      "name": "native-scenarios-benchmark.ts.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8236726409959374
+    },
+    {
+      "name": "consumer-controls.test.ts.txt.parse",
+      "code": 0,
+      "elapsedSeconds": 0.3964342130057048
+    },
+    {
+      "name": "consumer-controls.test.ts.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.824726176004333
+    },
+    {
+      "name": "consumer-graph-oracle.ts.txt.parse",
+      "code": 0,
+      "elapsedSeconds": 0.4072012070027995
+    },
+    {
+      "name": "consumer-graph-oracle.ts.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9049285349974525
+    }
+  ],
+  "all7PinsBeforeAfterMatched": true,
+  "passed": true
+}

@@ -1,0 +1,5 @@
+{
+  "firstStaticReadsUsedMissingGuessedStageBasenames": true,
+  "noWorkloadOrWriteOccurredInThoseReadCalls": true,
+  "resolvedAuthoritativeBusinessStageFilesViaRg": true
+}

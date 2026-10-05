@@ -1,0 +1,19 @@
+{
+  "sourcePinsSha": "a98dc74f268a8484320faf5432e14cff8b95f5837c64ba43dadfec919be54a24",
+  "ownerInput": {
+    "path": "/tmp/starship-mesa-preparation-owner.7c9e23a339df48da8beec24637889f8a/owner-input.json",
+    "sha": "ce0488d9e99b28c57c6d7ee1369219725854537096513668e5b534a006049db5"
+  },
+  "copiedBridge": {
+    "path": "/tmp/starship-mesa-preparation-owner.7c9e23a339df48da8beec24637889f8a/python-bridge.mjs",
+    "sha": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a"
+  },
+  "exactBridgeOrigin": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/python-bridge.mjs.txt",
+    "sha": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a"
+  },
+  "ownedReceipt": "/tmp/starship-mesa-preparation-owned.730f7bf99c1242368bab5ec7fb3da14b",
+  "preparedRuntime": false,
+  "nativeLibrariesHashed": false,
+  "acceptance": "No preparation/browser grant; root Other source+actual-input HIGH/scopes required"
+}

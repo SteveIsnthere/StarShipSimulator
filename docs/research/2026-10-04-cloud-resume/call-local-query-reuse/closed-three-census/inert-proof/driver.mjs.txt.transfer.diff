@@ -1,0 +1,80 @@
+--- accepted-driver.mjs.txt
++++ all-paid-census-driver.mjs.txt
+@@ -7,20 +7,20 @@
+ const [input,inputSha]=process.argv.slice(2),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+ assert.equal(sha(input),inputSha);const m=JSON.parse(readFileSync(input,'utf8'));
+ assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);
+-assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-reuse-pure-proof');assert.equal(process.version,'v22.23.3');
++assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-census-inert-proof');assert.equal(process.version,'v22.23.3');
+ assert.equal(sha(process.execPath),m.node.sha256);
+ const manifest=JSON.parse(readFileSync(resolve(m.setup,'graphs.json'),'utf8'));
+-assert.equal(manifest.kind,'query-reuse-four-native-graphs-v1');
++assert.equal(manifest.kind,'query-census-four-native-graphs-v1');
+ const api={};
+ for(const [role,graph]of Object.entries(manifest.graphs)){
+  for(const [path,h]of Object.entries(graph.files))assert.equal(sha(resolve(graph.directory,path)),h);
+  const certificate=graph.emittedEdges;assert.equal(certificate.kind,'query-reuse-role-emitted-edge-certificate-v1');assert.equal(certificate.role,role);
+  const expectedSources=['src/core/vehicle.ts','src/core/vehicles/super-heavy.ts','src/core/vehicles/v3.ts','src/core/constants.ts','src/core/units.ts','src/core/physics/vehicle-components.ts','src/core/damage-state.ts','src/core/physics/damage-controls.ts','src/core/physics/damage-thermal.ts','src/core/physics/damage-root.ts','src/core/physics/damage-material.ts','src/core/physics/tps-material.ts'].map(path=>resolve(m.root,path));
+- expectedSources.push(resolve(m.setup,role.endsWith('counted')?'entry-'+role+'.ts':'entry.ts'));
++ expectedSources.push(resolve(m.setup,role.endsWith('counted')?'entry-'+role+'.ts':role.startsWith('candidate')?'entry-census.ts':'entry-original.ts'));
+  assert.deepEqual(certificate.expectedSources.slice().sort(),expectedSources.sort());
+- const baseEntry=resolve(m.setup,'entry.ts'),authority=certificate.entryAuthority;
++ const baseEntry=resolve(m.setup,role.startsWith('candidate')?'entry-census.ts':'entry-original.ts'),authority=certificate.entryAuthority;
+  const witnessSuffix="export {resetWitnessloadedRootAngle,readWitnessloadedRootAngle} from '$core/physics/damage-root';\nexport {resetWitnesssteelTemperatureFromEnthalpy,readWitnesssteelTemperatureFromEnthalpy} from '$core/physics/damage-material';\n";
+- const counted=role.endsWith('counted'),roleEntry=resolve(m.setup,counted?'entry-'+role+'.ts':'entry.ts');
++ const counted=role.endsWith('counted'),roleEntry=resolve(m.setup,counted?'entry-'+role+'.ts':role.startsWith('candidate')?'entry-census.ts':'entry-original.ts');
+  assert.equal(authority.path,roleEntry);assert.equal(authority.plainPath,baseEntry);assert.equal(authority.counted,counted);
+  assert.equal(authority.plainSha256,m.materialized[baseEntry].sha256);assert.equal(sha(baseEntry),authority.plainSha256);
+  assert.equal(authority.witnessSuffix,counted?witnessSuffix:'');
+@@ -66,22 +66,36 @@
+ const witnesses={};
+ for(const role of ['original-counted','candidate-counted']){
+  const a=api[role];a.resetWitnessloadedRootAngle();a.resetWitnesssteelTemperatureFromEnthalpy();
++ if(role==='candidate-counted'){a.resetRootOpportunityCensus();a.resetSteelOpportunityCensus();}
+  const f=make(a);assert.equal(f.control.columns.length,3);
+  a.writeDamageControls(f.state,f.control,12000,.5,.2,-.1,f.forces);
+- const rootCalls=a.readWitnessloadedRootAngle();assert.equal(rootCalls.length,role==='original-counted'?3:1);
++ const rootCalls=a.readWitnessloadedRootAngle();assert.equal(rootCalls.length,3);
++ if(role==='candidate-counted')assert.deepStrictEqual(a.readRootOpportunityCensus(),{framesStarted:1,framesClosed:1,thrownFrames:0,paidQueries:3,successfulQueries:3,duplicateInputs:2,bitIdenticalDuplicates:2,nonIdenticalDuplicates:0});
+  for(const tuple of rootCalls)assert.deepStrictEqual(tuple,rootCalls[0]);
+  const t=make(a);a.advanceDamageHeat(t.state,t.thermal,t.thermal.safeStep,1000,293.15,0);
+- const inverseCalls=a.readWitnesssteelTemperatureFromEnthalpy();assert.equal(inverseCalls.length,role==='original-counted'?3:1);
++ const inverseCalls=a.readWitnesssteelTemperatureFromEnthalpy();assert.equal(inverseCalls.length,3);
++ if(role==='candidate-counted')assert.deepStrictEqual(a.readSteelOpportunityCensus(),{framesStarted:1,framesClosed:1,thrownFrames:0,substeps:1,paidQueries:3,successfulQueries:3,duplicateInputs:2,bitIdenticalDuplicates:2,nonIdenticalDuplicates:0});
+  for(const tuple of inverseCalls)assert.deepStrictEqual(tuple,inverseCalls[0]);
+  witnesses[role]={rootTuple:rootCalls[0],inverseTuple:inverseCalls[0]};
+  // Fresh invocation must solve again; no retained successful result crosses it.
+  const again=make(a);a.writeDamageControls(again.state,again.control,12000,.5,.2,-.1,again.forces);
+  a.advanceDamageHeat(again.state,again.thermal,again.thermal.safeStep,1000,293.15,0);
+- assert.equal(a.readWitnessloadedRootAngle().length,role==='original-counted'?6:2);
+- assert.equal(a.readWitnesssteelTemperatureFromEnthalpy().length,role==='original-counted'?6:2);
+- rows.push(role+' positive reductions and invocation reset');
++ assert.equal(a.readWitnessloadedRootAngle().length,6);
++ assert.equal(a.readWitnesssteelTemperatureFromEnthalpy().length,6);
++ if(role==='candidate-counted'){assert.equal(a.readRootOpportunityCensus().paidQueries,6);assert.equal(a.readRootOpportunityCensus().duplicateInputs,4);assert.equal(a.readSteelOpportunityCensus().paidQueries,6);assert.equal(a.readSteelOpportunityCensus().duplicateInputs,4);}
++ rows.push(role+' all-paid duplicate witness and invocation reset');
+ }
+ assert.deepStrictEqual(witnesses['candidate-counted'],witnesses['original-counted'],'Exact original/candidate paid query arguments');
++for(const role of ['candidate','candidate-counted']){
++ const a=api[role];a.resetRootOpportunityCensus();const f=make(a);
++ const columns=f.control.columns.map(column=>({...column}));columns[1].lever=-1;
++ f.control=Object.freeze({...f.control,columns:Object.freeze(columns.map(column=>Object.freeze(column)))});
++ const observed=error(()=>a.writeDamageControls(f.state,f.control,12000,.5,.2,-.1,f.forces));assert.equal(observed.kind,'throw');
++ assert.deepStrictEqual(a.readRootOpportunityCensus(),{framesStarted:1,framesClosed:1,thrownFrames:1,paidQueries:2,successfulQueries:1,duplicateInputs:0,bitIdenticalDuplicates:0,nonIdenticalDuplicates:0});
++ const fresh=make(a);a.writeDamageControls(fresh.state,fresh.control,12000,.5,.2,-.1,fresh.forces);
++ assert.deepStrictEqual(a.readRootOpportunityCensus(),{framesStarted:2,framesClosed:2,thrownFrames:1,paidQueries:5,successfulQueries:4,duplicateInputs:2,bitIdenticalDuplicates:2,nonIdenticalDuplicates:0});
++ rows.push(role+' throw closes frame and fresh memo');
++}
+ // Changed substep inputs are never filled from previous substep; complete four-graph state comparison.
+ for(const substeps of [2,8])compare('substep reset '+substeps,()=>{},(a,f)=>a.advanceDamageHeat(f.state,f.thermal,f.thermal.safeStep*substeps,1000,293.15,0));
+ for(const endpoint of ['minimum','maximum']){
+@@ -110,7 +124,7 @@
+  rows.push('post-update exact '+endpoint+' endpoint');
+ }
+ for(const [role,graph]of Object.entries(manifest.graphs))for(const [path,h]of Object.entries(graph.files))assert.equal(sha(resolve(graph.directory,path)),h,role+' final artifact');
+-const result={kind:'query-reuse-native-pure-proof-v1',canonicalCases:plain.rows.length,targetedCases:rows,fullStateAndOutputEquality:true,
++const result={kind:'query-census-native-inert-proof-v1',canonicalCases:plain.rows.length,targetedCases:rows,fullStateAndOutputEquality:true,
+  errorStackCoordinatesExcluded:true,independentNativeGraphs:4,closedRecipeOnly:true,publicSelection:false,fallbackProof:false,timing:false};
+-assert.equal(result.canonicalCases,146);assert.equal(rows.length,29);
++assert.equal(result.canonicalCases,146);assert.equal(rows.length,31);
+ writeFileSync(resolve(m.setup,'proof-result.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});

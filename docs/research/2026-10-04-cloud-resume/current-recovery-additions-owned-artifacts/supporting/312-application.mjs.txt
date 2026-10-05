@@ -1,0 +1,81 @@
+/** Root-only exact one-file application after separately authorized frozen-input review. */
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, lstatSync, readdirSync, renameSync, realpathSync, chmodSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+import { pathToFileURL, fileURLToPath } from 'node:url';
+const started = Date.now(), [inputPath, inputSha] = process.argv.slice(2);
+const root = '/workspace/StarShipSimulator', relativeHelper = 'tests/e2e/visual-runtime-receipt.ts';
+const helper = resolve(root, relativeHelper);
+const oldSha = '8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e';
+const newSha = '57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e';
+const digest = path => createHash('sha256').update(readFileSync(path)).digest('hex');
+assert.equal(digest(inputPath), inputSha);
+const m = JSON.parse(readFileSync(inputPath, 'utf8'));
+assert.equal(m.kind, 'mesa-receipt-pathspec-exact-once-application-input-v1');
+assert.equal(realpathSync(process.cwd()), root); assert.equal(process.version, 'v22.23.3');
+assert.equal(m.authority.sha, '2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c');
+assert.equal(m.candidate.sha, newSha);
+for (const key of ['node', 'utility', 'npmCli', 'authority', 'candidate', 'application', 'metadataProof', 'metadataReview', 'sourceReview']) {
+  assert.equal(m.files[m[key].path], m[key].sha); assert.equal(digest(m[key].path), m[key].sha);
+}
+for (const [path, sha] of Object.entries(m.files)) assert.equal(digest(path), sha);
+assert(m.files[helper] === undefined || m.files[helper] === oldSha, 'Only old helper may be an initial selected target pin');
+assert.equal(digest(process.execPath), m.node.sha);
+assert.equal(fileURLToPath(import.meta.url), m.application.path); assert.equal(digest(fileURLToPath(import.meta.url)), m.application.sha);
+assert.match(m.receipt, /^\/tmp\/starship-receipt-pathspec-application\.[a-f0-9]{32}$/);
+assert.equal(realpathSync(m.receipt), m.receipt); assert.equal(lstatSync(m.receipt).mode & 0o777, 0o700);
+assert.deepEqual(readdirSync(m.receipt), []);
+const put = (name, value) => writeFileSync(resolve(m.receipt, name), JSON.stringify(value, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+const authority = JSON.parse(readFileSync(m.authority.path, 'utf8'));
+assert.equal(Object.keys(authority.source).length, 770); assert.equal(Object.keys(authority.tools).length, 20355);
+assert.equal(authority.source[relativeHelper], oldSha);
+const proof = JSON.parse(readFileSync(m.metadataProof.path, 'utf8'));
+assert.equal(proof.completed, true); assert.deepEqual(proof.errors, []); assert.equal(proof.proof.arraysExactlyEqual, true);
+assert.equal(proof.noSourceApplication, true); assert.equal(proof.noBrowserOrTest, true);
+const utility = await import(pathToFileURL(m.utility.path).href);
+const sourceBefore = utility.sourceSnapshot(root), toolsBefore = utility.installedToolSnapshot(root, m.npmCli.path);
+assert.deepEqual(sourceBefore, authority.source); assert.deepEqual(toolsBefore, authority.tools);
+const modes = source => Object.fromEntries(Object.keys(source).sort().map(path => {
+  const row = lstatSync(resolve(root, path)); assert(row.isFile() && !row.isSymbolicLink(), 'Regular source identity');
+  return [path, row.mode & 0o7777];
+}));
+const modesBefore = modes(sourceBefore), bytesBefore = readFileSync(helper), candidate = readFileSync(m.candidate.path);
+assert.equal(digest(helper), oldSha);
+const oldCall = "git('ls-files', '-z', '--cached', '--others', '--exclude-standard')";
+const newCall = "git('ls-files', '-z', '--cached', '--others', '--exclude-standard', '--',\n    ':(top)src', ':(top)tests', ':(top)scripts', ':(top)public',\n    ':(top).agents', ':(top).nvmrc', ':(top,glob)package*.json', ':(top,glob)*config.*')";
+assert.equal(bytesBefore.toString('utf8').split(oldCall).length, 2);
+assert.equal(candidate.toString('utf8'), bytesBefore.toString('utf8').replace(oldCall, newCall));
+writeFileSync(resolve(m.receipt, 'original-helper.ts.txt'), bytesBefore, { flag: 'wx', mode: 0o600 });
+writeFileSync(resolve(m.receipt, 'applied-helper.ts.txt'), candidate, { flag: 'wx', mode: 0o600 });
+put('before-snapshot.json', { source: sourceBefore, tools: toolsBefore }); put('before-modes.json', modesBefore);
+assert(Date.now() - started < 60000); assert.equal(digest(helper), oldSha);
+let applied = false, error = null, sourceAfter = null, toolsAfter = null;
+try {
+  const temporary = resolve(root, 'tests/e2e/.visual-runtime-receipt.pathspec-' + m.receipt.split('.').at(-1));
+  writeFileSync(temporary, candidate, { flag: 'wx', mode: modesBefore[relativeHelper] });
+  chmodSync(temporary, modesBefore[relativeHelper]);
+  assert.equal(digest(helper), oldSha); renameSync(temporary, helper); applied = true;
+  assert.equal(digest(helper), newSha); assert.equal(lstatSync(helper).mode & 0o7777, modesBefore[relativeHelper]);
+  sourceAfter = utility.sourceSnapshot(root); toolsAfter = utility.installedToolSnapshot(root, m.npmCli.path); const modesAfter = modes(sourceAfter);
+  put('observed-after-snapshot.json', { source: sourceAfter, tools: toolsAfter }); put('observed-after-modes.json', modesAfter);
+  assert.deepEqual(Object.keys(sourceAfter).sort(), Object.keys(sourceBefore).sort()); assert.deepEqual(modesAfter, modesBefore);
+  assert.deepEqual(toolsAfter, toolsBefore);
+  assert.deepEqual(Object.keys(sourceBefore).filter(path => sourceBefore[path] !== sourceAfter[path]), [relativeHelper]);
+  assert.equal(sourceAfter[relativeHelper], newSha);
+  for (const [path, sha] of Object.entries(m.files)) assert.equal(digest(path), path === helper ? newSha : sha);
+  assert.equal(digest(inputPath), inputSha); assert(Date.now() - started < 60000);
+  put('after-snapshot.json', { source: sourceAfter, tools: toolsAfter });
+  put('inverse-guards.json', { executionAuthorized: false, onlyHelper: helper, expectedCurrentSha: newSha, restoreSha: oldSha,
+    oldBytes: { path: resolve(m.receipt, 'original-helper.ts.txt'), sha: oldSha },
+    requireFullCurrentSourceEquals: resolve(m.receipt, 'after-snapshot.json'),
+    requireToolsUnchanged: true, requireAll770ModesEqual: resolve(m.receipt, 'before-modes.json'), requireSeparateRootGrant: true });
+} catch (failure) { error = String(failure.stack ?? failure); }
+if (Date.now() - started >= 60000) error ??= 'Whole60 application bound exceeded after artifacts';
+put('application-result.json', { completed: applied && error === null, applied, error, receipt: m.receipt,
+  oldAuthority: m.authority, changed: { path: helper, oldSha, newSha }, sourceCount: sourceAfter && Object.keys(sourceAfter).length,
+  toolCount: toolsAfter && Object.keys(toolsAfter).length, afterSnapshot: error === null ?
+    { path: resolve(m.receipt, 'after-snapshot.json'), sha: digest(resolve(m.receipt, 'after-snapshot.json')) } : null,
+  historicalInputsUnmodified: true, noBuildOrBrowserOrTest: true, elapsedMs: Date.now() - started,
+  independentActualApplicationReviewRequired: true, automaticInverse: false });
+if (error !== null || Date.now() - started >= 60000) process.exitCode = 1;

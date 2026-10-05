@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "decision": "accepted-failed-pre-profile-npm-identity-diagnosis",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/independent-actual-preflight-FAILURE-HIGH-review.md",
+    "sha256": "1aa8aa75bfe140a95c0bac9076ff854f40d7c777e27d9c5c5f7309042ac6229f"
+  },
+  "inputs": {
+    "/tmp/starship-view-clock-profile-root.l7j3077m/root-independent-postexit.json": "96423749346014ab384ce1ece926e19b916a76044dc8096809effaa1e25f14bf",
+    "/tmp/starship-view-clock-profile-root.l7j3077m/root-outcome.json": "14d057f57a20ffb27e513e4eecaf184e9f0d7d9f55249c0301d6adfca9fa31b3",
+    "/tmp/starship-view-clock-profile-root.l7j3077m/actual-outer-exit-final-independent.json": "27bf973b6fec2966e3bc066dea7ba74c7290d54923957bfb698d085712ad8bf5",
+    "/tmp/starship-view-clock-profile-root.l7j3077m/actual-outer-exit-final.json": "168792d2e72a9afe345199f0a2448a780f8a3f24d055b03a0fd95703344b23c9",
+    "/tmp/starship-view-clock-profile-root.l7j3077m/actual-outer-exit.json": "15b66ba166d75dac69db8c565231c6895c1342cf14f8199866ced73dbbc7628e",
+    "/tmp/starship-view-clock-profile-root.l7j3077m/outer-registration.json": "c999d862e8886eb9db7aacdf551bd18a512f90ac01de9836e45a9a5b2c4a7dfb",
+    "/tmp/starship-view-clock-profile-root.l7j3077m/identities.jsonl": "9c2b12f92ebe833efb27b689d6ff978c97caa8fb0721e2d6f55f0d99c0625597",
+    "/tmp/starship-view-clock-profile-root.l7j3077m/outer.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-view-clock-profile-root.l7j3077m/outer.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-view-clock-profile-root.l7j3077m/executed-owner.mjs.txt": "937bd580bf235a8ba8a8d3f02d2c41d5583af3f2813cce469b14379eb925f5bb",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-profile-af467a1fdca14d3ba0c0ce07de3758c3/input.json": "9c5ebfe2b8e345db3329df9b3b4d52fc96c2f67948dea29f0171a81b8c310c8f",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-profile-af467a1fdca14d3ba0c0ce07de3758c3/root-input.json": "bb5ab5d13f51abe6a383d4f7e766ecc715863ec4449843dd5aa3b38fcd483a88",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-profile-af467a1fdca14d3ba0c0ce07de3758c3/root-inventory.json": "b2d4fe853126ff0dc51ab52afe2c78b37086d889a53f037376833fe4679a1853",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-profile-af467a1fdca14d3ba0c0ce07de3758c3/owner.mjs": "937bd580bf235a8ba8a8d3f02d2c41d5583af3f2813cce469b14379eb925f5bb",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-profile-af467a1fdca14d3ba0c0ce07de3758c3/owner-result.json": "ac6a7ea770b293790d6ddfba0c138ead3f7f56653e0838ca208fe4731b3dd4bb",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-profile-af467a1fdca14d3ba0c0ce07de3758c3/owned-final.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-profile-af467a1fdca14d3ba0c0ce07de3758c3/selected-before.json": "9732e0860f2eb40cb70735367f5278a1166f9da8f241a9d9ab6b903f919a563d",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-profile-af467a1fdca14d3ba0c0ce07de3758c3/selected-after.json": "9732e0860f2eb40cb70735367f5278a1166f9da8f241a9d9ab6b903f919a563d",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-profile-af467a1fdca14d3ba0c0ce07de3758c3/source-after.json": "2cab48c296ae633798fffececab97d24cffbf081f514e1c2bb96a723a40ee635",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/root-maker-actual.json": "2e4422d8267214f3d9dc49373a1879a76ec0f8ffff1fcf3d874ca0394d262d58",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/root-maker.stdout.txt": "7a6abeb32b3f50a764c98d434954c276ca90149286166bf9458c28dd0b59bb53",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/independent-actual-profile-input-HIGH-review.md": "4d524bfd273273687ba029548f02f9baf6dd39a036df75c158351e3b09a16bbd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/independent-actual-profile-input-HIGH-pins.json": "a859b144f1684728a646ad104f3c022448aa2553011a8d62d992f9de9aa901a4",
+    "/workspace/StarShipSimulator/scripts/bench/native-loader.mjs": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb"
+  },
+  "observedExactIdentities": [
+    {
+      "pid": 97346,
+      "start": "6213647",
+      "actualState": "ABSENT"
+    },
+    {
+      "pid": 97347,
+      "start": "6213667",
+      "actualState": "ABSENT"
+    }
+  ],
+  "testsExecuted": false,
+  "profileAccepted": false,
+  "furtherExecutionApproved": false
+}

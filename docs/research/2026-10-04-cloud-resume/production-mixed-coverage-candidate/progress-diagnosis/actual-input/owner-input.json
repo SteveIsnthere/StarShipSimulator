@@ -1,0 +1,496 @@
+{
+  "kind": "coverage-selected2-SSR-owner-input-v1",
+  "mode": "coverage-selected2",
+  "root": "/workspace/StarShipSimulator",
+  "outerMs": 338000,
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "npmCli": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+    "sha": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7"
+  },
+  "utility": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/native-loader.mjs",
+    "sha": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb"
+  },
+  "stage": {
+    "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/stage.mjs",
+    "sha": "5b375eecff89376b60ba2cd229cd0e9ff61dfb7f613d023c79ab88126febf703"
+  },
+  "observer": {
+    "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/root-observer.py",
+    "sha": "90dad5c122f0651a79d932bb9e6116b6c8d7ef2f5ca83bc09e63fdcb35174418"
+  },
+  "captureReporter": {
+    "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/capture-reporter.mjs",
+    "sha": "9543d3e01bd19032bb3b187e059886c7a58f9f96628320a906ae040d3263d70c"
+  },
+  "progressReporter": {
+    "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/progress-reporter.mjs",
+    "sha": "b28bc45b335d9c076133f08f0d18be1ac17e2936d98ed915536bb3cb1e534c3f"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-input/inventory.json",
+    "sha": "7697edd1cd25bbbccfe8afc27e8e61f282227cc9fd9d9efbfd8d6394e3be5460"
+  },
+  "selectedFiles": [
+    "tests/core/orbit-demo.test.ts",
+    "tests/app/view-clock.test.ts"
+  ],
+  "expectedInventory": [
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > launch-pad-takeoff, with frames dropping"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > booster-sep-boostback, with frames dropping"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > rtls-boostback, with frames dropping"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > reentry-autoland, with frames dropping"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > before-flip-autoland, with frames dropping"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > landing-burn-autoland, with frames dropping"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > landing-burn-headwind, with frames dropping"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > intro-demo, with frames dropping"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > launch-pad-takeoff, at 9x warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > booster-sep-boostback, at 9x warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > rtls-boostback, at 9x warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > reentry-autoland, at 9x warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > before-flip-autoland, at 9x warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > landing-burn-autoland, at 9x warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > landing-burn-headwind, at 9x warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > intro-demo, at 9x warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > launch-pad-takeoff, at 1/9 speed"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > booster-sep-boostback, at 1/9 speed"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > rtls-boostback, at 1/9 speed"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > reentry-autoland, at 1/9 speed"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > before-flip-autoland, at 1/9 speed"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > landing-burn-autoland, at 1/9 speed"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > landing-burn-headwind, at 1/9 speed"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the vehicle stays in frame, over all seven goldens > intro-demo, at 1/9 speed"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > launch-pad-takeoff lands the camera on the same metre with a 400 ms stall every two seconds"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > launch-pad-takeoff lands the camera on the same metre with 9x time warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > launch-pad-takeoff lands the camera on the same metre with 1/9 slow motion"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > booster-sep-boostback lands the camera on the same metre with a 400 ms stall every two seconds"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > booster-sep-boostback lands the camera on the same metre with 9x time warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > booster-sep-boostback lands the camera on the same metre with 1/9 slow motion"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > rtls-boostback lands the camera on the same metre with a 400 ms stall every two seconds"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > rtls-boostback lands the camera on the same metre with 9x time warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > rtls-boostback lands the camera on the same metre with 1/9 slow motion"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > reentry-autoland lands the camera on the same metre with a 400 ms stall every two seconds"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > reentry-autoland lands the camera on the same metre with 9x time warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > reentry-autoland lands the camera on the same metre with 1/9 slow motion"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > before-flip-autoland lands the camera on the same metre with a 400 ms stall every two seconds"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > before-flip-autoland lands the camera on the same metre with 9x time warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > before-flip-autoland lands the camera on the same metre with 1/9 slow motion"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > landing-burn-autoland lands the camera on the same metre with a 400 ms stall every two seconds"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > landing-burn-autoland lands the camera on the same metre with 9x time warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > landing-burn-autoland lands the camera on the same metre with 1/9 slow motion"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > landing-burn-headwind lands the camera on the same metre with a 400 ms stall every two seconds"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > landing-burn-headwind lands the camera on the same metre with 9x time warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > landing-burn-headwind lands the camera on the same metre with 1/9 slow motion"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > intro-demo lands the camera on the same metre with a 400 ms stall every two seconds"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > intro-demo lands the camera on the same metre with 9x time warp"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "property 3, strengthened: the camera path does not depend on the frame rate > intro-demo lands the camera on the same metre with 1/9 slow motion"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "and the two clocks that do not work > the wall clock loses the vehicle when frames drop"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "and the two clocks that do not work > the wall clock loses it at 9x warp, failing the other way round"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "and the two clocks that do not work > and simulated time once per FRAME is better, but still not enough"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "and the two clocks that do not work > all three agree when nothing goes wrong, which is why this survived"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "the camera step and the simulation step > are the same length, which is what makes the per-step camera exact"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "what advance() reports > says how much time it actually simulated, not how much it was offered"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "what advance() reports > reports nine times the frame at warp 9, and a ninth of it in slow motion"
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "fullName": "what advance() reports > simulates nothing while paused, so the view holds still too"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the orbital presets > exist, and are declared separately from the 2021 five"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the orbital presets > both spawn at 150 km \u2014 M2.9(b), the owner's decision"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the orbital presets > Circularize starts exactly 20 m/s short of circular speed"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the orbital presets > Deorbit starts exactly circular, half a lap from StarBase"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 1 \u2014 circularize > a short prograde burn closes the orbit"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 2 \u2014 coast a full lap > a 150 km orbit holds for a full 88-minute lap"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 2 \u2014 coast a full lap > and 100 km still does not \u2014 which is why the presets are at 150"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 2 \u2014 coast a full lap > the atmosphere is 256 times thinner at 150 km than at 100 km"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 3 \u2014 deorbit and land at StarBase > survives the entry"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 3 \u2014 deorbit and land at StarBase > and touches down within 10 km of the pad"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 3 \u2014 deorbit and land at StarBase > lands gently, within the touchdown limits"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 3 \u2014 deorbit and land at StarBase > flies the sequence it is supposed to: coast, burn, hand over, descend"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 3 \u2014 deorbit and land at StarBase > and the entry is managed, not merely survived"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 3 \u2014 deorbit and land at StarBase > preserves the historical Raptor2 broadside entry characterization"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "step 3 \u2014 deorbit and land at StarBase > is deterministic \u2014 the same flight twice"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "THE WHOLE DEMO, end to end \u2014 the M2.9 acceptance line > the circularisation burn takes seconds and closes the orbit"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "THE WHOLE DEMO, end to end \u2014 the M2.9 acceptance line > it coasts most of a lap before the autopilot fires"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "THE WHOLE DEMO, end to end \u2014 the M2.9 acceptance line > survives the entry and lands at StarBase"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "THE WHOLE DEMO, end to end \u2014 the M2.9 acceptance line > THE NUMBER: within 10 km of the pad, from a flight it was not fitted to"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "THE WHOLE DEMO, end to end \u2014 the M2.9 acceptance line > and it is ninety minutes of flight, not a shortcut"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the guidance works from orbits it was never calibrated on > from a different starting longitude \u2014 half a lap further round"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the guidance works from orbits it was never calibrated on > 100 tonnes lighter at ignition"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the guidance works from orbits it was never calibrated on > with an engine already failed, so the burn is a third longer"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the guidance works from orbits it was never calibrated on > from 120 km, below the presets"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the guidance works from orbits it was never calibrated on > from 300 km it still lands, but the envelope is showing"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the deorbit mode itself > spends the coast turning around, because RCS is slow"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the deorbit mode itself > does not fire until the ground track is right"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the deorbit mode itself > turning it off resets it, so re-arming starts from the coast"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the deorbit mode itself > does nothing at all while it is off, which every other scenario relies on"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the thermosphere the presets sit in > matches the published standard at 100 km within 6%"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the thermosphere the presets sit in > and at 150 km, where the orbital presets fly, within 1%"
+    },
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "fullName": "the thermosphere the presets sit in > decays smoothly and stays positive to any altitude"
+    }
+  ],
+  "coverageReceipt": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de",
+  "progressReceipt": "/tmp/starship-coverage-progress.38047cf94309b610bceea3440b0e7cf1",
+  "purpose": "ONE source-changed public-progress selected2 original SSR coverage diagnosis, no full coverage acceptance",
+  "profilingEnabled": false
+}

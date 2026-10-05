@@ -1,0 +1,45 @@
+--- damage-controls.original
++++ damage-controls.candidate
+@@ -82,6 +82,11 @@
+   out.frontFraction = out.aftFraction = 0;
+   out.proofMask = out.domainMask = 0;
+   out.loadedAngles.fill(0);
++  // Research-only closed-native path: scalar memo belongs to this invocation.
++  let reusePresent = false;
++  let reuseCommand = 0, reuseForce = 0, reuseLever = 0, reuseTemperature = 0;
++  let reuseLength = 0, reuseInertia = 0, reuseAngle = 0;
++  let reuseLaw: 'grid' | 'plate' = 'grid';
+   for (const column of model.columns) {
+     const component = state.components[column.index]!;
+     if (!component.attached || component.permanentFailure !== ComponentFailure.None) continue;
+@@ -93,8 +98,28 @@
+     const command = column.group === 'aft' ? aftCommand : frontCommand;
+     const forceScale = q * column.area * (grid ? 1 : finDragCoefficient * incidence);
+     const law = grid ? 'grid' : 'plate';
+-    const angle = loadedRootAngle(command, forceScale, column.lever,
+-      component.root.temperature, model.root, law);
++    // Preserve original ordered arguments before checking an exact scalar key.
++    const query = loadedRootAngle;
++    const lever = column.lever;
++    const temperature = component.root.temperature;
++    const section = model.root;
++    // Additional reads permitted ONLY by the owned canonical plain-data domain.
++    const length = section.length, inertia = section.inertia;
++    let angle: number;
++    if (reusePresent && Object.is(command, reuseCommand) && Object.is(forceScale, reuseForce)
++      && Object.is(lever, reuseLever) && Object.is(temperature, reuseTemperature)
++      && law === reuseLaw && Object.is(length, reuseLength) && Object.is(inertia, reuseInertia)) {
++      angle = reuseAngle;
++    } else {
++      angle = query(command, forceScale, lever, temperature, section, law);
++      // A throwing call never publishes. Unsupported/nonfinite results are not memoized.
++      reusePresent = Number.isFinite(angle);
++      if (reusePresent) {
++        reuseCommand = command; reuseForce = forceScale; reuseLever = lever;
++        reuseTemperature = temperature; reuseLaw = law;
++        reuseLength = length; reuseInertia = inertia; reuseAngle = angle;
++      }
++    }
+     out.loadedAngles[column.index] = angle;
+     const moment = forceScale * rootLoadCoefficient(Math.abs(angle), law) * column.lever;
+     if (rootUtilization(moment, component.root.temperature, model.root) > 1) {

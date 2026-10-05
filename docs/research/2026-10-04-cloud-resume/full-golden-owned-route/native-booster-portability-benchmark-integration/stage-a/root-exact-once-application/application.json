@@ -1,0 +1,20 @@
+{
+  "completed": true,
+  "exactOnce": true,
+  "writes": 5,
+  "changed": [
+    "scripts/test/admission.mjs",
+    "scripts/test/golden-support-policy.mjs",
+    "scripts/test/loader.mjs",
+    "scripts/test/run.mjs",
+    "vitest.config.ts"
+  ],
+  "sourceCount": 770,
+  "toolsCount": 20355,
+  "defaultQualificationUpdated": false,
+  "explicitComposite": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/native-flight-and-golden-composite.stage-a.json",
+    "sha256": "e600e058b9cfaf11a0b72989e3319017a650ee260ab48e648f01954fdcef4bf7"
+  },
+  "sourceOnlyQualification": false
+}

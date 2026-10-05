@@ -1,0 +1,9 @@
+{
+  "ownerInput": "/tmp/starship-receipt-pathspec-application-input.5836fdf8a272470b931d7666dfeb5d62/owner-input.json",
+  "sha": "00c0ea99ca0c3267b524d43c8bf4c8c0d3166cb1b4515ebca95956a84efa98cd",
+  "sourceReview": "2126842baf84a414711a4211beb120f8563123b595c8dbfc2d68036709d33dfa",
+  "inputReview": "4f530b6fa866a071a54880b1ef0d1042c7b79fcd1a1eab337b465c9c156e6391",
+  "physicsAddendum": "8f13b849abac763cb300fd72d211dee801d5fd7958d0e6fdf453cca4bc06b303",
+  "authorized": "ONE supervised exact one-helper application only; no inverse/build/test/browser",
+  "liveOldHelperSha": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e"
+}

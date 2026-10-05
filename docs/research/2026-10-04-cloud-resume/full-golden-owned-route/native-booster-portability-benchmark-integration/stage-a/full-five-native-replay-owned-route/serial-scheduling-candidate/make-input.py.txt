@@ -1,0 +1,35 @@
+# Root-only finite metadata derivative. No imports of product code, tests, tree/tool/fixture scan or application.
+import json,hashlib,sys
+from pathlib import Path
+root=Path('/workspace/StarShipSimulator')
+route=root/'docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route'
+serial=route/'serial-scheduling-candidate';manifest=serial/'input-pins.json';base=route/'actual-input-current-doc-bridge'
+digest=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+pins=json.loads(manifest.read_text())
+for p,sha in pins.items():assert digest(p)==sha,p
+review_path,review_sha=sys.argv[1:]
+assert Path(review_path).is_absolute() and digest(review_path)==review_sha
+owner=json.loads((base/'owner-input.json').read_text());inventory=json.loads((base/'inventory.json').read_text())
+assert owner['kind']=='official-original21-owner-input-v1' and owner['mode']=='golden-replay-native' and owner['outerMs']==338000
+assert inventory['kind']=='official-original21-external-inventory-v1'
+assert len(inventory['expectedCurrentSourceSnapshot'])==770 and len(inventory['expectedInstalledToolSnapshot'])==20355
+assert owner['qualification']['sha']=='e600e058b9cfaf11a0b72989e3319017a650ee260ab48e648f01954fdcef4bf7'
+assert inventory['qualificationSha']==owner['qualification']['sha']
+assert owner['stage']=={'path':str(route/'business-stage.mjs.txt'),'sha':'420ad01041841981e9132f9620b9b9707550935d113d69f59b9e9fe776c68105'}
+assert owner['observer']['sha']=='40bc9b65f3d5fe651606b835b804dd48a9c331c4a5e271ea6ea6b8d1cd778e57'
+assert len(owner['fixturePaths'])==10
+oldstage=(route/'business-stage.mjs.txt').read_bytes();newstage=(serial/'business-stage.mjs.txt').read_bytes()
+old=b"args:[resolve(m.root,'scripts/test/run.mjs'),'run',...files]";new=b"args:[resolve(m.root,'scripts/test/run.mjs'),'run','--maxWorkers=1',...files]"
+assert oldstage.count(old)==1 and newstage==oldstage.replace(old,new)
+assert (serial/'root-observer.py.txt').read_bytes()==(route/'root-observer.py.txt').read_bytes()
+files=dict(inventory['files']);files.update(pins);files[str(manifest)]=digest(manifest);files[review_path]=review_sha
+owner['stage']={'path':str(serial/'business-stage.mjs.txt'),'sha':digest(serial/'business-stage.mjs.txt')}
+owner['observer']={'path':str(serial/'root-observer.py.txt'),'sha':digest(serial/'root-observer.py.txt')}
+output=serial/'actual-input';output.mkdir(mode=0o700,exist_ok=False)
+inventory['files']=dict(sorted(files.items()))
+inventory['finiteSchedulingDerivative']={'kind':'single-explicit-max-workers-one-v1','baseOwnerPath':str(base/'owner-input.json'),'baseOwnerSha256':digest(base/'owner-input.json'),'baseInventoryPath':str(base/'inventory.json'),'baseInventorySha256':digest(base/'inventory.json'),'commandAddition':['--maxWorkers=1'],'unchangedBodiesAndNames':38,'nativeCases':3,'SSRCases':35,'namedTimeoutMs':30000,'noRetries':True,'sameRunHardwareSavingsUnproved':True,'previous37Of38FailurePreserved':True}
+with(output/'inventory.json').open('x')as out:json.dump(inventory,out,indent=2);out.write('\n')
+owner['pins']={'path':str(output/'inventory.json'),'sha':digest(output/'inventory.json')}
+with(output/'owner-input.json').open('x')as out:json.dump(owner,out,indent=2);out.write('\n')
+for p,sha in pins.items():assert digest(p)==sha,p
+print(json.dumps({'ownerInput':str(output/'owner-input.json'),'ownerSha256':digest(output/'owner-input.json'),'inventory':str(output/'inventory.json'),'inventorySha256':digest(output/'inventory.json'),'rawPaths':len(files),'argv':[owner['python']['path'],owner['observer']['path'],str(output/'owner-input.json'),digest(output/'owner-input.json')]}))

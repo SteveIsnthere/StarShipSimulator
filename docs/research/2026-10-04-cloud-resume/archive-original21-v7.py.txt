@@ -1,0 +1,153 @@
+"""Unexecuted research-only lossless copy of an accepted historical episode."""
+from pathlib import Path
+import hashlib
+import json
+import os
+import stat
+import sys
+import time
+import traceback
+
+digest = lambda data: hashlib.sha256(data).hexdigest()
+spec_path = Path(sys.argv[1]).resolve()
+assert digest(spec_path.read_bytes()) == sys.argv[2]
+spec = json.loads(spec_path.read_text())
+assert spec['kind'] == 'original21-v7-lossless-archive-proposal-v1'
+assert digest(Path(__file__).read_bytes()) == spec['scriptSha256']
+assert os.environ.get('STARSHIP_ORIGINAL21_ARCHIVE_APPROVED') == sys.argv[2]
+root = Path('/workspace/StarShipSimulator')
+output = root / 'docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts'
+assert not os.path.lexists(output)
+output.mkdir(mode=0o700)
+started = time.monotonic()
+rows = []
+primary = None
+posterrors = []
+sources = None
+
+
+def durable(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open('xb') as stream:
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+    fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def inventory(directory):
+    assert directory.is_absolute() and directory.resolve() == directory
+    assert stat.S_ISDIR(directory.lstat().st_mode)
+    files = []
+    for base, dirs, names in os.walk(directory, followlinks=False):
+        assert len(Path(base).relative_to(directory).parts) <= 32
+        for name in dirs:
+            assert stat.S_ISDIR((Path(base) / name).lstat().st_mode)
+        for name in names:
+            path = Path(base) / name
+            item = path.lstat()
+            assert stat.S_ISREG(item.st_mode)
+            assert item.st_size <= 16 * 1024 * 1024
+            files.append(path)
+            assert len(files) <= 5000
+    return sorted(files)
+
+
+def discover():
+    outer = Path(spec['rootReceipt'])
+    result = json.loads((outer / 'root-outcome.json').read_text())
+    assert result['completed'] and result['actualReturncode'] == 0 and not result['failures']
+    stage = Path(result['stageReceipt'])
+    assert stage == Path('/tmp/starship-original21-stage.BAkByZ')
+    result = json.loads((stage / 'stage-result.json').read_text())
+    assert result['completed'] and result['mode'] == 'original21' and result['code'] == 0
+    assert result['error'] is None and not result['afterErrors']
+    official = Path(result['officialResultPath'])
+    assert official == Path('/tmp/starship-official-tests-owner.5qAIAj/result.json')
+    result = json.loads(official.read_text())
+    assert result['completed'] and result['rawCode'] == 0 and result['failure'] is None and not result['afterErrors']
+    manifest = Path(result['manifestPath'])
+    assert manifest == Path('/tmp/starship-official-flight.sxypD4/native.json')
+    assert digest(manifest.read_bytes()) == result['manifestSha']
+    current = json.loads(manifest.read_text())
+    assert Path(current['directory']) == manifest.parent / 'native'
+    return {'root': outer, 'stage': stage, 'official-owner': official.parent, 'native': manifest.parent}
+
+
+try:
+    for row in spec['references']:
+        assert digest(Path(row['path']).read_bytes()) == row['sha256']
+    trees = discover()
+    sources = {role: inventory(directory) for role, directory in trees.items()}
+    total = 0
+    for role, paths in sources.items():
+        for path in paths:
+            assert time.monotonic() - started < 45
+            item = path.lstat()
+            assert stat.S_ISREG(item.st_mode)
+            data = path.read_bytes()
+            assert len(data) == item.st_size
+            total += len(data)
+            assert total <= 256 * 1024 * 1024 and len(rows) < 5000
+            relative = path.relative_to(trees[role])
+            # Preserve original executables in /tmp; only archive names get .txt.
+            target = output / role / relative
+            if path.suffix in ['.mjs', '.js', '.ts', '.tsx', '.py']:
+                target = target.with_name(target.name + '.txt')
+            durable(target, data)
+            assert digest(target.read_bytes()) == digest(data)
+            rows.append({'original': str(path), 'canonical': str(target.relative_to(root)),
+                         'bytes': len(data), 'sha256': digest(data), 'originalMode': stat.S_IMODE(item.st_mode)})
+    for number, row in enumerate(spec['references']):
+        path = Path(row['path'])
+        assert stat.S_ISREG(path.lstat().st_mode)
+        data = path.read_bytes()
+        total += len(data)
+        assert len(data) <= 16 * 1024 * 1024 and total <= 256 * 1024 * 1024 and len(rows) < 5000
+        assert digest(data) == row['sha256']
+        target = output / 'supporting' / (str(number) + '-' + path.name)
+        durable(target, data)
+        rows.append({'original': str(path), 'canonical': str(target.relative_to(root)),
+                     'bytes': len(data), 'sha256': digest(data), 'originalMode': stat.S_IMODE(path.lstat().st_mode)})
+except BaseException:
+    primary = traceback.format_exc()
+finally:
+    for row in rows:
+        try:
+            assert digest(Path(row['original']).read_bytes()) == row['sha256']
+            assert stat.S_IMODE(Path(row['original']).lstat().st_mode) == row['originalMode']
+            data = (root / row['canonical']).read_bytes()
+            assert len(data) == row['bytes'] and digest(data) == row['sha256']
+        except BaseException:
+            posterrors.append({'original': row['original'], 'error': traceback.format_exc()})
+    try:
+        if sources is None:
+            raise RuntimeError('Source inventory unavailable; archive incomplete')
+        assert {role: inventory(path) for role, path in discover().items()} == sources
+        assert digest(spec_path.read_bytes()) == sys.argv[2]
+        assert digest(Path(__file__).read_bytes()) == spec['scriptSha256']
+        for row in spec['references']:
+            assert digest(Path(row['path']).read_bytes()) == row['sha256']
+    except BaseException:
+        posterrors.append({'stage': 'final-source-input-inventory', 'error': traceback.format_exc()})
+    completed = primary is None and not posterrors
+    if completed:
+        try:
+            durable(output / 'origin-manifest.json', (json.dumps({
+                'kind': 'lossless-original21-v7-owned-artifact-copy-v1', 'rows': rows,
+                'originalsUntouched': True, 'originalResultsReclassified': False,
+                'scope': 'Exact accepted original21 episode evidence, not full unit/coverage/gate acceptance'
+            }, indent=2) + '\n').encode())
+        except BaseException:
+            posterrors.append({'stage': 'origin-manifest-write', 'error': traceback.format_exc()})
+            completed = False
+    durable(output / 'copy-result.json', (json.dumps({'completed': completed,
+        'primaryFailure': primary, 'posterrors': posterrors, 'files': len(rows),
+        'bytes': sum(row['bytes'] for row in rows), 'elapsedSeconds': time.monotonic() - started,
+        'proposalSha256': sys.argv[2], 'executedScriptSha256': spec['scriptSha256']
+    }, indent=2) + '\n').encode())
+sys.exit(0 if completed else 1)

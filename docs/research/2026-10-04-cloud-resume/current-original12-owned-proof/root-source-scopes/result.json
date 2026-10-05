@@ -1,0 +1,36 @@
+{
+  "checks": [
+    {
+      "name": "make-input.py.txt.ast",
+      "code": 0,
+      "elapsedSeconds": 0.0014201660014805384
+    },
+    {
+      "name": "root-observer.py.txt.ast",
+      "code": 0,
+      "elapsedSeconds": 0.003315436995762866
+    },
+    {
+      "name": "owner.mjs.txt.syntax",
+      "code": 0,
+      "elapsedSeconds": 0.02822285200090846
+    },
+    {
+      "name": "owner.mjs.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.943476530002954
+    },
+    {
+      "name": "realm-typescript-parse",
+      "code": 0,
+      "elapsedSeconds": 0.4031800340017071
+    },
+    {
+      "name": "realm-eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8806393010017928
+    }
+  ],
+  "all61PinsBeforeAfterMatched": true,
+  "passed": true
+}

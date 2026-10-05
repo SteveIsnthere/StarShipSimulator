@@ -1,0 +1,14 @@
+{
+  "identity": {
+    "pid": 122554,
+    "start": "7719543",
+    "group": 122554,
+    "session": 122554
+  },
+  "status": 0,
+  "reaped": true,
+  "elapsedSeconds": 0.11433565799961798,
+  "umask": "077",
+  "noBrowser": true,
+  "seedSha256": "9d61b2c8456523f190fcc1544964b87375839f612c164debeabb565abe4fedd0"
+}

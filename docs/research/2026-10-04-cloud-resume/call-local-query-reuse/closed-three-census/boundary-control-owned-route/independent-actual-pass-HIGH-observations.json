@@ -1,0 +1,55 @@
+{
+  "kind": "independent-inert-boundary-actual-proof-observations-v1",
+  "acceptedInertBoundaryControls": true,
+  "canonicalCaseCount": 14,
+  "orderedCases": [
+    "foreign alias denies before delegation",
+    "unknown application alias denies",
+    "foreign absolute entry",
+    "artifact query",
+    "artifact fragment",
+    "nonexecuting artifact",
+    "certified alias resolves only owned entry",
+    "certified observer bootstrap admits entry",
+    "observer cannot bootstrap chunk",
+    "compiler local edge admits exact chunk",
+    "compiler local edge denies foreign target",
+    "unresolved artifact load denies before delegation",
+    "authorized native bytes retained without transform",
+    "authorized native wrong bytes deny"
+  ],
+  "sourceInputSha256": "341c2d01cd3ffcee1600278f99b6c978e32c98c5de2720b2e3a5eec2c7027159",
+  "rootInputSha256": "e98d47895252010372959df4f23814cede3faa8cf02bb8111232ed4013a9a40a",
+  "driverSha256": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7",
+  "loaderSha256": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb",
+  "callbackSha256": "7c7937b257f0b438b9649b3b7ad07a29be33cf1c4b49bf5e67d9a27428157831",
+  "actualRootStatus": 0,
+  "actualCallerElapsedSeconds": 0.916888405001373,
+  "actualRootElapsedSeconds": 0.826824426651001,
+  "ownerElapsedMs": 452.64208984375,
+  "allThreeActualIdentitiesAbsent": true,
+  "identities": [
+    {
+      "pid": 126880,
+      "start": "7977826"
+    },
+    {
+      "pid": 126881,
+      "start": "7977846"
+    },
+    {
+      "pid": 126888,
+      "start": "7977868"
+    }
+  ],
+  "twoCapturedGroupsClear": true,
+  "selected23SourceAndMaterialHashesUnchanged": true,
+  "privateMaterialCopiesExact": 3,
+  "rootTrackedCleanupAccepted": true,
+  "actualGlobalHooksInstalled": false,
+  "physicalImports": false,
+  "publicWorkerLifecycleApproved": false,
+  "pristineIntrinsicQualification": false,
+  "physicalAcceptance": false,
+  "priorFailedRunPreserved": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap"
+}

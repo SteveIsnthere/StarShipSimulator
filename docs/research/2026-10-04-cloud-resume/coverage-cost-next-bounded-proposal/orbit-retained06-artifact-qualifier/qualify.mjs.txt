@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import {readFileSync, readdirSync, lstatSync, writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {resolve, dirname, isAbsolute} from 'node:path';
+import {verifyRetainedIdentity} from './policy.mjs';
+const sha = p => createHash('sha256').update(readFileSync(p)).digest('hex');
+const [input, expected] = process.argv.slice(2); assert.equal(sha(input), expected);
+const m = JSON.parse(readFileSync(input)); assert.equal(m.kind, 'original-orbit18-offline-retained-qualifier-input-v1');
+const selected = () => {for (const [p, d] of Object.entries(m.files)) assert.equal(sha(p), d, p); assert.equal(sha(input), expected);}; selected();
+assert.equal(sha(m.certificate.path), m.certificate.sha); const c = JSON.parse(readFileSync(m.certificate.path));
+for (const row of [c.originalInput, c.rawGraph, c.productionOptions, c.runtime.producerIndex, c.runtime.package, c.runtime.binding, c.failureReview, c.failurePins]) assert.equal(sha(row.path), row.sha);
+const original = JSON.parse(readFileSync(c.originalInput.path)), raw = JSON.parse(readFileSync(c.rawGraph.path));
+assert.deepEqual(raw.entry, original.entry); assert.deepEqual(raw.originalTest, original.originalTest);
+assert.equal(JSON.parse(readFileSync(c.runtime.package.path)).version, '1.2.5');
+const producer = readFileSync(c.runtime.producerIndex.path, 'utf8');
+assert(producer.includes('const RUNTIME_MODULE_ID = "\\0rolldown/runtime.js";'), 'Exact installed public runtime constant');
+assert(producer.includes('export { RUNTIME_MODULE_ID,'), 'Public runtime export');
+const walk = (directory, depth = 0) => {assert(depth <= 8, 'Artifact depth'); const paths = []; for (const name of readdirSync(directory)) {const path = resolve(directory, name), item = lstatSync(path); assert(!item.isSymbolicLink(), 'Artifact symlink'); if (item.isDirectory()) paths.push(...walk(path, depth + 1)); else {assert(item.isFile() && item.size <= 64 * 1024 * 1024, 'Regular bounded artifact'); paths.push(path);} } assert(paths.length <= 128, 'Artifact count bound'); return paths.sort();};
+const before = walk(c.directory); assert.deepEqual(before, Object.keys(c.files).sort(), 'Full emitted artifact inventory');
+for (const [p, d] of Object.entries(c.files)) assert.equal(sha(p), d, p);
+const helper = readFileSync(resolve(c.directory, c.runtime.chunk)).subarray(0, c.runtime.helperBytes);
+assert.equal(createHash('sha256').update(helper).digest('hex'), c.runtime.helperSha);
+const identity = verifyRetainedIdentity(raw, c, helper.toString('utf8'));
+for (const [id, d] of Object.entries(c.originalIds)) {assert.equal(original.files[id], d); assert.equal(sha(id), d, id);}
+const mapped = new Set();
+for (const name of identity.executingChunks) {
+  const path = resolve(c.directory, name + '.map'); assert(Object.hasOwn(c.files, path), 'Executing source map pin'); const map = JSON.parse(readFileSync(path));
+  assert.equal(map.sources.length, map.sourcesContent.length);
+  for (let i = 0; i < map.sources.length; i++) {assert(!map.sources[i].includes('://')); const id = isAbsolute(map.sources[i]) ? map.sources[i] : resolve(dirname(path), map.sourceRoot ?? '', map.sources[i]); assert(Object.hasOwn(c.originalIds, id), 'Mapped source original-only'); assert.equal(map.sourcesContent[i], readFileSync(id, 'utf8')); assert.equal(sha(id), c.originalIds[id]); mapped.add(id);}
+}
+assert.equal(mapped.size, 56, '55 original core/app plus legacy mapped sources'); assert(!mapped.has(c.runtime.id), 'No generated runtime map/coverage credit');
+for (const id of ['src/core/state.ts', 'src/core/step.ts', 'src/core/physics/gravity.ts', 'src/core/constants.ts', 'tests/core/legacy-models.ts']) assert(mapped.has(resolve(original.root, id)));
+assert.deepEqual(walk(c.directory), before); for (const [p, d] of Object.entries(c.files)) assert.equal(sha(p), d, p); selected();
+const result = {kind: 'original-orbit18-offline-retained-artifact-provenance-result-v1', completed: true, originalCompilerStatus: 'FAILED', nativeImports: 0, paidHistories: 0, files: c.files, identity, mapped: [...mapped].sort(), runtime: c.runtime, sourceAuthority: original.authorityRole, originalTest: original.originalTest, productionOptions: c.productionOptions, physicalOrCoverageAcceptance: false};
+writeFileSync(m.output, JSON.stringify(result, null, 2) + '\n', {flag: 'wx'});
+console.log(JSON.stringify({completed: true, output: m.output, outputSha: sha(m.output), originalCompilerStatus: 'FAILED', nativeImports: 0, paidHistories: 0}));

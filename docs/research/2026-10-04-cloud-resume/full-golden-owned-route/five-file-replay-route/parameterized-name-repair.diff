@@ -1,0 +1,80 @@
+--- before-inventory
++++ after-inventory
+@@ -15,15 +15,15 @@
+     },
+     {
+       "file": "tests/golden/booster-replay.test.ts",
+-      "fullName": "actual booster capture golden regressions > booster-sep-catch replays all physical state/control leaves through an airborne catch"
++      "fullName": "actual booster capture golden regressions > 'booster-sep-catch' replays all physical state/control leaves through an airborne catch"
++    },
++    {
++      "file": "tests/golden/booster-replay.test.ts",
++      "fullName": "actual booster capture golden regressions > 'rtls-catch' replays all physical state/control leaves through an airborne catch"
+     },
+     {
+       "file": "tests/golden/booster-replay.test.ts",
+       "fullName": "actual booster capture golden regressions > has exactly the two declared recordings and discriminating immutable digests"
+-    },
+-    {
+-      "file": "tests/golden/booster-replay.test.ts",
+-      "fullName": "actual booster capture golden regressions > rtls-catch replays all physical state/control leaves through an airborne catch"
+     },
+     {
+       "file": "tests/golden/compare.test.ts",
+@@ -47,27 +47,35 @@
+     },
+     {
+       "file": "tests/golden/replay.test.ts",
+-      "fullName": "before-flip-autoland > replays field for field, sample for sample"
++      "fullName": "'before-flip-autoland' > replays field for field, sample for sample"
+     },
+     {
+       "file": "tests/golden/replay.test.ts",
+-      "fullName": "booster-sep-boostback > replays field for field, sample for sample"
++      "fullName": "'booster-sep-boostback' > replays field for field, sample for sample"
+     },
+     {
+       "file": "tests/golden/replay.test.ts",
+-      "fullName": "intro-demo > replays field for field, sample for sample"
++      "fullName": "'intro-demo' > replays field for field, sample for sample"
+     },
+     {
+       "file": "tests/golden/replay.test.ts",
+-      "fullName": "landing-burn-autoland > replays field for field, sample for sample"
++      "fullName": "'landing-burn-autoland' > replays field for field, sample for sample"
+     },
+     {
+       "file": "tests/golden/replay.test.ts",
+-      "fullName": "landing-burn-headwind > replays field for field, sample for sample"
++      "fullName": "'landing-burn-headwind' > replays field for field, sample for sample"
+     },
+     {
+       "file": "tests/golden/replay.test.ts",
+-      "fullName": "launch-pad-takeoff > replays field for field, sample for sample"
++      "fullName": "'launch-pad-takeoff' > replays field for field, sample for sample"
++    },
++    {
++      "file": "tests/golden/replay.test.ts",
++      "fullName": "'reentry-autoland' > replays field for field, sample for sample"
++    },
++    {
++      "file": "tests/golden/replay.test.ts",
++      "fullName": "'rtls-boostback' > replays field for field, sample for sample"
+     },
+     {
+       "file": "tests/golden/replay.test.ts",
+@@ -80,14 +88,6 @@
+     {
+       "file": "tests/golden/replay.test.ts",
+       "fullName": "one physics, one fixture set \u2014 M2.10 > no flag-suffixed fixture survives on disk"
+-    },
+-    {
+-      "file": "tests/golden/replay.test.ts",
+-      "fullName": "reentry-autoland > replays field for field, sample for sample"
+-    },
+-    {
+-      "file": "tests/golden/replay.test.ts",
+-      "fullName": "rtls-boostback > replays field for field, sample for sample"
+     },
+     {
+       "file": "tests/golden/replay.test.ts",

@@ -1,0 +1,27 @@
+{
+  "scope": "single pre-child failed history attempt; no workloads by reviewer",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/root-history-result.json": "9c9406e7db6e0f010f07389f4e672f3b52999c43abfa4b599267ae029d16614f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/root-history-registration.json": "5c977429898f53d511101f8c8a03c9f86242faa48a3380df6461569280c4b2a8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/root-history-independent-postexit.json": "6fc65ef4c2c2babe306eeed20502e14fdffd61172cbbec564cd07d8627e4c86e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/root-history.stdout.txt": "0aa53d08d7e3ad1d41fe283adf3ca1c6acefab9a13a43ecb290eadaf8ea18e3d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/root-history.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/owner.mjs.txt": "1c3cbd104f7b06f81046fc3e99d75d3dfe6215efe1e4b27b543c461cc6114839",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/input-pins.json": "ba70c58c95c43973e953bccb4443f6515d53c414f1eb4448272ba94cfff167e3",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/input.json": "291bc045e18ee27d2d4b141d5bc25a3d293b5bbad7a4dfe8360dd47cd38410ed",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/root-input.json": "7705583a2cc579d0bf95a4e9dcc72441841259dad3b41926d1e8653ef640a6bc",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/owner.mjs": "1c3cbd104f7b06f81046fc3e99d75d3dfe6215efe1e4b27b543c461cc6114839",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/owner-result.json": "c851cab4737d039062761a838226499d80c8b02895f6357346533b6bad7edb6c",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/complete-before.json": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/complete-after.json": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/selected-before.json": "b9cac769213b7df82eb289fe24a7dec0a500588074c511c9f46dde307d0a8fea",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/selected-after.json": "b9cac769213b7df82eb289fe24a7dec0a500588074c511c9f46dde307d0a8fea",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/compiled-before-owner.json": "168e358dc7fd7f6d1dde897acfbcb098ff5712d78d8343405f8e85f8a34d863e",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/compiled-after-owner.json": "168e358dc7fd7f6d1dde897acfbcb098ff5712d78d8343405f8e85f8a34d863e",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-7c0c2f3f888648b49a1fd481a6420792/owned-final.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "/tmp/starship-orbit18-qualification-root.buujrfqu/outer.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-orbit18-qualification-root.buujrfqu/outer.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-history-continuation/independent-history-prechild-cap-actual-FAIL-HIGH-review.md": "b380c8a435909b4470a9bbbb2f0deca67e33ff7ce7b907e8b532230eaa22b241"
+  }
+}

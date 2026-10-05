@@ -1,0 +1,31 @@
+{
+  "kind": "canonical-map-codec-inert-controls-v1",
+  "cases": [
+    "empty native Map brand and prototype roundtrip",
+    "nonempty string counters preserve insertion order",
+    "all supported primitive nonstring keys exact",
+    "native signed zero key canonicalization retained",
+    "negative zero NaN undefined values lossless",
+    "object key preserves own data and identity separation",
+    "Map own data descriptor flags and proto key retained",
+    "nested FileCoverage exact prototype and Map preserved",
+    "all Maps emit positive identity before recursion",
+    "missing witness rejects before internal traversal",
+    "cross realm native Map exact prototype denied",
+    "custom prototype native Map denied",
+    "Map subclass denied",
+    "constructor named Map fake cannot authorize",
+    "provider proxy denies before traps",
+    "own accessor iterator never called and denied",
+    "own forEach accessor never called and denied",
+    "symbol Map key remains unsupported",
+    "symbol own key remains unsupported",
+    "function key remains unsupported",
+    "shared entry object identity remains denied",
+    "Map cycles remain denied",
+    "duplicate tagged SameValueZero keys rejected",
+    "malicious tagged negative zero key fails reencode equality",
+    "malformed Map entry and own descriptor rejected",
+    "Map nested depth cap remains unchanged"
+  ]
+}

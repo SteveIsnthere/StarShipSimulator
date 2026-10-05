@@ -1,0 +1,21 @@
+{
+  "classification": "Source-only repair of deterministic rejected qualification; no execution",
+  "priorInputSha256": "baa789372057cbd426bc5c93e6a1183a3086728f6c5833e17d256d6ae60cc49d",
+  "priorHOLDReviewSha256": "95c773f28e91586a3be54d8935ce146739b357993dd87e7072195f797f37c258",
+  "removedPublicAsset": {
+    "name": "serviceworker.js",
+    "sha256": "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9"
+  },
+  "qualifiedRoleSet": [
+    "entry.mjs",
+    "simulation-Cnsem1hb.js",
+    "entry.mjs.map",
+    "simulation-Cnsem1hb.js.map"
+  ],
+  "retainedCode": {
+    "entry.mjs": "9cd03dcd8ca1af2d59fb0c0f4cebd78fdaefadc88df62e7ac0f91ce0326d09fd",
+    "simulation-Cnsem1hb.js": "687baba1e826a457196e645d3bcbcf6c3a1110e9aeeefd419b4c9b7da2118e84"
+  },
+  "retainedMapRolesEqualBefore": true,
+  "newInputSha256": "3dc70e08767fcc2230f19a18b4542298f5284e42f8c02b9e53ae3af887963f7e"
+}

@@ -1,0 +1,116 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 115090,
+      "state": "R",
+      "parent": 115089,
+      "group": 115090,
+      "session": 115090,
+      "start": "7342703"
+    },
+    {
+      "pid": 115097,
+      "state": "R",
+      "parent": 115090,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343056"
+    },
+    {
+      "pid": 115108,
+      "state": "S",
+      "parent": 115097,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343066"
+    },
+    {
+      "pid": 115109,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343067"
+    },
+    {
+      "pid": 115116,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343076"
+    },
+    {
+      "pid": 115123,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343983"
+    },
+    {
+      "pid": 115130,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343988"
+    },
+    {
+      "pid": 115137,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343992"
+    },
+    {
+      "pid": 115169,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7344504"
+    },
+    {
+      "pid": 115180,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7344510"
+    },
+    {
+      "pid": 115191,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7344518"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 115090,
+      "session": 115090,
+      "start": "7342703",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115097,
+      "session": 115097,
+      "start": "7343056",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-original21-stage.42OOod",
+  "manifestSha": "bb0d3bf82e86918c3eba80a3b0ae9d71113fd540a344a0ef26a156e3cb37d4ad",
+  "elapsedSeconds": 22.3555805683136,
+  "acceptance": "This distinct public app-build qualification or Mesa application matrix only; incomplete matrix fails; independent actual-result/source/ownership review required; no whole gate or hardware acceptance"
+}

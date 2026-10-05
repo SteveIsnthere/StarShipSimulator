@@ -1,0 +1,53 @@
+# Selected-file materialization only; body approval is an external reviewed input.
+import os,sys,json,hashlib,uuid
+from pathlib import Path
+r=Path('/workspace/StarShipSimulator');p=r/'docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census';b=p/'physical-owner-candidate';worker=p/'closed-worker-candidate'
+sha=lambda path:hashlib.sha256(Path(path).read_bytes()).hexdigest()
+assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='query-census-closed-three-preparation'
+assert os.environ.get('NODE_OPTIONS','')=='' and os.environ.get('NODE_PATH','')==''
+approval_path,approval_sha=sys.argv[1:];assert sha(approval_path)==approval_sha;approval=json.loads(Path(approval_path).read_text())
+assert approval['kind']=='closed-three-native-body-approval-v1' and approval['status']=='approved' and approval['publicDispatcher'] is False
+pins_path=b/'input-pins.json';static=json.loads(pins_path.read_text());rows=dict(static['files'])
+for path,h in rows.items():assert sha(path)==h,path
+source_inputs=worker/'input-pins.json';assert sha(source_inputs)==approval['sourceInputsSha256']
+ledger=json.loads((worker/'eligibility-ledger.json').read_text());graph={row['path']:row['sha256']for row in ledger['mappedSourceGraph']};assert len(graph)==55 and approval['graph']==graph
+original={name:rows[str(r/name)]for name in ['tests/golden/booster-replay.test.ts','tests/golden/booster-record.ts','tests/golden/record.ts','tests/golden/compare.ts']};assert approval['originalSources']==original
+successor_path=p/'inert-proof/authority-successor.json';successor=json.loads(successor_path.read_text());assert successor['current']['sha256']==approval['authoritySha256']
+for role in ['historical','current','application','review','reviewPins']:
+ row=successor[role];assert sha(row['path'])==row['sha256']
+# These exact accepted actual evidence paths/hashes are frozen selected inputs.
+numerical=p/'inert-proof/independent-actual-pass-HIGH-observations.json';reporting=Path('/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-reporting-2e4e3287b3014e7382317a96a035611a/reporting-proof-result.json');reporting_owner=reporting.parent/'owner-result.json'
+assert sha(numerical)==approval['censusSourceControlsSha256'];assert sha(reporting)==approval['reportingControlsSha256'];assert sha(reporting_owner)==approval['reportingOwnerSha256']
+for family,flag in [('inert-proof','acceptedFiniteNumericalProof'),('reporting-controls','acceptedInertReportingControls')]:
+ evidence=json.loads((p/family/'independent-actual-pass-HIGH-pins.json').read_text());assert evidence[flag] is True
+ for path,h in evidence['files'].items():assert sha(path)==h,path;rows[path]=h
+rows[str(approval_path)]=approval_sha;rows[str(source_inputs)]=sha(source_inputs);rows[str(pins_path)]=sha(pins_path)
+assert approval['virtualSourceHashes']=={f'src/core/physics/{name}.ts':sha(p/(name+'.census.ts.txt'))for name in ['damage-controls','damage-thermal']}
+assert approval['entrySha256']==sha(worker/'entry.ts.txt')
+setup=r/'node_modules/.cache'/('starship-closed-three-census-'+uuid.uuid4().hex);setup.mkdir(mode=0o700);materialized={}
+def emit(source,name):
+ target=setup/name
+ with target.open('xb')as stream:stream.write(source.read_bytes())
+ materialized[str(target)]={'source':str(source),'sourceSha256':sha(source),'sha256':sha(target)};rows[str(target)]=sha(target)
+for name in ['admission.mjs','loader.mjs','config.ts','builder.mjs','entry.ts','observer.mjs']:emit(worker/(name+'.txt'),name)
+for name in ['owner.mjs','run-public.mjs']:emit(b/(name+'.txt'),name)
+for name in ['damage-controls','damage-thermal']:emit(p/(name+'.census.ts.txt'),name+'.census.ts.txt')
+virtual={f'src/core/physics/{name}.ts':{'path':str(setup/(name+'.census.ts.txt')),'sha256':sha(setup/(name+'.census.ts.txt'))}for name in ['damage-controls','damage-thermal']}
+assert approval['virtualSourceHashes']=={file:row['sha256']for file,row in virtual.items()};assert approval['entrySha256']==sha(setup/'entry.ts')
+node={'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha256':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'}
+qualification=json.loads((r/'docs/verification/native-flight-qualification-v7.json').read_text())
+names=['actual booster capture golden regressions > has exactly the two declared recordings and discriminating immutable digests',"actual booster capture golden regressions > 'booster-sep-catch' replays all physical state/control leaves through an airborne catch","actual booster capture golden regressions > 'rtls-catch' replays all physical state/control leaves through an airborne catch"]
+m={'kind':'closed-three-census-source-input-v1','root':str(r),'setup':str(setup),'selected':rows,'materialized':materialized,'node':node,'nodeSha256':node['sha256'],'npmCli':qualification['npmCli'],
+ 'sourceInputs':{'path':str(source_inputs),'sha256':sha(source_inputs)},'ownerSourceInputs':{'path':str(pins_path),'sha256':sha(pins_path)},'bodyApproval':{'path':str(approval_path),'sha256':approval_sha},
+ 'authority':successor['current'],'authoritySuccessor':{'path':str(successor_path),'sha256':sha(successor_path)},'graph':graph,'originalSources':original,'originalCaseNames':names,'virtualSources':virtual,
+ 'entry':{'path':str(setup/'entry.ts'),'sha256':sha(setup/'entry.ts')},'observer':{'path':str(setup/'observer.mjs'),'sha256':sha(setup/'observer.mjs')},'testTimeout':30000,'workerConditions':approval['workerConditions'],
+ 'censusControls':{'path':str(numerical),'sha256':sha(numerical)},'reportingControls':{'path':str(reporting),'sha256':sha(reporting)},'reportingOwner':{'path':str(reporting_owner),'sha256':sha(reporting_owner)},
+ 'utility':{'path':str(r/'scripts/bench/native-loader.mjs'),'sha256':rows[str(r/'scripts/bench/native-loader.mjs')]},'helper':{'path':str(r/'scripts/bench/owned-command.mjs'),'sha256':rows[str(r/'scripts/bench/owned-command.mjs')]},'steps':['native-build','physical-census']}
+with(setup/'input.json').open('x')as stream:json.dump(m,stream,indent=2);stream.write('\n')
+rows={**rows,str(setup/'input.json'):sha(setup/'input.json')}
+with(setup/'root-inventory.json').open('x')as stream:json.dump({'kind':'query-census-closed-three-root-inventory-v1','files':rows},stream,indent=2);stream.write('\n')
+root={'kind':'query-census-closed-three-root-input-v1','root':str(r),'mode':'query-census-closed-three','outerMs':300000,'setup':str(setup),'steps':m['steps'],
+ 'node':{'path':node['path'],'sha':node['sha256']},'helper':{'path':m['helper']['path'],'sha':m['helper']['sha256']},'pureInput':{'path':str(setup/'input.json'),'sha':sha(setup/'input.json')},'pins':{'path':str(setup/'root-inventory.json'),'sha':sha(setup/'root-inventory.json')},'stage':{'path':str(setup/'owner.mjs'),'sha':sha(setup/'owner.mjs')},'observer':{'path':str(b/'root-observer.py.txt'),'sha':sha(b/'root-observer.py.txt')},'python':{'path':'/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12','sha':'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'}}
+with(setup/'root-input.json').open('x')as stream:json.dump(root,stream,indent=2);stream.write('\n')
+for path,h in rows.items():assert sha(path)==h,path
+print(json.dumps({'setup':str(setup),'input':str(setup/'input.json'),'inputSha256':sha(setup/'input.json'),'rootInput':str(setup/'root-input.json'),'rootInputSha256':sha(setup/'root-input.json'),'argv':[root['python']['path'],root['observer']['path'],str(setup/'root-input.json'),sha(setup/'root-input.json')]}))

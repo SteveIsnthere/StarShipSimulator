@@ -1,0 +1,16 @@
+{
+  "kind": "independent-pure-proof-source-review-v2",
+  "verdict": "HOLD emitted-edge guard only; maker/input review source-ready",
+  "execution": false,
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/input-pins.json": "f78e555f1d728826c82a2242b971589dd108573ae865cedc2c59630c534613e6",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/builder.mjs.txt": "ba8fc43f0ede15a6048bcd356bd8595a5706ea0c9c420e7730edcbb1fe7e36e2",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/driver.mjs.txt": "a20555bf328a8c7083d0f71fb47d2320368bb04e63b634bd32767726878663e9",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/canonical-equivalence-driver.mjs.txt": "679ff675b6bab99b68d4e99941e07c77843410ce81fa0b2f54b3aca61f039e55",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/owner.mjs.txt": "7b77d1475b48efa77660545eb3221308f86af1d92d80a920fdefd0ae51b66985",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/make-input.py.txt": "b0502f4538658726d0148c7486e733295f1e7084d2060707d2e50dadc258c8dc",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/entry.ts.txt": "f870865020e5aa24191e336792275b353236ddd6b5119c7f7fa8976a45ae2c90",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/declaration.md": "14f95bfae49236bd3f31d57506c93c1e6fa91f30a464b020624f2ad739cd3067",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v2.md": "f011723d8b21836da04909613c3011f6a75b722f467576d9313e1fd63ac7a356"
+  }
+}

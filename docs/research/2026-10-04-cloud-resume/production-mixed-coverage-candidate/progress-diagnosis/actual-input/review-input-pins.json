@@ -1,0 +1,121 @@
+{
+  "kind": "selected2-SSR-actual-input-review-pins-v1",
+  "sourceOnlyPreparation": true,
+  "diagnosticExecuted": false,
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-input/inventory.json",
+      "sha": "7697edd1cd25bbbccfe8afc27e8e61f282227cc9fd9d9efbfd8d6394e3be5460",
+      "bytes": 6237623
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-input/owner-input.json",
+      "sha": "9d5a42628afed1cd50669d6423e4484673d8f8d12dadae434284a4af8d91a99b",
+      "bytes": 21428
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json",
+      "sha": "0d8aa697f5255d26ccd1da9e3135de5e4a49ee67ba4ac00222f5c21ca6313d4b",
+      "bytes": 2785889
+    },
+    {
+      "path": "/tmp/starship-official-tests-owner.FAymqm/result.json",
+      "sha": "8e423eca60a36820cb34c6ac4a57f6cf905f721ee40f36b4eeffa9738de593e2",
+      "bytes": 1264661
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/progress-reporter.mjs.txt",
+      "sha": "b28bc45b335d9c076133f08f0d18be1ac17e2936d98ed915536bb3cb1e534c3f",
+      "bytes": 5527
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/business-stage-selected2.mjs.txt",
+      "sha": "5b375eecff89376b60ba2cd229cd0e9ff61dfb7f613d023c79ab88126febf703",
+      "bytes": 9245
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/root-observer-selected2.py.txt",
+      "sha": "90dad5c122f0651a79d932bb9e6116b6c8d7ef2f5ca83bc09e63fdcb35174418",
+      "bytes": 15814
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/capture-reporter-ssr.mjs.txt",
+      "sha": "9543d3e01bd19032bb3b187e059886c7a58f9f96628320a906ae040d3263d70c",
+      "bytes": 4441
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/invocation.md",
+      "sha": "6b38eb2159e57befcf50c9227fb7b3dfdfbff81612512898405e4d249371014c",
+      "bytes": 6977
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/invocation-source-pins.json",
+      "sha": "b368e69e9886611ababf5ddd857c297b974edc9f97454302d04f560fe2b4842c",
+      "bytes": 2458
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/independent-source-HIGH-review.md",
+      "sha": "c9dcf69f810324a292c303ae4f5ab35779091eceac5c142bbebc90e87d906ea2",
+      "bytes": 3782
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/independent-source-HIGH-pins.json",
+      "sha": "ad43bb9eb04a4a1488cc55d8e18a2ba5d007b72bbcfbc6b6cb0753626464c596",
+      "bytes": 5092
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/independent-invocation-source-HIGH-review.md",
+      "sha": "7b682ff039d4946d125e320982414296ee6e8ded3a89ca2d43b3b909a25cb311",
+      "bytes": 4090
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/independent-invocation-source-HIGH-pins.json",
+      "sha": "42904c30bd9667807dd06508cf4b1252a58ae8e6ddef8bf1068e78e956b45dc7",
+      "bytes": 3911
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/independent-actual-mixed247-failure-HIGH-review.md",
+      "sha": "60b9c0a2b5afa7e5a20ae87243bd084d022df625fb9a7cfac497c5813fd3e388",
+      "bytes": 3360
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/independent-actual-mixed247-failure-HIGH-pins.json",
+      "sha": "197c04d247574b320b33f7ea2f73cdceb2f1c083dcc2e7490bedbf7d7b2b1dbd",
+      "bytes": 15895
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/actual-input/independent-actual-result-HIGH-review.md",
+      "sha": "a76ab6f52df07e7e02674ba7c726d370c8aaf6d245a305354f272bab96758129",
+      "bytes": 4732
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/actual-input/independent-actual-result-HIGH-pins.json",
+      "sha": "9effdc2f941efc605b274f9c56d93f7a1e6201c32efadbb7fb6cac8ff2060475",
+      "bytes": 9391
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/stage.mjs",
+      "sha": "5b375eecff89376b60ba2cd229cd0e9ff61dfb7f613d023c79ab88126febf703",
+      "bytes": 9245
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/root-observer.py",
+      "sha": "90dad5c122f0651a79d932bb9e6116b6c8d7ef2f5ca83bc09e63fdcb35174418",
+      "bytes": 15814
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/capture-reporter.mjs",
+      "sha": "9543d3e01bd19032bb3b187e059886c7a58f9f96628320a906ae040d3263d70c",
+      "bytes": 4441
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/progress-reporter.mjs",
+      "sha": "b28bc45b335d9c076133f08f0d18be1ac17e2936d98ed915536bb3cb1e534c3f",
+      "bytes": 5527
+    }
+  ],
+  "privateMaterializations": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de",
+  "privateProgress": "/tmp/starship-coverage-progress.38047cf94309b610bceea3440b0e7cf1",
+  "sourceSnapshotOrigin": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json",
+  "caseInventoryOrigin": "/tmp/starship-official-tests-owner.FAymqm/result.json"
+}

@@ -1,0 +1,24 @@
+--- docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls-preparation/controls.mjs.txt
++++ docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls.mjs.txt
+@@ -2,11 +2,12 @@
+ import assert from 'node:assert/strict';
+ import {readFileSync,writeFileSync} from 'node:fs';
+ import {resolve} from 'node:path';
+-import {pathToFileURL} from 'node:url';
++import {pathToFileURL,fileURLToPath} from 'node:url';
+ import {createHash} from 'node:crypto';
+ const [input,inputSha]=process.argv.slice(2),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+ assert.deepEqual(process.execArgv,[]);assert.equal(process.env.NODE_OPTIONS??'','');assert.equal(process.env.NODE_PATH??'','');assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-census-closed-three');assert.equal(sha(input),inputSha);
+ const m=JSON.parse(readFileSync(input,'utf8'));assert.equal(process.version,'v22.23.3');assert.equal(sha(process.execPath),m.node.sha256);
++assert.equal(m.kind,'closed-three-census-source-input-v1');const self=resolve(m.setup,'boundary-controls.mjs'),role=m.materialized[self];assert.equal(fileURLToPath(import.meta.url),self);assert(role);assert.equal(role.source,resolve(m.root,'docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls.mjs.txt'));assert.equal(role.sha256,role.sourceSha256);assert.equal(m.selected[self],role.sha256);assert.equal(sha(self),role.sha256);assert.equal(sha(role.source),role.sourceSha256);
+ const sourcePath=resolve(m.setup,'loader.mjs');assert.equal(sha(sourcePath),m.materialized[sourcePath].sha256);
+ const source=readFileSync(sourcePath,'utf8'),start=source.indexOf('function artifactTarget(url){'),end=source.lastIndexOf('} });');assert(start>=0&&end>start);assert.equal(source.indexOf('function artifactTarget(url){',start+1),-1);
+ const callbackSource=source.slice(start,end+5);assert(callbackSource.startsWith('function artifactTarget(url){'));assert(callbackSource.endsWith('} });'));
+@@ -33,5 +34,5 @@
+ test('unresolved artifact load denies before delegation',()=>{const f=fixture();denied(()=>f.hooks.load(entryURL,{},()=>assert.fail('Delegated')),/without certified resolution/);});
+ test('authorized native bytes retained without transform',()=>{const f=fixture();f.authorizedArtifactURLs.add(entryURL);const value={format:'module',source:bytes};assert.equal(f.hooks.load(entryURL,{},()=>value),value);assert.equal(f.records.at(-1).sourceSha,hash);});
+ test('authorized native wrong bytes deny',()=>{const f=fixture();f.authorizedArtifactURLs.add(entryURL);assert.throws(()=>f.hooks.load(entryURL,{},()=>({format:'module',source:'changed'})),assert.AssertionError);});
+-assert.equal(names.length,14);assert.equal(new Set(names).size,14);assert.equal(sha(sourcePath),m.materialized[sourcePath].sha256);assert.equal(sha(input),inputSha);
+-writeFileSync(resolve(m.setup,'boundary-controls-result.json'),JSON.stringify({kind:'closed-three-inert-loader-boundary-controls-v1',names,allPassed:true,sourceSha256:sha(sourcePath),callbackSha256:createHash('sha256').update(callbackSource).digest('hex'),actualGlobalHooksInstalled:false,physicalImports:false,publicWorkerLifecycleApproved:false})+'\n',{flag:'wx'});
++assert.equal(names.length,14);assert.equal(new Set(names).size,14);assert.equal(sha(sourcePath),m.materialized[sourcePath].sha256);assert.equal(sha(input),inputSha);assert.equal(sha(self),role.sha256);assert.equal(sha(role.source),role.sourceSha256);
++writeFileSync(resolve(m.setup,'boundary-controls-result.json'),JSON.stringify({kind:'closed-three-inert-loader-boundary-controls-v1',names,allPassed:true,inputSha256:inputSha,driverSha256:sha(self),sourceSha256:sha(sourcePath),callbackSha256:createHash('sha256').update(callbackSource).digest('hex'),actualGlobalHooksInstalled:false,physicalImports:false,publicWorkerLifecycleApproved:false})+'\n',{flag:'wx'});

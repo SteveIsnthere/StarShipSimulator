@@ -1,0 +1,63 @@
+"""Read-only parent closure verification before/after the functional probe."""
+import hashlib
+import json
+import os
+import pathlib
+import stat
+import sys
+
+base = pathlib.Path(__file__).parent
+phase = sys.argv[1]
+assert phase in ('before', 'after')
+closure = json.loads((base / 'parent-closure.json').read_text())
+def digest(path):
+    return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+links = dict(closure['symlinks'])
+for path, row in closure['qualifiedRunpath']['aliases'].items():
+    assert path not in links or links[path] == row
+    links[path] = row
+observed = {}
+for path, row in links.items():
+    info = os.lstat(path)
+    assert stat.S_ISLNK(info.st_mode), path
+    actual = {'target': os.readlink(path), 'mode': stat.S_IMODE(info.st_mode)}
+    assert actual == row, path
+    observed[path] = actual
+for path in closure['expandedRunpathPathsMustBeAbsent']:
+    try:
+        os.lstat(path)
+    except FileNotFoundError:
+        pass
+    else:
+        raise RuntimeError('Expanded RUNPATH path exists: ' + path)
+vendors = {}
+for path, row in closure['vendorInventory'].items():
+    directory = pathlib.Path(path)
+    assert directory.exists() == row['exists'], path
+    actual = []
+    if row['exists']:
+        assert directory.is_dir() and not directory.is_symlink(), path
+        for item in sorted(directory.iterdir()):
+            info = item.lstat()
+            assert stat.S_ISREG(info.st_mode), str(item)
+            actual.append({'path': str(item), 'sha': digest(item)})
+    assert actual == row['files'], path
+    vendors[path] = {'exists': directory.exists(), 'files': actual}
+cache = closure['cache']
+assert digest(cache['path']) == cache['sha']
+node = pathlib.Path('/workspace/cloud-bootstrap/starship-v1/node/bin/node')
+assert digest(node) == 'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'
+result = {
+    'code': 0, 'phase': phase,
+    'closureSha256': digest(base / 'parent-closure.json'),
+    'checkerSha256': digest(__file__),
+    'symlinks': observed, 'vendorInventory': vendors,
+    'cache': cache, 'nodeSha256': digest(node),
+    'expandedPathsAbsent': closure['expandedRunpathPathsMustBeAbsent'],
+    'driverLoadedByChecker': False, 'browserLaunchedByChecker': False,
+}
+with (base / ('root-structural-' + phase + '.json')).open('x') as output:
+    json.dump(result, output, indent=2)
+    output.write('\n')
+print(json.dumps({'code': 0, 'phase': phase, 'links': len(observed)}))

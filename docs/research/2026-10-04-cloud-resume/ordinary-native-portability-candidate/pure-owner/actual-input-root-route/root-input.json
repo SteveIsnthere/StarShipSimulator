@@ -1,0 +1,40 @@
+{
+  "kind": "portable-native-pure-root-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "mode": "pure27",
+  "outerMs": 30000,
+  "setup": "/tmp/starship-portable-native-pure.e4d0fd816d1049b282f055a623088a7c",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "pureInput": {
+    "path": "/tmp/starship-portable-native-pure.e4d0fd816d1049b282f055a623088a7c/input.json",
+    "sha": "7c52d1cf01e934f57c515e3d3e55ebf5104a027c035499e1f80477b7d311a902"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/actual-input-root-route/inventory.json",
+    "sha": "3efbd275b8379aee1704e9a29669173cd94ec4bfa0e1fe04acce9680342b43b3"
+  },
+  "stage": {
+    "path": "/tmp/starship-portable-native-pure.e4d0fd816d1049b282f055a623088a7c/owner.mjs",
+    "sha": "b5dc173607fcb2ea40b079657695b40d96c9a76bee4e28e9435080ab1ee97103"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/actual-input-root-route/root-observer.py.txt",
+    "sha": "bf011a6ed8d477ca20e8674eda73e3340eb18254d5508e63ebbee2761a224397"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "scope": "ONE27 inert pure controls; BEFOREadmitRun; no runtime source/tool qualification; ALLactualowned absence required",
+  "makerStatus": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/root-actual-maker-result.json",
+    "sha": "c5b444edd67797ed6172504f1eb8fdc57fd2573ce669b12449e3f3139ab1f77c"
+  }
+}

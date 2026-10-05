@@ -1,0 +1,33 @@
+{
+  "kind": "ordinary-native-portability-independent-design-high-v1",
+  "decision": "SUPPORTED-research-implementation-preparation-only",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-independent-design-HIGH-review.md",
+    "sha256": "16cbbf68025b7a7395059cd584cd80530b05b30c25fe312a6db492680dd3436a"
+  },
+  "proposal": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-qualification-portability-proposal.md",
+    "sha256": "424ecbd5af2fbbe67c39549dcc17128eb57884daed54e8ccfc50d1aa7c78bbab"
+  },
+  "proposalPins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-qualification-portability-proposal-pins.json",
+    "sha256": "63ddd49d745baf73ed21ae780b59049ab137398e3db0448ef4146096c61178b5"
+  },
+  "verifiedInputs": {
+    "package.json": "6c07c3f0935753725cdfbb6d7b39285210c7dd47cfc36d940dbab913df0ebbe5",
+    ".nvmrc": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56",
+    "scripts/test/run.mjs": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1",
+    "scripts/test/admission.mjs": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db",
+    "scripts/test/build.mjs": "ad1fade84731714978d1378ad21b3dc6e7aad7184760727b346b66351d186a06",
+    "scripts/test/prepare-run.mjs": "972de609021190bf236825ccfa2554a012078ef22191a5ee86e9df8c1a722b1c",
+    "scripts/test/loader.mjs": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16",
+    "scripts/test/integrity.mjs": "8544e7ba55aca24c8ef11815a40754dd05f1e0ac64492f3e1849085e6fc68220",
+    "scripts/test/projects.mjs": "c66962822c99bbc0f810afe57fd8ce6e00828c66b5c758024a42bba40b5d88da",
+    "scripts/test/entry.ts": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8",
+    "scripts/bench/native-loader.mjs": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+    ".github/workflows/ci.yml": "6596ec806fd5639de606fa581ae4ceead03873d465fb5f7f7b6ff731c7b283a6",
+    ".github/workflows/deploy.yml": "9d9926b3fc5e5bb20277ddd60f30ee94ac9483cd508db8c3e829e7af48b88f9c",
+    "vitest.config.ts": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029"
+  },
+  "executed": false
+}

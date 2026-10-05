@@ -1,0 +1,23 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules'
+- ''
+
+    at file:///workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/owner.mjs:2:908
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules',
+  expected: '',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

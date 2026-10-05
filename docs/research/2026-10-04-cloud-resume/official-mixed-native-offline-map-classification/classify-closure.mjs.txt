@@ -1,0 +1,122 @@
+import assert from 'node:assert/strict';
+export const roles = ['PRESETS', 'ALL_SCENARIOS', 'createIntroState', 'createScenarioState',
+  'createScenarioVehicle', 'cloneState', 'step', 'SHIP', 'SUPER_HEAVY', 'CATCH',
+  'createCatchPose', 'writeCatchPose', 'runBoosterAutopilot', 'toggleAutoLand',
+  'starBaseXPos', 'heatLimit', 'DT'];
+export function assertExternalMapRoute(code, mapName) {
+  assert.equal(typeof code, 'string'); assert.match(mapName, /^[A-Za-z0-9_.-]+\.map$/);
+  let body = code;
+  if (body.endsWith('\r\n')) body = body.slice(0, -2);
+  else if (body.endsWith('\n')) body = body.slice(0, -1);
+  assert.equal(body.slice(body.lastIndexOf('\n') + 1), '//# sourceMappingURL=' + mapName);
+  assert.equal(code.split('sourceMappingURL=').length, 2);
+}
+function identifier(node) { assert.equal(node.type, 'Identifier'); return node.name; }
+export function facadeBindings(ast, chunkName) {
+  assert.equal(ast.type, 'Program'); assert.equal(ast.body.length, 2);
+  const [imports, exports] = ast.body;
+  assert.equal(imports.type, 'ImportDeclaration'); assert.equal(imports.source.value, './' + chunkName);
+  assert.equal(exports.type, 'ExportNamedDeclaration'); assert.equal(exports.source, null);
+  assert.equal(exports.declaration, null);
+  const imported = new Map();
+  for (const item of imports.specifiers) {
+    assert.equal(item.type, 'ImportSpecifier');
+    const local = identifier(item.local), target = identifier(item.imported);
+    assert(!imported.has(local)); imported.set(local, target);
+  }
+  const bindings = {};
+  for (const item of exports.specifiers) {
+    assert.equal(item.type, 'ExportSpecifier');
+    const role = identifier(item.exported), local = identifier(item.local);
+    assert(Object.hasOwn(Object.fromEntries(imported), local));
+    assert(!Object.hasOwn(bindings, role)); bindings[role] = imported.get(local);
+  }
+  assert.deepEqual(Object.keys(bindings).sort(), [...roles].sort());
+  assert.equal(imported.size, roles.length);
+  assert.equal(new Set(exports.specifiers.map(item => identifier(item.local))).size, imported.size);
+  return bindings;
+}
+export function mappedChunkExports(ast, bindings) {
+  const exported = new Map();
+  for (const item of ast.body) {
+    assert.notEqual(item.type, 'ImportDeclaration', 'This pinned simulation closure has no external/static imports');
+    assert.notEqual(item.type, 'ExportAllDeclaration', 'Re-export dependencies are outside this closed graph');
+    if (item.type !== 'ExportNamedDeclaration') continue;
+    assert.equal(item.source, null); assert.equal(item.declaration, null);
+    for (const specifier of item.specifiers) {
+      const name = identifier(specifier.exported); assert(!exported.has(name));
+      exported.set(name, identifier(specifier.local));
+    }
+  }
+  const stack = [ast]; let visited = 0;
+  while (stack.length) {
+    const node = stack.pop(); assert(++visited <= 200000);
+    if (!node || typeof node !== 'object') continue;
+    assert.notEqual(node.type, 'ImportExpression', 'Dynamic imports unsupported by this exact closed graph');
+    if (node.type === 'Identifier') assert(!['eval', 'require', 'Function'].includes(node.name));
+    if (node.type === 'MemberExpression' && node.computed && node.property?.type === 'Literal') {
+      assert(!['eval', 'require', 'Function'].includes(node.property.value));
+    }
+    if (node.type === 'CallExpression' || node.type === 'NewExpression') {
+      if (node.callee?.type === 'Identifier') assert(!['eval', 'require', 'Function'].includes(node.callee.name));
+    }
+    for (const value of Object.values(node)) {
+      if (Array.isArray(value)) stack.push(...value);
+      else if (value && typeof value === 'object') stack.push(value);
+    }
+  }
+  const concrete = {};
+  for (const [role, name] of Object.entries(bindings)) {
+    assert(exported.has(name), 'Facade binding missing from actual mapped chunk');
+    concrete[role] = { chunkExport: name, local: exported.get(name) };
+  }
+  return concrete;
+}
+export function pureRouteControls() {
+  const route = '//# sourceMappingURL=simulation-CN0-W409.js.map';
+  const map = 'simulation-CN0-W409.js.map';
+  const outcomes = [];
+  for (const [name, ending] of [['none', ''], ['LF', '\n'], ['CRLF', '\r\n']]) {
+    assertExternalMapRoute('export {};\n' + route + ending, map); outcomes.push({ name, accepted: true });
+  }
+  for (const [name, code] of [
+    ['wrong-name', '//# sourceMappingURL=wrong.map'],
+    ['duplicate', route + '\n' + route], ['inline', 'export {}; ' + route],
+    ['trailing-code', route + '\nexport {};'], ['extra-blank-line', route + '\n\n'],
+  ]) {
+    assert.throws(() => assertExternalMapRoute(code, map), { code: 'ERR_ASSERTION' });
+    outcomes.push({ name, rejected: true });
+  }
+  return outcomes;
+}
+
+// Public parser supplied by the independently pinned runner; text is never evaluated.
+export function pureClosureControls(parseAst) {
+  const chunkName = 'simulation-CN0-W409.js';
+  const imports = roles.map((_, i) => 'e' + i + ' as b' + i).join(', ');
+  const exports = roles.map((role, i) => 'b' + i + ' as ' + role).join(', ');
+  const facade = 'import {' + imports + '} from "./' + chunkName + '"; export {' + exports + '};';
+  const chunk = roles.map((_, i) => 'const e' + i + ' = ' + i + ';').join('') +
+    'export {' + roles.map((_, i) => 'e' + i).join(',') + '};';
+  const bindings = facadeBindings(parseAst(facade), chunkName);
+  mappedChunkExports(parseAst(chunk), bindings);
+  const outcomes = [{ name: 'exact-static-facade-and-closed-chunk', accepted: true }];
+  const deny = (name, run) => {
+    assert.throws(run, { code: 'ERR_ASSERTION' }); outcomes.push({ name, rejected: true });
+  };
+  deny('facade-side-effect-statement', () => facadeBindings(parseAst(facade + 'console.log(1);'), chunkName));
+  deny('facade-foreign-target', () => facadeBindings(parseAst(facade.replace(chunkName, 'foreign.js')), chunkName));
+  deny('facade-missing-role', () => { const ast = parseAst(facade); ast.body[1].specifiers.pop(); facadeBindings(ast, chunkName); });
+  deny('facade-duplicate-role', () => { const ast = parseAst(facade); ast.body[1].specifiers[1].exported.name = ast.body[1].specifiers[0].exported.name; facadeBindings(ast, chunkName); });
+  deny('chunk-missing-binding', () => { const ast = parseAst(chunk); ast.body.at(-1).specifiers.pop(); mappedChunkExports(ast, bindings); });
+  for (const [name, addition] of [
+    ['chunk-static-import', 'import x from "./foreign.js";'],
+    ['chunk-export-all', 'export * from "./foreign.js";'],
+    ['chunk-dynamic-import', 'const extra = import("./foreign.js");'],
+    ['chunk-sequence-eval', 'const extra = (0, eval)("1");'],
+    ['chunk-member-Function', 'const extra = globalThis.Function("return 1");'],
+    ['chunk-computed-Function', 'const extra = globalThis["Function"]("return 1");'],
+    ['chunk-direct-require', 'const extra = require("foreign");'],
+  ]) deny(name, () => mappedChunkExports(parseAst(chunk + addition), bindings));
+  return outcomes;
+}

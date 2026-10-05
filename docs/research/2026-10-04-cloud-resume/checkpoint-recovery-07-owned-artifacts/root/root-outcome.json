@@ -1,0 +1,156 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 74831,
+      "state": "R",
+      "parent": 74819,
+      "group": 74831,
+      "session": 74831,
+      "start": "4881671"
+    },
+    {
+      "pid": 74838,
+      "state": "R",
+      "parent": 74831,
+      "group": 74838,
+      "session": 74838,
+      "start": "4881696"
+    },
+    {
+      "pid": 74845,
+      "state": "R",
+      "parent": 74838,
+      "group": 74838,
+      "session": 74838,
+      "start": "4881699"
+    },
+    {
+      "pid": 74866,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4881727"
+    },
+    {
+      "pid": 75108,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4881903"
+    },
+    {
+      "pid": 75110,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4881910"
+    },
+    {
+      "pid": 75585,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4882258"
+    },
+    {
+      "pid": 75587,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4882291"
+    },
+    {
+      "pid": 74849,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4881726"
+    },
+    {
+      "pid": 74914,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4881766"
+    },
+    {
+      "pid": 75013,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4881836"
+    },
+    {
+      "pid": 75198,
+      "state": "Z",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4881977"
+    },
+    {
+      "pid": 75284,
+      "state": "Z",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4882037"
+    },
+    {
+      "pid": 75339,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4882077"
+    },
+    {
+      "pid": 75474,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4882177"
+    },
+    {
+      "pid": 75516,
+      "state": "R",
+      "parent": 74845,
+      "group": 74838,
+      "session": 74838,
+      "start": "4882207"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 74831,
+      "session": 74831,
+      "start": "4881671",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 74838,
+      "session": 74838,
+      "start": "4881696",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-recovery07-stage.zU6YbI",
+  "manifestSha": "221e30e59216ac018e868a303c4e50585fc952cc75a8ed2f514a9ebd3f5ba368",
+  "elapsedSeconds": 6.784677743911743,
+  "acceptance": "ONE new recovery07 capture only; independent ALL observed/helper PID-start absence and fresh actual result HIGH required; old06 failed unchanged; no product/unit/gate acceptance"
+}

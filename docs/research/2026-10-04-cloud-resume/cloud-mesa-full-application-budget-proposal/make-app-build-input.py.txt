@@ -1,0 +1,92 @@
+"""Root-run finite input assembly only; never builds, loads a driver or inventories a tree."""
+import hashlib, json, os, pathlib, sys, tempfile
+
+ROOT = pathlib.Path('/workspace/StarShipSimulator')
+BASE = ROOT / 'docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal'
+AUTHORITY = ROOT / 'docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/root-exact-once-application/after-snapshot.json'
+RUNTIME = ROOT / 'docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-functional-input.json'
+RUNTIME_SHA = '675f45a3e847c44ef941c9add7ca5873131d7729b2c3efdb5da1a25b6cb1ed4f'
+ROLES = ('node', 'helper', 'npmCli', 'qualification', 'stage', 'observer', 'python', 'utility', 'runtimeInput')
+
+def require(condition, message):
+    if not condition:
+        raise RuntimeError(message)
+
+def sha(path, maximum=8 * 1024 * 1024):
+    path = pathlib.Path(path)
+    require(path.is_file() and path.stat().st_size <= maximum, 'Finite selected metadata/source: ' + str(path))
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def read(path):
+    return json.loads(pathlib.Path(path).read_text())
+
+seed_path, seed_sha = sys.argv[1:]
+require(sha(seed_path) == seed_sha, 'Root seed digest mismatch')
+seed = read(seed_path)
+require(seed['kind'] == 'mesa-app-build-input-root-seed-v1', 'Wrong root seed')
+require(set(seed['roles']) == set(ROLES), 'Exact build-only roles')
+require(seed['sourcePins']['path'] == str(BASE / 'candidate-source-pins.json'), 'Reviewed candidate inventory path')
+require(sha(seed['sourcePins']['path']) == seed['sourcePins']['sha'], 'Externally frozen source inventory')
+source_pins = read(seed['sourcePins']['path'])
+require(source_pins['kind'] == 'mesa-full-application-two-mode-source-pins-v1', 'Wrong candidate inventory')
+source_files = {}
+for row in source_pins['files']:
+    require(row['path'] not in source_files, 'Duplicate selected source')
+    require(pathlib.Path(row['path']).stat().st_size == row['bytes'], 'Selected source size')
+    require(sha(row['path']) == row['sha256'], 'Selected source drift')
+    source_files[row['path']] = row['sha256']
+roles = seed['roles']
+require(roles['qualification']['path'] == str(AUTHORITY), 'Current StageA authority, never old native certificate')
+require(sha(AUTHORITY) == roles['qualification']['sha'], 'Root-pinned current authority bytes')
+authority = read(AUTHORITY)
+require(len(authority['source']) == 770 and len(authority['tools']) == 20355, 'Current authority cardinalities')
+require(roles['runtimeInput'] == {'path': str(RUNTIME), 'sha': RUNTIME_SHA}, 'Accepted fence runtime input only')
+require(sha(RUNTIME) == RUNTIME_SHA, 'Accepted runtime input immutable')
+runtime = read(RUNTIME)
+for role, filename in (('stage', 'business-stage.mjs.txt'), ('observer', 'root-observer.py.txt')):
+    expected = source_files[str(BASE / filename)]
+    require(roles[role]['sha'] == expected, 'Reviewed executable bytes: ' + role)
+    require(sha(roles[role]['path']) == expected, 'Actual materialized executable: ' + role)
+for role in ROLES:
+    row = roles[role]
+    require(set(row) == {'path', 'sha'} and pathlib.Path(row['path']).is_absolute(), 'Exact absolute role')
+    require(len(row['sha']) == 64 and all(c in '0123456789abcdef' for c in row['sha']), 'Digest form')
+require(roles['utility']['path'] == str(ROOT / 'scripts/bench/native-loader.mjs'), 'Pure reviewed source/tool utility')
+require(roles['helper']['path'] == str(ROOT / 'scripts/bench/owned-command.mjs'), 'Reviewed owned helper')
+require(set(seed['extraTrees']) == {'.agents', '.github', 'public'}, 'Complete extra tree authority')
+for table in seed['extraTrees'].values():
+    require(set(table) == {'files', 'directories', 'totalBytes'}, 'Exact inventory schema')
+    require(len(table['files']) <= 10000 and table['totalBytes'] <= 512 * 1024 * 1024, 'Finite external tree authority')
+files = dict(runtime['filePins'])
+def pin(path, digest):
+    require(path not in files or files[path] == digest, 'Conflicting inherited/external pin: ' + path)
+    files[path] = digest
+for path, digest in source_files.items():
+    pin(path, digest)
+for row in roles.values():
+    pin(row['path'], row['sha'])
+for name, key in (('visual-budget.spec.ts', 'originalSpecSha'), ('visual-budget-probe.ts', 'originalProbeSha')):
+    path = str(ROOT / 'tests/e2e' / name)
+    require(source_files.get(path) == seed[key], 'Canonical assertion/probe source authority')
+    pin(path, seed[key])
+pin(seed['sourcePins']['path'], seed['sourcePins']['sha'])
+directory = pathlib.Path(tempfile.mkdtemp(prefix='starship-mesa-app-build-input.', dir='/tmp'))
+os.chmod(directory, 0o700)
+def emit(name, value):
+    path = directory / name
+    with path.open('x') as output:
+        json.dump(value, output, indent=2); output.write('\n')
+    os.chmod(path, 0o600)
+    return {'path': str(path), 'sha': sha(path)}
+inventory = emit('external-inventory.json', {'kind': 'mesa-app-budget-external-inventory-v1', 'files': files})
+owner = {'kind': 'mesa-app-budget-owner-input-v1', 'mode': 'app-build', 'outerMs': 338000,
+         'root': str(ROOT), 'browser': runtime['browser'], 'extraTrees': seed['extraTrees'],
+         'originalSpecSha': seed['originalSpecSha'], 'originalProbeSha': seed['originalProbeSha'],
+         **roles, 'pins': inventory}
+result = emit('owner-input.json', owner)
+emit('assembly-origin.json', {'seed': {'path': seed_path, 'sha': seed_sha}, 'sourcePins': seed['sourcePins'],
+     'mode': 'app-build', 'sourceCount': 770, 'toolCount': 20355, 'runtimeFilePins': len(runtime['filePins']),
+     'externalPinCount': len(files), 'noTreeScan': True, 'noNativeLoad': True, 'noBuild': True,
+     'rootMustVerifyActualRoleBytesAndStructuralBeforeFinallyAfter': True,
+     'actualInputOtherHIGHRequired': True, 'noMatrixOrDistApprovalCreated': True})
+print(json.dumps(result))

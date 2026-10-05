@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "kind": "pre-look-full-ten-Fidelity-golden-prediction",
+  "status": "FROZEN-before-any-new-recording-or-new-fixture-inspection",
+  "approvedTier": "Fidelity",
+  "recordingPlatformRequired": {
+    "platform": "linux",
+    "arch": "x64",
+    "nodeMajor": 22,
+    "qualifiedNodeVersion": "22.23.3"
+  },
+  "GOLDEN_PREVIEWAllowed": false,
+  "fullUnfilteredSetRequired": true,
+  "goldenDt": "1/120",
+  "sampleEverySteps": 60,
+  "seedSource": "DEFAULT_SEED = 0x57414c4b, unchanged; no explicit seed override in ten spec builders",
+  "newFixtureInspected": false,
+  "oldFixtureValuesInspectedForPrediction": false,
+  "allTenMotionExpectedToMove": true,
+  "schemaExpectation": "Progressive damage/component/thermal/capability/debris and current autopilot scalar lineage change flattened keys/constant-versus-varying partition; schema-only fields may move without implying force changes. Actual exposure/detachment is not predicted for every nominal scenario. Ship recorder retains first-sample keys; booster retains unionKeys:true and explicitly omits boosterPrediction/source.returned/expected/receipts snapshots; do not add private forecasts to goldens.",
+  "unchangedContracts": [
+    "all ten IDs/setup strings/builders/model dispatch",
+    "original presets and wind=10 only headwind",
+    "DEFAULT_SEED and RNG rules (later event-dependent counters may differ)",
+    "120Hz dt and2Hz sample cadence",
+    "exact original steps/windows including reentry600s and booster900s",
+    "analytic laws/ISA/Verlet/reference-ratchet limits and all physical/landing/catch outcomes",
+    "original recorder schema algorithm/precision/serialisation and exclusions",
+    "no fixture filter, tuning, tolerance, preview or golden regeneration to hide failure"
+  ],
+  "scenarios": [
+    {
+      "id": "launch-pad-takeoff",
+      "model": "Ship",
+      "seconds": 90,
+      "steps": 10800,
+      "expectedSamples": 181,
+      "setup": "autoTakeOff from the pad",
+      "numericMotionExpected": "changed",
+      "reason": "V3 selected Ship capacity/full-pad mass, SL thrust/flow and52m geometry alter powered ascent, force/COM/torque/thermal state and control history; do not compensate with preset changes."
+    },
+    {
+      "id": "booster-sep-boostback",
+      "model": "Ship",
+      "seconds": 120,
+      "steps": 14400,
+      "expectedSamples": 241,
+      "setup": "autoBoostBack from stage separation",
+      "numericMotionExpected": "changed",
+      "reason": "This legacy Ship spec uses createScenarioState, despite its booster name. Selected V3 Ship propulsion/geometry/drag/authority change boostback motion/propellant/control; it must NOT silently become Super Heavy."
+    },
+    {
+      "id": "rtls-boostback",
+      "model": "Ship",
+      "seconds": 120,
+      "steps": 14400,
+      "expectedSamples": 241,
+      "setup": "autoBoostBack, return to launch site",
+      "numericMotionExpected": "changed",
+      "reason": "Legacy Ship return/boostback uses V3 propulsion/geometry/authority, changing motion and burn/control histories; keep existing downrange preset and guidance mode."
+    },
+    {
+      "id": "reentry-autoland",
+      "model": "Ship",
+      "seconds": 600,
+      "steps": 72000,
+      "expectedSamples": 1201,
+      "setup": "autoLand from orbital re-entry",
+      "numericMotionExpected": "changed",
+      "reason": "V3 geometry/area/COM/authority plus progressive thermal/remaining-component state affect entry/descent/landing and recorded thermal shape; retain approved600s broadside fallback window,1533K/hard limits and original landing survival assertions."
+    },
+    {
+      "id": "before-flip-autoland",
+      "model": "Ship",
+      "seconds": 60,
+      "steps": 7200,
+      "expectedSamples": 121,
+      "setup": "autoLand through the flip",
+      "numericMotionExpected": "changed",
+      "reason": "V3 thrust/flow and fin/engine lever geometry change flip/burn/terminal motion; preserve initial preset/flip policy and physical landing constraints."
+    },
+    {
+      "id": "landing-burn-autoland",
+      "model": "Ship",
+      "seconds": 45,
+      "steps": 5400,
+      "expectedSamples": 91,
+      "setup": "autoLand, final descent only",
+      "numericMotionExpected": "changed",
+      "reason": "V3 thrust/flow/selected geometry and physical ground contact change final burn/touchdown/propellant history; preserve original short descent preset and landing assertions."
+    },
+    {
+      "id": "landing-burn-headwind",
+      "model": "Ship",
+      "seconds": 45,
+      "steps": 5400,
+      "expectedSamples": 91,
+      "setup": "autoLand, final descent, into a 10 m/s downrange wind",
+      "numericMotionExpected": "changed",
+      "reason": "Same V3 final-descent effects with ORIGINAL wind=10m/s; relative wind/aerodynamics and stochastic histories remain source-driven. Must not collapse to still-air fixture or tune wind/seed."
+    },
+    {
+      "id": "intro-demo",
+      "model": "Ship",
+      "seconds": 45,
+      "steps": 5400,
+      "expectedSamples": 91,
+      "setup": "the intro auto-landing demo",
+      "numericMotionExpected": "changed",
+      "reason": "Selected V3 geometry/thrust and full-capacity replenishment change numeric landing/control/fuel history. Preserve intro sequence, deterministic seed, protected handover/full-tank outcome and pig; new numbers do not authorize a changed demo."
+    },
+    {
+      "id": "booster-sep-catch",
+      "model": "Super Heavy",
+      "seconds": 900,
+      "steps": 108000,
+      "expectedSamples": 1801,
+      "setup": "actual Super Heavy autoLand through tower capture",
+      "numericMotionExpected": "changed",
+      "reason": "V3 actual72m/3650000kg/33engine booster, progressive capability and source-valid bounded predictor/catch controller change physical return/control/propellant/RCS/source-lineage history; record must physically catch with landedtrue/onTheGroundfalse/positive fuel, unchanged900s maximum."
+    },
+    {
+      "id": "rtls-catch",
+      "model": "Super Heavy",
+      "seconds": 900,
+      "steps": 108000,
+      "expectedSamples": 1801,
+      "setup": "actual Super Heavy autoLand through tower capture",
+      "numericMotionExpected": "changed",
+      "reason": "Same actual V3 booster and current return/catch policy from original RTLS preset; motion/propellant/control/source lineage expected to move, with unchanged physical tower-catch/positive-fuel/900s requirements."
+    }
+  ]
+}

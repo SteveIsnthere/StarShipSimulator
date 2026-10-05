@@ -1,0 +1,248 @@
+{
+  "kind": "full38-native-timeout-overlap-evidence-v1",
+  "failedCase": {
+    "file": "/workspace/StarShipSimulator/tests/golden/booster-replay.test.ts",
+    "project": "native-flight",
+    "fullName": "actual booster capture golden regressions > 'booster-sep-catch' replays all physical state/control leaves through an airborne catch",
+    "result": {
+      "state": "failed",
+      "errors": [
+        {
+          "stack": "Error: STACK_TRACE_ERROR\n    at task (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1784:27)\n    at Object.<anonymous> (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1817:16)\n    at Object.<anonymous> (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1563:28)\n    at Object.chain (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:599:14)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:7\n    at Array.forEach (<anonymous>)\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2021:10\n    at file:///workspace/StarShipSimulator/tests/golden/booster-replay.test.ts?vitest=1791156512282:38:24\n    at file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:1889:40\n    at runWithSuite (file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js:2258:8)",
+          "message": "Test timed out in 30000ms.\nIf this is a long-running test, pass a timeout value as the last argument or configure it globally with \"testTimeout\".",
+          "constructor": "Function<Error>",
+          "name": "Error",
+          "toString": "Function<toString>",
+          "stacks": [
+            {
+              "method": "",
+              "file": "/workspace/StarShipSimulator/tests/golden/booster-replay.test.ts",
+              "line": 38,
+              "column": 24
+            }
+          ]
+        }
+      ]
+    },
+    "options": {
+      "each": true,
+      "retry": 0,
+      "tags": [],
+      "timeout": 30000,
+      "mode": "run"
+    },
+    "diagnostic": {
+      "slow": true,
+      "duration": 31122.123174,
+      "startTime": 1791156512380,
+      "retryCount": 0,
+      "repeatCount": 0,
+      "flaky": false
+    }
+  },
+  "overlappingSSRResults": [
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/booster-record.test.ts",
+      "fullName": "actual booster golden contract > records the actual selected-model starts and preserves all live physical leaves",
+      "startTime": 1791156512489,
+      "durationMs": 9.372343,
+      "intervalOverlapMs": 9.372314453125
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/booster-record.test.ts",
+      "fullName": "actual booster golden contract > excludes only owned future work, retaining physical controls and optional selected decisions",
+      "startTime": 1791156512499,
+      "durationMs": 2.212472000000048,
+      "intervalOverlapMs": 2.21240234375
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/booster-record.test.ts",
+      "fullName": "actual booster golden contract > retains provenance authority while omitting owned observer futures and paid queues",
+      "startTime": 1791156512501,
+      "durationMs": 0.8894769999999994,
+      "intervalOverlapMs": 0.889404296875
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "'launch-pad-takeoff' > replays field for field, sample for sample",
+      "startTime": 1791156512229,
+      "durationMs": 1171.4408720000001,
+      "intervalOverlapMs": 1020.44091796875
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "'booster-sep-boostback' > replays field for field, sample for sample",
+      "startTime": 1791156513401,
+      "durationMs": 1318.2013510000002,
+      "intervalOverlapMs": 1318.201416015625
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "'rtls-boostback' > replays field for field, sample for sample",
+      "startTime": 1791156514719,
+      "durationMs": 1351.179575,
+      "intervalOverlapMs": 1351.1796875
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "'reentry-autoland' > replays field for field, sample for sample",
+      "startTime": 1791156516071,
+      "durationMs": 7832.148518999999,
+      "intervalOverlapMs": 7832.1484375
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "'before-flip-autoland' > replays field for field, sample for sample",
+      "startTime": 1791156523903,
+      "durationMs": 942.176762000001,
+      "intervalOverlapMs": 942.1767578125
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "'landing-burn-autoland' > replays field for field, sample for sample",
+      "startTime": 1791156524846,
+      "durationMs": 483.2997039999991,
+      "intervalOverlapMs": 483.2998046875
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "'landing-burn-headwind' > replays field for field, sample for sample",
+      "startTime": 1791156525330,
+      "durationMs": 521.1732620000002,
+      "intervalOverlapMs": 521.17333984375
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "'intro-demo' > replays field for field, sample for sample",
+      "startTime": 1791156525851,
+      "durationMs": 463.87445900000057,
+      "intervalOverlapMs": 463.87451171875
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > there is one per spec, and no orphans",
+      "startTime": 1791156526315,
+      "durationMs": 416.7930070000002,
+      "intervalOverlapMs": 416.79296875
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > round-trip through the serialiser preserves every value exactly",
+      "startTime": 1791156526732,
+      "durationMs": 8210.000498000001,
+      "intervalOverlapMs": 8210.00048828125
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > records Infinity rather than losing it to JSON",
+      "startTime": 1791156534943,
+      "durationMs": 15.931436000002577,
+      "intervalOverlapMs": 15.931396484375
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > every scenario reaches a definite outcome, so the fixtures mean something",
+      "startTime": 1791156534958,
+      "durationMs": 391.0700280000019,
+      "intervalOverlapMs": 391.070068359375
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > reentry-autoland now survives \u2014 M2.9(a) recalibrated the heat limit",
+      "startTime": 1791156535350,
+      "durationMs": 219.6665499999981,
+      "intervalOverlapMs": 219.66650390625
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > the three landing scenarios land without crashing",
+      "startTime": 1791156535570,
+      "durationMs": 52.55359699999826,
+      "intervalOverlapMs": 52.5537109375
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "one physics, one fixture set \u2014 M2.10 > no flag-suffixed fixture survives on disk",
+      "startTime": 1791156535622,
+      "durationMs": 0.33690800000113086,
+      "intervalOverlapMs": 0.3369140625
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "one physics, one fixture set \u2014 M2.10 > and no spec declares one",
+      "startTime": 1791156535623,
+      "durationMs": 0.8708740000001853,
+      "intervalOverlapMs": 0.870849609375
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/golden/replay.test.ts",
+      "fullName": "one physics, one fixture set \u2014 M2.10 > every file in the directory belongs to a spec",
+      "startTime": 1791156535624,
+      "durationMs": 0.2712250000004133,
+      "intervalOverlapMs": 0.271240234375
+    }
+  ],
+  "overlapIsCPUAttribution": false,
+  "sameRunCgroupQuotaRetained": false,
+  "nativeTranscriptCounts": {
+    "startup": 1,
+    "original-load": 1,
+    "original-alias": 6,
+    "golden-relative": 4,
+    "native-load": 3,
+    "support-load": 3,
+    "native-module-edge": 2
+  },
+  "independentProcessObservation": [
+    {
+      "pid": 102254,
+      "start": "6552257",
+      "current": null
+    },
+    {
+      "pid": 102261,
+      "start": "6552452",
+      "current": null
+    },
+    {
+      "pid": 102268,
+      "start": "6552554",
+      "current": null
+    },
+    {
+      "pid": 102296,
+      "start": "6552957",
+      "current": null
+    },
+    {
+      "pid": 102321,
+      "start": "6553363",
+      "current": null
+    },
+    {
+      "pid": 102322,
+      "start": "6553363",
+      "current": null
+    },
+    {
+      "pid": 102328,
+      "start": "6553364",
+      "current": null
+    },
+    {
+      "pid": 102342,
+      "start": "6553462",
+      "current": null
+    },
+    {
+      "pid": 102349,
+      "start": "6553487",
+      "current": null
+    },
+    {
+      "pid": 102253,
+      "start": "6552236",
+      "current": null
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+{
+  "kind": "mesa-app-budget-owner-input-v1",
+  "mode": "app-build",
+  "outerMs": 338000,
+  "root": "/workspace/StarShipSimulator",
+  "browser": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+  "extraTrees": {
+    ".agents": {
+      "files": [
+        [
+          "skills/frontend-conventions/SKILL.md",
+          "8cac199b127ed7c08b02dab0c4e287c2d3d17bac597c03fc05bd0d934873e9ce",
+          384,
+          7460
+        ],
+        [
+          "skills/physics-change-policy/SKILL.md",
+          "5a82045a7b0db57cf820a06da026219c6050fcfabf1c843126e7c2a6a7ed5f8b",
+          384,
+          3283
+        ],
+        [
+          "skills/sim-core-conventions/SKILL.md",
+          "177db34b3d0bfd492c2cba5c38392c7ba6a1786938263468e32e9dd043afc3d3",
+          384,
+          4474
+        ],
+        [
+          "skills/verification-and-gates/SKILL.md",
+          "e9b367ceecd859d6dec71f8ba4b0999dd3a49d2693fc0cb5e3c5f78a347c80cd",
+          384,
+          4575
+        ]
+      ],
+      "directories": [
+        [
+          "",
+          448
+        ],
+        [
+          "skills",
+          448
+        ],
+        [
+          "skills/frontend-conventions",
+          448
+        ],
+        [
+          "skills/physics-change-policy",
+          448
+        ],
+        [
+          "skills/sim-core-conventions",
+          448
+        ],
+        [
+          "skills/verification-and-gates",
+          448
+        ]
+      ],
+      "totalBytes": 19792
+    },
+    ".github": {
+      "files": [
+        [
+          "workflows/ci.yml",
+          "6596ec806fd5639de606fa581ae4ceead03873d465fb5f7f7b6ff731c7b283a6",
+          384,
+          2696
+        ],
+        [
+          "workflows/deploy.yml",
+          "9d9926b3fc5e5bb20277ddd60f30ee94ac9483cd508db8c3e829e7af48b88f9c",
+          384,
+          1788
+        ],
+        [
+          "workflows/golden-regenerate.yml",
+          "70b1e0a6629a0320e5dce7a2220d86c2c56860bbbaa8abdbdeac29bbf25f70f6",
+          384,
+          1459
+        ]
+      ],
+      "directories": [
+        [
+          "",
+          448
+        ],
+        [
+          "workflows",
+          448
+        ]
+      ],
+      "totalBytes": 5943
+    },
+    "public": {
+      "files": [
+        [
+          "assets/lunchpad_Light1.webp",
+          "2b979fadd6ea8076f9c6340989efe723e5c02e7ffe8ae6a0e84b8f67da3a9286",
+          384,
+          33342
+        ],
+        [
+          "assets/lunchpad_Light2.webp",
+          "0ecfcb920be8e0eb3ce7ce82345b8f707d8ab93a4f2442aa3303042eb5c8cf18",
+          384,
+          33178
+        ],
+        [
+          "assets/pig.webp",
+          "932ef01e3241c1ddcb0eaa27b21ea9ffda034c8185cdc271f335559d46a7ec7a",
+          384,
+          12954
+        ],
+        [
+          "assets/sn15.webp",
+          "0dca7f7a4300aacc726e67bbd8df84ec44e87b7f894786d779fda657b70b52a8",
+          384,
+          74652
+        ],
+        [
+          "assets/starBaseBackGround.webp",
+          "a6ba3be4e9886ecddc8fcb87b63ee8790b30f4260339dd9379e46e43604dbd75",
+          384,
+          118016
+        ],
+        [
+          "assets/starBaseBackGround2.webp",
+          "de17f7cd0c339e33012f6bb9cf09831b0772989f4933ed8528b94da91cd30094",
+          384,
+          374330
+        ],
+        [
+          "assets/starhopper.webp",
+          "18d787ffa3c8a335496a716e10dd1e3b1928216eeb949d67b20f70030069cf73",
+          384,
+          107494
+        ],
+        [
+          "assets/Starship.webp",
+          "c9d25bc1b496b4d27ee26ff039d0ff7bfa68d6a5936e199c7af2308c4c4adf8d",
+          384,
+          41250
+        ],
+        [
+          "assets/tree1.webp",
+          "a619ac2b77ce81c18c3df23141ecf2197b91fcfb2ea17129b8e336746a88663a",
+          384,
+          54646
+        ],
+        [
+          "assets/tree2.webp",
+          "a363d125f4e2d5bce0d67bee389e051cc84bcfbba7aef75d86f10f9a69b80ce3",
+          384,
+          32514
+        ],
+        [
+          "icon.svg",
+          "8fca8bf870cbaac0c5a22ce6c61891f04536f59d8955b8b1e62fd57992e39493",
+          384,
+          343
+        ],
+        [
+          "manifest.webmanifest",
+          "967f4db3dab163c63f9ff81b9f842a82bebabb10ef20f12578bfc4773781f50c",
+          384,
+          419
+        ],
+        [
+          "serviceworker.js",
+          "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9",
+          384,
+          1144
+        ]
+      ],
+      "directories": [
+        [
+          "",
+          448
+        ],
+        [
+          "assets",
+          448
+        ]
+      ],
+      "totalBytes": 884282
+    }
+  },
+  "originalSpecSha": "98504af61fb46edf0f2555e7f1fec419308cfcbd6363fe3f9b5b104fdea4ce79",
+  "originalProbeSha": "d450cc4671149cb42bb7e1c6a34259b2d1ac06152f22a2302a7d4c3679c44f99",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "npmCli": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+    "sha": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7"
+  },
+  "qualification": {
+    "path": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/after-snapshot.json",
+    "sha": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60"
+  },
+  "stage": {
+    "path": "/tmp/starship-mesa-app-build-source.ah7zli/business-stage.mjs",
+    "sha": "4b7b45dd40313de29a039ce47173989a66fd0d926513d3c2f688ab93f7e9ed1a"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-observer.py.txt",
+    "sha": "3d9bc7f8d85276385191982d724736583126a3210c92b67ccfe4bc04fba82b30"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "utility": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/native-loader.mjs",
+    "sha": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb"
+  },
+  "runtimeInput": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-functional-input.json",
+    "sha": "675f45a3e847c44ef941c9add7ca5873131d7729b2c3efdb5da1a25b6cb1ed4f"
+  },
+  "pins": {
+    "path": "/tmp/starship-mesa-app-build-bridge-input.bb4ba6a6b6b145b6898b5e7aab628be3/external-inventory.json",
+    "sha": "9278e4c9a91b10e973d284bebad048aa8dca3a5d12b98aee9181332ae7d0f4e2"
+  }
+}

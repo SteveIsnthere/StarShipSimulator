@@ -1,0 +1,36 @@
+{
+  "kind": "mesa-app-preview-cwd-repair-source-pins-v1",
+  "status": "UNEXECUTED distinct source only; actual failure review and Other source/input HIGH required",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-budget.config.sdk-entry.preview-cwd.ts.txt",
+      "sha256": "64c56f22bed7cd210839242f3718f57eb0d23002097e2b9592a34b86c49a5d0f",
+      "bytes": 2599
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-matrix-preview-cwd-input.py.txt",
+      "sha256": "b267478aa730a39e60cabab48ff2fa8d9f8d3c9fbdae4955796d98aa6dbbecf2",
+      "bytes": 8267
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-preview-cwd-candidate-source-pins.json",
+      "sha256": "6a199f1b82d0e35cb5074161adbf5b4c6ed0018f62b95e270ae23ea2fa1513dc",
+      "bytes": 11117
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-preview-cwd-repair-contract.md",
+      "sha256": "90a134fdc6cec95f265c51c655b8596298b0b3a90a76aef966df104ed86450d8",
+      "bytes": 1815
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-candidate-source-pins.json",
+      "sha256": "c563b5a02e710cf27681f46e727a06ff48d10604e7beab7dd1e0a9dc1d908035",
+      "bytes": 10319
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-matrix-input.py.txt",
+      "sha256": "4e566ba090adb726c4704e82d146fbe3b116924f27ae9af43522ec60d35cb9db",
+      "bytes": 8243
+    }
+  ]
+}

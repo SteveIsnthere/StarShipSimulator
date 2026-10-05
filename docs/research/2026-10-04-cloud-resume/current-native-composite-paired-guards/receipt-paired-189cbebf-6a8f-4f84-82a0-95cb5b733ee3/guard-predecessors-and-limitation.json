@@ -1,0 +1,21 @@
+{
+  "acceptedReceipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/receipt-burn-218a5089-4c17-418e-a74c-ff0bbe6dcfa4",
+  "approvalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/accepted-kernel-composite.json",
+  "approvalDigest": "d69370a313010f0555f3a149b79259f92386e3c56d7d8a3f1862989fcb0c6642",
+  "compositeDigest": "8794af28c5d82ac17ec0252101a5b9d49d8c7f56fd8ab824049cec5df841a4ae",
+  "originalCompiledOwner": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e",
+  "originalStatus": "failed",
+  "controlAcceptance": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/accepted-controls.json",
+  "controlAcceptanceDigest": "557e74811919e5438a0dc18c4419bf4fa621e1812b9b4ceac11d47936a606a3f",
+  "failedPair": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired/receipt-paired-be927172-3623-42de-8670-8a68993445c5",
+  "failedPairStatus": "failed",
+  "oracleDigest": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c",
+  "guardAcceptance": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-comparator-public-assert-anchors-actual-independent-acceptance.json",
+  "guardAcceptanceDigest": "c1ad9456c0997c08eceb6cf2a4433b91bd66140fc0aac1ba26ae59fdfa9b9925",
+  "guardParentWrapperExit": 1,
+  "guardRootElapsedSeconds": null,
+  "guardOuterStartRetained": false,
+  "guardCompleteObservedOuterIdentityLineage": false,
+  "secondFailedPair": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants/receipt-paired-f898aa3c-5dba-4f9e-aad7-fc0723348a39",
+  "secondFailedPairStatus": "failed"
+}

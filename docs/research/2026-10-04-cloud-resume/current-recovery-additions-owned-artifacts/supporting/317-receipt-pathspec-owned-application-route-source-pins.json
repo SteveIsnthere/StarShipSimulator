@@ -1,0 +1,41 @@
+{
+  "kind": "mesa-receipt-owned-application-route-source-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/apply-receipt-pathspec-once.lint-clean.mjs.txt",
+      "sha256": "45a22b1e1c13ca76310e628d0119ff004bd3f09e1826c9be714a89a4e1ccc602",
+      "bytes": 7124
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-exact-once-lint-clean-source-pins.json",
+      "sha256": "d3258d5db979f4840742d51236a8658ba8059407d894be474e2ba4be72df54bc",
+      "bytes": 2640
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-application-root-observer.py.txt",
+      "sha256": "2649861bf49e4aa1d887361033480ad0866401ea6b99107505ea7a5baf9424db",
+      "bytes": 17387
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-receipt-pathspec-application-root-input.py.txt",
+      "sha256": "e5a894bed8cbae4ac48b4f8f0118414a6b5c55a47eb07f7f744feffe3fe759f6",
+      "bytes": 5236
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-application-ownership-transfer.json",
+      "sha256": "7096d85950f49d3bd36699e5dcedcee12ba128d4eeb2f2f4a844ffc949c7bfde",
+      "bytes": 870
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-owned-application-route-contract.md",
+      "sha256": "db41abc728e21771c6832a5dbf815d405d81a685b0a29354f3dea894356dda6b",
+      "bytes": 3752
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-managed-python-observer.py.txt",
+      "sha256": "5a76214ab6e39ccb4a0209cdfb0fe21e62d10cddbe9d5dcff951e8e594649a89",
+      "bytes": 18454
+    }
+  ],
+  "status": "UNEXECUTED source only; no live edit, scan, materialization or workload by author"
+}

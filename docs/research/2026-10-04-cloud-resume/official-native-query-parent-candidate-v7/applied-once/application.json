@@ -1,0 +1,27 @@
+{
+  "completed": true,
+  "error": null,
+  "appliedOnce": [
+    {
+      "path": "scripts/test/loader.mjs",
+      "before": "958291c07f1a3ffa909067dce53c4f3f7dd4f4a7f43e39e2444c06d6364de496",
+      "after": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/run.mjs",
+      "before": "7d02863cb6cab28a27afbdd7ed41c9f66ccd548052753efa03ac8bdb5582b3c0",
+      "after": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1",
+      "mode": 384
+    }
+  ],
+  "qualificationPath": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json",
+  "qualificationSHA": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+  "beforeSourcePaths": 769,
+  "afterSourcePaths": 769,
+  "protectedCoreAndOriginalTestsUnchanged": true,
+  "oldQualificationPreserved": true,
+  "runtimeCommitted": false,
+  "acceptance": "Two tooling files only; original21/gate unaccepted;07 historical snapshot plus explicit two-file application",
+  "priorPrecheckTool1BeforeAnyApplication": true
+}

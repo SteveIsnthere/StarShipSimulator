@@ -1,0 +1,57 @@
+{
+  "kind": "official-original21-owner-input-v1",
+  "description": "External ROOT materialization required after exact product application and qualification HIGH; this contract is not a populated executable input.",
+  "root": "/workspace/StarShipSimulator",
+  "requiredPinnedObjects": [
+    "node",
+    "helper",
+    "npmCli",
+    "qualification",
+    "pins",
+    "stage",
+    "observer",
+    "python"
+  ],
+  "modes": {
+    "app-build": {
+      "outerMs": 90000,
+      "workMs": 82000,
+      "childDeadlineMs": 74000,
+      "args": [
+        "npmCli.path",
+        "run",
+        "build"
+      ]
+    },
+    "original21": {
+      "outerMs": 338000,
+      "workMs": 330000,
+      "childDeadlineMs": 300000,
+      "args": [
+        "scripts/test/run.mjs",
+        "run",
+        "tests/core/booster-guidance.test.ts",
+        "tests/flies-every-scenario.test.ts"
+      ]
+    }
+  },
+  "nodeVersion": "v22.23.3",
+  "nodeSha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+  "qualificationEnvironment": [
+    "NATIVE_FLIGHT_COMPOSITE",
+    "NATIVE_FLIGHT_COMPOSITE_SHA"
+  ],
+  "inventorySchema": {
+    "kind": "official-original21-external-inventory-v1",
+    "files": "Absolute path -> SHA256 map of applied product/full source/installed tool/review lineage; supplied independently by root, no generated self-qualification",
+    "qualificationSha": "Externally accepted current projected product composite digest"
+  },
+  "rootInvocation": [
+    "pinned-python.path",
+    "root-observer.py.txt",
+    "populated-owner-input.json",
+    "owner-input-sha256"
+  ],
+  "order": "App-build actual success with source/cleanup HIGH before ONE original21 invocation; no automatic pipeline",
+  "cleanupReserveMs": 8000
+}

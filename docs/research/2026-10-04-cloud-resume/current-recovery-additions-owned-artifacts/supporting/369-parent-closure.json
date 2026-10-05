@@ -1,0 +1,732 @@
+{
+  "kind": "mesa-functional-parent-closure-v1",
+  "decision": "DISTINCT spec-correct later-task fence polling after same-task assertion failure; originals remainFAILED; freshOther actualinput HIGH plus ROOTONE120 required",
+  "preparedInner": {
+    "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/functional-input.json",
+    "sha": "e822c908419a8f0f281358f21d60d3ac8f90e643198dc5d99ca2b296796fd26b"
+  },
+  "preparedOuter": {
+    "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/owner-input.json",
+    "sha": "1fbbd1f2e13d2e188a6a1b8afe2cf9236a2455573ae36322248f557a6f2bf8c0"
+  },
+  "preparedNativeLibraryCount": 42,
+  "preparedDirectReadelfIdentityCount": 42,
+  "rootDirectIdentityCount": 4,
+  "symlinks": {
+    "/usr/lib/x86_64-linux-gnu/libEGL.so.1": {
+      "target": "libEGL.so.1.1.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libGLdispatch.so.0": {
+      "target": "libGLdispatch.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0": {
+      "target": "libEGL_mesa.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/dri/swrast_dri.so": {
+      "target": "libdril_dri.so",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/dri/kms_swrast_dri.so": {
+      "target": "libdril_dri.so",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libLLVM-19.so": {
+      "target": "libLLVM.so.19.1",
+      "mode": 511
+    },
+    "/lib": {
+      "target": "usr/lib",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libGLdispatch.so.0": {
+      "target": "libGLdispatch.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libgbm.so.1": {
+      "target": "libgbm.so.1.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libgbm.so.1": {
+      "target": "libgbm.so.1.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libexpat.so.1": {
+      "target": "libexpat.so.1.12.3",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libexpat.so.1": {
+      "target": "libexpat.so.1.12.3",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libX11-xcb.so.1": {
+      "target": "libX11-xcb.so.1.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libX11-xcb.so.1": {
+      "target": "libX11-xcb.so.1.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb.so.1": {
+      "target": "libxcb.so.1.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb.so.1": {
+      "target": "libxcb.so.1.1.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-randr.so.0": {
+      "target": "libxcb-randr.so.0.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-randr.so.0": {
+      "target": "libxcb-randr.so.0.1.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-xfixes.so.0": {
+      "target": "libxcb-xfixes.so.0.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-xfixes.so.0": {
+      "target": "libxcb-xfixes.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-shm.so.0": {
+      "target": "libxcb-shm.so.0.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-shm.so.0": {
+      "target": "libxcb-shm.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libdrm.so.2": {
+      "target": "libdrm.so.2.124.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libdrm.so.2": {
+      "target": "libdrm.so.2.124.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libwayland-client.so.0": {
+      "target": "libwayland-client.so.0.23.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libwayland-client.so.0": {
+      "target": "libwayland-client.so.0.23.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libwayland-server.so.0": {
+      "target": "libwayland-server.so.0.23.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libwayland-server.so.0": {
+      "target": "libwayland-server.so.0.23.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0": {
+      "target": "libxcb-dri3.so.0.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-dri3.so.0": {
+      "target": "libxcb-dri3.so.0.1.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-present.so.0": {
+      "target": "libxcb-present.so.0.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-present.so.0": {
+      "target": "libxcb-present.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libz.so.1": {
+      "target": "libz.so.1.3.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libz.so.1": {
+      "target": "libz.so.1.3.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libzstd.so.1": {
+      "target": "libzstd.so.1.5.7",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libzstd.so.1": {
+      "target": "libzstd.so.1.5.7",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libsensors.so.5": {
+      "target": "libsensors.so.5.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libsensors.so.5": {
+      "target": "libsensors.so.5.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-sync.so.1": {
+      "target": "libxcb-sync.so.1.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-sync.so.1": {
+      "target": "libxcb-sync.so.1.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxshmfence.so.1": {
+      "target": "libxshmfence.so.1.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxshmfence.so.1": {
+      "target": "libxshmfence.so.1.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libelf.so.1": {
+      "target": "libelf-0.192.so",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libelf.so.1": {
+      "target": "libelf-0.192.so",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libdrm_amdgpu.so.1": {
+      "target": "libdrm_amdgpu.so.1.124.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libdrm_amdgpu.so.1": {
+      "target": "libdrm_amdgpu.so.1.124.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libdrm_intel.so.1": {
+      "target": "libdrm_intel.so.1.124.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libdrm_intel.so.1": {
+      "target": "libdrm_intel.so.1.124.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libstdc++.so.6": {
+      "target": "libstdc++.so.6.0.33",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": {
+      "target": "libstdc++.so.6.0.33",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libffi.so.8": {
+      "target": "libffi.so.8.1.4",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libffi.so.8": {
+      "target": "libffi.so.8.1.4",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libedit.so.2": {
+      "target": "libedit.so.2.0.75",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libedit.so.2": {
+      "target": "libedit.so.2.0.75",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxml2.so.2": {
+      "target": "libxml2.so.2.9.14",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxml2.so.2": {
+      "target": "libxml2.so.2.9.14",
+      "mode": 511
+    },
+    "/lib64": {
+      "target": "usr/lib64",
+      "mode": 511
+    },
+    "/lib64/ld-linux-x86-64.so.2": {
+      "target": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libXau.so.6": {
+      "target": "libXau.so.6.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libXau.so.6": {
+      "target": "libXau.so.6.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libXdmcp.so.6": {
+      "target": "libXdmcp.so.6.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libXdmcp.so.6": {
+      "target": "libXdmcp.so.6.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libpciaccess.so.0": {
+      "target": "libpciaccess.so.0.11.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libpciaccess.so.0": {
+      "target": "libpciaccess.so.0.11.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libtinfo.so.6": {
+      "target": "libtinfo.so.6.5",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libtinfo.so.6": {
+      "target": "libtinfo.so.6.5",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libbsd.so.0": {
+      "target": "libbsd.so.0.12.2",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libbsd.so.0": {
+      "target": "libbsd.so.0.12.2",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/liblzma.so.5": {
+      "target": "liblzma.so.5.8.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/liblzma.so.5": {
+      "target": "liblzma.so.5.8.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libmd.so.0": {
+      "target": "libmd.so.0.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libmd.so.0": {
+      "target": "libmd.so.0.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libLLVM-19.so": {
+      "target": "libLLVM.so.19.1",
+      "mode": 511
+    }
+  },
+  "vendorInventory": {
+    "/etc/glvnd/egl_vendor.d": {
+      "exists": true,
+      "files": []
+    },
+    "/usr/share/glvnd/egl_vendor.d": {
+      "exists": true,
+      "files": [
+        {
+          "path": "/usr/share/glvnd/egl_vendor.d/50_mesa.json",
+          "sha": "cd3881df4227c13ca7f9cfe6c78820f21d5f7a00a41b299214f6f827e63be369"
+        }
+      ]
+    }
+  },
+  "expandedRunpathPathsMustBeAbsent": [
+    "/usr/lib/lib",
+    "/lib/lib"
+  ],
+  "cache": {
+    "path": "/etc/ld.so.cache",
+    "sha": "b966529ae5653785a013ec27e8a1046e7f0b4d4a61d3eaeb7fb83d5d982c5fa0"
+  },
+  "qualifiedRunpath": {
+    "literal": "$ORIGIN/../lib",
+    "cachePath": "/etc/ld.so.cache",
+    "cacheSha256": "b966529ae5653785a013ec27e8a1046e7f0b4d4a61d3eaeb7fb83d5d982c5fa0",
+    "cacheProofPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-cache-alias-diagnosis/result.json",
+    "aliases": {
+      "/lib": {
+        "target": "usr/lib",
+        "mode": 511
+      },
+      "/lib64": {
+        "target": "usr/lib64",
+        "mode": 511
+      },
+      "/usr/lib/x86_64-linux-gnu/libLLVM-19.so": {
+        "target": "libLLVM.so.19.1",
+        "mode": 511
+      },
+      "/lib/x86_64-linux-gnu/libLLVM-19.so": {
+        "target": "libLLVM.so.19.1",
+        "mode": 511
+      }
+    },
+    "cacheCandidates": {
+      "libffi.so.8": [
+        "/lib/x86_64-linux-gnu/libffi.so.8"
+      ],
+      "libedit.so.2": [
+        "/lib/x86_64-linux-gnu/libedit.so.2"
+      ],
+      "libm.so.6": [
+        "/lib/x86_64-linux-gnu/libm.so.6"
+      ],
+      "libz3.so.4": [
+        "/lib/x86_64-linux-gnu/libz3.so.4"
+      ],
+      "libz.so.1": [
+        "/lib/x86_64-linux-gnu/libz.so.1"
+      ],
+      "libzstd.so.1": [
+        "/lib/x86_64-linux-gnu/libzstd.so.1"
+      ],
+      "libxml2.so.2": [
+        "/lib/x86_64-linux-gnu/libxml2.so.2"
+      ],
+      "libstdc++.so.6": [
+        "/lib/x86_64-linux-gnu/libstdc++.so.6"
+      ],
+      "libgcc_s.so.1": [
+        "/lib/x86_64-linux-gnu/libgcc_s.so.1"
+      ],
+      "libc.so.6": [
+        "/lib/x86_64-linux-gnu/libc.so.6"
+      ],
+      "ld-linux-x86-64.so.2": [
+        "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"
+      ]
+    },
+    "loaderCandidates": [
+      "/lib/x86_64-linux-gnu/libLLVM.so.19.1"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/functional-input.json",
+      "sha": "e822c908419a8f0f281358f21d60d3ac8f90e643198dc5d99ca2b296796fd26b"
+    },
+    {
+      "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/owner-input.json",
+      "sha": "1fbbd1f2e13d2e188a6a1b8afe2cf9236a2455573ae36322248f557a6f2bf8c0"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.HwPw9J/actual-preparation-audit.json",
+      "sha": "5b6c1e6f9228c0f468490da8cac393c0c77962a33a851c397bc9cedbd80c7b84"
+    },
+    {
+      "path": "/tmp/starship-width2-root.t2bjofb9/root-outcome.json",
+      "sha": "998e0038ba1ec5a5ca50fae63226674c667f1f843584080e2b5b3ea6632583f4"
+    },
+    {
+      "path": "/tmp/starship-width2-root.t2bjofb9/actual-outer-exit.json",
+      "sha": "391aa9854305d6b1459ad2f8a84b2935c99765913e7a9d153a4738b0da019d94"
+    },
+    {
+      "path": "/tmp/starship-width2-root.t2bjofb9/actual-outer-exit-final.json",
+      "sha": "20aad1f71f7f9771653a900eb05d2296b7e5104c451c4f61bf979adec918278b"
+    },
+    {
+      "path": "/tmp/starship-width2-root.t2bjofb9/root-independent-postexit.json",
+      "sha": "3e5f9f3ab836b883f8a4c2413c73a0bd7e1b562a6dc8ccdfd61f66f4f363436d"
+    },
+    {
+      "path": "/tmp/starship-width2-root.t2bjofb9/root-journal-postexit.json",
+      "sha": "3c9874585e10b6523a744fb40eeb875330048cf84a787520280731d045cb0d4c"
+    },
+    {
+      "path": "/tmp/starship-width2-root.t2bjofb9/identities.jsonl",
+      "sha": "f96d7489f7b84f4a3745ba25cdf801cdcc2d523bcd8b7602d31ae8bf4ac9e159"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.HwPw9J/stage-result.json",
+      "sha": "fb2d5fe1b26d9d51bfc6ade4472b38cdc91e4a68279b8f87554b2c90906fcd5e"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.HwPw9J/actual-child-exit.json",
+      "sha": "6d3dd98c0cf33f4a67b3201b360480d5d0004fea6626a12d819e11d7eb22d3f4"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.HwPw9J/actual-python-exit.json",
+      "sha": "6b916a2549fe56f7cea23506cb0c929a77d1ec401c12567c3d0e44cb4700ec65"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.HwPw9J/preparation.process.json",
+      "sha": "b74778ec67625fe21b9a7baa1bb99ded52223398c62138789ce53d42e9a98cb9"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.HwPw9J/preparation.stdout.txt",
+      "sha": "6c5924897c3f145f5533e4fc9867f76400694fb097b71777b6350e823884e10a"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.HwPw9J/preparation.stderr.txt",
+      "sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "mandatoryRootChecks": "Actual lstat/readlink/mode and exact vendor directory entries/bytes before and after functional launch; actual Node/hash plus ALL root/helper/browser identities nonexecuting; regular/native bytes already checked by unchanged runner before/after. Closure metadata is parent authority and not silently claimed enforced by unchanged functional3.",
+  "diagnosticOnly": true,
+  "originalFailedFunctionalInput": {
+    "inner": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/functional-input.json",
+      "sha": "0f374980edc2c201e823ebeaaa3785a286d98c05c7324cbec1440d26e9c1e63b"
+    },
+    "outer": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/owner-input.json",
+      "sha": "cd4959cf598e986172715132639f2f2e33d6a9f005bbecda0269e697ecf048d6"
+    },
+    "receipt": "/tmp/starship-mesa-functional.ff9739748edc461bb23bd0979d73a1e9"
+  },
+  "diagnosticEvidence": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/source-pins.json",
+      "sha": "dafd7388aa291ab248501671f5ac69e10ca60fd64aefd041bb38be4420f9867d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/protocol-source-pins.json",
+      "sha": "f1ae32ed6d1b8f51bb9b9b81b1b951192cd5536210a21c93f804fdacc557789c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/SystemInfo.pdl.txt",
+      "sha": "2ad6a7fada51621fa84885dd922a03c740aac83b1b460af331dd2dd4e8f76ed3"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/Browser.pdl.txt",
+      "sha": "1fd00cce8209d25818c598bb8f4cc7cdef91e02dfeb69771a094bf99c2e8ae48"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/contract.md",
+      "sha": "7a9955de25cddd2dee4472f8708b39003fe4b09956eeb6bbcc0710a208421012"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/run-functional-diagnostic.mjs.txt",
+      "sha": "adb7c21e136f1a4a57d738b544943f574e3142da01cba7c4ddb3996555493b7e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/business-stage.mjs.txt",
+      "sha": "c09f4c1d19a69f367f4f79d0018976680c60620374f89d3e99fdf2cd4656d590"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-source-scopes/result.json",
+      "sha": "58f24c3171f2c7fe14313918a72bbb4259958b01fc41bb64b1930cb5dad11adc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-actual-utilsBundle-pin.json",
+      "sha": "a63c4cd8d86922d42c1cdc95ec0d1ce9d65668cbf1bddc0adc9811931cded80b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-runner-materialization.json",
+      "sha": "5b8d1b3c5a8b0f1898e10ab63c452526dfcb2f10a7013479820b072159389c9e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/independent-logging-source-HIGH-review.md",
+      "sha": "bcf4ce666801ff52db00e65d156382710c98ea6c366276746c764aba6f8ebe07"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/independent-logging-source-HIGH-pins.json",
+      "sha": "7706846aba9c17bcda4f6fabeb97928dd52b075708546a5823450ae5f6a3c99f"
+    }
+  ],
+  "blocklistPolicyOverride": "ignore-gpu-blocklist",
+  "singleFlagEvidence": [
+    {
+      "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/root-observer.py",
+      "sha": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa"
+    },
+    {
+      "path": "/tmp/starship-mesa-singleflag-source.yfgskvsr/run-functional-single-blocklist-override.mjs",
+      "sha": "a6d2508a922f7664f01e361cbeda408858b34cae3bd2d191811fcda146af8ebd"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.pU8jQ0/preparation.stderr.txt",
+      "sha": "e6af1bccea87b24ed07496ee01f2d53c6f3240a7f50782f047eb69b416a63a4a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/candidate-source-pins.json",
+      "sha": "1c5f9e0ef7e5f48799a9b80d74d915ccc7efe99baff3b97e2caf9d9c10e4bc1d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-browser-gpu-compositor_util.h.txt",
+      "sha": "c51aa37d6b754e8054f68f40c9fbb619b2e940e8a25655aa69934bf121fc284a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-browser-gpu-gpu_data_manager_impl_private.cc.txt",
+      "sha": "688ec74a105bdf957f77da79f87c0ec5081eca537b7315530d32523f9b197678"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-browser-gpu-gpu_process_host.cc.txt",
+      "sha": "6273050c1d2019004b51fa41edd7a7c8cd1c59b291e39c265f10b91b82461749"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-public-browser-gpu_utils.cc.txt",
+      "sha": "44593c0c89e9173e9059fc1b1e16597dc56dc1a752617aac12b24546768e3a65"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-public-browser-gpu_utils.h.txt",
+      "sha": "8cf4d87f9fc25eeeb4feaddbb67f13d6653c3f47c50b82b5633099df7c14f549"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-command_buffer-service-context_group.cc.txt",
+      "sha": "c86cb7f0954950401520497b901b37faab0ea8ed6b65a7bd195dc8e56a6065fd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-command_buffer-service-service_utils.cc.txt",
+      "sha": "89d19cead76f26a48908010d6a25f2a4ba449e21e75c56d6b370cfb086b0aeab"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-config-gpu_preferences.cc.txt",
+      "sha": "65840cd65ef57764dcf7f50905af881319521627ac8de09e2e6dce8af7b0dd72"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-config-gpu_switches.cc.txt",
+      "sha": "a8938f76996d725948d947299d7f689a1a108f5a33ee32b9d5a6e61642ae1159"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-config-gpu_util.cc.txt",
+      "sha": "19447e9bced661918b271f315674dde30a30c5d45b88e28760635b51a9495054"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/independent-single-flag-source-HIGH-pins.json",
+      "sha": "462e606d98fd9ddafbd7c0f1204cd625983646b709138c46145a1093a9553df4"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/independent-single-flag-source-HIGH-review.md",
+      "sha": "94ec0e10852ae7b4901c6993c3639eb7294a7fc5c400fe604723cca64aabfda9"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/minimal-source-delta.json",
+      "sha": "7f4929826afb359c91c25e4b803424f5684f0f351502ff098a4e858c4a79f9d0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/primary-source-pins.json",
+      "sha": "cf2a545bac5fa046f1bebddb0f3b1fc95ce497ab42120e66dc81a216008a3828"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/root-runner-materialization.json",
+      "sha": "a9c8a730a244aab9c832c04ef412941075ce42bea501a8c067920ab9b8deec1e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/root-source-scopes/result.json",
+      "sha": "cd774439217ee95c56c802a6daaf00952631b640e4ee91b7acdee5e58f3ab6f1"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/run-functional-single-blocklist-override.mjs.txt",
+      "sha": "a6d2508a922f7664f01e361cbeda408858b34cae3bd2d191811fcda146af8ebd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/source-assessment-and-contract.md",
+      "sha": "bcb9fc1fe0013fc2b7992efd1744b0ef3957b0545455b5b9b73f764d8280e831"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/business-stage.mjs.txt",
+      "sha": "c09f4c1d19a69f367f4f79d0018976680c60620374f89d3e99fdf2cd4656d590"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-functional-input.json",
+      "sha": "c05b727652dbea1761bab5bdebd22dbefa67fda2734edde75e37607821dd5841"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-owner-input.json",
+      "sha": "0a28b7dfaa7ed66f1f5ddcaf36fda8cd7f241461e962002d9dd6e6a5946bbbc0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-parent-closure.json",
+      "sha": "5fb5ad0ab3d4f02f87739cf1e650eb813339876936c0b0ca6960bcec5d4850ec"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-actual-blocklist-observation.json",
+      "sha": "61d449bcf4c2834c24fad4002f0ac79fa489ee906002939327631c26ddf76b08"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/run-functional-diagnostic.mjs.txt",
+      "sha": "adb7c21e136f1a4a57d738b544943f574e3142da01cba7c4ddb3996555493b7e"
+    }
+  ],
+  "originalLoggingFailedInput": {
+    "inner": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-functional-input.json",
+      "sha": "c05b727652dbea1761bab5bdebd22dbefa67fda2734edde75e37607821dd5841"
+    },
+    "outer": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-owner-input.json",
+      "sha": "0a28b7dfaa7ed66f1f5ddcaf36fda8cd7f241461e962002d9dd6e6a5946bbbc0"
+    },
+    "receipt": "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e",
+    "status": "FAILED WebGL2 unavailable / actual blocklist denial / zero draws"
+  },
+  "eventLoopFenceEvidence": [
+    {
+      "path": "/tmp/starship-mesa-fence-source.agvpm8gt/run-functional-event-loop-fence.mjs",
+      "sha": "a3e99eed2791dc44619f505f941510eb29bbe36806395a4b84398c3c57d31f56"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889/context-failure.json",
+      "sha": "26f52261b525715be67a90718b3e6a5764e3a5396885677729ea431631be9b59"
+    },
+    {
+      "path": "/tmp/starship-width2-root.6a7cxjb5/root-independent-postexit.json",
+      "sha": "9b31e05d17b0bbbd9a053bd963b6a014fa414a667e574211bed6105d1fd5adeb"
+    },
+    {
+      "path": "/tmp/starship-width2-root.6a7cxjb5/root-outcome.json",
+      "sha": "5fd3d87d9ac3c6e520f60bb03e9b741f2c8a3372d00d47514495ad6e8a6bb08e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/run-functional-single-blocklist-override.mjs.txt",
+      "sha": "a6d2508a922f7664f01e361cbeda408858b34cae3bd2d191811fcda146af8ebd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-functional-input.json",
+      "sha": "a9d4fc7a005711dfa36d673543a2b1302455b39ccaf5f1b0eaa635b804746fbd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-input-freeze.json",
+      "sha": "4b91dd6677caea5a37d39c75ca23d989c7cabd07fb69852fc1a0dc1cf873061c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-owner-input.json",
+      "sha": "f7dfa5e5935c13231b405f8803b667358689cbbafb952576ec78c09bdcb47582"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/candidate-source-pins.json",
+      "sha": "4b17604c07334313bffb803b43c3da70b0f2330eb8f58551273c69c71b409979"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-source-HIGH-pins.json",
+      "sha": "ad205695bd2c60c8ea43d94368f048ff0e1852d79b7a1e25a19fa881021dafaa"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-source-HIGH-review.md",
+      "sha": "74927a5c34060803c2da882538c6e52840e0cebd5bd9b7748d0e91851883427e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/minimal-source-delta.json",
+      "sha": "dceaba6942213556ccdbdbded3cf10850a3d2a7ed7333d27a6a585b0e941dfee"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/primary-spec-pin.json",
+      "sha": "d0e4fc08f92d96db6cf56071e172b1bb1ae3e47735c3739a85eb67fe21fc9e43"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-runner-materialization.json",
+      "sha": "1fe08ffe90416dc945f9b103fd5bf07be857476f36805a3fea543da8c403bbb0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-source-scopes/result.json",
+      "sha": "671bac0c189ac2f0f89f6188962fcc128d07add46081698d43e07dc5a1528820"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/run-functional-event-loop-fence.mjs.txt",
+      "sha": "a3e99eed2791dc44619f505f941510eb29bbe36806395a4b84398c3c57d31f56"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/source-assessment-and-contract.md",
+      "sha": "132bbf03be7d84af10df8cce52a04b04ae755c371a2cf6ed92ad9b4932b9f743"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/webgl2-spec.html.txt",
+      "sha": "05da9e8c2110e7cf57a25944c96484fe139ab1225216adc2b4a778eea78499cd"
+    }
+  ],
+  "originalSingleFlagFailedInput": {
+    "inner": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-functional-input.json",
+      "sha": "a9d4fc7a005711dfa36d673543a2b1302455b39ccaf5f1b0eaa635b804746fbd"
+    },
+    "outer": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-owner-input.json",
+      "sha": "f7dfa5e5935c13231b405f8803b667358689cbbafb952576ec78c09bdcb47582"
+    },
+    "receipt": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889",
+    "status": "FAILED same-task TIMEOUT_EXPIRED37147; no completed twenty-draw receipt"
+  }
+}

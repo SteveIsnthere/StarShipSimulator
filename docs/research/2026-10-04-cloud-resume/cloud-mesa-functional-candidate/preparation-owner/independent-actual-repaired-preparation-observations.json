@@ -1,0 +1,252 @@
+{
+  "schema": 1,
+  "readelfLibraries": 42,
+  "totalNativeBytes": 212080240,
+  "readelfCompletedReapedRecords": 42,
+  "uniqueRootAndJournalIdentities": 45,
+  "currentKnownIdentityChecks": [
+    {
+      "pid": 87459,
+      "start": "5610288",
+      "current": null
+    },
+    {
+      "pid": 87466,
+      "start": "5610329",
+      "current": null
+    },
+    {
+      "pid": 87473,
+      "start": "5610353",
+      "current": null
+    },
+    {
+      "pid": 87474,
+      "start": "5610422",
+      "current": null
+    },
+    {
+      "pid": 87475,
+      "start": "5610422",
+      "current": null
+    },
+    {
+      "pid": 87476,
+      "start": "5610423",
+      "current": null
+    },
+    {
+      "pid": 87477,
+      "start": "5610423",
+      "current": null
+    },
+    {
+      "pid": 87478,
+      "start": "5610430",
+      "current": null
+    },
+    {
+      "pid": 87479,
+      "start": "5610448",
+      "current": null
+    },
+    {
+      "pid": 87480,
+      "start": "5610449",
+      "current": null
+    },
+    {
+      "pid": 87481,
+      "start": "5610449",
+      "current": null
+    },
+    {
+      "pid": 87482,
+      "start": "5610450",
+      "current": null
+    },
+    {
+      "pid": 87483,
+      "start": "5610450",
+      "current": null
+    },
+    {
+      "pid": 87484,
+      "start": "5610450",
+      "current": null
+    },
+    {
+      "pid": 87485,
+      "start": "5610450",
+      "current": null
+    },
+    {
+      "pid": 87486,
+      "start": "5610451",
+      "current": null
+    },
+    {
+      "pid": 87487,
+      "start": "5610451",
+      "current": null
+    },
+    {
+      "pid": 87488,
+      "start": "5610451",
+      "current": null
+    },
+    {
+      "pid": 87489,
+      "start": "5610451",
+      "current": null
+    },
+    {
+      "pid": 87490,
+      "start": "5610452",
+      "current": null
+    },
+    {
+      "pid": 87491,
+      "start": "5610452",
+      "current": null
+    },
+    {
+      "pid": 87492,
+      "start": "5610452",
+      "current": null
+    },
+    {
+      "pid": 87493,
+      "start": "5610452",
+      "current": null
+    },
+    {
+      "pid": 87494,
+      "start": "5610453",
+      "current": null
+    },
+    {
+      "pid": 87495,
+      "start": "5610453",
+      "current": null
+    },
+    {
+      "pid": 87496,
+      "start": "5610453",
+      "current": null
+    },
+    {
+      "pid": 87497,
+      "start": "5610453",
+      "current": null
+    },
+    {
+      "pid": 87498,
+      "start": "5610454",
+      "current": null
+    },
+    {
+      "pid": 87499,
+      "start": "5610454",
+      "current": null
+    },
+    {
+      "pid": 87500,
+      "start": "5610454",
+      "current": null
+    },
+    {
+      "pid": 87501,
+      "start": "5610454",
+      "current": null
+    },
+    {
+      "pid": 87502,
+      "start": "5610455",
+      "current": null
+    },
+    {
+      "pid": 87503,
+      "start": "5610455",
+      "current": null
+    },
+    {
+      "pid": 87504,
+      "start": "5610455",
+      "current": null
+    },
+    {
+      "pid": 87505,
+      "start": "5610456",
+      "current": null
+    },
+    {
+      "pid": 87506,
+      "start": "5610460",
+      "current": null
+    },
+    {
+      "pid": 87507,
+      "start": "5610460",
+      "current": null
+    },
+    {
+      "pid": 87508,
+      "start": "5610461",
+      "current": null
+    },
+    {
+      "pid": 87509,
+      "start": "5610461",
+      "current": null
+    },
+    {
+      "pid": 87510,
+      "start": "5610461",
+      "current": null
+    },
+    {
+      "pid": 87511,
+      "start": "5610461",
+      "current": null
+    },
+    {
+      "pid": 87512,
+      "start": "5610462",
+      "current": null
+    },
+    {
+      "pid": 87513,
+      "start": "5610462",
+      "current": null
+    },
+    {
+      "pid": 87514,
+      "start": "5610462",
+      "current": null
+    },
+    {
+      "pid": 87515,
+      "start": "5610462",
+      "current": null
+    }
+  ],
+  "exactOnlySearchPathException": [
+    {
+      "libraryPath": "/usr/lib/x86_64-linux-gnu/libLLVM.so.19.1",
+      "librarySha256": "3523f50f635d2a1ea47518a392451f2854b92823ceaf1345fb806099dd1a3b8a",
+      "rawSha256": "c93b132d2aa2394a1954e92de0a55486a43d5322cae320962b8e296136ea8d72",
+      "searchPathTags": [
+        [
+          "RUNPATH",
+          "$ORIGIN/../lib"
+        ]
+      ]
+    }
+  ],
+  "symlinksCaptured": 72,
+  "browserFiles": 304,
+  "browserDirectories": 12,
+  "sourceNativeBrowserCacheAfterEqualityAssertedByPinnedExecutedPreparer": true,
+  "browserLaunchOccurred": false
+}

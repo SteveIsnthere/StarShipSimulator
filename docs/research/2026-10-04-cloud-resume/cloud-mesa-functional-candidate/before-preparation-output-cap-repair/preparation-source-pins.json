@@ -1,0 +1,15 @@
+{
+  "status": "source-only OTHER HIGH and root-side preparation required",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+      "sha256": "e8672f67d3063e0403f573c3cc7c85f824493ca7c8c77cd49ee0de5af410fc9a",
+      "bytes": 9442
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-proposal.md",
+      "sha256": "4fac3b365ae5c39bc864ce71cda1afb30fa3965ad46b950e3df59108af0e3b44",
+      "bytes": 4566
+    }
+  ]
+}

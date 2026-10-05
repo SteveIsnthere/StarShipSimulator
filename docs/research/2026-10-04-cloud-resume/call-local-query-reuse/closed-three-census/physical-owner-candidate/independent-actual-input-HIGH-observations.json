@@ -1,0 +1,64 @@
+{
+  "kind": "independent-closed-three-physical-actual-input-HIGH-v1",
+  "input": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-closed-three-census-a425f27fac8b48ea9bc5708c63bd163d/input.json",
+    "sha256": "ced264a79914b7bdab6f018b1d6ea478bf7bcfabf42f9e1f9eba3cc463b5b5e6"
+  },
+  "rootInput": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-closed-three-census-a425f27fac8b48ea9bc5708c63bd163d/root-input.json",
+    "sha256": "30d1d220602f1c375d3c6151e04bfa69288b628b02d483581b626a511fc462d8"
+  },
+  "acceptedMaterialInput": true,
+  "selectedFilesVerified": 280,
+  "rootInventoryFiles": 281,
+  "exactMaterialCopies": 11,
+  "initialPrivateFiles": 14,
+  "privateDirectoryMode": "0700",
+  "privateFileModes": "0600",
+  "canonicalNoSymlinks": true,
+  "outputArtifactsPresent": false,
+  "nativeReceiptsPresent": false,
+  "bodyApprovalSha256": "eb79196c4105814e303141c11464826c1349a837201d3f05bcf5d402052ee811",
+  "workerConditions": [
+    "node",
+    "development"
+  ],
+  "sourceGraphBodies": 55,
+  "originalGoldenSources": 4,
+  "originalCases": 3,
+  "testTimeoutMilliseconds": 30000,
+  "steps": [
+    "boundary-controls",
+    "native-build",
+    "physical-census"
+  ],
+  "limitsSeconds": {
+    "whole": 300,
+    "work": 292,
+    "cleanup": 8,
+    "boundaryControls": 5,
+    "build": 60,
+    "public": 200
+  },
+  "maker": {
+    "code": 0,
+    "pid": 128307,
+    "start": "8042100",
+    "reaped": true,
+    "elapsedSeconds": 0.11450676100503188
+  },
+  "actualPrerequisitePinsVerified": [
+    "numerical146+31+11",
+    "reporting12",
+    "inertBoundary14"
+  ],
+  "currentAuthoritySha256": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60",
+  "authoritySourceCount": 770,
+  "authorityToolCount": 20355,
+  "authoritySemantics": "historical/current retained successor pinned; this input review performs no full source/tool census",
+  "actualWorkerFlagsEstablished": false,
+  "pristineIntrinsicsEstablished": false,
+  "actualPublicLifecycleEstablished": false,
+  "physicalOutcomeEstablished": false,
+  "supportedNextAction": "Root may grant ONE reviewed exact300 physical owner episode with NODE_OPTIONS/NODE_PATH empty and NODE_ENV unset; actual receipts/outcomes/postexit/source audits require separate independent HIGH."
+}

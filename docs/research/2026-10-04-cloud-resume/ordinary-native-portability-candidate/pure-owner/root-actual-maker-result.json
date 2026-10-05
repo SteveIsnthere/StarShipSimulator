@@ -1,0 +1,14 @@
+{
+  "actualToolCode": 0,
+  "toolWallSeconds": 0.320149126,
+  "makerRepeated": false,
+  "fixturesExecuted": false,
+  "setup": "/tmp/starship-portable-native-pure.e4d0fd816d1049b282f055a623088a7c",
+  "input": "/tmp/starship-portable-native-pure.e4d0fd816d1049b282f055a623088a7c/input.json",
+  "inputSha256": "7c52d1cf01e934f57c515e3d3e55ebf5104a027c035499e1f80477b7d311a902",
+  "argv": [
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "/tmp/starship-portable-native-pure.e4d0fd816d1049b282f055a623088a7c/owner.mjs",
+    "/tmp/starship-portable-native-pure.e4d0fd816d1049b282f055a623088a7c/input.json"
+  ]
+}

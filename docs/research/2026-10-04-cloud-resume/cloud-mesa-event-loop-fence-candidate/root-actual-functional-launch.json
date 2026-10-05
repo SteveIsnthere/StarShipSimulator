@@ -1,0 +1,18 @@
+{
+  "code": 0,
+  "elapsedSeconds": 5.400686440996651,
+  "structuralChecks": [
+    {
+      "phase": "before",
+      "code": 0
+    },
+    {
+      "phase": "after",
+      "code": 0
+    }
+  ],
+  "observer": {
+    "pid": 95825,
+    "start": "6133549"
+  }
+}

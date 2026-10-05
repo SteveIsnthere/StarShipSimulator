@@ -1,0 +1,32 @@
+--- /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/serialization-v2/capture-reporter-v2.mjs.txt
++++ /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/collector-validation/capture-reporter-v2.mjs.txt
+@@ -4,7 +4,7 @@
+ import { resolve } from 'node:path';
+ const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+ import {createRequire} from 'node:module';
+-import {encodeCoverageOwnData} from './codec.mjs';
++import {encodeCoverageOwnData,decodeCoverageOwnData} from './codec.mjs';
+ const require=createRequire(import.meta.url),libCoverage=require('istanbul-lib-coverage');
+ const approvedFileCoveragePrototype=Object.getPrototypeOf(libCoverage.createFileCoverage('/inert.ts'));
+ export default class CaptureReporter {
+@@ -28,7 +28,7 @@
+     this.reports = ctx.config.coverage.reportsDirectory;
+     this.save('resolved-configuration.json', { coverage: ctx.config.coverage, testTimeout: ctx.config.testTimeout,
+       nativeRun: process.env.NATIVE_FLIGHT_RUN, nativeRunSha: process.env.NATIVE_FLIGHT_RUN_SHA,
+-      mappedCode: process.env.NATIVE_FLIGHT_MAPPED_CODE, acceptance: 'ONE original full view-clock case covered CPU diagnostic120; no complete coverage/unit30/gate acceptance' });
++      mappedCode: process.env.NATIVE_FLIGHT_MAPPED_CODE, acceptance: 'ONE original full view-clock case coverage collector validation120; no complete coverage/unit30/gate acceptance' });
+   }
+   save(name, value) {
+     const bytes = Buffer.from(JSON.stringify(value) + '\n');
+@@ -57,9 +57,9 @@
+       }
+       assert.deepEqual(readdirSync(rawDirectory).sort(), names);
+       const map = coverage.toJSON();
+-      const reports = [this.save('provider-map.json', map), this.save('provider-map-tagged-v2.json', encodeCoverageOwnData(map,approvedFileCoveragePrototype))];
++      const tagged=encodeCoverageOwnData(map,approvedFileCoveragePrototype),decoded=decodeCoverageOwnData(tagged,approvedFileCoveragePrototype);assert.deepEqual(encodeCoverageOwnData(decoded,approvedFileCoveragePrototype),tagged,'Own data/prototype/descriptor roundtrip');assert.equal(JSON.stringify(decoded),JSON.stringify(map),'Ordinary public JSON correspondence');const reports = [this.save('provider-map.json', map), this.save('provider-map-tagged-v2.json',tagged)];
+       this.save('capture-completed.json', { completed: true, raw, rawBytes: total, reports,
+-        originalRangeJSONRetained: true, losslessEncoding: 'coverage-own-data-v2', sourceSchemaNormalized: false, projectAssociationInvented: false,
++        originalRangeJSONRetained: true, ownDataRoundtripExact:true,ordinaryPublicJSONCorrespondence:true, losslessEncoding: 'coverage-own-data-v2', sourceSchemaNormalized: false, projectAssociationInvented: false,
+         providerThresholdDecisionPending: true, productionAcceptance: false });
+     } catch (error) {
+       this.save('capture-failure.json', { completed: false, error: String(error.stack ?? error), productionAcceptance: false });

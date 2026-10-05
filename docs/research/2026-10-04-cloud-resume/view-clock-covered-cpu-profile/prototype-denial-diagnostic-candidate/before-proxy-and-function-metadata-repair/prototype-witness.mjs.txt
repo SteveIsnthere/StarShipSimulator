@@ -1,0 +1,54 @@
+import assert from 'node:assert/strict';
+import {types} from 'node:util';
+// Diagnostic metadata ONLY; never grants prototype authority or invokes unknown code.
+export function describePrototypeDenial(value,path,approvedPrototype){
+ assert(!types.isProxy(value),'Proxy diagnostic introspection denied');
+ assert(Array.isArray(path)&&path.every(k=>typeof k==='string'));
+ assert(Buffer.byteLength(JSON.stringify(path))<=65536,'Diagnostic path64KiB cap');
+ let budget=0;
+ function text(s){assert(Buffer.byteLength(s)<=65536,'Diagnostic string64KiB cap');budget+=Buffer.byteLength(s);assert(budget<=131072,'Diagnostic string aggregate128KiB cap');return s;}
+ const functionIds=new Map();let nextFunction=0;
+ function scalar(v){
+  if(v===undefined)return['undefined'];if(v===null)return['null'];
+  if(typeof v==='number')return['number',Object.is(v,-0)?'-0':Number.isFinite(v)?v:String(v)];
+  if(typeof v==='string')return['string',text(v)];if(typeof v==='boolean')return['boolean',v];
+  if(typeof v==='function'){
+   if(!functionIds.has(v))functionIds.set(v,++nextFunction);
+   if(types.isProxy(v))return['function-proxy',functionIds.get(v)];
+   const own=Object.getOwnPropertyDescriptors(v);
+   const data=k=>Object.hasOwn(own,k)&&Object.hasOwn(own[k],'value')?scalarPrimitive(own[k].value):['absent-or-accessor'];
+   return['function-reference',functionIds.get(v),{name:data('name'),length:data('length')}];
+  }
+  return[typeof v]; // references are not serialized or invoked
+ }
+ function scalarPrimitive(v){return['undefined','object','number','string','boolean'].includes(typeof v)&&!(v!==null&&typeof v==='object')?scalar(v):[typeof v];}
+ function descriptor(d){
+  if(d===undefined)return{present:false};
+  const out={present:true,enumerable:d.enumerable,configurable:d.configurable};
+  if(Object.hasOwn(d,'value'))return{...out,kind:'data',writable:d.writable,value:scalar(d.value)};
+  return{...out,kind:'accessor',get:scalar(d.get),set:scalar(d.set)};
+ }
+ function own(object){
+  if(object===null)return{nullPrototype:true};assert(!types.isProxy(object),'Proxy prototype diagnostic introspection denied');
+  const keys=Reflect.ownKeys(object);assert(keys.length<=256,'Diagnostic ownkeys256 cap');
+  return{ownKeys:keys.map((key,index)=>({key:typeof key==='string'?['string',text(key)]:['symbol-ordinal',index],descriptor:descriptor(Object.getOwnPropertyDescriptor(object,key))}))};
+ }
+ const proto=Object.getPrototypeOf(value);assert(proto!==null&&!types.isProxy(proto),'Null/proxy unsupported witness denied');
+ const approvedConstructor=approvedPrototype?Object.getOwnPropertyDescriptor(approvedPrototype,'constructor'):undefined;
+ const actualConstructor=Object.getOwnPropertyDescriptor(proto,'constructor');
+ const approvedValue=approvedConstructor&&Object.hasOwn(approvedConstructor,'value')?approvedConstructor.value:undefined;
+ const actualValue=actualConstructor&&Object.hasOwn(actualConstructor,'value')?actualConstructor.value:undefined;
+ const witness={kind:'unsupported-provider-prototype-denial-witness-v1',path:path.map(text),
+  interpretation:'Observed metadata only; original strict prototype denial remains. Names are not authority.',
+  approvedPrototypePresent:!!approvedPrototype,actualEqualsApproved:proto===approvedPrototype,
+  actualEqualsObjectPrototype:proto===Object.prototype,actualEqualsArrayPrototype:proto===Array.prototype,
+  array:Array.isArray(value),approvedConstructorOwnDescriptor:descriptor(approvedConstructor),
+  actualConstructorOwnDescriptor:descriptor(actualConstructor),
+  actualConstructorEqualsApproved:actualValue!==undefined&&actualValue===approvedValue,
+  actualConstructorPrototypeEqualsActual:typeof actualValue==='function'&&!types.isProxy(actualValue)
+   &&Object.getOwnPropertyDescriptor(actualValue,'prototype')?.value===proto,
+  actualObjectOwn:own(value),actualPrototypeOwn:own(proto),
+  actualPrototypeParentEqualsObject:Object.getPrototypeOf(proto)===Object.prototype,
+  normalizationApplied:false,prototypeAdmitted:false,gettersInvoked:false,toJSONInvoked:false};
+ assert(Buffer.byteLength(JSON.stringify(witness))<=131072,'Diagnostic witness128KiB cap');return witness;
+}

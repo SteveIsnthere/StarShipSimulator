@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/actual-input-root-route/root-observer.py.txt",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/actual-input-root-route/root-input.json",
+    "af4cf424168d6ddecc77617fcd053131c61cf6a1b89675504f5512c8a2897fd1"
+  ],
+  "externalDeadlineMs": 30000,
+  "alreadyCreatedPureInputSha256": "7c52d1cf01e934f57c515e3d3e55ebf5104a027c035499e1f80477b7d311a902",
+  "noInvocationPerformed": true,
+  "makerActualStatusReceiptPendingExactPath": false,
+  "makerActualStatus": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/root-actual-maker-result.json",
+    "sha256": "c5b444edd67797ed6172504f1eb8fdc57fd2573ce669b12449e3f3139ab1f77c"
+  }
+}

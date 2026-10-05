@@ -1,0 +1,90 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 77430,
+      "state": "R",
+      "parent": 77411,
+      "group": 77430,
+      "session": 77430,
+      "start": "5068276"
+    },
+    {
+      "pid": 77437,
+      "state": "R",
+      "parent": 77430,
+      "group": 77437,
+      "session": 77437,
+      "start": "5068403"
+    },
+    {
+      "pid": 77444,
+      "state": "R",
+      "parent": 77437,
+      "group": 77444,
+      "session": 77444,
+      "start": "5068503"
+    },
+    {
+      "pid": 77472,
+      "state": "R",
+      "parent": 77437,
+      "group": 77472,
+      "session": 77472,
+      "start": "5068924"
+    },
+    {
+      "pid": 77497,
+      "state": "R",
+      "parent": 77472,
+      "group": 77472,
+      "session": 77472,
+      "start": "5069372"
+    },
+    {
+      "pid": 77498,
+      "state": "R",
+      "parent": 77472,
+      "group": 77472,
+      "session": 77472,
+      "start": "5069372"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 77430,
+      "session": 77430,
+      "start": "5068276",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 77437,
+      "session": 77437,
+      "start": "5068403",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 77444,
+      "session": 77444,
+      "start": "5068503",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 77472,
+      "session": 77472,
+      "start": "5068924",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-original21-stage.BAkByZ",
+  "manifestSha": "fee605df6e0efaee3ef7ca8b93cd96d65fa225665e7e2ea43787f5cde438a6ed",
+  "elapsedSeconds": 60.75678634643555,
+  "acceptance": "This single app-build or original21 invocation only; independent actual-result/source/ownership review required; no whole gate or local acceptance"
+}

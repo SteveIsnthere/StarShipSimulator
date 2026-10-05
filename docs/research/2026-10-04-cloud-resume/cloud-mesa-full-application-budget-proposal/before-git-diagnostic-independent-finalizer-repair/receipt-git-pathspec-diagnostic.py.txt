@@ -1,0 +1,110 @@
+"""Root-run read-only Git metadata cohort; no browser, source application or test."""
+import hashlib, json, os, pathlib, re, selectors, subprocess, sys, time, uuid
+started = time.monotonic(); deadline = started + 10; cap = 8 * 1024 * 1024
+root = pathlib.Path('/workspace/StarShipSimulator'); total_bytes = 0; identities = []; errors = []; commands = []
+def require(ok, message):
+    if not ok: raise RuntimeError(message)
+def sha(path):
+    path = pathlib.Path(path)
+    require(path.is_file() and not path.is_symlink(), 'Regular selected source/tool')
+    size=path.stat().st_size
+    exact_git = str(path)=='/usr/local/bin/git' and size==19295504
+    require(size<=8*1024*1024 or exact_git, 'Finite selected source/tool, exact root-pinned Git exception only')
+    value=hashlib.sha256(path.read_bytes()).hexdigest()
+    if exact_git: require(value=='37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e', 'Exact root-selected Git binary')
+    return value
+input_path, input_sha = sys.argv[1:]
+require(sha(input_path) == input_sha, 'Root-frozen diagnostic input mismatch')
+m = json.loads(pathlib.Path(input_path).read_text())
+require(m['kind'] == 'mesa-receipt-git-pathspec-diagnostic-input-v1', 'Exact metadata diagnostic scope')
+require(pathlib.Path.cwd() == root and pathlib.Path(sys.executable).resolve() == pathlib.Path(m['python']['path']).resolve(), 'Managed Python/project root')
+for key in ('git','python','diagnostic','originalSource','candidateSource','sourcePins','sourceReview'):
+    require(m['files'].get(m[key]['path']) == m[key]['sha'], 'Externally pinned selected role: ' + key)
+require(pathlib.Path(__file__).resolve() == pathlib.Path(m['diagnostic']['path']).resolve(), 'Actual executed diagnostic source')
+for path, digest in m['files'].items(): require(sha(path) == digest, 'Before selected pin mismatch: ' + path)
+receipt = pathlib.Path('/tmp/starship-receipt-git-diagnostic.' + uuid.uuid4().hex); receipt.mkdir(mode=0o700)
+print(json.dumps({'diagnosticReceipt': str(receipt)}), flush=True)
+def save(name, value):
+    with (receipt/name).open('x') as output:
+        json.dump(value,output,indent=2); output.write('\n'); output.flush(); os.fsync(output.fileno())
+def row(pid):
+    text = pathlib.Path('/proc',str(pid),'stat').read_text(); fields=text[text.rfind(')')+2:].split()
+    return {'pid':pid,'start':fields[19],'parent':int(fields[1]),'group':int(fields[2]),'session':int(fields[3]),'state':fields[0]}
+def run(name,args):
+    global total_bytes
+    require(time.monotonic() < deadline, 'Absolute10s cohort bound before launch')
+    command=[m['git']['path'],*args]; save(name+'.request.json',{'command':command,'cwd':str(root)})
+    child=subprocess.Popen(command,cwd=root,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    selector=selectors.DefaultSelector(); streams={}; failure=None; observed=0; code=None; saved=None
+    try:
+        saved=row(child.pid); require(saved['parent']==os.getpid(),'Reserved direct Popen child')
+        identities.append(saved); save(name+'.identity.json',saved)
+        with (receipt/'identities.jsonl').open('a') as audit:
+            audit.write(json.dumps(saved)+'\n'); audit.flush(); os.fsync(audit.fileno())
+        for stream_name,pipe in (('stdout',child.stdout),('stderr',child.stderr)):
+            streams[stream_name]=(receipt/(name+'.'+stream_name+'.raw')).open('xb')
+            os.set_blocking(pipe.fileno(),False); selector.register(pipe,selectors.EVENT_READ,stream_name)
+        while selector.get_map():
+            require(time.monotonic()<deadline,'Absolute10s cohort output deadline')
+            for key,_ in selector.select(min(.025,max(0,deadline-time.monotonic()))):
+                block=os.read(key.fileobj.fileno(),min(65536,cap-total_bytes+1))
+                if not block: selector.unregister(key.fileobj); continue
+                room=max(0,cap-total_bytes); streams[key.data].write(block[:room]); streams[key.data].flush(); os.fsync(streams[key.data].fileno())
+                observed+=len(block); total_bytes+=len(block); require(total_bytes<=cap,'Combined cohort8MiB cap exceeded; raw prefix only')
+        code=child.wait(timeout=max(.001,deadline-time.monotonic()))
+    except BaseException as error:
+        failure=str(error); raise
+    finally:
+        # The unreaped direct Popen PID stays reserved until this exact child is reaped.
+        if child.poll() is None:
+            live=row(child.pid); require(live['parent']==os.getpid(),'Direct Popen child parent mismatch before kill')
+            if saved: require(all(live[k]==saved[k] for k in ('start','group','session')),'Direct Popen identity changed before kill')
+            child.kill()
+        code=child.wait(timeout=1)
+        save(name+'.exit.json',{'returncode':code,'identity':saved,'observedBytes':observed,'combinedCohortBytes':total_bytes,
+             'truncated':total_bytes>cap,'error':failure,'elapsedSeconds':time.monotonic()-started})
+        selector.close(); child.stdout.close(); child.stderr.close()
+        for output in streams.values(): output.close()
+    stdout=receipt/(name+'.stdout.raw'); stderr=receipt/(name+'.stderr.raw')
+    commands.append({'name':name,'code':code,'stdoutBytes':stdout.stat().st_size,'stderrBytes':stderr.stat().st_size,
+                     'stdoutSha':sha(stdout),'stderrSha':sha(stderr),'identity':saved})
+    require(code==0 and stderr.stat().st_size==0,'Actual Git failure/stderr: '+name)
+    require(time.monotonic()<deadline,'Absolute10s cohort post-exit bound')
+    return stdout.read_bytes()
+pathspecs=[':(top)src',':(top)tests',':(top)scripts',':(top)public',':(top).agents',':(top).nvmrc',
+           ':(top,glob)package*.json',':(top,glob)*config.*']
+proof=None
+try:
+    original=run('original-ls-files',['ls-files','-z','--cached','--others','--exclude-standard'])
+    selected=run('pathspec-ls-files',['ls-files','-z','--cached','--others','--exclude-standard','--',*pathspecs])
+    # Current fixture path bytes must be valid UTF8, so Node/Python replacement differences cannot hide inequality.
+    expression=re.compile(r'^(src/|tests/|scripts/|public/|\.agents/|\.nvmrc$|package[^/]*\.json$|[^/]*config\.[^/]+$)')
+    def filtered(raw):
+        require(raw.endswith(b'\0') or not raw,'Complete NUL output')
+        return sorted({path for path in raw.decode('utf8').split('\0') if expression.search(path)})
+    original_paths=filtered(original); selected_paths=filtered(selected)
+    save('selected-paths.json',{'originalFiltered':original_paths,'pathspecFiltered':selected_paths})
+    require(original_paths==selected_paths,'Exact original selected path array mismatch')
+    head=run('head',['rev-parse','HEAD']); status=run('status',['status','--porcelain'])
+    require(len(selected)<=1024*1024 and len(head)<=1024*1024 and len(status)<=1024*1024,'Unchanged execFileSync default buffer not sufficient for retained command')
+    require(re.fullmatch(r'[a-f0-9]{40}\n',head.decode()) is not None,'Exact HEAD output')
+    proof={'selectedCount':len(selected_paths),'arraysExactlyEqual':True,'originalBytes':len(original),'pathspecBytes':len(selected),
+           'headBytes':len(head),'statusBytes':len(status),'dirty':bool(status.decode('utf8').strip()),
+           'originalNulRecords':original.count(b'\0'),'pathspecNulRecords':selected.count(b'\0'),
+           'pathspecs':pathspecs,'noTestFieldOrBufferOrBudgetChange':True}
+except BaseException as error: errors.append(str(error))
+finally:
+    for path,digest in {**m['files'],input_path:input_sha}.items():
+        try: require(sha(path)==digest,'After selected pin drift: '+path)
+        except BaseException as error: errors.append(str(error))
+    for identity in identities:
+        try:
+            live=row(identity['pid'])
+            require(live['start']!=identity['start'] or live['state'] in ('Z','X'),'Recorded actual Git still executing')
+        except (FileNotFoundError,ProcessLookupError): pass
+        except BaseException as error: errors.append(str(error))
+    if time.monotonic()>deadline: errors.append('Whole10s diagnostic exceeded; no accepted equality')
+    save('result.json',{'completed':not errors and proof is not None,'errors':errors,'proof':proof,'commands':commands,
+                      'identities':identities,'elapsedSeconds':time.monotonic()-started,'totalBytes':total_bytes,
+                      'noSourceApplication':True,'noBrowserOrTest':True,'rootIndependentAllOwnedAbsenceRequired':True})
+if errors: sys.exit(1)

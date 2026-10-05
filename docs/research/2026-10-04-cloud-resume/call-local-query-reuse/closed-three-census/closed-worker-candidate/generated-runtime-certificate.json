@@ -1,0 +1,34 @@
+{
+  "additionalIntrinsicDomain": [
+    "Object.defineProperty",
+    "Symbol.toStringTag"
+  ],
+  "callbackOrigin": "compiler-generated getters returning source-defined own native exports only",
+  "class": "compiler namespace export getter object construction",
+  "compilerModuleId": "\u0000rolldown/runtime.js",
+  "exactlyOneGeneratedModule": true,
+  "helperEndExclusive": 233,
+  "helperSha256": "dcd70d8c1ca2bde8df169667352e3ad8626bf34938ea34c898ba835c0f8d5f44",
+  "helperStart": 0,
+  "helperText": "//#region \\0rolldown/runtime.js\nvar e = Object.defineProperty, t = (t, n) => {\n\tlet r = {};\n\tfor (var i in t) e(r, i, {\n\t\tget: t[i],\n\t\tenumerable: !0\n\t});\n\treturn n || e(r, Symbol.toStringTag, { value: \"Module\" }), r;\n};\n//#endregion",
+  "kind": "closed-three-exact-generated-runtime-class-v1",
+  "mappedSourceCredit": false,
+  "permission": "No other generated module/helper class; no extra mapped-source credit; actual postbuild projection must match before admission/import.",
+  "producer": "locked Rolldown1.2.5 via ordinary Vite production options",
+  "producerFiles": {
+    "/workspace/StarShipSimulator/node_modules/@rolldown/binding-linux-x64-gnu/package.json": "a619db83da2767ab4f2b29a2fde26c7ababc283cb59cc554ebe7e77c8ff7a1a7",
+    "/workspace/StarShipSimulator/node_modules/@rolldown/binding-linux-x64-gnu/rolldown-binding.linux-x64-gnu.node": "411a96800c572feaba7407ef3f338ddb0cd647ea2f36c399dd02be164f02a338",
+    "/workspace/StarShipSimulator/node_modules/rolldown/dist/index.mjs": "2d62944241067e4cd5c38cdb750dfd55ffa0b5b4a487fe5fc61a1aab8adc0ebc",
+    "/workspace/StarShipSimulator/node_modules/rolldown/dist/shared/binding-C__LJDBG.mjs": "20227dd9120aa1f62f39fe02cc9db909c61f41f172830d97a7350b8a23618ea3",
+    "/workspace/StarShipSimulator/node_modules/rolldown/package.json": "6be75efa1a51c115f17375d1fc4713f70392bff70335045ec5cf7eeaf1228c96",
+    "/workspace/StarShipSimulator/node_modules/vite/package.json": "4e41dd20c7a12e7e70915b235c0bf5b5158ec6709c1390804128af0867d6d6d9"
+  },
+  "retainedChunk": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-closed-three-census-a425f27fac8b48ea9bc5708c63bd163d/native/simulation-4PxEPYPV.js",
+    "sha256": "3ec0e4a99258decab7e3223c29a492f5c545dac1f1b58e1c386571518430b6d2"
+  },
+  "retainedProjection": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/root-generated-runtime-projection.json",
+    "sha256": "4bd03efd9458188a8d168a498f99c1f379617982f8b9e87beafd3808f19b8556"
+  }
+}

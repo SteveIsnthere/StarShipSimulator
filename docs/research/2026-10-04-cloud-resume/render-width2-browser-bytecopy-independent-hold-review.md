@@ -1,0 +1,7 @@
+# Independent HIGH browser byte-copy preparation: narrow HOLD
+
+Source-only review found three metadata boundary defects before any preparation workload. The original full browser bundle303file manifest omits separately qualified SwiftShader.ini; strict browser file-set equality must admit exactly that pinned qualified config path/hash/0600 mode. Author reports a narrow repair880b/map9b1; final source review remains required.
+
+Two remaining gaps: complete .github paths are not enumerated against additionalGithubFiles (existing3hashes alone miss additions), and full browser directory set/modes are not compared with the existing12-row bundle.directories inventory (file-only traversal misses extra empty directories or mode changes). Require exact recorded sets/modes before and after; no generic extra-file allowance. These are existing authority metadata, not new workload/proof requirements.
+
+Read actual preparer, owned prepare-only stage derivative, explicit Python bridge, maker, accepted manifest/composite/SDK metadata schemas and declaration. Other source/runtime/package/SDK/mapped source492/21output/ownership boundaries appear sound within this preparation-only scope. No compiler/module/browser run or protected physics-body review was performed. No execution grant until narrow repairs and actual generated input are reviewed. Preserve source snapshots and all previous failed outcomes.

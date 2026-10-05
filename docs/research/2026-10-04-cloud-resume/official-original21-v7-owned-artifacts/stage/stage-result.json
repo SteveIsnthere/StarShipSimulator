@@ -1,0 +1,10 @@
+{
+  "completed": true,
+  "mode": "original21",
+  "code": 0,
+  "error": null,
+  "afterErrors": [],
+  "officialResultPath": "/tmp/starship-official-tests-owner.5qAIAj/result.json",
+  "processReceipt": "/tmp/starship-original21-stage.BAkByZ/preparation.process.json",
+  "acceptance": "Only this app-build or original21 invocation; full independent source/ancestry/absence review required; not whole gate"
+}

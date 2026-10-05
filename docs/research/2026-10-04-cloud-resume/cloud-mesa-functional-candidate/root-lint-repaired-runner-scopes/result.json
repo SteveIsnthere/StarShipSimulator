@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "sourceSha256": "af63c6de9ff5a2a1e49e46b5b7bc06918d5d3eb1fd93355b782531d1a887b1e0",
+  "checks": [
+    {
+      "name": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.025215642002876848,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-mesa-repaired-scope.q3zxcx0j/runner.mjs"
+      ]
+    },
+    {
+      "name": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9533605520045967,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--config",
+        "/workspace/StarShipSimulator/eslint.config.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/cloud-mesa-functional.mjs"
+      ]
+    }
+  ],
+  "browserExecuted": false
+}

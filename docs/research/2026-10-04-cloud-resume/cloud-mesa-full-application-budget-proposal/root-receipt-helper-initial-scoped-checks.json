@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-05T01:21:33.292316+00:00",
+  "sourcePins": "9d2e0ed8 (exact six rows verified)",
+  "sixSourceHashes": "PASS",
+  "bridgePythonAstCompile": "PASS",
+  "applicationNodeParse": "PASS",
+  "candidateTypeScriptParse": "PASS",
+  "candidateEslint": "PASS",
+  "applicationEslint": {
+    "status": "FAIL",
+    "rule": "no-useless-assignment",
+    "line": 53,
+    "variable": "modesAfter",
+    "message": "Initial null assignment unused"
+  },
+  "noSourceApplication": true,
+  "successorRequired": true
+}

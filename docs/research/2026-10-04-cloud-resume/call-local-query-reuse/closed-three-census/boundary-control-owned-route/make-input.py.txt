@@ -1,0 +1,26 @@
+# Finite inert fixture materialization; no physical owner/build/public selection.
+import os,sys,json,hashlib,uuid
+from pathlib import Path
+r=Path('/workspace/StarShipSimulator');p=r/'docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census';o=p/'boundary-control-owned-route';b=p/'physical-owner-candidate';w=p/'closed-worker-candidate'
+sha=lambda f:hashlib.sha256(Path(f).read_bytes()).hexdigest()
+assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='query-census-boundary-controls-preparation'
+assert os.environ.get('NODE_OPTIONS','')=='' and os.environ.get('NODE_PATH','')=='' and len(sys.argv)==1
+pins=o/'input-pins.json';rows=dict(json.loads(pins.read_text())['files'])
+for file,h in rows.items():assert sha(file)==h,file
+rows[str(pins)]=sha(pins)
+setup=r/'node_modules/.cache'/('starship-query-census-boundary-controls-'+uuid.uuid4().hex);setup.mkdir(mode=0o700);materialized={}
+def emit(source,name):
+ target=setup/name
+ with target.open('xb')as stream:stream.write(source.read_bytes())
+ materialized[str(target)]={'source':str(source),'sourceSha256':sha(source),'sha256':sha(target)};rows[str(target)]=sha(target)
+emit(b/'boundary-controls.mjs.txt','boundary-controls.mjs');emit(w/'loader.mjs.txt','loader.mjs');emit(o/'owner.mjs.txt','owner.mjs')
+node={'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48','sha256':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'}
+helper={'path':str(r/'scripts/bench/owned-command.mjs'),'sha':rows[str(r/'scripts/bench/owned-command.mjs')]}
+m={'kind':'closed-three-census-source-input-v1','ownerScope':'inert-boundary-controls-only','root':str(r),'setup':str(setup),'files':rows,'selected':rows,'materialized':materialized,'node':node,'helper':helper,'driver':{'path':str(setup/'boundary-controls.mjs'),'sha':sha(setup/'boundary-controls.mjs')},'output':str(setup/'boundary-controls-result.json'),'expectedCases':['foreign alias denies before delegation', 'unknown application alias denies', 'foreign absolute entry', 'artifact query', 'artifact fragment', 'nonexecuting artifact', 'certified alias resolves only owned entry', 'certified observer bootstrap admits entry', 'observer cannot bootstrap chunk', 'compiler local edge admits exact chunk', 'compiler local edge denies foreign target', 'unresolved artifact load denies before delegation', 'authorized native bytes retained without transform', 'authorized native wrong bytes deny'],'physicalSourceQualification':False,'installedToolQualification':False,'publicWorkerLifecycleQualification':False}
+with(setup/'input.json').open('x')as f:json.dump(m,f,indent=2);f.write('\n')
+rows={**rows,str(setup/'input.json'):sha(setup/'input.json')}
+with(setup/'root-inventory.json').open('x')as f:json.dump({'kind':'query-census-boundary-controls-root-inventory-v1','files':rows},f,indent=2);f.write('\n')
+root={'kind':'query-census-boundary-controls-root-input-v1','root':str(r),'mode':'query-census-boundary-controls','outerMs':30000,'setup':str(setup),'steps':['boundary-controls'],'node':{'path':node['path'],'sha':node['sha']},'helper':helper,'pureInput':{'path':str(setup/'input.json'),'sha':sha(setup/'input.json')},'pins':{'path':str(setup/'root-inventory.json'),'sha':sha(setup/'root-inventory.json')},'stage':{'path':str(setup/'owner.mjs'),'sha':sha(setup/'owner.mjs')},'observer':{'path':str(o/'root-observer.py.txt'),'sha':sha(o/'root-observer.py.txt')},'python':{'path':'/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12','sha':'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'}}
+with(setup/'root-input.json').open('x')as f:json.dump(root,f,indent=2);f.write('\n')
+for file,h in rows.items():assert sha(file)==h,file
+print(json.dumps({'setup':str(setup),'input':str(setup/'input.json'),'inputSha256':sha(setup/'input.json'),'rootInput':str(setup/'root-input.json'),'rootInputSha256':sha(setup/'root-input.json'),'argv':[root['python']['path'],root['observer']['path'],str(setup/'root-input.json'),sha(setup/'root-input.json')]}))

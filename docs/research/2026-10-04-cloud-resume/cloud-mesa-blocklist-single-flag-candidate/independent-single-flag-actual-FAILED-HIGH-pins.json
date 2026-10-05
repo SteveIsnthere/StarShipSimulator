@@ -1,0 +1,89 @@
+{
+  "decision": "Actual FAILED supported; no additional attempt or acceptance",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/root-actual-functional-launch.json",
+      "sha256": "af79956562db5114d746e63e6498c04b76cb603ded2c59dc35ac117e5753c317"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/root-observer-registration.json",
+      "sha256": "bdf7918691ecc7b0b124079a1cbe432a245eaf320da3b2a797061457e30ad227"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/root-structural-before.json",
+      "sha256": "404eae75bc9dbd2a3d96cde666025eefb47a00c8d28e44cf0203707fb673d522"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/root-structural-after.json",
+      "sha256": "ea34dc3cad9bbf6fe3cad3173cf071de179cd35aceee481ae0720ac77e22da94"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-input-freeze.json",
+      "sha256": "4b91dd6677caea5a37d39c75ca23d989c7cabd07fb69852fc1a0dc1cf873061c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-functional-input.json",
+      "sha256": "a9d4fc7a005711dfa36d673543a2b1302455b39ccaf5f1b0eaa635b804746fbd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-owner-input.json",
+      "sha256": "f7dfa5e5935c13231b405f8803b667358689cbbafb952576ec78c09bdcb47582"
+    },
+    {
+      "path": "/tmp/starship-width2-root.6a7cxjb5/root-outcome.json",
+      "sha256": "5fd3d87d9ac3c6e520f60bb03e9b741f2c8a3372d00d47514495ad6e8a6bb08e"
+    },
+    {
+      "path": "/tmp/starship-width2-root.6a7cxjb5/actual-outer-exit.json",
+      "sha256": "4231f62e1436bc40c8b3381e80892c99f285f11904c31bbcad2956d0e09c2907"
+    },
+    {
+      "path": "/tmp/starship-width2-root.6a7cxjb5/root-independent-postexit.json",
+      "sha256": "9b31e05d17b0bbbd9a053bd963b6a014fa414a667e574211bed6105d1fd5adeb"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.OX4lis/stage-result.json",
+      "sha256": "f9c6601eb4873f28cb62e2276aa53971fe8782a3fb33ca61d871f4c34043b6fd"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.OX4lis/actual-child-exit.json",
+      "sha256": "73f66370dfc33949b4331217379777a0bdbeca199ccc404d61645118c6df24d9"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.OX4lis/preparation.process.json",
+      "sha256": "3ec1a0f840e96c2fab7507dd83cba9ed537754d79d88429cf661c5221baf7151"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889/outcome.json",
+      "sha256": "41da8686949f16e5c46923cf595583f38a833dec5c506541d6d966503714e335"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889/context-failure.json",
+      "sha256": "26f52261b525715be67a90718b3e6a5764e3a5396885677729ea431631be9b59"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889/cleanup.json",
+      "sha256": "d0e90ac680f3401f632f452a181037bee1179f4859d6ab8b36ae2c8f16f0bec9"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889/before.json",
+      "sha256": "e25c26d205f70d1f358a83df5df0398013207b2d07bb8eeb0ae611349b13a1d2"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889/after.json",
+      "sha256": "e25c26d205f70d1f358a83df5df0398013207b2d07bb8eeb0ae611349b13a1d2"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889/diagnostic-before-context.json",
+      "sha256": "f4028eae9df2add403986f309214c1beebd74a85b09e6694d2a13b80c3ba9a9c"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889/diagnostic-after-context-failure.json",
+      "sha256": "8882287c1fb0a0217405d39b933d70e1974b277dda232a662f8b5d202ef812ea"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/independent-single-flag-actual-FAILED-HIGH-review.md",
+      "sha256": "b7ca4563d29c6af82b7bc2d5ef2095c99fffce046f3393214f5b95ed6fc29097"
+    }
+  ]
+}

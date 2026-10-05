@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/usr/local/bin/git",
+    "ls-files",
+    "-z",
+    "--cached",
+    "--others",
+    "--exclude-standard",
+    "--",
+    ":(top)src",
+    ":(top)tests",
+    ":(top)scripts",
+    ":(top)public",
+    ":(top).agents",
+    ":(top).nvmrc",
+    ":(top,glob)package*.json",
+    ":(top,glob)*config.*"
+  ],
+  "cwd": "/workspace/StarShipSimulator"
+}

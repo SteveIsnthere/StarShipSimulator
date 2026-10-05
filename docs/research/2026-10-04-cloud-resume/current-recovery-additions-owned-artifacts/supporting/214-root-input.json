@@ -1,0 +1,39 @@
+{
+  "kind": "query-reuse-pure-proof-root-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "mode": "query-reuse-proof",
+  "outerMs": 120000,
+  "setup": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69",
+  "steps": [
+    "native-build",
+    "pure-proof"
+  ],
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "pureInput": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/input.json",
+    "sha": "07375b47a3b495e371880aa4b03fde25a24c9797755f3382d26d6ddb3d6d5b0e"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/root-inventory.json",
+    "sha": "4e2565563c7bf778ef192c798d1dd29cc5aabe70ce50128f2b988b797cc8b9bf"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/owner.mjs",
+    "sha": "7b77d1475b48efa77660545eb3221308f86af1d92d80a920fdefd0ae51b66985"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-observer.py.txt",
+    "sha": "6f790e6efdb8f2e8a5285cddf40d0b7b9188077b007c05e3579954d64d899652"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  }
+}

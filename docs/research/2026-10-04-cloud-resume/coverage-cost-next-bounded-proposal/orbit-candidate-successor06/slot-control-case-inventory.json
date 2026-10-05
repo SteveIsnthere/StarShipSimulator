@@ -1,0 +1,18 @@
+{
+  "names": [
+    "compile shared binding",
+    "histories shared binding",
+    "old root slot denied",
+    "foreign owner slot denied",
+    "foreign environment denied",
+    "missing owner slot denied",
+    "different contract role denied",
+    "wrong outer mode denied",
+    "wrong outer bound denied",
+    "wrong step order denied",
+    "unknown inner mode denied",
+    "wrong canonical slot denied",
+    "wrong preparation slot denied",
+    "old consumer result kind denied"
+  ]
+}

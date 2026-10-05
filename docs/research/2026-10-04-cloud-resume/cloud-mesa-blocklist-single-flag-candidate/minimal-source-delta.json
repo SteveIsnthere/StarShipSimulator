@@ -1,0 +1,15 @@
+{
+  "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/run-functional-diagnostic.mjs.txt",
+  "originalSha256": "adb7c21e136f1a4a57d738b544943f574e3142da01cba7c4ddb3996555493b7e",
+  "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/run-functional-single-blocklist-override.mjs.txt",
+  "candidateSha256": "a6d2508a922f7664f01e361cbeda408858b34cae3bd2d191811fcda146af8ebd",
+  "onlyChanges": [
+    "Add bare --ignore-gpu-blocklist to actual launch args and requestedArgs receipt",
+    "Require input.blocklistPolicyOverride exactly ignore-gpu-blocklist"
+  ],
+  "restoringTheseThreeTextInsertionsReconstructsOriginalBytes": true,
+  "pageEvaluateBodyUnchanged": true,
+  "stageUnchanged": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/business-stage.mjs.txt",
+  "rootObserverUnchanged": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/root-observer.py",
+  "executed": false
+}

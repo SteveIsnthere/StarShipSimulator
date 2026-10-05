@@ -1,0 +1,101 @@
+{
+  "decision": "ACCEPTED fresh public build/dist only; no matrix grant",
+  "distFiles": 61,
+  "distDirectories": 2,
+  "distBytes": 7668479,
+  "maps": 18,
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-actual-public-app-build-dist-HIGH-review.md",
+      "sha256": "7383a8c4052c9a3be2acbfaaf4ce0c10c929204ec6dc2cb1c1e743c12d825e86"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-actual-app-build-wrapper-launch.json",
+      "sha256": "267cd6af60121e8a744f208efebceca4a2c22633f616a2dbd989918637f0ba6e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-app-build-independent-postexit.json",
+      "sha256": "79e51e644e2a48dbe6f5b3d32cae5ea8fe24dcb7236c09500194503581a13fd5"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/stage-result.json",
+      "sha256": "040f3d7be584b2f7d6986ff0c95c5d937edaa7c6554ee4c4f77a765125d100fa"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/actual-child-exit.json",
+      "sha256": "58745d1c1a5ba646f405d0aa047ef3f91f2245d02ffc36bf9734a9c273389567"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/actual-command.json",
+      "sha256": "446238d90be89207b930b2dde80cb0b05560c947a869acb60e60b8cad44463f9"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/preparation.process.json",
+      "sha256": "da608cad009a5421c896b37565d3fa1fae6f03fc778a34654df0f6a4f1fbf388"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/preparation.stdout.txt",
+      "sha256": "9f9d1ea8615daa8ddae2efd3fe946888d5eeabf5fd556b7e3a494eccd0a77b24"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/preparation.stderr.txt",
+      "sha256": "577be2fb41909d597b99c445b814081163af6023a44b523f29e50b69aa4988ed"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/source-before.json",
+      "sha256": "ceb262cfe8fd80a888964f5180cc77f11ec6fddeaf58032f2c2648216d480f61"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/source-after-observed.json",
+      "sha256": "ceb262cfe8fd80a888964f5180cc77f11ec6fddeaf58032f2c2648216d480f61"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/installed-before.json",
+      "sha256": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/installed-after-observed.json",
+      "sha256": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/runtime-before.json",
+      "sha256": "6d91d914f3c0a8a01042a927d650fe49ec6e029400ea68185abefefd88f905d4"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/runtime-after-observed.json",
+      "sha256": "6d91d914f3c0a8a01042a927d650fe49ec6e029400ea68185abefefd88f905d4"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/dist-after-build.json",
+      "sha256": "2c4eb1e1978ed2fb053af53e2562d1a932e0e4e7c9bdba670cf2f5ed6ea4d996"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/dist-after-observed.json",
+      "sha256": "2c4eb1e1978ed2fb053af53e2562d1a932e0e4e7c9bdba670cf2f5ed6ea4d996"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/extra-trees-after.json",
+      "sha256": "1ae748d5796cc995906ddf0fba5e5626f9c1c6ac79cec8fb465106e92254a77b"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.znic3E/selected-after.json",
+      "sha256": "f38943bb564b2c13a5b8bb50f4f91e7d3e78f16d2bb7ec0de824528ca2b5eb0e"
+    },
+    {
+      "path": "/tmp/starship-mesa-app-structural-root.4ji2ern0/wrapper-outcome.json",
+      "sha256": "6a551d5d24ba4dc64a8f15570a84d19c09105ce64e4607a1c15d0841a184eb52"
+    },
+    {
+      "path": "/tmp/starship-mesa-app-structural-root.4ji2ern0/root-structural-before.json",
+      "sha256": "55c9565a2318e9f3b86221228256d3b112689475efaef2e2fd4d8f21d4b6a986"
+    },
+    {
+      "path": "/tmp/starship-mesa-app-structural-root.4ji2ern0/root-structural-after.json",
+      "sha256": "c6d2179cb2a68cd9a99e7d9aa0571be9855a29b287a2dae26769d933717a6e69"
+    },
+    {
+      "path": "/tmp/starship-original21-root.kbx3h9jh/root-outcome.json",
+      "sha256": "981ae8d0125cb1cb4edf374f0e9c4769e555a94463c30b6cb3e4a53580721ecc"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "kind": "portable-native-flight-anchor-v2",
+  "baseQualification": {
+    "path": "docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/qualification-transfer/native-flight-qualification-v7.json",
+    "sha256": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd"
+  },
+  "runtime": {
+    "platform": "linux",
+    "arch": "x64",
+    "nodeVersion": "v22.23.3",
+    "nodeBinary": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "resources": {
+    "evidence": {
+      "failed-build-boundary": "docs/research/2026-10-04-cloud-resume/official-mixed-native-failed-map-inventory-artifacts/private/build-boundary.json",
+      "failed-build-owner": "docs/research/2026-10-04-cloud-resume/official-mixed-native-failed-map-inventory-artifacts/private/build-owner-result.json",
+      "failed-build-process": "docs/research/2026-10-04-cloud-resume/official-mixed-native-failed-map-inventory-artifacts/private/native-flight-build.process.json",
+      "failed-build-root": "docs/research/2026-10-04-cloud-resume/official-mixed-native-failed-map-inventory-artifacts/root/root-outcome.json",
+      "fresh-integrity-result": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-canonical-evidence-2026-10-04/offline-pending/receipt/qualification-result.json",
+      "fresh-integrity-review": "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-qualification-independent-actual-result-review.md",
+      "body-role-evidence": "docs/research/2026-10-04-cloud-resume/official-mixed-native-body-role-evidence.json",
+      "body-role-review": "docs/research/2026-10-04-cloud-resume/official-mixed-native-body-role-independent-high-review.md",
+      "paired-semantic-review": "docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/actual-result-independent-review.md",
+      "standalone-cost-review": "docs/research/2026-10-04-cloud-resume/current-native-composite-cost/actual-result-independent-review.md"
+    },
+    "baselineMapPath": "docs/research/2026-10-04-cloud-resume/official-mixed-native-failed-map-inventory-artifacts/private/native/simulation-CN0-W409.js.map",
+    "retainedOriginPath": "docs/research/2026-10-04-cloud-resume/official-mixed-native-failed-map-inventory-artifacts/origin-manifest.json"
+  },
+  "sourceChanges": {
+    "scripts/test/admission.mjs": {
+      "before": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db",
+      "after": "4e8f43e6714db015b742d7beee47bcb4fdd4201788b14a57aa91019171ce914f"
+    },
+    "scripts/test/build.mjs": {
+      "before": "ad1fade84731714978d1378ad21b3dc6e7aad7184760727b346b66351d186a06",
+      "after": "513eb012207849e66933a59ff29924e202022000f5d98277bc4629b0771e2159"
+    },
+    "scripts/test/run.mjs": {
+      "before": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1",
+      "after": "b51865936b83881122177d4b3292ecc3a07ea77a24698bf601c0182dd01ad417"
+    },
+    ".nvmrc": {
+      "before": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56",
+      "after": "6d07ac247e81cd42c2c20abf8dfe504413d6b2422e4aba9b2c975a776f155921"
+    }
+  },
+  "goldenDataDelta": {
+    "path": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/golden-data-delta.pending.json",
+    "sha256": "ba20e4e5d35be2b78751d45b9d80e5c305193dd32989016d261377807fc2c7b1"
+  }
+}

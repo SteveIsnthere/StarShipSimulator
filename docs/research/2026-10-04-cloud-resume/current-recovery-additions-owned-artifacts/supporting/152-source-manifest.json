@@ -1,0 +1,26 @@
+{
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/git/git/v2.47.3/Documentation/git-ls-files.txt",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-source/git-ls-files.txt",
+      "sha256": "68121e25c1f77931530d6c35605f37d42c9a4175c363d009abf27e6df4c6ab73",
+      "bytes": 12116,
+      "strictTLS": true,
+      "sourceTag": "v2.47.3",
+      "installedGitVersionNotClaimed": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/git/git/v2.47.3/Documentation/glossary-content.txt",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-source/glossary-content.txt",
+      "sha256": "52ae249795c4eeb8b16c4677bfc28930e2a37a70a35d493ef9bfaec26b09e04a",
+      "bytes": 32908,
+      "strictTLS": true,
+      "sourceTag": "v2.47.3",
+      "installedGitVersionNotClaimed": true
+    }
+  ],
+  "installedManualTargetsMissing": [
+    "/usr/share/man/man1/git-ls-files.1.gz",
+    "/usr/share/man/man7/gitglossary.7.gz"
+  ]
+}

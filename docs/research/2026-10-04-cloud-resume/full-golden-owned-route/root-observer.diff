@@ -1,0 +1,33 @@
+--- accepted9ed
++++ golden-record
+@@ -16,8 +16,13 @@
+ for key in ('node', 'helper', 'npmCli', 'qualification', 'pins', 'stage', 'observer', 'python'):
+     require(digest(m[key]['path']) == m[key]['sha'], 'Pinned input mismatch: ' + key)
+ require(digest(__file__) == m['observer']['sha'], 'Executed root observer mismatch')
+-require(m['mode'] in ('app-build','original21'), 'Unknown concrete stage')
+-require(m['outerMs'] == {'app-build':90000,'original21':338000}[m['mode']], 'Wrong concrete stage bound')
++require(m['mode'] in ('golden-record',), 'Unknown concrete stage')
++require(m['outerMs'] == {'golden-record':338000}[m['mode']], 'Wrong concrete stage bound')
++prediction = json.loads(pathlib.Path(m['prediction']['path']).read_text())
++require(digest(m['prediction']['path']) == m['prediction']['sha'], 'Frozen pre-look prediction mismatch')
++require(prediction['kind'] == 'pre-look-full-ten-Fidelity-golden-prediction' and len(prediction['scenarios']) == 10, 'Wrong pre-look set')
++expected_fixtures = sorted(str(pathlib.Path(m['root']) / ('tests/golden/fixtures/' + ('booster/' if row['model'] == 'Super Heavy' else '') + row['id'] + '.json')) for row in prediction['scenarios'])
++require(len(set(expected_fixtures)) == 10 and m['fixturePaths'] == expected_fixtures, 'Only exact pre-look ten fixture outputs mutable')
+ work_deadline = started + (m['outerMs'] - 8000)/1000
+ require(pathlib.Path(sys.executable).resolve() == pathlib.Path(m['python']['path']).resolve(), 'Wrong Python')
+ root_receipt = pathlib.Path(tempfile.mkdtemp(prefix='starship-original21-root.', dir='/tmp'))
+@@ -273,6 +278,7 @@
+         require(inventory['kind'] == 'official-original21-external-inventory-v1', 'Final source/tool inventory kind')
+         require(bool(inventory['files']), 'Final empty source/tool inventory')
+         for path, sha in inventory['files'].items():
++            if path in m['fixturePaths']: continue  # Exactly ten predeclared mutable data outputs; stage audits complete source path sets.
+             try: require(digest(path) == sha, 'Final source/tool file drift: ' + path)
+             except BaseException as error: failures.append(str(error))
+     except BaseException as error: failures.append('Independent final source/tool audit: ' + str(error))
+@@ -282,5 +288,5 @@
+         'actualReturncode': None if child is None else child.poll(), 'remaining': remaining,
+         'tracked': list(known.values()), 'ownedGroups': list(owned_groups.values()), 'stageReceipt': None if stage_receipt is None else str(stage_receipt),
+         'manifestSha': expected_sha, 'elapsedSeconds': time.time() - started,
+-        'acceptance': 'This single app-build or original21 invocation only; independent actual-result/source/ownership review required; no whole gate or local acceptance'})
++        'acceptance': 'This single full golden recording invocation only; independent actual-result/source/ownership review required; no whole gate or local acceptance'})
+ if failures: sys.exit(1)

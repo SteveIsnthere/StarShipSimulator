@@ -1,0 +1,7 @@
+import assert from 'node:assert/strict';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+export function identifyOrbitParent(parent,original){assert.equal(typeof parent,'string');const base=pathToFileURL(original.path).href;if(parent===base)return{raw:parent,canonical:base};assert(parent.startsWith(base+'?vitest='),'Unknown original orbit parent');const token=parent.slice((base+'?vitest=').length);assert(/^(0|[1-9][0-9]*)$/.test(token),'Unsupported original decoration');assert(Number.isSafeInteger(Number(token))&&Number(token)>=0,'Date.now token domain');assert.equal(fileURLToPath(parent),original.path);return{raw:parent,canonical:base};}
+export function requireOrbitSourceCertificate(certificate,original,parent){const identity=identifyOrbitParent(parent,original);assert(certificate&&certificate.original.path===original.path&&certificate.original.sha===original.sha);assert.equal(certificate.loadedSourceSha,original.sha);assert(['module','module-typescript'].includes(certificate.format));assert.deepEqual(certificate.identity,identity);return identity;}
+export const orbitAliasInventory=['$core/physics/gravity','$core/constants','$core/state','$core/step'];
+// ./legacy-models must retain its exact own loaded source certificate and use
+// native-owned constants. This pure policy never installs hooks or imports app code.

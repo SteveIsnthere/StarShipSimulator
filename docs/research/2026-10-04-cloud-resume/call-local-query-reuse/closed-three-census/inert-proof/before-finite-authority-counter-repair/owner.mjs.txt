@@ -1,0 +1,43 @@
+// Two owned commands only; no physics in owner or product application.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,existsSync} from 'node:fs';
+import {resolve,relative} from 'node:path';
+import {createHash} from 'node:crypto';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+const started=performance.now(),[input,inputSha]=process.argv.slice(2),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+assert.equal(sha(input),inputSha);const m=JSON.parse(readFileSync(input,'utf8'));
+assert.equal(m.kind,'query-census-inert-proof-input-v1');assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-census-inert-proof');
+assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);assert.equal(process.version,'v22.23.3');assert.equal(sha(process.execPath),m.node.sha256);
+assert.equal(fileURLToPath(import.meta.url),resolve(m.setup,'owner.mjs'));assert.match(relative(m.root,m.setup),/^node_modules\/\.cache\/starship-query-census-inert-proof-[a-f0-9]{32}$/);
+process.chdir(m.root);process.env.npm_execpath=m.npmCli;
+const save=(name,value)=>writeFileSync(resolve(m.setup,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+let primary=null,status=1,stage='preflight',owned=null,loader=null,before=null,tools=null;const postErrors=[],processes=[];
+function selected(){const rows={[input]:sha(input),[process.execPath]:sha(process.execPath)};assert.equal(rows[input],inputSha);assert.equal(rows[process.execPath],m.node.sha256);
+ assert.equal(sha(m.inputPins.path),m.inputPins.sha256);for(const[path,h]of Object.entries(m.inputs)){rows[path]=sha(path);assert.equal(rows[path],h,path);}
+ for(const[path,row]of Object.entries(m.materialized)){rows[path]=sha(path);assert.equal(rows[path],row.sha256);assert.equal(sha(row.source),row.sourceSha256);}
+ assert.equal(sha(m.authority.path),m.authority.sha256);assert.equal(sha(m.loader.path),m.loader.sha256);assert.equal(sha(m.helper.path),m.helper.sha256);return rows;}
+function artifacts(){assert.ok(existsSync(resolve(m.setup,'graphs.json')),'Graph verification unavailable');const graphs=JSON.parse(readFileSync(resolve(m.setup,'graphs.json'),'utf8'));const rows={};let bytes=0;
+ for(const[role,graph]of Object.entries(graphs.graphs)){const actual=loader.filesUnder(graph.directory);assert.ok(actual.length<=32);
+ assert.deepEqual(actual.map(path=>relative(graph.directory,path)).sort(),Object.keys(graph.files).sort());
+ for(const[path,h]of Object.entries(graph.files)){const absolute=resolve(graph.directory,path);bytes+=readFileSync(absolute).length;rows[absolute]=sha(absolute);assert.equal(rows[absolute],h,role);}}
+ assert.ok(bytes<=64*1024*1024,'Four graph aggregate artifact cap');return rows;}
+async function command(name,args,deadlineMs){stage=name;const code=await owned.runOwnedCommand({name,args,deadlineMs,root:m.root,receipt:m.setup,env:{...process.env,NODE_OPTIONS:''}});
+ const receipt=JSON.parse(readFileSync(resolve(m.setup,name+'.process.json'),'utf8'));processes.push({name,code,receipt});assert.equal(code,0,name);
+ assert.equal(receipt.exit.code,0);assert.equal(receipt.exit.signal,null);assert.equal(receipt.failure,null);assert.equal(receipt.closed,true);assert.equal(receipt.finished,true);assert.deepEqual(receipt.cleanup.executing,[]);}
+try{
+ save('selected-before.json',selected());owned=await import(pathToFileURL(m.helper.path).href);loader=await import(pathToFileURL(m.loader.path).href);
+ before=loader.sourceSnapshot(m.root);tools=loader.installedToolSnapshot(m.root);save('source-before.json',before);save('tools-before.json',tools);
+ const authority=JSON.parse(readFileSync(m.authority.path,'utf8'));assert.deepEqual(before,authority.source);assert.deepEqual(tools,authority.tools);
+ await command('native-build',[resolve(m.setup,'builder.mjs'),input,inputSha],60000);save('artifacts-before.json',artifacts());
+ await command('pure-proof',[resolve(m.setup,'driver.mjs'),input,inputSha],10000);
+ const result=JSON.parse(readFileSync(resolve(m.setup,'proof-result.json'),'utf8'));assert.equal(result.kind,'query-census-native-inert-proof-v1');assert.equal(result.canonicalCases,146);assert.equal(result.targetedCases.length,31);assert.equal(new Set(result.targetedCases).size,31);
+ assert.equal(result.independentNativeGraphs,4);assert.equal(result.fullStateAndOutputEquality,true);assert.equal(result.closedRecipeOnly,true);
+ assert.equal(result.publicSelection,false);assert.equal(result.fallbackProof,false);assert.equal(result.timing,false);status=0;
+}catch(error){primary=String(error.stack??error);}
+finally{
+ for(const[name,fn]of[['selected-after',selected],['source-after',()=>{assert(before);const actual=loader.sourceSnapshot(m.root);save('source-after-observed.json',actual);assert.deepEqual(actual,before);return actual;}],['tools-after',()=>{assert(tools);const actual=loader.installedToolSnapshot(m.root);save('tools-after-observed.json',actual);assert.deepEqual(actual,tools);return actual;}],['artifact-after',artifacts],['owned-final',()=>owned.verifyNoOwnedProcesses()]]){
+  try{save(name+'.json',fn());}catch(error){postErrors.push({name,message:String(error.stack??error)});}}
+ if(postErrors.length)status=70;if(performance.now()-started>112000){status=70;postErrors.push({name:'whole-owner',message:'112s work bound exceeded'});}
+ save('owner-result.json',{kind:'query-census-inert-proof-owner-result-v1',completed:status===0&&primary===null&&postErrors.length===0,status,stage,primary,postErrors,processes,elapsedMs:performance.now()-started,
+ application:false,timing:false,goldenReplayPassed:false,parentAllActualTrackedAbsenceRequired:true});process.exitCode=status;
+}

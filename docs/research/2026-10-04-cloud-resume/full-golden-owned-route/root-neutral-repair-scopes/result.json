@@ -1,0 +1,17 @@
+{
+  "checks": [
+    {
+      "name": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.027056282000557985
+    },
+    {
+      "name": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9081516929945792
+    }
+  ],
+  "stageSha256": "6300fc2e62dc97b3ea769a2b02c97374354be6d13ed60fe0798ae36cdab0c446",
+  "fixturesRead": false,
+  "passed": true
+}

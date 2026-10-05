@@ -1,0 +1,7 @@
+# Independent actual archive input HIGH
+
+Static finite checks verified owner input0d04e76c, repaired source9e473fbb, exact materialized archive/observer byte correspondence, private0700 directory and0600 copied source/input/inventory modes. Maker result retains actual PID120163/start7635264, rawstatus0/reapedtrue/umask077/noArchive, matching registration. The selected root scope receipt records16 hashes and3 Python AST checks; no checks were rerun by this reviewer.
+
+The actual inventory equals the union of all selected source pins, all485 explicit supporting references and four executed roles; normalized paths have no contradictory expected digests. It retains14 finite trees, exact alias8089 backing, three external binary prerequisites as metadata-only archive exclusions and browser.launch.env rejection. Managed Python role equals the accepted source authority; no runtime binary bytes or recursive trees were inspected by this review. Output is currently absent.
+
+Source b2a59/514ef supports the copied implementation. Actual bounds remain60whole/52work/8cleanup and45s fail-closed completion,16MiB file/256MiB aggregate/5000 paths/depth32. This supports ONE separately root-granted copy attempt with post-copy complete origin/alias/source/mode/privacy audits and ALL actual owned process identities independently checked. It is not completed artifact/recovery/replay/coverage/gate/frame acceptance. No archive, imports, tests, execution or whole source/tool scans occurred in this review.

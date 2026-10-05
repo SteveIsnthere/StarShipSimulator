@@ -1,0 +1,20 @@
+{
+  "decision": "HOLD-two-bounded-loss-path-repairs",
+  "review": {
+    "path": "docs/research/2026-10-04-cloud-resume/recovery07-independent-source-HOLD-review.md",
+    "sha256": "f17585b7871c29f26beb457acd7cb7c5c5d250f947b9cd9a1002681eab2477ad"
+  },
+  "inputs": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/recovery07-capture.py.txt",
+      "reviewedSha256": "441ea8aea0c9181a73446b9b147efe6c2a7909b1946ed83f55dd5293c4db92c4",
+      "actualAtReviewSaveSha256": "441ea8aea0c9181a73446b9b147efe6c2a7909b1946ed83f55dd5293c4db92c4"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/recovery07-capture-input.json",
+      "reviewedSha256": "55d3bf311488fb274738f8a607a372e5a441b6bb6af73b274c210cbb6fd2be0f",
+      "actualAtReviewSaveSha256": "55d3bf311488fb274738f8a607a372e5a441b6bb6af73b274c210cbb6fd2be0f"
+    }
+  ],
+  "executed": false
+}

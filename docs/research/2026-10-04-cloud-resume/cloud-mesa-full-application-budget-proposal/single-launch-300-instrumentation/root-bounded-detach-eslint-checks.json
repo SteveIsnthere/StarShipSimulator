@@ -1,0 +1,29 @@
+[
+  {
+    "name": "business-stage.mjs.txt",
+    "messages": [
+      {
+        "ruleId": "no-control-regex",
+        "severity": 2,
+        "message": "Unexpected control character(s) in regular expression: \\x1b.",
+        "line": 156,
+        "column": 44,
+        "messageId": "unexpected",
+        "endLine": 156,
+        "endColumn": 63
+      }
+    ]
+  },
+  {
+    "name": "mesa-budget.config.ts.txt",
+    "messages": []
+  },
+  {
+    "name": "mesa-budget.spec.ts.txt",
+    "messages": []
+  },
+  {
+    "name": "mesa-launch-instrumentation.bounded-detach.ts.txt",
+    "messages": []
+  }
+]

@@ -1,0 +1,58 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+import { Script } from 'node:vm';
+const [helperPath,helperSha,loaderPath,loaderSha,output]=process.argv.slice(2);
+const sha=text=>createHash('sha256').update(text).digest('hex');
+assert.equal(sha(readFileSync(helperPath)),helperSha);assert.equal(sha(readFileSync(loaderPath)),loaderSha);
+const P=await import(pathToFileURL(helperPath).href);
+const source=readFileSync(loaderPath,'utf8');
+const begin=source.indexOf('function identifyOriginalParent('),end=source.lastIndexOf('registerHooks({');
+assert(begin>0&&end>begin);assert.equal(source.split('registerHooks({').length,2);
+const exactFunctionsAndHooks=source.slice(begin);
+// Execute the byte-exact validator/sourceBytes/denyAlias/registerHooks callbacks
+// with inert dependencies. No actual Node hook registration or physical import.
+const root='/inert-qualified-golden';const files=['tests/core/booster-guidance.test.ts','tests/flies-every-scenario.test.ts',P.goldenRoot];
+const urls=Object.fromEntries([...files,...P.supportFiles].map(file=>[file,pathToFileURL(resolve(root,file)).href]));
+const cases=[];const check=(name,fn)=>{fn();assert(!cases.includes(name));cases.push(name);};
+function setup(){
+ const disk=new Map(Object.values(urls).map(url=>[url,'export const inertRole='+JSON.stringify(url)+';\n']));
+ const sourceSha=Object.fromEntries(Object.entries(urls).map(([file,url])=>[file,sha(disk.get(url))]));
+ const records=[];const originalLoads=new Map(),certificates=new Map();let hooks;
+ const entryURL='file:///inert-entry.mjs',chunkURL='file:///inert-chunk.js',constantsURL='file:///inert-constants.mjs';
+ const q={root,originalTests:Object.fromEntries(files.map(file=>[file,sourceSha[file]])),goldenSourceFiles:sourceSha,
+  aliases:['$core/step','$core/vehicles/super-heavy','$core/constants','$core/scenarios','$core/vehicle','$core/state','$core/autopilot/booster','$core/physics/tower-catch','$core/control/commands','$app/loop'],mappedCode:'inert-chunk.js'};
+ const m={files:{}};
+ const runtimeAliases={...P.goldenAliases,[files[0]]:['$core/step'],[files[1]]:['$core/step']};
+ const parents=new Map(files.map(file=>[urls[file],runtimeAliases[file]]));
+ const context={assert,Buffer,createHash,resolve,pathToFileURL,URL,m,q,entryURL,chunkURL,constantsURL,parents,originalLoads,certificates,
+  cacheTokenDigits:13,originalTests:files,runtimeAliases,...P,
+  digest:url=>{const key=typeof url==='string'?url:url.href;assert(disk.has(key));return sha(disk.get(key));},
+  record:row=>records.push(row),registerHooks:value=>{assert.equal(hooks,undefined);hooks=value;}};
+ new Script(exactFunctionsAndHooks,{filename:'exact-inert-loader-hooks.js'}).runInNewContext(context,{timeout:1000});
+ assert(hooks&&typeof hooks.load==='function'&&typeof hooks.resolve==='function');
+ return {hooks,records,originalLoads,certificates,disk,q,sourceSha,
+  load:(url,format='module-typescript',text=disk.get(url))=>hooks.load(url,{},()=>({format,source:text})),
+  admitMain:()=>hooks.load(urls[P.goldenRoot],{},()=>({format:'module-typescript',source:disk.get(urls[P.goldenRoot])}))};
+}
+for(const file of P.supportFiles){
+ check(file+': bare exact source/format/disk certified before alias',()=>{const s=setup();s.admitMain();s.load(urls[file]);const cert=s.records.find(r=>r.kind==='support-load'&&r.file===file);assert(cert);assert.equal(cert.sourceSha,s.sourceSha[file]);assert.equal(cert.url,urls[file]);for(const spec of P.goldenAliases[file]){const out=s.hooks.resolve(spec,{parentURL:urls[file]},()=>{throw Error('Alias delegated');});assert.equal(out.shortCircuit,true);assert.equal(out.url,'file:///inert-entry.mjs');const alias=s.records.find(r=>r.kind==='original-alias'&&r.parentURL===urls[file]);assert(s.records.indexOf(cert)<s.records.indexOf(alias));}});
+ for(const suffix of ['?vitest=1234567890123','#fragment'])check(file+suffix+': actual load denies BEFORE nextLoad',()=>{const s=setup();s.admitMain();let delegated=0;assert.throws(()=>s.hooks.load(urls[file]+suffix,{},()=>{delegated++;return{format:'module-typescript',source:s.disk.get(urls[file])};}));assert.equal(delegated,0);assert.equal(s.records.filter(r=>r.kind==='support-load').length,0);});
+ check(file+': wrong returned format denies certificate',()=>{const s=setup();s.admitMain();assert.throws(()=>s.load(urls[file],'commonjs'));assert(!s.certificates.has(urls[file]));});
+ check(file+': changed returned source denies certificate',()=>{const s=setup();s.admitMain();assert.throws(()=>s.load(urls[file],'module-typescript',s.disk.get(urls[file])+' '));assert(!s.certificates.has(urls[file]));});
+ check(file+': changed disk source denies certificate',()=>{const s=setup();s.admitMain();const original=s.disk.get(urls[file]);s.disk.set(urls[file],original+' ');assert.throws(()=>s.load(urls[file],'module-typescript',original));assert(!s.certificates.has(urls[file]));});
+ check(file+': missing original denies certificate',()=>{const s=setup();assert.throws(()=>s.load(urls[file]));assert(!s.certificates.has(urls[file]));});
+}
+check('non-golden original cannot authorize support',()=>{const s=setup();s.load(urls[files[0]]);assert.throws(()=>s.load(urls[P.supportFiles[0]]));});
+check('second original root denied',()=>{const s=setup();s.admitMain();assert.throws(()=>s.load(urls[files[0]]));});
+check('uncertified support cannot authorize core alias',()=>{const s=setup();s.admitMain();assert.throws(()=>s.hooks.resolve('$core/scenarios',{parentURL:urls[P.supportFiles[0]]},()=>{throw Error('must not delegate');}));assert.equal(s.records.at(-1).kind,'rejected-original-alias');});
+check('support cannot authorize undeclared core alias',()=>{const s=setup();s.admitMain();s.load(urls[P.supportFiles[0]]);assert.throws(()=>s.hooks.resolve('$core/state',{parentURL:urls[P.supportFiles[0]]},()=>{throw Error('must not delegate');}));});
+check('four declared relative edges resolve exact original .ts',()=>{const s=setup();s.admitMain();for(const file of P.supportFiles)s.load(urls[file]);let count=0;for(const [parent,edges]of Object.entries(P.relativeImports))for(const [specifier,target]of Object.entries(edges)){const out=s.hooks.resolve(specifier,{parentURL:urls[parent]},()=>{throw Error('Exact edge delegated');});assert.equal(out.url,urls[target]);assert.equal(out.shortCircuit,true);count++;}assert.equal(count,4);});
+check('undeclared relative path denied before delegation',()=>{const s=setup();s.admitMain();let delegated=0;assert.throws(()=>s.hooks.resolve('./compare.ts',{parentURL:urls[P.goldenRoot]},()=>{delegated++;return{url:'file:///foreign'};}));assert.equal(delegated,0);});
+check('main cache token remains narrowly accepted',()=>{const s=setup();const url=urls[P.goldenRoot]+'?vitest=1234567890123';s.hooks.load(url,{},()=>({format:'module-typescript',source:s.disk.get(urls[P.goldenRoot])}));assert.equal(s.records[0].cacheToken,'1234567890123');s.load(urls[P.supportFiles[0]]);});
+assert.equal(cases.length,28);
+assert.equal(sha(readFileSync(helperPath)),helperSha);assert.equal(sha(readFileSync(loaderPath)),loaderSha);
+writeFileSync(output,JSON.stringify({kind:'native-golden-exact-inert-hook-controls-v1',completed:true,code:0,failure:null,afterErrors:[],cases,helperSha,loaderSha,hookFunctionsSha:sha(exactFunctionsAndHooks),scope:'byte-exact hook callbacks with inert dependencies, not OS loader/physics/golden acceptance'})+'\n',{flag:'wx'});
+console.log(JSON.stringify({completed:true,cases:cases.length}));

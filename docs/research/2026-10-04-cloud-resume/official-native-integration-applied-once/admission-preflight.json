@@ -1,0 +1,14 @@
+{
+  "kind": "actual-applied-native-composite-admission-preflight",
+  "passed": true,
+  "elapsedMs": 1019.4047840000001,
+  "retainedSourcePaths": 759,
+  "installedToolPaths": 20355,
+  "integrationBridgePaths": 12,
+  "protectedGraphPaths": 55,
+  "originalTests": [
+    "tests/core/booster-guidance.test.ts",
+    "tests/flies-every-scenario.test.ts"
+  ],
+  "physicalModulesImported": false
+}

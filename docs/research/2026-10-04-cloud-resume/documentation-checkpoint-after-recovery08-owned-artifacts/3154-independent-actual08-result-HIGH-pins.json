@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "decision": "accepted-single-complete-recovery08-replacement-snapshot",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-result-HIGH-review.md",
+    "sha": "459f3db61fe8a75c785c9a7df17ad4e2662efdfd066a814f781b15e83eba0e09"
+  },
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08.json": "c34b4ef9c02bb102c25721953fb55d6fd383cb29709905c907170bb9ab75b72e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08.patch": "ac9f96c9daf3534e166a489daf2b46434f387fa343540c653cc903b7b3df3c87",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/result.json": "467e7e022d777c233277ea749a632365ead9c28f5119e813810fd3d0e61f44ed",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/admitted-before.json": "3e35918137d7972ffa0bd45e4ec285082e4b7ac4e35564b0568f8a5bc65e331e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/source-after.json": "9f9bf984a56e54c13ef650285129a89493eaf8297b7911edd8e87a8b58d9bc65",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/disk-after.json": "4960fb42e283174b8f51e5cc74b00a9cd56f933f3e0433e113e6955f0b77e1b5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/deletions-after.json": "5300d6ed55dd63c9fcfecf33373406187c0c037831fdd526d8d103b7182e58e6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/real-index-before.json": "a8b7be701e4475e1019b6794d540180e36441365411ec8959896333814781221",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/real-index-after.json": "a8b7be701e4475e1019b6794d540180e36441365411ec8959896333814781221",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/private-indexes.json": "02c0133e2467fdcadb8194a3769181057693b77163d8234e22dc1c0374b08c4e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/actual-input-after.json": "b3b2cacf3a729214f7a71b21fa01a4cb3c6688e5afc76c770ecb32422c9b6d09",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/actual-executing-script-after.json": "883d818b62c33270ca5f5a6975fdc9e47385e987ece6f42acaf6eaa9a84b16ae",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/root-capture-result.json": "bb7a129e31556bd4cf3fbc0b0323c1469faecae2f9a4ae82076023cea303b911",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/root-capture-registration.json": "7a0376f74ea42523c8b73a8583b03bcfd6f904edf28efe018d4dd2b2af334520",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/root-capture.stdout.txt": "3fa03651b0a6a28468e00316e30c2b379a8a41bbddc8f66fbcd757a9ed1e8cfd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/root-capture.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-recovery08-root.eteg2qwf/root-outcome.json": "e619e05c477f3675f1eb7d56b46339c2e7b785434f952a63700f9c078582c321",
+    "/tmp/starship-recovery08-root.eteg2qwf/root-independent-postexit.json": "f7d6d7ef52da0d6ce1182d2e3bfa534170524207eece5626d9924f81da50c98f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-observations.json": "f1aefe3ee382f72b61949c191926c53422a3e72837f9f5c4cd8e7de59eb6b143",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/source-pins.json": "562228a89c2b4951fc0aafd1eec5ac930da23184f09637445e6de0bb99b6ab43",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual-input-HIGH-review.md": "938928bf71f7d383f94d603cb1fc47bd57c1594198f3a1c52d1aee893a781fea",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual-input-HIGH-pins.json": "4351507af186a6d866aa42c87b9e48f92af630be600a4029bd237a6ec07be2ce"
+  },
+  "patchSha": "ac9f96c9daf3534e166a489daf2b46434f387fa343540c653cc903b7b3df3c87",
+  "dirtyRows": 250,
+  "sourceCount": 770,
+  "all16ObservedIdentitiesAbsent": true,
+  "everyCommandPidStartRetained": false,
+  "manifestOrLatestPointerChangedByReviewer": false,
+  "testGateOrProductAcceptance": false,
+  "furtherExecutionApproved": false
+}

@@ -1,0 +1,74 @@
+{
+  "kind": "current-recovery-additions-archive-owned-route-source-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/archive.py.txt",
+      "sha256": "a949b54112b843947f444822dd98455a3e21201bddc07194ad02ba5a34db8329"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/authoring-notes.md",
+      "sha256": "4884aa13d9d873d3de6537540edeaefbe6630f2ea892b7458f0c8090ae04bb50"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/declaration.md",
+      "sha256": "093f957aacc0d61c79009605f5a12ec668279a601c9934a2dabe04554c7ba6ad"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/finite-authority-selection.json",
+      "sha256": "8b764eef6bfeab9e2b05d27fb10e6bdb74f9d5ba0e0fad9956c310f359cefd04"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/make-input.py.txt",
+      "sha256": "a78d916e222668422cccfd31febe681a8febc9275221c7437e5b67d17df3aa1c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/manifest-and-soft-bound-repair.md",
+      "sha256": "746b0faef4e5e3dd4c3e53e6521827141eebc8e5819dc8ee3c19a79ea54ce84e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/proposal.json",
+      "sha256": "68f7a3051ab3f80b03b04b9e2d9a319afc2cd18a81e3c666db42ec59b1326334"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/root-observer.py.txt",
+      "sha256": "c5b76a98d1848a7d2355b14da83e424d7e553fb7caca406437113014ddcfa6b8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/root-observer.py.txt",
+      "sha256": "13e17df21d82ac80ac94fc6e8116941f8a54a128eef852bf79fd582db16261d5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/make-input.py.txt",
+      "sha256": "e431722dfd5172704d095bd86ae6067615298186165f2f4ef59bb6133c4b143b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/archive-original21-v7.py.txt",
+      "sha256": "f8710754750276bdb89c7fda4a4a07b7f41adf77667c253a4cee7abb1fabddf8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-plan/selected-existing-authority.json",
+      "sha256": "65d0fac1c3e993325ed98a4433f21cc6005e224658bcdab873be92863d4978c5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/before-manifest-and-whole-soft-bound-repair/source-pins.json",
+      "sha256": "1984450e9b14ec176cef15d98b824dcc11e18b25a934bcd64b1ce2af6b622c7d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/before-manifest-and-whole-soft-bound-repair/independent-source-HOLD-review.md",
+      "sha256": "379966ca127d6b5126a83cf03aa8f3bbd60df3d5dc0f8bccc4b51aed1da18366"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/before-manifest-and-whole-soft-bound-repair/independent-source-HOLD-pins.json",
+      "sha256": "bf7380f3ccab959173f536386c99f46595ef3a7ba90d2c76efe03debc64f0ad2"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/before-manifest-and-whole-soft-bound-repair/preservation.json",
+      "sha256": "9890d7caad9f86d44b919ee94852fc50a3e14ccedee9135281764d557f0fec90"
+    }
+  ],
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "scope": "Distinct unexecuted manifest/softbound repair; artifact refs supplied by existing HIGH, not scanned"
+}

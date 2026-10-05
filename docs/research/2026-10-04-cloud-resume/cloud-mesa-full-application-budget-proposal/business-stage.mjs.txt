@@ -1,0 +1,170 @@
+/** Two separate grants: public build qualification, then retained-dist application matrix. */
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, readdirSync, lstatSync, mkdtempSync, realpathSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
+const started = Date.now(), [inputPath, inputSha] = process.argv.slice(2);
+const digest = path => createHash('sha256').update(readFileSync(path)).digest('hex');
+assert.equal(digest(inputPath), inputSha);
+const m = JSON.parse(readFileSync(inputPath, 'utf8'));
+assert.equal(m.kind, 'mesa-app-budget-owner-input-v1');
+assert(['app-build', 'mesa-budget'].includes(m.mode)); assert.equal(m.outerMs, 338000);
+assert.equal(realpathSync(process.cwd()), realpathSync(m.root));
+assert.equal(process.version, 'v22.23.3'); assert.equal(process.env.NODE_OPTIONS ?? '', '');
+const deadline = Number(process.env.ORIGINAL21_ROOT_DEADLINE);
+assert(Number.isFinite(deadline) && deadline > Date.now() && deadline <= Date.now() + 330000);
+const receipt = mkdtempSync('/tmp/starship-original21-stage.');
+process.stdout.write(JSON.stringify({ stageReceipt: receipt, kind: m.kind, mode: m.mode }) + '\n');
+const put = (name, value) => {
+  const bytes = JSON.stringify(value, null, 2) + '\n';
+  assert(Buffer.byteLength(bytes) <= 8 * 1024 * 1024, 'Bounded proof receipt');
+  writeFileSync(resolve(receipt, name), bytes, { flag: 'wx' });
+};
+const roles = ['node', 'helper', 'npmCli', 'qualification', 'pins', 'stage', 'observer', 'python', 'utility', 'runtimeInput'];
+if (m.mode === 'mesa-budget') roles.push('config', 'spec', 'hooks', 'reporter', 'distApproval', 'distBuildReceipt', 'distReview');
+function selected() {
+  for (const key of roles) assert.equal(digest(m[key].path), m[key].sha, key);
+  assert.equal(digest(inputPath), inputSha); assert.equal(digest(process.execPath), m.node.sha);
+  const pins = JSON.parse(readFileSync(m.pins.path, 'utf8'));
+  assert.equal(pins.kind, 'mesa-app-budget-external-inventory-v1');
+  assert(Object.keys(pins.files).length > 0);
+  for (const key of roles.filter(key => key !== 'pins')) assert.equal(pins.files[m[key].path], m[key].sha, 'External role inventory: ' + key);
+  for (const [path, sha] of Object.entries(pins.files)) assert.equal(digest(path), sha, path);
+  assert.equal(pins.files[m.helper.path], m.helper.sha);
+  assert.equal(pins.files[m.utility.path], m.utility.sha);
+  assert.equal(pins.files[resolve(m.root, 'tests/e2e/visual-budget.spec.ts')], m.originalSpecSha);
+  assert.equal(pins.files[resolve(m.root, 'tests/e2e/visual-budget-probe.ts')], m.originalProbeSha);
+  return pins;
+}
+function inventory(root, knownBrowser = false) {
+  const files = [], directories = []; let totalBytes = 0;
+  function walk(path) {
+    const s = lstatSync(path); assert(s.isDirectory() && !s.isSymbolicLink(), 'Directory identity');
+    directories.push([relative(root, path), s.mode & 0o7777]);
+    for (const name of readdirSync(path).sort()) {
+      const p = resolve(path, name), row = lstatSync(p); assert(!row.isSymbolicLink(), 'Output/tree symlink');
+      if (row.isDirectory()) walk(p);
+      else {
+        assert(row.isFile(), 'Output/tree special entry');
+        assert(files.length < 10000 && (row.size <= 64 * 1024 * 1024 ||
+          knownBrowser && p === m.browser && row.size === 290614600 &&
+          digest(p) === '0b20b130e7edd9dd51873be867761295fe0cfad490c2b9a64f95bd3cfc08fa71'), 'Finite file inventory');
+        totalBytes += row.size; assert(totalBytes <= 512 * 1024 * 1024, 'Finite complete tree');
+        files.push([relative(root, p), digest(p), row.mode & 0o7777, row.size]);
+      }
+    }
+  }
+  walk(root); files.sort((a, b) => a[0].localeCompare(b[0])); directories.sort((a, b) => a[0].localeCompare(b[0]));
+  return { files, directories, totalBytes };
+}
+function runtimeSnapshot() {
+  const runtime = JSON.parse(readFileSync(m.runtimeInput.path, 'utf8'));
+  assert.equal(m.browser, runtime.browser); assert.equal(runtime.expectedVersion, '151.0.7922.34');
+  for (const [path, sha] of Object.entries(runtime.filePins)) assert.equal(digest(path), sha, path);
+  const browser = inventory(runtime.browserRoot, true);
+  assert.deepEqual(browser.files.map(([path, sha, mode]) => [path, sha, mode]), runtime.browserFiles);
+  assert.deepEqual(browser.directories, runtime.browserDirectories);
+  assert.equal(browser.files.length, 304); assert.equal(browser.directories.length, 12);
+  assert.equal(browser.files.find(f => f[0] === 'SwiftShader.ini')?.[2], 0o600);
+  return { runtimeInputSha: m.runtimeInput.sha, browser };
+}
+let code = null, raw = null, error = null, utility, owned, sourceBefore, toolsBefore, runtimeBefore, dist;
+const afterErrors = [];
+try {
+  selected();
+  owned = await import(pathToFileURL(m.helper.path).href);
+  utility = await import(pathToFileURL(m.utility.path).href);
+  const authority = JSON.parse(readFileSync(m.qualification.path, 'utf8'));
+  sourceBefore = utility.sourceSnapshot(m.root); toolsBefore = utility.installedToolSnapshot(m.root, m.npmCli.path);
+  put('source-before.json', sourceBefore); put('installed-before.json', toolsBefore);
+  assert.deepEqual(sourceBefore, authority.source); assert.deepEqual(toolsBefore, authority.tools);
+  assert.deepEqual(Object.keys(m.extraTrees).sort(), ['.agents', '.github', 'public']);
+  for (const [name, expected] of Object.entries(m.extraTrees)) assert.deepEqual(inventory(resolve(m.root, name)), expected);
+  runtimeBefore = runtimeSnapshot(); put('runtime-before.json', runtimeBefore);
+  let args, env = { ...process.env, NODE_OPTIONS: '', npm_execpath: m.npmCli.path };
+  const commandBound = Math.min(m.mode === 'app-build' ? 90000 : 300000, deadline - Date.now() - 8000);
+  assert(commandBound > 0); assert(commandBound <= 300000);
+  if (m.mode === 'app-build') args = [m.npmCli.path, 'run', 'build'];
+  else {
+    const approval = JSON.parse(readFileSync(m.distApproval.path, 'utf8'));
+    const built = JSON.parse(readFileSync(m.distBuildReceipt.path, 'utf8'));
+    assert.equal(approval.kind, 'mesa-app-dist-externally-approved-v1'); assert.equal(approval.approved, true);
+    assert.deepEqual(approval.buildReceipt, m.distBuildReceipt); assert.deepEqual(approval.review, m.distReview);
+    assert.equal(built.mode, 'app-build'); assert.equal(built.completed, true); assert.equal(built.code, 0);
+    assert.equal(built.error, null); assert.deepEqual(built.afterErrors, []);
+    assert.equal(approval.sourceSha, digest(resolve(built.receipt, 'source-before.json')));
+    assert.equal(approval.toolsSha, digest(resolve(built.receipt, 'installed-before.json')));
+    assert.deepEqual(sourceBefore, JSON.parse(readFileSync(resolve(built.receipt, 'source-before.json'), 'utf8')));
+    assert.deepEqual(toolsBefore, JSON.parse(readFileSync(resolve(built.receipt, 'installed-before.json'), 'utf8')));
+    dist = inventory(resolve(m.root, 'dist')); assert.deepEqual(dist, approval.dist);
+    assert.deepEqual(dist, JSON.parse(readFileSync(resolve(built.receipt, 'dist-after-build.json'), 'utf8')));
+    assert.match(m.matrixReceipt, /^\/tmp\/starship-mesa-app-matrix\.[a-f0-9]{32}$/);
+    assert.equal(realpathSync(m.matrixReceipt), m.matrixReceipt);
+    assert.equal(lstatSync(m.matrixReceipt).mode & 0o777, 0o700); assert.deepEqual(readdirSync(m.matrixReceipt), []);
+    assert.match(m.materializationRoot, /^\/tmp\/starship-mesa-app-material\.[a-f0-9]{32}$/);
+    assert.equal(realpathSync(m.materializationRoot), m.materializationRoot);
+    assert.equal(lstatSync(m.materializationRoot).mode & 0o777, 0o700);
+    for (const [role, file] of [['config', 'mesa-budget.config.ts'], ['spec', 'mesa-budget.spec.ts'],
+      ['hooks', 'mesa-boundary-hooks.ts'], ['reporter', 'mesa-reporter.mjs']]) assert.equal(m[role].path, resolve(m.materializationRoot, file));
+    for (const key of ['LD_LIBRARY_PATH', 'LIBGL_ALWAYS_SOFTWARE', 'GALLIUM_DRIVER', 'LP_NUM_THREADS',
+      '__EGL_VENDOR_LIBRARY_FILENAMES', '__EGL_VENDOR_LIBRARY_DIRS', 'PWDEBUG', 'DEBUG_FILE', 'PW_INSTRUMENT_MODULES', 'RUN_VISUAL_DIAGNOSTIC']) assert(!process.env[key], key);
+    env = { ...env, EGL_PLATFORM: 'surfaceless', E2E_GPU_POLICY: 'default', E2E_SKIP_BUILD: '1', RUN_VISUAL_BUDGET: '1',
+      E2E_PORT: '4174', DEBUG: 'pw:browser', STARSHIP_MESA_APP_INPUT: inputPath, STARSHIP_MESA_APP_INPUT_SHA: inputSha,
+      STARSHIP_MESA_MATRIX_RECEIPT: m.matrixReceipt, STARSHIP_MESA_MATRIX_BOUND_MS: String(commandBound) };
+    args = [resolve(m.root, 'node_modules/playwright/cli.js'), 'test', '--config', m.config.path];
+  }
+  assert(Date.now() < deadline); put('actual-command.json', { args, deadlineMs: commandBound, mode: m.mode });
+  code = await owned.runOwnedCommand({ name: 'preparation', root: m.root, receipt, args, deadlineMs: commandBound, env });
+} catch (failure) { error = String(failure.stack ?? failure); }
+// Persist actual helper exit before receipt, inventory or acceptance assertions.
+try {
+  raw = JSON.parse(readFileSync(resolve(receipt, 'preparation.process.json'), 'utf8'));
+  put('actual-child-exit.json', { code, exit: raw.exit, primaryError: error });
+} catch (failure) { afterErrors.push({ stage: 'raw-status', error: String(failure) }); }
+try {
+  assert(raw); assert.equal(code, 0); assert.deepEqual(raw.exit, { code: 0, signal: null });
+  assert.equal(raw.failure, null); assert.equal(raw.finished, true); assert.equal(raw.closed, true);
+  assert.deepEqual(raw.cleanup.executing, []);
+} catch (failure) { error ??= String(failure.stack ?? failure); }
+try {
+  if (m.mode === 'app-build') {
+    assert.equal(code, 0); dist = inventory(resolve(m.root, 'dist')); put('dist-after-build.json', dist);
+  } else {
+    const lifecycle = JSON.parse(readFileSync(resolve(m.matrixReceipt, 'public-lifecycle.json'), 'utf8'));
+    put('actual-matrix-inventory.json', { collected: lifecycle.collected, results: lifecycle.results,
+      errors: lifecycle.errors, nativeResult: lifecycle.result, nativeCode: code,
+      completeInventory: lifecycle.collected.length === 21 && lifecycle.results.length === 21 });
+    const names = ['launch', 'staging', 'belly-flop', 'entry', 'landing', 'catch', 'simultaneous-failure'];
+    const projects = ['chromium', 'phone-portrait', 'phone-landscape'];
+    const expected = projects.flatMap(project => names.map(scene => `${project}\0${scene}: CPU + GPU completion and actual cadence @mobile @visual-budget`)).sort();
+    const keys = rows => rows.map(t => `${t.project}\0${t.title}`).sort();
+    assert.deepEqual(keys(lifecycle.collected), expected); assert.deepEqual(keys(lifecycle.results), expected);
+    assert.equal(new Set(lifecycle.collected.map(t => t.id)).size, 21);
+    assert.equal(new Set(lifecycle.results.map(t => t.id)).size, 21);
+    assert.deepEqual(lifecycle.results.map(t => t.id).sort(), lifecycle.collected.map(t => t.id).sort());
+    assert.equal(lifecycle.config.workers, 1); assert.equal(lifecycle.config.maxFailures, 0);
+    assert(lifecycle.config.retries.every(([, n]) => n === 0)); assert(lifecycle.config.repeatEach.every(([, n]) => n === 1));
+    assert.deepEqual(lifecycle.errors, []); assert.equal(lifecycle.result.status, 'passed');
+    assert(lifecycle.results.every(t => t.retry === 0 && t.repeatEachIndex === 0 && t.expectedStatus === 'passed' && t.status === 'passed' && t.errors.length === 0));
+    assert(lifecycle.collected.every(t => t.expectedStatus === 'passed' && t.repeatEachIndex === 0 && t.location.file === resolve(m.root, 'tests/e2e/visual-budget.spec.ts')));
+    put('validated-matrix.json', { passed: 21, expected, retries: 0, repeatEach: 1, originalCountsAndBudgets: true,
+      providerControlsSupplemental: true, isolatedGpuTimerCost: false, physicalPhoneOrHardware: false });
+  }
+} catch (failure) { error ??= String(failure.stack ?? failure); }
+for (const [name, action] of [
+  ['selected-after', () => selected()],
+  ['source-after', () => { assert(utility && sourceBefore); const value = utility.sourceSnapshot(m.root); put('source-after-observed.json', value); assert.deepEqual(value, sourceBefore); return value; }],
+  ['installed-after', () => { assert(utility && toolsBefore); const value = utility.installedToolSnapshot(m.root, m.npmCli.path); put('installed-after-observed.json', value); assert.deepEqual(value, toolsBefore); return value; }],
+  ['runtime-after', () => { assert(runtimeBefore); const value = runtimeSnapshot(); put('runtime-after-observed.json', value); assert.deepEqual(value, runtimeBefore); return value; }],
+  ['extra-trees-after', () => { for (const [name, expected] of Object.entries(m.extraTrees)) assert.deepEqual(inventory(resolve(m.root, name)), expected); return { unchanged: true }; }],
+  ['dist-after', () => { assert(dist); const value = inventory(resolve(m.root, 'dist')); put('dist-after-observed.json', value); assert.deepEqual(value, dist); return value; }],
+  ['owned-final', () => { assert(owned); const value = owned.verifyNoOwnedProcesses(); assert(value.every(row => row.executing.length === 0)); return value; }],
+]) {
+  try { put(`${name}.json`, action()); } catch (failure) { afterErrors.push({ stage: name, error: String(failure.stack ?? failure) }); }
+}
+if (Date.now() > deadline) afterErrors.push({ stage: 'whole-work', error: '330-second work bound exceeded' });
+put('stage-result.json', { completed: error === null && afterErrors.length === 0 && code === 0, code, error, afterErrors,
+  mode: m.mode, receipt, matrixReceipt: m.mode === 'mesa-budget' ? m.matrixReceipt : null, elapsedMs: Date.now() - started,
+  incompleteOrTimedOutMatrixAlwaysFailed: true, noHistoricalDistCertification: true, independentActualResultReviewRequired: true });
+if (error !== null || afterErrors.length || code !== 0) process.exitCode = 1;

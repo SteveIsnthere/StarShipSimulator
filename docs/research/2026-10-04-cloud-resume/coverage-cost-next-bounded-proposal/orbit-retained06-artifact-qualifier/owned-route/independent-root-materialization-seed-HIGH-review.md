@@ -1,0 +1,7 @@
+# Independent retained06 root materialization seed HIGH
+
+Actual seed7950accc94aa2dd33ee8d5c7eafbfc0e50ccdbd8f1ea967fd922938d0ccdbfac matches all84 selected rows, including all75 required reviewed source/protocol references, owned51dd/d6e6 source review, manifest, trusted Node/helper/Python and root scope/lint receipts. Exact originalOuter data matches retained private21cd root-input80f5 in full. The route is exactly the reviewed owned directory; literal fifteen ordered control names reproduce from its reviewed controls source. No foreign role, source identity or case substitution is introduced.
+
+Scoped checks and separately correct qualify.mjs ESLint record are pinned. Root's earlier guessed checker filename was absent/skipped; this is retained as a naming observation, not a checker-body pass. Correct actual qualify was subsequently checked. No scopes were rerun by reviewer.
+
+The seed supports ONE root-granted metadata maker only, under reviewed source protocol. Maker fsyncs five exact private copies/new child+owner+root inputs/isolated output; those actual bytes/modes/set/digests require fresh input HIGH before offline execution. Retained currenta073 source770/fulltyped20355/nativeaddon authority and original failed compiler statuses remain unchanged. Seed readiness is not materialization/control/artifact/history/coverage/timing acceptance. No imports/checks/maker/qualifier/compiler/workloads/full source-tool scan or live edits ran by reviewer.

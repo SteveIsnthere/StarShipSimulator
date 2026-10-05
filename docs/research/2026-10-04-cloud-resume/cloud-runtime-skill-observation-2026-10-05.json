@@ -1,0 +1,25 @@
+{
+  "kind": "late-available-cloud-runtime-skill-observation-v1",
+  "skill": "skill://plugin_connector_1p_c5b7d5df5d7081918f2c4be5a633ed5d/cloud-environment-runtime/SKILL.md",
+  "networkReferenceRead": true,
+  "environmentStatus": {
+    "observationsCurrent": true,
+    "connectivity": "connected",
+    "observedPhase": "running",
+    "networkPolicyMode": "unrestricted",
+    "networkPolicyState": "enforced",
+    "configuredSecretCount": 0,
+    "configuredRuntimeVariableCount": 0,
+    "configuredOutboundIdentityCount": 0
+  },
+  "executorPolicy": {
+    "version": 1,
+    "vpnConfigured": false,
+    "httpPolicy": "unrestricted",
+    "tcpGrantCount": 0
+  },
+  "inheritedProxyCaAndStrictTlsPreserved": true,
+  "credentialValuesOrSecretFilesInspected": false,
+  "limitation": "No API-specific authentication, GPU, runtime qualification, gate, or release acceptance is established by environment readiness.",
+  "observationTime": "Retained session tool result; exact status timestamp not returned."
+}

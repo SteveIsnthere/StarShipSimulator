@@ -1,0 +1,41 @@
+{
+  "inner": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-functional-input.json",
+    "sha": "c05b727652dbea1761bab5bdebd22dbefa67fda2734edde75e37607821dd5841"
+  },
+  "outer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-owner-input.json",
+    "sha": "0a28b7dfaa7ed66f1f5ddcaf36fda8cd7f241461e962002d9dd6e6a5946bbbc0"
+  },
+  "parentClosure": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-parent-closure.json",
+    "sha": "5fb5ad0ab3d4f02f87739cf1e650eb813339876936c0b0ca6960bcec5d4850ec"
+  },
+  "sources": {
+    "builder": {
+      "path": "/tmp/starship-mesa-diagnostic-source.t6w3odkf/run-functional-diagnostic.mjs",
+      "sha": "adb7c21e136f1a4a57d738b544943f574e3142da01cba7c4ddb3996555493b7e"
+    },
+    "stage": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/business-stage.mjs.txt",
+      "sha": "c09f4c1d19a69f367f4f79d0018976680c60620374f89d3e99fdf2cd4656d590"
+    },
+    "observer": {
+      "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/root-observer.py",
+      "sha": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa"
+    }
+  },
+  "receipt": "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e",
+  "utilsBundle": {
+    "path": "/workspace/StarShipSimulator/node_modules/playwright-core/lib/utilsBundle.js",
+    "sha256": "580f571bf063e2256b51b3946a035bc452fc0e22808d5547b198baea39923a32",
+    "bytes": 3239355,
+    "mode": 384,
+    "loaded": false
+  },
+  "ownerBoundMs": 120000,
+  "oldSourceInputsPreserved": true,
+  "codeCopiedByAuthor": false,
+  "nativeBytesHashedByAuthor": 0,
+  "status": "UNEXECUTED; freshOther actualinput HIGH +ROOT structuralcheckerbefore/finallyafter +exactexclusiveONE120 grant required. Failure staysred; no renderer/performance acceptance"
+}

@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "decision": "command-to-EGL-display-source-closure-supported-runtime-held",
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/independent-caller-closure-review.md",
+  "reviewSha256": "4a35c5193d869e45713d5db31d13baec616f02ca6dbff0a93c8ca6079655893c",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/source-manifest.json": "4f5f10c45f6501da88668d32a1b54c2bb73119b95af75055ce0d93569b0c3189",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/init-tree.gitiles.json.txt": "1e386ad683955c2be09a32ed58c9d56bd4c90750e8d44b92014447c2c88503cd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-angle-public-source-independent-high-review.md": "7e6d1d245a85593225200ab8c8435c4c68dcdaa2197d050d0bc528b94015dad7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-angle-public-source-independent-high-review-pins.json": "832db0c9fb8cc7532dd84daf760527234f9827fb7d27277748058055da96c4c5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-angle-public-source-14/source-manifest.json": "fc567969b50f55bf88265eab0f3164790184e2930fe0d56d3f4820550df3bd6b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/BUILD.gn.txt": "72fa4622b4452e53058a0eec4eba51d304c70efa534f6af2f1fa56a4e976a677",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/gl_initializer_ozone.cc.txt": "8a035ad82b0f92565cfab90bacada57bdd9ec387321e048052424fdf5320f959",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/gl_display_initializer.cc.txt": "1bc8f8022161762228677b3c266d7ba1e5c6f9ca0e24a41e5412ca4fc5766339",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/gl_ozone_egl.cc.txt": "14876fc63151223c36d3e8b3abf85742311a4a98cc84ff26ff1f57a22ec7964c"
+  },
+  "literalAngle": "gl-egl",
+  "environment": {
+    "EGL_PLATFORM": "surfaceless"
+  },
+  "decisiveImplementationFiles": 3,
+  "functionalHarnessPreparationSupported": true,
+  "browserLaunchApproved": false,
+  "actualMesaProviderProven": false,
+  "performanceGainProven": false,
+  "sourceProductChanged": false
+}

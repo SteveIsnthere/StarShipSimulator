@@ -1,0 +1,41 @@
+--- scripts/test/run.mjs
++++ docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/run.mjs.txt
+@@ -106,12 +106,35 @@
+       for (const row of rows) { assert.equal(row.pid, first.pid); assert.equal(row.start, first.start); }
+       const aliases = rows.filter(row => row.kind === 'original-alias');
+       const parents = [...new Set(aliases.map(row => row.parentURL))]; assert.equal(parents.length, 1);
+-      assert(originalTests.some(file => pathToFileURL(resolve(root, file)).href === parents[0]));
+-      assert(!covered.has(parents[0])); covered.add(parents[0]);
+-      const original = originalTests.find(file => pathToFileURL(resolve(root, file)).href === parents[0]);
++      assert.equal(rows.filter(row => row.kind === 'rejected-original-alias').length, 0, 'Rejected native alias requests');
++      const originalLoads = rows.filter(row => row.kind === 'original-load');
++      assert.equal(originalLoads.length, 1);
++      const certificate = originalLoads[0];
++      assert.equal(certificate.url, parents[0]);
++      const original = originalTests.find(file => pathToFileURL(resolve(root, file)).href === certificate.canonicalParentURL);
++      assert(original, 'Unrecognized canonical original file');
++      assert.equal(certificate.file, original);
++      assert(['module', 'module-typescript'].includes(certificate.format));
++      assert.equal(certificate.sourceSha, q.originalTests[original]);
++      assert.equal(certificate.sourceSha, digest(resolve(root, original)));
++      assert(Number.isSafeInteger(certificate.sourceBytes) && certificate.sourceBytes > 0 && certificate.sourceBytes <= 16 * 1024 * 1024);
++      assert(Number.isSafeInteger(certificate.tokenDigits) && certificate.tokenDigits === String(Date.now()).length);
++      if (certificate.cacheToken === null) assert.equal(certificate.url, certificate.canonicalParentURL);
++      else {
++        assert.match(certificate.cacheToken, new RegExp('^[0-9]{' + certificate.tokenDigits + '}$'));
++        assert(Number.isSafeInteger(Number(certificate.cacheToken)));
++        assert.equal(String(Number(certificate.cacheToken)), certificate.cacheToken);
++        assert.equal(certificate.url, certificate.canonicalParentURL + '?vitest=' + certificate.cacheToken);
++      }
++      assert(!covered.has(certificate.canonicalParentURL)); covered.add(certificate.canonicalParentURL);
++      assert(rows.indexOf(certificate) < rows.indexOf(aliases[0]), 'Parent load must precede alias resolution');
+       assert.deepEqual(aliases.map(row => row.specifier).sort(), [...runtimeAliases[original]].sort());
+       for (const row of aliases) {
+         assert(q.aliases.includes(row.specifier));
++        assert.equal(row.canonicalParentURL, certificate.canonicalParentURL);
++        assert.equal(row.cacheToken, certificate.cacheToken);
++        assert.equal(row.parentSourceSha, certificate.sourceSha);
++        assert(rows.indexOf(certificate) < rows.indexOf(row));
+         assert.equal(row.url, row.specifier === '$core/constants' ? first.constantsURL : first.entryURL);
+       }
+       const loads = rows.filter(row => row.kind === 'native-load');

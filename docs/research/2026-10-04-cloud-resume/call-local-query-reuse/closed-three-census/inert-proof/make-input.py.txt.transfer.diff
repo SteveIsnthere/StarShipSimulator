@@ -1,0 +1,46 @@
+--- accepted-make-input.py.txt
++++ all-paid-census-make-input.py.txt
+@@ -1,34 +1,35 @@
+ # Selected-file materialization only; parent scopes/input review/run are separate grants.
+ import os,json,hashlib,uuid
+ from pathlib import Path
+-root=Path('/workspace/StarShipSimulator');base=root/'docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof';candidate=base.parent
++root=Path('/workspace/StarShipSimulator');base=root/'docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof';candidate=base.parent.parent
+ sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+-assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='query-reuse-pure-proof'
++assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='query-census-inert-proof'
+ pins_path=base/'input-pins.json';pins=json.loads(pins_path.read_text())
+ for path,digest in pins['files'].items():assert sha(path)==digest,path
+-setup=root/'node_modules/.cache'/('starship-query-reuse-proof-'+uuid.uuid4().hex);setup.mkdir(mode=0o700)
++setup=root/'node_modules/.cache'/('starship-query-census-inert-proof-'+uuid.uuid4().hex);setup.mkdir(mode=0o700)
+ materialized={}
+ def emit(source,target):
+  path=setup/target
+  with path.open('xb')as stream:stream.write(source.read_bytes())
+  materialized[str(path)]={'source':str(source),'sourceSha256':sha(source),'sha256':sha(path)}
+-for name in ['owner.mjs','builder.mjs','driver.mjs','entry.ts']:emit(base/(name+'.txt'),name)
++for name in ['owner.mjs','builder.mjs','driver.mjs','entry-original.ts','entry-census.ts']:emit(base/(name+'.txt'),name)
+ emit(base/'canonical-equivalence-driver.mjs.txt','canonical-equivalence-driver.mjs')
+ for name in ['damage-controls','damage-thermal']:
+- for role in ['original','candidate']:emit(candidate/(name+'.'+role+'.ts.txt'),name+'.'+role+'.ts.txt')
++ emit(candidate/(name+'.original.ts.txt'),name+'.original.ts.txt')
++ emit(base.parent/(name+'.census.ts.txt'),name+'.candidate.ts.txt')
+ authority=root/'docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/root-exact-once-application/after-snapshot.json'
+ assert sha(authority)=='2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c'
+ qualification=json.loads((root/'docs/verification/native-flight-qualification-v7.json').read_text())
+-m={'kind':'query-reuse-pure-proof-input-v1','root':str(root),'setup':str(setup),'inputs':pins['files'],'inputPins':{'path':str(pins_path),'sha256':sha(pins_path)},'materialized':materialized,
++m={'kind':'query-census-inert-proof-input-v1','root':str(root),'setup':str(setup),'inputs':pins['files'],'inputPins':{'path':str(pins_path),'sha256':sha(pins_path)},'materialized':materialized,
+  'authority':{'path':str(authority),'sha256':sha(authority)},'node':{'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha256':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'},'npmCli':qualification['npmCli'],
+  'helper':{'path':str(root/'scripts/bench/owned-command.mjs'),'sha256':sha(root/'scripts/bench/owned-command.mjs')},'loader':{'path':str(root/'scripts/bench/native-loader.mjs'),'sha256':sha(root/'scripts/bench/native-loader.mjs')},'steps':['native-build','pure-proof']}
+ for path,digest in pins['files'].items():assert sha(path)==digest,path
+ with(setup/'input.json').open('x')as stream:json.dump(m,stream,indent=2);stream.write('\n')
+ rows={**pins['files'],str(pins_path):sha(pins_path),str(setup/'input.json'):sha(setup/'input.json')}
+ for path in materialized:rows[path]=sha(path)
+-with(setup/'root-inventory.json').open('x')as stream:json.dump({'kind':'query-reuse-pure-proof-root-inventory-v1','files':rows},stream,indent=2);stream.write('\n')
++with(setup/'root-inventory.json').open('x')as stream:json.dump({'kind':'query-census-inert-proof-root-inventory-v1','files':rows},stream,indent=2);stream.write('\n')
+ observer=base/'root-observer.py.txt'
+-r={'kind':'query-reuse-pure-proof-root-input-v1','root':str(root),'mode':'query-reuse-proof','outerMs':120000,'setup':str(setup),'steps':m['steps'],
++r={'kind':'query-census-inert-proof-root-input-v1','root':str(root),'mode':'query-census-inert-proof','outerMs':120000,'setup':str(setup),'steps':m['steps'],
+  'node':{'path':m['node']['path'],'sha':m['node']['sha256']},'helper':{'path':m['helper']['path'],'sha':m['helper']['sha256']},'pureInput':{'path':str(setup/'input.json'),'sha':sha(setup/'input.json')},
+  'pins':{'path':str(setup/'root-inventory.json'),'sha':sha(setup/'root-inventory.json')},'stage':{'path':str(setup/'owner.mjs'),'sha':sha(setup/'owner.mjs')},'observer':{'path':str(observer),'sha':sha(observer)},
+  'python':{'path':'/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12','sha':'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'}}

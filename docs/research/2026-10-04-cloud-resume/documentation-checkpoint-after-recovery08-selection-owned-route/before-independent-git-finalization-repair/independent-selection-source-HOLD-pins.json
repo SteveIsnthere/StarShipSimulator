@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "decision": "HOLD-selection-source-cleanup-journal-and-final-command-bound",
+  "sourceManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/source-pins.json",
+    "reportedSha256": "17370fb4d8099528c37002058336ceadaa70aa4c5a1f3ec556565adbce42b3ed"
+  },
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/independent-selection-source-HOLD-review.md",
+    "sha256": "f9ad4be8ca96c1f8a1406e7c0e7c231cfe1f97511804b91dfdde6d687732ba7b"
+  },
+  "selectedSourcePins": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/capture-selection.py.txt",
+      "sha256": "ead5c86acfe418291bf733ad72d680d0a1923cbb81ece118af3ad9a5b6380ec1"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/make-input.py.txt",
+      "sha256": "9af007035969f0012a86375d68daf7f262addaf6728d0b59aec95f39c33b78ff"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/root-observer.py.txt",
+      "sha256": "411a1eff51cc208bf9cfbf5ecc8cf76350ae376ccd750e86360162f96e423f09"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/selected-paths.json",
+      "sha256": "e9134077d170f4032fd5b1d9414b278a8c9e9194236b701e459f561a9bea7695"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/selection-plan.md",
+      "sha256": "f822f1df3986b1c9d54985c4b44dec74939f3bfd59029e0d44285866e7777144"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/root-candidate-doc-names.json",
+      "sha256": "a9b6be1dd0edb60498d594f95bed33e94c51170548589a621f6b91db3722ea551"
+    }
+  ],
+  "sourcePacketHashProofDeferredUnderCpuRestriction": true,
+  "runtimeExecuted": false,
+  "captureApproved": false
+}

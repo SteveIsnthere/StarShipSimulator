@@ -1,0 +1,284 @@
+import hashlib, json, os, pathlib, signal, subprocess, sys, tempfile, time
+
+def interrupted(signum, frame):
+    raise RuntimeError('Root observer interrupted by signal ' + str(signum))
+signal.signal(signal.SIGTERM, interrupted)
+started = time.time(); work_deadline = None
+manifest_path, expected_sha = sys.argv[1:]
+def digest(path):
+    return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+def require(ok, message):
+    if not ok:
+        raise RuntimeError(message)
+require(digest(manifest_path) == expected_sha, 'External owner input digest mismatch')
+m = json.loads(pathlib.Path(manifest_path).read_text())
+require(m['kind'] == 'official-original21-owner-input-v1', 'Wrong owner input')
+for key in ('node', 'helper', 'npmCli', 'qualification', 'pins', 'stage', 'observer', 'python'):
+    require(digest(m[key]['path']) == m[key]['sha'], 'Pinned input mismatch: ' + key)
+require(digest(__file__) == m['observer']['sha'], 'Executed root observer mismatch')
+require(m['mode'] in ('app-build','original21'), 'Unknown concrete stage')
+require(m['outerMs'] == {'app-build':90000,'original21':338000}[m['mode']], 'Wrong concrete stage bound')
+work_deadline = started + (m['outerMs'] - 8000)/1000
+require(pathlib.Path(sys.executable).resolve() == pathlib.Path(m['python']['path']).resolve(), 'Wrong Python')
+root_receipt = pathlib.Path(tempfile.mkdtemp(prefix='starship-original21-root.', dir='/tmp'))
+os.chmod(root_receipt, 0o700)
+print(json.dumps({'rootReceipt': str(root_receipt)}), flush=True)
+wrapper = root_receipt / 'stage.mjs'
+wrapper.write_bytes(pathlib.Path(m['stage']['path']).read_bytes())
+require(digest(wrapper) == m['stage']['sha'], 'Materialized stage mismatch')
+known = {}; owned_groups = {}; audit_bytes = 0; failures = []; child = None; stage_receipt = None
+
+def save(name, value):
+    (root_receipt / name).write_text(json.dumps(value, indent=2) + '\n')
+def stat_row(pid):
+    try:
+        text = pathlib.Path('/proc', str(pid), 'stat').read_text()
+        f = text[text.rfind(')') + 2:].split()
+        return {'pid': int(pid), 'state': f[0], 'parent': int(f[1]), 'group': int(f[2]), 'session': int(f[3]), 'start': f[19]}
+    except (FileNotFoundError, ProcessLookupError):
+        return None
+
+def admit(row):
+    global audit_bytes
+    key = (row['pid'], row['start'])
+    if key not in known:
+        known[key] = row
+        if row['pid'] == row['group'] == row['session']:
+            group_key = (row['group'], row['session'])
+            if group_key in owned_groups:
+                require(owned_groups[group_key]['start'] == row['start'], 'Owned group identity recycled')
+            else:
+                owned_groups[group_key] = {'group': row['group'], 'session': row['session'], 'start': row['start'], 'cleared': False, 'uncertain': False}
+        line = json.dumps({'observedAt': time.time(), 'identity': row}) + '\n'
+        audit_bytes += len(line.encode())
+        require(audit_bytes <= 1024 * 1024 and len(known) <= 4096, 'Root identity audit cap')
+        with (root_receipt / 'identities.jsonl').open('a') as output:
+            output.write(line); output.flush(); os.fsync(output.fileno())
+
+def scan():
+    rows = []
+    for entry in pathlib.Path('/proc').iterdir():
+        if entry.name.isdigit():
+            try:
+                row = stat_row(entry.name)
+            except PermissionError:
+                if any(key[0] == int(entry.name) for key in known):
+                    raise RuntimeError('Owned stat inaccessible')
+                continue
+            if row: rows.append(row)
+    if child is not None:
+        leader = next((r for r in rows if r['pid'] == child.pid), None)
+        captured = next((r for r in known.values() if r['pid'] == child.pid), None)
+        if leader and captured: require(leader['start'] == captured['start'], 'Outer PID recycled')
+    changed = True
+    while changed:
+        changed = False
+        # A captured detached leader owns its group/session until witnessed empty.
+        # Freshly re-read a current member before admitting an orphaned sibling.
+        for group in list(owned_groups.values()):
+            if group['cleared']: continue
+            leader = next((r for r in rows if r['pid'] == group['group']), None)
+            if leader: require(leader['start'] == group['start'], 'Detached group leader PID recycled')
+            members = [r for r in rows if r['group'] == group['group'] and r['session'] == group['session']]
+            if not members:
+                group['cleared'] = True
+                continue
+            witness = None
+            for member in members:
+                captured = known.get((member['pid'], member['start']))
+                if captured is None or captured['group'] != group['group'] or captured['session'] != group['session']:
+                    continue
+                current = stat_row(member['pid'])
+                if current is None: continue
+                require(current['start'] == captured['start'], 'Owned group witness PID changed')
+                witness = current; break
+            if witness is None:
+                group['uncertain'] = True
+                raise RuntimeError('Group members exist without captured live identity witness; no new admission/signals')
+            require(not group['uncertain'], 'Prior group ownership uncertainty is sticky')
+            require(witness['group'] == group['group'] and witness['session'] == group['session'], 'Owned group witness moved')
+            require(int(witness['start']) >= int(group['start']), 'Group member predates captured group')
+            for row in members:
+                require(int(row['start']) >= int(group['start']), 'Group member predates captured group')
+                if (row['pid'], row['start']) not in known:
+                    admit(row); changed = True
+        for row in rows:
+            if (row['pid'], row['start']) in known: continue
+            parent = next((r for r in rows if r['pid'] == row['parent']), None)
+            if parent and (parent['pid'], parent['start']) in known:
+                admit(row); changed = True
+    return [r for r in rows if (r['pid'], r['start']) in known and r['state'] not in ('Z', 'X')] + [
+        {'groupUncertain': group} for group in owned_groups.values() if group['uncertain']]
+
+def load_helper_identities():
+    global stage_receipt
+    raw = (root_receipt / 'outer.stdout.txt').read_text()
+    for line in raw.splitlines():
+        try: value = json.loads(line)
+        except json.JSONDecodeError: continue
+        if isinstance(value.get('stageReceipt'), str):
+            candidate = pathlib.Path(value['stageReceipt'])
+            require(str(candidate).startswith('/tmp/starship-original21-stage.'), 'Foreign stage receipt')
+            require(candidate.resolve() == candidate, 'Stage symlink')
+            if stage_receipt is not None: require(stage_receipt == candidate, 'Multiple stage receipts')
+            stage_receipt = candidate
+    if stage_receipt is not None:
+        actual = stage_receipt / 'preparation.process.json'
+        if actual.exists():
+            receipt = json.loads(actual.read_text())
+            for row in receipt.get('cleanup', {}).get('tracked', []):
+                for key in ('pid', 'start', 'group', 'session'): require(key in row, 'Malformed tracked identity')
+                admit(row)
+    if stage_receipt is not None and m['mode'] == 'original21':
+        baseline_path = stage_receipt / 'tmp-baseline.json'
+        if baseline_path.exists():
+            baseline = json.loads(baseline_path.read_text())
+            require(isinstance(baseline, list) and all(isinstance(x, str) for x in baseline), 'Bad fresh receipt baseline')
+            for directory in pathlib.Path('/tmp').glob('starship-official-flight.*'):
+                if str(directory) in baseline: continue
+                require(directory.resolve() == directory and directory.is_dir(), 'Foreign fresh flight directory')
+                for name in ('native-build.process.json', 'official-tests.process.json'):
+                    actual = directory / 'native.receipts' / name
+                    if not actual.exists(): continue
+                    try:
+                        receipt = json.loads(actual.read_text())
+                        cleanup = receipt.get('cleanup')
+                        require(isinstance(cleanup, dict), 'Nested cleanup missing')
+                        anchor = known.get((cleanup['pid'], cleanup['start']))
+                        require(anchor is not None and anchor['group'] == cleanup['group'] and anchor['session'] == cleanup['session'], 'Fresh receipt leader not independently observed')
+                        for row in cleanup.get('tracked', []):
+                            for key in ('pid', 'start', 'group', 'session'): require(key in row, 'Malformed nested product identity')
+                            admit(row)
+                        save('nested-' + directory.name + '-' + name, {'path': str(actual), 'sha256': digest(actual), 'cleanup': cleanup})
+                    except BaseException as error:
+                        failures.append('Nested product receipt reconciliation: ' + str(error))
+
+def safe_scan():
+    try:
+        return scan()
+    except BaseException as error:
+        failures.append('Owned scan failure: ' + str(error))
+        live = [{'groupUncertain': group} for group in owned_groups.values() if group['uncertain']]
+        for row in list(known.values()):
+            try:
+                actual = stat_row(row['pid'])
+                if actual and actual['start'] == row['start'] and actual['state'] not in ('Z', 'X'):
+                    live.append(actual)
+            except BaseException as error:
+                failures.append('Owned identity inaccessible: ' + str(error))
+                live.append({'identityUncertain': row})
+        return live
+
+def signal_rows(rows, sig):
+    for row in rows:
+        if 'identityUncertain' in row or 'groupUncertain' in row: continue
+        try:
+            actual = stat_row(row['pid'])
+            if actual is None: continue
+            require(actual['start'] == row['start'], 'Owned PID identity changed before signal')
+            require(actual['group'] == row['group'] and actual['session'] == row['session'], 'Owned topology changed before signal')
+            if actual['state'] not in ('Z', 'X'):
+                try: os.kill(actual['pid'], sig)
+                except ProcessLookupError: pass
+        except BaseException as error:
+            failures.append('Identity-checked signal failure: ' + str(error))
+
+try:
+    require(time.time() <= work_deadline, 'Observer startup exhausted stage bound')
+    env = dict(os.environ); env['ORIGINAL21_ROOT_DEADLINE'] = str(int(work_deadline * 1000))
+    with (root_receipt / 'outer.stdout.txt').open('wb') as stdout, (root_receipt / 'outer.stderr.txt').open('wb') as stderr:
+        child = subprocess.Popen([m['node']['path'], str(wrapper), manifest_path, expected_sha],
+            cwd=m['root'], env=env, stdout=stdout, stderr=stderr, start_new_session=True)
+        initial = stat_row(child.pid)
+        require(initial is not None, 'Could not register outer identity')
+        require(initial['group'] == child.pid and initial['session'] == child.pid, 'Outer not isolated')
+        admit(initial); save('outer-registration.json', initial)
+        while child.poll() is None:
+            scan(); load_helper_identities()
+            require(time.time() <= work_deadline, 'Whole stage work timeout')
+            require(sum((root_receipt / name).stat().st_size for name in ('outer.stdout.txt', 'outer.stderr.txt')) <= 2 * 1024 * 1024, 'Root raw output cap')
+            time.sleep(0.025)
+        # Persist actual OS exit immediately; receipt assertions run later.
+        save('actual-outer-exit.json', {'returncode': child.returncode, 'elapsedSeconds': time.time() - started})
+        load_helper_identities(); scan()
+        require(child.returncode == 0, 'Outer stage failed')
+        require(stage_receipt is not None, 'No actual stage receipt')
+        result = json.loads((stage_receipt / 'stage-result.json').read_text())
+        require(result['completed'] is True and result['code'] == 0 and result['error'] is None, 'Stage outcome failed')
+        require(time.time() <= work_deadline, 'Stage work bound exceeded at result boundary')
+except BaseException as error:
+    failures.append(str(error))
+finally:
+    # A failed first registration must not bypass owned-child finalization.
+    # The unreaped direct Popen PID is reserved; require its actual topology
+    # and persist PID/start before any ancestry scan or signaling.
+    try:
+        if child is not None and child.poll() is None and not any(row['pid'] == child.pid for row in known.values()):
+            initial = stat_row(child.pid)
+            require(initial is not None, 'Finalizer could not verify direct outer identity')
+            require(initial['parent'] == os.getpid(), 'Finalizer outer is not direct Popen child')
+            require(initial['group'] == child.pid and initial['session'] == child.pid, 'Finalizer outer not isolated')
+            admit(initial); save('outer-registration-finalizer.json', initial)
+    except BaseException as error:
+        failures.append('Independent outer registration finalizer: ' + str(error))
+    try:
+        load_helper_identities()
+    except BaseException as error:
+        failures.append('Final helper reconciliation: ' + str(error))
+    try:
+        live = safe_scan()
+        if live:
+            signal_rows(live, signal.SIGTERM); until = time.time() + 5
+            while time.time() < until and safe_scan():
+                signal_rows(safe_scan(), signal.SIGTERM)
+                try: load_helper_identities()
+                except BaseException as error: failures.append('Cleanup helper reconciliation: ' + str(error))
+                time.sleep(0.025)
+        live = safe_scan()
+        if live:
+            signal_rows(live, signal.SIGKILL); until = time.time() + 2
+            while time.time() < until and safe_scan():
+                signal_rows(safe_scan(), signal.SIGKILL)
+                try: load_helper_identities()
+                except BaseException as error: failures.append('Cleanup helper reconciliation: ' + str(error))
+                time.sleep(0.025)
+        if child is not None:
+            try: child.wait(timeout=1)
+            except subprocess.TimeoutExpired: failures.append('Outer pipe/process close bound')
+            save('actual-outer-exit-final.json', {'returncode': child.poll(), 'elapsedSeconds': time.time() - started})
+        # Reconcile ALL actual helper tracked identities after child finalization.
+        try: load_helper_identities()
+        except BaseException as error: failures.append('Post-close helper reconciliation: ' + str(error))
+        remaining = safe_scan()
+        require(not remaining, 'Owned executing identities remain')
+    except BaseException as error:
+        failures.append(str(error)); remaining = [{'groupUncertain': group} for group in owned_groups.values() if group['uncertain']]
+        for row in known.values():
+            try:
+                current = stat_row(row['pid'])
+                if current and current['start'] == row['start'] and current['state'] not in ('Z', 'X'): remaining.append(current)
+            except BaseException: remaining.append({'identityUncertain': row})
+    # Raw exit and source checks remain independent of cleanup/receipt failures.
+    if child is not None:
+        try: save('actual-outer-exit-final-independent.json', {'returncode': child.poll(), 'elapsedSeconds': time.time() - started})
+        except BaseException as error: failures.append('Final raw exit persistence: ' + str(error))
+    for key in ('node', 'helper', 'npmCli', 'qualification', 'pins', 'stage', 'observer', 'python'):
+        try: require(digest(m[key]['path']) == m[key]['sha'], 'Final pinned mismatch: ' + key)
+        except BaseException as error: failures.append(str(error))
+    for label, path, sha in (('external input', manifest_path, expected_sha), ('executed observer', __file__, m['observer']['sha']), ('executed stage', wrapper, m['stage']['sha'])):
+        try: require(digest(path) == sha, 'Final ' + label + ' drift')
+        except BaseException as error: failures.append(str(error))
+    try:
+        inventory = json.loads(pathlib.Path(m['pins']['path']).read_text())
+        require(inventory['kind'] == 'official-original21-external-inventory-v1', 'Final source/tool inventory kind')
+        require(bool(inventory['files']), 'Final empty source/tool inventory')
+        for path, sha in inventory['files'].items():
+            try: require(digest(path) == sha, 'Final source/tool file drift: ' + path)
+            except BaseException as error: failures.append(str(error))
+    except BaseException as error: failures.append('Independent final source/tool audit: ' + str(error))
+    save('root-outcome.json', {'completed': not failures, 'failures': failures,
+        'actualReturncode': None if child is None else child.poll(), 'remaining': remaining,
+        'tracked': list(known.values()), 'ownedGroups': list(owned_groups.values()), 'stageReceipt': None if stage_receipt is None else str(stage_receipt),
+        'manifestSha': expected_sha, 'elapsedSeconds': time.time() - started,
+        'acceptance': 'This single app-build or original21 invocation only; independent actual-result/source/ownership review required; no whole gate or local acceptance'})
+if failures: sys.exit(1)

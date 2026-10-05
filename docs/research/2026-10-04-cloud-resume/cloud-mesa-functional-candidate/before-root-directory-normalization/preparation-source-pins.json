@@ -1,0 +1,16 @@
+{
+  "status": "SOURCE-ONLY output-cap HOLD repair; independent rereview required",
+  "preservedPrior": "before-preparation-output-cap-repair",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+      "sha256": "2bd17fbe29f3df40ac7df8eb9f34e7aea02a3463e6517d875389823cc23a2fd4",
+      "bytes": 10858
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-proposal.md",
+      "sha256": "97f5135c034b1aeb38780fc41c9f29ecae46c4c3f7daadab4637f80562215745",
+      "bytes": 4729
+    }
+  ]
+}

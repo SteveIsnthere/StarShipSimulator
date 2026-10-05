@@ -1,0 +1,26 @@
+--- accepted-builder.mjs.txt
++++ all-paid-census-builder.mjs.txt
+@@ -7,7 +7,7 @@
+ const [input,inputSha]=process.argv.slice(2),sha=s=>createHash('sha256').update(s).digest('hex');
+ assert.equal(sha(readFileSync(input)),inputSha);const m=JSON.parse(readFileSync(input,'utf8'));
+ assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);
+-assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-reuse-pure-proof');
++assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-census-inert-proof');
+ assert.equal(process.version,'v22.23.3');assert.equal(sha(readFileSync(process.execPath)),m.node.sha256);
+ const configFile=resolve(m.root,'vite.config.ts'),resolved=await resolveConfig({configFile},'build','production');
+ const q=JSON.parse(readFileSync(resolve(m.root,'scripts/bench/qualification.json'),'utf8'));
+@@ -34,7 +34,7 @@
+   overrides[path]=text.slice(0,at)+'\n  if (__queryWitness.length >= 8192) throw new Error("Passive witness cap");\n  __queryWitness.push('+argument+');'+text.slice(at)+
+    '\nconst __queryWitness: unknown[][] = [];\nexport function resetWitness'+fn+'(): void { __queryWitness.length = 0; }\nexport function readWitness'+fn+'(): unknown[][] { return __queryWitness.map(row => row.slice()); }\n';
+  }
+- const directory=resolve(m.setup,role),entry=resolve(m.setup,'entry.ts');
++ const directory=resolve(m.setup,role),entry=resolve(m.setup,candidate?'entry-census.ts':'entry-original.ts');
+  const witnessSuffix="export {resetWitnessloadedRootAngle,readWitnessloadedRootAngle} from '$core/physics/damage-root';\nexport {resetWitnesssteelTemperatureFromEnthalpy,readWitnesssteelTemperatureFromEnthalpy} from '$core/physics/damage-material';\n";
+  const baseEntry=readFileSync(entry,'utf8');assert.equal(sha(baseEntry),m.materialized[entry].sha256,'Authored plain entry changed');
+  const roleEntry=counted?resolve(m.setup,'entry-'+role+'.ts'):entry;
+@@ -95,4 +95,4 @@
+  graphs[role]={directory,entry:resolve(directory,'entry.mjs'),files,mapped,emittedEdges};
+ }
+ assert.deepEqual(loader.sourceSnapshot(m.root),before);assert.deepEqual(loader.installedToolSnapshot(m.root),tools);
+-save('graphs.json',{kind:'query-reuse-four-native-graphs-v1',options,graphs,source:before,tools,passiveCopiesNeverTimed:true});
++save('graphs.json',{kind:'query-census-four-native-graphs-v1',options,graphs,source:before,tools,passiveCopiesNeverTimed:true});

@@ -1,0 +1,31 @@
+{
+  "completed": false,
+  "failures": [
+    "Outer stage failed"
+  ],
+  "actualReturncode": 1,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 126529,
+      "state": "R",
+      "parent": 126528,
+      "group": 126529,
+      "session": 126529,
+      "start": "7962080"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 126529,
+      "session": 126529,
+      "start": "7962080",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4",
+  "manifestSha": "e98d47895252010372959df4f23814cede3faa8cf02bb8111232ed4013a9a40a",
+  "elapsedSeconds": 0.6039042472839355,
+  "acceptance": "Fourteen inert source-extracted artifact callback controls only; no actual Vitest lifecycle, physics, golden, coverage, profile or performance acceptance"
+}

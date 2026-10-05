@@ -1,0 +1,12 @@
+--- scripts/test/build.mjs
++++ /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/build.mjs.txt
+@@ -43,7 +43,8 @@
+   assert(code.replace(/\r?\n$/, '').endsWith(route));
+   copyFileSync(resolve(q.root, 'scripts/test/constants.mjs'), resolve(directory, 'constants.mjs'));
+   const m = { kind: 'official-native-flight-run-v1', root: q.root, directory,
+-    compositePath, compositeSha, files: strictFiles(directory), source: before,
++    compositePath, compositeSha, qualificationProjection: q.portableProjection ?? null,
++    files: strictFiles(directory), source: before,
+     freshBuildCompleted: true, mapTranslation: 'relative-original-source-routes-only' };
+   writeFileSync(directory + '.json', JSON.stringify(m) + '\n', { flag: 'wx' });
+ } catch (error) { failure = error; }

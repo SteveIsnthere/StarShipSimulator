@@ -1,0 +1,16 @@
+{
+  "identity": {
+    "pid": 114642,
+    "start": "7310762",
+    "group": 114642,
+    "session": 114642
+  },
+  "status": 0,
+  "reaped": true,
+  "elapsedSeconds": 0.1144224080053391,
+  "seed": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-app-build-single-helper-bridge-seed.json",
+    "sha": "33653c9de4ce3135c60527e64f9317db053e48b56540e8754163309e329f8a85"
+  },
+  "noBuildOrBrowser": true
+}

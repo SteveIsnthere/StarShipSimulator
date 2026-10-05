@@ -1,0 +1,15 @@
+{
+  "kind": "call-local-query-reuse-static-inputs-v1",
+  "executionApproved": false,
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/canonical-equivalence-driver.mjs.txt": "174f245eebe98d7a732c92912f39b13ae3db78cf0550cc48bc69ff5809a890f9",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/damage-controls.candidate.ts.txt": "11d754b1078efbf8bd5afe35815524d15f8a48bfe15b624a9813b630b6db094a",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/damage-controls.diff": "5b1834ad0afcfb420f86ad8df352d042ff2041e491410bf86b123c19ff2ad2af",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/damage-controls.original.ts.txt": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/damage-thermal.candidate.ts.txt": "0e91f95f2c2a4e63e428f574fb046bd080cd5ef314afff4d2c23aa72fc9c2a9a",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/damage-thermal.diff": "b44affb1d4988e5e24c283fe885350e169be4bcba7c7333b7e597d35e4a3a498",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/damage-thermal.original.ts.txt": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/declaration.md": "28b42938557894e744c2ea726a3c01075c9eef0751be45fe8418a6d182bfcd85",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/source-boundary.json": "f80da020987b1616343b0bed4bbc052ef7b626c9ffc661ffda67fff5e28ba685"
+  }
+}

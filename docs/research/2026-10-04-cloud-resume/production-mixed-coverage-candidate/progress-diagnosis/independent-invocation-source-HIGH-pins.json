@@ -1,0 +1,87 @@
+{
+  "kind": "independent-selected2-SSR-invocation-source-HIGH-review-v1",
+  "sourceOnly": true,
+  "executionApproved": false,
+  "files": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/business-stage-selected2.mjs.txt",
+      "bytes": 9245,
+      "sha256": "5b375eecff89376b60ba2cd229cd0e9ff61dfb7f613d023c79ab88126febf703"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/root-observer-selected2.py.txt",
+      "bytes": 15814,
+      "sha256": "90dad5c122f0651a79d932bb9e6116b6c8d7ef2f5ca83bc09e63fdcb35174418"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/capture-reporter-ssr.mjs.txt",
+      "bytes": 4441,
+      "sha256": "9543d3e01bd19032bb3b187e059886c7a58f9f96628320a906ae040d3263d70c"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/invocation.md",
+      "bytes": 6977,
+      "sha256": "6b38eb2159e57befcf50c9227fb7b3dfdfbff81612512898405e4d249371014c"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/root-observer-selected2.diff",
+      "bytes": 5870,
+      "sha256": "f7d122101d96cdd402addaa242dc2818729783e1c42f6c262dc6664379fa3df7"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/capture-reporter-ssr.diff",
+      "bytes": 1545,
+      "sha256": "0cbd357c7c020dc5d22cd1b4212592a17213719d744e4b80f9c41210c3eb70a5"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/progress-reporter.mjs.txt",
+      "bytes": 5527,
+      "sha256": "b28bc45b335d9c076133f08f0d18be1ac17e2936d98ed915536bb3cb1e534c3f"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/independent-source-HIGH-review.md",
+      "bytes": 3782,
+      "sha256": "c9dcf69f810324a292c303ae4f5ab35779091eceac5c142bbebc90e87d906ea2"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/independent-source-HIGH-pins.json",
+      "bytes": 5092,
+      "sha256": "ad43bb9eb04a4a1488cc55d8e18a2ba5d007b72bbcfbc6b6cb0753626464c596"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/invocation-source-pins.json",
+      "bytes": 2458,
+      "sha256": "b368e69e9886611ababf5ddd857c297b974edc9f97454302d04f560fe2b4842c"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/independent-invocation-source-HIGH-review.md",
+      "bytes": 4090,
+      "sha256": "7b682ff039d4946d125e320982414296ee6e8ded3a89ca2d43b3b909a25cb311"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+      "bytes": 17669,
+      "sha256": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/capture-reporter.mjs.txt",
+      "bytes": 4258,
+      "sha256": "437bc855ec8f4fafbc2ff081c987efe2d341a077a14005298ac5d34c7a5a864d"
+    },
+    {
+      "path": "vitest.config.ts",
+      "bytes": 7441,
+      "sha256": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029"
+    },
+    {
+      "path": "tests/core/orbit-demo.test.ts",
+      "bytes": 27874,
+      "sha256": "e7faa9b8207dc22bac8d5ccc7ff900513a9a952cb2ddfc18f6e8d5c8c644ccf0"
+    },
+    {
+      "path": "tests/app/view-clock.test.ts",
+      "bytes": 18683,
+      "sha256": "7026d3779d51783c5d2e0f69a6f2e7dd58e26293d53562332d7648e123cad895"
+    }
+  ]
+}

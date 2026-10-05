@@ -1,0 +1,3 @@
+# Finite actual-input prerequisite binding addendum
+
+The root supplied the exact previously accepted physics-review path after actual-input HIGH4f530b6f was published. This addendum binds that immutable review and pins rather than rewriting the published input review. The existing current-authority proof is prerequisite evidence only; it does not change the13-role seed,14/15 file maps,source770/tool20355 or application bytes. It closes the explicitly delegated path reference in4f530b6f; no new physics proof, scan or application ran. Root's ONE application grant and actual result/all-owned/source/modes/tools review remain separate.

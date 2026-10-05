@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+import {resolve} from 'node:path';
+const sha=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
+const [inputPath,inputSha]=process.argv.slice(2);assert.equal(sha(inputPath),inputSha);const m=JSON.parse(readFileSync(inputPath,'utf8'));
+assert.equal(m.kind,'mesa-preparation-stage-owner-input-v1');assert.equal(m.mode,'prepare');assert.equal(m.outerMs,60000);
+for(const key of ['python','preparer','qualifier','bridge'])assert.equal(sha(m[key].path),m[key].sha,key);
+assert.equal(sha(new URL(import.meta.url)),m.bridge.sha);assert.equal(sha(process.execPath),m.node.sha);
+const deadline=Number(process.env.MESA_PREPARATION_BRIDGE_DEADLINE);assert(Number.isFinite(deadline)&&deadline>Date.now());
+const stage=process.env.MESA_PREPARATION_STAGE_RECEIPT;assert.match(stage,/^\/tmp\/starship-width2-stage\.[A-Za-z0-9]+$/);
+const result=spawnSync(m.python.path,[m.preparer.path,m.qualifier.path,m.qualifier.sha],{cwd:m.root,env:process.env,stdio:'inherit',timeout:Math.min(44000,deadline-Date.now()),killSignal:'SIGKILL'});
+writeFileSync(resolve(stage,'actual-python-exit.json'),JSON.stringify({pid:result.pid??null,status:result.status,signal:result.signal,error:result.error?String(result.error.stack??result.error):null})+'\n',{flag:'wx'});
+if(result.error)throw result.error;assert.equal(result.signal,null);process.exitCode=result.status===null?1:result.status;

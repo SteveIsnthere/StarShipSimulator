@@ -1,0 +1,1 @@
+Static authoring first stopped before candidate writes because an ambiguous guessed actual review basename matched both input and result reviews. Only this empty candidate directory had been created. Exact actual-result filenames are used below; no maker/capture/payload scan/Git/runtime occurred.

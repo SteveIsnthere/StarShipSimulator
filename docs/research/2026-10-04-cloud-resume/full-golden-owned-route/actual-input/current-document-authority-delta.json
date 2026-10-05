@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "kind": "authorized-exact-two-live-document-pin-reconciliation",
+  "changes": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "beforeSha256": "267f8a5797c49046a4eaab256eda5e89036c891ee705fbe20bc6da3d38a64e26",
+      "currentSha256": "85472b5d9d93164c7f8bd38600a5738c82060960a898656dcd3d6b3de846f13b",
+      "reason": "Root authorized current documentation reconciliation after full247/truth acceptance; original pre-look pin remains immutable historical policy assessment, not current live byte assertion."
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "beforeSha256": "a0a59bd5e4cb625d7c634f24de9c6120cc089449d512ca8884311ebc3f1e89fd",
+      "currentSha256": "8bfcfa5c524c796cf8118f0030bc5f901e9c94a0002665cacd0fae95875a91bd",
+      "reason": "Root authorized current documentation reconciliation after full247/truth acceptance; original pre-look pin remains immutable historical policy assessment, not current live byte assertion."
+    }
+  ],
+  "source769Changed": false,
+  "tool20355Changed": false,
+  "fixturePayloadRead": false,
+  "prelookPredictionChanged": false,
+  "historicalPrelookReviewAndPinBytesUnchanged": true,
+  "oldInput": {
+    "ownerSha256": "371c28f8b69408822ee7e6a1fd07e9f88ad727c7471307dc746b403d4be27c42",
+    "inventorySha256": "b87219c75947380b08cd922d7f71b9d13d542578becb578663c613cc317f6233"
+  },
+  "noRecordingAttempt": true
+}

@@ -1,0 +1,7 @@
+# Independent retained06 history materialization seed HIGH
+
+Frozen seed7bb9c1c9d3eb37e3ba15f813902fedfbddad1fa36a8548b571aca0571d46bbaf has exactly262 rows: all257 reviewed ba70 source rows unchanged plus sourceHIGH1636/pins8f38/manifest and two root scope receipts. Metadata equality establishes complete row correspondence; only new receipt/review/manifest/selfmaker/outer selected bytes were hashed in this review, not all257 rows again. Root reports all257 exact hashes/Python AST and seven zero-message ESLint scopes in pinned receipts.
+
+Seed kind/route/selfmaker2950 path+digest+map membership are exact. OriginalOuter equals actual independently accepted offline517c root-input2a5 in full; its Node/helper objects match original retained06 input ba49 and Python matches reviewed runtime. Maker replaces only required business roles/mode/histories900000/steps/observer/private output/input inventory while trusted runtime stays unchanged. Envelope/currenta073/fulltyped20355/history limits and original math/body source are not resealed.
+
+Supports ONE root-granted metadata maker only, not paid histories. Actual seven copies plus transformeddriver/inputs/evidence/retainedSSR/native directory and all modes/set/hash roles must receive fresh actual input HIGH before any850s supervised driver/root900 grant. Unselected changed loader prefix remains adoption HOLD and no physics/runtime semantics pass is claimed. Root performs actual selected/source/tool audits, reviewer executed no imports/checks/maker/histories/workloads/fullhash/tool scans or copies.

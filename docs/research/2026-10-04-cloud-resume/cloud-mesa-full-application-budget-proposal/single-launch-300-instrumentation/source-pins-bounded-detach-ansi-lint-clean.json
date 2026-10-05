@@ -1,0 +1,117 @@
+{
+  "kind": "mesa-single-original-launch-300-instrumentation-source-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/business-stage.ansi-lint-clean.mjs.txt",
+      "sha256": "37349d8df6b986e9ce4ea92e4b61e42598d283ef699c91d7989480708f09c466",
+      "bytes": 16911
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/contract.md",
+      "sha256": "2462bed04d816ca8e079baad0d48e3f95f77521c8c8ac85545c911b23d975624",
+      "bytes": 5547
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/mesa-budget.config.ts.txt",
+      "sha256": "993040ccac984b67f5aa7ae43f41cebd4e2d48c449ab20b803937ea20426af0a",
+      "bytes": 2644
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/mesa-budget.spec.ts.txt",
+      "sha256": "3f6ee39e91048b086884916c869131256c024cfc401e4ca885643753927ae730",
+      "bytes": 140
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/mesa-launch-instrumentation.bounded-detach.ts.txt",
+      "sha256": "7e9f277ea54d8f0039198ae48a7c36e9dfb2c227f342dee99a5d509938fe3b0e",
+      "bytes": 8297
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/ownership-transfer.json",
+      "sha256": "7092747ab1b3e2cdee693fa21da6ba86453964f3c504c90b10ab3a1df9366a4f",
+      "bytes": 720
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/root-observer.py.txt",
+      "sha256": "58216ac7db3a44b380c7c1fb0ceef65e0b80364c3a5f555228e5e337ff32a22c",
+      "bytes": 17969
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-boundary-hooks.sdk-entry.ts.txt",
+      "sha256": "bad7ef1d48aabc928304e005a008572a38266d8142876e6d7c45b1ffb1f33b05",
+      "bytes": 8111
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-reporter.mjs.txt",
+      "sha256": "a05e81ea62956ebb433576072074d4e249440021b509b3b23747a7fcd1516e20",
+      "bytes": 1391
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-budget.config.sdk-entry.preview-cwd.ts.txt",
+      "sha256": "64c56f22bed7cd210839242f3718f57eb0d23002097e2b9592a34b86c49a5d0f",
+      "bytes": 2599
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/business-stage.mjs.txt",
+      "sha256": "4b7b45dd40313de29a039ce47173989a66fd0d926513d3c2f688ab93f7e9ed1a",
+      "bytes": 13749
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-observer.py.txt",
+      "sha256": "3d9bc7f8d85276385191982d724736583126a3210c92b67ccfe4bc04fba82b30",
+      "bytes": 17880
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper-independent-final-checker-v2.py.txt",
+      "sha256": "9c3b045bd79fc8fbd6b862458f5feb1ab0e1709c2c2de7bc4065600f29fd7236",
+      "bytes": 20575
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-third-app-matrix-actual-failure-HIGH-review.md",
+      "sha256": "2e55c2b76e30c81df63625c34aa5fd0d891ba3ac231165704093fd3c53546f73",
+      "bytes": 3652
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/third-app-matrix-cadence-attribution-proposal.md",
+      "sha256": "91b0b83214d9b278c9c2858401cc5413f8816bcaf2237c80ddd92696c3da7edc",
+      "bytes": 2393
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts",
+      "sha256": "98504af61fb46edf0f2555e7f1fec419308cfcbd6363fe3f9b5b104fdea4ce79",
+      "bytes": 17632
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-budget-probe.ts",
+      "sha256": "d450cc4671149cb42bb7e1c6a34259b2d1ac06152f22a2302a7d4c3679c44f99",
+      "bytes": 7256
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-browser-trace.ts",
+      "sha256": "3bc5d775cea6b0e5844622e2a0810c595abdbb90584f389d2766616ee671d6de",
+      "bytes": 4631
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/bounded-detach-repair-contract.md",
+      "sha256": "6be3ba178b39747ef7079433678b2ac2a6298622e17ff7737639174d7eae6b58",
+      "bytes": 1543
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/ansi-string-controls.mjs",
+      "sha256": "fa7f6b6e694e1d0be2022caa693caac6f75f1c149c07f8bf4280ef251506ea7e",
+      "bytes": 1755
+    }
+  ],
+  "sourceOnly": true,
+  "noBrowserEnvironmentFieldsReadOrPublished": true,
+  "originalCaseCountsBudgetsUnchanged": true,
+  "rootScopesActualInputHIGHRequired": true,
+  "originalManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins.json",
+    "sha256": "d9dfc12a071c2e323f20463ab3c91bc02ea1287ef30b0e19545d66b8e40bc941"
+  },
+  "successor": "Distinct neutral ANSI regex constructor; bounded7e9 hook unchanged; original19/source1998 and originalstage94cc retained",
+  "other17OriginalRowsUnchanged": true,
+  "original18SourceBytesArchived": true,
+  "other18BoundedDetachRowsUnchanged": true
+}

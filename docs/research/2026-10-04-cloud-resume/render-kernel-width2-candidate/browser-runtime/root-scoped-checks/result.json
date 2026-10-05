@@ -1,0 +1,31 @@
+{
+  "inputMapSha256": "230484c3b6a04004ac8cdf1159a73879bb00d180ff17ef1493e50884c6b21ef3",
+  "scopes": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/browser-root-parent.py.txt",
+      "sha256": "d7eda9c372acad61f379a2c6df77737ce80d7612d8213b5896b5e836d58c35ba",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/prepare-runtime-owner-input.py.txt",
+      "sha256": "11ae599ee9b8cc09b9c9bb3ae63ebc85c3b5430d3ea45a4501f54aed4fa2e67e",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/business-stage.mjs.txt",
+      "sha256": "1104b29a61e30761769e3cdcdfd3768cc38b8151df88d2aa708f96cffffaf0a4",
+      "kind": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.027290496000205167
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/business-stage.mjs.txt",
+      "sha256": "1104b29a61e30761769e3cdcdfd3768cc38b8151df88d2aa708f96cffffaf0a4",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.867553752999811
+    }
+  ]
+}

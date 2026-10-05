@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "decision": "HOLD-recording-helper-deadline-contract",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/independent-source-HOLD-review.md",
+    "sha256": "b113cec6b400d014a0089eb2a921f8d567b812cee078b77930ea2beefdb0cdba"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/business-stage.mjs.txt",
+      "sha256": "e4c57776932ea6e0728d8568277ff68837657dedb20e6e2b556aea557f023dba"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-observer.py.txt",
+      "sha256": "f55e11787e1dad0a127bdf6123a6232aac1a84a33c53db0fbe40e905df716da7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-observer.diff",
+      "sha256": "65ff08adb910fca85082f60521cd7c77239de8c8d44a998b68da1dc3972e0872"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/declaration.md",
+      "sha256": "1bb16217cf67fbcd38b20ce806cffced93accd3df71e4aa6966bbcaf0cfd387b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+      "sha256": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/bench/native-loader.mjs",
+      "sha256": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/golden/regenerate.ts",
+      "sha256": "0354c7c341395a3be9f9a66f5564e68a411646cd916459d9d2bb9d2398f1943b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/golden/scenarios.ts",
+      "sha256": "63e4314f90d5449e7b1b6fc308816a21c30f0cb5f347667f43b71635dc51fa98"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/golden/booster-record.ts",
+      "sha256": "dbb1f874135dbd0da06cf2e682e91c0cdfd7f059d4074f649760f41a1671b265"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/golden/record.ts",
+      "sha256": "a5d1d85d26d31f889656aacf5109b7a1d142886106d3bfa61e83e43188bfbb9e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/golden/compare.ts",
+      "sha256": "84273766eb445751392bc888dd31596b9008089bc974b80421efc8d92ce2deaf"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/predictions.json",
+      "sha256": "ec68e8ab990cf833140bd3e94859425da1a409d326ad71125346d8a8235adf25"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/independent-policy-truth-and-prelook-review.md",
+      "sha256": "f0d0e375db42ae19672dbaaa7187f986f6e9e5da7d5cc45f4b397353b21a8c3e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/independent-policy-truth-and-prelook-pins.json",
+      "sha256": "446552437bf0ae2217bc0d5771cb3e407e496b4f94745cbb71b3353eb6ce5a81"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/actual-input/independent-actual-result-HIGH-review.md",
+      "sha256": "a76ab6f52df07e7e02674ba7c726d370c8aaf6d245a305354f272bab96758129"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/actual-input/independent-actual-result-HIGH-pins.json",
+      "sha256": "9effdc2f941efc605b274f9c56d93f7a1e6201c32efadbb7fb6cac8ff2060475"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-truth-after-full247/actual-status.json",
+      "sha256": "a73c0d02fa4567e4d4918740f0cddd2feeec40465e41418f2698e03c7cb849a4"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/input-pins.json",
+      "sha256": "9892ee782df80fe26b81666ec4e20a6ca7c7b4aebd8b0c77ec2f896ecf70570c"
+    }
+  ],
+  "oldFixturePayloadRead": false,
+  "executionPerformed": false
+}

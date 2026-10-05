@@ -1,0 +1,21 @@
+{
+  "checks": [
+    {
+      "name": "root-ast",
+      "code": 0,
+      "elapsedSeconds": 0.0040059730017674156
+    },
+    {
+      "name": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.034379591001197696
+    },
+    {
+      "name": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9417658410020522
+    }
+  ],
+  "allInputPinsBeforeAfterMatched": true,
+  "passed": true
+}

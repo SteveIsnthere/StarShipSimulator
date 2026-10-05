@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "decision": "accepted-single-lossless-current-recovery-additions-archive",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/independent-actual-archive-result-HIGH-review.md",
+    "sha": "37516cb4164985ad806f2f0ddbe376b617ad0ed2150380592a91a543da7074ad"
+  },
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/proposal.json": "68f7a3051ab3f80b03b04b9e2d9a319afc2cd18a81e3c666db42ec59b1326334",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/source-pins.json": "9e473fbbaba374bf06e5564a3b63f3be4bfe4c0663201ad5f0932df91a7e1c00",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/archive.py.txt": "a949b54112b843947f444822dd98455a3e21201bddc07194ad02ba5a34db8329",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/root-observer.py.txt": "c5b76a98d1848a7d2355b14da83e424d7e553fb7caca406437113014ddcfa6b8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/independent-actual-input-HIGH-review.md": "f1e5fc6ea7c611886bb0dfd7903a149093b8f1c5502d21c51e62282380092699",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/independent-actual-input-HIGH-pins.json": "fa028f9980db289f6e4c3388b56b3e4c4d18801b0feefe079142f7458c360af4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/root-archive-result.json": "2bed498a3f459d1bab88f911bcf72f51b0d27aed6a5a80e257e6bede2ffec976",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/root-archive-registration.json": "89ca07a2b2893a41406365cbcfe4f1aa7022d5d443141d294bd0d6b498c2ba1f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/root-archive.stdout.txt": "dc707cdc4bdfc20b27fa552efc3f5c796e390c9bf62d6de96698239ba0f3ecf7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/root-archive.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts/origin-manifest.json": "3966f52aaa2a170d4cc1093be82c81cfb7c41c5b73e7633ff9a27b0234cee059",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts/origin-alias-manifest.json": "e1ad48e50b7c93421fb6b56a943682751eb5f8a8edffcfe05f4b06198aec3e67",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts/copy-result.json": "2348c708ea9301b431ff47858a7dd282b72a5f8edb912051cb0f4737c8b26d22",
+    "/tmp/starship-recovery-additions-archive-root.at1st4jg/root-outcome.json": "cff6057b3e45cdf1b6b7d334a1fc4afdd00cb21858d236be5f22206ed94f49b1",
+    "/tmp/starship-recovery-additions-archive-root.at1st4jg/root-independent-postexit.json": "ec752719150daa6ae5d935d2013ebb91f930cfcb0f0fab81d4c8dc434af597b4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/independent-actual-archive-observations.json": "acc8cb4357dd74b7bfd42ac6c7bf7fb14bc408c4b415f87a7aec2fb7abc89368"
+  },
+  "files": 837,
+  "bytes": 131021666,
+  "allRecordedOwnedIdentitiesAbsent": true,
+  "recoveryReplacementAccepted": false,
+  "testOrGateAcceptance": false,
+  "furtherExecutionApproved": false
+}

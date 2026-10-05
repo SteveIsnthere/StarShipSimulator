@@ -1,0 +1,18 @@
+{
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-final-checker-v2-repaired-source-HIGH-review.md",
+  "reviewSha256": "2fae98f53cb196d0d6f7f6fb05de9eac4daf0430e893fa5cd731af9ca4e86738",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper-independent-final-checker-v2.py.txt": "9c3b045bd79fc8fbd6b862458f5feb1ab0e1709c2c2de7bc4065600f29fd7236",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-final-checker-v2-source-pins.json": "da0fafcbfb08912b7a3ccbdd4ffb9b3359a38598f2e2b208650ea29aae11076f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-final-checker-v2-repair-proposal.md": "3dba8febd65de812f1f5544a657d4b9d1543f05ded1fcc17673d687d19cd5672",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper.py.txt": "0901f67f239f17c3fe8c5f88a70de71c6727f6ee14155a604f39b1b6da907f26",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper-independent-final-checker.py.txt": "b8a9fac36b65aded3901ddc1643cfe2873de8b7b3af3da8872d8c8cd9f7e460b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-final-checker-repair-source-HOLD-review.md": "efe046bf540af58f8d674d9ecdaaab3ca1820779289167b1d8277dd4b43bc0fd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-final-checker-repair-source-HOLD-pins.json": "4d608f85832d9916271175036caf968db9881c91aac4c7ca59aa12b58a498613",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/before-independent-final-checker-narrow-repair/structural-root-wrapper-independent-final-checker.py.txt": "b8a9fac36b65aded3901ddc1643cfe2873de8b7b3af3da8872d8c8cd9f7e460b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/before-independent-final-checker-narrow-repair/independent-final-checker-repair-proposal.md": "ee8e68fe4efe96cca8b19793b58e2ffbb8d9e944acc4434da818986627efe0d5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/before-independent-final-checker-narrow-repair/independent-final-checker-repair-source-pins.json": "3dc146f5cd0562083ed9de8ea9a23b9397860ca93b17aca5c6bbd02882678188",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/before-independent-final-checker-narrow-repair/independent-final-checker-repair-source-HOLD-review.md": "efe046bf540af58f8d674d9ecdaaab3ca1820779289167b1d8277dd4b43bc0fd"
+  },
+  "disposition": "scopes and separate input preparation only; no workload or runtime acceptance"
+}

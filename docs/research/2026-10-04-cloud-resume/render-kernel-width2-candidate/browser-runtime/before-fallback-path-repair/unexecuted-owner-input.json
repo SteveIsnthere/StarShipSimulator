@@ -1,0 +1,48 @@
+{
+  "kind": "width2-concrete-stage-owner-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "mode": "build",
+  "purpose": "width2-browser-runtime",
+  "outerMs": 120000,
+  "setup": "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "preparer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2.py.txt",
+    "sha": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f"
+  },
+  "builder": {
+    "path": "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994/run-render-kernel-width2.mjs",
+    "sha": "086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c"
+  },
+  "qualifier": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/browser-input.json",
+    "sha": "191bc0516c3f1b96687d125a2091b96ab7175fc9634bc4e7bfb3363f3a72b854"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/input-pins.json",
+    "sha": "230484c3b6a04004ac8cdf1159a73879bb00d180ff17ef1493e50884c6b21ef3"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/business-stage.mjs.txt",
+    "sha": "1104b29a61e30761769e3cdcdfd3768cc38b8151df88d2aa708f96cffffaf0a4"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/browser-root-parent.py.txt",
+    "sha": "d7eda9c372acad61f379a2c6df77737ce80d7612d8213b5896b5e836d58c35ba"
+  },
+  "bridge": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt",
+    "sha": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de"
+  }
+}

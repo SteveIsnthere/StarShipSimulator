@@ -1,0 +1,202 @@
+/**
+ * Where the vehicle is actually going.
+ *
+ * WHY THIS EXISTS. M2.13 built `coastDownrangeDistance` — a real conic
+ * predictor, checked against the simulation to a kilometre in five thousand —
+ * so the deorbit autopilot could decide when to fire, and Phase 5 added the
+ * integrated fall below the entry interface (`unpoweredFallInto`). Between them
+ * the simulation knows where a coast ends; this is the display of it.
+ *
+ * WHAT IT CLAIMS, precisely. Both models are UNPOWERED continuations: this is
+ * where the vehicle goes if no further thrust is applied. That is the honest
+ * reading of an impact predictor and the useful one — the number moves as you
+ * burn, which is what makes it a control instrument rather than a readout.
+ *
+ * TWO REGIMES, because no single model spans the range:
+ *
+ *   ABOVE THE ENTRY INTERFACE (80 km) the air is six orders of magnitude below
+ *   gravity and the trajectory is a conic, so the prediction is exact and it is
+ *   made to the interface rather than to the ground — predicting a touchdown
+ *   through 80 km of atmosphere the model does not contain would be a made-up
+ *   number wearing a decimal point.
+ *
+ *   BELOW IT drag dominates and the conic is meaningless, so the fall is
+ *   integrated instead, with the simulation's own forces (Phase 5:
+ *   `unpoweredFallInto`). Its limits are stated where it is used, and its
+ *   error is measured in tests/hud/prediction.test.ts rather than assumed.
+ *
+ * AND WHEN IT CANNOT ANSWER IT SAYS SO. An orbit whose perigee is above the
+ * target never comes down, and a fall that does not reach the ground within the
+ * integrator's cap (a vehicle climbing away) is not a touchdown either; both
+ * return `none` with a reason. A predictor that always prints a number is
+ * worse than one that admits its domain — the wrong number is indistinguishable
+ * from the right one on a dial.
+ */
+import * as C from '$core/constants';
+import { coastDownrangeDistance } from '$core/physics/gravity';
+import { createBurnScratch, createFallResult, unpoweredFallInto } from '$core/control/guidance-physics';
+import type { SimState } from '$core/state';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
+
+export type PredictionKind = 'touchdown' | 'entry' | 'none';
+
+/** Why there is no prediction. Empty when there is one. */
+export type NoSolution = '' | 'on-ground' | 'orbit' | 'out-of-domain';
+
+export interface Prediction {
+  kind: PredictionKind;
+  reason: NoSolution;
+  /** m — where it arrives, relative to the landing site at x = 0. */
+  downRange: number;
+  /**
+   * m — the altitude it arrives at: half the selected hull height for a touchdown, the entry
+   * interface for an entry.
+   */
+  altitude: number;
+  /** s — time to get there. NaN for a conic, which yields distance, not time. */
+  time: number;
+  /**
+   * m — signed distance from the landing site. Negative is short, positive is
+   * long. This is the number a pilot flying a landing actually wants.
+   */
+  miss: number;
+}
+
+/** A fresh prediction object for a caller that needs one to hand in. */
+export function createPrediction(): Prediction {
+  return { kind: 'none', reason: 'on-ground', downRange: 0, altitude: 0, time: NaN, miss: 0 };
+}
+
+/** The radius the conic is predicted down to. */
+export const ENTRY_RADIUS = C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE;
+
+/**
+ * m — the altitude a touchdown happens at.
+ *
+ * NOT zero. `altitude` in this simulation is the vehicle's centre of mass, so
+ * a Ship standing on the pad reads 26 m — half its height (state.ts,
+ * and scenarios.ts floors every configured flight at the same value). Predicting
+ * a fall to zero would ask for descent that cannot happen, and would
+ * call a vehicle sitting on the pad airborne.
+ */
+export const GROUND_ALTITUDE = SHIP.height / 2;
+
+/** Scratch for the fall, so a prediction allocates nothing. */
+const fallScratch = createBurnScratch();
+const fall = createFallResult();
+
+/**
+ * Write the prediction for `state` into `out`.
+ *
+ * Mutates rather than returning, like everything else on the frame path.
+ */
+export function predict(state: SimState, out: Prediction, model: VehicleDefinition = SHIP): void {
+  const { kinematics, status, failures } = state;
+  const groundAltitude = model.height / 2;
+
+  /*
+    A flight that is not in the air predicts nothing — there is no trajectory
+    left to predict.
+
+    Altitude is checked as well as the flags, and not out of caution: the status
+    flags are computed by `step`, so a scenario that has been built but not yet
+    stepped reports `onTheGround: false` while sitting on the pad. The geometry
+    is true at every instant; the flags are true from the first step onward.
+  */
+  if (
+    status.landed ||
+    status.onTheGround ||
+    failures.crashed ||
+    failures.inFlightBreakUp ||
+    kinematics.altitude <= groundAltitude
+  ) {
+    out.kind = 'none';
+    out.reason = 'on-ground';
+    out.time = NaN;
+    return;
+  }
+
+  const here = kinematics.downRangeDistance - C.starBaseXPos;
+
+  if (kinematics.altitude >= C.ENTRY_INTERFACE_ALTITUDE) {
+    /*
+      The conic. `coastDownrangeDistance` returns arc length at ORBITAL radius,
+      which is the same quantity `downRangeDistance` integrates, so the two add
+      directly — see the note in core/physics/gravity.ts about whose units these
+      are. Infinity means the orbit never descends that far, which is not a
+      failure but an answer: you are in orbit.
+    */
+    const coast = coastDownrangeDistance(
+      kinematics.distanceToPlanetCenter,
+      kinematics.speedX,
+      kinematics.speedY,
+      ENTRY_RADIUS,
+    );
+    if (!Number.isFinite(coast)) {
+      out.kind = 'none';
+      out.reason = 'orbit';
+      out.time = NaN;
+      return;
+    }
+    out.kind = 'entry';
+    out.reason = '';
+    out.downRange = here + coast;
+    out.altitude = C.ENTRY_INTERFACE_ALTITUDE;
+    out.time = NaN;
+    out.miss = out.downRange;
+    return;
+  }
+
+  /*
+    The fall, integrated with the simulation's own forces: gravity with its
+    centrifugal and tangential terms, drag and lift through the relative wind,
+    the vehicle's attitude held as it is now (src/core/control/guidance-physics.ts).
+    What it cannot know is how the vehicle will be flown: a pilot or a flap
+    controller that changes the attitude changes the fall, and the prediction
+    moves with it, which is what makes it a control instrument.
+
+    A CLIMBING vehicle below the interface gets a touchdown too: where it comes
+    down if the engines stop now. The closed form this replaced answered `none`
+    for most of an ascent; the unpowered continuation is the honest reading
+    there as well, and only a climb that does not come back inside the cap is
+    'out-of-domain'.
+  */
+  unpoweredFallInto(state, groundAltitude, fallScratch, fall, model);
+  if (!fall.reached) {
+    // Climbing away, or still falling at the integrator's cap: not a touchdown.
+    out.kind = 'none';
+    out.reason = 'out-of-domain';
+    out.time = NaN;
+    return;
+  }
+  const time = fall.time;
+
+  out.kind = 'touchdown';
+  out.reason = '';
+  out.time = time;
+  out.altitude = groundAltitude;
+  out.downRange = here + fall.downRange;
+  out.miss = out.downRange;
+}
+
+/**
+ * The miss distance as a label.
+ *
+ * Signed with a word rather than a minus sign, because "-4.2 KM" on a landing
+ * instrument is ambiguous — behind you, or below you? LONG and SHORT are not.
+ */
+export function formatMiss(miss: number): string {
+  const magnitude = Math.abs(miss);
+  const direction = miss >= 0 ? 'LONG' : 'SHORT';
+  if (magnitude < 1000) return `${Math.round(magnitude)} M ${direction}`;
+  const km = magnitude / 1000;
+  return km < 10 ? `${km.toFixed(1)} KM ${direction}` : `${Math.round(km)} KM ${direction}`;
+}
+
+/** What the map writes when it cannot draw a prediction. */
+export const NO_SOLUTION_LABEL: Readonly<Record<NoSolution, string>> = {
+  '': '',
+  'on-ground': 'DOWN',
+  orbit: 'NO SOLUTION — ORBIT',
+  'out-of-domain': 'NO SOLUTION',
+};

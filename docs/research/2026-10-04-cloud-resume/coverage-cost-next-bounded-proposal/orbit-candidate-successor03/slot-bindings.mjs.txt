@@ -1,0 +1,7 @@
+import assert from 'node:assert/strict';
+export function verifySlotBindings(contract,inner,outer,actualEnvironment){
+ assert.equal(contract.kind,'original-orbit18-shared-slot-contract-v1');assert.equal(contract.executionSlot,'original-orbit18-qualification');assert.equal(contract.preparationSlot,'original-orbit18-preparation');assert.equal(inner.kind,contract.innerKind);assert(['compile','histories'].includes(inner.mode));assert.equal(inner.executionSlot,contract.executionSlot);const mode=contract.modes[inner.mode];
+ if(outer!==undefined){assert.equal(outer.kind,contract.outerKind);assert.equal(outer.mode,mode.outerMode);assert.equal(outer.outerMs,mode.outerMs);assert.deepEqual(outer.steps,mode.steps);assert.equal(outer.executionSlot,contract.executionSlot);assert.deepEqual(inner.slotContract,outer.slotContract);}
+ if(arguments.length===4)assert.equal(actualEnvironment,contract.executionSlot);
+ return{executionSlot:contract.executionSlot,mode:inner.mode,outerMode:mode.outerMode,outerMs:mode.outerMs,steps:mode.steps};
+}

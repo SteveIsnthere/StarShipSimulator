@@ -1,0 +1,42 @@
+--- f78-builder
++++ emitted-edge-builder
+@@ -38,7 +38,7 @@
+  if(counted)writeFileSync(resolve(m.setup,'entry-'+role+'.ts'),readFileSync(entry,'utf8')+
+   "export {resetWitnessloadedRootAngle,readWitnessloadedRootAngle} from '$core/physics/damage-root';\nexport {resetWitnesssteelTemperatureFromEnthalpy,readWitnesssteelTemperatureFromEnthalpy} from '$core/physics/damage-material';\n",{flag:'wx'});
+  save(role+'-virtual-source.json',Object.fromEntries(Object.entries(overrides).map(([path,text])=>[relative(m.root,path),{sha256:sha(text),text}])));
+- await build({configFile,plugins:[{name:'reviewed-query-reuse-virtual-copy',enforce:'pre',load(id){return Object.hasOwn(overrides,id)?overrides[id]:null;}}],
++ const built=await build({configFile,plugins:[{name:'reviewed-query-reuse-virtual-copy',enforce:'pre',load(id){return Object.hasOwn(overrides,id)?overrides[id]:null;}}],
+   build:{target:resolved.build.target,minify:resolved.build.minify,sourcemap:resolved.build.sourcemap,cssMinify:resolved.build.cssMinify,copyPublicDir:false,
+   outDir:directory,emptyOutDir:true,lib:{entry:counted?resolve(m.setup,'entry-'+role+'.ts'):entry,formats:['es'],fileName:()=> 'entry.mjs'}}});
+  const files=Object.fromEntries(loader.filesUnder(directory).map(path=>[relative(directory,path),sha(readFileSync(path))]));assert.ok(files['entry.mjs']);
+@@ -54,7 +54,29 @@
+  const expectedSources=['src/core/vehicle.ts','src/core/vehicles/super-heavy.ts','src/core/vehicles/v3.ts','src/core/constants.ts','src/core/units.ts','src/core/physics/vehicle-components.ts','src/core/damage-state.ts','src/core/physics/damage-controls.ts','src/core/physics/damage-thermal.ts','src/core/physics/damage-root.ts','src/core/physics/damage-material.ts','src/core/physics/tps-material.ts'].map(path=>resolve(m.root,path));
+  expectedSources.push(counted?resolve(m.setup,'entry-'+role+'.ts'):entry);
+  assert.deepEqual(Object.keys(mapped).sort(),expectedSources.sort(),'Unreviewed pure native import closure');
+- graphs[role]={directory,entry:resolve(directory,'entry.mjs'),files,mapped};
++ const outputs=Array.isArray(built)?built:[built];assert.equal(outputs.length,1,'One ESM output per role');
++ assert.ok(Array.isArray(outputs[0].output));const chunks=outputs[0].output.filter(item=>item.type==='chunk');assert.ok(chunks.length>0&&chunks.length<=16);
++ const ownedChunks=new Set(chunks.map(chunk=>chunk.fileName));assert.equal(ownedChunks.size,chunks.length);assert.ok(ownedChunks.has('entry.mjs'));
++ const moduleIds=new Set(),edges=[];
++ for(const chunk of chunks){
++  assert.ok(Object.hasOwn(files,chunk.fileName),'Emitted chunk must be retained role artifact');
++  assert.equal(resolve(directory,chunk.fileName),resolve(directory,relative(directory,resolve(directory,chunk.fileName))));
++  assert.ok(!isAbsolute(chunk.fileName)&&!relative(directory,resolve(directory,chunk.fileName)).startsWith('..'),'Foreign emitted chunk path');
++  assert.ok(Array.isArray(chunk.moduleIds));assert.ok(chunk.moduleIds.length<=expectedSources.length);
++  for(const id of chunk.moduleIds){assert.ok(expectedSources.includes(id),'Unreviewed emitted module ID: '+id);moduleIds.add(id);}
++  assert.ok(Array.isArray(chunk.imports)&&Array.isArray(chunk.dynamicImports));assert.deepEqual(chunk.dynamicImports,[],'Inert proof denies dynamic imports');
++  for(const imported of chunk.imports){
++   assert.equal(typeof imported,'string');assert.ok(!isAbsolute(imported)&&!imported.includes('\\')&&!imported.includes(':')&&!/[?#]/.test(imported));
++   assert.ok(ownedChunks.has(imported)&&Object.hasOwn(files,imported),'External/cross-role emitted import');
++   assert.ok(!relative(directory,resolve(directory,imported)).startsWith('..'),'Escaping emitted import');
++  }
++  edges.push({fileName:chunk.fileName,moduleIds:chunk.moduleIds,imports:chunk.imports,dynamicImports:chunk.dynamicImports,
++   returnedCodeSha256:sha(chunk.code),artifactSha256:files[chunk.fileName]});
++ }
++ assert.deepEqual([...moduleIds].sort(),expectedSources.sort(),'Exact emitted pure module closure');
++ const emittedEdges={kind:'query-reuse-role-emitted-edge-certificate-v1',role,expectedSources:expectedSources.slice(),edges};
++ save(role+'-emitted-edges.json',emittedEdges);
++ graphs[role]={directory,entry:resolve(directory,'entry.mjs'),files,mapped,emittedEdges};
+ }
+ assert.deepEqual(loader.sourceSnapshot(m.root),before);assert.deepEqual(loader.installedToolSnapshot(m.root),tools);
+ save('graphs.json',{kind:'query-reuse-four-native-graphs-v1',options,graphs,source:before,tools,passiveCopiesNeverTimed:true});

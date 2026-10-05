@@ -1,0 +1,28 @@
+{
+  "kind": "original21-v7-archive-direct-python-ownership-core-transfer-v1",
+  "base": "docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+  "baseSha": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5",
+  "derivative": "docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/root-observer.py.txt",
+  "derivativeSha": "13e17df21d82ac80ac94fc6e8116941f8a54a128eef852bf79fd582db16261d5",
+  "byteIdenticalRegions": [
+    {
+      "from": "def stat_row",
+      "until": "def load_helper_identities",
+      "bytes": 4403,
+      "sha256": "1069b38f4d07abdd2a1d3c59e6e881cb8ff87e7168c31115911760a4a6d3df7a"
+    },
+    {
+      "from": "def safe_scan",
+      "until": "try:\n    require(time.time() <= work_deadline",
+      "bytes": 1401,
+      "sha256": "5b325b476ca438ddff914bae44b4f1a9cb9280a0fb32633aa60d353887c5310d"
+    },
+    {
+      "from": "    # A failed first registration",
+      "until": "    for key in",
+      "bytes": 3318,
+      "sha256": "a894048b1dd671a5cbb3460fd8179e8681a8c000f342c5312f9a1d511abb2664"
+    }
+  ],
+  "businessDelta": "Python direct archive/proposal invocation only; five roles/60 bound/copied result; no nested helper"
+}

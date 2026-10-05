@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "decision": "hold-original-early-popen-identity-finalizer",
+  "review": "4f3b6805ce026f080793b5515d2f3fe39855ae8cef01341f649ee12902e870ae",
+  "inputManifest": "3c2fec6fed6a421eb5c43d3f85958fd3cf1b01d3ea4ddabb1cd21c8d5f02018e",
+  "inputManifestPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-early-popen-repair/input-pins.json",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-early-popen-repair/declaration.md": "c21d6eae6b4572fabc89fee0a258fdfab1cd7ea1cdce4ed0cba4eaed72fbad1b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-early-popen-repair/before-width2-root-observer.py.txt": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-early-popen-repair/business-stage.mjs.txt": "47bcf04afe36ef68a1f8eae390e9ab4e476b29f1f4141f9ee25d92209b086cd0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-early-popen-repair/root-observer.py.txt": "a87adf0e1a858ccbb2b654bba853f6f3466e1ab0eecab7bd619412880f857a59",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-early-popen-repair/root-observer.diff": "bd93d7777599fef45005e3edb3b20e70d9c3ee7a3c6ad9f5d5d19bd67120f029",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-early-popen-repair/input-contract.json": "3d034e3d28e405f55e7da18990f5a962ef1f9390bb27890fd0f39f2e8b31b9b0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-width2-root-stage-independent-high-review.md": "fadf7c06d995c28c62f0db2ae9a72c4f017d0ed392fea73aa2e6673f10e3d739",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-width2-root-stage-independent-high-review-pins.json": "1d6d700b95994b51783a1931767a3567153ba922a87c3c4c52b3038a23d92a2a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/run.mjs.txt": "7d02863cb6cab28a27afbdd7ed41c9f66ccd548052753efa03ac8bdb5582b3c0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/prepare-run.mjs.txt": "972de609021190bf236825ccfa2554a012078ef22191a5ee86e9df8c1a722b1c",
+    "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "rootDigest": "a87adf0e1a858ccbb2b654bba853f6f3466e1ab0eecab7bd619412880f857a59",
+  "stageDigest": "47bcf04afe36ef68a1f8eae390e9ab4e476b29f1f4141f9ee25d92209b086cd0",
+  "bindingCorrection": "Original HOLD body describes a87/3c2; source advanced to80/73 before pins publication. Incorrect transient pins preserved separately, never approved. Correct pins bind byte-exact pre-repair archive.",
+  "executionApproved": false,
+  "productApplicationApproved": false,
+  "workloadExecutedByReviewer": false
+}

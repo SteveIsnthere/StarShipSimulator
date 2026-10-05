@@ -1,0 +1,94 @@
+--- scripts/test/admission.mjs
++++ candidate
+@@ -2,8 +2,10 @@
+ import { readdirSync, lstatSync, realpathSync } from 'node:fs';
+ import { resolve, relative } from 'node:path';
+ import { digest, parse, utilities } from './integrity.mjs';
+-export const originalTests = ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts'];
++import { goldenRoot, goldenSourceFiles, goldenAliases, relativeImports, goldenCaseNames } from './golden-support-policy.mjs';
++export const originalTests = ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts', goldenRoot];
+ export const runtimeAliases = {
++  [goldenRoot]: goldenAliases[goldenRoot],
+   'tests/core/booster-guidance.test.ts': ['$core/scenarios', '$core/state', '$core/autopilot/booster', '$core/step', '$core/vehicles/super-heavy', '$core/physics/tower-catch', '$core/constants'],
+   'tests/flies-every-scenario.test.ts': ['$core/scenarios', '$core/step', '$app/loop', '$core/control/commands', '$core/vehicle', '$core/vehicles/super-heavy', '$core/physics/tower-catch', '$core/constants'],
+ };
+@@ -29,11 +31,30 @@
+   assert.match(expectedSha, /^[a-f0-9]{64}$/); assert.equal(digest(file), expectedSha);
+   const q = parse(file), root = realpathSync(process.cwd());
+   assert.equal(process.platform, 'linux');
+-  assert.equal(q.kind, 'retained-failed-compiler-reviewed-flight-composite-v1');
++  assert.equal(q.kind, 'retained-failed-compiler-reviewed-flight-and-golden-composite-v1');
+   assert.equal(q.originalCompilerPipelineCode, 1); assert.equal(q.originalBuildContract, 'FAILED');
+-  assert.equal(q.scope, 'exact-two-original-flight-files');
++  assert.equal(q.scope, 'exact-two-original-flight-files-plus-three-booster-golden-cases');
+   assert.equal(q.root, root); assert.equal(q.nodeVersion, process.version);
+   assert.equal(q.nodeBinary, digest(process.execPath));
++  assert.deepEqual(Object.keys(q.goldenSourceFiles), goldenSourceFiles);
++  for (const [file, sha] of Object.entries(q.goldenSourceFiles)) assert.equal(digest(resolve(root, file)), sha);
++  assert.deepEqual(q.goldenRuntimeAliases, goldenAliases);
++  assert.deepEqual(q.goldenRelativeImports, relativeImports);
++  assert.deepEqual(q.goldenScopeEvidence.map(row => row.role).sort(),
++    ['proposal-review', 'body-role-review', 'public-policy-controls', 'public-inert-hook-controls', 'data-audit-review'].sort());
++  for (const row of q.goldenScopeEvidence) assert.equal(digest(row.path), row.sha256, row.role);
++  const policy = parse(q.goldenScopeEvidence.find(row => row.role === 'public-policy-controls').path);
++  assert.equal(policy.kind, 'native-golden-support-policy-controls-v1');
++  assert.equal(policy.cases.length, 38); assert.equal(new Set(policy.cases).size, 38);
++  assert.equal(policy.completed, true); assert.equal(policy.code, 0); assert.equal(policy.failure, null);
++  assert.deepEqual(policy.afterErrors, []);
++  assert.equal(policy.helperSha, digest(resolve(root, 'scripts/test/golden-support-policy.mjs')));
++  const hooks = parse(q.goldenScopeEvidence.find(row => row.role === 'public-inert-hook-controls').path);
++  assert.equal(hooks.kind, 'native-golden-exact-inert-hook-controls-v1');
++  assert.equal(hooks.completed, true); assert.equal(hooks.code, 0); assert.equal(hooks.failure, null);
++  assert.deepEqual(hooks.afterErrors, []); assert.equal(hooks.cases.length, 28); assert.equal(new Set(hooks.cases).size, 28);
++  assert.equal(hooks.helperSha, policy.helperSha);
++  assert.equal(hooks.loaderSha, digest(resolve(root, 'scripts/test/loader.mjs')));
+   // Every historical receipt stays byte-identical; acceptance is a new composite.
+   for (const row of q.evidence) assert.equal(digest(row.path), row.sha256, row.role);
+   assert.deepEqual(q.evidence.map(row => row.role).sort(), [
+@@ -51,6 +72,15 @@
+   assert.deepEqual(fresh.classification.mapped, q.graph);
+   assert.deepEqual(fresh.classification.completeClosure, q.closure);
+   assert.deepEqual(fresh.classification.options, q.options);
++  assert.equal(digest(q.original21InventoryReference.path), q.original21InventoryReference.sha256);
++  const original21 = parse(q.original21InventoryReference.path);
++  assert.equal(original21.kind, 'source-backed-original-native21-inventory-v1');
++  assert.equal(original21.expectedNativeInventory.length, 21);
++  const expectedNative = [...original21.expectedNativeInventory,
++    ...goldenCaseNames.map(fullName => ({ file: resolve(root, goldenRoot), fullName }))];
++  const ordered = rows => rows.sort((a, b) => (a.file + a.fullName).localeCompare(b.file + b.fullName));
++  assert.equal(q.expectedNativeInventory.length, 24);
++  assert.deepEqual(ordered(q.expectedNativeInventory), ordered(expectedNative));
+   assert.deepEqual(Object.keys(q.originalTests), originalTests);
+   for (const [name, sha] of Object.entries(q.originalTests)) assert.equal(digest(resolve(root, name)), sha);
+   for (const [name, sha] of Object.entries(q.graph)) assert.equal(digest(resolve(root, name)), sha);
+@@ -60,10 +90,28 @@
+   const current = u.sourceSnapshot(root), before = q.source;
+   const changed = [...new Set([...Object.keys(before), ...Object.keys(current)])]
+     .filter(name => before[name] !== current[name]).sort();
+-  assert.deepEqual(changed, Object.keys(q.integrationBridge).sort());
+-  for (const name of changed) {
++  assert.deepEqual(Object.keys(q.integrationBridge).sort(), [
++    'package.json', 'scripts/test/admission.mjs', 'scripts/test/build.mjs', 'scripts/test/constants.mjs',
++    'scripts/test/entry.ts', 'scripts/test/integrity.mjs', 'scripts/test/lifecycle-reporter.mjs',
++    'scripts/test/loader.mjs', 'scripts/test/prepare-run.mjs', 'scripts/test/projects.mjs',
++    'scripts/test/run.mjs', 'vitest.config.ts', 'scripts/test/golden-support-policy.mjs',
++  ].sort());
++  const goldenDataPaths = [
++    'tests/golden/fixtures/launch-pad-takeoff.json', 'tests/golden/fixtures/booster-sep-boostback.json',
++    'tests/golden/fixtures/rtls-boostback.json', 'tests/golden/fixtures/reentry-autoland.json',
++    'tests/golden/fixtures/before-flip-autoland.json', 'tests/golden/fixtures/landing-burn-autoland.json',
++    'tests/golden/fixtures/landing-burn-headwind.json', 'tests/golden/fixtures/intro-demo.json',
++    'tests/golden/fixtures/booster/booster-sep-catch.json', 'tests/golden/fixtures/booster/rtls-catch.json',
++    'tests/golden/unification.test.ts', 'tests/golden/booster-replay.test.ts',
++  ].sort();
++  assert.deepEqual(Object.keys(q.goldenDataBridge).sort(), goldenDataPaths);
++  assert.deepEqual(changed, [...Object.keys(q.integrationBridge), ...goldenDataPaths].sort());
++  for (const name of Object.keys(q.integrationBridge)) {
+     assert(!name.startsWith('src/') && !name.startsWith('tests/'));
+     assert.deepEqual(q.integrationBridge[name], { before: before[name] ?? null, after: current[name] ?? null });
++  }
++  for (const name of goldenDataPaths) {
++    assert.deepEqual(q.goldenDataBridge[name], { before: before[name] ?? null, after: current[name] ?? null });
+   }
+   assert.equal(digest(q.baselineMapPath), q.retainedFiles[q.mappedCode + '.map']);
+   assert.equal(digest(q.retainedOriginPath), q.retainedOriginSha);

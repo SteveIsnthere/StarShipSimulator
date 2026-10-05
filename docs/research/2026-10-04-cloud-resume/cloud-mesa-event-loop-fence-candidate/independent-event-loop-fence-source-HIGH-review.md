@@ -1,0 +1,11 @@
+# Independent event-loop fence source HIGH
+
+Disposition: SUPPORTED for root changed-runner scopes and separate private actual-input preparation. No new functional probe is authorized without actual-input review and root grant.
+
+All12 selected pins match actual bytes. I read the public Khronos specification's exact pinned clientWaitSync and sync-object paragraphs and the concrete change. They require newly created WebGL sync objects to remain unsignaled until execution returns to the user-agent main loop; glFinish does not override that rule. Thus the preceding same-task TIMEOUT_EXPIRED37147 is explained by an invalid harness assertion, not proof of a Mesa driver failure. Previous functional FAILED/no returned20-draw receipt remains unchanged.
+
+I independently reversed the four declared replacements and recovered the exact previous runner bytes. The callback now yields a later task via setTimeout0 before every zero-timeout poll; a microtask-only yield is not substituted. Only ALREADY_SIGNALED or CONDITION_SATISFIED completes. TIMEOUT_EXPIRED alone causes another bounded later-task poll; WAIT_FAILED/unknown status fails, and each poll checks errors and context loss. Deadline is min(original absolute90-second deadline, fence start plus5 seconds). The unchanged outer deadline and cleanup still apply, including timer delays. fencePolls records observed polling, not GPU duration or throughput.
+
+The20 readbacks, provider identity, original bare ignore-gpu-blocklist policy and Mesa/backend environment, unchanged diagnostics, source/browser/native integrity and process ownership remain exact. Functional completion still requires returned20 draw/readback values, successful fence, no errors and actual owned GPU library identities. The new input must bind the distinct private runner and receipt plus unchanged stage/root and structural before/finally-after authority; all actual PID/start cleanup needs independent result review. No broader flag, retry, numerical acceptance change, GPU hardware or application/frame acceptance follows.
+
+Method: finite static source/spec reads, selected small hashes and exact textual replacement comparison only. No import, browser, provider, tests, parser workloads, native/tool scan, copying or product changes. Prior Mesa reviews are disclosed; reviewer did not author this candidate.

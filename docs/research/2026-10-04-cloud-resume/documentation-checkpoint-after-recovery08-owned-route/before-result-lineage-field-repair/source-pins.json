@@ -1,0 +1,39 @@
+{
+  "kind": "documentation-checkpoint-after-recovery08-archive-owned-route-source-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/archive.py.txt",
+      "sha256": "3240f5cb277cd480d58c3cd9c9ad3e0468d809b05cf7ac707d21448571f1b901"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/proposal.json",
+      "sha256": "ded73087458e3317046de0a619f2958b09ff847033172e41741bd63c1dbff110"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/root-observer.py.txt",
+      "sha256": "130e4be7746d9d18e04c0704e7acb228551631b2f32dc6071c4cd5ee0761ce39"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/make-input.py.txt",
+      "sha256": "a130796eeb329100abc6459e2baf294442f4c576a550c133bdf56c978c1fa9e8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/capture-selection.py.txt",
+      "sha256": "66791db0448870459ed8a87d658e6db430f1f13db51d9b7b34b135d7f3b61435"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/PLAN.md",
+      "sha256": "db771c2e3e8d7db7ba408ea2d9025f2b1a028921eafbd2d02b304610ce292e5b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/maker-source-route-repair.md",
+      "sha256": "e99957bb79ff85f6edcf5e171e0a8f4536e11e7ec1dfc1c1f8ec5a671f208171"
+    }
+  ],
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "archiveOnlyReadinessRequested": true,
+  "selectionCaptureExecutionApproved": false
+}

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt", line 103, in <module>
+    text=output.decode();require('(RPATH)' not in text and '(RUNPATH)' not in text,'Unqualified ELF search-path override')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt", line 6, in require
+    if not ok: raise RuntimeError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Unqualified ELF search-path override

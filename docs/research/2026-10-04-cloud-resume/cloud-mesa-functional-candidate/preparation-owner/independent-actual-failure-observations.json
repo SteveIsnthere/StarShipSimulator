@@ -1,0 +1,53 @@
+{
+  "rootExit": 1,
+  "elapsedSeconds": 1.7761459350585938,
+  "pythonExit": {
+    "pid": 84901,
+    "status": 1,
+    "signal": null,
+    "error": null
+  },
+  "currentKnownIdentities": [
+    {
+      "original": {
+        "pid": 84887,
+        "state": "R",
+        "parent": 84875,
+        "group": 84887,
+        "session": 84887,
+        "start": "5445217"
+      },
+      "current": null,
+      "executing": false
+    },
+    {
+      "original": {
+        "pid": 84894,
+        "state": "R",
+        "parent": 84887,
+        "group": 84894,
+        "session": 84894,
+        "start": "5445258"
+      },
+      "current": null,
+      "executing": false
+    },
+    {
+      "original": {
+        "pid": 84901,
+        "state": "R",
+        "parent": 84894,
+        "group": 84894,
+        "session": 84894,
+        "start": "5445282"
+      },
+      "current": null,
+      "executing": false
+    }
+  ],
+  "actualReadelfHistoricalIdentities": null,
+  "offendingLibrary": null,
+  "rawElfOutput": null,
+  "browserExecuted": false,
+  "preparedInputsFinalized": false
+}

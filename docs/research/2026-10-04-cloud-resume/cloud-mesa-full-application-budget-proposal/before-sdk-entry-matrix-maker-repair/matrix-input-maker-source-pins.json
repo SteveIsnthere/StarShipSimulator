@@ -1,0 +1,21 @@
+{
+  "kind": "mesa-app-matrix-only-maker-source-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-matrix-input.py.txt",
+      "sha256": "985d64c8b5b18042ab673821c9c9fdd08f65a3946f18f91f05f905416cab1ac9",
+      "bytes": 7890
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-input-maker-contract.md",
+      "sha256": "39b8a7148c35802c5f0caccc80575732417c2eb57e2aabe8708aa1edef4c9cbb",
+      "bytes": 2194
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/candidate-source-pins.json",
+      "sha256": "88186e1394f1499750a38ba8f71e51fbaf81df0c55505e17e5851966b6e86352",
+      "bytes": 8507
+    }
+  ],
+  "status": "UNEXECUTED SOURCE ONLY"
+}

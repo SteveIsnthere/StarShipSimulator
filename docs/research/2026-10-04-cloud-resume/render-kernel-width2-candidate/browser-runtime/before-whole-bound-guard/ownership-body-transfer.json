@@ -1,0 +1,17 @@
+{
+  "base": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt",
+  "baseSha256": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+  "derivative": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/browser-root-parent.py.txt",
+  "derivativeSha256": "e4bfe78d8090eb5b93a034028ada2a4b4f06ee45002e143a4d64a1f67388970a",
+  "deltas": [
+    "restrict existing build120 slot to browser purpose",
+    "nested Vite receipt to actual browser cleanup PID/start reconciliation",
+    "retain all browser raw identities in root outcome",
+    "exact direct-Popen registration finalizer fallback"
+  ],
+  "fallbackSource": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+  "fallbackSourceSha256": "80a60579ac88d360f8739af5823d25fcfb9fd8beb1189e4d856912d7188dc892",
+  "fallbackBytesSha256": "581e8e40cca5471d1639946d4222de43bd46a042ff98c3767492adde367bcf78",
+  "comparison": "bounded exact literal replacements; no quadratic sequence alignment",
+  "newFramework": false
+}

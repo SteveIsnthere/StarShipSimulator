@@ -1,0 +1,158 @@
+--- scripts/bench/qualification.json
++++ docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/qualification.json.txt
+@@ -1,6 +1,6 @@
+ {
+-  "schema": 1,
+-  "classification": "Frozen semantic qualification, not reusable artifact; current compilation must emit identical native bindings",
++  "schema": 2,
++  "classification": "Proposed source-identical current four-role transfer; UNAPPLIED and original12 unrun. Fresh compilation and reviewed consumer proof required.",
+   "runtime": {
+     "platform": "linux",
+     "arch": "x64",
+@@ -58,12 +58,13 @@
+     "tests/proofs/fixtures/unpowered-fall-original.ts": "28166badb87c6f5eed3ddab75a02e738e19035ec3557557a21c3328279b1cdf8",
+     "src/core/units.ts": "73f40f19c2e50b268c31427a85bf018034e54efc106a42a4db4aabe03b905d98",
+     "src/core/constants.ts": "ffb3c5074d24fd847ed9da84e0e54c026f9aef72c0253e0cbabee05201b4bdb6",
+-    "src/core/physics/propulsion.ts": "96d9c56eebcb8bb3950c8d5891b8ea8a5fc88fffb676fa7bb6bda190efa3b0cd",
++    "src/core/physics/propulsion.ts": "972087e8c71b8a92694bcbc6e97da1a370027c34baf2a177e82da86d22d7e90a",
+     "src/core/vehicles/v3.ts": "785468bd3e6dba95ec0c11ba56d4d6540ffd348e92c41bee6d216d8e63cb29ad",
+     "src/core/vehicle.ts": "570eb84ce57ad1baa434760ce0c609832add9ae2844ae6dd3caf09a1a1e48717",
++    "src/core/physics/aero.ts": "535c23fa889c2014a58a89e196acf386b8ff4ea79ced32ee6555f195f3306713",
++    "src/core/vehicles/super-heavy.ts": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0",
+     "src/core/physics/isa.ts": "bd83423a16ae1362073dc9f2a3e733a16125bfdb51cb03ca081c079da52a804e",
+     "src/core/physics/atmosphere.ts": "803413066381e746f50183061cf26307c81a983991f0f4b51cffb8794ff52c70",
+-    "src/core/physics/aero.ts": "07542ac5bc81c74a6b8888fa272f0e4e3baac036adc9c8a27f5b52fcb7cabc6e",
+     "src/core/physics/components.ts": "8e2b3351beb67380842bd7d7b28a6b97b4ba0ad2847c134c002a62397991ffc4",
+     "src/core/physics/gravity.ts": "2eee855b40527750bbc3706c2c538ef79fa2ee442598c8be32c9b20ef98cf60d",
+     "src/core/rng.ts": "aa493ec3f7046883081ea9c03e4680413d2ae9819d84851ccca82899c2346789",
+@@ -85,8 +86,7 @@
+     "src/core/physics/thermal.ts": "cc1a21ea8970b898ba20c6d44569b31a934e5d0ed95cd08f27b22509438c3b5d",
+     "src/core/physics/damage-terminal.ts": "a0ee5083eaf2fc285a987ad680e13b9e79c90b8db40d318e016de42cc50e5d89",
+     "src/core/physics/damage-flight.ts": "727d66df66399eb182f82f1d80a7a4a8c88e62ebc0c934ad52bfe6293303f300",
+-    "src/core/control/guidance-physics.ts": "5698a8f7ad0da8927613a8cdd6efc2cfde88efd79563cc9d8f7bfd5c28f7ab77",
+-    "src/core/vehicles/super-heavy.ts": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0",
++    "src/core/control/guidance-physics.ts": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1",
+     "src/core/control/booster-receipts.ts": "d51af933744125797c5e7f3106af728e64ba00c111fc4e8574c2cdd77289a9bf",
+     "src/core/control/booster-source.ts": "1e78f56f61c68023e25444d86b13b997b4a7fe196b146b290662d1905184fe93",
+     "src/core/state.ts": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d",
+@@ -112,17 +112,110 @@
+     "src/core/step.ts": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986"
+   },
+   "code": {
+-    "simulation-C1HMHBVP.js": "2d6fb3383c82fbf3771495b72f9f0df7892ea0ff6a6b4df2c48cc745e2b815df",
+-    "entry.mjs": "1b6a884e5e8ebc3fc402f6a2cf38d5de1a1c23883a7208f141be317d49eb6a27"
++    "entry.mjs": "9cd03dcd8ca1af2d59fb0c0f4cebd78fdaefadc88df62e7ac0f91ce0326d09fd",
++    "serviceworker.js": "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9",
++    "simulation-Cnsem1hb.js": "687baba1e826a457196e645d3bcbcf6c3a1110e9aeeefd419b4c9b7da2118e84"
+   },
+   "guidanceTimingHash": "8bfddfb28e72aee994f6a7fe0d352b13df76a63706cc4c58bd211c26a4965358",
+   "evidence": {
+-    "fall": "6 files/76 tests passed",
+-    "burn": "2300calls/backend exact outcome/fullscratch/passivecount proof",
+-    "trial": "cycle3attempt2 exact originalcounts/endpoints green",
+-    "sourceMapDigest": "0cc6ca204c2a0f623ee64fbb599b02a659c4eb92ccd583422625c099018632a6",
+-    "fallOutputSHA256": "e3554c50688083c62f0be282723af42dfa57f99f73d1eeee5ede849e7ac5ae60",
+-    "burnOutputSHA256": "c9ab71448f1e256c77fd8d52703cdc7832df21067191d0d5c9b04e6f63c7344d",
+-    "trialResultSHA256": "de85e54727e8c79ec9cf6c639312d01df2088125a8d882db6f0bcc211ee9f41a"
+-  }
++    "docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/source-before.json": "50c2d919243a3a6568f4d04c2ab24ec8cffdf7672df0d83b759272afe60cc608",
++    "docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/artifact-pins.json": "14746d72c8378eb6eb40c08f56141623fad6e606d37e98cbc58f3d49216e0a02",
++    "docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain-source-map-manifest.json": "20315e4de0b6a793f97273dbb17a761e82c1bb3b08bc94c083436032e19b3503",
++    "docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/finalized.json": "6b441b8bff570b5b4c564f1f5b319fc8d2a673fa1a564eaee9618ab973c789f5",
++    "docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/independent-composite-result-review.md": "27b7111749c81b49ab23759e7144a50fb72ed39066858aff033716f9cb65b140",
++    "docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/actual-result-independent-review.md": "05087fffd303f34ce8f67359cc983d5b4482a5e0623b6b4614672aab4555ee4f",
++    "docs/research/2026-10-04-cloud-resume/current-native-composite-cost/actual-result-independent-review.md": "cdbbfb09aee5b22f20ec37ebb92d1cdc407657594b7211ab7092d38a63c86619",
++    "docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/accepted-kernel-composite.json": "d69370a313010f0555f3a149b79259f92386e3c56d7d8a3f1862989fcb0c6642",
++    "docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/independent-composite-result-review-pins.json": "d551dd6ddecde66b669173f1af0015c8c00025a87ada82c661c1ea6b62c45216"
++  },
++  "mapRoles": {
++    "entry.mjs.map": {
++      "sources": [
++        "tests/proofs/fixtures/unpowered-fall-original.ts"
++      ],
++      "shapeSha256": "b2fd928968f86aeda97aae5dc453b400cf3f129663e52828cee0312618a7f920"
++    },
++    "simulation-Cnsem1hb.js.map": {
++      "sources": [
++        "src/core/units.ts",
++        "src/core/constants.ts",
++        "src/core/physics/propulsion.ts",
++        "src/core/vehicles/v3.ts",
++        "src/core/vehicle.ts",
++        "src/core/physics/aero.ts",
++        "src/core/vehicles/super-heavy.ts",
++        "src/core/physics/isa.ts",
++        "src/core/physics/atmosphere.ts",
++        "src/core/physics/components.ts",
++        "src/core/physics/gravity.ts",
++        "src/core/rng.ts",
++        "src/core/physics/wind.ts",
++        "src/core/physics/mass.ts",
++        "src/core/physics/grid-fins.ts",
++        "src/core/physics/damage-material.ts",
++        "src/core/physics/tps-material.ts",
++        "src/core/damage-state.ts",
++        "src/core/physics/damage-root.ts",
++        "src/core/physics/vehicle-components.ts",
++        "src/core/physics/damage-thermal.ts",
++        "src/core/physics/damage-controls.ts",
++        "src/core/physics/damage-debris.ts",
++        "src/core/physics/damage-model.ts",
++        "src/core/physics/damage-mass.ts",
++        "src/core/physics/flight-mass-query.ts",
++        "src/core/physics/damage-detachment.ts",
++        "src/core/physics/thermal.ts",
++        "src/core/physics/damage-terminal.ts",
++        "src/core/physics/damage-flight.ts",
++        "src/core/control/guidance-physics.ts",
++        "src/core/control/booster-receipts.ts",
++        "src/core/control/booster-source.ts",
++        "src/core/state.ts",
++        "src/core/physics/engines.ts",
++        "src/core/control/booster-return-plan.ts",
++        "src/core/control/commands.ts",
++        "src/core/scenarios.ts",
++        "src/core/physics/step-dynamics.ts",
++        "src/core/control/primitives.ts",
++        "src/core/physics/tower-catch.ts",
++        "src/core/control/booster-arrival.ts",
++        "src/core/control/booster-forecast.ts",
++        "src/core/control/booster-cutoff-hint.ts",
++        "src/core/control/booster-prediction.ts",
++        "src/core/autopilot/booster.ts",
++        "src/core/autopilot/booster-utilities.ts",
++        "src/core/autopilot/landing-burn.ts",
++        "src/core/autopilot/index.ts",
++        "src/core/control/actuation.ts",
++        "src/core/control/mechanical.ts",
++        "src/core/physics/body-reference.ts",
++        "src/core/mission-free-flight.ts",
++        "src/core/step.ts"
++      ],
++      "shapeSha256": "f01af68bd83396db3029ae40bf1eab285b13516a0c847effea1a8b8bcb24b9aa"
++    }
++  },
++  "kind": "current-guidance-four-role-native-benchmark-v1",
++  "installedReference": "docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/source-before.json",
++  "requiredExports": [
++    "createBurnScratch",
++    "createFallResult",
++    "landingBurnStartAltitude",
++    "unpoweredFallInto",
++    "createScenarioState",
++    "ALL_SCENARIOS",
++    "SHIP"
++  ],
++  "constantsContract": {
++    "legacyVehicleHeight": 50,
++    "shipHeight": 52,
++    "ground": 25
++  },
++  "timingSources": {
++    "tests/core/guidance-physics.timing.test.ts": "8bfddfb28e72aee994f6a7fe0d352b13df76a63706cc4c58bd211c26a4965358",
++    "tests/app/recorder.timing.test.ts": "839b026fae6015bf377eed7747362f1844afdc6b572509936cf601c45507e493",
++    "tests/view/perf.timing.test.ts": "0419a63f7131ed01f3db549a4ec4c83777743a979b49815e3f44fad0e808a7a1",
++    "tests/hud/binder.timing.test.ts": "39cb38e9856dee6e05ef66f834f3401947b6f2a737e7ce521dbcab0162971066"
++  },
++  "ownedCommandDigest": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+ }

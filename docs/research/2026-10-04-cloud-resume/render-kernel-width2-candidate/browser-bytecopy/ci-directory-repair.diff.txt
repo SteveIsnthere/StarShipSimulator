@@ -1,0 +1,38 @@
+--- docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/before-ci-directory-repair/prepare-browser-bytecopy.py.txt
++++ docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/prepare-browser-bytecopy.py.txt
+@@ -49,6 +49,18 @@
+   elif stat.S_ISREG(info.st_mode):files.append(file)
+   else:raise RuntimeError('Tree symlink/special '+str(file))
+  return files
++def tree_directories(root):
++ root=pathlib.Path(root)
++ if not stat.S_ISDIR(root.lstat().st_mode):raise RuntimeError('Non-directory tree root')
++ rows=[{'path':'.','mode':root.stat().st_mode&511}]
++ for item in sorted(os.scandir(root),key=lambda e:e.name):
++  file=pathlib.Path(item.path);info=file.lstat()
++  if stat.S_ISDIR(info.st_mode):
++   for row in tree_directories(file):rows.append({'path':item.name if row['path']=='.' else item.name+'/'+row['path'],'mode':row['mode']})
++  elif not stat.S_ISREG(info.st_mode):raise RuntimeError('Directory inventory special entry')
++ return sorted(rows,key=lambda row:row['path'])
++expected_ci=sorted(name for name,pin in receipt['additionalGithubFiles'])
++if sorted(str(f.relative_to(repo)) for f in tree_files(repo/'.github'))!=expected_ci:raise RuntimeError('Complete CI file set differs')
+ expected_dist=sorted(receipt['buildFiles']+receipt['mapFiles'])
+ if sorted(str(f.relative_to(repo/'dist')) for f in tree_files(repo/'dist'))!=[name for name,pin in expected_dist]:raise RuntimeError('Current qualified dist set drift')
+ for name,pin in expected_dist:checked(repo/'dist'/name,pin)
+@@ -59,6 +71,7 @@
+ if str(browser_root)!='/tmp/starship-fullchrome-worker.VB1uzYO9/browser' or config_path!=browser_root/'SwiftShader.ini' or (config_path.stat().st_mode&511)!=384:raise RuntimeError('Separately qualified configuration path/mode drift')
+ expected_browser=sorted([row['path'] for row in bundle['files']]+['SwiftShader.ini'])
+ if len(bundle['files'])!=303 or 'SwiftShader.ini' in [row['path'] for row in bundle['files']] or sorted(str(f.relative_to(browser_root)) for f in tree_files(browser_root))!=expected_browser:raise RuntimeError('Qualified browser bundle plus exact separate config set drift')
++if len(bundle['directories'])!=12 or tree_directories(browser_root)!=sorted(bundle['directories'],key=lambda row:row['path']):raise RuntimeError('Browser directory set/modes differs')
+ for row in bundle['files']:
+  file=browser_root/row['path'];data=checked(file,row['sha256'])
+  if len(data)!=row['bytes'] or (file.stat().st_mode&511)!=row['mode']:raise RuntimeError('Qualified browser file byte/mode drift')
+@@ -141,6 +154,8 @@
+  if after_listed!=listed:raise RuntimeError('Source set changed during copy')
+  if sorted(str(f.relative_to(repo/'dist')) for f in tree_files(repo/'dist'))!=[name for name,pin in expected_dist]:raise RuntimeError('Dist set changed during copy')
+  if sorted(str(f.relative_to(browser_root)) for f in tree_files(browser_root))!=expected_browser or (config_path.stat().st_mode&511)!=384:raise RuntimeError('Browser/config set or mode changed during copy')
++ if sorted(str(f.relative_to(repo)) for f in tree_files(repo/'.github'))!=expected_ci:raise RuntimeError('CI file set changed during copy')
++ if tree_directories(browser_root)!=sorted(bundle['directories'],key=lambda row:row['path']):raise RuntimeError('Browser directory set/modes changed during copy')
+  for row in bundle['files']:
+   if ((browser_root/row['path']).stat().st_mode&511)!=row['mode']:raise RuntimeError('Browser mode changed during copy')
+  for name in ('playwright','playwright-core','typescript'):

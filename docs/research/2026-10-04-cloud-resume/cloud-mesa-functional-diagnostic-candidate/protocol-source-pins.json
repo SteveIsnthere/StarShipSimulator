@@ -1,0 +1,17 @@
+{
+  "chromium": "151.0.7922.34",
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/third_party/blink/public/devtools_protocol/domains/SystemInfo.pdl",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/SystemInfo.pdl.txt",
+      "sha256": "2ad6a7fada51621fa84885dd922a03c740aac83b1b460af331dd2dd4e8f76ed3",
+      "bytes": 4766
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/third_party/blink/public/devtools_protocol/domains/Browser.pdl",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/Browser.pdl.txt",
+      "sha256": "1fd00cce8209d25818c598bb8f4cc7cdef91e02dfeb69771a094bf99c2e8ae48",
+      "bytes": 11817
+    }
+  ]
+}

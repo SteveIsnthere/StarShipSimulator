@@ -1,0 +1,11 @@
+{
+  "sourceRows": 50,
+  "NodeParsers": [
+    "docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/collector-integration/owner.mjs.txt",
+    "docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/collector-integration/capture-reporter-diagnostic.mjs.txt",
+    "docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/codec-diagnostic.mjs.txt",
+    "docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/prototype-witness.mjs.txt"
+  ],
+  "PythonASTCompile": 2,
+  "execute": false
+}

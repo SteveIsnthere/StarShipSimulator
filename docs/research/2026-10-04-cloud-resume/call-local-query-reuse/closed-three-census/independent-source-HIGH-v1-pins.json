@@ -1,0 +1,27 @@
+{
+  "kind": "independent-closed-three-census-source-HIGH-v1",
+  "disposition": "HOLD-physical-census; repaired-source-and-inert-owner-preparation-supported",
+  "executionApproved": false,
+  "full55BodyClosure": false,
+  "review": "independent-source-HIGH-v1.md",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/input-pins.json": "69b49480b0cc988e41eb85d6f2673ae177352676735e9600cfb72ee9954e05e2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/declaration.md": "f5e5f850e3a87d90a2c763b34b2d1198a3da04d4976307db7c3247eb3110a9f6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/body-import-mutation-ledger.json": "ee37723aaedff5fab371c39694464bafb8af86119fb59018524d04068596fad8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/entry.ts.txt": "14b44bdfd429bf391e9b53c0dfd62944195cf07f2c693c5f8158cc2a5b97c2e4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/case-observer.mjs.txt": "ff1985b108110ff8550a9ee8b7cec17e22d3f344f49b4e794ce829b82c9e8607",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/damage-controls.census.diff": "44a874894cb8b796a8587b733911423717a12bf4859157fbcf60c45e9bfa67f5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/damage-thermal.census.diff": "8927b7d205af0fb6e13613200b35aaddf9320d2e654b7f6bac95e422b7be01d1",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/independent-source-HIGH-v1.md": "112a455a73fdc16ceb1b9a6690216adc25bd0994e88b1628482cbe8161d93827",
+    "/workspace/StarShipSimulator/tests/golden/booster-replay.test.ts": "cce053083240b7af301fdcb1cd84ecfaa4810815f906141f861c561d4c38d3b4",
+    "/workspace/StarShipSimulator/tests/golden/booster-record.ts": "dbb1f874135dbd0da06cf2e682e91c0cdfd7f059d4074f649760f41a1671b265",
+    "/workspace/StarShipSimulator/src/core/step.ts": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986",
+    "/workspace/StarShipSimulator/src/core/control/mechanical.ts": "2b3351540043f038af5a184a88c9cc193b64681f891c4ae1bcb113bfefb09a5f",
+    "/workspace/StarShipSimulator/src/core/mission-free-flight.ts": "63bf8d648e1210e3c33e6f11c957ed397bc7a1520ad038739a6d6fd47dbc1cc0",
+    "/workspace/StarShipSimulator/src/core/physics/damage-flight.ts": "727d66df66399eb182f82f1d80a7a4a8c88e62ebc0c934ad52bfe6293303f300",
+    "/workspace/StarShipSimulator/src/core/physics/damage-detachment.ts": "331812e54ff912c70c908a4e2ebe796cce40d8e5523db78d7e6c061f689504fd",
+    "/workspace/StarShipSimulator/src/core/physics/damage-terminal.ts": "a0ee5083eaf2fc285a987ad680e13b9e79c90b8db40d318e016de42cc50e5d89",
+    "/workspace/StarShipSimulator/src/app/loop.ts": "51a362d3051620da175320041e782d313e4b6f1d965aaec600508cc77ae62c66",
+    "/workspace/StarShipSimulator/scripts/test/entry.ts": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8"
+  }
+}

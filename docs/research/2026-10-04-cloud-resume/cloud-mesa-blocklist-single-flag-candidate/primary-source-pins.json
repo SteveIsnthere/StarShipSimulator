@@ -1,0 +1,71 @@
+{
+  "chromium": "151.0.7922.34",
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/gpu/config/gpu_switches.cc",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-config-gpu_switches.cc.txt",
+      "sha256": "a8938f76996d725948d947299d7f689a1a108f5a33ee32b9d5a6e61642ae1159",
+      "bytes": 7582
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/gpu/config/gpu_util.cc",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-config-gpu_util.cc.txt",
+      "sha256": "19447e9bced661918b271f315674dde30a30c5d45b88e28760635b51a9495054",
+      "bytes": 48983
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/gpu/command_buffer/service/context_group.cc",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-command_buffer-service-context_group.cc.txt",
+      "sha256": "c86cb7f0954950401520497b901b37faab0ea8ed6b65a7bd195dc8e56a6065fd",
+      "bytes": 27831
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/gpu/config/gpu_preferences.cc",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-config-gpu_preferences.cc.txt",
+      "sha256": "65840cd65ef57764dcf7f50905af881319521627ac8de09e2e6dce8af7b0dd72",
+      "bytes": 3575
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/content/browser/gpu/gpu_data_manager_impl_private.cc",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-browser-gpu-gpu_data_manager_impl_private.cc.txt",
+      "sha256": "688ec74a105bdf957f77da79f87c0ec5081eca537b7315530d32523f9b197678",
+      "bytes": 66159
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/content/browser/gpu/gpu_process_host.cc",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-browser-gpu-gpu_process_host.cc.txt",
+      "sha256": "6273050c1d2019004b51fa41edd7a7c8cd1c59b291e39c265f10b91b82461749",
+      "bytes": 57138
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/content/browser/gpu/compositor_util.h",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-browser-gpu-compositor_util.h.txt",
+      "sha256": "c51aa37d6b754e8054f68f40c9fbb619b2e940e8a25655aa69934bf121fc284a",
+      "bytes": 1522
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/content/public/browser/gpu_utils.h",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-public-browser-gpu_utils.h.txt",
+      "sha256": "8cf4d87f9fc25eeeb4feaddbb67f13d6653c3f47c50b82b5633099df7c14f549",
+      "bytes": 936
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/content/public/browser/gpu_utils.cc",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/content-public-browser-gpu_utils.cc.txt",
+      "sha256": "44593c0c89e9173e9059fc1b1e16597dc56dc1a752617aac12b24546768e3a65",
+      "bytes": 5979
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/gpu/command_buffer/service/service_utils.cc",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/gpu-command_buffer-service-service_utils.cc.txt",
+      "sha256": "89d19cead76f26a48908010d6a25f2a4ba449e21e75c56d6b370cfb086b0aeab",
+      "bytes": 18365
+    }
+  ],
+  "misses": [
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/content/browser/gpu/gpu_utils.cc",
+      "status": 404
+    }
+  ]
+}

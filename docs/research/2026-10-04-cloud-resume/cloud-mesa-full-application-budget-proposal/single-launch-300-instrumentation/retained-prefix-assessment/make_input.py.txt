@@ -1,0 +1,76 @@
+"""ROOT-only finite metadata maker. Never read/hash/parse retained trace bytes or native binaries."""
+import hashlib, json, os, pathlib, re, stat, sys, uuid
+def require(ok, code):
+    if not ok: raise RuntimeError(code)
+def digest(path):
+    p = pathlib.Path(path); s = p.lstat()
+    require(stat.S_ISREG(s.st_mode) and s.st_size <= 2*1024*1024, 'finite-source-metadata-only')
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+def read(path): return json.loads(pathlib.Path(path).read_text())
+def check(row):
+    require(set(row) == {'path', 'sha'} and pathlib.Path(row['path']).is_absolute(), 'absolute-pinned-role')
+    require(digest(row['path']) == row['sha'], 'selected-role-drift')
+seed_path, seed_sha = sys.argv[1:]
+require(digest(seed_path) == seed_sha, 'root-frozen-prefix-seed')
+seed = read(seed_path)
+require(seed['kind'] == 'mesa-retained-prefix-root-seed-v1', 'prefix-only-seed')
+keys = ('diagnostic', 'parser', 'controls', 'observer', 'python', 'maker', 'sourcePins', 'sourceReview',
+    'actualFailureReview', 'actualFailurePins', 'originProof', 'proposal')
+require(set(seed['roles']) == set(keys), 'exact-selected-role-inventory')
+roles = seed['roles']; files = {}
+for key in keys:
+    row = roles[key]
+    if key == 'python':
+        require(row == {'path': '/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12',
+            'sha': 'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'}, 'root-must-separately-hash-managed-python')
+    else: check(row)
+    require(row['path'] not in files or files[row['path']] == row['sha'], 'conflicting-source-role')
+    files[row['path']] = row['sha']
+require(pathlib.Path(__file__).resolve() == pathlib.Path(roles['maker']['path']).resolve(), 'actual-maker-role')
+packet = read(roles['sourcePins']['path'])
+require(packet['kind'] == 'mesa-retained-prefix-assessment-source-pins-v1', 'reviewed-source-packet')
+for row in packet['files']:
+    require(digest(row['path']) == row['sha256'] and pathlib.Path(row['path']).stat().st_size == row['bytes'], 'finite-reviewed-source-drift')
+    require(row['path'] not in files or files[row['path']] == row['sha256'], 'source-packet-conflict')
+    files[row['path']] = row['sha256']
+for key in ('diagnostic', 'parser', 'controls', 'observer', 'maker'):
+    require(any(row['path'] == roles[key]['path'] and row['sha256'] == roles[key]['sha'] for row in packet['files']), 'executable-role-in-reviewed-packet')
+require(roles['actualFailureReview']['sha'] == 'c07534a6fdd6333624ed4b881fd0107561b7e3a603f30f5bb8a359e81842fe9b' and roles['actualFailurePins']['sha'] == '3bb434e84a4f05b01a712aad3703c9c4a125e9e794eff282a7e596c183adb211' and
+    roles['proposal']['sha'] == '306a94deb084d2d5a3551f680a866b4bc7244b60c3e03aadba9efce0bbad7c64', 'exact-root-selected-failed-episode-lineage')
+proof = read(roles['originProof']['path'])
+require(proof['receivedBytes'] == 67108864 and proof['exportedStreamByteCap'] == 67108864 and
+    proof['streamComplete'] is False and proof['exceededByteCap'] is True, 'original-expanded-json-export-failure')
+trace = seed['trace']
+require(set(trace) == {'path', 'sha256', 'bytes', 'mode', 'device', 'inode', 'mtimeNs', 'ctimeNs'}, 'exact-trace-metadata-authority')
+require(pathlib.Path(trace['path']).is_absolute() and pathlib.Path(trace['path']).resolve() == pathlib.Path(trace['path']) and
+    re.fullmatch('[0-9a-f]{64}', trace['sha256']) is not None and trace['bytes'] == 67108864, 'root-external-whole-trace-sha-required')
+s = pathlib.Path(trace['path']).lstat()
+require(stat.S_ISREG(s.st_mode) and {'bytes': s.st_size, 'mode': stat.S_IMODE(s.st_mode), 'device': s.st_dev,
+    'inode': s.st_ino, 'mtimeNs': s.st_mtime_ns, 'ctimeNs': s.st_ctime_ns} == {k: trace[k] for k in trace if k not in ('path', 'sha256')}, 'actual-trace-stat-authority-no-byte-read')
+directory = pathlib.Path('/tmp/starship-trace-prefix-input.'+uuid.uuid4().hex)
+receipt = pathlib.Path('/tmp/starship-trace-prefix.'+uuid.uuid4().hex)
+for p in (directory, receipt): p.mkdir(mode=0o700); os.chmod(p, 0o700)
+def emit(name, value):
+    p = directory/name
+    with p.open('x') as output: json.dump(value, output, indent=2); output.write('\n')
+    os.chmod(p, 0o600)
+    return {'path': str(p), 'sha': digest(p)}
+files[seed_path] = seed_sha
+child_files = {path: sha for path, sha in files.items() if path != roles['python']['path']}
+diagnostic = emit('assessment-input.json', {'kind': 'mesa-retained-trace-prefix-assessment-input-v1',
+    'byteCap': 2097152, 'eventCap': 10000, 'workSeconds': 5, 'trace': trace, 'receipt': str(receipt),
+    'diagnostic': roles['diagnostic'], 'parser': roles['parser'], 'controls': roles['controls'], 'python': roles['python'],
+    'files': child_files, 'originalFailedReview': roles['actualFailureReview'], 'originProof': roles['originProof']})
+files[diagnostic['path']] = diagnostic['sha']; files[trace['path']] = trace['sha256']
+owner = emit('owner-input.json', {'kind': 'mesa-retained-prefix-assessment-root-input-v1',
+    'mode': 'retained-trace-prefix-assessment', 'outerMs': 30000, 'root': '/workspace/StarShipSimulator',
+    'diagnosticInput': diagnostic, 'diagnostic': roles['diagnostic'], 'observer': roles['observer'], 'python': roles['python'],
+    'trace': trace, 'files': files})
+emit('assembly-origin.json', {'seed': {'path': seed_path, 'sha': seed_sha}, 'roles': roles,
+    'traceAuthority': trace, 'traceBytesNotReadOrHashedByMaker': True, 'rootWholeTraceBeforeAfterHashRequired': True,
+    'prefixOnlyNeverWholeTraceOrCriticalPath': True, 'freshActualInputHIGHAndRootGrantRequired': True,
+    'diagnosticInput': diagnostic, 'ownerInput': owner, 'receipt': str(receipt)})
+for key in keys:
+    if key != 'python': check(roles[key])
+require(digest(seed_path) == seed_sha and not list(receipt.iterdir()), 'frozen-seed-and-empty-unexecuted-receipt')
+print(json.dumps(owner))

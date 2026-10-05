@@ -1,0 +1,27 @@
+// ONE actual public admission call; no tests/compiler/flight or source mutation.
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+const digest=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
+const [input]=process.argv.slice(2),m=JSON.parse(readFileSync(input,'utf8'));
+assert.equal(m.kind,'stage-a-public-qualification-owner-input-v1');
+assert.equal(process.version,'v22.23.3');assert.equal(digest(process.execPath),m.node.sha256);
+assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);
+assert.equal(process.cwd(),m.root);assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'stage-a-public-qualification');
+for(const [file,sha]of Object.entries(m.inputs))assert.equal(digest(file),sha,file);
+assert.equal(digest(m.composite.path),m.composite.sha256);assert.equal(digest(m.utility.path),m.utility.sha256);
+assert.equal(digest(resolve(m.root,'scripts/test/admission.mjs')),m.admissionSha256);
+const q=JSON.parse(readFileSync(m.composite.path,'utf8'));
+assert.equal(q.utilityDigest,m.utility.sha256);assert.equal(Object.keys(q.installedTools).length,20355);
+const admission=await import(pathToFileURL(resolve(m.root,'scripts/test/admission.mjs')).href);
+await admission.admitComposite(m.composite.path,m.composite.sha256);
+const u=await import(pathToFileURL(m.utility.path).href);
+const actual=u.sourceSnapshot(m.root),expected=JSON.parse(readFileSync(m.expectedSource.path,'utf8'));
+assert.equal(digest(m.expectedSource.path),m.expectedSource.sha256);assert.deepEqual(actual,expected);
+assert.equal(Object.keys(actual).length,770);
+for(const [file,sha]of Object.entries(m.inputs))assert.equal(digest(file),sha,file);
+process.stdout.write(JSON.stringify({kind:'stage-a-public-admission-result-v1',admitted:true,
+ compositeSha:m.composite.sha256,sourceCount:770,toolCount:20355,sourceExact:true,
+ toolsVerifiedByPublicAdmission:true,testsExecuted:false})+'\n');

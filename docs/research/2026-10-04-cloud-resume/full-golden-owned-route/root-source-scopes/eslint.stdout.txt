@@ -1,0 +1,6 @@
+
+/workspace/StarShipSimulator/scripts/test/full-golden-stage.mjs
+  24:17  error  The value assigned to 'after' is not used in subsequent statements  no-useless-assignment
+
+✖ 1 problem (1 error, 0 warnings)
+

@@ -1,0 +1,61 @@
+"""Root-only finite one-helper authority bridge for a NEW public build; no scans/build/test."""
+import hashlib, json, os, pathlib, sys, uuid
+ROOT=pathlib.Path('/workspace/StarShipSimulator')
+HELPER=str(ROOT/'tests/e2e/visual-runtime-receipt.ts')
+OLD='8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e'
+NEW='57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e'
+AUTHORITY='2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c'
+def require(ok,message):
+    if not ok: raise RuntimeError(message)
+def sha(path):
+    p=pathlib.Path(path);require(p.is_file() and not p.is_symlink() and p.stat().st_size<=8*1024*1024,'Finite regular bridge metadata/source')
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+def read(path): return json.loads(pathlib.Path(path).read_text())
+def check(row):
+    require(set(row)=={'path','sha'} and pathlib.Path(row['path']).is_absolute(),'Exact absolute selected role')
+    require(sha(row['path'])==row['sha'],'Selected bridge role drift:'+row['path'])
+seed_path,seed_sha=sys.argv[1:];require(sha(seed_path)==seed_sha,'Root bridge seed mismatch');seed=read(seed_path)
+require(seed['kind']=='mesa-app-build-single-helper-bridge-seed-v1','Wrong bridge scope')
+for key in ('oldOwner','applicationResult','applicationReview','wrapper','wrapperReview','maker','sourcePins'):check(seed[key])
+require(pathlib.Path(__file__).resolve()==pathlib.Path(seed['maker']['path']).resolve(),'Executed bridge maker')
+require(seed['wrapper']['sha']=='9c3b045bd79fc8fbd6b862458f5feb1ab0e1709c2c2de7bc4065600f29fd7236' and
+        seed['wrapperReview']['sha']=='2fae98f53cb196d0d6f7f6fb05de9eac4daf0430e893fa5cd731af9ca4e86738','Approved root wrapperV2 only')
+old=read(seed['oldOwner']['path']);require(old['kind']=='mesa-app-budget-owner-input-v1' and old['mode']=='app-build' and old['outerMs']==338000 and old['root']==str(ROOT),'Original build-only owner')
+require(old['qualification']['sha']==AUTHORITY,'Only original2dd authority');check(old['qualification']);check(old['pins'])
+inventory=read(old['pins']['path']);require(inventory['kind']=='mesa-app-budget-external-inventory-v1' and len(inventory['files'])==337,'Exact historical337 inventory')
+require(inventory['files'].get(HELPER)==OLD,'Sole helper pin eligible for explicit replacement')
+result=read(seed['applicationResult']['path']);require(result['completed'] is True and result['applied'] is True and result['error'] is None,'Independently accepted actual application required')
+require(result['oldAuthority']==old['qualification'] and result['changed']=={'path':HELPER,'oldSha':OLD,'newSha':NEW},'Exact application lineage')
+after=result['afterSnapshot'];check(after)
+before=read(old['qualification']['path']);current=read(after['path']);key='tests/e2e/visual-runtime-receipt.ts'
+require(set(current['source'])==set(before['source']) and len(current['source'])==770,'Same complete770 source paths')
+require(current['tools']==before['tools'] and len(current['tools'])==20355,'Same complete20355 tool authority')
+require([p for p in before['source'] if before['source'][p]!=current['source'][p]]==[key] and before['source'][key]==OLD and current['source'][key]==NEW,'Exactly one helper digest difference')
+require(sha(HELPER)==NEW,'Actual current helper exact candidate')
+receipt=pathlib.Path(result['receipt']);archive=receipt/'original-helper.ts.txt';require(sha(archive)==OLD,'Retained original helper archive exact')
+require(read(receipt/'before-modes.json')==read(receipt/'observed-after-modes.json'),'All770 modes preserved')
+directory=pathlib.Path('/tmp/starship-mesa-app-build-bridge-input.'+uuid.uuid4().hex);directory.mkdir(mode=0o700)
+files=dict(inventory['files']);files[HELPER]=NEW
+require({path for path in inventory['files'] if files[path]!=inventory['files'][path]}=={HELPER},'No historical pin reseal')
+def pin(path,digest):
+    require(path not in files or files[path]==digest,'Conflicting selected new lineage pin:'+path);files[path]=digest
+pin(str(archive),OLD);pin(after['path'],after['sha'])
+for role in ('oldOwner','applicationResult','applicationReview','wrapper','wrapperReview','maker','sourcePins'):pin(seed[role]['path'],seed[role]['sha'])
+pin(seed_path,seed_sha)
+for name in ('before-snapshot.json','before-modes.json','observed-after-snapshot.json','observed-after-modes.json','inverse-guards.json'):
+    path=receipt/name;pin(str(path),sha(path))
+def emit(name,value):
+    path=directory/name
+    with path.open('x') as output:json.dump(value,output,indent=2);output.write('\n')
+    os.chmod(path,0o600);return {'path':str(path),'sha':sha(path)}
+pins=emit('external-inventory.json',{'kind':'mesa-app-budget-external-inventory-v1','files':files})
+owner={**old,'qualification':after,'pins':pins}
+out=emit('owner-input.json',owner)
+emit('single-helper-authority-bridge.json',{'oldOwner':seed['oldOwner'],'oldInventory':old['pins'],'oldAuthority':old['qualification'],
+    'newAuthority':after,'soleExistingPinChange':{'path':HELPER,'old':OLD,'new':NEW},'originalHelperArchive':{'path':str(archive),'sha':OLD},
+    'applicationResult':seed['applicationResult'],'applicationReview':seed['applicationReview'],'rootWrapperV2':seed['wrapper'],
+    'newExistingKeysEqualOld337':True,'historyUnmodified':True,'freshPublicBuildRequired':True,'oldDist61NotResealed':True,
+    'actualOwnerAndStructuralWrapperInputOtherHIGHRequired':True,'noBuildOrTestOrBrowserOrTreeScan':True})
+for key in ('oldOwner','applicationResult','applicationReview','wrapper','wrapperReview','maker','sourcePins'):check(seed[key])
+check(after);require(sha(seed_path)==seed_sha and sha(HELPER)==NEW,'Final bridge selected source/input guard')
+print(json.dumps(out))

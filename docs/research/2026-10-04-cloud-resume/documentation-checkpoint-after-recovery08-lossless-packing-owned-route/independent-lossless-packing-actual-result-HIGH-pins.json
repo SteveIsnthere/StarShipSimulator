@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "decision": "accepted-fixed-lossless-documentation-preservation",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-actual-observations.json": "2ad4b7aadc091e36cc4ff6e410ce9a2bd31fddd28741ac5accbe9000c16ef772",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-actual-result-HIGH-review.md": "fed59ab6b3038599bb42900e385e2b2ae1c77f5dfd76301dd0dfed19b04aba3d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/source-pins.json": "262ed9c7dd9324a9f0465c5aecf77834013bcc9f7a4a6c6295ae9b466341d3e2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-source-HIGH-review.md": "dab9b48384286e1851d447ac596fdc1bf3bbdb0cd2f8fb34fd69312e9bb8115c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-source-HIGH-pins.json": "b2856ed02c5c95169cb1f0cd5ef5eae572020e41cd1f3e79e1b68d923f756e6d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-actual-input-HIGH-review.md": "6930e3945907f6f10af30ca85f147b9452ad996020ee6696bb1ad578aa01fd21",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-actual-input-HIGH-pins.json": "3400fa94d62409054cd915eb89cdd4152b8493199fa1ad765022511d23e99dec"
+  },
+  "observationsSha256": "2ad4b7aadc091e36cc4ff6e410ce9a2bd31fddd28741ac5accbe9000c16ef772",
+  "allOriginalAndInverseHashesModesMatched": true,
+  "sourceRows": 12319,
+  "gzipAliases": 277,
+  "uniquePayloads": 150,
+  "accountedPublicationBytes": 122140034,
+  "parentExit": 0,
+  "childExit": 0,
+  "allRecordedOwnedIdentitiesAbsent": true,
+  "gitHeadIndexBeforeAfterObserved": false,
+  "captureOrStagingApproved": false,
+  "runtimeOrGateAcceptance": false
+}

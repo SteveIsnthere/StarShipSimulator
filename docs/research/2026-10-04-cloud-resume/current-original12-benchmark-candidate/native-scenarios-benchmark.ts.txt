@@ -1,0 +1,12 @@
+import {writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+// Direct same-entry scenario references; no wrappers or SSR models.
+// @ts-expect-error -- reviewed plain-JS helper
+import {loadNativeGuidance} from './native-loader.mjs';
+const {STARSHIP_NATIVE_BENCH_MANIFEST:path,STARSHIP_NATIVE_BENCH_DIGEST:digest,STARSHIP_NATIVE_BENCH_INVOCATION:invocation,STARSHIP_NATIVE_BENCH_RECEIPT:receipt,STARSHIP_NATIVE_BENCH_STAGE:stage}=process.env;
+if(!path||!digest||!invocation||!receipt||!stage)throw new Error('Fresh benchmark qualification required; no SSR fallback');
+const api=await loadNativeGuidance(path,digest,invocation) as typeof import('../../src/core/scenarios');
+export const ALL_SCENARIOS=api.ALL_SCENARIOS;
+export const createScenarioState=api.createScenarioState;
+writeFileSync(resolve(receipt,`scenario-${stage}-${process.pid}.json`),JSON.stringify({invocation,stage,pid:process.pid,manifest:path,digest,
+ referenceIdentity:{ALL_SCENARIOS:ALL_SCENARIOS===api.ALL_SCENARIOS,createScenarioState:createScenarioState===api.createScenarioState}},null,2)+'\n');

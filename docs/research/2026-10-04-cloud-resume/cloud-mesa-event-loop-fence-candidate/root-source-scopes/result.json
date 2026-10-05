@@ -1,0 +1,16 @@
+{
+  "checks": [
+    {
+      "name": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.027885757997864857
+    },
+    {
+      "name": "eslint",
+      "code": 0,
+      "elapsedSeconds": 1.0240654700028244
+    }
+  ],
+  "all12PinsBeforeAfterMatched": true,
+  "passed": true
+}

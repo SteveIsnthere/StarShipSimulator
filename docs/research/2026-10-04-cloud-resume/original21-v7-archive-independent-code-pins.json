@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "decision": "supported-one-owned-lossless-copy-after-CPU-release",
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-independent-code-review.md",
+  "reviewSha256": "7b8b22b01fb6b119c42dbb53f42b5f7993dda0a1766473a67e024927e1875d3e",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/archive-original21-v7.py.txt": "f8710754750276bdb89c7fda4a4a07b7f41adf77667c253a4cee7abb1fabddf8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-proposal.json": "fa51f4e622b5f616994dbbad59ab1d497fb2f4cef30fc0213c00e9aa060d2083"
+  },
+  "copyExecutionSupportedAfterRootCPUFree": true,
+  "requiredRootWholeSeconds": 60,
+  "requiredCopyActualReview": true,
+  "artifactTreesScanned": false,
+  "copyExecuted": false,
+  "sourceEdited": false,
+  "acceptanceReclassified": false
+}

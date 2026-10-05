@@ -1,0 +1,11 @@
+# Independent HIGH original12 four-role metadata repair
+
+Decision: prior deterministic serviceworker-role HOLD closed; supported bounded producer/consumer owner and proof preparation only. All current42 input pins3dc70e08 verified, original42/HOLD95c773 in separate archive preserved. Static source/metadata only: no build/import/parser/consumer solver/test/timing/tool scan.
+
+Qualification6f82369f differs only by removing public copied serviceworker.js from code authority. Exact accepted entry9cd03dcd/chunk687baba1 and both original map roles/shapes/sources/content are unchanged. With copyPublicDir:false, verifyNativeGraph now expects exactly four emitted entry/chunk/two-map files rather than five. This corrects the declared producer contract without silently changing executing code, map proof, physics or original timing bodies. Current candidate six source targets still unapplied.
+
+Other reviewed producer/consumer support and conditions from95c773 remain: same accepted full defining54core+original-fall graph, full locked runtime/tool/options/data-role lineage, explicit same-entry guidance/scenario aliases only in native3 lane, exact original12 collection/execution and3native9SSR bounds, C50/SHIP52/ground25 distinction, unchanged guidance facade and direct scenario facade/markers. Fresh actual build must match exact accepted JS and ordered map semantics; maps may only translate original source-route depth. No digest-only adoption.
+
+Adapted realm oracle remains a separate unproved proof candidate. Before consumer/official12, concrete owned scope/materialization and meaningful realm-prototype/function/model/alias/error/descriptor guard controls must be independently reviewed, followed by actual public alias proof with exactly burn+normal fall once/backend. Canonical700bc qualification alone does not prove altered realm admission. No extra solver/flight/cap proof campaign or whole900 replay is authorized; existing accepted numerical domains transfer only via bound unchanged bodies/roles. Current ordinary native qualification needs a separate finite non-numerical tooling bridge on application; this review grants no reseal.
+
+No application, execution, current official12 result, timing/performance, gate/coverage/frame/local or roadmap acceptance follows. Parent owns separate staged grants and fresh result review.

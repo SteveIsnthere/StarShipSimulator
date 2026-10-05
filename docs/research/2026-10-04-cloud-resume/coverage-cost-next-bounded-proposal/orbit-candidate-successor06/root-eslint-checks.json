@@ -1,0 +1,57 @@
+[
+  {
+    "name": "builder.mjs.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "compiled-audit.mjs.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "entry.ts.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "full-histories.ts.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "graph-oracle.ts.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "loader-controls.mjs.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "original-parent-policy.mjs.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "owner.mjs.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "scoped-orbit-loader.mjs.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "slot-bindings.mjs.txt",
+    "errors": 0,
+    "warnings": 0
+  },
+  {
+    "name": "slot-controls.mjs.txt",
+    "errors": 0,
+    "warnings": 0
+  }
+]

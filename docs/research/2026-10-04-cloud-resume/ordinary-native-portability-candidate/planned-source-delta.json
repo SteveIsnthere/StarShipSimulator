@@ -1,0 +1,28 @@
+{
+  "kind": "portable-anchor-finite-four-tooling-delta-v1",
+  "baseQualificationSha256": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+  "priorCurrentSourcePaths": 769,
+  "plannedCurrentSourcePaths": 769,
+  "changedPaths": {
+    "scripts/test/admission.mjs": {
+      "before": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db",
+      "after": "667b1d67fa6fc3e0abf45b60e9fa3ff512c10942c0d302e1a79b7efce61dc509"
+    },
+    "scripts/test/build.mjs": {
+      "before": "ad1fade84731714978d1378ad21b3dc6e7aad7184760727b346b66351d186a06",
+      "after": "513eb012207849e66933a59ff29924e202022000f5d98277bc4629b0771e2159"
+    },
+    "scripts/test/run.mjs": {
+      "before": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1",
+      "after": "007bcc9db3c4f58e4c4b575bada53c9e105b8e1fe23639ce8299e1fe9924164a"
+    },
+    ".nvmrc": {
+      "before": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56",
+      "after": "6d07ac247e81cd42c2c20abf8dfe504413d6b2422e4aba9b2c975a776f155921"
+    }
+  },
+  "historicalBridgePaths": 12,
+  "plannedBridgePaths": 13,
+  "protectedSourceChanges": 0,
+  "sourceScansPerformed": 0
+}

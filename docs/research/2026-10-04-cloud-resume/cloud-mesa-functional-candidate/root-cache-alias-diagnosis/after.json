@@ -1,0 +1,23 @@
+{
+  "cacheSha256": "b966529ae5653785a013ec27e8a1046e7f0b4d4a61d3eaeb7fb83d5d982c5fa0",
+  "toolPath": "/usr/sbin/ldconfig",
+  "toolSha256": "a30fb3da26461c40d9a7803648f95af102d2610adf8f4655f59ecf2c0f920753",
+  "aliases": {
+    "/lib": {
+      "target": "usr/lib",
+      "mode": 511
+    },
+    "/lib64": {
+      "target": "usr/lib64",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libLLVM-19.so": {
+      "target": "libLLVM.so.19.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libLLVM-19.so": {
+      "target": "libLLVM.so.19.1",
+      "mode": 511
+    }
+  }
+}

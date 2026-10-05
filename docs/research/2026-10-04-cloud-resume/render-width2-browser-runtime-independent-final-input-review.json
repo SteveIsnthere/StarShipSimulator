@@ -1,0 +1,25 @@
+{
+  "kind": "independent-actual-final-runtime-input-review",
+  "inputPath": "/tmp/starship-width2-browser-owner-input.a69d081ad3714c91a72b7c02e89bb75d/owner-input.json",
+  "inputSha256": "cd17f6ff8b4151497e562a61c9fc2730048f0faaf0ef492e2dc953bcc78499c2",
+  "sourceMapSha256": "45aca13aeca8ef1df4e5715b07fca81453a125c2be09b1869f3244bb95f2e762",
+  "immutableFallback80RetargetIndependentReviewRequiredAndAccepted": true,
+  "executableRolesUnchanged": true,
+  "eightSmallRoleAnd21EvidencePinsIndependentlyExact": true,
+  "runtimeOutputsAbsent": true,
+  "setup": "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994",
+  "contract": {
+    "baseline": 32,
+    "candidate": 2,
+    "framesPerPhase": 20,
+    "queryCap": 4096,
+    "positivePixelThreshold": 6,
+    "internalWorkMs": 90000,
+    "internalCleanupMs": 5000,
+    "externalMs": 120000
+  },
+  "retry": 0,
+  "priorInputFd348UnexecutedAndIneligiblePreserved": true,
+  "approvedPostActivationCommand": "NODE_OPTIONS= /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12 /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/browser-root-parent.py.txt /tmp/starship-width2-browser-owner-input.a69d081ad3714c91a72b7c02e89bb75d/owner-input.json cd17f6ff8b4151497e562a61c9fc2730048f0faaf0ef492e2dc953bcc78499c2",
+  "disposition": "ONE root-exclusive causal browser fixture; no metadata/nativechanges duringrun; actual fullreceipt/process/ownedabsence review required"
+}

@@ -1,0 +1,113 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdtempSync, realpathSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { createHash } from 'node:crypto';
+const digest = path => createHash('sha256').update(readFileSync(path)).digest('hex');
+const parse = path => JSON.parse(readFileSync(path, 'utf8'));
+const [manifestPath, manifestSha] = process.argv.slice(2);
+assert.equal(digest(manifestPath), manifestSha);
+const m = parse(manifestPath);
+assert.equal(m.kind, 'official-original21-owner-input-v1');
+assert.equal(realpathSync(process.cwd()), realpathSync(m.root));
+assert.equal(process.version, 'v22.23.3');
+assert.equal(digest(process.execPath), m.node.sha);
+assert.equal(process.env.NODE_OPTIONS ?? '', '');
+const roles = ['node', 'helper', 'npmCli', 'qualification', 'pins', 'stage', 'observer', 'python'];
+const deadline = Number(process.env.ORIGINAL21_ROOT_DEADLINE);
+const limits = { 'app-build': 82000, original21: 330000 };
+assert(Object.hasOwn(limits, m.mode));
+assert.equal(m.outerMs, limits[m.mode] + 8000);
+assert(Number.isFinite(deadline) && deadline > Date.now() && deadline <= Date.now() + limits[m.mode]);
+const receipt = mkdtempSync(resolve(tmpdir(), 'starship-original21-stage.'));
+process.stdout.write(JSON.stringify({ stageReceipt: receipt, manifestSha }) + '\n');
+const put = (name, value) => writeFileSync(resolve(receipt, name), JSON.stringify(value, null, 2) + '\n', { flag: 'wx' });
+const baseline = readdirSync('/tmp').filter(name => name.startsWith('starship-official-flight.')).map(name => resolve('/tmp', name));
+put('tmp-baseline.json', baseline);
+let code = null, failure = null, raw = null, officialResultPath = null;
+let verifyNoOwnedProcesses;
+const afterErrors = [];
+const describe = error => String(error.stack ?? error);
+const checkPins = () => {
+  for (const key of roles) assert.equal(digest(m[key].path), m[key].sha, 'Pinned role: ' + key);
+  assert.equal(digest(manifestPath), manifestSha);
+  assert.equal(digest(process.execPath), m.node.sha);
+  const inventory = parse(m.pins.path);
+  assert.equal(inventory.kind, 'official-original21-external-inventory-v1');
+  assert(Object.keys(inventory.files).length > 0);
+  for (const [path, sha] of Object.entries(inventory.files)) assert.equal(digest(path), sha, 'Source/tool inventory: ' + path);
+  assert.equal(inventory.qualificationSha, m.qualification.sha);
+  assert.equal(m.node.sha, 'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48');
+  for (const file of ['scripts/test/run.mjs', 'scripts/test/prepare-run.mjs', 'scripts/bench/owned-command.mjs',
+    'tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts', 'package.json']) {
+    assert(Object.hasOwn(inventory.files, resolve(m.root, file)), 'Missing required applied source: ' + file);
+  }
+  assert.equal(inventory.files[resolve(m.root, 'scripts/bench/owned-command.mjs')], m.helper.sha);
+};
+try {
+  checkPins();
+  const owned = await import(pathToFileURL(m.helper.path).href);
+  verifyNoOwnedProcesses = owned.verifyNoOwnedProcesses;
+  const args = m.mode === 'app-build' ? [m.npmCli.path, 'run', 'build'] : [resolve(m.root, 'scripts/test/run.mjs'),
+    'run', 'tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts'];
+  code = await owned.runOwnedCommand({ name: 'preparation', root: m.root, receipt,
+    args, deadlineMs: Math.min(m.mode === 'app-build' ? 74000 : 300000, deadline - Date.now() - 8000),
+    env: { ...process.env, NATIVE_FLIGHT_COMPOSITE: m.qualification.path, NATIVE_FLIGHT_COMPOSITE_SHA: m.qualification.sha } });
+} catch (error) { failure = describe(error); }
+// Persist native helper raw status before interpreting any business proof or result.
+try {
+  const path = resolve(receipt, 'preparation.process.json');
+  if (existsSync(path)) raw = parse(path);
+  put('actual-child-exit.json', { exit: raw?.exit ?? null, code, primaryFailure: failure });
+} catch (error) { afterErrors.push({ stage: 'raw-child-status', error: describe(error) }); }
+try {
+  assert(raw && raw.exit); assert.equal(raw.exit.code, 0); assert.equal(raw.exit.signal, null);
+  assert.equal(raw.failure, null); assert.equal(raw.finished, true); assert.equal(raw.closed, true);
+  assert.equal(raw.cleanup.executing.length, 0);
+} catch (error) { afterErrors.push({ stage: 'owned-child-outcome', error: describe(error) }); }
+if (m.mode === 'original21') {
+  // Fresh prefixes identify candidate files only. The root admits their identities
+  // only after the nested leader matches its independently observed PID/start.
+  try {
+    const fresh = readdirSync('/tmp').filter(name => name.startsWith('starship-official-flight.'))
+      .map(name => resolve('/tmp', name)).filter(path => !baseline.includes(path));
+    const nested = [];
+    for (const directory of fresh) {
+      assert.equal(realpathSync(directory), directory);
+      for (const name of ['native-build.process.json', 'official-tests.process.json']) {
+        const path = resolve(directory, 'native.receipts', name);
+        if (existsSync(path)) nested.push({ path, sha256: digest(path), raw: parse(path) });
+      }
+    }
+    put('nested-product-process-receipts.json', nested);
+  } catch (error) { afterErrors.push({ stage: 'nested-process-receipts', error: describe(error) }); }
+  try {
+    const output = readFileSync(resolve(receipt, 'preparation.stdout.txt'), 'utf8');
+    const paths = output.split('\n').filter(line => line.startsWith('Official test receipt: ')).map(line => line.slice('Official test receipt: '.length));
+    assert.equal(paths.length, 1);
+    officialResultPath = paths[0];
+    assert(officialResultPath.startsWith('/tmp/starship-official-tests-owner.'));
+    assert.equal(realpathSync(officialResultPath), officialResultPath);
+    const result = parse(officialResultPath);
+    put('actual-official-wrapper-result.json', { path: officialResultPath, sha256: digest(officialResultPath), result });
+    assert.equal(result.kind, 'official-tests-owner-result-v1'); assert.equal(result.rawCode, 0);
+    assert.equal(result.completed, true); assert.equal(result.failure, null); assert.deepEqual(result.afterErrors, []);
+    assert(result.manifestPath && result.manifestSha && result.processReceipt && result.lifecycle);
+    const run = parse(result.manifestPath);
+    assert.equal(digest(result.manifestPath), result.manifestSha);
+    assert(!baseline.includes(resolve(run.directory, '..')));
+    assert.equal(result.lifecycle.reason, 'passed');
+    assert.equal(result.lifecycle.inventory.filter(row => row.project === 'native-flight').length, 21);
+  } catch (error) { afterErrors.push({ stage: 'actual-official-wrapper', error: describe(error) }); }
+}
+// Each final check is independent of the primary command/result failure.
+try { checkPins(); } catch (error) { afterErrors.push({ stage: 'source-tool-postpins', error: describe(error) }); }
+try { if (verifyNoOwnedProcesses) assert(verifyNoOwnedProcesses().every(row => row.executing.length === 0)); }
+catch (error) { afterErrors.push({ stage: 'owned-process-live-audit', error: describe(error) }); }
+const completed = code === 0 && failure === null && afterErrors.length === 0;
+put('stage-result.json', { completed, mode: m.mode, code, error: failure ?? (afterErrors.length ? JSON.stringify(afterErrors) : null),
+  afterErrors, officialResultPath, processReceipt: resolve(receipt, 'preparation.process.json'),
+  acceptance: 'Only this app-build or original21 invocation; full independent source/ancestry/absence review required; not whole gate' });
+process.stdout.write(JSON.stringify({ stageReceipt: receipt, completed, code, officialResultPath }) + '\n');
+process.exitCode = completed ? 0 : 1;

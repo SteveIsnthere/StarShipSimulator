@@ -1,0 +1,67 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const [helperPath, helperSha, output] = process.argv.slice(2);
+const digest = path => createHash('sha256').update(readFileSync(path)).digest('hex');
+assert.equal(digest(helperPath), helperSha);
+const P = await import(pathToFileURL(helperPath).href);
+const root = '/qualified-policy-only';
+const main = { kind: 'original-load', file: P.goldenRoot };
+const originals = new Map([['main', main]]);
+const cases = [];
+const check = (name, action) => { action(); assert(!cases.includes(name)); cases.push(name); };
+for (const file of P.supportFiles) {
+  const url = pathToFileURL(resolve(root, file)).href;
+  check(file + ': exact canonical support URL', () => assert.equal(P.supportFileForURL(root, url), file));
+  check(file + ': support admission', () => P.assertSupportAdmission(root, file, url, originals));
+  check(file + ': query URL denied', () => assert.throws(() => P.supportFileForURL(root, url + '?vitest=123')));
+  check(file + ': fragment URL denied', () => assert.throws(() => P.supportFileForURL(root, url + '#x')));
+}
+const support = P.supportFiles[0], url = pathToFileURL(resolve(root, support)).href;
+check('no original certificate denied', () => assert.throws(() => P.assertSupportAdmission(root, support, url, new Map())));
+check('multiple originals denied', () => assert.throws(() => P.assertSupportAdmission(root, support, url, new Map([['a',main],['b',main]]))));
+check('foreign original denied', () => assert.throws(() => P.assertSupportAdmission(root, support, url, new Map([['a',{...main,file:'tests/foreign.test.ts'}]]))));
+check('support cannot impersonate original', () => assert.throws(() => P.assertSupportAdmission(root, support, url, new Map([['a',{...main,kind:'support-load'}]]))));
+check('altered support URL denied', () => assert.throws(() => P.assertSupportAdmission(root, support, url+'?x', originals)));
+check('unknown support path denied', () => assert.throws(() => P.assertSupportAdmission(root, 'tests/golden/unknown.ts', url, originals)));
+const certificates = new Map();
+for (const file of P.goldenSourceFiles) certificates.set(pathToFileURL(resolve(root,file)).href, {file});
+for (const [file, edges] of Object.entries(P.relativeImports)) {
+  for (const [specifier, target] of Object.entries(edges)) {
+    const parent = pathToFileURL(resolve(root,file)).href;
+    check(file + ':' + specifier + ': exact edge', () => {
+      const actual = P.relativeTarget(root,specifier,parent,certificates);
+      assert.equal(actual.file,target); assert.equal(actual.url,pathToFileURL(resolve(root,target)).href);
+      assert.equal(actual.certificate,certificates.get(parent));
+    });
+  }
+}
+const parent=pathToFileURL(resolve(root,P.goldenRoot)).href;
+for(const specifier of ['./unknown','../record','./record.ts','./record?x'])
+  check(specifier+': undeclared edge denied',()=>assert.throws(()=>P.relativeTarget(root,specifier,parent,certificates)));
+check('uncertified parent not intercepted',()=>assert.equal(P.relativeTarget(root,'./record','file:///foreign.ts',certificates),null));
+check('nonrelative package is delegated',()=>assert.equal(P.relativeTarget(root,'vitest',parent,certificates),null));
+check('compare has no relative import edge',()=>assert.throws(()=>P.relativeTarget(root,'./record',pathToFileURL(resolve(root,P.supportFiles[2])).href,certificates)));
+const sourceSha='a'.repeat(64);
+const rootURL=pathToFileURL(resolve(root,P.goldenRoot)).href;
+const certs=P.goldenSourceFiles.map((file,index)=>({kind:index===0?'original-load':'support-load',file,url:pathToFileURL(resolve(root,file)).href,canonicalParentURL:pathToFileURL(resolve(root,file)).href,cacheToken:null,format:'module-typescript',sourceSha,sourceBytes:100}));
+const transcript=[{kind:'startup',entryURL:'file:///entry.mjs',constantsURL:'file:///constants.mjs'},...certs];
+for(const cert of certs)for(const specifier of P.goldenAliases[cert.file])transcript.push({kind:'original-alias',specifier,parentURL:cert.url,parentSourceSha:sourceSha,canonicalParentURL:cert.url,cacheToken:null,url:specifier==='$core/constants'?'file:///constants.mjs':'file:///entry.mjs'});
+for(const [file,edges]of Object.entries(P.relativeImports))for(const [specifier,target]of Object.entries(edges))transcript.push({kind:'golden-relative',specifier,parentURL:pathToFileURL(resolve(root,file)).href,parentSourceSha:sourceSha,file:target,url:pathToFileURL(resolve(root,target)).href});
+const q={goldenSourceFiles:Object.fromEntries(P.goldenSourceFiles.map(file=>[file,sourceSha]))};
+check('complete four-certificate transcript admitted',()=>P.assertGoldenWorker(transcript,root,q));
+const broken=(name,mutate)=>check(name,()=>{const copy=structuredClone(transcript);mutate(copy);assert.throws(()=>P.assertGoldenWorker(copy,root,q));});
+broken('wrong support format denied',r=>r.find(x=>x.kind==='support-load').format='commonjs');
+broken('support query URL denied',r=>r.find(x=>x.kind==='support-load').url+='?x');
+broken('support source digest mismatch denied',r=>r.find(x=>x.kind==='support-load').sourceSha='b'.repeat(64));
+broken('wrong alias output URL denied',r=>r.find(x=>x.kind==='original-alias').url='file:///foreign.mjs');
+broken('missing declared alias denied',r=>r.splice(r.findIndex(x=>x.kind==='original-alias'),1));
+broken('wrong relative target denied',r=>r.find(x=>x.kind==='golden-relative').file=P.supportFiles[2]);
+broken('second original certificate denied',r=>r.push({...certs[0],url:rootURL+'?vitest=123'}));
+broken('support certificate after alias denied',r=>{const i=r.findIndex(x=>x.kind==='support-load');r.push(r.splice(i,1)[0]);});
+assert.equal(cases.length,38);
+assert.equal(digest(helperPath),helperSha);
+writeFileSync(output,JSON.stringify({kind:'native-golden-support-policy-controls-v1',completed:true,code:0,failure:null,afterErrors:[],cases,helperSha,scope:'pure support admission and exact relative edge helpers only; not actual hook/kernel/golden replay proof'})+'\n',{flag:'wx'});
+console.log(JSON.stringify({completed:true,cases:cases.length}));

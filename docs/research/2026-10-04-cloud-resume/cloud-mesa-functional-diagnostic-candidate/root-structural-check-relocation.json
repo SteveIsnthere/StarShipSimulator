@@ -1,0 +1,8 @@
+{
+  "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/root-structural-check.py.txt",
+  "destination": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-structural-check.py.txt",
+  "sha256": "e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13",
+  "byteIdentical": true,
+  "onlyRelocation": "__file__ parent selects independently approved diagnostic parent-closure.json",
+  "executed": false
+}

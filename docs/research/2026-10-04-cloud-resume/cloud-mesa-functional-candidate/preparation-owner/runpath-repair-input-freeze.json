@@ -1,0 +1,42 @@
+{
+  "spec": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/external-preparation-runpath-repair-spec.json",
+    "sha": "806d7ccc4da1a3ad7abf82a018fb130594ad485dc6dbf716eb4be7be15fa77ff"
+  },
+  "ownerInput": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/runpath-repair-owner-input.json",
+    "sha": "a2a36d91e74570179818ec44c7f3ad27bc29c334dba86f5dfd42ad104e99a598"
+  },
+  "sourcePins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/runpath-repair-source-pins.json",
+    "sha": "e8acf6087cee00111a925d197c155f248e003310d9ba90557b918848282829e8"
+  },
+  "repairSourcePins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/runpath-journal-repair-source-pins.json",
+    "sha": "126e39622c11b0e50961b36eaf1dd611ffed363389b2886580072ae62be579ce"
+  },
+  "cacheProof": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-cache-alias-diagnosis/result.json",
+    "sha": "896bfb47443d5c196a97ad89f6ab3e0d6bad2ae5ff7b22853997684d769e3bec"
+  },
+  "journal": "/tmp/starship-mesa-preparation-owned.985cf5743a1f459b92e06a7c8aabea4f",
+  "preparer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+    "sha": "0f784f7e175efedd30390f92072a6bbbd30db74380bc6de1efc0aae93fc8a51e"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/business-stage.mjs.txt",
+    "sha": "989b348a740527ff808e04e9ceebd89e7fb96e613f430b5431a097654cf90a97"
+  },
+  "bridge": {
+    "path": "/tmp/starship-mesa-preparation-owner.7c9e23a339df48da8beec24637889f8a/python-bridge.mjs",
+    "sha": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a"
+  },
+  "nativeBytesHashedByAuthor": 0,
+  "codeCopiesByAuthor": 0,
+  "oldInputsPreserved": [
+    "external-preparation-spec.json",
+    "preparation-owner/owner-input.json"
+  ],
+  "status": "UNEXECUTED; fresh OTHER HIGH/scopes and exact root60 grant required; no functional120 grant"
+}

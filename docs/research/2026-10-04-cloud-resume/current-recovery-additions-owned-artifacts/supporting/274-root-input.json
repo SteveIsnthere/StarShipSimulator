@@ -1,0 +1,38 @@
+{
+  "kind": "covered-view-clock-collector-root-input-v1",
+  "mode": "view-clock-collector",
+  "outerMs": 180000,
+  "root": "/workspace/StarShipSimulator",
+  "setup": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-collector-02083d9581fc40b68bc14a14bef25dc1",
+  "steps": [
+    "collector"
+  ],
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "pureInput": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-collector-02083d9581fc40b68bc14a14bef25dc1/input.json",
+    "sha": "19ce50868a2f53b38c590beebfee5a01f74ba6d0bc4548198c22ea303360abc7"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-collector-02083d9581fc40b68bc14a14bef25dc1/root-inventory.json",
+    "sha": "ce7e8a5cc41b780da6e5f48db9b83ac80f3cdec4c61f096a4099f81ce4d96ff5"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-collector-02083d9581fc40b68bc14a14bef25dc1/owner.mjs",
+    "sha": "8927b8aa845f0501c32912deec311b70335dc7971c05b35c6a9cd820c6042a67"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/collector-integration/root-observer.py.txt",
+    "sha": "0bb012a0bb26a48bb70033b917ac80fde975a622535f5b1403606a6ae8fab5e4"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "kind": "selected2-SSR-invocation-source-pins-v1",
+  "sourceOnly": true,
+  "actualInputPrepared": false,
+  "diagnosticExecuted": false,
+  "files": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/business-stage-selected2.mjs.txt",
+      "bytes": 9245,
+      "sha256": "5b375eecff89376b60ba2cd229cd0e9ff61dfb7f613d023c79ab88126febf703"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/root-observer-selected2.py.txt",
+      "bytes": 15814,
+      "sha256": "90dad5c122f0651a79d932bb9e6116b6c8d7ef2f5ca83bc09e63fdcb35174418"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/capture-reporter-ssr.mjs.txt",
+      "bytes": 4441,
+      "sha256": "9543d3e01bd19032bb3b187e059886c7a58f9f96628320a906ae040d3263d70c"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/invocation.md",
+      "bytes": 6977,
+      "sha256": "6b38eb2159e57befcf50c9227fb7b3dfdfbff81612512898405e4d249371014c"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/root-observer-selected2.diff",
+      "bytes": 5870,
+      "sha256": "f7d122101d96cdd402addaa242dc2818729783e1c42f6c262dc6664379fa3df7"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/capture-reporter-ssr.diff",
+      "bytes": 1545,
+      "sha256": "0cbd357c7c020dc5d22cd1b4212592a17213719d744e4b80f9c41210c3eb70a5"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/progress-reporter.mjs.txt",
+      "bytes": 5527,
+      "sha256": "b28bc45b335d9c076133f08f0d18be1ac17e2936d98ed915536bb3cb1e534c3f"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/independent-source-HIGH-review.md",
+      "bytes": 3782,
+      "sha256": "c9dcf69f810324a292c303ae4f5ab35779091eceac5c142bbebc90e87d906ea2"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/independent-source-HIGH-pins.json",
+      "bytes": 5092,
+      "sha256": "ad43bb9eb04a4a1488cc55d8e18a2ba5d007b72bbcfbc6b6cb0753626464c596"
+    }
+  ]
+}

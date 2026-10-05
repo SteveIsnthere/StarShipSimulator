@@ -1,0 +1,208 @@
+/** Two separate grants: public build qualification, then retained-dist application matrix. */
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, readdirSync, lstatSync, mkdtempSync, realpathSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
+const started = Date.now(), [inputPath, inputSha] = process.argv.slice(2);
+const digest = path => createHash('sha256').update(readFileSync(path)).digest('hex');
+assert.equal(digest(inputPath), inputSha);
+const m = JSON.parse(readFileSync(inputPath, 'utf8'));
+assert.equal(m.kind, 'mesa-app-budget-owner-input-v1');
+assert.equal(m.mode, 'mesa-budget'); assert.equal(m.diagnostic, 'single-original-launch-60warm300'); assert.equal(m.outerMs, 338000);
+assert.equal(realpathSync(process.cwd()), realpathSync(m.root));
+assert.equal(process.version, 'v22.23.3'); assert.equal(process.env.NODE_OPTIONS ?? '', '');
+const deadline = Number(process.env.ORIGINAL21_ROOT_DEADLINE);
+assert(Number.isFinite(deadline) && deadline > Date.now() && deadline <= Date.now() + 330000);
+const receipt = mkdtempSync('/tmp/starship-original21-stage.');
+process.stdout.write(JSON.stringify({ stageReceipt: receipt, kind: m.kind, mode: m.mode }) + '\n');
+const put = (name, value) => {
+  const bytes = JSON.stringify(value, null, 2) + '\n';
+  assert(Buffer.byteLength(bytes) <= 8 * 1024 * 1024, 'Bounded proof receipt');
+  writeFileSync(resolve(receipt, name), bytes, { flag: 'wx' });
+};
+const roles = ['node', 'helper', 'npmCli', 'qualification', 'pins', 'stage', 'observer', 'python', 'utility', 'runtimeInput'];
+if (m.mode === 'mesa-budget') roles.push('config', 'spec', 'hooks', 'instrumentation', 'reporter', 'distApproval', 'distBuildReceipt', 'distReview');
+function selected() {
+  for (const key of roles) assert.equal(digest(m[key].path), m[key].sha, key);
+  assert.equal(digest(inputPath), inputSha); assert.equal(digest(process.execPath), m.node.sha);
+  const pins = JSON.parse(readFileSync(m.pins.path, 'utf8'));
+  assert.equal(pins.kind, 'mesa-app-budget-external-inventory-v1');
+  assert(Object.keys(pins.files).length > 0);
+  for (const key of roles.filter(key => key !== 'pins')) assert.equal(pins.files[m[key].path], m[key].sha, 'External role inventory: ' + key);
+  for (const [path, sha] of Object.entries(pins.files)) assert.equal(digest(path), sha, path);
+  assert.equal(pins.files[m.helper.path], m.helper.sha);
+  assert.equal(pins.files[m.utility.path], m.utility.sha);
+  assert.equal(pins.files[resolve(m.root, 'tests/e2e/visual-budget.spec.ts')], m.originalSpecSha);
+  assert.equal(pins.files[resolve(m.root, 'tests/e2e/visual-budget-probe.ts')], m.originalProbeSha);
+  return pins;
+}
+function inventory(root, knownBrowser = false) {
+  const files = [], directories = []; let totalBytes = 0;
+  function walk(path) {
+    const s = lstatSync(path); assert(s.isDirectory() && !s.isSymbolicLink(), 'Directory identity');
+    directories.push([relative(root, path), s.mode & 0o7777]);
+    for (const name of readdirSync(path).sort()) {
+      const p = resolve(path, name), row = lstatSync(p); assert(!row.isSymbolicLink(), 'Output/tree symlink');
+      if (row.isDirectory()) walk(p);
+      else {
+        assert(row.isFile(), 'Output/tree special entry');
+        assert(files.length < 10000 && (row.size <= 64 * 1024 * 1024 ||
+          knownBrowser && p === m.browser && row.size === 290614600 &&
+          digest(p) === '0b20b130e7edd9dd51873be867761295fe0cfad490c2b9a64f95bd3cfc08fa71'), 'Finite file inventory');
+        totalBytes += row.size; assert(totalBytes <= 512 * 1024 * 1024, 'Finite complete tree');
+        files.push([relative(root, p), digest(p), row.mode & 0o7777, row.size]);
+      }
+    }
+  }
+  walk(root); files.sort((a, b) => a[0].localeCompare(b[0])); directories.sort((a, b) => a[0].localeCompare(b[0]));
+  return { files, directories, totalBytes };
+}
+function runtimeSnapshot() {
+  const runtime = JSON.parse(readFileSync(m.runtimeInput.path, 'utf8'));
+  assert.equal(m.browser, runtime.browser); assert.equal(runtime.expectedVersion, '151.0.7922.34');
+  for (const [path, sha] of Object.entries(runtime.filePins)) assert.equal(digest(path), sha, path);
+  const browser = inventory(runtime.browserRoot, true);
+  assert.deepEqual(browser.files.map(([path, sha, mode]) => [path, sha, mode]), runtime.browserFiles);
+  assert.deepEqual(browser.directories, runtime.browserDirectories);
+  assert.equal(browser.files.length, 304); assert.equal(browser.directories.length, 12);
+  assert.equal(browser.files.find(f => f[0] === 'SwiftShader.ini')?.[2], 0o600);
+  return { runtimeInputSha: m.runtimeInput.sha, browser };
+}
+let code = null, raw = null, error = null, utility, owned, sourceBefore, toolsBefore, runtimeBefore, dist;
+const afterErrors = [];
+try {
+  selected();
+  owned = await import(pathToFileURL(m.helper.path).href);
+  utility = await import(pathToFileURL(m.utility.path).href);
+  const authority = JSON.parse(readFileSync(m.qualification.path, 'utf8'));
+  sourceBefore = utility.sourceSnapshot(m.root); toolsBefore = utility.installedToolSnapshot(m.root, m.npmCli.path);
+  put('source-before.json', sourceBefore); put('installed-before.json', toolsBefore);
+  assert.deepEqual(sourceBefore, authority.source); assert.deepEqual(toolsBefore, authority.tools);
+  assert.deepEqual(Object.keys(m.extraTrees).sort(), ['.agents', '.github', 'public']);
+  for (const [name, expected] of Object.entries(m.extraTrees)) assert.deepEqual(inventory(resolve(m.root, name)), expected);
+  runtimeBefore = runtimeSnapshot(); put('runtime-before.json', runtimeBefore);
+  let args, env = { ...process.env, NODE_OPTIONS: '', npm_execpath: m.npmCli.path };
+  const commandBound = Math.min(m.mode === 'app-build' ? 90000 : 300000, deadline - Date.now() - 8000);
+  assert(commandBound > 0); assert(commandBound <= 300000);
+  if (m.mode === 'app-build') args = [m.npmCli.path, 'run', 'build'];
+  else {
+    const approval = JSON.parse(readFileSync(m.distApproval.path, 'utf8'));
+    const built = JSON.parse(readFileSync(m.distBuildReceipt.path, 'utf8'));
+    assert.equal(approval.kind, 'mesa-app-dist-externally-approved-v1'); assert.equal(approval.approved, true);
+    assert.deepEqual(approval.buildReceipt, m.distBuildReceipt); assert.deepEqual(approval.review, m.distReview);
+    assert.equal(built.mode, 'app-build'); assert.equal(built.completed, true); assert.equal(built.code, 0);
+    assert.equal(built.error, null); assert.deepEqual(built.afterErrors, []);
+    assert.equal(approval.sourceSha, digest(resolve(built.receipt, 'source-before.json')));
+    assert.equal(approval.toolsSha, digest(resolve(built.receipt, 'installed-before.json')));
+    assert.deepEqual(sourceBefore, JSON.parse(readFileSync(resolve(built.receipt, 'source-before.json'), 'utf8')));
+    assert.deepEqual(toolsBefore, JSON.parse(readFileSync(resolve(built.receipt, 'installed-before.json'), 'utf8')));
+    dist = inventory(resolve(m.root, 'dist')); assert.deepEqual(dist, approval.dist);
+    assert.deepEqual(dist, JSON.parse(readFileSync(resolve(built.receipt, 'dist-after-build.json'), 'utf8')));
+    assert.match(m.matrixReceipt, /^\/tmp\/starship-mesa-app-matrix\.[a-f0-9]{32}$/);
+    assert.equal(realpathSync(m.matrixReceipt), m.matrixReceipt);
+    assert.equal(lstatSync(m.matrixReceipt).mode & 0o777, 0o700); assert.deepEqual(readdirSync(m.matrixReceipt), []);
+    assert.match(m.materializationRoot, /^\/tmp\/starship-mesa-app-material\.[a-f0-9]{32}$/);
+    assert.equal(realpathSync(m.materializationRoot), m.materializationRoot);
+    assert.equal(lstatSync(m.materializationRoot).mode & 0o777, 0o700);
+    for (const [role, file] of [['config', 'mesa-budget.config.ts'], ['spec', 'mesa-budget.spec.ts'],
+      ['hooks', 'mesa-boundary-hooks.ts'], ['instrumentation', 'mesa-launch-instrumentation.ts'], ['reporter', 'mesa-reporter.mjs']]) assert.equal(m[role].path, resolve(m.materializationRoot, file));
+    for (const key of ['LD_LIBRARY_PATH', 'LIBGL_ALWAYS_SOFTWARE', 'GALLIUM_DRIVER', 'LP_NUM_THREADS',
+      '__EGL_VENDOR_LIBRARY_FILENAMES', '__EGL_VENDOR_LIBRARY_DIRS', 'PWDEBUG', 'DEBUG_FILE', 'PW_INSTRUMENT_MODULES', 'RUN_VISUAL_DIAGNOSTIC']) assert(!process.env[key], key);
+    env = { ...env, EGL_PLATFORM: 'surfaceless', E2E_GPU_POLICY: 'default', E2E_SKIP_BUILD: '1', RUN_VISUAL_BUDGET: '1',
+      E2E_PORT: '4174', DEBUG: 'pw:browser', STARSHIP_MESA_APP_INPUT: inputPath, STARSHIP_MESA_APP_INPUT_SHA: inputSha,
+      STARSHIP_MESA_MATRIX_RECEIPT: m.matrixReceipt, STARSHIP_MESA_MATRIX_BOUND_MS: String(commandBound) };
+    args = [resolve(m.root, 'node_modules/playwright/cli.js'), 'test', '--config', m.config.path];
+  }
+  assert(Date.now() < deadline); put('actual-command.json', { args, deadlineMs: commandBound, mode: m.mode });
+  code = await owned.runOwnedCommand({ name: 'preparation', root: m.root, receipt, args, deadlineMs: commandBound, env });
+} catch (failure) { error = String(failure.stack ?? failure); }
+// Persist actual helper exit before receipt, inventory or acceptance assertions.
+try {
+  raw = JSON.parse(readFileSync(resolve(receipt, 'preparation.process.json'), 'utf8'));
+  put('actual-child-exit.json', { code, exit: raw.exit, primaryError: error });
+} catch (failure) { afterErrors.push({ stage: 'raw-status', error: String(failure) }); }
+try {
+  assert(raw); assert([0, 1].includes(code)); assert.deepEqual(raw.exit, { code, signal: null });
+  assert.equal(raw.failure, null); assert.equal(raw.finished, true); assert.equal(raw.closed, true);
+  assert.deepEqual(raw.cleanup.executing, []);
+} catch (failure) { error ??= String(failure.stack ?? failure); }
+try {
+  if (m.mode === 'app-build') {
+    assert.equal(code, 0); dist = inventory(resolve(m.root, 'dist')); put('dist-after-build.json', dist);
+  } else {
+    const lifecycle = JSON.parse(readFileSync(resolve(m.matrixReceipt, 'public-lifecycle.json'), 'utf8'));
+    put('actual-matrix-inventory.json', { collected: lifecycle.collected, results: lifecycle.results,
+      errors: lifecycle.errors, nativeResult: lifecycle.result, nativeCode: code,
+      completeInventory: lifecycle.collected.length === 1 && lifecycle.results.length === 1 });
+    const expected = ['chromium\0launch: CPU + GPU completion and actual cadence @mobile @visual-budget'];
+    const keys = rows => rows.map(t => `${t.project}\0${t.title}`).sort();
+    assert.deepEqual(keys(lifecycle.collected), expected); assert.deepEqual(keys(lifecycle.results), expected);
+    const item = lifecycle.results[0]; const declared = lifecycle.collected[0];
+    assert.equal(item.id, declared.id); assert.equal(item.retry, 0); assert.equal(item.repeatEachIndex, 0);
+    assert.equal(item.expectedStatus, 'passed'); assert.equal(declared.expectedStatus, 'passed');
+    assert.equal(declared.location.file, resolve(m.root, 'tests/e2e/visual-budget.spec.ts'));
+    assert.equal(lifecycle.config.workers, 1); assert.equal(lifecycle.config.maxFailures, 0);
+    assert(lifecycle.config.retries.every(([, n]) => n === 0)); assert(lifecycle.config.repeatEach.every(([, n]) => n === 1));
+    assert.deepEqual(lifecycle.errors, []);
+    assert.equal(item.status, code === 0 ? 'passed' : 'failed');
+    assert.equal(lifecycle.result.status, code === 0 ? 'passed' : 'failed');
+    if (code === 0) assert.deepEqual(item.errors, []);
+    else {
+      assert.equal(item.errors.length, 1, 'Only one original budget assertion may fail');
+      const failure = item.errors[0];
+      assert.equal(failure.location.file, resolve(m.root, 'tests/e2e/visual-budget.spec.ts'));
+      assert([225, 226].includes(failure.location.line), 'Exact original fullRAF p95 or cadence assertion only');
+      assert.match(failure.message.replace(/\u001b\[[0-9;]*m/g, ''), /expect\(received\)\.toBe(?:LessThanOrEqual|GreaterThanOrEqual)\(expected\)/);
+    }
+    const attachment = name => {
+      const matches = item.attachments.filter(a => a.name === name);
+      assert.equal(matches.length, 1, 'Exactly one required retained receipt:' + name);
+      const path = matches[0].path;
+      assert.equal(realpathSync(path), path); assert(relative(m.matrixReceipt, path) && !relative(m.matrixReceipt, path).startsWith('..'));
+      assert(lstatSync(path).isFile() && !lstatSync(path).isSymbolicLink());
+      assert(lstatSync(path).size <= 8 * 1024 * 1024);
+      return JSON.parse(readFileSync(path, 'utf8'));
+    };
+    // Read only projected measurements; never copy/output browser.launch.env.
+    const frame = attachment('full-frame-budget.json');
+    assert.equal(frame.scene, 'launch'); assert.equal(frame.project, 'chromium');
+    assert.deepEqual(frame.viewport, { width: 1280, height: 720 }); assert.equal(frame.deviceDpr, 1);
+    assert.equal(frame.warmFramesPerSegment, 60); assert.equal(frame.measuredFrames, 300);
+    assert.equal(frame.segmentCount, 1); assert.deepEqual(frame.segmentLengths, [300]);
+    assert.equal(frame.segments[0].frames.length, 300); assert.equal(frame.onset, null);
+    const observation = attachment('diagnostic-observer-result.json');
+    assert.equal(observation.completed, true); assert.deepEqual(observation.errors, []); assert.deepEqual(observation.samplingErrors, []);
+    const raf = attachment('diagnostic-all-raf.json'); assert.equal(raf.overflow, false); assert(raf.rows.length >= 360);
+    assert.equal(raf.probe.done, true); assert.equal(raf.probe.frames.length, 300);
+    assert.equal(raf.probe.warmFrames.length, 60); assert.deepEqual(raf.probe.errors, []);
+    const timestamps = new Set(raf.rows.map(row => row.timestamp));
+    assert([...raf.probe.warmFrames, ...raf.probe.frames].every(row => timestamps.has(row.timestamp)), 'Warm/measured frame timestamps correlate to observer RAF');
+    const thread = attachment('diagnostic-thread-cgroup.json'); assert.deepEqual(thread.errors, []); assert(thread.rows.length >= 2);
+    const trace = attachment('trace-buffer-usage.json'); assert.equal(trace.streamComplete, true);
+    assert.equal(trace.exceededByteCap, false); assert.equal(trace.error, null); assert.deepEqual(trace.cleanupErrors, []);
+    assert(trace.bufferUsage.every(row => !row.percentFull || row.percentFull < 1), 'Trace buffer must not fill');
+    put('validated-diagnostic.json', { diagnosticComplete: true, originalCaseNativeCode: code,
+      originalCasePassed: code === 0, sampleCounts: { warm: 60, measured: 300 },
+      frameMetrics: { fullRAFWork: frame.fullRAFWork, cpu: frame.cpu, gpuCompletionWait: frame.gpuCompletionWait,
+        cadenceFps: frame.cadenceFps, frameIntervals: frame.frameIntervals },
+      expected, originalBudgetAssertionsUnchanged: true, acceptance: false,
+      rawBrowserEnvironmentPrivateNeverPublish: true, instrumentationAddsOverhead: true });
+  }
+} catch (failure) { error ??= String(failure.stack ?? failure); }
+for (const [name, action] of [
+  ['selected-after', () => selected()],
+  ['source-after', () => { assert(utility && sourceBefore); const value = utility.sourceSnapshot(m.root); put('source-after-observed.json', value); assert.deepEqual(value, sourceBefore); return value; }],
+  ['installed-after', () => { assert(utility && toolsBefore); const value = utility.installedToolSnapshot(m.root, m.npmCli.path); put('installed-after-observed.json', value); assert.deepEqual(value, toolsBefore); return value; }],
+  ['runtime-after', () => { assert(runtimeBefore); const value = runtimeSnapshot(); put('runtime-after-observed.json', value); assert.deepEqual(value, runtimeBefore); return value; }],
+  ['extra-trees-after', () => { for (const [name, expected] of Object.entries(m.extraTrees)) assert.deepEqual(inventory(resolve(m.root, name)), expected); return { unchanged: true }; }],
+  ['dist-after', () => { assert(dist); const value = inventory(resolve(m.root, 'dist')); put('dist-after-observed.json', value); assert.deepEqual(value, dist); return value; }],
+  ['owned-final', () => { assert(owned); const value = owned.verifyNoOwnedProcesses(); assert(value.every(row => row.executing.length === 0)); return value; }],
+]) {
+  try { put(`${name}.json`, action()); } catch (failure) { afterErrors.push({ stage: name, error: String(failure.stack ?? failure) }); }
+}
+if (Date.now() > deadline) afterErrors.push({ stage: 'whole-work', error: '330-second work bound exceeded' });
+put('stage-result.json', { completed: error === null && afterErrors.length === 0 && [0, 1].includes(code), diagnosticComplete: error === null && afterErrors.length === 0 && [0, 1].includes(code), acceptance: false, code, error, afterErrors,
+  mode: m.mode, receipt, matrixReceipt: m.mode === 'mesa-budget' ? m.matrixReceipt : null, elapsedMs: Date.now() - started,
+  incompleteOrTimedOutMatrixAlwaysFailed: true, noHistoricalDistCertification: true, independentActualResultReviewRequired: true });
+if (error !== null || afterErrors.length || ![0, 1].includes(code)) process.exitCode = 1;

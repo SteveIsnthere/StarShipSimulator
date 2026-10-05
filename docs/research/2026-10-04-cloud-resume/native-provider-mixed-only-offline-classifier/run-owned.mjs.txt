@@ -1,0 +1,45 @@
+/** Separate <=5s offline episode. Root supplies independently frozen inputs. */
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
+import { runOwnedCommand, verifyNoOwnedProcesses } from '../../../../scripts/bench/owned-command.mjs';
+assert.equal(process.env.RUN_NATIVE_PROVIDER_OFFLINE_CLASSIFICATION, '1', 'Root offline grant required');
+const base = path.dirname(fileURLToPath(import.meta.url)), repo = '/workspace/StarShipSimulator';
+const started = Date.now(), deadline = started + 5000;
+const manifestPath = process.env.NATIVE_PROVIDER_OFFLINE_MANIFEST, expected = process.env.NATIVE_PROVIDER_OFFLINE_MANIFEST_SHA256;
+assert(manifestPath && manifestPath.startsWith(`${repo}/docs/research/`) && /^[a-f0-9]{64}$/.test(expected || ''), 'Exact independently reviewed input/self manifest required');
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+const manifestBytes = fs.readFileSync(manifestPath); assert.equal(sha(manifestBytes), expected);
+const manifest = JSON.parse(manifestBytes);
+const prefix = path.relative(repo, base), selfFiles = fs.readdirSync(base).map(name => `${prefix}/${name}`).sort();
+assert.deepEqual(Object.keys(manifest.files).filter(name => name.startsWith(`${prefix}/`)).sort(), selfFiles, 'Exact offline self inventory required');
+for (const name of selfFiles) assert.equal(sha(fs.readFileSync(path.join(repo, name))), manifest.files[name]);
+const ownerName = 'scripts/bench/owned-command.mjs';
+assert.equal(sha(fs.readFileSync(path.join(repo, ownerName))), manifest.files[ownerName], 'Reviewed owner utility drift');
+const output = fs.mkdtempSync('/tmp/starship-provider-offline.'); fs.chmodSync(output, 0o700);
+fs.writeFileSync(path.join(output, 'origin.json'), JSON.stringify({ inputManifest: manifestPath, inputManifestSha256: expected,
+  originalContract: 'FAILED', purpose: 'Distinct mixed-only offline classification; no provider/compiler/fixture execution' }));
+console.log(`Offline classification receipt: ${output}`);
+let code = 1, failure;
+try {
+  code = await runOwnedCommand({ name: 'offline-classifier', args: [path.join(base, 'classify.mjs'), output], root: repo,
+    receipt: output, deadlineMs: deadline - Date.now() - 100,
+    env: { ...process.env, NATIVE_PROVIDER_OFFLINE_DEADLINE: String(deadline - 100) } });
+} catch (error) { failure = error; }
+finally {
+  let ownership;
+  try {
+    for (const name of selfFiles) assert.equal(sha(fs.readFileSync(path.join(repo, name))), manifest.files[name]);
+    assert.equal(sha(fs.readFileSync(path.join(repo, ownerName))), manifest.files[ownerName]);
+    assert.equal(sha(fs.readFileSync(manifestPath)), expected);
+    assert(Date.now() <= deadline, 'Whole offline work exceeded unchanged five seconds');
+  } catch (error) { failure ||= error; }
+  try { ownership = verifyNoOwnedProcesses(); } catch (error) { failure ||= error; }
+  fs.writeFileSync(path.join(output, 'owner-outcome.json'), JSON.stringify({ completed: !failure && code === 0,
+    code, error: failure ? String(failure) : null, ownership, elapsedMs: Date.now() - started,
+    boundMs: 5000, noRetry: true, originalContract: 'FAILED', productAcceptance: false }));
+}
+if (failure) throw failure;
+process.exitCode = code;

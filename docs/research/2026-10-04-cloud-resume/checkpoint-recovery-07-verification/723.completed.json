@@ -1,0 +1,1 @@
+{"applyCount": 1, "args": ["ls-files", "--others", "--exclude-standard", "-z"], "code": 0, "number": 723, "optionalLocks": "0", "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "stdinSha256": null, "stdoutSha256": "9cb12256d703b243ec927cff2416ef9f392c5ec1c2a4587bce3ceb03ad77a5b8", "temporaryIndex": null}

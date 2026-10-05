@@ -1,0 +1,7 @@
+import { spawnSync } from 'node:child_process';
+const [python, script, input, sha] = process.argv.slice(1);
+const r = spawnSync(python, [script, input, sha], {cwd: "/workspace/StarShipSimulator",
+env: process.env, stdio: 'inherit', detached: false, timeout: 80000});
+console.error(JSON.stringify({kind:'recovery07-python-exit-v1',pid:r.pid,status:r.status,
+signal:r.signal,error:r.error ? String(r.error.stack ?? r.error) : null}));
+process.exitCode = r.error || r.signal ? 1 : r.status ?? 1;

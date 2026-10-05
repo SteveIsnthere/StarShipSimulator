@@ -1,0 +1,24 @@
+{
+  "kind": "independent-actual-five-doc-application-review-v1",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/replacement-packet.json": "520ede1fb07624c6f77ac82f6fa5b0be1fce4cf0d5788502818ddcb649f33236",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/source-pins.json": "62c54029ebb123a785e727a2a5e7a641ac98ac220dbf5db055e02d139176c446",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/independent-five-doc-source-HIGH-review.md": "7e4a47fc4bde0418bc6330e6180504538a784b6fa86b4991b6d2da31bcc735ce",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/independent-five-doc-source-HIGH-pins.json": "8707528eb70f828322b3c14d72bbe3db34f364dbb64e3068c2137202fb49d0b7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/root-exact-application/application-result.json": "8bf276051bb5149a171b01c92d2a19814685a852cbda826dfa96e669b360bd3e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/root-exact-application/independent-actual-five-doc-application-HIGH-review.md": "961d9bf1ee1a7ea09b109c5c64220070fc5f58ca714d48ac3f7e14277b7ccefc",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/root-exact-application/0-before.md": "b5791ae2e6be1905cf6f773d6851cba34286fd09cbb6b68f7b51f95db8dfd752",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md": "4b092ba7de33f8a8659ad03cba877bd166f1538f63237eeb6177f7f344fedee4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/root-exact-application/1-before.md": "9f4ddb2e8fd912ecb5e8a716b3fabed8d1f9aba18b504adcd70089f310967ba5",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md": "ca24dd1507ff88b18d00bea5b140a6b43c49f4c5ac008421e9ec943b7f3b77f2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/root-exact-application/2-before.md": "b5f5dcf1c4d9d2b3eefd9f3e0c99530980b4fd134ca2bc4df1d40863af6009d6",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md": "20f4107f02e81b2aec733f1393e41064c452561ed5cc0f1a149008edb2d169a0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/root-exact-application/3-before.md": "a23968243ee47ae2cd5438fa13b6b795ae0de15e3f28995ab8989e70f0800db1",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md": "d2b0706d418da802ab4a997a3624d6dcf29e02a9d493341118e2dafb17a67f7d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-five-doc-status-packet/root-exact-application/4-before.md": "a4bf118c9d0e05a1c3aef6f95635f55c6bf6a8d4f03d1fa397e5dc61f6c19dff",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-roadmap.md": "1dd4844e102f721e8f60568d3baebe7522a7f75d8f14df5f639141b91147327e"
+  },
+  "rootPreapplicationDigestGuard": "8hex-prefix-only-as-reported",
+  "independentFullPacketAndProjectionVerified": true,
+  "scope": "docs-only"
+}

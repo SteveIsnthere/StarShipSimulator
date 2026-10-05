@@ -1,0 +1,25 @@
+{
+  "inputMapSha256": "73a79fb45d35468431588c9cd29dae76381a922904e897bb3f592f909e6507bf",
+  "scopes": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+      "sha256": "80a60579ac88d360f8739af5823d25fcfb9fd8beb1189e4d856912d7188dc892",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-original21-root-routing/business-stage.mjs.txt",
+      "sha256": "47bcf04afe36ef68a1f8eae390e9ab4e476b29f1f4141f9ee25d92209b086cd0",
+      "kind": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.03110684700368438
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-original21-root-routing/business-stage.mjs.txt",
+      "sha256": "47bcf04afe36ef68a1f8eae390e9ab4e476b29f1f4141f9ee25d92209b086cd0",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9130848050044733
+    }
+  ]
+}

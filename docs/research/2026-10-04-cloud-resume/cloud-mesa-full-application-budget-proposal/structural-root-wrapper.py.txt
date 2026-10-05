@@ -1,0 +1,262 @@
+"""Source-only structural wrapper; accepted inner observer remains byte-identical."""
+import hashlib, json, os, pathlib, signal, subprocess, sys, tempfile, time
+started = time.time(); work_deadline = started + 330; whole_deadline = started + 338
+manifest_path, expected_sha = sys.argv[1:]
+def require(ok, message):
+    if not ok: raise RuntimeError(message)
+def digest(path):
+    return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+require(digest(manifest_path) == expected_sha, 'Wrapper external input mismatch')
+w = json.loads(pathlib.Path(manifest_path).read_text())
+require(w['kind'] == 'mesa-app-structural-root-input-v1' and w['outerMs'] == 338000, 'Wrong wrapper input')
+require(digest(__file__) == w['wrapper']['sha'], 'Executing wrapper source mismatch')
+require(pathlib.Path(sys.executable).resolve() == pathlib.Path(w['python']['path']).resolve(), 'Managed Python required')
+for path, sha in w['files'].items(): require(digest(path) == sha, 'Pinned wrapper role mismatch: ' + path)
+for key in ('wrapper', 'python', 'node', 'observer', 'ownerInput', 'checker', 'closure', 'authority', 'sourcePins', 'sourceReview', 'actualInputReview', 'helper'):
+    require(w['files'].get(w[key]['path']) == w[key]['sha'], 'Externally bound wrapper role: ' + key)
+m = json.loads(pathlib.Path(w['ownerInput']['path']).read_text())
+require(m['kind'] == 'mesa-app-budget-owner-input-v1' and m['mode'] in ('app-build','mesa-budget') and m['outerMs'] == 338000, 'Accepted inner owner input required')
+for key in ('python', 'node', 'observer', 'helper'): require(m[key] == w[key], 'Exact inner role: ' + key)
+require(m['qualification'] == w['authority'], 'Current source/tool authority required')
+require(w['checker']['sha'] == 'e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13', 'Accepted unchanged structural checker')
+require(w['closure']['sha'] == '90ea0e1e4c117fb6856ba9045e694c6e730260f5174ec1841dcf9d381287dfde', 'Accepted parent closure')
+root_receipt = pathlib.Path(tempfile.mkdtemp(prefix='starship-mesa-app-structural-root.', dir='/tmp')); os.chmod(root_receipt, 0o700)
+print(json.dumps({'structuralRootReceipt': str(root_receipt)}), flush=True)
+known = {}; owned_groups = {}; audit_bytes = 0; failures = []; child = None; inner_receipt = None
+phase_statuses = []; inner_returncode = None
+
+def save(name, value):
+    with (root_receipt / name).open('w') as output:
+        json.dump(value, output, indent=2); output.write('\n'); output.flush(); os.fsync(output.fileno())
+def interrupted(signum, frame):
+    raise RuntimeError('Wrapper interrupted: ' + str(signum))
+signal.signal(signal.SIGTERM, interrupted)
+checker = root_receipt / 'root-structural-check.py'; closure = root_receipt / 'parent-closure.json'
+checker.write_bytes(pathlib.Path(w['checker']['path']).read_bytes()); closure.write_bytes(pathlib.Path(w['closure']['path']).read_bytes())
+os.chmod(checker, 0o600); os.chmod(closure, 0o600)
+require(digest(checker) == w['checker']['sha'] and digest(closure) == w['closure']['sha'], 'Byte-exact exclusive structural checker/alias')
+def stat_row(pid):
+    try:
+        text = pathlib.Path('/proc', str(pid), 'stat').read_text()
+        f = text[text.rfind(')') + 2:].split()
+        return {'pid': int(pid), 'state': f[0], 'parent': int(f[1]), 'group': int(f[2]), 'session': int(f[3]), 'start': f[19]}
+    except (FileNotFoundError, ProcessLookupError):
+        return None
+
+def admit(row):
+    global audit_bytes
+    key = (row['pid'], row['start'])
+    if key not in known:
+        known[key] = row
+        if row['pid'] == row['group'] == row['session']:
+            group_key = (row['group'], row['session'])
+            if group_key in owned_groups:
+                require(owned_groups[group_key]['start'] == row['start'], 'Owned group identity recycled')
+            else:
+                owned_groups[group_key] = {'group': row['group'], 'session': row['session'], 'start': row['start'], 'cleared': False, 'uncertain': False}
+        line = json.dumps({'observedAt': time.time(), 'identity': row}) + '\n'
+        audit_bytes += len(line.encode())
+        require(audit_bytes <= 1024 * 1024 and len(known) <= 4096, 'Root identity audit cap')
+        with (root_receipt / 'identities.jsonl').open('a') as output:
+            output.write(line); output.flush(); os.fsync(output.fileno())
+
+def scan():
+    rows = []
+    for entry in pathlib.Path('/proc').iterdir():
+        if entry.name.isdigit():
+            try:
+                row = stat_row(entry.name)
+            except PermissionError:
+                if any(key[0] == int(entry.name) for key in known):
+                    raise RuntimeError('Owned stat inaccessible')
+                continue
+            if row: rows.append(row)
+    if child is not None:
+        leader = next((r for r in rows if r['pid'] == child.pid), None)
+        captured = next((r for r in known.values() if r['pid'] == child.pid), None)
+        if leader and captured: require(leader['start'] == captured['start'], 'Outer PID recycled')
+    changed = True
+    while changed:
+        changed = False
+        # A captured detached leader owns its group/session until witnessed empty.
+        # Freshly re-read a current member before admitting an orphaned sibling.
+        for group in list(owned_groups.values()):
+            if group['cleared']: continue
+            leader = next((r for r in rows if r['pid'] == group['group']), None)
+            if leader: require(leader['start'] == group['start'], 'Detached group leader PID recycled')
+            members = [r for r in rows if r['group'] == group['group'] and r['session'] == group['session']]
+            if not members:
+                group['cleared'] = True
+                continue
+            witness = None
+            for member in members:
+                captured = known.get((member['pid'], member['start']))
+                if captured is None or captured['group'] != group['group'] or captured['session'] != group['session']:
+                    continue
+                current = stat_row(member['pid'])
+                if current is None: continue
+                require(current['start'] == captured['start'], 'Owned group witness PID changed')
+                witness = current; break
+            if witness is None:
+                group['uncertain'] = True
+                raise RuntimeError('Group members exist without captured live identity witness; no new admission/signals')
+            require(not group['uncertain'], 'Prior group ownership uncertainty is sticky')
+            require(witness['group'] == group['group'] and witness['session'] == group['session'], 'Owned group witness moved')
+            require(int(witness['start']) >= int(group['start']), 'Group member predates captured group')
+            for row in members:
+                require(int(row['start']) >= int(group['start']), 'Group member predates captured group')
+                if (row['pid'], row['start']) not in known:
+                    admit(row); changed = True
+        for row in rows:
+            if (row['pid'], row['start']) in known: continue
+            parent = next((r for r in rows if r['pid'] == row['parent']), None)
+            if parent and (parent['pid'], parent['start']) in known:
+                admit(row); changed = True
+    return [r for r in rows if (r['pid'], r['start']) in known and r['state'] not in ('Z', 'X')] + [
+        {'groupUncertain': group} for group in owned_groups.values() if group['uncertain']]
+
+def safe_scan():
+    try:
+        return scan()
+    except BaseException as error:
+        failures.append('Owned scan failure: ' + str(error))
+        live = [{'groupUncertain': group} for group in owned_groups.values() if group['uncertain']]
+        for row in list(known.values()):
+            try:
+                actual = stat_row(row['pid'])
+                if actual and actual['start'] == row['start'] and actual['state'] not in ('Z', 'X'):
+                    live.append(actual)
+            except BaseException as error:
+                failures.append('Owned identity inaccessible: ' + str(error))
+                live.append({'identityUncertain': row})
+        return live
+
+def signal_rows(rows, sig):
+    for row in rows:
+        if 'identityUncertain' in row or 'groupUncertain' in row: continue
+        try:
+            actual = stat_row(row['pid'])
+            if actual is None: continue
+            require(actual['start'] == row['start'], 'Owned PID identity changed before signal')
+            require(actual['group'] == row['group'] and actual['session'] == row['session'], 'Owned topology changed before signal')
+            if actual['state'] not in ('Z', 'X'):
+                try: os.kill(actual['pid'], sig)
+                except ProcessLookupError: pass
+        except BaseException as error:
+            failures.append('Identity-checked signal failure: ' + str(error))
+
+def load_inner():
+    global inner_receipt
+    output = root_receipt / 'observer.stdout.txt'
+    if not output.exists(): return
+    require(output.stat().st_size <= 2*1024*1024, 'Inner output cap')
+    for line in output.read_text().splitlines():
+        try: value = json.loads(line)
+        except json.JSONDecodeError: continue
+        if not isinstance(value, dict) or not isinstance(value.get('rootReceipt'), str): continue
+        candidate = pathlib.Path(value['rootReceipt'])
+        require(str(candidate).startswith('/tmp/starship-original21-root.') and candidate.resolve() == candidate and candidate.is_dir(), 'Actual inner root receipt path')
+        require(inner_receipt is None or inner_receipt == candidate, 'Multiple inner receipts')
+        inner_receipt = candidate
+    if inner_receipt is None: return
+    journal = inner_receipt / 'identities.jsonl'
+    if journal.exists():
+        require(journal.stat().st_size <= 1024*1024, 'Inner identity journal cap')
+        lines = journal.read_text().splitlines()
+        for index, line in enumerate(lines):
+            try: record = json.loads(line)
+            except json.JSONDecodeError:
+                require(index == len(lines)-1, 'Corrupt completed identity journal line'); continue
+            row = record['identity']
+            for key in ('pid','start','group','session'): require(key in row, 'Malformed actual inner identity')
+            current = stat_row(row['pid'])
+            if current:
+                require(current['start'] == row['start'] and current['group'] == row['group'] and current['session'] == row['session'], 'Inner tracked identity changed; no replacement admission')
+            admit(row)
+
+def run_child(label, args, deadline):
+    global child
+    with (root_receipt / (label + '.stdout.txt')).open('wb') as stdout, (root_receipt / (label + '.stderr.txt')).open('wb') as stderr:
+        child = subprocess.Popen(args, cwd=m['root'], env=dict(os.environ), stdout=stdout, stderr=stderr, start_new_session=True)
+        initial = stat_row(child.pid)
+        require(initial is not None and initial['parent'] == os.getpid() and initial['group'] == child.pid and initial['session'] == child.pid, 'Immediate direct Popen registration')
+        admit(initial); save(label + '-registration.json', initial)
+        while child.poll() is None:
+            scan(); load_inner()
+            require(time.time() <= deadline, 'Wrapper absolute deadline: ' + label)
+            require(sum((root_receipt / (label + suffix)).stat().st_size for suffix in ('.stdout.txt','.stderr.txt')) <= 2*1024*1024, 'Wrapper combined live output cap')
+            time.sleep(0.025)
+        save(label + '-actual-exit.json', {'returncode': child.returncode, 'elapsedSeconds': time.time() - started})
+        require(time.time() <= deadline, 'Wrapper post-exit deadline: ' + label)
+        load_inner(); scan()
+        return child.returncode
+
+def structural(phase, deadline):
+    code = run_child('structural-' + phase, [w['python']['path'], str(checker), phase], deadline)
+    phase_statuses.append({'phase': phase, 'returncode': code})
+    require(code == 0, 'Structural checker failed: ' + phase)
+    value = json.loads((root_receipt / ('root-structural-' + phase + '.json')).read_text())
+    require(value['code'] == 0 and value['phase'] == phase and value['checkerSha256'] == w['checker']['sha'] and value['closureSha256'] == w['closure']['sha'], 'Actual structural receipt mismatch')
+
+try:
+    structural('before', work_deadline)
+    inner_returncode = run_child('observer', [w['python']['path'], w['observer']['path'], w['ownerInput']['path'], w['ownerInput']['sha']], work_deadline)
+    require(inner_returncode == 0 and inner_receipt is not None, 'Actual accepted observer failed')
+    actual = json.loads((inner_receipt / 'root-outcome.json').read_text())
+    require(actual['completed'] is True and actual['actualReturncode'] == 0 and actual['failures'] == [] and actual['remaining'] == [], 'Actual inner result failed')
+except BaseException as error:
+    failures.append(str(error))
+finally:
+    # Preserve early failure identities and finish ALL captured children before the finally checker.
+    try:
+        if child is not None and child.poll() is None and not any(row['pid'] == child.pid for row in known.values()):
+            row = stat_row(child.pid)
+            require(row is not None and row['parent'] == os.getpid() and row['group'] == child.pid and row['session'] == child.pid, 'Direct Popen finalizer identity')
+            admit(row); save('registration-finalizer.json', row)
+    except BaseException as error: failures.append('Registration finalizer: ' + str(error))
+    try: load_inner()
+    except BaseException as error: failures.append('Inner journal finalizer: ' + str(error))
+    for sig, seconds in ((signal.SIGTERM,5),(signal.SIGKILL,2)):
+        until = min(whole_deadline, time.time() + seconds)
+        while safe_scan() and time.time() < until:
+            signal_rows(safe_scan(), sig)
+            try: load_inner()
+            except BaseException as error: failures.append('Cleanup journal: ' + str(error))
+            time.sleep(0.025)
+    if child is not None:
+        try: child.wait(timeout=max(0.001,min(1,whole_deadline-time.time())))
+        except BaseException as error: failures.append('Direct close: ' + str(error))
+        save('last-direct-actual-exit.json', {'returncode': child.poll(), 'elapsedSeconds': time.time()-started})
+    try: structural('after', whole_deadline)
+    except BaseException as error: failures.append('Finally structural checker: ' + str(error))
+    # Independently recover a failed first registration of the reserved direct checker.
+    try:
+        if child is not None and child.poll() is None and not any(row['pid'] == child.pid for row in known.values()):
+            row = stat_row(child.pid)
+            require(row is not None and row['parent'] == os.getpid() and row['group'] == child.pid and row['session'] == child.pid, 'Finally checker direct Popen registration')
+            admit(row); save('finally-checker-registration-finalizer.json', row)
+    except BaseException as error: failures.append('Finally checker registration finalizer: ' + str(error))
+    # If the finally checker itself timed out, terminate/reap its exact reserved direct PID.
+    if child is not None and child.poll() is None:
+        try:
+            row = stat_row(child.pid); saved = next((r for r in known.values() if r['pid'] == child.pid), None)
+            require(row is not None and saved is not None and row['start'] == saved['start'] and row['group'] == saved['group'] and row['session'] == saved['session'], 'Finally checker identity')
+            os.kill(child.pid, signal.SIGKILL); child.wait(timeout=1)
+        except BaseException as error: failures.append('Finally checker close: ' + str(error))
+    if child is not None:
+        try: save('finally-checker-actual-exit-final.json', {'returncode': child.poll(), 'elapsedSeconds': time.time()-started})
+        except BaseException as error: failures.append('Finally checker independent raw exit: ' + str(error))
+    try: load_inner()
+    except BaseException as error: failures.append('Final inner journal: ' + str(error))
+    remaining = safe_scan()
+    if remaining: failures.append('Owned executing or uncertain identities remain')
+    for path, sha in {**w['files'], manifest_path: expected_sha, str(checker): w['checker']['sha'], str(closure): w['closure']['sha']}.items():
+        try: require(digest(path) == sha, 'Final pinned source/input drift: ' + path)
+        except BaseException as error: failures.append(str(error))
+    if time.time() > whole_deadline: failures.append('Whole wrapper338 deadline exceeded')
+    save('wrapper-outcome.json', {'completed': not failures, 'failures': failures, 'remaining': remaining,
+        'tracked': list(known.values()), 'ownedGroups': list(owned_groups.values()), 'structuralChecks': phase_statuses,
+        'actualObserverReturncode': inner_returncode, 'innerRootReceipt': None if inner_receipt is None else str(inner_receipt),
+        'elapsedSeconds': time.time()-started, 'manifestSha': expected_sha,
+        'acceptance': 'Separate app-build or matrix only; independent all PID/start absence and result HIGH remain mandatory'})
+if failures: sys.exit(1)

@@ -1,0 +1,100 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/DEPS",
+    "file": "chromium-DEPS.txt",
+    "sha256": "0637a1f2f45203b6ed8106a29f8b4fe9e6a54a9f44338cd6321d93925239e66b",
+    "bytes": 191759,
+    "durableFile": "chromium-DEPS.txt.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/gl_implementation.cc",
+    "file": "chromium-gl_implementation.cc",
+    "sha256": "554dc4d2648e6d2833f5a65cd8b4c2a50c6751863ce3b92eba28158c9e3c8f06",
+    "bytes": 19113,
+    "durableFile": "chromium-gl_implementation.cc.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/gl_display.cc",
+    "file": "chromium-gl_display.cc",
+    "sha256": "62a8b006c2f35b0c0f3f1e40b28d3f004b0c2b33dfbaef6d29c54d86488eeffe",
+    "bytes": 28141,
+    "durableFile": "chromium-gl_display.cc.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/ozone/platform/headless/headless_surface_factory.cc",
+    "file": "chromium-headless_surface_factory.cc",
+    "sha256": "38799d135dbd5434e2f01de54f1952bb33ba379129888d2dcb715e2be8587cb4",
+    "bytes": 9851,
+    "durableFile": "chromium-headless_surface_factory.cc.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/angle/6dab7c7e742b528fd52233d3cc926e61b1e7d70d/src/libANGLE/Display.cpp",
+    "file": "angle-Display.cpp",
+    "sha256": "a8d8221c9ae7bc50785a1268f1937424beb22ae5d889cb86ce193dd0246e2320",
+    "bytes": 91955,
+    "durableFile": "angle-Display.cpp.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/angle/6dab7c7e742b528fd52233d3cc926e61b1e7d70d/src/libANGLE/renderer/gl/egl/DisplayEGL.cpp",
+    "file": "angle-DisplayEGL.cpp",
+    "sha256": "379f6c8b8a614fdafa0d6a1ed8f6cc1b286906485a634c606e88265a55938098",
+    "bytes": 42682,
+    "durableFile": "angle-DisplayEGL.cpp.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/gl_switches.cc",
+    "file": "chromium-gl_switches.cc",
+    "sha256": "8a0b0f58c77897473c3128519653015008051909800b0d2670887eb7fef4596c",
+    "bytes": 17597,
+    "durableFile": "chromium-gl_switches.cc.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/angle/6dab7c7e742b528fd52233d3cc926e61b1e7d70d/src/libANGLE/renderer/gl/egl/FunctionsEGLDL.cpp",
+    "file": "angle-FunctionsEGLDL.cpp",
+    "sha256": "50087e68d8204354631aaada2cb83771659f73c7b68fb29c6b3fb391d9a06e06",
+    "bytes": 2241,
+    "durableFile": "angle-FunctionsEGLDL.cpp.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/gl_surface_egl.cc",
+    "file": "chromium-gl_surface_egl.cc",
+    "sha256": "9bedf6f5ed23b568c80e452e17d7cf771098fe1645672c3e33a4ba42a446d77b",
+    "bytes": 41442,
+    "durableFile": "chromium-gl_surface_egl.cc.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/angle/6dab7c7e742b528fd52233d3cc926e61b1e7d70d/src/libANGLE/renderer/gl/egl/FunctionsEGL.cpp",
+    "file": "angle-FunctionsEGL.cpp",
+    "sha256": "dee19bab8e6efeaa2fd9e9c95e53fbdb9d249e777b141d4734166b5dee337f15",
+    "bytes": 32154,
+    "durableFile": "angle-FunctionsEGL.cpp.txt"
+  },
+  {
+    "url": "https://gitlab.freedesktop.org/mesa/mesa/-/raw/mesa-25.0.7/src/egl/main/egldisplay.c",
+    "file": "mesa-egldisplay.c",
+    "sha256": "e40afe472a2df000e7fb2c81e3ad679117132a3f60d2fc57c9749145d5bec459",
+    "bytes": 19741,
+    "durableFile": "mesa-egldisplay.c.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/init/gl_factory.cc",
+    "file": "chromium-gl_factory.cc",
+    "sha256": "2c5a2af0e4cd91f0eb96f22730e23fc3a80da092d29f336097cd218d1c813c2c",
+    "bytes": 7682,
+    "durableFile": "chromium-gl_factory.cc.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/egl_util.cc",
+    "file": "chromium-egl_util.cc",
+    "sha256": "a1f329d032ed986512dc4bd2385b5046db8ca745d5dd89c429827dfb3bfde5cc",
+    "bytes": 2835,
+    "durableFile": "chromium-egl_util.cc.txt"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/gl_utils.cc",
+    "file": "chromium-gl_utils.cc",
+    "sha256": "bdc0a4d69ab1a67af33aa6846cca03959e7ef1aceb7e7d9578cadff3034a55a3",
+    "bytes": 8585,
+    "durableFile": "chromium-gl_utils.cc.txt"
+  }
+]

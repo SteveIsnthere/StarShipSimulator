@@ -1,0 +1,58 @@
+// Research owner business stage: reviewed helper handles the ONE inert Node child.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {resolve} from 'node:path';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+const started=Date.now(),[input]=process.argv.slice(2);
+const digest=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
+const m=JSON.parse(readFileSync(input,'utf8'));
+assert.equal(m.kind,'portable-native-pure-owner-input-v1');
+assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'portable-native-post-golden-pure-controls');
+assert.equal(process.version,'v22.23.3');assert.equal(digest(process.execPath),m.node.sha256);
+assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);
+assert.match(m.setup,/^\/tmp\/starship-portable-native-post-golden-pure\.[a-f0-9]{32}$/);
+assert.equal(fileURLToPath(import.meta.url),resolve(m.setup,'owner.mjs'));
+const save=(name,value)=>writeFileSync(resolve(m.setup,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+function snapshot(){
+ const rows={};for(const [file,sha]of Object.entries(m.inputs)){rows[file]=digest(file);assert.equal(rows[file],sha,file);}
+ for(const [file,row]of Object.entries(m.executed)){rows[file]=digest(file);assert.equal(rows[file],row.sha256,file);}
+ rows[process.execPath]=digest(process.execPath);assert.equal(rows[process.execPath],m.node.sha256);
+ return rows;
+}
+let before,after,code=null,primary=null,processReceipt=null,output=null,absence=null;
+let verifyNoOwnedProcesses;
+try{
+ before=snapshot();save('before-inputs.json',before);
+ assert.equal(digest(m.helper.path),m.helper.sha256);
+ const owned=await import(pathToFileURL(m.helper.path).href);verifyNoOwnedProcesses=owned.verifyNoOwnedProcesses;
+ code=await owned.runOwnedCommand({name:'portable-policy-controls',root:m.root,receipt:m.setup,
+  args:[resolve(m.setup,'controls.mjs'),resolve(m.setup,'admission.mjs')],deadlineMs:5000,
+  env:{...process.env,NODE_OPTIONS:''}});
+ // Raw OS/helper receipt is saved by the helper BEFORE this assertion.
+ processReceipt=JSON.parse(readFileSync(resolve(m.setup,'portable-policy-controls.process.json'),'utf8'));
+ assert.equal(code,0);assert.equal(processReceipt.exit.code,0);assert.equal(processReceipt.exit.signal,null);
+ assert.equal(processReceipt.failure,null);assert.equal(processReceipt.closed,true);assert.equal(processReceipt.finished,true);
+ assert.equal(processReceipt.cleanup.executing.length,0);assert(processReceipt.cleanup.tracked.length>0);
+ assert.equal(readFileSync(resolve(m.setup,'portable-policy-controls.stderr.txt')).length,0);
+ const stdout=readFileSync(resolve(m.setup,'portable-policy-controls.stdout.txt'),'utf8');
+ assert.equal(stdout.trim().split('\n').length,1);output=JSON.parse(stdout);
+ assert.equal(output.kind,'pure-post-golden-policy-controls-v1');
+ assert.deepEqual(output.cases,m.expectedNames);assert.equal(new Set(output.cases).size,10);
+ assert.equal(output.positiveCases,2);assert.equal(output.negativeCases,8);
+ assert.equal(output.actualQualification,false);assert.equal(output.extractionStopsBeforeAdmitRun,true);
+ for(const key of ['physicalImports','installedScans','sourceScans'])assert.equal(output[key],0);
+}catch(error){primary=String(error.stack??error);}
+finally{
+ try{if(verifyNoOwnedProcesses){absence=verifyNoOwnedProcesses();save('helper-owned-absence.json',absence);}}catch(error){primary??=String(error.stack??error);}
+ try{after=snapshot();save('after-inputs.json',after);assert.deepEqual(after,before);}catch(error){primary??=String(error.stack??error);}
+ if(!processReceipt){try{processReceipt=JSON.parse(readFileSync(resolve(m.setup,'portable-policy-controls.process.json'),'utf8'));}catch(error){primary??=String(error.stack??error);}}
+}
+const elapsedMs=Date.now()-started;
+if(elapsedMs>22000)primary??='Owner exceeded22s work inside30s root whole bound';
+save('owner-result.json',{kind:'portable-native-pure-owner-result-v1',completed:code===0&&primary===null,
+ rawCode:code,failure:primary,processReceipt,output,absence,elapsedMs,
+ extractionStopsBeforeAdmitRun:true,sourceOrInstalledQualification:false,
+ parentMustIndependentlyVerifyALLTrackedAndObservedPidStarts:true});
+process.stdout.write(resolve(m.setup,'owner-result.json')+'\n');
+process.exitCode=code===0&&primary===null?0:1;

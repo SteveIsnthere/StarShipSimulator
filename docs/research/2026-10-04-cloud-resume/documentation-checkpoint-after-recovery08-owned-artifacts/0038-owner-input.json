@@ -1,0 +1,53 @@
+{
+  "kind": "mesa-retained-prefix-assessment-root-input-v1",
+  "mode": "retained-trace-prefix-assessment",
+  "outerMs": 30000,
+  "root": "/workspace/StarShipSimulator",
+  "diagnosticInput": {
+    "path": "/tmp/starship-trace-prefix-input.b1c0979d1b4a49a0963e2b6c8dada4ff/assessment-input.json",
+    "sha": "9630f28473c9bc34280725ca3991f4075eb2344aa7c3d8c47cc83ea3e1cc9f74"
+  },
+  "diagnostic": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/run_assessment.py.txt",
+    "sha": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root_observer.header-bound.py.txt",
+    "sha": "f0a4bc7349ccdd7c47acc8e5e9f1743f233e1f8ec1dfbbf866861256ac1aa32d"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "trace": {
+    "path": "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/browser-all-threads-trace.partial.json",
+    "sha256": "e396261671efa367a0c9d86eaf862632718f0718475c0a99c041e69327fc73da",
+    "bytes": 67108864,
+    "mode": 384,
+    "device": 33,
+    "inode": 30337,
+    "mtimeNs": 1791168492221868000,
+    "ctimeNs": 1791168492221868000
+  },
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/run_assessment.py.txt": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/prefix_reader.header-bound.py.txt": "b5353c330965eb449f9148387989d2290e7fdcca37c336a889ebb4e17638c523",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/controls.header-bound.py.txt": "c991dfaeb5862a64b5dbc9f98608db174ec114f3564994c1a2292ea2948b5c04",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root_observer.header-bound.py.txt": "f0a4bc7349ccdd7c47acc8e5e9f1743f233e1f8ec1dfbbf866861256ac1aa32d",
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/make_input.py.txt": "d5b0b5856f37f67abf3df98dbfb8c2b485b504d130feeb62189f53cec728a2aa",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/source-pins-header-bound.json": "559c87da39cdd413ee4736ca0b03f535e88ae3a2922b286f4e889d71262b11dc",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/independent-header-bound-source-HIGH-review.md": "bfb8419f57b636563e1c4a7ef328a28bfb47c36e0ecbaa69b5b16b7eb283bde9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-review.md": "c07534a6fdd6333624ed4b881fd0107561b7e3a603f30f5bb8a359e81842fe9b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-pins.json": "3bb434e84a4f05b01a712aad3703c9c4a125e9e794eff282a7e596c183adb211",
+    "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/trace-buffer-usage.json": "c96382f5ed4e6943ef7b1839a97faebf62038d46a549b8a629adc5cd596e3aee",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/bounded-partial-trace-offline-assessment-proposal.md": "306a94deb084d2d5a3551f680a866b4bc7244b60c3e03aadba9efce0bbad7c64",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/contract.md": "981302017f50dd671cbe052ce8e536fa719138f94768054d82186fcfeb4d6b92",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/ownership-transfer.json": "0af6a196fedaddf6c81e578a2b54bf3f7da7f165281bb720c6f38886b8df8da0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-managed-python-observer.py.txt": "5a76214ab6e39ccb4a0209cdfb0fe21e62d10cddbe9d5dcff951e8e594649a89",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/header-bound-repair-contract.md": "2c61eec3951a98c75422c8c8e496d0ba46d2cef684947cfad702abf27c15a8b7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-materialization-seed.json": "09401db5213ae9901f9941266133a34bb4b11fc7c6f63e3ef937f4a63a627662",
+    "/tmp/starship-trace-prefix-input.b1c0979d1b4a49a0963e2b6c8dada4ff/assessment-input.json": "9630f28473c9bc34280725ca3991f4075eb2344aa7c3d8c47cc83ea3e1cc9f74",
+    "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/browser-all-threads-trace.partial.json": "e396261671efa367a0c9d86eaf862632718f0718475c0a99c041e69327fc73da"
+  }
+}

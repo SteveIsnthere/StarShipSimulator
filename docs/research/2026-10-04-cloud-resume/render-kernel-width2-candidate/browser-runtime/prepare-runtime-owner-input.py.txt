@@ -1,0 +1,18 @@
+"""Materialize ONE proposed browser owner input only; no library/browser execution."""
+import hashlib,json,pathlib,os,sys,uuid
+repo=pathlib.Path('/workspace/StarShipSimulator');directory=repo/'docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime';original=directory.parent/'compile-qualification'
+sha=lambda p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest();entry=lambda p:{'path':str(p),'sha':sha(p)}
+pins=directory/'input-pins.json'
+if sha(pins)!=os.environ.get('WIDTH2_BROWSER_RUNTIME_INPUT_PINS_SHA256'):raise RuntimeError('Externally frozen runtime source-input map required')
+for file,pin in json.loads(pins.read_text()).items():
+ if sha(file)!=pin:raise RuntimeError('Frozen runtime input changed '+file)
+runtime=directory/'browser-input.json';a=json.loads(runtime.read_text())
+node=pathlib.Path(a['nodeExecutable'])
+if sha(node)!=a['nodeSha256']:raise RuntimeError('ManagedNode drift')
+m={'kind':'width2-concrete-stage-owner-input-v1','root':str(repo),'mode':'build','purpose':'width2-browser-runtime','outerMs':120000,'setup':a['setup'],
+'node':entry(node),'python':entry(pathlib.Path(sys.executable).resolve()),'helper':entry(repo/'scripts/bench/owned-command.mjs'),
+'preparer':entry(original/'prepare-width2.py.txt'),'builder':entry(pathlib.Path(a['setup'])/'run-render-kernel-width2.mjs'),'qualifier':entry(runtime),
+'pins':entry(pins),'stage':entry(directory/'business-stage.mjs.txt'),'observer':entry(directory/'browser-root-parent.py.txt'),'bridge':entry(original/'width2-python-preparation-bridge.mjs.txt')}
+receipt=pathlib.Path('/tmp')/('starship-width2-browser-owner-input.'+uuid.uuid4().hex);receipt.mkdir(mode=0o700,exist_ok=False);file=receipt/'owner-input.json'
+with file.open('x') as out:json.dump(m,out,indent=2);out.write('\n')
+print(json.dumps({'manifestPath':str(file),'manifestSha':sha(file),'outerMs':120000,'python':m['python']['path'],'setup':m['setup']}))

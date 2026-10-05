@@ -1,0 +1,171 @@
+{
+  "completed": true,
+  "failures": [],
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 115088,
+      "state": "R",
+      "parent": 115087,
+      "group": 115088,
+      "session": 115088,
+      "start": "7342651"
+    },
+    {
+      "pid": 115089,
+      "state": "R",
+      "parent": 115087,
+      "group": 115089,
+      "session": 115089,
+      "start": "7342682"
+    },
+    {
+      "pid": 115090,
+      "state": "R",
+      "parent": 115089,
+      "group": 115090,
+      "session": 115090,
+      "start": "7342703"
+    },
+    {
+      "pid": 115097,
+      "state": "R",
+      "parent": 115090,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343056"
+    },
+    {
+      "pid": 115108,
+      "state": "S",
+      "parent": 115097,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343066"
+    },
+    {
+      "pid": 115109,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343067"
+    },
+    {
+      "pid": 115116,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343076"
+    },
+    {
+      "pid": 115123,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343983"
+    },
+    {
+      "pid": 115130,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343988"
+    },
+    {
+      "pid": 115137,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343992"
+    },
+    {
+      "pid": 115169,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7344504"
+    },
+    {
+      "pid": 115180,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7344510"
+    },
+    {
+      "pid": 115191,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7344518"
+    },
+    {
+      "pid": 115215,
+      "state": "R",
+      "parent": 115087,
+      "group": 115215,
+      "session": 115215,
+      "start": "7344924"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 115088,
+      "session": 115088,
+      "start": "7342651",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115089,
+      "session": 115089,
+      "start": "7342682",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115090,
+      "session": 115090,
+      "start": "7342703",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115097,
+      "session": 115097,
+      "start": "7343056",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115215,
+      "session": 115215,
+      "start": "7344924",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "structuralChecks": [
+    {
+      "phase": "before",
+      "returncode": 0
+    },
+    {
+      "phase": "after",
+      "returncode": 0
+    }
+  ],
+  "actualObserverReturncode": 0,
+  "innerRootReceipt": "/tmp/starship-original21-root.qmbr87r3",
+  "elapsedSeconds": 24.09686779975891,
+  "manifestSha": "a4ed73c0ad9b9fbd6d3de2ac2bcb97aa02af9a16ce18e6b74f4ac5d1618a0b48",
+  "acceptance": "Separate app-build or matrix only; independent all PID/start absence and result HIGH remain mandatory"
+}

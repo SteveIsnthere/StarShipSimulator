@@ -1,0 +1,58 @@
+// Research owner business stage: reviewed helper handles the ONE inert Node child.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {resolve} from 'node:path';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+const started=Date.now(),[input]=process.argv.slice(2);
+const digest=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
+const m=JSON.parse(readFileSync(input,'utf8'));
+assert.equal(m.kind,'stage-a-public-qualification-owner-input-v1');
+assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'stage-a-public-qualification');
+assert.equal(process.version,'v22.23.3');assert.equal(digest(process.execPath),m.node.sha256);
+assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);
+assert.match(m.setup,/^\/tmp\/starship-stage-a-public-qualification\.[a-f0-9]{32}$/);
+assert.equal(fileURLToPath(import.meta.url),resolve(m.setup,'owner.mjs'));
+const save=(name,value)=>writeFileSync(resolve(m.setup,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+function snapshot(){
+ const rows={};for(const [file,sha]of Object.entries(m.inputs)){rows[file]=digest(file);assert.equal(rows[file],sha,file);}
+ for(const [file,row]of Object.entries(m.executed)){rows[file]=digest(file);assert.equal(rows[file],row.sha256,file);}
+ rows[process.execPath]=digest(process.execPath);assert.equal(rows[process.execPath],m.node.sha256);
+ return rows;
+}
+let before,after,code=null,primary=null,processReceipt=null,output=null,absence=null;
+let verifyNoOwnedProcesses;
+try{
+ before=snapshot();save('before-inputs.json',before);
+ assert.equal(digest(m.helper.path),m.helper.sha256);
+ const owned=await import(pathToFileURL(m.helper.path).href);verifyNoOwnedProcesses=owned.verifyNoOwnedProcesses;
+ code=await owned.runOwnedCommand({name:'stage-a-public-admission',root:m.root,receipt:m.setup,
+  args:[resolve(m.setup,'qualifier.mjs'),input],deadlineMs:12000,
+  env:{...process.env,NODE_OPTIONS:''}});
+ // Raw OS/helper receipt is saved by the helper BEFORE this assertion.
+ processReceipt=JSON.parse(readFileSync(resolve(m.setup,'stage-a-public-admission.process.json'),'utf8'));
+ assert.equal(code,0);assert.equal(processReceipt.exit.code,0);assert.equal(processReceipt.exit.signal,null);
+ assert.equal(processReceipt.failure,null);assert.equal(processReceipt.closed,true);assert.equal(processReceipt.finished,true);
+ assert.equal(processReceipt.cleanup.executing.length,0);assert(processReceipt.cleanup.tracked.length>0);
+ assert.equal(readFileSync(resolve(m.setup,'stage-a-public-admission.stderr.txt')).length,0);
+ const stdout=readFileSync(resolve(m.setup,'stage-a-public-admission.stdout.txt'),'utf8');
+ assert.equal(stdout.trim().split('\n').length,1);output=JSON.parse(stdout);
+ assert.equal(output.kind,'stage-a-public-admission-result-v1');
+ assert.equal(output.admitted,true);assert.equal(output.compositeSha,m.composite.sha256);
+ assert.equal(output.sourceCount,770);assert.equal(output.toolCount,20355);
+ assert.equal(output.sourceExact,true);assert.equal(output.toolsVerifiedByPublicAdmission,true);
+ assert.equal(output.testsExecuted,false);
+}catch(error){primary=String(error.stack??error);}
+finally{
+ try{if(verifyNoOwnedProcesses){absence=verifyNoOwnedProcesses();save('helper-owned-absence.json',absence);}}catch(error){primary??=String(error.stack??error);}
+ try{after=snapshot();save('after-inputs.json',after);assert.deepEqual(after,before);}catch(error){primary??=String(error.stack??error);}
+ if(!processReceipt){try{processReceipt=JSON.parse(readFileSync(resolve(m.setup,'stage-a-public-admission.process.json'),'utf8'));}catch(error){primary??=String(error.stack??error);}}
+}
+const elapsedMs=Date.now()-started;
+if(elapsedMs>22000)primary??='Owner exceeded22s work inside30s root whole bound';
+save('owner-result.json',{kind:'stage-a-public-qualification-owner-result-v1',completed:code===0&&primary===null,
+ rawCode:code,failure:primary,processReceipt,output,absence,elapsedMs,
+ publicAdmission:true,sourceOrInstalledQualification:true,
+ parentMustIndependentlyVerifyALLTrackedAndObservedPidStarts:true});
+process.stdout.write(resolve(m.setup,'owner-result.json')+'\n');
+process.exitCode=code===0&&primary===null?0:1;

@@ -1,0 +1,38 @@
+// Inert source-extracted private resolve/load callbacks, not public lifecycle proof.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
+const [input,inputSha]=process.argv.slice(2),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+assert.deepEqual(process.execArgv,[]);assert.equal(process.env.NODE_OPTIONS??'','');assert.equal(process.env.NODE_PATH??'','');assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-census-closed-three');assert.equal(sha(input),inputSha);
+const m=JSON.parse(readFileSync(input,'utf8'));assert.equal(process.version,'v22.23.3');assert.equal(sha(process.execPath),m.node.sha256);
+assert.equal(m.kind,'closed-three-census-source-input-v1');const self=resolve(m.setup,'boundary-controls.mjs'),role=m.materialized[self];assert.equal(fileURLToPath(import.meta.url),self);assert(role);assert.equal(role.source,resolve(m.root,'docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls.mjs.txt'));assert.equal(role.sha256,role.sourceSha256);assert.equal(m.selected[self],role.sha256);assert.equal(sha(self),role.sha256);assert.equal(sha(role.source),role.sourceSha256);
+const sourcePath=resolve(m.setup,'loader.mjs');assert.equal(sha(sourcePath),m.materialized[sourcePath].sha256);
+const source=readFileSync(sourcePath,'utf8'),start=source.indexOf('function artifactTarget(url){'),end=source.lastIndexOf('} });');assert(start>=0&&end>start);assert.equal(source.indexOf('function artifactTarget(url){',start+1),-1);
+const callbackSource=source.slice(start,end+5);assert(callbackSource.startsWith('function artifactTarget(url){'));assert(callbackSource.endsWith('} });'));
+const bytes=Buffer.from('export const marker=1;\n'),hash=createHash('sha256').update(bytes).digest('hex'),directory=resolve(m.setup,'inert-artifact'),entryURL=pathToFileURL(resolve(directory,'entry.mjs')).href,chunkURL=pathToFileURL(resolve(directory,'chunk.js')).href,constantsURL=pathToFileURL(resolve(directory,'constants.mjs')).href;
+const names=[];function fixture(){
+ const records=[],certificates=new Map(),observerLoads=new Map(),authorizedArtifactURLs=new Set(),executingURLs=new Set([entryURL,chunkURL,constantsURL]);let hooks;
+ const artifact={directory,files:{'entry.mjs':hash,'chunk.js':hash,'constants.mjs':hash},edges:[{fileName:'entry.mjs',imports:['chunk.js']},{fileName:'chunk.js',imports:[]}]};
+ const q={root:m.root,aliases:['$core/step','$core/constants'],mappedCode:'chunk.js',originalTests:{},goldenSourceFiles:{}};
+ const denyAlias=(_specifier,_parent,reason)=>assert.fail(reason);
+ const args={assert,q,certificates,runtimeAliases:{},goldenAliases:{'original.ts':['$core/step','$core/constants']},entryURL,chunkURL,constantsURL,record:row=>records.push(row),denyAlias,relativeTarget:()=>null,m:artifact,input:{observer:{sha256:hash}},pathToFileURL,resolve,observerLoads,authorizedArtifactURLs,artifactPrefix:pathToFileURL(directory+'/').href,executingURLs,registerHooks:value=>{hooks=value;},supportFileForURL:()=>null,identifyOriginalParent:()=>null,observerParents:new Map(),cacheTokenDigits:13,parents:new Map(),originalLoads:new Map(),sourceBytes:value=>Buffer.from(value.source),createHash,digest:()=>hash,observerURL:pathToFileURL(resolve(m.setup,'observer.mjs')).href,assertSupportAdmission:()=>assert.fail('Unexpected support admission')};
+ new Function(...Object.keys(args),callbackSource)(...Object.values(args));assert(hooks&&typeof hooks.resolve==='function'&&typeof hooks.load==='function');return{hooks,records,certificates,observerLoads,authorizedArtifactURLs};
+}
+function test(name,body){body();names.push(name);}
+function denied(body,pattern){assert.throws(body,error=>error instanceof assert.AssertionError&&pattern.test(error.message));}
+const next=(url)=>()=>({url}),ctx=parentURL=>({parentURL});
+test('foreign alias denies before delegation',()=>{const f=fixture();denied(()=>f.hooks.resolve('$core/step',ctx('file:///foreign.ts'),()=>assert.fail('Delegated')),/foreign or uncertified/);});
+test('unknown application alias denies',()=>{const f=fixture();denied(()=>f.hooks.resolve('$core/unknown',ctx('file:///foreign.ts'),()=>assert.fail('Delegated')),/Unknown native application alias/);});
+for(const [name,url,pattern]of[['foreign absolute entry',entryURL,/Foreign inbound/],['artifact query',entryURL+'?x=1',/query\/fragment/],['artifact fragment',entryURL+'#x',/query\/fragment/],['nonexecuting artifact',pathToFileURL(resolve(directory,'entry.mjs.map')).href,/Unknown\/nonexecuting/]])test(name,()=>{const f=fixture();denied(()=>f.hooks.resolve(url,ctx('file:///foreign.ts'),next(url)),pattern);});
+test('certified alias resolves only owned entry',()=>{const f=fixture(),parent='file:///original.ts';f.certificates.set(parent,{file:'original.ts',canonicalParentURL:parent,cacheToken:null,sourceSha:hash});assert.deepEqual(f.hooks.resolve('$core/step',ctx(parent),()=>assert.fail('Delegated')),{url:entryURL,shortCircuit:true});assert(f.authorizedArtifactURLs.has(entryURL));});
+test('certified observer bootstrap admits entry',()=>{const f=fixture(),parent='file:///observer.mjs';f.observerLoads.set(parent,{sourceSha:hash});assert.deepEqual(f.hooks.resolve(entryURL,ctx(parent),next(entryURL)),{url:entryURL});assert(f.authorizedArtifactURLs.has(entryURL));});
+test('observer cannot bootstrap chunk',()=>{const f=fixture(),parent='file:///observer.mjs';f.observerLoads.set(parent,{sourceSha:hash});denied(()=>f.hooks.resolve(chunkURL,ctx(parent),next(chunkURL)),/Foreign inbound/);});
+test('compiler local edge admits exact chunk',()=>{const f=fixture();assert.deepEqual(f.hooks.resolve('./chunk.js',ctx(entryURL),next(chunkURL)),{url:chunkURL});assert(f.authorizedArtifactURLs.has(chunkURL));});
+test('compiler local edge denies foreign target',()=>{const f=fixture();denied(()=>f.hooks.resolve('./foreign.js',ctx(entryURL),next('file:///foreign.js')),/Foreign emitted/);});
+test('unresolved artifact load denies before delegation',()=>{const f=fixture();denied(()=>f.hooks.load(entryURL,{},()=>assert.fail('Delegated')),/without certified resolution/);});
+test('authorized native bytes retained without transform',()=>{const f=fixture();f.authorizedArtifactURLs.add(entryURL);const value={format:'module',source:bytes};assert.equal(f.hooks.load(entryURL,{},()=>value),value);assert.equal(f.records.at(-1).sourceSha,hash);});
+test('authorized native wrong bytes deny',()=>{const f=fixture();f.authorizedArtifactURLs.add(entryURL);assert.throws(()=>f.hooks.load(entryURL,{},()=>({format:'module',source:'changed'})),assert.AssertionError);});
+assert.equal(names.length,14);assert.equal(new Set(names).size,14);assert.equal(sha(sourcePath),m.materialized[sourcePath].sha256);assert.equal(sha(input),inputSha);assert.equal(sha(self),role.sha256);assert.equal(sha(role.source),role.sourceSha256);
+writeFileSync(resolve(m.setup,'boundary-controls-result.json'),JSON.stringify({kind:'closed-three-inert-loader-boundary-controls-v1',names,allPassed:true,inputSha256:inputSha,driverSha256:sha(self),sourceSha256:sha(sourcePath),callbackSha256:createHash('sha256').update(callbackSource).digest('hex'),actualGlobalHooksInstalled:false,physicalImports:false,publicWorkerLifecycleApproved:false})+'\n',{flag:'wx'});

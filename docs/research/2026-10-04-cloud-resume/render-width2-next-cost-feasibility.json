@@ -1,0 +1,1152 @@
+{
+  "kind": "retained-width2-offline-attribution-v1",
+  "newCaptures": false,
+  "newCompilerOrModuleExecution": false,
+  "performanceAcceptance": false,
+  "widths": {
+    "32": {
+      "records": 920,
+      "programGroups": {
+        "clear": {
+          "records": 40,
+          "gpuElapsedNs": 41357
+        },
+        "#define SHADER_NAME batch-fragment": {
+          "records": 200,
+          "gpuElapsedNs": 2675928170
+        },
+        "#define SHADER_NAME mesh-fragment": {
+          "records": 60,
+          "gpuElapsedNs": 29265927
+        },
+        "blitFramebuffer": {
+          "records": 20,
+          "gpuElapsedNs": 647606
+        },
+        "#define SHADER_NAME bloom-fragment": {
+          "records": 20,
+          "gpuElapsedNs": 65086452
+        },
+        "#define SHADER_NAME v3-component-material-fragment": {
+          "records": 580,
+          "gpuElapsedNs": 70629590
+        }
+      },
+      "batchDrawGroups": [
+        {
+          "args": [
+            4,
+            6,
+            5123,
+            0
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 1071123759,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 2,
+              "width": 1,
+              "height": 256,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            744,
+            5123,
+            12
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 1240485841,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 4,
+              "width": 1,
+              "height": 1,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            24,
+            5123,
+            1500
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 8740485,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 4,
+              "width": 1,
+              "height": 1,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            240,
+            5123,
+            1548
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 3650819,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 4,
+              "width": 1,
+              "height": 1,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            360,
+            5123,
+            2028
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 170533436,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            672,
+            5123,
+            2748
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 15650902,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            354,
+            5123,
+            4092
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 87926992,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            690,
+            5123,
+            4800
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 39252258,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            348,
+            5123,
+            6180
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 35123420,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            288,
+            5123,
+            6876
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 3440258,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 4,
+              "width": 1,
+              "height": 1,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "width": 32,
+        "frames": 20,
+        "sessionAcceptance": false,
+        "queryTotalNs": 2841599102,
+        "batchQueryNs": 2675928170,
+        "cadenceFps": 7.403078121955972,
+        "noShaderCpuClaim": true
+      }
+    },
+    "2": {
+      "records": 1060,
+      "programGroups": {
+        "clear": {
+          "records": 40,
+          "gpuElapsedNs": 26428
+        },
+        "#define SHADER_NAME batch-fragment": {
+          "records": 340,
+          "gpuElapsedNs": 769286596
+        },
+        "#define SHADER_NAME mesh-fragment": {
+          "records": 60,
+          "gpuElapsedNs": 30398469
+        },
+        "blitFramebuffer": {
+          "records": 20,
+          "gpuElapsedNs": 717820
+        },
+        "#define SHADER_NAME bloom-fragment": {
+          "records": 20,
+          "gpuElapsedNs": 61528455
+        },
+        "#define SHADER_NAME v3-component-material-fragment": {
+          "records": 580,
+          "gpuElapsedNs": 69696388
+        }
+      },
+      "batchDrawGroups": [
+        {
+          "args": [
+            4,
+            6,
+            5123,
+            0
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 315816793,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 2,
+              "width": 1,
+              "height": 256,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            648,
+            5123,
+            12
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 275303941,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 4,
+              "width": 1,
+              "height": 1,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            12,
+            5123,
+            1308
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 46326760,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 5,
+              "width": 1000,
+              "height": 750,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 6,
+              "width": 859,
+              "height": 200,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            12,
+            5123,
+            1332
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 10511377,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 7,
+              "width": 137,
+              "height": 600,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 8,
+              "width": 100,
+              "height": 485,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            12,
+            5123,
+            1356
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 2215416,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 9,
+              "width": 100,
+              "height": 485,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 10,
+              "width": 197,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            12,
+            5123,
+            1380
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 1527326,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 11,
+              "width": 140,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 14,
+              "width": 119,
+              "height": 100,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            18,
+            5123,
+            1404
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 1330374,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 10,
+              "width": 197,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 10,
+              "width": 197,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            24,
+            5123,
+            1440
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 1416537,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 11,
+              "width": 140,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 11,
+              "width": 140,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            6,
+            5123,
+            1488
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 1038145,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 10,
+              "width": 197,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 11,
+              "width": 140,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            24,
+            5123,
+            1500
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 3810487,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 11,
+              "width": 140,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            240,
+            5123,
+            1548
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 1741628,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 11,
+              "width": 140,
+              "height": 150,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            360,
+            5123,
+            2028
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 47083577,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            672,
+            5123,
+            2748
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 5951330,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            354,
+            5123,
+            4092
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 26656042,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            690,
+            5123,
+            4800
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 13979925,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            348,
+            5123,
+            6180
+          ],
+          "target": {
+            "id": 4,
+            "attachments": [
+              {
+                "attachment": 36064,
+                "kind": "renderbuffer",
+                "id": 2,
+                "storage": {
+                  "id": 2,
+                  "width": 256,
+                  "height": 128,
+                  "samples": 4
+                }
+              }
+            ]
+          },
+          "records": 20,
+          "gpuElapsedNs": 11854115,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        },
+        {
+          "args": [
+            4,
+            288,
+            5123,
+            6876
+          ],
+          "target": {
+            "id": null,
+            "default": true,
+            "width": 1280,
+            "height": 720
+          },
+          "records": 20,
+          "gpuElapsedNs": 2722823,
+          "firstBindings0and1": [
+            {
+              "binding": "0:3553",
+              "id": 4,
+              "width": 1,
+              "height": 1,
+              "depth": 1,
+              "target": 3553
+            },
+            {
+              "binding": "1:3553",
+              "id": 3,
+              "width": 128,
+              "height": 128,
+              "depth": 1,
+              "target": 3553
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "width": 2,
+        "frames": 20,
+        "sessionAcceptance": false,
+        "queryTotalNs": 931654156,
+        "batchQueryNs": 769286596,
+        "cadenceFps": 19,
+        "noShaderCpuClaim": true
+      }
+    }
+  },
+  "captureLimits": [
+    "Hook retains draw arguments, program generation, bound textures/target extents and timer intervals; no vertex/index buffer bytes or per-vertex selected texture IDs.",
+    "Bindings contain cached unused units; dimensions1x1 do not certify white texel contents or a white-only draw.",
+    "Public display witness has sprite/texture/transforms but omits Graphics tessellation and Mesh geometry, masks and complete GL scissor/stencil/blend state.",
+    "GPU elapsed intervals in SwiftShader do not identify LLVM, fragment, sample or driver CPU attribution."
+  ]
+}

@@ -1,0 +1,11 @@
+# Independent actual failure: full38 preflight documentation pins
+
+The sole full38 native replay invocation FAILED before its paid test/build helper. Root raw1/2.077375931seconds, outer1 and stagecode:null agree. Earliest checkPins assertion rejects GOAL: inherited expected85472b5d9d93164c7f8bd38600a5738c82060960a898656dcd3d6b3de846f13b versus current8ed25bca8de3992a0d4b7e5b195c52ea3eef2bacac324037a8bb7a226419b05a. Root final checks additionally reject Phase8 expected8bfcfa… versus current1dba3f…. Both are documentation rows inherited from the previous record, separate from source770/runtime fixture qualification.
+
+No preparation.process.json, actual public wrapper/lifecycle, tests, native build or before-source capture exists. after-source770 was recorded and equals the explicit expected770 metadata; no paired before-boundary was proved. Missing status/lifecycle and before assertion errors are truthfully retained. This is a preflight authority mismatch, not a second physical replay or new golden comparison result. The earlier originalSSR37/38 timeout remains distinct FAILED; no full38 numerical/physical result was measured here.
+
+Caller100715/start6476887 reaped and outer100716/start6476908 independently absent. Root tracked one owned identity/group, group cleared uncertaintyfalse, remainingempty; parent independent post-exit agrees. I also observed both PIDs absent. Original input6877/inventoryd0ef, stage/currenttemplates and failed root/stage artifacts must remain unchanged.
+
+A separate finite two-document bridge is proportionate only with explicit accepted root authorization/evidence for the truthful GOAL/Phase8 updates. Preserve original row hashes/statuses, admit only those exact two after hashes, require all other21632 inventory records/source770/tools20355/core/fixtures/limits unchanged, and bind a distinct maker/input/review before any new run. Do not revert truthful docs, broadly reseal metadata, suppress pin assertions or claim previous replay green. Source readiness does not waive actual preflight guards; this invocation enforced them as designed.
+
+No imports/checks/tests/build/helper or whole-tree/tool scan executed by reviewer. Only selected failed receipts, two document digests, metadata comparison and two known PID observations.

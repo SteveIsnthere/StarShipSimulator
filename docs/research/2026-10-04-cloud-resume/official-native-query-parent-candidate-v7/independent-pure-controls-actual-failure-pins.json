@@ -1,0 +1,13 @@
+{
+  "kind": "v7-pure-controls-independent-actual-failure-v1",
+  "inputs": {
+    "docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/root-scoped-and-pure-controls/result.json": "251b48926f2e27855725facc8586250b3739d436830ecad5fec88503e55fc5e5",
+    "docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/root-scoped-and-pure-controls/load-certificate-controls.mjs.execution.result.json": "fe98c73403bf55c7ae264296251cc0a9122ff057becfca45aaa245a6742a9b24",
+    "docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/root-scoped-and-pure-controls/load-certificate-controls.mjs.execution.stderr.txt": "56ce6fc394d7ed506fcde36c14146c084faa0690b2d6066cba2403471c1a6cd1",
+    "docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/root-scoped-and-pure-controls/load-certificate-controls.mjs.execution.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/root-scoped-and-pure-controls/parent-validator-controls.mjs.execution.result.json": "7bb8c98ca6a40b396bf76901c2d1e6a5744586dce4010532c9d08440d49f03d6",
+    "docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/root-scoped-and-pure-controls/parent-validator-controls.mjs.execution.stdout.txt": "facd84ec1aa40db0e734624742cc149d5a08ea09c5b9b8bffa0d54eb123b7c6e"
+  },
+  "reviewSha256": "3720858cdea7cc4b2f508fff33e4cefd31c7aa99e166ff2a90933c86459f2b1c",
+  "workloadsExecutedByReviewer": 0
+}

@@ -1,0 +1,10 @@
+{
+  "chunk": "/workspace/StarShipSimulator/node_modules/.cache/starship-closed-three-census-a425f27fac8b48ea9bc5708c63bd163d/native/simulation-4PxEPYPV.js",
+  "chunkSha256": "3ec0e4a99258decab7e3223c29a492f5c545dac1f1b58e1c386571518430b6d2",
+  "bytes": 162549,
+  "helperStart": 0,
+  "helperEndExclusive": 233,
+  "helperSha256": "dcd70d8c1ca2bde8df169667352e3ad8626bf34938ea34c898ba835c0f8d5f44",
+  "helperText": "//#region \\0rolldown/runtime.js\nvar e = Object.defineProperty, t = (t, n) => {\n\tlet r = {};\n\tfor (var i in t) e(r, i, {\n\t\tget: t[i],\n\t\tenumerable: !0\n\t});\n\treturn n || e(r, Symbol.toStringTag, { value: \"Module\" }), r;\n};\n//#endregion",
+  "scope": "Root bounded generated-helper projection only; no artifact acceptance or native imports."
+}

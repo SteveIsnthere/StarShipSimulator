@@ -1,0 +1,1 @@
+{"actualToolCode": 1, "error": "AttributeError: list object has no attribute items", "at": "review pin list iteration before any mutation", "corrected": "iterate actual path/sha256 row schema", "applicationCount':0": true}

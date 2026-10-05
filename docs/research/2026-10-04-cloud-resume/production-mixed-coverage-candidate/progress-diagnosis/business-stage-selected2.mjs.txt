@@ -1,0 +1,139 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdtempSync, realpathSync, lstatSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { createHash } from 'node:crypto';
+const digest = path => createHash('sha256').update(readFileSync(path)).digest('hex');
+const parse = path => JSON.parse(readFileSync(path, 'utf8'));
+const [inputPath, inputSha] = process.argv.slice(2);
+assert.equal(digest(inputPath), inputSha);
+const m = parse(inputPath);
+assert.equal(m.kind, 'coverage-selected2-SSR-owner-input-v1');
+assert.equal(m.mode, 'coverage-selected2'); assert.equal(m.outerMs, 338000);
+assert.equal(realpathSync(process.cwd()), realpathSync(m.root));
+assert.equal(process.version, 'v22.23.3'); assert.equal(digest(process.execPath), m.node.sha);
+assert.equal(process.env.NODE_OPTIONS ?? '', '');
+const deadline = Number(process.env.ORIGINAL21_ROOT_DEADLINE);
+assert(Number.isFinite(deadline) && deadline > Date.now() && deadline <= Date.now() + 330000);
+const roles = ['node', 'helper', 'npmCli', 'utility', 'pins', 'stage', 'observer', 'python', 'captureReporter', 'progressReporter'];
+const receipt = mkdtempSync(resolve(tmpdir(), 'starship-original21-stage.'));
+process.stdout.write(JSON.stringify({ stageReceipt: receipt, inputSha }) + '\n');
+const put = (name, value) => writeFileSync(resolve(receipt, name), JSON.stringify(value) + '\n', { flag: 'wx', mode: 0o600 });
+let code = null, failure = null, raw = null, utility, owned;
+const afterErrors = [];
+const describe = error => String(error.stack ?? error);
+const files = ['tests/core/orbit-demo.test.ts', 'tests/app/view-clock.test.ts'];
+let inventory;
+function checkPins() {
+  assert.equal(digest(inputPath), inputSha);
+  for (const key of roles) assert.equal(digest(m[key].path), m[key].sha, 'Pinned role: ' + key);
+  inventory = parse(m.pins.path);
+  assert.equal(inventory.kind, 'coverage-selected2-SSR-external-inventory-v1');
+  assert(Object.keys(inventory.files).length > 0);
+  for (const [path, sha] of Object.entries(inventory.files)) assert.equal(digest(path), sha, path);
+  assert.deepEqual(m.selectedFiles, files);
+  for (const name of ['scripts/bench/native-loader.mjs', 'scripts/bench/owned-command.mjs',
+    'vitest.config.ts', 'package.json', ...files]) {
+    assert(Object.hasOwn(inventory.files, resolve(m.root, name)), 'Missing executing input: ' + name);
+  }
+  assert.equal(inventory.files[m.helper.path], m.helper.sha);
+  assert.equal(inventory.files[m.utility.path], m.utility.sha);
+  assert.equal(inventory.files[m.captureReporter.path], m.captureReporter.sha);
+  assert.equal(inventory.files[m.progressReporter.path], m.progressReporter.sha);
+  assert(Array.isArray(m.expectedInventory) && m.expectedInventory.length > 0);
+  assert.equal(new Set(m.expectedInventory.map(row => row.file + ':' + row.fullName)).size, m.expectedInventory.length);
+  for (const row of m.expectedInventory) {
+    assert(files.includes(row.file)); assert.equal(row.project, 'unit'); assert.equal(typeof row.fullName, 'string');
+  }
+}
+function checkSnapshot(name) {
+  assert.deepEqual(utility.sourceSnapshot(m.root), inventory.source);
+  assert.deepEqual(utility.installedToolSnapshot(m.root, m.npmCli.path), inventory.installedTools);
+  put(name, { sourceAndFullInstalledToolSetsMatch: true, sourcePaths: Object.keys(inventory.source).length,
+    toolPaths: Object.keys(inventory.installedTools).length, inventorySha: m.pins.sha });
+}
+try {
+  checkPins();
+  utility = await import(pathToFileURL(m.utility.path).href);
+  checkSnapshot('source-tools-before.json');
+  for (const [path, pattern] of [[m.coverageReceipt, /^\/tmp\/starship-mixed-coverage\.[a-f0-9]{32}$/],
+    [m.progressReceipt, /^\/tmp\/starship-coverage-progress\.[a-f0-9]{32}$/]]) {
+    assert.match(path, pattern); assert.equal(realpathSync(path), path);
+    const stat = lstatSync(path); assert(stat.isDirectory() && !stat.isSymbolicLink());
+    assert.equal(stat.mode & 0o777, 0o700);
+  }
+  assert.deepEqual(readdirSync(m.progressReceipt), []);
+  assert.deepEqual(readdirSync(resolve(m.coverageReceipt, 'capture')), []);
+  assert.deepEqual(readdirSync(resolve(m.coverageReceipt, 'reports')), []);
+  owned = await import(pathToFileURL(m.helper.path).href);
+  code = await owned.runOwnedCommand({ name: 'preparation', root: m.root, receipt,
+    args: [resolve(m.root, 'node_modules/vitest/vitest.mjs'), 'run', ...files,
+      '--coverage', '--testTimeout=120000', '--reporter=default', '--reporter=json',
+      '--outputFile.json=' + resolve(m.coverageReceipt, 'test-results.json'),
+      '--coverage.reportsDirectory=' + resolve(m.coverageReceipt, 'reports'),
+      '--reporter=' + m.captureReporter.path, '--reporter=' + m.progressReporter.path],
+    deadlineMs: Math.min(300000, deadline - Date.now() - 8000),
+    env: { ...process.env, STARSHIP_MIXED_COVERAGE_RECEIPT: m.coverageReceipt,
+      STARSHIP_COVERAGE_PROGRESS: m.progressReceipt, NATIVE_FLIGHT_RUN: '', NATIVE_FLIGHT_RUN_SHA: '',
+      NATIVE_FLIGHT_MAPPED_CODE: '', NATIVE_FLIGHT_COMPOSITE: '', NATIVE_FLIGHT_COMPOSITE_SHA: '' } });
+} catch (error) { failure = describe(error); }
+// Original OS outcome is durable before any reporter, floor or business assertion.
+try {
+  const path = resolve(receipt, 'preparation.process.json');
+  if (existsSync(path)) raw = parse(path);
+  put('actual-child-exit.json', { exit: raw?.exit ?? null, code, primaryFailure: failure });
+} catch (error) { afterErrors.push({ stage: 'raw-child-status', error: describe(error) }); }
+try {
+  checkPins();
+  if (!utility) utility = await import(pathToFileURL(m.utility.path).href);
+  checkSnapshot('source-tools-after.json');
+} catch (error) { afterErrors.push({ stage: 'source-tool-postaudit', error: describe(error) }); }
+try {
+  assert(raw && raw.exit); assert.equal(raw.exit.code, code); assert.equal(raw.exit.signal, null);
+  assert.equal(raw.failure, null); assert.equal(raw.closed, true); assert.equal(raw.finished, true);
+  assert.equal(raw.cleanup.executing.length, 0);
+  assert(owned); assert(owned.verifyNoOwnedProcesses().every(row => row.executing.length === 0));
+} catch (error) { afterErrors.push({ stage: 'owned-child-outcome', error: describe(error) }); }
+try {
+  const file = resolve(m.progressReceipt, 'progress.jsonl'), stat = lstatSync(file);
+  assert(stat.isFile() && !stat.isSymbolicLink()); assert(stat.size <= 16 * 1024 * 1024);
+  const bytes = readFileSync(file); assert.equal(bytes.at(-1), 10, 'Partial JSONL line');
+  const events = bytes.toString('utf8').trimEnd().split('\n').map(line => JSON.parse(line));
+  assert(events.length <= 20000);
+  events.forEach((row, index) => assert.equal(row.sequence, index));
+  put('progress-preserved.json', { path: file, sha: digest(file), bytes: bytes.length, events: events.length,
+    lastEvent: events.at(-1), receiptTimesAreNotWorkerCPU: true });
+  const collected = events.filter(row => row.event === 'module-collected');
+  const key = row => row.file + ':' + row.project + ':' + row.fullName;
+  const expected = m.expectedInventory.map(row => ({ ...row, file: resolve(m.root, row.file) })).map(key).sort();
+  assert.deepEqual(collected.map(row => row.file).sort(), files.map(file => resolve(m.root, file)).sort());
+  assert.deepEqual(collected.flatMap(row => row.tests.map(key)).sort(), expected);
+  const results = events.filter(row => row.event === 'case-result');
+  assert.deepEqual(results.map(key).sort(), expected);
+  const field = (tree, name) => {
+    assert.equal(tree[0], 'object');
+    const matches = tree[1].filter(([key]) => key === name); assert.equal(matches.length, 1);
+    return matches[0][1];
+  };
+  for (const row of results) {
+    assert.deepEqual(field(row.options, 'timeout'), ['number', 120000]);
+    assert.deepEqual(field(row.options, 'mode'), ['string', 'run']);
+    assert.deepEqual(field(row.result, 'state'), ['string', 'passed']);
+    assert.deepEqual(field(row.diagnostic, 'retryCount'), ['number', 0]);
+    assert.deepEqual(field(row.diagnostic, 'repeatCount'), ['number', 0]);
+    assert.deepEqual(field(row.diagnostic, 'flaky'), ['boolean', false]);
+  }
+  const end = events.filter(row => row.event === 'run-end'); assert.equal(end.length, 1);
+  assert.equal(end[0].reason, 'passed'); assert.deepEqual(end[0].errors, ['array', []]);
+  assert.equal(events.filter(row => row.event === 'coverage-dispatched').length, 1);
+  assert(existsSync(resolve(m.coverageReceipt, 'capture', 'capture-completed.json')));
+  put('collected-inventory.json', { exactlyTwoOriginalSSRFiles: true, originalNames: expected,
+    caseResultsReceived: results.length, completeCoverageAcceptance: false });
+} catch (error) { afterErrors.push({ stage: 'partial-or-complete-progress-inventory', error: describe(error) }); }
+// Preserve a nonzero child/floor result as FAILED; no "expected red" conversion.
+const completed = failure === null && code === 0 && afterErrors.length === 0;
+put('stage-result.json', { completed, code, error: failure, afterErrors, raw,
+  captureReceipt: m.coverageReceipt, progressReceipt: m.progressReceipt,
+  diagnosticOnly: true, completeCoverageAcceptance: false, unit30Acceptance: false });
+process.exitCode = completed ? 0 : 1;

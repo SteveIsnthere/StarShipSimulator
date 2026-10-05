@@ -1,0 +1,73 @@
+--- accepted-full247-unit30-stage
++++ mixed247-standalone120-stage
+@@ -59,6 +59,12 @@
+   for (const file of selection.files) assert.equal(selection.fileSha256[file], inventory.expectedCurrentSourceSnapshot[file]);
+   assert.equal(selection.namedTimeoutMs, 30000); assert.equal(selection.coverageEnabled, false);
+   assert.equal(selection.goldensRegenerated, false);
++  assert.equal(m.purpose, 'production-mixed247-standalone-coverage120');
++  assert.equal(digest(m.reporter.path), m.reporter.sha);
++  assert.equal(inventory.files[m.reporter.path], m.reporter.sha);
++  assert.match(m.coverageReceipt, /^\/tmp\/starship-mixed-coverage\.[a-f0-9]{32}$/);
++  assert.equal(realpathSync(m.coverageReceipt), m.coverageReceipt);
++
+ 
+ };
+ try {
+@@ -66,10 +72,13 @@
+   const owned = await import(pathToFileURL(m.helper.path).href);
+   verifyNoOwnedProcesses = owned.verifyNoOwnedProcesses;
+   const selection = parse(m.selection.path);
+-  const args = [resolve(m.root, 'scripts/test/run.mjs'), 'run', ...selection.files];
++  const args = [resolve(m.root, 'scripts/test/run.mjs'), 'run', ...selection.files,
++    '--coverage', '--testTimeout=120000', '--reporter=default', '--reporter=json',
++    '--outputFile.json=' + resolve(m.coverageReceipt, 'test-results.json'),
++    '--coverage.reportsDirectory=' + resolve(m.coverageReceipt, 'reports'), '--reporter=' + m.reporter.path];
+   code = await owned.runOwnedCommand({ name: 'preparation', root: m.root, receipt,
+     args, deadlineMs: Math.min(m.mode === 'app-build' ? 74000 : 300000, deadline - Date.now() - 8000),
+-    env: { ...process.env, NATIVE_FLIGHT_COMPOSITE: m.qualification.path, NATIVE_FLIGHT_COMPOSITE_SHA: m.qualification.sha } });
++    env: { ...process.env, STARSHIP_MIXED_COVERAGE_RECEIPT: m.coverageReceipt, NATIVE_FLIGHT_COMPOSITE: m.qualification.path, NATIVE_FLIGHT_COMPOSITE_SHA: m.qualification.sha } });
+ } catch (error) { failure = describe(error); }
+ // Persist native helper raw status before interpreting any business proof or result.
+ try {
+@@ -122,9 +131,33 @@
+     assert.equal(modules.length, 247);
+     assert.deepEqual(ordered(modules), ordered(expectedModules));
+     assert.deepEqual(selection.projectCounts, { 'native-flight': 2, unit: 216, kit: 29 });
++    for (const row of result.lifecycle.inventory.filter(row => row.project === 'native-flight')) {
++      assert.equal(row.options.timeout, 120000);
++    }
++
+ 
+   } catch (error) { afterErrors.push({ stage: 'actual-official-wrapper', error: describe(error) }); }
+ }
++// Capture remains independent of test/floor failure; its records never normalize a red run to green.
++try {
++  const capture = resolve(m.coverageReceipt, 'capture');
++  const names = readdirSync(capture).sort();
++  const snapshot = names.filter(name => name.endsWith('.json')).map(name => {
++    const path = resolve(capture, name); return { path, sha256: digest(path), raw: parse(path) };
++  });
++  put('actual-coverage-capture.json', snapshot);
++  const complete = parse(resolve(capture, 'capture-completed.json'));
++  assert.equal(complete.completed, true);
++  assert.equal(complete.productionAcceptance, false);
++  assert.equal(complete.providerThresholdDecisionPending, true);
++  for (const row of [...complete.raw, ...complete.reports]) {
++    assert.equal(digest(resolve(capture, row.file)), row.sha256);
++  }
++  for (const name of ['coverage-final.json', 'coverage-summary.json']) {
++    const path = resolve(m.coverageReceipt, 'reports', name);
++    assert(existsSync(path), 'Missing native final report: ' + name);
++  }
++} catch (error) { afterErrors.push({ stage: 'actual-coverage-capture', error: describe(error) }); }
+ // Each final check is independent of the primary command/result failure.
+ try { checkPins(); } catch (error) { afterErrors.push({ stage: 'source-tool-postpins', error: describe(error) }); }
+ try { if (verifyNoOwnedProcesses) assert(verifyNoOwnedProcesses().every(row => row.executing.length === 0)); }
+@@ -132,6 +165,6 @@
+ const completed = code === 0 && failure === null && afterErrors.length === 0;
+ put('stage-result.json', { completed, mode: m.mode, code, error: failure ?? (afterErrors.length ? JSON.stringify(afterErrors) : null),
+   afterErrors, officialResultPath, processReceipt: resolve(receipt, 'preparation.process.json'),
+-  acceptance: 'Only this app-build or original21 invocation; full independent source/ancestry/absence review required; not whole gate' });
++  acceptance: 'Mixed247 standalone coverage120 only; floor/test/capture failures stay FAILED; raw production schemas/floors need fresh review; no unit30/full-golden/whole-gate acceptance' });
+ process.stdout.write(JSON.stringify({ stageReceipt: receipt, completed, code, officialResultPath }) + '\n');
+ process.exitCode = completed ? 0 : 1;

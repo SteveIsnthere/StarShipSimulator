@@ -1,0 +1,20 @@
+--- before-driver
++++ after-driver
+@@ -35,7 +35,7 @@
+   resources:{evidence:Object.fromEntries(roles.map(role=>[role,'docs/'+role+'.json'])),baselineMapPath:'docs/inert.map',retainedOriginPath:'docs/origin.json'},
+   sourceChanges:Object.fromEntries(['.nvmrc','scripts/test/admission.mjs','scripts/test/build.mjs','scripts/test/run.mjs'].map(name=>[name,{before:hash,after:changed}]))};
+  const current=clone(base.source);for(const name of Object.keys(anchor.sourceChanges))current[name]=changed;
+- const tools=clone(base.installedTools),digests=new Map(),realpaths=new Map();let vmPlain;
++ const tools=clone(base.installedTools),digests=new Map(),realpaths=new Map();
+  const input=root+'/docs/anchor.json';digests.set(input,anchorSha);digests.set(root+'/docs/base.json',hash);digests.set(node,binary);
+  for(const name of [...Object.keys(base.originalTests),...Object.keys(base.graph)])digests.set(root+'/'+name,hash);
+  for(const name of [base.baselineMapPath,base.retainedOriginPath,...base.evidence.map(row=>row.path)])digests.set(root+name.slice(oldRoot.length),hash);
+@@ -50,7 +50,7 @@
+    throw Error('Unknown inert receipt '+file);
+   },utilities:async()=>({installedToolSnapshot:(_root,_npm)=>{assert.equal(_root,root);assert.equal(_npm,sandbox.process.env.npm_execpath);return vmPlain(tools);},sourceSnapshot:()=>vmPlain(current)})};
+  const api=new Script(body+'\n;({admitComposite,projectPortableQualification,repositoryResource,plain:value=>JSON.parse(JSON.stringify(value))});',{filename:template+':exact-portable-policy'}).runInNewContext(sandbox,{timeout:1000});
+- vmPlain=api.plain;
++ const vmPlain=api.plain;
+  return{root,npm,input,base,anchor,current,tools,digests,realpaths,sandbox,api,admit:()=>api.admitComposite(input,anchorSha)};
+ }
+ const cases=[];

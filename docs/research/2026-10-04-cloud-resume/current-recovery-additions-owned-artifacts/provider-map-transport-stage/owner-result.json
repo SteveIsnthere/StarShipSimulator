@@ -1,0 +1,58 @@
+{
+  "kind": "covered-view-clock-collector-result-v1",
+  "completed": true,
+  "status": 0,
+  "primary": null,
+  "postErrors": [],
+  "processes": [
+    {
+      "name": "collector",
+      "code": 1,
+      "receipt": {
+        "exit": {
+          "code": 1,
+          "signal": null
+        },
+        "failure": null,
+        "bytes": {
+          "stdout": 5308,
+          "stderr": 1390
+        },
+        "cap": 8388608,
+        "finished": true,
+        "closed": true,
+        "cleanup": {
+          "pid": 112517,
+          "start": "7131073",
+          "group": 112517,
+          "session": 112517,
+          "tracked": [
+            {
+              "pid": 112517,
+              "state": "R",
+              "parent": 112510,
+              "group": 112517,
+              "session": 112517,
+              "start": "7131073"
+            },
+            {
+              "pid": 112542,
+              "state": "Z",
+              "parent": 112517,
+              "group": 112517,
+              "session": 112517,
+              "start": "7131128"
+            }
+          ],
+          "executing": []
+        }
+      }
+    }
+  ],
+  "elapsedMs": 41860.39111328125,
+  "application": false,
+  "coverageAcceptance": false,
+  "performanceAcceptance": false,
+  "profiling": false,
+  "parentAllActualTrackedAbsenceRequired": true
+}

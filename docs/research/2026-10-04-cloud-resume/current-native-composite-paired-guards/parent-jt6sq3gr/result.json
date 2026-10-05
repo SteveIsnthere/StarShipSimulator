@@ -1,0 +1,13 @@
+{
+  "rawChildExit": 0,
+  "elapsedSeconds": 774.0300140690015,
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3",
+  "firstFailure": null,
+  "failures": [],
+  "interruptSignal": null,
+  "outputBytes": 99,
+  "outputRetainedBytes": 99,
+  "outputPipeEOF": true,
+  "ownedCount": 4,
+  "parentSourceSha256": "49a9a2941a079d31e564ed23d3c8a6a62c6a07307cda8f29a9f0fbc80e44e9e3"
+}

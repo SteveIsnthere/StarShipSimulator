@@ -1,0 +1,20 @@
+# Actual startup failure and bounded receipt repair
+
+The retained actual matrix inventory has21 collected and21 finalized results, all failed with the same primary `Error: spawnSync git ENOBUFS` at visual-runtime-receipt.ts11/38. The command is `git ls-files -z --cached --others --exclude-standard`. Only after its complete output is captured does the existing code select src/tests/scripts/public/.agents and root runtime config/package paths. The undefined webgl assertion in the supplemental afterEach hook is secondary. There is no accepted measured frame window or application GPU/performance result. The source file has no execFileSync maxBuffer override. This supports an output-volume hypothesis; it does not establish the original captured stdout byte count or prove a cwd fault.
+
+The root's corrected independent postexit account is241 saved PID/start identities:196 absent and45 same-start zombies, zero executing. Do not substitute the earlier incorrect197/44 summary. Ownership uncertainty interrupted inner audits; no complete stage-result or source/tools/runtime after-audit is accepted. Zombie groups are not claimed cleared. The separate ownership correction belongs to its independently reviewed source route.
+
+Proposed minimal receipt-only source change is to add finite Git pathspecs to this ls-files command before output capture, retaining the original JavaScript filter, deduplication, sorting, tracked/untracked semantics, complete selected manifest, dirty/head/build/browser/host fields and every sample/budget unchanged:
+
+```ts
+git('ls-files', '-z', '--cached', '--others', '--exclude-standard', '--',
+  ':(top)src', ':(top)tests', ':(top)scripts', ':(top)public',
+  ':(top).agents', ':(top).nvmrc',
+  ':(top,glob)package*.json', ':(top,glob)*config.*')
+```
+
+Official Git v2.47.3 primary documentation, retained under receipt-pathspec-source, states that pathspecs limit ls-files scope, `top` anchors working-tree root, and `glob` wildcards use FNM_PATHNAME and do not cross slash. Directory selectors include their descendants. The last config glob may admit a root name with an empty extension, which the unchanged original JavaScript regex rejects; it removes no accepted original path. Installed Git version is not claimed from the documentary tag. Installed manual target misses are preserved in its source manifest. Network fetch used strict TLS and inherited managed trust.
+
+Before any source application, root must run one separately reviewed bounded read-only diagnostic on the exact pinned Git implementation. Stream original and pathspec ls-files stdout losslessly to fresh files while running, keep stderr separately, stop/reap exact PID/start on combined cap (suggested8MiB) or10s deadline, and retain raw status plus NUL record count/bytes/SHA. Apply the original literal filter/dedup/sort to BOTH retained outputs and require exact selected path arrays. The root additionally retains the existing rev-parse HEAD and status --porcelain command metadata/output byte count under the same live cap, so a second default-buffer hazard is not silently ignored. Never normalize a cap/timeout/process error to equality. Any omitted original selected path or unexpected stdout/schema denies this route. Root alone performs this native diagnostic; no Git/readelf/browser/test invocation was made by the author.
+
+Actual parent/private config/source/dist/input evidence remains unchanged. This is a proposal, not an executable or production edit. If root applies a separately reviewed receipt-only change, live test-source authority changes and old matrix inputs become stale. An explicit reviewed exact source-delta/current-source transition is needed; do not replace all inherited pins or blindly reseal the dist. The accepted app bytes can be considered for reuse only with an independently proven unchanged application build-input closure. No browser attempt follows automatically from this proposal or diagnostic, and no timing/quality/backend flag changes are proposed.

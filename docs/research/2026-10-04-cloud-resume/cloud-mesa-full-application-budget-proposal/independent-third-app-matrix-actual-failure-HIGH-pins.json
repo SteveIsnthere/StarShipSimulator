@@ -1,0 +1,189 @@
+{
+  "kind": "third-app-matrix-actual-failure-high-pins-v1",
+  "files": {
+    "/tmp/starship-mesa-app-structural-root._gxv5et2/wrapper-outcome.json": "bccb7ed451dfb72e3371c2298564792a4bc5a2610f86668e8b602b91c071a78d",
+    "/tmp/starship-mesa-app-structural-root._gxv5et2/identities.jsonl": "0ac5295c07dfe148507ec25753c623e260f3747b9a3153e0153c9f9840e14058",
+    "/tmp/starship-mesa-app-structural-root._gxv5et2/root-independent-postexit.json": "6924fd6b0c8056411a7b280844ebfc1ea80df7fda36b3d90c0b54e260ce7cbbe",
+    "/tmp/starship-mesa-app-structural-root._gxv5et2/root-terminal-partial-frame-metrics.json": "61ff4c1d31f61b0cef5d76c6e791d6d99024bcb1c6743a051680541c19fd5381",
+    "/tmp/starship-mesa-app-structural-root._gxv5et2/root-structural-before.json": "55c9565a2318e9f3b86221228256d3b112689475efaef2e2fd4d8f21d4b6a986",
+    "/tmp/starship-mesa-app-structural-root._gxv5et2/root-structural-after.json": "c6d2179cb2a68cd9a99e7d9aa0571be9855a29b287a2dae26769d933717a6e69",
+    "/tmp/starship-mesa-app-structural-root._gxv5et2/finally-checker-actual-exit-final.json": "af8318363155016386d69a2e29aed6582436b8beb1f03ce1f8ecb3f52cbfd4d5",
+    "/tmp/starship-original21-root.8qznmerd/root-outcome.json": "6c9f181491a7ecc0c17ae1274cc94c40f40f483d5f9986faa99c7cd31375da27",
+    "/tmp/starship-original21-stage.UYuG8D/stage-result.json": "b71ee471f2b62365ed3ef91574ba941629e0b3cc1cdb0f416edbffd42d914d60",
+    "/tmp/starship-original21-stage.UYuG8D/preparation.process.json": "d1f0d12f7845eab2baf0014c65c22bbd3cca2223ffa0f17fb68825d9bf6b36ff",
+    "/tmp/starship-original21-stage.UYuG8D/preparation.stdout.txt": "416ec29fb8d565b5e5bc6d13b56eec057b28b7783434814e779795681eb0ee77",
+    "/tmp/starship-original21-stage.UYuG8D/actual-command.json": "a3138545dcf0e257f1b9d17d544a032aeca0aaac851cafcb5502c5172ca9fc7f",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-852d8-adence-mobile-visual-budget-chromium/full-frame-budget.json": "4d51b33155e5cc9590ee194c708e804a1d17e8903c813cf327ee73dec5b266f9",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-852d8-adence-mobile-visual-budget-chromium/mesa-before-provider.json": "45bdf75c9a74d4fa97dd904d65bebc2ac7522bb8968aad751b7ea0a6c10adf34",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-852d8-adence-mobile-visual-budget-chromium/mesa-after-provider.json": "22cf54f96054395c884898557259e10f3abbe2ebe1edfb4b0a31bd90122bf951",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-852d8-adence-mobile-visual-budget-chromium/mesa-application-boundary.json": "a59f846c172c97f1c566f584370464aa0cc4d098002a7eb191c1f20696f40cb0",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-67282-adence-mobile-visual-budget-chromium/full-frame-budget.json": "fcda52c0f20a189f3fd85f98c6ba62757b38da1c3594a5387e3ade08c30bab53",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-67282-adence-mobile-visual-budget-chromium/mesa-before-provider.json": "07f2069dff994ef2d38b2e46f93bba6e02313603d7fc9b762a518e6e39724766",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-67282-adence-mobile-visual-budget-chromium/mesa-after-provider.json": "52089dd2331181f0d83af5e44f2ddc01370cd86433c1495342c010c5503bc2ee",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-67282-adence-mobile-visual-budget-chromium/mesa-application-boundary.json": "ddbb0ef57fd5510e8f2dc75796ab8f8c978949b84b646ad07dda4d56638d502e",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-7fc94-adence-mobile-visual-budget-chromium/full-frame-budget.json": "9f8b20da96ad3d15dc0619e97eb90fa2470626262437dd5b874dd0f54c6fcb4b",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-7fc94-adence-mobile-visual-budget-chromium/mesa-before-provider.json": "00004c58ec6439755beeff74afb91062300f206f38f5179198c66b3b31aa1eb4",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-7fc94-adence-mobile-visual-budget-chromium/mesa-after-provider.json": "baf5d566166bd75cae689075afe528a053e7d7d6dec75db5e419e023a5d4234d",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-7fc94-adence-mobile-visual-budget-chromium/mesa-application-boundary.json": "3f43275b724dc7d1b2cc06d18e722b393d45df20104c9b73a9703281d51cdcff",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/full-frame-budget.json": "3140c0f6de336fecbe819617f6da8fefb2d1e75d12ff78ae4d1d7f67d9dee304",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/mesa-before-provider.json": "b45f2038ea332ec4ef13c8cfe845023836b33ced86c8917e5a567ce38f0b338e",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/mesa-after-provider.json": "d4140cf46f4df932726e526549d27e449ba8d6eb4bff76ebc2789f3b65c54f02",
+    "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/mesa-application-boundary.json": "ebb74cd91a7ee9fcec59f7c258830bc5fa4cf8d706b36adc4708144397cc1b6f",
+    "/tmp/starship-original21-stage.UYuG8D/source-before.json": "fcc61a7ec24d659d4094049dde0d5c59f2f6807ec20d220c9d98d7f212935b62",
+    "/tmp/starship-original21-stage.UYuG8D/source-after.json": "fcc61a7ec24d659d4094049dde0d5c59f2f6807ec20d220c9d98d7f212935b62",
+    "/tmp/starship-original21-stage.UYuG8D/source-after-observed.json": "fcc61a7ec24d659d4094049dde0d5c59f2f6807ec20d220c9d98d7f212935b62",
+    "/tmp/starship-original21-stage.UYuG8D/installed-before.json": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+    "/tmp/starship-original21-stage.UYuG8D/installed-after.json": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+    "/tmp/starship-original21-stage.UYuG8D/installed-after-observed.json": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+    "/tmp/starship-original21-stage.UYuG8D/runtime-before.json": "6d91d914f3c0a8a01042a927d650fe49ec6e029400ea68185abefefd88f905d4",
+    "/tmp/starship-original21-stage.UYuG8D/runtime-after.json": "6d91d914f3c0a8a01042a927d650fe49ec6e029400ea68185abefefd88f905d4",
+    "/tmp/starship-original21-stage.UYuG8D/runtime-after-observed.json": "6d91d914f3c0a8a01042a927d650fe49ec6e029400ea68185abefefd88f905d4",
+    "/tmp/starship-original21-stage.UYuG8D/dist-after.json": "2c4eb1e1978ed2fb053af53e2562d1a932e0e4e7c9bdba670cf2f5ed6ea4d996",
+    "/tmp/starship-original21-stage.UYuG8D/dist-after-observed.json": "2c4eb1e1978ed2fb053af53e2562d1a932e0e4e7c9bdba670cf2f5ed6ea4d996",
+    "/workspace/StarShipSimulator/tests/e2e/visual-budget-probe.ts": "d450cc4671149cb42bb7e1c6a34259b2d1ac06152f22a2302a7d4c3679c44f99",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/third-app-matrix-cadence-attribution-proposal.md": "91b0b83214d9b278c9c2858401cc5413f8816bcaf2237c80ddd92696c3da7edc"
+  },
+  "boundaryProcessCpuDeltas": [
+    {
+      "scene": "landing",
+      "deltas": [
+        {
+          "pid": 116648,
+          "type": "browser",
+          "cpuSeconds": 1.82
+        },
+        {
+          "pid": 116727,
+          "type": "renderer",
+          "cpuSeconds": 0.0
+        },
+        {
+          "pid": 116728,
+          "type": "renderer",
+          "cpuSeconds": 16.27
+        },
+        {
+          "pid": 116676,
+          "type": "GPU",
+          "cpuSeconds": 201.75
+        },
+        {
+          "pid": 116679,
+          "type": "network.mojom.NetworkService",
+          "cpuSeconds": 0.1
+        },
+        {
+          "pid": 116683,
+          "type": "storage.mojom.StorageService",
+          "cpuSeconds": 0.0
+        }
+      ]
+    },
+    {
+      "scene": "entry",
+      "deltas": [
+        {
+          "pid": 116447,
+          "type": "browser",
+          "cpuSeconds": 0.43000000000000005
+        },
+        {
+          "pid": 116526,
+          "type": "renderer",
+          "cpuSeconds": 0.0
+        },
+        {
+          "pid": 116527,
+          "type": "renderer",
+          "cpuSeconds": 5.2
+        },
+        {
+          "pid": 116477,
+          "type": "GPU",
+          "cpuSeconds": 64.11999999999999
+        },
+        {
+          "pid": 116480,
+          "type": "network.mojom.NetworkService",
+          "cpuSeconds": 0.060000000000000005
+        },
+        {
+          "pid": 116481,
+          "type": "storage.mojom.StorageService",
+          "cpuSeconds": 0
+        }
+      ]
+    },
+    {
+      "scene": "staging",
+      "deltas": [
+        {
+          "pid": 116049,
+          "type": "browser",
+          "cpuSeconds": 0.47000000000000003
+        },
+        {
+          "pid": 116127,
+          "type": "renderer",
+          "cpuSeconds": 0.0
+        },
+        {
+          "pid": 116128,
+          "type": "renderer",
+          "cpuSeconds": 5.569999999999999
+        },
+        {
+          "pid": 116079,
+          "type": "GPU",
+          "cpuSeconds": 68.76
+        },
+        {
+          "pid": 116082,
+          "type": "network.mojom.NetworkService",
+          "cpuSeconds": 0.08
+        },
+        {
+          "pid": 116083,
+          "type": "storage.mojom.StorageService",
+          "cpuSeconds": 0
+        }
+      ]
+    },
+    {
+      "scene": "launch",
+      "deltas": [
+        {
+          "pid": 115851,
+          "type": "browser",
+          "cpuSeconds": 0.57
+        },
+        {
+          "pid": 115929,
+          "type": "renderer",
+          "cpuSeconds": 0
+        },
+        {
+          "pid": 115936,
+          "type": "renderer",
+          "cpuSeconds": 3.91
+        },
+        {
+          "pid": 115879,
+          "type": "GPU",
+          "cpuSeconds": 79.63
+        },
+        {
+          "pid": 115882,
+          "type": "network.mojom.NetworkService",
+          "cpuSeconds": 0.07999999999999999
+        },
+        {
+          "pid": 115899,
+          "type": "storage.mojom.StorageService",
+          "cpuSeconds": 0.0
+        }
+      ]
+    }
+  ],
+  "reviewSha256": "2e55c2b76e30c81df63625c34aa5fd0d891ba3ac231165704093fd3c53546f73"
+}

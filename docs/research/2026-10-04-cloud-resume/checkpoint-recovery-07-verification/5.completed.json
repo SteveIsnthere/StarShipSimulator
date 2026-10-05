@@ -1,0 +1,1 @@
+{"applyCount": 0, "args": ["rev-parse", "32e5bb386cadee9098d703c67ebdfc9444eb46a6^{tree}"], "code": 0, "number": 5, "optionalLocks": "0", "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "stdinSha256": null, "stdoutSha256": "bf42e7880012dc0bd07b33500c2d0e192b1844c863a3e1aa553fe604387acdc5", "temporaryIndex": null}

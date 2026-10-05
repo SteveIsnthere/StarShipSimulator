@@ -1,0 +1,113 @@
+{
+  "kind": "coverage-progress-diagnosis-selected-source-pins-v1",
+  "sourceOnly": true,
+  "providerExecuted": false,
+  "scopedChecksExecuted": false,
+  "files": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/progress-reporter.mjs.txt",
+      "bytes": 5527,
+      "sha256": "b28bc45b335d9c076133f08f0d18be1ac17e2936d98ed915536bb3cb1e534c3f"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/proposal.md",
+      "bytes": 6499,
+      "sha256": "ee402410014258ad27b80956259aacef3dea56a647bb13b39d4b7e305251202f"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/historical-results-cache.json",
+      "bytes": 24649,
+      "sha256": "86245aa78a1c123fe7f5c25c3e15e1b8bd2d059bbe712433c253ee9ad4d6f7d1"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/cache-prediction.json",
+      "bytes": 1502,
+      "sha256": "b5a16461dafca225e3e388a2ebef1e7085997e5e25683f8804b04a748e8e0d18"
+    },
+    {
+      "path": "node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json",
+      "bytes": 24649,
+      "sha256": "86245aa78a1c123fe7f5c25c3e15e1b8bd2d059bbe712433c253ee9ad4d6f7d1"
+    },
+    {
+      "path": "node_modules/vitest/dist/chunks/reporters.d.DtoKVV2s.d.ts",
+      "bytes": 113407,
+      "sha256": "7fa6fdc6eeeb3850e6b3166836f8c9199594c4f4bed3cee02cac0ca33d71894d"
+    },
+    {
+      "path": "node_modules/vitest/dist/chunks/cli-api.CnMVyzaz.js",
+      "bytes": 498779,
+      "sha256": "a236001d048380e2c67d05423fc9ea3f26b07ee019ba8d6e622082f29d49102e"
+    },
+    {
+      "path": "node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js",
+      "bytes": 54974,
+      "sha256": "e509f3cc1bd81ae6426265253fa926cbde02be5cebfe35b1df422017bffdca31"
+    },
+    {
+      "path": "node_modules/@vitest/runner/dist/chunk-artifact.js",
+      "bytes": 119176,
+      "sha256": "bf6af6d2f4469911879a67e83b8f9e7b20332cf42795032c53457b10ccc1c617"
+    },
+    {
+      "path": "vitest.config.ts",
+      "bytes": 7441,
+      "sha256": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029"
+    },
+    {
+      "path": "scripts/test/run.mjs",
+      "bytes": 10890,
+      "sha256": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1"
+    },
+    {
+      "path": "scripts/test/projects.mjs",
+      "bytes": 927,
+      "sha256": "c66962822c99bbc0f810afe57fd8ce6e00828c66b5c758024a42bba40b5d88da"
+    },
+    {
+      "path": "scripts/test/lifecycle-reporter.mjs",
+      "bytes": 950,
+      "sha256": "5b05f504211f4571bee7452996c6613632e6f06384e9386bb9b555ab0417a2ae"
+    },
+    {
+      "path": "scripts/bench/owned-command.mjs",
+      "bytes": 7424,
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+    },
+    {
+      "path": "tests/core/orbit-demo.test.ts",
+      "bytes": 27874,
+      "sha256": "e7faa9b8207dc22bac8d5ccc7ff900513a9a952cb2ddfc18f6e8d5c8c644ccf0"
+    },
+    {
+      "path": "tests/app/view-clock.test.ts",
+      "bytes": 18683,
+      "sha256": "7026d3779d51783c5d2e0f69a6f2e7dd58e26293d53562332d7648e123cad895"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/selection.json",
+      "bytes": 50026,
+      "sha256": "00a16028c4f736dc58a3f1a5f111e91dda8d9b3f515d9d73aff655a2c2f680a2"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+      "bytes": 17669,
+      "sha256": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/capture-reporter.mjs.txt",
+      "bytes": 4258,
+      "sha256": "437bc855ec8f4fafbc2ff081c987efe2d341a077a14005298ac5d34c7a5a864d"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/independent-actual-mixed247-failure-HIGH-review.md",
+      "bytes": 3360,
+      "sha256": "60b9c0a2b5afa7e5a20ae87243bd084d022df625fb9a7cfac497c5813fd3e388"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/independent-actual-mixed247-failure-HIGH-pins.json",
+      "bytes": 15895,
+      "sha256": "197c04d247574b320b33f7ea2f73cdceb2f1c083dcc2e7490bedbf7d7b2b1dbd"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "checks": [
+    {
+      "name": "make-input.py.txt",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "name": "root-observer.py.txt",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "name": "owner.mjs",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.03233656300290022
+    },
+    {
+      "name": "owner.mjs",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8644898569982615
+    },
+    {
+      "name": "qualifier.mjs",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.029099441002472304
+    },
+    {
+      "name": "qualifier.mjs",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8631000699970173
+    }
+  ],
+  "all42PinsBeforeAfterMatched": true,
+  "passed": true
+}

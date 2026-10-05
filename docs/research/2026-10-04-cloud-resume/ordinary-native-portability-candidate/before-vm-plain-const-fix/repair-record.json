@@ -1,0 +1,18 @@
+{
+  "kind": "portable-inert-driver-vm-plain-const-repair-v1",
+  "driver": {
+    "before": "65a31bf2afc74f505fbfe554db285ba2d84b2a84e4ffee54573bd4ac9f778651",
+    "after": "a98a3e4f31b8dd9f8fa27939d5eb790a5f292e5c7539d3b793af8c5e1fae6521"
+  },
+  "candidateManifest": {
+    "before": "bd465c7aa84bc9b8a652b3fdb0fbbc42b024b701700db93c9c5f136a841daf7c",
+    "after": "e4e6a8ddb35d6134d8b59014d1d74704c8475659da64fa8b94846071c117f499"
+  },
+  "ownerManifest": {
+    "before": "21c8fd1a34356ab7b54f4f972f53dad913d471a26ee3185f0a6b208f2b77c16a",
+    "after": "bfd242b2e764e9e3735787f35de603c3c1b4cd3403513e4e7352e0556382d384"
+  },
+  "normativeRuntimeAnchorChanged": false,
+  "casesChanged": false,
+  "workloadsExecuted": 0
+}

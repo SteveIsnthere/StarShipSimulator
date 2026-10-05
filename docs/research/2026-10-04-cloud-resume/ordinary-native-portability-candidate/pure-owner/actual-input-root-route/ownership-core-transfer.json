@@ -1,0 +1,36 @@
+{
+  "kind": "exact-9ed-pure30-business-derivative-v1",
+  "beforeSha256": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5",
+  "afterSha256": "bf011a6ed8d477ca20e8674eda73e3340eb18254d5508e63ebbee2761a224397",
+  "ownershipBlocks": [
+    {
+      "start": "def stat_row(pid):",
+      "end": "def load_helper_identities():",
+      "bytes": 4403,
+      "sha256": "1069b38f4d07abdd2a1d3c59e6e881cb8ff87e7168c31115911760a4a6d3df7a",
+      "exactEqual": true
+    },
+    {
+      "start": "def safe_scan():",
+      "end": "try:\n    require(time.time() <= work_deadline",
+      "bytes": 1401,
+      "sha256": "5b325b476ca438ddff914bae44b4f1a9cb9280a0fb32633aa60d353887c5310d",
+      "exactEqual": true
+    },
+    {
+      "start": "    # A failed first registration",
+      "end": "    # Raw exit and source checks",
+      "bytes": 2978,
+      "sha256": "9858342ed6bffd33acbd1b846d3dcb053128eadb549d5bb4478a263ec18fed97",
+      "exactEqual": true
+    }
+  ],
+  "businessChanges": [
+    "pure27 purpose/30whole22work8cleanup",
+    "exact already-materialized owner/pureinput invocation",
+    "known private setup/one helper receipt schema+parent reconciliation",
+    "owner result scope/raw0 checks",
+    "typed selected-input final audit"
+  ],
+  "workloadsExecuted": 0
+}

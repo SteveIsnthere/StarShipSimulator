@@ -1,0 +1,40 @@
+{
+  "kind": "stage-a-public-qualification-root-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "mode": "public-admission",
+  "outerMs": 30000,
+  "setup": "/tmp/starship-stage-a-public-qualification.235d5b4be5ed44a7a590e4049b980526",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "pureInput": {
+    "path": "/tmp/starship-stage-a-public-qualification.235d5b4be5ed44a7a590e4049b980526/input.json",
+    "sha": "5f2daa8a2e6c93eef938dc731808b148b43a489c4279a34eb78675e0a2062fb4"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/public-qualification-owned-route/actual-input-root-route/inventory.json",
+    "sha": "c6651c20cd3481f86566ed7063111145818df5d68c3d0b00913d453167d3e061"
+  },
+  "stage": {
+    "path": "/tmp/starship-stage-a-public-qualification.235d5b4be5ed44a7a590e4049b980526/owner.mjs",
+    "sha": "0ee5fb9565224093a81e94477e0183d0f87d8187c55dcf45f7d6fe1ee07c879c"
+  },
+  "observer": {
+    "path": "/tmp/starship-stage-a-public-qualification.235d5b4be5ed44a7a590e4049b980526/root-observer.py",
+    "sha": "dc398b4d222d21bf7e3e63f1b839883ee23291b55b80984987fc6e3209731128"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "makerStatus": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/public-qualification-owned-route/root-maker-actual.json",
+    "sha": "513ef6c8c0652582a3e47d93d7a33e6b603fdd6a4c3ed6eb4e363d5708fe9ed3"
+  },
+  "scope": "ONE actual public admission; no tests/flight/gate/performance/defaultanchor/sourcewrite"
+}

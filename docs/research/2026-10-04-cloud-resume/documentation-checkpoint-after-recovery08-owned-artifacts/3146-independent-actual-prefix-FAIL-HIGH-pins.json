@@ -1,0 +1,85 @@
+{
+  "disposition": "actual FAILED evidence only",
+  "files": [
+    {
+      "path": "/tmp/starship-trace-prefix-input.b1c0979d1b4a49a0963e2b6c8dada4ff/owner-input.json",
+      "sha256": "7f71d7130c3370288711501156a3b5a7216546799adf2b44ee3e49e0018d0657",
+      "bytes": 6590
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/root-outcome.json",
+      "sha256": "0d8814a1428b5705bf35f431ae99a76bdcf8688aea99638cfe9672478b4d2afa",
+      "bytes": 843
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/actual-outer-exit-final-independent.json",
+      "sha256": "353b70adecad109557c8328ce53d5c819644bd13de4cb366ebeb69cd0b26ba34",
+      "bytes": 63
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/actual-outer-exit-final.json",
+      "sha256": "76353f60687ad942abdaa925536010f92063c656e5648da96f595970ef3d4564",
+      "bytes": 63
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/outer-registration.json",
+      "sha256": "c4e939ea502941879d2cc9f8c7f12e872a4498c9acf39788a89796bafab2c3ac",
+      "bytes": 118
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/identities.jsonl",
+      "sha256": "dd86ac2508d9731e8fb2d4a7135c283e87194e0a2863ea75fdeb661be9f2e087",
+      "bytes": 152
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/outer.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/outer.stdout.txt",
+      "sha256": "0224de9667162f412fd61b6e5fe071ef3493cbef212faf412432b623d2eceff5",
+      "bytes": 85
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/executed-diagnostic.py.txt",
+      "sha256": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09",
+      "bytes": 6318
+    },
+    {
+      "path": "/tmp/starship-trace-prefix.395ea7a3e50c43dda226501bd4c8e44a/pure-controls.json",
+      "sha256": "e88d8100168c2ee749e14832f76eeecd666131345c7589473232d30cee1fc8c5",
+      "bytes": 1832
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-assessment-result.json",
+      "sha256": "682881062a41bf86835a308a94e230da3210faf57b8d307ea59440bf943d4124",
+      "bytes": 102
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-assessment-independent-postexit.json",
+      "sha256": "951da20ca279a26ac356354278495c7a2edc5e0e801f2b552d8fb04e83cbd9f9",
+      "bytes": 492
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-assessment-registration.json",
+      "sha256": "72d92f3bf2e54c07f51830bebe3232be9a082db4da4844d9aa8a6f5465415ab1",
+      "bytes": 102
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/independent-actual-prefix-FAIL-HIGH-review.md",
+      "sha256": "b316ab0447051446149594f56342b4ff49e7b8ead702d072da44c2e13e223397",
+      "bytes": 2449
+    }
+  ],
+  "traceMetadataRootHashAuthority": {
+    "path": "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/browser-all-threads-trace.partial.json",
+    "sha256": "e396261671efa367a0c9d86eaf862632718f0718475c0a99c041e69327fc73da",
+    "bytes": 67108864,
+    "mode": 384,
+    "device": 33,
+    "inode": 30337,
+    "mtimeNs": 1791168492221868000,
+    "ctimeNs": 1791168492221868000
+  }
+}

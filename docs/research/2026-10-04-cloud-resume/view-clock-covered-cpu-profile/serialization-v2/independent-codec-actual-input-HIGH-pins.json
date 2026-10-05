@@ -1,0 +1,53 @@
+{
+  "decision": "SUPPORTED one inert proof only, conditional root grant",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/serialization-v2/independent-codec-actual-input-HIGH-review.md",
+      "sha256": "2563fec16c363a75efa4147783aa7d8251a08678ccd7d362665d86c508ac3ab1"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-73de504a6c3d4c0e8671fcd7288ee93c/input.json",
+      "sha256": "9d5ff3512af8ff8f3b43af96e024bf3fb0f5952669cac29c1d73824dcab10779"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-73de504a6c3d4c0e8671fcd7288ee93c/root-input.json",
+      "sha256": "ebe10beb5e5bb4b214fa0833743b83203f9b2b626737e76dfb9cc8599b076ae2"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-73de504a6c3d4c0e8671fcd7288ee93c/root-inventory.json",
+      "sha256": "d9a0ca70ce1a92957d3f582622bf91f0c58be12ca32a3664c99fb0fc382a5596"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-73de504a6c3d4c0e8671fcd7288ee93c/owner.mjs",
+      "sha256": "3e76f8a22141aa928d688051ff9f34ea834e1919540aa2631e0b9ec9cf48c6c0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-73de504a6c3d4c0e8671fcd7288ee93c/driver.mjs",
+      "sha256": "9a9fa34389bc0fd8351f7f4499b24f9569ca21ab0250608133f7cf6e50336fcc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-73de504a6c3d4c0e8671fcd7288ee93c/codec.mjs",
+      "sha256": "a778009752da84e53010c816b849667f7442a330a7355cdffb8d5b51d1ed8879"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-73de504a6c3d4c0e8671fcd7288ee93c/consumer.mjs",
+      "sha256": "e31a8aac451c63a4b60579be22a5b651426af3c5b967a4c0afed7bc5bda14468"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/serialization-v2/root-maker-process.json",
+      "sha256": "41d878643304171fde0cfc282647bc6db350ceef9586c27154931647167f7a85"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/serialization-v2/root-scoped-checks.json",
+      "sha256": "cf6ff559af3616714c80aeade45198939c8b26e0cd629fa8f793b19a6351cc21"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/serialization-v2/input-pins.json",
+      "sha256": "0580c05f7b0ce3585c04287814a92bdba3394300fb1f5e22b14bb7ea34219b76"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/serialization-v2/independent-codec-and-pure-route-source-HIGH-review.md",
+      "sha256": "27e91ac9a7703f440ca1b2b73a39d3b9273d23061defc7b1c6c680cc69e896ed"
+    }
+  ]
+}

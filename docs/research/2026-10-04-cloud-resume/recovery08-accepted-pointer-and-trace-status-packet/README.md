@@ -1,0 +1,3 @@
+# Recovery08 pointer and actual trace status packet
+
+Unapplied exact finite replacement rows against backed-up current four docs. Promote only external acceptedRecovery08 preservation authority; raw08manifest pending field stays unchanged and all historical patches/07 remain untouched. Existing dirtycheckout never recovers. Actual tracec075 is FAILED/incomplete64MiB, original60+300/cadence15.834,23ABSENT+5Z among28nonexecuting, not allabsent/frameacceptance. Roadmap80/openphase/mainlive, originallimits, failedfull38/coverage/gate remain unchanged. No liveedits/Git/imports/scans/largepatch/trace reads or workloads occurred. Fresh OTHERsourceHIGH thenrootguardedapplication required.

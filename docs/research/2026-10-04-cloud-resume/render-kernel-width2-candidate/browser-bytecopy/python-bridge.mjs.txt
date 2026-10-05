@@ -1,0 +1,6 @@
+/** Node child required by reviewed runOwnedCommand; the actual preparer is pinned Python, not Node-parsed Python. */
+import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';import {spawnSync} from 'node:child_process';
+const [manifestPath,manifestSha,preparer]=process.argv.slice(2),sha=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
+assert.equal(sha(manifestPath),manifestSha);const m=JSON.parse(readFileSync(manifestPath,'utf8'));assert.equal(m.mode,'prepare');assert.equal(sha(preparer),m.preparer.sha);assert.equal(sha(m.python.path),m.python.sha);
+const result=spawnSync(m.python.path,[preparer],{cwd:m.root,env:{...process.env,WIDTH2_BROWSER_COPY_INPUT_PINS_SHA256:m.pins.sha},stdio:'inherit',timeout:44000});
+if(result.error)throw result.error;assert.equal(result.signal,null);process.exitCode=result.status===null?1:result.status;

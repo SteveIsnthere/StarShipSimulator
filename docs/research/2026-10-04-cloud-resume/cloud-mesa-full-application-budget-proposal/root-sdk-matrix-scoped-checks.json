@@ -1,0 +1,18 @@
+{
+  "pinsChecked": 37,
+  "checks": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-budget.config.sdk-entry.ts.txt",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-boundary-hooks.sdk-entry.ts.txt",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "pythonCompile": true
+}

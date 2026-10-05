@@ -1,0 +1,15 @@
+"""Prepare ONE offline browser-bytecopy owner input only; no copied library/browser execution."""
+import hashlib,json,pathlib,sys,uuid,os
+repo=pathlib.Path('/workspace/StarShipSimulator');directory=repo/'docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy';original=directory.parent/'compile-qualification'
+sha=lambda p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest();entry=lambda p:{'path':str(p),'sha':sha(p)}
+pins=directory/'input-pins.json'
+if sha(pins)!=os.environ.get('WIDTH2_BROWSER_COPY_INPUT_PINS_SHA256'):raise RuntimeError('Externally frozen browser-copy input digest required')
+node=pathlib.Path('/workspace/cloud-bootstrap/starship-v1/node/bin/node')
+if sha(node)!='fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48':raise RuntimeError('ManagedNode drift')
+m={'kind':'width2-concrete-stage-owner-input-v1','root':str(repo),'mode':'prepare','purpose':'width2-browser-bytecopy','outerMs':60000,
+'node':entry(node),'python':entry(pathlib.Path(sys.executable).resolve()),'helper':entry(repo/'scripts/bench/owned-command.mjs'),
+'preparer':entry(directory/'prepare-browser-bytecopy.py.txt'),'builder':entry(original/'build-width2.mjs.txt'),'qualifier':entry(original/'qualify-width2.mjs.txt'),
+'pins':entry(pins),'stage':entry(directory/'business-stage.mjs.txt'),'observer':entry(original/'width2-root-observer.py.txt'),'bridge':entry(directory/'python-bridge.mjs.txt')}
+receipt=pathlib.Path('/tmp')/('starship-width2-browser-input.'+uuid.uuid4().hex);receipt.mkdir(mode=0o700,exist_ok=False);file=receipt/'owner-input.json'
+with file.open('x') as out:json.dump(m,out,indent=2);out.write('\n')
+print(json.dumps({'manifestPath':str(file),'manifestSha':sha(file),'mode':'prepare','purpose':m['purpose'],'outerMs':60000,'python':m['python']['path']}))

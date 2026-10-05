@@ -1,0 +1,337 @@
+{
+  "kind": "lossless-original21-v7-owned-artifact-copy-v1",
+  "rows": [
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/actual-outer-exit-final-independent.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/actual-outer-exit-final-independent.json",
+      "bytes": 61,
+      "sha256": "051ac1f1ecdc690ce273c033391f141858b0717ab06cc5e89809b57a3b419bfc",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/actual-outer-exit-final.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/actual-outer-exit-final.json",
+      "bytes": 61,
+      "sha256": "6483fd90801e24fbf2a5b0812aff906fc1a49b02bad4edc00dc1a557beeab514",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/actual-outer-exit.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/actual-outer-exit.json",
+      "bytes": 62,
+      "sha256": "1597c2fb9e252bc416f99b746d56414f3bf7cbea27147d85831df5f3841bc18d",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/identities.jsonl",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/identities.jsonl",
+      "bytes": 888,
+      "sha256": "8fd416bfd481f68052cb624c4ef7b2bf3f613bcbc0df6c9056d0a42d5eade2f9",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/nested-starship-official-flight.sxypD4-native-build.process.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/nested-starship-official-flight.sxypD4-native-build.process.json",
+      "bytes": 485,
+      "sha256": "f81da4fabd7495ad3dfb39ffd01465eeff9407f65c0aca265da22c748cab5a96",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/nested-starship-official-flight.sxypD4-official-tests.process.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/nested-starship-official-flight.sxypD4-official-tests.process.json",
+      "bytes": 813,
+      "sha256": "f3d11c64fc434683aa1d65ae53cfeb4963e1bb90c6276a21b00a70a3b18733d9",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/outer-registration.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/outer-registration.json",
+      "bytes": 114,
+      "sha256": "55428135c6da37dad62afca62d0dfdccf42c13b635277c53f750a3007c5609b9",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/outer.stderr.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/outer.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/outer.stdout.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/outer.stdout.txt",
+      "bytes": 298,
+      "sha256": "da6bbfb08955275c1c7b231c612f70d6a463e86ec75d830a59da45b90d3017d8",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/root-independent-postexit.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/root-independent-postexit.json",
+      "bytes": 2772,
+      "sha256": "989723f975122bb83e50c2c6321604525f483ae1868e17f1c71f10d84e2da1e3",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/root-original-load-observation.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/root-original-load-observation.json",
+      "bytes": 1032,
+      "sha256": "2ed2026589ffc8967e9e8cf3b6f13b7e2d3c29ea443120f6ad0d3f952dee21a7",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/root-outcome.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/root-outcome.json",
+      "bytes": 1891,
+      "sha256": "651877b2a299f54a6fe28cabbdef9a12fcad0fca45cf0270c4c6d6358da21700",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/stage.mjs",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/root/stage.mjs.txt",
+      "bytes": 7774,
+      "sha256": "47bcf04afe36ef68a1f8eae390e9ab4e476b29f1f4141f9ee25d92209b086cd0",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-stage.BAkByZ/actual-child-exit.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/stage/actual-child-exit.json",
+      "bytes": 93,
+      "sha256": "3795c60ba78e1fc8c64bcc1f299b059e9eb5600ab07004b01f2d21e133f2ed71",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-stage.BAkByZ/actual-official-wrapper-result.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/stage/actual-official-wrapper-result.json",
+      "bytes": 18715,
+      "sha256": "89e1034f0efcb4229a772c1ae8f370e80a756de28a8f54986ae78964ab8121b9",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-stage.BAkByZ/nested-product-process-receipts.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/stage/nested-product-process-receipts.json",
+      "bytes": 2011,
+      "sha256": "e5936339828ec4c5404de7dddcd7e596e4aeda90652e06ad2403036ab4b1af5e",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-stage.BAkByZ/preparation.process.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/stage/preparation.process.json",
+      "bytes": 1143,
+      "sha256": "da0a67a8645600faffdd67874ada82ae5241d6cf14e67c035a0791bec72c6ae2",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-stage.BAkByZ/preparation.stderr.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/stage/preparation.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-stage.BAkByZ/preparation.stdout.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/stage/preparation.stdout.txt",
+      "bytes": 77,
+      "sha256": "355aca8be14fc387d187616ded0b846bcb6254d2551c8e5c62785ff87145acf4",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-stage.BAkByZ/stage-result.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/stage/stage-result.json",
+      "bytes": 404,
+      "sha256": "d44dcbf62e93ada4cfd25c82f6c872daf8123cf4c3486717a079974e4c0abac0",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-stage.BAkByZ/tmp-baseline.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/stage/tmp-baseline.json",
+      "bytes": 45,
+      "sha256": "ece2d7adc2a9a73cf712b4abdb66c97b73abd48782773392b5fe83b96900a5d1",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-tests-owner.5qAIAj/result.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/official-owner/result.json",
+      "bytes": 10925,
+      "sha256": "533c66deb8a5a6dc3002106c1efa4e9e6f2d34da6d098030af194f883cf681cb",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native/constants.mjs",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native/constants.mjs.txt",
+      "bytes": 55,
+      "sha256": "08cc84cdeb98fe9b9108d998af2dad468b5d3f6f176bc8005161b9c45c4712e6",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native/entry.mjs",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native/entry.mjs.txt",
+      "bytes": 504,
+      "sha256": "5ca80a74e48343232f0c43583f213bb4c52cbc0464675bee91199f750a80cb15",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native/simulation-CN0-W409.js",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native/simulation-CN0-W409.js.txt",
+      "bytes": 159698,
+      "sha256": "cc9a18ebeaf3c83df8527cfc97cdeaa2c0ebee63053ba0a850cc9b06c944901f",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native/simulation-CN0-W409.js.map",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native/simulation-CN0-W409.js.map",
+      "bytes": 711847,
+      "sha256": "f13c37f1b69ed8a4694e4ac06e18f67e9071ce35cb5bd5eb2ec2a333f42a51f5",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.boundary.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.boundary.json",
+      "bytes": 49,
+      "sha256": "9a165e7511f6dd3be59c77d5b3ef53e5d2f01db0fa68b8dab704c4da158895ca",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.json",
+      "bytes": 79301,
+      "sha256": "165f5cb72fcac12c0e99e9b360d9ace3ee34b5dc4cd093c6a82aed194e074798",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.lifecycle.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.lifecycle.json",
+      "bytes": 10086,
+      "sha256": "b6d2d6b5482092ba90bdb227e490a860d0999c4647c2f6a00df993e259018645",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.receipts/native-build.process.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.receipts/native-build.process.json",
+      "bytes": 492,
+      "sha256": "f45dd4c9799913b040c9ba25b5ec9c6f1c6dea027c188daa40c87e7daa7fdeaf",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.receipts/native-build.stderr.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.receipts/native-build.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.receipts/native-build.stdout.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.receipts/native-build.stdout.txt",
+      "bytes": 387,
+      "sha256": "f61a71306ae20005ad8b000cd6b90215c240dbc7aa6b7b7e0e9c6ed6c79adf70",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.receipts/native-worker-77497-5069372.jsonl",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.receipts/native-worker-77497-5069372.jsonl",
+      "bytes": 6368,
+      "sha256": "220bfeb61afd8d51b2e70e75c2600738a9953e28533974dbfd1b678eb8602740",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.receipts/native-worker-77498-5069372.jsonl",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.receipts/native-worker-77498-5069372.jsonl",
+      "bytes": 5921,
+      "sha256": "b22061ae98b32824aa8a2683c2f79c6704acdab35e27a7c86b54a98fc200d2ca",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.receipts/official-tests.process.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.receipts/official-tests.process.json",
+      "bytes": 818,
+      "sha256": "705e9aed73052f2db516737d5711ab1084ccda20f3a1105a563be55db83cad33",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.receipts/official-tests.stderr.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.receipts/official-tests.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-official-flight.sxypD4/native.receipts/official-tests.stdout.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/native/native.receipts/official-tests.stdout.txt",
+      "bytes": 980,
+      "sha256": "e91e582c769088c212b121326d9dee579b81a719982093b1d7a8f789cb0ec437",
+      "originalMode": 384
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/independent-actual-result-HIGH-review.md",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/0-independent-actual-result-HIGH-review.md",
+      "bytes": 3491,
+      "sha256": "c5029f34d04084ef83ab3b858bdd84bffd2b1ea89865cd410aa2bb8ab95c9eeb",
+      "originalMode": 384
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/independent-actual-result-HIGH-pins.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/1-independent-actual-result-HIGH-pins.json",
+      "bytes": 8860,
+      "sha256": "19748a2be9af37d455359ad78e3da799bf5142832f13712b1476d00c577619ca",
+      "originalMode": 384
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/owner-input.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/2-owner-input.json",
+      "bytes": 1778,
+      "sha256": "fee605df6e0efaee3ef7ca8b93cd96d65fa225665e7e2ea43787f5cde438a6ed",
+      "originalMode": 384
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/inventory.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/3-inventory.json",
+      "bytes": 6291367,
+      "sha256": "546d8b1030fcbcdc8e25248cbaa830f6958d1ee806139d5065642d5af857ad6b",
+      "originalMode": 384
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/4-native-flight-qualification.json",
+      "bytes": 2677305,
+      "sha256": "d1b400dbddf2ca6e22df8b7b7eb550c7f58324bf8a45d24f360743bbf107c033",
+      "originalMode": 384
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/5-native-flight-qualification-v7.json",
+      "bytes": 2812033,
+      "sha256": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+      "originalMode": 384
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/root-before-full-admission.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/6-root-before-full-admission.json",
+      "bytes": 160,
+      "sha256": "97c6692c2914a09ad9fb4fcf4b6321abbfacd5962e0bc098c7fcd0d96bbc8502",
+      "originalMode": 384
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/root-after-full-admission.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/7-root-after-full-admission.json",
+      "bytes": 160,
+      "sha256": "e5a9d7430d631266bb01486274dfb1b0dca683c7b6610357318b72fa8e47b646",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/root-independent-postexit.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/8-root-independent-postexit.json",
+      "bytes": 2772,
+      "sha256": "989723f975122bb83e50c2c6321604525f483ae1868e17f1c71f10d84e2da1e3",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-original21-root.63kv625r/root-original-load-observation.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/supporting/9-root-original-load-observation.json",
+      "bytes": 1032,
+      "sha256": "2ed2026589ffc8967e9e8cf3b6f13b7e2d3c29ea443120f6ad0d3f952dee21a7",
+      "originalMode": 384
+    }
+  ],
+  "originalsUntouched": true,
+  "originalResultsReclassified": false,
+  "scope": "Exact accepted original21 episode evidence, not full unit/coverage/gate acceptance"
+}

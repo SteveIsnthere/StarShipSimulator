@@ -1,0 +1,75 @@
+{
+  "disposition": "APPROVE actual application/admission; next owner input preparation only",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/applied-once/independent-actual-application-HIGH-review.md",
+      "sha256": "bf228552e86136a2049f4f09736ede2cfa7bed4733b72d17bc2c9956ba392b83",
+      "bytes": 2608
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/applied-once/application.json",
+      "sha256": "3dfefa6e244ae131feec9c8b8571cf6d2d9f43b18ceb00cadb9e8388bd8d81e7",
+      "bytes": 1087
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/applied-once/before-source.json",
+      "sha256": "c82c4ada8deaf7de380e4122ea60e31507846b4b78f441f46900f24b32214df2",
+      "bytes": 80066
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/applied-once/loader.mjs.before.txt",
+      "sha256": "958291c07f1a3ffa909067dce53c4f3f7dd4f4a7f43e39e2444c06d6364de496",
+      "bytes": 3620
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/applied-once/run.mjs.before.txt",
+      "sha256": "7d02863cb6cab28a27afbdd7ed41c9f66ccd548052753efa03ac8bdb5582b3c0",
+      "bytes": 9121
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/applied-once/loader.mjs.applied.json",
+      "sha256": "053d5d33faa602148339dddf6df90b8f76a3dca0f1f79572933d7412e44ff0c7",
+      "bytes": 204
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/applied-once/run.mjs.applied.json",
+      "sha256": "8994d7489c2b71bed1560968a7e0448525e948b3e1cd6a5e83c5f710951560fa",
+      "bytes": 201
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/applied-once/full-admission.json",
+      "sha256": "14e2217040ae893ad05da319d500b600bdcfe8fb8310c61638e695b7a7e4e6e2",
+      "bytes": 160
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/applied-once/prior-precheck-failure.json",
+      "sha256": "accb9d90cca8e91e782aed02ccdf1cc15ce5e41531cac97462111df6c3a91cc8",
+      "bytes": 223
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/loader.mjs",
+      "sha256": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16",
+      "bytes": 5982
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/run.mjs",
+      "sha256": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1",
+      "bytes": 10890
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json",
+      "sha256": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+      "bytes": 2812033
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/qualification-transfer/projection.json",
+      "sha256": "fbf4acd27ffca75348beaba9125e837ac406d5749da2a7bbafd89a315222e25f",
+      "bytes": 169416
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/qualification-transfer/input-pins.json",
+      "sha256": "5b56b1cb3528f2d216401e0df95f08e1e07516f45cce00198b74e308ee67833d",
+      "bytes": 20851
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "kind": "recovery08-accepted-pointer-and-actual-trace-fourdoc-packet-v1",
+  "status": "Unapplied; OTHERsourceHIGH androotexactguardedapply required",
+  "rows": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "beforeSha256": "4b092ba7de33f8a8659ad03cba877bd166f1538f63237eeb6177f7f344fedee4",
+      "backup": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/before/0-before.md",
+      "backupSha256": "4b092ba7de33f8a8659ad03cba877bd166f1538f63237eeb6177f7f344fedee4",
+      "replacements": [
+        {
+          "label": "trace actualFAIL/incomplete64MiB",
+          "old": "A fresh bounded trace diagnosis is being prepared to distinguish the measured RAF/interval gap and GPU-process CPU exposure; no unchanged rerun or flags/quality/budget cuts are granted.",
+          "new": "The separately instrumented single-launch diagnosis FAILED (actual HIGHc07534a6): all original60 warm and300 measured frames were captured, but cadence15.834684fps still misses59 and the expanded trace export reached its unchanged64MiB cap, leaving an incomplete stream and no compositor critical-path attribution. Instrumentation overhead prevents frame acceptance. All28 observed identities were nonexecuting:23 absent and five same-start zombies; some groups remain uncleared. No unchanged retry, trace-cap increase or flags/quality/budget cut is granted.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "current historical-status recovery pointer",
+          "old": "a complete current replacement remains pending.",
+          "new": "Recovery08 is now independently accepted as the complete current replacement snapshot for preservation only: 250 dirty paths (247 present and three deletions), source770/a073, 18,837,675-byte patch ac9f96c9, actual HIGH459f3db6/036850ae plus runtime supplement64dffaf. Its external accepted envelope preserves the raw manifest\u2019s review-pending field; never apply this or a historical snapshot over the existing dirty checkout.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "current-continuation recovery completion",
+          "old": "complete current recovery replacement is pending.",
+          "new": "complete current recovery replacement is accepted as Recovery08 for preservation only; integration and release acceptance remain open.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "archive versus independent08scope",
+          "old": "It does not replace current recovery or accept any runtime/gate/frame result.",
+          "new": "The archive itself does not replace a recovery snapshot or accept any runtime/gate/frame result; the separately reviewed Recovery08 capture now provides current replacement preservation.",
+          "occurrencesRequired": 1
+        }
+      ],
+      "projectedAfterSha256": "6522c7e964a0ebbe07bdc758fdb8445d41f7a4fb351836e1094568b4a8b90e73",
+      "liveFileEdited": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md",
+      "beforeSha256": "ca24dd1507ff88b18d00bea5b140a6b43c49f4c5ac008421e9ec943b7f3b77f2",
+      "backup": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/before/1-before.md",
+      "backupSha256": "ca24dd1507ff88b18d00bea5b140a6b43c49f4c5ac008421e9ec943b7f3b77f2",
+      "replacements": [
+        {
+          "label": "trace actualFAIL/incomplete64MiB",
+          "old": "A fresh bounded trace diagnosis is being prepared to distinguish the measured RAF/interval gap and GPU-process CPU exposure; no unchanged rerun or flags/quality/budget cuts are granted.",
+          "new": "The separately instrumented single-launch diagnosis FAILED (actual HIGHc07534a6): all original60 warm and300 measured frames were captured, but cadence15.834684fps still misses59 and the expanded trace export reached its unchanged64MiB cap, leaving an incomplete stream and no compositor critical-path attribution. Instrumentation overhead prevents frame acceptance. All28 observed identities were nonexecuting:23 absent and five same-start zombies; some groups remain uncleared. No unchanged retry, trace-cap increase or flags/quality/budget cut is granted.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "current historical-status recovery pointer",
+          "old": "a complete current replacement remains pending.",
+          "new": "Recovery08 is now independently accepted as the complete current replacement snapshot for preservation only: 250 dirty paths (247 present and three deletions), source770/a073, 18,837,675-byte patch ac9f96c9, actual HIGH459f3db6/036850ae plus runtime supplement64dffaf. Its external accepted envelope preserves the raw manifest\u2019s review-pending field; never apply this or a historical snapshot over the existing dirty checkout.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "current-continuation recovery completion",
+          "old": "complete current recovery replacement is pending.",
+          "new": "complete current recovery replacement is accepted as Recovery08 for preservation only; integration and release acceptance remain open.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "archive versus independent08scope",
+          "old": "It does not replace current recovery or accept any runtime/gate/frame result.",
+          "new": "The archive itself does not replace a recovery snapshot or accept any runtime/gate/frame result; the separately reviewed Recovery08 capture now provides current replacement preservation.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "latest handover full pointer paragraph",
+          "old": "**Latest continuation:** the independently reviewed native-test bridge was applied once to twelve admitted tooling/configuration paths; current source snapshot has769 paths, with protected core and both original flight-test files unchanged. Documentation checkpoint26e946c is pushed; runtime integration remains uncommitted. Recovery05 is historical for these subsequent tooling changes. Recovery06 verifies all237 current implementation paths but remains procedurally HOLD because its initial index-before/journal evidence was incomplete. Recovery07 is independently accepted as the complete historical state before the later V7 loader/run two-file application and twelve fixture/audit-data changes; a new complete current replacement snapshot is pending. Its accepted capture: new capture/root0 in5.895141/6.784678s,237 paths/three deletions/468 blob hashes/726 complete command journals, exact clean base/two final trees and unchanged real index. All16 observed identities are independently absent. Its new replacement patch has1220957bytes and SHAfd3b223ac134207bd9fbb279be0920ca8107c4985e73b704a8c915c6c26f35dd; identical content to06 is expected because source did not change, while07 has new complete procedural evidence. Never reapply historical patches to this dirty checkout.",
+          "new": "**Latest continuation:** Recovery08 is independently accepted as the complete current replacement snapshot (actual HIGH459f3db6/036850ae plus runtime supplement64dffaf). It preserves the current770-source/a073 dirty implementation, including V7/StageA tooling, ten fixtures/two audit anchors and helper57d3:250 paths/three physical deletions,18,837,675-byte patch SHAac9f96c9daf3534e166a489daf2b46434f387fa343540c653cc903b7b3df3c87. Exactly765 fsynced raw Git command journals exit0; one cached check and one cached apply occur only on the second NEW temporary index, both trees1260d712,494 blob checks and all dirty hashes/modes/fullsets agree, with real index/HEAD/non-doc worktree unchanged. All16 observed identities are absent and two groups clear; individual765 Git PID/start identities were not journaled, so do not invent them. [External accepted08 envelope](../../research/2026-10-04-cloud-resume/recovery08-owned-route/accepted-complete-replacement-envelope.json) supplies acceptance without rewriting the raw manifest\u2019s pending field. Historical05/06/07 remain unchanged;06 stays proceduralHOLD,07 is an accepted earlier snapshot. Never apply any recovery over this dirty checkout or chain historical patches. Preservation is not unit/coverage/gate/frame/release acceptance.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "handover latest pointer bullet",
+          "old": "- The [latest accepted complete historical snapshot07](../../research/2026-10-04-cloud-resume/README.md#current-implementation-recovery) preserves237 paths but predates the approved V7 loader/run two-file source change. A new complete current recovery is pending; preserve the actual V7 application/qualification and dirty work. Recovery05 is historical and06 remains procedural HOLD. **Never apply a historical patch over this dirty checkout or force old hashes onto current files.** Snapshots are replacements, never an incremental chain.",
+          "new": "- The [latest accepted complete replacement08](../../research/2026-10-04-cloud-resume/README.md#current-implementation-recovery) preserves250 current dirty paths and current770/a073 source. Its external accepted envelope binds raw manifest/patch/review/runtime evidence; historical07 is not current authority. **Never apply08 or any historical patch over this dirty checkout.** A deliberately authorized clean restoration uses08alone, never an incremental patch chain.",
+          "occurrencesRequired": 1
+        }
+      ],
+      "projectedAfterSha256": "e6b59c5da621bc56f0088101ca99d9de187e20b97ab295a2c424d37baf300e62",
+      "liveFileEdited": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "beforeSha256": "20f4107f02e81b2aec733f1393e41064c452561ed5cc0f1a149008edb2d169a0",
+      "backup": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/before/2-before.md",
+      "backupSha256": "20f4107f02e81b2aec733f1393e41064c452561ed5cc0f1a149008edb2d169a0",
+      "replacements": [
+        {
+          "label": "trace actualFAIL/incomplete64MiB",
+          "old": "A fresh bounded trace diagnosis is being prepared to distinguish the measured RAF/interval gap and GPU-process CPU exposure; no unchanged rerun or flags/quality/budget cuts are granted.",
+          "new": "The separately instrumented single-launch diagnosis FAILED (actual HIGHc07534a6): all original60 warm and300 measured frames were captured, but cadence15.834684fps still misses59 and the expanded trace export reached its unchanged64MiB cap, leaving an incomplete stream and no compositor critical-path attribution. Instrumentation overhead prevents frame acceptance. All28 observed identities were nonexecuting:23 absent and five same-start zombies; some groups remain uncleared. No unchanged retry, trace-cap increase or flags/quality/budget cut is granted.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "current historical-status recovery pointer",
+          "old": "a complete current replacement remains pending.",
+          "new": "Recovery08 is now independently accepted as the complete current replacement snapshot for preservation only: 250 dirty paths (247 present and three deletions), source770/a073, 18,837,675-byte patch ac9f96c9, actual HIGH459f3db6/036850ae plus runtime supplement64dffaf. Its external accepted envelope preserves the raw manifest\u2019s review-pending field; never apply this or a historical snapshot over the existing dirty checkout.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "current-continuation recovery completion",
+          "old": "complete current recovery replacement is pending.",
+          "new": "complete current recovery replacement is accepted as Recovery08 for preservation only; integration and release acceptance remain open.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "archive versus independent08scope",
+          "old": "It does not replace current recovery or accept any runtime/gate/frame result.",
+          "new": "The archive itself does not replace a recovery snapshot or accept any runtime/gate/frame result; the separately reviewed Recovery08 capture now provides current replacement preservation.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "earlier Phase8 current-recovery summary",
+          "old": "new complete current recovery remains pending.",
+          "new": "Recovery08 is now independently accepted as the complete current replacement snapshot for preservation only: 250 dirty paths (247 present and three deletions), source770/a073, 18,837,675-byte patch ac9f96c9, actual HIGH459f3db6/036850ae plus runtime supplement64dffaf. Its external accepted envelope preserves the raw manifest\u2019s review-pending field; never apply this or a historical snapshot over the existing dirty checkout.",
+          "occurrencesRequired": 1
+        }
+      ],
+      "projectedAfterSha256": "cd2c1650e8c5cf4994475447c451d091137a6a649273ee87b314d23821ce4128",
+      "liveFileEdited": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md",
+      "beforeSha256": "d2b0706d418da802ab4a997a3624d6dcf29e02a9d493341118e2dafb17a67f7d",
+      "backup": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-accepted-pointer-and-trace-status-packet/before/3-before.md",
+      "backupSha256": "d2b0706d418da802ab4a997a3624d6dcf29e02a9d493341118e2dafb17a67f7d",
+      "replacements": [
+        {
+          "label": "trace actualFAIL/incomplete64MiB",
+          "old": "A fresh bounded trace diagnosis is being prepared to distinguish the measured RAF/interval gap and GPU-process CPU exposure; no unchanged rerun or flags/quality/budget cuts are granted.",
+          "new": "The separately instrumented single-launch diagnosis FAILED (actual HIGHc07534a6): all original60 warm and300 measured frames were captured, but cadence15.834684fps still misses59 and the expanded trace export reached its unchanged64MiB cap, leaving an incomplete stream and no compositor critical-path attribution. Instrumentation overhead prevents frame acceptance. All28 observed identities were nonexecuting:23 absent and five same-start zombies; some groups remain uncleared. No unchanged retry, trace-cap increase or flags/quality/budget cut is granted.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "current historical-status recovery pointer",
+          "old": "a complete current replacement remains pending.",
+          "new": "Recovery08 is now independently accepted as the complete current replacement snapshot for preservation only: 250 dirty paths (247 present and three deletions), source770/a073, 18,837,675-byte patch ac9f96c9, actual HIGH459f3db6/036850ae plus runtime supplement64dffaf. Its external accepted envelope preserves the raw manifest\u2019s review-pending field; never apply this or a historical snapshot over the existing dirty checkout.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "current-continuation recovery completion",
+          "old": "complete current recovery replacement is pending.",
+          "new": "complete current recovery replacement is accepted as Recovery08 for preservation only; integration and release acceptance remain open.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "archive versus independent08scope",
+          "old": "It does not replace current recovery or accept any runtime/gate/frame result.",
+          "new": "The archive itself does not replace a recovery snapshot or accept any runtime/gate/frame result; the separately reviewed Recovery08 capture now provides current replacement preservation.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "README currentimplementation latest artifacts",
+          "old": "**Latest accepted complete historical recovery, before the V7 two-file change: [checkpoint-recovery-07.json](checkpoint-recovery-07.json) and [checkpoint-recovery-07.patch](checkpoint-recovery-07.patch).** It contains237 non-doc paths including three deletions,1220957bytes, SHA256 `fd3b223ac134207bd9fbb279be0920ca8107c4985e73b704a8c915c6c26f35dd`, against runtime base32e5bb386cadee9098d703c67ebdfc9444eb46a6. [Independent actual HIGH review](recovery07-independent-actual-HIGH-review.md) verifies all726 command journals,468 blob hashes/modes, both complete796-path non-doc trees, clean base, exactly one new07 application to a new isolated second index, then-current769-path source, unchanged real index and all16 owned identities absent. Actual root/capture exit0 in6.784678/5.895141s. No patch was applied to the working tree. The immutable manifest's review-pending field is superseded only by the separate actual review, not rewritten.",
+          "new": "**Latest accepted complete current recovery: [checkpoint-recovery-08.json](checkpoint-recovery-08.json), [checkpoint-recovery-08.patch](checkpoint-recovery-08.patch) and [external accepted08 envelope](recovery08-owned-route/accepted-complete-replacement-envelope.json).** Base32e5bb386cadee9098d703c67ebdfc9444eb46a6;250 non-doc dirty paths (247 present/three deletions),18,837,675 bytes, SHA256`ac9f96c9daf3534e166a489daf2b46434f387fa343540c653cc903b7b3df3c87`, current770-source/a073 authority. [Independent actual HIGH](recovery08-owned-route/independent-actual08-result-HIGH-review.md) and [runtime supplement](recovery08-owned-route/independent-actual08-runtime-supplement.json) accept preservation only: root0/8.198s,765 raw fsynced journals all0, cached check/apply once onlysecondNEWindex, both trees1260d712,494 restored blob checks, all hashes/modes/fullsets and realindex/HEAD/non-doc worktree invariant. All16 observed identities absent/two groups clear. Every individual Git PID/start was NOTjournaled; completed subprocess.run exits establish reaped command evidence. The raw manifest\u2019s independentReview=pending remains immutable; acceptance lives outside it.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "README dirty-work guard andclean08only recipe",
+          "old": "**Preserve current dirty work. Recovery07 predates the approved V7 loader/run change and later ten-fixture/two-audit data changes; never force its old hashes onto current files or apply any snapshot over this checkout. A new complete current replacement snapshot is pending.** A future current clean recovery requires that final complete source-pinned replacement plus its selected documentation/qualification checkpoint; never chain historical patches.",
+          "new": "**Preserve current dirty work. Recovery08 now captures V7/StageA, ten fixture/two audit changes and currenthelper57d3; never apply it or old snapshots over this checkout.** Only a deliberately authorized NEW clean restoration at exactbase32e5 uses the whole08patch once, after checking its envelope/hash/size and `git apply --check`; verify all restored/deleted paths, hashes/modes and complete770-source authority before any further qualification. Do not chain05/06/07/08. The selected documentation/qualification checkpoint and actual acceptance limits remain separate.",
+          "occurrencesRequired": 1
+        },
+        {
+          "label": "historical07recipeexplicit history",
+          "old": "**Historical07 clean-recovery recipe only:**",
+          "new": "**Historical07 recipe retained as history, not the current-recovery route; never run it over dirty work:**",
+          "occurrencesRequired": 1
+        }
+      ],
+      "projectedAfterSha256": "8a6b4046a6fe828b2453c589562cad0554f4a3a09c53fd43807047ebe0574dbf",
+      "liveFileEdited": false
+    }
+  ],
+  "references": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/accepted-complete-replacement-envelope.json",
+      "sha256": "7fcd5788da4572aace313a498ad2c680a566fb764e00f1dc64561712f2bd2379"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-result-HIGH-review.md",
+      "sha256": "459f3db61fe8a75c785c9a7df17ad4e2662efdfd066a814f781b15e83eba0e09"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-result-HIGH-pins.json",
+      "sha256": "036850aee70400bc7c27fa42a37c26ddb9dd547dbcc4009a7cff51722137a67f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-runtime-supplement.json",
+      "sha256": "64dffaf10dcf46c6848bff6ee8d8bb6a2efa44780830abc7f0241c5fdb2d9a25"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08.json",
+      "sha256": "c34b4ef9c02bb102c25721953fb55d6fd383cb29709905c907170bb9ab75b72e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-review.md",
+      "sha256": "c07534a6fdd6333624ed4b881fd0107561b7e3a603f30f5bb8a359e81842fe9b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-pins.json",
+      "sha256": "3bb434e84a4f05b01a712aad3703c9c4a125e9e794eff282a7e596c183adb211"
+    }
+  ],
+  "historicalPointerChange": "Promote08ONLYbecause actualHIGH alreadyaccepted, externalenvelope. Oldrawmanifest/07patches untouched. No snapshotapply.",
+  "largePatchOrTraceReadByAuthor": false,
+  "limitsPreserved": "80%/main-livee8/8+9open/currentfull38FAIL/coveragegateframesopen. No acceptance frompartial64MiBtrace/cadence15.834."
+}

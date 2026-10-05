@@ -1,0 +1,7 @@
+# Independent exact ten-name replay source repair HIGH
+
+Supported scoped source readiness and separate actual owner input assembly. Exact case inventorya01e150a/sourceinputb75e86b2 fixes only ten dollar-id framework names: eight Ship suite IDs and two booster case IDs have required single quotes. Original38 names/5 files, eight percent-s bare names, skip0/default30000 and every original test/assertion remain unchanged. All current manifest/archive files match; originaleaf/bba5/HOLD1f9/0a61 preserved. Installed runner/display code supplies the quoted-string formatting authority. No runtime or fixture payload read occurred.
+
+Stage3517434/root98f7 unchanged: public locked SSR CLI, five full originals, native/preview env denied, default30s without coverage/retry/worker/project overrides, helper300000/whole338000, raw status before interpretation, all38 passed lifecycle with five unit modules/suites and no errors/retries/flakiness required. Recording-only ten data exceptions are removed, so complete source/data/tool pathsets and hashes must match before/after. Current qualifiedsource/tool metadata and applied two audit files must bind fresh actual input; staleq73 remains only historical role, never a native current-admission claim.
+
+Root must run changed route scopes and obtain populated owner/input HIGH before ONE five-file replay. Captured-group early-failure cleanup/late whole bound remains unchanged. Fresh actual case/source/all-identity result review remains mandatory; no golden, gate, coverage or further execution acceptance from this static review.

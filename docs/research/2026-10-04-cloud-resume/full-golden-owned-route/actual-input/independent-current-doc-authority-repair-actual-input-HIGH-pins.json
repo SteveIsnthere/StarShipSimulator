@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "decision": "supported-one-full-ten-golden-recording-repaired-input-readiness",
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/independent-current-doc-authority-repair-actual-input-HIGH-review.md",
+  "reviewSha256": "68e6db8bf8829463cff4ff7e9da10023b14817dc78326990592ca89d704bc313",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/owner-input.json": "70e2c2697746b8b792ee67090e5071c5d6623e6b05a3ffde140b0c84f6db0811",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/inventory.json": "ea3027349084c8aa34440206442e0f4ba76090a7bad2913ebe5670b0a64cee29",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/before-current-doc-authority-repair/owner-input.json": "371c28f8b69408822ee7e6a1fd07e9f88ad727c7471307dc746b403d4be27c42",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/before-current-doc-authority-repair/inventory.json": "b87219c75947380b08cd922d7f71b9d13d542578becb578663c613cc317f6233",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/before-current-doc-authority-repair/independent-actual-input-HOLD-review.md": "626bb30e4bb71267f1a6f59ed5c34974e6d1d7593c99cea20ea8740c201d17cf",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/before-current-doc-authority-repair/independent-actual-input-HOLD-pins.json": "e082bddff9c66553cd02c1cef7d9e9c836cbb85611f63b3e459f51e8d29ac879",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md": "85472b5d9d93164c7f8bd38600a5738c82060960a898656dcd3d6b3de846f13b",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md": "8bfcfa5c524c796cf8118f0030bc5f901e9c94a0002665cacd0fae95875a91bd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/declaration.md": "6d3e42fa120a02ea70e11b52750e689a4eef0cbfa2338a8739eb42cdf7920ff8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/before-current-doc-authority-repair/declaration.md": "940ae4c01f08376542aeff120fc7f3744c63e389c80fa50cc8cf2dc231a2cd69",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/current-document-authority-delta.json": "43f6706a74f6cbc90b5caa45c69fdbc2c8772e69bd8456303f3de97d1a1b2604",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-neutral-repair-scopes/eslint.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-neutral-repair-scopes/eslint.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-neutral-repair-scopes/result.json": "12192334075eb97fc3ae38a2b080c4342384e54512099801c46ed5460bb051a7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-neutral-repair-scopes/node-syntax.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-neutral-repair-scopes/node-syntax.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "verification": {
+    "priorRawEntriesPreserved": 21526,
+    "changedLiveDocumentRows": 2,
+    "changedDeclarationRows": 1,
+    "addedRows": 11,
+    "absoluteNormalizedUniquePaths": 21537,
+    "sourcePaths": 769,
+    "installedToolPaths": 20355,
+    "sourceToolMapsUnchanged": true,
+    "ownerOnlyInventoryShaChanged": true,
+    "noFixturePayloadReadOrHashed": true,
+    "noWholeSourceOrToolsScanned": true
+  },
+  "conditions": [
+    "Root before-admission and runtime/environment boundary.",
+    "ONE unchanged300s helper/338s whole recording with immutable old captures.",
+    "Independent actual raw/status/all-identity/post-source-tool review.",
+    "Separate data bridge and replay before golden acceptance."
+  ],
+  "recordingExecutedByReviewer": false,
+  "fixtureAcceptance": false,
+  "gateAcceptance": false
+}

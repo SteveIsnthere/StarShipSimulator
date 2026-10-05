@@ -1,0 +1,172 @@
+{
+  "kind": "mesa-full-application-two-mode-source-pins-v1",
+  "files": [
+    {
+      "path": "/tmp/starship-mesa-functional.d7f9a0837ecf49e692860251218b4a7f/diagnostic-before-context.json",
+      "sha256": "94a246016be46f3d790bfc73766b02fc5059cb83455c578c83077a8b0072030f",
+      "bytes": 42835
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-functional-input.json",
+      "sha256": "675f45a3e847c44ef941c9add7ca5873131d7729b2c3efdb5da1a25b6cb1ed4f",
+      "bytes": 88999
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-parent-closure.json",
+      "sha256": "90ea0e1e4c117fb6856ba9045e694c6e730260f5174ec1841dcf9d381287dfde",
+      "bytes": 30532
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-actual-functional-HIGH-pins.json",
+      "sha256": "81589ec25b3837b4f22d8ce1c16e089a7864f3e8022ba472efdd3ef3cdfd5016",
+      "bytes": 3762
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-actual-functional-HIGH-review.md",
+      "sha256": "04fe501dd6fbaaae9b106bdbf27c3910a3647fbea28a36948942978e62a80719",
+      "bytes": 2161
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-actual-input-HIGH-pins.json",
+      "sha256": "d0bf89130e56ade281cb8aea7291aa08901d4c9ac2f241c466ee70d1d2446042",
+      "bytes": 2588
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-actual-input-HIGH-review.md",
+      "sha256": "734b8aa8fb7b223372bbbc0bb89e2fce995efb18cc1fb142f36d177a29d870c9",
+      "bytes": 2482
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/business-stage.mjs.txt",
+      "sha256": "4b7b45dd40313de29a039ce47173989a66fd0d926513d3c2f688ab93f7e9ed1a",
+      "bytes": 13749
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/implementation-plan.md",
+      "sha256": "ee4242642fc344c90d70abe16bc69ae78d9496f128d77f694fa5216fb897ea68",
+      "bytes": 7611
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/input-contract.json",
+      "sha256": "a814430df8b5b65e6a51bd359ff388ba5ad9133df71ee6a891a885ae906435dc",
+      "bytes": 2460
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-boundary-hooks.ts.txt",
+      "sha256": "438f5bd0f2b220855430f485ec4daa2a3685d369b424acc926c59f7e9b406ca0",
+      "bytes": 8060
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-budget.config.ts.txt",
+      "sha256": "46604d67813fa2a69c741bb1ff5165a0797f63316dd8a04cac649ae0211e67cf",
+      "bytes": 2470
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-budget.spec.ts.txt",
+      "sha256": "df69f110cc846c556a84326db41f90bc56562e7d0ec2ec73d1a0f439a3da8142",
+      "bytes": 189
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-reporter.mjs.txt",
+      "sha256": "a05e81ea62956ebb433576072074d4e249440021b509b3b23747a7fcd1516e20",
+      "bytes": 1391
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/ownership-business-delta.json",
+      "sha256": "91b8bc75f09c1326c29b763e6ef1794a7e8b8ef3c80ddc1f9b7c182417100d37",
+      "bytes": 5394
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-observer.py.txt",
+      "sha256": "3d9bc7f8d85276385191982d724736583126a3210c92b67ccfe4bc04fba82b30",
+      "bytes": 17880
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/root-structural-check.py.txt",
+      "sha256": "e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13",
+      "bytes": 2447
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+      "sha256": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5",
+      "bytes": 17669
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/playwright/types/testReporter.d.ts",
+      "sha256": "cc31504f31abcd7263a1daed018ef8109fa255464b0c0b962f39ab3548787f9e",
+      "bytes": 31392
+    },
+    {
+      "path": "/workspace/StarShipSimulator/playwright.config.ts",
+      "sha256": "754bfd106fb9e711e744b85aa95e5411b213f286c9ec2d4dcc9533f425e5994b",
+      "bytes": 6230
+    },
+    {
+      "path": "/workspace/StarShipSimulator/playwright.visual-budget.config.ts",
+      "sha256": "06412d9b7ca7e0a2365bdf8ae21235aeab3a5bfec53e3f2283e33aed5c003c02",
+      "bytes": 1288
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/bench/native-loader.mjs",
+      "sha256": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+      "bytes": 5131
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+      "bytes": 7424
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/chromium.ts",
+      "sha256": "e32107c386cfd11dd8f01c9cc5384adf7222b1f48a24ab7de9687e6dbb3f601b",
+      "bytes": 2423
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/helpers.ts",
+      "sha256": "ff587b26e02ac27e103e3469a4eb0bb9afc7639a7344318d1ab707f4db6bc0aa",
+      "bytes": 6177
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-browser-trace.ts",
+      "sha256": "3bc5d775cea6b0e5844622e2a0810c595abdbb90584f389d2766616ee671d6de",
+      "bytes": 4631
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-budget-probe.ts",
+      "sha256": "d450cc4671149cb42bb7e1c6a34259b2d1ac06152f22a2302a7d4c3679c44f99",
+      "bytes": 7256
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-budget-receipts.ts",
+      "sha256": "2c1fe0d2aacee3acdd808b8a057f5b8f44d4f4e81a5d64be79776c3d92220c1b",
+      "bytes": 3085
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts",
+      "sha256": "98504af61fb46edf0f2555e7f1fec419308cfcbd6363fe3f9b5b104fdea4ce79",
+      "bytes": 17632
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-runtime-receipt.ts",
+      "sha256": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+      "bytes": 4022
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-scene-setup.ts",
+      "sha256": "97d1713dd295ce84304eadaa6093f66b45e916fe2b9356c3dbaa4143e7e0bbda",
+      "bytes": 3243
+    }
+  ],
+  "status": "SOURCE-ONLY UNEXECUTED; scoped checks/materialization/external inputs and fresh Other HIGH required",
+  "currentSourceAuthorityPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/root-exact-once-application/after-snapshot.json",
+  "currentSourceAuthorityCounts": {
+    "source": 770,
+    "tools": 20355
+  },
+  "currentSourceAuthorityHashMustBeFrozenByRootForActualInput": true,
+  "historicalPublicBuildReceipt": "node_modules/.cache/starship-original12-proof-f8d1c927a3a24b07b6017241c08e05cf/app-build.process.json",
+  "historicalPublicBuildHasNoFullDistCertificate": true,
+  "candidateSourceFilesHashedOnly": true,
+  "liveSourceToolNativeTreesScannedByAuthor": false,
+  "authorStaticArgvCorrection": "no-sandbox duplicate is already present in accepted actual argv; backend/policy flags still exactly once; pre-handoff source draft retained byteexact"
+}

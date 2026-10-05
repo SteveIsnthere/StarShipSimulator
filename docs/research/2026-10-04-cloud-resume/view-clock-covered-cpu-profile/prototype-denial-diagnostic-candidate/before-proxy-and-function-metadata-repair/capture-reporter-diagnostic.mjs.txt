@@ -1,0 +1,70 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, readdirSync, lstatSync, realpathSync, mkdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+import {createRequire} from 'node:module';
+import {encodeCoverageOwnData,decodeCoverageOwnData} from './codec-diagnostic.mjs';
+import {describePrototypeDenial} from './prototype-witness.mjs';
+const require=createRequire(import.meta.url),libCoverage=require('istanbul-lib-coverage');
+const approvedFileCoveragePrototype=Object.getPrototypeOf(libCoverage.createFileCoverage('/inert.ts'));
+export default class CaptureReporter {
+  onInit(ctx) {
+    const path = process.env.STARSHIP_MIXED_COVERAGE_RECEIPT;
+    assert.match(path, /^\/tmp\/starship-mixed-coverage\.[a-f0-9]{32}$/);
+    assert.equal(realpathSync(path), path);
+    assert.equal(lstatSync(path).mode & 0o777, 0o700);
+    const capture = resolve(path, 'capture');
+    assert.equal(readdirSync(capture).length, 0);
+    assert.equal(ctx.config.coverage.reportsDirectory, resolve(path, 'reports'));
+    assert.equal(ctx.config.coverage.provider, 'v8');
+    assert.equal(ctx.config.testTimeout, 120000);
+    assert.equal(ctx.config.coverage.excludeAfterRemap, true);
+    assert.deepEqual(ctx.config.coverage.include, ['src/core/**']);
+    for (const key of ['NATIVE_FLIGHT_RUN', 'NATIVE_FLIGHT_RUN_SHA', 'NATIVE_FLIGHT_MAPPED_CODE']) {
+      assert.equal(process.env[key] ?? '', '', 'SSR diagnostic must not admit native code');
+    }
+    assert(!ctx.config.coverage.thresholds.autoUpdate);
+    this.capture = capture;
+    this.reports = ctx.config.coverage.reportsDirectory;
+    this.save('resolved-configuration.json', { coverage: ctx.config.coverage, testTimeout: ctx.config.testTimeout,
+      nativeRun: process.env.NATIVE_FLIGHT_RUN, nativeRunSha: process.env.NATIVE_FLIGHT_RUN_SHA,
+      mappedCode: process.env.NATIVE_FLIGHT_MAPPED_CODE, acceptance: 'ONE original full view-clock case coverage collector validation120; no complete coverage/unit30/gate acceptance' });
+  }
+  save(name, value) {
+    const bytes = Buffer.from(JSON.stringify(value) + '\n');
+    assert(bytes.length <= 64 * 1024 * 1024, 'Capture JSON64MiB cap');
+    writeFileSync(resolve(this.capture, name), bytes, { flag: 'wx' });
+    return { file: name, bytes: bytes.length, sha256: digest(bytes) };
+  }
+  onCoverage(coverage) {
+    try {
+      assert.equal(typeof coverage.toJSON, 'function', 'Expected public Istanbul map');
+      const rawDirectory = resolve(this.reports, '.tmp');
+      assert(lstatSync(rawDirectory).isDirectory() && !lstatSync(rawDirectory).isSymbolicLink());
+      const names = readdirSync(rawDirectory).sort();
+      assert(names.length > 0 && names.length <= 1024);
+      const retained = resolve(this.capture, 'raw'); mkdirSync(retained, { mode: 0o700 });
+      let total = 0; const raw = [];
+      for (const name of names) {
+        assert.match(name, /^coverage-[0-9]+\.json$/);
+        const file = resolve(rawDirectory, name), st = lstatSync(file);
+        assert(st.isFile() && !st.isSymbolicLink());
+        assert(st.size <= 64 * 1024 * 1024, 'Raw coverage file64MiB cap');
+        total += st.size; assert(total <= 256 * 1024 * 1024, 'Raw coverage aggregate256MiB cap');
+        const bytes = readFileSync(file); assert.equal(bytes.length, st.size);
+        writeFileSync(resolve(retained, name), bytes, { flag: 'wx', mode: 0o600 });
+        raw.push({ file: 'raw/' + name, bytes: bytes.length, sha256: digest(bytes) });
+      }
+      assert.deepEqual(readdirSync(rawDirectory).sort(), names);
+      const map = coverage.toJSON();
+      const tagged=encodeCoverageOwnData(map,approvedFileCoveragePrototype,(value,path,approved)=>this.save('unsupported-prototype-witness.json',describePrototypeDenial(value,path,approved))),decoded=decodeCoverageOwnData(tagged,approvedFileCoveragePrototype);assert.deepEqual(encodeCoverageOwnData(decoded,approvedFileCoveragePrototype),tagged,'Own data/prototype/descriptor roundtrip');assert.equal(JSON.stringify(decoded),JSON.stringify(map),'Ordinary public JSON correspondence');const reports = [this.save('provider-map.json', map), this.save('provider-map-tagged-v2.json',tagged)];
+      this.save('capture-completed.json', { completed: true, raw, rawBytes: total, reports,
+        originalRangeJSONRetained: true, ownDataRoundtripExact:true,ordinaryPublicJSONCorrespondence:true, losslessEncoding: 'coverage-own-data-v2', sourceSchemaNormalized: false, projectAssociationInvented: false,
+        providerThresholdDecisionPending: true, productionAcceptance: false });
+    } catch (error) {
+      this.save('capture-failure.json', { completed: false, error: String(error.stack ?? error), productionAcceptance: false });
+      throw error;
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "passed": false,
+  "private": "/tmp/starship-v7-pure-controls.6tsksjky",
+  "inputSHA": "835ee914b823720ed4cde30f00695d6af48b5d74a51fb684e1e85a2c2f8f4911",
+  "records": [
+    {
+      "name": "loader.mjs.syntax",
+      "code": 0,
+      "elapsedSeconds": 0.024160018998372834,
+      "sourceSHA": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16"
+    },
+    {
+      "name": "loader.mjs.lint",
+      "code": 0,
+      "elapsedSeconds": 0.8825525810025283,
+      "sourceSHA": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16"
+    },
+    {
+      "name": "run.mjs.syntax",
+      "code": 0,
+      "elapsedSeconds": 0.027056006998464,
+      "sourceSHA": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1"
+    },
+    {
+      "name": "run.mjs.lint",
+      "code": 0,
+      "elapsedSeconds": 0.9508426309985225,
+      "sourceSHA": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1"
+    },
+    {
+      "name": "parent-validator-controls.mjs.syntax",
+      "code": 0,
+      "elapsedSeconds": 0.024778120998234954,
+      "sourceSHA": "bac18c69ad585b011769bd4afce5bd7060b043b3cf753184694b6e44fa03fa5f"
+    },
+    {
+      "name": "parent-validator-controls.mjs.lint",
+      "code": 0,
+      "elapsedSeconds": 0.8871371150016785,
+      "sourceSHA": "bac18c69ad585b011769bd4afce5bd7060b043b3cf753184694b6e44fa03fa5f"
+    },
+    {
+      "name": "load-certificate-controls.mjs.syntax",
+      "code": 0,
+      "elapsedSeconds": 0.029084034998959396,
+      "sourceSHA": "6946952438c8ad03fbf2c0d9421e2fb02019e2ea50c64e33260d6066bf932b40"
+    },
+    {
+      "name": "load-certificate-controls.mjs.lint",
+      "code": 0,
+      "elapsedSeconds": 0.9359332449967042,
+      "sourceSHA": "6946952438c8ad03fbf2c0d9421e2fb02019e2ea50c64e33260d6066bf932b40"
+    },
+    {
+      "name": "parent-validator-controls.mjs.execution",
+      "code": 0,
+      "elapsedSeconds": 0.03601934100151993,
+      "args": [
+        "/tmp/starship-v7-pure-controls.6tsksjky/parent-validator-controls.mjs",
+        "/tmp/starship-v7-pure-controls.6tsksjky/loader.mjs"
+      ],
+      "stdoutSHA": "facd84ec1aa40db0e734624742cc149d5a08ea09c5b9b8bffa0d54eb123b7c6e",
+      "stderrSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "load-certificate-controls.mjs.execution",
+      "code": 1,
+      "elapsedSeconds": 0.03992785100126639,
+      "args": [
+        "/tmp/starship-v7-pure-controls.6tsksjky/load-certificate-controls.mjs",
+        "/tmp/starship-v7-pure-controls.6tsksjky/loader.mjs"
+      ],
+      "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA": "56ce6fc394d7ed506fcde36c14146c084faa0690b2d6066cba2403471c1a6cd1"
+    }
+  ],
+  "postInputMismatches": [],
+  "physicalCalls": 0,
+  "actualHooksInstalled": 0,
+  "runtimeApplied": false,
+  "scope": "One finite pure VM/URL controls only; no original21/gate/coverage acceptance"
+}

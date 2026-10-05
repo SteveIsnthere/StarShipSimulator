@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "decision": "HOLD-two-stale-live-documentation-pins-before-command",
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/independent-actual-input-HOLD-review.md",
+  "reviewSha256": "626bb30e4bb71267f1a6f59ed5c34974e6d1d7593c99cea20ea8740c201d17cf",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/owner-input.json": "371c28f8b69408822ee7e6a1fd07e9f88ad727c7471307dc746b403d4be27c42",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/inventory.json": "b87219c75947380b08cd922d7f71b9d13d542578becb578663c613cc317f6233",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/actual-input/inventory.json": "06bcd4fd1c4005911c78150686fd264fc76a32cfe2fabae2f759a1956c3107f8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/declaration.md": "940ae4c01f08376542aeff120fc7f3744c63e389c80fa50cc8cf2dc231a2cd69"
+  },
+  "mismatches": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "expected": "267f8a5797c49046a4eaab256eda5e89036c891ee705fbe20bc6da3d38a64e26",
+      "actual": "85472b5d9d93164c7f8bd38600a5738c82060960a898656dcd3d6b3de846f13b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "expected": "a0a59bd5e4cb625d7c634f24de9c6120cc089449d512ca8884311ebc3f1e89fd",
+      "actual": "8bfcfa5c524c796cf8118f0030bc5f901e9c94a0002665cacd0fae95875a91bd"
+    }
+  ],
+  "verifiedMetadata": {
+    "oldPairsUnchanged": 21440,
+    "newPairs": 86,
+    "newPairsMatched": 84,
+    "absoluteNormalizedPaths": 21526,
+    "sourceSnapshotPaths": 769,
+    "installedToolSnapshotPaths": 20355,
+    "fixturePathsMetadataOnly": [
+      "/workspace/StarShipSimulator/tests/golden/fixtures/before-flip-autoland.json",
+      "/workspace/StarShipSimulator/tests/golden/fixtures/booster-sep-boostback.json",
+      "/workspace/StarShipSimulator/tests/golden/fixtures/booster/booster-sep-catch.json",
+      "/workspace/StarShipSimulator/tests/golden/fixtures/booster/rtls-catch.json",
+      "/workspace/StarShipSimulator/tests/golden/fixtures/intro-demo.json",
+      "/workspace/StarShipSimulator/tests/golden/fixtures/landing-burn-autoland.json",
+      "/workspace/StarShipSimulator/tests/golden/fixtures/landing-burn-headwind.json",
+      "/workspace/StarShipSimulator/tests/golden/fixtures/launch-pad-takeoff.json",
+      "/workspace/StarShipSimulator/tests/golden/fixtures/reentry-autoland.json",
+      "/workspace/StarShipSimulator/tests/golden/fixtures/rtls-boostback.json"
+    ]
+  },
+  "executionOccurred": false,
+  "fixturePayloadReadOrHashed": false,
+  "wholeSourceOrToolsScanned": false
+}

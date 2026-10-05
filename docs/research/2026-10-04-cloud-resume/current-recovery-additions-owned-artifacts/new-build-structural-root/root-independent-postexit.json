@@ -1,0 +1,191 @@
+{
+  "identities": [
+    {
+      "pid": 115088,
+      "state": "R",
+      "parent": 115087,
+      "group": 115088,
+      "session": 115088,
+      "start": "7342651",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115089,
+      "state": "R",
+      "parent": 115087,
+      "group": 115089,
+      "session": 115089,
+      "start": "7342682",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115090,
+      "state": "R",
+      "parent": 115089,
+      "group": 115090,
+      "session": 115090,
+      "start": "7342703",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115097,
+      "state": "R",
+      "parent": 115090,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343056",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115108,
+      "state": "S",
+      "parent": 115097,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343066",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115109,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343067",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115116,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343076",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115123,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343983",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115130,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343988",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115137,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7343992",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115169,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7344504",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115180,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7344510",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115191,
+      "state": "R",
+      "parent": 115108,
+      "group": 115097,
+      "session": 115097,
+      "start": "7344518",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115215,
+      "state": "R",
+      "parent": 115087,
+      "group": 115215,
+      "session": 115215,
+      "start": "7344924",
+      "postState": "ABSENT"
+    },
+    {
+      "pid": 115087,
+      "start": "7342593",
+      "group": 115087,
+      "session": 115087,
+      "postState": "ABSENT"
+    }
+  ],
+  "allAbsent": true,
+  "groups": [
+    {
+      "group": 115088,
+      "session": 115088,
+      "start": "7342651",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115089,
+      "session": 115089,
+      "start": "7342682",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115090,
+      "session": 115090,
+      "start": "7342703",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115097,
+      "session": 115097,
+      "start": "7343056",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115215,
+      "session": 115215,
+      "start": "7344924",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "innerGroups": [
+    {
+      "group": 115090,
+      "session": 115090,
+      "start": "7342703",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 115097,
+      "session": 115097,
+      "start": "7343056",
+      "cleared": true,
+      "uncertain": false
+    }
+  ]
+}

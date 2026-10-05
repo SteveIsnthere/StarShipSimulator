@@ -1,0 +1,60 @@
+{
+  "disposition": "APPROVE repaired SOURCE only; external input and grant required",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-source-repaired-HIGH-review.md",
+      "sha256": "c9796abcf80f3ba7c8672d2c2d62d2daad676bf62508df53c9deb6cdb9471ea7",
+      "bytes": 2323
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/source-pins.json",
+      "sha256": "608ecc948ffeb2ceebc3958b175b9bad346ebfa4db1a8ea194d33c5e74eba3b7",
+      "bytes": 1189
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/business-stage.mjs.txt",
+      "sha256": "4c97dbde7a2a5683cf7dc4b67ac8ab3799d9ae86a49a5060d13d2452c6a22f11",
+      "bytes": 3525
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/contract.md",
+      "sha256": "ba4988f0d347ae0c48f76842408ce3f7a3ecf53b5074b168e38c5d2308e7a106",
+      "bytes": 6120
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-observer.py.txt",
+      "sha256": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa",
+      "bytes": 15893
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/run-functional.mjs.txt",
+      "sha256": "7bced15ccaee04f578476f09606aedc64205bc7d1350ae59f1f2aab6e4c42113",
+      "bytes": 11430
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-source-high-repair/source-pins.json",
+      "sha256": "8feb73373a5a3e06590d0a4a41f50312a9c21d18bf24b05de99746ae02b029ff",
+      "bytes": 1132
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-source-high-repair/business-stage.mjs.txt",
+      "sha256": "4c97dbde7a2a5683cf7dc4b67ac8ab3799d9ae86a49a5060d13d2452c6a22f11",
+      "bytes": 3525
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-source-high-repair/contract.md",
+      "sha256": "ba4988f0d347ae0c48f76842408ce3f7a3ecf53b5074b168e38c5d2308e7a106",
+      "bytes": 6120
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-source-high-repair/root-observer.py.txt",
+      "sha256": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa",
+      "bytes": 15893
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-source-high-repair/run-functional.mjs.txt",
+      "sha256": "f74dd03aa016a259b0b82d7f2c63f25518183c4f185b7a7214d2df7430492e32",
+      "bytes": 11094
+    }
+  ]
+}

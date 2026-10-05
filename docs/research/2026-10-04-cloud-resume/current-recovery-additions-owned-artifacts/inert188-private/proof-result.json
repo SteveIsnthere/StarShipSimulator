@@ -1,0 +1,390 @@
+{
+  "kind": "query-census-native-inert-proof-v1",
+  "canonicalCases": 146,
+  "targetedCases": [
+    "forcing 0",
+    "forcing 0 -0",
+    "forcing -1",
+    "forcing Infinity",
+    "forcing NaN",
+    "control material 4",
+    "control material 373.15",
+    "control material 1173.15",
+    "control material 1473.15",
+    "control material -1",
+    "control material NaN",
+    "geometry equal-independent",
+    "geometry length",
+    "geometry inertia",
+    "geometry lever",
+    "geometry area",
+    "geometry success-then-invalid",
+    "thermal lower-endpoint",
+    "thermal upper-endpoint",
+    "thermal below-domain",
+    "thermal above-domain",
+    "thermal nan-energy",
+    "thermal unequal-energy",
+    "original-counted all-paid duplicate witness and invocation reset",
+    "candidate-counted all-paid duplicate witness and invocation reset",
+    "candidate throw closes frame and fresh memo",
+    "candidate-counted throw closes frame and fresh memo",
+    "substep reset 2",
+    "substep reset 8",
+    "post-update exact minimum endpoint",
+    "post-update exact maximum endpoint"
+  ],
+  "keyWitnesses": [
+    {
+      "name": "different-lever",
+      "keys": [
+        [
+          0.2,
+          108000,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "grid"
+        ],
+        [
+          0.2,
+          108000,
+          3.1050000000000004,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "grid"
+        ],
+        [
+          0.2,
+          108000,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "grid"
+        ]
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "paidQueries": 3,
+        "successfulQueries": 3,
+        "duplicateInputs": 0,
+        "bitIdenticalDuplicates": 0,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "different-temperature",
+      "keys": [
+        [
+          0.2,
+          108000,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "grid"
+        ],
+        [
+          0.2,
+          108000,
+          2.0700000000000003,
+          373.15,
+          0.45,
+          0.004872360858666676,
+          "grid"
+        ],
+        [
+          0.2,
+          108000,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "grid"
+        ]
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "paidQueries": 3,
+        "successfulQueries": 3,
+        "duplicateInputs": 0,
+        "bitIdenticalDuplicates": 0,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "reached-signed-zero",
+      "keys": [
+        [
+          0,
+          108000,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "plate"
+        ],
+        [
+          0,
+          108000,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "plate"
+        ],
+        [
+          0,
+          108000,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "plate"
+        ]
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "paidQueries": 3,
+        "successfulQueries": 3,
+        "duplicateInputs": 0,
+        "bitIdenticalDuplicates": 0,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "zero-forcing",
+      "keys": [
+        [
+          0.2,
+          0,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "grid"
+        ],
+        [
+          0.2,
+          0,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "grid"
+        ],
+        [
+          0.2,
+          0,
+          2.0700000000000003,
+          293.15,
+          0.45,
+          0.004872360858666676,
+          "grid"
+        ]
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "paidQueries": 3,
+        "successfulQueries": 3,
+        "duplicateInputs": 2,
+        "bitIdenticalDuplicates": 2,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "nan-forcing",
+      "keys": [],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 1,
+        "paidQueries": 0,
+        "successfulQueries": 0,
+        "duplicateInputs": 0,
+        "bitIdenticalDuplicates": 0,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "steel scope 1 unequal false",
+      "inputs": [
+        3.5229894106550494,
+        3.5229894106550494,
+        3.5229894106550494
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "substeps": 1,
+        "paidQueries": 3,
+        "successfulQueries": 3,
+        "duplicateInputs": 2,
+        "bitIdenticalDuplicates": 2,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "steel scope 1 unequal true",
+      "inputs": [
+        3.5229894106550494,
+        9661.31918873742,
+        19441.867024391024
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "substeps": 1,
+        "paidQueries": 3,
+        "successfulQueries": 3,
+        "duplicateInputs": 0,
+        "bitIdenticalDuplicates": 0,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "steel scope 2 unequal false",
+      "inputs": [
+        3.5229894106550494,
+        3.5229894106550494,
+        3.5229894106550494,
+        7.04586055026771,
+        7.04586055026771,
+        7.04586055026771
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "substeps": 2,
+        "paidQueries": 6,
+        "successfulQueries": 6,
+        "duplicateInputs": 4,
+        "bitIdenticalDuplicates": 4,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "steel scope 2 unequal true",
+      "inputs": [
+        3.5229894106550494,
+        9661.31918873742,
+        19441.867024391024,
+        7.04586055026771,
+        9664.485477561411,
+        19444.60146142843
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "substeps": 2,
+        "paidQueries": 6,
+        "successfulQueries": 6,
+        "duplicateInputs": 0,
+        "bitIdenticalDuplicates": 0,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "steel scope 8 unequal false",
+      "inputs": [
+        3.5229894106550494,
+        3.5229894106550494,
+        3.5229894106550494,
+        7.04586055026771,
+        7.04586055026771,
+        7.04586055026771,
+        10.568613414507857,
+        10.568613414507857,
+        10.568613414507857,
+        14.091247999045988,
+        14.091247999045988,
+        14.091247999045988,
+        17.61376429955319,
+        17.61376429955319,
+        17.61376429955319,
+        21.136162311701202,
+        21.136162311701202,
+        21.136162311701202,
+        24.65844203116253,
+        24.65844203116253,
+        24.65844203116253,
+        28.18060345361017,
+        28.18060345361017,
+        28.18060345361017
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "substeps": 8,
+        "paidQueries": 24,
+        "successfulQueries": 24,
+        "duplicateInputs": 16,
+        "bitIdenticalDuplicates": 16,
+        "nonIdenticalDuplicates": 0
+      }
+    },
+    {
+      "name": "steel scope 8 unequal true",
+      "inputs": [
+        3.5229894106550494,
+        9661.31918873742,
+        19441.867024391024,
+        7.04586055026771,
+        9664.485477561411,
+        19444.60146142843,
+        10.568613414507857,
+        9667.651638490626,
+        19447.33576709039,
+        14.091247999045988,
+        9670.817671522775,
+        19450.06994137707,
+        17.61376429955319,
+        9673.983576655568,
+        19452.803984288643,
+        21.136162311701202,
+        9677.14935388672,
+        19455.537895825288,
+        24.65844203116253,
+        9680.315003213944,
+        19458.271675987166,
+        28.18060345361017,
+        9683.480524634952,
+        19461.005324774458
+      ],
+      "observed": {
+        "framesStarted": 1,
+        "framesClosed": 1,
+        "thrownFrames": 0,
+        "substeps": 8,
+        "paidQueries": 24,
+        "successfulQueries": 24,
+        "duplicateInputs": 0,
+        "bitIdenticalDuplicates": 0,
+        "nonIdenticalDuplicates": 0
+      }
+    }
+  ],
+  "fullStateAndOutputEquality": true,
+  "errorStackCoordinatesExcluded": true,
+  "independentNativeGraphs": 4,
+  "closedRecipeOnly": true,
+  "publicSelection": false,
+  "fallbackProof": false,
+  "timing": false
+}

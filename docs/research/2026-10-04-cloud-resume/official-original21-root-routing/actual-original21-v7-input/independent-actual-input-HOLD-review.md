@@ -1,0 +1,11 @@
+# Independent HIGH actual original21 V7 input HOLD
+
+HOLD: do not invoke the frozen owner0b272707/inventory66a5e2e5. No workload executed, product edit, parser/import or tool scan occurred.
+
+Material executable inventory inconsistency: inventory.files contains relative scripts/test/loader.mjs with historical958291c07f1a3ffa909067dce53c4f3f7dd4f4a7f43e39e2444c06d6364de496 and scripts/test/run.mjs with historical7d02863cb6cab28a27afbdd7ed41c9f66ccd548052753efa03ac8bdb5582b3c0. Correct absolute live entries and expectedCurrentSourceSnapshot use approved f906a144/e3f42c6d. Unchanged stage checkPins loops EVERY inventory.files path through digest(path), and actual cwd is repo root; relative entries therefore point to the same current live files and fail. The input cannot truthfully satisfy its own preflight.
+
+All769 current source bytes independently match the V7 projection, with exactly these two intended changes from prior source.20355 tool metadata is unchanged. Unchanged observer9ed6/stage47/runtime roles match. Of154 newly added raw inventory rows,152 match actual bytes and the two relative stale rows fail. Qualification/source transfer/app/pure evidence references checked match; no other code or test issue is inferred from this input defect.
+
+Preserve these exact owner/inventory/declaration bytes and this HOLD before preparing a distinct input. Correct only the contradictory executable raw keys: either omit duplicated relative sourceSnapshot entries while keeping the immutable complete source snapshot evidence itself pinned, or route historical before digests to the already retained exact before.txt backups. Do not rewrite historical snapshots, weaken checkPins, change live source, delete protected checks, or pretend old whole-source authority is current. A corrected inventory/owner requires separate HIGH and root grant, not an unchanged retry.
+
+The earlier failed original21 stays precollection/root1 with rejected raw URL unobserved; accepted app0 and pure URL/gate controls are retained and do not establish actual V7 Node/Vitest behavior. Expected named21/30000ms/338s external and300s helper bounds and explicit V7 composite remain unchanged. This HOLD grants no original21, coverage, gate or performance acceptance.

@@ -1,0 +1,29 @@
+"""Root-only accepted-artifact continuation; no compile/control/history/import."""
+from pathlib import Path
+import json,hashlib,os,uuid,sys
+h=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+path,expected=sys.argv[1:];assert h(path)==expected;seed=json.loads(Path(path).read_text());assert seed['kind']=='original-orbit18-retained-history-materialization-seed-v1';assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='original-orbit18-history-preparation'
+assert Path(__file__).resolve()==Path(seed['maker']['path']).resolve();assert h(seed['maker']['path'])==seed['maker']['sha'];assert seed['files'][seed['maker']['path']]==seed['maker']['sha']
+for p,d in seed['files'].items():assert h(p)==d,p
+b=Path(seed['route']);accepted=json.loads((b/'accepted-artifact-envelope.json').read_text());assert accepted['kind']=='independently-accepted-original-orbit18-retained-artifacts-v2' and accepted['compiledArtifactsProvenanceAccepted'] is True and accepted['nativeSemanticsAccepted'] is False and accepted['historyExecutionAccepted'] is False
+for p,d in accepted['evidence'].items():assert h(p)==d,p
+original=json.loads(Path(accepted['originalInput']['path']).read_text());assert h(accepted['originalInput']['path'])==accepted['originalInput']['sha'];assert original['authorityRole']==accepted['sourceAuthority'] and original['originalTest']==accepted['originalTest'] and original['entry']==accepted['retainedEntry'];root=Path(original['root']);setup=root/'node_modules/.cache'/('starship-orbit18-qualification-'+uuid.uuid4().hex);setup.mkdir(mode=0o700);receipt=setup/'evidence';receipt.mkdir(mode=0o700);files={**original['files'],**accepted['evidence'],**seed['files']};materials={}
+for role in accepted.values():
+ if isinstance(role,dict) and set(role)=={'path','sha'}:
+  assert h(role['path'])==role['sha'];assert role['path'] not in files or files[role['path']]==role['sha'];files[role['path']]=role['sha']
+for name in ['owner.mjs','slot-bindings.mjs','compiled-audit.mjs','retained-policy.mjs','graph-oracle.ts','original-parent-policy.mjs','scoped-orbit-loader.mjs']:
+ source=b/(name+'.txt');target=setup/name
+ with target.open('xb')as f:f.write(source.read_bytes());f.flush();os.fsync(f.fileno())
+ target.chmod(0o600);assert h(target)==h(source);files[str(target)]=h(target);materials[str(target)]={'source':str(source),'sha':h(target)}
+source=(b/'full-histories.ts.txt').read_text();assert source.count('GRAPH_ORACLE_PLACEHOLDER')==1 and source.count('SSR_ENTRY_PLACEHOLDER')==1 and source.count('COMPILED_AUDIT_PLACEHOLDER')==1;source=source.replace('GRAPH_ORACLE_PLACEHOLDER',str(setup/'graph-oracle.ts')).replace('SSR_ENTRY_PLACEHOLDER',accepted['retainedEntry']['path']).replace('COMPILED_AUDIT_PLACEHOLDER',str(setup/'compiled-audit.mjs'))
+with(setup/'driver.ts').open('x')as f:f.write(source);f.flush();os.fsync(f.fileno())
+(setup/'driver.ts').chmod(0o600);files[str(setup/'driver.ts')]=h(setup/'driver.ts');materials[str(setup/'driver.ts')]={'source':str(b/'full-histories.ts.txt'),'sha':h(setup/'driver.ts'),'transform':'three declared oracle/retained SSR entry/auditor placeholders'}
+acceptance={'path':str(b/'accepted-artifact-envelope.json'),'sha':h(b/'accepted-artifact-envelope.json')};files[acceptance['path']]=acceptance['sha'];slot={'path':str(b/'slot-contract.json'),'sha':h(b/'slot-contract.json')};contract=json.loads(Path(slot['path']).read_text());m={**original,'mode':'histories','setup':str(setup),'receipt':str(receipt),'files':files,'materials':materials,'compileAcceptance':acceptance,'nativeDirectory':accepted['nativeDirectory'],'compiledAudit':{'path':str(setup/'compiled-audit.mjs'),'sha':h(setup/'compiled-audit.mjs')},'driver':{'path':str(setup/'driver.ts'),'sha':h(setup/'driver.ts')},'slotContract':slot,'executionSlot':contract['executionSlot'],'resultKind':contract['resultKind']}
+def emit(name,value):
+ target=setup/name
+ with target.open('x')as f:json.dump(value,f,indent=2);f.write('\n');f.flush();os.fsync(f.fileno())
+ target.chmod(0o600);return{'path':str(target),'sha':h(target)}
+inner=emit('input.json',m);inventory=emit('root-inventory.json',{'kind':'orbit18-qualification-root-inventory-v1','files':{**files,inner['path']:inner['sha']}});outer={**seed['originalOuter'],'mode':'orbit18-histories','outerMs':900000,'setup':str(setup),'steps':['orbit-histories'],'pureInput':inner,'pins':inventory,'stage':{'path':str(setup/'owner.mjs'),'sha':h(setup/'owner.mjs')},'observer':{'path':str(b/'root-observer.py.txt'),'sha':h(b/'root-observer.py.txt')},'slotContract':slot,'executionSlot':contract['executionSlot'],'resultKind':contract['resultKind']}
+assert outer['node']==original['node'] and outer['helper']==original['helper'];outerRole=emit('root-input.json',outer)
+for p,d in seed['files'].items():assert h(p)==d,p
+print(json.dumps({'materializedOnly':True,'input':inner,'rootInput':outerRole,'setup':str(setup),'nativeDirectory':accepted['nativeDirectory'],'compilerRepeated':False,'controlsRepeated':False,'paidHistoriesExecuted':False}))

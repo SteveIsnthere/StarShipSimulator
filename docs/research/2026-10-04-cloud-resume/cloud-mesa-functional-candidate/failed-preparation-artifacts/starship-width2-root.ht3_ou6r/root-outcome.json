@@ -1,0 +1,55 @@
+{
+  "completed": false,
+  "failures": [
+    "Outer stage failed"
+  ],
+  "actualReturncode": 1,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 84887,
+      "state": "R",
+      "parent": 84875,
+      "group": 84887,
+      "session": 84887,
+      "start": "5445217"
+    },
+    {
+      "pid": 84894,
+      "state": "R",
+      "parent": 84887,
+      "group": 84894,
+      "session": 84894,
+      "start": "5445258"
+    },
+    {
+      "pid": 84901,
+      "state": "R",
+      "parent": 84894,
+      "group": 84894,
+      "session": 84894,
+      "start": "5445282"
+    }
+  ],
+  "browserReceiptIdentities": [],
+  "ownedGroups": [
+    {
+      "group": 84887,
+      "session": 84887,
+      "start": "5445217",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 84894,
+      "session": 84894,
+      "start": "5445258",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-width2-stage.CEWHhi",
+  "manifestSha": "ce0488d9e99b28c57c6d7ee1369219725854537096513668e5b534a006049db5",
+  "elapsedSeconds": 1.7761459350585938,
+  "acceptance": "ONE metadata/ELF input preparation only; independent ALL observed/helper/readelf receipt PID-start absence and fresh actual input HIGH required; no browser acceptance"
+}

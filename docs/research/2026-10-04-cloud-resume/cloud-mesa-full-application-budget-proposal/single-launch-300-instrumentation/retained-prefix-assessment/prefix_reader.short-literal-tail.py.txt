@@ -1,0 +1,162 @@
+"""Strict JSON-prefix structure. Never output arbitrary event strings or args."""
+import collections, codecs, json, math, re, time
+BYTE_CAP = 2 * 1024 * 1024
+EVENT_CAP = 10000
+CATEGORIES = frozenset(('toplevel', 'devtools.timeline', 'disabled-by-default-devtools.timeline',
+    'blink', 'blink.user_timing', 'cc', 'gpu', 'viz', 'renderer.scheduler', 'v8',
+    'disabled-by-default-devtools.timeline.frame', 'disabled-by-default-v8.cpu_profiler',
+    'disabled-by-default-v8.cpu_profiler.hires'))
+NAMES = frozenset(('Profile', 'ProfileChunk', 'FireAnimationFrame', 'RequestAnimationFrame',
+    'BeginFrame', 'BeginMainFrame', 'BeginMainThreadFrame', 'DrawFrame', 'SubmitCompositorFrame',
+    'FunctionCall', 'RunTask', 'GPUTask', 'PipelineReporter', 'thread_name', 'process_name',
+    'ThreadControllerImpl::RunTask', 'mesa-diagnostic-document-anchor', 'mesa-diagnostic-capture-readout'))
+class Incomplete(Exception): pass
+class Malformed(Exception): pass
+def need(ok, code):
+    if not ok: raise Malformed(code)
+def pairs(rows):
+    out = {}
+    for key, value in rows:
+        need(key not in out, 'duplicate-json-key')
+        out[key] = value
+    return out
+class Grammar:
+    def __init__(self, text, deadline): self.text, self.n, self.deadline = text, len(text), deadline
+    def tick(self):
+        if time.monotonic() > self.deadline: raise TimeoutError('prefix-work-deadline')
+    def ws(self, p):
+        while p < self.n and self.text[p] in ' \t\n\r':
+            if p % 4096 == 0: self.tick()
+            p += 1
+        return p
+    def token(self, p, expected):
+        p = self.ws(p)
+        if p == self.n: raise Incomplete()
+        need(self.text[p] == expected, 'unexpected-json-token')
+        return p + 1
+    def string(self, p):
+        p = self.token(p, '"')
+        while p < self.n:
+            if p % 4096 == 0: self.tick()
+            c = self.text[p]; p += 1
+            if c == '"': return p
+            need(ord(c) >= 32, 'raw-control-in-json-string')
+            if c == '\\':
+                if p == self.n: raise Incomplete()
+                escape = self.text[p]; p += 1
+                need(escape in '"\\/bfnrtu', 'invalid-json-escape')
+                if escape == 'u':
+                    tail = self.text[p:min(p+4, self.n)]
+                    need(all(x in '0123456789abcdefABCDEF' for x in tail), 'invalid-unicode-escape')
+                    if len(tail) < 4: raise Incomplete()
+                    p += 4
+        raise Incomplete()
+    def value(self, p, depth=0):
+        self.tick(); need(depth <= 64, 'json-depth-cap')
+        p = self.ws(p)
+        if p == self.n: raise Incomplete()
+        c = self.text[p]
+        if c == '"': return self.string(p)
+        if c in '{[':
+            close = '}' if c == '{' else ']'; p = self.ws(p+1)
+            if p == self.n: raise Incomplete()
+            if self.text[p] == close: return p+1
+            while True:
+                if c == '{': p = self.token(self.string(p), ':')
+                p = self.ws(self.value(p, depth+1))
+                if p == self.n: raise Incomplete()
+                if self.text[p] == close: return p+1
+                p = self.token(p, ','); p = self.ws(p)
+                if p == self.n: raise Incomplete()
+                need(self.text[p] != close, 'json-trailing-comma')
+        for literal in ('true', 'false', 'null'):
+            if self.text.startswith(literal, p): return p+len(literal)
+            if self.n-p < len(literal) and literal.startswith(self.text[p:]): raise Incomplete()
+        if c == '-' or c.isascii() and c.isdigit():
+            end = p
+            while end < self.n and self.text[end] in '-+0123456789.eE':
+                if end % 4096 == 0: self.tick()
+                end += 1
+            word = self.text[p:end]
+            if end == self.n and re.fullmatch(r'-|(?:-?(?:0|[1-9][0-9]*))(?:\.|(?:\.[0-9]+)?[eE][+-]?)', word): raise Incomplete()
+            need(re.fullmatch(r'-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?', word) is not None, 'invalid-json-number')
+            return end
+        raise Malformed('invalid-json-value')
+    def array_start(self):
+        # Header token scans cannot consume beyond its own4096-BYTE UTF8 view.
+        decoder = codecs.getincrementaldecoder('utf-8')('strict')
+        view = decoder.decode(self.text[:4096].encode('utf-8')[:4096], final=False)
+        header = Grammar(view, self.deadline)
+        def bound(cursor):
+            need(len(header.text[:cursor].encode('utf-8')) <= 4096, 'trace-header-cap')
+            return cursor
+        try:
+            p = bound(header.token(0, '{')); seen = set()
+            while True:
+                header.tick()
+                start = bound(header.ws(p)); end = bound(header.string(start))
+                key = json.loads(header.text[start:end]); need(key not in seen, 'duplicate-header-key'); seen.add(key)
+                p = bound(header.token(end, ':'))
+                if key == 'traceEvents': return bound(header.token(p, '['))
+                p = bound(header.token(bound(header.value(p)), ','))
+        except Incomplete: raise Malformed('incomplete-or-over4KiB-trace-header') from None
+def finite_number(value): return type(value) in (int, float) and math.isfinite(value)
+def classify(data, deadline):
+    need(len(data) <= BYTE_CAP, 'input-byte-cap')
+    decoder = codecs.getincrementaldecoder('utf-8')('strict')
+    try: text = decoder.decode(data, final=False)
+    except UnicodeDecodeError: raise Malformed('invalid-utf8') from None
+    grammar = Grammar(text, deadline)
+    try: p = grammar.array_start()
+    except Incomplete: raise Malformed('incomplete-trace-header') from None
+    counts, sizes = collections.Counter(), collections.Counter()
+    names, name_sizes = collections.Counter(), collections.Counter()
+    events = []; consumed = p; incomplete = False; closed = False; event_cap = False
+    while True:
+        grammar.tick(); p = grammar.ws(p)
+        if p == len(text): incomplete = True; break
+        if text[p] == ']': consumed = p+1; closed = True; break
+        if len(events) == EVENT_CAP: event_cap = True; break
+        need(text[p] == '{', 'event-must-be-object')
+        begin = p
+        try: end = grammar.value(p)
+        except Incomplete: incomplete = True; break
+        try: event = json.loads(text[begin:end], object_pairs_hook=pairs,
+            parse_constant=lambda _: (_ for _ in ()).throw(Malformed('nonfinite-json-constant')))
+        except (json.JSONDecodeError, ValueError): raise Malformed('malformed-complete-event') from None
+        raw_size = len(text[begin:end].encode('utf-8'))
+        category = event.get('cat', '')
+        need(type(category) is str and len(category) <= 1024, 'invalid-event-category')
+        tokens = category.split(',') if category else []
+        need(all(token and token == token.strip() for token in tokens), 'empty-or-spaced-category-token')
+        need(len(tokens) == len(set(tokens)), 'duplicate-category-token')
+        labels = sorted(set(token if token in CATEGORIES else 'other-category' for token in tokens)) or ['missing-category']
+        name = event.get('name')
+        need(type(name) is str and len(name) <= BYTE_CAP, 'invalid-event-name')
+        label = name if name in NAMES else 'other-name'
+        phase = event.get('ph')
+        need(type(phase) is str and len(phase) == 1 and phase.isascii() and phase.isalpha(), 'invalid-phase')
+        identity = {}
+        for field in ('pid', 'tid'):
+            value = event.get(field)
+            need(value is None or type(value) is int and -(2**63) <= value < 2**63, 'invalid-event-identity')
+            identity[field] = value
+        for field in ('ts', 'dur'):
+            value = event.get(field); need(value is None or finite_number(value), 'invalid-event-time')
+            identity[field] = value
+        for key in labels: counts[key] += 1; sizes[key] += raw_size
+        names[label] += 1; name_sizes[label] += raw_size
+        events.append({**identity, 'phase': phase, 'nameLabel': label, 'categoryLabels': labels, 'rawBytes': raw_size})
+        consumed = end; p = grammar.ws(end)
+        if p == len(text): incomplete = True; break
+        if text[p] == ']': consumed = p+1; closed = True; break
+        p = grammar.token(p, ','); p = grammar.ws(p)
+        if p < len(text): need(text[p] != ']', 'trace-array-trailing-comma')
+    grammar.tick()
+    return {'prefixOnly': True, 'completeTrace': False, 'wholeRunCriticalPath': False,
+        'inputBytes': len(data), 'decodedCharacters': len(text), 'trailingUTF8Bytes': len(decoder.getstate()[0]),
+        'validatedCompleteEvents': len(events), 'processedPrefixBytes': len(text[:consumed].encode('utf-8')),
+        'incompleteTailExcluded': incomplete, 'traceArrayClosedWithinPrefix': closed, 'eventCapReached': event_cap,
+        'categoryCounts': dict(counts), 'categoryRawBytes': dict(sizes), 'nameCounts': dict(names), 'nameRawBytes': dict(name_sizes),
+        'categoryBytesOverlapForMultiCategoryEvents': True, 'exportOrderNotChronologicalProof': True,
+        'argsURLsArbitraryStringsNotOutput': True, 'events': events}

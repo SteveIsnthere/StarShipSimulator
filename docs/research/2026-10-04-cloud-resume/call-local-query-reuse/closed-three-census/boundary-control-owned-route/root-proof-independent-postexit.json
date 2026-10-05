@@ -1,0 +1,29 @@
+{
+  "checkedAt": 1791170629.367673,
+  "identities": [
+    {
+      "identity": {
+        "pid": 126529,
+        "state": "R",
+        "parent": 126528,
+        "group": 126529,
+        "session": 126529,
+        "start": "7962080"
+      },
+      "status": "ABSENT"
+    },
+    {
+      "identity": {
+        "pid": 126528,
+        "start": "7962060",
+        "parent": 126527,
+        "group": 126515,
+        "session": 126515
+      },
+      "status": "ABSENT"
+    }
+  ],
+  "allAbsent": true,
+  "failure": "Owner requires NODE_PATH empty; caller inherited runtime NODE_PATH. Controls did not run.",
+  "proposedRepair": "Explicit NODE_PATH empty in root invocation environment, preserving original failed input and run. Fresh actual-input review before successor run."
+}

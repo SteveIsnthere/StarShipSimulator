@@ -1,0 +1,57 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "identities": [
+    {
+      "identity": {
+        "pid": 119879,
+        "state": "R",
+        "parent": 119878,
+        "group": 119879,
+        "session": 119879,
+        "start": "7622951"
+      },
+      "status": "ABSENT",
+      "observed": null
+    },
+    {
+      "identity": {
+        "pid": 119886,
+        "state": "R",
+        "parent": 119879,
+        "group": 119886,
+        "session": 119886,
+        "start": "7622982"
+      },
+      "status": "ABSENT",
+      "observed": null
+    },
+    {
+      "identity": {
+        "pid": 119878,
+        "start": "7622932",
+        "group": 119878,
+        "session": 119878
+      },
+      "status": "ABSENT",
+      "observed": null
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 119879,
+      "session": 119879,
+      "start": "7622951",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 119886,
+      "session": 119886,
+      "start": "7622982",
+      "cleared": true,
+      "uncertain": false
+    }
+  ]
+}

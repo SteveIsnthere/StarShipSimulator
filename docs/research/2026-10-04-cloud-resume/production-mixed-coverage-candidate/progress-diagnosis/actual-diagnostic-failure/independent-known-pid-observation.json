@@ -1,0 +1,31 @@
+{
+  "kind": "selected-known-PID-start-review-observation-v1",
+  "scope": "four recorded identities only",
+  "identities": [
+    {
+      "pid": 89168,
+      "start": "5687620",
+      "current": null
+    },
+    {
+      "pid": 89175,
+      "start": "5687813",
+      "current": null
+    },
+    {
+      "pid": 89200,
+      "start": "5687870",
+      "current": {
+        "start": "5687870",
+        "state": "Z"
+      }
+    },
+    {
+      "pid": 89201,
+      "start": "5687871",
+      "current": null
+    }
+  ],
+  "allSameStartNonexecuting": true,
+  "absenceNotClaimedForZombie": true
+}

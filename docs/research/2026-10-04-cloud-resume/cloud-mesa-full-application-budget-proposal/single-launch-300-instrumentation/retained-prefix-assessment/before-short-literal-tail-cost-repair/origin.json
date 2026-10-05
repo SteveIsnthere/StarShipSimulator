@@ -1,0 +1,191 @@
+{
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/contract.md",
+      "sha256": "981302017f50dd671cbe052ce8e536fa719138f94768054d82186fcfeb4d6b92",
+      "bytes": 4956,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/00-contract.md.txt",
+      "durableSha256": "981302017f50dd671cbe052ce8e536fa719138f94768054d82186fcfeb4d6b92"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/controls.header-bound.py.txt",
+      "sha256": "c991dfaeb5862a64b5dbc9f98608db174ec114f3564994c1a2292ea2948b5c04",
+      "bytes": 4569,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/01-controls.header-bound.py.txt.txt",
+      "durableSha256": "c991dfaeb5862a64b5dbc9f98608db174ec114f3564994c1a2292ea2948b5c04"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/make_input.py.txt",
+      "sha256": "d5b0b5856f37f67abf3df98dbfb8c2b485b504d130feeb62189f53cec728a2aa",
+      "bytes": 5854,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/02-make_input.py.txt.txt",
+      "durableSha256": "d5b0b5856f37f67abf3df98dbfb8c2b485b504d130feeb62189f53cec728a2aa"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/ownership-transfer.json",
+      "sha256": "0af6a196fedaddf6c81e578a2b54bf3f7da7f165281bb720c6f38886b8df8da0",
+      "bytes": 1011,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/03-ownership-transfer.json.txt",
+      "durableSha256": "0af6a196fedaddf6c81e578a2b54bf3f7da7f165281bb720c6f38886b8df8da0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/prefix_reader.header-bound.py.txt",
+      "sha256": "b5353c330965eb449f9148387989d2290e7fdcca37c336a889ebb4e17638c523",
+      "bytes": 9074,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/04-prefix_reader.header-bound.py.txt.txt",
+      "durableSha256": "b5353c330965eb449f9148387989d2290e7fdcca37c336a889ebb4e17638c523"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root_observer.header-bound.py.txt",
+      "sha256": "f0a4bc7349ccdd7c47acc8e5e9f1743f233e1f8ec1dfbbf866861256ac1aa32d",
+      "bytes": 19618,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/05-root_observer.header-bound.py.txt.txt",
+      "durableSha256": "f0a4bc7349ccdd7c47acc8e5e9f1743f233e1f8ec1dfbbf866861256ac1aa32d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/run_assessment.py.txt",
+      "sha256": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09",
+      "bytes": 6318,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/06-run_assessment.py.txt.txt",
+      "durableSha256": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-managed-python-observer.py.txt",
+      "sha256": "5a76214ab6e39ccb4a0209cdfb0fe21e62d10cddbe9d5dcff951e8e594649a89",
+      "bytes": 18454,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/07-receipt-git-diagnostic-root-managed-python-observer.py.txt.txt",
+      "durableSha256": "5a76214ab6e39ccb4a0209cdfb0fe21e62d10cddbe9d5dcff951e8e594649a89"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-review.md",
+      "sha256": "c07534a6fdd6333624ed4b881fd0107561b7e3a603f30f5bb8a359e81842fe9b",
+      "bytes": 2998,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/08-independent-actual-instrumented-launch-FAIL-HIGH-review.md.txt",
+      "durableSha256": "c07534a6fdd6333624ed4b881fd0107561b7e3a603f30f5bb8a359e81842fe9b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-pins.json",
+      "sha256": "3bb434e84a4f05b01a712aad3703c9c4a125e9e794eff282a7e596c183adb211",
+      "bytes": 4686,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/09-independent-actual-instrumented-launch-FAIL-HIGH-pins.json.txt",
+      "durableSha256": "3bb434e84a4f05b01a712aad3703c9c4a125e9e794eff282a7e596c183adb211"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/bounded-partial-trace-offline-assessment-proposal.md",
+      "sha256": "306a94deb084d2d5a3551f680a866b4bc7244b60c3e03aadba9efce0bbad7c64",
+      "bytes": 1705,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/10-bounded-partial-trace-offline-assessment-proposal.md.txt",
+      "durableSha256": "306a94deb084d2d5a3551f680a866b4bc7244b60c3e03aadba9efce0bbad7c64"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/header-bound-repair-contract.md",
+      "sha256": "2c61eec3951a98c75422c8c8e496d0ba46d2cef684947cfad702abf27c15a8b7",
+      "bytes": 1758,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/11-header-bound-repair-contract.md.txt",
+      "durableSha256": "2c61eec3951a98c75422c8c8e496d0ba46d2cef684947cfad702abf27c15a8b7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/source-pins-header-bound.json",
+      "sha256": "559c87da39cdd413ee4736ca0b03f535e88ae3a2922b286f4e889d71262b11dc",
+      "bytes": 5370,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/12-source-pins-header-bound.json.txt",
+      "durableSha256": "559c87da39cdd413ee4736ca0b03f535e88ae3a2922b286f4e889d71262b11dc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/independent-actual-prefix-FAIL-HIGH-review.md",
+      "sha256": "b316ab0447051446149594f56342b4ff49e7b8ead702d072da44c2e13e223397",
+      "bytes": 2449,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/13-independent-actual-prefix-FAIL-HIGH-review.md.txt",
+      "durableSha256": "b316ab0447051446149594f56342b4ff49e7b8ead702d072da44c2e13e223397"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/independent-actual-prefix-FAIL-HIGH-pins.json",
+      "sha256": "72085953c7b95b8dc176c34ea0a45238aded32d728d6203904f11d82441665b3",
+      "bytes": 3921,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/14-independent-actual-prefix-FAIL-HIGH-pins.json.txt",
+      "durableSha256": "72085953c7b95b8dc176c34ea0a45238aded32d728d6203904f11d82441665b3"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/root-outcome.json",
+      "sha256": "0d8814a1428b5705bf35f431ae99a76bdcf8688aea99638cfe9672478b4d2afa",
+      "bytes": 843,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/15-root-outcome.json.txt",
+      "durableSha256": "0d8814a1428b5705bf35f431ae99a76bdcf8688aea99638cfe9672478b4d2afa"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/actual-outer-exit-final-independent.json",
+      "sha256": "353b70adecad109557c8328ce53d5c819644bd13de4cb366ebeb69cd0b26ba34",
+      "bytes": 63,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/16-actual-outer-exit-final-independent.json.txt",
+      "durableSha256": "353b70adecad109557c8328ce53d5c819644bd13de4cb366ebeb69cd0b26ba34"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/actual-outer-exit-final.json",
+      "sha256": "76353f60687ad942abdaa925536010f92063c656e5648da96f595970ef3d4564",
+      "bytes": 63,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/17-actual-outer-exit-final.json.txt",
+      "durableSha256": "76353f60687ad942abdaa925536010f92063c656e5648da96f595970ef3d4564"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/outer-registration.json",
+      "sha256": "c4e939ea502941879d2cc9f8c7f12e872a4498c9acf39788a89796bafab2c3ac",
+      "bytes": 118,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/18-outer-registration.json.txt",
+      "durableSha256": "c4e939ea502941879d2cc9f8c7f12e872a4498c9acf39788a89796bafab2c3ac"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/identities.jsonl",
+      "sha256": "dd86ac2508d9731e8fb2d4a7135c283e87194e0a2863ea75fdeb661be9f2e087",
+      "bytes": 152,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/19-identities.jsonl.txt",
+      "durableSha256": "dd86ac2508d9731e8fb2d4a7135c283e87194e0a2863ea75fdeb661be9f2e087"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/outer.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/20-outer.stderr.txt.txt",
+      "durableSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/outer.stdout.txt",
+      "sha256": "0224de9667162f412fd61b6e5fe071ef3493cbef212faf412432b623d2eceff5",
+      "bytes": 85,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/21-outer.stdout.txt.txt",
+      "durableSha256": "0224de9667162f412fd61b6e5fe071ef3493cbef212faf412432b623d2eceff5"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/executed-diagnostic.py.txt",
+      "sha256": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09",
+      "bytes": 6318,
+      "mode": 384,
+      "durablePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/before-short-literal-tail-cost-repair/22-executed-diagnostic.py.txt.txt",
+      "durableSha256": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09"
+    }
+  ],
+  "allCurrent12SourceAndActualTimeoutReceiptsPreserved": true,
+  "originalsUnchanged": true,
+  "retainedTraceNeverRead": true
+}

@@ -1,0 +1,27 @@
+{
+  "checkedAt": 1791170917.199055,
+  "identities": [
+    {
+      "identity": {
+        "pid": 127160,
+        "state": "R",
+        "parent": 127159,
+        "group": 127160,
+        "session": 127160,
+        "start": "7991075"
+      },
+      "status": "ABSENT"
+    },
+    {
+      "identity": {
+        "pid": 127159,
+        "start": "7991057",
+        "parent": 127158,
+        "group": 127146,
+        "session": 127146
+      },
+      "status": "ABSENT"
+    }
+  ],
+  "allAbsent": true
+}

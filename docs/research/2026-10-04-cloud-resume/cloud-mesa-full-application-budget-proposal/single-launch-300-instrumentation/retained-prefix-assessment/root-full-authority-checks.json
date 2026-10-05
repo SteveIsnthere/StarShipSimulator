@@ -1,0 +1,11 @@
+{
+  "fullDigests": {
+    "source-pins-header-bound.json": "559c87da39cdd413ee4736ca0b03f535e88ae3a2922b286f4e889d71262b11dc",
+    "independent-header-bound-source-HIGH-review.md": "bfb8419f57b636563e1c4a7ef328a28bfb47c36e0ecbaa69b5b16b7eb283bde9",
+    "independent-header-bound-source-HIGH-pins.json": "ef9d716d01f82244ae2d1a2b3b2396c74432168e5125a104e0788e0df3a74b3c",
+    "root-materialization-seed.json": "09401db5213ae9901f9941266133a34bb4b11fc7c6f63e3ef937f4a63a627662"
+  },
+  "allMatched": true,
+  "pythonSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+  "limitation": "Prior scope step checked packet prefix only; this separate pre-maker step checks full external authority digests."
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/entry.ts.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/entry.ts.txt",
+    "sha256": "14b44bdfd429bf391e9b53c0dfd62944195cf07f2c693c5f8158cc2a5b97c2e4"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/independent-source-HIGH-v1.md",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/independent-source-HIGH-v1.md",
+    "sha256": "112a455a73fdc16ceb1b9a6690216adc25bd0994e88b1628482cbe8161d93827"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/damage-thermal.census.ts.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/damage-thermal.census.ts.txt",
+    "sha256": "c4e9347be4347546796e6815e48acd150c24c68dd2aa4da23fc86964196fc882"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/declaration.md",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/declaration.md",
+    "sha256": "f5e5f850e3a87d90a2c763b34b2d1198a3da04d4976307db7c3247eb3110a9f6"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/damage-thermal.census.diff",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/damage-thermal.census.diff",
+    "sha256": "8927b7d205af0fb6e13613200b35aaddf9320d2e654b7f6bac95e422b7be01d1"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/independent-source-HIGH-v1-pins.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/independent-source-HIGH-v1-pins.json",
+    "sha256": "9392c2a0d1a8d7baae9609361da4f86e2c0f0d3007fdc5ae0e2eed6bb50c4500"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/damage-controls.census.ts.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/damage-controls.census.ts.txt",
+    "sha256": "9cf90767e764a13dc11fb1c25f1ecb192516f2f0c9b3e00570c505d8678b7a5d"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/input-pins.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/input-pins.json",
+    "sha256": "69b49480b0cc988e41eb85d6f2673ae177352676735e9600cfb72ee9954e05e2"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/case-observer.mjs.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/case-observer.mjs.txt",
+    "sha256": "ff1985b108110ff8550a9ee8b7cec17e22d3f344f49b4e794ce829b82c9e8607"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/body-import-mutation-ledger.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/body-import-mutation-ledger.json",
+    "sha256": "ee37723aaedff5fab371c39694464bafb8af86119fb59018524d04068596fad8"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/damage-controls.census.diff",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/before-step-completion-repair/damage-controls.census.diff",
+    "sha256": "44a874894cb8b796a8587b733911423717a12bf4859157fbcf60c45e9bfa67f5"
+  }
+]

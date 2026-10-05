@@ -1,0 +1,81 @@
+{
+  "kind": "recovery08-external-accepted-complete-replacement-envelope-v1",
+  "decision": "accepted-complete-replacement-preservation-only",
+  "rawManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08.json",
+    "sha256": "c34b4ef9c02bb102c25721953fb55d6fd383cb29709905c907170bb9ab75b72e",
+    "independentReviewField": "pending",
+    "rawManifestRewritten": false
+  },
+  "patch": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08.patch",
+    "sha256": "ac9f96c9daf3534e166a489daf2b46434f387fa343540c653cc903b7b3df3c87",
+    "bytes": 18837675,
+    "hashAuthority": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-result-HIGH-pins.json",
+      "sha256": "036850aee70400bc7c27fa42a37c26ddb9dd547dbcc4009a7cff51722137a67f"
+    },
+    "largePatchReadOrRehashedByEnvelopeAuthor": false
+  },
+  "independentActualReview": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-result-HIGH-review.md",
+    "sha256": "459f3db61fe8a75c785c9a7df17ad4e2662efdfd066a814f781b15e83eba0e09"
+  },
+  "independentActualPins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-result-HIGH-pins.json",
+    "sha256": "036850aee70400bc7c27fa42a37c26ddb9dd547dbcc4009a7cff51722137a67f"
+  },
+  "runtimeSupplement": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-runtime-supplement.json",
+    "sha256": "64dffaf10dcf46c6848bff6ee8d8bb6a2efa44780830abc7f0241c5fdb2d9a25"
+  },
+  "observations": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-observations.json",
+    "sha256": "f1aefe3ee382f72b61949c191926c53422a3e72837f9f5c4cd8e7de59eb6b143"
+  },
+  "verification": {
+    "base": "32e5bb386cadee9098d703c67ebdfc9444eb46a6",
+    "branch": "claude/visuals",
+    "documentationHead": "26e946c7eee0320e68c18f3d4e3ceab8dc4116da",
+    "sourceAuthority": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60",
+    "sourceCount": 770,
+    "dirtyRows": 250,
+    "present": 247,
+    "physicalDeletions": 3,
+    "journalCommands": 765,
+    "allRawCommandExitsZero": true,
+    "restoredBlobChecks": 494,
+    "captureAndVerifyTree": "1260d712805a411a2da5292d9c7ed10e1baca27d",
+    "oneCachedCheckThenOneCachedApplyOnlySecondTemporaryIndex": true,
+    "fullNonDocPathSetsEqual": true,
+    "allDirtyHashesGitModesAndDiskPermissionModesVerified": true,
+    "historical07Applied": false,
+    "realIndexHeadAndNonDocWorktreeUnchanged": true
+  },
+  "ownership": {
+    "rootRawExit": 0,
+    "rootElapsedSeconds": 8.198044871,
+    "captureElapsedSeconds": 7.058256741,
+    "observedPidStartIdentities": 16,
+    "allObservedIdentitiesAbsent": true,
+    "ownedGroupsCleared": 2,
+    "everyGitCommandPidStartJournaled": false,
+    "reapedGitEvidence": "765 completed subprocess.run raw exit0 records; individual PID/start identities are not journaled for each Git call",
+    "independentPostexit": {
+      "path": "/tmp/starship-recovery08-root.eteg2qwf/root-independent-postexit.json",
+      "sha256": "f7d6d7ef52da0d6ce1182d2e3bfa534170524207eece5626d9924f81da50c98f"
+    }
+  },
+  "historicalArtifactsUnchanged": {
+    "recovery07Manifest": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07.json",
+    "recovery07Patch": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07.patch",
+    "incrementalChainAllowed": false
+  },
+  "scope": {
+    "recoveryPreservationAccepted": true,
+    "existingDirtyCheckoutMayApplySnapshot": false,
+    "testCoverageGateFramePerformanceProductReleaseAcceptance": false,
+    "latestPointerChangedByEnvelopeAuthor": false
+  },
+  "currentOpenTruth": "Full38 replay FAILED; coverage/gate/frame unaccepted; main/livee8a06ffe3e0fc5b28f6aad0ad733e6be25917428;80% andPhase8/9open. A deliberately authorized clean recovery uses08alone, no historicalpatchchain."
+}

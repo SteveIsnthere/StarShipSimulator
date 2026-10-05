@@ -1,0 +1,61 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 111286,
+      "state": "R",
+      "parent": 111274,
+      "group": 111286,
+      "session": 111286,
+      "start": "7018132"
+    },
+    {
+      "pid": 111287,
+      "state": "R",
+      "parent": 111286,
+      "group": 111286,
+      "session": 111286,
+      "start": "7018141"
+    },
+    {
+      "pid": 111288,
+      "state": "R",
+      "parent": 111286,
+      "group": 111286,
+      "session": 111286,
+      "start": "7018144"
+    },
+    {
+      "pid": 111290,
+      "state": "R",
+      "parent": 111286,
+      "group": 111286,
+      "session": 111286,
+      "start": "7018148"
+    },
+    {
+      "pid": 111289,
+      "start": "7018147",
+      "parent": 111286,
+      "group": 111286,
+      "session": 111286,
+      "state": "R"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 111286,
+      "session": 111286,
+      "start": "7018132",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-receipt-git-diagnostic.f4577be127f5424f9272801d85302ae5",
+  "manifestSha": "b73fbcd05f713996329b7ddf20c80cf36dcf18f78e22f6d5bdbe1813bde23783",
+  "elapsedSeconds": 0.4498257637023926,
+  "acceptance": "Read-only metadata/path equality diagnostic only; no source application, test, browser or frame acceptance"
+}

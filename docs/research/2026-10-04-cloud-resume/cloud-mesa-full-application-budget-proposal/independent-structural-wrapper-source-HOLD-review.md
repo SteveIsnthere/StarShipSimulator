@@ -1,0 +1,11 @@
+# Independent structural wrapper source HOLD
+
+Disposition: HOLD for one material final-checker cleanup gap. No wrapper execution/input approval is granted by this source review.
+
+The reserved direct-Popen registration fallback runs before structural-after. That later run_child can assign a fresh live child and then throw during its initial identity registration. Subsequent cleanup searches only previously admitted identities; no saved row exists on that path, so the process cannot be safely finalized by the current code. The final checker also needs independently retained final raw OS exit when registration or structural receipt assertions fail. Reuse the same direct-child reserved PID parent/group/session fallback after the attempted finally checker, before identity-checked cleanup, and persist its actual exit independently. Preserve old wrapper/manifest before this narrow repair.
+
+Other reviewed boundaries: source/input roles are externally frozen, actual node/python/inner source authority matches exact approved owner, e067/90ea checker and relative closure are copied exclusively, and all phases share clock initialized before pin admission. Raw successful/ordinary failing child exits are saved before interpretation. Structural-after failures remain separate from primary observer failures. Inner identity journal is bounded and reconciled against current PID/start/group/session; canonical identity/group uncertainty and signaling logic remains directly reused. Late audits or exhausted clock deny success rather than extending acceptance. Actual external supervision/independent all-owned audits remain mandatory and can preserve failed partials even if interrupted finally cannot finish.
+
+The wrapper does not alter the public build/matrix child limits, browser flags, tests, samples, quality or budgets. Source readiness cannot certify current source/tools/native bytes or future dist; those require separately frozen actual input and result review. No new scope grant is inferred.
+
+Method: finite selected source/contract/transfer reads and small pin verification only; no imports, checks, workloads, copies or source/tool/native scans. The actual checker and wrapper were not launched by reviewer.

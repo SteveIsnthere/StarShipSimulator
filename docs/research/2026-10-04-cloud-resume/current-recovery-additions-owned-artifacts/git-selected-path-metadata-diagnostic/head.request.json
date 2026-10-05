@@ -1,0 +1,8 @@
+{
+  "command": [
+    "/usr/local/bin/git",
+    "rev-parse",
+    "HEAD"
+  ],
+  "cwd": "/workspace/StarShipSimulator"
+}

@@ -1,0 +1,72 @@
+/** Read-only identity receipts, outside frame timing windows and application code. */
+import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+import { readFile, readdir, writeFile } from 'node:fs/promises';
+import { availableParallelism, cpus, platform, release, arch, totalmem, loadavg } from 'node:os';
+import { join } from 'node:path';
+import type { Browser, TestInfo } from '@playwright/test';
+import { chromiumGpuPolicy, chromiumLaunchOptions } from './chromium';
+
+const digest = (bytes: string | Uint8Array) => createHash('sha256').update(bytes).digest('hex');
+const git = (...args: string[]) => execFileSync('git', args, { encoding: 'utf8' });
+const optionalFile = (path: string) => readFile(path, 'utf8').then(s => s.trim()).catch(() => null);
+
+async function buildFiles(dir: string, prefix = ''): Promise<string[]> {
+  const paths: string[] = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const path = prefix + entry.name;
+    if (entry.isDirectory()) paths.push(...await buildFiles(join(dir, entry.name), path + '/'));
+    else if (!entry.name.endsWith('.map')) paths.push(path);
+  }
+  return paths.sort();
+}
+
+async function manifest(paths: readonly string[], root = '.') {
+  const files: { path: string; sha256: string | null }[] = [];
+  // Serial reads avoid scheduling a large file batch alongside an acceptance run.
+  for (const path of paths) {
+    const bytes = await readFile(join(root, path)).catch((error: unknown) => {
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') return null;
+      throw error;
+    });
+    files.push({ path, sha256: bytes === null ? null : digest(bytes) });
+  }
+  return { sha256: digest(JSON.stringify(files)), files };
+}
+
+export async function visualRuntimeReceipt(browser: Browser, info: TestInfo) {
+  const sourcePaths = [...new Set(git('ls-files', '-z', '--cached', '--others', '--exclude-standard').split('\0'))]
+    .filter(path => /^(src\/|tests\/|scripts\/|public\/|\.agents\/|\.nvmrc$|package[^/]*\.json$|[^/]*config\.[^/]+$)/.test(path))
+    .sort();
+  const source = await manifest(sourcePaths);
+  const build = await manifest(await buildFiles('dist'), 'dist');
+  const sw = await readFile('dist/sw.js', 'utf8');
+  const processors = cpus();
+  return {
+    source: { head: git('rev-parse', 'HEAD').trim(), dirty: !!git('status', '--porcelain').trim(), ...source },
+    build: { ...build, serviceWorkerVersion: /const CACHE = 'starship-([^']+)'/.exec(sw)?.[1] ?? null,
+      preparation: process.env['E2E_SKIP_BUILD'] ? 'explicit prebuilt dist' : 'managed server builds before tests' },
+    browser: { name: browser.browserType().name(), version: browser.version(), gpuPolicy: chromiumGpuPolicy(),
+      launch: info.project.use.launchOptions ?? chromiumLaunchOptions(),
+      headless: info.project.use.headless ?? true, cpuThrottling: 'none requested' },
+    host: { platform: platform(), release: release(), arch: arch(), node: process.version,
+      availableParallelism: availableParallelism(), logicalCpuCount: processors.length,
+      cpuModels: [...new Set(processors.map(cpu => cpu.model))], totalMemoryBytes: totalmem(), loadAverage: loadavg(),
+      cpuQuota: await optionalFile('/sys/fs/cgroup/cpu.max'),
+      cpuset: await optionalFile('/sys/fs/cgroup/cpuset.cpus.effective'),
+      cpuStat: await optionalFile('/sys/fs/cgroup/cpu.stat'),
+      memoryMax: await optionalFile('/sys/fs/cgroup/memory.max') },
+  };
+}
+
+export async function attachVisualRuntimeReceipt(info: TestInfo, label: string,
+  receipt: Awaited<ReturnType<typeof visualRuntimeReceipt>>) {
+  await writeVisualJSON(info, `${label}-runtime.json`, receipt);
+}
+
+/** Write bytes immediately, even if the run is interrupted before HTML reporting. */
+export async function writeVisualJSON(info: TestInfo, name: string, value: unknown) {
+  const path = info.outputPath(name);
+  await writeFile(path, JSON.stringify(value, null, 2) + '\n');
+  await info.attach(name, { path, contentType: 'application/json' });
+}

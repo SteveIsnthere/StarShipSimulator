@@ -1,0 +1,156 @@
+{
+  "cacheSha256": "b966529ae5653785a013ec27e8a1046e7f0b4d4a61d3eaeb7fb83d5d982c5fa0",
+  "toolPath": "/usr/sbin/ldconfig",
+  "toolSha256": "a30fb3da26461c40d9a7803648f95af102d2610adf8f4655f59ecf2c0f920753",
+  "aliases": {
+    "/lib": {
+      "target": "usr/lib",
+      "mode": 511
+    },
+    "/lib64": {
+      "target": "usr/lib64",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libLLVM-19.so": {
+      "target": "libLLVM.so.19.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libLLVM-19.so": {
+      "target": "libLLVM.so.19.1",
+      "mode": 511
+    }
+  },
+  "cacheCandidates": {
+    "libffi.so.8": [
+      "/lib/x86_64-linux-gnu/libffi.so.8"
+    ],
+    "libedit.so.2": [
+      "/lib/x86_64-linux-gnu/libedit.so.2"
+    ],
+    "libm.so.6": [
+      "/lib/x86_64-linux-gnu/libm.so.6"
+    ],
+    "libz3.so.4": [
+      "/lib/x86_64-linux-gnu/libz3.so.4"
+    ],
+    "libz.so.1": [
+      "/lib/x86_64-linux-gnu/libz.so.1"
+    ],
+    "libzstd.so.1": [
+      "/lib/x86_64-linux-gnu/libzstd.so.1"
+    ],
+    "libxml2.so.2": [
+      "/lib/x86_64-linux-gnu/libxml2.so.2"
+    ],
+    "libstdc++.so.6": [
+      "/lib/x86_64-linux-gnu/libstdc++.so.6"
+    ],
+    "libgcc_s.so.1": [
+      "/lib/x86_64-linux-gnu/libgcc_s.so.1"
+    ],
+    "libc.so.6": [
+      "/lib/x86_64-linux-gnu/libc.so.6"
+    ],
+    "ld-linux-x86-64.so.2": [
+      "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"
+    ]
+  },
+  "loaderCandidates": [
+    "/lib/x86_64-linux-gnu/libLLVM.so.19.1"
+  ],
+  "canonicalDependencies": {
+    "libffi.so.8": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libffi.so.8.1.4",
+      "sha256": "922024ec5a23f7de1095b1cff2f6cbfb377b5d58cd51fd0ec2e8fe35427653e2",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libffi.so.8"
+      ]
+    },
+    "libedit.so.2": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libedit.so.2.0.75",
+      "sha256": "4cde661dc336a1a835e605532086c629f6279a312374c91795215b8489ad4bcf",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libedit.so.2"
+      ]
+    },
+    "libm.so.6": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+      "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libm.so.6"
+      ]
+    },
+    "libz3.so.4": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libz3.so.4",
+      "sha256": "7accc397d4ac387468b09489bdaff9d82bfac4ca6a7e339b8fbb2167edf9c1c0",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libz3.so.4"
+      ]
+    },
+    "libz.so.1": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libz.so.1.3.1",
+      "sha256": "85590dd58edf5445e18bc7193e5ebc01ac5841f1ae187e97705a662e90c6421e",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libz.so.1"
+      ]
+    },
+    "libzstd.so.1": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libzstd.so.1.5.7",
+      "sha256": "27f07c9a49c2c956bcfb64cd4712976586a66facbf15fc7f09bc37413b5f2b21",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libzstd.so.1"
+      ]
+    },
+    "libxml2.so.2": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libxml2.so.2.9.14",
+      "sha256": "8f2643af68a9eba917929046806dabd1848867068d0eee0f6799288a8e886963",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libxml2.so.2"
+      ]
+    },
+    "libstdc++.so.6": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+      "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libstdc++.so.6"
+      ]
+    },
+    "libgcc_s.so.1": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libgcc_s.so.1"
+      ]
+    },
+    "libc.so.6": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sha256": "fa430b8f298f817a266046af84a77533185ad6fc4406c7d3787b5a0a0c207826",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/libc.so.6"
+      ]
+    },
+    "ld-linux-x86-64.so.2": {
+      "canonicalPath": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "sha256": "438c546d8e8cc48496bf3a95f753051afd9db66a629a74e31a9ded71586b56e0",
+      "cachedPaths": [
+        "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"
+      ]
+    }
+  },
+  "expandedPathsAbsent": [
+    "/usr/lib/lib",
+    "/lib/lib"
+  ],
+  "rawStdoutSha256": "98164f3da50cd6a5b27c3b83bab4a7b322950339edc1e8f79cbfbc363462e10a",
+  "actualCode": 0,
+  "childIdentity": {
+    "pid": 86407,
+    "start": "5576906",
+    "parent": 86406,
+    "group": 86394,
+    "session": 86394
+  },
+  "childReaped": true,
+  "driverLoaded": false,
+  "browserLaunched": false
+}

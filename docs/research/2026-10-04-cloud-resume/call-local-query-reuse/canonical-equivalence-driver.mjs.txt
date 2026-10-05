@@ -1,0 +1,73 @@
+// Research-only. Owned builder supplies TWO independent native graphs; never SSR models.
+import assert from 'node:assert/strict';
+
+function outcome(call) {
+  try { return { kind: 'returned', value: call() }; }
+  catch (error) {
+    assert.ok(error instanceof Error);
+    const descriptors = Object.getOwnPropertyDescriptors(error);
+    // Source coordinates differ; preserve every other own error descriptor/value.
+    if (descriptors.stack) descriptors.stack = { ...descriptors.stack, value: '<source coordinates>' };
+    return { kind: 'thrown', name: error.name, constructor: error.constructor.name, descriptors };
+  }
+}
+function fixture(api, vehicleName) {
+  const vehicle = api[vehicleName];
+  const partition = api.createVehicleComponents(vehicle);
+  return { partition, state: api.createDamageState(partition, 293.15),
+    control: api.createDamageControlModel(partition, vehicle),
+    forces: api.createDamageControlForces(partition.components.length),
+    thermal: api.createDamageThermalModel(partition) };
+}
+function edit(api, f, mode, temperature) {
+  for (const component of f.state.components) {
+    component.root.temperature = temperature;
+    const column = f.thermal.columns.find(c => c.componentIndex === component.componentIndex);
+    if (column) component.root.energy = column.rootMass * api.steelSpecificEnthalpy(temperature);
+  }
+  if (mode === 'asymmetric') {
+    for (const column of f.thermal.columns) {
+      const node = f.state.components[column.componentIndex].root;
+      const temperature = 293.15 + column.componentIndex;
+      node.temperature = temperature;
+      node.energy = column.rootMass * api.steelSpecificEnthalpy(temperature);
+    }
+  } else if (mode === 'detached') f.state.components[2].attached = false;
+  else if (mode === 'failed') f.state.components[2].permanentFailure = 1;
+  else if (mode === 'invalid') f.state.components[2].root.valid = false;
+}
+
+// No timing. Equality includes every mutation and signed-zero numeric field.
+export function runCanonicalEquivalence(original, candidate) {
+  const rows = [];
+  for (const vehicle of ['SHIP', 'SUPER_HEAVY']) {
+    for (const mode of ['symmetric', 'asymmetric', 'detached', 'failed', 'invalid']) {
+      for (const command of [0, -0, .2, -.2, NaN]) {
+        const a = fixture(original, vehicle), b = fixture(candidate, vehicle);
+        edit(original, a, mode, 293.15); edit(candidate, b, mode, 293.15);
+        const args = [12000, .5, command, -.1];
+        const left = outcome(() => original.writeDamageControls(a.state, a.control, ...args, a.forces));
+        const right = outcome(() => candidate.writeDamageControls(b.state, b.control, ...args, b.forces));
+        assert.deepStrictEqual(right, left); assert.deepStrictEqual(b.state, a.state);
+        assert.deepStrictEqual(b.forces, a.forces);
+        rows.push({ kind: 'control', vehicle, mode, command: Object.is(command, -0) ? '-0' : String(command) });
+      }
+    }
+    for (const mode of ['symmetric', 'asymmetric', 'detached', 'invalid']) {
+      for (const temperature of [4, 293.15, 1000, 1473.15]) {
+        for (const substeps of [0, 1, 8]) {
+          const a = fixture(original, vehicle), b = fixture(candidate, vehicle);
+          edit(original, a, mode, temperature); edit(candidate, b, mode, temperature);
+          const dt = a.thermal.safeStep * substeps;
+          assert.ok(Object.is(b.thermal.safeStep, a.thermal.safeStep));
+          const left = outcome(() => original.advanceDamageHeat(a.state, a.thermal, dt, 1000, 293.15, 0));
+          const right = outcome(() => candidate.advanceDamageHeat(b.state, b.thermal, dt, 1000, 293.15, 0));
+          assert.deepStrictEqual(right, left); assert.deepStrictEqual(b.state, a.state);
+          rows.push({ kind: 'thermal', vehicle, mode, temperature, substeps });
+        }
+      }
+    }
+  }
+  assert.equal(rows.length, 146);
+  return { kind: 'canonical-reuse-equivalence-v1', rows, timingMeasured: false };
+}

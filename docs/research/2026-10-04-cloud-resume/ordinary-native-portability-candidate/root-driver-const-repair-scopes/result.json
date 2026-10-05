@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "sourceSha256": "a98a3e4f31b8dd9f8fa27939d5eb790a5f292e5c7539d3b793af8c5e1fae6521",
+  "checks": [
+    {
+      "name": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.026713209997978993
+    },
+    {
+      "name": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9174594439973589
+    }
+  ],
+  "unchangedOtherScopesNotRerun": true,
+  "fixturesExecuted": false,
+  "runtimeApplied": false
+}

@@ -1,0 +1,59 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 117723,
+      "state": "R",
+      "parent": 117722,
+      "group": 117723,
+      "session": 117723,
+      "start": "7472286"
+    },
+    {
+      "pid": 117730,
+      "state": "R",
+      "parent": 117723,
+      "group": 117730,
+      "session": 117730,
+      "start": "7472404"
+    },
+    {
+      "pid": 117758,
+      "state": "R",
+      "parent": 117723,
+      "group": 117758,
+      "session": 117758,
+      "start": "7472619"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 117723,
+      "session": 117723,
+      "start": "7472286",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 117730,
+      "session": 117730,
+      "start": "7472404",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 117758,
+      "session": 117758,
+      "start": "7472619",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-inert-proof-4b8fed6b6cc44de49d9d3222d9a88b5c",
+  "manifestSha": "24c39a5be6e0f2293319e17377e87385fe5d8ca0225016dba573b0c80a319791",
+  "elapsedSeconds": 5.018481492996216,
+  "acceptance": "This ONE closed native query-reuse pure proof only; no replay/timing/public/application/gate acceptance; independent actual-result/ALL-owned review required"
+}

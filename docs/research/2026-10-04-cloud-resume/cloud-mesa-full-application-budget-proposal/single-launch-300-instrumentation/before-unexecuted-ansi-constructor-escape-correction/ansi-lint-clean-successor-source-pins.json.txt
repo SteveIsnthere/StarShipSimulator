@@ -1,0 +1,43 @@
+{
+  "kind": "mesa-launch-neutral-ansi-lint-successor-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/business-stage.mjs.txt",
+      "sha256": "94cc413bfa2e81212885b9654a8bd686293c0f83cc7cca4d61f465f73a4c9448",
+      "bytes": 16874
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins-bounded-detach.json",
+      "sha256": "19984326ff07f6f4db8e7b2d9aeba001cb72d0281daa44fa0d65275fef25e687",
+      "bytes": 6038
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/make-input.py.txt",
+      "sha256": "9db52b8ff6088781c116ca2897a8bb0060d0f2ccdba66e67d8d1211d2418496e",
+      "bytes": 10728
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/business-stage.ansi-lint-clean.mjs.txt",
+      "sha256": "37349d8df6b986e9ce4ea92e4b61e42598d283ef699c91d7989480708f09c466",
+      "bytes": 16911
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/ansi-string-controls.mjs",
+      "sha256": "dbdce1b63644f691d3c291db698768304215255067f9cef47bc7cb92970e27fc",
+      "bytes": 1749
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins-bounded-detach-ansi-lint-clean.json",
+      "sha256": "d61d6e0e873bebb5d928237b15edca8fa3b79957f0677c5311356af5be0eca6d",
+      "bytes": 6451
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/make-input.ansi-lint-clean.py.txt",
+      "sha256": "d267140c8556b7f256a353f53d7d2e6a0a63a4a03684a67e75641777b7246bdb",
+      "bytes": 10760
+    }
+  ],
+  "allPriorAcceptedSourcesAndPacketsUnchanged": true,
+  "noControlsOrMakerExecuted": true,
+  "boundedHook7e9Unchanged": true
+}

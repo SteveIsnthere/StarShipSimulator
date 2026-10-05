@@ -1,0 +1,59 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 125692,
+      "state": "R",
+      "parent": 125691,
+      "group": 125692,
+      "session": 125692,
+      "start": "7868756"
+    },
+    {
+      "pid": 125699,
+      "state": "R",
+      "parent": 125692,
+      "group": 125699,
+      "session": 125699,
+      "start": "7868897"
+    },
+    {
+      "pid": 125706,
+      "state": "R",
+      "parent": 125692,
+      "group": 125706,
+      "session": 125706,
+      "start": "7868902"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 125692,
+      "session": 125692,
+      "start": "7868756",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 125699,
+      "session": 125699,
+      "start": "7868897",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 125706,
+      "session": 125706,
+      "start": "7868902",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-517cfec6f83b46028ec25ec4dcd817e4",
+  "manifestSha": "2a5b8cf22421a97dff089b9363838ad5aa7a55e09b18a3817eda790331e4fa3c",
+  "elapsedSeconds": 3.7508316040039062,
+  "acceptance": "One separately granted orbit18 compile OR accepted-artifact full-histories stage only; compile is not semantics; no unit30/coverage120/gate300/performance acceptance"
+}

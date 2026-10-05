@@ -1,0 +1,13 @@
+{
+  "kind": "single-launch-maker-source-high-pins-v1",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/make-input.py.txt": "9db52b8ff6088781c116ca2897a8bb0060d0f2ccdba66e67d8d1211d2418496e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/input-maker-contract.md": "113c7b5c0f64337be1d30f9948c1e8e6e984ec760a9b765128188b6d9f995f51",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins-bounded-detach.json": "19984326ff07f6f4db8e7b2d9aeba001cb72d0281daa44fa0d65275fef25e687",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/bounded-detach-repair-contract.md": "6be3ba178b39747ef7079433678b2ac2a6298622e17ff7737639174d7eae6b58",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/mesa-launch-instrumentation.bounded-detach.ts.txt": "7e9f277ea54d8f0039198ae48a7c36e9dfb2c227f342dee99a5d509938fe3b0e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-single-helper-NEW-fresh-dist-approval.json": "0758bb5c1173843bb9cca4a4eb7cd4a22427feace39192c46a3afc15bc56e0b2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/input-maker-source-pins.json": "32e602da25bd10dc0f0d8ff4693879b6820d55b54cf73276e37092712d8d4074"
+  },
+  "reviewSha256": "fc002b75309ec024bb2ab6960ce7a3db84ef28859f49ce6751bdcafa9bfeb15e"
+}

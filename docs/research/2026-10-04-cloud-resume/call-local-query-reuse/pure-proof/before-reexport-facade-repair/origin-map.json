@@ -1,0 +1,137 @@
+[
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-maker-process.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/root-maker-process.json",
+    "sha256": "02ff725ba597f0b2ed5b4592cb54fa748216a22ff9f3e23cdbe10db4dc1a22b7"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/entry.ts.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/entry.ts.txt",
+    "sha256": "f870865020e5aa24191e336792275b353236ddd6b5119c7f7fa8976a45ae2c90"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v1.md",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-source-HIGH-v1.md",
+    "sha256": "2d7a801bf773dc021df1aec34f3a15163bb8a8ec5cb8cee70a19b62c042f82d3"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-materialized-input-HIGH-pins.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-materialized-input-HIGH-pins.json",
+    "sha256": "4169960878b43933ca5552926514a56a845185b3452468656ce642048ff987a8"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v3.md",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-source-HIGH-v3.md",
+    "sha256": "f0eb1d111e6051fc6f1fedc73bb776538db57a7213d22b59768db10b7fd5204d"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-materialized-input-HIGH.md",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-materialized-input-HIGH.md",
+    "sha256": "61e731175438c0511b95a33517c737f7cb16f19ca3240e3ae789aac1c5f206cf"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/declaration.md",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/declaration.md",
+    "sha256": "dc1457bfb4bb93e065b75393d680e9c2a6f4adb67324baaa092c711c93a87b55"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v3-pins.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-source-HIGH-v3-pins.json",
+    "sha256": "ee9b754f633e8bbe10475b2a177cfc2c7b12e9463d550a03f9158652a81a44b0"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/driver.mjs.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/driver.mjs.txt",
+    "sha256": "66af3f80a62d1f5b4428b966350f33b55f28bd5432bf43b5c285c7e28a1d97b4"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/make-input.py.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/make-input.py.txt",
+    "sha256": "b0502f4538658726d0148c7486e733295f1e7084d2060707d2e50dadc258c8dc"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-scoped-checks.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/root-scoped-checks.json",
+    "sha256": "e01f62cb24f26a20b70724784e07698159c63ca3a3e4ece6eb9def2aba0fdfb5"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/builder.mjs.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/builder.mjs.txt",
+    "sha256": "ae943f3efa2d39398a4795bb79d90d25f0830650b2508ae244ff5cadf0741eff"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/canonical-equivalence-driver.mjs.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/canonical-equivalence-driver.mjs.txt",
+    "sha256": "679ff675b6bab99b68d4e99941e07c77843410ce81fa0b2f54b3aca61f039e55"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-actual-failure-HIGH-pins.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-actual-failure-HIGH-pins.json",
+    "sha256": "f2c84c3b819c89059b55c584bedf3109ce9820de6859a5338cba8dff9c35e6aa"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/owner.mjs.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/owner.mjs.txt",
+    "sha256": "7b77d1475b48efa77660545eb3221308f86af1d92d80a920fdefd0ae51b66985"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v1-pins.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-source-HIGH-v1-pins.json",
+    "sha256": "4b8b1bd0445aad465e38524bfdb3d74bff348519fd7ed76fc4bc38d61388fbad"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/builder.emitted-edge.diff",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/builder.emitted-edge.diff",
+    "sha256": "0b9f95033e304d28cfad6e2ebd7a3b47eb86d451abbc88625f26a37ff9d05953"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/input-pins.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/input-pins.json",
+    "sha256": "c3be151715e675918c37ec095dbdb376922b0fa88fb2342ac439cf07eb8be44d"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/closed-three-recipe-ledger.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/closed-three-recipe-ledger.json",
+    "sha256": "cf6154f0ed4ccef343d41ed18d996fe4f01e8a267ca3bb010bc46b25050575ee"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/driver.emitted-edge.diff",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/driver.emitted-edge.diff",
+    "sha256": "701faf74765a5da5a80b1a1fc1986d438c4ecb3a2b38980a6d798c0ad8625faa"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-observer.py.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/root-observer.py.txt",
+    "sha256": "6f790e6efdb8f2e8a5285cddf40d0b7b9188077b007c05e3579954d64d899652"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-observer.diff",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/root-observer.diff",
+    "sha256": "6bc61e18443372771c8b9c369fbde6a20a7c73ef19ad4808048cb2c3902c720f"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-actual-failure-HIGH.md",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-actual-failure-HIGH.md",
+    "sha256": "3278338deaded8b23d7341d4f17f9424de4e875720ec37d3475561185ae11b11"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v2.md",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-source-HIGH-v2.md",
+    "sha256": "f011723d8b21836da04909613c3011f6a75b722f467576d9313e1fd63ac7a356"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-maker.stderr.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/root-maker.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v2-pins.json",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/independent-source-HIGH-v2-pins.json",
+    "sha256": "84780d0e587a07d30fb38ef4151295692d1d51f0321ebd7d830ecbdc8e616253"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-maker.stdout.txt",
+    "archive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/before-reexport-facade-repair/root-maker.stdout.txt",
+    "sha256": "72d4c16860f8c384cb7405df0c949b6d85458f7e2f538ada442db098d26fb58b"
+  }
+]

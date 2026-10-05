@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "decision": "supported-one-distinct-mesa-preparation-actual-input-readiness",
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/independent-runpath-repair-actual-input-HIGH-review.md",
+  "reviewSha256": "2b8e45d1f9a2f0746566b80cee281dbb13223a8ce8d96b7de03ea39f8c708267",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/external-preparation-runpath-repair-spec.json": "806d7ccc4da1a3ad7abf82a018fb130594ad485dc6dbf716eb4be7be15fa77ff",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/runpath-repair-owner-input.json": "a2a36d91e74570179818ec44c7f3ad27bc29c334dba86f5dfd42ad104e99a598",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/runpath-repair-source-pins.json": "e8acf6087cee00111a925d197c155f248e003310d9ba90557b918848282829e8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/root-observer.py.txt": "418bbe5db80540728caba30c9521bca710ec8dba37551664f029475d48138e24",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/python-bridge.mjs.txt": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/business-stage.mjs.txt": "989b348a740527ff808e04e9ceebd89e7fb96e613f430b5431a097654cf90a97",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt": "0f784f7e175efedd30390f92072a6bbbd30db74380bc6de1efc0aae93fc8a51e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/runpath-journal-repair-source-pins.json": "126e39622c11b0e50961b36eaf1dd611ffed363389b2886580072ae62be579ce",
+    "/tmp/starship-mesa-preparation-owner.7c9e23a339df48da8beec24637889f8a/python-bridge.mjs": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-cache-alias-diagnosis/ldconfig.stdout.txt": "98164f3da50cd6a5b27c3b83bab4a7b322950339edc1e8f79cbfbc363462e10a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-cache-alias-diagnosis/child-exit.json": "b9ff90bf2fb27c254fd1be5bed66f90f03da014d2b2ecf27b50686e1f402e756",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-cache-alias-diagnosis/before.json": "3776c3c94c17f42ec1002d56109edb0807b7e67506f2e4d728fec39a1b508181",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-cache-alias-diagnosis/ldconfig.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-cache-alias-diagnosis/result.json": "896bfb47443d5c196a97ad89f6ab3e0d6bad2ae5ff7b22853997684d769e3bec",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-cache-alias-diagnosis/child-identity.json": "188a918ed6e935e77dbec3dafc26dad71db0e00dd29a95df3214750e2fc4155e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-cache-alias-diagnosis/after.json": "3776c3c94c17f42ec1002d56109edb0807b7e67506f2e4d728fec39a1b508181"
+  },
+  "verification": {
+    "sourceRolesExact": true,
+    "functionalOriginalMetadataUnchanged": true,
+    "originalExpectedPathsPreserved": true,
+    "completeCompatibleRawCacheLists": 12,
+    "llvmNeededNames": 11,
+    "rootRawExit": 0,
+    "rootReaped": true,
+    "freshJournalEmpty0700AtReview": true,
+    "nativeBinaryHashedByReviewer": false,
+    "sourceOrToolTreeScanned": false
+  },
+  "conditions": [
+    "Changed source scopes and root exclusive grant.",
+    "Actual complete supplied before/after source/native/browser/cache/link checks.",
+    "Independent complete observed/root/helper/journal PID-start audit on all exits.",
+    "Fresh actual preparation and resulting functional input review; no automatic browser chain."
+  ],
+  "preparationExecutedByReviewer": false,
+  "browserExecutionApproved": false,
+  "localPerformanceAcceptance": false
+}

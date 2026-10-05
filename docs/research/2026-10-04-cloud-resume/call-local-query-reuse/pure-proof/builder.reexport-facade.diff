@@ -1,0 +1,70 @@
+--- failed-c3be-builder
++++ reexport-facade-builder
+@@ -35,28 +35,44 @@
+    '\nconst __queryWitness: unknown[][] = [];\nexport function resetWitness'+fn+'(): void { __queryWitness.length = 0; }\nexport function readWitness'+fn+'(): unknown[][] { return __queryWitness.map(row => row.slice()); }\n';
+  }
+  const directory=resolve(m.setup,role),entry=resolve(m.setup,'entry.ts');
+- if(counted)writeFileSync(resolve(m.setup,'entry-'+role+'.ts'),readFileSync(entry,'utf8')+
+-  "export {resetWitnessloadedRootAngle,readWitnessloadedRootAngle} from '$core/physics/damage-root';\nexport {resetWitnesssteelTemperatureFromEnthalpy,readWitnesssteelTemperatureFromEnthalpy} from '$core/physics/damage-material';\n",{flag:'wx'});
++ const witnessSuffix="export {resetWitnessloadedRootAngle,readWitnessloadedRootAngle} from '$core/physics/damage-root';\nexport {resetWitnesssteelTemperatureFromEnthalpy,readWitnesssteelTemperatureFromEnthalpy} from '$core/physics/damage-material';\n";
++ const baseEntry=readFileSync(entry,'utf8');assert.equal(sha(baseEntry),m.materialized[entry].sha256,'Authored plain entry changed');
++ const roleEntry=counted?resolve(m.setup,'entry-'+role+'.ts'):entry;
++ const expectedEntry=baseEntry+(counted?witnessSuffix:'');
++ if(counted)writeFileSync(roleEntry,expectedEntry,{flag:'wx'});
++ assert.equal(readFileSync(roleEntry,'utf8'),expectedEntry,'Authored role entry transform');
++ const entryAuthority={path:roleEntry,sha256:sha(expectedEntry),plainPath:entry,plainSha256:m.materialized[entry].sha256,counted,witnessSuffix:counted?witnessSuffix:''};
+  save(role+'-virtual-source.json',Object.fromEntries(Object.entries(overrides).map(([path,text])=>[relative(m.root,path),{sha256:sha(text),text}])));
+  const built=await build({configFile,plugins:[{name:'reviewed-query-reuse-virtual-copy',enforce:'pre',load(id){return Object.hasOwn(overrides,id)?overrides[id]:null;}}],
+   build:{target:resolved.build.target,minify:resolved.build.minify,sourcemap:resolved.build.sourcemap,cssMinify:resolved.build.cssMinify,copyPublicDir:false,
+-  outDir:directory,emptyOutDir:true,lib:{entry:counted?resolve(m.setup,'entry-'+role+'.ts'):entry,formats:['es'],fileName:()=> 'entry.mjs'}}});
+- const files=Object.fromEntries(loader.filesUnder(directory).map(path=>[relative(directory,path),sha(readFileSync(path))]));assert.ok(files['entry.mjs']);
++  outDir:directory,emptyOutDir:true,lib:{entry:roleEntry,formats:['es'],fileName:()=> 'entry.mjs'}}});
++ const files=Object.fromEntries(loader.filesUnder(directory).map(path=>[relative(directory,path),sha(readFileSync(path))]));
++ const outputs=Array.isArray(built)?built:[built];
++ // Persist finite actual compiler identities and files BEFORE any closure assertion.
++ const preliminary={role,entryAuthority,files,outputs:outputs.map(output=>({outputIsArray:Array.isArray(output.output),
++  chunks:Array.isArray(output.output)?output.output.filter(item=>item.type==='chunk').map(chunk=>({fileName:chunk.fileName,isEntry:chunk.isEntry,
++   facadeModuleId:chunk.facadeModuleId,moduleIds:chunk.moduleIds,imports:chunk.imports,dynamicImports:chunk.dynamicImports,
++   fieldsPresent:Object.fromEntries(['fileName','isEntry','facadeModuleId','moduleIds','imports','dynamicImports'].map(field=>[field,Object.hasOwn(chunk,field)])),returnedCodeSha256:typeof chunk.code==='string'?sha(chunk.code):null})):null})),
++  mapFiles:Object.entries(files).filter(([name])=>name.endsWith('.map'))};
++ save(role+'-preliminary-build.json',preliminary);
++ assert.ok(files['entry.mjs']);
+  const mapped={};
+  for(const path of loader.filesUnder(directory).filter(path=>path.endsWith('.map'))){
+-  const map=JSON.parse(readFileSync(path,'utf8'));assert.equal(map.sources.length,map.sourcesContent.length);assert.ok(map.sources.length<=64);
++  const map=JSON.parse(readFileSync(path,'utf8'));save(role+'-preliminary-map-'+relative(directory,path).replaceAll('/','_')+'.json',map);assert.equal(map.sources.length,map.sourcesContent.length);assert.ok(map.sources.length<=64);
+   for(let i=0;i<map.sources.length;i++){
+    const source=isAbsolute(map.sources[i])?map.sources[i]:resolve(dirname(path),map.sourceRoot??'',map.sources[i]);
+    const expected=overrides[source]??readFileSync(source,'utf8');assert.equal(map.sourcesContent[i],expected,'Virtual/current source map mismatch');
+    mapped[source]=sha(expected);
+   }
+  }
+- const expectedSources=['src/core/vehicle.ts','src/core/vehicles/super-heavy.ts','src/core/vehicles/v3.ts','src/core/constants.ts','src/core/units.ts','src/core/physics/vehicle-components.ts','src/core/damage-state.ts','src/core/physics/damage-controls.ts','src/core/physics/damage-thermal.ts','src/core/physics/damage-root.ts','src/core/physics/damage-material.ts','src/core/physics/tps-material.ts'].map(path=>resolve(m.root,path));
+- expectedSources.push(counted?resolve(m.setup,'entry-'+role+'.ts'):entry);
+- assert.deepEqual(Object.keys(mapped).sort(),expectedSources.sort(),'Unreviewed pure native import closure');
+- const outputs=Array.isArray(built)?built:[built];assert.equal(outputs.length,1,'One ESM output per role');
++ const expectedCore=['src/core/vehicle.ts','src/core/vehicles/super-heavy.ts','src/core/vehicles/v3.ts','src/core/constants.ts','src/core/units.ts','src/core/physics/vehicle-components.ts','src/core/damage-state.ts','src/core/physics/damage-controls.ts','src/core/physics/damage-thermal.ts','src/core/physics/damage-root.ts','src/core/physics/damage-material.ts','src/core/physics/tps-material.ts'].map(path=>resolve(m.root,path));
++ const expectedSources=[...expectedCore,roleEntry];
++ assert.deepEqual(Object.keys(mapped).sort(),expectedCore.sort(),'Exact twelve core mapped-source closure');
++ assert.equal(outputs.length,1,'One ESM output per role');
+  assert.ok(Array.isArray(outputs[0].output));const chunks=outputs[0].output.filter(item=>item.type==='chunk');assert.ok(chunks.length>0&&chunks.length<=16);
+  const ownedChunks=new Set(chunks.map(chunk=>chunk.fileName));assert.equal(ownedChunks.size,chunks.length);assert.ok(ownedChunks.has('entry.mjs'));
++ const entryChunk=chunks.find(chunk=>chunk.fileName==='entry.mjs');assert.equal(entryChunk.isEntry,true);assert.equal(entryChunk.facadeModuleId,roleEntry,'Exact authored entry facade');
++ assert.equal(sha(readFileSync(roleEntry)),entryAuthority.sha256);
+  const moduleIds=new Set(),edges=[];
+  for(const chunk of chunks){
+   assert.ok(Object.hasOwn(files,chunk.fileName),'Emitted chunk must be retained role artifact');
+@@ -70,11 +86,11 @@
+    assert.ok(ownedChunks.has(imported)&&Object.hasOwn(files,imported),'External/cross-role emitted import');
+    assert.ok(!relative(directory,resolve(directory,imported)).startsWith('..'),'Escaping emitted import');
+   }
+-  edges.push({fileName:chunk.fileName,moduleIds:chunk.moduleIds,imports:chunk.imports,dynamicImports:chunk.dynamicImports,
++  edges.push({fileName:chunk.fileName,isEntry:chunk.isEntry,facadeModuleId:chunk.facadeModuleId,moduleIds:chunk.moduleIds,imports:chunk.imports,dynamicImports:chunk.dynamicImports,
+    returnedCodeSha256:sha(chunk.code),artifactSha256:files[chunk.fileName]});
+  }
+  assert.deepEqual([...moduleIds].sort(),expectedSources.sort(),'Exact emitted pure module closure');
+- const emittedEdges={kind:'query-reuse-role-emitted-edge-certificate-v1',role,expectedSources:expectedSources.slice(),edges};
++ const emittedEdges={kind:'query-reuse-role-emitted-edge-certificate-v1',role,expectedSources:expectedSources.slice(),entryAuthority,edges};
+  save(role+'-emitted-edges.json',emittedEdges);
+  graphs[role]={directory,entry:resolve(directory,'entry.mjs'),files,mapped,emittedEdges};
+ }

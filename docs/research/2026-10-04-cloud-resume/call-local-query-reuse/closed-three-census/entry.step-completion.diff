@@ -1,0 +1,28 @@
+--- 
++++ 
+@@ -3,13 +3,20 @@
+ import { step as originalStep, NO_INPUT, type StepInput } from '$core/step';
+ import { SHIP as defaultShip, type VehicleDefinition } from '$core/vehicle';
+ import type { SimState } from '$core/state';
+-let __originalStepCalls = 0;
++let __stepAttempted = 0, __stepCompleted = 0, __stepThrown = 0, __stepClosed = 0;
+ export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT, model: VehicleDefinition = defaultShip): SimState {
+-  __originalStepCalls++;
+-  return originalStep(previous, dt, input, model);
++  __stepAttempted++;
++  try {
++    const result = originalStep(previous, dt, input, model);
++    __stepCompleted++;
++    return result;
++  } catch (error) { __stepThrown++; throw error; }
++  finally { __stepClosed++; }
+ }
+-export function resetOriginalStepCensus(): void { __originalStepCalls = 0; }
+-export function readOriginalStepCensus(): number { return __originalStepCalls; }
++export function resetOriginalStepCensus(): void { __stepAttempted = __stepCompleted = __stepThrown = __stepClosed = 0; }
++export function readOriginalStepCensus(): Readonly<{attempted:number;completed:number;thrown:number;closed:number}> {
++  return {attempted:__stepAttempted,completed:__stepCompleted,thrown:__stepThrown,closed:__stepClosed};
++}
+ export { SHIP } from '$core/vehicle';
+ export { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
+ export { createCatchPose, writeCatchPose } from '$core/physics/tower-catch';

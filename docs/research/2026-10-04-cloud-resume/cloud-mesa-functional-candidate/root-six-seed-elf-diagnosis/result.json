@@ -1,0 +1,159 @@
+{
+  "completed": true,
+  "failure": null,
+  "rows": [
+    {
+      "requestedPath": "/usr/lib/x86_64-linux-gnu/libEGL.so.1",
+      "actualPath": "/usr/lib/x86_64-linux-gnu/libEGL.so.1.1.0",
+      "currentSha256": "f4b60a4618fbf760f395f64dfd53320446ba1011151a80e411742b3232b194e6",
+      "bytes": 88544,
+      "rawFile": "0.readelf.stdout.txt",
+      "rawSha256": "bef261b35d5c1c2e0e882a2aaad50bcd6a2de9bc8c8f66ce99d1ebc4fafd7913",
+      "readelfIdentity": {
+        "pid": 85300,
+        "start": "5495067",
+        "parent": 85299,
+        "group": 85298,
+        "session": 85286
+      },
+      "actualReadelfCode": 0,
+      "searchPathTags": []
+    },
+    {
+      "requestedPath": "/usr/lib/x86_64-linux-gnu/libGLdispatch.so.0",
+      "actualPath": "/usr/lib/x86_64-linux-gnu/libGLdispatch.so.0.0.0",
+      "currentSha256": "890baeef03fd73560a2fde85ebe9fb49ca3e90686923c5ee22101b28ec8ee7aa",
+      "bytes": 723248,
+      "rawFile": "1.readelf.stdout.txt",
+      "rawSha256": "f1fe173de5601d3b5007c696dbf1443f150cedb565d5ee24b5c95a058fbf8717",
+      "readelfIdentity": {
+        "pid": 85301,
+        "start": "5495067",
+        "parent": 85299,
+        "group": 85298,
+        "session": 85286
+      },
+      "actualReadelfCode": 0,
+      "searchPathTags": []
+    },
+    {
+      "requestedPath": "/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0",
+      "actualPath": "/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0.0.0",
+      "currentSha256": "af1229604d80d73422ff3767f572849dce074a0ecdba8254e93a06a88cfec2e6",
+      "bytes": 374456,
+      "rawFile": "2.readelf.stdout.txt",
+      "rawSha256": "14d09cc5a2431b71ae47f1aa5c39e83d02a3ffd5d2f0c826056ccf8fce08276b",
+      "readelfIdentity": {
+        "pid": 85302,
+        "start": "5495068",
+        "parent": 85299,
+        "group": 85298,
+        "session": 85286
+      },
+      "actualReadelfCode": 0,
+      "searchPathTags": []
+    },
+    {
+      "requestedPath": "/usr/lib/x86_64-linux-gnu/dri/swrast_dri.so",
+      "actualPath": "/usr/lib/x86_64-linux-gnu/dri/libdril_dri.so",
+      "currentSha256": "0d8044a389ab67ef838b1bf13a6b6ce34547a45540a8a994b46f7fdd5e7292d0",
+      "bytes": 108712,
+      "rawFile": "3.readelf.stdout.txt",
+      "rawSha256": "179066877856e78265ffe4a9e0a4d293aa5fb10872f08047d1a112f001fefeb4",
+      "readelfIdentity": {
+        "pid": 85303,
+        "start": "5495068",
+        "parent": 85299,
+        "group": 85298,
+        "session": 85286
+      },
+      "actualReadelfCode": 0,
+      "searchPathTags": []
+    },
+    {
+      "requestedPath": "/usr/lib/x86_64-linux-gnu/libgallium-25.0.7-2+deb13u1.so",
+      "actualPath": "/usr/lib/x86_64-linux-gnu/libgallium-25.0.7-2+deb13u1.so",
+      "currentSha256": "5597543f11c2ef62bc95b0237a8a81339aed87e225d82ae2c6570f8973b1cee5",
+      "bytes": 42565904,
+      "rawFile": "4.readelf.stdout.txt",
+      "rawSha256": "4498c13c3c787d42ba4ec4e21ed4e399d3844f8d37d51e95eac434077cf82149",
+      "readelfIdentity": {
+        "pid": 85304,
+        "start": "5495073",
+        "parent": 85299,
+        "group": 85298,
+        "session": 85286
+      },
+      "actualReadelfCode": 0,
+      "searchPathTags": []
+    },
+    {
+      "requestedPath": "/usr/lib/x86_64-linux-gnu/libLLVM-19.so",
+      "actualPath": "/usr/lib/x86_64-linux-gnu/libLLVM.so.19.1",
+      "currentSha256": "3523f50f635d2a1ea47518a392451f2854b92823ceaf1345fb806099dd1a3b8a",
+      "bytes": 129673080,
+      "rawFile": "5.readelf.stdout.txt",
+      "rawSha256": "c93b132d2aa2394a1954e92de0a55486a43d5322cae320962b8e296136ea8d72",
+      "readelfIdentity": {
+        "pid": 85305,
+        "start": "5495092",
+        "parent": 85299,
+        "group": 85298,
+        "session": 85286
+      },
+      "actualReadelfCode": 0,
+      "searchPathTags": [
+        "0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib]"
+      ]
+    }
+  ],
+  "readelfIdentities": [
+    {
+      "pid": 85300,
+      "start": "5495067",
+      "parent": 85299,
+      "group": 85298,
+      "session": 85286
+    },
+    {
+      "pid": 85301,
+      "start": "5495067",
+      "parent": 85299,
+      "group": 85298,
+      "session": 85286
+    },
+    {
+      "pid": 85302,
+      "start": "5495068",
+      "parent": 85299,
+      "group": 85298,
+      "session": 85286
+    },
+    {
+      "pid": 85303,
+      "start": "5495068",
+      "parent": 85299,
+      "group": 85298,
+      "session": 85286
+    },
+    {
+      "pid": 85304,
+      "start": "5495073",
+      "parent": 85299,
+      "group": 85298,
+      "session": 85286
+    },
+    {
+      "pid": 85305,
+      "start": "5495092",
+      "parent": 85299,
+      "group": 85298,
+      "session": 85286
+    }
+  ],
+  "elapsedSeconds": 0.3907717699985369,
+  "sourceFunctionExtractedExact": "bounded_readelf from edd2",
+  "browserLaunched": false,
+  "driverLoaded": false,
+  "currentDiagnosisOnlyNotOriginalFailureIdentity": true
+}

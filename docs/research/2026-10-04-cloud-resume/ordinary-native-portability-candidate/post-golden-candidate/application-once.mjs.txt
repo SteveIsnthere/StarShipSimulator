@@ -1,0 +1,67 @@
+// Research-only proposed application: root permission, final replay and source HIGH required.
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, existsSync, realpathSync, lstatSync, openSync, closeSync, fsyncSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { createHash } from 'node:crypto';
+const digest = file => createHash('sha256').update(readFileSync(file)).digest('hex');
+const parse = file => JSON.parse(readFileSync(file, 'utf8'));
+const [input, sha, mode] = process.argv.slice(2);
+assert.equal(mode, '--apply-once'); assert.match(sha, /^[a-f0-9]{64}$/); assert.equal(digest(input), sha);
+const m = parse(input), root = realpathSync(process.cwd());
+assert.equal(m.kind, 'reviewed-post-golden-portability-application-v1'); assert.equal(m.root, root);
+assert.equal(process.version, 'v22.23.3'); assert.equal(digest(process.execPath), m.nodeSha);
+assert.deepEqual(process.execArgv, []); assert.equal(process.env.NODE_OPTIONS ?? '', '');
+const names = ['.nvmrc', 'scripts/test/admission.mjs', 'scripts/test/build.mjs', 'scripts/test/run.mjs',
+  'docs/verification/native-flight-portable-anchor-v2.json', 'docs/verification/native-flight-portable-anchor-v2.sha256'];
+assert.deepEqual(Object.keys(m.files).sort(), names.slice().sort());
+for (const name of names) assert(!Object.hasOwn(m.inputs, resolve(root, name)), 'Mutable targets are governed by before/after rows, not immutable input pins');
+for (const [file, expected] of Object.entries(m.inputs)) assert.equal(digest(file), expected, file);
+assert.equal(m.inputs[m.utility.path], m.utility.sha); assert.equal(m.inputs[m.anchor.path], m.anchor.sha);
+const anchor = parse(m.anchor.path);
+assert.equal(anchor.kind, 'portable-native-flight-anchor-v2');
+const deltaFile = resolve(root, anchor.goldenDataDelta.path);
+assert.equal(realpathSync(deltaFile), deltaFile); assert.equal(m.inputs[deltaFile], anchor.goldenDataDelta.sha256);
+const data = parse(deltaFile); assert.equal(data.status, 'accepted-reviewed-recording-replay-audit');
+const snapshotFile = resolve(root, data.postAuditSnapshot.path);
+assert.equal(m.inputs[snapshotFile], data.postAuditSnapshot.sha256);
+const snapshot = parse(snapshotFile);
+for (const row of Object.values(data.evidence)) {
+  const file = resolve(root, row.path); assert.equal(realpathSync(file), file); assert.equal(m.inputs[file], row.sha256);
+}
+const u = await import(pathToFileURL(m.utility.path).href);
+assert.deepEqual(u.sourceSnapshot(root), snapshot.source);
+assert.deepEqual(u.installedToolSnapshot(root, m.npmCli), snapshot.tools);
+const expectedAfter = { ...snapshot.source };
+for (const name of names) {
+  const row = m.files[name], target = resolve(root, name);
+  assert.equal(realpathSync(dirname(target)), dirname(target));
+  assert.equal(m.inputs[row.template], row.after); assert.equal(digest(row.template), row.after);
+  if (name.startsWith('docs/verification/')) {
+    assert.equal(row.before, null); assert(!existsSync(target), 'New authority already exists');
+  } else {
+    assert(!lstatSync(target).isSymbolicLink()); assert.equal(digest(target), row.before);
+    assert.equal(row.before, snapshot.source[name]); assert.equal(row.after, anchor.sourceChanges[name].after);
+    expectedAfter[name] = row.after;
+  }
+}
+assert.equal(m.files[names[4]].template, m.anchor.path); assert.equal(m.files[names[4]].after, m.anchor.sha);
+assert.equal(readFileSync(m.files[names[5]].template, 'utf8'), m.anchor.sha + '\n');
+// An exclusive marker is retained on any failure; no automatic partial-application retry.
+assert.match(m.marker, /^\/tmp\/starship-portability-apply\.[a-f0-9]{32}\.json$/);
+const fd = openSync(m.marker, 'wx', 0o600);
+try { writeFileSync(fd, JSON.stringify({ input, sha, root, state: 'started' }) + '\n'); fsyncSync(fd); }
+finally { closeSync(fd); }
+for (const name of names) {
+  const row = m.files[name], target = resolve(root, name);
+  writeFileSync(target, readFileSync(row.template), name.startsWith('docs/verification/') ? { flag: 'wx', mode: 0o644 } : undefined);
+  assert.equal(digest(target), row.after);
+}
+assert.deepEqual(u.sourceSnapshot(root), expectedAfter);
+assert.deepEqual(u.installedToolSnapshot(root, m.npmCli), snapshot.tools);
+for (const [file, expected] of Object.entries(m.inputs)) assert.equal(digest(file), expected, file);
+const admission = await import(pathToFileURL(resolve(root, 'scripts/test/admission.mjs')).href);
+await admission.admitComposite(resolve(root, names[4]), m.anchor.sha);
+assert.equal(digest(input), sha);
+process.stdout.write(JSON.stringify({ kind: 'post-golden-portability-application-result-v1', applied: names,
+  marker: m.marker, sourceAndToolsExact: true, publicAdmissionPassed: true, testsExecuted: false }) + '\n');

@@ -1,0 +1,93 @@
+{
+  "pinsChecked": 31,
+  "checks": [
+    {
+      "file": "business-stage.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "business-stage.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/mesa-app.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "mesa-reporter.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "mesa-reporter.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/mesa-app.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "mesa-boundary-hooks.ts.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "tests/e2e/mesa-app.ts"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "mesa-budget.config.ts.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "tests/e2e/mesa-app.ts"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "mesa-budget.spec.ts.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "tests/e2e/mesa-app.ts"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "pythonCompileFiles": 2
+}

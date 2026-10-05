@@ -1,0 +1,67 @@
+{
+  "kind": "review-required-recovery08-capture-v1",
+  "base": "32e5bb386cadee9098d703c67ebdfc9444eb46a6",
+  "scriptSha256": "c303cc206378af36e4a1aa9b034c1b4a2da6518c3b25871b2737237ca4dde9f0",
+  "authorityPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/finite-source-authority.json",
+  "references": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07.json",
+      "sha256": "d97ffa9ae057e9b11885118ecaccb4190b6e69b94af767e9c84809734cc7af61"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/admitted-before.json",
+      "sha256": "b0b5cb00976f83ad1feee59f75c0e4c08e18bb081e55718cf109592e8142c883"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts/helper-receipt/after-snapshot.json",
+      "sha256": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/independent-actual-archive-result-HIGH-review.md",
+      "sha256": "37516cb4164985ad806f2f0ddbe376b617ad0ed2150380592a91a543da7074ad"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/independent-actual-archive-result-HIGH-pins.json",
+      "sha256": "814cc0700db232a082cd72f1b3b0dec8886b0ed775cccfffe17a210886c43fc3"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts/origin-manifest.json",
+      "sha256": "3966f52aaa2a170d4cc1093be82c81cfb7c41c5b73e7633ff9a27b0234cee059"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts/origin-alias-manifest.json",
+      "sha256": "e1ad48e50b7c93421fb6b56a943682751eb5f8a8edffcfe05f4b06198aec3e67"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts/copy-result.json",
+      "sha256": "2348c708ea9301b431ff47858a7dd282b72a5f8edb912051cb0f4737c8b26d22"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/private-browser-env-omission-metadata.json",
+      "sha256": "6e4c37efb5cf828c02545d3d99624be5fedb539b1d387447f50eec9c0d135213"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/finite-source-authority.json",
+      "sha256": "d0776ed53dd01f36cc479e3d49aa5e94ac899e871438203644924b6a6b93e86f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/capture.py.txt",
+      "sha256": "c303cc206378af36e4a1aa9b034c1b4a2da6518c3b25871b2737237ca4dde9f0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07.patch",
+      "sha256": "fd3b223ac134207bd9fbb279be0920ca8107c4985e73b704a8c915c6c26f35dd",
+      "role": "Historicalimmutable07only; never applied"
+    }
+  ],
+  "lineage": {
+    "base": "32e5bb386cadee9098d703c67ebdfc9444eb46a6",
+    "old07": "historical complete replacement before V7/StageA/12data/helper; never applied over dirty",
+    "current": "a073 source770, exact18 metadata deltas from07/currentdirty250 incl3deletions",
+    "archive": "37516/814c accepted837rows131021666B historicalpreservation only",
+    "privateBrowserEnvironment": "Excluded frompublicpatch/docsarchive; safe6e4 metadata only, private originals retained",
+    "noAcceptanceReclassification": "full38FAIL/coverage/gate/frame/open8/9/80%/mainlivee8 unchanged"
+  },
+  "executed": false,
+  "executionContract": "Exactly accepted07 capture ownership/time/journals/core: root120s/owner90s/Python80s/capture60s/perGit10s; direct trustedmanagedruntime. All Git raw outputs and fsynced started/completed journals precede asserts. Writes only Git objects and TWO new temporary indexes; cachedcheck once and cachedapply once ONLYsecondindex. Never realindex/HEAD/worktree apply. Currentdisk250/fullsource770 andfullpermission/Gitmode/deletion/index/HEAD finalaudits onfailure andsuccess. Newpatch/manifest/verification exclusive; partialFAILED preserved. Root scopes/maker/input and actualALL-ownedHIGH required."
+}

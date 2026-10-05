@@ -1,0 +1,11 @@
+{
+  "name": "load-certificate-controls.mjs.execution",
+  "code": 1,
+  "elapsedSeconds": 0.03992785100126639,
+  "args": [
+    "/tmp/starship-v7-pure-controls.6tsksjky/load-certificate-controls.mjs",
+    "/tmp/starship-v7-pure-controls.6tsksjky/loader.mjs"
+  ],
+  "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderrSHA": "56ce6fc394d7ed506fcde36c14146c084faa0690b2d6066cba2403471c1a6cd1"
+}

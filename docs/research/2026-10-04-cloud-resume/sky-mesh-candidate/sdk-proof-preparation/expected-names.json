@@ -1,0 +1,10 @@
+[
+  "uses exact explicit Sprite local quad/UV/index bytes and uint16 topology",
+  "retains startup state, parent slot, draw order, mask/blend/visibility and zero pivot",
+  "matches real original Sprite CPU packed corners/UV across bounded resize cases",
+  "checks actual locked quad winding and canonical opaque RGB8 packing/uniform decoding",
+  "uses the SAME source/style/texture matrix through actual default adaptor logic",
+  "destroys uniquely owned geometry/buffers once while preserving default texture ownership",
+  "retains the original hour/altitude tint bytes without a palette substitution",
+  "the same canonical verifier rejects actual UV/index/matrix/texture mutations"
+]

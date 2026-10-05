@@ -1,0 +1,3 @@
+import './mesa-boundary-hooks';
+import './mesa-launch-instrumentation';
+import '/workspace/StarShipSimulator/tests/e2e/visual-budget.spec';

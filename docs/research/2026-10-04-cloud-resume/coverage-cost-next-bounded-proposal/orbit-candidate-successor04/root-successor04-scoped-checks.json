@@ -1,0 +1,49 @@
+{
+  "selectedHashes": 84,
+  "observations": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/make-input.py.txt",
+      "pythonAST": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/make-histories-input.py.txt",
+      "pythonAST": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/root-observer.py.txt",
+      "pythonAST": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/slot-bindings.mjs.txt",
+      "nodeParse": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/compiled-audit.mjs.txt",
+      "nodeParse": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/scoped-orbit-loader.mjs.txt",
+      "nodeParse": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/builder.mjs.txt",
+      "nodeParse": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/owner.mjs.txt",
+      "nodeParse": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/original-parent-policy.mjs.txt",
+      "nodeParse": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/loader-controls.mjs.txt",
+      "nodeParse": true
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/slot-controls.mjs.txt",
+      "nodeParse": true
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "disposition": "APPROVE recovery07 actual capture only",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-independent-actual-HIGH-review.md",
+      "sha256": "dd19acb60a7db8d39735943a678ecfe5345ca94d2ca17d3639c25b61d6312ce7",
+      "bytes": 3906
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-independent-actual-verification.json",
+      "sha256": "0d6e88569043fef4187aa9cf1f91103d99852196d73c438daa7754a00c540b55",
+      "bytes": 583
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07.json",
+      "sha256": "d97ffa9ae057e9b11885118ecaccb4190b6e69b94af767e9c84809734cc7af61",
+      "bytes": 41076
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07.patch",
+      "sha256": "fd3b223ac134207bd9fbb279be0920ca8107c4985e73b704a8c915c6c26f35dd",
+      "bytes": 1220957
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-capture.py.txt",
+      "sha256": "2b947e07bfa8afc14dd9889538c99279e9b83995df287e0e778db07c1716d49b",
+      "bytes": 16068
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-capture-input.json",
+      "sha256": "eacb4ccf6f73b653a7d1992a763851932792dc73a54bbcbff0ceb8489458ad07",
+      "bytes": 5425
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-owner-stage.mjs.txt",
+      "sha256": "c1e3c4bb82d3113ccc72d30a38dc56d538b16079a97d0e537a8367d46ed54119",
+      "bytes": 4737
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-root-parent.py.txt",
+      "sha256": "7da93aca30ad367faa9514c1334fdbd68c13790866f3f578266947402e73ac1a",
+      "bytes": 14635
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-owner-input.json",
+      "sha256": "221e30e59216ac018e868a303c4e50585fc952cc75a8ed2f514a9ebd3f5ba368",
+      "bytes": 2526
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/result.json",
+      "sha256": "a874d13ec772bd72e7053a44981b0d2caadbcf028beb23bf631ebdd2dbfbdbfe",
+      "bytes": 138522
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/admitted-before.json",
+      "sha256": "b0b5cb00976f83ad1feee59f75c0e4c08e18bb081e55718cf109592e8142c883",
+      "bytes": 113557
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/disk-after.json",
+      "sha256": "3314a8fceac316397b396b098185f12019c9b8d80b9e638c6dce0e84416096ad",
+      "bytes": 77730
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/source-after.json",
+      "sha256": "7fa573e2d6d5707c1651d1ef619aee1850e42be145b1bac05b648cc93f1b83c9",
+      "bytes": 80103
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/real-index-before.json",
+      "sha256": "a8b7be701e4475e1019b6794d540180e36441365411ec8959896333814781221",
+      "bytes": 178
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/real-index-after.json",
+      "sha256": "a8b7be701e4475e1019b6794d540180e36441365411ec8959896333814781221",
+      "bytes": 178
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/deletions-after.json",
+      "sha256": "5300d6ed55dd63c9fcfecf33373406187c0c037831fdd526d8d103b7182e58e6",
+      "bytes": 160
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/root-after-full-admission.json",
+      "sha256": "60c1b8609adeda4a798ad97044cfab63f752a83c99aef122bf4d9f2f87127a5e",
+      "bytes": 158
+    },
+    {
+      "path": "/tmp/starship-recovery07-root.ay6in29n/root-outcome.json",
+      "sha256": "d1bcf6b67fa5ae8963ae97f900bd932979cc0b45ed9002294fbda2809a542ef0",
+      "bytes": 3126
+    },
+    {
+      "path": "/tmp/starship-recovery07-root.ay6in29n/root-independent-postexit.json",
+      "sha256": "aa933287cb008347adf7543a11ba70797237fbb67142496498c0f5bcbfa75286",
+      "bytes": 2365
+    },
+    {
+      "path": "/tmp/starship-recovery07-root.ay6in29n/root-helper-identity-correspondence.json",
+      "sha256": "c89c1dd450b69e7c173feb3babf43e6cfbbc64161a438cc0dd14729bc67403a9",
+      "bytes": 1795
+    },
+    {
+      "path": "/tmp/starship-recovery07-root.ay6in29n/actual-outer-exit-final.json",
+      "sha256": "f27e46707e67706da79a2b09b51f6a6f97b14ad821f86366329ab6497661e307",
+      "bytes": 62
+    },
+    {
+      "path": "/tmp/starship-recovery07-stage.zU6YbI/stage-result.json",
+      "sha256": "d6156749d52a8892c83217d069f710175c6059bc892ef0cb3aa43f72dd6ac370",
+      "bytes": 1456
+    }
+  ]
+}

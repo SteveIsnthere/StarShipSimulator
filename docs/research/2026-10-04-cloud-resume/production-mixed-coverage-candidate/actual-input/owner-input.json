@@ -1,0 +1,48 @@
+{
+  "kind": "official-original21-owner-input-v1",
+  "mode": "original21",
+  "root": "/workspace/StarShipSimulator",
+  "outerMs": 338000,
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "npmCli": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+    "sha": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7"
+  },
+  "qualification": {
+    "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json",
+    "sha": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/inventory.json",
+    "sha": "f30c9ee5e37e01875c70b333e46d704cdbac30d2c02b62b8583d7ec644e560c0"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/business-stage-coverage247.mjs.txt",
+    "sha": "88d01077c548e23c7b033cbe25f19889b5785bab7a475852fa2c70c53c36be7f"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+    "sha": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5"
+  },
+  "selection": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/selection.json",
+    "sha": "00a16028c4f736dc58a3f1a5f111e91dda8d9b3f515d9d73aff655a2c2f680a2"
+  },
+  "purpose": "production-mixed247-standalone-coverage120",
+  "reporter": {
+    "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/capture-reporter.mjs",
+    "sha": "437bc855ec8f4fafbc2ff081c987efe2d341a077a14005298ac5d34c7a5a864d"
+  },
+  "coverageReceipt": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b"
+}

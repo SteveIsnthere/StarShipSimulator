@@ -1,0 +1,90 @@
+--- scripts/test/loader.mjs
++++ docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/loader.mjs.txt
+@@ -25,15 +25,51 @@
+   runSha: process.env.NATIVE_FLIGHT_RUN_SHA, loaderSha: digest(new URL(import.meta.url)),
+   entryURL, chunkURL, constantsURL, code: m.files });
+ const parents = new Map(originalTests.map(file => [pathToFileURL(resolve(q.root, file)).href, runtimeAliases[file]]));
++const originalLoads = new Map();
++const cacheTokenDigits = String(Date.now()).length;
++// BEGIN exact original-parent validator
++function identifyOriginalParent(url, originals, tokenDigits) {
++  if (typeof url !== 'string') return null;
++  for (const canonicalParentURL of originals.keys()) {
++    if (url === canonicalParentURL) return { canonicalParentURL, cacheToken: null };
++    const prefix = canonicalParentURL + '?vitest=';
++    if (!url.startsWith(prefix)) continue;
++    const token = url.slice(prefix.length);
++    if (new RegExp('^[0-9]{' + tokenDigits + '}$').test(token)
++      && Number.isSafeInteger(Number(token)) && String(Number(token)) === token) {
++      return { canonicalParentURL, cacheToken: token };
++    }
++  }
++  return null;
++}
++// END exact original-parent validator
++function sourceBytes(result) {
++  assert(typeof result.source === 'string' || ArrayBuffer.isView(result.source) || result.source instanceof ArrayBuffer);
++  const source = typeof result.source === 'string' ? Buffer.from(result.source, 'utf8')
++    : result.source instanceof ArrayBuffer ? Buffer.from(result.source)
++    : Buffer.from(result.source.buffer, result.source.byteOffset, result.source.byteLength);
++  assert(source.length <= 16 * 1024 * 1024);
++  return source;
++}
++function denyAlias(specifier, parentURL, reason) {
++  record({ kind: 'rejected-original-alias', specifier, parentURL: parentURL ?? null, reason });
++  assert(false, reason);
++}
++
+ registerHooks({ resolve(specifier, context, nextResolve) {
+   if (q.aliases.includes(specifier)) {
+-    assert(parents.has(context.parentURL), 'Native application alias requested by foreign parent');
+-    assert(parents.get(context.parentURL).includes(specifier), 'Alias outside exact original runtime import inventory');
++    const certificate = originalLoads.get(context.parentURL);
++    if (!certificate) denyAlias(specifier, context.parentURL, 'Native application alias requested by foreign or uncertified parent');
++    if (!parents.get(certificate.canonicalParentURL).includes(specifier)) {
++      denyAlias(specifier, context.parentURL, 'Alias outside exact original runtime import inventory');
++    }
+     const url = specifier === '$core/constants' ? constantsURL : entryURL;
+-    record({ kind: 'original-alias', specifier, parentURL: context.parentURL, url });
++    record({ kind: 'original-alias', specifier, parentURL: context.parentURL,
++      canonicalParentURL: certificate.canonicalParentURL, cacheToken: certificate.cacheToken,
++      parentSourceSha: certificate.sourceSha, url });
+     return { url, shortCircuit: true };
+   }
+-  if (/^\$(core|app|view|hud|ui|audio)\//.test(specifier)) throw Error('Unknown native application alias: ' + specifier);
++  if (/^\$(core|app|view|hud|ui|audio)\//.test(specifier)) denyAlias(specifier, context.parentURL, 'Unknown native application alias: ' + specifier);
+   const result = nextResolve(specifier, context);
+   if (context.parentURL === entryURL || context.parentURL === constantsURL) {
+     assert.equal(result.url, context.parentURL === entryURL ? chunkURL : entryURL);
+@@ -42,15 +78,26 @@
+   return result;
+ }, load(url, context, nextLoad) {
+   const result = nextLoad(url, context);
++  const original = identifyOriginalParent(url, parents, cacheTokenDigits);
++  if (original) {
++    assert(originalLoads.size === 0 || originalLoads.has(url), 'Multiple original parent URLs in one isolated worker');
++    assert(['module', 'module-typescript'].includes(result.format), 'Unexpected original ESM module format');
++    const source = sourceBytes(result);
++    const sourceSha = createHash('sha256').update(source).digest('hex');
++    const file = originalTests.find(file => pathToFileURL(resolve(q.root, file)).href === original.canonicalParentURL);
++    assert.equal(sourceSha, q.originalTests[file]);
++    assert.equal(digest(new URL(original.canonicalParentURL)), sourceSha);
++    assert(!originalLoads.has(url), 'Duplicate original parent load');
++    const certificate = { kind: 'original-load', url, ...original, file, format: result.format,
++      tokenDigits: cacheTokenDigits, sourceBytes: source.length, sourceSha };
++    record(certificate);
++    originalLoads.set(url, certificate);
++  }
+   const expected = new Map([[entryURL, m.files['entry.mjs']], [constantsURL, m.files['constants.mjs']],
+     [chunkURL, m.files[q.mappedCode]]]);
+   if (expected.has(url)) {
+     assert.equal(result.format, 'module');
+-    assert(typeof result.source === 'string' || ArrayBuffer.isView(result.source) || result.source instanceof ArrayBuffer);
+-    const source = typeof result.source === 'string' ? Buffer.from(result.source, 'utf8')
+-      : result.source instanceof ArrayBuffer ? Buffer.from(result.source)
+-      : Buffer.from(result.source.buffer, result.source.byteOffset, result.source.byteLength);
+-    assert(source.length <= 16 * 1024 * 1024);
++    const source = sourceBytes(result);
+     const sourceSha = createHash('sha256').update(source).digest('hex');
+     assert.equal(sourceSha, expected.get(url)); assert.equal(digest(new URL(url)), sourceSha);
+     record({ kind: 'native-load', url, format: result.format, sourceBytes: source.length, sourceSha });

@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,mkdtempSync,chmodSync,readdirSync,lstatSync,realpathSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {pathToFileURL} from 'node:url';
+import {resolve} from 'node:path';
+const sha=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
+const [inputPath,inputSha]=process.argv.slice(2);assert.equal(sha(inputPath),inputSha);const m=JSON.parse(readFileSync(inputPath,'utf8'));
+assert.equal(m.kind,'mesa-preparation-stage-owner-input-v1');assert.equal(m.purpose,'mesa-input-preparation');assert.equal(m.mode,'prepare');assert.equal(m.outerMs,60000);assert.equal(process.cwd(),m.root);assert.equal(process.version,'v22.23.3');assert(!process.env.NODE_OPTIONS);
+for(const key of ['node','helper','preparer','builder','qualifier','pins','stage','observer','python','bridge'])assert.equal(sha(m[key].path),m[key].sha,key);
+assert.equal(sha(process.execPath),m.node.sha);assert.equal(m.builder.path,m.bridge.path);assert.equal(m.builder.sha,m.bridge.sha);
+const spec=JSON.parse(readFileSync(m.qualifier.path,'utf8'));assert.equal(spec.kind,'mesa-functional-preparation-spec-v1');assert.deepStrictEqual(spec.preparer,m.preparer);assert.deepStrictEqual(spec.python,m.python);assert.deepStrictEqual(spec.node,m.node);assert.deepStrictEqual(spec.helper,m.helper);
+assert.match(m.setup,/^\/tmp\/starship-mesa-preparation-owned\.[a-f0-9]{32}$/);assert.equal(realpathSync(m.setup),m.setup);assert.equal(lstatSync(m.setup).mode&0o777,0o700);assert.equal(readdirSync(m.setup).length,0);
+const deadline=Number(process.env.WIDTH2_ROOT_DEADLINE);assert(Number.isFinite(deadline)&&deadline>Date.now()&&deadline<=Date.now()+52000);
+const stage=mkdtempSync('/tmp/starship-width2-stage.');chmodSync(stage,0o700);process.stdout.write(JSON.stringify({stageReceipt:stage})+'\n');
+const save=(name,value)=>writeFileSync(resolve(stage,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const {runOwnedCommand,verifyNoOwnedProcesses}=await import(pathToFileURL(m.helper.path).href);
+let code=null,error=null,p=null;try{code=await runOwnedCommand({name:'preparation',args:[m.bridge.path,inputPath,inputSha],root:m.root,receipt:stage,env:{...process.env,MESA_PREPARATION_STAGE_RECEIPT:stage,MESA_PREPARATION_BRIDGE_DEADLINE:String(Math.min(deadline,Date.now()+44000))},deadlineMs:Math.min(44000,deadline-Date.now())});}catch(e){error=e;}
+try{p=JSON.parse(readFileSync(resolve(stage,'preparation.process.json'),'utf8'));}catch(e){error??=e;}
+save('actual-child-exit.json',{code,exit:p?.exit??null,error:error?String(error.stack??error):null});
+let audit=null;try{
+ const raw=readFileSync(resolve(stage,'preparation.stdout.txt'),'utf8');const rows=raw.trim().split('\n').map(line=>JSON.parse(line));assert.equal(rows.length,1);audit=rows[0];
+ assert.equal(audit.preparedOnly,true);assert.equal(audit.specSha,m.qualifier.sha);assert.equal(audit.browserFiles,304);assert.equal(audit.browserDirectories,12);assert.match(audit.outer.path,/^\/tmp\/starship-mesa-input\.[a-f0-9]{32}\/owner-input\.json$/);assert.equal(sha(audit.outer.path),audit.outer.sha);assert.equal(sha(audit.inner.path),audit.inner.sha);
+ assert(Array.isArray(audit.readelfIdentities));const ownedIdentities=audit.readelfIdentities.map(row=>{for(const key of ['pid','start','parent','group','session'])assert(Object.hasOwn(row,key));return{pid:row.pid,starttime:row.start,ppid:row.parent,pgrp:row.group};});
+ writeFileSync(resolve(m.setup,'cleanup.json'),JSON.stringify({ownedIdentities})+'\n',{flag:'wx'});save('actual-preparation-audit.json',audit);
+}catch(e){error??=e;}
+try{assert.equal(code,0);assert.deepStrictEqual(p.exit,{code:0,signal:null});assert.equal(p.failure,null);assert.equal(p.finished,true);assert.equal(p.closed,true);assert.equal(p.cleanup.executing.length,0);
+ const python=JSON.parse(readFileSync(resolve(stage,'actual-python-exit.json'),'utf8'));assert.equal(python.status,0);assert.equal(python.signal,null);assert.equal(python.error,null);
+ for(const key of ['node','helper','preparer','builder','qualifier','pins','stage','observer','python','bridge'])assert.equal(sha(m[key].path),m[key].sha,key);assert.equal(sha(inputPath),inputSha);assert.equal(sha(process.execPath),m.node.sha);assert(verifyNoOwnedProcesses().every(row=>row.executing.length===0));assert(Date.now()<=deadline);
+}catch(e){error??=e;}
+save('stage-result.json',{completed:!error,code,error:error?String(error.stack??error):null,actualReceipt:audit?.outer.path??null,acceptance:'Preparation only; ALL readelf and observed/root/helper PID-start absence plus fresh actual input HIGH required'});process.stdout.write(JSON.stringify({stageReceipt:stage,completed:!error})+'\n');if(error)throw error;

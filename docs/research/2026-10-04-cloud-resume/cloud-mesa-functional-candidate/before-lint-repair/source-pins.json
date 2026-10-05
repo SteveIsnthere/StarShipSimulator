@@ -1,0 +1,26 @@
+{
+  "status": "SOURCE-ONLY candidate; independent HIGH repairs/scopes/concrete input/runtime grant pending",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/business-stage.mjs.txt",
+      "sha256": "4c97dbde7a2a5683cf7dc4b67ac8ab3799d9ae86a49a5060d13d2452c6a22f11",
+      "bytes": 3525
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/contract.md",
+      "sha256": "ba4988f0d347ae0c48f76842408ce3f7a3ecf53b5074b168e38c5d2308e7a106",
+      "bytes": 6120
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-observer.py.txt",
+      "sha256": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa",
+      "bytes": 15893
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/run-functional.mjs.txt",
+      "sha256": "7bced15ccaee04f578476f09606aedc64205bc7d1350ae59f1f2aab6e4c42113",
+      "bytes": 11430
+    }
+  ],
+  "preservedPrior": "before-source-high-repair"
+}

@@ -1,0 +1,156 @@
+{
+  "kind": "static-regex-byte-inspection-no-runtime-v1",
+  "sourceSha256": "d823b6367013934312814bfcb3df7c147e4209fe574e06da44cda6cb8a164acd",
+  "inputSha256": "16250a1c9fa5d480200f3d3b70987bbfdccfe9e678873e81b8bdcbf4334cb362",
+  "doubleBackslashDotCount": 0,
+  "rows": [
+    {
+      "line": 17,
+      "literalSource": "/^root\\.n: -0 !== 0$/));",
+      "backslashOccurrences": [
+        {
+          "offset": 6,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 116
+        }
+      ],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 18,
+      "literalSource": "/^root\\.n: NaN !== 1$/));",
+      "backslashOccurrences": [
+        {
+          "offset": 6,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 116
+        }
+      ],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 19,
+      "literalSource": "/^root\\.x\\.enumerable/));",
+      "backslashOccurrences": [
+        {
+          "offset": 6,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 116
+        },
+        {
+          "offset": 9,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 120
+        }
+      ],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 20,
+      "literalSource": "/^root own keys/));",
+      "backslashOccurrences": [],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 21,
+      "literalSource": "/^root null prototype$/));",
+      "backslashOccurrences": [],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 22,
+      "literalSource": "/^root unsupported prototype$/));",
+      "backslashOccurrences": [],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 23,
+      "literalSource": "/^root unsupported prototype$/));",
+      "backslashOccurrences": [],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 24,
+      "literalSource": "/^forward alias mismatch root\\.y$/);});",
+      "backslashOccurrences": [
+        {
+          "offset": 29,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 116
+        }
+      ],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 25,
+      "literalSource": "/^reverse alias mismatch root\\.y$/));",
+      "backslashOccurrences": [
+        {
+          "offset": 29,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 116
+        }
+      ],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 26,
+      "literalSource": "/^root\\.x accessor unsupported$/);assert.equal(reads,0);});",
+      "backslashOccurrences": [
+        {
+          "offset": 6,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 116
+        }
+      ],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 27,
+      "literalSource": "/^unmapped function root\\.f$/));",
+      "backslashOccurrences": [
+        {
+          "offset": 24,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 116
+        }
+      ],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 28,
+      "literalSource": "/^unmapped function root\\.f$/);});",
+      "backslashOccurrences": [
+        {
+          "offset": 24,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 116
+        }
+      ],
+      "doubleBackslashDotCount": 0
+    },
+    {
+      "line": 29,
+      "literalSource": "/^root\\.x: 1 !== 2$/);});",
+      "backslashOccurrences": [
+        {
+          "offset": 6,
+          "code": 92,
+          "nextCode": 46,
+          "previousCode": 116
+        }
+      ],
+      "doubleBackslashDotCount": 0
+    }
+  ],
+  "assertionAttempts": "Two attempted readiness-repair count assertions failed before any write; no source/control/manifest edit or workload. Exact before archive and incorrect reviewer HOLD retained."
+}

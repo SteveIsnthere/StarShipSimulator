@@ -1,0 +1,11 @@
+# Independent pure20 owned-route source HIGH
+
+Disposition: SUPPORTED for root scoped checks and ONE maker followed by separate actual-input HIGH. No pure controls, provider or physics execution has occurred; later actual results need independent review. This source approval does not expand prototype authority or accept the failed live collector.
+
+Current26-row manifest14eda678 and all actual source bytes match. Preserved d430 and original maker remain in before-explicit-private-mode. The concrete permission HOLD is closed: maker explicitlychmods four copied materials and input/root-inventory/root-input to0600; namespace remains0700. No inherited umask promise remains. Root's source materialization stage runs no source/tool inventory, physical test or provider import.
+
+Compared with accepted inert17 ownership route, owner changes only expected diagnostic proof result checks and exact20 names. It requires completedtrue/code0, physicalImports0/coverageImports0, original17Repeatedfalse/prototypeAuthorityExpandedfalse and all exact names in order; raw helper0/nullsignal/closedfinished/no errors plus empty stderr are required. Driver asserts20 unique completed checks. Public collector/progress candidates are not executed by this pure route. Exact before/finally-after selected hashes and full owned identities remain inherited; observer differs only in its truthful20-control acceptance caption. Helper5s/owner22s/root30s, raw statuses, PID/start safety and cleanup are unchanged.
+
+The prior independently accepted repaired diagnostic controls62563/85ce remain the source authority for inert accessor/proxy/prototype/path/cap denials. This route materializes only diagnostic driver/codec/witness plus owner, with source hashes and fixed result inventory. No original17 repetitions, permission framework, prototype admission by constructor name, wholecoverage floor waiver or physical state changes are introduced. Actual rejected provider path/prototype remains unknown until a separate strict-denial live diagnostic observes it.
+
+Method: finite26 hashes, small original/current source diffs and exact maker/owner/result-schema/static driver inventory reads only; no imports, checks, workloads, scans, copies or product edits by reviewer.

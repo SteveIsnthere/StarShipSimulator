@@ -1,0 +1,93 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,mkdtempSync,realpathSync,readdirSync,existsSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {tmpdir} from 'node:os';
+import {pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
+const digest=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+const parse=p=>JSON.parse(readFileSync(p,'utf8'));
+const [inputPath,inputSha]=process.argv.slice(2);
+assert.equal(digest(inputPath),inputSha);
+const m=parse(inputPath);
+assert.equal(m.kind,'official-original21-owner-input-v1');assert.equal(m.mode,'golden-replay-native');
+assert.equal(m.outerMs,338000);assert.equal(realpathSync(process.cwd()),realpathSync(m.root));
+assert.equal(process.platform,'linux');assert.equal(process.arch,'x64');assert.equal(process.version,'v22.23.3');
+assert.equal(process.env.NODE_OPTIONS??'','');assert.equal(process.env.GOLDEN_PREVIEW,undefined);
+// Explicit NEW composite only; no stale default/fallback or preview.
+assert.equal(process.env.NATIVE_FLIGHT_COMPOSITE,m.qualification.path);
+assert.equal(process.env.NATIVE_FLIGHT_COMPOSITE_SHA,m.qualification.sha);
+for(const key of ['NATIVE_FLIGHT_RUN','NATIVE_FLIGHT_RUN_SHA','NATIVE_FLIGHT_MAPPED_CODE'])assert.equal(process.env[key],undefined);
+const deadline=Number(process.env.ORIGINAL21_ROOT_DEADLINE);
+assert(Number.isFinite(deadline)&&deadline>Date.now()&&deadline<=Date.now()+330000);
+const receipt=mkdtempSync(resolve(tmpdir(),'starship-original21-stage.'));
+process.stdout.write(JSON.stringify({stageReceipt:receipt,inputSha})+'\n');
+const put=(name,v)=>writeFileSync(resolve(receipt,name),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
+const roles=['node','helper','npmCli','qualification','pins','stage','observer','python','snapshotHelper','prediction','predictionReview','truthEvidence','unitEvidence','caseInventory','vitestCli','lifecycleReporter','qualificationReview'];
+let before=null,tools=null,owned=null,raw=null,code=null,failure=null;
+const afterErrors=[];const describe=e=>String(e.stack??e);
+const inventory=parse(m.pins.path);
+const baseline=readdirSync('/tmp').filter(n=>n.startsWith('starship-official-flight.')).map(n=>resolve('/tmp',n));
+put('tmp-baseline.json',baseline);
+const prediction=parse(m.prediction.path);
+assert.equal(prediction.kind,'pre-look-full-ten-Fidelity-golden-prediction');
+assert.equal(prediction.scenarios.length,10);assert.equal(prediction.GOLDEN_PREVIEWAllowed,false);
+const fixtureFiles=prediction.scenarios.map(s=>'tests/golden/fixtures/'+(s.model==='Super Heavy'?'booster/':'')+s.id+'.json').sort();
+assert.equal(new Set(fixtureFiles).size,10);
+assert.deepEqual(m.fixturePaths,fixtureFiles.map(f=>resolve(m.root,f)));
+const checkPins=()=>{
+ assert.equal(digest(inputPath),inputSha);
+ for(const key of roles)assert.equal(digest(m[key].path),m[key].sha,'Role '+key);
+ assert.equal(digest(process.execPath),m.node.sha);
+ assert.equal(m.node.sha,'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48');
+ assert.equal(inventory.kind,'official-original21-external-inventory-v1');
+ assert.equal(inventory.qualificationSha,m.qualification.sha);
+ for(const [p,sha]of Object.entries(inventory.files))assert.equal(digest(p),sha,'Input '+p);
+ for(const p of m.fixturePaths)assert.equal(inventory.files[p],inventory.expectedCurrentSourceSnapshot[p.slice(m.root.length+1)]);
+};
+try{
+ checkPins();
+ const snapshots=await import(pathToFileURL(m.snapshotHelper.path).href);
+ before=snapshots.sourceSnapshot(m.root);assert.deepEqual(before,inventory.expectedCurrentSourceSnapshot);
+ tools=snapshots.installedToolSnapshot(m.root,m.npmCli.path);assert.deepEqual(tools,inventory.expectedInstalledToolSnapshot);
+ put('platform-and-before-source.json',{platform:process.platform,arch:process.arch,node:process.version,nodeSha:digest(process.execPath),GOLDEN_PREVIEWAbsent:true,source:before,tools});
+ const cases=parse(m.caseInventory.path);assert.equal(cases.kind,'original-five-golden-files-and-all-38-cases');assert.equal(cases.rows.length,38);
+ const files=['tests/golden/booster-record.test.ts','tests/golden/booster-replay.test.ts','tests/golden/compare.test.ts','tests/golden/replay.test.ts','tests/golden/unification.test.ts'];
+ assert.deepEqual(cases.files,files);assert.equal(cases.namedTimeoutMs,30000);assert.equal(cases.configuredSkipCount,0);
+ owned=await import(pathToFileURL(m.helper.path).href);
+ code=await owned.runOwnedCommand({name:'preparation',root:m.root,receipt,args:[resolve(m.root,'scripts/test/run.mjs'),'run',...files],deadlineMs:Math.min(300000,deadline-Date.now()-8000),env:{...process.env,NATIVE_FLIGHT_COMPOSITE:m.qualification.path,NATIVE_FLIGHT_COMPOSITE_SHA:m.qualification.sha}});
+}catch(e){failure=describe(e);}
+// Always retain raw command status before interpreting any case result.
+try{raw=parse(resolve(receipt,'preparation.process.json'));put('actual-child-exit.json',{exit:raw.exit,code,primaryFailure:failure});}catch(e){afterErrors.push({stage:'raw-status',error:describe(e)});}
+try{assert(raw&&raw.exit);assert.equal(raw.exit.code,0);assert.equal(raw.exit.signal,null);assert.equal(raw.failure,null);assert.equal(raw.finished,true);assert.equal(raw.closed,true);assert.equal(raw.cleanup.executing.length,0);}catch(e){afterErrors.push({stage:'command-outcome',error:describe(e)});}
+try{
+ const snapshots=await import(pathToFileURL(m.snapshotHelper.path).href);
+ const after=snapshots.sourceSnapshot(m.root);put('after-source.json',after);assert(before);assert.deepEqual(after,before,'All source/data hashes and pathsets unchanged');
+ assert.deepEqual(snapshots.installedToolSnapshot(m.root,m.npmCli.path),tools,'Complete installed tool boundary');
+}catch(e){afterErrors.push({stage:'complete-source-tool-boundary',error:describe(e)});}
+try{
+ const output=readFileSync(resolve(receipt,'preparation.stdout.txt'),'utf8');
+ const paths=output.split('\n').filter(line=>line.startsWith('Official test receipt: ')).map(line=>line.slice('Official test receipt: '.length));
+ assert.equal(paths.length,1);assert(paths[0].startsWith('/tmp/starship-official-tests-owner.'));
+ assert.equal(realpathSync(paths[0]),paths[0]);const wrapper=parse(paths[0]);
+ put('actual-official-wrapper-result.json',{path:paths[0],sha256:digest(paths[0]),result:wrapper});
+ assert.equal(wrapper.kind,'official-tests-owner-result-v1');assert.equal(wrapper.completed,true);
+ assert.equal(wrapper.rawCode,0);assert.equal(wrapper.failure,null);assert.deepEqual(wrapper.afterErrors,[]);
+ assert.equal(digest(wrapper.manifestPath),wrapper.manifestSha);const run=parse(wrapper.manifestPath);
+ assert(!baseline.includes(resolve(run.directory,'..')));assert.equal(run.compositeSha,m.qualification.sha);assert.equal(run.compositePath,m.qualification.path);
+ const lifecycle=wrapper.lifecycle;put('actual-lifecycle.json',lifecycle);
+
+ assert.equal(lifecycle.reason,'passed');assert.deepEqual(lifecycle.unhandledErrors,[]);
+ const expected=parse(m.caseInventory.path);assert.equal(lifecycle.modules.length,5);
+ assert.deepEqual(lifecycle.modules.map(row=>row.file).sort(),expected.files.map(f=>resolve(m.root,f)));
+ for(const module of lifecycle.modules){assert.equal(module.project,module.file===resolve(m.root,'tests/golden/booster-replay.test.ts')?'native-flight':'unit');assert.equal(module.state,'passed');assert.deepEqual(module.errors,[]);for(const suite of module.suites){assert.equal(suite.state,'passed');assert.deepEqual(suite.errors,[]);}}
+ const rows=lifecycle.inventory;assert.equal(rows.length,38);
+ assert.equal(rows.filter(row=>row.project==='native-flight').length,3);assert.equal(rows.filter(row=>row.project==='unit').length,35);
+ const ordered=a=>a.sort((x,y)=>(x.file+x.fullName).localeCompare(y.file+y.fullName));
+ assert.deepEqual(ordered(rows.map(r=>({file:r.file,fullName:r.fullName}))),ordered(expected.rows.map(r=>({file:resolve(m.root,r.file),fullName:r.fullName}))));
+ for(const row of rows){assert.equal(row.project,row.file===resolve(m.root,'tests/golden/booster-replay.test.ts')?'native-flight':'unit');assert.equal(row.options.timeout,30000);assert.equal(row.result.state,'passed');assert.deepEqual(row.result.errors??[],[]);assert(row.diagnostic);assert.equal(row.diagnostic.retryCount,0);assert.equal(row.diagnostic.repeatCount,0);assert.equal(row.diagnostic.flaky,false);}
+}catch(e){afterErrors.push({stage:'all-five-38-original-lifecycle',error:describe(e)});}
+try{checkPins();}catch(e){afterErrors.push({stage:'immutable-input-postpins',error:describe(e)});}
+try{if(owned)assert(owned.verifyNoOwnedProcesses().every(row=>row.executing.length===0));}catch(e){afterErrors.push({stage:'owned-live-audit',error:describe(e)});}
+const completed=code===0&&failure===null&&afterErrors.length===0;
+put('stage-result.json',{completed,mode:m.mode,code,error:failure??(afterErrors.length?JSON.stringify(afterErrors):null),afterErrors,processReceipt:resolve(receipt,'preparation.process.json'),acceptance:'Only this original five-file golden replay; fresh actual result/artifact/source/ownership review required. Not whole units, coverage, gate, benchmark, frame or commit approval.'});
+process.stdout.write(JSON.stringify({stageReceipt:receipt,completed,code})+'\n');process.exitCode=completed?0:1;

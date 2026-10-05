@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "decision": "supported-one-current10-inert-readiness",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/actual-input-root-route/root-input.json": "4db328ae71bcaa6f4d00bd6451eddd026c5008fc301440af67ee6d1d7d2e4592",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/actual-input-root-route/inventory.json": "9b96d5d66e610f301ed33d04042c5d069c8f8ad9ea6d52c54f08a4b0de27a407",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/root-observer-materialization.json": "ce366d129bced5f9b3dda020708e059b255dec1ff23d830ee598f4fc7c46622f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/root-maker-actual.json": "b8cb315969c4dc3fe1abd91766f699455551a68051e3c93b6f6da43a1510a45c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/root-maker.stdout.txt": "6221b5219025d6af6d195d2b1bebb417746db9185644c7b6abfe0050384b738d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/root-maker.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/root-source-scopes/result.json": "cf8a7554ec16ce0d8253056703980011d4cbe3c7bb1c53f682ead739cb869f45",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/input-pins.json": "33223bf153f9a4a1aef7cb06eb9552e54b598c5e4f81fc699f55bbd312f3085c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/independent-current10-owner-source-HIGH-review.md": "dfdc5c20e8e5d5c82e6068c2edad673bbed8ad32731487c93189cff1fddacf18",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/independent-current10-owner-source-HIGH-pins.json": "aa9876ccd4734e58589aba76c61db107eb1bd2a47e9de960ad1ab251ca0cf710",
+    "/tmp/starship-portable-native-post-golden-pure.fe8dd7d13eae409e96a240b4321e832a/input.json": "d4ab262308303f5c1a599cea9c451795c5aaee0bcfc9399dc6c7ba0d5e2b4440",
+    "/tmp/starship-portable-native-post-golden-pure.fe8dd7d13eae409e96a240b4321e832a/root-observer.py": "47ee378f8efe42412263193511eb9dcaa6aa97db06a9ced05259221c79544270",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/actual-input-root-route/independent-actual-current10-input-HIGH-review.md": "61202bc4949f6fefc60675e17814edaba2cc432dad6ca52b4cf7eb954b16647e",
+    "/tmp/starship-portable-native-post-golden-pure.fe8dd7d13eae409e96a240b4321e832a/controls.mjs": "d3664de693d922618a9d3483521066e616b745304cda2e92913c29d5ba4c8e0a",
+    "/tmp/starship-portable-native-post-golden-pure.fe8dd7d13eae409e96a240b4321e832a/admission.mjs": "4e8f43e6714db015b742d7beee47bcb4fdd4201788b14a57aa91019171ce914f",
+    "/tmp/starship-portable-native-post-golden-pure.fe8dd7d13eae409e96a240b4321e832a/owner.mjs": "cc3886a5618f5c74c4c7395f9cd69cbdd20ae0f4fa4fec4df4c5b0ef5e8b7e66"
+  },
+  "selected51AllMatched": true,
+  "materializationsByteExact": 3,
+  "rootObserverCopyByteExact0600": true,
+  "nodeApprovedDigestBound": true,
+  "executionPerformed": false,
+  "nativeOrGoldenQualificationAccepted": false,
+  "applicationApproved": false
+}

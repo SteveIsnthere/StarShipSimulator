@@ -1,0 +1,13 @@
+{
+  "identity": {
+    "pid": 118201,
+    "start": "7504286",
+    "group": 118201,
+    "session": 118201
+  },
+  "status": 0,
+  "reaped": true,
+  "elapsedSeconds": 0.11445563100278378,
+  "umask": "077",
+  "noCompileOrPhysics": true
+}

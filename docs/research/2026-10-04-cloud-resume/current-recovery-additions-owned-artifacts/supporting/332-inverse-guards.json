@@ -1,0 +1,14 @@
+{
+  "executionAuthorized": false,
+  "onlyHelper": "/workspace/StarShipSimulator/tests/e2e/visual-runtime-receipt.ts",
+  "expectedCurrentSha": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e",
+  "restoreSha": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+  "oldBytes": {
+    "path": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/original-helper.ts.txt",
+    "sha": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e"
+  },
+  "requireFullCurrentSourceEquals": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/after-snapshot.json",
+  "requireToolsUnchanged": true,
+  "requireAll770ModesEqual": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/before-modes.json",
+  "requireSeparateRootGrant": true
+}

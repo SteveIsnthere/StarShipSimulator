@@ -1,0 +1,63 @@
+{
+  "kind": "historical-scheduling-hypothesis-only-v1",
+  "activeTasksObserved": false,
+  "selectedUnitEntries": 216,
+  "missingSelectedUnitEntries": [],
+  "failedMatchedEntries": 0,
+  "candidateFiles": [
+    "tests/core/orbit-demo.test.ts",
+    "tests/app/view-clock.test.ts"
+  ],
+  "leadingEight": [
+    {
+      "file": "tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "duration": 97942.508324,
+      "failed": false
+    },
+    {
+      "file": "tests/app/view-clock.test.ts",
+      "project": "unit",
+      "duration": 68509.87096300001,
+      "failed": false
+    },
+    {
+      "file": "tests/core/orbit.test.ts",
+      "project": "unit",
+      "duration": 40873.834840999996,
+      "failed": false
+    },
+    {
+      "file": "tests/core/verlet.test.ts",
+      "project": "unit",
+      "duration": 37308.891389,
+      "failed": false
+    },
+    {
+      "file": "tests/hud/debrief.test.ts",
+      "project": "unit",
+      "duration": 34251.658088000004,
+      "failed": false
+    },
+    {
+      "file": "tests/core/deorbit-range.test.ts",
+      "project": "unit",
+      "duration": 29734.201557,
+      "failed": false
+    },
+    {
+      "file": "tests/core/angular-momentum.test.ts",
+      "project": "unit",
+      "duration": 27783.315017,
+      "failed": false
+    },
+    {
+      "file": "tests/core/booster-forecast.test.ts",
+      "project": "unit",
+      "duration": 27394.010406999998,
+      "failed": false
+    }
+  ],
+  "cacheTotalEntries": 274,
+  "diagnosticExecuted": false
+}

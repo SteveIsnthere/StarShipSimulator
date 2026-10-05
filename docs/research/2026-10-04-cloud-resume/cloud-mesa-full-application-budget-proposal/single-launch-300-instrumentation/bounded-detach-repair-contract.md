@@ -1,0 +1,7 @@
+# Extra CDP detach bounded successor
+
+Source-only distinct successor; no original file or manifest overwritten. All18 exact prior source bytes, paths, modes and SHA mappings are retained in before-extra-cdp-detach-bound-repair. The original bd294 hook and d9df source manifest remain unchanged.
+
+Only the extra observer-session cleanup changes: both normal stop and startup catch use an explicit1s Promise.race detach bound with finally timer clearing. Normal stop independently retains sample and detach failures, records its ending clock, and propagates their combined errors. The existing afterEach then independently attempts the unchanged bounded trace stop and receipt writes; startup catch independently retains its primary/trace-stop/detach failures. A detach timeout cannot prevent these later trace/receipt attempts. The separate session remains governed by the existing root owned-process cleanup if detach fails; timeout is diagnostic failure, never ignored success.
+
+The original CDP trace helper, categories/buffer/export caps/stop10s/detach1s, two snapshots, RAF observer, exact original launch60warm300measure body/assertions, backend flags, viewport/quality, child300/root338 and ownership core are unchanged. No retry, frame acceptance, broader cap or production policy change is introduced. Root materialization must select this bounded-detach template for mesa-launch-instrumentation.ts. Fresh independent source HIGH, root scopes, separate actual input HIGH and root grant remain required before any diagnostic execution.

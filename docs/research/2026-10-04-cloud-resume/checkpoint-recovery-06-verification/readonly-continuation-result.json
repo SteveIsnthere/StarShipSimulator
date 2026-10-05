@@ -1,0 +1,14 @@
+{
+  "captureTree": "19418c1e7c2377a5bfbdd7a46db06df42fd9dd4c",
+  "appliedTree": "19418c1e7c2377a5bfbdd7a46db06df42fd9dd4c",
+  "changedPaths": 237,
+  "deletions": 3,
+  "allDiskAndBothIndexBlobHashesMatch": true,
+  "completeNonDocPathSetsMatch": true,
+  "worktreePatchApplied": false,
+  "originalPatchAppliedOnceInSecondTemporaryIndex": true,
+  "continuationIsReadOnly": true,
+  "originalVerificationFailure": "Default rename detection collapsed heat-shield.ts deletion into a rename during name-only path-set verification. Binary patch already used --no-renames. Read-only continuation adds --no-renames to both path-set queries; neither patch nor index was reapplied.",
+  "commandEvidenceLimitation": "Initial484 raw stdout/stderr pairs preserved, but structured command list was only scheduled after all checks and was not saved after the assertion. Raw root tool exit1 remains failed. Continuation command statuses are durably recorded; initial check/application interpretation is pending independent review.",
+  "realIndexClaim": "Root actual index remains unstaged; original before digest was transient and is not available as durable evidence. Independent review must compare source/index state and may require a separately reviewed capture rather than accept an invariance claim."
+}

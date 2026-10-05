@@ -1,0 +1,12 @@
+{
+  "classification": "source-only bounded hypothesis, no implementation/performance acceptance",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/exact-material-prefix-cost-proposal.md": "bd720358a9fb5f69683d242f533026e12b43f1c6305b4da6be34b029b12136dd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/independent-validated-cost-envelope.json": "36c1bcf9b0fa4582231254a6b4b96ba6cff671cef4e2eaf71cfa643883b6d883",
+    "/workspace/StarShipSimulator/src/core/physics/damage-material.ts": "b13040799017fc0bf59fd0309f3ec08766a135d128798f5246a92f342f32de84",
+    "/workspace/StarShipSimulator/src/core/physics/damage-root.ts": "9ee949e1bc1c6c0f277a1258763c01a6a7149d570da5fac57b903484e601649e",
+    "/workspace/StarShipSimulator/src/core/physics/damage-thermal.ts": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0",
+    "/workspace/StarShipSimulator/src/core/physics/damage-controls.ts": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e",
+    "/workspace/StarShipSimulator/src/core/physics/vehicle-components.ts": "a23086f8c4aacd101d0df155f4e90f6bbfbd44c580bdc99cc498725609f7c320"
+  }
+}

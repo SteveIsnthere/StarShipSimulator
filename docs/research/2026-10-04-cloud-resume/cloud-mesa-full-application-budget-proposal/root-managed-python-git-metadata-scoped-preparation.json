@@ -1,0 +1,14 @@
+{
+  "diagnosticInput": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-owned-git-metadata-managed-python-diagnostic-input.json",
+    "sha": "2d97a2f5c5d223bfde7e3c5c5cdc8b46ecd0c559ab65e050ca97529915cd753f"
+  },
+  "outerInput": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-owned-git-metadata-managed-python-outer-input.json",
+    "sha": "b73fbcd05f713996329b7ddf20c80cf36dcf18f78e22f6d5bdbe1813bde23783"
+  },
+  "diagnosticRows": 29,
+  "outerRows": 31,
+  "PythonASTCompile": 2,
+  "execution": false
+}

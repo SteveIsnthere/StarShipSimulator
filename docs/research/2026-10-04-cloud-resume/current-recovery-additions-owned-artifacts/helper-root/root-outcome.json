@@ -1,0 +1,29 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 114330,
+      "state": "R",
+      "parent": 114329,
+      "group": 114330,
+      "session": 114330,
+      "start": "7292576"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 114330,
+      "session": 114330,
+      "start": "7292576",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59",
+  "manifestSha": "00c0ea99ca0c3267b524d43c8bf4c8c0d3166cb1b4515ebca95956a84efa98cd",
+  "elapsedSeconds": 3.026916027069092,
+  "acceptance": "Exact one-helper application only; independent actual source/modes/tools/all-owned review mandatory; no build/test/browser/frame acceptance"
+}

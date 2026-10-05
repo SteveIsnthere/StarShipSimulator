@@ -1,0 +1,54 @@
+--- before/business-stage.mjs.txt
++++ after/business-stage.mjs.txt
+@@ -10,13 +10,13 @@
+ assert.equal(digest(inputPath),inputSha);
+ const m=parse(inputPath);
+ assert.equal(m.kind,'official-original21-owner-input-v1');assert.equal(m.mode,'golden-record');
+-assert.equal(m.outerMs,900000);assert.equal(realpathSync(process.cwd()),realpathSync(m.root));
++assert.equal(m.outerMs,338000);assert.equal(realpathSync(process.cwd()),realpathSync(m.root));
+ assert.equal(process.platform,'linux');assert.equal(process.arch,'x64');assert.equal(process.version,'v22.23.3');
+ assert.equal(process.env.NODE_OPTIONS??'','');assert.equal(process.env.GOLDEN_PREVIEW,undefined);
+ // Public npm command uses its original SSR recorder. No native alias environment is forwarded.
+ for(const key of ['NATIVE_FLIGHT_COMPOSITE','NATIVE_FLIGHT_COMPOSITE_SHA'])assert.equal(process.env[key],undefined);
+ const deadline=Number(process.env.ORIGINAL21_ROOT_DEADLINE);
+-assert(Number.isFinite(deadline)&&deadline>Date.now()&&deadline<=Date.now()+892000);
++assert(Number.isFinite(deadline)&&deadline>Date.now()&&deadline<=Date.now()+330000);
+ const receipt=mkdtempSync(resolve(tmpdir(),'starship-original21-stage.'));
+ process.stdout.write(JSON.stringify({stageReceipt:receipt,inputSha})+'\n');
+ const put=(name,v)=>writeFileSync(resolve(receipt,name),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
+@@ -63,7 +63,7 @@
+  }
+  put('before-fixture-manifest.json',{predictionSha:m.prediction.sha,rows:oldRows,bytes});
+  owned=await import(pathToFileURL(m.helper.path).href);
+- code=await owned.runOwnedCommand({name:'preparation',root:m.root,receipt,args:[m.npmCli.path,'run','golden:regenerate'],deadlineMs:Math.min(880000,deadline-Date.now()-8000),env:{...process.env}});
++ code=await owned.runOwnedCommand({name:'preparation',root:m.root,receipt,args:[m.npmCli.path,'run','golden:regenerate'],deadlineMs:Math.min(300000,deadline-Date.now()-8000),env:{...process.env}});
+ }catch(e){failure=describe(e);}
+ // Always retain raw command status before output assertions; failed partial files stay in place.
+ try{raw=parse(resolve(receipt,'preparation.process.json'));put('actual-child-exit.json',{exit:raw.exit,code,primaryFailure:failure});}catch(e){afterErrors.push({stage:'raw-status',error:describe(e)});}
+--- before/root-observer.py.txt
++++ after/root-observer.py.txt
+@@ -17,7 +17,7 @@
+     require(digest(m[key]['path']) == m[key]['sha'], 'Pinned input mismatch: ' + key)
+ require(digest(__file__) == m['observer']['sha'], 'Executed root observer mismatch')
+ require(m['mode'] in ('golden-record',), 'Unknown concrete stage')
+-require(m['outerMs'] == {'golden-record':900000}[m['mode']], 'Wrong concrete stage bound')
++require(m['outerMs'] == {'golden-record':338000}[m['mode']], 'Wrong concrete stage bound')
+ prediction = json.loads(pathlib.Path(m['prediction']['path']).read_text())
+ require(digest(m['prediction']['path']) == m['prediction']['sha'], 'Frozen pre-look prediction mismatch')
+ require(prediction['kind'] == 'pre-look-full-ten-Fidelity-golden-prediction' and len(prediction['scenarios']) == 10, 'Wrong pre-look set')
+--- before/declaration.md
++++ after/declaration.md
+@@ -2,10 +2,12 @@
+ 
+ Approved Phase 8 R1/R2 Fidelity and current-cloud recording scope; frozen ten predictions precede every new fixture read. Root executes one actual Linux/x64/Node 22.23.3 public `npm run golden:regenerate`, GOLDEN_PREVIEW absent, no native alias environment, no filters/instrumentation/extra warm-up. Original eight Ship and two actual Super Heavy builders, seed, windows and recorders remain unchanged. No fixture payload was read while authoring.
+ 
+-Two research templates: minimal derivative of accepted 9ed captured-group observer (ownership/admission/signaling/finalization unchanged); dedicated business stage using the already reviewed owned-command helper. Whole 900 seconds includes 892 work and 8 cleanup; owned helper at most 880 seconds; external root timeout must preserve raw timeout and enforce the same whole 900 seconds. This research bound does not change product test/gate/sample/horizon bounds. Raw OS child status is persisted before interpretation. Root independently audits ALL actual helper tracked and observed PID/start identities after exit, not only the leader. No unchanged retry.
++Two research templates: minimal derivative of accepted 9ed captured-group observer (ownership/admission/signaling/finalization unchanged); dedicated business stage using the already reviewed owned-command helper. Whole 338 seconds includes 330 work and 8 cleanup; unchanged owned helper at most 300 seconds; external root timeout must preserve raw timeout and enforce the same whole 338 seconds. A cutoff is an incomplete FAILED recording, with old captures and partial new fixtures preserved; no unchanged luck retry. This research bound does not change product test/gate/sample/horizon bounds. Raw OS child status is persisted before interpretation. Root independently audits ALL actual helper tracked and observed PID/start identities after exit, not only the leader. No unchanged retry.
+ 
+ Root assembles actual owner input separately, retaining official owner/inventory schema. Roles node/helper/npmCli/qualification/pins/stage/observer/python plus snapshotHelper, prediction, predictionReview, truthEvidence and unitEvidence require actual paths and SHA. Qualification is explicitly V7 historical/pre-record authority; inventory must bind complete current 769 source and exact installed-tool map 20355, full current CI/dist and accepted truth/full247/pre-look review/pins as immutable raw files. Fixture paths are exactly the sorted ten derived from frozen prediction. Root public admitComposite BEFORE is mandatory. Do not invoke it after changed data and pretend the old qualification is current.
+ 
+ Stage checks actual platform and complete pre-source/tools, captures all ten original fixture bytes into exclusive receipt copies with original modes, SHA and fsync, before starting the public command. Per-file 64 MiB / total 256 MiB bound protects capture and output reads. No rollbacks or overwriting failed partial fixtures. Root/stage allow only those exact ten data hashes to differ after recording, with complete 769 path set and every other source hash unchanged; complete tool equality stays mandatory. Root final role/manifest/inventory checks remain independent; only the predeclared ten final old-data hashes are exempted, audited by stage source boundary instead. Metadata inspection checks ten IDs/setup/seed/dt/cadence/steps/row dimensions and both physical catches, not truth or replay acceptance.
+ 
+ Completed means recording-only. Independent actual artifact/prediction/schema/outcome audits, all five original golden test files exact replay on genuine recording platform, finite new data-only qualification bridge, and actual audit row/source+fixtures together in coherent Fidelity commit remain required. Unexpected motion/invariant/schema drift is investigated rather than blessed. No analytic reference, tolerance, preset, source or physical limit changes; existing max-Q-altitude tier-B OUT remains reported. No source application, recorder execution, fixtures, unit/coverage/gate/frame acceptance or publication is granted by this document.
++
++The first 880-second helper proposal and independent HOLD are archived byte-for-byte in before-helper-cap-repair. The unchanged helper enforces maximum 300000ms; only research stage/root declared deadlines are corrected, with no helper, product unit/gate, physical horizon or golden filter changes. Actual unfiltered recording may fit; readiness is not completion.

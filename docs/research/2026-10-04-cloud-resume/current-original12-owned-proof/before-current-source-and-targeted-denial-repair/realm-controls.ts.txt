@@ -1,0 +1,30 @@
+// PURE research controls. Same reviewed adapted comparator executes through locked vite-node SSR.
+import assert from 'node:assert/strict';
+import {createContext,runInContext} from 'node:vm';
+import {graphOracle} from './consumer-graph-oracle';
+const context=createContext({});
+const foreign=runInContext('({Object,Array})',context) as {Object:ObjectConstructor;Array:ArrayConstructor};
+const prototypes={leftObject:Object.prototype,rightObject:foreign.Object.prototype,leftArray:Array.prototype,rightArray:foreign.Array.prototype};
+const cases:string[]=[];
+function check(name:string,run:()=>void){run();cases.push(name);}
+function oracle(){return graphOracle({}, {},prototypes);}
+function right(text:string){return runInContext(text,context) as object;}
+check('positive distinct Object and Array realms full fields',()=>oracle().compare({a:[1,-0,NaN]},right('({a:[1,-0,NaN]})')));
+check('positive null prototypes',()=>oracle().compare(Object.assign(Object.create(null),{x:1}),right('Object.assign(Object.create(null),{x:1})')));
+check('positive cycles and shared aliases',()=>{const a:{self?:unknown;child?:unknown;alias?:unknown}={};a.self=a;a.child={x:1};a.alias=a.child;oracle().compare(a,right('(()=>{const a={};a.self=a;a.child={x:1};a.alias=a.child;return a})()'));});
+check('positive separately frozen nested realms',()=>oracle().compare(Object.freeze({x:Object.freeze([1,2])}),right('Object.freeze({x:Object.freeze([1,2])})')));
+check('negative signed zero exact scalar',()=>assert.throws(()=>oracle().compare({n:-0},right('({n:0})')),assert.AssertionError));
+check('negative NaN versus number',()=>assert.throws(()=>oracle().compare({n:NaN},right('({n:1})')),assert.AssertionError));
+check('negative descriptor flags',()=>assert.throws(()=>oracle().compare(Object.defineProperty({},'x',{value:1,enumerable:true}),right("Object.defineProperty({},'x',{value:1,enumerable:false})")),assert.AssertionError));
+check('negative ordered own keys',()=>assert.throws(()=>oracle().compare({a:1,b:2},right('({b:2,a:1})')),assert.AssertionError));
+check('negative null prototype mismatch',()=>assert.throws(()=>oracle().compare(Object.create(null),right('({})')),assert.AssertionError));
+check('negative unsupported left prototype',()=>assert.throws(()=>oracle().compare(Object.create({}),right('({})')),assert.AssertionError));
+check('negative unsupported right prototype',()=>assert.throws(()=>oracle().compare({},right('Object.create({})')),assert.AssertionError));
+check('negative alias split',()=>{const x={n:1};assert.throws(()=>oracle().compare({x,y:x},right('({x:{n:1},y:{n:1}})')),assert.AssertionError);});
+check('negative alias merge',()=>assert.throws(()=>oracle().compare({x:{n:1},y:{n:1}},right('(()=>{const x={n:1};return {x,y:x}})()')),assert.AssertionError));
+check('negative accessor never invokes',()=>{let reads=0;const a=Object.defineProperty({},'x',{get(){reads++;return 1}});assert.throws(()=>oracle().compare(a,right("Object.defineProperty({},'x',{get(){throw Error('must not invoke')}})")),assert.AssertionError);assert.equal(reads,0);});
+check('negative unmapped function',()=>assert.throws(()=>oracle().compare({f:()=>1},right('({f:()=>1})')),assert.AssertionError));
+check('positive mapped operation and negative different callback',()=>{const l=()=>1,r=runInContext('()=>1',context) as ()=>number;const o=graphOracle({f:l},{f:r},prototypes);const b=Object.assign(right('({})'),{f:r});o.compare({f:l},b);const wrong=Object.assign(right('({})'),{f:()=>1});assert.throws(()=>o.compare({f:l},wrong),assert.AssertionError);});
+check('negative mutation after prior mutable equality',()=>{const a={x:1},b=right('({x:1})') as {x:number},o=oracle();o.compare(a,b);b.x=2;assert.throws(()=>o.compare(a,b),assert.AssertionError);});
+assert.equal(cases.length,17);assert.equal(new Set(cases).size,17);
+process.stdout.write(JSON.stringify({kind:'adapted-realm-comparator-controls-v1',cases,passed:17,failed:0,skipped:0,solverCalls:0,physicalImports:0})+'\n');

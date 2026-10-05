@@ -1,0 +1,27 @@
+{
+  "kind": "source-only-protected-exact-cost-design-review-v1",
+  "reviewSha256": "6ecf812d934354bcf54b51ab0c404f0d8f42ad7a9a5ced920780d9d7f85ad88e",
+  "scope": "bounded proof research only; scheduling first; no performance/application/replay acceptance",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/independent-material-prefix-and-full-golden-cost-design-HIGH-review.md": "6ecf812d934354bcf54b51ab0c404f0d8f42ad7a9a5ced920780d9d7f85ad88e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/exact-material-prefix-cost-proposal.md": "bd720358a9fb5f69683d242f533026e12b43f1c6305b4da6be34b029b12136dd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/exact-material-prefix-cost-proposal-pins.json": "8c2424e479d2fad8508af1ba912615ad190eb78e6f1cb38837b3e719393d33ed",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/independent-validated-cost-envelope.json": "36c1bcf9b0fa4582231254a6b4b96ba6cff671cef4e2eaf71cfa643883b6d883",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/independent-lossless-actual-result-HIGH-review.md": "e7d1dcfd43709f842a71a0c70009c934662045005fcd2bf74eb8c2da93f74b11",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/independent-lossless-actual-result-HIGH-pins.json": "2a0ddcb7cd8be659761cd461cf2ef7dd4b5f757a22a7b2e11089941f275fa357",
+    "/workspace/StarShipSimulator/src/core/physics/damage-material.ts": "b13040799017fc0bf59fd0309f3ec08766a135d128798f5246a92f342f32de84",
+    "/workspace/StarShipSimulator/src/core/physics/damage-root.ts": "9ee949e1bc1c6c0f277a1258763c01a6a7149d570da5fac57b903484e601649e",
+    "/workspace/StarShipSimulator/src/core/physics/damage-thermal.ts": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0",
+    "/workspace/StarShipSimulator/src/core/physics/damage-controls.ts": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e",
+    "/workspace/StarShipSimulator/src/core/physics/damage-mass.ts": "26e5e56b01b6e412bdc0592818b3746b4c7ea2b1e38674c54f2895c20ae9c065",
+    "/workspace/StarShipSimulator/src/core/mission-free-flight.ts": "63bf8d648e1210e3c33e6f11c957ed397bc7a1520ad038739a6d6fd47dbc1cc0",
+    "/workspace/StarShipSimulator/src/core/step.ts": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986",
+    "/workspace/StarShipSimulator/tests/golden/booster-replay.test.ts": "cce053083240b7af301fdcb1cd84ecfaa4810815f906141f861c561d4c38d3b4",
+    "/workspace/StarShipSimulator/tests/golden/booster-record.ts": "dbb1f874135dbd0da06cf2e682e91c0cdfd7f059d4074f649760f41a1671b265",
+    "/workspace/StarShipSimulator/tests/golden/record.ts": "a5d1d85d26d31f889656aacf5109b7a1d142886106d3bfa61e83e43188bfbb9e",
+    "/workspace/StarShipSimulator/tests/golden/compare.ts": "84273766eb445751392bc888dd31596b9008089bc974b80421efc8d92ce2deaf",
+    "/tmp/starship-official-tests-owner.aJ97xe/result.json": "440a1471055b4cf2b42230901c1c68a31b6cce319aa969def849847adb3f6f13",
+    "/tmp/starship-original21-stage.vMe2wS/actual-official-wrapper-result.json": "ec028ff6b96dad1ab60ccc3024ecdb122e81791bd8ef3de7e2296fad085c6c85",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input-current-doc-bridge/root-retained-test-overlap-observation.json": "91da89e7bc8f12280e6909ebea2f3e8cdc17abf396fa9d31b28ebdcf78ceb211"
+  }
+}

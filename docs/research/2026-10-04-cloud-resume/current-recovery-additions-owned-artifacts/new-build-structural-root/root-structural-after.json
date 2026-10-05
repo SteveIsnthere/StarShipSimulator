@@ -1,0 +1,326 @@
+{
+  "code": 0,
+  "phase": "after",
+  "closureSha256": "90ea0e1e4c117fb6856ba9045e694c6e730260f5174ec1841dcf9d381287dfde",
+  "checkerSha256": "e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13",
+  "symlinks": {
+    "/usr/lib/x86_64-linux-gnu/libEGL.so.1": {
+      "target": "libEGL.so.1.1.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libGLdispatch.so.0": {
+      "target": "libGLdispatch.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0": {
+      "target": "libEGL_mesa.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/dri/swrast_dri.so": {
+      "target": "libdril_dri.so",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/dri/kms_swrast_dri.so": {
+      "target": "libdril_dri.so",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libLLVM-19.so": {
+      "target": "libLLVM.so.19.1",
+      "mode": 511
+    },
+    "/lib": {
+      "target": "usr/lib",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libGLdispatch.so.0": {
+      "target": "libGLdispatch.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libgbm.so.1": {
+      "target": "libgbm.so.1.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libgbm.so.1": {
+      "target": "libgbm.so.1.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libexpat.so.1": {
+      "target": "libexpat.so.1.12.3",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libexpat.so.1": {
+      "target": "libexpat.so.1.12.3",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libX11-xcb.so.1": {
+      "target": "libX11-xcb.so.1.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libX11-xcb.so.1": {
+      "target": "libX11-xcb.so.1.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb.so.1": {
+      "target": "libxcb.so.1.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb.so.1": {
+      "target": "libxcb.so.1.1.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-randr.so.0": {
+      "target": "libxcb-randr.so.0.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-randr.so.0": {
+      "target": "libxcb-randr.so.0.1.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-xfixes.so.0": {
+      "target": "libxcb-xfixes.so.0.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-xfixes.so.0": {
+      "target": "libxcb-xfixes.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-shm.so.0": {
+      "target": "libxcb-shm.so.0.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-shm.so.0": {
+      "target": "libxcb-shm.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libdrm.so.2": {
+      "target": "libdrm.so.2.124.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libdrm.so.2": {
+      "target": "libdrm.so.2.124.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libwayland-client.so.0": {
+      "target": "libwayland-client.so.0.23.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libwayland-client.so.0": {
+      "target": "libwayland-client.so.0.23.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libwayland-server.so.0": {
+      "target": "libwayland-server.so.0.23.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libwayland-server.so.0": {
+      "target": "libwayland-server.so.0.23.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0": {
+      "target": "libxcb-dri3.so.0.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-dri3.so.0": {
+      "target": "libxcb-dri3.so.0.1.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-present.so.0": {
+      "target": "libxcb-present.so.0.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-present.so.0": {
+      "target": "libxcb-present.so.0.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libz.so.1": {
+      "target": "libz.so.1.3.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libz.so.1": {
+      "target": "libz.so.1.3.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libzstd.so.1": {
+      "target": "libzstd.so.1.5.7",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libzstd.so.1": {
+      "target": "libzstd.so.1.5.7",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libsensors.so.5": {
+      "target": "libsensors.so.5.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libsensors.so.5": {
+      "target": "libsensors.so.5.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxcb-sync.so.1": {
+      "target": "libxcb-sync.so.1.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxcb-sync.so.1": {
+      "target": "libxcb-sync.so.1.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxshmfence.so.1": {
+      "target": "libxshmfence.so.1.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxshmfence.so.1": {
+      "target": "libxshmfence.so.1.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libelf.so.1": {
+      "target": "libelf-0.192.so",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libelf.so.1": {
+      "target": "libelf-0.192.so",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libdrm_amdgpu.so.1": {
+      "target": "libdrm_amdgpu.so.1.124.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libdrm_amdgpu.so.1": {
+      "target": "libdrm_amdgpu.so.1.124.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libdrm_intel.so.1": {
+      "target": "libdrm_intel.so.1.124.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libdrm_intel.so.1": {
+      "target": "libdrm_intel.so.1.124.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libstdc++.so.6": {
+      "target": "libstdc++.so.6.0.33",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": {
+      "target": "libstdc++.so.6.0.33",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libffi.so.8": {
+      "target": "libffi.so.8.1.4",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libffi.so.8": {
+      "target": "libffi.so.8.1.4",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libedit.so.2": {
+      "target": "libedit.so.2.0.75",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libedit.so.2": {
+      "target": "libedit.so.2.0.75",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libxml2.so.2": {
+      "target": "libxml2.so.2.9.14",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libxml2.so.2": {
+      "target": "libxml2.so.2.9.14",
+      "mode": 511
+    },
+    "/lib64": {
+      "target": "usr/lib64",
+      "mode": 511
+    },
+    "/lib64/ld-linux-x86-64.so.2": {
+      "target": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libXau.so.6": {
+      "target": "libXau.so.6.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libXau.so.6": {
+      "target": "libXau.so.6.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libXdmcp.so.6": {
+      "target": "libXdmcp.so.6.0.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libXdmcp.so.6": {
+      "target": "libXdmcp.so.6.0.0",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libpciaccess.so.0": {
+      "target": "libpciaccess.so.0.11.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libpciaccess.so.0": {
+      "target": "libpciaccess.so.0.11.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libtinfo.so.6": {
+      "target": "libtinfo.so.6.5",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libtinfo.so.6": {
+      "target": "libtinfo.so.6.5",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libbsd.so.0": {
+      "target": "libbsd.so.0.12.2",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libbsd.so.0": {
+      "target": "libbsd.so.0.12.2",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/liblzma.so.5": {
+      "target": "liblzma.so.5.8.1",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/liblzma.so.5": {
+      "target": "liblzma.so.5.8.1",
+      "mode": 511
+    },
+    "/usr/lib/x86_64-linux-gnu/libmd.so.0": {
+      "target": "libmd.so.0.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libmd.so.0": {
+      "target": "libmd.so.0.1.0",
+      "mode": 511
+    },
+    "/lib/x86_64-linux-gnu/libLLVM-19.so": {
+      "target": "libLLVM.so.19.1",
+      "mode": 511
+    }
+  },
+  "vendorInventory": {
+    "/etc/glvnd/egl_vendor.d": {
+      "exists": true,
+      "files": []
+    },
+    "/usr/share/glvnd/egl_vendor.d": {
+      "exists": true,
+      "files": [
+        {
+          "path": "/usr/share/glvnd/egl_vendor.d/50_mesa.json",
+          "sha": "cd3881df4227c13ca7f9cfe6c78820f21d5f7a00a41b299214f6f827e63be369"
+        }
+      ]
+    }
+  },
+  "cache": {
+    "path": "/etc/ld.so.cache",
+    "sha": "b966529ae5653785a013ec27e8a1046e7f0b4d4a61d3eaeb7fb83d5d982c5fa0"
+  },
+  "nodeSha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+  "expandedPathsAbsent": [
+    "/usr/lib/lib",
+    "/lib/lib"
+  ],
+  "driverLoadedByChecker": false,
+  "browserLaunchedByChecker": false
+}

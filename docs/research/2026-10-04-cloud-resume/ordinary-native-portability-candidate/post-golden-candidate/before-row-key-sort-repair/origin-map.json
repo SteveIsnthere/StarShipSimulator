@@ -1,0 +1,84 @@
+{
+  "kind": "post-golden-row-key-sort-before-archive-v1",
+  "originalExternalEvidenceUnchanged": true,
+  "files": [
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/admission.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/admission.mjs.txt",
+      "bytes": 13983,
+      "sha256": "c075322f6a9fc0f630b9da007e4db9f1505e65eeed27ad2ead40f6be04ae0b7a"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/run.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/run.mjs.txt",
+      "bytes": 9986,
+      "sha256": "b51865936b83881122177d4b3292ecc3a07ea77a24698bf601c0182dd01ad417"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/build.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/build.mjs.txt",
+      "bytes": 3785,
+      "sha256": "513eb012207849e66933a59ff29924e202022000f5d98277bc4629b0771e2159"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/nvmrc.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/nvmrc.txt",
+      "bytes": 8,
+      "sha256": "6d07ac247e81cd42c2c20abf8dfe504413d6b2422e4aba9b2c975a776f155921"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/golden-data-delta.pending.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/golden-data-delta.pending.json",
+      "bytes": 3695,
+      "sha256": "ba20e4e5d35be2b78751d45b9d80e5c305193dd32989016d261377807fc2c7b1"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/portable-anchor.pending.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/portable-anchor.pending.json",
+      "bytes": 3398,
+      "sha256": "13a242b51e15162ad1fb69c4430c49c8c6b4e22ad4b2ca26379f7b9e7cf8d34e"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/portable-anchor.pending.sha256",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/portable-anchor.pending.sha256",
+      "bytes": 65,
+      "sha256": "2d1d94882fce0edabbe299cc64a8de1fe1426d7ccae43c1ff2e8b5bbadac0433"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/policy-controls.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/policy-controls.mjs.txt",
+      "bytes": 9158,
+      "sha256": "d3664de693d922618a9d3483521066e616b745304cda2e92913c29d5ba4c8e0a"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/application-once.mjs.txt",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/application-once.mjs.txt",
+      "bytes": 4786,
+      "sha256": "6eca20cbd030a199b2852a952cb0e205fd9664ceca2426fdcf886eb8c69ea589"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/declaration.md",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/declaration.md",
+      "bytes": 5254,
+      "sha256": "f8a901cecd652d71b998162bd682b7ea06e72fceae7231cf7c857abf76401a50"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/input-pins.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/input-pins.json",
+      "bytes": 4232,
+      "sha256": "539b34f80ab12193a4fd807648b7e3d64ccc731de5c21bd9ee9f0d8b95177b26"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/independent-concrete-source-HOLD-review.md",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/independent-concrete-source-HOLD-review.md",
+      "bytes": 3124,
+      "sha256": "862572ce9df93edd5fae8c60301fd8ff458a10add8d96306fc1fa6bfd8b59003"
+    },
+    {
+      "original": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/independent-concrete-source-HOLD-pins.json",
+      "archive": "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/before-row-key-sort-repair/independent-concrete-source-HOLD-pins.json",
+      "bytes": 3619,
+      "sha256": "78d39fabace368717c3c7e70c90c5a4ea53800d0cacddceeea98535c828b47f1"
+    }
+  ]
+}

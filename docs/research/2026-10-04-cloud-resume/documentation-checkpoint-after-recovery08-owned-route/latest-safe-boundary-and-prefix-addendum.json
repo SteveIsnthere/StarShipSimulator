@@ -1,0 +1,482 @@
+{
+  "kind": "finite-selected-reference-addendum-v1",
+  "added": [
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.abu_qywd/actual-outer-exit-final-independent.json",
+      "sha256": "ac0f60669df0ae42d284dfa1cf94c72df2ffc26dddaa28297fa35ec167371d0c",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.abu_qywd/actual-outer-exit-final.json",
+      "sha256": "3bcda3d4ae6e21a11c60368aeaa852cadd6bb3a2c8987ee3fb3a90a790210053",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.abu_qywd/actual-outer-exit.json",
+      "sha256": "a7ad74c30133b2c33ffb05619f5503896227a5b37849401d43ac3cc06313a619",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.abu_qywd/executed-owner.mjs.txt",
+      "sha256": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.abu_qywd/identities.jsonl",
+      "sha256": "6e90e7744c3cc38176271db33b899263f78eb3414c2e6209fbb55c0223f192eb",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.abu_qywd/outer-registration.json",
+      "sha256": "d4aa9d23c10c894b64cdf7959c80a2fb5b0d5e17b617f44bf4c4829432a5d0ed",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.abu_qywd/outer.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.abu_qywd/outer.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.abu_qywd/root-outcome.json",
+      "sha256": "81654d2652a7588abe1bb6e4ca73210833a61da760303f1fb1c365e9b503c3ec",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/declaration.md",
+      "sha256": "9e8c3b3a58842dcc4043b94b4bf8236a6df6c399622211b3aebab318be92ec32",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-failure-and-invocation-repair-HIGH-pins.json",
+      "sha256": "4c3eb725fb40970f3cb49be3646f700de0206fde03b7ff37fb9e4298e636a2ec",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-failure-and-invocation-repair-HIGH.md",
+      "sha256": "86e0b0607381db584e6c7b4b58b0409d0dd72b40f03d07c3366a04fef713f17d",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-input-HIGH.md",
+      "sha256": "6372ccab04a310d60180430a8b92ab11bd2e4f5a305776ff4b3e8352a9942094",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-pass-HIGH-observations.json",
+      "sha256": "7aa30e7cfff883015b1ff8a56c959bbcc72a0334642d422a766277fe7058b93c",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-pass-HIGH.md",
+      "sha256": "a5fd79c3832a84c5a6d3736a8c00ab01c551e12674eb73723c824e9c26d8570d",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/input-pins.json",
+      "sha256": "da0c68dc79934e65fe3139e1188abd478d60df3b4ddc74fd53bab8ab3f377d16",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/make-input.py.txt",
+      "sha256": "5a7ea5d242491dbd01272bc27a87661a812610f916a474669343c9c6136c9cf3",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/node-path-empty-retry-invocation.json",
+      "sha256": "04ba924a740470e65bc8de80e1f4a06342977fda45afc64bb0ea17676a429f2b",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/owner.mjs.txt",
+      "sha256": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/owner.mjs.txt.transfer.diff",
+      "sha256": "410ebfcdb28d483f0f7f1778373e2aa098997c2e3abbe5c034e97e8fb6e503eb",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-observer.py.txt",
+      "sha256": "ed671e7fd55095af38c0056e0ea48dba05a23a5f7953206ae2a865e8500db6cb",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-observer.py.txt.transfer.diff",
+      "sha256": "3f1c9c6707e3049b6010bddda3cb36692a042ee335c4f406a7a5da9d63a0caeb",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-proof-node-path-empty-independent-postexit.json",
+      "sha256": "90650a34bff86d479310f5a715640721b1958bcd8d9252a25d81c8e1b4ad13ac",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-proof-node-path-empty-registration.json",
+      "sha256": "2a664cb9b8a33fb7063f15c1e8a63c750f3de8b163c08bc28fd17b42bd25de42",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-proof-node-path-empty-result.json",
+      "sha256": "450a3f319179883a065849611ade9f40849083888d516053daf1e56bfe7b6e7e",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-proof-node-path-empty.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-proof-node-path-empty.stdout.txt",
+      "sha256": "d04ae43f7fb86550bacfe263dd3418b2c769fcfa9930643aeb3632d3d6659f88",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/input-pins.json",
+      "sha256": "691ef7a115a71911bf3b208fc9c64362b97b4c5bf91229f765ea0f99c7d36dd9",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/loader.mjs.txt",
+      "sha256": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls-preparation/independent-boundary-controls-source-HIGH-v1-pins.json",
+      "sha256": "6d2360f0c56541faa9af2a3dfb298a37f686e2a318bb5775deb8553b793dc79c",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls-preparation/independent-boundary-controls-source-HIGH-v1.md",
+      "sha256": "0bbcde2318ff2c0b8642e4c5be889ca97841c7465daa9cc83568eedaeea4ad1d",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls.mjs.txt",
+      "sha256": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-integrated-boundary-source-HIGH-v2-pins.json",
+      "sha256": "bf65f1e1c5c890d761fa6fd7357d1f696e7a8e5a069893be75ca27dc31c5c09e",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-integrated-boundary-source-HIGH-v2.md",
+      "sha256": "dc03cb43b994102329d474230ecaaae9403b6b4fa76674e086d7f6914e518b3e",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-owned-route-source-HIGH-v1-pins.json",
+      "sha256": "1ad10bb1a4c98521ab2553b79130e02f742c6beb3fb894b4670155d120f56ae7",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-owned-route-source-HIGH-v1.md",
+      "sha256": "8fbabf7637695197637def5fb27ac2e87298aad2e9bdd28f1b3e1e8956496142",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/input-pins.json",
+      "sha256": "55412da282106581964e169db1a00e7156e5badcbbddbb7ef2c415022455c760",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/owner.mjs.txt",
+      "sha256": "2fea06d23b5376ade11cd832f06ea9c12be85a48037c69b210fcac488befd5a0",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/root-observer.py.txt",
+      "sha256": "0189429d8f09dd2b5d5fd152c218049fbee979815bdd10917b4efd3de7a844ca",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls-proof-result.json",
+      "sha256": "5211b305d5f91c5e8a3b03d9e1b961396255904007cfb66fd0facaba23047cec",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls-result.json",
+      "sha256": "a4a09d3aed021b7da60170cd12d5dc025a3daccd1ef53aff45840b9511d61440",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls.process.json",
+      "sha256": "ee665040b2943518006495ef9c2056ed36f1a56704688f9cbfa0fa302dd6dd83",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/owned-final.json",
+      "sha256": "aa32beac01690549ddf5c8cd6be8181dc2b2964e325785182dd8d54ec1d6e707",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/owner-result.json",
+      "sha256": "f4f827d97e9973d7242d13adbc059bc2d1e14ba52bde71b178962b461ae1d147",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/raw-boundary-controls-exit.json",
+      "sha256": "27aacd691598a8ac0bac80f6f51da44642936a87f32cedf590272ddbd7be1792",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/selected-after.json",
+      "sha256": "201089099cf1c5f46de6430fab90026481aa4b048fa57a411f505181aac8d1b6",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/selected-before.json",
+      "sha256": "201089099cf1c5f46de6430fab90026481aa4b048fa57a411f505181aac8d1b6",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-pass-HIGH-pins.json",
+      "sha256": "475f55cba33dcb967584061c3e386b142677f401d0156e071b9abba0e934f364",
+      "encoding": "identity",
+      "acceptedScope": "Inert14 accepted; no physical/native execution authority"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap/actual-outer-exit-final-independent.json",
+      "sha256": "b7ee536d4e9dd52e841429b5c2e0d5a9a03bb5cb38c76649ec4d0b9d68e9d637",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap/actual-outer-exit-final.json",
+      "sha256": "363a0705a724f26e14731b2bafaccf1a8fb71bf92b6dbfb44b9b9422cb22f88c",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap/actual-outer-exit.json",
+      "sha256": "f0ce33db0ba9402fdb0b396533c7194e975d566ad249cdf0937b4bc82828d438",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap/executed-owner.mjs.txt",
+      "sha256": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap/identities.jsonl",
+      "sha256": "b64a7bf824512074c5bf3c9e31993c0955b640dba88a968beeb95a876e838074",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap/outer-registration.json",
+      "sha256": "2d42b6a0e804afe65aca9e62b7738b395969880c1e6293e74feb22ca6e9456ec",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap/outer.stderr.txt",
+      "sha256": "116758ae76f1c6474ea645bdad47afe8de0943dcbae80c90a47a63018b92e2e5",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap/outer.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/tmp/starship-query-census-boundary-controls-root.xm3mv9ap/root-outcome.json",
+      "sha256": "707665cb80ffd3140774398785c2c912d0f2b0829c917c297fc5f6173a47da28",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-proof-independent-postexit.json",
+      "sha256": "ed21b8940a807d9008017496bd391bea4f644fb20661bf9f6949eeed354bccf3",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-proof-registration.json",
+      "sha256": "9bb80c296866973f8a9ca3b1a2a1ed1389d22c55a85f44dfc8e665f9dbe8c80d",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-proof-result.json",
+      "sha256": "6234a8e15c05f8d52171515de133c2e2b7e1a7e24826cde66ada354d14fd7ccf",
+      "encoding": "identity",
+      "acceptedScope": "Original failed invocation retained"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-input.b1c0979d1b4a49a0963e2b6c8dada4ff/owner-input.json",
+      "sha256": "7f71d7130c3370288711501156a3b5a7216546799adf2b44ee3e49e0018d0657",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/root-outcome.json",
+      "sha256": "0d8814a1428b5705bf35f431ae99a76bdcf8688aea99638cfe9672478b4d2afa",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/actual-outer-exit-final-independent.json",
+      "sha256": "353b70adecad109557c8328ce53d5c819644bd13de4cb366ebeb69cd0b26ba34",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/actual-outer-exit-final.json",
+      "sha256": "76353f60687ad942abdaa925536010f92063c656e5648da96f595970ef3d4564",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/outer-registration.json",
+      "sha256": "c4e939ea502941879d2cc9f8c7f12e872a4498c9acf39788a89796bafab2c3ac",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/identities.jsonl",
+      "sha256": "dd86ac2508d9731e8fb2d4a7135c283e87194e0a2863ea75fdeb661be9f2e087",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/outer.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/outer.stdout.txt",
+      "sha256": "0224de9667162f412fd61b6e5fe071ef3493cbef212faf412432b623d2eceff5",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.uzs6c7np/executed-diagnostic.py.txt",
+      "sha256": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/tmp/starship-trace-prefix.395ea7a3e50c43dda226501bd4c8e44a/pure-controls.json",
+      "sha256": "e88d8100168c2ee749e14832f76eeecd666131345c7589473232d30cee1fc8c5",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-assessment-result.json",
+      "sha256": "682881062a41bf86835a308a94e230da3210faf57b8d307ea59440bf943d4124",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-assessment-independent-postexit.json",
+      "sha256": "951da20ca279a26ac356354278495c7a2edc5e0e801f2b552d8fb04e83cbd9f9",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-assessment-registration.json",
+      "sha256": "72d92f3bf2e54c07f51830bebe3232be9a082db4da4844d9aa8a6f5465415ab1",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/independent-actual-prefix-FAIL-HIGH-review.md",
+      "sha256": "b316ab0447051446149594f56342b4ff49e7b8ead702d072da44c2e13e223397",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/independent-actual-prefix-FAIL-HIGH-pins.json",
+      "sha256": "72085953c7b95b8dc176c34ea0a45238aded32d728d6203904f11d82441665b3",
+      "encoding": "identity",
+      "acceptedScope": "Prefix assessment FAILED signal15;26 pure controls passed;no complete trace stats"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-review.md",
+      "sha256": "c07534a6fdd6333624ed4b881fd0107561b7e3a603f30f5bb8a359e81842fe9b",
+      "encoding": "identity",
+      "acceptedScope": "Public c075 failure summary/hash metadata; raw trace/browser omitted"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-actual-instrumented-launch-FAIL-HIGH-pins.json",
+      "sha256": "3bb434e84a4f05b01a712aad3703c9c4a125e9e794eff282a7e596c183adb211",
+      "encoding": "identity",
+      "acceptedScope": "Public c075 failure summary/hash metadata; raw trace/browser omitted"
+    }
+  ],
+  "originalCount": 3152,
+  "newCount": 3231,
+  "metadataReadFailure": "First static shape display assumed files dict for prefix list; TypeError before any write, corrected normalization; no workload failure."
+}

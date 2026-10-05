@@ -1,0 +1,16 @@
+{
+  "executedControls": false,
+  "executedMaker": false,
+  "stageLintErrors": 0,
+  "controlFile": "ansi-string-controls.mjs",
+  "lintStatus": 1,
+  "rule": "no-useless-escape",
+  "line": 13,
+  "column": 52,
+  "message": "Unnecessary escape character: \\[",
+  "effect": "A single source backslash before [ is erased by JavaScript string parsing; actual matcher not yet qualified",
+  "sourcePacketsRetained": [
+    "ansi-lint-clean-successor-source-pins.json",
+    "source-pins-bounded-detach-ansi-lint-clean.json"
+  ]
+}

@@ -1,0 +1,150 @@
+import assert from 'node:assert/strict';
+import { mkdtempSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { prepareRun } from './prepare-run.mjs';
+import { admitRun, admitComposite, originalTests, runtimeAliases } from './admission.mjs';
+import { digest, parse } from './integrity.mjs';
+const root = process.cwd(), args = process.argv.slice(2);
+const standaloneCoverage = args.includes('--coverage');
+const expectedTestTimeout = standaloneCoverage ? 120000 : 30000;
+const explicit = process.env.NATIVE_FLIGHT_COMPOSITE !== undefined || process.env.NATIVE_FLIGHT_COMPOSITE_SHA !== undefined;
+let compositePath = process.env.NATIVE_FLIGHT_COMPOSITE;
+let compositeSha = process.env.NATIVE_FLIGHT_COMPOSITE_SHA;
+if (!explicit) {
+  compositePath = resolve(root, 'docs/verification/native-flight-portable-anchor-v2.json');
+  compositeSha = readFileSync(resolve(root, 'docs/verification/native-flight-portable-anchor-v2.sha256'), 'utf8').trim();
+  // A stale/missing expected native lane fails closed; it cannot silently select SSR.
+  await admitComposite(compositePath, compositeSha);
+}
+const wrapper = mkdtempSync(resolve(tmpdir(), 'starship-official-tests-owner.'));
+const describeError = error => String(error.stack ?? error);
+let m, q, manifestPath, manifestSha, code = null, failure = null, receipt = null, lifecycle = null;
+let verifyNoOwnedProcesses;
+const afterErrors = [];
+try {
+  const prepared = await prepareRun(compositePath, compositeSha);
+  ({ manifestPath, manifestSha, manifest: m } = prepared);
+  ({ qualification: q } = await admitRun(manifestPath, manifestSha));
+  const owner = resolve(root, 'scripts/bench/owned-command.mjs');
+  assert.equal(digest(owner), q.ownedCommandDigest);
+  const owned = await import(pathToFileURL(owner).href);
+  verifyNoOwnedProcesses = owned.verifyNoOwnedProcesses;
+  code = await owned.runOwnedCommand({ name: 'official-tests', root, receipt: m.directory + '.receipts',
+    args: [resolve(root, 'node_modules/vitest/vitest.mjs'), ...args,
+      '--reporter=default', '--reporter=' + resolve(root, 'scripts/test/lifecycle-reporter.mjs')],
+    deadlineMs: 300000,
+    env: { ...process.env, NATIVE_FLIGHT_RUN: manifestPath, NATIVE_FLIGHT_RUN_SHA: manifestSha,
+      NATIVE_FLIGHT_MAPPED_CODE: resolve(m.directory, q.mappedCode),
+      NATIVE_FLIGHT_LIFECYCLE: m.directory + '.lifecycle.json' } });
+} catch (error) { failure = describeError(error); }
+// Independent postaudit steps continue after a primary failure and retain each error.
+if (m) {
+  try { await admitRun(manifestPath, manifestSha); } catch (error) { afterErrors.push({ stage: 'source-tools-artifact', error: describeError(error) }); }
+  try {
+    receipt = parse(resolve(m.directory + '.receipts', 'official-tests.process.json'));
+    assert.equal(receipt.failure, null); assert.equal(receipt.closed, true);
+    assert.equal(receipt.cleanup.executing.length, 0);
+  } catch (error) { afterErrors.push({ stage: 'owned-process-receipt', error: describeError(error) }); }
+  try {
+    lifecycle = parse(m.directory + '.lifecycle.json');
+    assert.equal(lifecycle.reason, 'passed');
+    assert.deepEqual(lifecycle.unhandledErrors, []);
+    for (const module of lifecycle.modules) {
+      assert.deepEqual(module.errors, []);
+      for (const suite of module.suites) {
+        assert.deepEqual(suite.errors, []);
+        assert.notEqual(suite.options.mode, 'only');
+        assert.notEqual(suite.options.fails, true);
+      }
+    }
+    const native = lifecycle.inventory.filter(row => row.project === 'native-flight');
+    assert.equal(native.length, 21);
+    assert.deepEqual(native.map(row => ({ file: row.file, fullName: row.fullName })).sort((a, b) =>
+      (a.file + a.fullName).localeCompare(b.file + b.fullName)), q.expectedNativeInventory);
+    for (const row of native) {
+      assert.equal(row.options.timeout, expectedTestTimeout);
+      assert.equal(row.result.state, 'passed'); assert.equal(row.options.mode, 'run');
+      assert.notEqual(row.options.fails, true);
+      assert.equal(row.diagnostic.retryCount, 0); assert.equal(row.diagnostic.repeatCount, 0);
+      assert.equal(row.diagnostic.flaky, false);
+      assert.equal(row.options.repeats ?? 0, 0); assert.equal(row.options.retry ?? 0, 0);
+    }
+  } catch (error) { afterErrors.push({ stage: 'named-original-lifecycle', error: describeError(error) }); }
+}
+if (m && q) {
+  try {
+    const names = readdirSync(m.directory + '.receipts').filter(name => /^native-worker-\d+-\d+\.jsonl$/.test(name));
+    assert.equal(names.length, 2);
+    const seen = new Set(), covered = new Set();
+    for (const name of names) {
+      const bytes = readFileSync(resolve(m.directory + '.receipts', name)); assert(bytes.length <= 65536);
+      const rows = bytes.toString('utf8').trimEnd().split('\n').map(line => JSON.parse(line));
+      const first = rows[0]; assert.equal(first.kind, 'startup');
+      assert(receipt.cleanup.tracked.some(row => row.pid === first.pid && row.start === first.start),
+        'Native worker PID/start not tracked by actual owned official-tests process receipt');
+      const identity = first.pid + ':' + first.start; assert(!seen.has(identity)); seen.add(identity);
+      assert.equal(name, 'native-worker-' + first.pid + '-' + first.start + '.jsonl');
+      assert.equal(first.nodeVersion, process.version); assert.equal(first.nodeBinary, digest(process.execPath));
+      assert.equal(first.runSha, manifestSha); assert.equal(first.loaderSha, digest(resolve(root, 'scripts/test/loader.mjs')));
+      assert.deepEqual(first.code, m.files);
+      for (const row of rows) { assert.equal(row.pid, first.pid); assert.equal(row.start, first.start); }
+      const aliases = rows.filter(row => row.kind === 'original-alias');
+      const parents = [...new Set(aliases.map(row => row.parentURL))]; assert.equal(parents.length, 1);
+      assert.equal(rows.filter(row => row.kind === 'rejected-original-alias').length, 0, 'Rejected native alias requests');
+      const originalLoads = rows.filter(row => row.kind === 'original-load');
+      assert.equal(originalLoads.length, 1);
+      const certificate = originalLoads[0];
+      assert.equal(certificate.url, parents[0]);
+      const original = originalTests.find(file => pathToFileURL(resolve(root, file)).href === certificate.canonicalParentURL);
+      assert(original, 'Unrecognized canonical original file');
+      assert.equal(certificate.file, original);
+      assert(['module', 'module-typescript'].includes(certificate.format));
+      assert.equal(certificate.sourceSha, q.originalTests[original]);
+      assert.equal(certificate.sourceSha, digest(resolve(root, original)));
+      assert(Number.isSafeInteger(certificate.sourceBytes) && certificate.sourceBytes > 0 && certificate.sourceBytes <= 16 * 1024 * 1024);
+      assert(Number.isSafeInteger(certificate.tokenDigits) && certificate.tokenDigits === String(Date.now()).length);
+      if (certificate.cacheToken === null) assert.equal(certificate.url, certificate.canonicalParentURL);
+      else {
+        assert.match(certificate.cacheToken, new RegExp('^[0-9]{' + certificate.tokenDigits + '}$'));
+        assert(Number.isSafeInteger(Number(certificate.cacheToken)));
+        assert.equal(String(Number(certificate.cacheToken)), certificate.cacheToken);
+        assert.equal(certificate.url, certificate.canonicalParentURL + '?vitest=' + certificate.cacheToken);
+      }
+      assert(!covered.has(certificate.canonicalParentURL)); covered.add(certificate.canonicalParentURL);
+      assert(rows.indexOf(certificate) < rows.indexOf(aliases[0]), 'Parent load must precede alias resolution');
+      assert.deepEqual(aliases.map(row => row.specifier).sort(), [...runtimeAliases[original]].sort());
+      for (const row of aliases) {
+        assert(q.aliases.includes(row.specifier));
+        assert.equal(row.canonicalParentURL, certificate.canonicalParentURL);
+        assert.equal(row.cacheToken, certificate.cacheToken);
+        assert.equal(row.parentSourceSha, certificate.sourceSha);
+        assert(rows.indexOf(certificate) < rows.indexOf(row));
+        assert.equal(row.url, row.specifier === '$core/constants' ? first.constantsURL : first.entryURL);
+      }
+      const loads = rows.filter(row => row.kind === 'native-load');
+      assert.deepEqual(loads.map(row => row.url).sort(), [first.entryURL, first.constantsURL, first.chunkURL].sort());
+      for (const row of loads) {
+        assert.equal(row.format, 'module');
+        const codeName = row.url === first.entryURL ? 'entry.mjs' : row.url === first.constantsURL ? 'constants.mjs' : q.mappedCode;
+        assert.equal(row.sourceSha, m.files[codeName]);
+        assert.equal(row.sourceSha, digest(new URL(row.url)));
+      }
+      assert(rows.some(row => row.kind === 'native-module-edge' && row.parentURL === first.entryURL && row.url === first.chunkURL));
+      assert(rows.some(row => row.kind === 'native-module-edge' && row.parentURL === first.constantsURL && row.url === first.entryURL));
+    }
+    assert.equal(covered.size, 2);
+  } catch (error) { afterErrors.push({ stage: 'native-worker-module-provenance', error: describeError(error) }); }
+}
+if (verifyNoOwnedProcesses) {
+  try { assert(verifyNoOwnedProcesses().every(row => row.executing.length === 0)); }
+  catch (error) { afterErrors.push({ stage: 'owned-process-live-audit', error: describeError(error) }); }
+}
+const completed = code === 0 && failure === null && afterErrors.length === 0;
+writeFileSync(resolve(wrapper, 'result.json'), JSON.stringify({ kind: 'official-tests-owner-result-v1',
+  completed, rawCode: code, failure, afterErrors, manifestPath, manifestSha,
+  processReceipt: receipt, lifecycle,
+  parentMustIndependentlyVerifyAllObservedAndTrackedPidStarts: true }) + '\n', { flag: 'wx' });
+process.stdout.write('Official test receipt: ' + resolve(wrapper, 'result.json') + '\n');
+process.exitCode = completed ? 0 : 1;

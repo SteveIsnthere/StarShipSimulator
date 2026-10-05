@@ -1,0 +1,26 @@
+/** Pure strings only; never import/execute either stage. Root alone may run after source review. */
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const base = new URL('./', import.meta.url);
+const original = readFileSync(new URL('business-stage.mjs.txt', base), 'utf8');
+const repaired = readFileSync(new URL('business-stage.ansi-lint-clean.mjs.txt', base), 'utf8');
+const oldExpression = String.raw`failure.message.replace(/\u001b\[[0-9;]*m/g, '')`;
+const newExpression = String.raw`failure.message.replace(new RegExp(String.fromCharCode(27) + '\\[[0-9;]*m', 'g'), '')`;
+assert.equal(original.split(oldExpression).length, 2);
+assert.equal(repaired.split(newExpression).length, 2);
+assert.equal(repaired.replace(newExpression, oldExpression), original);
+const ansi = new RegExp(String.fromCharCode(27) + '\[[0-9;]*m', 'g');
+const esc = String.fromCharCode(27);
+const controls = [
+  ['single-color', esc + '[31mexpect(received)' + esc + '[0m', 'expect(received)'],
+  ['multiple-numeric-codes', esc + '[1;31mfoo' + esc + '[22;0m', 'foo'],
+  ['empty-numeric-code', esc + '[mbar', 'bar'],
+  ['plain-brackets-kept', '[31mfoo', '[31mfoo'],
+  ['wrong-terminator-kept', esc + '[31Kfoo', esc + '[31Kfoo'],
+  ['nonnumeric-code-kept', esc + '[redmfoo', esc + '[redmfoo'],
+];
+for (const [name, input, expected] of controls) assert.equal(input.replace(ansi, ''), expected, name);
+console.log(JSON.stringify({ neutralOneExpressionRestoresExactOldBytes: true,
+  originalSha: createHash('sha256').update(original).digest('hex'), repairedSha: createHash('sha256').update(repaired).digest('hex'),
+  controls: controls.map(([name]) => ({ name, passed: true })), noStageImportOrBrowser: true }));

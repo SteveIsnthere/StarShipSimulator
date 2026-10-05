@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "kind": "static-observed-Fidelity-audit-and-exact-replay-proposal",
+  "fixturePayloadRead": false,
+  "productEdits": false,
+  "replayExecutionApproved": false,
+  "files": {
+    "/workspace/StarShipSimulator/tests/golden/unification.test.ts": "b43c2ae8be0dc1d456f8b18cefdedf2359b79faacfec3f2956b97ec65a7902b1",
+    "/workspace/StarShipSimulator/tests/golden/booster-replay.test.ts": "c4d0171d19e76a3fd057573b46ec760b727b8c3a99595d36a01fd91b3e672ead",
+    "/workspace/StarShipSimulator/tests/golden/replay.test.ts": "fe7452774f014ef8ce2100bafbb2fe64ee7e4f17d559d878d26941986eb12880",
+    "/workspace/StarShipSimulator/tests/golden/booster-record.test.ts": "6d7b9755311f6aa618be439750e174a3810b76fc6c00b354e4c68a597e1842c8",
+    "/workspace/StarShipSimulator/tests/golden/compare.test.ts": "eed7c4ee9b9cdd32accae85b0f03caff5135a619394654f9fa38cc2e04d2225f",
+    "/workspace/StarShipSimulator/tests/golden/record.ts": "a5d1d85d26d31f889656aacf5109b7a1d142886106d3bfa61e83e43188bfbb9e",
+    "/workspace/StarShipSimulator/scripts/test/projects.mjs": "c66962822c99bbc0f810afe57fd8ce6e00828c66b5c758024a42bba40b5d88da",
+    "/workspace/StarShipSimulator/scripts/test/lifecycle-reporter.mjs": "5b05f504211f4571bee7452996c6613632e6f06384e9386bb9b555ab0417a2ae",
+    "/workspace/StarShipSimulator/vitest.config.ts": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/predictions.json": "ec68e8ab990cf833140bd3e94859425da1a409d326ad71125346d8a8235adf25",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/independent-policy-truth-and-prelook-review.md": "f0d0e375db42ae19672dbaaa7187f986f6e9e5da7d5cc45f4b397353b21a8c3e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/observed-audit-and-replay-proposal/proposal.md": "4173665624e7961282651ac7be6a4b29ded486c832eb29da7e61da76f55d8d45"
+  }
+}

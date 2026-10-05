@@ -1,0 +1,104 @@
+{
+  "kind": "lossless-recovery07-owned-artifact-copy-v1",
+  "rows": [
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/actual-outer-exit-final.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/actual-outer-exit-final.json",
+      "bytes": 62,
+      "sha256": "f27e46707e67706da79a2b09b51f6a6f97b14ad821f86366329ab6497661e307"
+    },
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/actual-outer-exit.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/actual-outer-exit.json",
+      "bytes": 61,
+      "sha256": "248d708a212bdd8cd57d9ed71aad6082932abccbdfa7155a9903e50858b54d96"
+    },
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/identities.jsonl",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/identities.jsonl",
+      "bytes": 2364,
+      "sha256": "b747a387b7d25bd520653ca1cbd3fafab90b2fbe49ce40560edbc03621074f3b"
+    },
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/outer-registration.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/outer-registration.json",
+      "bytes": 114,
+      "sha256": "f257587c7dc522b2246380c7d492abe7d6c837788973e0685962519316ffac21"
+    },
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/outer.stderr.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/outer.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/outer.stdout.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/outer.stdout.txt",
+      "bytes": 57,
+      "sha256": "6697dc994097cb08d2485f6cea77eee030bfff94e1faeb3fc383bad86c6e4c7a"
+    },
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/root-helper-identity-correspondence.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/root-helper-identity-correspondence.json",
+      "bytes": 1795,
+      "sha256": "c89c1dd450b69e7c173feb3babf43e6cfbbc64161a438cc0dd14729bc67403a9"
+    },
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/root-independent-postexit.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/root-independent-postexit.json",
+      "bytes": 2365,
+      "sha256": "aa933287cb008347adf7543a11ba70797237fbb67142496498c0f5bcbfa75286"
+    },
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/root-outcome.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/root-outcome.json",
+      "bytes": 3126,
+      "sha256": "d1bcf6b67fa5ae8963ae97f900bd932979cc0b45ed9002294fbda2809a542ef0"
+    },
+    {
+      "original": "/tmp/starship-recovery07-root.ay6in29n/stage.mjs",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/root/stage.mjs.txt",
+      "bytes": 4737,
+      "sha256": "c1e3c4bb82d3113ccc72d30a38dc56d538b16079a97d0e537a8367d46ed54119"
+    },
+    {
+      "original": "/tmp/starship-recovery07-stage.zU6YbI/capture.py",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/stage/capture.py.txt",
+      "bytes": 16068,
+      "sha256": "2b947e07bfa8afc14dd9889538c99279e9b83995df287e0e778db07c1716d49b"
+    },
+    {
+      "original": "/tmp/starship-recovery07-stage.zU6YbI/executed-bridge.mjs.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/stage/executed-bridge.mjs.txt",
+      "bytes": 493,
+      "sha256": "4b21d1bbd1f0de3de768ae31279384a3458dada0dbb324e0ab60af3a188c9cdc"
+    },
+    {
+      "original": "/tmp/starship-recovery07-stage.zU6YbI/recovery07-capture.process.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/stage/recovery07-capture.process.json",
+      "bytes": 1958,
+      "sha256": "d965866193c42c01a572400c8a0f09b09c59ea9effe24c4bc660d9f5a8231e55"
+    },
+    {
+      "original": "/tmp/starship-recovery07-stage.zU6YbI/recovery07-capture.stderr.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/stage/recovery07-capture.stderr.txt",
+      "bytes": 87,
+      "sha256": "9a56c8e7dad430bd5c17f51c08d47d33d33a7449ff7710de7dacbfa5ed098058"
+    },
+    {
+      "original": "/tmp/starship-recovery07-stage.zU6YbI/recovery07-capture.stdout.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/stage/recovery07-capture.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-recovery07-stage.zU6YbI/stage-result.json",
+      "canonical": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/stage/stage-result.json",
+      "bytes": 1456,
+      "sha256": "d6156749d52a8892c83217d069f710175c6059bc892ef0cb3aa43f72dd6ac370"
+    }
+  ],
+  "originalsPreserved": true,
+  "sourceInputsUnchanged": true,
+  "purpose": "Durable exact raw root/stage/private executing bytes; no new capture or acceptance"
+}

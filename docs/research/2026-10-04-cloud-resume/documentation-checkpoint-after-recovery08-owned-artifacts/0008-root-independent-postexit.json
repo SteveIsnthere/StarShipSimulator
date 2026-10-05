@@ -1,0 +1,76 @@
+{
+  "identities": [
+    {
+      "identity": {
+        "pid": 125692,
+        "state": "R",
+        "parent": 125691,
+        "group": 125692,
+        "session": 125692,
+        "start": "7868756"
+      },
+      "status": "ABSENT",
+      "observed": null
+    },
+    {
+      "identity": {
+        "pid": 125699,
+        "state": "R",
+        "parent": 125692,
+        "group": 125699,
+        "session": 125699,
+        "start": "7868897"
+      },
+      "status": "ABSENT",
+      "observed": null
+    },
+    {
+      "identity": {
+        "pid": 125706,
+        "state": "R",
+        "parent": 125692,
+        "group": 125706,
+        "session": 125706,
+        "start": "7868902"
+      },
+      "status": "ABSENT",
+      "observed": null
+    },
+    {
+      "identity": {
+        "pid": 125691,
+        "start": "7868734",
+        "group": 125691,
+        "session": 125691
+      },
+      "status": "ABSENT",
+      "observed": null
+    }
+  ],
+  "counts": {
+    "ABSENT": 4
+  },
+  "ownedGroups": [
+    {
+      "group": 125692,
+      "session": 125692,
+      "start": "7868756",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 125699,
+      "session": 125699,
+      "start": "7868897",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 125706,
+      "session": 125706,
+      "start": "7868902",
+      "cleared": true,
+      "uncertain": false
+    }
+  ]
+}

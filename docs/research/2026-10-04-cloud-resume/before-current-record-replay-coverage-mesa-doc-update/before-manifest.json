@@ -1,0 +1,73 @@
+{
+  "files": [
+    {
+      "path": "docs/plans/modernization/modernization-GOAL.md",
+      "beforePath": "docs/research/2026-10-04-cloud-resume/before-current-record-replay-coverage-mesa-doc-update/modernization-GOAL.md.txt",
+      "sha": "85472b5d9d93164c7f8bd38600a5738c82060960a898656dcd3d6b3de846f13b",
+      "bytes": 26189
+    },
+    {
+      "path": "docs/plans/modernization/modernization-handover.md",
+      "beforePath": "docs/research/2026-10-04-cloud-resume/before-current-record-replay-coverage-mesa-doc-update/modernization-handover.md.txt",
+      "sha": "ca3479ade9eb6ea958607d8ade0a2c140f1224267e652eaa51e64dd50d63c8b3",
+      "bytes": 39623
+    },
+    {
+      "path": "docs/plans/modernization/modernization-phase-8.md",
+      "beforePath": "docs/research/2026-10-04-cloud-resume/before-current-record-replay-coverage-mesa-doc-update/modernization-phase-8.md.txt",
+      "sha": "8bfcfa5c524c796cf8118f0030bc5f901e9c94a0002665cacd0fae95875a91bd",
+      "bytes": 53373
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/README.md",
+      "beforePath": "docs/research/2026-10-04-cloud-resume/before-current-record-replay-coverage-mesa-doc-update/README.md.txt",
+      "sha": "11f583898adc56cae339e5473fb39d91b40ee71ac413bad243a8601ea52f742e",
+      "bytes": 44817
+    }
+  ],
+  "finiteLiveInputChecks": [
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-original12-proof-f8d1c927a3a24b07b6017241c08e05cf/input.json",
+      "sha": "980c13b80b5423b3196a5fdb68ab39631fa20991cd6395e427ebf268bdf3674c",
+      "fourDocsPinned": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-original12-proof-f8d1c927a3a24b07b6017241c08e05cf/root-inventory.json",
+      "sha": "6573b99147e2856c11ea21ec337ddf5734e940162c83f5f4adcb50d174f40e51",
+      "fourDocsPinned": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-functional-input.json",
+      "sha": "c05b727652dbea1761bab5bdebd22dbefa67fda2734edde75e37607821dd5841",
+      "fourDocsPinned": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-owner-input.json",
+      "sha": "0a28b7dfaa7ed66f1f5ddcaf36fda8cd7f241461e962002d9dd6e6a5946bbbc0",
+      "fourDocsPinned": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-parent-closure.json",
+      "sha": "5fb5ad0ab3d4f02f87739cf1e650eb813339876936c0b0ca6960bcec5d4850ec",
+      "fourDocsPinned": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-input-freeze.json",
+      "sha": "f9626a9506b4c3ae6e8bbd897477211d12761f3037f2e705a4840de39fcf8118",
+      "fourDocsPinned": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/proposal-pins.json",
+      "sha": "dadc85d246d60c9be035670ec2c5ec837e76636beb1fdadb4f57cddf58d9cca1",
+      "fourDocsPinned": false
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-input/inventory.json",
+      "sha": "7697edd1cd25bbbccfe8afc27e8e61f282227cc9fd9d9efbfd8d6394e3be5460",
+      "fourDocsPinned": false
+    }
+  ],
+  "original12InputsChecked": 61,
+  "mesaDiagnosticFilePinsChecked": 259,
+  "wholeSourceOrToolsScanned": false
+}

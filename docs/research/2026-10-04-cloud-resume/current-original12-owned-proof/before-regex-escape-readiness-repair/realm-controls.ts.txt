@@ -1,0 +1,31 @@
+// PURE research controls. Same reviewed adapted comparator executes through locked vite-node SSR.
+import assert from 'node:assert/strict';
+import {createContext,runInContext} from 'node:vm';
+import {graphOracle} from './consumer-graph-oracle';
+const context=createContext({});
+const foreign=runInContext('({Object,Array})',context) as {Object:ObjectConstructor;Array:ArrayConstructor};
+const prototypes={leftObject:Object.prototype,rightObject:foreign.Object.prototype,leftArray:Array.prototype,rightArray:foreign.Array.prototype};
+const cases:string[]=[];
+function check(name:string,run:()=>void){run();cases.push(name);}
+function denied(run:()=>void,message:RegExp){assert.throws(run,error=>{assert(error instanceof assert.AssertionError);assert.equal(error.code,'ERR_ASSERTION');assert.match(error.message,message);return true;});}
+function oracle(){return graphOracle({}, {},prototypes);}
+function right(text:string){return runInContext(text,context) as object;}
+check('positive distinct Object and Array realms full fields',()=>oracle().compare({a:[1,-0,NaN]},right('({a:[1,-0,NaN]})')));
+check('positive null prototypes',()=>oracle().compare(Object.assign(Object.create(null),{x:1}),right('Object.assign(Object.create(null),{x:1})')));
+check('positive cycles and shared aliases',()=>{const a:{self?:unknown;child?:unknown;alias?:unknown}={};a.self=a;a.child={x:1};a.alias=a.child;oracle().compare(a,right('(()=>{const a={};a.self=a;a.child={x:1};a.alias=a.child;return a})()'));});
+check('positive separately frozen nested realms',()=>oracle().compare(Object.freeze({x:Object.freeze([1,2])}),right('Object.freeze({x:Object.freeze([1,2])})')));
+check('negative signed zero exact scalar',()=>denied(()=>oracle().compare({n:-0},right('({n:0})')),/^root\.n: -0 !== 0$/));
+check('negative NaN versus number',()=>denied(()=>oracle().compare({n:NaN},right('({n:1})')),/^root\.n: NaN !== 1$/));
+check('negative descriptor flags',()=>denied(()=>oracle().compare(Object.defineProperty({},'x',{value:1,enumerable:true}),right("Object.defineProperty({},'x',{value:1,enumerable:false})")),/^root\.x\.enumerable/));
+check('negative ordered own keys',()=>denied(()=>oracle().compare({a:1,b:2},right('({b:2,a:1})')),/^root own keys/));
+check('negative null prototype mismatch',()=>denied(()=>oracle().compare(Object.create(null),right('({})')),/^root null prototype$/));
+check('negative unsupported left prototype',()=>denied(()=>oracle().compare(Object.create({}),right('({})')),/^root unsupported prototype$/));
+check('negative unsupported right prototype',()=>denied(()=>oracle().compare({},right('Object.create({})')),/^root unsupported prototype$/));
+check('negative alias split',()=>{const x={n:1};denied(()=>oracle().compare({x,y:x},right('({x:{n:1},y:{n:1}})')),/^forward alias mismatch root\.y$/);});
+check('negative alias merge',()=>denied(()=>oracle().compare({x:{n:1},y:{n:1}},right('(()=>{const x={n:1};return {x,y:x}})()')),/^reverse alias mismatch root\.y$/));
+check('negative accessor never invokes',()=>{let reads=0;const a=Object.defineProperty({},'x',{get(){reads++;return 1}});denied(()=>oracle().compare(a,right("Object.defineProperty({},'x',{get(){throw Error('must not invoke')}})")),/^root\.x accessor unsupported$/);assert.equal(reads,0);});
+check('negative unmapped function',()=>denied(()=>oracle().compare({f:()=>1},right('({f:()=>1})')),/^unmapped function root\.f$/));
+check('positive mapped operation and negative different callback',()=>{const l=()=>1,r=runInContext('()=>1',context) as ()=>number;const o=graphOracle({f:l},{f:r},prototypes);const b=Object.assign(right('({})'),{f:r});o.compare({f:l},b);const wrong=Object.assign(right('({})'),{f:()=>1});denied(()=>o.compare({f:l},wrong),/^unmapped function root\.f$/);});
+check('negative mutation after prior mutable equality',()=>{const a={x:1},b=right('({x:1})') as {x:number},o=oracle();o.compare(a,b);b.x=2;denied(()=>o.compare(a,b),/^root\.x: 1 !== 2$/);});
+assert.equal(cases.length,17);assert.equal(new Set(cases).size,17);
+process.stdout.write(JSON.stringify({kind:'adapted-realm-comparator-controls-v1',cases,passed:17,failed:0,skipped:0,solverCalls:0,physicalImports:0})+'\n');

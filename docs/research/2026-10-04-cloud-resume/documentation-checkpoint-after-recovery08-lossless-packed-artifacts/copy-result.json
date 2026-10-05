@@ -1,0 +1,17 @@
+{
+  "completed": true,
+  "primaryFailure": null,
+  "posterrors": [],
+  "posterrorCount": 0,
+  "errorRecordsCappedAt": 128,
+  "sourceRows": 12319,
+  "sourceExpandedBytes": 414013070,
+  "gzipAliases": 277,
+  "uniqueGzipPayloads": 150,
+  "publishedBytesIncludingManifest": 122140034,
+  "publicationCap": 268435456,
+  "resultReserveBytes": 1048576,
+  "elapsedSeconds": 8.14989220899588,
+  "proposalSha256": "85dc6bea2a4ab1c53758256a0bf0e9ad38209c57745e8497865ff81f826359c6",
+  "executedScriptSha256": "42de019980ce4c285e004e886eb24ff6c88e739cc5e5625b95c2cc4fb89efc09"
+}

@@ -1,0 +1,23 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ |native-flight| tests/flies-every-scenario.test.ts (17 tests) 35336ms
+     ✓ launch-pad flies  814ms
+     ✓ booster-sep flies  531ms
+     ✓ circularize flies  1055ms
+     ✓ deorbit flies  1066ms
+     ✓ booster-sep: auto-land landed  21525ms
+     ✓ rtls: auto-land landed  5149ms
+     ✓ before-flip: auto-land landed  303ms
+     ✓ reentry: auto-land landed  2038ms
+     ✓ reentry: survives the heat it now actually meets  2041ms
+ ✓ |native-flight| tests/core/booster-guidance.test.ts (4 tests) 45041ms
+     ✓ booster-sep: autopilot catches the actual33-engine booster within900s  21490ms
+     ✓ rtls: autopilot catches the actual33-engine booster within900s  5175ms
+     ✓ cannot fabricate a catch when every engine is failed  18371ms
+
+ Test Files  2 passed (2)
+      Tests  21 passed (21)
+   Start at  19:21:11
+   Duration  46.47s (transform 0ms, setup 0ms, import 137ms, tests 80.38s, environment 0ms)
+

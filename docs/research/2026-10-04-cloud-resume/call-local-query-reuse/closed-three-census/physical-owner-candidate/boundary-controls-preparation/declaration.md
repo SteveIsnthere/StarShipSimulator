@@ -1,0 +1,7 @@
+# Inert loader boundary controls
+
+Unexecuted source only. Fourteen controls evaluate source-extracted artifactTarget/allowArtifact and the exact authored resolve/load callback body through a dependency-injected registration collector. No actual Node global hook is installed, no native/physics module is imported, and no public worker lifecycle is approved. Private fixture certificates, nextResolve/nextLoad and digest are explicit stand-ins; real public source/load identity still requires the subsequent actual worker receipt.
+
+Negative cases deny foreign application aliases, unknown aliases, foreign absolute artifact imports, artifact query/fragment, nonexecuting artifact URLs, observer chunk bootstrap, foreign emitted edges, unresolved artifact loads and mismatched loaded bytes. Positive cases admit exactly certified original alias, observer entry bootstrap, compiler local chunk edge and preserve the delegated loaded source object. Each fixture starts fresh. Exact pinned callback source/hash and fourteen unique names are retained.
+
+This is designed as one <=5s owned child before any physical episode, with the existing owned-command cleanup/output bounds and root whole300 budget unchanged. Current source package is separate and cannot execute these controls until a distinct integrated owner/input freeze and independent HIGH. No physical/profile/fixture/unit/coverage acceptance is inferred.

@@ -1,0 +1,45 @@
+// Public Node Inspector source evidence only; no export/math/test mutation.
+import {Session} from 'node:inspector';
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {threadId} from 'node:worker_threads';
+const input=process.env.STARSHIP_VIEW_PROFILE_INPUT,expected=process.env.STARSHIP_VIEW_PROFILE_INPUT_SHA;
+const digest=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+if(!input||!expected||digest(input)!==expected)throw Error('Pinned worker profile input required');
+const m=JSON.parse(readFileSync(input,'utf8'));if(m.kind!=='covered-view-clock-profile-input-v1')throw Error('Wrong profile input');
+if(digest(fileURLToPath(import.meta.url))!==m.preload.sha||digest(process.execPath)!==m.node.sha)throw Error('Profile worker code/Node changed');
+const raw=readFileSync(`/proc/${process.pid}/stat`,'utf8'),fields=raw.slice(raw.lastIndexOf(')')+2).split(' ');const start=fields[19];
+for(const flag of ['--cpu-prof',`--cpu-prof-dir=${resolve(m.profileReceipt,'profiles')}`,'--cpu-prof-interval=1000'])if(!process.execArgv.includes(flag))throw Error('Required profile flag missing:'+flag);
+const directory=resolve(m.profileReceipt,`worker-${process.pid}-${start}-${threadId}`);mkdirSync(directory,{mode:0o700});
+const session=new Session(),scripts=[],errors=[],seen=new Set();let pending=0,bytes=0,closed=false,enabled=false;
+const save=(name,v)=>writeFileSync(resolve(directory,name),JSON.stringify(v,null,2)+'\n',{flag:'wx',mode:0o600});
+save('identity.json',{pid:process.pid,start,threadId,node:process.version,nodeSha:m.node.sha,execArgv:process.execArgv,inputSha:expected,preloadSha:m.preload.sha,hrtimeNs:process.hrtime.bigint().toString(),scope:'whole worker; profiler/reporter clocks not presumed interchangeable'});
+function fail(error){errors.push(String(error.stack??error));}
+session.on('Debugger.scriptParsed',({params})=>{
+ if(!params.url.includes(m.root+'/src/')&&!params.url.includes(m.root+'/tests/app/view-clock.test.ts'))return;
+ try{
+  if(closed)throw Error('Relevant script after recorder close');if(!/^[0-9]+$/.test(params.scriptId))throw Error('Unexpected scriptId');
+  if(seen.has(params.scriptId))return;if(seen.size>=256)throw Error('Relevant script identity cap256');seen.add(params.scriptId);pending++;
+  session.post('Debugger.getScriptSource',{scriptId:params.scriptId},(error,result)=>{
+   try{
+    if(error)throw error;const source=result.scriptSource;if(typeof source!=='string')throw Error('Missing actual script source');
+    const size=Buffer.byteLength(source);if(size>1024*1024||bytes+size>64*1024*1024)throw Error('Actual script-source storage cap');bytes+=size;
+    const file=`script-${params.scriptId}.txt`;writeFileSync(resolve(directory,file),source,{flag:'wx',mode:0o600});
+    scripts.push({scriptId:params.scriptId,url:params.url,startLine:params.startLine,startColumn:params.startColumn,endLine:params.endLine,endColumn:params.endColumn,
+     v8Hash:params.hash,sourceMapURL:params.sourceMapURL??null,file,bytes:size,sha256:createHash('sha256').update(source).digest('hex')});
+   }catch(e){fail(e);}finally{pending--;}
+  });
+ }catch(e){fail(e);}
+});
+try{session.connect();session.post('Debugger.enable',error=>{if(error)fail(error);else enabled=true;});}catch(error){fail(error);}
+// Existing worker shutdown determines the boundary; no body hook or additional flight.
+process.on('exit',code=>{
+ if(closed)return;closed=true;
+ try{session.disconnect();}catch(error){fail(error);}
+ try{if(pending!==0)fail(Error(`Pending source requests at worker exit:${pending}`));
+  save('finalized.json',{kind:'covered-view-worker-source-record-v1',completed:enabled&&pending===0&&errors.length===0,enabled,pending,errors,rawWorkerExitCode:code,
+   pid:process.pid,start,threadId,scripts,scriptBytes:bytes,caps:{scripts:256,perScript:1048576,total:67108864},mapping:'Actual Debugger scriptId/URL/source text only; unknown profiler samples remain unknown',diagnosticOverhead:true});
+ }catch(error){process.stderr.write(String(error.stack??error)+'\n');}
+});

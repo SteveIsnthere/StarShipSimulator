@@ -1,0 +1,41 @@
+{
+  "checks": [
+    {
+      "name": "root-ast",
+      "code": 0,
+      "elapsedSeconds": 0.0037245080020511523
+    },
+    {
+      "name": "business-stage-selected2.mjs.txt.syntax",
+      "code": 0,
+      "elapsedSeconds": 0.02931401299429126
+    },
+    {
+      "name": "business-stage-selected2.mjs.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9056764060005662
+    },
+    {
+      "name": "capture-reporter-ssr.mjs.txt.syntax",
+      "code": 0,
+      "elapsedSeconds": 0.026814107004611287
+    },
+    {
+      "name": "capture-reporter-ssr.mjs.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8412586839986034
+    },
+    {
+      "name": "progress-reporter.mjs.txt.syntax",
+      "code": 0,
+      "elapsedSeconds": 0.0276309390028473
+    },
+    {
+      "name": "progress-reporter.mjs.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.887790020002285
+    }
+  ],
+  "all9PinsBeforeAfterMatched": true,
+  "passed": true
+}

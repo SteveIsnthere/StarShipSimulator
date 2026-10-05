@@ -1,0 +1,11 @@
+{
+  "name": "parent-validator-controls.mjs.execution",
+  "code": 0,
+  "elapsedSeconds": 0.03601934100151993,
+  "args": [
+    "/tmp/starship-v7-pure-controls.6tsksjky/parent-validator-controls.mjs",
+    "/tmp/starship-v7-pure-controls.6tsksjky/loader.mjs"
+  ],
+  "stdoutSHA": "facd84ec1aa40db0e734624742cc149d5a08ea09c5b9b8bffa0d54eb123b7c6e",
+  "stderrSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

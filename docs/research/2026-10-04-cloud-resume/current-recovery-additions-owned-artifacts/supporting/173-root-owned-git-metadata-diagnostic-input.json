@@ -1,0 +1,51 @@
+{
+  "kind": "mesa-receipt-git-pathspec-diagnostic-input-v1",
+  "git": {
+    "path": "/usr/local/bin/git",
+    "sha": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "diagnostic": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-diagnostic.py.txt",
+    "sha": "311fd9b4a2f2e390cb1a5dd193f6b4fb08b37326076663ca4aabb896bb60f30c"
+  },
+  "originalSource": {
+    "path": "/workspace/StarShipSimulator/tests/e2e/visual-runtime-receipt.ts",
+    "sha": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e"
+  },
+  "candidateSource": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/visual-runtime-receipt.pathspec-candidate.ts.txt",
+    "sha": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e"
+  },
+  "sourcePins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-concrete-source-pins.json",
+    "sha": "6f1e9b4bf0bbdc15964cc08c91751645e2c6a12232abed3460adb0d8d9c65b5e"
+  },
+  "sourceReview": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-finalizer-repair-HIGH-review.md",
+    "sha": "eb35a80872e51e329f5227ec28a4e79c2da1b49dea9cb1bb5b7b1a213eb3f5cf"
+  },
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/serialization-v2/root-observer.py.txt": "42f335e4e06cfa57d9f9483a12c454aa6c8a29bb823d24fc0838ec23ade54b69",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-observer.py.txt": "5b1d7c59b0cb488e88ce36fb2ac6d1e48c9571c04c33caf29a2113e04fd387e3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-contract.md": "c0ceb5bbf1bddf316b8594b289ea8fc6fe2b7203f4c1f23d4ec69b499a6edbef",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-diagnostic.py.txt": "311fd9b4a2f2e390cb1a5dd193f6b4fb08b37326076663ca4aabb896bb60f30c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-concrete-source-pins.json": "6f1e9b4bf0bbdc15964cc08c91751645e2c6a12232abed3460adb0d8d9c65b5e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/visual-runtime-receipt.pathspec-candidate.ts.txt": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-repair-proposal.md": "6b1674ac09caccf8da967445938070aca4198f976e8014c93c178bd3bed00080",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-source/source-manifest.json": "70c5d96c6c936b89ded6fd056320831b7383af67a692af8847dc701475d43530",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-source/git-ls-files.txt": "68121e25c1f77931530d6c35605f37d42c9a4175c363d009abf27e6df4c6ab73",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-source/glossary-content.txt": "52ae249795c4eeb8b16c4677bfc28930e2a37a70a35d493ef9bfaec26b09e04a",
+    "/usr/local/bin/git": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "/workspace/StarShipSimulator/tests/e2e/visual-runtime-receipt.ts": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-finalizer-repair-HIGH-review.md": "eb35a80872e51e329f5227ec28a4e79c2da1b49dea9cb1bb5b7b1a213eb3f5cf",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-diagnostic-root-source-pins.json": "197070e630e017e153e85fc91e009c5671d334df484d177cd9b6549e7def4290",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-git-diagnostic-root-source-HIGH-review.md": "da2f70e667dcabae5fb87b23d74341e6384abdf00190a2a32fbe40732de835f3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-git-diagnostic-root-source-HIGH-pins.json": "44a65cd9142ba7599dbaca9831c6ad674d12a58724ce2c46485ce542606f6015",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-finalizer-repair-HIGH-pins.json": "6f1309577af419c0666a3f16a6031a51ba5c8101e60fc05c8ddefe6e67e303f5"
+  }
+}

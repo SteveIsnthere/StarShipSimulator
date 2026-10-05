@@ -1,0 +1,17 @@
+{
+  "returncode": 0,
+  "identity": {
+    "pid": 111289,
+    "start": "7018147",
+    "parent": 111286,
+    "group": 111286,
+    "session": 111286,
+    "state": "R"
+  },
+  "observedBytes": 41,
+  "combinedCohortBytes": 1646333,
+  "truncated": false,
+  "primaryError": null,
+  "teardownErrorsAtExit": [],
+  "elapsedSeconds": 0.12169241700030398
+}

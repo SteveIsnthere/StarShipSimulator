@@ -1,0 +1,30 @@
+--- accepted27owner
++++ current10owner
+@@ -8,10 +8,10 @@
+ const digest=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
+ const m=JSON.parse(readFileSync(input,'utf8'));
+ assert.equal(m.kind,'portable-native-pure-owner-input-v1');
+-assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'portable-native-pure-controls');
++assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'portable-native-post-golden-pure-controls');
+ assert.equal(process.version,'v22.23.3');assert.equal(digest(process.execPath),m.node.sha256);
+ assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);
+-assert.match(m.setup,/^\/tmp\/starship-portable-native-pure\.[a-f0-9]{32}$/);
++assert.match(m.setup,/^\/tmp\/starship-portable-native-post-golden-pure\.[a-f0-9]{32}$/);
+ assert.equal(fileURLToPath(import.meta.url),resolve(m.setup,'owner.mjs'));
+ const save=(name,value)=>writeFileSync(resolve(m.setup,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+ function snapshot(){
+@@ -37,9 +37,11 @@
+  assert.equal(readFileSync(resolve(m.setup,'portable-policy-controls.stderr.txt')).length,0);
+  const stdout=readFileSync(resolve(m.setup,'portable-policy-controls.stdout.txt'),'utf8');
+  assert.equal(stdout.trim().split('\n').length,1);output=JSON.parse(stdout);
+- assert.equal(output.kind,'exact-portable-admission-pure-fixture-controls');
+- assert.deepEqual(output.cases,m.expectedNames);assert.equal(new Set(output.cases).size,27);
+- for(const key of ['applicationImports','installedScans','sourceScans','hooksInstalled','compilerCalls','physicalCalls'])assert.equal(output[key],0);
++ assert.equal(output.kind,'pure-post-golden-policy-controls-v1');
++ assert.deepEqual(output.cases,m.expectedNames);assert.equal(new Set(output.cases).size,10);
++ assert.equal(output.positiveCases,2);assert.equal(output.negativeCases,8);
++ assert.equal(output.actualQualification,false);assert.equal(output.extractionStopsBeforeAdmitRun,true);
++ for(const key of ['physicalImports','installedScans','sourceScans'])assert.equal(output[key],0);
+ }catch(error){primary=String(error.stack??error);}
+ finally{
+  try{if(verifyNoOwnedProcesses){absence=verifyNoOwnedProcesses();save('helper-owned-absence.json',absence);}}catch(error){primary??=String(error.stack??error);}

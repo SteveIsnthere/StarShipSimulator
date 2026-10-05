@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "check": "AST parse only; no capture execution",
+  "digests": {
+    "script": "2b947e07bfa8afc14dd9889538c99279e9b83995df287e0e778db07c1716d49b",
+    "input": "eacb4ccf6f73b653a7d1992a763851932792dc73a54bbcbff0ceb8489458ad07"
+  },
+  "review": "recovery07-independent-finally-repair-HIGH-review.md",
+  "executionStillPendingBoundedOwnerRoute": true
+}

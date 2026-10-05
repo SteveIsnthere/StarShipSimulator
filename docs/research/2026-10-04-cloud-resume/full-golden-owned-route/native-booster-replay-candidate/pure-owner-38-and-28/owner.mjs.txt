@@ -1,0 +1,61 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {resolve} from 'node:path';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+const started=Date.now(),[input]=process.argv.slice(2);
+const digest=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
+const m=JSON.parse(readFileSync(input,'utf8'));
+assert.equal(m.kind,'native-golden-policy-owner-input-v1');
+assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'native-golden-policy-38-and-28');
+assert.equal(process.version,'v22.23.3');assert.equal(digest(process.execPath),m.node.sha256);
+assert.equal(m.node.sha256,'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48');
+assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);
+assert.match(m.setup,/^\/tmp\/starship-native-golden-policy-pure\.[a-f0-9]{32}$/);
+assert.equal(fileURLToPath(import.meta.url),resolve(m.setup,'owner.mjs'));
+const save=(name,value)=>writeFileSync(resolve(m.setup,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+function snapshot(){
+ const rows={};for(const [file,sha]of Object.entries(m.inputs)){rows[file]=digest(file);assert.equal(rows[file],sha,file);}
+ for(const [file,row]of Object.entries(m.executed)){rows[file]=digest(file);assert.equal(rows[file],row.sha256,file);}
+ rows[process.execPath]=digest(process.execPath);assert.equal(rows[process.execPath],m.node.sha256);return rows;
+}
+const programs=[
+ {name:'native-golden-helper-controls',file:'helper-controls.mjs',result:'helper-result.json',kind:'native-golden-support-policy-controls-v1',count:38},
+ {name:'native-golden-hook-controls',file:'hook-controls.mjs',result:'hook-result.json',kind:'native-golden-exact-inert-hook-controls-v1',count:28},
+];
+let before,code=null,primary=null,absence=null;let verifyNoOwnedProcesses;
+const processReceipts={},outputs={};
+try{
+ before=snapshot();save('before-inputs.json',before);assert.equal(digest(m.helper.path),m.helper.sha256);
+ const owned=await import(pathToFileURL(m.helper.path).href);verifyNoOwnedProcesses=owned.verifyNoOwnedProcesses;
+ for(const program of programs){
+  const args=[resolve(m.setup,program.file),resolve(m.setup,'policy.mjs'),m.executed[resolve(m.setup,'policy.mjs')].sha256];
+  if(program.count===28)args.push(resolve(m.setup,'loader.mjs'),m.executed[resolve(m.setup,'loader.mjs')].sha256);
+  args.push(resolve(m.setup,program.result));
+  code=await owned.runOwnedCommand({name:program.name,root:m.root,receipt:m.setup,args,
+   deadlineMs:Math.min(5000,22000-(Date.now()-started)-8000),env:{...process.env,NODE_OPTIONS:''}});
+  // Helper raw exit is durable before any result interpretation or next child.
+  const raw=JSON.parse(readFileSync(resolve(m.setup,program.name+'.process.json'),'utf8'));
+  processReceipts[program.name]=raw;save(program.name+'.actual-status.json',{code,exit:raw.exit,failure:raw.failure});
+  assert.equal(code,0);assert.equal(raw.exit.code,0);assert.equal(raw.exit.signal,null);assert.equal(raw.failure,null);
+  assert.equal(raw.closed,true);assert.equal(raw.finished,true);assert.equal(raw.cleanup.executing.length,0);assert(raw.cleanup.tracked.length>0);
+  assert.equal(readFileSync(resolve(m.setup,program.name+'.stderr.txt')).length,0);
+  const stdout=readFileSync(resolve(m.setup,program.name+'.stdout.txt'),'utf8');assert.equal(stdout.trim().split('\n').length,1);
+  const summary=JSON.parse(stdout);assert.equal(summary.completed,true);assert.equal(summary.cases,program.count);
+  const result=JSON.parse(readFileSync(resolve(m.setup,program.result),'utf8'));outputs[program.name]=result;
+  assert.equal(result.kind,program.kind);assert.equal(result.completed,true);assert.equal(result.code,0);assert.equal(result.failure,null);assert.deepEqual(result.afterErrors,[]);
+  assert.equal(result.cases.length,program.count);assert.equal(new Set(result.cases).size,program.count);
+  assert.equal(result.helperSha,m.executed[resolve(m.setup,'policy.mjs')].sha256);
+  if(program.count===28){assert.equal(result.loaderSha,m.executed[resolve(m.setup,'loader.mjs')].sha256);assert.match(result.hookFunctionsSha,/^[a-f0-9]{64}$/);}
+ }
+}catch(error){primary=String(error.stack??error);}
+finally{
+ try{if(verifyNoOwnedProcesses){absence=verifyNoOwnedProcesses();save('helper-owned-absence.json',absence);}}catch(error){primary??=String(error.stack??error);}
+ try{const after=snapshot();save('after-inputs.json',after);assert.deepEqual(after,before);}catch(error){primary??=String(error.stack??error);}
+ for(const program of programs)if(!processReceipts[program.name])try{processReceipts[program.name]=JSON.parse(readFileSync(resolve(m.setup,program.name+'.process.json'),'utf8'));}catch(error){primary??=String(error.stack??error);}
+}
+const elapsedMs=Date.now()-started;if(elapsedMs>22000)primary??='Owner exceeded22s work inside30s root whole bound';
+const completed=code===0&&primary===null&&Object.keys(outputs).length===2;
+save('owner-result.json',{kind:'native-golden-policy-owner-result-v1',completed,rawCode:code,failure:primary,processReceipts,outputs,absence,elapsedMs,
+ pureAndInertCallbacksOnly:true,sourceOrInstalledQualification:false,parentMustIndependentlyVerifyALLTrackedAndObservedPidStarts:true});
+process.stdout.write(resolve(m.setup,'owner-result.json')+'\n');process.exitCode=completed?0:1;

@@ -1,0 +1,9 @@
+# Independent HIGH public URL fixture repair
+
+Clean narrow harness-only source repair. All current input hashes ebf2a890 match. Driverfe91fd6f differs byte-for-byte from archived69469524 solely in the public node:url URL import and sandbox.URL injection. Runtime loaderf906a144/run e3f42c6d, all20 gate recipes/assertions,21 recognizer/9–14 width controls and source extraction are unchanged. The old835 manifest, originaldriver, original scoped-check/failed-control raw episode and prior source reviews remain immutable.
+
+The actual failed run reached new URL inside the exact candidate hook suffix but the VM sandbox omitted that public Node global. Importing and injecting the canonical constructor supplies the same URL conversion already used by the runtime; it changes neither original-parent recognition nor raw/disk hash/format/order/alias authority. No general global proxy, mocks, application import, real registerHooks or weakened assertion is added.
+
+Source readiness supports changed-driver syntax and scoped lint only, then ONE separately root-supervised corrected exact-hook control execution under its original pure bound. Unchanged runtime/URL controls need no repeat. A real completed20-case output plus code0/raw stderr/source-beforeafter is REQUIRED; this review is not a passing control result. No application, original21, physical recipe, provider/timing/gate or release approval is granted. Failed child1 remains FAILED.
+
+Reviewer performed selected read/hash/diff checks only; no import/API/control/compiler/check/test/workload occurred. An initial reviewer exact-diff assertion expected URL after pathToFileURL rather than the actual before position; it failed before writing this publication, then the literal two-line diff was corrected and verified. No candidate change or workload resulted.

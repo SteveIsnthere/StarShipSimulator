@@ -1,0 +1,19 @@
+{
+  "scope": "only two root tracked/actual helper PID-starts independently read; root parent PID no longer has proc row",
+  "tracked": [
+    {
+      "pid": 86052,
+      "start": "5565422",
+      "actual": null,
+      "executingOwned": false
+    },
+    {
+      "pid": 86059,
+      "start": "5565478",
+      "actual": null,
+      "executingOwned": false
+    }
+  ],
+  "rootParentPid": 86040,
+  "rootParentCurrentProcExists": false
+}

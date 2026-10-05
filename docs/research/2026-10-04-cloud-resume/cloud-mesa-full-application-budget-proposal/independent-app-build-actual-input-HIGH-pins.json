@@ -1,0 +1,45 @@
+{
+  "decision": "SUPPORTED build-only after separate root supervision/source/binary preflight; no execution",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-app-build-actual-input-HIGH-review.md",
+      "sha256": "29ef50b9a752cdda8322581f96a449b4a9a36ff6db24f12e4611f565ef8ad64e"
+    },
+    {
+      "path": "/tmp/starship-mesa-app-build-input.okqpblnr/owner-input.json",
+      "sha256": "c1f79f8c16e1603f841ca376903aed43efce993fc18c71a979a61742e0775a46"
+    },
+    {
+      "path": "/tmp/starship-mesa-app-build-input.okqpblnr/external-inventory.json",
+      "sha256": "f38943bb564b2c13a5b8bb50f4f91e7d3e78f16d2bb7ec0de824528ca2b5eb0e"
+    },
+    {
+      "path": "/tmp/starship-mesa-app-build-input.okqpblnr/assembly-origin.json",
+      "sha256": "4f6a889ef8b83f1e5b5a3b19974377b28bcd748bb19c77722c1aabb9f7694ab7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-app-build-seed.json",
+      "sha256": "9169ef5f4e9a4b127f92fdc246cda4ee9b6913c50a7d15ed0e979013fedebb1a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-app-build-maker-process.json",
+      "sha256": "8ca06ccf6c1647ded4c7b83846e07a5f8d8d2ba84ad68dd762f94adc0e8483a9"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-scoped-checks.json",
+      "sha256": "7f91e3b90a4c5129de7e56a965aca0ccce3c879c1ad91ae31db5681a80fe756a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-typescript-syntax-checks.json",
+      "sha256": "112cc0e856f51f1bab684ec8ef3015b01d26cb7d845856f5dcc858fd00dbd047"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/candidate-source-pins.json",
+      "sha256": "88186e1394f1499750a38ba8f71e51fbaf81df0c55505e17e5851966b6e86352"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-exact-file-repair-and-build-maker-HIGH-review.md",
+      "sha256": "5864cd0b39de33206ecc405291f3f906864141ea9a1faa158ab8fa92c871016e"
+    }
+  ]
+}

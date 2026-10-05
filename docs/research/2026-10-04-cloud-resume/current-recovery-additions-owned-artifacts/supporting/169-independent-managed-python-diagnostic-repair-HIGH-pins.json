@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "decision": "supported-distinct-managed-python-diagnostic-preflight-repair",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-managed-python-diagnostic-repair-HIGH-review.md",
+    "sha256": "0fdcb0675ccf49bbd413e7c5d6d177c6d41bd0291642f6e0f175b24461119267"
+  },
+  "inputManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-managed-python-exception-review-pins.json",
+    "sha256": "2c1486eb18727380d1bf28fd0e91060967636df94edc0f64527b78d01353e7e0"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-diagnostic.managed-python.py.txt",
+      "sha256": "8635a21f3dca22ab9f5f547a41e619ecc410b7958af982f997ce5e7f256f6261",
+      "bytes": 10328
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-concrete-managed-python-source-pins.json",
+      "sha256": "277339c5e56340d7f1c827cfb9c89297a4dd86f9354a9cb8ce8b36466c138082",
+      "bytes": 2575
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-managed-python-exception-contract.md",
+      "sha256": "885e87b11e6b28132ff42203265cbf1c8b0b149925cf4b40641ed1c618d50ef6",
+      "bytes": 1689
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-diagnostic.py.txt",
+      "sha256": "311fd9b4a2f2e390cb1a5dd193f6b4fb08b37326076663ca4aabb896bb60f30c",
+      "bytes": 10004
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-git-pathspec-concrete-source-pins.json",
+      "sha256": "6f1e9b4bf0bbdc15964cc08c91751645e2c6a12232abed3460adb0d8d9c65b5e",
+      "bytes": 1876
+    }
+  ],
+  "executionApproved": false
+}

@@ -1,0 +1,349 @@
+"""Research-only complete replacement capture; no product import or workload."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import stat
+import subprocess
+import sys
+import tempfile
+import time
+import traceback
+
+sha = lambda data: hashlib.sha256(data).hexdigest()
+root = Path('/workspace/StarShipSimulator')
+evidence = root / 'docs/research/2026-10-04-cloud-resume'
+meta_path = Path(sys.argv[1]).resolve()
+assert sha(meta_path.read_bytes()) == sys.argv[2]
+meta = json.loads(meta_path.read_text())
+assert meta['kind'] == 'review-required-recovery08-capture-v1'
+assert sha(Path(__file__).read_bytes()) == meta['scriptSha256']
+assert os.environ.get('STARSHIP_RECOVERY08_APPROVED') == sys.argv[2]
+base = '32e5bb386cadee9098d703c67ebdfc9444eb46a6'
+assert meta['base'] == base
+patch_path = evidence / 'checkpoint-recovery-08.patch'
+manifest_path = evidence / 'checkpoint-recovery-08.json'
+receipt = evidence / 'checkpoint-recovery-08-verification'
+assert not any(os.path.lexists(p) for p in [patch_path, manifest_path, receipt])
+receipt.mkdir(mode=0o700)
+start = time.monotonic()
+primary = None
+posterrors = []
+commands = []
+apply_count = 0
+index_before = None
+head_before = None
+payload = None
+source_before = None
+rows = None
+expected = None
+required_deletions = ['src/view/heat-shield.ts', 'src/view/lighting.ts', 'src/view/vehicle-detail.ts']
+
+
+def durable(path, data):
+    with open(path, 'xb') as stream:
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+    fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def save(name, value):
+    durable(receipt / name, (json.dumps(value, sort_keys=True) + '\n').encode())
+
+
+def index_identity():
+    path = root / '.git/index'
+    assert (root / '.git').is_dir() and not (root / '.git').is_symlink()
+    if not os.path.lexists(path):
+        return {'path': str(path), 'absent': True}
+    item = path.lstat()
+    assert stat.S_ISREG(item.st_mode)
+    data = path.read_bytes()
+    return {'path': str(path), 'absent': False, 'sha256': sha(data),
+            'bytes': len(data), 'mode': stat.S_IMODE(item.st_mode)}
+
+
+def call(args, index=None, data=None):
+    global apply_count
+    assert time.monotonic() - start < 60
+    env = dict(os.environ)
+    for name in ['GIT_INDEX_FILE', 'GIT_DIR', 'GIT_WORK_TREE', 'GIT_COMMON_DIR']:
+        env.pop(name, None)
+    env['GIT_OPTIONAL_LOCKS'] = '0'
+    if index is not None:
+        env['GIT_INDEX_FILE'] = str(index)
+    # All write-tree/read-tree/update-index/apply commands require an owned index.
+    if args[0] in ['read-tree', 'write-tree', 'update-index', 'apply']:
+        assert index in [capture_index, verify_index]
+    if args[0] == 'apply' and '--check' not in args:
+        apply_count += 1
+        assert apply_count == 1 and index == verify_index
+    number = len(commands)
+    row = {'number': number, 'args': args, 'temporaryIndex': str(index) if index else None,
+           'optionalLocks': '0', 'stdinSha256': sha(data) if data is not None else None,
+           'applyCount': apply_count}
+    commands.append(row)
+    save(f'{number}.started.json', row)
+    try:
+        result = subprocess.run(['git', *args], cwd=root, env=env, input=data,
+                                capture_output=True, timeout=min(10, 60 - (time.monotonic() - start)))
+    except subprocess.TimeoutExpired as error:
+        durable(receipt / f'{number}.stdout.bin', error.stdout or b'')
+        durable(receipt / f'{number}.stderr.bin', error.stderr or b'')
+        save(f'{number}.completed.json', {**row, 'timeout': True, 'code': None})
+        raise
+    except BaseException:
+        save(f'{number}.completed.json', {**row, 'code': None, 'launchError': traceback.format_exc()})
+        raise
+    durable(receipt / f'{number}.stdout.bin', result.stdout)
+    durable(receipt / f'{number}.stderr.bin', result.stderr)
+    save(f'{number}.completed.json', {**row, 'code': result.returncode,
+         'stdoutSha256': sha(result.stdout), 'stderrSha256': sha(result.stderr)})
+    assert result.returncode == 0, (number, args, result.returncode)
+    return result.stdout
+
+
+def snapshot():
+    paths = []
+    for folder in ['src', 'tests', 'scripts']:
+        for directory, dirs, files in os.walk(root / folder, followlinks=False):
+            assert not any((Path(directory) / d).is_symlink() for d in dirs)
+            for name in files:
+                p = Path(directory) / name
+                assert stat.S_ISREG(p.lstat().st_mode)
+                paths.append(p)
+    for p in root.iterdir():
+        if re.match(r'^(?:package.*\.json|.*config\..*|\.nvmrc)$', p.name) and p.is_file():
+            assert stat.S_ISREG(p.lstat().st_mode)
+            paths.append(p)
+    return {str(p.relative_to(root)): sha(p.read_bytes()) for p in sorted(set(paths))}
+
+
+def disk_row(name, expected):
+    p = root / name
+    if expected is None:
+        assert not os.path.lexists(p), name
+        return {'path': name, 'sha256': None, 'mode': None, 'diskPermissionMode': None}
+    item = p.lstat()
+    assert stat.S_ISREG(item.st_mode), name
+    actual = sha(p.read_bytes())
+    assert actual == expected, name
+    return {'path': name, 'sha256': actual, 'mode': '100755' if item.st_mode & 0o111 else '100644',
+            'diskPermissionMode': stat.S_IMODE(item.st_mode)}
+
+
+def refs_match():
+    for item in meta['references']:
+        assert sha(Path(item['path']).read_bytes()) == item['sha256'], item['path']
+
+
+def stage_rows(index):
+    rows = {}
+    for item in call(['ls-files', '--stage', '-z'], index).split(b'\0'):
+        if item:
+            info, name = item.split(b'\t', 1)
+            mode, blob, stage = info.decode().split()
+            assert stage == '0'
+            rows[name.decode()] = (mode, blob)
+    return rows
+
+
+try:
+    # This durable evidence precedes ALL Git commands, including read-only calls.
+    index_before = index_identity()
+    save('real-index-before.json', index_before)
+    refs_match()
+    authority = json.loads(Path(meta['authorityPath']).read_text())
+    assert authority['kind'] == 'recovery08-finite-source-authority-v1'
+    old = json.loads(Path(authority['historical07Manifest']).read_text())
+    baseline = json.loads(Path(authority['historical07Source']).read_text())
+    current = json.loads(Path(authority['currentAuthority']).read_text())['source']
+    assert len(current) == 770 and sha(Path(authority['currentAuthority']).read_bytes()) == authority['currentAuthoritySha256']
+    delta = {k: {'before': baseline['source'].get(k), 'after': current.get(k)}
+             for k in sorted(set(current) | set(baseline['source'])) if current.get(k) != baseline['source'].get(k)}
+    assert delta == authority['exactDelta'] and len(delta) == 18
+    expected = {x['path']: x['sha256'] for x in old['files']}
+    expected.update({k: row['after'] for k, row in delta.items()})
+    assert expected == authority['expectedDirtyFiles'] and len(expected) == 250
+    assert {k for k, v in expected.items() if v is None} == set(required_deletions)
+    rows = [disk_row(k, v) for k, v in sorted(expected.items())]
+    source_before = snapshot()
+    assert source_before == current and len(source_before) == 770
+    save('admitted-before.json', {'files': rows, 'source': source_before})
+    private = Path(tempfile.mkdtemp(prefix='starship-recovery08.'))
+    capture_index, verify_index = private / 'capture-index', private / 'verify-index'
+    save('private-indexes.json', {'capture': str(capture_index), 'verify': str(verify_index)})
+    head_before = call(['rev-parse', 'HEAD']).decode().strip()
+    assert call(['symbolic-ref', '--short', 'HEAD']).decode().strip() == 'claude/visuals'
+    assert call(['diff', '--cached', '--no-renames', '--name-only', '-z']) == b''
+    changed_disk = set()
+    for args in [['diff', '--no-renames', '--name-only', '-z', base, '--', '.', ':(exclude)docs/**'],
+                 ['ls-files', '--others', '--exclude-standard', '-z']]:
+        changed_disk.update(x.decode() for x in call(args).split(b'\0') if x and not x.startswith(b'docs/'))
+    assert changed_disk == set(expected), 'Unexpected or missing non-doc implementation change'
+    base_tree = call(['rev-parse', base + '^{tree}']).decode().strip()
+    for index in [capture_index, verify_index]:
+        call(['read-tree', base], index)
+        assert call(['write-tree'], index).decode().strip() == base_tree
+    changes = bytearray()
+    for row in rows:
+        name = row['path']
+        if row['sha256'] is None:
+            changes.extend(('0 ' + '0' * 40 + '\t' + name).encode() + b'\0')
+        else:
+            data = (root / name).read_bytes()
+            assert sha(data) == row['sha256']
+            blob = call(['hash-object', '-w', '--no-filters', '--stdin'], data=data).decode().strip()
+            changes.extend((row['mode'] + ' ' + blob + '\t' + name).encode() + b'\0')
+    call(['update-index', '-z', '--index-info'], capture_index, bytes(changes))
+    target = call(['write-tree'], capture_index).decode().strip()
+    patch = call(['diff', '--cached', '--binary', '--full-index', '--no-ext-diff', '--no-renames',
+                  '--no-color', base, '--', '.', ':(exclude)docs/**'], capture_index)
+    durable(patch_path, patch)
+    save('patch-created.json', {'sha256': sha(patch), 'bytes': len(patch), 'targetTree': target})
+    assert sha(patch_path.read_bytes()) == sha(patch)
+    call(['apply', '--cached', '--check', str(patch_path)], verify_index)
+    assert sha(patch_path.read_bytes()) == sha(patch)
+    call(['apply', '--cached', str(patch_path)], verify_index)
+    applied = call(['write-tree'], verify_index).decode().strip()
+    assert applied == target and apply_count == 1
+    inventory = []
+    for index in [capture_index, verify_index]:
+        changed = call(['diff', '--cached', '--no-renames', '--name-only', '-z', base,
+                        '--', '.', ':(exclude)docs/**'], index)
+        assert {x.decode() for x in changed.split(b'\0') if x} == set(expected)
+        staged = stage_rows(index)
+        inventory.append({k for k in staged if not k.startswith('docs/')})
+        for row in rows:
+            name = row['path']
+            if row['sha256'] is None:
+                assert name not in staged and not os.path.lexists(root / name)
+            else:
+                mode, blob = staged[name]
+                assert mode == row['mode']
+                assert sha(call(['cat-file', 'blob', blob])) == row['sha256']
+    current = set()
+    for args in [['ls-files', '-z'], ['ls-files', '--others', '--exclude-standard', '-z']]:
+        for name in call(args).split(b'\0'):
+            if name and not name.startswith(b'docs/') and os.path.lexists(root / name.decode()):
+                current.add(name.decode())
+    assert inventory[0] == inventory[1] == current
+    assert [disk_row(k, v) for k, v in sorted(expected.items())] == rows
+    assert snapshot() == source_before
+    assert sha(patch_path.read_bytes()) == sha(patch)
+    payload = {'base': base, 'branch': 'claude/visuals', 'documentationHead': head_before,
+        'node': '22.23.3', 'patch': patch_path.name, 'patchSha256': sha(patch), 'bytes': len(patch),
+        'scope': 'Complete dirty non-doc implementation; replacement snapshot, never incremental',
+        'files': rows, 'verification': {'captureTree': target, 'appliedTree': applied,
+        'changedPaths': 250, 'deletions': 3, 'appliedOnceInSecondTemporaryIndex': True,
+        'allDiskAndBothIndexBlobHashesMatch': True, 'completeNonDocPathSetsMatch': True,
+        'worktreePatchApplied': False, 'realIndexBytesUnchanged': True},
+        'verificationReceipt': str(receipt.relative_to(root)), 'independentReview': 'pending',
+        'historical07NotApplied': True, 'sourceAuthority': authority['currentAuthoritySha256'],
+        'currentSourceCount': 770, 'lineage': meta['lineage'],
+        'acceptance': 'Recovery replacement snapshot only; latest07 link unchanged until independent actual08HIGH; full38/coverage/gate/frame/openphase status not reclassified'}
+except BaseException:
+    primary = traceback.format_exc()
+finally:
+    # Never overwrite the primary failure with final verification failures.
+    for label, path, expected_sha in [('actual-input', meta_path, sys.argv[2]),
+                                     ('actual-executing-script', Path(__file__), meta['scriptSha256'])]:
+        try:
+            actual_sha = sha(path.read_bytes())
+            save(label + '-after.json', {'path': str(path), 'sha256': actual_sha, 'expected': expected_sha})
+            assert actual_sha == expected_sha
+        except BaseException:
+            posterrors.append({'stage': label, 'error': traceback.format_exc()})
+    try:
+        final_source = snapshot()
+        save('source-after.json', {'source': final_source, 'beforeAvailable': source_before is not None})
+        assert source_before is not None and final_source == source_before
+    except BaseException:
+        posterrors.append({'stage': 'admitted-source', 'error': traceback.format_exc()})
+    final_disk = []
+    audit_rows = rows
+    if rows is None:
+        posterrors.append({'stage': 'admitted-disk', 'error': 'Admitted rows unavailable; cannot verify invariance'})
+        if expected is not None:
+            audit_rows = [{'path': k, 'sha256': v, 'mode': None} for k, v in sorted(expected.items())]
+    if audit_rows is not None:
+        for row in audit_rows:
+            observation = {'path': row['path'], 'expected': row}
+            try:
+                path = root / row['path']
+                observation['absent'] = not os.path.lexists(path)
+                if not observation['absent']:
+                    item = path.lstat()
+                    observation['regular'] = stat.S_ISREG(item.st_mode)
+                    observation['mode'] = '100755' if item.st_mode & 0o111 else '100644'
+                    observation['diskPermissionMode'] = stat.S_IMODE(item.st_mode)
+                    if observation['regular']:
+                        observation['sha256'] = sha(path.read_bytes())
+                if row['sha256'] is None:
+                    assert observation['absent']
+                else:
+                    assert not observation['absent'] and observation['regular']
+                    assert observation['sha256'] == row['sha256']
+                    if row['mode'] is not None:
+                        assert observation['mode'] == row['mode']
+                    if row.get('diskPermissionMode') is not None:
+                        assert observation['diskPermissionMode'] == row['diskPermissionMode']
+            except BaseException:
+                observation['error'] = traceback.format_exc()
+                posterrors.append({'stage': 'admitted-disk', 'path': row['path'], 'error': observation['error']})
+            final_disk.append(observation)
+    try:
+        save('disk-after.json', {'rows': final_disk, 'beforeAvailable': rows is not None})
+    except BaseException:
+        posterrors.append({'stage': 'admitted-disk-receipt', 'error': traceback.format_exc()})
+    deletions_after = []
+    for name in required_deletions:
+        observation = {'path': name}
+        try:
+            path = root / name
+            observation['absent'] = not os.path.lexists(path)
+            if not observation['absent']:
+                observation['lstatMode'] = path.lstat().st_mode
+            assert observation['absent']
+        except BaseException:
+            observation['error'] = traceback.format_exc()
+            posterrors.append({'stage': 'physical-deletion', 'path': name, 'error': observation['error']})
+        deletions_after.append(observation)
+    try:
+        save('deletions-after.json', deletions_after)
+    except BaseException:
+        posterrors.append({'stage': 'physical-deletion-receipt', 'error': traceback.format_exc()})
+    try:
+        refs_match()
+    except BaseException:
+        posterrors.append({'stage': 'references', 'error': traceback.format_exc()})
+    if head_before is not None:
+        try:
+            assert call(['rev-parse', 'HEAD']).decode().strip() == head_before
+            assert call(['diff', '--cached', '--no-renames', '--name-only', '-z']) == b''
+        except BaseException:
+            posterrors.append({'stage': 'head-and-staged-state', 'error': traceback.format_exc()})
+    try:
+        value = index_identity()
+        save('real-index-after.json', value)
+        assert index_before is not None and value == index_before
+    except BaseException:
+        posterrors.append({'stage': 'real-index', 'error': traceback.format_exc()})
+    completed = primary is None and not posterrors and payload is not None
+    if completed:
+        try:
+            durable(manifest_path, (json.dumps(payload, indent=2) + '\n').encode())
+        except BaseException:
+            primary = traceback.format_exc()
+            completed = False
+    save('result.json', {'completed': completed, 'primaryFailure': primary, 'posterrors': posterrors,
+        'commands': commands, 'applyCount': apply_count, 'elapsedSeconds': time.monotonic() - start,
+        'manifestWritten': completed, 'realIndexBeforeAvailable': index_before is not None,
+        'old06RemainsFailed': True})
+sys.exit(0 if completed else 1)

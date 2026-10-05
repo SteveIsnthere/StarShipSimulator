@@ -1,0 +1,15 @@
+{
+  "kind": "git-metadata-root-preflight-failure-v1",
+  "actualReturncode": 1,
+  "input": "root-owned-git-metadata-outer-input.json",
+  "inputSha": "564c880261bc13904dd08185b500715853a2e809c3e3520907b83db68dd79d0e",
+  "failure": "Selected input8MiB/exact Git only",
+  "sourceLocation": "receipt-git-diagnostic-root-observer.py.txt:23 digest Python role",
+  "pythonBytes": 30894944,
+  "pythonSha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+  "rootReceiptCreated": false,
+  "diagnosticChildLaunched": false,
+  "gitCommandsRun": false,
+  "callerIdentityCaptured": false,
+  "interpretation": "Failed before receipt creation/Popen; no metadata equality or cleanup acceptance. The selected binary size gap requires a distinct exact-authority correction, not an output-cap increase."
+}

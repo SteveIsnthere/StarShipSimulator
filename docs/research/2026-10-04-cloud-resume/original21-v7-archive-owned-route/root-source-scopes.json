@@ -1,0 +1,16 @@
+{
+  "checks": [
+    {
+      "name": "root-observer.py.txt",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "name": "make-input.py.txt",
+      "kind": "python-ast",
+      "code": 0
+    }
+  ],
+  "all9PinsBeforeAfterMatched": true,
+  "passed": true
+}

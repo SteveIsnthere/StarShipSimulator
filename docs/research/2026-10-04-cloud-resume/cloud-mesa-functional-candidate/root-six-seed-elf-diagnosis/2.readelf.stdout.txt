@@ -1,0 +1,77 @@
+
+Elf file type is DYN (Shared object file)
+Entry point 0x0
+There are 10 program headers, starting at offset 64
+
+Program Headers:
+  Type           Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
+  LOAD           0x000000 0x0000000000000000 0x0000000000000000 0x00fcb0 0x00fcb0 R   0x1000
+  LOAD           0x010000 0x0000000000010000 0x0000000000010000 0x027ec9 0x027ec9 R E 0x1000
+  LOAD           0x038000 0x0000000000038000 0x0000000000038000 0x014600 0x014600 R   0x1000
+  LOAD           0x04d230 0x000000000004d230 0x000000000004d230 0x00dc58 0x00de28 RW  0x1000
+  DYNAMIC        0x059c00 0x0000000000059c00 0x0000000000059c00 0x000310 0x000310 RW  0x8
+  NOTE           0x000270 0x0000000000000270 0x0000000000000270 0x000024 0x000024 R   0x4
+  TLS            0x04d230 0x000000000004d230 0x000000000004d230 0x000000 0x000040 R   0x8
+  GNU_EH_FRAME   0x0436f4 0x00000000000436f4 0x00000000000436f4 0x00128c 0x00128c R   0x4
+  GNU_STACK      0x000000 0x0000000000000000 0x0000000000000000 0x000000 0x000000 RW  0x10
+  GNU_RELRO      0x04d230 0x000000000004d230 0x000000000004d230 0x00cdd0 0x00cdd0 R   0x1
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     .note.gnu.build-id .gnu.hash .dynsym .dynstr .gnu.version .gnu.version_r .rela.dyn .rela.plt 
+   01     .init .plt .plt.got .text .fini 
+   02     .rodata .eh_frame_hdr .eh_frame 
+   03     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt .data .bss 
+   04     .dynamic 
+   05     .note.gnu.build-id 
+   06     .tbss 
+   07     .eh_frame_hdr 
+   08     
+   09     .init_array .fini_array .data.rel.ro .dynamic .got 
+
+Dynamic section at offset 0x59c00 contains 44 entries:
+  Tag        Type                         Name/Value
+ 0x0000000000000001 (NEEDED)             Shared library: [libgallium-25.0.7-2+deb13u1.so]
+ 0x0000000000000001 (NEEDED)             Shared library: [libgbm.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libexpat.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libX11-xcb.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libxcb.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libxcb-randr.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libxcb-xfixes.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libxcb-shm.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libdrm.so.2]
+ 0x0000000000000001 (NEEDED)             Shared library: [libwayland-client.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libwayland-server.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libxcb-dri3.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libxcb-present.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+ 0x000000000000000e (SONAME)             Library soname: [libEGL_mesa.so.0]
+ 0x0000000000000010 (SYMBOLIC)           0x0
+ 0x000000000000000c (INIT)               0x10000
+ 0x000000000000000d (FINI)               0x37ec0
+ 0x0000000000000019 (INIT_ARRAY)         0x4d230
+ 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)
+ 0x000000000000001a (FINI_ARRAY)         0x4d238
+ 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)
+ 0x000000006ffffef5 (GNU_HASH)           0x298
+ 0x0000000000000005 (STRTAB)             0x1f40
+ 0x0000000000000006 (SYMTAB)             0x2c0
+ 0x000000000000000a (STRSZ)              6196 (bytes)
+ 0x000000000000000b (SYMENT)             24 (bytes)
+ 0x0000000000000003 (PLTGOT)             0x59fe8
+ 0x0000000000000002 (PLTRELSZ)           6792 (bytes)
+ 0x0000000000000014 (PLTREL)             RELA
+ 0x0000000000000017 (JMPREL)             0xe228
+ 0x000000006ffffef6 (TLSDESC_PLT)        0x111d0
+ 0x000000006ffffef7 (TLSDESC_GOT)        0x59fc8
+ 0x0000000000000007 (RELA)               0x3b18
+ 0x0000000000000008 (RELASZ)             42768 (bytes)
+ 0x0000000000000009 (RELAENT)            24 (bytes)
+ 0x000000000000001e (FLAGS)              SYMBOLIC STATIC_TLS
+ 0x000000006ffffffe (VERNEED)            0x39d8
+ 0x000000006fffffff (VERNEEDNUM)         4
+ 0x000000006ffffff0 (VERSYM)             0x3774
+ 0x000000006ffffff9 (RELACOUNT)          1757
+ 0x0000000000000000 (NULL)               0x0

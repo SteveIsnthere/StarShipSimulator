@@ -1,0 +1,53 @@
+{
+  "kind": "independent-OTHER-HIGH-accepted-helper-truth-update",
+  "accepted": true,
+  "workloadsRun": false,
+  "changes": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "before": "19001d95308b019a2b9aef3eb4f6e2074cc834ce16e36f45f1975faae042e69e",
+      "after": "3c973bbf2725456b9a783910045ed191223c069ad4cb987fb049ae3095181b97",
+      "precedingBytesIdentical": true,
+      "soleSubstringReplacement": true
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md",
+      "before": "f5f354edc9996b3983e8e74b032293754a422c677b108df63b580aac289c3825",
+      "after": "3f75322d36ae48f8e698966d62fb10012dab8f15197b5f2dee113702ff3d182a",
+      "precedingBytesIdentical": true,
+      "soleSubstringReplacement": true
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "before": "48e8f4975aa82fc9763ccc58d5cb71941da3814c444cb73d70cd44f11e881ac4",
+      "after": "86a04e7dcafad9731faaaf15218d1d3cafc63ee59409f8af75c8afe387be5c18",
+      "precedingBytesIdentical": true,
+      "soleSubstringReplacement": true
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md",
+      "before": "ce1e726d34489597813bc092a79c0b576e149f077ae9e5f004d6f7e35331887a",
+      "after": "ed34c9f63876d05e245ed58d434b16b6f813c5e225fdebfeced1e19157cb86df",
+      "precedingBytesIdentical": true,
+      "soleSubstringReplacement": true
+    }
+  ],
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-accepted-helper-application-truth-update/before-after.json": "705aed9916b6b66f8142c7cc1f5f320196d17ea3809127993b9091dc516e9a8b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-accepted-helper-application-truth-update/independent-OTHER-HIGH-truth-review.md": "9f2326b5b56f5423c7628c39782d186b0d9be36bed3a8be8ca4b6355ce542d61",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-accepted-helper-application-truth-update/0-before.md": "19001d95308b019a2b9aef3eb4f6e2074cc834ce16e36f45f1975faae042e69e",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md": "3c973bbf2725456b9a783910045ed191223c069ad4cb987fb049ae3095181b97",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-accepted-helper-application-truth-update/1-before.md": "f5f354edc9996b3983e8e74b032293754a422c677b108df63b580aac289c3825",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md": "3f75322d36ae48f8e698966d62fb10012dab8f15197b5f2dee113702ff3d182a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-accepted-helper-application-truth-update/2-before.md": "48e8f4975aa82fc9763ccc58d5cb71941da3814c444cb73d70cd44f11e881ac4",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md": "86a04e7dcafad9731faaaf15218d1d3cafc63ee59409f8af75c8afe387be5c18",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-accepted-helper-application-truth-update/3-before.md": "ce1e726d34489597813bc092a79c0b576e149f077ae9e5f004d6f7e35331887a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md": "ed34c9f63876d05e245ed58d434b16b6f813c5e225fdebfeced1e19157cb86df",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-owned60-source-HIGH-review.md": "2126842baf84a414711a4211beb120f8563123b595c8dbfc2d68036709d33dfa",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-owned60-actual-input-HIGH-review.md": "4f530b6fa866a071a54880b1ef0d1042c7b79fcd1a1eab337b465c9c156e6391",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-owned60-actual-application-HIGH-review.md": "f75c1aafbdb2c2884cc4500166446fc158527494599fca31a52b422bf8a07d74",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-helper-application-bridge-source-HIGH-review.md": "981bfe664ca81617e52cc163fdabece4f5fd09cd900f1d355f3df7518ebe6546",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-app-build-single-helper-bridge-maker-result.json": "8d3fb84a7482d802a811d81153934b15209f538e2ea856e2030e690258a50b6c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-app-build-single-helper-bridge-seed.json": "33653c9de4ce3135c60527e64f9317db053e48b56540e8754163309e329f8a85"
+  }
+}

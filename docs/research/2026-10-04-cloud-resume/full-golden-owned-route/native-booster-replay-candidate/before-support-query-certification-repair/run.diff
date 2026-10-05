@@ -1,0 +1,83 @@
+--- scripts/test/run.mjs
++++ candidate
+@@ -6,8 +6,12 @@
+ import { pathToFileURL } from 'node:url';
+ import { prepareRun } from './prepare-run.mjs';
+ import { admitRun, admitComposite, originalTests, runtimeAliases } from './admission.mjs';
++import { goldenRoot, assertGoldenWorker } from './golden-support-policy.mjs';
+ import { digest, parse } from './integrity.mjs';
+ const root = process.cwd(), args = process.argv.slice(2);
++const selectedFiles = args.filter(arg => /\.test\.tsx?$/.test(arg));
++const selectedOriginals = originalTests.filter(file => selectedFiles.length === 0
++  || selectedFiles.includes(file) || selectedFiles.includes(resolve(root, file)));
+ const standaloneCoverage = args.includes('--coverage');
+ const expectedTestTimeout = standaloneCoverage ? 120000 : 30000;
+ const explicit = process.env.NATIVE_FLIGHT_COMPOSITE !== undefined || process.env.NATIVE_FLIGHT_COMPOSITE_SHA !== undefined;
+@@ -74,9 +78,10 @@
+       }
+     }
+     const native = lifecycle.inventory.filter(row => row.project === 'native-flight');
+-    assert.equal(native.length, 21);
++    const expectedNative = q.expectedNativeInventory.filter(row => selectedOriginals.includes(row.file.slice(root.length + 1)));
++    assert.equal(native.length, expectedNative.length);
+     assert.deepEqual(native.map(row => ({ file: row.file, fullName: row.fullName })).sort((a, b) =>
+-      (a.file + a.fullName).localeCompare(b.file + b.fullName)), q.expectedNativeInventory);
++      (a.file + a.fullName).localeCompare(b.file + b.fullName)), expectedNative);
+     for (const row of native) {
+       assert.equal(row.options.timeout, expectedTestTimeout);
+       assert.equal(row.result.state, 'passed'); assert.equal(row.options.mode, 'run');
+@@ -90,7 +95,7 @@
+ if (m && q) {
+   try {
+     const names = readdirSync(m.directory + '.receipts').filter(name => /^native-worker-\d+-\d+\.jsonl$/.test(name));
+-    assert.equal(names.length, 2);
++    assert.equal(names.length, selectedOriginals.length);
+     const seen = new Set(), covered = new Set();
+     for (const name of names) {
+       const bytes = readFileSync(resolve(m.directory + '.receipts', name)); assert(bytes.length <= 65536);
+@@ -105,14 +110,14 @@
+       assert.deepEqual(first.code, m.files);
+       for (const row of rows) { assert.equal(row.pid, first.pid); assert.equal(row.start, first.start); }
+       const aliases = rows.filter(row => row.kind === 'original-alias');
+-      const parents = [...new Set(aliases.map(row => row.parentURL))]; assert.equal(parents.length, 1);
++      const parents = [...new Set(aliases.map(row => row.parentURL))];
+       assert.equal(rows.filter(row => row.kind === 'rejected-original-alias').length, 0, 'Rejected native alias requests');
+       const originalLoads = rows.filter(row => row.kind === 'original-load');
+       assert.equal(originalLoads.length, 1);
+       const certificate = originalLoads[0];
+-      assert.equal(certificate.url, parents[0]);
++      if (certificate.file !== goldenRoot) { assert.equal(parents.length, 1); assert.equal(certificate.url, parents[0]); }
+       const original = originalTests.find(file => pathToFileURL(resolve(root, file)).href === certificate.canonicalParentURL);
+-      assert(original, 'Unrecognized canonical original file');
++      assert(original && selectedOriginals.includes(original), 'Unrecognized or unselected canonical original file');
+       assert.equal(certificate.file, original);
+       assert(['module', 'module-typescript'].includes(certificate.format));
+       assert.equal(certificate.sourceSha, q.originalTests[original]);
+@@ -127,6 +132,8 @@
+         assert.equal(certificate.url, certificate.canonicalParentURL + '?vitest=' + certificate.cacheToken);
+       }
+       assert(!covered.has(certificate.canonicalParentURL)); covered.add(certificate.canonicalParentURL);
++      if (original === goldenRoot) assertGoldenWorker(rows, root, q);
++      else {
+       assert(rows.indexOf(certificate) < rows.indexOf(aliases[0]), 'Parent load must precede alias resolution');
+       assert.deepEqual(aliases.map(row => row.specifier).sort(), [...runtimeAliases[original]].sort());
+       for (const row of aliases) {
+@@ -136,6 +143,8 @@
+         assert.equal(row.parentSourceSha, certificate.sourceSha);
+         assert(rows.indexOf(certificate) < rows.indexOf(row));
+         assert.equal(row.url, row.specifier === '$core/constants' ? first.constantsURL : first.entryURL);
++      }
++        assert.equal(rows.filter(row => row.kind === 'support-load' || row.kind === 'golden-relative').length, 0);
+       }
+       const loads = rows.filter(row => row.kind === 'native-load');
+       assert.deepEqual(loads.map(row => row.url).sort(), [first.entryURL, first.constantsURL, first.chunkURL].sort());
+@@ -148,7 +157,8 @@
+       assert(rows.some(row => row.kind === 'native-module-edge' && row.parentURL === first.entryURL && row.url === first.chunkURL));
+       assert(rows.some(row => row.kind === 'native-module-edge' && row.parentURL === first.constantsURL && row.url === first.entryURL));
+     }
+-    assert.equal(covered.size, 2);
++    assert.equal(covered.size, selectedOriginals.length);
++    assert.deepEqual([...covered].sort(), selectedOriginals.map(file => pathToFileURL(resolve(root, file)).href).sort());
+   } catch (error) { afterErrors.push({ stage: 'native-worker-module-provenance', error: describeError(error) }); }
+ }
+ if (verifyNoOwnedProcesses) {

@@ -1,0 +1,56 @@
+--- docs/research/2026-10-04-cloud-resume/official-original21-root-routing/business-stage.mjs.txt
++++ docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/business-stage-full-nongolden.mjs.txt
+@@ -18,6 +18,7 @@
+ const deadline = Number(process.env.ORIGINAL21_ROOT_DEADLINE);
+ const limits = { 'app-build': 82000, original21: 330000 };
+ assert(Object.hasOwn(limits, m.mode));
++assert.equal(m.mode, 'original21');
+ assert.equal(m.outerMs, limits[m.mode] + 8000);
+ assert(Number.isFinite(deadline) && deadline > Date.now() && deadline <= Date.now() + limits[m.mode]);
+ const receipt = mkdtempSync(resolve(tmpdir(), 'starship-original21-stage.'));
+@@ -44,13 +45,28 @@
+     assert(Object.hasOwn(inventory.files, resolve(m.root, file)), 'Missing required applied source: ' + file);
+   }
+   assert.equal(inventory.files[resolve(m.root, 'scripts/bench/owned-command.mjs')], m.helper.sha);
++  assert.equal(digest(m.selection.path), m.selection.sha);
++  assert.equal(inventory.files[m.selection.path], m.selection.sha);
++  const selection = parse(m.selection.path);
++  assert.equal(selection.kind, 'exact-current-full-nongolden-selection-v1');
++  assert.equal(selection.files.length, 247);
++  assert.equal(new Set(selection.files).size, 247);
++  const expected = Object.keys(inventory.expectedCurrentSourceSnapshot).filter(file =>
++    file.startsWith('tests/') || file.startsWith('src/')).filter(file =>
++    file.endsWith('.test.ts') || file.endsWith('.test.tsx')).filter(file =>
++    !file.includes('.timing.') && !file.startsWith('tests/golden/')).sort();
++  assert.deepEqual(selection.files, expected);
++  for (const file of selection.files) assert.equal(selection.fileSha256[file], inventory.expectedCurrentSourceSnapshot[file]);
++  assert.equal(selection.namedTimeoutMs, 30000); assert.equal(selection.coverageEnabled, false);
++  assert.equal(selection.goldensRegenerated, false);
++
+ };
+ try {
+   checkPins();
+   const owned = await import(pathToFileURL(m.helper.path).href);
+   verifyNoOwnedProcesses = owned.verifyNoOwnedProcesses;
+-  const args = m.mode === 'app-build' ? [m.npmCli.path, 'run', 'build'] : [resolve(m.root, 'scripts/test/run.mjs'),
+-    'run', 'tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts'];
++  const selection = parse(m.selection.path);
++  const args = [resolve(m.root, 'scripts/test/run.mjs'), 'run', ...selection.files];
+   code = await owned.runOwnedCommand({ name: 'preparation', root: m.root, receipt,
+     args, deadlineMs: Math.min(m.mode === 'app-build' ? 74000 : 300000, deadline - Date.now() - 8000),
+     env: { ...process.env, NATIVE_FLIGHT_COMPOSITE: m.qualification.path, NATIVE_FLIGHT_COMPOSITE_SHA: m.qualification.sha } });
+@@ -99,6 +115,14 @@
+     assert(!baseline.includes(resolve(run.directory, '..')));
+     assert.equal(result.lifecycle.reason, 'passed');
+     assert.equal(result.lifecycle.inventory.filter(row => row.project === 'native-flight').length, 21);
++    const selection = parse(m.selection.path);
++    const modules = result.lifecycle.modules.map(row => ({ file: row.file, project: row.project }));
++    const expectedModules = selection.files.map(file => ({ file: resolve(m.root, file), project: selection.projectByFile[file] }));
++    const ordered = rows => rows.sort((a, b) => (a.file + a.project).localeCompare(b.file + b.project));
++    assert.equal(modules.length, 247);
++    assert.deepEqual(ordered(modules), ordered(expectedModules));
++    assert.deepEqual(selection.projectCounts, { 'native-flight': 2, unit: 216, kit: 29 });
++
+   } catch (error) { afterErrors.push({ stage: 'actual-official-wrapper', error: describe(error) }); }
+ }
+ // Each final check is independent of the primary command/result failure.

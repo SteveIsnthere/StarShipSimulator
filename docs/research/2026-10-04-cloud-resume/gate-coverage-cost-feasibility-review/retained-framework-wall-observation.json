@@ -1,0 +1,395 @@
+{
+  "kind": "finite-retained-framework-wall-cost-observation-v1",
+  "source": "retained accepted full247 lifecycle; no new execution",
+  "rootWallSeconds": 289.1609539985657,
+  "caseDurationSumMs": 665715.088685,
+  "sumIsCPUOrSequentialWall": false,
+  "topModules": [
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit-demo.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.13810799999998835,
+        "prepareDuration": 4.707692000000009,
+        "collectDuration": 28084.254244,
+        "setupDuration": 0,
+        "duration": 97942.508324,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/app/view-clock.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.1797550000000001,
+        "prepareDuration": 7.61225300000001,
+        "collectDuration": 193.95884999999998,
+        "setupDuration": 0,
+        "duration": 68509.87096300001,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-guidance.test.ts",
+      "project": "native-flight",
+      "diagnostic": {
+        "environmentSetupDuration": 0.12415099999998347,
+        "prepareDuration": 9.007491999999957,
+        "collectDuration": 66.28832999999986,
+        "setupDuration": 0,
+        "duration": 44833.566695,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.11536500000001126,
+        "prepareDuration": 4.74127399999999,
+        "collectDuration": 118.02880299999998,
+        "setupDuration": 0,
+        "duration": 40873.834840999996,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/verlet.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.10704000000001201,
+        "prepareDuration": 4.767542999999989,
+        "collectDuration": 103.600093,
+        "setupDuration": 0,
+        "duration": 37308.891389,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "project": "native-flight",
+      "diagnostic": {
+        "environmentSetupDuration": 0.1289600000000064,
+        "prepareDuration": 9.193759,
+        "collectDuration": 82.36925999999994,
+        "setupDuration": 0,
+        "duration": 35846.128999,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/hud/debrief.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.14397800000000416,
+        "prepareDuration": 4.908453999999992,
+        "collectDuration": 166.53591800000004,
+        "setupDuration": 0,
+        "duration": 34251.658088000004,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/deorbit-range.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.1388689999999997,
+        "prepareDuration": 4.723228999999989,
+        "collectDuration": 10180.303967,
+        "setupDuration": 0,
+        "duration": 29734.201557,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/angular-momentum.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.10422400000000209,
+        "prepareDuration": 4.883437999999998,
+        "collectDuration": 103.674706,
+        "setupDuration": 0,
+        "duration": 27783.315017,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-forecast.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.11476399999999387,
+        "prepareDuration": 4.723219999999998,
+        "collectDuration": 141.374144,
+        "setupDuration": 0,
+        "duration": 27394.010406999998,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/camera.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.10857199999999523,
+        "prepareDuration": 4.986390999999998,
+        "collectDuration": 136.453999,
+        "setupDuration": 0,
+        "duration": 24618.889576999998,
+        "importDurations": {}
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/view/perf.test.ts",
+      "project": "unit",
+      "diagnostic": {
+        "environmentSetupDuration": 0.1829309999999964,
+        "prepareDuration": 4.749178000000001,
+        "collectDuration": 472.72144599999996,
+        "setupDuration": 0,
+        "duration": 21798.596108,
+        "importDurations": {}
+      }
+    }
+  ],
+  "topCases": [
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit.test.ts",
+      "fullName": "conserved quantities stay conserved > an elliptical orbit comes back down again",
+      "diagnostic": {
+        "slow": true,
+        "duration": 24014.045922999998,
+        "startTime": 1791143282290,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the autopilot flies the ones it is meant to > booster-sep: auto-land landed",
+      "diagnostic": {
+        "slow": true,
+        "duration": 21803.718635,
+        "startTime": 1791143225084,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-guidance.test.ts",
+      "fullName": "actual booster scenarios are secured at the tower > booster-sep: autopilot catches the actual33-engine booster within900s",
+      "diagnostic": {
+        "slow": true,
+        "duration": 21094.846636,
+        "startTime": 1791143220659,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-guidance.test.ts",
+      "fullName": "actual booster scenarios are secured at the tower > cannot fabricate a catch when every engine is failed",
+      "diagnostic": {
+        "slow": true,
+        "duration": 18613.552053000003,
+        "startTime": 1791143246875,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit-demo.test.ts",
+      "fullName": "the guidance works from orbits it was never calibrated on > from a different starting longitude \u2014 half a lap further round",
+      "diagnostic": {
+        "slow": true,
+        "duration": 17164.182837999993,
+        "startTime": 1791143278586,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/angular-momentum.test.ts",
+      "fullName": "angular momentum is conserved on an eccentric orbit > to better than a part in ten thousand over a hundred minutes",
+      "diagnostic": {
+        "slow": true,
+        "duration": 16494.248502,
+        "startTime": 1791143346192,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit.test.ts",
+      "fullName": "a circular orbit stays circular over one lap > altitude holds within a kilometre over a full lap",
+      "diagnostic": {
+        "slow": true,
+        "duration": 14212.150594,
+        "startTime": 1791143265760,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/view/perf.test.ts",
+      "fullName": "particle pool headroom, with the velocity streaks added > reports peak usage across all seven scenarios against the 576 baseline",
+      "diagnostic": {
+        "slow": true,
+        "duration": 13970.894843000002,
+        "startTime": 1791143390460,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit-demo.test.ts",
+      "fullName": "step 2 \u2014 coast a full lap > a 150 km orbit holds for a full 88-minute lap",
+      "diagnostic": {
+        "slow": true,
+        "duration": 12500.940795999999,
+        "startTime": 1791143248004,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/verlet.test.ts",
+      "fullName": "the M11 survey coast table, repeated: 600 s at 300 km circular > altitude drift is a centimetre, and does not depend on dt",
+      "diagnostic": {
+        "slow": true,
+        "duration": 12410.894810999998,
+        "startTime": 1791143329430,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/verlet.test.ts",
+      "fullName": "energy is conserved on an eccentric orbit > to a part in 10^10 or better at every rate the simulation runs at",
+      "diagnostic": {
+        "slow": true,
+        "duration": 11501.656386999999,
+        "startTime": 1791143317927,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-forecast.test.ts",
+      "fullName": "planned booster forecast > reuses exact paid startup for booster-sep without lending its impulse to shorter burns",
+      "diagnostic": {
+        "slow": true,
+        "duration": 10657.120705,
+        "startTime": 1791143374200,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-forecast.test.ts",
+      "fullName": "planned booster forecast > reuses only the identical alignment prefix for booster-sep, with bit-exact paid forecasts",
+      "diagnostic": {
+        "slow": true,
+        "duration": 10527.157018,
+        "startTime": 1791143361649,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit-demo.test.ts",
+      "fullName": "the guidance works from orbits it was never calibrated on > with an engine already failed, so the burn is a third longer",
+      "diagnostic": {
+        "slow": true,
+        "duration": 10081.394688,
+        "startTime": 1791143305502,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/deorbit-range.test.ts",
+      "fullName": "an engine out on the deorbit still lands, with the reserve doing its job > engine 1 out",
+      "diagnostic": {
+        "slow": true,
+        "duration": 10040.102668,
+        "startTime": 1791143364430,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/deorbit-range.test.ts",
+      "fullName": "an engine out on the deorbit still lands, with the reserve doing its job > engine 0 out",
+      "diagnostic": {
+        "slow": true,
+        "duration": 9939.186819999999,
+        "startTime": 1791143354491,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit-demo.test.ts",
+      "fullName": "the guidance works from orbits it was never calibrated on > from 300 km it still lands, but the envelope is showing",
+      "diagnostic": {
+        "slow": true,
+        "duration": 9885.158819000004,
+        "startTime": 1791143325371,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit-demo.test.ts",
+      "fullName": "the guidance works from orbits it was never calibrated on > from 120 km, below the presets",
+      "diagnostic": {
+        "slow": true,
+        "duration": 9787.012359,
+        "startTime": 1791143315584,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/orbit-demo.test.ts",
+      "fullName": "the guidance works from orbits it was never calibrated on > 100 tonnes lighter at ignition",
+      "diagnostic": {
+        "slow": true,
+        "duration": 9751.201340999993,
+        "startTime": 1791143295751,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/deorbit-range.test.ts",
+      "fullName": "an engine out on the deorbit still lands, with the reserve doing its job > engine 2 out",
+      "diagnostic": {
+        "slow": true,
+        "duration": 9748.984575000002,
+        "startTime": 1791143374471,
+        "retryCount": 0,
+        "repeatCount": 0,
+        "flaky": false
+      }
+    }
+  ]
+}

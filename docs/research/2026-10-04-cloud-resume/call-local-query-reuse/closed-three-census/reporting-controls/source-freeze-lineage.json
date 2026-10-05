@@ -1,0 +1,10 @@
+{
+  "kind": "reporting-source-freeze-lineage-v1",
+  "initialFourSourceInputSha256": "b058899921b615bfce616e1abbbd22e576efa868110974495734474acf90f7e1",
+  "initialFourSourceArchive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/before-owned-route/input-pins.json",
+  "preparedOwnedIntermediateInputSha256": "367a032cd0123a206acd006dbc6ea81461ca64e39c00b83c42a56e6871ed91a3",
+  "preparedOwnedIntermediateArchiveAvailable": false,
+  "firstFinalOwnedInputSha256": "f69de5037e647ba8c386741c24e135f39b4576443c782f4b7072d46ec8ceeb39",
+  "firstFinalOwnedArchive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/before-default-identity-repair/input-pins.json",
+  "explanation": "The mutable working input-pins path advanced through source preparation; original b058 four-source bytes are retained under before-owned-route. The intermediate367a manifest was superseded by the final root acceptance wording update and was not retained as a separate immutable file. No scope, maker or execution used that intermediate."
+}

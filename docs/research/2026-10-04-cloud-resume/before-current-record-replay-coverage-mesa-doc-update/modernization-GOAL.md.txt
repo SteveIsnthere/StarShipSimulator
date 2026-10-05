@@ -1,0 +1,140 @@
+# Modernization — goal contract
+
+**Current acceptance platform (Steve’s follow-up, 2026-10-04 UTC):** “it shouldnt be mac exclusive, everything should beable to run in this env, if not fix it”. Run the implementation, complete gate, timing, browser/rendering and full-frame checks in this reconciled cloud environment. Preserve all numerical budgets, warm-up/sample counts, assertions and review requirements. Record the actual CPU/browser/renderer; cloud viewport emulation and software rendering do not establish physical handset or hardware-GPU results. Earlier Mac-only requirements below are historical and superseded by this explicit instruction.
+
+**Resumed by Steve’s refreshed `/goal` on 2026-10-03 (Vancouver).** The pause is cleared without changing the approved scope. Supported implementation and CPU checks run in the freshly reconciled cloud checkout `/workspace/StarShipSimulator`. Acceptance now runs in the cloud under the current platform instruction above; record the actual execution backend.
+
+Continue independently through ONLY this roadmap:
+/Users/stevewang/dev/StarShipSimulator-realism/docs/plans/modernization/modernization-roadmap.md
+
+Run from `/Users/stevewang/dev/StarShipSimulator-realism`. Each phase uses its own `claude/<slug>` branch from `main` and merges back into `main`. Phases 6 and 6b are merged and live at `080f108` and `c2ae5e4`. Documentation closure is merged/pushed at `7a757d7`; its complete main gate passes. Phase7 documentation closure is merged/pushed at `e8a06ff`. This worktree now runs `claude/visuals`, created from that updated main. Do not recreate completed phase branches.
+
+There is no Jira board. The roadmap, phase plans, handover and `docs/plans/backlog/README.md` are the system of record.
+
+## Current truthful status
+
+- **80% complete by phase count: eight of ten phases done.** Phases 1–7, including 6b, are merged and live. Phases 8 and 9 remain. Phase 6b merge: `c2ae5e46a25db0bdd63504a8f93d37056176b069`.
+- **Previous Phase 6b evidence:** complete main gate is green at `c2ae5e4`. Hosted CI `37071475434` and Pages `37071475425` succeed at that SHA. Live smoke passes 5/5; all 44 served assets and the service worker match build version `3da4ee45585e`. Final branch browser suite: 480 passes, zero failures, 11 configured skips, zero retries. Mutation: control 848 passes and all 21 faults caught. Fresh independent high-depth review and final acceptance are clean.
+- Hosted main CI and Pages each have two existing menu visibility flakes passing retry 1. These remain Phase 9 debt. Final local full suite, main gate and live smoke pass without retries. Evidence: `docs/research/2026-10-02-phase6b-close.md` and `2026-10-02-phase6b-body-moment/fallback-final-release/`.
+- **Current Phase8 work:** Steve’s raised realism bar led to completed V3 photographic research/Pro review and an implemented component renderer plus progressive physical damage. Integration and release acceptance remain incomplete; after explicit resume follow First task below. Corrected Task5 browser terminal64788 completed:88/88 passed,13.3minutes,zero retries; this proves regressions/framing, not photographic realism. Tasks1–4 remain engineering checkpoints; Task5 is not accepted under the raised owner bar. Main/livee8a06ff; Task6/whole8release/all9 remain.
+- **Must not be redone:** Phase 6 closure; Phase 6b fallback/authority campaign, restoration, Linux fixture audit, intro/reentry preservation, Task 5/braking/debrief fixes, plume diagnosis and release verification. Browser session 32317, main gate 24097 and mutation 57940 are complete; never resume or restart them. The approved extra 300 km verification passed and is consumed.
+- **Tried and rejected:** physical broadside drag without lift; Earth rotation without range control; numerical interpolation misdiagnosed as authority infeasibility; further fin-family recalibration after the audited authority review; plume birth staggering alone; camera reprojection without nozzle carrier motion; stale restart history; additive alpha occlusion; canvas-sized bloom texels; downsampled DPR2 filters; a hard white bell interior; focused green as release proof; Mac golden regeneration; luck reruns, seed tuning and weaker assertions. Exact failures and rulings remain in research and Git. Former live contract at `3f003ec` retains the diagnosis history. Do not reopen it.
+- **Parked under Steve's approved fallback:** Tasks 1–4 body-axis/CoP/paired-fin/translational-RCS/65° entry/Earth-rate models and their 22 t reserve/aim. The shipped model retains Phase 6 broadside drag, rate zero, 18 t reserve and aim 841,800 m. All deferrals and recovery paths remain named. No parked physics is claimed shipped; this does not waive Super Heavy or later phases.
+- **Owner decision, 2026-10-03:** Steve explicitly selected **V3 with physics updates** and **progressive damage affecting flight**, and instructed “make proper plan then implement”; subagents are authorized. These choices are resolved. Amend Phase 8 under Fidelity, research material/geometry assumptions, then implement and independently review without another owner checkpoint. Earlier Flight5/view-only recommendations are superseded. No parked Phase 6b aero is reopened by this decision.
+
+## Completed Phase 7 implementation — do not repeat
+
+The 33-engine Super Heavy, paid forecast guidance, grid fins, physical COM hot staging, independent two-body histories, selection, camera, engine HUD and bounded tower catch are merged to main. Task 5 controls/editor/timeline/restart and reviewed risk-provenance fixes are complete. Runtime source is unchanged since `7390936`, core since `d843b18`. Final full browser suite: 505 passes, zero failures, 11 configured skips, zero retries. Mutation control: 1,064 passes; all 21 faults caught. Required truth registry: 20 rows, every 11 tier-A rows IN; generic max-Q altitude tier-B OUT retained with its named data limitation.
+
+All implementation, diagnosis, reviewed findings, rejected approaches, raw checks and coverage comparisons remain in `docs/research/2026-10-03-phase7-release/`, the phase plan and Git history. Completed gate sessions, full browser and mutation handles are terminal; do not restart them. Phase7's hosted coverage repair is complete and accepted at mainb3263a9. Phases 8 and 9 still require their full approved scope.
+
+## First task after explicit resume
+
+Read the [current handover](modernization-handover.md) and [research index](../../research/2026-10-03-vehicle-realism/README.md), then preserve the completed bounded RTLS scheduling-feasibility task in the [Phase8 plan](modernization-phase-8.md#next-bounded-work-after-resume-establish-a-feasible-rtls-work-schedule). The exact source prefix must match the independent observer, every new mechanical advance stays inside the four-call budget, and the integer ledger must leave strict future-cutoff slack before a cache is implemented. Do not repeat rejected hint-first or first-candidate fine replays.
+
+Continue in `/Users/stevewang/dev/StarShipSimulator-realism` on existing `claude/visuals`. Its runtime baseline is32e5bb3; the newer documentation checkpoint preserves the uncommitted runtime/tests in a verified recovery patch, not a released physics commit. On the existing dirty worktree do not reapply it. A fresh checkout must follow the recovery manifest before running current acceptance. Main/live remaine8a06ff; Phases8 and9 are not closed.
+
+Seed123 now actually catches337.975s with88.54t fuel. The reviewed bounded cloud RTLS fix now physically catches119.216667s with90.809t fuel, no failures and valid source; publication13.25s strictly precedes13.283333s cutoff. Original failure remains preserved as history. The separate source-pinned default separation trace reproduces crash341.65s after RCS depletion, with89.683t retained fuel. A reviewed finite-grid/RCS shadow ledger supported the terminal allocation fix. Its sole current source-pinned physical flight catches337.916667s with91.764486t fuel and8.816620s RCS remaining, no faults. The historical complete non-golden cohort recorded2652passes, two original30-second separation timeouts and one configured skip; those failures remain preserved. The later source-changed V7 original21 invocation passes all21 original named tests at unchanged30000ms, slowest21.524775673s. Its subsequent independently accepted full247 non-golden cohort preserves all2655 original cases:2654pass/oneunchangedconfiguredskip, root0 in289.160954s, native2/SSRunit216/kit29. Both formerly timed-out separation cases now pass without retries or test-body changes; all13 burn-preparation and4 module-mock proofs remain SSR and pass. Full769source/20355tool admission passes before/after and all254 observed PID-starts are absent. These are original unit results, not benchmark or full-gate acceptance. Remaining cloud timing/rendering investigations preserve all acceptance bounds. Final predictor timing and focused verification are recorded in the handover. Fresh public truth after full247 exits0 with unchanged769source:26rows/25IN and all17TierA IN; the named TierB max-Q altitude limitation remains OUT. ONE mixed247 standalone120 coverage measurement FAILED at the unchanged300s preparation bound: root1/304.748139s, native build0/test143(parentSIGTERM), wrapper rawCode:null. No completed lifecycle, onCoverage, final map or floor decision exists. Before/after full769source/20355tool admission passes. All37 observed identities are nonexecuting:35absent and two same-start zombies; no all-absence claim. Preserve the31 partial raw files, not a coverage pass. Current full gate, coverage acceptance, unrecorded full Linux goldens, final browser/frame acceptance, release review, merge and live deployment remain outstanding.
+
+Use the repository’s Node22 runtime; login Node25 evidence is historical. Original Pro review completed. CLI authentication and connected-browser failures during this documentation pass use the documented fresh-review fallback; no owner access task is pending. Completed physics/render/browser work and rejected paths are indexed, so a cold agent must continue from the preserved state rather than reconstruct it.
+
+## Standing autonomy approval — Steve, 2026-10-02
+
+**Narrow determinism-test exception, approved by Steve (“yep approved”):** replace only the coast-only publication test’s arbitrary300-scheduler-call wait with the existing4000-mechanical-advance cap, and explicitly assert at most four advances per scheduler call. Retain genuine fine catch, deterministic cloned-frame output, fuel/RNG assertions, original sample and every physical/scenario/catch/coverage limit. This does not authorize changing either original first-source publication deadline or production budgets.
+
+These two explicit question-tool answers supersede all earlier automatic diagnosis stops, exhausted-attempt prohibitions and pending exception requests in this contract, the phase plan and handover. Historical evidence and attempt counts remain unchanged.
+
+1. **Reviewed diagnosis cycles for the entire roadmap.** Steve selected “Approve reviewed diagnosis cycles for the entire roadmap”. After three failed diagnoses, obtain a fresh independent review, record a new evidence-backed approach, then continue in another bounded cycle without asking Steve. This explicitly reopens the current one-km range failure and later failed 300 km/plume checks. Physical limits, test bounds, control authority, coverage and merge gates stay unchanged. Never loosen an assertion, add retries, delete a truth row, reshape the fixed eta bridge to pass a flight, or rerun for luck.
+2. **Existing broadside fallback.** Steve selected “Allow the existing broadside fallback and continue”. If independent review establishes that Phase 6b's approved physical aero model cannot meet the required scenario within existing authority, execute its existing parking fallback: preserve the measurements, review and unfinished work, restore the affected aero to the shipped 2021 broadside model through a deliberate audited change, retain the independent Task 5 Bug fixes, document every parked task and reason, finish the phase gate/reviews and continue Phases 7–9. Do not reset/rebase/discard the checkout. This is an authorized conditional fallback, not permission to prefer an easier model, skip a required diagnosis/review, claim parked models shipped, or omit later phases. If the prescribed feasibility sweep fails, the independent review must confirm the model/authority conclusion before parking; a failed numerical calibration alone does not prove infeasibility.
+
+Routine implementation, scientific diagnosis, measured calibration under the plan, in-scope visual/UX choices, phase planning, clean reviewed merges and deploy verification are autonomous. Keep every 2021 capability, the intro/presets/pig and all other protected contracts. Publish the planned design/motion review pages and proceed without waiting for an owner verdict; record any later verdict separately. Unrelated scope stays deferred. External credential/access failures may still require Steve, but unavailable peer review uses the documented fresh-reviewer fallback and hosted billing uses the existing CI exception. The narrow reentry golden-window exception is approved on2026-10-02; the standing diagnosis/fallback decisions remain resolved.
+
+## Historical approvals are evidence, not remaining tasks
+
+Earlier Phase6/6b experiment approvals, characterized predictors, source conventions and completed sweeps are retained in [approved decision history](../../research/2026-10-03-vehicle-realism/approved-decision-history.md). Those sections are not executable instructions. Earth's rate and the body-axis aero remain parked under the completed broadside fallback. Do not restore an old patch or run another300km/eight-angle campaign from historical wording. Current protections, the1533K limit, original health/landing/catch bounds and all proof/work caps below stay binding. The approved narrow600s reentry golden recording window remains the existing recorder contract, not permission for another fixture exception.
+
+## Preserve these boundaries
+
+- **The soul:** the intro auto-landing sequence, the scenario presets, the pig at x = 0 (`AGENTS.md` § Protected).
+- **Capability parity:** every 2021 control keeps a working equivalent (`tests/e2e/parity.spec.ts`). Labels, layout and keys may change.
+- **The seven walls** and a pure, deterministic `step()` (`sim-core-conventions`). The one sanctioned global is `window.__simDebug` in `src/app/debug.ts` (Phase 2 Task 5).
+- **Physics changes only under a tier** from `physics-change-policy`. This roadmap approves the Fidelity changes Phases 5–7 name and the explicitly approved Phase 8 V3/progressive-damage amendment. Truth tests are never re-blessed; no tuning constant moves to pass one.
+- **Budgets:** first-load JS ≤ 300 kB gzip (250 until the React shell, whose React DOM costs about 45 kB; re-baselined in Phase 4 and recorded in the handover); the light gate ≤ 5 minutes in the current cloud acceptance environment; hosted CI ≤ 20 minutes.
+- **`tests/fixtures/legacy/`** (the archived 2021 game) is never modified.
+- **flight_sim is read-only.** Copy from `/Users/stevewang/dev/flight_sim/web/src/ui/`; never edit that repo.
+- **Stay JavaScript/TypeScript.** No Rust, no WASM, no new language runtime.
+- **The tile limit is 1,533 K** and never moves to make a flight survive. The Ship landing reserve (18 t shipped; the parked model’s22 t is historical) and `DEORBIT_ENTRY_RANGE` are measured constants with health tests; re-measure them, never loosen their tests.
+- **Graphics budget:** every Phase 8 effect is measured against 60 fps on desktop and the phone frame budget the Phase 8 plan states; an effect that breaks it ships a reduced-quality path.
+
+## Decisions already made (do not re-ask)
+
+Steve, 2026-09-30:
+- **UI:** React 19 + Tailwind 4, PixiJS 8 kept. flight_sim's portable `web/src/ui/` core (primitives, `input/`, `motion/`, `styles/`, `tokens.css`) is vendored by copy into `src/ui/kit/`, with a `PROVENANCE.md` naming the flight_sim commit it came from and a `scripts/kit-drift.mjs` that reports (does not fail on) differences.
+- **Look:** flight_sim's visual system with a Starship brand layer: its own wordmark, loading moment and copy vocabulary in place of the Flying Bricks ones.
+- **Realism:** full Ship realism and a separate Super Heavy.
+- **Tracking:** local, no Jira.
+
+Steve, 2026-10-01:
+- **Phase 6 resume:** one additional diagnosis attempt (attempt 4) for the iPhone portrait vacuum-plume width failure, with all assertions, bounds and retries unchanged. This historical exception completed successfully; later failures use the standing reviewed-cycle approval below.
+- **Phase 6b, Entry on lift**, attempted those models; independent review established prescribed-family authority infeasibility and Steve’s approved broadside fallback closes the phase. The parked models stay named in the backlog; its completed plan is closed out.
+- **Phase 8, Visuals, before Phase 9, UX.** All four areas: engines and plumes (per-engine sea-level and RVac plumes expanding with altitude, Mach diamonds, staging and landing glare); re-entry and heat (plasma and tile glow from the skin temperature, belly-flop shading); environment (sky by altitude and sun, Starbase pad, tower and chopsticks, ocean, coastline, clouds, night); vehicle and camera (detailed Ship and Super Heavy, moving fins, cinematic moves, shake, bloom). Phase 8 publishes its visual direction to a private review page with the `Artifact` tool and proceeds without waiting; Steve's verdict folds in as a scope change.
+
+Phase 6 calls made unattended (now in `docs/reference/physics-model.md` and the handover): the HRSI 1,533 K limit, judged on the tile's temperature against a radiative sink (the air below 86 km); the six-engine UI minimal until Phase 9; *Engines* (all) lights the three sea-level engines and shuts all six; the RVacs are fixed (no gimbal) and the autopilot lights none; the RVac exit diameter 2.3 m (commonly reported, no primary source); the rotating ground frame at 26°N built at rate zero, Earth's rate remains parked under the approved Phase6b fallback; spool-up is the existing ignition delay; the wind is a surface wind on NASA's profile, held above 150 m.
+
+Made by the planner, stated so the run inherits them:
+- **The live site cut-over is approved as part of Phase 1.** Pages switches to the Actions source, the 2021 game stays reachable as tag `v0-classic` and branch `classic` (the rollback target), and returning visitors are handed over by a kill-switch `serviceworker.js`.
+- **Goldens:** a measured per-field relative tolerance (never above 1e-8), plus a bit-exact fingerprint that runs only on x86-64 Linux / Node 22.
+- **Zero known-reds.** A Tier-2 row out of band is reported and ratcheted, never listed as a tolerated failure.
+- **Super Heavy lands by tower catch:** a catch box at the tower in 2D, with speed and position limits written in the Phase 7 plan from public flight footage.
+- **Keymap:** 2021 parity is broken for a modern scheme (pause, Escape, no Control or Backspace bindings, rebinding, gamepad).
+- **Phase 3 publishes, then proceeds.** The design pass publishes its prototypes to a private review page for Steve and continues into Phase 4 without waiting. Steve's verdict, if it arrives, is folded in as a scope change.
+- **The M11.3 amended acceptance** (the dt² proof moved to a Kepler ellipse) is accepted.
+
+## Execution rules
+
+- "Unlimited time and resources" is false. Optimize for shipping this roadmap.
+- Product implementation is primary. Plans, harnesses, tests, reviews and docs are supporting work.
+- Understand the affected code before editing it.
+- Do not reset, rebase, discard, or redo completed phases.
+- Focused tests while implementing; the full gate once per phase.
+- Defer unrelated discoveries to `docs/plans/backlog/README.md`. Do not let them expand the current task.
+- Commit at coherent checkpoints using `git-conventions` (`type(scope): outcome sentence`; no milestone IDs).
+- Push at those checkpoints. Unattended work that exists only on this disk is one failure from gone.
+- Review each phase before you merge it, and fix what is real. Not once at the end — a review of eight phases at once is not eight reviews. Invoke the **`code-review` skill** at `high`. It runs perfectly well unattended; the slash command is not the only way in, and a run that believes otherwise merges every phase on a self-review.
+- A phase that touches a protected surface — the live site (Phase 1), physics goldens (Phases 5–7), the soul — gets a reviewer that never saw the code: use the `cross-agent-review` skill, which asks the other coding agent and falls back to ChatGPT Pro, then a fresh subagent. It merges without Steve, so this is required, not optional.
+- Merge each phase to `main` once its gate is green and its review is clean (Phase 1 merges `claude/modernization` itself). This roadmap is Steve's approval. Work it did not ask for is not built: add it to the backlog with a `needs-steve` note and report it.
+- If hosted CI cannot start because of billing or spending limits, record the exact message and proceed on the complete local gate and a clean independent review.
+- **No PR for the program.** Each phase's merge commit is its record and the roadmap's closing section is the summary.
+- Never rewrite history.
+- Keep the roadmap truthful after each phase: tick its Status line, close out the finished phase plan (delete it; the merge commit and `docs/reference/` hold the record), and write the next phase's plan with `superpowers:writing-plans` (`modernization-phase-<n>.md`) before starting it. Keep `modernization-handover.md` current at each checkpoint.
+- When a phase closes, move any decision that still holds into `docs/reference/` and keep `AGENTS.md`, the skills and the backlog true.
+- **A real defect found by a new test is fixed, even in a phase that otherwise forbids physics changes.** Bug-fix tier only: the failing test first, the fix, a trajectory audit of every golden in the commit body, and an independent reviewer before merge. That precedence beats any phase's "no core behaviour change" constraint.
+- **Diagnosis runs in reviewed cycles.** At most three recorded attempts per cycle (trace/screenshot, hypothesis, result). If exhausted, obtain a fresh independent review and record a new evidence-backed approach before the next cycle. Steve’s 2026-10-02 standing approval covers the whole roadmap and supersedes earlier automatic stops, including range/300 km/plume. Never loosen bounds, delete assertions, add retries or rerun unchanged code for luck. Only the explicitly approved predictor/coast characterizations and reentry600s recording extension may change as specified above. Proven aero infeasibility uses the independently confirmed parking fallback above; it does not redefine full-roadmap completion.
+- Independent work runs in parallel only where it does not share files or goldens: reviews in the background while the next task proceeds. Physics tasks are serial (they share `step.ts` and every golden).
+
+## Reporting
+
+Report phases done vs remaining, product changes shipped (what a player can now see or do), completion %, and the current concrete blocker. Test counts and review volume are not progress.
+
+## Autonomy boundary
+
+- Make routine technical decisions without asking.
+- Do not ask again for diagnosis-cycle permission, the approved Phase 6b fallback, routine in-scope design choices, clean reviewed merges or deploys. Ask only for a genuinely new product/scope decision outside this approval or an external credential/access action that cannot be resolved through the documented fallback. Defer unrelated work and continue authorized work where possible.
+- Do not execute, extend, or scan any other roadmap. Do not invent new campaigns. Do not edit flight_sim.
+
+## Completion condition
+
+Stop when all of these are objectively true:
+- [ ] every phase in the roadmap's Status list is checked off
+- [ ] on `main`, `npm run gate` exits 0 in the reconciled cloud acceptance environment, and the last three hosted CI runs on `main` are green (or the billing exception above is recorded)
+- [ ] https://steveisnthere.github.io/StarShipSimulator/ serves the React build, and the smoke tier passes against that URL
+- [ ] `npm run truth:report` shows every tier-A row IN, and the registry covers at least: Raptor sea-level and vacuum Isp and thrust, RVac Isp, Ship and Super Heavy propellant and dry mass, engine counts, planet radius, max-Q altitude and value on an ascent, and re-entry peak heating — a row may not be deleted to make this true
+- [ ] `npm run mutation` shows every mutation CAUGHT by a named assertion failure, with the unmodified control run passing first
+- [ ] every scenario, Ship and Super Heavy, lands (or is caught) under autopilot, asserted per scenario id in `tests/flies-every-scenario.test.ts`; Phase6b uses the independently accepted broadside fallback with parked tasks named. The fallback does not waive any Phase7–9 requirement.
+- [ ] Phase 8's visual-direction review page is published and linked from the roadmap, the screenshot specs for launch, staging, belly flop, entry, landing and catch pass, and the phone frame budget is measured and met
+- [ ] no `.svelte` file remains, and the design-contract and UI-contract scanners pass with their self-tests in `npm run build`
+- [ ] `docs/reference/` describes the shipped system, `bash ~/.agent-config/skills/repo-docs-maid/scripts/check.sh` exits 0, and the backlog names every deferral in words
+- [ ] the roadmap's closing section summarises what shipped, with the merge commit of each phase
+- [ ] a motion-review page for Steve (launch, staging, belly flop, landing, catch) is published and linked from the closing section; his verdict is owner acceptance, recorded separately — the run is engineering-complete without it
+
+Do not continue into the backlog's unphased items (shareable flights, licensed audio, a sixth preset) after this condition is met.

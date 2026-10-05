@@ -1,0 +1,163 @@
+"""Unexecuted research-only lossless copy of an accepted historical episode."""
+from pathlib import Path
+import hashlib
+import json
+import os
+import stat
+import sys
+import time
+import traceback
+
+digest = lambda data: hashlib.sha256(data).hexdigest()
+spec_path = Path(sys.argv[1]).resolve()
+assert digest(spec_path.read_bytes()) == sys.argv[2]
+spec = json.loads(spec_path.read_text())
+assert spec['kind'] == 'current-recovery-additions-lossless-archive-proposal-v1'
+assert digest(Path(__file__).read_bytes()) == spec['scriptSha256']
+assert os.environ.get('STARSHIP_RECOVERY_ADDITIONS_ARCHIVE_APPROVED') == sys.argv[2]
+root = Path('/workspace/StarShipSimulator')
+output = root / 'docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts'
+assert str(output) == spec['output']
+assert not os.path.lexists(output)
+output.mkdir(mode=0o700)
+started = time.monotonic()
+rows = []
+primary = None
+posterrors = []
+sources = None
+
+
+def durable(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open('xb') as stream:
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+    fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def inventory(directory):
+    assert directory.is_absolute() and directory.resolve() == directory
+    assert stat.S_ISDIR(directory.lstat().st_mode)
+    files = []
+    for base, dirs, names in os.walk(directory, followlinks=False):
+        assert len(Path(base).relative_to(directory).parts) <= 32
+        for name in dirs:
+            assert stat.S_ISDIR((Path(base) / name).lstat().st_mode)
+        for name in names:
+            path = Path(base) / name
+            item = path.lstat()
+            assert stat.S_ISREG(item.st_mode)
+            assert path.name != 'browser.launch.env', 'Private credential-bearing browser environment cannot be archived'
+            assert item.st_size <= 16 * 1024 * 1024
+            files.append(path)
+            assert len(files) <= 5000
+    return sorted(files)
+
+
+def discover():
+    # Finite source declaration; no all-/tmp, browser, node_modules or recovery recursion.
+    assert len(spec['trees']) == 14
+    return {role: Path(path) for role, path in spec['trees'].items()}
+
+
+def check_aliases():
+    assert len(spec['aliases']) == 1
+    for alias in spec['aliases']:
+        assert alias['historicalRecordedPath'] == str(root / 'tests/e2e/visual-runtime-receipt.ts')
+        assert alias['historicalSha256'] == '8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e'
+        backing = Path(alias['retainedBackingPath'])
+        assert backing == Path('/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/original-helper.ts.txt')
+        assert digest(backing.read_bytes()) == alias['historicalSha256']
+        assert stat.S_IMODE(backing.lstat().st_mode) == alias['backingMode']
+        proof = Path(alias['beforeModeProof'])
+        assert digest(proof.read_bytes()) == alias['beforeModeProofSha256']
+        assert json.loads(proof.read_text())[alias['modeProofKey']] == alias['historicalMode']
+
+
+try:
+    check_aliases()
+    for row in spec['references']:
+        assert Path(row['path']).name != 'browser.launch.env'
+        assert stat.S_ISREG(Path(row['path']).lstat().st_mode)
+        assert Path(row['path']).lstat().st_size <= 16 * 1024 * 1024
+        assert digest(Path(row['path']).read_bytes()) == row['sha256']
+    trees = discover()
+    sources = {role: inventory(directory) for role, directory in trees.items()}
+    total = 0
+    for role, paths in sources.items():
+        for path in paths:
+            assert time.monotonic() - started < 45
+            item = path.lstat()
+            assert stat.S_ISREG(item.st_mode)
+            data = path.read_bytes()
+            assert len(data) == item.st_size
+            total += len(data)
+            assert total <= 256 * 1024 * 1024 and len(rows) < 5000
+            relative = path.relative_to(trees[role])
+            # Preserve original executables in /tmp; only archive names get .txt.
+            target = output / role / relative
+            if path.suffix in ['.mjs', '.js', '.ts', '.tsx', '.py']:
+                target = target.with_name(target.name + '.txt')
+            durable(target, data)
+            assert digest(target.read_bytes()) == digest(data)
+            rows.append({'original': str(path), 'canonical': str(target.relative_to(root)),
+                         'bytes': len(data), 'sha256': digest(data), 'originalMode': stat.S_IMODE(item.st_mode)})
+    for number, row in enumerate(spec['references']):
+        path = Path(row['path'])
+        assert stat.S_ISREG(path.lstat().st_mode)
+        data = path.read_bytes()
+        total += len(data)
+        assert len(data) <= 16 * 1024 * 1024 and total <= 256 * 1024 * 1024 and len(rows) < 5000
+        assert digest(data) == row['sha256']
+        target = output / 'supporting' / (str(number) + '-' + path.name)
+        if path.suffix in ['.mjs', '.js', '.ts', '.tsx', '.py']:
+            target = target.with_name(target.name + '.txt')
+        durable(target, data)
+        rows.append({'original': str(path), 'canonical': str(target.relative_to(root)),
+                     'bytes': len(data), 'sha256': digest(data), 'originalMode': stat.S_IMODE(path.lstat().st_mode)})
+except BaseException:
+    primary = traceback.format_exc()
+finally:
+    for row in rows:
+        try:
+            assert digest(Path(row['original']).read_bytes()) == row['sha256']
+            assert stat.S_IMODE(Path(row['original']).lstat().st_mode) == row['originalMode']
+            data = (root / row['canonical']).read_bytes()
+            assert len(data) == row['bytes'] and digest(data) == row['sha256']
+        except BaseException:
+            posterrors.append({'original': row['original'], 'error': traceback.format_exc()})
+    try:
+        if sources is None:
+            raise RuntimeError('Source inventory unavailable; archive incomplete')
+        assert {role: inventory(path) for role, path in discover().items()} == sources
+        check_aliases()
+        assert digest(spec_path.read_bytes()) == sys.argv[2]
+        assert digest(Path(__file__).read_bytes()) == spec['scriptSha256']
+        for row in spec['references']:
+            assert digest(Path(row['path']).read_bytes()) == row['sha256']
+    except BaseException:
+        posterrors.append({'stage': 'final-source-input-inventory', 'error': traceback.format_exc()})
+    completed = primary is None and not posterrors
+    if completed:
+        try:
+            durable(output / 'origin-alias-manifest.json', (json.dumps({'aliases': spec['aliases'], 'canonicalRows': [row for row in rows if row['original'] == spec['aliases'][0]['retainedBackingPath']]}, indent=2) + '\n').encode())
+            durable(output / 'origin-manifest.json', (json.dumps({
+                'kind': 'lossless-current-recovery-additions-owned-artifact-copy-v1', 'rows': rows,
+                'originalsUntouched': True, 'originalResultsReclassified': False,
+                'scope': spec['scope'], 'privacy': spec['privacy'],
+                'externalBinaryPrerequisitesNotCopied': spec['externalBinaryPrerequisitesNotCopied']
+            }, indent=2) + '\n').encode())
+        except BaseException:
+            posterrors.append({'stage': 'origin-manifest-write', 'error': traceback.format_exc()})
+            completed = False
+    durable(output / 'copy-result.json', (json.dumps({'completed': completed,
+        'primaryFailure': primary, 'posterrors': posterrors, 'files': len(rows),
+        'bytes': sum(row['bytes'] for row in rows), 'elapsedSeconds': time.monotonic() - started,
+        'proposalSha256': sys.argv[2], 'executedScriptSha256': spec['scriptSha256']
+    }, indent=2) + '\n').encode())
+sys.exit(0 if completed else 1)

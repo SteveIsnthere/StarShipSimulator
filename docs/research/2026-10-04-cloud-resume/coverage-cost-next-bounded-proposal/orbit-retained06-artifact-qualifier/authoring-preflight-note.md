@@ -1,0 +1,1 @@
+The first metadata-authoring attempt used an incorrect helper-span boundary and failed its author assertion before writing candidate files (empty distinct directory only). Reviewer clarified exact raw bytes[0,233), excludes the LF after first //#endregion. This observed span and original dcd70 digest are now retained; no compiler/proof/native import or authority change occurred.

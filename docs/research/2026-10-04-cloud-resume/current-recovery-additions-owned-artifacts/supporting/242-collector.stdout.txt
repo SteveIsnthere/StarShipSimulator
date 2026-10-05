@@ -1,0 +1,6 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+      Coverage enabled with v8
+
+ ✓ |unit| tests/app/view-clock.test.ts (56 tests | 55 skipped) 36835ms
+     ✓ all three agree when nothing goes wrong, which is why this survived  36832ms

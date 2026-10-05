@@ -1,0 +1,145 @@
+/** Diagnostic observers only. Original launch body, probe, sample counts and assertions remain intact. */
+import { test, expect, type TestInfo } from '/workspace/StarShipSimulator/node_modules/@playwright/test/index.js';
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { performance as clock } from 'node:perf_hooks';
+import { startVisualBrowserTrace } from '/workspace/StarShipSimulator/tests/e2e/visual-browser-trace';
+
+type Run = { stop: () => Promise<void>; stopTrace: () => Promise<void>; rows: unknown[];
+  bytes: number; errors: string[]; before: number; after?: number };
+const runs = new Map<string, Run>();
+const cap = 8 * 1024 * 1024;
+async function boundedDetach(session: { detach(): Promise<void> }) {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    await Promise.race([session.detach(), new Promise<never>((_, reject) => {
+      timer = setTimeout(() => reject(new Error('Diagnostic extra CDP detach exceeded1s')), 1000);
+    })]);
+  } finally { clearTimeout(timer); }
+}
+
+async function save(info: TestInfo, name: string, value: unknown) {
+  const text = JSON.stringify(value, null, 2) + '\n';
+  if (Buffer.byteLength(text) > cap) throw new Error('Diagnostic receipt exceeds finite 8MiB cap');
+  const path = info.outputPath(name);
+  writeFileSync(path, text, { flag: 'wx', mode: 0o600 });
+  await info.attach(name, { path, contentType: 'application/json' });
+}
+function row(path: string) {
+  const text = readFileSync(path, 'utf8');
+  if (Buffer.byteLength(text) > 65536) throw new Error('Finite proc stat cap');
+  const fields = text.slice(text.lastIndexOf(')') + 2).trim().split(/\s+/);
+  return { state: fields[0], ppid: Number(fields[1]), pgrp: Number(fields[2]), session: Number(fields[3]),
+    utimeTicks: fields[11], stimeTicks: fields[12], starttime: fields[19] };
+}
+test.beforeEach(async ({ page, browser }, info) => {
+  expect(info.project.name).toBe('chromium');
+  expect(info.title).toBe('launch: CPU + GPU completion and actual cadence @mobile @visual-budget');
+  const cdp = await browser.newBrowserCDPSession();
+  let traceStop: (() => Promise<void>) | undefined;
+  try {
+    await page.addInitScript(() => {
+      const original = window.requestAnimationFrame.bind(window);
+      const rows: { timestamp: number; entered: number; exited: number }[] = [];
+      let overflow = false;
+      const target = window as unknown as { __mesaAllRAF?: { rows: typeof rows; overflow(): boolean; timeOrigin: number } };
+      if (target.__mesaAllRAF) throw new Error('Diagnostic RAF already installed');
+      target.__mesaAllRAF = { rows, overflow: () => overflow, timeOrigin: performance.timeOrigin };
+      performance.mark('mesa-diagnostic-document-anchor');
+      window.requestAnimationFrame = callback => original(timestamp => {
+        const entered = performance.now();
+        try { callback(timestamp); }
+        finally {
+          if (rows.length >= 8192) overflow = true;
+          else rows.push({ timestamp, entered, exited: performance.now() });
+        }
+      });
+    });
+    traceStop = await startVisualBrowserTrace(browser, info);
+    const run: Run = { stop: async () => {}, stopTrace: traceStop, rows: [], bytes: 0, errors: [], before: clock.now() };
+    runs.set(info.testId, run);
+    async function sample() {
+      const begin = clock.now();
+      let deadline: ReturnType<typeof setTimeout> | undefined;
+      let processes;
+      try {
+        processes = (await Promise.race([cdp.send('SystemInfo.getProcessInfo'), new Promise<never>((_, reject) => {
+          deadline = setTimeout(() => reject(new Error('Diagnostic CDP snapshot exceeded2s')), 2000);
+        })])).processInfo;
+      } finally { clearTimeout(deadline); }
+      if (processes.length > 32) throw new Error('Diagnostic process cap32');
+      const selected = processes.filter(p => ['browser', 'renderer', 'GPU'].includes(p.type));
+      const records = [];
+      let threads = 0;
+      for (const process of selected) {
+        if (!Number.isSafeInteger(process.id) || process.id <= 1) throw new Error('Invalid CDP PID');
+        const before = row(`/proc/${process.id}/stat`);
+        const tids = readdirSync(`/proc/${process.id}/task`).sort();
+        threads += tids.length;
+        if (threads > 512) throw new Error('Diagnostic total thread cap512');
+        const tasks = tids.map(tid => {
+          if (!/^\d+$/.test(tid)) throw new Error('Invalid task TID');
+          const prefix = `/proc/${process.id}/task/${tid}`;
+          const status = readFileSync(`${prefix}/status`, 'utf8');
+          if (Buffer.byteLength(status) > 65536) throw new Error('Finite task status cap');
+          return { tid: Number(tid), identity: row(`${prefix}/stat`),
+            name: readFileSync(`${prefix}/comm`, 'utf8').trim(),
+            cpus: /^Cpus_allowed_list:\s*(.*)$/m.exec(status)?.[1] ?? null };
+        });
+        const after = row(`/proc/${process.id}/stat`);
+        if (before.starttime !== after.starttime || before.pgrp !== after.pgrp || before.session !== after.session) {
+          throw new Error('Diagnostic process identity changed during snapshot');
+        }
+        records.push({ pid: process.id, type: process.type, before, after, tasks, cdpCpuTime: process.cpuTime });
+      }
+      const sample = { begin, end: clock.now(), processes: records,
+        cgroup: { cpuMax: readFileSync('/sys/fs/cgroup/cpu.max', 'utf8').trim(),
+          cpuset: readFileSync('/sys/fs/cgroup/cpuset.cpus.effective', 'utf8').trim(),
+          cpuStat: readFileSync('/sys/fs/cgroup/cpu.stat', 'utf8') } };
+      run.bytes += Buffer.byteLength(JSON.stringify(sample));
+      if (run.rows.length >= 512 || run.bytes > 6 * 1024 * 1024) throw new Error('Diagnostic sample cap reached');
+      run.rows.push(sample);
+    }
+    await sample();
+    run.stop = async () => {
+      const failures: string[] = [];
+      try { await sample(); } catch (error) { failures.push(String(error)); }
+      try { await boundedDetach(cdp); } catch (error) { failures.push(String(error)); }
+      run.after = clock.now();
+      if (failures.length) throw new Error(failures.join('; '));
+    };
+  } catch (error) {
+    const failures = [String(error)];
+    try { await traceStop?.(); } catch (failure) { failures.push(String(failure)); }
+    try { await boundedDetach(cdp); } catch (failure) { failures.push(String(failure)); }
+    await save(info, 'diagnostic-start-failure.json', { failures });
+    throw error;
+  }
+});
+test.afterEach(async ({ page }, info) => {
+  const run = runs.get(info.testId);
+  if (!run) throw new Error('Diagnostic observer did not start');
+  const errors: string[] = [];
+  let raf: unknown;
+  try { await run.stop(); } catch (error) { errors.push(String(error)); }
+  try {
+    raf = await page.evaluate(() => {
+      const value = (window as unknown as { __mesaAllRAF?: { rows: unknown[]; overflow(): boolean; timeOrigin: number } }).__mesaAllRAF;
+      if (!value) throw new Error('All-RAF observer missing');
+      performance.mark('mesa-diagnostic-capture-readout');
+      const probe = (window as unknown as { __visualBudget?: { result(): unknown } }).__visualBudget?.result();
+      return { rows: value.rows, overflow: value.overflow(), timeOrigin: value.timeOrigin, now: performance.now(), probe };
+    });
+    expect((raf as { overflow: boolean }).overflow).toBe(false);
+  } catch (error) { errors.push(String(error)); }
+  try { await run.stopTrace(); } catch (error) { errors.push(String(error)); }
+  try {
+    await save(info, 'diagnostic-all-raf.json', raf ?? { unavailable: true });
+    await save(info, 'diagnostic-thread-cgroup.json', { rows: run.rows, errors: run.errors, before: run.before, after: run.after,
+      boundarySamplesOnly: true, measuredWindowSamplerWork: false, broadExposureNotMeasuredOnly: true,
+      samplerEndTimesNotSimultaneous: true, ticksRequireRootPinnedCLK_TCK: true });
+    await save(info, 'diagnostic-observer-result.json', { completed: errors.length === 0 && run.errors.length === 0,
+      errors, samplingErrors: run.errors, diagnosticOnly: true, originalAssertionsNotChanged: true,
+      traceAndSamplingOverhead: true, environmentFieldsNeverExportedByObserver: true });
+  } finally { runs.delete(info.testId); }
+  expect(run.errors).toEqual([]); expect(errors).toEqual([]);
+});

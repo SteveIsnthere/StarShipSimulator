@@ -1,0 +1,19 @@
+{
+  "kind": "independent-pure-proof-source-review-v3",
+  "verdict": "READY root scopes and one maker/materialized-input review only",
+  "executionApproved": false,
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/input-pins.json": "c3be151715e675918c37ec095dbdb376922b0fa88fb2342ac439cf07eb8be44d",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/builder.mjs.txt": "ae943f3efa2d39398a4795bb79d90d25f0830650b2508ae244ff5cadf0741eff",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/driver.mjs.txt": "66af3f80a62d1f5b4428b966350f33b55f28bd5432bf43b5c285c7e28a1d97b4",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/builder.emitted-edge.diff": "0b9f95033e304d28cfad6e2ebd7a3b47eb86d451abbc88625f26a37ff9d05953",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/driver.emitted-edge.diff": "701faf74765a5da5a80b1a1fc1986d438c4ecb3a2b38980a6d798c0ad8625faa",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/canonical-equivalence-driver.mjs.txt": "679ff675b6bab99b68d4e99941e07c77843410ce81fa0b2f54b3aca61f039e55",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/owner.mjs.txt": "7b77d1475b48efa77660545eb3221308f86af1d92d80a920fdefd0ae51b66985",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/make-input.py.txt": "b0502f4538658726d0148c7486e733295f1e7084d2060707d2e50dadc258c8dc",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/entry.ts.txt": "f870865020e5aa24191e336792275b353236ddd6b5119c7f7fa8976a45ae2c90",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-observer.py.txt": "6f790e6efdb8f2e8a5285cddf40d0b7b9188077b007c05e3579954d64d899652",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/declaration.md": "dc1457bfb4bb93e065b75393d680e9c2a6f4adb67324baaa092c711c93a87b55",
+    "docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-source-HIGH-v3.md": "f0eb1d111e6051fc6f1fedc73bb776538db57a7213d22b59768db10b7fd5204d"
+  }
+}

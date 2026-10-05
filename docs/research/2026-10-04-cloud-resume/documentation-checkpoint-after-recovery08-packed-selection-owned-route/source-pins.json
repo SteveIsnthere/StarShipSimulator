@@ -1,0 +1,132 @@
+{
+  "kind": "after08-packed-doc-selection-source-pins-v3",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-packed-selection-owned-route/make-input.py.txt",
+      "sha256": "9267f746c2e9838d9604b7e5164a6006ecd81c183f3ee3b24c001d7b441cff92"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-packed-selection-owned-route/selected-paths.json",
+      "sha256": "f0b5ef53979f0163f2af03e5f2ea6df3cf8366ab0f2ec4ea51f8c5aea1d55c38"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-packed-selection-owned-route/selection-plan.md",
+      "sha256": "77b3cf78cb4497532ab1a1d1751630bd5563aedcf4fc81df4ec07884a0e5c9c0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-packed-selection-owned-route/preparation-note.md",
+      "sha256": "afe0149563645db968bd43d2713253ca99357b237d0a385a9838e83b672eae7c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/capture-selection.py.txt",
+      "sha256": "eeff6f3bcfa0076f29405b3afe9c94474cf0bfde154a03820d41c289828dcbf6"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/root-observer.py.txt",
+      "sha256": "8ac108a6a32c4634f27c04479c4498ebbf440ea7a29527945809e14633c603ed"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/source-pins.json",
+      "sha256": "aaac1568ba0cb6b00d19d1bfc61655b6f02e2c8fbdb2b449d28e2fa4608847fc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/independent-selection-final-source-HIGH-review.md",
+      "sha256": "abbb3f786a52f5ef8dc516ea2b1b301a02a0cce4c811b19c950b0c68bdbf222b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/independent-selection-final-source-HIGH-pins.json",
+      "sha256": "396f6caba825505d1cedbed984624dd1e4237c42d0519f0bd041025eb5d27684"
+    },
+    {
+      "path": "/tmp/starship-doc-selection-input.837cebd0384f4744b3c864255cd070b7/lossless-copy-origins.json",
+      "sha256": "f9c110c7934f7502fb4c17c63c16ac0ab270dcdc52bac9b75f04d15dddee6b76"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packed-artifacts/origin-alias-manifest.json",
+      "sha256": "56606af350ce5eed2f9e667cebb1ef485f852aca258839f4f0fcaffc29eccf5f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packed-artifacts/copy-result.json",
+      "sha256": "7c79a1e320695f4fc786f5de071a0e0e26478da0dece88b7b631f0ba8401c7dd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/pack.py.txt",
+      "sha256": "42de019980ce4c285e004e886eb24ff6c88e739cc5e5625b95c2cc4fb89efc09"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/make-input.py.txt",
+      "sha256": "f3ec53add9dac3d788777aa8b52e1454f06fd760bc89785d3f38790fa4466df5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/root-observer.py.txt",
+      "sha256": "7e6e24af50190ca1a5f2d26242129079b0b21f106737b989f70e41d7b966b9c9"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/proposal.json",
+      "sha256": "85dc6bea2a4ab1c53758256a0bf0e9ad38209c57745e8497865ff81f826359c6"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/PLAN.md",
+      "sha256": "b1d819d759d70f77207a6cb6b7139a9d19fa5d0502da27891ab09b379977d6e9"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/source-pins.json",
+      "sha256": "262ed9c7dd9324a9f0465c5aecf77834013bcc9f7a4a6c6295ae9b466341d3e2"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-source-HIGH-review.md",
+      "sha256": "dab9b48384286e1851d447ac596fdc1bf3bbdb0cd2f8fb34fd69312e9bb8115c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-source-HIGH-pins.json",
+      "sha256": "b2856ed02c5c95169cb1f0cd5ef5eae572020e41cd1f3e79e1b68d923f756e6d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-actual-observations.json",
+      "sha256": "2ad4b7aadc091e36cc4ff6e410ce9a2bd31fddd28741ac5accbe9000c16ef772"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-actual-result-HIGH-review.md",
+      "sha256": "fed59ab6b3038599bb42900e385e2b2ae1c77f5dfd76301dd0dfed19b04aba3d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-actual-result-HIGH-pins.json",
+      "sha256": "c35a3fbcecddee2f9c5952642f19783d7325a1eb3c0c747c792e26d2de006ce6"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/root-failed-maker-selected-size-inventory.json",
+      "sha256": "ffe491fc5bb71f5acfd9906c2b16e74b8bfc9a2bd31343ad13f1bf349df82d68"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/make-input.py.txt",
+      "sha256": "9af007035969f0012a86375d68daf7f262addaf6728d0b59aec95f39c33b78ff"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/selected-paths.json",
+      "sha256": "6a8b2cdc8278b059f8548319aaf7713ca437076cd888ed1654a943db08b4ed3b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/selection-plan.md",
+      "sha256": "b3954356f63f34ef45e5b1403fb6e01858fd860615f1c126c09019774edaea2a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/root-candidate-doc-names.json",
+      "sha256": "9b6be1dd0edb60498d594f95bed33e94c51170548589a621f6b91db3722ea551"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/independent-git-finalization-repair.md",
+      "sha256": "c6b2276a6d05cd40b3c1697865e45cdd1f3e69876c809ad1f1dc10b50eee6b91"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/sha-label-transcription-repair.md",
+      "sha256": "4926d482bfc9f81ac3d8ba27a48598981632425b1d8e166acb5bcc9df5a8e22e"
+    }
+  ],
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "captureExecuted": false,
+  "runtimeOrGitWriteApproved": false,
+  "sourceReadinessOnly": true
+}

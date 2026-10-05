@@ -1,0 +1,3 @@
+# Full38 actual-input metadata maker
+
+UNEXECUTED. Root runs once AFTER actual stage/root source HIGH and scopes, passing independently approved source-review path and SHA. Reads only metadata and selected source pins; no full tree/tool/fixture scan, private source copies or API import. Preserves accepted SSR five-case input/history and strict tool metadata; exactly5 declared current source override rows plus new helper from actual770 aftersnapshot. Binds explicit e600/current qualification actualHIGH6b583/877b, all38 originalnames/default30/currentdata unchanged. Root must retain maker raw/status and new input requires independent HIGH before full38 invocation. Output directory exclusive; partial failures retained without retry.
