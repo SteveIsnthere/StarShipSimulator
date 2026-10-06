@@ -1,0 +1,45 @@
+{
+  "kind": "finite-current-graphics-three-doc-packet-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/packet.json",
+      "sha256": "29ca2a2f245c1e2cfd7cef4892d7153a1fb7415d3b6a0989edd80a3932bc66e0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/SCOPE.md",
+      "sha256": "a052db3c4b09fc79ecc5d082928147f7b2c9056eb6882fcc110452451ac5ad96"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/0-before.md",
+      "sha256": "379c5cfb9307438b94a8f581b174dfc2483d1ac9dc43df7f41d67cce6ae0fe60"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/0-projection.md",
+      "sha256": "69fee60d92f94e284e40a4643fb16c256188ecf74480e55a64203a772c4fca46"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/1-before.md",
+      "sha256": "72078bb8f43f7ae8e537c04fb72f8fc786d7a7923c5fe92f4be0248b3377a065"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/1-projection.md",
+      "sha256": "567600c61614c57a325e1fb3f3fe0da1a6ac54753e4591420991515a4acea474"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/2-before.md",
+      "sha256": "a27831207e69f20f7bd6dd823e47ba7856a0619922ad965e215cb0a6f1d246ae"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/2-projection.md",
+      "sha256": "b07ab8ed95b4e6b13c93af1c41abf9c562a8f13412dca1609899eb5b2c56fbe2"
+    },
+    {
+      "path": "/tmp/starship-one-definition-excerpt-corrected-caller-root.mt13p0i5/independent-single-definition-excerpt-data-actual-HIGH-v1.md",
+      "sha256": "8b5f7f36cd926dee462e68950c759904f208a558fe661c8f03d56f007885e139"
+    },
+    {
+      "path": "/tmp/starship-one-rules-flags-one-actual-root.pfg1r230/independent-rules-only-data-actual-disposition-HIGH-v1.md",
+      "sha256": "a67d5c24bcb54c19e3283db1a153498a71d20ddf2ecb58b7d0d6c6785f60a5cd"
+    }
+  ]
+}
