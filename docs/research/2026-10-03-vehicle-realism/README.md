@@ -1,5 +1,7 @@
 # V3 vehicle realism — evidence index, 2026-10-03
 
+The [latest cloud qualification checkpoint](../2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md) adds accepted bounded proof-reader and graphics-data checks. It leaves Phase 8/9, the complete gate, rendering and release open; private proof preservation remains unfinished.
+
 Current execution instructions live in [GOAL](../../plans/modernization/modernization-GOAL.md), [Phase8](../../plans/modernization/modernization-phase-8.md) and the [handover](../../plans/modernization/modernization-handover.md). Steve explicitly cleared the pause and moved acceptance to the cloud. Current replacement recovery and fresh measured outcomes are in the [cloud-resume index](../2026-10-04-cloud-resume/README.md). The original pause recovery below is historical; never apply it to the current dirty checkout or chain it with later snapshots. Historical “pending” statements do not override the current GOAL/handover.
 
 | Area | Read first | Establishes |

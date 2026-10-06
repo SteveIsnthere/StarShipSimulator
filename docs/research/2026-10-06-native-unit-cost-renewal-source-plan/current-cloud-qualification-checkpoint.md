@@ -1,0 +1,32 @@
+# Current cloud qualification checkpoint — 2026-10-06
+
+Phases 8 and 9 remain open, with completed roadmap phases at 80%. Main and the live site remain `e8a06ffe3e0fc5b28f6aad0ad733e6be25917428`. These bounded observations ship no additional player behavior. Current authority remains `443a8252ba47f3c5c0e78dead4efa5e42eef987aaf7639458376cc253ebc5641`, covering 778 source paths and 20,355 tools. Production physics, the original timing bodies, fixtures and installed tools are unchanged by this documentation checkpoint. Fresh cloud startup was qualified before implementation. The user's cloud acceptance override preserves all existing samples, budgets, floors and independent reviews; viewport emulation and software rendering make no physical-device or hardware-GPU claim.
+
+## Newly accepted observations
+
+Each result below received fresh independent actual HIGH review. They establish only the stated scope. Review digests identify retained private proof metadata; this index does not claim portable preservation of the latest private receipts.
+
+| Scope | Accepted result | Independent review SHA-256 |
+| --- | --- | --- |
+| Six changed proof-transport sources | Six clean Acorn parses, no target evaluation; actor 0.164464 s, Root 10.522493 s within 30 s; all five recorded identities/groups/sessions closed; current authority and selected files unchanged | `0b1df0594e3364aacfcde6511f562c931953a56c62985b66324ce98e5c1a4c82` |
+| Lazy audit formatting | All 13 synthetic controls, including preservation of the original exception through formatter/write/flush failures; actor 0.114887 s, Root 8.383821 s within 15 s; empty stderr, all five recorded identities/groups/sessions closed and unchanged source/tool guards | `c3cc7bb9557ac0d465c1f093830b6c57b7e47e0defd653f1466cca55af49b2be` |
+| V15 source copier | 49 source files plus two metadata files copied once into a fresh isolated setup; 51-file custody accepted at 10.639777 s within 30 s; unit/build/control acceptance fields remain unset | `c06f5c95722e7cb4b895354e10199466357dac24a8eea1f85447f9427bbba46a` |
+| Installed-tool inventory | Exact 20,355-key inventory, 20,328 canonical files and 27 aliases, accepted at 11.047159 s; inventory only, with no unit or compiler grant | `b5b4414bf7321367373612d8df835bbab22d819aee4cd562066c12937488e54a` |
+| Canonical receipt helper | All 120 contained synthetic cases passed; their functional/current-custody scope is accepted separately from the failed whole wrapper | `cf9f4b521684eaaaad30e7ce6383b72d9a7fd2d1b38e2a63d8bbd925025c220a` |
+| Process-census rules | All 28 synthetic cases passed, including retaining foreign zero-valued group/session rows; Root 11.744895 s within 15 s, with recorded ownership closed | `37f9f13c81882db0a080f0bea830bab5364dd122c865ebf79233edf2cc650c0d` |
+| Original wait-receipt controls | All original 22 synthetic cases passed at Root 11.437668 s within 15 s; recorded ownership closed; original source bodies retained | `61273bbcf88b63ce39c8f709caad1f503c414a484cca5b699ced406fb8f4d106` |
+| Private Xvfb identity and configure-path facts | Exact binary identity, ELF four-byte header and guarded SHA accepted at Root 11.624804 s within 30 s; configure path inspected with LSTAT only; native executor invocations zero | `3cbe55195cd48288c9d4756ac408b685cda6a9267fb32feb7bc39e2c03fe7bf2` |
+
+The private Xvfb identity is `14e8ec7d8209bbaf105f9ade27a80b65f01709346690d18fbadb6116ada34912`, 2,131,520 bytes, mode 0755. `/usr/share/xserver-xorg/configure_flags.mk` was absent at its first missing component `/usr/share/xserver-xorg`; no configure content was read. Historical accepted static dependency/interpreter inspection concerns this same binary. A fresh bounded check of its exact 29 ELF objects, loader cache, aliases and candidates is under Source review. It has not run and supplies no current loader, server, rendering or performance acceptance.
+
+## Preserved failures and pending work
+
+The corrected original 120-case reader actor timed out at 8.008227 s before publishing a result. Its recorded closure/current custody is accepted as failure evidence; the paired 82-case actor remains unrun. The six new syntax passes do not replace either functional scope or authorize compiler work. Next are independently reviewed concrete inputs and one bounded 36-control proof-transport episode, followed by new source-domain qualification of the unchanged 120/82 contracts.
+
+The original 19-control V15 preparation failed before starting its actor because file audits left no positive work budget after the unchanged cleanup/finalization reservations. No controls, Node actor or owned runner ran. Its original complete closure remains unaccepted. The separately reviewed 13 formatter controls do not repair that failure or prove a causal speedup. A distinct current-three-process diagnostic with one inherited 10-second clock is being prepared; no current diagnostic acceptance exists. Controls 21/10 and the synthetic fixture producer remain held. Original 235-control, orbit18, build, unit and compiler acceptance remain open.
+
+The 120-case graphics helper's original whole wrapper failed its observer census check. Its contained functional result and independent external closure remain accepted only in their narrow scopes. Later 28/22 controls and Xvfb identity observations do not rewrite the failed wrapper. No Xvfb help/server command, dependency loader, headed application or native graphics execution has run in this work.
+
+The two reviewed R2 forecast/terminal tests remain unapplied. Release current-authority consumers before exact-once application; retain all before/candidate hashes, exclusive backups, projection checks and fresh independent actual review. The earlier timestep-convergence addition remains accepted in its own domain. Whole R2, production coverage floors, all 21 meaningful mutations with a green control, complete golden replay, gameplay/photographs/frame budgets, five-project browser acceptance and the ordered gate remain open.
+
+Preserve historical failures, original fixtures, controls, limits and recovery records. Do not repeat unchanged failed actors, regenerate goldens merely to pass, overwrite dirty work, apply historical recovery patches or widen acceptance. Complete the latest portable evidence preservation, fresh whole-phase review, main integration, green main gate, CI and exact live-build verification before closing Phase 8. Phase 9 implementation follows that acceptance; no final-roadmap completion or deployment claim is made here.
