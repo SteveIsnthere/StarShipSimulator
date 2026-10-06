@@ -12,8 +12,15 @@ let before=null,nodeBinary=null,installedTools=null;
 let stage='preflight',status=0,native=null;const temporary=[];
 console.log(`Benchmark receipt: ${receipt}`);
 function save(name,value){writeFileSync(resolve(receipt,name),JSON.stringify(value,null,2)+'\n');}
+const lifecycleReporter=process.env.STARSHIP_BENCH_LIFECYCLE_REPORTER;
+const externalDeadline=process.env.STARSHIP_BENCH_DEADLINE;
+assert.equal(Boolean(lifecycleReporter),Boolean(externalDeadline),'Reporter/deadline require paired owned admission');
+if(lifecycleReporter){assert.equal(resolve(lifecycleReporter),lifecycleReporter);assert(existsSync(lifecycleReporter));
+ assert(Number.isFinite(Number(externalDeadline))&&Number(externalDeadline)>Date.now());}
 async function command(name,args,env=process.env){
- const code=await runOwnedCommand({name,args,env,root,receipt});save(`${name}.exit.json`,{code,ownedExecuting:0});
+ const deadlineMs=externalDeadline?Math.min(300000,Number(externalDeadline)-Date.now()):300000;
+ assert(deadlineMs>0,'No command launch after owned deadline');
+ const code=await runOwnedCommand({name,args,env,root,receipt,deadlineMs});save(`${name}.exit.json`,{code,ownedExecuting:0});
  process.stdout.write(readFileSync(resolve(receipt,`${name}.stdout.txt`)));process.stderr.write(readFileSync(resolve(receipt,`${name}.stderr.txt`)));return code;
 }
 function keysFromReport(report){return report.testResults.flatMap(file=>file.assertionResults.map(test=>({
@@ -56,34 +63,36 @@ try{
  save('positive-controls.json',{wrongManifest:'rejected before import',wrongSource:'rejected before import',wrongArtifact:'rejected before import',missingArtifact:'rejected before import'});
  const env={...process.env,STARSHIP_NATIVE_BENCH_MANIFEST:native.manifestPath,STARSHIP_NATIVE_BENCH_DIGEST:native.digest,STARSHIP_NATIVE_BENCH_INVOCATION:invocation,STARSHIP_NATIVE_BENCH_RECEIPT:receipt};
  const baseURL=pathToFileURL(resolve(root,'vitest.config.ts')).href;
- const bridge=resolve(root,'tests/support/native-guidance-benchmark.ts');
+ const bridge=resolve(root,'tests/support/native-guidance-benchmark.ts'),scenarioBridge=resolve(root,'scripts/bench/native-scenarios-benchmark.ts');
  const specs=[{lane:'native-guidance',include:['tests/core/guidance-physics.timing.test.ts'],exclude:[],native:true},
  {lane:'original-ssr',include:['tests/**/*.timing.test.ts'],exclude:['tests/core/guidance-physics.timing.test.ts'],native:false}];
  const collected=[];
  for(const spec of specs){
   const config=resolve(receipt,`${spec.lane}.config.mts`);temporary.push(config);spec.config=config;
-  writeFileSync(config,`import {defineConfig,configDefaults} from 'vitest/config';\nimport base from ${JSON.stringify(baseURL)};\nconst aliases=Object.entries(base.resolve?.alias??{}).map(([find,replacement])=>({find,replacement}));\nexport default defineConfig({resolve:{...base.resolve,alias:${spec.native?`[{find:/^\\$core\\/control\\/guidance-physics$/,replacement:${JSON.stringify(bridge)}},...aliases]`:'aliases'}},test:{environment:'node',include:${JSON.stringify(spec.include)},exclude:[...configDefaults.exclude,...${JSON.stringify(spec.exclude)}],testTimeout:30000,maxWorkers:1,fileParallelism:false}});\n`);
+  writeFileSync(config,`import {defineConfig,configDefaults} from 'vitest/config';\nimport base from ${JSON.stringify(baseURL)};\nconst aliases=Object.entries(base.resolve?.alias??{}).map(([find,replacement])=>({find,replacement}));\nexport default defineConfig({resolve:{...base.resolve,alias:${spec.native?`[{find:/^\\$core\\/control\\/guidance-physics$/,replacement:${JSON.stringify(bridge)}},{find:/^\\$core\\/scenarios$/,replacement:${JSON.stringify(scenarioBridge)}},...aliases]`:'aliases'}},test:{environment:'node',include:${JSON.stringify(spec.include)},exclude:[...configDefaults.exclude,...${JSON.stringify(spec.exclude)}],testTimeout:30000,maxWorkers:1,fileParallelism:false,retry:0}});\n`);
   stage=`collect-${spec.lane}`;const list=resolve(receipt,`${spec.lane}.collection.json`);
   assert.equal(await command(`${spec.lane}-collection`,['node_modules/vitest/vitest.mjs','list','--config',config,'--json',list],{...env,STARSHIP_NATIVE_BENCH_STAGE:`collection-${spec.lane}`}),0);
   spec.collected=JSON.parse(readFileSync(list,'utf8')).map(test=>`${relative(root,test.file)}\0${test.name}`);
   collected.push(...spec.collected);assert(spec.collected.length>0,'Empty timing lane');
  }
- assert.equal(new Set(collected).size,collected.length,'Duplicate timing collection');for(const key of originalNames)assert(collected.includes(key),`Missing original timing case ${key}`);
+ assert.equal(new Set(collected).size,collected.length,'Duplicate timing collection');assert.deepEqual(collected.slice().sort(),originalNames.slice().sort(),'Collection must contain exactly original12');
  save('collection-inventory.json',specs.map(spec=>({lane:spec.lane,tests:spec.collected})));
  const results=[];
  // Run both lanes once even when one has an ordinary assertion failure.
  for(const spec of specs){stage=`run-${spec.lane}`;const report=resolve(receipt,`${spec.lane}.report.json`);
-  const code=await command(spec.lane,['node_modules/vitest/vitest.mjs','run','--config',spec.config,'--reporter=default','--reporter=json',`--outputFile.json=${report}`],{...env,STARSHIP_NATIVE_BENCH_STAGE:`run-${spec.lane}`});
+  const code=await command(spec.lane,['node_modules/vitest/vitest.mjs','run','--config',spec.config,'--reporter=default','--reporter=json',`--outputFile.json=${report}`,...(lifecycleReporter?[`--reporter=${lifecycleReporter}`]:[])],{...env,STARSHIP_NATIVE_BENCH_STAGE:`run-${spec.lane}`,NATIVE_FLIGHT_LIFECYCLE:resolve(receipt,`${spec.lane}.lifecycle.json`)});
   results.push({lane:spec.lane,code,report,collected:spec.collected});if(code!==0)status=1;
  }
  stage='inventory-and-integrity';const markers=readdirSync(receipt).filter(name=>name.startsWith('bridge-run-native-guidance-'));assert.equal(markers.length,1,'Native bridge was not imported exactly once for the timing file');
  const provenance=JSON.parse(readFileSync(resolve(receipt,markers[0]),'utf8'));assert.equal(provenance.invocation,invocation);assert.equal(provenance.digest,native.digest);assert(Object.values(provenance.referenceIdentity).every(value=>value===true));
- assert(!readdirSync(receipt).some(name=>name.startsWith('bridge-run-original-ssr-')),'Native bridge leaked into original SSR lane');const all=[];
+ assert(!readdirSync(receipt).some(name=>name.startsWith('bridge-run-original-ssr-')),'Native bridge leaked into original SSR lane');const scenarioMarkers=readdirSync(receipt).filter(name=>name.startsWith('scenario-run-native-guidance-'));assert.equal(scenarioMarkers.length,1,'Scenario bridge must import once');
+ const scenarioProvenance=JSON.parse(readFileSync(resolve(receipt,scenarioMarkers[0]),'utf8'));assert.equal(scenarioProvenance.pid,provenance.pid);assert.equal(scenarioProvenance.invocation,invocation);assert.equal(scenarioProvenance.digest,native.digest);assert.equal(scenarioProvenance.manifest,provenance.manifest);assert(Object.values(scenarioProvenance.referenceIdentity).every(value=>value===true));
+ assert(!readdirSync(receipt).some(name=>name.startsWith('scenario-run-original-ssr-')),'Native scenarios leaked into SSR');const all=[];
  for(const result of results){assert(existsSync(result.report),'Lane terminated without report');const rows=keysFromReport(JSON.parse(readFileSync(result.report,'utf8')));
   assert.deepEqual(rows.map(row=>row.key).sort(),result.collected.slice().sort(),'Omitted/duplicate/added execution case');
   assert(rows.every(row=>row.status==='passed'||row.status==='failed'),'Unexpected skipped/pending case');all.push(...rows.map(row=>({...row,lane:result.lane})));
  }
- assert.equal(new Set(all.map(row=>row.key)).size,all.length);save('test-inventory.json',all);verifyArtifact(native.manifestPath,native.digest,invocation);
+ assert.equal(new Set(all.map(row=>row.key)).size,all.length);assert.deepEqual(all.map(row=>row.key).sort(),originalNames.slice().sort(),'Execution must contain exactly original12');save('test-inventory.json',all);verifyArtifact(native.manifestPath,native.digest,invocation);
 }catch(error){status=1;save('failure.json',{stage,message:error.message,stack:error.stack});console.error(error);}
 finally{
  try{assert(before&&nodeBinary,'Verification unavailable: preflight source/binary snapshot incomplete');const after=sourceSnapshot(root);save('source-after.json',after);assert.deepEqual(after,before);assert.equal(digestFile(process.execPath),nodeBinary);
