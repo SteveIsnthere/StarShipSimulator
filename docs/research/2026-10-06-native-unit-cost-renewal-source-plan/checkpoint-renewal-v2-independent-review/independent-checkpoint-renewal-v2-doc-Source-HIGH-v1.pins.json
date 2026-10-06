@@ -1,0 +1,144 @@
+{
+  "kind": "independent-checkpoint-renewal-v2-doc-Source-HIGH-v1",
+  "verdict": "HIGH",
+  "SourceOnly": true,
+  "scope": "one-document-truth-renewal-only",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/checkpoint-renewal-v2-independent-review/independent-checkpoint-renewal-v2-doc-Source-HIGH-v1.md",
+    "sha256": "525430ed709e8f57cf7782e021617d52c5b63aafd2b210a244e875ccb460822a",
+    "bytes": 2585,
+    "mode": 384
+  },
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md",
+      "sha256": "9eeb55b02a7cbd9305cc8e4c4c759a4e94defcd4b84bd82b4e378cf326657bc6",
+      "bytes": 11858,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-checkpoint-renewal-v2-982hmiuw/before.md",
+      "sha256": "b13ccf6a42dd0a50cc24e19bd4d9fbfe9bed2a6e6b812549e8c9630703923ec1",
+      "bytes": 6526,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-checkpoint-renewal-v2-982hmiuw/after.md",
+      "sha256": "9eeb55b02a7cbd9305cc8e4c4c759a4e94defcd4b84bd82b4e378cf326657bc6",
+      "bytes": 11858,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-checkpoint-renewal-v2-982hmiuw/proposal.json",
+      "sha256": "486bc9e072c8b2c109d0c7d86159045a1435d2b8c206ba48250cf09823ed55ff",
+      "bytes": 1068,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-checkpoint-renewal-v2-982hmiuw/review-roles.json",
+      "sha256": "b4e8910871f5d77366ada37ce28315d6e118936c1ac60595c5a93fd6a11cee0f",
+      "bytes": 5214,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/solo18-controls19-current3-shared10-finalizer-source-successor-v4/independent-current3-shared10-actual-data-HIGH-v4.md",
+      "sha256": "8bdec78b316003cd4968c4a9f00fa6fccff426eed744a7c889f8999c42234ce4",
+      "bytes": 2888,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/solo18-controls19-current3-shared10-finalizer-source-successor-v4/independent-current3-root-dispatch-observation-addendum-HIGH-v4.md",
+      "sha256": "3c54e932a230875d5725a5c3d8e39a8c7b9c6f562a5ea381cd659f5a77da1b05",
+      "bytes": 1234,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/solo18-controls19-current5-shared10-source-input-candidate-v1/independent-current5-shared10-actual-census-HIGH-v1.md",
+      "sha256": "b2935abaebe457888e20c0b76331646a17e86b542dded2213059baf3531f8314",
+      "bytes": 2800,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-static40-root-source.9h7lir64/independent-pure40-actual-HIGH-v1.md",
+      "sha256": "726ab97ad9146c0d65c7259f8714766ec44fa69384f2b37bbf9208b68b9657dd",
+      "bytes": 2123,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/node-fd6-wire13-publication-bound-source-input-successor-v2/independent-node-fd6-wire13-actual-PASS-HIGH-v1.md",
+      "sha256": "4aa4cda6df13cd0c67b58bbba02dad85f0fdcaea8d337dd9423fd4e2515ee23c",
+      "bytes": 3200,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/node-fd6-four-input-owned-preparation-source-input-successor-v2/independent-node-fd6-four-input-preparation-actual-PASS-HIGH-v1.md",
+      "sha256": "b0d615802a07ac1ef437d0386390c2a6efc27896267be64210534729ffccee06",
+      "bytes": 3365,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current19-21-10-producer-stdout-transport-source-input-successor-v2/independent-controls19-decimal-wire-actual-PASS-HIGH-v1.md",
+      "sha256": "9982afde01460a6120cf7c658016777645d821e751096b878916a3c5981f2fd1",
+      "bytes": 2712,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current19-21-10-producer-stdout-transport-source-input-successor-v2/independent-controls21-decimal-wire-actual-PASS-HIGH-v1.md",
+      "sha256": "44bffc78d852d31de73fb70f6212f9961fa1074b2e93310f29d22927f6780c76",
+      "bytes": 2316,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current19-21-10-producer-stdout-transport-source-input-successor-v2/independent-controls10-decimal-wire-actual-PASS-HIGH-v1.md",
+      "sha256": "90512f4de6512ee4e75710e26316a8e56d113e2b272cf21c78fc6a28a0b646db",
+      "bytes": 2100,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current19-21-10-producer-stdout-transport-source-input-successor-v2/independent-producer-decimal-wire-actual-PASS-HIGH-v1.md",
+      "sha256": "4b00f24c6542575cc86a8339a73d554039c30a0eb07472229e510e3ade68ec93",
+      "bytes": 2554,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-owned-batch-four-source-syntax-_e6yd6yf/ROOT-output/independent-owned-batch-four-syntax-actual-HIGH-v1.md",
+      "sha256": "15bc78b0f7c3cc0d339ddba4553075052941a118c3447ea0690b0b83526f2b90",
+      "bytes": 2383,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-owned-batch-four-source-syntax-_e6yd6yf/ROOT-output/independent-owned-batch-four-syntax-full-snapshot-supplement-HIGH-v1.md",
+      "sha256": "353edca192de7f664b67ee00c2dda9f11f11e9ed99976880738dc274dda44b57",
+      "bytes": 1656,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-owned-batch59-source-preparation-9l0gget1/ROOT-output-v2/independent-owned-batch59-actual-HIGH-v1.md",
+      "sha256": "13a4c7b5535d337ce1742220db9546932c293917211428d726824ca013e50db0",
+      "bytes": 2856,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-proof-ledger36-source-preparation-6ebb28deff49429cb81284fe8af2fb18/ROOT-output/independent-ledger36-timeout-FAIL-custody-HIGH-v1.md",
+      "sha256": "9de2b01ba58beed60b7af83df883f0d495fd917613b0e3a0c8740a63130f2de6",
+      "bytes": 2178,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/solo18-current19-lazy-FD6-source-input-candidate-v1/independent-current19-lazy-FD6-actual-FAIL-HIGH-v1.md",
+      "sha256": "6828dfeb51ce55ddfc48e0188469adb8644a3ed4982edf5d12cba8ed1db43fa8",
+      "bytes": 3476,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/checkpoint-renewal-v2-independent-review/independent-checkpoint-renewal-v2-doc-Source-HIGH-v1.md",
+      "sha256": "525430ed709e8f57cf7782e021617d52c5b63aafd2b210a244e875ccb460822a",
+      "bytes": 2585,
+      "mode": 384
+    }
+  ],
+  "executionGranted": false,
+  "phaseAccepted": false,
+  "gateAccepted": false,
+  "compilerGranted": false
+}
