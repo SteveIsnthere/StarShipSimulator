@@ -1,11 +1,16 @@
-/** Fixed source-flow material exposure, not an integrated vehicle trajectory.
- * Predeclared35km,3000m/s,nose-on,45°grid command; no sweep, changed geometry,
- * initial hot/damaged hardware, arbitrary wear rate or outcome-selected time.
+/** The three 'natural source-flow thermal weakening' cases below are fixed
+ * source-flow exposures, not integrated vehicle trajectories: predeclared35km,
+ * 3000m/s,nose-on,45°grid command; no sweep, changed geometry, initial hot/damaged
+ * hardware, arbitrary wear rate or outcome-selected time. The separate numerical
+ * convergence group explicitly uses a600K integrated boundary fixture.
  */
 import { describe, expect, it } from 'vitest';
-import { createDamageState, cloneDamageState } from '$core/damage-state';
+import { createDamageState, cloneDamageState, type DamageState } from '$core/damage-state';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
-import { rad } from '$core/units';
+import { rad, deg } from '$core/units';
+import { PRESETS, createScenarioVehicle } from '$core/scenarios';
+import { cloneState } from '$core/state';
+import { step } from '$core/step';
 import { isaAtmosphere } from '$core/physics/isa';
 import { speedOfSoundAt } from '$core/physics/atmosphere';
 import { getDynamicPressure, getCrossSectionalArea, getBodyDragCoefficient, getDrag } from '$core/physics/aero';
@@ -165,5 +170,99 @@ describe('natural source-flow thermal weakening', () => {
     expect(f.forces.proofMask | f.forces.domainMask).toBe(0);
     for (const index of f.gridIndices) expect(f.forces.loadedAngles[index]).toBe(COMMAND);
     expect(f.state).toEqual(before);
+  });
+
+});
+
+describe('integrated numerical damage timestep convergence', () => {
+  it('refines real one-second damage heating, authority and motion at 1/120 versus 1/240', () => {
+    // The interval, 35km/3000m/s flow and 45deg command are declared
+    // before execution. No successful loss time or observed error sets them.
+    const physical = fixture();
+    const preset = PRESETS.find(row => row.id === 'booster-sep')!;
+    const { state: initial, vehicle } = createScenarioVehicle({ ...preset,
+      id: 'custom', basedOn: preset.id, altitude: ALTITUDE, xPosition: 0,
+      speedX: SPEED, speedY: 0, pitch: deg(-90), propellant: 0, wind: 0 }, 123);
+    initial.status.finActive = initial.status.translationModeOn = true;
+    initial.autopilot.manualControlOn = true;
+    initial.vehicle.frontFinExtension = 100;
+    // Numerical boundary fixture, NOT the separate cold natural-loss flight.
+    // 600K is inside the published 573.15--673.15K modulus interval. The cold
+    // bridge has constant modulus and cannot witness heating-dependent authority.
+    for (let index = 0; index < physical.partition.components.length; index++) {
+      const mass = physical.partition.components[index]!.rootMass;
+      if (mass > 0) {
+        initial.damage!.components[index]!.root.temperature = 600;
+        initial.damage!.components[index]!.root.energy = mass * steelSpecificEnthalpy(600);
+      }
+    }
+    const joules = (state: DamageState) => [state.hull.energy,
+      ...state.components.flatMap(component => [component.root.energy,
+        component.tps[0].energy, component.tps[1].energy])];
+    const initialJ = joules(initial.damage!);
+    const solve = (count: number) => {
+      const dt = 1 / count;
+      let state = cloneState(initial), externalJ = 0, absoluteJ = 0;
+      for (let tick = 0; tick < count; tick++) {
+        const old = state;
+        state = step(old, dt, { pitchControl: 100, throttle: 0 }, vehicle);
+        expect(state.damage!.revision).toBe(0);
+        expect(state.damage!.terminal.active).toBe(false);
+        expect(state.failures.inFlightBreakUp || state.failures.crashed).toBe(false);
+        expect(state.forces.dynamicPressure).toBeLessThan(dynamicPressureLimit);
+        expect(state.forces.surfaceTemperature).toBeLessThan(TILE_LIMIT_KELVIN);
+        const sink = radiativeSinkKelvin(state.kinematics.altitude, state.atmosphere.airTemperature);
+        // Independent first-law oracle: internal conduction cancels. The
+        // paid endpoint forcing heats each physical exposed column once;
+        // radiation reads its incoming outer node, not its updated node.
+        for (let index = 0; index < physical.partition.components.length; index++) {
+          const part = physical.partition.components[index]!;
+          if (part.rootMass === 0) continue;
+          const component = old.damage!.components[index]!;
+          const temperature = part.tpsMass > 0 ? component.tps[0].temperature : component.root.temperature;
+          externalJ += dt * physical.partition.rootSection.heatArea
+            * (state.forces.thermalPower - DAMAGE_THERMAL_EMISSIVITY * STEFAN_BOLTZMANN
+              * (temperature ** 4 - sink ** 4));
+        }
+        absoluteJ += joules(old.damage!).reduce((sum, value) => sum + Math.abs(value), 0);
+      }
+      const change = joules(state.damage!).reduce((sum, value, index) => sum + value - initialJ[index]!, 0);
+      // Generous arithmetic allowance: 128 rounded operations per node/step.
+      // This scales with represented energy, not with an observed discrepancy.
+      const roundoffJ = 128 * Number.EPSILON * (absoluteJ + Math.abs(externalJ));
+      expect(Math.abs(change - externalJ)).toBeLessThanOrEqual(roundoffJ);
+      expect(change).toBeGreaterThan(roundoffJ);
+      const forces = createDamageControlForces(physical.partition.components.length);
+      writeDamageControls(state.damage!, physical.control, state.forces.dynamicPressure * 1000,
+        0, COMMAND, 0, forces);
+      expect(forces.proofMask | forces.domainMask).toBe(0);
+      const cold = cloneDamageState(state.damage!);
+      for (const index of physical.gridIndices) cold.components[index]!.root = { ...initial.damage!.components[index]!.root };
+      const unchangedTemperature = createDamageControlForces(physical.partition.components.length);
+      writeDamageControls(cold, physical.control, state.forces.dynamicPressure * 1000,
+        0, COMMAND, 0, unchangedTemperature);
+      // Same endpoint load/command, only incoming root thermal state restored.
+      const authoritySignalFloor = 2 * SUPER_HEAVY.gridFins!.area * 1e-10;
+      expect(unchangedTemperature.gridLiftArea - forces.gridLiftArea).toBeGreaterThan(authoritySignalFloor);
+      const index = physical.gridIndices[0]!;
+      expect(state.damage!.components[index]!.root.temperature).toBeGreaterThan(initial.damage!.components[index]!.root.temperature);
+      return { count, energy: change, temperature: state.damage!.components[index]!.root.temperature,
+        authority: forces.gridLiftArea, vx: state.kinematics.speedX, vy: state.kinematics.speedY,
+        x: state.kinematics.downRangeDistance, altitude: state.kinematics.altitude };
+    };
+    const coarse = solve(120), fine = solve(240), reference = solve(960);
+    // Endpoint Euler heat/capability and held-force drag are first order.
+    // Against dt/8, halving dt predicts error ratio (1/2-1/8)/(1-1/8)=3/7.
+    // 2/3 allows higher-order terms, while still requiring actual refinement.
+    for (const key of ['energy', 'temperature', 'authority', 'vx', 'vy', 'x', 'altitude'] as const) {
+      const scale = Math.max(1, Math.abs(coarse[key]), Math.abs(fine[key]), Math.abs(reference[key]));
+      const numericalFloor = 128 * Number.EPSILON * reference.count * scale
+        + (key === 'authority' ? 2 * SUPER_HEAVY.gridFins!.area * 1e-10 : 0);
+      const coarseError = Math.abs(coarse[key] - reference[key]);
+      const fineError = Math.abs(fine[key] - reference[key]);
+      expect(fineError, key).toBeLessThanOrEqual((2 / 3) * coarseError + numericalFloor);
+      // Heating and actual velocity must have a resolved discretization signal.
+      if (key === 'energy' || key === 'vx') expect(coarseError, key).toBeGreaterThan(numericalFloor);
+    }
   });
 });
