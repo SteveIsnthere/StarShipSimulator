@@ -1,0 +1,19 @@
+{
+  "kind": "historical-canonical-document-backing-provenance-v1",
+  "originCommit": "fc609f2bf7cffb9519041b93bd933c2278098ad1",
+  "originRelativePath": "docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md",
+  "originGitMode": "100644",
+  "originGitObjectType": "blob",
+  "originGitBlobObject": "7a899f55c8381adcbf7314f05fb25ac17c4bb2ef",
+  "backingRelativePath": "docs/research/2026-10-06-native-unit-cost-renewal-source-plan/preserved-fc609f-current-cloud-qualification-checkpoint.md",
+  "sha256": "e164c7fc65a54dc8f76cac6f13d186182fde88cb8dbb2a46d17b3a1884dc763b",
+  "bytes": 17631,
+  "encoding": "identity",
+  "checkoutPayloadMode": "0600",
+  "gitTrackedMode": "100644",
+  "scope": "Exact historical document bytes; original checkpoint origin and current checkpoint are separate documents.",
+  "currentCheckpointRelativePath": "docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md",
+  "originalOriginTuplePreserved": true,
+  "globalRawProofPortabilityClaimed": false,
+  "compilerUnitRenderOrPhaseAcceptanceClaimed": false
+}
