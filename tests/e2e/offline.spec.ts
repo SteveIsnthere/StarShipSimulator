@@ -88,8 +88,16 @@ test('a full flight can be flown offline @mobile', async ({ page }) => {
     .poll(async () => Number(await speedY.textContent()), { timeout: 15_000 })
     .toBeGreaterThan(falling);
 
-  // Land or crash — either way the flight ends and the restart offers itself.
-  await expect(page.locator('[data-testid="restart"]')).toBeVisible({ timeout: 40_000 });
+  // Either terminal owner may offer restart, but exactly one must be visible.
+  await expect
+    .poll(async () => {
+      const [flightOverVisible, debriefVisible] = await Promise.all([
+        page.locator('[data-testid="restart"]').isVisible(),
+        page.locator('[data-testid="debrief-restart"]').isVisible(),
+      ]);
+      return Number(flightOverVisible) + Number(debriefVisible);
+    }, { timeout: 40_000 })
+    .toBe(1);
 
   expect(errors).toEqual([]);
 });

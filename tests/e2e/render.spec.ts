@@ -7,6 +7,9 @@
  * says it must be.
  */
 import { expect, test } from '@playwright/test';
+import { GROUND_OBJECTS } from '../../src/view/assets';
+
+const requiredSceneryFiles = [...new Set(GROUND_OBJECTS.map(({ src }) => src.split('/').at(-1)!))];
 
 test('every art asset loads @smoke', async ({ page }) => {
   const failed: string[] = [];
@@ -64,11 +67,10 @@ test('the webp images are actually fetched', async ({ page }) => {
    */
   await expect
     .poll(() => [...fetched], { timeout: 15_000, intervals: [100] })
-    .toEqual(expect.arrayContaining(['pig.webp', 'Starship.webp']));
+    .toEqual(expect.arrayContaining(requiredSceneryFiles));
 
   // The pig is not optional.
   expect([...fetched]).toContain('pig.webp');
-  expect([...fetched]).toContain('Starship.webp');
   await expect.poll(() => fetched.size, { timeout: 15_000 }).toBeGreaterThanOrEqual(8);
 });
 

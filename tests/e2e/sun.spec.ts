@@ -34,15 +34,14 @@ const FLANK_RATIO = 1.25;
 /** The shadow must move the bottom strip's left-minus-right luma by at least this much. */
 const SHADOW_MARGIN = 8;
 
-/**
- * Wait for touchdown: the altitude readout reaches the pad. Read through
- * `metrePixels`, which knows the readout switches to kilometres above 1000 m;
- * a bare `Number()` of the value node would call 15 km "15" and pass at once.
- */
+/** Wait for the model-owned touchdown debrief, not a nearby altitude. */
 async function landed(page: Page): Promise<void> {
   await expect
-    .poll(async () => (await metrePixels(page)).altitude, { timeout: 90_000, intervals: [500] })
-    .toBeLessThan(26);
+    .poll(
+      async () => page.locator('[data-testid="debrief"][data-outcome="TOUCHDOWN"]').isVisible(),
+      { timeout: 90_000, intervals: [500] },
+    )
+    .toBe(true);
   // Let the camera settle on the landed vehicle.
   await page.waitForTimeout(2_500);
 }
