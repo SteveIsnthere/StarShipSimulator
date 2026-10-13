@@ -1,0 +1,4 @@
+functions.exec_command(login=false, tty=false)
+source /workspace/cloud-bootstrap/starship-v1/activate.sh
+cd /workspace/StarShipSimulator
+source docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/run-once.sh

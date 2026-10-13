@@ -1,0 +1,5 @@
+path=/workspace/StarShipSimulator/docs/verification/native-flight-qualification.json
+sha256=9920693d4d9c3c7e94880b50d508bce12facaa9b5f1f20242ca1fa5f2bb2c83e
+sidecar_path=/workspace/StarShipSimulator/docs/verification/native-flight-qualification.sha256
+sidecar_sha256=17b4f3c6c68198637d215556264d22769d7621a6b026ffa300132eabf9f06aef
+production_acceptance=false

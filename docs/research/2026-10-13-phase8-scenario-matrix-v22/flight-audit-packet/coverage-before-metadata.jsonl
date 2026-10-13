@@ -1,0 +1,4 @@
+{"path":".","type":"directory","mode":448,"uid":1000,"gid":1000,"links":2,"size":4096,"mtimeNs":"1791087734834706227"}
+{"path":"coverage-final.json","type":"file","mode":384,"uid":1000,"gid":1000,"links":1,"size":557967,"mtimeNs":"1791087734826706603","sha256":"7f555ce471aff416861c73ff19f5e31e9f32c6cd39e2dee9ca00b7ca77e22467"}
+{"path":"coverage-summary.json","type":"file","mode":384,"uid":1000,"gid":1000,"links":1,"size":10805,"mtimeNs":"1791087734822706792","sha256":"f098ed588d3393745d1db762086bc24be943db51fbb6818a01dd66e3f19fc3b5"}
+{"path":"test-results.json","type":"file","mode":384,"uid":1000,"gid":1000,"links":1,"size":1253472,"mtimeNs":"1791087734810707356","sha256":"1548f9348a04394bb0e8fb3f06592b9372d7ff4c268c7db23d9c70eb56f078f6"}

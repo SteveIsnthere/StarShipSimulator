@@ -1,0 +1,152 @@
+{
+  "schema": "starship-v22-source-review-pins-v1",
+  "candidate": "V22 Ship/RTLS source-only review",
+  "predecessorTestPin": {
+    "path": "tests/flies-every-scenario.test.ts",
+    "bytes": 13375,
+    "sha256": "13e5f271b8d7c068792fcf1932a6d5534202e12ded8d17302f5cc2551c981934",
+    "sourceContentIncluded": false
+  },
+  "inputs": [
+    {
+      "path": "docs/plans/modernization/modernization-GOAL.md",
+      "bytes": 198703,
+      "sha256": "c01f61f711f5e4379e9637a993700faa7d59ad50c2421fecfb7af131c97e5147"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v22/README.md",
+      "bytes": 1263,
+      "sha256": "8276169c8c82961985fc2e3275b6683b5eaedcc51cfd91d20705920638ebfd13"
+    },
+    {
+      "path": "tests/flies-every-scenario.test.ts",
+      "bytes": 13541,
+      "sha256": "ecb37ed056299d07a5edc05b4e9d3fed9345ca8fbb1510849dc3604f731b3959"
+    },
+    {
+      "path": "src/core/scenarios.ts",
+      "bytes": 14733,
+      "sha256": "bcd5fb6ca8070dfc9751485de6fce22ccfd8841ad6c2f4db6908117aafc94e7b"
+    },
+    {
+      "path": "src/core/control/commands.ts",
+      "bytes": 6857,
+      "sha256": "9079a0297811e2fd3288ffe5515b0675ada126b467de68cf0538371c26603e40"
+    },
+    {
+      "path": "src/core/autopilot/index.ts",
+      "bytes": 35099,
+      "sha256": "22c67138557dd204b77081b1753d65084bbd4dcfb43a36edc883095c496ace69"
+    },
+    {
+      "path": "src/core/autopilot/booster.ts",
+      "bytes": 18188,
+      "sha256": "c5a7a17e93999173ca160dc83d26e6f390010332c1b56cd57999bfde4395597d"
+    },
+    {
+      "path": "src/core/step.ts",
+      "bytes": 6508,
+      "sha256": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986"
+    },
+    {
+      "path": "src/core/vehicle.ts",
+      "bytes": 3431,
+      "sha256": "570eb84ce57ad1baa434760ce0c609832add9ae2844ae6dd3caf09a1a1e48717"
+    },
+    {
+      "path": "src/core/vehicles/super-heavy.ts",
+      "bytes": 2954,
+      "sha256": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0"
+    },
+    {
+      "path": "src/core/constants.ts",
+      "bytes": 31149,
+      "sha256": "ffb3c5074d24fd847ed9da84e0e54c026f9aef72c0253e0cbabee05201b4bdb6"
+    },
+    {
+      "path": "vitest.config.ts",
+      "bytes": 7951,
+      "sha256": "4b3ee81bb15c73ef95ee1ac97a50c6dd05c3693f2e4fdaf03f211d719f23f501"
+    },
+    {
+      "path": "package.json",
+      "bytes": 2632,
+      "sha256": "aa229cabc6463b50e25fc0a9b7c7a9e39ddbcb39b4ce4dde93cd8f52afc3ccb3"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/independent-source-review-v1/review.md",
+      "bytes": 7152,
+      "sha256": "3cddbd82e85a662406dab03258a8ef67ef93ff5f93b35f3184a116c7837c90bd"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/independent-source-review-v1/pins.json",
+      "bytes": 5246,
+      "sha256": "379bbc847b1bb5c5f8814d81599eef698f39db35e0cbb64debc6754693d9e048"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/independent-command-review-v1/review.md",
+      "bytes": 5213,
+      "sha256": "7330178ed16bf72675d0788b1334cb504d1bff5dd8a34d12b9d8e984e6eb8c67"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/independent-command-review-v1/pins.json",
+      "bytes": 32038,
+      "sha256": "54ab70a7a6b306a3af28fa4f8ee5b3331922f209d3c31d8b01996bcf63161192"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/scenario-vehicle-contract-review-v1/matrix.md",
+      "bytes": 11975,
+      "sha256": "49f6caa59023bfe8ac917e945ac04cd458bffb79101c73329897b86c30e5838f"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/scenario-vehicle-contract-review-v1/review.md",
+      "bytes": 4861,
+      "sha256": "e155f5065fc5835bcf97492c670d1fb17e1eb5f79eb5b128bd1da7ae99c7b232"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/scenario-vehicle-contract-review-v1/pins.json",
+      "bytes": 7539,
+      "sha256": "4dc10d63cb273ba8ee11d4d9e2fd83da9dc985df43a3ad2ac1710dea71268285"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/independent-diagnosis-v1/review.md",
+      "bytes": 9991,
+      "sha256": "7f0b87783c55033678b250244a5e8f364566d18d22bce495d86ea99d45cd43f1"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/independent-diagnosis-v1/pins.json",
+      "bytes": 7348,
+      "sha256": "3c6e7cc5e2bbf84c22029077e20083e59eab087d4ffd7a4e576cbb4717fc9e28"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/fresh-independent-actual-result-review-v1/review.md",
+      "bytes": 5607,
+      "sha256": "886240ef19f005280568c37db309aeeb4e0e81efa781e1766258fc13f970e90c"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/fresh-independent-actual-result-review-v1/pins.json",
+      "bytes": 46590,
+      "sha256": "f06580a3bb3f9d553bc2050a5c78c85821949afba0cff8d6c1bb4016ec0bc98b"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/command.txt",
+      "bytes": 228,
+      "sha256": "d31ef84f03f01a93ed20a47f69bdef46263d55f898d4b4cca8f4e31668b879b6"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/actual-v1/owner-receipts/scenario-flight-audit.stdout.txt",
+      "bytes": 3576,
+      "sha256": "ed9746754a28df6592fac4abef7d66e036cf877e66ea1865a3f9809b24775779"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/actual-v1/owner-receipts/scenario-flight-audit.stderr.txt",
+      "bytes": 18830,
+      "sha256": "12eb0ad868174d73acf4b3928c1944c81bcb113cff9be74f0a3a2509837cd9d4"
+    },
+    {
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/actual-v1/owner-receipts/scenario-flight-audit.process.json",
+      "bytes": 1530,
+      "sha256": "526e6005efd718a76d95a91bfc7ee97c6df168c986c549826da2eb6c6171cc29"
+    }
+  ]
+}

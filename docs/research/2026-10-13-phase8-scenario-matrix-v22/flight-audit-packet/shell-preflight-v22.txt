@@ -1,0 +1,10 @@
+launch_boundary=functions.exec_command(login=false,tty=false)
+shell_flags=hBc
+bashopts=checkwinsize:cmdhist:complete_fullquote:extquote:force_fignore:globasciiranges:globskipdots:hostcomplete:interactive_comments:patsub_replacement:progcomp:promptvars:sourcepath
+BASH_ENV=unset
+ENV=unset
+xtrace=off
+expand_aliases=off
+traps=0
+functions=0
+aliases=0
